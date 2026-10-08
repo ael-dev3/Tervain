@@ -1,0 +1,116 @@
+/* ENTRY 2047ad36 | UnDecorator::getZName | STATUS decompiled | 28 ms */
+
+/* Library Function - Single Match
+    private: static class DName __cdecl UnDecorator::getZName(bool)
+   
+   Library: Visual Studio 2005 Release */
+
+void __cdecl UnDecorator::getZName(bool param_1)
+
+{
+  DName *pDVar1;
+  long lVar2;
+  DName *pDVar3;
+  uint uVar4;
+  char *pcVar5;
+  int iVar6;
+  char *pcVar7;
+  char *pcVar8;
+  undefined3 in_stack_00000005;
+  char in_stack_00000008;
+  DName local_3c [8];
+  DName local_34 [8];
+  DName *local_2c;
+  DName local_28 [8];
+  undefined4 local_20;
+  uint local_1c;
+  char local_18 [16];
+  uint local_8;
+  
+  local_8 = DAT_207b2314 ^ (uint)&stack0xfffffffc;
+  uVar4 = (int)*DAT_207d1504 - 0x30;
+  local_2c = _param_1;
+  if (uVar4 < 10) {
+    DAT_207d1504 = DAT_207d1504 + 1;
+    pDVar1 = Replicator::operator[](DAT_207d14fc,uVar4);
+    DName::DName(_param_1,pDVar1);
+    goto LAB_2047af13;
+  }
+  local_20 = 0;
+  local_1c = local_1c & 0xfffff000;
+  if (*DAT_207d1504 == '?') {
+    pDVar1 = (DName *)getTemplateName(SUB41(local_28,0));
+    DName::operator=((DName *)&local_20,pDVar1);
+    pcVar7 = DAT_207d1504 + 1;
+    if (*DAT_207d1504 != '@') {
+      DName::operator=((DName *)&local_20,(*DAT_207d1504 == '\0') + 1);
+      pcVar7 = DAT_207d1504;
+    }
+  }
+  else {
+    pcVar5 = "template-parameter-";
+    pcVar8 = "template-parameter-";
+    iVar6 = 0x12;
+    pcVar7 = DAT_207d1504;
+    do {
+      if ((*pcVar7 == '\0') || (*pcVar7 != *pcVar8)) break;
+      pcVar7 = pcVar7 + 1;
+      pcVar8 = pcVar8 + 1;
+      iVar6 = iVar6 + -1;
+    } while (iVar6 != 0);
+    if (*pcVar7 == *pcVar8) {
+      DAT_207d1504 = DAT_207d1504 + 0x13;
+    }
+    else {
+      pcVar5 = "generic-type-";
+      pcVar8 = "generic-type-";
+      iVar6 = 0xc;
+      pcVar7 = DAT_207d1504;
+      do {
+        if ((*pcVar7 == '\0') || (*pcVar7 != *pcVar8)) break;
+        pcVar7 = pcVar7 + 1;
+        pcVar8 = pcVar8 + 1;
+        iVar6 = iVar6 + -1;
+      } while (iVar6 != 0);
+      if (*pcVar7 != *pcVar8) {
+        pDVar1 = (DName *)DName::DName(local_34,&DAT_207d1504,'@');
+        DName::operator=((DName *)&local_20,pDVar1);
+        pcVar7 = DAT_207d1504;
+        goto LAB_2047aeea;
+      }
+      DAT_207d1504 = DAT_207d1504 + 0xd;
+    }
+    getSignedDimension();
+    if (((ushort)DAT_207d1514 & 0x4000) == 0) {
+      DName::operator=((DName *)&local_20,"`");
+      pDVar1 = local_34;
+      pDVar3 = local_3c;
+    }
+    else {
+      DName::getString(local_28,local_18,0x10);
+      lVar2 = _atol(local_18);
+      pcVar7 = (char *)(*DAT_207d1518)(lVar2);
+      if (pcVar7 != (char *)0x0) {
+        DName::operator=((DName *)&local_20,pcVar7);
+        pcVar7 = DAT_207d1504;
+        goto LAB_2047aeea;
+      }
+      DName::operator=((DName *)&local_20,"`");
+      pDVar1 = local_3c;
+      pDVar3 = local_34;
+    }
+    pDVar3 = (DName *)operator+((char *)pDVar3,(DName *)pcVar5);
+    pDVar1 = (DName *)DName::operator+(pDVar3,(char *)pDVar1);
+    DName::operator+=((DName *)&local_20,pDVar1);
+    pcVar7 = DAT_207d1504;
+  }
+LAB_2047aeea:
+  DAT_207d1504 = pcVar7;
+  if ((in_stack_00000008 != '\0') && (*(int *)DAT_207d14fc != 9)) {
+    Replicator::operator+=(DAT_207d14fc,(DName *)&local_20);
+  }
+  DName::DName(local_2c,(DName *)&local_20);
+LAB_2047af13:
+  __security_check_cookie(local_8 ^ (uint)&stack0xfffffffc);
+  return;
+}

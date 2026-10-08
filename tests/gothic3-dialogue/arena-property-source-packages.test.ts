@@ -22,7 +22,7 @@ interface Method {
   bodyVA: string; instructionCount: number; bodyByteCount: number;
   bodyInstructionBytesSha256: string; assemblySha256: string; cSha256: string;
 }
-for (const packageName of ['arena-property-registration', 'arena-status-descriptor']) {
+for (const packageName of ['arena-property-registration', 'arena-status-descriptor', 'game-template-demangler']) {
   it(`preserves the original instruction and C evidence for ${packageName}`, () => {
     const base = `assets/gothic3/${packageName}/`;
     const source = JSON.parse(readFileSync(base + 'source.json', 'utf8'));

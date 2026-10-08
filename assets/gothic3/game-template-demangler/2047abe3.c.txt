@@ -1,0 +1,76 @@
+/* ENTRY 2047abe3 | UnDecorator::getTemplateName | STATUS decompiled | 37 ms */
+
+/* Library Function - Single Match
+    private: static class DName __cdecl UnDecorator::getTemplateName(bool)
+   
+   Library: Visual Studio 2005 Release */
+
+DName * __cdecl UnDecorator::getTemplateName(bool param_1)
+
+{
+  undefined4 uVar1;
+  undefined4 uVar2;
+  undefined4 uVar3;
+  char cVar4;
+  DName *pDVar5;
+  int iVar6;
+  undefined3 in_stack_00000005;
+  char in_stack_00000008;
+  Replicator local_d4 [60];
+  Replicator local_98 [60];
+  Replicator local_5c [60];
+  undefined1 local_20 [8];
+  undefined1 local_18 [8];
+  undefined4 local_10;
+  uint local_c;
+  char local_5;
+  
+  uVar3 = DAT_207d1500;
+  uVar2 = DAT_207d14fc;
+  uVar1 = DAT_207d14f8;
+  if ((*DAT_207d1504 == '?') && (DAT_207d1504[1] == '$')) {
+    DAT_207d1504 = DAT_207d1504 + 2;
+    Replicator::Replicator(local_98);
+    Replicator::Replicator(local_5c);
+    Replicator::Replicator(local_d4);
+    local_10 = 0;
+    local_c = local_c & 0xfffff000;
+    DAT_207d14f8 = local_98;
+    DAT_207d14fc = local_5c;
+    DAT_207d1500 = local_d4;
+    local_5 = '\0';
+    if (*DAT_207d1504 == '?') {
+      DAT_207d1504 = DAT_207d1504 + 1;
+      pDVar5 = (DName *)getOperatorName(SUB41(local_18,0),(bool *)0x1);
+    }
+    else {
+      pDVar5 = (DName *)getZName(SUB41(local_18,0));
+    }
+    DName::operator=((DName *)&local_10,pDVar5);
+    iVar6 = DName::isEmpty((DName *)&local_10);
+    if (iVar6 != 0) {
+      DAT_207d151c = 1;
+    }
+    if (local_5 == '\0') {
+      getTemplateArgumentList();
+      pDVar5 = (DName *)operator+((char)local_20,(DName *)0x3c);
+      DName::operator+=((DName *)&local_10,pDVar5);
+      cVar4 = DName::getLastChar((DName *)&local_10);
+      if (cVar4 == '>') {
+        DName::operator+=((DName *)&local_10,' ');
+      }
+      DName::operator+=((DName *)&local_10,'>');
+      if (in_stack_00000008 != '\0') {
+        DAT_207d1504 = DAT_207d1504 + 1;
+      }
+    }
+    DAT_207d14f8 = (Replicator *)uVar1;
+    DAT_207d14fc = (Replicator *)uVar2;
+    DAT_207d1500 = (Replicator *)uVar3;
+    DName::DName(_param_1,(DName *)&local_10);
+  }
+  else {
+    DName::DName(_param_1,1);
+  }
+  return _param_1;
+}

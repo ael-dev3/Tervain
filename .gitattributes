@@ -308,3 +308,6 @@ assets/gothic3/arena-property-registration/*.c.txt -whitespace
 
 assets/gothic3/arena-status-descriptor/* -text -eol
 assets/gothic3/arena-status-descriptor/*.c.txt -whitespace
+
+assets/gothic3/game-template-demangler/* -text -eol
+assets/gothic3/game-template-demangler/*.c.txt -whitespace
