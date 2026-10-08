@@ -1,8 +1,8 @@
 # SharedBase initializer source
 
 Original `SharedBase.dll` evidence for the next startup boundary,
-`100adb5a -> 100aa632`. This package captures 40 function bodies,
-710 instructions and 2,035 instruction bytes. It executes no native code and
+`100adb5a -> 100aa632`. This package captures 41 function bodies,
+736 instructions and 2,107 instruction bytes. It executes no native code and
 does not establish successful browser initializer execution.
 
 ## What startup requires
@@ -94,3 +94,18 @@ callee cleanup and the procedure capability before conversion addresses can be
 encoded. The cached PTD path now encodes all ten pointers and returns. The runtime stops
 at `100aa664 -> 100aa47d`; a NULL getter still stops at fallback module lookup
 `100ae2b4`.
+
+The original error-table walker now reads live slots, skips the leading 65 NULL
+entries and enters the first callback at `100a7265`. Normal execution stops at
+its original calloc CALL `100a726a -> 100aef10`. An all-NULL live table returns
+zero and reaches the unimplemented atexit CALL. Captured callback bodies still
+do not imply their execution has completed.
+
+The first error callback now enters the original calloc wrapper, uses the
+existing translated selected lower calloc path, encodes and publishes its
+128-byte exit table, initializes its first DWORD and returns zero. Execution
+reaches the second callback `100b1854` through `100aa490`. Allocation failure
+encodes NULL, publishes the original failure prefix and returns cinit result
+24 to the still-unimplemented attach continuation at `100adb5f`. Positive
+Sleep retry and unsupported heap paths remain explicit boundaries. The lower
+calloc translation does not establish original x86 SEH traversal.

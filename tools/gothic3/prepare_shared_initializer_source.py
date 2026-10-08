@@ -25,7 +25,7 @@ def capture(study, output):
     targets = {
         0x100aa632: 'cinit', 0x100ae900: 'isNonwritableInCurrentImage',
         0x100b4407: 'initializeFloatConversions', 0x100aa47d: 'inittermError',
-        0x100a72d0: 'atexit',
+        0x100a72d0: 'atexit', 0x100aef10: 'callocWrapper',
         0x100a788e: 'installFloatConversions', 0x100b448b: 'queryFloatDivisionErratum',
         0x100b4426: 'setDefaultPrecision', 0x100ae27b: 'encodePointer',
         0x100ae20f: 'pointerEncodingAvailable',
@@ -213,7 +213,7 @@ def capture(study, output):
 
 def initializer_runtime(output, destination):
     rows = []
-    for body in ['100aa632','100ae900','100ae880','100ae8b0','100a78fe','100a788e','100b4407','100b448b','100b444f','100ae27b']:
+    for body in ['100aa632','100ae900','100ae880','100ae8b0','100a78fe','100a788e','100b4407','100b448b','100b444f','100ae27b','100aa47d','100a7265','100aef10']:
         for line in (output / (body + '.asm.txt')).read_text(encoding='utf-8').splitlines():
             rows.append(line.split(' | '))
     header=json.loads((output/'source.json').read_text(encoding='utf-8'))['imageHeader']

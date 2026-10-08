@@ -57,6 +57,17 @@
       "assemblySha256": "0ebd425bbaeeed033021b40f185497566466f1611ee329f05ee03053dfc3ca1b",
       "cSha256": "999b7f6744c453534fff03e3a0c3f1880729f588f5f6a39a03e1d51e926c3374"
     },
+    "callocWrapper": {
+      "entryVA": "0x100aef10",
+      "bodyVA": "0x100aef10",
+      "bodyRanges": "100aef10-100aef57",
+      "instructionCount": 26,
+      "bodyByteCount": 72,
+      "bodyInstructionBytesSha256": "1e2daec524fa581a05bd1728174cf8d55cefe0fd1de4ad5bbb16a0f169c2a215",
+      "entryChain": [],
+      "assemblySha256": "6f416fe70aa88af3ff38e80b7c679dc09da965b56d1bf3c99fca951db3d24175",
+      "cSha256": "e729d6c1f2a440f3c9ad36c79fd4209827b66d225bc4a3cd839a60c43fa0ff87"
+    },
     "installFloatConversions": {
       "entryVA": "0x100a788e",
       "bodyVA": "0x100a788e",
@@ -753,6 +764,10 @@
       "containingEntry": "100a72d0",
       "methodLabel": "atexit"
     },
+    "100aef10": {
+      "containingEntry": "100aef10",
+      "methodLabel": "callocWrapper"
+    },
     "100a788e": {
       "containingEntry": "100a788e",
       "methodLabel": "installFloatConversions"
@@ -1355,6 +1370,28 @@
       "instruction": "CALL 0x100a7294",
       "kind": "direct",
       "targetVA": "100a7294"
+    },
+    {
+      "method": "callocWrapper",
+      "address": "100aef1e",
+      "raw": "e8731f0100",
+      "instruction": "CALL 0x100c0e96",
+      "kind": "direct",
+      "targetVA": "100c0e96"
+    },
+    {
+      "method": "callocWrapper",
+      "address": "100aef35",
+      "raw": "ff15e4952f10",
+      "instruction": "CALL dword ptr [0x102f95e4]",
+      "kind": "image-indirect",
+      "slotVA": "102f95e4",
+      "importEntry": {
+        "iatVA": "0x102f95e4",
+        "module": "KERNEL32.dll",
+        "name": "Sleep",
+        "ordinal": null
+      }
     },
     {
       "method": "queryFloatDivisionErratum",
