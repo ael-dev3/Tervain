@@ -26,7 +26,8 @@ The prototype includes:
   idles and conversation, sitting down on real benches and getting up, a working motion for every trade with tools in
   hand, and fights; skirts and capes that hold together in motion, and skin, cloth, leather and steel that shade as
   what they are.
-- Rougher terrain, rooted vegetation, weathered buildings and grounded scenery.
+- Rougher terrain, rooted vegetation and grounded scenery; every building can be walked into, through a door that swings
+  open, to furnished rooms with a fire in the hearth.
 - One physical water system: a refracting, breaking sea with surf and swash, streams within their banks, a spring
   and its pool; floating cargo, wading, an authored breaststroke and a view under the surface.
 - Lush blade-by-blade meadows that gusts sweep across and that the hero, residents, animals and cargo push through,

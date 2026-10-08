@@ -1,0 +1,396 @@
+{
+  "schema": 1,
+  "pieces": [
+    {
+      "id": "altar",
+      "file": "altar.glb",
+      "bytes": 483592,
+      "sha256": "1ad44ca1f4b74131780842ee2cb0c168dfa6a8537875a029f665875207b249ab",
+      "triangles": 3901,
+      "vertices": 6019,
+      "texture": 1024,
+      "size": [
+        1.1412,
+        1.05,
+        0.75
+      ],
+      "source": {
+        "service": "Meshy text to 3D",
+        "model": "latest",
+        "prompt": "A small stone altar with a carved front panel, a linen cloth on top, a bronze offering bowl and several half-burnt candles.",
+        "previewTask": "01a11b7a-737b-72b6-b9e5-9ceed6e6cc25",
+        "refineTask": "01a11b7b-84aa-73ca-af7c-54da4a6bb549",
+        "created": "2026-10-08",
+        "sourceSha256": "4e0f32df71d6af3d7d7f5b7b47d9c1b72d986abef33c1237fe6414be13fd7495"
+      }
+    },
+    {
+      "id": "bed",
+      "file": "bed.glb",
+      "bytes": 449528,
+      "sha256": "7db3110debc556bbf6f29cd4e226cfd903dba6be827781a003accc08de769a8e",
+      "triangles": 3683,
+      "vertices": 5489,
+      "texture": 1024,
+      "size": [
+        2.05,
+        1.05,
+        1.1186
+      ],
+      "source": {
+        "service": "Meshy text to 3D",
+        "model": "latest",
+        "prompt": "A simple medieval wooden bed: a low frame of rough-hewn oak planks with four short posts and a plank headboard, a straw-filled linen mattress, a folded grey wool blanket and a flat pillow.",
+        "previewTask": "01a11b70-8098-772e-b2bc-5508a13ddc40",
+        "refineTask": "01a11b71-776d-7322-bd00-3ea4950f830d",
+        "created": "2026-10-08",
+        "sourceSha256": "8708cf57c997f20b637e2fd7c108cd4cc180f7966c9afc3fff96fd42c41bdadb"
+      }
+    },
+    {
+      "id": "bookshelf",
+      "file": "bookshelf.glb",
+      "bytes": 485304,
+      "sha256": "0913a3566c9f345860bbaca3bf8935875edc64c8845ba6904bb2fab3c0368840",
+      "triangles": 4702,
+      "vertices": 8560,
+      "texture": 1024,
+      "size": [
+        1.0729,
+        1.85,
+        0.4
+      ],
+      "source": {
+        "service": "Meshy text to 3D",
+        "model": "latest",
+        "prompt": "A tall wooden archive shelf packed with leather-bound books, rolled scrolls tied with cord and stacked ledgers.",
+        "previewTask": "01a11b75-3f08-77af-a793-b30fd55532b3",
+        "refineTask": "01a11b76-50bc-7541-87bb-68d243c0cf1c",
+        "created": "2026-10-08",
+        "sourceSha256": "5d2973a7120581214e2cf51ddcc26925e50a4b6dab32754cfa7b2456339850d9"
+      }
+    },
+    {
+      "id": "bunk",
+      "file": "bunk.glb",
+      "bytes": 571460,
+      "sha256": "fb7ff37f9b4b72eb5b7527ec40d80b59fea6b4d7455f3e87400583a2d138999a",
+      "triangles": 4874,
+      "vertices": 8642,
+      "texture": 1024,
+      "size": [
+        2.05,
+        1.75,
+        1.1732
+      ],
+      "source": {
+        "service": "Meshy text to 3D",
+        "model": "latest",
+        "prompt": "A medieval two-tier wooden bunk bed of rough-hewn pine posts and planks, a straw-filled linen mattress and a rumpled brown wool blanket on each tier, a short ladder at one end.",
+        "previewTask": "01a11b70-809d-70fe-84ec-ba2796968824",
+        "refineTask": "01a11b71-a2ae-76f3-b023-32025cf35588",
+        "created": "2026-10-08",
+        "sourceSha256": "6f2d89c83cd40a95ec04ad826d9672b76ee0e09d349f0f11bab752897c433cec"
+      }
+    },
+    {
+      "id": "chair",
+      "file": "chair.glb",
+      "bytes": 205796,
+      "sha256": "bf4ce62aa09ee752f76cc9c10bc7395805b307acebdc89ad0e590695f5c31ae0",
+      "triangles": 1907,
+      "vertices": 3216,
+      "texture": 512,
+      "size": [
+        0.5,
+        0.98,
+        0.6595
+      ],
+      "source": {
+        "service": "Meshy text to 3D",
+        "model": "latest",
+        "prompt": "A simple medieval wooden chair with four straight legs, a woven rush seat and a straight back of two slats.",
+        "previewTask": "01a11b72-bea9-745e-a2c2-b3fcfa0cc5ad",
+        "refineTask": "01a11b73-dfb6-720e-9d4a-d7f026546784",
+        "created": "2026-10-08",
+        "sourceSha256": "d2b7cd7da2c89e714282610418c3910c273eb9cab3c12ffcfdeb55a95e5f9ef7"
+      }
+    },
+    {
+      "id": "chest",
+      "file": "chest.glb",
+      "bytes": 228688,
+      "sha256": "367c311165dc8ffb601a206f834c97980ae6f6709566c99ad7b5ca9e8bd0e174",
+      "triangles": 2688,
+      "vertices": 4828,
+      "texture": 512,
+      "size": [
+        0.95,
+        0.58,
+        0.52
+      ],
+      "source": {
+        "service": "Meshy text to 3D",
+        "model": "latest",
+        "prompt": "A medieval oak storage chest with a flat lid, three iron bands, iron corner plates and a hasp lock, weathered.",
+        "previewTask": "01a11b72-bef7-70cd-b2ab-e4bb70774733",
+        "refineTask": "01a11b73-dfee-7710-922f-59afe85a5ee7",
+        "created": "2026-10-08",
+        "sourceSha256": "7ab89dc59f47700b2da8a8118d4236435c6337e2fa3e09dd5378ff386dcba157"
+      }
+    },
+    {
+      "id": "counter",
+      "file": "counter.glb",
+      "bytes": 419040,
+      "sha256": "8d3eb500392b774ca73574acb19877e7f058260a41d542391305b483983da7a3",
+      "triangles": 3511,
+      "vertices": 6398,
+      "texture": 1024,
+      "size": [
+        1.4722,
+        1.0,
+        0.5432
+      ],
+      "source": {
+        "service": "Meshy text to 3D",
+        "model": "latest",
+        "prompt": "A long medieval shop counter of thick wooden planks with a closed plank front, a set of iron scales and a few coins on top.",
+        "previewTask": "01a11b77-89a7-7042-8ebb-43ae62d44b3e",
+        "refineTask": "01a11b78-8a2e-718e-92d7-3e5d1db6390e",
+        "created": "2026-10-08",
+        "sourceSha256": "8d599d1a49cec5bb901cc376f8ebd33f0315cd40f786c26af225289ed7272e22"
+      }
+    },
+    {
+      "id": "cupboard",
+      "file": "cupboard.glb",
+      "bytes": 277312,
+      "sha256": "f0ad601164514ead44bd8783e67be58c071bcebfa4e67f272b5f4a151e9a634c",
+      "triangles": 1819,
+      "vertices": 3598,
+      "texture": 1024,
+      "size": [
+        1.0,
+        1.85,
+        0.6815
+      ],
+      "source": {
+        "service": "Meshy text to 3D",
+        "model": "latest",
+        "prompt": "A tall rustic wooden cupboard of vertical planks with two closed doors, iron strap hinges and a wooden latch.",
+        "previewTask": "01a11b75-2864-720f-99bd-b0d8b57217b2",
+        "refineTask": "01a11b76-545e-7169-bc15-160f070f8aa3",
+        "created": "2026-10-08",
+        "sourceSha256": "5f0aa89c1e2c02b8f3f6c3b6429b4aa522a4ae7beddfe53e452e2b965ee50313"
+      }
+    },
+    {
+      "id": "desk",
+      "file": "desk.glb",
+      "bytes": 297216,
+      "sha256": "641517dbcd5f348204b704bcac24deac744d27f790f51572ff1c6fea5932b64f",
+      "triangles": 3769,
+      "vertices": 6081,
+      "texture": 512,
+      "size": [
+        1.0817,
+        1.1,
+        0.7424
+      ],
+      "source": {
+        "service": "Meshy text to 3D",
+        "model": "latest",
+        "prompt": "A small medieval writing desk with a slanted top, an open leather-bound ledger, a clay inkwell with a quill and a candle stub.",
+        "previewTask": "01a11b75-3d2f-76fa-80d1-197c706f3ab9",
+        "refineTask": "01a11b76-3991-72c5-a6c0-13971ddccf4f",
+        "created": "2026-10-08",
+        "sourceSha256": "4c905e9df6540abccc1cec4f1a2cc1f0cf49269a3400ae8ec4768d3d54598a90"
+      }
+    },
+    {
+      "id": "loom",
+      "file": "loom.glb",
+      "bytes": 508516,
+      "sha256": "8d9b9cc6b4010c32cc5fde766bfb2b1040d95acd91cc464b672622a9dc3b08b8",
+      "triangles": 3650,
+      "vertices": 6331,
+      "texture": 1024,
+      "size": [
+        1.9456,
+        1.9,
+        0.5651
+      ],
+      "source": {
+        "service": "Meshy text to 3D",
+        "model": "latest",
+        "prompt": "A medieval upright warp-weighted loom with a half-woven striped wool cloth and a row of clay loom weights hanging along the bottom.",
+        "previewTask": "01a11b7c-8761-77c3-9b87-da1d1097003e",
+        "refineTask": "01a11b7d-94b4-77a6-877e-62b1845603a1",
+        "created": "2026-10-08",
+        "sourceSha256": "a91be561cbf8929cca16bb86e27eaad72825f2fc974cb4820461473c8ebeafdb"
+      }
+    },
+    {
+      "id": "oven",
+      "file": "oven.glb",
+      "bytes": 454608,
+      "sha256": "16a1d9147af756dfa526a1068d6faad399fcef6554ec2bd4e73f7eed9953a648",
+      "triangles": 4126,
+      "vertices": 5459,
+      "texture": 1024,
+      "size": [
+        1.35,
+        1.35,
+        1.5599
+      ],
+      "source": {
+        "service": "Meshy text to 3D",
+        "model": "latest",
+        "prompt": "A domed bread oven of weathered grey-brown clay, soot-blackened around its dark arched mouth, on a low base of fieldstones, with a long wooden bread peel leaning against it.",
+        "previewTask": "01a11b80-28fa-760d-9e7a-0b8eef7b7d89",
+        "refineTask": "01a11b81-1eb1-7009-bdd5-3a300723df2a",
+        "created": "2026-10-08",
+        "sourceSha256": "4cf3c62ff434af902e13d5f4c7a180f3bae61490f46daf75fa6f4d1845ba731e"
+      }
+    },
+    {
+      "id": "rack",
+      "file": "rack.glb",
+      "bytes": 484128,
+      "sha256": "2198cea2bfb8cfbf0d90c25e190cbe07011e89f399f804bf7ba6e7b16b6fe8ec",
+      "triangles": 4016,
+      "vertices": 6622,
+      "texture": 1024,
+      "size": [
+        1.3253,
+        1.75,
+        0.3791
+      ],
+      "source": {
+        "service": "Meshy text to 3D",
+        "model": "latest",
+        "prompt": "A wooden weapon rack holding two swords upright, a spear and a round wooden shield with an iron boss.",
+        "previewTask": "01a11b7a-117c-7645-b070-f52de017eb40",
+        "refineTask": "01a11b7a-eb43-7309-a137-00994157cf11",
+        "created": "2026-10-08",
+        "sourceSha256": "9422ce2bdd10b0c20aa422e4808089b9caeeb4fcc197b790d92741fbe622f6da"
+      }
+    },
+    {
+      "id": "sacks",
+      "file": "sacks.glb",
+      "bytes": 268248,
+      "sha256": "9dc5d9fbcb1bf9b6d2dd1e2710650193c084faf4c0c97eff70cfc55e9c190099",
+      "triangles": 3052,
+      "vertices": 5962,
+      "texture": 512,
+      "size": [
+        1.0506,
+        0.7,
+        0.85
+      ],
+      "source": {
+        "service": "Meshy text to 3D",
+        "model": "latest",
+        "prompt": "A pile of four tied burlap grain sacks slumped against each other.",
+        "previewTask": "01a11b7c-4b5e-7360-b718-0a9db9687140",
+        "refineTask": "01a11b7d-546a-737a-ac6a-bdfcbb7d207c",
+        "created": "2026-10-08",
+        "sourceSha256": "29baa3d2762ed4258715c7a08d8c2ef464f1cbbc9f3617a16269d359c87ff096"
+      }
+    },
+    {
+      "id": "shelf",
+      "file": "shelf.glb",
+      "bytes": 530144,
+      "sha256": "26bc6ac3b5dffca957cb72a0f6dc19d87fb6efc16185263dc416853e077cf6b0",
+      "triangles": 5065,
+      "vertices": 7668,
+      "texture": 1024,
+      "size": [
+        1.5556,
+        1.65,
+        0.38
+      ],
+      "source": {
+        "service": "Meshy text to 3D",
+        "model": "latest",
+        "prompt": "A free-standing rustic open wooden shelf with three boards holding clay jugs, stacked bowls, wooden cups, a small sack and a coil of rope.",
+        "previewTask": "01a11b72-e7f7-7585-aa3e-506e7f341a9d",
+        "refineTask": "01a11b73-df91-7311-a5ba-3be4578f5799",
+        "created": "2026-10-08",
+        "sourceSha256": "c2cca1178a6d89be8e537bf84a745b20ce0af8e28c349d37bfa011c156ca0dfd"
+      }
+    },
+    {
+      "id": "stool",
+      "file": "stool.glb",
+      "bytes": 125208,
+      "sha256": "30852d20b8276b0f08b21580f99de652d5017cf82a1959ce9151ea631f9bccda",
+      "triangles": 1550,
+      "vertices": 2567,
+      "texture": 512,
+      "size": [
+        0.4416,
+        0.46,
+        0.4366
+      ],
+      "source": {
+        "service": "Meshy text to 3D",
+        "model": "latest",
+        "prompt": "A small three-legged wooden stool with a thick round seat, hand-carved and worn smooth.",
+        "previewTask": "01a11b70-8233-75fc-9337-7b26cab17027",
+        "refineTask": "01a11b71-771e-712d-9678-c1449892bad0",
+        "created": "2026-10-08",
+        "sourceSha256": "521d6d2d311564d8f7cd91e5709c65164d5252f3efddde955215582edcb6d87d"
+      }
+    },
+    {
+      "id": "table",
+      "file": "table.glb",
+      "bytes": 352904,
+      "sha256": "6c9e422fb4922fb09f7a69d2c6ecd2e7b787aef8676e5d793223c63b552163d9",
+      "triangles": 2443,
+      "vertices": 3487,
+      "texture": 1024,
+      "size": [
+        1.7,
+        0.78,
+        0.9342
+      ],
+      "source": {
+        "service": "Meshy text to 3D",
+        "model": "latest",
+        "prompt": "A sturdy medieval trestle table: a top of three thick rough oak planks resting on two A-shaped trestle legs joined by a stretcher, worn and stained.",
+        "previewTask": "01a11b6d-fe04-7423-bb01-f608caca9b1e",
+        "refineTask": "01a11b6f-0aa6-7562-a668-a9c8aa092a7e",
+        "created": "2026-10-08",
+        "sourceSha256": "0e814e04c6fdf478da6e583f6f1c29cc42af142883a2a9b743c77d80661a436d"
+      }
+    },
+    {
+      "id": "workbench",
+      "file": "workbench.glb",
+      "bytes": 605136,
+      "sha256": "71351c3b85590f283155ad6d9c4f1ec4ace62137b8646790dbf8b941dd1b7c2d",
+      "triangles": 4929,
+      "vertices": 8782,
+      "texture": 1024,
+      "size": [
+        1.6975,
+        0.9,
+        0.773
+      ],
+      "source": {
+        "service": "Meshy text to 3D",
+        "model": "latest",
+        "prompt": "A carpenter's heavy wooden workbench with a wooden vice, a mallet, chisels, a hand saw and curled wood shavings on top.",
+        "previewTask": "01a11b79-d146-77d5-a977-991845e43ffb",
+        "refineTask": "01a11b7a-c3f1-77b6-a67d-6f1bbd3a08d7",
+        "created": "2026-10-08",
+        "sourceSha256": "bc371ae4b89200caf16a67cb9ebb7c3a36fd4fcefe8005252657a6ce72a6c462"
+      }
+    }
+  ]
+}

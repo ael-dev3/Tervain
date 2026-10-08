@@ -222,7 +222,7 @@ Automated checks cover invariants, not the wording of documents or the look of t
 ## Known limitations
 
 - Architecture, broadleaf trees, floor detail and NPCs retain generated textures and assembled geometry alongside the selected A37 hero and A38 pine assets. NPC faces are sculpted but small and unanimated; at typical camera distance they read as a jaw, brow and nose, not expressions.
-- Ordinary closed houses have complete backed exterior shells, not authored playable interiors. The archive has the enterable room, supported floor, and entry thresholds described in the [0.0.4 notes](../production/releases/0.0.4.md).
+- Since A66 every building can be entered: [rooms and furniture](rooms-0.0.13.md) describes the rooms, their doors, light and furniture. The archive keeps its own enterable room, supported floor and entry thresholds described in the [0.0.4 notes](../production/releases/0.0.4.md). Residents do not walk into the rooms.
 - The Gothic 3 likeness remains atmospheric and structural, not a reproduction of Ardea's own buildings. A27 replaces the earlier open-heath introduction with an original dense woodland journey informed by Boring Forest. The lighthouse remains from the owner's coastal brief.
 - The shoreline pads, the beach and the sea are tuned by eye in screenshots; a wading player slows in shallow water but there is no swimming and no tide.
 - Earlier release evidence exercised one desktop browser, mostly through scripted runs plus real clicks. The 0.0.8 desktop runtime record belongs to its historical handoff; current combined review belongs to [0.0.12](../production/releases/0.0.12.md). Physical controller and other-browser verification remain outstanding; touch/mobile support is outside the PC scope.

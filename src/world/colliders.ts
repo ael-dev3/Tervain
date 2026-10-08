@@ -1,4 +1,7 @@
 import type { PhysicalRockGeometry } from './physicsGeometry';
+import { buildingGround } from './buildingEntries';
+import { CHIMNEY_STACK, FIREPLACE, fromBuildingLocal, hearthOf, roomOf, type InteriorSpec } from './interiors';
+import { footprint, FURNITURE, hearthPiece, pieceSize } from './furniture';
 import { ARCHIVE_ROOM, ARCHIVE_SHUTTER, BUILDINGS, DECKS, HANDCART_CONSTRUCTION, LIGHTHOUSE, LIGHTHOUSE_CONSTRUCTION, MILL_WHEEL, PALISADE, SHORTCUT, WAGON, WAGON_CONSTRUCTION, WELL, WELL_CONSTRUCTION, WORLD, type BuildingSpec } from './layout';
 import { LIGHTHOUSE_DOOR_OUTER_WIDTH, LIGHTHOUSE_STAIR_ANGLE, lighthouseTreadTop, lighthouseWallSectors } from './lighthouse';
 import { MILL_WHEEL_CONSTRUCTION as M, millWheelPlacement } from './millWheel';
@@ -396,6 +399,46 @@ function wallBox(c: Colliders, id: string, b: BuildingSpec, lx0: number, lx1: nu
   void id;
 }
 
+/** A local rectangle of a building, as a box with its own vertical extent. */
+function roomBox(c: Colliders, id: string, b: BuildingSpec, lx0: number, lx1: number, lz0: number, lz1: number, bounds: ColliderBounds) {
+  const p = fromBuildingLocal(b, (lx0 + lx1) / 2, (lz0 + lz1) / 2);
+  c.box(id, p.x, p.z, (lx1 - lx0) / 2, (lz1 - lz0) / 2, b.yaw, true, bounds);
+}
+
+/**
+ * A building's room (A66): its walls about the doorway, the wall over the door, the roof over the room (a ceiling for
+ * heads and the camera, and the building's bulk to anything outside, as its solid block was) and the floor that loose
+ * cargo rests on.
+ */
+function roomColliders(c: Colliders, room: InteriorSpec, base: number) {
+  const b = room.building, hw = b.w / 2, hd = b.d / 2, t = room.wall;
+  const { x: dx, halfWidth: dw, height: dh } = room.door;
+  const id = `room:${b.id}`, top = base + room.wallTop;
+  const walls = { minY: base - 0.4, maxY: top };
+  roomBox(c, `${id}:wall`, b, -hw, dx - dw, hd - t, hd, walls);
+  roomBox(c, `${id}:wall`, b, dx + dw, hw, hd - t, hd, walls);
+  roomBox(c, `${id}:lintel`, b, dx - dw, dx + dw, hd - t, hd, { minY: base + room.wallBase + dh, maxY: top });
+  roomBox(c, `${id}:wall`, b, -hw, hw, -hd, -hd + t, walls);
+  roomBox(c, `${id}:wall`, b, -hw, -hw + t, -hd + t, hd - t, walls);
+  roomBox(c, `${id}:wall`, b, hw - t, hw, -hd + t, hd - t, walls);
+  roomBox(c, `${id}:roof`, b, -hw, hw, -hd, hd, { minY: top, maxY: base + b.h + Math.min(b.w, b.d) * 0.65 + 0.5 });
+  roomBox(c, `${id}:floor`, b, -hw + t, hw - t, -hd + t, hd - t, { minY: base + room.floorTop - 0.06, maxY: base + room.floorTop, supportOnly: true });
+  // The chimney stack and its fireplace, and the furniture (each as tall as it stands).
+  const floor = base + room.floorTop, hearth = hearthOf(room);
+  if (hearth) {
+    const s = CHIMNEY_STACK, { x, z } = hearth.stack;
+    roomBox(c, `${id}:chimney`, b, x - s, x + s, z - s, z + s, { minY: floor - 0.05, maxY: top });
+    if (!hearthPiece(room)) {
+      const f = hearth.footprint(FIREPLACE.halfWidth, FIREPLACE.depth);
+      roomBox(c, `${id}:fireplace`, b, f.x0, f.x1, f.z0, f.z1, { minY: floor - 0.05, maxY: floor + FIREPLACE.height });
+    }
+  }
+  for (const [i, piece] of FURNITURE.filter((p) => p.room === room).entries()) {
+    const r = footprint(piece.piece, piece.x, piece.z, piece.yaw);
+    roomBox(c, `${id}:furniture:${i}`, b, r.x0, r.x1, r.z0, r.z1, { minY: floor - 0.05, maxY: floor + pieceSize(piece.piece)[1] });
+  }
+}
+
 /** Static and dynamic colliders authored with the layout. Vegetation and props add their own. */
 export function buildStaticColliders(terrain?: Pick<Terrain, 'heightAt'>): Colliders {
   const c = new Colliders();
@@ -417,7 +460,8 @@ export function buildStaticColliders(terrain?: Pick<Terrain, 'heightAt'>): Colli
       wallBox(c, 'archive_door', b, -gap, gap, hd - t, hd + t, 'archive_door');
       wallBox(c, 'archive_shutter', b, -sw, sw, -hd - t, -hd + t, 'archive_shutter');
     } else {
-      c.box(`b:${b.id}`, b.x, b.z, b.w / 2, b.d / 2, b.yaw);
+      // Without a terrain the rooms stand on level ground at zero, so every part keeps a finite height.
+      roomColliders(c, roomOf(b)!, terrain ? buildingGround((x, z) => terrain.heightAt(x, z), b).avg : 0);
     }
   }
   // The mill wheel and its pit sit against the mill's east wall.

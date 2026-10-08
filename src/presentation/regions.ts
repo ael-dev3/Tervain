@@ -3,12 +3,14 @@ import { Batch, Ctx } from './buildKit';
 import { TILE_M, makePaneTexture, makeTexPair, type TexKey } from './buildingTextures';
 
 /** The materials a region can draw with. One draw call per material actually used. */
-export type MatKey = TexKey | 'vc' | 'metal' | 'leaf' | 'glow' | 'pane';
+export type MatKey = TexKey | 'vc' | 'metal' | 'leaf' | 'glow' | 'pane' | 'daylight';
 
 export class MaterialSet {
   readonly map = new Map<MatKey, THREE.Material>();
   readonly windowMat: THREE.MeshBasicMaterial;
   readonly lanternMat: THREE.MeshBasicMaterial;
+  /** Window panes seen from inside a room (A66): the daylight outside them, dimming to the night. */
+  readonly daylightMat: THREE.MeshBasicMaterial;
   private disposables: { dispose(): void }[] = [];
 
   constructor(size: number) {
@@ -41,6 +43,8 @@ export class MaterialSet {
     this.lanternMat = new THREE.MeshBasicMaterial({ color: 0x4a4636 });
     this.map.set('pane', this.windowMat);
     this.map.set('glow', this.lanternMat);
+    this.daylightMat = new THREE.MeshBasicMaterial({ color: 0xd2d8dc });
+    this.map.set('daylight', this.daylightMat);
   }
 
   get(key: MatKey): THREE.Material {
@@ -66,7 +70,7 @@ export class Region {
     if (!b) {
       const textured = key in TILE_M;
       b = new Batch(this.ctx, key, textured ? 1 / TILE_M[key as TexKey] : 1);
-      if (key === 'glow' || key === 'pane') b.amp = 0;
+      if (key === 'glow' || key === 'pane' || key === 'daylight') b.amp = 0;
       this.batches.set(key, b);
     }
     return b;
@@ -122,6 +126,9 @@ export class Region {
   get pane() {
     return this.get('pane');
   }
+  get daylight() {
+    return this.get('daylight');
+  }
 
   get tris(): number {
     let t = 0;
@@ -138,7 +145,7 @@ export class Region {
       if (!geo) continue;
       const mesh = new THREE.Mesh(geo, mats.get(key));
       mesh.name = `${this.name}:${key}`;
-      const emissive = key === 'glow' || key === 'pane';
+      const emissive = key === 'glow' || key === 'pane' || key === 'daylight';
       mesh.castShadow = (opts.shadows ?? true) && !emissive;
       mesh.receiveShadow = !emissive;
       if (opts.isStatic ?? true) {

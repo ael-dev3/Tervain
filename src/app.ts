@@ -1089,6 +1089,8 @@ export class App {
       ...this.enemies.filter((e) => e.alive).map((e) => ({ x: e.x, z: e.z, radius: e.radius + 0.25, weight: 0.8 })),
     ]);
     this.world.update(dt, this.game.state, new THREE.Vector3(this.player.x, this.player.y, this.player.z), this.settings, hour, this.cam.camera, worldActive);
+    // Doors swing open for the wanderer and the residents who come to them, and shut behind them (A66).
+    for (const swing of this.world.updateDoors(worldActive ? dt : 0, [this.player, ...this.npcs.filter((n) => !n.hidden)])) this.audio.door(swing.at, swing.open);
     this.hunting.afterWorld(dt, worldActive);
     this.audioUpdate(dt, this.cam.camera.position, hour);
 
@@ -2030,7 +2032,7 @@ export class App {
     const w = this.world.waterProximity(camPos.x, camPos.z);
     const millD = Math.hypot(camPos.x + 14, camPos.z + 8);
     const quarryD = Math.hypot(camPos.x - 92, camPos.z + 26);
-    const indoors = this.world.insideArchive(camPos.x, camPos.z);
+    const indoors = this.world.underRoof(camPos.x, camPos.z);
     this.audio.update(dt, {
       nightness: this.world.sky.state.nightness,
       waterProximity: w,
