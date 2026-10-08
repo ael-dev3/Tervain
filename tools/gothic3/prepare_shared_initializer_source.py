@@ -26,11 +26,11 @@ def capture(study, output):
         0x100aa632: 'cinit', 0x100ae900: 'isNonwritableInCurrentImage',
         0x100b4407: 'initializeFloatConversions', 0x100aa47d: 'inittermError',
         0x100a72d0: 'atexit',
-        0x100a788e: 'installFloatConversions', 0x100b448b: 'querySse2Support',
+        0x100a788e: 'installFloatConversions', 0x100b448b: 'queryFloatDivisionErratum',
         0x100b4426: 'setDefaultPrecision', 0x100ae27b: 'encodePointer',
         0x100a71ac: 'appendExitCallback', 0x100ce095: 'queryProcessorFeature',
         0x100ae880: 'validateImageHeader', 0x100ae8b0: 'findImageSection',
-        0x100b444f: 'querySse2Fallback', 0x100ce045: 'processorFeatureProbe',
+        0x100b444f: 'queryFloatDivisionFallback', 0x100ce045: 'processorFeatureProbe',
     }
     for label, address, size in [
         ('floatingPointHook', 0x100ed568, 4),
@@ -52,7 +52,7 @@ def capture(study, output):
             targets.setdefault(target, label + '_' + str(callback['index']))
     cold = {}
     for label, address, size in [('floatConversionTable',0x10141480,40),
-        ('floatSseEnabled',0x102f6424,4), ('exitTableBegin',0x102f8580,4),
+        ('floatDivisionErratum',0x102f6424,4), ('exitTableBegin',0x102f8580,4),
         ('exitTableEnd',0x102f8584,4), ('rtcTerminators',0x100f7ef4,256),
         ('processorFeature',0x102f853c,4), ('memcpySseEnabled',0x102f854c,4),
         ('stdioCount',0x102f8500,4), ('stdioVector',0x102f71c0,4)]:
@@ -68,6 +68,7 @@ def capture(study, output):
             virtualAddress=f'{pe.base + struct.unpack_from("<I",raw,12)[0]:08x}',
             virtualSize=struct.unpack_from('<I',raw,8)[0],
             characteristics=f'{struct.unpack_from("<I",raw,36)[0]:08x}'))
+    header = binary[:section_start + len(pe.sections)*40]
     records = list(csv.DictReader((study / '01_Decompiled_Code/SharedBase_dll/functions.csv')
                                   .read_text(encoding='utf-8').splitlines()))
     admitted_targets = {}
@@ -194,10 +195,30 @@ def capture(study, output):
         schema='gothic3-shared-initializer-source-v1', sharedBaseSha256=INPUT_SHA,
         methods=methods, tables=tables, entries=entries, coldGlobals=cold,
         sectionHeaders=section_headers, sourceOnly=True,
+        imageHeader=dict(address='10000000',raw=header.hex(),bytes=len(header),
+            sha256=hashlib.sha256(header).hexdigest(),scope='cold-original-image',liveValueCaptured=False),
         calls=calls,
         initializerExecutionCompleted=False,
         rtcTerminationEntry='100bb8e7',
         verifiedAgainstOriginalPE=True), indent=2) + '\n', encoding='utf-8', newline='\n')
+
+
+def initializer_runtime(output, destination):
+    rows = []
+    for body in ['100aa632','100ae900','100ae880','100ae8b0','100a78fe','100a788e','100b4407']:
+        for line in (output / (body + '.asm.txt')).read_text(encoding='utf-8').splitlines():
+            rows.append(line.split(' | '))
+    header=json.loads((output/'source.json').read_text(encoding='utf-8'))['imageHeader']
+    destination.write_text('''/** Original admitted SharedBase initializer syntax; no runtime authority. */
+export const sharedInitializerHeader=Object.freeze(''' + json.dumps(header) + ''');
+export interface SharedInitializerInstruction {readonly address:string;readonly bytes:string;readonly instruction:string;}
+const rows:readonly (readonly string[])[] = ''' + json.dumps(rows,indent=2) + ''';
+const instructions=new Map<string,SharedInitializerInstruction>(rows.map(([address,bytes,instruction])=>
+  [address!,Object.freeze({address:address!,bytes:bytes!,instruction:instruction!})]));
+export function sharedInitializerInstruction(address:string):SharedInitializerInstruction {
+  const row=instructions.get(address);if(!row)throw new Error('Unowned SharedBase initializer instruction '+address);return row;
+}
+''', encoding='utf-8',newline='\n')
 
 
 if __name__ == '__main__':
@@ -205,7 +226,10 @@ if __name__ == '__main__':
     parser.add_argument('--study', type=Path, required=True)
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--capstone-path', type=Path)
+    parser.add_argument('--runtime-output', type=Path)
     args = parser.parse_args()
     if args.capstone_path:
         sys.path.insert(0, str(args.capstone_path.resolve()))
     capture(args.study, args.output)
+    if args.runtime_output:
+        initializer_runtime(args.output,args.runtime_output)

@@ -1,10 +1,23 @@
 import {createHash} from 'node:crypto';
 import {readFileSync} from 'node:fs';
 import {expect, it} from 'vitest';
+import {sharedInitializerHeader,sharedInitializerInstruction} from '../../src/gothic3/native-shared-initializer-instructions';
 
 const base='assets/gothic3/shared-initializer-source/';
 const source=JSON.parse(readFileSync(base+'source.json','utf8'));
 const sha=(raw:Uint8Array)=>createHash('sha256').update(raw).digest('hex');
+it('matches every generated initializer row and header to original admitted receipts',()=>{
+  for(const body of ['100aa632','100ae900','100ae880','100ae8b0','100a78fe','100a788e','100b4407']){
+    for(const row of readFileSync(base+body+'.asm.txt','utf8').trim().split('\n')){
+      const [address,bytes,instruction]=row.split(' | ');
+      const emitted=sharedInitializerInstruction(address!);
+      expect(emitted).toEqual({address,bytes,instruction});expect(Object.isFrozen(emitted)).toBe(true);
+    }
+  }
+  expect(sharedInitializerHeader).toEqual(source.imageHeader);expect(Object.isFrozen(sharedInitializerHeader)).toBe(true);
+  expect(sha(Buffer.from(sharedInitializerHeader.raw,'hex'))).toBe('c7ce61ba6cf382ccf9417ec15d15b55e36f9766a73cc3a8dda440879f735d6d3');
+  expect(()=>sharedInitializerInstruction('100b448b')).toThrow('Unowned');
+});
 interface Method {
   bodyVA:string; instructionCount:number; bodyByteCount:number;
   assemblySha256:string; bodyInstructionBytesSha256:string;
