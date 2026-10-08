@@ -9,3 +9,5 @@ Virtual slot +0x10 reads the owner at offset 24. Virtual slot +0x0c reaches the 
 Create invokes the SharedBase destruction method, resets the actual storage slot and unregisters the descriptor from its actual owner. The non-NULL reset path has further clear, free and delete dependencies; it is not implemented by this source capture.
 
 No full CRT traversal, live NPC activation or campaign completion is established here.
+
+The local NativeGameArenaStatusClassName owner now retains the physical cache and prior-result slots and invokes the actual Game type-info owner. Its cold execution reaches the existing demangler boundary: Unowned getZName template grammar. Guard bits 1 and 2 remain set, with no CString or cleanup callback claimed. The template grammar must be reconstructed before name creation and property lookup can complete.
