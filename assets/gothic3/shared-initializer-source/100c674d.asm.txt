@@ -1,0 +1,63 @@
+100c674d | 55 | PUSH EBP
+100c674e | 8bec | MOV EBP,ESP
+100c6750 | 83ec18 | SUB ESP,0x18
+100c6753 | ff750c | PUSH dword ptr [EBP + 0xc]
+100c6756 | 8d4df8 | LEA ECX,[EBP + -0x8]
+100c6759 | e874b7ffff | CALL 0x100c1ed2
+100c675e | a13c6f2f10 | MOV EAX,[0x102f6f3c]
+100c6763 | 8a00 | MOV AL,byte ptr [EAX]
+100c6765 | 33c9 | XOR ECX,ECX
+100c6767 | 3ac1 | CMP AL,CL
+100c6769 | 747d | JZ 0x100c67e8
+100c676b | 3c3f | CMP AL,0x3f
+100c676d | 7448 | JZ 0x100c67b7
+100c676f | 3c58 | CMP AL,0x58
+100c6771 | 7410 | JZ 0x100c6783
+100c6773 | 8d45f8 | LEA EAX,[EBP + -0x8]
+100c6776 | 50 | PUSH EAX
+100c6777 | ff7508 | PUSH dword ptr [EBP + 0x8]
+100c677a | e890feffff | CALL 0x100c660f
+100c677f | 59 | POP ECX
+100c6780 | 59 | POP ECX
+100c6781 | eb76 | JMP 0x100c67f9
+100c6783 | ff053c6f2f10 | INC dword ptr [0x102f6f3c]
+100c6789 | 8d4df8 | LEA ECX,[EBP + -0x8]
+100c678c | e80fb8ffff | CALL 0x100c1fa0
+100c6791 | 85c0 | TEST EAX,EAX
+100c6793 | 740f | JZ 0x100c67a4
+100c6795 | 8b4d08 | MOV ECX,dword ptr [EBP + 0x8]
+100c6798 | 682c2a0f10 | PUSH 0x100f2a2c
+100c679d | e80dbeffff | CALL 0x100c25af
+100c67a2 | eb55 | JMP 0x100c67f9
+100c67a4 | 8d45f8 | LEA EAX,[EBP + -0x8]
+100c67a7 | 50 | PUSH EAX
+100c67a8 | 68a02a0f10 | PUSH 0x100f2aa0
+100c67ad | ff7508 | PUSH dword ptr [EBP + 0x8]
+100c67b0 | e800c5ffff | CALL 0x100c2cb5
+100c67b5 | eb3f | JMP 0x100c67f6
+100c67b7 | ff053c6f2f10 | INC dword ptr [0x102f6f3c]
+100c67bd | 8165f400f0ffff | AND dword ptr [EBP + -0xc],0xfffff000
+100c67c4 | 51 | PUSH ECX
+100c67c5 | 8d45f0 | LEA EAX,[EBP + -0x10]
+100c67c8 | 50 | PUSH EAX
+100c67c9 | 51 | PUSH ECX
+100c67ca | 8d45f8 | LEA EAX,[EBP + -0x8]
+100c67cd | 50 | PUSH EAX
+100c67ce | 8d45e8 | LEA EAX,[EBP + -0x18]
+100c67d1 | 50 | PUSH EAX
+100c67d2 | 894df0 | MOV dword ptr [EBP + -0x10],ECX
+100c67d5 | e8d1f1ffff | CALL 0x100c59ab
+100c67da | 83c414 | ADD ESP,0x14
+100c67dd | 50 | PUSH EAX
+100c67de | 8d4df8 | LEA ECX,[EBP + -0x8]
+100c67e1 | e89ab4ffff | CALL 0x100c1c80
+100c67e6 | eb8b | JMP 0x100c6773
+100c67e8 | 8d45f8 | LEA EAX,[EBP + -0x8]
+100c67eb | 50 | PUSH EAX
+100c67ec | 6a02 | PUSH 0x2
+100c67ee | ff7508 | PUSH dword ptr [EBP + 0x8]
+100c67f1 | e89dc4ffff | CALL 0x100c2c93
+100c67f6 | 83c40c | ADD ESP,0xc
+100c67f9 | 8b4508 | MOV EAX,dword ptr [EBP + 0x8]
+100c67fc | c9 | LEAVE
+100c67fd | c3 | RET

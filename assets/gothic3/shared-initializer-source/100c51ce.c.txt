@@ -1,0 +1,115 @@
+/* ENTRY 100c51ce | UnDecorator::getDecoratedName | STATUS decompiled | 44 ms */
+
+/* Library Function - Single Match
+    private: static class DName __cdecl UnDecorator::getDecoratedName(void)
+   
+   Library: Visual Studio 2005 Release */
+
+DName * __cdecl UnDecorator::getDecoratedName(void)
+
+{
+  bool bVar1;
+  char *pcVar2;
+  int iVar3;
+  DName *pDVar4;
+  DName *pDVar5;
+  uint extraout_EDX;
+  uint uVar6;
+  DName *in_stack_00000004;
+  DNameStatus DVar7;
+  DName local_24 [8];
+  DName local_1c [8];
+  undefined4 local_14;
+  uint local_10;
+  DName local_c [4];
+  uint local_8;
+  
+  if ((DAT_102f6f4c & 0x2000) == 0) {
+    if (*DAT_102f6f3c != '?') {
+      if (*DAT_102f6f3c == '\0') {
+        DVar7 = 2;
+        goto LAB_100c53d0;
+      }
+LAB_100c537e:
+      DVar7 = 1;
+LAB_100c53d0:
+      DName::DName(in_stack_00000004,DVar7);
+      return in_stack_00000004;
+    }
+    pcVar2 = DAT_102f6f3c + 1;
+    if ((*pcVar2 != '?') || (DAT_102f6f3c[2] != '?')) {
+      DAT_102f6f3c = pcVar2;
+      getSymbolName();
+      iVar3 = DName::isEmpty(local_c);
+      if ((iVar3 == 0) && ((local_8 & 0x20) != 0)) {
+        bVar1 = true;
+      }
+      else {
+        bVar1 = false;
+      }
+      uVar6 = local_8 >> 0xb;
+      iVar3 = DName::isValid(local_c);
+      if (iVar3 != 0) {
+        if ((*DAT_102f6f3c != '\0') && (*DAT_102f6f3c != '@')) {
+          getScope();
+          iVar3 = DName::isEmpty((DName *)&local_14);
+          if (iVar3 == 0) {
+            if (DAT_102f6f54 == '\0') {
+              pDVar4 = local_24;
+              pDVar5 = local_1c;
+            }
+            else {
+              DAT_102f6f54 = '\0';
+              pDVar4 = (DName *)DName::operator+(local_c,local_1c);
+              DName::operator=(local_c,pDVar4);
+              if (*DAT_102f6f3c == '@') goto LAB_100c5333;
+              pDVar4 = (DName *)getScope();
+              DName::operator=((DName *)&local_14,pDVar4);
+              pDVar4 = local_1c;
+              pDVar5 = local_24;
+            }
+            pDVar5 = (DName *)DName::operator+((DName *)&local_14,(char *)pDVar5);
+            pDVar4 = (DName *)DName::operator+(pDVar5,pDVar4);
+            DName::operator=(local_c,pDVar4);
+          }
+        }
+LAB_100c5333:
+        if ((bVar1) && (iVar3 = DName::isEmpty(local_c), iVar3 == 0)) {
+          local_8 = local_8 | 0x20;
+        }
+        if ((uVar6 & 1) != 0) {
+          local_8 = local_8 | 0x800;
+        }
+        iVar3 = DName::isEmpty(local_c);
+        if ((iVar3 == 0) && ((local_8 & 0x100) == 0)) {
+          if (*DAT_102f6f3c != '\0') {
+            if (*DAT_102f6f3c != '@') goto LAB_100c537e;
+            DAT_102f6f3c = DAT_102f6f3c + 1;
+          }
+          if ((((DAT_102f6f4c & 0x1000) == 0) || (bVar1)) || ((local_8 & extraout_EDX) != 0)) {
+            composeDeclaration(in_stack_00000004);
+            return in_stack_00000004;
+          }
+          local_14 = 0;
+          local_10 = local_10 & 0xfffff000;
+          composeDeclaration(local_24);
+        }
+      }
+      pDVar4 = local_c;
+      goto LAB_100c5203;
+    }
+    DAT_102f6f3c = pcVar2;
+    getDecoratedName();
+    for (; *DAT_102f6f3c != '\0'; DAT_102f6f3c = DAT_102f6f3c + 1) {
+    }
+  }
+  else {
+    DAT_102f6f4c = DAT_102f6f4c & 0xffffdfff;
+    getDataType((DName *)&local_14);
+    DAT_102f6f4c = DAT_102f6f4c | 0x2000;
+  }
+  pDVar4 = (DName *)&local_14;
+LAB_100c5203:
+  DName::DName(in_stack_00000004,pDVar4);
+  return in_stack_00000004;
+}

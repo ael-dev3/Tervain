@@ -1,0 +1,30 @@
+100c1ed2 | 837c240400 | CMP dword ptr [ESP + 0x4],0x0
+100c1ed7 | 56 | PUSH ESI
+100c1ed8 | 8bf1 | MOV ESI,ECX
+100c1eda | 7438 | JZ 0x100c1f14
+100c1edc | 6a00 | PUSH 0x0
+100c1ede | 6a0c | PUSH 0xc
+100c1ee0 | b91c6f2f10 | MOV ECX,0x102f6f1c
+100c1ee5 | e8ddfbffff | CALL 0x100c1ac7
+100c1eea | 85c0 | TEST EAX,EAX
+100c1eec | 740d | JZ 0x100c1efb
+100c1eee | ff742408 | PUSH dword ptr [ESP + 0x8]
+100c1ef2 | 8bc8 | MOV ECX,EAX
+100c1ef4 | e8a7feffff | CALL 0x100c1da0
+100c1ef9 | eb02 | JMP 0x100c1efd
+100c1efb | 33c0 | XOR EAX,EAX
+100c1efd | 8906 | MOV dword ptr [ESI],EAX
+100c1eff | f7d8 | NEG EAX
+100c1f01 | 1bc0 | SBB EAX,EAX
+100c1f03 | 83e0fd | AND EAX,0xfffffffd
+100c1f06 | 83c003 | ADD EAX,0x3
+100c1f09 | 334604 | XOR EAX,dword ptr [ESI + 0x4]
+100c1f0c | 83e00f | AND EAX,0xf
+100c1f0f | 314604 | XOR dword ptr [ESI + 0x4],EAX
+100c1f12 | eb07 | JMP 0x100c1f1b
+100c1f14 | 836604f0 | AND dword ptr [ESI + 0x4],0xfffffff0
+100c1f18 | 832600 | AND dword ptr [ESI],0x0
+100c1f1b | 8166040ff0ffff | AND dword ptr [ESI + 0x4],0xfffff00f
+100c1f22 | 8bc6 | MOV EAX,ESI
+100c1f24 | 5e | POP ESI
+100c1f25 | c20400 | RET 0x4

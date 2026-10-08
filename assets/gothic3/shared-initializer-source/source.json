@@ -36,6 +36,61 @@
       "assemblySha256": "c0e9fa85bc0b8252d4d39a6081082eb7462b16e7563b7a40dfb97ab5df372827",
       "cSha256": "dfeb3753dfd27f5e66c86496039570db0a14859f2a74f77ae44221cc156521e2"
     },
+    "demanglerDeclaration": {
+      "entryVA": "0x100c51ce",
+      "bodyVA": "0x100c51ce",
+      "bodyRanges": "100c51ce-100c53de",
+      "instructionCount": 180,
+      "bodyByteCount": 529,
+      "bodyInstructionBytesSha256": "e494634ebf878a8ac2671f74ffa9b3e5e1bb57011690c4a81b175695408e03cc",
+      "entryChain": [],
+      "assemblySha256": "a72ea854671a751b951c99cb2d1feffd1cdc443e3d8b9d07c8e8cc2d8d95f3b9",
+      "cSha256": "a2b83f246b0b9560c70267804de119008f1433ef0fc847de0e969b185ca81751"
+    },
+    "demanglerDataType": {
+      "entryVA": "0x100c674d",
+      "bodyVA": "0x100c674d",
+      "bodyRanges": "100c674d-100c67fd",
+      "instructionCount": 63,
+      "bodyByteCount": 177,
+      "bodyInstructionBytesSha256": "0d2a0e2f3a8aaedb76b596452ec86dc637550c48d097b6e601567fa0c20aa491",
+      "entryChain": [],
+      "assemblySha256": "b4676f39982c77242138e91db44b1e876783692b200478d517553e564e9d0331",
+      "cSha256": "8782276fc3ed9088f7db31b6909ffa127e48de138e4cbf03246bc27fd9ad2878"
+    },
+    "demanglerDnameConstructor": {
+      "entryVA": "0x100c1ed2",
+      "bodyVA": "0x100c1ed2",
+      "bodyRanges": "100c1ed2-100c1f27",
+      "instructionCount": 30,
+      "bodyByteCount": 86,
+      "bodyInstructionBytesSha256": "ffb02a5720beea822b5a15e64e4e0dbf9aec3fea6a6b960f0dd68fad6f3509bc",
+      "entryChain": [],
+      "assemblySha256": "914bcb6963660315c8d58bab466c9539042d2673167c403e723bcb5c362d0697",
+      "cSha256": "e3d3855dc484537e9c91c4dcd8079037d16502fb0b0d2c5899bc99a8295ba059"
+    },
+    "demanglerPrimaryType": {
+      "entryVA": "0x100c660f",
+      "bodyVA": "0x100c660f",
+      "bodyRanges": "100c660f-100c674c",
+      "instructionCount": 108,
+      "bodyByteCount": 318,
+      "bodyInstructionBytesSha256": "3c08543d140c6a64439f8c2d43d808808e0bdb6bd3ba33ea6199b3f07ad1f159",
+      "entryChain": [],
+      "assemblySha256": "ac4c3b263fefe19ce885b5795ee926b4ce21a1fb00b1d899ab1140c30cd2cead",
+      "cSha256": "d2ef7b47034629d43be22468b4243e1bffdcaaec6d4767ac50425906ce7f8f1a"
+    },
+    "unDecoratorToString": {
+      "entryVA": "0x100c5e8f",
+      "bodyVA": "0x100c5e8f",
+      "bodyRanges": "100c5e8f-100c5fda",
+      "instructionCount": 118,
+      "bodyByteCount": 332,
+      "bodyInstructionBytesSha256": "20e4eef0d47781101021b17024487a87f4d343f46e4175fb085dcc666973a5a5",
+      "entryChain": [],
+      "assemblySha256": "5b5fa56534da7d984f54107a141577c7e3f3237fdf18f99cf6979b3d612f9922",
+      "cSha256": "955284bba6dc8b01dbb15193d29466e1c219fc9aad5cdde1f32948623ac12b46"
+    },
     "unDecoratorConstructor": {
       "entryVA": "0x100c2351",
       "bodyVA": "0x100c2351",
@@ -1365,6 +1420,26 @@
     "10005e5c": {
       "containingEntry": "10005e5c",
       "methodLabel": "initializer143Getter"
+    },
+    "100c51ce": {
+      "containingEntry": "100c51ce",
+      "methodLabel": "demanglerDeclaration"
+    },
+    "100c674d": {
+      "containingEntry": "100c674d",
+      "methodLabel": "demanglerDataType"
+    },
+    "100c1ed2": {
+      "containingEntry": "100c1ed2",
+      "methodLabel": "demanglerDnameConstructor"
+    },
+    "100c660f": {
+      "containingEntry": "100c660f",
+      "methodLabel": "demanglerPrimaryType"
+    },
+    "100c5e8f": {
+      "containingEntry": "100c5e8f",
+      "methodLabel": "unDecoratorToString"
     },
     "100c2351": {
       "containingEntry": "100c2351",
@@ -2796,6 +2871,431 @@
       "instruction": "CALL 0x100a72d0",
       "kind": "direct",
       "targetVA": "100a72d0"
+    },
+    {
+      "method": "demanglerDeclaration",
+      "address": "100c51f3",
+      "raw": "e855150000",
+      "instruction": "CALL 0x100c674d",
+      "kind": "direct",
+      "targetVA": "100c674d"
+    },
+    {
+      "method": "demanglerDeclaration",
+      "address": "100c5207",
+      "raw": "e85ec9ffff",
+      "instruction": "CALL 0x100c1b6a",
+      "kind": "direct",
+      "targetVA": "100c1b6a"
+    },
+    {
+      "method": "demanglerDeclaration",
+      "address": "100c5234",
+      "raw": "e895ffffff",
+      "instruction": "CALL 0x100c51ce",
+      "kind": "direct",
+      "targetVA": "100c51ce"
+    },
+    {
+      "method": "demanglerDeclaration",
+      "address": "100c5252",
+      "raw": "e85df3ffff",
+      "instruction": "CALL 0x100c45b4",
+      "kind": "direct",
+      "targetVA": "100c45b4"
+    },
+    {
+      "method": "demanglerDeclaration",
+      "address": "100c525b",
+      "raw": "e840cdffff",
+      "instruction": "CALL 0x100c1fa0",
+      "kind": "direct",
+      "targetVA": "100c1fa0"
+    },
+    {
+      "method": "demanglerDeclaration",
+      "address": "100c527d",
+      "raw": "e807cdffff",
+      "instruction": "CALL 0x100c1f89",
+      "kind": "direct",
+      "targetVA": "100c1f89"
+    },
+    {
+      "method": "demanglerDeclaration",
+      "address": "100c52a9",
+      "raw": "e831010000",
+      "instruction": "CALL 0x100c53df",
+      "kind": "direct",
+      "targetVA": "100c53df"
+    },
+    {
+      "method": "demanglerDeclaration",
+      "address": "100c52b2",
+      "raw": "e8e9ccffff",
+      "instruction": "CALL 0x100c1fa0",
+      "kind": "direct",
+      "targetVA": "100c1fa0"
+    },
+    {
+      "method": "demanglerDeclaration",
+      "address": "100c52d2",
+      "raw": "e816d7ffff",
+      "instruction": "CALL 0x100c29ed",
+      "kind": "direct",
+      "targetVA": "100c29ed"
+    },
+    {
+      "method": "demanglerDeclaration",
+      "address": "100c52db",
+      "raw": "e8a0c9ffff",
+      "instruction": "CALL 0x100c1c80",
+      "kind": "direct",
+      "targetVA": "100c1c80"
+    },
+    {
+      "method": "demanglerDeclaration",
+      "address": "100c52ee",
+      "raw": "e8ec000000",
+      "instruction": "CALL 0x100c53df",
+      "kind": "direct",
+      "targetVA": "100c53df"
+    },
+    {
+      "method": "demanglerDeclaration",
+      "address": "100c52f8",
+      "raw": "e883c9ffff",
+      "instruction": "CALL 0x100c1c80",
+      "kind": "direct",
+      "targetVA": "100c1c80"
+    },
+    {
+      "method": "demanglerDeclaration",
+      "address": "100c531e",
+      "raw": "e8e2d9ffff",
+      "instruction": "CALL 0x100c2d05",
+      "kind": "direct",
+      "targetVA": "100c2d05"
+    },
+    {
+      "method": "demanglerDeclaration",
+      "address": "100c5325",
+      "raw": "e8c3d6ffff",
+      "instruction": "CALL 0x100c29ed",
+      "kind": "direct",
+      "targetVA": "100c29ed"
+    },
+    {
+      "method": "demanglerDeclaration",
+      "address": "100c532e",
+      "raw": "e84dc9ffff",
+      "instruction": "CALL 0x100c1c80",
+      "kind": "direct",
+      "targetVA": "100c1c80"
+    },
+    {
+      "method": "demanglerDeclaration",
+      "address": "100c533a",
+      "raw": "e861ccffff",
+      "instruction": "CALL 0x100c1fa0",
+      "kind": "direct",
+      "targetVA": "100c1fa0"
+    },
+    {
+      "method": "demanglerDeclaration",
+      "address": "100c5356",
+      "raw": "e845ccffff",
+      "instruction": "CALL 0x100c1fa0",
+      "kind": "direct",
+      "targetVA": "100c1fa0"
+    },
+    {
+      "method": "demanglerDeclaration",
+      "address": "100c53ae",
+      "raw": "e8d9f2ffff",
+      "instruction": "CALL 0x100c468c",
+      "kind": "direct",
+      "targetVA": "100c468c"
+    },
+    {
+      "method": "demanglerDeclaration",
+      "address": "100c53c1",
+      "raw": "e8c6f2ffff",
+      "instruction": "CALL 0x100c468c",
+      "kind": "direct",
+      "targetVA": "100c468c"
+    },
+    {
+      "method": "demanglerDeclaration",
+      "address": "100c53d3",
+      "raw": "e850cbffff",
+      "instruction": "CALL 0x100c1f28",
+      "kind": "direct",
+      "targetVA": "100c1f28"
+    },
+    {
+      "method": "demanglerDataType",
+      "address": "100c6759",
+      "raw": "e874b7ffff",
+      "instruction": "CALL 0x100c1ed2",
+      "kind": "direct",
+      "targetVA": "100c1ed2"
+    },
+    {
+      "method": "demanglerDataType",
+      "address": "100c677a",
+      "raw": "e890feffff",
+      "instruction": "CALL 0x100c660f",
+      "kind": "direct",
+      "targetVA": "100c660f"
+    },
+    {
+      "method": "demanglerDataType",
+      "address": "100c678c",
+      "raw": "e80fb8ffff",
+      "instruction": "CALL 0x100c1fa0",
+      "kind": "direct",
+      "targetVA": "100c1fa0"
+    },
+    {
+      "method": "demanglerDataType",
+      "address": "100c679d",
+      "raw": "e80dbeffff",
+      "instruction": "CALL 0x100c25af",
+      "kind": "direct",
+      "targetVA": "100c25af"
+    },
+    {
+      "method": "demanglerDataType",
+      "address": "100c67b0",
+      "raw": "e800c5ffff",
+      "instruction": "CALL 0x100c2cb5",
+      "kind": "direct",
+      "targetVA": "100c2cb5"
+    },
+    {
+      "method": "demanglerDataType",
+      "address": "100c67d5",
+      "raw": "e8d1f1ffff",
+      "instruction": "CALL 0x100c59ab",
+      "kind": "direct",
+      "targetVA": "100c59ab"
+    },
+    {
+      "method": "demanglerDataType",
+      "address": "100c67e1",
+      "raw": "e89ab4ffff",
+      "instruction": "CALL 0x100c1c80",
+      "kind": "direct",
+      "targetVA": "100c1c80"
+    },
+    {
+      "method": "demanglerDataType",
+      "address": "100c67f1",
+      "raw": "e89dc4ffff",
+      "instruction": "CALL 0x100c2c93",
+      "kind": "direct",
+      "targetVA": "100c2c93"
+    },
+    {
+      "method": "demanglerDnameConstructor",
+      "address": "100c1ee5",
+      "raw": "e8ddfbffff",
+      "instruction": "CALL 0x100c1ac7",
+      "kind": "direct",
+      "targetVA": "100c1ac7"
+    },
+    {
+      "method": "demanglerDnameConstructor",
+      "address": "100c1ef4",
+      "raw": "e8a7feffff",
+      "instruction": "CALL 0x100c1da0",
+      "kind": "direct",
+      "targetVA": "100c1da0"
+    },
+    {
+      "method": "demanglerPrimaryType",
+      "address": "100c6647",
+      "raw": "e83cfcffff",
+      "instruction": "CALL 0x100c6288",
+      "kind": "direct",
+      "targetVA": "100c6288"
+    },
+    {
+      "method": "demanglerPrimaryType",
+      "address": "100c665b",
+      "raw": "e886c2ffff",
+      "instruction": "CALL 0x100c28e6",
+      "kind": "direct",
+      "targetVA": "100c28e6"
+    },
+    {
+      "method": "demanglerPrimaryType",
+      "address": "100c6663",
+      "raw": "e838b9ffff",
+      "instruction": "CALL 0x100c1fa0",
+      "kind": "direct",
+      "targetVA": "100c1fa0"
+    },
+    {
+      "method": "demanglerPrimaryType",
+      "address": "100c6671",
+      "raw": "e8f6c3ffff",
+      "instruction": "CALL 0x100c2a6c",
+      "kind": "direct",
+      "targetVA": "100c2a6c"
+    },
+    {
+      "method": "demanglerPrimaryType",
+      "address": "100c667c",
+      "raw": "e8e9b4ffff",
+      "instruction": "CALL 0x100c1b6a",
+      "kind": "direct",
+      "targetVA": "100c1b6a"
+    },
+    {
+      "method": "demanglerPrimaryType",
+      "address": "100c6698",
+      "raw": "e83ef9ffff",
+      "instruction": "CALL 0x100c5fdb",
+      "kind": "direct",
+      "targetVA": "100c5fdb"
+    },
+    {
+      "method": "demanglerPrimaryType",
+      "address": "100c66b9",
+      "raw": "e86ab8ffff",
+      "instruction": "CALL 0x100c1f28",
+      "kind": "direct",
+      "targetVA": "100c1f28"
+    },
+    {
+      "method": "demanglerPrimaryType",
+      "address": "100c66f7",
+      "raw": "e8aff2ffff",
+      "instruction": "CALL 0x100c59ab",
+      "kind": "direct",
+      "targetVA": "100c59ab"
+    },
+    {
+      "method": "demanglerPrimaryType",
+      "address": "100c6700",
+      "raw": "e883fbffff",
+      "instruction": "CALL 0x100c6288",
+      "kind": "direct",
+      "targetVA": "100c6288"
+    },
+    {
+      "method": "demanglerPrimaryType",
+      "address": "100c6719",
+      "raw": "e852d1ffff",
+      "instruction": "CALL 0x100c3870",
+      "kind": "direct",
+      "targetVA": "100c3870"
+    },
+    {
+      "method": "demanglerPrimaryType",
+      "address": "100c672d",
+      "raw": "e838efffff",
+      "instruction": "CALL 0x100c566a",
+      "kind": "direct",
+      "targetVA": "100c566a"
+    },
+    {
+      "method": "demanglerPrimaryType",
+      "address": "100c673f",
+      "raw": "e84fc5ffff",
+      "instruction": "CALL 0x100c2c93",
+      "kind": "direct",
+      "targetVA": "100c2c93"
+    },
+    {
+      "method": "unDecoratorToString",
+      "address": "100c5ec8",
+      "raw": "e801f3ffff",
+      "instruction": "CALL 0x100c51ce",
+      "kind": "direct",
+      "targetVA": "100c51ce"
+    },
+    {
+      "method": "unDecoratorToString",
+      "address": "100c5ed7",
+      "raw": "e8d9cdffff",
+      "instruction": "CALL 0x100c2cb5",
+      "kind": "direct",
+      "targetVA": "100c2cb5"
+    },
+    {
+      "method": "unDecoratorToString",
+      "address": "100c5eeb",
+      "raw": "e894e1ffff",
+      "instruction": "CALL 0x100c4084",
+      "kind": "direct",
+      "targetVA": "100c4084"
+    },
+    {
+      "method": "unDecoratorToString",
+      "address": "100c5ef6",
+      "raw": "e885bdffff",
+      "instruction": "CALL 0x100c1c80",
+      "kind": "direct",
+      "targetVA": "100c1c80"
+    },
+    {
+      "method": "unDecoratorToString",
+      "address": "100c5f16",
+      "raw": "e8b3f2ffff",
+      "instruction": "CALL 0x100c51ce",
+      "kind": "direct",
+      "targetVA": "100c51ce"
+    },
+    {
+      "method": "unDecoratorToString",
+      "address": "100c5f20",
+      "raw": "e85bbdffff",
+      "instruction": "CALL 0x100c1c80",
+      "kind": "direct",
+      "targetVA": "100c1c80"
+    },
+    {
+      "method": "unDecoratorToString",
+      "address": "100c5f58",
+      "raw": "e823bdffff",
+      "instruction": "CALL 0x100c1c80",
+      "kind": "direct",
+      "targetVA": "100c1c80"
+    },
+    {
+      "method": "unDecoratorToString",
+      "address": "100c5f68",
+      "raw": "e879c9ffff",
+      "instruction": "CALL 0x100c28e6",
+      "kind": "direct",
+      "targetVA": "100c28e6"
+    },
+    {
+      "method": "unDecoratorToString",
+      "address": "100c5f79",
+      "raw": "e86dc0ffff",
+      "instruction": "CALL 0x100c1feb",
+      "kind": "direct",
+      "targetVA": "100c1feb"
+    },
+    {
+      "method": "unDecoratorToString",
+      "address": "100c5f8b",
+      "raw": "ff151c6f2f10",
+      "instruction": "CALL dword ptr [0x102f6f1c]",
+      "kind": "image-indirect",
+      "slotVA": "102f6f1c",
+      "importEntry": null
+    },
+    {
+      "method": "unDecoratorToString",
+      "address": "100c5fa5",
+      "raw": "e89ec0ffff",
+      "instruction": "CALL 0x100c2048",
+      "kind": "direct",
+      "targetVA": "100c2048"
     },
     {
       "method": "unDecoratorConstructor",

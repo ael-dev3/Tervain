@@ -1,0 +1,34 @@
+/* ENTRY 100c1ed2 | DName::DName | STATUS decompiled | 8 ms */
+
+/* Library Function - Single Match
+    public: __thiscall DName::DName(class DName *)
+   
+   Library: Visual Studio 2005 Release */
+
+DName * __thiscall DName::DName(DName *this,DName *param_1)
+
+{
+  pDNameNode *this_00;
+  int extraout_EAX;
+  int iVar1;
+  
+  if (param_1 == (DName *)0x0) {
+    *(uint *)(this + 4) = *(uint *)(this + 4) & 0xfffffff0;
+    *(undefined4 *)this = 0;
+  }
+  else {
+    this_00 = HeapManager::getMemory((HeapManager *)&DAT_102f6f1c,0xc,0);
+    if (this_00 == (pDNameNode *)0x0) {
+      iVar1 = 0;
+    }
+    else {
+      pDNameNode::pDNameNode(this_00,param_1);
+      iVar1 = extraout_EAX;
+    }
+    *(int *)this = iVar1;
+    *(uint *)(this + 4) =
+         *(uint *)(this + 4) ^ ((-(uint)(iVar1 != 0) & 0xfffffffd) + 3 ^ *(uint *)(this + 4)) & 0xf;
+  }
+  *(uint *)(this + 4) = *(uint *)(this + 4) & 0xfffff00f;
+  return this;
+}
