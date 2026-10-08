@@ -38,11 +38,15 @@ virtual import slots. `GetModuleHandleA`, `GetProcAddress` and the feature call
 retain original stdcall cleanup of 4, 8 and 4 bytes. The query returns its
 selected BOOL and the caller publishes it at `102f6424`. FNCLEX at `100a7919` clears the owned x87 exception status bits while
 preserving all other unknown bits. The hook returns and reaches the next
-boundary after cached conversion encoding, the error-table call at
-`100aa664 -> 100aa47d`. Table initializer
-callbacks, enclosing CRT attach and live Game startup remain unfinished.
-Header rejection and a NULL hook follow the original skip branches and retain
-conversion-pointer encoding at `100b4413 -> 100ae27b` as a separate dependency.
+error table after cached conversion encoding. Its first callback allocates and
+publishes the encoded exit table; the second uses the actual initialized
+multibyte flag. The third executes its processor probe using an explicit virtual
+CPU selection. The normal SIMD path owns the original EH4 prologue/epilogue,
+checks the live scope bytes, copies unknown XMM1 state to XMM0 and returns the
+source result. The fourth callback `100bef05` remains pending. Missing CPU
+selection stops at PUSHFD; missing CPUID leaves and SIMD exception dispatch
+remain explicit boundaries. Enclosing CRT attach and live Game startup are
+unfinished. Header rejection and a NULL hook preserve their original skip paths.
 Source code addresses stored by installation grant no browser callback authority.
 
 The browser profile explicitly selects the processor export and erratum false.

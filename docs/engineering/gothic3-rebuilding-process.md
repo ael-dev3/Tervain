@@ -33,8 +33,8 @@ runtime and record exactly where execution still stops.
 
 ### Immediate remaining work
 
-- Complete SharedBase processor probing from PUSHFD at `100ce0a8`, then its remaining
-  initializer tables and callback dependencies, then the enclosing CRT attach.
+- Complete the remaining SharedBase error/void initializers from `100bef05`,
+  SIMD exception dispatch and other fallback paths, then the enclosing CRT attach.
 - Connect the supported shared runtime to live Game startup at 204678f2 and
   execute the required initializer callbacks in their original order.
 - Complete the remaining property/diagnostic dependencies and activate NPCs in
@@ -46,6 +46,39 @@ checks establish the published checkpoint's supported scope; campaign completion
 requires an integrated gameplay result.
 
 ## Latest process summary — 8 October 2026
+
+### Virtual CPU ownership and normal processor-probe return
+
+The local runtime owns a declared CPL3/IOPL0 EFLAGS image, synchronized with
+its arithmetic flags and the logical thread's DF. The CPU profile and CPUID
+tuples are copied and frozen before execution. They describe a selected virtual
+processor. Unknown arithmetic bits remain unknown; the original ID toggle and
+subtraction use retained word identities to preserve correlation through AF.
+
+Original PUSHFD and POPFD execute in order. POPFD respects selected ID-bit
+writability and user-mode protection of IF/IOPL. CPUID leaves 0 and 1 load their
+four retained DWORD outputs into EAX/EBX/ECX/EDX. Missing leaves stop at their
+original instruction. The ID-not-writable and no-SSE2 branches return zero
+through the original processor callback without entering SIMD.
+
+The normal SSE2 branch executes original `100ce045`, its `100aeb68` frame
+prologue and `100aebad` epilogue. It retains the original 28-byte scope image,
+rejects changed scope bytes before frame execution, binds the encoded scope
+and FS registration to the owned stack, and checks saved-register/FS restoration.
+MOVAPD copies all four retained XMM1 DWORD identities into XMM0. Initial XMM
+contents remain unknown. The original result reaches `102f853c` and the table
+walker advances to its fourth callback, `100bef05`, whose CALL remains pending.
+The browser NPC service selects the explicit normal virtual CPU profile.
+
+Selected illegal-instruction or absent SIMD execution policy stops before
+MOVAPD effects. Original exception filter/handler evidence is captured, but
+exception dispatch remains unfinished. This implementation follows the flag
+and instruction contracts in [Intel's architecture manual](https://www.intel.com/content/www/us/en/developer/articles/technical/intel-sdm.html).
+Full SharedBase attachment, live Game startup and campaign completion remain
+unfinished. Local typechecking and 125 focused checks pass; all 80 generated
+source files and the emitted runtime reproduce exactly. The full suite passes
+2,682 tests across 259 files; the production build also passes.
+
 
 ### Existing multibyte state and processor-probe entry
 
