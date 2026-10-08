@@ -10114,3 +10114,24 @@ package contains 125 bodies, 4,898 instructions and 444 CALL receipts. The full
 suite passes 2,817 tests across 260 files (165.54 seconds). Publication remains
 pending.
 Full startup, world activation and a finishable campaign remain outstanding.
+
+
+## Object-reference class-name initialization work in progress (2026-10-08)
+
+Initializer 143 now executes its original getter and demangles the actual
+`bCObjectRefBase` type-info record. The original heap constructor resets its
+reused state with `OR dword ptr [ESI],0xffffffff`; the interpreter now treats
+that full-width all-ones operand as determining every output bit even when
+old storage retains a pointer. Other pointer-valued OR operations remain
+unsupported.
+
+The original cache code prepends a second owned node, the string constructor
+claims the second slot of the existing 24-byte pool, and the initializer
+publishes its string object and registers callback 10005f65. A focused test
+passes for both cache-node identities, string bytes, bitmap claims and normal
+returns. All 258 focused checks, typechecking, the production build and authored
+diff check pass. All 238 generated files and the instruction module reproduce
+exactly. The full suite passes 2,818 tests across 260 files (178.79 seconds);
+publication remains pending.
+Execution next stops at `100aa692 -> 100e1630`. Full startup, world activation
+and a finishable campaign remain outstanding.

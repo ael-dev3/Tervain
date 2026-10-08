@@ -349,7 +349,7 @@ export class NativeSharedCrtOwner {
    encodeCode:(procedure:object,address:number):object|null=>{
     const proof=NativeRuntimePlatform.canonicalPointerCodecForPlatform(this.platform,procedure,'EncodePointer');if(!proof.known)throw new Error(proof.reason);
     if(address===0){const encoded=this.#call('100ae2dd.EncodePointer(NULL)',()=>proof.value.invoke(null));if(encoded)this.#initializerEncodedPointers.add(encoded);return encoded;}
-    if(![0x100cdf9f,0x100b43e6,0x100b3a8b,0x100b3a49,0x100b3a7d,0x100b39f3,0x100b4360,0x100b3a09,0x100b3973,0x100b3902,0x100bb8e7,0x100e30f0,0x100e26d0,0x100e2810,0x100e2930,0x100e2940,0x100e2950,0x100e2960,0x100e2a00,0x100e2a10,0x100e2710,0x100e2b40,0x100e2f20,0x100079ff].includes(address))throw new Error('Original installed conversion address required');
+    if(![0x100cdf9f,0x100b43e6,0x100b3a8b,0x100b3a49,0x100b3a7d,0x100b39f3,0x100b4360,0x100b3a09,0x100b3973,0x100b3902,0x100bb8e7,0x100e30f0,0x100e26d0,0x100e2810,0x100e2930,0x100e2940,0x100e2950,0x100e2960,0x100e2a00,0x100e2a10,0x100e2710,0x100e2b40,0x100e2f20,0x100079ff,0x10005f65].includes(address))throw new Error('Original installed conversion address required');
     let pointer=this.#initializerCodePointers.get(address);if(!pointer){pointer=Object.freeze({owner:this.identity,originalCodeAddress:address});this.#initializerCodePointers.set(address,pointer);}
     const encoded=this.#call('100ae2dd.EncodePointer',()=>proof.value.invoke(pointer!));if(encoded){this.#initializerEncodedPointers.add(encoded);this.#initializerDecodedPointers.set(encoded,{original:pointer!,address});}return encoded;
    },
