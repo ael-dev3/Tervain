@@ -1009,6 +1009,12 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
       return platform.#canonicalNativeAccess(Object.freeze({ fields, offset: 0 }), relativeOffset, bytes);
     } catch (error) { return unknown(error instanceof Error ? error.message : String(error)); }
   }
+  static canonicalOwnedWin32HeapAllocationSpan(platform:NativeRuntimePlatform,heap:NativeWin32HeapCapability,owner:object,pointer:NativeBytePointer,bytes:number):NativeValue<void> {
+    const live=NativeRuntimePlatform.canonicalWin32HeapForOwner(platform,heap,owner);if(!live.known)return live;
+    const record=platform.#winHeaps.get(heap.identity);
+    if(!record?.allocations.has(pointer.fields.backing))return unknown('Actual retained allocation in this Win32 heap required');
+    return NativeRuntimePlatform.canonicalNativePointerAccessForPlatform(platform,pointer,0,bytes);
+  }
   static canonicalProcessInputSpanForPlatform(platform: NativeRuntimePlatform, pointer: NativeBytePointer,
     bytes: number): NativeValue<void> {
     try {
@@ -1170,8 +1176,11 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
       const query = output === null && outputBytes === 0;
       if (!query && (output === null || outputBytes === 0)) return unknown('Actual admitted query or retained conversion destination required');
       if (output) {
-        const heap = NativeModuleCrtOwner.canonicalGameHeapForPlatform(this, output); if (!heap.known) return heap;
-        const destination = this.#canonicalGameHeapSpan(heap.value, output, outputBytes); if (!destination.known) return destination;
+        const shared=NativeSharedCrtOwner.canonicalEnvironmentDestinationForPlatform(this,output,outputBytes);
+        if(!shared.known){
+          const heap = NativeModuleCrtOwner.canonicalGameHeapForPlatform(this, output); if (!heap.known) return heap;
+          const destination = this.#canonicalGameHeapSpan(heap.value, output, outputBytes); if (!destination.known) return destination;
+        }
       }
       const failure = query ? selection.conversionFailure.query : selection.conversionFailure.fill;
       if (failure) { this.#processLastError(failure.lastError); return known(failure.result); }

@@ -1,6 +1,6 @@
 # Original SharedBase CRT startup evidence
 
-This package captures 39 original functions covering CRT attach/startup, security-cookie initialization, heap selection/construction/destruction, thread startup/termination, encoded procedure initialization, locks, thread cleanup and locale reference increments. Every captured instruction is compared with the original SharedBase.dll bytes. It also captures 28 cold image ranges with section-backed versus loader-zero-fill evidence.
+This package captures 49 original functions covering CRT attach/startup, security-cookie initialization, heap selection/construction/destruction, thread startup/termination, encoded procedure initialization, locks, thread cleanup and locale reference increments. Every captured instruction is compared with the original SharedBase.dll bytes. It also captures 39 cold image ranges with section-backed versus loader-zero-fill evidence.
 
 SharedBase owns these globals independently of Game and Engine. Its two dynamic thread indices begin at `ffffffff`; the four procedure slots begin as loader-filled zero bytes. The static TLS index from the PE TLS directory is a different field. Loading static TLS does not allocate either dynamic slot, initialize the heap, install FLS/TLS procedures or initialize CRT thread data.
 
@@ -65,3 +65,58 @@ Native SEH scope-stack installation is still unimplemented. The owning attach
 call next needs original RTC initialization, command-line/environment ownership,
 I/O and arguments, and SharedBase's own `__cinit` traversal. No whole attach,
 live Game initializer integration or campaign completion is established here.
+
+The local RTC continuation traverses the original 256-byte initializer table at
+`100f7cec`: all 64 cold entries are NULL in the installed binary. It skips each
+entry in source order and returns before the original command-line call at
+`100adb21`. A non-NULL entry remains an explicit missing callback owner.
+
+The command-line continuation invokes the actual canonical process-input endpoint
+and stores its retained pointer in SharedBase `102f8564`. Missing process input
+remains a boundary. It next stops at the original environment reader `100c0c60`,
+whose wide/ANSI selection, allocation, conversion and release paths are captured.
+
+Environment reconstruction dependencies now include original SharedBase malloc,
+its retry wrapper, errno lookup, free and memcpy, plus cold environment-mode
+state at `102f6bf0`. The modern malloc uses SharedBase HeapAlloc flags0; it does
+not use calloc or Game heap state. Failure writes errno through original PTD
+lookup before returning or retrying. These functions are source evidence only
+at this checkpoint; the environment reader has not yet executed.
+
+The local wide environment path now follows original mode selection, retained
+UTF16 loads, explicit-count conversion query, SharedBase flags0 malloc, fill
+conversion and OS-block release. Fill failure frees the actual heap allocation
+before releasing the OS block; query failure releases it without allocation.
+Conversion admits only the canonical SharedBase environment allocation from its
+actual heap. The declared platform conversion currently covers ASCII UTF16.
+ANSI memcpy, allocator failure errno/retry and failed-free errno mapping remain
+explicit missing paths. Successful wide conversion reaches original I/O startup
+at `100adb36 -> 100bf165`; full attach and live Game integration remain pending.
+
+The errno dependency evidence now captures original getter-provider caching and
+PTD lookup, with LastError save/restore, plus independent fallback errno. The
+ANSI memcpy evidence additionally includes its original forward dispatch tables
+and cold SSE-selection flag. These captures do not execute errno or memcpy.
+
+The local selected malloc-failure path now uses original PTD getter/provider
+lookup and LastError save/restore to write errno 12 at PTD+8. Cold new-mode0
+follows both original errno calls before NULL return; wide-environment cleanup
+then releases the original input. Nonzero retry delay stops at original Sleep,
+and a non-NULL new handler or lazy missing-PTD allocation remains unimplemented.
+
+The local ANSI path now scans source bytes to the block terminator, allocates
+from SharedBase, follows its aligned scalar memcpy through original DWORD and
+byte-tail dispatch tables (REP MOVSD for at least eight DWORDs), and releases
+the exact ANSI OS block. It preserves high-bit bytes without Unicode conversion.
+Actual canonical allocation geometry proves the forward/disjoint branch. SSE,
+backward and unaligned-destination paths remain explicit missing owners; these
+are not selected by the fresh aligned environment allocation. Failed dispatch
+retains both input and allocation without reporting copy or release success.
+
+Original SharedBase I/O initialization at `100bf165` is now captured with its
+independent `102f7068` handle count and 64-entry block table at `102f70c0`.
+It invokes GetStartupInfoA before calloc(32, 56), publishes the block/count,
+then initializes handles to -1 and record flags before processing inherited
+handles and standard handles. Actual section initialization precedes increment
+of each descriptor's section count. This source capture does not execute I/O
+startup or borrow the Game CRT's globals, stack grants or descriptor graph.

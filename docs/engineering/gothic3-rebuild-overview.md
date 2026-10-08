@@ -13,12 +13,13 @@ itself establish a playable reconstruction.
 
 ## Current status — 8 October 2026
 
-The latest confirmed publication is [PR 91](https://github.com/ael-dev3/Tervain/pull/91),
-merged at `56cb02439136ddb4c37922065158f0977e85afa2` and deployed by
-[Pages run 37718958809](https://github.com/ael-dev3/Tervain/actions/runs/37718958809).
-It includes the original SharedBase pointer setup and static lock initialization.
+The latest confirmed publication is [PR 92](https://github.com/ael-dev3/Tervain/pull/92),
+merged at `57ce12047fed555a9d02fc3d9f375155b5cf3a6d` and deployed by
+[Pages run 37720051978](https://github.com/ael-dev3/Tervain/actions/runs/37720051978).
+It includes original SharedBase pointer/lock setup, PTD allocation and selected
+default-locale initialization.
 The earlier PR 84 served-artifact comparison remains evidence for that prior
-revision; no new served-byte comparison is claimed for PR 91.
+revision; no new served-byte comparison is claimed for PR 92.
 
 Startup now completes the selected environment initialization and stops before
 Game's `__cinit` call at `204678f2`. The repository captures all 2,473 Game
@@ -83,7 +84,7 @@ Missing thread or unloaded TLS remains an explicit failure. No formatted text,
 terminator or MessageAdmin dispatch is fabricated. The virtual loader's slot
 assignment does not claim a captured Windows slot or completed DLL attach.
 
-Subsequent local work allocates the actual SharedBase FLS/TLS thread index with
+The published PTD helper allocates the actual SharedBase FLS/TLS thread index with
 its canonical cleanup capability, allocates a zeroed 532-byte PTD from its own
 heap and installs that same physical record. The original PTD initializer stores
 exception/codec fields, increments multibyte and default-locale references under
@@ -92,8 +93,13 @@ stores the ID and original -1 handle and returns `__mtinit` 1. Missing providers
 retain the completed prefix without replay. Non-NULL PTD destruction remains
 unimplemented. The selected cold-locale path does not implement dynamic locales.
 
-SharedBase attach next needs RTC initialization, command-line and environment
-handling, I/O, arguments and its own initializer traversal. Native SEH stack
+Further local work traverses the original all-NULL RTC table, stores an actual
+command-line pointer and copies/converts the ANSI or selected ASCII UTF16
+environment into SharedBase heap storage. Allocation failure follows original
+errno lookup with LastError preservation and OS-block cleanup. Scalar memcpy
+follows DWORD/tail dispatch and REP MOVSD; unsupported branches remain explicit.
+SharedBase attach now stops before I/O at `100adb36 -> 100bf165`, then still needs
+arguments and its own initializer traversal. Native SEH stack
 installation and the older-version main-image `.mixcrt` scan remain unimplemented.
 These helpers are not connected to the live Game CRT frame; formatter execution,
 full NPC startup and campaign completion remain unfinished.

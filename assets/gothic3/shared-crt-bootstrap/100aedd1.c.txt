@@ -1,0 +1,13 @@
+/* ENTRY 100aedd1 | FUN_100aedd1 | STATUS decompiled | 3 ms */
+
+undefined * FUN_100aedd1(void)
+
+{
+  int iVar1;
+  
+  iVar1 = FUN_100ae4cb();
+  if (iVar1 == 0) {
+    return &DAT_10140d40;
+  }
+  return (undefined *)(iVar1 + 8);
+}

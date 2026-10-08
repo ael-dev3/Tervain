@@ -2,6 +2,116 @@
   "schema": "gothic3-shared-crt-bootstrap-v1",
   "sharedBaseSha256": "5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214",
   "methods": {
+    "ioInit": {
+      "entryVA": "0x100bf165",
+      "bodyVA": "0x100bf165",
+      "bodyRanges": "100bf165-100bf38d;100bf39c-100bf3a4",
+      "instructionCount": 186,
+      "bodyByteCount": 562,
+      "bodyInstructionBytesSha256": "5fc3d0c91e1861b89b12507adce6739546fc7fd1cc6863c2d30a53c5ca1109ad",
+      "entryChain": [],
+      "assemblySha256": "a3ea3c6dad4cccc4f778b16fbf6bfed43c70cc37d0a16de52290f2cd9f8dd131",
+      "cSha256": "9ab754cbdd696481181c805203a634eb6974cf734494fd3aecde6242ff30a9f0"
+    },
+    "getPerThreadDataLower": {
+      "entryVA": "0x100ae4cb",
+      "bodyVA": "0x100ae4cb",
+      "bodyRanges": "100ae4cb-100ae541",
+      "instructionCount": 45,
+      "bodyByteCount": 119,
+      "bodyInstructionBytesSha256": "1887dade0a77296429fcade67c66dcf45022ddf923c828447a8d306aa865773d",
+      "entryChain": [],
+      "assemblySha256": "0f98a9b233e429e4f270257b15a0f7c6497e1031073e671845d995384e267c9e",
+      "cSha256": "90486b5521953efe5db23c8ee54b4b5030c6b95592cb4a72344202a7eb6d0bdd"
+    },
+    "getThreadStorageProvider": {
+      "entryVA": "0x100ae384",
+      "bodyVA": "0x100ae384",
+      "bodyRanges": "100ae384-100ae3b5",
+      "instructionCount": 16,
+      "bodyByteCount": 50,
+      "bodyInstructionBytesSha256": "4abdc2792dd07d9b9a335efbc64d066396a8035bf668fa9f806a8537ae72020e",
+      "entryChain": [],
+      "assemblySha256": "e767124388d430f947437840ac83547890bcbfd5a881717b31f17d66d5914c83",
+      "cSha256": "b462342c81dc46bbfde4ca7d32d9784ea5f962059271dd086c73c1d194b817d8"
+    },
+    "errno": {
+      "entryVA": "0x100aedd1",
+      "bodyVA": "0x100aedd1",
+      "bodyRanges": "100aedd1-100aede3",
+      "instructionCount": 7,
+      "bodyByteCount": 19,
+      "bodyInstructionBytesSha256": "7fdd3947bb396eaf9c371f64fc91f7b8c30db450c7db3a8fa6ce2904748731f6",
+      "entryChain": [],
+      "assemblySha256": "079d1f278b81dab64daf15a1b91d2f4cdd55cf545999461928a6ba86466964f2",
+      "cSha256": "c1fcbb2fa5292ec9b8217d1d700410809bd7741017cb28d94bf7f68d27fad735"
+    },
+    "free": {
+      "entryVA": "0x100aa9a4",
+      "bodyVA": "0x100aa9a4",
+      "bodyRanges": "100aa9a4-100aa9f9;100aaa03-100aaa31",
+      "instructionCount": 44,
+      "bodyByteCount": 133,
+      "bodyInstructionBytesSha256": "7474b03ad23792b7631b8ff093c017b1e03f0ac21189a73b60a5368d8717f22e",
+      "entryChain": [],
+      "assemblySha256": "e33bcb2e2ff5439a05383b1b4626343125b8cfa762ff4a5f45a02a2a0489c58c",
+      "cSha256": "9d1c36fd0ecaba471162982703be49b23303f4d9d26f7dd41ebdb6804370fd8b"
+    },
+    "memcpy": {
+      "entryVA": "0x100a7a00",
+      "bodyVA": "0x100a7a00",
+      "bodyRanges": "100a7a00-100a7a62;100a7a64-100a7a82;100a7a84-100a7a8a;100a7a98-100a7ac0;100a7ac4-100a7ae6;100a7ae8-100a7b04;100a7b28-100a7b71;100a7b84-100a7b8a;100a7b8c-100a7b96;100a7b98-100a7ba8;100a7bac-100a7bc2;100a7bc4-100a7be9;100a7bec-100a7bf4;100a7bf8-100a7c16;100a7c24-100a7c44;100a7c48-100a7c6e;100a7c70-100a7ca0;100a7cc4-100a7d0d;100a7d20-100a7d26;100a7d28-100a7d34;100a7d38-100a7d4a;100a7d4c-100a7d64",
+      "instructionCount": 247,
+      "bodyByteCount": 711,
+      "bodyInstructionBytesSha256": "ada0fafd69940490a3c1ac706772420ce32760254cc28aff588c401ed09f1c44",
+      "entryChain": [],
+      "assemblySha256": "cbbedafb409b90a6bf6987bc92b67c3dd50fe3d2242b5b65c3b8d520354a17ef",
+      "cSha256": "e417a1712e32cf88ca10f70115f9d714efff0462a51207335c861e32a3cfff67"
+    },
+    "mallocCrt": {
+      "entryVA": "0x100aeed0",
+      "bodyVA": "0x100aeed0",
+      "bodyRanges": "100aeed0-100aef0f",
+      "instructionCount": 24,
+      "bodyByteCount": 64,
+      "bodyInstructionBytesSha256": "3f6ef57453c8e37b9df1ceeab6a3b6c85c82e2f1154926563e5fe068033dabf0",
+      "entryChain": [],
+      "assemblySha256": "19d0a8b13b02b421c5060ca2ab5c2e5f43fc3af044dc9d4613d5112d9da12c2c",
+      "cSha256": "fe56afb620665f90f5029e39f688e1ccef12cbff6d6250872233b2273b2096bb"
+    },
+    "malloc": {
+      "entryVA": "0x100aaaf6",
+      "bodyVA": "0x100aaaf6",
+      "bodyRanges": "100aaaf6-100aabb8",
+      "instructionCount": 78,
+      "bodyByteCount": 195,
+      "bodyInstructionBytesSha256": "70262c4e3e41925b21175c516dbef31313d2260ef97767a9a6676779eedf7a08",
+      "entryChain": [],
+      "assemblySha256": "abd7d6a03356f1145eb638b38336d72a3654b739b91538098afd5c5136e9f2df",
+      "cSha256": "e6cc7f737d772484f1f14793696db205bd369c053945daa3feb328d1cc96a23d"
+    },
+    "getEnvironmentStringsA": {
+      "entryVA": "0x100c0c60",
+      "bodyVA": "0x100c0c60",
+      "bodyRanges": "100c0c60-100c0d94",
+      "instructionCount": 132,
+      "bodyByteCount": 309,
+      "bodyInstructionBytesSha256": "70c54e85980de597fb4ce37e12e9bdaa8fcf69966c3196b9f7e4e66c068b32bc",
+      "entryChain": [],
+      "assemblySha256": "71af177527033fd135d63cd28f195dd2abba5bbb11116336159979d1ae132a64",
+      "cSha256": "6e3f5de43646c3beb5edbfa84d807d1d43a7ae1ddf127b76e47287ce0b02c732"
+    },
+    "rtcInitialize": {
+      "entryVA": "0x100bb8c3",
+      "bodyVA": "0x100bb8c3",
+      "bodyRanges": "100bb8c3-100bb8e6",
+      "instructionCount": 17,
+      "bodyByteCount": 36,
+      "bodyInstructionBytesSha256": "2e030b3c988c98e3f4a29768aae959e9c83cef2d3de4c5c2e4307712741ae0cb",
+      "entryChain": [],
+      "assemblySha256": "5a910427939c0ad82584c93492483b0941e5e7b941533d9eb3477c30e6d12c77",
+      "cSha256": "d0c83d56b72aad1008d214dff57bf5e55774a060c6358de8ad4e690d0fea20a5"
+    },
     "unlock": {
       "entryVA": "0x100bb7a2",
       "bodyVA": "0x100bb7a2",
@@ -433,6 +543,182 @@
     }
   },
   "coldGlobals": {
+    "ioHandleCount": {
+      "address": "102f7068",
+      "bytes": 4,
+      "raw": "00000000",
+      "knownMask": "ffffffff",
+      "section": {
+        "virtualAddress": 1306624,
+        "virtualSize": 1807760,
+        "rawSize": 16384,
+        "rawOffset": 1306624,
+        "fileBackedBytes": 0,
+        "loaderZeroFillBytes": 4
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "ioBlocks": {
+      "address": "102f70c0",
+      "bytes": 256,
+      "raw": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "knownMask": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "section": {
+        "virtualAddress": 1306624,
+        "virtualSize": 1807760,
+        "rawSize": 16384,
+        "rawOffset": 1306624,
+        "fileBackedBytes": 0,
+        "loaderZeroFillBytes": 256
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "memcpyForwardAlignment": {
+      "address": "100a7a88",
+      "bytes": 16,
+      "raw": "7b0a1090987a0a10c47a0a10e87a0a10",
+      "knownMask": "ffffffffffffffffffffffffffffffff",
+      "section": {
+        "virtualAddress": 4096,
+        "virtualSize": 930343,
+        "rawSize": 933888,
+        "rawOffset": 4096,
+        "fileBackedBytes": 16,
+        "loaderZeroFillBytes": 0
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "memcpyForwardDwords": {
+      "address": "100a7b08",
+      "bytes": 32,
+      "raw": "6b7b0a10587b0a10507b0a10487b0a10407b0a10387b0a10307b0a10287b0a10",
+      "knownMask": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "section": {
+        "virtualAddress": 4096,
+        "virtualSize": 930343,
+        "rawSize": 933888,
+        "rawOffset": 4096,
+        "fileBackedBytes": 32,
+        "loaderZeroFillBytes": 0
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "memcpyForwardTail": {
+      "address": "100a7b74",
+      "bytes": 16,
+      "raw": "847b0a108c7b0a10987b0a10ac7b0a10",
+      "knownMask": "ffffffffffffffffffffffffffffffff",
+      "section": {
+        "virtualAddress": 4096,
+        "virtualSize": 930343,
+        "rawSize": 933888,
+        "rawOffset": 4096,
+        "fileBackedBytes": 16,
+        "loaderZeroFillBytes": 0
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "fallbackErrno": {
+      "address": "10140d40",
+      "bytes": 4,
+      "raw": "0c000000",
+      "knownMask": "ffffffff",
+      "section": {
+        "virtualAddress": 1306624,
+        "virtualSize": 1807760,
+        "rawSize": 16384,
+        "rawOffset": 1306624,
+        "fileBackedBytes": 4,
+        "loaderZeroFillBytes": 0
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "memcpySseFlag": {
+      "address": "102f854c",
+      "bytes": 4,
+      "raw": "00000000",
+      "knownMask": "ffffffff",
+      "section": {
+        "virtualAddress": 1306624,
+        "virtualSize": 1807760,
+        "rawSize": 16384,
+        "rawOffset": 1306624,
+        "fileBackedBytes": 0,
+        "loaderZeroFillBytes": 4
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "environmentMode": {
+      "address": "102f6bf0",
+      "bytes": 4,
+      "raw": "00000000",
+      "knownMask": "ffffffff",
+      "section": {
+        "virtualAddress": 1306624,
+        "virtualSize": 1807760,
+        "rawSize": 16384,
+        "rawOffset": 1306624,
+        "fileBackedBytes": 0,
+        "loaderZeroFillBytes": 4
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "commandLinePointer": {
+      "address": "102f8564",
+      "bytes": 4,
+      "raw": "00000000",
+      "knownMask": "ffffffff",
+      "section": {
+        "virtualAddress": 1306624,
+        "virtualSize": 1807760,
+        "rawSize": 16384,
+        "rawOffset": 1306624,
+        "fileBackedBytes": 0,
+        "loaderZeroFillBytes": 4
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "environmentPointer": {
+      "address": "102f6490",
+      "bytes": 4,
+      "raw": "00000000",
+      "knownMask": "ffffffff",
+      "section": {
+        "virtualAddress": 1306624,
+        "virtualSize": 1807760,
+        "rawSize": 16384,
+        "rawOffset": 1306624,
+        "fileBackedBytes": 0,
+        "loaderZeroFillBytes": 4
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "rtcInitializers": {
+      "address": "100f7cec",
+      "bytes": 256,
+      "raw": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "knownMask": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "section": {
+        "virtualAddress": 937984,
+        "virtualSize": 366840,
+        "rawSize": 368640,
+        "rawOffset": 937984,
+        "fileBackedBytes": 256,
+        "loaderZeroFillBytes": 0
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
     "exceptionActionsAnchor": {
       "address": "10140b50",
       "bytes": 4,

@@ -1,0 +1,17 @@
+100bb8c3 | 56 | PUSH ESI
+100bb8c4 | 57 | PUSH EDI
+100bb8c5 | b8ec7c0f10 | MOV EAX,0x100f7cec
+100bb8ca | bfec7d0f10 | MOV EDI,0x100f7dec
+100bb8cf | 3bc7 | CMP EAX,EDI
+100bb8d1 | 8bf0 | MOV ESI,EAX
+100bb8d3 | 730f | JNC 0x100bb8e4
+100bb8d5 | 8b06 | MOV EAX,dword ptr [ESI]
+100bb8d7 | 85c0 | TEST EAX,EAX
+100bb8d9 | 7402 | JZ 0x100bb8dd
+100bb8db | ffd0 | CALL EAX
+100bb8dd | 83c604 | ADD ESI,0x4
+100bb8e0 | 3bf7 | CMP ESI,EDI
+100bb8e2 | 72f1 | JC 0x100bb8d5
+100bb8e4 | 5f | POP EDI
+100bb8e5 | 5e | POP ESI
+100bb8e6 | c3 | RET
