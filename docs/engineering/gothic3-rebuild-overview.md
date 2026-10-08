@@ -22,12 +22,7 @@ and the next missing dependency. Three states matter:
   receipts determine what is supported.
 - **Published:** a reviewed commit has completed the Pages deployment workflow.
 
-These states are recorded separately. The current local Malloc checkpoint
-passes 172 focused checks, 2,729 tests across 259 files and the production build.
-It owns the original exception frame and heap critical section, reaching the
-lower allocator at `1003d474 -> 10001028` with its lock still entered. All 100
-generated source-package files and the instruction module reproduce exactly.
-It awaits remote review and deployment. Full engine startup, world activation
+These states are recorded separately. The published runtime checkpoint is PR 125. Full engine startup, world activation
 and campaign completion remain outstanding.
 
 ## Process at a glance
@@ -58,79 +53,71 @@ and campaign completion remain outstanding.
    Completion requires ordinary gameplay through a campaign ending, including
    progression and save/reload across the connected systems.
 
-The current development bottleneck is native startup and its shared runtime
-dependencies. The live Game path stops before `__cinit` at `204678f2`.
-Separately, the local SharedBase path completes selected CP1252 classification,
-case mapping, candidate installation and its normal SEH return. The enclosing
-setargv frame now acquires the declared virtual `Gothic3.exe` filename, publishes
-its module-buffer pointer and selects the actual command-line input or fallback.
-Both original parser passes now return with actual count outputs and filled
-strings. The caller allocates the combined vector/string block, publishes
-argc/argv and returns zero. SharedBase setenvp now builds its environment vector,
-copies strings, frees the temporary block and returns zero. The initializer now
-checks actual image headers and section ownership, restores FS and installs
-ten floating-point conversion addresses. The original division-erratum query
-now returns through retained virtual imports and publishes its selected result.
-It clears the x87 exception status bits, returns the hook and enters conversion
-encoding. The cached PTD encoder returns for all ten conversion pointers and
-stores their opaque encoded identities; its next boundary is the error-table
-walker, which skips the original leading NULL slots and enters the first
-callback, which allocates and publishes its encoded exit table and returns.
-The next callback returns through its already-initialized multibyte branch,
-and the processor callback executes its original probe with the declared virtual
-CPU profile. Its normal SIMD frame restores FS and saved registers and returns;
-the stdio callback builds its original FILE vector and checks owned descriptor
-handles. The fifth callback repeats the probe and publishes the memcpy flag.
-The error table returns zero and reaches pending RTC exit registration at
-`100aa676 -> 100a72d0`. Without a selected CPU profile,
-PUSHFD at `100ce0a8` remains an explicit boundary. Allocation failures retain
-the original partial cleanup; a positive retry delay remains unresolved.
-Those local helper results still need to join the live
-startup path before they can enable NPC activation. The full game remains
-unfinished; successful extraction, compilation or deployment alone does not
-establish campaign completion.
+## How native behavior becomes browser code
+
+For each missing operation, we follow the original caller into its callee and
+compare disassembly with the installed DLL bytes. Source packages record module
+hashes, instruction addresses, imports, static data and callback order. A
+repeatable generator produces the evidence package and selected instruction
+module; byte comparisons check that regeneration preserves the captured input.
+
+TypeScript runtime owners provide the memory, pointer identities, thread stack,
+virtual Windows imports and lifetime rules needed by those instructions. The
+selected instruction interpreter executes admitted source operations against
+that owned state. Rendering and gameplay systems are implemented in TypeScript
+and connected as their dependencies become available. This is a staged
+reimplementation: decompilation supplies evidence, and each supported behavior
+needs an explicit implementation and integration path.
+
+When an operation has not been implemented, execution stops at its original
+address with the applied state retained. For example, a pending allocation must
+preserve its active exception frame and lock. Returning invented success would
+hide the dependency and make later behavior unreliable. Capturing a callback,
+registering it and executing its body are separate milestones.
 
 ## Current status — 8 October 2026
 
-The latest merged runtime checkpoint is [PR 124](https://github.com/ael-dev3/Tervain/pull/124),
-merged at `3dc3188d9d47712342d76f996e468013a52de98c` after successful
-[CI run 37770523149](https://github.com/ael-dev3/Tervain/actions/runs/37770523149).
-[Pages run 37771185817](https://github.com/ael-dev3/Tervain/actions/runs/37771185817)
-is in progress. It executes MemoryAdmin GetInstance and reaches the Malloc call.
-The next local checkpoint owns Malloc's exception frame and heap critical section,
-reaching its lower allocation call; it has not yet been published.
+[PR 124](https://github.com/ael-dev3/Tervain/pull/124) merged at
+`3dc3188d9d47712342d76f996e468013a52de98c`; its
+[Pages deployment](https://github.com/ael-dev3/Tervain/actions/runs/37771185817)
+succeeded. It executes the original MemoryAdmin singleton getter and reaches
+Malloc through the live SharedBase initializer owner.
 
-The selected SharedBase path completes argument and environment setup,
-floating-point conversion installation and cached pointer encoding. Its first
-error initializer publishes the exit table; the second returns through its live
-multibyte flag. The third executes its original CPU and normal SIMD probe using
-the declared virtual CPU profile. Missing CPU selection, CPUID leaves, SIMD
-exception dispatch, pointer fallback resolution and allocation retry/cleanup
-remain explicit boundaries. Full startup and campaign completion remain
-unfinished.
+[PR 125](https://github.com/ael-dev3/Tervain/pull/125) passes
+[CI](https://github.com/ael-dev3/Tervain/actions/runs/37771585405) and merged at
+`90275aa46314fb5c4a7227bb51c7bc63eb0db023`. Its
+[Pages deployment](https://github.com/ael-dev3/Tervain/actions/runs/37772690355)
+succeeded.
+It follows Malloc's original thunks, owns its exception frame, initializes the
+heap critical section with spin count 1,000 and enters it. Execution reaches
+`1003d474 -> 10001028`, requesting thirteen bytes from the lower allocator.
+The lock and frame remain active; that allocation has not yet completed.
+Local validation passed 172 focused checks, 2,729 tests across 259 files,
+typechecking, the production build and exact regeneration of all 100 generated
+source files plus the instruction module.
 
-[PR 116](https://github.com/ael-dev3/Tervain/pull/116) merged the processor
-exception-frame source evidence and process documentation at
-`43a5892f7ce6cb9724d0fc41ec7fe83e3a6857d5`.
-[Pages run 37759987854](https://github.com/ael-dev3/Tervain/actions/runs/37759987854)
-succeeded. Its source package contains 80 generated files; capturing those
-helpers alone did not execute them.
+Earlier stages of the selected SharedBase path now perform argument and
+environment setup, floating-point conversion installation, encoded-pointer
+publication, error initializer traversal, FILE/descriptor setup, exit-callback
+registration and the first static constructors. These are supported startup
+components. The live Game path still stops before `__cinit` at `204678f2`;
+its 2,473 captured initializer callbacks have not all been executed.
 
-PR 117 executes PUSHFD/POPFD, both selected CPUID
-leaves and the normal SIMD probe using an explicit virtual CPU profile. It owns
-the original scope, EH4 prologue/epilogue and XMM register copy; no host CPU or
-Windows state is inferred. It returns the processor result and reaches the
-fourth error initializer, `100bef05`. Missing CPUID data or SIMD exception
-dispatch remains an explicit boundary. Typechecking, 125 focused checks and
-source regeneration pass. The full suite passes 2,682 tests across 259 files,
-and the production build passes. See the detailed process history for scope.
+## Work remaining to reach a finishable game
 
-The next stdio checkpoint executes the fourth and fifth error callbacks and
-returns the error walker to cinit. It preserves original allocation fallback,
-FILE storage, descriptor/HANDLE identities and failure code 26. RTC exit-callback
-registration, void-table traversal and enclosing attach remain unfinished.
-Typechecking, 141 focused checks and exact source regeneration pass. The full
-suite passes 2,698 tests across 259 files, and the production build passes.
+1. Complete lower allocation, pool initialization, remaining SharedBase
+   initializers and enclosing module startup, including applicable failure and
+   cleanup paths.
+2. Connect the recovered property factories and runtime owners to live Game
+   initialization and world/NPC activation.
+3. Integrate original world data and assets with movement, collision, animation,
+   NPC behavior, combat, inventory, dialogue and quest state.
+4. Connect progression and save/reload across those systems, then verify complete
+   playthroughs to the intended campaign endings in the browser.
+
+The hosted build is an evolving reconstruction. Successful extraction, source
+regeneration, tests or deployment establish their respective checkpoints;
+completion requires demonstrated integrated gameplay through an ending.
 
 ### What each repository folder contributes
 
