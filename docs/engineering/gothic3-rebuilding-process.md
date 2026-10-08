@@ -4,6 +4,27 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local checkpoint — 9 October 2026: ErrorAdmin getter and cold invalidation
+
+The MessageAdmin Create tail-call enters the original ErrorAdmin getter at
+`10006c1c -> 10021960`. It sets the actual cold guard, initializes the 24-byte
+physical critical section at object+8, and executes the original field stores.
+The constructor enters original invalidation, skips the three empty storage
+cleanup branches, and removes the matching handler from MessageAdmin's empty
+holder through the original getter and Remove method. It allocates the original
+20-byte buffer holder and zeroes its fields. Execution reaches
+`100227a8 -> 10004133` with NULL old buffer and a 12,500-byte request.
+
+The next allocator uses the original variable-size pool: allocation rounds to
+13 units of 1,024 bytes, including its 16-byte header, and initializes a 4 MiB
+region on the cold path. This research has not yet been connected to execution.
+ErrorAdmin's later storage allocations and callback registration remain pending.
+
+Local validation passes 2,961 tests across 275 files, typechecking and the
+production build. DLL evidence regenerates exactly and contains 37 methods and
+2,375 instructions. This is local component progress; full startup, live world
+activation and a campaign playable through an ending remain unfinished.
+
 ## Local checkpoint — 9 October 2026: MessageAdmin holder construction
 
 The separator logger enters the original MessageAdmin getter. Its cold guard is

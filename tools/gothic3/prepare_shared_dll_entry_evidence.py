@@ -107,6 +107,7 @@ def capture(study, output):
         0x100010e1: 'dllMessageNewHolder',
         0x10007441: 'dllMessageHolderAllocate',
         0x10006c1c: 'dllMessageErrorGet',
+        0x10001db1:'dllErrorCreate',0x100032c4:'dllErrorInvalidate',0x10001c21:'dllMessageRemove',
     })
     pe = native.PE(binary)
     export_rva, export_size = struct.unpack_from('<II', binary, pe.optional + 96)
@@ -139,6 +140,7 @@ def capture(study, output):
             'instruction': f'JMP dword ptr [0x{iat:08x}]', 'import': receipt})
     result['coldImages'] = []
     for label, address, size in [
+        ('dllErrorState',0x10142a58,44),('dllErrorGuard',0x10142a8c,4),
         ('dllMessageState', 0x10197d6c, 32),
         ('dllMessageGuard', 0x10197d94, 4),
         ('versionLocaleChanged', 0x102f692c, 4),

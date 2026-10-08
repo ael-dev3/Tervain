@@ -66,9 +66,9 @@ Further local logging work captures MessageAdmin construction, initializes its
 original physical critical section, and allocates the holder through the actual
 12-byte pool selected by `1003d304 -> 100028f6`. The original bitmap claim and
 three DWORD initialization stores execute, with the common MemoryAdmin lock and
-saved registers restored. Execution reaches ErrorAdmin initialization at
-`10006c1c`. Shortened Root strings also complete through this newly supported
-pool. The checkpoint passes 2,959 tests in 275 files, typechecking, the production
+saved registers restored. The ErrorAdmin getter and cold invalidation now execute; construction reaches
+the 12,500-byte buffer-allocation call at `100227a8 -> 10004133`. Shortened Root strings also complete through this newly supported
+pool. The checkpoint passes 2,961 tests in 275 files, typechecking, the production
 build and exact independent regeneration of both evidence packages. The
 initializer package now has 134 bodies and 5,358 instructions. This MessageAdmin
 work remains local and has not been published.
