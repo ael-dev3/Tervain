@@ -10092,3 +10092,25 @@ exactly. The package contains 121 bodies, 4,667 instructions and 438 CALL
 receipts. The full suite passes 2,816 tests across 260 files (173.96 seconds).
 Publication remains pending. Full startup,
 world activation and campaign completion remain outstanding.
+
+
+## Class-name initialization work in progress (2026-10-08)
+
+The local interpreter now executes the original class-name unmangling and
+string constructor. It follows the 24-byte pool dispatch, allocates a 0xc0000
+region, initializes its bitmap, registers the second pointer area using the
+selected platform's retained region order, and claims its first 24-byte slot.
+The constructor copies the cached name after the `class ` prefix, producing
+`bCObsoleteClass` with length 15 and reference count one. Initializer 142
+publishes its string object and registers its original shutdown callback.
+Execution next stops at `100aa692 -> 100e1610`, the following initializer.
+
+A new focused test verifies the slot, bitmap, string bytes, published pointers,
+normal call returns and region order. All 257 focused checks pass after updating
+historical assertions for the additional pool, slot and shutdown callback.
+Typechecking, the production build and the authored diff check pass. All 238
+generated evidence files and the instruction module reproduce exactly. The
+package contains 125 bodies, 4,898 instructions and 444 CALL receipts. The full
+suite passes 2,817 tests across 260 files (165.54 seconds). Publication remains
+pending.
+Full startup, world activation and a finishable campaign remain outstanding.
