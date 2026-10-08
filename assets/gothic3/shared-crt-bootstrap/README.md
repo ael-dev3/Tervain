@@ -97,3 +97,9 @@ The errno dependency evidence now captures original getter-provider caching and
 PTD lookup, with LastError save/restore, plus independent fallback errno. The
 ANSI memcpy evidence additionally includes its original forward dispatch tables
 and cold SSE-selection flag. These captures do not execute errno or memcpy.
+
+The local selected malloc-failure path now uses original PTD getter/provider
+lookup and LastError save/restore to write errno 12 at PTD+8. Cold new-mode0
+follows both original errno calls before NULL return; wide-environment cleanup
+then releases the original input. Nonzero retry delay stops at original Sleep,
+and a non-NULL new handler or lazy missing-PTD allocation remains unimplemented.

@@ -12,6 +12,11 @@ import type {NativeValue} from './dialogue';
 const owners=new WeakMap<NativeRuntimePlatform,NativeSharedCrtOwner>();
 const token=Object.freeze({});
 const methods={
+ errno:['0x100aedd1','7fdd3947bb396eaf9c371f64fc91f7b8c30db450c7db3a8fa6ce2904748731f6'],
+ getPerThreadDataLower:['0x100ae4cb','1887dade0a77296429fcade67c66dcf45022ddf923c828447a8d306aa865773d'],
+ getThreadStorageProvider:['0x100ae384','4abdc2792dd07d9b9a335efbc64d066396a8035bf668fa9f806a8537ae72020e'],
+ callNewHandler:['0x100bc03d','abdd56c493fb71672cc6b8737f39fd6fcffe98d0c7ddb786e8ab21377febf27e'],
+
  getEnvironmentStringsA:['0x100c0c60','70c54e85980de597fb4ce37e12e9bdaa8fcf69966c3196b9f7e4e66c068b32bc'],
  mallocCrt:['0x100aeed0','3f6ef57453c8e37b9df1ceeab6a3b6c85c82e2f1154926563e5fe068033dabf0'],
  malloc:['0x100aaaf6','70262c4e3e41925b21175c516dbef31313d2260ef97767a9a6676779eedf7a08'],
@@ -298,13 +303,38 @@ export class NativeSharedCrtOwner {
   if(this.imageStorage('allocationRetryDelay').readUnsigned(0)!==0)throw new Error('Unowned SharedBase calloc Sleep retry at 100aef35');
   return null;
  }
+ #errnoSlot():NativeHeapObjectViews {
+  const saved=this.#call('100ae4cd.GetLastError',()=>this.platform.getWin32LastError());
+  const index=this.imageStorage('tlsGetterIndex').readUnsigned(0);
+  let getter=this.#call('100ae38b.TlsGetValue',()=>this.platform.tlsGetValue(index));
+  if(getter===null){
+   getter=this.#decodePointer(this.imageStorage('procedureSlots').pointer<object>(4).get());
+   this.#call('100ae3ac.TlsSetValue',()=>this.platform.tlsSetValue(index,getter));
+  }
+  if(!getter||!this.platform.ownsLocalStorageProcedure(getter as NativeCrtLocalProcedure)||(getter as NativeCrtLocalProcedure).kind!=='get')throw new Error('Actual SharedBase PTD getter required for errno');
+  const record=this.#call('100ae4e0.getPTD',()=> (getter as NativeCrtLocalGetProcedure).invoke(this.imageStorage('threadDataIndex').readUnsigned(0)));
+  if(record===null)throw new Error('Unowned SharedBase lazy PTD allocation in errno at 100ae4ef');
+  if(record!==this.#ptd||!this.#ptd||this.#ptd.backing.freed)throw new Error('Actual installed SharedBase PTD required for errno');
+  this.#call('100ae537.SetLastError',()=>this.platform.setWin32LastError(saved));
+  return new NativeHeapObjectViews(this.#ptd.backing,8,4);
+ }
  #mallocEnvironment(size:number):NativeHeapObjectViews|null {
   if(!Number.isInteger(size)||size<0||size>0xffffffe0)throw new Error('Unowned SharedBase oversized malloc/new-handler branch');
   const heap=this.imageStorage('heapHandle').pointer<NativeWin32HeapCapability>(0).get();if(heap!==this.#heap||heap===null)throw new Error('Actual SharedBase malloc heap required');
   const proof=NativeRuntimePlatform.canonicalWin32HeapForOwner(this.platform,heap,this.identity);if(!proof.known)throw new Error(proof.reason);
   if(this.imageStorage('heapSelection').readUnsigned(0)!==1)throw new Error('Unowned SharedBase mode3 malloc');
   const memory=this.#call('100aab67.HeapAlloc(0)',()=>this.platform.win32HeapAlloc(heap,0,size===0?1:size));
-  if(memory===null)throw new Error('Unowned SharedBase malloc errno/new-handler/retry path after allocation failure');
+  if(memory===null){
+   if(this.imageStorage('newMode').readUnsigned(0)===0){this.#errnoSlot().writeUnsigned(0,12);this.#trace.push('malloc.errno12.first');}
+   else {
+    const handler=this.#decodePointer(this.imageStorage('pointer6ac4').pointer<object>(0).get());
+    if(handler!==null)throw new Error('Unowned SharedBase non-NULL new-handler invocation at 100bc03d');
+    this.#trace.push('100bc03d.callNewHandler.return0');
+   }
+   this.#errnoSlot().writeUnsigned(0,12);this.#trace.push('malloc.errno12.returnNull');
+   if(this.imageStorage('allocationRetryDelay').readUnsigned(0)!==0)throw new Error('Unowned SharedBase malloc Sleep retry at 100aeeed');
+   return null;
+  }
   return new NativeHeapObjectViews(memory);
  }
  #readEnvironment(endpoints:NativeWin32ProcessInputEndpoints):NativeBytePointer|null {
