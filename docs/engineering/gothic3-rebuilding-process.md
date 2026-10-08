@@ -10227,3 +10227,23 @@ logging, Game/world activation and campaign completion remain unfinished.
 All 280 focused checks, typechecking and production build pass. The full suite
 passes 2,878 tests across 272 files (204.87 seconds). Current-main integration
 changes no validated file content. This checkpoint has not been published.
+
+
+## Retained DLL initializer version-query frame (work in progress, 2026-10-08)
+
+The retained constructor call now follows its original thunk and straight-line
+instruction prefix. Four local output DWORDs are zeroed in their actual stack
+storage. Original LEA/PUSH operations pass their distinct addresses and the
+retained `sharedbase.dll` literal to 10008058. The query CALL and its caller
+continuation at 100a15c6 remain pending. No version results are invented.
+
+Continuation requires the actual pending constructor return word and retained
+this pointer. Corruption through the stack alias is rejected before local-frame
+construction. Changed source evidence is likewise rejected. Repeated requests
+retain the pending query and do not allocate a second frame.
+
+All 283 focused checks, typechecking and production build (39.32 seconds) pass.
+The full suite passes 2,881 tests across 272 files (202.90 seconds). Main
+integration changes no validated file content. Publication is pending.
+Version-query imports, logging, complete DLL startup,
+Game/world activation and campaign completion remain unfinished.
