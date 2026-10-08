@@ -50,6 +50,52 @@ It remains separate from reviewed, deployed progress until validation and
 publication complete. Confirmed evidence and remaining campaign work are
 described below.
 
+## Working on the reconstruction locally
+
+From the repository root, install the dependencies and start the browser app:
+
+```sh
+npm ci
+npm run dev
+```
+
+Open the development server's `/gothic3/` route. Inspect its reported runtime
+boundary alongside the relevant source package and dated checkpoint. Asset
+viewers can help inspect geometry, materials and animations while their game
+systems are being implemented.
+
+For an implementation checkpoint, use the scripts defined in `package.json`:
+
+```sh
+npm run typecheck
+npm run build
+npm test
+```
+
+Run focused checks for the affected subsystem first. Asset preparation commands
+are specific to each reader or generator under `tools/gothic3/`; consult its
+source and evidence-package README for required local inputs. A production
+build compiles the currently implemented browser app. Campaign completion also
+needs gameplay evidence through an ending.
+
+### Order of integration
+
+1. Recover resource formats and prepare meshes, textures, actors, animations
+   and world placement with their original paths recorded.
+2. Complete the engine startup dependencies and connect their real state to
+   the live browser session.
+3. Activate the world, player and NPCs; connect rendering, movement, collision,
+   animation and interaction.
+4. Integrate combat, inventory, dialogue, quests and faction progression using
+   the original data and behavior evidence.
+5. Persist and restore the connected campaign state, then exercise progression
+   through each supported ending.
+6. Publish reviewed checkpoints and record deployment evidence in the history.
+
+Work on individual systems can overlap, but a later stage must consume the
+actual state produced by its dependencies. The current reconstruction still
+has unresolved startup and campaign integration work.
+
 ## How to read progress reports
 
 The reconstruction advances in reviewable checkpoints. Each checkpoint should
