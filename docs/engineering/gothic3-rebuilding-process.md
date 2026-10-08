@@ -33,7 +33,7 @@ runtime and record exactly where execution still stops.
 
 ### Immediate remaining work
 
-- Complete SharedBase initializer startup from the second error callback at `100aa490`, including its actual
+- Complete SharedBase processor probing from PUSHFD at `100ce0a8`, then its remaining
   initializer tables and callback dependencies, then the enclosing CRT attach.
 - Connect the supported shared runtime to live Game startup at 204678f2 and
   execute the required initializer callbacks in their original order.
@@ -46,6 +46,25 @@ checks establish the published checkpoint's supported scope; campaign completion
 requires an integrated gameplay result.
 
 ## Latest process summary — 8 October 2026
+
+### Existing multibyte state and processor-probe entry
+
+The error walker now enters `100b1854` at index 66. It reads the live
+`102f8588` multibyte flag installed by earlier startup, follows its original
+nonzero branch and returns zero without repeating initialization. A cleared
+live flag instead retains the actual `100b185f -> 100b16ba` CALL; this graph
+has not connected that repeated-initialization path and does not set the flag.
+
+At index 67, original `100b4b6b` clears `102f853c` and calls `100ce095`.
+The processor probe owns its saved EBP, 24-byte reservation, two saved EBX
+words and three zeroed locals. Execution stops before PUSHFD at `100ce0a8`.
+Full EFLAGS/ID-bit ownership, POPFD, CPUID and the subsequent SIMD probe are
+still required; no processor result is supplied in place of those operations.
+Typechecking, 122 focused checks and the production build pass. All 74 generated
+source files and emitted runtime reproduce exactly. The full suite passes
+2,671 tests across 259 files. PR 114 passed CI run 37756577528 and merged at
+`bdc3d8f4abc7f79da511e92b50f3160bbccb59de`; Pages run 37757319592 is running.
+Full startup, NPC activation and campaign completion remain unfinished.
 
 ### First error initializer allocation, encoding and return
 
