@@ -338,3 +338,13 @@ selected non-NULL allocator path enters the nested EH4 frame and reaches
 type-info frame remain active. There are 71 bodies, 1,975 instructions and
 167 CALL receipts. The demangler grammar and output remain unimplemented on
 this live SharedBase path.
+
+### Live CRT lock-five allocation prefix
+
+Original lock initializer and malloc-wrapper bodies are captured and emitted.
+Their cold slot-five path returns a real 24-byte allocation from the existing
+SharedBase CRT heap, then stops at `100bb834 -> 100bb892`. The slot stays NULL
+until section initialization/publication; three exception frames remain active.
+There are 73 bodies, 2,061 instructions and 182 CALL receipts. The CRT lock
+table alias is the retained bootstrap image, with its identity and geometry
+validated by its owner.

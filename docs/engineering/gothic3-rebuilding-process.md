@@ -9726,3 +9726,24 @@ PR 135 Pages run 37791905285 has completed successfully. PR 136 CI run
 37792619176 is running. The native CRT lock-five slot is cold NULL; its next
 normal path requires dynamic allocation of the original 24-byte section and
 publication through the same retained lock table and live SharedBase heap.
+
+### Local CRT lock-five allocation prefix — 8 October 2026
+
+Original lock initializer `100bb7cf` enters its own retained EH4 frame, selects
+slot five in the actual existing CRT lock table, and follows its NULL-section
+branch. The original malloc wrapper `100aeed0` requests 24 bytes through
+`100aaaf6` and the same live CRT heap, flags zero. Its actual owned allocation
+returns to the lock initializer with uninitialized bytes retained. The next
+boundary is `100bb834 -> 100bb892`, CRT lock ten entry. Lock five is still NULL;
+its section has not yet been initialized or published. All three nested
+exception frames remain active. An unavailable heap allocation retains the
+pending native heap call without publishing a section.
+
+Typechecking and 230 focused checks pass. All 135 generated source files and
+the instruction module reproduce exactly. The production build passes. The full suite records 2,786 passing tests and
+one forest-test timeout (196.45 seconds); all 11 forest tests pass in isolation
+(5.04 seconds). Full-suite acceptance remains pending. Captured evidence contains 73 bodies, 2,061 instructions and 182 CALL
+receipts. Full startup and campaign completion remain unfinished.
+
+PR 136 passed CI run 37792619176 and merged after a repository-wide audit
+found no active workflow runs. Its Pages deployment is tracked separately.
