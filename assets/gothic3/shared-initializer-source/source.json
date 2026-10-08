@@ -436,6 +436,108 @@
       "cSha256": null,
       "reconstructedCUnavailable": true
     },
+    "processorProbeExceptionFilter": {
+      "entryVA": "0x100ce062",
+      "bodyVA": "0x100ce062",
+      "instructionCount": 12,
+      "bodyByteCount": 28,
+      "bodyRanges": [
+        {
+          "start": "100ce062",
+          "bytes": 3
+        },
+        {
+          "start": "100ce065",
+          "bytes": 2
+        },
+        {
+          "start": "100ce067",
+          "bytes": 2
+        },
+        {
+          "start": "100ce069",
+          "bytes": 5
+        },
+        {
+          "start": "100ce06e",
+          "bytes": 2
+        },
+        {
+          "start": "100ce070",
+          "bytes": 5
+        },
+        {
+          "start": "100ce075",
+          "bytes": 2
+        },
+        {
+          "start": "100ce077",
+          "bytes": 2
+        },
+        {
+          "start": "100ce079",
+          "bytes": 1
+        },
+        {
+          "start": "100ce07a",
+          "bytes": 2
+        },
+        {
+          "start": "100ce07c",
+          "bytes": 1
+        },
+        {
+          "start": "100ce07d",
+          "bytes": 1
+        }
+      ],
+      "bodyInstructionBytesSha256": "c0b55768c1f1af44f4564f265c1600937a009e299d73b40bdbc73d83318fcc71",
+      "entryChain": [],
+      "assemblySha256": "f68777b164da58442ff02bf06e3b36c3a9063ab3044c39bdb11da65d9b4c0bde",
+      "cSha256": null,
+      "reconstructedCUnavailable": true,
+      "decoder": "capstone 5.0.7",
+      "allDirectBranchesRecovered": true
+    },
+    "processorProbeExceptionHandler": {
+      "entryVA": "0x100ce07e",
+      "bodyVA": "0x100ce07e",
+      "instructionCount": 6,
+      "bodyByteCount": 23,
+      "bodyRanges": [
+        {
+          "start": "100ce07e",
+          "bytes": 3
+        },
+        {
+          "start": "100ce081",
+          "bytes": 4
+        },
+        {
+          "start": "100ce085",
+          "bytes": 7
+        },
+        {
+          "start": "100ce08c",
+          "bytes": 3
+        },
+        {
+          "start": "100ce08f",
+          "bytes": 5
+        },
+        {
+          "start": "100ce094",
+          "bytes": 1
+        }
+      ],
+      "bodyInstructionBytesSha256": "0de0b1c4a54b7def13795cb0b1b38a2f0a1793955e2156bad344cd6cfd27520e",
+      "entryChain": [],
+      "assemblySha256": "ca1aa389f921ccbcd3a81a9e1277baa7084aad9a70bffc3530fca7978e811203",
+      "cSha256": null,
+      "reconstructedCUnavailable": true,
+      "decoder": "capstone 5.0.7",
+      "allDirectBranchesRecovered": true
+    },
     "voidInitializers_65": {
       "entryVA": "0x100e1660",
       "bodyVA": "0x100e1660",
@@ -817,6 +919,14 @@
     "100aebad": {
       "containingEntry": "100aebad",
       "methodLabel": "exceptionFrameLeave"
+    },
+    "100ce062": {
+      "containingEntry": "100ce062",
+      "methodLabel": "processorProbeExceptionFilter"
+    },
+    "100ce07e": {
+      "containingEntry": "100ce07e",
+      "methodLabel": "processorProbeExceptionHandler"
     },
     "100a71ac": {
       "containingEntry": "100a71ac",
@@ -1916,6 +2026,14 @@
       "instruction": "CALL 0x100ce095",
       "kind": "direct",
       "targetVA": "100ce095"
+    },
+    {
+      "method": "processorProbeExceptionHandler",
+      "address": "100ce08f",
+      "raw": "e8190bfeff",
+      "instruction": "call 0x100aebad",
+      "kind": "direct",
+      "targetVA": "100aebad"
     },
     {
       "method": "voidInitializers_65",

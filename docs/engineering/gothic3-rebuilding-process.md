@@ -9126,7 +9126,10 @@ normal path copies XMM1 to XMM0 under the original exception frame. The frame
 helpers `100aeb68`/`100aebad` and 28-byte scope at `100f8ec0` are now captured
 as source evidence. They are not admitted for runtime execution yet. The study
 disassembly omits cold handler bytes between `100ce060` and `100ce085`; their
-original PE bytes still need recovery before an exception path can be claimed.
+original PE bytes are now recovered using Capstone: filter `100ce062`
+recognizes access violation and illegal instruction, and handler `100ce07e`
+clears the result local before the normal epilogue. Branch closure and original
+bytes are checked. Runtime exception dispatch still needs implementation.
 
 [Intel’s architecture manual](https://cdrdv2-public.intel.com/868137/325462-089-sdm-vol-1-2abcd-3abcd-4.pdf)
 defines the ID-bit probe and processor instructions. Implementation must retain

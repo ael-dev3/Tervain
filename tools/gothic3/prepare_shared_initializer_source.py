@@ -30,6 +30,8 @@ def capture(study, output):
         0x100b4426: 'setDefaultPrecision', 0x100ae27b: 'encodePointer',
         0x100ae20f: 'pointerEncodingAvailable',
         0x100aeb68: 'exceptionFrameEnter', 0x100aebad: 'exceptionFrameLeave',
+        0x100ce062: 'processorProbeExceptionFilter',
+        0x100ce07e: 'processorProbeExceptionHandler',
         0x100a71ac: 'appendExitCallback', 0x100ce095: 'queryProcessorFeature',
         0x100ae880: 'validateImageHeader', 0x100ae8b0: 'findImageSection',
         0x100b444f: 'queryFloatDivisionFallback', 0x100ce045: 'processorFeatureProbe',

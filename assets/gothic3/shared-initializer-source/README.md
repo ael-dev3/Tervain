@@ -1,8 +1,8 @@
 # SharedBase initializer source
 
 Original `SharedBase.dll` evidence for the next startup boundary,
-`100adb5a -> 100aa632`. This package captures 43 function bodies,
-768 instructions and 2,196 instruction bytes. It executes no native code and
+`100adb5a -> 100aa632`. This package captures 45 function bodies,
+786 instructions and 2,247 instruction bytes. It executes no native code and
 does not establish successful browser initializer execution.
 
 ## What startup requires
@@ -115,3 +115,9 @@ through its nonzero branch. The third callback clears its processor flag and
 enters the retained probe frame at `100ce095`. It stops before PUSHFD at
 `100ce0a8`: full flags, ID-bit probing, CPUID and SIMD state remain unimplemented.
 A cleared multibyte flag retains its original repeated-initialization CALL.
+
+The processor scope's original filter and handler targets are recovered directly
+from PE bytes with Capstone. The filter recognizes access violation and illegal
+instruction; the handler clears the result local and rejoins the normal
+epilogue. Their branch closure and per-instruction byte identities are audited.
+This remains source evidence: exception dispatch is not executed yet.

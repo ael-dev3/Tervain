@@ -1,0 +1,12 @@
+100ce062 | 8b45ec | mov eax, dword ptr [ebp - 0x14]
+100ce065 | 8b00 | mov eax, dword ptr [eax]
+100ce067 | 8b00 | mov eax, dword ptr [eax]
+100ce069 | 3d050000c0 | cmp eax, 0xc0000005
+100ce06e | 740a | je 0x100ce07a
+100ce070 | 3d1d0000c0 | cmp eax, 0xc000001d
+100ce075 | 7403 | je 0x100ce07a
+100ce077 | 33c0 | xor eax, eax
+100ce079 | c3 | ret
+100ce07a | 33c0 | xor eax, eax
+100ce07c | 40 | inc eax
+100ce07d | c3 | ret
