@@ -285,3 +285,23 @@ reference count, payload pointer and terminating byte. Execution reaches
 `1001362d -> 100a7a00`, the original four-byte Root memcpy CALL. The CString and
 Root constructors have not yet returned. Other allocation paths, full startup
 and campaign completion remain unfinished.
+
+
+## Live Root payload copy and static initializer — 8 October 2026
+
+Original memcpy's normal four-byte scalar path copies Root into the actual
+sixteen-byte slot. A private original-image/slot span proof joins the two
+disjoint address-order paths at `100a7a20` without inventing addresses or branch
+flags; the next CMP overwrites those flags. Original dispatch tables, loads,
+stores and LEAVE/RET preserve the real payload and caller cleanup.
+
+The Root static initializer publishes the pointer, balances its sixteen-bit
+reference count, clears the remaining original forty-byte image object, writes
+its zero float via XORPS/MOVSS and registers callback `100e2b40` through the same
+exit table. Its callback body remains unexecuted. Cinit now reaches pending
+`100aa692 -> 100e15d0`, void initializer 141.
+
+The package contains 64 bodies, 1,708 instructions and 137 CALL receipts.
+Capturing memcpy's complete body does not establish all its execution paths.
+Other allocator pools, backward/unaligned/REP/SSE copies, remaining startup and
+campaign completion remain unfinished.

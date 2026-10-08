@@ -45,7 +45,7 @@ history linked below:
    reviewed merge to `main` also publishes through `.github/workflows/pages.yml`.
    Record the successful deployment separately from local implementation.
 
-The current working tree also contains the next pool-slot allocation checkpoint.
+The current working tree also contains the next Root static-initializer checkpoint.
 It remains separate from reviewed, deployed progress until validation and
 publication complete. Confirmed evidence and remaining campaign work are
 described below.
@@ -61,7 +61,7 @@ and the next missing dependency. Three states matter:
   receipts determine what is supported.
 - **Published:** a reviewed commit has completed the Pages deployment workflow.
 
-These states are recorded separately. The published runtime checkpoint is PR 131. Full engine startup, world activation
+These states are recorded separately. The published runtime checkpoint is PR 133. Full engine startup, world activation
 and campaign completion remain outstanding.
 
 ## Process at a glance
@@ -159,15 +159,24 @@ succeeded. It executes the original bitmap fill, disables the reserved bit,
 links the region and registers the cold first payload area. Its normal boundary
 is bitmap slot allocation at `10047f57 -> 1000605a`.
 
-The next local checkpoint executes the original scan and free-bit claim, retains
-a bounded sixteen-byte view of the actual region, restores Malloc's exception
-frame and releases its heap lock. CString setup writes length four, reference
-count one, payload pointer and terminator. Execution reaches the original
-`Root` payload copy at `1001362d -> 100a7a00`. The 211 focused checks,
-typechecking and exact regeneration of 115 source-package files plus the
-instruction module pass. The production build and all 2,768 tests across 259
-files also pass. Remote review and publication remain pending.
-CString construction has not yet returned; complete startup remains unfinished.
+[PR 133](https://github.com/ael-dev3/Tervain/pull/133) passed
+[CI](https://github.com/ael-dev3/Tervain/actions/runs/37784481242) and merged at
+`aae1a3849b756298621b015e611656278be8f1e7`. Its
+[Pages deployment](https://github.com/ael-dev3/Tervain/actions/runs/37785902417)
+succeeded. It executes the original free-bit claim, retains a bounded slot,
+restores Malloc's frame and releases its heap lock. CString metadata setup
+reaches the original Root payload copy at `1001362d -> 100a7a00`.
+
+The next local checkpoint copies the actual four-byte Root payload using the
+original scalar dispatch tables, returns its CString constructor, publishes
+the Root static object, balances the temporary reference and registers shutdown.
+Execution reaches void initializer 141 at `100aa692 -> 100e15d0`.
+The 220 focused checks, typechecking and exact regeneration of 117 source files
+plus the instruction module pass. The production build and all 2,777 tests
+across 259 files also pass; remote review and publication remain pending.
+The disjoint-copy branch join preserves uncertainty about pointer
+address order; it does not assign invented native addresses. Other memcpy cases
+and allocator pools remain incomplete.
 
 Earlier stages of the selected SharedBase path now perform argument and
 environment setup, floating-point conversion installation, encoded-pointer

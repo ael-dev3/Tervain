@@ -626,13 +626,14 @@ export class NativeX86ThreadStack {
       const images=proof.value.images;
       stack.#sharedInitializerFrame={controller,entryEsp:stack.#address(stack.#load(stack.#bank,stack.#reg('ESP'))),operations:0,ownershipReturned:null,conversionInstalled:false,oldFs:stack.#load(stack.#bank,32),fsRestored:false,moduleCalls:0,procedureCalls:0,featureCalls:0,divisionQueryResult:null,initializerResult:null};
       const frame=stack.#sharedInitializerFrame;
-      type Operand={kind:'register';slot:number;byte?:boolean}|{kind:'immediate';value:number}|{kind:'memory';expression:string;width:Width};
+      type Operand={kind:'register';slot:number;byte?:boolean;word?:boolean}|{kind:'immediate';value:number}|{kind:'memory';expression:string;width:Width};
       const number=(text:string)=>{if(!/^-?0x[0-9a-f]+$/.test(text))throw new Error('Unowned initializer literal '+text);return (text.startsWith('-')?-parseInt(text.slice(3),16):parseInt(text.slice(2),16))>>>0;};
       const pointer=(fields:NativeHeapObjectViews)=>stack.#mint(0,0,{kind:'shared-local',fields});
       const image=(value:number):NativeX86Word32|null=>{if(value===0x100e5358&&images['100e5000'])return stack.#offsetWord(pointer(images['100e5000']),856);if(value===0x10141a10&&images['10141790'])return stack.#offsetWord(pointer(images['10141790']),640);if(value===0x100e5678&&images['100e545c'])return stack.#offsetWord(pointer(images['100e545c']),540);for(const [base,fields] of Object.entries(images)){const offset=value-parseInt(base,16);if(offset>=0&&offset<fields.bytes.length)return stack.#offsetWord(pointer(fields),offset);}return null;};
       const operand=(text:string):Operand=>{
         text=text.trim();
         if(registers.includes(text as NativeX86Register))return {kind:'register',slot:stack.#reg(text as NativeX86Register)};
+        if(text==='CX'||text==='DX')return {kind:'register',slot:stack.#reg(text==='CX'?'ECX':'EDX'),word:true};
         if(text==='CL'||text==='AL')return {kind:'register',slot:stack.#reg(text==='CL'?'ECX':'EAX'),byte:true};
         if(text==='FS:[0x0]'||text==='dword ptr FS:[0x0]')return {kind:'register',slot:32};
         if(/^-?0x[0-9a-f]+$/.test(text))return {kind:'immediate',value:number(text)};
@@ -651,7 +652,7 @@ export class NativeX86ThreadStack {
         return base?stack.#offsetWord(base,offset):stack.#mint(offset,0xffffffff);
       };
       const read=(item:Operand):NativeX86Word32=>{
-        if(item.kind==='register'){const word=stack.#load(stack.#bank,item.slot);if(!item.byte)return word;const value=stack.#record(word);return stack.#mint(value.value&255,value.mask&255);}
+        if(item.kind==='register'){const word=stack.#load(stack.#bank,item.slot);if(!item.byte&&!item.word)return word;const value=stack.#record(word),mask=item.word?65535:255;return stack.#mint(value.value&mask,value.mask&mask);}
         if(item.kind==='immediate')return image(item.value)??stack.#mint(item.value,0xffffffff);
         const memory=stack.#memory(address(item.expression),item.width);
         if(item.width===4&&memory.offset===0&&(memory.fields===images['102f9768']||memory.fields===images['102f9648']||memory.fields===images['102f97b8'])){
@@ -679,7 +680,7 @@ export class NativeX86ThreadStack {
       };
       const write=(item:Operand,word:NativeX86Word32)=>{
         if(item.kind==='immediate')throw new Error('Unowned initializer immediate destination');
-        if(item.kind==='register'){if(item.byte){const old=stack.#record(stack.#load(stack.#bank,item.slot)),value=stack.#record(word);stack.#store(stack.#bank,item.slot,stack.#mint((old.value&0xffffff00)|(value.value&255),(old.mask&0xffffff00)|(value.mask&255)));}else stack.#store(stack.#bank,item.slot,word);}else stack.#writeMemory(address(item.expression),word,item.width);
+        if(item.kind==='register'){if(item.byte||item.word){const laneMask=item.word?65535:255,old=stack.#record(stack.#load(stack.#bank,item.slot)),value=stack.#record(word);stack.#store(stack.#bank,item.slot,stack.#mint((old.value&~laneMask)|(value.value&laneMask),(old.mask&~laneMask)|(value.mask&laneMask)));}else stack.#store(stack.#bank,item.slot,word);}else stack.#writeMemory(address(item.expression),word,item.width);
       };
       const pop=(item:Operand)=>{const esp=stack.#address(stack.#load(stack.#bank,stack.#reg('ESP')));write(item,stack.#load(stack.#stack,esp));stack.#store(stack.#bank,stack.#reg('ESP'),stack.#stackWord(esp+4));};
       const relativeImageAddress=(word:NativeX86Word32):number=>{
@@ -699,6 +700,18 @@ export class NativeX86ThreadStack {
       while(true){
         const row=sharedInitializerInstruction(pc),[opcode,...rest]=row.instruction.replace(/^\w+/,opcode=>opcode.toUpperCase()).replace(/\b(?:eax|ebx|ecx|edx|esi|edi|ebp|esp)\b/g,register=>register.toUpperCase()).split(' '),text=rest.join(' ');
         frame.operations++;stack.#trace.push(pc+'.sharedInitializer.'+opcode);stack.#currentPc=stack.#source('code',pc);
+        if(pc==='100a7a14'){
+          const destination=stack.#load(stack.#bank,stack.#reg('EDI')),input=stack.#load(stack.#bank,stack.#reg('ESI'));
+          if(!relativePair(destination,input)){
+            const dst=stack.#record(destination).provenance,src=stack.#record(input).provenance,bytes=stack.#numeric(stack.#load(stack.#bank,stack.#reg('ECX')),4),end=relativePair(stack.#load(stack.#bank,stack.#reg('EAX')),input);
+            if(dst?.kind!=='shared-local'||src?.kind!=='shared-local'||!end||end[0]-end[1]!==bytes)throw new Error('Original memcpy source-end relation required');
+            proof.value.imports.proveDisjointInitializerCopy({fields:dst.fields,offset:dst.offset??0},{fields:src.fields,offset:src.offset??0},bytes);
+            // Both possible address orders of disjoint spans reach 100a7a20.
+            // The skipped comparisons have no stores; its CMP overwrites flags.
+            // Preserve uncertainty instead of inventing a numerical pointer order.
+            stack.#flags(0,0);stack.#trace.push('100a7a14-100a7a20.disjointMemcpyControlJoin');pc='100a7a20';continue;
+          }
+        }
         if(pc==='1003d436'){const malloc=stack.#memoryMallocFrame,ebp=stack.#address(stack.#load(stack.#bank,stack.#reg('EBP'))),scope=stack.#record(stack.#load(stack.#stack,ebp-8)).provenance;if(!malloc||malloc.entered||scope?.kind!=='shared-local'||scope.fields!==images['100f8318']||(scope.offset??0)!==0||stack.#numeric(stack.#load(stack.#stack,ebp-4),4)!==0xffffffff||stack.#numeric(stack.#load(stack.#stack,ebp-12),4)!==0x100a6f80||stack.#address(stack.#load(stack.#bank,32))!==ebp-16||stack.#load(stack.#stack,ebp-16)!==malloc.oldFs)throw new Error('Actual original MemoryAdmin Malloc SEH frame required');malloc.entered=true;}
         if(opcode==='PUSHFD'||opcode==='POPFD'){
           if(opcode==='PUSHFD')stack.#pushFlags();else stack.#popFlags();
@@ -715,6 +728,12 @@ export class NativeX86ThreadStack {
           if(text!=='XMM0,XMM1'||stack.#selection.cpu?.sse2Execution!=='normal')throw new Error('Original SIMD exception dispatch or explicit normal SSE2 execution required');
           stack.#physical(stack.#xmm);for(let offset=0;offset<16;offset+=4)stack.#store(stack.#xmm,offset,stack.#load(stack.#xmm,16+offset));
           pc=(parseInt(pc,16)+row.bytes.length/2).toString(16).padStart(8,'0');continue;
+        }
+        if(opcode==='XORPS'){
+          if(text!=='XMM0,XMM0'||stack.#selection.cpu?.sse2Execution!=='normal')throw new Error('Explicit normal SIMD execution required for original Root XORPS');stack.#physical(stack.#xmm);for(let offset=0;offset<16;offset+=4)stack.#store(stack.#xmm,offset,stack.#mint(0,0xffffffff));pc=(parseInt(pc,16)+row.bytes.length/2).toString(16).padStart(8,'0');continue;
+        }
+        if(opcode==='MOVSS'){
+          const match=/^dword ptr \[(.+)\],XMM0$/.exec(text);if(!match||stack.#selection.cpu?.sse2Execution!=='normal')throw new Error('Original Root scalar XMM store and normal SIMD execution required');stack.#physical(stack.#xmm);stack.#writeMemory(address(match[1]!),stack.#load(stack.#xmm,0),4);pc=(parseInt(pc,16)+row.bytes.length/2).toString(16).padStart(8,'0');continue;
         }
         if(opcode==='FNCLEX'){
           // Intel FNCLEX clears B, ES, SF and exception bits 0..5; other
@@ -742,7 +761,7 @@ export class NativeX86ThreadStack {
         else if(opcode==='LEAVE'){stack.#store(stack.#bank,stack.#reg('ESP'),stack.#load(stack.#bank,stack.#reg('EBP')));pop({kind:'register',slot:stack.#reg('EBP')});}
         else if(opcode==='XCHG.LOCK'){const left=read(args[0]!),right=read(args[1]!);write(args[0]!,right);write(args[1]!,left);}
         else if(opcode==='ADD'||opcode==='SUB'){
-          const left=read(args[0]!),right=read(args[1]!),a=stack.#record(left),b=stack.#record(right);
+          const left=read(args[0]!),right=read(args[1]!),a=stack.#record(left),b=stack.#record(right),width:Width=args[0]!.kind==='memory'?args[0]!.width:args[0]!.kind==='register'&&args[0]!.byte?1:args[0]!.kind==='register'&&args[0]!.word?2:4;
           if(opcode==='SUB'&&left===right){write(args[0]!,stack.#mint(0,0xffffffff));stack.#arithmeticFlags(0,0,0,4,true);
           }else if(opcode==='SUB'&&a.provenance?.kind==='xor'&&a.provenance.left===right&&stack.#record(a.provenance.right).mask===0xffffffff&&stack.#record(a.provenance.right).value===0x200000&&(b.mask&0x200000)){
             const result=b.value&0x200000?0xffe00000:0x200000;write(args[0]!,stack.#mint(result,0xffffffff));
@@ -756,7 +775,7 @@ export class NativeX86ThreadStack {
           }else if(a.provenance||b.provenance){
             if(b.provenance&&opcode==='SUB')throw new Error('Unowned initializer scalar-pointer subtraction');
             const delta=stack.#numeric(a.provenance?right:left,4)|0;write(args[0]!,stack.#offsetWord(a.provenance?left:right,delta*(opcode==='SUB'?-1:1)));stack.#flags(0,0);
-          }else {const av=stack.#numeric(left,4),bv=stack.#numeric(right,4),result=(opcode==='SUB'?av-bv:av+bv)>>>0;write(args[0]!,stack.#mint(result,0xffffffff));stack.#arithmeticFlags(av,bv,result,4,opcode==='SUB');}
+          }else {const av=stack.#numeric(left,width),bv=stack.#numeric(right,width),result=((opcode==='SUB'?av-bv:av+bv)&stack.#maximum(width))>>>0;write(args[0]!,stack.#mint(result,stack.#maximum(width)));stack.#arithmeticFlags(av,bv,result,width,opcode==='SUB');}
         }else if(opcode==='OR'){const a=stack.#record(read(args[0]!)),b=stack.#record(read(args[1]!));if(a.provenance||b.provenance)throw new Error('Actual initializer numerical OR operands required');const value=a.value|b.value,mask=(a.mask&b.mask)|(a.mask&a.value)|(b.mask&b.value);write(args[0]!,stack.#mint(value,mask));stack.#logicalFlags(value,mask,4);
         }else if(opcode==='XOR'||opcode==='AND'){
           const left=read(args[0]!),right=read(args[1]!),a=stack.#record(left),b=stack.#record(right),same=args[0]!.kind==='register'&&args[1]!.kind==='register'&&args[0]!.slot===args[1]!.slot;
@@ -786,9 +805,10 @@ export class NativeX86ThreadStack {
         }
         else if(opcode==='SHR'){const value=stack.#numeric(read(args[0]!),4),shift=stack.#numeric(read(args[1]!),4);write(args[0]!,stack.#mint(value>>>shift,0xffffffff));stack.#logicalFlags(value>>>shift,0xffffffff,4);const flags=stack.#record(stack.#load(stack.#bank,36));stack.#flags((flags.value&~0x801)|((value>>>(shift-1))&1),(flags.mask&~0x800));}
         else if(opcode==='CMP'||opcode==='TEST'){
-          const left=read(args[0]!),right=read(args[1]!),a=stack.#record(left),b=stack.#record(right),width=args[0]!.kind==='memory'?args[0]!.width:args[0]!.kind==='register'&&args[0]!.byte?1:4;
+          const left=read(args[0]!),right=read(args[1]!),a=stack.#record(left),b=stack.#record(right),width=args[0]!.kind==='memory'?args[0]!.width:args[0]!.kind==='register'&&args[0]!.byte?1:args[0]!.kind==='register'&&args[0]!.word?2:4;
           if(a.provenance||b.provenance){
-            if(opcode==='TEST'&&args[0]!.kind==='register'&&args[1]!.kind==='register'&&args[0]!.slot===args[1]!.slot)stack.#flags(0,0x40);
+            if(opcode==='TEST'&&a.provenance?.kind==='shared-local'&&!b.provenance&&stack.#numeric(right,width)===3){const modulo=NativeRuntimePlatform.canonicalNativePointerModulo4ForPlatform(stack.#platform,{fields:a.provenance.fields,offset:a.provenance.offset??0});if(!modulo.known)throw new Error(modulo.reason);stack.#logicalFlags(modulo.value,0xffffffff,4);}
+            else if(opcode==='TEST'&&args[0]!.kind==='register'&&args[1]!.kind==='register'&&args[0]!.slot===args[1]!.slot)stack.#flags(0,0x40);
             else if(opcode==='CMP'&&a.provenance?.kind==='platform'&&a.provenance.category==='handle'&&!b.provenance&&[0,0xffffffff,0xfffffffe].includes(stack.#numeric(right,width))){const proof=NativeRuntimePlatform.standardIoCapabilityForPlatform(stack.#platform,a.provenance.object);if(!proof.known||proof.value!=='handle')throw new Error('Canonical descriptor HANDLE comparison required');stack.#flags(0,0x40);}
             else if(opcode==='CMP'&&a.provenance&&!b.provenance&&stack.#numeric(right,width)===0)stack.#flags(0,0x41);
             else if(opcode==='CMP'&&relativePair(left,right)){if(a.provenance?.kind==='shared-local'&&Object.values(images).includes(a.provenance.fields)){const av=relativeImageAddress(left),bv=relativeImageAddress(right);stack.#arithmeticFlags(av,bv,(av-bv)>>>0,4,true);}else {const [av,bv]=relativePair(left,right)!;pointerFlags(av,bv);}}
@@ -852,7 +872,7 @@ export class NativeX86ThreadStack {
             stack.#processorSimdFrame={oldFs:stack.#load(stack.#bank,32),oldEbp:stack.#load(stack.#bank,stack.#reg('EBP')),oldEbx:stack.#load(stack.#bank,stack.#reg('EBX')),oldEsi:stack.#load(stack.#bank,stack.#reg('ESI')),oldEdi:stack.#load(stack.#bank,stack.#reg('EDI')),scope,returned:false};
           }
           if(target==='1000605a'){const receiver=stack.#record(stack.#load(stack.#bank,stack.#reg('ECX'))).provenance;if(receiver?.kind!=='shared-local')throw new Error('Actual original bitmap pool receiver required');proof.value.imports.validatePoolRegion(receiver.fields,receiver.offset??0);}
-          if(!((pc==='100ce0e2'&&target==='100ce045')||(pc==='100ce04c'&&target==='100aeb68')||(pc==='100ce08f'&&target==='100aebad')||((pc==='100a729b'||pc==='100b10dd')&&target==='100aeb68')||((pc==='100a72c4'||pc==='100b1162')&&target==='100aebad'))&&!['100ae900','100ae880','100ae8b0','100a78fe','100a788e','100b4407','100b448b','100ae27b','100aa47d','100a7265','100aef10','100b1854','100b4b6b','100ce095','100bef05','100ce0f5','100a72d0','100a7294','100a71ac','100ae2f2','100b10d6','100aa453','100aa45c','100a72ca','100e1660','100e1440','100e1450','100e1470','100e14b0','100e14c0','100e14d0','100e14e0','100e14f0','100e1500','100e1510','10003ba7','10007d65','10002aae','10003cd8','10001028','10002d97','100061cc','100aabd2','100aaaf6','100a7980','100012e4','1000605a'].includes(target))throw new Error('Unowned SharedBase initializer child at '+pc+' -> '+target+' (cinit 100aa632)');
+          if(!((pc==='100ce0e2'&&target==='100ce045')||(pc==='100ce04c'&&target==='100aeb68')||(pc==='100ce08f'&&target==='100aebad')||((pc==='100a729b'||pc==='100b10dd')&&target==='100aeb68')||((pc==='100a72c4'||pc==='100b1162')&&target==='100aebad'))&&!['100ae900','100ae880','100ae8b0','100a78fe','100a788e','100b4407','100b448b','100ae27b','100aa47d','100a7265','100aef10','100b1854','100b4b6b','100ce095','100bef05','100ce0f5','100a72d0','100a7294','100a71ac','100ae2f2','100b10d6','100aa453','100aa45c','100a72ca','100e1660','100e1440','100e1450','100e1470','100e14b0','100e14c0','100e14d0','100e14e0','100e14f0','100e1500','100e1510','10003ba7','10007d65','10002aae','10003cd8','10001028','10002d97','100061cc','100aabd2','100aaaf6','100a7980','100012e4','1000605a','100a7a00'].includes(target))throw new Error('Unowned SharedBase initializer child at '+pc+' -> '+target+' (cinit 100aa632)');
           pc=target;continue;
         }else if(opcode==='RET'){
           if(pc==='1003e116'){const word=stack.#load(stack.#bank,stack.#reg('EAX')),slot=stack.#record(word).provenance;if(slot?.kind==='shared-local')stack.#store(stack.#bank,stack.#reg('EAX'),pointer(proof.value.imports.retainPoolSlot(slot.fields,slot.offset??0)));else if(stack.#numeric(word,4)!==0)throw new Error('Original bitmap allocator return required');}
