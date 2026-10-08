@@ -446,3 +446,16 @@ Free failure preserves the original error boundary and active frame.
 Execution stops at `100b0948 -> 100b2a80`. The package contains 118 bodies,
 4,566 instructions and 434 CALL receipts. Output-length calculation, cache
 publication, full startup and campaign integration remain unfinished.
+
+### Live type-info length and cached name
+
+Original strlen returns 21 from the temporary output while preserving unknown
+padding. The original DWORD predicate is proved against its loaded private
+word and exact intermediate relations. Original safe-copy and cache-list
+stores create an owned 22-byte name and eight-byte node under lock fourteen.
+Cleanup frees the temporary output, releases that lock and restores the outer
+type-info frame. The name and node remain live.
+
+Execution stops at `1008e93e -> 100088cd`. There are 121 bodies, 4,667
+instructions and 438 CALL receipts. Final class-name construction, initializer
+return, full startup and campaign integration remain unfinished.

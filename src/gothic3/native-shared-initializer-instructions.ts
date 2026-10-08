@@ -5263,6 +5263,511 @@ const rows:readonly (readonly string[])[] = [
     "RET"
   ],
   [
+    "100c0e29",
+    "8b4c2404",
+    "MOV ECX,dword ptr [ESP + 0x4]"
+  ],
+  [
+    "100c0e2d",
+    "53",
+    "PUSH EBX"
+  ],
+  [
+    "100c0e2e",
+    "33db",
+    "XOR EBX,EBX"
+  ],
+  [
+    "100c0e30",
+    "3bcb",
+    "CMP ECX,EBX"
+  ],
+  [
+    "100c0e32",
+    "56",
+    "PUSH ESI"
+  ],
+  [
+    "100c0e33",
+    "57",
+    "PUSH EDI"
+  ],
+  [
+    "100c0e34",
+    "7408",
+    "JZ 0x100c0e3e"
+  ],
+  [
+    "100c0e36",
+    "8b7c2414",
+    "MOV EDI,dword ptr [ESP + 0x14]"
+  ],
+  [
+    "100c0e3a",
+    "3bfb",
+    "CMP EDI,EBX"
+  ],
+  [
+    "100c0e3c",
+    "771b",
+    "JA 0x100c0e59"
+  ],
+  [
+    "100c0e3e",
+    "e88edffeff",
+    "CALL 0x100aedd1"
+  ],
+  [
+    "100c0e43",
+    "6a16",
+    "PUSH 0x16"
+  ],
+  [
+    "100c0e45",
+    "5e",
+    "POP ESI"
+  ],
+  [
+    "100c0e46",
+    "8930",
+    "MOV dword ptr [EAX],ESI"
+  ],
+  [
+    "100c0e48",
+    "53",
+    "PUSH EBX"
+  ],
+  [
+    "100c0e49",
+    "53",
+    "PUSH EBX"
+  ],
+  [
+    "100c0e4a",
+    "53",
+    "PUSH EBX"
+  ],
+  [
+    "100c0e4b",
+    "53",
+    "PUSH EBX"
+  ],
+  [
+    "100c0e4c",
+    "53",
+    "PUSH EBX"
+  ],
+  [
+    "100c0e4d",
+    "e880d3feff",
+    "CALL 0x100ae1d2"
+  ],
+  [
+    "100c0e52",
+    "83c414",
+    "ADD ESP,0x14"
+  ],
+  [
+    "100c0e55",
+    "8bc6",
+    "MOV EAX,ESI"
+  ],
+  [
+    "100c0e57",
+    "eb31",
+    "JMP 0x100c0e8a"
+  ],
+  [
+    "100c0e59",
+    "8b742418",
+    "MOV ESI,dword ptr [ESP + 0x18]"
+  ],
+  [
+    "100c0e5d",
+    "3bf3",
+    "CMP ESI,EBX"
+  ],
+  [
+    "100c0e5f",
+    "7504",
+    "JNZ 0x100c0e65"
+  ],
+  [
+    "100c0e61",
+    "8819",
+    "MOV byte ptr [ECX],BL"
+  ],
+  [
+    "100c0e63",
+    "ebd9",
+    "JMP 0x100c0e3e"
+  ],
+  [
+    "100c0e65",
+    "8bd1",
+    "MOV EDX,ECX"
+  ],
+  [
+    "100c0e67",
+    "8a06",
+    "MOV AL,byte ptr [ESI]"
+  ],
+  [
+    "100c0e69",
+    "8802",
+    "MOV byte ptr [EDX],AL"
+  ],
+  [
+    "100c0e6b",
+    "42",
+    "INC EDX"
+  ],
+  [
+    "100c0e6c",
+    "46",
+    "INC ESI"
+  ],
+  [
+    "100c0e6d",
+    "3ac3",
+    "CMP AL,BL"
+  ],
+  [
+    "100c0e6f",
+    "7403",
+    "JZ 0x100c0e74"
+  ],
+  [
+    "100c0e71",
+    "4f",
+    "DEC EDI"
+  ],
+  [
+    "100c0e72",
+    "75f3",
+    "JNZ 0x100c0e67"
+  ],
+  [
+    "100c0e74",
+    "3bfb",
+    "CMP EDI,EBX"
+  ],
+  [
+    "100c0e76",
+    "7510",
+    "JNZ 0x100c0e88"
+  ],
+  [
+    "100c0e78",
+    "8819",
+    "MOV byte ptr [ECX],BL"
+  ],
+  [
+    "100c0e7a",
+    "e852dffeff",
+    "CALL 0x100aedd1"
+  ],
+  [
+    "100c0e7f",
+    "6a22",
+    "PUSH 0x22"
+  ],
+  [
+    "100c0e81",
+    "59",
+    "POP ECX"
+  ],
+  [
+    "100c0e82",
+    "8908",
+    "MOV dword ptr [EAX],ECX"
+  ],
+  [
+    "100c0e84",
+    "8bf1",
+    "MOV ESI,ECX"
+  ],
+  [
+    "100c0e86",
+    "ebc0",
+    "JMP 0x100c0e48"
+  ],
+  [
+    "100c0e88",
+    "33c0",
+    "XOR EAX,EAX"
+  ],
+  [
+    "100c0e8a",
+    "5f",
+    "POP EDI"
+  ],
+  [
+    "100c0e8b",
+    "5e",
+    "POP ESI"
+  ],
+  [
+    "100c0e8c",
+    "5b",
+    "POP EBX"
+  ],
+  [
+    "100c0e8d",
+    "c3",
+    "RET"
+  ],
+  [
+    "100b09ee",
+    "6a0e",
+    "PUSH 0xe"
+  ],
+  [
+    "100b09f0",
+    "e8adad0000",
+    "CALL 0x100bb7a2"
+  ],
+  [
+    "100b09f5",
+    "59",
+    "POP ECX"
+  ],
+  [
+    "100b09f6",
+    "c3",
+    "RET"
+  ],
+  [
+    "100b2a80",
+    "8b4c2404",
+    "MOV ECX,dword ptr [ESP + 0x4]"
+  ],
+  [
+    "100b2a84",
+    "f7c103000000",
+    "TEST ECX,0x3"
+  ],
+  [
+    "100b2a8a",
+    "7424",
+    "JZ 0x100b2ab0"
+  ],
+  [
+    "100b2a8c",
+    "8a01",
+    "MOV AL,byte ptr [ECX]"
+  ],
+  [
+    "100b2a8e",
+    "83c101",
+    "ADD ECX,0x1"
+  ],
+  [
+    "100b2a91",
+    "84c0",
+    "TEST AL,AL"
+  ],
+  [
+    "100b2a93",
+    "744e",
+    "JZ 0x100b2ae3"
+  ],
+  [
+    "100b2a95",
+    "f7c103000000",
+    "TEST ECX,0x3"
+  ],
+  [
+    "100b2a9b",
+    "75ef",
+    "JNZ 0x100b2a8c"
+  ],
+  [
+    "100b2a9d",
+    "0500000000",
+    "ADD EAX,0x0"
+  ],
+  [
+    "100b2aa2",
+    "8da42400000000",
+    "LEA ESP,[ESP]"
+  ],
+  [
+    "100b2aa9",
+    "8da42400000000",
+    "LEA ESP,[ESP]"
+  ],
+  [
+    "100b2ab0",
+    "8b01",
+    "MOV EAX,dword ptr [ECX]"
+  ],
+  [
+    "100b2ab2",
+    "bafffefe7e",
+    "MOV EDX,0x7efefeff"
+  ],
+  [
+    "100b2ab7",
+    "03d0",
+    "ADD EDX,EAX"
+  ],
+  [
+    "100b2ab9",
+    "83f0ff",
+    "XOR EAX,0xffffffff"
+  ],
+  [
+    "100b2abc",
+    "33c2",
+    "XOR EAX,EDX"
+  ],
+  [
+    "100b2abe",
+    "83c104",
+    "ADD ECX,0x4"
+  ],
+  [
+    "100b2ac1",
+    "a900010181",
+    "TEST EAX,0x81010100"
+  ],
+  [
+    "100b2ac6",
+    "74e8",
+    "JZ 0x100b2ab0"
+  ],
+  [
+    "100b2ac8",
+    "8b41fc",
+    "MOV EAX,dword ptr [ECX + -0x4]"
+  ],
+  [
+    "100b2acb",
+    "84c0",
+    "TEST AL,AL"
+  ],
+  [
+    "100b2acd",
+    "7432",
+    "JZ 0x100b2b01"
+  ],
+  [
+    "100b2acf",
+    "84e4",
+    "TEST AH,AH"
+  ],
+  [
+    "100b2ad1",
+    "7424",
+    "JZ 0x100b2af7"
+  ],
+  [
+    "100b2ad3",
+    "a90000ff00",
+    "TEST EAX,0xff0000"
+  ],
+  [
+    "100b2ad8",
+    "7413",
+    "JZ 0x100b2aed"
+  ],
+  [
+    "100b2ada",
+    "a9000000ff",
+    "TEST EAX,0xff000000"
+  ],
+  [
+    "100b2adf",
+    "7402",
+    "JZ 0x100b2ae3"
+  ],
+  [
+    "100b2ae1",
+    "ebcd",
+    "JMP 0x100b2ab0"
+  ],
+  [
+    "100b2ae3",
+    "8d41ff",
+    "LEA EAX,[ECX + -0x1]"
+  ],
+  [
+    "100b2ae6",
+    "8b4c2404",
+    "MOV ECX,dword ptr [ESP + 0x4]"
+  ],
+  [
+    "100b2aea",
+    "2bc1",
+    "SUB EAX,ECX"
+  ],
+  [
+    "100b2aec",
+    "c3",
+    "RET"
+  ],
+  [
+    "100b2aed",
+    "8d41fe",
+    "LEA EAX,[ECX + -0x2]"
+  ],
+  [
+    "100b2af0",
+    "8b4c2404",
+    "MOV ECX,dword ptr [ESP + 0x4]"
+  ],
+  [
+    "100b2af4",
+    "2bc1",
+    "SUB EAX,ECX"
+  ],
+  [
+    "100b2af6",
+    "c3",
+    "RET"
+  ],
+  [
+    "100b2af7",
+    "8d41fd",
+    "LEA EAX,[ECX + -0x3]"
+  ],
+  [
+    "100b2afa",
+    "8b4c2404",
+    "MOV ECX,dword ptr [ESP + 0x4]"
+  ],
+  [
+    "100b2afe",
+    "2bc1",
+    "SUB EAX,ECX"
+  ],
+  [
+    "100b2b00",
+    "c3",
+    "RET"
+  ],
+  [
+    "100b2b01",
+    "8d41fc",
+    "LEA EAX,[ECX + -0x4]"
+  ],
+  [
+    "100b2b04",
+    "8b4c2404",
+    "MOV ECX,dword ptr [ESP + 0x4]"
+  ],
+  [
+    "100b2b08",
+    "2bc1",
+    "SUB EAX,ECX"
+  ],
+  [
+    "100b2b0a",
+    "c3",
+    "RET"
+  ],
+  [
     "100c14dd",
     "56",
     "PUSH ESI"

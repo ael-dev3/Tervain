@@ -36,6 +36,39 @@
       "assemblySha256": "c0e9fa85bc0b8252d4d39a6081082eb7462b16e7563b7a40dfb97ab5df372827",
       "cSha256": "dfeb3753dfd27f5e66c86496039570db0a14859f2a74f77ae44221cc156521e2"
     },
+    "typeInfoCopyName": {
+      "entryVA": "0x100c0e29",
+      "bodyVA": "0x100c0e29",
+      "bodyRanges": "100c0e29-100c0e8d",
+      "instructionCount": 51,
+      "bodyByteCount": 101,
+      "bodyInstructionBytesSha256": "072c90f28588fa285fda7ae5b513826ba5e71baaa93f8351afa39d8f5922426f",
+      "entryChain": [],
+      "assemblySha256": "e60c0161ac5079d25c4197cd69993506993ce86897a495489ad4c8a0276e60b5",
+      "cSha256": "e0d0ff5d189e26e50c832545ad5d59d989dbaf942b502151d3181ee006dd49c3"
+    },
+    "typeInfoUnlockCleanup": {
+      "entryVA": "0x100b09ee",
+      "bodyVA": "0x100b09ee",
+      "bodyRanges": "100b09ee-100b09f6",
+      "instructionCount": 4,
+      "bodyByteCount": 9,
+      "bodyInstructionBytesSha256": "5db1e16735c76dea8f33adc5aed36790b8e7dccb0fa247a57aa23ede32ad1b55",
+      "entryChain": [],
+      "assemblySha256": "120b8322aefb976c4a73f375dc1fce236a53529140157056e8da1ef071abf2af",
+      "cSha256": "ef7674826e439a2a3230f2fea987e795123e32d394776e6c7e8cad9550d0e410"
+    },
+    "typeInfoOutputLength": {
+      "entryVA": "0x100b2a80",
+      "bodyVA": "0x100b2a80",
+      "bodyRanges": "100b2a80-100b2b0a",
+      "instructionCount": 46,
+      "bodyByteCount": 139,
+      "bodyInstructionBytesSha256": "5044fc769fb26ae1772d18e3e1ef5ffc16757c910207278cab8d90af3557a7f0",
+      "entryChain": [],
+      "assemblySha256": "7155ef9265498c3db835de13641f57d96f947ccd23ca286c2e2aa0983574d30b",
+      "cSha256": "cfa4b98650e360ceda391965fdd03e5121929da8b3af481f53ee40d539a79e10"
+    },
     "demanglerHeapDestructor": {
       "entryVA": "0x100c14dd",
       "bodyVA": "0x100c14dd",
@@ -1762,6 +1795,18 @@
       "containingEntry": "10005e5c",
       "methodLabel": "initializer143Getter"
     },
+    "100c0e29": {
+      "containingEntry": "100c0e29",
+      "methodLabel": "typeInfoCopyName"
+    },
+    "100b09ee": {
+      "containingEntry": "100b09ee",
+      "methodLabel": "typeInfoUnlockCleanup"
+    },
+    "100b2a80": {
+      "containingEntry": "100b2a80",
+      "methodLabel": "typeInfoOutputLength"
+    },
     "100c14dd": {
       "containingEntry": "100c14dd",
       "methodLabel": "demanglerHeapDestructor"
@@ -3464,6 +3509,38 @@
       "instruction": "CALL 0x100a72d0",
       "kind": "direct",
       "targetVA": "100a72d0"
+    },
+    {
+      "method": "typeInfoCopyName",
+      "address": "100c0e3e",
+      "raw": "e88edffeff",
+      "instruction": "CALL 0x100aedd1",
+      "kind": "direct",
+      "targetVA": "100aedd1"
+    },
+    {
+      "method": "typeInfoCopyName",
+      "address": "100c0e4d",
+      "raw": "e880d3feff",
+      "instruction": "CALL 0x100ae1d2",
+      "kind": "direct",
+      "targetVA": "100ae1d2"
+    },
+    {
+      "method": "typeInfoCopyName",
+      "address": "100c0e7a",
+      "raw": "e852dffeff",
+      "instruction": "CALL 0x100aedd1",
+      "kind": "direct",
+      "targetVA": "100aedd1"
+    },
+    {
+      "method": "typeInfoUnlockCleanup",
+      "address": "100b09f0",
+      "raw": "e8adad0000",
+      "instruction": "CALL 0x100bb7a2",
+      "kind": "direct",
+      "targetVA": "100bb7a2"
     },
     {
       "method": "demanglerHeapDestructor",
