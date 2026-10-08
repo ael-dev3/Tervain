@@ -4,6 +4,47 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Repeatable rebuilding process
+
+Each checkpoint should make one source-backed behavior usable by the browser
+runtime and record exactly where execution still stops.
+
+1. Inventory the local installation and resolve archive/patch precedence. Record
+   the original resource path, effective archive, input hash and tool revision.
+2. Extract the required data or capture the relevant native function and its
+   original bytes. Keep disassembly and decompiler output as research evidence;
+   implement the recovered behavior in TypeScript.
+3. Trace dependencies before connecting the feature: constructors, shared
+   globals, callbacks, memory ownership, call order and failure cleanup. Capture
+   the needed cold image data alongside the function evidence.
+4. Implement the feature under its actual runtime owner. Preserve storage and
+   pointer identity, argument/return behavior and already completed effects.
+   Keep unsupported operations as explicit boundaries.
+5. Connect the feature to the live world and session services. Asset display,
+   an isolated helper and an integrated gameplay feature have separate receipts.
+6. Check source identities and supported behavior locally, typecheck, build and
+   inspect the diff. For gameplay, compare the encounter with the installed game
+   and exercise progression plus save/reload.
+7. Record the revision, checks, supported cases and next dependency here. Inspect
+   repository-wide Actions runs and workflow triggers before remote changes;
+   publish a reviewed checkpoint through the existing Pages workflow.
+8. Continue across NPC activation, combat, dialogue, quests, travel and persistent
+   state until ordinary play can reach a campaign ending.
+
+### Immediate remaining work
+
+- Complete SharedBase initializer startup at 100aa632, including its actual
+  initializer tables and callback dependencies, then the enclosing CRT attach.
+- Connect the supported shared runtime to live Game startup at 204678f2 and
+  execute the required initializer callbacks in their original order.
+- Complete the remaining property/diagnostic dependencies and activate NPCs in
+  the live world, then integrate their routines and gameplay interactions.
+- Establish playable quest progression and save/reload through an ending.
+
+The current browser reconstruction is incomplete. Deployment and passing unit
+checks establish the published checkpoint's supported scope; campaign completion
+requires an integrated gameplay result.
+
 ## Latest process summary — 8 October 2026
 
 ### SharedBase environment vector and initializer boundary
@@ -40,7 +81,7 @@ package remains 79 functions and 56 cold ranges. Argument query/fill counts are
 retained at return because subsequent environment frames reuse those stack slots.
 
 PR 108 passed CI run 37742924477 and merged at
-`5cc1143c4d83e8f2807171c58930d71044b74845`; Pages run 37744468447 is pending confirmation.
+`5cc1143c4d83e8f2807171c58930d71044b74845`; Pages run 37744468447 completed successfully.
 PR 107 deployed through successful Pages run 37742375940. The live Game path
 still stops before `204678f2`; native NPC activation and a campaign playable
 through an ending remain unfinished.
