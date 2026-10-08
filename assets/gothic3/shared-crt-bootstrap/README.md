@@ -103,3 +103,12 @@ lookup and LastError save/restore to write errno 12 at PTD+8. Cold new-mode0
 follows both original errno calls before NULL return; wide-environment cleanup
 then releases the original input. Nonzero retry delay stops at original Sleep,
 and a non-NULL new handler or lazy missing-PTD allocation remains unimplemented.
+
+The local ANSI path now scans source bytes to the block terminator, allocates
+from SharedBase, follows its aligned scalar memcpy through original DWORD and
+byte-tail dispatch tables (REP MOVSD for at least eight DWORDs), and releases
+the exact ANSI OS block. It preserves high-bit bytes without Unicode conversion.
+Actual canonical allocation geometry proves the forward/disjoint branch. SSE,
+backward and unaligned-destination paths remain explicit missing owners; these
+are not selected by the fresh aligned environment allocation. Failed dispatch
+retains both input and allocation without reporting copy or release success.

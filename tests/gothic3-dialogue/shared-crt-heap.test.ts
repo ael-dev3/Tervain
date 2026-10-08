@@ -228,3 +228,20 @@ it('retains the original allocation-failure prefix before unowned Sleep retry',(
  const result=f.owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Retry completed');expect(result.reason).toContain('100aeeed');
  const state=f.owner.snapshot();expect(state.ptd!.readUnsigned(8)).toBe(12);expect(state.environmentInput!.fields.backing.freed).toBe(false);expect(state.environmentReturned).toBe(false);expect(f.owner.processAttach()).toEqual(result);
 });
+
+it.each([1,2,3,4,5,7,8,31,32,33,260])('copies %i ANSI bytes with original DWORD/tail widths and releases OS input',size=>{
+ const data=size===1?[0]:[...Array(size-2).fill(129),0,0];
+ const platform=new NativeRuntimePlatform({engineCrtServices:{tlsValues:new Map(),kernel32Available:true,pointerCodec:'owned-bijection',fiberLocalStorage:true,processHeap:true,osVersion:{platform:2,major:6,minor:1,build:42},entropy:{currentThreadId:()=>({known:true,value:9})},processInputs:{acpCodePage:1252,conversionCoverage:'ascii-explicit-positive-count',initialDirectionFlag:0,commandLineA:{kind:'buffer',bytes:[0]},environmentW:{kind:'null',lastError:120},environmentA:{kind:'buffer',bytes:data}}}});
+ const owner=NativeSharedCrtOwner.forPlatform(platform);owner.processAttach();const state=owner.snapshot();expect(state.environmentReturned).toBe(true);
+ // For a leading NULL the source's length is one byte, including a two-NULL input.
+ const copied=data[0]===0?[0]:data;expect(state.environmentAllocation!.bytes).toEqual(new Uint8Array(copied));expect(state.environmentInput!.fields.backing.freed).toBe(true);
+ expect(owner.imageStorage('environmentMode').readUnsigned(0)).toBe(2);
+ const dwords=Math.floor(copied.length/4),tail=copied.length&3;expect(state.trace.filter(label=>label.startsWith('memcpy.load4.')).length).toBe(dwords);expect(state.trace.filter(label=>label.startsWith('memcpy.load1.')).length).toBe(tail);
+});
+
+it('retains ANSI input and allocation before an unowned original DWORD dispatch target',()=>{
+ const platform=new NativeRuntimePlatform({engineCrtServices:{tlsValues:new Map(),kernel32Available:true,pointerCodec:'owned-bijection',fiberLocalStorage:true,processHeap:true,osVersion:{platform:2,major:6,minor:1,build:42},entropy:{currentThreadId:()=>({known:true,value:9})},processInputs:{acpCodePage:1252,conversionCoverage:'ascii-explicit-positive-count',initialDirectionFlag:0,commandLineA:{kind:'buffer',bytes:[0]},environmentW:{kind:'null',lastError:120},environmentA:{kind:'buffer',bytes:[65,61,66,0,0]}}}});
+ const owner=NativeSharedCrtOwner.forPlatform(platform);owner.imageStorage('memcpyForwardDwords').writeUnsigned(4,0x12345678);
+ const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Dispatch complete');expect(result.reason).toContain('DWORD dispatch');
+ const state=owner.snapshot();expect(state.environmentReturned).toBe(false);expect(state.environmentInput!.fields.backing.freed).toBe(false);expect(state.environmentAllocation!.backing.freed).toBe(false);expect(owner.processAttach()).toEqual(result);
+});
