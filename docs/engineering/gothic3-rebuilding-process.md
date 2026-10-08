@@ -9265,3 +9265,28 @@ and an unknown callback retaining its original CALL boundary. The full suite
 passes 2,706 tests across 259 files; typechecking and production build pass.
 PR 119 passed CI run 37766553792 and merged at
 `04df7277c8166a75cf67a5c688ba766f280f9645`.
+
+
+## 8 October 2026 — original static critical-section initializer
+
+Void slot 131 at `100e1450` now calls the retained original
+InitializeCriticalSection import at `102f95f4` with its 24-byte static storage at
+`10197da0`. The producer verifies the import's original KERNEL32 identity and
+cold IAT bytes `349b2f00`; the section has 24 loader-zero bytes and no file-backed
+bytes. These cold bytes establish preparation, not post-call Windows internals.
+
+The existing virtual platform owns the initialized physical section and makes
+its opaque storage bits unknown. The original stdcall removes four argument
+bytes, leaving the void return register unknown. The callback then registers
+shutdown address `100e2810` through atexit and publishes exit cursor offset 16.
+The next boundary is slot 132 at `100aa692 -> 100e1470`, a static-value copy.
+
+153 focused checks pass, including same-owner section entry/leave, foreign-owner
+rejection, an unavailable initialization endpoint and a replaced import. Both
+failure cases stop before shutdown callback registration. All 92 generated
+package files and the instruction module reproduce exactly. Typechecking, the production build and all 2,710
+tests across 259 files pass. Full CRT attach and campaign
+completion remain unfinished.
+
+PR 120 passed CI run 37767350351 and merged at
+`c20d44f022a98aab1bfb8e456673be96a6251f48`.

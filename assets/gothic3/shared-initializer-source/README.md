@@ -55,7 +55,11 @@ HeapSize and appends the encoded RTC callback. It publishes the cursor at
 offset 4, releases the lock and restores both original normal SEH frames.
 The first two void callbacks register `100e30f0` and `100e26d0` through the
 same path and advance the cursor to offset 12. The next boundary is the
-critical-section initializer at `100aa692 -> 100e1450`.
+static-value copy at `100aa692 -> 100e1470`. The preceding critical-section
+initializer initializes its original 24-byte storage through the retained
+InitializeCriticalSection import and registers `100e2810`, advancing the
+exit cursor to offset 16. The virtual platform owns the section; post-call
+storage remains opaque and the void return register remains unknown.
 Growing the table, decoder fallback resolution and exception dispatch remain
 unimplemented. Registering the RTC address does not execute its shutdown body. Missing CPU
 selection stops at PUSHFD; missing CPUID leaves and SIMD exception dispatch

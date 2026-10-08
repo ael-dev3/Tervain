@@ -1300,6 +1300,38 @@
       "scope": "cold-original-image",
       "liveValueCaptured": false
     },
+    "staticCriticalSection": {
+      "address": "10197da0",
+      "raw": "000000000000000000000000000000000000000000000000",
+      "bytes": 24,
+      "sha256": "9d908ecfb6b256def8b49a7c504e6c889c4b0e41fe6ce3e01863dd7b61a20aa0",
+      "section": {
+        "virtualAddress": 1306624,
+        "virtualSize": 1807760,
+        "rawSize": 16384,
+        "rawOffset": 1306624,
+        "fileBackedBytes": 0,
+        "loaderZeroFillBytes": 24
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "initializeSectionImportSlot": {
+      "address": "102f95f4",
+      "raw": "349b2f00",
+      "bytes": 4,
+      "sha256": "1d47213e1e6d0783b0e240b092a280d11b49e9e2ea4f5335802ef6a0dfb1cd7d",
+      "section": {
+        "virtualAddress": 3117056,
+        "virtualSize": 6242,
+        "rawSize": 8192,
+        "rawOffset": 1323008,
+        "fileBackedBytes": 4,
+        "loaderZeroFillBytes": 0
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
     "onexitScope": {
       "address": "100f8630",
       "raw": "feffffff00000000d4ffffff00000000feffffff00000000ca720a10",
