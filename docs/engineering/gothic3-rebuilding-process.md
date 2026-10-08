@@ -9136,3 +9136,10 @@ defines the ID-bit probe and processor instructions. Implementation must retain
 virtual flags, selected CPUID results, XMM state and exception ownership, and
 preserve unknown state outside the supported effects. Current execution still
 stops before PUSHFD at `100ce0a8`.
+
+Processor exception evidence validation: all 80 generated source files and the
+unchanged runtime reproduce exactly. Nine focused checks, typechecking, the
+production build and all 2,673 tests across 259 files pass. PR 115 passed CI
+run 37757739546 and merged at `d044545e75e4eee4cccdb5ffc447c4ba30c1db76`.
+These receipts validate source recovery; they do not establish execution of
+PUSHFD, POPFD, CPUID, MOVAPD or native exception dispatch.
