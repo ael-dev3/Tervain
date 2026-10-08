@@ -36,8 +36,9 @@ function addresses. It now executes the original division-erratum query at
 `100b448b`, reads the actual module/procedure name storage and uses retained
 virtual import slots. `GetModuleHandleA`, `GetProcAddress` and the feature call
 retain original stdcall cleanup of 4, 8 and 4 bytes. The query returns its
-selected BOOL and the caller publishes it at `102f6424`. The next boundary is
-FNCLEX at `100a7919`; it has not executed. Table initializer
+selected BOOL and the caller publishes it at `102f6424`. FNCLEX at `100a7919` clears the owned x87 exception status bits while
+preserving all other unknown bits. The hook returns and reaches the next
+boundary, conversion encoding at `100b4413 -> 100ae27b`. Table initializer
 callbacks, enclosing CRT attach and live Game startup remain unfinished.
 Header rejection and a NULL hook follow the original skip branches and retain
 conversion-pointer encoding at `100b4413 -> 100ae27b` as a separate dependency.
