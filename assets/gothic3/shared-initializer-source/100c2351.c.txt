@@ -1,0 +1,33 @@
+/* ENTRY 100c2351 | UnDecorator::UnDecorator | STATUS decompiled | 7 ms */
+
+/* Library Function - Single Match
+    public: __thiscall UnDecorator::UnDecorator(char *,char const *,int,char *
+   (__cdecl*)(long),unsigned long)
+   
+   Library: Visual Studio 2005 Release */
+
+UnDecorator * __thiscall
+UnDecorator::UnDecorator
+          (UnDecorator *this,char *param_1,char *param_2,int param_3,_func_char_ptr_long *param_4,
+          ulong param_5)
+
+{
+  Replicator::Replicator((Replicator *)this);
+  Replicator::Replicator((Replicator *)(this + 0x3c));
+  DAT_102f6f40 = param_2;
+  DAT_102f6f3c = param_2;
+  if (param_1 == (char *)0x0) {
+    DAT_102f6f44 = (char *)0x0;
+    DAT_102f6f48 = 0;
+  }
+  else {
+    DAT_102f6f48 = param_3 + -1;
+    DAT_102f6f44 = param_1;
+  }
+  DAT_102f6f4c = param_5;
+  DAT_102f6f34 = (Replicator *)(this + 0x3c);
+  DAT_102f6f50 = param_4;
+  DAT_102f6f30 = this;
+  DAT_102f6f54 = 0;
+  return this;
+}

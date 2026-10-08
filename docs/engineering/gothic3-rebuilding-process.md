@@ -9780,3 +9780,35 @@ local until review, CI and deployment complete.
 
 PR 136 Pages run 37793944879 completed successfully at main revision
 `982fc4b69dde919d0767dff34d63f46e54b89a86`.
+
+### Local demangler decorator and scratch-node construction — 8 October 2026
+
+The selected original decorator, replicator and node constructors now execute
+against the live thread stack and CRT heap. The scratch allocator requests one
+4,104-byte block through the existing CRT allocation path. Four 16-byte nodes
+occupy offsets 4,084, 4,068, 4,052 and 4,036; their original vtable value is
+`100f29ac`, and their types alternate 3 and 1. The allocator retains the actual
+first/last block pointers and 4,032 available bytes.
+
+The two replicators occupy the original stack locations, 60 bytes apart. Their
+node pointers retain the actual heap backing. The original masked assignment
+`A XOR ((A XOR B) AND 15)` sets the selected low bits while preserving unknown
+padding. Its interpreter proof requires the original read and both XOR/AND
+results to refer to the same physical word. Relative stack and exception-frame
+expressions retain their existing provenance.
+
+Execution reaches `100c61b5 -> 100c5e8f`, before decorator-to-string processing.
+The constructor call has returned, while CRT lock five and the enclosing name
+and demangler exception frames remain active. Grammar traversal, output name
+creation, full engine startup and campaign play remain unfinished.
+
+Local evidence: 239 focused checks and typechecking pass. All 153 generated
+source files plus the instruction module reproduce exactly. The package
+contains 82 bodies, 2,295 instructions and 204 CALL receipts. The production build passes. A further focused check confirms scratch
+allocation failure retains the active lock and frame without publishing a
+block. The full suite passes 2,797 tests across 260 files (200.46 seconds).
+This checkpoint is not published.
+
+PR 137 passed CI run 37797822192 and merged at
+`2d3a0afa06ff1551ecd3ab081d8e78fd4f654ee6` after a 299-run repository-wide
+audit found no active runs. Pages run 37800122027 is pending.

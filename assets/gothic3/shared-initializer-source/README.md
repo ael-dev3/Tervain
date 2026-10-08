@@ -359,3 +359,15 @@ is `100c61aa -> 100c2351`. General heap rounding preserves the 32-byte backing
 with a bounded 24-byte physical section view. False initialization retains
 lock ten at the original unimplemented free call; forged table pointers reject.
 There are 77 bodies, 2,142 instructions and 196 CALL receipts.
+
+### Live decorator construction
+
+The original decorator, replicator, scratch allocator and node constructors
+execute through the live CRT heap and thread stack. One 4,104-byte block owns
+four descending 16-byte nodes. Stack tables retain those actual node pointers;
+masked flag assignments preserve unknown padding. Execution reaches
+`100c61b5 -> 100c5e8f` before grammar/output processing. Lock five and the
+outer name/demangler frames remain active. There are 82 bodies, 2,295
+instructions and 204 CALL receipts. Allocation failure retains the pending
+heap call without publishing a block. Full startup and campaign play remain
+unfinished.
