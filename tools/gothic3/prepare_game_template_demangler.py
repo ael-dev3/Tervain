@@ -4,13 +4,13 @@ import hashlib
 import json
 from pathlib import Path
 import read_dialogue_native_evidence as native
-from prepare_runtime_admin_source import source_excerpt
+from prepare_runtime_admin_source import source_excerpt, image_bytes
 from prepare_arena_type_source import GAME_SHA as INPUT_SHA
 
 def capture(study, output):
     native.EXPECTED_INPUTS['Game.dll'] = INPUT_SHA
     audit = native.audit_module(study, 'Game_dll', 'Game.dll',
-                               {0x2047abe3: 'getTemplateName', 0x2047a4bc: 'getTemplateArgumentList', 0x2047ad36: 'getZName', 0x2047b013: 'getECSUDataType'})
+                               {0x2047abe3: 'getTemplateName', 0x2047a4bc: 'getTemplateArgumentList', 0x2047ad36: 'getZName', 0x2047b013: 'getECSUDataType', 0x204799d3: 'getEnumType'})
     output.mkdir(parents=True, exist_ok=True)
     methods = {}
     for method in audit['methods']:
@@ -25,8 +25,12 @@ def capture(study, output):
              'bodyInstructionBytesSha256', 'entryChain']}
         methods[method['label']].update(assemblySha256=hashlib.sha256(asm).hexdigest(),
                                        cSha256=hashlib.sha256(c).hexdigest())
+    pe = native.PE((study / '00_Original_Runtime/Game.dll').read_bytes())
+    keyword, section = image_bytes(pe, 0x206bee18, 6)
+    assert keyword == b'enum \0'
     (output / 'source.json').write_bytes((json.dumps({'schema': 'gothic3-game-template-demangler-v1',
         'gameSha256': INPUT_SHA, 'methods': methods,
+        'enumKeyword': {'address': '206bee18', 'raw': keyword.hex(), 'section': section},
         'sourceOnly': True, 'wholeCrtTraversalCompleted': False}, indent=2) + '\n').encode())
 
 if __name__ == '__main__':

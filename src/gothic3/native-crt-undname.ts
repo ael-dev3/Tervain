@@ -113,6 +113,7 @@ export class NativeCrtUndName {
       return fact(factory.status(1), 'getTemplateName.invalidPrefix');
     }
     this.advance(2); this.state.trace.push('getTemplateName.consumePrefix');
+    const saved = [20,24,28].map(offset => this.fields.pointer<NativeCrtReplicator>(offset).get());
     const locals = stack(180);
     const first = new NativeCrtReplicator(factory, subview(locals, 0, 60));
     const second = new NativeCrtReplicator(factory, subview(locals, 60, 60));
@@ -138,12 +139,62 @@ export class NativeCrtUndName {
     fact(factory.assign(result, returned), 'getTemplateName.assignIdentifier');
     if (result.isEmpty()) this.fields.writeUnsigned(56, 1, 1);
     this.state.trace.push('getTemplateName.identifierComplete');
-    this.empty(factory); // getTemplateArgumentList initializes its output first.
+    const argumentsResult = this.empty(factory);
     this.fields.writeUnsigned(57, 1, 1);
     this.state.trace.push('getTemplateArgumentList.begin');
-    // The Status container selects the original primary-data-type call.
-    // Keep the actual cursor and all local tables for the missing lower owner.
-    throw new Error('Unowned getTemplateArgumentList primary data type');
+    let firstArgument = true;
+    while (argumentsResult.status === 0 && this.byte() !== 0 && this.byte() !== 0x40) {
+      if (!firstArgument) fact(factory.append(argumentsResult, fact(factory.fromChar(0x2c), 'templateArguments.comma')), 'templateArguments.appendComma');
+      firstArgument = false;
+      const before = this.cursor();
+      if (this.byte() !== 0x57) throw new Error('Unowned getTemplateArgumentList primary data type');
+      this.advance(); // getECSUDataType consumes W before getEnumType.
+      const underlying = this.empty(factory);
+      if (this.byte() !== 0x34) throw new Error('Unowned getEnumType underlying type');
+      this.advance(); // Original case 4 returns an empty underlying type.
+      const enumType = fact(factory.copy(underlying), 'getEnumType.return');
+      const keyword = factory.sourceConstant('enumKeyword', '206bee18', 6);
+      const keywordName = this.empty(factory);
+      fact(factory.assignText(keywordName, {fields:keyword,offset:0}), 'getECSUDataType.enumKeyword');
+      const qualified = fact(factory.plus(keywordName, enumType), 'getECSUDataType.enumPrefix');
+      const argument = this.empty(factory);
+      if (!(this.flags() & 0x8000)) fact(factory.assign(argument, qualified), 'getECSUDataType.assignEnumPrefix');
+      const nameCursor: NativeCrtByteCursor = {get: () => this.fields.pointer<NativeCrtBytePointer>(32).get(),
+        set: pointer => this.fields.pointer<NativeCrtBytePointer>(32).set(pointer)};
+      if (this.byte() === 0x3f || (this.byte() >= 0x30 && this.byte() <= 0x39)) {
+        throw new Error('Unowned template enum scoped name branch');
+      }
+      const enumParsed = fact(factory.fromDelimited(nameCursor, 0x40, () => this.flags()), 'templateEnum.getZName.delimited');
+      const enumIdentifier = this.empty(factory);
+      fact(factory.assign(enumIdentifier, enumParsed), 'templateEnum.getZName.assign');
+      if (second.fields.readUnsigned(0) !== 9) fact(second.append(enumIdentifier), 'templateEnum.getZName.record');
+      const scoped = this.empty(factory);
+      fact(factory.assign(scoped, fact(factory.copy(enumIdentifier), 'templateEnum.getZName.return')), 'templateEnum.scoped.assign');
+      if (this.byte() !== 0x40) throw new Error('Unowned template enum scope or truncated name');
+      this.advance();
+      fact(factory.append(argument, scoped), 'getECSUDataType.appendEnumName');
+      const returnedArgument = fact(factory.copy(argument), 'getECSUDataType.returnEnum');
+      const primary = this.empty(factory);
+      fact(factory.assign(primary, returnedArgument), 'getSimpleDataType.assignEnum');
+      const primaryReturn = fact(factory.copy(primary), 'getSimpleDataType.returnEnum');
+      const temporary = this.empty(factory);
+      fact(factory.assign(temporary, primaryReturn), 'templateArguments.assignPrimary');
+      const after = this.cursor();
+      if (after.fields !== before.fields) throw new Error('Original template cursor backing changed');
+      if (after.offset - before.offset > 1 && third.fields.readUnsigned(0) !== 9) {
+        fact(third.append(temporary), 'templateArguments.record');
+      }
+      fact(factory.append(argumentsResult, temporary), 'templateArguments.appendPrimary');
+    }
+    this.fields.writeUnsigned(57, 0, 1); this.state.trace.push('getTemplateArgumentList.return');
+    const open = fact(factory.fromChar(0x3c), 'getTemplateName.openBracket');
+    const bracketed = fact(factory.plus(open, argumentsResult), 'getTemplateName.prefixArguments');
+    fact(factory.append(result, bracketed), 'getTemplateName.appendArguments');
+    if (result.getLastChar() === 0x3e) fact(factory.append(result, fact(factory.fromChar(0x20), 'templateName.space')), 'templateName.appendSpace');
+    fact(factory.append(result, fact(factory.fromChar(0x3e), 'templateName.closeBracket')), 'templateName.appendClose');
+    for (let index=0;index<saved.length;index++) this.fields.pointer(20+index*4).set(saved[index]!);
+    this.state.trace.push('getTemplateName.restoreReplicators');
+    return fact(factory.copy(result), 'getTemplateName.return');
   }
   private parse(factory: NativeCrtDNameFactory, replicator: NativeCrtReplicator): NativeCrtDNameRecord {
     if (!(this.flags() & 0x2000)) throw new Error('Unowned UnDecorator symbol/declaration grammar');
@@ -173,7 +224,15 @@ export class NativeCrtUndName {
     if (current >= 0x30 && current <= 0x39) {
       this.advance(); identifier = fact(factory.copy(fact(replicator.get(current - 0x30), 'getZName.replicator')), 'getZName.copyReference');
     } else {
-      if (current === 0x3f) identifier = this.templateName(factory);
+      if (current === 0x3f) {
+        const template = this.templateName(factory);
+        const temporary = this.empty(factory);
+        fact(factory.assign(temporary, template), 'getZName.assignTemplate');
+        if (this.byte() === 0x40) this.advance();
+        else fact(factory.assignStatus(temporary, this.byte() === 0 ? 2 : 1), 'getZName.templateTerminator');
+        if (replicator.fields.readUnsigned(0) !== 9) fact(replicator.append(temporary), 'getZName.recordTemplate');
+        identifier = fact(factory.copy(temporary), 'getZName.copyTemplate');
+      }
       else {
       // These two prefixes select dimension/parameter services, not ordinary identifiers.
       for (const [label, engineAddress, gameAddress, size, count] of [

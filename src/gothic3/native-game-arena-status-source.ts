@@ -62,6 +62,8 @@ for (const [label, value] of Object.entries(original.methods)) {
 }
 methods.arenaStatusClassNameDestructor = Object.freeze({module:'Game',
   entry: original.typeNameCleanup.entry, body: original.typeNameCleanup.body,
+  entryChain: Object.freeze([Object.freeze({va:original.typeNameCleanup.entry,
+    bytes:original.typeNameCleanup.entryBytes,targetVA:original.typeNameCleanup.body})]),
   bodyInstructionBytesSha256: original.typeNameCleanup.bodyInstructionBytesSha256});
 Object.freeze(methods);
 export const gameArenaStatusSourceRules: NativeCrtSourceRules = Object.freeze({

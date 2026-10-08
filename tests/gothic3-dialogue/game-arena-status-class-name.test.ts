@@ -7,7 +7,7 @@ import { NativeHeapObjectViews } from '../../src/gothic3/native-heap-views';
 import { NativeMemoryAdmin, nativeArenaHeapExtension, nativeSceneStartupHeapExtension } from '../../src/gothic3/native-memory-admin';
 import { NativeRuntimePlatform } from '../../src/gothic3/native-runtime-platform';
 import { NativeCrtUndName } from '../../src/gothic3/native-crt-undname';
-import type { NativeCrtBytePointer, NativeCrtReplicator } from '../../src/gothic3/native-crt-dname';
+import type { NativeCrtBytePointer } from '../../src/gothic3/native-crt-dname';
 
 const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
 function value<T>(result: NativeValue<T>): T { if (!result.known) throw new Error(result.reason); return result.value; }
@@ -30,28 +30,21 @@ function fixture(initializeExit = true, sourceMemory?:NativeMemoryAdmin) {
   return { platform, crt, exit, memory, className };
 }
 
-it('reaches the original template demangler and preserves the unfinished source prefix', () => {
+it('constructs the original Status container name, restores local tables and owns cleanup', () => {
   const f = fixture();
-  const result = f.className.get();
-  expect(result.known).toBe(false);
-  if (result.known) throw new Error('Template demangler unexpectedly completed; extend this receipt to verify the actual name and cleanup');
-  expect(result.reason).toContain('Unowned getTemplateArgumentList primary data type');
-  const demangler = new NativeCrtUndName(f.crt);
-  const cursor = demangler.fields.pointer<NativeCrtBytePointer>(32).get()!;
-  expect(cursor.fields.readUnsigned(cursor.offset, 1)).toBe(0x57);
-  expect(cursor.fields.readUnsigned(cursor.offset + 1, 1)).toBe(0x34);
-  expect(demangler.fields.readUnsigned(57, 1)).toBe(1);
-  const names = demangler.fields.pointer<NativeCrtReplicator>(24).get()!;
-  expect(names.fields.readUnsigned(0)).toBe(0);
-  const identifier = value(names.get(0));
-  expect(identifier.length()).toBe('bTPropertyContainer'.length);
-  expect(identifier.getLastChar()).toBe('r'.charCodeAt(0));
+  const result = value(f.className.get());
+  expect(value(result.text())).toBe('bTPropertyContainer<enum gEArenaStatus>');
   expect(f.className.fields.readUnsigned(8)).toBe(3);
-  expect(f.className.snapshot().registeredCallback).toBeNull();
-  expect(f.className.snapshot().name).toBeNull();
-  expect(f.exit.snapshot().callbackCells).toHaveLength(0);
-  const trace = f.className.snapshot().trace;
-  expect(f.className.get()).toEqual(result);
-  expect(f.className.snapshot().trace).toEqual(trace);
-  expect(f.className.fields.pointer<NativeHeapObjectViews>(4).get()).toBeNull();
+  const callback = f.className.snapshot().registeredCallback!;
+  expect(callback.entry).toBe('200064f1');
+  expect(f.exit.snapshot().callbackCells).toHaveLength(1);
+  const demangler = new NativeCrtUndName(f.crt);
+  expect(demangler.fields.readUnsigned(57,1)).toBe(0);
+  const cursor = demangler.fields.pointer<NativeCrtBytePointer>(32).get()!;
+  expect(cursor.fields.readUnsigned(cursor.offset,1)).toBe(0);
+  expect(value(f.className.get())).toBe(result);
+  value(f.className.invokeRegisteredDestructor(callback));
+  expect(result.text().known).toBe(false);
+  expect(f.className.get().known).toBe(false);
+  expect(f.exit.snapshot().traversalOwned).toBe(false);
 });

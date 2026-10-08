@@ -45,6 +45,29 @@
       "entryChain": [],
       "assemblySha256": "cdf8f01b2ea763fcc9f92076ff0e37a119a710f9a2d5a5800ccdb26048561652",
       "cSha256": "dcf83a104c581804353e8be6ce0b75143b67f8bedd803132b7eec25302fd3424"
+    },
+    "getEnumType": {
+      "entryVA": "0x204799d3",
+      "bodyVA": "0x204799d3",
+      "bodyRanges": "204799d3-20479a84",
+      "instructionCount": 60,
+      "bodyByteCount": 178,
+      "bodyInstructionBytesSha256": "a279a8f6194159a511d7bbdd14a967bf14f5cba2739a1b6b1d39e941976410e7",
+      "entryChain": [],
+      "assemblySha256": "316f2b55c9e82ecafc42bacb1dbe08298c5ae3a7752c0bdd2b87388aa202b766",
+      "cSha256": "946da06635b78c9a40e3edc4feb0fb831e0aaaf4eccbe73440c207e73cfd3566"
+    }
+  },
+  "enumKeyword": {
+    "address": "206bee18",
+    "raw": "656e756d2000",
+    "section": {
+      "virtualAddress": 5685248,
+      "virtualSize": 2268534,
+      "rawSize": 2269184,
+      "rawOffset": 5685248,
+      "fileBackedBytes": 6,
+      "loaderZeroFillBytes": 0
     }
   },
   "sourceOnly": true,
