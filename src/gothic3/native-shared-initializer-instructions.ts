@@ -4173,6 +4173,86 @@ const rows:readonly (readonly string[])[] = [
     "RET 0x4"
   ],
   [
+    "10020bf0",
+    "b801000000",
+    "MOV EAX,0x1"
+  ],
+  [
+    "10020bf5",
+    "8405a4271410",
+    "TEST byte ptr [0x101427a4],AL"
+  ],
+  [
+    "10020bfb",
+    "7537",
+    "JNZ 0x10020c34"
+  ],
+  [
+    "10020bfd",
+    "0905a4271410",
+    "OR dword ptr [0x101427a4],EAX"
+  ],
+  [
+    "10020c03",
+    "803d9d27141000",
+    "CMP byte ptr [0x1014279d],0x0"
+  ],
+  [
+    "10020c0a",
+    "a2a1271410",
+    "MOV [0x101427a1],AL"
+  ],
+  [
+    "10020c0f",
+    "750f",
+    "JNZ 0x10020c20"
+  ],
+  [
+    "10020c11",
+    "a2a1271410",
+    "MOV [0x101427a1],AL"
+  ],
+  [
+    "10020c16",
+    "a29d271410",
+    "MOV [0x1014279d],AL"
+  ],
+  [
+    "10020c1b",
+    "a29c271410",
+    "MOV [0x1014279c],AL"
+  ],
+  [
+    "10020c20",
+    "6810270e10",
+    "PUSH 0x100e2710"
+  ],
+  [
+    "10020c25",
+    "c605a027141000",
+    "MOV byte ptr [0x101427a0],0x0"
+  ],
+  [
+    "10020c2c",
+    "e89f660800",
+    "CALL 0x100a72d0"
+  ],
+  [
+    "10020c31",
+    "83c404",
+    "ADD ESP,0x4"
+  ],
+  [
+    "10020c34",
+    "b8a0271410",
+    "MOV EAX,0x101427a0"
+  ],
+  [
+    "10020c39",
+    "c3",
+    "RET"
+  ],
+  [
     "10003ba7",
     "e944fa0000",
     "JMP 0x100135f0"
@@ -4181,6 +4261,11 @@ const rows:readonly (readonly string[])[] = [
     "10007d65",
     "e9d6b40000",
     "JMP 0x10013240"
+  ],
+  [
+    "10002aae",
+    "e93de10100",
+    "JMP 0x10020bf0"
   ]
 ];
 const instructions=new Map<string,SharedInitializerInstruction>(rows.map(([address,bytes,instruction])=>

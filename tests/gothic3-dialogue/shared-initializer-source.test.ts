@@ -7,7 +7,7 @@ const base='assets/gothic3/shared-initializer-source/';
 const source=JSON.parse(readFileSync(base+'source.json','utf8'));
 const sha=(raw:Uint8Array)=>createHash('sha256').update(raw).digest('hex');
 it('matches every generated initializer row and header to original admitted receipts',()=>{
-  for(const body of ['100aa632','100ae900','100ae880','100ae8b0','100a78fe','100a788e','100b4407','100b448b','100b444f','100ae27b','100aa47d','100a7265','100aef10','100b1854','100b4b6b','100ce095','100ce045','100aeb68','100aebad','100bef05','100ce0f5','100a72d0','100a7294','100a71ac','100ae2f2','100b10d6','100aa453','100aa45c','100a72ca','100e1660','100e1440','100e1450','100e1470','100e14b0','100e14c0','100e14d0','100e14e0','100e14f0','100e1500','100e1510','100135f0','10013240']){
+  for(const body of ['100aa632','100ae900','100ae880','100ae8b0','100a78fe','100a788e','100b4407','100b448b','100b444f','100ae27b','100aa47d','100a7265','100aef10','100b1854','100b4b6b','100ce095','100ce045','100aeb68','100aebad','100bef05','100ce0f5','100a72d0','100a7294','100a71ac','100ae2f2','100b10d6','100aa453','100aa45c','100a72ca','100e1660','100e1440','100e1450','100e1470','100e14b0','100e14c0','100e14d0','100e14e0','100e14f0','100e1500','100e1510','100135f0','10013240','10020bf0']){
     for(const row of readFileSync(base+body+'.asm.txt','utf8').trim().split('\n')){
       const [address,bytes,instruction]=row.split(' | ');
       const emitted=sharedInitializerInstruction(address!);
@@ -30,8 +30,8 @@ it('pins original SharedBase source identity without granting initializer execut
   expect(source.verifiedAgainstOriginalPE).toBe(true);
   expect(source.sourceOnly).toBe(true);
   expect(source.initializerExecutionCompleted).toBe(false);
-  expect(Object.keys(source.methods)).toHaveLength(53);
-  expect((Object.values(source.methods) as Method[]).reduce((sum,m)=>sum+m.instructionCount,0)).toBe(961);
+  expect(Object.keys(source.methods)).toHaveLength(54);
+  expect((Object.values(source.methods) as Method[]).reduce((sum,m)=>sum+m.instructionCount,0)).toBe(977);
 });
 it('preserves every admitted instruction byte and separates unavailable C exports',()=>{
   let recovered=0;
@@ -106,7 +106,7 @@ it('captures the section write flag and cold conversion/exit/RTC storage',()=>{
   expect(source.coldGlobals.rtcTerminators.raw).toBe('00'.repeat(256));
 });
 it('retains original CALL encodings and distinguishes imports from indirect callbacks',()=>{
-  expect(source.calls).toHaveLength(102);
+  expect(source.calls).toHaveLength(103);
   for(const call of source.calls){
     const raw=Buffer.from(call.raw,'hex');
     if(call.kind==='direct'){
@@ -165,4 +165,8 @@ it('retains the file-backed static source and loader-zero destination separately
 
 it('retains Root literal, text-constructor thunks and allocation dependency bytes',()=>{
  expect(source.coldGlobals.rootTextLiteral).toMatchObject({address:'100e9b5c',raw:'526f6f7400',bytes:5,liveValueCaptured:false});expect(source.methods.rootTextConstructor.entryChain).toEqual([{va:'10003ba7',bytes:'e944fa0000',targetVA:'100135f0'}]);expect(source.methods.rootTextAlloc.entryChain).toEqual([{va:'10007d65',bytes:'e9d6b40000',targetVA:'10013240'}]);expect(sharedInitializerInstruction('10003ba7').bytes).toBe('e944fa0000');expect(sharedInitializerInstruction('10007d65').bytes).toBe('e9d6b40000');
+});
+
+it('retains original MemoryAdmin GetInstance thunk and static guard storage',()=>{
+ expect(source.methods.memoryGetInstance.entryChain).toEqual([{va:'10002aae',bytes:'e93de10100',targetVA:'10020bf0'}]);expect(sharedInitializerInstruction('10002aae').bytes).toBe('e93de10100');expect(source.coldGlobals.memoryAdminState).toMatchObject({address:'10142798',bytes:16,raw:'00'.repeat(16),liveValueCaptured:false});
 });

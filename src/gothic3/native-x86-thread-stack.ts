@@ -720,7 +720,7 @@ export class NativeX86ThreadStack {
         }
         if(opcode==='FLD')throw new Error('Unowned SharedBase initializer opcode '+opcode);
         const args=text?text.split(',').map(operand):[],next=(parseInt(pc,16)+row.bytes.length/2).toString(16).padStart(8,'0');
-        if(opcode==='MOV')write(args[0]!,read(args[1]!));
+        if(opcode==='MOV'){const destination=args[0]!,source=args[1]!,byteDestination=destination.kind==='register'&&destination.byte,byteSource=source.kind==='register'&&source.byte;write(destination.kind==='memory'&&byteSource?{...destination,width:1}:destination,read(source.kind==='memory'&&byteDestination?{...source,width:1}:source));}
         else if(opcode==='MOVZX'){const source=args[1]!,width=source.kind==='memory'?source.width:4;write(args[0]!,stack.#mint(stack.#numeric(read(source),width),0xffffffff));}
         else if(opcode==='LEA'){const source=args[1]!;if(source.kind!=='memory')throw new Error('Actual initializer LEA required');write(args[0]!,address(source.expression));}
         else if(opcode==='PUSH')stack.#push(read(args[0]!));
@@ -741,6 +741,7 @@ export class NativeX86ThreadStack {
             if(b.provenance&&opcode==='SUB')throw new Error('Unowned initializer scalar-pointer subtraction');
             const delta=stack.#numeric(a.provenance?right:left,4)|0;write(args[0]!,stack.#offsetWord(a.provenance?left:right,delta*(opcode==='SUB'?-1:1)));stack.#flags(0,0);
           }else {const av=stack.#numeric(left,4),bv=stack.#numeric(right,4),result=(opcode==='SUB'?av-bv:av+bv)>>>0;write(args[0]!,stack.#mint(result,0xffffffff));stack.#arithmeticFlags(av,bv,result,4,opcode==='SUB');}
+        }else if(opcode==='OR'){const a=stack.#record(read(args[0]!)),b=stack.#record(read(args[1]!));if(a.provenance||b.provenance)throw new Error('Actual initializer numerical OR operands required');const value=a.value|b.value,mask=(a.mask&b.mask)|(a.mask&a.value)|(b.mask&b.value);write(args[0]!,stack.#mint(value,mask));stack.#logicalFlags(value,mask,4);
         }else if(opcode==='XOR'||opcode==='AND'){
           const left=read(args[0]!),right=read(args[1]!),a=stack.#record(left),b=stack.#record(right),same=args[0]!.kind==='register'&&args[1]!.kind==='register'&&args[0]!.slot===args[1]!.slot;
           const value=opcode==='XOR'&&same?0:opcode==='XOR'?a.value^b.value:a.value&b.value;
@@ -819,7 +820,7 @@ export class NativeX86ThreadStack {
             const raw='feffffff00000000d4ffffff00000000feffffff62e00c107ee00c10';for(let offset=0;offset<28;offset++)if(NativeHeapObjectViews.prototype.readUnsigned.call(scopeFields!,offset,1)!==parseInt(raw.slice(offset*2,offset*2+2),16))throw new Error('Original live processor SIMD scope bytes required');
             stack.#processorSimdFrame={oldFs:stack.#load(stack.#bank,32),oldEbp:stack.#load(stack.#bank,stack.#reg('EBP')),oldEbx:stack.#load(stack.#bank,stack.#reg('EBX')),oldEsi:stack.#load(stack.#bank,stack.#reg('ESI')),oldEdi:stack.#load(stack.#bank,stack.#reg('EDI')),scope,returned:false};
           }
-          if(!((pc==='100ce0e2'&&target==='100ce045')||(pc==='100ce04c'&&target==='100aeb68')||(pc==='100ce08f'&&target==='100aebad')||((pc==='100a729b'||pc==='100b10dd')&&target==='100aeb68')||((pc==='100a72c4'||pc==='100b1162')&&target==='100aebad'))&&!['100ae900','100ae880','100ae8b0','100a78fe','100a788e','100b4407','100b448b','100ae27b','100aa47d','100a7265','100aef10','100b1854','100b4b6b','100ce095','100bef05','100ce0f5','100a72d0','100a7294','100a71ac','100ae2f2','100b10d6','100aa453','100aa45c','100a72ca','100e1660','100e1440','100e1450','100e1470','100e14b0','100e14c0','100e14d0','100e14e0','100e14f0','100e1500','100e1510','10003ba7','10007d65'].includes(target))throw new Error('Unowned SharedBase initializer child at '+pc+' -> '+target+' (cinit 100aa632)');
+          if(!((pc==='100ce0e2'&&target==='100ce045')||(pc==='100ce04c'&&target==='100aeb68')||(pc==='100ce08f'&&target==='100aebad')||((pc==='100a729b'||pc==='100b10dd')&&target==='100aeb68')||((pc==='100a72c4'||pc==='100b1162')&&target==='100aebad'))&&!['100ae900','100ae880','100ae8b0','100a78fe','100a788e','100b4407','100b448b','100ae27b','100aa47d','100a7265','100aef10','100b1854','100b4b6b','100ce095','100bef05','100ce0f5','100a72d0','100a7294','100a71ac','100ae2f2','100b10d6','100aa453','100aa45c','100a72ca','100e1660','100e1440','100e1450','100e1470','100e14b0','100e14c0','100e14d0','100e14e0','100e14f0','100e1500','100e1510','10003ba7','10007d65','10002aae'].includes(target))throw new Error('Unowned SharedBase initializer child at '+pc+' -> '+target+' (cinit 100aa632)');
           pc=target;continue;
         }else if(opcode==='RET'){
           const continuation=stack.#record(stack.#ret(args.length?stack.#numeric(read(args[0]!),4):0)).provenance;if(continuation?.kind!=='source')throw new Error('Actual initializer return required');
