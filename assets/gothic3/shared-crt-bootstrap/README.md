@@ -256,3 +256,12 @@ canonical SharedBase cookie owner; this does not prove cookie initialization.
 The helper stops before temporary-wide memset at `100c6f80 -> 100a7980`.
 Conversion fill, classification fill, case maps, cookie checks, wrapper return,
 full module caller stacks and live Game integration remain unfinished.
+
+
+The local configuration frame now encloses the case helper. CPINFO aliases its
+original EBP-24 slot; configuration imports, memset ABI and cookie return use
+the original call sequence. The next boundary is the setmbcp SEH caller at
+`100b171d`, before candidate installation. Lower getSystemCP and configuration
+memset internals remain translated owner effects. See
+`docs/engineering/gothic3-shared-configuration-frame.md` for the installation
+requirements and evidence still needed for complete module attachment.

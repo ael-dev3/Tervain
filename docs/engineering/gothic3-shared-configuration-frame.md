@@ -6,10 +6,16 @@ This implementation plan follows the committed original instruction receipts:
 - `assets/gothic3/shared-crt-bootstrap/100b14a5.asm.txt`
 - `assets/gothic3/shared-crt-bootstrap/100b16ba.asm.txt`
 
-The existing enclosing case helper returns normally to `100b1619`, then models
-`100b14d5` setting EAX to zero. It stops at `100b166f` because the configuration
-caller frame has not been established. Its current cold graph entry is a
-translated helper boundary, not evidence of complete SharedBase attachment.
+The local implementation now establishes the configuration caller at
+`100b1718`, before code-page setup. CPINFO aliases EBP-24 on the canonical
+selected thread stack. The IsValidCodePage and GetCPInfo imports, configuration
+memset ABI, nested case frame and configuration cookie return retain their source
+CALL/RET sequence. Execution reaches `100b171d` with EAX zero and the two caller
+argument words still present. The enclosing setmbcp SEH frame remains unowned.
+
+The lower getSystemCP body and configuration memset body still use the retained
+owner's translated implementation. Complete SharedBase attachment and live Game
+integration are not established by this helper boundary.
 
 ## Required frame lifecycle
 

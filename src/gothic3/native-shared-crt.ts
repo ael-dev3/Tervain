@@ -105,6 +105,11 @@ export class NativeSharedCrtOwner {
  #cpInfo:NativeHeapObjectViews|null=null;
  #locals=new WeakMap<NativeHeapObjectViews,LocalStorage>();
  #caseState:CaseState|null=null;
+ #configurationCall:object|null=null;
+ #configurationStack:NativeX86ThreadStack|null=null;
+ #configurationFields:NativeHeapObjectViews|null=null;
+ #configurationStage:'enter'|'body'|'case'|'return'='enter';
+ #configurationInput=0;
  #caseCall:object|null=null;
  #caseFields:NativeHeapObjectViews|null=null;
  #caseStage:'enter'|'classification'|'lower'|'upper'|'tables'|'return'='enter';
@@ -181,6 +186,12 @@ export class NativeSharedCrtOwner {
   try{owner.#requireLocal(item.input);owner.#requireLocal(item.types);if(!owner.#localeUpdate)throw new Error('Actual SharedBase locale-update caller required');owner.#requireLocal(owner.#localeUpdate);const cookie=NativeSharedCrtSecurityCookie.forPlatform(platform).readCookie();if(!cookie.known)return cookie;
    return {known:true,value:{stage:owner.#stackStage,input:item.input,types:item.types,codePage:owner.#multibyteAllocation.readUnsigned(4),count:item.wideCount??256,cookie:cookie.value,locale:owner.#localeUpdate!}};
   }catch(error){return {known:false,reason:error instanceof Error?error.message:String(error)};}
+ }
+ static configurationStackArgumentsForPlatform(platform:NativeRuntimePlatform,call:object):NativeValue<Readonly<{stage:'enter'|'body'|'case'|'return';fields:NativeHeapObjectViews;input:number;cookie:number;table:NativeHeapObjectViews}>>{
+  const active=NativeRuntimePlatform.requireActivePlatform(platform);if(!active.known)return active;const owner=owners.get(platform);
+  if(!owner||!owner.#active||owner.#configurationCall!==call||!owner.#configurationFields||owner.#configurationFields!==owner.#multibyteAllocation)return {known:false,reason:'Actual pending SharedBase configuration required'};
+  const cookie=NativeSharedCrtSecurityCookie.forPlatform(platform).readCookie();if(!cookie.known)return cookie;
+  return {known:true,value:{stage:owner.#configurationStage,fields:owner.#configurationFields,input:owner.#configurationInput,cookie:cookie.value,table:owner.imageStorage('multibyteCodePageTable')}};
  }
  static caseStackArgumentsForPlatform(platform:NativeRuntimePlatform,call:object):NativeValue<Readonly<{stage:'enter'|'classification'|'lower'|'upper'|'tables'|'return';fields:NativeHeapObjectViews;cookie:number;state:CaseState|null}>>{
   const active=NativeRuntimePlatform.requireActivePlatform(platform);if(!active.known)return active;const owner=owners.get(platform);
@@ -626,12 +637,14 @@ export class NativeSharedCrtOwner {
   const call=Object.freeze({identity:Object.freeze({})});this.#nlsPending={call,kind,scalar,fields,input,count,flags,procedure};
   try{
    if(this.#caseCall&&kind==='GetCPInfo')this.#call('100b1221.caseCPInfoCall',()=>NativeX86ThreadStack.beginSharedCaseCpInfo(this.#caseState!.stack!,this.#caseCall!,call));
+   else if(this.#configurationCall&&this.#configurationStage==='body'&&(kind==='IsValidCodePage'||kind==='GetCPInfo'))this.#call('configuration.NLS.call',()=>NativeX86ThreadStack.beginSharedConfigurationImport(this.#configurationStack!,this.#configurationCall!,call));
    else if(this.#mappingState&&this.#stackCall)this.#call('SharedBase.NLS.mapStackCall',()=>NativeX86ThreadStack.beginSharedMappingImport(this.#caseState!.stack!,this.#stackCall!,call));
    else if(this.#caseState?.stack&&(kind==='GetStringTypeW'||kind==='MultiByteToWideChar'))this.#call('SharedBase.NLS.stackCall',()=>NativeX86ThreadStack.beginSharedStringTypeImport(this.#caseState!.stack!,this.#stackCall!,call));
    const result=this.#call('SharedBase.'+kind,()=>endpoints.invoke(call));
    const actual=this.#call(kind+'.normalReturn',()=>NativeRuntimePlatform.canonicalArgvNlsNormalReturnForPlatform(this.platform,call));
    if(result!==actual||result.kind!=='scalar')throw new Error('Actual SharedBase NLS scalar return required');
    if(this.#caseCall&&kind==='GetCPInfo')this.#call('100b1227.caseCPInfoReturn',()=>NativeX86ThreadStack.finishSharedCaseCpInfo(this.#caseState!.stack!,this.#caseCall!,call,result.value));
+   else if(this.#configurationCall&&this.#configurationStage==='body'&&(kind==='IsValidCodePage'||kind==='GetCPInfo'))this.#call('configuration.NLS.return',()=>NativeX86ThreadStack.finishSharedConfigurationImport(this.#configurationStack!,this.#configurationCall!,call,result.value));
    else if(this.#mappingState&&this.#stackCall)this.#call('SharedBase.NLS.mapStackReturn',()=>NativeX86ThreadStack.finishSharedMappingImport(this.#caseState!.stack!,this.#stackCall!,call,result.value));
    else if(this.#caseState?.stack&&(kind==='GetStringTypeW'||kind==='MultiByteToWideChar'))this.#call('SharedBase.NLS.stackReturn',()=>NativeX86ThreadStack.finishSharedStringTypeImport(this.#caseState!.stack!,this.#stackCall!,call,result.value));
    return result.value;
@@ -647,14 +660,20 @@ export class NativeSharedCrtOwner {
   this.#codePage=codePage;this.#trace.push('100b142b.getSystemCP.return');return codePage;
  }
  #configureMultibytePrefix(fields:NativeHeapObjectViews,input:number):void {
+  if(NativeRuntimePlatform.threadStackSelectionForPlatform(this.platform).known){
+   this.#configurationCall=Object.freeze({});this.#configurationFields=fields;this.#configurationInput=input;this.#configurationStage='enter';
+   const entered=this.#call('100b1718.configurationFrame',()=>NativeX86ThreadStack.beginSharedConfigurationFrame(this.platform,this.#configurationCall!));this.#configurationStack=entered.stack;this.#cpInfo=this.#retainStackLocal(entered.info);
+  }
   const codePage=this.#getSystemCodePage(input);
+  if(this.#configurationCall){this.#configurationStage='body';this.#call('100b14c3.configurationCodePage',()=>NativeX86ThreadStack.finishSharedConfigurationCodePage(this.#configurationStack!,this.#configurationCall!,codePage));}
   if(codePage===0)throw new Error('Unowned SharedBase setSBCS at 100b14d0');
   const table=this.imageStorage('multibyteCodePageTable');
-  for(let offset=0;offset<240;offset+=48){this.#trace.push('configureMultibyte.tableCompare.'+offset);if(table.readUnsigned(offset)===codePage)throw new Error('Unowned SharedBase built-in DBCS setup');}
+  for(let offset=0;offset<240;offset+=48){if(this.#configurationCall)this.#call('100b14e1.configurationTableCompare',()=>NativeX86ThreadStack.compareSharedConfigurationCodePage(this.#configurationStack!,this.#configurationCall!,offset));this.#trace.push('configureMultibyte.tableCompare.'+offset);if(table.readUnsigned(offset)===codePage)throw new Error('Unowned SharedBase built-in DBCS setup');}
   if(codePage===65000||codePage===65001)throw new Error('Unowned SharedBase invalid-codepage return/cookie check');
   if(this.#nlsScalar('IsValidCodePage',codePage&0xffff)===0)throw new Error('Unowned SharedBase invalid-codepage return/cookie check');
-  const info=this.#retainLocal(20);this.#cpInfo=info;
+  const info=this.#configurationCall?this.#cpInfo!:this.#retainLocal(20);this.#cpInfo=info;
   if(this.#nlsScalar('GetCPInfo',codePage,info)===0)throw new Error('Unowned SharedBase CPInfo failure fallback');
+  if(this.#configurationCall)this.#call('100b1541.configurationMemset',()=>NativeX86ThreadStack.beginSharedConfigurationMemset(this.#configurationStack!,this.#configurationCall!));
   const pointer={fields,offset:0x1c},geometry=this.#call('memset.geometry',()=>this.platform.resolveNativePointer(pointer));
   const span=NativeRuntimePlatform.canonicalOwnedWin32HeapAllocationSpan(this.platform,this.#heap!,this.identity,pointer,257);if(!span.known)throw new Error(span.reason);
   if(this.imageStorage('memcpySseFlag').readUnsigned(0)!==0)throw new Error('Unowned SharedBase SSE memset');
@@ -664,12 +683,16 @@ export class NativeSharedCrtOwner {
   const df=this.#call('memset.readDF',()=>NativeRuntimePlatform.readNativeDirectionFlag(this.platform));if(df!==0)throw new Error('Unowned SharedBase reverse memset');
   for(let i=0;i<words;i++){fields.writeUnsigned(0x1c+offset,0);offset+=4;this.#trace.push('100a79df.REP_STOSD');}
   for(let i=0;i<remaining;i++){fields.writeUnsigned(0x1c+offset++,0,1);this.#trace.push('memset.tailByte');}
+  if(this.#configurationCall)this.#call('100b1549.configurationMemsetReturn',()=>NativeX86ThreadStack.finishSharedConfigurationMemset(this.#configurationStack!,this.#configurationCall!));
   fields.writeUnsigned(4,codePage);fields.writeUnsigned(12,0);
   if(info.readUnsigned(0)>1)throw new Error('Unowned SharedBase general DBCS lead-byte setup');
   fields.writeUnsigned(8,0);
   const storesDf=this.#call('100b165b.readDF',()=>NativeRuntimePlatform.readNativeDirectionFlag(this.platform));if(storesDf!==0)throw new Error('Unowned SharedBase reverse multibyte information stores');
   for(const at of [16,20,24])fields.writeUnsigned(at,0);
+  if(this.#configurationCall){this.#configurationStage='case';this.#call('100b1612.configurationCase',()=>NativeX86ThreadStack.prepareSharedConfigurationCase(this.#configurationStack!,this.#configurationCall!));}
   this.#initializeCasePrefix(fields);
+  if(this.#configurationCall){this.#configurationStage='return';this.#call('100b167d.configurationReturn',()=>NativeX86ThreadStack.returnSharedConfigurationFrame(this.#configurationStack!,this.#configurationCall!));this.#configurationCall=null;this.#locals.delete(info);}
+  throw new Error('Unowned SharedBase setmbcp SEH caller frame at 100b171d');
  }
  #initializeCasePrefix(fields:NativeHeapObjectViews):void {
   let info=this.#retainLocal(20),input=this.#retainLocal(256),types=this.#retainLocal(512),lower=this.#retainLocal(256),upper=this.#retainLocal(256);const probe=this.#retainLocal(4);
@@ -725,7 +748,6 @@ export class NativeSharedCrtOwner {
   if(!this.#caseCall)throw new Error('Actual enclosing SharedBase case frame required');
   this.#caseStage='return';this.#call('100b1386.caseReturn',()=>NativeX86ThreadStack.returnSharedCaseFrame(this.#caseState!.stack!,this.#caseCall!));
   for(const fields of [info,input,types,lower,upper])this.#locals.delete(fields);this.#caseCall=null;this.#trace.push('100b11fd.caseHelper.return');
-  throw new Error('Unowned SharedBase configuration cookie frame at 100b166f');
  }
  #retainStackLocal(fields:NativeHeapObjectViews):NativeHeapObjectViews{
   this.#locals.set(fields,{backing:fields.backing,bytes:fields.bytes,masks:fields.knownMask,backingBytes:fields.backing.bytes,backingMasks:fields.backing.knownMask,view:fields.view});return fields;
@@ -868,7 +890,7 @@ export class NativeSharedCrtOwner {
    if(this.#initializeIoPrefix()<0)throw new Error('Unowned SharedBase attach cleanup after I/O initialization failure');
    this.#initializeArgumentsPrefix();throw new Error('Unowned SharedBase attach after arguments');
   }catch(error){this.#boundary??=error instanceof Error?error.message:String(error);return {known:false,reason:this.#boundary};}
-  finally{this.#stackCall=null;this.#caseCall=null;this.#active=false;}
+  finally{this.#stackCall=null;this.#caseCall=null;this.#configurationCall=null;this.#active=false;}
  }
  snapshot(){return Object.freeze({mappingState:this.#mappingState?Object.freeze({...this.#mappingState}):null,boundary:this.#boundary,localeUpdate:this.#localeUpdate,multibyteAllocation:this.#multibyteAllocation,cpInfo:this.#cpInfo,caseState:this.#caseState?Object.freeze({...this.#caseState}):null,codePage:this.#codePage,startupInfo:this.#startupInfo,ioBlock:this.#ioBlock,ioReturned:this.#ioReturned,versionAllocation:this.#versionAllocation,
   ptd:this.#ptd,ptdInstalled:this.#ptdInstalled,ptdInitialized:this.#ptdInitialized,rtcReturned:this.#rtcReturned,environmentInput:this.#environmentInput,environmentAllocation:this.#environmentAllocation,environmentReturned:this.#environmentReturned,heap:this.#heap,heapReturned:this.#heapReturned,attachReturned:this.#attachReturned,mtReturned:this.#mtReturned,locksReturned:this.#locksReturned,sections:Object.freeze([...this.#sections]),pointersReturned:this.#pointersReturned,
