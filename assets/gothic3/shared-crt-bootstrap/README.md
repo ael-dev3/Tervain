@@ -1,6 +1,6 @@
 # Original SharedBase CRT startup evidence
 
-This package captures 46 original functions covering CRT attach/startup, security-cookie initialization, heap selection/construction/destruction, thread startup/termination, encoded procedure initialization, locks, thread cleanup and locale reference increments. Every captured instruction is compared with the original SharedBase.dll bytes. It also captures 32 cold image ranges with section-backed versus loader-zero-fill evidence.
+This package captures 48 original functions covering CRT attach/startup, security-cookie initialization, heap selection/construction/destruction, thread startup/termination, encoded procedure initialization, locks, thread cleanup and locale reference increments. Every captured instruction is compared with the original SharedBase.dll bytes. It also captures 37 cold image ranges with section-backed versus loader-zero-fill evidence.
 
 SharedBase owns these globals independently of Game and Engine. Its two dynamic thread indices begin at `ffffffff`; the four procedure slots begin as loader-filled zero bytes. The static TLS index from the PE TLS directory is a different field. Loading static TLS does not allocate either dynamic slot, initialize the heap, install FLS/TLS procedures or initialize CRT thread data.
 
@@ -92,3 +92,8 @@ actual heap. The declared platform conversion currently covers ASCII UTF16.
 ANSI memcpy, allocator failure errno/retry and failed-free errno mapping remain
 explicit missing paths. Successful wide conversion reaches original I/O startup
 at `100adb36 -> 100bf165`; full attach and live Game integration remain pending.
+
+The errno dependency evidence now captures original getter-provider caching and
+PTD lookup, with LastError save/restore, plus independent fallback errno. The
+ANSI memcpy evidence additionally includes its original forward dispatch tables
+and cold SSE-selection flag. These captures do not execute errno or memcpy.

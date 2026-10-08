@@ -2,6 +2,28 @@
   "schema": "gothic3-shared-crt-bootstrap-v1",
   "sharedBaseSha256": "5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214",
   "methods": {
+    "getPerThreadDataLower": {
+      "entryVA": "0x100ae4cb",
+      "bodyVA": "0x100ae4cb",
+      "bodyRanges": "100ae4cb-100ae541",
+      "instructionCount": 45,
+      "bodyByteCount": 119,
+      "bodyInstructionBytesSha256": "1887dade0a77296429fcade67c66dcf45022ddf923c828447a8d306aa865773d",
+      "entryChain": [],
+      "assemblySha256": "0f98a9b233e429e4f270257b15a0f7c6497e1031073e671845d995384e267c9e",
+      "cSha256": "90486b5521953efe5db23c8ee54b4b5030c6b95592cb4a72344202a7eb6d0bdd"
+    },
+    "getThreadStorageProvider": {
+      "entryVA": "0x100ae384",
+      "bodyVA": "0x100ae384",
+      "bodyRanges": "100ae384-100ae3b5",
+      "instructionCount": 16,
+      "bodyByteCount": 50,
+      "bodyInstructionBytesSha256": "4abdc2792dd07d9b9a335efbc64d066396a8035bf668fa9f806a8537ae72020e",
+      "entryChain": [],
+      "assemblySha256": "e767124388d430f947437840ac83547890bcbfd5a881717b31f17d66d5914c83",
+      "cSha256": "b462342c81dc46bbfde4ca7d32d9784ea5f962059271dd086c73c1d194b817d8"
+    },
     "errno": {
       "entryVA": "0x100aedd1",
       "bodyVA": "0x100aedd1",
@@ -510,6 +532,86 @@
     }
   },
   "coldGlobals": {
+    "memcpyForwardAlignment": {
+      "address": "100a7a88",
+      "bytes": 16,
+      "raw": "7b0a1090987a0a10c47a0a10e87a0a10",
+      "knownMask": "ffffffffffffffffffffffffffffffff",
+      "section": {
+        "virtualAddress": 4096,
+        "virtualSize": 930343,
+        "rawSize": 933888,
+        "rawOffset": 4096,
+        "fileBackedBytes": 16,
+        "loaderZeroFillBytes": 0
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "memcpyForwardDwords": {
+      "address": "100a7b08",
+      "bytes": 32,
+      "raw": "6b7b0a10587b0a10507b0a10487b0a10407b0a10387b0a10307b0a10287b0a10",
+      "knownMask": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "section": {
+        "virtualAddress": 4096,
+        "virtualSize": 930343,
+        "rawSize": 933888,
+        "rawOffset": 4096,
+        "fileBackedBytes": 32,
+        "loaderZeroFillBytes": 0
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "memcpyForwardTail": {
+      "address": "100a7b74",
+      "bytes": 16,
+      "raw": "847b0a108c7b0a10987b0a10ac7b0a10",
+      "knownMask": "ffffffffffffffffffffffffffffffff",
+      "section": {
+        "virtualAddress": 4096,
+        "virtualSize": 930343,
+        "rawSize": 933888,
+        "rawOffset": 4096,
+        "fileBackedBytes": 16,
+        "loaderZeroFillBytes": 0
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "fallbackErrno": {
+      "address": "10140d40",
+      "bytes": 4,
+      "raw": "0c000000",
+      "knownMask": "ffffffff",
+      "section": {
+        "virtualAddress": 1306624,
+        "virtualSize": 1807760,
+        "rawSize": 16384,
+        "rawOffset": 1306624,
+        "fileBackedBytes": 4,
+        "loaderZeroFillBytes": 0
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "memcpySseFlag": {
+      "address": "102f854c",
+      "bytes": 4,
+      "raw": "00000000",
+      "knownMask": "ffffffff",
+      "section": {
+        "virtualAddress": 1306624,
+        "virtualSize": 1807760,
+        "rawSize": 16384,
+        "rawOffset": 1306624,
+        "fileBackedBytes": 0,
+        "loaderZeroFillBytes": 4
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
     "environmentMode": {
       "address": "102f6bf0",
       "bytes": 4,
