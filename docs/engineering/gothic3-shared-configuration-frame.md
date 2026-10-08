@@ -11,7 +11,9 @@ The local implementation now establishes the configuration caller at
 selected thread stack. The IsValidCodePage and GetCPInfo imports, configuration
 memset ABI, nested case frame and configuration cookie return retain their source
 CALL/RET sequence. Execution reaches `100b171d` with EAX zero and the two caller
-argument words still present. The enclosing setmbcp SEH frame remains unowned.
+argument words still present. The enclosing setmbcp SEH prologue is now owned;
+its caller removes those words and retains the pending decrement import at
+`100b1730`. Installation and the parent SEH epilogue remain unfinished.
 
 The lower getSystemCP body and configuration memset body still use the retained
 owner's translated implementation. Complete SharedBase attachment and live Game
@@ -77,3 +79,15 @@ Retain explicit boundaries for unsupported code pages and failure paths.
 A passing helper check proves only this source path. Full SharedBase attachment,
 live Game initializer traversal, world activation and a finishable campaign need
 separate runtime evidence.
+
+## Parent SEH source layout
+
+The captured prologue relocates its original return word, preserves FS:[0],
+encodes the scope-table pointer with the cookie, and registers EBP-16 as FS:[0].
+The cookie/EBP expression is retained at EBP-52. Source locals EBP-32 and EBP-36
+hold the configuration result and PTD respectively. The original epilogue and
+lock-release handler are source evidence; neither has executed at the current
+pending decrement boundary. Exception dispatch remains unimplemented.
+
+The helper entry still starts on a cold selected graph. Earlier SharedBase DLL
+and CRT caller frames and live Game graph integration are not established.

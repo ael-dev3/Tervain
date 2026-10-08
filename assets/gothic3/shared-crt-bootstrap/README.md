@@ -265,3 +265,14 @@ the original call sequence. The next boundary is the setmbcp SEH caller at
 memset internals remain translated owner effects. See
 `docs/engineering/gothic3-shared-configuration-frame.md` for the installation
 requirements and evidence still needed for complete module attachment.
+
+
+The source package now contains 79 function receipts, 56 cold image ranges and
+159 assembly/pseudocode/JSON files. The new SEH prologue, epilogue, setmbcp
+lock-release handler and scope table support the enclosing parent frame. Its
+prologue and source caller ABI now surround configuration on the same selected
+stack. Execution stops with the decrement import at `100b1730` pending. Neither
+reference-count exchange, candidate installation, exception dispatch, lock
+release nor the parent epilogue has executed. Lower services remain translated
+owner effects, and complete module attachment and live Game integration remain
+unfinished.
