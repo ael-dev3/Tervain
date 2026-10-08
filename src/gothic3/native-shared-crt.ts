@@ -230,6 +230,7 @@ export class NativeSharedCrtOwner {
  private constructor(private readonly platform:NativeRuntimePlatform,proof:object){
   if(proof!==token)throw new Error('Canonical SharedBase CRT owner required');
   if(source.sharedBaseSha256!=='5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214')throw new Error('Original SharedBase module required');
+  if(source.methods.dllMainCrtStartup.bodyInstructionBytesSha256!=='50213d0253c2f6d47c546dcf19cbd7e0840adaa6b272863b2da2e75b2992a4a1')throw new Error('Original SharedBase CRT caller source required');
   for(const [label,[body,hash]] of Object.entries(methods)){
    const receipt=source.methods[label as keyof typeof methods];
    if(receipt.bodyVA!==body||receipt.bodyInstructionBytesSha256!==hash)throw new Error('Original SharedBase CRT source differs: '+label);
@@ -1294,7 +1295,7 @@ export class NativeSharedCrtOwner {
    const environment=this.#readEnvironment(endpoints);
    this.imageStorage('environmentPointer').pointer<NativeBytePointer>(0).set(environment);this.#trace.push('100adb31.storeEnvironment');
    if(this.#initializeIoPrefix()<0)throw new Error('Unowned SharedBase attach cleanup after I/O initialization failure');
-   if(this.#initializeArgumentsPrefix()<0)throw new Error('Unowned SharedBase attach cleanup at 100adb6f');this.#call('100adb4f.setenvpCall',()=>NativeX86ThreadStack.beginSharedArgvEnvironment(this.#argvStack!,this.#argvCall!));if(this.#initializeEnvironmentVector()<0)throw new Error('Unowned SharedBase attach cleanup after setenvp at 100adb6f');this.#call('100adb5a.cinitCall',()=>NativeX86ThreadStack.beginSharedEnvironmentInitializers(this.#argvStack!,this.#argvCall!));this.#initializerActive=true;this.#call('100aa632.cinitBody',()=>NativeX86ThreadStack.runSharedInitializers(this.#argvStack!,this.#argvCall!));throw new Error('Unowned SharedBase cinit return');
+   if(this.#initializeArgumentsPrefix()<0)throw new Error('Unowned SharedBase attach cleanup at 100adb6f');this.#call('100adb4f.setenvpCall',()=>NativeX86ThreadStack.beginSharedArgvEnvironment(this.#argvStack!,this.#argvCall!));if(this.#initializeEnvironmentVector()<0)throw new Error('Unowned SharedBase attach cleanup after setenvp at 100adb6f');this.#call('100adb5a.cinitCall',()=>NativeX86ThreadStack.beginSharedEnvironmentInitializers(this.#argvStack!,this.#argvCall!));this.#initializerActive=true;const returned=this.#call('100aa632.cinitBody',()=>NativeX86ThreadStack.runSharedInitializers(this.#argvStack!,this.#argvCall!));if(returned!==1)throw new Error('Original SharedBase CRT success return required');this.#attachReturned=returned;return {known:true,value:returned};
   }catch(error){this.#boundary??=error instanceof Error?error.message:String(error);return {known:false,reason:this.#boundary};}
   finally{this.#stackCall=null;this.#caseCall=null;this.#configurationCall=null;this.#setMultibyteCall=null;this.#argvCall=null;this.#initializerActive=false;this.#active=false;}
  }
