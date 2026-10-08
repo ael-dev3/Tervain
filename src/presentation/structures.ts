@@ -71,17 +71,48 @@ export function foundation(R: Region, rnd: Rnd, w: number, d: number, top: numbe
   run(d, (t) => [-w / 2 - ox, t, Math.PI / 2]);
 }
 
-/** A run of vertical boards. Each stands slightly proud or recessed, at a slightly different height, with a gap. */
-export function plankFace(R: Region, rnd: Rnd, len: number, h: number, y0: number, tint = TINT.wood) {
+/** An opening through a face: between x0 and x1, up to `top` above the face's foot. */
+export interface FaceGap { x0: number; x1: number; top: number }
+
+/**
+ * A run of vertical boards. Each stands slightly proud or recessed, at a slightly different height, with a gap. Boards
+ * across a doorway stop above it; the decorative random sequence is the same with or without one.
+ */
+export function plankFace(R: Region, rnd: Rnd, len: number, h: number, y0: number, tint = TINT.wood, gap?: FaceGap) {
   const B = R.planks;
   let x = -len / 2;
   while (x < len / 2 - 0.05) {
     const pw = Math.min(len / 2 - x, 0.2 + rnd() * 0.14);
     const cx = x + pw / 2;
     const top = h + (rnd() - 0.5) * 0.14 - (rnd() < 0.08 ? 0.35 : 0);
-    B.box(pw * 0.93, top, 0.06 + rnd() * 0.02, cx, y0, (rnd() - 0.5) * 0.06, jitterTone(tint, rnd, 0.09), { ry: (rnd() - 0.5) * 0.02, rz: (rnd() - 0.5) * 0.014, jit: 0.045, grain: 'y', amp: 0.035 });
+    const depth = 0.06 + rnd() * 0.02, z = (rnd() - 0.5) * 0.06, tone = jitterTone(tint, rnd, 0.09);
+    const o = { ry: (rnd() - 0.5) * 0.02, rz: (rnd() - 0.5) * 0.014, jit: 0.045, grain: 'y' as const, amp: 0.035 };
+    const width = pw * 0.93, left = cx - width / 2, right = cx + width / 2;
+    if (!gap || right <= gap.x0 || left >= gap.x1) B.box(width, top, depth, cx, y0, z, tone, o);
+    else {
+      // The parts beside the doorway stand full height; the part over it starts at the lintel.
+      if (left < gap.x0) B.box(gap.x0 - left, top, depth, (left + gap.x0) / 2, y0, z, tone, o);
+      if (right > gap.x1) B.box(right - gap.x1, top, depth, (gap.x1 + right) / 2, y0, z, tone, o);
+      const over = Math.max(left, gap.x0), under = Math.min(right, gap.x1);
+      if (top > gap.top) B.box(under - over, top - gap.top, depth, (over + under) / 2, y0 + gap.top, z, tone, o);
+    }
     x += pw;
   }
+}
+
+/**
+ * Walls of a given thickness, standing inward from the footprint line, with a doorway through the front (+z) wall:
+ * the door's width and height, centred at `door.x`.
+ */
+export function roomWalls(B: Batch, w: number, d: number, h: number, y0: number, t: number, door: { x: number; halfWidth: number; height: number }, tint: Col, sub = 0.7) {
+  const o = { sub, amp: 0.045, jit: 0.02 };
+  const x0 = door.x - door.halfWidth, x1 = door.x + door.halfWidth;
+  B.bx(-w / 2, y0, d / 2 - t, x0, y0 + h, d / 2, tint, o);
+  B.bx(x1, y0, d / 2 - t, w / 2, y0 + h, d / 2, tint, o);
+  B.bx(x0, y0 + door.height, d / 2 - t, x1, y0 + h, d / 2, tint, o);
+  B.bx(-w / 2, y0, -d / 2, w / 2, y0 + h, -d / 2 + t, tint, o);
+  B.bx(-w / 2, y0, -d / 2 + t, -w / 2 + t, y0 + h, d / 2 - t, tint, o);
+  B.bx(w / 2 - t, y0, -d / 2 + t, w / 2, y0 + h, d / 2 - t, tint, o);
 }
 
 /** A wall slab in one material with a subdivided front so vertex colour noise reads on large planes. */
@@ -89,21 +120,37 @@ export function slab(B: Batch, w: number, h: number, d: number, y0: number, tint
   B.bx(-w / 2, y0, -d / 2, w / 2, y0 + h, d / 2, tint, { sub, amp: 0.045, jit: 0.02 });
 }
 
-/** Exposed timber frame over a plaster or stone wall: corner posts, a sill, a mid rail, a top plate and braces. */
-export function timberFrame(R: Region, rnd: Rnd, w: number, d: number, h: number, y0: number) {
+/**
+ * Exposed timber frame over a plaster or stone wall: corner posts, a sill, a mid rail, a top plate and braces. Across a
+ * doorway in the front wall (local x from x0 to x1, up to `top` above y0) the rails and studs stop at its sides; the
+ * decorative random sequence is unchanged.
+ */
+export function timberFrame(R: Region, rnd: Rnd, w: number, d: number, h: number, y0: number, gap?: FaceGap) {
   const B = R.timber;
   const t = TINT.woodDark;
   for (const sx of [-1, 1]) for (const sz of [-1, 1]) post(B, rnd, sx * (w / 2 + 0.02), sz * (d / 2 + 0.02), y0 + h + 0.1, 0.26, jitterTone(t, rnd, 0.1), 0.2);
   const rails = [y0 + 0.02, y0 + h * 0.46, y0 + h - 0.05];
   for (const y of rails) {
-    for (const sz of [-1, 1]) B.bx(-w / 2 - 0.05, y, sz * (d / 2 + 0.03) - 0.09, w / 2 + 0.05, y + 0.17, sz * (d / 2 + 0.03) + 0.09, jitterTone(t, rnd, 0.12), { grain: 'x', jit: 0.1 });
+    for (const sz of [-1, 1]) {
+      const tone = jitterTone(t, rnd, 0.12), z0 = sz * (d / 2 + 0.03) - 0.09, z1 = sz * (d / 2 + 0.03) + 0.09;
+      if (sz === 1 && gap && y < y0 + gap.top) {
+        B.bx(-w / 2 - 0.05, y, z0, gap.x0, y + 0.17, z1, tone, { grain: 'x', jit: 0.1 });
+        B.bx(gap.x1, y, z0, w / 2 + 0.05, y + 0.17, z1, tone, { grain: 'x', jit: 0.1 });
+      } else B.bx(-w / 2 - 0.05, y, z0, w / 2 + 0.05, y + 0.17, z1, tone, { grain: 'x', jit: 0.1 });
+    }
     for (const sx of [-1, 1]) B.bx(sx * (w / 2 + 0.03) - 0.09, y, -d / 2 - 0.05, sx * (w / 2 + 0.03) + 0.09, y + 0.17, d / 2 + 0.05, jitterTone(t, rnd, 0.12), { grain: 'z', jit: 0.1 });
   }
   // Intermediate studs and corner braces.
   const nStud = Math.max(1, Math.round(w / 2.1) - 1);
   for (let i = 1; i <= nStud; i++) {
     const x = -w / 2 + (i * w) / (nStud + 1) + (rnd() - 0.5) * 0.2;
-    for (const sz of [-1, 1]) B.box(0.14, h - 0.1, 0.16, x, y0 + 0.05, sz * (d / 2 + 0.03), jitterTone(t, rnd, 0.1), { grain: 'y', rz: (rnd() - 0.5) * 0.03, jit: 0.1 });
+    for (const sz of [-1, 1]) {
+      const tone = jitterTone(t, rnd, 0.1), rz = (rnd() - 0.5) * 0.03;
+      // A stud never stands in the doorway; over it, it shortens to the lintel.
+      if (sz === 1 && gap && x + 0.07 > gap.x0 && x - 0.07 < gap.x1) {
+        if (h - 0.1 > gap.top + 0.05) B.box(0.14, h - 0.1 - gap.top - 0.05, 0.16, x, y0 + gap.top + 0.1, sz * (d / 2 + 0.03), tone, { grain: 'y', rz, jit: 0.1 });
+      } else B.box(0.14, h - 0.1, 0.16, x, y0 + 0.05, sz * (d / 2 + 0.03), tone, { grain: 'y', rz, jit: 0.1 });
+    }
   }
   for (const sz of [-1, 1]) for (const sx of [-1, 1]) {
     const bx = sx * (w / 2 + 0.03);
@@ -131,6 +178,12 @@ export function quoins(R: Region, rnd: Rnd, w: number, d: number, h: number, y0:
 }
 
 export interface DoorOpts {
+  /**
+   * Draw the leaf apart, so it can swing: into this region, in a frame whose origin is the hinge at the leaf's left
+   * edge (the leaf extending along +x, its outer face towards +z). The dark backing of a closed door is then left out.
+   * The decorative random sequence is the same either way.
+   */
+  leaf?: Region;
   x?: number;
   /** Threshold height above the building's ground frame. */
   y?: number;
@@ -160,23 +213,26 @@ export function door(R: Region, rnd: Rnd, o: DoorOpts) {
       R.stone.box(0.24, h / 5 - 0.035, 0.035, x + side * (w / 2 + 0.1), -0.025 + j * h / 5, z + 0.198, tone, { jit: 0.015, amp: 0.015 });
     }
   }
-  const P = R.planks;
-  R.vc.box(w, h, 0.045, x, 0, z + 0.015, 0x17110c, { jit: 0, amp: 0 });
+  // The leaf: in place in this region, or about its hinge in its own (the same shapes either way).
+  const L = o.leaf ?? R;
+  const lx = o.leaf ? -(x - w / 2) : 0, lz = o.leaf ? -(z + 0.05) : 0;
+  if (!o.leaf) R.vc.box(w, h, 0.045, x, 0, z + 0.015, 0x17110c, { jit: 0, amp: 0 });
+  const P = L.planks;
   const n = Math.round(w / 0.2);
-  for (let i = 0; i < n; i++) P.box((w / n) * 0.94, h - (rnd() < 0.15 ? 0.05 : 0), 0.05, x - w / 2 + (i + 0.5) * (w / n), 0, z + 0.05 + (rnd() - 0.5) * 0.02, jitterTone(TINT.woodPale, rnd, 0.09), { grain: 'y', jit: 0.045, amp: 0.03 });
-  for (const yy of [0.35, h - 0.4]) R.metal.box(w * 0.9, 0.09, 0.03, x, yy, z + 0.095, TINT.iron, { jit: 0.08 });
-  R.metal.box(0.09, 0.09, 0.05, x + w * 0.32, h * 0.5, z + 0.1, TINT.iron, { jit: 0.05 });
+  for (let i = 0; i < n; i++) P.box((w / n) * 0.94, h - (rnd() < 0.15 ? 0.05 : 0), 0.05, lx + x - w / 2 + (i + 0.5) * (w / n), 0, lz + z + 0.05 + (rnd() - 0.5) * 0.02, jitterTone(TINT.woodPale, rnd, 0.09), { grain: 'y', jit: 0.045, amp: 0.03 });
+  for (const yy of [0.35, h - 0.4]) L.metal.box(w * 0.9, 0.09, 0.03, lx + x, yy, lz + z + 0.095, TINT.iron, { jit: 0.08 });
+  L.metal.box(0.09, 0.09, 0.05, lx + x + w * 0.32, h * 0.5, lz + z + 0.1, TINT.iron, { jit: 0.05 });
   // Forged straps are fastened into the boards; these details never consume the layout's RNG stream.
   for (const yy of [0.35, h - 0.4]) for (const f of [-0.32, 0.32]) {
-    R.metal.rod(x + w * f, yy + 0.04, z + 0.106, x + w * f, yy + 0.04, z + 0.13, 0.018, 4, TINT.iron, { jit: 0.02, amp: 0 });
+    L.metal.rod(lx + x + w * f, yy + 0.04, lz + z + 0.106, lx + x + w * f, yy + 0.04, lz + z + 0.13, 0.018, 4, TINT.iron, { jit: 0.02, amp: 0 });
   }
-  R.metal.box(0.075, 0.21, 0.028, x + w * 0.32, h * 0.5 - 0.045, z + 0.098, TINT.iron, { jit: 0.02, amp: 0 });
+  L.metal.box(0.075, 0.21, 0.028, lx + x + w * 0.32, h * 0.5 - 0.045, lz + z + 0.098, TINT.iron, { jit: 0.02, amp: 0 });
   const ring: [number, number, number][] = [];
   for (let i = 0; i < 8; i++) {
     const a = i / 8 * Math.PI * 2;
-    ring.push([x + w * 0.32 + Math.cos(a) * 0.047, h * 0.5 + 0.015 + Math.sin(a) * 0.055, z + 0.143]);
+    ring.push([lx + x + w * 0.32 + Math.cos(a) * 0.047, h * 0.5 + 0.015 + Math.sin(a) * 0.055, lz + z + 0.143]);
   }
-  for (let i = 0; i < ring.length; i++) R.metal.rod(...ring[i]!, ...ring[(i + 1) % ring.length]!, 0.012, 3, TINT.iron, { jit: 0.02, amp: 0 });
+  for (let i = 0; i < ring.length; i++) L.metal.rod(...ring[i]!, ...ring[(i + 1) % ring.length]!, 0.012, 3, TINT.iron, { jit: 0.02, amp: 0 });
   R.ctx.pop();
   // Full-depth treads meet both the ground and the raised threshold, rather than floating slabs.
   R.stone.box(w + 0.7, base + 0.16, 0.7, x, -0.08, z + 0.42, jitterTone(TINT.stone, rnd, 0.12), { jit: 0.1 });
@@ -321,11 +377,13 @@ export function roofWallInfill(R: Region, kind: 'gable' | 'hip' | 'lean', w: num
   if (low > base) R.get(mat).bx(-w / 2, base, d / 2 - thickness * 0.5, w / 2, low, d / 2 + thickness * 0.5, tint, { jit: 0.03, amp: 0.08 });
 }
 
-/** The shrine's static stone shell, with a sloped wall joint under all four hip roof planes. */
-export function buildShrineHallShell(R: Region, rnd: Rnd, w: number, d: number, h: number, sink: number): RoofResult {
+/**
+ * The shrine's static stone shell, with a sloped wall joint under all four hip roof planes. Its walls (`t` thick) stand
+ * about the great door's opening (A66).
+ */
+export function buildShrineHallShell(R: Region, rnd: Rnd, w: number, d: number, h: number, sink: number, t: number, door: { x: number; halfWidth: number; height: number }): RoofResult {
   foundation(R, rnd, w + 0.6, d + 0.6, 0.7, sink);
-  R.vc.bx(-w / 2 + 0.05, 0.4, -d / 2 + 0.05, w / 2 - 0.05, 0.5 + h, d / 2 - 0.05, 0x1a1712, { jit: 0, amp: 0 });
-  slab(R.stone, w, h, d, 0.5, jitterTone(TINT.stone, rnd, 0.05), 0.9);
+  roomWalls(R.stone, w, d, h, 0.5, t, door, jitterTone(TINT.stone, rnd, 0.05), 0.9);
   quoins(R, rnd, w, d, h, 0.5);
   const roof = roofFor(R, 'hip', 'slate', w, d, 0.5 + h, 41, { pitch: 0.55 });
   roofWallInfill(R, 'hip', w, d, 0.5 + h, roof, 'stone');

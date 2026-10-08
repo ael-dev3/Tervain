@@ -759,8 +759,8 @@ export class EnemyActor {
       travel, moveSpeed: dt > 0 ? travel / dt : 0,
       t: this.state === 'stagger' ? 1 - Math.max(0, this.t) / 0.85 : actionT, amp: ctx.reducedMotion ? 0.5 : 1 };
     poseRig(this.rig, pose, dt);
-    if (this.state === 'dead') {
-      // Fall over.
+    if (this.state === 'dead' && !this.rig.resident) {
+      // Fall over (a figure on its own rig falls in its death clip instead).
       const k = Math.min(1, this.t / 0.6);
       this.rig.body.rotation.z = this.rig.kind === 'thornback' ? k * 1.4 : 0;
       this.rig.body.rotation.x = this.rig.kind === 'humanoid' ? -1.5 * k : 0;

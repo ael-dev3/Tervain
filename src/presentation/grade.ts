@@ -4,10 +4,11 @@ import { detachWaterOptics } from './waterOptics';
 
 /**
  * The final image. The scene is drawn into a half-float target (multisampled where the quality allows), then one
- * full-screen pass tone maps it and gives it the look this game is after: earthy, slightly desaturated, hard contrast
- * with cool shadows and warm lights, a soft vignette and fine film grain to take the digital polish off. A modest bloom
- * (bright pass and a two-tap blur at quarter resolution, added before tone mapping) lets the sun on the sea, lit windows,
- * torches and the lighthouse lamp glow the way the reference does; it is skipped on the low preset. No depth of field.
+ * full-screen pass tone maps it and gives it the look this game is after: earthy (greens lean olive and the sky is
+ * muted, while reds and golds keep their colour), hard contrast with cool shadows and warm lights, a vignette and film
+ * grain to take the digital polish off. A modest bloom (bright pass and a two-tap blur at quarter resolution, added
+ * before tone mapping) lets the sun on the sea, lit windows, torches and the lighthouse lamp glow the way the reference
+ * does; it is skipped on the low preset. No depth of field.
  */
 
 const VERT = /* glsl */ `
@@ -55,6 +56,7 @@ uniform float uSaturation;
 uniform float uContrast;
 uniform float uVignette;
 uniform float uGrain;
+uniform float uEarth;
 uniform float uNight;
 uniform float uChromatic;
 uniform vec2 uTexel;
@@ -128,13 +130,24 @@ void main() {
   // Warm sunlight remains selective. Moonlit highlights retain their cooler identity through the night cycle.
   vec3 lightTint = mix(vec3(1.06, 1.0, 0.9), vec3(0.97, 1.0, 1.04), clamp(uNight, 0.0, 1.0));
   c *= mix(shadowTint, lightTint, smoothstep(0.12, 0.7, l));
-  // Saturation and an S-curve around mid grey.
+  // Earthier greens and sky (A67): grass and leaves lean to olive and lose some chroma, the sky's blue is muted.
+  // Reds, golds and browns keep theirs, so the warm/cool contrast survives (this is not a blanket desaturation).
+  l = dot(c, vec3(0.2126, 0.7152, 0.0722));
+  float chroma = max(c.r, max(c.g, c.b)) - min(c.r, min(c.g, c.b));
+  float leafy = smoothstep(0.0, 0.06, c.g - max(c.r, c.b)) * smoothstep(0.015, 0.08, chroma) * uEarth;
+  float skyish = smoothstep(0.0, 0.08, c.b - max(c.r, c.g)) * smoothstep(0.015, 0.08, chroma) * uEarth;
+  vec3 olive = vec3(l) + (c - vec3(l)) * 0.68;
+  olive.r += (olive.g - olive.r) * 0.32;
+  c = mix(c, olive * 0.96, leafy);
+  c = mix(c, vec3(l) + (c - vec3(l)) * 0.78, skyish);
+  // Saturation, then the contrast curve.
   l = dot(c, vec3(0.2126, 0.7152, 0.0722));
   c = mix(vec3(l), c, uSaturation);
   // Daylight can carry the stronger S-curve. Fade its black subtraction at night so
   // moonlit cloth, nearby roots and the road retain their painted dark values.
   float sceneContrast = mix(uContrast, 1.0, clamp(uNight, 0.0, 1.0));
-  c = clamp((c - 0.5) * sceneContrast + 0.5 + 0.008, 0.0, 1.0);
+  // The curve turns below mid grey, so the extra contrast goes into the lights and the shadows keep their detail.
+  c = clamp((c - 0.4) * sceneContrast + 0.4 + 0.008, 0.0, 1.0);
   // Vignette.
   float v = smoothstep(0.95, 0.28, length(d * vec2(1.0, 0.86)));
   c *= mix(1.0 - uVignette, 1.0, v);
@@ -180,10 +193,11 @@ export class Grade {
         tBloom: { value: null as THREE.Texture | null },
         uBloom: { value: 0.24 },
         uTime: { value: 0 },
-        uSaturation: { value: 0.94 },
-        uContrast: { value: 1.06 },
-        uVignette: { value: 0.1 },
-        uGrain: { value: 0.004 },
+        uSaturation: { value: 0.92 },
+        uContrast: { value: 1.1 },
+        uVignette: { value: 0.18 },
+        uGrain: { value: 0.012 },
+        uEarth: { value: 1 },
         uNight: { value: 0 },
         uChromatic: { value: 0 },
         uTexel: { value: new THREE.Vector2(1, 1) },
@@ -243,9 +257,10 @@ export class Grade {
     this.blurMat.uniforms.uTexel!.value.set(1 / bw, 1 / bh);
   }
 
-  setLook(o: { saturation?: number; contrast?: number; vignette?: number; grain?: number; night?: number; chromatic?: number }) {
+  setLook(o: { saturation?: number; contrast?: number; vignette?: number; grain?: number; earth?: number; night?: number; chromatic?: number }) {
     const u = this.material.uniforms;
     if (o.saturation !== undefined) u.uSaturation!.value = o.saturation;
+    if (o.earth !== undefined) u.uEarth!.value = Math.max(0, Math.min(1, o.earth));
     if (o.contrast !== undefined) u.uContrast!.value = o.contrast;
     if (o.vignette !== undefined) u.uVignette!.value = o.vignette;
     if (o.grain !== undefined) u.uGrain!.value = o.grain;
@@ -254,9 +269,9 @@ export class Grade {
   }
 
   /** The current look, so a caller can switch to another (the menu's) and restore this one exactly afterwards. */
-  getLook(): { saturation: number; contrast: number; vignette: number; grain: number; chromatic: number } {
+  getLook(): { saturation: number; contrast: number; vignette: number; grain: number; earth: number; chromatic: number } {
     const u = this.material.uniforms;
-    return { saturation: u.uSaturation!.value, contrast: u.uContrast!.value, vignette: u.uVignette!.value, grain: u.uGrain!.value, chromatic: u.uChromatic!.value };
+    return { saturation: u.uSaturation!.value, contrast: u.uContrast!.value, vignette: u.uVignette!.value, grain: u.uGrain!.value, earth: u.uEarth!.value, chromatic: u.uChromatic!.value };
   }
 
   /** Individual visual controls for repeatable look-development captures. */

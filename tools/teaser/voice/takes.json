@@ -1,0 +1,463 @@
+{
+  "voice": "George",
+  "voiceId": "JBFqnCBsd6RMkjVDRZzb",
+  "model": "eleven_v4",
+  "format": "mp3_44100_192",
+  "plan": "creator",
+  "generated": "2026-10-07",
+  "lines": {
+    "intro": {
+      "say": "So. I asked AI to make a game... heavily inspired by Gothic 3.",
+      "seconds": 5.28,
+      "transcript": "So I asked AI to make a game heavily inspired by Gothic III",
+      "sha256": "cc39d7e05ac444d68388bac38e6e71b685a5005bd140294ffd4b2ed1c6ef7b76",
+      "words": [
+        {
+          "text": "So",
+          "start": 0.14,
+          "end": 0.38
+        },
+        {
+          "text": "I",
+          "start": 0.8,
+          "end": 0.9
+        },
+        {
+          "text": "asked",
+          "start": 1,
+          "end": 1.28
+        },
+        {
+          "text": "AI",
+          "start": 1.38,
+          "end": 1.7
+        },
+        {
+          "text": "to",
+          "start": 1.78,
+          "end": 1.86
+        },
+        {
+          "text": "make",
+          "start": 1.9,
+          "end": 2.04
+        },
+        {
+          "text": "a",
+          "start": 2.1,
+          "end": 2.18
+        },
+        {
+          "text": "game",
+          "start": 2.24,
+          "end": 2.6
+        },
+        {
+          "text": "heavily",
+          "start": 3.04,
+          "end": 3.38
+        },
+        {
+          "text": "inspired",
+          "start": 3.42,
+          "end": 4.059
+        },
+        {
+          "text": "by",
+          "start": 4.1,
+          "end": 4.26
+        },
+        {
+          "text": "Gothic",
+          "start": 4.3,
+          "end": 4.62
+        },
+        {
+          "text": "III",
+          "start": 4.7,
+          "end": 5.08
+        }
+      ]
+    },
+    "comment1": {
+      "say": "Creative Problem seven-eight-oh-three said... Bro, that's Gothic 3 from the first ten seconds.",
+      "seconds": 6.56,
+      "transcript": "CreativeProblem7803 said, \"Bro, that's Gothic 3 from the first 10 seconds.\"",
+      "sha256": "b2a25c9a1cd4b7bf76bbaa20602758587f2ce0a591d5a15be47d22aa374d69e5",
+      "words": [
+        {
+          "text": "CreativeProblem7803",
+          "start": 0.1,
+          "end": 2.16
+        },
+        {
+          "text": "said,",
+          "start": 2.28,
+          "end": 2.52
+        },
+        {
+          "text": "\"Bro,",
+          "start": 2.52,
+          "end": 3.38
+        },
+        {
+          "text": "that's",
+          "start": 3.7,
+          "end": 4.019
+        },
+        {
+          "text": "Gothic",
+          "start": 4.059,
+          "end": 4.4
+        },
+        {
+          "text": "3",
+          "start": 4.74,
+          "end": 4.9
+        },
+        {
+          "text": "from",
+          "start": 4.94,
+          "end": 5.06
+        },
+        {
+          "text": "the",
+          "start": 5.1,
+          "end": 5.18
+        },
+        {
+          "text": "first",
+          "start": 5.24,
+          "end": 5.42
+        },
+        {
+          "text": "10",
+          "start": 5.5,
+          "end": 5.7
+        },
+        {
+          "text": "seconds.\"",
+          "start": 5.84,
+          "end": 6.34
+        }
+      ]
+    },
+    "mission": {
+      "say": "Mission failed... successfully.",
+      "seconds": 2.8,
+      "transcript": "Mission failed successfully",
+      "sha256": "74df93923ca7a5bf75d04295b1ec04b9a6a907cd2c220db95aaa238e326e10f5",
+      "words": [
+        {
+          "text": "Mission",
+          "start": 0.12,
+          "end": 0.42
+        },
+        {
+          "text": "failed",
+          "start": 0.58,
+          "end": 1
+        },
+        {
+          "text": "successfully",
+          "start": 1.7,
+          "end": 2.44
+        }
+      ]
+    },
+    "polish": {
+      "say": "Since then, we've been polishing.",
+      "seconds": 2.16,
+      "transcript": "Since then, we've been polishing",
+      "sha256": "edb88619a8d8ec52f2663c22df37895a2aa98af0e9dcd391edfa6a0e1ac3d0c7",
+      "words": [
+        {
+          "text": "Since",
+          "start": 0.12,
+          "end": 0.36
+        },
+        {
+          "text": "then,",
+          "start": 0.42,
+          "end": 0.64
+        },
+        {
+          "text": "we've",
+          "start": 0.96,
+          "end": 1.12
+        },
+        {
+          "text": "been",
+          "start": 1.16,
+          "end": 1.28
+        },
+        {
+          "text": "polishing",
+          "start": 1.4,
+          "end": 1.9
+        }
+      ]
+    },
+    "swim": {
+      "say": "You can swim now.",
+      "seconds": 1.36,
+      "transcript": "You can swim now",
+      "sha256": "a31fdb974426f177d91a1740bfae91a7f80e7ad8088a61c1da73a2305b0f489d",
+      "words": [
+        {
+          "text": "You",
+          "start": 0.14,
+          "end": 0.18
+        },
+        {
+          "text": "can",
+          "start": 0.26,
+          "end": 0.38
+        },
+        {
+          "text": "swim",
+          "start": 0.52,
+          "end": 0.74
+        },
+        {
+          "text": "now",
+          "start": 0.84,
+          "end": 1.1
+        }
+      ]
+    },
+    "bench": {
+      "say": "And it took an entire pull request to teach the villagers how to sit on a bench.",
+      "seconds": 5.04,
+      "transcript": "And it took an entire pull request to teach the villagers how to sit on a bench",
+      "sha256": "60864516ddba1ec38601047880b925651b988098b122186391a1c4be1ebfcb09",
+      "words": [
+        {
+          "text": "And",
+          "start": 0.1,
+          "end": 0.18
+        },
+        {
+          "text": "it",
+          "start": 0.24,
+          "end": 0.34
+        },
+        {
+          "text": "took",
+          "start": 0.38,
+          "end": 0.58
+        },
+        {
+          "text": "an",
+          "start": 0.62,
+          "end": 0.68
+        },
+        {
+          "text": "entire",
+          "start": 0.72,
+          "end": 1.3
+        },
+        {
+          "text": "pull",
+          "start": 1.48,
+          "end": 1.68
+        },
+        {
+          "text": "request",
+          "start": 1.76,
+          "end": 2.24
+        },
+        {
+          "text": "to",
+          "start": 2.4,
+          "end": 2.5
+        },
+        {
+          "text": "teach",
+          "start": 2.54,
+          "end": 2.78
+        },
+        {
+          "text": "the",
+          "start": 2.8,
+          "end": 2.94
+        },
+        {
+          "text": "villagers",
+          "start": 2.98,
+          "end": 3.48
+        },
+        {
+          "text": "how",
+          "start": 3.52,
+          "end": 3.64
+        },
+        {
+          "text": "to",
+          "start": 3.68,
+          "end": 3.84
+        },
+        {
+          "text": "sit",
+          "start": 3.9,
+          "end": 4.08
+        },
+        {
+          "text": "on",
+          "start": 4.12,
+          "end": 4.18
+        },
+        {
+          "text": "a",
+          "start": 4.24,
+          "end": 4.34
+        },
+        {
+          "text": "bench",
+          "start": 4.38,
+          "end": 4.8
+        }
+      ]
+    },
+    "comment2": {
+      "say": "The monsters are not presentable... It's just one monster to polish.",
+      "seconds": 4.72,
+      "transcript": "The monsters are not presentable. It's just one monster to polish",
+      "sha256": "db68bcf2de225b0c7c5fed42aab97933fc29ebc6801275b9a82f9801acad8492",
+      "words": [
+        {
+          "text": "The",
+          "start": 0.1,
+          "end": 0.2
+        },
+        {
+          "text": "monsters",
+          "start": 0.26,
+          "end": 0.72
+        },
+        {
+          "text": "are",
+          "start": 0.8,
+          "end": 0.92
+        },
+        {
+          "text": "not",
+          "start": 1.08,
+          "end": 1.34
+        },
+        {
+          "text": "presentable.",
+          "start": 1.38,
+          "end": 2
+        },
+        {
+          "text": "It's",
+          "start": 2.74,
+          "end": 2.9
+        },
+        {
+          "text": "just",
+          "start": 2.96,
+          "end": 3.24
+        },
+        {
+          "text": "one",
+          "start": 3.3,
+          "end": 3.46
+        },
+        {
+          "text": "monster",
+          "start": 3.54,
+          "end": 3.92
+        },
+        {
+          "text": "to",
+          "start": 3.94,
+          "end": 4.04
+        },
+        {
+          "text": "polish",
+          "start": 4.08,
+          "end": 4.46
+        }
+      ]
+    },
+    "fair": {
+      "say": "[sighs] Fair.",
+      "seconds": 1.92,
+      "transcript": "[sighs] Fair",
+      "sha256": "917153a476e0aaea9b49553900c50a128cb0884df00327b609e22368d61ea7c6",
+      "words": [
+        {
+          "text": "Fair",
+          "start": 1.12,
+          "end": 1.5
+        }
+      ]
+    },
+    "better": {
+      "say": "Better?",
+      "seconds": 0.8,
+      "transcript": "Better?",
+      "sha256": "41ee1994210be9b553b5bd34338be2ca53578bccc70fa160a9c8e361a14d6be2",
+      "words": [
+        {
+          "text": "Better?",
+          "start": 0.1,
+          "end": 0.44
+        }
+      ]
+    },
+    "presentable": {
+      "say": "Presentable.",
+      "seconds": 1.04,
+      "transcript": "presentable",
+      "sha256": "0e7ede13d29f9555082032d65e69d3f5a3171c0b9b05e61d1df2dcfa32bf5ff0",
+      "words": [
+        {
+          "text": "presentable",
+          "start": 0.06,
+          "end": 0.74
+        }
+      ]
+    },
+    "outro": {
+      "say": "Tervane. Now with one presentable monster.",
+      "seconds": 3.6,
+      "transcript": "Tervane, now with one presentable monster",
+      "sha256": "7b2e096a603fe16e8ba7dc5c024b6a59aa4fb9864f3d2aea2b40b9feb7bab48a",
+      "words": [
+        {
+          "text": "Tervane,",
+          "start": 0.08,
+          "end": 0.62
+        },
+        {
+          "text": "now",
+          "start": 1.16,
+          "end": 1.52
+        },
+        {
+          "text": "with",
+          "start": 1.58,
+          "end": 1.72
+        },
+        {
+          "text": "one",
+          "start": 1.86,
+          "end": 2.04
+        },
+        {
+          "text": "presentable",
+          "start": 2.16,
+          "end": 2.78
+        },
+        {
+          "text": "monster",
+          "start": 2.88,
+          "end": 3.36
+        }
+      ]
+    }
+  }
+}

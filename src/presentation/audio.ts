@@ -795,6 +795,12 @@ export class AudioEngine {
     if (caption) this.caption(caption);
   }
 
+  /** A house door swinging open, or falling shut, at its doorway (A66). */
+  door(at: Vec3, open: boolean) {
+    this.cue(open ? { clip: 'door.open', gain: 0.26, pitch: 0.06, from: 0, to: 1.7 } : { clip: 'door.close', gain: 0.24, pitch: 0.06 },
+      { at, ref: 3, maxDistance: 28, reverb: 0.1 });
+  }
+
   gateCreak(caption = '[The sluice gate groans]') {
     this.worldEvent('gate', caption);
   }

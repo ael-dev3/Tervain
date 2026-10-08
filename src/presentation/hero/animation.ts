@@ -1,7 +1,9 @@
 import * as THREE from 'three';
 import type { Pose } from '../characters';
+import type { ResidentMotionLibrary } from '../npc/residentMotion';
 import { HERO_BONES, HERO_FINGERS, type HeroBoneName, type HeroBones } from './bones';
 import { HERO_RUN_CYCLE, HERO_RUN_SPEED, HERO_WALK_CYCLE, HERO_WALK_SPEED } from './locomotion';
+import { HERO_SWIM_CYCLE, HERO_SWIM_RATE, heroSwimClips } from './swim';
 
 export interface HeroPose extends Pose {
   grounded?: boolean;
@@ -21,7 +23,8 @@ export const HERO_GAIT_PHASE = { Walking: 0.292, Running: 0.311, rightContact: 0
 export const HERO_IDLE_STANCE = { clip: 'Casual_Walk', time: 2.65 } as const;
 /**
  * Swimming leans the whole figure forward about the chest (which stays at the waterline) so the head rides above the
- * surface and the legs trail: steeply while stroking, more upright while treading water.
+ * surface and the legs trail: steeply while stroking, more upright while treading water. With the authored strokes
+ * (see {@link HeroAnimationController.useSwimClips}) the clips carry the lean and only the pivot height applies.
  */
 export const HERO_SWIM = { pivot: 1.25, strokePitch: 1.12, treadPitch: 0.32, strokeHz: 0.78, treadHz: 0.5 } as const;
 const X_AXIS = new THREE.Vector3(1, 0, 0);
@@ -63,6 +66,8 @@ export class HeroAnimationController {
   private swimMoving = 0;
   private swimClock = 0;
   private strokesPending = 0;
+  /** The authored breaststroke and treading water, once the motion library has lent them. */
+  private swim: { stroke: THREE.AnimationAction; tread: THREE.AnimationAction } | null = null;
 
   constructor(private readonly scene: THREE.Group, private readonly body: THREE.Group,
     private readonly bones: HeroBones, clips: readonly THREE.AnimationClip[]) {
@@ -160,6 +165,27 @@ export class HeroAnimationController {
     this.reset();
   }
 
+  /**
+   * Swim with the breaststroke and treading water from the residents' motion library, retargeted onto this skeleton,
+   * in place of the procedural stroke (A65). Once per controller; a library without them leaves the procedural stroke.
+   */
+  useSwimClips(library: ResidentMotionLibrary): void {
+    if (this.swim) return;
+    const clips = heroSwimClips(library, this.bones, this.rest);
+    if (!clips) return;
+    const action = (clip: THREE.AnimationClip) => {
+      const played = this.mixer.clipAction(clip).play();
+      played.paused = true;
+      played.setEffectiveWeight(0);
+      played.setLoop(THREE.LoopRepeat, Infinity);
+      return played;
+    };
+    this.swim = { stroke: action(clips.stroke), tread: action(clips.tread) };
+  }
+
+  /** Whether the authored strokes are in use. */
+  get authoredSwim(): boolean { return this.swim !== null; }
+
   get diagnostics() {
     return { phase: this.phase, distanceMetres: this.distance, cycleMetres: this.cycleMetres,
       grounded: this.grounded, activeClip: this.clip, footContacts: this.footContacts,
@@ -211,7 +237,8 @@ export class HeroAnimationController {
     this.swimMoving = blend(this.swimMoving, swimming ? clamp(finite(p.speed), 0, 1) : 0, step, 3);
     if (swimming) {
       const before = this.swimClock;
-      this.swimClock += step * THREE.MathUtils.lerp(HERO_SWIM.treadHz, HERO_SWIM.strokeHz, this.swimMoving) * (0.8 + 0.4 * clamp(finite(p.speed), 0, 1.5));
+      const rate = this.swim ? HERO_SWIM_RATE : HERO_SWIM;
+      this.swimClock += step * THREE.MathUtils.lerp(rate.treadHz, rate.strokeHz, this.swimMoving) * (0.8 + 0.4 * clamp(finite(p.speed), 0, 1.5));
       // The pull ends at a fifth of a cycle: one stroke heard and seen per cycle.
       this.strokesPending += Math.floor(this.swimClock - 0.2) - Math.floor(before - 0.2);
     }
@@ -256,11 +283,23 @@ export class HeroAnimationController {
       support = clamp(-finite(lowest), 0, 0.08);
     }
     const deathY = support - this.deathClearance * this.deadWeight * smooth(clamp((deathProgress - 0.75) / 0.25, 0, 1)) || 0;
-    // The swimming lean turns about the chest, so the head stays at the waterline whatever the pitch.
-    const pitch = this.swimBlend * THREE.MathUtils.lerp(HERO_SWIM.treadPitch, HERO_SWIM.strokePitch, this.swimMoving)
-      + this.swimBlend * this.swimMoving * 0.06 * Math.sin(this.swimClock * Math.PI * 2);
-    this.body.quaternion.setFromAxisAngle(X_AXIS, pitch);
-    this.body.position.set(0, deathY + HERO_SWIM.pivot * (1 - Math.cos(pitch)), -HERO_SWIM.pivot * Math.sin(pitch));
+    if (this.swim) {
+      // The authored strokes carry their own lean: the chest is held at the waterline over the physics root, so the
+      // head rides above the surface and the legs trail behind.
+      this.body.quaternion.identity();
+      this.body.position.set(0, deathY, 0);
+      if (this.swimBlend > 1e-3) {
+        this.body.updateMatrixWorld(true);
+        const chest = this.body.worldToLocal(this.bones['mixamorig:Spine2'].getWorldPosition(new THREE.Vector3())).add(this.body.position);
+        this.body.position.set(-this.swimBlend * chest.x, deathY + this.swimBlend * (HERO_SWIM.pivot - chest.y), -this.swimBlend * chest.z);
+      }
+    } else {
+      // The swimming lean turns about the chest, so the head stays at the waterline whatever the pitch.
+      const pitch = this.swimBlend * THREE.MathUtils.lerp(HERO_SWIM.treadPitch, HERO_SWIM.strokePitch, this.swimMoving)
+        + this.swimBlend * this.swimMoving * 0.06 * Math.sin(this.swimClock * Math.PI * 2);
+      this.body.quaternion.setFromAxisAngle(X_AXIS, pitch);
+      this.body.position.set(0, deathY + HERO_SWIM.pivot * (1 - Math.cos(pitch)), -HERO_SWIM.pivot * Math.sin(pitch));
+    }
     const leftDuty = THREE.MathUtils.lerp(0.472, 0.118, this.runWeight);
     const rightStart = THREE.MathUtils.lerp(0.488, 0.472, this.runWeight);
     const rightDuty = THREE.MathUtils.lerp(0.48, 0.143, this.runWeight);
@@ -279,7 +318,18 @@ export class HeroAnimationController {
     for (const [bone, pose] of this.sampled.size ? this.sampled : this.rest) {
       bone.position.copy(pose.position); bone.quaternion.copy(pose.quaternion); bone.scale.copy(pose.scale);
     }
-    const live = 1 - this.deadWeight;
+    // Authored swimming takes over the body as the figure settles into the water.
+    const swim = this.swim ? this.swimBlend : 0;
+    const live = (1 - this.deadWeight) * (1 - swim);
+    if (this.swim) {
+      const { stroke, tread } = this.swim, { strokesPerLoop, strokePull, treadPull } = HERO_SWIM_CYCLE;
+      // A stroke's pull ends a fifth of the way through its cycle of swimClock (see consumeStrokes).
+      for (const action of [stroke, tread]) action.enabled = true;
+      stroke.setEffectiveWeight(swim * this.swimMoving * (1 - this.deadWeight));
+      tread.setEffectiveWeight(swim * (1 - this.swimMoving) * (1 - this.deadWeight));
+      stroke.time = fraction((this.swimClock - 0.2) / strokesPerLoop + strokePull) * stroke.getClip().duration;
+      tread.time = fraction(this.swimClock - 0.2 + treadPull) * tread.getClip().duration;
+    }
     for (const [name, action] of this.actions) {
       action.enabled = true;
       action.setEffectiveWeight(name === 'Dead' ? this.deadWeight : name === 'RelaxedIdle' ? (1 - this.motionBlend) * live :
@@ -294,7 +344,8 @@ export class HeroAnimationController {
       if (!pose) { pose = { position: new THREE.Vector3(), quaternion: new THREE.Quaternion(), scale: new THREE.Vector3() }; this.sampled.set(bone, pose); }
       pose.position.copy(bone.position); pose.quaternion.copy(bone.quaternion); pose.scale.copy(bone.scale);
     }
-    this.clip = this.deadWeight > 0.5 ? 'Dead' : this.motionBlend < 0.05 ? 'RelaxedIdle' : this.runWeight > 0.5 ? 'Running' : 'Walking';
+    this.clip = this.deadWeight > 0.5 ? 'Dead' : swim > 0.5 ? (this.swimMoving > 0.5 ? 'SwimStroke' : 'SwimTread')
+      : this.motionBlend < 0.05 ? 'RelaxedIdle' : this.runWeight > 0.5 ? 'Running' : 'Walking';
     this.scene.updateMatrixWorld(true);
   }
 
@@ -400,6 +451,12 @@ export class HeroAnimationController {
         target['mixamorig:LeftLeg'] = [1.35, 0, 0]; target['mixamorig:RightLeg'] = [1.35, 0, 0];
         this.bones['mixamorig:Hips'].position.y -= 0.4; break;
       case 'swim': {
+        if (this.swim) {
+          // The authored stroke swims face down; he keeps his chin up to see where he swims, more so the faster he goes.
+          target['mixamorig:Neck'] = [-0.4 * this.swimMoving, 0, 0];
+          target['mixamorig:Head'] = [-0.45 * this.swimMoving, 0, 0];
+          break;
+        }
         // Breaststroke: pull wide, tuck the hands under the chin, shoot them forward as the legs kick and glide.
         // Treading water: the hands scull in front and the legs cycle. The two blend by speed.
         const c = fraction(this.swimClock), m = this.swimMoving;

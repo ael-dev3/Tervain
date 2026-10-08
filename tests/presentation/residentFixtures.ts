@@ -37,3 +37,19 @@ export function residentMesh(root: THREE.Object3D): THREE.SkinnedMesh {
   if (!mesh) throw new Error('No skinned mesh.');
   return mesh;
 }
+
+/** A resident's shipped rig file, parsed and checked as the game does. */
+export function loadResidentRigData(id: string) {
+  return import('../../src/presentation/npc/residentRig').then(({ parseResidentRig }) =>
+    parseResidentRig(JSON.parse(readFileSync(new URL(`../../public/models/npcs/rigs/${id}.json`, import.meta.url), 'utf8'))));
+}
+
+let motion: Promise<GLTF> | null = null;
+/** The shipped motion library. */
+export function loadResidentMotion(): Promise<GLTF> {
+  if (!motion) {
+    const bytes = readFileSync(new URL('../../public/models/npcs/motion/residents.glb', import.meta.url));
+    motion = new GLTFLoader().parseAsync(bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength) as ArrayBuffer, '');
+  }
+  return motion;
+}

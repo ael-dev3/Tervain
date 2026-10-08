@@ -37,6 +37,13 @@ This product includes material from the Warpkeep project (https://github.com/ael
    use, service terms and unresolved provenance. Existing CC permissions are
    not restricted by the PolyForm license on eligible original software code.
    This notice does not establish missing Meshy plan or reference-component rights.
+   The residents' rig files (public/models/npcs/rigs/) and motion library
+   (public/models/npcs/motion/) were generated with the Meshy API (automatic
+   rigging, animation library and text to motion) and are recorded in the
+   resident manifest, motion/clips.json and the model ledger; their plan
+   evidence is pending. The furniture (public/models/furniture/) was
+   generated with Meshy's text to 3D and is recorded in its manifest and the
+   model ledger; its plan evidence is pending.
 
 Warpkeep names, logos and the Hegemony identity are not licensed by this notice.
 
@@ -73,3 +80,12 @@ Rowan Vale’s hunter greeting was generated offline with ElevenLabs eleven_v4 o
 existing original text-designed voice. Its source, processing and packaged
 hashes are recorded in docs/engineering/voice-assets.json. The recording
 remains outside the eligible software-code license and is not offered as CC.
+
+The narration of the "presentable" teaser (docs/media/teaser) was generated with
+ElevenLabs eleven_v4 on 7 October 2026 under a generation-time verified paid
+Creator plan, using the premade voice George, from original lines. Its takes,
+transcripts and hashes are recorded in tools/teaser/voice/takes.json. The
+recordings remain outside the eligible software-code license and are not offered
+as CC. The teaser also shows two screenshots of public Reddit comments
+(tools/teaser/reddit/), credited by their author's username in the narration;
+they are third-party content, not Tervain's, and no license to them is granted.

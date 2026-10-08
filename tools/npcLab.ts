@@ -130,7 +130,7 @@ async function load(nextRole: string, options: NpcRigOptions = {}, scale = 1) {
   return { role, triangles: rig.root.userData.meshyNpc.triangles, repair: report, dq: skinned!.userData.npcDualQuaternion ?? null };
 }
 
-interface PoseSpec { mode?: Pose['mode']; gesture?: WorkGesture; idle?: IdleVariant; seated?: boolean; seatHeight?: number; time?: number; t?: number; speed?: number; frames?: number; dt?: number }
+interface PoseSpec { mode?: Pose['mode']; gesture?: WorkGesture; idle?: IdleVariant; seated?: boolean; seatHeight?: number; time?: number; t?: number; speed?: number; frames?: number; dt?: number; travel?: number; clock?: number }
 let lastPose: PoseSpec = {};
 function pose(spec: PoseSpec) {
   if (!rig) throw new Error('load first');
@@ -141,13 +141,15 @@ function pose(spec: PoseSpec) {
     const p: Pose = {
       mode, speed: spec.speed ?? (mode === 'walk' ? 0.78 : 0), time: spec.time ?? 0, t: spec.t ?? 0, amp: 1,
       workGesture: spec.gesture, seated: spec.seated, seatHeight: spec.seatHeight,
-      idle: spec.idle ? { seed: 1, clock: 3, force: spec.idle } : undefined,
+      // Residents walk at 1.55 m/s and bandits run at 4.4 m/s; only travelled metres advance a gait.
+      travel: spec.travel ?? (mode === 'walk' ? 1.55 * dt : mode === 'run' ? 4.4 * dt : 0),
+      idle: spec.idle ? { seed: 1, clock: 3, force: spec.idle } : spec.clock !== undefined ? { seed: 1, clock: spec.clock + i * dt } : undefined,
     };
     poseRig(rig, p, dt);
   }
   rig.root.updateMatrixWorld(true);
   if (debugMode !== 'shaded') setDebug(debugMode);
-  return { cur: { ...rig.cur } };
+  return { cur: { ...rig.cur }, clip: rig.resident?.leading ?? null };
 }
 
 const VIEWS: Record<string, [number[], number[], number?]> = {
@@ -352,6 +354,24 @@ function angles(changes: Record<string, number>) {
   return true;
 }
 
-Object.assign(window, { lab: { load, pose, angles, bench: setBench, site: setSite, view, stats, debug: setDebug, render, posed: skinCpu, overlay(on: boolean) { overlayOn = on; render(); return true; }, get rig() { return rig; }, get mesh() { return skinned; }, scene, camera, renderer, THREE } });
+/** The loaded figure's skin as the game repairs it (eleven joints), for the rig tools' part map: joint names, then four
+ * joint indices and four weights (bytes summing to 255) per vertex, base64. Load with { authoredMotion: false }. */
+function parts() {
+  const mesh = skinned!;
+  const index = mesh.geometry.getAttribute('skinIndex'), weight = mesh.geometry.getAttribute('skinWeight');
+  const joints = new Uint8Array(index.count * 4), weights = new Uint8Array(index.count * 4);
+  for (let v = 0; v < index.count; v++) {
+    const w = [0, 1, 2, 3].map(s => weight.getComponent(v, s)), total = w.reduce((a, b) => a + b, 0) || 1;
+    let left = 255;
+    for (let s = 0; s < 4; s++) {
+      joints[v * 4 + s] = index.getComponent(v, s);
+      const q = s === 3 ? left : Math.min(left, Math.round(w[s]! / total * 255));
+      weights[v * 4 + s] = q; left -= q;
+    }
+  }
+  const b64 = (bytes: Uint8Array) => { let text = ''; for (let i = 0; i < bytes.length; i += 0x8000) text += String.fromCharCode(...bytes.subarray(i, i + 0x8000)); return btoa(text); };
+  return { names: mesh.skeleton.bones.map(bone => bone.name), vertices: index.count, joints: b64(joints), weights: b64(weights) };
+}
+Object.assign(window, { lab: { parts, load, pose, angles, bench: setBench, site: setSite, view, stats, debug: setDebug, render, posed: skinCpu, overlay(on: boolean) { overlayOn = on; render(); return true; }, get rig() { return rig; }, get mesh() { return skinned; }, scene, camera, renderer, THREE } });
 status.textContent = 'ready';
 document.title = 'LAB READY';

@@ -193,7 +193,16 @@ function main() {
     && config.assets.every(row => runtimeManifest.roles[row.role] === row.id)
     && Object.entries(aliases).every(([role, id]) => runtimeManifest.roles[role] === id), 'public NPC assignments differ from the source selection');
   const selected = config.assets.filter((asset) => !only || only.includes(asset.id)); need(selected.length > 0 && (!only || selected.length === new Set(only).size), 'unknown/empty --only selection');
-  const known = new Set(config.assets.map((asset) => `${asset.id}.glb`)); const directory = resolve(repo, 'public/models/npcs');
+  // The residents' motion library (A65) is the one other GLB here; it and every rig file are listed with size and hash.
+  const motion = runtimeManifest.motion; const directory = resolve(repo, 'public/models/npcs');
+  const known = new Set([...config.assets.map((asset) => `${asset.id}.glb`), ...(motion ? [motion.file] : [])]);
+  if (motion) {
+    need(/^motion\/[a-z0-9-]+\.glb$/.test(motion.file), 'invalid motion library path'); const bytes = readFileSync(resolve(directory, motion.file));
+    need(bytes.length === motion.bytes && sha256(bytes) === motion.sha256, 'stale motion library entry');
+    const record = JSON.parse(readFileSync(resolve(directory, 'motion/clips.json'), 'utf8')); need(record.sha256 === motion.sha256 && record.bytes === motion.bytes && record.clips?.length > 0, 'stale motion clip record');
+  }
+  const rigFiles = new Set(runtimeManifest.assets.filter(entry => entry.rig).map(entry => entry.rig.file));
+  const strayRigs = readdirSync(resolve(directory, 'rigs')).filter((file) => !rigFiles.has(`rigs/${file}`)); need(strayRigs.length === 0, `unregistered NPC rig files: ${strayRigs.join(', ')}`);
   function glbs(folder, prefix = '') { return readdirSync(folder, { withFileTypes: true }).flatMap((entry) => { need(!entry.isSymbolicLink(), 'NPC asset folder contains a symlink'); const name = prefix + entry.name; return entry.isDirectory() ? glbs(resolve(folder, entry.name), name + '/') : name.endsWith('.glb') ? [name] : []; }); }
   const unexpected = glbs(directory).filter((file) => !known.has(file)); need(unexpected.length === 0, `unregistered NPC GLBs: ${unexpected.join(', ')}`);
   const assets = selected.map((assignment) => {
@@ -207,6 +216,14 @@ function main() {
     need(recorded.source.filename === assignment.sourceFilename && recorded.source.id === assignment.sourceId && recorded.source.sha256 === recorded.receipt.sourceSha256, `${assignment.id}: source provenance mismatch`);
     need(recorded.receipt.id === assignment.id && recorded.receipt.role === assignment.role && recorded.receipt.sourceFilename === assignment.sourceFilename && recorded.receipt.runtime.sha256 === actual.sha256 && recorded.receipt.runtime.bytes === actual.bytes && recorded.receipt.runtime.triangles === actual.sceneTriangles, `${assignment.id}: preparation receipt mismatch`);
     if (served.surfaceBake) need(recorded.surfaceRebake?.contract === served.surfaceBake && recorded.surfaceRebake.candidate?.sha256 === actual.sha256 && recorded.surfaceRebake.source?.sha256 === recorded.source.sha256, `${assignment.id}: missing/stale surface rebake evidence`);
+    if (served.rig) {
+      need(served.rig.file === `rigs/${assignment.id}.json`, `${assignment.id}: invalid rig path`); const bytes = readFileSync(resolve(directory, served.rig.file));
+      need(bytes.length === served.rig.bytes && sha256(bytes) === served.rig.sha256, `${assignment.id}: stale rig entry`);
+      const rig = JSON.parse(bytes.toString('utf8')), joints = Buffer.from(rig.skin?.joints ?? '', 'base64'), weights = Buffer.from(rig.skin?.weights ?? '', 'base64');
+      need(rig.model?.sha256 === actual.sha256 && rig.bones?.length === 24 && joints.length === rig.model.vertices * 4 && weights.length === joints.length, `${assignment.id}: rig made for another model`);
+      for (let v = 0; v < rig.model.vertices; v++) need(joints[v * 4] < 24 && joints[v * 4 + 1] < 24 && joints[v * 4 + 2] < 24 && joints[v * 4 + 3] < 24
+        && weights[v * 4] + weights[v * 4 + 1] + weights[v * 4 + 2] + weights[v * 4 + 3] === 255, `${assignment.id}: invalid rig skin at vertex ${v}`);
+    }
     return { id: assignment.id, role: assignment.role, ...actual };
   });
   const report = { schemaVersion: 1, verifiedUTC: new Date().toISOString(), scope: only ? 'selected assets only; not complete pack acceptance' : `all${config.assets.length} assignments and all registered public NPC GLBs`, assetCount: assets.length, sumPerModelSceneTriangles: assets.reduce((sum, asset) => sum + asset.sceneTriangles, 0), assets };
