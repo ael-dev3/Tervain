@@ -16954,6 +16954,34 @@
   ],
   "coldImages": [
     {
+      "label": "versionLocaleChanged",
+      "address": "102f692c",
+      "size": 4,
+      "bytes": "00000000",
+      "section": {
+        "virtualAddress": 1306624,
+        "virtualSize": 1807760,
+        "rawSize": 16384,
+        "rawOffset": 1306624,
+        "fileBackedBytes": 0,
+        "loaderZeroFillBytes": 4
+      }
+    },
+    {
+      "label": "versionInitialLocalePair",
+      "address": "10141470",
+      "size": 8,
+      "bytes": "90131410600e1410",
+      "section": {
+        "virtualAddress": 1306624,
+        "virtualSize": 1807760,
+        "rawSize": 16384,
+        "rawOffset": 1306624,
+        "fileBackedBytes": 8,
+        "loaderZeroFillBytes": 0
+      }
+    },
+    {
       "label": "versionMemoryFreeScope",
       "address": "100f82e8",
       "size": 12,

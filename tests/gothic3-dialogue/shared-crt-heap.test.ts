@@ -1438,3 +1438,13 @@ it('executes original strtok and retains the first version token in actual threa
 it('rejects changed tokenizer evidence before modifying the version buffer',()=>{
  const {owner}=fileVersionQueryFixture();owner.processDllFileVersionQuery();owner.processDllLanguageFree();owner.processDllLanguageReturn();const before=owner.snapshot().dllLanguageFormatImages!.output.bytes.slice(),method=dllEntrySource.methods.find(row=>row.label==='versionStrtok')!,hash=method.bodyInstructionBytesSha256;try{method.bodyInstructionBytesSha256='00'.repeat(32);expect(owner.processDllVersionToken()).toEqual({known:false,reason:'Original version strtok source required'});expect(owner.snapshot().dllLanguageFormatImages!.output.bytes).toEqual(before);}finally{method.bodyInstructionBytesSha256=hash;}
 });
+
+
+it('executes original integer conversion and writes the first actual version output',()=>{
+ const {owner}=fileVersionQueryFixture();owner.processDllFileVersionQuery();owner.processDllLanguageFree();owner.processDllLanguageReturn();owner.processDllVersionToken();const result=owner.processDllVersionInteger();expect(result).toEqual({known:false,reason:'Original SharedBase outer version buffer Free pending at 10002112'});const state=owner.snapshot(),stack=state.caseState!.stack!.snapshot();expect(stack.sharedDllInitializerFrame!.outputs.map(fields=>fields.readUnsigned(0))).toEqual([1,60,25931,29]);expect(stack.calls.find(row=>row.site==='1004c43c')!.returned).toBe(true);expect(stack.trace).toContain('100b4645.sharedInitializer.IMUL');
+});
+
+
+it('rejects changed integer parser evidence before publishing any version component',()=>{
+ const {owner}=fileVersionQueryFixture();owner.processDllFileVersionQuery();owner.processDllLanguageFree();owner.processDllLanguageReturn();owner.processDllVersionToken();const method=dllEntrySource.methods.find(row=>row.label==='versionIntegerScanner')!,hash=method.bodyInstructionBytesSha256;try{method.bodyInstructionBytesSha256='00'.repeat(32);expect(owner.processDllVersionInteger()).toEqual({known:false,reason:'Original version integer parser source required'});expect(owner.snapshot().caseState!.stack!.snapshot().sharedDllInitializerFrame!.outputs.map(fields=>fields.readUnsigned(0))).toEqual([0,0,0,0]);}finally{method.bodyInstructionBytesSha256=hash;}
+});

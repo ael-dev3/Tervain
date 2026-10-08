@@ -132,6 +132,8 @@ def capture(study, output):
             'instruction': f'JMP dword ptr [0x{iat:08x}]', 'import': receipt})
     result['coldImages'] = []
     for label, address, size in [
+        ('versionLocaleChanged', 0x102f692c, 4),
+        ('versionInitialLocalePair', 0x10141470, 8),
         ('versionMemoryFreeScope', 0x100f82e8, 12),
         ('optionalCrtHook', 0x100ed680, 4),
         ('dllInitializerObject', 0x102f48ec, 4),
