@@ -6,10 +6,17 @@ import {NativeRuntimePlatform,NativeWin32PlatformException} from './native-runti
 import type {NativeCrtLocalProcedure,NativeCrtLocalAllocProcedure,NativeCrtLocalGetProcedure,NativeCrtLocalSetProcedure,NativeCrtThreadDestructor,NativeWin32HeapCapability} from './native-runtime-platform';
 import {NativeHeapObjectViews} from './native-heap-views';
 import type {NativeMemoryBacking} from './native-memory-admin';
+import type {NativeBytePointer} from './native-pointer-geometry';
+import type {NativeWin32ProcessInputEndpoints} from './native-win32-process-inputs';
 import type {NativeValue} from './dialogue';
 const owners=new WeakMap<NativeRuntimePlatform,NativeSharedCrtOwner>();
 const token=Object.freeze({});
 const methods={
+ getEnvironmentStringsA:['0x100c0c60','70c54e85980de597fb4ce37e12e9bdaa8fcf69966c3196b9f7e4e66c068b32bc'],
+ mallocCrt:['0x100aeed0','3f6ef57453c8e37b9df1ceeab6a3b6c85c82e2f1154926563e5fe068033dabf0'],
+ malloc:['0x100aaaf6','70262c4e3e41925b21175c516dbef31313d2260ef97767a9a6676779eedf7a08'],
+ free:['0x100aa9a4','7474b03ad23792b7631b8ff093c017b1e03f0ac21189a73b60a5368d8717f22e'],
+
  rtcInitialize:['0x100bb8c3','2e030b3c988c98e3f4a29768aae959e9c83cef2d3de4c5c2e4307712741ae0cb'],
  initializePerThreadData:['0x100ae40c','389ca2d7929849255385952d6420f73909f26797c647e920a1abf981ef61e139'],
  addLocaleRef:['0x100b19be','ecf1688872a9a80efc52921245e2dc2e1b193a244486ec1a9fa43aaf2f3a5b3a'],
@@ -45,7 +52,7 @@ const methods={
  getOsPlatform:['0x100aa49d','cc5b7331299d47cd8f5d5cb850aa67581d71d5bd370b6aeba4f41feed3edf68d'],
  getWinMajor:['0x100aa54c','c2d39a6b2e3a69dcf99941e96a2b991511307e2511a0c536100b091ab85aabde'],
 } as const;
-const images={commandLinePointer:['102f8564',4,'00000000'],environmentPointer:['102f6490',4,'00000000'],rtcInitializers:['100f7cec',256,'00'.repeat(256)],exceptionActionsAnchor:['10140b50',4,'050000c0'],multibyteRefcount:['10140e60',4,'00000000'],initialLocale:['10141390',216,'0100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000088131410000000000000000000000000881314100000000000000000000000008813141000000000000000000000000088131410000000000000000000000000881314100000000000000000000000000100000001000000000000000000000000000000a01b14100000000000000000382e0f10c0320f1040340f10e01a1410'],initialTimeLocale:['10141ae0',184,'68360f1064360f1060360f105c360f1058360f1054360f1050360f1048360f1040360f1038360f102c360f1020360f1018360f100c360f1008360f1004360f1000360f10fc350f10f8350f10f4350f10f0350f10ec350f10e8350f10e4350f10e0350f10dc350f10d4350f10c8350f10c0350f10b8350f10f8350f10b0350f10a8350f10a0350f1094350f108c350f1080350f1074350f1070350f106c350f1060350f104c350f1040350f10090400000100000000000000'],localeCSentinel:['10141388',4,'43000000'],localePointer:['10141468',4,'90131410'],allocationRetryDelay:['102f64b4',4,'00000000'],newMode:['102f6ad0',4,'00000000'],osFields:['102f642c',20,'00'.repeat(20)],heapHandle:['102f6ac8',4,'00000000'],heapSelection:['102f8530',4,'00000000'],
+const images={environmentMode:['102f6bf0',4,'00000000'],commandLinePointer:['102f8564',4,'00000000'],environmentPointer:['102f6490',4,'00000000'],rtcInitializers:['100f7cec',256,'00'.repeat(256)],exceptionActionsAnchor:['10140b50',4,'050000c0'],multibyteRefcount:['10140e60',4,'00000000'],initialLocale:['10141390',216,'0100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000088131410000000000000000000000000881314100000000000000000000000008813141000000000000000000000000088131410000000000000000000000000881314100000000000000000000000000100000001000000000000000000000000000000a01b14100000000000000000382e0f10c0320f1040340f10e01a1410'],initialTimeLocale:['10141ae0',184,'68360f1064360f1060360f105c360f1058360f1054360f1050360f1048360f1040360f1038360f102c360f1020360f1018360f100c360f1008360f1004360f1000360f10fc350f10f8350f10f4350f10f0350f10ec350f10e8350f10e4350f10e0350f10dc350f10d4350f10c8350f10c0350f10b8350f10f8350f10b0350f10a8350f10a0350f1094350f108c350f1080350f1074350f1070350f106c350f1060350f104c350f1040350f10090400000100000000000000'],localeCSentinel:['10141388',4,'43000000'],localePointer:['10141468',4,'90131410'],allocationRetryDelay:['102f64b4',4,'00000000'],newMode:['102f6ad0',4,'00000000'],osFields:['102f642c',20,'00'.repeat(20)],heapHandle:['102f6ac8',4,'00000000'],heapSelection:['102f8530',4,'00000000'],
  tlsGetterIndex:['10140b48',4,'ffffffff'],threadDataIndex:['10140b44',4,'ffffffff'],procedureSlots:['102f64a4',16,'00'.repeat(16)],
  pointer6ac4:['102f6ac4',4,'00000000'],pointer6ac0:['102f6ac0',4,'00000000'],pointer64a0:['102f64a0',4,'00000000'],
  pointer690c:['102f690c',4,'00000000'],pointer6abc:['102f6abc',4,'00000000'],signalPointers:['102f6aa8',16,'00'.repeat(16)],
@@ -59,6 +66,9 @@ export class NativeSharedCrtOwner {
  #ptdInstalled=false;
  #ptdInitialized=false;
  #rtcReturned=false;
+ #environmentInput:NativeBytePointer|null=null;
+ #environmentAllocation:NativeHeapObjectViews|null=null;
+ #environmentReturned=false;
  #version:NativeHeapObjectViews|null=null;
  #versionAllocation:NativeMemoryBacking|null=null;
  #heap:NativeWin32HeapCapability|null=null;
@@ -100,6 +110,11 @@ export class NativeSharedCrtOwner {
   }
   Object.defineProperty(this,'identity',{value:this.identity,writable:false,configurable:false});
   Object.defineProperty(this,'platform',{value:platform,writable:false,configurable:false});
+ }
+ static canonicalEnvironmentDestinationForPlatform(platform:NativeRuntimePlatform,pointer:NativeBytePointer,bytes:number):NativeValue<void> {
+  const owner=owners.get(platform);
+  if(!owner||!owner.#environmentAllocation||pointer.fields!==owner.#environmentAllocation||pointer.offset!==0||!owner.#heap)return {known:false,reason:'Actual SharedBase environment destination required'};
+  return NativeRuntimePlatform.canonicalOwnedWin32HeapAllocationSpan(platform,owner.#heap,owner.identity,pointer,bytes);
  }
  static canonicalThreadDestructorForPlatform(platform:NativeRuntimePlatform,callback:NativeCrtThreadDestructor):boolean {
   const owner=owners.get(platform);return owner!==undefined&&owner.#threadDestructor===callback;
@@ -283,6 +298,52 @@ export class NativeSharedCrtOwner {
   if(this.imageStorage('allocationRetryDelay').readUnsigned(0)!==0)throw new Error('Unowned SharedBase calloc Sleep retry at 100aef35');
   return null;
  }
+ #mallocEnvironment(size:number):NativeHeapObjectViews|null {
+  if(!Number.isInteger(size)||size<0||size>0xffffffe0)throw new Error('Unowned SharedBase oversized malloc/new-handler branch');
+  const heap=this.imageStorage('heapHandle').pointer<NativeWin32HeapCapability>(0).get();if(heap!==this.#heap||heap===null)throw new Error('Actual SharedBase malloc heap required');
+  const proof=NativeRuntimePlatform.canonicalWin32HeapForOwner(this.platform,heap,this.identity);if(!proof.known)throw new Error(proof.reason);
+  if(this.imageStorage('heapSelection').readUnsigned(0)!==1)throw new Error('Unowned SharedBase mode3 malloc');
+  const memory=this.#call('100aab67.HeapAlloc(0)',()=>this.platform.win32HeapAlloc(heap,0,size===0?1:size));
+  if(memory===null)throw new Error('Unowned SharedBase malloc errno/new-handler/retry path after allocation failure');
+  return new NativeHeapObjectViews(memory);
+ }
+ #readEnvironment(endpoints:NativeWin32ProcessInputEndpoints):NativeBytePointer|null {
+  const state=this.imageStorage('environmentMode');let wide:NativeBytePointer|null=null;
+  if(state.readUnsigned(0)===0){
+   wide=this.#call('100c0c7c.GetEnvironmentStringsW',()=>endpoints.getEnvironmentStringsW());this.#environmentInput=wide;
+   if(wide!==null)state.writeUnsigned(0,1);
+   else if(this.#call('100c0c90.GetLastError',()=>this.platform.getWin32LastError())===120)state.writeUnsigned(0,2);
+  }
+  if(state.readUnsigned(0)!==1){
+   if(state.readUnsigned(0)!==0&&state.readUnsigned(0)!==2){this.#environmentReturned=true;return null;}
+   const ansi=this.#call('100c0d3e.GetEnvironmentStringsA',()=>endpoints.getEnvironmentStrings());this.#environmentInput=ansi;
+   if(ansi===null){this.#environmentReturned=true;return null;}
+   throw new Error('Unowned SharedBase ANSI environment scan/memcpy at 100c0d4e');
+  }
+  if(wide===null){wide=this.#call('100c0cb6.GetEnvironmentStringsW',()=>endpoints.getEnvironmentStringsW());this.#environmentInput=wide;if(wide===null){this.#environmentReturned=true;return null;}}
+  const input=wide;let offset=0;
+  const word=(at:number)=>this.#call('environment.readUTF16',()=>NativeRuntimePlatform.readProcessInputUnsigned(this.platform,input,at,2));
+  while(word(offset)!==0){do{offset+=2;}while(word(offset)!==0);offset+=2;}
+  const count=offset/2+1;
+  const base={codePage:0 as const,flags:0 as const,input,inputCharacters:count,defaultCharacter:null,usedDefaultCharacter:null};
+  const size=this.#call('100c0cf1.WideCharToMultiByte.query',()=>endpoints.wideCharToMultiByte({...base,output:null,outputBytes:0}));
+  let result:NativeBytePointer|null=null;
+  if(size!==0){
+   this.#environmentAllocation=this.#mallocEnvironment(size);
+   if(this.#environmentAllocation!==null){
+    const output=Object.freeze({fields:this.#environmentAllocation,offset:0});
+    const converted=this.#call('100c0d13.WideCharToMultiByte.fill',()=>endpoints.wideCharToMultiByte({...base,output,outputBytes:size}));
+    if(converted!==0)result=output;
+    else {
+     const heap=this.#heap!;
+     const freed=this.#call('100c0d1d.free.HeapFree',()=>this.platform.win32HeapFree(heap,0,this.#environmentAllocation!.backing));
+     if(!freed)throw new Error('Unowned SharedBase free errno mapping after HeapFree failure');
+    }
+   }
+  }
+  this.#call('100c0d2c.FreeEnvironmentStringsW',()=>endpoints.freeEnvironmentStringsW(input));
+  this.#environmentReturned=true;return result;
+ }
  #initializeThreads():number {
   const module=this.#call('100ae6f6.GetModuleHandleA',()=>this.platform.getWin32ModuleHandle('KERNEL32.DLL'));
   if(module===null)throw new Error('Unowned SharedBase __mtterm at 100ae3cf called from 100ae702');
@@ -378,11 +439,13 @@ export class NativeSharedCrtOwner {
    const command=this.#call('100adb21.GetCommandLineA',()=>endpoints.getCommandLineA());
    if(command!==null){const span=NativeRuntimePlatform.canonicalProcessInputSpanForPlatform(this.platform,command,0);if(!span.known)throw new Error(span.reason);}
    this.imageStorage('commandLinePointer').pointer<object>(0).set(command);this.#trace.push('100adb27.storeCommandLine');
-   throw new Error('Unowned SharedBase environment reader at 100adb2c -> 100c0c60');
+   const environment=this.#readEnvironment(endpoints);
+   this.imageStorage('environmentPointer').pointer<NativeBytePointer>(0).set(environment);this.#trace.push('100adb31.storeEnvironment');
+   throw new Error('Unowned SharedBase I/O initialization at 100adb36 -> 100bf165');
   }catch(error){this.#boundary??=error instanceof Error?error.message:String(error);return {known:false,reason:this.#boundary};}
   finally{this.#active=false;}
  }
  snapshot(){return Object.freeze({boundary:this.#boundary,versionAllocation:this.#versionAllocation,
-  ptd:this.#ptd,ptdInstalled:this.#ptdInstalled,ptdInitialized:this.#ptdInitialized,rtcReturned:this.#rtcReturned,heap:this.#heap,heapReturned:this.#heapReturned,attachReturned:this.#attachReturned,mtReturned:this.#mtReturned,locksReturned:this.#locksReturned,sections:Object.freeze([...this.#sections]),pointersReturned:this.#pointersReturned,
+  ptd:this.#ptd,ptdInstalled:this.#ptdInstalled,ptdInitialized:this.#ptdInitialized,rtcReturned:this.#rtcReturned,environmentInput:this.#environmentInput,environmentAllocation:this.#environmentAllocation,environmentReturned:this.#environmentReturned,heap:this.#heap,heapReturned:this.#heapReturned,attachReturned:this.#attachReturned,mtReturned:this.#mtReturned,locksReturned:this.#locksReturned,sections:Object.freeze([...this.#sections]),pointersReturned:this.#pointersReturned,
   trace:Object.freeze([...this.#trace]),dllEntryExecuted:false,wholeCrtTraversalCompleted:false});}
 }

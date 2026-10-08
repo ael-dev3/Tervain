@@ -82,3 +82,13 @@ state at `102f6bf0`. The modern malloc uses SharedBase HeapAlloc flags0; it does
 not use calloc or Game heap state. Failure writes errno through original PTD
 lookup before returning or retrying. These functions are source evidence only
 at this checkpoint; the environment reader has not yet executed.
+
+The local wide environment path now follows original mode selection, retained
+UTF16 loads, explicit-count conversion query, SharedBase flags0 malloc, fill
+conversion and OS-block release. Fill failure frees the actual heap allocation
+before releasing the OS block; query failure releases it without allocation.
+Conversion admits only the canonical SharedBase environment allocation from its
+actual heap. The declared platform conversion currently covers ASCII UTF16.
+ANSI memcpy, allocator failure errno/retry and failed-free errno mapping remain
+explicit missing paths. Successful wide conversion reaches original I/O startup
+at `100adb36 -> 100bf165`; full attach and live Game integration remain pending.

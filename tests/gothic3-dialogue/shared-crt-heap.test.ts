@@ -193,7 +193,23 @@ it('returns original mtinit after actual thread ID and increments independent lo
 
 it('stores the actual retained process command-line pointer in independent SharedBase storage',()=>{
  const platform=new NativeRuntimePlatform({engineCrtServices:{tlsValues:new Map(),kernel32Available:true,pointerCodec:'owned-bijection',fiberLocalStorage:true,processHeap:true,osVersion:{platform:2,major:6,minor:1,build:42},entropy:{currentThreadId:()=>({known:true,value:9})},processInputs:{acpCodePage:1252,conversionCoverage:'ascii-explicit-positive-count',initialDirectionFlag:0,commandLineA:{kind:'buffer',bytes:[71,51,0]}}}});
- const owner=NativeSharedCrtOwner.forPlatform(platform);const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach unexpectedly complete');expect(result.reason).toContain('100c0c60');
+ const owner=NativeSharedCrtOwner.forPlatform(platform);const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach unexpectedly complete');expect(result.reason).toContain('environment-w acquisition');
  const command=platform.processInputEndpoints!.getCommandLineA();expect(command.known&&command.value===owner.imageStorage('commandLinePointer').pointer<object>(0).get()).toBe(true);
  expect(owner.imageStorage('environmentPointer').readUnsigned(0)).toBe(0);expect(owner.snapshot().attachReturned).toBeNull();expect(owner.processAttach()).toEqual(result);
+});
+
+function environmentFixture(failure?:'query'|'fill'){
+ const platform=new NativeRuntimePlatform({engineCrtServices:{tlsValues:new Map(),kernel32Available:true,pointerCodec:'owned-bijection',fiberLocalStorage:true,processHeap:true,osVersion:{platform:2,major:6,minor:1,build:42},entropy:{currentThreadId:()=>({known:true,value:9})},processInputs:{acpCodePage:1252,conversionCoverage:'ascii-explicit-positive-count',initialDirectionFlag:0,commandLineA:{kind:'buffer',bytes:[71,51,0]},environmentW:{kind:'buffer',bytes:[65,0,61,0,66,0,0,0,0,0]},conversionFailure:failure?{[failure]:{result:0}}:undefined}}});return {platform,owner:NativeSharedCrtOwner.forPlatform(platform)};
+}
+it('converts and retains independent SharedBase environment while releasing the exact wide OS block',()=>{
+ const f=environmentFixture();const result=f.owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach complete');expect(result.reason).toContain('100bf165');
+ const state=f.owner.snapshot();expect(state.environmentReturned).toBe(true);expect(state.environmentAllocation!.bytes).toEqual(new Uint8Array([65,61,66,0,0]));
+ expect(state.environmentInput!.fields.backing.freed).toBe(true);expect(state.environmentAllocation!.backing.freed).toBe(false);
+ const pointer=f.owner.imageStorage('environmentPointer').pointer<any>(0).get();expect(pointer.fields).toBe(state.environmentAllocation);expect(f.owner.imageStorage('environmentMode').readUnsigned(0)).toBe(1);
+ expect(f.owner.processAttach()).toEqual(result);
+});
+it.each(['query','fill'] as const)('releases wide input after original %s conversion failure',failure=>{
+ const f=environmentFixture(failure);f.owner.processAttach();const state=f.owner.snapshot();expect(state.environmentReturned).toBe(true);expect(state.environmentInput!.fields.backing.freed).toBe(true);
+ expect(f.owner.imageStorage('environmentPointer').pointer(0).get()).toBeNull();
+ if(failure==='query')expect(state.environmentAllocation).toBeNull();else expect(state.environmentAllocation!.backing.freed).toBe(true);
 });
