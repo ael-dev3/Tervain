@@ -28,7 +28,7 @@ live Game initializer execution, NPC activation or campaign completion.
 
 PR 99 deployed through successful Pages run 37728624294. PR 100 passed CI run
 37728723765 and merged at `532d63718610c1710b192c70af8585c781d29e8d`;
-its Pages run 37729493625 is still running at this review.
+its Pages run 37729493625 subsequently succeeded.
 
 ### SharedBase classification normal return
 

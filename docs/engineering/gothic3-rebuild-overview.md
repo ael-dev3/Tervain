@@ -52,9 +52,9 @@ establish campaign completion.
 
 ## Current status — 8 October 2026
 
-The latest confirmed publication is [PR 99](https://github.com/ael-dev3/Tervain/pull/99),
-merged at `a95b3e89fc6003bc7c8b3da7695929b5dc2b636c` and deployed by
-[Pages run 37728624294](https://github.com/ael-dev3/Tervain/actions/runs/37728624294).
+The latest confirmed publication is [PR 100](https://github.com/ael-dev3/Tervain/pull/100),
+merged at `532d63718610c1710b192c70af8585c781d29e8d` and deployed by
+[Pages run 37729493625](https://github.com/ael-dev3/Tervain/actions/runs/37729493625).
 It includes original SharedBase pointer/lock setup, PTD allocation and selected
 default-locale initialization, environment setup and standard I/O descriptors.
 The earlier PR 84 served-artifact comparison remains evidence for that prior
@@ -967,4 +967,4 @@ is not installed in PTD/global storage, and full SharedBase attach, live Game
 initializer traversal, NPC activation and a finishable campaign remain missing.
 
 PR 100 passed CI run 37728723765 and merged at
-`532d63718610c1710b192c70af8585c781d29e8d`; its deployment is not yet confirmed here.
+`532d63718610c1710b192c70af8585c781d29e8d`; Pages run 37729493625 subsequently succeeded.
