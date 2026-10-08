@@ -1,0 +1,61 @@
+{
+  "schema": "gothic3-property-object-destruction-v1",
+  "sharedBaseSha256": "5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214",
+  "methods": {
+    "destroyObjectType": {
+      "entryVA": "0x10001e1a",
+      "bodyVA": "0x100880a0",
+      "bodyRanges": "100880a0-10088127",
+      "instructionCount": 52,
+      "bodyByteCount": 136,
+      "bodyInstructionBytesSha256": "8486b7a063c0d4369cb54297da8f4236128958875e998c2bebedfb130626413f",
+      "entryChain": [
+        {
+          "va": "10001e1a",
+          "bytes": "e981620800",
+          "targetVA": "100880a0"
+        }
+      ],
+      "assemblySha256": "d60a2e97323bbab815d3ecb70510ede2c86a2ffa8e1b1b76c75dd7504965fd1f",
+      "cSha256": "c67a79aef50e82859542e4c000ee2d324289cd317f19534598f58e5987fb8f1a"
+    },
+    "destroyNamedFactory": {
+      "entryVA": "0x10002f86",
+      "bodyVA": "0x1008d110",
+      "bodyRanges": "1008d110-1008d187",
+      "instructionCount": 46,
+      "bodyByteCount": 120,
+      "bodyInstructionBytesSha256": "eead719707a13201e1cd468ecfd91bcd383b1a0246fd15a15de08cee1216c83c",
+      "entryChain": [
+        {
+          "va": "10002f86",
+          "bytes": "e985a10800",
+          "targetVA": "1008d110"
+        }
+      ],
+      "assemblySha256": "82c62c15be0515e9e86f8a771d02b2d56155c46aec7522a9db5e56cfad7b05b7",
+      "cSha256": "ecefd4ba525905d09ff2b63fd5a26011bc5322332ed03d52da0000c938b0515a"
+    },
+    "clearPropertyPointers": {
+      "entryVA": "0x10002347",
+      "bodyVA": "0x10088720",
+      "bodyRanges": "10088720-1008878c",
+      "instructionCount": 40,
+      "bodyByteCount": 109,
+      "bodyInstructionBytesSha256": "7857fd68c81ff03a9c44720e835dbc9fd61c74089f12c1e107cc5b61b4a435c6",
+      "entryChain": [
+        {
+          "va": "10002347",
+          "bytes": "e9d4630800",
+          "targetVA": "10088720"
+        }
+      ],
+      "assemblySha256": "b9d9b3397684c5b7c9d16626d837754299c26a7977aeac7262017cd8b3c8407f",
+      "cSha256": "5533750ab63d6ac54ad11ca1961f5f2b2ec36f1514c4c7e64d2bf48bcbec1af8"
+    }
+  },
+  "objectTypeVtableVA": "100e9d6c",
+  "factoryVtableVA": "100ea9c4",
+  "sourceOnly": true,
+  "wholeCrtTraversalCompleted": false
+}

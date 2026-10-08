@@ -1,3 +1,4 @@
+import { admitGameArenaTypeSource, gameArenaTypeSourceRules, gameArenaTypeImagePins, gameArenaTypeImageReceipt } from './native-game-arena-type-source';
 /** Original Game CRT admission. These pins were checked against the local
  * Game.dll image; cold bytes do not certify initialized platform resources. */
 import { admitGameArenaSource, gameArenaSourceRules, gameArenaImagePins, gameArenaImageReceipt } from './native-game-arena-class-name-source';
@@ -34,8 +35,8 @@ export interface NativeCrtSourceProfile {
 }
 const baseRules = JSON.parse(rulesText) as NativeCrtSourceRules;
 const rules: NativeCrtSourceRules = { ...baseRules,
-  methods: { ...baseRules.methods, ...gameArenaSourceRules.methods },
-  coldGlobals: { ...baseRules.coldGlobals, ...gameArenaSourceRules.coldGlobals },
+  methods: { ...baseRules.methods, ...gameArenaSourceRules.methods, ...gameArenaTypeSourceRules.methods },
+  coldGlobals: { ...baseRules.coldGlobals, ...gameArenaSourceRules.coldGlobals, ...gameArenaTypeSourceRules.coldGlobals },
   constBytes: { ...baseRules.constBytes, ...gameArenaSourceRules.constBytes },
 };
 function freeze(value: unknown): void {
@@ -91,6 +92,7 @@ export const nativeGameImagePins: Readonly<Record<string, readonly [
   'coldGlobals' | 'constBytes', string, number, string, string
 ]>> = Object.freeze({
   ...gameArenaImagePins,
+  ...gameArenaTypeImagePins,
   ...gameContinuationImagePins,
   ...gameIoStartupImagePins,
   ...gameIoAllocationImagePins,
@@ -185,6 +187,7 @@ const imports = [
 ] as const;
 export function admitNativeGameCrtSource(): void {
   admitGameArenaSource();
+  admitGameArenaTypeSource();
   admitGameEnvironmentSource();
   admitGameIoStartupSource();
   admitGameIoAllocationSource();
@@ -206,6 +209,7 @@ export function admitNativeGameCrtSource(): void {
   }
 }
 export function nativeGameImageReceipt(label: string): NativeCrtImageReceipt {
+  if (Object.hasOwn(gameArenaTypeImagePins,label)) return gameArenaTypeImageReceipt(label);
   if (Object.hasOwn(gameArenaImagePins, label)) return gameArenaImageReceipt(label);
   if (Object.hasOwn(gameSetEnvpImagePins, label)) return gameSetEnvpImageReceipt(label);
   if (Object.hasOwn(gameContinuationImagePins, label)) return gameContinuationImageReceipt(label);

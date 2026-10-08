@@ -13,9 +13,9 @@ itself establish a playable reconstruction.
 
 ## Current status — 8 October 2026
 
-The latest confirmed publication is [PR 83](https://github.com/ael-dev3/Tervain/pull/83),
-merged at `a3474bf3701f65480ae08a9e0cd60c0b8436611c` and deployed by
-[Pages run 37706442899](https://github.com/ael-dev3/Tervain/actions/runs/37706442899).
+The latest confirmed publication is [PR 84](https://github.com/ael-dev3/Tervain/pull/84),
+merged at `bcb41bc0a9cfb549373ed8f5eb80ad93829669cd` and deployed by
+[Pages run 37708307858](https://github.com/ael-dev3/Tervain/actions/runs/37708307858).
 The served Gothic entry and three selected JavaScript chunks were compared with
 the corresponding local production artifacts and matched byte for byte.
 That establishes publication identity; it does not establish complete gameplay.
@@ -43,26 +43,35 @@ by registration wrappers; and canonical SharedBase singleton storage. The
 singleton constructor preserves the allocation sequence: construct 43 buckets,
 clear/recreate them, then grow to 359 buckets with capacity 367. These components are included in the confirmed publication above.
 
-The current local branch additionally implements the canonical singleton getter,
-its original guard writes, selected shutdown callback and destruction sequence.
-Those changes have focused checks but are not yet published. The callback uses
-the browser's selected shutdown adapter; it does not establish execution of the
-full original SharedBase CRT. The local Arena class-name owner additionally reconstructs its original RTTI
-name lookup, SharedBase CString construction, two-bit guard, Game exit-table
-registration, later initializer publication and selected cleanup. Its 19-byte
-holder uses the newly captured original 20-byte allocator pool. The Game string
-length reader now evaluates the original DWORD predicate for arbitrary unknown
-padding bits. Live class-name virtual dispatch, type-singleton initialization
-and the full RegisterTemplate connection remain unfinished. See the
-[Arena source package](../../assets/gothic3/arena-class-name/README.md) and
-[allocator evidence](../../assets/gothic3/arena-heap/README.md).
+PR 84 publishes the canonical singleton getter, original guard writes, selected
+shutdown callback and destruction sequence. The callback uses the browser's
+selected shutdown adapter; full original SharedBase CRT traversal remains
+unfinished. It also publishes the Arena class-name owner, RTTI lookup, CString
+construction, Game exit registration, later initializer publication and selected
+cleanup. The original Game string-length predicate now handles arbitrary unknown
+padding bits. Its CI passed typechecking, scenarios and the production build.
 
-Local validation for the singleton and Arena work passed typechecking, a
-production build and the full suite of 2,509 tests across 248 files. Two
-additional source-package integrity checks also passed. Both newly captured
-Arena packages reproduce byte for byte from the preserved local DLLs. These
-checks cover the supporting components; no new live NPC startup or campaign
-completion is claimed.
+The current local work additionally implements the Arena type singleton's base
+and factory construction and its SharedBase RegisterTemplate sequence. The
+registry stores a real 4-byte wrapper pointing to the canonical type object,
+using the actual source vtable/class-name slot and shared CString key. Selected
+type cleanup destroys the factory before the base. Focused checks cover pointer
+identity, original callback order, shared CString lifetime, untouched padding,
+warm guards and retained failure prefixes. This work is not yet published or
+connected to the live Game CRT initializer frame. See the
+[Arena type package](../../assets/gothic3/arena-type/README.md) and
+[property destruction evidence](../../assets/gothic3/property-object-destruction/README.md).
+
+Local validation for this type-registration work passed typechecking and the
+full suite of 2,523 tests across 252 files. The new source integrity checks are
+included in that full run. Repeated source preparation preserves the captured
+bytes. These checks do not establish live Game initializer execution or new
+campaign progress.
+
+The first property callback still needs its original virtual Create/reset,
+unregistration and descriptor registration calls. Property pointer-array cleanup
+with a live non-NULL element still needs that property's original virtual
+destructor. Full NPC startup and campaign completion remain unfinished.
 
 The next dependency chain includes original type-singleton initialization,
 class-name and factory construction, property registration, and the lifecycle
