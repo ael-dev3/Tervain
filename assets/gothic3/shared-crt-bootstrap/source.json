@@ -357,6 +357,11 @@
       "liveValueCaptured": false
     }
   },
+  "tlsFallbackAllocator": {
+    "address": "100ae360",
+    "raw": "ff15bc972f10c20400",
+    "sha256": "89b9b895a59f0f75607ee74875f1460dbb6ce716198148ea6d6cf7c09320eff8"
+  },
   "sourceOnly": true,
   "wholeCrtTraversalCompleted": false
 }

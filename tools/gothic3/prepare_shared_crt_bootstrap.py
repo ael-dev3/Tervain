@@ -31,6 +31,8 @@ def capture(study, output):
         methods[method['label']].update(assemblySha256=hashlib.sha256(asm).hexdigest(),
                                        cSha256=hashlib.sha256(c).hexdigest())
     pe = native.PE((study / '00_Original_Runtime/SharedBase.dll').read_bytes())
+    fallback = pe.bytes(0x100ae360,9)
+    assert fallback.hex() == 'ff15bc972f10c20400'
     cold = {}
     for label,address,size in [('securityCookie',0x10140d6c,4), ('securityCookieComplement',0x10140d70,4), ('tlsGetterIndex',0x10140b48,4),
                                ('threadDataIndex',0x10140b44,4), ('procedureSlots',0x102f64a4,16),
@@ -43,6 +45,7 @@ def capture(study, output):
                        'scope':'cold-original-image', 'liveValueCaptured':False}
     (output / 'source.json').write_bytes((json.dumps({'schema': 'gothic3-shared-crt-bootstrap-v1',
         'sharedBaseSha256': INPUT_SHA, 'methods': methods, 'coldGlobals':cold,
+        'tlsFallbackAllocator': {'address':'100ae360', 'raw':fallback.hex(), 'sha256':hashlib.sha256(fallback).hexdigest()},
         'sourceOnly': True, 'wholeCrtTraversalCompleted': False}, indent=2) + '\n').encode())
 
 if __name__ == '__main__':

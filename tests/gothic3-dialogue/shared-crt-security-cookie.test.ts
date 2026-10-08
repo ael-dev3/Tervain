@@ -50,3 +50,7 @@ it('rejects a missing entropy provider before changing the original cookie',()=>
  expect(owner.initialize().known).toBe(false);expect(owner.fields.readUnsigned(0)).toBe(0xbb40e64e);
  expect(owner.snapshot().trace).toEqual(['100c0dca.GetSystemTimeAsFileTime']);
 });
+
+it('rejects a forged platform before creating cookie storage',()=>{
+ expect(()=>NativeSharedCrtSecurityCookie.forPlatform(Object.create(NativeRuntimePlatform.prototype))).toThrow('Actual');
+});
