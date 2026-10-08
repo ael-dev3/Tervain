@@ -774,6 +774,23 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
     }
     this.#standardIoActiveCall = call;
     try {
+      const shared=NativeSharedCrtOwner.standardIoArgumentsForPlatform(this,call);
+      if(shared.known){
+        this.#standardIoConsumed.add(call);const input=shared.value,selection=this.#crtServices!.standardIo!;let result:NativeStandardIoResult;
+        if(input.kind==='GetStdHandle'){
+          const slot=selection.standardHandles.findIndex(entry=>(entry.id>>>0)===input.scalar);if(slot<0)return unknown('Declared standard handle ID required');
+          const entry=selection.standardHandles[slot]!;this.#processLastError(entry.getStdHandleLastError);
+          if(entry.result==='unknown')return unknown('Declared standard-handle result is unknown');
+          result=entry.result==='null'?null:entry.result==='invalid'?0xffffffff:[...this.#standardHandles.values()].find(record=>record.slot===slot)!.capability;
+        }else if(input.kind==='GetFileType'){
+          const record=input.object?this.#standardHandles.get(input.object):undefined;if(!record||record.capability!==input.object)return unknown('Actual same-platform HANDLE required');
+          const entry=selection.standardHandles[record.slot]!;this.#processLastError(entry.fileTypeLastError);result=entry.fileType;
+        }else{
+          this.#requestedHandleCount=input.scalar;this.#processLastError(selection.setHandleCount.lastError);result=selection.setHandleCount.result;
+        }
+        const after=NativeSharedCrtOwner.standardIoArgumentsForPlatform(this,call);if(!after.known)return after;
+        this.#standardIoNormalReturns.set(call,result);return known(result);
+      }
       const args = NativeX86ThreadStack.standardIoArgumentsForPlatform(this, call); if (!args.known) return args;
       this.#standardIoConsumed.add(call);
       const input = args.value, selection = this.#crtServices!.standardIo!;

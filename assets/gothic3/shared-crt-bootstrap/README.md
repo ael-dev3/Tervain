@@ -129,3 +129,12 @@ SharedBase block/count and initializes all 32 records in source order. No native
 SEH stack installation is claimed. Inherited-handle and standard-handle work
 remain required; the first descriptor flags are published before the missing
 GetStdHandle call. This helper still does not complete I/O or full CRT attach.
+
+The selected local no-inherited-handles path now completes all three standard
+descriptors using private source-owned API grants. It retains actual platform
+HANDLE capabilities, follows file-type flags, initializes physical sections
+before incrementing descriptor counts, preserves invalid/null handles as -2,
+and invokes SetHandleCount before returning I/O result 0. SharedBase allocation
+results must belong to its actual canonical heap. The attach continuation stops
+at original `__setargv` (`100adb46 -> 100c0ba7`); inherited descriptors and whole
+CRT/Game startup remain unimplemented. Native SEH stack installation is not claimed.

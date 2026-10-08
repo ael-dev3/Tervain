@@ -253,3 +253,11 @@ it('runs the actual SharedBase startup writer before allocating and initializing
  expect(state.startupInfo!.knownMask[0]).toBe(0);expect(state.startupInfo!.readUnsigned(50,2)).toBe(0);expect(state.ioBlock!.readUnsigned(4,1)).toBe(0x81);
  expect(platform.startupIoEndpoints!.getStartupInfoA({identity:{}}).known).toBe(false);
 });
+
+it('completes original SharedBase standard descriptors with actual HANDLE and section capabilities',()=>{
+ const platform=new NativeRuntimePlatform({engineCrtServices:{tlsValues:new Map(),kernel32Available:true,pointerCodec:'owned-bijection',fiberLocalStorage:true,processHeap:true,osVersion:{platform:2,major:6,minor:1,build:42},entropy:{currentThreadId:()=>({known:true,value:9})},processInputs:{acpCodePage:1252,conversionCoverage:'ascii-explicit-positive-count',initialDirectionFlag:0,commandLineA:{kind:'buffer',bytes:[0]},environmentW:{kind:'buffer',bytes:[0,0]}},startupIo:{startupInfoA:{outcome:'normal',writes:[{offset:50,width:2,value:0,knownMask:65535}]}},standardIo:{standardHandles:[{id:-10,result:'valid',fileType:2},{id:-11,result:'valid',fileType:3},{id:-12,result:'null',fileType:0}],setHandleCount:{result:0},sectionInitialization:'owned-registration'}}});
+ const owner=NativeSharedCrtOwner.forPlatform(platform);const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach complete');expect(result.reason).toContain('100c0ba7');
+ const state=owner.snapshot(),block=state.ioBlock!;expect(state.ioReturned).toBe(0);expect(block.readUnsigned(4,1)).toBe(0xc1);expect(block.readUnsigned(60,1)).toBe(0x89);expect(block.readUnsigned(116,1)).toBe(0xc1);
+ expect(block.readUnsigned(112)).toBe(0xfffffffe);expect(block.readUnsigned(8)).toBe(1);expect(block.readUnsigned(64)).toBe(1);expect(block.readUnsigned(120)).toBe(0);
+ expect(platform.standardIoEndpoints!.invoke({identity:{}}).known).toBe(false);
+});
