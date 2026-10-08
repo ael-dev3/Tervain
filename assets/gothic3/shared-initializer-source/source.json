@@ -47,6 +47,40 @@
       "assemblySha256": "c0e9fa85bc0b8252d4d39a6081082eb7462b16e7563b7a40dfb97ab5df372827",
       "cSha256": "dfeb3753dfd27f5e66c86496039570db0a14859f2a74f77ae44221cc156521e2"
     },
+    "pool1792Allocate": {
+      "entryVA": "0x1000322e",
+      "bodyVA": "0x1003f320",
+      "bodyRanges": "1003f320-1003f3a6",
+      "instructionCount": 51,
+      "bodyByteCount": 135,
+      "bodyInstructionBytesSha256": "7de11414ebcc3562183438855a5b58027768aa4d0c45e94f6e9a408b8566eaae",
+      "entryChain": [
+        {
+          "va": "1000322e",
+          "bytes": "e9edc00300",
+          "targetVA": "1003f320"
+        }
+      ],
+      "assemblySha256": "96b3ebb4aa9508eb71b47411e66758860d717951c468e42c349db5631704ade7",
+      "cSha256": "52599d3472a2daab3ce02a1d12644ae5de2d959295f5fdc046cae49043c0e6e0"
+    },
+    "pool1792Initialize": {
+      "entryVA": "0x1000717b",
+      "bodyVA": "0x10047730",
+      "bodyRanges": "10047730-10047805",
+      "instructionCount": 50,
+      "bodyByteCount": 214,
+      "bodyInstructionBytesSha256": "1a883d8dae8cf11f85a1b8cfd0eff36b4796edd86066c6c703c3b10700d0b142",
+      "entryChain": [
+        {
+          "va": "1000717b",
+          "bytes": "e9b0050400",
+          "targetVA": "10047730"
+        }
+      ],
+      "assemblySha256": "e9d1ad2e188470db90fa5d02d1efa3003b01105aa43f633defbde5da989fd637",
+      "cSha256": "a55f34cb28601215864a6d1afd760e37ce18ffca69b906aac73ec51c1d0eade9"
+    },
     "pool24Initialize": {
       "entryVA": "0x10002b3f",
       "bodyVA": "0x10045f80",
@@ -1350,6 +1384,24 @@
       "assemblySha256": "22c77006be4f82b772a619f2bd71e117dc829ad68a5dfb9f09a425d84fd05798",
       "cSha256": "adaef324230ffc45ecf8b9547071577f3081260808be348cf34b0cc0844c0a2d"
     },
+    "pool1792Dispatch": {
+      "entryVA": "0x10007be9",
+      "bodyVA": "0x10048ff0",
+      "bodyRanges": "10048ff0-1004906f",
+      "instructionCount": 43,
+      "bodyByteCount": 122,
+      "bodyInstructionBytesSha256": "3d58e290e25a0050ce25e335317c7cc96f0e482e0e36bba7699ffe633855670a",
+      "entryChain": [
+        {
+          "va": "10007be9",
+          "bytes": "e902140400",
+          "targetVA": "10048ff0"
+        }
+      ],
+      "assemblySha256": "1df3cf13d64ce5bd4d1195582da7105c9c177edd48fb24c62055a8d8c6152de4",
+      "cSha256": null,
+      "reconstructedCUnavailable": true
+    },
     "pool24Dispatch": {
       "entryVA": "0x10004214",
       "bodyVA": "0x10048050",
@@ -1890,6 +1942,18 @@
       "containingEntry": "10005e5c",
       "methodLabel": "initializer143Getter"
     },
+    "10048ff0": {
+      "containingEntry": "10048ff0",
+      "methodLabel": "pool1792Dispatch"
+    },
+    "1000322e": {
+      "containingEntry": "1000322e",
+      "methodLabel": "pool1792Allocate"
+    },
+    "1000717b": {
+      "containingEntry": "1000717b",
+      "methodLabel": "pool1792Initialize"
+    },
     "10048050": {
       "containingEntry": "10048050",
       "methodLabel": "pool24Dispatch"
@@ -2385,6 +2449,10 @@
     "100bb8e7": {
       "containingEntry": "100bb8e7",
       "methodLabel": "rtcTerminate"
+    },
+    "10007be9": {
+      "containingEntry": "10048ff0",
+      "methodLabel": "pool1792Dispatch"
     },
     "10002d97": {
       "containingEntry": "10047f10",
@@ -2920,6 +2988,54 @@
         "rawOffset": 1306624,
         "fileBackedBytes": 0,
         "loaderZeroFillBytes": 4
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "pool1792State": {
+      "address": "102ffe9c",
+      "raw": "000000000000000000000000",
+      "bytes": 12,
+      "sha256": "15ec7bf0b50732b49f8228e07d24365338f9e3ab994b00af08e5a3bffe55fd8b",
+      "section": {
+        "virtualAddress": 3125248,
+        "virtualSize": 20712,
+        "rawSize": 24576,
+        "rawOffset": 1331200,
+        "fileBackedBytes": 12,
+        "loaderZeroFillBytes": 0
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "pool1792Descriptor": {
+      "address": "102fff5c",
+      "raw": "00000000",
+      "bytes": 4,
+      "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+      "section": {
+        "virtualAddress": 3125248,
+        "virtualSize": 20712,
+        "rawSize": 24576,
+        "rawOffset": 1331200,
+        "fileBackedBytes": 4,
+        "loaderZeroFillBytes": 0
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "pool1792Geometry": {
+      "address": "100e7b80",
+      "raw": "00070000ff000000",
+      "bytes": 8,
+      "sha256": "94e4fc08901eaf2f86013992cc1771b5733050ae3db148117174e81539a9c454",
+      "section": {
+        "virtualAddress": 937984,
+        "virtualSize": 366840,
+        "rawSize": 368640,
+        "rawOffset": 937984,
+        "fileBackedBytes": 8,
+        "loaderZeroFillBytes": 0
       },
       "scope": "cold-original-image",
       "liveValueCaptured": false
@@ -4004,6 +4120,22 @@
       "instruction": "CALL 0x100a72d0",
       "kind": "direct",
       "targetVA": "100a72d0"
+    },
+    {
+      "method": "pool1792Initialize",
+      "address": "10047745",
+      "raw": "e888340600",
+      "instruction": "CALL 0x100aabd2",
+      "kind": "direct",
+      "targetVA": "100aabd2"
+    },
+    {
+      "method": "pool1792Initialize",
+      "address": "100477fc",
+      "raw": "e8e39afbff",
+      "instruction": "CALL 0x100012e4",
+      "kind": "direct",
+      "targetVA": "100012e4"
     },
     {
       "method": "pool24Initialize",
@@ -7493,6 +7625,29 @@
       "instruction": "CALL 0x100a72d0",
       "kind": "direct",
       "targetVA": "100a72d0"
+    },
+    {
+      "method": "pool1792Dispatch",
+      "address": "10049037",
+      "raw": "e8f2a1fbff",
+      "instruction": "CALL 0x1000322e",
+      "kind": "direct",
+      "targetVA": "1000322e"
+    },
+    {
+      "method": "pool1792Dispatch",
+      "address": "10049054",
+      "raw": "ffd7",
+      "instruction": "CALL EDI",
+      "kind": "register-or-memory-indirect"
+    },
+    {
+      "method": "pool1792Dispatch",
+      "address": "1004905c",
+      "raw": "e81ae1fbff",
+      "instruction": "CALL 0x1000717b",
+      "kind": "direct",
+      "targetVA": "1000717b"
     },
     {
       "method": "pool24Dispatch",

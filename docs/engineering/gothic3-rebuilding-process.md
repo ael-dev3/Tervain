@@ -10357,3 +10357,24 @@ continuation is local work and has not received a full-suite/build checkpoint
 or publication. The next dependency is the original 10007be9 -> 10048ff0 pool
 path, including region initialization and slot acquisition. Complete DLL
 startup, world activation and campaign completion remain unfinished.
+
+## Original 1,792-byte pool allocation for version resources (local work, 2026-10-08)
+
+The previously missing 10007be9 -> 10048ff0 dispatch and its initialization
+and bitmap-slot routines are now captured from the matching original DLL.
+The dispatch has no decompiled C record; its disassembly range is checked
+directly against PE bytes and marked as assembly-only evidence. The source
+package now contains 130 bodies, 5,196 body instructions and 480 CALL receipts.
+Every generated evidence file and the instruction table reproduce byte-for-byte.
+
+The retained original allocator requests a 0x70000 virtual region, initializes
+its descriptor and 255-slot bitmap, then claims a 1,792-byte slot for the
+1,740-byte version buffer. The returned view aliases the claimed region at
+offset 16. The original malloc restores its saved registers and SEH/FS state
+and releases its heap section. Execution stops at caller continuation 1004c4f6,
+with the actual owned buffer retained for the version-resource import.
+
+All 306 focused startup/evidence checks, typechecking and the production build
+pass. Full-suite validation and publication are pending. Resource filling,
+language queries, version parsing and cleanup remain to be connected, followed
+by complete DLL startup, world activation and campaign progression.

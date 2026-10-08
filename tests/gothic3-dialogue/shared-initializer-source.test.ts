@@ -30,8 +30,8 @@ it('pins original SharedBase source identity without granting initializer execut
   expect(source.verifiedAgainstOriginalPE).toBe(true);
   expect(source.sourceOnly).toBe(true);
   expect(source.initializerExecutionCompleted).toBe(false);
-  expect(Object.keys(source.methods)).toHaveLength(127);
-  expect((Object.values(source.methods) as Method[]).reduce((sum,m)=>sum+m.instructionCount,0)).toBe(5052);
+  expect(Object.keys(source.methods)).toHaveLength(130);
+  expect((Object.values(source.methods) as Method[]).reduce((sum,m)=>sum+m.instructionCount,0)).toBe(5196);
 });
 it('preserves every admitted instruction byte and separates unavailable C exports',()=>{
   let recovered=0;
@@ -106,7 +106,7 @@ it('captures the section write flag and cold conversion/exit/RTC storage',()=>{
   expect(source.coldGlobals.rtcTerminators.raw).toBe('00'.repeat(256));
 });
 it('retains original CALL encodings and distinguishes imports from indirect callbacks',()=>{
-  expect(source.calls).toHaveLength(475);
+  expect(source.calls).toHaveLength(480);
   for(const call of source.calls){
     const raw=Buffer.from(call.raw,'hex');
     if(call.kind==='direct'){
@@ -240,7 +240,7 @@ it('retains original pool globals, bitmap geometry and VirtualAlloc request evid
   const bitmap=readFileSync(base+'1003e090.asm.txt','utf8');
   expect(bitmap).toContain('SCASD.REPE ES:EDI');expect(bitmap).toContain('BTR.LOCK [EDI],EDX');
   expect(source.calls.find((call:{address:string})=>call.address==='10047f7c').targetVA).toBe('100061cc');
-  expect(source.calls).toHaveLength(475);
+  expect(source.calls).toHaveLength(480);
 });
 
 it('pins descriptor CRT new/malloc bodies and the original HeapAlloc IAT',()=>{
@@ -282,4 +282,8 @@ it('pins original class-name getters and their type-info dependency without gran
  expect(source.methods.initializer142Getter.bodyInstructionBytesSha256).toBe('b5e596b1242dcc3a60689521e40148d38ae3082c3f776bea04a77a1348fd7285');expect(source.methods.initializer143Getter.bodyInstructionBytesSha256).toBe('0ba2997f34d67deab166846b174fc31066f4317663b823a462322cfe8ca8f885');expect(source.methods.typeInfoName.bodyInstructionBytesSha256).toBe('cd650ac75be4e2b54abe9afe24a8ffd0490ea4f16050f7542157fbe31e96b1d3');
  expect(sharedInitializerInstruction('1000619f')).toEqual({address:'1000619f',bytes:'e95c870800',instruction:'JMP 0x1008e900'});expect(sharedInitializerInstruction('100b0902').instruction).toBe('PUSH 0xc');
  expect(source.coldGlobals.className142State.raw).toBe('00'.repeat(12));expect(source.coldGlobals.className143State.raw).toBe('00'.repeat(12));expect(source.coldGlobals.typeInfoNode.raw).toBe('00'.repeat(8));expect(Buffer.from(source.coldGlobals.className142TypeInfo.raw,'hex').subarray(8).toString('ascii')).toBe('.?AVbCObsoleteClass@@\0\0\0');
+});
+
+it('retains the original 1792-byte pool bodies and geometry used by the version buffer',()=>{
+ expect(source.methods.pool1792Dispatch).toMatchObject({bodyVA:'0x10048ff0',reconstructedCUnavailable:true,bodyInstructionBytesSha256:'3d58e290e25a0050ce25e335317c7cc96f0e482e0e36bba7699ffe633855670a'});expect(source.methods.pool1792Initialize.bodyInstructionBytesSha256).toBe('1a883d8dae8cf11f85a1b8cfd0eff36b4796edd86066c6c703c3b10700d0b142');expect(source.methods.pool1792Allocate.bodyInstructionBytesSha256).toBe('7de11414ebcc3562183438855a5b58027768aa4d0c45e94f6e9a408b8566eaae');expect(source.coldGlobals.pool1792Geometry).toMatchObject({address:'100e7b80',raw:'00070000ff000000'});
 });
