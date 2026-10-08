@@ -1,0 +1,8 @@
+/* ENTRY 2006fcd0 | bTPropertyType<gCArena_PS,bTPropertyContainer<gEArenaStatus>_>::vfunction2 | STATUS decompiled | 1 ms */
+
+undefined4 __thiscall
+bTPropertyType<gCArena_PS,bTPropertyContainer<gEArenaStatus>_>::vfunction2(void)
+
+{
+  return 8;
+}

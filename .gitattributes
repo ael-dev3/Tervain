@@ -305,3 +305,6 @@ tools/gothic3/prepare_property_object_destruction.py -text -eol
 
 assets/gothic3/arena-property-registration/* -text -eol
 assets/gothic3/arena-property-registration/*.c.txt -whitespace
+
+assets/gothic3/arena-status-descriptor/* -text -eol
+assets/gothic3/arena-status-descriptor/*.c.txt -whitespace

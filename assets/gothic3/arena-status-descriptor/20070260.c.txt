@@ -1,0 +1,15 @@
+/* ENTRY 20070260 | bTPropertyType<gCArena_PS,bTPropertyContainer<gEArenaStatus>_>::vfunction6 | STATUS decompiled | 5 ms */
+
+void __thiscall
+bTPropertyType<gCArena_PS,bTPropertyContainer<gEArenaStatus>_>::vfunction6
+          (bTPropertyType<gCArena_PS,bTPropertyContainer<gEArenaStatus>_> *this,int param_1)
+
+{
+  bTPropertyType<gCArena_PS,bTPropertyContainer<gEArenaStatus>_>_vftable *pbVar1;
+  
+  if (param_1 != 0) {
+    pbVar1 = (*this->vftablePtr->vfunction26)(this,(undefined4 *)param_1);
+    (**(code **)(pbVar1->vfunction1 + 0x18))();
+  }
+  return;
+}

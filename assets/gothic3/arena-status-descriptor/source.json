@@ -1,0 +1,173 @@
+{
+  "schema": "gothic3-arena-status-descriptor-v1",
+  "gameSha256": "b09afc5c180969a6302d9d706f0ad8efebf7c1fcd9301096bf5c1b1f2cf8eb2f",
+  "methods": {
+    "statusVirtualSlot00": {
+      "entryVA": "0x2001635b",
+      "bodyVA": "0x2006fcb0",
+      "bodyRanges": "2006fcb0-2006fcb3",
+      "instructionCount": 2,
+      "bodyByteCount": 4,
+      "bodyInstructionBytesSha256": "0b78473b3a56c63ff2a64431fb600078066cbe407d3dee7ea8fd7575bd7f82d5",
+      "entryChain": [
+        {
+          "va": "2001635b",
+          "bytes": "e950990500",
+          "targetVA": "2006fcb0"
+        }
+      ],
+      "assemblySha256": "530f3ea393ececa858e847c28b690a7b0e0d6edf910fa3c425b5cfea9683f4f1",
+      "cSha256": "fe59a0bce8f32f6e9ecde6783081f251184a7f57347188f0edac1e0c905db554"
+    },
+    "statusVirtualSlot04": {
+      "entryVA": "0x2002ed52",
+      "bodyVA": "0x2006fcd0",
+      "bodyRanges": "2006fcd0-2006fcd5",
+      "instructionCount": 2,
+      "bodyByteCount": 6,
+      "bodyInstructionBytesSha256": "accecba762116532de10ac30681ff4b25ad91fe217568ec41c8ffd67b9ef2bcf",
+      "entryChain": [
+        {
+          "va": "2002ed52",
+          "bytes": "e9790f0400",
+          "targetVA": "2006fcd0"
+        }
+      ],
+      "assemblySha256": "1cc9962b0f51bc574b0bae06f026ab98761392f4caea1b62ad913f24d7858560",
+      "cSha256": "2d8c8467876ddbaf54452925a14e79d55a49ac69b314dfc84f1c998eef65434c"
+    },
+    "statusVirtualSlot08": {
+      "entryVA": "0x20022f25",
+      "bodyVA": "0x2006fce0",
+      "bodyRanges": "2006fce0-2006fce8",
+      "instructionCount": 4,
+      "bodyByteCount": 9,
+      "bodyInstructionBytesSha256": "a1b8e9c0f879a339da9b026d2fc50dd5e5d376fa4307aef97f8ca940e358ea3b",
+      "entryChain": [
+        {
+          "va": "20022f25",
+          "bytes": "e9b6cd0400",
+          "targetVA": "2006fce0"
+        }
+      ],
+      "assemblySha256": "5709fea5f5317b14e3667f85129a3f0b9084a61e3003c07d3134e034100a1892",
+      "cSha256": "db3e1e03494ffba204001daeb9ba09d2f65953ec9d7dffd794f6c4d9a9b737aa"
+    },
+    "statusVirtualSlot0c": {
+      "entryVA": "0x2000185c",
+      "bodyVA": "0x2006e520",
+      "bodyRanges": "2006e520-2006e576",
+      "instructionCount": 22,
+      "bodyByteCount": 87,
+      "bodyInstructionBytesSha256": "3ee0cc58d73385f85e2d7bcb383f6882420b2ef039788373549262fc23f6ec11",
+      "entryChain": [
+        {
+          "va": "2000185c",
+          "bytes": "e9efe90600",
+          "targetVA": "20070250"
+        },
+        {
+          "va": "20070250",
+          "bytes": "e968dbfaff",
+          "targetVA": "2001ddbd"
+        },
+        {
+          "va": "2001ddbd",
+          "bytes": "e95e070500",
+          "targetVA": "2006e520"
+        }
+      ],
+      "assemblySha256": "1abe026e644c35241ca5d06f29a7f3be6b3ca410eccfd97cfe7b3efaa2851584",
+      "cSha256": "d740e22ebea5067db852c69fb7c1bb058762d1ad5fc00279ae06e78f64020de0"
+    },
+    "statusVirtualSlot10": {
+      "entryVA": "0x2001af23",
+      "bodyVA": "0x2006fcc0",
+      "bodyRanges": "2006fcc0-2006fcc3",
+      "instructionCount": 2,
+      "bodyByteCount": 4,
+      "bodyInstructionBytesSha256": "38058506e8e859d5be73a33baa621352c08ea01f2224ee170173253757193941",
+      "entryChain": [
+        {
+          "va": "2001af23",
+          "bytes": "e9984d0500",
+          "targetVA": "2006fcc0"
+        }
+      ],
+      "assemblySha256": "3b064e760c557b8df6322f7249307be9540fcc080d0b983adac59a3c350972df",
+      "cSha256": "81d1d1460c5e8db8fa543135aaa5d2789033629b38a7bb7dc946da30d42dc44b"
+    },
+    "statusVirtualSlot14": {
+      "entryVA": "0x20026bf7",
+      "bodyVA": "0x20070260",
+      "bodyRanges": "20070260-2007027b",
+      "instructionCount": 12,
+      "bodyByteCount": 28,
+      "bodyInstructionBytesSha256": "4ce1e3d739cf2068808da0992665cfef12af85eaa2f5e3d9a5b8a03ba3f664d9",
+      "entryChain": [
+        {
+          "va": "20026bf7",
+          "bytes": "e964960400",
+          "targetVA": "20070260"
+        }
+      ],
+      "assemblySha256": "c2e7e0216aa5c85d04341500196c0746ceb846e4df96049fb0d99990695fb2d0",
+      "cSha256": "ec32ef0397cc66ebe95aa674045021d6403792103aba530c083c14bf74442864"
+    },
+    "createStatus": {
+      "entryVA": "0x2002ad8d",
+      "bodyVA": "0x20070f20",
+      "bodyRanges": "20070f20-20070f3d",
+      "instructionCount": 11,
+      "bodyByteCount": 30,
+      "bodyInstructionBytesSha256": "2444eda048b9217824b473349faef11841b534bdcc79452882dc2eec26cbd1db",
+      "entryChain": [
+        {
+          "va": "2002ad8d",
+          "bytes": "e98e610400",
+          "targetVA": "20070f20"
+        }
+      ],
+      "assemblySha256": "cd7e171803d08cd3b662047eb4d02e092827c41676c8f88155f1d82d592893bd",
+      "cSha256": "8448c965b8570eb57f3e74f9fea8b4117e6f73c820d2b8feb413bc842733287c"
+    },
+    "resetStatusStorage": {
+      "entryVA": "0x20070e90",
+      "bodyVA": "0x20070e90",
+      "bodyRanges": "20070e90-20070efa",
+      "instructionCount": 47,
+      "bodyByteCount": 107,
+      "bodyInstructionBytesSha256": "f924c60a70d7e9be4b9a241601b8e562f8e26a8f0aa564859141c63408aa3f80",
+      "entryChain": [],
+      "assemblySha256": "582484f0d4116cc965976ce1fabf86f649f6ee7c38de2d88a3735b4161c663e5",
+      "cSha256": "0bc40d3fb9007341fdb5c7deca977f37f1ee1f2c72cd5c5fd65b885308e2c0e9"
+    }
+  },
+  "vtableAddress": "20659aec",
+  "slots": {
+    "00": "2001635b",
+    "04": "2002ed52",
+    "08": "20022f25",
+    "0c": "2000185c",
+    "10": "2001af23",
+    "14": "20026bf7"
+  },
+  "coldDescriptor": {
+    "address": "207b5038",
+    "raw": "000000000000000000000000000000000000000000000000000000000000000000000000",
+    "section": {
+      "virtualAddress": 7954432,
+      "virtualSize": 248716,
+      "rawSize": 126976,
+      "rawOffset": 7954432,
+      "fileBackedBytes": 0,
+      "loaderZeroFillBytes": 36
+    }
+  },
+  "nameLiteral": {
+    "address": "20657534",
+    "raw": "53746174757300"
+  },
+  "sourceOnly": true,
+  "wholeCrtTraversalCompleted": false
+}
