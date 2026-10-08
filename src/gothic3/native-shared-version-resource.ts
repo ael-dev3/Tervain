@@ -25,8 +25,11 @@ export class NativeSharedVersionResource {
   const access=NativeRuntimePlatform.canonicalNativePointerAccessForPlatform(this.platform,pointer,0,bytes);if(!access.known)throw new Error(access.reason);
  }
  #failure(error:unknown):NativeValue<never>{return {known:false,reason:error instanceof Error?error.message:String(error)};}
+ sizeOutcome(filename:string):NativeValue<Readonly<{size:number;handle:number}>>{
+  try{const active=NativeRuntimePlatform.requireActivePlatform(this.platform);if(!active.known)throw new Error(active.reason);if(owners.get(this.platform)!==this)throw new Error('Actual version resource owner required');if(filename!=='sharedbase.dll')throw new Error('Original SharedBase version filename required');if(observation.inputSha256!=='5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214'||observation.size!==this.#initial.length||observation.handle!==0)throw new Error('Recorded version size outcome required');return {known:true,value:Object.freeze({size:observation.size,handle:observation.handle})};}catch(error){return this.#failure(error);}
+ }
  size(filename:string,handle:NativeBytePointer):NativeValue<number>{
-  try{if(filename!=='sharedbase.dll')throw new Error('Original SharedBase version filename required');this.#access(handle,4);NativeHeapObjectViews.prototype.writeUnsigned.call(handle.fields,handle.offset,0);return {known:true,value:this.#initial.length};}catch(error){return this.#failure(error);}
+  try{const outcome=this.sizeOutcome(filename);if(!outcome.known)throw new Error(outcome.reason);this.#access(handle,4);NativeHeapObjectViews.prototype.writeUnsigned.call(handle.fields,handle.offset,outcome.value.handle);return {known:true,value:outcome.value.size};}catch(error){return this.#failure(error);}
  }
  initialize(filename:string,handle:number,size:number,output:NativeBytePointer):NativeValue<number>{
   try{

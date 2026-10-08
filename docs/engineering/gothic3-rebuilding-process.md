@@ -10311,3 +10311,29 @@ local suite passes 2,896 tests across 273 files (187.10 seconds). This
 continuation has not been published. Version
 resource imports, logging, complete DLL startup, world activation and campaign
 completion remain unfinished.
+
+## Original version-resource frame and size import (work in progress, 2026-10-08)
+
+The module-query continuation now executes the second filename copy and the
+original fallback CALL, retaining all four caller output addresses on the same
+stack. The fallback prologue zeroes its handle DWORD through the interpreter's
+byte store. Three VERSION.dll import thunks are captured directly from the
+matching PE bytes, paired with their IAT receipts and emitted reproducibly.
+
+The selected recorded ANSI size outcome returns 1,740 bytes and writes handle
+zero through the actual stack argument. Its normal return follows the original
+nonzero branch, retaining the requested size for the MemoryAdmin call at
+1004c4ea. Execution stops at 10002aae; allocation, resource filling, language
+queries, parsing and cleanup remain to be connected. Changed source receipts
+and physical return-word corruption are rejected before applying the API result.
+
+All 303 focused checks, typechecking and the production build pass. Evidence
+and emitted instructions regenerate byte-for-byte. The full suite passes
+2,901 tests across 273 files (200.61 seconds). Publication is pending. Complete DLL startup, world activation and campaign
+completion remain unfinished.
+
+The subsequent integration of Claude's merged loading/grass PR #154 changes
+35 presentation, loading, configuration and documentation files; the startup
+files are disjoint. All 78 affected presentation checks pass after integration,
+as do typechecking and the production build. The 2,901-test startup checkpoint
+receipt above predates that integration; it is not a combined full-suite count.
