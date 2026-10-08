@@ -5,7 +5,7 @@ import json
 import struct
 from pathlib import Path
 import read_dialogue_native_evidence as native
-from prepare_runtime_admin_source import INPUT_SHA, source_excerpt
+from prepare_runtime_admin_source import INPUT_SHA, image_bytes, source_excerpt
 
 def capture(study, output):
     native.EXPECTED_INPUTS['SharedBase.dll'] = INPUT_SHA
@@ -32,13 +32,17 @@ def capture(study, output):
     start, end, index, callbacks, zero_fill, characteristics = struct.unpack('<6I',directory)
     assert (start,end,index,callbacks,zero_fill,characteristics) == (0x10301000,0x103016d4,0x102f6480,0x100e5780,0,0)
     tls = pe.bytes(start,end-start)
+    index_raw, index_evidence = image_bytes(pe,index,4)
+    callbacks_raw = pe.bytes(callbacks,4)
+    assert index_raw == callbacks_raw == bytes(4)
     format_text = pe.string(0x100e9f40)
     (output / 'source.json').write_bytes((json.dumps({'schema': 'gothic3-arena-property-registration-v1',
         'sharedBaseSha256': INPUT_SHA, 'methods': methods,
         'staticTls': {'directoryAddress': f'{pe.base+rva:08x}', 'directoryRaw': directory.hex(),
                       'templateAddress':f'{start:08x}', 'templateRaw':tls.hex(),
                       'templateSha256':hashlib.sha256(tls).hexdigest(),
-                      'indexAddress':f'{index:08x}', 'callbacksAddress':f'{callbacks:08x}',
+                      'indexAddress':f'{index:08x}', 'indexInitialRaw':index_raw.hex(),
+                      'callbacksAddress':f'{callbacks:08x}', 'callbacksTerminatorRaw':callbacks_raw.hex(),
                       'debugBufferOffset':264, 'loaderSlotAssigned':False},
         'registrationDebugFormat': {'address':'100e9f40','text':format_text},
         'sourceOnly': True, 'wholeCrtTraversalCompleted': False}, indent=2) + '\n').encode())

@@ -78,6 +78,9 @@ it('records original SharedBase static TLS without claiming loader-assigned thre
   expect(sha(template)).toBe(tls.templateSha256);
   expect(tls.debugBufferOffset).toBe(0x108);
   expect(tls.loaderSlotAssigned).toBe(false);
+  expect(tls.indexInitialRaw).toBe('00000000');
+  expect(directory.readUInt32LE(12)).toBe(0x100e5780);
+  expect(tls.callbacksTerminatorRaw).toBe('00000000');
   expect(source.registrationDebugFormat.address).toBe('100e9f40');
   expect(source.registrationDebugFormat.text.match(/%s/g)).toHaveLength(2);
 });
