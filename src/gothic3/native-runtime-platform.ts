@@ -410,7 +410,7 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
     });
     this.argvNlsEndpoints = this.#argvNlsEndpoints;
     Object.defineProperty(this, 'argvNlsEndpoints', { value: this.#argvNlsEndpoints, writable: false, configurable: false });
-    if (this.#argvNlsEndpoints) for (const name of ['HeapAlloc', 'InterlockedIncrement', 'MultiByteToWideChar', 'LCMapStringW'] as const) {
+    if (this.#argvNlsEndpoints) for (const name of ['HeapAlloc', 'InterlockedIncrement', 'MultiByteToWideChar', 'LCMapStringW', 'GetModuleFileNameA'] as const) {
       this.#argvProcedures.set(name, Object.freeze({ identity: Object.freeze({}), name }));
     }
     this.#setEnvpEndpoints = crt.services?.setEnvp === undefined ? undefined : Object.freeze({
@@ -890,7 +890,9 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
       if(shared.known){
         this.#argvNlsConsumed.add(call);const input=shared.value,selection=this.#crtServices!.argvNls!;
         let value:number;
-        if(input.kind==='GetACP')value=selection.codePage;
+        if(input.kind==='GetModuleFileNameA'){
+          if(input.scalar!==0||input.count!==260||!input.fields||input.procedure!==this.#argvProcedures.get('GetModuleFileNameA'))throw new Error('Actual SharedBase module filename arguments required');requirePhysicalNativeViews(input.fields);for(let index=0;index<selection.moduleName.length;index++)NativeHeapObjectViews.prototype.writeUnsigned.call(input.fields,index,selection.moduleName[index]!,1);NativeHeapObjectViews.prototype.writeUnsigned.call(input.fields,selection.moduleName.length,0,1);value=selection.moduleName.length;
+        }else if(input.kind==='GetACP')value=selection.codePage;
         else if(input.kind==='IsValidCodePage')value=input.scalar===selection.codePage?1:0;
         else if(input.kind==='GetCPInfo'){
           if(input.scalar!==selection.codePage)value=0;
