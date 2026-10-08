@@ -9404,3 +9404,30 @@ completion remain unfinished.
 
 PR 124 passed CI run 37770523149 and merged at
 `3dc3188d9d47712342d76f996e468013a52de98c`.
+
+
+## 8 October 2026 — Lower heap and 16-byte pool evidence
+
+PR 125 passed CI run 37771585405 and merged at
+`90275aa46314fb5c4a7227bb51c7bc63eb0db023`. Its Pages publication is tracked by
+run 37772690355, which completed successfully.
+
+The next source package captures four original allocator bodies: lower heap
+dispatch, the 16-byte pool dispatcher, its block initializer and bitmap
+allocator. The complete dispatch table proves that Root's thirteen-byte request
+selects the 16-byte pool. Its cold path requests a 1,056,768-byte virtual region,
+then initializes a bitmap and pool descriptor before selecting a payload slot.
+
+The producer verifies all new instruction bytes against the installed DLL and
+captures the cold roots, geometry and VirtualAlloc import identity. Focused
+checks pin all 4,097 dispatch entries, four body hashes and entry thunks, request
+arguments, fallback selection and bitmap instructions. All 107 generated files
+and the unchanged live instruction module reproduce exactly. The expanded
+focused suite passes 175 checks. Typechecking, the production build and all
+2,732 tests across 259 files pass (full-suite duration 182.58 seconds).
+
+These captures do not execute the pool operations. The live boundary remains
+`1003d474 -> 10001028`. The next implementation must retain the existing live
+MemoryAdmin/exit-table owner, acquire the region through the canonical platform
+VirtualAlloc capability, execute original metadata initialization and return an
+owned slot. Full startup and campaign completion remain unfinished.

@@ -169,3 +169,32 @@ section at spin count 1,000. The next pending CALL is `1003d474 -> 10001028`,
 the lower heap dispatcher. The normal prefix retains the entered lock and
 exception frame; no allocation, release or return is fabricated. Exception
 dispatch and the full initializer remain incomplete.
+
+
+## Lower allocator source evidence — 8 October 2026
+
+The package now captures the lower heap dispatcher (`10001028 -> 1003d2f0`),
+the 16-byte pool dispatcher (`10002d97 -> 10047f10`), its block initializer
+(`100061cc -> 10045da0`) and bitmap allocator (`1000605a -> 1003e090`). The
+pool dispatcher's C export is unavailable; its original disassembly and thunk
+bytes are checked directly against the installed PE.
+
+The full 4,097-DWORD table at `102fb050` maps requested sizes to pool callbacks.
+Request 13 selects `10002d97`; a failed VirtualAlloc reaches the indirect jump
+through `102fb094`, selecting the next pool. Cold count/list/peak storage at
+`102ffd58`, descriptor at `102ffef0`, descriptor-list root at `102fb004`, and
+stride/capacity at `100e7aa8` are captured separately from live state.
+
+The first cold pool requests VirtualAlloc(NULL, 0x102000, 0x103000, 4) through
+IAT `102f9680`. The block initializer allocates a 20-byte descriptor, sets four
+original callback addresses, fills the 8,192-byte bitmap at region offset
+0x100000, masks its last DWORD with 0x7fffffff, links the region into the pool
+list and registers the payload. The bitmap allocator uses the original scan,
+bit selection and locked bit-clear sequence; its slot stride is 16 and its
+capacity is 65,535.
+
+These four bodies are source evidence only and are not admitted to the live
+initializer instruction interpreter. The runtime still stops at
+`1003d474 -> 10001028` with Malloc's lock and exception frame active. Executing
+the dispatcher, owning the VirtualAlloc region, initializing its metadata and
+returning a real slot remain the next implementation work.
