@@ -10337,3 +10337,23 @@ The subsequent integration of Claude's merged loading/grass PR #154 changes
 files are disjoint. All 78 affected presentation checks pass after integration,
 as do typechecking and the production build. The 2,901-test startup checkpoint
 receipt above predates that integration; it is not a combined full-suite count.
+
+## Version-buffer MemoryAdmin and malloc entry (local work, 2026-10-08)
+
+The resource fallback now executes the original singleton lookup against the
+MemoryAdmin state retained by successful CRT initialization. Its warm guard
+branch returns the actual object address at state offset eight, which becomes
+the malloc receiver through the original MOV ECX/EAX and CALL sequence.
+
+The existing instruction interpreter also admits a separate owner-authorized
+DLL allocator invocation. This preserves the original malloc prologue, SEH
+frame and heap-section transition. The 1,740-byte request reaches a previously
+unsupported pool allocation child at 1003d304 -> 10007be9. No buffer is claimed
+at that point: the original calls remain pending and the heap section remains
+held as execution stopped inside it. Repeated requests retain that state.
+
+All 305 focused startup/evidence checks and typechecking pass. The allocator
+continuation is local work and has not received a full-suite/build checkpoint
+or publication. The next dependency is the original 10007be9 -> 10048ff0 pool
+path, including region initialization and slot acquisition. Complete DLL
+startup, world activation and campaign completion remain unfinished.

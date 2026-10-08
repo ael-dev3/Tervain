@@ -235,6 +235,9 @@ export class NativeSharedCrtOwner {
  #dllModuleAttempted=false;
  #dllResourceAttempted=false;
  #dllResourceSizeAttempted=false;
+ #dllMemoryAdminAttempted=false;
+ #dllMallocAttempted=false;
+ #dllMallocCall:object|null=null;
  #dllResourceSize:Readonly<{slot:NativeHeapObjectViews;procedure:object;outcome:(filename:string)=>Readonly<{size:number;handle:number}>}>|null=null;
  #dllModuleHooks:Readonly<NativeSharedDllModuleHooks>|null=null;
  #dllModuleOwner:NativeSharedVersionModule|null=null;
@@ -533,15 +536,20 @@ export class NativeSharedCrtOwner {
   const active=NativeRuntimePlatform.requireActivePlatform(platform);if(!active.known)return active;const owner=owners.get(platform);if(!owner||!owner.#active||owner.#argvCall!==call)return {known:false,reason:'Actual pending SharedBase setargv required'};
   try{return {known:true,value:{stage:owner.#argvStage,initialized:owner.imageStorage('multibyteInitialized').readUnsigned(0),module:owner.imageStorage('moduleNameBuffer'),input:owner.#argvInput,allocation:owner.#argvAllocation,result:owner.#argvReturned,argc:owner.imageStorage('argumentCount'),argv:owner.imageStorage('argumentVector'),retryDelay:owner.imageStorage('allocationRetryDelay').readUnsigned(0),envPointer:owner.imageStorage('environmentPointer'),envVector:owner.imageStorage('environmentVector'),envInitialized:owner.imageStorage('environmentInitialized'),mbInitialized:owner.imageStorage('multibyteInitialized')}};}catch(error){return {known:false,reason:error instanceof Error?error.message:String(error)};}
  }
- static dllEntryStackArgumentsForPlatform(platform:NativeRuntimePlatform,call:object):NativeValue<Readonly<{guard:NativeHeapObjectViews;object:NativeHeapObjectViews;moduleName:NativeHeapObjectViews;lstrcpy:Readonly<{slot:NativeHeapObjectViews;procedure:object}>|null;modules:Readonly<NativeSharedDllModuleHooks>|null;resourceSize:Readonly<{slot:NativeHeapObjectViews;procedure:object;outcome:(filename:string)=>Readonly<{size:number;handle:number}>}>|null}>>{
+ static dllEntryStackArgumentsForPlatform(platform:NativeRuntimePlatform,call:object):NativeValue<Readonly<{guard:NativeHeapObjectViews;object:NativeHeapObjectViews;moduleName:NativeHeapObjectViews;memoryAdmin:NativeHeapObjectViews;lstrcpy:Readonly<{slot:NativeHeapObjectViews;procedure:object}>|null;modules:Readonly<NativeSharedDllModuleHooks>|null;resourceSize:Readonly<{slot:NativeHeapObjectViews;procedure:object;outcome:(filename:string)=>Readonly<{size:number;handle:number}>}>|null}>>{
   const active=NativeRuntimePlatform.requireActivePlatform(platform);if(!active.known)return active;const owner=owners.get(platform);
   if(!owner||!owner.#active||owner.#dllCall!==call||owner.#attachReturned!==1||!owner.#dllImages)return {known:false,reason:'Actual pending SharedBase DLL entry required'};
-  try{owner.#requireLocal(owner.#dllImages.guard);owner.#requireLocal(owner.#dllImages.object);owner.#requireLocal(owner.#dllImages.moduleName);if(owner.#dllLstrcpy){owner.#requireLocal(owner.#dllLstrcpy.slot);if(owner.#dllLstrcpy.slot.pointer(0).get()!==owner.#dllLstrcpy.procedure)throw new Error('Canonical DLL lstrcpyA import binding required');}if(owner.#dllModuleHooks){owner.#requireLocal(owner.#dllModuleHooks.procedureName);for(const binding of Object.values(owner.#dllModuleHooks.imports)){owner.#requireLocal(binding.slot);if(binding.slot.pointer(0).get()!==binding.procedure)throw new Error('Canonical DLL module import binding required');}}if(owner.#dllResourceSize){owner.#requireLocal(owner.#dllResourceSize.slot);if(owner.#dllResourceSize.slot.pointer(0).get()!==owner.#dllResourceSize.procedure)throw new Error('Canonical version size import binding required');}return {known:true,value:{...owner.#dllImages,lstrcpy:owner.#dllLstrcpy,modules:owner.#dllModuleHooks,resourceSize:owner.#dllResourceSize}};}catch(error){return {known:false,reason:error instanceof Error?error.message:String(error)};}
+  try{owner.#requireLocal(owner.#dllImages.guard);owner.#requireLocal(owner.#dllImages.object);owner.#requireLocal(owner.#dllImages.moduleName);if(owner.#dllLstrcpy){owner.#requireLocal(owner.#dllLstrcpy.slot);if(owner.#dllLstrcpy.slot.pointer(0).get()!==owner.#dllLstrcpy.procedure)throw new Error('Canonical DLL lstrcpyA import binding required');}if(owner.#dllModuleHooks){owner.#requireLocal(owner.#dllModuleHooks.procedureName);for(const binding of Object.values(owner.#dllModuleHooks.imports)){owner.#requireLocal(binding.slot);if(binding.slot.pointer(0).get()!==binding.procedure)throw new Error('Canonical DLL module import binding required');}}if(owner.#dllResourceSize){owner.#requireLocal(owner.#dllResourceSize.slot);if(owner.#dllResourceSize.slot.pointer(0).get()!==owner.#dllResourceSize.procedure)throw new Error('Canonical version size import binding required');}const memoryAdmin=owner.#initializerImages['10142798'];if(!memoryAdmin)throw new Error('Actual initialized MemoryAdmin state required');owner.#requireLocal(memoryAdmin);return {known:true,value:{...owner.#dllImages,memoryAdmin,lstrcpy:owner.#dllLstrcpy,modules:owner.#dllModuleHooks,resourceSize:owner.#dllResourceSize}};}catch(error){return {known:false,reason:error instanceof Error?error.message:String(error)};}
  }
  static initializerStackArgumentsForPlatform(platform:NativeRuntimePlatform,call:object):NativeValue<Readonly<{images:Readonly<Record<string,NativeHeapObjectViews>>;cookie:NativeHeapObjectViews;imports:Readonly<NativeSharedInitializerImports>}>>{
-  const proof=NativeSharedCrtOwner.argvStackArgumentsForPlatform(platform,call);if(!proof.known)return proof;const owner=owners.get(platform)!;
-  if(!owner.#initializerActive||proof.value.stage!=='environment')return {known:false,reason:'Actual pending SharedBase initializer required'};
+  const owner=owners.get(platform);if(!owner)return {known:false,reason:'Actual SharedBase owner required'};
+  if(owner.#dllMallocCall===call){const dll=NativeSharedCrtOwner.dllEntryStackArgumentsForPlatform(platform,call);if(!dll.known)return dll;}else{const proof=NativeSharedCrtOwner.argvStackArgumentsForPlatform(platform,call);if(!proof.known)return proof;if(proof.value.stage!=='environment')return {known:false,reason:'Actual pending SharedBase initializer required'};}
+  if(!owner.#initializerActive)return {known:false,reason:'Actual pending SharedBase initializer required'};
   try{for(const fields of Object.values(owner.#initializerImages))owner.#requireLocal(fields);const cookie=NativeSharedCrtSecurityCookie.forPlatform(platform);const read=cookie.readCookie();if(!read.known)return read;return {known:true,value:{images:Object.freeze({...owner.#initializerImages,'10140b48':owner.imageStorage('tlsGetterIndex'),'10140b44':owner.imageStorage('threadDataIndex'),'102f64b4':owner.imageStorage('allocationRetryDelay'),'102f8588':owner.imageStorage('multibyteInitialized'),'102f70c0':owner.imageStorage('ioBlocks'),'102f854c':owner.imageStorage('memcpySseFlag'),'102f6ad0':owner.imageStorage('newMode'),'102f8530':owner.imageStorage('heapSelection'),'102f6ac8':owner.imageStorage('heapHandle'),'101414b8':owner.imageStorage('lockTable')}),cookie:cookie.fields,imports:owner.#initializerImports}};}catch(error){return {known:false,reason:error instanceof Error?error.message:String(error)};}
+ }
+ static dllMallocLocalStorageForPlatform(platform:NativeRuntimePlatform,call:object,fields:NativeHeapObjectViews):NativeValue<void>{
+  const proof=NativeSharedCrtOwner.initializerStackArgumentsForPlatform(platform,call);if(!proof.known)return proof;const owner=owners.get(platform)!;if(owner.#dllMallocCall!==call)return {known:false,reason:'Actual DLL allocator storage grant required'};
+  try{if(fields===proof.value.cookie){const cookie=NativeSharedCrtSecurityCookie.forPlatform(platform).readCookie();if(!cookie.known)return cookie;}else if(!Object.values(proof.value.images).includes(fields)){owner.#requireLocal(fields);if(owner.#initializerAllocations.has(fields)){const span=NativeRuntimePlatform.canonicalOwnedWin32HeapAllocationSpan(platform,owner.#heap!,owner.identity,{fields,offset:0},fields.bytes.length);if(!span.known)return span;}}else if(Object.values(owner.#initializerImages).includes(fields))owner.#requireLocal(fields);if(fields.backing.freed)throw new Error('Actual live DLL allocator storage required');return {known:true,value:undefined};}catch(error){return {known:false,reason:error instanceof Error?error.message:String(error)};}
  }
  static argvLocalStorageForPlatform(platform:NativeRuntimePlatform,call:object,fields:NativeHeapObjectViews):NativeValue<void>{
   const proof=NativeSharedCrtOwner.argvStackArgumentsForPlatform(platform,call);if(!proof.known)return proof;const owner=owners.get(platform)!;
@@ -1369,6 +1377,24 @@ export class NativeSharedCrtOwner {
   this.#dllFilenameAttempted=true;
   try{this.#active=true;this.#dllCall=Object.freeze({});const result=NativeX86ThreadStack.finishSharedDllFilenameCopy(this.#argvStack,this.#dllCall);if(!result.known)this.#dllBoundary=result.reason;return result;}
   catch(error){this.#dllBoundary=error instanceof Error?error.message:String(error);return {known:false,reason:this.#dllBoundary};}
+  finally{this.#dllCall=null;this.#active=false;}
+ }
+ processDllVersionMalloc():NativeValue<number>{
+  if(this.#dllMallocAttempted)return {known:false,reason:this.#dllBoundary??'Retained DLL malloc attempt required'};
+  if(this.#active||this.#dllBoundary!=='Original SharedBase version buffer Malloc pending at 10003cd8'||!this.#argvStack)return {known:false,reason:'Actual pending version buffer malloc required'};
+  this.#dllMallocAttempted=true;
+  try{this.#active=true;this.#initializerActive=true;this.#dllCall=Object.freeze({});this.#dllMallocCall=this.#dllCall;const result=NativeX86ThreadStack.runSharedInitializers(this.#argvStack,this.#dllCall,'dll-version-malloc');if(!result.known)this.#dllBoundary=result.reason;return result;}
+  catch(error){this.#dllBoundary=error instanceof Error?error.message:String(error);return {known:false,reason:this.#dllBoundary};}
+  finally{this.#dllMallocCall=null;this.#dllCall=null;this.#initializerActive=false;this.#active=false;}
+ }
+ processDllMemoryAdmin():NativeValue<number>{
+  if(this.#dllMemoryAdminAttempted)return {known:false,reason:this.#dllBoundary??'Retained DLL MemoryAdmin attempt required'};
+  if(this.#active||this.#dllBoundary!=='Original SharedBase version buffer MemoryAdmin pending at 10002aae'||!this.#argvStack)return {known:false,reason:'Actual pending version buffer MemoryAdmin call required'};
+  this.#dllMemoryAdminAttempted=true;
+  try{
+   const receipt=initializerSource.methods.memoryGetInstance;if(receipt.bodyInstructionBytesSha256!=='79302e58eb88b69239f60db781967e6c265bf12fff7f5da8f5efcdb022e9a454'||receipt.entryChain[0]?.bytes!=='e93de10100')throw new Error('Original MemoryAdmin singleton source required');
+   this.#active=true;this.#dllCall=Object.freeze({});const result=NativeX86ThreadStack.runSharedDllMemoryAdmin(this.#argvStack,this.#dllCall);if(!result.known)this.#dllBoundary=result.reason;return result;
+  }catch(error){this.#dllBoundary=error instanceof Error?error.message:String(error);return {known:false,reason:this.#dllBoundary};}
   finally{this.#dllCall=null;this.#active=false;}
  }
  processDllResourceSize(profile:'recorded-sharedbase-ansi-version-buffer'):NativeValue<number>{
