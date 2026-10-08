@@ -1,0 +1,59 @@
+{
+  "schema": "gothic3-arena-property-registration-v1",
+  "sharedBaseSha256": "5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214",
+  "methods": {
+    "getPropertyTemplateIndex": {
+      "entryVA": "0x100042e6",
+      "bodyVA": "0x10087e80",
+      "bodyRanges": "10087e80-10087ed4",
+      "instructionCount": 40,
+      "bodyByteCount": 85,
+      "bodyInstructionBytesSha256": "3ad129ad47522550461403313934e7b7816928da56f40116385aaae4b7f72ca8",
+      "entryChain": [
+        {
+          "va": "100042e6",
+          "bytes": "e9953b0800",
+          "targetVA": "10087e80"
+        }
+      ],
+      "assemblySha256": "e559b05f24be86b9a597655275f56f71754a150dbeeccd5cbb0de4f9daa4be0a",
+      "cSha256": "bd8c4b81e106f40f68fe08dc466624391da227b81c27715c7a26c140f5e5be24"
+    },
+    "registerPropertyTemplate": {
+      "entryVA": "0x10006feb",
+      "bodyVA": "0x10088130",
+      "bodyRanges": "10088130-100881cc",
+      "instructionCount": 64,
+      "bodyByteCount": 157,
+      "bodyInstructionBytesSha256": "b7f5b904cda05bf757443b27f2c272c97a9a885fd838368ed45b9fd687186fa6",
+      "entryChain": [
+        {
+          "va": "10006feb",
+          "bytes": "e940110800",
+          "targetVA": "10088130"
+        }
+      ],
+      "assemblySha256": "05dac62b288a1affef70891dd88f33815ca6730b5501076de89874b06f2533b2",
+      "cSha256": "3fed6717425b4aa34aa304168cae3f0fc3cf48df045e009bfbb07aa6b9af986f"
+    },
+    "unregisterPropertyTemplate": {
+      "entryVA": "0x1000206d",
+      "bodyVA": "0x10087f80",
+      "bodyRanges": "10087f80-10087fd2",
+      "instructionCount": 35,
+      "bodyByteCount": 83,
+      "bodyInstructionBytesSha256": "3427dbf37cc26b0f7b862cebf86971b467d7eb489a27ce04b788e4d35631653a",
+      "entryChain": [
+        {
+          "va": "1000206d",
+          "bytes": "e90e5f0800",
+          "targetVA": "10087f80"
+        }
+      ],
+      "assemblySha256": "510d168076a840eba14fd9d2f44f97d11fab498842264450c075fd6aaad1a17a",
+      "cSha256": "60460770cb98919ee8cab987932a6c0f114261e8f8616056b65d21363fd19313"
+    }
+  },
+  "sourceOnly": true,
+  "wholeCrtTraversalCompleted": false
+}
