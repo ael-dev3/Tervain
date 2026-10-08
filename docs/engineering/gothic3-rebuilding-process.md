@@ -9884,3 +9884,51 @@ source files plus the instruction module reproduce exactly. The package contains
 93 bodies, 3,387 instructions and 330 CALL receipts. The production build
 and full suite pass: 2,798 tests across 260 files (166.93 seconds).
 Publication remains pending.
+
+### Local simple-data-type dispatch and class keyword — 8 October 2026
+
+Original simple-data-type dispatch now handles the retained `V` byte using
+known signed branch flags. It advances the actual input cursor, rewinds it in
+source order and calls the original class/struct/union decoder. That decoder
+consumes `V` and selects the seven original bytes `class ` plus NUL from
+SharedBase address `100f2b10`. The cursor now points to `bCObsoleteClass` on the
+same type-info backing. Execution reaches `100c455a -> 100c28e6`, before text
+construction. No output name or completed startup is claimed.
+
+MOVZX supports actual byte/word source widths; AX/BX share the existing low
+word lanes. Pointer DEC retains relative identity and carry while leaving
+address-dependent flags unknown. JG/JLE consume known SF, OF and ZF.
+
+Local validation passes 241 focused checks and typechecking. All 179 generated
+files plus the instruction module reproduce exactly. Evidence contains 95
+bodies, 3,741 instructions and 362 CALL receipts. Build/full-suite acceptance
+and publication remain pending.
+
+PR 138 Pages run 37802325563 succeeded. PR 140 passed CI run 37801663777
+and merged at `ef42975fe912eb308926b1230991130e844d4986` after a fresh
+304-run audit found no active workflows. Its Pages deployment is tracked
+separately. Full engine startup and a finishable campaign remain unfinished.
+
+### Local class keyword text construction — 8 October 2026
+
+The original text constructor counts the six `class ` bytes. Its Pchar helper
+allocates a 16-byte text node and an eight-byte aligned text span through the
+existing scratch allocator, then the original text-node constructor invokes
+the bounded byte-copy loop. Both allocations belong to the same retained
+4,104-byte CRT backing used by the replicators.
+
+The text node is at offset 4,020, with original vtable `100f29bc`, NULL next
+pointer, actual buffer pointer at offset 4,012, and length six. Exactly six
+bytes are copied; two spare buffer bytes keep unknown masks. Scratch available
+bytes become 4,008. The original constructor calls return, and class parsing
+reaches `100c457a -> 100c43c1` before scoped-name parsing. The keyword is an
+owned graph component, not a completed demangled name or campaign milestone.
+
+Local evidence: 242 focused checks and typechecking pass. All 187 generated
+source files plus the instruction module reproduce exactly. The package has
+99 bodies, 3,880 instructions and 369 CALL receipts. The production build
+and full suite pass: 2,799 tests across 260 files (166.80 seconds).
+Publication remains pending. Full startup and campaign play
+remain unfinished.
+
+PR 140 Pages run 37804123720 succeeded.

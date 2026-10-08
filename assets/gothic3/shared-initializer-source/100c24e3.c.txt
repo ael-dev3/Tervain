@@ -1,0 +1,62 @@
+/* ENTRY 100c24e3 | DName::doPchar | STATUS decompiled | 15 ms */
+
+/* Library Function - Single Match
+    private: void __thiscall DName::doPchar(char const *,int)
+   
+   Library: Visual Studio 2005 Release */
+
+void __thiscall DName::doPchar(DName *this,char *param_1,int param_2)
+
+{
+  char cVar1;
+  pcharNode *ppVar2;
+  uint uVar3;
+  int iVar4;
+  
+  uVar3 = *(uint *)(this + 4);
+  iVar4 = (int)(uVar3 << 0x1c) >> 0x1c;
+  if (iVar4 == 1) {
+    return;
+  }
+  if (iVar4 == 3) {
+    return;
+  }
+  if (*(int *)this != 0) {
+    operator=(this,3);
+    return;
+  }
+  if ((param_1 == (char *)0x0) || (param_2 == 0)) {
+    uVar3 = uVar3 & 0xfffffff1 | 1;
+    goto LAB_100c2580;
+  }
+  if (param_2 != 0) {
+    if (param_2 == 1) {
+      ppVar2 = HeapManager::getMemory((HeapManager *)&DAT_102f6f1c,0xc,0);
+      if (ppVar2 == (pcharNode *)0x0) goto LAB_100c254c;
+      cVar1 = *param_1;
+      (ppVar2->pcharNode_data).offset_0x0 = 0;
+                    /* inlined constructor: charNode::charNode */
+      ppVar2->vftablePtr = (pcharNode_vftable *)&charNode::vftable;
+      *(char *)&(ppVar2->pcharNode_data).offset_0x4 = cVar1;
+    }
+    else {
+      ppVar2 = HeapManager::getMemory((HeapManager *)&DAT_102f6f1c,0x10,0);
+      if (ppVar2 == (pcharNode *)0x0) {
+LAB_100c254c:
+        ppVar2 = (pcharNode *)0x0;
+      }
+      else {
+        ppVar2 = pcharNode::pcharNode(ppVar2,param_1,param_2);
+      }
+    }
+    *(pcharNode **)this = ppVar2;
+    if (ppVar2 != (pcharNode *)0x0) {
+      return;
+    }
+    uVar3 = *(uint *)(this + 4);
+  }
+  uVar3 = uVar3 & 0xfffffff3 | 3;
+LAB_100c2580:
+  *(uint *)(this + 4) = uVar3;
+  return;
+}

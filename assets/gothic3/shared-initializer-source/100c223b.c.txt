@@ -1,0 +1,41 @@
+/* ENTRY 100c223b | pcharNode::pcharNode | STATUS decompiled | 10 ms */
+
+/* Library Function - Single Match
+    public: __thiscall pcharNode::pcharNode(char const *,int)
+   
+   Library: Visual Studio 2005 Release */
+
+pcharNode * __thiscall pcharNode::pcharNode(pcharNode *this,char *param_1,int param_2)
+
+{
+  char cVar1;
+  char *pcVar2;
+  uint unaff_EDI;
+  
+  (this->pcharNode_data).offset_0x0 = 0;
+  this->vftablePtr = &vftable;
+  if (param_2 == 0) {
+    if (param_1 == (char *)0x0) goto LAB_100c2292;
+    param_2 = 0;
+    cVar1 = *param_1;
+    while (cVar1 != '\0') {
+      param_2 = param_2 + 1;
+      cVar1 = *(char *)(param_2 + (int)param_1);
+    }
+    if ((char *)param_2 == (char *)0x0) goto LAB_100c2292;
+  }
+  if (param_1 != (char *)0x0) {
+    pcVar2 = HeapManager::getMemory((HeapManager *)&DAT_102f6f1c,param_2,0);
+    (this->pcharNode_data).offset_0x4 = pcVar2;
+    (this->pcharNode_data).offset_0x8 = param_2;
+    if (pcVar2 == (char *)0x0) {
+      return this;
+    }
+    und_strncpy(pcVar2,(char *)param_2,unaff_EDI);
+    return this;
+  }
+LAB_100c2292:
+  (this->pcharNode_data).offset_0x4 = (char *)0x0;
+  (this->pcharNode_data).offset_0x8 = 0;
+  return this;
+}

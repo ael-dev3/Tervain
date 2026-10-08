@@ -391,3 +391,12 @@ unchanged physical destination and original operands; unknown padding remains
 unknown. Type encoding returns and primary parsing reaches
 `100c6647 -> 100c6288`. The package contains 93 bodies, 3,387 instructions and
 330 CALL receipts. Full startup and demangled output remain unfinished.
+
+### Live class dispatch and keyword text
+
+The simple-data-type and class/struct/union routines select the original `class `
+literal. Original text/Pchar/node constructors and the bounded byte-copy loop
+create a 16-byte text node and an aligned eight-byte buffer on the existing
+scratch block. Six text bytes are known; spare padding stays unknown. Parsing
+reaches `100c457a -> 100c43c1` before scoped-name decoding. There are 99 bodies,
+3,880 instructions and 369 CALL receipts. Full output/startup remain unfinished.
