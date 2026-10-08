@@ -9832,3 +9832,30 @@ files plus the instruction module reproduce exactly. Evidence contains 87
 bodies, 2,794 instructions and 257 CALL receipts. The production build and full suite pass: 2,798 tests across 260 files
 (177.30 seconds). Publication remains pending. Complete engine startup and campaign play
 remain unfinished.
+
+### Local type-encoding dispatch and initial DName — 8 October 2026
+
+The original 441-instruction type-encoding body now enters on the selected
+class-name path. Signed SETL consumes known SF/OF without changing flags. The
+original encoding arithmetic decodes `A`, advances the same retained cursor
+to `V`, and calls the original DName constructor with a zero character. That
+constructor stores the NULL node and clears its low twelve flag bits while
+preserving unknown upper padding. Execution reaches
+`100c5bb1 -> 100c29ed`, before append/copy operations. The parent parser calls,
+lock five and enclosing exception frames remain active.
+
+The next append and copy routines have been audited against the installed DLL.
+The copy uses masked XOR sequences for ten individual flag fields; these need
+physical-word correlation to preserve unknown padding accurately. Their bodies
+are research evidence and are not yet executed on this path.
+
+Local validation passes 238 focused checks and typechecking. All 167 generated
+files plus the instruction module reproduce exactly. Captured evidence contains
+89 bodies, 3,248 instructions and 323 CALL receipts. The production build passes. The full suite passes 2,798 tests across
+260 files (167.40 seconds). Publication remains pending. Full startup, world activation,
+saves and campaign endings remain unfinished.
+
+PR 137 Pages run 37800122027 succeeded. PR 138 passed CI run
+37800373662 and merged at `db376ec97e24aa8ab323a80518539af63b4dd138`
+after a 303-run audit found no active main deployment. Its own deployment
+is tracked separately.

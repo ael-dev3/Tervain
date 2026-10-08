@@ -1,0 +1,13 @@
+100c2589 | 56 | PUSH ESI
+100c258a | 8bf1 | MOV ESI,ECX
+100c258c | 832600 | AND dword ptr [ESI],0x0
+100c258f | 81660400f0ffff | AND dword ptr [ESI + 0x4],0xfffff000
+100c2596 | 807c240800 | CMP byte ptr [ESP + 0x8],0x0
+100c259b | 740c | JZ 0x100c25a9
+100c259d | 6a01 | PUSH 0x1
+100c259f | 8d44240c | LEA EAX,[ESP + 0xc]
+100c25a3 | 50 | PUSH EAX
+100c25a4 | e83affffff | CALL 0x100c24e3
+100c25a9 | 8bc6 | MOV EAX,ESI
+100c25ab | 5e | POP ESI
+100c25ac | c20400 | RET 0x4
