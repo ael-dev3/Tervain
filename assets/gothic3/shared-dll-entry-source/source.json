@@ -18359,6 +18359,2312 @@
       "bodyInstructionBytesSha256": "8d05f078501985b05ac39828d04d2e19bee5e312340f6286f1b3e3b1a3ed8ead"
     },
     {
+      "label": "dllErrorBufferMalloc",
+      "entryVA": "0x10004133",
+      "bodyVA": "0x1003d8a0",
+      "entryChain": [
+        {
+          "va": "10004133",
+          "bytes": "e9d8c90100",
+          "targetVA": "10020b10"
+        },
+        {
+          "va": "10020b10",
+          "bytes": "e9777dfeff",
+          "targetVA": "1000888c"
+        },
+        {
+          "va": "1000888c",
+          "bytes": "e90f500300",
+          "targetVA": "1003d8a0"
+        }
+      ],
+      "bodyRanges": "1003d8a0-1003d938",
+      "instructions": [
+        {
+          "va": "1003d8a0",
+          "rva": "3d8a0",
+          "fileOffset": 252064,
+          "bytes": "55",
+          "instruction": "PUSH EBP",
+          "assemblyLine": 70431
+        },
+        {
+          "va": "1003d8a1",
+          "rva": "3d8a1",
+          "fileOffset": 252065,
+          "bytes": "8bec",
+          "instruction": "MOV EBP,ESP",
+          "assemblyLine": 70432
+        },
+        {
+          "va": "1003d8a3",
+          "rva": "3d8a3",
+          "fileOffset": 252067,
+          "bytes": "6aff",
+          "instruction": "PUSH -0x1",
+          "assemblyLine": 70433
+        },
+        {
+          "va": "1003d8a5",
+          "rva": "3d8a5",
+          "fileOffset": 252069,
+          "bytes": "6838830f10",
+          "instruction": "PUSH 0x100f8338",
+          "assemblyLine": 70434
+        },
+        {
+          "va": "1003d8aa",
+          "rva": "3d8aa",
+          "fileOffset": 252074,
+          "bytes": "68806f0a10",
+          "instruction": "PUSH 0x100a6f80",
+          "assemblyLine": 70435
+        },
+        {
+          "va": "1003d8af",
+          "rva": "3d8af",
+          "fileOffset": 252079,
+          "bytes": "64a100000000",
+          "instruction": "MOV EAX,FS:[0x0]",
+          "assemblyLine": 70436
+        },
+        {
+          "va": "1003d8b5",
+          "rva": "3d8b5",
+          "fileOffset": 252085,
+          "bytes": "50",
+          "instruction": "PUSH EAX",
+          "assemblyLine": 70437
+        },
+        {
+          "va": "1003d8b6",
+          "rva": "3d8b6",
+          "fileOffset": 252086,
+          "bytes": "64892500000000",
+          "instruction": "MOV dword ptr FS:[0x0],ESP",
+          "assemblyLine": 70438
+        },
+        {
+          "va": "1003d8bd",
+          "rva": "3d8bd",
+          "fileOffset": 252093,
+          "bytes": "83ec0c",
+          "instruction": "SUB ESP,0xc",
+          "assemblyLine": 70439
+        },
+        {
+          "va": "1003d8c0",
+          "rva": "3d8c0",
+          "fileOffset": 252096,
+          "bytes": "53",
+          "instruction": "PUSH EBX",
+          "assemblyLine": 70440
+        },
+        {
+          "va": "1003d8c1",
+          "rva": "3d8c1",
+          "fileOffset": 252097,
+          "bytes": "56",
+          "instruction": "PUSH ESI",
+          "assemblyLine": 70441
+        },
+        {
+          "va": "1003d8c2",
+          "rva": "3d8c2",
+          "fileOffset": 252098,
+          "bytes": "57",
+          "instruction": "PUSH EDI",
+          "assemblyLine": 70442
+        },
+        {
+          "va": "1003d8c3",
+          "rva": "3d8c3",
+          "fileOffset": 252099,
+          "bytes": "8965e8",
+          "instruction": "MOV dword ptr [EBP + -0x18],ESP",
+          "assemblyLine": 70443
+        },
+        {
+          "va": "1003d8c6",
+          "rva": "3d8c6",
+          "fileOffset": 252102,
+          "bytes": "a000b02f10",
+          "instruction": "MOV AL,[0x102fb000]",
+          "assemblyLine": 70444
+        },
+        {
+          "va": "1003d8cb",
+          "rva": "3d8cb",
+          "fileOffset": 252107,
+          "bytes": "84c0",
+          "instruction": "TEST AL,AL",
+          "assemblyLine": 70445
+        },
+        {
+          "va": "1003d8cd",
+          "rva": "3d8cd",
+          "fileOffset": 252109,
+          "bytes": "751f",
+          "instruction": "JNZ 0x1003d8ee",
+          "assemblyLine": 70446
+        },
+        {
+          "va": "1003d8cf",
+          "rva": "3d8cf",
+          "fileOffset": 252111,
+          "bytes": "68e8030000",
+          "instruction": "PUSH 0x3e8",
+          "assemblyLine": 70447
+        },
+        {
+          "va": "1003d8d4",
+          "rva": "3d8d4",
+          "fileOffset": 252116,
+          "bytes": "68189a1810",
+          "instruction": "PUSH 0x10189a18",
+          "assemblyLine": 70448
+        },
+        {
+          "va": "1003d8d9",
+          "rva": "3d8d9",
+          "fileOffset": 252121,
+          "bytes": "ff156c962f10",
+          "instruction": "CALL dword ptr [0x102f966c]",
+          "assemblyLine": 70449
+        },
+        {
+          "va": "1003d8df",
+          "rva": "3d8df",
+          "fileOffset": 252127,
+          "bytes": "83f801",
+          "instruction": "CMP EAX,0x1",
+          "assemblyLine": 70450
+        },
+        {
+          "va": "1003d8e2",
+          "rva": "3d8e2",
+          "fileOffset": 252130,
+          "bytes": "0f94c0",
+          "instruction": "SETZ AL",
+          "assemblyLine": 70451
+        },
+        {
+          "va": "1003d8e5",
+          "rva": "3d8e5",
+          "fileOffset": 252133,
+          "bytes": "a200b02f10",
+          "instruction": "MOV [0x102fb000],AL",
+          "assemblyLine": 70452
+        },
+        {
+          "va": "1003d8ea",
+          "rva": "3d8ea",
+          "fileOffset": 252138,
+          "bytes": "84c0",
+          "instruction": "TEST AL,AL",
+          "assemblyLine": 70453
+        },
+        {
+          "va": "1003d8ec",
+          "rva": "3d8ec",
+          "fileOffset": 252140,
+          "bytes": "740b",
+          "instruction": "JZ 0x1003d8f9",
+          "assemblyLine": 70454
+        },
+        {
+          "va": "1003d8ee",
+          "rva": "3d8ee",
+          "fileOffset": 252142,
+          "bytes": "68189a1810",
+          "instruction": "PUSH 0x10189a18",
+          "assemblyLine": 70456
+        },
+        {
+          "va": "1003d8f3",
+          "rva": "3d8f3",
+          "fileOffset": 252147,
+          "bytes": "ff1504962f10",
+          "instruction": "CALL dword ptr [0x102f9604]",
+          "assemblyLine": 70457
+        },
+        {
+          "va": "1003d8f9",
+          "rva": "3d8f9",
+          "fileOffset": 252153,
+          "bytes": "c745fc00000000",
+          "instruction": "MOV dword ptr [EBP + -0x4],0x0",
+          "assemblyLine": 70459
+        },
+        {
+          "va": "1003d900",
+          "rva": "3d900",
+          "fileOffset": 252160,
+          "bytes": "8b450c",
+          "instruction": "MOV EAX,dword ptr [EBP + 0xc]",
+          "assemblyLine": 70460
+        },
+        {
+          "va": "1003d903",
+          "rva": "3d903",
+          "fileOffset": 252163,
+          "bytes": "50",
+          "instruction": "PUSH EAX",
+          "assemblyLine": 70461
+        },
+        {
+          "va": "1003d904",
+          "rva": "3d904",
+          "fileOffset": 252164,
+          "bytes": "8b4d08",
+          "instruction": "MOV ECX,dword ptr [EBP + 0x8]",
+          "assemblyLine": 70462
+        },
+        {
+          "va": "1003d907",
+          "rva": "3d907",
+          "fileOffset": 252167,
+          "bytes": "51",
+          "instruction": "PUSH ECX",
+          "assemblyLine": 70463
+        },
+        {
+          "va": "1003d908",
+          "rva": "3d908",
+          "fileOffset": 252168,
+          "bytes": "e8f179fcff",
+          "instruction": "CALL 0x100052fe",
+          "assemblyLine": 70464
+        },
+        {
+          "va": "1003d90d",
+          "rva": "3d90d",
+          "fileOffset": 252173,
+          "bytes": "8bf0",
+          "instruction": "MOV ESI,EAX",
+          "assemblyLine": 70465
+        },
+        {
+          "va": "1003d90f",
+          "rva": "3d90f",
+          "fileOffset": 252175,
+          "bytes": "8975e4",
+          "instruction": "MOV dword ptr [EBP + -0x1c],ESI",
+          "assemblyLine": 70466
+        },
+        {
+          "va": "1003d912",
+          "rva": "3d912",
+          "fileOffset": 252178,
+          "bytes": "c745fcffffffff",
+          "instruction": "MOV dword ptr [EBP + -0x4],0xffffffff",
+          "assemblyLine": 70467
+        },
+        {
+          "va": "1003d919",
+          "rva": "3d919",
+          "fileOffset": 252185,
+          "bytes": "68189a1810",
+          "instruction": "PUSH 0x10189a18",
+          "assemblyLine": 70468
+        },
+        {
+          "va": "1003d91e",
+          "rva": "3d91e",
+          "fileOffset": 252190,
+          "bytes": "ff1508962f10",
+          "instruction": "CALL dword ptr [0x102f9608]",
+          "assemblyLine": 70469
+        },
+        {
+          "va": "1003d924",
+          "rva": "3d924",
+          "fileOffset": 252196,
+          "bytes": "8bc6",
+          "instruction": "MOV EAX,ESI",
+          "assemblyLine": 70470
+        },
+        {
+          "va": "1003d926",
+          "rva": "3d926",
+          "fileOffset": 252198,
+          "bytes": "8b4df0",
+          "instruction": "MOV ECX,dword ptr [EBP + -0x10]",
+          "assemblyLine": 70471
+        },
+        {
+          "va": "1003d929",
+          "rva": "3d929",
+          "fileOffset": 252201,
+          "bytes": "64890d00000000",
+          "instruction": "MOV dword ptr FS:[0x0],ECX",
+          "assemblyLine": 70472
+        },
+        {
+          "va": "1003d930",
+          "rva": "3d930",
+          "fileOffset": 252208,
+          "bytes": "5f",
+          "instruction": "POP EDI",
+          "assemblyLine": 70473
+        },
+        {
+          "va": "1003d931",
+          "rva": "3d931",
+          "fileOffset": 252209,
+          "bytes": "5e",
+          "instruction": "POP ESI",
+          "assemblyLine": 70474
+        },
+        {
+          "va": "1003d932",
+          "rva": "3d932",
+          "fileOffset": 252210,
+          "bytes": "5b",
+          "instruction": "POP EBX",
+          "assemblyLine": 70475
+        },
+        {
+          "va": "1003d933",
+          "rva": "3d933",
+          "fileOffset": 252211,
+          "bytes": "8be5",
+          "instruction": "MOV ESP,EBP",
+          "assemblyLine": 70476
+        },
+        {
+          "va": "1003d935",
+          "rva": "3d935",
+          "fileOffset": 252213,
+          "bytes": "5d",
+          "instruction": "POP EBP",
+          "assemblyLine": 70477
+        },
+        {
+          "va": "1003d936",
+          "rva": "3d936",
+          "fileOffset": 252214,
+          "bytes": "c20800",
+          "instruction": "RET 0x8",
+          "assemblyLine": 70478
+        }
+      ],
+      "reconstructedC": {
+        "path": "01_Decompiled_Code/SharedBase_dll/pseudocode/functions_00015.c",
+        "sha256": "76eaa46ac00b1eab23b054ab7c4e57c3f428d834f85acaf4bb5d3a0bfba3dd24",
+        "line": 10515,
+        "status": "decompiled"
+      },
+      "instructionCount": 46,
+      "bodyByteCount": 153,
+      "bodyInstructionBytesSha256": "135f2bbb1c7962ce6da1081d7c71f4533f38fee8e74e49d9b83250e78d9dc75e"
+    },
+    {
+      "label": "dllErrorBufferHeapAllocate",
+      "entryVA": "0x100052fe",
+      "bodyVA": "0x1003d790",
+      "entryChain": [
+        {
+          "va": "100052fe",
+          "bytes": "e98d840300",
+          "targetVA": "1003d790"
+        }
+      ],
+      "bodyRanges": "1003d790-1003d894",
+      "instructions": [
+        {
+          "va": "1003d790",
+          "rva": "3d790",
+          "fileOffset": 251792,
+          "bytes": "56",
+          "instruction": "PUSH ESI",
+          "assemblyLine": 70335
+        },
+        {
+          "va": "1003d791",
+          "rva": "3d791",
+          "fileOffset": 251793,
+          "bytes": "8b742408",
+          "instruction": "MOV ESI,dword ptr [ESP + 0x8]",
+          "assemblyLine": 70336
+        },
+        {
+          "va": "1003d795",
+          "rva": "3d795",
+          "fileOffset": 251797,
+          "bytes": "85f6",
+          "instruction": "TEST ESI,ESI",
+          "assemblyLine": 70337
+        },
+        {
+          "va": "1003d797",
+          "rva": "3d797",
+          "fileOffset": 251799,
+          "bytes": "750e",
+          "instruction": "JNZ 0x1003d7a7",
+          "assemblyLine": 70338
+        },
+        {
+          "va": "1003d799",
+          "rva": "3d799",
+          "fileOffset": 251801,
+          "bytes": "8b44240c",
+          "instruction": "MOV EAX,dword ptr [ESP + 0xc]",
+          "assemblyLine": 70339
+        },
+        {
+          "va": "1003d79d",
+          "rva": "3d79d",
+          "fileOffset": 251805,
+          "bytes": "50",
+          "instruction": "PUSH EAX",
+          "assemblyLine": 70340
+        },
+        {
+          "va": "1003d79e",
+          "rva": "3d79e",
+          "fileOffset": 251806,
+          "bytes": "e88538fcff",
+          "instruction": "CALL 0x10001028",
+          "assemblyLine": 70341
+        },
+        {
+          "va": "1003d7a3",
+          "rva": "3d7a3",
+          "fileOffset": 251811,
+          "bytes": "5e",
+          "instruction": "POP ESI",
+          "assemblyLine": 70342
+        },
+        {
+          "va": "1003d7a4",
+          "rva": "3d7a4",
+          "fileOffset": 251812,
+          "bytes": "c20800",
+          "instruction": "RET 0x8",
+          "assemblyLine": 70343
+        },
+        {
+          "va": "1003d7a7",
+          "rva": "3d7a7",
+          "fileOffset": 251815,
+          "bytes": "56",
+          "instruction": "PUSH ESI",
+          "assemblyLine": 70345
+        },
+        {
+          "va": "1003d7a8",
+          "rva": "3d7a8",
+          "fileOffset": 251816,
+          "bytes": "e88a83fcff",
+          "instruction": "CALL 0x10005b37",
+          "assemblyLine": 70346
+        },
+        {
+          "va": "1003d7ad",
+          "rva": "3d7ad",
+          "fileOffset": 251821,
+          "bytes": "85c0",
+          "instruction": "TEST EAX,EAX",
+          "assemblyLine": 70347
+        },
+        {
+          "va": "1003d7af",
+          "rva": "3d7af",
+          "fileOffset": 251823,
+          "bytes": "7416",
+          "instruction": "JZ 0x1003d7c7",
+          "assemblyLine": 70348
+        },
+        {
+          "va": "1003d7b1",
+          "rva": "3d7b1",
+          "fileOffset": 251825,
+          "bytes": "8b54240c",
+          "instruction": "MOV EDX,dword ptr [ESP + 0xc]",
+          "assemblyLine": 70349
+        },
+        {
+          "va": "1003d7b5",
+          "rva": "3d7b5",
+          "fileOffset": 251829,
+          "bytes": "8b480c",
+          "instruction": "MOV ECX,dword ptr [EAX + 0xc]",
+          "assemblyLine": 70350
+        },
+        {
+          "va": "1003d7b8",
+          "rva": "3d7b8",
+          "fileOffset": 251832,
+          "bytes": "8b4008",
+          "instruction": "MOV EAX,dword ptr [EAX + 0x8]",
+          "assemblyLine": 70351
+        },
+        {
+          "va": "1003d7bb",
+          "rva": "3d7bb",
+          "fileOffset": 251835,
+          "bytes": "8b4908",
+          "instruction": "MOV ECX,dword ptr [ECX + 0x8]",
+          "assemblyLine": 70352
+        },
+        {
+          "va": "1003d7be",
+          "rva": "3d7be",
+          "fileOffset": 251838,
+          "bytes": "52",
+          "instruction": "PUSH EDX",
+          "assemblyLine": 70353
+        },
+        {
+          "va": "1003d7bf",
+          "rva": "3d7bf",
+          "fileOffset": 251839,
+          "bytes": "56",
+          "instruction": "PUSH ESI",
+          "assemblyLine": 70354
+        },
+        {
+          "va": "1003d7c0",
+          "rva": "3d7c0",
+          "fileOffset": 251840,
+          "bytes": "50",
+          "instruction": "PUSH EAX",
+          "assemblyLine": 70355
+        },
+        {
+          "va": "1003d7c1",
+          "rva": "3d7c1",
+          "fileOffset": 251841,
+          "bytes": "ffd1",
+          "instruction": "CALL ECX",
+          "assemblyLine": 70356
+        },
+        {
+          "va": "1003d7c3",
+          "rva": "3d7c3",
+          "fileOffset": 251843,
+          "bytes": "5e",
+          "instruction": "POP ESI",
+          "assemblyLine": 70357
+        },
+        {
+          "va": "1003d7c4",
+          "rva": "3d7c4",
+          "fileOffset": 251844,
+          "bytes": "c20800",
+          "instruction": "RET 0x8",
+          "assemblyLine": 70358
+        },
+        {
+          "va": "1003d7c7",
+          "rva": "3d7c7",
+          "fileOffset": 251847,
+          "bytes": "8b74240c",
+          "instruction": "MOV ESI,dword ptr [ESP + 0xc]",
+          "assemblyLine": 70360
+        },
+        {
+          "va": "1003d7cb",
+          "rva": "3d7cb",
+          "fileOffset": 251851,
+          "bytes": "56",
+          "instruction": "PUSH ESI",
+          "assemblyLine": 70361
+        },
+        {
+          "va": "1003d7cc",
+          "rva": "3d7cc",
+          "fileOffset": 251852,
+          "bytes": "8d54240c",
+          "instruction": "LEA EDX,[ESP + 0xc]",
+          "assemblyLine": 70362
+        },
+        {
+          "va": "1003d7d0",
+          "rva": "3d7d0",
+          "fileOffset": 251856,
+          "bytes": "52",
+          "instruction": "PUSH EDX",
+          "assemblyLine": 70363
+        },
+        {
+          "va": "1003d7d1",
+          "rva": "3d7d1",
+          "fileOffset": 251857,
+          "bytes": "e8eca7fcff",
+          "instruction": "CALL 0x10007fc2",
+          "assemblyLine": 70364
+        },
+        {
+          "va": "1003d7d6",
+          "rva": "3d7d6",
+          "fileOffset": 251862,
+          "bytes": "84c0",
+          "instruction": "TEST AL,AL",
+          "assemblyLine": 70365
+        },
+        {
+          "va": "1003d7d8",
+          "rva": "3d7d8",
+          "fileOffset": 251864,
+          "bytes": "7408",
+          "instruction": "JZ 0x1003d7e2",
+          "assemblyLine": 70366
+        },
+        {
+          "va": "1003d7da",
+          "rva": "3d7da",
+          "fileOffset": 251866,
+          "bytes": "8b442408",
+          "instruction": "MOV EAX,dword ptr [ESP + 0x8]",
+          "assemblyLine": 70367
+        },
+        {
+          "va": "1003d7de",
+          "rva": "3d7de",
+          "fileOffset": 251870,
+          "bytes": "5e",
+          "instruction": "POP ESI",
+          "assemblyLine": 70368
+        },
+        {
+          "va": "1003d7df",
+          "rva": "3d7df",
+          "fileOffset": 251871,
+          "bytes": "c20800",
+          "instruction": "RET 0x8",
+          "assemblyLine": 70369
+        },
+        {
+          "va": "1003d7e2",
+          "rva": "3d7e2",
+          "fileOffset": 251874,
+          "bytes": "81c6ff0f0000",
+          "instruction": "ADD ESI,0xfff",
+          "assemblyLine": 70371
+        },
+        {
+          "va": "1003d7e8",
+          "rva": "3d7e8",
+          "fileOffset": 251880,
+          "bytes": "81e600f0ffff",
+          "instruction": "AND ESI,0xfffff000",
+          "assemblyLine": 70372
+        },
+        {
+          "va": "1003d7ee",
+          "rva": "3d7ee",
+          "fileOffset": 251886,
+          "bytes": "393528b02f10",
+          "instruction": "CMP dword ptr [0x102fb028],ESI",
+          "assemblyLine": 70373
+        },
+        {
+          "va": "1003d7f4",
+          "rva": "3d7f4",
+          "fileOffset": 251892,
+          "bytes": "7606",
+          "instruction": "JBE 0x1003d7fc",
+          "assemblyLine": 70374
+        },
+        {
+          "va": "1003d7f6",
+          "rva": "3d7f6",
+          "fileOffset": 251894,
+          "bytes": "893528b02f10",
+          "instruction": "MOV dword ptr [0x102fb028],ESI",
+          "assemblyLine": 70375
+        },
+        {
+          "va": "1003d7fc",
+          "rva": "3d7fc",
+          "fileOffset": 251900,
+          "bytes": "39352cb02f10",
+          "instruction": "CMP dword ptr [0x102fb02c],ESI",
+          "assemblyLine": 70377
+        },
+        {
+          "va": "1003d802",
+          "rva": "3d802",
+          "fileOffset": 251906,
+          "bytes": "7306",
+          "instruction": "JNC 0x1003d80a",
+          "assemblyLine": 70378
+        },
+        {
+          "va": "1003d804",
+          "rva": "3d804",
+          "fileOffset": 251908,
+          "bytes": "89352cb02f10",
+          "instruction": "MOV dword ptr [0x102fb02c],ESI",
+          "assemblyLine": 70379
+        },
+        {
+          "va": "1003d80a",
+          "rva": "3d80a",
+          "fileOffset": 251914,
+          "bytes": "a108b02f10",
+          "instruction": "MOV EAX,[0x102fb008]",
+          "assemblyLine": 70381
+        },
+        {
+          "va": "1003d80f",
+          "rva": "3d80f",
+          "fileOffset": 251919,
+          "bytes": "53",
+          "instruction": "PUSH EBX",
+          "assemblyLine": 70382
+        },
+        {
+          "va": "1003d810",
+          "rva": "3d810",
+          "fileOffset": 251920,
+          "bytes": "57",
+          "instruction": "PUSH EDI",
+          "assemblyLine": 70383
+        },
+        {
+          "va": "1003d811",
+          "rva": "3d811",
+          "fileOffset": 251921,
+          "bytes": "8b7c2410",
+          "instruction": "MOV EDI,dword ptr [ESP + 0x10]",
+          "assemblyLine": 70384
+        },
+        {
+          "va": "1003d815",
+          "rva": "3d815",
+          "fileOffset": 251925,
+          "bytes": "57",
+          "instruction": "PUSH EDI",
+          "assemblyLine": 70385
+        },
+        {
+          "va": "1003d816",
+          "rva": "3d816",
+          "fileOffset": 251926,
+          "bytes": "6a00",
+          "instruction": "PUSH 0x0",
+          "assemblyLine": 70386
+        },
+        {
+          "va": "1003d818",
+          "rva": "3d818",
+          "fileOffset": 251928,
+          "bytes": "50",
+          "instruction": "PUSH EAX",
+          "assemblyLine": 70387
+        },
+        {
+          "va": "1003d819",
+          "rva": "3d819",
+          "fileOffset": 251929,
+          "bytes": "ff1578962f10",
+          "instruction": "CALL dword ptr [0x102f9678]",
+          "assemblyLine": 70388
+        },
+        {
+          "va": "1003d81f",
+          "rva": "3d81f",
+          "fileOffset": 251935,
+          "bytes": "8b0d08b02f10",
+          "instruction": "MOV ECX,dword ptr [0x102fb008]",
+          "assemblyLine": 70389
+        },
+        {
+          "va": "1003d825",
+          "rva": "3d825",
+          "fileOffset": 251941,
+          "bytes": "8b1d90962f10",
+          "instruction": "MOV EBX,dword ptr [0x102f9690]",
+          "assemblyLine": 70390
+        },
+        {
+          "va": "1003d82b",
+          "rva": "3d82b",
+          "fileOffset": 251947,
+          "bytes": "290520b02f10",
+          "instruction": "SUB dword ptr [0x102fb020],EAX",
+          "assemblyLine": 70391
+        },
+        {
+          "va": "1003d831",
+          "rva": "3d831",
+          "fileOffset": 251953,
+          "bytes": "56",
+          "instruction": "PUSH ESI",
+          "assemblyLine": 70392
+        },
+        {
+          "va": "1003d832",
+          "rva": "3d832",
+          "fileOffset": 251954,
+          "bytes": "57",
+          "instruction": "PUSH EDI",
+          "assemblyLine": 70393
+        },
+        {
+          "va": "1003d833",
+          "rva": "3d833",
+          "fileOffset": 251955,
+          "bytes": "6a00",
+          "instruction": "PUSH 0x0",
+          "assemblyLine": 70394
+        },
+        {
+          "va": "1003d835",
+          "rva": "3d835",
+          "fileOffset": 251957,
+          "bytes": "51",
+          "instruction": "PUSH ECX",
+          "assemblyLine": 70395
+        },
+        {
+          "va": "1003d836",
+          "rva": "3d836",
+          "fileOffset": 251958,
+          "bytes": "ffd3",
+          "instruction": "CALL EBX",
+          "assemblyLine": 70396
+        },
+        {
+          "va": "1003d838",
+          "rva": "3d838",
+          "fileOffset": 251960,
+          "bytes": "85c0",
+          "instruction": "TEST EAX,EAX",
+          "assemblyLine": 70397
+        },
+        {
+          "va": "1003d83a",
+          "rva": "3d83a",
+          "fileOffset": 251962,
+          "bytes": "7537",
+          "instruction": "JNZ 0x1003d873",
+          "assemblyLine": 70398
+        },
+        {
+          "va": "1003d83c",
+          "rva": "3d83c",
+          "fileOffset": 251964,
+          "bytes": "8b1508b02f10",
+          "instruction": "MOV EDX,dword ptr [0x102fb008]",
+          "assemblyLine": 70399
+        },
+        {
+          "va": "1003d842",
+          "rva": "3d842",
+          "fileOffset": 251970,
+          "bytes": "83050cb02f1001",
+          "instruction": "ADD dword ptr [0x102fb00c],0x1",
+          "assemblyLine": 70400
+        },
+        {
+          "va": "1003d849",
+          "rva": "3d849",
+          "fileOffset": 251977,
+          "bytes": "50",
+          "instruction": "PUSH EAX",
+          "assemblyLine": 70401
+        },
+        {
+          "va": "1003d84a",
+          "rva": "3d84a",
+          "fileOffset": 251978,
+          "bytes": "52",
+          "instruction": "PUSH EDX",
+          "assemblyLine": 70402
+        },
+        {
+          "va": "1003d84b",
+          "rva": "3d84b",
+          "fileOffset": 251979,
+          "bytes": "ff157c962f10",
+          "instruction": "CALL dword ptr [0x102f967c]",
+          "assemblyLine": 70403
+        },
+        {
+          "va": "1003d851",
+          "rva": "3d851",
+          "fileOffset": 251985,
+          "bytes": "56",
+          "instruction": "PUSH ESI",
+          "assemblyLine": 70404
+        },
+        {
+          "va": "1003d852",
+          "rva": "3d852",
+          "fileOffset": 251986,
+          "bytes": "57",
+          "instruction": "PUSH EDI",
+          "assemblyLine": 70405
+        },
+        {
+          "va": "1003d853",
+          "rva": "3d853",
+          "fileOffset": 251987,
+          "bytes": "a314b02f10",
+          "instruction": "MOV [0x102fb014],EAX",
+          "assemblyLine": 70406
+        },
+        {
+          "va": "1003d858",
+          "rva": "3d858",
+          "fileOffset": 251992,
+          "bytes": "a108b02f10",
+          "instruction": "MOV EAX,[0x102fb008]",
+          "assemblyLine": 70407
+        },
+        {
+          "va": "1003d85d",
+          "rva": "3d85d",
+          "fileOffset": 251997,
+          "bytes": "6a00",
+          "instruction": "PUSH 0x0",
+          "assemblyLine": 70408
+        },
+        {
+          "va": "1003d85f",
+          "rva": "3d85f",
+          "fileOffset": 251999,
+          "bytes": "50",
+          "instruction": "PUSH EAX",
+          "assemblyLine": 70409
+        },
+        {
+          "va": "1003d860",
+          "rva": "3d860",
+          "fileOffset": 252000,
+          "bytes": "ffd3",
+          "instruction": "CALL EBX",
+          "assemblyLine": 70410
+        },
+        {
+          "va": "1003d862",
+          "rva": "3d862",
+          "fileOffset": 252002,
+          "bytes": "85c0",
+          "instruction": "TEST EAX,EAX",
+          "assemblyLine": 70411
+        },
+        {
+          "va": "1003d864",
+          "rva": "3d864",
+          "fileOffset": 252004,
+          "bytes": "750d",
+          "instruction": "JNZ 0x1003d873",
+          "assemblyLine": 70412
+        },
+        {
+          "va": "1003d866",
+          "rva": "3d866",
+          "fileOffset": 252006,
+          "bytes": "830510b02f1001",
+          "instruction": "ADD dword ptr [0x102fb010],0x1",
+          "assemblyLine": 70413
+        },
+        {
+          "va": "1003d86d",
+          "rva": "3d86d",
+          "fileOffset": 252013,
+          "bytes": "5f",
+          "instruction": "POP EDI",
+          "assemblyLine": 70414
+        },
+        {
+          "va": "1003d86e",
+          "rva": "3d86e",
+          "fileOffset": 252014,
+          "bytes": "5b",
+          "instruction": "POP EBX",
+          "assemblyLine": 70415
+        },
+        {
+          "va": "1003d86f",
+          "rva": "3d86f",
+          "fileOffset": 252015,
+          "bytes": "5e",
+          "instruction": "POP ESI",
+          "assemblyLine": 70416
+        },
+        {
+          "va": "1003d870",
+          "rva": "3d870",
+          "fileOffset": 252016,
+          "bytes": "c20800",
+          "instruction": "RET 0x8",
+          "assemblyLine": 70417
+        },
+        {
+          "va": "1003d873",
+          "rva": "3d873",
+          "fileOffset": 252019,
+          "bytes": "8b0d20b02f10",
+          "instruction": "MOV ECX,dword ptr [0x102fb020]",
+          "assemblyLine": 70419
+        },
+        {
+          "va": "1003d879",
+          "rva": "3d879",
+          "fileOffset": 252025,
+          "bytes": "03ce",
+          "instruction": "ADD ECX,ESI",
+          "assemblyLine": 70420
+        },
+        {
+          "va": "1003d87b",
+          "rva": "3d87b",
+          "fileOffset": 252027,
+          "bytes": "390d24b02f10",
+          "instruction": "CMP dword ptr [0x102fb024],ECX",
+          "assemblyLine": 70421
+        },
+        {
+          "va": "1003d881",
+          "rva": "3d881",
+          "fileOffset": 252033,
+          "bytes": "890d20b02f10",
+          "instruction": "MOV dword ptr [0x102fb020],ECX",
+          "assemblyLine": 70422
+        },
+        {
+          "va": "1003d887",
+          "rva": "3d887",
+          "fileOffset": 252039,
+          "bytes": "7306",
+          "instruction": "JNC 0x1003d88f",
+          "assemblyLine": 70423
+        },
+        {
+          "va": "1003d889",
+          "rva": "3d889",
+          "fileOffset": 252041,
+          "bytes": "890d24b02f10",
+          "instruction": "MOV dword ptr [0x102fb024],ECX",
+          "assemblyLine": 70424
+        },
+        {
+          "va": "1003d88f",
+          "rva": "3d88f",
+          "fileOffset": 252047,
+          "bytes": "5f",
+          "instruction": "POP EDI",
+          "assemblyLine": 70426
+        },
+        {
+          "va": "1003d890",
+          "rva": "3d890",
+          "fileOffset": 252048,
+          "bytes": "5b",
+          "instruction": "POP EBX",
+          "assemblyLine": 70427
+        },
+        {
+          "va": "1003d891",
+          "rva": "3d891",
+          "fileOffset": 252049,
+          "bytes": "5e",
+          "instruction": "POP ESI",
+          "assemblyLine": 70428
+        },
+        {
+          "va": "1003d892",
+          "rva": "3d892",
+          "fileOffset": 252050,
+          "bytes": "c20800",
+          "instruction": "RET 0x8",
+          "assemblyLine": 70429
+        }
+      ],
+      "reconstructedC": {
+        "path": "01_Decompiled_Code/SharedBase_dll/pseudocode/functions_00015.c",
+        "sha256": "76eaa46ac00b1eab23b054ab7c4e57c3f428d834f85acaf4bb5d3a0bfba3dd24",
+        "line": 10459,
+        "status": "decompiled"
+      },
+      "instructionCount": 88,
+      "bodyByteCount": 261,
+      "bodyInstructionBytesSha256": "e447d575bf8850ff28e23daad6f292d728c00bba796d73cfb63f0e76c8d97d96"
+    },
+    {
+      "label": "dllLargePoolDispatch",
+      "entryVA": "0x10007644",
+      "bodyVA": "0x1003d1f0",
+      "entryChain": [
+        {
+          "va": "10007644",
+          "bytes": "e9a75b0300",
+          "targetVA": "1003d1f0"
+        }
+      ],
+      "bodyRanges": "1003d1f0-1003d2e9",
+      "instructions": [
+        {
+          "va": "1003d1f0",
+          "rva": "3d1f0",
+          "fileOffset": 250352,
+          "bytes": "56",
+          "instruction": "PUSH ESI",
+          "assemblyLine": 69859
+        },
+        {
+          "va": "1003d1f1",
+          "rva": "3d1f1",
+          "fileOffset": 250353,
+          "bytes": "8b3580962f10",
+          "instruction": "MOV ESI,dword ptr [0x102f9680]",
+          "assemblyLine": 69860
+        },
+        {
+          "va": "1003d1f7",
+          "rva": "3d1f7",
+          "fileOffset": 250359,
+          "bytes": "57",
+          "instruction": "PUSH EDI",
+          "assemblyLine": 69861
+        },
+        {
+          "va": "1003d1f8",
+          "rva": "3d1f8",
+          "fileOffset": 250360,
+          "bytes": "8b7c240c",
+          "instruction": "MOV EDI,dword ptr [ESP + 0xc]",
+          "assemblyLine": 69862
+        },
+        {
+          "va": "1003d1fc",
+          "rva": "3d1fc",
+          "fileOffset": 250364,
+          "bytes": "81c70f040000",
+          "instruction": "ADD EDI,0x40f",
+          "assemblyLine": 69863
+        },
+        {
+          "va": "1003d202",
+          "rva": "3d202",
+          "fileOffset": 250370,
+          "bytes": "c1ef0a",
+          "instruction": "SHR EDI,0xa",
+          "assemblyLine": 69864
+        },
+        {
+          "va": "1003d205",
+          "rva": "3d205",
+          "fileOffset": 250373,
+          "bytes": "81ff00100000",
+          "instruction": "CMP EDI,0x1000",
+          "assemblyLine": 69866
+        },
+        {
+          "va": "1003d20b",
+          "rva": "3d20b",
+          "fileOffset": 250379,
+          "bytes": "8bcf",
+          "instruction": "MOV ECX,EDI",
+          "assemblyLine": 69867
+        },
+        {
+          "va": "1003d20d",
+          "rva": "3d20d",
+          "fileOffset": 250381,
+          "bytes": "771a",
+          "instruction": "JA 0x1003d229",
+          "assemblyLine": 69868
+        },
+        {
+          "va": "1003d20f",
+          "rva": "3d20f",
+          "fileOffset": 250383,
+          "bytes": "8d04bd14421410",
+          "instruction": "LEA EAX,[EDI*0x4 + 0x10144214]",
+          "assemblyLine": 69869
+        },
+        {
+          "va": "1003d216",
+          "rva": "3d216",
+          "fileOffset": 250390,
+          "bytes": "833800",
+          "instruction": "CMP dword ptr [EAX],0x0",
+          "assemblyLine": 69871
+        },
+        {
+          "va": "1003d219",
+          "rva": "3d219",
+          "fileOffset": 250393,
+          "bytes": "752f",
+          "instruction": "JNZ 0x1003d24a",
+          "assemblyLine": 69872
+        },
+        {
+          "va": "1003d21b",
+          "rva": "3d21b",
+          "fileOffset": 250395,
+          "bytes": "83c101",
+          "instruction": "ADD ECX,0x1",
+          "assemblyLine": 69873
+        },
+        {
+          "va": "1003d21e",
+          "rva": "3d21e",
+          "fileOffset": 250398,
+          "bytes": "83c004",
+          "instruction": "ADD EAX,0x4",
+          "assemblyLine": 69874
+        },
+        {
+          "va": "1003d221",
+          "rva": "3d221",
+          "fileOffset": 250401,
+          "bytes": "81f900100000",
+          "instruction": "CMP ECX,0x1000",
+          "assemblyLine": 69875
+        },
+        {
+          "va": "1003d227",
+          "rva": "3d227",
+          "fileOffset": 250407,
+          "bytes": "76ed",
+          "instruction": "JBE 0x1003d216",
+          "assemblyLine": 69876
+        },
+        {
+          "va": "1003d229",
+          "rva": "3d229",
+          "fileOffset": 250409,
+          "bytes": "6a04",
+          "instruction": "PUSH 0x4",
+          "assemblyLine": 69878
+        },
+        {
+          "va": "1003d22b",
+          "rva": "3d22b",
+          "fileOffset": 250411,
+          "bytes": "6800301000",
+          "instruction": "PUSH 0x103000",
+          "assemblyLine": 69879
+        },
+        {
+          "va": "1003d230",
+          "rva": "3d230",
+          "fileOffset": 250416,
+          "bytes": "6800004000",
+          "instruction": "PUSH 0x400000",
+          "assemblyLine": 69880
+        },
+        {
+          "va": "1003d235",
+          "rva": "3d235",
+          "fileOffset": 250421,
+          "bytes": "6a00",
+          "instruction": "PUSH 0x0",
+          "assemblyLine": 69881
+        },
+        {
+          "va": "1003d237",
+          "rva": "3d237",
+          "fileOffset": 250423,
+          "bytes": "ffd6",
+          "instruction": "CALL ESI",
+          "assemblyLine": 69882
+        },
+        {
+          "va": "1003d239",
+          "rva": "3d239",
+          "fileOffset": 250425,
+          "bytes": "85c0",
+          "instruction": "TEST EAX,EAX",
+          "assemblyLine": 69883
+        },
+        {
+          "va": "1003d23b",
+          "rva": "3d23b",
+          "fileOffset": 250427,
+          "bytes": "0f84a2000000",
+          "instruction": "JZ 0x1003d2e3",
+          "assemblyLine": 69884
+        },
+        {
+          "va": "1003d241",
+          "rva": "3d241",
+          "fileOffset": 250433,
+          "bytes": "8bc8",
+          "instruction": "MOV ECX,EAX",
+          "assemblyLine": 69885
+        },
+        {
+          "va": "1003d243",
+          "rva": "3d243",
+          "fileOffset": 250435,
+          "bytes": "e861a8fcff",
+          "instruction": "CALL 0x10007aa9",
+          "assemblyLine": 69886
+        },
+        {
+          "va": "1003d248",
+          "rva": "3d248",
+          "fileOffset": 250440,
+          "bytes": "ebbb",
+          "instruction": "JMP 0x1003d205",
+          "assemblyLine": 69887
+        },
+        {
+          "va": "1003d24a",
+          "rva": "3d24a",
+          "fileOffset": 250442,
+          "bytes": "8b148d14421410",
+          "instruction": "MOV EDX,dword ptr [ECX*0x4 + 0x10144214]",
+          "assemblyLine": 69889
+        },
+        {
+          "va": "1003d251",
+          "rva": "3d251",
+          "fileOffset": 250449,
+          "bytes": "8b7210",
+          "instruction": "MOV ESI,dword ptr [EDX + 0x10]",
+          "assemblyLine": 69890
+        },
+        {
+          "va": "1003d254",
+          "rva": "3d254",
+          "fileOffset": 250452,
+          "bytes": "85f6",
+          "instruction": "TEST ESI,ESI",
+          "assemblyLine": 69891
+        },
+        {
+          "va": "1003d256",
+          "rva": "3d256",
+          "fileOffset": 250454,
+          "bytes": "8d4210",
+          "instruction": "LEA EAX,[EDX + 0x10]",
+          "assemblyLine": 69892
+        },
+        {
+          "va": "1003d259",
+          "rva": "3d259",
+          "fileOffset": 250457,
+          "bytes": "55",
+          "instruction": "PUSH EBP",
+          "assemblyLine": 69893
+        },
+        {
+          "va": "1003d25a",
+          "rva": "3d25a",
+          "fileOffset": 250458,
+          "bytes": "7406",
+          "instruction": "JZ 0x1003d262",
+          "assemblyLine": 69894
+        },
+        {
+          "va": "1003d25c",
+          "rva": "3d25c",
+          "fileOffset": 250460,
+          "bytes": "8b6a14",
+          "instruction": "MOV EBP,dword ptr [EDX + 0x14]",
+          "assemblyLine": 69895
+        },
+        {
+          "va": "1003d25f",
+          "rva": "3d25f",
+          "fileOffset": 250463,
+          "bytes": "896e14",
+          "instruction": "MOV dword ptr [ESI + 0x14],EBP",
+          "assemblyLine": 69896
+        },
+        {
+          "va": "1003d262",
+          "rva": "3d262",
+          "fileOffset": 250466,
+          "bytes": "8b7214",
+          "instruction": "MOV ESI,dword ptr [EDX + 0x14]",
+          "assemblyLine": 69898
+        },
+        {
+          "va": "1003d265",
+          "rva": "3d265",
+          "fileOffset": 250469,
+          "bytes": "85f6",
+          "instruction": "TEST ESI,ESI",
+          "assemblyLine": 69899
+        },
+        {
+          "va": "1003d267",
+          "rva": "3d267",
+          "fileOffset": 250471,
+          "bytes": "7405",
+          "instruction": "JZ 0x1003d26e",
+          "assemblyLine": 69900
+        },
+        {
+          "va": "1003d269",
+          "rva": "3d269",
+          "fileOffset": 250473,
+          "bytes": "8b28",
+          "instruction": "MOV EBP,dword ptr [EAX]",
+          "assemblyLine": 69901
+        },
+        {
+          "va": "1003d26b",
+          "rva": "3d26b",
+          "fileOffset": 250475,
+          "bytes": "896e10",
+          "instruction": "MOV dword ptr [ESI + 0x10],EBP",
+          "assemblyLine": 69902
+        },
+        {
+          "va": "1003d26e",
+          "rva": "3d26e",
+          "fileOffset": 250478,
+          "bytes": "8b7208",
+          "instruction": "MOV ESI,dword ptr [EDX + 0x8]",
+          "assemblyLine": 69904
+        },
+        {
+          "va": "1003d271",
+          "rva": "3d271",
+          "fileOffset": 250481,
+          "bytes": "3914b514421410",
+          "instruction": "CMP dword ptr [ESI*0x4 + 0x10144214],EDX",
+          "assemblyLine": 69905
+        },
+        {
+          "va": "1003d278",
+          "rva": "3d278",
+          "fileOffset": 250488,
+          "bytes": "7509",
+          "instruction": "JNZ 0x1003d283",
+          "assemblyLine": 69906
+        },
+        {
+          "va": "1003d27a",
+          "rva": "3d27a",
+          "fileOffset": 250490,
+          "bytes": "8b28",
+          "instruction": "MOV EBP,dword ptr [EAX]",
+          "assemblyLine": 69907
+        },
+        {
+          "va": "1003d27c",
+          "rva": "3d27c",
+          "fileOffset": 250492,
+          "bytes": "892cb514421410",
+          "instruction": "MOV dword ptr [ESI*0x4 + 0x10144214],EBP",
+          "assemblyLine": 69908
+        },
+        {
+          "va": "1003d283",
+          "rva": "3d283",
+          "fileOffset": 250499,
+          "bytes": "3bf9",
+          "instruction": "CMP EDI,ECX",
+          "assemblyLine": 69910
+        },
+        {
+          "va": "1003d285",
+          "rva": "3d285",
+          "fileOffset": 250501,
+          "bytes": "5d",
+          "instruction": "POP EBP",
+          "assemblyLine": 69911
+        },
+        {
+          "va": "1003d286",
+          "rva": "3d286",
+          "fileOffset": 250502,
+          "bytes": "744f",
+          "instruction": "JZ 0x1003d2d7",
+          "assemblyLine": 69912
+        },
+        {
+          "va": "1003d288",
+          "rva": "3d288",
+          "fileOffset": 250504,
+          "bytes": "8bcf",
+          "instruction": "MOV ECX,EDI",
+          "assemblyLine": 69913
+        },
+        {
+          "va": "1003d28a",
+          "rva": "3d28a",
+          "fileOffset": 250506,
+          "bytes": "c1e10a",
+          "instruction": "SHL ECX,0xa",
+          "assemblyLine": 69914
+        },
+        {
+          "va": "1003d28d",
+          "rva": "3d28d",
+          "fileOffset": 250509,
+          "bytes": "03ca",
+          "instruction": "ADD ECX,EDX",
+          "assemblyLine": 69915
+        },
+        {
+          "va": "1003d28f",
+          "rva": "3d28f",
+          "fileOffset": 250511,
+          "bytes": "c7410c00000000",
+          "instruction": "MOV dword ptr [ECX + 0xc],0x0",
+          "assemblyLine": 69916
+        },
+        {
+          "va": "1003d296",
+          "rva": "3d296",
+          "fileOffset": 250518,
+          "bytes": "8b7208",
+          "instruction": "MOV ESI,dword ptr [EDX + 0x8]",
+          "assemblyLine": 69917
+        },
+        {
+          "va": "1003d299",
+          "rva": "3d299",
+          "fileOffset": 250521,
+          "bytes": "2bf7",
+          "instruction": "SUB ESI,EDI",
+          "assemblyLine": 69918
+        },
+        {
+          "va": "1003d29b",
+          "rva": "3d29b",
+          "fileOffset": 250523,
+          "bytes": "897108",
+          "instruction": "MOV dword ptr [ECX + 0x8],ESI",
+          "assemblyLine": 69919
+        },
+        {
+          "va": "1003d29e",
+          "rva": "3d29e",
+          "fileOffset": 250526,
+          "bytes": "8b7204",
+          "instruction": "MOV ESI,dword ptr [EDX + 0x4]",
+          "assemblyLine": 69920
+        },
+        {
+          "va": "1003d2a1",
+          "rva": "3d2a1",
+          "fileOffset": 250529,
+          "bytes": "85f6",
+          "instruction": "TEST ESI,ESI",
+          "assemblyLine": 69921
+        },
+        {
+          "va": "1003d2a3",
+          "rva": "3d2a3",
+          "fileOffset": 250531,
+          "bytes": "897104",
+          "instruction": "MOV dword ptr [ECX + 0x4],ESI",
+          "assemblyLine": 69922
+        },
+        {
+          "va": "1003d2a6",
+          "rva": "3d2a6",
+          "fileOffset": 250534,
+          "bytes": "8911",
+          "instruction": "MOV dword ptr [ECX],EDX",
+          "assemblyLine": 69923
+        },
+        {
+          "va": "1003d2a8",
+          "rva": "3d2a8",
+          "fileOffset": 250536,
+          "bytes": "7402",
+          "instruction": "JZ 0x1003d2ac",
+          "assemblyLine": 69924
+        },
+        {
+          "va": "1003d2aa",
+          "rva": "3d2aa",
+          "fileOffset": 250538,
+          "bytes": "890e",
+          "instruction": "MOV dword ptr [ESI],ECX",
+          "assemblyLine": 69925
+        },
+        {
+          "va": "1003d2ac",
+          "rva": "3d2ac",
+          "fileOffset": 250540,
+          "bytes": "894a04",
+          "instruction": "MOV dword ptr [EDX + 0x4],ECX",
+          "assemblyLine": 69927
+        },
+        {
+          "va": "1003d2af",
+          "rva": "3d2af",
+          "fileOffset": 250543,
+          "bytes": "897a08",
+          "instruction": "MOV dword ptr [EDX + 0x8],EDI",
+          "assemblyLine": 69928
+        },
+        {
+          "va": "1003d2b2",
+          "rva": "3d2b2",
+          "fileOffset": 250546,
+          "bytes": "8b7108",
+          "instruction": "MOV ESI,dword ptr [ECX + 0x8]",
+          "assemblyLine": 69929
+        },
+        {
+          "va": "1003d2b5",
+          "rva": "3d2b5",
+          "fileOffset": 250549,
+          "bytes": "c7411400000000",
+          "instruction": "MOV dword ptr [ECX + 0x14],0x0",
+          "assemblyLine": 69930
+        },
+        {
+          "va": "1003d2bc",
+          "rva": "3d2bc",
+          "fileOffset": 250556,
+          "bytes": "8b34b514421410",
+          "instruction": "MOV ESI,dword ptr [ESI*0x4 + 0x10144214]",
+          "assemblyLine": 69931
+        },
+        {
+          "va": "1003d2c3",
+          "rva": "3d2c3",
+          "fileOffset": 250563,
+          "bytes": "85f6",
+          "instruction": "TEST ESI,ESI",
+          "assemblyLine": 69932
+        },
+        {
+          "va": "1003d2c5",
+          "rva": "3d2c5",
+          "fileOffset": 250565,
+          "bytes": "897110",
+          "instruction": "MOV dword ptr [ECX + 0x10],ESI",
+          "assemblyLine": 69933
+        },
+        {
+          "va": "1003d2c8",
+          "rva": "3d2c8",
+          "fileOffset": 250568,
+          "bytes": "7403",
+          "instruction": "JZ 0x1003d2cd",
+          "assemblyLine": 69934
+        },
+        {
+          "va": "1003d2ca",
+          "rva": "3d2ca",
+          "fileOffset": 250570,
+          "bytes": "894e14",
+          "instruction": "MOV dword ptr [ESI + 0x14],ECX",
+          "assemblyLine": 69935
+        },
+        {
+          "va": "1003d2cd",
+          "rva": "3d2cd",
+          "fileOffset": 250573,
+          "bytes": "8b7108",
+          "instruction": "MOV ESI,dword ptr [ECX + 0x8]",
+          "assemblyLine": 69937
+        },
+        {
+          "va": "1003d2d0",
+          "rva": "3d2d0",
+          "fileOffset": 250576,
+          "bytes": "890cb514421410",
+          "instruction": "MOV dword ptr [ESI*0x4 + 0x10144214],ECX",
+          "assemblyLine": 69938
+        },
+        {
+          "va": "1003d2d7",
+          "rva": "3d2d7",
+          "fileOffset": 250583,
+          "bytes": "5f",
+          "instruction": "POP EDI",
+          "assemblyLine": 69940
+        },
+        {
+          "va": "1003d2d8",
+          "rva": "3d2d8",
+          "fileOffset": 250584,
+          "bytes": "c7420c01000000",
+          "instruction": "MOV dword ptr [EDX + 0xc],0x1",
+          "assemblyLine": 69941
+        },
+        {
+          "va": "1003d2df",
+          "rva": "3d2df",
+          "fileOffset": 250591,
+          "bytes": "5e",
+          "instruction": "POP ESI",
+          "assemblyLine": 69942
+        },
+        {
+          "va": "1003d2e0",
+          "rva": "3d2e0",
+          "fileOffset": 250592,
+          "bytes": "c20400",
+          "instruction": "RET 0x4",
+          "assemblyLine": 69943
+        },
+        {
+          "va": "1003d2e3",
+          "rva": "3d2e3",
+          "fileOffset": 250595,
+          "bytes": "5f",
+          "instruction": "POP EDI",
+          "assemblyLine": 69945
+        },
+        {
+          "va": "1003d2e4",
+          "rva": "3d2e4",
+          "fileOffset": 250596,
+          "bytes": "33c0",
+          "instruction": "XOR EAX,EAX",
+          "assemblyLine": 69946
+        },
+        {
+          "va": "1003d2e6",
+          "rva": "3d2e6",
+          "fileOffset": 250598,
+          "bytes": "5e",
+          "instruction": "POP ESI",
+          "assemblyLine": 69947
+        },
+        {
+          "va": "1003d2e7",
+          "rva": "3d2e7",
+          "fileOffset": 250599,
+          "bytes": "c20400",
+          "instruction": "RET 0x4",
+          "assemblyLine": 69948
+        }
+      ],
+      "reconstructedC": {
+        "path": "01_Decompiled_Code/SharedBase_dll/pseudocode/functions_00015.c",
+        "sha256": "76eaa46ac00b1eab23b054ab7c4e57c3f428d834f85acaf4bb5d3a0bfba3dd24",
+        "line": 10148,
+        "status": "decompiled"
+      },
+      "instructionCount": 79,
+      "bodyByteCount": 250,
+      "bodyInstructionBytesSha256": "334a0d88b9613311eb45d6986debdbe290fbc089ad6911afc23b5fc4684d5a92"
+    },
+    {
+      "label": "dllLargePoolInitialize",
+      "entryVA": "0x10007aa9",
+      "bodyVA": "0x1003d120",
+      "entryChain": [
+        {
+          "va": "10007aa9",
+          "bytes": "e972560300",
+          "targetVA": "1003d120"
+        }
+      ],
+      "bodyRanges": "1003d120-1003d1e0",
+      "instructions": [
+        {
+          "va": "1003d120",
+          "rva": "3d120",
+          "fileOffset": 250144,
+          "bytes": "53",
+          "instruction": "PUSH EBX",
+          "assemblyLine": 69790
+        },
+        {
+          "va": "1003d121",
+          "rva": "3d121",
+          "fileOffset": 250145,
+          "bytes": "56",
+          "instruction": "PUSH ESI",
+          "assemblyLine": 69791
+        },
+        {
+          "va": "1003d122",
+          "rva": "3d122",
+          "fileOffset": 250146,
+          "bytes": "8bf1",
+          "instruction": "MOV ESI,ECX",
+          "assemblyLine": 69792
+        },
+        {
+          "va": "1003d124",
+          "rva": "3d124",
+          "fileOffset": 250148,
+          "bytes": "c7460400000000",
+          "instruction": "MOV dword ptr [ESI + 0x4],0x0",
+          "assemblyLine": 69793
+        },
+        {
+          "va": "1003d12b",
+          "rva": "3d12b",
+          "fileOffset": 250155,
+          "bytes": "c70600000000",
+          "instruction": "MOV dword ptr [ESI],0x0",
+          "assemblyLine": 69794
+        },
+        {
+          "va": "1003d131",
+          "rva": "3d131",
+          "fileOffset": 250161,
+          "bytes": "c7460800100000",
+          "instruction": "MOV dword ptr [ESI + 0x8],0x1000",
+          "assemblyLine": 69795
+        },
+        {
+          "va": "1003d138",
+          "rva": "3d138",
+          "fileOffset": 250168,
+          "bytes": "c7460c00000000",
+          "instruction": "MOV dword ptr [ESI + 0xc],0x0",
+          "assemblyLine": 69796
+        },
+        {
+          "va": "1003d13f",
+          "rva": "3d13f",
+          "fileOffset": 250175,
+          "bytes": "8b1d4cb02f10",
+          "instruction": "MOV EBX,dword ptr [0x102fb04c]",
+          "assemblyLine": 69797
+        },
+        {
+          "va": "1003d145",
+          "rva": "3d145",
+          "fileOffset": 250181,
+          "bytes": "57",
+          "instruction": "PUSH EDI",
+          "assemblyLine": 69798
+        },
+        {
+          "va": "1003d146",
+          "rva": "3d146",
+          "fileOffset": 250182,
+          "bytes": "8bcb",
+          "instruction": "MOV ECX,EBX",
+          "assemblyLine": 69799
+        },
+        {
+          "va": "1003d148",
+          "rva": "3d148",
+          "fileOffset": 250184,
+          "bytes": "33ff",
+          "instruction": "XOR EDI,EDI",
+          "assemblyLine": 69800
+        },
+        {
+          "va": "1003d14a",
+          "rva": "3d14a",
+          "fileOffset": 250186,
+          "bytes": "85c9",
+          "instruction": "TEST ECX,ECX",
+          "assemblyLine": 69801
+        },
+        {
+          "va": "1003d14c",
+          "rva": "3d14c",
+          "fileOffset": 250188,
+          "bytes": "7424",
+          "instruction": "JZ 0x1003d172",
+          "assemblyLine": 69802
+        },
+        {
+          "va": "1003d14e",
+          "rva": "3d14e",
+          "fileOffset": 250190,
+          "bytes": "8bff",
+          "instruction": "MOV EDI,EDI",
+          "assemblyLine": 69803
+        },
+        {
+          "va": "1003d150",
+          "rva": "3d150",
+          "fileOffset": 250192,
+          "bytes": "8bc1",
+          "instruction": "MOV EAX,ECX",
+          "assemblyLine": 69805
+        },
+        {
+          "va": "1003d152",
+          "rva": "3d152",
+          "fileOffset": 250194,
+          "bytes": "d1e8",
+          "instruction": "SHR EAX,0x1",
+          "assemblyLine": 69806
+        },
+        {
+          "va": "1003d154",
+          "rva": "3d154",
+          "fileOffset": 250196,
+          "bytes": "8d1438",
+          "instruction": "LEA EDX,[EAX + EDI*0x1]",
+          "assemblyLine": 69807
+        },
+        {
+          "va": "1003d157",
+          "rva": "3d157",
+          "fileOffset": 250199,
+          "bytes": "39349518821410",
+          "instruction": "CMP dword ptr [EDX*0x4 + 0x10148218],ESI",
+          "assemblyLine": 69808
+        },
+        {
+          "va": "1003d15e",
+          "rva": "3d15e",
+          "fileOffset": 250206,
+          "bytes": "7604",
+          "instruction": "JBE 0x1003d164",
+          "assemblyLine": 69809
+        },
+        {
+          "va": "1003d160",
+          "rva": "3d160",
+          "fileOffset": 250208,
+          "bytes": "8bc8",
+          "instruction": "MOV ECX,EAX",
+          "assemblyLine": 69810
+        },
+        {
+          "va": "1003d162",
+          "rva": "3d162",
+          "fileOffset": 250210,
+          "bytes": "eb0a",
+          "instruction": "JMP 0x1003d16e",
+          "assemblyLine": 69811
+        },
+        {
+          "va": "1003d164",
+          "rva": "3d164",
+          "fileOffset": 250212,
+          "bytes": "83cfff",
+          "instruction": "OR EDI,0xffffffff",
+          "assemblyLine": 69813
+        },
+        {
+          "va": "1003d167",
+          "rva": "3d167",
+          "fileOffset": 250215,
+          "bytes": "2bf8",
+          "instruction": "SUB EDI,EAX",
+          "assemblyLine": 69814
+        },
+        {
+          "va": "1003d169",
+          "rva": "3d169",
+          "fileOffset": 250217,
+          "bytes": "03cf",
+          "instruction": "ADD ECX,EDI",
+          "assemblyLine": 69815
+        },
+        {
+          "va": "1003d16b",
+          "rva": "3d16b",
+          "fileOffset": 250219,
+          "bytes": "8d7a01",
+          "instruction": "LEA EDI,[EDX + 0x1]",
+          "assemblyLine": 69816
+        },
+        {
+          "va": "1003d16e",
+          "rva": "3d16e",
+          "fileOffset": 250222,
+          "bytes": "85c9",
+          "instruction": "TEST ECX,ECX",
+          "assemblyLine": 69818
+        },
+        {
+          "va": "1003d170",
+          "rva": "3d170",
+          "fileOffset": 250224,
+          "bytes": "75de",
+          "instruction": "JNZ 0x1003d150",
+          "assemblyLine": 69819
+        },
+        {
+          "va": "1003d172",
+          "rva": "3d172",
+          "fileOffset": 250226,
+          "bytes": "3bfb",
+          "instruction": "CMP EDI,EBX",
+          "assemblyLine": 69821
+        },
+        {
+          "va": "1003d174",
+          "rva": "3d174",
+          "fileOffset": 250228,
+          "bytes": "7325",
+          "instruction": "JNC 0x1003d19b",
+          "assemblyLine": 69822
+        },
+        {
+          "va": "1003d176",
+          "rva": "3d176",
+          "fileOffset": 250230,
+          "bytes": "2bdf",
+          "instruction": "SUB EBX,EDI",
+          "assemblyLine": 69823
+        },
+        {
+          "va": "1003d178",
+          "rva": "3d178",
+          "fileOffset": 250232,
+          "bytes": "03db",
+          "instruction": "ADD EBX,EBX",
+          "assemblyLine": 69824
+        },
+        {
+          "va": "1003d17a",
+          "rva": "3d17a",
+          "fileOffset": 250234,
+          "bytes": "03db",
+          "instruction": "ADD EBX,EBX",
+          "assemblyLine": 69825
+        },
+        {
+          "va": "1003d17c",
+          "rva": "3d17c",
+          "fileOffset": 250236,
+          "bytes": "53",
+          "instruction": "PUSH EBX",
+          "assemblyLine": 69826
+        },
+        {
+          "va": "1003d17d",
+          "rva": "3d17d",
+          "fileOffset": 250237,
+          "bytes": "8d04bd18821410",
+          "instruction": "LEA EAX,[EDI*0x4 + 0x10148218]",
+          "assemblyLine": 69827
+        },
+        {
+          "va": "1003d184",
+          "rva": "3d184",
+          "fileOffset": 250244,
+          "bytes": "50",
+          "instruction": "PUSH EAX",
+          "assemblyLine": 69828
+        },
+        {
+          "va": "1003d185",
+          "rva": "3d185",
+          "fileOffset": 250245,
+          "bytes": "8d0cbd1c821410",
+          "instruction": "LEA ECX,[EDI*0x4 + 0x1014821c]",
+          "assemblyLine": 69829
+        },
+        {
+          "va": "1003d18c",
+          "rva": "3d18c",
+          "fileOffset": 250252,
+          "bytes": "51",
+          "instruction": "PUSH ECX",
+          "assemblyLine": 69830
+        },
+        {
+          "va": "1003d18d",
+          "rva": "3d18d",
+          "fileOffset": 250253,
+          "bytes": "e8ceb20600",
+          "instruction": "CALL 0x100a8460",
+          "assemblyLine": 69831
+        },
+        {
+          "va": "1003d192",
+          "rva": "3d192",
+          "fileOffset": 250258,
+          "bytes": "8b1d4cb02f10",
+          "instruction": "MOV EBX,dword ptr [0x102fb04c]",
+          "assemblyLine": 69832
+        },
+        {
+          "va": "1003d198",
+          "rva": "3d198",
+          "fileOffset": 250264,
+          "bytes": "83c40c",
+          "instruction": "ADD ESP,0xc",
+          "assemblyLine": 69833
+        },
+        {
+          "va": "1003d19b",
+          "rva": "3d19b",
+          "fileOffset": 250267,
+          "bytes": "83c301",
+          "instruction": "ADD EBX,0x1",
+          "assemblyLine": 69835
+        },
+        {
+          "va": "1003d19e",
+          "rva": "3d19e",
+          "fileOffset": 250270,
+          "bytes": "8934bd18821410",
+          "instruction": "MOV dword ptr [EDI*0x4 + 0x10148218],ESI",
+          "assemblyLine": 69836
+        },
+        {
+          "va": "1003d1a5",
+          "rva": "3d1a5",
+          "fileOffset": 250277,
+          "bytes": "891d4cb02f10",
+          "instruction": "MOV dword ptr [0x102fb04c],EBX",
+          "assemblyLine": 69837
+        },
+        {
+          "va": "1003d1ab",
+          "rva": "3d1ab",
+          "fileOffset": 250283,
+          "bytes": "8b5608",
+          "instruction": "MOV EDX,dword ptr [ESI + 0x8]",
+          "assemblyLine": 69838
+        },
+        {
+          "va": "1003d1ae",
+          "rva": "3d1ae",
+          "fileOffset": 250286,
+          "bytes": "c7461400000000",
+          "instruction": "MOV dword ptr [ESI + 0x14],0x0",
+          "assemblyLine": 69839
+        },
+        {
+          "va": "1003d1b5",
+          "rva": "3d1b5",
+          "fileOffset": 250293,
+          "bytes": "8b049514421410",
+          "instruction": "MOV EAX,dword ptr [EDX*0x4 + 0x10144214]",
+          "assemblyLine": 69840
+        },
+        {
+          "va": "1003d1bc",
+          "rva": "3d1bc",
+          "fileOffset": 250300,
+          "bytes": "85c0",
+          "instruction": "TEST EAX,EAX",
+          "assemblyLine": 69841
+        },
+        {
+          "va": "1003d1be",
+          "rva": "3d1be",
+          "fileOffset": 250302,
+          "bytes": "894610",
+          "instruction": "MOV dword ptr [ESI + 0x10],EAX",
+          "assemblyLine": 69842
+        },
+        {
+          "va": "1003d1c1",
+          "rva": "3d1c1",
+          "fileOffset": 250305,
+          "bytes": "7411",
+          "instruction": "JZ 0x1003d1d4",
+          "assemblyLine": 69843
+        },
+        {
+          "va": "1003d1c3",
+          "rva": "3d1c3",
+          "fileOffset": 250307,
+          "bytes": "897014",
+          "instruction": "MOV dword ptr [EAX + 0x14],ESI",
+          "assemblyLine": 69844
+        },
+        {
+          "va": "1003d1c6",
+          "rva": "3d1c6",
+          "fileOffset": 250310,
+          "bytes": "8b4608",
+          "instruction": "MOV EAX,dword ptr [ESI + 0x8]",
+          "assemblyLine": 69845
+        },
+        {
+          "va": "1003d1c9",
+          "rva": "3d1c9",
+          "fileOffset": 250313,
+          "bytes": "5f",
+          "instruction": "POP EDI",
+          "assemblyLine": 69846
+        },
+        {
+          "va": "1003d1ca",
+          "rva": "3d1ca",
+          "fileOffset": 250314,
+          "bytes": "89348514421410",
+          "instruction": "MOV dword ptr [EAX*0x4 + 0x10144214],ESI",
+          "assemblyLine": 69847
+        },
+        {
+          "va": "1003d1d1",
+          "rva": "3d1d1",
+          "fileOffset": 250321,
+          "bytes": "5e",
+          "instruction": "POP ESI",
+          "assemblyLine": 69848
+        },
+        {
+          "va": "1003d1d2",
+          "rva": "3d1d2",
+          "fileOffset": 250322,
+          "bytes": "5b",
+          "instruction": "POP EBX",
+          "assemblyLine": 69849
+        },
+        {
+          "va": "1003d1d3",
+          "rva": "3d1d3",
+          "fileOffset": 250323,
+          "bytes": "c3",
+          "instruction": "RET",
+          "assemblyLine": 69850
+        },
+        {
+          "va": "1003d1d4",
+          "rva": "3d1d4",
+          "fileOffset": 250324,
+          "bytes": "8bca",
+          "instruction": "MOV ECX,EDX",
+          "assemblyLine": 69852
+        },
+        {
+          "va": "1003d1d6",
+          "rva": "3d1d6",
+          "fileOffset": 250326,
+          "bytes": "5f",
+          "instruction": "POP EDI",
+          "assemblyLine": 69853
+        },
+        {
+          "va": "1003d1d7",
+          "rva": "3d1d7",
+          "fileOffset": 250327,
+          "bytes": "89348d14421410",
+          "instruction": "MOV dword ptr [ECX*0x4 + 0x10144214],ESI",
+          "assemblyLine": 69854
+        },
+        {
+          "va": "1003d1de",
+          "rva": "3d1de",
+          "fileOffset": 250334,
+          "bytes": "5e",
+          "instruction": "POP ESI",
+          "assemblyLine": 69855
+        },
+        {
+          "va": "1003d1df",
+          "rva": "3d1df",
+          "fileOffset": 250335,
+          "bytes": "5b",
+          "instruction": "POP EBX",
+          "assemblyLine": 69856
+        },
+        {
+          "va": "1003d1e0",
+          "rva": "3d1e0",
+          "fileOffset": 250336,
+          "bytes": "c3",
+          "instruction": "RET",
+          "assemblyLine": 69857
+        }
+      ],
+      "reconstructedC": {
+        "path": "01_Decompiled_Code/SharedBase_dll/pseudocode/functions_00015.c",
+        "sha256": "76eaa46ac00b1eab23b054ab7c4e57c3f428d834f85acaf4bb5d3a0bfba3dd24",
+        "line": 10102,
+        "status": "decompiled"
+      },
+      "instructionCount": 62,
+      "bodyByteCount": 193,
+      "bodyInstructionBytesSha256": "14b0ae59456c636b302e67b3148a77b94156d417f095404db476db5aa5c12e17"
+    },
+    {
       "label": "dllErrorCreate",
       "entryVA": "0x10001db1",
       "bodyVA": "0x10022760",
@@ -19864,6 +22170,24 @@
       "ordinal": null
     },
     {
+      "iatVA": "0x102f967c",
+      "module": "KERNEL32.dll",
+      "name": "HeapCompact",
+      "ordinal": null
+    },
+    {
+      "iatVA": "0x102f9680",
+      "module": "KERNEL32.dll",
+      "name": "VirtualAlloc",
+      "ordinal": null
+    },
+    {
+      "iatVA": "0x102f9690",
+      "module": "KERNEL32.dll",
+      "name": "HeapReAlloc",
+      "ordinal": null
+    },
+    {
       "iatVA": "0x102f96ac",
       "module": "KERNEL32.dll",
       "name": "GetUserDefaultLangID",
@@ -20073,6 +22397,62 @@
     }
   ],
   "coldImages": [
+    {
+      "label": "dllErrorBufferScope",
+      "address": "100f8338",
+      "size": 12,
+      "bytes": "ffffffff39d9031043d90310",
+      "section": {
+        "virtualAddress": 937984,
+        "virtualSize": 366840,
+        "rawSize": 368640,
+        "rawOffset": 937984,
+        "fileBackedBytes": 12,
+        "loaderZeroFillBytes": 0
+      }
+    },
+    {
+      "label": "dllLargePoolBins",
+      "address": "10144214",
+      "size": 16388,
+      "bytes": "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "section": {
+        "virtualAddress": 1306624,
+        "virtualSize": 1807760,
+        "rawSize": 16384,
+        "rawOffset": 1306624,
+        "fileBackedBytes": 0,
+        "loaderZeroFillBytes": 16388
+      }
+    },
+    {
+      "label": "dllLargePoolRegionFirst",
+      "address": "10148218",
+      "size": 4,
+      "bytes": "00000000",
+      "section": {
+        "virtualAddress": 1306624,
+        "virtualSize": 1807760,
+        "rawSize": 16384,
+        "rawOffset": 1306624,
+        "fileBackedBytes": 0,
+        "loaderZeroFillBytes": 4
+      }
+    },
+    {
+      "label": "dllLargePoolRegionCount",
+      "address": "102fb04c",
+      "size": 4,
+      "bytes": "00000000",
+      "section": {
+        "virtualAddress": 3125248,
+        "virtualSize": 20712,
+        "rawSize": 24576,
+        "rawOffset": 1331200,
+        "fileBackedBytes": 4,
+        "loaderZeroFillBytes": 0
+      }
+    },
     {
       "label": "dllErrorState",
       "address": "10142a58",

@@ -8,8 +8,8 @@ describe('original SharedBase DLL entry evidence',()=>{
  it('retains every original body and thunk instruction without granting execution',()=>{
   expect(source.inputSha256).toBe('5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214');
   expect(source.verifiedAgainstOriginalPE).toBe(true);
-  expect(source.methods).toHaveLength(37);
-  expect(source.methods.reduce((n,m)=>n+m.instructions.length,0)).toBe(2375);
+  expect(source.methods).toHaveLength(41);
+  expect(source.methods.reduce((n,m)=>n+m.instructions.length,0)).toBe(2650);
   for(const method of source.methods){
    for(const row of method.instructions){const emitted=sharedDllEntryInstruction(row.va);expect(emitted).toEqual({address:row.va,bytes:row.bytes,instruction:row.instruction});expect(Object.isFrozen(emitted)).toBe(true);}
    for(const row of method.entryChain)expect(sharedDllEntryInstruction(row.va)).toEqual({address:row.va,bytes:row.bytes,instruction:'JMP 0x'+row.targetVA});
@@ -92,4 +92,8 @@ it('retains the original output-engine classification and dispatch tables',()=>{
 
 it('retains original cold MessageAdmin state and source metadata for DLL logging',()=>{
  expect(source.coldImages.find(row=>row.label==='dllMessageGuard')!.bytes).toBe('00000000');expect(source.coldImages.find(row=>row.label==='dllMessageState')!.bytes).toBe('00'.repeat(32));expect(sharedDllEntryInstruction('10049760').instruction).toBe('TEST byte ptr [0x10197d94],0x1');expect(sharedDllEntryInstruction('10049559').instruction).toBe('CALL 0x10006ebf');
+});
+
+it('captures the original variable-pool cold bins and buffer scope',()=>{
+ expect(source.coldImages.find(row=>row.label==='dllLargePoolBins')).toMatchObject({address:'10144214',size:0x4004,bytes:'00'.repeat(0x4004)});expect(source.coldImages.find(row=>row.label==='dllLargePoolRegionFirst')).toMatchObject({address:'10148218',size:4,bytes:'00000000'});expect(source.coldImages.find(row=>row.label==='dllLargePoolRegionCount')).toMatchObject({address:'102fb04c',size:4,bytes:'00000000'});expect(source.coldImages.find(row=>row.label==='dllErrorBufferScope')).toMatchObject({address:'100f8338',size:12,bytes:'ffffffff39d9031043d90310'});
 });

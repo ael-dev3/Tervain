@@ -4,6 +4,36 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local checkpoint — 9 October 2026: variable-size ErrorAdmin buffer
+
+The original ErrorAdmin buffer Malloc (`10004133 -> 1003d8a0`) now executes its
+owned SEH frame, common MemoryAdmin locking and NULL-old-buffer branch through
+`100052fe -> 1003d790`. The 12,500-byte request selects the variable-size pool
+`10007644 -> 1003d1f0`. Its cold path allocates a 4 MiB region, initializes the
+original size-bin and region-list state, and splits a 13-unit block from the
+region. The returned payload starts at offset 16 and has 13,296 usable bytes;
+its header retains the original allocated marker and unit count. The remaining
+4,083-unit block stays free and linked into the original size bins.
+
+Payload views retain their physical region identity and require the original
+live block header. The common lock, FS and saved registers restore before the
+constructor continues. Its two additional holders allocate through original CRT
+new calls. Execution reaches MessageAdmin callback registration at
+`10022814 -> 10007cac`; the handler reserve and subsequent constructor return
+remain pending.
+
+The selected cold region path captures the first region-list cell. Additional
+region-list growth is not admitted by that capture. Focused behavior and source
+checks, typechecking, exact DLL evidence regeneration and the production build
+pass. The full suite passes 2,963 tests across 275 files (243.52 seconds).
+The DLL package contains 41 methods and
+2,650 instructions. This work remains local; it does not establish complete DLL
+startup, live world activation or playable campaign progression.
+
+PR #162 merged the preceding logging/ErrorAdmin prefix at
+`4d237924f7adf4246d5b6d47cace1cc74393ef04` after successful CI run `37855037370`.
+Pages run `37855751070` is in progress; deployment success remains to be checked.
+
 ## Local checkpoint — 9 October 2026: ErrorAdmin getter and cold invalidation
 
 The MessageAdmin Create tail-call enters the original ErrorAdmin getter at
