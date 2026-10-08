@@ -45,7 +45,7 @@ type WordRecord = Readonly<{ value: number; mask: number; provenance?:
   Readonly<{ kind: 'process'; pointer: NativeBytePointer }> |
   Readonly<{ kind: 'heap'; heap: NativeWin32HeapCapability }> |
   Readonly<{ kind: 'allocation'; allocation: Allocation; offset: number; pointer: NativeBytePointer }> |
-  Readonly<{ kind: 'platform'; object: object; category: NativeStandardIoCapabilityKind | NativeArgvImportKind | 'GetModuleHandleA' | 'GetProcAddress' | 'IsProcessorFeaturePresent' }> |
+  Readonly<{ kind: 'platform'; object: object; category: NativeStandardIoCapabilityKind | NativeArgvImportKind | 'GetModuleHandleA' | 'GetProcAddress' | 'IsProcessorFeaturePresent' | 'InitializerTlsGetValue' | 'InitializerPtdGetter' | 'InitializerEncodePointer' | 'InitializerEncodedCode' }> |
   Readonly<{ kind: 'source'; type: 'code' | 'image'; address: string; fields?: NativeHeapObjectViews }> |
   Readonly<{ kind: 'xor'; left: NativeX86Word32; right: NativeX86Word32 }> |
   Readonly<{ kind: 'neg'; word: NativeX86Word32 }> }>;
@@ -646,10 +646,14 @@ export class NativeX86ThreadStack {
         if(item.kind==='register')return stack.#load(stack.#bank,item.slot);
         if(item.kind==='immediate')return image(item.value)??stack.#mint(item.value,0xffffffff);
         const memory=stack.#memory(address(item.expression),item.width);
-        if(item.width===4&&memory.offset===0&&(memory.fields===images['102f9768']||memory.fields===images['102f9648'])){
-          const module=memory.fields===images['102f9768'],expected=module?proof.value.imports.getModuleHandleA:proof.value.imports.getProcAddress;
+        if(item.width===4&&memory.offset===0&&(memory.fields===images['102f9768']||memory.fields===images['102f9648']||memory.fields===images['102f97b8'])){
+          const module=memory.fields===images['102f9768'],tls=memory.fields===images['102f97b8'],expected=tls?proof.value.imports.tlsGetValue:module?proof.value.imports.getModuleHandleA:proof.value.imports.getProcAddress;
           if(NativeHeapObjectViews.prototype.pointer.call(memory.fields,0).get()!==expected)throw new Error('Actual retained SharedBase initializer import slot required');
-          return stack.#mint(0,0,{kind:'platform',object:expected,category:module?'GetModuleHandleA':'GetProcAddress'});
+          return stack.#mint(0,0,{kind:'platform',object:expected,category:tls?'InitializerTlsGetValue':module?'GetModuleHandleA':'GetProcAddress'});
+        }
+        if(item.width===4&&memory.offset===0x1f8&&stack.#currentPc&&stack.#record(stack.#currentPc).provenance?.kind==='source'){
+          const procedure=proof.value.imports.getCodec(memory.fields);
+          return procedure?stack.#mint(0,0,{kind:'platform',object:procedure,category:'InitializerEncodePointer'}):stack.#mint(0,0xffffffff);
         }
         if(item.width===4)return stack.#load(memory.fields,memory.offset);
         const word=NativeHeapObjectViews.prototype.maskedWord.call(memory.fields,memory.offset,item.width);return stack.#mint(word.value,word.knownMask);
@@ -727,11 +731,17 @@ export class NativeX86ThreadStack {
               frame.procedureCalls++;const procedure=proof.value.imports.getProcedure(object(stack.#load(stack.#stack,cursor+4)),string(stack.#load(stack.#stack,cursor+8)));result=procedure?stack.#mint(0,0,{kind:'platform',object:procedure,category:'IsProcessorFeaturePresent'}):stack.#mint(0,0xffffffff);bytes=8;
             }else if(pc==='100b44ac'&&capability.category==='IsProcessorFeaturePresent'){
               frame.featureCalls++;const value=proof.value.imports.queryFeature(capability.object,stack.#numeric(stack.#load(stack.#stack,cursor+4),4));result=stack.#mint(value,0xffffffff);bytes=4;
-            }else throw new Error('Actual original SharedBase processor import call required');
+            }else if((pc==='100ae288'||pc==='100ae29f')&&capability.object===proof.value.imports.tlsGetValue){
+              const procedure=proof.value.imports.getTls(stack.#numeric(stack.#load(stack.#stack,cursor+4),4));result=procedure?stack.#mint(0,0,{kind:'platform',object:procedure,category:'InitializerPtdGetter'}):stack.#mint(0,0xffffffff);bytes=4;
+            }else if(pc==='100ae2a1'&&capability.category==='InitializerPtdGetter'){
+              const record=proof.value.imports.getPtd(capability.object,stack.#numeric(stack.#load(stack.#stack,cursor+4),4));result=record?pointer(record):stack.#mint(0,0xffffffff);bytes=4;
+            }else if(pc==='100ae2dd'&&capability.category==='InitializerEncodePointer'){
+              const encoded=proof.value.imports.encodeCode(capability.object,stack.#numeric(stack.#load(stack.#stack,cursor+4),4));result=encoded?stack.#mint(0,0,{kind:'platform',object:encoded,category:'InitializerEncodedCode'}):stack.#mint(0,0xffffffff);bytes=4;
+            }else throw new Error('Actual original SharedBase initializer import call required');
             stack.#store(stack.#bank,stack.#reg('EAX'),result);for(const name of ['ECX','EDX'] as const)stack.#store(stack.#bank,stack.#reg(name),stack.#mint(0,0));stack.#flags(0,0);stack.#ret(bytes);pc=next;continue;
           }
           const target=stack.#numeric(callee,4).toString(16).padStart(8,'0');
-          if(!['100ae900','100ae880','100ae8b0','100a78fe','100a788e','100b4407','100b448b'].includes(target))throw new Error('Unowned SharedBase initializer child at '+pc+' -> '+target+' (cinit 100aa632)');
+          if(!['100ae900','100ae880','100ae8b0','100a78fe','100a788e','100b4407','100b448b','100ae27b'].includes(target))throw new Error('Unowned SharedBase initializer child at '+pc+' -> '+target+' (cinit 100aa632)');
           pc=target;continue;
         }else if(opcode==='RET'){
           const continuation=stack.#record(stack.#ret()).provenance;if(continuation?.kind!=='source')throw new Error('Actual initializer return required');
@@ -1592,6 +1602,11 @@ export class NativeX86ThreadStack {
     if (p?.kind === 'heap') {
       const heap = NativeModuleCrtOwner.canonicalGameHeapHandleForPlatform(this.#binding!.crt, this.#platform);
       if (!heap.known || heap.value !== p.heap) throw new Error(heap.known ? 'Current heap word differs from its actual Game heap' : heap.reason);
+    }
+    if (p?.kind === 'platform' && p.category==='InitializerEncodedCode') {
+      if(!this.#sharedInitializerFrame)throw new Error('Actual pending initializer encoded pointer required');
+      const proof=NativeSharedCrtOwner.initializerStackArgumentsForPlatform(this.#platform,this.#sharedInitializerFrame.controller);if(!proof.known)throw new Error(proof.reason);
+      proof.value.imports.validateEncodedCode(p.object);return record;
     }
     if (p?.kind === 'platform') {
       const legacy = NativeRuntimePlatform.standardIoCapabilityForPlatform(this.#platform, p.object);

@@ -38,7 +38,8 @@ virtual import slots. `GetModuleHandleA`, `GetProcAddress` and the feature call
 retain original stdcall cleanup of 4, 8 and 4 bytes. The query returns its
 selected BOOL and the caller publishes it at `102f6424`. FNCLEX at `100a7919` clears the owned x87 exception status bits while
 preserving all other unknown bits. The hook returns and reaches the next
-boundary, conversion encoding at `100b4413 -> 100ae27b`. Table initializer
+boundary after cached conversion encoding, the error-table call at
+`100aa664 -> 100aa47d`. Table initializer
 callbacks, enclosing CRT attach and live Game startup remain unfinished.
 Header rejection and a NULL hook follow the original skip branches and retain
 conversion-pointer encoding at `100b4413 -> 100ae27b` as a separate dependency.
@@ -90,4 +91,6 @@ EncodePointer literals, the cold TLS indices and TlsGetValue import slot. These
 are original cold inputs, not live initialized indices or import capabilities.
 The cached-PTD path and fallback resolution must preserve original CALL/RET,
 callee cleanup and the procedure capability before conversion addresses can be
-encoded. The runtime still stops at `100b4413 -> 100ae27b`.
+encoded. The cached PTD path now encodes all ten pointers and returns. The runtime stops
+at `100aa664 -> 100aa47d`; a NULL getter still stops at fallback module lookup
+`100ae2b4`.

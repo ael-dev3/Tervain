@@ -1665,6 +1665,11 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
     if (key) return known(this.#crtServices.fiberLocalStorage ? this.#flsProcedures[key] : null);
     return unknown('Admitted selected CRT Win32 procedure name required');
   }
+  static canonicalPointerCodecForPlatform(platform:NativeRuntimePlatform,procedure:object,name:'EncodePointer'|'DecodePointer'):NativeValue<NativeCrtPointerProcedure>{
+    const active=NativeRuntimePlatform.requireActivePlatform(platform);if(!active.known)return active;
+    const expected=name==='EncodePointer'?platform.#pointerEncode:platform.#pointerDecode;
+    return platform.#crtServices?.pointerCodec==='owned-bijection'&&procedure===expected?known(expected):unknown('Actual same-platform pointer codec required');
+  }
   static canonicalProcessorFeatureProcedureForPlatform(platform:NativeRuntimePlatform,procedure:object):NativeValue<NativeCrtProcessorFeatureProcedure>{
     const active=NativeRuntimePlatform.requireActivePlatform(platform);if(!active.known)return active;
     return platform.#crtServices?.processorFeatureProcedure===true&&procedure===platform.#processorFeatureProcedure?known(platform.#processorFeatureProcedure):unknown('Actual same-platform processor-feature procedure required');
