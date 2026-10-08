@@ -1228,3 +1228,22 @@ it('retains applied filename bytes when the owned source has no terminator',()=>
  const {owner}=stdioFixture();owner.processAttach();owner.processDllEntryPrefix();owner.processDllInitializerPrefix();owner.processDllVersionQueryPrefix();const literal=owner.snapshot().dllEntryImages!.moduleName;literal.writeUnsigned(14,65,1);expect(owner.processDllFilenameCopy()).toEqual({known:false,reason:'Owned filename-copy terminator required'});
  const stack=owner.snapshot().caseState!.stack!.snapshot();expect(String.fromCharCode(...stack.sharedDllVersionFrame!.filename.bytes.slice(0,15))).toBe('sharedbase.dllA');expect(stack.sharedDllVersionFrame!.copyPending).toBe(true);expect(stack.calls.find(call=>call.site==='1004c59f')!.returned).toBe(false);
 });
+
+it('returns through the original module imports and follows the absent export resource branch',()=>{
+ const {owner,platform}=stdioFixture();owner.processAttach();owner.processDllEntryPrefix();owner.processDllInitializerPrefix();owner.processDllVersionQueryPrefix();owner.processDllFilenameCopy();const profile={selection:'current-sharedbase-version-query',missingExportLastError:127,successLastError:'preserve'} as const;
+ const result=owner.processDllModuleLookup(profile);expect(result).toEqual({known:false,reason:'Original SharedBase version resource fallback pending at 1004c62e'});expect(owner.snapshot().dllModuleState).toEqual({additionalReferences:0,currentImageRetained:true,attachExecuted:false});expect(platform.getWin32LastError()).toEqual({known:true,value:127});
+ const stack=owner.snapshot().caseState!.stack!.snapshot();for(const site of ['1004c5a6','1004c5b8','1004c624'])expect(stack.calls.find(call=>call.site===site)!.returned).toBe(true);expect(stack.calls.find(call=>call.site==='100a15c1')!.returned).toBe(false);expect(stack.trace).toContain('1004c621.XOR BL,BL');expect(stack.trace).toContain('1004c62c.JNZ 0x1004c670');expect(owner.snapshot().dllEntryExecuted).toBe(false);
+ const calls=stack.calls.length;expect(owner.processDllModuleLookup(profile)).toEqual(result);expect(owner.snapshot().caseState!.stack!.snapshot().calls).toHaveLength(calls);expect(owner.snapshot().dllModuleState!.additionalReferences).toBe(0);
+});
+it('requires explicit module import outcomes before binding the pending library load',()=>{
+ const {owner}=stdioFixture();owner.processAttach();owner.processDllEntryPrefix();owner.processDllInitializerPrefix();owner.processDllVersionQueryPrefix();owner.processDllFilenameCopy();const result=owner.processDllModuleLookup({selection:'current-sharedbase-version-query',missingExportLastError:0,successLastError:'preserve'} as never);expect(result).toEqual({known:false,reason:'Explicit current-module import outcome selection required'});expect(owner.snapshot().dllModuleImports).toBeNull();
+});
+
+it('rejects a changed copied module filename without acquiring a library reference',()=>{
+ const {owner}=stdioFixture();owner.processAttach();owner.processDllEntryPrefix();owner.processDllInitializerPrefix();owner.processDllVersionQueryPrefix();owner.processDllFilenameCopy();owner.snapshot().caseState!.stack!.snapshot().sharedDllVersionFrame!.filename.writeUnsigned(0,88,1);
+ expect(owner.processDllModuleLookup({selection:'current-sharedbase-version-query',missingExportLastError:127,successLastError:'preserve'})).toEqual({known:false,reason:'Original current-module filename required'});expect(owner.snapshot().dllModuleState!.additionalReferences).toBe(0);expect(owner.snapshot().caseState!.stack!.snapshot().calls.find(call=>call.site==='1004c5a6')!.returned).toBe(false);
+});
+it('rejects changed version export evidence before executing the module import',()=>{
+ const {owner}=stdioFixture();owner.processAttach();owner.processDllEntryPrefix();owner.processDllInitializerPrefix();owner.processDllVersionQueryPrefix();owner.processDllFilenameCopy();const original=dllEntrySource.versionExportLookup.namesSha256;
+ try{dllEntrySource.versionExportLookup.namesSha256='00'.repeat(32);expect(owner.processDllModuleLookup({selection:'current-sharedbase-version-query',missingExportLastError:127,successLastError:'preserve'})).toEqual({known:false,reason:'Original current SharedBase export evidence required'});expect(owner.snapshot().dllModuleImports).toBeNull();expect(owner.snapshot().caseState!.stack!.snapshot().calls.some(call=>call.site==='1004c5a6')).toBe(false);}finally{dllEntrySource.versionExportLookup.namesSha256=original;}
+});

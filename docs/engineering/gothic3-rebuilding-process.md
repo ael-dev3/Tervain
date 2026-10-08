@@ -10272,3 +10272,42 @@ The full suite passes 2,888 tests across 272 files (231.67 seconds). Main
 integration changes no validated file content. Publication is pending.
 Version resources, logging,
 full DLL startup, Game/world activation and campaign completion remain unfinished.
+
+
+## Current SharedBase module reference backend (work in progress, 2026-10-08)
+
+The explicit current-module version-query selection now retains the platform's
+canonical SharedBase image and one stable opaque module capability. Acquisitions
+and releases balance additional library references while preserving the current
+image. The captured export-table receipt establishes the absent DllGetVersion
+result. Copied/foreign handles, unsupported lookup names and ended platform
+lifetimes are rejected. This backend does not yet service the pending interpreter
+import frames or execute DLL attach/detach.
+
+The reference behavior follows the documented
+[LoadLibraryA](https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-loadlibrarya)
+and [FreeLibrary](https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-freelibrary)
+contracts. Four focused checks and typechecking pass. Import integration, full
+DLL startup, Game/world activation and campaign completion remain unfinished.
+
+## Original current-module import continuation (work in progress, 2026-10-08)
+
+The retained version-query frame now services its original LoadLibraryA,
+GetProcAddress and FreeLibrary CALLs through owner-bound import capabilities.
+The selected current SharedBase module profile supplies a canonical opaque
+handle and balances its additional references. Captured export evidence proves
+DllGetVersion is absent; the selected missing-export outcome records LastError
+127. The interpreter follows the original branch, clears BL and releases the
+extra reference before stopping at resource fallback address 1004c62e.
+
+The actual stack return words, filename bytes, procedure-name literal and
+import-slot identities remain connected to the owning startup frame. Unknown
+filenames, changed source receipts and an unsupported profile fail without
+inventing a successful module lookup. Repeated continuation requests preserve
+the stopped state. This selected backend does not execute DLL attach/detach.
+
+All 298 focused checks, typechecking and the production build pass. The full
+local suite passes 2,896 tests across 273 files (187.10 seconds). This
+continuation has not been published. Version
+resource imports, logging, complete DLL startup, world activation and campaign
+completion remain unfinished.

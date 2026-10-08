@@ -48,7 +48,7 @@ type WordRecord = Readonly<{ value: number; mask: number; provenance?:
   Readonly<{ kind: 'process'; pointer: NativeBytePointer }> |
   Readonly<{ kind: 'heap'; heap: NativeWin32HeapCapability }> |
   Readonly<{ kind: 'allocation'; allocation: Allocation; offset: number; pointer: NativeBytePointer }> |
-  Readonly<{ kind: 'platform'; object: object; category: NativeStandardIoCapabilityKind | NativeArgvImportKind | 'GetModuleHandleA' | 'GetProcAddress' | 'IsProcessorFeaturePresent' | 'InitializerTlsGetValue' | 'InitializerPtdGetter' | 'InitializerEncodePointer' | 'InitializerDecodePointer' | 'InitializerPoolHeapAlloc' | 'InitializerCrtHeapFree' | 'InitializerPoolVirtualAlloc' | 'InitializerHeapSize' | 'InitializerInitializeSection' | 'InitializerMemorySectionInitialize' | 'InitializerMemorySectionEnter' | 'InitializerMemorySectionLeave' | 'InitializerEncodedCode' | 'DllLstrcpyA' }> |
+  Readonly<{ kind: 'platform'; object: object; category: NativeStandardIoCapabilityKind | NativeArgvImportKind | 'GetModuleHandleA' | 'GetProcAddress' | 'IsProcessorFeaturePresent' | 'InitializerTlsGetValue' | 'InitializerPtdGetter' | 'InitializerEncodePointer' | 'InitializerDecodePointer' | 'InitializerPoolHeapAlloc' | 'InitializerCrtHeapFree' | 'InitializerPoolVirtualAlloc' | 'InitializerHeapSize' | 'InitializerInitializeSection' | 'InitializerMemorySectionInitialize' | 'InitializerMemorySectionEnter' | 'InitializerMemorySectionLeave' | 'InitializerEncodedCode' | 'DllLstrcpyA' | 'DllVersionModule' }> |
   Readonly<{ kind: 'source'; type: 'code' | 'image'; address: string; fields?: NativeHeapObjectViews }> |
   Readonly<{ kind: 'xor'; left: NativeX86Word32; right: NativeX86Word32 }> |
   Readonly<{ kind: 'neg'; word: NativeX86Word32 }> }>;
@@ -719,6 +719,35 @@ export class NativeX86ThreadStack {
       stack.#store(stack.#bank,stack.#reg('EAX'),destination);for(const name of ['ECX','EDX'] as const)stack.#store(stack.#bank,stack.#reg(name),stack.#mint(0,0));stack.#flags(0,0);stack.#ret(8);frame.copyPending=false;stack.#trace.push('1004c59f.lstrcpyANormalReturn');
       const lea=sharedDllEntryInstruction('1004c5a1'),push=sharedDllEntryInstruction('1004c5a5');if(lea.instruction!=='LEA ECX,[ESP + 0x24]'||push.instruction!=='PUSH ECX')throw new Error('Original library filename argument setup required');
       const esp=stack.#address(stack.#load(stack.#bank,stack.#reg('ESP')));stack.#store(stack.#bank,stack.#reg('ECX'),stack.#stackWord(esp+36));stack.#trace.push('1004c5a1.'+lea.instruction);stack.#push(stack.#load(stack.#bank,stack.#reg('ECX')));stack.#trace.push('1004c5a5.'+push.instruction);stack.#currentPc=stack.#source('code','1004c5a6');throw new Error('Original SharedBase LoadLibraryA binding pending at 1004c5a6');
+    }catch(error){stack.#phase='blocked';stack.#boundary=reason(error);return unknown(stack.#boundary);}
+  }
+  static runSharedDllModuleLookup(stack:NativeX86ThreadStack,controller:object):NativeValue<number>{
+    const proof=NativeSharedCrtOwner.dllEntryStackArgumentsForPlatform(stack.#platform,controller);if(!proof.known)return proof;
+    try{
+      const frame=stack.#sharedDllVersionFrame,hooks=proof.value.modules;if(graphs.get(stack.#platform)!==stack||stack.#phase!=='blocked'||stack.#boundary!=='Original SharedBase LoadLibraryA binding pending at 1004c5a6'||!frame||frame.copyPending||!hooks)throw new Error('Actual returned filename-copy and pending module import required');
+      stack.#physical(stack.#stack);stack.#physical(stack.#bank);stack.#boundary=null;stack.#phase='running';let pc='1004c5a6';
+      const module=(word:NativeX86Word32):object=>{const p=stack.#record(word).provenance;if(p?.kind!=='platform'||p.category!=='DllVersionModule')throw new Error('Actual retained version module handle required');return p.object;};
+      const string=(word:NativeX86Word32):string=>{const p=stack.#record(word).provenance;let fields:NativeHeapObjectViews,offset:number;if(p?.kind==='stack'){fields=stack.#stack;offset=p.offset;if(offset!==frame.entryEsp-260)throw new Error('Original library filename stack pointer required');}else if(p?.kind==='shared-local'&&p.fields===hooks.procedureName){fields=p.fields;offset=p.offset??0;}else throw new Error('Actual module import string required');let text='';for(let i=offset;i<fields.bytes.length;i++){const value=NativeHeapObjectViews.prototype.readUnsigned.call(fields,i,1);if(value===0)return text;text+=String.fromCharCode(value);}throw new Error('Owned module import string terminator required');};
+      for(let operation=0;operation<30;operation++){
+        const row=sharedDllEntryInstruction(pc),text=row.instruction,next=(parseInt(pc,16)+row.bytes.length/2).toString(16);stack.#currentPc=stack.#source('code',pc);stack.#trace.push(pc+'.'+text);
+        if(/^CALL dword ptr \[0x(102f9640|102f9648|102f9644)\]$/.test(text)){
+          const address=text.match(/0x([0-9a-f]+)/)![1]!,binding=hooks.imports[address];if(!binding||NativeHeapObjectViews.prototype.pointer.call(binding.slot,0).get()!==binding.procedure)throw new Error('Actual module import slot capability required');stack.#call(pc,next);const cursor=stack.#address(stack.#load(stack.#bank,stack.#reg('ESP')));let result:NativeX86Word32,bytes:number;
+          if(pc==='1004c5a6'&&address==='102f9640'){const handle=hooks.acquire(string(stack.#load(stack.#stack,cursor+4)));result=stack.#mint(0,0,{kind:'platform',object:handle,category:'DllVersionModule'});bytes=4;}
+          else if(pc==='1004c5b8'&&address==='102f9648'){const value=hooks.lookup(module(stack.#load(stack.#stack,cursor+4)),string(stack.#load(stack.#stack,cursor+8)));if(value!==null)throw new Error('Captured absent version export required');result=stack.#mint(0,0xffffffff);bytes=8;}
+          else if(pc==='1004c624'&&address==='102f9644'){result=stack.#mint(hooks.release(module(stack.#load(stack.#stack,cursor+4))),0xffffffff);bytes=4;}
+          else throw new Error('Original module import call site required');
+          stack.#store(stack.#bank,stack.#reg('EAX'),result);for(const name of ['ECX','EDX'] as const)stack.#store(stack.#bank,stack.#reg(name),stack.#mint(0,0));stack.#flags(0,0);stack.#ret(bytes);pc=next;
+        }else if(text==='MOV ESI,EAX'){stack.#store(stack.#bank,stack.#reg('ESI'),stack.#load(stack.#bank,stack.#reg('EAX')));pc=next;}
+        else if(text==='TEST ESI,ESI'){module(stack.#load(stack.#bank,stack.#reg('ESI')));stack.#flags(0,0x40);pc=next;}
+        else if(text==='TEST EAX,EAX'){const value=stack.#numeric(stack.#load(stack.#bank,stack.#reg('EAX')),4);stack.#logicalFlags(value,0xffffffff,4);pc=next;}
+        else if(text==='PUSH 0x100e8210'){stack.#push(stack.#mint(0,0,{kind:'shared-local',fields:hooks.procedureName}));pc=next;}
+        else if(text==='PUSH ESI'){stack.#push(stack.#load(stack.#bank,stack.#reg('ESI')));pc=next;}
+        else if(text==='XOR BL,BL'){const before=stack.#record(stack.#load(stack.#bank,stack.#reg('EBX')));if(before.provenance)throw new Error('Actual scalar version-query BL required');stack.#store(stack.#bank,stack.#reg('EBX'),stack.#mint((before.value&0xffffff00)>>>0,((before.mask&0xffffff00)|255)>>>0));stack.#logicalFlags(0,255,1);pc=next;}
+        else if(text==='TEST BL,BL'){const value=stack.#record(stack.#load(stack.#bank,stack.#reg('EBX')));if((value.mask&255)!==255)throw new Error('Known version-query BL required');stack.#logicalFlags(value.value&255,255,1);pc=next;}
+        else if(/^J(Z|NZ) 0x[0-9a-f]+$/.test(text)){const flags=stack.#record(stack.#load(stack.#bank,36));if((flags.mask&0x40)!==0x40)throw new Error('Known module branch zero flag required');const zero=(flags.value&0x40)!==0,taken=text.startsWith('JZ ')?zero:!zero;pc=taken?text.match(/0x([0-9a-f]+)/)![1]!:next;}
+        else if(pc==='1004c62e'){throw new Error('Original SharedBase version resource fallback pending at 1004c62e');}
+        else throw new Error('Unowned version module instruction at '+pc);
+      }throw new Error('Version module instruction budget exceeded');
     }catch(error){stack.#phase='blocked';stack.#boundary=reason(error);return unknown(stack.#boundary);}
   }
   static runSharedInitializers(stack:NativeX86ThreadStack,controller:object):NativeValue<number>{
