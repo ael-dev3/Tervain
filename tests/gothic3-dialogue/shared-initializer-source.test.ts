@@ -7,7 +7,7 @@ const base='assets/gothic3/shared-initializer-source/';
 const source=JSON.parse(readFileSync(base+'source.json','utf8'));
 const sha=(raw:Uint8Array)=>createHash('sha256').update(raw).digest('hex');
 it('matches every generated initializer row and header to original admitted receipts',()=>{
-  for(const body of ['100aa632','100ae900','100ae880','100ae8b0','100a78fe','100a788e','100b4407','100b448b','100b444f','100ae27b','100aa47d','100a7265','100aef10','100b1854','100b4b6b','100ce095','100ce045','100aeb68','100aebad','100bef05','100ce0f5','100a72d0','100a7294','100a71ac','100ae2f2','100b10d6','100aa453','100aa45c','100a72ca','100e1660','100e1440','100e1450','100e1470','100e14b0','100e14c0','100e14d0','100e14e0','100e14f0','100e1500','100e1510','100e15d0','100135f0','10013240','10020bf0','1003d410','1003d2f0','10047f10','10045da0','100aabd2','100aaaf6','100a7980','1003c650','1003e090','100a7a00']){
+  for(const body of ['100aa632','100ae900','100ae880','100ae8b0','100a78fe','100a788e','100b4407','100b448b','100b444f','100ae27b','100aa47d','100a7265','100aef10','100b1854','100b4b6b','100ce095','100ce045','100aeb68','100aebad','100bef05','100ce0f5','100a72d0','100a7294','100a71ac','100ae2f2','100b10d6','100aa453','100aa45c','100a72ca','100e1660','100e1440','100e1450','100e1470','100e14b0','100e14c0','100e14d0','100e14e0','100e14f0','100e1500','100e1510','100e15d0','100e1600','1008e900','100a7099','100b0902','100135f0','10013240','10020bf0','1003d410','1003d2f0','10047f10','10045da0','100aabd2','100aaaf6','100a7980','1003c650','1003e090','100a7a00']){
     for(const row of readFileSync(base+body+'.asm.txt','utf8').trim().split('\n')){
       const [address,bytes,instruction]=row.split(' | ');
       const emitted=sharedInitializerInstruction(address!);
@@ -30,8 +30,8 @@ it('pins original SharedBase source identity without granting initializer execut
   expect(source.verifiedAgainstOriginalPE).toBe(true);
   expect(source.sourceOnly).toBe(true);
   expect(source.initializerExecutionCompleted).toBe(false);
-  expect(Object.keys(source.methods)).toHaveLength(64);
-  expect((Object.values(source.methods) as Method[]).reduce((sum,m)=>sum+m.instructionCount,0)).toBe(1708);
+  expect(Object.keys(source.methods)).toHaveLength(70);
+  expect((Object.values(source.methods) as Method[]).reduce((sum,m)=>sum+m.instructionCount,0)).toBe(1933);
 });
 it('preserves every admitted instruction byte and separates unavailable C exports',()=>{
   let recovered=0;
@@ -106,7 +106,7 @@ it('captures the section write flag and cold conversion/exit/RTC storage',()=>{
   expect(source.coldGlobals.rtcTerminators.raw).toBe('00'.repeat(256));
 });
 it('retains original CALL encodings and distinguishes imports from indirect callbacks',()=>{
-  expect(source.calls).toHaveLength(137);
+  expect(source.calls).toHaveLength(159);
   for(const call of source.calls){
     const raw=Buffer.from(call.raw,'hex');
     if(call.kind==='direct'){
@@ -240,7 +240,7 @@ it('retains original pool globals, bitmap geometry and VirtualAlloc request evid
   const bitmap=readFileSync(base+'1003e090.asm.txt','utf8');
   expect(bitmap).toContain('SCASD.REPE ES:EDI');expect(bitmap).toContain('BTR.LOCK [EDI],EDX');
   expect(source.calls.find((call:{address:string})=>call.address==='10047f7c').targetVA).toBe('100061cc');
-  expect(source.calls).toHaveLength(137);
+  expect(source.calls).toHaveLength(159);
 });
 
 it('pins descriptor CRT new/malloc bodies and the original HeapAlloc IAT',()=>{
@@ -276,4 +276,10 @@ it('pins original memcpy body, control-flow join and forward dispatch tables',()
 });
 it('captures the original forty-byte Root static object with loader-zero provenance',()=>{
  const root=source.coldGlobals.rootStaticObject;expect(root).toMatchObject({address:'102f4618',bytes:40,raw:'00'.repeat(40),sha256:'2c34ce1df23b838c5abf2a7f6437cca3d3067ed509ff25f11df6b11b582b51eb',section:{fileBackedBytes:0,loaderZeroFillBytes:40},scope:'cold-original-image',liveValueCaptured:false});expect(sha(Buffer.from(root.raw,'hex'))).toBe(root.sha256);
+});
+
+it('pins original class-name getters and their type-info dependency without granting lower execution',()=>{
+ expect(source.methods.initializer142Getter.bodyInstructionBytesSha256).toBe('b5e596b1242dcc3a60689521e40148d38ae3082c3f776bea04a77a1348fd7285');expect(source.methods.initializer143Getter.bodyInstructionBytesSha256).toBe('0ba2997f34d67deab166846b174fc31066f4317663b823a462322cfe8ca8f885');expect(source.methods.typeInfoName.bodyInstructionBytesSha256).toBe('cd650ac75be4e2b54abe9afe24a8ffd0490ea4f16050f7542157fbe31e96b1d3');
+ expect(sharedInitializerInstruction('1000619f')).toEqual({address:'1000619f',bytes:'e95c870800',instruction:'JMP 0x1008e900'});expect(sharedInitializerInstruction('100b0902').instruction).toBe('PUSH 0xc');
+ expect(source.coldGlobals.className142State.raw).toBe('00'.repeat(12));expect(source.coldGlobals.className143State.raw).toBe('00'.repeat(12));expect(source.coldGlobals.typeInfoNode.raw).toBe('00'.repeat(8));expect(Buffer.from(source.coldGlobals.className142TypeInfo.raw,'hex').subarray(8).toString('ascii')).toBe('.?AVbCObsoleteClass@@\0\0\0');
 });

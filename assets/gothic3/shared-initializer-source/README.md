@@ -305,3 +305,27 @@ The package contains 64 bodies, 1,708 instructions and 137 CALL receipts.
 Capturing memcpy's complete body does not establish all its execution paths.
 Other allocator pools, backward/unaligned/REP/SSE copies, remaining startup and
 campaign completion remain unfinished.
+
+## Class-name getter dependencies — 8 October 2026
+
+The package now captures both class-name getters (`1000619f -> 1008e900`
+and `10005e5c -> 1008e970`), `type_info::name`, `_Name_base`, class-name
+unmangling and strstr: 70 bodies, 1,933 instructions and 159 CALL receipts.
+Cold receipts preserve their guard/string/published storage, original decorated
+type names and the type-info node.
+
+Initializer 141 constructs `_Root` in the second owned slot and returns after
+registering shutdown. Initializer 142 then executes its getter guard prefix and
+the type-info wrapper. Execution stops at `100a709e -> 100b0902`. The lower
+name allocation/demangling body is captured but not admitted for execution.
+Initializer 143 and the unmangling/strstr bodies are also source evidence only.
+No generated evidence alone establishes full startup or playable completion.
+
+### Live `_Name_base` frame prefix
+
+Original body `100b0902` is emitted for source execution. Its cold-cache prefix
+enters EH4 using pinned scope `100f8b20` and reaches the original demangler CALL
+`100b0931 -> 100c6142`. The frame remains active, its prior FS and register
+identities retained. The lower demangler and the remaining allocation, locking,
+copy and cleanup paths still require implementation. Emitting the full body
+does not establish those paths.

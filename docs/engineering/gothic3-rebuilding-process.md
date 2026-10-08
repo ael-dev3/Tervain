@@ -9665,3 +9665,39 @@ This checkpoint is not published.
 The preceding Root checkpoint, PR 134, merged at
 `ba1aa1c48561502bf05434ecf09377fdd09cf63f`. Pages run 37790192791 is in progress;
 a merge alone does not establish successful deployment.
+
+### Local class-name initializer 142 prefix — 8 October 2026
+
+Original getter `1000619f -> 1008e900` copies the cold published pointer on
+its first guard branch and sets guard bits one and two in its retained image
+storage. Its original `type_info::name` wrapper forwards the actual receiver
+and type-info node to `_Name_base`. Execution stops at `100a709e -> 100b0902`;
+the cached name is still NULL, the class-name string remains unconstructed,
+and initializer 142 has not returned. The first already-set guard preserves
+its existing stored copy. No shutdown callback for this getter is registered.
+
+The generator captures both getters and the native name/demangling/search
+bodies against the installed DLL. Source evidence now contains 70 bodies,
+1,933 instructions and 159 CALL receipts. All 129 generated files and the
+instruction module reproduce exactly. The 224 focused checks and typechecking
+and the production build pass. The full suite passes 2,781 tests across
+259 files (169.43 seconds). This work is local.
+
+PR 134 Pages run 37790192791 completed successfully. PR 135's `_Root` validation
+is still running; it has not merged or deployed.
+
+### Local type-info name exception frame — 8 October 2026
+
+The live SharedBase owner retains the original 28-byte exception scope at
+`100f8b20`. Original `_Name_base` instructions enter the existing EH4 helper,
+with the actual scope, twelve-byte local reservation, saved registers and FS
+chain. The helper's return verifies the encoded scope and prior FS relation.
+The frame remains entered and unreturned while the cold cached-name path
+prepares its original six demangler arguments, including flags `0x2800`.
+Execution stops at `100b0931 -> 100c6142`; no demangled name has been allocated
+or published. A modified scope rejects admission before frame entry.
+
+Typechecking and 226 focused tests pass. All 129 generated source files and
+the instruction module reproduce exactly. The production build and full suite pass: 2,783 tests across 259 files
+(185.99 seconds). This checkpoint remains local. PR 135 passed CI run 37790581670 and
+merged; its Pages deployment result must be checked separately.
