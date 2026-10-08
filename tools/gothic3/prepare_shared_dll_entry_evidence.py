@@ -107,6 +107,10 @@ def capture(study, output):
         0x100010e1: 'dllMessageNewHolder',
         0x10007441: 'dllMessageHolderAllocate',
         0x10006c1c: 'dllMessageErrorGet',
+        0x10008b11: 'dllMessageSpyGet',
+        0x100089e5: 'dllMessageSpyCreate',
+        0x10007cac:'dllMessageRegister',0x1000631b:'dllMessageReserve',
+        0x10004133:'dllErrorBufferMalloc',0x100052fe:'dllErrorBufferHeapAllocate',0x10007644:'dllLargePoolDispatch',0x10007aa9:'dllLargePoolInitialize',
         0x10001db1:'dllErrorCreate',0x100032c4:'dllErrorInvalidate',0x10001c21:'dllMessageRemove',
     })
     pe = native.PE(binary)
@@ -140,6 +144,10 @@ def capture(study, output):
             'instruction': f'JMP dword ptr [0x{iat:08x}]', 'import': receipt})
     result['coldImages'] = []
     for label, address, size in [
+        ('dllSpyShutdownSource',0x100e2890,41),
+        ('dllSpyState',0x101ab11c,32),('dllSpyGuard',0x101ab144,4),
+        ('dllErrorShutdownSource',0x100e2770,22),
+        ('dllErrorBufferScope',0x100f8338,12),('dllLargePoolBins',0x10144214,0x4004),('dllLargePoolRegionFirst',0x10148218,4),('dllLargePoolRegionCount',0x102fb04c,4),
         ('dllErrorState',0x10142a58,44),('dllErrorGuard',0x10142a8c,4),
         ('dllMessageState', 0x10197d6c, 32),
         ('dllMessageGuard', 0x10197d94, 4),
@@ -160,7 +168,7 @@ def capture(study, output):
         raw, section = image_bytes(pe, address, size)
         result['coldImages'].append({'label': label, 'address': f'{address:08x}',
             'size': size, 'bytes': raw.hex(), 'section': section})
-    for label, address in [('dllLogSourceFile', 0x100e7df8), ('procedureName', 0x100e8210), ('translationQuery', 0x100e81ec),
+    for label, address in [('dllSpyWindowTitle',0x100e8114),('dllLogSourceFile', 0x100e7df8), ('procedureName', 0x100e8210), ('translationQuery', 0x100e81ec),
             ('translatedVersionQuery', 0x100e81b4), ('localeVersionQuery', 0x100e8188),
             ('versionDelimiter', 0x100e820c)]:
         value = pe.string(address)

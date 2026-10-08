@@ -4,6 +4,121 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local checkpoint — 9 October 2026: SpyAdmin construction and shutdown registration
+
+Original `1004b4af -> 100089e5` now removes and registers SpyAdmin's handler
+through the existing MessageAdmin getter, Remove, Register and Reserve bodies.
+The existing 112-byte record allocation is retained: count becomes 2 and capacity
+remains 9. ErrorAdmin's record stays intact; the second record stores handler
+`10008c06`, the actual SpyAdmin context and priority 1.
+
+Original `1004b83d` calls FindWindowA with NULL class and `[zSpy]`. The platform
+retains a copied diagnostic-window profile at construction and validates its
+service and window identities. The declared empty profile returns NULL, so the
+original constructor restores its saved registers and returns. A supplied window
+retains its opaque identity and follows the original positive branch, stopping
+at unsupported RegisterWindowMessageA (`1004b855`); it never takes the NULL path.
+This profile is separate from observations of native Windows host windows.
+
+Original `1004b4b9 -> 100a72d0` registers the encoded shutdown address `100e2890`.
+Its 41 original bytes are captured; registration does not execute shutdown.
+The SpyAdmin getter returns, and startup reaches the SpieAdmin getter at
+`1004979e -> 10001334`.
+
+Typechecking, focused NULL/positive profile checks, exact DLL regeneration and
+the production build pass. All 2,972 tests across 275 files pass (223.04 seconds).
+The DLL package contains 45 methods and 2,856 body instructions. Complete DLL
+attachment, world activation and campaign integration remain unfinished.
+
+## Local checkpoint — 9 October 2026: SpyAdmin cold getter
+
+Original `10049799 -> 10008b11 -> 1004b480` now executes the SpyAdmin cold
+guard, initializes the physical 24-byte critical section in its 32-byte object,
+and clears the window and mutex fields. The section retains the actual object
+backing and offset. Execution reaches the original constructor call at
+`1004b4af -> 100089e5`; that constructor remains pending.
+
+The getter's body and cold state are captured from the matching DLL. The DLL
+package now contains 44 methods and 2,788 body instructions. Source and emitted
+instruction regeneration compare exactly. Typechecking, the focused getter
+check, the production build and all 2,968 tests across 275 files pass (220.58
+seconds for the full suite). This is local component execution; complete DLL
+startup, live world activation and campaign integration remain unfinished.
+
+## Local checkpoint — 9 October 2026: ErrorAdmin termination registration
+
+Original `100219ad -> 100a72d0` now appends the encoded ErrorAdmin termination
+callback `100e2770` through the existing CRT exit-table walker, lock and pointer
+codec. Its 22 original bytes are captured from the hash-pinned DLL. Registration
+retains code identity; it does not execute the shutdown function. The callback
+occupies the nineteenth exit-table entry, with the actual cursor advancing from
+72 to 76 bytes. The getter and MessageAdmin Create tail-call return, and execution
+reaches `10049799 -> 10008b11`, the original SpyAdmin getter.
+
+This continuation exposed missing local-view registration for initializer calloc
+allocations. Those allocations already had owned heap spans; their actual view,
+backing and byte/mask identities are now retained when the allocator returns,
+allowing later DLL continuations to validate the exit-table storage.
+
+Focused execution, 41 source checks, typechecking, exact DLL evidence regeneration
+and the production build pass. The full suite passes 2,967 tests across 275
+files (235.86 seconds). SpyAdmin and
+SpieAdmin startup, full DLL attachment, live world activation and campaign
+integration remain unfinished.
+
+## Local checkpoint — 9 October 2026: ErrorAdmin callback registration
+
+Original MessageAdmin Register (`10007cac -> 10049650`) reserves nine handler
+records through `1000631b -> 10049d80`. Its NULL-old-buffer request is 108 bytes;
+the actual allocation table selects the dedicated 112-byte pool at
+`10003102 -> 100485f0`. Original initialization allocates a 0x700000-byte region,
+registers its data area and fills the bitmap for 65,462 slots. The allocator
+claims its first slot and the reserve code zeroes the nine-record span.
+
+The original record stores retain handler address `10002df6`, priority 1 and
+the actual ErrorAdmin context pointer. Array count/capacity stores execute,
+common locking and saved registers restore, and the constructor returns to
+the ErrorAdmin getter. Execution reaches termination registration at
+`100219ad -> 100a72d0`. The shutdown callback has been traced; its registration
+and the subsequent SpyAdmin/SpieAdmin getters remain required.
+
+Focused behavior and 40 source checks, typechecking, exact regeneration of both
+packages and the production build pass. The full suite passes 2,965 tests
+across 275 files (267.22 seconds).
+The initializer package contains 137 bodies and 5,500 instructions; the DLL
+package contains 43 methods and 2,772 instructions. This remains local startup
+component work; world and campaign integration remain unfinished.
+
+## Local checkpoint — 9 October 2026: variable-size ErrorAdmin buffer
+
+The original ErrorAdmin buffer Malloc (`10004133 -> 1003d8a0`) now executes its
+owned SEH frame, common MemoryAdmin locking and NULL-old-buffer branch through
+`100052fe -> 1003d790`. The 12,500-byte request selects the variable-size pool
+`10007644 -> 1003d1f0`. Its cold path allocates a 4 MiB region, initializes the
+original size-bin and region-list state, and splits a 13-unit block from the
+region. The returned payload starts at offset 16 and has 13,296 usable bytes;
+its header retains the original allocated marker and unit count. The remaining
+4,083-unit block stays free and linked into the original size bins.
+
+Payload views retain their physical region identity and require the original
+live block header. The common lock, FS and saved registers restore before the
+constructor continues. Its two additional holders allocate through original CRT
+new calls. Execution reaches MessageAdmin callback registration at
+`10022814 -> 10007cac`; the handler reserve and subsequent constructor return
+remain pending.
+
+The selected cold region path captures the first region-list cell. Additional
+region-list growth is not admitted by that capture. Focused behavior and source
+checks, typechecking, exact DLL evidence regeneration and the production build
+pass. The full suite passes 2,963 tests across 275 files (243.52 seconds).
+The DLL package contains 41 methods and
+2,650 instructions. This work remains local; it does not establish complete DLL
+startup, live world activation or playable campaign progression.
+
+PR #162 merged the preceding logging/ErrorAdmin prefix at
+`4d237924f7adf4246d5b6d47cace1cc74393ef04` after successful CI run `37855037370`.
+Pages run `37855751070` completed successfully.
+
 ## Local checkpoint — 9 October 2026: ErrorAdmin getter and cold invalidation
 
 The MessageAdmin Create tail-call enters the original ErrorAdmin getter at

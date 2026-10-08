@@ -78,3 +78,10 @@ describe('selected source admin platform capabilities', () => {
     expect(diagnostics.snapshot().handles).toEqual([{ path: 'zSpie.txt', closed: true }]);
   });
 });
+
+it('retains the selected diagnostic window profile and its positive handle identity',()=>{
+ const window=Object.freeze({}), supplied=new Map<string,object>([['[zSpy]',window]]), diagnostics=new NativeRuntimeDiagnostics({windows:supplied}), platform=new NativeRuntimePlatform({diagnostics});supplied.clear();expect(fact(NativeRuntimePlatform.diagnosticWindowForPlatform(platform,null,'[zSpy]'))).toBe(window);expect(NativeRuntimePlatform.ownsDiagnosticWindow(platform,window)).toBe(true);expect(NativeRuntimePlatform.ownsDiagnosticWindow(platform,{})).toBe(false);expect(NativeRuntimePlatform.diagnosticWindowForPlatform(platform,null,'other').known).toBe(false);
+});
+it('rejects substituted diagnostic services while the declared empty registry returns NULL',()=>{
+ const platform=new NativeRuntimePlatform();expect(fact(NativeRuntimePlatform.diagnosticWindowForPlatform(platform,null,'[zSpy]'))).toBe(null);Object.defineProperty(platform,'diagnostics',{value:new NativeRuntimeDiagnostics()});expect(NativeRuntimePlatform.diagnosticWindowForPlatform(platform,null,'[zSpy]').known).toBe(false);
+});
