@@ -952,7 +952,7 @@ export class NativeX86ThreadStack {
       }throw new Error('Version module instruction budget exceeded');
     }catch(error){stack.#phase='blocked';stack.#boundary=reason(error);return unknown(stack.#boundary);}
   }
-  static runSharedInitializers(stack:NativeX86ThreadStack,controller:object,mode:'cinit'|'dll-version-malloc'|'dll-language-malloc'|'dll-language-output'|'dll-language-translation'|'dll-language-translated-output'|'dll-language-version-copy'|'dll-language-free'|'dll-language-return'='cinit'):NativeValue<number>{
+  static runSharedInitializers(stack:NativeX86ThreadStack,controller:object,mode:'cinit'|'dll-version-malloc'|'dll-language-malloc'|'dll-language-output'|'dll-language-translation'|'dll-language-translated-output'|'dll-language-version-copy'|'dll-language-free'|'dll-language-return'|'dll-version-token'='cinit'):NativeValue<number>{
     const proof=NativeSharedCrtOwner.initializerStackArgumentsForPlatform(stack.#platform,controller);if(!proof.known)return proof;
     try{
       const images=proof.value.images;
@@ -960,6 +960,9 @@ export class NativeX86ThreadStack {
         NativeX86ThreadStack.#sharedArgvProof(stack,controller);
         if(!stack.#sharedEnvironmentFrame?.initializersPending||stack.#sharedInitializerFrame||stack.#phase!=='running')throw new Error('Actual pending cinit source frame required');
         stack.#sharedInitializerFrame={controller,entryEsp:stack.#address(stack.#load(stack.#bank,stack.#reg('ESP'))),operations:0,ownershipReturned:null,conversionInstalled:false,oldFs:stack.#load(stack.#bank,32),fsRestored:false,moduleCalls:0,procedureCalls:0,featureCalls:0,divisionQueryResult:null,initializerResult:null};
+      }else if(mode==='dll-version-token'){
+        const cursor=stack.#address(stack.#load(stack.#bank,stack.#reg('ESP'))),call=stack.#calls.at(-1);
+        if(stack.#phase!=='blocked'||stack.#boundary!=='Original SharedBase version tokenizer pending at 100acd00'||call?.site!=='1004c42a'||call.returned||call.position!==cursor||stack.#load(stack.#stack,cursor)!==call.returnWord)throw new Error('Actual pending original version strtok frame required');stack.#dllMemoryController=controller;stack.#boundary=null;stack.#phase='running';
       }else if(mode==='dll-language-return'){
         const language=stack.#sharedDllLanguageFrame,call=stack.#calls.findLast(row=>row.site==='1004c3f0');
         if(stack.#phase!=='blocked'||stack.#boundary!=='Original SharedBase language cleanup returned at 1004c3f5'||!language||call?.site!=='1004c3f0'||!call.returned||stack.#address(stack.#load(stack.#bank,stack.#reg('ESP')))!==call.position+8)throw new Error('Actual returned language cleanup frame required');stack.#dllMemoryController=controller;stack.#boundary=null;stack.#phase='running';
@@ -1089,14 +1092,15 @@ export class NativeX86ThreadStack {
       const pointerFlags=(a:number,b:number)=>{const result=(a-b)>>>0;if(a===b)stack.#arithmeticFlags(0,0,0,4,true);else stack.#flags((a<b?1:0)|(stack.#parity(result&255)?4:0)|(result&0x80000000?0x80:0),0xc5);};
       const object=(word:NativeX86Word32):object=>{const value=stack.#record(word).provenance;if(value?.kind!=='platform')throw new Error('Actual initializer module/procedure capability required');return value.object;};
       const string=(word:NativeX86Word32):string=>{let text='';for(let offset=0;;offset++){const memory=stack.#memory(stack.#offsetWord(word,offset),1),byte=NativeHeapObjectViews.prototype.readUnsigned.call(memory.fields,memory.offset,1);if(byte===0)return text;text+=String.fromCharCode(byte);}};
+      const tokenSaved=mode==='dll-version-token'?{esp:stack.#address(stack.#load(stack.#bank,stack.#reg('ESP'))),ebp:stack.#load(stack.#bank,stack.#reg('EBP')),ebx:stack.#load(stack.#bank,stack.#reg('EBX')),esi:stack.#load(stack.#bank,stack.#reg('ESI')),edi:stack.#load(stack.#bank,stack.#reg('EDI'))}:null;
       const freeSaved=mode==='dll-language-free'?{esp:stack.#address(stack.#load(stack.#bank,stack.#reg('ESP'))),ebp:stack.#load(stack.#bank,stack.#reg('EBP')),ebx:stack.#load(stack.#bank,stack.#reg('EBX')),esi:stack.#load(stack.#bank,stack.#reg('ESI')),edi:stack.#load(stack.#bank,stack.#reg('EDI')),fs:stack.#load(stack.#bank,32)}:null;
       let bitfieldUpdate:{fields:NativeHeapObjectViews;offset:number;original:NativeX86Word32;selected?:NativeX86Word32;xor?:NativeX86Word32;masked?:NativeX86Word32}|null=null;
       const copyUpdates=[['100c1ca2','100c1ca4','100c1ca7',15,false],['100c1caf','100c1cb1','100c1cb4',16,false],['100c1cbc','100c1cbe','100c1cc1',32,false],['100c1cc9','100c1ccb','100c1cce',64,false],['100c1cd6','100c1cd8','100c1cde',128,false],['100c1ce6','100c1ce8','100c1cee',2048,false],['100c1b79','100c1b7d','100c1b80',15,false],['100c1b89','100c1b8b','100c1b8e',16,false],['100c1b96','100c1b98','100c1b9b',32,false],['100c1ba3','100c1ba5','100c1ba8',64,false],['100c1bb0','100c1bb2','100c1bb8',128,false],['100c1bc3','100c1bc6','100c1bcc',256,true],['100c1bd5','100c1bd7','100c1bdd',512,false],['100c1be5','100c1be7','100c1bed',1024,false],['100c1bf5','100c1bf7','100c1bfd',2048,false]] as const;
       let copyUpdate:{spec:typeof copyUpdates[number];fields:NativeHeapObjectViews;offset:number;original:NativeX86Word32;selected:NativeX86Word32;xor?:NativeX86Word32;masked?:NativeX86Word32}|null=null;
-      let pc=mode==='dll-language-return'?'1004c3f5':mode==='dll-language-free'?'10002112':mode==='dll-language-version-copy'?'1004c3a5':mode==='dll-language-translated-output'?'100aa234':mode==='cinit'?'100aa632':mode==='dll-language-output'?'100b5355':mode==='dll-language-translation'?'1004c335':'10003cd8';
+      let pc=mode==='dll-version-token'?'100acd00':mode==='dll-language-return'?'1004c3f5':mode==='dll-language-free'?'10002112':mode==='dll-language-version-copy'?'1004c3a5':mode==='dll-language-translated-output'?'100aa234':mode==='cinit'?'100aa632':mode==='dll-language-output'?'100b5355':mode==='dll-language-translation'?'1004c335':'10003cd8';
       let outputOperations=0;while(true){
         if((mode==='dll-language-output'||mode==='dll-language-translated-output')&&++outputOperations>100000)throw new Error('Original output engine instruction budget exceeded');
-        const row=(mode==='dll-language-output'||mode==='dll-language-translated-output')||mode==='dll-language-translation'||mode==='dll-language-version-copy'||mode==='dll-language-free'||mode==='dll-language-return'?(()=>{try{return sharedDllEntryInstruction(pc);}catch{return sharedInitializerInstruction(pc);}})():sharedInitializerInstruction(pc),[opcode,...rest]=row.instruction.replace(/^\w+/,opcode=>opcode.toUpperCase()).replace(/\b(?:eax|ebx|ecx|edx|esi|edi|ebp|esp)\b/g,register=>register.toUpperCase()).split(' '),text=rest.join(' ');
+        const row=(mode==='dll-language-output'||mode==='dll-language-translated-output')||mode==='dll-language-translation'||mode==='dll-language-version-copy'||mode==='dll-language-free'||mode==='dll-language-return'||mode==='dll-version-token'?(()=>{try{return sharedDllEntryInstruction(pc);}catch{return sharedInitializerInstruction(pc);}})():sharedInitializerInstruction(pc),[opcode,...rest]=row.instruction.replace(/^\w+/,opcode=>opcode.toUpperCase()).replace(/\b(?:eax|ebx|ecx|edx|esi|edi|ebp|esp)\b/g,register=>register.toUpperCase()).split(' '),text=rest.join(' ');
         frame.operations++;stack.#trace.push(pc+'.sharedInitializer.'+opcode);stack.#currentPc=stack.#source('code',pc);
         if(pc==='100a7a14'){
           const destination=stack.#load(stack.#bank,stack.#reg('EDI')),input=stack.#load(stack.#bank,stack.#reg('ESI'));
@@ -1186,9 +1190,13 @@ export class NativeX86ThreadStack {
         }else if(opcode==='OR'){const a=stack.#record(read(args[0]!)),b=stack.#record(read(args[1]!));const annihilated=(!a.provenance&&a.mask===0xffffffff&&a.value===0xffffffff)||(!b.provenance&&b.mask===0xffffffff&&b.value===0xffffffff);if((a.provenance||b.provenance)&&!annihilated)throw new Error('Actual initializer numerical OR operands required');const value=annihilated?0xffffffff:a.value|b.value,mask=annihilated?0xffffffff:(a.mask&b.mask)|(a.mask&a.value)|(b.mask&b.value);write(args[0]!,stack.#mint(value,mask));stack.#logicalFlags(value,mask,4);
         }else if(opcode==='XOR'||opcode==='AND'){
           const left=read(args[0]!),right=read(args[1]!),a=stack.#record(left),b=stack.#record(right),same=args[0]!.kind==='register'&&args[1]!.kind==='register'&&args[0]!.slot===args[1]!.slot;
+          if(mode==='dll-version-token'&&pc==='100acdb2'){
+            if(opcode!=='AND'||text!=='EAX,EBX'||b.provenance?.kind!=='shared-local'||b.provenance.fields!==images['101ab190'])throw new Error('Actual original tokenizer token-pointer mask required');const mask=stack.#numeric(left,4);if(mask!==0&&mask!==0xffffffff)throw new Error('Original tokenizer empty/nonempty mask required');write(args[0]!,mask===0?stack.#mint(0,0xffffffff):right);stack.#flags(mask===0?0x40:0,0x41);pc=next;continue;
+          }
+
           const value=opcode==='XOR'&&same?0:opcode==='XOR'?a.value^b.value:a.value&b.value;
           const mask=opcode==='XOR'&&same?0xffffffff:opcode==='AND'?(a.mask&b.mask)|((~a.value)&a.mask)|((~b.value)&b.mask):a.mask&b.mask;
-          if(pc==='100c43b7'||(mode==='dll-language-output'||mode==='dll-language-translated-output')&&pc==='100b5cb9'){const relation=a.provenance;if(opcode!=='XOR'||text!=='ECX,EBP'||relation?.kind!=='xor'||relation.right!==right||stack.#record(right).provenance?.kind!=='stack')throw new Error('Actual saved identifier cookie and same EBP required');const cookie=stack.#record(relation.left);stack.#numeric(relation.left,4);write(args[0]!,relation.left);stack.#logicalFlags(cookie.value,cookie.mask,4);pc=next;continue;}
+          if(pc==='100c43b7'||mode==='dll-version-token'&&pc==='100acdb5'||(mode==='dll-language-output'||mode==='dll-language-translated-output')&&pc==='100b5cb9'){const relation=a.provenance;if(opcode!=='XOR'||text!=='ECX,EBP'||relation?.kind!=='xor'||relation.right!==right||stack.#record(right).provenance?.kind!=='stack')throw new Error('Actual saved identifier cookie and same EBP required');const cookie=stack.#record(relation.left);stack.#numeric(relation.left,4);write(args[0]!,relation.left);stack.#logicalFlags(cookie.value,cookie.mask,4);pc=next;continue;}
           const copyStart=copyUpdates.find(spec=>spec[0]===pc);
           if(copyStart){if(opcode!=='XOR'||copyUpdate)throw new Error('Original DName copy XOR start required');const original=copyStart[4]?left:right,selected=copyStart[4]?right:left,receiver=stack.#load(stack.#bank,stack.#reg('EAX')),memory=stack.#memory(stack.#offsetWord(receiver,4),4),physical=NativeHeapObjectViews.prototype.maskedWord.call(memory.fields,memory.offset),record=stack.#record(original),originalOperand=copyStart[4]?args[0]!:args[1]!;
             if(record.value!==physical.value||record.mask!==physical.knownMask)throw new Error('Original physical copy destination required');
@@ -1234,7 +1242,7 @@ export class NativeX86ThreadStack {
           const value=stack.#numeric(read(args[0]!),4),shift=stack.#numeric(read(args[1]!),4)&31;if(shift){const result=(value>>shift)>>>0;write(args[0]!,stack.#mint(result,0xffffffff));stack.#logicalFlags(result,0xffffffff,4);const flags=stack.#record(stack.#load(stack.#bank,36));stack.#flags((flags.value&~0x801)|((value>>>(shift-1))&1),(flags.mask&~0x800)|(shift===1?0x800:0));}
         }
         else if(opcode==='SHL'){
-          const input=stack.#record(read(args[0]!)),value=input.value,shift=stack.#numeric(read(args[1]!),4)&31;if(shift){const result=(value<<shift)>>>0,mask=((input.mask<<shift)|((2**shift)-1))>>>0;write(args[0]!,stack.#mint(result,mask));stack.#logicalFlags(result,mask,4);const flags=stack.#record(stack.#load(stack.#bank,36)),carry=(value>>>(32-shift))&1,carryKnown=(input.mask>>>(32-shift))&1,overflowKnown=shift===1&&carryKnown&&((mask>>>31)&1);stack.#flags((flags.value&~0x801)|carry|(shift===1?(((result>>>31)^carry)<<11):0),(flags.mask&~0x801)|carryKnown|(overflowKnown?0x800:0));}
+          const destination=args[0]!,width:Width=destination.kind==='memory'?destination.width:destination.kind==='register'&&destination.byte?1:destination.kind==='register'&&destination.word?2:4,bits=width*8,widthMask=width===4?0xffffffff:(2**bits)-1,input=stack.#record(read(destination)),value=input.value&widthMask,count=args[1]!,shift=stack.#numeric(read(count),count.kind==='register'&&count.byte?1:4)&31;if(shift){const result=((value<<shift)&widthMask)>>>0,mask=(((input.mask<<shift)|((2**shift)-1))&widthMask)>>>0;write(destination,stack.#mint(result,mask));stack.#logicalFlags(result,mask,width);const flags=stack.#record(stack.#load(stack.#bank,36)),carry=shift<=bits?(value>>>(bits-shift))&1:0,carryKnown=shift<=bits?(input.mask>>>(bits-shift))&1:0,overflowKnown=shift===1&&carryKnown&&((mask>>>(bits-1))&1);stack.#flags((flags.value&~0x801)|carry|(shift===1?(((result>>>(bits-1))^carry)<<11):0),(flags.mask&~0x801)|carryKnown|(overflowKnown?0x800:0));}
         }
         else if(opcode==='SHR'){const value=stack.#numeric(read(args[0]!),4),shift=stack.#numeric(read(args[1]!),4);write(args[0]!,stack.#mint(value>>>shift,0xffffffff));stack.#logicalFlags(value>>>shift,0xffffffff,4);const flags=stack.#record(stack.#load(stack.#bank,36));stack.#flags((flags.value&~0x801)|((value>>>(shift-1))&1),(flags.mask&~0x800));}
         else if(opcode==='CMP'||opcode==='TEST'){
@@ -1270,6 +1278,10 @@ export class NativeX86ThreadStack {
             for(let index=0;index<12;index++)if(NativeHeapObjectViews.prototype.readUnsigned.call(table,index,1)!==parseInt(raw.slice(index*2,index*2+2),16))throw new Error('Original demangler vtable bytes required');
           }
           stack.#call(pc,next);
+          if(mode==='dll-version-token'&&pc==='1004c43c'){
+            if(stack.#numeric(callee,4)!==0x100a7942)throw new Error('Original first version atoi call required');stack.#currentPc=stack.#source('code','100a7942');throw new Error('Original SharedBase first version integer conversion pending');
+          }
+
           if(mode==='dll-language-return'&&pc==='1004c42a'){
             if(stack.#numeric(callee,4)!==0x100acd00)throw new Error('Original version strtok target required');const cursor=stack.#address(stack.#load(stack.#bank,stack.#reg('ESP'))),input=stack.#record(stack.#load(stack.#stack,cursor+4)).provenance,delimiter=stack.#record(stack.#load(stack.#stack,cursor+8)).provenance;if(input?.kind!=='shared-local'||input.fields!==images['101ab190']||(input.offset??0)!==0||delimiter?.kind!=='shared-local'||delimiter.fields!==images['100e820c']||(delimiter.offset??0)!==0)throw new Error('Actual returned version string and delimiter required');stack.#currentPc=stack.#source('code','100acd00');throw new Error('Original SharedBase version tokenizer pending');
           }
@@ -1289,7 +1301,7 @@ export class NativeX86ThreadStack {
           if(mode==='dll-language-translation'&&pc==='1004c36a'){
             if(stack.#numeric(callee,4)!==0x100aa234)throw new Error('Original translated query formatter target required');stack.#currentPc=stack.#source('code','100aa234');throw new Error('Original SharedBase translated query formatter pending');
           }
-          if((mode==='dll-language-output'||mode==='dll-language-translated-output')&&pc==='100a74c5'){
+          if((mode==='dll-version-token'&&pc==='100acd1c')||((mode==='dll-language-output'||mode==='dll-language-translated-output')&&pc==='100a74c5')){
             if(stack.#numeric(callee,4)!==0x100ae542)throw new Error('Original output PTD getter required');
             const ptd=proof.value.formatPtd();stack.#sharedLocalPhysical(ptd);stack.#store(stack.#bank,stack.#reg('EAX'),pointer(ptd));for(const name of ['ECX','EDX'] as const)stack.#store(stack.#bank,stack.#reg(name),stack.#mint(0,0));stack.#flags(0,0);stack.#ret();pc=next;continue;
           }
@@ -1362,6 +1374,9 @@ export class NativeX86ThreadStack {
           if(pc==='1003e116'||pc==='1003e276'||pc==='1003f3a6'){const word=stack.#load(stack.#bank,stack.#reg('EAX')),slot=stack.#record(word).provenance;if(slot?.kind==='shared-local')stack.#store(stack.#bank,stack.#reg('EAX'),pointer(proof.value.imports.retainPoolSlot(slot.fields,slot.offset??0,pc==='1003e116'?16:pc==='1003e276'?24:1792)));else if(stack.#numeric(word,4)!==0)throw new Error('Original bitmap allocator return required');}
           if(mode==='dll-language-free'&&pc==='10045648')proof.value.imports.releasePoolSlot(stack.#sharedDllLanguageFrame!.buffer!);
           const continuation=stack.#record(stack.#ret(args.length?stack.#numeric(read(args[0]!),4):0)).provenance;if(continuation?.kind!=='source')throw new Error('Actual initializer return required');
+          if(mode==='dll-version-token'&&continuation.address==='1004c42f'){
+            if(pc!=='100acdbe'||!tokenSaved||stack.#address(stack.#load(stack.#bank,stack.#reg('ESP')))!==tokenSaved.esp+4||stack.#load(stack.#bank,stack.#reg('EBP'))!==tokenSaved.ebp||stack.#load(stack.#bank,stack.#reg('EBX'))!==tokenSaved.ebx||stack.#load(stack.#bank,stack.#reg('ESI'))!==tokenSaved.esi||stack.#load(stack.#bank,stack.#reg('EDI'))!==tokenSaved.edi)throw new Error('Original strtok saved-register and caller restoration required');
+          }
           if(mode==='dll-language-return'&&continuation.address==='1004c52a'){
             const language=stack.#sharedDllLanguageFrame!,result=stack.#record(stack.#load(stack.#bank,stack.#reg('EAX'))).provenance;
             if(pc!=='1004c3fe'||stack.#address(stack.#load(stack.#bank,stack.#reg('ESP')))!==language.entryEsp+8||result?.kind!=='shared-local'||result.fields!==images['101ab190']||(result.offset??0)!==0)throw new Error('Original language helper return and actual output required');
@@ -1405,7 +1420,7 @@ export class NativeX86ThreadStack {
         }else throw new Error('Unowned SharedBase initializer opcode '+opcode);
         pc=next;
       }
-    }catch(error){const current=stack.#currentPc?stack.#record(stack.#currentPc).provenance:null;stack.#phase='blocked';const failure=reason(error)+(current?.kind==='source'?' at '+current.address:'');if((mode==='dll-language-output'||mode==='dll-language-translated-output')||mode==='dll-language-translation'||mode==='dll-language-version-copy'||mode==='dll-language-free'||mode==='dll-language-return')stack.#boundary=failure;else stack.#boundary??=failure;return unknown(stack.#boundary);}
+    }catch(error){const current=stack.#currentPc?stack.#record(stack.#currentPc).provenance:null;stack.#phase='blocked';const failure=reason(error)+(current?.kind==='source'?' at '+current.address:'');if((mode==='dll-language-output'||mode==='dll-language-translated-output')||mode==='dll-language-translation'||mode==='dll-language-version-copy'||mode==='dll-language-free'||mode==='dll-language-return'||mode==='dll-version-token')stack.#boundary=failure;else stack.#boundary??=failure;return unknown(stack.#boundary);}
     finally{stack.#dllMemoryController=null;}
   }
   static beginSharedArgvAllocation(stack:NativeX86ThreadStack,controller:object):NativeValue<number>{

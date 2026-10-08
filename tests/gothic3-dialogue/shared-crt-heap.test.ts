@@ -1428,3 +1428,13 @@ it('rejects an already released language bitmap before entering Free',()=>{
 it('returns the original language helper and passes its real output into version parsing',()=>{
  const {owner}=fileVersionQueryFixture();owner.processDllFileVersionQuery();owner.processDllLanguageFree();const result=owner.processDllLanguageReturn();expect(result).toEqual({known:false,reason:'Original SharedBase version tokenizer pending at 100acd00'});const state=owner.snapshot(),stack=state.caseState!.stack!.snapshot();expect(stack.calls.find(row=>row.site==='1004c525')!.returned).toBe(true);expect(stack.calls.at(-1)!.site).toBe('1004c42a');expect(stack.trace).toContain('1004c420.sharedInitializer.MOV');expect(Buffer.from(state.dllLanguageFormatImages!.output.bytes.slice(0,17)).toString('ascii')).toBe('1, 60, 25931, 29\0');expect(state.memoryHeapSectionHeld).toBe(false);
 });
+
+
+it('executes original strtok and retains the first version token in actual thread storage',()=>{
+ const {owner}=fileVersionQueryFixture();owner.processDllFileVersionQuery();owner.processDllLanguageFree();owner.processDllLanguageReturn();const result=owner.processDllVersionToken();expect(result).toEqual({known:false,reason:'Original SharedBase first version integer conversion pending at 100a7942'});const state=owner.snapshot(),stack=state.caseState!.stack!.snapshot();expect(state.dllLanguageFormatImages!.output.bytes[1]).toBe(0);expect(Buffer.from(state.dllLanguageFormatImages!.output.bytes.slice(2,17)).toString('ascii')).toBe(' 60, 25931, 29\0');expect(stack.calls.find(row=>row.site==='1004c42a')!.returned).toBe(true);expect(stack.calls.at(-1)!.site).toBe('1004c43c');expect(stack.trace).toContain('100acda6.sharedInitializer.MOV');
+});
+
+
+it('rejects changed tokenizer evidence before modifying the version buffer',()=>{
+ const {owner}=fileVersionQueryFixture();owner.processDllFileVersionQuery();owner.processDllLanguageFree();owner.processDllLanguageReturn();const before=owner.snapshot().dllLanguageFormatImages!.output.bytes.slice(),method=dllEntrySource.methods.find(row=>row.label==='versionStrtok')!,hash=method.bodyInstructionBytesSha256;try{method.bodyInstructionBytesSha256='00'.repeat(32);expect(owner.processDllVersionToken()).toEqual({known:false,reason:'Original version strtok source required'});expect(owner.snapshot().dllLanguageFormatImages!.output.bytes).toEqual(before);}finally{method.bodyInstructionBytesSha256=hash;}
+});
