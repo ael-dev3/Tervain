@@ -3,6 +3,9 @@
 import type { NativeValue } from './dialogue';
 import { NativeGameCrtOwner } from './native-game-crt';
 import { NativeGameArenaType } from './native-game-arena-type';
+import { NativeGameArenaClassName } from './native-game-arena-class-name';
+import registration from '../../assets/gothic3/arena-property-registration/source.json';
+import { NativePropertyTemplateArray } from './native-property-template-array';
 import { NativeHeapCString } from './native-heap-cstring';
 import { NativeHeapObjectViews } from './native-heap-views';
 import { NativeMemoryAdmin } from './native-memory-admin';
@@ -22,11 +25,14 @@ export class NativeGameArenaStatusProperty {
   #base: NativePropertyTypeConstruction | null = null;
   #arena: NativeGameArenaType;
   #active = false;
+  #created = false;
   #boundary: string | null = null;
   #trace: string[] = [];
   private constructor(readonly crt: NativeGameCrtOwner, private readonly memory: NativeMemoryAdmin, proof: object) {
     if (proof !== token || NativeGameCrtOwner.forPlatform(crt.host) !== crt) throw new Error('Canonical Game owner required');
     admitGameArenaStatusSource();
+    if(registration.sharedBaseSha256!=='5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214' ||
+      registration.methods.unregisterPropertyTemplate.bodyInstructionBytesSha256!=='3427dbf37cc26b0f7b862cebf86971b467d7eb489a27ce04b788e4d35631653a')throw new Error('Original SharedBase unregister source differs');
     this.#arena = NativeGameArenaType.forCrt(crt,memory);
     this.fields = crt.imageStorage('arenaStatusDescriptor');
     const receipt = crt.sourceProfile.heapRules.methods['arenaStatus.statusInitializer'];
@@ -43,6 +49,49 @@ export class NativeGameArenaStatusProperty {
     const old=owners.get(crt);
     if(old) {if(old.memory!==memory)throw new Error('Status property cannot change its SharedBase heap');return old;}
     const owner=new NativeGameArenaStatusProperty(crt,memory,token);owners.set(crt,owner);return owner;
+  }
+  #propertyIndex():number {
+    const receipt=registration.methods.getPropertyTemplateIndex;
+    if(receipt.bodyVA!=='0x10087e80'||receipt.bodyInstructionBytesSha256!=='3ad129ad47522550461403313934e7b7816928da56f40116385aaae4b7f72ca8')throw new Error('Original property lookup source differs');
+    if(this.fields.readUnsigned(0)!==0x20659aec || this.crt.imageStorage('arenaStatusVtable').readUnsigned(16)!==0x2001af23)throw new Error('Actual Status owner virtual slot required');
+    const owner=this.fields.pointer<NativeHeapObjectViews>(24).get();
+    if(owner!==this.#arena.fields)throw new Error('Actual retained Arena descriptor owner required');
+    const className=NativeGameArenaClassName.forCrt(this.crt,this.memory);
+    const invokeName=(receiver:NativeHeapObjectViews)=>{
+      if(receiver.readUnsigned(0)!==0x2065915c || this.crt.imageStorage('arenaTypeClassNameSlot').readUnsigned(0)!==0x2001d278)throw new Error('Actual Arena class-name virtual slot required');
+      const result=fact(NativeGameArenaClassName.prototype.get.call(className));if(this.#boundary)throw new Error(this.#boundary);return result;
+    };
+    const receiverName=invokeName(this.#arena.fields);
+    const ownerName=invokeName(owner);
+    const equal=fact(NativeHeapCString.prototype.equalsCString.call(ownerName,receiverName));
+    this.#trace.push('10087ea7.compareActualTypeNames');
+    if(!equal)return -1;
+    const count=this.#arena.fields.readUnsigned(12)|0;
+    for(let index=0;index<count;index++) {
+      const array=this.#arena.fields.pointer<{identity:object;bytes:Uint8Array;knownMask:Uint8Array;freed:boolean}>(8).get();
+      if(!array)throw new Error('Original property lookup dereferences NULL array');
+      const slot=new NativeHeapObjectViews(array,index*4,4);
+      if(slot.pointer(0).get()===this.fields)return index;
+    }
+    return -1;
+  }
+  #create():void {
+    if(registration.methods.createProperty.bodyInstructionBytesSha256!=='a4d5d84016666096a7dc09286b4f07c4c3c6c5d139718223bdfa9d8eaf146650' ||
+      this.fields.readUnsigned(0)!==0x20659aec || this.crt.imageStorage('arenaStatusVtable').readUnsigned(0x48)!==0x2002ad8d)throw new Error('Original Create dispatch differs');
+    this.#trace.push('10088ad0.dispatch2002ad8d');
+    if(registration.methods.destroyProperty.bodyVA!=='0x10088ac0'||registration.methods.destroyProperty.bodyInstructionBytesSha256!=='ae3f4619b0413d70d3004b9131c3752153074e45725be13b9a148978895e359e')throw new Error('Original no-op property destruction differs');
+    this.#trace.push('20070f23.baseDestroy.return');
+    if(this.fields.pointer(32).get()!==null)throw new Error('Unowned non-NULL Status default storage reset');
+    this.#trace.push('20070e9c.NULLdefault.return');
+    const index=this.#propertyIndex();
+    if(index!==-1) {
+      const fields=this.#arena.fields;
+      const array=new NativePropertyTemplateArray(new NativeHeapObjectViews(fields.backing,fields.bytes.byteOffset-fields.backing.bytes.byteOffset+8,12),this.memory);
+      fact(array.remove(index));
+      throw new Error('Unowned property unregistration diagnostic after actual removal');
+    }
+    this.#trace.push('10087fcc.unregisterAbsent.return0');
+    this.#created=true;
   }
   initialize():NativeValue<void> {
     if(this.#boundary)return {known:false,reason:this.#boundary};
@@ -63,19 +112,20 @@ export class NativeGameArenaStatusProperty {
       this.#trace.push('204b1dec.propertyBaseConstructor');
       this.fields.writeUnsigned(0,0x20659aec);
       this.#trace.push('204b1df2.derivedVtable');
-      const arena=fact(this.#arena.get());
+      const arena=fact(NativeGameArenaType.prototype.get.call(this.#arena));
       if(this.#boundary)throw new Error(this.#boundary);
       this.fields.pointer<NativeHeapObjectViews>(24).set(arena);
       this.fields.writeUnsigned(28,20);
       this.fields.pointer(32).set(null);
       this.#trace.push('204b1e15.ownerOffsetAndDefaultStored');
-      throw new Error('Unowned first Arena property Create call at 204b1e1f');
+      this.#create();
+      throw new Error('Unowned first Arena property registration call at 204b1e30');
     } catch(error) {
       this.#boundary ??= error instanceof Error ? error.message : String(error);
       return {known:false,reason:this.#boundary};
     } finally {this.#active=false;}
   }
   snapshot() {return Object.freeze({boundary:this.#boundary,temporaryName:this.#temporary,
-    baseConstructed:this.#base!==null,trace:Object.freeze([...this.#trace]),
+    baseConstructed:this.#base!==null,createCompleted:this.#created,trace:Object.freeze([...this.#trace]),
     initializerReturned:false,propertyRegistered:false,wholeCrtTraversalCompleted:false});}
 }

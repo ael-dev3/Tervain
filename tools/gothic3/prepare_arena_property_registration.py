@@ -9,7 +9,7 @@ from prepare_runtime_admin_source import INPUT_SHA, source_excerpt
 def capture(study, output):
     native.EXPECTED_INPUTS['SharedBase.dll'] = INPUT_SHA
     audit = native.audit_module(study, 'SharedBase_dll', 'SharedBase.dll',
-                               {0x100042e6: 'getPropertyTemplateIndex', 0x10006feb: 'registerPropertyTemplate', 0x1000206d: 'unregisterPropertyTemplate'})
+                               {0x100042e6: 'getPropertyTemplateIndex', 0x10006feb: 'registerPropertyTemplate', 0x1000206d: 'unregisterPropertyTemplate', 0x1000349f: 'createProperty', 0x100035ee: 'destroyProperty'})
     output.mkdir(parents=True, exist_ok=True)
     methods = {}
     for method in audit['methods']:

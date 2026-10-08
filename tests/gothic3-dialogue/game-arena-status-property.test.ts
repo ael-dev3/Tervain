@@ -30,10 +30,10 @@ function fixture(initializeExit = true, sourceMemory?:NativeMemoryAdmin, useNpcP
   return { platform, crt, exit, memory, owner };
 }
 
-it('constructs the actual first Arena Status descriptor before its Create boundary',()=>{
+it('constructs the actual first Arena Status descriptor through its cold Create and unregister lookup',()=>{
  const f=fixture();const result=f.owner.initialize();expect(result.known).toBe(false);
  if(result.known)throw new Error('Create unexpectedly completed');
- expect(result.reason).toContain('204b1e1f');
+ expect(result.reason).toContain('204b1e30');
  expect(f.owner.fields).toBe(f.crt.imageStorage('arenaStatusDescriptor'));
  expect(f.owner.fields.readUnsigned(0)).toBe(0x20659aec);
  expect(f.owner.fields.readUnsigned(16)).toBe(2);
@@ -43,6 +43,9 @@ it('constructs the actual first Arena Status descriptor before its Create bounda
  expect(f.owner.fields.pointer(32).get()).toBeNull();
  expect(value(f.owner.snapshot().temporaryName!.text())).toBe('Status');
  expect(f.owner.snapshot().baseConstructed).toBe(true);
+ expect(f.owner.snapshot().createCompleted).toBe(true);
+ expect(f.owner.snapshot().trace).toContain('10087ea7.compareActualTypeNames');
+ expect(f.owner.snapshot().trace).toContain('10087fcc.unregisterAbsent.return0');
  expect(f.owner.snapshot().initializerReturned).toBe(false);
  expect(f.owner.snapshot().propertyRegistered).toBe(false);
  const trace=f.owner.snapshot().trace;expect(f.owner.initialize()).toEqual(result);expect(f.owner.snapshot().trace).toEqual(trace);

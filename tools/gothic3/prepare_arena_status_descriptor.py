@@ -51,7 +51,7 @@ def capture(study, output):
     assert len(imports) == len(import_slots)
     assert all(row['module'] == 'SharedBase.dll' and row['ordinal'] is None for row in imports)
     result = dict(schema='gothic3-arena-status-descriptor-v1', gameSha256=GAME_SHA,
-                  methods=methods, vtableAddress='20659aec', vtableRaw=pe.bytes(0x20659aec,24).hex(),
+                  methods=methods, vtableAddress='20659aec', vtableRaw=pe.bytes(0x20659aec,76).hex(),
                   slots={f'{offset:02x}': f'{address:08x}' for offset, address in slots.items()},
                   coldDescriptor=dict(address='207b5038', raw=cold.hex(), section=section),
                   nameLiteral=dict(address='20657534', raw='53746174757300'),
