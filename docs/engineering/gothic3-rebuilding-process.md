@@ -18,10 +18,13 @@ original formatter at `100a7eff -> 100b5355`; no registration return is claimed.
 PRs 88–89 publish SharedBase startup/cold-global evidence, its independent
 security-cookie initializer, version detection and modern heap prefix. Further
 local thread work follows FLS/TLS procedure lookup, getter-cache publication,
-original pointer-slot initialization and procedure encoding. Its modern branch
-stops at `100ae7fc -> 100bb704` (`__mtinitlocks`). The live Game startup still stops before `__cinit`
-at `204678f2`. These selected components have not been joined to that live call
-frame. No live NPC activation or finishable campaign is established.
+original pointer-slot initialization, procedure encoding and initialization of
+14 original static critical sections. Its successful selected branch now stops
+at `100ae805`, before FLS/PTD allocation. Original calloc and retry-state evidence
+is captured, but that allocator path is not yet implemented. The live Game
+startup still stops before `__cinit` at `204678f2`. These selected components have
+not been joined to that live call frame. No live NPC activation or finishable
+campaign is established.
 
 The dated checkpoint receipts below describe their own revisions and observations.
 Their publication statements should be read as historical evidence.
