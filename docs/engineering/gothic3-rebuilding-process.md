@@ -10031,3 +10031,33 @@ evidence files and the instruction module reproduce exactly. The package
 contains 115 bodies, 4,501 instructions and 422 CALL receipts. The full suite
 passes 2,808 tests across 260 files (165.13 seconds). Publication remains
 pending. World/NPC activation and campaign completion remain outstanding.
+
+### Local scratch destruction and normal demangler return — 8 October 2026
+
+Original scratch-heap destruction `100c14dd`, CRT free `100aa9a4` and
+cleanup `100c61dc` execute. The destructor removes the scratch block from
+its actual chain before calling free. Original CRT instructions select
+HeapFree with the retained heap, zero flags and exact allocation base. The
+platform bridge verifies initializer ownership and the canonical live span.
+A forged import is rejected; failed freeing reaches the original errno
+mapping dependency with the block and exception frame retained.
+
+The normal path frees the 4,104-byte scratch block exactly once and leaves
+the output allocation alive. Both block-chain pointers become NULL. Original
+cleanup releases lock five; the CRT-free and demangler exception epilogues
+restore their saved registers and FS state. unDName returns to the outer
+type-info frame. Execution stops at `100b0948 -> 100b2a80`, before the
+caller's string-length operation and name-cache publication.
+
+Construction checks inspect the live scratch graph inside the actual
+HeapFree boundary, before freeing. Later checks assert that the backing is
+freed and field access is rejected. This keeps construction evidence tied
+to its actual lifetime. The original failed lock-five initialization path
+also frees its unpublished section and reaches `100bb859 -> 100aedd1`.
+
+Local evidence: 251 focused checks, typechecking and production build pass.
+All 225 generated evidence files and the instruction module reproduce exactly.
+The package contains 118 bodies, 4,566 instructions and 434 CALL receipts.
+The full suite passes 2,811 tests across 260 files (167.42 seconds).
+Publication remains pending. Full engine startup,
+world activation and campaign completion remain outstanding.

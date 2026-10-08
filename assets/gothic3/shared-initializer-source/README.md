@@ -433,3 +433,16 @@ whitespace compaction executes and ToString returns. Execution stops at
 `100c61c2 -> 100c14dd` before scratch cleanup. The package contains 115
 bodies, 4,501 instructions and 422 CALL receipts. Cleanup, cache publication,
 full startup and campaign integration remain unfinished.
+
+### Live scratch destruction and unDName return
+
+The original destructor and CRT free release the 4,104-byte scratch allocation
+once, clear its chain, retain the output allocation and restore the CRT-free
+exception frame. Original cleanup releases lock five; the demangler frame
+restores registers and FS and returns to the type-info caller. HeapFree
+requires the original retained import and canonical owned allocation base.
+Free failure preserves the original error boundary and active frame.
+
+Execution stops at `100b0948 -> 100b2a80`. The package contains 118 bodies,
+4,566 instructions and 434 CALL receipts. Output-length calculation, cache
+publication, full startup and campaign integration remain unfinished.

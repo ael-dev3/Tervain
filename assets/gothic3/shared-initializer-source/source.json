@@ -36,6 +36,39 @@
       "assemblySha256": "c0e9fa85bc0b8252d4d39a6081082eb7462b16e7563b7a40dfb97ab5df372827",
       "cSha256": "dfeb3753dfd27f5e66c86496039570db0a14859f2a74f77ae44221cc156521e2"
     },
+    "demanglerHeapDestructor": {
+      "entryVA": "0x100c14dd",
+      "bodyVA": "0x100c14dd",
+      "bodyRanges": "100c14dd-100c1502",
+      "instructionCount": 17,
+      "bodyByteCount": 38,
+      "bodyInstructionBytesSha256": "7240f5c4af9b71314832dede1b11ec12132e169829273dc80a516cf351961f34",
+      "entryChain": [],
+      "assemblySha256": "640fce765d7cc1e51f6de35a3e0162131fee1d5b1275bfbf405fe28a026f4e2e",
+      "cSha256": "a1af076c92ab227c32a01ddd915ddbb298900f3e42cb98c80e30b4045884559a"
+    },
+    "demanglerUnlockCleanup": {
+      "entryVA": "0x100c61dc",
+      "bodyVA": "0x100c61dc",
+      "bodyRanges": "100c61dc-100c61e4",
+      "instructionCount": 4,
+      "bodyByteCount": 9,
+      "bodyInstructionBytesSha256": "a5bd89040ba17e074d82ac278499cd19fab132a7cdc8776595f237cc23181fed",
+      "entryChain": [],
+      "assemblySha256": "d5a923c08e344f017ac5647b5001286d616b3ba4d6fa10a5c7854bd4ade8797b",
+      "cSha256": "21175cf1fe9cdd54052d44427e070c328c3cca6400b4ab67316f896c9ba01051"
+    },
+    "crtFree": {
+      "entryVA": "0x100aa9a4",
+      "bodyVA": "0x100aa9a4",
+      "bodyRanges": "100aa9a4-100aa9f9;100aaa03-100aaa31",
+      "instructionCount": 44,
+      "bodyByteCount": 133,
+      "bodyInstructionBytesSha256": "7474b03ad23792b7631b8ff093c017b1e03f0ac21189a73b60a5368d8717f22e",
+      "entryChain": [],
+      "assemblySha256": "e33bcb2e2ff5439a05383b1b4626343125b8cfa762ff4a5f45a02a2a0489c58c",
+      "cSha256": "9d1c36fd0ecaba471162982703be49b23303f4d9d26f7dd41ebdb6804370fd8b"
+    },
     "demanglerDnameGetString": {
       "entryVA": "0x100c2048",
       "bodyVA": "0x100c2048",
@@ -1729,6 +1762,18 @@
       "containingEntry": "10005e5c",
       "methodLabel": "initializer143Getter"
     },
+    "100c14dd": {
+      "containingEntry": "100c14dd",
+      "methodLabel": "demanglerHeapDestructor"
+    },
+    "100c61dc": {
+      "containingEntry": "100c61dc",
+      "methodLabel": "demanglerUnlockCleanup"
+    },
+    "100aa9a4": {
+      "containingEntry": "100aa9a4",
+      "methodLabel": "crtFree"
+    },
     "100c2048": {
       "containingEntry": "100c2048",
       "methodLabel": "demanglerDnameGetString"
@@ -2534,6 +2579,38 @@
         "rawSize": 368640,
         "rawOffset": 937984,
         "fileBackedBytes": 7,
+        "loaderZeroFillBytes": 0
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "crtFreeScope": {
+      "address": "100f8670",
+      "raw": "feffffff00000000d4ffffff00000000feffffff00000000faa90a10",
+      "bytes": 28,
+      "sha256": "f1229f071fc09811ad0d08d51e1e5fa168fe0d5ab15ca5a107076f4b0adc5939",
+      "section": {
+        "virtualAddress": 937984,
+        "virtualSize": 366840,
+        "rawSize": 368640,
+        "rawOffset": 937984,
+        "fileBackedBytes": 28,
+        "loaderZeroFillBytes": 0
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "crtHeapFreeImport": {
+      "address": "102f9674",
+      "raw": "b49d2f00",
+      "bytes": 4,
+      "sha256": "a83348701df7e085b9d3dfe04b9e1a54e3da0ef1b665634d3fd5db12e73b6e04",
+      "section": {
+        "virtualAddress": 3117056,
+        "virtualSize": 6242,
+        "rawSize": 8192,
+        "rawOffset": 1323008,
+        "fileBackedBytes": 4,
         "loaderZeroFillBytes": 0
       },
       "scope": "cold-original-image",
@@ -3387,6 +3464,113 @@
       "instruction": "CALL 0x100a72d0",
       "kind": "direct",
       "targetVA": "100a72d0"
+    },
+    {
+      "method": "demanglerHeapDestructor",
+      "address": "100c14f3",
+      "raw": "ff5604",
+      "instruction": "CALL dword ptr [ESI + 0x4]",
+      "kind": "register-or-memory-indirect"
+    },
+    {
+      "method": "demanglerUnlockCleanup",
+      "address": "100c61de",
+      "raw": "e8bf55ffff",
+      "instruction": "CALL 0x100bb7a2",
+      "kind": "direct",
+      "targetVA": "100bb7a2"
+    },
+    {
+      "method": "crtFree",
+      "address": "100aa9ab",
+      "raw": "e8b8410000",
+      "instruction": "CALL 0x100aeb68",
+      "kind": "direct",
+      "targetVA": "100aeb68"
+    },
+    {
+      "method": "crtFree",
+      "address": "100aa9c2",
+      "raw": "e8cb0e0100",
+      "instruction": "CALL 0x100bb892",
+      "kind": "direct",
+      "targetVA": "100bb892"
+    },
+    {
+      "method": "crtFree",
+      "address": "100aa9cd",
+      "raw": "e8a7180100",
+      "instruction": "CALL 0x100bc279",
+      "kind": "direct",
+      "targetVA": "100bc279"
+    },
+    {
+      "method": "crtFree",
+      "address": "100aa9dc",
+      "raw": "e8c3180100",
+      "instruction": "CALL 0x100bc2a4",
+      "kind": "direct",
+      "targetVA": "100bc2a4"
+    },
+    {
+      "method": "crtFree",
+      "address": "100aa9ea",
+      "raw": "e80b000000",
+      "instruction": "CALL 0x100aa9fa",
+      "kind": "direct",
+      "targetVA": "100aa9fa"
+    },
+    {
+      "method": "crtFree",
+      "address": "100aaa0c",
+      "raw": "ff1574962f10",
+      "instruction": "CALL dword ptr [0x102f9674]",
+      "kind": "image-indirect",
+      "slotVA": "102f9674",
+      "importEntry": {
+        "iatVA": "0x102f9674",
+        "module": "KERNEL32.dll",
+        "name": "HeapFree",
+        "ordinal": null
+      }
+    },
+    {
+      "method": "crtFree",
+      "address": "100aaa16",
+      "raw": "e8b6430000",
+      "instruction": "CALL 0x100aedd1",
+      "kind": "direct",
+      "targetVA": "100aedd1"
+    },
+    {
+      "method": "crtFree",
+      "address": "100aaa1d",
+      "raw": "ff1580972f10",
+      "instruction": "CALL dword ptr [0x102f9780]",
+      "kind": "image-indirect",
+      "slotVA": "102f9780",
+      "importEntry": {
+        "iatVA": "0x102f9780",
+        "module": "KERNEL32.dll",
+        "name": "GetLastError",
+        "ordinal": null
+      }
+    },
+    {
+      "method": "crtFree",
+      "address": "100aaa24",
+      "raw": "e86d430000",
+      "instruction": "CALL 0x100aed96",
+      "kind": "direct",
+      "targetVA": "100aed96"
+    },
+    {
+      "method": "crtFree",
+      "address": "100aaa2c",
+      "raw": "e87c410000",
+      "instruction": "CALL 0x100aebad",
+      "kind": "direct",
+      "targetVA": "100aebad"
     },
     {
       "method": "demanglerDnameGetString",

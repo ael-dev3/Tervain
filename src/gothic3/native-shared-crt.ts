@@ -29,6 +29,8 @@ export interface NativeSharedInitializerImports {
  getPtd(procedure:object,index:number):NativeHeapObjectViews|null;
  getCodec(record:NativeHeapObjectViews,direction?:'EncodePointer'|'DecodePointer'):object|null;
  decodePointer(procedure:object,encoded:object):Readonly<{fields:NativeHeapObjectViews;offset:number}>|number;
+ readonly crtHeapFreeProcedure:object;
+ crtHeapFree(heap:object,flags:number,fields:NativeHeapObjectViews,offset:number):number;
  readonly crtHeapAllocProcedure:object;
  crtHeapAlloc(heap:object,flags:number,size:number):NativeHeapObjectViews|null;
  readonly poolVirtualAllocProcedure:object;
@@ -238,9 +240,10 @@ export class NativeSharedCrtOwner {
   for(const [address,raw] of [['10000000',sharedInitializerHeader.raw],['100ed568','fe780a10'],['10141480','9fdf0c10'.repeat(10)],['102f6424','00000000']]){
    const fields=this.#retainLocal(raw!.length/2);for(let offset=0;offset<fields.bytes.length;offset++)fields.writeUnsigned(offset,parseInt(raw!.slice(offset*2,offset*2+2),16),1);initializerImages[address!]=fields;
   }
+  const crtHeapFreeProcedure=Object.freeze({owner:this.identity,name:'CRT.HeapFree'});
   const poolVirtualAllocProcedure=Object.freeze({owner:this.identity,name:'VirtualAlloc'}),crtHeapAllocProcedure=Object.freeze({owner:this.identity,name:'CRT.HeapAlloc'});
   const getModuleHandleA=Object.freeze({owner:this.identity,name:'GetModuleHandleA'}),getProcAddress=Object.freeze({owner:this.identity,name:'GetProcAddress'}),tlsGetValue=Object.freeze({owner:this.identity,name:'TlsGetValue'}),heapSizeProcedure=Object.freeze({owner:this.identity,name:'HeapSize'}),initializeSectionProcedure=Object.freeze({owner:this.identity,name:'InitializeCriticalSection'}),memorySectionInitializeProcedure=Object.freeze({owner:this.identity,name:'MemoryHeap.InitializeCriticalSectionAndSpinCount'}),memorySectionEnterProcedure=Object.freeze({owner:this.identity,name:'MemoryHeap.EnterCriticalSection'}),memorySectionLeaveProcedure=Object.freeze({owner:this.identity,name:'MemoryHeap.LeaveCriticalSection'});
-  this.#initializerImports=Object.freeze({crtHeapAllocProcedure,poolVirtualAllocProcedure,getModuleHandleA,getProcAddress,tlsGetValue,heapSizeProcedure,initializeSectionProcedure,memorySectionInitializeProcedure,memorySectionEnterProcedure,memorySectionLeaveProcedure,
+  this.#initializerImports=Object.freeze({crtHeapFreeProcedure,crtHeapAllocProcedure,poolVirtualAllocProcedure,getModuleHandleA,getProcAddress,tlsGetValue,heapSizeProcedure,initializeSectionProcedure,memorySectionInitializeProcedure,memorySectionEnterProcedure,memorySectionLeaveProcedure,
    memorySectionInitialize:(fields:NativeHeapObjectViews,offset:number,spin:number):number=>{if(!this.#active||!this.#initializerActive||fields!==this.#initializerImages['10189a18']||offset!==0||spin!==1000)throw new Error('Actual original MemoryAdmin heap section arguments required');this.#requireLocal(fields);return this.#call('1003d449.InitializeCriticalSectionAndSpinCount',()=>this.platform.initializePhysicalMemoryHeapCriticalSection(fields,this.identity,1000))?1:0;},
    memorySectionLock:(fields:NativeHeapObjectViews,offset:number,enter:boolean):void=>{if(!this.#active||!this.#initializerActive||fields!==this.#initializerImages['10189a18']||offset!==0||enter===this.#memoryHeapSectionHeld)throw new Error('Actual original MemoryAdmin heap section transition required');this.#requireLocal(fields);this.#call(enter?'1003d463.EnterCriticalSection':'1003d48a.LeaveCriticalSection',()=>enter?this.platform.enterPhysicalCriticalSection(fields,this.identity):this.platform.leavePhysicalCriticalSection(fields,this.identity));this.#memoryHeapSectionHeld=enter;},
    initializeSection:(fields:NativeHeapObjectViews,offset:number):void=>{if(!this.#active||!this.#initializerActive||fields!==this.#initializerImages['10197da0']||offset!==0)throw new Error('Actual original static critical-section storage required');this.#requireLocal(fields);this.#call('100e1455.InitializeCriticalSection',()=>this.platform.initializePhysicalCriticalSectionWithoutSpin(fields,this.identity));},
@@ -271,6 +274,11 @@ export class NativeSharedCrtOwner {
     const decoded=this.#call('100ae354.DecodePointer',()=>proof.value.invoke(encoded));if(decoded!==record.original)throw new Error('Actual initializer pointer decode identity required');
     if('address' in record)return record.address;
     const span=NativeRuntimePlatform.canonicalOwnedWin32HeapAllocationSpan(this.platform,this.#heap!,this.identity,{fields:record.fields,offset:record.offset},0);if(!span.known)throw new Error(span.reason);return Object.freeze({fields:record.fields,offset:record.offset});
+   },
+   crtHeapFree:(heap:object,flags:number,fields:NativeHeapObjectViews,offset:number):number=>{
+    if(!this.#active||!this.#initializerActive||heap!==this.#heap||flags!==0||offset!==0||!this.#initializerAllocations.has(fields))throw new Error('Actual initializer CRT HeapFree arguments required');
+    this.#requireLocal(fields);const span=NativeRuntimePlatform.canonicalOwnedWin32HeapAllocationSpan(this.platform,this.#heap!,this.identity,{fields,offset},fields.bytes.length);if(!span.known)throw new Error(span.reason);
+    return this.#call('100aaa0c.HeapFree',()=>this.platform.win32HeapFree(this.#heap!,0,fields.backing))?1:0;
    },
    crtHeapAlloc:(heap:object,flags:number,size:number):NativeHeapObjectViews|null=>{
     if(!this.#active||!this.#initializerActive||heap!==this.#heap||flags!==0||!Number.isInteger(size)||size<1||size>0xffffffe0)throw new Error('Actual pool descriptor CRT HeapAlloc arguments required');
@@ -420,6 +428,7 @@ export class NativeSharedCrtOwner {
    ['crtInitializeLockScope','100f8c98','feffffff00000000d4ffffff00000000feffffff0000000089b80b10'],
    ['sharedDemanglerHeap','102f6f1c','00'.repeat(60)],
    ['demanglerClassKeyword','100f2b10','636c6173732000'],
+   ['crtFreeScope','100f8670','feffffff00000000d4ffffff00000000feffffff00000000faa90a10'],
    ['demanglerIndirectVtable','100f299c','e3220c10f2220c1001230c10'],
    ['demanglerTextVtable','100f29bc','9c1d0c10a0220c10b2220c10'],
    ['demanglerTemplatePrefix','100f2ad8','74656d706c6174652d706172616d657465722d00'],
@@ -441,6 +450,7 @@ export class NativeSharedCrtOwner {
   for(const [index,address] of [[65,0x100e1660],[130,0x100e1440],[131,0x100e1450],[132,0x100e1470],[133,0x100e14b0],[134,0x100e14c0],[135,0x100e14d0],[136,0x100e14e0],[138,0x100e14f0],[139,0x100e1500],[140,0x100e1510],[141,0x100e15d0],[142,0x100e1600],[143,0x100e1610],[144,0x100e1630],[145,0x100e1670],[146,0x100e1680]])voidView.setUint32(index!*4,address!,true);
   if(initializerSource.tables.voidInitializers.raw!==Array.from(voidBytes,byte=>byte.toString(16).padStart(2,'0')).join('')||initializerSource.tables.dynamicTlsHook.raw!=='00000000')throw new Error('Original void/TLS initializer images required');
   const voidFields=this.#retainLocal(856);for(let offset=0;offset<856;offset++)voidFields.writeUnsigned(offset,voidBytes[offset]!,1);initializerImages['100e5000']=voidFields;const dynamicTls=this.#retainLocal(4);dynamicTls.writeUnsigned(0,0);initializerImages['102f858c']=dynamicTls;
+  const freeReceipt=initializerSource.coldGlobals.crtHeapFreeImport;if(freeReceipt.address!=='102f9674'||freeReceipt.raw!=='b49d2f00'||freeReceipt.bytes!==4)throw new Error('Original CRT HeapFree import receipt required');const freeFields=this.#retainLocal(4);freeFields.pointer(0).set(crtHeapFreeProcedure);initializerImages['102f9674']=freeFields;
   this.#initializerImages=Object.freeze(initializerImages);
   const exception=source.sectionException;
   if(exception.filter.raw!=='8b45ec8b008b008945dc33c93d170000c00f94c18bc1c3'||exception.handler.raw!=='8b65e8817ddc170000c075086a08ff157c972f108365e000'||exception.scopeTable.raw!=='feffffff00000000ccffffff00000000feffffffadbf0b10c4bf0b10')throw new Error('Original section exception source required');
