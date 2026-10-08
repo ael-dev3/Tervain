@@ -767,7 +767,7 @@ export class NativeX86ThreadStack {
         else if(opcode==='MOVSX'){const source=args[1]!,width=source.kind==='memory'?source.width:source.kind==='register'&&source.byte?1:4;if(width!==1&&width!==2)throw new Error('Original signed narrow source required');const value=stack.#numeric(read(source),width),shift=32-width*8;write(args[0]!,stack.#mint((value<<shift)>>shift,0xffffffff));}
         else if(opcode==='LEA'){const source=args[1]!;if(source.kind!=='memory')throw new Error('Actual initializer LEA required');write(args[0]!,address(source.expression));}
         else if(opcode==='PUSH')stack.#push(read(args[0]!));
-        else if(opcode==='POP')pop(args[0]!);
+        else if(opcode==='POP'){if(pc==='100adc1e')throw new Error('Actual preceding SharedBase CRT caller frame required before saved-register restoration');pop(args[0]!);}
         else if(opcode==='PUSHAD'){const esp=stack.#load(stack.#bank,stack.#reg('ESP'));for(const name of ['EAX','ECX','EDX','EBX','ESP','EBP','ESI','EDI'] as const)stack.#push(name==='ESP'?esp:stack.#load(stack.#bank,stack.#reg(name)));}
         else if(opcode==='POPAD'){for(const name of ['EDI','ESI','EBP','ESP','EBX','EDX','ECX','EAX'] as const){if(name==='ESP'){const esp=stack.#address(stack.#load(stack.#bank,stack.#reg('ESP')));stack.#load(stack.#stack,esp);stack.#store(stack.#bank,stack.#reg('ESP'),stack.#stackWord(esp+4));}else pop({kind:'register',slot:stack.#reg(name)});}}
         else if(opcode==='CLD'){const df=NativeRuntimePlatform.writeNativeDirectionFlag(stack.#platform,0);if(!df.known)throw new Error(df.reason);const flags=stack.#record(stack.#load(stack.#bank,44));stack.#store(stack.#bank,44,stack.#mint(flags.value&~0x400,flags.mask|0x400));}
@@ -958,7 +958,7 @@ export class NativeX86ThreadStack {
           if(continuation.address==='100aa645'){frame.ownershipReturned=stack.#numeric(stack.#load(stack.#bank,stack.#reg('EAX')),4);frame.fsRestored=stack.#load(stack.#bank,32)===frame.oldFs;if(!frame.fsRestored)throw new Error('Actual image ownership FS restoration required');}
           if(continuation.address==='100a7903')frame.conversionInstalled=true;
           if(continuation.address==='100a7908')frame.divisionQueryResult=stack.#numeric(stack.#load(stack.#bank,stack.#reg('EAX')),4);
-          if(continuation.address==='100adb5f'){frame.initializerResult=stack.#numeric(stack.#load(stack.#bank,stack.#reg('EAX')),4);stack.#currentPc=stack.#source('code','100adb5f');throw new Error('Unowned SharedBase attach continuation after initializer result '+frame.initializerResult);}
+          if(continuation.address==='100adb5f'){frame.initializerResult=stack.#numeric(stack.#load(stack.#bank,stack.#reg('EAX')),4);stack.#currentPc=stack.#source('code','100adb5f');if(frame.initializerResult!==0)throw new Error('Unowned SharedBase attach continuation after initializer result '+frame.initializerResult);}
           pc=continuation.address;continue;
         }else throw new Error('Unowned SharedBase initializer opcode '+opcode);
         pc=next;

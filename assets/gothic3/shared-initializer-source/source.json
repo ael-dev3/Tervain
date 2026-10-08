@@ -2,6 +2,17 @@
   "schema": "gothic3-shared-initializer-source-v1",
   "sharedBaseSha256": "5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214",
   "methods": {
+    "crtAttachCaller": {
+      "entryVA": "0x100ada4c",
+      "bodyVA": "0x100ada4c",
+      "bodyRanges": "100ada4c-100adc24",
+      "instructionCount": 151,
+      "bodyByteCount": 473,
+      "bodyInstructionBytesSha256": "fb9938487a8147193a6a4196153cd242c37dd72d999f4bda0d5f7f094cbe66ee",
+      "entryChain": [],
+      "assemblySha256": "88007747c38fbbe6dfaeda416c6aae1b62bc828cf33d4894b5a61d5943ef730b",
+      "cSha256": "580bde9d7a209ac63a514960551c184540346af1a7e57fc956956bd5287e32b8"
+    },
     "initializer142Getter": {
       "entryVA": "0x1000619f",
       "bodyVA": "0x1008e900",
@@ -1867,6 +1878,10 @@
     }
   },
   "entries": {
+    "100ada4c": {
+      "containingEntry": "100ada4c",
+      "methodLabel": "crtAttachCaller"
+    },
     "1000619f": {
       "containingEntry": "1000619f",
       "methodLabel": "initializer142Getter"
@@ -2393,6 +2408,22 @@
         "rawOffset": 1306624,
         "fileBackedBytes": 40,
         "loaderZeroFillBytes": 0
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "crtAttachCount": {
+      "address": "102f648c",
+      "raw": "00000000",
+      "bytes": 4,
+      "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+      "section": {
+        "virtualAddress": 1306624,
+        "virtualSize": 1807760,
+        "rawSize": 16384,
+        "rawOffset": 1306624,
+        "fileBackedBytes": 0,
+        "loaderZeroFillBytes": 4
       },
       "scope": "cold-original-image",
       "liveValueCaptured": false
@@ -3646,6 +3677,286 @@
     "liveValueCaptured": false
   },
   "calls": [
+    {
+      "method": "crtAttachCaller",
+      "address": "100ada6d",
+      "raw": "ffd3",
+      "instruction": "CALL EBX",
+      "kind": "register-or-memory-indirect"
+    },
+    {
+      "method": "crtAttachCaller",
+      "address": "100ada70",
+      "raw": "ff1584962f10",
+      "instruction": "CALL dword ptr [0x102f9684]",
+      "kind": "image-indirect",
+      "slotVA": "102f9684",
+      "importEntry": {
+        "iatVA": "0x102f9684",
+        "module": "KERNEL32.dll",
+        "name": "HeapAlloc",
+        "ordinal": null
+      }
+    },
+    {
+      "method": "crtAttachCaller",
+      "address": "100ada86",
+      "raw": "ff158c972f10",
+      "instruction": "CALL dword ptr [0x102f978c]",
+      "kind": "image-indirect",
+      "slotVA": "102f978c",
+      "importEntry": {
+        "iatVA": "0x102f978c",
+        "module": "KERNEL32.dll",
+        "name": "GetVersionExA",
+        "ordinal": null
+      }
+    },
+    {
+      "method": "crtAttachCaller",
+      "address": "100ada93",
+      "raw": "ffd3",
+      "instruction": "CALL EBX",
+      "kind": "register-or-memory-indirect"
+    },
+    {
+      "method": "crtAttachCaller",
+      "address": "100ada96",
+      "raw": "ff1574962f10",
+      "instruction": "CALL dword ptr [0x102f9674]",
+      "kind": "image-indirect",
+      "slotVA": "102f9674",
+      "importEntry": {
+        "iatVA": "0x102f9674",
+        "module": "KERNEL32.dll",
+        "name": "HeapFree",
+        "ordinal": null
+      }
+    },
+    {
+      "method": "crtAttachCaller",
+      "address": "100adab9",
+      "raw": "ffd3",
+      "instruction": "CALL EBX",
+      "kind": "register-or-memory-indirect"
+    },
+    {
+      "method": "crtAttachCaller",
+      "address": "100adabc",
+      "raw": "ff1574962f10",
+      "instruction": "CALL dword ptr [0x102f9674]",
+      "kind": "image-indirect",
+      "slotVA": "102f9674",
+      "importEntry": {
+        "iatVA": "0x102f9674",
+        "module": "KERNEL32.dll",
+        "name": "HeapFree",
+        "ordinal": null
+      }
+    },
+    {
+      "method": "crtAttachCaller",
+      "address": "100adafb",
+      "raw": "e8bae50000",
+      "instruction": "CALL 0x100bc0ba",
+      "kind": "direct",
+      "targetVA": "100bc0ba"
+    },
+    {
+      "method": "crtAttachCaller",
+      "address": "100adb09",
+      "raw": "e8e20b0000",
+      "instruction": "CALL 0x100ae6f0",
+      "kind": "direct",
+      "targetVA": "100ae6f0"
+    },
+    {
+      "method": "crtAttachCaller",
+      "address": "100adb12",
+      "raw": "e8fde50000",
+      "instruction": "CALL 0x100bc114",
+      "kind": "direct",
+      "targetVA": "100bc114"
+    },
+    {
+      "method": "crtAttachCaller",
+      "address": "100adb1c",
+      "raw": "e8a2dd0000",
+      "instruction": "CALL 0x100bb8c3",
+      "kind": "direct",
+      "targetVA": "100bb8c3"
+    },
+    {
+      "method": "crtAttachCaller",
+      "address": "100adb21",
+      "raw": "ff15ac972f10",
+      "instruction": "CALL dword ptr [0x102f97ac]",
+      "kind": "image-indirect",
+      "slotVA": "102f97ac",
+      "importEntry": {
+        "iatVA": "0x102f97ac",
+        "module": "KERNEL32.dll",
+        "name": "GetCommandLineA",
+        "ordinal": null
+      }
+    },
+    {
+      "method": "crtAttachCaller",
+      "address": "100adb2c",
+      "raw": "e82f310100",
+      "instruction": "CALL 0x100c0c60",
+      "kind": "direct",
+      "targetVA": "100c0c60"
+    },
+    {
+      "method": "crtAttachCaller",
+      "address": "100adb36",
+      "raw": "e82a160100",
+      "instruction": "CALL 0x100bf165",
+      "kind": "direct",
+      "targetVA": "100bf165"
+    },
+    {
+      "method": "crtAttachCaller",
+      "address": "100adb3f",
+      "raw": "e88b080000",
+      "instruction": "CALL 0x100ae3cf",
+      "kind": "direct",
+      "targetVA": "100ae3cf"
+    },
+    {
+      "method": "crtAttachCaller",
+      "address": "100adb46",
+      "raw": "e85c300100",
+      "instruction": "CALL 0x100c0ba7",
+      "kind": "direct",
+      "targetVA": "100c0ba7"
+    },
+    {
+      "method": "crtAttachCaller",
+      "address": "100adb4f",
+      "raw": "e8d62d0100",
+      "instruction": "CALL 0x100c092a",
+      "kind": "direct",
+      "targetVA": "100c092a"
+    },
+    {
+      "method": "crtAttachCaller",
+      "address": "100adb5a",
+      "raw": "e8d3caffff",
+      "instruction": "CALL 0x100aa632",
+      "kind": "direct",
+      "targetVA": "100aa632"
+    },
+    {
+      "method": "crtAttachCaller",
+      "address": "100adb6f",
+      "raw": "e831180100",
+      "instruction": "CALL 0x100bf3a5",
+      "kind": "direct",
+      "targetVA": "100bf3a5"
+    },
+    {
+      "method": "crtAttachCaller",
+      "address": "100adb96",
+      "raw": "e82dccffff",
+      "instruction": "CALL 0x100aa7c8",
+      "kind": "direct",
+      "targetVA": "100aa7c8"
+    },
+    {
+      "method": "crtAttachCaller",
+      "address": "100adba0",
+      "raw": "e800180100",
+      "instruction": "CALL 0x100bf3a5",
+      "kind": "direct",
+      "targetVA": "100bf3a5"
+    },
+    {
+      "method": "crtAttachCaller",
+      "address": "100adba5",
+      "raw": "e825080000",
+      "instruction": "CALL 0x100ae3cf",
+      "kind": "direct",
+      "targetVA": "100ae3cf"
+    },
+    {
+      "method": "crtAttachCaller",
+      "address": "100adbaa",
+      "raw": "e865e50000",
+      "instruction": "CALL 0x100bc114",
+      "kind": "direct",
+      "targetVA": "100bc114"
+    },
+    {
+      "method": "crtAttachCaller",
+      "address": "100adbb6",
+      "raw": "e8c9070000",
+      "instruction": "CALL 0x100ae384",
+      "kind": "direct",
+      "targetVA": "100ae384"
+    },
+    {
+      "method": "crtAttachCaller",
+      "address": "100adbc2",
+      "raw": "e849130000",
+      "instruction": "CALL 0x100aef10",
+      "kind": "direct",
+      "targetVA": "100aef10"
+    },
+    {
+      "method": "crtAttachCaller",
+      "address": "100adbe0",
+      "raw": "e80d070000",
+      "instruction": "CALL 0x100ae2f2",
+      "kind": "direct",
+      "targetVA": "100ae2f2"
+    },
+    {
+      "method": "crtAttachCaller",
+      "address": "100adbe6",
+      "raw": "ffd0",
+      "instruction": "CALL EAX",
+      "kind": "register-or-memory-indirect"
+    },
+    {
+      "method": "crtAttachCaller",
+      "address": "100adbee",
+      "raw": "e819080000",
+      "instruction": "CALL 0x100ae40c",
+      "kind": "direct",
+      "targetVA": "100ae40c"
+    },
+    {
+      "method": "crtAttachCaller",
+      "address": "100adbf5",
+      "raw": "ff1520962f10",
+      "instruction": "CALL dword ptr [0x102f9620]",
+      "kind": "image-indirect",
+      "slotVA": "102f9620",
+      "importEntry": {
+        "iatVA": "0x102f9620",
+        "module": "KERNEL32.dll",
+        "name": "GetCurrentThreadId",
+        "ordinal": null
+      }
+    },
+    {
+      "method": "crtAttachCaller",
+      "address": "100adc04",
+      "raw": "e89bcdffff",
+      "instruction": "CALL 0x100aa9a4",
+      "kind": "direct",
+      "targetVA": "100aa9a4"
+    },
+    {
+      "method": "crtAttachCaller",
+      "address": "100adc15",
+      "raw": "e8610a0000",
+      "instruction": "CALL 0x100ae67b",
+      "kind": "direct",
+      "targetVA": "100ae67b"
+    },
     {
       "method": "initializer142Getter",
       "address": "1008e933",
