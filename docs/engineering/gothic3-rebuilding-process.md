@@ -7,23 +7,21 @@ is the detailed technical record and dated checkpoint history.
 ## Latest process summary — 8 October 2026
 
 See the [current rebuilding overview](gothic3-rebuild-overview.md#current-status--8-october-2026)
-for the latest confirmed deployment, source recovery, supporting implementations
-and remaining startup dependencies. PR 89 is deployed at main commit
-`47175677631485d4c62de648324711715abe8608` by successful Pages run 37716451923.
-It includes the first Status descriptor construction, cold Create/unregister
-lookup and actual pointer-array store, followed by the retained thread TLS and
-vsprintf FILE prefix for its diagnostic. That selected path stops before the
-original formatter at `100a7eff -> 100b5355`; no registration return is claimed.
+for the latest confirmed deployment and remaining startup dependencies.
+PR 91 is deployed at main commit `56cb02439136ddb4c37922065158f0977e85afa2`
+by successful Pages run 37718958809. It publishes original SharedBase pointer
+setup and initialization of 14 static critical sections.
 
-PRs 88–89 publish SharedBase startup/cold-global evidence, its independent
-security-cookie initializer, version detection and modern heap prefix. Further
-local thread work follows FLS/TLS procedure lookup, getter-cache publication,
-original pointer-slot initialization, procedure encoding and initialization of
-14 original static critical sections. Its successful selected branch now stops
-at `100ae805`, before FLS/PTD allocation. Original calloc and retry-state evidence
-is captured, but that allocator path is not yet implemented. The live Game
-startup still stops before `__cinit` at `204678f2`. These selected components have
-not been joined to that live call frame. No live NPC activation or finishable
+Further local work follows actual FLS/TLS thread-index allocation, independent
+SharedBase calloc, PTD installation and initialization, default-locale reference
+increments under lock 12, and the original thread-ID/handle writes. Its selected
+`__mtinit` returns 1 with an actual thread-ID service. Full SharedBase attach still
+needs RTC, environment, I/O, arguments and initializer traversal. Native SEH
+stack installation and non-NULL PTD destruction remain unimplemented.
+
+The live Game startup still stops before `__cinit` at `204678f2`. These components
+have not been joined to that live frame. The property diagnostic remains before
+its formatter at `100a7eff -> 100b5355`. No live NPC activation or finishable
 campaign is established.
 
 The dated checkpoint receipts below describe their own revisions and observations.
