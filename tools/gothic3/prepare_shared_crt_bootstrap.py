@@ -7,9 +7,9 @@ import read_dialogue_native_evidence as native
 from prepare_runtime_admin_source import INPUT_SHA, image_bytes, source_excerpt
 
 def command_line_runtime(output, destination):
-    """Emit immutable syntax for the original parser and lead-byte wrappers."""
+    """Emit immutable syntax for the original parser, environment routine and lead-byte wrappers."""
     rows = []
-    for body in ['100c0a0f', '100d1fc7', '100d1e09']:
+    for body in ['100c0a0f', '100d1fc7', '100d1e09', '100c092a', '100c0e29']:
         for line in (output / (body + '.asm.txt')).read_text(encoding='utf-8').splitlines():
             address, raw, instruction = line.split(' | ')
             rows.append([address, raw, instruction])

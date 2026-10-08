@@ -6,9 +6,48 @@ is the detailed technical record and dated checkpoint history.
 
 ## Latest process summary — 8 October 2026
 
+### SharedBase environment vector and initializer boundary
+
+The latest local continuation executes the original setenvp routine `100c092a`
+on the retained graph after the successful argument return. It scans the actual
+SharedBase environment block, skips entries beginning with `=`, allocates a
+zeroed vector, and allocates/copies every retained string in source order.
+The original `strcpy_s` instructions at `100c0e29` own the copy and its return;
+strlen, calloc and free retain explicit translated lower effects and their
+source CALL/RET/argument cleanup. The optimized native strlen body is not
+claimed as instruction traversal.
+
+The environment-vector pointer is published at `102f644c`. On success, the
+original temporary block is freed, its pointer at `102f6490` is cleared, the
+vector ends with NULL, and `102f8570` becomes 1. Saved registers/EBP restore
+before setenvp returns zero to `100adb54`. The caller now retains the next
+initializer CALL at `100adb5a -> 100aa632`; that initializer routine has not
+executed. Full SharedBase CRT attachment and live Game startup remain unfinished.
+
+NULL input or vector-allocation failure returns -1. A later string-allocation
+failure frees and clears the vector while retaining the original block and
+previous string allocations, matching the original partial cleanup. HeapFree
+failure stops before its unimplemented errno mapping and preserves the completed
+copy prefix. These failures cannot replay the earlier operations.
+
+Focused validation passes 93 tests, including empty/nonempty blocks, hidden
+entries, duplicate names, ANSI high bytes, actual string/vector storage,
+NULL termination, lifetime changes, allocator/free failures, source-row identity
+and rejection of forged authority. Typechecking and the production build pass; the full suite passes 2,631 tests
+across 258 files. Generated instruction syntax
+reproduces exactly and now includes setenvp and strcpy_s. The original evidence
+package remains 79 functions and 56 cold ranges. Argument query/fill counts are
+retained at return because subsequent environment frames reuse those stack slots.
+
+PR 108 passed CI run 37742924477 and merged at
+`5cc1143c4d83e8f2807171c58930d71044b74845`; Pages run 37744468447 is pending confirmation.
+PR 107 deployed through successful Pages run 37742375940. The live Game path
+still stops before `204678f2`; native NPC activation and a campaign playable
+through an ending remain unfinished.
+
 ### SharedBase argv allocation, filling and normal return
 
-The latest local continuation owns the `100aeed0` malloc wrapper frame around
+The preceding continuation owns the `100aeed0` malloc wrapper frame around
 the retained translated lower malloc effects. Its two saved registers, lower
 CALL/RET, argument cleanup and wrapper return now join the actual setargv frame.
 The allocation belongs to SharedBase's heap and uses the query's original

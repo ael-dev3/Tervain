@@ -182,7 +182,8 @@ export class NativeX86ThreadStack {
   readonly #modulePointers = new Map<string, NativeBytePointer>();
   #sharedFrame:{controller:object;ebp:number;probe:NativeHeapObjectViews;temporary:NativeHeapObjectViews|null;importCall:{call:NativeArgvNlsCallGrant;argumentBytes:number;kind:'probe'|'query'|'fill'|'types'}|null;requestedBytes:number|null;allocatedBytes:number|null;probedPages:number[]}|null=null;
   #mappingFrames:{controller:object;ebp:number;input:NativeHeapObjectViews|null;output:NativeHeapObjectViews|null;importCall:{call:NativeArgvNlsCallGrant;bytes:number;stage:string}|null;allocations:{site:string;requested:number;allocated:number;offset:number}[];returned:boolean}[]=[];
-  #sharedArgvFrame:{controller:object;ebp:number;multibytePending:boolean;moduleCall:NativeArgvNlsCallGrant|null;moduleReturned:boolean;argumentCount:NativeHeapObjectViews;byteCount:NativeHeapObjectViews;parsePending:boolean;parserStarted?:boolean;parserReturned?:boolean;parserOperations?:number;leadCalls?:number;queryCounts?:Readonly<{count:number;bytes:number}>;allocationPending?:boolean;mallocLowerPending?:boolean;allocationReturned?:boolean;fillPending?:boolean;fillStarted?:boolean;fillReturned?:boolean;fillOperations?:number;fillLeadCalls?:number;returned?:boolean;result?:number;environmentPending?:boolean}|null=null;
+  #sharedEnvironmentFrame:{controller:object;entryEsp:number;operations:number;returned:boolean;result:number|null;strlenCalls:number;callocCalls:number;freeCalls:number;initializersPending:boolean}|null=null;
+  #sharedArgvFrame:{controller:object;ebp:number;multibytePending:boolean;moduleCall:NativeArgvNlsCallGrant|null;moduleReturned:boolean;argumentCount:NativeHeapObjectViews;byteCount:NativeHeapObjectViews;parsePending:boolean;parserStarted?:boolean;parserReturned?:boolean;parserOperations?:number;leadCalls?:number;queryCounts?:Readonly<{count:number;bytes:number}>;allocationPending?:boolean;mallocLowerPending?:boolean;allocationReturned?:boolean;fillPending?:boolean;fillStarted?:boolean;fillReturned?:boolean;fillCounts?:Readonly<{count:number;bytes:number}>;fillOperations?:number;fillLeadCalls?:number;returned?:boolean;result?:number;environmentPending?:boolean}|null=null;
   #setMultibyteFrame:{controller:object;ebp:number;oldFs:NativeX86Word32;pendingInstallation:boolean;returned:boolean;counterCursor:number;counter:{call:object;role:'oldPtd'|'candidatePtd'|'oldGlobal'|'candidateGlobal'}|null;global:boolean;lockPending:boolean;locked:boolean;publication:boolean;unlockPending:boolean;scopeAtReturn?:NativeX86Word32;cookieAtReturn?:NativeX86Word32}|null=null;
   #configurationFrame:{controller:object;ebp:number;info:NativeHeapObjectViews;candidate:NativeX86Word32;codePage:number|null;memsetPending:boolean;pending:{call:NativeArgvNlsCallGrant;bytes:number;info:boolean}|null;returned:boolean}|null=null;
   #caseFrame:{controller:object;ebp:number;originalEbp:number;info:NativeHeapObjectViews;input:NativeHeapObjectViews;types:NativeHeapObjectViews;lower:NativeHeapObjectViews;upper:NativeHeapObjectViews;cpCall:NativeArgvNlsCallGrant|null;deferredBytes:number;tableIndex:number;wrapper:{stage:'classification'|'lower'|'upper';ebp:number;locale:NativeHeapObjectViews;localeReturned:boolean}|null;returned:boolean}|null=null;
@@ -464,15 +465,20 @@ export class NativeX86ThreadStack {
     try{NativeX86ThreadStack.#sharedArgvProof(stack,controller);}catch(error){return unknown(reason(error));}
     try{const {input,frame}=NativeX86ThreadStack.#sharedArgvProof(stack,controller);if(input.stage!=='parse'||!input.input||!frame.moduleReturned||frame.parsePending||stack.#address(stack.#load(stack.#bank,stack.#reg('ESP')))!==frame.ebp-24)throw new Error('Actual source setargv parse input required');const pointer=input.input.fields===input.module?stack.#mint(0,0,{kind:'shared-local',fields:input.module}):stack.#mint(0,0,{kind:'process',pointer:input.input});stack.#store(stack.#stack,frame.ebp-4,pointer);stack.#store(stack.#bank,stack.#reg('EDX'),pointer);stack.#store(stack.#bank,stack.#reg('EAX'),stack.#stackWord(frame.ebp-8));stack.#push(stack.#stackWord(frame.ebp-8));stack.#push(stack.#mint(0,0xffffffff));stack.#push(stack.#mint(0,0xffffffff));stack.#store(stack.#bank,stack.#reg('EDI'),stack.#stackWord(frame.ebp-12));stack.#call('100c0bfc','100c0c01');frame.parsePending=true;stack.#trace.push('100c0bfc.setargvParseQuery');return known(undefined);}catch(error){stack.#phase='blocked';stack.#boundary??=reason(error);return unknown(stack.#boundary);}
   }
-  static runSharedArgvParseQuery(stack:NativeX86ThreadStack,controller:object,initializeLocale:(fields:NativeHeapObjectViews)=>void):NativeValue<void>{return NativeX86ThreadStack.#runSharedArgvParser(stack,controller,initializeLocale,'query');}
-  static runSharedArgvParseFill(stack:NativeX86ThreadStack,controller:object,initializeLocale:(fields:NativeHeapObjectViews)=>void):NativeValue<void>{return NativeX86ThreadStack.#runSharedArgvParser(stack,controller,initializeLocale,'fill');}
-  static #runSharedArgvParser(stack:NativeX86ThreadStack,controller:object,initializeLocale:(fields:NativeHeapObjectViews)=>void,pass:'query'|'fill'):NativeValue<void>{
+  static runSharedArgvParseQuery(stack:NativeX86ThreadStack,controller:object,initializeLocale:(fields:NativeHeapObjectViews)=>void):NativeValue<void>{return NativeX86ThreadStack.#runSharedCrtInstructions(stack,controller,initializeLocale,'query');}
+  static runSharedArgvParseFill(stack:NativeX86ThreadStack,controller:object,initializeLocale:(fields:NativeHeapObjectViews)=>void):NativeValue<void>{return NativeX86ThreadStack.#runSharedCrtInstructions(stack,controller,initializeLocale,'fill');}
+  static #runSharedCrtInstructions(stack:NativeX86ThreadStack,controller:object,initializeLocale:(fields:NativeHeapObjectViews)=>void,pass:'query'|'fill'|'environment',environmentHooks?:Readonly<{calloc:(site:string,count:number,size:number)=>NativeHeapObjectViews|null;free:(pointer:NativeBytePointer)=>void}>):NativeValue<void>{
     try{NativeX86ThreadStack.#sharedArgvProof(stack,controller);}catch(error){return unknown(reason(error));}
     try{
       const {input,frame}=NativeX86ThreadStack.#sharedArgvProof(stack,controller);
-      const query=pass==='query';
-      if(!input.input||(query?(input.stage!=='parse'||!frame.parsePending||frame.parserStarted):(input.stage!=='fill'||!frame.fillPending||frame.fillStarted||!input.allocation)))throw new Error('Actual pending SharedBase parser '+pass+' required');
-      if(query){frame.parserStarted=true;frame.parserOperations=0;frame.leadCalls=0;}else{frame.fillStarted=true;frame.fillOperations=0;frame.fillLeadCalls=0;}
+      const query=pass==='query',environment=pass==='environment';
+      if(environment){
+        if(input.stage!=='environment'||!frame.environmentPending||stack.#sharedEnvironmentFrame||!environmentHooks)throw new Error('Actual pending SharedBase setenvp required');
+        stack.#sharedEnvironmentFrame={controller,entryEsp:stack.#address(stack.#load(stack.#bank,stack.#reg('ESP'))),operations:0,returned:false,result:null,strlenCalls:0,callocCalls:0,freeCalls:0,initializersPending:false};
+      }else{
+        if(!input.input||(query?(input.stage!=='parse'||!frame.parsePending||frame.parserStarted):(input.stage!=='fill'||!frame.fillPending||frame.fillStarted||!input.allocation)))throw new Error('Actual pending SharedBase parser '+pass+' required');
+        if(query){frame.parserStarted=true;frame.parserOperations=0;frame.leadCalls=0;}else{frame.fillStarted=true;frame.fillOperations=0;frame.fillLeadCalls=0;}
+      }
       const entryEsp=stack.#address(stack.#load(stack.#bank,stack.#reg('ESP')));
       if(query&&(stack.#numeric(stack.#load(stack.#stack,entryEsp+4),4)!==0||stack.#numeric(stack.#load(stack.#stack,entryEsp+8),4)!==0))throw new Error('Actual NULL-vector counting pass required');
       type Operand={kind:'register';name:NativeX86Register;byte:boolean}|{kind:'immediate';value:number}|{kind:'memory';expression:string;width:Width};
@@ -487,6 +493,8 @@ export class NativeX86ThreadStack {
       };
       const width=(item:Operand):Width=>item.kind==='register'&&item.byte?1:item.kind==='memory'?item.width:4;
       const address=(expression:string):NativeX86Word32=>{
+        if(environment){const image=({'102f8588':input.mbInitialized,'102f6490':input.envPointer,'102f644c':input.envVector,'102f8570':input.envInitialized} as Readonly<Record<string,NativeHeapObjectViews>>)[expression.replace(/^0x/,'')];if(image)return stack.#mint(0,0,{kind:'shared-local',fields:image});}
+
         let base:NativeX86Word32|null=null,offset=0;
         for(const term of expression.split(' + ')){
           const match=/^(E(?:AX|BX|CX|DX|SI|DI|BP|SP))(?:\*0x([1248]))?$/.exec(term);
@@ -503,7 +511,7 @@ export class NativeX86ThreadStack {
         const memory=stack.#memory(address(item.expression),item.width);
         if(item.width===4){
           // LocaleUpdate publishes actual typed aliases, never numerical DLL addresses.
-          try{const pointer=NativeHeapObjectViews.prototype.pointer.call(memory.fields,memory.offset).get();if(pointer instanceof NativeHeapObjectViews){stack.#sharedLocalPhysical(pointer);return stack.#mint(0,0,{kind:'shared-local',fields:pointer});}}
+          try{const pointer=NativeHeapObjectViews.prototype.pointer.call(memory.fields,memory.offset).get();if(pointer instanceof NativeHeapObjectViews){stack.#sharedLocalPhysical(pointer);return stack.#mint(0,0,{kind:'shared-local',fields:pointer});}if(pointer&&'fields' in pointer&&pointer.fields instanceof NativeHeapObjectViews&&'offset' in pointer&&typeof pointer.offset==='number'){stack.#sharedLocalPhysical(pointer.fields);return stack.#offsetWord(stack.#mint(0,0,{kind:'shared-local',fields:pointer.fields}),pointer.offset);}}
           catch(error){const message=reason(error);if(message!=='Non-NULL numerical native pointer has no owned browser capability'&&!message.startsWith('Native field contains unowned backing bits'))throw error;}
           return stack.#load(memory.fields,memory.offset);
         }
@@ -520,12 +528,12 @@ export class NativeX86ThreadStack {
       };
       const pop=(item:Operand)=>{const esp=stack.#address(stack.#load(stack.#bank,stack.#reg('ESP')));write(item,stack.#load(stack.#stack,esp));stack.#store(stack.#bank,stack.#reg('ESP'),stack.#stackWord(esp+4));};
       const zero=(word:NativeX86Word32,w:Width)=>stack.#record(word).provenance?false:stack.#numeric(word,w)===0;
-      let pc='100c0a0f';
+      let pc=environment?'100c092a':'100c0a0f';
       while(true){
         // Every iteration consumes a bounded original instruction. No textual split parser.
         const row=sharedCommandLineInstruction(pc),[opcode,...rest]=row.instruction.split(' '),text=rest.join(' '),args=text?text.split(',').map(operand):[];
         const next=(parseInt(pc,16)+row.bytes.length/2).toString(16).padStart(8,'0');
-        if(query)frame.parserOperations!++;else frame.fillOperations!++;stack.#trace.push(pc+'.sharedParser.'+pass+'.'+opcode);
+        if(environment)stack.#sharedEnvironmentFrame!.operations++;else if(query)frame.parserOperations!++;else frame.fillOperations!++;stack.#trace.push(pc+'.sharedParser.'+pass+'.'+opcode);
         if(opcode==='MOV')write(args[0]!,read(args[1]!));
         else if(opcode==='MOVZX'||opcode==='MOVSX'){const w=width(args[1]!),value=stack.#numeric(read(args[1]!),w),shift=32-w*8;write(args[0]!,stack.#mint(opcode==='MOVSX'?(value<<shift)>>shift:value,0xffffffff));}
         else if(opcode==='LEA'){const arg=args[1]!;if(arg.kind!=='memory')throw new Error('Actual parser LEA address required');write(args[0]!,address(arg.expression));}
@@ -537,9 +545,9 @@ export class NativeX86ThreadStack {
           if(record.provenance){write(args[0]!,stack.#offsetWord(old,delta));stack.#flags(0,0);}
           else {const a=stack.#numeric(old,w),b=Math.abs(delta),result=(a+delta)&stack.#maximum(w);write(args[0]!,stack.#mint(result,stack.#maximum(w)));stack.#arithmeticFlags(a,b,result,w,delta<0);}
           if(opcode==='INC'||opcode==='DEC'){const updated=stack.#record(stack.#load(stack.#bank,36));stack.#flags((updated.value&~1)|(flags.value&1),(updated.mask&~1)|(flags.mask&1));}
-        }else if(opcode==='XOR'||opcode==='AND'){
+        }else if(opcode==='XOR'||opcode==='AND'||opcode==='OR'){
           const w=width(args[0]!),left=read(args[0]!),right=read(args[1]!),same=args[0]!.kind==='register'&&args[1]!.kind==='register'&&JSON.stringify(args[0])===JSON.stringify(args[1]),b=opcode==='XOR'&&same?0:stack.#numeric(right,w);
-          const a=(opcode==='XOR'&&same)||(opcode==='AND'&&b===0)?0:stack.#numeric(left,w),value=opcode==='XOR'&&same?0:opcode==='XOR'?a^b:a&b;write(args[0]!,stack.#mint(value,stack.#maximum(w)));stack.#logicalFlags(value,stack.#maximum(w),w);
+          const a=(opcode==='XOR'&&same)||(opcode==='AND'&&b===0)||(opcode==='OR'&&b===stack.#maximum(w))?0:stack.#numeric(left,w),value=opcode==='XOR'&&same?0:opcode==='XOR'?a^b:opcode==='AND'?a&b:a|b;write(args[0]!,stack.#mint(value,stack.#maximum(w)));stack.#logicalFlags(value,stack.#maximum(w),w);
         }else if(opcode==='CMP'||opcode==='TEST'){
           const w=width(args[0]!),left=read(args[0]!),right=read(args[1]!),lp=stack.#record(left).provenance,rp=stack.#record(right).provenance;
           if(lp||rp){if(opcode==='TEST'&&args[0]!.kind==='register'&&JSON.stringify(args[0])===JSON.stringify(args[1]))stack.#flags(0,0x40);
@@ -547,25 +555,40 @@ export class NativeX86ThreadStack {
           else {const a=stack.#numeric(left,w),b=stack.#numeric(right,w);if(opcode==='CMP')stack.#arithmeticFlags(a,b,(a-b)&stack.#maximum(w),w,true);else stack.#logicalFlags(a&b,stack.#maximum(w),w);}
         }else if(opcode==='SETZ'){const flags=stack.#record(stack.#load(stack.#bank,36));if(!(flags.mask&0x40))throw new Error('Actual parser ZF required');write(args[0]!,stack.#mint(flags.value&0x40?1:0,255));}
         else if(opcode==='SHR'){const a=stack.#numeric(read(args[0]!),4),shift=stack.#numeric(read(args[1]!),4),value=a>>>shift;write(args[0]!,stack.#mint(value,0xffffffff));stack.#logicalFlags(value,0xffffffff,4);const flags=stack.#record(stack.#load(stack.#bank,36));stack.#flags((flags.value&~0x801)|((a>>>(shift-1))&1)|(shift===1&&a&0x80000000?0x800:0),(flags.mask&~0x800)|(shift===1?0x800:0));}
+        else if(opcode==='JA'){const flags=stack.#record(stack.#load(stack.#bank,36));if((flags.mask&0x41)!==0x41)throw new Error('Actual SharedBase unsigned branch flags required');if(!(flags.value&0x41)){pc=number(text).toString(16).padStart(8,'0');continue;}}
         else if(opcode==='JMP'||opcode==='JZ'||opcode==='JNZ'){
           const flags=stack.#record(stack.#load(stack.#bank,36));if(opcode!=='JMP'&&!(flags.mask&0x40))throw new Error('Actual parser branch flag required');if(opcode==='JMP'||(!!(flags.value&0x40)===(opcode==='JZ'))){pc=number(text).toString(16).padStart(8,'0');continue;}
         }else if(opcode==='CALL'){
           const target=number(text).toString(16).padStart(8,'0');stack.#call(pc,next);
-          if(target==='100a74b6'){
+          if(environment&&(target==='100b2a80'||target==='100aef10'||target==='100aa9a4')){
+            const cursor=stack.#address(stack.#load(stack.#bank,stack.#reg('ESP')));
+            if(target==='100b2a80'){
+              let pointer=stack.#load(stack.#stack,cursor+4),length=0;
+              while(true){const memory=stack.#memory(pointer,1);if(NativeHeapObjectViews.prototype.readUnsigned.call(memory.fields,memory.offset,1)===0)break;pointer=stack.#offsetWord(pointer,1);length++;}
+              stack.#store(stack.#bank,stack.#reg('EAX'),stack.#mint(length,0xffffffff));stack.#sharedEnvironmentFrame!.strlenCalls++;
+            }else if(target==='100aef10'){
+              const count=stack.#numeric(stack.#load(stack.#stack,cursor+4),4),size=stack.#numeric(stack.#load(stack.#stack,cursor+8),4),allocation=environmentHooks!.calloc(pc,count,size);
+              if(allocation)stack.#sharedLocalPhysical(allocation);stack.#store(stack.#bank,stack.#reg('EAX'),allocation?stack.#mint(0,0,{kind:'shared-local',fields:allocation}):stack.#mint(0,0xffffffff));stack.#sharedEnvironmentFrame!.callocCalls++;
+            }else{
+              const pointer=stack.#record(stack.#load(stack.#stack,cursor+4)).provenance;if(pointer?.kind!=='shared-local')throw new Error('Actual retained SharedBase free pointer required');environmentHooks!.free(Object.freeze({fields:pointer.fields,offset:pointer.offset??0}));stack.#store(stack.#bank,stack.#reg('EAX'),stack.#mint(0,0));stack.#sharedEnvironmentFrame!.freeCalls++;
+            }
+            for(const name of ['ECX','EDX'] as const)stack.#store(stack.#bank,stack.#reg(name),stack.#mint(0,0));stack.#flags(0,0);stack.#ret();
+          }else if(target==='100a74b6'){
             if(pc!=='100d1e15')throw new Error('Actual parser LocaleUpdate constructor call required');
             const localWord=stack.#load(stack.#bank,stack.#reg('ECX')),offset=stack.#address(localWord);
             const local=new NativeHeapObjectViews(stack.#stack.backing,offset,16);stack.#invalidateRange(stack.#stack,offset,16);
             initializeLocale(local);stack.#sharedLocalPhysical(local);stack.#store(stack.#bank,stack.#reg('EAX'),localWord);
             for(const name of ['ECX','EDX'] as const)stack.#store(stack.#bank,stack.#reg(name),stack.#mint(0,0));stack.#flags(0,0);stack.#ret(4);
-          }else {if(target!=='100d1fc7'&&target!=='100d1e09')throw new Error('Unowned SharedBase parser child '+target);if(target==='100d1fc7'){if(query)frame.leadCalls!++;else frame.fillLeadCalls!++;}pc=target;continue;}
+          }else {if(target!=='100d1fc7'&&target!=='100d1e09'&&!(environment&&target==='100c0e29'))throw new Error('Unowned SharedBase parser child '+target);if(target==='100d1fc7'){if(query)frame.leadCalls!++;else frame.fillLeadCalls!++;}pc=target;continue;}
         }else if(opcode==='RET'){
           const continuation=stack.#ret(),record=stack.#record(continuation);if(record.provenance?.kind!=='source')throw new Error('Actual parser return continuation required');pc=record.provenance.address;
-          if(pc===(query?'100c0c01':'100c0c42'))break;continue;
+          if(pc===(environment?'100adb54':query?'100c0c01':'100c0c42'))break;continue;
         }else throw new Error('Unowned SharedBase parser opcode '+opcode);
         pc=next;
       }
+      if(environment){const env=stack.#sharedEnvironmentFrame!,result=stack.#numeric(stack.#load(stack.#bank,stack.#reg('EAX')),4)|0;if(result!==0&&result!==-1)throw new Error('Actual setenvp result 0/-1 required');if(stack.#address(stack.#load(stack.#bank,stack.#reg('ESP')))!==env.entryEsp+4)throw new Error('Actual setenvp saved-register return required');env.returned=true;env.result=result;frame.environmentPending=false;stack.#phase='returned';return known(undefined);}
       if(stack.#address(stack.#load(stack.#bank,stack.#reg('EBP')))!==frame.ebp||stack.#address(stack.#load(stack.#bank,stack.#reg('ESP')))!==frame.ebp-36)throw new Error('Actual returned SharedBase parser caller frame required');
-      if(!query){frame.fillReturned=true;frame.fillPending=false;return known(undefined);}
+      if(!query){frame.fillReturned=true;frame.fillPending=false;frame.fillCounts=Object.freeze({count:frame.argumentCount.readUnsigned(0),bytes:frame.byteCount.readUnsigned(0)});return known(undefined);}
       frame.parserReturned=true;frame.parsePending=false;frame.queryCounts=Object.freeze({count:frame.argumentCount.readUnsigned(0),bytes:frame.byteCount.readUnsigned(0)});
       // Original caller consumes counts and rejects overflow before malloc.
       const count=frame.argumentCount.readUnsigned(0),bytes=frame.byteCount.readUnsigned(0);stack.#store(stack.#bank,stack.#reg('EAX'),stack.#mint(count,0xffffffff));stack.#store(stack.#bank,stack.#reg('ESP'),stack.#stackWord(frame.ebp-24));
@@ -573,6 +596,14 @@ export class NativeX86ThreadStack {
       stack.#store(stack.#bank,stack.#reg('ECX'),stack.#mint(bytes,0xffffffff));stack.#arithmeticFlags(bytes,0xffffffff,(bytes-0xffffffff)>>>0,4,true);if(bytes===0xffffffff)throw new Error('Unowned SharedBase byte-count overflow return');
       const vectorBytes=(count*4)>>>0,total=(vectorBytes+bytes)>>>0;stack.#store(stack.#bank,stack.#reg('EDI'),stack.#mint(vectorBytes,0xffffffff));stack.#store(stack.#bank,stack.#reg('EAX'),stack.#mint(total,0xffffffff));stack.#arithmeticFlags(total,bytes,(total-bytes)>>>0,4,true);if(total<bytes)throw new Error('Unowned SharedBase argv allocation overflow return');
       stack.#push(stack.#load(stack.#bank,stack.#reg('EAX')));stack.#call('100c0c23','100c0c28');frame.allocationPending=true;stack.#trace.push('100c0c23.argvAllocationPending');return known(undefined);
+    }catch(error){stack.#phase='blocked';stack.#boundary??=reason(error);return unknown(stack.#boundary);}
+  }
+  static runSharedEnvironment(stack:NativeX86ThreadStack,controller:object,hooks:Readonly<{calloc:(site:string,count:number,size:number)=>NativeHeapObjectViews|null;free:(pointer:NativeBytePointer)=>void}>):NativeValue<number>{
+    const executed=NativeX86ThreadStack.#runSharedCrtInstructions(stack,controller,()=>{throw new Error('Unowned setenvp locale constructor');},'environment',hooks);if(!executed.known)return executed;return known(stack.#sharedEnvironmentFrame!.result!);
+  }
+  static beginSharedEnvironmentInitializers(stack:NativeX86ThreadStack,controller:object):NativeValue<void>{
+    try{NativeX86ThreadStack.#sharedArgvProof(stack,controller);}catch(error){return unknown(reason(error));}
+    try{const {input}=NativeX86ThreadStack.#sharedArgvProof(stack,controller),env=stack.#sharedEnvironmentFrame;if(input.stage!=='environment'||!env?.returned||env.result!==0||env.initializersPending||stack.#phase!=='returned')throw new Error('Actual successful setenvp caller continuation required');stack.#logicalFlags(0,0xffffffff,4);stack.#push(stack.#mint(0,0xffffffff));stack.#call('100adb5a','100adb5f');env.initializersPending=true;stack.#phase='running';return known(undefined);
     }catch(error){stack.#phase='blocked';stack.#boundary??=reason(error);return unknown(stack.#boundary);}
   }
   static beginSharedArgvAllocation(stack:NativeX86ThreadStack,controller:object):NativeValue<number>{
@@ -2244,7 +2275,7 @@ export class NativeX86ThreadStack {
     };
     const cells = Object.fromEntries(registers.map(name => [name, cell(this.#reg(name))]));
     const copy = (bytes: Uint8Array) => { try { return Object.freeze(Array.from(bytes)); } catch { return null; } };
-    return Object.freeze({sharedArgvFrame:this.#sharedArgvFrame?Object.freeze({ebp:this.#sharedArgvFrame.ebp,multibytePending:this.#sharedArgvFrame.multibytePending,moduleReturned:this.#sharedArgvFrame.moduleReturned,argumentCount:this.#sharedArgvFrame.argumentCount,byteCount:this.#sharedArgvFrame.byteCount,parsePending:this.#sharedArgvFrame.parsePending,parserStarted:this.#sharedArgvFrame.parserStarted??false,parserReturned:this.#sharedArgvFrame.parserReturned??false,parserOperations:this.#sharedArgvFrame.parserOperations??0,leadCalls:this.#sharedArgvFrame.leadCalls??0,queryCounts:this.#sharedArgvFrame.queryCounts??null,allocationReturned:this.#sharedArgvFrame.allocationReturned??false,fillPending:this.#sharedArgvFrame.fillPending??false,fillReturned:this.#sharedArgvFrame.fillReturned??false,fillOperations:this.#sharedArgvFrame.fillOperations??0,fillLeadCalls:this.#sharedArgvFrame.fillLeadCalls??0,returned:this.#sharedArgvFrame.returned??false,result:this.#sharedArgvFrame.result??null,environmentPending:this.#sharedArgvFrame.environmentPending??false}):null,setMultibyteFrame:this.#setMultibyteFrame?Object.freeze({ebp:this.#setMultibyteFrame.ebp,pendingInstallation:this.#setMultibyteFrame.pendingInstallation,returned:this.#setMultibyteFrame.returned,global:this.#setMultibyteFrame.global,counterCursor:this.#setMultibyteFrame.counterCursor,scope:describe(this.#load(this.#stack,this.#setMultibyteFrame.ebp-8)),cookie:describe(this.#load(this.#stack,this.#setMultibyteFrame.ebp-52)),scopeAtReturn:this.#setMultibyteFrame.scopeAtReturn?describe(this.#setMultibyteFrame.scopeAtReturn):null,cookieAtReturn:this.#setMultibyteFrame.cookieAtReturn?describe(this.#setMultibyteFrame.cookieAtReturn):null,oldFs:describe(this.#setMultibyteFrame.oldFs)}):null,configurationFrame:this.#configurationFrame?Object.freeze({ebp:this.#configurationFrame.ebp,info:this.#configurationFrame.info,codePage:this.#configurationFrame.codePage,returned:this.#configurationFrame.returned}):null,caseFrame:this.#caseFrame?Object.freeze({ebp:this.#caseFrame.ebp,originalEbp:this.#caseFrame.originalEbp,info:this.#caseFrame.info,input:this.#caseFrame.input,types:this.#caseFrame.types,lower:this.#caseFrame.lower,upper:this.#caseFrame.upper,deferredBytes:this.#caseFrame.deferredBytes,tableIndex:this.#caseFrame.tableIndex,returned:this.#caseFrame.returned}):null,mappingFrames:Object.freeze(this.#mappingFrames.map(frame=>Object.freeze({ebp:frame.ebp,input:frame.input,output:frame.output,returned:frame.returned,allocations:Object.freeze(frame.allocations.map(row=>Object.freeze({...row})))}))),...(this.#sharedFrame?{sharedFrame:Object.freeze({ebp:this.#sharedFrame.ebp,requestedBytes:this.#sharedFrame.requestedBytes,allocatedBytes:this.#sharedFrame.allocatedBytes,probedPages:Object.freeze([...this.#sharedFrame.probedPages]),temporary:this.#sharedFrame.temporary})}:{}), phase: this.#phase, boundary: this.#boundary, thread: this.#selection.threadCapability,
+    return Object.freeze({sharedEnvironmentFrame:this.#sharedEnvironmentFrame?Object.freeze({entryEsp:this.#sharedEnvironmentFrame.entryEsp,operations:this.#sharedEnvironmentFrame.operations,returned:this.#sharedEnvironmentFrame.returned,result:this.#sharedEnvironmentFrame.result,strlenCalls:this.#sharedEnvironmentFrame.strlenCalls,callocCalls:this.#sharedEnvironmentFrame.callocCalls,freeCalls:this.#sharedEnvironmentFrame.freeCalls,initializersPending:this.#sharedEnvironmentFrame.initializersPending}):null,sharedArgvFrame:this.#sharedArgvFrame?Object.freeze({ebp:this.#sharedArgvFrame.ebp,multibytePending:this.#sharedArgvFrame.multibytePending,moduleReturned:this.#sharedArgvFrame.moduleReturned,argumentCount:this.#sharedArgvFrame.argumentCount,byteCount:this.#sharedArgvFrame.byteCount,parsePending:this.#sharedArgvFrame.parsePending,parserStarted:this.#sharedArgvFrame.parserStarted??false,parserReturned:this.#sharedArgvFrame.parserReturned??false,parserOperations:this.#sharedArgvFrame.parserOperations??0,leadCalls:this.#sharedArgvFrame.leadCalls??0,queryCounts:this.#sharedArgvFrame.queryCounts??null,fillCounts:this.#sharedArgvFrame.fillCounts??null,allocationReturned:this.#sharedArgvFrame.allocationReturned??false,fillPending:this.#sharedArgvFrame.fillPending??false,fillReturned:this.#sharedArgvFrame.fillReturned??false,fillOperations:this.#sharedArgvFrame.fillOperations??0,fillLeadCalls:this.#sharedArgvFrame.fillLeadCalls??0,returned:this.#sharedArgvFrame.returned??false,result:this.#sharedArgvFrame.result??null,environmentPending:this.#sharedArgvFrame.environmentPending??false}):null,setMultibyteFrame:this.#setMultibyteFrame?Object.freeze({ebp:this.#setMultibyteFrame.ebp,pendingInstallation:this.#setMultibyteFrame.pendingInstallation,returned:this.#setMultibyteFrame.returned,global:this.#setMultibyteFrame.global,counterCursor:this.#setMultibyteFrame.counterCursor,scope:describe(this.#load(this.#stack,this.#setMultibyteFrame.ebp-8)),cookie:describe(this.#load(this.#stack,this.#setMultibyteFrame.ebp-52)),scopeAtReturn:this.#setMultibyteFrame.scopeAtReturn?describe(this.#setMultibyteFrame.scopeAtReturn):null,cookieAtReturn:this.#setMultibyteFrame.cookieAtReturn?describe(this.#setMultibyteFrame.cookieAtReturn):null,oldFs:describe(this.#setMultibyteFrame.oldFs)}):null,configurationFrame:this.#configurationFrame?Object.freeze({ebp:this.#configurationFrame.ebp,info:this.#configurationFrame.info,codePage:this.#configurationFrame.codePage,returned:this.#configurationFrame.returned}):null,caseFrame:this.#caseFrame?Object.freeze({ebp:this.#caseFrame.ebp,originalEbp:this.#caseFrame.originalEbp,info:this.#caseFrame.info,input:this.#caseFrame.input,types:this.#caseFrame.types,lower:this.#caseFrame.lower,upper:this.#caseFrame.upper,deferredBytes:this.#caseFrame.deferredBytes,tableIndex:this.#caseFrame.tableIndex,returned:this.#caseFrame.returned}):null,mappingFrames:Object.freeze(this.#mappingFrames.map(frame=>Object.freeze({ebp:frame.ebp,input:frame.input,output:frame.output,returned:frame.returned,allocations:Object.freeze(frame.allocations.map(row=>Object.freeze({...row})))}))),...(this.#sharedFrame?{sharedFrame:Object.freeze({ebp:this.#sharedFrame.ebp,requestedBytes:this.#sharedFrame.requestedBytes,allocatedBytes:this.#sharedFrame.allocatedBytes,probedPages:Object.freeze([...this.#sharedFrame.probedPages]),temporary:this.#sharedFrame.temporary})}:{}), phase: this.#phase, boundary: this.#boundary, thread: this.#selection.threadCapability,
       stack: Object.freeze({ bytes: copy(this.#stack.bytes), knownMask: copy(this.#stack.knownMask), freed: this.#stack.backing.freed }),
       registers: Object.freeze(cells), fs0: cell(32), arithmeticFlags: cell(36), currentPc: this.#currentPc ? describe(this.#currentPc) : null,
       calls: Object.freeze(this.#calls.map(call => Object.freeze({ site: call.site, returnWord: describe(call.returnWord), position: call.position, returned: call.returned }))), trace: Object.freeze(this.#trace.slice()),

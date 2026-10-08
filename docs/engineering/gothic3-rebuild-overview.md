@@ -47,9 +47,10 @@ setargv frame now acquires the declared virtual `Gothic3.exe` filename, publishe
 its module-buffer pointer and selects the actual command-line input or fallback.
 Both original parser passes now return with actual count outputs and filled
 strings. The caller allocates the combined vector/string block, publishes
-argc/argv and returns zero. The next boundary is SharedBase setenvp at
-`100adb4f -> 100c092a`. Allocation failure returns -1; a positive retry delay
-retains the unresolved Sleep call.
+argc/argv and returns zero. SharedBase setenvp now builds its environment vector,
+copies strings, frees the temporary block and returns zero. The next boundary
+is initializer startup at `100adb5a -> 100aa632`. Allocation failures retain
+the original partial cleanup; a positive retry delay remains unresolved.
 Those local helper results still need to join the live
 startup path before they can enable NPC activation. The full game remains
 unfinished; successful extraction, compilation or deployment alone does not
@@ -57,13 +58,13 @@ establish campaign completion.
 
 ## Current status — 8 October 2026
 
-The latest confirmed deployment recorded here is [PR 106](https://github.com/ael-dev3/Tervain/pull/106),
-merged at `9238471c60ec90a1dbaf7d632505fdafdcc227be` and deployed by
-[Pages run 37740590327](https://github.com/ael-dev3/Tervain/actions/runs/37740590327).
-PR 107 subsequently passed CI run 37741344381 and merged at
-`dd145fd8025cac46308ff48fd3d7a6b00c7bc77d`; Pages run 37742375940 is pending confirmation.
-The newest local allocation/filling checkpoint passes 83 focused tests and
-2,621 tests across 258 files, plus typechecking and the production build.
+The latest confirmed deployment recorded here is [PR 107](https://github.com/ael-dev3/Tervain/pull/107),
+merged at `dd145fd8025cac46308ff48fd3d7a6b00c7bc77d` and deployed by
+[Pages run 37742375940](https://github.com/ael-dev3/Tervain/actions/runs/37742375940).
+PR 108 subsequently passed CI run 37742924477 and merged at
+`5cc1143c4d83e8f2807171c58930d71044b74845`; Pages run 37744468447 is pending confirmation.
+The newest local environment checkpoint passes 93 focused tests and
+2,631 tests across 258 files, plus typechecking and the production build.
 It includes original SharedBase pointer/lock setup, PTD allocation and selected
 default-locale initialization, environment setup and standard I/O descriptors.
 The earlier PR 84 served-artifact comparison remains evidence for that prior
@@ -149,8 +150,9 @@ follows DWORD/tail dispatch and REP MOVSD; unsupported branches remain explicit.
 The selected I/O helper now returns 0. Further local argument startup completes selected multibyte configuration and
 installation, owns the normal SEH return and completes the original parser
 counting and filling passes. After argc/argv publication and normal setargv
-return, it stops at setenvp `100adb4f -> 100c092a`. SharedBase environment-vector
-setup and initializer traversal remain unfinished. Exception paths, full CRT attachment and the older-version
+return, it builds and publishes the SharedBase environment vector and returns
+from setenvp. It stops at initializer startup `100adb5a -> 100aa632`; initializer
+traversal remains unfinished. Exception paths, full CRT attachment and the older-version
 main-image `.mixcrt` scan remain unimplemented.
 These helpers are not connected to the live Game CRT frame; formatter execution,
 full NPC startup and campaign completion remain unfinished.

@@ -15,12 +15,13 @@ argument words still present. The enclosing setmbcp SEH prologue is now owned;
 its caller removes those words and follows the reference-count exchange,
 PTD installation and optional global publication. The selected normal path
 executes the parent epilogue and restores incoming FS; the next boundary is
-setenvp at `100adb4f -> 100c092a`, after both original parser passes return. The enclosing setargv
+initializer startup at `100adb5a -> 100aa632`, after setargv and setenvp return. The enclosing setargv
 frame now owns module filename acquisition at `100c0bd1`, publication of its
 buffer pointer and selection of nonempty process input or the module fallback.
 Its canonical filename service uses the declared virtual `Gothic3.exe` profile.
 The actual count locals, filled allocation and argc/argv publication now lead
-to the normal setargv return. Dynamic-record free
+to the normal setargv return. Environment-vector setup and the normal setenvp
+return now follow on that graph. Dynamic-record free
 and exception paths remain unfinished.
 
 The lower getSystemCP body and configuration memset body still use the retained

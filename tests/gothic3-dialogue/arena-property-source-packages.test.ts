@@ -164,9 +164,9 @@ it('captures the original SharedBase setmbcp SEH helpers and scope table',()=>{
 });
 
 it('matches every lowered SharedBase parser and lead-byte row to original receipts',()=>{
- for(const body of ['100c0a0f','100d1fc7','100d1e09']){
+ for(const body of ['100c0a0f','100d1fc7','100d1e09','100c092a','100c0e29']){
   const rows=readFileSync('assets/gothic3/shared-crt-bootstrap/'+body+'.asm.txt','utf8').trim().split('\n');
   for(const row of rows){const [address,bytes,instruction]=row.split(' | ');const actual=sharedCommandLineInstruction(address!);expect(actual).toEqual({address,bytes,instruction});expect(Object.isFrozen(actual)).toBe(true);}
  }
- expect(()=>sharedCommandLineInstruction('100c0a00')).toThrow('Unowned');
+ expect(()=>sharedCommandLineInstruction('100c0000')).toThrow('Unowned');
 });
