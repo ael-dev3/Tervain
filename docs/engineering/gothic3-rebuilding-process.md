@@ -10418,6 +10418,6 @@ at 1004c2f7. Repeated requests preserve each pending frame.
 
 The 311 subsystem checks and two additional corruption checks pass; typecheck
 and production build pass. Changed helper evidence and damaged return words
-are rejected before nested-frame construction. Full-suite validation and
-publication are pending. Nested buffer filling, resource queries, parsing,
+are rejected before nested-frame construction. The full suite passes 2,924
+tests across 275 files (183.44 seconds). Publication is pending. Nested buffer filling, resource queries, parsing,
 frees, logging, complete DLL startup and campaign integration remain unfinished.
