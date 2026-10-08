@@ -1,0 +1,5 @@
+100bbf17 | ff742404 | PUSH dword ptr [ESP + 0x4]
+100bbf1b | ff15f4952f10 | CALL dword ptr [0x102f95f4]
+100bbf21 | 33c0 | XOR EAX,EAX
+100bbf23 | 40 | INC EAX
+100bbf24 | c20800 | RET 0x8
