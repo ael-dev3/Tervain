@@ -10272,3 +10272,20 @@ The full suite passes 2,888 tests across 272 files (231.67 seconds). Main
 integration changes no validated file content. Publication is pending.
 Version resources, logging,
 full DLL startup, Game/world activation and campaign completion remain unfinished.
+
+
+## Current SharedBase module reference backend (work in progress, 2026-10-08)
+
+The explicit current-module version-query selection now retains the platform's
+canonical SharedBase image and one stable opaque module capability. Acquisitions
+and releases balance additional library references while preserving the current
+image. The captured export-table receipt establishes the absent DllGetVersion
+result. Copied/foreign handles, unsupported lookup names and ended platform
+lifetimes are rejected. This backend does not yet service the pending interpreter
+import frames or execute DLL attach/detach.
+
+The reference behavior follows the documented
+[LoadLibraryA](https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-loadlibrarya)
+and [FreeLibrary](https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-freelibrary)
+contracts. Four focused checks and typechecking pass. Import integration, full
+DLL startup, Game/world activation and campaign completion remain unfinished.
