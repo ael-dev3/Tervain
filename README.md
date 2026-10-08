@@ -73,6 +73,8 @@ Browser checks do not establish packaged desktop compatibility or performance on
 
 ## Gothic 3 browser rebuild and study viewers
 
+See the [step-by-step Gothic 3 rebuild workflow](docs/engineering/gothic3-rebuild-workflow.md) for extraction, behavior research, TypeScript integration, validation and hosting.
+
 The [Gothic 3 / Ardea reconstruction](https://ael-dev3.github.io/Tervain/gothic3/)
 is a separate, incomplete TypeScript browser port. The rebuild proceeds in
 connected stages. It is a new browser implementation guided by the installed

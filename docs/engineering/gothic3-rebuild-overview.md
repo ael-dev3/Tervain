@@ -11,6 +11,8 @@ of Gothic 3's endings. A scene viewer, a decoded model or a successfully read
 native data structure is a useful component milestone, but it does not by
 itself establish a playable reconstruction.
 
+For the practical sequence, see the [step-by-step rebuild workflow](gothic3-rebuild-workflow.md).
+
 ## Rebuilding process: contributor checklist
 
 For a new feature, use this sequence and record the result in the checkpoint
