@@ -1,0 +1,6 @@
+100c22e3 | 8b4908 | MOV ECX,dword ptr [ECX + 0x8]
+100c22e6 | 85c9 | TEST ECX,ECX
+100c22e8 | 7405 | JZ 0x100c22ef
+100c22ea | e9fcfcffff | JMP 0x100c1feb
+100c22ef | 33c0 | XOR EAX,EAX
+100c22f1 | c3 | RET

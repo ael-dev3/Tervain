@@ -409,3 +409,17 @@ The saved cookie/EBP relation cancels against the same EBP word, and original
 cookie-check instructions return. Scoped parsing consumes both delimiters;
 concatenation remains pending at `100c4587 -> 100c27dd`. There are 105 bodies,
 4,277 instructions and 405 CALL receipts. Full name output/startup are unfinished.
+
+### Live graph concatenation, length and output allocation
+
+Original concatenation retains the keyword through an indirect node and links
+the identifier. Parser callers return and restore flags `0x2800`. The original
+virtual length methods calculate 21 characters from that actual graph. Their
+callbacks require constructor receipts, retained node/vtable pointers, the
+original slot and unchanged original twelve-byte vtable images.
+
+The original caller allocates a 24-byte CRT buffer for the required 22 bytes.
+The buffer is owned and published, with all bytes still unknown before writing.
+Execution stops at `100c5fa5 -> 100c2048`. There are 112 captured bodies,
+4,407 instructions and 416 CALL receipts. Final output, cache publication,
+cleanup, full startup and campaign integration remain unfinished.

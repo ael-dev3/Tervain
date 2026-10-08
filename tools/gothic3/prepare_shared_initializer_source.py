@@ -24,6 +24,7 @@ def capture(study, output):
     tables = {}
     targets = {
         0x1000619f: 'initializer142Getter', 0x10005e5c: 'initializer143Getter',
+        0x100c1feb: 'demanglerDnameLength', 0x100c22e3: 'demanglerIndirectNodeLength', 0x100c1d9c: 'demanglerTextNodeLength',
         0x100c27dd: 'demanglerDnameConcat', 0x100c21f4: 'demanglerCloneNode',
         0x100c1d3a: 'demanglerNodeConcat', 0x100c1da0: 'demanglerIndirectNodeConstructor',
         0x100c43c1: 'demanglerScopedName', 0x100c41d7: 'demanglerZName',
@@ -96,6 +97,7 @@ def capture(study, output):
         ('className143State',0x102f47f0,12), ('className143Published',0x102f48b8,4),
         ('className142TypeInfo',0x10140148,32), ('className143TypeInfo',0x1013f1a8,32),
         ('typeInfoNode',0x102f6484,8), ('typeInfoNameScope',0x100f8b20,28), ('sharedUnDNameScope',0x100f8e80,28), ('crtInitializeLockScope',0x100f8c98,28), ('sharedDemanglerHeap',0x102f6f1c,60), ('demanglerClassKeyword',0x100f2b10,7),
+        ('demanglerIndirectVtable',0x100f299c,12), ('demanglerTextVtable',0x100f29bc,12),
         ('demanglerTemplatePrefix',0x100f2ad8,20), ('demanglerGenericPrefix',0x100f2ac8,14), ('demanglerScopeSeparator',0x100f2aec,3),
         ('underscoreRootLiteral',0x100ea340,6), ('underscoreRootString',0x102f47d0,4),
         ('rootStaticObject',0x102f4618,40),
@@ -279,7 +281,7 @@ def capture(study, output):
 
 def initializer_runtime(output, destination):
     rows = []
-    for body in ['100aa632','100ae900','100ae880','100ae8b0','100a78fe','100a788e','100b4407','100b448b','100b444f','100ae27b','100aa47d','100a7265','100aef10','100b1854','100b4b6b','100ce095','100ce045','100aeb68','100aebad','100bef05','100ce0f5','100a72d0','100a7294','100a71ac','100ae2f2','100b10d6','100aa453','100aa45c','100a72ca','100e1660','100e1440','100e1450','100e1470','100e14b0','100e14c0','100e14d0','100e14e0','100e14f0','100e1500','100e1510','100e15d0','100e1600','1008e900','100a7099','100b0902','100c6142','100bb7cf','100aeed0','100bb892','100bb7a2','100bb889','100c27dd','100c21f4','100c1d3a','100c1da0','100c43c1','100c41d7','100c25e0','100c21ad','100c1f89','100b01c8','100c28e6','100c24e3','100c223b','100c1e13','100c44b4','100c6288','100c1c80','100c29ed','100c1b6a','100c1fa0','100c59ab','100c2589','100c51ce','100c674d','100c1ed2','100c660f','100c5e8f','100c2351','100c218f','100c1f28','100c1ac7','100c1dcf','100135f0','10013240','10020bf0','1003d410','1003d2f0','10047f10','10045da0','100aabd2','100aaaf6','100a7980','1003c650','1003e090','100a7a00']:
+    for body in ['100aa632','100ae900','100ae880','100ae8b0','100a78fe','100a788e','100b4407','100b448b','100b444f','100ae27b','100aa47d','100a7265','100aef10','100b1854','100b4b6b','100ce095','100ce045','100aeb68','100aebad','100bef05','100ce0f5','100a72d0','100a7294','100a71ac','100ae2f2','100b10d6','100aa453','100aa45c','100a72ca','100e1660','100e1440','100e1450','100e1470','100e14b0','100e14c0','100e14d0','100e14e0','100e14f0','100e1500','100e1510','100e15d0','100e1600','1008e900','100a7099','100b0902','100c6142','100bb7cf','100aeed0','100bb892','100bb7a2','100bb889','100c1feb','100c22e3','100c1d9c','100c27dd','100c21f4','100c1d3a','100c1da0','100c43c1','100c41d7','100c25e0','100c21ad','100c1f89','100b01c8','100c28e6','100c24e3','100c223b','100c1e13','100c44b4','100c6288','100c1c80','100c29ed','100c1b6a','100c1fa0','100c59ab','100c2589','100c51ce','100c674d','100c1ed2','100c660f','100c5e8f','100c2351','100c218f','100c1f28','100c1ac7','100c1dcf','100135f0','10013240','10020bf0','1003d410','1003d2f0','10047f10','10045da0','100aabd2','100aaaf6','100a7980','1003c650','1003e090','100a7a00']:
         for line in (output / (body + '.asm.txt')).read_text(encoding='utf-8').splitlines():
             rows.append(line.split(' | '))
     source=json.loads((output/'source.json').read_text(encoding='utf-8'))

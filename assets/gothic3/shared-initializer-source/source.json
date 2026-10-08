@@ -36,6 +36,39 @@
       "assemblySha256": "c0e9fa85bc0b8252d4d39a6081082eb7462b16e7563b7a40dfb97ab5df372827",
       "cSha256": "dfeb3753dfd27f5e66c86496039570db0a14859f2a74f77ae44221cc156521e2"
     },
+    "demanglerDnameLength": {
+      "entryVA": "0x100c1feb",
+      "bodyVA": "0x100c1feb",
+      "bodyRanges": "100c1feb-100c200f",
+      "instructionCount": 19,
+      "bodyByteCount": 37,
+      "bodyInstructionBytesSha256": "0fe5d55f6f86a90523cc8f0556670ce586279a421c2d2686ac833d17dd0cf22e",
+      "entryChain": [],
+      "assemblySha256": "fb0165ae67cb65e5888703cc9a577bbe1d9c48a1c6a14c4d9ca07a6d28db178a",
+      "cSha256": "1ad673700923f52991bd32ff54ce8b7bea4ad746583f0618c0c4edaee7ef2d70"
+    },
+    "demanglerIndirectNodeLength": {
+      "entryVA": "0x100c22e3",
+      "bodyVA": "0x100c22e3",
+      "bodyRanges": "100c22e3-100c22f1",
+      "instructionCount": 6,
+      "bodyByteCount": 15,
+      "bodyInstructionBytesSha256": "747076544dd68a9c3c9c8996b1583a7173480bdc8e3f390d85652048f412c284",
+      "entryChain": [],
+      "assemblySha256": "fa154b76e7e36e00caf6fb0616c7c2c5e9aeef83eeee7439c08d870e59030e1e",
+      "cSha256": "86146a97bfa3cee079bc78b9b31f53c43f15aaab2489335870372b1cd488ec6b"
+    },
+    "demanglerTextNodeLength": {
+      "entryVA": "0x100c1d9c",
+      "bodyVA": "0x100c1d9c",
+      "bodyRanges": "100c1d9c-100c1d9f",
+      "instructionCount": 2,
+      "bodyByteCount": 4,
+      "bodyInstructionBytesSha256": "2e339cdc5de837ec151dbde90057caeabba18ac3ea32e7c2cffc8f95df41a6ff",
+      "entryChain": [],
+      "assemblySha256": "2790d4c161aa65c1b3fbfeb10d9d102ec3e4851685dd7e38fbda6e903f9157be",
+      "cSha256": "37c13c16b6ec59ec2e36b9ceb14fdb183a0fbe6f94689e4a074c5736b61ad9a6"
+    },
     "demanglerDnameConcat": {
       "entryVA": "0x100c27dd",
       "bodyVA": "0x100c27dd",
@@ -1663,6 +1696,18 @@
       "containingEntry": "10005e5c",
       "methodLabel": "initializer143Getter"
     },
+    "100c1feb": {
+      "containingEntry": "100c1feb",
+      "methodLabel": "demanglerDnameLength"
+    },
+    "100c22e3": {
+      "containingEntry": "100c22e3",
+      "methodLabel": "demanglerIndirectNodeLength"
+    },
+    "100c1d9c": {
+      "containingEntry": "100c1d9c",
+      "methodLabel": "demanglerTextNodeLength"
+    },
     "100c27dd": {
       "containingEntry": "100c27dd",
       "methodLabel": "demanglerDnameConcat"
@@ -2444,6 +2489,38 @@
         "rawSize": 368640,
         "rawOffset": 937984,
         "fileBackedBytes": 7,
+        "loaderZeroFillBytes": 0
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "demanglerIndirectVtable": {
+      "address": "100f299c",
+      "raw": "e3220c10f2220c1001230c10",
+      "bytes": 12,
+      "sha256": "32161b7bc85ce571dfc4171defb386b4e19cfe8c9606630e0dc8eb75ca208ed1",
+      "section": {
+        "virtualAddress": 937984,
+        "virtualSize": 366840,
+        "rawSize": 368640,
+        "rawOffset": 937984,
+        "fileBackedBytes": 12,
+        "loaderZeroFillBytes": 0
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "demanglerTextVtable": {
+      "address": "100f29bc",
+      "raw": "9c1d0c10a0220c10b2220c10",
+      "bytes": 12,
+      "sha256": "2f299de5de59c53cce453ba165e2bf9996d99ea1a9a73c531b4fab58332fc08b",
+      "section": {
+        "virtualAddress": 937984,
+        "virtualSize": 366840,
+        "rawSize": 368640,
+        "rawOffset": 937984,
+        "fileBackedBytes": 12,
         "loaderZeroFillBytes": 0
       },
       "scope": "cold-original-image",
@@ -3265,6 +3342,21 @@
       "instruction": "CALL 0x100a72d0",
       "kind": "direct",
       "targetVA": "100a72d0"
+    },
+    {
+      "method": "demanglerDnameLength",
+      "address": "100c1fee",
+      "raw": "e8adffffff",
+      "instruction": "CALL 0x100c1fa0",
+      "kind": "direct",
+      "targetVA": "100c1fa0"
+    },
+    {
+      "method": "demanglerDnameLength",
+      "address": "100c2000",
+      "raw": "ff10",
+      "instruction": "CALL dword ptr [EAX]",
+      "kind": "register-or-memory-indirect"
     },
     {
       "method": "demanglerDnameConcat",

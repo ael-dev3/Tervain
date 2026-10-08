@@ -5263,6 +5263,141 @@ const rows:readonly (readonly string[])[] = [
     "RET"
   ],
   [
+    "100c1feb",
+    "57",
+    "PUSH EDI"
+  ],
+  [
+    "100c1fec",
+    "33ff",
+    "XOR EDI,EDI"
+  ],
+  [
+    "100c1fee",
+    "e8adffffff",
+    "CALL 0x100c1fa0"
+  ],
+  [
+    "100c1ff3",
+    "85c0",
+    "TEST EAX,EAX"
+  ],
+  [
+    "100c1ff5",
+    "7515",
+    "JNZ 0x100c200c"
+  ],
+  [
+    "100c1ff7",
+    "56",
+    "PUSH ESI"
+  ],
+  [
+    "100c1ff8",
+    "8b31",
+    "MOV ESI,dword ptr [ECX]"
+  ],
+  [
+    "100c1ffa",
+    "eb0b",
+    "JMP 0x100c2007"
+  ],
+  [
+    "100c1ffc",
+    "8b06",
+    "MOV EAX,dword ptr [ESI]"
+  ],
+  [
+    "100c1ffe",
+    "8bce",
+    "MOV ECX,ESI"
+  ],
+  [
+    "100c2000",
+    "ff10",
+    "CALL dword ptr [EAX]"
+  ],
+  [
+    "100c2002",
+    "8b7604",
+    "MOV ESI,dword ptr [ESI + 0x4]"
+  ],
+  [
+    "100c2005",
+    "03f8",
+    "ADD EDI,EAX"
+  ],
+  [
+    "100c2007",
+    "85f6",
+    "TEST ESI,ESI"
+  ],
+  [
+    "100c2009",
+    "75f1",
+    "JNZ 0x100c1ffc"
+  ],
+  [
+    "100c200b",
+    "5e",
+    "POP ESI"
+  ],
+  [
+    "100c200c",
+    "8bc7",
+    "MOV EAX,EDI"
+  ],
+  [
+    "100c200e",
+    "5f",
+    "POP EDI"
+  ],
+  [
+    "100c200f",
+    "c3",
+    "RET"
+  ],
+  [
+    "100c22e3",
+    "8b4908",
+    "MOV ECX,dword ptr [ECX + 0x8]"
+  ],
+  [
+    "100c22e6",
+    "85c9",
+    "TEST ECX,ECX"
+  ],
+  [
+    "100c22e8",
+    "7405",
+    "JZ 0x100c22ef"
+  ],
+  [
+    "100c22ea",
+    "e9fcfcffff",
+    "JMP 0x100c1feb"
+  ],
+  [
+    "100c22ef",
+    "33c0",
+    "XOR EAX,EAX"
+  ],
+  [
+    "100c22f1",
+    "c3",
+    "RET"
+  ],
+  [
+    "100c1d9c",
+    "8b410c",
+    "MOV EAX,dword ptr [ECX + 0xc]"
+  ],
+  [
+    "100c1d9f",
+    "c3",
+    "RET"
+  ],
+  [
     "100c27dd",
     "56",
     "PUSH ESI"

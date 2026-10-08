@@ -1,0 +1,7 @@
+/* ENTRY 100c1d9c | pcharNode::vfunction1 | STATUS decompiled | 1 ms */
+
+int __thiscall pcharNode::vfunction1(pcharNode *this)
+
+{
+  return (this->pcharNode_data).offset_0x8;
+}

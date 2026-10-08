@@ -652,6 +652,7 @@ export class NativeX86ThreadStack {
         }
         return base?stack.#offsetWord(base,offset):stack.#mint(offset,0xffffffff);
       };
+      const constructedNodes=new Map<NativeHeapObjectViews,Map<number,NativeHeapObjectViews>>();
       const copyPhysicalWords=new Map<NativeX86Word32,{fields:NativeHeapObjectViews;offset:number;value:number;mask:number}>();
       const read=(item:Operand):NativeX86Word32=>{
         if(item.kind==='register'){const word=stack.#load(stack.#bank,item.slot);if(!item.byte&&!item.word)return word;const value=stack.#record(word),mask=item.word?65535:255;return stack.#mint(value.value&mask,value.mask&mask);}
@@ -683,7 +684,14 @@ export class NativeX86ThreadStack {
       };
       const write=(item:Operand,word:NativeX86Word32)=>{
         if(item.kind==='immediate')throw new Error('Unowned initializer immediate destination');
-        if(item.kind==='register'){if(item.byte||item.word){const laneMask=item.word?65535:255,old=stack.#record(stack.#load(stack.#bank,item.slot)),value=stack.#record(word);stack.#store(stack.#bank,item.slot,stack.#mint((old.value&~laneMask)|(value.value&laneMask),(old.mask&~laneMask)|(value.mask&laneMask)));}else stack.#store(stack.#bank,item.slot,word);}else {const target=address(item.expression);stack.#writeMemory(target,word,item.width);if(item.width===4){const memory=stack.#memory(target,4),physical=NativeHeapObjectViews.prototype.maskedWord.call(memory.fields,memory.offset);copyPhysicalWords.set(word,{...memory,value:physical.value,mask:physical.knownMask});}}
+        if(item.kind==='register'){if(item.byte||item.word){const laneMask=item.word?65535:255,old=stack.#record(stack.#load(stack.#bank,item.slot)),value=stack.#record(word);stack.#store(stack.#bank,item.slot,stack.#mint((old.value&~laneMask)|(value.value&laneMask),(old.mask&~laneMask)|(value.mask&laneMask)));}else stack.#store(stack.#bank,item.slot,word);}else {const target=address(item.expression);stack.#writeMemory(target,word,item.width);
+          const current=(stack.#record(stack.#currentPc!).provenance as {address:string}).address;
+          if(current==='100c224f'||current==='100c1dac'){
+            const memory=stack.#memory(target,4),table=images[current==='100c224f'?'100f29bc':'100f299c']!,source=stack.#record(word).provenance;
+            if(item.width!==4||source?.kind!=='shared-local'||source.fields!==table||(source.offset??0)!==0)throw new Error('Actual original node constructor vtable required');
+            let nodes=constructedNodes.get(memory.fields);if(!nodes){nodes=new Map();constructedNodes.set(memory.fields,nodes);}nodes.set(memory.offset,table);
+          }
+          if(item.width===4){const memory=stack.#memory(target,4),physical=NativeHeapObjectViews.prototype.maskedWord.call(memory.fields,memory.offset);copyPhysicalWords.set(word,{...memory,value:physical.value,mask:physical.knownMask});}}
       };
       const pop=(item:Operand)=>{const esp=stack.#address(stack.#load(stack.#bank,stack.#reg('ESP')));write(item,stack.#load(stack.#stack,esp));stack.#store(stack.#bank,stack.#reg('ESP'),stack.#stackWord(esp+4));};
       const relativeImageAddress=(word:NativeX86Word32):number=>{
@@ -850,7 +858,17 @@ export class NativeX86ThreadStack {
           const taken=opcode==='JMP'||opcode==='JZ'&&!!(flags.value&0x40)||opcode==='JNZ'&&!(flags.value&0x40)||opcode==='JC'&&!!(flags.value&1)||opcode==='JNC'&&!(flags.value&1)||opcode==='JBE'&&!!(flags.value&0x41)||opcode==='JA'&&!(flags.value&0x41)||opcode==='JL'&&(!!(flags.value&0x80)!==!!(flags.value&0x800))||opcode==='JGE'&&(!!(flags.value&0x80)===!!(flags.value&0x800))||opcode==='JG'&&!(flags.value&0x40)&&(!!(flags.value&0x80)===!!(flags.value&0x800))||opcode==='JLE'&&(!!(flags.value&0x40)||(!!(flags.value&0x80)!==!!(flags.value&0x800)));
           if(taken){pc=stack.#numeric(read(args[0]!),4).toString(16).padStart(8,'0');continue;}
         }else if(opcode==='CALL'){
-          const callee=read(args[0]!),capability=stack.#record(callee).provenance;stack.#call(pc,next);
+          const callee=read(args[0]!),capability=stack.#record(callee).provenance;
+          if(pc==='100c2000'){
+            const receiver=stack.#record(stack.#load(stack.#bank,stack.#reg('ECX'))).provenance;
+            if(receiver?.kind!=='shared-local')throw new Error('Actual constructed demangler node receiver required');
+            const offset=receiver.offset??0,table=constructedNodes.get(receiver.fields)?.get(offset),stored=NativeHeapObjectViews.prototype.pointer.call(receiver.fields,offset).get() as {fields:NativeHeapObjectViews;offset:number}|null;
+            if(!table||stored?.fields!==table||stored.offset!==0||args[0]!.kind!=='memory')throw new Error('Actual retained node constructor vtable required');
+            const actual=stack.#memory(address(args[0]!.expression),4),raw=table===images['100f299c']?'e3220c10f2220c1001230c10':'9c1d0c10a0220c10b2220c10';
+            if(actual.fields!==table||actual.offset!==0)throw new Error('Actual original length vtable slot required');
+            for(let index=0;index<12;index++)if(NativeHeapObjectViews.prototype.readUnsigned.call(table,index,1)!==parseInt(raw.slice(index*2,index*2+2),16))throw new Error('Original demangler vtable bytes required');
+          }
+          stack.#call(pc,next);
           if(capability?.kind==='platform'){
             const cursor=stack.#address(stack.#load(stack.#bank,stack.#reg('ESP')));let result:NativeX86Word32,bytes:number;
             if(pc==='100b4490'&&capability.object===proof.value.imports.getModuleHandleA){
@@ -904,7 +922,7 @@ export class NativeX86ThreadStack {
             stack.#processorSimdFrame={oldFs:stack.#load(stack.#bank,32),oldEbp:stack.#load(stack.#bank,stack.#reg('EBP')),oldEbx:stack.#load(stack.#bank,stack.#reg('EBX')),oldEsi:stack.#load(stack.#bank,stack.#reg('ESI')),oldEdi:stack.#load(stack.#bank,stack.#reg('EDI')),scope,returned:false};
           }
           if(target==='1000605a'){const receiver=stack.#record(stack.#load(stack.#bank,stack.#reg('ECX'))).provenance;if(receiver?.kind!=='shared-local')throw new Error('Actual original bitmap pool receiver required');proof.value.imports.validatePoolRegion(receiver.fields,receiver.offset??0);}
-          if(!((pc==='100ce0e2'&&target==='100ce045')||(pc==='100ce04c'&&target==='100aeb68')||(pc==='100ce08f'&&target==='100aebad')||((pc==='100a729b'||pc==='100b10dd'||pc==='100b0909'||pc==='100c614c'||pc==='100bb7d6')&&target==='100aeb68')||((pc==='100a72c4'||pc==='100b1162'||pc==='100bb883')&&target==='100aebad'))&&!['100ae900','100ae880','100ae8b0','100a78fe','100a788e','100b4407','100b448b','100ae27b','100aa47d','100a7265','100aef10','100b1854','100b4b6b','100ce095','100bef05','100ce0f5','100a72d0','100a7294','100a71ac','100ae2f2','100b10d6','100aa453','100aa45c','100a72ca','100e1660','100e1440','100e1450','100e1470','100e14b0','100e14c0','100e14d0','100e14e0','100e14f0','100e1500','100e1510','100e15d0','100e1600','1000619f','100a7099','100b0902','100c6142','100bb7cf','100aeed0','100bb892','100bb7a2','100bb889','100c27dd','100c21f4','100c1d3a','100c1da0','100c43c1','100c41d7','100c25e0','100c21ad','100c1f89','100b01c8','100c28e6','100c24e3','100c223b','100c1e13','100c44b4','100c6288','100c1c80','100c29ed','100c1b6a','100c1fa0','100c59ab','100c2589','100c51ce','100c674d','100c1ed2','100c660f','100c5e8f','100c2351','100c218f','100c1f28','100c1ac7','100c1dcf','10003ba7','10007d65','10002aae','10003cd8','10001028','10002d97','100061cc','100aabd2','100aaaf6','100a7980','100012e4','1000605a','100a7a00'].includes(target))throw new Error('Unowned SharedBase initializer child at '+pc+' -> '+target+' (cinit 100aa632)');
+          if(!((pc==='100ce0e2'&&target==='100ce045')||(pc==='100ce04c'&&target==='100aeb68')||(pc==='100ce08f'&&target==='100aebad')||((pc==='100a729b'||pc==='100b10dd'||pc==='100b0909'||pc==='100c614c'||pc==='100bb7d6')&&target==='100aeb68')||((pc==='100a72c4'||pc==='100b1162'||pc==='100bb883')&&target==='100aebad'))&&!['100ae900','100ae880','100ae8b0','100a78fe','100a788e','100b4407','100b448b','100ae27b','100aa47d','100a7265','100aef10','100b1854','100b4b6b','100ce095','100bef05','100ce0f5','100a72d0','100a7294','100a71ac','100ae2f2','100b10d6','100aa453','100aa45c','100a72ca','100e1660','100e1440','100e1450','100e1470','100e14b0','100e14c0','100e14d0','100e14e0','100e14f0','100e1500','100e1510','100e15d0','100e1600','1000619f','100a7099','100b0902','100c6142','100bb7cf','100aeed0','100bb892','100bb7a2','100bb889','100c1feb','100c22e3','100c1d9c','100c27dd','100c21f4','100c1d3a','100c1da0','100c43c1','100c41d7','100c25e0','100c21ad','100c1f89','100b01c8','100c28e6','100c24e3','100c223b','100c1e13','100c44b4','100c6288','100c1c80','100c29ed','100c1b6a','100c1fa0','100c59ab','100c2589','100c51ce','100c674d','100c1ed2','100c660f','100c5e8f','100c2351','100c218f','100c1f28','100c1ac7','100c1dcf','10003ba7','10007d65','10002aae','10003cd8','10001028','10002d97','100061cc','100aabd2','100aaaf6','100a7980','100012e4','1000605a','100a7a00'].includes(target))throw new Error('Unowned SharedBase initializer child at '+pc+' -> '+target+' (cinit 100aa632)');
           pc=target;continue;
         }else if(opcode==='RET'){
           if(pc==='1003e116'){const word=stack.#load(stack.#bank,stack.#reg('EAX')),slot=stack.#record(word).provenance;if(slot?.kind==='shared-local')stack.#store(stack.#bank,stack.#reg('EAX'),pointer(proof.value.imports.retainPoolSlot(slot.fields,slot.offset??0)));else if(stack.#numeric(word,4)!==0)throw new Error('Original bitmap allocator return required');}

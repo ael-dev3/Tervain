@@ -9985,3 +9985,26 @@ files plus the instruction module reproduce exactly. The package contains
 109 bodies, 4,380 instructions and 414 CALL receipts. The production build passes;
 the full suite passes 2,801 tests across 260 files (165.74 seconds).
 Publication remains pending. Full startup and campaign play remain unfinished.
+
+### Local class-name graph length and output allocation — 8 October 2026
+
+Original DName length `100c1feb`, indirect-node length `100c22e3` and
+text-node length `100c1d9c` execute on the retained graph. The constructors
+publish actual pointers to the original twelve-byte text and indirect vtables.
+Virtual length calls require the actual constructed receiver, its unchanged
+vtable pointer, the original slot and all original vtable bytes. Altering any
+of the three indirect-vtable slots is rejected before output allocation.
+
+Three original virtual calls sum the six-byte keyword and fifteen-byte
+identifier to 21 characters. The original caller records the required length
+22, rounds the CRT allocation to 24 bytes and publishes the actual owned
+output buffer. Its bytes remain unknown before serialization. Both demangler
+exception frames and lock five remain active. Execution now stops at
+`100c5fa5 -> 100c2048`, the original DName string-writing method.
+
+Local evidence: 245 focused checks pass; 213 generated evidence files plus
+the instruction module reproduce exactly. The source package contains
+112 bodies, 4,407 instructions and 416 CALL receipts. Typechecking and the
+production build pass. The full suite passes 2,805 tests across 260 files
+(170.40 seconds). Publication is pending. Full startup,
+world activation and campaign completion remain unfinished.

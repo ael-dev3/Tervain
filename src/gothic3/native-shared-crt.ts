@@ -420,6 +420,8 @@ export class NativeSharedCrtOwner {
    ['crtInitializeLockScope','100f8c98','feffffff00000000d4ffffff00000000feffffff0000000089b80b10'],
    ['sharedDemanglerHeap','102f6f1c','00'.repeat(60)],
    ['demanglerClassKeyword','100f2b10','636c6173732000'],
+   ['demanglerIndirectVtable','100f299c','e3220c10f2220c1001230c10'],
+   ['demanglerTextVtable','100f29bc','9c1d0c10a0220c10b2220c10'],
    ['demanglerTemplatePrefix','100f2ad8','74656d706c6174652d706172616d657465722d00'],
    ['demanglerGenericPrefix','100f2ac8','67656e657269632d747970652d00'],
    ['demanglerScopeSeparator','100f2aec','3a3a00'],
