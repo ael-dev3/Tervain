@@ -1,0 +1,38 @@
+/* ENTRY 100ae40c | FUN_100ae40c | STATUS decompiled | 14 ms */
+
+/* WARNING: Function: __SEH_prolog4 replaced with injection: SEH_prolog4 */
+/* WARNING: Function: __SEH_epilog4 replaced with injection: EH_epilog3 */
+
+void FUN_100ae40c(int param_1,int param_2)
+
+{
+  HMODULE hModule;
+  int iVar1;
+  FARPROC pFVar2;
+  
+  hModule = GetModuleHandleA("KERNEL32.DLL");
+  *(undefined **)(param_1 + 0x5c) = &DAT_10140b50;
+  *(undefined4 *)(param_1 + 0x14) = 1;
+  if (hModule != (HMODULE)0x0) {
+    iVar1 = FUN_100ae20f();
+    if (iVar1 != 0) {
+      pFVar2 = GetProcAddress(hModule,"EncodePointer");
+      *(FARPROC *)(param_1 + 0x1f8) = pFVar2;
+      pFVar2 = GetProcAddress(hModule,"DecodePointer");
+      *(FARPROC *)(param_1 + 0x1fc) = pFVar2;
+    }
+  }
+  *(undefined4 *)(param_1 + 0x70) = 1;
+  *(undefined1 *)(param_1 + 200) = 0x43;
+  *(undefined1 *)(param_1 + 0x14b) = 0x43;
+  *(undefined **)(param_1 + 0x68) = &DAT_10140e60;
+  InterlockedIncrement((LONG *)&DAT_10140e60);
+  __lock(0xc);
+  *(int *)(param_1 + 0x6c) = param_2;
+  if (param_2 == 0) {
+    *(undefined **)(param_1 + 0x6c) = PTR_DAT_10141468;
+  }
+  ___addlocaleref(*(undefined4 *)(param_1 + 0x6c));
+  FUN_100ae4c2();
+  return;
+}

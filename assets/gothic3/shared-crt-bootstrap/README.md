@@ -1,6 +1,6 @@
 # Original SharedBase CRT startup evidence
 
-This package captures 35 original functions covering CRT attach/startup, security-cookie initialization, heap selection/construction/destruction, thread startup/termination, encoded procedure initialization, locks, thread cleanup and locale reference increments. Every captured instruction is compared with the original SharedBase.dll bytes. It also captures twenty-three cold image ranges with section-backed versus loader-zero-fill evidence.
+This package captures 39 original functions covering CRT attach/startup, security-cookie initialization, heap selection/construction/destruction, thread startup/termination, encoded procedure initialization, locks, thread cleanup and locale reference increments. Every captured instruction is compared with the original SharedBase.dll bytes. It also captures 28 cold image ranges with section-backed versus loader-zero-fill evidence.
 
 SharedBase owns these globals independently of Game and Engine. Its two dynamic thread indices begin at `ffffffff`; the four procedure slots begin as loader-filled zero bytes. The static TLS index from the PE TLS directory is a different field. Loading static TLS does not allocate either dynamic slot, initialize the heap, install FLS/TLS procedures or initialize CRT thread data.
 
@@ -42,3 +42,13 @@ getter returns NULL, installs the same allocated PTD, then initializes exception
 data, pointer procedures, multibyte data and locale references at `100ae40c`.
 Only after that call returns does it store the actual thread ID and `-1` handle.
 Those latter steps must be implemented before claiming `__mtinit` returns 1.
+
+The local continuation now follows the selected modern-heap
+`__calloc_crt(1, 0x214)` path through `HeapAlloc(SharedBaseHeap, 8, 532)`.
+On success it retains all 532 zeroed known bytes and passes that same physical
+PTD to the decoded setter. The source decoder performs its second TLS getter
+lookup and actual PTD-getter call; an absent PTD falls through to the original
+Kernel32 decoder lookup. Successful installation stops before `100ae40c`;
+no thread ID, locale state or successful `__mtinit` return is claimed yet.
+NULL allocation preserves the original cleanup boundary. Nonzero retry/new-mode
+settings remain explicit missing calls rather than fabricated retries.

@@ -12,7 +12,7 @@ it('stores the original OS fields and owns a distinct SharedBase heap before the
  const f=fixture(),game=NativeGameCrtOwner.forPlatform({platform:f.platform,errnoSlot:()=>({known:false,reason:'not initialized'})});
  const result=f.owner.processAttach();expect(result.known).toBe(false);
  if(result.known)throw new Error('Thread initialization unexpectedly returned');
- expect(result.reason).toContain('100ae829');
+ expect(result.reason).toContain('100ae852');
  const os=f.owner.imageStorage('osFields');
  expect([0,4,8,12,16].map(offset=>os.readUnsigned(offset))).toEqual([2,0x2bcd,0x601,6,1]);
  expect(game.physical.crtOsFields.readUnsigned(0)).toBe(0);
@@ -69,7 +69,7 @@ it('keeps the actual unencoded FLS getter in TLS while encoding its procedure sl
  expect(actual.value).not.toBe(slots.pointer(4).get());
  expect(f.owner.imageStorage('threadDataIndex').readUnsigned(0)).not.toBe(0xffffffff);
  expect(f.owner.snapshot().mtReturned).toBeNull();expect(f.owner.snapshot().pointersReturned).toBe(true);
- expect(f.owner.snapshot().trace.slice(-1)).toEqual(['100ae81b.storeThreadIndex']);
+ expect(f.owner.snapshot().trace.slice(-1)).toEqual(['100ae849.setPTD']);
 });
 it('encodes the original TLS fallback when FLS exports are absent',()=>{
  const platform=new NativeRuntimePlatform({engineCrtServices:{tlsValues:new Map(),kernel32Available:true,
@@ -167,4 +167,14 @@ it('allocates the original SharedBase thread index with its canonical destructor
  expect(alloc.value.invoke({address:'100ae55a',invoke:()=>({known:true,value:undefined})}).known).toBe(false);
  expect(f.owner.snapshot().trace).toContain('100ae81b.storeThreadIndex');
  expect(f.owner.processAttach()).toEqual(result);
+});
+
+it('installs the zeroed 532-byte PTD through its actual FLS setter before original initialization',()=>{
+ const f=fixture();const result=f.owner.processAttach();expect(result.known).toBe(false);
+ const state=f.owner.snapshot();expect(state.ptdInstalled).toBe(true);expect(state.ptd).not.toBeNull();
+ const ptd=state.ptd!;expect(ptd.bytes.length).toBe(532);expect(ptd.bytes.every(b=>b===0)).toBe(true);expect(ptd.knownMask.every(b=>b===255)).toBe(true);
+ const module=f.platform.getWin32ModuleHandle('KERNEL32.DLL');if(!module.known||!module.value)throw new Error('Missing module');
+ const getter=f.platform.getWin32Procedure(module.value,'FlsGetValue');if(!getter.known||!getter.value||getter.value.name!=='FlsGetValue')throw new Error('Missing getter');
+ const stored=getter.value.invoke(f.owner.imageStorage('threadDataIndex').readUnsigned(0));expect(stored.known&&stored.value===ptd).toBe(true);
+ expect(state.mtReturned).toBeNull();expect(ptd.backing.freed).toBe(false);
 });
