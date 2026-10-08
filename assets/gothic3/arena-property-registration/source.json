@@ -143,6 +143,17 @@
       "assemblySha256": "6b8db862041076a6877636b1c6e1677f10df60232f11b030f31566b1aba3b6d5",
       "cSha256": "cbb4ebda8339ad93d3bfa56d87c277f3c8f90fed1807b6ec155a3e80cc3ccd00"
     },
+    "messageOutputFormatter": {
+      "entryVA": "0x100b5355",
+      "bodyVA": "0x100b5355",
+      "bodyRanges": "100b5355-100b5cc8",
+      "instructionCount": 769,
+      "bodyByteCount": 2420,
+      "bodyInstructionBytesSha256": "b4cea1685c86d396c8b2298308b5b521c8185f73d5c2d9eda5a92aa7c9ef686b",
+      "entryChain": [],
+      "assemblySha256": "85b458f4f34ddcb6c01510228e18ad729f054db392e5cbd82d9e36634fa818f4",
+      "cSha256": "acc9d2918777e0b2b767cb06c5165dad5b124a90f4beb3c7bba798a3ca130411"
+    },
     "messageOnMessage": {
       "entryVA": "0x10005560",
       "bodyVA": "0x10049510",
