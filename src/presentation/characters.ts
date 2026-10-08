@@ -23,6 +23,7 @@ import { banditOutfit, lookOutfit, npcOutfit, playerOutfit, linear } from './hum
 import { BI, BONES, box, ellipsoid, loft, Mesher, mul3, rigid, tube, type BoneName, type V3 } from './human/skin';
 import { poseHeroRig } from './hero/rig';
 import type { HeroAnimationController } from './hero/animation';
+import type { ResidentMotion } from './npc/residentMotion';
 
 /** Assets this module wants loaded before the world is built. */
 export const NEEDS: AssetNeed[] = [];
@@ -116,6 +117,8 @@ export type Grip = 'none' | 'blade';
 export interface Rig {
   /** The approved main hero has its own skeleton and distance-aware animation. */
   hero?: HeroAnimationController;
+  /** Residents on their own humanoid rig play authored clips (npc/residentMotion.ts) instead of the procedural poser. */
+  resident?: ResidentMotion;
   /**
    * Imported residents: bounded visual sole clearance (never moves the physical actor root or performs foot IK), and the
    * arm angles fitted to this figure's own body (npc/poseFit.ts).
@@ -865,6 +868,16 @@ function idleEnvelope(clock: number): number {
  */
 export function poseRig(rig: Rig, p: Pose, dt: number) {
   if (poseHeroRig(rig, p, dt)) return;
+  if (rig.resident) {
+    rig.resident.pose(p, dt);
+    const tools = rig.npc?.work;
+    if (tools) {
+      const working = p.mode === 'work' && (p.workGesture ?? 'general') === tools.gesture;
+      for (const prop of tools.props) prop.visible = working;
+    }
+    rig.npc?.settle(p.mode, Number.isFinite(dt) ? Math.max(0, dt) : 0);
+    return;
+  }
   const frameDt = Number.isFinite(dt) ? Math.max(0, dt) : 0;
   const a: Record<string, number> = {};
   for (const k of ANGLE_KEYS) a[k] = 0;

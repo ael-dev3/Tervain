@@ -37,6 +37,11 @@ This product includes material from the Warpkeep project (https://github.com/ael
    use, service terms and unresolved provenance. Existing CC permissions are
    not restricted by the PolyForm license on eligible original software code.
    This notice does not establish missing Meshy plan or reference-component rights.
+   The residents' rig files (public/models/npcs/rigs/) and motion library
+   (public/models/npcs/motion/) were generated with the Meshy API (automatic
+   rigging, animation library and text to motion) and are recorded in the
+   resident manifest, motion/clips.json and the model ledger; their plan
+   evidence is pending.
 
 Warpkeep names, logos and the Hegemony identity are not licensed by this notice.
 

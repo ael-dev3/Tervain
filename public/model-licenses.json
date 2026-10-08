@@ -3,11 +3,11 @@
   "reviewedAt": "2026-10-06",
   "auditedModelRevision": "dbb4e8e296e1f4aa5adca5e4b01d83ad98ea828b",
   "summary": {
-    "publicModelFiles": 88,
-    "publicModelBytes": 556171948,
+    "publicModelFiles": 89,
+    "publicModelBytes": 557798668,
     "archivedWarpkeepFiles": 209,
     "archivedWarpkeepBytes": 23676804,
-    "hashesMatchedExistingSourceRecords": 297,
+    "hashesMatchedExistingSourceRecords": 298,
     "modelsWithEmbeddedCcDeclaration": 0,
     "licenseClassification": "Unresolved Meshy branches are explicitly pending; absence of an embedded CC label does not establish absence of CC rights."
   },
@@ -1008,6 +1008,24 @@
       },
       "credit": "Owner-supplied Meshy deer; source-derived Tervain preparation, original quadruped rig and animations.",
       "changes": "UV-preserving complete-model reduction where required, source-derived foot-contact repairs, consistent meter conversion, original Tervain quadruped rig, skin weights and in-place animation clips. Supplied textures and seated posture are retained; see the per-source transformation receipt.",
+      "rightsBoundary": "Project-specific Tervain use is recorded. This is not proof of ownership or a general content license."
+    },
+    "resident-motion": {
+      "filename": "models/npcs/motion/residents.glb",
+      "sha256": "845fee1a5e91e03b14fa30be5d4236f23e2ed86f950e709d759f89c610e0c0fe",
+      "sourceRecord": "https://github.com/ael-dev3/Tervain/blob/main/public/models/npcs/motion/clips.json",
+      "sourceAssetUrl": null,
+      "recordedSupplier": "Ael",
+      "creator": "Generated with the Meshy API (animation library and text to motion) on the owner's account",
+      "generationService": "Meshy",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification",
+        "reason": "The API responses do not record the account plan at generation time."
+      },
+      "credit": "Resident motion: 40 clips from Meshy's animation library and text to motion, on a Meshy auto-rig of an owner-supplied resident; two of them also move the wanderer's swimming.",
+      "changes": "Clips packed into one skeleton-only library: meshes, textures and scale channels removed, centimetres converted to metres, rotations stored as normalized 16-bit quaternions (tools/meshy-rig/build-motion.mjs). Each clip is retargeted to every resident's own rig, and the two swim clips to the wanderer's, at load time.",
       "rightsBoundary": "Project-specific Tervain use is recorded. This is not proof of ownership or a general content license."
     }
   },
@@ -7301,6 +7319,22 @@
       "externalDependencies": [],
       "scope": "original-game-model-catalog",
       "sourceId": "npc-1004193219",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification"
+      },
+      "modified": true
+    },
+    {
+      "file": "public/models/npcs/motion/residents.glb",
+      "bytes": 1626720,
+      "sha256": "845fee1a5e91e03b14fa30be5d4236f23e2ed86f950e709d759f89c610e0c0fe",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "resident-motion",
       "license": {
         "spdx": null,
         "version": null,

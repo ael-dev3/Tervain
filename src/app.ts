@@ -47,7 +47,7 @@ import { MenuScene } from './presentation/menuScene';
 import { disposeSceneResources } from './presentation/disposeScene';
 import { GAME_VERSION } from './version';
 import { loadMainHero } from './presentation/mainHero';
-import { createHeroRig } from './presentation/hero/rig';
+import { createHeroRig, type MainHeroRig } from './presentation/hero/rig';
 import { HuntingController } from './presentation/huntingController';
 import { loadMeshyNpcCatalog, type MeshyNpcCatalog } from './presentation/meshynpcs';
 import { ANIMALS, loadAnimalTemplates } from './presentation/animals';
@@ -371,6 +371,9 @@ export class App {
       if (this.world && !this.worldDisposed) this.rebuildPropPoses = this.world.physics.snapshot();
       if (this.world) this.disposeWorld();
       if (!this.npcAssets) await this.prepareNpcAssets();
+      // The wanderer swims with the authored strokes from the residents' motion library once it is here.
+      const library = this.npcAssets!.library, hero = (this.player.rig as Partial<MainHeroRig> | undefined)?.hero;
+      if (library && hero) hero.useSwimClips(library);
       // Legacy procedural export/fallback controls; Meshy residents retain their baked 1536 px surface maps in every preset.
       personBuildOptions.sheetSize = this.settings.quality === 'low' ? 512 : 1024;
       // Stage private Meshy rigs before the world adopts them, so a failed build can release the complete cast.
