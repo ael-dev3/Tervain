@@ -294,3 +294,7 @@ tools/gothic3/prepare_arena_class_name_source.py -text -eol
 assets/gothic3/arena-heap/** -text -eol whitespace=cr-at-eol,-blank-at-eof
 assets/gothic3/arena-heap/**/*.c.txt -whitespace
 tools/gothic3/prepare_arena_heap_source.py -text -eol
+
+assets/gothic3/arena-type/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/arena-type/*.c.txt -whitespace
+tools/gothic3/prepare_arena_type_source.py -text -eol
