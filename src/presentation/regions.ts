@@ -5,6 +5,15 @@ import { TILE_M, isBaked, makePaneTexture, makeTexPair, onBakedTextures, type Te
 /** The materials a region can draw with. One draw call per material actually used. */
 export type MatKey = TexKey | 'vc' | 'metal' | 'leaf' | 'glow' | 'pane' | 'daylight';
 
+/**
+ * Depth priority where faces share a plane (A69). Buildings lay trim on walls: a frame's rail on the gable, a stud on the
+ * planks, a sill on the stone, glass in its frame, a hinge on its board. Exactly coplanar faces of two materials fought
+ * for the same depth and flickered as the camera moved, so each material keeps a fixed rank and the higher one is drawn:
+ * walls, then stone, the window's backing and glow, the glass, timber, and iron over all. The offset is a few depth
+ * steps, too small to change anything that is not truly coplanar.
+ */
+export const DEPTH_RANK: Partial<Record<MatKey, number>> = { stone: 1, rock: 1, vc: 2, glow: 2, daylight: 2, pane: 3, timber: 4, metal: 5 };
+
 export class MaterialSet {
   readonly map = new Map<MatKey, THREE.Material>();
   readonly windowMat: THREE.MeshBasicMaterial;
@@ -49,6 +58,13 @@ export class MaterialSet {
     this.map.set('glow', this.lanternMat);
     this.daylightMat = new THREE.MeshBasicMaterial({ color: 0xd2d8dc });
     this.map.set('daylight', this.daylightMat);
+    for (const [key, material] of this.map) {
+      const rank = DEPTH_RANK[key];
+      if (!rank) continue;
+      material.polygonOffset = true;
+      material.polygonOffsetFactor = -rank;
+      material.polygonOffsetUnits = -rank;
+    }
     // A set made before the baked surfaces arrived (the title camp) takes them up as soon as they are installed.
     this.unsubscribe = onBakedTextures(() => this.adoptBaked());
   }

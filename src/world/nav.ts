@@ -243,8 +243,14 @@ export class NavGrid {
       anchor = cells[far]!;
       k = far + 1;
     }
-    // Land exactly on the requested goal when it is reachable in a straight step.
-    if (out.length > 0 && this.lineClear(out[out.length - 1]!, to)) out.push({ x: to.x, z: to.z });
+    // Land exactly on the requested goal when it is reachable in a straight step. The goal cell's centre is only the
+    // grid's: when the leg before it already reaches the goal, the route goes straight there instead of stepping up to
+    // a point as much as 1.4 m aside and turning back (A69).
+    const last = out[out.length - 1];
+    if (last && this.lineClear(last, to)) {
+      if (this.lineClear(out.length > 1 ? out[out.length - 2]! : from, to)) out[out.length - 1] = { x: to.x, z: to.z };
+      else out.push({ x: to.x, z: to.z });
+    }
     return out;
   }
 }

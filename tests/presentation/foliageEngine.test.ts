@@ -133,7 +133,16 @@ describe('foliage look', () => {
       const frag = shader.fragmentShader;
       expect(frag).toContain('#define RE_Direct RE_Direct_Foliage');
       expect(frag.indexOf('void RE_Direct_Foliage')).toBeGreaterThan(frag.indexOf('#include <lights_physical_pars_fragment>'));
-      expect(frag).toContain('normal = normalize( mix( normal, vCrownN, uFoliageLook.x ) );');
+      // A69: each face keeps its own normal (not turned toward the eye) under the crown's, and the cut-out is centred on
+      // the cut-off and lifted with the mip level, with the distance dither still after it.
+      expect(frag).toContain('normal = normalize( mix( normal * faceDirection, vCrownN, uFoliageLook.x ) );');
+      expect(frag).not.toContain('#include <alphatest_fragment>');
+      expect(frag).toContain('diffuseColor.a = clamp( ( tvA - alphaTest ) / max( fwidth( tvA ), 1e-4 ) + 0.5, 0.0, 1.0 );');
+      expect(frag.indexOf('tvCoverageSample <')).toBeGreaterThan(frag.indexOf('tvA *= 1.0 + 0.12 * tvMip;'));
+      // Each light's colour is noted before its shadow, so some light still passes through a shaded leaf.
+      expect(frag).not.toContain('#include <lights_fragment_begin>');
+      expect(frag).toMatch(/getDirectionalLightInfo\( directionalLight, directLight \);\n\t\ttvLitColour = directLight\.color;/);
+      expect(frag).toContain('max( directLight.color, tvLitColour * uFoliageShadeThrough )');
       expect(frag).toContain('reflectedLight.indirectDiffuse *= mix( uFoliageLook.z, 1.0, smoothstep( 0.15, 1.0, vCrownDepth ) );');
       expect(frag).toContain('hemisphereLights[ 0 ].skyColor');
       expect(frag).toContain('tvKeep = uFoliageSaturation');

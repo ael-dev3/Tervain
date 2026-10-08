@@ -173,5 +173,6 @@ stride, seated long skirt, writing, surface close-up) were reviewed, along with 
   plank, and a few thin slivers of covered cloth can still show on folded aprons.
 - Hesper Lowe's apron panel, fused to the right forearm in the source, still follows that forearm a little; that
   figure's arm swing is reduced and its routine has no arm gestures.
-- No foot IK or turning in place, and slow walking can still slide the feet a little.
-- Thornback and the approved hero are untouched.
+- No foot IK or turning in place, and slow walking can still slide the feet a little. (A69 later steps residents round
+  on the spot and plants seated feet; see [figures, crowns and timber](figures-crowns-timber-0.0.13.md#residents).)
+- Thornback and the approved hero are untouched. (A69 later rebuilds the hero's model; see the same record.)

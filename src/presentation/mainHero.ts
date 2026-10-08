@@ -3,7 +3,7 @@ import { modelAssetUrl } from './assets/modelUrl';
 import { observeModelLoad, withModelLoadSlot, type ModelLoadProgress } from './assets/modelLoadQueue';
 import { downloadAsset } from './assets/download';
 
-const FILE = 'hero/weathered-wanderer-animated-hero.glb';
+const FILE = 'hero/weathered-wanderer-hero-sealed.glb';
 let pending: Promise<GLTF> | null = null;
 
 /** Resolve from the built page, including the /Tervain/ Pages subdirectory. */

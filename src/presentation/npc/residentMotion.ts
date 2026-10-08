@@ -29,6 +29,9 @@ const AIM: Partial<Record<ResidentJoint, ResidentJoint>> = {
 };
 const ANIMATED = RESIDENT_JOINTS.filter(joint => joint !== 'head_end' && joint !== 'headfront');
 const FPS = 30;
+/** The joints whose turn reads as which way a standing figure faces: the chest and the head. Models face +z. */
+const FACING_JOINTS: readonly ResidentJoint[] = ['Spine', 'Head'];
+const FORWARD = new THREE.Vector3(0, 0, 1), UP = new THREE.Vector3(0, 1, 0);
 
 /** The library's reference skeleton at rest and its clips, from the loaded motion GLB. */
 export function residentMotionLibrary(gltf: { scene: THREE.Object3D; animations: THREE.AnimationClip[] }): ResidentMotionLibrary {
@@ -90,7 +93,7 @@ function corrections(source: WorldRest, target: WorldRest): Map<ResidentJoint, T
 export interface RetargetedClip {
   clip: THREE.AnimationClip;
   /** For a seated clip on a given model: where its seat lies (the lowest point of the buttocks and thighs), model metres. */
-  seat?: { y: number; z: number };
+  seat?: { x: number; y: number; z: number };
   /** For a walk or run: metres the figure covers in one cycle at its natural pace (0 for a clip that stays put). */
   cycleMetres: number;
   /** Lowest point of the hips across the clip relative to rest, metres (how far a sitting clip drops). */
@@ -101,9 +104,12 @@ export interface RetargetedClip {
 
 /**
  * Bake a library clip onto a target rig. `inPlace` removes a locomotion clip's forward drift (the game moves the actor)
- * and measures the pace it implied; clips made in place are measured from the planted foot instead.
+ * and measures the pace it implied; clips made in place are measured from the planted foot instead. `centre` stands a
+ * clip on the actor's own spot facing the actor's own way: some were made a step aside and turned half away (talk.chat
+ * stands 0.5 m off with its chest and head 35-50° round), which put a resident beside where they stood, looking past
+ * whomever they spoke to (A69).
  */
-export function retargetClip(clip: THREE.AnimationClip, library: RestPose, target: RestPose, inPlace = false): RetargetedClip {
+export function retargetClip(clip: THREE.AnimationClip, library: RestPose, target: RestPose, inPlace = false, centre = false): RetargetedClip {
   const source = worldRest(library), dest = worldRest(target);
   const correct = corrections(source, dest);
   const sourceHips = library.get('Hips')!.position, targetHips = target.get('Hips')!.position;
@@ -125,6 +131,7 @@ export function retargetClip(clip: THREE.AnimationClip, library: RestPose, targe
   const rawHips: THREE.Vector3[] = [];
   const ws = new Map<ResidentJoint, THREE.Quaternion>(), wt = new Map<ResidentJoint, THREE.Quaternion>();
   const local = new THREE.Quaternion(), inv = new THREE.Quaternion();
+  let heading = 0;
   for (let f = 0; f < frames; f++) {
     const t = Math.min(duration, f / FPS);
     times[f] = t;
@@ -145,6 +152,11 @@ export function retargetClip(clip: THREE.AnimationClip, library: RestPose, targe
     }
     const p = hipsTrack ? hipsTrack.evaluate(t) : [sourceHips.x, sourceHips.y, sourceHips.z];
     rawHips.push(new THREE.Vector3(p[0]!, p[1]!, p[2]!));
+    // Which way the chest and the head face in this frame, against their rest: the way the figure reads as facing.
+    if (centre) heading += FACING_JOINTS.reduce((sum, joint) => {
+      const forward = FORWARD.clone().applyQuaternion(local.copy(wt.get(joint)!).multiply(inv.copy(dest.rotation.get(joint)!).invert()));
+      return sum + Math.atan2(forward.x, forward.z);
+    }, 0) / FACING_JOINTS.length / frames;
   }
   // The pace a locomotion clip implies: its drift over the clip (removed), or for a clip made in place, how fast the
   // planted foot slides back under the body.
@@ -152,11 +164,26 @@ export function retargetClip(clip: THREE.AnimationClip, library: RestPose, targe
   drift.y = 0;
   let cycleMetres = 0;
   if (inPlace) cycleMetres = drift.length() * scale;
+  // A centred clip turns about the vertical by its mean facing, then stands its hips' mean over the rest's.
+  const facing = new THREE.Quaternion().setFromAxisAngle(UP, centre ? -heading : 0);
+  const shift = new THREE.Vector2();
+  if (centre) {
+    for (let f = 0; f < frames; f++) {
+      const p = rawHips[f]!.clone().sub(sourceHips).multiplyScalar(scale).add(targetHips).applyQuaternion(facing);
+      shift.x += p.x / frames; shift.y += p.z / frames;
+    }
+    shift.x -= targetHips.x; shift.y -= targetHips.z;
+    const q = quats.get('Hips')!, turned = new THREE.Quaternion();
+    for (let f = 0; f < frames; f++) {
+      turned.fromArray(q, f * 4).premultiply(facing).toArray(q, f * 4);
+    }
+  }
   let lowest = Infinity, sumX = 0, sumZ = 0;
   for (let f = 0; f < frames; f++) {
     const p = rawHips[f]!.clone();
     if (inPlace) p.addScaledVector(drift, -times[f]! / duration);
-    const out = p.sub(sourceHips).multiplyScalar(scale).add(targetHips);
+    const out = p.sub(sourceHips).multiplyScalar(scale).add(targetHips).applyQuaternion(facing);
+    out.x -= shift.x; out.z -= shift.y;
     hips.set([out.x, out.y, out.z], f * 3);
     lowest = Math.min(lowest, out.y);
     sumX += out.x; sumZ += out.z;
@@ -204,11 +231,12 @@ function plantedFootCycle(clip: THREE.AnimationClip, rest: RestPose): number {
 
 /**
  * Where a seated clip sits on a model: the clip is posed at a few moments on a copy of the model's skeleton, the surface
- * the hips and thighs carry is skinned on the CPU, and its lowest points give the seat's height and how far forward it
- * lies. Each clip sits on a chair of its own height and depth; the controller moves the body so this seat rests on the
- * resident's actual one.
+ * the hips and thighs carry is skinned on the CPU, and its lowest points give the seat's height, how far forward it
+ * lies and how far to the side. Each clip sits on a chair of its own height, depth and place; the controller moves the
+ * body so this seat rests on the resident's actual one. `moments` are the fractions of the clip it is seated at.
  */
-export function measureSeat(clip: RetargetedClip, rest: RestPose, data: ResidentRigData, position: THREE.BufferAttribute): { y: number; z: number } {
+export function measureSeat(clip: RetargetedClip, rest: RestPose, data: ResidentRigData, position: THREE.BufferAttribute,
+  moments: readonly number[] = [0.3, 0.5, 0.7]): { x: number; y: number; z: number } {
   const root = new THREE.Group();
   const bones = new Map<ResidentJoint, THREE.Bone>();
   for (const joint of RESIDENT_JOINTS) {
@@ -233,8 +261,8 @@ export function measureSeat(clip: RetargetedClip, rest: RestPose, data: Resident
   const action = mixer.clipAction(clip.clip).play();
   action.paused = true;
   const skin = RESIDENT_JOINTS.map(() => new THREE.Matrix4()), p = new THREE.Vector3(), q = new THREE.Vector3(), sum = new THREE.Vector3();
-  const heights: number[] = [], depths: number[] = [];
-  for (const at of [0.3, 0.5, 0.7]) {
+  const heights: number[] = [], depths: number[] = [], sides: number[] = [];
+  for (const at of moments) {
     action.time = at * clip.clip.duration;
     mixer.update(0);
     root.updateMatrixWorld(true);
@@ -255,11 +283,13 @@ export function measureSeat(clip: RetargetedClip, rest: RestPose, data: Resident
     const patch = posed.filter(point => point.y <= low + 0.03);
     heights.push(low);
     depths.push(patch.reduce((total, point) => total + point.z, 0) / Math.max(1, patch.length));
+    sides.push(patch.reduce((total, point) => total + point.x, 0) / Math.max(1, patch.length));
   }
   mixer.uncacheRoot(root);
   heights.sort((a, b) => a - b);
   depths.sort((a, b) => a - b);
-  return { y: heights[1]!, z: depths[1]! };
+  sides.sort((a, b) => a - b);
+  return { x: sides[1]!, y: heights[1]!, z: depths[1]! };
 }
 
 /* ------------------------------------------------------------------------------------------------ the controller */
@@ -299,13 +329,52 @@ const SEATED_WORK = new Set<WorkGesture>(['writing']);
 /** Clips that sit: their seats are measured on each model (see {@link measureSeat}). */
 export const SEATED_CLIPS = new Set<string>([MOTION_CLIPS.sit.man, MOTION_CLIPS.sit.woman, MOTION_CLIPS.sitTalk, MOTION_CLIPS.work.writing]);
 /**
- * Where a resident's seat contact rests relative to where they stand at a bench, metres forward: the bench's middle
- * lies 4 cm behind a seated resident's place (world/layout.ts), and the buttocks rest a little behind it.
+ * Where a resident's seat contact rests relative to their place at a bench, metres forward: the bench's middle lies 4 cm
+ * behind a seated resident's place (world/layout.ts), and the buttocks rest a little behind it. A resident who stands
+ * in front of the seat to sit down (the pose's `seatBack`) has it that much further behind them (A69).
  */
 const SEAT_CENTRE = -0.07;
+/**
+ * The motion library's chairs are about this high (metres). On a higher seat a resident sits further forward, 2.4 times
+ * the extra height up to 0.32 m, so the thighs slope down from near its front edge to feet on the floor rather than
+ * through the plank, and their feet come down by that extra height to stand on the floor where the clip set them (A69).
+ */
+const CLIP_SEAT = 0.42, PERCH_PER_METRE = 2.4, PERCH_MOST = 0.32;
 
 const FADE = 0.35, FIGHT_FADE = 0.12, IDLE_TURN = 9;
 const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
+const _v0 = new THREE.Vector3(), _v1 = new THREE.Vector3(), _v2 = new THREE.Vector3(), _v3 = new THREE.Vector3(), _m3 = new THREE.Matrix3();
+const _a = new THREE.Vector3(), _b = new THREE.Vector3(), _c = new THREE.Vector3(), _n = new THREE.Vector3();
+const _qa = new THREE.Quaternion(), _qb = new THREE.Quaternion(), _qc = new THREE.Quaternion(), _qp = new THREE.Quaternion(), _turn = new THREE.Quaternion();
+
+/**
+ * Two-joint reach in world space (A69): bend the middle joint until the chain's end lies as far from its root as the
+ * target, then swing the chain at its root onto the target. The end keeps its world orientation.
+ */
+function reachTwoJoints(upper: THREE.Bone, lower: THREE.Bone, end: THREE.Bone, target: THREE.Vector3): void {
+  const a = upper.getWorldPosition(_a), b = lower.getWorldPosition(_b), c = end.getWorldPosition(_c);
+  const first = a.distanceTo(b), second = b.distanceTo(c);
+  if (first < 1e-4 || second < 1e-4 || !upper.parent) return;
+  const reach = THREE.MathUtils.clamp(target.distanceTo(a), Math.abs(first - second) + 1e-3, first + second - 1e-3);
+  const ba = _v2.subVectors(a, b), bc = _v3.subVectors(c, b);
+  const bend = ba.angleTo(bc);
+  const wanted = Math.acos(THREE.MathUtils.clamp((first * first + second * second - reach * reach) / (2 * first * second), -1, 1));
+  const qUpper = upper.getWorldQuaternion(_qa), qLower = lower.getWorldQuaternion(_qb), qEnd = end.getWorldQuaternion(_qc);
+  const axis = _n.crossVectors(ba, bc);
+  if (axis.lengthSq() > 1e-12) {
+    // Turning about ba × bc opens the joint: the end swings away from the root.
+    _turn.setFromAxisAngle(axis.normalize(), wanted - bend);
+    qLower.premultiply(_turn);
+    c.sub(b).applyQuaternion(_turn).add(b);
+  }
+  _turn.setFromUnitVectors(_v2.subVectors(c, a).normalize(), _v3.subVectors(target, a).normalize());
+  qUpper.premultiply(_turn);
+  qLower.premultiply(_turn);
+  upper.quaternion.copy(upper.parent.getWorldQuaternion(_qp).invert().multiply(qUpper));
+  lower.quaternion.copy(_qp.copy(qUpper).invert().multiply(qLower));
+  end.quaternion.copy(_qp.copy(qLower).invert().multiply(qEnd));
+  upper.updateMatrixWorld(true);
+}
 const fraction = (v: number) => ((v % 1) + 1) % 1;
 const hash = (a: number, b: number) => {
   let h = Math.imul(a | 0, 0x9e3779b1) ^ Math.imul(b | 0, 0x85ebca6b);
@@ -334,6 +403,20 @@ export interface ResidentMotionOptions {
 const CALM_TALK = ['talk.chat', 'talk.listen'];
 const CALM_ACCENTS = ['idle.look.short', 'idle.look.long', 'idle.clasped'];
 const ARM_JOINTS: ResidentJoint[] = ['LeftShoulder', 'RightShoulder', 'LeftArm', 'RightArm', 'LeftForeArm', 'RightForeArm'];
+/**
+ * Standing about and talking: baked centred on the actor's spot and turned to the actor's heading (see
+ * {@link retargetClip}), so a resident talks to whom they face from where they stand (A69). Work keeps its authored
+ * placement at its tools and surfaces, and fights their stances.
+ */
+export const CENTRED_CLIPS = new Set<string>([...MOTION_CLIPS.idle, ...MOTION_CLIPS.accents, ...MOTION_CLIPS.talk, ...CALM_TALK]);
+/**
+ * Getting down onto a seat and up off it: each is seated at one end, measured there (fractions of the clip), so the
+ * body lands on and leaves the real seat where that clip's own seat lies rather than the seated idle's (A69).
+ */
+export const SEAT_MOMENTS: Readonly<Record<string, readonly number[]>> = {
+  [MOTION_CLIPS.sitDown]: [0.86, 0.89, 0.92],
+  [MOTION_CLIPS.sitUp]: [0.02, 0.08, 0.14],
+};
 
 /**
  * Plays a resident's clips for the game's poses. The game moves and turns the actor; this only animates the body under
@@ -346,12 +429,17 @@ export class ResidentMotion {
   private phase = 0;
   private clock = 0;
   private lastMode: Mode | null = null;
-  private seatedBlend = 0;
   private transition: { name: string; started: number } | null = null;
   private wasSeated = false;
   private deadClock = 0;
   private accent: { name: string; until: number } | null = null;
-  private readonly lift = new THREE.Vector2();
+  /** Where the body stands off the actor's spot this frame: on a seat, each playing clip's own seat over the real one. */
+  private readonly seatShift = new THREE.Vector3();
+  /** The hip joint's height and depth standing at rest (model metres). */
+  private readonly standingHips: number;
+  private readonly standingHipsZ: number;
+  /** For getting down and up: the hips' height through the clip, standing to seated. */
+  private readonly seatCurves = new Map<RetargetedClip, { track: THREE.KeyframeTrack; top: number; bottom: number }>();
 
   private readonly armRest: Map<ResidentJoint, THREE.Quaternion>;
 
@@ -359,10 +447,27 @@ export class ResidentMotion {
     private readonly clips: ResidentClips, private readonly options: ResidentMotionOptions) {
     this.mixer = new THREE.AnimationMixer(scene);
     this.armRest = new Map(ARM_JOINTS.map(joint => [joint, bones[joint].quaternion.clone()]));
+    this.standingHips = bones.Hips.position.y;
+    this.standingHipsZ = bones.Hips.position.z;
   }
 
   /** The clip currently leading the pose, for diagnostics and the lab. */
   get leading(): string { return this.current; }
+
+  /**
+   * Seconds from beginning to get up off a seat until the resident stands on their feet: the moment the clip's hips come
+   * back to their standing height. The actor waits this long before walking away (A69).
+   */
+  get standUpSeconds(): number {
+    const track = this.clips.get(MOTION_CLIPS.sitUp)?.clip.tracks.find(t => t.name === 'Hips.position');
+    if (!track) return 0;
+    const height = (frame: number) => track.values[frame * 3 + 1]!, frames = track.times.length;
+    let lowest = 0;
+    for (let frame = 1; frame < frames; frame++) if (height(frame) < height(lowest)) lowest = frame;
+    const standing = height(frames - 1);
+    for (let frame = lowest; frame < frames; frame++) if (height(frame) >= standing - 0.03) return track.times[frame]!;
+    return track.times[frames - 1]!;
+  }
 
   private use(name: string): Playing | null {
     const clip = this.clips.get(name);
@@ -391,12 +496,62 @@ export class ResidentMotion {
     return p;
   }
 
-  /** How far to move the body so a seated clip's own seat rests on a seat `seatHeight` high, centred over the real one. */
-  private seatOffset(seatHeight: number, clip: RetargetedClip): { y: number; z: number } {
-    if (clip.seat) return { y: seatHeight - clip.seat.y, z: SEAT_CENTRE - clip.seat.z };
+  /**
+   * How far in front of a seat's place a resident stands to sit down on it, metres: where getting down onto it begins on
+   * their feet, so they neither slide to it nor stand inside the bench, and get up again where they stood (A69).
+   */
+  seatApproach(seatHeight: number): number {
+    const down = this.clips.get(MOTION_CLIPS.sitDown), seat = down ? this.seatOf(down) : null;
+    const track = down?.clip.tracks.find(t => t.name === 'Hips.position');
+    if (!seat || !track) return 0;
+    return Math.max(0, track.values[2]! - this.standingHipsZ + SEAT_CENTRE + this.perch(seatHeight) - seat.z);
+  }
+
+  /** How much further forward than usual a resident sits on a seat this high (see {@link CLIP_SEAT}). */
+  private perch(seatHeight: number): number {
+    return Math.min(PERCH_MOST, Math.max(0, (seatHeight - CLIP_SEAT) * PERCH_PER_METRE));
+  }
+
+  /** Where a clip's own seat lies (model metres), for a clip that sits or gets down or up; null for one that stands. */
+  private seatOf(clip: RetargetedClip): { x: number; y: number; z: number } | null {
+    if (clip.seat) return clip.seat;
+    if (!SEATED_CLIPS.has(clip.clip.name) && !SEAT_MOMENTS[clip.clip.name]) return null;
     // Unmeasured: the clip's lowest hips less the depth from hip joint to the seat of the trousers.
-    const restHips = this.bones.Hips.position.y;
-    return { y: seatHeight - (restHips - clip.hipsDrop - this.options.seatDepth), z: 0 };
+    return { x: 0, y: this.standingHips - clip.hipsDrop - this.options.seatDepth, z: 0 };
+  }
+
+  /** How far down on its seat a clip is at `time`: 1 for a seated clip; getting down or up, 0 standing .. 1 seated (A69). */
+  private seatedness(clip: RetargetedClip, time: number): number {
+    if (!SEAT_MOMENTS[clip.clip.name]) return 1;
+    let curve = this.seatCurves.get(clip);
+    if (!curve) {
+      const track = clip.clip.tracks.find(t => t.name === 'Hips.position');
+      if (!track) return 1;
+      let top = -Infinity, bottom = Infinity;
+      for (let i = 1; i < track.values.length; i += 3) { top = Math.max(top, track.values[i]!); bottom = Math.min(bottom, track.values[i]!); }
+      curve = { track, top, bottom };
+      this.seatCurves.set(clip, curve);
+    }
+    const { times, values } = curve.track, last = times.length - 1;
+    const at = Math.min(last, Math.max(0, time / Math.max(1e-6, clip.clip.duration) * last));
+    const i = Math.min(last - 1, Math.floor(at)), f = at - i;
+    const height = values[i * 3 + 1]! + (values[(i + 1) * 3 + 1]! - values[i * 3 + 1]!) * f;
+    return clamp01((curve.top - height) / Math.max(0.05, curve.top - curve.bottom));
+  }
+
+  /**
+   * On a seat higher or lower than a clip's own, the body is lifted or lowered onto it; the feet stay on the floor where
+   * the clip set them, the knees opening or folding to reach (two-joint reach in world space), the soles keeping their
+   * angle (A69).
+   */
+  private plantFeet(lift: number): void {
+    const parent = this.body.parent;
+    if (!parent || Math.abs(lift) < 0.005) return;
+    this.body.updateMatrixWorld(true);
+    const down = _v0.set(0, -lift, 0).applyMatrix3(_m3.setFromMatrix4(parent.matrixWorld));
+    for (const [upper, lower, end] of [['LeftUpLeg', 'LeftLeg', 'LeftFoot'], ['RightUpLeg', 'RightLeg', 'RightFoot']] as const) {
+      reachTwoJoints(this.bones[upper], this.bones[lower], this.bones[end], this.bones[end].getWorldPosition(_v1).add(down));
+    }
   }
 
   pose(p: Pose, dt: number): void {
@@ -498,16 +653,26 @@ export class ResidentMotion {
     const damping = this.options.garmentArms ?? 0;
     if (damping > 0) for (const joint of ARM_JOINTS) this.bones[joint].quaternion.slerp(this.armRest.get(joint)!, damping);
 
-    // A seated clip sits on a seat of its own height and depth: move the body so its seat rests on the real one.
-    const sitClip = this.clips.get(MOTION_CLIPS.sit[build]) ?? leading?.clip;
-    const seatClip = seated && leading?.clip.seat ? leading.clip : sitClip;
-    this.seatedBlend += ((seated ? 1 : 0) - this.seatedBlend) * (1 - Math.exp(-step * 6));
-    const lift = seatClip ? this.seatOffset(seatHeight, seatClip) : { y: 0, z: 0 };
-    // Easing between seats (a seated idle to seated talk) rather than jumping.
-    this.lift.x += (lift.y - this.lift.x) * (1 - Math.exp(-step * 5));
-    this.lift.y += (lift.z - this.lift.y) * (1 - Math.exp(-step * 5));
-    this.body.position.set(0, this.seatedBlend * this.lift.x, this.seatedBlend * this.lift.y);
+    // A seated clip sits on a seat of its own height, depth and place: move the body so its seat rests on the real one.
+    // Each playing clip counts as the mixer weighs its pose, so the seat of the trousers stays on the bench while one
+    // clip gives way to another, and getting down or up lifts the body only as far as its hips are down (A69).
+    const back = Number.isFinite(p.seatBack) ? Math.max(0, p.seatBack!) : 0;
+    const perch = this.perch(seatHeight);
+    const shift = this.seatShift.set(0, 0, 0);
+    let weights = 0;
+    for (const q of this.playing.values()) {
+      if (q.weight <= 1e-3) continue;
+      weights += q.weight;
+      const seat = this.seatOf(q.clip);
+      if (!seat) continue;
+      shift.x -= q.weight * seat.x;
+      shift.y += q.weight * this.seatedness(q.clip, q.time) * (seatHeight - seat.y);
+      shift.z += q.weight * (SEAT_CENTRE + perch - back - seat.z);
+    }
+    shift.divideScalar(Math.max(1, weights));
+    this.body.position.copy(shift);
     this.body.rotation.set(0, 0, 0);
+    this.plantFeet(shift.y);
     this.wasSeated = seated && this.transition?.name !== MOTION_CLIPS.sitUp;
     this.lastMode = mode;
     this.scene.updateMatrixWorld(true);

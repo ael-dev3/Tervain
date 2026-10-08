@@ -56,6 +56,25 @@ const NPC_ACCELERATION = 3.2;
 const NPC_BRAKING = 4;
 const arrivalRadius = (activity: Activity) => activity === 'work' || activity === 'sit' ? .06 : .15;
 const npcSeed = (id: string) => [...id].reduce((n, c) => (n * 31 + c.charCodeAt(0)) >>> 0, 17);
+/**
+ * How fast a resident turns, radians a second (A69): about 180° a second walking and 125° standing, easing into the
+ * last part of a turn. People turn about with a step or two; they never spin on the spot.
+ */
+const NPC_TURN_WALKING = 3.2, NPC_TURN_STANDING = 2.2, NPC_TURN_EASE = 7;
+/** A turn on the spot faster than this (radians a second) is stepped round, each radian a stride's arc of gait (A69). */
+const NPC_TURN_STEPPED = .6, NPC_TURN_STRIDE = .3;
+/** Within this of their place's heading (radians) a resident settles there: they sit down or start work facing it. */
+const NPC_SETTLED = .3;
+const wrapAngle = (a: number) => Math.atan2(Math.sin(a), Math.cos(a));
+
+/** Turn `from` toward `to` at no more than `rate` radians a second, easing out over the last part of the turn (A69). */
+export function turnToward(from: number, to: number, rate: number, dt: number): number {
+  const d = wrapAngle(to - from);
+  return wrapAngle(from + Math.sign(d) * Math.min(Math.abs(d) * -Math.expm1(-dt * NPC_TURN_EASE), rate * dt));
+}
+
+/** A resident's place: where they stand and which way they face, a seat's height, and who else shares a meeting place. */
+export type NpcPlace = V2 & { yaw: number; seat?: number; seatBack?: number; company?: readonly (V2 & { id: NpcId })[] };
 
 /** Actual foot/body geometry, rather than a conservative navigation cell, decides a short local connection. */
 function clearNpcSegment(from: V2, to: V2, ctx: Pick<ActorContext, 'terrain' | 'colliders'>, height: number, extra: readonly Collider[] = []): boolean {
@@ -74,14 +93,17 @@ function clearNpcSegment(from: V2, to: V2, ctx: Pick<ActorContext, 'terrain' | '
   return true;
 }
 
-/** Stable places beside a shared conversation/office anchor; work surfaces and seats retain their authored placement. */
-export function npcGoalPosition(def: NpcDef, goal: Goal, ctx: Pick<ActorContext, 'terrain' | 'colliders'>, height: number): V2 & { yaw: number; seat?: number } {
+/**
+ * Stable places beside a shared conversation/office anchor; work surfaces and seats retain their authored placement.
+ * The others' places at a shared anchor come too: a resident turns toward whoever is there with them (A69).
+ */
+export function npcGoalPosition(def: NpcDef, goal: Goal, ctx: Pick<ActorContext, 'terrain' | 'colliders'>, height: number): NpcPlace {
   const base = ANCHORS[goal.anchor] ?? { x: 0, z: 0, yaw: 0 };
   if (goal.activity !== 'stand' && goal.activity !== 'talk') return base;
   const entries = (d: NpcDef) => [...d.schedule, ...d.overrides ?? []];
   const peers = Object.values(NPCS).filter(d => entries(d).some(e => e.anchor === goal.anchor && (e.activity === 'stand' || e.activity === 'talk'))).sort((a, b) => a.id.localeCompare(b.id));
   if (peers.length < 2 || !peers.some(d => d.id === def.id)) return base;
-  const chosen: V2[] = [];
+  const chosen: (V2 & { id: NpcId })[] = [];
   for (const [i, peer] of peers.entries()) {
     const lateral = (i - (peers.length - 1) / 2) * 1.3;
     const offsets = [{ x: lateral, z: 0 }, ...[.85, 1.5, 2.2].flatMap(r =>
@@ -94,10 +116,10 @@ export function npcGoalPosition(def: NpcDef, goal: Goal, ctx: Pick<ActorContext,
         || ctx.colliders.blocked(point.x, point.z, NPC_RADIUS, { minY: y + .02, maxY: y + height })) continue;
       stance = point; break;
     }
-    chosen.push(stance);
-    if (peer.id === def.id) return { ...stance, yaw: base.yaw };
+    chosen.push({ x: stance.x, z: stance.z, id: peer.id });
   }
-  return base;
+  const own = chosen.find(place => place.id === def.id)!;
+  return { x: own.x, z: own.z, yaw: base.yaw, company: chosen.filter(place => place.id !== def.id) };
 }
 
 /** A coarse grid can reject a counter's whole cell even when the resident's exact working stance is clear. */
@@ -134,7 +156,7 @@ export class NpcActor {
   private placed = false;
   private viaMaint = false;
   private maintenanceCursor = 0;
-  private destination: V2 & { yaw: number; seat?: number } = { x: 0, z: 0, yaw: 0 };
+  private destination: NpcPlace = { x: 0, z: 0, yaw: 0 };
   private speed = 0;
   private routeRetry = 0;
   private routeFailures = 0;
@@ -169,7 +191,7 @@ export class NpcActor {
   snapToGoal(ctx: ActorContext) {
     const g = resolveGoal(this.def, ctx.state, ctx.hour);
     this.goal = g;
-    const a = this.destination = npcGoalPosition(this.def, g, ctx, this.rig.height);
+    const a = this.destination = this.placeFor(g, ctx);
     this.x = a.x;
     this.z = a.z;
     this.yaw = a.yaw;
@@ -189,6 +211,56 @@ export class NpcActor {
 
   private atDestination() {
     return Math.hypot(this.x - this.destination.x, this.z - this.destination.z) <= arrivalRadius(this.goal.activity);
+  }
+
+  /** On their way somewhere: a route still to walk. A passing remark is made on the move, and doors open for them (A69). */
+  get underway(): boolean {
+    return !this.hidden && this.path !== null && !this.atDestination();
+  }
+
+  /** Turned to their place's heading: only then do they sit down on its seat or start work at it (A69). */
+  private settled() {
+    return Math.abs(wrapAngle(this.destination.yaw - this.yaw)) < NPC_SETTLED;
+  }
+
+  private seatedHere() {
+    return this.goal.activity === 'sit' && this.atDestination() && this.settled();
+  }
+
+  /** Which way a resident faces at their place: toward whoever shares it with them now, else its own heading (A69). */
+  private placeYaw(ctx: ActorContext): number {
+    const company = this.destination.company?.filter((peer) => {
+      if (!ctx.state.npcs[peer.id]?.available) return false;
+      const goal = resolveGoal(NPCS[peer.id], ctx.state, ctx.hour);
+      return goal.anchor === this.goal.anchor && (goal.activity === 'stand' || goal.activity === 'talk');
+    });
+    if (!company?.length) return this.destination.yaw;
+    const x = company.reduce((sum, peer) => sum + peer.x, 0) / company.length, z = company.reduce((sum, peer) => sum + peer.z, 0) / company.length;
+    return Math.atan2(x - this.x, z - this.z);
+  }
+
+  /**
+   * Where a resident goes for a goal. A seat is sat down on from in front of it, where their clips begin getting down on
+   * their feet, rather than from inside the bench; the seat's height is then taken from that spot's ground (A69).
+   */
+  private placeFor(goal: Goal, ctx: ActorContext): NpcPlace {
+    const place = npcGoalPosition(this.def, goal, ctx, this.rig.height);
+    // Resting at a seat ends where they stood up from it, not inside the bench.
+    if ((goal.activity !== 'sit' && goal.activity !== 'rest') || place.seat === undefined) return place;
+    const back = this.rig.resident?.seatApproach(place.seat) ?? 0;
+    if (!(back > .01)) return place;
+    const x = place.x + Math.sin(place.yaw) * back, z = place.z + Math.cos(place.yaw) * back;
+    const y = ctx.terrain.groundAt(x, z), seatGround = ctx.terrain.groundAt(place.x, place.z);
+    // Only where a person can stand; otherwise they sit down from the seat's own place.
+    if (!Number.isFinite(y) || !Number.isFinite(seatGround) || !ctx.terrain.walkable(x, z)
+      || ctx.colliders.blocked(x, z, NPC_RADIUS, { minY: y + .02, maxY: y + this.rig.height })) return place;
+    return { ...place, x, z, seat: place.seat + seatGround - y, seatBack: back };
+  }
+
+  /** Out of their door, a resident faces the way they are going rather than the door they went in by (A69). */
+  private faceRoute() {
+    const next = this.path?.[this.pi];
+    this.yaw = next && Math.hypot(next.x - this.x, next.z - this.z) > .05 ? Math.atan2(next.x - this.x, next.z - this.z) : this.destination.yaw;
   }
 
   private planRoute(ctx: ActorContext, maintenance = false) {
@@ -270,14 +342,19 @@ export class NpcActor {
     const changed = goal.anchor !== this.goal.anchor || goal.activity !== this.goal.activity;
     if (changed || this.unavailable) {
       const wasResting = this.goal.activity === 'rest';
-      if (this.mode === 'sit' || this.goal.activity === 'sit' && this.talking) this.standDelay = .85;
+      let appeared = false;
+      // Getting up from a seat takes its clip's own time to stand: they walk off on their feet, not mid-rise (A69).
+      if (this.mode === 'sit' || this.goal.activity === 'sit' && this.talking) this.standDelay = Math.max(.85, this.rig.resident?.standUpSeconds ?? 0);
       this.goal = goal;
-      this.destination = npcGoalPosition(this.def, goal, ctx, this.rig.height);
+      this.destination = this.placeFor(goal, ctx);
       if (this.hidden && goal.activity !== 'rest') {
         if (wasResting || this.waking) {
           // Share a doorway in turns, rather than materialising two bodies on the same home anchor.
           this.waking = true;
-        } else this.hidden = false;
+        } else {
+          this.hidden = false;
+          appeared = true;
+        }
       }
       if (goal.activity === 'rest') this.waking = false;
       this.unavailable = false;
@@ -285,11 +362,12 @@ export class NpcActor {
       this.routeRetry = 0;
       if (!this.atDestination()) this.planRoute(ctx, true);
       else this.path = null;
+      if (appeared) this.faceRoute();
     }
     if (this.waking) {
       const y = ctx.terrain.groundAt(this.x, this.z);
       const resolved = ctx.colliders.resolve(this.x, this.z, NPC_RADIUS, `person:${this.id}`, { minY: y + .02, maxY: y + this.rig.height }, contacts);
-      if (Math.hypot(resolved.x - this.x, resolved.z - this.z) < .001) { this.hidden = false; this.waking = false; }
+      if (Math.hypot(resolved.x - this.x, resolved.z - this.z) < .001) { this.hidden = false; this.waking = false; this.faceRoute(); }
     }
 
     this.routeRetry = Math.max(0, this.routeRetry - dt);
@@ -297,6 +375,7 @@ export class NpcActor {
     if (!this.hidden && !this.talking && !this.atDestination() && this.routeRetry === 0 && (!this.path || this.stuck > 1.5 && this.dynamicWait === 0)) this.planRoute(ctx, this.viaMaint);
 
     this.clock += dt;
+    const yawBefore = this.yaw;
     let moving = false;
     let travelled = 0;
     let dynamicBlocked = false;
@@ -322,7 +401,7 @@ export class NpcActor {
       const dz = wp.z - this.z;
       const d = Math.hypot(dx, dz);
       const yaw = Math.atan2(dx, dz);
-      this.yaw = lerpAngle(this.yaw, yaw, 1 - Math.exp(-stepDt * 8));
+      this.yaw = turnToward(this.yaw, yaw, NPC_TURN_WALKING, stepDt);
       const alignment = Math.max(0, Math.cos(yaw - this.yaw));
       const final = this.pi === this.path.length - 1;
       let wanted = Math.min(NPC_WALK_SPEED, Math.sqrt(2 * NPC_BRAKING * Math.max(0, final ? d - arrivalRadius(this.goal.activity) : d))) * alignment;
@@ -356,15 +435,22 @@ export class NpcActor {
 
     if (!moving) {
       if (this.talking) {
-        const to = this.faceTo ?? ctx.player;
-        const target = Math.atan2(to.x - this.x, to.z - this.z);
-        this.yaw = lerpAngle(this.yaw, target, 1 - Math.exp(-dt * 6));
+        // Seated, they talk from their seat; standing, they turn to whom they are talking to (A69).
+        if (!this.seatedHere()) {
+          const to = this.faceTo ?? ctx.player;
+          this.yaw = turnToward(this.yaw, Math.atan2(to.x - this.x, to.z - this.z), NPC_TURN_STANDING, dt);
+        }
       } else if (!this.path && this.atDestination()) {
         const a = this.destination;
-        this.yaw = lerpAngle(this.yaw, a.yaw, 1 - Math.exp(-dt * 3));
-        if (this.goal.activity === 'rest' && Math.hypot(this.x - a.x, this.z - a.z) < 1.2) this.hidden = true;
+        this.yaw = turnToward(this.yaw, this.placeYaw(ctx), NPC_TURN_STANDING, dt);
+        // Off to rest from a seat, they are on their feet first (A69).
+        if (this.goal.activity === 'rest' && this.standDelay === 0 && Math.hypot(this.x - a.x, this.z - a.z) < 1.2) this.hidden = true;
       }
     }
+    // A turn on the spot is stepped round rather than glided like a statue on a turntable (A69).
+    const turned = Math.abs(wrapAngle(this.yaw - yawBefore));
+    const stepping = !moving && !this.hidden && dt > 0 && turned > NPC_TURN_STEPPED * dt;
+    const gait = moving ? travel : stepping ? turned * NPC_TURN_STRIDE * (this.rig.height / 1.8) : 0;
 
     this.y = ctx.terrain.groundAt(this.x, this.z);
     this.rig.root.visible = !this.hidden;
@@ -372,29 +458,32 @@ export class NpcActor {
     this.rig.root.rotation.y = this.yaw;
 
     let mode: Mode = 'idle';
-    if (moving) mode = 'walk';
-    else if (this.talking) mode = this.speaking ? 'talk' : this.goal.activity === 'sit' && this.atDestination() ? 'sit' : 'idle';
+    const seated = this.seatedHere();
+    if (moving || stepping) mode = 'walk';
+    else if (this.talking) mode = this.speaking ? 'talk' : seated ? 'sit' : 'idle';
     else if (!this.path && this.atDestination()) {
+      // Work only reads as work at a work place, facing it; a seat is sat on once they have turned to it (A69).
       const act = this.goal.activity;
-      mode = act === 'work' ? 'work' : act === 'sit' ? 'sit' : 'idle';
-      // Work only reads as work at a work place; a distant anchor mismatch leaves them idle.
+      mode = act === 'work' && this.settled() ? 'work' : act === 'sit' && seated ? 'sit' : 'idle';
     }
     this.mode = mode;
-    // A resident waiting at a doorway cannot keep walking in place. Only resolved route metres advance the gait.
-    this.anim += travel / (NPC_WALK_CYCLE_METRES * (this.rig.height / 1.8));
+    // A resident waiting at a doorway cannot keep walking in place. Only resolved route metres, or a turn stepped round on
+    // the spot, advance the gait.
+    this.anim += gait / (NPC_WALK_CYCLE_METRES * (this.rig.height / 1.8));
     const style = npcStyle(this.def.id);
     const pose: Pose = {
       mode,
-      speed: moving && dt > 0 ? NPC_WALK_POSE_SPEED * Math.min(1, travel / dt / NPC_WALK_SPEED) : 0,
+      speed: mode === 'walk' && dt > 0 ? NPC_WALK_POSE_SPEED * Math.min(1, gait / dt / NPC_WALK_SPEED) : 0,
       time: mode === 'walk' ? this.anim : this.clock,
       t: 0,
       // Locomotion remains distance-matched; Reduced Motion reduces idle/work gestures rather than making moving feet shuffle.
-      amp: ctx.reducedMotion && !moving ? 0.4 : 1,
-      travel,
-      moveSpeed: dt > 0 ? travel / dt : 0,
+      amp: ctx.reducedMotion && mode !== 'walk' ? 0.4 : 1,
+      travel: gait,
+      moveSpeed: dt > 0 ? gait / dt : 0,
       workGesture: style.work,
-      seated: !moving && this.goal.activity === 'sit' && this.atDestination(),
+      seated: mode !== 'walk' && seated,
       seatHeight: this.destination.seat,
+      seatBack: this.destination.seatBack,
       // Standing about, a resident folds their arms, looks round, shifts their weight (still when motion is reduced).
       idle: ctx.reducedMotion ? undefined : { seed: style.faceSeed, clock: this.clock },
     };

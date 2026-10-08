@@ -3,18 +3,18 @@
   "reviewedAt": "2026-10-06",
   "auditedModelRevision": "dbb4e8e296e1f4aa5adca5e4b01d83ad98ea828b",
   "summary": {
-    "publicModelFiles": 106,
-    "publicModelBytes": 564545496,
+    "publicModelFiles": 107,
+    "publicModelBytes": 575747580,
     "archivedWarpkeepFiles": 209,
     "archivedWarpkeepBytes": 23676804,
-    "hashesMatchedExistingSourceRecords": 315,
+    "hashesMatchedExistingSourceRecords": 316,
     "modelsWithEmbeddedCcDeclaration": 0,
     "licenseClassification": "Unresolved Meshy branches are explicitly pending; absence of an embedded CC label does not establish absence of CC rights."
   },
   "scope": "Original Tervain GLB catalog and historical Warpkeep model archive. This ledger does not apply the source-code license to model content.",
   "credit": "Original-game imported models created with Meshy (https://www.meshy.ai/); owner-supplied sources adapted for Tervain. Individual source license classification and any source creator credit remain pending where not recorded. The historical Warpkeep archive retains its separate source records and notices.",
   "licenseFreedomExceptions": {
-    "principle": "An actual per-source CC license takes precedence over general repository media wording for the rights it grants. No project notice limits recipients\u2019 existing CC rights. Pending status is an evidence gap, not a restriction added to an existing license.",
+    "principle": "An actual per-source CC license takes precedence over general repository media wording for the rights it grants. No project notice limits recipients’ existing CC rights. Pending status is an evidence gap, not a restriction added to an existing license.",
     "ccBy4": {
       "url": "https://creativecommons.org/licenses/by/4.0/",
       "conditions": "When confirmed: retain supplied creator/copyright/license/disclaimer/source notices, credit Meshy as designated, identify changes, and link CC BY 4.0. Do not impose additional restrictions or imply endorsement.",
@@ -52,7 +52,7 @@
         "evidenceStatus": "pending-source-classification",
         "reason": "Generation-time Free/Paid status and Community/source-listing license are not recorded."
       },
-      "credit": "The Weathered Wanderer \u2014 supplied by Ael; Meshy-generated source, refined and rigged for Tervain using Blender and owner-authorized ImageGen textures.",
+      "credit": "The Weathered Wanderer — supplied by Ael; Meshy-generated source, refined and rigged for Tervain using Blender and owner-authorized ImageGen textures.",
       "changes": "UV-preserving reduction, original Tervain rig and clips, ImageGen material refinement and lossless runtime texture preparation.",
       "rightsBoundary": "Project-specific Tervain use is recorded. This is not proof of ownership or a general content license."
     },
@@ -70,8 +70,8 @@
         "evidenceStatus": "pending-source-classification",
         "reason": "Generation-time Free/Paid status and Community/source-listing license are not recorded."
       },
-      "credit": "The Weathered Wanderer \u2014 owner-supplied Meshy source; prepared for Tervain. Animation/source rights remain separately recorded.",
-      "changes": "Blender reduction and consistent unit conversion retaining supplied textures, UVs, joints and clips; source includes Mixamo-named animation/skeleton content whose separate source rights are not independently established.",
+      "credit": "The Weathered Wanderer — owner-supplied Meshy source; prepared for Tervain. Animation/source rights remain separately recorded.",
+      "changes": "Blender reduction and consistent unit conversion retaining supplied textures, UVs, joints and clips; source includes Mixamo-named animation/skeleton content whose separate source rights are not independently established. The game draws a rebuilt copy (A69): the approved 49,500-triangle mesh of the same character, skinned to this rig by weight transfer, with these clips, material and textures, because this reduction opens into cracks when animated.",
       "rightsBoundary": "Project-specific Tervain use is recorded. This is not proof of ownership or a general content license."
     },
     "solitary-pine": {
@@ -7703,7 +7703,7 @@
       "embeddedCopyright": null,
       "embeddedCcDeclaration": false,
       "externalDependencies": [],
-      "scope": "original-game-model-catalog",
+      "scope": "historical-public-model",
       "sourceId": "wanderer-animated",
       "license": {
         "spdx": null,
@@ -7721,6 +7721,22 @@
       "externalDependencies": [],
       "scope": "historical-public-model",
       "sourceId": "wanderer-historical",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification"
+      },
+      "modified": true
+    },
+    {
+      "file": "public/models/hero/weathered-wanderer-hero-sealed.glb",
+      "bytes": 11202084,
+      "sha256": "ee7ce82c84e451fda67901d02335691c0d1d8eac0239cfe16aedb65dc852d293",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "wanderer-animated",
       "license": {
         "spdx": null,
         "version": null,
@@ -8059,7 +8075,7 @@
     "modelFilesListed": false
   },
   "resolutionRequired": [
-    "Establish each Meshy source\u2019s generation-time or Community/listing license and credited creator.",
+    "Establish each Meshy source’s generation-time or Community/listing license and credited creator.",
     "Preserve actual model, image-input and animation rights separately; a model-service label does not clear third-party inputs.",
     "Update source classification and required attribution using evidence rather than selecting a blanket license."
   ]

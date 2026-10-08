@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { clone as cloneSkinned } from 'three/examples/jsm/utils/SkeletonUtils.js';
 import type { Pose, Rig } from '../characters';
 import { roughnessFloor } from '../matte';
+import { installDualQuaternionSkinning } from '../npc/dualQuaternionSkinning';
 import { HeroAnimationController } from './animation';
 import { createHeroAttachments } from './attachments';
 import { bindHeroBones } from './bones';
@@ -52,6 +53,11 @@ export function createHeroRig(asset: HeroAsset): MainHeroRig {
   if (skins !== 1) throw new Error(`Main hero requires one skinned character mesh; found ${skins}`);
   // The model's own roughness reaches 0.5 on leather and skin, which read polished under the sky light (A67).
   for (const material of materials) roughnessFloor(material, HERO_ROUGHNESS_FLOOR);
+  // Dual-quaternion skinning, as the residents have (A63): shoulders, elbows, wrists and hips keep their volume where
+  // linear blending pinched them into the "candy wrapper" folds of an A-pose rig without twist joints (A69).
+  scene.traverse((object) => {
+    if ((object as THREE.SkinnedMesh).isSkinnedMesh) installDualQuaternionSkinning(object as THREE.SkinnedMesh);
+  });
   const hero = new HeroAnimationController(scene, body, bones, asset.animations);
   const attachments = createHeroAttachments(bones);
   materials.push(...attachments.materials);
