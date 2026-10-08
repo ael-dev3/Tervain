@@ -4,11 +4,91 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Repeatable rebuilding process
+
+Each checkpoint should make one source-backed behavior usable by the browser
+runtime and record exactly where execution still stops.
+
+1. Inventory the local installation and resolve archive/patch precedence. Record
+   the original resource path, effective archive, input hash and tool revision.
+2. Extract the required data or capture the relevant native function and its
+   original bytes. Keep disassembly and decompiler output as research evidence;
+   implement the recovered behavior in TypeScript.
+3. Trace dependencies before connecting the feature: constructors, shared
+   globals, callbacks, memory ownership, call order and failure cleanup. Capture
+   the needed cold image data alongside the function evidence.
+4. Implement the feature under its actual runtime owner. Preserve storage and
+   pointer identity, argument/return behavior and already completed effects.
+   Keep unsupported operations as explicit boundaries.
+5. Connect the feature to the live world and session services. Asset display,
+   an isolated helper and an integrated gameplay feature have separate receipts.
+6. Check source identities and supported behavior locally, typecheck, build and
+   inspect the diff. For gameplay, compare the encounter with the installed game
+   and exercise progression plus save/reload.
+7. Record the revision, checks, supported cases and next dependency here. Inspect
+   repository-wide Actions runs and workflow triggers before remote changes;
+   publish a reviewed checkpoint through the existing Pages workflow.
+8. Continue across NPC activation, combat, dialogue, quests, travel and persistent
+   state until ordinary play can reach a campaign ending.
+
+### Immediate remaining work
+
+- Complete SharedBase initializer startup at 100aa632, including its actual
+  initializer tables and callback dependencies, then the enclosing CRT attach.
+- Connect the supported shared runtime to live Game startup at 204678f2 and
+  execute the required initializer callbacks in their original order.
+- Complete the remaining property/diagnostic dependencies and activate NPCs in
+  the live world, then integrate their routines and gameplay interactions.
+- Establish playable quest progression and save/reload through an ending.
+
+The current browser reconstruction is incomplete. Deployment and passing unit
+checks establish the published checkpoint's supported scope; campaign completion
+requires an integrated gameplay result.
+
 ## Latest process summary — 8 October 2026
+
+### SharedBase environment vector and initializer boundary
+
+The latest local continuation executes the original setenvp routine `100c092a`
+on the retained graph after the successful argument return. It scans the actual
+SharedBase environment block, skips entries beginning with `=`, allocates a
+zeroed vector, and allocates/copies every retained string in source order.
+The original `strcpy_s` instructions at `100c0e29` own the copy and its return;
+strlen, calloc and free retain explicit translated lower effects and their
+source CALL/RET/argument cleanup. The optimized native strlen body is not
+claimed as instruction traversal.
+
+The environment-vector pointer is published at `102f644c`. On success, the
+original temporary block is freed, its pointer at `102f6490` is cleared, the
+vector ends with NULL, and `102f8570` becomes 1. Saved registers/EBP restore
+before setenvp returns zero to `100adb54`. The caller now retains the next
+initializer CALL at `100adb5a -> 100aa632`; that initializer routine has not
+executed. Full SharedBase CRT attachment and live Game startup remain unfinished.
+
+NULL input or vector-allocation failure returns -1. A later string-allocation
+failure frees and clears the vector while retaining the original block and
+previous string allocations, matching the original partial cleanup. HeapFree
+failure stops before its unimplemented errno mapping and preserves the completed
+copy prefix. These failures cannot replay the earlier operations.
+
+Focused validation passes 93 tests, including empty/nonempty blocks, hidden
+entries, duplicate names, ANSI high bytes, actual string/vector storage,
+NULL termination, lifetime changes, allocator/free failures, source-row identity
+and rejection of forged authority. Typechecking and the production build pass; the full suite passes 2,631 tests
+across 258 files. Generated instruction syntax
+reproduces exactly and now includes setenvp and strcpy_s. The original evidence
+package remains 79 functions and 56 cold ranges. Argument query/fill counts are
+retained at return because subsequent environment frames reuse those stack slots.
+
+PR 108 passed CI run 37742924477 and merged at
+`5cc1143c4d83e8f2807171c58930d71044b74845`; Pages run 37744468447 completed successfully.
+PR 107 deployed through successful Pages run 37742375940. The live Game path
+still stops before `204678f2`; native NPC activation and a campaign playable
+through an ending remain unfinished.
 
 ### SharedBase argv allocation, filling and normal return
 
-The latest local continuation owns the `100aeed0` malloc wrapper frame around
+The preceding continuation owns the `100aeed0` malloc wrapper frame around
 the retained translated lower malloc effects. Its two saved registers, lower
 CALL/RET, argument cleanup and wrapper return now join the actual setargv frame.
 The allocation belongs to SharedBase's heap and uses the query's original
