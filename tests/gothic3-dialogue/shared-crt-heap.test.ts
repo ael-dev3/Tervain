@@ -256,8 +256,13 @@ it('runs the actual SharedBase startup writer before allocating and initializing
 
 it('completes original SharedBase standard descriptors with actual HANDLE and section capabilities',()=>{
  const platform=new NativeRuntimePlatform({engineCrtServices:{tlsValues:new Map(),kernel32Available:true,pointerCodec:'owned-bijection',fiberLocalStorage:true,processHeap:true,osVersion:{platform:2,major:6,minor:1,build:42},entropy:{currentThreadId:()=>({known:true,value:9})},processInputs:{acpCodePage:1252,conversionCoverage:'ascii-explicit-positive-count',initialDirectionFlag:0,commandLineA:{kind:'buffer',bytes:[0]},environmentW:{kind:'buffer',bytes:[0,0]}},startupIo:{startupInfoA:{outcome:'normal',writes:[{offset:50,width:2,value:0,knownMask:65535}]}},standardIo:{standardHandles:[{id:-10,result:'valid',fileType:2},{id:-11,result:'valid',fileType:3},{id:-12,result:'null',fileType:0}],setHandleCount:{result:0},sectionInitialization:'owned-registration'}}});
- const owner=NativeSharedCrtOwner.forPlatform(platform);const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach complete');expect(result.reason).toContain('100c0ba7');
+ const owner=NativeSharedCrtOwner.forPlatform(platform);const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach complete');expect(result.reason).toContain('100b142b');
  const state=owner.snapshot(),block=state.ioBlock!;expect(state.ioReturned).toBe(0);expect(block.readUnsigned(4,1)).toBe(0xc1);expect(block.readUnsigned(60,1)).toBe(0x89);expect(block.readUnsigned(116,1)).toBe(0xc1);
  expect(block.readUnsigned(112)).toBe(0xfffffffe);expect(block.readUnsigned(8)).toBe(1);expect(block.readUnsigned(64)).toBe(1);expect(block.readUnsigned(120)).toBe(0);
  expect(platform.standardIoEndpoints!.invoke({identity:{}}).known).toBe(false);
+});
+
+it('owns the original 544-byte multibyte root and aliases its refcount field',()=>{
+ const f=fixture();const root=f.owner.imageStorage('initialMultibyte'),ref=f.owner.imageStorage('multibyteRefcount');expect(root.bytes.length).toBe(544);expect(ref.bytes.length).toBe(4);expect(ref.backing).toBe(root.backing);
+ f.owner.processAttach();expect(root.readUnsigned(0)).toBe(1);expect(ref.readUnsigned(0)).toBe(1);expect(f.owner.snapshot().ptd!.pointer(0x68).get()).toBe(root);
 });

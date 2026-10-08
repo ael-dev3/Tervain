@@ -1,6 +1,6 @@
 # Original SharedBase CRT startup evidence
 
-This package captures 62 original functions covering CRT attach/startup, security-cookie initialization, heap selection/construction/destruction, thread startup/termination, encoded procedure initialization, locks, thread cleanup and locale reference increments. Every captured instruction is compared with the original SharedBase.dll bytes. It also captures 50 cold image ranges with section-backed versus loader-zero-fill evidence.
+This package captures 63 original functions covering CRT attach/startup, security-cookie initialization, heap selection/construction/destruction, thread startup/termination, encoded procedure initialization, locks, thread cleanup and locale reference increments. Every captured instruction is compared with the original SharedBase.dll bytes. It also captures 50 cold image ranges with section-backed versus loader-zero-fill evidence.
 
 SharedBase owns these globals independently of Game and Engine. Its two dynamic thread indices begin at `ffffffff`; the four procedure slots begin as loader-filled zero bytes. The static TLS index from the PE TLS directory is a different field. Loading static TLS does not allocate either dynamic slot, initialize the heap, install FLS/TLS procedures or initialize CRT thread data.
 
@@ -147,3 +147,14 @@ multibyte object; its captured refcount shares the same original address as the
 earlier four-byte excerpt. Future runtime storage must preserve that alias.
 Independent argument/vector globals, module-name buffer and multibyte tables are
 captured as cold original bytes. These are evidence, not executed parser state.
+
+
+The next local argument-startup prefix owns the original 544-byte multibyte
+record at `10140e60`; its four-byte refcount aliases the same physical storage.
+The PTD stores the full record pointer, while interlocked increments use that
+refcount view. Warm PTD lookup preserves LastError. The selected multibyte
+update compares the PTD and global record under lock 13 and releases it through
+original helper `100b1422`, without adding a second reference when they match.
+Argument startup now reaches `getSystemCP` at `100b142b`; its locale-update and
+GetACP calls remain unimplemented. This helper is not connected to live Game
+initializer traversal and does not establish additional playable campaign content.

@@ -2,6 +2,17 @@
   "schema": "gothic3-shared-crt-bootstrap-v1",
   "sharedBaseSha256": "5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214",
   "methods": {
+    "releaseMultibyteLock": {
+      "entryVA": "0x100b1422",
+      "bodyVA": "0x100b1422",
+      "bodyRanges": "100b1422-100b142a",
+      "instructionCount": 4,
+      "bodyByteCount": 9,
+      "bodyInstructionBytesSha256": "1ac39b3075e9e0914f122ff6c4f1c3d65954004fa9fa5f2ca59c18bfb2d67a26",
+      "entryChain": [],
+      "assemblySha256": "73020a4a328dc259cd3058e50afad38db6602e8242fe2175464c41bfb9c050c0",
+      "cSha256": "788eeaad46cd410e237becbdff919a47abef10f145050342d3085cbb563ea8ce"
+    },
     "getPerThreadData": {
       "entryVA": "0x100ae542",
       "bodyVA": "0x100ae542",

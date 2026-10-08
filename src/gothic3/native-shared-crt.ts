@@ -14,6 +14,13 @@ import type {NativeValue} from './dialogue';
 const owners=new WeakMap<NativeRuntimePlatform,NativeSharedCrtOwner>();
 const token=Object.freeze({});
 const methods={
+ getPerThreadData:['0x100ae542','f2662a20d6a5b27758faeac91878529d9fae2d5561d12ff0a4ccea827a465720'],
+ updateThreadMultibyte:['0x100b1387','9274c592b33871195ff2f82d894f6c03be23ab53e461929537d634a25643ee0d'],
+ releaseMultibyteLock:['0x100b1422','1ac39b3075e9e0914f122ff6c4f1c3d65954004fa9fa5f2ca59c18bfb2d67a26'],
+ initMultibyteTable:['0x100b1854','66630cd5e2a2dabb3bb968676d31a841924538d3637d71f3fd2fcfae81b546c6'],
+ setMultibyteCodePage:['0x100b16ba','89304945ee36d848372d9e921365d42131857981d3f25800448d2a59cca9407d'],
+ getSystemCodePage:['0x100b142b','92dbf9af22767f0f2f27c3821986ec61f014b06e7b899241bfe140e72114c00f'],
+
  ioInit:['0x100bf165','5fc3d0c91e1861b89b12507adce6739546fc7fd1cc6863c2d30a53c5ca1109ad'],
  memcpy:['0x100a7a00','ada0fafd69940490a3c1ac706772420ce32760254cc28aff588c401ed09f1c44'],
  errno:['0x100aedd1','7fdd3947bb396eaf9c371f64fc91f7b8c30db450c7db3a8fa6ce2904748731f6'],
@@ -61,7 +68,7 @@ const methods={
  getOsPlatform:['0x100aa49d','cc5b7331299d47cd8f5d5cb850aa67581d71d5bd370b6aeba4f41feed3edf68d'],
  getWinMajor:['0x100aa54c','c2d39a6b2e3a69dcf99941e96a2b991511307e2511a0c536100b091ab85aabde'],
 } as const;
-const images={ioHandleCount:['102f7068',4,'00000000'],ioBlocks:['102f70c0',256,'00'.repeat(256)],memcpySseFlag:['102f854c',4,'00000000'],memcpyForwardDwords:['100a7b08',32,'6b7b0a10587b0a10507b0a10487b0a10407b0a10387b0a10307b0a10287b0a10'],memcpyForwardTail:['100a7b74',16,'847b0a108c7b0a10987b0a10ac7b0a10'],environmentMode:['102f6bf0',4,'00000000'],commandLinePointer:['102f8564',4,'00000000'],environmentPointer:['102f6490',4,'00000000'],rtcInitializers:['100f7cec',256,'00'.repeat(256)],exceptionActionsAnchor:['10140b50',4,'050000c0'],multibyteRefcount:['10140e60',4,'00000000'],initialLocale:['10141390',216,'0100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000088131410000000000000000000000000881314100000000000000000000000008813141000000000000000000000000088131410000000000000000000000000881314100000000000000000000000000100000001000000000000000000000000000000a01b14100000000000000000382e0f10c0320f1040340f10e01a1410'],initialTimeLocale:['10141ae0',184,'68360f1064360f1060360f105c360f1058360f1054360f1050360f1048360f1040360f1038360f102c360f1020360f1018360f100c360f1008360f1004360f1000360f10fc350f10f8350f10f4350f10f0350f10ec350f10e8350f10e4350f10e0350f10dc350f10d4350f10c8350f10c0350f10b8350f10f8350f10b0350f10a8350f10a0350f1094350f108c350f1080350f1074350f1070350f106c350f1060350f104c350f1040350f10090400000100000000000000'],localeCSentinel:['10141388',4,'43000000'],localePointer:['10141468',4,'90131410'],allocationRetryDelay:['102f64b4',4,'00000000'],newMode:['102f6ad0',4,'00000000'],osFields:['102f642c',20,'00'.repeat(20)],heapHandle:['102f6ac8',4,'00000000'],heapSelection:['102f8530',4,'00000000'],
+const images={initialMultibyte:['10140e60',544,'00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000101010101010101010101010101010101010101010101010101000000000000020202020202020202020202020202020202020202020202020200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000006162636465666768696a6b6c6d6e6f707172737475767778797a0000000000004142434445464748494a4b4c4d4e4f505152535455565758595a00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000'],multibytePointer:['10141288',4,'600e1410'],threadLocaleMask:['10141384',4,'feffffff'],multibyteInitialized:['102f8588',4,'00000000'],ioHandleCount:['102f7068',4,'00000000'],ioBlocks:['102f70c0',256,'00'.repeat(256)],memcpySseFlag:['102f854c',4,'00000000'],memcpyForwardDwords:['100a7b08',32,'6b7b0a10587b0a10507b0a10487b0a10407b0a10387b0a10307b0a10287b0a10'],memcpyForwardTail:['100a7b74',16,'847b0a108c7b0a10987b0a10ac7b0a10'],environmentMode:['102f6bf0',4,'00000000'],commandLinePointer:['102f8564',4,'00000000'],environmentPointer:['102f6490',4,'00000000'],rtcInitializers:['100f7cec',256,'00'.repeat(256)],exceptionActionsAnchor:['10140b50',4,'050000c0'],multibyteRefcount:['10140e60',4,'00000000'],initialLocale:['10141390',216,'0100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000088131410000000000000000000000000881314100000000000000000000000008813141000000000000000000000000088131410000000000000000000000000881314100000000000000000000000000100000001000000000000000000000000000000a01b14100000000000000000382e0f10c0320f1040340f10e01a1410'],initialTimeLocale:['10141ae0',184,'68360f1064360f1060360f105c360f1058360f1054360f1050360f1048360f1040360f1038360f102c360f1020360f1018360f100c360f1008360f1004360f1000360f10fc350f10f8350f10f4350f10f0350f10ec350f10e8350f10e4350f10e0350f10dc350f10d4350f10c8350f10c0350f10b8350f10f8350f10b0350f10a8350f10a0350f1094350f108c350f1080350f1074350f1070350f106c350f1060350f104c350f1040350f10090400000100000000000000'],localeCSentinel:['10141388',4,'43000000'],localePointer:['10141468',4,'90131410'],allocationRetryDelay:['102f64b4',4,'00000000'],newMode:['102f6ad0',4,'00000000'],osFields:['102f642c',20,'00'.repeat(20)],heapHandle:['102f6ac8',4,'00000000'],heapSelection:['102f8530',4,'00000000'],
  tlsGetterIndex:['10140b48',4,'ffffffff'],threadDataIndex:['10140b44',4,'ffffffff'],procedureSlots:['102f64a4',16,'00'.repeat(16)],
  pointer6ac4:['102f6ac4',4,'00000000'],pointer6ac0:['102f6ac0',4,'00000000'],pointer64a0:['102f64a0',4,'00000000'],
  pointer690c:['102f690c',4,'00000000'],pointer6abc:['102f6abc',4,'00000000'],signalPointers:['102f6aa8',16,'00'.repeat(16)],
@@ -122,6 +129,9 @@ export class NativeSharedCrtOwner {
    const fields=physical(size);fields.bytes.set(Uint8Array.from(raw.match(/../g)!,byte=>parseInt(byte,16)));fields.knownMask.fill(255);
    this.#images.set(label,{fields,bytes:fields.backing.bytes,masks:fields.backing.knownMask});
   }
+  const mb=this.#images.get('initialMultibyte')!;
+  if(mb.fields.bytes.slice(0,4).some((byte,index)=>byte!==this.#images.get('multibyteRefcount')!.fields.bytes[index]))throw new Error('Original multibyte refcount alias differs');
+  this.#images.set('multibyteRefcount',{fields:new NativeHeapObjectViews(mb.fields.backing,0,4),bytes:mb.bytes,masks:mb.masks});
   Object.defineProperty(this,'identity',{value:this.identity,writable:false,configurable:false});
   Object.defineProperty(this,'platform',{value:platform,writable:false,configurable:false});
  }
@@ -153,7 +163,7 @@ export class NativeSharedCrtOwner {
  imageStorage(label:Image):NativeHeapObjectViews {
   const image=this.#images.get(label);if(!image)throw new Error('Unknown SharedBase image');
   const {fields,bytes,masks}=image;
-  if(fields.backing.freed||fields.backing.bytes!==bytes||fields.backing.knownMask!==masks||fields.bytes.buffer!==bytes.buffer||fields.bytes.byteOffset!==bytes.byteOffset||fields.bytes.length!==images[label][1]||fields.knownMask.buffer!==masks.buffer||fields.knownMask.byteOffset!==masks.byteOffset||fields.knownMask.length!==masks.length||!(fields.view instanceof DataView)||fields.view.buffer!==bytes.buffer||fields.view.byteOffset!==bytes.byteOffset||fields.view.byteLength!==bytes.length)throw new Error('Actual retained SharedBase image required');
+  if(fields.backing.freed||fields.backing.bytes!==bytes||fields.backing.knownMask!==masks||fields.bytes.buffer!==bytes.buffer||fields.bytes.byteOffset!==bytes.byteOffset||fields.bytes.length!==images[label][1]||fields.knownMask.buffer!==masks.buffer||fields.knownMask.byteOffset!==masks.byteOffset||fields.knownMask.length!==images[label][1]||!(fields.view instanceof DataView)||fields.view.buffer!==bytes.buffer||fields.view.byteOffset!==bytes.byteOffset||fields.view.byteLength!==fields.bytes.length)throw new Error('Actual retained SharedBase image required');
   return fields;
  }
  #call<T>(label:string,invoke:()=>NativeValue<T>):T {
@@ -291,8 +301,8 @@ export class NativeSharedCrtOwner {
    }
   }
   ptd.writeUnsigned(0x70,1);ptd.writeUnsigned(0xc8,0x43,1);ptd.writeUnsigned(0x14b,0x43,1);
-  const mb=this.imageStorage('multibyteRefcount');ptd.pointer<NativeHeapObjectViews>(0x68).set(mb);
-  this.#call('100ae483.InterlockedIncrement',()=>this.platform.interlockedCounter(mb,1));
+  const mb=this.imageStorage('initialMultibyte');ptd.pointer<NativeHeapObjectViews>(0x68).set(mb);
+  this.#call('100ae483.InterlockedIncrement',()=>this.platform.interlockedCounter(this.imageStorage('multibyteRefcount'),1));
   const section=this.imageStorage('lockTable').pointer<NativeHeapObjectViews>(12*8).get();if(!section)throw new Error('Unowned SharedBase dynamic locale lock initialization');
   this.#call('100ae48b.lock12',()=>this.platform.enterPhysicalCriticalSection(section,this.identity));
   const locale=this.imageStorage('initialLocale');
@@ -328,7 +338,7 @@ export class NativeSharedCrtOwner {
   if(this.imageStorage('allocationRetryDelay').readUnsigned(0)!==0)throw new Error('Unowned SharedBase calloc Sleep retry at 100aef35');
   return null;
  }
- #errnoSlot():NativeHeapObjectViews {
+ #getPtdLowerWarm():NativeHeapObjectViews {
   const saved=this.#call('100ae4cd.GetLastError',()=>this.platform.getWin32LastError());
   const index=this.imageStorage('tlsGetterIndex').readUnsigned(0);
   let getter=this.#call('100ae38b.TlsGetValue',()=>this.platform.tlsGetValue(index));
@@ -341,7 +351,10 @@ export class NativeSharedCrtOwner {
   if(record===null)throw new Error('Unowned SharedBase lazy PTD allocation in errno at 100ae4ef');
   if(record!==this.#ptd||!this.#ptd||this.#ptd.backing.freed)throw new Error('Actual installed SharedBase PTD required for errno');
   this.#call('100ae537.SetLastError',()=>this.platform.setWin32LastError(saved));
-  return new NativeHeapObjectViews(this.#ptd.backing,8,4);
+  return this.#ptd;
+ }
+ #errnoSlot():NativeHeapObjectViews {
+  const ptd=this.#getPtdLowerWarm();return new NativeHeapObjectViews(ptd.backing,8,4);
  }
  #mallocEnvironment(size:number):NativeHeapObjectViews|null {
   if(!Number.isInteger(size)||size<0||size>0xffffffe0)throw new Error('Unowned SharedBase oversized malloc/new-handler branch');
@@ -492,6 +505,28 @@ export class NativeSharedCrtOwner {
   this.#ptd.writeUnsigned(4,0xffffffff);this.#ptd.writeUnsigned(0,thread);
   this.#mtReturned=1;this.#trace.push('100ae867.mtInit.return1');return 1;
  }
+ #updateMultibyteWarm():NativeHeapObjectViews {
+  const ptd=this.#getPtdLowerWarm();
+  let mb=ptd.pointer<NativeHeapObjectViews>(0x68).get();
+  if((ptd.readUnsigned(0x70)&this.imageStorage('threadLocaleMask').readUnsigned(0))===0||ptd.pointer(0x6c).get()===null){
+   const section=this.imageStorage('lockTable').pointer<NativeHeapObjectViews>(13*8).get();if(!section)throw new Error('Unowned SharedBase dynamic multibyte lock');
+   this.#call('updateMultibyte.lock13',()=>this.platform.enterPhysicalCriticalSection(section,this.identity));
+   if(this.imageStorage('multibytePointer').readUnsigned(0)!==0x10140e60)throw new Error('Unowned SharedBase changed global multibyte pointer');
+   const global=this.imageStorage('initialMultibyte');
+   if(mb!==global)throw new Error('Unowned SharedBase multibyte reference exchange');
+   this.#call('100b1422.unlock13',()=>this.platform.leavePhysicalCriticalSection(section,this.identity));mb=global;
+  }
+  if(mb===null)throw new Error('Unowned SharedBase multibyte fatal error');
+  this.#trace.push('100b1387.updateMultibyte.return');return mb;
+ }
+ #initializeArgumentsPrefix():void {
+  if(this.imageStorage('multibyteInitialized').readUnsigned(0)===0){
+   this.#trace.push('100b185f.setMultibyteCodePage(-3)');
+   this.#getPtdLowerWarm();this.#updateMultibyteWarm();
+   throw new Error('Unowned SharedBase getSystemCP locale update before GetACP at 100b142b');
+  }
+  throw new Error('Unowned SharedBase module filename acquisition at 100c0bd1');
+ }
  #standardCall(kind:'GetStdHandle'|'GetFileType'|'SetHandleCount',scalar:number,object:object|null=null):NativeStandardIoResult {
   const endpoints=this.platform.standardIoEndpoints;if(!endpoints)throw new Error('Actual SharedBase standard-I/O endpoints required');
   const proof=NativeRuntimePlatform.canonicalStandardIoEndpointsForPlatform(this.platform,endpoints);if(!proof.known)throw new Error(proof.reason);
@@ -581,7 +616,7 @@ export class NativeSharedCrtOwner {
    const environment=this.#readEnvironment(endpoints);
    this.imageStorage('environmentPointer').pointer<NativeBytePointer>(0).set(environment);this.#trace.push('100adb31.storeEnvironment');
    if(this.#initializeIoPrefix()<0)throw new Error('Unowned SharedBase attach cleanup after I/O initialization failure');
-   throw new Error('Unowned SharedBase argument initialization at 100adb46 -> 100c0ba7');
+   this.#initializeArgumentsPrefix();throw new Error('Unowned SharedBase attach after arguments');
   }catch(error){this.#boundary??=error instanceof Error?error.message:String(error);return {known:false,reason:this.#boundary};}
   finally{this.#active=false;}
  }
