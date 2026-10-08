@@ -45,8 +45,9 @@ Separately, the local SharedBase path completes selected CP1252 classification,
 case mapping, candidate installation and its normal SEH return. The enclosing
 setargv frame now acquires the declared virtual `Gothic3.exe` filename, publishes
 its module-buffer pointer and selects the actual command-line input or fallback.
-The next boundary is parser query `100c0bfc -> 100c0a0f`; count outputs and
-argc/argv publication remain unfinished.
+The original parser query now returns with actual count outputs. Its caller
+checks overflow and reaches allocation at `100c0c23 -> 100aeed0`; the filling
+pass and argc/argv publication remain unfinished.
 Those local helper results still need to join the live
 startup path before they can enable NPC activation. The full game remains
 unfinished; successful extraction, compilation or deployment alone does not
@@ -54,13 +55,11 @@ establish campaign completion.
 
 ## Current status — 8 October 2026
 
-The latest confirmed deployment recorded here is [PR 104](https://github.com/ael-dev3/Tervain/pull/104),
-merged at `861fbf5ab7fca284b52e3cc8aebaeaf9b0ae2a6f` and deployed by
-[Pages run 37737780053](https://github.com/ael-dev3/Tervain/actions/runs/37737780053).
-[PR 105](https://github.com/ael-dev3/Tervain/pull/105) subsequently merged at
-`dad85bf3c9602fe4be054c8754729a5eaea49f67`; its deployment is not confirmed here.
-The newest local module-filename checkpoint passes 66 focused tests, 2,604
-full-suite tests across 258 files, typechecking and the production build.
+The latest confirmed deployment recorded here is [PR 106](https://github.com/ael-dev3/Tervain/pull/106),
+merged at `9238471c60ec90a1dbaf7d632505fdafdcc227be` and deployed by
+[Pages run 37740590327](https://github.com/ael-dev3/Tervain/actions/runs/37740590327).
+The newest local counting-pass checkpoint passes 79 focused tests
+and 2,617 tests across 258 files, plus typechecking and the production build.
 It includes original SharedBase pointer/lock setup, PTD allocation and selected
 default-locale initialization, environment setup and standard I/O descriptors.
 The earlier PR 84 served-artifact comparison remains evidence for that prior
@@ -144,9 +143,9 @@ environment into SharedBase heap storage. Allocation failure follows original
 errno lookup with LastError preservation and OS-block cleanup. Scalar memcpy
 follows DWORD/tail dispatch and REP MOVSD; unsupported branches remain explicit.
 The selected I/O helper now returns 0. Further local argument startup completes selected multibyte configuration and
-installation, owns the normal SEH return and reaches parser query
-`100c0bfc -> 100c0a0f`. Argument parsing and SharedBase initializer traversal
-remain unfinished. Exception paths, full CRT attachment and the older-version
+installation, owns the normal SEH return and completes the original parser
+counting pass. It stops at allocation `100c0c23 -> 100aeed0`; argument filling
+and SharedBase initializer traversal remain unfinished. Exception paths, full CRT attachment and the older-version
 main-image `.mixcrt` scan remain unimplemented.
 These helpers are not connected to the live Game CRT frame; formatter execution,
 full NPC startup and campaign completion remain unfinished.

@@ -1,3 +1,4 @@
+import {sharedCommandLineInstruction} from '../../src/gothic3/native-shared-command-line-instructions';
 import { readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { expect, it } from 'vitest';
@@ -160,4 +161,12 @@ it('captures the original SharedBase setmbcp SEH helpers and scope table',()=>{
  const scope=source.coldGlobals.setMultibyteScopeTable;expect(scope.address).toBe('100f8be0');expect(scope.raw).toBe('feffffff00000000ccffffff00000000feffffff000000001b180b10');const bytes=Buffer.from(scope.raw,'hex');expect(bytes.readInt32LE(0)).toBe(-2);expect(bytes.readInt32LE(8)).toBe(-52);expect(bytes.readInt32LE(16)).toBe(-2);expect(bytes.readUInt32LE(20)).toBe(0);expect(bytes.readUInt32LE(24)).toBe(0x100b181b);
  const prolog=readFileSync('assets/gothic3/shared-crt-bootstrap/100aeb68.asm.txt','utf8');expect(prolog).toContain('PUSH dword ptr FS:[0x0]');expect(prolog).toContain('XOR dword ptr [EBP + -0x4],EAX');expect(prolog).toContain('MOV FS:[0x0],EAX');
  const epilog=readFileSync('assets/gothic3/shared-crt-bootstrap/100aebad.asm.txt','utf8');expect(epilog).toContain('MOV dword ptr FS:[0x0],ECX');expect(epilog).toContain('PUSH ECX');
+});
+
+it('matches every lowered SharedBase parser and lead-byte row to original receipts',()=>{
+ for(const body of ['100c0a0f','100d1fc7','100d1e09']){
+  const rows=readFileSync('assets/gothic3/shared-crt-bootstrap/'+body+'.asm.txt','utf8').trim().split('\n');
+  for(const row of rows){const [address,bytes,instruction]=row.split(' | ');const actual=sharedCommandLineInstruction(address!);expect(actual).toEqual({address,bytes,instruction});expect(Object.isFrozen(actual)).toBe(true);}
+ }
+ expect(()=>sharedCommandLineInstruction('100c0a00')).toThrow('Unowned');
 });

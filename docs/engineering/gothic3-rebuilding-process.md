@@ -6,9 +6,57 @@ is the detailed technical record and dated checkpoint history.
 
 ## Latest process summary — 8 October 2026
 
+### SharedBase command-line counting pass
+
+The latest local continuation lowers every reached instruction of the original
+parser `100c0a0f`, lead-byte wrapper `100d1fc7` and type helper `100d1e09` onto
+one retained stack/register graph. The generated immutable syntax is checked
+against every original ASM row. Source bytes and metadata grant no runtime
+memory or call authority; the active SharedBase owner supplies those separately.
+
+The query uses NULL vector/string outputs and writes the actual count locals.
+Its program-name loop and later argument loop preserve the original quote,
+backslash, whitespace and signed-byte behavior. Lead-byte checks read the
+actual installed multibyte record. Their LocaleUpdate constructor uses the
+existing translated lower effects with a real 16-byte stack alias, original
+CALL/RET cleanup and restoration of the PTD own-locale flag. Full constructor
+instruction traversal is still a separate dependency.
+
+The parser returns to `100c0c01`. The caller removes its three argument words,
+checks the original count/size overflow guards, computes pointer-vector plus
+string bytes, and reaches malloc at `100c0c23 -> 100aeed0`. For empty process
+input the virtual module fallback needs two pointer slots and 12 string bytes,
+so the pending request is 20 bytes. Global argc/argv remain unpublished;
+allocation, the filling pass and normal setargv return remain unfinished.
+A selected PTD/global mismatch correctly retains the earlier unresolved
+multibyte reference-exchange boundary instead of inventing a successful return.
+
+Focused validation passes 79 tests, including quoted paths, empty arguments,
+even/odd backslashes, doubled quotes, all high CP1252 bytes, private-authority
+rejection and complete generated-row identity. Typechecking and the production build pass; the full suite passes 2,617 tests
+across 258 files. Repeated
+syntax generation matches exactly. To regenerate both the evidence package and
+its parser syntax from the read-only decompiled study:
+
+```powershell
+python tools/gothic3/prepare_shared_crt_bootstrap.py `
+  --study "<Gothic3_Decompiled_Study_2026-10-04>" `
+  --output assets/gothic3/shared-crt-bootstrap `
+  --command-line-runtime-output src/gothic3/native-shared-command-line-instructions.ts
+```
+
+Later calls reuse earlier stack slots, so SEH scope/cookie snapshots at return
+are retained separately from current bytes.
+
+PR 105 is deployed by successful Pages run 37739237721. PR 106 passed CI run
+37739725453 and merged at `9238471c60ec90a1dbaf7d632505fdafdcc227be`;
+its Pages run 37740590327 succeeded. These helpers remain separate
+from live Game initializer traversal. Full SharedBase attachment, NPC activation
+and gameplay through a campaign ending remain unfinished.
+
 ### SharedBase argument startup and module filename
 
-The latest local checkpoint owns the original `__setargv` frame at `100c0ba7`,
+The preceding checkpoint owns the original `__setargv` frame at `100c0ba7`,
 including its nested multibyte initialization and normal child returns. The
 selected CP1252 candidate is installed in the PTD and, where the original
 locale masks permit it, published globally under lock 13. The source SEH
