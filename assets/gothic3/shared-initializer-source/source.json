@@ -1384,6 +1384,24 @@
       "assemblySha256": "22c77006be4f82b772a619f2bd71e117dc829ad68a5dfb9f09a425d84fd05798",
       "cSha256": "adaef324230ffc45ecf8b9547071577f3081260808be348cf34b0cc0844c0a2d"
     },
+    "pool1792Free": {
+      "entryVA": "0x10004061",
+      "bodyVA": "0x10045600",
+      "bodyRanges": "10045600-10045648",
+      "instructionCount": 20,
+      "bodyByteCount": 75,
+      "bodyInstructionBytesSha256": "3e4c72f1102eda79f1c87234f8092039d153517eaedf78a34bf4853a39e59d7f",
+      "entryChain": [
+        {
+          "va": "10004061",
+          "bytes": "e99a150400",
+          "targetVA": "10045600"
+        }
+      ],
+      "assemblySha256": "72d328f47351b26efac6826587df4ea4278f279a87ec967ff7e7fc6007589dfe",
+      "cSha256": null,
+      "reconstructedCUnavailable": true
+    },
     "pool1792Dispatch": {
       "entryVA": "0x10007be9",
       "bodyVA": "0x10048ff0",
@@ -1942,6 +1960,10 @@
       "containingEntry": "10005e5c",
       "methodLabel": "initializer143Getter"
     },
+    "10045600": {
+      "containingEntry": "10045600",
+      "methodLabel": "pool1792Free"
+    },
     "10048ff0": {
       "containingEntry": "10048ff0",
       "methodLabel": "pool1792Dispatch"
@@ -2449,6 +2471,10 @@
     "100bb8e7": {
       "containingEntry": "100bb8e7",
       "methodLabel": "rtcTerminate"
+    },
+    "10004061": {
+      "containingEntry": "10045600",
+      "methodLabel": "pool1792Free"
     },
     "10007be9": {
       "containingEntry": "10048ff0",

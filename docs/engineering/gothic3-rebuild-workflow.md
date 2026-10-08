@@ -58,19 +58,24 @@ claim two 1,792-byte pool slots; recorded Windows resource API results fill
 execution reaches the pending `VerQueryValueA` call at `1004c330`.
 Its Pages deployment completed successfully (run `37844108225`).
 
-Later local work returns the translation resource and runs the original
-hexadecimal formatter to construct `\StringFileInfo\000004B0\FileVersion`.
-That checkpoint passed 2,940 tests across 275 files, typechecking and the
-production build. Further local work copies the returned FileVersion text
-through the original byte-copy loop and reaches the pending language-buffer
-Free call at `1004c3f0 -> 10002112`; its three focused checks and typecheck pass.
-These later continuations are unpublished and their selected owner methods
-still need integration into the live startup path.
+Later local work returns the translation resource, formats the FileVersion
+query, copies the actual returned string, and releases the inner language slot
+through the original descriptor lookup and bitmap callback. The original
+`strtok`/`atoi`/`strtol` chain writes `1, 60, 25931, 29` into the caller's four
+output cells. That parser checkpoint passed 2,952 tests across 275 files,
+typechecking and the production build.
 
-The next dependencies are original buffer cleanup, version parsing and logging,
-the surrounding DLL wrapper and SEH execution, complete DLL initialization,
-Game/world activation and campaign integration. A deployed component checkpoint
-does not establish a campaign that can be finished in the browser.
+The subsequent local continuation releases the outer slot, preserves both
+parsed output and the reusable pool region, and restores the fallback and
+version-query callers. It reaches the DLL initializer's separator-logging CALL
+at `100a15cd -> 1000840e`. Two focused checks, typechecking and the production
+build pass. Its full suite passes 2,954 tests across 275 files. These changes are unpublished and
+the selected owner methods still require integration into the live startup path.
+
+The next dependencies are original logging, the surrounding DLL wrapper and
+SEH execution, complete DLL initialization, Game/world activation and campaign
+integration. A deployed component checkpoint does not establish a campaign that
+can be finished in the browser.
 
 ### Reference inputs and reproducibility
 

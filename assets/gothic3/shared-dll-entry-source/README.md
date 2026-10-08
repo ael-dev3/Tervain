@@ -127,3 +127,12 @@ writer, then the original sprintf return and caller argument setup. It produces
 stops at the actual VerQueryValueA call. The locale helper uses the already
 implemented warm PTD backend for its PTD request. This does not establish support
 for every CRT format branch, nor complete DLL initialization or browser gameplay.
+
+
+The hexadecimal continuation additionally captures the unsigned divide helper at
+`100cdfb0`, padding at `100b52bc` and string output at `100b52e0`: the package now
+contains 17 bodies and 1,502 body instructions. The original translated formatter
+uses these helpers with bytes returned by the actual selected translation query.
+Its output preserves the uppercase spelling of the original `%02X` format. Both
+resource-query spellings match the recorded Windows observation exactly. The
+FileVersion query return and later cleanup remain pending.

@@ -4,6 +4,31 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local checkpoint — 9 October 2026: version resource return and cleanup
+
+The selected SharedBase DLL startup continuation now executes the translation
+query return, original hexadecimal query formatter, FileVersion byte copy,
+thread-owned tokenizer and original integer scanner. The recorded local file's
+version becomes `1, 60, 25931, 29` in the initializer's four actual output cells.
+Both 1,792-byte pool slots are released through the original descriptor search,
+bitmap callback and MemoryAdmin Free frames. Pool backing remains available;
+released slot views lose their admitted lease. Saved registers and FS are
+checked on the cleanup, fallback and version-query returns.
+
+Execution reaches `100a15cd -> 1000840e`, the initializer's first separator
+logger. Logger construction/callback dispatch, complete DLL wrapper/SEH,
+live Game startup, world activation and campaign integration remain unfinished.
+These selected owner methods are component continuations; no live campaign or
+full DLL initialization result is asserted.
+
+Local validation: 2,954 tests in 275 files, typechecking and production build
+pass. Both evidence generators reproduce their source packages and emitted
+TypeScript exactly. The initializer package contains 131 bodies and 5,216 body
+instructions; the DLL-entry package contains 27 methods and 2,015 instructions.
+Original input: matching installed/study SharedBase SHA-256
+`5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214`.
+Publication and deployment evidence will be recorded separately.
+
 ## Repeatable rebuilding process
 
 Each checkpoint should make one source-backed behavior usable by the browser
@@ -10497,3 +10522,29 @@ The full suite passes 2,935 tests across 275 files (196.79 seconds) for this
 combined language checkpoint. Publication is pending. The translation API return, translated hexadecimal query, FileVersion
 query, parsing, frees and logging still require integration, followed by complete
 DLL startup, world activation and campaign playthrough evidence.
+
+
+## Translation API return and hexadecimal query (local work, 2026-10-08)
+
+The original VerQueryValueA thunk now uses the selected recorded VERSION backend
+against the retained nested buffer. Its pointer output aliases offset 864 in that
+same live pool slot; its length output is written into the original caller word.
+The original return cleanup and success/length branches consume those outputs,
+read translation DWORD 0x04b00000 and push its four bytes as formatter varargs.
+The outer buffer remains independent and unchanged.
+
+The second original sprintf call executes the captured output engine, unsigned
+64-bit divide helper, padding and string writers. Its actual arguments produce
+`\StringFileInfo\000004B0\FileVersion` in the retained output image. The interpreter
+adds known CDQ, unsigned MUL/DIV, RCR and carry arithmetic forms required by the
+original divide routine; same-stack pointer subtraction retains the original
+relative relation. The helper returns with cookie, saved registers and locale
+state restored. The caller retains the second VerQueryValueA call at 1004c3a0.
+
+The source package contains 17 bodies and 1,502 body instructions. Independent
+source and instruction-table regeneration reproduces exactly. New checks cover
+the returned alias and computed varargs, released buffers, altered query strings,
+the original division/padding path and changed division evidence. Typechecking and the production build pass; the full suite passes 2,940 tests
+across 275 files (243.66 seconds). The FileVersion API return, version-string copy, frees, parsing and
+logging still need integration before complete DLL startup, world activation and
+campaign playthrough can be demonstrated. This continuation remains unpublished.

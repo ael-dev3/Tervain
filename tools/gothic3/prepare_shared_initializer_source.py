@@ -24,7 +24,7 @@ def capture(study, output):
     tables = {}
     targets = {
         0x100ada4c: 'crtAttachCaller', 0x1000619f: 'initializer142Getter', 0x10005e5c: 'initializer143Getter',
-        0x10048ff0:'pool1792Dispatch',0x1000322e:'pool1792Allocate',0x1000717b:'pool1792Initialize',
+        0x10045600:'pool1792Free',0x10048ff0:'pool1792Dispatch',0x1000322e:'pool1792Allocate',0x1000717b:'pool1792Initialize',
         0x10048050: 'pool24Dispatch', 0x10002b3f: 'pool24Initialize', 0x10004557: 'pool24Allocate',
         0x100a7300: 'classNameStrchr', 0x100c0e29: 'typeInfoCopyName', 0x100b09ee: 'typeInfoUnlockCleanup', 0x100b2a80: 'typeInfoOutputLength', 0x100c14dd: 'demanglerHeapDestructor', 0x100c61dc: 'demanglerUnlockCleanup', 0x100aa9a4: 'crtFree',
         0x100c2048: 'demanglerDnameGetString', 0x100c2301: 'demanglerIndirectGetString', 0x100c22b2: 'demanglerTextGetString',
@@ -149,7 +149,7 @@ def capture(study, output):
     admitted_targets = {}
     entries = {}
     offline = {}
-    assembly_only = {0x10048ff0:0x1004906f,0x10048050: 0x100480cf, 0x10047f10: 0x10047f8f, 0x100a7265: 0x100a7293, 0x100bb8e7: 0x100bb90a,
+    assembly_only = {0x10045600:0x10045648,0x10048ff0:0x1004906f,0x10048050: 0x100480cf, 0x10047f10: 0x10047f8f, 0x100a7265: 0x100a7293, 0x100bb8e7: 0x100bb90a,
                      0x100b4b6b: 0x100b4b7e, 0x100bef05: 0x100befb5,
                      0x100ce0f5: 0x100ce101}
     targets[0x100bb8e7] = 'rtcTerminate'
@@ -204,6 +204,12 @@ def capture(study, output):
             bodyInstructionBytesSha256=hashlib.sha256(raw).hexdigest(), entryChain=[],
             assemblySha256=hashlib.sha256(asm).hexdigest(), cSha256=None,
             reconstructedCUnavailable=True)
+    free_thunk=pe.bytes(0x10004061,5)
+    if free_thunk[0] != 0xe9 or 0x10004061 + 5 + struct.unpack_from('<i',free_thunk,1)[0] != 0x10045600:
+        raise ValueError('Original 1792-byte pool Free entry thunk differs')
+    methods['pool1792Free']['entryVA']='0x10004061'
+    methods['pool1792Free']['entryChain']=[dict(va='10004061',bytes=free_thunk.hex(),targetVA='10045600')]
+    entries['10004061']=dict(containingEntry='10045600',methodLabel='pool1792Free')
     large_thunk=pe.bytes(0x10007be9,5)
     if large_thunk != bytes.fromhex('e902140400'):
         raise ValueError('Original 1792-byte pool entry thunk differs')
@@ -300,11 +306,11 @@ def capture(study, output):
 
 def initializer_runtime(output, destination):
     rows = []
-    for body in ['10048ff0','1003f320','10047730','100ada4c','100aa632','100ae900','100ae880','100ae8b0','100a78fe','100a788e','100b4407','100b448b','100b444f','100ae27b','100aa47d','100a7265','100aef10','100b1854','100b4b6b','100ce095','100ce045','100aeb68','100aebad','100bef05','100ce0f5','100a72d0','100a7294','100a71ac','100ae2f2','100b10d6','100aa453','100aa45c','100a72ca','100e1660','100e1440','100e1450','100e1470','100e14b0','100e14c0','100e14d0','100e14e0','100e14f0','100e1500','100e1510','100e15d0','100e1600','100e1610','100e1630','100e1670','100e1680','10012d20','1008e970','1008e900','100a7099','100b0902','100c6142','100bb7cf','100aeed0','100bb892','100bb7a2','100bb889','10048050','10045f80','1003e1f0','10091550','100a7430','100a7300','100c0e29','100b09ee','100b2a80','100c14dd','100c61dc','100aa9a4','100c2048','100c2301','100c22b2','100c1feb','100c22e3','100c1d9c','100c27dd','100c21f4','100c1d3a','100c1da0','100c43c1','100c41d7','100c25e0','100c21ad','100c1f89','100b01c8','100c28e6','100c24e3','100c223b','100c1e13','100c44b4','100c6288','100c1c80','100c29ed','100c1b6a','100c1fa0','100c59ab','100c2589','100c51ce','100c674d','100c1ed2','100c660f','100c5e8f','100c2351','100c218f','100c1f28','100c1ac7','100c1dcf','100135f0','10013240','10020bf0','1003d410','1003d2f0','10047f10','10045da0','100aabd2','100aaaf6','100a7980','1003c650','1003e090','100a7a00']:
+    for body in ['10045600','10048ff0','1003f320','10047730','100ada4c','100aa632','100ae900','100ae880','100ae8b0','100a78fe','100a788e','100b4407','100b448b','100b444f','100ae27b','100aa47d','100a7265','100aef10','100b1854','100b4b6b','100ce095','100ce045','100aeb68','100aebad','100bef05','100ce0f5','100a72d0','100a7294','100a71ac','100ae2f2','100b10d6','100aa453','100aa45c','100a72ca','100e1660','100e1440','100e1450','100e1470','100e14b0','100e14c0','100e14d0','100e14e0','100e14f0','100e1500','100e1510','100e15d0','100e1600','100e1610','100e1630','100e1670','100e1680','10012d20','1008e970','1008e900','100a7099','100b0902','100c6142','100bb7cf','100aeed0','100bb892','100bb7a2','100bb889','10048050','10045f80','1003e1f0','10091550','100a7430','100a7300','100c0e29','100b09ee','100b2a80','100c14dd','100c61dc','100aa9a4','100c2048','100c2301','100c22b2','100c1feb','100c22e3','100c1d9c','100c27dd','100c21f4','100c1d3a','100c1da0','100c43c1','100c41d7','100c25e0','100c21ad','100c1f89','100b01c8','100c28e6','100c24e3','100c223b','100c1e13','100c44b4','100c6288','100c1c80','100c29ed','100c1b6a','100c1fa0','100c59ab','100c2589','100c51ce','100c674d','100c1ed2','100c660f','100c5e8f','100c2351','100c218f','100c1f28','100c1ac7','100c1dcf','100135f0','10013240','10020bf0','1003d410','1003d2f0','10047f10','10045da0','100aabd2','100aaaf6','100a7980','1003c650','1003e090','100a7a00']:
         for line in (output / (body + '.asm.txt')).read_text(encoding='utf-8').splitlines():
             rows.append(line.split(' | '))
     source=json.loads((output/'source.json').read_text(encoding='utf-8'))
-    for label in ['pool1792Dispatch','pool1792Allocate','pool1792Initialize','pool24Dispatch','pool24Initialize','pool24Allocate','emptyStringConstructor','classNameUnMangle','initializer143Getter','initializer142Getter','rootTextConstructor','rootTextAlloc','memoryGetInstance','memoryMalloc','heapAllocate','pool16Dispatch','pool16Initialize','heapAddPointerArea','pool16Allocate']:
+    for label in ['pool1792Free','pool1792Dispatch','pool1792Allocate','pool1792Initialize','pool24Dispatch','pool24Initialize','pool24Allocate','emptyStringConstructor','classNameUnMangle','initializer143Getter','initializer142Getter','rootTextConstructor','rootTextAlloc','memoryGetInstance','memoryMalloc','heapAllocate','pool16Dispatch','pool16Initialize','heapAddPointerArea','pool16Allocate']:
         for entry in source['methods'][label]['entryChain']:
             rows.append([entry['va'],entry['bytes'],'JMP 0x'+entry['targetVA']])
     header=json.loads((output/'source.json').read_text(encoding='utf-8'))['imageHeader']
