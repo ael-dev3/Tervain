@@ -29,3 +29,19 @@ it('performs the original table construction, clear and growth while preserving 
   expect(NativePropertySingletonConstruction.construct(memory, view).known).toBe(false);
   expect(view.readUnsigned(24)).toBe(1);
 });
+
+it('destroys the singleton through both table resets and the actual final storage free', () => {
+  const memory = new NativeMemoryAdmin(new NativeRuntimePlatform(), { extensions: [nativeNpcHeapExtension, nativePropertyHeapExtension] });
+  const view = fields(28), owner = value(NativePropertySingletonConstruction.construct(memory, view));
+  const name = new NativeHeapCString(memory); value(name.allocateTextBytes(new TextEncoder().encode('gCArena_PS')));
+  const index = fields(4), slot = value(owner.table.getOrInsertSlot(name, index));
+  const wrapper = value(memory.newObject(4, 0xed))!; slot.pointer(0).set(wrapper);
+  value(owner.destroy());
+  expect(wrapper.freed).toBe(true); expect(slot.backing.freed).toBe(true);
+  expect(owner.snapshot().phase).toBe('destroyed'); expect(view.pointer(12).get()).toBeNull();
+  expect(view.readUnsigned(16)).toBe(0); expect(view.readUnsigned(20)).toBe(0); expect(view.readUnsigned(24)).toBe(0);
+  expect(memory.snapshot().pools.find(pool => pool.stride === 224)!.count).toBe(0);
+  expect(memory.snapshot().pools.find(pool => pool.stride === 1536)!.count).toBe(0);
+  expect(owner.table.findSlot(name, index).known).toBe(false);
+  expect(owner.destroy().known).toBe(false);
+});

@@ -58,3 +58,11 @@ the destructor dependencies. NativeSharedModuleImage acquires that span once
 and supplies canonical physical object/guard aliases. This acquisition executes
 no getter or destructor; SharedBase exit registration and live getter execution
 remain unconnected. Focused tests reject copied and ended storage.
+
+The singleton support owner now implements its original destructor sequence:
+write the original vtable, clear the table with value deletion, invoke the map
+destruction reset without value deletion, then preserve both conditional final
+bucket-free blocks. The table lifetime ends only after successful completion.
+Focused tests distinguish the two reset policies, confirm actual wrappers and
+node storage are freed, and reject replay. The canonical getter and source exit
+callback are not yet connected to this destructor.

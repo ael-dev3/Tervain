@@ -229,13 +229,19 @@
       "cSha256": "4a774b714b205c4659fb5b6d46bc2c6fc95dd3f876637575cbbc1e469a1d2a9a"
     },
     "destroyTypeTable": {
-      "entryVA": "0x10091230",
+      "entryVA": "0x100054ac",
       "bodyVA": "0x10091230",
       "bodyRanges": "10091230-100912f5",
       "instructionCount": 67,
       "bodyByteCount": 198,
       "bodyInstructionBytesSha256": "70995dcf63faa747310585dbe53993e43e3fe8ea0c16345cba35bb787cbeb1c2",
-      "entryChain": [],
+      "entryChain": [
+        {
+          "va": "100054ac",
+          "bytes": "e97fbd0800",
+          "targetVA": "10091230"
+        }
+      ],
       "assemblySha256": "62c597b302bbe989f5ed119e889a29b1448c2677ce03f895ace8e448eaaddc2c",
       "cSha256": "e6b50b9a806d78174b528ef90092f42f23db5e15a49702178f680572619a218b"
     }

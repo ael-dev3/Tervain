@@ -89,3 +89,14 @@ it('stops on an unowned value pointer before releasing its key or node and canno
   slot.pointer(0).set(null);
   expect(table.clear().known).toBe(false);
 });
+
+it("preserves the map destruction helper's omission of value deletion", () => {
+  const { memory, text, index } = fixture(), view = fields(16);
+  const table = value(NativePropertyTypeTable.construct(memory, view));
+  const slot = value(table.getOrInsertSlot(text('gCArena_PS'), index));
+  const wrapper = value(memory.newObject(4, 0xed))!; slot.pointer(0).set(wrapper);
+  value(table.resetForDestruction());
+  expect(slot.backing.freed).toBe(true); expect(wrapper.freed).toBe(false);
+  expect(view.readUnsigned(4)).toBe(43); expect(view.readUnsigned(12)).toBe(0);
+  value(memory.deleteObject(wrapper));
+});
