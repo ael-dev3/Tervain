@@ -6,9 +6,47 @@ is the detailed technical record and dated checkpoint history.
 
 ## Latest process summary — 8 October 2026
 
+### SharedBase argv allocation, filling and normal return
+
+The latest local continuation owns the `100aeed0` malloc wrapper frame around
+the retained translated lower malloc effects. Its two saved registers, lower
+CALL/RET, argument cleanup and wrapper return now join the actual setargv frame.
+The allocation belongs to SharedBase's heap and uses the query's original
+pointer-vector plus string byte count. The original NULL branch preserves errno
+12, returns setargv -1 and reaches the unresolved attachment cleanup at
+`100adb6f`. A positive retry delay retains the original Sleep CALL at `100aeeed`
+after the lower allocator has returned; Sleep itself is not implemented.
+
+For a successful allocation, the same original parser instructions execute the
+filling pass at `100c0c3d`. Vector entries retain typed pointers into that one
+allocation; strings and their NUL terminators have actual byte storage. The
+final vector slot is NULL. The original caller removes three argument words,
+publishes count minus one at `102f6440` and the vector pointer at `102f6444`,
+then restores saved registers/EBP and returns zero at `100c0c5f`.
+
+With empty process input, argv contains the declared virtual `Gothic3.exe`
+module name in a 20-byte allocation: two pointer slots and 12 string bytes.
+This is the selected browser service profile, not a captured Windows process.
+The successful attachment caller now retains its next CALL at
+`100adb4f -> 100c092a`, before setenvp executes. Full enclosing CRT attachment,
+SharedBase initializer traversal and live Game startup remain unfinished.
+
+Focused validation passes 83 tests, including both passes' exact counts/strings,
+quoted and empty arguments, all high CP1252 bytes, physical heap ownership,
+NULL-vector termination, normal/failure returns, errno/LastError preservation,
+retry-call retention, private-authority rejection and sticky failure prefixes.
+Typechecking and the production build pass; the full suite passes 2,621 tests
+across 258 files. The source package and generated syntax are
+unchanged from the preceding checkpoint.
+
+PR 107 passed CI run 37741344381 and merged at
+`dd145fd8025cac46308ff48fd3d7a6b00c7bc77d`; Pages run 37742375940 is pending confirmation.
+PR 106 is deployed by successful Pages run 37740590327. No live Game initializer
+execution, native NPC activation or finishable campaign is established here.
+
 ### SharedBase command-line counting pass
 
-The latest local continuation lowers every reached instruction of the original
+The preceding continuation lowers every reached instruction of the original
 parser `100c0a0f`, lead-byte wrapper `100d1fc7` and type helper `100d1e09` onto
 one retained stack/register graph. The generated immutable syntax is checked
 against every original ASM row. Source bytes and metadata grant no runtime
