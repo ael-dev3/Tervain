@@ -8,19 +8,19 @@ is the detailed technical record and dated checkpoint history.
 
 See the [current rebuilding overview](gothic3-rebuild-overview.md#current-status--8-october-2026)
 for the latest confirmed deployment, source recovery, supporting implementations
-and remaining startup dependencies. PR 85 is deployed at main commit
-`6824954f3cc53927355c7c862ef341e385b6b8b4`. It adds Arena type construction,
-selected type registration and cleanup. The selected live Game startup still
-stops before `__cinit` at `204678f2`.
+and remaining startup dependencies. PR 87 is deployed at main commit
+`931fde2560e2bd86220a00cb4e542b266ee911b4` by successful Pages run 37714985260.
+It includes the first Status descriptor construction, cold Create/unregister
+lookup and actual pointer-array store, followed by the retained thread TLS and
+vsprintf FILE prefix for its diagnostic. That selected path stops before the
+original formatter at `100a7eff -> 100b5355`; no registration return is claimed.
 
-Subsequent local work constructs the first Status property descriptor, follows
-its cold Create/reset and unregister lookup, and stores it in the actual Arena
-property array. The Status container template name and its selected cleanup now
-have retained owners. Registration stops at the original Message.Debug call,
-which requires original static TLS, formatter and MessageAdmin dispatch owners.
-The first initializer has not returned, and these isolated owners have not been
-connected to the live CRT call frame. No live NPC activation or finishable
-campaign is established.
+Local SharedBase CRT work adds original startup/cold-global evidence and its
+independent security-cookie initializer, then process-attach version detection
+and modern heap creation. The attach prefix stops at the original `__mtinit`
+call (`100adb09 -> 100ae6f0`). The live Game startup still stops before `__cinit`
+at `204678f2`. These selected components have not been joined to that live call
+frame. No live NPC activation or finishable campaign is established.
 
 The dated checkpoint receipts below describe their own revisions and observations.
 Their publication statements should be read as historical evidence.

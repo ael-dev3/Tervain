@@ -1,0 +1,25 @@
+100aa49d | 8b4c2404 | MOV ECX,dword ptr [ESP + 0x4]
+100aa4a1 | 56 | PUSH ESI
+100aa4a2 | 33f6 | XOR ESI,ESI
+100aa4a4 | 3bce | CMP ECX,ESI
+100aa4a6 | 751d | JNZ 0x100aa4c5
+100aa4a8 | e824490000 | CALL 0x100aedd1
+100aa4ad | 56 | PUSH ESI
+100aa4ae | 56 | PUSH ESI
+100aa4af | 56 | PUSH ESI
+100aa4b0 | 56 | PUSH ESI
+100aa4b1 | 56 | PUSH ESI
+100aa4b2 | c70016000000 | MOV dword ptr [EAX],0x16
+100aa4b8 | e8153d0000 | CALL 0x100ae1d2
+100aa4bd | 83c414 | ADD ESP,0x14
+100aa4c0 | 6a16 | PUSH 0x16
+100aa4c2 | 58 | POP EAX
+100aa4c3 | 5e | POP ESI
+100aa4c4 | c3 | RET
+100aa4c5 | a12c642f10 | MOV EAX,[0x102f642c]
+100aa4ca | 3bc6 | CMP EAX,ESI
+100aa4cc | 74da | JZ 0x100aa4a8
+100aa4ce | 8901 | MOV dword ptr [ECX],EAX
+100aa4d0 | 33c0 | XOR EAX,EAX
+100aa4d2 | 5e | POP ESI
+100aa4d3 | c3 | RET
