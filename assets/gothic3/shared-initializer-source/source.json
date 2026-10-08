@@ -1564,6 +1564,38 @@
       "scope": "cold-original-image",
       "liveValueCaptured": false
     },
+    "underscoreRootLiteral": {
+      "address": "100ea340",
+      "raw": "5f526f6f7400",
+      "bytes": 6,
+      "sha256": "952767d2c66a1413138b0991f3c0f8032303a3056a42b5d22513ef381b7099cb",
+      "section": {
+        "virtualAddress": 937984,
+        "virtualSize": 366840,
+        "rawSize": 368640,
+        "rawOffset": 937984,
+        "fileBackedBytes": 6,
+        "loaderZeroFillBytes": 0
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "underscoreRootString": {
+      "address": "102f47d0",
+      "raw": "00000000",
+      "bytes": 4,
+      "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+      "section": {
+        "virtualAddress": 1306624,
+        "virtualSize": 1807760,
+        "rawSize": 16384,
+        "rawOffset": 1306624,
+        "fileBackedBytes": 0,
+        "loaderZeroFillBytes": 4
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
     "rootStaticObject": {
       "address": "102f4618",
       "raw": "00000000000000000000000000000000000000000000000000000000000000000000000000000000",

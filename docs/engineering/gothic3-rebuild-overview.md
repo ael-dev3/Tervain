@@ -92,6 +92,39 @@ and campaign completion remain outstanding.
    Completion requires ordinary gameplay through a campaign ending, including
    progression and save/reload across the connected systems.
 
+## Where each part of the rebuild lives
+
+| Stage | Repository location | Result to record |
+| --- | --- | --- |
+| Local installation research | `tools/gothic3/` | Original archive/resource path, patch precedence, module hash and extraction command. |
+| Captured engine evidence | `assets/gothic3/` | Original function bytes, addresses, static data and reproducible source receipts. |
+| Browser asset preparation | `public/gothic3/` | Converted resources with a link back to their original input. |
+| TypeScript runtime | `src/gothic3/` | Supported behavior connected to the session's memory, thread and lifetime owners. |
+| Runtime checks | `tests/gothic3-dialogue/` | Evidence for the supported path, failure cases and the next unsupported operation. |
+| Publishing | `.github/workflows/pages.yml` | Reviewed revision and successful deployment to the separate `/gothic3/` route. |
+
+### Example: rebuilding a native string initializer
+
+Follow the initializer's original call into the string constructor. Capture the
+literal and the constructor's required globals from the local DLL. Implement
+its length calculation, allocation, owned buffer, reference count, byte copy
+and terminator in the live runtime. Execute the caller's remaining stores and
+shutdown registration in their original order. Check the actual bytes and
+ownership after return, then identify the next initializer that cannot yet run.
+This gives the next stage real state to consume.
+
+### What a checkpoint must report
+
+- **Input:** resource path or module hash, original addresses, and generator.
+- **Change:** the behavior implemented and its connection to the live runtime.
+- **Evidence:** exact revision, check commands, results and regeneration comparison.
+- **Boundary:** the next unsupported call, plus the state already applied.
+- **Publication:** pull request and deployment receipt, when available.
+
+The completion check is a playable campaign: start a new game, activate the
+world and NPCs, progress through combat/dialogue/quests, save and reload that
+progress, and reach an ending through ordinary browser play.
+
 ## How native behavior becomes browser code
 
 For each missing operation, we follow the original caller into its callee and

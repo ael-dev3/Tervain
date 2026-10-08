@@ -3848,6 +3848,41 @@ const rows:readonly (readonly string[])[] = [
     "RET"
   ],
   [
+    "100e15d0",
+    "6840a30e10",
+    "PUSH 0x100ea340"
+  ],
+  [
+    "100e15d5",
+    "b9d0472f10",
+    "MOV ECX,0x102f47d0"
+  ],
+  [
+    "100e15da",
+    "e8c825f2ff",
+    "CALL 0x10003ba7"
+  ],
+  [
+    "100e15df",
+    "68202f0e10",
+    "PUSH 0x100e2f20"
+  ],
+  [
+    "100e15e4",
+    "e8e75cfcff",
+    "CALL 0x100a72d0"
+  ],
+  [
+    "100e15e9",
+    "59",
+    "POP ECX"
+  ],
+  [
+    "100e15ea",
+    "c3",
+    "RET"
+  ],
+  [
     "100135f0",
     "53",
     "PUSH EBX"
