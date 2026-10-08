@@ -1,0 +1,2 @@
+100a72ca | e88d310000 | CALL 0x100aa45c
+100a72cf | c3 | RET

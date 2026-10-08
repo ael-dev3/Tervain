@@ -9214,3 +9214,30 @@ production build and all 2,673 tests across 259 files pass. PR 115 passed CI
 run 37757739546 and merged at `d044545e75e4eee4cccdb5ffc447c4ba30c1db76`.
 These receipts validate source recovery; they do not establish execution of
 PUSHFD, POPFD, CPUID, MOVAPD or native exception dispatch.
+
+
+## 8 October 2026 — RTC exit-registration checkpoint
+
+PR 118 passed CI run 37763572750 and merged at
+`07ac76f56f8124d3f6467abefb4c4bb917429bd6`. It executes FILE initialization,
+the repeated processor probe and the original error-table return.
+
+The next local checkpoint captures six additional original bodies, for a total
+of 51 bodies, 896 instructions and 98 CALL receipts. All 92 generated package
+files and the TypeScript instruction module reproduce byte for byte from the
+identified local SharedBase DLL and offline study.
+
+The selected normal atexit/onexit path owns lock 8, DecodePointer identities,
+the original allocation-size frame and HeapSize call. It appends the encoded
+RTC callback to the actual 128-byte exit table, moves its cursor to offset 4,
+releases the lock and restores both normal exception frames. Startup now reaches
+the first void initializer `100aa692 -> 100e1660`. This does not execute RTC
+shutdown, the remaining void callbacks, full CRT attach or campaign gameplay.
+
+The focused suite passes 146 checks. Changed scope bytes, a replaced HeapSize
+import and a missing HeapSize endpoint preserve explicit failure boundaries.
+The expanded full suite passes 2,703 tests across 259 files. Typechecking
+and production build pass. Table growth, decoder
+fallback and exception dispatch remain unresolved.
+
+PR 118 Pages run 37765766597 completed successfully.

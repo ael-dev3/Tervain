@@ -1,0 +1,8 @@
+/* ENTRY 100aa453 | FUN_100aa453 | STATUS decompiled | 1 ms */
+
+void FUN_100aa453(void)
+
+{
+  __lock(8);
+  return;
+}

@@ -11,6 +11,26 @@ of Gothic 3's endings. A scene viewer, a decoded model or a successfully read
 native data structure is a useful component milestone, but it does not by
 itself establish a playable reconstruction.
 
+## How to read progress reports
+
+The reconstruction advances in reviewable checkpoints. Each checkpoint should
+name the original input, the TypeScript behavior added, the checks that passed,
+and the next missing dependency. Three states matter:
+
+- **Captured:** bytes, listings or assets are available with provenance.
+- **Implemented locally:** a selected behavior has been written; its validation
+  receipts determine what is supported.
+- **Published:** a reviewed commit has completed the Pages deployment workflow.
+
+These states are recorded separately. Current uncommitted work on RTC exit
+registration includes pointer decoding, exit-table locking and allocation-size
+lookup. The local checkpoint passes 146 focused checks, 2,703 tests across
+259 files and the production build. Its selected normal path registers the
+callback, releases the lock and reaches the first void initializer at
+`100aa692 -> 100e1660`. All 92 generated source files and the instruction module reproduce exactly.
+It awaits remote review and deployment. Full engine startup,
+world activation and campaign completion remain outstanding.
+
 ## Process at a glance
 
 1. **Identify the installed inputs.** Start with

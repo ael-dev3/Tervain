@@ -25,7 +25,10 @@ def capture(study, output):
     targets = {
         0x100aa632: 'cinit', 0x100ae900: 'isNonwritableInCurrentImage',
         0x100b4407: 'initializeFloatConversions', 0x100aa47d: 'inittermError',
-        0x100a72d0: 'atexit', 0x100aef10: 'callocWrapper',
+        0x100a72d0: 'atexit', 0x100a7294: 'onexit',
+        0x100ae2f2: 'decodePointer', 0x100b10d6: 'allocationSize',
+        0x100aa453: 'lockExitTable', 0x100aa45c: 'unlockExitTable',
+        0x100a72ca: 'releaseExitTable', 0x100aef10: 'callocWrapper',
         0x100a788e: 'installFloatConversions', 0x100b448b: 'queryFloatDivisionErratum',
         0x100b4426: 'setDefaultPrecision', 0x100ae27b: 'encodePointer',
         0x100ae20f: 'pointerEncodingAvailable',
@@ -61,6 +64,9 @@ def capture(study, output):
         ('processorFeature',0x102f853c,4), ('memcpySseEnabled',0x102f854c,4),
         ('stdioCount',0x102f8500,4), ('stdioVector',0x102f71c0,4),
         ('stdioFiles',0x10141790,640),
+        ('onexitScope',0x100f8630,28), ('allocationSizeScope',0x100f8ba0,28),
+        ('heapSizeImportSlot',0x102f9678,4),
+        ('pointerDecodeProcedureName',0x100ed6e0,len(b'DecodePointer\0')),
         ('processorModuleName',0x100ede4c,len(b'KERNEL32\0')),
         ('processorProcedureName',0x100ede30,len(b'IsProcessorFeaturePresent\0')),
         ('pointerModuleName',0x100ed284,len(b'KERNEL32.DLL\0')),
@@ -218,7 +224,7 @@ def capture(study, output):
 
 def initializer_runtime(output, destination):
     rows = []
-    for body in ['100aa632','100ae900','100ae880','100ae8b0','100a78fe','100a788e','100b4407','100b448b','100b444f','100ae27b','100aa47d','100a7265','100aef10','100b1854','100b4b6b','100ce095','100ce045','100aeb68','100aebad','100bef05','100ce0f5']:
+    for body in ['100aa632','100ae900','100ae880','100ae8b0','100a78fe','100a788e','100b4407','100b448b','100b444f','100ae27b','100aa47d','100a7265','100aef10','100b1854','100b4b6b','100ce095','100ce045','100aeb68','100aebad','100bef05','100ce0f5','100a72d0','100a7294','100a71ac','100ae2f2','100b10d6','100aa453','100aa45c','100a72ca']:
         for line in (output / (body + '.asm.txt')).read_text(encoding='utf-8').splitlines():
             rows.append(line.split(' | '))
     header=json.loads((output/'source.json').read_text(encoding='utf-8'))['imageHeader']

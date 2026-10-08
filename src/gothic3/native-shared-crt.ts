@@ -27,7 +27,11 @@ export interface NativeSharedInitializerImports {
  encodeAllocation(procedure:object,fields:NativeHeapObjectViews,offset:number):object|null;
  getTls(index:number):object|null;
  getPtd(procedure:object,index:number):NativeHeapObjectViews|null;
- getCodec(record:NativeHeapObjectViews):object|null;
+ getCodec(record:NativeHeapObjectViews,direction?:'EncodePointer'|'DecodePointer'):object|null;
+ decodePointer(procedure:object,encoded:object):Readonly<{fields:NativeHeapObjectViews;offset:number}>|number;
+ readonly heapSizeProcedure:object;
+ heapSize(heap:object,flags:number,fields:NativeHeapObjectViews,offset:number):number;
+ exitLock(id:number,enter:boolean):void;
  encodeCode(procedure:object,address:number):object|null;
  validateEncodedCode(value:object):void;
  getModule(name:string):object|null;
@@ -175,6 +179,9 @@ export class NativeSharedCrtOwner {
  #initializerImports:Readonly<NativeSharedInitializerImports>;
  readonly #initializerCodePointers=new Map<number,object>();
  readonly #initializerEncodedPointers=new WeakSet<object>();
+ readonly #initializerDecodedPointers=new WeakMap<object,{original:object;fields:NativeHeapObjectViews;offset:number}|{original:object;address:number}>();
+ readonly #initializerAllocationPointers=new Map<NativeHeapObjectViews,Map<number,object>>();
+ #exitLockHeld=false;
  readonly #initializerAllocations=new Set<NativeHeapObjectViews>();
  #environmentStrings:NativeHeapObjectViews[]=[];
  #setEnvpReturned:number|null=null;
@@ -208,8 +215,8 @@ export class NativeSharedCrtOwner {
   for(const [address,raw] of [['10000000',sharedInitializerHeader.raw],['100ed568','fe780a10'],['10141480','9fdf0c10'.repeat(10)],['102f6424','00000000']]){
    const fields=this.#retainLocal(raw!.length/2);for(let offset=0;offset<fields.bytes.length;offset++)fields.writeUnsigned(offset,parseInt(raw!.slice(offset*2,offset*2+2),16),1);initializerImages[address!]=fields;
   }
-  const getModuleHandleA=Object.freeze({owner:this.identity,name:'GetModuleHandleA'}),getProcAddress=Object.freeze({owner:this.identity,name:'GetProcAddress'}),tlsGetValue=Object.freeze({owner:this.identity,name:'TlsGetValue'});
-  this.#initializerImports=Object.freeze({getModuleHandleA,getProcAddress,tlsGetValue,
+  const getModuleHandleA=Object.freeze({owner:this.identity,name:'GetModuleHandleA'}),getProcAddress=Object.freeze({owner:this.identity,name:'GetProcAddress'}),tlsGetValue=Object.freeze({owner:this.identity,name:'TlsGetValue'}),heapSizeProcedure=Object.freeze({owner:this.identity,name:'HeapSize'});
+  this.#initializerImports=Object.freeze({getModuleHandleA,getProcAddress,tlsGetValue,heapSizeProcedure,
    calloc:(count:number,size:number,errorOutput:number,caller:string):NativeHeapObjectViews|null=>{
     const valid=caller==='100a726a'?count===32:(caller==='100bef27'||caller==='100bef40')&&count===this.#initializerImages['102f8500']!.readUnsigned(0)&&count>=20&&(caller!=='100bef40'||count===20);
     if(!valid||size!==4||errorOutput!==0)throw new Error('Actual original initializer calloc arguments and caller required');
@@ -225,10 +232,27 @@ export class NativeSharedCrtOwner {
     const handle=NativeHeapObjectViews.prototype.pointer.call(fields,offset).get() as object|null,proof=handle?NativeRuntimePlatform.standardIoCapabilityForPlatform(this.platform,handle):null;if(!proof?.known||proof.value!=='handle')throw new Error('Canonical same-platform descriptor HANDLE required');return handle!;
    },
    encodeAllocation:(procedure:object,fields:NativeHeapObjectViews,offset:number):object|null=>{
-    if(offset!==0||!this.#initializerAllocations.has(fields)||!this.#heap)throw new Error('Actual initializer exit allocation pointer required');
-    const span=NativeRuntimePlatform.canonicalOwnedWin32HeapAllocationSpan(this.platform,this.#heap,this.identity,{fields,offset:0},128);if(!span.known)throw new Error(span.reason);
+    if(!this.#initializerAllocations.has(fields)||!this.#heap)throw new Error('Actual initializer allocation pointer required');
+    const span=NativeRuntimePlatform.canonicalOwnedWin32HeapAllocationSpan(this.platform,this.#heap,this.identity,{fields,offset},0);if(!span.known)throw new Error(span.reason);
     const proof=NativeRuntimePlatform.canonicalPointerCodecForPlatform(this.platform,procedure,'EncodePointer');if(!proof.known)throw new Error(proof.reason);
-    const encoded=this.#call('100ae2dd.EncodePointer',()=>proof.value.invoke(fields));if(encoded)this.#initializerEncodedPointers.add(encoded);return encoded;
+    let pointers=this.#initializerAllocationPointers.get(fields);if(!pointers){pointers=new Map();this.#initializerAllocationPointers.set(fields,pointers);}let original=pointers.get(offset);if(!original){original=offset===0?fields:Object.freeze({fields,offset});pointers.set(offset,original);}
+    const encoded=this.#call('100ae2dd.EncodePointer',()=>proof.value.invoke(original!));if(encoded){this.#initializerEncodedPointers.add(encoded);this.#initializerDecodedPointers.set(encoded,{original,fields,offset});}return encoded;
+   },
+   decodePointer:(procedure:object,encoded:object):Readonly<{fields:NativeHeapObjectViews;offset:number}>|number=>{
+    const proof=NativeRuntimePlatform.canonicalPointerCodecForPlatform(this.platform,procedure,'DecodePointer');if(!proof.known)throw new Error(proof.reason);
+    const record=this.#initializerDecodedPointers.get(encoded);if(!record||!this.#initializerEncodedPointers.has(encoded))throw new Error('Actual retained initializer encoded pointer required');
+    const decoded=this.#call('100ae354.DecodePointer',()=>proof.value.invoke(encoded));if(decoded!==record.original)throw new Error('Actual initializer pointer decode identity required');
+    if('address' in record)return record.address;
+    const span=NativeRuntimePlatform.canonicalOwnedWin32HeapAllocationSpan(this.platform,this.#heap!,this.identity,{fields:record.fields,offset:record.offset},0);if(!span.known)throw new Error(span.reason);return Object.freeze({fields:record.fields,offset:record.offset});
+   },
+   heapSize:(heap:object,flags:number,fields:NativeHeapObjectViews,offset:number):number=>{
+    if(heap!==this.#heap||flags!==0||offset!==0||!this.#initializerAllocations.has(fields))throw new Error('Actual original initializer HeapSize arguments required');
+    const span=NativeRuntimePlatform.canonicalOwnedWin32HeapAllocationSpan(this.platform,this.#heap!,this.identity,{fields,offset},fields.bytes.length);if(!span.known)throw new Error(span.reason);return this.#call('100b1158.HeapSize',()=>this.platform.win32HeapSize(this.#heap!,0,{fields,offset}));
+   },
+   exitLock:(id:number,enter:boolean):void=>{
+    if(id!==8||!this.#active||!this.#initializerActive||enter===this.#exitLockHeld)throw new Error('Actual exit-table lock8 transition required');
+    const section=this.imageStorage('lockTable').pointer<NativeHeapObjectViews>(8*8).get();if(!section)throw new Error('Actual retained exit-table lock8 required');
+    this.#call(enter?'100aa455.lock8':'100aa45e.unlock8',()=>enter?this.platform.enterPhysicalCriticalSection(section,this.identity):this.platform.leavePhysicalCriticalSection(section,this.identity));this.#exitLockHeld=enter;
    },
    getTls:(index:number):object|null=>this.#call('SharedBase.initializer.TlsGetValue',()=>this.platform.tlsGetValue(index)),
    getPtd:(procedure:object,index:number):NativeHeapObjectViews|null=>{
@@ -237,18 +261,18 @@ export class NativeSharedCrtOwner {
     if(record===null)return null;if(record!==this.#ptd||!this.#heap)throw new Error('Actual installed SharedBase initializer PTD required');
     const proof=NativeRuntimePlatform.canonicalOwnedWin32HeapAllocationSpan(this.platform,this.#heap,this.identity,{fields:record as NativeHeapObjectViews,offset:0},532);if(!proof.known)throw new Error(proof.reason);return record as NativeHeapObjectViews;
    },
-   getCodec:(record:NativeHeapObjectViews):object|null=>{
+   getCodec:(record:NativeHeapObjectViews,direction:'EncodePointer'|'DecodePointer'='EncodePointer'):object|null=>{
     if(record!==this.#ptd||!this.#heap)throw new Error('Actual retained initializer PTD codec slot required');
     const span=NativeRuntimePlatform.canonicalOwnedWin32HeapAllocationSpan(this.platform,this.#heap,this.identity,{fields:record,offset:0},532);if(!span.known)throw new Error(span.reason);
-    const procedure=NativeHeapObjectViews.prototype.pointer.call(record,0x1f8).get();if(procedure===null)return null;
-    const proof=NativeRuntimePlatform.canonicalPointerCodecForPlatform(this.platform,procedure,'EncodePointer');if(!proof.known)throw new Error(proof.reason);return proof.value;
+    const procedure=NativeHeapObjectViews.prototype.pointer.call(record,direction==='EncodePointer'?0x1f8:0x1fc).get();if(procedure===null)return null;
+    const proof=NativeRuntimePlatform.canonicalPointerCodecForPlatform(this.platform,procedure,direction);if(!proof.known)throw new Error(proof.reason);return proof.value;
    },
    encodeCode:(procedure:object,address:number):object|null=>{
     const proof=NativeRuntimePlatform.canonicalPointerCodecForPlatform(this.platform,procedure,'EncodePointer');if(!proof.known)throw new Error(proof.reason);
     if(address===0){const encoded=this.#call('100ae2dd.EncodePointer(NULL)',()=>proof.value.invoke(null));if(encoded)this.#initializerEncodedPointers.add(encoded);return encoded;}
-    if(![0x100cdf9f,0x100b43e6,0x100b3a8b,0x100b3a49,0x100b3a7d,0x100b39f3,0x100b4360,0x100b3a09,0x100b3973,0x100b3902].includes(address))throw new Error('Original installed conversion address required');
+    if(![0x100cdf9f,0x100b43e6,0x100b3a8b,0x100b3a49,0x100b3a7d,0x100b39f3,0x100b4360,0x100b3a09,0x100b3973,0x100b3902,0x100bb8e7].includes(address))throw new Error('Original installed conversion address required');
     let pointer=this.#initializerCodePointers.get(address);if(!pointer){pointer=Object.freeze({owner:this.identity,originalCodeAddress:address});this.#initializerCodePointers.set(address,pointer);}
-    const encoded=this.#call('100ae2dd.EncodePointer',()=>proof.value.invoke(pointer!));if(encoded)this.#initializerEncodedPointers.add(encoded);return encoded;
+    const encoded=this.#call('100ae2dd.EncodePointer',()=>proof.value.invoke(pointer!));if(encoded){this.#initializerEncodedPointers.add(encoded);this.#initializerDecodedPointers.set(encoded,{original:pointer!,address});}return encoded;
    },
    validateEncodedCode:(value:object):void=>{const active=NativeRuntimePlatform.requireActivePlatform(this.platform);if(!active.known)throw new Error(active.reason);if(!this.#initializerEncodedPointers.has(value))throw new Error('Actual retained initializer encoded code pointer required');},
    getModule:(name:string):object|null=>{if(name!=='KERNEL32')throw new Error('Unowned SharedBase processor module name');return this.#call('100b4490.GetModuleHandleA',()=>this.platform.getWin32ModuleHandle('KERNEL32'));},
@@ -273,7 +297,7 @@ export class NativeSharedCrtOwner {
   if(errorTable.address!=='100e545c'||errorTable.endExclusive!=='100e5678'||errorTable.raw!==Array.from(expectedErrorTable,byte=>byte.toString(16).padStart(2,'0')).join(''))throw new Error('Original SharedBase error table required');
   const errorFields=this.#retainLocal(540);for(let offset=0;offset<540;offset++)errorFields.writeUnsigned(offset,expectedErrorTable[offset]!,1);initializerImages['100e545c']=errorFields;
   for(const [address,receipt] of [['102f8580',initializerSource.coldGlobals.exitTableBegin],['102f8584',initializerSource.coldGlobals.exitTableEnd]] as const){if(receipt.address!==address||receipt.raw!=='00000000')throw new Error('Original exit-table cold pointers required');const fields=this.#retainLocal(4);fields.writeUnsigned(0,0);initializerImages[address]=fields;}
-  for(const [label,hash] of [['errorInitializers_66','66630cd5e2a2dabb3bb968676d31a841924538d3637d71f3fd2fcfae81b546c6'],['errorInitializers_67','34be7ac135e12e6cdb6e84ad62183cc4988c5b678be68e3dd509e953cd6389fc'],['errorInitializers_68','3ac4a0ea067a030fc5629a20f0bd02c49cd0f11c3ef7dd4d1b5fe8c6d0b8d81d'],['errorInitializers_69','115a89c537ebd18abb73b44317428e298f4a289e07527a3152bb0423bfb0b944'],['queryProcessorFeature','7c1f30fb684460922c4035c3a9b38257e68f1e1bffabc8ee035bb1230bc4fe0d'],['processorFeatureProbe','36b1797c63b48cf3f67e2cd754be28debe26814a69902e045ee6feedfed5652c'],['exceptionFrameEnter','e30b4c04dfd938e926cd434bb13e5723dad104657d993b990f465d72e19a7cc7'],['exceptionFrameLeave','39142b8d79823b8b3c0dd534ee99caf6c8cce4347b7608cfc004a14c873f7411']] as const)if(initializerSource.methods[label].bodyInstructionBytesSha256!==hash)throw new Error('Original SharedBase processor initializer source differs');
+  for(const [label,hash] of [['errorInitializers_66','66630cd5e2a2dabb3bb968676d31a841924538d3637d71f3fd2fcfae81b546c6'],['errorInitializers_67','34be7ac135e12e6cdb6e84ad62183cc4988c5b678be68e3dd509e953cd6389fc'],['errorInitializers_68','3ac4a0ea067a030fc5629a20f0bd02c49cd0f11c3ef7dd4d1b5fe8c6d0b8d81d'],['errorInitializers_69','115a89c537ebd18abb73b44317428e298f4a289e07527a3152bb0423bfb0b944'],['atexit','09942fe4905f48be972c0e6824f517bcc0cde802100baff5d8a61369ddad30b6'],['onexit','05bf4d6c05b1556037b0068bb08a4a3719045fe6ea11bcf6c8305109bee2fb02'],['appendExitCallback','000574553c6745e72a5a959e12357deecac178f6cabf3d5d0cb6406ff45dbda9'],['decodePointer','680d5ea020292968a6b3e1cb9782e9988c4d9a1d90340f077c9cc0f3a0fed274'],['allocationSize','b628afba8232a0da550759b843715392b69f4ebcc560e5e914dc63fbdfc8e1fd'],['lockExitTable','a3996d6008e3f4e8b3f27d19f629256b5a4b1b56c180d9d370ea86184ab0f045'],['unlockExitTable','ff8245faf6bfe880af7314a45baf278b71fc40c18ece668512874fe4bb80d58f'],['releaseExitTable','6845047bd057027a1b466990d58ea838a092f57e1fde31eed94c452060be9203'],['queryProcessorFeature','7c1f30fb684460922c4035c3a9b38257e68f1e1bffabc8ee035bb1230bc4fe0d'],['processorFeatureProbe','36b1797c63b48cf3f67e2cd754be28debe26814a69902e045ee6feedfed5652c'],['exceptionFrameEnter','e30b4c04dfd938e926cd434bb13e5723dad104657d993b990f465d72e19a7cc7'],['exceptionFrameLeave','39142b8d79823b8b3c0dd534ee99caf6c8cce4347b7608cfc004a14c873f7411']] as const)if(initializerSource.methods[label].bodyInstructionBytesSha256!==hash)throw new Error('Original SharedBase processor initializer source differs');
   const processorFlag=initializerSource.coldGlobals.processorFeature;if(processorFlag.address!=='102f853c'||processorFlag.raw!=='00000000')throw new Error('Original processor feature flag required');const processorFields=this.#retainLocal(4);processorFields.writeUnsigned(0,0);initializerImages['102f853c']=processorFields;
   const scope=initializerSource.coldGlobals.processorProbeScope,scopeRaw='feffffff00000000d4ffffff00000000feffffff62e00c107ee00c10';
   if(scope.address!=='100f8ec0'||scope.bytes!==28||scope.raw!==scopeRaw)throw new Error('Original processor-probe scope receipt required');
@@ -285,6 +309,13 @@ export class NativeSharedCrtOwner {
    const receipt=initializerSource.coldGlobals[label];if(receipt.address!==address||receipt.bytes!==length||(label==='stdioFiles'?receipt.raw!==expectedFileRaw||receipt.sha256!=='f2a2cf29c97d8939530c43bb672a5b8097ce8fdb131e92ef721a7d85e477e9f3':receipt.raw!=='00000000'))throw new Error('Original stdio initializer image required');
    const fields=this.#retainLocal(length);for(let offset=0;offset<length;offset++)fields.writeUnsigned(offset,parseInt(receipt.raw.slice(offset*2,offset*2+2),16),1);initializerImages[address]=fields;
   }
+  for(const [label,address,raw] of [['onexitScope','100f8630','feffffff00000000d4ffffff00000000feffffff00000000ca720a10'],['allocationSizeScope','100f8ba0','feffffff00000000d0ffffff00000000feffffff0000000068110b10'],['pointerDecodeProcedureName','100ed6e0','4465636f6465506f696e74657200'],['heapSizeImportSlot','102f9678','c09d2f00']] as const){
+   const receipt=initializerSource.coldGlobals[label];if(receipt.address!==address||receipt.raw!==raw||receipt.bytes!==raw.length/2)throw new Error('Original onexit dependency image required');const fields=this.#retainLocal(receipt.bytes);for(let offset=0;offset<receipt.bytes;offset++)fields.writeUnsigned(offset,parseInt(raw.slice(offset*2,offset*2+2),16),1);if(label==='heapSizeImportSlot')fields.pointer(0).set(heapSizeProcedure);initializerImages[address]=fields;
+  }
+  const voidBytes=new Uint8Array(856),voidView=new DataView(voidBytes.buffer);
+  for(const [index,address] of [[65,0x100e1660],[130,0x100e1440],[131,0x100e1450],[132,0x100e1470],[133,0x100e14b0],[134,0x100e14c0],[135,0x100e14d0],[136,0x100e14e0],[138,0x100e14f0],[139,0x100e1500],[140,0x100e1510],[141,0x100e15d0],[142,0x100e1600],[143,0x100e1610],[144,0x100e1630],[145,0x100e1670],[146,0x100e1680]])voidView.setUint32(index!*4,address!,true);
+  if(initializerSource.tables.voidInitializers.raw!==Array.from(voidBytes,byte=>byte.toString(16).padStart(2,'0')).join('')||initializerSource.tables.dynamicTlsHook.raw!=='00000000')throw new Error('Original void/TLS initializer images required');
+  const voidFields=this.#retainLocal(856);for(let offset=0;offset<856;offset++)voidFields.writeUnsigned(offset,voidBytes[offset]!,1);initializerImages['100e5000']=voidFields;const dynamicTls=this.#retainLocal(4);dynamicTls.writeUnsigned(0,0);initializerImages['102f858c']=dynamicTls;
   this.#initializerImages=Object.freeze(initializerImages);
   const exception=source.sectionException;
   if(exception.filter.raw!=='8b45ec8b008b008945dc33c93d170000c00f94c18bc1c3'||exception.handler.raw!=='8b65e8817ddc170000c075086a08ff157c972f108365e000'||exception.scopeTable.raw!=='feffffff00000000ccffffff00000000feffffffadbf0b10c4bf0b10')throw new Error('Original section exception source required');
@@ -330,7 +361,7 @@ export class NativeSharedCrtOwner {
  static initializerStackArgumentsForPlatform(platform:NativeRuntimePlatform,call:object):NativeValue<Readonly<{images:Readonly<Record<string,NativeHeapObjectViews>>;cookie:NativeHeapObjectViews;imports:Readonly<NativeSharedInitializerImports>}>>{
   const proof=NativeSharedCrtOwner.argvStackArgumentsForPlatform(platform,call);if(!proof.known)return proof;const owner=owners.get(platform)!;
   if(!owner.#initializerActive||proof.value.stage!=='environment')return {known:false,reason:'Actual pending SharedBase initializer required'};
-  try{for(const fields of Object.values(owner.#initializerImages))owner.#requireLocal(fields);const cookie=NativeSharedCrtSecurityCookie.forPlatform(platform);const read=cookie.readCookie();if(!read.known)return read;return {known:true,value:{images:Object.freeze({...owner.#initializerImages,'10140b48':owner.imageStorage('tlsGetterIndex'),'10140b44':owner.imageStorage('threadDataIndex'),'102f64b4':owner.imageStorage('allocationRetryDelay'),'102f8588':owner.imageStorage('multibyteInitialized'),'102f70c0':owner.imageStorage('ioBlocks'),'102f854c':owner.imageStorage('memcpySseFlag')}),cookie:cookie.fields,imports:owner.#initializerImports}};}catch(error){return {known:false,reason:error instanceof Error?error.message:String(error)};}
+  try{for(const fields of Object.values(owner.#initializerImages))owner.#requireLocal(fields);const cookie=NativeSharedCrtSecurityCookie.forPlatform(platform);const read=cookie.readCookie();if(!read.known)return read;return {known:true,value:{images:Object.freeze({...owner.#initializerImages,'10140b48':owner.imageStorage('tlsGetterIndex'),'10140b44':owner.imageStorage('threadDataIndex'),'102f64b4':owner.imageStorage('allocationRetryDelay'),'102f8588':owner.imageStorage('multibyteInitialized'),'102f70c0':owner.imageStorage('ioBlocks'),'102f854c':owner.imageStorage('memcpySseFlag'),'102f8530':owner.imageStorage('heapSelection'),'102f6ac8':owner.imageStorage('heapHandle')}),cookie:cookie.fields,imports:owner.#initializerImports}};}catch(error){return {known:false,reason:error instanceof Error?error.message:String(error)};}
  }
  static argvLocalStorageForPlatform(platform:NativeRuntimePlatform,call:object,fields:NativeHeapObjectViews):NativeValue<void>{
   const proof=NativeSharedCrtOwner.argvStackArgumentsForPlatform(platform,call);if(!proof.known)return proof;const owner=owners.get(platform)!;
@@ -338,7 +369,7 @@ export class NativeSharedCrtOwner {
    if(owner.#initializerAllocations.has(fields)||fields===owner.#ioBlock||fields===owner.#ptd||fields===owner.#multibyteAllocation||fields===owner.#argvAllocation||fields===owner.#environmentAllocation||fields===owner.#environmentVector||owner.#environmentStrings.includes(fields)){
     const span=NativeRuntimePlatform.canonicalOwnedWin32HeapAllocationSpan(platform,owner.#heap!,owner.identity,{fields,offset:0},fields===owner.#ptd?532:fields===owner.#multibyteAllocation?544:fields.bytes.length);if(!span.known)return span;
    }else if(owner.#initializerActive&&fields===NativeSharedCrtSecurityCookie.forPlatform(platform).fields){const cookie=NativeSharedCrtSecurityCookie.forPlatform(platform).readCookie();if(!cookie.known)return cookie;}
-   else if(![proof.value.module,proof.value.envPointer,proof.value.envVector,proof.value.envInitialized,proof.value.mbInitialized,owner.imageStorage('tlsGetterIndex'),owner.imageStorage('threadDataIndex'),owner.imageStorage('allocationRetryDelay'),owner.imageStorage('ioBlocks'),owner.imageStorage('memcpySseFlag')].includes(fields))owner.#requireLocal(fields);
+   else if(![proof.value.module,proof.value.envPointer,proof.value.envVector,proof.value.envInitialized,proof.value.mbInitialized,owner.imageStorage('tlsGetterIndex'),owner.imageStorage('threadDataIndex'),owner.imageStorage('allocationRetryDelay'),owner.imageStorage('ioBlocks'),owner.imageStorage('memcpySseFlag'),owner.imageStorage('heapSelection'),owner.imageStorage('heapHandle')].includes(fields))owner.#requireLocal(fields);
    if(fields.backing.freed||fields.bytes.buffer!==fields.backing.bytes.buffer||fields.knownMask.buffer!==fields.backing.knownMask.buffer||fields.view.buffer!==fields.bytes.buffer||fields.view.byteOffset!==fields.bytes.byteOffset||fields.view.byteLength!==fields.bytes.length)throw new Error('Actual SharedBase argv/environment storage required');return {known:true,value:undefined};
   }catch(error){return {known:false,reason:error instanceof Error?error.message:String(error)};}
 
@@ -1117,7 +1148,7 @@ export class NativeSharedCrtOwner {
   }catch(error){this.#boundary??=error instanceof Error?error.message:String(error);return {known:false,reason:this.#boundary};}
   finally{this.#stackCall=null;this.#caseCall=null;this.#configurationCall=null;this.#setMultibyteCall=null;this.#argvCall=null;this.#initializerActive=false;this.#active=false;}
  }
- snapshot(){return Object.freeze({initializerImages:this.#initializerImages,initializerAllocations:Object.freeze([...this.#initializerAllocations]),argvInput:this.#argvInput,argvAllocation:this.#argvAllocation,argvReturned:this.#argvReturned,environmentVector:this.#environmentVector,environmentStrings:Object.freeze([...this.#environmentStrings]),setEnvpReturned:this.#setEnvpReturned,mappingState:this.#mappingState?Object.freeze({...this.#mappingState}):null,boundary:this.#boundary,localeUpdate:this.#localeUpdate,multibyteAllocation:this.#multibyteAllocation,cpInfo:this.#cpInfo,caseState:this.#caseState?Object.freeze({...this.#caseState}):null,codePage:this.#codePage,startupInfo:this.#startupInfo,ioBlock:this.#ioBlock,ioReturned:this.#ioReturned,versionAllocation:this.#versionAllocation,
+ snapshot(){return Object.freeze({exitLockHeld:this.#exitLockHeld,initializerImages:this.#initializerImages,initializerAllocations:Object.freeze([...this.#initializerAllocations]),argvInput:this.#argvInput,argvAllocation:this.#argvAllocation,argvReturned:this.#argvReturned,environmentVector:this.#environmentVector,environmentStrings:Object.freeze([...this.#environmentStrings]),setEnvpReturned:this.#setEnvpReturned,mappingState:this.#mappingState?Object.freeze({...this.#mappingState}):null,boundary:this.#boundary,localeUpdate:this.#localeUpdate,multibyteAllocation:this.#multibyteAllocation,cpInfo:this.#cpInfo,caseState:this.#caseState?Object.freeze({...this.#caseState}):null,codePage:this.#codePage,startupInfo:this.#startupInfo,ioBlock:this.#ioBlock,ioReturned:this.#ioReturned,versionAllocation:this.#versionAllocation,
   ptd:this.#ptd,ptdInstalled:this.#ptdInstalled,ptdInitialized:this.#ptdInitialized,rtcReturned:this.#rtcReturned,environmentInput:this.#environmentInput,environmentAllocation:this.#environmentAllocation,environmentReturned:this.#environmentReturned,heap:this.#heap,heapReturned:this.#heapReturned,attachReturned:this.#attachReturned,mtReturned:this.#mtReturned,locksReturned:this.#locksReturned,sections:Object.freeze([...this.#sections]),pointersReturned:this.#pointersReturned,
   trace:Object.freeze([...this.#trace]),dllEntryExecuted:false,wholeCrtTraversalCompleted:false});}
 }
