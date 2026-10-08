@@ -8,13 +8,19 @@ is the detailed technical record and dated checkpoint history.
 
 See the [current rebuilding overview](gothic3-rebuild-overview.md#current-status--8-october-2026)
 for the latest confirmed deployment, source recovery, supporting implementations
-and remaining startup dependencies. PR 84 is published at main commit
-`bcb41bc0a9cfb549373ed8f5eb80ad93829669cd`; four selected served artifacts match
-the corresponding local production bytes. It adds singleton lifecycle and Arena
-class-name support. The selected live Game startup still stops before `__cinit`
-at `204678f2`. Arena type construction, selected type registration and property
-object destruction are subsequent local work. These components have not
-established live NPC activation or a finishable campaign.
+and remaining startup dependencies. PR 85 is deployed at main commit
+`6824954f3cc53927355c7c862ef341e385b6b8b4`. It adds Arena type construction,
+selected type registration and cleanup. The selected live Game startup still
+stops before `__cinit` at `204678f2`.
+
+Subsequent local work constructs the first Status property descriptor, follows
+its cold Create/reset and unregister lookup, and stores it in the actual Arena
+property array. The Status container template name and its selected cleanup now
+have retained owners. Registration stops at the original Message.Debug call,
+which requires original static TLS, formatter and MessageAdmin dispatch owners.
+The first initializer has not returned, and these isolated owners have not been
+connected to the live CRT call frame. No live NPC activation or finishable
+campaign is established.
 
 The dated checkpoint receipts below describe their own revisions and observations.
 Their publication statements should be read as historical evidence.
