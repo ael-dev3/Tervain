@@ -9589,3 +9589,52 @@ tests across 259 files in 162.07 seconds, and the production build passes.
 Authored whitespace checks pass. Bitmap exhaustion, additional pools and allocation failure/cleanup
 cases still need evidence and integration. Complete startup, world activation
 and campaign completion remain outstanding.
+
+
+## 8 October 2026 — Original Root copy and static initializer return
+
+PR 133 passed CI run 37784481242 and merged at
+`aae1a3849b756298621b015e611656278be8f1e7`; Pages run 37785902417 succeeded.
+
+The live initializer now enters original memcpy at `100a7a00`. Its owner proves
+that the source is retained original static-image storage and the destination
+is the actual live bounded pool slot, with both spans contained. For disjoint
+spans, either numerical address ordering reaches the same forward block at
+`100a7a20`. The interpreter joins those control paths without selecting an
+invented address order: the intervening comparisons have no stores, and the
+next original CMP overwrites their arithmetic flags. The trace marks that join
+explicitly. Same-backing pointer relations continue to use their actual offsets.
+
+The original alignment TEST uses private canonical geometry, then the captured
+DWORD/tail tables select the real source loads and destination stores. Normal
+Root copies four bytes and restores memcpy's saved EBP, ESI and EDI through
+LEAVE/RET; its caller removes twelve argument bytes. The CString constructor
+returns the same slot's payload pointer, preserving its terminating byte.
+
+The original parent initializer publishes that pointer at `102f4618`, increments
+the sixteen-bit reference count, clears the remaining fields of the original
+forty-byte static object and writes its zero float through XORPS/MOVSS. The
+selected virtual CPU must explicitly support normal SIMD execution. Its
+sixteen-bit decrement preserves adjacent padding, and CX/DX comparison verifies
+that a live reference remains before skipping Free. The temporary reference is
+balanced; the static Root retains reference count one.
+
+The original atexit/onexit path encodes and appends `100e2b40` as callback twelve
+in the same 128-byte exit table, at offset 44 with cursor 48. Registration does
+not execute the shutdown body. The Root callback returns to cinit, which reaches
+pending `100aa692 -> 100e15d0`, void initializer 141.
+
+The package captures 64 bodies, 1,708 instructions and 137 CALL receipts; all
+117 generated source files and the instruction module regenerate exactly.
+Typechecking and 220 focused checks pass, covering actual payload/static-pointer
+identity, constructor and caller cleanup, reference/padding preservation,
+SIMD stores, exit callback ordering, private disjoint-copy proof and unchanged
+allocator dependencies. The final full suite passes 2,777 tests across 259
+files in 162.29 seconds, and the production build passes. Authored whitespace
+checks pass; original captured C whitespace is preserved.
+
+Shortened Root inputs select the original twelve-byte pool and retain its
+unimplemented `1003d304 -> 100028f6` boundary. They are not routed into the
+sixteen-byte pool to manufacture success. This checkpoint does not establish
+general backward, unaligned, REP or SSE memcpy support. Remaining initializers,
+full startup, NPC/world activation and a finishable campaign remain outstanding.
