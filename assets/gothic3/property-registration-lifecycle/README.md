@@ -66,3 +66,14 @@ bucket-free blocks. The table lifetime ends only after successful completion.
 Focused tests distinguish the two reset policies, confirm actual wrappers and
 node storage are freed, and reject replay. The canonical getter and source exit
 callback are not yet connected to this destructor.
+
+`native-property-singleton.ts` now owns the selected getter protocol over canonical
+image aliases and the same retained MemoryAdmin/platform. It tests the actual
+guard bit, sets it before construction, registers the original callback through
+the selected platform shutdown adapter, and preserves warm pointer returns
+without promoting them to completed table ownership. Callback admission is
+limited to the private getter-created registration window. Cleanup runs before
+MemoryAdmin shutdown. The native Game initializer call frames and Shared CRT
+atexit traversal are not executed by this support owner; production integration
+remains unfinished. Focused tests exercise the complete selected getter/cleanup
+protocol, unknown guard bits, provider identity and duplicate registration.

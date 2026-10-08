@@ -97,6 +97,7 @@ type MediumBlock = {
 type Allocation = NativeMemoryAllocation & { requestedBytes: number; capacity: number; pool: Pool | null; block: MediumBlock | null };
 const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
 const unknown = <T>(reason: string): NativeValue<T> => ({ known: false, reason });
+const retainedMemoryAdmins = new WeakSet<object>();
 const SHARED_BASE = '5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214';
 const hex = (value: string) => {
   if (!/^(?:[0-9a-f]{2})*$/.test(value)) throw new Error('Exact hexadecimal native source bytes required');
@@ -162,6 +163,9 @@ export class NativeMemoryAdmin {
       unknown('Canonical SharedBase GUID empty literal pointer is unavailable');
   }
 
+  /** Read-only identity check; selecting another provider does not rebind an owner. */
+  usesPlatform(platform: NativeMemoryPlatform): boolean { return retainedMemoryAdmins.has(this) && this.platform === platform; }
+
   constructor(private readonly platform: NativeMemoryPlatform, options: { extensions?: readonly NativeMemoryRulesExtension[] } = {}) {
     Object.defineProperty(this, 'platform', { value: platform, writable: false, configurable: false });
     const rules = runtimeRules as unknown as Rules;
@@ -202,6 +206,7 @@ export class NativeMemoryAdmin {
     this.buckets.sort((a, b) => a.rule.stride - b.rule.stride);
     for (const [address, bytes] of [['10142798', 16], ['102fb000', 1], ['102fb004', 4], ['102fb030', 4], ['102fb04c', 4]] as const) this.requireColdZero(address, bytes);
     for (const bucket of this.buckets) for (const address of Object.values(bucket.rule.globals)) this.requireColdZero(address, 4);
+    retainedMemoryAdmins.add(this);
     this.requireColdZero('10144214', 4097 * 4);
     retainedMemoryPlatforms.set(this, platform);
   }
