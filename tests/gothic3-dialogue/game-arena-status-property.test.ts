@@ -1,3 +1,6 @@
+import {NativeSharedStaticTls} from '../../src/gothic3/native-shared-static-tls';
+import {NativeSharedMessageDebug} from '../../src/gothic3/native-shared-message-debug';
+import type {NativeBytePointer} from '../../src/gothic3/native-pointer-geometry';
 import { expect, it } from 'vitest';
 import type { NativeValue } from '../../src/gothic3/dialogue';
 import { NativeGameCrtOwner } from '../../src/gothic3/native-game-crt';
@@ -11,11 +14,13 @@ import { NativeRuntimePlatform, createBrowserNpcRuntimeAdminOwner } from '../../
 const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
 function value<T>(result: NativeValue<T>): T { if (!result.known) throw new Error(result.reason); return result.value; }
 
-function fixture(initializeExit = true, sourceMemory?:NativeMemoryAdmin, useNpcPool=false) {
+function fixture(initializeExit = true, sourceMemory?:NativeMemoryAdmin, useNpcPool=false, loadTls=false) {
   const platform = new NativeRuntimePlatform({ engineCrtServices: {
+    ...(loadTls?{threadStack:{threadCapability:{},reservationBytes:4096,addressModel:'opaque-relative' as const,initialRegisters:'unknown' as const,initialFs0:'unknown' as const}}:{}),
     tlsValues: new Map<number, object>(), kernel32Available: true, pointerCodec: 'owned-bijection',
     fiberLocalStorage: true, processHeap: true, osVersion: { platform: 2, major: 6, minor: 1, build: 0xabcd },
   } });
+  if(loadTls)value(value(NativeSharedStaticTls.forPlatform(platform)).loadSharedBase());
   const errno = new NativeHeapObjectViews({ identity: {}, bytes: new Uint8Array(4), knownMask: new Uint8Array(4).fill(255), freed: false });
   const crt = NativeGameCrtOwner.forPlatform({ platform, errnoSlot: () => known(errno) });
   crt.physical.crtOsFields.writeUnsigned(0, 2); crt.physical.crtOsFields.writeUnsigned(12, 6);
@@ -69,4 +74,31 @@ it('preserves Create completion when the property-array allocation pool is unava
  expect(type.pointer(8).get()).toBeNull();
  const trace=f.owner.snapshot().trace;expect(f.owner.initialize()).toEqual(result);
  expect(f.owner.snapshot().trace).toEqual(trace);
+});
+
+it('connects actual Status registration to loaded TLS and retains the original vsprintf FILE prefix',()=>{
+ const f=fixture(true,undefined,true,true);
+ const result=f.owner.initialize();expect(result.known).toBe(false);
+ if(result.known)throw new Error('Unowned formatter unexpectedly returned');
+ expect(result.reason).toContain('100a7eff');expect(result.reason).toContain('100b5355');
+ const diagnostic=NativeSharedMessageDebug.forPlatform(f.platform),state=diagnostic.snapshot();
+ const file=state.file!;
+ expect(file.bytes.length).toBe(32);
+ expect(file.readUnsigned(4)).toBe(0x7fffffff);expect(file.readUnsigned(12)).toBe(0x42);
+ const destination=file.pointer<NativeBytePointer>(0).get()!;
+ expect(file.pointer(8).get()).toBe(destination);expect(destination.fields).toBe(state.buffer);
+ expect(destination.offset).toBe(0);expect(state.buffer!.bytes.length).toBe(0x6d4-0x108);
+ expect(state.buffer!.bytes.every(byte=>byte===0)).toBe(true);
+ expect([...file.knownMask.slice(16)]).toEqual(new Array(16).fill(0));
+ const names=f.owner.snapshot().diagnosticNames!;
+ const property=state.arguments!.pointer<NativeBytePointer>(0).get()!;
+ const type=state.arguments!.pointer<NativeBytePointer>(4).get()!;
+ expect(property.fields.readUnsigned(property.offset,1)).toBe('S'.charCodeAt(0));
+ expect(type.fields.readUnsigned(type.offset,1)).toBe('b'.charCodeAt(0));
+ expect(value(names.propertyName.text())).toBe('Status');
+ expect(state.locale).toBeNull();expect(state.formatterReturned).toBe(false);
+ expect(state.terminatorWritten).toBe(false);expect(state.messageDispatched).toBe(false);
+ expect(state.trace).toEqual(['100498f0.loadThreadTlsBuffer','1004990a.retainActualVarargs','100a7f27.forwardWithNullLocale','100a7eff.callOutputFormatter']);
+ expect(f.owner.initialize()).toEqual(result);expect(diagnostic.snapshot().file).toBe(file);
+ expect(f.owner.snapshot().initializerReturned).toBe(false);
 });

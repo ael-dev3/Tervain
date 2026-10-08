@@ -11,6 +11,7 @@ import { NativeHeapCString } from './native-heap-cstring';
 import { NativeHeapObjectViews } from './native-heap-views';
 import { NativeMemoryAdmin } from './native-memory-admin';
 import { NativeRuntimePlatform } from './native-runtime-platform';
+import { NativeSharedMessageDebug } from './native-shared-message-debug';
 import { NativePropertyTypeConstruction } from './native-property-type-construction';
 import { admitGameArenaStatusSource } from './native-game-arena-status-source';
 
@@ -117,13 +118,14 @@ export class NativeGameArenaStatusProperty {
     const typeName=fact(NativeGameArenaStatusClassName.prototype.get.call(NativeGameArenaStatusClassName.forCrt(this.crt,this.memory)));
     if(this.#boundary)throw new Error(this.#boundary);
     const propertyName=fact(NativePropertyTypeConstruction.prototype.getName.call(this.#base!));
-    // The diagnostic call receives the actual CString text pointers loaded
-    // after both getters. Preserve them without claiming Message.Debug ran.
-    fact(NativeHeapCString.prototype.getTextPointer.call(typeName));
-    fact(NativeHeapCString.prototype.getTextPointer.call(propertyName));
+    const typeText=fact(NativeHeapCString.prototype.getTextPointer.call(typeName));
+    const propertyText=fact(NativeHeapCString.prototype.getTextPointer.call(propertyName));
     this.#diagnosticNames=Object.freeze({propertyName,typeName});
     this.#trace.push('10088186.loadDiagnosticTextPointers');
-    throw new Error('Unowned property registration Message.Debug call at 10088191');
+    const diagnostic=NativeSharedMessageDebug.forPlatform(this.crt.host.platform as NativeRuntimePlatform);
+    const result=NativeSharedMessageDebug.prototype.registerProperty.call(diagnostic,propertyText,typeText);
+    if(!result.known)throw new Error('Property registration Message.Debug at 10088191: '+result.reason);
+    throw new Error('Unowned property registration return after Message.Debug');
   }
   initialize():NativeValue<void> {
     if(this.#boundary)return {known:false,reason:this.#boundary};
