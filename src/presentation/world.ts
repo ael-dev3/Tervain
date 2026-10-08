@@ -1,3 +1,8 @@
+import { loadBakedTextures } from './bakedTextures';
+import { buildFurniture, loadFurniture, type FurnitureTemplates } from './furniture';
+import { InteriorLight } from './interiorLight';
+import type { InteriorSpec } from '../world/interiors';
+import { DoorSwings, type DoorEvent } from './doors';
 import * as THREE from 'three';
 import { buildHunterSupplies, disposeHunterSupplies } from './hunterSupplies';
 import { buildAnimalCamp } from './animalCamp';
@@ -160,6 +165,7 @@ export class WorldScene {
       stone: { completed: 0, total: 1 },
       trees: { completed: 0, total: new Set(MESHY_TREE_IDS).size * MESHY_TREE_LODS.length },
       animals: { completed: 0, total: ANIMALS.length },
+      furniture: { completed: 0, total: 1 },
     };
     const modelTotal = Object.values(modelFamilies).reduce((sum, family) => sum + family.total, 0);
     let modelProgressActive = true;
@@ -171,15 +177,18 @@ export class WorldScene {
       onProgress?.({ loaded: completed, total, label });
     };
     await checkpoint('models', 'World models', 0, modelTotal);
+    // The baked building surfaces download alongside the models; any that fail keep their generated textures.
+    const surfaces = loadBakedTextures(settings.quality);
     setSharedLibrary(library);
-    let pine: PineTemplates, rockPile: GLTF, treeTemplates: MeshyTreeTemplates, animalTemplates: AnimalTemplates;
+    let pine: PineTemplates, rockPile: GLTF, treeTemplates: MeshyTreeTemplates, animalTemplates: AnimalTemplates, furniture: FurnitureTemplates;
     try {
       await library.preload(ALL_NEEDS, progress => modelProgress('library', progress.loaded, progress.total, progress.label));
-      [pine, rockPile, treeTemplates, animalTemplates] = await Promise.all([
+      [pine, rockPile, treeTemplates, animalTemplates, furniture] = await Promise.all([
         loadSolitaryPine((loaded, total) => modelProgress('pine', loaded, total, 'Coastal pines')),
         loadSourceRockPile((loaded, total) => modelProgress('stone', loaded, total, 'Woodland stone')),
         loadMeshyTrees(undefined, (loaded, total) => modelProgress('trees', loaded, total, 'Woodland models', MESHY_TREE_LODS.length)),
         loadAnimalTemplates((loaded, total) => modelProgress('animals', loaded, total, 'Wildlife models')),
+        loadFurniture((loaded, total) => modelProgress('furniture', loaded, total, 'Furniture')),
       ]);
     } finally { modelProgressActive = false; }
     await checkpoint('models', 'World models', modelTotal, modelTotal);
@@ -189,7 +198,9 @@ export class WorldScene {
       signal: options.signal,
       onProgress: (completed, total) => phase('textures', 'Ground materials', completed, total),
     });
-    return await WorldScene.build(state, settings, library, tex, pine, rockPile, treeTemplates, animalTemplates, npcAssets, options, phase, checkpoint);
+    await checkpoint('textures', 'Weathered surfaces', 8, 8);
+    await surfaces;
+    return await WorldScene.build(state, settings, library, tex, pine, rockPile, treeTemplates, animalTemplates, furniture, npcAssets, options, phase, checkpoint);
   }
 
   /** Release GPU resources the scene graph does not own. */
@@ -198,7 +209,7 @@ export class WorldScene {
   }
 
   private static async build(state: WorldState, settings: Settings, library: AssetLibrary, terrainTex: TerrainTextures, pine: PineTemplates, rockPile: GLTF,
-    treeTemplates: MeshyTreeTemplates, animalTemplates: AnimalTemplates, npcAssets: MeshyNpcCatalog | undefined, options: WorldCreateOptions,
+    treeTemplates: MeshyTreeTemplates, animalTemplates: AnimalTemplates, furniture: FurnitureTemplates, npcAssets: MeshyNpcCatalog | undefined, options: WorldCreateOptions,
     phase: (stage: WorldBuildProgress['phase'], label: string, completed?: number, total?: number) => void,
     checkpoint: (stage: WorldBuildProgress['phase'], label: string, completed?: number, total?: number) => Promise<void>): Promise<WorldScene> {
     const t0 = performance.now();
@@ -272,6 +283,9 @@ export class WorldScene {
       const environment = own(buildEnvironment(scene, settings.quality));
       const scenery = own(buildScenery(terrain, colliders, settings.quality));
       scene.add(scenery.group);
+      // A room's furniture shows only while someone can see into it (A66): see WorldScene.roomOpen.
+      let roomOpen: (room: InteriorSpec) => boolean = () => true;
+      addModule('furniture', buildFurniture(furniture, terrain.rooms, (room) => roomOpen(room)));
       await checkpoint('settlement', 'Hunter supplies and caravan');
       const hunterSupplies = buildHunterSupplies(terrain, colliders);
       addModule('hunter supplies', { group: hunterSupplies, update() {}, dispose: () => disposeHunterSupplies(hunterSupplies) });
@@ -339,6 +353,7 @@ export class WorldScene {
         scene, terrain, colliders, sky, water, sway, modules, environment, scenery, animals, terrainMesh,
         physics, nav, lanternLights, dust, dustData, riteResponse, foliage, buildMs: performance.now() - t0, disposeOwned,
       });
+      roomOpen = (room) => world.roomOpen(room);
       phase('finishing', 'Scene ready', 1, 1);
       return world;
     } catch (error) {
@@ -369,6 +384,10 @@ export class WorldScene {
     this.riteResponse = resources.riteResponse;
     this.foliage = resources.foliage;
     this.disposeOwned = resources.disposeOwned;
+    this.interiorLight = new InteriorLight(this.terrain.rooms);
+    this.doorSwings = new DoorSwings(this.scenery.doors ?? []);
+    this.scene.add(this.interiorLight.light);
+    this.skyFill = this.scene.environmentIntensity;
     this.view = worldView(state);
     this.syncStatic(state, true);
     this.buildStats.ms = resources.buildMs;
@@ -555,6 +574,12 @@ export class WorldScene {
     this.sky.brightness = settings.brightness;
     this.sky.update(hour, focus, dt, reduced);
     const night = this.sky.state.nightness;
+    // Inside a room the sky's fill is mostly shut out and the room's own warm light takes over (A66). Without
+    // shadows (Low) the sun itself would shine through the roof, so it is dimmed there as well.
+    const indoor = this.interiorLight.update(dt, camera.position, night, this.time);
+    this.sky.hemi.intensity *= 1 - 0.55 * indoor;
+    this.scene.environmentIntensity = this.skyFill * (1 - 0.6 * indoor);
+    if (settings.quality === 'low') this.sky.sun.intensity *= 1 - 0.85 * indoor;
     this.scenery.setNight(night);
     this.scenery.update(dt, this.time, night);
     for (const s of this.physics.drainSplashes()) this.water.splash(s.x, s.y, s.z, s.energy);
@@ -629,5 +654,25 @@ export class WorldScene {
   /** Whether the player is standing inside the archive (roofed) for audio and camera decisions. */
   insideArchive(x: number, z: number): boolean {
     return Math.abs(x + 46) < 3.6 && Math.abs(z + 102) < 3.1;
+  }
+
+  /** Whether a point is under a roof: in the archive or in any building's room (A66). */
+  underRoof(x: number, z: number): boolean {
+    return this.insideArchive(x, z) || this.terrain.rooms.at(x, z) !== null;
+  }
+
+  private readonly doorSwings: DoorSwings;
+  private readonly interiorLight: InteriorLight;
+  /** The sky's image light at full strength, before a room dims it. */
+  private readonly skyFill: number;
+
+  /** Whether a room's door stands at all open, so its inside can be seen from outside (A66). */
+  roomOpen(room: InteriorSpec): boolean {
+    return this.doorSwings.openness(room) > 0;
+  }
+
+  /** Swing the rooms' doors for the wanderer and residents near them (A66); returns door sounds to play. */
+  updateDoors(dt: number, visitors: readonly { x: number; z: number }[]): DoorEvent[] {
+    return this.doorSwings.update(dt, visitors);
   }
 }

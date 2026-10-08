@@ -22,12 +22,16 @@ The prototype includes:
 
 - A sparse coastal arrival, a continuous woodland journey and inland settlements.
 - The animated Wanderer, 17 adapted Meshy NPC roles and diverse supplied-tree habitats, with protected custom Pine geometry.
-- Residents fitted to their own bodies: joints that bend where they do, skirts and capes that hold together in motion,
-  gestures that rest on the figure, benches they really sit on, tools for their trades, and skin, cloth, leather and
-  steel that shade as what they are.
-- Rougher terrain, rooted vegetation, weathered buildings and grounded scenery.
+- Residents on full-body rigs of their own, moving with authored motion: walks matched to the ground they cover,
+  idles and conversation, sitting down on real benches and getting up, a working motion for every trade with tools in
+  hand, and fights; skirts and capes that hold together in motion, and skin, cloth, leather and steel that shade as
+  what they are.
+- Rougher terrain, rooted vegetation and grounded scenery; every building can be walked into, through a door that swings
+  open, to furnished rooms with a fire in the hearth.
+- Weathered, high-resolution surfaces: rubble in dirty mortar, peeling damp-stained render, split boards, sooted tiles and
+  mossy thatch, under matte materials and an earthy grade.
 - One physical water system: a refracting, breaking sea with surf and swash, streams within their banks, a spring
-  and its pool; floating cargo, wading, swimming and a view under the surface.
+  and its pool; floating cargo, wading, an authored breaststroke and a view under the surface.
 - Lush blade-by-blade meadows that gusts sweep across and that the hero, residents, animals and cargo push through,
   leaving trails that slowly close.
 - Woods that move in the same wind: trunks lean and sway, branches swing and leaves flutter and glow against the

@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { clone as cloneSkinned } from 'three/examples/jsm/utils/SkeletonUtils.js';
 import type { Pose, Rig } from '../characters';
+import { roughnessFloor } from '../matte';
 import { HeroAnimationController } from './animation';
 import { createHeroAttachments } from './attachments';
 import { bindHeroBones } from './bones';
@@ -11,6 +12,9 @@ export interface HeroAsset {
 }
 
 export type MainHeroRig = Rig & { hero: HeroAnimationController };
+
+/** The wanderer's leather, cloth and skin are never glossier than this. */
+export const HERO_ROUGHNESS_FLOOR = 0.7;
 
 /** A playable copy: unique skeleton/materials, retained source geometry and PBR images. */
 export function createHeroRig(asset: HeroAsset): MainHeroRig {
@@ -46,6 +50,8 @@ export function createHeroRig(asset: HeroAsset): MainHeroRig {
     }
   });
   if (skins !== 1) throw new Error(`Main hero requires one skinned character mesh; found ${skins}`);
+  // The model's own roughness reaches 0.5 on leather and skin, which read polished under the sky light (A67).
+  for (const material of materials) roughnessFloor(material, HERO_ROUGHNESS_FLOOR);
   const hero = new HeroAnimationController(scene, body, bones, asset.animations);
   const attachments = createHeroAttachments(bones);
   materials.push(...attachments.materials);

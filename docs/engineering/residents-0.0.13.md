@@ -7,6 +7,11 @@ the vertex stage, and in how the surfaces are shaded and posed. All of it lives 
 [presentation/npc/](../../src/presentation/npc/) and is switched on for every resident in the game; the review lab can
 switch each part off to compare.
 
+Since A65 each resident has a 24-joint rig of its own and moves with authored clips
+([resident rigs and motion](resident-rigs-0.0.13.md)). The surfaces, covered layers and dual-quaternion skinning below
+carry over to that rig; the joint fit, skin repair, fitted poses, seats and tools below now serve the procedural poser,
+which a resident keeps when its rig file is unavailable.
+
 ## Joints where the body bends
 
 The prepared residents share one generic joint layout: every elbow hangs straight below its shoulder and every knee

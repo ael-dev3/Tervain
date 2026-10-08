@@ -117,7 +117,7 @@ export function createGrassField(terrain: Terrain, habitat: Habitat, quality: Qu
   const spec = GRASS_QUALITY[quality];
   const group = new THREE.Group();
   group.name = 'grass';
-  const look = { rootShade: 0.34, tipLift: 0.3, translucency: 1.1, sheen: 0.5, transTint: new THREE.Color(1.1, 1.22, 0.6) };
+  const look = { rootShade: 0.34, tipLift: 0.3, translucency: 1.1, sheen: 0.34, transTint: new THREE.Color(1.1, 1.22, 0.6) };
   const materials: GrassMaterial[] = [];
   const layers: TileLayer[] = [];
   const S = newSample();

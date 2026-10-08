@@ -14,9 +14,9 @@ export function buildPhysicalProps(physics: RealmPhysics, quality: 'low' | 'medi
   for (const key of ['planks', 'timber'] as const) {
     const pair = makeTexPair(key, quality === 'high' ? 1024 : quality === 'medium' ? 512 : 256, 12);
     textures.push(pair.map, pair.normal);
-    materials.set(key, new THREE.MeshStandardMaterial({ map: pair.map, normalMap: pair.normal, vertexColors: true, roughness: .86 }));
+    materials.set(key, new THREE.MeshStandardMaterial({ map: pair.map, normalMap: pair.normal, vertexColors: true, roughness: .92 }));
   }
-  materials.set('metal', new THREE.MeshStandardMaterial({ vertexColors: true, roughness: .57, metalness: .6 }));
+  materials.set('metal', new THREE.MeshStandardMaterial({ vertexColors: true, roughness: .74, metalness: .45 }));
   const meshes = new Map<string, THREE.Group>();
   for (const [i, p] of physics.props.entries()) {
     const spec = p.spec, region = new Region(spec.id, new Ctx()), rnd = mulberry32(6100 + i);

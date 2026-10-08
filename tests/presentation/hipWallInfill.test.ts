@@ -4,6 +4,7 @@ import { Ctx } from '../../src/presentation/buildKit';
 import { Region } from '../../src/presentation/regions';
 import { buildShrineHallShell, roofFor, roofWallInfill } from '../../src/presentation/structures';
 import { bySpec } from '../../src/world/layout';
+import { interiorOf } from '../../src/world/interiors';
 import { mulberry32 } from '../../src/world/noise';
 
 const material = new THREE.MeshBasicMaterial({ side: THREE.FrontSide });
@@ -93,7 +94,8 @@ describe('hip roof wall joints', () => {
   it('closes the actual shrine hall shell on all sides while retaining its sloped attic underside', () => {
     const shrine = bySpec('shrine_hall');
     const region = new Region('shrine', new Ctx());
-    buildShrineHallShell(region, mulberry32(4401), shrine.w, shrine.d, shrine.h, 0.4);
+    const room = interiorOf(shrine)!;
+    buildShrineHallShell(region, mulberry32(4401), shrine.w, shrine.d, shrine.h, 0.4, room.wall, room.door);
     const group = groupOf(region);
     expectWallJoint(group, shrine.w, shrine.d, 0.5 + shrine.h);
     // The attic ceiling is the roof decking, well above the infill; no flat cap hides the shape.

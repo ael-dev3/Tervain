@@ -1,4 +1,5 @@
 import { loadMeshyTrees, type MeshyTreeTemplates } from './presentation/meshyTrees';
+import { loadBakedTextures } from './presentation/bakedTextures';
 import * as THREE from 'three';
 import { NPCS } from './content/npcs';
 import { SCENES, SPEAKER_NAMES, VOICE_LINES, inHours, shown, type HeroCue } from './content/voice';
@@ -47,7 +48,7 @@ import { MenuScene } from './presentation/menuScene';
 import { disposeSceneResources } from './presentation/disposeScene';
 import { GAME_VERSION } from './version';
 import { loadMainHero } from './presentation/mainHero';
-import { createHeroRig } from './presentation/hero/rig';
+import { createHeroRig, type MainHeroRig } from './presentation/hero/rig';
 import { HuntingController } from './presentation/huntingController';
 import { loadMeshyNpcCatalog, type MeshyNpcCatalog } from './presentation/meshynpcs';
 import { ANIMALS, loadAnimalTemplates } from './presentation/animals';
@@ -288,7 +289,7 @@ export class App {
     }
     if (q.get('hud') === '0') this.hud.show(false);
     // Look-development controls are intentionally query-only: each post effect can be isolated in a repeatable shot.
-    const controls = ['saturation', 'contrast', 'vignette', 'grain', 'chromatic'] as const;
+    const controls = ['saturation', 'contrast', 'vignette', 'grain', 'earth', 'chromatic'] as const;
     const grade: Partial<Record<(typeof controls)[number], number>> = {};
     for (const key of controls) {
       if (q.has(key)) {
@@ -371,6 +372,9 @@ export class App {
       if (this.world && !this.worldDisposed) this.rebuildPropPoses = this.world.physics.snapshot();
       if (this.world) this.disposeWorld();
       if (!this.npcAssets) await this.prepareNpcAssets();
+      // The wanderer swims with the authored strokes from the residents' motion library once it is here.
+      const library = this.npcAssets!.library, hero = (this.player.rig as Partial<MainHeroRig> | undefined)?.hero;
+      if (library && hero) hero.useSwimClips(library);
       // Legacy procedural export/fallback controls; Meshy residents retain their baked 1536 px surface maps in every preset.
       personBuildOptions.sheetSize = this.settings.quality === 'low' ? 512 : 1024;
       // Stage private Meshy rigs before the world adopts them, so a failed build can release the complete cast.
@@ -438,6 +442,8 @@ export class App {
   }
 
   private async loadMenuAssets() {
+    // The weathered building surfaces never hold up the title: the camp adopts them whenever they arrive.
+    void loadBakedTextures(this.settings.quality);
     const [trees, assets] = await Promise.all([
       loadMeshyTrees(['tree-0208']), loadMeshyNpcCatalog(undefined, ['menu:warden']),
     ]);
@@ -1086,6 +1092,8 @@ export class App {
       ...this.enemies.filter((e) => e.alive).map((e) => ({ x: e.x, z: e.z, radius: e.radius + 0.25, weight: 0.8 })),
     ]);
     this.world.update(dt, this.game.state, new THREE.Vector3(this.player.x, this.player.y, this.player.z), this.settings, hour, this.cam.camera, worldActive);
+    // Doors swing open for the wanderer and the residents who come to them, and shut behind them (A66).
+    for (const swing of this.world.updateDoors(worldActive ? dt : 0, [this.player, ...this.npcs.filter((n) => !n.hidden)])) this.audio.door(swing.at, swing.open);
     this.hunting.afterWorld(dt, worldActive);
     this.audioUpdate(dt, this.cam.camera.position, hour);
 
@@ -1123,7 +1131,7 @@ export class App {
   }
 
   /** The menu's picture is rougher than play: an old painted backdrop, grainy and darkened at the edges. */
-  private static readonly MENU_LOOK = { saturation: 0.9, contrast: 1.07, vignette: 0.3, grain: 0.03, chromatic: 0.0012 };
+  private static readonly MENU_LOOK = { saturation: 0.9, contrast: 1.07, vignette: 0.3, grain: 0.03, earth: 1, chromatic: 0.0012 };
   private worldLook: ReturnType<Grade['getLook']> | null = null;
 
   private get menuBackgroundActive() {
@@ -2027,7 +2035,7 @@ export class App {
     const w = this.world.waterProximity(camPos.x, camPos.z);
     const millD = Math.hypot(camPos.x + 14, camPos.z + 8);
     const quarryD = Math.hypot(camPos.x - 92, camPos.z + 26);
-    const indoors = this.world.insideArchive(camPos.x, camPos.z);
+    const indoors = this.world.underRoof(camPos.x, camPos.z);
     this.audio.update(dt, {
       nightness: this.world.sky.state.nightness,
       waterProximity: w,

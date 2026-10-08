@@ -21,7 +21,7 @@ The proposed first pass is **30–45 minutes**. A developer can replay important
 | Quarry | Work and contracts, foreman's perspective, a rescue/access problem. |
 | Ford and side path | Meaningful route choice, one encounter, visible navigation consequence. |
 
-Use one connected compact exterior with at most two small accessible interiors. Distant mountains, forest masses, and a road beyond the border can imply the larger setting without playable second regions. Authored line-of-sight and travel time determine useful size; no kilometer target is set before walking the graybox.
+Use one connected compact exterior with at most two small accessible interiors. (Superseded by A66: every building can now be entered.) Distant mountains, forest masses, and a road beyond the border can imply the larger setting without playable second regions. Authored line-of-sight and travel time determine useful size; no kilometer target is set before walking the graybox.
 
 ## Content cap
 

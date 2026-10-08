@@ -32,7 +32,8 @@ vi.mock('../../src/presentation/regions', async (importOriginal) => {
   class MaterialSet {
     readonly windowMat = new THREE.MeshBasicMaterial();
     readonly lanternMat = new THREE.MeshBasicMaterial();
-    private readonly materials = new Map<string, THREE.Material>([['pane', this.windowMat], ['glow', this.lanternMat]]);
+    readonly daylightMat = new THREE.MeshBasicMaterial();
+    private readonly materials = new Map<string, THREE.Material>([['pane', this.windowMat], ['glow', this.lanternMat], ['daylight', this.daylightMat]]);
     get(key: string) {
       if (!this.materials.has(key)) this.materials.set(key, new THREE.MeshStandardMaterial());
       return this.materials.get(key)!;

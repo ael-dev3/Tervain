@@ -13,6 +13,10 @@ import { fitNpcPoses, measureBody, type FittedWork, type NpcPoseFit } from './np
 import { createWorkProp } from './npc/workProps';
 import { installResidentSurface, patchResidentShadow, residentHiddenLayers, residentSkinPrior, type ResidentAxis } from './npc/residentSurface';
 import { npcStyle, type WorkGesture } from './npcStyle';
+import { installResidentRig, parseResidentRig, residentRestPose, type ResidentBones, type ResidentRigData } from './npc/residentRig';
+import { createResidentTools } from './npc/residentProps';
+import { clipsFor, LOCOMOTION, measureSeat, ResidentMotion, residentMotionLibrary, retargetClip, SEATED_CLIPS, type Build, type ResidentClips, type ResidentMotionLibrary } from './npc/residentMotion';
+import { BENCH_SEAT_HEIGHT } from '../world/layout';
 import { modelAssetUrl } from './assets/modelUrl';
 import { withModelLoadSlot, type ModelLoadProgress } from './assets/modelLoadQueue';
 
@@ -32,14 +36,25 @@ export interface MeshyNpcEntry {
   height: number;
   /** Verified authoring-stage normals/tangents baked only from source geometry, never from the source normal texture. */
   surfaceBake?: 'geometry-only-v1';
+  /** The model's own humanoid rig (A65), beside it. */
+  rig?: MeshyNpcFile;
 }
+
+/** A small file beside the models, checked by size and hash like them. */
+export interface MeshyNpcFile { file: string; bytes: number; sha256: string }
 
 export interface MeshyNpcManifest {
   schema: 1;
   maxTriangles: number;
   assets: MeshyNpcEntry[];
   roles: Record<string, string>;
+  /** The residents' motion library (A65). */
+  motion?: MeshyNpcFile;
 }
+
+const validFile = (value: MeshyNpcFile | undefined, folder: string, extension: string) => value === undefined
+  || (!!value && typeof value.file === 'string' && new RegExp(`^${folder}/[a-z0-9]+(?:-[a-z0-9]+)*\.${extension}$`).test(value.file)
+    && Number.isInteger(value.bytes) && value.bytes > 0 && /^[0-9a-f]{64}$/.test(value.sha256));
 
 const PARENT: Record<BoneName, BoneName | null> = {
   hips: null, torso: 'hips', head: 'torso', armL: 'torso', elbowL: 'armL',
@@ -63,11 +78,12 @@ export function validateMeshyNpcManifest(value: unknown): MeshyNpcManifest {
       || ids.has(entry.id) || files.has(entry.file) || !Number.isInteger(entry.triangles) || entry.triangles <= 0
       || entry.triangles > NPC_TRIANGLE_LIMIT || !Number.isInteger(entry.bytes) || entry.bytes < 20
       || !/^[0-9a-f]{64}$/.test(entry.sha256) || !Number.isFinite(entry.height) || entry.height < 1.4 || entry.height > 2.2
-      || (entry.surfaceBake !== undefined && entry.surfaceBake !== 'geometry-only-v1')) {
+      || (entry.surfaceBake !== undefined && entry.surfaceBake !== 'geometry-only-v1') || !validFile(entry.rig, 'rigs', 'json')) {
       throw new Error(`The resident model manifest has an invalid entry (${entry?.id ?? 'unnamed'}).`);
     }
     ids.add(entry.id); files.add(entry.file);
   }
+  if (!validFile(manifest.motion, 'motion', 'glb')) throw new Error('The resident model manifest has an invalid motion library.');
   for (const role of NPC_ROLES) if (!ids.has(manifest.roles[role] ?? '')) throw new Error(`The resident model manifest is missing ${role}.`);
   for (const [role, id] of Object.entries(manifest.roles)) if (!ids.has(id)) throw new Error(`The resident model role ${role} refers to an unknown model.`);
   return manifest;
@@ -164,9 +180,65 @@ export interface NpcRigOptions {
   surface?: boolean;
   /** The resident's task when it is drawn with tools (writing, provisioning, stonework, measuring). */
   work?: WorkGesture;
+  /** Play authored clips on the resident's own humanoid rig (A65) when the catalog has one; off keeps the procedural poser. */
+  authoredMotion?: boolean;
 }
 
-export const NPC_RIG_DEFAULTS: Required<Omit<NpcRigOptions, 'work'>> & Pick<NpcRigOptions, 'work'> = { dualQuaternion: true, skinRepair: true, jointFit: true, poseFit: true, surface: true };
+/**
+ * Figures whose cape hangs between the arms and the body (tools/meshy-rig releases it from the arms): how much of the
+ * clips' arm movement is held back, so the cape stretches less where it still meets the arm.
+ */
+export const RESIDENT_GARMENT_ARMS: Readonly<Record<string, number>> = { 'caravan-master': 0.6 };
+
+/** A resident's own rig and the motion library, handed to the rig builder by the catalog. */
+export interface ResidentMotionSource {
+  data: ResidentRigData;
+  library: ResidentMotionLibrary;
+  build: Build;
+  seed: number;
+  fighter: boolean;
+  work?: WorkGesture;
+}
+
+export const NPC_RIG_DEFAULTS: Required<Omit<NpcRigOptions, 'work'>> & Pick<NpcRigOptions, 'work'> = { dualQuaternion: true, skinRepair: true, jointFit: true, poseFit: true, surface: true, authoredMotion: true };
+
+/** Clips retargeted onto one model's rig, shared by every actor of that model. */
+const retargeted = new WeakMap<ResidentRigData, Map<string, ReturnType<typeof retargetClip>>>();
+function residentClips(source: ResidentMotionSource, bones: ResidentBones, mesh?: THREE.SkinnedMesh): ResidentClips {
+  let known = retargeted.get(source.data);
+  if (!known) { known = new Map(); retargeted.set(source.data, known); }
+  const rest = residentRestPose(bones);
+  const clips: ResidentClips = new Map();
+  for (const name of clipsFor(source.build, source.work, source.fighter)) {
+    let clip = known.get(name);
+    if (!clip) {
+      const library = source.library.clips.get(name);
+      if (!library) continue;
+      clip = retargetClip(library, source.library.rest, rest, LOCOMOTION.has(name));
+      if (SEATED_CLIPS.has(name) && mesh) clip.seat = measureSeat(clip, rest, source.data, mesh.geometry.getAttribute('position') as THREE.BufferAttribute);
+      known.set(name, clip);
+    }
+    clips.set(name, clip);
+  }
+  return clips;
+}
+
+/** The palm's centre in a rig's bind pose: the middle of the surface the hand joint mostly carries. */
+function residentPalm(mesh: THREE.SkinnedMesh, hand: THREE.Bone, scene: THREE.Group): THREE.Vector3 {
+  const joint = mesh.skeleton.bones.indexOf(hand);
+  const position = mesh.geometry.getAttribute('position'), index = mesh.geometry.getAttribute('skinIndex'), weight = mesh.geometry.getAttribute('skinWeight');
+  const sum = new THREE.Vector3(), point = new THREE.Vector3();
+  let count = 0;
+  for (let vertex = 0; vertex < position.count; vertex++) {
+    let w = 0;
+    for (let slot = 0; slot < 4; slot++) if (index.getComponent(vertex, slot) === joint) w += weight.getComponent(vertex, slot);
+    if (w < 0.6) continue;
+    point.fromBufferAttribute(position, vertex);
+    mesh.localToWorld(point); scene.worldToLocal(point);
+    sum.add(point); count++;
+  }
+  return count ? sum.multiplyScalar(1 / count) : scene.worldToLocal(hand.getWorldPosition(new THREE.Vector3()));
+}
 
 /** Skin priors per source geometry and repair setting (every actor of one model shares its prior). */
 const skinPriors = new WeakMap<THREE.BufferGeometry, Map<string, Float32Array>>();
@@ -195,8 +267,12 @@ const poseFits = new WeakMap<THREE.BufferGeometry, Map<string, NpcPoseFit>>();
 
 /** A private animated skeleton and GPU resources per actor/world; only decoded image pixels are shared. */
 export function createMeshyNpcRig(asset: Pick<GLTF, 'scene' | 'animations'>, entry: MeshyNpcEntry, heightScale = 1, grip: Grip = 'none', equipment?: NpcEquipment,
-  options: NpcRigOptions = {}): Rig {
+  options: NpcRigOptions = {}, motion?: ResidentMotionSource): Rig {
   const settings = { ...NPC_RIG_DEFAULTS, ...options };
+  // On its own rig a resident plays authored clips: the eleven-joint repairs and fitted poses do not apply.
+  const authored = settings.authoredMotion && motion ? motion : null;
+  if (authored) { settings.jointFit = false; settings.skinRepair = false; settings.poseFit = false; }
+  const installed: { bones: ResidentBones | null; mesh: THREE.SkinnedMesh | null } = { bones: null, mesh: null };
   if (!Number.isFinite(heightScale) || heightScale < 0.7 || heightScale > 1.4) throw new Error('Resident height scale is invalid.');
   const root = new THREE.Group(), body = new THREE.Group();
   root.name = `Resident / ${entry.id}`; body.name = 'Resident / visual action pivot'; root.add(body);
@@ -278,6 +354,8 @@ export function createMeshyNpcRig(asset: Pick<GLTF, 'scene' | 'animations'>, ent
           }
         }
       }
+      // The resident's own rig replaces the eleven-joint skeleton once the measurements that read the old skin are done.
+      if (authored && !installed.bones) { installed.bones = installResidentRig(skin, authored.data).bones; installed.mesh = skin; }
       // The matching shadow materials belong to the actor's colour material and leave with it.
       const owner = Array.isArray(skin.material) ? skin.material[0] : skin.material;
       if (settings.dualQuaternion) {
@@ -296,7 +374,27 @@ export function createMeshyNpcRig(asset: Pick<GLTF, 'scene' | 'animations'>, ent
   });
   const carried = equipment ?? (grip === 'blade' ? 'blade' : undefined);
   const attachments = carried ? createNpcAttachments(carried) : null;
-  if (attachments) {
+  const residentBones = installed.bones, residentMesh = installed.mesh;
+  if (attachments && residentBones && residentMesh) {
+    // On the resident's own rig the weapon rides the right hand at the palm, turned as it was held at rest.
+    const hand = residentBones.RightHand;
+    const palm = residentPalm(residentMesh, hand, scene);
+    const socket = new THREE.Group(); socket.name = 'NPC / right palm equipment socket';
+    scene.updateMatrixWorld(true);
+    const handWorld = hand.matrixWorld.clone(), toScene = scene.matrixWorld.clone().invert();
+    const handInScene = new THREE.Matrix4().multiplyMatrices(toScene, handWorld);
+    const rest = new THREE.Matrix4().compose(palm, new THREE.Quaternion().setFromEuler(new THREE.Euler(1.9, 0, 0)), new THREE.Vector3(1, 1, 1));
+    new THREE.Matrix4().multiplyMatrices(handInScene.clone().invert(), rest).decompose(socket.position, socket.quaternion, socket.scale);
+    hand.add(socket); socket.add(attachments.weapon);
+    if (attachments.scabbard) {
+      const hips = residentBones.Hips, scabbard = attachments.scabbard;
+      const at = new THREE.Matrix4().compose(new THREE.Vector3(-0.24, hips.position.y + 0.04, 0.035), new THREE.Quaternion().setFromEuler(new THREE.Euler(0.52, 0, 0.12)), new THREE.Vector3(1, 1, 1));
+      const hipsInScene = new THREE.Matrix4().multiplyMatrices(toScene, hips.matrixWorld);
+      new THREE.Matrix4().multiplyMatrices(hipsInScene.invert(), at).decompose(scabbard.position, scabbard.quaternion, scabbard.scale);
+      hips.add(scabbard);
+    }
+    paint.push(...attachments.materials);
+  } else if (attachments) {
     // The relaxed source forearm length is measured from its own weighted hand vertices, rather than assuming the old doll's wrist.
     const palm = measuredPalm(scene, bones.elbowR, bones.armR);
     const elbow = bones.elbowR.getWorldPosition(new THREE.Vector3());
@@ -320,14 +418,38 @@ export function createMeshyNpcRig(asset: Pick<GLTF, 'scene' | 'animations'>, ent
   body.scale.setScalar(heightScale);
   root.userData.meshyNpc = { id: entry.id, triangles: completeTriangles, modelTriangles: entry.triangles,
     attachmentTriangles: completeTriangles - entry.triangles, animation: 'derived-game-poser', jointFit: jointFit?.moved ?? null };
+  const own = residentBones;
   const rig: Rig = {
-    root, body, hips: bones.hips, torso: bones.torso, head: bones.head,
-    armL: bones.armL, armR: bones.armR, elbowL: bones.elbowL, elbowR: bones.elbowR,
-    legL: bones.legL, legR: bones.legR, kneeL: bones.kneeL, kneeR: bones.kneeR,
+    root, body,
+    ...(own ? {
+      hips: own.Hips, torso: own.Spine, head: own.Head, armL: own.LeftArm, armR: own.RightArm, elbowL: own.LeftForeArm, elbowR: own.RightForeArm,
+      legL: own.LeftUpLeg, legR: own.RightUpLeg, kneeL: own.LeftLeg, kneeR: own.RightLeg,
+    } : {
+      hips: bones.hips, torso: bones.torso, head: bones.head, armL: bones.armL, armR: bones.armR, elbowL: bones.elbowL, elbowR: bones.elbowR,
+      legL: bones.legL, legR: bones.legR, kneeL: bones.kneeL, kneeR: bones.kneeR,
+    }),
     weapon: attachments?.weapon ?? null, shield: null, scabbard: attachments?.scabbard ?? null, sheathed: attachments?.sheathed ?? null, sash: null,
-    grip, height: entry.height * heightScale, hipY: bones.hips.position.y,
+    grip, height: entry.height * heightScale, hipY: own ? own.Hips.position.y : bones.hips.position.y,
     cur: Object.fromEntries(ANGLES.map(key => [key, 0])), materials: paint, hitFlash: 0, kind: 'humanoid',
   };
+  let residentWork: { gesture: WorkGesture; props: THREE.Object3D[] } | undefined;
+  if (own && authored) {
+    // Tools first, while the rig still stands in its bind pose.
+    const tools = createResidentTools(authored.work, own, scene, side => residentPalm(residentMesh!, own[side], scene));
+    paint.push(...tools.materials);
+    rig.resident = new ResidentMotion(scene, body, own, residentClips(authored, own, residentMesh ?? undefined), {
+      build: authored.build, seed: authored.seed, defaultSeat: BENCH_SEAT_HEIGHT, seatDepth: 0.13 * entry.height / 1.8,
+      garmentArms: RESIDENT_GARMENT_ARMS[entry.id],
+    });
+    root.userData.meshyNpc.animation = 'meshy-authored-clips';
+    root.userData.meshyNpc.rig = 'meshy-auto-rig-v1';
+    if (tools.props.length && authored.work) {
+      residentWork = { gesture: authored.work, props: tools.props };
+      root.userData.meshyNpc.triangles += tools.triangles;
+      root.userData.meshyNpc.attachmentTriangles += tools.triangles;
+      if (root.userData.meshyNpc.triangles > NPC_TRIANGLE_LIMIT) throw new Error(`Resident ${entry.id} exceeds the complete ${NPC_TRIANGLE_LIMIT}-triangle actor budget with work tools.`);
+    }
+  }
   const sole = npcSoleSamples(scene);
   let soleClearance = 0;
   rig.npc = { settle(mode: Mode, dt: number) {
@@ -352,6 +474,7 @@ export function createMeshyNpcRig(asset: Pick<GLTF, 'scene' | 'animations'>, ent
     body.position.y += soleClearance;
     root.userData.meshyNpc.soleClearance = soleClearance;
   } };
+  if (residentWork) rig.npc.work = residentWork;
   root.userData.meshyNpc.soleSamples = sole.reduce((total, sample) => total + sample.vertices.length, 0);
   if (settings.poseFit) {
     let skin: THREE.SkinnedMesh | null = null, source: THREE.BufferGeometry | null = null;
@@ -522,18 +645,79 @@ function npcRepairJoints(scene: THREE.Group, bones: Record<BoneName, THREE.Bone>
   return { pivots, palmL: measuredPalm(scene, bones.elbowL, bones.armL), palmR: measuredPalm(scene, bones.elbowR, bones.armR) };
 }
 
+/** Figures without a resident style: how they are built and what they do. */
+const ROLE_MOTION: Readonly<Record<string, { build: Build; work?: WorkGesture }>> = {
+  'ambient:fisher': { build: 'man', work: 'mending' }, 'ambient:fireside': { build: 'woman' }, 'ambient:keeper': { build: 'man' },
+  'enemy:ford_bandit_a': { build: 'man' }, 'enemy:ford_bandit_b': { build: 'man' }, 'menu:warden': { build: 'man', work: 'guard' },
+};
+
 export class MeshyNpcCatalog {
-  constructor(readonly manifest: MeshyNpcManifest, private readonly templates: ReadonlyMap<string, GLTF>) {}
+  constructor(readonly manifest: MeshyNpcManifest, private readonly templates: ReadonlyMap<string, GLTF>,
+    private readonly rigs: ReadonlyMap<string, ResidentRigData> = new Map(), readonly library: ResidentMotionLibrary | null = null) {}
   create(role: string, heightScale = 1, grip: Grip = 'none', options?: NpcRigOptions): Rig {
     const id = this.manifest.roles[role], entry = this.manifest.assets.find(candidate => candidate.id === id);
     const asset = id && this.templates.get(id);
     if (!entry || !asset) throw new Error(`Resident model ${role} has not been prepared.`);
     const equipment = role === 'enemy:ford_bandit_b' ? 'club' : role === 'enemy:ford_bandit_a' ? 'blade' : role === 'named:shrine_warden' ? 'sheathed' : undefined;
     const resident = role.startsWith('named:') ? role.slice('named:'.length) as NpcId : null;
-    const task = resident ? npcStyle(resident).work : undefined;
+    const style = resident ? npcStyle(resident) : null;
+    const task = style?.work;
     const work = task === 'writing' || task === 'provisioning' || task === 'stonework' || task === 'measuring' ? task : undefined;
-    return createMeshyNpcRig(asset, entry, heightScale, grip, equipment, { work, ...options });
+    const data = this.rigs.get(id);
+    const known = ROLE_MOTION[role];
+    const motion: ResidentMotionSource | undefined = data && this.library ? {
+      data, library: this.library,
+      build: style ? (style.build === 'woman' ? 'woman' : style.build === 'man' ? 'man' : 'neutral') : known?.build ?? 'neutral',
+      seed: style?.faceSeed ?? [...role].reduce((h, c) => Math.imul(h ^ c.charCodeAt(0), 16777619), 2166136261),
+      fighter: role.startsWith('enemy:'), work: task ?? known?.work,
+    } : undefined;
+    return createMeshyNpcRig(asset, entry, heightScale, grip, equipment, { work, ...options }, motion);
   }
+}
+
+const rigRequests = new Map<string, Promise<ResidentRigData | null>>();
+let libraryRequest: Promise<ResidentMotionLibrary | null> | null = null;
+
+/** A small file the manifest lists, checked by size and hash before it is used. */
+async function fetchChecked(file: MeshyNpcFile): Promise<ArrayBuffer> {
+  const buffer = await fetchNpc(meshyNpcUrl(file.file));
+  if (buffer.byteLength !== file.bytes) throw new Error(`${file.file} download is incomplete.`);
+  const digest = [...new Uint8Array(await crypto.subtle.digest('SHA-256', buffer))].map(byte => byte.toString(16).padStart(2, '0')).join('');
+  if (digest !== file.sha256) throw new Error(`${file.file} failed its integrity check.`);
+  return buffer;
+}
+
+/**
+ * A model's own rig, checked against the model it was made for. A resident whose rig is missing or fails its checks
+ * keeps the procedural poser rather than holding up the world.
+ */
+function loadResidentRigFile(entry: MeshyNpcEntry): Promise<ResidentRigData | null> {
+  if (!entry.rig) return Promise.resolve(null);
+  const key = `${entry.id}|${entry.rig.sha256}`;
+  let request = rigRequests.get(key);
+  if (!request) {
+    request = fetchChecked(entry.rig)
+      .then(buffer => {
+        const data = parseResidentRig(JSON.parse(new TextDecoder().decode(buffer)));
+        if (data.modelSha256 !== entry.sha256) throw new Error(`Resident ${entry.id} rig was made for another model.`);
+        return data;
+      })
+      .catch(error => { console.warn(`Resident ${entry.id} keeps its procedural poser:`, error); rigRequests.delete(key); return null; });
+    rigRequests.set(key, request);
+  }
+  return request;
+}
+
+/** The residents' motion library, loaded once for every catalog that has rigs. */
+function loadResidentMotionLibrary(file: MeshyNpcFile | undefined): Promise<ResidentMotionLibrary | null> {
+  if (!file) return Promise.resolve(null);
+  if (!libraryRequest) {
+    libraryRequest = fetchChecked(file)
+      .then(buffer => new GLTFLoader().parseAsync(buffer, new URL('.', meshyNpcUrl(file.file)).href))
+      .then(gltf => residentMotionLibrary(gltf))
+      .catch(error => { console.warn('Residents keep their procedural poser:', error); libraryRequest = null; return null; });
+  }
+  return libraryRequest;
 }
 
 const templates = new Map<string, Promise<GLTF>>();
@@ -612,8 +796,13 @@ export function loadMeshyNpcCatalog(progress?: ModelLoadProgress, requiredRoles:
         }
       } catch (error) { failed = true; throw error; }
     }));
+    // Each model's own rig and the shared motion library (small files beside the models).
+    const [library, ...rigFiles] = await Promise.all([loadResidentMotionLibrary(manifest.motion),
+      ...selected.map(id => loadResidentRigFile(manifest.assets.find(candidate => candidate.id === id)!))]);
+    const rigs = new Map<string, ResidentRigData>();
+    selected.forEach((id, i) => { const data = rigFiles[i]; if (data) rigs.set(id, data); });
     status.complete = true; status.listeners.clear();
-    return new MeshyNpcCatalog(manifest, loaded);
+    return new MeshyNpcCatalog(manifest, loaded, rigs, library);
   })().catch(error => { status.failed = true; status.listeners.clear(); catalogs.delete(key); throw error; });
   catalogs.set(key, { request, progress: status });
   return request;
