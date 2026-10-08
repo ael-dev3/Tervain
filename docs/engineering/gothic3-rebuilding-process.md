@@ -8,8 +8,8 @@ is the detailed technical record and dated checkpoint history.
 
 See the [current rebuilding overview](gothic3-rebuild-overview.md#current-status--8-october-2026)
 for the latest confirmed deployment and remaining startup dependencies.
-PR 92 is deployed at main commit `57ce12047fed555a9d02fc3d9f375155b5cf3a6d`
-by successful Pages run 37720051978. It publishes original SharedBase pointer
+PR 93 is deployed at main commit `72a6be701b681978c611fb3ab93752b63b378276`
+by successful Pages run 37721711202. It publishes original SharedBase pointer
 setup, 14 static critical sections, PTD allocation and default-locale initialization.
 
 Further local work follows actual FLS/TLS thread-index allocation, independent
@@ -8422,3 +8422,15 @@ remain unfinished.
 A repository-wide paginated workflow audit after publication found
 178 runs and no active jobs. No dispatch,
 rerun, remote cancellation or workflow change was used for this increment.
+
+### Local SharedBase I/O continuation
+
+The selected no-inherited-handles path now owns a 68-byte startup-info buffer,
+executes its actual declared writer through a private grant, allocates and
+initializes 32 physical descriptor records, queries canonical standard handles
+and file types, initializes descriptor sections before count increments and
+returns I/O result 0 after SetHandleCount. Native SEH stack installation and
+inherited descriptors remain unimplemented. The next attach boundary is original
+`__setargv` at `100adb46 -> 100c0ba7`. Parser/multibyte source evidence is captured,
+but argument initialization has not executed. The live Game boundary remains
+before `__cinit`; no full NPC activation or finishable campaign is established.

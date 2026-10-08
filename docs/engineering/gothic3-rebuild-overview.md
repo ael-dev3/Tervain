@@ -13,13 +13,13 @@ itself establish a playable reconstruction.
 
 ## Current status — 8 October 2026
 
-The latest confirmed publication is [PR 92](https://github.com/ael-dev3/Tervain/pull/92),
-merged at `57ce12047fed555a9d02fc3d9f375155b5cf3a6d` and deployed by
-[Pages run 37720051978](https://github.com/ael-dev3/Tervain/actions/runs/37720051978).
+The latest confirmed publication is [PR 93](https://github.com/ael-dev3/Tervain/pull/93),
+merged at `72a6be701b681978c611fb3ab93752b63b378276` and deployed by
+[Pages run 37721711202](https://github.com/ael-dev3/Tervain/actions/runs/37721711202).
 It includes original SharedBase pointer/lock setup, PTD allocation and selected
 default-locale initialization.
 The earlier PR 84 served-artifact comparison remains evidence for that prior
-revision; no new served-byte comparison is claimed for PR 92.
+revision; no new served-byte comparison is claimed for PR 93.
 
 Startup now completes the selected environment initialization and stops before
 Game's `__cinit` call at `204678f2`. The repository captures all 2,473 Game
@@ -753,3 +753,15 @@ adds the physical virtual stack and I/O startup prolog.
 implements the selected startup-info writer and normal import return, stopping
 before the actual allocation call. These components still need complete startup
 and live NPC integration before they can support ordinary campaign play.
+
+### Local SharedBase I/O continuation
+
+The selected no-inherited-handles path now owns a 68-byte startup-info buffer,
+executes its actual declared writer through a private grant, allocates and
+initializes 32 physical descriptor records, queries canonical standard handles
+and file types, initializes descriptor sections before count increments and
+returns I/O result 0 after SetHandleCount. Native SEH stack installation and
+inherited descriptors remain unimplemented. The next attach boundary is original
+`__setargv` at `100adb46 -> 100c0ba7`. Parser/multibyte source evidence is captured,
+but argument initialization has not executed. The live Game boundary remains
+before `__cinit`; no full NPC activation or finishable campaign is established.
