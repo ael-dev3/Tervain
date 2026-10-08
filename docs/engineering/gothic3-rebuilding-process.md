@@ -4,6 +4,21 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local checkpoint — 9 October 2026: SpyAdmin cold getter
+
+Original `10049799 -> 10008b11 -> 1004b480` now executes the SpyAdmin cold
+guard, initializes the physical 24-byte critical section in its 32-byte object,
+and clears the window and mutex fields. The section retains the actual object
+backing and offset. Execution reaches the original constructor call at
+`1004b4af -> 100089e5`; that constructor remains pending.
+
+The getter's body and cold state are captured from the matching DLL. The DLL
+package now contains 44 methods and 2,788 body instructions. Source and emitted
+instruction regeneration compare exactly. Typechecking, the focused getter
+check, the production build and all 2,968 tests across 275 files pass (220.58
+seconds for the full suite). This is local component execution; complete DLL
+startup, live world activation and campaign integration remain unfinished.
+
 ## Local checkpoint — 9 October 2026: ErrorAdmin termination registration
 
 Original `100219ad -> 100a72d0` now appends the encoded ErrorAdmin termination

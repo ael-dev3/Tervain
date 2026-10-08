@@ -18359,6 +18359,158 @@
       "bodyInstructionBytesSha256": "8d05f078501985b05ac39828d04d2e19bee5e312340f6286f1b3e3b1a3ed8ead"
     },
     {
+      "label": "dllMessageSpyGet",
+      "entryVA": "0x10008b11",
+      "bodyVA": "0x1004b480",
+      "entryChain": [
+        {
+          "va": "10008b11",
+          "bytes": "e96a290400",
+          "targetVA": "1004b480"
+        }
+      ],
+      "bodyRanges": "1004b480-1004b4c6",
+      "instructions": [
+        {
+          "va": "1004b480",
+          "rva": "4b480",
+          "fileOffset": 308352,
+          "bytes": "b801000000",
+          "instruction": "MOV EAX,0x1",
+          "assemblyLine": 84279
+        },
+        {
+          "va": "1004b485",
+          "rva": "4b485",
+          "fileOffset": 308357,
+          "bytes": "840544b11a10",
+          "instruction": "TEST byte ptr [0x101ab144],AL",
+          "assemblyLine": 84280
+        },
+        {
+          "va": "1004b48b",
+          "rva": "4b48b",
+          "fileOffset": 308363,
+          "bytes": "7534",
+          "instruction": "JNZ 0x1004b4c1",
+          "assemblyLine": 84281
+        },
+        {
+          "va": "1004b48d",
+          "rva": "4b48d",
+          "fileOffset": 308365,
+          "bytes": "090544b11a10",
+          "instruction": "OR dword ptr [0x101ab144],EAX",
+          "assemblyLine": 84282
+        },
+        {
+          "va": "1004b493",
+          "rva": "4b493",
+          "fileOffset": 308371,
+          "bytes": "681cb11a10",
+          "instruction": "PUSH 0x101ab11c",
+          "assemblyLine": 84283
+        },
+        {
+          "va": "1004b498",
+          "rva": "4b498",
+          "fileOffset": 308376,
+          "bytes": "ff15f4952f10",
+          "instruction": "CALL dword ptr [0x102f95f4]",
+          "assemblyLine": 84284
+        },
+        {
+          "va": "1004b49e",
+          "rva": "4b49e",
+          "fileOffset": 308382,
+          "bytes": "33c0",
+          "instruction": "XOR EAX,EAX",
+          "assemblyLine": 84285
+        },
+        {
+          "va": "1004b4a0",
+          "rva": "4b4a0",
+          "fileOffset": 308384,
+          "bytes": "b91cb11a10",
+          "instruction": "MOV ECX,0x101ab11c",
+          "assemblyLine": 84286
+        },
+        {
+          "va": "1004b4a5",
+          "rva": "4b4a5",
+          "fileOffset": 308389,
+          "bytes": "a338b11a10",
+          "instruction": "MOV [0x101ab138],EAX",
+          "assemblyLine": 84287
+        },
+        {
+          "va": "1004b4aa",
+          "rva": "4b4aa",
+          "fileOffset": 308394,
+          "bytes": "a334b11a10",
+          "instruction": "MOV [0x101ab134],EAX",
+          "assemblyLine": 84288
+        },
+        {
+          "va": "1004b4af",
+          "rva": "4b4af",
+          "fileOffset": 308399,
+          "bytes": "e831d5fbff",
+          "instruction": "CALL 0x100089e5",
+          "assemblyLine": 84289
+        },
+        {
+          "va": "1004b4b4",
+          "rva": "4b4b4",
+          "fileOffset": 308404,
+          "bytes": "6890280e10",
+          "instruction": "PUSH 0x100e2890",
+          "assemblyLine": 84290
+        },
+        {
+          "va": "1004b4b9",
+          "rva": "4b4b9",
+          "fileOffset": 308409,
+          "bytes": "e812be0500",
+          "instruction": "CALL 0x100a72d0",
+          "assemblyLine": 84291
+        },
+        {
+          "va": "1004b4be",
+          "rva": "4b4be",
+          "fileOffset": 308414,
+          "bytes": "83c404",
+          "instruction": "ADD ESP,0x4",
+          "assemblyLine": 84292
+        },
+        {
+          "va": "1004b4c1",
+          "rva": "4b4c1",
+          "fileOffset": 308417,
+          "bytes": "b81cb11a10",
+          "instruction": "MOV EAX,0x101ab11c",
+          "assemblyLine": 84294
+        },
+        {
+          "va": "1004b4c6",
+          "rva": "4b4c6",
+          "fileOffset": 308422,
+          "bytes": "c3",
+          "instruction": "RET",
+          "assemblyLine": 84295
+        }
+      ],
+      "reconstructedC": {
+        "path": "01_Decompiled_Code/SharedBase_dll/pseudocode/functions_00016.c",
+        "sha256": "83bbb3dbf826490ad7208bb9d8bdc56a50abaa11707e2f486ca7c931878b0423",
+        "line": 5884,
+        "status": "decompiled"
+      },
+      "instructionCount": 16,
+      "bodyByteCount": 71,
+      "bodyInstructionBytesSha256": "a84a8918b5ec4d8aae1a2256de9eb9c5ba93cc1c25e3ceea40c9b74232d5af21"
+    },
+    {
       "label": "dllMessageRegister",
       "entryVA": "0x10007cac",
       "bodyVA": "0x10049650",
@@ -23427,6 +23579,34 @@
     }
   ],
   "coldImages": [
+    {
+      "label": "dllSpyState",
+      "address": "101ab11c",
+      "size": 32,
+      "bytes": "0000000000000000000000000000000000000000000000000000000000000000",
+      "section": {
+        "virtualAddress": 1306624,
+        "virtualSize": 1807760,
+        "rawSize": 16384,
+        "rawOffset": 1306624,
+        "fileBackedBytes": 0,
+        "loaderZeroFillBytes": 32
+      }
+    },
+    {
+      "label": "dllSpyGuard",
+      "address": "101ab144",
+      "size": 4,
+      "bytes": "00000000",
+      "section": {
+        "virtualAddress": 1306624,
+        "virtualSize": 1807760,
+        "rawSize": 16384,
+        "rawOffset": 1306624,
+        "fileBackedBytes": 0,
+        "loaderZeroFillBytes": 4
+      }
+    },
     {
       "label": "dllErrorShutdownSource",
       "address": "100e2770",
