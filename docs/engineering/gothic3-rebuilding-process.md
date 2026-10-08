@@ -9932,3 +9932,34 @@ Publication remains pending. Full startup and campaign play
 remain unfinished.
 
 PR 140 Pages run 37804123720 succeeded.
+
+### Local scoped identifier, Replicator entry and cookie return — 8 October 2026
+
+The original scoped-name, identifier, delimited-text, Replicator append and
+empty-check bodies now execute. The identifier reader compares the original
+template/generic prefixes, then the selected plain-name path reads fifteen
+bytes through the original delimiter loop. Its text node at scratch offset
+3,996 points to the same backing at offset 3,980 and contains `bCObsoleteClass`.
+The buffer's spare sixteenth byte remains unknown. The second Replicator count
+becomes zero; its first entry is the actual eight-byte DName at offset 3,972,
+which retains that identifier node. Scratch available bytes become 3,968.
+
+The identifier's saved cookie XOR EBP is recovered only when the original
+private XOR operand is the same retained EBP word. Original cookie-check
+instructions compare that cookie and return. Scoped-name parsing consumes
+both `@` delimiters and returns, leaving its actual input cursor at NUL.
+The next operation is concatenation `100c4587 -> 100c27dd`; keyword and
+identifier remain separate owned graph components.
+
+Physical pointer publication now synchronizes its retained expression with the
+opaque masks written by the pointer capability. Heap-backed flag copy proofs
+use actual memory-read/store grants, checking the unchanged physical field;
+they do not rely on freshly minted reads having equal object identities.
+
+Typechecking passes. The focused suite recorded 242 passes and one stale
+whole-trace byte-copy count; both affected keyword/identifier tests pass after
+accounting for their combined 21 original byte stores. All 199 generated files
+plus the instruction module reproduce exactly. Evidence contains 105 bodies,
+4,277 instructions and 405 CALL receipts. The production build passes;
+the full suite passes 2,800 tests across 260 files (169.80 seconds).
+Publication remains pending. Full startup and campaign play remain unfinished.

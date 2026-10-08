@@ -400,3 +400,12 @@ create a 16-byte text node and an aligned eight-byte buffer on the existing
 scratch block. Six text bytes are known; spare padding stays unknown. Parsing
 reaches `100c457a -> 100c43c1` before scoped-name decoding. There are 99 bodies,
 3,880 instructions and 369 CALL receipts. Full output/startup remain unfinished.
+
+### Live scoped identifier
+
+The identifier and delimited constructors create `bCObsoleteClass` in the
+retained scratch block and register its actual DName in the second Replicator.
+The saved cookie/EBP relation cancels against the same EBP word, and original
+cookie-check instructions return. Scoped parsing consumes both delimiters;
+concatenation remains pending at `100c4587 -> 100c27dd`. There are 105 bodies,
+4,277 instructions and 405 CALL receipts. Full name output/startup are unfinished.

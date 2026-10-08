@@ -1,0 +1,11 @@
+100c1f89 | 8b4104 | MOV EAX,dword ptr [ECX + 0x4]
+100c1f8c | c1e01c | SHL EAX,0x1c
+100c1f8f | c1f81c | SAR EAX,0x1c
+100c1f92 | 7408 | JZ 0x100c1f9c
+100c1f94 | 83f802 | CMP EAX,0x2
+100c1f97 | 7403 | JZ 0x100c1f9c
+100c1f99 | 33c0 | XOR EAX,EAX
+100c1f9b | c3 | RET
+100c1f9c | 33c0 | XOR EAX,EAX
+100c1f9e | 40 | INC EAX
+100c1f9f | c3 | RET
