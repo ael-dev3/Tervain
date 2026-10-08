@@ -70,3 +70,14 @@ The initialized buffer and query mutation receipts are retained separately.
 Translation changes no bytes; FileVersion changes 16 bytes in the prepared
 ANSI area. Two independent captures matched exactly on the recorded host.
 Six focused source checks and typechecking pass.
+
+## Recorded version-resource backend
+
+`native-shared-version-resource.ts` retains one explicitly selected host
+observation per constructed runtime platform. It writes the initialized buffer
+into a canonical live allocation, applies the observed query mutations and
+returns physical aliases of that allocation. It requires the recorded filename,
+size, query sequence and unchanged prepared bytes. Foreign allocations and
+ended lifetimes are rejected. Five backend checks and six source checks pass,
+as does typechecking. Original DLL import call-frame integration remains pending;
+this backend alone does not establish startup completion.
