@@ -115,8 +115,10 @@ export class NativeSharedCrtOwner {
  #caseState:CaseState|null=null;
  #argvCall:object|null=null;
  #argvStack:NativeX86ThreadStack|null=null;
- #argvStage:'enter'|'multibyte'|'module'|'parse'='enter';
+ #argvStage:'enter'|'multibyte'|'module'|'parse'|'allocate'|'fill'|'return'='enter';
  #argvInput:NativeBytePointer|null=null;
+ #argvAllocation:NativeHeapObjectViews|null=null;
+ #argvReturned:number|null=null;
  #setMultibyteCall:object|null=null;
  #setMultibyteStack:NativeX86ThreadStack|null=null;
  #setMultibyteStage:'enter'|'ptd'|'multibyte'|'codepage'|'allocate'|'configuration'|'installation'|'return'='enter';
@@ -205,13 +207,13 @@ export class NativeSharedCrtOwner {
    return {known:true,value:{stage:owner.#stackStage,input:item.input,types:item.types,codePage:owner.#multibyteAllocation.readUnsigned(4),count:item.wideCount??256,cookie:cookie.value,locale:owner.#localeUpdate!}};
   }catch(error){return {known:false,reason:error instanceof Error?error.message:String(error)};}
  }
- static argvStackArgumentsForPlatform(platform:NativeRuntimePlatform,call:object):NativeValue<Readonly<{stage:'enter'|'multibyte'|'module'|'parse';initialized:number;module:NativeHeapObjectViews;input:NativeBytePointer|null}>>{
+ static argvStackArgumentsForPlatform(platform:NativeRuntimePlatform,call:object):NativeValue<Readonly<{stage:'enter'|'multibyte'|'module'|'parse'|'allocate'|'fill'|'return';initialized:number;module:NativeHeapObjectViews;input:NativeBytePointer|null;allocation:NativeHeapObjectViews|null;result:number|null;argc:NativeHeapObjectViews;argv:NativeHeapObjectViews;retryDelay:number}>>{
   const active=NativeRuntimePlatform.requireActivePlatform(platform);if(!active.known)return active;const owner=owners.get(platform);if(!owner||!owner.#active||owner.#argvCall!==call)return {known:false,reason:'Actual pending SharedBase setargv required'};
-  try{return {known:true,value:{stage:owner.#argvStage,initialized:owner.imageStorage('multibyteInitialized').readUnsigned(0),module:owner.imageStorage('moduleNameBuffer'),input:owner.#argvInput}};}catch(error){return {known:false,reason:error instanceof Error?error.message:String(error)};}
+  try{return {known:true,value:{stage:owner.#argvStage,initialized:owner.imageStorage('multibyteInitialized').readUnsigned(0),module:owner.imageStorage('moduleNameBuffer'),input:owner.#argvInput,allocation:owner.#argvAllocation,result:owner.#argvReturned,argc:owner.imageStorage('argumentCount'),argv:owner.imageStorage('argumentVector'),retryDelay:owner.imageStorage('allocationRetryDelay').readUnsigned(0)}};}catch(error){return {known:false,reason:error instanceof Error?error.message:String(error)};}
  }
  static argvLocalStorageForPlatform(platform:NativeRuntimePlatform,call:object,fields:NativeHeapObjectViews):NativeValue<void>{
   const proof=NativeSharedCrtOwner.argvStackArgumentsForPlatform(platform,call);if(!proof.known)return proof;const owner=owners.get(platform)!;
-  try{if(fields===owner.#ptd||fields===owner.#multibyteAllocation){const span=NativeRuntimePlatform.canonicalOwnedWin32HeapAllocationSpan(platform,owner.#heap!,owner.identity,{fields,offset:0},fields===owner.#ptd?532:544);if(!span.known)return span;}else if(fields!==proof.value.module)owner.#requireLocal(fields);if(fields.backing.freed||fields.bytes.buffer!==fields.backing.bytes.buffer||fields.knownMask.buffer!==fields.backing.knownMask.buffer||fields.view.buffer!==fields.bytes.buffer||fields.view.byteOffset!==fields.bytes.byteOffset||fields.view.byteLength!==fields.bytes.length)throw new Error('Actual SharedBase argv storage required');return {known:true,value:undefined};}catch(error){return {known:false,reason:error instanceof Error?error.message:String(error)};}
+  try{if(fields===owner.#ptd||fields===owner.#multibyteAllocation||fields===owner.#argvAllocation){const span=NativeRuntimePlatform.canonicalOwnedWin32HeapAllocationSpan(platform,owner.#heap!,owner.identity,{fields,offset:0},fields===owner.#ptd?532:fields===owner.#multibyteAllocation?544:fields.bytes.length);if(!span.known)return span;}else if(fields!==proof.value.module)owner.#requireLocal(fields);if(fields.backing.freed||fields.bytes.buffer!==fields.backing.bytes.buffer||fields.knownMask.buffer!==fields.backing.knownMask.buffer||fields.view.buffer!==fields.bytes.buffer||fields.view.byteOffset!==fields.bytes.byteOffset||fields.view.byteLength!==fields.bytes.length)throw new Error('Actual SharedBase argv storage required');return {known:true,value:undefined};}catch(error){return {known:false,reason:error instanceof Error?error.message:String(error)};}
  }
  static setMultibyteStackArgumentsForPlatform(platform:NativeRuntimePlatform,call:object):NativeValue<Readonly<{stage:'enter'|'ptd'|'multibyte'|'codepage'|'allocate'|'configuration'|'installation'|'return';ptd:NativeHeapObjectViews|null;old:NativeHeapObjectViews|null;candidate:NativeHeapObjectViews|null;cookie:number;scope:NativeHeapObjectViews;initial:NativeHeapObjectViews;global:NativeHeapObjectViews;mask:number;published:NativeHeapObjectViews;types:NativeHeapObjectViews;cases:NativeHeapObjectViews}>>{
   const active=NativeRuntimePlatform.requireActivePlatform(platform);if(!active.known)return active;const owner=owners.get(platform);
@@ -498,7 +500,7 @@ export class NativeSharedCrtOwner {
  #errnoSlot():NativeHeapObjectViews {
   const ptd=this.#getPtdLowerWarm();return new NativeHeapObjectViews(ptd.backing,8,4);
  }
- #mallocCrt(size:number):NativeHeapObjectViews|null {
+ #mallocCrt(size:number,wrapperRetry=true):NativeHeapObjectViews|null {
   if(!Number.isInteger(size)||size<0||size>0xffffffe0)throw new Error('Unowned SharedBase oversized malloc/new-handler branch');
   const heap=this.imageStorage('heapHandle').pointer<NativeWin32HeapCapability>(0).get();if(heap!==this.#heap||heap===null)throw new Error('Actual SharedBase malloc heap required');
   const proof=NativeRuntimePlatform.canonicalWin32HeapForOwner(this.platform,heap,this.identity);if(!proof.known)throw new Error(proof.reason);
@@ -512,7 +514,7 @@ export class NativeSharedCrtOwner {
     this.#trace.push('100bc03d.callNewHandler.return0');
    }
    this.#errnoSlot().writeUnsigned(0,12);this.#trace.push('malloc.errno12.returnNull');
-   if(this.imageStorage('allocationRetryDelay').readUnsigned(0)!==0)throw new Error('Unowned SharedBase malloc Sleep retry at 100aeeed');
+   if(wrapperRetry&&this.imageStorage('allocationRetryDelay').readUnsigned(0)!==0)throw new Error('Unowned SharedBase malloc Sleep retry at 100aeeed');
    return null;
   }
   const fields=new NativeHeapObjectViews(memory),span=NativeRuntimePlatform.canonicalOwnedWin32HeapAllocationSpan(this.platform,heap,this.identity,{fields,offset:0},size===0?1:size);
@@ -843,7 +845,7 @@ export class NativeSharedCrtOwner {
   this.#trace.push('100b50e6.caseMap.return.'+flags);
   if(this.#caseCall)this.#call('100b5128.mappingWrapperReturn',()=>NativeX86ThreadStack.finishSharedCaseWrapper(item.stack!,this.#caseCall!));
  }
- #initializeArgumentsPrefix():void {
+ #initializeArgumentsPrefix():number {
   if(NativeRuntimePlatform.threadStackSelectionForPlatform(this.platform).known){this.#argvCall=Object.freeze({});this.#argvStage='enter';this.#argvStack=this.#call('100adb46.setargvFrame',()=>NativeX86ThreadStack.beginSharedArgvFrame(this.platform,this.#argvCall!));this.#argvStage='multibyte';}
   if(this.imageStorage('multibyteInitialized').readUnsigned(0)===0){
    this.#trace.push('100b185f.setMultibyteCodePage(-3)');
@@ -871,9 +873,15 @@ export class NativeSharedCrtOwner {
   const module=this.imageStorage('moduleNameBuffer');module.writeUnsigned(260,0,1);const procedure=this.#call('GetModuleFileNameA.procedure',()=>NativeRuntimePlatform.argvProcedureForPlatform(this.platform,'GetModuleFileNameA'));this.#nlsScalar('GetModuleFileNameA',0,module,null,260,0,procedure);
   const program=Object.freeze({fields:module,offset:0});this.imageStorage('programName').pointer<NativeBytePointer>(0).set(program);
   const command=this.imageStorage('commandLinePointer').pointer<NativeBytePointer>(0).get();this.#argvInput=command&&this.#call('100c0be6.commandFirstByte',()=>NativeRuntimePlatform.readProcessInputUnsigned(this.platform,command,0,1))!==0?command:program;
-  this.#argvStage='parse';this.#call('100c0bfc.parseQuery',()=>NativeX86ThreadStack.beginSharedArgvParseQuery(this.#argvStack!,this.#argvCall!));this.#call('100c0a0f.parseQueryBody',()=>NativeX86ThreadStack.runSharedArgvParseQuery(this.#argvStack!,this.#argvCall!,fields=>{
+  const initializeLocale=(fields:NativeHeapObjectViews)=>{
    this.#locals.set(fields,{backing:fields.backing,bytes:fields.bytes,masks:fields.knownMask,backingBytes:fields.backing.bytes,backingMasks:fields.backing.knownMask,view:fields.view});this.#initializeLocaleUpdate(fields,false);
-  }));throw new Error('Unowned SharedBase argv allocation at 100c0c23 -> 100aeed0');
+  };
+  this.#argvStage='parse';this.#call('100c0bfc.parseQuery',()=>NativeX86ThreadStack.beginSharedArgvParseQuery(this.#argvStack!,this.#argvCall!));this.#call('100c0a0f.parseQueryBody',()=>NativeX86ThreadStack.runSharedArgvParseQuery(this.#argvStack!,this.#argvCall!,initializeLocale));
+  this.#argvStage='allocate';const bytes=this.#call('100aeed0.argvMallocFrame',()=>NativeX86ThreadStack.beginSharedArgvAllocation(this.#argvStack!,this.#argvCall!));this.#argvAllocation=this.#mallocCrt(bytes,false);
+  const allocated=this.#call('100c0c28.argvMallocReturn',()=>NativeX86ThreadStack.finishSharedArgvAllocation(this.#argvStack!,this.#argvCall!));
+  if(allocated){this.#argvStage='fill';this.#call('100c0c3d.parseFill',()=>NativeX86ThreadStack.beginSharedArgvParseFill(this.#argvStack!,this.#argvCall!));this.#call('100c0a0f.parseFillBody',()=>NativeX86ThreadStack.runSharedArgvParseFill(this.#argvStack!,this.#argvCall!,initializeLocale));}
+  this.#argvStage='return';this.#argvReturned=this.#call('100c0c5f.setargvReturn',()=>NativeX86ThreadStack.returnSharedArgvFrame(this.#argvStack!,this.#argvCall!));return this.#argvReturned;
+
  }
  #standardCall(kind:'GetStdHandle'|'GetFileType'|'SetHandleCount',scalar:number,object:object|null=null):NativeStandardIoResult {
   const endpoints=this.platform.standardIoEndpoints;if(!endpoints)throw new Error('Actual SharedBase standard-I/O endpoints required');
@@ -964,11 +972,11 @@ export class NativeSharedCrtOwner {
    const environment=this.#readEnvironment(endpoints);
    this.imageStorage('environmentPointer').pointer<NativeBytePointer>(0).set(environment);this.#trace.push('100adb31.storeEnvironment');
    if(this.#initializeIoPrefix()<0)throw new Error('Unowned SharedBase attach cleanup after I/O initialization failure');
-   this.#initializeArgumentsPrefix();throw new Error('Unowned SharedBase attach after arguments');
+   if(this.#initializeArgumentsPrefix()<0)throw new Error('Unowned SharedBase attach cleanup at 100adb6f');this.#call('100adb4f.setenvpCall',()=>NativeX86ThreadStack.beginSharedArgvEnvironment(this.#argvStack!,this.#argvCall!));throw new Error('Unowned SharedBase setenvp at 100adb4f -> 100c092a');
   }catch(error){this.#boundary??=error instanceof Error?error.message:String(error);return {known:false,reason:this.#boundary};}
   finally{this.#stackCall=null;this.#caseCall=null;this.#configurationCall=null;this.#setMultibyteCall=null;this.#argvCall=null;this.#active=false;}
  }
- snapshot(){return Object.freeze({argvInput:this.#argvInput,mappingState:this.#mappingState?Object.freeze({...this.#mappingState}):null,boundary:this.#boundary,localeUpdate:this.#localeUpdate,multibyteAllocation:this.#multibyteAllocation,cpInfo:this.#cpInfo,caseState:this.#caseState?Object.freeze({...this.#caseState}):null,codePage:this.#codePage,startupInfo:this.#startupInfo,ioBlock:this.#ioBlock,ioReturned:this.#ioReturned,versionAllocation:this.#versionAllocation,
+ snapshot(){return Object.freeze({argvInput:this.#argvInput,argvAllocation:this.#argvAllocation,argvReturned:this.#argvReturned,mappingState:this.#mappingState?Object.freeze({...this.#mappingState}):null,boundary:this.#boundary,localeUpdate:this.#localeUpdate,multibyteAllocation:this.#multibyteAllocation,cpInfo:this.#cpInfo,caseState:this.#caseState?Object.freeze({...this.#caseState}):null,codePage:this.#codePage,startupInfo:this.#startupInfo,ioBlock:this.#ioBlock,ioReturned:this.#ioReturned,versionAllocation:this.#versionAllocation,
   ptd:this.#ptd,ptdInstalled:this.#ptdInstalled,ptdInitialized:this.#ptdInitialized,rtcReturned:this.#rtcReturned,environmentInput:this.#environmentInput,environmentAllocation:this.#environmentAllocation,environmentReturned:this.#environmentReturned,heap:this.#heap,heapReturned:this.#heapReturned,attachReturned:this.#attachReturned,mtReturned:this.#mtReturned,locksReturned:this.#locksReturned,sections:Object.freeze([...this.#sections]),pointersReturned:this.#pointersReturned,
   trace:Object.freeze([...this.#trace]),dllEntryExecuted:false,wholeCrtTraversalCompleted:false});}
 }
