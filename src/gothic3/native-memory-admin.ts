@@ -1,5 +1,6 @@
 import runtimeRules from '../../assets/gothic3/runtime-admin/runtime-rules.json';
 import npcHeapRules from '../../assets/gothic3/npc-heap/runtime-rules.json';
+import arenaHeapRules from '../../assets/gothic3/arena-heap/runtime-rules.json';
 import propertyHeapRules from '../../assets/gothic3/property-heap/runtime-rules.json';
 import sceneStartupRules from '../../assets/gothic3/scene-startup/runtime-rules.json';
 import type { NativeValue } from './dialogue';
@@ -50,13 +51,14 @@ type BucketRule = {
 type Rules = { schema: string; inputs: { SharedBase: string }; coldGlobals: Record<string, ColdRange>; buckets: Record<string, BucketRule> };
 /** An exported source-admitted identity, not caller-provided pool constants. */
 export interface NativeMemoryRulesExtension {
-  readonly schema: 'gothic3-npc-heap-rules-v1' | 'gothic3-scene-startup-rules-v1' | 'gothic3-property-heap-rules-v1';
+  readonly schema: 'gothic3-npc-heap-rules-v1' | 'gothic3-scene-startup-rules-v1' | 'gothic3-property-heap-rules-v1' | 'gothic3-arena-heap-rules-v1';
   readonly baseRulesSha256: string;
   readonly inputs: { readonly SharedBase: string; readonly Engine: string };
 }
 const BASE_RULES_SHA = '8f4f8a4cc4e73334385309c78743069c8fef4e682eea72c1716a6a0bf45c5576';
 type ExtensionRules = Rules & { baseRulesSha256: string; inputs: { SharedBase: string; Engine: string } };
 const extensionSource = npcHeapRules as unknown as ExtensionRules;
+const arenaExtensionSource = arenaHeapRules as unknown as ExtensionRules;
 const propertyExtensionSource = propertyHeapRules as unknown as ExtensionRules;
 const sceneStartupExtensionSource = sceneStartupRules as unknown as ExtensionRules;
 const freezeSource = (value: unknown): void => {
@@ -67,6 +69,7 @@ const freezeSource = (value: unknown): void => {
 };
 freezeSource(extensionSource);
 freezeSource(propertyExtensionSource);
+freezeSource(arenaExtensionSource);
 freezeSource(sceneStartupExtensionSource);
 export const nativeNpcHeapExtension: NativeMemoryRulesExtension & { readonly schema: 'gothic3-npc-heap-rules-v1' } = Object.freeze({
   schema: 'gothic3-npc-heap-rules-v1', baseRulesSha256: extensionSource.baseRulesSha256,
@@ -83,8 +86,13 @@ export const nativePropertyHeapExtension: NativeMemoryRulesExtension & { readonl
   schema: 'gothic3-property-heap-rules-v1', baseRulesSha256: propertyExtensionSource.baseRulesSha256,
   inputs: Object.freeze({ SharedBase: propertyExtensionSource.inputs.SharedBase, Engine: propertyExtensionSource.inputs.Engine }),
 });
+/** Original 17..20-byte pool for the Arena class-name CString holder. */
+export const nativeArenaHeapExtension: NativeMemoryRulesExtension & { readonly schema: 'gothic3-arena-heap-rules-v1' } = Object.freeze({
+  schema: 'gothic3-arena-heap-rules-v1', baseRulesSha256: arenaExtensionSource.baseRulesSha256,
+  inputs: Object.freeze({ SharedBase: arenaExtensionSource.inputs.SharedBase, Engine: arenaExtensionSource.inputs.Engine }),
+});
 const admittedExtensions = new WeakMap<object, ExtensionRules>([
-  [nativeNpcHeapExtension, extensionSource], [nativePropertyHeapExtension, propertyExtensionSource], [nativeSceneStartupHeapExtension, sceneStartupExtensionSource],
+  [nativeArenaHeapExtension, arenaExtensionSource], [nativeNpcHeapExtension, extensionSource], [nativePropertyHeapExtension, propertyExtensionSource], [nativeSceneStartupHeapExtension, sceneStartupExtensionSource],
 ]);
 type Pool = { region: NativeMemoryRegion; bucket: Bucket; next: Pool | null };
 type Bucket = { rule: BucketRule; head: Pool | null; descriptor: NativeMemoryBacking | null };
@@ -97,6 +105,7 @@ type MediumBlock = {
 type Allocation = NativeMemoryAllocation & { requestedBytes: number; capacity: number; pool: Pool | null; block: MediumBlock | null };
 const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
 const unknown = <T>(reason: string): NativeValue<T> => ({ known: false, reason });
+const retainedMemoryAdmins = new WeakSet<object>();
 const SHARED_BASE = '5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214';
 const hex = (value: string) => {
   if (!/^(?:[0-9a-f]{2})*$/.test(value)) throw new Error('Exact hexadecimal native source bytes required');
@@ -162,6 +171,9 @@ export class NativeMemoryAdmin {
       unknown('Canonical SharedBase GUID empty literal pointer is unavailable');
   }
 
+  /** Read-only identity check; selecting another provider does not rebind an owner. */
+  usesPlatform(platform: unknown): boolean { return retainedMemoryAdmins.has(this) && this.platform === platform; }
+
   constructor(private readonly platform: NativeMemoryPlatform, options: { extensions?: readonly NativeMemoryRulesExtension[] } = {}) {
     Object.defineProperty(this, 'platform', { value: platform, writable: false, configurable: false });
     const rules = runtimeRules as unknown as Rules;
@@ -170,7 +182,7 @@ export class NativeMemoryAdmin {
     const seen = new Set<object>();
     for (const extension of options.extensions ?? []) {
       const source = admittedExtensions.get(extension);
-      if (!source || seen.has(extension) || source.schema !== extension.schema || !['gothic3-npc-heap-rules-v1', 'gothic3-scene-startup-rules-v1', 'gothic3-property-heap-rules-v1'].includes(source.schema) || source.baseRulesSha256 !== BASE_RULES_SHA || source.inputs.SharedBase !== SHARED_BASE || source.inputs.Engine !== 'd49ef92c0fdfeda433f6d04d0edeb7751e41e4c7c7effc1265630717029dc7e3') throw new Error('MemoryAdmin extension is not the original statically admitted source identity');
+      if (!source || seen.has(extension) || source.schema !== extension.schema || !['gothic3-npc-heap-rules-v1', 'gothic3-scene-startup-rules-v1', 'gothic3-property-heap-rules-v1', 'gothic3-arena-heap-rules-v1'].includes(source.schema) || source.baseRulesSha256 !== BASE_RULES_SHA || source.inputs.SharedBase !== SHARED_BASE || source.inputs.Engine !== 'd49ef92c0fdfeda433f6d04d0edeb7751e41e4c7c7effc1265630717029dc7e3') throw new Error('MemoryAdmin extension is not the original statically admitted source identity');
       seen.add(extension); sources.push(source);
     }
     // Prefer a larger exact source prefix before its contained base receipt;
@@ -202,6 +214,7 @@ export class NativeMemoryAdmin {
     this.buckets.sort((a, b) => a.rule.stride - b.rule.stride);
     for (const [address, bytes] of [['10142798', 16], ['102fb000', 1], ['102fb004', 4], ['102fb030', 4], ['102fb04c', 4]] as const) this.requireColdZero(address, bytes);
     for (const bucket of this.buckets) for (const address of Object.values(bucket.rule.globals)) this.requireColdZero(address, 4);
+    retainedMemoryAdmins.add(this);
     this.requireColdZero('10144214', 4097 * 4);
     retainedMemoryPlatforms.set(this, platform);
   }

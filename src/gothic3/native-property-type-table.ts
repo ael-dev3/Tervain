@@ -57,6 +57,7 @@ export class NativePropertyTypeTable {
     if (!storage) throw new Error('Original property buckets reach NULL storage');
     return storage instanceof NativeHeapObjectViews ? storage : new NativeHeapObjectViews(storage);
   }
+  endLifetime(): void { this.boundary ??= 'Native property type table lifetime has ended'; }
   private run<T>(body: () => T): NativeValue<T> {
     if (this.active) this.boundary ??= 'Property table cannot reenter an executing operation';
     if (this.boundary) return { known: false, reason: this.boundary };
@@ -108,10 +109,16 @@ export class NativePropertyTypeTable {
   }
   /** Original clear deletes value wrappers, releases keys and nodes, frees
    * bucket storage, then allocates a fresh 43-bucket table. */
-  clear(): NativeValue<void> {
+  clear(): NativeValue<void> { return this.reset(true); }
+  /** Original map destruction dependency omits value-wrapper deletion. */
+  resetForDestruction(): NativeValue<void> { return this.reset(false); }
+  private reset(deleteValues: boolean): NativeValue<void> {
     return this.run(() => {
-      if (source.methods.clearTypeTable.bodyVA !== '0x100910d0' ||
-          source.methods.clearTypeTable.bodyInstructionBytesSha256 !== 'b2c843805ce1a75ce128c96d83bf533737663f3561cc5d6172bae5a7e604e06a') throw new Error('Original table clear source differs');
+      const method = deleteValues ? source.methods.clearTypeTable : source.methods.destroyTypeTable;
+      if (method.bodyVA !== (deleteValues ? '0x100910d0' : '0x10091230') ||
+          method.bodyInstructionBytesSha256 !== (deleteValues ?
+            'b2c843805ce1a75ce128c96d83bf533737663f3561cc5d6172bae5a7e604e06a' :
+            '70995dcf63faa747310585dbe53993e43e3fe8ea0c16345cba35bb787cbeb1c2')) throw new Error('Original table clear source differs');
       const selectedMemory = () => {
         if (fact(NativeMemoryAdmin.prototype.getInstance.call(this.memory)) !== this.memory || this.boundary) {
           throw new Error(this.boundary ?? 'Original same-heap singleton required');
@@ -125,7 +132,8 @@ export class NativePropertyTypeTable {
             throw new Error('Original clear reaches an unowned or cyclic node');
           }
           seen.add(node);
-          const wrapper = node.fields.pointer<NativeMemoryAllocation>(4).get();
+          if (!deleteValues) node.fields.pointer(0).get();
+          const wrapper = deleteValues ? node.fields.pointer<NativeMemoryAllocation>(4).get() : null;
           const next = node.fields.pointer<Node>(8).get();
           if (wrapper) {
             selectedMemory(); fact(NativeMemoryAdmin.prototype.deleteObject.call(this.memory, wrapper));

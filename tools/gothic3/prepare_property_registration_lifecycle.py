@@ -16,7 +16,7 @@ def capture(study, output):
                                 0x10004fd4: 'getPropertySingleton', 0x10004aac: 'constructPropertySingleton',
                                 0x10001c49: 'constructTypeTable', 0x10005cdb: 'clearTypeTable',
                                 0x1000799b: 'reserveTypeTable', 0x10006654: 'destroyPropertySingleton',
-                                0x10091230: 'destroyTypeTable'})
+                                0x100054ac: 'destroyTypeTable'})
     output.mkdir(parents=True, exist_ok=True)
     methods = {}
     for method in audit['methods']:

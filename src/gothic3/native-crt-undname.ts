@@ -1,3 +1,4 @@
+import { gameStrlenDwordCandidate } from './native-game-strlen-predicate';
 /** Module-owned ___unDName. The admitted grammar currently follows the
  * ordinary, unqualified class RTTI branch; other grammar remains a boundary. */
 import sourceText from '../../assets/gothic3/crt-undname/runtime-rules.json?raw';
@@ -267,12 +268,14 @@ export function nativeSceneTypeInfoForCrt(crt: NativeEngineCrtOwner): NativeScen
   return name;
 }
 
-export type NativeGameTypeInfoTarget = 'navigation' | 'scriptAdmin';
+export type NativeGameTypeInfoTarget = 'navigation' | 'scriptAdmin' | 'arena';
 const gameTypeInfoTargets: Readonly<Record<NativeGameTypeInfoTarget, {
   readonly descriptorStorage: string;
   readonly decoratedName: string;
   readonly label: string;
 }>> = Object.freeze({
+  arena: Object.freeze({ descriptorStorage: 'arenaTypeInfoDescriptor',
+    decoratedName: '.?AVgCArena_PS@@', label: 'Arena' }),
   navigation: Object.freeze({ descriptorStorage: 'navigationTypeInfoDescriptor',
     decoratedName: '.?AVgCNavigation_PS@@', label: 'Navigation' }),
   scriptAdmin: Object.freeze({ descriptorStorage: 'scriptAdminTypeInfoDescriptor',
@@ -349,24 +352,9 @@ export class NativeGameTypeInfoName {
     for (;;) {
       this.trace.push('Game._strlen.load.dword+' + offset.toString(16));
       const loaded = text.maskedWord(offset, 4), value = loaded.value >>> 0, knownMask = loaded.knownMask >>> 0;
-      const candidates = new Set<boolean>(), unknownBits: number[] = [];
-      for (let bit = 0; bit < 32; bit++) if (((knownMask >>> bit) & 1) === 0) unknownBits.push(bit);
-      // The current Navigation output has exactly 16 unknown padding bits in
-      // its final candidate DWORD. Bound enumeration; never treat masked bytes
-      // as zero-filled evidence.
-      if (unknownBits.length > 16) throw new Error('Game _strlen DWORD predicate has more than 16 unknown bits at +' + offset.toString(16));
-      const completions = 2 ** unknownBits.length, fixed = (value & knownMask) >>> 0;
-      for (let completion = 0; completion < completions; completion++) {
-        let word = fixed;
-        for (let index = 0; index < unknownBits.length; index++) {
-          if (((completion >>> index) & 1) !== 0) word = (word | (1 << unknownBits[index]!)) >>> 0;
-        }
-        const predicate = ((((word ^ 0xffffffff) ^ ((word + 0x7efefeff) >>> 0)) & 0x81010100) >>> 0) !== 0;
-        candidates.add(predicate);
-        if (candidates.size > 1) break;
-      }
-      if (candidates.size !== 1) throw new Error('Game _strlen DWORD predicate is ambiguous at +' + offset.toString(16));
-      const candidate = [...candidates][0]!;
+      const decision = gameStrlenDwordCandidate(value, knownMask);
+      if (!decision.known) throw new Error(decision.reason + ' at +' + offset.toString(16));
+      const candidate = decision.value;
       if (!candidate) { offset += 4; continue; }
 
       this.trace.push('Game._strlen.candidate-reread+' + offset.toString(16));
