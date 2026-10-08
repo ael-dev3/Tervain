@@ -217,9 +217,10 @@ export class NativeSharedCrtOwner {
  #boundary:string|null=null;
  #active=false;
  #dllCall:object|null=null;
- #dllImages:Readonly<{guard:NativeHeapObjectViews;object:NativeHeapObjectViews}>|null=null;
+ #dllImages:Readonly<{guard:NativeHeapObjectViews;object:NativeHeapObjectViews;moduleName:NativeHeapObjectViews}>|null=null;
  #dllBoundary:string|null=null;
  #dllReturned:number|null=null;
+ #dllInitializerAttempted=false;
  #mtReturned:number|null=null;
  #locksReturned:number|null=null;
  #sections:NativeHeapObjectViews[]=[];
@@ -514,10 +515,10 @@ export class NativeSharedCrtOwner {
   const active=NativeRuntimePlatform.requireActivePlatform(platform);if(!active.known)return active;const owner=owners.get(platform);if(!owner||!owner.#active||owner.#argvCall!==call)return {known:false,reason:'Actual pending SharedBase setargv required'};
   try{return {known:true,value:{stage:owner.#argvStage,initialized:owner.imageStorage('multibyteInitialized').readUnsigned(0),module:owner.imageStorage('moduleNameBuffer'),input:owner.#argvInput,allocation:owner.#argvAllocation,result:owner.#argvReturned,argc:owner.imageStorage('argumentCount'),argv:owner.imageStorage('argumentVector'),retryDelay:owner.imageStorage('allocationRetryDelay').readUnsigned(0),envPointer:owner.imageStorage('environmentPointer'),envVector:owner.imageStorage('environmentVector'),envInitialized:owner.imageStorage('environmentInitialized'),mbInitialized:owner.imageStorage('multibyteInitialized')}};}catch(error){return {known:false,reason:error instanceof Error?error.message:String(error)};}
  }
- static dllEntryStackArgumentsForPlatform(platform:NativeRuntimePlatform,call:object):NativeValue<Readonly<{guard:NativeHeapObjectViews;object:NativeHeapObjectViews}>>{
+ static dllEntryStackArgumentsForPlatform(platform:NativeRuntimePlatform,call:object):NativeValue<Readonly<{guard:NativeHeapObjectViews;object:NativeHeapObjectViews;moduleName:NativeHeapObjectViews}>>{
   const active=NativeRuntimePlatform.requireActivePlatform(platform);if(!active.known)return active;const owner=owners.get(platform);
   if(!owner||!owner.#active||owner.#dllCall!==call||owner.#attachReturned!==1||!owner.#dllImages)return {known:false,reason:'Actual pending SharedBase DLL entry required'};
-  try{owner.#requireLocal(owner.#dllImages.guard);owner.#requireLocal(owner.#dllImages.object);return {known:true,value:owner.#dllImages};}catch(error){return {known:false,reason:error instanceof Error?error.message:String(error)};}
+  try{owner.#requireLocal(owner.#dllImages.guard);owner.#requireLocal(owner.#dllImages.object);owner.#requireLocal(owner.#dllImages.moduleName);return {known:true,value:owner.#dllImages};}catch(error){return {known:false,reason:error instanceof Error?error.message:String(error)};}
  }
  static initializerStackArgumentsForPlatform(platform:NativeRuntimePlatform,call:object):NativeValue<Readonly<{images:Readonly<Record<string,NativeHeapObjectViews>>;cookie:NativeHeapObjectViews;imports:Readonly<NativeSharedInitializerImports>}>>{
   const proof=NativeSharedCrtOwner.argvStackArgumentsForPlatform(platform,call);if(!proof.known)return proof;const owner=owners.get(platform)!;
@@ -1316,9 +1317,19 @@ export class NativeSharedCrtOwner {
   try{
    const method=dllEntrySource.methods.find(item=>item.label==='sharedDllMain');
    if(dllEntrySource.inputSha256!==source.sharedBaseSha256||method?.bodyInstructionBytesSha256!=='c265cdb865a6c031f014ef57a5dc2a4e0354fd7f0dd9396b20925cf1737f6bab'||method.entryChain[0]?.bytes!=='e9b58b0900')throw new Error('Original SharedBase DLL entry source required');
-   if(!this.#dllImages){const retained:Record<string,NativeHeapObjectViews>={};for(const [label,address] of [['dllInitializerGuard','102f48f0'],['dllInitializerObject','102f48ec']] as const){const receipt=dllEntrySource.coldImages.find(item=>item.label===label);if(receipt?.address!==address||receipt.bytes!=='00000000'||receipt.size!==4)throw new Error('Original cold DLL entry image required');const fields=this.#retainLocal(4);fields.writeUnsigned(0,0);retained[label]=fields;}this.#dllImages=Object.freeze({guard:retained.dllInitializerGuard!,object:retained.dllInitializerObject!});}
+   if(!this.#dllImages){const retained:Record<string,NativeHeapObjectViews>={};for(const [label,address] of [['dllInitializerGuard','102f48f0'],['dllInitializerObject','102f48ec']] as const){const receipt=dllEntrySource.coldImages.find(item=>item.label===label);if(receipt?.address!==address||receipt.bytes!=='00000000'||receipt.size!==4)throw new Error('Original cold DLL entry image required');const fields=this.#retainLocal(4);fields.writeUnsigned(0,0);retained[label]=fields;}const literal=dllEntrySource.coldImages.find(item=>item.label==='moduleName');if(literal?.address!=='100ebb14'||literal.bytes!=='736861726564626173652e646c6c00'||literal.size!==15)throw new Error('Original DLL version filename required');const moduleName=this.#retainLocal(15);for(let i=0;i<15;i++)moduleName.writeUnsigned(i,parseInt(literal.bytes.slice(i*2,i*2+2),16),1);this.#dllImages=Object.freeze({guard:retained.dllInitializerGuard!,object:retained.dllInitializerObject!,moduleName});}
    this.#active=true;this.#dllCall=Object.freeze({});const result=NativeX86ThreadStack.runSharedDllEntryPrefix(this.#argvStack,this.#dllCall);
    if(result.known)this.#dllReturned=result.value;else this.#dllBoundary=result.reason;return result;
+  }catch(error){this.#dllBoundary=error instanceof Error?error.message:String(error);return {known:false,reason:this.#dllBoundary};}
+  finally{this.#dllCall=null;this.#active=false;}
+ }
+ processDllInitializerPrefix():NativeValue<number>{
+  if(this.#dllInitializerAttempted)return {known:false,reason:this.#dllBoundary??'Retained DLL initializer attempt required'};
+  if(this.#active||this.#dllBoundary!=='Original SharedBase DLL initializer pending at 10006645'||!this.#argvStack||!this.#dllImages)return {known:false,reason:'Actual pending DLL initializer call required'};
+  this.#dllInitializerAttempted=true;
+  try{
+   const method=dllEntrySource.methods.find(item=>item.label==='sharedDllMainInitializer');if(method?.bodyInstructionBytesSha256!=='fab52ae52dd9781880acc72b282debbc8cebc903af2905bab60364fe5418882e'||method.entryChain[0]?.bytes!=='e946af0900')throw new Error('Original DLL initializer source required');
+   this.#active=true;this.#dllCall=Object.freeze({});const result=NativeX86ThreadStack.runSharedDllInitializerPrefix(this.#argvStack,this.#dllCall);if(!result.known)this.#dllBoundary=result.reason;return result;
   }catch(error){this.#dllBoundary=error instanceof Error?error.message:String(error);return {known:false,reason:this.#dllBoundary};}
   finally{this.#dllCall=null;this.#active=false;}
  }

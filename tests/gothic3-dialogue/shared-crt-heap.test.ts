@@ -2,6 +2,7 @@ import {nativeVirtualX86CpuSelection, retainNativeX86ThreadStackSelection} from 
 import type {NativeX86CpuSelection} from '../../src/gothic3/native-x86-thread-stack-profile';
 import {NativeHeapObjectViews} from '../../src/gothic3/native-heap-views';
 import {NativeX86ThreadStack} from '../../src/gothic3/native-x86-thread-stack';
+import dllEntrySource from '../../assets/gothic3/shared-dll-entry-source/source.json';
 import sharedCrtSource from '../../assets/gothic3/shared-crt-bootstrap/source.json';
 import {nativeVirtualCp1252ArgvNlsSelection} from '../../src/gothic3/native-win32-argv-nls';
 import {expect,it} from 'vitest';
@@ -1175,4 +1176,21 @@ it('executes the original DLL entry guard and retains its pending initializer ca
 });
 it('requires actual CRT success before DLL entry and rejects a fabricated caller proof',()=>{
  const {owner,platform}=stdioFixture();expect(owner.processDllEntryPrefix().known).toBe(false);expect(owner.snapshot().dllEntryImages).toBeNull();expect(NativeSharedCrtOwner.dllEntryStackArgumentsForPlatform(platform,{}).known).toBe(false);
+});
+
+it('retains original DLL initializer version outputs and their real stack argument pointers',()=>{
+ const {owner}=stdioFixture();owner.processAttach();owner.processDllEntryPrefix();const result=owner.processDllInitializerPrefix();expect(result).toEqual({known:false,reason:'Original SharedBase DLL version query pending at 10008058'});
+ const stack=owner.snapshot().caseState!.stack!.snapshot(),frame=stack.sharedDllInitializerFrame!;expect(frame.outputs).toHaveLength(4);expect(frame.outputs.map(fields=>fields.readUnsigned(0))).toEqual([0,0,0,0]);
+ expect(frame.outputs.map(fields=>fields.bytes.byteOffset-fields.backing.bytes.byteOffset)).toEqual([4,8,12,16].map(offset=>frame.entryEsp-offset));expect(frame.outputs.every(fields=>fields.backing===stack.sharedArgvFrame!.argumentCount.backing)).toBe(true);
+ expect(frame.moduleName).toBe(owner.snapshot().dllEntryImages!.moduleName);expect(String.fromCharCode(...frame.moduleName.bytes)).toBe('sharedbase.dll\0');expect(stack.calls.find(call=>call.site==='100a15c1')!.returned).toBe(false);expect(stack.trace).toContain('100a15c1.CALL 0x10008058');
+ const calls=stack.calls.length;expect(owner.processDllInitializerPrefix()).toEqual(result);expect(owner.snapshot().caseState!.stack!.snapshot().calls).toHaveLength(calls);expect(owner.snapshot().dllEntryExecuted).toBe(false);
+});
+it('rejects changed initializer return storage through the actual stack alias',()=>{
+ const {owner}=stdioFixture();owner.processAttach();owner.processDllEntryPrefix();const stack=owner.snapshot().caseState!.stack!.snapshot(),call=stack.calls.find(call=>call.site==='100a1645')!,backing=stack.sharedArgvFrame!.argumentCount.backing;
+ backing.bytes[call.position]=backing.bytes[call.position]!^1;backing.knownMask[call.position]=255;const result=owner.processDllInitializerPrefix();expect(result.known).toBe(false);if(result.known)throw new Error('corrupt return admitted');expect(result.reason).toContain('changed outside its actual store');expect(owner.snapshot().caseState!.stack!.snapshot().sharedDllInitializerFrame).toBeNull();
+});
+
+it('rejects changed DLL initializer evidence before constructing its local frame',()=>{
+ const {owner}=stdioFixture();owner.processAttach();owner.processDllEntryPrefix();const method=dllEntrySource.methods.find(item=>item.label==='sharedDllMainInitializer')!,hash=method.bodyInstructionBytesSha256;
+ try{method.bodyInstructionBytesSha256='00'.repeat(32);expect(owner.processDllInitializerPrefix()).toEqual({known:false,reason:'Original DLL initializer source required'});expect(owner.snapshot().caseState!.stack!.snapshot().sharedDllInitializerFrame).toBeNull();}finally{method.bodyInstructionBytesSha256=hash;}
 });
