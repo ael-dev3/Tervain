@@ -49,25 +49,28 @@ memory and objects before it can support a gameplay claim.
 
 ### Current startup work: 2026-10-08
 
-Published main revision `4298947b6ecad748fbbf166dca53f7f27466385d`
-([PR #157](https://github.com/ael-dev3/Tervain/pull/157)) includes the selected
-SharedBase CRT initialization, DLL entry prefix, module lookup and version-resource
-fallback. The original MemoryAdmin instructions allocate a 1,792-byte pool slot;
-the recorded Windows version API fills 1,740 bytes and execution reaches the
-language-helper call at `10002d42`. Its Pages deployment succeeded.
+Published main revision `a066b607490cd29aff1d994e98cabb9c4d585b35`
+([PR #159](https://github.com/ael-dev3/Tervain/pull/159)) includes the selected
+SharedBase CRT initialization, DLL entry prefix, module lookup, version-resource
+fallback and nested language-resource frame. Original allocator instructions
+claim two 1,792-byte pool slots; recorded Windows resource API results fill
+1,740 bytes in each. The original formatter writes the translation query and
+execution reaches the pending `VerQueryValueA` call at `1004c330`.
+Its Pages deployment completed successfully (run `37844108225`).
 
-Later local work retains the nested language-helper frame, requests 1,741 bytes,
-claims a second pool slot and fills its resource buffer. That continuation stops
-at `1004c30e`, before formatting the translation query. It is unpublished. The
-nested allocation checkpoint passed 2,924 tests across 275 files; the subsequent
-buffer-fill change passed 316 focused checks, typechecking and the production
-build, with its full-suite checkpoint still pending.
+Later local work returns the translation resource and runs the original
+hexadecimal formatter to construct `\StringFileInfo\000004B0\FileVersion`.
+That checkpoint passed 2,940 tests across 275 files, typechecking and the
+production build. Further local work copies the returned FileVersion text
+through the original byte-copy loop and reaches the pending language-buffer
+Free call at `1004c3f0 -> 10002112`; its three focused checks and typecheck pass.
+These later continuations are unpublished and their selected owner methods
+still need integration into the live startup path.
 
-The next dependencies are query-string formatting, translation and FileVersion
-queries, version parsing, buffer cleanup and logging. The surrounding DLL wrapper
-and SEH execution, complete DLL initialization, Game/world activation and campaign
-integration remain unfinished. Consult the checkpoint history and deployed commit
-when distinguishing local implementation from hosted behavior.
+The next dependencies are original buffer cleanup, version parsing and logging,
+the surrounding DLL wrapper and SEH execution, complete DLL initialization,
+Game/world activation and campaign integration. A deployed component checkpoint
+does not establish a campaign that can be finished in the browser.
 
 ### Reference inputs and reproducibility
 

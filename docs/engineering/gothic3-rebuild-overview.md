@@ -48,9 +48,10 @@ history linked below:
    Record the successful deployment separately from local implementation.
 
 The checkpoint history distinguishes local implementation, reviewed changes and
-successful deployments. SharedBase startup work has reached version-resource
-allocation and filling; language queries and complete DLL startup remain
-unfinished. Game/world activation and campaign integration still require work.
+successful deployments. The published SharedBase startup components include version-resource
+allocation, filling and translation-query formatting. Later local query and
+copy continuations still require live startup integration. Complete DLL startup
+remains unfinished. Game/world activation and campaign integration still require work.
 
 ## Working on the reconstruction locally
 
@@ -109,7 +110,7 @@ and the next missing dependency. Three states matter:
   receipts determine what is supported.
 - **Published:** a reviewed commit has completed the Pages deployment workflow.
 
-These states are recorded separately. The published runtime checkpoint is PR 136 (Pages run 37793944879 succeeded). Full engine startup, world activation
+These states are recorded separately. As of 8 October 2026, the published runtime checkpoint is [PR #159](https://github.com/ael-dev3/Tervain/pull/159) (Pages run 37844108225 succeeded). Full engine startup, world activation
 and campaign completion remain outstanding.
 
 ## Process at a glance
