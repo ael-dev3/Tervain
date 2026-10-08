@@ -338,6 +338,8 @@ describe('Meshy resident transport, selective loading and retry', () => {
     vi.stubGlobal('crypto', { subtle: { digest: vi.fn(async () => new Uint8Array(32).buffer) } });
     vi.stubEnv('BASE_URL', './');
     subject = await import('../../src/presentation/meshynpcs');
+    // The reset module graph has its own download policy: keep its tries, without the pauses between them.
+    (await import('../../src/presentation/assets/download')).DOWNLOAD_POLICY.backoffMs = [0, 0];
   });
 
   it('loads only assigned models, shares concurrent requests and retains decoded CPU templates for rebuilds', async () => {
@@ -360,9 +362,22 @@ describe('Meshy resident transport, selective loading and retry', () => {
   });
 
   it.each([
-    { name: 'HTTP error', response: () => new Response('', { status: 503 }), message: /HTTP 503/ },
+    { name: 'server error', response: () => new Response('', { status: 503 }) },
+    { name: 'truncated body', response: () => new Response(new ArrayBuffer(12)) },
+  ])('downloads again after a passing $name within the same load', async ({ response }) => {
+    const value = manifest(); let fail = true;
+    fetchMock.mockImplementation(async url => {
+      if (String(url).endsWith('manifest.json')) return new Response(JSON.stringify(value));
+      if (fail) { fail = false; return response(); }
+      return new Response(glb());
+    });
+    await expect(subject.loadMeshyNpcCatalog()).resolves.toBeInstanceOf(subject.MeshyNpcCatalog);
+    expect(fetchMock).toHaveBeenCalledTimes(3); expect(loader.parse).toHaveBeenCalledOnce();
+  });
+
+  it.each([
+    { name: 'HTTP error', response: () => new Response('', { status: 404 }), message: /HTTP 404/ },
     { name: 'HTML fallback', response: () => new Response('<html>', { headers: { 'content-type': 'text/html' } }), message: /page instead/ },
-    { name: 'truncated body', response: () => new Response(new ArrayBuffer(12)), message: /incomplete/ },
     { name: 'wrong GLB header', response: () => new Response(new ArrayBuffer(20)), message: /complete GLB/ },
   ])('keeps $name visible and lets loading Retry fetch the missing model again', async ({ response, message }) => {
     const value = manifest(); let fail = true;
@@ -440,7 +455,9 @@ describe('Meshy resident transport, selective loading and retry', () => {
     await Promise.all([menuRetry, worldRetry]);
     expect(fetchMock.mock.calls.filter(([url]) => String(url).endsWith('manifest.json'))).toHaveLength(1);
     expect(fetchMock.mock.calls.filter(([url]) => String(url).endsWith(entry.file))).toHaveLength(1);
-    expect(fetchMock.mock.calls.filter(([url]) => String(url).endsWith('warden.glb'))).toHaveLength(2);
+    // Every try of the failing load, then the one Retry that succeeds.
+    const { DOWNLOAD_POLICY } = await import('../../src/presentation/assets/download');
+    expect(fetchMock.mock.calls.filter(([url]) => String(url).endsWith('warden.glb'))).toHaveLength(DOWNLOAD_POLICY.attempts + 1);
     expect(loader.parse).toHaveBeenCalledTimes(2);
   });
 

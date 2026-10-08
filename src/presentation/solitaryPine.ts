@@ -7,6 +7,7 @@ import { installBarkDetail } from './treeMaterials';
 import { assertNaturalModelBudget } from './naturalModelBudget';
 import { modelAssetUrl } from './assets/modelUrl';
 import { withModelLoadSlot, type ModelLoadProgress } from './assets/modelLoadQueue';
+import { downloadAsset } from './assets/download';
 
 export const PINE_FILES = ['solitary-pine-under-10k.glb', 'solitary-pine-mid.glb', 'solitary-pine-far.glb'] as const;
 export type PineSpecies = 'pine' | 'fir' | 'shorepine';
@@ -26,25 +27,18 @@ function load(file: string): Promise<GLTF> {
   const existing = pending.get(file);
   if (existing) return existing;
   const request = withModelLoadSlot(async () => {
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 60_000);
-    try {
-      const url = solitaryPineUrl(file);
-      const response = await fetch(url, { signal: controller.signal });
-      if (!response.ok) throw new Error(`The forest model could not load (HTTP ${response.status}).`);
-      if (response.headers.get('content-type')?.includes('text/html')) throw new Error('The forest model URL returned a page instead of model data.');
-      const buffer = await response.arrayBuffer();
-      if (buffer.byteLength < 12) throw new Error('The forest model download is incomplete.');
-      const header = new DataView(buffer);
-      if (header.getUint32(0, true) !== 0x46546c67 || header.getUint32(4, true) !== 2 || header.getUint32(8, true) !== buffer.byteLength) {
-        throw new Error('The forest model download is not a complete GLB 2 file.');
-      }
-      const gltf = await new GLTFLoader().parseAsync(buffer, new URL('.', url).href);
-      if (new THREE.Box3().setFromObject(gltf.scene).isEmpty()) throw new Error('The forest model contains no geometry.');
-      const decoded = parts(gltf);
-      if (file !== PINE_FILES[2] && !decoded.wood) throw new Error('Close forest models must include real woody branches.');
-      return gltf;
-    } finally { clearTimeout(timeout); }
+    const url = solitaryPineUrl(file);
+    const buffer = await downloadAsset(url, { label: 'The forest model', model: `flora/${file}` });
+    if (buffer.byteLength < 12) throw new Error('The forest model download is incomplete.');
+    const header = new DataView(buffer);
+    if (header.getUint32(0, true) !== 0x46546c67 || header.getUint32(4, true) !== 2 || header.getUint32(8, true) !== buffer.byteLength) {
+      throw new Error('The forest model download is not a complete GLB 2 file.');
+    }
+    const gltf = await new GLTFLoader().parseAsync(buffer, new URL('.', url).href);
+    if (new THREE.Box3().setFromObject(gltf.scene).isEmpty()) throw new Error('The forest model contains no geometry.');
+    const decoded = parts(gltf);
+    if (file !== PINE_FILES[2] && !decoded.wood) throw new Error('Close forest models must include real woody branches.');
+    return gltf;
   }).catch((error: unknown) => {
     pending.delete(file);
     throw error;

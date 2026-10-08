@@ -57,6 +57,7 @@ export default defineConfig(({ command, mode }) => {
     },
     test: {
       include: ['tests/**/*.test.ts'],
+      setupFiles: ['tests/setup/downloads.ts'],
       environment: 'node',
       // Geometry and inline painting are CPU-heavy; avoid competing workers causing spurious timeouts.
       maxWorkers: 2,

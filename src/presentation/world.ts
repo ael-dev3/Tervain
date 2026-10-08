@@ -17,7 +17,7 @@ import { NavGrid } from '../world/nav';
 import { Terrain, distToPolyline } from '../world/terrain';
 import { SkyRig } from './sky';
 import { buildTerrainTilesAsync } from './terrainMesh';
-import { makeTerrainTextures, type TerrainTextures } from './terrainTextures';
+import { makeTerrainTextures, TERRAIN_TEXTURE_SIZE, type TerrainTextures } from './terrainTextures';
 import { buildScenery, type SceneryHandles } from './settlement';
 import { buildFlora } from './flora';
 import { buildScatter } from './scatter';
@@ -194,7 +194,7 @@ export class WorldScene {
     await checkpoint('models', 'World models', modelTotal, modelTotal);
     await initializePhysics();
     await checkpoint('textures', 'Ground materials', 0, 8);
-    const tex = await makeTerrainTextures(settings.quality === 'high' ? 1024 : settings.quality === 'medium' ? 768 : 256, yieldNow, {
+    const tex = await makeTerrainTextures(TERRAIN_TEXTURE_SIZE[settings.quality], yieldNow, {
       signal: options.signal,
       onProgress: (completed, total) => phase('textures', 'Ground materials', completed, total),
     });

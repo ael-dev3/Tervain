@@ -8,6 +8,7 @@ import type { V2 } from '../world/layout';
 import type { BuildContext, FrameContext, SceneModule } from './context';
 import { modelAssetUrl } from './assets/modelUrl';
 import { withModelLoadSlot } from './assets/modelLoadQueue';
+import { downloadAsset } from './assets/download';
 import { matteHide } from './matte';
 import { ANIMAL_AUDIO, ANIMAL_CALL_EVENT, type AnimalCall } from './sound/animalAudio';
 import { ANIMALS, ANIMAL_SPEEDS, ANIMAL_TRIANGLE_LIMIT, requiredAnimalClips, type AnimalClip, type AnimalDefinition, type AnimalSpecies } from './animals/catalog';
@@ -123,21 +124,16 @@ function loadAnimal(definition: AnimalDefinition): Promise<GLTF> {
   const cached = pending.get(definition.id);
   if (cached) return cached;
   const request = withModelLoadSlot(async () => {
-    const controller = new AbortController(), timeout = setTimeout(() => controller.abort(), 60_000);
-    try {
-      const url = animalModelUrl(definition), response = await fetch(url, { signal: controller.signal });
-      if (!response.ok) throw new Error(`The ${definition.species} model could not load (HTTP ${response.status}).`);
-      if (response.headers.get('content-type')?.includes('text/html')) throw new Error('The animal model URL returned a page instead of model data.');
-      const bytes = await response.arrayBuffer();
-      if (bytes.byteLength < 12) throw new Error('The animal model download is incomplete.');
-      const header = new DataView(bytes);
-      if (header.getUint32(0, true) !== 0x46546c67 || header.getUint32(4, true) !== 2 || header.getUint32(8, true) !== bytes.byteLength) {
-        throw new Error('The animal model download is not a complete GLB 2 file.');
-      }
-      const template = await new GLTFLoader().parseAsync(bytes, new URL('.', url).href);
-      try { validateAnimalTemplate(template, definition); } catch (error) { releaseRejectedTemplate(template); throw error; }
-      return template;
-    } finally { clearTimeout(timeout); }
+    const url = animalModelUrl(definition);
+    const bytes = await downloadAsset(url, { label: `The ${definition.species} model`, model: `animals/${definition.file}` });
+    if (bytes.byteLength < 12) throw new Error('The animal model download is incomplete.');
+    const header = new DataView(bytes);
+    if (header.getUint32(0, true) !== 0x46546c67 || header.getUint32(4, true) !== 2 || header.getUint32(8, true) !== bytes.byteLength) {
+      throw new Error('The animal model download is not a complete GLB 2 file.');
+    }
+    const template = await new GLTFLoader().parseAsync(bytes, new URL('.', url).href);
+    try { validateAnimalTemplate(template, definition); } catch (error) { releaseRejectedTemplate(template); throw error; }
+    return template;
   }).catch(error => { pending.delete(definition.id); throw error; });
   pending.set(definition.id, request);
   return request;

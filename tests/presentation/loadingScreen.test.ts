@@ -122,6 +122,17 @@ describe('loading screen recovery and accessible work counts', () => {
     expect(screen.retryButton).toBeNull();
   });
 
+  it('names the cause of a failure in small print under the message (A68)', () => {
+    const screen = new LoadingScreen();
+    screen.start({ mode: 'initial' });
+    screen.fail({ retry: vi.fn(), detail: 'Tree fir-spire download stalled.' });
+    expect(fixture(screen.el).textContent).toContain('Tree fir-spire download stalled.');
+    const plain = new LoadingScreen();
+    plain.start({ mode: 'initial' });
+    plain.fail({ retry: vi.fn() });
+    expect(fixture(plain.el).textContent).not.toContain('stalled');
+  });
+
   it('removes failure semantics when a retry starts and ignores late updates while failed', () => {
     const screen = new LoadingScreen();
     screen.start({ mode: 'initial' });

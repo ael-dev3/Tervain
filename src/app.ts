@@ -1,5 +1,7 @@
 import { loadMeshyTrees, type MeshyTreeTemplates } from './presentation/meshyTrees';
 import { loadBakedTextures } from './presentation/bakedTextures';
+import { pruneContentCache } from './presentation/assets/download';
+import { prefetchJourney } from './presentation/journeyPrefetch';
 import * as THREE from 'three';
 import { NPCS } from './content/npcs';
 import { SCENES, SPEAKER_NAMES, VOICE_LINES, inHours, shown, type HeroCue } from './content/voice';
@@ -527,7 +529,12 @@ export class App {
       this.initialJourneyLoading = true;
       try {
         if (ALL_NEEDS.length > 0) this.library = await AssetLibrary.open();
-        await this.prepareMainHero();
+        // Everything the journey downloads starts now (A68): the wanderer, the residents, then the world's models and
+        // surfaces behind them, instead of each group waiting for the one before it to be prepared.
+        const hero = this.prepareMainHero();
+        void this.prepareNpcAssets().catch(() => {});
+        prefetchJourney(this.settings.quality);
+        await hero;
         do {
           this.reloadAgain = false;
           await this.buildWorld();
@@ -540,6 +547,8 @@ export class App {
         this.initialJourneyLoading = false;
         this.finishWorldBuild();
         enter();
+        // Every file the game needs has now been asked for: drop cached models that have since been replaced.
+        void pruneContentCache();
       } catch (error) {
         this.initialJourneyLoading = false;
         this.showWorldBuildFailure(error, () => { this.initialLoad = run(); return this.initialLoad; }, () => {
@@ -620,7 +629,7 @@ export class App {
     this.input.poll(0);
     this.input.reset();
     if (this.loadingScreen) {
-      this.rebuildRetry = this.loadingScreen.fail({ retry, back });
+      this.rebuildRetry = this.loadingScreen.fail({ retry, back, detail: failureDetail(error) });
       return;
     }
     this.loadingEl.classList.remove('off');
@@ -2350,3 +2359,10 @@ void SLOT_IDS;
 void SLUICE;
 void RITE_ALTAR;
 export type { WorldState };
+
+/** The reason a build failed, short enough for the failure screen's small print. */
+function failureDetail(error: unknown): string | undefined {
+  const text = error instanceof Error ? error.message : typeof error === 'string' ? error : '';
+  const line = text.split('\n')[0]!.trim();
+  return line ? (line.length > 180 ? `${line.slice(0, 177)}…` : line) : undefined;
+}

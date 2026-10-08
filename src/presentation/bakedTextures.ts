@@ -1,3 +1,4 @@
+import { downloadAsset } from './assets/download';
 import { installBakedTextures, TEX_KEYS, type BakedImages, type TexKey } from './buildingTextures';
 import type { Quality } from './context';
 
@@ -20,22 +21,8 @@ const FILE = /^[a-z]+-(albedo|normal)\.jpg$/;
 
 const url = (file: string) => new URL(`${import.meta.env.BASE_URL}textures/buildings/${file}`, document.baseURI);
 
-async function fetchChecked(file: string, bytes?: number, sha256?: string): Promise<ArrayBuffer> {
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 60_000);
-  try {
-    const response = await fetch(url(file), { signal: controller.signal });
-    if (!response.ok) throw new Error(`Surface ${file} could not load (HTTP ${response.status}).`);
-    if (response.headers.get('content-type')?.includes('text/html')) throw new Error(`Surface ${file} returned a page instead of data.`);
-    const data = await response.arrayBuffer();
-    if (bytes !== undefined && data.byteLength !== bytes) throw new Error(`Surface ${file} download is incomplete.`);
-    if (sha256) {
-      const digest = [...new Uint8Array(await crypto.subtle.digest('SHA-256', data))].map((b) => b.toString(16).padStart(2, '0')).join('');
-      if (digest !== sha256) throw new Error(`Surface ${file} failed its integrity check.`);
-    }
-    return data;
-  } finally { clearTimeout(timeout); }
-}
+const fetchChecked = (file: string, bytes?: number, sha256?: string): Promise<ArrayBuffer> =>
+  downloadAsset(url(file), { label: `Surface ${file}`, bytes, sha256, holds: 'image data' });
 
 interface Download { size: number; albedo: Blob; normal: Blob }
 

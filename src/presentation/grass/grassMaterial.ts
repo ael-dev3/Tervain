@@ -225,7 +225,8 @@ float gRootShade = mix(uLook.x, 1.0, smoothstep(0.0, 0.7, gT));
 vGCol = gBase * gRootShade;
 // Light passes through the thin upper blade (the base is buried in the tuft) and sets seed heads and petals glowing;
 // shaded ground (under crowns) passes less sun.
-float gThrough = 0.06 + 0.7 * smoothstep(0.15, 1.0, gT) + 0.24 * gT * gT * gT + gStem * gHead * 1.3 + gFlower * gBloom * 0.7;
+// Seed heads and petals pass a little more light than the leaf, not a sparkle (A68).
+float gThrough = 0.06 + 0.7 * smoothstep(0.15, 1.0, gT) + 0.24 * gT * gT * gT + gStem * gHead * 0.45 + gFlower * gBloom * 0.3;
 vGInfo = vec4(gT, gEdge, uLook.z * aTint.w * gThrough * (1.0 - 0.6 * gLying), uLook.w * aTint.w * (0.35 + 0.65 * gT));
 `;
 
@@ -235,20 +236,21 @@ varying vec4 vGInfo;
 uniform vec3 uTransTint;
 `;
 
-/** Lambert for thin leaves: wrapped diffuse, light through the blade, and a sheen. Every light (and its shadow) uses it. */
+/** Lambert for thin leaves: wrapped diffuse, soft light through the blade, and a faint matte sheen. Every light (and its shadow) uses it. */
 export const GRASS_LIGHT_GLSL = /* glsl */ `
 void RE_Direct_Grass( const in IncidentLight directLight, const in vec3 geometryPosition, const in vec3 geometryNormal, const in vec3 geometryViewDir, const in vec3 geometryClearcoatNormal, const in LambertMaterial material, inout ReflectedLight reflectedLight ) {
   float ndl = dot( geometryNormal, directLight.direction );
   float wrapped = saturate( ( ndl + 0.42 ) / 1.42 );
   reflectedLight.directDiffuse += wrapped * directLight.color * BRDF_Lambert( material.diffuseColor );
-  // Behind the blade: light passing through it toward the eye.
+  // Behind the blade: light passing through it toward the eye. Broad and soft (A68): a tight, bright lobe made backlit
+  // blades shine like wet plastic.
   float behind = saturate( dot( - geometryViewDir, directLight.direction ) );
-  float through = pow( behind, 5.0 ) * 1.6 + pow( behind, 1.6 ) * 0.22;
+  float through = pow( behind, 3.0 ) * 0.55 + pow( behind, 1.4 ) * 0.16;
   reflectedLight.directDiffuse += directLight.color * material.diffuseColor * uTransTint * through * vGInfo.z;
-  // A soft sheen where blades turn to the light.
+  // Where a blade turns to the light it brightens a little, in its own colour: dry grass, never a white glint.
   vec3 halfway = normalize( directLight.direction + geometryViewDir );
-  float sheen = pow( saturate( dot( geometryNormal, halfway ) ), 18.0 ) * saturate( ndl + 0.25 );
-  reflectedLight.directDiffuse += directLight.color * sheen * vGInfo.w * 0.3;
+  float sheen = pow( saturate( dot( geometryNormal, halfway ) ), 6.0 ) * saturate( ndl + 0.25 );
+  reflectedLight.directDiffuse += directLight.color * material.diffuseColor * sheen * vGInfo.w * 0.9;
 }
 #undef RE_Direct
 #define RE_Direct RE_Direct_Grass
