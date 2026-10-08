@@ -90,6 +90,9 @@ def capture(study, output):
         0x100cdfb0: 'outputUnsignedDivide',
         0x100b52bc: 'outputPad',
         0x100b52e0: 'outputString',
+        0x10002112: 'versionMemoryFree',
+        0x10002e46: 'versionFreeDispatcher',
+        0x10005b37: 'poolDescriptorLookup',
     })
     pe = native.PE(binary)
     export_rva, export_size = struct.unpack_from('<II', binary, pe.optional + 96)
@@ -122,6 +125,7 @@ def capture(study, output):
             'instruction': f'JMP dword ptr [0x{iat:08x}]', 'import': receipt})
     result['coldImages'] = []
     for label, address, size in [
+        ('versionMemoryFreeScope', 0x100f82e8, 12),
         ('optionalCrtHook', 0x100ed680, 4),
         ('dllInitializerObject', 0x102f48ec, 4),
         ('dllInitializerGuard', 0x102f48f0, 4),

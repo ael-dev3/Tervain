@@ -25233,6 +25233,11 @@ const rows:readonly (readonly string[])[] = [
     "RET"
   ],
   [
+    "10004061",
+    "e99a150400",
+    "JMP 0x10045600"
+  ],
+  [
     "10007be9",
     "e902140400",
     "JMP 0x10048ff0"

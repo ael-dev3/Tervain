@@ -24,7 +24,7 @@ def capture(study, output):
     tables = {}
     targets = {
         0x100ada4c: 'crtAttachCaller', 0x1000619f: 'initializer142Getter', 0x10005e5c: 'initializer143Getter',
-        0x10048ff0:'pool1792Dispatch',0x1000322e:'pool1792Allocate',0x1000717b:'pool1792Initialize',
+        0x10045600:'pool1792Free',0x10048ff0:'pool1792Dispatch',0x1000322e:'pool1792Allocate',0x1000717b:'pool1792Initialize',
         0x10048050: 'pool24Dispatch', 0x10002b3f: 'pool24Initialize', 0x10004557: 'pool24Allocate',
         0x100a7300: 'classNameStrchr', 0x100c0e29: 'typeInfoCopyName', 0x100b09ee: 'typeInfoUnlockCleanup', 0x100b2a80: 'typeInfoOutputLength', 0x100c14dd: 'demanglerHeapDestructor', 0x100c61dc: 'demanglerUnlockCleanup', 0x100aa9a4: 'crtFree',
         0x100c2048: 'demanglerDnameGetString', 0x100c2301: 'demanglerIndirectGetString', 0x100c22b2: 'demanglerTextGetString',
@@ -149,7 +149,7 @@ def capture(study, output):
     admitted_targets = {}
     entries = {}
     offline = {}
-    assembly_only = {0x10048ff0:0x1004906f,0x10048050: 0x100480cf, 0x10047f10: 0x10047f8f, 0x100a7265: 0x100a7293, 0x100bb8e7: 0x100bb90a,
+    assembly_only = {0x10045600:0x10045648,0x10048ff0:0x1004906f,0x10048050: 0x100480cf, 0x10047f10: 0x10047f8f, 0x100a7265: 0x100a7293, 0x100bb8e7: 0x100bb90a,
                      0x100b4b6b: 0x100b4b7e, 0x100bef05: 0x100befb5,
                      0x100ce0f5: 0x100ce101}
     targets[0x100bb8e7] = 'rtcTerminate'
@@ -204,6 +204,12 @@ def capture(study, output):
             bodyInstructionBytesSha256=hashlib.sha256(raw).hexdigest(), entryChain=[],
             assemblySha256=hashlib.sha256(asm).hexdigest(), cSha256=None,
             reconstructedCUnavailable=True)
+    free_thunk=pe.bytes(0x10004061,5)
+    if free_thunk[0] != 0xe9 or 0x10004061 + 5 + struct.unpack_from('<i',free_thunk,1)[0] != 0x10045600:
+        raise ValueError('Original 1792-byte pool Free entry thunk differs')
+    methods['pool1792Free']['entryVA']='0x10004061'
+    methods['pool1792Free']['entryChain']=[dict(va='10004061',bytes=free_thunk.hex(),targetVA='10045600')]
+    entries['10004061']=dict(containingEntry='10045600',methodLabel='pool1792Free')
     large_thunk=pe.bytes(0x10007be9,5)
     if large_thunk != bytes.fromhex('e902140400'):
         raise ValueError('Original 1792-byte pool entry thunk differs')
@@ -304,7 +310,7 @@ def initializer_runtime(output, destination):
         for line in (output / (body + '.asm.txt')).read_text(encoding='utf-8').splitlines():
             rows.append(line.split(' | '))
     source=json.loads((output/'source.json').read_text(encoding='utf-8'))
-    for label in ['pool1792Dispatch','pool1792Allocate','pool1792Initialize','pool24Dispatch','pool24Initialize','pool24Allocate','emptyStringConstructor','classNameUnMangle','initializer143Getter','initializer142Getter','rootTextConstructor','rootTextAlloc','memoryGetInstance','memoryMalloc','heapAllocate','pool16Dispatch','pool16Initialize','heapAddPointerArea','pool16Allocate']:
+    for label in ['pool1792Free','pool1792Dispatch','pool1792Allocate','pool1792Initialize','pool24Dispatch','pool24Initialize','pool24Allocate','emptyStringConstructor','classNameUnMangle','initializer143Getter','initializer142Getter','rootTextConstructor','rootTextAlloc','memoryGetInstance','memoryMalloc','heapAllocate','pool16Dispatch','pool16Initialize','heapAddPointerArea','pool16Allocate']:
         for entry in source['methods'][label]['entryChain']:
             rows.append([entry['va'],entry['bytes'],'JMP 0x'+entry['targetVA']])
     header=json.loads((output/'source.json').read_text(encoding='utf-8'))['imageHeader']
