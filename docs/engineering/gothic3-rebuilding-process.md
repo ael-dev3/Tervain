@@ -10708,3 +10708,29 @@ the original division/padding path and changed division evidence. Typechecking a
 across 275 files (243.66 seconds). The FileVersion API return, version-string copy, frees, parsing and
 logging still need integration before complete DLL startup, world activation and
 campaign playthrough can be demonstrated. This continuation remains unpublished.
+
+
+## SpieAdmin startup and CRT stream acquisition (local work, 2026-10-09)
+
+The retained MessageAdmin stack now executes the original SpieAdmin getter,
+critical-section initialization and constructor. It follows the original
+`zSpie.txt` / `r` fopen wrapper and its validation against owned string images.
+The original fopen exception frame remains live while its dependencies execute.
+
+The CRT stream-acquisition body searches the actual initialized FILE pointer
+vector, selects slot 3, initializes its dynamic lock 19 through the original
+lock-construction path and reserves that FILE record. Its nested exception frame
+returns to the parent fopen frame and releases global stream lock 1. The original
+OpenStream parser then reaches shared file-open at `100bfd3a -> 100d1a2d`.
+At this boundary, lock 19 is held, the FILE descriptor is still -1 and no file has
+been opened. The unsupported call is retained for the next continuation.
+
+The source package contains 53 bodies and 3,346 body instructions; independent
+regeneration matches both source JSON and emitted instructions. Focused checks
+verify construction, stream state and rejection of a corrupted caller return
+word before FILE-slot acquisition. Typechecking and the production build passed.
+The first full run passed 2,985 tests with one existing startup-fixture test
+exceeding its five-second limit. That test now has an explicit 30-second limit;
+all three affected focused checks passed. A full rerun is required before remote
+publication. These methods currently have no production callers; complete DLL
+startup, live world activation and campaign integration remain unfinished.
