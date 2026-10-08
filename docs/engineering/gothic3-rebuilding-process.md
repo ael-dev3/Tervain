@@ -4,6 +4,31 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local checkpoint — 9 October 2026: version resource return and cleanup
+
+The selected SharedBase DLL startup continuation now executes the translation
+query return, original hexadecimal query formatter, FileVersion byte copy,
+thread-owned tokenizer and original integer scanner. The recorded local file's
+version becomes `1, 60, 25931, 29` in the initializer's four actual output cells.
+Both 1,792-byte pool slots are released through the original descriptor search,
+bitmap callback and MemoryAdmin Free frames. Pool backing remains available;
+released slot views lose their admitted lease. Saved registers and FS are
+checked on the cleanup, fallback and version-query returns.
+
+Execution reaches `100a15cd -> 1000840e`, the initializer's first separator
+logger. Logger construction/callback dispatch, complete DLL wrapper/SEH,
+live Game startup, world activation and campaign integration remain unfinished.
+These selected owner methods are component continuations; no live campaign or
+full DLL initialization result is asserted.
+
+Local validation: 2,954 tests in 275 files, typechecking and production build
+pass. Both evidence generators reproduce their source packages and emitted
+TypeScript exactly. The initializer package contains 131 bodies and 5,216 body
+instructions; the DLL-entry package contains 27 methods and 2,015 instructions.
+Original input: matching installed/study SharedBase SHA-256
+`5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214`.
+Publication and deployment evidence will be recorded separately.
+
 ## Repeatable rebuilding process
 
 Each checkpoint should make one source-backed behavior usable by the browser

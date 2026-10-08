@@ -1448,3 +1448,13 @@ it('executes original integer conversion and writes the first actual version out
 it('rejects changed integer parser evidence before publishing any version component',()=>{
  const {owner}=fileVersionQueryFixture();owner.processDllFileVersionQuery();owner.processDllLanguageFree();owner.processDllLanguageReturn();owner.processDllVersionToken();const method=dllEntrySource.methods.find(row=>row.label==='versionIntegerScanner')!,hash=method.bodyInstructionBytesSha256;try{method.bodyInstructionBytesSha256='00'.repeat(32);expect(owner.processDllVersionInteger()).toEqual({known:false,reason:'Original version integer parser source required'});expect(owner.snapshot().caseState!.stack!.snapshot().sharedDllInitializerFrame!.outputs.map(fields=>fields.readUnsigned(0))).toEqual([0,0,0,0]);}finally{method.bodyInstructionBytesSha256=hash;}
 });
+
+
+it('releases the outer version buffer and returns the original query to DLL initialization',()=>{
+ const {owner}=fileVersionQueryFixture();owner.processDllFileVersionQuery();owner.processDllLanguageFree();owner.processDllLanguageReturn();owner.processDllVersionToken();owner.processDllVersionInteger();const result=owner.processDllVersionFree();expect(result).toEqual({known:false,reason:'Original SharedBase DLL separator logging pending at 1000840e'});const state=owner.snapshot(),stack=state.caseState!.stack!.snapshot();expect(stack.sharedDllInitializerFrame!.outputs.map(fields=>fields.readUnsigned(0))).toEqual([1,60,25931,29]);expect(stack.calls.find(row=>row.site==='100a15c1')!.returned).toBe(true);expect(state.memoryHeapSectionHeld).toBe(false);
+});
+
+
+it('releases both version slots while retaining parsed output and the pool region',()=>{
+ const {owner}=fileVersionQueryFixture();owner.processDllFileVersionQuery();const original=owner.snapshot(),originalStack=original.caseState!.stack!.snapshot(),outer=originalStack.sharedDllResourceFrame!.buffer!,inner=originalStack.sharedDllLanguageFrame!.buffer!,region=original.poolSlots.find(row=>row.fields===outer.fields)!.region,count=region.readUnsigned(8);owner.processDllLanguageFree();owner.processDllLanguageReturn();owner.processDllVersionToken();owner.processDllVersionInteger();owner.processDllVersionFree();const state=owner.snapshot();expect(region.readUnsigned(0x6f910)).toBe(0xffffffff);expect(region.readUnsigned(8)).toBe(count-2);expect(state.poolSlots.some(row=>row.fields===inner.fields||row.fields===outer.fields)).toBe(false);expect(state.poolRegions.includes(region)).toBe(true);expect(state.memoryHeapSectionHeld).toBe(false);const calls=state.caseState!.stack!.snapshot().calls.length;owner.processDllVersionFree();expect(owner.snapshot().caseState!.stack!.snapshot().calls).toHaveLength(calls);
+});
