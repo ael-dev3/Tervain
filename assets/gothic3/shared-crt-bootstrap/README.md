@@ -11,3 +11,5 @@ The formatter reads the SharedBase security cookie at `10140d6c`. Its cold value
 This is source evidence. No SharedBase CRT attach, heap, locks, dynamic PTD startup or formatter execution is claimed. The existing selected property diagnostic remains stopped at `100a7eff -> 100b5355`; live Game startup remains outside `__cinit`.
 
 Reproduce with `python tools/gothic3/prepare_shared_crt_bootstrap.py --study <offline-study-directory> --output <output-directory>` using the preserved original installation study.
+
+The local `NativeSharedCrtSecurityCookie` owner now implements the selected original cookie initializer with independent canonical SharedBase storage. It follows actual entropy providers, ignores the original performance-counter BOOL while requiring known output DWORDs, preserves the collision/high-word branches and complement writes, and retains failed prefixes without replay. Tests cover ordinary and warm calls, collision/zero adjustments, false counter results with written outputs, unknown counter outputs and missing providers. This helper is not yet connected to SharedBase DLL entry or the formatter call frame.
