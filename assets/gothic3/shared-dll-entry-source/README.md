@@ -32,8 +32,12 @@ heap calls. These bodies and dependencies still require runtime execution.
 ## Reproduce
 
 ```sh
-python tools/gothic3/prepare_shared_dll_entry_evidence.py --study "PATH_TO_STUDY" --output assets/gothic3/shared-dll-entry-source
+python tools/gothic3/prepare_shared_dll_entry_evidence.py --study "PATH_TO_STUDY" --output assets/gothic3/shared-dll-entry-source --runtime-output src/gothic3/native-shared-dll-entry-instructions.ts
 ```
 
 The generator checks the original SharedBase DLL SHA-256 before capture. A
 second independent output directory reproduced `source.json` byte for byte.
+
+The generated instruction table preserves all 497 body instructions and entry
+thunks. Four focused source checks and typechecking pass. Both generated
+outputs reproduce byte for byte. Runtime execution is still pending.

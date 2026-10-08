@@ -124,9 +124,34 @@ def capture(study, output):
     output.mkdir(parents=True, exist_ok=True)
     (output / 'source.json').write_text(json.dumps(result, indent=2) + '\n', encoding='utf-8', newline='\n')
 
+def emit_runtime(output, destination):
+    source = json.loads((output / 'source.json').read_text(encoding='utf-8'))
+    rows = {}
+    def retain(address, raw, instruction):
+        row = [address, raw, instruction]
+        if address in rows and rows[address] != row:
+            raise ValueError('Conflicting original instruction at ' + address)
+        rows[address] = row
+    for method in source['methods']:
+        for entry in method['entryChain']:
+            retain(entry['va'], entry['bytes'], 'JMP 0x' + entry['targetVA'])
+        for entry in method['instructions']:
+            retain(entry['va'], entry['bytes'], entry['instruction'])
+    destination.write_text('/** Captured original DLL entry syntax; execution requires runtime ownership. */\n'
+        + 'export interface SharedDllEntryInstruction {readonly address:string;readonly bytes:string;readonly instruction:string;}\n'
+        + 'const rows:readonly (readonly string[])[] = ' + json.dumps([rows[k] for k in sorted(rows)], indent=2) + ';\n'
+        + 'const instructions=new Map<string,SharedDllEntryInstruction>(rows.map(([address,bytes,instruction])=>\n'
+        + ' [address!,Object.freeze({address:address!,bytes:bytes!,instruction:instruction!})]));\n'
+        + 'export function sharedDllEntryInstruction(address:string):SharedDllEntryInstruction {\n'
+        + " const row=instructions.get(address);if(!row)throw new Error('Unowned SharedBase DLL entry instruction '+address);return row;\n}\n",
+        encoding='utf-8', newline='\n')
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--study', type=Path, required=True)
     parser.add_argument('--output', type=Path, required=True)
+    parser.add_argument('--runtime-output', type=Path)
     args = parser.parse_args()
     capture(args.study, args.output)
+    if args.runtime_output:
+        emit_runtime(args.output, args.runtime_output)
