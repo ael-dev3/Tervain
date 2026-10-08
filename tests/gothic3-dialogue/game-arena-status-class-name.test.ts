@@ -1,24 +1,14 @@
-import { describe, expect, it } from 'vitest';
+import { expect, it } from 'vitest';
 import type { NativeValue } from '../../src/gothic3/dialogue';
 import { NativeGameCrtOwner } from '../../src/gothic3/native-game-crt';
 import { NativeGameExitTable } from '../../src/gothic3/native-game-crt-exit-table';
 import { NativeGameArenaStatusClassName } from '../../src/gothic3/native-game-arena-status-class-name';
 import { NativeHeapObjectViews } from '../../src/gothic3/native-heap-views';
 import { NativeMemoryAdmin, nativeArenaHeapExtension, nativeSceneStartupHeapExtension } from '../../src/gothic3/native-memory-admin';
-import type { NativeMemoryBacking } from '../../src/gothic3/native-memory-admin';
 import { NativeRuntimePlatform } from '../../src/gothic3/native-runtime-platform';
-import { nativeGameTypeInfoForCrt } from '../../src/gothic3/native-crt-undname';
 
 const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
 function value<T>(result: NativeValue<T>): T { if (!result.known) throw new Error(result.reason); return result.value; }
-function text(backing: NativeMemoryBacking): string {
-  const fields = new NativeHeapObjectViews(backing), bytes: number[] = [];
-  for (let offset = 0; offset < fields.bytes.length; offset++) {
-    const byte = fields.readUnsigned(offset, 1); if (byte === 0) return String.fromCharCode(...bytes); bytes.push(byte);
-  }
-  throw new Error('NUL required');
-}
-
 function fixture(initializeExit = true, sourceMemory?:NativeMemoryAdmin) {
   const platform = new NativeRuntimePlatform({ engineCrtServices: {
     tlsValues: new Map<number, object>(), kernel32Available: true, pointerCodec: 'owned-bijection',
