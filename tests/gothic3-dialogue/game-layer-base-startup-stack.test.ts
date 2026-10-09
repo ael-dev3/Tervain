@@ -53,8 +53,8 @@ describe('original Game C++ class-name initializers on the retained browser stac
     expect({ next: f.game.attachProgress.nextBoundary,
       reason: f.game.attachProgress.setEnvpProgress!.boundary,
       callbacks: NativeGameExitTable.forCrt(f.game.crt).snapshot().callbackCells.length }).toEqual({
-        next: { address: '1008dddb', name: 'sourceCall', target: '100a7980' },
-        reason: 'Unowned original environment CALL at1008dddb: CALL 0x100a7980', callbacks: 157,
+        next: { address: '204b1db4', name: 'sourceCall', target: '204637ce' },
+        reason: 'Unowned original environment CALL at204b1db4: CALL 0x204637ce', callbacks: 157,
       });
     const arenaRoot=f.game.crt.imageStorage('arenaRootWrapper');
     const arenaVtable=arenaRoot.pointer(0).get() as NativeBytePointer;
@@ -74,19 +74,24 @@ describe('original Game C++ class-name initializers on the retained browser stac
     expect(f.stack.snapshot().calls.find(call=>call.site==='200705d2')).toMatchObject({returned:true,
       returnWord:{provenance:{kind:'source',type:'code',address:'200705d4'}}});
     expect(f.game.crt.imageStorage('arenaRootTypeVtable').readUnsigned(12)).toBe(0x2002adfb);
-    for(const site of ['1008d1a3','1008d1aa','1008d1b9','1008ddbb','1008ddc2'])
+    for(const site of ['1008d1a3','1008d1aa','1008d1b9','1008ddbb','1008ddc2','1008dddb','1008eb30','1008d257','200705d6','200705de','204b1daa'])
       expect(f.stack.snapshot().calls.find(call=>call.site===site)).toMatchObject({returned:true});
     const factory=NativeGameArenaType.forCrt(f.game.crt,f.memory).factory;
     const rootArray=factory.pointer(4).get() as NativeBytePointer;
     expect(rootArray.offset).toBe(0);
     expect(rootArray.fields.backing).toMatchObject({requestedBytes:36,capacity:40,freed:false});
-    expect(factory.readUnsigned(8)).toBe(0);
-    expect(factory.readUnsigned(12)).toBe(0);
+    expect(factory.readUnsigned(8)).toBe(1);
+    expect(factory.readUnsigned(12)).toBe(9);
+    const registeredRoot=rootArray.fields.pointer(0).get() as NativeBytePointer;
+    expect(registeredRoot.fields).toBe(arenaRoot);
+    expect(registeredRoot.offset).toBe(0);
+    expect(Array.from(rootArray.fields.bytes.subarray(4,36))).toEqual(Array(32).fill(0));
+    expect(Array.from(rootArray.fields.knownMask.subarray(4,36))).toEqual(Array(32).fill(255));
     const singleton=fact(NativePropertySingleton.forPlatform(f.platform,f.memory));
     expect(singleton.ranges.object.readUnsigned(4,1)).toBe(1);
     expect(singleton.ranges.object.pointer(8).get()).toBeNull();
     expect(f.stack.snapshot().calls.filter(call=>!call.returned).map(call=>call.site))
-      .toEqual(['204678f2','20466654','204b1daa','200705d6','1008d257','1008eb30']);
+      .toEqual(['204678f2','20466654']);
     const completed = gameClassNameFamilySpecs.filter(spec => spec.initializer >= '204b11b0' && spec.initializer < '204b1d70');
     expect(completed).toHaveLength(154);
     for (const spec of completed)

@@ -2708,7 +2708,7 @@ export class NativeX86ThreadStack {
   #offsetWord(word: NativeX86Word32, displacement: number): NativeX86Word32 {
     const p = this.#liveWord(word).provenance;
     if (!Number.isSafeInteger(displacement)) throw new Error('Exact signed owned pointer displacement required');
-    if(p?.kind==='shared-local'){this.#sharedLocalPhysical(p.fields);const offset=(p.offset??0)+displacement;if(offset<0||offset>p.fields.bytes.length)throw new Error('SharedBase local pointer exceeds storage');return this.#mint(0,0,{kind:'shared-local',fields:p.fields,offset});}
+    if(p?.kind==='shared-local'){this.#sharedLocalPhysical(p.fields);const offset=(p.offset??0)+displacement;if(offset<0||offset>p.fields.bytes.length)throw new Error('SharedBase local pointer exceeds storage');const allocation=this.#arenaAllocations.get(p.fields);return this.#mint(allocation?(allocation.allocation.offset+offset)&3:0,allocation?3:0,{kind:'shared-local',fields:p.fields,offset});}
     if (p?.kind === 'allocation') return this.#allocationWord(p.allocation, p.offset + displacement);
     if (p?.kind === 'module') return this.#moduleWord(p.label, p.offset + displacement);
     if (p?.kind === 'process') return this.#processWord(Object.freeze({ fields: p.pointer.fields, offset: p.pointer.offset + displacement }));
@@ -2879,7 +2879,9 @@ export class NativeX86ThreadStack {
       const fields=new NativeHeapObjectViews(result.value);
       this.#arenaAllocations.set(fields,{owner:memory.value,allocation:result.value});
       this.#sharedLocalPhysical(fields);
-      word=this.#mint(0,0,{kind:'shared-local',fields});
+      // VirtualAlloc's base is aligned; this audited pool's actual offset
+      // proves only the two alignment bits, never an absolute address.
+      word=this.#mint(result.value.offset&3,3,{kind:'shared-local',fields});
     }
     this.#store(this.#bank,this.#reg('EAX'),word);
     const returned=this.#ret(8), source=this.#record(returned).provenance;
@@ -3414,7 +3416,7 @@ export class NativeX86ThreadStack {
   }); }
   negate(controller: object, word: NativeX86Word32, width: Width = 4): NativeValue<NativeX86Word32> { return this.#run(controller, () => {
     const maximum = this.#maximum(width), r = this.#liveWord(word);
-    if (width === 4 && r.provenance && ['stack', 'allocation', 'module', 'process'].includes(r.provenance.kind)) { this.#flags(1, 0x41); return this.#mint(-r.value, r.mask, { kind: 'neg', word }); }
+    if (width === 4 && r.provenance && ['stack', 'allocation', 'module', 'process', 'shared-local'].includes(r.provenance.kind)) { this.#flags(1, 0x41); return this.#mint(-r.value, r.mask, { kind: 'neg', word }); }
     const value = this.#numeric(word, width), result = (-value & maximum) >>> 0;
     this.#arithmeticFlags(0, value, result, width, true); return this.#mint(result, maximum);
   }); }
@@ -3442,7 +3444,9 @@ export class NativeX86ThreadStack {
     if (width === 4 && memory.fields === this.#stack && p?.kind !== 'shared-local') { this.#store(memory.fields, memory.offset, word); return; }
     if (width === 4 && (p?.kind === 'platform' || p?.kind === 'allocation' || p?.kind === 'module' || p?.kind === 'process' || p?.kind === 'shared-local' || p?.kind === 'stack')) {
       this.#invalidateRange(memory.fields, memory.offset, 4); this.#store(memory.fields, memory.offset, word);
-      NativeHeapObjectViews.prototype.pointer.call(memory.fields, memory.offset).set(p.kind === 'platform' ? p.object : p.kind === 'module' ? this.#modulePointer(p) : p.kind==='shared-local'?Object.freeze({fields:p.fields,offset:p.offset??0}):p.kind==='stack'?Object.freeze({fields:this.#stack,offset:p.offset}):p.pointer);
+      const pointer=p.kind === 'platform' ? p.object : p.kind === 'module' ? this.#modulePointer(p) : p.kind==='shared-local'?Object.freeze({fields:p.fields,offset:p.offset??0}):p.kind==='stack'?Object.freeze({fields:this.#stack,offset:p.offset}):p.pointer;
+      NativeHeapObjectViews.prototype.pointer.call(memory.fields, memory.offset).set(pointer);
+      if(p.kind==='shared-local'||p.kind==='stack')this.#nativePointers.set(pointer,word);
       // The physical pointer capability store makes its numerical bits opaque.
       // Retain that owned store's expression with the same physical masks.
       if(record.mask!==0)this.#slots.get(memory.fields)!.set(memory.offset,Object.freeze({word:this.#mint(record.value,0,p),bytes:Object.freeze(Array.from(memory.fields.bytes.subarray(memory.offset,memory.offset+4))),masks:Object.freeze(Array.from(memory.fields.knownMask.subarray(memory.offset,memory.offset+4)))}));

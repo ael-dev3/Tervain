@@ -29,6 +29,7 @@ def capture(study):
         0x100035f8: 'factoryRootArrayReserve',
         0x10002aae: 'factoryRootMemoryAdminGetter',
         0x10004133: 'factoryRootMemoryAdminRealloc',
+        0x100a7980: 'factoryRootArrayMemset',
     })
     pe = PE((study / '00_Original_Runtime/Game.dll').read_bytes())
     images = []

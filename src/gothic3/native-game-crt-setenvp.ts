@@ -83,6 +83,7 @@ const bodies = Object.freeze([
   ['10090110','10090110-10090113'],
   ['1008eb10','1008eb10-1008eb96'],
   ['1008dd70','1008dd70-1008ddec'],
+  ['100a7980','100a7980-100a79fa'],
 ] as const);
 const ranges = new Map<string, readonly (readonly [number, number])[]>(bodies.map(([entry, text]) =>
   [entry, Object.freeze(text.split(';').map(range => Object.freeze(range.split('-').map(x => Number.parseInt(x, 16)) as [number, number]))) ]));
@@ -369,7 +370,7 @@ export class NativeGameCrtSetEnvp {
     const extent = ranges.get(this.#currentEntry), address = Number.parseInt(pc, 16);
     if (!extent?.some(([first, last]) => address >= first && address <= last) ||
         this.#currentEntry === '204677e4' && !callerRows.has(pc)) throw new Error('Unowned Game environment source frontier at' + pc);
-    const point = ['204b1d70','10089290','200705b0','2006f930','100891b0','10090010','2006d780','1008d190','10090110','1008eb10','1008dd70'].includes(this.#currentEntry) ? gameArenaRootInstruction(this.#currentEntry,pc)
+    const point = ['204b1d70','10089290','200705b0','2006f930','100891b0','10090010','2006d780','1008d190','10090110','1008eb10','1008dd70','100a7980'].includes(this.#currentEntry) ? gameArenaRootInstruction(this.#currentEntry,pc)
       : gameClassNameSpec(this.#currentEntry) ? gameClassNameFamilyInstruction(this.#currentEntry,pc)
       : this.#currentEntry === '2046bcff' ? gameArgvInstruction(pc)
       : ['204665f4', '204738b0', '20473830', '20473860', '20463917', '204638a7',
@@ -464,6 +465,21 @@ export class NativeGameCrtSetEnvp {
     fact(NativeX86ThreadStack.prototype.storeWidth.call(this.#stack, this.#controller, this.#address(destination.expression), word, bytes));
   }
   #call(point: NativeGameIoInstruction, target: Operand, returnPc: string): string {
+    if(point.va==='200705de') {
+      if(this.#currentEntry!=='200705b0' || target.kind!=='memory' || target.expression!=='0x207d86e8' || target.fs)
+        throw new Error('Original Arena post-registration IsRoot import required');
+      const body=gameArenaWrapperImportTarget('207d86e8');
+      fact(NativeX86ThreadStack.prototype.call.call(this.#stack,this.#controller,point.va,returnPc));
+      this.#frames.push(Object.freeze({entry:body,site:point.va,returnPc,previousEntry:this.#currentEntry}));
+      this.#currentEntry=body; this.#nextBoundary=null; return body;
+    }
+    if(point.va==='1008dddb') {
+      if(this.#currentEntry!=='1008dd70' || target.kind!=='immediate' || target.value!==0x100a7980)
+        throw new Error('Original Arena array memset call required');
+      fact(NativeX86ThreadStack.prototype.call.call(this.#stack,this.#controller,point.va,returnPc));
+      this.#frames.push(Object.freeze({entry:'100a7980',site:point.va,returnPc,previousEntry:this.#currentEntry}));
+      this.#currentEntry='100a7980'; this.#nextBoundary=null; return '100a7980';
+    }
     if(point.va==='1008ddc2') {
       if(this.#currentEntry!=='1008dd70' || target.kind!=='immediate' || target.value!==0x10004133)
         throw new Error('Original Arena reserve MemoryAdmin realloc call required');

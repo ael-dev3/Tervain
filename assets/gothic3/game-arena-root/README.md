@@ -1,9 +1,25 @@
 # Original Arena property-object startup evidence
 
-This source package captures 542 instructions from the matching Game and
+This source package captures 589 instructions from the matching Game and
 SharedBase binaries. The runtime admits the initializer's selected prefix and
 executes the original SharedBase wrapper constructor on the retained stack.
 The whole initializer has not returned.
+
+## Current execution boundary
+
+The original reserve and memset bodies return. A 36-byte request uses the
+canonical SharedBase MemoryAdmin's audited 40-byte pool. Only the actual pool
+offset's alignment bits are known; absolute pointer bits remain opaque.
+The original nine DWORD stores zero the requested span, and root insertion
+stores the retained wrapper pointer in slot zero. Factory count is one and
+capacity nine. RegisterPropertyObject, the final IsRoot query and wrapper
+initialization return through their original frames. The next call is
+`204b1db4 -> 204637ce`, registering root cleanup `20549970`.
+That callback registration and the parent initializer remain pending.
+
+Eleven focused checks across two files and typechecking pass. Complete campaign
+play, browser proof and deployment of this continuation remain unverified.
+The older boundaries below document preceding local prefixes.
 
 The startup table slot `2056c36c` contains `204b1d70`. Despite the decompiler's
 destructor label, its instructions construct the root wrapper at `207b5028`,

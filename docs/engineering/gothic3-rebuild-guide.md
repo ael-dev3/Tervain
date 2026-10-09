@@ -56,15 +56,17 @@ implementation and returns the actual same-platform owner through the retained
 CALL/RET frame. Its opaque identity becomes the original realloc receiver.
 The first NULL-old-buffer realloc now uses that actual owner and allocates the
 36-byte request from its audited 40-byte pool. The original pointer publication
-executes; startup stops at `1008dddb -> 100a7980`, before memset. The factory
-array has its allocation pointer, with count and capacity both zero;
-registration and the root initializer have not returned. Existing-buffer
+executes. The captured memset body zeroes nine DWORDs, reserve returns, and
+the insertion body stores the actual root-wrapper pointer in slot zero.
+Factory count is one and capacity nine. Registration, the final IsRoot query
+and wrapper initialization return. Startup stops at `204b1db4 -> 204637ce`,
+before registering root cleanup; the root initializer has not returned. Existing-buffer
 realloc is still unsupported in this bridge.
-The source package captures 542 instructions. All five startup-stack checks
+The source package captures 589 instructions. Eleven focused checks across two files
 and typechecking pass for this continuation; broader validation remains pending.
 The preceding MemoryAdmin-getter revision `e67f69e8` has a passing production
-build (43.94 seconds); its full suite remains running in a separate unchanged
-checkout. Those results do not validate this later realloc continuation.
+build (43.94 seconds) and all 3,185 tests across 294 files passed in 473.83
+seconds. Those results apply to that earlier revision.
 Full-suite, build, browser and deployment evidence for this continuation remain
 pending.
 
