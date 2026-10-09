@@ -8,8 +8,8 @@ describe('original SharedBase DLL entry evidence',()=>{
  it('retains every original body and thunk instruction without granting execution',()=>{
   expect(source.inputSha256).toBe('5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214');
   expect(source.verifiedAgainstOriginalPE).toBe(true);
-  expect(source.methods).toHaveLength(87);
-  expect(source.methods.reduce((n,m)=>n+m.instructions.length,0)).toBe(4954);
+  expect(source.methods).toHaveLength(88);
+  expect(source.methods.reduce((n,m)=>n+m.instructions.length,0)).toBe(5060);
   for(const method of source.methods){
    for(const row of method.instructions){const emitted=sharedDllEntryInstruction(row.va);expect(emitted).toEqual({address:row.va,bytes:row.bytes,instruction:row.instruction});expect(Object.isFrozen(emitted)).toBe(true);}
    for(const row of method.entryChain)expect(sharedDllEntryInstruction(row.va)).toEqual({address:row.va,bytes:row.bytes,instruction:'JMP 0x'+row.targetVA});

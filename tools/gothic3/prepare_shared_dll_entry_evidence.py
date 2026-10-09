@@ -2,12 +2,47 @@
 import argparse
 import hashlib
 import json
+import re
 import struct
 from pathlib import Path
 import read_dialogue_native_evidence as native
 from prepare_runtime_admin_source import image_bytes
 
 SHA = '5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214'
+
+def error_message_callback(study, pe, assembly_sha):
+    """The installed catalogue omits this target; verify its original closed range."""
+    assembly = (study / '01_Decompiled_Code/SharedBase_dll/full_disassembly.asm').read_bytes()
+    if hashlib.sha256(assembly).hexdigest() != assembly_sha:
+        raise ValueError('Original callback disassembly identity differs')
+    entry = pe.bytes(0x10002df6, 5)
+    if entry != bytes.fromhex('e995f70100'):
+        raise ValueError('Original ErrorAdmin callback thunk differs')
+    rows, cursor = [], 0x10022590
+    for line_number, line in enumerate(assembly.decode('utf-8').splitlines(), 1):
+        match = re.fullmatch(r'([0-9a-f]{8}) \| ([0-9a-f]+) \| (.+)', line)
+        if not match or not 0x10022590 <= int(match[1], 16) < 0x10022697:
+            continue
+        address, raw = int(match[1], 16), bytes.fromhex(match[2])
+        if address != cursor or pe.bytes(address, len(raw)) != raw:
+            raise ValueError('Original callback contiguous instruction bytes differ')
+        rows.append({'va': match[1], 'rva': f'{address-pe.base:x}', 'fileOffset': pe.offset(address),
+            'bytes': match[2], 'instruction': match[3], 'assemblyLine': line_number})
+        cursor += len(raw)
+    if cursor != 0x10022697 or len(rows) != 106 or rows[-1]['instruction'] != 'RET 0x1c':
+        raise ValueError('Original callback terminal boundary differs')
+    addresses = {row['va'] for row in rows}
+    for row in rows:
+        if row['instruction'].startswith('J'):
+            branch = re.fullmatch(r'J\w+ 0x([0-9a-f]{8})', row['instruction'])
+            if not branch or branch[1] not in addresses:
+                raise ValueError('Original callback direct branch leaves captured range')
+    return {'label': 'dllErrorMessageCallback', 'entryVA': '0x10002df6', 'bodyVA': '0x10022590',
+        'entryChain': [{'va': '10002df6', 'bytes': entry.hex(), 'targetVA': '10022590'}],
+        'bodyRanges': '10022590-10022696', 'instructions': rows,
+        'bodyInstructionBytesSha256': hashlib.sha256(b''.join(bytes.fromhex(row['bytes']) for row in rows)).hexdigest(),
+        'catalogueStatus': 'Target absent from functions.csv; verified contiguous original disassembly range',
+        'reconstructedC': {'status': 'unavailable; capture grants no execution'}}
 
 def version_resources(pe):
     resource_rva, resource_size = struct.unpack_from('<II', pe.data, pe.optional + 112)
@@ -127,6 +162,7 @@ def capture(study, output):
         0x10001db1:'dllErrorCreate',0x100032c4:'dllErrorInvalidate',0x10001c21:'dllMessageRemove',
     })
     pe = native.PE(binary)
+    result['methods'].append(error_message_callback(study, pe, result['assemblySha256']))
     export_rva, export_size = struct.unpack_from('<II', binary, pe.optional + 96)
     header = struct.unpack('<IIHHIIIIIII', pe.bytes(pe.base + export_rva, 40))
     _, _, _, _, _, ordinal_base, _, name_count, function_table, name_table, ordinal_table = header
