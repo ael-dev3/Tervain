@@ -11150,3 +11150,38 @@ repository-wide Actions audit showed no main run active, PR #178 merged at its
 validated head as `ca66c80107552bf6ab2f8221e88d2aa70f51e0c5`. That merge's Pages
 deployment is pending verification. No local runtime or imported source package
 was changed while the formatter's full suite was running.
+
+The formatter's full suite completed successfully: 3,030 tests across 278 files
+in 381.37 seconds at `abe33e51`.
+
+### 9 October 2026: version callbacks, final separator and direct DLL return
+
+Runtime revision `29e3d24e` dispatches the actual TLS version message, inserts the
+second ErrorAdmin record, frees its actual temporary formatting buffer and
+returns through the original SpyAdmin callback. ErrorAdmin's format image keeps
+its identity on later messages; each use checks the original bytes. This fixes
+replacement of an image already referenced by a pending native call.
+
+Main revision `3136ae2adc087107704643c0e4829cc4e6d70d56`, including Claude's
+prototype changes, is integrated at `354040c8`. A path comparison proves main's
+Gothic files match PR #178's validated head; conflict resolution preserves the
+local Gothic continuation while incorporating main's other changes. Dependency
+installation encountered a locked shared Rolldown module; local installation
+then succeeded without changing the lockfile. Four integrated focused checks,
+typechecking and byte-identical source reproduction pass.
+
+At `f6e9bbfe`, the original final separator logger and third callback cycle also
+complete. Three ring records remain, temporary allocations are retired, and all
+three MessageAdmin sections are released. The original initializer returns at
+`100a1607`; DLL entry executes `RET 0xc` at `100a164f`, restoring the direct
+caller's registers and stack and returning `1`. Cached entry queries preserve
+that result without replaying initialization. Damaged final separator frames
+are rejected before the third submission.
+
+Six focused checks across two files and typechecking pass. Full tests and the
+build are running for `f6e9bbfe`. The supported profile has no `zSpie.txt`; the
+present-file path still stops at an unsupported Winsock operation. The direct
+DLL ABI reaches `100adc91` without executing the surrounding CRT wrapper, and
+`wholeCrtTraversalCompleted` remains false. These continuations still have no
+production callers. Full engine startup and the browser campaign remain
+unfinished.

@@ -217,6 +217,14 @@ The preceding insertion checkpoint merged through
 `6562df265c7224aa863f0bac52eb11d9c4f4bcba` after successful validation.
 Its Pages deployment has not yet been verified for this record.
 
+Local revision `f6e9bbfe` executes the version formatter, both remaining callback
+cycles and the final separator, then returns `1` from the original direct
+SharedBase DLL entry. Six focused checks and typechecking pass; its full suite
+and build are running. This uses the supported virtual filesystem profile with
+no `zSpie.txt`. The direct DLL call does not execute the surrounding CRT wrapper.
+Production startup, live world activation, saves and campaign completion still
+need integration. The preceding formatter revision passed all 3,030 tests.
+
 - [Detailed workflow and reference paths](gothic3-rebuild-workflow.md)
 - [Architecture and implementation background](gothic3-rebuild-overview.md)
 - [Dated technical checkpoint history](gothic3-rebuilding-process.md)
