@@ -10918,7 +10918,7 @@ activation and a complete playable campaign remain unfinished.
 ## Original SpieAdmin callbacks and MessageAdmin shutdown registration (local work, 2026-10-09)
 
 PR #171 passed validation run 37870906965 and merged as
-`97b5cc081a9f70fc6ba886bc062ffd0ead61363e`. Pages run 37871431726 is in progress.
+`97b5cc081a9f70fc6ba886bc062ffd0ead61363e`. Pages run 37871431726 completed successfully.
 
 Local commit `ca961d7a` adds three continuations. The present-file path resumes
 `1004b226 -> 10007cac` with the original MessageAdmin receiver, SpieAdmin context,
@@ -10943,3 +10943,24 @@ The production build passed. All 3,011 tests across 278 files passed in 335.35
 seconds at commit ca961d7a. These methods
 still have no production callers; complete startup, world activation, connected
 campaign persistence and a finishable browser campaign remain unfinished.
+
+## Original MessageAdmin logger dispatch (local work, 2026-10-09)
+
+Local commit `58033ca8` resumes `1004980f -> 10005560` only with its original
+return word, MessageAdmin receiver, level, line number and null argument. Original
+submission compares the retained verbosity threshold, enters MessageAdmin's
+physical section at offset 4, and dispatches through original `10006ebf` /
+`10049490`. It reaches the stored ErrorAdmin callback `10002df6` at indirect call
+`100494db` with the original ErrorAdmin context. The MessageAdmin section remains
+entered at depth 1 while the callback is pending. Callback execution remains the
+next dependency; neither logger output nor callback completion is synthesized.
+
+The source package captures 87 bodies and 4,954 instructions. Independent
+regeneration matches JSON and emitted TypeScript byte for byte. Typechecking and
+three focused checks pass, including damaged-return rejection before entering
+the section and repeat-call rejection without replay. All 3,013 tests across 278
+files passed in 323.09 seconds at `58033ca8`; the production build passed at the
+same runtime revision. PR #172 passed validation run 37871922842 and merged as
+`6b0d904b33a1ac561aa77992b3c92ae2c280bce3`; deployment of that registration
+checkpoint is pending. These continuations have no production callers;
+complete startup, world activation and a finishable campaign remain unfinished.
