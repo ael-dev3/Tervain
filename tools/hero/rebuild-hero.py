@@ -11,6 +11,9 @@ texture layout. This writes public/models/hero/weathered-wanderer-hero-sealed.gl
 skeleton by transferring the A45 weights from the nearest point of its surface (facing the same way), the same weights on
 every copy of a seam vertex, one light smoothing pass, and the four strongest influences; with the A45 skeleton, clips,
 material and textures unchanged. Requires numpy; the result is deterministic.
+
+Superseded (A74): the sealed file now carries the Meshy 7.1 body from tools/hero/rework-hero.mjs. Running this restores
+the A69 content in its place.
 """
 from __future__ import annotations
 

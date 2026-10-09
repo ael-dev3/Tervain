@@ -255,5 +255,62 @@
     "assetPreparation": "Passed: approved source hash; exact decoded pixels for all three maps; byte-identical non-image buffer views; identical scene/mesh/skin/animation/material semantics; strict triangle budget and complete clip contract.",
     "gameIntegration": "Requires integrated typecheck/tests/build and running-game observations; not implied by asset preparation.",
     "publication": "No remote publication or CI was performed by this preparation script."
+  },
+  "currentRuntime": {
+    "change": "A74",
+    "date": "2026-10-09",
+    "note": "The game plays a new body for the same character; the record above describes the A37 model, retained for audit.",
+    "source": {
+      "service": "Meshy multi-image to 3D",
+      "model": "meshy-7.1",
+      "taskId": "01a120c8-22b6-72d4-8c60-2b2451b7edfd",
+      "generatedBy": "Ael's account under Meshy Pro, 9 October 2026",
+      "settings": "2k geometry resolution, 4k PBR textures, A-pose",
+      "inputs": "Front, side and back renders of the previous wanderer (the A69 sealed model) in his bind pose",
+      "filename": "hero-01a120c8.glb",
+      "bytes": 31298288,
+      "sha256": "04c507511c15e0db71ef87b24573a8969e18853ba2172d6dca65b9bc591886eb",
+      "triangles": 435562,
+      "vertices": 233001,
+      "inRepository": false,
+      "ledgerSourceId": "wanderer-meshy71"
+    },
+    "rig": {
+      "from": "public/models/hero/weathered-wanderer-animated-hero.glb (A45)",
+      "joints": 66,
+      "clips": [
+        "Running",
+        "Walking",
+        "Boxing_Practice",
+        "Casual_Walk",
+        "Dead",
+        "Run_03"
+      ],
+      "tracksPerClip": 132,
+      "unchanged": "nodes, joint names, hierarchy, inverse bind matrices and clips"
+    },
+    "runtime": {
+      "path": "public/models/hero/weathered-wanderer-hero-sealed.glb",
+      "bytes": 7739212,
+      "sha256": "b4deed22df825a77a1242bcd3bb3b4a0f3bd517949eccb7c73a408f293e0a4c8",
+      "triangles": 149974,
+      "triangleBudget": 150000,
+      "vertices": 87874,
+      "closedSurface": true,
+      "images": {
+        "baseColor": "WebP 2048 px, 575,514 B",
+        "normal": "JPEG 2048 px 4:4:4, 651,532 B",
+        "metallicRoughness": "JPEG 2048 px 4:4:4, roughness floor 0.7, 427,190 B"
+      },
+      "geometryCompression": "EXT_meshopt_compression, lossless (tools/optimise-models.mjs --geometry)"
+    },
+    "preparation": {
+      "tool": "node tools/hero/rework-hero.mjs <hero-01a120c8.glb>, then node tools/hero/record.mjs; deterministic",
+      "alignment": "Scale 0.99989 to 1.899 m, soles at world y 0, facing +z as delivered, slid 1.4 mm x / 3.5 mm z onto the previous body; surface gap to the previous body median 8.5 mm, 95th percentile 26.8 mm",
+      "jointFit": "Upper-arm cross-sections centre within 13 mm of the bones (previous body 9 mm); forearm and wrist sections 35-38 mm off the bone line (previous body 12-26 mm); the arm line differs from the previous body by about 4.5 degrees",
+      "simplification": "MeshoptSimplifier.simplifyWithAttributes, normals weighted 0.5, seams locked; 435,562 -> 150,000 triangles, error 0.024% of the extent (0.5 mm); 13 back-to-back folded pairs dropped -> 149,974",
+      "skinning": "Closest point on the A45 skinned surface in bind pose (faces turned away count from 3 cm further), barycentric interpolation of its corner weights, copies of one position share one set, two smoothing passes (0.3); hands from their finger chains by band across the hand and depth down it, the thumb as the piece that parts from the hand, 14 mm knuckle blends; skull held on the Head joint; four influences; dual-quaternion skinning at runtime"
+    },
+    "verification": "tsc, vitest and build pass; checked in the running game at Rillford (idle, close front, face, walking, running, sword drawn and attacking, bow drawn). Close up, a sword grip shows small creases and dark flecks between the fused fingers."
   }
 }

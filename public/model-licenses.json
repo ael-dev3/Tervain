@@ -4,16 +4,16 @@
   "auditedModelRevision": "dbb4e8e296e1f4aa5adca5e4b01d83ad98ea828b",
   "summary": {
     "publicModelFiles": 107,
-    "publicModelBytes": 157046884,
+    "publicModelBytes": 157740196,
     "archivedWarpkeepFiles": 209,
     "archivedWarpkeepBytes": 23676804,
     "hashesMatchedExistingSourceRecords": 316,
     "modelsWithEmbeddedCcDeclaration": 0,
-    "licenseClassification": "Meshy sources are classified by recorded evidence (A73, correcting A72, which had classified every Meshy source as Meshy Pro output). 19 sources the project generated through its own Meshy API calls, with task ids recorded (the 17 furniture pieces, the 17 resident rigs and the resident motion library), are paid-plan Customer Output (Meshy terms, Last Updated 19 September 2026, section 3.2). Many supplied models were downloaded from the Meshy Community and made by other creators; Community 3D models are CC0 1.0 and other Community content CC BY-NC 4.0 (section 3.3). 0 supplied sources currently have recorded Community evidence, and 54 supplied sources are unresolved: whether each was generated for the project or downloaded from the Community, and by whom, is not recorded. Commercial clearance is unsettled until the unresolved items are confirmed. The animated hero\u2019s Mixamo-named skeleton/animation content and the Warpkeep archive remain separately unresolved.",
+    "licenseClassification": "Meshy sources are classified by recorded evidence (A73, correcting A72, which had classified every Meshy source as Meshy Pro output). 20 sources the project generated through its own Meshy API calls, with task ids recorded (the 17 furniture pieces, the 17 resident rigs, the resident motion library and the wanderer\u2019s Meshy 7.1 body), are paid-plan Customer Output (Meshy terms, Last Updated 19 September 2026, section 3.2). Many supplied models were downloaded from the Meshy Community and made by other creators; Community 3D models are CC0 1.0 and other Community content CC BY-NC 4.0 (section 3.3). 0 supplied sources currently have recorded Community evidence, and 54 supplied sources are unresolved: whether each was generated for the project or downloaded from the Community, and by whom, is not recorded. Commercial clearance is unsettled until the unresolved items are confirmed. The animated hero\u2019s Mixamo-named skeleton/animation content and the Warpkeep archive remain separately unresolved.",
     "meshyProvenance": {
       "ael-generated-meshy-pro": {
-        "sources": 19,
-        "publicModelFiles": 18
+        "sources": 20,
+        "publicModelFiles": 19
       },
       "meshy-community-download": {
         "sources": 0,
@@ -21,7 +21,7 @@
       },
       "unresolved": {
         "sources": 54,
-        "publicModelFiles": 89
+        "publicModelFiles": 88
       }
     }
   },
@@ -110,7 +110,7 @@
         "terms": "Not determined. If the project generated it under Meshy Pro: Meshy terms (https://www.meshy.ai/terms-of-use, Last Updated 2026-09-19) section 3.2, paid-plan Customer Output. If it was downloaded from the Meshy Community: the 3D model is CC0 1.0 under section 3.3(a), and any other Community content used with it, such as images, is CC BY-NC 4.0 (attribution, non-commercial) under section 3.3(b); the creator should then be credited. If it came from a free-plan account: CC BY 4.0 with Meshy credit (section 3.2)."
       },
       "credit": "The Weathered Wanderer \u2014 owner-supplied Meshy source; prepared for Tervain. Animation/source rights remain separately recorded.",
-      "changes": "Blender reduction and consistent unit conversion retaining supplied textures, UVs, joints and clips; source includes Mixamo-named animation/skeleton content whose separate source rights are not independently established. The game draws a rebuilt copy (A69): the approved 49,500-triangle mesh of the same character, skinned to this rig by weight transfer, with these clips, material and textures, because this reduction opens into cracks when animated.",
+      "changes": "Blender reduction and consistent unit conversion retaining supplied textures, UVs, joints and clips; source includes Mixamo-named animation/skeleton content whose separate source rights are not independently established. Since A74 the game draws the Meshy 7.1 body (source wanderer-meshy71) skinned to this skeleton with these clips; from A69 until then it drew the approved 49,500-triangle mesh of the same character, because this reduction opens into cracks when animated.",
       "rightsBoundary": "Provenance unresolved: who generated this source, or whether it was downloaded from the Meshy Community, is not recorded. Its license is not determined and no clearance of any kind is recorded.",
       "separateRights": [
         {
@@ -1796,6 +1796,39 @@
         "evidence": "Generated through the project's own Meshy API calls (tools/meshy-rig/meshy.mjs, automatic rigging, 8 October 2026); each rig file records its rigging task id (ledger generatedRigs)."
       },
       "inputProvenance": "Each rig was generated from a supplied resident model; the rig follows the project's own Meshy Pro generation, but the input model keeps its own (unresolved) provenance, recorded under its npc-* source."
+    },
+    "wanderer-meshy71": {
+      "filename": "hero-01a120c8.glb (Meshy multi-image to 3D result, task 01a120c8-22b6-72d4-8c60-2b2451b7edfd)",
+      "sha256": "04c507511c15e0db71ef87b24573a8969e18853ba2172d6dca65b9bc591886eb",
+      "sourceRecord": "https://github.com/ael-dev3/Tervain/blob/main/docs/engineering/main-hero-assets.json",
+      "sourceAssetUrl": null,
+      "recordedSupplier": "Ael",
+      "creator": "Generated with Meshy (multi-image to 3D, meshy-7.1) on the owner's account",
+      "generationService": "Meshy",
+      "credit": "The Weathered Wanderer: Meshy 7.1 multi-image to 3D from renders of the previous wanderer, fitted to his rig for Tervain.",
+      "changes": "Scaled to 1.899 m, stood on the floor and centred on the previous body; reduced from 435,562 to 149,974 triangles with UV seams kept; skinned to the A45 skeleton by transferring its weights from the nearest surface, with hands skinned from their finger chains and the skull held on the head joint; textures reduced to 2048 px (colour WebP), roughness floored at 0.7 (tools/hero/rework-hero.mjs).",
+      "separateRights": [
+        {
+          "component": "A45 Mixamo-named skeleton and animation clips the shipped file carries (source wanderer-animated)",
+          "evidenceStatus": "pending-source-rights",
+          "note": "Recorded under wanderer-animated; not covered by this source's generation record."
+        }
+      ],
+      "provenance": {
+        "classification": "ael-generated-meshy-pro",
+        "evidence": "Generated by Ael's account under Meshy Pro on 9 October 2026: Meshy multi-image to 3D, model meshy-7.1 (2k geometry, 4k PBR textures, A-pose), task id 01a120c8-22b6-72d4-8c60-2b2451b7edfd; the source hash and how it was fitted to the rig are recorded in docs/engineering/main-hero-assets.json (tools/hero/rework-hero.mjs)."
+      },
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "meshy-paid-plan-output",
+        "plan": "Meshy Pro (paid)",
+        "confirmation": "Generated through the project's own Meshy API calls (task ids recorded); the owner confirmed on 9 October 2026 that the project's own Meshy generation used Meshy Pro.",
+        "confirmedAt": "2026-10-09",
+        "terms": "Meshy terms of use (https://www.meshy.ai/terms-of-use), Last Updated 2026-09-19, section 3.2: paid-plan Customer Output. See serviceRules."
+      },
+      "rightsBoundary": "Meshy paid-plan Customer Output generated by the project (Meshy terms section 3.2). This records the applicable terms branch; it is not a commercial-clearance certificate and does not clear the rights of any input model, third-party input, trademark, publicity or separately recorded rights.",
+      "inputProvenance": "Generated from front, side and back renders of the previous wanderer in his bind pose (the mesh drawn from A69, source wanderer-historical), which keeps its own (unresolved) provenance; the shipped file also carries the A45 skeleton and clips, recorded under wanderer-animated."
     }
   },
   "assets": [
@@ -8210,17 +8243,18 @@
     },
     {
       "file": "public/models/hero/weathered-wanderer-hero-sealed.glb",
-      "bytes": 7045900,
-      "sha256": "c9d4b87a7ba1f1586554fcae533cd606192f47d2648dc89ba8d279b10288e932",
+      "bytes": 7739212,
+      "sha256": "b4deed22df825a77a1242bcd3bb3b4a0f3bd517949eccb7c73a408f293e0a4c8",
       "embeddedCopyright": null,
       "embeddedCcDeclaration": false,
       "externalDependencies": [],
       "scope": "original-game-model-catalog",
-      "sourceId": "wanderer-animated",
+      "sourceId": "wanderer-meshy71",
       "license": {
         "spdx": null,
         "version": null,
-        "evidenceStatus": "unresolved-meshy-provenance"
+        "evidenceStatus": "meshy-paid-plan-output",
+        "plan": "Meshy Pro (paid)"
       },
       "modified": true
     },
