@@ -102,11 +102,16 @@ across four files pass, including changed/unknown later slots and a foreign PTD
 codec. The production build passes, and a production browser observed the
 actual continuation at `20466626`. All 3,087 tests across 284 files pass with
 a 30-second per-test allowance. The checkpoint is submitted in
-[PR #185](https://github.com/ael-dev3/Tervain/pull/185); it is still open.
+[PR #185](https://github.com/ael-dev3/Tervain/pull/185), merged as
+`773e5a907d5ea89dfe94e4a9413004fc80d4ac9d` after CI run `37888291714` passed.
+Its Pages run `37889214077` is still running; deployment is not yet verified.
 
-The next local work connects the original C initializer walker to the existing
-Game exit-table owner. That work is unvalidated and is excluded from the results
-above. The five non-null C initializers must execute in their original table
+Local revision `afc083df` connects the original C initializer walker to the existing
+Game exit-table owner and reaches the second callback, `20466452 -> 20469f3a`.
+All 60 focused checks pass, typechecking passes and both generated source files
+reproduce byte for byte. Its full suite is running; production build and browser
+verification remain pending. These results are separate from the pointer
+checkpoint above. The five non-null C initializers must execute in their original table
 order before startup can enter the C++ initializer table. Later world and NPC
 activation still require their own implementation and browser evidence.
 
