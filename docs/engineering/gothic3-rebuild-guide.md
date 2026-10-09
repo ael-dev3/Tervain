@@ -208,6 +208,19 @@ across five files (including riding), typechecking and a production build in
 28.79 seconds. The full-suite and browser observations above apply to the Gothic
 runtime preserved unchanged by this integration.
 
+The FILE continuation merged through [PR #190](https://github.com/ael-dev3/Tervain/pull/190)
+as `b2c6524392bcb60e8f6b307868a72bc8d87042ad` after successful CI run
+`37894880852`. Its Pages run `37895942991` was observed in progress.
+
+Further local revision `5481b8fa` registers the original static shutdown callback
+through the existing Game exit-table owner, preserving CALL/RET and source
+argument cleanup. It admits the full original C++ initializer table and traverses
+65 leading null entries to `20466654 -> 204b11b0`. The callback requires the
+gCLayerBase property-type factory, whose native behavior remains unfinished.
+All 53 focused checks across three files, typechecking and source regeneration
+pass; the production build passed in 40.69 seconds. Full-suite and production
+browser verification are pending. The hosted campaign is still unfinished.
+
 Independent review of PR #187 decoded all 9,147 buffer views in its 107 changed
 GLBs against the previous revision: geometry, images and semantic metadata
 matched, and all 107 runtime size/hash receipts matched the reviewed blobs.
