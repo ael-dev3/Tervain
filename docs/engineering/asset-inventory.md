@@ -141,7 +141,7 @@ The owner-supplied Meshy pine replaced all ordinary dark conifers, including the
 
 ## Current animated Wanderer (A45, 0.0.10; A69, 0.0.13)
 
-Since A69 the game plays the [sealed model](../../public/models/hero/weathered-wanderer-hero-sealed.glb): the approved 49,500-triangle A37 mesh, one closed piece, skinned to the A45 skeleton with its six clips, material and JPEG textures, because the A45 reduction opens into cracks when animated ([figures, crowns and timber](figures-crowns-timber-0.0.13.md)). The A45 reduction below is retained for audit.
+Since A69 the game plays the [sealed model](../../public/models/hero/weathered-wanderer-hero-sealed.glb), first the approved 49,500-triangle A37 mesh skinned to the A45 skeleton, because the A45 reduction opens into cracks when animated ([figures, crowns and timber](figures-crowns-timber-0.0.13.md)). Since A74 the same file carries a 149,974-triangle Meshy 7.1 body generated for the project from renders of that figure, on the same skeleton and clips ([main hero](main-hero.md)). The A45 reduction below is retained for audit.
 
 The owner-supplied All Animations GLB supersedes A37's runtime selection. The [A45 embedded model](../../public/models/hero/weathered-wanderer-animated-hero.glb) uses an under-100k reduction, 66-joint Mixamo skin and all six source clips. Original JPEG PBR payloads and authored curves are retained through a uniform 1.899 m normalization; no texture generation is part of this import. See [provenance](main-hero-animations-assets.json), [current hero record](main-hero.md) and [stride/integration evidence](main-hero-animations-0.0.10.md). The earlier 49,500-triangle binary/record remain historical audit assets and are not loaded by gameplay.
 
