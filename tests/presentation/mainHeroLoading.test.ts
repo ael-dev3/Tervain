@@ -9,6 +9,7 @@ vi.mock('three/examples/jsm/loaders/GLTFLoader.js', () => ({
   GLTFLoader: class {
     constructor() { loaderMock.construct(); }
     parseAsync(buffer: ArrayBuffer, path: string) { return loaderMock.parseAsync(buffer, path); }
+    setMeshoptDecoder() { return this; }
   },
 }));
 

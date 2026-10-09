@@ -197,6 +197,7 @@ export const EN: Record<string, string> = {
   'prompt.restock_arrows': 'Trade 1 hide for 6 arrows',
   'prompt.ride': 'Ride the saddled deer',
   'prompt.dismount': 'Dismount',
+  'prompt.dismount_door': 'Dismount to go in',
   'inspect.hunter_supplies': 'A bow rests on the table beside a knife and a bundle of arrows. A note reads: “Draw steadily. Aim for the head. Bring a hide back and take six more arrows.”',
   'board.hunting': 'HUNTER’S SUPPLIES: take the bow, skinning knife and arrows from Rowan’s table beside the inland trail. A hide buys six arrows. One arrow to the head or two to the body will bring an animal down.',
 
@@ -580,6 +581,8 @@ export const EN: Record<string, string> = {
   'set.quality.note': 'Changing quality reloads the valley (your position is kept).',
   'set.guidance': 'Show suggested next step',
   'set.fps': 'Show frame timing',
+  'set.framecap': 'Limit to 60 frames a second',
+  'set.framecap.desc': 'Keeps a fast display from working the graphics card harder than the game needs.',
   'set.barks': 'Show ambient remarks',
   'set.captions': 'Captions for important sounds',
   'set.controls': 'Input',

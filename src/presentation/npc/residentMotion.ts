@@ -4,6 +4,7 @@ import type { WorkGesture } from '../npcStyle';
 import { RESIDENT_JOINTS, type ResidentBones, type ResidentJoint, type ResidentRigData } from './residentRig';
 import type { ToolPoints } from './residentProps';
 import type { WorkSite } from './workSites';
+import { buildTurnClips, SIDES, TURN_STEP, TurnSteps, type Legs } from '../turnSteps';
 
 /**
  * The residents' motion (A65): authored clips from Meshy's animation library and Meshy's text-to-motion, all made on
@@ -344,6 +345,17 @@ const SEAT_CENTRE = -0.07;
 const CLIP_SEAT = 0.42, PERCH_PER_METRE = 2.4, PERCH_MOST = 0.32;
 
 const FADE = 0.35, FIGHT_FADE = 0.12, IDLE_TURN = 9;
+/**
+ * Turning on the spot (A71): faster than `stepped` radians a second a standing resident steps round with their turn clip
+ * (../turnSteps.ts), one cycle per `arc` radians turned; turned, they finish the cycle at `finish` of its own pace, and
+ * a lifted foot lands where it will stand `ahead` seconds of the turn later.
+ */
+/*
+ * Hands (A71): the residents' Meshy rigs are 24 joints ending at the wrists (LeftHand / RightHand), with no finger joints,
+ * so a resident's grip cannot be posed: fingers are skinned to the hand and move only with it. That is a hard limit of
+ * the shipped rigs, not something to fake by bending the hand; the hero's own rig has the finger chains (hero/bones.ts).
+ */
+export const RESIDENT_TURN = { stepped: 0.6, arc: 1.2, finish: 0.8, ahead: 0.2 } as const;
 const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
 const _v0 = new THREE.Vector3(), _v1 = new THREE.Vector3(), _v2 = new THREE.Vector3(), _v3 = new THREE.Vector3(), _m3 = new THREE.Matrix3();
 const _a = new THREE.Vector3(), _b = new THREE.Vector3(), _c = new THREE.Vector3(), _n = new THREE.Vector3();
@@ -472,6 +484,10 @@ export class ResidentMotion {
   private readonly tracks = new Map<RetargetedClip, ContactTrack>();
   /** The arm joints' clip pose before the last reach, restored before the next (A70). */
   private readonly reached: [ResidentJoint, THREE.Quaternion][] = [];
+  /** Turn clips and the feet they hold (A71); null when the walk lacks the legs, leaving the older stepping through it. */
+  private readonly steps: TurnSteps | null = null;
+  /** The turn's pace, eased, for where a lifted foot lands (radians a second). */
+  private turnRate = 0;
 
   constructor(private readonly scene: THREE.Group, private readonly body: THREE.Group, private readonly bones: ResidentBones,
     private readonly clips: ResidentClips, private readonly options: ResidentMotionOptions) {
@@ -479,7 +495,18 @@ export class ResidentMotion {
     this.armRest = new Map(ARM_JOINTS.map(joint => [joint, bones[joint].quaternion.clone()]));
     this.standingHips = bones.Hips.position.y;
     this.standingHipsZ = bones.Hips.position.z;
+    const walk = clips.get(MOTION_CLIPS.walk[options.build])?.clip;
+    const legs = Object.fromEntries(SIDES.map(side => [side, { upper: bones[`${side}UpLeg`], lower: bones[`${side}Leg`], foot: bones[`${side}Foot`] }])) as Legs;
+    const stand = new Map(SIDES.flatMap(side => [legs[side].upper, legs[side].lower, legs[side].foot]).map(bone => [bone, bone.quaternion.clone()] as const));
+    const turnClips = walk ? buildTurnClips(legs, stand, walk) : null;
+    if (turnClips) this.steps = new TurnSteps(legs, turnClips, stand);
   }
+
+  /** Whether a turn on the spot is stepped with the turn clips (A71) rather than with the walk. */
+  get stepsInPlace(): boolean { return this.steps !== null; }
+
+  /** The turn clips' contact state, for diagnostics and tests. */
+  get turnSteps(): TurnSteps | null { return this.steps; }
 
   /** The clip currently leading the pose, for diagnostics and the lab. */
   get leading(): string { return this.current; }
@@ -588,6 +615,7 @@ export class ResidentMotion {
     // The mixer writes a joint only when its clip value changes: give back the arms' clip pose before reaching anew (A70).
     for (const [joint, q] of this.reached) this.bones[joint].quaternion.copy(q);
     this.reached.length = 0;
+    this.steps?.restore();
     const step = Number.isFinite(dt) ? Math.min(Math.max(dt, 0), 0.25) : 0;
     this.clock += step;
     const mode = p.mode;
@@ -707,6 +735,19 @@ export class ResidentMotion {
     this.body.position.copy(shift);
     this.body.rotation.set(0, 0, 0);
     this.plantFeet(shift.y);
+    if (this.steps) {
+      // Turning where they stand, they step round: the turn clip's layer over the idle, the feet held (A71).
+      const standing = (mode === 'idle' || mode === 'talk') && !seated && this.transition === null && Math.abs(shift.y) < 1e-3;
+      const turn = Number.isFinite(p.turn) ? p.turn! : 0;
+      const turning = standing && step > 0 && Math.abs(turn) > RESIDENT_TURN.stepped * step;
+      // Eased, so a turn that ends does not move where a lifted foot is landing all at once.
+      this.turnRate += ((turning ? turn / step : 0) - this.turnRate) * -Math.expm1(-step * 10);
+      this.steps.update({
+        dt: step, lead: turning ? (turn > 0 ? 'Left' : 'Right') : null, release: !standing, hold: turning, settleBeyond: TURN_STEP.stay,
+        advance: Math.max(Math.abs(turn) / RESIDENT_TURN.arc, step / TURN_STEP.duration * RESIDENT_TURN.finish),
+        anticipate: this.turnRate * RESIDENT_TURN.ahead, pivot: (this.body.parent ?? this.body).getWorldPosition(_v0),
+      });
+    }
     if (mode === 'work' && leading && p.workSite && this.options.contacts) this.reachSite(p, p.workGesture ?? 'general', p.workSite, leading);
     this.wasSeated = seated && this.transition?.name !== MOTION_CLIPS.sitUp;
     this.lastMode = mode;

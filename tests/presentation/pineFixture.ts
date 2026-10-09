@@ -1,5 +1,6 @@
 import { readFileSync } from 'node:fs';
-import { GLTFLoader, type GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { createGltfLoader } from '../../src/presentation/assets/gltfLoader';
 import { PINE_FILES, type PineTemplates } from '../../src/presentation/solitaryPine';
 
 export function pineBinary(file: string) {
@@ -23,7 +24,7 @@ async function withoutImages(file: string): Promise<GLTF> {
   decoded.writeUInt32LE(0x46546c67, 0); decoded.writeUInt32LE(2, 4); decoded.writeUInt32LE(decoded.length, 8);
   decoded.writeUInt32LE(padded, 12); decoded.writeUInt32LE(0x4e4f534a, 16);
   decoded.fill(0x20, 20, 20 + padded); serialized.copy(decoded, 20); bin.copy(decoded, 20 + padded);
-  return new GLTFLoader().parseAsync(decoded.buffer.slice(decoded.byteOffset, decoded.byteOffset + decoded.byteLength) as ArrayBuffer, '');
+  return createGltfLoader().parseAsync(decoded.buffer.slice(decoded.byteOffset, decoded.byteOffset + decoded.byteLength) as ArrayBuffer, '');
 }
 
 export async function pineTemplates(): Promise<PineTemplates> {

@@ -3,6 +3,7 @@ import type { Collider, Colliders } from '../world/colliders';
 import type { Terrain } from '../world/terrain';
 import { BUILDINGS, LIGHTHOUSE, PLACES } from '../world/layout';
 import { CAMERA_CLEARANCE, cameraColliderEntry } from './cameraObstruction';
+import { RIDE_CAMERA } from './riding';
 
 const MAX_RECOIL = 0.04;
 
@@ -30,6 +31,12 @@ export class CameraRig {
   private followPivot = new THREE.Vector3();
   private aiming = false;
   get isAiming() { return this.aiming; }
+  /** In the saddle the camera rides further back and higher (A71); `rideBlend` eases 0 afoot .. 1 mounted. */
+  mounted = false;
+  rideBlend = 0;
+  /** The boom length and pivot height actually used by the last follow, for checks. */
+  lastBoom = 0;
+  lastPivotLift = 0;
   private titleAngle = 0;
   private initialized = false;
   private waterSide: 'above' | 'under' | null = null;
@@ -85,7 +92,12 @@ export class CameraRig {
       this.camera.lookAt(this.manual.look);
       return;
     }
-    this.target.set(px, py + heightOffset, pz);
+    const rideTarget = this.mounted ? 1 : 0;
+    this.rideBlend = !this.initialized || reducedMotion ? rideTarget
+      : this.rideBlend + (rideTarget - this.rideBlend) * (1 - Math.exp(-Math.max(0, dt) * RIDE_CAMERA.rate));
+    const lift = RIDE_CAMERA.up * this.rideBlend;
+    this.lastPivotLift = heightOffset + lift;
+    this.target.set(px, py + heightOffset + lift, pz);
     const k = reducedMotion ? 1 : 1 - Math.exp(-Math.max(0, dt) * 18);
     if (!this.initialized || this.smoothTarget.distanceToSquared(this.target) > 100) {
       this.smoothTarget.copy(this.target);
@@ -101,7 +113,8 @@ export class CameraRig {
     const dirX = -Math.sin(this.yaw) * cp;
     const dirY = Math.sin(this.pitch);
     const dirZ = -Math.cos(this.yaw) * cp;
-    const boomDistance = this.aiming ? 2.8 : this.wantDist;
+    const boomDistance = (this.aiming ? 2.8 : this.wantDist) + RIDE_CAMERA.back * this.rideBlend;
+    this.lastBoom = boomDistance;
     const aimOffset = this.aiming ? 0.42 : 0;
     this.followPivot.copy(this.smoothTarget);
     const candidates = colliders.near(px, pz, boomDistance + aimOffset + CAMERA_CLEARANCE + MAX_RECOIL);

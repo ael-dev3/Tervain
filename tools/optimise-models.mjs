@@ -1,16 +1,20 @@
 #!/usr/bin/env node
 /**
- * Shrink the embedded textures of every GLB under public/models, in place (backlog 4: a smaller first download).
+ * Shrink the embedded textures and geometry of every GLB under public/models, in place (backlog 4: a smaller first download).
  *
  *   node tools/optimise-models.mjs              optimise every model, then run `node tools/model-files.mjs`
  *   node tools/optimise-models.mjs --dry        report what would change, write nothing
  *   node tools/optimise-models.mjs npcs/fisher.glb animals
  *                                              only these files or folders (paths under public/models)
  *
- * Only image bytes change. The GLB is edited surgically: the JSON keeps every node, mesh, accessor, skin, animation,
- * material, extension and extra as it was, and every non-image buffer view keeps its index and exact bytes (only its
- * offset moves), so geometry receipts and skin/animation data stay byte-identical. No Draco or meshopt: the game's
- * loaders carry no decoders.
+ *   node tools/optimise-models.mjs --images     only the image step;  --geometry  only the geometry step (no sharp)
+ *
+ * The GLB is edited surgically: the JSON keeps every node, mesh, accessor, skin, animation, material, extension and
+ * extra as it was, and every buffer view keeps its index. Images are re-encoded (below). Geometry (vertex attributes,
+ * indices, skins, animation) is compressed losslessly with EXT_meshopt_compression: no quantisation and no filters,
+ * every encoding decoded again with three's MeshoptDecoder and compared byte for byte before it is kept, so the loaded
+ * geometry, skin and animation data stay byte-identical. Every GLTFLoader for these models must therefore be made with
+ * createGltfLoader() (src/presentation/assets/gltfLoader.ts), which carries the decoder. No Draco.
  *
  * - Each texture is capped to a longest side chosen by folder and role (CAPS below), never enlarged.
  * - Colour and emissive maps become WebP (EXT_texture_webp, required; decoded natively by three's GLTFLoader). Alpha
@@ -23,17 +27,21 @@
  *
  * The original exports remain in git history. Afterwards run `node tools/model-files.mjs` and update the asset
  * receipts that pin model hashes (public/model-licenses.json, docs/engineering/*-assets.json, model manifests).
- * Needs the devDependency sharp.
+ * The image step needs the devDependency sharp; the geometry step uses meshoptimizer.
  */
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import sharp from 'sharp';
+import { MeshoptEncoder } from 'meshoptimizer';
+import { MeshoptDecoder } from 'three/examples/jsm/libs/meshopt_decoder.module.js';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const models = path.join(root, 'public', 'models');
 const args = process.argv.slice(2);
 const dry = args.includes('--dry');
+const imagesOnly = args.includes('--images'), geometryOnly = args.includes('--geometry');
+/** sharp loads only for the image step, so geometry-only runs work without it. */
+const sharp = geometryOnly ? null : (await import('sharp')).default;
 const only = args.filter((arg) => !arg.startsWith('--')).map((arg) => arg.replace(/\\/g, '/').replace(/^\/+|\/+$/g, ''));
 
 /** Longest side by folder prefix and role. First matching prefix wins. */
@@ -52,6 +60,9 @@ const CAPS = [
 const WEBP = { quality: 86, alphaQuality: 100, effort: 6, smartSubsample: true, exact: true };
 const JPEG = { quality: 90, chromaSubsampling: '4:4:4', mozjpeg: true };
 const WEBP_EXT = 'EXT_texture_webp';
+const MESHOPT_EXT = 'EXT_meshopt_compression';
+await MeshoptEncoder.ready;
+await MeshoptDecoder.ready;
 
 function walk(dir) {
   return fs.readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
@@ -131,8 +142,29 @@ async function encode(input, mime, cap, role) {
   return { output, target, note: `${role} ${mime.split('/')[1]} ${meta.width}x${meta.height} -> ${target.split('/')[1]}${over ? ` ${cap}` : ''}` };
 }
 
-async function optimise(bytes, caps) {
-  const { json, bin } = readGlb(bytes);
+/**
+ * Rebuild the binary chunk in buffer-view order: `replaced` views get new bytes, every other view keeps its exact bytes.
+ * A view already meshopt-compressed keeps its payload, which moves with it.
+ */
+function repack(json, bin, replaced) {
+  const parts = [];
+  let at = 0;
+  for (const [index, view] of json.bufferViews.entries()) {
+    const meshopt = view.extensions?.[MESHOPT_EXT];
+    const target = (view.buffer ?? 0) === 0 ? view : meshopt && (meshopt.buffer ?? 0) === 0 ? meshopt : null;
+    if (!target) continue;
+    const data = replaced.get(index) ?? bin.subarray(target.byteOffset ?? 0, (target.byteOffset ?? 0) + target.byteLength);
+    const pad = (4 - (at % 4)) % 4;
+    if (pad) { parts.push(Buffer.alloc(pad)); at += pad; }
+    target.byteOffset = at; target.byteLength = data.length;
+    parts.push(data); at += data.length;
+  }
+  const out = Buffer.concat(parts);
+  json.buffers[0].byteLength = out.length;
+  return out;
+}
+
+async function optimiseImages(json, bin, caps) {
   const roles = imageRoles(json), replaced = new Map(), notes = [];
   for (const [index, image] of (json.images ?? []).entries()) {
     if (image.uri !== undefined || image.bufferView === undefined || !roles.has(index)) continue;
@@ -147,18 +179,7 @@ async function optimise(bytes, caps) {
     notes.push(result.note);
   }
   if (!replaced.size) return null;
-  // Rebuild the binary chunk in buffer-view order; untouched views keep their exact bytes.
-  const parts = [];
-  let at = 0;
-  for (const [index, view] of json.bufferViews.entries()) {
-    const data = replaced.get(index) ?? bin.subarray(view.byteOffset ?? 0, (view.byteOffset ?? 0) + view.byteLength);
-    const pad = (4 - (at % 4)) % 4;
-    if (pad) { parts.push(Buffer.alloc(pad)); at += pad; }
-    view.byteOffset = at; view.byteLength = data.length;
-    parts.push(data); at += data.length;
-  }
-  const newBin = Buffer.concat(parts);
-  json.buffers[0].byteLength = newBin.length;
+  const newBin = repack(json, bin, replaced);
   // Point WebP textures at their image through EXT_texture_webp, which is then required.
   let webp = false;
   for (const texture of json.textures ?? []) {
@@ -172,7 +193,98 @@ async function optimise(bytes, caps) {
     json.extensionsUsed = [...new Set([...(json.extensionsUsed ?? []), WEBP_EXT])];
     json.extensionsRequired = [...new Set([...(json.extensionsRequired ?? []), WEBP_EXT])];
   }
-  return { out: writeGlb(json, newBin), notes };
+  return { bin: newBin, notes };
+}
+
+const COMPONENT_BYTES = { 5120: 1, 5121: 1, 5122: 2, 5123: 2, 5125: 4, 5126: 4 };
+const TYPE_COMPONENTS = { SCALAR: 1, VEC2: 2, VEC3: 3, VEC4: 4, MAT2: 4, MAT3: 9, MAT4: 16 };
+
+/** Decode one meshopt payload with the decoder the game ships, to prove the encoding lossless. */
+function decodes(encoded, count, stride, mode, original) {
+  const target = new Uint8Array(count * stride);
+  MeshoptDecoder.decodeGltfBuffer(target, count, stride, encoded, mode);
+  return Buffer.compare(Buffer.from(target.buffer, target.byteOffset, target.byteLength), original) === 0;
+}
+
+/**
+ * Losslessly compress every geometry buffer view (vertex attributes, indices, skins, animation) with
+ * EXT_meshopt_compression: no quantisation and no filters, so the decoded bytes equal the originals exactly. Each
+ * encoding is decoded again and compared before it is kept. Compressed views move to a fallback buffer without data
+ * (as gltfpack writes them); images and views no accessor reads stay raw in the GLB's binary chunk.
+ */
+function compressGeometry(json, bin) {
+  if ((json.extensionsUsed ?? []).includes(MESHOPT_EXT) || !json.bufferViews?.length || (json.buffers?.length ?? 0) !== 1) return null;
+  const users = new Map(), indexViews = new Map();
+  for (const accessor of json.accessors ?? []) {
+    if (accessor.sparse) return null;
+    if (accessor.bufferView === undefined) continue;
+    if (!users.has(accessor.bufferView)) users.set(accessor.bufferView, []);
+    users.get(accessor.bufferView).push(COMPONENT_BYTES[accessor.componentType] * TYPE_COMPONENTS[accessor.type]);
+  }
+  for (const mesh of json.meshes ?? []) for (const primitive of mesh.primitives ?? []) {
+    if (primitive.indices === undefined) continue;
+    const view = json.accessors[primitive.indices].bufferView;
+    indexViews.set(view, (indexViews.get(view) ?? true) && (primitive.mode ?? 4) === 4);
+  }
+  const replaced = new Map(), compressed = new Map();
+  let before = 0, after = 0;
+  for (const [index, sizes] of users) {
+    const view = json.bufferViews[index];
+    if ((view.buffer ?? 0) !== 0) continue;
+    const data = bin.subarray(view.byteOffset ?? 0, (view.byteOffset ?? 0) + view.byteLength);
+    let mode, stride;
+    if (indexViews.has(index)) {
+      stride = sizes[0];
+      if (!sizes.every((s) => s === stride) || (stride !== 2 && stride !== 4) || data.length % stride) continue;
+      mode = indexViews.get(index) && (data.length / stride) % 3 === 0 ? 'TRIANGLES' : 'INDICES';
+    } else {
+      mode = 'ATTRIBUTES';
+      stride = view.byteStride ?? (sizes.every((s) => s === sizes[0]) ? sizes[0] : 4);
+      if (stride % 4 || stride > 256 || data.length % stride) stride = 4;
+      if (data.length % stride) continue;
+    }
+    const count = data.length / stride;
+    let encoded = MeshoptEncoder.encodeGltfBuffer(new Uint8Array(data), count, stride, mode);
+    if (mode === 'TRIANGLES' && !decodes(encoded, count, stride, mode, data)) {
+      // The triangle codec may rotate a triangle's corners; the sequence codec keeps every index in place.
+      mode = 'INDICES';
+      encoded = MeshoptEncoder.encodeGltfBuffer(new Uint8Array(data), count, stride, mode);
+    }
+    if (!decodes(encoded, count, stride, mode, data)) throw new Error(`buffer view ${index}: meshopt round trip differs`);
+    if (encoded.length >= data.length) continue;
+    replaced.set(index, Buffer.from(encoded));
+    compressed.set(index, { mode, stride, count, byteLength: data.length });
+    before += data.length; after += encoded.length;
+  }
+  if (!replaced.size) return null;
+  const newBin = repack(json, bin, replaced);
+  // Each compressed view keeps its decoded layout in a fallback buffer that holds no bytes of its own.
+  let fallback = 0;
+  for (const [index, info] of compressed) {
+    const view = json.bufferViews[index];
+    fallback = Math.ceil(fallback / 4) * 4;
+    view.extensions = { ...view.extensions, [MESHOPT_EXT]: { buffer: 0, byteOffset: view.byteOffset, byteLength: view.byteLength, byteStride: info.stride, count: info.count, mode: info.mode } };
+    view.buffer = 1; view.byteOffset = fallback; view.byteLength = info.byteLength;
+    fallback += info.byteLength;
+  }
+  json.buffers.push({ byteLength: fallback, extensions: { [MESHOPT_EXT]: { fallback: true } } });
+  json.extensionsUsed = [...new Set([...(json.extensionsUsed ?? []), MESHOPT_EXT])];
+  json.extensionsRequired = [...new Set([...(json.extensionsRequired ?? []), MESHOPT_EXT])];
+  return { bin: newBin, note: `geometry ${(before / 1e6).toFixed(2)} -> ${(after / 1e6).toFixed(2)} MB meshopt` };
+}
+
+async function optimise(bytes, caps) {
+  let { json, bin } = readGlb(bytes);
+  const notes = [];
+  if (!geometryOnly) {
+    const images = await optimiseImages(json, bin, caps);
+    if (images) { bin = images.bin; notes.push(...images.notes); }
+  }
+  if (!imagesOnly) {
+    const geometry = compressGeometry(json, bin);
+    if (geometry) { bin = geometry.bin; notes.push(geometry.note); }
+  }
+  return notes.length ? { out: writeGlb(json, bin), notes } : null;
 }
 
 const files = walk(models).filter((file) => {

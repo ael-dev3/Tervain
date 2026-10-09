@@ -1,5 +1,6 @@
 import * as THREE from 'three';
-import { GLTFLoader, type GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { createGltfLoader } from './assets/gltfLoader';
 import { clone as cloneSkinned } from 'three/examples/jsm/utils/SkeletonUtils.js';
 import { NPCS } from '../content/npcs';
 import type { NpcId } from '../game/types';
@@ -755,7 +756,7 @@ function loadResidentMotionLibrary(file: MeshyNpcFile | undefined): Promise<Resi
   if (!file) return Promise.resolve(null);
   if (!libraryRequest) {
     libraryRequest = fetchChecked(file)
-      .then(buffer => new GLTFLoader().parseAsync(buffer, new URL('.', meshyNpcUrl(file.file)).href))
+      .then(buffer => createGltfLoader().parseAsync(buffer, new URL('.', meshyNpcUrl(file.file)).href))
       .then(gltf => residentMotionLibrary(gltf))
       .catch(error => { console.warn('Residents keep their procedural poser:', error); libraryRequest = null; return null; });
   }
@@ -816,7 +817,7 @@ export function loadMeshyNpcCatalog(progress?: ModelLoadProgress, requiredRoles:
               if (buffer.byteLength < 20) throw new Error(`Resident ${id} download is incomplete.`);
               const header = new DataView(buffer);
               if (header.getUint32(0, true) !== 0x46546c67 || header.getUint32(4, true) !== 2 || header.getUint32(8, true) !== buffer.byteLength) throw new Error(`Resident ${id} is not a complete GLB 2 file.`);
-              const asset = await new GLTFLoader().parseAsync(buffer, new URL('.', url).href);
+              const asset = await createGltfLoader().parseAsync(buffer, new URL('.', url).href);
               validateMeshyNpcAsset(asset, entry);
               return asset;
             }).catch(error => { templates.delete(key); throw error; });

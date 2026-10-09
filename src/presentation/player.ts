@@ -15,6 +15,7 @@ import { createPlayerRig, poseRig, setArmed, setSash, applyFlash, type Mode, typ
 import { EnemyActor, NpcActor, lerpAngle } from './actors';
 import { HERO_WALK_SPEED, HERO_RUN_SPEED, HERO_GUARD_SPEED, HERO_WALK_CYCLE, HERO_RUN_CYCLE, HERO_RUN_THRESHOLD } from './hero/locomotion';
 import { PlayerHuntingVisual } from './playerHunting';
+import { deerBodyBlocked, gaitBob, MOUNT_SIDE, MOUNT_STAMINA, MOUNT_TIMES, mountStaminaStep, RIDE, steerMount } from './riding';
 
 export type PlayerState = 'free' | 'light' | 'heavy' | 'dodge' | 'hurt' | 'channel' | 'dead';
 
@@ -23,7 +24,22 @@ export const STAMINA_MAX = 100;
 const SPRINT_STAMINA_PER_SECOND = 0.75;
 const SPRINT_MIN_STAMINA = 0.5;
 /** The saddled deer's walk and run under a rider (m/s), A70. */
-export const MOUNT_WALK = 2.1, MOUNT_RUN = 6.2;
+export const MOUNT_WALK = RIDE.walk, MOUNT_RUN = RIDE.run;
+
+/** Getting onto or off the deer (A71): walking to its side, swinging up into the saddle, or stepping down beside it. */
+export interface MountMove {
+  kind: 'approach' | 'swing' | 'descend';
+  t: number;
+  id: string;
+  seat: number;
+  /** Where the deer stands, held there for the whole move. */
+  deer: { x: number; y: number; z: number; yaw: number };
+  /** The clear spot at its side the hero gets up from or down to. */
+  side: { x: number; z: number };
+  /** Where this phase began. */
+  from: { x: number; z: number; yaw: number };
+  stuck: number;
+}
 const COST = { light: 12, heavy: 30, dodge: 22, jump: 6, blockHit: 18 };
 const DUR = { light: 0.62, heavy: 1.05, dodge: 0.4, hurt: 0.38 };
 /** Portion of the action after which the blow lands. */
@@ -163,6 +179,21 @@ export class Player {
   /** Riding the saddled deer (A70): which animal, how high its saddle sits, and its walking and running pace. */
   mount: { id: string; seat: number } | null = null;
   private mountBob = 0;
+  /** Getting up or down (A71): input is locked until it ends; null while seated or afoot. */
+  mountMove: MountMove | null = null;
+  /** The deer's own gallop stamina, and whether it is spent until it has recovered (A71). */
+  mountStamina: number = MOUNT_STAMINA.max;
+  mountSpent = false;
+  galloping = false;
+  /** The deer's speed along its facing (negative backing up) and turn rate (rad/s) (A71). */
+  rideSpeed = 0;
+  rideTurn = 0;
+  private lean = 0;
+  /** The ridden deer's gait phase (0..1 over a stride), from its animation; null uses speed alone. */
+  private gaitPhase: number | null = null;
+  /** How high above his feet the hips' root rides this frame: the saddle, its bob, or the arc up to it. */
+  seatHeight = 0;
+  get leanAngle() { return this.lean; }
   private soaked = 0;
   private wakeClock = 0;
   private strokeClock = 0;
@@ -280,14 +311,137 @@ export class Player {
   mountUp(id: string, seat: number, x: number, y: number, z: number, yaw: number) {
     this.cancelSkinning();
     this.mount = { id, seat };
+    this.mountMove = null;
+    this.rideSpeed = this.rideTurn = 0;
     this.x = x; this.y = y; this.z = z; this.yaw = yaw; this.poseYaw = yaw;
     this.vx = this.vz = this.vy = 0; this.grounded = true; this.blocking = false;
   }
 
+  /** The ridden deer's gait phase from its animation, so the saddle rises with its footfalls (A71). */
+  setMountGait(phase: number | null) { this.gaitPhase = phase !== null && Number.isFinite(phase) ? phase : null; }
+
+  /**
+   * Begin getting onto the deer standing at `deer` (A71): walk to a clear spot at its side (the nearer clear one), then
+   * swing up over MOUNT_TIMES.swing. Returns false when neither side is clear or he cannot start now.
+   */
+  beginMount(id: string, seat: number, deer: { x: number; y: number; z: number; yaw: number }, ctx: Pick<PlayerCtx, 'colliders'>): boolean {
+    if (this.mount || this.mountMove || !this.alive || this.state !== 'free' || this.swimming) return false;
+    const bounds = { minY: deer.y + PLAYER_FOOT_CLEARANCE, maxY: deer.y + PLAYER_BODY_HEIGHT };
+    const sides = [1, -1].map((s) => ({ x: deer.x + Math.cos(deer.yaw) * MOUNT_SIDE * s, z: deer.z - Math.sin(deer.yaw) * MOUNT_SIDE * s }))
+      .filter((p) => !ctx.colliders.blocked(p.x, p.z, PLAYER_RADIUS, bounds))
+      .sort((a, b) => Math.hypot(a.x - this.x, a.z - this.z) - Math.hypot(b.x - this.x, b.z - this.z));
+    const side = sides[0];
+    if (!side) return false;
+    this.cancelSkinning();
+    this.blocking = false;
+    const near = Math.hypot(side.x - this.x, side.z - this.z) < 0.08;
+    this.mountMove = { kind: near ? 'swing' : 'approach', t: 0, id, seat, deer: { ...deer }, side, from: { x: this.x, z: this.z, yaw: this.yaw }, stuck: 0 };
+    return true;
+  }
+
+  /** Begin stepping down beside the deer (A71); in deep water or with no clear side he is put down at once. */
+  beginDismount(ctx: Pick<PlayerCtx, 'terrain' | 'colliders' | 'water'>): boolean {
+    if (!this.mount || this.mountMove) return false;
+    const spot = this.dismountSpot(ctx);
+    if (!spot) { this.dismount(ctx); return false; }
+    this.mountMove = { kind: 'descend', t: 0, id: this.mount.id, seat: this.mount.seat, deer: { x: this.x, y: this.y, z: this.z, yaw: this.yaw },
+      side: spot, from: { x: this.x, z: this.z, yaw: this.yaw }, stuck: 0 };
+    this.mount = null;
+    this.rideSpeed = this.rideTurn = 0;
+    this.vx = this.vz = 0;
+    return true;
+  }
+
+  /** Stop getting up or down where it is safe (A71): back where he stood before swinging up, or already beside the deer. */
+  cancelMount(ctx: Pick<PlayerCtx, 'terrain'>) {
+    const m = this.mountMove;
+    if (!m) return;
+    this.mountMove = null;
+    if (m.kind === 'approach') return;
+    const at = m.kind === 'swing' ? m.from : m.side;
+    this.x = at.x; this.z = at.z;
+    this.y = ctx.terrain.supportAt(at.x, at.z, this.y + 0.5);
+    this.vx = this.vz = this.vy = 0; this.grounded = true;
+  }
+
+  /** How far through getting up (0 afoot .. 1 seated), for the pose and the saddle height. */
+  get mountProgress(): number {
+    const m = this.mountMove;
+    if (!m || m.kind === 'approach') return this.mount ? 1 : 0;
+    const s = Math.min(1, m.t / (m.kind === 'swing' ? MOUNT_TIMES.swing : MOUNT_TIMES.descend));
+    return m.kind === 'swing' ? s : 1 - s;
+  }
+
+  /** Advance getting up or down; true while it holds the hero (his own movement and facing then wait). */
+  private stepMountMove(dt: number, ctx: PlayerCtx): boolean {
+    const m = this.mountMove;
+    if (!m) return false;
+    if (this.state !== 'free' || !this.alive || this.swimming) { this.cancelMount(ctx); return false; }
+    m.t += dt;
+    this.vx = this.vz = 0;
+    if (m.kind === 'approach') {
+      const dx = m.side.x - this.x, dz = m.side.z - this.z, d = Math.hypot(dx, dz);
+      if (d < 0.08) {
+        m.kind = 'swing'; m.t = 0; m.from = { x: this.x, z: this.z, yaw: this.yaw };
+        return true;
+      }
+      const step = Math.min(d, HERO_WALK_SPEED * dt), bx = this.x, bz = this.z;
+      this.tryMove(dx / d * step, dz / d * step, ctx);
+      this.yaw = lerpAngle(this.yaw, Math.atan2(dx, dz), 1 - Math.exp(-dt * 10));
+      m.stuck = Math.hypot(this.x - bx, this.z - bz) < step * 0.3 ? m.stuck + dt : 0;
+      if (m.stuck > 0.5 || m.t > MOUNT_TIMES.approachMax) this.mountMove = null;
+      return true;
+    }
+    const dur = m.kind === 'swing' ? MOUNT_TIMES.swing : MOUNT_TIMES.descend;
+    const s = Math.min(1, m.t / dur), e = s * s * (3 - 2 * s);
+    const a = m.kind === 'swing' ? m.from : m.deer, b = m.kind === 'swing' ? m.deer : m.side;
+    this.x = a.x + (b.x - a.x) * e;
+    this.z = a.z + (b.z - a.z) * e;
+    if (m.kind === 'swing') this.yaw = lerpAngle(m.from.yaw, m.deer.yaw, Math.min(1, e * 1.6));
+    if (s < 1) return true;
+    if (m.kind === 'swing') this.mountUp(m.id, m.seat, m.deer.x, this.y, m.deer.z, m.deer.yaw);
+    else {
+      this.mountMove = null;
+      this.y = this.supportAt(this.x, this.z, ctx, this.y + 0.5);
+      this.vy = 0; this.grounded = true;
+    }
+    return true;
+  }
+
+  /** In the saddle: steer the deer with bounded turning and pace, its whole body kept out of walls and doorways (A71). */
+  private rideStep(dt: number, wx: number, wz: number, mag: number, wantGallop: boolean, ctx: PlayerCtx) {
+    const gallop = wantGallop && !this.mountSpent;
+    const precise = Boolean(ctx.physics);
+    const startBlocked = deerBodyBlocked(ctx.colliders, this.x, this.y, this.z, this.yaw, precise);
+    const next = steerMount({ speed: this.rideSpeed, yaw: this.yaw }, wx, wz, mag, gallop, dt);
+    if (startBlocked || !deerBodyBlocked(ctx.colliders, this.x, this.y, this.z, next.yaw, precise)) {
+      this.yaw = next.yaw; this.rideTurn = next.turn;
+    } else this.rideTurn = 0;
+    this.rideSpeed = next.speed;
+    const f = this.facing, travel = this.rideSpeed * dt;
+    const steps = Math.max(1, Math.ceil(Math.abs(travel) / 0.08));
+    let hit = false;
+    for (let i = 0; i < steps && !hit; i++) {
+      const px = this.x, py = this.y, pz = this.z, ask = travel / steps;
+      this.tryMove(f.x * ask, f.z * ask, ctx);
+      if (!startBlocked && deerBodyBlocked(ctx.colliders, this.x, this.y, this.z, this.yaw, precise)) { this.x = px; this.y = py; this.z = pz; hit = true; }
+      else if (Math.hypot(this.x - px, this.z - pz) < Math.abs(ask) * 0.3) hit = true;
+    }
+    // A deer that walks into something stops dead rather than grinding along it.
+    if (hit) this.rideSpeed = 0;
+    this.vx = f.x * this.rideSpeed; this.vz = f.z * this.rideSpeed;
+    this.galloping = gallop && this.rideSpeed > RIDE.walk + 0.3;
+    this.mountStamina = mountStaminaStep(this.mountStamina, this.galloping, dt);
+    if (this.mountStamina <= MOUNT_STAMINA.spent) { this.mountSpent = true; ctx.input.clearToggle('sprint'); }
+    else if (this.mountSpent && this.mountStamina >= MOUNT_STAMINA.resume) this.mountSpent = false;
+  }
+
   /** Step down beside the mount; returns where he stands. */
   dismount(ctx: Pick<PlayerCtx, 'terrain' | 'colliders' | 'water'>): void {
+    if (this.mountMove) this.cancelMount(ctx);
     if (!this.mount) return;
     this.mount = null;
+    this.rideSpeed = this.rideTurn = 0;
     // Step down to a side that is clear and not deep water; failing both, where firm ground is nearest (A70).
     const deep = (x: number, z: number) => (ctx.water?.sample(x, z)?.depth ?? 0) > 0.9;
     let placed = false;
@@ -306,8 +460,22 @@ export class Player {
     this.vx = this.vz = this.vy = 0; this.grounded = true;
   }
 
+  /** A clear, shallow spot beside the saddle to step down to, or null (A71). */
+  private dismountSpot(ctx: Pick<PlayerCtx, 'colliders' | 'water'>): { x: number; z: number } | null {
+    const deep = (x: number, z: number) => (ctx.water?.sample(x, z)?.depth ?? 0) > 0.9;
+    if (deep(this.x, this.z)) return null;
+    const bounds = { minY: this.y + PLAYER_FOOT_CLEARANCE, maxY: this.y + PLAYER_BODY_HEIGHT };
+    for (const side of [1, -1]) {
+      const a = this.yaw + side * Math.PI / 2, x = this.x + Math.sin(a) * MOUNT_SIDE, z = this.z + Math.cos(a) * MOUNT_SIDE;
+      if (!ctx.colliders.blocked(x, z, PLAYER_RADIUS, bounds) && !deep(x, z)) return { x, z };
+    }
+    return null;
+  }
+
   setPosition(x: number, z: number, yaw: number, terrain: Terrain, feetY?: number) {
     this.mount = null;
+    this.mountMove = null;
+    this.rideSpeed = this.rideTurn = 0;
     this.cancelSkinning();
     this.huntingVisual.restorePose();
     this.huntingVisual.setAim(null);
@@ -681,7 +849,8 @@ export class Player {
     const hasBow = this.bowEquipped(ctx.game);
     this.huntingVisual.setEquipped(hasBow);
     if (this.state !== 'free') this.setBowAim(null);
-    const control = ctx.controllable;
+    // Getting up or down locks the controls until it ends (A71).
+    const control = ctx.controllable && !this.mountMove;
     this.iframes = Math.max(0, this.iframes - dt);
     this.shake = Math.max(0, this.shake - dt * 1.6);
     this.staminaPause = Math.max(0, this.staminaPause - dt);
@@ -832,6 +1001,11 @@ export class Player {
         break;
     }
 
+    // Getting up or down holds him; seated, the deer carries him (A71).
+    const moving = this.stepMountMove(dt, ctx);
+    const riding = !moving && this.mount !== null && this.state === 'free';
+    if (riding) this.rideStep(dt, wx, wz, hasInput ? mag : 0, control && inp.held('sprint') && hasInput, ctx);
+    else if (!moving) {
     // Horizontal motion with light inertia.
     const lunging = this.state === 'light' || this.state === 'heavy';
     const forward = this.facing;
@@ -862,10 +1036,16 @@ export class Player {
       if (Math.abs(actualX - intendedX) > 0.001) this.vx = actualX / (dt * sf);
       if (Math.abs(actualZ - intendedZ) > 0.001) this.vz = actualZ / (dt * sf);
     }
+    }
+    if (!riding) {
+      this.galloping = false;
+      this.mountStamina = mountStaminaStep(this.mountStamina, false, dt);
+      if (this.mountStamina >= MOUNT_STAMINA.resume) this.mountSpent = false;
+    }
     this.lastMoveSpeed = Math.hypot(this.x - frameX, this.z - frameZ) / dt;
 
     // Facing.
-    if (this.state === 'free') {
+    if (this.state === 'free' && !riding && !moving) {
       if (this.bowAiming) { /* Aim direction is supplied by the camera's selected target. */ }
       else if (this.blocking) this.yaw = lerpAngle(this.yaw, ctx.viewYaw, 1 - Math.exp(-dt * 14));
       else if (this.swimming && hasInput) this.yaw = lerpAngle(this.yaw, Math.atan2(wx, wz), 1 - Math.exp(-dt * 5));
@@ -930,7 +1110,7 @@ export class Player {
     // Footsteps and surface.
     this.surface = this.surfaceAt(ctx);
     this.inWater = this.surface === 'water' || this.swimming;
-    if (!this.rig.hero && this.grounded && this.lastMoveSpeed > 0.8 && (this.state === 'free')) {
+    if (!this.rig.hero && !this.mount && !moving && this.grounded && this.lastMoveSpeed > 0.8 && (this.state === 'free')) {
       this.stepDist += this.lastMoveSpeed * dt;
       const stride = sprinting ? HERO_RUN_CYCLE / 2 : HERO_WALK_CYCLE / 2;
       if (this.stepDist > stride) {
@@ -943,7 +1123,7 @@ export class Player {
 
     this.applyPose(dt, ctx);
     // The imported rig reports actual heel strikes; surface sounds follow its visible contacts.
-    const footfalls = this.rig.hero?.consumeFootfalls() ?? 0;
+    const footfalls = (this.rig.hero?.consumeFootfalls() ?? 0) * (this.mount ? 0 : 1);
     for (let i = 0; i < footfalls; i++) this.footfall(ctx, sprinting);
     if (this.swimming && ctx.water) {
       let strokes = this.rig.hero?.consumeStrokes() ?? 0;
@@ -1040,7 +1220,7 @@ export class Player {
         else if (this.lastMoveSpeed > 0.12) mode = 'walk';
     }
     if (!this.grounded && !this.swimming && this.state === 'free') mode = 'run';
-    if (this.mount && this.state === 'free') mode = 'sit';
+    if ((this.mount || (this.mountMove && this.mountMove.kind !== 'approach')) && this.state === 'free') mode = 'sit';
     this.mode = mode;
     const speedNorm = Math.min(1, this.lastMoveSpeed / (mode === 'swim' ? SWIM_SPEED : mode === 'run' ? HERO_RUN_SPEED : HERO_WALK_SPEED));
     // Integrate gait phase from actual travel. Multiplying a lifetime clock by changing speed made legs snap on turns/stops.
@@ -1063,13 +1243,26 @@ export class Player {
       // The feet find the ground under them: a stair edge, a root, a slope (A70).
       groundAt: (x: number, z: number) => this.supportAt(x, z, ctx, this.y + 0.35),
       rootY: this.y,
-      straddle: this.mount !== null,
+      straddle: this.mount !== null || (this.mountMove !== null && this.mountMove.kind !== 'approach'),
+      mountSwing: this.mountProgress,
     };
     this.huntingVisual.restorePose();
     // The root stands where he is before the pose, so the feet are planted against this frame's ground. In the saddle he
     // sits on the deer's back, rising and falling a little with its gait.
+    // The bob follows the deer's own footfalls when its gait is known (A71), its speed otherwise.
     this.mountBob += this.mount ? dt * this.lastMoveSpeed * 2.4 : 0;
-    const seat = this.mount ? this.mount.seat + Math.abs(Math.sin(this.mountBob)) * Math.min(0.06, this.lastMoveSpeed * 0.012) : 0;
+    const mm = this.mountMove;
+    let seat = 0;
+    if (this.mount) seat = this.mount.seat + (this.gaitPhase !== null ? gaitBob(this.gaitPhase, this.rideSpeed) : Math.abs(Math.sin(this.mountBob)) * Math.min(0.06, this.lastMoveSpeed * 0.012));
+    else if (mm && mm.kind !== 'approach') {
+      // Swinging up the hips arc onto the saddle; stepping down they drop beside it.
+      const s = this.mountProgress, e = s * s * (3 - 2 * s);
+      seat = mm.seat * e + (mm.kind === 'swing' ? 0.22 : 0.1) * Math.sin(Math.PI * s);
+    }
+    this.seatHeight = seat;
+    // He leans into the deer's turns, more the faster it goes.
+    const leanTarget = this.mount ? Math.max(-RIDE.leanMax, Math.min(RIDE.leanMax, -this.rideTurn * Math.abs(this.rideSpeed) * RIDE.lean)) : 0;
+    this.lean += (leanTarget - this.lean) * (1 - Math.exp(-dt * 6));
     this.rig.root.position.set(this.x, this.y + seat, this.z);
     this.rig.root.rotation.y = this.yaw;
     this.rig.root.updateMatrixWorld(true);
@@ -1078,6 +1271,7 @@ export class Player {
     if (this.rig.hitFlash > 0) this.rig.hitFlash = Math.max(0, this.rig.hitFlash - dt * 4);
     this.rig.root.position.set(this.x, this.y + seat, this.z);
     this.rig.root.rotation.y = this.yaw;
+    this.rig.root.rotation.z = this.lean;
     this.huntingVisual.setSkinning(this.skinningProgress, this.channel?.t ?? 0, this.skinningHeight);
     this.huntingVisual.apply(dt);
     // Clothing that shows local standing.

@@ -6,6 +6,7 @@ import { Game } from '../../src/game/game';
 import { PlayerHuntingVisual } from '../../src/presentation/playerHunting';
 import { createHeroRig } from '../../src/presentation/hero/rig';
 import { bindHeroBones } from '../../src/presentation/hero/bones';
+import { HERO_GRIP_FADE } from '../../src/presentation/hero/animation';
 import { loadHeroWithoutImages, meshes } from './heroFixture';
 
 let asset: GLTF;
@@ -164,7 +165,7 @@ describe('bow and skinning on the delivered hero skeleton', () => {
     player.dispose();
   });
 
-  it('uses the delivered closed-hand pose for the knife and restores the relaxed fingers afterwards', () => {
+  it('uses the delivered closed-hand pose for the knife and restores the relaxed fingers afterwards, fading both ways (A71)', () => {
     const s = setup(), reference = createHeroRig(asset);
     reference.hero.applyHandGrip('Right', 1);
     const referenceBones = bindHeroBones(reference.root);
@@ -175,11 +176,14 @@ describe('bow and skinning on the delivered hero skeleton', () => {
     const fullAngle = relaxed.angleTo(grip);
     expect(fullAngle).toBeGreaterThan(.1);
     s.visual.setSkinning(.5, 1.5, .4);
-    s.pose();
+    // The grip closes over HERO_GRIP_FADE, not at once: a frame in it has barely begun, and it is closed after the fade.
+    s.pose(); s.pose();
+    expect(s.bones[name].quaternion.clone().normalize().angleTo(grip)).toBeGreaterThan(fullAngle * .8);
+    for (let i = 0; i < 60 * HERO_GRIP_FADE; i++) s.pose();
     expect(s.bones[name].quaternion.clone().normalize().angleTo(grip)).toBeLessThan(fullAngle * .08);
     s.visual.setSkinning(null);
-    s.pose();
-    expect(s.bones[name].quaternion.clone().normalize().angleTo(relaxed)).toBeLessThan(1e-7);
+    for (let i = 0; i < 60 * HERO_GRIP_FADE + 2; i++) s.pose();
+    expect(s.bones[name].quaternion.clone().normalize().angleTo(relaxed)).toBeLessThan(1e-6);
     s.visual.dispose();
   });
 });

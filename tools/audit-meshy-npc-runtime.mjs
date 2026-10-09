@@ -35,6 +35,7 @@ const require = createRequire(path.join(repo, 'package.json'));
 const { createServer } = await import(pathToFileURL(require.resolve('vite')));
 const THREE = await import(pathToFileURL(path.join(path.dirname(require.resolve('three')), 'three.module.js')));
 const { GLTFLoader } = await import(pathToFileURL(require.resolve('three/examples/jsm/loaders/GLTFLoader.js')));
+const { MeshoptDecoder } = await import(pathToFileURL(require.resolve('three/examples/jsm/libs/meshopt_decoder.module.js')));
 const digest = bytes => createHash('sha256').update(bytes).digest('hex');
 const must = (condition, message) => { if (!condition) throw new Error(message); };
 const bytesOf = array => Buffer.from(array.buffer, array.byteOffset, array.byteLength);
@@ -70,7 +71,7 @@ function templateSnapshot(asset) {
 
 /** Preserve actual GLB JSON/buffers/material bindings; synthetic textures cannot establish native paint or shader quality. */
 async function decodeWithoutImagePixels(buffer) {
-  const loader = new GLTFLoader();
+  const loader = new GLTFLoader().setMeshoptDecoder(MeshoptDecoder);
   loader.register(parser => ({ name: 'TERVAIN_NUMERICAL_AUDIT_TEXTURES', loadTexture(index) {
     const definition = parser.json.textures[index];
     const normal = (parser.json.materials ?? []).some(material => material.normalTexture?.index === index);

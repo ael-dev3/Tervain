@@ -5,6 +5,7 @@ import { createInitialState } from '../../src/game/state';
 import { defaultSettings } from '../../src/platform/settings';
 import { Colliders } from '../../src/world/colliders';
 import type { AssetLibrary } from '../../src/presentation/assets/library';
+import type { SceneModule } from '../../src/presentation/context';
 import { disposeSceneResources } from '../../src/presentation/disposeScene';
 import { PINE_FILES } from '../../src/presentation/solitaryPine';
 import { MESHY_TREE_IDS, MESHY_TREE_LODS } from '../../src/presentation/meshyTrees';
@@ -19,6 +20,8 @@ const controls = vi.hoisted(() => ({
   groundFailure: null as Error | null,
   modelGate: null as Promise<void> | null,
   modelsStarted: null as (() => void) | null,
+  furnitureGate: null as Promise<void> | null,
+  furnitureLoads: 0,
   modelCallbacks: {} as Partial<Record<'pine' | 'stone' | 'trees' | 'animals' | 'furniture', (loaded: number, total: number) => void>>,
 }));
 
@@ -114,9 +117,11 @@ vi.mock('../../src/presentation/animalCamp', () => ({ buildAnimalCamp: () => own
 vi.mock('../../src/presentation/animals', () => ({ loadAnimalTemplates: async (progress?: (loaded: number, total: number) => void) => {
   await modelFamily('animals', ANIMALS.length, progress); return new Map();
 }, buildAnimals: () => owner('animals') }));
-vi.mock('../../src/presentation/furniture', () => ({ loadFurniture: async (progress?: (loaded: number, total: number) => void) => {
+vi.mock('../../src/presentation/furniture', async importOriginal => ({ loadFurniture: async (progress?: (loaded: number, total: number) => void) => {
+  controls.furnitureLoads++;
+  if (controls.furnitureGate) await controls.furnitureGate;
   await modelFamily('furniture', 1, progress); return new Map();
-}, buildFurniture: () => owner('furniture') }));
+}, buildFurniture: () => owner('furniture'), deferredFurniture: (await importOriginal<typeof import('../../src/presentation/furniture')>()).deferredFurniture }));
 vi.mock('../../src/presentation/groundContacts', () => ({ createGroundContactField: () => ({}) }));
 vi.mock('../../src/presentation/physicalProps', () => ({ buildPhysicalProps: () => owner('physical supplies') }));
 vi.mock('../../src/presentation/riteResponse', () => ({ buildRiteResponse: () => owner('rite') }));
@@ -131,6 +136,7 @@ function deferred() {
 beforeEach(() => {
   controls.owners = []; controls.navVersions = []; controls.groundFailure = null; controls.navigationGate = null;
   controls.modelGate = null; controls.modelsStarted = null; controls.modelCallbacks = {};
+  controls.furnitureGate = null; controls.furnitureLoads = 0;
   const colliders = new Colliders();
   for (const id of ['archive_door', 'archive_shutter', 'shortcut_gate']) colliders.circle(id, 0, 0, 1);
   controls.colliders = colliders;
@@ -168,6 +174,28 @@ describe('world load and activation boundary', () => {
       const length = phases.length; controls.modelCallbacks.animals!(0, ANIMALS.length);
       expect(phases).toHaveLength(length); // A previous model phase cannot overwrite later construction.
     } finally { disposeSceneResources(world.scene, () => world.dispose()); }
+  });
+
+  it('opens without the furniture when it is deferred and furnishes the rooms once the pieces arrive (backlog 4)', async () => {
+    const gate = deferred(); controls.furnitureGate = gate.promise;
+    const phases: WorldBuildProgress[] = [];
+    const world = await WorldScene.create(createInitialState(), defaultSettings(), library(), undefined, undefined, {
+      yieldNow: async () => {}, deferFurniture: true, onPhase: p => phases.push(p),
+    });
+    try {
+      const expectedTotal = PINE_FILES.length + 1 + MESHY_TREE_IDS.length * MESHY_TREE_LODS.length + ANIMALS.length;
+      expect(phases.filter(p => p.phase === 'models').at(-1)).toMatchObject({ completed: expectedTotal, total: expectedTotal });
+      expect(controls.modelCallbacks.furniture).toBeUndefined();
+      const module = world.modules.find(entry => entry.name === 'furniture')!.module as SceneModule & { arrived: boolean };
+      expect(module.arrived).toBe(false);
+      expect(controls.owners.find(resource => resource.name === 'furniture')).toBeUndefined();
+      gate.resolve();
+      await vi.waitFor(() => expect(module.arrived).toBe(true));
+      expect(controls.furnitureLoads).toBe(1);
+      const furniture = controls.owners.find(resource => resource.name === 'furniture')!;
+      expect(module.group.children).toContain(furniture.group);
+    } finally { disposeSceneResources(world.scene, () => world.dispose()); }
+    expect(controls.owners.find(resource => resource.name === 'furniture')!.dispose).toHaveBeenCalledOnce();
   });
 
   it('returns only after physical contacts and both navigation widths are ready, with saved gates installed first', async () => {

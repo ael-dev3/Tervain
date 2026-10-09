@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { FrameClock } from '../../src/platform/frameTiming';
+import { FrameClock, cappedFrame } from '../../src/platform/frameTiming';
 
 describe('visible frame timing', () => {
   it('ignores background RAF callbacks and returns without simulating hidden elapsed time', () => {
@@ -64,5 +64,23 @@ describe('visible frame timing', () => {
     expect(clock.tick(Number.NaN)).toBeNull();
     expect(clock.tick(1000)).toBeNull();
     expect(clock.tick(1016)?.dt).toBe(0.016);
+  });
+});
+
+describe('the 60-frame cap (A71)', () => {
+  it.each([60, 120, 144, 240])('draws about 60 frames a second on a %i Hz display', (hz) => {
+    let due = -Infinity, drawn = 0;
+    for (let i = 0; i < hz * 10; i++) {
+      const now = i * 1000 / hz + Math.sin(i * 1.7) * 0.4;
+      const step = cappedFrame(now, due); due = step.due; if (step.draw) drawn++;
+    }
+    expect(drawn / 10).toBeGreaterThan(59);
+    expect(drawn / 10).toBeLessThan(61);
+  });
+
+  it('restarts its schedule after a long stall instead of drawing a burst', () => {
+    let { due } = cappedFrame(0, -Infinity);
+    ({ due } = cappedFrame(500, due));
+    expect(cappedFrame(505, due).draw).toBe(false);
   });
 });
