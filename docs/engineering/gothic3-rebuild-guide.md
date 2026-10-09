@@ -93,8 +93,21 @@ Game startup continuations are connected to the browser startup stack.
 | --- | --- | --- |
 | Assets | Selected readers and viewers expose original world, tree and human resources for inspection. | Complete coverage and in-game visual fidelity. |
 | SharedBase startup | The supported absent-`zSpie.txt` profile returns `1` from the direct DLL entry after logging and callback dispatch. | Surrounding CRT wrapper, additional profiles and live Game integration. |
-| Game startup | Merged code executes through the SSE and multibyte C callbacks. The locally validated FILE continuation completes all five C callbacks and reaches `20466638 -> 204637ce` on the browser's retained stack. | Atexit registration, later startup dependencies and complete engine attachment. |
+| Game startup | Merged code completes all five C callbacks, registers the static shutdown callback and reads the original C++ table through its first non-null slot, stopping at `20466654 -> 204b11b0`. | Execute the C++ initializers on the retained startup stack, then finish engine attachment. |
 | Campaign | The separate browser route can display the reconstructed Ardea scene. | Connected world/NPC activation, quest progression, campaign saves and a playthrough to an ending. |
+
+The next local checkpoint connects the first C++ class-name initializer,
+`204b11b0`, to the browser's existing SharedBase heap. Its original CALL, static
+result store and RET execute on the retained startup stack. The translated
+getter uses the actual `eCProcessibleElement` descriptor, both guard fields and
+the original cleanup callback. Successful startup reaches the next table
+target, `204b11c0`; a missing string pool retains the nested CALL frames and
+completed state. This checkpoint has passed 86 focused runtime checks,
+TypeScript checking, all 3,160 tests across 291 files and the production build
+after integrating current main. The rendered production preview reports
+2,769 environment-source operations and the next target `204b11c0`. It is not
+yet published. Original NPC activation remains at the separate ScriptAdmin
+getter boundary, with 0 of 16 property sets attached.
 
 The Game PE checkpoint passed 3,082 tests, typechecking, source regeneration and
 the production build at runtime revision `9540631a`. It merged through
