@@ -13,6 +13,19 @@ finishable campaign.
 
 ## How the rebuild works
 
+### Current local checkpoint: Running name lookup preserves prior entries
+
+Running now hashes its actual CString and traverses the existing name bucket
+using the recovered CString equality overload and retained entry owners. A
+missing name allocates its original sixteen-byte entry, shares the name and
+links the prior bucket head rather than clearing it. The actual Running value
+one is copied into that entry's value subobject. Name entry count becomes two;
+the None name/value and descriptor array remain intact. Startup reaches the
+retained value lookup at `20071a16 -> 200707a0`.
+Typechecking and seven focused checks pass. They inspect both name identities,
+bucket links, preserved None value, Running scalar and repeat-entry behavior.
+The later initializer has not returned, and publication remains pending.
+
 ### Current local checkpoint: Running enum enters with retained registries
 
 Startup now selects the actual Running initializer table slot at offset

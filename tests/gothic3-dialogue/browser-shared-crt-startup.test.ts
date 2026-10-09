@@ -45,7 +45,7 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  expect(game.known).toBe(true);
  if(!game.known)throw new Error(game.reason);
  expect(game.value.attachResult).toEqual({known:false,
-  reason:'crtAttach204677e4: Unowned Translated Arena Status initializer pending: Unowned retained enum name lookup for Running at 200719d7 -> 200708b0'});
+  reason:'crtAttach204677e4: Unowned Translated Arena Status initializer pending: Unowned retained enum value lookup for Running at 20071a16 -> 200707a0'});
  const diagnostic=NativeSharedMessageDebug.forPlatform(platform).snapshot(),locale=diagnostic.formatterLocale!;
  expect(diagnostic.messageOwner).toBe(runtime.message);
  expect(diagnostic.messageGetterReturned).toBe(true);
@@ -84,12 +84,17 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  expect(enumState.trace).toContain('1004a1c8.enumBaseConstructor.return');
  const registry=game.value.crt.imageStorage('enumNameRegistry');
  expect(game.value.crt.imageStorage('enumNameRegistryGuard').readUnsigned(0)&1).toBe(1);
- expect([4,8,12].map(offset=>registry.readUnsigned(offset))).toEqual([43,51,1]);
+ expect([4,8,12].map(offset=>registry.readUnsigned(offset))).toEqual([43,51,2]);
  expect(enumState.bucket).toBeGreaterThanOrEqual(0);
  expect(enumState.bucket).toBeLessThan(43);
  const bucketFields=registry.pointer<{identity:object;bytes:Uint8Array;knownMask:Uint8Array;freed:boolean}>(0).get()!;
- expect(new NativeHeapObjectViews(bucketFields,enumState.bucket!*4,4).pointer(0).get()).toBe(enumState.nameEntry);
- for(let bucket=0;bucket<51;bucket++)if(bucket!==enumState.bucket)
+ const runningHash=enumState.runningTemporary!.hash();if(!runningHash.known)throw new Error(runningHash.reason);
+ const runningBucket=runningHash.value%43;
+ expect(new NativeHeapObjectViews(bucketFields,runningBucket*4,4).pointer(0).get()).toBe(enumState.runningNameEntry);
+ const oldBucketHead=new NativeHeapObjectViews(bucketFields,enumState.bucket!*4,4).pointer(0).get();
+ if(runningBucket===enumState.bucket)expect(new NativeHeapObjectViews(enumState.runningNameEntry!,0,16).pointer(12).get()).toBe(enumState.nameEntry);
+ else expect(oldBucketHead).toBe(enumState.nameEntry);
+ for(let bucket=0;bucket<51;bucket++)if(bucket!==enumState.bucket&&bucket!==runningBucket)
   expect(new NativeHeapObjectViews(bucketFields,bucket*4,4).readUnsigned(0)).toBe(0);
  expect(new NativeHeapObjectViews(enumState.nameEntry!,0,16).readUnsigned(4)).toBe(0x2065902c);
  expect(new NativeHeapObjectViews(enumState.nameEntry!,0,16).readUnsigned(8)).toBe(0);
@@ -121,6 +126,8 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  expect(enumState.runningAllocation).not.toBe(enumState.allocation);
  expect(new NativeHeapObjectViews(enumState.runningAllocation!,0,12).readUnsigned(8)).toBe(1);
  expect(enumState.runningTemporary!.snapshot().destroyed).toBe(false);
+ expect(new NativeHeapObjectViews(enumState.runningNameEntry!,0,16).readUnsigned(8)).toBe(1);
+ expect(enumState.runningEntryName!.snapshot().destroyed).toBe(false);
  expect(game.value.crt.imageStorage('enumValueScratch').readUnsigned(0)).toBe(0);
  expect(enumOwner.initializeRunning()).toEqual({known:false,reason:enumState.runningBoundary});
  expect(enumOwner.snapshot().runningAllocation).toBe(enumState.runningAllocation);

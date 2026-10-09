@@ -29,6 +29,9 @@ export class NativeGameArenaEnum {
  #runningEntered=false;
  #runningTemporary:NativeHeapCString|null=null;
  #runningAllocation:NativeMemoryAllocation|null=null;
+ #runningNameEntry:NativeMemoryAllocation|null=null;
+ #runningEntryName:NativeHeapCString|null=null;
+ #nameStrings=new WeakMap<object,NativeHeapCString>();
  #trace:string[]=[];
  private constructor(readonly crt:NativeGameCrtOwner,private readonly memory:NativeMemoryAdmin){}
  static forCrt(crt:NativeGameCrtOwner,memory:NativeMemoryAdmin):NativeGameArenaEnum{
@@ -107,6 +110,7 @@ export class NativeGameArenaEnum {
    if(!this.#nameEntry)throw new Error('Original enum name assignment reaches NULL entry at 2007090e');
    const entryFields=new NativeHeapObjectViews(this.#nameEntry,0,16);
    this.#entryName=new NativeHeapCString(this.memory,new NativeHeapObjectViews(this.#nameEntry,0,4));
+   this.#nameStrings.set(this.#nameEntry,this.#entryName);
    entryFields.writeUnsigned(4,0x100e7e1c);
    entryFields.writeUnsigned(4,0x2065902c);
    entryFields.writeUnsigned(8,this.crt.imageStorage('enumValueScratch').readUnsigned(0));
@@ -208,11 +212,44 @@ export class NativeGameArenaEnum {
      (this.crt.imageStorage('enumValueRegistryGuard').readUnsigned(0)&1)===0)
     throw new Error('Actual retained enum registry guards required');
    this.#trace.push('200719ae.Running.reuseNameRegistry');
-   throw new Error('Unowned retained enum name lookup for Running at 200719d7 -> 200708b0');
+   const registry=this.crt.imageStorage('enumNameRegistry');
+   const buckets=registry.pointer<NativeMemoryAllocation>(0).get();
+   if(!buckets||registry.readUnsigned(4)!==43)throw new Error('Actual retained enum name buckets required');
+   const bucket=fact(this.#runningTemporary.hash())%registry.readUnsigned(4);
+   const bucketSlot=new NativeHeapObjectViews(buckets,bucket*4,4);
+   const head=bucketSlot.pointer<NativeMemoryAllocation>(0).get();
+   let found:NativeMemoryAllocation|null=null,current=head;
+   const seen=new Set<object>();
+   while(current){
+    if(seen.has(current))throw new Error('Original enum name registry chain cycles');
+    seen.add(current);
+    const name=this.#nameStrings.get(current);
+    if(!name)throw new Error('Actual retained enum registry CString owner required');
+    if(fact(this.#runningTemporary.equalsCString(name))!==0){found=current;break;}
+    current=new NativeHeapObjectViews(current,0,16).pointer<NativeMemoryAllocation>(12).get();
+   }
+   if(found){this.#runningNameEntry=found;this.#runningEntryName=this.#nameStrings.get(found)!;}
+   else{
+    this.#runningNameEntry=fact(this.memory.newObject(16,0x199));
+    if(!this.#runningNameEntry)throw new Error('Original Running name assignment dereferences NULL entry');
+    const entry=new NativeHeapObjectViews(this.#runningNameEntry,0,16);
+    this.#runningEntryName=new NativeHeapCString(this.memory,new NativeHeapObjectViews(this.#runningNameEntry,0,4));
+    this.#nameStrings.set(this.#runningNameEntry,this.#runningEntryName);
+    entry.writeUnsigned(4,0x100e7e1c);entry.writeUnsigned(4,0x2065902c);
+    entry.writeUnsigned(8,this.crt.imageStorage('enumValueScratch').readUnsigned(0));
+    fact(this.#runningEntryName.assign(this.#runningTemporary));
+    entry.pointer(12).set(head);bucketSlot.pointer(0).set(this.#runningNameEntry);
+    registry.writeUnsigned(12,(registry.readUnsigned(12)+1)>>>0);
+   }
+   const entry=new NativeHeapObjectViews(this.#runningNameEntry,0,16);
+   entry.writeUnsigned(8,fields.readUnsigned(8));
+   this.#trace.push('200719e8.Running.nameValueAssignment.return1');
+   throw new Error('Unowned retained enum value lookup for Running at 20071a16 -> 200707a0');
   }catch(error){this.#runningBoundary=error instanceof Error?error.message:String(error);return {known:false,reason:this.#runningBoundary};}
  }
  snapshot(){return Object.freeze({boundary:this.#boundary,temporary:this.#temporary,allocation:this.#allocation,
   runningBoundary:this.#runningBoundary,runningTemporary:this.#runningTemporary,runningAllocation:this.#runningAllocation,
+  runningNameEntry:this.#runningNameEntry,runningEntryName:this.#runningEntryName,
   nameEntry:this.#nameEntry,entryName:this.#entryName,bucket:this.#bucket,
   valueEntry:this.#valueEntry,valueName:this.#valueName,valueBucket:this.#valueBucket,
   trace:Object.freeze([...this.#trace]),initializerReturned:this.#returned,valueInserted:this.#inserted});}
