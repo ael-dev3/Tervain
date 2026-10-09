@@ -1,6 +1,7 @@
 import { gameStrlenDwordCandidate } from './native-game-strlen-predicate';
 import { gameClassNameFamilySpecs } from './native-game-class-name-family-source';
 import { admitGamePrimitiveSource } from './native-game-primitive-source';
+import { admitGamePointerDemanglerSource } from './native-game-pointer-demangler-source';
 import { admitGameTemplateDemanglerSource } from './native-game-template-demangler-source';
 /** Module-owned ___unDName. The admitted grammar currently follows the
  * ordinary, unqualified class RTTI branch; other grammar remains a boundary. */
@@ -149,8 +150,8 @@ export class NativeCrtUndName {
       if (!firstArgument) fact(factory.append(argumentsResult, fact(factory.fromChar(0x2c), 'templateArguments.comma')), 'templateArguments.appendComma');
       firstArgument = false;
       const before = this.cursor();
-      if (this.byte() === 0x56) {
-        const primary = this.classPrimary(factory, second);
+      if (this.byte() === 0x56 || (this.crt.module === 'Game' && this.byte() === 0x50)) {
+        const primary = this.byte() === 0x50 ? this.pointerClassPrimary(factory, second) : this.classPrimary(factory, second);
         const temporary = this.empty(factory);
         fact(factory.assign(temporary, primary), 'templateArguments.assignClassPrimary');
         const after = this.cursor();
@@ -259,7 +260,8 @@ export class NativeCrtUndName {
   }
   /** The same original primary-type branch is called by ordinary RTTI and
    * template argument parsing, with the currently installed name replicator. */
-  private classPrimary(factory: NativeCrtDNameFactory, replicator: NativeCrtReplicator): NativeCrtDNameRecord {
+  private classPrimary(factory: NativeCrtDNameFactory, replicator: NativeCrtReplicator,
+    qualification?: NativeCrtDNameRecord): NativeCrtDNameRecord {
     if (this.byte() !== 0x56) throw new Error('Unowned getPrimaryDataType/getSimpleDataType branch');
     this.advance(); this.advance(-1); // The simple-type default rewinds before ECSU.
     const keepKeyword = !(this.flags() & 0x8000) && !(this.flags() & 0x1000);
@@ -321,8 +323,39 @@ export class NativeCrtUndName {
     fact(factory.append(result, scoped), 'getECSUDataType.appendName');
     const ecsu = fact(factory.copy(result), 'getECSUDataType.return');
     const simple = this.empty(factory); fact(factory.assign(simple, ecsu), 'getSimpleDataType.assign');
+    if (!simple.isEmpty() && qualification && !qualification.isEmpty()) {
+      const spaced = fact(factory.plus(fact(factory.fromChar(0x20), 'getSimpleDataType.qualificationSpace'), qualification),
+        'getSimpleDataType.spaceQualification');
+      fact(factory.append(simple, spaced), 'getSimpleDataType.appendQualification');
+    }
     const primary = fact(factory.copy(simple), 'getSimpleDataType.return');
     return primary;
+  }
+
+  /** Selected P/A/V branch of the original pointer parser. Other qualifiers,
+   * reference, array and function-pointer branches remain unsupported. */
+  private pointerClassPrimary(factory: NativeCrtDNameFactory, replicator: NativeCrtReplicator): NativeCrtDNameRecord {
+    admitGamePointerDemanglerSource();
+    if (this.crt.module !== 'Game' || this.byte() !== 0x50 || this.byte(1) !== 0x41 || this.byte(2) !== 0x56)
+      throw new Error('Unowned Game pointer qualification/data type branch');
+    this.advance(); this.state.trace.push('getSimpleDataType.consumePointerP');
+    const incoming = this.empty(factory);
+    fact(factory.copy(incoming), 'getSimpleDataType.copyIncomingQualification');
+    const cv = this.empty(factory); // P & 3 == 0: no const/volatile prefix.
+    this.advance(); this.state.trace.push('getDataIndirectType.consumeA');
+    const pointer = fact(factory.fromChar(0x2a), 'getDataIndirectType.pointerCharacter');
+    const prefix = this.empty(factory);
+    const joined = fact(factory.plus(prefix, pointer), 'getDataIndirectType.prefixPointer');
+    fact(factory.assign(pointer, joined), 'getDataIndirectType.assignPointer');
+    if (!cv.isEmpty() || !incoming.isEmpty()) throw new Error('Unowned Game pointer qualification composition');
+    const word = pointer.fields.maskedWord(4);
+    word.value |= 0x10; word.knownMask |= 0x10;
+    const indirect = fact(factory.copy(pointer), 'getDataIndirectType.pointerReturn');
+    const simple = this.classPrimary(factory, replicator, indirect);
+    const flags = indirect.fields.maskedWord(4);
+    if ((flags.knownMask & 0x600) !== 0x600 || (flags.value & 0x600))
+      throw new Error('Unowned Game CLI pointer data type branch');
+    return fact(factory.copy(simple), 'getPtrRefDataType.return');
   }
   unDName(input: NativeCrtBytePointer | null, flags: number, output: NativeCrtBytePointer | null = null,
     outputBytes = 0): NativeValue<NativeCrtBytePointer | null> {

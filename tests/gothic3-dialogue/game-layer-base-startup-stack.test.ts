@@ -54,6 +54,9 @@ describe('original Game C++ class-name initializers on the retained browser stac
     const f = fixture();
     const bool = NativeGameClassName.forSpec(f.game.crt,f.memory,gameClassNameSpec('204b11e0')!);
     expect(fact(fact(bool.get()).text())).toBe('bool');
+    const pointerArray = NativeGameClassName.forSpec(f.game.crt,f.memory,gameClassNameSpec('204b1620')!);
+    expect(pointerArray.get()).toMatchObject({ known: false,
+      reason: 'Native simple-allocation table bucket for 52 bytes is not audited' });
     expect(f.game.attachProgress.nextBoundary).toEqual({ name: 'translatedCrtCall', address: '204b1620', target: '2000fed4' });
     expect(fact(fact(NativeGameClassName.forSpec(f.game.crt,f.memory,gameClassNameSpec('204b13a0')!).get()).text())).toBe('eCTriggerBase_PS');
     expect(fact(fact(NativeGameClassName.forSpec(f.game.crt,f.memory,gameClassNameSpec('204b1340')!).get()).text()))
