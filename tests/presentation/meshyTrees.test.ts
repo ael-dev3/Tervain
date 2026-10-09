@@ -111,6 +111,21 @@ describe('actual supplied Meshy tree catalog', () => {
     rebuilt.dispose();
   });
 
+  it('spends the near broadleaf budget freed from the simplified wood on extra crown layers, below 19,800', () => {
+    const forest = createMeshyForest(templates);
+    try {
+      for (const [species, id] of [['oak', 'oak-elder'], ['oak', 'tree-0208'], ['birch', 'tree-4815'], ['orchard', 'tree-4949']] as const) {
+        const variant = forest.variant(species, 0, id), near = variant.lods[0], exported = meshyTreeParts(templates.get(id)![0]).leaf!.geometry;
+        const count = (geometry: THREE.BufferGeometry) => (geometry.index?.count ?? geometry.getAttribute('position').count) / 3;
+        expect(near.tris, id).toBeLessThanOrEqual(19_800); expect(near.tris, id).toBeGreaterThan(19_500);
+        expect(count(near.wood!), id).toBeLessThan(7_000);
+        expect(count(near.leaf!), id).toBeGreaterThan(2 * count(exported));
+        // Middle detail is left as exported.
+        expect(count(variant.lods[1].leaf!)).toBe(count(meshyTreeParts(templates.get(id)![1]).leaf!.geometry));
+      }
+    } finally { forest.dispose(); }
+  });
+
   it('fits the actual selected source crown with carved interior while preserving musical contact curves', () => {
     const tree = buildAncientTree(1207, { leafCards: 0, woodDetail: 0.8,
       door: { az: 2, halfWidth: HERMIT_DOOR.faceHalfWidth, height: HERMIT_DOOR.faceTop,

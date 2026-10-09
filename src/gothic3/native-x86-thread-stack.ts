@@ -5,6 +5,8 @@ import {nativeMaskedBitfieldAssignment} from './native-masked-bitfield';
 import type { NativeValue } from './dialogue';
 import { NativeHeapObjectViews } from './native-heap-views';
 import type { NativeMemoryBacking } from './native-memory-admin';
+import type { NativeMemoryAllocation } from './native-memory-admin';
+import { NativeMemoryAdmin } from './native-memory-admin';
 import { NativeSharedCrtOwner } from './native-shared-crt';
 import { sharedCommandLineInstruction } from './native-shared-command-line-instructions';
 import {sharedDllEntryInstruction} from './native-shared-dll-entry-instructions';
@@ -12,6 +14,11 @@ import { sharedInitializerInstruction } from './native-shared-initializer-instru
 import { NativeRuntimePlatform } from './native-runtime-platform';
 import { NativeModuleCrtOwner } from './native-engine-crt-locks';
 import { NativeGameExitTable } from './native-game-crt-exit-table';
+import { NativeGameArenaType } from './native-game-arena-type';
+import { NativeGameArenaStatusProperty } from './native-game-arena-status-property';
+import { NativePropertySingleton } from './native-property-singleton';
+import { NativeSharedModuleImage } from './native-shared-module-image';
+import { admitArenaPropertySingletonImport } from './native-game-arena-root-source';
 import { nativeGameLayerBaseMemoryForCrt } from './native-game-layer-base-class-name';
 import { getGameClassName } from './native-game-class-name-family';
 import { gameClassNameSpec } from './native-game-class-name-family-source';
@@ -49,6 +56,7 @@ export type NativeX86Lane = 'low8' | 'high8' | 'low16';
 type Width = 1 | 2 | 4;
 interface Allocation { readonly physical?: NativeHeapObjectViews; readonly originalPointer?: NativeBytePointer; readonly fields: NativeHeapObjectViews; readonly heap: NativeWin32HeapCapability; readonly crt: NativeModuleCrtOwner; readonly ptd?: true; }
 type WordRecord = Readonly<{ value: number; mask: number; provenance?:
+  Readonly<{ kind: 'arena-memory-admin'; owner:NativeMemoryAdmin }> |
   Readonly<{ kind: 'stack'; offset: number }> |
   Readonly<{ kind: 'shared-local'; fields:NativeHeapObjectViews; offset?:number }> |
   Readonly<{ kind: 'module'; label: string; fields: NativeHeapObjectViews; offset: number }> |
@@ -187,6 +195,8 @@ export class NativeX86ThreadStack {
   #binding: Binding | null = null;
   #argvBinding: ArgvBinding | null = null;
   #setEnvpBinding: SetEnvpBinding | null = null;
+  #arenaPropertySingleton:NativePropertySingleton|null=null;
+  readonly #arenaAllocations=new Map<NativeHeapObjectViews,{owner:NativeMemoryAdmin;allocation:NativeMemoryAllocation}>();
   #setEnvpTransferred = false;
   #setEnvpReturned = false;
   #setEnvpGrant: NativeSetEnvpCallGrant | null = null;
@@ -2422,6 +2432,33 @@ export class NativeX86ThreadStack {
     this.#physical(this.#stack); this.#physical(this.#bank);
   }
   #sharedLocalPhysical(fields:NativeHeapObjectViews):void{
+    const allocation=this.#arenaAllocations.get(fields);
+    if(allocation && this.#setEnvpBinding) {
+      const memory=nativeGameLayerBaseMemoryForCrt(this.#setEnvpBinding.crt as NativeGameCrtOwner);
+      if(!memory.known || memory.value!==allocation.owner || !NativeMemoryAdmin.prototype.usesPlatform.call(allocation.owner,this.#platform) ||
+        fields.backing!==allocation.allocation || fields.backing.freed || allocation.allocation.region.freed ||
+        fields.bytes.buffer!==allocation.allocation.bytes.buffer || fields.bytes.byteOffset!==allocation.allocation.bytes.byteOffset ||
+        fields.bytes.length!==allocation.allocation.capacity || fields.knownMask.buffer!==allocation.allocation.knownMask.buffer ||
+        fields.knownMask.byteOffset!==allocation.allocation.knownMask.byteOffset || fields.knownMask.length!==fields.bytes.length ||
+        dataViewBuffer.call(fields.view)!==fields.bytes.buffer || dataViewByteOffset.call(fields.view)!==fields.bytes.byteOffset ||
+        dataViewByteLength.call(fields.view)!==fields.bytes.length)
+        throw new Error('Actual retained Arena SharedBase allocation required');
+      return;
+    }
+    if(this.#arenaPropertySingleton?.ranges.object===fields && this.#setEnvpBinding) {
+      const memory=nativeGameLayerBaseMemoryForCrt(this.#setEnvpBinding.crt as NativeGameCrtOwner);
+      if(!memory.known)throw new Error(memory.reason);
+      const owner=NativePropertySingleton.forPlatform(this.#platform,memory.value);
+      const image=NativeSharedModuleImage.forPlatform(this.#platform);
+      if(!owner.known || owner.value!==this.#arenaPropertySingleton || !image.known)
+        throw new Error('Actual same-platform Arena property singleton owner required');
+      const ranges=image.value.propertySingletonRanges();
+      if(!ranges.known || ranges.value!==owner.value.ranges || ranges.value.object!==fields || fields.backing.freed ||
+        fields.knownMask.length!==fields.bytes.length || dataViewBuffer.call(fields.view)!==fields.bytes.buffer ||
+        dataViewByteOffset.call(fields.view)!==fields.bytes.byteOffset || dataViewByteLength.call(fields.view)!==fields.bytes.length)
+        throw new Error('Actual retained property singleton physical image required');
+      return;
+    }
     const proof=this.#dllMemoryController?NativeSharedCrtOwner.dllMallocLocalStorageForPlatform(this.#platform,this.#dllMemoryController,fields):NativeSharedCrtOwner.argvLocalStorageForPlatform(this.#platform,this.#sharedArgvFrame?.controller??token,fields);if(!proof.known)throw new Error(proof.reason);
     if(dataViewBuffer.call(fields.view)!==fields.bytes.buffer||dataViewByteOffset.call(fields.view)!==fields.bytes.byteOffset||dataViewByteLength.call(fields.view)!==fields.bytes.length)throw new Error('Actual SharedBase argv physical view required');
   }
@@ -2672,7 +2709,7 @@ export class NativeX86ThreadStack {
   #offsetWord(word: NativeX86Word32, displacement: number): NativeX86Word32 {
     const p = this.#liveWord(word).provenance;
     if (!Number.isSafeInteger(displacement)) throw new Error('Exact signed owned pointer displacement required');
-    if(p?.kind==='shared-local'){this.#sharedLocalPhysical(p.fields);const offset=(p.offset??0)+displacement;if(offset<0||offset>p.fields.bytes.length)throw new Error('SharedBase local pointer exceeds storage');return this.#mint(0,0,{kind:'shared-local',fields:p.fields,offset});}
+    if(p?.kind==='shared-local'){this.#sharedLocalPhysical(p.fields);const offset=(p.offset??0)+displacement;if(offset<0||offset>p.fields.bytes.length)throw new Error('SharedBase local pointer exceeds storage');const allocation=this.#arenaAllocations.get(p.fields);return this.#mint(allocation?(allocation.allocation.offset+offset)&3:0,allocation?3:0,{kind:'shared-local',fields:p.fields,offset});}
     if (p?.kind === 'allocation') return this.#allocationWord(p.allocation, p.offset + displacement);
     if (p?.kind === 'module') return this.#moduleWord(p.label, p.offset + displacement);
     if (p?.kind === 'process') return this.#processWord(Object.freeze({ fields: p.pointer.fields, offset: p.pointer.offset + displacement }));
@@ -2776,6 +2813,49 @@ export class NativeX86ThreadStack {
     if (source?.kind !== 'source' || source.type !== 'code' || source.address !== '20466454') throw new Error('Actual C initializer callback return required');
   }); }
   /** Translate the existing CRT registration owner; shutdown is not invoked. */
+  callArenaStatusInitializer(controller:object):NativeValue<void> { return this.#run(controller,()=>{
+    const binding=this.#setEnvpBinding;
+    if(!binding || binding.controller!==controller)throw new Error('Actual retained Game startup controller required');
+    const point=NativeGameCrtSetEnvp.canonicalArenaStatusInitializerForCrt(binding.owner,binding.crt,controller);
+    if(!point.known)throw new Error(point.reason);
+    if(this.#calls.filter(call=>!call.returned).at(-1)?.site!=='204678f2')
+      throw new Error('Actual pending Game cinit frame required');
+    const cursor=this.#memory(this.#load(this.#bank,this.#reg('ESI')),4);
+    const table=NativeModuleCrtOwner.canonicalImageForOwner(binding.crt,'cinitCppInitializerTable');
+    if(!table.known || cursor.fields!==table.value || cursor.offset!==0x370 ||
+      this.#numeric(this.#currentMemoryWord(cursor.fields,cursor.offset),4)!==0x204b1dd0 ||
+      this.#load(this.#bank,this.#reg('EAX'))!==this.#currentMemoryWord(cursor.fields,cursor.offset))
+      throw new Error('Actual Arena Status original initializer table slot required');
+    const crt=binding.crt as NativeGameCrtOwner;
+    const memory=nativeGameLayerBaseMemoryForCrt(crt); if(!memory.known)throw new Error(memory.reason);
+    this.#call('20466654','20466656');
+    const owner=NativeGameArenaStatusProperty.forCrt(crt,memory.value);
+    const result=NativeGameArenaStatusProperty.prototype.initialize.call(owner);
+    if(!result.known)throw new Error('Translated Arena Status initializer pending: '+result.reason);
+    const returned=this.#ret(0), source=this.#record(returned).provenance;
+    if(source?.kind!=='source'||source.type!=='code'||source.address!=='20466656')
+      throw new Error('Actual Arena Status initializer return required');
+  }); }
+  registerArenaRootCleanup(controller:object):NativeValue<void> { return this.#run(controller,()=>{
+    const binding=this.#setEnvpBinding;
+    if(!binding || binding.controller!==controller)throw new Error('Actual retained Game startup controller required');
+    const point=NativeGameCrtSetEnvp.canonicalArenaRootCleanupRegistrationForCrt(binding.owner,binding.crt,controller);
+    if(!point.known)throw new Error(point.reason);
+    if(this.#calls.filter(call=>!call.returned).at(-1)?.site!=='20466654')
+      throw new Error('Actual pending Arena root initializer frame required');
+    const cursor=this.#address(this.#load(this.#bank,this.#reg('ESP')));
+    if(this.#numeric(this.#load(this.#stack,cursor),4)!==0x20549970)
+      throw new Error('Actual pushed Arena root cleanup source address required');
+    const table=NativeGameExitTable.forCrt(binding.crt as NativeGameCrtOwner);
+    const callback=NativeGameExitTable.prototype.callbackForMethod.call(table,'arenaRootCleanup');
+    if(!callback.known)throw new Error(callback.reason);
+    this.#call('204b1db4','204b1db9');
+    const result=NativeGameExitTable.prototype.atexit.call(table,callback.value); if(!result.known)throw new Error(result.reason);
+    this.#store(this.#bank,this.#reg('EAX'),this.#mint(result.value>>>0,0xffffffff));
+    const returned=this.#ret(0), source=this.#record(returned).provenance;
+    if(source?.kind!=='source'||source.type!=='code'||source.address!=='204b1db9')
+      throw new Error('Actual Arena root cleanup registration return required');
+  }); }
   registerGameStaticFini(controller: object): NativeValue<void> { return this.#run(controller, () => {
     const binding = this.#setEnvpBinding;
     if (!binding || binding.controller !== controller) throw new Error('Actual retained Game startup controller required');
@@ -2798,6 +2878,119 @@ export class NativeX86ThreadStack {
     const returned = this.#ret(0), source = this.#record(returned).provenance;
     if (source?.kind !== 'source' || source.type !== 'code' || source.address !== '2046663d')
       throw new Error('Actual original atexit return required');
+  }); }
+  loadArenaVirtualPointer(controller:object,site:string,address:NativeX86Word32):NativeValue<NativeX86Word32> { return this.#run(controller,()=>{
+    const binding=this.#setEnvpBinding;
+    if(!binding || binding.controller!==controller)throw new Error('Actual retained Game startup controller required');
+    const point=NativeGameCrtSetEnvp.canonicalArenaVirtualReadForCrt(binding.owner,binding.crt,controller,site);
+    if(!point.known)throw new Error(point.reason);
+    const memory=this.#memory(address,4);
+    const label=site==='200705cc'?'arenaTypeAndGuard':'arenaRootTypeVtable';
+    const expected=NativeModuleCrtOwner.canonicalImageForOwner(binding.crt,label);
+    const offset=site==='200705cc'?0:12;
+    if(!expected.known || memory.fields!==expected.value || memory.offset!==offset)
+      throw new Error('Actual current Arena virtual-table pointer required');
+    const value=NativeHeapObjectViews.prototype.readUnsigned.call(memory.fields,offset);
+    if(site==='200705cc') {
+      if(value!==Number.parseInt(nativeGameImageReceipt('arenaRootTypeVtable').address,16))
+        throw new Error('Original Arena type vtable changed');
+      return this.#moduleWord('arenaRootTypeVtable',0);
+    }
+    if(value!==0x2002adfb)throw new Error('Original Arena factory virtual slot changed');
+    return this.#source('code','2002adfb');
+  }); }
+  callArenaMemoryAdminRealloc(controller:object,next:string):NativeValue<void> { return this.#run(controller,()=>{
+    const binding=this.#setEnvpBinding;
+    if(!binding || binding.controller!==controller)throw new Error('Actual retained Game startup controller required');
+    const point=NativeGameCrtSetEnvp.canonicalArenaMemoryGetterCallForCrt(binding.owner,binding.crt,controller,'1008ddc2');
+    if(!point.known)throw new Error(point.reason);
+    if(next!=='1008ddc7' || this.#calls.filter(call=>!call.returned).at(-1)?.site!=='1008eb30')
+      throw new Error('Actual retained Arena reserve realloc return frame required');
+    const memory=nativeGameLayerBaseMemoryForCrt(binding.crt as NativeGameCrtOwner); if(!memory.known)throw new Error(memory.reason);
+    const receiver=this.#record(this.#load(this.#bank,this.#reg('ECX'))).provenance;
+    if(receiver?.kind!=='arena-memory-admin' || receiver.owner!==memory.value)
+      throw new Error('Actual retained Arena MemoryAdmin realloc receiver required');
+    const cursor=this.#address(this.#load(this.#bank,this.#reg('ESP')));
+    // The supported first insertion has the original NULL old-array argument.
+    // Existing-buffer realloc needs its own retained allocation proof.
+    if(this.#numeric(this.#load(this.#stack,cursor),4)!==0)
+      throw new Error('Arena existing-buffer realloc ownership is not implemented');
+    const bytes=this.#numeric(this.#load(this.#stack,cursor+4),4);
+    this.#call('1008ddc2',next);
+    const result=NativeMemoryAdmin.prototype.realloc.call(memory.value,null,bytes); if(!result.known)throw new Error(result.reason);
+    let word=this.#mint(0,0xffffffff);
+    if(result.value) {
+      const fields=new NativeHeapObjectViews(result.value);
+      this.#arenaAllocations.set(fields,{owner:memory.value,allocation:result.value});
+      this.#sharedLocalPhysical(fields);
+      // VirtualAlloc's base is aligned; this audited pool's actual offset
+      // proves only the two alignment bits, never an absolute address.
+      word=this.#mint(result.value.offset&3,3,{kind:'shared-local',fields});
+    }
+    this.#store(this.#bank,this.#reg('EAX'),word);
+    const returned=this.#ret(8), source=this.#record(returned).provenance;
+    if(source?.kind!=='source' || source.type!=='code' || source.address!==next)
+      throw new Error('Actual Arena MemoryAdmin realloc return required');
+  }); }
+  callArenaMemoryAdminGetter(controller:object,next:string):NativeValue<void> { return this.#run(controller,()=>{
+    const binding=this.#setEnvpBinding;
+    if(!binding || binding.controller!==controller)throw new Error('Actual retained Game startup controller required');
+    const point=NativeGameCrtSetEnvp.canonicalArenaMemoryGetterCallForCrt(binding.owner,binding.crt,controller);
+    if(!point.known)throw new Error(point.reason);
+    if(next!=='1008ddc0' || this.#calls.filter(call=>!call.returned).at(-1)?.site!=='1008eb30')
+      throw new Error('Actual retained Arena reserve return frame required');
+    const memory=nativeGameLayerBaseMemoryForCrt(binding.crt as NativeGameCrtOwner); if(!memory.known)throw new Error(memory.reason);
+    if(!NativeMemoryAdmin.prototype.usesPlatform.call(memory.value,this.#platform))throw new Error('Actual same-platform SharedBase MemoryAdmin required');
+    this.#call('1008ddbb',next);
+    const result=NativeMemoryAdmin.prototype.getInstance.call(memory.value); if(!result.known)throw new Error(result.reason);
+    if(result.value!==memory.value)throw new Error('Actual retained SharedBase MemoryAdmin singleton required');
+    this.#store(this.#bank,this.#reg('EAX'),this.#mint(0,0,{kind:'arena-memory-admin',owner:result.value}));
+    const returned=this.#ret(0), source=this.#record(returned).provenance;
+    if(source?.kind!=='source' || source.type!=='code' || source.address!==next)
+      throw new Error('Actual Arena MemoryAdmin getter return required');
+  }); }
+  callArenaPropertySingleton(controller:object,site:string,next:string):NativeValue<void> { return this.#run(controller,()=>{
+    const binding=this.#setEnvpBinding;
+    if(!binding || binding.controller!==controller)throw new Error('Actual retained Game startup controller required');
+    const point=NativeGameCrtSetEnvp.canonicalArenaPropertySingletonCallForCrt(binding.owner,binding.crt,controller,site);
+    if(!point.known)throw new Error(point.reason);
+    if(next!==(site==='1008d1a3'?'1008d1a8':site==='2006f985'?'2006f98b':'2006f9f2') ||
+      this.#calls.filter(call=>!call.returned).at(-1)?.site!==(site==='1008d1a3'?'200705d6':'200705c4'))
+      throw new Error('Actual Arena replacement frame and singleton return required');
+    admitArenaPropertySingletonImport();
+    const memory=nativeGameLayerBaseMemoryForCrt(binding.crt as NativeGameCrtOwner); if(!memory.known)throw new Error(memory.reason);
+    this.#call(site,next);
+    const selected=NativePropertySingleton.forPlatform(this.#platform,memory.value); if(!selected.known)throw new Error(selected.reason);
+    const result=NativePropertySingleton.prototype.get.call(selected.value); if(!result.known)throw new Error(result.reason);
+    if(result.value!==selected.value.ranges.object)throw new Error('Actual original property singleton image required');
+    if(this.#arenaPropertySingleton && this.#arenaPropertySingleton!==selected.value)
+      throw new Error('Arena property singleton cannot change its retained owner');
+    this.#arenaPropertySingleton=selected.value;
+    this.#store(this.#bank,this.#reg('EAX'),this.#mint(0,0,{kind:'shared-local',fields:result.value}));
+    const returned=this.#ret(0), source=this.#record(returned).provenance;
+    if(source?.kind!=='source' || source.type!=='code' || source.address!==next)
+      throw new Error('Actual property singleton import return required');
+  }); }
+  callGameArenaTypeSingleton(controller:object):NativeValue<void> { return this.#run(controller,()=>{
+    const binding=this.#setEnvpBinding;
+    if(!binding || binding.controller!==controller)throw new Error('Actual retained Game startup controller required');
+    const point=NativeGameCrtSetEnvp.canonicalArenaTypeCallForCrt(binding.owner,binding.crt,controller);
+    if(!point.known)throw new Error(point.reason);
+    if(this.#calls.filter(call=>!call.returned).at(-1)?.site!=='20466654')
+      throw new Error('Actual pending Arena initializer frame required');
+    const crt=binding.crt as NativeGameCrtOwner;
+    const memory=nativeGameLayerBaseMemoryForCrt(crt); if(!memory.known)throw new Error(memory.reason);
+    this.#call('204b1d8f','204b1d94');
+    const owner=NativeGameArenaType.forCrt(crt,memory.value);
+    const result=NativeGameArenaType.prototype.get.call(owner); if(!result.known)throw new Error(result.reason);
+    const storage=NativeModuleCrtOwner.canonicalImageForOwner(crt,'arenaTypeAndGuard');
+    if(!storage.known || result.value.backing!==storage.value.backing ||
+      result.value.bytes.byteOffset!==storage.value.bytes.byteOffset || result.value.bytes.length!==60)
+      throw new Error('Actual retained original Arena type return required');
+    this.#store(this.#bank,this.#reg('EAX'),this.#moduleWord('arenaTypeAndGuard',0));
+    const returned=this.#ret(0), source=this.#record(returned).provenance;
+    if(source?.kind!=='source' || source.type!=='code' || source.address!=='204b1d94')
+      throw new Error('Actual Arena type singleton return required');
   }); }
   /** Execute the recovered Game CRT wrapper under its existing owner. The
    * source loop owns CALL/RET; wrapper instruction interpretation is not claimed. */
@@ -2913,7 +3106,7 @@ export class NativeX86ThreadStack {
     for (const term of terms) {
       const p = this.#liveWord(term.word).provenance, scale = term.scale ?? 1;
       if (![1, 2, 4, 8].includes(scale)) throw new Error('Actual x86 source scale required');
-      if (p && ['stack', 'allocation', 'module', 'process'].includes(p.kind)) {
+      if (p && ['stack', 'allocation', 'module', 'process', 'shared-local'].includes(p.kind)) {
         if (pointer || scale !== 1 || term.negative) throw new Error('One contained opaque base pointer required by LEA'); pointer = term.word;
       } else scalar += (this.#numeric(term.word, 4) | 0) * scale * (term.negative ? -1 : 1);
     }
@@ -3267,7 +3460,7 @@ export class NativeX86ThreadStack {
   }); }
   negate(controller: object, word: NativeX86Word32, width: Width = 4): NativeValue<NativeX86Word32> { return this.#run(controller, () => {
     const maximum = this.#maximum(width), r = this.#liveWord(word);
-    if (width === 4 && r.provenance && ['stack', 'allocation', 'module', 'process'].includes(r.provenance.kind)) { this.#flags(1, 0x41); return this.#mint(-r.value, r.mask, { kind: 'neg', word }); }
+    if (width === 4 && r.provenance && ['stack', 'allocation', 'module', 'process', 'shared-local'].includes(r.provenance.kind)) { this.#flags(1, 0x41); return this.#mint(-r.value, r.mask, { kind: 'neg', word }); }
     const value = this.#numeric(word, width), result = (-value & maximum) >>> 0;
     this.#arithmeticFlags(0, value, result, width, true); return this.#mint(result, maximum);
   }); }
@@ -3295,7 +3488,9 @@ export class NativeX86ThreadStack {
     if (width === 4 && memory.fields === this.#stack && p?.kind !== 'shared-local') { this.#store(memory.fields, memory.offset, word); return; }
     if (width === 4 && (p?.kind === 'platform' || p?.kind === 'allocation' || p?.kind === 'module' || p?.kind === 'process' || p?.kind === 'shared-local' || p?.kind === 'stack')) {
       this.#invalidateRange(memory.fields, memory.offset, 4); this.#store(memory.fields, memory.offset, word);
-      NativeHeapObjectViews.prototype.pointer.call(memory.fields, memory.offset).set(p.kind === 'platform' ? p.object : p.kind === 'module' ? this.#modulePointer(p) : p.kind==='shared-local'?Object.freeze({fields:p.fields,offset:p.offset??0}):p.kind==='stack'?Object.freeze({fields:this.#stack,offset:p.offset}):p.pointer);
+      const pointer=p.kind === 'platform' ? p.object : p.kind === 'module' ? this.#modulePointer(p) : p.kind==='shared-local'?Object.freeze({fields:p.fields,offset:p.offset??0}):p.kind==='stack'?Object.freeze({fields:this.#stack,offset:p.offset}):p.pointer;
+      NativeHeapObjectViews.prototype.pointer.call(memory.fields, memory.offset).set(pointer);
+      if(p.kind==='shared-local'||p.kind==='stack')this.#nativePointers.set(pointer,word);
       // The physical pointer capability store makes its numerical bits opaque.
       // Retain that owned store's expression with the same physical masks.
       if(record.mask!==0)this.#slots.get(memory.fields)!.set(memory.offset,Object.freeze({word:this.#mint(record.value,0,p),bytes:Object.freeze(Array.from(memory.fields.bytes.subarray(memory.offset,memory.offset+4))),masks:Object.freeze(Array.from(memory.fields.knownMask.subarray(memory.offset,memory.offset+4)))}));

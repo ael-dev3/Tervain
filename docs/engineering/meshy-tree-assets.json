@@ -69,10 +69,10 @@
         "near": {
           "path": "public/models/flora/meshy-012/palm-fan-near.glb",
           "file": "palm-fan-near.glb",
-          "bytes": 1582064,
-          "sha256": "388a38dc049d9f7f0f529b67b4be8f1f7663d551bec9809c655c26f9e883be6e",
-          "triangles": 19487,
-          "uniqueTriangles": 19487,
+          "bytes": 1296068,
+          "sha256": "f927b05ab6f301a3d33779cc3ff16793bcc939ccc8acef638f8897d57e21155f",
+          "triangles": 11414,
+          "uniqueTriangles": 11414,
           "parts": [
             {
               "name": "Foliage",
@@ -81,10 +81,15 @@
             },
             {
               "name": "Wood",
-              "triangles": 13999,
+              "triangles": 5926,
               "mesh": 1
             }
           ],
+          "woodRebalance": {
+            "tool": "tools/rebalance-tree-wood.mjs",
+            "sourceTriangles": 13999,
+            "triangles": 5926
+          },
           "bounds": [
             [
               -6.346960544586182,
@@ -8794,10 +8799,10 @@
         "near": {
           "path": "public/models/flora/meshy-012/palm-lean-near.glb",
           "file": "palm-lean-near.glb",
-          "bytes": 1574220,
-          "sha256": "4b87fe9aa18f1a0c9ffee630e3d78b0f31c9004e1a3519b6b4142ccbfc512808",
-          "triangles": 19488,
-          "uniqueTriangles": 19488,
+          "bytes": 1240796,
+          "sha256": "a499af6bab01f9666fe648c9252c48f76873a562ae525a889876c24bc76a177f",
+          "triangles": 11363,
+          "uniqueTriangles": 11363,
           "parts": [
             {
               "name": "Foliage",
@@ -8806,10 +8811,15 @@
             },
             {
               "name": "Wood",
-              "triangles": 14000,
+              "triangles": 5875,
               "mesh": 1
             }
           ],
+          "woodRebalance": {
+            "tool": "tools/rebalance-tree-wood.mjs",
+            "sourceTriangles": 14000,
+            "triangles": 5875
+          },
           "bounds": [
             [
               -3.514606475830078,
@@ -46552,10 +46562,10 @@
         "near": {
           "path": "public/models/flora/meshy-012/oak-elder-near.glb",
           "file": "oak-elder-near.glb",
-          "bytes": 1722248,
-          "sha256": "b842d2d65f8e14948bd083cc547e6da5347001d1a8af87c4481b9ede15ffe4ad",
-          "triangles": 19487,
-          "uniqueTriangles": 19487,
+          "bytes": 1300764,
+          "sha256": "7258065cd8cc46da4f579bbd2075adc5ddf732070676300cfdf09bf31f591242",
+          "triangles": 11654,
+          "uniqueTriangles": 11654,
           "parts": [
             {
               "name": "Foliage",
@@ -46564,10 +46574,15 @@
             },
             {
               "name": "Wood",
-              "triangles": 13999,
+              "triangles": 6166,
               "mesh": 1
             }
           ],
+          "woodRebalance": {
+            "tool": "tools/rebalance-tree-wood.mjs",
+            "sourceTriangles": 13999,
+            "triangles": 6166
+          },
           "bounds": [
             [
               -7.393407344818115,
@@ -55270,10 +55285,10 @@
         "near": {
           "path": "public/models/flora/meshy-012/tree-0208-near.glb",
           "file": "tree-0208-near.glb",
-          "bytes": 1327548,
-          "sha256": "52ab358c0c2de93148e229b6d6d2b9a260d56c0cf17ba2f71e938e49eaafdff3",
-          "triangles": 19400,
-          "uniqueTriangles": 19400,
+          "bytes": 1044140,
+          "sha256": "22d054e7aec8fe31328d67e26514752469b1bdc64c28eb7a9a68c66b4dc75d2e",
+          "triangles": 11364,
+          "uniqueTriangles": 11364,
           "parts": [
             {
               "name": "Foliage",
@@ -55282,10 +55297,15 @@
             },
             {
               "name": "Wood",
-              "triangles": 13996,
+              "triangles": 5960,
               "mesh": 1
             }
           ],
+          "woodRebalance": {
+            "tool": "tools/rebalance-tree-wood.mjs",
+            "sourceTriangles": 13996,
+            "triangles": 5960
+          },
           "bounds": [
             [
               -6.187053203582764,
@@ -78539,10 +78559,10 @@
         "near": {
           "path": "public/models/flora/meshy-012/tree-1521-near.glb",
           "file": "tree-1521-near.glb",
-          "bytes": 1433184,
-          "sha256": "3e16ff96add3c62028c857f206ad6d4a26d1b65ce68882aaa23241bc5e16d026",
-          "triangles": 17194,
-          "uniqueTriangles": 17194,
+          "bytes": 1299352,
+          "sha256": "91bef78d985738bd522a27f12182af5765ee39154f5797eaef810ca318fe99d9",
+          "triangles": 12412,
+          "uniqueTriangles": 12412,
           "parts": [
             {
               "name": "Foliage",
@@ -78551,10 +78571,15 @@
             },
             {
               "name": "Wood",
-              "triangles": 10782,
+              "triangles": 6000,
               "mesh": 1
             }
           ],
+          "woodRebalance": {
+            "tool": "tools/rebalance-tree-wood.mjs",
+            "sourceTriangles": 10782,
+            "triangles": 6000
+          },
           "bounds": [
             [
               -7.229896545410156,
@@ -95062,10 +95087,10 @@
         "near": {
           "path": "public/models/flora/meshy-012/tree-4949-near.glb",
           "file": "tree-4949-near.glb",
-          "bytes": 1418776,
-          "sha256": "a055cdd339264fc74dc181edf9ed37174fcb111514e07d72b52ba3837ee0580d",
-          "triangles": 19475,
-          "uniqueTriangles": 19475,
+          "bytes": 1214356,
+          "sha256": "e7257455989a71769ae1252eb0465e5063905026b42c4c142a26354f59274a53",
+          "triangles": 11538,
+          "uniqueTriangles": 11538,
           "parts": [
             {
               "name": "Foliage",
@@ -95074,10 +95099,15 @@
             },
             {
               "name": "Wood",
-              "triangles": 13931,
+              "triangles": 5994,
               "mesh": 1
             }
           ],
+          "woodRebalance": {
+            "tool": "tools/rebalance-tree-wood.mjs",
+            "sourceTriangles": 13931,
+            "triangles": 5994
+          },
           "bounds": [
             [
               -7.1350626945495605,
@@ -120784,10 +120814,10 @@
         "near": {
           "path": "public/models/flora/meshy-012/tree-1505-near.glb",
           "file": "tree-1505-near.glb",
-          "bytes": 1357424,
-          "sha256": "c07bd93ad2fb50f3c286fd2c4ee49138f0ba2a2e346c54191df1bf4fdba1bf4f",
-          "triangles": 19488,
-          "uniqueTriangles": 19488,
+          "bytes": 1120884,
+          "sha256": "656238c56b66c11a78ede891797d83f6fecf3ae2db6e5fdc8a216eac5336ab9f",
+          "triangles": 13191,
+          "uniqueTriangles": 13191,
           "parts": [
             {
               "name": "Foliage",
@@ -120796,10 +120826,15 @@
             },
             {
               "name": "Wood",
-              "triangles": 14000,
+              "triangles": 7703,
               "mesh": 1
             }
           ],
+          "woodRebalance": {
+            "tool": "tools/rebalance-tree-wood.mjs",
+            "sourceTriangles": 14000,
+            "triangles": 7703
+          },
           "bounds": [
             [
               -5.322756767272949,
@@ -136078,10 +136113,10 @@
         "near": {
           "path": "public/models/flora/meshy-012/tree-4815-near.glb",
           "file": "tree-4815-near.glb",
-          "bytes": 2463596,
-          "sha256": "ab0a271a15cce45fbd2c342ab155eeec19d7eb19f8455857e5cb44063686e695",
-          "triangles": 19488,
-          "uniqueTriangles": 19488,
+          "bytes": 2090516,
+          "sha256": "e83c9fe2e4c355c1c2de0d433712486419b5cddea261351121684ec79144ee24",
+          "triangles": 12348,
+          "uniqueTriangles": 12348,
           "parts": [
             {
               "name": "Foliage",
@@ -136090,10 +136125,15 @@
             },
             {
               "name": "Wood",
-              "triangles": 14000,
+              "triangles": 6860,
               "mesh": 1
             }
           ],
+          "woodRebalance": {
+            "tool": "tools/rebalance-tree-wood.mjs",
+            "sourceTriangles": 14000,
+            "triangles": 6860
+          },
           "bounds": [
             [
               -3.6100142002105713,
@@ -144796,10 +144836,10 @@
         "near": {
           "path": "public/models/flora/meshy-012/verdant-sentinel-near.glb",
           "file": "verdant-sentinel-near.glb",
-          "bytes": 1807740,
-          "sha256": "579c24106fad68798aad292842ed7531a51631ad37a56f7e6049f553b15bd303",
-          "triangles": 19412,
-          "uniqueTriangles": 19412,
+          "bytes": 1571596,
+          "sha256": "9135c70902285677c1713c9e6431df680efb7ff38b91ebded19e9c292fc390ee",
+          "triangles": 14390,
+          "uniqueTriangles": 14390,
           "parts": [
             {
               "name": "Foliage",
@@ -144808,10 +144848,15 @@
             },
             {
               "name": "Wood",
-              "triangles": 13000,
+              "triangles": 7978,
               "mesh": 1
             }
           ],
+          "woodRebalance": {
+            "tool": "tools/rebalance-tree-wood.mjs",
+            "sourceTriangles": 13000,
+            "triangles": 7978
+          },
           "bounds": [
             [
               -4.858348369598389,
@@ -151095,10 +151140,10 @@
         "mid": {
           "path": "public/models/flora/meshy-012/verdant-sentinel-mid.glb",
           "file": "verdant-sentinel-mid.glb",
-          "bytes": 728216,
-          "sha256": "7deb78323d95e9936b874d158cc7d7a78fb6938f729b529659a37a5e1fe01cda",
-          "triangles": 16624,
-          "uniqueTriangles": 16624,
+          "bytes": 492152,
+          "sha256": "36351de1cc2b51f89f4dc028dbcaf173976f8aca9ae450eb9952dc94ac83bce3",
+          "triangles": 11605,
+          "uniqueTriangles": 11605,
           "parts": [
             {
               "name": "Foliage",
@@ -151107,10 +151152,15 @@
             },
             {
               "name": "Wood",
-              "triangles": 13000,
+              "triangles": 7981,
               "mesh": 1
             }
           ],
+          "woodRebalance": {
+            "tool": "tools/rebalance-tree-wood.mjs",
+            "sourceTriangles": 13000,
+            "triangles": 7981
+          },
           "bounds": [
             [
               -4.858348369598389,
@@ -156576,10 +156626,10 @@
         "far": {
           "path": "public/models/flora/meshy-012/verdant-sentinel-far.glb",
           "file": "verdant-sentinel-far.glb",
-          "bytes": 682228,
-          "sha256": "c2c7fcf6946ba69aeb4e66fa0d47040752bfa881df16a0adcbf87c2d5024133b",
-          "triangles": 14442,
-          "uniqueTriangles": 14442,
+          "bytes": 445856,
+          "sha256": "ecf00b73b7bfe30e1f0ea3b2ff4d9c604080f1e4b3100a98998ca74538179573",
+          "triangles": 9416,
+          "uniqueTriangles": 9416,
           "parts": [
             {
               "name": "Foliage",
@@ -156588,10 +156638,15 @@
             },
             {
               "name": "Wood",
-              "triangles": 13000,
+              "triangles": 7974,
               "mesh": 1
             }
           ],
+          "woodRebalance": {
+            "tool": "tools/rebalance-tree-wood.mjs",
+            "sourceTriangles": 13000,
+            "triangles": 7974
+          },
           "bounds": [
             [
               -4.858348369598389,

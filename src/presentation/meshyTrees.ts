@@ -20,30 +20,46 @@ const pending = new Map<string, Promise<GLTF>>();
 const BROADLEAF = new Set<Species>(['oak', 'birch', 'orchard']);
 /** Each detail level of a tree stays under the natural-model budget; thickening fills up to just below it. */
 const TREE_TRIANGLES = 19_800;
+/**
+ * The extra layers of a near broadleaf crown (A70, A72): each the exported cards again, turned about the crown's heart
+ * and drawn toward it, so its cards fall between the cards already there and stay inside the crown's outline. The
+ * second turns the other way and sits deeper, filling the crown's heart.
+ */
+const CROWN_LAYERS: readonly { turn: number; scale: readonly [number, number, number] }[] = [
+  { turn: 0.83, scale: [0.9, 0.93, 0.9] },
+  { turn: -1.91, scale: [0.8, 0.87, 0.8] },
+];
 
 /**
  * Fill a thin crown close up (A70). The 0.0.12 export cut the broadleaf leaf plates to small leaflets, so a near crown
- * shows sky through it. The near detail gains a second layer of the same cards, turned about the trunk and drawn a
- * tenth toward the crown's heart, filling the gaps between the first without changing the crown's outline. Middle and
- * far detail, where the gaps do not read, are left as exported.
+ * shows sky through it. The near detail gains up to two more layers of the same cards (CROWN_LAYERS), within the tree
+ * budget: the near wood was simplified to make room for them (A72, tools/rebalance-tree-wood.mjs). Middle and far
+ * detail, where the gaps do not read, are left as exported.
  */
 function thicken(leaf: THREE.BufferGeometry | null, enabled: boolean, room: number): THREE.BufferGeometry | null {
   if (!leaf || !enabled || room < 300) return leaf;
   leaf.computeBoundingBox();
   const box = leaf.boundingBox!;
   const heart = new THREE.Vector3((box.min.x + box.max.x) / 2, box.min.y * 0.4 + box.max.y * 0.6, (box.min.z + box.max.z) / 2);
-  const inner = leaf.clone().applyMatrix4(new THREE.Matrix4().makeTranslation(heart.x, heart.y, heart.z)
-    .multiply(new THREE.Matrix4().makeRotationY(0.83)).multiply(new THREE.Matrix4().makeScale(0.9, 0.93, 0.9))
-    .multiply(new THREE.Matrix4().makeTranslation(-heart.x, -heart.y, -heart.z)));
-  // Within the tree budget: where a whole second layer would not fit, an even share of its cards does.
-  const cards = inner.index ? inner.index.count / 3 : inner.getAttribute('position').count / 3;
-  if (cards > room && inner.index) {
-    const keep = room / cards, src = inner.index.array, out: number[] = [];
-    for (let t = 0, acc = 0; t < cards; t++) { acc += keep; if (acc >= 1) { acc -= 1; out.push(src[t * 3]!, src[t * 3 + 1]!, src[t * 3 + 2]!); } }
-    inner.setIndex(out);
-  } else if (cards > room) { inner.dispose(); return leaf; }
-  const merged = mergeGeometries([leaf, inner]);
-  inner.dispose();
+  const layers: THREE.BufferGeometry[] = [];
+  for (const { turn, scale } of CROWN_LAYERS) {
+    if (room < 300) break;
+    const layer = leaf.clone().applyMatrix4(new THREE.Matrix4().makeTranslation(heart.x, heart.y, heart.z)
+      .multiply(new THREE.Matrix4().makeRotationY(turn)).multiply(new THREE.Matrix4().makeScale(...scale))
+      .multiply(new THREE.Matrix4().makeTranslation(-heart.x, -heart.y, -heart.z)));
+    // Within the tree budget: where a whole layer would not fit, an even share of its cards does.
+    const cards = layer.index ? layer.index.count / 3 : layer.getAttribute('position').count / 3;
+    if (cards > room && layer.index) {
+      const keep = room / cards, src = layer.index.array, out: number[] = [];
+      for (let t = 0, acc = 0; t < cards; t++) { acc += keep; if (acc >= 1) { acc -= 1; out.push(src[t * 3]!, src[t * 3 + 1]!, src[t * 3 + 2]!); } }
+      layer.setIndex(out);
+    } else if (cards > room) { layer.dispose(); break; }
+    room -= (layer.index ? layer.index.count : layer.getAttribute('position').count) / 3;
+    layers.push(layer);
+  }
+  if (!layers.length) return leaf;
+  const merged = mergeGeometries([leaf, ...layers]);
+  layers.forEach(layer => layer.dispose());
   if (!merged) return leaf;
   leaf.dispose();
   merged.computeBoundingBox(); merged.computeBoundingSphere();
