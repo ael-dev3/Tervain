@@ -3,6 +3,20 @@ import { admitGameCinitSource, gameCinitImagePins, gameCinitImageReceipt, gameCi
   from '../../src/gothic3/native-game-crt-cinit-source';
 
 describe('Original Game cinit and PE-check source admission', () => {
+  it('captures the original FILE initializer without claiming runtime execution', () => {
+    expect(gameCinitInstruction('2047472e')).toMatchObject({ bytes: 'e89b3cffff',
+      instruction: 'CALL 0x204683ce', assemblyOrigin: 'supplemental-ghidra-recovery' });
+    expect(gameCinitInstruction('20474747').instruction).toBe('CALL 0x204683ce');
+    expect(gameCinitInstruction('2047478b').instruction).toBe('IMUL EDI,EDI,0x38');
+    expect(gameCinitInstruction('20474790').instruction).toBe('SAR EAX,0x5');
+    expect(gameCinitInstruction('204747bc').instruction).toBe('RET');
+    expect(() => gameCinitInstruction('204747bd')).toThrow();
+    expect(gameCinitImageReceipt('cinitStdioCount')).toMatchObject({ address: '207d29c0', bytes: 4, liveValueCaptured: false });
+    expect(gameCinitImageReceipt('cinitStdioVector')).toMatchObject({ address: '207d1664', bytes: 4, liveValueCaptured: false });
+    expect(gameCinitImageReceipt('cinitStdioFiles')).toMatchObject({ address: '207b2e50', bytes: 640,
+      scope: 'cold-original-image', knownMask: 'ff'.repeat(640), liveValueCaptured: false });
+  });
+
   it('admits the original initializer and both section-check helpers', () => {
     expect(() => admitGameCinitSource()).not.toThrow();
     expect(gameCinitInstruction('204665f4')).toMatchObject({ bytes: '833d8c636b2000',

@@ -11,6 +11,27 @@ continuations exist. Complete engine startup, live world activation and campaign
 integration remain unfinished. The hosted route does not yet demonstrate a
 finishable campaign.
 
+## How the rebuild works
+
+The work has three connected parts: recover the original assets, reconstruct
+engine behavior from the matching native binaries, and connect that behavior to
+browser gameplay. TypeScript supplies the runtime; the original files supply
+the evidence for what it must do.
+
+```text
+Local Gothic 3 installation and matching DLLs
+    -> inventory, extract and record original paths and hashes
+    -> export browser assets and capture native instructions
+    -> implement the next supported runtime operation in TypeScript
+    -> validate its state changes and connect it to the browser
+    -> publish a reviewed checkpoint at /gothic3/
+    -> continue until a campaign can be played, saved and finished
+```
+
+This is an incremental reconstruction. Decompiled output is reference material;
+it is not a complete TypeScript game generated automatically from the DLLs.
+Each checkpoint records exactly what executes and where execution next stops.
+
 ## 1. Record the original inputs
 
 The reference installation is
@@ -72,7 +93,7 @@ Game startup continuations are connected to the browser startup stack.
 | --- | --- | --- |
 | Assets | Selected readers and viewers expose original world, tree and human resources for inspection. | Complete coverage and in-game visual fidelity. |
 | SharedBase startup | The supported absent-`zSpie.txt` profile returns `1` from the direct DLL entry after logging and callback dispatch. | Surrounding CRT wrapper, additional profiles and live Game integration. |
-| Game startup | Merged code executes the PE protection check, math initializer and pointer loop. The locally validated C walker initializes the exit table and reaches `20466452 -> 20469f3a` on the browser's retained stack. | Remaining initializer callbacks and complete engine attachment. |
+| Game startup | Merged code executes the PE protection check, math initializer, pointer loop and C walker through exit-table initialization. The locally validated SSE continuation reaches `20466452 -> 2047470c` on the browser's retained stack. | FILE-table initialization, remaining startup dependencies and complete engine attachment. |
 | Campaign | The separate browser route can display the reconstructed Ardea scene. | Connected world/NPC activation, quest progression, campaign saves and a playthrough to an ending. |
 
 The Game PE checkpoint passed 3,082 tests, typechecking, source regeneration and
@@ -131,8 +152,8 @@ callback's already-initialized multibyte state from argv. It reaches
 `20466452 -> 2047470c`, the FILE-table initializer. All 67 focused checks across
 four files pass, typechecking passes and both generated source outputs reproduce
 byte for byte. At that revision, all 3,098 tests across 284 files passed in
-356.87 seconds with a 30-second per-test allowance. Build and browser verification
-remain pending. Fixed-ID and absent-SSE2 profiles return zero through original branches;
+356.87 seconds with a 30-second per-test allowance. Subsequent integrated build
+and browser results are recorded below. Fixed-ID and absent-SSE2 profiles return zero through original branches;
 undeclared CPU, missing CPUID leaf and SIMD-exception profiles retain the actual
 interrupted frame and earlier exit allocation. These results do not establish
 native exception dispatch, complete startup, NPC activation or campaign play.
