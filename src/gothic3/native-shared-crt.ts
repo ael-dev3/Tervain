@@ -1505,6 +1505,20 @@ export class NativeSharedCrtOwner {
   catch(error){this.#dllBoundary=error instanceof Error?error.message:String(error);return {known:false,reason:this.#dllBoundary};}
   finally{this.#dllCall=null;this.#active=false;}
  }
+ processDllSpieFclose():NativeValue<number>{
+  if(this.#active||!this.#argvStack||this.#dllBoundary!=='Original SharedBase SpieAdmin fclose pending at 1004b208')return {known:false,reason:this.#dllBoundary??'Actual pending original fclose required'};
+  try{
+   for(const [label,hash] of Object.entries({"dllSpieFclose": "a8eacde5a2c72f47d211974c86bad3b51e0c0ec209ab5cad22d36fe7d8d802c4", "dllSpieFcloseNoLock": "68ab2550ffaab8360ea0c924c51336d7a9ee19f6cec4f171d6c39bf22912c1dc", "dllSpieFcloseLock": "9ec5a6f0757fd9e243801bdbd262e1cc60f6ae000823c4e095a42781ea1dc7fe", "dllSpieFcloseCleanup": "5535dd41f5bf4e3af7c1718ab6fa1394330f5bc27914b171df5f053c4cefc6a5", "dllSpieFlushStream": "701aecf7f2e737b9a18598bd49964d413f496fc6b6bab12128906516cbac4cee", "dllSpieFreeStreamBuffer": "c847a2a28b89e763f91f60a496cf1e1d9671940ffbd6208118c0081d316601bd", "dllSpieStreamDescriptor": "e754c8dc34507956ba04a79a598953785578a86abe9e9e60358674ea00080cf9", "dllSpieClose": "a81accba11518376ebd46c37759fa5a5ece41318a910320cd94ba2a922b9ef42", "dllSpieCloseDescriptor": "d103185d7033dbe19dd5ec87946ecb6d53280686633e016e78e01b28e22bdaef", "dllSpieDescriptorHandle": "dc291bf6a309f9c7436ae3caa0898f5fcb6e32f000e01a9a07b102e248dc5ffd", "dllSpieClearDescriptorHandle": "83cbf6507e9e916196217eb9544b0f0c4cc985c1df0c9fa96259715332d7b3fd", "dllSpieLockDescriptor": "4d663c6cbe37a9978294789bf1f25f14e5f1e3dddedb79f2ea26601541d174dc", "dllSpieCloseCleanup": "7c10cfd4939605e743dff54a0e5058b2f835ffbf13690fcf0d0bbadff8bf1c1d"}))if(dllEntrySource.methods.find(row=>row.label===label)?.bodyInstructionBytesSha256!==hash)throw new Error('Original fclose dependency source required');
+   const retained:Record<string,NativeHeapObjectViews>={...this.#dllFormatImages};
+   for(const [address,raw] of Object.entries({"100f86d0": "feffffff00000000d4ffffff00000000feffffff00000000b2c80a10", "100f8d98": "feffffff00000000d0ffffff00000000feffffff0000000071f70b10", "100f8fa0": "feffffff00000000d4ffffff00000000feffffff000000005d0d0d10"})){const receipt=dllEntrySource.coldImages.find(row=>row.address===address);if(!receipt||receipt.size!==28||receipt.bytes!==raw)throw new Error('Original fclose scope bytes required');if(!retained[address]){const fields=this.#retainLocal(28);for(let i=0;i<28;i++)fields.writeUnsigned(i,parseInt(raw.slice(i*2,i*2+2),16),1);retained[address]=fields;}}
+   const enabled=dllEntrySource.coldImages.find(row=>row.label==='dllSpieEnabled');if(!enabled||enabled.address!=='10197dbc'||enabled.size!==1||enabled.bytes!=='00')throw new Error('Original SpieAdmin enabled state required');if(!retained[enabled.address]){const fields=this.#retainLocal(1);fields.writeUnsigned(0,0,1);retained[enabled.address]=fields;}
+   const receipt=dllEntrySource.imports.find(row=>row.iatVA==='0x102f95e8');if(!receipt||receipt.module!=='KERNEL32.dll'||receipt.name!=='CloseHandle')throw new Error('Original CloseHandle import receipt required');
+   if(!retained['102f95e8']){const fields=this.#retainLocal(4);fields.pointer<object>(0).set(this.#initializerImports.spieCloseHandleProcedure);retained['102f95e8']=fields;}
+   this.#dllFormatImages=Object.freeze(retained);this.#active=true;this.#initializerActive=true;this.#dllCall=Object.freeze({});this.#dllMallocCall=this.#dllCall;
+   const result=NativeX86ThreadStack.runSharedInitializers(this.#argvStack,this.#dllCall,'dll-spie-fclose');if(!result.known)this.#dllBoundary=result.reason;return result;
+  }catch(error){this.#dllBoundary=error instanceof Error?error.message:String(error);return {known:false,reason:this.#dllBoundary};}
+  finally{this.#dllMallocCall=null;this.#dllCall=null;this.#initializerActive=false;this.#active=false;}
+ }
  processDllSpieCreateFile():NativeValue<number>{
   if(this.#active||!this.#argvStack||this.#dllBoundary!=='Original SharedBase CreateFileA return pending at 100d1372')return {known:false,reason:this.#dllBoundary??'Actual pending original CreateFileA required'};
   try{

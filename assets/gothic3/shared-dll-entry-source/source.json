@@ -41330,6 +41330,20 @@
   ],
   "coldImages": [
     {
+      "label": "dllSpieEnabled",
+      "address": "10197dbc",
+      "size": 1,
+      "bytes": "00",
+      "section": {
+        "virtualAddress": 1306624,
+        "virtualSize": 1807760,
+        "rawSize": 16384,
+        "rawOffset": 1306624,
+        "fileBackedBytes": 0,
+        "loaderZeroFillBytes": 1
+      }
+    },
+    {
       "label": "dllSpieFcloseScope",
       "address": "100f86d0",
       "size": 28,

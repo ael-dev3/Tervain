@@ -156,6 +156,7 @@ def capture(study, output):
             'instruction': f'JMP dword ptr [0x{iat:08x}]', 'import': receipt})
     result['coldImages'] = []
     for label, address, size in [
+        ('dllSpieEnabled',0x10197dbc,1),
         ('dllSpieFcloseScope',0x100f86d0,28),('dllSpieCloseScope',0x100f8d98,28),('dllSpieLockDescriptorScope',0x100f8fa0,28),
         ('dllSpieShutdownCallback',0x100e2830,71),('dllMessageShutdownCallback',0x100e27d0,51),
         ('dllSpieErrorMap',0x10140bd8,360),('dllSpieApplicationType',0x102f649c,4),

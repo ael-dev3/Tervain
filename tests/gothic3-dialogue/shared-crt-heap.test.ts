@@ -1632,6 +1632,36 @@ owner.processDllSpieAllocateDescriptor();
  owner.processDllSpieInitDescriptorSection();return {owner,platform};
 }
 
+it('rejects a damaged fclose return word before retiring the file',()=>{
+ const {owner,platform}=originalFileOpenFixture({cwd:'C:/Gothic3',directories:['C:/','C:/Gothic3'],files:[{path:'zSpie.txt',bytes:[65],readable:true}]});
+ owner.processDllSpieCreateFile();const state=owner.snapshot(),stack=state.caseState!.stack!.snapshot(),call=stack.calls.at(-1)!;
+ const handle=platform.fileSystemSnapshot()!.openHandles[0]!.handle;
+ new NativeHeapObjectViews(stack.sharedDllResourceFrame!.handle.backing,call.position,4).writeUnsigned(0,0);
+ const result=owner.processDllSpieFclose();expect(result.known).toBe(false);if(result.known)throw new Error('Damaged fclose return accepted');
+ expect(result.reason).toMatch(/fclose return frame|expression slot/);
+ expect(platform.fileSystemSnapshot()!.openHandles[0]!.handle).toBe(handle);
+ expect(platform.fileSystemSnapshot()!.retiredHandleCount).toBe(0);
+ expect(owner.snapshot().crtHeldSectionIds).toEqual([]);expect(owner.snapshot().descriptorHeldSectionOffsets).toEqual([]);
+},30_000);
+it('executes original fclose and retires its owned regular file',()=>{
+ const {owner,platform}=originalFileOpenFixture({cwd:'C:/Gothic3',directories:['C:/','C:/Gothic3'],files:[{path:'zSpie.txt',bytes:[65,10],readable:true}]});
+ expect(owner.processDllSpieCreateFile()).toEqual({known:false,reason:'Original SharedBase SpieAdmin fclose pending at 1004b208'});
+ const handle=platform.fileSystemSnapshot()!.openHandles[0]!.handle;
+ const result=owner.processDllSpieFclose();
+ expect(result).toEqual({known:false,reason:'Original SharedBase SpieAdmin callback registration pending at 1004b226'});
+ expect(platform.fileSystemSnapshot()!.openHandles).toHaveLength(0);
+ expect(NativeRuntimePlatform.ownsFileHandle(platform,handle)).toBe(false);
+ expect(NativeRuntimePlatform.recognizesFileHandle(platform,handle)).toBe(true);
+ expect(owner.snapshot().crtHeldSectionIds).toEqual([]);
+ expect(owner.snapshot().descriptorHeldSectionOffsets).toEqual([]);
+ expect(owner.snapshot().ioBlock!.readUnsigned(168)).toBe(0xffffffff);
+ expect(owner.snapshot().ioBlock!.readUnsigned(172,1)).toBe(0);
+ expect(owner.snapshot().initializerImages['10141790']!.readUnsigned(108)).toBe(0);
+ expect(owner.snapshot().dllFormatImages['10197dbc']!.readUnsigned(0,1)).toBe(1);
+ const calls=owner.snapshot().caseState!.stack!.snapshot().calls;
+ for(const site of ['1004b208','100bf665','100d0d4e','100d0d86'])expect(calls.find(row=>row.site===site)!.returned).toBe(true);
+ expect(calls.at(-1)!.site).toBe('1004b226');
+},30_000);
 it('executes the original file-open failure and maps its Win32 error',()=>{
  const {owner,platform}=originalFileOpenFixture({cwd:'C:/Gothic3',directories:['C:/','C:/Gothic3'],files:[]});
  const result=owner.processDllSpieCreateFile();expect(result).toEqual({known:false,reason:'Original SharedBase SpieAdmin termination registration pending at 1004afc7'});
