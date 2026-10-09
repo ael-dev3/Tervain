@@ -61,7 +61,26 @@ export class NativeGameArenaEnum {
    const value=this.crt.imageStorage('enumValueScratch').readUnsigned(0);
    base.writeUnsigned(4,value);
    this.#trace.push('20071ea8.enumValue.store0');
-   throw new Error('Unowned enum shared-name registries at 20071eab -> 200719a0');
+   const guard=this.crt.imageStorage('enumNameRegistryGuard');
+   fact(NativeRuntimePlatform.canonicalGameModuleImageAccessForPlatform(platform,this.crt,'enumNameRegistryGuard',0,4));
+   if((guard.readUnsigned(0)&1)!==0)throw new Error('Unowned preexisting enum name registry at 200719cd');
+   guard.writeUnsigned(0,guard.readUnsigned(0)|1);
+   this.#trace.push('200719b0.enumNameRegistry.guard1');
+   const registry=this.crt.imageStorage('enumNameRegistry');
+   fact(NativeRuntimePlatform.canonicalGameModuleImageAccessForPlatform(platform,this.crt,'enumNameRegistry',0,16));
+   for(const offset of [0,4,8,12])registry.writeUnsigned(offset,0);
+   this.#trace.push('200711bb.enumNameRegistry.zeroFields');
+   // Original reserve(43,0) chooses minimum growth eight from capacity zero:
+   // 51 DWORDs, with all bytes cleared before publishing capacity.
+   const buckets=fact(this.memory.realloc(null,204));
+   registry.pointer(0).set(buckets);
+   if(!buckets)throw new Error('Original enum registry memset dereferences NULL at 2006e96d');
+   const bucketFields=new NativeHeapObjectViews(buckets,0,204);
+   for(let offset=0;offset<204;offset+=4)bucketFields.writeUnsigned(offset,0);
+   registry.writeUnsigned(8,51);
+   registry.writeUnsigned(4,43);
+   this.#trace.push('200711e6.enumNameRegistry.constructor.return');
+   throw new Error('Unowned enum name registry cleanup registration at 200719c5 -> 204637ce (20549ac0)');
   }catch(error){this.#boundary=error instanceof Error?error.message:String(error);return {known:false,reason:this.#boundary};}
  }
  snapshot(){return Object.freeze({boundary:this.#boundary,temporary:this.#temporary,allocation:this.#allocation,

@@ -13,6 +13,19 @@ finishable campaign.
 
 ## How the rebuild works
 
+### Current local checkpoint: enum name registry constructs
+
+The enum naming path sets the original name-registry guard bit and zeros the
+four canonical registry DWORDs. Its cold reserve(43,0) selects growth eight,
+allocates 204 bytes through the same existing MemoryAdmin, clears all 51 DWORDs
+and publishes capacity 51. The constructor then stores bucket count 43; entry
+count remains zero. The actual buffer and fields survive interruption.
+Startup reaches cleanup registration at `200719c5`, with callback `20549ac0`
+still requiring admission. Lookup and value insertion remain unfinished.
+Typechecking and six focused production checks pass; regressions inspect the
+actual guard, counts and all 204 cleared bytes and their known masks.
+This continuation remains local and undeployed.
+
 ### Current local checkpoint: enum base construction returns
 
 The original SharedBase default `bCObjectBase` constructor resolves from
