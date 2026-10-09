@@ -8,7 +8,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { MESHY_RIGHTS_BOUNDARY, meshyProAssetLicense, meshyProLicense, writeLedger } from '../model-ledger/meshy.mjs';
+import { MESHY_RIGHTS_BOUNDARY, classifyMeshy, meshyProAssetLicense, meshyProLicense, writeLedger } from '../model-ledger/meshy.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const manifest = JSON.parse(fs.readFileSync(path.join(ROOT, 'public/models/furniture/manifest.json'), 'utf8'));
@@ -44,5 +44,5 @@ ledger.summary.publicModelFiles = publicAssets.length;
 ledger.summary.publicModelBytes = publicAssets.reduce((total, asset) => total + asset.bytes, 0);
 // Every catalogued file's hash matches its source record; the furniture's record is its manifest.
 ledger.summary.hashesMatchedExistingSourceRecords = ledger.assets.length;
-writeLedger(ledgerFile, ledger);
+writeLedger(ledgerFile, classifyMeshy(ledger)); // provenance and evidence (A73)
 console.log(`ledger: ${manifest.pieces.length} furniture pieces; ${ledger.summary.publicModelFiles} public models, ${ledger.summary.publicModelBytes} bytes`);

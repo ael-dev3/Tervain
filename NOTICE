@@ -42,12 +42,21 @@ This product includes material from the Warpkeep project (https://github.com/ael
    resident manifest, motion/clips.json and the model ledger (rigs under
    generatedRigs). The furniture (public/models/furniture/) was generated
    with Meshy's text to 3D and is recorded in its manifest and the model
-   ledger. Confirmed by the project owner, 9 October 2026: every
-   Meshy-generated asset in the project (the supplied Meshy models, the rigs,
-   the motion library and the furniture) was generated under Meshy Pro, a
-   paid plan. It follows Meshy's paid-plan Customer Output terms (terms of use
-   updated 19 September 2026, section 3.2; see https://www.meshy.ai/terms-of-use);
-   the free-plan CC BY 4.0 and Community CC0 branches do not apply to it.
+   ledger. The rigs, the motion library and the furniture were generated
+   for Tervain through its own Meshy account under Meshy Pro, a paid plan,
+   with every task id recorded; they follow Meshy's paid-plan Customer Output
+   terms (terms of use, Last Updated 19 September 2026, section 3.2; see
+   https://www.meshy.ai/terms-of-use). The 54 supplied Meshy source models
+   (residents, animals, trees, the rock pile, the ancient guardian and the
+   wanderer sources) are not all the project's own output: many were
+   downloaded from the Meshy Community and made by other creators. Which
+   ones, and their creators (creator not recorded so far), remain to be
+   confirmed, so each is recorded as unresolved in the model ledger. Under
+   section 3.3 of those terms, a Community 3D model is CC0 1.0; Tervain
+   credits its creator wherever known. Other Community content, such as an
+   uploaded image, is CC BY-NC 4.0: attribution required, NO COMMERCIAL USE.
+   No asset is recorded under CC BY-NC 4.0. Commercial clearance is
+   unsettled for the models until the unresolved sources are confirmed.
    This notice grants no rights beyond those terms and does not establish
    the separate rights of the animated hero's Mixamo-named skeleton and
    animation content, which remain unresolved, or any reference-component

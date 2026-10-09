@@ -10,10 +10,17 @@ license Tervain's music, models, logos, faction identity or other media.
 3D model credits and per-asset permission records: model-licenses.html and
 model-licenses.json, included beside this notice in the production build.
 Original-game imported models were created with Meshy (https://www.meshy.ai/).
-All Meshy output in the project was generated under Meshy Pro, a paid plan
-(confirmed by the project owner, 9 October 2026), and follows Meshy's
-paid-plan Customer Output terms; Meshy's free-plan CC BY 4.0 and Community
-CC0 branches do not apply to it.
+The resident rigs, the resident motion library and the furniture were
+generated for Tervain through its own Meshy account under Meshy Pro, a paid
+plan (task ids recorded), and follow Meshy's paid-plan Customer Output terms
+(section 3.2). Many of the 54 supplied Meshy source models were downloaded
+from the Meshy Community and made by other creators; which ones, and by whom
+(creator not recorded so far), is unresolved and listed in the ledger's
+toConfirm list. Meshy's terms (Last Updated 19 September 2026, section 3.3)
+make a Community 3D model CC0 1.0; its creator is credited wherever known.
+Other Community content, such as images, is CC BY-NC 4.0: attribution
+required, no commercial use; no asset is recorded under it. Commercial
+clearance is unsettled until the unresolved sources are confirmed.
 Any confirmed Creative Commons asset keeps its separate grant; this project's
 code license does not impose extra restrictions on that asset. An unresolved
 provenance entry is not an open-content grant or a certification of clearance.
