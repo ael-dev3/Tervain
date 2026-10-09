@@ -69,7 +69,10 @@ describe('actual supplied Meshy tree catalog', () => {
         expect([size.x, size.y, size.z].every(value => Number.isFinite(value) && value > 0.01)).toBe(true);
         const { bytes, json } = meshyTreeBinary(`${id}-${MESHY_TREE_LODS[level]}.glb`);
         expect(bytes.readUInt32LE(0)).toBe(0x46546c67); expect(bytes.readUInt32LE(8)).toBe(bytes.length);
-        expect((json.images ?? []).length).toBeGreaterThan(0);
+        // The near file carries the tree's images; its mid and far files share them (A71).
+        const shared = json.asset?.extras?.tervainSharedImages;
+        if (level === 0) expect((json.images ?? []).length).toBeGreaterThan(0);
+        else { expect(shared).toBe(`${id}-near.glb`); expect(json.images).toBeUndefined(); }
         expect((json.images ?? []).every((image: { bufferView?: number; uri?: string }) => Number.isInteger(image.bufferView) && !image.uri)).toBe(true);
       }
     }
