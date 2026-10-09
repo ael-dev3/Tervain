@@ -47,6 +47,140 @@ same evidence-driven process to gameplay systems.
 
 ### Local checkpoint: primitive templates and scoped struct names
 
+The latest local Arena registration continuation executes the SharedBase
+singleton getter, registration-enabled check and root-flag query. It follows
+the empty factory-array branch into the original insertion body and requests
+space for one entry. The original reserve body computes capacity nine and a
+36-byte allocation request. Its MemoryAdmin getter uses the existing recovered
+implementation and returns the actual same-platform owner through the retained
+CALL/RET frame. Its opaque identity becomes the original realloc receiver.
+The first NULL-old-buffer realloc now uses that actual owner and allocates the
+36-byte request from its audited 40-byte pool. The original pointer publication
+executes. The captured memset body zeroes nine DWORDs, reserve returns, and
+the insertion body stores the actual root-wrapper pointer in slot zero.
+Factory count is one and capacity nine. Registration, the final IsRoot query
+and wrapper initialization return. Root cleanup registration now uses its
+captured Game function receipt and the existing CRT exit table. The original
+initializer returns, with 155 completed C++ initializer calls and 158 shutdown
+callbacks. Startup stops before `204b1dd0`, the first Arena status-property
+initializer. Cleanup execution remains unimplemented. Existing-buffer
+realloc is still unsupported in this bridge.
+
+The subsequent startup bridge invokes the existing translated Arena Status
+initializer through its original table slot `2056c370`. Its actual CALL frame
+remains pending. Descriptor construction, Create and property-array insertion
+complete: the canonical Arena type retains one Status descriptor with capacity
+nine. Browser startup now loads the pinned SharedBase static TLS template on
+the retained logical thread before entering Game startup, using the existing
+virtual loader's declared slot zero. This supplies loader state; SharedBase CRT
+initialization and DLL attachment remain separate unfinished prerequisites.
+Canonical startup checks retain the actual same-platform TLS owner.
+At revision `1f31a021`, the production build passed in 46.82 seconds. A fresh
+local production browser entered Ardea and inspected `Ardea_OutNovice_01`.
+The developer panel reported 4,576 environment/startup source operations and
+the same translated Status initializer interruption at the SharedBase output
+formatter. NPC activation remained incomplete, with zero of sixteen property
+sets attached and an unconnected ScriptAdmin getter. This browser observation
+does not establish a finishable campaign; full-suite validation of that revision
+is still running, and these Arena changes have not been deployed.
+
+Full validation subsequently passed all 3,185 tests across 294 files in 481.17
+seconds at `1f31a021`. Main revision `5a348b20` is integrated at `37455aa9`;
+its Gothic runtime, evidence, generators and dialogue tests remain byte-identical
+to that validated revision. All 41 integrated checks across four files passed,
+including the main quest and model-ledger changes, and the integrated build
+passed in 45.53 seconds. Publication is pending; the supported startup still
+stops at the output formatter, and campaign completion remains unproven.
+Registration passes TLS lookup and prepares its actual FILE buffer, then stops
+at the unsupported output formatter (`100b5355`, called from `100a7eff`).
+This bridge does not interpret the initializer's
+lower instructions on the startup stack, and it does not claim a returned
+initializer or completed property registration. Eleven focused checks across three
+files and typechecking pass; broad validation and browser proof remain pending.
+The preceding root-return build at `45b1e5d5` passed in 43.99 seconds.
+The root-insertion revision `6d7c14a7` passed all 3,185 tests across 294 files
+in 485.24 seconds and built in 44.31 seconds. These results apply to that earlier
+revision, before root cleanup registration, Status integration and TLS loading.
+The source package captures 589 instructions. Nineteen focused checks across two files
+and typechecking pass for this continuation; broader validation remains pending.
+The preceding MemoryAdmin-getter revision `e67f69e8` has a passing production
+build (43.94 seconds) and all 3,185 tests across 294 files passed in 473.83
+seconds. Those results apply to that earlier revision.
+Full-suite, build, browser and deployment evidence for this continuation remain
+pending.
+
+The preceding local Arena factory bridge reads the current original type vtable
+and captured virtual slot, executes `2002adfb -> 2006d780`, and returns the
+factory subobject through the retained CALL/RET frame. The pushed wrapper
+argument remains available for the following SharedBase registration call.
+Startup next stops at `200705d6 -> [207d86e0]` (`RegisterPropertyObject`).
+Twenty focused checks and typechecking pass; the 282-instruction source package
+and generated runtime independently reproduce byte for byte. Its full-suite,
+build, browser and deployment evidence remain pending. The preceding registration
+continuation at `137b6da2` passed all 3,185 tests across 294 files in 447.44
+seconds, and its production build passed in 42.36 seconds. Those results apply
+to that earlier revision.
+
+The latest local Arena replacement now returns. The captured registration
+toggle executes twice on the canonical SharedBase singleton, restoring its
+enabled flag and clearing the temporary wrapper pointer. Both getter imports,
+toggle calls and replacement return through the original stack frames. Startup
+next stops at `200705ce`, loading the Arena type's factory virtual slot.
+Twenty focused checks and typechecking pass; the 280-instruction source package
+and generated runtime independently reproduce byte for byte. Full-suite, build,
+browser and deployment evidence for this continuation remain pending.
+
+The latest local replacement continuation enters `2006f930`, executes the
+original root-flag query through its retained indirect-call capability, and
+stops at the property-singleton import `2006f985 -> [207d8868]`. Twenty focused
+checks and typechecking pass; the 263-instruction source package and generated
+runtime independently reproduce byte for byte. This replacement continuation
+has not returned, and its full-suite, build, browser and deployment validation
+remain pending.
+
+The preceding type-bridge revision `58e32391` passed all 3,185 tests across
+294 files in 452.05 seconds, and its production build passed in 42.26 seconds.
+Those results validate the type bridge, rather than the later replacement
+continuation. PR #200's Pages deployment completed successfully; actual hosted
+browser verification of that deployed 154-class-name revision remains pending.
+
+The subsequent local wrapper-initialization prefix now enters
+`204b1daa -> 200705b0`, preserving the original argument and parent frames.
+The captured MOVZX/XOR/AND/XOR sequence sets the root bit and preserves the
+other wrapper flags, leaving flags value 11. Execution next stops at
+`200705c4 -> 2002dc8b` (wrapped-object replacement). Twenty focused checks and
+typechecking pass. This prefix has not returned; its full-suite, production
+build, browser and deployment evidence are pending.
+
+The latest local Arena type bridge returns through `204b1d8f -> 2000d152` using
+the existing canonical type owner and the original retained CALL/RET frame.
+The type is constructed and registered, its original pointer is stored in the
+root wrapper, and startup next stops at `204b1daa -> 200021d5` (wrapper
+initialization). The exit table now retains 157 callbacks. Twenty focused checks
+across two files pass, including the independent image receipt contract.
+Source and generated runtime reproduce byte for byte. The preceding constructor
+full suite finished with 3,184 passing tests and one receipt-scope failure;
+the new generator fixes that runtime receipt label while keeping the captured
+loader-zero-fill provenance. Full-suite, build, browser and deployment validation
+of the type bridge remain pending.
+
+The subsequent local Arena-root continuation now enters initializer `204b1d70`,
+executes SharedBase's original wrapper constructor `10089290` on the retained
+startup stack, returns to `204b1d7b`, and installs the original Arena vtable.
+It next stops at the type-singleton call `204b1d8f -> 2000d152`. Five focused
+checks and typechecking pass. The first 154 class-name initializers remain
+returned, with 155 retained shutdown callbacks; the Arena initializer itself
+has not returned. The production build passes in 47.08 seconds. An actual
+production browser enters Ardea and reports 4,317 startup operations at the same
+type-singleton boundary; NPC activation still has 0/16 attached property sets.
+Full-suite and deployment validation of this subsequent continuation are pending.
+
+The preceding 154-class-name continuation merged through
+[PR #200](https://github.com/ael-dev3/Tervain/pull/200) as
+`af18502c3c1e464b6255ddffc994845c926290ef` after its exact-head CI passed.
+Its Pages deployment is running; this merge does not include the subsequent
+Arena constructor continuation.
+
 The next continuation reuses the original primitive primary-type parser inside
 template arguments, recovers the original 57..64-byte allocation pool, and executes
 the selected ordinary scoped-name loop and `U` struct keyword branch. The scoped
