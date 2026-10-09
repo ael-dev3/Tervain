@@ -46,10 +46,12 @@ export const FOLIAGE_LOOK: FoliageLook = {
   crownNormal: 0.8,
   translucency: 0.9,
   transTint: new THREE.Color(1.0, 1.1, 0.55),
-  innerShade: 0.72,
+  // A75: the heart of a near crown and its leaves in their own shadow went near-black, so a crown read as blotchy dark
+  // clumps between bright cards (owner playtest). Gothic 3's crowns stay soft and evenly lit inside.
+  innerShade: 0.84,
   saturation: 0.95,
   variation: 1,
-  shadeThrough: 0.4,
+  shadeThrough: 0.55,
 };
 
 /** The crown spheroid of a leaf geometry, from its bounds in the mesh's own space. */
@@ -131,7 +133,8 @@ const LEAF_ALPHA_TEST_GLSL = /* glsl */ `
     tvA *= 1.0 + 0.12 * tvMip;
   #endif
   #ifdef ALPHA_TO_COVERAGE
-    diffuseColor.a = clamp( ( tvA - alphaTest ) / max( fwidth( tvA ), 1e-4 ) + 0.5, 0.0, 1.0 );
+    // A75: the ramp spans about two pixels, so card silhouettes soften instead of reading as hard cut-outs.
+    diffuseColor.a = clamp( ( tvA - alphaTest ) / max( 2.0 * fwidth( tvA ), 1e-4 ) + 0.5, 0.0, 1.0 );
     if ( diffuseColor.a == 0.0 ) discard;
   #else
     if ( tvA < alphaTest ) discard;

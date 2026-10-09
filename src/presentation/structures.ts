@@ -273,7 +273,8 @@ export function windowAt(R: Region, rnd: Rnd, o: WindowOpts) {
   if (o.shutters ?? true) {
     for (const s of [-1, 1]) {
       const open = rnd() < 0.7 ? 0.9 + rnd() * 0.5 : 0.25 * rnd();
-      ctx.push(s * (w / 2 + 0.04), 0, 0.08, s * open + (rnd() - 0.5) * 0.06);
+      // Open shutters swing out from the wall (A75): turned by +s·open they swung inward, through the wall and into the room.
+      ctx.push(s * (w / 2 + 0.04), 0, 0.08, -s * open + (rnd() - 0.5) * 0.06);
       const sh = h * (0.96 + rnd() * 0.06);
       const tint = jitterTone(TINT.wood, rnd, 0.09);
       const lean = (rnd() - 0.5) * 0.04;
