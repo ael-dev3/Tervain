@@ -1,4 +1,7 @@
-{
+/** Generated original Game LayerBase source admission; no initializer execution. */
+import sourceText from '../../assets/gothic3/layer-base-class-name/source.json?raw';
+import type { NativeCrtSourceRules, NativeCrtImageReceipt } from './native-game-crt-profile';
+const expected = {
   "schema": "gothic3-layer-base-class-name-evidence-v1",
   "module": {
     "module": "Game.dll",
@@ -486,4 +489,47 @@
   "executionAdmitted": false,
   "wholeCrtTraversalCompleted": false,
   "fullCampaignCompleted": false
+} as const;
+const source: typeof expected = JSON.parse(sourceText);
+function equal(a: unknown, b: unknown): boolean {
+  if (a === b) return true;
+  if (!a || !b || typeof a !== 'object' || typeof b !== 'object') return false;
+  const left = a as Record<string, unknown>, right = b as Record<string, unknown>;
+  const keys = Object.keys(left);
+  return keys.length === Object.keys(right).length && keys.every(key => Object.hasOwn(right, key) && equal(left[key], right[key]));
+}
+function freeze(value: unknown): void {
+  if (value && typeof value === 'object' && !Object.isFrozen(value)) {
+    for (const child of Object.values(value)) freeze(child);
+    Object.freeze(value);
+  }
+}
+freeze(source);
+export function admitGameLayerBaseSource(): void {
+  if (!equal(source, expected)) throw new Error('Original Game LayerBase class-name source differs');
+}
+admitGameLayerBaseSource();
+const coldGlobals: Record<string, NativeCrtImageReceipt> = {};
+const constBytes: Record<string, NativeCrtImageReceipt> = {};
+export const gameLayerBaseImagePins: Record<string, readonly ['coldGlobals' | 'constBytes', string, number, string, string]> = {};
+for (const image of source.images) {
+  const kind = image.label === 'layerBaseInitializerSlot' ? 'constBytes' : 'coldGlobals';
+  const receipt = { ...image, module: 'Game', knownMask: 'ff'.repeat(image.bytes),
+    scope: kind === 'constBytes' ? 'original-file-backed-constant' : 'original-cold-image' };
+  (kind === 'constBytes' ? constBytes : coldGlobals)[image.label] = receipt;
+  gameLayerBaseImagePins[image.label] = [kind, image.address, image.bytes, image.raw, image.sha256];
+}
+export const gameLayerBaseSourceRules: NativeCrtSourceRules = {
+  schema: source.schema, inputs: { Game: source.module.inputSha256 },
+  methods: Object.fromEntries(source.module.methods.map(method => [method.label, {
+    ...method, module: 'Game', entry: method.entryVA.slice(2), body: method.bodyVA.slice(2),
+  }])), coldGlobals, constBytes, imports: { Game: source.imports },
+};
+freeze(gameLayerBaseSourceRules);
+freeze(gameLayerBaseImagePins);
+export function gameLayerBaseImageReceipt(label: string): NativeCrtImageReceipt {
+  admitGameLayerBaseSource();
+  const pin = gameLayerBaseImagePins[label];
+  if (!pin) throw new Error('Unknown original Game LayerBase image label');
+  return gameLayerBaseSourceRules[pin[0]][label]!;
 }

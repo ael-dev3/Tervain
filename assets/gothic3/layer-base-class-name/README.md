@@ -21,10 +21,22 @@ checked against the original PE bytes.
 Regenerate from the matching offline study:
 
 ```powershell
-python tools/gothic3/prepare_layer_base_class_name_source.py --study 'C:/Users/heyas/OneDrive/Рабочий стол/Gothic3_Decompiled_Study_2026-10-04' --output assets/gothic3/layer-base-class-name/source.json
+python tools/gothic3/prepare_layer_base_class_name_source.py --study 'C:/Users/heyas/OneDrive/Рабочий стол/Gothic3_Decompiled_Study_2026-10-04' --output assets/gothic3/layer-base-class-name/source.json --runtime-output src/gothic3/native-game-layer-base-source.ts
 ```
 
-This is source evidence. It does not yet grant execution, complete C++ startup
-or establish a playable campaign. Runtime integration should reuse the existing
-Game RTTI, demangler, string and shutdown callback owners while retaining the
-actual startup stack and initializer order.
+The generated admission module pins this complete receipt independently of the
+imported JSON. The translated `NativeGameLayerBaseClassName` component uses
+canonical Game image fields and the existing Game RTTI, demangler, SharedBase
+string and Game shutdown callback owners. Its cold getter yields
+`eCProcessibleElement`, retains both guard writes and registers cleanup at
+`20034649`. Its component initializer publishes the retained static fields;
+it does not yet run on the actual browser startup stack.
+
+The string holder requests 29 bytes and uses the existing source-audited
+29..32-byte SharedBase pool. Component checks cover the cold name, cleanup,
+cached result, prior pointer, separate module caches, missing dependency,
+unknown guard bytes, missing allocation pools and foreign MemoryAdmin rejection. Focused tests
+across this component, Arena, Game exit-table and CRT demangler passed, together
+with TypeScript checking. These checks do not establish complete C++ startup
+or a playable campaign. The next integration must retain the actual startup
+stack and initializer order.
