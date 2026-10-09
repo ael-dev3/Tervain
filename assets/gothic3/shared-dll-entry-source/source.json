@@ -43272,6 +43272,34 @@
       }
     },
     {
+      "label": "dllErrorFormatDescription",
+      "address": "100e70d0",
+      "size": 13,
+      "bytes": "25732c20446573633a25732000",
+      "text": "%s, Desc:%s "
+    },
+    {
+      "label": "dllErrorFormatMessage",
+      "address": "100e70e0",
+      "size": 4,
+      "bytes": "25732000",
+      "text": "%s "
+    },
+    {
+      "label": "dllErrorFormatDescriptionSource",
+      "address": "100e70e4",
+      "size": 27,
+      "bytes": "25732c20446573633a25732c205a3a232564202d3e202725732700",
+      "text": "%s, Desc:%s, Z:#%d -> '%s'"
+    },
+    {
+      "label": "dllErrorFormatSource",
+      "address": "100e7104",
+      "size": 18,
+      "bytes": "25732c205a3a232564202d3e202725732700",
+      "text": "%s, Z:#%d -> '%s'"
+    },
+    {
       "label": "dllSpieFilename",
       "address": "100e8088",
       "size": 10,
