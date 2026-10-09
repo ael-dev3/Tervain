@@ -544,8 +544,8 @@ export function buildAnimals(ctx: Pick<BuildContext, 'terrain' | 'colliders' | '
           animal.animation.update(dt, at.speed); place(animal, dt);
           continue;
         }
-        // Left far from its rest, the mount is led home out of the hunter's sight.
-        if (animal.definition.tame && !animal.definition.seated && distance > 45 && !animalHabitatAllowed(animal.definition, p)) {
+        // Left far from its rest, the mount is led home once well beyond the hunter's sight (A70).
+        if (animal.definition.tame && !animal.definition.seated && distance > 90 && !animalHabitatAllowed(animal.definition, p)) {
           p.x = animal.home.x; p.z = animal.home.z; animal.yaw = animal.initialYaw; animal.path = []; rest(animal);
         }
         // All nineteen remain in the scene on every preset. Expanded skin bounds let Three's actual
