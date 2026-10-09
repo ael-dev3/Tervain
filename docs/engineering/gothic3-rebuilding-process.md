@@ -11109,11 +11109,11 @@ TLS acquisition. Initialization reaches the original `vsprintf` call at
 `10049871`, retaining its destination, format and varargs. Formatting and the
 subsequent MessageAdmin submission remain pending.
 
-Three focused checks and typechecking pass; the production build passes. The
-full suite is still running for this record. The next original formatter core,
+Three focused checks, typechecking and the production build pass. All 3,028 tests
+across 278 files passed in 333.96 seconds at `0f459fe3`. The next original formatter core,
 `100a7eab`, was independently captured from the installed module: 50 instructions,
 body hash `01a8e501079dfbac7738c12afe584792b8ec8feecdbcac4a70a16d3077ac389e`.
-It has not yet been executed by this continuation.
+It was captured for the subsequent formatter continuation.
 
 PR #178's validation run 37878124727 passed. The preceding main deployment run
 37877993111 was cancelled when PR #177 merged externally as
@@ -11121,3 +11121,24 @@ PR #178's validation run 37878124727 passed. The preceding main deployment run
 37878497070 is still running. No completed deployment is inferred from either
 pending run. These continuations still need production integration and do not
 establish a finishable browser campaign.
+
+### 9 October 2026: original version formatting reaches MessageAdmin submission
+
+Runtime revision `abe33e51` executes `100a7f27`, the original formatter core
+`100a7eab` and the existing output engine. The core creates its actual 32-byte
+CRT stream on the retained native stack. The destination is the same live TLS
+block at offset `0x108`; format and varargs come from the original pending call.
+The formatter writes `Gothic3 (RELEASE) Sharedbase:  Compileversion: 1.60.25931  (Rev. 29)`
+with its terminating NUL, using the four retained version-query outputs.
+
+The output engine and formatter return with the original caller registers and
+exception state restored. The logger invokes the warm MessageAdmin getter and
+reaches the actual submission at `10049894`. Submission and its callback cycle
+remain pending; the MessageAdmin section has not been entered for this message.
+Damaged return, destination and format arguments are rejected before changing
+the TLS buffer.
+
+Three focused checks, typechecking and independent byte-identical regeneration
+pass: 94 methods and 5,511 instructions. Full tests and the production build are
+running for this revision. This component execution still needs production
+integration and does not prove startup or campaign completion.
