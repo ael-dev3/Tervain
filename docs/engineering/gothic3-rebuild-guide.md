@@ -13,6 +13,18 @@ finishable campaign.
 
 ## How the rebuild works
 
+### Current local checkpoint: Status registration returns
+
+After the actual filtered Debug return, property registration follows its
+original success epilogue at `10088196` through `1008819e`, returning AL=1.
+The retained Arena array still owns the actual Status descriptor. The caller
+then destroys its temporary CString at `204b1e39` using the existing recovered
+destructor; regression checks confirm the temporary's destroyed state.
+Startup reaches cleanup registration at `204b1e44 -> 204637ce`, which remains
+unfinished. The initializer has not returned. Typechecking and six production
+checks pass, followed by two focused checks with explicit registration and
+temporary-destruction assertions. This continuation is local and undeployed.
+
 ### Current local checkpoint: filtered diagnostic returns
 
 The registration diagnostic now executes OnMessage's original signed threshold

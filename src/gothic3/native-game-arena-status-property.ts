@@ -29,6 +29,8 @@ export class NativeGameArenaStatusProperty {
   #active = false;
   #created = false;
   #descriptorStored = false;
+  #propertyRegistered = false;
+  #temporaryDestroyed = false;
   #diagnosticNames:Readonly<{propertyName:NativeHeapCString;typeName:NativeHeapCString}>|null=null;
   #boundary: string | null = null;
   #trace: string[] = [];
@@ -97,7 +99,7 @@ export class NativeGameArenaStatusProperty {
     this.#trace.push('10087fcc.unregisterAbsent.return0');
     this.#created=true;
   }
-  #register():never {
+  #register():boolean {
     if(registration.methods.registerPropertyTemplate.bodyVA!=='0x10088130'||registration.methods.registerPropertyTemplate.bodyInstructionBytesSha256!=='b7f5b904cda05bf757443b27f2c272c97a9a885fd838368ed45b9fd687186fa6')throw new Error('Original property registration source differs');
     const index=this.#propertyIndex();
     if(index!==-1)throw new Error('Unowned duplicate property registration warning');
@@ -125,7 +127,9 @@ export class NativeGameArenaStatusProperty {
     const diagnostic=NativeSharedMessageDebug.forPlatform(this.crt.host.platform as NativeRuntimePlatform);
     const result=NativeSharedMessageDebug.prototype.registerProperty.call(diagnostic,propertyText,typeText);
     if(!result.known)throw new Error('Property registration Message.Debug at 10088191: '+result.reason);
-    throw new Error('Unowned property registration return after Message.Debug');
+    this.#propertyRegistered=true;
+    this.#trace.push('1008819e.propertyRegistration.return1');
+    return true;
   }
   initialize():NativeValue<void> {
     if(this.#boundary)return {known:false,reason:this.#boundary};
@@ -154,6 +158,10 @@ export class NativeGameArenaStatusProperty {
       this.#trace.push('204b1e15.ownerOffsetAndDefaultStored');
       this.#create();
       this.#register();
+      fact(NativeHeapCString.prototype.destroy.call(this.#temporary));
+      this.#temporaryDestroyed=true;
+      this.#trace.push('204b1e39.temporaryCString.destroy');
+      throw new Error('Unowned Arena Status cleanup registration at 204b1e44 -> 204637ce');
     } catch(error) {
       this.#boundary ??= error instanceof Error ? error.message : String(error);
       return {known:false,reason:this.#boundary};
@@ -162,5 +170,6 @@ export class NativeGameArenaStatusProperty {
   snapshot() {return Object.freeze({boundary:this.#boundary,temporaryName:this.#temporary,
     baseConstructed:this.#base!==null,createCompleted:this.#created,descriptorStored:this.#descriptorStored,
     diagnosticNames:this.#diagnosticNames,trace:Object.freeze([...this.#trace]),
-    initializerReturned:false,propertyRegistered:false,wholeCrtTraversalCompleted:false});}
+    temporaryDestroyed:this.#temporaryDestroyed,
+    initializerReturned:false,propertyRegistered:this.#propertyRegistered,wholeCrtTraversalCompleted:false});}
 }

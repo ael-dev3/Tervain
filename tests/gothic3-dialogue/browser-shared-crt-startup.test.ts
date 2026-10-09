@@ -14,6 +14,7 @@ import {NativeSharedGuidNull} from '../../src/gothic3/native-shared-guid-null';
 import {NativeHeapObjectViews} from '../../src/gothic3/native-heap-views';
 import {NativeSharedCrtSecurityCookie} from '../../src/gothic3/native-shared-crt-security-cookie';
 import {createBrowserNpcRuntimeAdminOwner} from '../../src/gothic3/native-runtime-platform';
+import {NativeGameArenaStatusProperty} from '../../src/gothic3/native-game-arena-status-property';
 
 function platformFixture(){
  return createBrowserGameCrtPlatform({processInputs:browserGameProcessInputs,
@@ -43,7 +44,7 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  expect(game.known).toBe(true);
  if(!game.known)throw new Error(game.reason);
  expect(game.value.attachResult).toEqual({known:false,
-  reason:'crtAttach204677e4: Unowned Translated Arena Status initializer pending: Unowned property registration return after Message.Debug'});
+  reason:'crtAttach204677e4: Unowned Translated Arena Status initializer pending: Unowned Arena Status cleanup registration at 204b1e44 -> 204637ce'});
  const diagnostic=NativeSharedMessageDebug.forPlatform(platform).snapshot(),locale=diagnostic.formatterLocale!;
  expect(diagnostic.messageOwner).toBe(runtime.message);
  expect(diagnostic.messageGetterReturned).toBe(true);
@@ -67,6 +68,11 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  expect(diagnostic.messageDispatched).toBe(false);
  expect(diagnostic.messageCallReturned).toBe(true);
  expect(diagnostic.debugReturned).toBe(true);
+ const status=NativeGameArenaStatusProperty.forCrt(game.value.crt,memory).snapshot();
+ expect(status.propertyRegistered).toBe(true);
+ expect(status.temporaryDestroyed).toBe(true);
+ expect(status.temporaryName!.snapshot().destroyed).toBe(true);
+ expect(status.initializerReturned).toBe(false);
  expect(runtime.message.snapshot().trace).toContain('10049574.message.threshold.return');
  expect(runtime.message.onMessageBelowThreshold(2)).toEqual({known:false,reason:'Unowned MessageAdmin.OnMessage callback loop at 1004951d'});
  expect(runtime.message.onMessageBelowThreshold(0xffffffff)).toEqual({known:true,value:true});
