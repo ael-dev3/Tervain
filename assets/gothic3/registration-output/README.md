@@ -1,5 +1,14 @@
 # Property-registration output entry
 
+The package also captures the complete formatter and LocaleUpdate instructions,
+plus `write_char` (`100b5289`), `write_multi_char` (`100b52bc`) and
+`write_string` (`100b52e0`). Original PE bytes retain the classification/transition
+region at `100ede50` and the eight-entry dispatch table at `100b5cc9`.
+Each table has its own SHA-256. Generated exports freeze all bodies and tables
+after exact JSON admission. Independent source and runtime regeneration is
+byte-identical; four focused checks and typechecking pass. Capturing these
+bodies does not execute the unfinished formatter output loop.
+
 The producer verifies the matching SharedBase binary and full formatter and
 LocaleUpdate bodies, then captures the formatter's 25 entry instructions through
 the pending call `100b53ab -> 100a74b6`. The generated source getter admits the
