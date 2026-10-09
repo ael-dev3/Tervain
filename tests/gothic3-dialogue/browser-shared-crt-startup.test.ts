@@ -1,3 +1,5 @@
+import {NativeGameLabelClassName} from '../../src/gothic3/native-game-label-class-name';
+import {NativeGameLabelType} from '../../src/gothic3/native-game-label-type';
 import {expect,it,vi} from 'vitest';
 // These run the original instructions in the emulator: about 4–5 s each here, so the 5 s default fails under CI load.
 vi.setConfig({ testTimeout: 30_000 });
@@ -50,9 +52,50 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  expect(game.known).toBe(true);
  if(!game.known)throw new Error(game.reason);
  expect(game.value.attachResult,game.value.attachProgress.setEnvpProgress?.currentPC).toEqual({known:false,
-  reason:'crtAttach204677e4: Unowned Original Game C++ initializer callback is not yet admitted at 204b23d0'});
+  reason:'crtAttach204677e4: Unowned Original Game C++ initializer callback is not yet admitted at 204b2660'});
  const executed=new Set(game.value.attachProgress.setEnvpProgress!.effects.map(effect=>effect.pc));
- for(const pc of ['20072719','20072383','200730dd','204b217a','204b23ca'])expect(executed.has(pc)).toBe(true);
+ for(const pc of ['20072719','20072383','200730dd','204b217a','204b23ca','2007479a','20074403','2007510d','204b241a'])expect(executed.has(pc)).toBe(true);
+ const labelType=NativeGameLabelType.forCrt(game.value.crt,memory);
+ expect(labelType.snapshot()).toMatchObject({entered:true,baseConstructed:true,factoryConstructed:true,getterReturned:true,registered:true});
+ expect(labelType.storage.maskedWord(60,4).value&1).toBe(1);
+ expect(labelType.fields.readUnsigned(0)).toBe(0x2065a384);
+ expect(labelType.base.readUnsigned(20,1)&1).toBe(1);
+ expect([12,16].map(offset=>labelType.base.readUnsigned(offset))).toEqual([0,0]);
+ const labelRegistered=labelType.snapshot();
+ expect(labelRegistered.callback!.entry).toBe('20549c20');
+ expect(new NativeHeapObjectViews(labelRegistered.wrapper!,0,4).pointer(0).get()).toBe(labelType.fields);
+ expect(labelRegistered.slot!.pointer(0).get()).toBe(labelRegistered.wrapper);
+ const labelNameOwner=NativeGameLabelClassName.forCrt(game.value.crt,memory);
+ const labelName=labelNameOwner.get();expect(labelName.known).toBe(true);
+ if(!labelName.known)throw new Error(labelName.reason);
+ expect(labelName.value.text()).toEqual({known:true,value:'gCAIHelper_Label_PS'});
+ expect(labelNameOwner.fields.readUnsigned(8)).toBe(3);
+ expect(labelNameOwner.snapshot().callback!.entry).toBe('20007702');
+ expect(labelNameOwner.get()).toEqual(labelName);
+ expect(labelType.fields.readUnsigned(24)).toBe(0x100ea9c4);
+ const labelFactoryRoot=labelType.fields.pointer<{fields:NativeHeapObjectViews;offset:number}>(28).get()!;
+ expect(labelFactoryRoot).not.toBeNull();expect(labelFactoryRoot.offset).toBe(0);
+ expect([32,36].map(offset=>labelType.fields.readUnsigned(offset))).toEqual([1,9]);
+ const labelFactoryWrapper=labelFactoryRoot.fields.pointer<{fields:NativeHeapObjectViews;offset:number}>(0).get()!;
+ expect(labelFactoryWrapper.fields).toBe(game.value.crt.imageStorage('labelWrapper'));expect(labelFactoryWrapper.offset).toBe(0);
+
+ expect(labelType.fields.readUnsigned(40,2)).toBe(1);
+ expect(labelType.fields.pointer(44).get()).toBe(labelNameOwner.fields.pointer(0).get());
+ const labelBefore=[...labelType.storage.bytes];
+ expect(labelType.get()).toEqual({known:true,value:labelType.fields});
+ expect([...labelType.storage.bytes]).toEqual(labelBefore);
+ expect(labelType.storage).not.toBe(game.value.crt.imageStorage('freePointTypeAndGuard'));
+ const labelWrapper=game.value.crt.imageStorage('labelWrapper');
+ const labelVtable=labelWrapper.pointer<{fields:NativeHeapObjectViews;offset:number}>(0).get()!;
+ expect(labelVtable.fields).toBe(game.value.crt.imageStorage('labelWrapperVtable'));
+ expect(labelVtable.offset).toBe(0);
+ expect([4,8].map(offset=>labelWrapper.readUnsigned(offset))).toEqual([11,0]);
+ const labelPointer=labelWrapper.pointer<{fields:NativeHeapObjectViews;offset:number}>(12).get()!;
+ expect(labelPointer.fields).toBe(labelType.storage);expect(labelPointer.offset).toBe(0);
+ expect([...labelWrapper.knownMask.subarray(4,12)]).toEqual(Array(8).fill(255));
+ expect(labelWrapper).not.toBe(game.value.crt.imageStorage('freePointWrapper'));
+ expect(executed.has('204b23d5')).toBe(true);
+ expect(executed.has('204b23e5')).toBe(true);
  const freePoint=game.value.crt.imageStorage('freePointWrapper');
  const freePointVtable=freePoint.pointer<{fields:NativeHeapObjectViews;offset:number}>(0).get()!;
  expect(freePointVtable.fields).toBe(game.value.crt.imageStorage('freePointWrapperVtable'));
@@ -94,6 +137,9 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  expect([...factoryRoot.fields.knownMask.subarray(4,36)]).toEqual(Array(32).fill(255));
  const callbacks=NativeGameExitTable.forCrt(game.value.crt).snapshot().callbackCells;
  expect(callbacks.filter(cell=>cell.callback?.entry==='20549b80')).toHaveLength(1);
+ expect(callbacks.filter(cell=>cell.callback?.entry==='20549c50')).toHaveLength(1);
+ expect(callbacks.filter(cell=>cell.callback?.entry==='20549c20')).toHaveLength(1);
+ expect(callbacks.filter(cell=>cell.callback?.entry==='20007702')).toHaveLength(1);
  expect(callbacks.filter(cell=>cell.callback?.entry==='2002ec53')).toHaveLength(1);
  const freePointBaseString=freePointType.base.pointer(4).get();
  expect(freePointType.get()).toEqual({known:true,value:freePointType.fields});

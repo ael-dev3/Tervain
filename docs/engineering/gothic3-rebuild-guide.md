@@ -47,7 +47,8 @@ Each feature goes through the following steps:
 **Current local boundary:** Arena Status, None, Running and AI FreePoint
 initialization return through the retained startup stack. FreePoint's later
 class-name initializer also returns, sharing the same CString and cleanup
-owner. The next unsupported C++ initializer is `204b23d0`. Complete startup,
+owner. Label initializer `204b23d0` now executes its wrapper constructor and stops
+after Label returns, at the next C++ initializer `204b2660`. Complete startup,
 world activation and a new-game-to-ending campaign remain unfinished. Local
 checkpoints and the hosted version can differ; validation below identifies
 the checkpoint covered.
@@ -56,6 +57,92 @@ the checkpoint covered.
 
 The entries below describe successive local states, newest first. Statements
 about missing operations in older entries apply to those earlier checkpoints.
+
+### Current local checkpoint: complete Label initializer returns
+
+The captured object-replacement body executes its original registration
+toggles on the retained singleton. The virtual accessor returns the actual
+property factory, which registers the Label wrapper in its retained root
+array. Wrapper initialization returns with argument cleanup. Initializer
+`204b23d0` registers original wrapper cleanup `20549c50`, removes its cdecl
+argument and returns through the C++ startup stack. Startup advances to the
+next unsupported initializer, `204b2660`.
+
+Focused tests inspect the original helper, accessor, wrapper and initializer
+returns; factory array membership; and exactly one class-name, type and wrapper
+cleanup registration. All 31 tests passed, TypeScript checking passed and
+independent source generations matched exactly. The latest completion also passed a production build in 49.35 seconds.
+A local production browser loaded Ardea and its original NPC model inspector
+and reported startup at `204b2660`; live NPC activation still reported the
+unconnected ScriptAdmin getter and 0/16 attached property sets. Full-suite
+validation of this latest completion remains pending. The earlier Label
+wrapper-entry checkpoint passed all 3,199 tests across 298 files in 540.16
+seconds and a production build in 46.09 seconds. Cleanup execution and the
+playable campaign remain unfinished.
+
+### Current local checkpoint: Label wrapper initialization enters
+
+The original initializer CALL `204b240a` enters wrapper body `20075040` on
+the existing startup stack. Its byte argument is one; the original flag
+update changes the retained wrapper flags from ten to eleven while preserving
+its reflected type pointer. Startup stops at object-replacement helper
+`20075054 -> 20025e55`. The full wrapper and initializer have not returned.
+
+TypeScript checking and 31 focused tests passed. Independent JSON and
+TypeScript generations matched byte for byte. Broad validation of this
+later Label checkpoint is pending.
+
+### Current local checkpoint: Label type registers and returns
+
+Label's actual reflected type is inserted into the shared property table with
+its retained wrapper allocation. Registration uses the original virtual
+class-name slot, whose three recovered jumps reach the existing Label CString
+owner. The type getter registers original cleanup `20549c20` and returns
+through its retained startup frame. The initializer stores the actual type
+pointer at wrapper offset twelve and stops at `204b240a -> 200340e0`.
+
+Independent source generations matched exactly, TypeScript checking passed,
+and all 31 focused tests passed in 22.49 seconds. Tests inspect the actual
+registration slot, wrapper allocation, cleanup identity and stable repeat
+getter return. Wrapper initialization and the complete initializer return
+remain unfinished.
+
+### Current local checkpoint: Label class name and named factory construct
+
+The type getter reuses the canonical class-name owner from initializer
+`204b23b0`. Its Label cache and descriptor aliases are checked against the
+same physical Game image, so the earlier static initializer and type getter
+retain one CString and cleanup registration. The named property factory
+constructs at type offset `+0x18` and retains the class-name string allocation.
+Startup now stops at registration CALL `200752cf -> 207d8868`.
+
+Independent JSON and TypeScript generations matched exactly, TypeScript
+checking passed, and all 31 focused startup tests passed in 22.74 seconds.
+Type registration and complete Label initializer return remain unfinished.
+
+### Current local checkpoint: Label reflected-type base constructs
+
+The original type getter CALL enters with a retained return to `204b23f4`.
+Its canonical owner sets the original guard, constructs the SharedBase
+property-type base with flag one, and installs vtable `2065a384` in storage
+`207b5138`. It stops at class-name CALL `200752b9 -> 200340d6` without
+returning or replaying the interrupted construction. Class naming, factory
+construction and type registration remain unfinished.
+
+TypeScript checking and all 31 focused startup tests passed in 25.91 seconds.
+The checks inspect the base flag at offset twenty, zero array counters,
+separate FreePoint and Label storage, and unchanged state on repeat access.
+
+### Current local checkpoint: Label wrapper constructor returns
+
+The original initializer enters on the retained C++ startup stack and calls
+SharedBase wrapper constructor `10089290` with its separate storage at
+`207b51c4`. After its return, flags are ten, the object field is zero and the
+original Label vtable is installed. Startup stops at `204b23ef -> 20006b0e`;
+the reflected type and complete initializer still need implementation.
+Independent source generations matched exactly, TypeScript checking passed,
+and all 31 focused startup tests passed in 24.67 seconds. This later checkpoint
+has not yet received a full-suite or production browser validation.
 
 ### Current local checkpoint: FreePoint initialization returns
 
@@ -76,6 +163,14 @@ The FreePoint continuation passed all 3,199 tests across 298 files in
 startup and Hero checks passed, and the production build completed in
 47.14 seconds. Publication remains pending. These results establish startup
 progress; a playable campaign is still unverified.
+
+### Published FreePoint checkpoint
+
+PR 209 merged as `2d1121eb681a68e0b11d3499c8cab93585f45f33`. Pages run
+`37951664163` succeeded. The public `/gothic3/` route loaded Ardea and its
+model inspector and reported the expected startup boundary `204b23d0`.
+This confirms the FreePoint continuation is deployed; the later Label
+continuation described above remains local.
 
 ### Browser verification of the FreePoint continuation
 

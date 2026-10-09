@@ -19,6 +19,7 @@ import { nativeGameImageReceipt } from './native-game-crt-profile';
 import { nativeGameLayerBaseMemoryForCrt } from './native-game-layer-base-class-name';
 import { gameClassNameSpec, gameClassNameFamilySpecs, gameClassNameFamilyInstruction } from './native-game-class-name-family-source';
 import { gameArenaRootInstruction, admitArenaWrapperConstructorImport, gameArenaWrapperImportTarget, arenaRegistrationToggleTarget } from './native-game-arena-root-source';
+import { labelInitializerInstruction,labelWrapperInstruction,labelReplacementInstruction,labelAccessorInstruction } from './native-game-label-source';
 import { freePointInitializerInstruction,freePointWrapperInstruction,freePointReplacementInstruction,freePointAccessorInstruction } from './native-game-freepoint-source';
 import type { NativeGameCrtOwner } from './native-game-crt';
 
@@ -75,6 +76,10 @@ const bodies = Object.freeze([
   ...gameClassNameFamilySpecs.map(spec => [spec.initializer, spec.initializer + '-' + spec.instructions.at(-1)!.va] as const),
   ['204b1d70','204b1d70-204b1dba'],
   ['204b2130','204b2130-204b217a'],
+  ['204b23d0','204b23d0-204b241a'],
+  ['20075040','20075040-2007510d'],
+  ['20074640','20074640-2007479a'],
+  ['20074400','20074400-20074403'],
   ['20073010','20073010-200730dd'],
   ['200725c0','200725c0-20072719'],
   ['20072380','20072380-20072383'],
@@ -290,6 +295,10 @@ export class NativeGameCrtSetEnvp {
     const active=NativeGameCrtSetEnvp.canonicalControllerForCrt(owner,crt,controller,'invoke');
     if(!active.known)return active;
     const frame=owner.#frames.at(-1);
+    if(site==='2007505c'||site==='2007505e')return owner.#pc===site&&owner.#currentEntry==='20075040'&&
+      frame?.entry==='20075040'&&frame.site==='204b240a'&&frame.returnPc==='204b240f'&&
+      owner.#requireSourcePoint(site).instruction===(site==='2007505c'?'MOV EDX,dword ptr [ECX]':'MOV EAX,dword ptr [EDX + 0xc]')
+      ?known(undefined):unknown('Actual original Label virtual-table read required');
     if(site==='2007302c'||site==='2007302e')return owner.#pc===site&&owner.#currentEntry==='20073010'&&
       frame?.entry==='20073010'&&frame.site==='204b216a'&&frame.returnPc==='204b216f'&&
       owner.#requireSourcePoint(site).instruction===(site==='2007302c'?'MOV EDX,dword ptr [ECX]':'MOV EAX,dword ptr [EDX + 0xc]')
@@ -306,8 +315,11 @@ export class NativeGameCrtSetEnvp {
     const frame=owner.#frames.at(-1);
     const original=site==='1008d1a3'
       ? owner.#currentEntry==='1008d190' && frame?.entry==='1008d190' &&
-        ((frame.site==='200705d6'&&frame.returnPc==='200705dc')||(frame.site==='20073036'&&frame.returnPc==='2007303c'))&&
+        ((frame.site==='200705d6'&&frame.returnPc==='200705dc')||(frame.site==='20073036'&&frame.returnPc==='2007303c')||(frame.site==='20075066'&&frame.returnPc==='2007506c'))&&
         owner.#requireSourcePoint(site).instruction==='CALL 0x10004fd4'
+      : ['20074699','200746dd'].includes(site) ? owner.#currentEntry==='20074640'&&
+        frame?.entry==='20074640'&&frame.site==='20075054'&&frame.returnPc==='20075059'&&
+        owner.#requireSourcePoint(site).instruction==='CALL dword ptr [0x207d8868]'
       : ['20072619','2007265c'].includes(site) ? owner.#currentEntry==='200725c0' &&
         frame?.entry==='200725c0' && frame.site==='20073024' && frame.returnPc==='20073029' &&
         owner.#requireSourcePoint(site).instruction==='CALL dword ptr [0x207d8868]'
@@ -326,6 +338,13 @@ export class NativeGameCrtSetEnvp {
       owner.#requireSourcePoint(owner.#pc).instruction==='CALL 0x2000d152'
       ? known(undefined):unknown('Actual original Arena type-singleton CALL required');
   }
+  static canonicalLabelTypeCallForCrt(owner:NativeGameCrtSetEnvp,crt:NativeModuleCrtOwner,controller:object):NativeValue<void> {
+    const active=NativeGameCrtSetEnvp.canonicalControllerForCrt(owner,crt,controller,'invoke');if(!active.known)return active;
+    const frame=owner.#frames.at(-1);
+    return owner.#pc==='204b23ef'&&owner.#currentEntry==='204b23d0'&&frame?.entry==='204b23d0'&&
+      frame.site==='20466654'&&frame.returnPc==='20466656'&&owner.#requireSourcePoint(owner.#pc).instruction==='CALL 0x20006b0e'
+      ?known(undefined):unknown('Actual original Label type-singleton CALL required');
+  }
   static canonicalFreePointTypeCallForCrt(owner:NativeGameCrtSetEnvp,crt:NativeModuleCrtOwner,controller:object):NativeValue<void> {
     const active=NativeGameCrtSetEnvp.canonicalControllerForCrt(owner,crt,controller,'invoke');
     if(!active.known)return active;
@@ -341,6 +360,13 @@ export class NativeGameCrtSetEnvp {
     return owner.#pc==='204b2174'&&owner.#currentEntry==='204b2130'&&frame?.entry==='204b2130'&&
       frame.site==='20466654'&&frame.returnPc==='20466656'&&owner.#requireSourcePoint(owner.#pc).instruction==='CALL 0x204637ce'
       ?known(undefined):unknown('Actual original FreePoint wrapper cleanup registration required');
+  }
+  static canonicalLabelCleanupCallForCrt(owner:NativeGameCrtSetEnvp,crt:NativeModuleCrtOwner,controller:object):NativeValue<void> {
+    const active=NativeGameCrtSetEnvp.canonicalControllerForCrt(owner,crt,controller,'invoke');if(!active.known)return active;
+    const frame=owner.#frames.at(-1);
+    return owner.#pc==='204b2414'&&owner.#currentEntry==='204b23d0'&&frame?.entry==='204b23d0'&&
+      frame.site==='20466654'&&frame.returnPc==='20466656'&&owner.#requireSourcePoint(owner.#pc).instruction==='CALL 0x204637ce'
+      ?known(undefined):unknown('Actual original Label wrapper cleanup registration required');
   }
   static canonicalArenaMemoryGetterCallForCrt(owner:NativeGameCrtSetEnvp,crt:NativeModuleCrtOwner,controller:object,site='1008ddbb'):NativeValue<void> {
     const active=NativeGameCrtSetEnvp.canonicalControllerForCrt(owner,crt,controller,'invoke');
@@ -417,7 +443,11 @@ export class NativeGameCrtSetEnvp {
     const extent = ranges.get(this.#currentEntry), address = Number.parseInt(pc, 16);
     if (!extent?.some(([first, last]) => address >= first && address <= last) ||
         this.#currentEntry === '204677e4' && !callerRows.has(pc)) throw new Error('Unowned Game environment source frontier at' + pc);
-    const point = this.#currentEntry==='204b2130' ? freePointInitializerInstruction(pc)
+    const point = this.#currentEntry==='20074400' ? labelAccessorInstruction(pc)
+      : this.#currentEntry==='20074640' ? labelReplacementInstruction(pc)
+      : this.#currentEntry==='20075040' ? labelWrapperInstruction(pc)
+      : this.#currentEntry==='204b23d0' ? labelInitializerInstruction(pc)
+      : this.#currentEntry==='204b2130' ? freePointInitializerInstruction(pc)
       : this.#currentEntry==='20073010' ? freePointWrapperInstruction(pc)
       : this.#currentEntry==='200725c0' ? freePointReplacementInstruction(pc)
       : this.#currentEntry==='20072380' ? freePointAccessorInstruction(pc)
@@ -483,9 +513,17 @@ export class NativeGameCrtSetEnvp {
     return fact(NativeX86ThreadStack.prototype.effectiveAddress.call(this.#stack, this.#controller, terms, displacement));
   }
   #read(value: Operand, bytes: Width = width(value)): NativeX86Word32 {
+    if(this.#currentEntry==='20075040'&&bytes===4&&value.kind==='memory'&&!value.fs&&
+      ((this.#pc==='2007505c'&&value.expression==='ECX')||(this.#pc==='2007505e'&&value.expression==='EDX + 0xc')))
+      return fact(NativeX86ThreadStack.prototype.loadArenaVirtualPointer.call(this.#stack,this.#controller,this.#pc,this.#address(value.expression)));
     if(this.#currentEntry==='20073010'&&bytes===4&&value.kind==='memory'&&!value.fs&&
       ((this.#pc==='2007302c'&&value.expression==='ECX')||(this.#pc==='2007302e'&&value.expression==='EDX + 0xc')))
       return fact(NativeX86ThreadStack.prototype.loadArenaVirtualPointer.call(this.#stack,this.#controller,this.#pc,this.#address(value.expression)));
+    if(bytes===4&&value.kind==='memory'&&!value.fs&&this.#currentEntry==='20074640'&&
+      ((this.#pc==='2007467b'&&value.expression==='0x207d86e8')||(this.#pc==='2007468e'&&value.expression==='0x207d86ec'))){
+      const target=value.expression==='0x207d86e8'?gameArenaWrapperImportTarget('207d86e8'):arenaRegistrationToggleTarget();
+      return fact(NativeX86ThreadStack.prototype.sourceAddress.call(this.#stack,this.#controller,'code',target));
+    }
     if(bytes===4&&value.kind==='memory'&&!value.fs&&this.#currentEntry==='200725c0'&&
       ((this.#pc==='200725fb'&&value.expression==='0x207d86e8')||(this.#pc==='2007260e'&&value.expression==='0x207d86ec'))){
       const target=value.expression==='0x207d86e8'?gameArenaWrapperImportTarget('207d86e8'):arenaRegistrationToggleTarget();
@@ -530,8 +568,8 @@ export class NativeGameCrtSetEnvp {
       fact(NativeX86ThreadStack.prototype.registerArenaRootCleanup.call(this.#stack,this.#controller));
       this.#nextBoundary=null; return returnPc;
     }
-    if(point.va==='200705de'||point.va==='2007303e') {
-      if(this.#currentEntry!==(point.va==='200705de'?'200705b0':'20073010') || target.kind!=='memory' || target.expression!=='0x207d86e8' || target.fs)
+    if(point.va==='200705de'||point.va==='2007303e'||point.va==='2007506e') {
+      if(this.#currentEntry!==(point.va==='200705de'?'200705b0':point.va==='2007506e'?'20075040':'20073010') || target.kind!=='memory' || target.expression!=='0x207d86e8' || target.fs)
         throw new Error('Original Arena post-registration IsRoot import required');
       const body=gameArenaWrapperImportTarget('207d86e8');
       fact(NativeX86ThreadStack.prototype.call.call(this.#stack,this.#controller,point.va,returnPc));
@@ -571,8 +609,8 @@ export class NativeGameCrtSetEnvp {
       this.#frames.push(Object.freeze({entry:'1008eb10',site:point.va,returnPc,previousEntry:this.#currentEntry}));
       this.#currentEntry='1008eb10'; this.#nextBoundary=null; return '1008eb10';
     }
-    if(point.va==='200705d6'||point.va==='20073036') {
-      if(this.#currentEntry!==(point.va==='200705d6'?'200705b0':'20073010') || target.kind!=='memory' || target.expression!=='0x207d86e0' || target.fs)
+    if(point.va==='200705d6'||point.va==='20073036'||point.va==='20075066') {
+      if(this.#currentEntry!==(point.va==='200705d6'?'200705b0':point.va==='20075066'?'20075040':'20073010') || target.kind!=='memory' || target.expression!=='0x207d86e0' || target.fs)
         throw new Error('Original Arena RegisterPropertyObject call required');
       fact(NativeX86ThreadStack.prototype.call.call(this.#stack,this.#controller,point.va,returnPc));
       this.#frames.push(Object.freeze({entry:'1008d190',site:point.va,returnPc,previousEntry:this.#currentEntry}));
@@ -610,6 +648,15 @@ export class NativeGameCrtSetEnvp {
       this.#frames.push(Object.freeze({entry:'20072380',site:point.va,returnPc,previousEntry:this.#currentEntry}));
       this.#currentEntry='20072380';this.#nextBoundary=null;return '20072380';
     }
+    if(point.va==='20075062'){
+      if(this.#currentEntry!=='20075040'||target.kind!=='register'||target.register!=='EAX'||target.lane)
+        throw new Error('Original Label factory accessor call required');
+      labelAccessorInstruction('20074400');
+      fact(NativeX86ThreadStack.prototype.requireSourceAddress.call(this.#stack,this.#controller,this.#read(target),'code','20017e27'));
+      fact(NativeX86ThreadStack.prototype.call.call(this.#stack,this.#controller,point.va,returnPc));
+      this.#frames.push(Object.freeze({entry:'20074400',site:point.va,returnPc,previousEntry:this.#currentEntry}));
+      this.#currentEntry='20074400';this.#nextBoundary=null;return '20074400';
+    }
     if(['2006f98d','2006f9f4'].includes(point.va)) {
       if(this.#currentEntry!=='2006f930' || target.kind!=='memory' || target.expression!=='0x207d86ec' || target.fs)
         throw new Error('Original Arena registration toggle call required');
@@ -618,7 +665,7 @@ export class NativeGameCrtSetEnvp {
       this.#frames.push(Object.freeze({entry:body,site:point.va,returnPc,previousEntry:this.#currentEntry}));
       this.#currentEntry=body; this.#nextBoundary=null; return body;
     }
-    if(['2006f985','2006f9ec','20072619','2007265c'].includes(point.va)) {
+    if(['2006f985','2006f9ec','20072619','2007265c','20074699','200746dd'].includes(point.va)) {
       if(target.kind!=='memory' || target.expression!=='0x207d8868' || target.fs)
         throw new Error('Original Arena property singleton operand required');
       this.#nextBoundary=Object.freeze({pc:point.va,operation:'import',target:'207d8868'});
@@ -657,6 +704,31 @@ export class NativeGameCrtSetEnvp {
       this.#frames.push(Object.freeze({entry:body,site:point.va,returnPc,previousEntry:this.#currentEntry}));
       this.#currentEntry=body;this.#nextBoundary=null;return body;
     }
+    if(point.va==='20075054') {
+      if(this.#currentEntry!=='20075040'||target.kind!=='immediate'||target.value!==0x20025e55||returnPc!=='20075059')
+        throw new Error('Original Label object replacement call required');
+      fact(NativeX86ThreadStack.prototype.call.call(this.#stack,this.#controller,point.va,returnPc));
+      this.#frames.push(Object.freeze({entry:'20074640',site:point.va,returnPc,previousEntry:this.#currentEntry}));
+      this.#currentEntry='20074640';this.#nextBoundary=null;return '20074640';
+    }
+    if(['2007468a','200746a7','200746d4','200746e9','2007476d'].includes(point.va)) {
+      if(this.#currentEntry!=='20074640'||target.kind!=='register'||target.register!=='EBX'||target.lane)
+        throw new Error('Original Label indirect IsRoot call required');
+      const body=gameArenaWrapperImportTarget('207d86e8');
+      fact(NativeX86ThreadStack.prototype.requireSourceAddress.call(this.#stack,this.#controller,this.#read(target),'code',body));
+      fact(NativeX86ThreadStack.prototype.call.call(this.#stack,this.#controller,point.va,returnPc));
+      this.#frames.push(Object.freeze({entry:body,site:point.va,returnPc,previousEntry:this.#currentEntry}));
+      this.#currentEntry=body;this.#nextBoundary=null;return body;
+    }
+    if(['200746a1','200746e5'].includes(point.va)) {
+      if(this.#currentEntry!=='20074640'||target.kind!=='register'||target.register!=='EBP'||target.lane)
+        throw new Error('Original Label registration toggle call required');
+      const body=arenaRegistrationToggleTarget();
+      fact(NativeX86ThreadStack.prototype.requireSourceAddress.call(this.#stack,this.#controller,this.#read(target),'code',body));
+      fact(NativeX86ThreadStack.prototype.call.call(this.#stack,this.#controller,point.va,returnPc));
+      this.#frames.push(Object.freeze({entry:body,site:point.va,returnPc,previousEntry:this.#currentEntry}));
+      this.#currentEntry=body;this.#nextBoundary=null;return body;
+    }
     if(['2006f97c','2006f997','2006f9e3','2006f9fc'].includes(point.va)) {
       if(this.#currentEntry!=='2006f930' || target.kind!=='register' || target.register!=='EBP' || target.lane)
         throw new Error('Original Arena indirect IsRoot call required');
@@ -672,6 +744,19 @@ export class NativeGameCrtSetEnvp {
       fact(NativeX86ThreadStack.prototype.registerFreePointWrapperCleanup.call(this.#stack,this.#controller));
       this.#nextBoundary=null;return returnPc;
     }
+    if(point.va==='204b2414'){
+      if(target.kind!=='immediate'||target.value!==0x204637ce||returnPc!=='204b2419')throw new Error('Original Label cleanup call target required');
+      this.#nextBoundary=Object.freeze({pc:point.va,operation:'translatedCrtCall',target:'204637ce'});
+      fact(NativeX86ThreadStack.prototype.registerLabelWrapperCleanup.call(this.#stack,this.#controller));
+      this.#nextBoundary=null;return returnPc;
+    }
+    if(point.va==='204b240a') {
+      if(this.#currentEntry!=='204b23d0'||target.kind!=='immediate'||target.value!==0x200340e0||returnPc!=='204b240f')
+        throw new Error('Original Label wrapper initialization call required');
+      fact(NativeX86ThreadStack.prototype.call.call(this.#stack,this.#controller,point.va,returnPc));
+      this.#frames.push(Object.freeze({entry:'20075040',site:point.va,returnPc,previousEntry:this.#currentEntry}));
+      this.#currentEntry='20075040';this.#nextBoundary=null;return '20075040';
+    }
     if(point.va==='204b216a') {
       if(this.#currentEntry!=='204b2130'||target.kind!=='immediate'||target.value!==0x20008571||returnPc!=='204b216f')
         throw new Error('Original FreePoint wrapper initialization call required');
@@ -685,6 +770,12 @@ export class NativeGameCrtSetEnvp {
       fact(NativeX86ThreadStack.prototype.call.call(this.#stack,this.#controller,point.va,returnPc));
       this.#frames.push(Object.freeze({entry:'200705b0',site:point.va,returnPc,previousEntry:this.#currentEntry}));
       this.#currentEntry='200705b0'; this.#nextBoundary=null; return '200705b0';
+    }
+    if(point.va==='204b23ef') {
+      if(target.kind!=='immediate'||target.value!==0x20006b0e||returnPc!=='204b23f4')throw new Error('Original Label type singleton call target required');
+      this.#nextBoundary=Object.freeze({pc:point.va,operation:'translatedCrtCall',target:'20006b0e'});
+      fact(NativeX86ThreadStack.prototype.callGameLabelTypeSingleton.call(this.#stack,this.#controller));
+      this.#nextBoundary=null;return returnPc;
     }
     if(point.va==='204b214f') {
       if(target.kind!=='immediate'||target.value!==0x20035a08||returnPc!=='204b2154')
@@ -700,8 +791,8 @@ export class NativeGameCrtSetEnvp {
       fact(NativeX86ThreadStack.prototype.callGameArenaTypeSingleton.call(this.#stack,this.#controller));
       this.#nextBoundary=null; return returnPc;
     }
-    if(point.va==='204b1d75'||point.va==='204b2135') {
-      if(this.#currentEntry!==(point.va==='204b1d75'?'204b1d70':'204b2130') || target.kind!=='memory' || target.expression!=='0x207d87b8' || target.fs)
+    if(point.va==='204b1d75'||point.va==='204b2135'||point.va==='204b23d5') {
+      if(this.#currentEntry!==(point.va==='204b1d75'?'204b1d70':point.va==='204b23d5'?'204b23d0':'204b2130') || target.kind!=='memory' || target.expression!=='0x207d87b8' || target.fs)
         throw new Error('Original Arena wrapper constructor call required');
       admitArenaWrapperConstructorImport();
       this.#nextBoundary=Object.freeze({pc:point.va,operation:'import',target:'207d87b8'});
@@ -720,8 +811,8 @@ export class NativeGameCrtSetEnvp {
         fact(NativeX86ThreadStack.prototype.callArenaStatusInitializer.call(this.#stack,this.#controller,callback));
         this.#frames.pop(); this.#nextBoundary=null; return returnPc;
       }
-      if ((callback === '204b1d70'||callback==='204b2130') && nativeGameLayerBaseMemoryForCrt(this.#crt as NativeGameCrtOwner).known) {
-        const labels=callback==='204b1d70'?['arenaRootWrapper','arenaRootVtable','arenaRootTypeVtable']:['freePointWrapper','freePointWrapperVtable','freePointTypeVtable'];
+      if ((callback === '204b1d70'||callback==='204b2130'||callback==='204b23d0') && nativeGameLayerBaseMemoryForCrt(this.#crt as NativeGameCrtOwner).known) {
+        const labels=callback==='204b1d70'?['arenaRootWrapper','arenaRootVtable','arenaRootTypeVtable']:callback==='204b23d0'?['labelWrapper','labelWrapperVtable','labelTypeVtable']:['freePointWrapper','freePointWrapperVtable','freePointTypeVtable'];
         this.#classImages = Object.freeze(labels.map(label => {
           const receipt = nativeGameImageReceipt(label);
           const fields = fact(NativeModuleCrtOwner.canonicalImageForOwner(this.#crt,label));

@@ -1,8 +1,8 @@
 # AI Label startup evidence
 
-The current browser startup boundary is original Game initializer `204b23d0`
+This package records original Game initializer `204b23d0`
 for `gCAIHelper_Label_PS`. This package captures its fourteen instructions,
-five helper bodies and seven initial image regions from the matching local
+six helper bodies and seven initial image regions from the matching local
 Game DLL. Every listed instruction is checked against the original PE bytes;
 entry jumps, section bounds, hashes and loader zero fill are recorded.
 
@@ -13,19 +13,32 @@ entry jumps, section bounds, hashes and loader zero fill are recorded.
 | Class-name getter | `20072fa0` | 22 |
 | Object replacement | `20074640` | 125 |
 | Type accessor | `20074400` | 2 |
+| Virtual class-name thunk target | `20072fa0` | 22 |
 
 The accessor returns the receiver's `+0x18` property factory. The original
 initializer constructs the wrapper at `207b51c4`, obtains its type, initializes
 it with argument one, and registers cleanup `20549c50`. Type cleanup is
-`20549c20`; the class-name getter registers thunk `20007702`. Cleanup bodies
-and execution are not captured by this package. These are source receipts,
-not proof that the Label initializer executes in the browser.
+`20549c20`; the class-name getter registers thunk `20007702`. Type cleanup is captured as five original instructions ending in an imported
+tail jump, checked directly against the DLL. Wrapper cleanup is captured from thirty original PE bytes with a bounded
+five-instruction decode. Shutdown execution remains unfinished. The initializer prefix now executes the original SharedBase wrapper
+constructor on its own retained storage, sets flags to ten, clears its object
+field and installs the Label vtable. The reflected type getter now sets its guard, constructs the type base with
+flag one and installs vtable `2065a384`. Its class-name getter reuses the earlier static initializer owner and the
+named factory constructs at type offset `+0x18`. The type now registers in the shared property table, registers cleanup
+`20549c20` and returns through its retained startup frame. The initializer
+stores that type at wrapper offset twelve and stops at wrapper initialization
+CALL `204b240a -> 200340e0` in that earlier checkpoint. The wrapper now
+executes its captured prefix, reads argument one and updates flags to eleven.
+The current continuation executes object replacement, type access and
+property factory registration, then returns from the wrapper and complete
+Label initializer. Its original wrapper cleanup is registered once. Startup
+next stops at C++ callback `204b2660`.
 
 Reproduce with:
 
 ```powershell
-python tools/gothic3/prepare_label_source.py --study '<study directory>' --output assets/gothic3/label-startup/source.json
+python tools/gothic3/prepare_label_source.py --study '<study directory>' --output assets/gothic3/label-startup/source.json --typescript src/gothic3/native-game-label-source.ts
 ```
 
 Two independent generations matched byte for byte. JSON SHA-256:
-`d41e8d05e1b9da04362176ffb356935fa19ca5ca379b43b72bc87330f8f17f79`.
+`ad310cbac08a936625f4ef004eef3e2111fa6aa61c2586c3b1c1c0ca9539dc5a`.
