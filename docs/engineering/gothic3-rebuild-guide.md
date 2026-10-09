@@ -13,6 +13,21 @@ finishable campaign.
 
 ## How the rebuild works
 
+### Current local checkpoint: registration formatting returns
+
+At `3d59cf3d`, the selected original narrow-string formatter path writes the
+property-registration message into the actual SharedBase TLS buffer. It uses
+captured classification and dispatch tables, the initialized locale and the
+original FILE cursor/count behavior. The recovered security-cookie check and
+formatter return complete, and the caller writes the terminating NUL.
+
+The retained next call is MessageAdmin's getter at `10049924 -> 100088b4`, with
+the actual message buffer and original arguments. Message dispatch, the return
+from the Status initializer and subsequent world activation remain unfinished.
+Eight focused checks across three files and typechecking pass. Full-suite,
+build and browser validation of this revision have not yet been recorded here.
+This continuation is local and has not been deployed.
+
 ### Production prerequisite ordering: local integration
 
 The browser NPC service now invokes the existing SharedBase CRT helper before
@@ -27,8 +42,9 @@ The integrated service reaches Arena Status with its actual PTD and returns
 from LocaleUpdate. Its next unsupported formatter instruction is `100b53b0`.
 Five focused checks across the combined-startup and production-service files
 pass using the repository's 30-second CI timeout; typechecking also passes.
-The production build at `968db386` passed in 49.28 seconds. Its full suite is
-running against unchanged sources in the separate validation checkout.
+The production build at `968db386` passed in 49.28 seconds. Its full suite
+passed 3,190 tests across 295 files in 542.94 seconds against unchanged sources
+in the separate validation checkout.
 The preceding canonical GUID storage change passed 350 checks across the
 SharedBase CRT and combined-startup files in 348.49 seconds. This receipt covers
 the storage change, rather than the later production ordering and adoption.
@@ -195,7 +211,8 @@ production-browser validation of this later formatter entry remain pending.
 The preceding Arena startup batch merged through PR #202 at
 `8e86398264d3a29983c762190cd6f90ff09b4243`. CI run `37927335964` passed all
 3,189 tests across 294 files, typechecking and the production build. Main Pages
-run `37928617229` is in progress; deployment success is not yet established.
+run `37928617229` completed successfully. The later local continuations above
+are not included in that deployment.
 The root-insertion revision `6d7c14a7` passed all 3,185 tests across 294 files
 in 485.24 seconds and built in 44.31 seconds. These results apply to that earlier
 revision, before root cleanup registration, Status integration and TLS loading.
