@@ -100,6 +100,20 @@ export function deerBodyBlocked(colliders: Pick<Colliders, 'blocked'>, x: number
   return false;
 }
 
+/**
+ * How deep in trouble the deer stands (A71): how many of its spine points are inside scenery, plus how many are in a
+ * doorway or on a room floor. A ride that starts in trouble may only move in ways that do not make it worse.
+ */
+export function deerBodyOverlap(colliders: Pick<Colliders, 'blocked'>, x: number, y: number, z: number, yaw: number, excludePrecise = false): { scenery: number; rooms: number } {
+  const bounds: VerticalBounds = { minY: y + DEER_BODY.low, maxY: y + DEER_BODY.high, excludePrecise };
+  let scenery = 0, rooms = 0;
+  for (const p of deerBodyPoints(x, z, yaw)) {
+    if (colliders.blocked(p.x, p.z, DEER_BODY.radius, bounds)) scenery++;
+    if (roomAtDoor(p.x, p.z)) rooms++;
+  }
+  return { scenery, rooms };
+}
+
 /** The gallop stamina after one step: drained galloping, recovering otherwise. */
 export function mountStaminaStep(stamina: number, galloping: boolean, dt: number): number {
   return galloping ? Math.max(0, stamina - MOUNT_STAMINA.drain * dt) : Math.min(MOUNT_STAMINA.max, stamina + MOUNT_STAMINA.recover * dt);
