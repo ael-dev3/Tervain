@@ -291,8 +291,8 @@
     },
     "runtime": {
       "path": "public/models/hero/weathered-wanderer-hero-sealed.glb",
-      "bytes": 7739212,
-      "sha256": "b4deed22df825a77a1242bcd3bb3b4a0f3bd517949eccb7c73a408f293e0a4c8",
+      "bytes": 7739260,
+      "sha256": "2c3b031e9a24fe623c3b6f97220ed7cfaeff2383fcbbe091f233096ab4ea8927",
       "triangles": 149974,
       "triangleBudget": 150000,
       "vertices": 87874,
@@ -309,7 +309,7 @@
       "alignment": "Scale 0.99989 to 1.899 m, soles at world y 0, facing +z as delivered, slid 1.4 mm x / 3.5 mm z onto the previous body; surface gap to the previous body median 8.5 mm, 95th percentile 26.8 mm",
       "jointFit": "Upper-arm cross-sections centre within 13 mm of the bones (previous body 9 mm); forearm and wrist sections 35-38 mm off the bone line (previous body 12-26 mm); the arm line differs from the previous body by about 4.5 degrees",
       "simplification": "MeshoptSimplifier.simplifyWithAttributes, normals weighted 0.5, seams locked; 435,562 -> 150,000 triangles, error 0.024% of the extent (0.5 mm); 13 back-to-back folded pairs dropped -> 149,974",
-      "skinning": "Closest point on the A45 skinned surface in bind pose (faces turned away count from 3 cm further), barycentric interpolation of its corner weights, copies of one position share one set, two smoothing passes (0.3); hands from their finger chains by band across the hand and depth down it, the thumb as the piece that parts from the hand, 14 mm knuckle blends; skull held on the Head joint; four influences; dual-quaternion skinning at runtime"
+      "skinning": "Closest point on the A45 skinned surface in bind pose (faces turned away count from 3 cm further), barycentric interpolation of its corner weights, copies of one position share one set, two smoothing passes (0.3); hands from their finger chains by band across the hand and depth down it, the thumb as the piece that parts from the hand with its ball and metacarpal on Thumb1 (A73: depth along the thumb mapped from the start of its ball, 60 mm heel and 40 mm thumb knuckle blends), 14 mm finger knuckle blends, then 20 further smoothing passes (0.5) over both hands; skull held on the Head joint; four influences; dual-quaternion skinning at runtime"
     },
     "verification": "tsc, vitest and build pass; checked in the running game at Rillford (idle, close front, face, walking, running, sword drawn and attacking, bow drawn). Close up, a sword grip shows small creases and dark flecks between the fused fingers."
   }

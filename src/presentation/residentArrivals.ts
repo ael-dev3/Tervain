@@ -71,8 +71,13 @@ export class ResidentArrivals {
     this.waiting = this.waiting.filter((figure) => {
       if (arrived >= perFrame || !catalog.has(figure.role)) return true;
       if (!figure.unseen?.() && inView(figure.position())) return true;
-      figure.adopt(catalog);
-      arrived++;
+      // (A73) One figure whose model fails to set up is dropped (keeping its stand-in), not retried every frame.
+      try {
+        figure.adopt(catalog);
+        arrived++;
+      } catch (error) {
+        console.warn(`resident ${figure.role} could not take its model; keeping its stand-in`, error);
+      }
       return false;
     });
     return arrived;
