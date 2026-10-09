@@ -20,6 +20,9 @@ TARGETS = {
     0x2046a0d6: 'invokeWatson',
     0x2048bdff: 'hardwareControlWord', 0x2048bf68: 'hardwareSse2ControlWord',
     0x204864ec: 'setSse2FloatingPointStatus',
+    # The first callback is independently admitted by the existing Game CRT
+    # package. Its missing catalog entry must not be fabricated here.
+    0x2046643f: 'errorInitializerWalker',
 }
 
 
@@ -43,6 +46,7 @@ def capture(study):
         ('divideModule', 0x206b6524, 9), ('floatPointerTable', 0x207b2330, 40),
         ('nonwritableEH4Scope', 0x206e8db0, 28),
         ('divideErratum', 0x207d0a24, 4), ('sse2Available', 0x207d2b50, 4),
+        ('cInitializerTable', 0x20655514, 540),
     ):
         raw, _ = image_bytes(pe, address, size)
         literals.append({'label': label, 'address': f'{address:08x}', 'bytes': size,
@@ -62,7 +66,8 @@ def capture(study):
 
 def emit_runtime(result, path):
     selected = ['cinit', 'isNonwritableInCurrentImage', 'validateImageBase', 'findPESection',
-                'fpMath', 'floatConversionInit', 'pentiumDivideDispatch', 'encodeFloatPointers']
+                'fpMath', 'floatConversionInit', 'pentiumDivideDispatch', 'encodeFloatPointers',
+                'errorInitializerWalker']
     methods = [{key: method[key] for key in ('label', 'entryVA', 'bodyRanges',
                 'bodyInstructionBytesSha256', 'instructions')}
                for method in result['module']['methods'] if method['label'] in selected]
@@ -73,7 +78,8 @@ def emit_runtime(result, path):
                             ('cinitNonwritableEH4Scope', 'nonwritableEH4Scope'),
                             ('cinitFloatPointerTable', 'floatPointerTable'),
                             ('cinitDivideModule', 'divideModule'), ('cinitDivideExport', 'divideExport'),
-                            ('cinitDivideErratum', 'divideErratum'), ('cinitSse2Available', 'sse2Available')]:
+                            ('cinitDivideErratum', 'divideErratum'), ('cinitSse2Available', 'sse2Available'),
+                            ('cinitCInitializerTable', 'cInitializerTable')]:
         images[label] = next(row for row in result['literals'] if row['label'] == original)
     cold = {'cinitFloatPointerTable', 'cinitDivideErratum', 'cinitSse2Available'}
     pins = {label: ['coldGlobals' if label in cold else 'constBytes', row['address'], row['bytes'], row['raw'], row['sha256']]
@@ -106,7 +112,7 @@ export function admitGameCinitSource(): void {
   for (const [label, pin] of Object.entries(gameCinitImagePins)) {
     const names: Record<string,string> = {cinitMathCallback:'mathCallback',cinitNonwritableEH4Scope:'nonwritableEH4Scope',
       cinitFloatPointerTable:'floatPointerTable',cinitDivideModule:'divideModule',cinitDivideExport:'divideExport',
-      cinitDivideErratum:'divideErratum',cinitSse2Available:'sse2Available'};
+      cinitDivideErratum:'divideErratum',cinitSse2Available:'sse2Available',cinitCInitializerTable:'cInitializerTable'};
     const original = label === 'cinitPEHeaders' ? source.originalHeaders : source.literals.find((row: { label: string }) => row.label === names[label]);
     if (!original || original.address !== pin[1] || original.bytes !== pin[2] || original.raw !== pin[3] || original.sha256 !== pin[4])
       throw new Error('Original Game cinit image differs: ' + label);

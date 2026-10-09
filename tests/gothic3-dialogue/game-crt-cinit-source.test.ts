@@ -30,4 +30,20 @@ describe('Original Game cinit and PE-check source admission', () => {
     expect(Object.isFrozen(gameCinitImagePins)).toBe(true);
     expect(() => gameCinitImageReceipt('cinitFloatingPointState')).toThrow();
   });
+
+  it('admits the original C walker and all 135 table slots without admitting callback bodies', () => {
+    expect(gameCinitInstruction('2046643f').instruction).toBe('PUSH ESI');
+    expect(gameCinitInstruction('20466452').instruction).toBe('CALL ECX');
+    expect(gameCinitInstruction('2046645e').instruction).toBe('RET');
+    expect(() => gameCinitInstruction('20463763')).toThrow('No admitted original Game cinit instruction');
+    const table = gameCinitImageReceipt('cinitCInitializerTable');
+    expect(table).toMatchObject({ address: '20655514', bytes: 540,
+      sha256: '4d072c9e4d3bf5082fc45f5a7036020e409e08d3cef3e7be396ed2a200b42b17' });
+    const bytes = Uint8Array.from(table.raw.match(/../g)!, pair => parseInt(pair, 16));
+    const view = new DataView(bytes.buffer);
+    const slots = Array.from({ length: 135 }, (_, index) => view.getUint32(index * 4, true));
+    expect(slots.slice(0, 65)).toEqual(Array(65).fill(0));
+    expect(slots.slice(65, 70)).toEqual([0x20463763, 0x20469f3a, 0x2046bcff, 0x2047470c, 0x2047e687]);
+    expect(slots.slice(70)).toEqual(Array(65).fill(0));
+  });
 });

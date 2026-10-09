@@ -60,6 +60,7 @@ const bodies = Object.freeze([
   ['20463917', '20463917-20463934'], ['204638a7', '204638a7-20463906'],
   ['204696f6', '204696f6-2046971e'],
   ['20469672', '20469672-20469690'],
+  ['2046643f', '2046643f-2046645e'],
 ] as const);
 const ranges = new Map<string, readonly (readonly [number, number])[]>(bodies.map(([entry, text]) =>
   [entry, Object.freeze(text.split(';').map(range => Object.freeze(range.split('-').map(x => Number.parseInt(x, 16)) as [number, number]))) ]));
@@ -75,6 +76,7 @@ const imageSpecs = Object.freeze([
   ['cinitFloatPointerTable', '207b2330', 40], ['cinitDivideErratum', '207d0a24', 4],
   ['cinitSse2Available', '207d2b50', 4], ['cinitDivideModule', '206b6524', 9],
   ['cinitDivideExport', '206b6508', 28],
+  ['cinitCInitializerTable', '20655514', 540],
 ] as const);
 const imports = new Set<NativeSetEnvpCallSite>(['20477ce8', '20467cd2']);
 const lanes: Readonly<Record<string, Readonly<{ register: NativeX86Register; lane: Lane }>>> = Object.freeze({
@@ -280,7 +282,7 @@ export class NativeGameCrtSetEnvp {
     if (!extent?.some(([first, last]) => address >= first && address <= last) ||
         this.#currentEntry === '204677e4' && !callerRows.has(pc)) throw new Error('Unowned Game environment source frontier at' + pc);
     const point = ['204665f4', '204738b0', '20473830', '20473860', '20463917', '204638a7',
-      '204696f6', '20469672'].includes(this.#currentEntry)
+      '204696f6', '20469672', '2046643f'].includes(this.#currentEntry)
       ? gameCinitInstruction(pc) : gameSetEnvpInstruction(pc);
     if (point.va !== pc || !/^(?:[0-9a-f]{2})+$/.test(point.bytes)) throw new Error('Original environment row receipt differs at' + pc);
     return point;
@@ -289,6 +291,7 @@ export class NativeGameCrtSetEnvp {
   #immediate(value: number): NativeX86Word32 { return fact(NativeX86ThreadStack.prototype.immediate.call(this.#stack, this.#controller, value >>> 0)); }
   #imageAt(value: number): Image | undefined { return this.#images.find(image => value >= image.address && value < image.address + image.bytes); }
   #literal(value: number): NativeX86Word32 {
+    if (value === 0x20655730) return fact(NativeX86ThreadStack.prototype.gameImageAddress.call(this.#stack, this.#controller, 'cinitCInitializerTable', 540));
     const image = this.#imageAt(value);
     if (image && (image.label === 'callocEH4Scope' || image.label === 'freeEH4Scope' || image.label === 'cinitNonwritableEH4Scope') && value === image.address) {
       const address = hex(value);
@@ -358,6 +361,13 @@ export class NativeGameCrtSetEnvp {
     fact(NativeX86ThreadStack.prototype.storeWidth.call(this.#stack, this.#controller, this.#address(destination.expression), word, bytes));
   }
   #call(point: NativeGameIoInstruction, target: Operand, returnPc: string): string {
+    if (point.va === '20466452') {
+      const callback = fact(NativeX86ThreadStack.prototype.resolveGameCinitErrorCallback.call(this.#stack, this.#controller));
+      this.#nextBoundary = Object.freeze({ pc: point.va, operation: 'indirectSourceCall', target: callback });
+      if (callback !== '20463763') throw new Error('Original Game C initializer callback is not yet admitted at ' + callback);
+      fact(NativeX86ThreadStack.prototype.initializeGameCinitExitTable.call(this.#stack, this.#controller));
+      this.#nextBoundary = null; return returnPc;
+    }
     if (point.va === '2046967e') {
       this.#nextBoundary = Object.freeze({ pc: point.va, operation: 'translatedCrtCall', target: '20467d64' });
       fact(NativeX86ThreadStack.prototype.encodeGameCinitPointer.call(this.#stack, this.#controller));
@@ -543,6 +553,7 @@ export class NativeGameCrtSetEnvp {
       mathInitializerReturned: graph.calls.some(call => call.site === '20466610' && call.returned),
       floatConversionInitializerReturned: graph.calls.some(call => call.site === '20463917' && call.returned),
       floatPointerInitializerReturned: graph.calls.some(call => call.site === '20466617' && call.returned),
+      exitTableInitializerReturned: graph.calls.some(call => call.site === '20466452' && call.returned),
       callerTestsCompleted: this.#callerTestsCompleted, sourceOperationsCompleted: this.#effects.length,
       effects: Object.freeze(this.#effects.map(effect => Object.freeze({ ...effect }))),
       wholeCrtTraversalCompleted: false, moduleAttachCompleted: false, fullCampaignCompleted: false });

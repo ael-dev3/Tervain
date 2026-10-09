@@ -9,6 +9,7 @@ import { NativeX86ThreadStack } from '../../src/gothic3/native-x86-thread-stack'
 import type { NativeValue } from '../../src/gothic3/dialogue';
 import { NativeGameCrtOwner, NativeModuleCrtOwner } from '../../src/gothic3/native-engine-crt-locks';
 import { NativeCrtBootstrap } from '../../src/gothic3/native-crt-bootstrap';
+import { NativeGameExitTable } from '../../src/gothic3/native-game-crt-exit-table';
 import type { NativeHeapObjectViews } from '../../src/gothic3/native-heap-views';
 
 function fact<T>(value: NativeValue<T>): T {
@@ -39,11 +40,11 @@ describe('Game environment startup through the actual browser CRT graph', () => 
   it('copies the current environment, releases its input, and prepares the next initializer argument', () => {
     const { platform, stack: retainedStack, game } = startup();
     const attach = game.attachProgress;
-    expect(attach.setEnvpProgress?.boundary).toContain('CALL at20466626');
+    expect(attach.setEnvpProgress?.boundary).toContain('not yet admitted at 20469f3a');
     expect(attach.ioResult).toBe(0);
     expect(attach.argvResult).toBe(0);
     expect(attach.setEnvpResult).toBe(0);
-    expect(attach.nextBoundary).toEqual({ name: 'sourceCall', address: '20466626', target: '2046643f' });
+    expect(attach.nextBoundary).toEqual({ name: 'indirectSourceCall', address: '20466452', target: '20469f3a' });
     expect(attach.setEnvpProgress).toMatchObject({
       physicalGraphTransferred: true, envRetExecuted: true, envReturned: true,
       countingPassReturned: true, visibleCount: 1, arrayCallReturned: true,
@@ -54,9 +55,26 @@ describe('Game environment startup through the actual browser CRT graph', () => 
       cinitCalled: true, mathProtectionCheckReturned: true,
       mathInitializerReturned: true, floatConversionInitializerReturned: true,
       floatPointerInitializerReturned: true,
+      exitTableInitializerReturned: true,
     });
     const stack = retainedStack.snapshot();
-    expect(stack.calls.filter(call => !call.returned).map(call => call.site)).toEqual(['204678f2']);
+    expect(stack.calls.filter(call => !call.returned).map(call => call.site)).toEqual(['204678f2', '20466626']);
+    expect(stack.calls.filter(call => call.site === '20466452')).toHaveLength(1);
+    expect(stack.calls.find(call => call.site === '20466452')).toMatchObject({ returned: true });
+    const exitTable = NativeGameExitTable.forCrt(game.crt);
+    const exitState = exitTable.snapshot();
+    expect(exitState.tableAllocations).toHaveLength(1);
+    const exitBacking = exitState.tableAllocations[0]!;
+    expect(exitBacking.bytes.length).toBe(128);
+    expect([...exitBacking.bytes]).toEqual(Array(128).fill(0));
+    expect([...exitBacking.knownMask]).toEqual(Array(128).fill(255));
+    const begin = game.crt.imageStorage('crtExitBegin').pointer<object>(0).get();
+    const end = game.crt.imageStorage('crtExitEnd').pointer<object>(0).get();
+    expect(begin).toBe(end);
+    const exitPointer = fact(game.crt.decodePointer(begin)) as { fields: NativeHeapObjectViews; offset: number };
+    expect(exitPointer.offset).toBe(0);
+    expect(exitPointer.fields.backing).toBe(exitBacking);
+    expect(exitState.callbackCells).toEqual([]);
     expect(stack.calls.find(call => call.site === '20466602')).toMatchObject({ returned: true });
     expect(stack.calls.find(call => call.site === '204738ef')).toMatchObject({ returned: true });
     expect(stack.calls.find(call => call.site === '20473909')).toMatchObject({ returned: true });
@@ -99,6 +117,8 @@ describe('Game environment startup through the actual browser CRT graph', () => 
     expect(createBrowserGameCrtStartup(platform)).toEqual({ known: true, value: game });
     game.bootstrap.processAttach();
     expect(game.bootstrap.attachProgress()).toEqual(before);
+    expect(exitTable.snapshot().tableAllocations).toHaveLength(1);
+    expect(game.crt.imageStorage('crtExitBegin').pointer<object>(0).get()).toBe(begin);
   });
 
   it('preserves the earlier argv frontier when environment startup is not selected', () => {
@@ -194,7 +214,7 @@ describe('Original Game cinit PE protection check', () => {
   it('uses the current MZ signature and follows the original zero-result branch', () => {
     const { bootstrap, headers, stack } = attachWithImageChange(fields => fields.writeUnsigned(0, 0, 2));
     expect(headers.view.getUint16(0, true)).toBe(0);
-    expect(bootstrap.attachProgress().nextBoundary).toEqual({ name: 'sourceCall', address: '20466626', target: '2046643f' });
+    expect(bootstrap.attachProgress().nextBoundary).toEqual({ name: 'indirectSourceCall', address: '20466452', target: '20469f3a' });
     expect(stack.snapshot().calls.find(call => call.site === '20466602')).toMatchObject({ returned: true });
     expect(stack.snapshot().calls.some(call => call.site === '20473909')).toBe(false);
     expect(stack.snapshot().calls.some(call => call.site === '20466610')).toBe(false);
@@ -216,7 +236,7 @@ describe('Original Game cinit PE protection check', () => {
       }
       expect(found).toBe(true);
     });
-    expect(bootstrap.attachProgress().nextBoundary?.address).toBe('20466626');
+    expect(bootstrap.attachProgress().nextBoundary?.address).toBe('20466452');
     expect(stack.snapshot().calls.find(call => call.site === '20473909')).toMatchObject({ returned: true });
     expect(headers.bytes.length).toBe(672);
   });
@@ -281,5 +301,41 @@ describe('Original Game cinit PE protection check', () => {
     bootstrap.processAttach();
     expect(table.pointer<object>(0).get()).toBe(first);
     expect(stack.snapshot().calls.filter(call => call.site === '2046967e')).toHaveLength(1);
+  });
+
+  it('rejects a changed first C initializer before allocating the exit table', () => {
+    const { bootstrap, crt, stack } = attachWithImageChange((_headers, owner) => {
+      fact(NativeModuleCrtOwner.canonicalImageForOwner(owner, 'cinitCInitializerTable')).writeUnsigned(65 * 4, 0x20469f3a);
+    });
+    expect(bootstrap.attachProgress().nextBoundary?.address).toBe('20466452');
+    expect(bootstrap.attachProgress().setEnvpProgress?.boundary).toContain('Original current Game C initializer slot target required');
+    expect(stack.snapshot().calls.some(call => call.site === '20466452')).toBe(false);
+    expect(NativeGameExitTable.forCrt(crt).snapshot().tableAllocations).toEqual([]);
+  });
+
+  it('stops at unknown leading null bytes before reaching any C initializer', () => {
+    const { bootstrap, crt, stack } = attachWithImageChange((_headers, owner) => {
+      fact(NativeModuleCrtOwner.canonicalImageForOwner(owner, 'cinitCInitializerTable')).knownMask[0] = 0;
+    });
+    expect(bootstrap.attachProgress().nextBoundary?.address).toBe('20466450');
+    expect(stack.snapshot().calls.some(call => call.site === '20466452')).toBe(false);
+    expect(NativeGameExitTable.forCrt(crt).snapshot().tableAllocations).toEqual([]);
+    bootstrap.processAttach();
+    expect(fact(NativeModuleCrtOwner.canonicalImageForOwner(crt, 'cinitCInitializerTable')).knownMask[0]).toBe(0);
+  });
+
+  it('retains the first callback allocation when the second callback target was changed', () => {
+    const { bootstrap, crt, stack } = attachWithImageChange((_headers, owner) => {
+      fact(NativeModuleCrtOwner.canonicalImageForOwner(owner, 'cinitCInitializerTable')).writeUnsigned(66 * 4, 0x20463763);
+    });
+    expect(bootstrap.attachProgress().nextBoundary?.address).toBe('20466452');
+    expect(bootstrap.attachProgress().setEnvpProgress?.boundary).toContain('Original current Game C initializer slot target required');
+    const table = NativeGameExitTable.forCrt(crt);
+    expect(table.snapshot().tableAllocations).toHaveLength(1);
+    expect(stack.snapshot().calls.filter(call => call.site === '20466452')).toHaveLength(1);
+    const begin = crt.imageStorage('crtExitBegin').pointer<object>(0).get();
+    bootstrap.processAttach();
+    expect(table.snapshot().tableAllocations).toHaveLength(1);
+    expect(crt.imageStorage('crtExitBegin').pointer<object>(0).get()).toBe(begin);
   });
 });
