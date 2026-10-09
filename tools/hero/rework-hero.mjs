@@ -50,8 +50,16 @@ const ROUGHNESS_FLOOR = 0.7;
 const CELL = 0.02;
 const TURNED_AWAY = 0.03;
 const SMOOTHING = [0.3, 0.3];
+const HAND_SMOOTHING = Number(process.env.HAND_SMOOTHING ?? 20);
 const INFLUENCES = 4;
 const KNUCKLE_BLEND = Number(process.env.KNUCKLE_BLEND ?? 0.014);
+// (A73) How far the heel of the thumb's ball reaches wristward of Thumb1, blending Hand into Thumb1 (metres).
+const THUMB_HEEL = Number(process.env.THUMB_HEEL ?? 0.03);
+// (A73) Blend about each thumb knuckle (metres along the chain): the mesh's thumb lies off its chain, so a knuckle's
+// turn swings it further than a finger's and needs a wider blend than KNUCKLE_BLEND to keep the skin whole.
+const THUMB_BLEND = Number(process.env.THUMB_BLEND ?? 0.04);
+// How far from the thumb the ball of the thumb shares its weights (metres).
+const THUMB_REACH = Number(process.env.THUMB_REACH ?? 0.03);
 
 await MeshoptSimplifier.ready;
 await MeshoptDecoder.ready;
@@ -388,6 +396,7 @@ const weldOf = new Map(), weld = new Uint32Array(kept);
 for (let v = 0; v < kept; v++) { const k = key(v); if (!weldOf.has(k)) weldOf.set(k, weldOf.size); weld[v] = weldOf.get(k); }
 const welded = weldOf.size;
 const handReport = [];
+const handSurface = new Set(); // (A73) welded positions of both hands past the wrist, smoothed further below
 /** Neighbours of each welded position along the surface. */
 const neighbours = (() => {
   const lists = Array.from({ length: welded }, () => new Set());
@@ -445,12 +454,13 @@ for (const side of ['Left', 'Right']) {
   const aLo = pct(fingerA, 0.02), aHi = pct(fingerA, 0.98), band = (aHi - aLo) / 4;
   // Bands from the little finger (low a) up: Pinky, Ring, Middle (middle finger), Middle (index finger).
   const chainOf = ['Pinky', 'Ring', 'Middle', 'Middle'];
-  const chainWeights = (s, owners, joints) => {
-    // owners[0] below joints[0], owners[i] from joints[i - 1]; blended over KNUCKLE_BLEND about each boundary.
+  const chainWeights = (s, owners, joints, widths = []) => {
+    // owners[0] below joints[0], owners[i] from joints[i - 1]; blended over KNUCKLE_BLEND (or widths[i]) about each boundary.
     const out = new Map();
     let previous = 1;
     owners.forEach((owner, i) => {
-      const next = i < joints.length ? smoothstep(joints[i] - KNUCKLE_BLEND / 2, joints[i] + KNUCKLE_BLEND / 2, s) : 0;
+      const width = widths[i] ?? KNUCKLE_BLEND;
+      const next = i < joints.length ? smoothstep(joints[i] - width / 2, joints[i] + width / 2, s) : 0;
       const w = previous - next;
       if (w > 1e-4) out.set(owner, (out.get(owner) ?? 0) + w);
       previous = next;
@@ -462,7 +472,19 @@ for (const side of ['Left', 'Right']) {
   const thumbAxis = norm(sub(joint('HandThumb4'), joint('HandThumb1')));
   const thumbAt = [1, 2, 3, 4].map((k) => dot(sub(joint(`HandThumb${k}`), joint('HandThumb1')), thumbAxis));
   const thumbMeshTip = pct([...thumb].map((v) => dot(sub(at3(newPos, v), joint('HandThumb1')), thumbAxis)), 0.995);
-  const thumbScale = (thumbAt[3] + 0.9 * (thumbAt[3] - thumbAt[2])) / thumbMeshTip;
+  // (A73) The mesh's thumb sits further down the hand than the chain, so depth along it is mapped from the start of
+  // its ball (not from Thumb1) to its tip: the ball and metacarpal fall to Thumb1, the digit past the crotch to
+  // Thumb2 onwards, and every joint the grip turns carries weight instead of the ball tearing from Thumb1's turn.
+  const thumbShareOf = (v, p, s) => {
+    if (thumb.has(v)) return 1;
+    let nearest = Infinity;
+    for (const q of thumbPoints) nearest = Math.min(nearest, len(sub(p, q)));
+    // Fingers beside the thumb, below its crotch, stay fingers.
+    return s > crotch ? 0 : 1 - smoothstep(0, THUMB_REACH, nearest);
+  };
+  const thumbDepth = (p) => dot(sub(p, joint('HandThumb1')), thumbAxis);
+  const thumbMeshBase = pct(region.filter((v) => { const p = at3(newPos, v); return thumbShareOf(v, p, local(p).s) > 0.5; }).map((v) => thumbDepth(at3(newPos, v))), 0.02);
+  const thumbScale = (thumbAt[3] + 0.9 * (thumbAt[3] - thumbAt[2]) + THUMB_HEEL) / (thumbMeshTip - thumbMeshBase);
   const fingerAt = (chain) => [1, 2, 3, 4].map((k) => local(joint(`Hand${chain}${k}`)).s);
   const fingerMeshTip = pct(region.filter((v) => !thumb.has(v)).map((v) => local(at3(newPos, v)).s), 0.995);
   const fingerScale = (chain) => {
@@ -484,23 +506,18 @@ for (const side of ['Left', 'Right']) {
       for (const [j, w] of chainWeights(fingerScale(chain)(s), owners, fingerAt(chain))) result[j] += membership * w;
     }
     // The thumb, and the ball of the thumb by distance from it.
-    let thumbShare = thumb.has(v) ? 1 : 0;
-    if (!thumbShare) {
-      let nearest = Infinity;
-      for (const q of thumbPoints) nearest = Math.min(nearest, len(sub(p, q)));
-      // Fingers beside the thumb, below its crotch, stay fingers.
-      thumbShare = s > crotch ? 0 : 1 - smoothstep(0, 0.03, nearest);
-    }
+    const thumbShare = thumbShareOf(v, p, s);
     if (thumbShare > 0) {
-      const u = dot(sub(p, joint('HandThumb1')), thumbAxis) * thumbScale;
+      const u = (thumbDepth(p) - thumbMeshBase) * thumbScale - THUMB_HEEL;
       const owners = [J[`${side}Hand`], ...[1, 2, 3, 4].map((k) => J[`${side}HandThumb${k}`])];
-      const tw = chainWeights(u, owners, thumbAt);
+      const tw = chainWeights(u, owners, thumbAt, [THUMB_HEEL * 2, THUMB_BLEND, THUMB_BLEND, THUMB_BLEND]);
       for (let j = 0; j < JOINTS; j++) result[j] *= 1 - thumbShare;
       for (const [j, w] of tw) result[j] += thumbShare * w;
     }
     let total = 0;
     for (let j = 0; j < JOINTS; j++) total += result[j];
     const blend = smoothstep(-0.035, -0.005, s);
+    if (s > 0) handSurface.add(weld[v]);
     for (let j = 0; j < JOINTS; j++) weights[v * JOINTS + j] = (1 - blend) * weights[v * JOINTS + j] + blend * result[j] / total;
     if (s > knuckle + 0.02) {
       if (thumb.has(v)) counts.thumb++;
@@ -525,6 +542,21 @@ for (const amount of SMOOTHING) {
       let sum = 0;
       for (const u of around) sum += shared[u * JOINTS + j];
       next[w * JOINTS + j] = around.size ? (1 - amount) * shared[w * JOINTS + j] + amount * sum / around.size : shared[w * JOINTS + j];
+    }
+  }
+  shared = next;
+}
+// (A73) The hands' digits lie off their chains, so a knuckle's turn swings skin a long way: spread each hand's weights
+// further over its surface, so neighbouring skin never differs much in what it follows and the grip does not tear it.
+for (let pass = 0; pass < HAND_SMOOTHING; pass++) {
+  const next = shared.slice();
+  for (const w of handSurface) {
+    const around = neighbours[w];
+    if (!around.size) continue;
+    for (let j = 0; j < JOINTS; j++) {
+      let sum = 0;
+      for (const u of around) sum += shared[u * JOINTS + j];
+      next[w * JOINTS + j] = 0.5 * shared[w * JOINTS + j] + 0.5 * sum / around.size;
     }
   }
   shared = next;

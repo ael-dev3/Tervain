@@ -382,3 +382,47 @@ describe('direction, turning and action layers (A70)', () => {
     expect(rig.body.position.y).toBeCloseTo(0, 3);
   });
 });
+
+describe('hand skin under the grip (A73)', () => {
+  const gripped = (side: 'Left' | 'Right') => (['Thumb', 'Middle', 'Ring', 'Pinky'] as const)
+    .flatMap((finger) => [1, 2, 3].map((joint) => `mixamorig:${side}Hand${finger}${joint}` as HeroBoneName));
+
+  it('gives every finger joint the grip turns, Thumb1 included, its own share of the skin', () => {
+    const skin = skinOf(asset.scene), { skinIndex, skinWeight } = skin.geometry.attributes;
+    const total = new Map<string, number>();
+    for (let i = 0; i < skinIndex!.count; i++) for (let k = 0; k < 4; k++) {
+      const name = skin.skeleton.bones[skinIndex!.getComponent(i, k)]!.name;
+      total.set(name, (total.get(name) ?? 0) + skinWeight!.getComponent(i, k));
+    }
+    for (const side of ['Left', 'Right'] as const) for (const name of gripped(side)) {
+      expect(total.get(name.replace(':', '')) ?? total.get(name) ?? 0, name).toBeGreaterThan(5);
+    }
+  });
+
+  it('keeps the hands from tearing in a full fist: no hand edge stretches ten times its rest length', () => {
+    const grip = sourcePose('Boxing_Practice', 0.25);
+    const scene = cloneSkinned(asset.scene), bones = bindHeroBones(scene), skin = skinOf(scene);
+    scene.updateMatrixWorld(true); skin.skeleton.update();
+    const { position, skinIndex } = skin.geometry.attributes, index = skin.geometry.index!;
+    const handBone = skin.skeleton.bones.map((bone) => /Hand/.test(bone.name));
+    const at = () => Array.from({ length: position!.count }, (_, v) => skin.getVertexPosition(v, new THREE.Vector3()));
+    const rest = at();
+    for (const side of ['Left', 'Right'] as const) for (const finger of HERO_FINGERS) for (const joint of [1, 2, 3, 4]) {
+      const name = `mixamorig:${side}Hand${finger}${joint}` as HeroBoneName;
+      bones[name].quaternion.copy(grip[name].quaternion);
+    }
+    scene.updateMatrixWorld(true); skin.skeleton.update();
+    const now = at();
+    let worst = 0;
+    for (let i = 0; i < index.count; i += 3) for (let c = 0; c < 3; c++) {
+      const a = index.getX(i + c), b = index.getX(i + (c + 1) % 3);
+      if (!handBone[skinIndex!.getX(a)]) continue;
+      const length = rest[a]!.distanceTo(rest[b]!);
+      if (length >= 1e-3) worst = Math.max(worst, now[a]!.distanceTo(now[b]!) / length);
+    }
+    expect(worst).toBeGreaterThan(1);
+    // Before A73 the thumb tore from the palm at 16x. The mesh's digits sit 30-50 mm off their chains, so the knuckles'
+    // lever arms keep the worst finger edge near 8.7x (the previous body managed 5.9x); this holds that line.
+    expect(worst).toBeLessThan(10);
+  });
+});

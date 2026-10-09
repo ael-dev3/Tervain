@@ -87,7 +87,7 @@ export const MODEL_FILES: Readonly<Record<string, readonly [sha256: string, byte
   'furniture/workbench.glb': ['d499813b2574998ccebab8aeecc25c71e9aa34c4e0edcb20d88d7399afb93772', 497796],
   'hero/weathered-wanderer-animated-hero.glb': ['e8cc01605d4dd894392f4c2056a6320888a2784f0241b059d738292e5bba220e', 7533516],
   'hero/weathered-wanderer-hero-50k.glb': ['c73177e2f0ffd23fe651be869f41c3ccd25d9361b997d366ff272c1ac11b756e', 3296916],
-  'hero/weathered-wanderer-hero-sealed.glb': ['b4deed22df825a77a1242bcd3bb3b4a0f3bd517949eccb7c73a408f293e0a4c8', 7739212],
+  'hero/weathered-wanderer-hero-sealed.glb': ['2c3b031e9a24fe623c3b6f97220ed7cfaeff2383fcbbe091f233096ab4ea8927', 7739260],
   'npcs/ash-recorder.glb': ['abc6e3ab3859667c133170ffd65638c7861f423d42f75935cc99cd091cb75c28', 2078660],
   'npcs/caravan-master.glb': ['a2a03c69a671ea9e88c4a35a0a75d534638832381179e7e0eb43b8a87b2ab32b', 2893464],
   'npcs/estate-steward.glb': ['0fe8289f8b65369f2aa3b746cbbf229976063a18f57a914d0f329fa3d56aa7b0', 2688320],
