@@ -60,8 +60,11 @@ initializers, retaining 155 shutdown callbacks. Its checks verify
 `bTObjArray<class bTAutoPOSmartPtr<class gCQuest_PS> >`. All five focused checks
 pass. Startup next stops at table call `20466654 -> 204b1d70`: that callback
 has a different structure and is not yet admitted. The production build and
-typechecking pass in 34.33 seconds. Full-suite, browser and deployment validation
-of this 154-initializer revision are pending.
+typechecking pass in 34.33 seconds. The complete suite passes 3,185 tests across
+294 files in 437.60 seconds. An actual production browser enters Ardea and reports
+4,299 environment/startup operations at the same `204b1d70` boundary. The selected
+Ardea NPC still has 0/16 attached property sets at the unconnected ScriptAdmin
+getter. Deployment of this 154-initializer revision is pending.
 
 The preceding 146-initializer runtime `70da7405` passed all 3,185 tests across
 294 files in 500.45 seconds, typechecking, five focused checks and a production
