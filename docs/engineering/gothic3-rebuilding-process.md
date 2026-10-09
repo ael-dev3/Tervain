@@ -10734,3 +10734,29 @@ exceeding its five-second limit. That test now has an explicit 30-second limit;
 all three affected focused checks passed. The full rerun passed 2,986 tests
 across 277 files in 323.73 seconds before remote publication. These methods currently have no production callers; complete DLL
 startup, live world activation and campaign integration remain unfinished.
+
+
+## Original shared file-open validation and flags (local work, 2026-10-09)
+
+The pending `100d1a2d` call now executes the original shared-open wrapper,
+argument validator and core prefix. Its nested EH4 frame retains the original
+scope image and caller state. The interpreter records the actual frame's EBP;
+the fopen parent is checked by its retained identity rather than assuming the
+current OpenStream EBP belongs to it.
+
+The original file-mode and platform getters execute against the captured mode
+image and the existing live `osFields` root. That OS root is aliased, preserving
+its earlier initialization. The read-only path computes access `0x80000000`,
+sharing 3, disposition 3 and attributes `0x80`. It stops at the actual descriptor
+allocation call `100d1329 -> 100d0d8d`. FILE slot 3 remains reserved, lock 19 is
+held, and no descriptor or platform file-open return has been invented.
+
+Five additional original bodies bring the package to 58 bodies and 4,063 body
+instructions. Independent source and emitted-instruction regeneration matches.
+Six focused checks and typechecking pass, including original flag outputs,
+shared OS storage identity and rejection of a damaged caller return word before
+descriptor allocation. Four existing complete-startup fixtures now use explicit
+30-second limits, following an observed five-second SpyAdmin timeout in PR #166;
+their assertions are unchanged. Full-suite and production-build validation are
+pending. This local continuation is not yet published and has no production
+caller. Complete startup and campaign integration still require further work.
