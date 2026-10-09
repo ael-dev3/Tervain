@@ -4,9 +4,9 @@ import type { ResidentBones, ResidentJoint } from './residentRig';
 import { createWorkProp, type WorkPropKind } from './workProps';
 
 /**
- * The tools a resident holds while working, on their own rig (A65). The rig has no fingers, so a tool rides its hand
- * from the palm: each is placed once in the model's bind pose, in a frame taken from that hand (along the fingers, out of
- * the palm, forward), and the work clip carries it.
+ * The tools a resident holds while working, on their own rig (A65). A tool rides its hand from the palm: each is
+ * placed once in the model's bind pose, in a frame taken from that hand (along the fingers, out of the palm, forward),
+ * and the work clip carries it; the hand's finger chains close on its handle (A72).
  */
 interface Placement {
   kind: WorkPropKind;
@@ -51,7 +51,14 @@ const ENDS: Partial<Record<WorkPropKind, (length: number) => [ToolPoint, [number
   rod: length => [['rodFoot', [0, -length, 0]], ['rodGrip', [0, 0, 0]]],
 };
 
-export interface ResidentTools { props: THREE.Object3D[]; materials: THREE.MeshStandardMaterial[]; triangles: number; points: ToolPoints }
+/**
+ * Where a hand closes on a tool (A72): the tool's own +y axis through its origin is its handle or shaft, this thick
+ * (metres). The ledger rests on the open palm and is not gripped.
+ */
+export const HANDLE_RADIUS: Partial<Record<WorkPropKind, number>> = { quill: 0.0025, hammer: 0.013, chisel: 0.01, rod: 0.015, arrow: 0.0045 };
+/** A tool a hand holds by its handle. */
+export interface ToolGrip { holder: 'LeftHand' | 'RightHand'; kind: WorkPropKind; tool: THREE.Object3D; radius: number }
+export interface ResidentTools { props: THREE.Object3D[]; materials: THREE.MeshStandardMaterial[]; triangles: number; points: ToolPoints; grips: ToolGrip[] }
 
 /**
  * Build a resident's tools for `gesture` onto its rig, hidden until it works. `palm` gives each hand's palm centre in the
@@ -59,7 +66,7 @@ export interface ResidentTools { props: THREE.Object3D[]; materials: THREE.MeshS
  */
 export function createResidentTools(gesture: WorkGesture | undefined, bones: ResidentBones, scene: THREE.Object3D,
   palm: (side: 'LeftHand' | 'RightHand') => THREE.Vector3): ResidentTools {
-  const out: ResidentTools = { props: [], materials: [], triangles: 0, points: {} };
+  const out: ResidentTools = { props: [], materials: [], triangles: 0, points: {}, grips: [] };
   const placements = gesture ? TOOLS[gesture] : undefined;
   if (!placements) return out;
   scene.updateMatrixWorld(true);
@@ -92,6 +99,8 @@ export function createResidentTools(gesture: WorkGesture | undefined, bones: Res
     socket.visible = false;
     holder.add(socket);
     for (const [name, at] of ENDS[placement.kind]?.(placement.length ?? 1) ?? []) out.points[name] = { tool: built.group, point: new THREE.Vector3(...at) };
+    const radius = HANDLE_RADIUS[placement.kind];
+    if (radius !== undefined) out.grips.push({ holder: placement.holder, kind: placement.kind, tool: built.group, radius });
     out.props.push(socket);
     out.materials.push(...built.materials);
     out.triangles += built.triangles;

@@ -8,6 +8,7 @@ import { parseResidentRig, RESIDENT_JOINTS, RESIDENT_RIG_PROFILE } from '../../s
 import { HERO_SWIM_CLIPS } from '../../src/presentation/hero/swim';
 import { CENTRED_CLIPS, KEEP_REST, MOTION_CLIPS, residentClipNames, residentMotionLibrary, retargetClip } from '../../src/presentation/npc/residentMotion';
 import { residentRestPose } from '../../src/presentation/npc/residentRig';
+import { FINGER_JOINTS } from '../../src/presentation/npc/residentFingers';
 import { loadResident, loadResidentMotion, loadResidentRigData, residentManifest, residentMesh } from './residentFixtures';
 
 const file = (path: string) => readFileSync(new URL(`../../public/models/npcs/${path}`, import.meta.url));
@@ -79,7 +80,7 @@ describe('the residents\' own rigs (A65)', () => {
       const { rig } = await residentWithMotion(id);
       expect(rig.resident, id).toBeDefined();
       const mesh = residentMesh(rig.root);
-      expect(mesh.skeleton.bones.map(bone => bone.name)).toEqual([...RESIDENT_JOINTS]);
+      expect(mesh.skeleton.bones.map(bone => bone.name)).toEqual([...RESIDENT_JOINTS, ...FINGER_JOINTS]);
       // Before any pose: the new skeleton stands where the model was bound.
       mesh.skeleton.pose();
       const after = skinned(mesh);
