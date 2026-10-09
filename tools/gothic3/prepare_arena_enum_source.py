@@ -3,10 +3,12 @@ import argparse
 import hashlib
 import json
 from pathlib import Path
-from read_dialogue_native_evidence import audit_module, PE
+from read_dialogue_native_evidence import audit_module, PE, EXPECTED_INPUTS
 
 
 def capture(study):
+    EXPECTED_INPUTS['SharedBase.dll'] = '5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214'
+    shared = audit_module(study, 'SharedBase_dll', 'SharedBase.dll', {0x10007c11: 'objectBaseConstructor'})
     module = audit_module(study, 'Game_dll', 'Game.dll', {
         0x20011b99: 'arenaEnumValueConstructor',
         0x2001bdf1: 'arenaEnumValueName',
@@ -53,7 +55,7 @@ def capture(study):
                        'section': {'virtualAddress': start, 'virtualSize': virtual_size,
                                    'rawSize': raw_size, 'rawOffset': raw_offset},
                        'sha256': hashlib.sha256(raw).hexdigest()})
-    return {'schema': 'gothic3-arena-enum-source-v1', 'module': module,
+    return {'schema': 'gothic3-arena-enum-source-v1', 'module': module, 'shared': shared,
             'initializer': {'entry': '204b1e70', 'instructions': instructions},
             'pendingCleanupCallbacks': ['20549ac0', '20549a60'],
             'images': images, 'sourceOnly': True,
@@ -79,6 +81,7 @@ if __name__ == '__main__':
         code += "function freeze(value:unknown):void {if(value!==null&&typeof value==='object'&&!Object.isFrozen(value)){for(const child of Object.values(value))freeze(child);Object.freeze(value);}}\n"
         code += "admitArenaEnumSource();freeze(source);\n"
         code += "export const arenaEnumInstructions=source.module.methods;\n"
+        code += "export const arenaEnumSharedInstructions=source.shared.methods;\n"
         code += "export const arenaEnumImagePins=Object.fromEntries(source.images.map(image=>[image.label,[image.label==='statusNoneName'||image.label.endsWith('Vtable')?'constBytes':'coldGlobals',image.address,image.bytes,image.raw,image.sha256] as const]));freeze(arenaEnumImagePins);\n"
         code += "export function arenaEnumImageReceipt(label:string):NativeCrtImageReceipt {admitArenaEnumSource();const image=source.images.find(image=>image.label===label);if(!image)throw new Error('Unowned Arena enum image');return Object.freeze({...image,module:'Game',scope:'cold-original-image',knownMask:'ff'.repeat(image.bytes)});}\n"
         args.runtime_output.write_text(code, encoding='utf-8', newline='\n')

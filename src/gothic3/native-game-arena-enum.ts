@@ -5,7 +5,7 @@ import type {NativeMemoryAllocation} from './native-memory-admin';
 import {NativeHeapCString} from './native-heap-cstring';
 import {NativeHeapObjectViews} from './native-heap-views';
 import {NativeRuntimePlatform} from './native-runtime-platform';
-import {admitArenaEnumSource,arenaEnumInstructions} from './native-game-arena-enum-source';
+import {admitArenaEnumSource,arenaEnumInstructions,arenaEnumSharedInstructions} from './native-game-arena-enum-source';
 const owners=new WeakMap<NativeGameCrtOwner,NativeGameArenaEnum>();
 function fact<T>(result:NativeValue<T>):T{if(!result.known)throw new Error(result.reason);return result.value;}
 
@@ -49,7 +49,19 @@ export class NativeGameArenaEnum {
    const fields=new NativeHeapObjectViews(this.#allocation,0,12);
    fields.writeUnsigned(0,0x20659c74);
    this.#trace.push('20071e83.enumValue.vtable');
-   throw new Error('Unowned enum bCObjectBase constructor at 20071e89 -> SharedBase IAT207d8700');
+   const baseSource=arenaEnumSharedInstructions[0];
+   if(baseSource?.bodyVA!=='0x1004a1c0'||baseSource.instructions.map(row=>row.bytes).join('')!=='8bc1c7001c7e0e10c3')
+    throw new Error('Original bCObjectBase constructor required');
+   // EDI is the actual +4 subobject. The three-instruction SharedBase body
+   // returns this receiver after storing its original base vtable.
+   const base=new NativeHeapObjectViews(this.#allocation,4,8);
+   base.writeUnsigned(0,0x100e7e1c);
+   this.#trace.push('1004a1c8.enumBaseConstructor.return');
+   base.writeUnsigned(0,0x2065902c);
+   const value=this.crt.imageStorage('enumValueScratch').readUnsigned(0);
+   base.writeUnsigned(4,value);
+   this.#trace.push('20071ea8.enumValue.store0');
+   throw new Error('Unowned enum shared-name registries at 20071eab -> 200719a0');
   }catch(error){this.#boundary=error instanceof Error?error.message:String(error);return {known:false,reason:this.#boundary};}
  }
  snapshot(){return Object.freeze({boundary:this.#boundary,temporary:this.#temporary,allocation:this.#allocation,

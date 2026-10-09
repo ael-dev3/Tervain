@@ -13,6 +13,19 @@ finishable campaign.
 
 ## How the rebuild works
 
+### Current local checkpoint: enum base construction returns
+
+The original SharedBase default `bCObjectBase` constructor resolves from
+`10007c11` to `1004a1c0`. Its three exact instructions return the actual
+receiver and store vtable `100e7e1c`. The enum continuation applies this to its
+retained allocation's +4 subobject, then restores derived value-base vtable
+`2065902c` and writes the actual scratch value zero at +8.
+Startup reaches value naming at `20071eab -> 200719a0`; the shared name/value
+registries remain unfinished. The initializer has not returned or inserted a
+value. Typechecking, seven focused checks and byte-identical independent
+regeneration of both source JSON and generated TypeScript pass. These later
+local changes remain undeployed.
+
 ### Current local checkpoint: first enum initializer enters
 
 Startup selects the actual `204b1e70` table entry at offset `0x374` and retains

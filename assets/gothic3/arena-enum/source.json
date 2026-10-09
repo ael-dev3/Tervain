@@ -3698,6 +3698,66 @@
     ],
     "verifiedAgainstOriginalPE": true
   },
+  "shared": {
+    "module": "SharedBase.dll",
+    "inputSha256": "5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214",
+    "functionsCsvSha256": "6575dbc046d114939cf7d21c41c0f8b46033979db81d14b2bff96c19de8b91b1",
+    "assemblySha256": "138421416f7ceb98d40d7d2fb9ea847b898fe804e010a70bfaff414e5f292430",
+    "methods": [
+      {
+        "label": "objectBaseConstructor",
+        "entryVA": "0x10007c11",
+        "bodyVA": "0x1004a1c0",
+        "entryChain": [
+          {
+            "va": "10007c11",
+            "bytes": "e9aa250400",
+            "targetVA": "1004a1c0"
+          }
+        ],
+        "bodyRanges": "1004a1c0-1004a1c8",
+        "instructions": [
+          {
+            "va": "1004a1c0",
+            "rva": "4a1c0",
+            "fileOffset": 303552,
+            "bytes": "8bc1",
+            "instruction": "MOV EAX,ECX",
+            "assemblyLine": 83194
+          },
+          {
+            "va": "1004a1c2",
+            "rva": "4a1c2",
+            "fileOffset": 303554,
+            "bytes": "c7001c7e0e10",
+            "instruction": "MOV dword ptr [EAX],0x100e7e1c",
+            "assemblyLine": 83195
+          },
+          {
+            "va": "1004a1c8",
+            "rva": "4a1c8",
+            "fileOffset": 303560,
+            "bytes": "c3",
+            "instruction": "RET",
+            "assemblyLine": 83196
+          }
+        ],
+        "reconstructedC": {
+          "path": "01_Decompiled_Code/SharedBase_dll/pseudocode/functions_00016.c",
+          "sha256": "83bbb3dbf826490ad7208bb9d8bdc56a50abaa11707e2f486ca7c931878b0423",
+          "line": 4671,
+          "status": "decompiled"
+        },
+        "instructionCount": 3,
+        "bodyByteCount": 9,
+        "bodyInstructionBytesSha256": "ab7e78513c0a30ddc1692bed394d8f242bab4639e53b0e22cdd9dc43ae23a4bb"
+      }
+    ],
+    "constants": [],
+    "imports": [],
+    "tables": [],
+    "verifiedAgainstOriginalPE": true
+  },
   "initializer": {
     "entry": "204b1e70",
     "instructions": [

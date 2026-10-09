@@ -45,7 +45,7 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  expect(game.known).toBe(true);
  if(!game.known)throw new Error(game.reason);
  expect(game.value.attachResult).toEqual({known:false,
-  reason:'crtAttach204677e4: Unowned Translated Arena Status initializer pending: Unowned enum bCObjectBase constructor at 20071e89 -> SharedBase IAT207d8700'});
+  reason:'crtAttach204677e4: Unowned Translated Arena Status initializer pending: Unowned enum shared-name registries at 20071eab -> 200719a0'});
  const diagnostic=NativeSharedMessageDebug.forPlatform(platform).snapshot(),locale=diagnostic.formatterLocale!;
  expect(diagnostic.messageOwner).toBe(runtime.message);
  expect(diagnostic.messageGetterReturned).toBe(true);
@@ -79,6 +79,9 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  const enumOwner=NativeGameArenaEnum.forCrt(game.value.crt,memory),enumState=enumOwner.snapshot();
  expect(enumState.allocation).not.toBeNull();
  expect(new NativeHeapObjectViews(enumState.allocation!,0,12).readUnsigned(0)).toBe(0x20659c74);
+ expect(new NativeHeapObjectViews(enumState.allocation!,0,12).readUnsigned(4)).toBe(0x2065902c);
+ expect(new NativeHeapObjectViews(enumState.allocation!,0,12).readUnsigned(8)).toBe(0);
+ expect(enumState.trace).toContain('1004a1c8.enumBaseConstructor.return');
  expect(enumState.temporary!.snapshot().destroyed).toBe(false);
  expect(enumState.initializerReturned).toBe(false);
  expect(enumState.valueInserted).toBe(false);
