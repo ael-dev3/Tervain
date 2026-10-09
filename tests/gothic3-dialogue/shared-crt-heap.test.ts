@@ -297,9 +297,9 @@ it('owns the original 544-byte multibyte root and aliases its refcount field',()
 });
 
 
-function argumentFixture(ownLocale=1,selected=true,sse=false,stack:'aligned'|'opaque'|false=false,stackBytes=4096,commandBytes:readonly number[]=[0],environmentWide:readonly number[]|null=[0,0],environmentAnsi:readonly number[]|null=null,processor:{export?:boolean;erratum?:boolean;cpu?:NativeX86CpuSelection;diagnostics?:NativeRuntimeDiagnostics}={export:true,erratum:false}){
+function argumentFixture(ownLocale=1,selected=true,sse=false,stack:'aligned'|'opaque'|false=false,stackBytes=4096,commandBytes:readonly number[]=[0],environmentWide:readonly number[]|null=[0,0],environmentAnsi:readonly number[]|null=null,processor:{export?:boolean;erratum?:boolean;cpu?:NativeX86CpuSelection;diagnostics?:NativeRuntimeDiagnostics;sectionSpin?:boolean}={export:true,erratum:false}){
  let owner:NativeSharedCrtOwner;
- const platform=new NativeRuntimePlatform({diagnostics:processor.diagnostics,engineCrtServices:{tlsValues:new Map(),kernel32Available:true,pointerCodec:'owned-bijection',processorFeatureProcedure:processor.export,floatingPointPrecisionErratum:processor.erratum,fiberLocalStorage:true,processHeap:true,osVersion:{platform:2,major:6,minor:1,build:42},entropy:{currentThreadId:()=>{owner.snapshot().ptd!.writeUnsigned(0x70,ownLocale);if(sse)owner.imageStorage('memcpySseFlag').writeUnsigned(0,1);return {known:true,value:9};}},processInputs:{acpCodePage:1252,conversionCoverage:'ascii-explicit-positive-count',initialDirectionFlag:0,commandLineA:{kind:'buffer',bytes:commandBytes},environmentW:environmentWide?{kind:'buffer',bytes:environmentWide}:{kind:'null'},environmentA:environmentAnsi?{kind:'buffer',bytes:environmentAnsi}:{kind:'null'}},startupIo:{startupInfoA:{outcome:'normal',writes:[{offset:50,width:2,value:0,knownMask:65535}]}},standardIo:{standardHandles:[{id:-10,result:'valid',fileType:2},{id:-11,result:'valid',fileType:3},{id:-12,result:'null',fileType:0}],setHandleCount:{result:0},sectionInitialization:'owned-registration'},threadStack:stack?{threadCapability:{},reservationBytes:stackBytes,addressModel:'opaque-relative',initialRegisters:'unknown',initialFs0:'unknown',pageAlignment:stack==='aligned'?'virtual-page-4096':undefined,cpu:processor.cpu}:undefined,argvNls:selected?{...nativeVirtualCp1252ArgvNlsSelection,lastError:{GetACP:88}}:undefined}});
+ const platform=new NativeRuntimePlatform({diagnostics:processor.diagnostics,engineCrtServices:{tlsValues:new Map(),kernel32Available:true,pointerCodec:'owned-bijection',sectionSpinProcedure:processor.sectionSpin,processorFeatureProcedure:processor.export,floatingPointPrecisionErratum:processor.erratum,fiberLocalStorage:true,processHeap:true,osVersion:{platform:2,major:6,minor:1,build:42},entropy:{currentThreadId:()=>{owner.snapshot().ptd!.writeUnsigned(0x70,ownLocale);if(sse)owner.imageStorage('memcpySseFlag').writeUnsigned(0,1);return {known:true,value:9};}},processInputs:{acpCodePage:1252,conversionCoverage:'ascii-explicit-positive-count',initialDirectionFlag:0,commandLineA:{kind:'buffer',bytes:commandBytes},environmentW:environmentWide?{kind:'buffer',bytes:environmentWide}:{kind:'null'},environmentA:environmentAnsi?{kind:'buffer',bytes:environmentAnsi}:{kind:'null'}},startupIo:{startupInfoA:{outcome:'normal',writes:[{offset:50,width:2,value:0,knownMask:65535}]}},standardIo:{standardHandles:[{id:-10,result:'valid',fileType:2},{id:-11,result:'valid',fileType:3},{id:-12,result:'null',fileType:0}],setHandleCount:{result:0},sectionInitialization:'owned-registration'},threadStack:stack?{threadCapability:{},reservationBytes:stackBytes,addressModel:'opaque-relative',initialRegisters:'unknown',initialFs0:'unknown',pageAlignment:stack==='aligned'?'virtual-page-4096':undefined,cpu:processor.cpu}:undefined,argvNls:selected?{...nativeVirtualCp1252ArgvNlsSelection,lastError:{GetACP:88}}:undefined}});
  owner=NativeSharedCrtOwner.forPlatform(platform);return {platform,owner};
 }
 for(const ownLocale of [1,3])it(`uses actual SharedBase GetACP and preserves original locale flag ownership ${ownLocale}`,()=>{
@@ -633,7 +633,7 @@ it('reenters the processor probe with a fresh normal EH frame after its prior re
  const result=owner.processAttach();expect(result).toEqual({known:true,value:1});const snapshot=owner.snapshot().caseState!.stack!.snapshot();expect(snapshot.trace.filter(row=>row==='100ce055.sharedInitializer.MOVAPD')).toHaveLength(3);expect(snapshot.calls.filter(call=>call.site==='100ce08f').map(call=>call.returned)).toEqual([true,true,true]);expect(snapshot.processorSimdFrame!.returned).toBe(true);
 });
 
-function stdioFixture(count=0,diagnostics?:NativeRuntimeDiagnostics){const f=argumentFixture(1,true,false,'aligned',4096,[0],[0,0],null,{export:true,erratum:false,cpu:nativeVirtualX86CpuSelection,diagnostics});f.owner.snapshot().initializerImages['102f8500']!.writeUnsigned(0,count);return f;}
+function stdioFixture(count=0,diagnostics?:NativeRuntimeDiagnostics,sectionSpin?:boolean){const f=argumentFixture(1,true,false,'aligned',4096,[0],[0,0],null,{export:true,erratum:false,cpu:nativeVirtualX86CpuSelection,diagnostics,sectionSpin});f.owner.snapshot().initializerImages['102f8500']!.writeUnsigned(0,count);return f;}
 function descriptorPending(owner:NativeSharedCrtOwner){return owner.snapshot().caseState?.stack?.snapshot().calls.some(call=>call.site==='100aab6e'&&!call.returned)??false;}
 for(const [requested,count] of [[0,512],[1,20],[19,20],[20,20],[33,33],[0x80000000,20],[0xffffffff,20]] as const)it(`initializes original FILE vector for signed requested count ${requested}`,()=>{
  const {owner}=stdioFixture(requested),result=owner.processAttach();expect(result).toEqual({known:true,value:1});const state=owner.snapshot(),images=state.initializerImages,files=images['10141790']!,vector=images['102f71c0']!.pointer<{fields:NativeHeapObjectViews;offset:number}>(0).get()!;
@@ -1570,5 +1570,55 @@ owner.processDllSpieSharedOpen();
  expect(result.reason).toMatch(/descriptor allocation frame|expression slot/);
  expect(owner.snapshot().crtHeldSectionIds).toEqual([19]);
  expect(owner.imageStorage('lockTable').pointer(11*8).get()).toBe(null);
+ expect(before.ioBlock!.readUnsigned(172,1)).toBe(0);expect(before.ioBlock!.readUnsigned(176)).toBe(0);
+},30_000);
+
+
+it('executes the original cached descriptor section initializer and returns to CreateFileA',()=>{
+ const {owner}=fileVersionQueryFixture();owner.processDllFileVersionQuery();owner.processDllLanguageFree();owner.processDllLanguageReturn();owner.processDllVersionToken();owner.processDllVersionInteger();owner.processDllVersionFree();owner.processDllSeparatorPrefix();owner.processDllMessageCreate();owner.processDllMessageHolder();owner.processDllMessageErrorGet();owner.processDllMessageErrorCreate();owner.processDllMessageErrorBuffer();owner.processDllMessageErrorRegister();owner.processDllMessageErrorTerminate();owner.processDllMessageSpyGet();owner.processDllMessageSpyCreate();owner.processDllMessageSpyTerminate();owner.processDllMessageSpieStartup();owner.processDllSpieAcquireStream();
+owner.processDllSpieSharedOpen();
+owner.processDllSpieAllocateDescriptor();
+ expect(owner.processDllSpieInitDescriptorSection()).toEqual({known:false,reason:'Original SharedBase CreateFileA return pending at 100d1372'});
+ const state=owner.snapshot(),stack=state.caseState!.stack!.snapshot(),block=state.ioBlock!;
+ expect(state.crtHeldSectionIds).toEqual([19]);expect(state.descriptorHeldSectionOffsets).toEqual([180]);
+ expect(block.readUnsigned(168)).toBe(0xffffffff);expect(block.readUnsigned(172,1)).toBe(1);expect(block.readUnsigned(176)).toBe(1);
+ expect(stack.calls.find(row=>row.site==='100bbfa6')!.returned).toBe(true);
+ expect(stack.calls.find(row=>row.site==='100d0e1c')!.returned).toBe(true);
+ expect(stack.calls.find(row=>row.site==='100d1329')!.returned).toBe(true);
+ expect(stack.calls.at(-1)!.site).toBe('100d1372');
+ const call=stack.calls.at(-1)!,argumentsView=new NativeHeapObjectViews(stack.sharedDllResourceFrame!.handle.backing,call.position,32);
+ expect(argumentsView.readUnsigned(8)).toBe(0x80000000);expect(argumentsView.readUnsigned(12)).toBe(3);
+ expect(argumentsView.readUnsigned(20)).toBe(3);expect(argumentsView.readUnsigned(24)).toBe(0x80);expect(argumentsView.readUnsigned(28)).toBe(0);
+ const ebp=(stack.registers.EBP as {word:{provenance:{offset:number}}}).word.provenance.offset;
+ const security=new NativeHeapObjectViews(stack.sharedDllResourceFrame!.handle.backing,ebp-0x34,12);
+ expect(security.readUnsigned(0)).toBe(12);expect(security.readUnsigned(4)).toBe(0);expect(security.readUnsigned(8)).toBe(1);
+ expect(stack.trace.some(row=>row.startsWith('100d0e83.sharedInitializer.IDIV'))).toBe(true);
+ expect(state.initializerImages['10141790']!.readUnsigned(96+16)).toBe(0xffffffff);
+},30_000);
+
+
+it('executes the original descriptor fallback initializer when the spin procedure is absent',()=>{
+ const {owner}=fileVersionQueryFixture(stdioFixture(0,undefined,false));owner.processDllFileVersionQuery();owner.processDllLanguageFree();owner.processDllLanguageReturn();owner.processDllVersionToken();owner.processDllVersionInteger();owner.processDllVersionFree();owner.processDllSeparatorPrefix();owner.processDllMessageCreate();owner.processDllMessageHolder();owner.processDllMessageErrorGet();owner.processDllMessageErrorCreate();owner.processDllMessageErrorBuffer();owner.processDllMessageErrorRegister();owner.processDllMessageErrorTerminate();owner.processDllMessageSpyGet();owner.processDllMessageSpyCreate();owner.processDllMessageSpyTerminate();owner.processDllMessageSpieStartup();owner.processDllSpieAcquireStream();
+owner.processDllSpieSharedOpen();
+owner.processDllSpieAllocateDescriptor();
+
+ expect(owner.processDllSpieInitDescriptorSection()).toEqual({known:false,reason:'Original SharedBase CreateFileA return pending at 100d1372'});
+ const state=owner.snapshot(),stack=state.caseState!.stack!.snapshot();
+ expect(state.trace).toContain('100bbf1b.InitializeCriticalSection');
+ expect(stack.calls.find(row=>row.site==='100bbf1b')!.returned).toBe(true);
+ expect(state.crtHeldSectionIds).toEqual([19]);expect(state.descriptorHeldSectionOffsets).toEqual([180]);
+ expect(state.ioBlock!.readUnsigned(172,1)).toBe(1);expect(state.ioBlock!.readUnsigned(176)).toBe(1);
+},30_000);
+
+it('rejects a foreign section cache before initializing descriptor storage',()=>{
+ const {owner}=fileVersionQueryFixture();owner.processDllFileVersionQuery();owner.processDllLanguageFree();owner.processDllLanguageReturn();owner.processDllVersionToken();owner.processDllVersionInteger();owner.processDllVersionFree();owner.processDllSeparatorPrefix();owner.processDllMessageCreate();owner.processDllMessageHolder();owner.processDllMessageErrorGet();owner.processDllMessageErrorCreate();owner.processDllMessageErrorBuffer();owner.processDllMessageErrorRegister();owner.processDllMessageErrorTerminate();owner.processDllMessageSpyGet();owner.processDllMessageSpyCreate();owner.processDllMessageSpyTerminate();owner.processDllMessageSpieStartup();owner.processDllSpieAcquireStream();
+owner.processDllSpieSharedOpen();
+owner.processDllSpieAllocateDescriptor();
+
+ const before=owner.snapshot();owner.imageStorage('pointer6ac0').pointer<object>(0).set(Object.freeze({}));
+ const result=owner.processDllSpieInitDescriptorSection();expect(result.known).toBe(false);
+ if(result.known)throw new Error('Foreign section cache must be rejected');
+ expect(result.reason).toContain('same-platform descriptor initializer cache');
+ expect(owner.snapshot().crtHeldSectionIds.toSorted()).toEqual([10,11,19]);expect(owner.snapshot().descriptorHeldSectionOffsets).toEqual([]);
  expect(before.ioBlock!.readUnsigned(172,1)).toBe(0);expect(before.ioBlock!.readUnsigned(176)).toBe(0);
 },30_000);

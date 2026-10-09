@@ -10794,12 +10794,45 @@ existing ErrorAdmin variable-pool fixture exceed its five-second limit at
 5.068 seconds. The focused rerun passed. All remaining 19 tests that construct
 the complete version/startup fixture now have explicit 30-second limits;
 a comparison confirms their assertions and other code are unchanged.
-Typechecking and four focused checks pass after that adjustment. A full rerun
-is pending; no complete-suite success is claimed for this descriptor change yet.
+Typechecking and four focused checks pass after that adjustment. The full rerun
+passed 2,990 tests across 277 files in 249.11 seconds for this descriptor prefix.
 
 Separately, the deployed Ardea route was inspected in the Codex browser. Scene
 recovery reported 202 objects, 70 characters and three source routine positions.
 Entering Ardea completed Hero, journal and world-clock loading and rendered the
 scene with grounded Hero coordinates and HP 100/100. This is startup observation
 only: no campaign ending, full NPC behavior or save/reload playthrough was
-verified. PR #168 passed CI and was merged; its Pages deployment is pending.
+verified. PR #168 passed CI, was merged, and its Pages deployment succeeded.
+
+
+## Original descriptor section initializer and return to CreateFileA (local work, 2026-10-09)
+
+The retained `100bbf27` call now executes the original section wrapper and EH4
+frame. Its cache aliases the existing `pointer6ac0` storage; the original decoder
+uses the actual same-platform DecodePointer procedure and preserves the cache's
+identity. Both the cached spin procedure and the original `100bbf17` fallback
+execute against a 24-byte view of the original descriptor record's storage.
+The view is retained only after successful platform initialization.
+
+The original wrapper restores its frame. The allocator increments the descriptor
+initialization count, releases lock 10, enters the descriptor section, reserves
+the record, calculates descriptor index 3 through original signed IDIV and
+releases lock 11. Its own EH4 frame restores the shared-open parent. The core
+then pushes its actual filename, access, share, security attributes, disposition,
+attributes and template handle for `100d1372 CALL EDI`, whose IAT slot is the
+original KERNEL32 CreateFileA import at `102f9660`.
+
+At that boundary descriptor 3 is reserved with its section held, FILE lock 19
+is held, and table locks 10 and 11 are released. The descriptor handle is still
+-1; no platform file-open result is supplied. CreateFileA return, error/status
+mapping, file publication and original stream/descriptor cleanup remain next.
+The supported fallback is selected by the platform profile rather than forced.
+A foreign cached procedure is rejected before section storage is initialized.
+
+Four focused checks and typechecking pass, including original API scalar and
+security-attribute outputs, both initializer paths, cache rejection and source
+receipts. Independent source/runtime regeneration matches 63 bodies and 4,250
+body instructions. The preceding 2,990-test receipt covers the descriptor prefix;
+full-suite and production-build validation of this combined continuation are
+pending. These methods have no production callers, and a finishable browser
+campaign has not been demonstrated.

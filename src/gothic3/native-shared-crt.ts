@@ -65,6 +65,11 @@ export interface NativeSharedInitializerImports {
  exitLock(id:number,enter:boolean):void;
  crtSection(id:number):NativeHeapObjectViews|null;
  crtSectionLock(fields:NativeHeapObjectViews,offset:number,enter:boolean):void;
+ readonly spieCreateFileProcedure:object;
+ sectionCachePointer():object|null;
+ decodeSectionInitializer(procedure:object,encoded:object):object|number;
+ initializeDescriptorSection(procedure:object|null,fields:NativeHeapObjectViews,offset:number,spin:number|null):number;
+ descriptorSectionLock(fields:NativeHeapObjectViews,offset:number,enter:boolean):void;
  initializeCrtSection(fields:NativeHeapObjectViews,offset:number,spin:number):number;
  encodeCode(procedure:object,address:number):object|null;
  validateEncodedCode(value:object):void;
@@ -267,6 +272,10 @@ export class NativeSharedCrtOwner {
  #sections:NativeHeapObjectViews[]=[];
  readonly #crtSections=new Map<number,NativeHeapObjectViews>();
  #crtDynamicSection:number|null=null;
+ #descriptorSectionCache:object|null=null;
+ #descriptorSectionProcedure:object|null=null;
+ readonly #descriptorSectionViews=new Map<number,NativeHeapObjectViews>();
+ readonly #descriptorHeldSections=new Set<number>();
  readonly #crtHeldSections=new Set<NativeHeapObjectViews>();
  readonly #crtSectionViews=new WeakMap<NativeHeapObjectViews,NativeHeapObjectViews>();
  #sectionFallback:Readonly<{address:string;owner:object;invoke(fields:NativeHeapObjectViews):NativeValue<boolean>}>;
@@ -293,8 +302,9 @@ export class NativeSharedCrtOwner {
   const crtHeapFreeProcedure=Object.freeze({owner:this.identity,name:'CRT.HeapFree'});
   const poolVirtualAllocProcedure=Object.freeze({owner:this.identity,name:'VirtualAlloc'}),crtHeapAllocProcedure=Object.freeze({owner:this.identity,name:'CRT.HeapAlloc'});
   const spyFindWindowProcedure=Object.freeze({owner:this.identity,name:'SpyAdmin.FindWindowA'});
+  const spieCreateFileProcedure=Object.freeze({owner:this.identity,name:'CreateFileA'});
   const getModuleHandleA=Object.freeze({owner:this.identity,name:'GetModuleHandleA'}),getProcAddress=Object.freeze({owner:this.identity,name:'GetProcAddress'}),tlsGetValue=Object.freeze({owner:this.identity,name:'TlsGetValue'}),heapSizeProcedure=Object.freeze({owner:this.identity,name:'HeapSize'}),initializeSectionProcedure=Object.freeze({owner:this.identity,name:'InitializeCriticalSection'}),memorySectionInitializeProcedure=Object.freeze({owner:this.identity,name:'MemoryHeap.InitializeCriticalSectionAndSpinCount'}),memorySectionEnterProcedure=Object.freeze({owner:this.identity,name:'MemoryHeap.EnterCriticalSection'}),memorySectionLeaveProcedure=Object.freeze({owner:this.identity,name:'MemoryHeap.LeaveCriticalSection'});
-  this.#initializerImports=Object.freeze({spyFindWindowProcedure,spyFindWindow:(className:number,title:string):object|null=>{if(!this.#active||!this.#initializerActive||className!==0||title!=='[zSpy]')throw new Error('Actual SpyAdmin window query required');return this.#call('1004b83d.FindWindowA',()=>NativeRuntimePlatform.diagnosticWindowForPlatform(this.platform,null,title));},crtHeapFreeProcedure,crtHeapAllocProcedure,poolVirtualAllocProcedure,getModuleHandleA,getProcAddress,tlsGetValue,heapSizeProcedure,initializeSectionProcedure,memorySectionInitializeProcedure,memorySectionEnterProcedure,memorySectionLeaveProcedure,
+  this.#initializerImports=Object.freeze({spieCreateFileProcedure,spyFindWindowProcedure,spyFindWindow:(className:number,title:string):object|null=>{if(!this.#active||!this.#initializerActive||className!==0||title!=='[zSpy]')throw new Error('Actual SpyAdmin window query required');return this.#call('1004b83d.FindWindowA',()=>NativeRuntimePlatform.diagnosticWindowForPlatform(this.platform,null,title));},crtHeapFreeProcedure,crtHeapAllocProcedure,poolVirtualAllocProcedure,getModuleHandleA,getProcAddress,tlsGetValue,heapSizeProcedure,initializeSectionProcedure,memorySectionInitializeProcedure,memorySectionEnterProcedure,memorySectionLeaveProcedure,
    memorySectionInitialize:(fields:NativeHeapObjectViews,offset:number,spin:number):number=>{if(!this.#active||!this.#initializerActive||fields!==this.#initializerImages['10189a18']||offset!==0||spin!==1000)throw new Error('Actual original MemoryAdmin heap section arguments required');this.#requireLocal(fields);return this.#call('1003d449.InitializeCriticalSectionAndSpinCount',()=>this.platform.initializePhysicalMemoryHeapCriticalSection(fields,this.identity,1000))?1:0;},
    memorySectionLock:(fields:NativeHeapObjectViews,offset:number,enter:boolean):void=>{if(!this.#active||!this.#initializerActive||fields!==this.#initializerImages['10189a18']||offset!==0||enter===this.#memoryHeapSectionHeld)throw new Error('Actual original MemoryAdmin heap section transition required');this.#requireLocal(fields);this.#call(enter?'1003d463.EnterCriticalSection':'1003d48a.LeaveCriticalSection',()=>enter?this.platform.enterPhysicalCriticalSection(fields,this.identity):this.platform.leavePhysicalCriticalSection(fields,this.identity));this.#memoryHeapSectionHeld=enter;},
    initializeSection:(fields:NativeHeapObjectViews,offset:number):void=>{const message=fields===this.#dllFormatImages['10197d6c']&&offset===4,error=fields===this.#dllFormatImages['10142a58']&&offset===8,spy=fields===this.#dllFormatImages['101ab11c']&&offset===0,spie=fields===this.#dllFormatImages['10197dc0']&&offset===0;if(!this.#active||!this.#initializerActive||!message&&!error&&!spy&&!spie&&(fields!==this.#initializerImages['10197da0']||offset!==0))throw new Error('Actual original static critical-section storage required');this.#requireLocal(fields);const section=message||error||spy||spie?new NativeHeapObjectViews(fields.backing,fields.bytes.byteOffset-fields.backing.bytes.byteOffset+offset,24):fields;this.#call(spie?'1004afa8.InitializeCriticalSection':spy?'1004b498.InitializeCriticalSection':error?'10021978.InitializeCriticalSection':message?'10049775.InitializeCriticalSection':'100e1455.InitializeCriticalSection',()=>this.platform.initializePhysicalCriticalSectionWithoutSpin(section,this.identity));},
@@ -374,11 +384,45 @@ export class NativeSharedCrtOwner {
     const span=NativeRuntimePlatform.canonicalOwnedWin32HeapAllocationSpan(this.platform,this.#heap!,this.identity,{fields,offset},fields.bytes.length);if(!span.known)throw new Error(span.reason);return this.#call('100b1158.HeapSize',()=>this.platform.win32HeapSize(this.#heap!,0,{fields,offset}));
    },
    crtSection:(id:number):NativeHeapObjectViews|null=>{
-    if(!this.#active||!this.#initializerActive||!([5,10,14].includes(id)||this.#dllCall!==null&&([1,19].includes(id)&&this.#dllBoundary==='Original SharedBase CRT stream acquisition pending at 100bfd6f'||id===11&&this.#dllBoundary==='Original SharedBase CRT descriptor allocation pending at 100d0d8d')))throw new Error('Actual admitted CRT section table slot required');const value=this.imageStorage('lockTable').pointer<NativeHeapObjectViews|{fields:NativeHeapObjectViews;offset:number}>(id*8).get();if(value===null){if(this.#crtSections.has(id))throw new Error('Actual retained CRT section table pointer required');if(id===5||id===19||id===11){if(this.#crtDynamicSection!==null&&this.#crtDynamicSection!==id)throw new Error('Actual single pending CRT section request required');this.#crtDynamicSection=id;}return null;}const fields=value instanceof NativeHeapObjectViews?value:value.offset===0?value.fields:null;if(!fields||this.#crtSections.get(id)!==fields)throw new Error('Actual retained CRT section table pointer required');return fields;
+    if(!this.#active||!this.#initializerActive||!([5,10,14].includes(id)||this.#dllCall!==null&&([1,19].includes(id)&&this.#dllBoundary==='Original SharedBase CRT stream acquisition pending at 100bfd6f'||id===11&&['Original SharedBase CRT descriptor allocation pending at 100d0d8d','Original SharedBase descriptor section initialization pending at 100bbf27'].includes(this.#dllBoundary??''))))throw new Error('Actual admitted CRT section table slot required');const value=this.imageStorage('lockTable').pointer<NativeHeapObjectViews|{fields:NativeHeapObjectViews;offset:number}>(id*8).get();if(value===null){if(this.#crtSections.has(id))throw new Error('Actual retained CRT section table pointer required');if(id===5||id===19||id===11){if(this.#crtDynamicSection!==null&&this.#crtDynamicSection!==id)throw new Error('Actual single pending CRT section request required');this.#crtDynamicSection=id;}return null;}const fields=value instanceof NativeHeapObjectViews?value:value.offset===0?value.fields:null;if(!fields||this.#crtSections.get(id)!==fields)throw new Error('Actual retained CRT section table pointer required');return fields;
    },
    crtSectionLock:(fields:NativeHeapObjectViews,offset:number,enter:boolean):void=>{
     const id=Array.from(this.#crtSections).find(([,section])=>section===fields)?.[0];if(!this.#active||!this.#initializerActive||offset!==0||id===undefined||![1,5,10,11,14,19].includes(id)||this.#initializerImports.crtSection(id)!==fields||enter===this.#crtHeldSections.has(fields))throw new Error('Actual retained CRT section transition required');
     this.#call(enter?'100bb8ba.EnterCriticalSection':'100bb7af.LeaveCriticalSection',()=>enter?this.platform.enterPhysicalCriticalSection(this.#crtSectionViews.get(fields)??fields,this.identity):this.platform.leavePhysicalCriticalSection(this.#crtSectionViews.get(fields)??fields,this.identity));if(enter)this.#crtHeldSections.add(fields);else this.#crtHeldSections.delete(fields);
+   },
+   sectionCachePointer:():object|null=>{
+    if(!this.#active||!this.#initializerActive||!this.#dllCall||this.#dllBoundary!=='Original SharedBase descriptor section initialization pending at 100bbf27')throw new Error('Actual descriptor section cache continuation required');
+    const value=this.imageStorage('pointer6ac0').pointer<object>(0).get();
+    if(value!==this.#descriptorSectionCache)throw new Error('Actual retained descriptor initializer cache identity required');
+    if(value===null)return null;
+    const proof=NativeRuntimePlatform.standardIoCapabilityForPlatform(this.platform,value);
+    if(value!==this.#sectionFallback&&(!proof.known||!['encoded','section'].includes(proof.value)))throw new Error('Actual same-platform descriptor initializer cache required');
+    if(value===this.#sectionFallback||proof.known&&proof.value==='section')this.#descriptorSectionProcedure=value;
+    return value;
+   },
+   decodeSectionInitializer:(procedure:object,encoded:object):object|number=>{
+    if(this.#initializerImports.sectionCachePointer()!==encoded)throw new Error('Actual cached section decoder argument required');
+    const proof=NativeRuntimePlatform.canonicalPointerCodecForPlatform(this.platform,procedure,'DecodePointer');if(!proof.known)throw new Error(proof.reason);
+    const decoded=this.#call('100ae354.DecodePointer',()=>proof.value.invoke(encoded));
+    if(decoded===this.#sectionFallback){this.#descriptorSectionProcedure=decoded;return 0x100bbf17;}
+    const capability=decoded?NativeRuntimePlatform.standardIoCapabilityForPlatform(this.platform,decoded):null;
+    if(!decoded||!capability?.known||capability.value!=='section')throw new Error('Actual decoded descriptor section procedure required');
+    this.#descriptorSectionProcedure=decoded;return decoded;
+   },
+   initializeDescriptorSection:(procedure:object|null,fields:NativeHeapObjectViews,offset:number,spin:number|null):number=>{
+    this.#initializerImports.sectionCachePointer();
+    const block=this.#initializerImports.descriptorBlock(),record=offset-12;
+    if(fields!==block||record<0||record%56!==0||record>=1792||fields.readUnsigned(record+8)!==0||(fields.readUnsigned(record+4,1)&1)!==0||this.#descriptorSectionViews.has(offset)||![10,11,19].every(id=>{const section=this.#crtSections.get(id);return section&&this.#crtHeldSections.has(section);}))throw new Error('Actual locked uninitialized descriptor section storage required');
+    const span=NativeRuntimePlatform.canonicalOwnedWin32HeapAllocationSpan(this.platform,this.#heap!,this.identity,{fields,offset},24);if(!span.known)throw new Error(span.reason);this.#requireLocal(fields);
+    const section=new NativeHeapObjectViews(fields.backing,fields.bytes.byteOffset-fields.backing.bytes.byteOffset+offset,24);let initialized:boolean;
+    if(procedure===null){if(spin!==null||this.#descriptorSectionProcedure!==this.#sectionFallback)throw new Error('Actual original descriptor fallback initializer required');this.#call('100bbf1b.InitializeCriticalSection',()=>this.platform.initializePhysicalCriticalSectionWithoutSpin(section,this.identity));initialized=true;}
+    else {const proof=NativeRuntimePlatform.standardIoCapabilityForPlatform(this.platform,procedure);if(spin!==4000||procedure!==this.#descriptorSectionProcedure||!proof.known||proof.value!=='section')throw new Error('Actual decoded descriptor spin initializer required');initialized=this.#call('100bbfa6.InitializeCriticalSectionAndSpinCount',()=> (procedure as {invoke:(fields:NativeHeapObjectViews,owner:object,spin:4000)=>NativeValue<boolean>}).invoke(section,this.identity,4000));}
+    if(initialized){this.#descriptorSectionViews.set(offset,section);this.#sections.push(section);}return initialized?1:0;
+   },
+   descriptorSectionLock:(fields:NativeHeapObjectViews,offset:number,enter:boolean):void=>{
+    this.#initializerImports.sectionCachePointer();const section=this.#descriptorSectionViews.get(offset),record=offset-12;
+    if(fields!==this.#initializerImports.descriptorBlock()||!section||record<0||record%56!==0||fields.readUnsigned(record+8)!==1||enter===this.#descriptorHeldSections.has(offset))throw new Error('Actual initialized descriptor section transition required');this.#requireLocal(fields);
+    this.#call(enter?'100d0e42.EnterCriticalSection':'100d0e4f.LeaveCriticalSection',()=>enter?this.platform.enterPhysicalCriticalSection(section,this.identity):this.platform.leavePhysicalCriticalSection(section,this.identity));if(enter)this.#descriptorHeldSections.add(offset);else this.#descriptorHeldSections.delete(offset);
    },
    initializeCrtSection:(fields:NativeHeapObjectViews,offset:number,spin:number):number=>{
     const id=this.#crtDynamicSection,lock=this.#crtSections.get(10);if(!this.#active||!this.#initializerActive||offset!==0||spin!==4000||fields.bytes.length!==(this.imageStorage('heapSelection').readUnsigned(0)===1?24:32)||!this.#initializerAllocations.has(fields)||!lock||!this.#crtHeldSections.has(lock)||id===null||![5,11,19].includes(id)||this.#crtSections.has(id))throw new Error('Actual lock-ten protected CRT section allocation required');
@@ -1425,6 +1469,18 @@ export class NativeSharedCrtOwner {
   catch(error){this.#dllBoundary=error instanceof Error?error.message:String(error);return {known:false,reason:this.#dllBoundary};}
   finally{this.#dllCall=null;this.#active=false;}
  }
+ processDllSpieInitDescriptorSection():NativeValue<number>{
+  if(this.#active||!this.#argvStack||this.#dllBoundary!=='Original SharedBase descriptor section initialization pending at 100bbf27')return {known:false,reason:this.#dllBoundary??'Actual pending descriptor section initialization required'};
+  try{
+   for(const [label,hash] of Object.entries({"dllSpieInitDescriptorSection": "f73b38791ad720df5bc93afb51a63f39e6f0b3f93553464dd7b1e7fbdd27d5f5", "dllSpieFallbackDescriptorSection": "d52356eb1c51d45fa27441a08bc7fadd57a2f9a2ceea101dd7072a0a5678e542"}))if(dllEntrySource.methods.find(row=>row.label===label)?.bodyInstructionBytesSha256!==hash)throw new Error('Original descriptor section initializer source required');
+   const receipt=dllEntrySource.coldImages.find(row=>row.label==='dllSpieDescriptorSectionScope'),raw='feffffff00000000ccffffff00000000feffffffadbf0b10c4bf0b10';if(!receipt||receipt.address!=='100f8d18'||receipt.size!==28||receipt.bytes!==raw)throw new Error('Original descriptor section scope required');
+   const fileImport=dllEntrySource.imports.find(row=>row.iatVA==='0x102f9660');if(!fileImport||fileImport.module!=='KERNEL32.dll'||fileImport.name!=='CreateFileA')throw new Error('Original descriptor CreateFileA import required');
+   const retained:Record<string,NativeHeapObjectViews>={...this.#dllFormatImages,'102f6ac0':this.imageStorage('pointer6ac0')};if(!retained['100f8d18']){const fields=this.#retainLocal(28);for(let i=0;i<28;i++)fields.writeUnsigned(i,parseInt(raw.slice(i*2,i*2+2),16),1);retained['100f8d18']=fields;}if(!retained['102f9660']){const fields=this.#retainLocal(4);fields.pointer<object>(0).set(this.#initializerImports.spieCreateFileProcedure);retained['102f9660']=fields;}this.#dllFormatImages=Object.freeze(retained);
+   this.#descriptorSectionCache=this.imageStorage('pointer6ac0').pointer<object>(0).get();this.#descriptorSectionProcedure=null;
+   this.#active=true;this.#initializerActive=true;this.#dllCall=Object.freeze({});this.#dllMallocCall=this.#dllCall;const result=NativeX86ThreadStack.runSharedInitializers(this.#argvStack,this.#dllCall,'dll-spie-init-descriptor-section');if(!result.known)this.#dllBoundary=result.reason;return result;
+  }catch(error){this.#dllBoundary=error instanceof Error?error.message:String(error);return {known:false,reason:this.#dllBoundary};}
+  finally{this.#dllMallocCall=null;this.#dllCall=null;this.#initializerActive=false;this.#active=false;}
+ }
  processDllSpieAllocateDescriptor():NativeValue<number>{
   if(this.#active||!this.#argvStack||this.#dllBoundary!=='Original SharedBase CRT descriptor allocation pending at 100d0d8d')return {known:false,reason:this.#dllBoundary??'Actual pending CRT descriptor allocation required'};
   try{
@@ -1694,7 +1750,7 @@ export class NativeSharedCrtOwner {
   }catch(error){this.#dllBoundary=error instanceof Error?error.message:String(error);return {known:false,reason:this.#dllBoundary};}
   finally{this.#dllCall=null;this.#active=false;}
  }
- snapshot(){return Object.freeze({crtHeldSectionIds:Object.freeze(Array.from(this.#crtSections).filter(([,fields])=>this.#crtHeldSections.has(fields)).map(([id])=>id)),dllFormatImages:this.#dllFormatImages,variablePoolSlots:Object.freeze(Array.from(this.#variablePoolSlots,([fields,slot])=>Object.freeze({fields,...slot}))),poolSlots:Object.freeze(Array.from(this.#poolSlots,([fields,slot])=>Object.freeze({fields,...slot}))),memoryHeapSectionHeld:this.#memoryHeapSectionHeld,exitLockHeld:this.#exitLockHeld,initializerImages:this.#initializerImages,poolRegions:Object.freeze([...this.#poolRegions]),initializerAllocations:Object.freeze([...this.#initializerAllocations]),argvInput:this.#argvInput,argvAllocation:this.#argvAllocation,argvReturned:this.#argvReturned,environmentVector:this.#environmentVector,environmentStrings:Object.freeze([...this.#environmentStrings]),setEnvpReturned:this.#setEnvpReturned,mappingState:this.#mappingState?Object.freeze({...this.#mappingState}):null,boundary:this.#boundary,localeUpdate:this.#localeUpdate,multibyteAllocation:this.#multibyteAllocation,cpInfo:this.#cpInfo,caseState:this.#caseState?Object.freeze({...this.#caseState}):null,codePage:this.#codePage,startupInfo:this.#startupInfo,ioBlock:this.#ioBlock,ioReturned:this.#ioReturned,versionAllocation:this.#versionAllocation,
+ snapshot(){return Object.freeze({descriptorHeldSectionOffsets:Object.freeze([...this.#descriptorHeldSections]),crtHeldSectionIds:Object.freeze(Array.from(this.#crtSections).filter(([,fields])=>this.#crtHeldSections.has(fields)).map(([id])=>id)),dllFormatImages:this.#dllFormatImages,variablePoolSlots:Object.freeze(Array.from(this.#variablePoolSlots,([fields,slot])=>Object.freeze({fields,...slot}))),poolSlots:Object.freeze(Array.from(this.#poolSlots,([fields,slot])=>Object.freeze({fields,...slot}))),memoryHeapSectionHeld:this.#memoryHeapSectionHeld,exitLockHeld:this.#exitLockHeld,initializerImages:this.#initializerImages,poolRegions:Object.freeze([...this.#poolRegions]),initializerAllocations:Object.freeze([...this.#initializerAllocations]),argvInput:this.#argvInput,argvAllocation:this.#argvAllocation,argvReturned:this.#argvReturned,environmentVector:this.#environmentVector,environmentStrings:Object.freeze([...this.#environmentStrings]),setEnvpReturned:this.#setEnvpReturned,mappingState:this.#mappingState?Object.freeze({...this.#mappingState}):null,boundary:this.#boundary,localeUpdate:this.#localeUpdate,multibyteAllocation:this.#multibyteAllocation,cpInfo:this.#cpInfo,caseState:this.#caseState?Object.freeze({...this.#caseState}):null,codePage:this.#codePage,startupInfo:this.#startupInfo,ioBlock:this.#ioBlock,ioReturned:this.#ioReturned,versionAllocation:this.#versionAllocation,
   ptd:this.#ptd,ptdInstalled:this.#ptdInstalled,ptdInitialized:this.#ptdInitialized,rtcReturned:this.#rtcReturned,environmentInput:this.#environmentInput,environmentAllocation:this.#environmentAllocation,environmentReturned:this.#environmentReturned,heap:this.#heap,heapReturned:this.#heapReturned,attachReturned:this.#attachReturned,mtReturned:this.#mtReturned,locksReturned:this.#locksReturned,sections:Object.freeze([...this.#sections]),pointersReturned:this.#pointersReturned,
   trace:Object.freeze([...this.#trace]),dllEntryImages:this.#dllImages,dllLanguageFormatImages:this.#dllLanguageFormatImages,dllLstrcpyImport:this.#dllLstrcpy,dllResourceInfoImport:this.#dllResourceInfo,dllResourceQueryImport:this.#dllResourceQuery,dllResourceSizeImport:this.#dllResourceSize,dllModuleImports:this.#dllModuleHooks?.imports??null,dllModuleState:this.#dllModuleOwner?.snapshot()??null,dllEntryBoundary:this.#dllBoundary,dllEntryReturned:this.#dllReturned,dllEntryExecuted:this.#dllReturned!==null,wholeCrtTraversalCompleted:false});}
 }

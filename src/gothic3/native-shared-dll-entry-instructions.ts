@@ -15057,6 +15057,281 @@ const rows:readonly (readonly string[])[] = [
     "RET"
   ],
   [
+    "100bbf17",
+    "ff742404",
+    "PUSH dword ptr [ESP + 0x4]"
+  ],
+  [
+    "100bbf1b",
+    "ff15f4952f10",
+    "CALL dword ptr [0x102f95f4]"
+  ],
+  [
+    "100bbf21",
+    "33c0",
+    "XOR EAX,EAX"
+  ],
+  [
+    "100bbf23",
+    "40",
+    "INC EAX"
+  ],
+  [
+    "100bbf24",
+    "c20800",
+    "RET 0x8"
+  ],
+  [
+    "100bbf27",
+    "6a14",
+    "PUSH 0x14"
+  ],
+  [
+    "100bbf29",
+    "68188d0f10",
+    "PUSH 0x100f8d18"
+  ],
+  [
+    "100bbf2e",
+    "e8352cffff",
+    "CALL 0x100aeb68"
+  ],
+  [
+    "100bbf33",
+    "33ff",
+    "XOR EDI,EDI"
+  ],
+  [
+    "100bbf35",
+    "897de4",
+    "MOV dword ptr [EBP + -0x1c],EDI"
+  ],
+  [
+    "100bbf38",
+    "ff35c06a2f10",
+    "PUSH dword ptr [0x102f6ac0]"
+  ],
+  [
+    "100bbf3e",
+    "e8af23ffff",
+    "CALL 0x100ae2f2"
+  ],
+  [
+    "100bbf43",
+    "59",
+    "POP ECX"
+  ],
+  [
+    "100bbf44",
+    "8bf0",
+    "MOV ESI,EAX"
+  ],
+  [
+    "100bbf46",
+    "3bf7",
+    "CMP ESI,EDI"
+  ],
+  [
+    "100bbf48",
+    "7553",
+    "JNZ 0x100bbf9d"
+  ],
+  [
+    "100bbf4a",
+    "8d45e4",
+    "LEA EAX,[EBP + -0x1c]"
+  ],
+  [
+    "100bbf4d",
+    "50",
+    "PUSH EAX"
+  ],
+  [
+    "100bbf4e",
+    "e84ae5feff",
+    "CALL 0x100aa49d"
+  ],
+  [
+    "100bbf53",
+    "59",
+    "POP ECX"
+  ],
+  [
+    "100bbf54",
+    "3bc7",
+    "CMP EAX,EDI"
+  ],
+  [
+    "100bbf56",
+    "740d",
+    "JZ 0x100bbf65"
+  ],
+  [
+    "100bbf58",
+    "57",
+    "PUSH EDI"
+  ],
+  [
+    "100bbf59",
+    "57",
+    "PUSH EDI"
+  ],
+  [
+    "100bbf5a",
+    "57",
+    "PUSH EDI"
+  ],
+  [
+    "100bbf5b",
+    "57",
+    "PUSH EDI"
+  ],
+  [
+    "100bbf5c",
+    "57",
+    "PUSH EDI"
+  ],
+  [
+    "100bbf5d",
+    "e83c21ffff",
+    "CALL 0x100ae09e"
+  ],
+  [
+    "100bbf65",
+    "837de401",
+    "CMP dword ptr [EBP + -0x1c],0x1"
+  ],
+  [
+    "100bbf69",
+    "7421",
+    "JZ 0x100bbf8c"
+  ],
+  [
+    "100bbf6b",
+    "6818df0e10",
+    "PUSH 0x100edf18"
+  ],
+  [
+    "100bbf70",
+    "ff1568972f10",
+    "CALL dword ptr [0x102f9768]"
+  ],
+  [
+    "100bbf76",
+    "3bc7",
+    "CMP EAX,EDI"
+  ],
+  [
+    "100bbf78",
+    "7412",
+    "JZ 0x100bbf8c"
+  ],
+  [
+    "100bbf7a",
+    "68f0de0e10",
+    "PUSH 0x100edef0"
+  ],
+  [
+    "100bbf7f",
+    "50",
+    "PUSH EAX"
+  ],
+  [
+    "100bbf80",
+    "ff1548962f10",
+    "CALL dword ptr [0x102f9648]"
+  ],
+  [
+    "100bbf86",
+    "8bf0",
+    "MOV ESI,EAX"
+  ],
+  [
+    "100bbf88",
+    "3bf7",
+    "CMP ESI,EDI"
+  ],
+  [
+    "100bbf8a",
+    "7505",
+    "JNZ 0x100bbf91"
+  ],
+  [
+    "100bbf8c",
+    "be17bf0b10",
+    "MOV ESI,0x100bbf17"
+  ],
+  [
+    "100bbf91",
+    "56",
+    "PUSH ESI"
+  ],
+  [
+    "100bbf92",
+    "e8e422ffff",
+    "CALL 0x100ae27b"
+  ],
+  [
+    "100bbf97",
+    "59",
+    "POP ECX"
+  ],
+  [
+    "100bbf98",
+    "a3c06a2f10",
+    "MOV [0x102f6ac0],EAX"
+  ],
+  [
+    "100bbf9d",
+    "897dfc",
+    "MOV dword ptr [EBP + -0x4],EDI"
+  ],
+  [
+    "100bbfa0",
+    "ff750c",
+    "PUSH dword ptr [EBP + 0xc]"
+  ],
+  [
+    "100bbfa3",
+    "ff7508",
+    "PUSH dword ptr [EBP + 0x8]"
+  ],
+  [
+    "100bbfa6",
+    "ffd6",
+    "CALL ESI"
+  ],
+  [
+    "100bbfa8",
+    "8945e0",
+    "MOV dword ptr [EBP + -0x20],EAX"
+  ],
+  [
+    "100bbfab",
+    "eb2f",
+    "JMP 0x100bbfdc"
+  ],
+  [
+    "100bbfdc",
+    "c745fcfeffffff",
+    "MOV dword ptr [EBP + -0x4],0xfffffffe"
+  ],
+  [
+    "100bbfe3",
+    "8b45e0",
+    "MOV EAX,dword ptr [EBP + -0x20]"
+  ],
+  [
+    "100bbfe6",
+    "e8c22bffff",
+    "CALL 0x100aebad"
+  ],
+  [
+    "100bbfeb",
+    "c3",
+    "RET"
+  ],
+  [
     "100bf012",
     "8b442404",
     "MOV EAX,dword ptr [ESP + 0x4]"
