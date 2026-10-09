@@ -12,8 +12,8 @@ describe('Original Game cinit and PE-check source admission', () => {
     expect(Object.isFrozen(gameCinitInstruction('20473938'))).toBe(true);
   });
 
-  it('keeps captured floating-point dependencies outside this execution getter', () => {
-    for (const pc of ['20463917', '204696ba', '20469672', '204665f5']) {
+  it('keeps optional precision, SSE and divide-test fallbacks outside this execution getter', () => {
+    for (const pc of ['204696ba', '20469672', '2048bf68', '20469691', '204665f5']) {
       expect(() => gameCinitInstruction(pc)).toThrow('No admitted original Game cinit instruction');
     }
   });

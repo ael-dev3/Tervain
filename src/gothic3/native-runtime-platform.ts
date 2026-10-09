@@ -1731,6 +1731,11 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
     if (!this.#crtServices || (name !== 'KERNEL32.DLL' && name !== 'kernel32.dll' && name !== 'KERNEL32')) return unknown('Actual owned CRT Win32 module registry required');
     return known(this.#crtServices.kernel32Available ? this.#kernel32 : null);
   }
+  static canonicalWin32ModuleForPlatform(platform: NativeRuntimePlatform, module: object): NativeValue<NativeWin32ModuleCapability> {
+    const active = NativeRuntimePlatform.requireActivePlatform(platform); if (!active.known) return active;
+    return platform.#crtServices?.kernel32Available && module === platform.#kernel32
+      ? known(platform.#kernel32) : unknown('Actual same-platform Win32 module required');
+  }
   getWin32Procedure(module: NativeWin32ModuleCapability, name: 'EncodePointer' | 'DecodePointer'): NativeValue<NativeCrtPointerProcedure | null>;
   getWin32Procedure(module:NativeWin32ModuleCapability,name:'IsProcessorFeaturePresent'):NativeValue<NativeCrtProcessorFeatureProcedure|null>;
   getWin32Procedure(module: NativeWin32ModuleCapability, name: 'InitializeCriticalSectionAndSpinCount'): NativeValue<NativeCrtSectionProcedure | null>;

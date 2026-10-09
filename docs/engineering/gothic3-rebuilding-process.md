@@ -4,6 +4,38 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local checkpoint — 9 October 2026: Game math callback return
+
+Runtime revision `37859a9e` executes the original indirect math call at
+`20466610 -> 20463917` on the retained Game startup stack. The conversion
+initializer writes its ten original function addresses. Dynamic KERNEL32 lookup
+resolves the platform-owned processor-feature procedure and queries feature 0.
+The original caller passes `0`, so optional precision setup is skipped. Original
+FNCLEX clears exception bits while retaining unknown unrelated status bits.
+The callback returns and execution reaches `20466617 -> 20469672`; pointer
+encoding and the remaining initializer tables are not implemented by this change.
+
+The package captures 19 methods and 784 instructions. Execution admission selects
+seven methods and 183 instructions. Optional precision, SSE control and the
+failed-lookup divide fallback remain context evidence. Changed or partially unknown
+callback targets stop before the math call without overwriting conversion pointers.
+
+All 15 focused checks, typechecking, byte-identical independent regeneration and
+the production build pass. A production browser entered Ardea and reported the
+actual next source call at `20466617`, with 700 environment source operations.
+The first full run passed 3,083 of 3,084 tests; one forest save-recovery check
+timed out at five seconds. All 11 checks in that file subsequently passed in
+isolation. At integrated revision `db71a0b3`, the complete rerun with
+`npm test -- --testTimeout=30000` passed all 3,084 tests across 284 files in
+485.72 seconds. Assertions were unchanged. The integrated production build
+passed in 57.07 seconds.
+
+Revision `a270bd46` integrates main's reviewed presentation fixes. Its Gothic
+runtime, evidence and focused-test paths are unchanged from `452ad563`.
+PR #183's preceding PE checkpoint deployed successfully in Pages run
+`37884441618`. This math continuation has not yet been published. Full startup,
+world/NPC activation, campaign saves and a playable ending remain unfinished.
+
 ## Local checkpoint — 9 October 2026: Game cinit and PE protection check
 
 Runtime revision `9540631a` enters the original Game `__cinit` call at

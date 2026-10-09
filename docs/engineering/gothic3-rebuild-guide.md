@@ -54,7 +54,7 @@ are separate milestones.
 ### What a native continuation means
 
 A checkpoint follows a real call chain from the original DLL. For example, the
-current startup work follows SpieAdmin opening zSpie.txt: acquire a CRT FILE
+file-opening work follows SpieAdmin opening zSpie.txt: acquire a CRT FILE
 record, allocate and lock descriptor 3, invoke CreateFileA, apply its return,
 and run the original error mapping or publish the opened handle. The TypeScript
 platform supplies owned memory and a virtual filesystem for these operations.
@@ -63,7 +63,53 @@ The captured instructions, source addresses and input hashes live beside the
 implementation. Unsupported calls retain their address and current state so the
 next checkpoint can continue from that point. This is incremental behavior
 reconstruction; complete decompilation of every game module has not been
-established. These startup continuations currently have no production callers.
+established. The selected SharedBase continuations have no production callers;
+Game startup continuations are connected to the browser startup stack.
+
+### Current implementation status — 9 October 2026
+
+| Area | Supported result | Remaining work |
+| --- | --- | --- |
+| Assets | Selected readers and viewers expose original world, tree and human resources for inspection. | Complete coverage and in-game visual fidelity. |
+| SharedBase startup | The supported absent-`zSpie.txt` profile returns `1` from the direct DLL entry after logging and callback dispatch. | Surrounding CRT wrapper, additional profiles and live Game integration. |
+| Game startup | The validated original `__cinit` PE protection check runs on the browser's retained stack and reaches `20466610`. | Remaining initializer callbacks and complete engine attachment. |
+| Campaign | The separate browser route can display the reconstructed Ardea scene. | Connected world/NPC activation, quest progression, campaign saves and a playthrough to an ending. |
+
+The Game PE checkpoint passed 3,082 tests, typechecking, source regeneration and
+the production build at runtime revision `9540631a`. It merged through
+[PR #183](https://github.com/ael-dev3/Tervain/pull/183) as
+`cfc14f1f16b620c86a3133321be5e2fad95530a7`. Pages run `37884441618` completed
+successfully for that revision.
+
+The local math-initializer work at revision `37859a9e` reaches the next original call,
+`20466617 -> 20469672`, in focused execution. Its caller passes `0`, so the
+original branch skips optional precision setup. Conversion-pointer stores,
+processor-feature lookup and exception clearing are implemented locally.
+All 15 focused checks pass, typechecking passes and independent regeneration
+matches both outputs byte for byte. At integrated revision `db71a0b3`, all 3,084
+tests passed with a 30-second per-test allowance, and the production build passed.
+Publication remains pending.
+These results do not establish complete
+startup or campaign play.
+
+### Original files and reproducible outputs
+
+The study root on the reference machine is
+`C:/Users/heyas/OneDrive/Рабочий стол/Gothic3_Decompiled_Study_2026-10-04`.
+Matching DLLs live under `00_Original_Runtime/`; retained disassembly lives under
+`01_Decompiled_Code/<module>_dll/full_disassembly.asm`. These local paths identify
+preparation inputs; contributors must provide their own matching files.
+
+For example, `tools/gothic3/prepare_game_cinit_math_evidence.py` reads the original
+Game module and disassembly, writes
+`assets/gothic3/game-cinit-math-source/source.json`, and generates
+`src/gothic3/native-game-crt-cinit-source.ts`. The runtime continuation is owned
+by `native-game-crt-setenvp.ts` and `native-x86-thread-stack.ts`. Source capture
+does not automatically admit every captured function for execution.
+
+For each checkpoint, retain the input hash, original resource/function address,
+generator command, generated-output comparison, supported cases and next boundary.
+Do not use a checkpoint's successful checks as validation of later local edits.
 
 ### A repeatable checkpoint
 
@@ -240,7 +286,8 @@ context evidence. Thirteen focused checks and typechecking pass, and independent
 regeneration reproduces both JSON and TypeScript byte for byte. At runtime revision
 `9540631a`, all 3,082 tests across 284 files passed in 397.79 seconds and the
 production build passed. A local production-browser observation confirmed the
-continuation at `20466610` after entering Ardea. Publication remains pending. Complete startup,
+continuation at `20466610` after entering Ardea. PR #183 merged this checkpoint;
+Pages run `37884441618` succeeded. Complete startup,
 world activation, campaign saves and a playable ending remain unfinished.
 
 - [Detailed workflow and reference paths](gothic3-rebuild-workflow.md)
