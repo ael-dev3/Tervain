@@ -1632,6 +1632,64 @@ owner.processDllSpieAllocateDescriptor();
  owner.processDllSpieInitDescriptorSection();return {owner,platform};
 }
 
+it('rejects damaged shutdown registration returns before appending exit callbacks',()=>{
+ for(const message of [false,true]){
+  const {owner}=originalFileOpenFixture({cwd:'C:/Gothic3',directories:['C:/','C:/Gothic3'],files:[]});
+  owner.processDllSpieCreateFile();if(message)owner.processDllSpieTerminate();
+  const before=owner.snapshot(),end=before.initializerImages['102f8580']!.pointer(0).get(),stack=before.caseState!.stack!.snapshot(),call=stack.calls.at(-1)!;
+  new NativeHeapObjectViews(stack.sharedDllResourceFrame!.handle.backing,call.position,4).writeUnsigned(0,0);
+  const result=message?owner.processDllMessageTerminate():owner.processDllSpieTerminate();expect(result.known).toBe(false);if(result.known)throw new Error('Damaged shutdown return accepted');
+  expect(result.reason).toMatch(/shutdown registration frame|expression slot/);
+  expect(owner.snapshot().initializerImages['102f8580']!.pointer(0).get()).toBe(end);expect(owner.snapshot().exitLockHeld).toBe(false);
+ }
+},30_000);
+it('registers original SpieAdmin and MessageAdmin shutdown after an absent diagnostic file',()=>{
+ const {owner,platform}=originalFileOpenFixture({cwd:'C:/Gothic3',directories:['C:/','C:/Gothic3'],files:[]});
+ owner.processDllSpieCreateFile();
+ expect(owner.processDllSpieTerminate()).toEqual({known:false,reason:'Original SharedBase MessageAdmin termination registration pending at 100497a8'});
+ const state=owner.snapshot(),decoder=NativeRuntimePlatform.canonicalPointerCodecForPlatform(platform,state.ptd!.pointer(0x1fc).get()!,'DecodePointer');
+ if(!decoder.known)throw new Error(decoder.reason);
+ const decodedEnd=decoder.value.invoke(state.initializerImages['102f8580']!.pointer(0).get()!);if(!decodedEnd.known)throw new Error(decodedEnd.reason);
+ const end=decodedEnd.value as {fields:NativeHeapObjectViews;offset:number};expect(end.offset).toBe(84);
+ const spie=decoder.value.invoke(end.fields.pointer(80).get()!);if(!spie.known)throw new Error(spie.reason);
+ expect((spie.value as {originalCodeAddress:number}).originalCodeAddress).toBe(0x100e2830);
+ expect(owner.processDllMessageTerminate()).toEqual({known:false,reason:'Original SharedBase MessageAdmin initialization log pending at 1004980f'});
+ const after=owner.snapshot(),last=decoder.value.invoke(after.initializerImages['102f8580']!.pointer(0).get()!);if(!last.known)throw new Error(last.reason);
+ expect((last.value as {offset:number}).offset).toBe(88);
+ const message=decoder.value.invoke(end.fields.pointer(84).get()!);if(!message.known)throw new Error(message.reason);
+ expect((message.value as {originalCodeAddress:number}).originalCodeAddress).toBe(0x100e27d0);
+ const stack=after.caseState!.stack!.snapshot();for(const site of ['1004afc7','1004979e','100497a8'])expect(stack.calls.find(row=>row.site===site)!.returned).toBe(true);
+ expect(stack.calls.at(-1)!.site).toBe('1004980f');expect(after.exitLockHeld).toBe(false);
+ expect(stack.trace.some(row=>row.startsWith('100e2830.')||row.startsWith('100e27d0.'))).toBe(false);
+},30_000);
+it('rejects a damaged SpieAdmin registration return without changing callbacks',()=>{
+ const {owner}=originalFileOpenFixture({cwd:'C:/Gothic3',directories:['C:/','C:/Gothic3'],files:[{path:'zSpie.txt',bytes:[65],readable:true}]});
+ owner.processDllSpieCreateFile();owner.processDllSpieFclose();const state=owner.snapshot();
+ const holder=state.dllFormatImages['10197d6c']!.pointer<{fields:NativeHeapObjectViews;offset:number}>(0).get()!.fields;
+ const records=holder.pointer<{fields:NativeHeapObjectViews;offset:number}>(0).get()!.fields,bytes=records.bytes.slice();
+ const stack=state.caseState!.stack!.snapshot(),call=stack.calls.at(-1)!;
+ new NativeHeapObjectViews(stack.sharedDllResourceFrame!.handle.backing,call.position,4).writeUnsigned(0,0);
+ const result=owner.processDllSpieRegister();expect(result.known).toBe(false);if(result.known)throw new Error('Damaged registration return accepted');
+ expect(result.reason).toMatch(/SpieAdmin callback registration frame|expression slot/);
+ expect(holder.readUnsigned(4)).toBe(2);expect(records.bytes).toEqual(bytes);
+},30_000);
+it('registers the original SpieAdmin callback after closing its file',()=>{
+ const {owner,platform}=originalFileOpenFixture({cwd:'C:/Gothic3',directories:['C:/','C:/Gothic3'],files:[{path:'zSpie.txt',bytes:[65],readable:true}]});
+ owner.processDllSpieCreateFile();owner.processDllSpieFclose();
+ const before=owner.snapshot(),holder=before.dllFormatImages['10197d6c']!.pointer<{fields:NativeHeapObjectViews;offset:number}>(0).get()!.fields;
+ const records=holder.pointer<{fields:NativeHeapObjectViews;offset:number}>(0).get()!.fields,oldRecords=records.bytes.slice(0,24);
+ expect(owner.processDllSpieRegister()).toEqual({known:false,reason:'Original SharedBase SpieAdmin Winsock ordinal 115 pending at 1004b235'});
+ expect(holder.readUnsigned(4)).toBe(3);expect(holder.readUnsigned(8)).toBe(9);
+ expect(records.bytes.slice(0,24)).toEqual(oldRecords);expect(records.readUnsigned(24)).toBe(0x10005722);expect(records.readUnsigned(32)).toBe(1);
+ const context=records.pointer<{fields:NativeHeapObjectViews;offset:number}>(28).get()!;
+ expect(context.fields).toBe(owner.snapshot().dllFormatImages['10197dc0']);expect(context.offset).toBe(0);
+ expect(platform.fileSystemSnapshot()!.openHandles).toHaveLength(0);
+ expect(owner.snapshot().caseState!.stack!.snapshot().calls.find(row=>row.site==='1004b226')!.returned).toBe(true);
+ expect(owner.snapshot().caseState!.stack!.snapshot().calls.at(-1)!.site).toBe('1004b235');
+ const calls=owner.snapshot().caseState!.stack!.snapshot().calls.length;
+ expect(owner.processDllSpieRegister()).toEqual({known:false,reason:'Original SharedBase SpieAdmin Winsock ordinal 115 pending at 1004b235'});
+ expect(owner.snapshot().caseState!.stack!.snapshot().calls).toHaveLength(calls);expect(holder.readUnsigned(4)).toBe(3);
+},30_000);
 it('rejects a damaged fclose return word before retiring the file',()=>{
  const {owner,platform}=originalFileOpenFixture({cwd:'C:/Gothic3',directories:['C:/','C:/Gothic3'],files:[{path:'zSpie.txt',bytes:[65],readable:true}]});
  owner.processDllSpieCreateFile();const state=owner.snapshot(),stack=state.caseState!.stack!.snapshot(),call=stack.calls.at(-1)!;
