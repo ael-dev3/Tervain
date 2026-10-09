@@ -13,6 +13,8 @@ it('retains canonical original enum images without resetting later writes',()=>{
  expect(crt.imageStorage('enumValueScratch').readUnsigned(0)).toBe(7);
  expect(crt.imageStorage('statusNoneReceiver').readUnsigned(0,1)).toBe(0);
  expect(new TextDecoder().decode(crt.imageStorage('statusNoneName').bytes)).toBe('gEArenaStatus_None\0');
+ expect(new TextDecoder().decode(crt.imageStorage('statusRunningName').bytes)).toBe('gEArenaStatus_Running\0');
+ expect(crt.imageStorage('statusRunningReceiver').readUnsigned(0,1)).toBe(0);
  for(const label of ['enumNameRegistry','enumValueRegistry','enumNameRegistryGuard','enumValueRegistryGuard'])
   expect(crt.imageStorage(label).bytes.every(byte=>byte===0)).toBe(true);
  expect(Object.isFrozen(arenaEnumImagePins)).toBe(true);

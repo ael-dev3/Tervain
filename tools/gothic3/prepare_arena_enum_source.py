@@ -23,6 +23,7 @@ def capture(study):
         0x20018b1a: 'enumNameRegistryFind',
         0x200067f8: 'enumValueVirtualAssignment',
         0x2002c20f: 'enumValueRegistryReserve',
+        0x2002f531: 'arenaRunningEnumConstructor',
     })
     pe = PE((study / '00_Original_Runtime' / 'Game.dll').read_bytes())
     cleanup_instructions = []
@@ -53,6 +54,12 @@ def capture(study):
         address, raw, instruction = line.split(' | ', 2)
         assert pe.bytes(int(address, 16), len(raw) // 2).hex() == raw
         instructions.append({'va': address, 'bytes': raw, 'instruction': instruction})
+    running_path = path.with_name('204b1eb0.asm.txt')
+    running_instructions = []
+    for line in running_path.read_text(encoding='utf-8').splitlines():
+        address, raw, instruction = line.split(' | ', 2)
+        assert pe.bytes(int(address,16),len(raw)//2).hex()==raw
+        running_instructions.append({'va':address,'bytes':raw,'instruction':instruction})
     images = []
     for address, size, label in [
         (0x20659d48, 19, 'statusNoneName'),
@@ -64,6 +71,8 @@ def capture(study):
         (0x207b501c, 4, 'enumNameRegistryGuard'),
         (0x207b4ff0, 16, 'enumValueRegistry'),
         (0x207b5004, 4, 'enumValueRegistryGuard'),
+        (0x20659d60, len('gEArenaStatus_Running') + 1, 'statusRunningName'),
+        (0x207b505d, 1, 'statusRunningReceiver'),
     ]:
         rva = address - pe.base
         section = next((s for s in pe.sections if s[1] <= rva and rva + size <= s[1] + max(s[0], s[2])), None)
@@ -80,6 +89,7 @@ def capture(study):
                        'sha256': hashlib.sha256(raw).hexdigest()})
     return {'schema': 'gothic3-arena-enum-source-v1', 'module': module, 'shared': shared,
             'initializer': {'entry': '204b1e70', 'instructions': instructions},
+            'runningInitializer': {'entry':'204b1eb0','instructions':running_instructions},
             'nameRegistryCleanup': {'entry':'20549ac0', 'body':'20549ac0',
                                     'instructions':cleanup_instructions,
                                     'bodyInstructionBytesSha256':hashlib.sha256(cleanup_bytes).hexdigest()},
@@ -113,7 +123,7 @@ if __name__ == '__main__':
         code += "export const arenaEnumSharedInstructions=source.shared.methods;\n"
         code += "export function arenaEnumNameCleanupReceipt(){admitArenaEnumSource();const method=source.nameRegistryCleanup;return Object.freeze({module:'Game' as const,entry:method.entry,body:method.body,bodyInstructionBytesSha256:method.bodyInstructionBytesSha256});}\n"
         code += "export function arenaEnumValueCleanupReceipt(){admitArenaEnumSource();const method=source.valueRegistryCleanup;return Object.freeze({module:'Game' as const,entry:method.entry,body:method.body,bodyInstructionBytesSha256:method.bodyInstructionBytesSha256});}\n"
-        code += "export const arenaEnumImagePins=Object.fromEntries(source.images.map(image=>[image.label,[image.label==='statusNoneName'||image.label.endsWith('Vtable')?'constBytes':'coldGlobals',image.address,image.bytes,image.raw,image.sha256] as const]));freeze(arenaEnumImagePins);\n"
+        code += "export const arenaEnumImagePins=Object.fromEntries(source.images.map(image=>[image.label,[image.label.endsWith('Name')||image.label.endsWith('Vtable')?'constBytes':'coldGlobals',image.address,image.bytes,image.raw,image.sha256] as const]));freeze(arenaEnumImagePins);\n"
         code += "export function arenaEnumImageReceipt(label:string):NativeCrtImageReceipt {admitArenaEnumSource();const image=source.images.find(image=>image.label===label);if(!image)throw new Error('Unowned Arena enum image');return Object.freeze({...image,module:'Game',scope:arenaEnumImagePins[label]![0]==='coldGlobals'?'cold-original-image':'original-file-backed-constant',liveValueCaptured:false,knownMask:'ff'.repeat(image.bytes)});}\n"
         args.runtime_output.write_text(code, encoding='utf-8', newline='\n')
     for method in source['module']['methods']:

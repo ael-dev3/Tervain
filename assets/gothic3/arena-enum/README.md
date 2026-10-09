@@ -58,6 +58,19 @@ Typechecking and a focused canonical-image regression pass. Independent
 regeneration of both JSON and TypeScript matches byte for byte. Enum execution
 is still unfinished.
 
+## Next initializer: Running
+
+After the first enum initializer returns, startup reaches `204b1eb0`.
+Its exact targeted instructions construct `gEArenaStatus_Running` and call
+`2002f531 -> 20071f10` with value one. The constructor's 46 instructions are
+now PE-verified. It uses allocation category `0x2a` and reads the existing
+scratch value before storing its supplied scalar. Runtime continuation must
+reuse both registry guards, allocations and existing bucket chains.
+The canonical source includes its full 22-byte name, NUL terminator included,
+and its distinct one-byte receiver at `207b505d`. Image-admission checks pass,
+and independent JSON/TypeScript regeneration matches exactly. Running execution
+remains unimplemented.
+
 ```powershell
 python tools/gothic3/prepare_arena_enum_source.py --study '<study directory>' --output assets/gothic3/arena-enum/source.json
 ```
