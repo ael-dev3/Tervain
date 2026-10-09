@@ -2,6 +2,7 @@
  * This owns distinct SharedBase images and selected locks/thread-index setup;
  * PTD allocation, initialization and full attach remain pending. */
 import {NativeSharedStaticTls} from './native-shared-static-tls';
+import {NativeSharedMessageDebug} from './native-shared-message-debug';
 import {NativeSharedModuleImage} from './native-shared-module-image';
 import {NativeX86ThreadStack} from './native-x86-thread-stack';
 import {NativeSharedVersionResource} from './native-shared-version-resource';
@@ -791,6 +792,20 @@ export class NativeSharedCrtOwner {
   const active=NativeRuntimePlatform.requireActivePlatform(platform);if(!active.known)throw new Error(active.reason);
   const old=owners.get(platform);if(old)return old;
   const owner=new NativeSharedCrtOwner(platform,token);owners.set(platform,owner);return owner;
+ }
+ static initializeRegistrationLocaleForPlatform(platform:NativeRuntimePlatform,caller:NativeSharedMessageDebug):NativeValue<void>{
+  const owner=owners.get(platform);
+  if(!owner||owner.#active||owner.#attachReturned!==1||!owner.#ptdInstalled||!owner.#ptdInitialized)
+   return {known:false,reason:'Unowned SharedBase registration locale PTD call at 100a74c5 -> 100ae542 (SharedBase CRT thread initialization required)'};
+  const receiver=NativeSharedMessageDebug.registrationLocaleForPlatform(platform,caller);
+  if(!receiver.known)return receiver;
+  const fields=receiver.value,backing=fields.backing;
+  if(fields.bytes.length!==16||backing.freed)return {known:false,reason:'Actual live registration locale receiver required'};
+  owner.#locals.set(fields,{backing,bytes:fields.bytes,masks:fields.knownMask,backingBytes:backing.bytes,backingMasks:backing.knownMask,view:fields.view});
+  owner.#active=true;
+  try{owner.#initializeLocaleUpdate(fields,false);return {known:true,value:undefined};}
+  catch(error){return {known:false,reason:error instanceof Error?error.message:String(error)};}
+  finally{owner.#active=false;}
  }
  imageStorage(label:Image):NativeHeapObjectViews {
   const image=this.#images.get(label);if(!image)throw new Error('Unknown SharedBase image');

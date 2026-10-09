@@ -28,6 +28,13 @@ The source package now also retains the seven original LocaleUpdate entry
 instructions through `100a74c5 -> 100ae542`. The translated callee retains the
 actual formatter return capability, NULL locale argument and saved ESI value.
 It writes zero to receiver byte 12. The other receiver bytes remain unknown.
-The PTD call is pending: browser startup has not completed the SharedBase CRT
-thread prerequisites. No PTD, locale pointers, formatter return or diagnostic
-dispatch is synthesized.
+Without completed SharedBase CRT thread prerequisites, the PTD call stays
+pending. A local combined startup check now completes the existing SharedBase
+helper first, admits its restored stack for Game I/O, and reaches Status with
+the production memory pools. Its diagnostic LocaleUpdate uses the canonical
+installed PTD and existing recovered locale implementation. The receiver holds
+the actual PTD, locale and multibyte pointers; its cleanup flag is one and the
+PTD thread-locale flag has bit two set. Formatting stops at `100b53b0`.
+No formatter return or diagnostic dispatch is synthesized. Nine focused checks
+and typechecking validate this local integration; production ordering remains
+pending.

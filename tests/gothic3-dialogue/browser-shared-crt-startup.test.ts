@@ -8,6 +8,8 @@ import {nativeVirtualX86CpuSelection} from '../../src/gothic3/native-x86-thread-
 import {NativeSharedStaticTls} from '../../src/gothic3/native-shared-static-tls';
 import {NativeSharedCrtOwner} from '../../src/gothic3/native-shared-crt';
 import {createBrowserGameCrtStartup} from '../../src/gothic3/browser-game-crt-startup';
+import {NativeMemoryAdmin,nativeNpcHeapExtension,nativeSceneStartupHeapExtension,nativeClassNameHeapExtension,nativePropertyHeapExtension} from '../../src/gothic3/native-memory-admin';
+import {NativeSharedMessageDebug} from '../../src/gothic3/native-shared-message-debug';
 
 it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  const platform=createBrowserGameCrtPlatform({processInputs:browserGameProcessInputs,
@@ -21,11 +23,21 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  expect(result).toEqual({known:true,value:1});
  expect(owner.snapshot().ptdInstalled).toBe(true);
  expect(owner.snapshot().ptdInitialized).toBe(true);
- const game=createBrowserGameCrtStartup(platform);
+ const memory=new NativeMemoryAdmin(platform,{extensions:[nativeNpcHeapExtension,nativeSceneStartupHeapExtension,nativeClassNameHeapExtension,nativePropertyHeapExtension]});
+ const game=createBrowserGameCrtStartup(platform,memory);
  expect(game.known).toBe(true);
  if(!game.known)throw new Error(game.reason);
  expect(game.value.attachResult).toEqual({known:false,
-  reason:'crtAttach204677e4: Unowned Original Game C++ initializer callback is not yet admitted at 204b11b0'});
+  reason:'crtAttach204677e4: Unowned Translated Arena Status initializer pending: Property registration Message.Debug at 10088191: Unowned SharedBase registration formatter continuation at 100b53b0 (LocaleUpdate returned)'});
+ const diagnostic=NativeSharedMessageDebug.forPlatform(platform).snapshot(),locale=diagnostic.formatterLocale!;
+ expect(diagnostic.localeReturned).toBe(true);
+ expect(locale.pointer(8).get()).toBe(owner.snapshot().ptd);
+ expect(locale.pointer(0).get()).toBe(owner.snapshot().ptd!.pointer(0x6c).get());
+ expect(locale.pointer(4).get()).toBe(owner.snapshot().ptd!.pointer(0x68).get());
+ expect(locale.readUnsigned(12,1)).toBe(1);
+ expect(owner.snapshot().ptd!.readUnsigned(0x70)&2).toBe(2);
+ expect(diagnostic.formatterReturned).toBe(false);
+ expect(diagnostic.messageDispatched).toBe(false);
  expect(owner.processAttach()).toEqual(result);
  expect(owner.snapshot().wholeCrtTraversalCompleted).toBe(false);
 });

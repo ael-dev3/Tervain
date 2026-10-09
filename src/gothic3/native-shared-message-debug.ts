@@ -7,6 +7,7 @@ import {NativeHeapObjectViews} from './native-heap-views';
 import type {NativeBytePointer} from './native-pointer-geometry';
 import type {NativeValue} from './dialogue';
 import {NativeSharedCrtSecurityCookie} from './native-shared-crt-security-cookie';
+import {NativeSharedCrtOwner} from './native-shared-crt';
 import {admitRegistrationOutputSource,registrationOutputPrefix,registrationLocalePrefix} from './native-registration-output-source';
 const owners=new WeakMap<NativeRuntimePlatform,NativeSharedMessageDebug>();
 const token=Object.freeze({});
@@ -30,6 +31,7 @@ export class NativeSharedMessageDebug {
  #formatterFrame:NativeHeapObjectViews|null=null;
  #formatterLocale:NativeHeapObjectViews|null=null;
  #localeCallFrame:NativeHeapObjectViews|null=null;
+ #localeReturned=false;
  #formatterCookieExpression:Readonly<{cookie:NativeHeapObjectViews;frame:NativeHeapObjectViews;ebpOffset:number}>|null=null;
  #formatterRegisters:Readonly<{eax:NativeHeapObjectViews;ebx:NativeBytePointer;esi:0;edi:NativeHeapObjectViews;ecx:NativeHeapObjectViews}>|null=null;
  private constructor(private readonly platform:NativeRuntimePlatform,proof:object){
@@ -48,6 +50,14 @@ export class NativeSharedMessageDebug {
  static forPlatform(platform:NativeRuntimePlatform):NativeSharedMessageDebug {
   const old=owners.get(platform);if(old)return old;
   const owner=new NativeSharedMessageDebug(platform,token);owners.set(platform,owner);return owner;
+ }
+ static registrationLocaleForPlatform(platform:NativeRuntimePlatform,caller:NativeSharedMessageDebug):NativeValue<NativeHeapObjectViews>{
+  if(owners.get(platform)!==caller||!caller.#active||caller.#boundary||caller.#localeReturned||
+    !caller.#formatterLocale||!caller.#localeCallFrame||!caller.#formatterFrame||
+    caller.#localeCallFrame.readUnsigned(12)!==0||caller.#localeCallFrame.readUnsigned(4)!==0||
+    caller.#localeCallFrame.pointer(8).get()!==caller.#formatterFrame.pointer(0).get())
+    return {known:false,reason:'Actual pending registration LocaleUpdate caller required'};
+  return {known:true,value:caller.#formatterLocale};
  }
  registerProperty(propertyName:NativeBytePointer,typeName:NativeBytePointer):NativeValue<void>{
   if(this.#boundary)return {known:false,reason:this.#boundary};
@@ -73,7 +83,11 @@ export class NativeSharedMessageDebug {
    this.#trace.push('100a7eff.callOutputFormatter');
    this.#prepareFormatterEntry();
    this.#prepareLocaleEntry();
-   throw new Error('Unowned SharedBase registration locale PTD call at 100a74c5 -> 100ae542 (SharedBase CRT thread initialization required)');
+   const locale=NativeSharedCrtOwner.initializeRegistrationLocaleForPlatform(this.platform,this);
+   if(!locale.known)throw new Error(locale.reason);
+   this.#localeReturned=true;
+   this.#trace.push('100a7535.registrationLocale.return');
+   throw new Error('Unowned SharedBase registration formatter continuation at 100b53b0 (LocaleUpdate returned)');
   }catch(error){this.#boundary??=error instanceof Error?error.message:String(error);return {known:false,reason:this.#boundary};}
   finally{this.#active=false;}
  }
@@ -134,6 +148,7 @@ export class NativeSharedMessageDebug {
   buffer:this.#buffer,format:this.#format,locale:null,trace:Object.freeze([...this.#trace]),
   formatterFrame:this.#formatterFrame,formatterLocale:this.#formatterLocale,
   localeCallFrame:this.#localeCallFrame,
+  localeReturned:this.#localeReturned,
   formatterCookieExpression:this.#formatterCookieExpression,
   formatterRegisters:this.#formatterRegisters,
   formatterReturned:false,terminatorWritten:false,messageDispatched:false,debugReturned:false});}
