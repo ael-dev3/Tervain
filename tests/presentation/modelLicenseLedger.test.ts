@@ -80,9 +80,10 @@ describe('distributed model source notices', () => {
         expect(ledger.toConfirm.map((item: { sourceId: string }) => item.sourceId), id).toContain(id);
       }
     }
-    // Only output with task ids from the project's own Meshy calls is project-generated.
+    // Only output with task ids from the project's own Meshy generation is project-generated.
     const generated = meshy.filter(([, source]) => source.provenance.classification === 'ael-generated-meshy-pro').map(([id]) => id).sort();
-    expect(generated.every(id => id.startsWith('furniture-') || id === 'resident-rigs' || id === 'resident-motion')).toBe(true);
+    expect(generated.every(id => id.startsWith('furniture-') || ['resident-rigs', 'resident-motion', 'wanderer-meshy71'].includes(id))).toBe(true);
+    expect(sources['wanderer-meshy71']!.provenance.evidence).toMatch(/01a120c8-22b6-72d4-8c60-2b2451b7edfd.*meshy-7\.1|meshy-7\.1.*01a120c8-22b6-72d4-8c60-2b2451b7edfd/);
     expect(generated).toEqual(expect.arrayContaining(['resident-motion', 'resident-rigs', 'furniture-bed']));
     const publicFiles = ledger.assets.filter((asset: { file: string }) => asset.file.startsWith('public/models/'));
     for (const asset of publicFiles) {

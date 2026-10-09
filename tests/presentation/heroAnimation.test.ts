@@ -45,9 +45,9 @@ function lowestSole(rig: MainHeroRig, vertices: number[]) {
 }
 
 describe('authored Mixamo playable hero', () => {
-  it('loads the actual sealed 49,500-triangle delivery, exact 66 joints and all six source clips on private skeletons', () => {
+  it('loads the actual sealed Meshy 7.1 delivery of at most 150,000 triangles, exact 66 joints and all six source clips on private skeletons', () => {
     const one = createHeroRig(asset), two = createHeroRig(asset), skin = skinOf(one.root), source = skinOf(asset.scene);
-    expect(skin.geometry.index!.count / 3).toBe(49_500);
+    expect(skin.geometry.index!.count / 3).toBe(149_974);
     expect(skin.skeleton.bones).toHaveLength(66);
     expect(Object.keys(bindHeroBones(one.root))).toEqual([...HERO_BONES]);
     expect(one.hips).not.toBe(two.hips); expect(one.hips).not.toBe(source.skeleton.bones[0]);
@@ -224,16 +224,19 @@ describe('authored Mixamo playable hero', () => {
     const rootPosition = rig.root.position.clone(), rootRotation = rig.root.quaternion.clone();
     const duration = asset.animations.find((clip) => clip.name === 'Dead')!.duration;
     const vertices = Array.from({ length: skinOf(rig.root).geometry.attributes.position!.count }, (_, i) => i);
-    expect(soleVertices(rig, 'Left').length + soleVertices(rig, 'Right').length).toBeLessThan(2000);
+    // The fall tests every low boot vertex each frame; the 150,000-triangle body (A74) has about 3,800 of them.
+    expect(soleVertices(rig, 'Left').length + soleVertices(rig, 'Right').length).toBeLessThan(4500);
     for (let i = 0; i < Math.ceil(duration * 60) + 30; i++) {
       rig.hero.pose(pose('dead', { t: 0 }), 1 / 60, false);
       if (rig.hero.diagnostics.deathTime <= duration * .75) expect(rig.body.position.y).toBeGreaterThanOrEqual(0);
       expect(rig.body.position.y).toBeLessThanOrEqual(.08);
       expect(rig.body.position.y).toBeGreaterThan(-.15);
-      if (i < 15 || i % 10 === 0) expect(lowestSole(rig, vertices) - rootPosition.y).toBeGreaterThan(-.005);
+      // While the body settles, the 150,000-triangle boot's toe (A74) may touch up to 6 mm into the floor for a moment.
+      if (i < 15 || i % 10 === 0) expect(lowestSole(rig, vertices) - rootPosition.y).toBeGreaterThan(-.0075);
     }
     expect(Math.abs(lowestSole(rig, vertices) - rootPosition.y)).toBeLessThan(.005);
-    expect(rig.body.position.y).toBeLessThan(-.08); expect(rig.body.position.y).toBeGreaterThan(-.1);
+    // The authored fall rests 6.4 cm above the floor on the Meshy 7.1 body (A74; 8 to 10 cm on the A37 mesh).
+    expect(rig.body.position.y).toBeLessThan(-.055); expect(rig.body.position.y).toBeGreaterThan(-.1);
     const reference = sourcePose('Dead', duration);
     for (const name of HERO_BONES) {
       expect(bones[name].position.distanceTo(reference[name].position), name).toBeLessThan(.00001);
