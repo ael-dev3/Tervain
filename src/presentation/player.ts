@@ -285,15 +285,24 @@ export class Player {
   }
 
   /** Step down beside the mount; returns where he stands. */
-  dismount(ctx: Pick<PlayerCtx, 'terrain' | 'colliders'>): void {
+  dismount(ctx: Pick<PlayerCtx, 'terrain' | 'colliders' | 'water'>): void {
     if (!this.mount) return;
     this.mount = null;
-    for (const side of [1, -1, 2, -2]) {
-      const a = this.yaw + side * Math.PI / 2, d = Math.abs(side) === 2 ? 1.6 : 1.1;
+    // Step down to a side that is clear and not deep water; failing both, where firm ground is nearest (A70).
+    const deep = (x: number, z: number) => (ctx.water?.sample(x, z)?.depth ?? 0) > 0.9;
+    let placed = false;
+    for (const side of [1, -1, 2, -2, 3, -3]) {
+      const a = this.yaw + side * Math.PI / 2, d = Math.abs(side) === 3 ? 2.2 : Math.abs(side) === 2 ? 1.6 : 1.1;
       const x = this.x + Math.sin(a) * d, z = this.z + Math.cos(a) * d;
+      if (!ctx.colliders.blocked(x, z, PLAYER_RADIUS) && !deep(x, z)) { this.x = x; this.z = z; placed = true; break; }
+    }
+    if (!placed) for (const side of [1, -1]) {
+      const a = this.yaw + side * Math.PI / 2, x = this.x + Math.sin(a) * 1.1, z = this.z + Math.cos(a) * 1.1;
       if (!ctx.colliders.blocked(x, z, PLAYER_RADIUS)) { this.x = x; this.z = z; break; }
     }
-    this.y = ctx.terrain.supportAt(this.x, this.z, this.y + 0.5);
+    // In deep water he is set down at the surface and swims; elsewhere on the ground.
+    const water = ctx.water?.sample(this.x, this.z);
+    this.y = water && water.depth > 0.9 ? water.surface - 1.1 : ctx.terrain.supportAt(this.x, this.z, this.y + 0.5);
     this.vx = this.vz = this.vy = 0; this.grounded = true;
   }
 

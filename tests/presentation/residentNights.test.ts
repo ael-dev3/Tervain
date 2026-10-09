@@ -139,11 +139,12 @@ it('sits up awake while a fight goes on nearby, and lies down again once it is o
   const { ctx, people, run } = cast(state, 1);
   const baker = people.find(n => n.id === 'village_baker')!;
   expect(baker.asleep).toBe(true);
-  ctx.alarm = { x: baker.x + 12, z: baker.z };
+  // A far fight first, the near one second: any fight near a sleeper wakes them.
+  ctx.alarms = [{ x: baker.x + 400, z: baker.z }, { x: baker.x + 12, z: baker.z }];
   run(3);
   expect(baker.lie).toBe(0);
   expect(baker.asleep).toBe(false);
-  ctx.alarm = null;
+  ctx.alarms = [];
   run(5);
   expect(baker.lie).toBe(1);
 }, 60000);
