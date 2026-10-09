@@ -4,7 +4,7 @@ import { createGltfLoader } from './assets/gltfLoader';
 import { clone as cloneSkinned } from 'three/examples/jsm/utils/SkeletonUtils.js';
 import { NPCS } from '../content/npcs';
 import type { NpcId } from '../game/types';
-import { createNpcAttachments, createStandInRig, setArmed, type Grip, type Rig, type NpcEquipment, type Mode } from './characters';
+import { createNpcAttachments, createStandInRig, setArmed, type Grip, type Rig, type NpcEquipment, type Mode, type Pose } from './characters';
 import { BONES, type BoneName } from './human/skin';
 import { repairNpcSurfaceGeometry, repairNpcSurfaceMaterial } from './npcSurface';
 import { installDualQuaternionSkinning } from './npc/dualQuaternionSkinning';
@@ -16,6 +16,7 @@ import { installResidentSurface, patchResidentShadow, residentHiddenLayers, resi
 import { npcStyle, type WorkGesture } from './npcStyle';
 import { installResidentRig, parseResidentRig, residentRestPose, type ResidentBones, type ResidentRigData } from './npc/residentRig';
 import { createResidentTools } from './npc/residentProps';
+import { curledVertices, FIST_CURL, gripCurl, OPEN_CURL, RELAXED_CURL, residentFingerPlan, seatHandle, type FingerSide, type HandCurl, type ResidentFingers } from './npc/residentFingers';
 import { CENTRED_CLIPS, clipsFor, LOCOMOTION, measureSeat, ResidentMotion, residentMotionLibrary, retargetClip, SEAT_MOMENTS, SEATED_CLIPS, type Build, type ResidentClips, type ResidentMotionLibrary, type WorkContacts } from './npc/residentMotion';
 import { BENCH_SEAT_HEIGHT } from '../world/layout';
 import { modelAssetUrl } from './assets/modelUrl';
@@ -184,6 +185,8 @@ export interface NpcRigOptions {
   work?: WorkGesture;
   /** Play authored clips on the resident's own humanoid rig (A65) when the catalog has one; off keeps the procedural poser. */
   authoredMotion?: boolean;
+  /** Give a resident's hands their own finger chains (A72) when its rig is installed. */
+  fingers?: boolean;
 }
 
 /**
@@ -191,6 +194,16 @@ export interface NpcRigOptions {
  * clips' arm movement is held back, so the cape stretches less where it still meets the arm.
  */
 export const RESIDENT_GARMENT_ARMS: Readonly<Record<string, number>> = { 'caravan-master': 0.6 };
+
+/**
+ * Hands modelled closed or covered (A72): the caravan master's sleeves hang over both, the baker's left is a fist. They
+ * keep their shape; every other hand's fingers curl.
+ */
+export const RESIDENT_CLOSED_HANDS: Readonly<Record<string, readonly FingerSide[]>> = { 'caravan-master': ['Left', 'Right'], 'village-baker': ['Left'] };
+/** Fighting bare-handed: the poses that close a free hand into a fist (A72). */
+const FIST_MODES: ReadonlySet<Mode> = new Set<Mode>(['telegraph', 'strike', 'attack_light', 'attack_heavy', 'block']);
+/** A weapon's grip: along its own +y through its origin, this thick (metres). */
+const WEAPON_GRIP_RADIUS = 0.016;
 
 /** A resident's own rig and the motion library, handed to the rig builder by the catalog. */
 export interface ResidentMotionSource {
@@ -202,7 +215,7 @@ export interface ResidentMotionSource {
   work?: WorkGesture;
 }
 
-export const NPC_RIG_DEFAULTS: Required<Omit<NpcRigOptions, 'work'>> & Pick<NpcRigOptions, 'work'> = { dualQuaternion: true, skinRepair: true, jointFit: true, poseFit: true, surface: true, authoredMotion: true };
+export const NPC_RIG_DEFAULTS: Required<Omit<NpcRigOptions, 'work'>> & Pick<NpcRigOptions, 'work'> = { dualQuaternion: true, skinRepair: true, jointFit: true, poseFit: true, surface: true, authoredMotion: true, fingers: true };
 
 /** Clips retargeted onto one model's rig, shared by every actor of that model. */
 const retargeted = new WeakMap<ResidentRigData, Map<string, ReturnType<typeof retargetClip>>>();
@@ -234,17 +247,18 @@ function residentClips(source: ResidentMotionSource, bones: ResidentBones, mesh?
  * its fingers run and its palm faces (towards the body's middle line, as the tools are placed).
  */
 const HAND_DIRECTIONS = 160;
-function residentHands(mesh: THREE.SkinnedMesh, own: ResidentBones, scene: THREE.Group): WorkContacts['hands'] {
+function residentHands(mesh: THREE.SkinnedMesh, own: ResidentBones, scene: THREE.Group,
+  curled?: (side: FingerSide, vertices: number[]) => Map<number, THREE.Vector3>[]): WorkContacts['hands'] {
   const position = mesh.geometry.getAttribute('position'), index = mesh.geometry.getAttribute('skinIndex'), weight = mesh.geometry.getAttribute('skinWeight');
   const out = {} as WorkContacts['hands'];
   scene.updateMatrixWorld(true);
   for (const side of ['LeftHand', 'RightHand'] as const) {
-    const hand = own[side], joint = mesh.skeleton.bones.indexOf(hand);
+    const hand = own[side], joints = handJoints(mesh, hand);
     const toHand = new THREE.Matrix4().copy(hand.matrixWorld).invert().multiply(mesh.matrixWorld);
     const all: [number, THREE.Vector3][] = [], centre = new THREE.Vector3();
     for (let vertex = 0; vertex < position.count; vertex++) {
       let w = 0;
-      for (let slot = 0; slot < 4; slot++) if (index.getComponent(vertex, slot) === joint) w += weight.getComponent(vertex, slot);
+      for (let slot = 0; slot < 4; slot++) if (joints.has(index.getComponent(vertex, slot))) w += weight.getComponent(vertex, slot);
       if (w < 0.6) continue;
       const p = new THREE.Vector3().fromBufferAttribute(position, vertex).applyMatrix4(toHand);
       all.push([vertex, p]); centre.add(p);
@@ -252,13 +266,18 @@ function residentHands(mesh: THREE.SkinnedMesh, own: ResidentBones, scene: THREE
     if (!all.length) continue;
     centre.multiplyScalar(1 / all.length);
     // Only the hand's outermost vertices can touch first: the furthest out along each of many directions.
+    // With its own fingers (A72), the outermost of the hand however they curl: open, relaxed, gripping, a fist.
     const vertices = new Set<number>(), direction = new THREE.Vector3();
-    for (let i = 0; i < HAND_DIRECTIONS; i++) {
-      const y = 1 - (2 * i + 1) / HAND_DIRECTIONS, r = Math.sqrt(1 - y * y), a = i * Math.PI * (3 - Math.sqrt(5));
-      direction.set(Math.cos(a) * r, y, Math.sin(a) * r);
-      let best = all[0]!;
-      for (const candidate of all) if (candidate[1].dot(direction) > best[1].dot(direction)) best = candidate;
-      vertices.add(best[0]);
+    const shapes = [all, ...(curled?.(side === 'LeftHand' ? 'Left' : 'Right', all.map(([v]) => v)) ?? [])
+      .map(at => all.map(([v]): [number, THREE.Vector3] => [v, at.get(v)!.clone().applyMatrix4(toHand)]))];
+    for (const shape of shapes) {
+      for (let i = 0; i < HAND_DIRECTIONS; i++) {
+        const y = 1 - (2 * i + 1) / HAND_DIRECTIONS, r = Math.sqrt(1 - y * y), a = i * Math.PI * (3 - Math.sqrt(5));
+        direction.set(Math.cos(a) * r, y, Math.sin(a) * r);
+        let best = shape[0]!;
+        for (const candidate of shape) if (candidate[1].dot(direction) > best[1].dot(direction)) best = candidate;
+        vertices.add(best[0]);
+      }
     }
     const fingers = centre.clone().normalize();
     const toLocal = new THREE.Matrix3().setFromMatrix4(new THREE.Matrix4().copy(hand.matrixWorld).invert().multiply(scene.matrixWorld));
@@ -270,14 +289,21 @@ function residentHands(mesh: THREE.SkinnedMesh, own: ResidentBones, scene: THREE
   return out;
 }
 
+/** A hand joint's place in the skeleton and its fingers' (A72): what the hand carries, fingers and all. */
+function handJoints(mesh: THREE.SkinnedMesh, hand: THREE.Bone): Set<number> {
+  const out = new Set<number>();
+  hand.traverse(object => { const i = mesh.skeleton.bones.indexOf(object as THREE.Bone); if (i >= 0) out.add(i); });
+  return out;
+}
+
 function residentPalm(mesh: THREE.SkinnedMesh, hand: THREE.Bone, scene: THREE.Group): THREE.Vector3 {
-  const joint = mesh.skeleton.bones.indexOf(hand);
+  const joints = handJoints(mesh, hand);
   const position = mesh.geometry.getAttribute('position'), index = mesh.geometry.getAttribute('skinIndex'), weight = mesh.geometry.getAttribute('skinWeight');
   const sum = new THREE.Vector3(), point = new THREE.Vector3();
   let count = 0;
   for (let vertex = 0; vertex < position.count; vertex++) {
     let w = 0;
-    for (let slot = 0; slot < 4; slot++) if (index.getComponent(vertex, slot) === joint) w += weight.getComponent(vertex, slot);
+    for (let slot = 0; slot < 4; slot++) if (joints.has(index.getComponent(vertex, slot))) w += weight.getComponent(vertex, slot);
     if (w < 0.6) continue;
     point.fromBufferAttribute(position, vertex);
     mesh.localToWorld(point); scene.worldToLocal(point);
@@ -318,7 +344,7 @@ export function createMeshyNpcRig(asset: Pick<GLTF, 'scene' | 'animations'>, ent
   // On its own rig a resident plays authored clips: the eleven-joint repairs and fitted poses do not apply.
   const authored = settings.authoredMotion && motion ? motion : null;
   if (authored) { settings.jointFit = false; settings.skinRepair = false; settings.poseFit = false; }
-  const installed: { bones: ResidentBones | null; mesh: THREE.SkinnedMesh | null } = { bones: null, mesh: null };
+  const installed: { bones: ResidentBones | null; mesh: THREE.SkinnedMesh | null; fingers: ResidentFingers | null } = { bones: null, mesh: null, fingers: null };
   if (!Number.isFinite(heightScale) || heightScale < 0.7 || heightScale > 1.4) throw new Error('Resident height scale is invalid.');
   const root = new THREE.Group(), body = new THREE.Group();
   root.name = `Resident / ${entry.id}`; body.name = 'Resident / visual action pivot'; root.add(body);
@@ -401,7 +427,11 @@ export function createMeshyNpcRig(asset: Pick<GLTF, 'scene' | 'animations'>, ent
         }
       }
       // The resident's own rig replaces the eleven-joint skeleton once the measurements that read the old skin are done.
-      if (authored && !installed.bones) { installed.bones = installResidentRig(skin, authored.data).bones; installed.mesh = skin; }
+      if (authored && !installed.bones) {
+        const plan = settings.fingers ? residentFingerPlan(authored.data, skin.geometry, RESIDENT_CLOSED_HANDS[entry.id]) : undefined;
+        const own = installResidentRig(skin, authored.data, plan);
+        installed.bones = own.bones; installed.mesh = skin; installed.fingers = own.fingers;
+      }
       // The matching shadow materials belong to the actor's colour material and leave with it.
       const owner = Array.isArray(skin.material) ? skin.material[0] : skin.material;
       if (settings.dualQuaternion) {
@@ -479,14 +509,63 @@ export function createMeshyNpcRig(asset: Pick<GLTF, 'scene' | 'animations'>, ent
     cur: Object.fromEntries(ANGLES.map(key => [key, 0])), materials: paint, hitFlash: 0, kind: 'humanoid',
   };
   let residentWork: { gesture: WorkGesture; props: THREE.Object3D[] } | undefined;
+  let handsDriver: ((p: Pose, dt: number, working: boolean) => void) | undefined;
+  let workHands: (() => () => void) | undefined;
   if (own && authored) {
     // Tools first, while the rig still stands in its bind pose.
     const tools = createResidentTools(authored.work, own, scene, side => residentPalm(residentMesh!, own[side], scene));
     paint.push(...tools.materials);
+    const fingers = installed.fingers;
+    let handShapes: ((side: FingerSide, vertices: number[]) => Map<number, THREE.Vector3>[]) | undefined;
+    if (fingers && residentMesh) {
+      // How far each hand closes on what it holds, measured once in the bind pose: the work tools, the drawn weapon.
+      const positions = residentMesh.geometry.getAttribute('position').array as ArrayLike<number>;
+      const handleOf = (tool: THREE.Object3D, radius: number) => {
+        scene.updateMatrixWorld(true);
+        const origin = residentMesh.worldToLocal(tool.getWorldPosition(new THREE.Vector3()));
+        const tip = residentMesh.worldToLocal(tool.localToWorld(new THREE.Vector3(0, 1, 0)));
+        return { origin, direction: tip.sub(origin).normalize(), radius };
+      };
+      const workGrips: Partial<Record<FingerSide, HandCurl>> = {};
+      for (const grip of tools.grips) {
+        const side: FingerSide = grip.holder === 'LeftHand' ? 'Left' : 'Right';
+        // A handle across the fingers is seated in the hand, where they close on it; the tool keeps its turn.
+        const handle = handleOf(grip.tool, grip.radius), seated = seatHandle(fingers.plan, positions, side, handle);
+        const socket = grip.tool.parent!, holder = socket.parent!;
+        const from = holder.worldToLocal(residentMesh.localToWorld(handle.origin.clone()));
+        const to = holder.worldToLocal(residentMesh.localToWorld(handle.origin.clone().add(seated.offset)));
+        socket.position.add(to.sub(from));
+        workGrips[side] = seated.curl;
+      }
+      const weapon = attachments?.weapon ?? null;
+      const weaponGrip = weapon ? gripCurl(fingers.plan, positions, 'Right', handleOf(weapon, WEAPON_GRIP_RADIUS)) : null;
+      root.userData.meshyNpc.fingers = {
+        active: (['Left', 'Right'] as const).filter(side => fingers.plan.hands[side].active),
+        grips: { ...workGrips, ...(weaponGrip ? { weapon: weaponGrip } : {}) },
+      };
+      handShapes = (side, vertices) => [RELAXED_CURL, FIST_CURL, ...(workGrips[side] ? [workGrips[side]] : [])]
+        .map(curl => curledVertices(fingers.plan, positions, side, curl, vertices));
+      workHands = () => {
+        const was = { Left: { ...fingers.curl('Left') }, Right: { ...fingers.curl('Right') } };
+        for (const side of ['Left', 'Right'] as const) fingers.set(side, workGrips[side] ?? OPEN_CURL);
+        return () => { for (const side of ['Left', 'Right'] as const) fingers.set(side, was[side]); };
+      };
+      handsDriver = (p, dt, working) => {
+        for (const side of ['Left', 'Right'] as const) {
+          // At work a hand holds its tool or lies open on the work; armed, the sword hand holds the hilt; fighting
+          // bare-handed, a fist.
+          const tool = working ? workGrips[side] : undefined;
+          const target = tool ?? (p.mode === 'work' ? OPEN_CURL : side === 'Right' && weapon?.visible && weaponGrip ? weaponGrip
+            : FIST_MODES.has(p.mode) ? FIST_CURL : RELAXED_CURL);
+          fingers.ease(side, target, Number.isFinite(dt) ? dt : 0);
+        }
+      };
+    }
     rig.resident = new ResidentMotion(scene, body, own, residentClips(authored, own, residentMesh ?? undefined), {
       build: authored.build, seed: authored.seed, defaultSeat: BENCH_SEAT_HEIGHT, seatDepth: 0.13 * entry.height / 1.8,
       garmentArms: RESIDENT_GARMENT_ARMS[entry.id],
-      contacts: residentMesh ? { mesh: residentMesh, hands: residentHands(residentMesh, own, scene), tools: tools.points } : undefined,
+      contacts: residentMesh ? { mesh: residentMesh, hands: residentHands(residentMesh, own, scene, handShapes), tools: tools.points } : undefined,
+      workHands,
     });
     root.userData.meshyNpc.animation = 'meshy-authored-clips';
     root.userData.meshyNpc.rig = 'meshy-auto-rig-v1';
@@ -522,6 +601,7 @@ export function createMeshyNpcRig(asset: Pick<GLTF, 'scene' | 'animations'>, ent
     root.userData.meshyNpc.soleClearance = soleClearance;
   } };
   if (residentWork) rig.npc.work = residentWork;
+  if (handsDriver) { rig.npc.hands = handsDriver; rig.npc.fingers = installed.fingers ?? undefined; }
   root.userData.meshyNpc.soleSamples = sole.reduce((total, sample) => total + sample.vertices.length, 0);
   if (settings.poseFit) {
     let skin: THREE.SkinnedMesh | null = null, source: THREE.BufferGeometry | null = null;

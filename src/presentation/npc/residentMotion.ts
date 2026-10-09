@@ -351,9 +351,8 @@ const FADE = 0.35, FIGHT_FADE = 0.12, IDLE_TURN = 9;
  * a lifted foot lands where it will stand `ahead` seconds of the turn later.
  */
 /*
- * Hands (A71): the residents' Meshy rigs are 24 joints ending at the wrists (LeftHand / RightHand), with no finger joints,
- * so a resident's grip cannot be posed: fingers are skinned to the hand and move only with it. That is a hard limit of
- * the shipped rigs, not something to fake by bending the hand; the hero's own rig has the finger chains (hero/bones.ts).
+ * Hands (A71, A72): the residents' Meshy rigs are 24 joints ending at the wrists (LeftHand / RightHand). Our own finger
+ * chains under each hand (npc/residentFingers.ts) close it on a tool or into a fist; the clips never move them.
  */
 export const RESIDENT_TURN = { stepped: 0.6, arc: 1.2, finish: 0.8, ahead: 0.2 } as const;
 const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
@@ -413,6 +412,8 @@ export interface ResidentMotionOptions {
   garmentArms?: number;
   /** The hands' surfaces and the tools' working ends, for bringing them onto a work surface (A70). */
   contacts?: WorkContacts;
+  /** Close the hands as they work (A72) while the work contacts are sampled; returns how to give them back. */
+  workHands?: () => () => void;
 }
 
 /** A hand's surface: the vertices that follow it; in its joint's frame, their middle, the way the fingers run and the palm faces (A70). */
@@ -791,6 +792,7 @@ export class ResidentMotion {
     const bodyAt = this.body.position.clone(), bodyTurn = this.body.quaternion.clone();
     for (const q of this.playing.values()) { q.action.enabled = q === lead; q.action.setEffectiveWeight(q === lead ? 1 : 0); }
     this.body.position.set(0, 0, 0); this.body.quaternion.identity();
+    const handsBack = this.options.workHands?.();
     const samples = Math.max(2, Math.ceil(lead.clip.clip.duration * 30)), damping = this.options.garmentArms ?? 0;
     for (let i = 0; i < samples; i++) {
       lead.action.time = (i / samples) * lead.clip.clip.duration;
@@ -801,6 +803,7 @@ export class ResidentMotion {
     }
     for (const { q, enabled, weight, time } of saved) { q.action.enabled = enabled; q.action.setEffectiveWeight(weight); q.action.time = time; }
     this.body.position.copy(bodyAt); this.body.quaternion.copy(bodyTurn);
+    handsBack?.();
     return track;
   }
 

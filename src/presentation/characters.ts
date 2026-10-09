@@ -24,6 +24,7 @@ import { BI, BONES, box, ellipsoid, loft, Mesher, mul3, rigid, tube, type BoneNa
 import { poseHeroRig } from './hero/rig';
 import type { HeroAnimationController } from './hero/animation';
 import type { ResidentMotion } from './npc/residentMotion';
+import type { ResidentFingers } from './npc/residentFingers';
 import type { WorkSite } from './npc/workSites';
 
 /** Assets this module wants loaded before the world is built. */
@@ -142,7 +143,13 @@ export interface Rig {
    * Imported residents: bounded visual sole clearance (never moves the physical actor root or performs foot IK), and the
    * arm angles fitted to this figure's own body (npc/poseFit.ts).
    */
-  npc?: { settle(mode: Mode, dt: number): void; fit?: NpcPoseFit; work?: { gesture: WorkGesture; props: THREE.Object3D[] } };
+  npc?: {
+    settle(mode: Mode, dt: number): void; fit?: NpcPoseFit; work?: { gesture: WorkGesture; props: THREE.Object3D[] };
+    /** A resident's fingers (A72): closed on what each hand holds, in a fist to fight bare-handed, relaxed otherwise. */
+    hands?(p: Pose, dt: number, working: boolean): void;
+    /** The finger chains themselves. */
+    fingers?: ResidentFingers;
+  };
   root: THREE.Group;
   /** Root of the visual body; lowered when sitting and rotated when defeated. */
   body: THREE.Group;
@@ -908,10 +915,9 @@ export function poseRig(rig: Rig, p: Pose, dt: number) {
   if (rig.resident) {
     rig.resident.pose(p, dt);
     const tools = rig.npc?.work;
-    if (tools) {
-      const working = p.mode === 'work' && (p.workGesture ?? 'general') === tools.gesture;
-      for (const prop of tools.props) prop.visible = working;
-    }
+    const working = !!tools && p.mode === 'work' && (p.workGesture ?? 'general') === tools.gesture;
+    if (tools) for (const prop of tools.props) prop.visible = working;
+    rig.npc?.hands?.(p, dt, working);
     rig.npc?.settle(p.mode, Number.isFinite(dt) ? Math.max(0, dt) : 0);
     return;
   }
