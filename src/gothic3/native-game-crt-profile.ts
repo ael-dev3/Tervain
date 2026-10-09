@@ -1,3 +1,4 @@
+import {aiHelperAdminImagePins,aiHelperAdminImageReceipt} from './native-game-ai-helper-admin-source';
 import { admitGameLayerBaseSource, gameLayerBaseSourceRules, gameLayerBaseImagePins, gameLayerBaseImageReceipt } from './native-game-layer-base-source';
 import { admitGameObjectRefSource, gameObjectRefSourceRules, gameObjectRefImagePins, gameObjectRefImageReceipt } from './native-game-object-ref-source';
 import { admitGameClassNameFamilySource, gameClassNameFamilyRules, gameClassNameFamilyImagePins, gameClassNameFamilyImageReceipt } from './native-game-class-name-family-source';
@@ -118,6 +119,7 @@ export const nativeGameImagePins: Readonly<Record<string, readonly [
   ...arenaEnumImagePins,
   ...freePointImagePins,
   ...labelImagePins,
+  ...aiHelperAdminImagePins,
   ...gameTemplateImagePins,
   ...gameContinuationImagePins,
   ...gameIoStartupImagePins,
@@ -244,6 +246,7 @@ export function admitNativeGameCrtSource(): void {
   }
 }
 export function nativeGameImageReceipt(label: string): NativeCrtImageReceipt {
+  if (Object.hasOwn(aiHelperAdminImagePins,label)) return aiHelperAdminImageReceipt(label);
   if (Object.hasOwn(labelImagePins,label)) return labelImageReceipt(label);
   if (Object.hasOwn(freePointImagePins,label)) return freePointImageReceipt(label);
   if (Object.hasOwn(arenaEnumImagePins,label)) return arenaEnumImageReceipt(label);

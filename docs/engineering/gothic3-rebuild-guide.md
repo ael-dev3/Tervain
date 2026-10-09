@@ -48,7 +48,8 @@ Each feature goes through the following steps:
 initialization return through the retained startup stack. FreePoint's later
 class-name initializer also returns, sharing the same CString and cleanup
 owner. Label initializer `204b23d0` now executes its wrapper constructor and stops
-after Label returns, at the next C++ initializer `204b2660`. Complete startup,
+after entering AI helper administrator initialization, at reflected-type
+getter CALL `204b267f -> 20016e32`. Complete startup,
 world activation and a new-game-to-ending campaign remain unfinished. Local
 checkpoints and the hosted version can differ; validation below identifies
 the checkpoint covered.
@@ -57,6 +58,19 @@ the checkpoint covered.
 
 The entries below describe successive local states, newest first. Statements
 about missing operations in older entries apply to those earlier checkpoints.
+
+### Current local checkpoint: AI helper administrator wrapper constructs
+
+Initializer `204b2660` enters the retained startup stack and calls the existing
+SharedBase wrapper constructor on separate storage `207b5298`. It retains
+flags ten, a zero object field and the original derived vtable. Startup stops
+at type getter CALL `204b267f -> 20016e32`. The full initializer has not returned.
+
+Its own evidence package records six helper bodies, seven image regions and
+both cleanup callbacks. The object-replacement body has 132 instructions;
+its behavior still needs implementation. Independent generations matched,
+TypeScript checking passed, and all 31 focused tests passed in 30.88 seconds.
+The complete Label checkpoint described below remains in broader validation.
 
 ### Current local checkpoint: complete Label initializer returns
 

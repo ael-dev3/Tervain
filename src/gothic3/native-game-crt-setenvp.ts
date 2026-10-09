@@ -1,3 +1,4 @@
+import {aiHelperAdminInitializerInstruction} from './native-game-ai-helper-admin-source';
 /** The bounded original Game caller/environment source unit. Every reached instruction
  * is lowered from its admitted original receipt into the same physical graph
  * that actually returned from argv. Heap imports require fixed private
@@ -77,6 +78,7 @@ const bodies = Object.freeze([
   ['204b1d70','204b1d70-204b1dba'],
   ['204b2130','204b2130-204b217a'],
   ['204b23d0','204b23d0-204b241a'],
+  ['204b2660','204b2660-204b26aa'],
   ['20075040','20075040-2007510d'],
   ['20074640','20074640-2007479a'],
   ['20074400','20074400-20074403'],
@@ -443,7 +445,8 @@ export class NativeGameCrtSetEnvp {
     const extent = ranges.get(this.#currentEntry), address = Number.parseInt(pc, 16);
     if (!extent?.some(([first, last]) => address >= first && address <= last) ||
         this.#currentEntry === '204677e4' && !callerRows.has(pc)) throw new Error('Unowned Game environment source frontier at' + pc);
-    const point = this.#currentEntry==='20074400' ? labelAccessorInstruction(pc)
+    const point = this.#currentEntry==='204b2660' ? aiHelperAdminInitializerInstruction(pc)
+      : this.#currentEntry==='20074400' ? labelAccessorInstruction(pc)
       : this.#currentEntry==='20074640' ? labelReplacementInstruction(pc)
       : this.#currentEntry==='20075040' ? labelWrapperInstruction(pc)
       : this.#currentEntry==='204b23d0' ? labelInitializerInstruction(pc)
@@ -791,8 +794,8 @@ export class NativeGameCrtSetEnvp {
       fact(NativeX86ThreadStack.prototype.callGameArenaTypeSingleton.call(this.#stack,this.#controller));
       this.#nextBoundary=null; return returnPc;
     }
-    if(point.va==='204b1d75'||point.va==='204b2135'||point.va==='204b23d5') {
-      if(this.#currentEntry!==(point.va==='204b1d75'?'204b1d70':point.va==='204b23d5'?'204b23d0':'204b2130') || target.kind!=='memory' || target.expression!=='0x207d87b8' || target.fs)
+    if(point.va==='204b1d75'||point.va==='204b2135'||point.va==='204b23d5'||point.va==='204b2665') {
+      if(this.#currentEntry!==(point.va==='204b1d75'?'204b1d70':point.va==='204b23d5'?'204b23d0':point.va==='204b2665'?'204b2660':'204b2130') || target.kind!=='memory' || target.expression!=='0x207d87b8' || target.fs)
         throw new Error('Original Arena wrapper constructor call required');
       admitArenaWrapperConstructorImport();
       this.#nextBoundary=Object.freeze({pc:point.va,operation:'import',target:'207d87b8'});
@@ -811,8 +814,8 @@ export class NativeGameCrtSetEnvp {
         fact(NativeX86ThreadStack.prototype.callArenaStatusInitializer.call(this.#stack,this.#controller,callback));
         this.#frames.pop(); this.#nextBoundary=null; return returnPc;
       }
-      if ((callback === '204b1d70'||callback==='204b2130'||callback==='204b23d0') && nativeGameLayerBaseMemoryForCrt(this.#crt as NativeGameCrtOwner).known) {
-        const labels=callback==='204b1d70'?['arenaRootWrapper','arenaRootVtable','arenaRootTypeVtable']:callback==='204b23d0'?['labelWrapper','labelWrapperVtable','labelTypeVtable']:['freePointWrapper','freePointWrapperVtable','freePointTypeVtable'];
+      if ((callback === '204b1d70'||callback==='204b2130'||callback==='204b23d0'||callback==='204b2660') && nativeGameLayerBaseMemoryForCrt(this.#crt as NativeGameCrtOwner).known) {
+        const labels=callback==='204b2660'?['aiHelperAdminWrapper','aiHelperAdminWrapperVtable','aiHelperAdminTypeVtable']:callback==='204b1d70'?['arenaRootWrapper','arenaRootVtable','arenaRootTypeVtable']:callback==='204b23d0'?['labelWrapper','labelWrapperVtable','labelTypeVtable']:['freePointWrapper','freePointWrapperVtable','freePointTypeVtable'];
         this.#classImages = Object.freeze(labels.map(label => {
           const receipt = nativeGameImageReceipt(label);
           const fields = fact(NativeModuleCrtOwner.canonicalImageForOwner(this.#crt,label));
