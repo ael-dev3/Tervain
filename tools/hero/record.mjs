@@ -9,7 +9,7 @@ import { createHash } from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { MESHY_RIGHTS_BOUNDARY, WANDERER_SEPARATE_RIGHTS, meshyProAssetLicense, meshyProLicense, writeLedger } from '../model-ledger/meshy.mjs';
+import { classifyMeshy, meshyAssetLicense, writeLedger } from '../model-ledger/meshy.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const ledgerPath = path.join(root, 'public/model-licenses.json');
@@ -25,7 +25,7 @@ const entry = {
   externalDependencies: [],
   scope: 'original-game-model-catalog',
   sourceId: 'wanderer-animated',
-  license: meshyProAssetLicense(),
+  license: meshyAssetLicense('wanderer-animated'),
   modified: true,
 };
 ledger.assets = ledger.assets.filter((asset) => asset.file !== file);
@@ -36,10 +36,8 @@ if (replaced) replaced.scope = 'historical-public-model';
 const source = ledger.sources['wanderer-animated'];
 const note = 'The game draws a rebuilt copy (A69): the approved 49,500-triangle mesh of the same character, skinned to this rig by weight transfer, with these clips, material and textures, because this reduction opens into cracks when animated.';
 if (!source.changes.includes('A69')) source.changes = `${source.changes} ${note}`;
-// Meshy Pro output (A72); the Mixamo-named skeleton and animation content keeps its own unresolved record.
-source.license = meshyProLicense();
-source.rightsBoundary = MESHY_RIGHTS_BOUNDARY;
-source.separateRights = WANDERER_SEPARATE_RIGHTS;
+// Provenance per A73 (unresolved until recorded); the Mixamo-named skeleton and animation content keeps its own record.
+classifyMeshy(ledger);
 const publicAssets = ledger.assets.filter((asset) => asset.file.startsWith('public/models/'));
 ledger.summary.publicModelFiles = publicAssets.length;
 ledger.summary.publicModelBytes = publicAssets.reduce((total, asset) => total + asset.bytes, 0);

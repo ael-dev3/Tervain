@@ -1,30 +1,50 @@
 #!/usr/bin/env node
 /**
- * Applies the resolved Meshy classification (A72) to the distributed model ledger (public/model-licenses.json): every
- * Meshy source, the generated resident rigs, the motion library, the furniture and each shipped file derived from them
- * follow Meshy's paid-plan Customer Output terms (Meshy Pro). Records outside Meshy output keep their own status.
+ * Applies the Meshy provenance classification (A73, correcting A72) to the distributed model ledger
+ * (public/model-licenses.json): every Meshy source is project-generated under Meshy Pro, downloaded from the Meshy
+ * Community, or unresolved, with its evidence; each shipped file derived from it follows its source. Records outside
+ * Meshy output keep their own status.
  *
  *   node tools/model-ledger/classify-meshy.mjs        idempotent; the record scripts write the same values
  */
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { classifyMeshy, writeLedger } from './meshy.mjs';
+import { AEL_GENERATED, COMMUNITY, CREATOR_NOT_RECORDED, UNRESOLVED, classifyMeshy, writeLedger } from './meshy.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const ledgerFile = path.join(ROOT, 'public/model-licenses.json');
 const ledger = classifyMeshy(JSON.parse(fs.readFileSync(ledgerFile, 'utf8')));
 
-ledger.summary.licenseClassification = 'Every Meshy source, the generated resident rigs, the resident motion library and the furniture are Meshy Pro (paid) Customer Output under Meshy’s terms of use (updated 19 September 2026, section 3.2), confirmed by the project owner on 9 October 2026; the free-plan CC BY 4.0 and Community CC0 branches do not apply to them. The animated hero’s Mixamo-named skeleton/animation content and the Warpkeep archive remain separately unresolved. Absence of an embedded CC label does not establish absence of CC rights.';
-ledger.credit = 'Original-game imported models created with Meshy (https://www.meshy.ai/) under a Meshy Pro paid plan; owner-supplied sources adapted for Tervain. Any source creator credit beyond that remains unrecorded where not listed. The historical Warpkeep archive retains its separate source records and notices.';
-ledger.licenseFreedomExceptions.principle = 'An actual per-source CC license takes precedence over general repository media wording for the rights it grants. No project notice limits recipients’ existing CC rights. No current Meshy source is classified CC: paid-plan output is not a CC grant, and this ledger does not relabel it CC. Pending status elsewhere is an evidence gap, not a restriction added to an existing license.';
-ledger.licenseFreedomExceptions.unresolvedOrSpecial = 'Owner-specific permission and unresolved records (the animated hero’s Mixamo-named content, the Warpkeep archive) are not relabeled CC or privately owned by this ledger.';
+const meshy = Object.entries(ledger.sources).filter(([, source]) => source.generationService === 'Meshy');
+const of = (classification) => meshy.filter(([, source]) => source.provenance.classification === classification).map(([id]) => id);
+const generated = of(AEL_GENERATED), community = of(COMMUNITY), unresolved = of(UNRESOLVED);
+const files = (ids) => ledger.assets.filter((asset) => ids.includes(asset.sourceId)).length;
+
+ledger.summary.meshyProvenance = {
+  [AEL_GENERATED]: { sources: generated.length, publicModelFiles: files(generated) },
+  [COMMUNITY]: { sources: community.length, publicModelFiles: files(community) },
+  [UNRESOLVED]: { sources: unresolved.length, publicModelFiles: files(unresolved) },
+};
+ledger.summary.licenseClassification = `Meshy sources are classified by recorded evidence (A73, correcting A72, which had classified every Meshy source as Meshy Pro output). ${generated.length} sources the project generated through its own Meshy API calls, with task ids recorded (the 17 furniture pieces, the 17 resident rigs and the resident motion library), are paid-plan Customer Output (Meshy terms, Last Updated 19 September 2026, section 3.2). Many supplied models were downloaded from the Meshy Community and made by other creators; Community 3D models are CC0 1.0 and other Community content CC BY-NC 4.0 (section 3.3). ${community.length} supplied sources currently have recorded Community evidence, and ${unresolved.length} supplied sources are unresolved: whether each was generated for the project or downloaded from the Community, and by whom, is not recorded. Commercial clearance is unsettled until the unresolved items are confirmed. The animated hero’s Mixamo-named skeleton/animation content and the Warpkeep archive remain separately unresolved.`;
+ledger.credit = `Original-game imported models created with Meshy (https://www.meshy.ai/). Furniture, resident rigs and resident motion were generated for Tervain through its own Meshy account. Many supplied models were downloaded from the Meshy Community, made by other creators; their creators are credited where recorded, and are otherwise ${CREATOR_NOT_RECORDED} (see the ledger’s toConfirm list). Supplied sources were adapted for Tervain. The historical Warpkeep archive retains its separate source records and notices.`;
+ledger.licenseFreedomExceptions.principle = 'An actual per-source CC license takes precedence over general repository media wording for the rights it grants. No project notice limits recipients’ existing CC rights. A source confirmed as a Meshy Community download keeps its CC0 1.0 status (and any CC BY-NC 4.0 Community content its non-commercial condition); project-generated paid-plan output is not a CC grant. Unresolved status is an evidence gap, not a restriction added to an existing license.';
+ledger.licenseFreedomExceptions.ccByNc4 = {
+  url: 'https://creativecommons.org/licenses/by-nc/4.0/',
+  condition: 'Meshy terms section 3.3(b): Community content other than Customer Output (for example images uploaded to the Community) is CC BY-NC 4.0, which requires attribution and permits no commercial use. No source is recorded under it; any such content found among the supplied sources must be attributed and flagged as non-commercial.',
+};
+ledger.licenseFreedomExceptions.unresolvedOrSpecial = 'Unresolved Meshy sources, owner-specific permission and other unresolved records (the animated hero’s Mixamo-named content, the Warpkeep archive) are not relabeled CC or privately owned by this ledger.';
+ledger.toConfirm = unresolved.map((id) => ({
+  sourceId: id,
+  filename: ledger.sources[id].filename,
+  confirm: 'Generated by Ael under Meshy Pro, or downloaded from the Meshy Community (with the creator and listing URL), or another origin.',
+}));
 ledger.resolutionRequired = [
+  `Confirm the origin of the ${unresolved.length} unresolved supplied Meshy sources (toConfirm): project-generated under Meshy Pro, or downloaded from the Meshy Community with creator and listing URL. Commercial clearance is unsettled until then.`,
+  'For any Community download, check whether any non-model Community content (such as an image) was used; that content is CC BY-NC 4.0, attribution required and non-commercial.',
   'Establish the separate source rights of the Mixamo-named skeleton and animation content in the animated hero source.',
   'Preserve actual image-input and animation rights separately; a model-service plan does not clear third-party inputs.',
   'Establish per-set provenance for the archived Warpkeep models before any new runtime use or broader redistribution.',
 ];
 writeLedger(ledgerFile, ledger);
-const sources = Object.values(ledger.sources).filter((source) => source.generationService === 'Meshy').length;
-const files = ledger.assets.filter((asset) => asset.license.evidenceStatus === 'meshy-paid-plan-output').length;
-console.log(`ledger: ${sources} Meshy sources and ${files} files classified as Meshy Pro paid-plan output`);
+console.log(`ledger: ${generated.length} project-generated, ${community.length} Community, ${unresolved.length} unresolved Meshy sources`);

@@ -10,7 +10,7 @@ import { createHash } from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { MESHY_RIGHTS_BOUNDARY, meshyProAssetLicense, meshyProLicense, writeJson, writeLedger } from '../model-ledger/meshy.mjs';
+import { MESHY_RIGHTS_BOUNDARY, classifyMeshy, meshyProAssetLicense, meshyProLicense, writeJson, writeLedger } from '../model-ledger/meshy.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const NPCS = path.join(ROOT, 'public/models/npcs');
@@ -80,5 +80,5 @@ ledger.summary.publicModelFiles = publicAssets.length;
 ledger.summary.publicModelBytes = publicAssets.reduce((total, asset) => total + asset.bytes, 0);
 // Every catalogued file's hash matches its source record; the library's record is its clip list (clips.json).
 ledger.summary.hashesMatchedExistingSourceRecords = ledger.assets.length;
-writeLedger(ledgerFile, ledger);
+writeLedger(ledgerFile, classifyMeshy(ledger)); // provenance and evidence (A73)
 console.log(`manifest: ${manifest.assets.filter((asset) => asset.rig).length} rigs, motion ${manifest.motion.bytes} bytes; ledger: ${ledger.summary.publicModelFiles} public models`);
