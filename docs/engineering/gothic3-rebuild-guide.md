@@ -225,6 +225,24 @@ no `zSpie.txt`. The direct DLL call does not execute the surrounding CRT wrapper
 Production startup, live world activation, saves and campaign completion still
 need integration. The preceding formatter revision passed all 3,030 tests.
 
+### Game startup: original PE protection check
+
+The next local checkpoint enters Game's original `__cinit` call at `204678f2`
+on the existing browser startup stack. It executes PE validation, section lookup
+and the protection check using current owned header bytes. The original readonly
+math callback slot reaches the indirect call at `20466610`; that callback remains
+unimplemented. Invalid headers or writable sections follow the original branch
+to the pointer-initialization call at `20466617`.
+
+The preparation tool captures 16 methods and 660 instructions. Runtime admission
+selects four methods and 150 instructions; floating-point dependencies remain
+context evidence. Thirteen focused checks and typechecking pass, and independent
+regeneration reproduces both JSON and TypeScript byte for byte. At runtime revision
+`9540631a`, all 3,082 tests across 284 files passed in 397.79 seconds and the
+production build passed. A local production-browser observation confirmed the
+continuation at `20466610` after entering Ardea. Publication remains pending. Complete startup,
+world activation, campaign saves and a playable ending remain unfinished.
+
 - [Detailed workflow and reference paths](gothic3-rebuild-workflow.md)
 - [Architecture and implementation background](gothic3-rebuild-overview.md)
 - [Dated technical checkpoint history](gothic3-rebuilding-process.md)

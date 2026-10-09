@@ -2793,7 +2793,7 @@ export class NativeX86ThreadStack {
   }); }
   sourceAddress(controller: object, type: 'code' | 'image', address: string): NativeValue<NativeX86Word32> { return this.#run(controller, () => this.#source(type, address)); }
   registerSourceImage(controller: object, address: string, fields: NativeHeapObjectViews): NativeValue<void> { return this.#run(controller, () => {
-    const label = address === '206e8e90' ? 'ioInitEH4Scope' : address === '206e8f98' ? 'callocEH4Scope' : address === '206e8e70' ? 'sectionInitExceptionTable' : address === '206e8cb8' ? 'setMbcEH4Scope' : address === '206e8c98' ? 'updateMbcEH4Scope' : address === '206e8b70' ? 'freeEH4Scope' : null;
+    const label = address === '206e8db0' ? 'cinitNonwritableEH4Scope' : address === '206e8e90' ? 'ioInitEH4Scope' : address === '206e8f98' ? 'callocEH4Scope' : address === '206e8e70' ? 'sectionInitExceptionTable' : address === '206e8cb8' ? 'setMbcEH4Scope' : address === '206e8c98' ? 'updateMbcEH4Scope' : address === '206e8b70' ? 'freeEH4Scope' : null;
     if (!label) throw new Error('Only exact admitted Game EH4 scope views are owned');
     const crt = this.#binding!.crt, selected = NativeModuleCrtOwner.canonicalImageForOwner(crt, label);
     if (!selected.known || selected.value !== fields) throw new Error('Actual same-Game canonical scope image required');
@@ -2909,6 +2909,24 @@ export class NativeX86ThreadStack {
   alu(controller: object, op: 'add' | 'sub' | 'sbb' | 'imul' | 'or' | 'and', left: NativeX86Word32, right: NativeX86Word32,
     width: Width = 4): NativeValue<NativeX86Word32> { return this.#run(controller, () => {
     const a = this.#liveWord(left), b = this.#liveWord(right), maximum = this.#maximum(width);
+    if (width === 4 && op === 'sub' && a.provenance?.kind === 'module' && b.provenance?.kind === 'module') {
+      const p = a.provenance, q = b.provenance;
+      const crt = this.#binding!.crt;
+      for (const entry of [p, q]) {
+        const fields = NativeModuleCrtOwner.canonicalImageForOwner(crt, entry.label);
+        if (!fields.known || fields.value !== entry.fields) throw new Error('Actual same-Game canonical module difference required');
+        const proof = NativeRuntimePlatform.canonicalGameModuleImageAccessForPlatform(this.#platform, crt, entry.label, entry.offset, 0);
+        if (!proof.known) throw new Error(proof.reason);
+      }
+      // Both views belong to the same retained virtual Game image. Its original
+      // relative addresses prove this difference without inventing a host address.
+      const av = Number.parseInt(nativeGameImageReceipt(p.label).address, 16) + p.offset;
+      const bv = Number.parseInt(nativeGameImageReceipt(q.label).address, 16) + q.offset;
+      const value = (av - bv) >>> 0;
+      this.#flags((av < bv ? 1 : 0) | (value === 0 ? 0x40 : 0) | (value & 0x80000000 ? 0x80 : 0) |
+        (this.#parity(value & 255) ? 4 : 0), 0xc5);
+      return this.#mint(value, 0xffffffff);
+    }
     if (op === 'or' || op === 'and') {
       if (width === 4 && op === 'and' && b.mask === 0xffffffff && a.provenance?.kind === 'stack') {
         if (b.value === 0xfffff000) { const result = this.#stackWord(a.provenance.offset & ~0xfff), r = this.#record(result); this.#logicalFlags(r.value, r.mask, 4); return result; }
