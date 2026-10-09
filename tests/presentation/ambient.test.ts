@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { readFileSync } from 'node:fs';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { createGltfLoader } from '../../src/presentation/assets/gltfLoader';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { defaultSettings } from '../../src/platform/settings';
 import { buildAmbient } from '../../src/presentation/ambient';
@@ -116,7 +116,7 @@ describe('ambient hamlet residents', () => {
     const manifest = JSON.parse(readFileSync(new URL('../../public/models/npcs/manifest.json', import.meta.url), 'utf8')) as MeshyNpcManifest;
     const entry = manifest.assets.find(asset => asset.id === 'fireside')!;
     const bytes = readFileSync(new URL(`../../public/models/npcs/${entry.file}`, import.meta.url));
-    const loader = new GLTFLoader();
+    const loader = createGltfLoader();
     // Browser texture decoding alone is replaced. The delivered geometry,
     // inverse binds, skin weights and joint hierarchy remain byte-exact.
     loader.register(() => ({ name: 'TERVAIN_AMBIENT_CPU_TEXTURES', loadTexture: () => Promise.resolve(new THREE.Texture()) }));

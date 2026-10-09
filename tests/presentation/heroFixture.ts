@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs';
 import * as THREE from 'three';
-import { GLTFLoader, type GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { createGltfLoader } from '../../src/presentation/assets/gltfLoader';
 
 /** Decode the delivered rig/geometry/curves in Node. Rendering/texture pixels require the browser visual gate. */
 export async function loadHeroWithoutImages(): Promise<GLTF> {
@@ -21,7 +22,7 @@ export async function loadHeroWithoutImages(): Promise<GLTF> {
   decoded.writeUInt32LE(0x46546c67, 0); decoded.writeUInt32LE(2, 4); decoded.writeUInt32LE(decoded.length, 8);
   decoded.writeUInt32LE(paddedLength, 12); decoded.writeUInt32LE(0x4e4f534a, 16);
   decoded.fill(0x20, 20, 20 + paddedLength); serialized.copy(decoded, 20); binary.copy(decoded, 20 + paddedLength);
-  return new GLTFLoader().parseAsync(decoded.buffer.slice(decoded.byteOffset, decoded.byteOffset + decoded.byteLength) as ArrayBuffer, '');
+  return createGltfLoader().parseAsync(decoded.buffer.slice(decoded.byteOffset, decoded.byteOffset + decoded.byteLength) as ArrayBuffer, '');
 }
 
 export function meshes(root: THREE.Object3D): THREE.Mesh[] {

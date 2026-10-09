@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { createGltfLoader } from './gltfLoader';
 import { clone as cloneSkinned } from 'three/examples/jsm/utils/SkeletonUtils.js';
 import { modelAssetUrl } from './modelUrl';
 
@@ -62,7 +62,7 @@ export class AssetLibrary {
   private byId = new Map<string, AssetEntry>();
   private cache = new Map<string, Promise<LoadedAsset>>();
   private done = new Map<string, LoadedAsset>();
-  private loader = new GLTFLoader();
+  private loader = createGltfLoader();
   bytesLoaded = 0;
 
   private constructor(manifest: Manifest) {

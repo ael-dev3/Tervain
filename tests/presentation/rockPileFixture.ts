@@ -1,5 +1,5 @@
 import { readFileSync } from 'node:fs';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { createGltfLoader } from '../../src/presentation/assets/gltfLoader';
 import { ROCK_PILE_FILE } from '../../src/presentation/sourceRockPile';
 
 export function rockPileBinary() {
@@ -19,5 +19,5 @@ export async function rockPileTemplate() {
   decoded.writeUInt32LE(0x46546c67, 0); decoded.writeUInt32LE(2, 4); decoded.writeUInt32LE(decoded.length, 8);
   decoded.writeUInt32LE(padded, 12); decoded.writeUInt32LE(0x4e4f534a, 16); decoded.fill(0x20, 20, 20 + padded);
   text.copy(decoded, 20); bin.copy(decoded, 20 + padded);
-  return new GLTFLoader().parseAsync(decoded.buffer.slice(decoded.byteOffset, decoded.byteOffset + decoded.byteLength) as ArrayBuffer, '');
+  return createGltfLoader().parseAsync(decoded.buffer.slice(decoded.byteOffset, decoded.byteOffset + decoded.byteLength) as ArrayBuffer, '');
 }

@@ -32,7 +32,7 @@ mesh skinned to the A45 skeleton:
 | Bytes | 11,900,048 | 11,202,084 |
 
 The sealed surface lies within 0.1 mm of the rigged original at the median, 2.4 mm at the 95th percentile and 9.4 mm at
-most. Its SHA-256 is `4342f3ffc804ee958068368c9a62a2c165c27e4f146f8f49d9b7fdac61b9bfe9`. The A45 reduction is kept in
+most. Its SHA-256 is `c9d4b87a7ba1f1586554fcae533cd606192f47d2648dc89ba8d279b10288e932`. The A45 reduction is kept in
 the repository for audit and is no longer loaded.
 
 Reproduction: `python tools/hero/rebuild-hero.py` (numpy; deterministic) writes the file from the two sources, and

@@ -402,6 +402,8 @@ export class App {
       this.world = await WorldScene.create(this.game.state, structuredClone(this.settings), this.library, undefined, this.npcAssets!, {
         // The animals follow the world in; a first visit downloads about a fifth less before entering (A70).
         deferWildlife: true,
+        // So does the rooms' furniture: none of it is needed to set foot in the valley (backlog 4).
+        deferFurniture: true,
         onPhase: (p) => this.loadingScreen?.update(p.phase === 'finishing'
           ? { phase: 'graphics', detail: p.label }
           : { phase: p.phase, completed: p.completed, total: p.total, detail: p.label }),
@@ -540,7 +542,7 @@ export class App {
         // surfaces behind them, instead of each group waiting for the one before it to be prepared.
         const hero = this.prepareMainHero();
         void this.prepareNpcAssets().catch(() => {});
-        prefetchJourney(this.settings.quality);
+        prefetchJourney(this.settings.quality, { deferFurniture: true });
         await hero;
         do {
           this.reloadAgain = false;

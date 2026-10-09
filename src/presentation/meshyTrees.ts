@@ -1,5 +1,6 @@
 import * as THREE from 'three';
-import { GLTFLoader, type GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { createGltfLoader } from './assets/gltfLoader';
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import type { Species, TreeVariant } from './treeGen';
 import { assertNaturalModelBudget } from './naturalModelBudget';
@@ -116,7 +117,7 @@ async function load(id: string, lod: typeof MESHY_TREE_LODS[number]): Promise<GL
     if (buffer.byteLength < 12) throw new Error(`Tree ${id} download is incomplete.`);
     const header = new DataView(buffer);
     if (header.getUint32(0, true) !== 0x46546c67 || header.getUint32(4, true) !== 2 || header.getUint32(8, true) !== buffer.byteLength) throw new Error(`Tree ${id} is not a complete GLB 2 file.`);
-    const gltf = await new GLTFLoader().parseAsync(buffer, new URL('.', url).href);
+    const gltf = await createGltfLoader().parseAsync(buffer, new URL('.', url).href);
     try {
       const bounds = new THREE.Box3().setFromObject(gltf.scene);
       if (bounds.isEmpty() || ![...bounds.min, ...bounds.max].every(Number.isFinite)) throw new Error(`Tree ${id} has invalid geometry bounds.`);

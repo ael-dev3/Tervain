@@ -9,8 +9,8 @@
   },
   "runtime": {
     "path": "public/models/scenery/weathered-rock-pile-under-20k.glb",
-    "sha256": "91ce7c7d61c3ac0b495612124db6742d833bae5b056a61742ce9718db6e4984a",
-    "bytes": 1258720,
+    "sha256": "fd885874c8a4ca49a75b4f75e0e4405362c4709c100a3c994f9a1dbcf2f4ce52",
+    "bytes": 1202464,
     "triangles": 5220,
     "vertices": 5578,
     "geometry": "Original position, normal, UV and index buffer bytes retained exactly; no decimation or geometric deformation.",
