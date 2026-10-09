@@ -1,4 +1,5 @@
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
+import { App } from '../../src/app';
 import { createFloraPopulation, registerFloraColliders, selectFloraPopulation, type FloraTree } from '../../src/presentation/floraPopulation';
 import { createForestFloorPopulation } from '../../src/presentation/forestFloor';
 import { buildTreeVariant, type Species, type TreeVariant } from '../../src/presentation/treeGen';
@@ -332,8 +333,7 @@ describe('regional forest stands and broad clearings', () => {
     }
   });
 
-  it('recovers a saved player newly inside a trunk to the same safe point across presets', async () => {
-    const { App } = await import('../../src/app');
+  it('recovers a saved player newly inside a trunk to the same safe point across presets', () => {
     const target = regional(population)[Math.floor(regional(population).length / 2)]!;
     const recover = (colliders: Colliders, x: number, z: number, feetY?: number) => {
       const world = { terrain, colliders, nav: new NavGrid(terrain, colliders) };

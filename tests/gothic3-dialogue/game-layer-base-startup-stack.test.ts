@@ -21,16 +21,18 @@ function platformFixture() {
     setEnvp: { physicalGameHeapCapacity: 'round-eight-unknown-padding', heapFree: { outcome: 'success' } },
   });
 }
-function fixture(textPool = true) {
+function fixture(textPool = true, objectRefPool = true) {
   const platform = platformFixture();
-  const memory = new NativeMemoryAdmin(platform, { extensions: textPool
-    ? [nativeNpcHeapExtension, nativeSceneStartupHeapExtension] : [nativeSceneStartupHeapExtension] });
+  const memory = new NativeMemoryAdmin(platform, { extensions: [
+    ...(textPool ? [nativeNpcHeapExtension] : []),
+    ...(objectRefPool ? [nativeSceneStartupHeapExtension] : []),
+  ] });
   const stack = fact(NativeX86ThreadStack.forPlatform(platform));
   const game = fact(createBrowserGameCrtStartup(platform, memory));
   return { platform, memory, stack, game };
 }
 
-describe('first Game C++ initializer on the retained browser stack', () => {
+describe('original Game C++ class-name initializers on the retained browser stack', () => {
   it('rejects a caller-shaped or foreign heap before constructing the Game startup graph', () => {
     const f = fixture();
     const otherPlatform = platformFixture();
@@ -48,7 +50,7 @@ describe('first Game C++ initializer on the retained browser stack', () => {
   });
   it('runs original CALL, static result store and RET before selecting the next original slot', () => {
     const f = fixture();
-    expect(f.game.attachProgress.nextBoundary).toEqual({ name: 'indirectSourceCall', address: '20466654', target: '204b11c0' });
+    expect(f.game.attachProgress.nextBoundary).toEqual({ name: 'indirectSourceCall', address: '20466654', target: '204b11d0' });
     const owner = NativeGameLayerBaseClassName.forCrt(f.game.crt, f.memory);
     expect(fact(fact(owner.get()).text())).toBe('eCProcessibleElement');
     expect(owner.fields.readUnsigned(8)).toBe(3);
@@ -62,17 +64,45 @@ describe('first Game C++ initializer on the retained browser stack', () => {
     const effects = f.game.attachProgress.setEnvpProgress!.effects.map(effect => effect.pc);
     for (const address of ['204b11b0', '204b11b5', '204b11ba']) expect(effects).toContain(address);
     const exit = NativeGameExitTable.forCrt(f.game.crt);
-    expect(exit.snapshot().callbackCells).toHaveLength(2);
+    expect(exit.snapshot().callbackCells).toHaveLength(3);
     expect(owner.snapshot().registeredCallback).toMatchObject({ entry: '20034649', label: 'layerBaseClassNameDestructor' });
     const before = f.game.bootstrap.attachProgress();
     expect(fact(createBrowserGameCrtStartup(f.platform, f.memory))).toBe(f.game);
     expect(fact(createBrowserGameCrtStartup(f.platform))).toBe(f.game);
     f.game.bootstrap.processAttach();
     expect(f.game.bootstrap.attachProgress()).toEqual(before);
-    expect(exit.snapshot().callbackCells).toHaveLength(2);
+    expect(exit.snapshot().callbackCells).toHaveLength(3);
     const replacement = new NativeMemoryAdmin(f.platform, { extensions: [nativeNpcHeapExtension] });
     expect(createBrowserGameCrtStartup(f.platform, replacement).known).toBe(false);
     expect(f.game.crt.imageStorage('scriptAdminClassName').readUnsigned(8)).toBe(0);
+    const objectRef = NativeGameLayerBaseClassName.forObjectRefCrt(f.game.crt, f.memory);
+    expect(fact(fact(objectRef.get()).text())).toBe('bCObjectRefBase');
+    expect(objectRef.fields).not.toBe(owner.fields);
+    expect(objectRef.fields.readUnsigned(8)).toBe(3);
+    const objectRefResult = objectRef.initializerResult.pointer<{ fields: unknown; offset: number }>(0).get();
+    expect(objectRefResult?.fields).toBe(objectRef.fields);
+    expect(objectRefResult?.offset).toBe(0);
+    for (const address of ['204b11c0', '204b11c5', '204b11ca']) expect(effects).toContain(address);
+    expect(calls.find(call => call.site === '204b11c0')).toMatchObject({ returned: true });
+    expect(objectRef.snapshot().registeredCallback).toMatchObject({ entry: '20007a81', label: 'objectRefClassNameDestructor' });
+    expect(NativeGameLayerBaseClassName.forObjectRefCrt(f.game.crt, f.memory)).toBe(objectRef);
+    expect(() => NativeGameLayerBaseClassName.forObjectRefCrt(f.game.crt, replacement)).toThrow(/MemoryAdmin/);
+  });
+  it('retains the second getter CALL and its guards when its own string pool is unavailable', () => {
+    const f = fixture(true, false);
+    expect(f.game.attachProgress.nextBoundary).toEqual({ name: 'translatedCrtCall', address: '204b11c0', target: '2002c9f8' });
+    expect(f.game.attachProgress.setEnvpProgress!.boundary).toContain('24 bytes is not audited');
+    expect(f.stack.snapshot().calls.filter(call => !call.returned).map(call => call.site))
+      .toEqual(['204678f2', '20466654', '204b11c0']);
+    expect(f.game.crt.imageStorage('objectRefClassName').readUnsigned(8)).toBe(3);
+    expect(f.game.crt.imageStorage('objectRefInitializerResult').pointer(0).get()).toBeNull();
+    expect(f.game.crt.imageStorage('objectRefTypeInfoDescriptor').pointer(4).get()).not.toBeNull();
+    expect(NativeGameExitTable.forCrt(f.game.crt).snapshot().callbackCells).toHaveLength(2);
+    const first = NativeGameLayerBaseClassName.forCrt(f.game.crt, f.memory);
+    expect(fact(fact(first.get()).text())).toBe('eCProcessibleElement');
+    const before = f.game.bootstrap.attachProgress();
+    f.game.bootstrap.processAttach();
+    expect(f.game.bootstrap.attachProgress()).toEqual(before);
   });
   it('retains both physical CALL frames and the completed prefix at a missing string allocation', () => {
     const f = fixture(false);
