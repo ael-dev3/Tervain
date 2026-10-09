@@ -60,7 +60,10 @@ passed in 57.07 seconds.
 Revision `a270bd46` integrates main's reviewed presentation fixes. Its Gothic
 runtime, evidence and focused-test paths are unchanged from `452ad563`.
 PR #183's preceding PE checkpoint deployed successfully in Pages run
-`37884441618`. This math continuation has not yet been published. Full startup,
+`37884441618`. The math continuation merged through PR #184 at
+`b03a143f0b01839430046792b8ea51132c5b3220` after CI run `37886867264` succeeded.
+Pages run `37887566918` is in progress; successful deployment is not yet verified.
+Full startup,
 world/NPC activation, campaign saves and a playable ending remain unfinished.
 
 ## Local checkpoint — 9 October 2026: Game cinit and PE protection check
