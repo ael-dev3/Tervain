@@ -27,9 +27,13 @@ The integrated service reaches Arena Status with its actual PTD and returns
 from LocaleUpdate. Its next unsupported formatter instruction is `100b53b0`.
 Five focused checks across the combined-startup and production-service files
 pass using the repository's 30-second CI timeout; typechecking also passes.
-Full validation, a production build and browser observation remain pending for
-this integration. The complete DLL wrapper, NPC activation and campaign remain
-unfinished.
+The production build at `968db386` passed in 49.28 seconds. Its full suite is
+running against unchanged sources in the separate validation checkout.
+The preceding canonical GUID storage change passed 350 checks across the
+SharedBase CRT and combined-startup files in 348.49 seconds. This receipt covers
+the storage change, rather than the later production ordering and adoption.
+Browser observation remains pending for this integration. The complete DLL
+wrapper, NPC activation and campaign remain unfinished.
 
 ### SharedBase prerequisite integration finding
 
