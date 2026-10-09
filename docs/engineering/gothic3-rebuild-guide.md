@@ -70,12 +70,21 @@ The subsequent startup bridge invokes the existing translated Arena Status
 initializer through its original table slot `2056c370`. Its actual CALL frame
 remains pending. Descriptor construction, Create and property-array insertion
 complete: the canonical Arena type retains one Status descriptor with capacity
-nine. Registration stops at Message.Debug (`10088191`) because the SharedBase
-static TLS module has not loaded. This bridge does not interpret the initializer's
+nine. Browser startup now loads the pinned SharedBase static TLS template on
+the retained logical thread before entering Game startup, using the existing
+virtual loader's declared slot zero. This supplies loader state; SharedBase CRT
+initialization and DLL attachment remain separate unfinished prerequisites.
+Canonical startup checks retain the actual same-platform TLS owner.
+Registration passes TLS lookup and prepares its actual FILE buffer, then stops
+at the unsupported output formatter (`100b5355`, called from `100a7eff`).
+This bridge does not interpret the initializer's
 lower instructions on the startup stack, and it does not claim a returned
-initializer or completed property registration. Eight focused checks across two
+initializer or completed property registration. Eleven focused checks across three
 files and typechecking pass; broad validation and browser proof remain pending.
 The preceding root-return build at `45b1e5d5` passed in 43.99 seconds.
+The root-insertion revision `6d7c14a7` passed all 3,185 tests across 294 files
+in 485.24 seconds and built in 44.31 seconds. These results apply to that earlier
+revision, before root cleanup registration, Status integration and TLS loading.
 The source package captures 589 instructions. Nineteen focused checks across two files
 and typechecking pass for this continuation; broader validation remains pending.
 The preceding MemoryAdmin-getter revision `e67f69e8` has a passing production

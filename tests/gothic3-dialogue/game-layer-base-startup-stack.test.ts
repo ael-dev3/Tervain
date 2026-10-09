@@ -15,6 +15,8 @@ import { NativeGameExitTable } from '../../src/gothic3/native-game-crt-exit-tabl
 import { NativeGameArenaType } from '../../src/gothic3/native-game-arena-type';
 import { NativeGameArenaStatusProperty } from '../../src/gothic3/native-game-arena-status-property';
 import { NativeHeapObjectViews } from '../../src/gothic3/native-heap-views';
+import { NativeSharedStaticTls } from '../../src/gothic3/native-shared-static-tls';
+import { NativeSharedMessageDebug } from '../../src/gothic3/native-shared-message-debug';
 import { NativePropertySingleton } from '../../src/gothic3/native-property-singleton';
 import { NativeGameClassName } from '../../src/gothic3/native-game-class-name-family';
 import { gameClassNameSpec, gameClassNameFamilySpecs } from '../../src/gothic3/native-game-class-name-family-source';
@@ -56,7 +58,7 @@ describe('original Game C++ class-name initializers on the retained browser stac
       reason: f.game.attachProgress.setEnvpProgress!.boundary,
       callbacks: NativeGameExitTable.forCrt(f.game.crt).snapshot().callbackCells.length }).toEqual({
         next: { address: '20466654', name: 'translatedCrtCall', target: '204b1dd0' },
-        reason: 'Translated Arena Status initializer pending: Property registration Message.Debug at 10088191: SharedBase static TLS module has not loaded', callbacks: 159,
+        reason: 'Translated Arena Status initializer pending: Property registration Message.Debug at 10088191: Unowned SharedBase output formatter at 100b5355 called from 100a7eff', callbacks: 159,
       });
     const arenaRoot=f.game.crt.imageStorage('arenaRootWrapper');
     const arenaVtable=arenaRoot.pointer(0).get() as NativeBytePointer;
@@ -97,6 +99,8 @@ describe('original Game C++ class-name initializers on the retained browser stac
     expect(f.stack.snapshot().calls.filter(call=>!call.returned).map(call=>call.site))
       .toEqual(['204678f2','20466654']);
     const status=NativeGameArenaStatusProperty.forCrt(f.game.crt,f.memory);
+    expect(fact(NativeSharedStaticTls.forPlatform(f.platform)).snapshot()).toMatchObject({loaded:true,
+      virtualLoaderSlot:0,sharedCrtInitialized:false,dllAttachExecuted:false});
     expect(status.snapshot()).toMatchObject({baseConstructed:true,createCompleted:true,descriptorStored:true,
       initializerReturned:false,propertyRegistered:false});
     expect(status.fields).toBe(f.game.crt.imageStorage('arenaStatusDescriptor'));
@@ -106,6 +110,13 @@ describe('original Game C++ class-name initializers on the retained browser stac
     expect(arena.readUnsigned(16)).toBe(9);
     const properties=arena.pointer<{identity:object;bytes:Uint8Array;knownMask:Uint8Array;freed:boolean}>(8).get()!;
     expect(new NativeHeapObjectViews(properties,0,4).pointer(0).get()).toBe(status.fields);
+    const diagnostic=NativeSharedMessageDebug.forPlatform(f.platform).snapshot();
+    expect(diagnostic.file!.readUnsigned(4)).toBe(0x7fffffff);
+    expect(diagnostic.file!.readUnsigned(12)).toBe(0x42);
+    const destination=diagnostic.file!.pointer(0).get() as NativeBytePointer;
+    expect(destination.fields).toBe(diagnostic.buffer);
+    expect(destination.offset).toBe(0);
+    expect(diagnostic).toMatchObject({formatterReturned:false,terminatorWritten:false,messageDispatched:false,debugReturned:false});
     const completed = gameClassNameFamilySpecs.filter(spec => spec.initializer >= '204b11b0' && spec.initializer < '204b1d70');
     expect(completed).toHaveLength(154);
     for (const spec of completed)
