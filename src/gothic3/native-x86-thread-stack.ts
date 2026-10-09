@@ -5,6 +5,7 @@ import {nativeMaskedBitfieldAssignment} from './native-masked-bitfield';
 import type { NativeValue } from './dialogue';
 import { NativeHeapObjectViews } from './native-heap-views';
 import type { NativeMemoryBacking } from './native-memory-admin';
+import { NativeMemoryAdmin } from './native-memory-admin';
 import { NativeSharedCrtOwner } from './native-shared-crt';
 import { sharedCommandLineInstruction } from './native-shared-command-line-instructions';
 import {sharedDllEntryInstruction} from './native-shared-dll-entry-instructions';
@@ -53,6 +54,7 @@ export type NativeX86Lane = 'low8' | 'high8' | 'low16';
 type Width = 1 | 2 | 4;
 interface Allocation { readonly physical?: NativeHeapObjectViews; readonly originalPointer?: NativeBytePointer; readonly fields: NativeHeapObjectViews; readonly heap: NativeWin32HeapCapability; readonly crt: NativeModuleCrtOwner; readonly ptd?: true; }
 type WordRecord = Readonly<{ value: number; mask: number; provenance?:
+  Readonly<{ kind: 'arena-memory-admin'; owner:NativeMemoryAdmin }> |
   Readonly<{ kind: 'stack'; offset: number }> |
   Readonly<{ kind: 'shared-local'; fields:NativeHeapObjectViews; offset?:number }> |
   Readonly<{ kind: 'module'; label: string; fields: NativeHeapObjectViews; offset: number }> |
@@ -2837,6 +2839,23 @@ export class NativeX86ThreadStack {
     }
     if(value!==0x2002adfb)throw new Error('Original Arena factory virtual slot changed');
     return this.#source('code','2002adfb');
+  }); }
+  callArenaMemoryAdminGetter(controller:object,next:string):NativeValue<void> { return this.#run(controller,()=>{
+    const binding=this.#setEnvpBinding;
+    if(!binding || binding.controller!==controller)throw new Error('Actual retained Game startup controller required');
+    const point=NativeGameCrtSetEnvp.canonicalArenaMemoryGetterCallForCrt(binding.owner,binding.crt,controller);
+    if(!point.known)throw new Error(point.reason);
+    if(next!=='1008ddc0' || this.#calls.filter(call=>!call.returned).at(-1)?.site!=='1008eb30')
+      throw new Error('Actual retained Arena reserve return frame required');
+    const memory=nativeGameLayerBaseMemoryForCrt(binding.crt as NativeGameCrtOwner); if(!memory.known)throw new Error(memory.reason);
+    if(!NativeMemoryAdmin.prototype.usesPlatform.call(memory.value,this.#platform))throw new Error('Actual same-platform SharedBase MemoryAdmin required');
+    this.#call('1008ddbb',next);
+    const result=NativeMemoryAdmin.prototype.getInstance.call(memory.value); if(!result.known)throw new Error(result.reason);
+    if(result.value!==memory.value)throw new Error('Actual retained SharedBase MemoryAdmin singleton required');
+    this.#store(this.#bank,this.#reg('EAX'),this.#mint(0,0,{kind:'arena-memory-admin',owner:result.value}));
+    const returned=this.#ret(0), source=this.#record(returned).provenance;
+    if(source?.kind!=='source' || source.type!=='code' || source.address!==next)
+      throw new Error('Actual Arena MemoryAdmin getter return required');
   }); }
   callArenaPropertySingleton(controller:object,site:string,next:string):NativeValue<void> { return this.#run(controller,()=>{
     const binding=this.#setEnvpBinding;

@@ -53,8 +53,8 @@ describe('original Game C++ class-name initializers on the retained browser stac
     expect({ next: f.game.attachProgress.nextBoundary,
       reason: f.game.attachProgress.setEnvpProgress!.boundary,
       callbacks: NativeGameExitTable.forCrt(f.game.crt).snapshot().callbackCells.length }).toEqual({
-        next: { address: '1008ddbb', name: 'sourceCall', target: '10002aae' },
-        reason: 'Unowned original environment CALL at1008ddbb: CALL 0x10002aae', callbacks: 157,
+        next: { address: '1008ddc2', name: 'sourceCall', target: '10004133' },
+        reason: 'Unowned original environment CALL at1008ddc2: CALL 0x10004133', callbacks: 157,
       });
     const arenaRoot=f.game.crt.imageStorage('arenaRootWrapper');
     const arenaVtable=arenaRoot.pointer(0).get() as NativeBytePointer;
@@ -74,7 +74,7 @@ describe('original Game C++ class-name initializers on the retained browser stac
     expect(f.stack.snapshot().calls.find(call=>call.site==='200705d2')).toMatchObject({returned:true,
       returnWord:{provenance:{kind:'source',type:'code',address:'200705d4'}}});
     expect(f.game.crt.imageStorage('arenaRootTypeVtable').readUnsigned(12)).toBe(0x2002adfb);
-    for(const site of ['1008d1a3','1008d1aa','1008d1b9'])
+    for(const site of ['1008d1a3','1008d1aa','1008d1b9','1008ddbb'])
       expect(f.stack.snapshot().calls.find(call=>call.site===site)).toMatchObject({returned:true});
     const factory=NativeGameArenaType.forCrt(f.game.crt,f.memory).factory;
     expect(factory.pointer(4).get()).toBeNull();

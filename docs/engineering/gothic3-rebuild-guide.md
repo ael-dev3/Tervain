@@ -51,11 +51,13 @@ The latest local Arena registration continuation executes the SharedBase
 singleton getter, registration-enabled check and root-flag query. It follows
 the empty factory-array branch into the original insertion body and requests
 space for one entry. The original reserve body computes capacity nine and a
-36-byte allocation request. Startup stops at `1008ddbb -> 10002aae`, before
-the MemoryAdmin getter and allocation. The factory array pointer remains NULL, with count
+36-byte allocation request. Its MemoryAdmin getter uses the existing recovered
+implementation and returns the actual same-platform owner through the retained
+CALL/RET frame. Its opaque identity becomes the original realloc receiver.
+Startup stops at `1008ddc2 -> 10004133`, before realloc. The factory array pointer remains NULL, with count
 and capacity both zero; registration and the root initializer have not returned.
-The source package captures 480 instructions. All five startup-stack checks
-pass for this latest reserve continuation; broader validation remains pending.
+The source package captures 542 instructions. All five startup-stack checks
+and typechecking pass for this continuation; broader validation remains pending.
 Full-suite, build, browser and deployment evidence for this continuation remain
 pending.
 
