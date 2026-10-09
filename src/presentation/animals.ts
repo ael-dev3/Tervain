@@ -365,6 +365,8 @@ export interface AnimalWildlife extends SceneModule {
    * last asked: a four-beat stride strikes at each quarter of its clip.
    */
   rideGait(id: string): { phase: number | null; gait: 'Idle' | 'Walk' | 'Run'; footfalls: number } | null;
+  /** The animals' roots, drawn between fixed simulation steps (A72). */
+  movers?(): readonly THREE.Object3D[];
 }
 
 /** Independent peaceful wildlife controllers with optional durable hunting presentation. */
@@ -504,6 +506,7 @@ export function buildAnimals(ctx: Pick<BuildContext, 'terrain' | 'colliders' | '
 
   return {
     group,
+    movers: () => animals.map(animal => animal.root),
     setPeople(next) { people = next; },
     syncHunting: (records, restore) => hunting.syncHunting(records, restore),
     mount(id) {
@@ -707,5 +710,6 @@ export function deferredWildlife(): AnimalWildlife & { attach(inner: AnimalWildl
     mount: (id) => inner?.mount(id) ?? null,
     ride(id, at) { inner?.ride(id, at); },
     rideGait: (id) => inner?.rideGait(id) ?? null,
+    movers: () => inner?.movers?.() ?? [],
   };
 }

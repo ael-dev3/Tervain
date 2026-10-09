@@ -53,6 +53,18 @@ plays the forward walk.
   shadow-casting hearth light is a hard limit of the current materials: it needs one more texture unit than the richest
   lit materials have free, and on high quality the world drew white.
 
+## Fixed steps and interpolated drawing (A72)
+
+The world now advances in fixed steps of 1/60 s ([`frameTiming.ts`](../../src/platform/frameTiming.ts)): each frame
+adds its interval to an accumulator and runs as many whole steps as it holds, carrying the remainder. A frame longer than
+0.15 s still advances the world by 0.15 s only (at most 9 steps), and hidden or loading time is never replayed. Each
+frame is drawn once, after its steps: the hero, the camera, residents, bandits, animals (the ridden deer too) and arrows
+are placed between their last two stepped transforms by the carried remainder, then put back, so gameplay only sees its
+own stepped state; skinned rigs keep their latest pose while their roots move between. On a 144 Hz display a hero
+moving at constant speed is drawn the same distance further each frame (a test holds it to 1e-6 m). Presses and mouse
+movement count in a frame's first step; on a fast display, frames between steps keep them for the next step. Physics
+props keep their own interpolation between Rapier steps.
+
 ## Performance evidence
 
 The production build served locally, high quality, headless Chromium on Direct3D 11 at 1280×720 on one development

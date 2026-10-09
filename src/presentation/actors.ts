@@ -161,12 +161,16 @@ export function finishNpcPath(path: V2[] | null, goal: V2, ctx: Pick<ActorContex
 
 export class NpcActor {
   readonly def: NpcDef;
-  readonly rig: Rig;
+  /** Their body: a stand-in with nothing to draw until their model arrives after the world opens (stage 2). */
+  rig: Rig;
+  /** Whether their model is here. Until it is they keep their schedule unseen: nobody can talk to them, bump into them or hear them. */
+  arrived: boolean;
   x = 0;
   z = 0;
   y = 0;
   yaw = 0;
-  hidden = false;
+  /** Indoors with no bed to be seen in, or not in the valley (their schedule's own absence). */
+  private absent = false;
   talking = false;
   /** Conversation reservations pause a route; only an actual voiced turn gestures. */
   speaking = true;
@@ -204,9 +208,10 @@ export class NpcActor {
   private readonly approachGreeting: NpcApproachGreeting | null;
   mode: Mode = 'idle';
 
-  constructor(def: NpcDef, rig?: Rig) {
+  constructor(def: NpcDef, rig?: Rig, arrived = true) {
     this.def = def;
     this.rig = rig ?? createNpcRig(def);
+    this.arrived = arrived;
     this.clock = (npcSeed(def.id) % 1000) / 100;
     this.approachGreeting = def.approachGreeting ? new NpcApproachGreeting(def.approachGreeting) : null;
     this.rig.root.traverse((o) => {
@@ -216,6 +221,35 @@ export class NpcActor {
 
   get id(): NpcId {
     return this.def.id;
+  }
+
+  /** Not to be seen or met: away by their schedule, or their model still on its way (stage 2). */
+  get hidden(): boolean {
+    return this.absent || !this.arrived;
+  }
+
+  set hidden(value: boolean) {
+    this.absent = value;
+  }
+
+  /** Out of sight by their own schedule, whether or not their model is here. */
+  get away(): boolean {
+    return this.absent;
+  }
+
+  /**
+   * Their model has arrived (stage 2): it takes the stand-in's place in the scene, where they are now, and they can be met.
+   * The next update shows and poses it.
+   */
+  adoptRig(rig: Rig) {
+    const old = this.rig, parent = old.root.parent;
+    rig.root.traverse((o) => { o.userData.npc = this.def.id; });
+    rig.root.visible = false;
+    if (parent) { parent.add(rig.root); parent.remove(old.root); }
+    this.rig = rig;
+    this.arrived = true;
+    this.poseWait = 0;
+    this.placeRig();
   }
 
   get interactable(): boolean {
@@ -270,7 +304,7 @@ export class NpcActor {
     this.navVersion = ctx.colliders.version;
     // Loaded at night, a resident with a bed is found lying in it, never vanished at their door (A70).
     const berth = g.activity === 'rest' ? this.berthOf(ctx) : null;
-    this.hidden = g.activity === 'rest' && !berth;
+    this.absent = g.activity === 'rest' && !berth;
     this.lying = berth;
     this.lie = berth ? 1 : 0;
     this.seatedFor = berth ? 2 : 0;
@@ -466,7 +500,7 @@ export class NpcActor {
     if (!avail) {
       this.unavailable = true;
       this.speed = 0;
-      this.hidden = true;
+      this.absent = true;
       this.rig.root.visible = false;
       return;
     }
@@ -482,12 +516,12 @@ export class NpcActor {
       this.goal = goal;
       if (goal.activity === 'rest') this.berthOf(ctx);
       this.destination = this.placeFor(goal, ctx);
-      if (this.hidden && goal.activity !== 'rest') {
+      if (this.absent && goal.activity !== 'rest') {
         if (wasResting || this.waking) {
           // Share a doorway in turns, rather than materialising two bodies on the same home anchor.
           this.waking = true;
         } else {
-          this.hidden = false;
+          this.absent = false;
           appeared = true;
         }
       }
@@ -502,12 +536,12 @@ export class NpcActor {
     if (this.waking) {
       const y = ctx.terrain.groundAt(this.x, this.z);
       const resolved = ctx.colliders.resolve(this.x, this.z, NPC_RADIUS, `person:${this.id}`, { minY: y + .02, maxY: y + this.rig.height }, contacts);
-      if (Math.hypot(resolved.x - this.x, resolved.z - this.z) < .001) { this.hidden = false; this.waking = false; this.faceRoute(); }
+      if (Math.hypot(resolved.x - this.x, resolved.z - this.z) < .001) { this.absent = false; this.waking = false; this.faceRoute(); }
     }
 
     this.routeRetry = Math.max(0, this.routeRetry - dt);
     if (this.navVersion !== ctx.colliders.version) { this.navVersion = ctx.colliders.version; this.routeRetry = 0; }
-    if (!this.hidden && !this.talking && !this.atDestination() && this.routeRetry === 0 && (!this.path || this.stuck > 1.5 && this.dynamicWait === 0)) this.planRoute(ctx, this.viaMaint);
+    if (!this.absent && !this.talking && !this.atDestination() && this.routeRetry === 0 && (!this.path || this.stuck > 1.5 && this.dynamicWait === 0)) this.planRoute(ctx, this.viaMaint);
 
     this.clock += dt;
     const yawBefore = this.yaw;
@@ -517,7 +551,7 @@ export class NpcActor {
     const substeps = Math.max(1, Math.ceil(dt / .05)), stepDt = dt / substeps;
     for (let sub = 0; sub < substeps; sub++) {
       // Lain down, they first sit up on the bed's edge, then get to their feet, then walk (A70).
-      if (this.talking || this.hidden || this.lie > 0 || this.standDelay > 0) {
+      if (this.talking || this.absent || this.lie > 0 || this.standDelay > 0) {
         this.speed = 0;
         if (this.lie === 0) this.standDelay = Math.max(0, this.standDelay - stepDt);
         continue;
@@ -588,12 +622,12 @@ export class NpcActor {
         this.yaw = turnToward(this.yaw, this.placeYaw(ctx), NPC_TURN_STANDING, dt);
         // Off to rest from a seat, they are on their feet first (A69).
         // Someone without a bed still goes in at their door; everyone else goes to bed (A70).
-        if (this.goal.activity === 'rest' && !this.restBerth() && this.standDelay === 0 && Math.hypot(this.x - a.x, this.z - a.z) < 1.2) this.hidden = true;
+        if (this.goal.activity === 'rest' && !this.restBerth() && this.standDelay === 0 && Math.hypot(this.x - a.x, this.z - a.z) < 1.2) this.absent = true;
       }
     }
     // A turn on the spot is stepped round rather than glided like a statue on a turntable (A69).
     const turned = Math.abs(wrapAngle(this.yaw - yawBefore));
-    const stepping = !moving && !this.hidden && dt > 0 && turned > NPC_TURN_STEPPED * dt;
+    const stepping = !moving && !this.absent && dt > 0 && turned > NPC_TURN_STEPPED * dt;
     // With their own turn clips they step round where they stand (A71); otherwise the walk is stepped round in place.
     const inPlace = this.rig.resident?.stepsInPlace === true;
     const gait = moving ? travel : stepping && !inPlace ? turned * NPC_TURN_STRIDE * (this.rig.height / 1.8) : 0;
@@ -725,7 +759,10 @@ export interface EnemyContext {
 export class EnemyActor {
   readonly id: EncounterId;
   readonly spawn: EnemySpawn;
-  readonly rig: Rig;
+  /** Their body: a stand-in with nothing to draw until a bandit's model arrives after the world opens (stage 2). */
+  rig: Rig;
+  /** Whether their model is here. Until it is they wait unseen at their post, out of every fight. */
+  arrived: boolean;
   x: number;
   z: number;
   y = 0;
@@ -746,8 +783,9 @@ export class EnemyActor {
   private readonly cfg: { speed: number; reach: number; wind: number; strike: number; recover: number; damage: number; notice: number; leash: number; heavy: boolean };
   readonly name: string;
 
-  constructor(spawn: EnemySpawn, rig?: Rig) {
+  constructor(spawn: EnemySpawn, rig?: Rig, arrived = true) {
     this.spawn = spawn;
+    this.arrived = arrived;
     this.id = spawn.id;
     this.x = spawn.x;
     this.z = spawn.z;
@@ -769,7 +807,19 @@ export class EnemyActor {
   }
 
   get alive() {
-    return this.state !== 'dead';
+    return this.arrived && this.state !== 'dead';
+  }
+
+  /** A bandit's model has arrived (stage 2): it takes the stand-in's place where they wait, and they can fight. */
+  adoptRig(rig: Rig) {
+    const old = this.rig, parent = old.root.parent;
+    rig.root.traverse((o) => { o.userData.enemy = this.id; });
+    rig.root.visible = old.root.visible;
+    rig.root.position.copy(old.root.position);
+    rig.root.rotation.copy(old.root.rotation);
+    if (parent) { parent.add(rig.root); parent.remove(old.root); }
+    this.rig = rig;
+    this.arrived = true;
   }
 
   get radius() {
@@ -778,7 +828,7 @@ export class EnemyActor {
 
   /** Apply a hit from the player. Returns true if this hit killed the enemy. */
   takeHit(damage: number, heavy: boolean, fromX: number, fromZ: number): boolean {
-    if (this.state === 'dead') return false;
+    if (this.state === 'dead' || !this.arrived) return false;
     this.hp -= damage;
     this.rig.hitFlash = 1;
     this.engaged = true;
@@ -855,6 +905,8 @@ export class EnemyActor {
   }
 
   update(dt: number, ctx: EnemyContext) {
+    // Waiting for their model, they keep their post out of sight (stage 2).
+    if (!this.arrived) return;
     if (this.routeState !== this.state) {
       this.route.reset();
       this.routeState = this.state;

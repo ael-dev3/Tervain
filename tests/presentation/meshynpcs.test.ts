@@ -427,14 +427,22 @@ describe('Meshy resident transport, selective loading and retry', () => {
     await subject.loadMeshyNpcCatalog(); expect(fetchMock).toHaveBeenCalledTimes(3);
   });
 
-  it('rejects empty or unknown role selections before fetching and keeps valid menu loading available', async () => {
-    await expect(subject.loadMeshyNpcCatalog(undefined, [])).rejects.toThrow(/requested resident roles/);
+  it('rejects unknown role selections before fetching and keeps valid menu loading available', async () => {
     await expect(subject.loadMeshyNpcCatalog(undefined, ['unknown'])).rejects.toThrow(/requested resident roles/);
     expect(fetchMock).not.toHaveBeenCalled();
     const value = manifest();
     fetchMock.mockImplementation(async url => new Response(String(url).endsWith('manifest.json') ? JSON.stringify(value) : glb()));
     await expect(subject.loadMeshyNpcCatalog(undefined, ['menu:warden'])).resolves.toBeInstanceOf(subject.MeshyNpcCatalog);
     expect(fetchMock).toHaveBeenCalledTimes(2);
+  });
+
+  it('opens an empty selection (a journey far from everyone, stage 2) with the manifest alone and no model', async () => {
+    const value = manifest();
+    fetchMock.mockImplementation(async url => new Response(String(url).endsWith('manifest.json') ? JSON.stringify(value) : glb()));
+    const catalog = await subject.loadMeshyNpcCatalog(undefined, []);
+    expect(catalog.has('menu:warden')).toBe(false);
+    expect(catalog.standIn('menu:warden', 1.1).height).toBeCloseTo(value.assets[0]!.height * 1.1);
+    expect(fetchMock.mock.calls.map(([url]) => String(url)).every(url => !url.endsWith('.glb'))).toBe(true);
   });
 
   it('releases failed menu/world selections together while retaining a successful sibling model for Retry', async () => {
