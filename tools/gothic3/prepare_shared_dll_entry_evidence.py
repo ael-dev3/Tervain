@@ -109,6 +109,9 @@ def capture(study, output):
         0x10006c1c: 'dllMessageErrorGet',
         0x10008b11: 'dllMessageSpyGet',
         0x100089e5: 'dllMessageSpyCreate',
+        0x10001334: 'dllMessageSpieGet',0x10008887:'dllMessageSpieCreate',
+        0x100acc93:'dllSpieFopen',0x100acbcf:'dllSpieOpenFile',
+        0x100bfd6f:'dllSpieAcquireStream',0x100bfacf:'dllSpieOpenStream',0x100bf012:'dllSpieLockFile',0x100bfe96:'dllSpieStreamUnlock',
         0x10007cac:'dllMessageRegister',0x1000631b:'dllMessageReserve',
         0x10004133:'dllErrorBufferMalloc',0x100052fe:'dllErrorBufferHeapAllocate',0x10007644:'dllLargePoolDispatch',0x10007aa9:'dllLargePoolInitialize',
         0x10001db1:'dllErrorCreate',0x100032c4:'dllErrorInvalidate',0x10001c21:'dllMessageRemove',
@@ -144,6 +147,8 @@ def capture(study, output):
             'instruction': f'JMP dword ptr [0x{iat:08x}]', 'import': receipt})
     result['coldImages'] = []
     for label, address, size in [
+        ('dllSpieStreamScope',0x100f8e20,28),('dllSpieCommitMode',0x102f6f88,4),('dllSpieOpenedFileCount',0x102f6ad4,4),
+        ('dllSpieState',0x10197dc0,28),('dllSpieGuard',0x10197de4,4),('dllSpieOpenFileScope',0x100f8730,28),
         ('dllSpyShutdownSource',0x100e2890,41),
         ('dllSpyState',0x101ab11c,32),('dllSpyGuard',0x101ab144,4),
         ('dllErrorShutdownSource',0x100e2770,22),
@@ -168,7 +173,7 @@ def capture(study, output):
         raw, section = image_bytes(pe, address, size)
         result['coldImages'].append({'label': label, 'address': f'{address:08x}',
             'size': size, 'bytes': raw.hex(), 'section': section})
-    for label, address in [('dllSpyWindowTitle',0x100e8114),('dllLogSourceFile', 0x100e7df8), ('procedureName', 0x100e8210), ('translationQuery', 0x100e81ec),
+    for label, address in [('dllSpieFilename',0x100e8088),('dllSpieFileMode',0x100e8094),('dllSpyWindowTitle',0x100e8114),('dllLogSourceFile', 0x100e7df8), ('procedureName', 0x100e8210), ('translationQuery', 0x100e81ec),
             ('translatedVersionQuery', 0x100e81b4), ('localeVersionQuery', 0x100e8188),
             ('versionDelimiter', 0x100e820c)]:
         value = pe.string(address)
