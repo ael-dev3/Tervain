@@ -10785,3 +10785,21 @@ rejected before lock 11 construction or descriptor writes. Independent evidence
 regeneration matches 61 bodies and 4,195 original body instructions. Full-suite
 and production-build validation are pending. This local continuation has no
 production caller; complete engine startup and campaign play remain unfinished.
+
+
+### Descriptor validation follow-up (local work, 2026-10-09)
+
+The production build passed. The first full run passed 2,989 tests and had one
+existing ErrorAdmin variable-pool fixture exceed its five-second limit at
+5.068 seconds. The focused rerun passed. All remaining 19 tests that construct
+the complete version/startup fixture now have explicit 30-second limits;
+a comparison confirms their assertions and other code are unchanged.
+Typechecking and four focused checks pass after that adjustment. A full rerun
+is pending; no complete-suite success is claimed for this descriptor change yet.
+
+Separately, the deployed Ardea route was inspected in the Codex browser. Scene
+recovery reported 202 objects, 70 characters and three source routine positions.
+Entering Ardea completed Hero, journal and world-clock loading and rendered the
+scene with grounded Hero coordinates and HP 100/100. This is startup observation
+only: no campaign ending, full NPC behavior or save/reload playthrough was
+verified. PR #168 passed CI and was merged; its Pages deployment is pending.
