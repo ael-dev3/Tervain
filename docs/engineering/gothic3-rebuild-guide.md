@@ -104,7 +104,7 @@ CRT descriptor allocation and section initialization at commit
 `f7227a67fbab82208cd3e2f8945879166e354d78`.
 Its [validation run](https://github.com/ael-dev3/Tervain/actions/runs/37866293534)
 completed successfully. The [Pages deployment](https://github.com/ael-dev3/Tervain/actions/runs/37867316566)
-is still running at this documentation checkpoint.
+completed successfully. This establishes a deployed component checkpoint.
 
 Further local work executes the original `CreateFileA` return against an owned
 virtual filesystem. Missing and denied files use the original error table and

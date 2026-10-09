@@ -777,7 +777,7 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
     return result;
   }
   static ownsFileHandle(platform: NativeRuntimePlatform, handle: object): boolean {
-    return retainedRuntimePlatforms.has(platform) && !!platform.#fileSystem && NativeWin32FileSystem.prototype.owns.call(platform.#fileSystem, handle);
+    return NativeRuntimePlatform.requireActivePlatform(platform).known && !!platform.#fileSystem && NativeWin32FileSystem.prototype.owns.call(platform.#fileSystem, handle);
   }
   static fileTypeForPlatform(platform: NativeRuntimePlatform, handle: object): NativeValue<number> {
     const active = NativeRuntimePlatform.requireActivePlatform(platform); if (!active.known) return active;
