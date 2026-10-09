@@ -32,8 +32,15 @@ running against unchanged sources in the separate validation checkout.
 The preceding canonical GUID storage change passed 350 checks across the
 SharedBase CRT and combined-startup files in 348.49 seconds. This receipt covers
 the storage change, rather than the later production ordering and adoption.
-Browser observation remains pending for this integration. The complete DLL
-wrapper, NPC activation and campaign remain unfinished.
+A fresh production browser observation at `968db386` entered Ardea and inspected
+`Ardea_OutNovice_01` (11,280 triangles, two material meshes). The actual developer
+panel reports the formatter interruption at `100b53b0 (LocaleUpdate returned)`,
+4,576 environment/startup source operations and incomplete NPC activation:
+zero of sixteen attached property sets, with the ScriptAdmin getter still
+unconnected. The scene reports 202 objects, 70 characters and three source
+routine positions. This establishes production integration of the locale
+prerequisite, rather than campaign playability. The complete DLL wrapper,
+NPC activation and campaign remain unfinished.
 
 ### SharedBase prerequisite integration finding
 
