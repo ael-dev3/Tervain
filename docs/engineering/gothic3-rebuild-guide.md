@@ -93,7 +93,7 @@ Game startup continuations are connected to the browser startup stack.
 | --- | --- | --- |
 | Assets | Selected readers and viewers expose original world, tree and human resources for inspection. | Complete coverage and in-game visual fidelity. |
 | SharedBase startup | The supported absent-`zSpie.txt` profile returns `1` from the direct DLL entry after logging and callback dispatch. | Surrounding CRT wrapper, additional profiles and live Game integration. |
-| Game startup | Merged code executes the PE protection check, math initializer, pointer loop and C walker through exit-table initialization. The locally validated SSE continuation reaches `20466452 -> 2047470c` on the browser's retained stack. | FILE-table initialization, remaining startup dependencies and complete engine attachment. |
+| Game startup | Merged code executes through the SSE and multibyte C callbacks. The locally validated FILE continuation completes all five C callbacks and reaches `20466638 -> 204637ce` on the browser's retained stack. | Atexit registration, later startup dependencies and complete engine attachment. |
 | Campaign | The separate browser route can display the reconstructed Ardea scene. | Connected world/NPC activation, quest progression, campaign saves and a playthrough to an ending. |
 
 The Game PE checkpoint passed 3,082 tests, typechecking, source regeneration and
@@ -203,7 +203,10 @@ Integration revision `bc1dc060` incorporates main
 concern Tervain riding and saves. All seven squash-history conflict paths were
 verified identical between main and the reviewed PR #188 head before preserving
 the local continuation. Integration changed no Gothic runtime, source evidence,
-generators or checks. Combined-revision validation is pending.
+generators or checks. Combined-revision validation passed: 85 focused checks
+across five files (including riding), typechecking and a production build in
+28.79 seconds. The full-suite and browser observations above apply to the Gothic
+runtime preserved unchanged by this integration.
 
 Independent review of PR #187 decoded all 9,147 buffer views in its 107 changed
 GLBs against the previous revision: geometry, images and semantic metadata
