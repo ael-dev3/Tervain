@@ -25,7 +25,7 @@ The package also captures type cleanup `20549b30` and class-name cleanup
 from the original functions CSV, so their targeted disassembly is checked
 directly against the DLL. Wrapper cleanup `20549b80` remains uncaptured.
 
-Six image receipts distinguish original file-backed bytes from loader zero
+Seven image receipts distinguish original file-backed bytes from loader zero
 fill and retain section bounds. They are initial image evidence, not captured
 live object state. The generated TypeScript admission now supplies the actual
 initializer instructions and canonical image receipts to browser startup.
@@ -35,7 +35,10 @@ initializer installs its actual vtable pointer. Startup stops at the type
 getter call `204b214f -> 20035a08` in the preceding wrapper checkpoint.
 The later translated getter now sets its actual guard, constructs the
 property-type base with flag one and installs the derived vtable. It stops
-at `20073309 -> 20073120`, retaining the pending call and its CString owner.
+at `20073309 -> 20073120` in that earlier checkpoint. The class-name getter
+now demangles the original descriptor, constructs its retained CString,
+registers its captured cleanup thunk and returns. Its named factory then
+constructs at the type's `+0x18` subobject. Startup stops at `2007331f`.
 The FreePoint initializer has not returned or registered its type.
 
 Reproduce from the matching local study:
@@ -46,4 +49,4 @@ python tools/gothic3/prepare_freepoint_source.py --study '<study directory>' --o
 
 Two separate generations matched exactly for both JSON and generated TypeScript.
 JSON SHA-256 is
-`e7c50bab7e37e59c1f86f98445cc5df66227f6e7e867c52f27c9218b67186e52`.
+`a7a0df92c359be5b15458a5f41dbb6faa79079ac03a09a7da7e00085a3058fd4`.

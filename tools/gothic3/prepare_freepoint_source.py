@@ -46,6 +46,10 @@ def capture(study):
         assert rows[-1]['instruction'].startswith('JMP dword ptr')
         cleanup_receipts[label] = {'entry': rows[0]['va'], 'instructions': rows,
             'bodyInstructionBytesSha256': hashlib.sha256(b''.join(bytes.fromhex(row['bytes']) for row in rows)).hexdigest()}
+    thunk = pe.bytes(0x2002ec53, 5)
+    assert thunk.hex() == 'e908af5100'
+    assert 0x2002ec53 + 5 + int.from_bytes(thunk[1:], 'little', signed=True) == 0x20549b60
+    cleanup_receipts['classNameCleanup']['entryChain'] = [{'va':'2002ec53','bytes':thunk.hex(),'targetVA':'20549b60'}]
     images = []
     for address, size, label in [
         (0x207b511c, 16, 'freePointWrapper'),
@@ -54,6 +58,7 @@ def capture(study):
         (0x207b5114, 4, 'freePointClassNameInput'),
         (0x20659f94, 16, 'freePointTypeVtable'),
         (0x2065a074, 68, 'freePointWrapperVtable'),
+        (0x20798230, 8 + len('.?AVgCAIHelper_FreePoint_PS@@') + 1, 'freePointTypeInfoDescriptor'),
     ]:
         rva = address - pe.base
         section = next(s for s in pe.sections if s[1] <= rva and rva + size <= s[1] + max(s[0], s[2]))
@@ -96,6 +101,7 @@ export const freePointImagePins = Object.fromEntries(source.images.map(image=>[i
 freeze(freePointImagePins);
 export function freePointImageReceipt(label:string):NativeCrtImageReceipt {admitGameFreePointSource();const image=source.images.find(image=>image.label===label);if(!image)throw new Error('Unowned FreePoint image');return Object.freeze({...image,module:'Game' as const,scope:image.loaderZeroFillBytes?'cold-original-image':'original-file-backed-constant',knownMask:'ff'.repeat(image.bytes)});}
 export function freePointInitializerInstruction(pc:string):NativeGameIoInstruction {admitGameFreePointSource();const row=source.initializer.instructions.find(row=>row.va===pc);if(!row)throw new Error('Unowned FreePoint initializer instruction');return row;}
+export function freePointClassNameCleanupReceipt(){admitGameFreePointSource();const cleanup=source.cleanups.classNameCleanup;const chain=cleanup.entryChain;const thunk=chain[0];if(!thunk||cleanup.entry!=='20549b60'||chain.length!==1||thunk.va!=='2002ec53'||thunk.bytes!=='e908af5100'||thunk.targetVA!==cleanup.entry)throw new Error('Original FreePoint class-name cleanup differs');return Object.freeze({module:'Game' as const,entry:'2002ec53',body:cleanup.entry,entryChain:chain,bodyInstructionBytesSha256:cleanup.bodyInstructionBytesSha256});}
 """.replace('EXPECTED', expected)
         args.typescript.write_text(generated,encoding='utf-8',newline='\n')
     for method in source['module']['methods']:

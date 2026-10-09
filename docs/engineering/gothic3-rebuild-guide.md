@@ -46,8 +46,8 @@ Each feature goes through the following steps:
 
 **Current local boundary:** Arena Status, None and Running initialization
 return through the retained startup stack. The next unsupported callback is
-`20073309 -> 20073120`, the AI FreePoint class-name getter. Its preceding wrapper
-constructor, property-type base and original field stores now execute. Complete startup, world activation and
+`2007331f`, the AI FreePoint property singleton/registration path. Its wrapper,
+property-type base, class-name cache and named factory now construct. Complete startup, world activation and
 a new-game-to-ending campaign remain unfinished. Local checkpoints and the
 hosted version can differ; validation below identifies the checkpoint covered.
 
@@ -56,7 +56,25 @@ hosted version can differ; validation below identifies the checkpoint covered.
 The entries below describe successive local states, newest first. Statements
 about missing operations in older entries apply to those earlier checkpoints.
 
-### Current local checkpoint: FreePoint property-type base constructs
+### Current local checkpoint: FreePoint class name and factory construct
+
+The actual RTTI descriptor at `20798230` is captured from the matching Game
+DLL and admitted with its original decorated name. The class-name getter
+copies the prior static result into its cache, sets its two guard bits,
+uses the same Game CRT type-info demangler and SharedBase text constructor,
+and returns a retained CString containing `gCAIHelper_FreePoint_PS`.
+Its captured cleanup thunk `2002ec53 -> 20549b60` registers in the same exit
+table. Cleanup execution remains separate. The existing named-factory
+constructor then completes at the actual type's `+0x18` subobject.
+
+Startup stops at property singleton/registration at `2007331f`. Typechecking
+and 21 focused checks across three files pass; independent JSON and generated
+TypeScript regeneration match exactly. The preceding wrapper-only full suite
+passed 3,198 tests and failed one stale NPC-service frontier assertion, now
+updated and passing. Its build passed in 49.39 seconds. Broad validation of
+this later continuation remains pending. Full startup and campaign are unfinished.
+
+### Earlier local checkpoint: FreePoint property-type base constructs
 
 The actual initializer CALL at `204b214f` enters its translated type getter
 through the retained startup frame. The getter uses canonical type storage at

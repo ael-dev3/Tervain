@@ -17,6 +17,7 @@ import {createBrowserNpcRuntimeAdminOwner} from '../../src/gothic3/native-runtim
 import {NativeGameArenaStatusProperty} from '../../src/gothic3/native-game-arena-status-property';
 import {NativeGameArenaEnum} from '../../src/gothic3/native-game-arena-enum';
 import {NativeGameFreePointType} from '../../src/gothic3/native-game-freepoint-type';
+import {NativeGameFreePointClassName} from '../../src/gothic3/native-game-freepoint-class-name';
 
 function platformFixture(){
  return createBrowserGameCrtPlatform({processInputs:browserGameProcessInputs,
@@ -46,7 +47,7 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  expect(game.known).toBe(true);
  if(!game.known)throw new Error(game.reason);
  expect(game.value.attachResult).toEqual({known:false,
-  reason:'crtAttach204677e4: Unowned Original FreePoint class-name getter is not yet implemented at 20073309 -> 20073120'});
+  reason:'crtAttach204677e4: Unowned Original FreePoint property singleton registration is not yet implemented at 2007331f'});
  const freePoint=game.value.crt.imageStorage('freePointWrapper');
  const freePointVtable=freePoint.pointer<{fields:NativeHeapObjectViews;offset:number}>(0).get()!;
  expect(freePointVtable.fields).toBe(game.value.crt.imageStorage('freePointWrapperVtable'));
@@ -60,8 +61,15 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  expect(freePointType.base.pointer(8).get()).toBeNull();
  expect([12,16].map(offset=>freePointType.base.readUnsigned(offset))).toEqual([0,0]);
  expect(freePointType.base.readUnsigned(20,1)&1).toBe(1);
- expect(freePointType.snapshot()).toMatchObject({entered:true,baseConstructed:true,registered:false,initializerReturned:false});
- expect(freePointType.snapshot().trace).toEqual(['200732ed.type.guard1','200732f9.SharedBase.propertyTypeBase.return','200732ff.type.vtable20659f94']);
+ expect(freePointType.snapshot()).toMatchObject({entered:true,baseConstructed:true,factoryConstructed:true,registered:false,initializerReturned:false});
+ expect(freePointType.snapshot().trace).toEqual(['200732ed.type.guard1','200732f9.SharedBase.propertyTypeBase.return','200732ff.type.vtable20659f94','20073309.className.return','20073314.namedFactory.return']);
+ const freePointName=NativeGameFreePointClassName.forCrt(game.value.crt,memory),name=freePointName.get();
+ if(!name.known)throw new Error(name.reason);
+ expect(name.value.text()).toEqual({known:true,value:'gCAIHelper_FreePoint_PS'});
+ expect(freePointName.fields.readUnsigned(8)).toBe(3);
+ expect(freePointName.fields.pointer(4).get()).toBeNull();
+ expect(freePointName.snapshot().callback).toMatchObject({module:'Game',label:'freePointClassNameCleanup',entry:'2002ec53'});
+ expect(freePointName.get()).toEqual(name);
  const freePointBaseString=freePointType.base.pointer(4).get();
  expect(freePointType.get()).toEqual({known:false,reason:freePointType.snapshot().boundary});
  expect(freePointType.base.pointer(4).get()).toBe(freePointBaseString);

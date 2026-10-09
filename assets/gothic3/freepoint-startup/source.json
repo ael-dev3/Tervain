@@ -2743,7 +2743,14 @@
           "instruction": "JMP dword ptr [0x207d8834]"
         }
       ],
-      "bodyInstructionBytesSha256": "a500669138ec4825db52a03ce00e1a610128ed52b8769d0f300ee70eedffb3b5"
+      "bodyInstructionBytesSha256": "a500669138ec4825db52a03ce00e1a610128ed52b8769d0f300ee70eedffb3b5",
+      "entryChain": [
+        {
+          "va": "2002ec53",
+          "bytes": "e908af5100",
+          "targetVA": "20549b60"
+        }
+      ]
     }
   },
   "images": [
@@ -2841,6 +2848,22 @@
         "rawOffset": 5685248
       },
       "sha256": "c9f7c6f9eafb438bf3c94480af4e0075eb274c8328452fb0ca19952882b30ae1",
+      "liveValueCaptured": false
+    },
+    {
+      "label": "freePointTypeInfoDescriptor",
+      "address": "20798230",
+      "bytes": 38,
+      "raw": "74636b20000000002e3f41566743414948656c7065725f46726565506f696e745f5053404000",
+      "fileBackedBytes": 38,
+      "loaderZeroFillBytes": 0,
+      "section": {
+        "virtualAddress": 7954432,
+        "virtualSize": 248716,
+        "rawSize": 126976,
+        "rawOffset": 7954432
+      },
+      "sha256": "de679098effd3b65306432ae3f6922fc0950dad7ac1a57233fd10910aa4611ca",
       "liveValueCaptured": false
     }
   ],

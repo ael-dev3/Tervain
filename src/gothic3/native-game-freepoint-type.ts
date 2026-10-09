@@ -5,6 +5,7 @@ import {NativeMemoryAdmin} from './native-memory-admin';
 import {NativeHeapObjectViews} from './native-heap-views';
 import {NativePropertyObjectConstruction} from './native-property-object-construction';
 import {admitGameFreePointSource,freePointImageReceipt} from './native-game-freepoint-source';
+import {NativeGameFreePointClassName} from './native-game-freepoint-class-name';
 
 const owners=new WeakMap<NativeGameCrtOwner,NativeGameFreePointType>();
 const token=Object.freeze({});
@@ -13,6 +14,7 @@ export class NativeGameFreePointType {
  readonly fields:NativeHeapObjectViews;
  readonly base:NativeHeapObjectViews;
  #baseOwner:NativePropertyObjectConstruction|null=null;
+ #factoryOwner:NativePropertyObjectConstruction|null=null;
  #boundary:string|null=null;
  #entered=false;
  #trace:string[]=[];
@@ -52,9 +54,16 @@ export class NativeGameFreePointType {
    if(!base.known)throw new Error(base.reason);
    this.#baseOwner=base.value;this.#trace.push('200732f9.SharedBase.propertyTypeBase.return');
    this.fields.writeUnsigned(0,0x20659f94);this.#trace.push('200732ff.type.vtable20659f94');
-   throw new Error('Original FreePoint class-name getter is not yet implemented at 20073309 -> 20073120');
+   const name=NativeGameFreePointClassName.forCrt(this.crt,this.memory).get();
+   if(!name.known)throw new Error(name.reason);
+   this.#trace.push('20073309.className.return');
+   const begin=this.storage.bytes.byteOffset-this.storage.backing.bytes.byteOffset;
+   const factory=NativePropertyObjectConstruction.construct(this.memory,new NativeHeapObjectViews(this.storage.backing,begin+24,24),{kind:'namedFactory',name:name.value});
+   if(!factory.known)throw new Error(factory.reason);
+   this.#factoryOwner=factory.value;this.#trace.push('20073314.namedFactory.return');
+   throw new Error('Original FreePoint property singleton registration is not yet implemented at 2007331f');
   }catch(error){this.#boundary=error instanceof Error?error.message:String(error);return {known:false,reason:this.#boundary};}
  }
- snapshot(){return Object.freeze({boundary:this.#boundary,entered:this.#entered,baseConstructed:this.#baseOwner!==null,
+ snapshot(){return Object.freeze({boundary:this.#boundary,entered:this.#entered,baseConstructed:this.#baseOwner!==null,factoryConstructed:this.#factoryOwner!==null,
   initializerReturned:false,registered:false,trace:Object.freeze([...this.#trace])});}
 }
