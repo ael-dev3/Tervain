@@ -25,7 +25,7 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  expect(game.known).toBe(true);
  if(!game.known)throw new Error(game.reason);
  expect(game.value.attachResult).toEqual({known:false,
-  reason:'crtAttach204677e4: Unowned ioInit204742ff at204678ce'});
+  reason:'crtAttach204677e4: Unowned Original Game C++ initializer callback is not yet admitted at 204b11b0'});
  expect(owner.processAttach()).toEqual(result);
  expect(owner.snapshot().wholeCrtTraversalCompleted).toBe(false);
 });

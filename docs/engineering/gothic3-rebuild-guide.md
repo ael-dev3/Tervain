@@ -21,11 +21,14 @@ I/O selections and logical stack. The helper returns `1`, with its real PTD
 installed and initialized. This proves the selected helper path; the complete
 DLL wrapper remains unfinished.
 
-Running Game startup afterward currently stops at
-`crtAttach204677e4: Unowned ioInit204742ff at204678ce`. The retained stack's Game
-controller requires a cold phase and does not yet admit the returned SharedBase
-helper. Production ordering needs an explicit, verified module handoff before
-this prerequisite can be integrated. See
+The initial combined check stopped at Game's I/O entry because its controller
+required a cold stack. The local handoff now admits the returned SharedBase
+helper only after checking its actual canonical owner, installed PTD, completed
+CALL records, restored ESP and saved registers, restored FS chain and original
+`100adc7e` return continuation. It retains the same physical thread stack.
+Game then completes I/O and reaches its C++ initializers, stopping at
+`204b11b0` in the fixture without the class-name memory pools. Production
+ordering and complete DLL-wrapper integration remain pending. See
 `tests/gothic3-dialogue/browser-shared-crt-startup.test.ts` for the regression.
 
 All nine focused checks across three files and typechecking pass for the local

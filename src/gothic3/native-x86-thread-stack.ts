@@ -227,6 +227,7 @@ export class NativeX86ThreadStack {
   #configurationFrame:{controller:object;ebp:number;info:NativeHeapObjectViews;candidate:NativeX86Word32;codePage:number|null;memsetPending:boolean;pending:{call:NativeArgvNlsCallGrant;bytes:number;info:boolean}|null;returned:boolean}|null=null;
   #caseFrame:{controller:object;ebp:number;originalEbp:number;info:NativeHeapObjectViews;input:NativeHeapObjectViews;types:NativeHeapObjectViews;lower:NativeHeapObjectViews;upper:NativeHeapObjectViews;cpCall:NativeArgvNlsCallGrant|null;deferredBytes:number;tableIndex:number;wrapper:{stage:'classification'|'lower'|'upper';ebp:number;locale:NativeHeapObjectViews;localeReturned:boolean}|null;returned:boolean}|null=null;
   #phase: 'cold' | 'running' | 'returned' | 'blocked' | 'retired' = 'cold';
+  #sharedToGameHandoff = false;
   #boundary: string | null = null;
   #executing = false;
   #currentPc: NativeX86Word32 | null = null;
@@ -1976,7 +1977,27 @@ export class NativeX86ThreadStack {
     controller: object): NativeValue<void> {
     if (!NativeModuleCrtOwner.isConstructedOwner(crt) || !stack || graphs.get(crt.host.platform as NativeRuntimePlatform) !== stack) return unknown('Actual selected same-platform x86 graph required');
     const proof = NativeGameCrtIoInit.canonicalControllerForCrt(owner, crt, controller, 'bind'); if (!proof.known) return proof;
-    if (!NativeModuleCrtOwner.isConstructedOwner(crt) || crt.module !== 'Game' || crt.host.platform !== stack.#platform || stack.#phase !== 'cold') {
+    if(crt.module==='Game'&&crt.host.platform===stack.#platform&&stack.#phase==='returned'&&!stack.#binding&&!stack.#sharedToGameHandoff){
+      const shared=NativeSharedCrtOwner.forPlatform(stack.#platform);
+      const state=NativeSharedCrtOwner.prototype.snapshot.call(shared),frame=stack.#sharedCrtCallerFrame;
+      const continuation=stack.#currentPc?stack.#record(stack.#currentPc).provenance:null;
+      if(state.attachReturned!==1||!state.ptdInstalled||!state.ptdInitialized||!frame?.returned||
+        !stack.#sharedInitializerFrame?.fsRestored||
+        stack.#load(stack.#bank,32)!==stack.#sharedInitializerFrame.oldFs||
+        continuation?.kind!=='source'||continuation.type!=='code'||continuation.address!=='100adc7e'||
+        stack.#boundary||stack.#executing||stack.#calls.some(call=>!call.returned)||
+        stack.#address(stack.#load(stack.#bank,stack.#reg('ESP')))!==frame.entryEsp||
+        stack.#load(stack.#bank,stack.#reg('EBP'))!==frame.oldEbp||
+        stack.#load(stack.#bank,stack.#reg('EBX'))!==frame.oldEbx||
+        stack.#load(stack.#bank,stack.#reg('ESI'))!==frame.oldEsi||
+        stack.#load(stack.#bank,stack.#reg('EDI'))!==frame.oldEdi)
+        return unknown('Actual restored SharedBase CRT helper required for Game handoff');
+      stack.#physical(stack.#stack);stack.#physical(stack.#bank);
+      stack.#sharedToGameHandoff=true;
+      stack.#trace.push('SharedBase.returnedHelper.GameIoHandoff');
+    }
+    if (!NativeModuleCrtOwner.isConstructedOwner(crt) || crt.module !== 'Game' || crt.host.platform !== stack.#platform ||
+      (stack.#phase !== 'cold'&&!(stack.#phase==='returned'&&stack.#sharedToGameHandoff))) {
       return unknown('Actual cold same-Game x86 controller binding required');
     }
     const selected = NativeRuntimePlatform.threadStackSelectionForPlatform(stack.#platform);
@@ -3204,7 +3225,7 @@ export class NativeX86ThreadStack {
   beginIoCall(controller: object): NativeValue<void> {
     try { this.#controllerProof(controller); } catch (error) { return unknown(reason(error)); }
     try {
-      if (this.#phase !== 'cold') throw new Error(this.#boundary ?? 'Actual ioInit CALL cannot restart');
+      if (this.#phase !== 'cold'&&!(this.#phase==='returned'&&this.#sharedToGameHandoff&&!this.#initial)) throw new Error(this.#boundary ?? 'Actual ioInit CALL cannot restart');
       this.#phase = 'running'; return this.#run(controller, () => {
         this.#initial = Object.freeze({ esp: this.#load(this.#bank, this.#reg('ESP')), ebp: this.#load(this.#bank, this.#reg('EBP')),
           ebx: this.#load(this.#bank, this.#reg('EBX')), esi: this.#load(this.#bank, this.#reg('ESI')), edi: this.#load(this.#bank, this.#reg('EDI')), fs: this.#load(this.#bank, 32) });
