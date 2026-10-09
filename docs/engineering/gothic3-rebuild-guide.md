@@ -13,6 +13,24 @@ finishable campaign.
 
 ## How the rebuild works
 
+### Production prerequisite ordering: local integration
+
+The browser NPC service now invokes the existing SharedBase CRT helper before
+Game startup when using the complete browser process-input profile. It retains
+the actual initialized CRT owner. The CRT GUID copy and the GUID service share
+the canonical module source and destination, and the service adopts the completed
+CRT execution instead of replaying the selected initializer. Cold, incomplete
+and repeated adoption are rejected. Prefix-only research profiles retain their
+selected initializer path.
+
+The integrated service reaches Arena Status with its actual PTD and returns
+from LocaleUpdate. Its next unsupported formatter instruction is `100b53b0`.
+Five focused checks across the combined-startup and production-service files
+pass using the repository's 30-second CI timeout; typechecking also passes.
+Full validation, a production build and browser observation remain pending for
+this integration. The complete DLL wrapper, NPC activation and campaign remain
+unfinished.
+
 ### SharedBase prerequisite integration finding
 
 A local integration check now runs the existing SharedBase CRT process-attach

@@ -6,6 +6,18 @@ import { OriginalControlModuleState } from '../../src/gothic3/control-reading';
 describe('selected browser NPC platform services', () => {
   it('retains the actual shared Matrix module and registers its destructor once', () => {
     const owner = createBrowserNpcEntityServices({ crypto: { randomUUID }, now: () => 42 });
+    expect(owner.scriptAdminStartup.known).toBe(true);
+    if(!owner.scriptAdminStartup.known)throw new Error(owner.scriptAdminStartup.reason);
+    const startup=owner.scriptAdminStartup.value;
+    expect(startup.sharedCrt!.snapshot().attachReturned).toBe(1);
+    expect(startup.sharedCrt!.snapshot().ptdInstalled).toBe(true);
+    expect(startup.shared.snapshot().executionOrigin).toBe('returned-crt');
+    expect(startup.shared.snapshot().reachedInstructions).toEqual([]);
+    expect(startup.selectedOrder).toEqual(['SharedBase:100ada4c','Game:204677e4']);
+    expect(startup.propertyIdInvocation).toBe('not-entered');
+    expect(startup.prerequisites.attachResult.known).toBe(false);
+    if(startup.prerequisites.attachResult.known)throw new Error('Unfinished Game startup returned');
+    expect(startup.prerequisites.attachResult.reason).toContain('100b53b0 (LocaleUpdate returned)');
     const first = owner.control.matrixIdentity();
     const second = owner.control.matrixIdentity();
     expect(first.known).toBe(true);

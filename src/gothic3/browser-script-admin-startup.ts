@@ -11,12 +11,15 @@ import { NativeMemoryAdmin } from './native-memory-admin';
 import type { NativeErrorAdminModule } from './native-error-admin';
 import type { NativeRuntimePlatform } from './native-runtime-platform';
 import { NativeSharedGuidNull } from './native-shared-guid-null';
+import { NativeSharedCrtOwner } from './native-shared-crt';
+import { NativeSharedStaticTls } from './native-shared-static-tls';
 
 const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
 const unknown = (reason: string): { known: false; reason: string } => ({ known: false, reason });
 
 export interface BrowserScriptAdminStartup {
   readonly shared: NativeSharedGuidNull;
+  readonly sharedCrt: NativeSharedCrtOwner | null;
   readonly prerequisites: BrowserGameCrtStartup;
   readonly game: NativeGameScriptAdminStartup | null;
   /** Distinguishes a callback never entered from an actual returned result. */
@@ -25,7 +28,9 @@ export interface BrowserScriptAdminStartup {
    * callback retains its actual result, including a later lower interruption. */
   readonly propertyIdResult: NativeValue<void>;
   readonly selectedOrder: readonly ['SharedBase:100e1470', 'Game:204677e4'] |
-    readonly ['SharedBase:100e1470', 'Game:204677e4', 'Game:2051dcf0'];
+    readonly ['SharedBase:100e1470', 'Game:204677e4', 'Game:2051dcf0'] |
+    readonly ['SharedBase:100ada4c', 'Game:204677e4'] |
+    readonly ['SharedBase:100ada4c', 'Game:204677e4', 'Game:2051dcf0'];
   readonly crtTraversalCompleted: false;
   readonly nativeModuleInstantiated: false;
 }
@@ -72,6 +77,15 @@ export function createBrowserScriptAdminStartup(platform: NativeRuntimePlatform,
   };
   let result: NativeValue<BrowserScriptAdminStartup>;
   try {
+    let sharedCrt:NativeSharedCrtOwner|null=null;
+    if(compatibility.value.setEnvp){
+      const tls=NativeSharedStaticTls.forPlatform(platform);if(!tls.known)throw new Error(tls.reason);
+      const loaded=tls.value.loadSharedBase();if(!loaded.known)throw new Error(loaded.reason);
+      sharedCrt=NativeSharedCrtOwner.forPlatform(platform);
+      const attached=sharedCrt.processAttach();guard();
+      if(!attached.known)throw new Error('SharedBase CRT prerequisite incomplete: '+attached.reason);
+      if(attached.value!==1)throw new Error('SharedBase CRT prerequisite returned zero');
+    }
     const sharedResult = NativeSharedGuidNull.forPlatform(platform);
     guard();
     if (!sharedResult.known) throw new Error(sharedResult.reason);
@@ -80,7 +94,7 @@ export function createBrowserScriptAdminStartup(platform: NativeRuntimePlatform,
     // later payload writes. Cold or interrupted owners still enter their own
     // actual one-shot selected execution/boundary; the getter never initializes.
     if (!NativeSharedGuidNull.canonicalPayloadForPlatform(shared, platform).known) {
-      const initialized = shared.invokeInitializer();
+      const initialized = sharedCrt ? shared.adoptReturnedCrtExecution() : shared.invokeInitializer();
       guard();
       if (!initialized.known) throw new Error(initialized.reason);
     }
@@ -93,9 +107,9 @@ export function createBrowserScriptAdminStartup(platform: NativeRuntimePlatform,
     if (!prerequisites.attachResult.known || prerequisites.attachResult.value === 0) {
       const reason = prerequisites.attachResult.known ? 'Game processAttach returned 0; property-ID initializer was not entered'
         : 'Game processAttach is incomplete; property-ID initializer was not entered: ' + prerequisites.attachResult.reason;
-      result = known(Object.freeze({ shared, prerequisites, game: null, propertyIdInvocation: 'not-entered',
+      result = known(Object.freeze({ shared, sharedCrt, prerequisites, game: null, propertyIdInvocation: 'not-entered',
         propertyIdResult: Object.freeze(unknown(reason)),
-        selectedOrder: Object.freeze(['SharedBase:100e1470', 'Game:204677e4'] as const),
+        selectedOrder: sharedCrt ? Object.freeze(['SharedBase:100ada4c', 'Game:204677e4'] as const) : Object.freeze(['SharedBase:100e1470', 'Game:204677e4'] as const),
         crtTraversalCompleted: false, nativeModuleInstantiated: false }));
     } else {
       const startup = NativeGameScriptAdminStartup.forCrtWithSharedGuid(prerequisites.crt, memory, platform, shared, {
@@ -111,9 +125,9 @@ export function createBrowserScriptAdminStartup(platform: NativeRuntimePlatform,
       if (!startup.known) throw new Error(startup.reason);
       const propertyIdResult = Object.freeze(startup.value.invokeInitializer('propertyId'));
       guard();
-      result = known(Object.freeze({ shared, prerequisites, game: startup.value,
+      result = known(Object.freeze({ shared, sharedCrt, prerequisites, game: startup.value,
         propertyIdInvocation: 'returned', propertyIdResult,
-        selectedOrder: Object.freeze(['SharedBase:100e1470', 'Game:204677e4', 'Game:2051dcf0'] as const),
+        selectedOrder: sharedCrt ? Object.freeze(['SharedBase:100ada4c', 'Game:204677e4', 'Game:2051dcf0'] as const) : Object.freeze(['SharedBase:100e1470', 'Game:204677e4', 'Game:2051dcf0'] as const),
         crtTraversalCompleted: false, nativeModuleInstantiated: false }));
     }
   } catch (failure) {

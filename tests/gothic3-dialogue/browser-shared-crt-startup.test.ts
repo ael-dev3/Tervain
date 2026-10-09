@@ -10,6 +10,7 @@ import {NativeSharedCrtOwner} from '../../src/gothic3/native-shared-crt';
 import {createBrowserGameCrtStartup} from '../../src/gothic3/browser-game-crt-startup';
 import {NativeMemoryAdmin,nativeNpcHeapExtension,nativeSceneStartupHeapExtension,nativeClassNameHeapExtension,nativePropertyHeapExtension} from '../../src/gothic3/native-memory-admin';
 import {NativeSharedMessageDebug} from '../../src/gothic3/native-shared-message-debug';
+import {NativeSharedGuidNull} from '../../src/gothic3/native-shared-guid-null';
 
 it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  const platform=createBrowserGameCrtPlatform({processInputs:browserGameProcessInputs,
@@ -19,10 +20,18 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  const tls=NativeSharedStaticTls.forPlatform(platform);
  if(!tls.known)throw new Error(tls.reason);
  expect(tls.value.loadSharedBase().known).toBe(true);
+ const guid=NativeSharedGuidNull.forPlatform(platform);if(!guid.known)throw new Error(guid.reason);
+ expect(guid.value.adoptReturnedCrtExecution().known).toBe(false);
  const owner=NativeSharedCrtOwner.forPlatform(platform),result=owner.processAttach();
  expect(result).toEqual({known:true,value:1});
  expect(owner.snapshot().ptdInstalled).toBe(true);
  expect(owner.snapshot().ptdInitialized).toBe(true);
+ expect(guid.value.adoptReturnedCrtExecution()).toEqual({known:true,value:undefined});
+ const payload=guid.value.guidNullPayload();if(!payload.known)throw new Error(payload.reason);
+ expect(payload.value).toBe(owner.snapshot().initializerImages['101ab150']);
+ expect(guid.value.adoptReturnedCrtExecution().known).toBe(false);
+ expect(guid.value.invokeInitializer().known).toBe(false);
+ expect(guid.value.snapshot().executionOrigin).toBe('returned-crt');
  const memory=new NativeMemoryAdmin(platform,{extensions:[nativeNpcHeapExtension,nativeSceneStartupHeapExtension,nativeClassNameHeapExtension,nativePropertyHeapExtension]});
  const game=createBrowserGameCrtStartup(platform,memory);
  expect(game.known).toBe(true);
