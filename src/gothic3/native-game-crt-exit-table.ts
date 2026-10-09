@@ -1,4 +1,4 @@
-import {aiHelperAdminTypeCleanupReceipt} from './native-game-ai-helper-admin-source';
+import {aiHelperAdminTypeCleanupReceipt,aiHelperAdminWrapperCleanupReceipt} from './native-game-ai-helper-admin-source';
 import {labelTypeCleanupReceipt,labelWrapperCleanupReceipt} from './native-game-label-source';
 import type { NativeValue } from './dialogue';
 import { gameClassNameDestructorMatches } from './native-game-class-name-family-source';
@@ -72,7 +72,7 @@ export class NativeGameExitTable {
     if (this.boundary) return unknown(this.boundary);
     const old = this.callbacks.get(label);
     if (old) return known(old);
-    const method = label==='aiHelperAdminTypeCleanup' ? aiHelperAdminTypeCleanupReceipt() : label==='labelWrapperCleanup' ? labelWrapperCleanupReceipt() : label==='labelTypeCleanup' ? labelTypeCleanupReceipt() : label==='freePointWrapperCleanup' ? freePointWrapperCleanupReceipt() : label==='freePointTypeCleanup' ? freePointTypeCleanupReceipt() : label==='freePointClassNameCleanup' ? freePointClassNameCleanupReceipt() : label === 'staticFiniWalker' ? gameCinitStaticFiniReceipt() : label==='arenaRootCleanup' ? gameArenaRootCleanupReceipt() : label==='arenaStatusCleanup' ? statusCleanupReceipt() : label==='enumNameRegistryCleanup' ? arenaEnumNameCleanupReceipt() : label==='enumValueRegistryCleanup' ? arenaEnumValueCleanupReceipt() : this.crt.sourceProfile.heapRules.methods[label];
+    const method = label==='aiHelperAdminWrapperCleanup' ? aiHelperAdminWrapperCleanupReceipt() : label==='aiHelperAdminTypeCleanup' ? aiHelperAdminTypeCleanupReceipt() : label==='labelWrapperCleanup' ? labelWrapperCleanupReceipt() : label==='labelTypeCleanup' ? labelTypeCleanupReceipt() : label==='freePointWrapperCleanup' ? freePointWrapperCleanupReceipt() : label==='freePointTypeCleanup' ? freePointTypeCleanupReceipt() : label==='freePointClassNameCleanup' ? freePointClassNameCleanupReceipt() : label === 'staticFiniWalker' ? gameCinitStaticFiniReceipt() : label==='arenaRootCleanup' ? gameArenaRootCleanupReceipt() : label==='arenaStatusCleanup' ? statusCleanupReceipt() : label==='enumNameRegistryCleanup' ? arenaEnumNameCleanupReceipt() : label==='enumValueRegistryCleanup' ? arenaEnumValueCleanupReceipt() : this.crt.sourceProfile.heapRules.methods[label];
     const entryChain = (method as typeof method & { readonly entryChain?: readonly {
       readonly va: string; readonly bytes: string; readonly targetVA: string;
     }[] } | undefined)?.entryChain;
@@ -254,6 +254,7 @@ export class NativeGameExitTable {
         : receipt.label === 'enumNameRegistryCleanup' ? arenaEnumNameCleanupReceipt()
         : receipt.label === 'enumValueRegistryCleanup' ? arenaEnumValueCleanupReceipt()
         : receipt.label === 'freePointClassNameCleanup' ? freePointClassNameCleanupReceipt()
+        : receipt.label === 'aiHelperAdminWrapperCleanup' ? aiHelperAdminWrapperCleanupReceipt()
         : receipt.label === 'aiHelperAdminTypeCleanup' ? aiHelperAdminTypeCleanupReceipt()
         : receipt.label === 'labelWrapperCleanup' ? labelWrapperCleanupReceipt()
         : receipt.label === 'labelTypeCleanup' ? labelTypeCleanupReceipt()

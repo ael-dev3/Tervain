@@ -54,9 +54,9 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  expect(game.known).toBe(true);
  if(!game.known)throw new Error(game.reason);
  expect(game.value.attachResult,game.value.attachProgress.setEnvpProgress?.currentPC).toEqual({known:false,
-  reason:'crtAttach204677e4: Unowned Unowned original environment CALL at20077054: CALL 0x200319d0'});
+  reason:'crtAttach204677e4: Unowned Original Game C++ initializer callback is not yet admitted at 204b26c0'});
  const executed=new Set(game.value.attachProgress.setEnvpProgress!.effects.map(effect=>effect.pc));
- for(const pc of ['20072719','20072383','200730dd','204b217a','204b23ca','2007479a','20074403','2007510d','204b241a'])expect(executed.has(pc)).toBe(true);
+ for(const pc of ['20072719','20072383','200730dd','204b217a','204b23ca','2007479a','20074403','2007510d','204b241a','2007679e','200763f3','2007710d','204b26aa'])expect(executed.has(pc)).toBe(true);
  const aiWrapper=game.value.crt.imageStorage('aiHelperAdminWrapper');
  const aiVtable=aiWrapper.pointer<{fields:NativeHeapObjectViews;offset:number}>(0).get()!;
  expect(aiVtable.fields).toBe(game.value.crt.imageStorage('aiHelperAdminWrapperVtable'));expect(aiVtable.offset).toBe(0);
@@ -75,6 +75,10 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  const aiState=aiType.snapshot();expect(aiState.callback!.entry).toBe('20549d10');
  expect(aiState.slot!.pointer(0).get()).toBe(aiState.wrapper);
  expect(new NativeHeapObjectViews(aiState.wrapper!,0,4).pointer(0).get()).toBe(aiType.fields);
+ const aiFactoryRoot=aiType.fields.pointer<{fields:NativeHeapObjectViews;offset:number}>(28).get()!;
+ expect(aiFactoryRoot.offset).toBe(0);expect([32,36].map(offset=>aiType.fields.readUnsigned(offset))).toEqual([1,9]);
+ const aiRootWrapper=aiFactoryRoot.fields.pointer<{fields:NativeHeapObjectViews;offset:number}>(0).get()!;
+ expect(aiRootWrapper.fields).toBe(aiWrapper);expect(aiRootWrapper.offset).toBe(0);
  const aiNameOwner=NativeGameAIHelperAdminClassName.forCrt(game.value.crt,memory),aiName=aiNameOwner.get();
  expect(aiName.known).toBe(true);if(!aiName.known)throw new Error(aiName.reason);
  expect(aiName.value.text()).toEqual({known:true,value:'eCAIHelperAdmin'});
@@ -162,6 +166,9 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  const callbacks=NativeGameExitTable.forCrt(game.value.crt).snapshot().callbackCells;
  expect(callbacks.filter(cell=>cell.callback?.entry==='20549b80')).toHaveLength(1);
  expect(callbacks.filter(cell=>cell.callback?.entry==='20549c50')).toHaveLength(1);
+ expect(callbacks.filter(cell=>cell.callback?.entry==='20549d60')).toHaveLength(1);
+ expect(callbacks.filter(cell=>cell.callback?.entry==='20549d10')).toHaveLength(1);
+ expect(callbacks.filter(cell=>cell.callback?.entry==='20029c94')).toHaveLength(1);
  expect(callbacks.filter(cell=>cell.callback?.entry==='20549c20')).toHaveLength(1);
  expect(callbacks.filter(cell=>cell.callback?.entry==='20007702')).toHaveLength(1);
  expect(callbacks.filter(cell=>cell.callback?.entry==='2002ec53')).toHaveLength(1);

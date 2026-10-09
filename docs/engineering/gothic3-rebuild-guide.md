@@ -50,7 +50,7 @@ class-name initializer also returns, sharing the same CString and cleanup
 owner. Label initializer `204b23d0` now executes its wrapper constructor and stops
 after entering AI helper administrator initialization, at reflected-type
 getter return and now stops at wrapper initialization CALL
-inside its wrapper at `20077054 -> 200319d0`. Complete startup,
+after the administrator returns, at C++ initializer `204b26c0`. Complete startup,
 world activation and a new-game-to-ending campaign remain unfinished. Local
 checkpoints and the hosted version can differ; validation below identifies
 the checkpoint covered.
@@ -59,6 +59,26 @@ the checkpoint covered.
 
 The entries below describe successive local states, newest first. Statements
 about missing operations in older entries apply to those earlier checkpoints.
+
+### Current local checkpoint: complete AI helper administrator initializer returns
+
+The original object-replacement body executes its root checks through EBP and
+registration toggles through EBX. Its root path returns without entering the
+unimplemented engine-component allocation branch. The actual virtual accessor
+returns the retained factory, which registers the administrator wrapper in its
+root array. Wrapper initialization and initializer `204b2660` return through
+the existing startup stack after registering original cleanup `20549d60`.
+Startup advances to the next unsupported C++ initializer, `204b26c0`.
+
+TypeScript checking and all 31 focused tests passed in 28.81 seconds. Tests
+inspect original helper, accessor, wrapper and initializer return PCs; actual
+factory membership; and exactly one class-name, type and wrapper cleanup
+registration. Full-suite validation and production browser proof of this
+latest administrator completion remain pending.
+
+The preceding complete Label continuation passed all 3,199 tests across 298
+files in 505.29 seconds and is proposed for publication in PR 210. Campaign
+completion remains unproven.
 
 ### Current local checkpoint: AI helper administrator wrapper initialization enters
 

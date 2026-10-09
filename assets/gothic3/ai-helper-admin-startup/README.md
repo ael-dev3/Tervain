@@ -30,8 +30,12 @@ property table, registers original cleanup `20549d10`, and returns through
 the retained startup stack. The initializer stores its actual type pointer
 and enters wrapper initialization CALL `204b269a -> 20026a08`. Its original
 prefix reads byte argument one, retains its frame and updates flags to eleven.
-It stops at object replacement `20077054 -> 200319d0`. The complete
-initializer has not returned. TypeScript checking and all 31 focused startup
+The current continuation executes the helper root path with its original
+register assignments, returns from the actual virtual accessor, registers the
+wrapper with the retained factory and returns from wrapper initialization.
+Initializer `204b2660` registers original cleanup `20549d60` and returns.
+Startup next stops at C++ callback `204b26c0`. Non-root engine-component
+construction remains unimplemented. TypeScript checking and all 31 focused startup
 tests passed; broad validation and browser proof of this continuation are pending.
 
 ```powershell
