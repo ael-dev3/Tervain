@@ -12,6 +12,8 @@ import { sharedInitializerInstruction } from './native-shared-initializer-instru
 import { NativeRuntimePlatform } from './native-runtime-platform';
 import { NativeModuleCrtOwner } from './native-engine-crt-locks';
 import { nativeGameImageReceipt } from './native-game-crt-profile';
+import { gameCinitInstruction } from './native-game-crt-cinit-source';
+import type { NativeWin32ModuleCapability, NativeCrtProcessorFeatureProcedure } from './native-runtime-platform';
 import { NativeGameCrtIoInit } from './native-game-crt-ioinit';
 import { NativeGameCrtArgv } from './native-game-crt-argv';
 import { NativeGameCrtSetEnvp } from './native-game-crt-setenvp';
@@ -48,7 +50,7 @@ type WordRecord = Readonly<{ value: number; mask: number; provenance?:
   Readonly<{ kind: 'process'; pointer: NativeBytePointer }> |
   Readonly<{ kind: 'heap'; heap: NativeWin32HeapCapability }> |
   Readonly<{ kind: 'allocation'; allocation: Allocation; offset: number; pointer: NativeBytePointer }> |
-  Readonly<{ kind: 'platform'; object: object; category: NativeStandardIoCapabilityKind | NativeArgvImportKind | 'GetModuleHandleA' | 'GetProcAddress' | 'IsProcessorFeaturePresent' | 'InitializerTlsGetValue' | 'InitializerPtdGetter' | 'InitializerEncodePointer' | 'InitializerDecodePointer' | 'InitializerPoolHeapAlloc' | 'InitializerCrtHeapFree' | 'InitializerPoolVirtualAlloc' | 'InitializerHeapSize' | 'InitializerInitializeSection' | 'InitializerMemorySectionInitialize' | 'InitializerMemorySectionEnter' | 'InitializerMemorySectionLeave' | 'InitializerSectionCache' | 'InitializerCreateFileA' | 'InitializerGetLastError' | 'InitializerSetLastError' | 'InitializerGetFileType' | 'InitializerCloseHandle' | 'InitializerFileHandle' | 'InitializerEncodedCode' | 'DllLstrcpyA' | 'DllVersionModule' | 'SpyFindWindowA' | 'DiagnosticWindow' }> |
+  Readonly<{ kind: 'platform'; object: object; category: NativeStandardIoCapabilityKind | NativeArgvImportKind | 'GetModuleHandleA' | 'GetProcAddress' | 'IsProcessorFeaturePresent' | 'InitializerTlsGetValue' | 'InitializerPtdGetter' | 'InitializerEncodePointer' | 'InitializerDecodePointer' | 'InitializerPoolHeapAlloc' | 'InitializerCrtHeapFree' | 'InitializerPoolVirtualAlloc' | 'InitializerHeapSize' | 'InitializerInitializeSection' | 'InitializerMemorySectionInitialize' | 'InitializerMemorySectionEnter' | 'InitializerMemorySectionLeave' | 'InitializerSectionCache' | 'InitializerCreateFileA' | 'InitializerGetLastError' | 'InitializerSetLastError' | 'InitializerGetFileType' | 'InitializerCloseHandle' | 'InitializerFileHandle' | 'InitializerEncodedCode' | 'DllLstrcpyA' | 'DllVersionModule' | 'SpyFindWindowA' | 'DiagnosticWindow' | 'GameCinitModule' | 'GameCinitFeature' | 'GameCinitEncoded' }> |
   Readonly<{ kind: 'source'; type: 'code' | 'image'; address: string; fields?: NativeHeapObjectViews }> |
   Readonly<{ kind: 'xor'; left: NativeX86Word32; right: NativeX86Word32 }> |
   Readonly<{ kind: 'neg'; word: NativeX86Word32 }> |
@@ -161,6 +163,8 @@ export class NativeX86ThreadStack {
   readonly #startupViews = new Map<number, NativeHeapObjectViews>();
   readonly #nativePointers = new WeakMap<object, NativeX86Word32>();
   readonly #objects = new WeakMap<object, NativeX86Word32>();
+  readonly #cinitCodePointers = new Map<number, object>();
+  readonly #cinitEncodedPointers = new Set<object>();
   readonly #sectionViews = new Map<NativeMemoryBacking, Map<number, NativeHeapObjectViews>>();
   readonly #standardIoRows: { site: NativeStandardIoCallSite; callPushed: boolean; called: boolean; returned: boolean; sectionRegistered: boolean }[] = [];
   #standardGrant: NativeStandardIoCallGrant | null = null;
@@ -2538,6 +2542,19 @@ export class NativeX86ThreadStack {
   }
   #liveWord(word: NativeX86Word32): WordRecord {
     const record = this.#record(word), p = record.provenance;
+    if (p?.kind === 'platform' && p.category === 'GameCinitEncoded') {
+      const active = NativeRuntimePlatform.requireActivePlatform(this.#platform);
+      if (!active.known || !this.#setEnvpBinding || !this.#cinitEncodedPointers.has(p.object)) throw new Error('Actual same-Game encoded initializer pointer required');
+      this.#moduleWord('cinitFloatPointerTable', 0); return record;
+    }
+    if (p?.kind === 'platform' && p.category === 'GameCinitModule') {
+      const proof = NativeRuntimePlatform.canonicalWin32ModuleForPlatform(this.#platform, p.object);
+      if (!proof.known) throw new Error(proof.reason); return record;
+    }
+    if (p?.kind === 'platform' && p.category === 'GameCinitFeature') {
+      const proof = NativeRuntimePlatform.canonicalProcessorFeatureProcedureForPlatform(this.#platform, p.object);
+      if (!proof.known) throw new Error(proof.reason); return record;
+    }
     if(p?.kind==='difference'){this.#liveWord(p.left);this.#liveWord(p.right);}
     if (p?.kind === 'allocation') this.#allocationLive(p.allocation, p.offset, 0);
     if (p?.kind === 'module') this.#moduleWord(p.label, p.offset);
@@ -2660,6 +2677,114 @@ export class NativeX86ThreadStack {
     return this.#stackWord(offset);
   }
   gameImageAddress(controller: object, label: string, offset = 0): NativeValue<NativeX86Word32> { return this.#run(controller, () => this.#moduleWord(label, offset)); }
+  /** Execute the recovered Game CRT wrapper under its existing owner. The
+   * source loop owns CALL/RET; wrapper instruction interpretation is not claimed. */
+  encodeGameCinitPointer(controller: object): NativeValue<void> { return this.#run(controller, () => {
+    if (!this.#setEnvpBinding || this.#setEnvpBinding.controller !== controller) throw new Error('Actual Game pointer initializer controller required');
+    const pending = this.#calls.filter(call => !call.returned).at(-1);
+    if (pending?.site !== '20466617' || gameCinitInstruction('2046967e').instruction !== 'CALL 0x20467d64') throw new Error('Actual original Game pointer initializer call required');
+    const memory = this.#memory(this.#load(this.#bank, this.#reg('ESI')), 4);
+    const fields = NativeModuleCrtOwner.canonicalImageForOwner(this.#binding!.crt, 'cinitFloatPointerTable');
+    if (!fields.known || memory.fields !== fields.value || memory.offset % 4 !== 0 || memory.offset < 0 || memory.offset >= 40) throw new Error('Actual current conversion-table slot required');
+    const cursor = this.#address(this.#load(this.#bank, this.#reg('ESP'))), argument = this.#load(this.#stack, cursor);
+    if (argument !== this.#currentMemoryWord(memory.fields, memory.offset)) throw new Error('Actual conversion-table argument identity required');
+    const address = this.#numeric(argument, 4);
+    // These identities describe original code pointers; they grant no callable
+    // browser function, memory span or host address.
+    const conversionReturned = this.#calls.some(call => call.site === '20463917' && call.returned);
+    const expected = conversionReturned ? [0x20469651, 0x20468cf6, 0x20468cb4, 0x20468ce8, 0x20468c5e,
+      0x20469651, 0x204695cb, 0x20468c74, 0x20468bde, 0x20468b6d][memory.offset / 4] : 0x2047df3f;
+    if (address !== expected) throw new Error('Original current Game conversion code pointer required');
+    let pointer = this.#cinitCodePointers.get(address);
+    if (!pointer) { pointer = Object.freeze({ owner: this.#binding!.crt.identity, originalCodeAddress: address }); this.#cinitCodePointers.set(address, pointer); }
+    this.#call('2046967e', '20469683');
+    const encoded = NativeModuleCrtOwner.prototype.encodePointer.call(this.#binding!.crt, pointer);
+    if (!encoded.known) throw new Error(encoded.reason);
+    let result: NativeX86Word32;
+    if (encoded.value === null) result = this.#mint(0, 0xffffffff);
+    else {
+      this.#cinitEncodedPointers.add(encoded.value);
+      result = this.#objects.get(encoded.value) ?? this.#mint(0, 0, { kind: 'platform', object: encoded.value, category: 'GameCinitEncoded' });
+      this.#objects.set(encoded.value, result);
+    }
+    this.#store(this.#bank, this.#reg('EAX'), result);
+    const returned = this.#ret(0), source = this.#record(returned).provenance;
+    if (source?.kind !== 'source' || source.type !== 'code' || source.address !== '20469683') throw new Error('Actual Game pointer wrapper return required');
+  }); }
+  callGameMathInitializer(controller: object, target: NativeX86Word32): NativeValue<void> { return this.#run(controller, () => {
+    if (!this.#setEnvpBinding || this.#setEnvpBinding.controller !== controller) throw new Error('Actual Game startup controller required');
+    const current = [...this.#calls].reverse().find(call => !call.returned);
+    if (current?.site !== '204678f2') throw new Error('Actual pending Game cinit caller required');
+    const fields = NativeModuleCrtOwner.canonicalImageForOwner(this.#binding!.crt, 'cinitMathCallback');
+    if (!fields.known) throw new Error(fields.reason);
+    this.#moduleWord('cinitMathCallback', 0);
+    if (this.#currentMemoryWord(fields.value, 0) !== target || this.#numeric(target, 4) !== 0x20463917) throw new Error('Actual current original Game math callback target required');
+    if (gameCinitInstruction('20466610').instruction !== 'CALL dword ptr [0x206b638c]') throw new Error('Original Game math CALL differs');
+    this.#call('20466610', '20466616');
+  }); }
+  invokeGameCinitImport(controller: object, site: string): NativeValue<void> { return this.#run(controller, () => {
+    if (!this.#setEnvpBinding || this.#setEnvpBinding.controller !== controller) throw new Error('Actual Game cinit import controller required');
+    const point = gameCinitInstruction(site), next = (Number.parseInt(site, 16) + point.bytes.length / 2).toString(16).padStart(8, '0');
+    const spec = site === '204696fb' ? ['CALL dword ptr [0x207d7b5c]', 4] as const
+      : site === '2046970b' ? ['CALL dword ptr [0x207d7c94]', 8] as const
+      : site === '20469717' ? ['CALL EAX', 4] as const : null;
+    if (!spec || point.instruction !== spec[0]) throw new Error('Original Game cinit import source required');
+    const incoming = [...this.#calls].reverse().find(call => !call.returned);
+    if (incoming?.site !== '2046391c') throw new Error('Actual pending Game divide-dispatch call required');
+    this.#call(site, next);
+    const cursor = this.#address(this.#load(this.#bank, this.#reg('ESP')));
+    const argument = (index: number) => this.#load(this.#stack, cursor + 4 + index * 4);
+    const literal = (word: NativeX86Word32, label: string): string => {
+      const memory = this.#memory(word, 1), fields = NativeModuleCrtOwner.canonicalImageForOwner(this.#binding!.crt, label);
+      if (!fields.known || memory.fields !== fields.value || memory.offset !== 0) throw new Error('Actual original Game cinit name pointer required');
+      let text = '';
+      for (let index = 0; index < memory.fields.bytes.length; index++) {
+        const byte = NativeHeapObjectViews.prototype.readUnsigned.call(memory.fields, index, 1);
+        if (byte === 0) return text; text += String.fromCharCode(byte);
+      }
+      throw new Error('Actual terminated Game cinit name required');
+    };
+    let result: NativeX86Word32;
+    if (site === '204696fb') {
+      if (literal(argument(0), 'cinitDivideModule') !== 'KERNEL32') throw new Error('Original Game divide module name required');
+      const observed = NativeRuntimePlatform.prototype.getWin32ModuleHandle.call(this.#platform, 'KERNEL32'); if (!observed.known) throw new Error(observed.reason);
+      if (!observed.value) result = this.#mint(0, 0xffffffff);
+      else {
+        const proof = NativeRuntimePlatform.canonicalWin32ModuleForPlatform(this.#platform, observed.value);
+        if (!proof.known) throw new Error(proof.reason);
+        result = this.#mint(0, 0, { kind: 'platform', object: proof.value, category: 'GameCinitModule' });
+      }
+    } else if (site === '2046970b') {
+      const module = this.#liveWord(argument(0)).provenance;
+      if (module?.kind !== 'platform' || module.category !== 'GameCinitModule') throw new Error('Actual current Game module capability required');
+      if (literal(argument(1), 'cinitDivideExport') !== 'IsProcessorFeaturePresent') throw new Error('Original Game feature export name required');
+      const resolve = NativeRuntimePlatform.prototype.getWin32Procedure as
+        (this: NativeRuntimePlatform, module: NativeWin32ModuleCapability, name: 'IsProcessorFeaturePresent') => NativeValue<NativeCrtProcessorFeatureProcedure | null>;
+      const observed = resolve.call(this.#platform, module.object as NativeWin32ModuleCapability, 'IsProcessorFeaturePresent');
+      if (!observed.known) throw new Error(observed.reason);
+      if (!observed.value) result = this.#mint(0, 0xffffffff);
+      else {
+        const proof = NativeRuntimePlatform.canonicalProcessorFeatureProcedureForPlatform(this.#platform, observed.value);
+        if (!proof.known) throw new Error(proof.reason);
+        result = this.#mint(0, 0, { kind: 'platform', object: proof.value, category: 'GameCinitFeature' });
+      }
+    } else {
+      const selected = this.#liveWord(this.#load(this.#bank, this.#reg('EAX'))).provenance;
+      if (selected?.kind !== 'platform' || selected.category !== 'GameCinitFeature') throw new Error('Actual current Game feature procedure required');
+      const procedure = NativeRuntimePlatform.canonicalProcessorFeatureProcedureForPlatform(this.#platform, selected.object);
+      if (!procedure.known) throw new Error(procedure.reason);
+      const value = procedure.value.invoke(this.#numeric(argument(0), 4));
+      if (!value.known) throw new Error(value.reason);
+      result = this.#mint(value.value, 0xffffffff);
+    }
+    this.#store(this.#bank, this.#reg('EAX'), result);
+    const returned = this.#ret(spec[1]), provenance = this.#record(returned).provenance;
+    if (provenance?.kind !== 'source' || provenance.type !== 'code' || provenance.address !== next) throw new Error('Actual Game cinit import return required');
+  }); }
+  clearX87Exceptions(controller: object): NativeValue<void> { return this.#run(controller, () => {
+    const status = this.#record(this.#load(this.#bank, 40));
+    this.#store(this.#bank, 40, this.#mint(status.value & ~0x80ff, status.mask | 0x80ff));
+  }); }
   effectiveAddress(controller: object, terms: readonly { word: NativeX86Word32; scale?: number; negative?: boolean }[], displacement: number): NativeValue<NativeX86Word32> { return this.#run(controller, () => {
     if (!Number.isSafeInteger(displacement)) throw new Error('Actual source displacement required');
     let pointer: NativeX86Word32 | null = null, scalar = displacement;
@@ -2793,7 +2918,7 @@ export class NativeX86ThreadStack {
   }); }
   sourceAddress(controller: object, type: 'code' | 'image', address: string): NativeValue<NativeX86Word32> { return this.#run(controller, () => this.#source(type, address)); }
   registerSourceImage(controller: object, address: string, fields: NativeHeapObjectViews): NativeValue<void> { return this.#run(controller, () => {
-    const label = address === '206e8e90' ? 'ioInitEH4Scope' : address === '206e8f98' ? 'callocEH4Scope' : address === '206e8e70' ? 'sectionInitExceptionTable' : address === '206e8cb8' ? 'setMbcEH4Scope' : address === '206e8c98' ? 'updateMbcEH4Scope' : address === '206e8b70' ? 'freeEH4Scope' : null;
+    const label = address === '206e8db0' ? 'cinitNonwritableEH4Scope' : address === '206e8e90' ? 'ioInitEH4Scope' : address === '206e8f98' ? 'callocEH4Scope' : address === '206e8e70' ? 'sectionInitExceptionTable' : address === '206e8cb8' ? 'setMbcEH4Scope' : address === '206e8c98' ? 'updateMbcEH4Scope' : address === '206e8b70' ? 'freeEH4Scope' : null;
     if (!label) throw new Error('Only exact admitted Game EH4 scope views are owned');
     const crt = this.#binding!.crt, selected = NativeModuleCrtOwner.canonicalImageForOwner(crt, label);
     if (!selected.known || selected.value !== fields) throw new Error('Actual same-Game canonical scope image required');
@@ -2909,6 +3034,24 @@ export class NativeX86ThreadStack {
   alu(controller: object, op: 'add' | 'sub' | 'sbb' | 'imul' | 'or' | 'and', left: NativeX86Word32, right: NativeX86Word32,
     width: Width = 4): NativeValue<NativeX86Word32> { return this.#run(controller, () => {
     const a = this.#liveWord(left), b = this.#liveWord(right), maximum = this.#maximum(width);
+    if (width === 4 && op === 'sub' && a.provenance?.kind === 'module' && b.provenance?.kind === 'module') {
+      const p = a.provenance, q = b.provenance;
+      const crt = this.#binding!.crt;
+      for (const entry of [p, q]) {
+        const fields = NativeModuleCrtOwner.canonicalImageForOwner(crt, entry.label);
+        if (!fields.known || fields.value !== entry.fields) throw new Error('Actual same-Game canonical module difference required');
+        const proof = NativeRuntimePlatform.canonicalGameModuleImageAccessForPlatform(this.#platform, crt, entry.label, entry.offset, 0);
+        if (!proof.known) throw new Error(proof.reason);
+      }
+      // Both views belong to the same retained virtual Game image. Its original
+      // relative addresses prove this difference without inventing a host address.
+      const av = Number.parseInt(nativeGameImageReceipt(p.label).address, 16) + p.offset;
+      const bv = Number.parseInt(nativeGameImageReceipt(q.label).address, 16) + q.offset;
+      const value = (av - bv) >>> 0;
+      this.#flags((av < bv ? 1 : 0) | (value === 0 ? 0x40 : 0) | (value & 0x80000000 ? 0x80 : 0) |
+        (this.#parity(value & 255) ? 4 : 0), 0xc5);
+      return this.#mint(value, 0xffffffff);
+    }
     if (op === 'or' || op === 'and') {
       if (width === 4 && op === 'and' && b.mask === 0xffffffff && a.provenance?.kind === 'stack') {
         if (b.value === 0xfffff000) { const result = this.#stackWord(a.provenance.offset & ~0xfff), r = this.#record(result); this.#logicalFlags(r.value, r.mask, 4); return result; }

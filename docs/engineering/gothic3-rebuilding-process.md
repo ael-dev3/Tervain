@@ -4,6 +4,109 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local checkpoint — 9 October 2026: Game conversion-pointer encoding
+
+The original loop at `20466617 -> 20469672` now executes its ten iterations on
+the retained startup stack. Its call at `2046967e` invokes the existing recovered
+Game CRT `encodePointer` implementation with the actual table argument, retains
+the CALL/RET slots and leaves cleanup to the original caller instructions.
+This is a translated CRT wrapper bridge; its 36 wrapper instructions are not
+interpreted by this continuation. Source admission selects eight methods and
+197 instructions from the unchanged 19-method, 784-instruction capture.
+
+Code identities retain their Game owner and original address; they do not grant
+host addresses, memory access or callable browser functions. The original
+conversion addresses retain their slot order. If the protection branch skipped
+math initialization, the original cold stub addresses are encoded instead.
+Repeated addresses share their code and encoded identities. Table stores retain
+opaque pointer sidecars and unknown numerical bits.
+
+Changed or unknown later slots stop without replaying the earlier encoding.
+Game's retained PTD and resolved codec procedures must belong to the platform;
+foreign cached procedures are rejected before invocation. Execution reaches
+`20466626 -> 2046643f`, before the five C initializer callbacks and later C++ table.
+
+At runtime revision `0dd36cdf`, all 56 focused checks across four files pass.
+Typechecking and independent byte-identical evidence regeneration pass. The
+production build passes in 46.15 seconds. A production browser entered Ardea
+and reported `sourceCall at 20466626`, with 789 environment source operations.
+The complete suite passes all 3,087 tests across 284 files in 454.70 seconds
+with `npm test -- --testTimeout=30000`. Revision `937870fa` reconciles merged
+main without changing any file from `b186ca1d`; the tested runtime remains
+byte-identical to `0dd36cdf`. Publication remains pending. Complete engine startup,
+world activation, campaign saves and a finishable campaign remain unfinished.
+
+## Local checkpoint — 9 October 2026: Game math callback return
+
+Runtime revision `37859a9e` executes the original indirect math call at
+`20466610 -> 20463917` on the retained Game startup stack. The conversion
+initializer writes its ten original function addresses. Dynamic KERNEL32 lookup
+resolves the platform-owned processor-feature procedure and queries feature 0.
+The original caller passes `0`, so optional precision setup is skipped. Original
+FNCLEX clears exception bits while retaining unknown unrelated status bits.
+The callback returns and execution reaches `20466617 -> 20469672`; pointer
+encoding and the remaining initializer tables are not implemented by this change.
+
+The package captures 19 methods and 784 instructions. Execution admission selects
+seven methods and 183 instructions. Optional precision, SSE control and the
+failed-lookup divide fallback remain context evidence. Changed or partially unknown
+callback targets stop before the math call without overwriting conversion pointers.
+
+All 15 focused checks, typechecking, byte-identical independent regeneration and
+the production build pass. A production browser entered Ardea and reported the
+actual next source call at `20466617`, with 700 environment source operations.
+The first full run passed 3,083 of 3,084 tests; one forest save-recovery check
+timed out at five seconds. All 11 checks in that file subsequently passed in
+isolation. At integrated revision `db71a0b3`, the complete rerun with
+`npm test -- --testTimeout=30000` passed all 3,084 tests across 284 files in
+485.72 seconds. Assertions were unchanged. The integrated production build
+passed in 57.07 seconds.
+
+Revision `a270bd46` integrates main's reviewed presentation fixes. Its Gothic
+runtime, evidence and focused-test paths are unchanged from `452ad563`.
+PR #183's preceding PE checkpoint deployed successfully in Pages run
+`37884441618`. The math continuation merged through PR #184 at
+`b03a143f0b01839430046792b8ea51132c5b3220` after CI run `37886867264` succeeded.
+Pages run `37887566918` completed successfully for that merged revision.
+Full startup,
+world/NPC activation, campaign saves and a playable ending remain unfinished.
+
+## Local checkpoint — 9 October 2026: Game cinit and PE protection check
+
+Runtime revision `9540631a` enters the original Game `__cinit` call at
+`204678f2 -> 204665f4` using the existing browser startup stack and controller.
+The original `20466602 -> 204738b0` protection check executes its inline EH4
+frame, checks the current MZ/PE signatures, finds the section containing the
+math callback slot, and tests its current characteristics. The normal readonly
+slot returns through the original frame and reaches the indirect source call
+at `20466610`. That callback has not executed. Invalid headers or writable
+sections take the original branch to the unimplemented call at `20466617`.
+
+The source package captures 16 methods and 660 instructions. The generated
+runtime getter admits four methods and 150 instructions; captured floating-point
+methods remain context only. Original PE headers, the callback slot and EH4
+scope are retained canonical Game image views. Same-image pointer subtraction
+proves relative address differences through those views without assigning a
+host address. Unknown signature bytes retain unknown branch flags and stop
+without reseeding the header or consuming the pending call.
+
+Validation: 13 focused checks, typecheck, independent byte-identical JSON and
+TypeScript regeneration, production build, and all 3,082 tests across 284 files
+passed (397.79 seconds for the full suite). A local production browser entered
+Ardea and its developer panel reported `indirectSourceCall at 20466610`, with
+the environment initializer returned and 667 source operations completed.
+This is startup integration evidence; full world activation and a finishable
+campaign are still unproven.
+
+Three descriptive context labels were subsequently corrected: `2048c74b` is
+`__control87`, `2046a282` is `_errno`, and `2046a20a` dispatches invalid-parameter
+handling. The generated execution getter remained byte-identical. The next
+floating-point helpers were audited separately for subsequent implementation.
+
+PR #181 merged as `a3b8e07d42a0cc701571ca8fe9500e76cc5846c2` after successful
+CI run `37881573803`. Its Pages run `37882270567` completed successfully.
+This local Game checkpoint has not yet been published.
+
 ## Local checkpoint — 9 October 2026: SpyAdmin construction and shutdown registration
 
 Original `1004b4af -> 100089e5` now removes and registers SpyAdmin's handler
