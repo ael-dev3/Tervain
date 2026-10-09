@@ -146,7 +146,8 @@ the production build passed in 27.68 seconds. A production browser entered
 Ardea with 202 scene objects, 70 character resources and HP 100, reporting
 `20466452 -> 2047470c` after 1,443 startup operations. NPC activation remains
 incomplete at the unconnected ScriptAdmin getter, with 0/16 property sets
-attached. The combined full suite is running. Its newer
+attached. All 3,123 tests across 287 files passed in 390.38 seconds on the
+combined runtime, with a 30-second per-test allowance. Its newer
 main Pages run `37891214623` supersedes cancelled walker run `37890987247` and
 completed successfully for main `03e7cb02aa6b5a0064124b879c7359f5101d713b`.
 No deployment rerun was requested. The local SSE continuation is not yet published.
