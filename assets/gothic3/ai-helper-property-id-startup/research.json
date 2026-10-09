@@ -9,98 +9,155 @@
   "instructions": [
     {
       "va": "204b26c0",
+      "rva": "4b26c0",
+      "fileOffset": 4925120,
       "bytes": "83ec18",
-      "instruction": "SUB ESP,0x18"
+      "instruction": "SUB ESP,0x18",
+      "assemblyLine": 1
     },
     {
       "va": "204b26c3",
+      "rva": "4b26c3",
+      "fileOffset": 4925123,
       "bytes": "68bca66520",
-      "instruction": "PUSH 0x2065a6bc"
+      "instruction": "PUSH 0x2065a6bc",
+      "assemblyLine": 2
     },
     {
       "va": "204b26c8",
+      "rva": "4b26c8",
+      "fileOffset": 4925128,
       "bytes": "8d4c2404",
-      "instruction": "LEA ECX,[ESP + 0x4]"
+      "instruction": "LEA ECX,[ESP + 0x4]",
+      "assemblyLine": 3
     },
     {
       "va": "204b26cc",
+      "rva": "4b26cc",
+      "fileOffset": 4925132,
       "bytes": "ff150c897d20",
-      "instruction": "CALL dword ptr [0x207d890c]"
+      "instruction": "CALL dword ptr [0x207d890c]",
+      "assemblyLine": 4
     },
     {
       "va": "204b26d2",
+      "rva": "4b26d2",
+      "fileOffset": 4925138,
       "bytes": "8d0424",
-      "instruction": "LEA EAX,[ESP]"
+      "instruction": "LEA EAX,[ESP]",
+      "assemblyLine": 5
     },
     {
       "va": "204b26d5",
+      "rva": "4b26d5",
+      "fileOffset": 4925141,
       "bytes": "50",
-      "instruction": "PUSH EAX"
+      "instruction": "PUSH EAX",
+      "assemblyLine": 6
     },
     {
       "va": "204b26d6",
+      "rva": "4b26d6",
+      "fileOffset": 4925142,
       "bytes": "8d4c2408",
-      "instruction": "LEA ECX,[ESP + 0x8]"
+      "instruction": "LEA ECX,[ESP + 0x8]",
+      "assemblyLine": 7
     },
     {
       "va": "204b26da",
+      "rva": "4b26da",
+      "fileOffset": 4925146,
       "bytes": "ff15b8867d20",
-      "instruction": "CALL dword ptr [0x207d86b8]"
+      "instruction": "CALL dword ptr [0x207d86b8]",
+      "assemblyLine": 8
     },
     {
       "va": "204b26e0",
+      "rva": "4b26e0",
+      "fileOffset": 4925152,
       "bytes": "50",
-      "instruction": "PUSH EAX"
+      "instruction": "PUSH EAX",
+      "assemblyLine": 9
     },
     {
       "va": "204b26e1",
+      "rva": "4b26e1",
+      "fileOffset": 4925153,
       "bytes": "b9a8527b20",
-      "instruction": "MOV ECX,0x207b52a8"
+      "instruction": "MOV ECX,0x207b52a8",
+      "assemblyLine": 10
     },
     {
       "va": "204b26e6",
+      "rva": "4b26e6",
+      "fileOffset": 4925158,
       "bytes": "ff15ac867d20",
-      "instruction": "CALL dword ptr [0x207d86ac]"
+      "instruction": "CALL dword ptr [0x207d86ac]",
+      "assemblyLine": 11
     },
     {
       "va": "204b26ec",
+      "rva": "4b26ec",
+      "fileOffset": 4925164,
       "bytes": "8d4c2404",
-      "instruction": "LEA ECX,[ESP + 0x4]"
+      "instruction": "LEA ECX,[ESP + 0x4]",
+      "assemblyLine": 12
     },
     {
       "va": "204b26f0",
+      "rva": "4b26f0",
+      "fileOffset": 4925168,
       "bytes": "ff15b0867d20",
-      "instruction": "CALL dword ptr [0x207d86b0]"
+      "instruction": "CALL dword ptr [0x207d86b0]",
+      "assemblyLine": 13
     },
     {
       "va": "204b26f6",
+      "rva": "4b26f6",
+      "fileOffset": 4925174,
       "bytes": "8d0c24",
-      "instruction": "LEA ECX,[ESP]"
+      "instruction": "LEA ECX,[ESP]",
+      "assemblyLine": 14
     },
     {
       "va": "204b26f9",
+      "rva": "4b26f9",
+      "fileOffset": 4925177,
       "bytes": "ff1534887d20",
-      "instruction": "CALL dword ptr [0x207d8834]"
+      "instruction": "CALL dword ptr [0x207d8834]",
+      "assemblyLine": 15
     },
     {
       "va": "204b26ff",
+      "rva": "4b26ff",
+      "fileOffset": 4925183,
       "bytes": "68e09c5420",
-      "instruction": "PUSH 0x20549ce0"
+      "instruction": "PUSH 0x20549ce0",
+      "assemblyLine": 16
     },
     {
       "va": "204b2704",
+      "rva": "4b2704",
+      "fileOffset": 4925188,
       "bytes": "e8c510fbff",
-      "instruction": "CALL 0x204637ce"
+      "instruction": "CALL 0x204637ce",
+      "assemblyLine": 17
     },
     {
       "va": "204b2709",
+      "rva": "4b2709",
+      "fileOffset": 4925193,
       "bytes": "83c41c",
-      "instruction": "ADD ESP,0x1c"
+      "instruction": "ADD ESP,0x1c",
+      "assemblyLine": 18
     },
     {
       "va": "204b270c",
+      "rva": "4b270c",
+      "fileOffset": 4925196,
       "bytes": "c3",
-      "instruction": "RET"
+      "instruction": "RET",
+      "assemblyLine": 19
     }
   ],
   "guidLiteralAddress": "2065a6bc",

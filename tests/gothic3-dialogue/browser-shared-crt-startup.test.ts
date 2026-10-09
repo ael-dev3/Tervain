@@ -3,7 +3,7 @@ import {NativeGameAIHelperAdminClassName} from '../../src/gothic3/native-game-ai
 import {NativeGameLabelClassName} from '../../src/gothic3/native-game-label-class-name';
 import {NativeGameLabelType} from '../../src/gothic3/native-game-label-type';
 import {expect,it,vi} from 'vitest';
-// These run the original instructions in the emulator: about 4–5 s each here, so the 5 s default fails under CI load.
+// These run the original instructions in the emulator: about 4â€“5 s each here, so the 5 s default fails under CI load.
 vi.setConfig({ testTimeout: 30_000 });
 import {createBrowserGameCrtPlatform} from '../../src/gothic3/browser-game-crt-platform';
 import {browserGameProcessInputs} from '../../src/gothic3/browser-game-process-inputs';
@@ -54,8 +54,17 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  expect(game.known).toBe(true);
  if(!game.known)throw new Error(game.reason);
  expect(game.value.attachResult,game.value.attachProgress.setEnvpProgress?.currentPC).toEqual({known:false,
-  reason:'crtAttach204677e4: Unowned Original Game C++ initializer callback is not yet admitted at 204b26c0'});
+  reason:'crtAttach204677e4: Unowned Unowned original environment CALL at204b26cc: CALL dword ptr [0x207d890c]'});
  const executed=new Set(game.value.attachProgress.setEnvpProgress!.effects.map(effect=>effect.pc));
+ for(const pc of ['204b26c0','204b26c3','204b26c8'])expect(executed.has(pc)).toBe(true);
+ expect(executed.has('204b26cc')).toBe(false);
+ expect(executed.has('204b270c')).toBe(false);
+ const aiPropertyId=game.value.crt.imageStorage('aiHelperPropertyId');
+ expect(aiPropertyId.bytes.length).toBe(20);
+ expect([...aiPropertyId.bytes]).toEqual(Array(20).fill(0));
+ expect([...aiPropertyId.knownMask]).toEqual(Array(20).fill(255));
+ expect(game.value.crt.imageStorage('aiHelperPropertyIdGuidLiteral').bytes.length).toBe(39);
+
  for(const pc of ['20072719','20072383','200730dd','204b217a','204b23ca','2007479a','20074403','2007510d','204b241a','2007679e','200763f3','2007710d','204b26aa'])expect(executed.has(pc)).toBe(true);
  const aiWrapper=game.value.crt.imageStorage('aiHelperAdminWrapper');
  const aiVtable=aiWrapper.pointer<{fields:NativeHeapObjectViews;offset:number}>(0).get()!;

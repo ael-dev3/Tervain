@@ -19,12 +19,13 @@ def capture(study):
     root = Path(__file__).resolve().parents[2]
     rows = []
     assembly = root / 'assets/gothic3/game-cinit-callbacks/sources/Game/204b26c0.asm.txt'
-    for line in assembly.read_text(encoding='utf-8').splitlines():
+    for line_number, line in enumerate(assembly.read_text(encoding='utf-8').splitlines(), 1):
         address, raw, instruction = line.split(' | ', 2)
         va = int(address, 16)
         if pe.bytes(va, len(raw) // 2).hex() != raw:
             raise ValueError('Assembly differs from original bytes at ' + address)
-        rows.append(dict(va=address, bytes=raw, instruction=instruction))
+        rows.append(dict(va=address, rva=f'{va-pe.base:x}', fileOffset=pe.offset(va, len(raw)//2),
+                         bytes=raw, instruction=instruction, assemblyLine=line_number))
     if len(rows) != 19 or rows[-1]['va'] != '204b270c' or rows[-1]['instruction'] != 'RET':
         raise ValueError('Unexpected initializer extent')
     raw = bytes.fromhex(''.join(row['bytes'] for row in rows))
@@ -73,7 +74,25 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--study', required=True, type=Path)
     parser.add_argument('--output', required=True, type=Path)
+    parser.add_argument('--typescript', type=Path)
     args = parser.parse_args()
     receipt = capture(args.study)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(receipt, indent=2) + '\n', encoding='utf-8', newline='\n')
+    if args.typescript:
+        expected = json.dumps(args.output.read_text(encoding='utf-8'))
+        generated = """/** Generated original AI helper PropertyID source admission. */
+import source from '../../assets/gothic3/ai-helper-property-id-startup/research.json';
+import sourceText from '../../assets/gothic3/ai-helper-property-id-startup/research.json?raw';
+import type { NativeCrtImageReceipt } from './native-game-crt-profile';
+import type { NativeGameIoInstruction } from './native-game-crt-io-source';
+const expectedText = EXPECTED;
+function freeze(value:unknown):void {if(value!==null&&typeof value==='object'&&!Object.isFrozen(value)){for(const child of Object.values(value))freeze(child);Object.freeze(value);}}
+export function admitAIHelperPropertyIdSource():void {if(sourceText!==expectedText)throw new Error('Original AI helper PropertyID source differs');}
+admitAIHelperPropertyIdSource();freeze(source);
+export const aiHelperPropertyIdImagePins=Object.fromEntries(source.images.map(image=>[image.label,[image.loaderZeroFillBytes?'coldGlobals':'constBytes',image.address,image.bytes,image.raw,image.sha256] as const]));
+freeze(aiHelperPropertyIdImagePins);
+export function aiHelperPropertyIdImageReceipt(label:string):NativeCrtImageReceipt {admitAIHelperPropertyIdSource();const image=source.images.find(image=>image.label===label);if(!image)throw new Error('Unowned AI helper PropertyID image');return Object.freeze({...image,module:'Game' as const,scope:image.loaderZeroFillBytes?'cold-original-image':'original-file-backed-constant',knownMask:'ff'.repeat(image.bytes)});}
+export function aiHelperPropertyIdInstruction(pc:string):NativeGameIoInstruction {admitAIHelperPropertyIdSource();const row=source.instructions.find(row=>row.va===pc);if(!row)throw new Error('Unowned AI helper PropertyID instruction');return row;}
+""".replace('EXPECTED', expected)
+        args.typescript.write_text(generated, encoding='utf-8', newline='\n')
