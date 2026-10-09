@@ -107,7 +107,7 @@ TypeScript checking, all 3,160 tests across 291 files and the production build
 after integrating current main. The rendered production preview reports
 2,769 environment-source operations and the next target `204b11c0`. It
 merged through [PR #193](https://github.com/ael-dev3/Tervain/pull/193) at
-`839e005433314be9149fd82c81dabdd9b60d0958`; its deployment is pending verification.
+`839e005433314be9149fd82c81dabdd9b60d0958`; Pages run `37904247366` succeeded.
 The PR's foreign-heap test was corrected to avoid a redundant complete engine
 boot after CI hit its five-second timeout. Updated CI passed at `47e02907`.
 Original NPC activation remains at the separate ScriptAdmin
@@ -122,8 +122,14 @@ separate cleanup ownership and the original destructor's stale pointer bits.
 The broader source package captures 363 matching initializer/getter/cleanup
 patterns, including 59 recovered directly from original PE bytes where both
 the catalog and full assembly listing have gaps. Those additional patterns
-are evidence, not executed callbacks. Full validation and browser integration
-evidence for the second initializer are still pending.
+are evidence, not executed callbacks. At runtime revision `5d6f6770`, all 3,162
+tests across 291 files passed in 497.01 seconds, TypeScript checking passed and
+the production build passed in 48.84 seconds. The rendered production preview
+reports 2,779 environment-source operations and next target `204b11d0`.
+The first full run hit a five-second timeout while an unrelated forest test
+imported the entire Tervain application inside its timed body. Moving the
+unchanged import outside that body preserves all 11 collision assertions;
+the final full run passes. This second initializer is not yet published.
 
 The Game PE checkpoint passed 3,082 tests, typechecking, source regeneration and
 the production build at runtime revision `9540631a`. It merged through
