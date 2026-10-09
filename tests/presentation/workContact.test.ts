@@ -91,14 +91,15 @@ async function atPost(id: NpcId) {
   return { rig, stance, play, bones, mesh: residentMesh(rig.root) };
 }
 
-/** The vertices that follow a joint, posed (world). */
+/** The vertices that follow a joint (a hand with its own finger joints, A72), posed (world). */
 function follower(mesh: THREE.SkinnedMesh, bone: THREE.Object3D) {
-  const joint = mesh.skeleton.bones.indexOf(bone as THREE.Bone);
+  const joints = new Set<number>();
+  bone.traverse(o => { if (!(o as THREE.Bone).isBone) return; const i = mesh.skeleton.bones.indexOf(o as THREE.Bone); if (i >= 0 && (o === bone || (bone.name.endsWith('Hand') && o.name.startsWith(bone.name)))) joints.add(i); });
   const index = mesh.geometry.getAttribute('skinIndex'), weight = mesh.geometry.getAttribute('skinWeight');
   const vertices: number[] = [];
   for (let v = 0; v < index.count; v++) {
     let w = 0;
-    for (let s = 0; s < 4; s++) if (index.getComponent(v, s) === joint) w += weight.getComponent(v, s);
+    for (let s = 0; s < 4; s++) if (joints.has(index.getComponent(v, s))) w += weight.getComponent(v, s);
     if (w >= 0.6) vertices.push(v);
   }
   return () => {
