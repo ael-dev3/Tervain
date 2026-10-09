@@ -10833,6 +10833,8 @@ Four focused checks and typechecking pass, including original API scalar and
 security-attribute outputs, both initializer paths, cache rejection and source
 receipts. Independent source/runtime regeneration matches 63 bodies and 4,250
 body instructions. The preceding 2,990-test receipt covers the descriptor prefix;
-full-suite and production-build validation of this combined continuation are
-pending. These methods have no production callers, and a finishable browser
-campaign has not been demonstrated.
+the combined continuation passed all 2,993 tests across 277 files in 289.32
+seconds. After reconciling the merged checkpoint history without changing the
+committed source tree, a fresh full run passed the same 2,993 tests in 281.64
+seconds. The production build passed. These methods have no production callers,
+and a finishable browser campaign has not been demonstrated.
