@@ -105,7 +105,29 @@ export class NativeGameArenaEnum {
    bucketSlot.pointer(0).set(this.#nameEntry);
    registry.writeUnsigned(12,(registry.readUnsigned(12)+1)>>>0);
    this.#trace.push('2007092f.enumName.lookupReturnActualSubobject');
-   throw new Error('Unowned enum value virtual assignment at 200719e8 (name registry lookup returned)');
+   fact(NativeRuntimePlatform.canonicalGameModuleImageAccessForPlatform(platform,this.crt,'enumValueBaseVtable',0,32));
+   if(this.crt.imageStorage('enumValueBaseVtable').readUnsigned(28)!==0x200067f8)
+    throw new Error('Actual enum value virtual slot required');
+   const assignment=arenaEnumInstructions.find(row=>row.label==='enumValueVirtualAssignment');
+   if(assignment?.bodyVA!=='0x2006d540'||assignment.instructions.map(row=>row.bytes).join('')!=='8b4424048b5004895104b801000000c20400')
+    throw new Error('Original enum value assignment source required');
+   entryFields.writeUnsigned(8,fields.readUnsigned(8));
+   this.#trace.push('2006d54f.enumValue.virtualAssignment.return1');
+   const valueGuard=this.crt.imageStorage('enumValueRegistryGuard');
+   fact(NativeRuntimePlatform.canonicalGameModuleImageAccessForPlatform(platform,this.crt,'enumValueRegistryGuard',0,4));
+   if((valueGuard.readUnsigned(0)&1)!==0)throw new Error('Unowned preexisting enum value registry at 20071a0f');
+   valueGuard.writeUnsigned(0,valueGuard.readUnsigned(0)|1);
+   const valueRegistry=this.crt.imageStorage('enumValueRegistry');
+   fact(NativeRuntimePlatform.canonicalGameModuleImageAccessForPlatform(platform,this.crt,'enumValueRegistry',0,16));
+   for(const offset of [0,4,8,12])valueRegistry.writeUnsigned(offset,0);
+   const valueBuckets=fact(this.memory.realloc(null,204));
+   valueRegistry.pointer(0).set(valueBuckets);
+   if(!valueBuckets)throw new Error('Original enum value registry memset reaches NULL');
+   const valueBucketFields=new NativeHeapObjectViews(valueBuckets,0,204);
+   for(let offset=0;offset<204;offset+=4)valueBucketFields.writeUnsigned(offset,0);
+   valueRegistry.writeUnsigned(8,51);valueRegistry.writeUnsigned(4,43);
+   this.#trace.push('20071186.enumValueRegistry.constructor.return');
+   throw new Error('Unowned enum value registry cleanup registration at 20071a07 -> 204637ce (20549a60)');
   }catch(error){this.#boundary=error instanceof Error?error.message:String(error);return {known:false,reason:this.#boundary};}
  }
  snapshot(){return Object.freeze({boundary:this.#boundary,temporary:this.#temporary,allocation:this.#allocation,

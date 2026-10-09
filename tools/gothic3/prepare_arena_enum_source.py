@@ -21,6 +21,8 @@ def capture(study):
         0x2000ff83: 'enumValueArrayReserve',
         0x20022b92: 'enumNameRegistryReserve',
         0x20018b1a: 'enumNameRegistryFind',
+        0x200067f8: 'enumValueVirtualAssignment',
+        0x2002c20f: 'enumValueRegistryReserve',
     })
     pe = PE((study / '00_Original_Runtime' / 'Game.dll').read_bytes())
     cleanup_instructions = []
@@ -50,7 +52,7 @@ def capture(study):
         (0x207b4f48, 4, 'enumValueScratch'),
         (0x207b505c, 1, 'statusNoneReceiver'),
         (0x20659c74, 12, 'enumValueVtable'),
-        (0x2065902c, 12, 'enumValueBaseVtable'),
+        (0x2065902c, 32, 'enumValueBaseVtable'),
         (0x207b5008, 16, 'enumNameRegistry'),
         (0x207b501c, 4, 'enumNameRegistryGuard'),
         (0x207b4ff0, 16, 'enumValueRegistry'),
@@ -101,7 +103,7 @@ if __name__ == '__main__':
         code += "export const arenaEnumSharedInstructions=source.shared.methods;\n"
         code += "export function arenaEnumNameCleanupReceipt(){admitArenaEnumSource();const method=source.nameRegistryCleanup;return Object.freeze({module:'Game' as const,entry:method.entry,body:method.body,bodyInstructionBytesSha256:method.bodyInstructionBytesSha256});}\n"
         code += "export const arenaEnumImagePins=Object.fromEntries(source.images.map(image=>[image.label,[image.label==='statusNoneName'||image.label.endsWith('Vtable')?'constBytes':'coldGlobals',image.address,image.bytes,image.raw,image.sha256] as const]));freeze(arenaEnumImagePins);\n"
-        code += "export function arenaEnumImageReceipt(label:string):NativeCrtImageReceipt {admitArenaEnumSource();const image=source.images.find(image=>image.label===label);if(!image)throw new Error('Unowned Arena enum image');return Object.freeze({...image,module:'Game',scope:'cold-original-image',knownMask:'ff'.repeat(image.bytes)});}\n"
+        code += "export function arenaEnumImageReceipt(label:string):NativeCrtImageReceipt {admitArenaEnumSource();const image=source.images.find(image=>image.label===label);if(!image)throw new Error('Unowned Arena enum image');return Object.freeze({...image,module:'Game',scope:arenaEnumImagePins[label]![0]==='coldGlobals'?'cold-original-image':'original-file-backed-constant',liveValueCaptured:false,knownMask:'ff'.repeat(image.bytes)});}\n"
         args.runtime_output.write_text(code, encoding='utf-8', newline='\n')
     for method in source['module']['methods']:
         print(method['label'], method['bodyVA'], method['instructionCount'])

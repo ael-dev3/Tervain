@@ -17,7 +17,7 @@ describe('selected browser NPC platform services', () => {
     expect(startup.propertyIdInvocation).toBe('not-entered');
     expect(startup.prerequisites.attachResult.known).toBe(false);
     if(startup.prerequisites.attachResult.known)throw new Error('Unfinished Game startup returned');
-    expect(startup.prerequisites.attachResult.reason).toContain('Unowned enum value virtual assignment at 200719e8');
+    expect(startup.prerequisites.attachResult.reason).toContain('Unowned enum value registry cleanup registration at 20071a07');
     const first = owner.control.matrixIdentity();
     const second = owner.control.matrixIdentity();
     expect(first.known).toBe(true);

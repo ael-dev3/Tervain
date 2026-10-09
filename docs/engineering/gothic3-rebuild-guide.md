@@ -13,6 +13,23 @@ finishable campaign.
 
 ## How the rebuild works
 
+### Current local checkpoint: enum value assignment and second registry
+
+The actual original value-base vtable slot `+0x1c` resolves through
+`200067f8` to the five-instruction body `2006d540`. It copies the retained
+value DWORD into the name entry's actual value subobject and returns one.
+The subsequent value-registry guard and constructor now execute with their
+separate canonical image and allocation. Its independently captured reserve
+helper `2006e860` produces 43 active buckets and capacity 51, clearing all
+204 bytes. Startup reaches cleanup registration for callback `20549a60` at
+`20071a07`; lookup and descriptor insertion remain unfinished.
+
+Typechecking and 22 focused checks across four files pass. Broad validation of
+the earlier checkpoint exposed incorrect image-receipt metadata for the enum
+constants: their scope and capture flag are now corrected, and the independent
+Game image-admission regression passes. The earlier full-suite run does not
+validate this correction or continuation. The work remains local and undeployed.
+
 ### Current local checkpoint: enum name lookup returns
 
 The cold name lookup hashes the actual retained CString with the existing

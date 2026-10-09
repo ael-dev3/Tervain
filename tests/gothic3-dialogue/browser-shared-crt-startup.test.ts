@@ -45,7 +45,7 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  expect(game.known).toBe(true);
  if(!game.known)throw new Error(game.reason);
  expect(game.value.attachResult).toEqual({known:false,
-  reason:'crtAttach204677e4: Unowned Translated Arena Status initializer pending: Unowned enum value virtual assignment at 200719e8 (name registry lookup returned)'});
+  reason:'crtAttach204677e4: Unowned Translated Arena Status initializer pending: Unowned enum value registry cleanup registration at 20071a07 -> 204637ce (20549a60)'});
  const diagnostic=NativeSharedMessageDebug.forPlatform(platform).snapshot(),locale=diagnostic.formatterLocale!;
  expect(diagnostic.messageOwner).toBe(runtime.message);
  expect(diagnostic.messageGetterReturned).toBe(true);
@@ -94,6 +94,14 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  expect(new NativeHeapObjectViews(enumState.nameEntry!,0,16).readUnsigned(4)).toBe(0x2065902c);
  expect(new NativeHeapObjectViews(enumState.nameEntry!,0,16).readUnsigned(8)).toBe(0);
  expect(enumState.entryName!.snapshot().destroyed).toBe(false);
+ expect(enumState.trace).toContain('2006d54f.enumValue.virtualAssignment.return1');
+ const valueRegistry=game.value.crt.imageStorage('enumValueRegistry');
+ expect([4,8,12].map(offset=>valueRegistry.readUnsigned(offset))).toEqual([43,51,0]);
+ expect(game.value.crt.imageStorage('enumValueRegistryGuard').readUnsigned(0)&1).toBe(1);
+ const valueBuckets=valueRegistry.pointer<{identity:object;bytes:Uint8Array;knownMask:Uint8Array;freed:boolean}>(0).get()!;
+ expect(valueBuckets).not.toBe(bucketFields);
+ expect(valueBuckets.bytes.subarray(0,204).every(byte=>byte===0)).toBe(true);
+ expect(valueBuckets.knownMask.subarray(0,204).every(byte=>byte===255)).toBe(true);
  expect(enumState.trace).toContain('200711e6.enumNameRegistry.constructor.return');
  expect(enumState.trace).toContain('200719c5.enumNameRegistry.cleanupRegistered');
  expect(enumState.temporary!.snapshot().destroyed).toBe(false);
