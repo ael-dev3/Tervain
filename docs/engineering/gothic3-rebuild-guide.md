@@ -51,6 +51,31 @@ functions. At an unsupported operation, report its original address and retain
 the state already applied. Capture, component execution and live game integration
 are separate milestones.
 
+### What a native continuation means
+
+A checkpoint follows a real call chain from the original DLL. For example, the
+current startup work follows SpieAdmin opening zSpie.txt: acquire a CRT FILE
+record, allocate and lock descriptor 3, invoke CreateFileA, apply its return,
+and run the original error mapping or publish the opened handle. The TypeScript
+platform supplies owned memory and a virtual filesystem for these operations.
+
+The captured instructions, source addresses and input hashes live beside the
+implementation. Unsupported calls retain their address and current state so the
+next checkpoint can continue from that point. This is incremental behavior
+reconstruction; complete decompilation of every game module has not been
+established. These startup continuations currently have no production callers.
+
+### A repeatable checkpoint
+
+1. Identify the next unsupported call and its original caller.
+2. Capture its instruction bytes, imports, static data and cleanup dependencies.
+3. Generate the source-evidence package and TypeScript instruction tables.
+4. Implement the required platform operation with explicit ownership and lifetime.
+5. Check successful, failed and damaged-state paths against the original flow.
+6. Regenerate independently, inspect the diff and record local validation.
+7. Publish a reviewed revision and record its deployment separately.
+8. Connect the resulting state to browser gameplay and observe that integration.
+
 ## 4. Connect a playable world
 
 Complete startup and activate the world, player and NPCs. Connect rendering,
@@ -111,8 +136,8 @@ virtual filesystem. Missing and denied files use the original error table and
 cleanup; an existing regular file is published into descriptor 3 and its FILE
 record. Execution reaches original SpieAdmin shutdown registration or `fclose`,
 respectively. These operations and complete startup, world activation and
-campaign integration remain unfinished. This file-open continuation is not yet
-published.
+campaign integration remain unfinished. The file-open continuation is proposed in [PR #170](https://github.com/ael-dev3/Tervain/pull/170); it is not yet merged or deployed.
+Local close-handle work is still in progress and has not been validated.
 
 - [Detailed workflow and reference paths](gothic3-rebuild-workflow.md)
 - [Architecture and implementation background](gothic3-rebuild-overview.md)
