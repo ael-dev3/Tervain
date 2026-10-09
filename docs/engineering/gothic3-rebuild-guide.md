@@ -46,8 +46,8 @@ Each feature goes through the following steps:
 
 **Current local boundary:** Arena Status, None and Running initialization
 return through the retained startup stack. The next unsupported callback is
-`204b214f -> 20035a08`, the AI FreePoint type getter. Its preceding wrapper
-constructor and original field stores now execute. Complete startup, world activation and
+`20073309 -> 20073120`, the AI FreePoint class-name getter. Its preceding wrapper
+constructor, property-type base and original field stores now execute. Complete startup, world activation and
 a new-game-to-ending campaign remain unfinished. Local checkpoints and the
 hosted version can differ; validation below identifies the checkpoint covered.
 
@@ -56,7 +56,23 @@ hosted version can differ; validation below identifies the checkpoint covered.
 The entries below describe successive local states, newest first. Statements
 about missing operations in older entries apply to those earlier checkpoints.
 
-### Current local checkpoint: FreePoint wrapper constructor returns
+### Current local checkpoint: FreePoint property-type base constructs
+
+The actual initializer CALL at `204b214f` enters its translated type getter
+through the retained startup frame. The getter uses canonical type storage at
+`207b5088`, sets its original guard bit, invokes the existing SharedBase
+property-type base constructor with flag one, and installs vtable `20659f94`.
+It stops at its original class-name call `20073309 -> 20073120`. The pending
+native getter frame remains on the stack, and repeated entry retains the same
+interruption and CString owner without replaying construction.
+
+Typechecking and seventeen focused checks across two files pass. They inspect
+guard, vtable, base fields, retained string identity and incomplete registration.
+Broad validation of the preceding wrapper checkpoint is separate from this
+later continuation. FreePoint registration, initializer return and complete
+campaign play remain unfinished.
+
+### Earlier local checkpoint: FreePoint wrapper constructor returns
 
 Startup selects original callback `204b2130` and enters its retained CALL frame.
 Generated exact source admission supplies its fourteen original instructions

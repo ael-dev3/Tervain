@@ -15,6 +15,7 @@ import { NativeRuntimePlatform } from './native-runtime-platform';
 import { NativeModuleCrtOwner } from './native-engine-crt-locks';
 import { NativeGameExitTable } from './native-game-crt-exit-table';
 import { NativeGameArenaType } from './native-game-arena-type';
+import { NativeGameFreePointType } from './native-game-freepoint-type';
 import { NativeGameArenaStatusProperty } from './native-game-arena-status-property';
 import {NativeGameArenaEnum} from './native-game-arena-enum';
 import { NativePropertySingleton } from './native-property-singleton';
@@ -3015,6 +3016,22 @@ export class NativeX86ThreadStack {
     const returned=this.#ret(0), source=this.#record(returned).provenance;
     if(source?.kind!=='source' || source.type!=='code' || source.address!=='204b1d94')
       throw new Error('Actual Arena type singleton return required');
+  }); }
+  callGameFreePointTypeSingleton(controller:object):NativeValue<void> { return this.#run(controller,()=>{
+    const binding=this.#setEnvpBinding;
+    if(!binding||binding.controller!==controller)throw new Error('Actual retained Game startup controller required');
+    const point=NativeGameCrtSetEnvp.canonicalFreePointTypeCallForCrt(binding.owner,binding.crt,controller);
+    if(!point.known)throw new Error(point.reason);
+    if(this.#calls.filter(call=>!call.returned).at(-1)?.site!=='20466654')
+      throw new Error('Actual pending FreePoint initializer frame required');
+    const crt=binding.crt as NativeGameCrtOwner,memory=nativeGameLayerBaseMemoryForCrt(crt);
+    if(!memory.known)throw new Error(memory.reason);
+    this.#call('204b214f','204b2154');
+    const result=NativeGameFreePointType.prototype.get.call(NativeGameFreePointType.forCrt(crt,memory.value));
+    if(!result.known)throw new Error(result.reason);
+    // No getter return is admitted until all original construction and
+    // registration operations complete. Preserve the pending native frame.
+    throw new Error('FreePoint getter return is not yet admitted');
   }); }
   /** Execute the recovered Game CRT wrapper under its existing owner. The
    * source loop owns CALL/RET; wrapper instruction interpretation is not claimed. */

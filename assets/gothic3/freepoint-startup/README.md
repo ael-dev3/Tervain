@@ -32,7 +32,11 @@ initializer instructions and canonical image receipts to browser startup.
 The original SharedBase wrapper constructor executes on FreePoint's separate
 storage and returns; flags become ten, the object field is zero, and the
 initializer installs its actual vtable pointer. Startup stops at the type
-getter call `204b214f -> 20035a08`. The FreePoint initializer has not returned.
+getter call `204b214f -> 20035a08` in the preceding wrapper checkpoint.
+The later translated getter now sets its actual guard, constructs the
+property-type base with flag one and installs the derived vtable. It stops
+at `20073309 -> 20073120`, retaining the pending call and its CString owner.
+The FreePoint initializer has not returned or registered its type.
 
 Reproduce from the matching local study:
 

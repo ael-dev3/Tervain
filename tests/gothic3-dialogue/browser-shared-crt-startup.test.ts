@@ -16,6 +16,7 @@ import {NativeSharedCrtSecurityCookie} from '../../src/gothic3/native-shared-crt
 import {createBrowserNpcRuntimeAdminOwner} from '../../src/gothic3/native-runtime-platform';
 import {NativeGameArenaStatusProperty} from '../../src/gothic3/native-game-arena-status-property';
 import {NativeGameArenaEnum} from '../../src/gothic3/native-game-arena-enum';
+import {NativeGameFreePointType} from '../../src/gothic3/native-game-freepoint-type';
 
 function platformFixture(){
  return createBrowserGameCrtPlatform({processInputs:browserGameProcessInputs,
@@ -45,7 +46,7 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  expect(game.known).toBe(true);
  if(!game.known)throw new Error(game.reason);
  expect(game.value.attachResult).toEqual({known:false,
-  reason:'crtAttach204677e4: Unowned Unowned original environment CALL at204b214f: CALL 0x20035a08'});
+  reason:'crtAttach204677e4: Unowned Original FreePoint class-name getter is not yet implemented at 20073309 -> 20073120'});
  const freePoint=game.value.crt.imageStorage('freePointWrapper');
  const freePointVtable=freePoint.pointer<{fields:NativeHeapObjectViews;offset:number}>(0).get()!;
  expect(freePointVtable.fields).toBe(game.value.crt.imageStorage('freePointWrapperVtable'));
@@ -53,7 +54,17 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  expect([4,8,12].map(offset=>freePoint.readUnsigned(offset))).toEqual([10,0,0]);
  expect([...freePoint.knownMask.subarray(4)]).toEqual(Array(12).fill(255));
  expect(game.value.crt.imageStorage('arenaRootWrapper')).not.toBe(freePoint);
- expect(game.value.crt.imageStorage('freePointTypeAndGuard').readUnsigned(60)).toBe(0);
+ const freePointType=NativeGameFreePointType.forCrt(game.value.crt,memory);
+ expect(freePointType.storage.readUnsigned(60)).toBe(1);
+ expect(freePointType.fields.readUnsigned(0)).toBe(0x20659f94);
+ expect(freePointType.base.pointer(8).get()).toBeNull();
+ expect([12,16].map(offset=>freePointType.base.readUnsigned(offset))).toEqual([0,0]);
+ expect(freePointType.base.readUnsigned(20,1)&1).toBe(1);
+ expect(freePointType.snapshot()).toMatchObject({entered:true,baseConstructed:true,registered:false,initializerReturned:false});
+ expect(freePointType.snapshot().trace).toEqual(['200732ed.type.guard1','200732f9.SharedBase.propertyTypeBase.return','200732ff.type.vtable20659f94']);
+ const freePointBaseString=freePointType.base.pointer(4).get();
+ expect(freePointType.get()).toEqual({known:false,reason:freePointType.snapshot().boundary});
+ expect(freePointType.base.pointer(4).get()).toBe(freePointBaseString);
  const diagnostic=NativeSharedMessageDebug.forPlatform(platform).snapshot(),locale=diagnostic.formatterLocale!;
  expect(diagnostic.messageOwner).toBe(runtime.message);
  expect(diagnostic.messageGetterReturned).toBe(true);

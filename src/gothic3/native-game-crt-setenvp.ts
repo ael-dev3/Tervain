@@ -315,6 +315,15 @@ export class NativeGameCrtSetEnvp {
       owner.#requireSourcePoint(owner.#pc).instruction==='CALL 0x2000d152'
       ? known(undefined):unknown('Actual original Arena type-singleton CALL required');
   }
+  static canonicalFreePointTypeCallForCrt(owner:NativeGameCrtSetEnvp,crt:NativeModuleCrtOwner,controller:object):NativeValue<void> {
+    const active=NativeGameCrtSetEnvp.canonicalControllerForCrt(owner,crt,controller,'invoke');
+    if(!active.known)return active;
+    const frame=owner.#frames.at(-1);
+    return owner.#pc==='204b214f' && owner.#currentEntry==='204b2130' &&
+      frame?.entry==='204b2130' && frame.site==='20466654' && frame.returnPc==='20466656' &&
+      owner.#requireSourcePoint(owner.#pc).instruction==='CALL 0x20035a08'
+      ? known(undefined):unknown('Actual original FreePoint type-singleton CALL required');
+  }
   static canonicalArenaMemoryGetterCallForCrt(owner:NativeGameCrtSetEnvp,crt:NativeModuleCrtOwner,controller:object,site='1008ddbb'):NativeValue<void> {
     const active=NativeGameCrtSetEnvp.canonicalControllerForCrt(owner,crt,controller,'invoke');
     if(!active.known)return active;
@@ -600,6 +609,13 @@ export class NativeGameCrtSetEnvp {
       fact(NativeX86ThreadStack.prototype.call.call(this.#stack,this.#controller,point.va,returnPc));
       this.#frames.push(Object.freeze({entry:'200705b0',site:point.va,returnPc,previousEntry:this.#currentEntry}));
       this.#currentEntry='200705b0'; this.#nextBoundary=null; return '200705b0';
+    }
+    if(point.va==='204b214f') {
+      if(target.kind!=='immediate'||target.value!==0x20035a08||returnPc!=='204b2154')
+        throw new Error('Original FreePoint type singleton call target required');
+      this.#nextBoundary=Object.freeze({pc:point.va,operation:'translatedCrtCall',target:'20035a08'});
+      fact(NativeX86ThreadStack.prototype.callGameFreePointTypeSingleton.call(this.#stack,this.#controller));
+      this.#nextBoundary=null;return returnPc;
     }
     if(point.va==='204b1d8f') {
       if(target.kind!=='immediate' || target.value!==0x2000d152 || returnPc!=='204b1d94')
