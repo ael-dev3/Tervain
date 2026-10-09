@@ -13,6 +13,36 @@ finishable campaign.
 
 ## How the rebuild works
 
+### Practical sequence
+
+1. Inventory the installed game at `C:\Program Files (x86)\Steam\steamapps\common\Gothic 3`.
+   Record each original archive, resource path and binary hash before conversion.
+2. Read the archive and resource formats with the tools in `tools/gothic3/`.
+   Export meshes, textures and scene records into browser resources while retaining
+   their original names and provenance. Compare rendering with the game: geometry
+   alone does not reproduce materials, foliage transparency, lighting or animation.
+3. Study the matching DLLs, disassembly and decompiled functions. Capture the
+   original instruction bytes, addresses, data tables and dependencies in
+   `assets/gothic3/`; decompiled text is a guide that must agree with those bytes.
+4. Implement a bounded continuation in `src/gothic3/`. Preserve its memory ownership,
+   pointer identity, stack arguments, return sequence and state changes. Stop at an
+   unsupported operation and report its address instead of inventing a result.
+5. Connect recovered behavior to the browser's world and actors. Asset rendering,
+   engine initialization, NPC activation, quests and saves each require their own
+   integration; a visible scene does not establish that the campaign works.
+6. Record reproducible evidence, inspect the diff and validate the affected behavior.
+   When publishing an implementation checkpoint, also record typechecking, the
+   complete test suite, production build and an actual browser observation.
+7. Review the checkpoint, inspect existing GitHub Actions runs and publish through
+   the repository's Pages workflow. Record the deployed revision and observed
+   behavior separately from results obtained only in a local build.
+8. Repeat from the next unsupported operation until ordinary play can start a new
+   game, progress through quests, save and reload, and reach a campaign ending.
+
+For each checkpoint, the documentation should answer: which original files and
+functions were used, what now executes, what evidence supports it, where execution
+stops, and whether that exact revision has been deployed.
+
 The work has three connected parts: recover the original assets, reconstruct
 engine behavior from the matching native binaries, and connect that behavior to
 browser gameplay. TypeScript supplies the runtime; the original files supply
