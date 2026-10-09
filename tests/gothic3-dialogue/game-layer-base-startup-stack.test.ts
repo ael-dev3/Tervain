@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { NativeValue } from '../../src/gothic3/dialogue';
+import type { NativeBytePointer } from '../../src/gothic3/native-pointer-geometry';
 import { createBrowserGameCrtPlatform } from '../../src/gothic3/browser-game-crt-platform';
 import { createBrowserGameCrtStartup } from '../../src/gothic3/browser-game-crt-startup';
 import { browserGameProcessInputs } from '../../src/gothic3/browser-game-process-inputs';
@@ -8,9 +9,15 @@ import { browserGameStandardIoInputs } from '../../src/gothic3/browser-game-stan
 import { browserGameArgvNlsInputs } from '../../src/gothic3/browser-game-argv-nls-inputs';
 import { nativeVirtualX86CpuSelection } from '../../src/gothic3/native-x86-thread-stack-profile';
 import { NativeX86ThreadStack } from '../../src/gothic3/native-x86-thread-stack';
-import { NativeMemoryAdmin, nativeNpcHeapExtension, nativeSceneStartupHeapExtension, nativeClassNameHeapExtension } from '../../src/gothic3/native-memory-admin';
+import { NativeMemoryAdmin, nativeNpcHeapExtension, nativeSceneStartupHeapExtension, nativeClassNameHeapExtension, nativePropertyHeapExtension } from '../../src/gothic3/native-memory-admin';
 import { NativeGameLayerBaseClassName } from '../../src/gothic3/native-game-layer-base-class-name';
 import { NativeGameExitTable } from '../../src/gothic3/native-game-crt-exit-table';
+import { NativeGameArenaType } from '../../src/gothic3/native-game-arena-type';
+import { NativeGameArenaStatusProperty } from '../../src/gothic3/native-game-arena-status-property';
+import { NativeHeapObjectViews } from '../../src/gothic3/native-heap-views';
+import { NativeSharedStaticTls } from '../../src/gothic3/native-shared-static-tls';
+import { NativeSharedMessageDebug } from '../../src/gothic3/native-shared-message-debug';
+import { NativePropertySingleton } from '../../src/gothic3/native-property-singleton';
 import { NativeGameClassName } from '../../src/gothic3/native-game-class-name-family';
 import { gameClassNameSpec, gameClassNameFamilySpecs } from '../../src/gothic3/native-game-class-name-family-source';
 
@@ -28,7 +35,7 @@ function fixture(textPool = true, objectRefPool = true, pointerPool = false) {
   const memory = new NativeMemoryAdmin(platform, { extensions: [
     ...(textPool ? [nativeNpcHeapExtension] : []),
     ...(objectRefPool ? [nativeSceneStartupHeapExtension] : []),
-    ...(pointerPool ? [nativeClassNameHeapExtension] : []),
+    ...(pointerPool ? [nativeClassNameHeapExtension,nativePropertyHeapExtension] : []),
   ] });
   const stack = fact(NativeX86ThreadStack.forPlatform(platform));
   const game = fact(createBrowserGameCrtStartup(platform, memory));
@@ -50,9 +57,66 @@ describe('original Game C++ class-name initializers on the retained browser stac
     expect({ next: f.game.attachProgress.nextBoundary,
       reason: f.game.attachProgress.setEnvpProgress!.boundary,
       callbacks: NativeGameExitTable.forCrt(f.game.crt).snapshot().callbackCells.length }).toEqual({
-        next: { address: '20466654', name: 'indirectSourceCall', target: '204b1d70' },
-        reason: 'Original Game C++ initializer callback is not yet admitted at 204b1d70', callbacks: 155,
+        next: { address: '20466654', name: 'translatedCrtCall', target: '204b1dd0' },
+        reason: 'Translated Arena Status initializer pending: Property registration Message.Debug at 10088191: Unowned SharedBase output formatter at 100b5355 called from 100a7eff', callbacks: 159,
       });
+    const arenaRoot=f.game.crt.imageStorage('arenaRootWrapper');
+    const arenaVtable=arenaRoot.pointer(0).get() as NativeBytePointer;
+    expect(arenaVtable.fields).toBe(f.game.crt.imageStorage('arenaRootVtable'));
+    expect(arenaVtable.offset).toBe(0);
+    expect(arenaRoot.readUnsigned(4)).toBe(11);
+    expect(arenaRoot.readUnsigned(8)).toBe(0);
+    const arenaTypePointer=arenaRoot.pointer(12).get() as NativeBytePointer;
+    expect(arenaTypePointer.fields).toBe(f.game.crt.imageStorage('arenaTypeAndGuard'));
+    expect(arenaTypePointer.offset).toBe(0);
+    expect(NativeGameArenaType.forCrt(f.game.crt,f.memory).snapshot()).toMatchObject({constructed:true,registered:true,boundary:null});
+    expect(f.stack.snapshot().calls.find(call=>call.site==='204b1d75')).toMatchObject({returned:true});
+    expect(f.stack.snapshot().calls.find(call=>call.site==='204b1d8f')).toMatchObject({returned:true});
+    expect(f.stack.snapshot().calls.find(call=>call.site==='2006f97c')).toMatchObject({returned:true});
+    for(const site of ['2006f985','2006f98d','2006f9ec','2006f9f4','200705c4'])
+      expect(f.stack.snapshot().calls.find(call=>call.site===site)).toMatchObject({returned:true});
+    expect(f.stack.snapshot().calls.find(call=>call.site==='200705d2')).toMatchObject({returned:true,
+      returnWord:{provenance:{kind:'source',type:'code',address:'200705d4'}}});
+    expect(f.game.crt.imageStorage('arenaRootTypeVtable').readUnsigned(12)).toBe(0x2002adfb);
+    for(const site of ['1008d1a3','1008d1aa','1008d1b9','1008ddbb','1008ddc2','1008dddb','1008eb30','1008d257','200705d6','200705de','204b1daa'])
+      expect(f.stack.snapshot().calls.find(call=>call.site===site)).toMatchObject({returned:true});
+    const factory=NativeGameArenaType.forCrt(f.game.crt,f.memory).factory;
+    const rootArray=factory.pointer(4).get() as NativeBytePointer;
+    expect(rootArray.offset).toBe(0);
+    expect(rootArray.fields.backing).toMatchObject({requestedBytes:36,capacity:40,freed:false});
+    expect(factory.readUnsigned(8)).toBe(1);
+    expect(factory.readUnsigned(12)).toBe(9);
+    const registeredRoot=rootArray.fields.pointer(0).get() as NativeBytePointer;
+    expect(registeredRoot.fields).toBe(arenaRoot);
+    expect(registeredRoot.offset).toBe(0);
+    expect(Array.from(rootArray.fields.bytes.subarray(4,36))).toEqual(Array(32).fill(0));
+    expect(Array.from(rootArray.fields.knownMask.subarray(4,36))).toEqual(Array(32).fill(255));
+    const singleton=fact(NativePropertySingleton.forPlatform(f.platform,f.memory));
+    expect(singleton.ranges.object.readUnsigned(4,1)).toBe(1);
+    expect(singleton.ranges.object.pointer(8).get()).toBeNull();
+    expect(f.stack.snapshot().calls.find(call=>call.site==='204b1db4')).toMatchObject({returned:true});
+    expect(f.stack.snapshot().calls.filter(call=>call.site==='20466654'&&call.returned)).toHaveLength(155);
+    expect(f.stack.snapshot().calls.filter(call=>!call.returned).map(call=>call.site))
+      .toEqual(['204678f2','20466654']);
+    const status=NativeGameArenaStatusProperty.forCrt(f.game.crt,f.memory);
+    expect(fact(NativeSharedStaticTls.forPlatform(f.platform)).snapshot()).toMatchObject({loaded:true,
+      virtualLoaderSlot:0,sharedCrtInitialized:false,dllAttachExecuted:false});
+    expect(status.snapshot()).toMatchObject({baseConstructed:true,createCompleted:true,descriptorStored:true,
+      initializerReturned:false,propertyRegistered:false});
+    expect(status.fields).toBe(f.game.crt.imageStorage('arenaStatusDescriptor'));
+    expect(status.fields.pointer(24).get()).toBe(NativeGameArenaType.forCrt(f.game.crt,f.memory).fields);
+    const arena=NativeGameArenaType.forCrt(f.game.crt,f.memory).fields;
+    expect(arena.readUnsigned(12)).toBe(1);
+    expect(arena.readUnsigned(16)).toBe(9);
+    const properties=arena.pointer<{identity:object;bytes:Uint8Array;knownMask:Uint8Array;freed:boolean}>(8).get()!;
+    expect(new NativeHeapObjectViews(properties,0,4).pointer(0).get()).toBe(status.fields);
+    const diagnostic=NativeSharedMessageDebug.forPlatform(f.platform).snapshot();
+    expect(diagnostic.file!.readUnsigned(4)).toBe(0x7fffffff);
+    expect(diagnostic.file!.readUnsigned(12)).toBe(0x42);
+    const destination=diagnostic.file!.pointer(0).get() as NativeBytePointer;
+    expect(destination.fields).toBe(diagnostic.buffer);
+    expect(destination.offset).toBe(0);
+    expect(diagnostic).toMatchObject({formatterReturned:false,terminatorWritten:false,messageDispatched:false,debugReturned:false});
     const completed = gameClassNameFamilySpecs.filter(spec => spec.initializer >= '204b11b0' && spec.initializer < '204b1d70');
     expect(completed).toHaveLength(154);
     for (const spec of completed)

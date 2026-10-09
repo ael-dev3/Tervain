@@ -10,6 +10,7 @@ import type { BrowserGameCrtPlatformProfile } from './browser-game-crt-platform'
 import type { NativeRuntimePlatform } from './native-runtime-platform';
 import { NativeMemoryAdmin } from './native-memory-admin';
 import { bindNativeGameLayerBaseMemory } from './native-game-layer-base-class-name';
+import { NativeSharedStaticTls } from './native-shared-static-tls';
 
 const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
 const unknown = (reason: string): { known: false; reason: string } => ({ known: false, reason });
@@ -34,6 +35,7 @@ interface RetainedStartup {
   interruption: string | null;
   host: NativeModuleCrtHost | null;
   bootstrap: NativeCrtBootstrap | null;
+  sharedTls: NativeSharedStaticTls | null;
   result: NativeValue<BrowserGameCrtStartup>;
 }
 const retained = new WeakMap<NativeRuntimePlatform, RetainedStartup>();
@@ -45,7 +47,9 @@ export function canonicalBrowserGameCrtStartup(graph: BrowserGameCrtStartup,
   const profile = browserGameCrtPlatformProfile(platform);
   if (!profile.known) return profile;
   const entry = retained.get(platform);
+  const tls=NativeSharedStaticTls.forPlatform(platform);
   if (!entry || entry.phase !== 'returned' || entry.interruption || !entry.result.known ||
+      !tls.known || tls.value!==entry.sharedTls || !tls.value.snapshot().loaded ||
       entry.result.value !== graph || entry.compatibility !== profile.value ||
       graph.compatibility !== profile.value || entry.host !== graph.crt.host ||
       entry.bootstrap !== graph.bootstrap || graph.bootstrap.crt !== graph.crt) {
@@ -79,7 +83,7 @@ export function createBrowserGameCrtStartup(platform: NativeRuntimePlatform, mem
     if (!bound.known) return bound;
   }
   const entry: RetainedStartup = { memory: memory ?? null, compatibility: profile.value, phase: 'constructing',
-    interruption: null, host: null, bootstrap: null,
+    interruption: null, host: null, bootstrap: null, sharedTls: null,
     result: unknown('Browser Game startup is constructing') };
   retained.set(platform, entry);
   const guard = (): void => {
@@ -90,6 +94,14 @@ export function createBrowserGameCrtStartup(platform: NativeRuntimePlatform, mem
   };
   let result: NativeValue<BrowserGameCrtStartup>;
   try {
+    // The declared VM loads SharedBase's pinned static TLS template before
+    // Game startup. This is loader state, not SharedBase CRT or DLL attach.
+    const tls=NativeSharedStaticTls.forPlatform(platform);
+    if(!tls.known)throw new Error(tls.reason);
+    entry.sharedTls=tls.value;
+    const loaded=NativeSharedStaticTls.prototype.loadSharedBase.call(tls.value);
+    if(!loaded.known)throw new Error(loaded.reason);
+    guard();
     const host: NativeModuleCrtHost = Object.freeze({ platform,
       errnoSlot: () => entry.bootstrap ? entry.bootstrap.thread.errnoSlot()
         : unknown('Game errno requires its actual retained bootstrap thread owner'),

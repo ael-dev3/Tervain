@@ -18,6 +18,7 @@ import { gameArgvInstruction } from './native-game-crt-argv-source';
 import { nativeGameImageReceipt } from './native-game-crt-profile';
 import { nativeGameLayerBaseMemoryForCrt } from './native-game-layer-base-class-name';
 import { gameClassNameSpec, gameClassNameFamilySpecs, gameClassNameFamilyInstruction } from './native-game-class-name-family-source';
+import { gameArenaRootInstruction, admitArenaWrapperConstructorImport, gameArenaWrapperImportTarget, arenaRegistrationToggleTarget } from './native-game-arena-root-source';
 import type { NativeGameCrtOwner } from './native-game-crt';
 
 const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
@@ -71,6 +72,18 @@ const bodies = Object.freeze([
   ['2046bcff', '2046bcff-2046bd1c'],
   ['2047470c', '2047470c-204747bc'],
   ...gameClassNameFamilySpecs.map(spec => [spec.initializer, spec.initializer + '-' + spec.instructions.at(-1)!.va] as const),
+  ['204b1d70','204b1d70-204b1dba'],
+  ['10089290','10089290-100892be'],
+  ['200705b0','200705b0-2007067f'],
+  ['2006f930','2006f930-2006faa3'],
+  ['100891b0','100891b0-100891b9'],
+  ['10090010','10090010-10090045'],
+  ['2006d780','2006d780-2006d783'],
+  ['1008d190','1008d190-1008d262'],
+  ['10090110','10090110-10090113'],
+  ['1008eb10','1008eb10-1008eb96'],
+  ['1008dd70','1008dd70-1008ddec'],
+  ['100a7980','100a7980-100a79fa'],
 ] as const);
 const ranges = new Map<string, readonly (readonly [number, number])[]>(bodies.map(([entry, text]) =>
   [entry, Object.freeze(text.split(';').map(range => Object.freeze(range.split('-').map(x => Number.parseInt(x, 16)) as [number, number]))) ]));
@@ -268,6 +281,66 @@ export class NativeGameCrtSetEnvp {
       frame?.site === '204678e7' && frame.returnPc === '204678ec' && owner.#frames.length === 1 && owner.#importSite === null
       ? known(undefined) : unknown('Actual original setenvp RET/current restored callee required');
   }
+  static canonicalArenaVirtualReadForCrt(owner:NativeGameCrtSetEnvp,crt:NativeModuleCrtOwner,controller:object,site:string):NativeValue<void> {
+    const active=NativeGameCrtSetEnvp.canonicalControllerForCrt(owner,crt,controller,'invoke');
+    if(!active.known)return active;
+    const frame=owner.#frames.at(-1);
+    const instruction=site==='200705cc'?'MOV EDX,dword ptr [ECX]':site==='200705ce'?'MOV EAX,dword ptr [EDX + 0xc]':null;
+    return instruction!==null && owner.#pc===site && owner.#currentEntry==='200705b0' &&
+      frame?.entry==='200705b0' && frame.site==='204b1daa' && frame.returnPc==='204b1daf' &&
+      owner.#requireSourcePoint(site).instruction===instruction
+      ? known(undefined):unknown('Actual original Arena virtual-table read required');
+  }
+  static canonicalArenaPropertySingletonCallForCrt(owner:NativeGameCrtSetEnvp,crt:NativeModuleCrtOwner,controller:object,site:string):NativeValue<void> {
+    const active=NativeGameCrtSetEnvp.canonicalControllerForCrt(owner,crt,controller,'invoke');
+    if(!active.known)return active;
+    const frame=owner.#frames.at(-1);
+    const original=site==='1008d1a3'
+      ? owner.#currentEntry==='1008d190' && frame?.entry==='1008d190' && frame.site==='200705d6' &&
+        frame.returnPc==='200705dc' && owner.#requireSourcePoint(site).instruction==='CALL 0x10004fd4'
+      : ['2006f985','2006f9ec'].includes(site) && owner.#currentEntry==='2006f930' &&
+        frame?.entry==='2006f930' && frame.site==='200705c4' && frame.returnPc==='200705c9' &&
+        owner.#requireSourcePoint(site).instruction==='CALL dword ptr [0x207d8868]';
+    return original && owner.#pc===site
+      ? known(undefined):unknown('Actual original Arena property singleton import required');
+  }
+  static canonicalArenaTypeCallForCrt(owner:NativeGameCrtSetEnvp,crt:NativeModuleCrtOwner,controller:object):NativeValue<void> {
+    const active=NativeGameCrtSetEnvp.canonicalControllerForCrt(owner,crt,controller,'invoke');
+    if(!active.known)return active;
+    const frame=owner.#frames.at(-1);
+    return owner.#pc==='204b1d8f' && owner.#currentEntry==='204b1d70' &&
+      frame?.entry==='204b1d70' && frame.site==='20466654' && frame.returnPc==='20466656' &&
+      owner.#requireSourcePoint(owner.#pc).instruction==='CALL 0x2000d152'
+      ? known(undefined):unknown('Actual original Arena type-singleton CALL required');
+  }
+  static canonicalArenaMemoryGetterCallForCrt(owner:NativeGameCrtSetEnvp,crt:NativeModuleCrtOwner,controller:object,site='1008ddbb'):NativeValue<void> {
+    const active=NativeGameCrtSetEnvp.canonicalControllerForCrt(owner,crt,controller,'invoke');
+    if(!active.known)return active;
+    const frame=owner.#frames.at(-1);
+    const instruction=site==='1008ddbb'?'CALL 0x10002aae':site==='1008ddc2'?'CALL 0x10004133':null;
+    return instruction!==null && owner.#pc===site && owner.#currentEntry==='1008dd70' &&
+      frame?.entry==='1008dd70' && frame.site==='1008eb30' && frame.returnPc==='1008eb35' &&
+      owner.#requireSourcePoint(owner.#pc).instruction===instruction
+      ? known(undefined):unknown('Actual original Arena reserve MemoryAdmin getter required');
+  }
+  static canonicalArenaRootCleanupRegistrationForCrt(owner:NativeGameCrtSetEnvp,crt:NativeModuleCrtOwner,controller:object):NativeValue<void> {
+    const active=NativeGameCrtSetEnvp.canonicalControllerForCrt(owner,crt,controller,'invoke');
+    if(!active.known)return active;
+    const frame=owner.#frames.at(-1);
+    return owner.#pc==='204b1db4' && owner.#currentEntry==='204b1d70' &&
+      frame?.entry==='204b1d70' && frame.site==='20466654' && frame.returnPc==='20466656' &&
+      owner.#requireSourcePoint(owner.#pc).instruction==='CALL 0x204637ce'
+      ? known(undefined):unknown('Actual original Arena root cleanup registration call required');
+  }
+  static canonicalArenaStatusInitializerForCrt(owner:NativeGameCrtSetEnvp,crt:NativeModuleCrtOwner,controller:object):NativeValue<void> {
+    const active=NativeGameCrtSetEnvp.canonicalControllerForCrt(owner,crt,controller,'invoke');
+    if(!active.known)return active;
+    const frame=owner.#frames.at(-1);
+    return owner.#pc==='20466654' && frame?.entry==='204b1dd0' &&
+      frame.site==='20466654' && frame.returnPc==='20466656' &&
+      owner.#requireSourcePoint(owner.#pc).instruction==='CALL EAX'
+      ? known(undefined):unknown('Actual original Arena Status initializer call required');
+  }
   static canonicalReturnedSetEnvpForCrt(owner: NativeGameCrtSetEnvp, crt: NativeModuleCrtOwner,
     bootstrap: NativeCrtBootstrap, permit: object): NativeValue<0 | -1> {
     const entry = owners.get(crt);
@@ -315,7 +388,8 @@ export class NativeGameCrtSetEnvp {
     const extent = ranges.get(this.#currentEntry), address = Number.parseInt(pc, 16);
     if (!extent?.some(([first, last]) => address >= first && address <= last) ||
         this.#currentEntry === '204677e4' && !callerRows.has(pc)) throw new Error('Unowned Game environment source frontier at' + pc);
-    const point = gameClassNameSpec(this.#currentEntry) ? gameClassNameFamilyInstruction(this.#currentEntry,pc)
+    const point = ['204b1d70','10089290','200705b0','2006f930','100891b0','10090010','2006d780','1008d190','10090110','1008eb10','1008dd70','100a7980'].includes(this.#currentEntry) ? gameArenaRootInstruction(this.#currentEntry,pc)
+      : gameClassNameSpec(this.#currentEntry) ? gameClassNameFamilyInstruction(this.#currentEntry,pc)
       : this.#currentEntry === '2046bcff' ? gameArgvInstruction(pc)
       : ['204665f4', '204738b0', '20473830', '20473860', '20463917', '204638a7',
       '204696f6', '20469672', '2046643f', '20469f3a', '2047e687', '2047e627', '2047e5d7', '2047470c'].includes(this.#currentEntry)
@@ -376,6 +450,15 @@ export class NativeGameCrtSetEnvp {
     return fact(NativeX86ThreadStack.prototype.effectiveAddress.call(this.#stack, this.#controller, terms, displacement));
   }
   #read(value: Operand, bytes: Width = width(value)): NativeX86Word32 {
+    if(this.#currentEntry==='200705b0' && bytes===4 && value.kind==='memory' && !value.fs &&
+      ((this.#pc==='200705cc' && value.expression==='ECX') || (this.#pc==='200705ce' && value.expression==='EDX + 0xc')))
+      return fact(NativeX86ThreadStack.prototype.loadArenaVirtualPointer.call(this.#stack,this.#controller,this.#pc,this.#address(value.expression)));
+    if(bytes===4 && value.kind==='memory' && !value.fs && this.#currentEntry==='2006f930' &&
+      ((this.#pc==='2006f957' && value.expression==='0x207d87c4') ||
+       (this.#pc==='2006f96d' && value.expression==='0x207d86e8'))) {
+      const target=gameArenaWrapperImportTarget(value.expression.slice(2));
+      return fact(NativeX86ThreadStack.prototype.sourceAddress.call(this.#stack,this.#controller,'code',target));
+    }
     if (value.kind === 'register') return value.lane
       ? fact(NativeX86ThreadStack.prototype.registerLane.call(this.#stack, this.#controller, value.register, value.lane)) : this.#register(value.register);
     if (value.kind === 'immediate') return this.#literal(value.value);
@@ -400,9 +483,160 @@ export class NativeGameCrtSetEnvp {
     fact(NativeX86ThreadStack.prototype.storeWidth.call(this.#stack, this.#controller, this.#address(destination.expression), word, bytes));
   }
   #call(point: NativeGameIoInstruction, target: Operand, returnPc: string): string {
+    if(point.va==='204b1db4') {
+      if(target.kind!=='immediate' || target.value!==0x204637ce)
+        throw new Error('Original Arena root cleanup atexit target required');
+      fact(NativeX86ThreadStack.prototype.registerArenaRootCleanup.call(this.#stack,this.#controller));
+      this.#nextBoundary=null; return returnPc;
+    }
+    if(point.va==='200705de') {
+      if(this.#currentEntry!=='200705b0' || target.kind!=='memory' || target.expression!=='0x207d86e8' || target.fs)
+        throw new Error('Original Arena post-registration IsRoot import required');
+      const body=gameArenaWrapperImportTarget('207d86e8');
+      fact(NativeX86ThreadStack.prototype.call.call(this.#stack,this.#controller,point.va,returnPc));
+      this.#frames.push(Object.freeze({entry:body,site:point.va,returnPc,previousEntry:this.#currentEntry}));
+      this.#currentEntry=body; this.#nextBoundary=null; return body;
+    }
+    if(point.va==='1008dddb') {
+      if(this.#currentEntry!=='1008dd70' || target.kind!=='immediate' || target.value!==0x100a7980)
+        throw new Error('Original Arena array memset call required');
+      fact(NativeX86ThreadStack.prototype.call.call(this.#stack,this.#controller,point.va,returnPc));
+      this.#frames.push(Object.freeze({entry:'100a7980',site:point.va,returnPc,previousEntry:this.#currentEntry}));
+      this.#currentEntry='100a7980'; this.#nextBoundary=null; return '100a7980';
+    }
+    if(point.va==='1008ddc2') {
+      if(this.#currentEntry!=='1008dd70' || target.kind!=='immediate' || target.value!==0x10004133)
+        throw new Error('Original Arena reserve MemoryAdmin realloc call required');
+      fact(NativeX86ThreadStack.prototype.callArenaMemoryAdminRealloc.call(this.#stack,this.#controller,returnPc));
+      this.#nextBoundary=null; return returnPc;
+    }
+    if(point.va==='1008ddbb') {
+      if(this.#currentEntry!=='1008dd70' || target.kind!=='immediate' || target.value!==0x10002aae)
+        throw new Error('Original Arena reserve MemoryAdmin getter call required');
+      fact(NativeX86ThreadStack.prototype.callArenaMemoryAdminGetter.call(this.#stack,this.#controller,returnPc));
+      this.#nextBoundary=null; return returnPc;
+    }
+    if(point.va==='1008eb30') {
+      if(this.#currentEntry!=='1008eb10' || target.kind!=='immediate' || target.value!==0x100035f8)
+        throw new Error('Original Arena root array reserve call required');
+      fact(NativeX86ThreadStack.prototype.call.call(this.#stack,this.#controller,point.va,returnPc));
+      this.#frames.push(Object.freeze({entry:'1008dd70',site:point.va,returnPc,previousEntry:this.#currentEntry}));
+      this.#currentEntry='1008dd70'; this.#nextBoundary=null; return '1008dd70';
+    }
+    if(point.va==='1008d257') {
+      if(this.#currentEntry!=='1008d190' || target.kind!=='immediate' || target.value!==0x10007d92)
+        throw new Error('Original factory root-array insertion call required');
+      fact(NativeX86ThreadStack.prototype.call.call(this.#stack,this.#controller,point.va,returnPc));
+      this.#frames.push(Object.freeze({entry:'1008eb10',site:point.va,returnPc,previousEntry:this.#currentEntry}));
+      this.#currentEntry='1008eb10'; this.#nextBoundary=null; return '1008eb10';
+    }
+    if(point.va==='200705d6') {
+      if(this.#currentEntry!=='200705b0' || target.kind!=='memory' || target.expression!=='0x207d86e0' || target.fs)
+        throw new Error('Original Arena RegisterPropertyObject call required');
+      fact(NativeX86ThreadStack.prototype.call.call(this.#stack,this.#controller,point.va,returnPc));
+      this.#frames.push(Object.freeze({entry:'1008d190',site:point.va,returnPc,previousEntry:this.#currentEntry}));
+      this.#currentEntry='1008d190'; this.#nextBoundary=null; return '1008d190';
+    }
+    if(['1008d1aa','1008d1b9'].includes(point.va)) {
+      const [entry,body]=point.va==='1008d1aa'?['10001f23','10090110']:['100058a3','100891b0'];
+      if(this.#currentEntry!=='1008d190' || target.kind!=='immediate' || hex(target.value)!==entry)
+        throw new Error('Original factory registration helper call required');
+      fact(NativeX86ThreadStack.prototype.call.call(this.#stack,this.#controller,point.va,returnPc));
+      this.#frames.push(Object.freeze({entry:body,site:point.va,returnPc,previousEntry:this.#currentEntry}));
+      this.#currentEntry=body; this.#nextBoundary=null; return body;
+    }
+    if(point.va==='1008d1a3') {
+      if(this.#currentEntry!=='1008d190' || target.kind!=='immediate' || target.value!==0x10004fd4)
+        throw new Error('Original factory registration singleton getter required');
+      this.#nextBoundary=Object.freeze({pc:point.va,operation:'translatedCrtCall',target:'10004fd4'});
+      fact(NativeX86ThreadStack.prototype.callArenaPropertySingleton.call(this.#stack,this.#controller,point.va,returnPc));
+      this.#nextBoundary=null; return returnPc;
+    }
+    if(point.va==='200705d2') {
+      if(this.#currentEntry!=='200705b0' || target.kind!=='register' || target.register!=='EAX' || target.lane)
+        throw new Error('Original Arena factory virtual call required');
+      fact(NativeX86ThreadStack.prototype.requireSourceAddress.call(this.#stack,this.#controller,this.#read(target),'code','2002adfb'));
+      fact(NativeX86ThreadStack.prototype.call.call(this.#stack,this.#controller,point.va,returnPc));
+      this.#frames.push(Object.freeze({entry:'2006d780',site:point.va,returnPc,previousEntry:this.#currentEntry}));
+      this.#currentEntry='2006d780'; this.#nextBoundary=null; return '2006d780';
+    }
+    if(['2006f98d','2006f9f4'].includes(point.va)) {
+      if(this.#currentEntry!=='2006f930' || target.kind!=='memory' || target.expression!=='0x207d86ec' || target.fs)
+        throw new Error('Original Arena registration toggle call required');
+      const body=arenaRegistrationToggleTarget();
+      fact(NativeX86ThreadStack.prototype.call.call(this.#stack,this.#controller,point.va,returnPc));
+      this.#frames.push(Object.freeze({entry:body,site:point.va,returnPc,previousEntry:this.#currentEntry}));
+      this.#currentEntry=body; this.#nextBoundary=null; return body;
+    }
+    if(['2006f985','2006f9ec'].includes(point.va)) {
+      if(target.kind!=='memory' || target.expression!=='0x207d8868' || target.fs)
+        throw new Error('Original Arena property singleton operand required');
+      this.#nextBoundary=Object.freeze({pc:point.va,operation:'import',target:'207d8868'});
+      fact(NativeX86ThreadStack.prototype.callArenaPropertySingleton.call(this.#stack,this.#controller,point.va,returnPc));
+      this.#nextBoundary=null; return returnPc;
+    }
+    if(point.va==='200705c4') {
+      if(this.#currentEntry!=='200705b0' || target.kind!=='immediate' || target.value!==0x2002dc8b)
+        throw new Error('Original Arena object replacement call required');
+      fact(NativeX86ThreadStack.prototype.call.call(this.#stack,this.#controller,point.va,returnPc));
+      this.#frames.push(Object.freeze({entry:'2006f930',site:point.va,returnPc,previousEntry:this.#currentEntry}));
+      this.#currentEntry='2006f930'; this.#nextBoundary=null; return '2006f930';
+    }
+    if(['2006f97c','2006f997','2006f9e3','2006f9fc'].includes(point.va)) {
+      if(this.#currentEntry!=='2006f930' || target.kind!=='register' || target.register!=='EBP' || target.lane)
+        throw new Error('Original Arena indirect IsRoot call required');
+      const body=gameArenaWrapperImportTarget('207d86e8');
+      fact(NativeX86ThreadStack.prototype.requireSourceAddress.call(this.#stack,this.#controller,this.#read(target),'code',body));
+      fact(NativeX86ThreadStack.prototype.call.call(this.#stack,this.#controller,point.va,returnPc));
+      this.#frames.push(Object.freeze({entry:body,site:point.va,returnPc,previousEntry:this.#currentEntry}));
+      this.#currentEntry=body; this.#nextBoundary=null; return body;
+    }
+    if(point.va==='204b1daa') {
+      if(this.#currentEntry!=='204b1d70' || target.kind!=='immediate' || target.value!==0x200021d5 || returnPc!=='204b1daf')
+        throw new Error('Original Arena wrapper initialization call required');
+      fact(NativeX86ThreadStack.prototype.call.call(this.#stack,this.#controller,point.va,returnPc));
+      this.#frames.push(Object.freeze({entry:'200705b0',site:point.va,returnPc,previousEntry:this.#currentEntry}));
+      this.#currentEntry='200705b0'; this.#nextBoundary=null; return '200705b0';
+    }
+    if(point.va==='204b1d8f') {
+      if(target.kind!=='immediate' || target.value!==0x2000d152 || returnPc!=='204b1d94')
+        throw new Error('Original Arena type singleton call target required');
+      this.#nextBoundary=Object.freeze({pc:point.va,operation:'translatedCrtCall',target:'2000d152'});
+      fact(NativeX86ThreadStack.prototype.callGameArenaTypeSingleton.call(this.#stack,this.#controller));
+      this.#nextBoundary=null; return returnPc;
+    }
+    if(point.va==='204b1d75') {
+      if(this.#currentEntry!=='204b1d70' || target.kind!=='memory' || target.expression!=='0x207d87b8' || target.fs)
+        throw new Error('Original Arena wrapper constructor call required');
+      admitArenaWrapperConstructorImport();
+      this.#nextBoundary=Object.freeze({pc:point.va,operation:'import',target:'207d87b8'});
+      fact(NativeX86ThreadStack.prototype.call.call(this.#stack,this.#controller,point.va,returnPc));
+      this.#frames.push(Object.freeze({entry:'10089290',site:point.va,returnPc,previousEntry:this.#currentEntry}));
+      this.#currentEntry='10089290'; this.#nextBoundary=null; return '10089290';
+    }
     if (point.va === '20466654') {
       const callback = fact(NativeX86ThreadStack.prototype.resolveGameCppInitializer.call(this.#stack, this.#controller));
       this.#nextBoundary = Object.freeze({ pc: point.va, operation: 'indirectSourceCall', target: callback });
+      if(callback==='204b1dd0' && nativeGameLayerBaseMemoryForCrt(this.#crt as NativeGameCrtOwner).known) {
+        // This is the existing translated initializer owner; its lower
+        // instructions are not interpreted on this startup stack.
+        this.#nextBoundary=Object.freeze({pc:point.va,operation:'translatedCrtCall',target:callback});
+        this.#frames.push(Object.freeze({entry:callback,site:point.va,returnPc,previousEntry:this.#currentEntry}));
+        fact(NativeX86ThreadStack.prototype.callArenaStatusInitializer.call(this.#stack,this.#controller));
+        this.#frames.pop(); this.#nextBoundary=null; return returnPc;
+      }
+      if (callback === '204b1d70' && nativeGameLayerBaseMemoryForCrt(this.#crt as NativeGameCrtOwner).known) {
+        this.#classImages = Object.freeze(['arenaRootWrapper','arenaRootVtable','arenaRootTypeVtable'].map(label => {
+          const receipt = nativeGameImageReceipt(label);
+          const fields = fact(NativeModuleCrtOwner.canonicalImageForOwner(this.#crt,label));
+          if(fields.bytes.length!==receipt.bytes || fields.knownMask.length!==receipt.bytes)
+            throw new Error('Original Arena root image geometry required');
+          return Object.freeze({label,address:Number.parseInt(receipt.address,16),bytes:receipt.bytes,fields});
+        }));
+        fact(NativeX86ThreadStack.prototype.call.call(this.#stack,this.#controller,point.va,returnPc));
+        this.#frames.push(Object.freeze({entry:callback,site:point.va,returnPc,previousEntry:this.#currentEntry}));
+        this.#currentEntry=callback; this.#nextBoundary=null; return callback;
+      }
       if (gameClassNameSpec(callback) && nativeGameLayerBaseMemoryForCrt(this.#crt as NativeGameCrtOwner).known) {
         const spec = gameClassNameSpec(callback)!;
         this.#classImages = Object.freeze([spec.labels.cache,spec.labels.result].map(label => {
