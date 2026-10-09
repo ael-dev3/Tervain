@@ -71,9 +71,14 @@ next unsupported initializer, `204b2660`.
 Focused tests inspect the original helper, accessor, wrapper and initializer
 returns; factory array membership; and exactly one class-name, type and wrapper
 cleanup registration. All 31 tests passed, TypeScript checking passed and
-independent source generations matched exactly. Full validation of this
-latest completion and production browser proof remain pending. Cleanup
-execution and the playable campaign remain unfinished.
+independent source generations matched exactly. The latest completion also passed a production build in 49.35 seconds.
+A local production browser loaded Ardea and its original NPC model inspector
+and reported startup at `204b2660`; live NPC activation still reported the
+unconnected ScriptAdmin getter and 0/16 attached property sets. Full-suite
+validation of this latest completion remains pending. The earlier Label
+wrapper-entry checkpoint passed all 3,199 tests across 298 files in 540.16
+seconds and a production build in 46.09 seconds. Cleanup execution and the
+playable campaign remain unfinished.
 
 ### Current local checkpoint: Label wrapper initialization enters
 
@@ -158,6 +163,14 @@ The FreePoint continuation passed all 3,199 tests across 298 files in
 startup and Hero checks passed, and the production build completed in
 47.14 seconds. Publication remains pending. These results establish startup
 progress; a playable campaign is still unverified.
+
+### Published FreePoint checkpoint
+
+PR 209 merged as `2d1121eb681a68e0b11d3499c8cab93585f45f33`. Pages run
+`37951664163` succeeded. The public `/gothic3/` route loaded Ardea and its
+model inspector and reported the expected startup boundary `204b23d0`.
+This confirms the FreePoint continuation is deployed; the later Label
+continuation described above remains local.
 
 ### Browser verification of the FreePoint continuation
 
