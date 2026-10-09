@@ -1,3 +1,4 @@
+import {NativeGameLabelClassName} from '../../src/gothic3/native-game-label-class-name';
 import {NativeGameLabelType} from '../../src/gothic3/native-game-label-type';
 import {expect,it,vi} from 'vitest';
 // These run the original instructions in the emulator: about 4–5 s each here, so the 5 s default fails under CI load.
@@ -51,15 +52,27 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  expect(game.known).toBe(true);
  if(!game.known)throw new Error(game.reason);
  expect(game.value.attachResult,game.value.attachProgress.setEnvpProgress?.currentPC).toEqual({known:false,
-  reason:'crtAttach204677e4: Unowned Original Label class-name CALL is not yet admitted at 200752b9 -> 200340d6'});
+  reason:'crtAttach204677e4: Unowned Original Label registration CALL is not yet admitted at 200752cf -> 207d8868'});
  const executed=new Set(game.value.attachProgress.setEnvpProgress!.effects.map(effect=>effect.pc));
  for(const pc of ['20072719','20072383','200730dd','204b217a','204b23ca'])expect(executed.has(pc)).toBe(true);
  const labelType=NativeGameLabelType.forCrt(game.value.crt,memory);
- expect(labelType.snapshot()).toMatchObject({entered:true,baseConstructed:true,getterReturned:false});
+ expect(labelType.snapshot()).toMatchObject({entered:true,baseConstructed:true,factoryConstructed:true,getterReturned:false});
  expect(labelType.storage.maskedWord(60,4).value&1).toBe(1);
  expect(labelType.fields.readUnsigned(0)).toBe(0x2065a384);
  expect(labelType.base.readUnsigned(20,1)&1).toBe(1);
  expect([12,16].map(offset=>labelType.base.readUnsigned(offset))).toEqual([0,0]);
+ const labelNameOwner=NativeGameLabelClassName.forCrt(game.value.crt,memory);
+ const labelName=labelNameOwner.get();expect(labelName.known).toBe(true);
+ if(!labelName.known)throw new Error(labelName.reason);
+ expect(labelName.value.text()).toEqual({known:true,value:'gCAIHelper_Label_PS'});
+ expect(labelNameOwner.fields.readUnsigned(8)).toBe(3);
+ expect(labelNameOwner.snapshot().callback!.entry).toBe('20007702');
+ expect(labelNameOwner.get()).toEqual(labelName);
+ expect(labelType.fields.readUnsigned(24)).toBe(0x100ea9c4);
+ expect(labelType.fields.pointer(28).get()).toBeNull();
+ expect([32,36].map(offset=>labelType.fields.readUnsigned(offset))).toEqual([0,0]);
+ expect(labelType.fields.readUnsigned(40,2)).toBe(1);
+ expect(labelType.fields.pointer(44).get()).toBe(labelNameOwner.fields.pointer(0).get());
  const labelBefore=[...labelType.storage.bytes];
  expect(labelType.get().known).toBe(false);
  expect([...labelType.storage.bytes]).toEqual(labelBefore);

@@ -21,8 +21,9 @@ it with argument one, and registers cleanup `20549c50`. Type cleanup is
 and execution are not captured by this package. The initializer prefix now executes the original SharedBase wrapper
 constructor on its own retained storage, sets flags to ten, clears its object
 field and installs the Label vtable. The reflected type getter now sets its guard, constructs the type base with
-flag one and installs vtable `2065a384`. It stops at class-name CALL
-`200752b9 -> 200340d6`. The complete Label initializer has not returned.
+flag one and installs vtable `2065a384`. Its class-name getter reuses the earlier static initializer owner and the
+named factory constructs at type offset `+0x18`. It stops at registration CALL
+`200752cf -> 207d8868`. The complete Label initializer has not returned.
 
 Reproduce with:
 
@@ -31,4 +32,4 @@ python tools/gothic3/prepare_label_source.py --study '<study directory>' --outpu
 ```
 
 Two independent generations matched byte for byte. JSON SHA-256:
-`9f16b816aa96fea0a71835a0d3ee8ab86198f40b8ae53e5b3c90408bdc3cc199`.
+`ca134adee16e8779ab0df58d1e31a953275586ca445cd791645e2c5ba29af460`.

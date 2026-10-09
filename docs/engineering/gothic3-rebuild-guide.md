@@ -48,7 +48,7 @@ Each feature goes through the following steps:
 initialization return through the retained startup stack. FreePoint's later
 class-name initializer also returns, sharing the same CString and cleanup
 owner. Label initializer `204b23d0` now executes its wrapper constructor and stops
-inside that getter at class-name CALL `200752b9 -> 200340d6`. Complete startup,
+inside that getter at registration CALL `200752cf -> 207d8868`. Complete startup,
 world activation and a new-game-to-ending campaign remain unfinished. Local
 checkpoints and the hosted version can differ; validation below identifies
 the checkpoint covered.
@@ -57,6 +57,19 @@ the checkpoint covered.
 
 The entries below describe successive local states, newest first. Statements
 about missing operations in older entries apply to those earlier checkpoints.
+
+### Current local checkpoint: Label class name and named factory construct
+
+The type getter reuses the canonical class-name owner from initializer
+`204b23b0`. Its Label cache and descriptor aliases are checked against the
+same physical Game image, so the earlier static initializer and type getter
+retain one CString and cleanup registration. The named property factory
+constructs at type offset `+0x18` and retains the class-name string allocation.
+Startup now stops at registration CALL `200752cf -> 207d8868`.
+
+Independent JSON and TypeScript generations matched exactly, TypeScript
+checking passed, and all 31 focused startup tests passed in 22.74 seconds.
+Type registration and complete Label initializer return remain unfinished.
 
 ### Current local checkpoint: Label reflected-type base constructs
 

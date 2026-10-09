@@ -34,7 +34,7 @@ def capture(study):
         (0x207b5118, 4, 'labelClassNameInput'),
         (0x2065a384, 16, 'labelTypeVtable'),
         (0x2065a45c, 68, 'labelWrapperVtable'),
-        (0x20798260, 40, 'labelTypeInfoDescriptor'),
+        (0x20798260, 36, 'labelTypeInfoDescriptor'),
     ]:
         rva = address - pe.base
         virtual_size, start, raw_size, raw_offset = next(s for s in pe.sections

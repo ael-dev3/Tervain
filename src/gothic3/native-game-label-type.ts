@@ -3,6 +3,7 @@ import type {NativeValue} from './dialogue';
 import {NativeGameCrtOwner} from './native-game-crt';
 import {NativeMemoryAdmin} from './native-memory-admin';
 import {NativeHeapObjectViews} from './native-heap-views';
+import {NativeGameLabelClassName} from './native-game-label-class-name';
 import {NativePropertyObjectConstruction} from './native-property-object-construction';
 import {admitGameLabelSource,labelImageReceipt} from './native-game-label-source';
 
@@ -13,6 +14,7 @@ export class NativeGameLabelType {
  readonly fields:NativeHeapObjectViews;
  readonly base:NativeHeapObjectViews;
  #baseOwner:NativePropertyObjectConstruction|null=null;
+ #factoryOwner:NativePropertyObjectConstruction|null=null;
  #entered=false;
  #boundary:string|null=null;
  private constructor(readonly crt:NativeGameCrtOwner,private readonly memory:NativeMemoryAdmin,grant:object){
@@ -47,8 +49,13 @@ export class NativeGameLabelType {
    const base=NativePropertyObjectConstruction.construct(this.memory,this.base,{kind:'objectType',flag:1});
    if(!base.known)throw new Error(base.reason);
    this.#baseOwner=base.value;this.fields.writeUnsigned(0,0x2065a384);
-   throw new Error('Original Label class-name CALL is not yet admitted at 200752b9 -> 200340d6');
+   const name=NativeGameLabelClassName.forCrt(this.crt,this.memory).get();if(!name.known)throw new Error(name.reason);
+   const begin=this.storage.bytes.byteOffset-this.storage.backing.bytes.byteOffset;
+   const factory=NativePropertyObjectConstruction.construct(this.memory,new NativeHeapObjectViews(this.storage.backing,begin+24,24),{kind:'namedFactory',name:name.value});
+   if(!factory.known)throw new Error(factory.reason);
+   this.#factoryOwner=factory.value;
+   throw new Error('Original Label registration CALL is not yet admitted at 200752cf -> 207d8868');
   }catch(error){this.#boundary=error instanceof Error?error.message:String(error);return {known:false,reason:this.#boundary};}
  }
- snapshot(){return Object.freeze({boundary:this.#boundary,entered:this.#entered,baseConstructed:this.#baseOwner!==null,getterReturned:false});}
+ snapshot(){return Object.freeze({boundary:this.#boundary,entered:this.#entered,baseConstructed:this.#baseOwner!==null,factoryConstructed:this.#factoryOwner!==null,getterReturned:false});}
 }

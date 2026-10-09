@@ -2553,9 +2553,9 @@
     {
       "label": "labelTypeInfoDescriptor",
       "address": "20798260",
-      "bytes": 40,
-      "raw": "74636b20000000002e3f41566743414948656c7065725f4c6162656c5f5053404000000000000000",
-      "fileBackedBytes": 40,
+      "bytes": 36,
+      "raw": "74636b20000000002e3f41566743414948656c7065725f4c6162656c5f50534040000000",
+      "fileBackedBytes": 36,
       "loaderZeroFillBytes": 0,
       "section": {
         "virtualAddress": 7954432,
@@ -2563,7 +2563,7 @@
         "rawSize": 126976,
         "rawOffset": 7954432
       },
-      "sha256": "5e0c5a8ad716d63603731d1c67c9919cb8717f61d26b0117fc5bf8d4ccddf37c",
+      "sha256": "28c9699ae7fcc7d97e1a5ce68c0ce1d3a4101d253576a9b7a5bb5d2f149d8d53",
       "liveValueCaptured": false
     }
   ],
