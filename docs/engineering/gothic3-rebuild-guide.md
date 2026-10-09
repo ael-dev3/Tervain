@@ -129,11 +129,20 @@ and normal SSE2 probe against declared virtual CPU state, then reads the third
 callback's already-initialized multibyte state from argv. It reaches
 `20466452 -> 2047470c`, the FILE-table initializer. All 67 focused checks across
 four files pass, typechecking passes and both generated source outputs reproduce
-byte for byte. The full suite is running; build and browser verification remain
-pending. Fixed-ID and absent-SSE2 profiles return zero through original branches;
+byte for byte. At that revision, all 3,098 tests across 284 files passed in
+356.87 seconds with a 30-second per-test allowance. Build and browser verification
+remain pending. Fixed-ID and absent-SSE2 profiles return zero through original branches;
 undeclared CPU, missing CPUID leaf and SIMD-exception profiles retain the actual
 interrupted frame and earlier exit allocation. These results do not establish
 native exception dispatch, complete startup, NPC activation or campaign play.
+
+Integrated revision `cf6300de` incorporates main `03e7cb02aa6b5a0064124b879c7359f5101d713b`,
+including Claude's externally merged [PR #187](https://github.com/ael-dev3/Tervain/pull/187).
+A path comparison proves that integration changed none of the local Gothic
+runtime, source packages, generators or checks. Installation from the updated
+lockfile succeeded; validation of the combined revision is running. Its newer
+main Pages run `37891214623` supersedes cancelled walker run `37890987247` and
+is still running. No deployment rerun was requested.
 
 ### Original files and reproducible outputs
 
