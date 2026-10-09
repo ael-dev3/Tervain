@@ -71,6 +71,39 @@ def capture(study):
     pe = PE(data)
     evidence = audit_module(study, 'Game_dll', 'Game.dll', TARGETS)
     evidence['methods'].extend(supplemental_callbacks(pe))
+    # The shutdown walker lacks a function-catalog entry. Recover its explicit
+    # contiguous extent from the retained disassembly and verify every PE byte.
+    # This receipt does not claim a decompiled C function or a catalog entry.
+    assembly = study / '01_Decompiled_Code/Game_dll/full_disassembly.asm'
+    rows = []
+    with assembly.open('rb') as stream:
+        for number, line in enumerate(stream, 1):
+            match = re.fullmatch(rb'([0-9a-f]{8}) \| ([0-9a-f]+) \| (.+)', line.rstrip(b'\r\n'))
+            if not match:
+                continue
+            va, code, instruction = (part.decode('utf8') for part in match.groups())
+            address = int(va, 16)
+            if 0x20473801 <= address <= 0x20473824:
+                raw = bytes.fromhex(code)
+                if pe.bytes(address, len(raw)) != raw:
+                    raise ValueError('Shutdown walker PE bytes differ')
+                rows.append(dict(va=va, rva=f'{address-pe.base:x}', bytes=code,
+                                 instruction=instruction, assemblyLine=number,
+                                 fileOffset=pe.offset(address, len(raw))))
+    cursor = 0x20473801
+    for row in rows:
+        if int(row['va'], 16) != cursor:
+            raise ValueError('Shutdown walker extent is not contiguous')
+        cursor += len(row['bytes']) // 2
+        if row['instruction'].startswith(('JZ ', 'JNC ', 'JC ')) and row['instruction'][3:].strip() not in {'0x20473822', '0x2047381b', '0x20473813'}:
+            raise ValueError('Shutdown walker branch extent differs')
+    if len(rows) != 17 or cursor != 0x20473825 or rows[-1]['instruction'] != 'RET':
+        raise ValueError('Shutdown walker complete bounded extent differs')
+    evidence['methods'].append(dict(label='staticFiniWalker', entryVA='0x20473801',
+        bodyVA='0x20473801', bodyRanges='20473801-20473824', entryChain=[], instructions=rows,
+        bodyInstructionBytesSha256=hashlib.sha256(b''.join(bytes.fromhex(row['bytes']) for row in rows)).hexdigest(),
+        recoveryOrigin='explicit-contiguous-original-disassembly-extent',
+        functionCatalogEntryPresent=False, verifiedAgainstOriginalPE=True))
     nt = struct.unpack_from('<I', data, 0x3c)[0]
     section_count = struct.unpack_from('<H', data, nt + 6)[0]
     optional_size = struct.unpack_from('<H', data, nt + 20)[0]
@@ -89,6 +122,7 @@ def capture(study):
         ('sse2ConversionAvailable', 0x207d2b40, 4), ('sse2ProbeEH4Scope', 0x206e9018, 28),
         ('stdioCount', 0x207d29c0, 4), ('stdioVector', 0x207d1664, 4),
         ('stdioFiles', 0x207b2e50, 640),
+        ('staticFiniTable', 0x206e86e0, 256),
     ):
         raw, _ = image_bytes(pe, address, size)
         literals.append({'label': label, 'address': f'{address:08x}', 'bytes': size,

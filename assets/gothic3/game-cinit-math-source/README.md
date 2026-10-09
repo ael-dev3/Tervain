@@ -2,7 +2,7 @@
 
 This package captures the dependencies reached after the current browser Game
 startup frontier: `__cinit` at caller `204678f2`, target `204665f4`.
-It contains 25 original method receipts and 932 instructions verified against
+It contains 26 original method receipts and 949 instructions verified against
 the matching local `Game.dll`, along with 672 bytes of original PE headers,
 the math callback slot, floating-point constants, names used by dynamic lookup,
 the ten-entry floating-point function pointer table and the complete 135-slot
@@ -78,6 +78,14 @@ profiles also need independent evidence before their execution is claimed.
 Optional precision, SSE control and the failed-lookup divide fallback remain
 context evidence outside the instruction getter.
 Further callees must be captured or matched to admitted source before execution.
+
+The next atexit target registers the static shutdown walker at `20473801`.
+Its 17 contiguous instructions (`20473801-20473824`) are independently recovered
+from the retained full disassembly and verified against the matching PE. Its
+receipt explicitly records the missing function-catalog entry and does not
+claim decompiled C provenance. The original 256-byte static fini table at
+`206e86e0` contains 64 null entries. Neither the walker nor this table is added
+to the executable getter by this capture; callback registration is still pending.
 
 Regenerate from the repository root:
 

@@ -1,8 +1,24 @@
 import { describe, expect, it } from 'vitest';
+import { readFileSync } from 'node:fs';
 import { admitGameCinitSource, gameCinitImagePins, gameCinitImageReceipt, gameCinitInstruction }
   from '../../src/gothic3/native-game-crt-cinit-source';
 
 describe('Original Game cinit and PE-check source admission', () => {
+  it('retains shutdown recovery provenance without granting its execution', () => {
+    const source = JSON.parse(readFileSync(new URL('../../assets/gothic3/game-cinit-math-source/source.json', import.meta.url), 'utf8'));
+    const walker = source.module.methods.find((method: { label: string }) => method.label === 'staticFiniWalker');
+    expect(walker).toMatchObject({ entryVA: '0x20473801', bodyRanges: '20473801-20473824',
+      functionCatalogEntryPresent: false, verifiedAgainstOriginalPE: true,
+      recoveryOrigin: 'explicit-contiguous-original-disassembly-extent',
+      bodyInstructionBytesSha256: '986b18c3a8f0645d9c2f415efcb1546abf399932f5f72e07b05dae318cb7f2a4' });
+    expect(walker.instructions).toHaveLength(17);
+    expect(walker.instructions.at(-1)).toMatchObject({ va: '20473824', bytes: 'c3', instruction: 'RET' });
+    expect(source.literals.find((row: { label: string }) => row.label === 'staticFiniTable')).toMatchObject({
+      address: '206e86e0', bytes: 256, raw: '00'.repeat(256),
+      sha256: '5341e6b2646979a70e57653007a1f310169421ec9bdd9f1a5648f75ade005af1' });
+    expect(() => gameCinitInstruction('20473801')).toThrow('No admitted original Game cinit instruction');
+  });
+
   it('captures the original FILE initializer without claiming runtime execution', () => {
     expect(gameCinitInstruction('2047472e')).toMatchObject({ bytes: 'e89b3cffff',
       instruction: 'CALL 0x204683ce', assemblyOrigin: 'supplemental-ghidra-recovery' });
