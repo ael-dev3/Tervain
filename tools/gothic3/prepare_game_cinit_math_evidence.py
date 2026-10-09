@@ -6,6 +6,7 @@ import struct
 from pathlib import Path
 
 from read_dialogue_native_evidence import PE, audit_module, EXPECTED_INPUTS
+from prepare_runtime_admin_source import image_bytes
 
 TARGETS = {
     0x204665f4: 'cinit', 0x204738b0: 'isNonwritableInCurrentImage',
@@ -17,6 +18,8 @@ TARGETS = {
     0x2048c74b: 'control87', 0x2046a282: 'errno',
     0x2046a20a: 'invalidParameterDispatch', 0x20467d64: 'encodePointer',
     0x2046a0d6: 'invokeWatson',
+    0x2048bdff: 'hardwareControlWord', 0x2048bf68: 'hardwareSse2ControlWord',
+    0x204864ec: 'setSse2FloatingPointStatus',
 }
 
 
@@ -39,8 +42,9 @@ def capture(study):
         ('divideDenominator', 0x206b6500, 8), ('divideExport', 0x206b6508, 28),
         ('divideModule', 0x206b6524, 9), ('floatPointerTable', 0x207b2330, 40),
         ('nonwritableEH4Scope', 0x206e8db0, 28),
+        ('divideErratum', 0x207d0a24, 4), ('sse2Available', 0x207d2b50, 4),
     ):
-        raw = pe.bytes(address, size)
+        raw, _ = image_bytes(pe, address, size)
         literals.append({'label': label, 'address': f'{address:08x}', 'bytes': size,
                          'raw': raw.hex(), 'sha256': hashlib.sha256(raw).hexdigest()})
     return {
@@ -57,25 +61,30 @@ def capture(study):
 
 
 def emit_runtime(result, path):
-    selected = ['cinit', 'isNonwritableInCurrentImage', 'validateImageBase', 'findPESection']
+    selected = ['cinit', 'isNonwritableInCurrentImage', 'validateImageBase', 'findPESection',
+                'fpMath', 'floatConversionInit', 'pentiumDivideDispatch']
     methods = [{key: method[key] for key in ('label', 'entryVA', 'bodyRanges',
                 'bodyInstructionBytesSha256', 'instructions')}
                for method in result['module']['methods'] if method['label'] in selected]
-    if len(methods) != 4 or sum(len(method['instructions']) for method in methods) != 150:
+    if len(methods) != len(selected):
         raise ValueError('Selected cinit/PE method scope differs')
     images = {'cinitPEHeaders': result['originalHeaders']}
     for label, original in [('cinitMathCallback', 'mathCallback'),
-                            ('cinitNonwritableEH4Scope', 'nonwritableEH4Scope')]:
+                            ('cinitNonwritableEH4Scope', 'nonwritableEH4Scope'),
+                            ('cinitFloatPointerTable', 'floatPointerTable'),
+                            ('cinitDivideModule', 'divideModule'), ('cinitDivideExport', 'divideExport'),
+                            ('cinitDivideErratum', 'divideErratum'), ('cinitSse2Available', 'sse2Available')]:
         images[label] = next(row for row in result['literals'] if row['label'] == original)
-    pins = {label: ['constBytes', row['address'], row['bytes'], row['raw'], row['sha256']]
+    cold = {'cinitFloatPointerTable', 'cinitDivideErratum', 'cinitSse2Available'}
+    pins = {label: ['coldGlobals' if label in cold else 'constBytes', row['address'], row['bytes'], row['raw'], row['sha256']]
             for label, row in images.items()}
     compact = lambda value: json.dumps(value, separators=(',', ':'), ensure_ascii=False)
-    text = '''/** Original Game cinit and PE-check source admission. Context math code is not executable here. */
+    text = '''/** Selected original Game cinit, PE-check and math callback source admission. */
 import sourceText from '../../assets/gothic3/game-cinit-math-source/source.json?raw';
 import type { NativeGameIoInstruction } from './native-game-crt-io-source';
 import type { NativeCrtImageReceipt } from './native-game-crt-profile';
 const methods = __METHODS__;
-export const gameCinitImagePins: Readonly<Record<string, readonly ['constBytes', string, number, string, string]>> = __PINS__;
+export const gameCinitImagePins: Readonly<Record<string, readonly ['constBytes'|'coldGlobals', string, number, string, string]>> = __PINS__;
 const source = JSON.parse(sourceText);
 function freeze(value: unknown): void {
   if (value && typeof value === 'object' && !Object.isFrozen(value)) {
@@ -95,8 +104,10 @@ export function admitGameCinitSource(): void {
       throw new Error('Original Game cinit method differs: ' + method.label);
   }
   for (const [label, pin] of Object.entries(gameCinitImagePins)) {
-    const original = label === 'cinitPEHeaders' ? source.originalHeaders : source.literals.find((row: { label: string }) =>
-      row.label === (label === 'cinitMathCallback' ? 'mathCallback' : 'nonwritableEH4Scope'));
+    const names: Record<string,string> = {cinitMathCallback:'mathCallback',cinitNonwritableEH4Scope:'nonwritableEH4Scope',
+      cinitFloatPointerTable:'floatPointerTable',cinitDivideModule:'divideModule',cinitDivideExport:'divideExport',
+      cinitDivideErratum:'divideErratum',cinitSse2Available:'sse2Available'};
+    const original = label === 'cinitPEHeaders' ? source.originalHeaders : source.literals.find((row: { label: string }) => row.label === names[label]);
     if (!original || original.address !== pin[1] || original.bytes !== pin[2] || original.raw !== pin[3] || original.sha256 !== pin[4])
       throw new Error('Original Game cinit image differs: ' + label);
   }
@@ -114,7 +125,7 @@ export function gameCinitImageReceipt(label: string): NativeCrtImageReceipt {
   admitGameCinitSource(); const pin = gameCinitImagePins[label];
   if (!pin) throw new Error('No admitted original Game cinit image: ' + label);
   return Object.freeze({ module: 'Game', address: pin[1], bytes: pin[2], raw: pin[3],
-    knownMask: 'ff'.repeat(pin[2]), sha256: pin[4], scope: 'original-file-backed-constant', liveValueCaptured: false });
+    knownMask: 'ff'.repeat(pin[2]), sha256: pin[4], scope: pin[0]==='coldGlobals'?'cold-original-image':'original-file-backed-constant', liveValueCaptured: false });
 }
 '''
     text = text.replace('__METHODS__', compact(methods)).replace('__PINS__', compact(pins))

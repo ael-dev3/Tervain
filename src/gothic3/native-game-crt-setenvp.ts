@@ -57,6 +57,8 @@ const bodies = Object.freeze([
   ['20468570', '20468570-204685b4'], ['204685b5', '204685b5-204685c8'],
   ['204665f4', '204665f4-20466685'], ['204738b0', '204738b0-20473938;20473950-2047396a'],
   ['20473830', '20473830-20473858'], ['20473860', '20473860-204738a1'],
+  ['20463917', '20463917-20463934'], ['204638a7', '204638a7-20463906'],
+  ['204696f6', '204696f6-2046971e'],
 ] as const);
 const ranges = new Map<string, readonly (readonly [number, number])[]>(bodies.map(([entry, text]) =>
   [entry, Object.freeze(text.split(';').map(range => Object.freeze(range.split('-').map(x => Number.parseInt(x, 16)) as [number, number]))) ]));
@@ -69,6 +71,9 @@ const imageSpecs = Object.freeze([
   ['callocEH4Scope', '206e8f98', 28], ['freeEH4Scope', '206e8b70', 28],
   ['cinitMathCallback', '206b638c', 4], ['cinitPEHeaders', '20000000', 672],
   ['cinitNonwritableEH4Scope', '206e8db0', 28],
+  ['cinitFloatPointerTable', '207b2330', 40], ['cinitDivideErratum', '207d0a24', 4],
+  ['cinitSse2Available', '207d2b50', 4], ['cinitDivideModule', '206b6524', 9],
+  ['cinitDivideExport', '206b6508', 28],
 ] as const);
 const imports = new Set<NativeSetEnvpCallSite>(['20477ce8', '20467cd2']);
 const lanes: Readonly<Record<string, Readonly<{ register: NativeX86Register; lane: Lane }>>> = Object.freeze({
@@ -273,7 +278,8 @@ export class NativeGameCrtSetEnvp {
     const extent = ranges.get(this.#currentEntry), address = Number.parseInt(pc, 16);
     if (!extent?.some(([first, last]) => address >= first && address <= last) ||
         this.#currentEntry === '204677e4' && !callerRows.has(pc)) throw new Error('Unowned Game environment source frontier at' + pc);
-    const point = ['204665f4', '204738b0', '20473830', '20473860'].includes(this.#currentEntry)
+    const point = ['204665f4', '204738b0', '20473830', '20473860', '20463917', '204638a7',
+      '204696f6'].includes(this.#currentEntry)
       ? gameCinitInstruction(pc) : gameSetEnvpInstruction(pc);
     if (point.va !== pc || !/^(?:[0-9a-f]{2})+$/.test(point.bytes)) throw new Error('Original environment row receipt differs at' + pc);
     return point;
@@ -351,6 +357,17 @@ export class NativeGameCrtSetEnvp {
     fact(NativeX86ThreadStack.prototype.storeWidth.call(this.#stack, this.#controller, this.#address(destination.expression), word, bytes));
   }
   #call(point: NativeGameIoInstruction, target: Operand, returnPc: string): string {
+    if (['204696fb', '2046970b', '20469717'].includes(point.va)) {
+      this.#nextBoundary = Object.freeze({ pc: point.va, operation: 'import', target: point.instruction.slice(5) });
+      fact(NativeX86ThreadStack.prototype.invokeGameCinitImport.call(this.#stack, this.#controller, point.va));
+      this.#nextBoundary = null; return returnPc;
+    }
+    if (point.va === '20466610') {
+      if (target.kind !== 'memory' || target.expression !== '0x206b638c' || target.fs) throw new Error('Original Game math callback operand required');
+      fact(NativeX86ThreadStack.prototype.callGameMathInitializer.call(this.#stack, this.#controller, this.#read(target)));
+      this.#frames.push(Object.freeze({ entry: '20463917', site: point.va, returnPc, previousEntry: this.#currentEntry }));
+      this.#currentEntry = '20463917'; return '20463917';
+    }
     if (imports.has(point.va as NativeSetEnvpCallSite)) {
       this.#importSite = point.va as NativeSetEnvpCallSite;
       fact(NativeX86ThreadStack.prototype.invokeSetEnvpImport.call(this.#stack, this.#controller, this.#importSite));
@@ -385,6 +402,10 @@ export class NativeGameCrtSetEnvp {
     this.#frames.pop(); this.#currentEntry = frame.previousEntry; return frame.returnPc;
   }
   #lower(point: NativeGameIoInstruction): string {
+    if (point.instruction === 'FNCLEX') {
+      fact(NativeX86ThreadStack.prototype.clearX87Exceptions.call(this.#stack, this.#controller));
+      return hex(Number.parseInt(point.va, 16) + point.bytes.length / 2);
+    }
     const { opcode, next, args, binary } = instructionSyntax(point);
     if (opcode === 'MOVSD.REP' || opcode === 'STOSD.REP' || opcode === 'STOSD') {
       fact(opcode === 'MOVSD.REP' ? NativeX86ThreadStack.prototype.repeatMoveDwords.call(this.#stack, this.#controller)
@@ -513,6 +534,8 @@ export class NativeGameCrtSetEnvp {
       mbcInitialized: this.#diagnosticScalar('mbcInitialized') === 1, cinitArgumentPrepared: this.#cinitArgumentPrepared,
       cinitCalled: graph.calls.some(call => call.site === '204678f2'),
       mathProtectionCheckReturned: graph.calls.some(call => call.site === '20466602' && call.returned),
+      mathInitializerReturned: graph.calls.some(call => call.site === '20466610' && call.returned),
+      floatConversionInitializerReturned: graph.calls.some(call => call.site === '20463917' && call.returned),
       callerTestsCompleted: this.#callerTestsCompleted, sourceOperationsCompleted: this.#effects.length,
       effects: Object.freeze(this.#effects.map(effect => Object.freeze({ ...effect }))),
       wholeCrtTraversalCompleted: false, moduleAttachCompleted: false, fullCampaignCompleted: false });

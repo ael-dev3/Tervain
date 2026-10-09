@@ -39,11 +39,11 @@ describe('Game environment startup through the actual browser CRT graph', () => 
   it('copies the current environment, releases its input, and prepares the next initializer argument', () => {
     const { platform, stack: retainedStack, game } = startup();
     const attach = game.attachProgress;
-    expect(attach.setEnvpProgress?.boundary).toContain('CALL at20466610');
+    expect(attach.setEnvpProgress?.boundary).toContain('CALL at20466617');
     expect(attach.ioResult).toBe(0);
     expect(attach.argvResult).toBe(0);
     expect(attach.setEnvpResult).toBe(0);
-    expect(attach.nextBoundary).toEqual({ name: 'indirectSourceCall', address: '20466610', target: 'dword ptr [0x206b638c]' });
+    expect(attach.nextBoundary).toEqual({ name: 'sourceCall', address: '20466617', target: '20469672' });
     expect(attach.setEnvpProgress).toMatchObject({
       physicalGraphTransferred: true, envRetExecuted: true, envReturned: true,
       countingPassReturned: true, visibleCount: 1, arrayCallReturned: true,
@@ -52,13 +52,25 @@ describe('Game environment startup through the actual browser CRT graph', () => 
       terminalNullWritten: true, environmentAllocated: true, cinitArgumentPrepared: true,
       callerTestsCompleted: 1, wholeCrtTraversalCompleted: false,
       cinitCalled: true, mathProtectionCheckReturned: true,
+      mathInitializerReturned: true, floatConversionInitializerReturned: true,
     });
     const stack = retainedStack.snapshot();
     expect(stack.calls.filter(call => !call.returned).map(call => call.site)).toEqual(['204678f2']);
     expect(stack.calls.find(call => call.site === '20466602')).toMatchObject({ returned: true });
     expect(stack.calls.find(call => call.site === '204738ef')).toMatchObject({ returned: true });
     expect(stack.calls.find(call => call.site === '20473909')).toMatchObject({ returned: true });
-    expect(stack.calls.some(call => call.site === '20466610')).toBe(false);
+    for (const site of ['20466610', '20463917', '2046391c', '204696fb', '2046970b', '20469717']) {
+      expect(stack.calls.find(call => call.site === site)).toMatchObject({ returned: true });
+    }
+    expect(stack.calls.some(call => call.site === '2046392d')).toBe(false);
+    expect(stack.x87Status).toMatchObject({ word: { value: 0, knownMask: 0x80ff } });
+    const conversionTable = fact(NativeModuleCrtOwner.canonicalImageForOwner(game.crt, 'cinitFloatPointerTable'));
+    expect(Array.from({ length: 10 }, (_, index) => conversionTable.view.getUint32(index * 4, true))).toEqual([
+      0x20469651, 0x20468cf6, 0x20468cb4, 0x20468ce8, 0x20468c5e,
+      0x20469651, 0x204695cb, 0x20468c74, 0x20468bde, 0x20468b6d,
+    ]);
+    expect([...conversionTable.knownMask]).toEqual(Array(40).fill(255));
+    expect(fact(NativeModuleCrtOwner.canonicalImageForOwner(game.crt, 'cinitDivideErratum')).readUnsigned(0)).toBe(0);
     expect(stack.setEnvpCalls.map(call => ({ site: call.site, returned: call.returned, released: call.released })))
       .toEqual([
         { site: '20477ce8', returned: true, released: false },
@@ -139,7 +151,7 @@ describe('Game environment startup through the actual browser CRT graph', () => 
 });
 
 describe('Original Game cinit PE protection check', () => {
-  function attachWithImageChange(change: (headers: NativeHeapObjectViews) => void) {
+  function attachWithImageChange(change: (headers: NativeHeapObjectViews, crt: NativeGameCrtOwner) => void) {
     const platform = createBrowserGameCrtPlatform({
       processInputs: browserGameProcessInputs,
       threadStack: { reservationBytes: 4096, pageAlignment: 'virtual-page-4096' },
@@ -153,7 +165,7 @@ describe('Original Game cinit PE protection check', () => {
     bootstrap = NativeCrtBootstrap.forCrt(crt);
     const stack = fact(NativeX86ThreadStack.forPlatform(platform));
     const headers = fact(NativeModuleCrtOwner.canonicalImageForOwner(crt, 'cinitPEHeaders'));
-    change(headers);
+    change(headers, crt);
     NativeCrtBootstrap.processAttachForCrt(bootstrap, crt);
     return { bootstrap, headers, crt, stack };
   }
@@ -196,5 +208,27 @@ describe('Original Game cinit PE protection check', () => {
     const before = stack.snapshot();
     bootstrap.processAttach();
     expect(stack.snapshot()).toEqual(before);
+  });
+
+  it('rejects a changed math callback target before pushing its return or overwriting conversion pointers', () => {
+    const { bootstrap, crt, stack } = attachWithImageChange((_headers, owner) => {
+      fact(NativeModuleCrtOwner.canonicalImageForOwner(owner, 'cinitMathCallback')).writeUnsigned(0, 0x20463918);
+    });
+    expect(bootstrap.attachProgress().nextBoundary?.address).toBe('20466610');
+    expect(bootstrap.attachProgress().setEnvpProgress?.boundary).toContain('Actual current original Game math callback target required');
+    expect(stack.snapshot().calls.some(call => call.site === '20466610')).toBe(false);
+    const table = fact(NativeModuleCrtOwner.canonicalImageForOwner(crt, 'cinitFloatPointerTable'));
+    expect(Array.from({ length: 10 }, (_, index) => table.readUnsigned(index * 4))).toEqual(Array(10).fill(0x2047df3f));
+    expect(fact(NativeModuleCrtOwner.canonicalImageForOwner(crt, 'cinitMathCallback')).readUnsigned(0)).toBe(0x20463918);
+  });
+
+  it('keeps a partially unknown callback target unknown and leaves the math call unexecuted', () => {
+    const { bootstrap, crt, stack } = attachWithImageChange((_headers, owner) => {
+      fact(NativeModuleCrtOwner.canonicalImageForOwner(owner, 'cinitMathCallback')).knownMask[0] = 0;
+    });
+    // Known nonzero upper bytes prove the NULL check; the indirect target remains unknown.
+    expect(bootstrap.attachProgress().nextBoundary?.address).toBe('20466610');
+    expect(stack.snapshot().calls.some(call => call.site === '20466610')).toBe(false);
+    expect(fact(NativeModuleCrtOwner.canonicalImageForOwner(crt, 'cinitMathCallback')).knownMask[0]).toBe(0);
   });
 });
