@@ -280,12 +280,15 @@ function admittedModuleAdminShutdown(address: string): boolean {
 
 /** Scoped diagnostic services. Empty owned registries are a selected platform
  * profile, not an inferred absence of native host windows or disk files. */
+const diagnosticWindows = new WeakMap<NativeRuntimeDiagnostics, ReadonlyMap<string, object>>();
+const platformDiagnostics = new WeakMap<NativeRuntimePlatform, NativeRuntimeDiagnostics>();
 export class NativeRuntimeDiagnostics implements NativeMessageDiagnosticPlatform {
   private readonly windows = new Map<string, object>();
   private readonly files = new Map<string, Uint8Array>();
   private readonly handles = new Map<object, { path: string; bytes: Uint8Array; closed: boolean }>();
   constructor(options: { windows?: ReadonlyMap<string, object>; files?: ReadonlyMap<string, Uint8Array> } = {}) {
     for (const [title, window] of options.windows ?? []) this.windows.set(title, window);
+    diagnosticWindows.set(this, new Map(this.windows));
     for (const [path, bytes] of options.files ?? []) this.files.set(path, bytes.slice());
   }
   findWindow(className: null, title: '[zSpy]'): NativeValue<object | null> {
@@ -307,6 +310,15 @@ export class NativeRuntimeDiagnostics implements NativeMessageDiagnosticPlatform
 }
 
 export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGeometryHost {
+  static diagnosticWindowForPlatform(platform: NativeRuntimePlatform, className: null, title: string): NativeValue<object | null> {
+    const diagnostics = platformDiagnostics.get(platform), windows = diagnostics && diagnosticWindows.get(diagnostics);
+    if (!windows || platform.diagnostics !== diagnostics || className !== null || title !== '[zSpy]') return unknown('Canonical diagnostic window profile and original query required');
+    return known(windows.get(title) ?? null);
+  }
+  static ownsDiagnosticWindow(platform: NativeRuntimePlatform, window: object): boolean {
+    const result = this.diagnosticWindowForPlatform(platform, null, '[zSpy]');
+    return result.known && result.value !== null && result.value === window;
+  }
   readonly diagnostics: NativeRuntimeDiagnostics;
   readonly #backing = new Map<object, BackingEntry>();
   readonly #releasedBackings = new WeakSet<NativeMemoryBacking>();
@@ -384,6 +396,7 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
   constructor(options: { diagnostics?: NativeRuntimeDiagnostics; maximumAllocationBytes?: number; maximumOwnedBytes?: number;
     engineCrtServices?: NativeEngineCrtPlatformServices } = {}) {
     this.diagnostics = options.diagnostics ?? new NativeRuntimeDiagnostics();
+    platformDiagnostics.set(this, this.diagnostics);
     Object.freeze(this.#win32LastError);
     this.maximumAllocationBytes = options.maximumAllocationBytes ?? 64 * 1024 * 1024;
     this.maximumOwnedBytes = options.maximumOwnedBytes ?? 256 * 1024 * 1024;
@@ -1317,7 +1330,7 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
   }
   static virtualAllocForSharedInitializer(platform:NativeRuntimePlatform,size:number):NativeValue<NativeMemoryRegion|null> {
     const active=NativeRuntimePlatform.requireActivePlatform(platform);if(!active.known)return active;
-    if(size!==0xc2000&&size!==0x102000&&size!==0xc0000&&size!==0x70000)return unknown('Original 16/24-byte pool virtual reservation size required');
+    if(size!==0x700000&&size!==0x400000&&size!==0xc2000&&size!==0x102000&&size!==0xc0000&&size!==0x70000)return unknown('Original SharedBase pool virtual reservation size required');
     const previous=new Set(Array.from(platform.#backing.values(),entry=>entry.backing));
     const result=platform.virtualAlloc(size,0x103000,4);if(!result.known||!result.value)return result;
     const proof=NativeRuntimePlatform.canonicalVirtualRegionForPlatform(platform,result.value,size);if(!proof.known)return proof;
