@@ -26,9 +26,11 @@ Game's retained PTD and resolved codec procedures must belong to the platform;
 foreign cached procedures are rejected before invocation. Execution reaches
 `20466626 -> 2046643f`, before the five C initializer callbacks and later C++ table.
 
-All 56 focused checks across four files pass. Typechecking and independent
-byte-identical evidence regeneration pass. Full-suite and build validation,
-browser observation and publication remain pending. Complete engine startup,
+At runtime revision `0dd36cdf`, all 56 focused checks across four files pass.
+Typechecking and independent byte-identical evidence regeneration pass. The
+production build passes in 46.15 seconds. A production browser entered Ardea
+and reported `sourceCall at 20466626`, with 789 environment source operations.
+Full-suite validation and publication remain pending. Complete engine startup,
 world activation, campaign saves and a finishable campaign remain unfinished.
 
 ## Local checkpoint — 9 October 2026: Game math callback return

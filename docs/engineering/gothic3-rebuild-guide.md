@@ -100,7 +100,8 @@ the existing source-admitted Game CRT codec. It preserves duplicate code/encoded
 identities, actual table storage and original CALL/RET cleanup. The loop reaches
 `20466626 -> 2046643f`, before the C initializer walker. All 56 focused checks
 across four files pass, including changed/unknown later slots and a foreign PTD
-codec. Full validation, browser observation and publication remain pending.
+codec. The production build passes, and a production browser observed the
+actual continuation at `20466626`. Full-suite validation and publication remain pending.
 
 ### Original files and reproducible outputs
 
