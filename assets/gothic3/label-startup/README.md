@@ -27,7 +27,9 @@ flag one and installs vtable `2065a384`. Its class-name getter reuses the earlie
 named factory constructs at type offset `+0x18`. The type now registers in the shared property table, registers cleanup
 `20549c20` and returns through its retained startup frame. The initializer
 stores that type at wrapper offset twelve and stops at wrapper initialization
-CALL `204b240a -> 200340e0`. The complete Label initializer has not returned.
+CALL `204b240a -> 200340e0` in that earlier checkpoint. The wrapper now
+executes its captured prefix, reads argument one and updates flags to eleven.
+It stops at object replacement `20075054 -> 20025e55`. The complete Label initializer has not returned.
 
 Reproduce with:
 

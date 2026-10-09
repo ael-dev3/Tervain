@@ -52,7 +52,7 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  expect(game.known).toBe(true);
  if(!game.known)throw new Error(game.reason);
  expect(game.value.attachResult,game.value.attachProgress.setEnvpProgress?.currentPC).toEqual({known:false,
-  reason:'crtAttach204677e4: Unowned Unowned original environment CALL at204b240a: CALL 0x200340e0'});
+  reason:'crtAttach204677e4: Unowned Unowned original environment CALL at20075054: CALL 0x20025e55'});
  const executed=new Set(game.value.attachProgress.setEnvpProgress!.effects.map(effect=>effect.pc));
  for(const pc of ['20072719','20072383','200730dd','204b217a','204b23ca'])expect(executed.has(pc)).toBe(true);
  const labelType=NativeGameLabelType.forCrt(game.value.crt,memory);
@@ -85,7 +85,7 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  const labelVtable=labelWrapper.pointer<{fields:NativeHeapObjectViews;offset:number}>(0).get()!;
  expect(labelVtable.fields).toBe(game.value.crt.imageStorage('labelWrapperVtable'));
  expect(labelVtable.offset).toBe(0);
- expect([4,8].map(offset=>labelWrapper.readUnsigned(offset))).toEqual([10,0]);
+ expect([4,8].map(offset=>labelWrapper.readUnsigned(offset))).toEqual([11,0]);
  const labelPointer=labelWrapper.pointer<{fields:NativeHeapObjectViews;offset:number}>(12).get()!;
  expect(labelPointer.fields).toBe(labelType.storage);expect(labelPointer.offset).toBe(0);
  expect([...labelWrapper.knownMask.subarray(4,12)]).toEqual(Array(8).fill(255));

@@ -19,7 +19,7 @@ import { nativeGameImageReceipt } from './native-game-crt-profile';
 import { nativeGameLayerBaseMemoryForCrt } from './native-game-layer-base-class-name';
 import { gameClassNameSpec, gameClassNameFamilySpecs, gameClassNameFamilyInstruction } from './native-game-class-name-family-source';
 import { gameArenaRootInstruction, admitArenaWrapperConstructorImport, gameArenaWrapperImportTarget, arenaRegistrationToggleTarget } from './native-game-arena-root-source';
-import { labelInitializerInstruction } from './native-game-label-source';
+import { labelInitializerInstruction,labelWrapperInstruction } from './native-game-label-source';
 import { freePointInitializerInstruction,freePointWrapperInstruction,freePointReplacementInstruction,freePointAccessorInstruction } from './native-game-freepoint-source';
 import type { NativeGameCrtOwner } from './native-game-crt';
 
@@ -77,6 +77,7 @@ const bodies = Object.freeze([
   ['204b1d70','204b1d70-204b1dba'],
   ['204b2130','204b2130-204b217a'],
   ['204b23d0','204b23d0-204b241a'],
+  ['20075040','20075040-2007510d'],
   ['20073010','20073010-200730dd'],
   ['200725c0','200725c0-20072719'],
   ['20072380','20072380-20072383'],
@@ -426,7 +427,8 @@ export class NativeGameCrtSetEnvp {
     const extent = ranges.get(this.#currentEntry), address = Number.parseInt(pc, 16);
     if (!extent?.some(([first, last]) => address >= first && address <= last) ||
         this.#currentEntry === '204677e4' && !callerRows.has(pc)) throw new Error('Unowned Game environment source frontier at' + pc);
-    const point = this.#currentEntry==='204b23d0' ? labelInitializerInstruction(pc)
+    const point = this.#currentEntry==='20075040' ? labelWrapperInstruction(pc)
+      : this.#currentEntry==='204b23d0' ? labelInitializerInstruction(pc)
       : this.#currentEntry==='204b2130' ? freePointInitializerInstruction(pc)
       : this.#currentEntry==='20073010' ? freePointWrapperInstruction(pc)
       : this.#currentEntry==='200725c0' ? freePointReplacementInstruction(pc)
@@ -681,6 +683,13 @@ export class NativeGameCrtSetEnvp {
       this.#nextBoundary=Object.freeze({pc:point.va,operation:'translatedCrtCall',target:'204637ce'});
       fact(NativeX86ThreadStack.prototype.registerFreePointWrapperCleanup.call(this.#stack,this.#controller));
       this.#nextBoundary=null;return returnPc;
+    }
+    if(point.va==='204b240a') {
+      if(this.#currentEntry!=='204b23d0'||target.kind!=='immediate'||target.value!==0x200340e0||returnPc!=='204b240f')
+        throw new Error('Original Label wrapper initialization call required');
+      fact(NativeX86ThreadStack.prototype.call.call(this.#stack,this.#controller,point.va,returnPc));
+      this.#frames.push(Object.freeze({entry:'20075040',site:point.va,returnPc,previousEntry:this.#currentEntry}));
+      this.#currentEntry='20075040';this.#nextBoundary=null;return '20075040';
     }
     if(point.va==='204b216a') {
       if(this.#currentEntry!=='204b2130'||target.kind!=='immediate'||target.value!==0x20008571||returnPc!=='204b216f')

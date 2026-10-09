@@ -48,7 +48,7 @@ Each feature goes through the following steps:
 initialization return through the retained startup stack. FreePoint's later
 class-name initializer also returns, sharing the same CString and cleanup
 owner. Label initializer `204b23d0` now executes its wrapper constructor and stops
-at wrapper initialization CALL `204b240a -> 200340e0`. Complete startup,
+inside wrapper initialization at `20075054 -> 20025e55`. Complete startup,
 world activation and a new-game-to-ending campaign remain unfinished. Local
 checkpoints and the hosted version can differ; validation below identifies
 the checkpoint covered.
@@ -57,6 +57,18 @@ the checkpoint covered.
 
 The entries below describe successive local states, newest first. Statements
 about missing operations in older entries apply to those earlier checkpoints.
+
+### Current local checkpoint: Label wrapper initialization enters
+
+The original initializer CALL `204b240a` enters wrapper body `20075040` on
+the existing startup stack. Its byte argument is one; the original flag
+update changes the retained wrapper flags from ten to eleven while preserving
+its reflected type pointer. Startup stops at object-replacement helper
+`20075054 -> 20025e55`. The full wrapper and initializer have not returned.
+
+TypeScript checking and 31 focused tests passed. Independent JSON and
+TypeScript generations matched byte for byte. Broad validation of this
+later Label checkpoint is pending.
 
 ### Current local checkpoint: Label type registers and returns
 
