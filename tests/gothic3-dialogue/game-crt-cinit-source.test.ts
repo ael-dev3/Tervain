@@ -46,4 +46,16 @@ describe('Original Game cinit and PE-check source admission', () => {
     expect(slots.slice(65, 70)).toEqual([0x20463763, 0x20469f3a, 0x2046bcff, 0x2047470c, 0x2047e687]);
     expect(slots.slice(70)).toEqual(Array(65).fill(0));
   });
+
+  it('admits independently recovered SSE callbacks and the original query/probe rows', () => {
+    expect(gameCinitInstruction('20469f41').instruction).toBe('CALL 0x2047e627');
+    expect(gameCinitInstruction('2047e687').instruction).toBe('CALL 0x2047e627');
+    expect(gameCinitInstruction('2047e63a').instruction).toBe('PUSHFD');
+    expect(gameCinitInstruction('2047e64f').instruction).toBe('CPUID');
+    expect(gameCinitInstruction('2047e5e7').instruction).toBe('MOVAPD XMM0,XMM1');
+    expect(() => gameCinitInstruction('2047e5f4')).toThrow('No admitted original Game cinit instruction');
+    expect(gameCinitImageReceipt('cinitSse2ConversionAvailable')).toMatchObject({ address: '207d2b40', raw: '00000000', bytes: 4 });
+    expect(gameCinitImageReceipt('cinitSse2ProbeEH4Scope')).toMatchObject({ address: '206e9018', bytes: 28,
+      raw: 'feffffff00000000d4ffffff00000000fefffffff4e5472010e64720' });
+  });
 });

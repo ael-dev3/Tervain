@@ -14,6 +14,7 @@ import type { NativeGameIoInstruction } from './native-game-crt-io-source';
 import type { NativeSetEnvpCallSite, NativeWin32SetEnvpSelection } from './native-win32-setenvp';
 import { admitGameSetEnvpSource, gameSetEnvpInstruction, gameSetEnvpImageReceipt } from './native-game-crt-setenvp-source';
 import { gameCinitInstruction, gameCinitImageReceipt } from './native-game-crt-cinit-source';
+import { gameArgvInstruction } from './native-game-crt-argv-source';
 
 const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
 const unknown = (reason: string): { known: false; reason: string } => ({ known: false, reason });
@@ -61,6 +62,9 @@ const bodies = Object.freeze([
   ['204696f6', '204696f6-2046971e'],
   ['20469672', '20469672-20469690'],
   ['2046643f', '2046643f-2046645e'],
+  ['20469f3a', '20469f3a-20469f4d'], ['2047e687', '2047e687-2047e693'],
+  ['2047e627', '2047e627-2047e686'], ['2047e5d7', '2047e5d7-2047e5f3;2047e617-2047e626'],
+  ['2046bcff', '2046bcff-2046bd1c'],
 ] as const);
 const ranges = new Map<string, readonly (readonly [number, number])[]>(bodies.map(([entry, text]) =>
   [entry, Object.freeze(text.split(';').map(range => Object.freeze(range.split('-').map(x => Number.parseInt(x, 16)) as [number, number]))) ]));
@@ -77,6 +81,7 @@ const imageSpecs = Object.freeze([
   ['cinitSse2Available', '207d2b50', 4], ['cinitDivideModule', '206b6524', 9],
   ['cinitDivideExport', '206b6508', 28],
   ['cinitCInitializerTable', '20655514', 540],
+  ['cinitSse2ConversionAvailable', '207d2b40', 4], ['cinitSse2ProbeEH4Scope', '206e9018', 28],
 ] as const);
 const imports = new Set<NativeSetEnvpCallSite>(['20477ce8', '20467cd2']);
 const lanes: Readonly<Record<string, Readonly<{ register: NativeX86Register; lane: Lane }>>> = Object.freeze({
@@ -148,6 +153,7 @@ export class NativeGameCrtSetEnvp {
   #envCalled = false;
   #callerReturnConsumed = false;
   #envResult: 0 | -1 | null = null;
+  #exitTableInitializerReturned = false;
   #countingPassReturned = false;
   #visibleCount = 0;
   #arrayCallReturned = false;
@@ -281,8 +287,9 @@ export class NativeGameCrtSetEnvp {
     const extent = ranges.get(this.#currentEntry), address = Number.parseInt(pc, 16);
     if (!extent?.some(([first, last]) => address >= first && address <= last) ||
         this.#currentEntry === '204677e4' && !callerRows.has(pc)) throw new Error('Unowned Game environment source frontier at' + pc);
-    const point = ['204665f4', '204738b0', '20473830', '20473860', '20463917', '204638a7',
-      '204696f6', '20469672', '2046643f'].includes(this.#currentEntry)
+    const point = this.#currentEntry === '2046bcff' ? gameArgvInstruction(pc)
+      : ['204665f4', '204738b0', '20473830', '20473860', '20463917', '204638a7',
+      '204696f6', '20469672', '2046643f', '20469f3a', '2047e687', '2047e627', '2047e5d7'].includes(this.#currentEntry)
       ? gameCinitInstruction(pc) : gameSetEnvpInstruction(pc);
     if (point.va !== pc || !/^(?:[0-9a-f]{2})+$/.test(point.bytes)) throw new Error('Original environment row receipt differs at' + pc);
     return point;
@@ -293,7 +300,7 @@ export class NativeGameCrtSetEnvp {
   #literal(value: number): NativeX86Word32 {
     if (value === 0x20655730) return fact(NativeX86ThreadStack.prototype.gameImageAddress.call(this.#stack, this.#controller, 'cinitCInitializerTable', 540));
     const image = this.#imageAt(value);
-    if (image && (image.label === 'callocEH4Scope' || image.label === 'freeEH4Scope' || image.label === 'cinitNonwritableEH4Scope') && value === image.address) {
+    if (image && (image.label === 'callocEH4Scope' || image.label === 'freeEH4Scope' || image.label === 'cinitNonwritableEH4Scope' || image.label === 'cinitSse2ProbeEH4Scope') && value === image.address) {
       const address = hex(value);
       fact(NativeX86ThreadStack.prototype.registerSourceImage.call(this.#stack, this.#controller, address, image.fields));
       return fact(NativeX86ThreadStack.prototype.sourceAddress.call(this.#stack, this.#controller, 'image', address));
@@ -364,9 +371,15 @@ export class NativeGameCrtSetEnvp {
     if (point.va === '20466452') {
       const callback = fact(NativeX86ThreadStack.prototype.resolveGameCinitErrorCallback.call(this.#stack, this.#controller));
       this.#nextBoundary = Object.freeze({ pc: point.va, operation: 'indirectSourceCall', target: callback });
-      if (callback !== '20463763') throw new Error('Original Game C initializer callback is not yet admitted at ' + callback);
-      fact(NativeX86ThreadStack.prototype.initializeGameCinitExitTable.call(this.#stack, this.#controller));
-      this.#nextBoundary = null; return returnPc;
+      if (callback === '20463763') {
+        fact(NativeX86ThreadStack.prototype.initializeGameCinitExitTable.call(this.#stack, this.#controller));
+        this.#exitTableInitializerReturned = true;
+        this.#nextBoundary = null; return returnPc;
+      }
+      if (!['20469f3a', '2046bcff', '2047e687'].includes(callback)) throw new Error('Original Game C initializer callback is not yet admitted at ' + callback);
+      fact(NativeX86ThreadStack.prototype.call.call(this.#stack, this.#controller, point.va, returnPc));
+      this.#frames.push(Object.freeze({ entry: callback, site: point.va, returnPc, previousEntry: this.#currentEntry }));
+      this.#currentEntry = callback; this.#nextBoundary = null; return callback;
     }
     if (point.va === '2046967e') {
       this.#nextBoundary = Object.freeze({ pc: point.va, operation: 'translatedCrtCall', target: '20467d64' });
@@ -418,6 +431,10 @@ export class NativeGameCrtSetEnvp {
     this.#frames.pop(); this.#currentEntry = frame.previousEntry; return frame.returnPc;
   }
   #lower(point: NativeGameIoInstruction): string {
+    if (['PUSHFD', 'POPFD', 'CPUID', 'MOVAPD XMM0,XMM1'].includes(point.instruction)) {
+      fact(NativeX86ThreadStack.prototype.executeGameCinitCpuInstruction.call(this.#stack, this.#controller, point.va));
+      return hex(Number.parseInt(point.va, 16) + point.bytes.length / 2);
+    }
     if (point.instruction === 'FNCLEX') {
       fact(NativeX86ThreadStack.prototype.clearX87Exceptions.call(this.#stack, this.#controller));
       return hex(Number.parseInt(point.va, 16) + point.bytes.length / 2);
@@ -553,7 +570,9 @@ export class NativeGameCrtSetEnvp {
       mathInitializerReturned: graph.calls.some(call => call.site === '20466610' && call.returned),
       floatConversionInitializerReturned: graph.calls.some(call => call.site === '20463917' && call.returned),
       floatPointerInitializerReturned: graph.calls.some(call => call.site === '20466617' && call.returned),
-      exitTableInitializerReturned: graph.calls.some(call => call.site === '20466452' && call.returned),
+      exitTableInitializerReturned: this.#exitTableInitializerReturned,
+      conversionSse2InitializerReturned: this.#effects.some(effect => effect.pc === '20469f4d'),
+      multibyteCInitializerReturned: this.#effects.some(effect => effect.pc === '2046bd1c'),
       callerTestsCompleted: this.#callerTestsCompleted, sourceOperationsCompleted: this.#effects.length,
       effects: Object.freeze(this.#effects.map(effect => Object.freeze({ ...effect }))),
       wholeCrtTraversalCompleted: false, moduleAttachCompleted: false, fullCampaignCompleted: false });

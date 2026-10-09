@@ -2679,6 +2679,29 @@ export class NativeX86ThreadStack {
     return this.#stackWord(offset);
   }
   gameImageAddress(controller: object, label: string, offset = 0): NativeValue<NativeX86Word32> { return this.#run(controller, () => this.#moduleWord(label, offset)); }
+  executeGameCinitCpuInstruction(controller: object, pc: string): NativeValue<void> { return this.#run(controller, () => {
+    if (!this.#setEnvpBinding || this.#setEnvpBinding.controller !== controller ||
+        !this.#calls.some(call => call.site === '20466452' && !call.returned)) throw new Error('Actual Game C initializer CPU frame required');
+    const row = gameCinitInstruction(pc);
+    if (['2047e63a', '2047e645'].includes(pc) && row.instruction === 'PUSHFD') { this.#pushFlags(); return; }
+    if (['2047e644', '2047e64c'].includes(pc) && row.instruction === 'POPFD') { this.#popFlags(); return; }
+    if (['2047e64f', '2047e662'].includes(pc) && row.instruction === 'CPUID') {
+      const cpu = this.#selection.cpu;
+      if (!cpu || !cpu.idBitWritable) throw new Error('Actual retained CPUID-capable virtual CPU required');
+      const leaf = this.#numeric(this.#load(this.#bank, this.#reg('EAX')), 4);
+      const tuple = leaf === 0 ? cpu.cpuidLeaf0 : leaf === 1 ? cpu.cpuidLeaf1 : undefined;
+      if (!tuple) throw new Error('Explicit virtual CPUID leaf ' + leaf + ' required');
+      for (const [index, name] of (['EAX', 'EBX', 'ECX', 'EDX'] as const).entries()) this.#store(this.#bank, this.#reg(name), this.#mint(tuple[index]!, 0xffffffff));
+      return;
+    }
+    if (pc === '2047e5e7' && row.instruction === 'MOVAPD XMM0,XMM1') {
+      if (this.#selection.cpu?.sse2Execution !== 'normal') throw new Error('Original SIMD exception dispatch or explicit normal SSE2 execution required');
+      this.#physical(this.#xmm);
+      for (let offset = 0; offset < 16; offset += 4) this.#store(this.#xmm, offset, this.#load(this.#xmm, 16 + offset));
+      return;
+    }
+    throw new Error('Original Game C initializer CPU instruction required');
+  }); }
   #gameCinitErrorCallback(controller: object): string {
     if (!this.#setEnvpBinding || this.#setEnvpBinding.controller !== controller ||
         this.#calls.filter(call => !call.returned).at(-1)?.site !== '20466626' ||
@@ -2949,7 +2972,7 @@ export class NativeX86ThreadStack {
   }); }
   sourceAddress(controller: object, type: 'code' | 'image', address: string): NativeValue<NativeX86Word32> { return this.#run(controller, () => this.#source(type, address)); }
   registerSourceImage(controller: object, address: string, fields: NativeHeapObjectViews): NativeValue<void> { return this.#run(controller, () => {
-    const label = address === '206e8db0' ? 'cinitNonwritableEH4Scope' : address === '206e8e90' ? 'ioInitEH4Scope' : address === '206e8f98' ? 'callocEH4Scope' : address === '206e8e70' ? 'sectionInitExceptionTable' : address === '206e8cb8' ? 'setMbcEH4Scope' : address === '206e8c98' ? 'updateMbcEH4Scope' : address === '206e8b70' ? 'freeEH4Scope' : null;
+    const label = address === '206e9018' ? 'cinitSse2ProbeEH4Scope' : address === '206e8db0' ? 'cinitNonwritableEH4Scope' : address === '206e8e90' ? 'ioInitEH4Scope' : address === '206e8f98' ? 'callocEH4Scope' : address === '206e8e70' ? 'sectionInitExceptionTable' : address === '206e8cb8' ? 'setMbcEH4Scope' : address === '206e8c98' ? 'updateMbcEH4Scope' : address === '206e8b70' ? 'freeEH4Scope' : null;
     if (!label) throw new Error('Only exact admitted Game EH4 scope views are owned');
     const crt = this.#binding!.crt, selected = NativeModuleCrtOwner.canonicalImageForOwner(crt, label);
     if (!selected.known || selected.value !== fields) throw new Error('Actual same-Game canonical scope image required');
@@ -3112,6 +3135,17 @@ export class NativeX86ThreadStack {
       }
     }
     if (op === 'sub' && left === right) { this.#arithmeticFlags(0, 0, 0, width, true); return this.#mint(0, maximum); }
+    // A retained single-bit XOR relation cancels every unchanged unknown bit.
+    // This proves the original EFLAGS ID-toggle difference without inventing
+    // values for arithmetic flags left unknown by earlier platform imports.
+    if (width === 4 && op === 'sub' && a.provenance?.kind === 'xor' && a.provenance.left === right) {
+      const toggled = this.#liveWord(a.provenance.right), bit = toggled.value >>> 0;
+      if (toggled.mask === 0xffffffff && bit !== 0 && (bit & (bit - 1)) === 0 && (b.mask & bit) !== 0) {
+        const value = ((b.value & bit) ? -bit : bit) >>> 0;
+        this.#arithmeticFlags(a.value, b.value, value, 4, true);
+        return this.#mint(value, 0xffffffff);
+      }
+    }
     if (op === 'sbb' && left === right) { const f = this.#record(this.#load(this.#bank, 36)); if (!(f.mask & 1)) throw new Error('Current CF required'); const carry = f.value & 1, v = (-carry & maximum) >>> 0; this.#arithmeticFlags(0, 0, v, width, true, carry); return this.#mint(v, maximum); }
     if (op === 'add' && (((a.mask & maximum) >>> 0) !== maximum || ((b.mask & maximum) >>> 0) !== maximum)) {
       return this.#maskedAdd(a, b, width);

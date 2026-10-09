@@ -3,6 +3,7 @@ import argparse
 import hashlib
 import json
 import struct
+import re
 from pathlib import Path
 
 from read_dialogue_native_evidence import PE, audit_module, EXPECTED_INPUTS
@@ -23,7 +24,42 @@ TARGETS = {
     # The first callback is independently admitted by the existing Game CRT
     # package. Its missing catalog entry must not be fabricated here.
     0x2046643f: 'errorInitializerWalker',
+    0x2047e627: 'querySse2Availability', 0x2047e5d7: 'probeSse2Execution',
 }
+
+
+def supplemental_callbacks(pe):
+    package = Path(__file__).resolve().parents[2] / 'assets/gothic3/game-cinit-callbacks'
+    index = json.loads((package / 'callback-index.json').read_text(encoding='utf8'))
+    methods = []
+    for address, label in [('20469f3a', 'initializeConversionSse2'), ('2047e687', 'initializeFloatingPointSse2')]:
+        receipt = index['callbacks'][address]
+        data = (package / receipt['assembly']).read_bytes()
+        if hashlib.sha256(data).hexdigest() != receipt['assemblySha256']:
+            raise ValueError('Supplemental callback assembly differs')
+        if hashlib.sha256((package / receipt['c']).read_bytes()).hexdigest() != receipt['cSha256']:
+            raise ValueError('Supplemental callback C receipt differs')
+        rows = []
+        for number, line in enumerate(data.decode('utf8').splitlines(), 1):
+            match = re.fullmatch(r'([0-9a-f]{8}) \| ([0-9a-f]+) \| (.+)', line)
+            if not match:
+                raise ValueError('Supplemental callback assembly row differs')
+            va, code, instruction = match.groups()
+            raw = bytes.fromhex(code)
+            if pe.bytes(int(va, 16), len(raw)) != raw:
+                raise ValueError('Supplemental callback original PE bytes differ')
+            rows.append(dict(va=va, rva=f'{int(va,16)-pe.base:x}', bytes=code,
+                             instruction=instruction, fileOffset=pe.offset(int(va,16),len(raw)),
+                             assemblyLine=number, assemblySource=receipt['assembly'],
+                             assemblyOrigin='supplemental-ghidra-recovery'))
+        joined = b''.join(bytes.fromhex(row['bytes']) for row in rows)
+        if len(rows) != receipt['instructionCount'] or hashlib.sha256(joined).hexdigest() != receipt['instructionBytesSha256']:
+            raise ValueError('Supplemental callback instruction extent differs')
+        methods.append(dict(label=label, entryVA='0x'+address, bodyVA='0x'+address,
+                            bodyRanges=receipt['bodyRanges'], entryChain=[], instructions=rows,
+                            bodyInstructionBytesSha256=receipt['instructionBytesSha256'],
+                            supplementalReceipt=receipt, verifiedAgainstOriginalPE=True))
+    return methods
 
 
 def capture(study):
@@ -32,6 +68,7 @@ def capture(study):
         raise ValueError('Original Game DLL differs')
     pe = PE(data)
     evidence = audit_module(study, 'Game_dll', 'Game.dll', TARGETS)
+    evidence['methods'].extend(supplemental_callbacks(pe))
     nt = struct.unpack_from('<I', data, 0x3c)[0]
     section_count = struct.unpack_from('<H', data, nt + 6)[0]
     optional_size = struct.unpack_from('<H', data, nt + 20)[0]
@@ -47,6 +84,7 @@ def capture(study):
         ('nonwritableEH4Scope', 0x206e8db0, 28),
         ('divideErratum', 0x207d0a24, 4), ('sse2Available', 0x207d2b50, 4),
         ('cInitializerTable', 0x20655514, 540),
+        ('sse2ConversionAvailable', 0x207d2b40, 4), ('sse2ProbeEH4Scope', 0x206e9018, 28),
     ):
         raw, _ = image_bytes(pe, address, size)
         literals.append({'label': label, 'address': f'{address:08x}', 'bytes': size,
@@ -67,7 +105,8 @@ def capture(study):
 def emit_runtime(result, path):
     selected = ['cinit', 'isNonwritableInCurrentImage', 'validateImageBase', 'findPESection',
                 'fpMath', 'floatConversionInit', 'pentiumDivideDispatch', 'encodeFloatPointers',
-                'errorInitializerWalker']
+                'errorInitializerWalker', 'initializeConversionSse2', 'initializeFloatingPointSse2',
+                'querySse2Availability', 'probeSse2Execution']
     methods = [{key: method[key] for key in ('label', 'entryVA', 'bodyRanges',
                 'bodyInstructionBytesSha256', 'instructions')}
                for method in result['module']['methods'] if method['label'] in selected]
@@ -79,9 +118,11 @@ def emit_runtime(result, path):
                             ('cinitFloatPointerTable', 'floatPointerTable'),
                             ('cinitDivideModule', 'divideModule'), ('cinitDivideExport', 'divideExport'),
                             ('cinitDivideErratum', 'divideErratum'), ('cinitSse2Available', 'sse2Available'),
-                            ('cinitCInitializerTable', 'cInitializerTable')]:
+                            ('cinitCInitializerTable', 'cInitializerTable'),
+                            ('cinitSse2ConversionAvailable', 'sse2ConversionAvailable'),
+                            ('cinitSse2ProbeEH4Scope', 'sse2ProbeEH4Scope')]:
         images[label] = next(row for row in result['literals'] if row['label'] == original)
-    cold = {'cinitFloatPointerTable', 'cinitDivideErratum', 'cinitSse2Available'}
+    cold = {'cinitFloatPointerTable', 'cinitDivideErratum', 'cinitSse2Available', 'cinitSse2ConversionAvailable'}
     pins = {label: ['coldGlobals' if label in cold else 'constBytes', row['address'], row['bytes'], row['raw'], row['sha256']]
             for label, row in images.items()}
     compact = lambda value: json.dumps(value, separators=(',', ':'), ensure_ascii=False)
@@ -112,7 +153,8 @@ export function admitGameCinitSource(): void {
   for (const [label, pin] of Object.entries(gameCinitImagePins)) {
     const names: Record<string,string> = {cinitMathCallback:'mathCallback',cinitNonwritableEH4Scope:'nonwritableEH4Scope',
       cinitFloatPointerTable:'floatPointerTable',cinitDivideModule:'divideModule',cinitDivideExport:'divideExport',
-      cinitDivideErratum:'divideErratum',cinitSse2Available:'sse2Available',cinitCInitializerTable:'cInitializerTable'};
+      cinitDivideErratum:'divideErratum',cinitSse2Available:'sse2Available',cinitCInitializerTable:'cInitializerTable',
+      cinitSse2ConversionAvailable:'sse2ConversionAvailable',cinitSse2ProbeEH4Scope:'sse2ProbeEH4Scope'};
     const original = label === 'cinitPEHeaders' ? source.originalHeaders : source.literals.find((row: { label: string }) => row.label === names[label]);
     if (!original || original.address !== pin[1] || original.bytes !== pin[2] || original.raw !== pin[3] || original.sha256 !== pin[4])
       throw new Error('Original Game cinit image differs: ' + label);
