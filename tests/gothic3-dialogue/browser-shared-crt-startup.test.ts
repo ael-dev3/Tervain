@@ -52,9 +52,9 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  expect(game.known).toBe(true);
  if(!game.known)throw new Error(game.reason);
  expect(game.value.attachResult,game.value.attachProgress.setEnvpProgress?.currentPC).toEqual({known:false,
-  reason:'crtAttach204677e4: Unowned Unowned original environment CALL at20075054: CALL 0x20025e55'});
+  reason:'crtAttach204677e4: Unowned Original Game C++ initializer callback is not yet admitted at 204b2660'});
  const executed=new Set(game.value.attachProgress.setEnvpProgress!.effects.map(effect=>effect.pc));
- for(const pc of ['20072719','20072383','200730dd','204b217a','204b23ca'])expect(executed.has(pc)).toBe(true);
+ for(const pc of ['20072719','20072383','200730dd','204b217a','204b23ca','2007479a','20074403','2007510d','204b241a'])expect(executed.has(pc)).toBe(true);
  const labelType=NativeGameLabelType.forCrt(game.value.crt,memory);
  expect(labelType.snapshot()).toMatchObject({entered:true,baseConstructed:true,factoryConstructed:true,getterReturned:true,registered:true});
  expect(labelType.storage.maskedWord(60,4).value&1).toBe(1);
@@ -73,8 +73,12 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  expect(labelNameOwner.snapshot().callback!.entry).toBe('20007702');
  expect(labelNameOwner.get()).toEqual(labelName);
  expect(labelType.fields.readUnsigned(24)).toBe(0x100ea9c4);
- expect(labelType.fields.pointer(28).get()).toBeNull();
- expect([32,36].map(offset=>labelType.fields.readUnsigned(offset))).toEqual([0,0]);
+ const labelFactoryRoot=labelType.fields.pointer<{fields:NativeHeapObjectViews;offset:number}>(28).get()!;
+ expect(labelFactoryRoot).not.toBeNull();expect(labelFactoryRoot.offset).toBe(0);
+ expect([32,36].map(offset=>labelType.fields.readUnsigned(offset))).toEqual([1,9]);
+ const labelFactoryWrapper=labelFactoryRoot.fields.pointer<{fields:NativeHeapObjectViews;offset:number}>(0).get()!;
+ expect(labelFactoryWrapper.fields).toBe(game.value.crt.imageStorage('labelWrapper'));expect(labelFactoryWrapper.offset).toBe(0);
+
  expect(labelType.fields.readUnsigned(40,2)).toBe(1);
  expect(labelType.fields.pointer(44).get()).toBe(labelNameOwner.fields.pointer(0).get());
  const labelBefore=[...labelType.storage.bytes];
@@ -133,6 +137,9 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  expect([...factoryRoot.fields.knownMask.subarray(4,36)]).toEqual(Array(32).fill(255));
  const callbacks=NativeGameExitTable.forCrt(game.value.crt).snapshot().callbackCells;
  expect(callbacks.filter(cell=>cell.callback?.entry==='20549b80')).toHaveLength(1);
+ expect(callbacks.filter(cell=>cell.callback?.entry==='20549c50')).toHaveLength(1);
+ expect(callbacks.filter(cell=>cell.callback?.entry==='20549c20')).toHaveLength(1);
+ expect(callbacks.filter(cell=>cell.callback?.entry==='20007702')).toHaveLength(1);
  expect(callbacks.filter(cell=>cell.callback?.entry==='2002ec53')).toHaveLength(1);
  const freePointBaseString=freePointType.base.pointer(4).get();
  expect(freePointType.get()).toEqual({known:true,value:freePointType.fields});

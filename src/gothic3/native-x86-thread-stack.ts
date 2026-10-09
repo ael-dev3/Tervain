@@ -2897,6 +2897,21 @@ export class NativeX86ThreadStack {
     const returned=this.#ret(0),source=this.#record(returned).provenance;
     if(source?.kind!=='source'||source.type!=='code'||source.address!=='204b2179')throw new Error('Actual FreePoint cleanup registration return required');
   }); }
+  registerLabelWrapperCleanup(controller:object):NativeValue<void> { return this.#run(controller,()=>{
+    const binding=this.#setEnvpBinding;
+    if(!binding||binding.controller!==controller)throw new Error('Actual retained Game startup controller required');
+    const point=NativeGameCrtSetEnvp.canonicalLabelCleanupCallForCrt(binding.owner,binding.crt,controller);if(!point.known)throw new Error(point.reason);
+    if(this.#calls.filter(call=>!call.returned).at(-1)?.site!=='20466654')throw new Error('Actual pending Label initializer frame required');
+    const cursor=this.#address(this.#load(this.#bank,this.#reg('ESP')));
+    if(this.#numeric(this.#load(this.#stack,cursor),4)!==0x20549c50)throw new Error('Actual pushed Label cleanup address required');
+    const table=NativeGameExitTable.forCrt(binding.crt as NativeGameCrtOwner),callback=table.callbackForMethod('labelWrapperCleanup');
+    if(!callback.known)throw new Error(callback.reason);
+    this.#call('204b2414','204b2419');
+    const result=table.atexit(callback.value);if(!result.known)throw new Error(result.reason);
+    this.#store(this.#bank,this.#reg('EAX'),this.#mint(result.value>>>0,0xffffffff));
+    const returned=this.#ret(0),source=this.#record(returned).provenance;
+    if(source?.kind!=='source'||source.type!=='code'||source.address!=='204b2419')throw new Error('Actual Label cleanup registration return required');
+  }); }
   registerGameStaticFini(controller: object): NativeValue<void> { return this.#run(controller, () => {
     const binding = this.#setEnvpBinding;
     if (!binding || binding.controller !== controller) throw new Error('Actual retained Game startup controller required');
@@ -2927,21 +2942,22 @@ export class NativeX86ThreadStack {
     if(!point.known)throw new Error(point.reason);
     const memory=this.#memory(address,4);
     const freePoint=site==='2007302c'||site==='2007302e';
-    const first=site==='200705cc'||site==='2007302c';
-    const label=freePoint?(first?'freePointTypeAndGuard':'freePointTypeVtable'):first?'arenaTypeAndGuard':'arenaRootTypeVtable';
+    const labelType=site==='2007505c'||site==='2007505e';
+    const first=site==='200705cc'||site==='2007302c'||site==='2007505c';
+    const label=labelType?(first?'labelTypeAndGuard':'labelTypeVtable'):freePoint?(first?'freePointTypeAndGuard':'freePointTypeVtable'):first?'arenaTypeAndGuard':'arenaRootTypeVtable';
     const expected=NativeModuleCrtOwner.canonicalImageForOwner(binding.crt,label);
     const offset=first?0:12;
     if(!expected.known || memory.fields!==expected.value || memory.offset!==offset)
       throw new Error('Actual current Arena virtual-table pointer required');
     const value=NativeHeapObjectViews.prototype.readUnsigned.call(memory.fields,offset);
     if(first) {
-      const vtable=freePoint?'freePointTypeVtable':'arenaRootTypeVtable';
+      const vtable=labelType?'labelTypeVtable':freePoint?'freePointTypeVtable':'arenaRootTypeVtable';
       if(value!==Number.parseInt(nativeGameImageReceipt(vtable).address,16))
         throw new Error('Original Arena type vtable changed');
       return this.#moduleWord(vtable,0);
     }
-    if(value!==(freePoint?0x20024672:0x2002adfb))throw new Error('Original factory virtual slot changed');
-    return this.#source('code',freePoint?'20024672':'2002adfb');
+    if(value!==(labelType?0x20017e27:freePoint?0x20024672:0x2002adfb))throw new Error('Original factory virtual slot changed');
+    return this.#source('code',labelType?'20017e27':freePoint?'20024672':'2002adfb');
   }); }
   callArenaMemoryAdminRealloc(controller:object,next:string):NativeValue<void> { return this.#run(controller,()=>{
     const binding=this.#setEnvpBinding;
@@ -2999,9 +3015,10 @@ export class NativeX86ThreadStack {
     const point=NativeGameCrtSetEnvp.canonicalArenaPropertySingletonCallForCrt(binding.owner,binding.crt,controller,site);
     if(!point.known)throw new Error(point.reason);
     const freePoint=site==='20072619'||site==='2007265c';
+    const label=site==='20074699'||site==='200746dd';
     const outerSite=this.#calls.filter(call=>!call.returned).at(-1)?.site;
-    if(next!==(site==='1008d1a3'?'1008d1a8':site==='2006f985'?'2006f98b':site==='20072619'?'2007261f':site==='2007265c'?'20072662':'2006f9f2') ||
-      !(site==='1008d1a3'?['200705d6','20073036'].includes(outerSite??''):outerSite===(freePoint?'20073024':'200705c4')))
+    if(next!==(site==='1008d1a3'?'1008d1a8':site==='2006f985'?'2006f98b':site==='20072619'?'2007261f':site==='2007265c'?'20072662':site==='20074699'?'2007469f':site==='200746dd'?'200746e3':'2006f9f2') ||
+      !(site==='1008d1a3'?['200705d6','20073036','20075066'].includes(outerSite??''):outerSite===(label?'20075054':freePoint?'20073024':'200705c4')))
       throw new Error('Actual Arena replacement frame and singleton return required');
     admitArenaPropertySingletonImport();
     const memory=nativeGameLayerBaseMemoryForCrt(binding.crt as NativeGameCrtOwner); if(!memory.known)throw new Error(memory.reason);

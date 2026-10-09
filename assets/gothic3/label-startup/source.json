@@ -2699,6 +2699,44 @@
     ],
     "bodyInstructionBytesSha256": "a78dd79780061d8927881f16d7aca83f866bb8167a1774897badef7860c13896"
   },
+  "wrapperCleanup": {
+    "entry": "20549c50",
+    "instructions": [
+      {
+        "va": "20549c50",
+        "bytes": "b9c4517b20",
+        "instruction": "MOV ECX,0x207b51c4",
+        "fileOffset": 5545040
+      },
+      {
+        "va": "20549c55",
+        "bytes": "c705c4517b205ca46520",
+        "instruction": "MOV dword ptr [0x207b51c4],0x2065a45c",
+        "fileOffset": 5545045
+      },
+      {
+        "va": "20549c5f",
+        "bytes": "e8dabeaeff",
+        "instruction": "CALL 0x20035b3e",
+        "fileOffset": 5545055
+      },
+      {
+        "va": "20549c64",
+        "bytes": "b9c4517b20",
+        "instruction": "MOV ECX,0x207b51c4",
+        "fileOffset": 5545060
+      },
+      {
+        "va": "20549c69",
+        "bytes": "e9d565adff",
+        "instruction": "JMP 0x20020243",
+        "fileOffset": 5545065
+      }
+    ],
+    "capture": "bounded-original-PE-five-encoding-decode",
+    "bodyByteCount": 30,
+    "bodyInstructionBytesSha256": "a35dd0ca18b75c664067e598a0b864caa618ab7af07116911580cf7cb276fa25"
+  },
   "images": [
     {
       "label": "labelWrapper",

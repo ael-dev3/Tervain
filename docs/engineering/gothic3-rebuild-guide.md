@@ -48,7 +48,7 @@ Each feature goes through the following steps:
 initialization return through the retained startup stack. FreePoint's later
 class-name initializer also returns, sharing the same CString and cleanup
 owner. Label initializer `204b23d0` now executes its wrapper constructor and stops
-inside wrapper initialization at `20075054 -> 20025e55`. Complete startup,
+after Label returns, at the next C++ initializer `204b2660`. Complete startup,
 world activation and a new-game-to-ending campaign remain unfinished. Local
 checkpoints and the hosted version can differ; validation below identifies
 the checkpoint covered.
@@ -57,6 +57,23 @@ the checkpoint covered.
 
 The entries below describe successive local states, newest first. Statements
 about missing operations in older entries apply to those earlier checkpoints.
+
+### Current local checkpoint: complete Label initializer returns
+
+The captured object-replacement body executes its original registration
+toggles on the retained singleton. The virtual accessor returns the actual
+property factory, which registers the Label wrapper in its retained root
+array. Wrapper initialization returns with argument cleanup. Initializer
+`204b23d0` registers original wrapper cleanup `20549c50`, removes its cdecl
+argument and returns through the C++ startup stack. Startup advances to the
+next unsupported initializer, `204b2660`.
+
+Focused tests inspect the original helper, accessor, wrapper and initializer
+returns; factory array membership; and exactly one class-name, type and wrapper
+cleanup registration. All 31 tests passed, TypeScript checking passed and
+independent source generations matched exactly. Full validation of this
+latest completion and production browser proof remain pending. Cleanup
+execution and the playable campaign remain unfinished.
 
 ### Current local checkpoint: Label wrapper initialization enters
 
