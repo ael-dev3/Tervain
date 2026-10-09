@@ -11064,8 +11064,8 @@ Typechecking and the production build pass. All 3,023 tests across 278 files
 passed in 315.11 seconds at `6b77e3be`.
 
 PR #175 passed validation run 37875538581 and merged as
-`b9205c074cdab6d827ba7372239fc6504613d1f4`. Its Pages deployment run 37876248394 is
-running. SpyAdmin callback completion, dispatcher return and the original section
+`b9205c074cdab6d827ba7372239fc6504613d1f4`. Its Pages deployment run 37876248394
+completed successfully. SpyAdmin callback completion, dispatcher return and the original section
 release remain dependencies. These continuations have no production callers;
 complete startup, world activation, connected saves and a finishable campaign
 remain unfinished.
