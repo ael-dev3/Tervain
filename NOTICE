@@ -36,15 +36,22 @@ This product includes material from the Warpkeep project (https://github.com/ael
    These records distinguish Creative Commons grants, owner-specific project
    use, service terms and unresolved provenance. Existing CC permissions are
    not restricted by the PolyForm license on eligible original software code.
-   This notice does not establish missing Meshy plan or reference-component rights.
    The residents' rig files (public/models/npcs/rigs/) and motion library
    (public/models/npcs/motion/) were generated with the Meshy API (automatic
    rigging, animation library and text to motion) and are recorded in the
    resident manifest, motion/clips.json and the model ledger (rigs under
-   generatedRigs); their plan
-   evidence is pending. The furniture (public/models/furniture/) was
-   generated with Meshy's text to 3D and is recorded in its manifest and the
-   model ledger; its plan evidence is pending.
+   generatedRigs). The furniture (public/models/furniture/) was generated
+   with Meshy's text to 3D and is recorded in its manifest and the model
+   ledger. Confirmed by the project owner, 9 October 2026: every
+   Meshy-generated asset in the project (the supplied Meshy models, the rigs,
+   the motion library and the furniture) was generated under Meshy Pro, a
+   paid plan. It follows Meshy's paid-plan Customer Output terms (terms of use
+   updated 19 September 2026, section 3.2; see https://www.meshy.ai/terms-of-use);
+   the free-plan CC BY 4.0 and Community CC0 branches do not apply to it.
+   This notice grants no rights beyond those terms and does not establish
+   the separate rights of the animated hero's Mixamo-named skeleton and
+   animation content, which remain unresolved, or any reference-component
+   rights.
 
 Warpkeep names, logos and the Hegemony identity are not licensed by this notice.
 
