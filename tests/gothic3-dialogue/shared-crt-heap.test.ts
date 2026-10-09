@@ -1632,6 +1632,30 @@ owner.processDllSpieAllocateDescriptor();
  owner.processDllSpieInitDescriptorSection();return {owner,platform};
 }
 
+it('executes original ErrorAdmin malloc and passes its owned buffer to sprintf',()=>{
+ const {owner}=originalFileOpenFixture({cwd:'C:/Gothic3',directories:['C:/','C:/Gothic3'],files:[]});
+ owner.processDllSpieCreateFile();owner.processDllSpieTerminate();owner.processDllMessageTerminate();owner.processDllMessageLog();owner.processDllErrorLogCallback();
+ const before=owner.snapshot(),request=0x200+before.dllFormatImages['100ebab8']!.bytes.length-1+before.dllFormatImages['100e7df8']!.bytes.length-1;
+ expect(owner.processDllErrorLogAllocation()).toEqual({known:false,reason:'Original SharedBase ErrorAdmin log formatting pending at 10022632'});
+ const after=owner.snapshot(),stack=after.caseState!.stack!.snapshot();
+ expect(after.initializerAllocations).toHaveLength(before.initializerAllocations.length+1);
+ expect(after.initializerAllocations.at(-1)!.bytes.length).toBe(request);
+ expect(stack.calls.find(row=>row.site==='10022613')!.returned).toBe(true);
+ expect(stack.trace).toContain('100aab6e.sharedInitializer.CALL');
+ expect(stack.calls.at(-1)!.site).toBe('10022632');expect(after.messageSectionHeld).toBe(true);
+ const calls=stack.calls.length;expect(owner.processDllErrorLogAllocation()).toEqual({known:false,reason:'Original SharedBase ErrorAdmin log formatting pending at 10022632'});
+ expect(owner.snapshot().caseState!.stack!.snapshot().calls).toHaveLength(calls);
+},30_000);
+it('rejects damaged ErrorAdmin malloc return and request before allocating',()=>{
+ for(const displacement of [0,4]){
+  const {owner}=originalFileOpenFixture({cwd:'C:/Gothic3',directories:['C:/','C:/Gothic3'],files:[]});
+  owner.processDllSpieCreateFile();owner.processDllSpieTerminate();owner.processDllMessageTerminate();owner.processDllMessageLog();owner.processDllErrorLogCallback();
+  const before=owner.snapshot(),stack=before.caseState!.stack!.snapshot(),call=stack.calls.at(-1)!;
+  new NativeHeapObjectViews(stack.sharedDllResourceFrame!.handle.backing,call.position+displacement,4).writeUnsigned(0,0);
+  const result=owner.processDllErrorLogAllocation();expect(result.known).toBe(false);if(result.known)throw new Error('Damaged malloc accepted');expect(result.reason).toMatch(/malloc return frame|expression slot/);
+  expect(owner.snapshot().initializerAllocations).toHaveLength(before.initializerAllocations.length);expect(owner.snapshot().messageSectionHeld).toBe(true);
+ }
+},30_000);
 it('rejects a damaged ErrorAdmin callback return before scanning or allocating',()=>{
  const {owner}=originalFileOpenFixture({cwd:'C:/Gothic3',directories:['C:/','C:/Gothic3'],files:[]});
  owner.processDllSpieCreateFile();owner.processDllSpieTerminate();owner.processDllMessageTerminate();owner.processDllMessageLog();
