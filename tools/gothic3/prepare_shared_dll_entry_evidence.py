@@ -102,6 +102,7 @@ def capture(study, output):
         0x100b2b0b: 'versionCharClass',
         0x100088b4: 'dllLogMessage',
         0x10005560: 'dllLogSubmit',
+        0x10006ebf: 'dllLogDispatch',
         0x100a7f27: 'dllLogVsprintf',
         0x10006b7c: 'dllMessageCreate',
         0x100010e1: 'dllMessageNewHolder',

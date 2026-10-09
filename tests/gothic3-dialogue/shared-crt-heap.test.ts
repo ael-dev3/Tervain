@@ -1632,6 +1632,26 @@ owner.processDllSpieAllocateDescriptor();
  owner.processDllSpieInitDescriptorSection();return {owner,platform};
 }
 
+it('executes original MessageAdmin log dispatch under its actual section',()=>{
+ const {owner,platform}=originalFileOpenFixture({cwd:'C:/Gothic3',directories:['C:/','C:/Gothic3'],files:[]});
+ owner.processDllSpieCreateFile();owner.processDllSpieTerminate();owner.processDllMessageTerminate();
+ expect(owner.processDllMessageLog()).toEqual({known:false,reason:'Original SharedBase ErrorAdmin log callback pending at 100494db'});
+ const state=owner.snapshot(),stack=state.caseState!.stack!.snapshot();
+ expect(state.messageSectionHeld).toBe(true);expect(state.exitLockHeld).toBe(false);
+ expect(stack.calls.find(row=>row.site==='10049528')!.returned).toBe(true);expect(stack.calls.at(-1)!.site).toBe('100494db');
+ const message=state.dllFormatImages['10197d6c']!;
+ expect(platform.snapshot().physicalSections.find(row=>row.canonicalBacking===message.backing&&row.position===message.bytes.byteOffset-message.backing.bytes.byteOffset+4)!.depth).toBe(1);
+ const calls=stack.calls.length;expect(owner.processDllMessageLog()).toEqual({known:false,reason:'Original SharedBase ErrorAdmin log callback pending at 100494db'});
+ expect(owner.snapshot().caseState!.stack!.snapshot().calls).toHaveLength(calls);
+},30_000);
+it('rejects a damaged logger return before entering MessageAdmin section',()=>{
+ const {owner}=originalFileOpenFixture({cwd:'C:/Gothic3',directories:['C:/','C:/Gothic3'],files:[]});
+ owner.processDllSpieCreateFile();owner.processDllSpieTerminate();owner.processDllMessageTerminate();
+ const stack=owner.snapshot().caseState!.stack!.snapshot(),call=stack.calls.at(-1)!;
+ new NativeHeapObjectViews(stack.sharedDllResourceFrame!.handle.backing,call.position,4).writeUnsigned(0,0);
+ const result=owner.processDllMessageLog();expect(result.known).toBe(false);if(result.known)throw new Error('Damaged logger return accepted');expect(result.reason).toMatch(/logger submission frame|expression slot/);
+ expect(owner.snapshot().messageSectionHeld).toBe(false);
+},30_000);
 it('rejects damaged shutdown registration returns before appending exit callbacks',()=>{
  for(const message of [false,true]){
   const {owner}=originalFileOpenFixture({cwd:'C:/Gothic3',directories:['C:/','C:/Gothic3'],files:[]});
