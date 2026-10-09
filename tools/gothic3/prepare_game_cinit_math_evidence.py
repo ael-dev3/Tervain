@@ -172,6 +172,7 @@ import sourceText from '../../assets/gothic3/game-cinit-math-source/source.json?
 import type { NativeGameIoInstruction } from './native-game-crt-io-source';
 import type { NativeCrtImageReceipt } from './native-game-crt-profile';
 const methods = __METHODS__;
+const staticFini = __FINI__;
 export const gameCinitImagePins: Readonly<Record<string, readonly ['constBytes'|'coldGlobals', string, number, string, string]>> = __PINS__;
 const source = JSON.parse(sourceText);
 function freeze(value: unknown): void {
@@ -179,7 +180,7 @@ function freeze(value: unknown): void {
     for (const child of Object.values(value)) freeze(child); Object.freeze(value);
   }
 }
-freeze(methods); freeze(gameCinitImagePins); freeze(source);
+freeze(methods); freeze(staticFini); freeze(gameCinitImagePins); freeze(source);
 let admitted = false;
 export function admitGameCinitSource(): void {
   if (admitted) return;
@@ -191,6 +192,9 @@ export function admitGameCinitSource(): void {
     if (!original || Object.keys(method).some(key => JSON.stringify(original[key]) !== JSON.stringify(method[key as keyof typeof method])))
       throw new Error('Original Game cinit method differs: ' + method.label);
   }
+  const originalFini = source.module.methods.find((row: { label: string }) => row.label === staticFini.label);
+  if (!originalFini || JSON.stringify(originalFini) !== JSON.stringify(staticFini))
+    throw new Error('Original Game static shutdown receipt differs');
   for (const [label, pin] of Object.entries(gameCinitImagePins)) {
     const names: Record<string,string> = {cinitMathCallback:'mathCallback',cinitNonwritableEH4Scope:'nonwritableEH4Scope',
       cinitFloatPointerTable:'floatPointerTable',cinitDivideModule:'divideModule',cinitDivideExport:'divideExport',
@@ -211,6 +215,12 @@ export function gameCinitInstruction(pc: string): NativeGameIoInstruction {
   }
   throw new Error('No admitted original Game cinit instruction: ' + pc);
 }
+/** Source callback data only: this does not admit shutdown traversal. */
+export function gameCinitStaticFiniReceipt() {
+  admitGameCinitSource();
+  return Object.freeze({ module: 'Game' as const, entry: staticFini.entryVA.slice(2),
+    body: staticFini.bodyVA.slice(2), bodyInstructionBytesSha256: staticFini.bodyInstructionBytesSha256 });
+}
 export function gameCinitImageReceipt(label: string): NativeCrtImageReceipt {
   admitGameCinitSource(); const pin = gameCinitImagePins[label];
   if (!pin) throw new Error('No admitted original Game cinit image: ' + label);
@@ -219,6 +229,7 @@ export function gameCinitImageReceipt(label: string): NativeCrtImageReceipt {
 }
 '''
     text = text.replace('__METHODS__', compact(methods)).replace('__PINS__', compact(pins))
+    text = text.replace('__FINI__', compact(next(row for row in result['module']['methods'] if row['label'] == 'staticFiniWalker')))
     text = text.replace('__GAME__', EXPECTED_INPUTS['Game.dll'])
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(text, encoding='utf-8', newline='\n')

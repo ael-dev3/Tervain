@@ -87,6 +87,13 @@ claim decompiled C provenance. The original 256-byte static fini table at
 `206e86e0` contains 64 null entries. Neither the walker nor this table is added
 to the executable getter by this capture; callback registration is still pending.
 
+The generated static-fini receipt now pins the complete recovered method as
+callback data. The canonical Game exit-table owner uses that same receipt at
+capability creation and registration. Component checks establish a retained
+callback identity, one encoded callback cell and a four-byte cursor advance;
+they do not execute shutdown traversal. All 21 focused checks across two files
+and typechecking pass. The browser's original atexit CALL bridge remains pending.
+
 Regenerate from the repository root:
 
 ```powershell
