@@ -15,8 +15,8 @@
   },
   "runtime": {
     "path": "public/models/scenery/ancient-guardian-broadleaf-under-20k.glb",
-    "sha256": "28f1c975e50cb690ed39ed6a90840c3e5c29a15c5f0b8348854d16cadcb14a10",
-    "bytes": 5379960,
+    "sha256": "ffaa0d0857fe28baca75416875db4ef8dd834650204cee819738e745c7326406",
+    "bytes": 4827200,
     "triangles": 19319,
     "meshes": [
       {

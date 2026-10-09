@@ -1,5 +1,6 @@
 import * as THREE from 'three';
-import { GLTFLoader, type GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { createGltfLoader } from './assets/gltfLoader';
 import { deepwoodCover, forestClearingDistance } from '../world/forest';
 import type { PhysicalWoodGeometry } from '../world/physicsGeometry';
 import type { BuildContext, SceneModule } from './context';
@@ -47,7 +48,7 @@ export function loadSourceBroadleaf(progress?: ModelLoadProgress): Promise<GLTF>
     if (bytes.byteLength < 12) throw new Error('Guardian tree download is incomplete.');
     const header = new DataView(bytes);
     if (header.getUint32(0, true) !== 0x46546c67 || header.getUint32(4, true) !== 2 || header.getUint32(8, true) !== bytes.byteLength) throw new Error('Guardian tree download is not a complete GLB 2 file.');
-    const template = await new GLTFLoader().parseAsync(bytes, new URL('.', url).href);
+    const template = await createGltfLoader().parseAsync(bytes, new URL('.', url).href);
     sourceParts(template);
     return template;
   }).catch(error => { pending = null; throw error; });

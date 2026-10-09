@@ -13,6 +13,7 @@ import { Exclusions } from '../../src/presentation/vegetation';
 import { createFloraPopulation, registerFloraColliders } from '../../src/presentation/floraPopulation';
 import { createScatterPopulation, registerScatterColliders } from '../../src/presentation/scatterPopulation';
 import { rockPileBinary, rockPileTemplate } from './rockPileFixture';
+import { bufferViewBytes } from './glbBufferView';
 
 let template: GLTF;
 beforeAll(async () => { template = await rockPileTemplate(); });
@@ -44,7 +45,7 @@ function imageSize(data: Buffer, mimeType: string): [number, number] {
   throw new Error(`No image size in ${mimeType}.`);
 }
 describe('owner rock pile derivative', () => {
-  it('matches the recorded runtime hash and retains every original geometry buffer byte under the complete model budget', () => {
+  it('matches the recorded runtime hash and retains every original geometry buffer byte under the complete model budget', async () => {
     const { bytes, json, binary } = rockPileBinary();
     const receipt = JSON.parse(readFileSync(new URL('../../docs/engineering/rock-pile-assets.json', import.meta.url), 'utf8'));
     expect(bytes.readUInt32LE(8)).toBe(bytes.length);
@@ -52,7 +53,8 @@ describe('owner rock pile derivative', () => {
     expect(receipt.runtime.triangles).toBe(5220); expect(receipt.source.triangles).toBe(5220);
     expect(bytes.length).toBeLessThan(receipt.source.bytes * 0.25);
     for (const record of receipt.runtime.geometryBufferFidelity) {
-      const view = json.bufferViews[record.runtimeBufferView], data = binary.subarray(view.byteOffset, view.byteOffset + view.byteLength);
+      // The geometry is meshopt-compressed losslessly: its decoded bytes are the recorded ones.
+      const view = json.bufferViews[record.runtimeBufferView], data = await bufferViewBytes(json, binary, record.runtimeBufferView);
       expect(view.byteLength).toBe(record.bytes);
       expect(createHash('sha256').update(data).digest('hex')).toBe(record.sha256);
     }

@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "file": "residents.glb",
-  "sha256": "845fee1a5e91e03b14fa30be5d4236f23e2ed86f950e709d759f89c610e0c0fe",
-  "bytes": 1626720,
+  "sha256": "6dff4f611c06480bcf1e5601dc183269bb11003c27d428e4dc90da2e8dc027e1",
+  "bytes": 1142244,
   "rig": {
     "model": "estate-steward",
     "rigTask": "01a11af7-4393-7307-87cf-6b14055efa72"

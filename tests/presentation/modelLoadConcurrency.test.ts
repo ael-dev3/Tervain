@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
 const parse = vi.hoisted(() => vi.fn<(buffer: ArrayBuffer) => Promise<GLTF>>());
-vi.mock('three/examples/jsm/loaders/GLTFLoader.js', () => ({ GLTFLoader: class { parseAsync = parse; } }));
+vi.mock('three/examples/jsm/loaders/GLTFLoader.js', () => ({ GLTFLoader: class { parseAsync = parse; setMeshoptDecoder() { return this; } } }));
 
 function model(kind: number): GLTF {
   const scene = new THREE.Group();

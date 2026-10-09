@@ -27,9 +27,9 @@ afterAll(() => {
 describe('actual supplied Meshy tree catalog', () => {
   it('retains the exempt custom Pine exactly at its approved three runtime hashes', () => {
     const files = {
-      'solitary-pine-under-10k.glb': '3d1aa21ccc1782a806b9eef2626eeb28dd88c34fca03770572af06e55e77822c',
-      'solitary-pine-mid.glb': 'ae42206850128ad1af869197254482e400de181287d8e35ee8cc79d03c47c639',
-      'solitary-pine-far.glb': '549474d7caaddb50b1ea6f395ea2d5053aa59258f49e663371a3d540aae3e49f',
+      'solitary-pine-under-10k.glb': '4f650c34b2a0ddd7f084ad76d57f00c4bf82eaa6e6188748e0720430ab34e174',
+      'solitary-pine-mid.glb': 'f3e1018ffca84baa6b9ee4ce9ef90884ffa562a4b899826b4058a98d7a2cb59f',
+      'solitary-pine-far.glb': '958bd193f652d1ef9cce89c4de1a319730d0e87594126288ffaf479f9f9b02ec',
     };
     for (const [file, sha] of Object.entries(files)) expect(createHash('sha256')
       .update(readFileSync(new URL(`../../public/models/flora/${file}`, import.meta.url))).digest('hex')).toBe(sha);

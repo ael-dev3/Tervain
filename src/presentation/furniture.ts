@@ -1,5 +1,6 @@
 import * as THREE from 'three';
-import { GLTFLoader, type GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { createGltfLoader } from './assets/gltfLoader';
 import { FURNITURE, pieceSize, type FurniturePlacement } from '../world/furniture';
 import { FURNITURE_SIZES, type FurnitureId } from '../world/furnitureSizes';
 import { fromBuildingLocal, hearthOf, type InteriorSpec, type RoomLocator } from '../world/interiors';
@@ -62,7 +63,7 @@ export function loadFurniture(progress?: ModelLoadProgress): Promise<FurnitureTe
     // Each piece downloads and decodes in its own load slot, side by side with the other models (A68).
     const meshes = await Promise.all(pieces.map((piece) => withModelLoadSlot(async () => {
       const data = await fetchChecked(piece.file, piece.bytes, piece.sha256);
-      const mesh = pieceMesh(piece.id, await new GLTFLoader().parseAsync(data, new URL('.', url(piece.file)).href));
+      const mesh = pieceMesh(piece.id, await createGltfLoader().parseAsync(data, new URL('.', url(piece.file)).href));
       // Worn wood and old iron: nothing in a room is polished (A67).
       roughnessFloor(mesh.material, 0.72).envMapIntensity = 0.8;
       return mesh;
@@ -191,4 +192,26 @@ function shadeMaterial(): THREE.MeshBasicMaterial {
   map.magFilter = THREE.LinearFilter; map.minFilter = THREE.LinearFilter; map.needsUpdate = true;
   return new THREE.MeshBasicMaterial({ color: 0x000000, map, transparent: true, opacity: 0.42, depthWrite: false,
     polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -2 });
+}
+
+/**
+ * Furniture that arrives after the world opens (backlog 4). None of it is needed to set foot in the valley: the rooms'
+ * colliders come from the placements in world/furniture.ts, not from these models. The world opens with this empty
+ * stand-in and the rooms are furnished once the pieces are here, as the animals move in (A70).
+ */
+export function deferredFurniture(): SceneModule & { attach(inner: SceneModule): void; readonly arrived: boolean } {
+  const group = new THREE.Group(); group.name = 'Furniture (arriving)';
+  let inner: SceneModule | null = null, disposed = false;
+  return {
+    group,
+    get arrived() { return inner !== null; },
+    attach(next) {
+      if (disposed) { next.dispose?.(); return; }
+      inner = next;
+      group.add(next.group);
+    },
+    update(dt, f) { inner?.update(dt, f); },
+    stats: () => inner?.stats?.() ?? {},
+    dispose() { disposed = true; inner?.dispose?.(); inner = null; },
+  };
 }

@@ -26,8 +26,8 @@
   "runtime": {
     "path": "public/models/hero/weathered-wanderer-hero-50k.glb",
     "urlRelativeToBase": "models/hero/weathered-wanderer-hero-50k.glb",
-    "bytes": 3901276,
-    "sha256": "dedfdee893e5bbc3cab80d3b1f2d42ee6b6ec538bdf0545cd2221a7a382c8619",
+    "bytes": 3296916,
+    "sha256": "c73177e2f0ffd23fe651be869f41c3ccd25d9361b997d366ff272c1ac11b756e",
     "sourceBytesSaved": 16225480,
     "reductionPercent": 36.54,
     "externalDependencies": [],

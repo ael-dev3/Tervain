@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { readFileSync } from 'node:fs';
-import { GLTFLoader, type GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { createGltfLoader } from '../../src/presentation/assets/gltfLoader';
 import type { MeshyNpcEntry, MeshyNpcManifest } from '../../src/presentation/meshynpcs';
 
 /**
@@ -22,7 +23,7 @@ export function loadResident(id: string): Promise<{ source: GLTF; entry: MeshyNp
   let source = parsed.get(id);
   if (!source) {
     const bytes = readFileSync(new URL(`../../public/models/npcs/${entry.file}`, import.meta.url));
-    const loader = new GLTFLoader();
+    const loader = createGltfLoader();
     loader.register(() => ({ name: 'TERVAIN_RESIDENT_CPU_TEXTURES', loadTexture: () => Promise.resolve(new THREE.Texture()) }));
     // WebP colour maps load through EXT_texture_webp, which would decode in a browser: give those empty textures too.
     loader.register(() => ({ name: 'EXT_texture_webp', loadTexture: () => Promise.resolve(new THREE.Texture()) }));
@@ -51,7 +52,7 @@ let motion: Promise<GLTF> | null = null;
 export function loadResidentMotion(): Promise<GLTF> {
   if (!motion) {
     const bytes = readFileSync(new URL('../../public/models/npcs/motion/residents.glb', import.meta.url));
-    motion = new GLTFLoader().parseAsync(bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength) as ArrayBuffer, '');
+    motion = createGltfLoader().parseAsync(bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength) as ArrayBuffer, '');
   }
   return motion;
 }

@@ -1,5 +1,6 @@
 import * as THREE from 'three';
-import { GLTFLoader, type GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { createGltfLoader } from './assets/gltfLoader';
 import { mulberry32 } from '../world/noise';
 import type { Species, TreeVariant } from './treeGen';
 import { barkTextures } from './treeTextures';
@@ -34,7 +35,7 @@ function load(file: string): Promise<GLTF> {
     if (header.getUint32(0, true) !== 0x46546c67 || header.getUint32(4, true) !== 2 || header.getUint32(8, true) !== buffer.byteLength) {
       throw new Error('The forest model download is not a complete GLB 2 file.');
     }
-    const gltf = await new GLTFLoader().parseAsync(buffer, new URL('.', url).href);
+    const gltf = await createGltfLoader().parseAsync(buffer, new URL('.', url).href);
     if (new THREE.Box3().setFromObject(gltf.scene).isEmpty()) throw new Error('The forest model contains no geometry.');
     const decoded = parts(gltf);
     if (file !== PINE_FILES[2] && !decoded.wood) throw new Error('Close forest models must include real woody branches.');

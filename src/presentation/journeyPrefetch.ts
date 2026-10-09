@@ -12,14 +12,14 @@ import { prefetchTerrainTextureData, TERRAIN_TEXTURE_SIZE } from './terrainTextu
  * behind them, and a worker makes the ground's pixels meanwhile. The network then never waits while the residents are
  * prepared, and the ground is ready when the build reaches it. Each loader keeps its request, so the world build takes
  * these up where they are; a failure here is reported by the world build, which asks again. The animals are not
- * prefetched: they arrive after the world opens (A70).
+ * prefetched: they arrive after the world opens (A70), and neither is the furniture when the world defers it.
  */
-export function prefetchJourney(quality: Quality) {
+export function prefetchJourney(quality: Quality, options: { deferFurniture?: boolean } = {}) {
   const quiet = (request: Promise<unknown>) => { void request.catch(() => {}); };
   prefetchTerrainTextureData(TERRAIN_TEXTURE_SIZE[quality]);
   quiet(loadMeshyTrees());
   quiet(loadSolitaryPine());
   quiet(loadSourceRockPile());
-  quiet(loadFurniture());
+  if (!options.deferFurniture) quiet(loadFurniture());
   quiet(loadBakedTextures(quality));
 }

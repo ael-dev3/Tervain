@@ -15,7 +15,7 @@ import { createMeshyNpcRig, validateMeshyNpcAsset, validateMeshyNpcManifest, NPC
   MeshyNpcCatalog, type MeshyNpcEntry, type MeshyNpcManifest } from '../../src/presentation/meshynpcs';
 
 const loader = vi.hoisted(() => ({ parse: vi.fn() }));
-vi.mock('three/examples/jsm/loaders/GLTFLoader.js', () => ({ GLTFLoader: class { parseAsync = loader.parse; } }));
+vi.mock('three/examples/jsm/loaders/GLTFLoader.js', () => ({ GLTFLoader: class { parseAsync = loader.parse; setMeshoptDecoder() { return this; } } }));
 
 const PARENT: Record<BoneName, BoneName | null> = {
   hips: null, torso: 'hips', head: 'torso', armL: 'torso', elbowL: 'armL', armR: 'torso',

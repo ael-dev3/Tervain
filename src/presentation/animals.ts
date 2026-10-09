@@ -1,5 +1,6 @@
 import * as THREE from 'three';
-import { GLTFLoader, type GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { createGltfLoader } from './assets/gltfLoader';
 import { clone as cloneSkinned } from 'three/examples/jsm/utils/SkeletonUtils.js';
 import type { Collider } from '../world/colliders';
 import type { PhysicalActor } from '../world/physics';
@@ -131,7 +132,7 @@ function loadAnimal(definition: AnimalDefinition): Promise<GLTF> {
     if (header.getUint32(0, true) !== 0x46546c67 || header.getUint32(4, true) !== 2 || header.getUint32(8, true) !== bytes.byteLength) {
       throw new Error('The animal model download is not a complete GLB 2 file.');
     }
-    const template = await new GLTFLoader().parseAsync(bytes, new URL('.', url).href);
+    const template = await createGltfLoader().parseAsync(bytes, new URL('.', url).href);
     try { validateAnimalTemplate(template, definition); } catch (error) { releaseRejectedTemplate(template); throw error; }
     return template;
   }).catch(error => { pending.delete(definition.id); throw error; });
