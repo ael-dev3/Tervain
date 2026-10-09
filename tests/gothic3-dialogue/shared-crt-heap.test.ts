@@ -1639,6 +1639,29 @@ function originalVersionLogFixture(){
  owner.processDllSpieCreateFile();owner.processDllSpieTerminate();owner.processDllMessageTerminate();owner.processDllMessageLog();owner.processDllErrorLogCallback();owner.processDllErrorLogAllocation();owner.processDllErrorLogFormatting();owner.processDllErrorLogInsertion();owner.processDllSpyLogCallback();
  return fixture;
 }
+it('executes original DLL version formatting into the actual TLS buffer',()=>{
+ const {owner,platform}=originalVersionLogFixture();owner.processDllVersionLogTls();
+ const selected=NativeSharedStaticTls.forPlatform(platform);if(!selected.known)throw new Error(selected.reason);
+ const buffer=selected.value.debugBuffer();if(!buffer.known)throw new Error(buffer.reason);
+ expect(owner.processDllVersionLogFormatting()).toEqual({known:false,reason:'Original SharedBase version MessageAdmin log pending at 10049894'});
+ const state=owner.snapshot(),stack=state.caseState!.stack!.snapshot();
+ const text=new TextDecoder().decode(buffer.value.bytes).split('\0')[0]!;
+ expect(stack.sharedDllInitializerFrame!.outputs.map(fields=>fields.readUnsigned(0))).toEqual([1,60,25931,29]);
+ expect(text).toBe('Gothic3 (RELEASE) Sharedbase:  Compileversion: 1.60.25931  (Rev. 29)');
+ expect(buffer.value.knownMask.slice(0,text.length+1).every(mask=>mask===255)).toBe(true);
+ expect(state.messageSectionHeld).toBe(false);expect(stack.calls.findLast(row=>row.site==='10049871')!.returned).toBe(true);expect(stack.calls.findLast(row=>row.site==='100a7eff')!.returned).toBe(true);
+ expect(stack.calls.at(-1)!.site).toBe('10049894');expect(stack.calls.at(-1)!.returned).toBe(false);
+},30_000);
+it('rejects damaged version formatter arguments before changing the TLS buffer',()=>{
+ for(const displacement of [0,4,8]){
+  const {owner,platform}=originalVersionLogFixture();owner.processDllVersionLogTls();
+  const selected=NativeSharedStaticTls.forPlatform(platform);if(!selected.known)throw new Error(selected.reason);const buffer=selected.value.debugBuffer();if(!buffer.known)throw new Error(buffer.reason);
+  const bytes=buffer.value.bytes.slice(),state=owner.snapshot(),stack=state.caseState!.stack!.snapshot(),call=stack.calls.at(-1)!;
+  new NativeHeapObjectViews(stack.sharedDllResourceFrame!.handle.backing,call.position+displacement,4).writeUnsigned(0,0);
+  const result=owner.processDllVersionLogFormatting();expect(result.known).toBe(false);if(result.known)throw new Error('Damaged formatter accepted');expect(result.reason).toMatch(/version formatter return frame|expression slot/);
+  expect(buffer.value.bytes).toEqual(bytes);expect(owner.snapshot().messageSectionHeld).toBe(false);expect(owner.snapshot().caseState!.stack!.snapshot().trace.some(row=>row.startsWith('100a7eab.'))).toBe(false);
+ }
+},30_000);
 it('executes original version logger TLS reads and retains its formatter frame',()=>{
  const {owner,platform}=originalVersionLogFixture();
  const selected=NativeSharedStaticTls.forPlatform(platform);if(!selected.known)throw new Error(selected.reason);const loaded=selected.value.loadSharedBase();if(!loaded.known)throw new Error(loaded.reason);const buffer=selected.value.debugBuffer();if(!buffer.known)throw new Error(buffer.reason);buffer.value.writeUnsigned(0,0x61,1);
