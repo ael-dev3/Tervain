@@ -24,8 +24,10 @@ formatter return complete, and the caller writes the terminating NUL.
 The retained next call is MessageAdmin's getter at `10049924 -> 100088b4`, with
 the actual message buffer and original arguments. Message dispatch, the return
 from the Status initializer and subsequent world activation remain unfinished.
-Eight focused checks across three files and typechecking pass. Full-suite,
-build and browser validation of this revision have not yet been recorded here.
+Eight focused checks across three files and typechecking pass. The production
+build passed in 47.06 seconds. Independent regeneration of both the source JSON
+and generated TypeScript matched their SHA-256 hashes exactly. Full-suite and
+browser validation of this revision have not yet been recorded here.
 This continuation is local and has not been deployed.
 
 ### Production prerequisite ordering: local integration
