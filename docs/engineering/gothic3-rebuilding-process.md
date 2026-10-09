@@ -10914,3 +10914,32 @@ commit `bb30f0c5`. The production build passed at `44ff1d2e`; the later code
 change only updates the source-package test totals.
 These continuations have no production callers; startup, world
 activation and a complete playable campaign remain unfinished.
+
+## Original SpieAdmin callbacks and MessageAdmin shutdown registration (local work, 2026-10-09)
+
+PR #171 passed validation run 37870906965 and merged as
+`97b5cc081a9f70fc6ba886bc062ffd0ead61363e`. Pages run 37871431726 is in progress.
+
+Local commit `ca961d7a` adds three continuations. The present-file path resumes
+`1004b226 -> 10007cac` with the original MessageAdmin receiver, SpieAdmin context,
+callback `10005722` and priority 1. Original registration increases the callback
+count from 2 to 3, preserves both existing records and stores the original context
+in the third record. Execution reaches the actual Winsock import call at
+`1004b235 -> 100d580a`, whose thunk imports WS2_32 ordinal 115. That import remains
+unsupported; no network operation has been simulated.
+
+The absent-file path resumes original atexit registration at `1004afc7` for
+SpieAdmin callback `100e2830`, then at `100497a8` for MessageAdmin callback
+`100e27d0`. Their hash-pinned original callback bytes admit registration only in
+those active owner continuations. The original exit-table cursor advances to
+84 and 88 bytes respectively. The callbacks are encoded and stored, not executed.
+The original SpieAdmin getter and MessageAdmin registration return, after which
+execution stops at `1004980f -> 10005560` in the original DLL separator logger.
+
+Four focused checks and typechecking pass. They verify actual callback records,
+exit-table entries, preservation of previous records, caller returns, released
+exit-table lock, and damaged-return rejection before modifying either table.
+The production build passed. All 3,011 tests across 278 files passed in 335.35
+seconds at commit ca961d7a. These methods
+still have no production callers; complete startup, world activation, connected
+campaign persistence and a finishable browser campaign remain unfinished.

@@ -142,7 +142,16 @@ Further local work executes original `fclose`, closes the owned regular-file
 handle, clears descriptor and FILE flags, restores exception frames and releases
 their locks. It reaches SpieAdmin callback registration at `1004b226`.
 Typechecking, focused close checks, all 3,007 tests and the production build pass.
-This close continuation has not yet been published.
+The close continuation merged in [PR #171](https://github.com/ael-dev3/Tervain/pull/171)
+at `97b5cc081a9f70fc6ba886bc062ffd0ead61363e`. Its
+[validation](https://github.com/ael-dev3/Tervain/actions/runs/37870906965) passed;
+[deployment](https://github.com/ael-dev3/Tervain/actions/runs/37871431726) is in progress.
+
+New local work registers SpieAdmin's original callback for a present file, then
+reaches the Winsock ordinal-115 import. For an absent file it registers original
+SpieAdmin and MessageAdmin shutdown callbacks and returns to initial logging.
+Four focused checks and typechecking pass. The production build passed;
+all 3,011 tests passed across 278 files. These registrations have not been published.
 
 - [Detailed workflow and reference paths](gothic3-rebuild-workflow.md)
 - [Architecture and implementation background](gothic3-rebuild-overview.md)
