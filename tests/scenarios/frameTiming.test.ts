@@ -1,16 +1,19 @@
 import { describe, expect, it } from 'vitest';
-import { FrameClock, cappedFrame } from '../../src/platform/frameTiming';
+import * as THREE from 'three';
+import { FrameClock, MotionInterpolation, SIM_CATCH_UP, SIM_MAX_STEPS, SIM_STEP, cappedFrame } from '../../src/platform/frameTiming';
 
-describe('visible frame timing', () => {
+const STEP = SIM_STEP;
+
+describe('visible frame timing (fixed steps, A72)', () => {
   it('ignores background RAF callbacks and returns without simulating hidden elapsed time', () => {
     const clock = new FrameClock();
     expect(clock.tick(1000)).toBeNull();
-    expect(clock.tick(1016)).toEqual({ interval: 0.016, dt: 0.016, steps: 1 });
+    expect(clock.tick(1016)).toMatchObject({ interval: 0.016, steps: 1, dt: STEP });
     clock.setHidden(true);
     for (const now of [2016, 3016, 120016]) expect(clock.tick(now)).toBeNull();
     clock.setHidden(false);
     expect(clock.tick(120032)).toBeNull();
-    expect(clock.tick(120048)).toEqual({ interval: 0.016, dt: 0.016, steps: 1 });
+    expect(clock.tick(120048)).toMatchObject({ interval: 0.016, steps: 1 });
   });
 
   it('drops hidden elapsed time even when the browser suspends all RAF callbacks', () => {
@@ -20,28 +23,45 @@ describe('visible frame timing', () => {
     clock.setHidden(true);
     clock.setHidden(false);
     expect(clock.tick(600000)).toBeNull();
-    expect(clock.tick(600020)?.dt).toBe(0.02);
+    expect(clock.tick(600020)?.steps).toBe(1);
   });
 
-  it('retains the measured visible interval while bounding a slow simulation frame', () => {
+  it('caps a stall at the catch-up bound and never replays it', () => {
     const clock = new FrameClock();
     clock.tick(0);
-    // A stall advances the world by the catch-up bound only, in steps no longer than before (A70).
-    expect(clock.tick(400)).toEqual({ interval: 0.4, dt: 0.15, steps: 3 });
+    const stall = clock.tick(400)!;
+    expect(stall.interval).toBe(0.4);
+    expect(stall.steps).toBe(SIM_MAX_STEPS);
+    expect(stall.dt).toBeCloseTo(SIM_CATCH_UP, 9);
+    expect(stall.alpha).toBeGreaterThanOrEqual(0); expect(stall.alpha).toBeLessThanOrEqual(1);
+    // The next ordinary frame is ordinary again.
+    expect(clock.tick(416.7)!.steps).toBeLessThanOrEqual(2);
   });
 
-  it('keeps the world on its own time at ordinary low frame rates, each step no longer than 0.05 s (A70)', () => {
+  it.each([[30, 2, 2], [60, 1, 1], [144, 0, 1]])('runs whole fixed steps at %i Hz (%i to %i a frame), alpha within 0..1', (hz, least, most) => {
+    const clock = new FrameClock();
+    let simulated = 0;
+    clock.tick(0);
+    clock.tick(1000 / hz);
+    for (let frame = 2; frame <= hz * 4 + 1; frame++) {
+      const f = clock.tick(frame * 1000 / hz)!;
+      expect(f.steps).toBeGreaterThanOrEqual(least);
+      expect(f.steps).toBeLessThanOrEqual(most);
+      expect(f.dt).toBeCloseTo(f.steps * STEP, 12);
+      expect(f.alpha).toBeGreaterThanOrEqual(0); expect(f.alpha).toBeLessThan(1);
+      simulated += f.dt;
+    }
+    expect(simulated).toBeCloseTo(4, 1);
+  });
+
+  it('keeps the world on its own time down to about 7 frames a second', () => {
     for (const hz of [7, 10, 15, 24, 30, 60, 120, 144]) {
       const clock = new FrameClock();
-      let simulated = 0, longest = 0;
+      let simulated = 0;
       clock.tick(0);
-      for (let frame = 1; frame <= hz * 4; frame++) {
-        const step = clock.tick(frame * 1000 / hz)!;
-        simulated += step.dt;
-        longest = Math.max(longest, step.dt / step.steps);
-      }
-      expect(simulated, hz + ' Hz').toBeCloseTo(4, 6);
-      expect(longest, hz + ' Hz').toBeLessThanOrEqual(0.05 + 1e-12);
+      for (let frame = 1; frame <= hz * 4; frame++) simulated += clock.tick(frame * 1000 / hz)!.dt;
+      expect(simulated, hz + ' Hz').toBeGreaterThan(4 - 2 * STEP);
+      expect(simulated, hz + ' Hz').toBeLessThan(4 + 2 * STEP);
     }
   });
 
@@ -51,7 +71,8 @@ describe('visible frame timing', () => {
     clock.tick(1016);
     clock.reset();
     expect(clock.tick(90000)).toBeNull();
-    expect(clock.tick(90016)).toEqual({ interval: .016, dt: .016, steps: 1 });
+    // The first frame after a baseline always steps once, however short.
+    expect(clock.tick(90004)).toMatchObject({ interval: .004, steps: 1 });
     clock.setHidden(true);
     clock.reset();
     expect(clock.tick(100000)).toBeNull();
@@ -63,7 +84,35 @@ describe('visible frame timing', () => {
     expect(clock.tick(90)).toBeNull();
     expect(clock.tick(Number.NaN)).toBeNull();
     expect(clock.tick(1000)).toBeNull();
-    expect(clock.tick(1016)?.dt).toBe(0.016);
+    expect(clock.tick(1016)?.steps).toBe(1);
+  });
+});
+
+describe('interpolated motion (A72)', () => {
+  it('draws between the last two steps and restores the simulated transform', () => {
+    const motion = new MotionInterpolation(), o = new THREE.Object3D();
+    o.position.set(0, 0, 0); motion.capture(1, [o]);
+    o.position.set(1, 0, 0); o.rotation.y = 1; motion.capture(2, [o]);
+    motion.apply(0.25, 2);
+    expect(o.position.x).toBeCloseTo(0.25);
+    expect(o.rotation.y).toBeCloseTo(0.25);
+    motion.restore();
+    expect(o.position.x).toBe(1);
+    expect(o.rotation.y).toBeCloseTo(1);
+  });
+
+  it('draws where they are: new objects, jumps, objects moved outside a step, and stale records', () => {
+    const motion = new MotionInterpolation(), a = new THREE.Object3D(), b = new THREE.Object3D(), c = new THREE.Object3D();
+    motion.capture(1, [a, b]);
+    a.position.x = 50; b.position.x = 1; motion.capture(2, [a, b, c]);
+    b.position.x = 9; // moved by an event between steps
+    motion.apply(0.5, 2);
+    expect(a.position.x).toBe(50); expect(b.position.x).toBe(9); expect(c.position.x).toBe(0);
+    motion.restore();
+    expect(b.position.x).toBe(9);
+    b.position.x = 2; motion.capture(3, [b]);
+    motion.apply(0.5, 4);
+    expect(b.position.x).toBe(2);
   });
 });
 

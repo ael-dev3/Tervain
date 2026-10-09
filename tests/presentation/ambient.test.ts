@@ -50,7 +50,7 @@ function seatContact(resident: Rig) {
 function setup(terrain = { groundAt: () => 2.75, heightAt: () => -5 } as unknown as Terrain) {
   const rigs = new Map<string, Rig>(), colliders = new Colliders();
   const ambient = buildAmbient({ terrain, colliders, settings: defaultSettings(),
-    npcAssets: { create: (role: string, scale: number) => { const resident = rig(scale); rigs.set(role, resident); return resident; } },
+    npcAssets: { has: () => true, create: (role: string, scale: number) => { const resident = rig(scale); rigs.set(role, resident); return resident; } },
   } as unknown as BuildContext);
   const frame = { time: 0, nightness: 0, reducedMotion: false, wildlifeActive: true } as FrameContext;
   const tick = (dt = 1 / 60) => { frame.time += dt; ambient.update(dt, frame); };
@@ -126,7 +126,7 @@ describe('ambient hamlet residents', () => {
     const fireside = createMeshyNpcRig(source, entry, .94), colliders = new Colliders();
     const terrain = new Terrain();
     const ambient = buildAmbient({ terrain, colliders, settings: defaultSettings(),
-      npcAssets: { create: (role: string, scale: number) => role === 'ambient:fireside' ? fireside : rig(scale) },
+      npcAssets: { has: () => true, create: (role: string, scale: number) => role === 'ambient:fireside' ? fireside : rig(scale) },
     } as unknown as BuildContext);
     fireside.root.updateMatrixWorld(true);
     const hipY = fireside.hips.getWorldPosition(new THREE.Vector3()).y;

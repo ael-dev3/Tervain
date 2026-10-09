@@ -16,7 +16,7 @@ import { hasFact, hourOfDay, evalAll, createInitialState, formatClock, clockDay,
 import { EVIDENCE_IDS, type Allocation, type Command, type GameEvent, type ItemId, type NpcId, type PlaceId, type WorldState } from './game/types';
 import { worldView } from './game/worldView';
 import { Input } from './platform/input';
-import { FrameClock, cappedFrame } from './platform/frameTiming';
+import { FrameClock, MotionInterpolation, SIM_CATCH_UP, SIM_STEP, cappedFrame } from './platform/frameTiming';
 import { waitForGraphicsReady } from './platform/graphicsReady';
 import { prepareSceneTextures } from './platform/prepareSceneTextures';
 import { codeLabel, loadSettings } from './platform/settings';
@@ -53,7 +53,8 @@ import { GAME_VERSION } from './version';
 import { loadMainHero } from './presentation/mainHero';
 import { createHeroRig, type MainHeroRig } from './presentation/hero/rig';
 import { HuntingController } from './presentation/huntingController';
-import { loadMeshyNpcCatalog, type MeshyNpcCatalog } from './presentation/meshynpcs';
+import { loadMeshyNpcCatalog, NPC_ROLES, type MeshyNpcCatalog } from './presentation/meshynpcs';
+import { ResidentArrivals, residentRolesNear, type AwaitingFigure } from './presentation/residentArrivals';
 import { ANIMALS, loadAnimalTemplates } from './presentation/animals';
 import { REALM_WIND } from './presentation/realmWind';
 import type { AnimalDefinition } from './presentation/animals/catalog';
@@ -75,7 +76,6 @@ export class App {
   grade!: Grade;
   private lastFrameDt = 1 / 60;
   /** Whether this step is the frame's last, which draws the picture and the HUD (a slow frame is caught up in several). */
-  private presenting = true;
   world!: WorldScene;
   private menuScene!: MenuScene;
   private menuVisitActive = false;
@@ -89,6 +89,14 @@ export class App {
   private menuDeer: { template: GLTF; definition: AnimalDefinition } | undefined;
   private static readonly MENU_DEER_ID = '1005232412';
   private npcAssets: MeshyNpcCatalog | null = null;
+  /** The residents' catalog on its way: only the near ones' models before the world opens (stage 2). */
+  private npcAssetsLoad: Promise<void> | null = null;
+  /** Residents, hamlet people and bandits whose models arrive after the world opened (stage 2). */
+  private readonly arrivals = new ResidentArrivals();
+  /** The whole cast's catalog, asked for once the world is open. */
+  private castLoad: Promise<void> | null = null;
+  private readonly viewFrustum = new THREE.Frustum();
+  private readonly viewMatrix = new THREE.Matrix4();
   private menuAssets: MeshyNpcCatalog | null = null;
   private menuLoad: Promise<void> | null = null;
   private menuGraphicsReady = false;
@@ -378,7 +386,9 @@ export class App {
       // Shared flora caches must be released before replacement assets are constructed.
       if (this.world && !this.worldDisposed) this.rebuildPropPoses = this.world.physics.snapshot();
       if (this.world) this.disposeWorld();
-      if (!this.npcAssets) await this.prepareNpcAssets();
+      if (!this.npcAssets) await (this.npcAssetsLoad ?? this.prepareNpcAssets());
+      const cast = this.npcAssets!;
+      this.arrivals.clear();
       // The wanderer swims with the authored strokes from the residents' motion library once it is here.
       const library = this.npcAssets!.library, hero = (this.player.rig as Partial<MainHeroRig> | undefined)?.hero;
       if (library && hero) hero.useSwimClips(library);
@@ -387,16 +397,24 @@ export class App {
       // Stage private Meshy rigs before the world adopts them, so a failed build can release the complete cast.
       for (const definition of Object.values(NPCS)) {
         const height = definition.look.height * (npcStyle(definition.id).build === 'woman' ? 0.94 : 1);
-        const npc = new NpcActor(definition, this.npcAssets!.create(`named:${definition.id}`, height));
+        const role = `named:${definition.id}`, arrived = cast.has(role);
+        // Someone whose model is still on its way keeps their schedule unseen and cannot be met until it is here (stage 2).
+        const npc = new NpcActor(definition, arrived ? cast.create(role, height) : cast.standIn(role, height), arrived);
         npcs.push(npc);
         stagedCast.add(npc.rig.root);
+        if (!arrived) this.arrivals.add({ role, position: () => npc, unseen: () => npc.away,
+          adopt: (catalog) => npc.adoptRig(catalog.create(role, height)) });
       }
       for (const spawn of ENEMY_SPAWNS) {
         const variant = spawn.id === 'ford_bandit_b' ? 1 : 0;
-        const rig = spawn.kind === 'thornback' ? undefined : this.npcAssets!.create(`enemy:${spawn.id}`, 1.04 + variant * 0.05, 'blade');
-        const enemy = new EnemyActor(spawn, rig);
+        const role = `enemy:${spawn.id}`, scale = 1.04 + variant * 0.05, arrived = spawn.kind === 'thornback' || cast.has(role);
+        const rig = spawn.kind === 'thornback' ? undefined : arrived ? cast.create(role, scale, 'blade') : cast.standIn(role, scale, 'blade');
+        // A bandit still waiting for their model is out of every fight until it is here (stage 2).
+        const enemy = new EnemyActor(spawn, rig, arrived);
         enemies.push(enemy);
         stagedCast.add(enemy.rig.root);
+        if (!arrived) this.arrivals.add({ role, position: () => enemy, unseen: () => !enemy.rig.root.visible,
+          adopt: (catalog) => enemy.adoptRig(catalog.create(role, scale, 'blade')) });
       }
       const { WorldScene } = await import('./presentation/world');
       this.world = await WorldScene.create(this.game.state, structuredClone(this.settings), this.library, undefined, this.npcAssets!, {
@@ -417,6 +435,8 @@ export class App {
       for (const n of this.npcs) this.world.scene.add(n.rig.root);
       this.enemies = enemies;
       for (const e of this.enemies) this.world.scene.add(e.rig.root);
+      const ambient = this.world.modules?.find((m) => m.name === 'ambient')?.module as { awaiting?: AwaitingFigure[] } | undefined;
+      for (const figure of ambient?.awaiting ?? []) this.arrivals.add(figure);
       this.interactables = buildInteractables(this);
       this.syncWorldFromState(true);
       // Settle any provisional hero/procedural-tool sheets; imported NPC surfaces are already baked and loaded.
@@ -434,12 +454,39 @@ export class App {
   }
 
   /** No silent runtime fallback: an incomplete resident download uses the existing graphics recovery screen. */
-  private async prepareNpcAssets() {
-    if (this.npcAssets) return;
-    const assets = await loadMeshyNpcCatalog((loaded, total) => {
+  /** The residents' models: `roles` only (the near ones before entry, stage 2), else everyone's. */
+  private prepareNpcAssets(roles: readonly string[] = NPC_ROLES): Promise<void> {
+    if (this.npcAssets) return Promise.resolve();
+    if (this.npcAssetsLoad) return this.npcAssetsLoad;
+    const request = loadMeshyNpcCatalog((loaded, total) => {
       this.loadingScreen?.update({ phase: 'residents', completed: loaded, total });
+    }, roles).then((assets) => { this.npcAssets ??= assets; });
+    this.npcAssetsLoad = request;
+    void request.catch(() => {}).finally(() => { if (this.npcAssetsLoad === request) this.npcAssetsLoad = null; });
+    return request;
+  }
+
+  /**
+   * Everyone else's models, once the world is open (stage 2): they download behind the first view and the waiting
+   * figures take theirs as they arrive. A failed download is asked for again a little later; until then they stay unseen.
+   */
+  private completeCast() {
+    if (this.castLoad || NPC_ROLES.every((role) => this.npcAssets?.has(role))) return;
+    const request = loadMeshyNpcCatalog(undefined, NPC_ROLES).then((assets) => { this.npcAssets = assets; });
+    this.castLoad = request;
+    void request.catch((error) => {
+      console.warn('Residents still on their way:', error);
+      setTimeout(() => { if (this.castLoad === request) { this.castLoad = null; this.completeCast(); } }, 15_000);
     });
-    this.npcAssets = assets;
+  }
+
+  /** Whether the player could see someone standing at `p` now: in the camera's view and near enough to make out. */
+  private inView(p: { x: number; y: number; z: number }): boolean {
+    const camera = this.cam.camera;
+    if (camera.position.distanceTo(new THREE.Vector3(p.x, p.y + 0.9, p.z)) > 150) return false;
+    camera.updateMatrixWorld();
+    this.viewFrustum.setFromProjectionMatrix(this.viewMatrix.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse));
+    return this.viewFrustum.intersectsSphere(new THREE.Sphere(new THREE.Vector3(p.x, p.y + 0.9, p.z), 1.4));
   }
 
   private prepareMenuAssets(): Promise<void> {
@@ -485,7 +532,8 @@ export class App {
     const grove = this.menuScene.grove;
     const replacement = new MenuScene({ quality: this.settings.quality, treeTemplates: this.treeTemplates,
       trafficSeed: traffic.seed, trafficTime: traffic.elapsed, awakening, grove,
-      wardenRig: (this.menuAssets ?? this.npcAssets)?.create('menu:warden'), deer: this.menuDeer });
+      // The world's catalog holds the warden only once the whole cast is here (stage 2).
+      wardenRig: (this.menuAssets ?? (this.npcAssets?.has('menu:warden') ? this.npcAssets : null))?.create('menu:warden'), deer: this.menuDeer });
     this.menuGraphicsReady = false;
     if (!this.menuSceneDisposed) this.menuScene.dispose();
     this.menuScene = replacement;
@@ -541,7 +589,8 @@ export class App {
         // Everything the journey downloads starts now (A68): the wanderer, the residents, then the world's models and
         // surfaces behind them, instead of each group waiting for the one before it to be prepared.
         const hero = this.prepareMainHero();
-        void this.prepareNpcAssets().catch(() => {});
+        // Only the residents near where the journey starts come before it; the rest arrive after (stage 2).
+        void this.prepareNpcAssets(residentRolesNear(state)).catch(() => {});
         prefetchJourney(this.settings.quality, { deferFurniture: true });
         await hero;
         do {
@@ -555,7 +604,10 @@ export class App {
         }
         this.initialJourneyLoading = false;
         this.finishWorldBuild();
+        // Developer aid: what was fetched before the world opened is what started before this mark.
+        performance.mark?.('tervain:world-open');
         enter();
+        this.completeCast();
         // Every file the game needs has now been asked for: drop cached models that have since been replaced.
         void pruneContentCache();
       } catch (error) {
@@ -616,6 +668,7 @@ export class App {
 
   private finishWorldBuild() {
     if (this.worldBuildFailed) return;
+    this.world?.open?.();
     this.loadingScreen?.finish(false);
     this.loadingEl.classList.add('off');
     this.loadingEl.removeAttribute('role');
@@ -947,23 +1000,24 @@ export class App {
       if (!capped.draw) { requestAnimationFrame((t) => this.frame(t)); return; }
     }
     const frame = this.frameClock.tick(now);
+    // Between fixed steps on a fast display, presses and mouse movement wait for the next step rather than being lost.
+    let held = false;
     if (frame && !this.worldPaused) {
-      const { interval, dt, steps } = frame;
-      this.lastFrameDt = dt;
+      const { interval, dt, steps, alpha } = frame;
+      this.lastFrameDt = Math.min(interval, SIM_CATCH_UP);
       if (interval < 5) this.recordFrame(interval);
       this.audioClock += dt;
+      held = steps === 0;
       try {
-        // A slow frame is caught up in shorter steps, so the world keeps its own time at a low frame rate (A70). Only
-        // the last step draws, and a press or a mouse movement counts in the first alone.
+        // The world advances in fixed steps, as many as the frame's time holds (A72). A press or a mouse movement
+        // counts in the first alone; the picture is drawn once, between the last two steps.
         for (let i = 0; i < steps; i++) {
-          this.presenting = i === steps - 1;
-          this.step(dt / steps);
-          if (!this.presenting) { this.input.consumePad(); this.input.endFrame(); }
+          this.step(SIM_STEP);
+          this.input.consumePad(); this.input.endFrame();
         }
+        this.present(alpha);
       } catch (e) {
         console.error(e);
-      } finally {
-        this.presenting = true;
       }
     } else if (document.visibilityState !== 'hidden' && this.worldBuildFailed && !this.worldBuilding && !this.qualityReload) {
       // Recovery owns controller confirmation; no world or hidden menu action runs underneath it.
@@ -976,13 +1030,50 @@ export class App {
       // Baseline a held controller after returning; its old press must not become an attack.
       this.input.poll(0);
     }
-    this.input.consumePad();
-    this.input.endFrame();
+    if (!held) {
+      this.input.consumePad();
+      this.input.endFrame();
+    }
     requestAnimationFrame((t) => this.frame(t));
+  }
+
+  /** Moving things drawn between fixed steps (A72), and the step counter their records are stamped with. */
+  private readonly motion = new MotionInterpolation();
+  private simStep = 0;
+
+  /** What moves from step to step: the hero, the camera, residents, bandits, animals (the ridden deer too), arrows. */
+  private captureMotion() {
+    const objects: (THREE.Object3D | null | undefined)[] = [this.player.group, this.cam.camera];
+    for (const n of this.npcs) objects.push(n.rig.root);
+    for (const e of this.enemies) objects.push(e.rig.root);
+    objects.push(...(this.world.animals.movers?.() ?? []));
+    objects.push(...this.hunting.arrows.group.children);
+    this.motion.capture(this.simStep, objects);
+  }
+
+  /** Draw the frame: the HUD from the latest step, the world between its last two steps. */
+  private present(alpha: number) {
+    if (this.worldPaused || this.mode === 'loading') return;
+    if (this.menuBackgroundActive) {
+      this.updateDebug(this.lastFrameDt);
+      this.render();
+      return;
+    }
+    this.updateHud(this.lastFrameDt);
+    this.hunting.updateHud();
+    if (this.panelKind === 'map' && this.mapCanvas) this.renderMap();
+    this.updateDebug(this.lastFrameDt);
+    this.motion.apply(alpha, this.simStep);
+    try {
+      this.render();
+    } finally {
+      this.motion.restore();
+    }
   }
 
   private step(dt: number) {
     if (this.worldPaused) return;
+    this.simStep++;
     this.hunting.syncInputMode();
     this.input.poll(dt);
     const state = this.game.state;
@@ -999,6 +1090,8 @@ export class App {
     const playing = this.mode === 'play' && this.overlay === 'none' && overlayAtStart === 'none';
     this.audio.setWildlifeActive(playing && document.visibilityState !== 'hidden');
     if (this.bench.active) this.stepBenchmark(dt);
+    // Those whose models have come take them where nobody is looking (stage 2), even while a panel holds the world still.
+    if (this.arrivals.count && this.world) this.arrivals.update(this.npcAssets, (p) => this.inView(p));
 
     if (this.menuBackgroundActive) {
       // The menu vigil is cosmetic. No patrols or game clock run beneath it.
@@ -1010,10 +1103,6 @@ export class App {
         millNear: 0, millTurning: false, windAmount: 0.3 + 0.7 * gust, windTone: 360 + 180 * gust, quarryNear: 0,
         quarryWorking: false, time: this.audioClock, underRoof: false });
       this.audio.updateWorld(dt, null);
-      if (this.presenting) {
-        this.updateDebug(this.lastFrameDt);
-        this.render();
-      }
       return;
     }
     const hour = hourOfDay(state.clock + this.clockAcc);
@@ -1147,12 +1236,7 @@ export class App {
     this.hunting.afterWorld(dt, worldActive);
     this.audioUpdate(dt, this.cam.camera.position, hour);
 
-    if (!this.presenting) return;
-    this.updateHud(this.lastFrameDt);
-    this.hunting.updateHud();
-    if (this.panelKind === 'map' && this.mapCanvas) this.renderMap();
-    this.updateDebug(this.lastFrameDt);
-    this.render();
+    this.captureMotion();
   }
 
   private render() {

@@ -1,11 +1,12 @@
 import * as THREE from 'three';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { App } from '../../src/app';
+import { ResidentArrivals } from '../../src/presentation/residentArrivals';
 import { Game } from '../../src/game/game';
 import { createInitialState } from '../../src/game/state';
 import { Input } from '../../src/platform/input';
 import { defaultSettings } from '../../src/platform/settings';
-import { FrameClock } from '../../src/platform/frameTiming';
+import { FrameClock, MotionInterpolation, SIM_STEP } from '../../src/platform/frameTiming';
 import { WorldScene } from '../../src/presentation/world';
 import { MenuScene } from '../../src/presentation/menuScene';
 import { track } from '../../src/presentation/human/sheetPool';
@@ -32,6 +33,7 @@ vi.mock('three', async (importOriginal) => {
 });
 vi.mock('../../src/presentation/ui/menuMaterials', () => ({ installMenuMaterials: vi.fn() }));
 vi.mock('../../src/presentation/actors', () => ({
+  resolveGoal: () => ({ anchor: 'hunter_station', activity: 'stand' }),
   NpcActor: class {
     id: string; x = 0; y = 0; z = 0;
     rig = { root: new THREE.Group() };
@@ -120,6 +122,7 @@ function fixture() {
   // Exercise App's actual lifecycle methods without starting a renderer or constructing another scene.
   const app = Object.assign(Object.create(App.prototype) as object, {
     mode: 'play', settings, input, canvas, game: new Game(createInitialState()),
+    arrivals: new ResidentArrivals(), npcAssetsLoad: null, castLoad: null,
     panels: { isOpen: false, closeAll: vi.fn(), el: new ElementFixture('DIV') },
     titleEl: new ElementFixture('DIV'), loadingEl: new ElementFixture('DIV'), debugEl: new ElementFixture('DIV'),
     hud: { el: { inert: true }, show: vi.fn(), showFade: vi.fn(), toast: vi.fn(), caption: vi.fn() },
@@ -185,7 +188,7 @@ function rebuildFixture() {
   const oldWorld = { scene: new THREE.Scene(), dispose: vi.fn(), terrain: {}, sky: { brightness: 1 }, syncStatic: vi.fn(), physics: { supportAt: vi.fn(() => null), snapshot: vi.fn(() => []), restore: vi.fn(), reset: vi.fn(), release: vi.fn() } };
   const nextWorld = () => ({ scene: new THREE.Scene(), dispose: vi.fn(), terrain: {}, sky: { brightness: 1 }, syncStatic: vi.fn(), physics: { supportAt: vi.fn(() => null), snapshot: vi.fn(() => []), restore: vi.fn(), reset: vi.fn(), release: vi.fn() } });
   Object.assign(f.app, {
-    world: oldWorld, library: {}, menuScene: new MenuScene({ quality: f.app.settings.quality }), npcAssets: { create: () => undefined },
+    world: oldWorld, library: {}, menuScene: new MenuScene({ quality: f.app.settings.quality }), npcAssets: { has: () => true, create: () => undefined },
     applyUiSettings: vi.fn(), applyQualityToRenderer: vi.fn(), renderer: {},
     prepareWorldGraphics: vi.fn().mockResolvedValue(undefined), prepareMenuGraphics: vi.fn().mockResolvedValue(undefined),
     frameClock: new FrameClock(), frameTimes: [], audioClock: 0, worldDirty: true,
@@ -203,7 +206,7 @@ describe('actual application world transitions', () => {
     const { app, call } = rebuildFixture();
     Reflect.set(app, 'npcAssets', null);
     const previousMenu = Reflect.get(app, 'menuScene') as MenuScene;
-    const models = { create: vi.fn(() => undefined) };
+    const models = { has: () => true, create: vi.fn(() => undefined) };
     const failure = new Error('Resident model download failed its integrity check.');
     npcCatalog.load.mockRejectedValueOnce(failure).mockResolvedValueOnce(models);
     await expect(call('prepareNpcAssets')).rejects.toBe(failure);
@@ -913,25 +916,51 @@ describe('shell corrections (A70)', () => {
   });
 });
 
-describe('slow frames (A70)', () => {
-  it('catches a slow frame up in short steps, drawing only after the last and counting a press once', () => {
+describe('fixed steps (A72)', () => {
+  it('catches a slow frame up in fixed steps, drawing once after the last and counting a press once', () => {
     const { app, call, key } = rebuildFixture();
-    const steps: { dt: number; presenting: boolean; attack: boolean }[] = [];
-    Reflect.set(app, 'step', vi.fn((dt: number) => {
-      steps.push({ dt, presenting: Reflect.get(app, 'presenting') as boolean, attack: app.input.pressed('jump') });
-    }));
+    const steps: { dt: number; attack: boolean }[] = [];
+    Reflect.set(app, 'step', vi.fn((dt: number) => { steps.push({ dt, attack: app.input.pressed('jump') }); }));
+    const present = vi.fn();
+    Reflect.set(app, 'present', present);
     Reflect.set(app, 'worldPaused', false);
     call('frame', 1000);
     key(app.settings.bindings.jump[0]!);
     call('frame', 1100);
-    expect(steps.map((s) => s.dt)).toEqual([0.05, 0.05]);
-    expect(steps.map((s) => s.presenting)).toEqual([false, true]);
-    expect(steps.map((s) => s.attack)).toEqual([true, false]);
-    expect(Reflect.get(app, 'presenting')).toBe(true);
-    // An ordinary frame is one step that draws.
+    expect(steps.map((s) => s.dt)).toEqual(Array(6).fill(SIM_STEP));
+    expect(steps.map((s) => s.attack)).toEqual([true, false, false, false, false, false]);
+    expect(present).toHaveBeenCalledOnce();
+    // A frame shorter than a step on a fast display draws without stepping, and a press waits for the next step.
     steps.length = 0;
-    call('frame', 1116);
-    expect(steps).toHaveLength(1);
-    expect(steps[0]!.presenting).toBe(true);
+    call('frame', 1103);
+    key(app.settings.bindings.jump[0]!);
+    call('frame', 1106);
+    expect(steps).toHaveLength(0);
+    expect(present).toHaveBeenCalledTimes(3);
+    call('frame', 1120);
+    expect(steps).toEqual([{ dt: SIM_STEP, attack: true }]);
+  });
+
+  it('draws a hero moving at constant speed between steps on a 144 Hz display, without jitter', () => {
+    const { app, call, hunting } = rebuildFixture();
+    const speed = 6, drawn: number[] = [], times: number[] = [];
+    const group = app.player.group as THREE.Object3D;
+    group.position.set(0, 0, 0);
+    Object.assign(app, { mode: 'play', simStep: 0, motion: new MotionInterpolation(), npcs: [], enemies: [], world: { ...app.world, animals: { movers: () => [] } } });
+    Reflect.set(app, 'step', vi.fn((dt: number) => {
+      Reflect.set(app, 'simStep', (Reflect.get(app, 'simStep') as number) + 1);
+      group.position.x += speed * dt;
+      call('captureMotion');
+    }));
+    for (const name of ['updateHud', 'updateDebug']) Reflect.set(app, name, vi.fn());
+    Reflect.set(hunting, 'updateHud', vi.fn());
+    let now = 0;
+    Reflect.set(app, 'render', vi.fn(() => { drawn.push(group.position.x); times.push(now); }));
+    for (let i = 0; i < 144 * 2; i++) { now = 1000 + i * 1000 / 144; call('frame', now); }
+    // The simulated position is untouched by drawing.
+    expect(group.position.x).toBeCloseTo(speed * SIM_STEP * (Reflect.get(app, 'simStep') as number), 9);
+    // Drawn positions advance by the same amount every frame: a straight line in time, one step behind.
+    const moves = drawn.slice(10).map((x, k) => x - drawn[k + 9]!);
+    for (const m of moves) expect(m).toBeCloseTo(speed / 144, 6);
   });
 });

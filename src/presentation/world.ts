@@ -77,6 +77,8 @@ export interface WorldCreateOptions extends CooperativeOptions {
 type WorldModules = { name: string; module: SceneModule }[];
 type DustParticle = { x: number; y: number; z: number; vx: number; vy: number; vz: number; life: number };
 interface WorldResources {
+  /** Lets in what arrives after the world opens (A72). */
+  letIn: () => void;
   scene: THREE.Scene;
   terrain: Terrain;
   colliders: Colliders;
@@ -296,11 +298,15 @@ export class WorldScene {
       scene.add(scenery.group);
       // A room's furniture shows only while someone can see into it (A66): see WorldScene.roomOpen.
       let roomOpen: (room: InteriorSpec) => boolean = () => true;
+      // What arrives after the world opens is asked for only once it has opened, so it never competes with what the
+      // first view needs (A72); WorldScene.open() lets it in.
+      let letIn!: () => void;
+      const opened = new Promise<void>((resolve) => { letIn = resolve; });
       // Deferred, the rooms stand empty until the pieces are here; their colliders come from the placements either way.
       const furnishing = furniture ? null : deferredFurniture();
       addModule('furniture', furnishing ?? buildFurniture(furniture!, terrain.rooms, (room) => roomOpen(room)));
       if (furnishing) {
-        void Promise.resolve().then(() => loadFurniture()).then(
+        void opened.then(() => loadFurniture()).then(
           (templates) => furnishing.attach(buildFurniture(templates, terrain.rooms, (room) => roomOpen(room))),
           (error) => console.warn('[furniture] the furniture could not be loaded; the rooms stay bare', error));
       }
@@ -313,7 +319,7 @@ export class WorldScene {
       const arriving = animalTemplates ? null : deferredWildlife();
       const animals: AnimalWildlife = addModule('land wildlife', arriving ?? buildAnimals(ctx, animalTemplates!));
       if (arriving) {
-        void Promise.resolve().then(() => loadAnimalTemplates()).then(
+        void opened.then(() => loadAnimalTemplates()).then(
           (templates) => arriving.attach(buildAnimals(ctx, templates)),
           (error) => console.warn('[wildlife] the animals could not be loaded; the world goes on without them', error));
       }
@@ -376,7 +382,7 @@ export class WorldScene {
       checkCancelled(options.signal);
       const world = new WorldScene(state, library, {
         scene, terrain, colliders, sky, water, sway, modules, environment, scenery, animals, terrainMesh,
-        physics, nav, lanternLights, dust, dustData, riteResponse, foliage, buildMs: performance.now() - t0, disposeOwned,
+        physics, nav, lanternLights, dust, dustData, riteResponse, foliage, buildMs: performance.now() - t0, disposeOwned, letIn,
       });
       roomOpen = (room) => world.roomOpen(room);
       phase('finishing', 'Scene ready', 1, 1);
@@ -409,6 +415,7 @@ export class WorldScene {
     this.riteResponse = resources.riteResponse;
     this.foliage = resources.foliage;
     this.disposeOwned = resources.disposeOwned;
+    this.letIn = resources.letIn;
     this.interiorLight = new InteriorLight(this.terrain.rooms);
     this.windowView = new WindowView(this.terrain.rooms, this.scenery.daylightMat);
     this.doorSwings = new DoorSwings(this.scenery.doors ?? []);
@@ -693,6 +700,10 @@ export class WorldScene {
   private readonly doorSwings: DoorSwings;
   private readonly interiorLight: InteriorLight;
   private readonly windowView: WindowView;
+  private readonly letIn: () => void;
+
+  /** The world has opened to the player: the animals and furniture that follow may now be fetched (A72). */
+  open() { this.letIn(); }
   /** The sky's image light at full strength, before a room dims it. */
   private readonly skyFill: number;
 
