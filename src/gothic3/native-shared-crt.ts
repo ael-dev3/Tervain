@@ -374,14 +374,14 @@ export class NativeSharedCrtOwner {
     const span=NativeRuntimePlatform.canonicalOwnedWin32HeapAllocationSpan(this.platform,this.#heap!,this.identity,{fields,offset},fields.bytes.length);if(!span.known)throw new Error(span.reason);return this.#call('100b1158.HeapSize',()=>this.platform.win32HeapSize(this.#heap!,0,{fields,offset}));
    },
    crtSection:(id:number):NativeHeapObjectViews|null=>{
-    if(!this.#active||!this.#initializerActive||!([5,10,14].includes(id)||[1,19].includes(id)&&this.#dllCall!==null&&this.#dllBoundary==='Original SharedBase CRT stream acquisition pending at 100bfd6f'))throw new Error('Actual admitted CRT section table slot required');const value=this.imageStorage('lockTable').pointer<NativeHeapObjectViews|{fields:NativeHeapObjectViews;offset:number}>(id*8).get();if(value===null){if(this.#crtSections.has(id))throw new Error('Actual retained CRT section table pointer required');if(id===5||id===19){if(this.#crtDynamicSection!==null&&this.#crtDynamicSection!==id)throw new Error('Actual single pending CRT section request required');this.#crtDynamicSection=id;}return null;}const fields=value instanceof NativeHeapObjectViews?value:value.offset===0?value.fields:null;if(!fields||this.#crtSections.get(id)!==fields)throw new Error('Actual retained CRT section table pointer required');return fields;
+    if(!this.#active||!this.#initializerActive||!([5,10,14].includes(id)||this.#dllCall!==null&&([1,19].includes(id)&&this.#dllBoundary==='Original SharedBase CRT stream acquisition pending at 100bfd6f'||id===11&&this.#dllBoundary==='Original SharedBase CRT descriptor allocation pending at 100d0d8d')))throw new Error('Actual admitted CRT section table slot required');const value=this.imageStorage('lockTable').pointer<NativeHeapObjectViews|{fields:NativeHeapObjectViews;offset:number}>(id*8).get();if(value===null){if(this.#crtSections.has(id))throw new Error('Actual retained CRT section table pointer required');if(id===5||id===19||id===11){if(this.#crtDynamicSection!==null&&this.#crtDynamicSection!==id)throw new Error('Actual single pending CRT section request required');this.#crtDynamicSection=id;}return null;}const fields=value instanceof NativeHeapObjectViews?value:value.offset===0?value.fields:null;if(!fields||this.#crtSections.get(id)!==fields)throw new Error('Actual retained CRT section table pointer required');return fields;
    },
    crtSectionLock:(fields:NativeHeapObjectViews,offset:number,enter:boolean):void=>{
-    const id=Array.from(this.#crtSections).find(([,section])=>section===fields)?.[0];if(!this.#active||!this.#initializerActive||offset!==0||id===undefined||![1,5,10,14,19].includes(id)||this.#initializerImports.crtSection(id)!==fields||enter===this.#crtHeldSections.has(fields))throw new Error('Actual retained CRT section transition required');
+    const id=Array.from(this.#crtSections).find(([,section])=>section===fields)?.[0];if(!this.#active||!this.#initializerActive||offset!==0||id===undefined||![1,5,10,11,14,19].includes(id)||this.#initializerImports.crtSection(id)!==fields||enter===this.#crtHeldSections.has(fields))throw new Error('Actual retained CRT section transition required');
     this.#call(enter?'100bb8ba.EnterCriticalSection':'100bb7af.LeaveCriticalSection',()=>enter?this.platform.enterPhysicalCriticalSection(this.#crtSectionViews.get(fields)??fields,this.identity):this.platform.leavePhysicalCriticalSection(this.#crtSectionViews.get(fields)??fields,this.identity));if(enter)this.#crtHeldSections.add(fields);else this.#crtHeldSections.delete(fields);
    },
    initializeCrtSection:(fields:NativeHeapObjectViews,offset:number,spin:number):number=>{
-    const id=this.#crtDynamicSection,lock=this.#crtSections.get(10);if(!this.#active||!this.#initializerActive||offset!==0||spin!==4000||fields.bytes.length!==(this.imageStorage('heapSelection').readUnsigned(0)===1?24:32)||!this.#initializerAllocations.has(fields)||!lock||!this.#crtHeldSections.has(lock)||id===null||![5,19].includes(id)||this.#crtSections.has(id))throw new Error('Actual lock-ten protected CRT section allocation required');
+    const id=this.#crtDynamicSection,lock=this.#crtSections.get(10);if(!this.#active||!this.#initializerActive||offset!==0||spin!==4000||fields.bytes.length!==(this.imageStorage('heapSelection').readUnsigned(0)===1?24:32)||!this.#initializerAllocations.has(fields)||!lock||!this.#crtHeldSections.has(lock)||id===null||![5,11,19].includes(id)||this.#crtSections.has(id))throw new Error('Actual lock-ten protected CRT section allocation required');
     const span=NativeRuntimePlatform.canonicalOwnedWin32HeapAllocationSpan(this.platform,this.#heap!,this.identity,{fields,offset:0},24);if(!span.known)throw new Error(span.reason);this.#requireLocal(fields);const section=fields.bytes.length===24?fields:new NativeHeapObjectViews(fields.backing,fields.bytes.byteOffset-fields.backing.bytes.byteOffset,24);const initialized=this.#initializeSection(section);if(initialized){this.#crtSectionViews.set(fields,section);this.#crtSections.set(id!,fields);this.#crtDynamicSection=null;this.#sections.push(section);}return initialized?1:0;
    },
    exitLock:(id:number,enter:boolean):void=>{
@@ -1300,6 +1300,7 @@ export class NativeSharedCrtOwner {
   try{this.#call('100bf17a.GetStartupInfoA',()=>endpoints.getStartupInfoA(call));}finally{this.#startupCall=null;}
   this.#ioBlock=this.#callocCrt(32,56);
   if(this.#ioBlock===null)throw new Error('Unowned SharedBase attach cleanup after I/O allocation failure');
+  this.#locals.set(this.#ioBlock,{backing:this.#ioBlock.backing,bytes:this.#ioBlock.bytes,masks:this.#ioBlock.knownMask,backingBytes:this.#ioBlock.backing.bytes,backingMasks:this.#ioBlock.backing.knownMask,view:this.#ioBlock.view});
   this.imageStorage('ioBlocks').pointer<NativeHeapObjectViews>(0).set(this.#ioBlock);this.imageStorage('ioHandleCount').writeUnsigned(0,32);
   for(let row=0;row<32;row++){
    const record=new NativeHeapObjectViews(this.#ioBlock.backing,row*56,56);
@@ -1423,6 +1424,18 @@ export class NativeSharedCrtOwner {
   try{this.#active=true;this.#dllCall=Object.freeze({});const result=NativeX86ThreadStack.finishSharedDllFilenameCopy(this.#argvStack,this.#dllCall);if(!result.known)this.#dllBoundary=result.reason;return result;}
   catch(error){this.#dllBoundary=error instanceof Error?error.message:String(error);return {known:false,reason:this.#dllBoundary};}
   finally{this.#dllCall=null;this.#active=false;}
+ }
+ processDllSpieAllocateDescriptor():NativeValue<number>{
+  if(this.#active||!this.#argvStack||this.#dllBoundary!=='Original SharedBase CRT descriptor allocation pending at 100d0d8d')return {known:false,reason:this.#dllBoundary??'Actual pending CRT descriptor allocation required'};
+  try{
+   for(const [label,hash] of Object.entries({"dllSpieAllocateDescriptor": "c49ca2cee177354f0c891a38dde5621a0fcaaf4c05fb521bc046f1265720d29a", "dllSpieDescriptorUnlockInit": "e327f6b34b4d7a0c7be3f20ac0a23fc8aa5cdbd06f13d18273a4eb3f59daa630", "dllSpieDescriptorUnlockTable": "b55e98739f9a142ec7afc55323257603f4f53015fadb4caa0710791cb68a35ac"}))if(dllEntrySource.methods.find(row=>row.label===label)?.bodyInstructionBytesSha256!==hash)throw new Error('Original CRT descriptor source required');
+   const receipt=dllEntrySource.coldImages.find(row=>row.label==='dllSpieDescriptorScope'),raw='feffffff00000000c8ffffff00000000feffffff00000000230f0d10';
+   if(!receipt||receipt.address!=='100f8fc0'||receipt.size!==28||receipt.bytes!==raw)throw new Error('Original CRT descriptor scope image required');
+   if(!this.#dllFormatImages['100f8fc0']){const fields=this.#retainLocal(28);for(let i=0;i<28;i++)fields.writeUnsigned(i,parseInt(raw.slice(i*2,i*2+2),16),1);this.#dllFormatImages=Object.freeze({...this.#dllFormatImages,'100f8fc0':fields});}
+   this.#active=true;this.#initializerActive=true;this.#dllCall=Object.freeze({});this.#dllMallocCall=this.#dllCall;
+   const result=NativeX86ThreadStack.runSharedInitializers(this.#argvStack,this.#dllCall,'dll-spie-allocate-descriptor');if(!result.known)this.#dllBoundary=result.reason;return result;
+  }catch(error){this.#dllBoundary=error instanceof Error?error.message:String(error);return {known:false,reason:this.#dllBoundary};}
+  finally{this.#dllMallocCall=null;this.#dllCall=null;this.#initializerActive=false;this.#active=false;}
  }
  processDllSpieSharedOpen():NativeValue<number>{
   if(this.#active||!this.#argvStack||this.#dllBoundary!=='Original SharedBase CRT shared file-open pending at 100d1a2d')return {known:false,reason:this.#dllBoundary??'Actual pending CRT shared file-open required'};

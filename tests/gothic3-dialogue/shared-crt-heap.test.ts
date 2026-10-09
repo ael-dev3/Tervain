@@ -1544,3 +1544,31 @@ it('rejects a damaged shared file-open return word without reserving a descripto
  expect(owner.snapshot().caseState!.stack!.snapshot().calls.some(row=>row.site==='100d1329')).toBe(false);
  expect(before.initializerImages['10141790']!.readUnsigned(96+16)).toBe(0xffffffff);
 },30_000);
+
+
+it('executes original descriptor scanning and locks before initializing its owned section',()=>{
+ const {owner}=fileVersionQueryFixture();owner.processDllFileVersionQuery();owner.processDllLanguageFree();owner.processDllLanguageReturn();owner.processDllVersionToken();owner.processDllVersionInteger();owner.processDllVersionFree();owner.processDllSeparatorPrefix();owner.processDllMessageCreate();owner.processDllMessageHolder();owner.processDllMessageErrorGet();owner.processDllMessageErrorCreate();owner.processDllMessageErrorBuffer();owner.processDllMessageErrorRegister();owner.processDllMessageErrorTerminate();owner.processDllMessageSpyGet();owner.processDllMessageSpyCreate();owner.processDllMessageSpyTerminate();owner.processDllMessageSpieStartup();owner.processDllSpieAcquireStream();
+owner.processDllSpieSharedOpen();
+ expect(owner.processDllSpieAllocateDescriptor()).toEqual({known:false,reason:'Original SharedBase descriptor section initialization pending at 100bbf27'});
+ const state=owner.snapshot(),stack=state.caseState!.stack!.snapshot(),block=state.ioBlock!;
+ expect(state.crtHeldSectionIds.toSorted()).toEqual([10,11,19]);
+ expect(block.readUnsigned(168)).toBe(0xffffffff);expect(block.readUnsigned(172,1)).toBe(0);expect(block.readUnsigned(176)).toBe(0);
+ expect(stack.calls.find(row=>row.site==='100d0da4')!.returned).toBe(true);
+ expect(stack.calls.at(-1)!.site).toBe('100d0e1c');
+ expect(state.initializerImages['10141790']!.readUnsigned(96+16)).toBe(0xffffffff);
+},30_000);
+
+
+it('rejects a damaged descriptor allocator return word before constructing lock eleven',()=>{
+ const {owner}=fileVersionQueryFixture();owner.processDllFileVersionQuery();owner.processDllLanguageFree();owner.processDllLanguageReturn();owner.processDllVersionToken();owner.processDllVersionInteger();owner.processDllVersionFree();owner.processDllSeparatorPrefix();owner.processDllMessageCreate();owner.processDllMessageHolder();owner.processDllMessageErrorGet();owner.processDllMessageErrorCreate();owner.processDllMessageErrorBuffer();owner.processDllMessageErrorRegister();owner.processDllMessageErrorTerminate();owner.processDllMessageSpyGet();owner.processDllMessageSpyCreate();owner.processDllMessageSpyTerminate();owner.processDllMessageSpieStartup();owner.processDllSpieAcquireStream();
+owner.processDllSpieSharedOpen();
+
+ const before=owner.snapshot(),stack=before.caseState!.stack!.snapshot(),call=stack.calls.at(-1)!;
+ new NativeHeapObjectViews(stack.sharedDllResourceFrame!.handle.backing,call.position,4).writeUnsigned(0,0);
+ const result=owner.processDllSpieAllocateDescriptor();expect(result.known).toBe(false);
+ if(result.known)throw new Error('Damaged descriptor allocator call must be rejected');
+ expect(result.reason).toMatch(/descriptor allocation frame|expression slot/);
+ expect(owner.snapshot().crtHeldSectionIds).toEqual([19]);
+ expect(owner.imageStorage('lockTable').pointer(11*8).get()).toBe(null);
+ expect(before.ioBlock!.readUnsigned(172,1)).toBe(0);expect(before.ioBlock!.readUnsigned(176)).toBe(0);
+},30_000);

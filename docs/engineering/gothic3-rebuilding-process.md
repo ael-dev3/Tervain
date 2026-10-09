@@ -10760,3 +10760,28 @@ descriptor allocation. Four existing complete-startup fixtures now use explicit
 their assertions are unchanged. The full suite passed 2,988 tests across
 277 files in 272.87 seconds; the production build also passed. This local continuation is not yet published and has no production
 caller. Complete startup and campaign integration still require further work.
+
+
+## Original descriptor allocator prefix (local work, 2026-10-09)
+
+The retained call at `100d1329 -> 100d0d8d` now enters the original descriptor
+allocator and its EH4 frame. It constructs dynamic CRT lock 11 through the
+existing original lock initializer, acquires that table lock, and scans the
+actual initialized 56-byte descriptor records. The first three records are in
+use; record 3 is the first available candidate in this fixture.
+
+The descriptor block's original backing, byte views, masks and DataView are now
+registered as retained local storage when its actual CRT allocation is created.
+Pointer arithmetic therefore checks that same live allocation instead of
+manufacturing a numerical address or replacement block. The original code takes
+lock 10 before reaching `100d0e1c -> 100bbf27`, the descriptor section initializer.
+At that boundary locks 10, 11 and FILE lock 19 are held. Record 3 still has a
+-1 handle, a clear open flag and zero section-initialization count. The record is
+not yet reserved or opened; section initialization and the remaining original
+allocator/open/cleanup bodies must run next.
+
+Three focused checks and typechecking pass. A damaged allocator return word is
+rejected before lock 11 construction or descriptor writes. Independent evidence
+regeneration matches 61 bodies and 4,195 original body instructions. Full-suite
+and production-build validation are pending. This local continuation has no
+production caller; complete engine startup and campaign play remain unfinished.
