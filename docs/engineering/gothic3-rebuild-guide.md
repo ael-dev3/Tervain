@@ -59,10 +59,13 @@ The first NULL-old-buffer realloc now uses that actual owner and allocates the
 executes. The captured memset body zeroes nine DWORDs, reserve returns, and
 the insertion body stores the actual root-wrapper pointer in slot zero.
 Factory count is one and capacity nine. Registration, the final IsRoot query
-and wrapper initialization return. Startup stops at `204b1db4 -> 204637ce`,
-before registering root cleanup; the root initializer has not returned. Existing-buffer
+and wrapper initialization return. Root cleanup registration now uses its
+captured Game function receipt and the existing CRT exit table. The original
+initializer returns, with 155 completed C++ initializer calls and 158 shutdown
+callbacks. Startup stops before `204b1dd0`, the first Arena status-property
+initializer. Cleanup execution remains unimplemented. Existing-buffer
 realloc is still unsupported in this bridge.
-The source package captures 589 instructions. Eleven focused checks across two files
+The source package captures 589 instructions. Nineteen focused checks across two files
 and typechecking pass for this continuation; broader validation remains pending.
 The preceding MemoryAdmin-getter revision `e67f69e8` has a passing production
 build (43.94 seconds) and all 3,185 tests across 294 files passed in 473.83

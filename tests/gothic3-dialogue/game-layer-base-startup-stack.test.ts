@@ -53,8 +53,8 @@ describe('original Game C++ class-name initializers on the retained browser stac
     expect({ next: f.game.attachProgress.nextBoundary,
       reason: f.game.attachProgress.setEnvpProgress!.boundary,
       callbacks: NativeGameExitTable.forCrt(f.game.crt).snapshot().callbackCells.length }).toEqual({
-        next: { address: '204b1db4', name: 'sourceCall', target: '204637ce' },
-        reason: 'Unowned original environment CALL at204b1db4: CALL 0x204637ce', callbacks: 157,
+        next: { address: '20466654', name: 'indirectSourceCall', target: '204b1dd0' },
+        reason: 'Original Game C++ initializer callback is not yet admitted at 204b1dd0', callbacks: 158,
       });
     const arenaRoot=f.game.crt.imageStorage('arenaRootWrapper');
     const arenaVtable=arenaRoot.pointer(0).get() as NativeBytePointer;
@@ -90,8 +90,10 @@ describe('original Game C++ class-name initializers on the retained browser stac
     const singleton=fact(NativePropertySingleton.forPlatform(f.platform,f.memory));
     expect(singleton.ranges.object.readUnsigned(4,1)).toBe(1);
     expect(singleton.ranges.object.pointer(8).get()).toBeNull();
+    expect(f.stack.snapshot().calls.find(call=>call.site==='204b1db4')).toMatchObject({returned:true});
+    expect(f.stack.snapshot().calls.filter(call=>call.site==='20466654'&&call.returned)).toHaveLength(155);
     expect(f.stack.snapshot().calls.filter(call=>!call.returned).map(call=>call.site))
-      .toEqual(['204678f2','20466654']);
+      .toEqual(['204678f2']);
     const completed = gameClassNameFamilySpecs.filter(spec => spec.initializer >= '204b11b0' && spec.initializer < '204b1d70');
     expect(completed).toHaveLength(154);
     for (const spec of completed)

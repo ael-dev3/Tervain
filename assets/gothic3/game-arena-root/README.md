@@ -3,7 +3,7 @@
 This source package captures 589 instructions from the matching Game and
 SharedBase binaries. The runtime admits the initializer's selected prefix and
 executes the original SharedBase wrapper constructor on the retained stack.
-The whole initializer has not returned.
+The supported root initializer now returns; later startup remains incomplete.
 
 ## Current execution boundary
 
@@ -15,9 +15,13 @@ stores the retained wrapper pointer in slot zero. Factory count is one and
 capacity nine. RegisterPropertyObject, the final IsRoot query and wrapper
 initialization return through their original frames. The next call is
 `204b1db4 -> 204637ce`, registering root cleanup `20549970`.
-That callback registration and the parent initializer remain pending.
+That callback registration now uses the original captured cleanup receipt and
+the existing Game CRT exit-table owner. The initializer returns, leaving 155
+completed C++ initializer calls and 158 registered shutdown callbacks. Registering
+cleanup does not execute it. Startup next stops before `204b1dd0`, the first
+Arena status-property initializer.
 
-Eleven focused checks across two files and typechecking pass. Complete campaign
+Nineteen focused checks across two files and typechecking pass. Complete campaign
 play, browser proof and deployment of this continuation remain unverified.
 The older boundaries below document preceding local prefixes.
 

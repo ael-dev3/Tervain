@@ -323,6 +323,15 @@ export class NativeGameCrtSetEnvp {
       owner.#requireSourcePoint(owner.#pc).instruction===instruction
       ? known(undefined):unknown('Actual original Arena reserve MemoryAdmin getter required');
   }
+  static canonicalArenaRootCleanupRegistrationForCrt(owner:NativeGameCrtSetEnvp,crt:NativeModuleCrtOwner,controller:object):NativeValue<void> {
+    const active=NativeGameCrtSetEnvp.canonicalControllerForCrt(owner,crt,controller,'invoke');
+    if(!active.known)return active;
+    const frame=owner.#frames.at(-1);
+    return owner.#pc==='204b1db4' && owner.#currentEntry==='204b1d70' &&
+      frame?.entry==='204b1d70' && frame.site==='20466654' && frame.returnPc==='20466656' &&
+      owner.#requireSourcePoint(owner.#pc).instruction==='CALL 0x204637ce'
+      ? known(undefined):unknown('Actual original Arena root cleanup registration call required');
+  }
   static canonicalReturnedSetEnvpForCrt(owner: NativeGameCrtSetEnvp, crt: NativeModuleCrtOwner,
     bootstrap: NativeCrtBootstrap, permit: object): NativeValue<0 | -1> {
     const entry = owners.get(crt);
@@ -465,6 +474,12 @@ export class NativeGameCrtSetEnvp {
     fact(NativeX86ThreadStack.prototype.storeWidth.call(this.#stack, this.#controller, this.#address(destination.expression), word, bytes));
   }
   #call(point: NativeGameIoInstruction, target: Operand, returnPc: string): string {
+    if(point.va==='204b1db4') {
+      if(target.kind!=='immediate' || target.value!==0x204637ce)
+        throw new Error('Original Arena root cleanup atexit target required');
+      fact(NativeX86ThreadStack.prototype.registerArenaRootCleanup.call(this.#stack,this.#controller));
+      this.#nextBoundary=null; return returnPc;
+    }
     if(point.va==='200705de') {
       if(this.#currentEntry!=='200705b0' || target.kind!=='memory' || target.expression!=='0x207d86e8' || target.fs)
         throw new Error('Original Arena post-registration IsRoot import required');

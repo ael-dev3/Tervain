@@ -75,6 +75,7 @@ def runtime(source, path):
         + "function freeze(value:unknown):void { if(value!==null && typeof value==='object' && !Object.isFrozen(value)){for(const child of Object.values(value))freeze(child);Object.freeze(value);} }\n"
         + "export function admitGameArenaRootSource():void { if(sourceText!==expectedText)throw new Error('Original Arena root source differs'); }\n"
         + "admitGameArenaRootSource(); freeze(source);\n"
+        + "export function gameArenaRootCleanupReceipt() { admitGameArenaRootSource(); const method=source.module.methods.find(method=>method.label==='arenaRootCleanup'); if(!method || method.entryVA!=='0x20549970' || method.bodyVA!==method.entryVA)throw new Error('Original Arena root cleanup receipt required'); return Object.freeze({module:'Game' as const,entry:method.entryVA.slice(2),body:method.bodyVA.slice(2),bodyInstructionBytesSha256:method.bodyInstructionBytesSha256}); }\n"
         + "export const gameArenaRootImages:Readonly<Record<string,NativeCrtImageReceipt>> = Object.fromEntries(source.images.map(image=>[image.label,{...image,module:'Game',scope:image.scope==='original-loader-zero-fill'?'cold-original-image':image.scope,knownMask:'ff'.repeat(image.bytes)}]));\n"
         + "export const gameArenaRootImagePins = Object.fromEntries(source.images.map(image=>[image.label,[image.scope==='original-loader-zero-fill'?'coldGlobals':'constBytes',image.address,image.bytes,image.raw,image.sha256] as const]));\n"
         + "freeze(gameArenaRootImages); freeze(gameArenaRootImagePins);\n"

@@ -2812,6 +2812,26 @@ export class NativeX86ThreadStack {
     if (source?.kind !== 'source' || source.type !== 'code' || source.address !== '20466454') throw new Error('Actual C initializer callback return required');
   }); }
   /** Translate the existing CRT registration owner; shutdown is not invoked. */
+  registerArenaRootCleanup(controller:object):NativeValue<void> { return this.#run(controller,()=>{
+    const binding=this.#setEnvpBinding;
+    if(!binding || binding.controller!==controller)throw new Error('Actual retained Game startup controller required');
+    const point=NativeGameCrtSetEnvp.canonicalArenaRootCleanupRegistrationForCrt(binding.owner,binding.crt,controller);
+    if(!point.known)throw new Error(point.reason);
+    if(this.#calls.filter(call=>!call.returned).at(-1)?.site!=='20466654')
+      throw new Error('Actual pending Arena root initializer frame required');
+    const cursor=this.#address(this.#load(this.#bank,this.#reg('ESP')));
+    if(this.#numeric(this.#load(this.#stack,cursor),4)!==0x20549970)
+      throw new Error('Actual pushed Arena root cleanup source address required');
+    const table=NativeGameExitTable.forCrt(binding.crt as NativeGameCrtOwner);
+    const callback=NativeGameExitTable.prototype.callbackForMethod.call(table,'arenaRootCleanup');
+    if(!callback.known)throw new Error(callback.reason);
+    this.#call('204b1db4','204b1db9');
+    const result=NativeGameExitTable.prototype.atexit.call(table,callback.value); if(!result.known)throw new Error(result.reason);
+    this.#store(this.#bank,this.#reg('EAX'),this.#mint(result.value>>>0,0xffffffff));
+    const returned=this.#ret(0), source=this.#record(returned).provenance;
+    if(source?.kind!=='source'||source.type!=='code'||source.address!=='204b1db9')
+      throw new Error('Actual Arena root cleanup registration return required');
+  }); }
   registerGameStaticFini(controller: object): NativeValue<void> { return this.#run(controller, () => {
     const binding = this.#setEnvpBinding;
     if (!binding || binding.controller !== controller) throw new Error('Actual retained Game startup controller required');
