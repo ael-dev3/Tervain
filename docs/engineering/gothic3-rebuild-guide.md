@@ -104,7 +104,7 @@ actual continuation at `20466626`. All 3,087 tests across 284 files pass with
 a 30-second per-test allowance. The checkpoint is submitted in
 [PR #185](https://github.com/ael-dev3/Tervain/pull/185), merged as
 `773e5a907d5ea89dfe94e4a9413004fc80d4ac9d` after CI run `37888291714` passed.
-Its Pages run `37889214077` is still running; deployment is not yet verified.
+Its Pages run `37889214077` completed successfully.
 
 Local revision `afc083df` connects the original C initializer walker to the existing
 Game exit-table owner and reaches the second callback, `20466452 -> 20469f3a`.
@@ -119,6 +119,21 @@ property sets attached. These results are separate from the pointer
 checkpoint above. The five non-null C initializers must execute in their original table
 order before startup can enter the C++ initializer table. Later world and NPC
 activation still require their own implementation and browser evidence.
+
+The walker checkpoint merged through [PR #186](https://github.com/ael-dev3/Tervain/pull/186)
+as `07595915ef24d6b84e18a0379d280b133bf8b32c` after CI run `37890008569` passed.
+Its deployment is pending verification.
+
+Local revision `f84aff4a` executes the original second C callback's EFLAGS, CPUID
+and normal SSE2 probe against declared virtual CPU state, then reads the third
+callback's already-initialized multibyte state from argv. It reaches
+`20466452 -> 2047470c`, the FILE-table initializer. All 67 focused checks across
+four files pass, typechecking passes and both generated source outputs reproduce
+byte for byte. The full suite is running; build and browser verification remain
+pending. Fixed-ID and absent-SSE2 profiles return zero through original branches;
+undeclared CPU, missing CPUID leaf and SIMD-exception profiles retain the actual
+interrupted frame and earlier exit allocation. These results do not establish
+native exception dispatch, complete startup, NPC activation or campaign play.
 
 ### Original files and reproducible outputs
 
