@@ -2,7 +2,7 @@
 
 This package captures the dependencies reached after the current browser Game
 startup frontier: `__cinit` at caller `204678f2`, target `204665f4`.
-It contains 25 original method receipts and 932 instructions verified against
+It contains 26 original method receipts and 949 instructions verified against
 the matching local `Game.dll`, along with 672 bytes of original PE headers,
 the math callback slot, floating-point constants, names used by dynamic lookup,
 the ten-entry floating-point function pointer table and the complete 135-slot
@@ -78,6 +78,44 @@ profiles also need independent evidence before their execution is claimed.
 Optional precision, SSE control and the failed-lookup divide fallback remain
 context evidence outside the instruction getter.
 Further callees must be captured or matched to admitted source before execution.
+
+The next atexit target registers the static shutdown walker at `20473801`.
+Its 17 contiguous instructions (`20473801-20473824`) are independently recovered
+from the retained full disassembly and verified against the matching PE. Its
+receipt explicitly records the missing function-catalog entry and does not
+claim decompiled C provenance. The original 256-byte static fini table at
+`206e86e0` contains 64 null entries. Neither the walker nor this table is added
+to the executable getter by this capture; callback registration is still pending.
+
+The generated static-fini receipt now pins the complete recovered method as
+callback data. The canonical Game exit-table owner uses that same receipt at
+capability creation and registration. Component checks establish a retained
+callback identity, one encoded callback cell and a four-byte cursor advance;
+they do not execute shutdown traversal. All 21 focused checks across two files
+and typechecking pass.
+
+The local startup bridge now checks the original `20466638` CALL, the returned
+C walker and the actual pushed `20473801` source word. It invokes the existing
+atexit owner, preserves the physical CALL/RET and leaves argument cleanup to
+the original caller. Normal execution reaches `2046664e`, the first C++ table
+read; the table has not yet been admitted to this startup graph. A skipped exit
+initializer retains its earlier state and stops inside registration. All 51
+focused checks across three files and typechecking pass. Build, full-suite and
+production browser verification remain pending for this continuation. Its
+pre-table production build passed in 33.39 seconds.
+
+The full original C++ initializer table is now admitted as a retained image:
+`2056c000-20655410`, 955,408 bytes, 238,852 slots and 2,468 non-null entries.
+The local source loop traverses the first 65 null slots and reaches
+`20466654 -> 204b11b0`. Resolution checks the actual cursor, loaded target
+identity and original slot bytes; changed targets stop before CALL. The first
+callback's native property-type factory remains unowned. All 53 focused checks
+across three files and typechecking pass, and regeneration matches both outputs
+byte for byte. The production build passed in 40.69 seconds. All 3,135 tests
+across 287 files passed in 422.29 seconds. A production browser entered Ardea with 202
+scene objects, 70 character resources and HP 100, and observed
+`20466654 -> 204b11b0` after 2,759 startup operations. NPC activation remains
+incomplete at the unconnected ScriptAdmin getter with 0/16 property sets attached.
 
 Regenerate from the repository root:
 

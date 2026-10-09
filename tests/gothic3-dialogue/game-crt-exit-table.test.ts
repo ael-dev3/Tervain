@@ -35,6 +35,23 @@ function section(crt: NativeGameCrtOwner, id: number) {
 }
 
 describe('source-owned Game CRT exit-table prefix', () => {
+  it('registers the PE-verified static shutdown callback as owned data without invoking it', () => {
+    const { crt } = selected(), exit = NativeGameExitTable.forCrt(crt);
+    expect(fact(exit.initialize())).toBe(0);
+    const callback = fact(exit.callbackForMethod('staticFiniWalker'));
+    expect(callback).toMatchObject({ module: 'Game', label: 'staticFiniWalker', entry: '20473801' });
+    expect(fact(exit.callbackForMethod('staticFiniWalker'))).toBe(callback);
+    expect(fact(exit.atexit(callback))).toBe(0);
+    const state = exit.snapshot();
+    expect(state.callbackCells).toHaveLength(1);
+    expect(state.traversalOwned).toBe(false);
+    expect(state.tableAllocations).toHaveLength(1);
+    const begin = fact(crt.decodePointer(crt.imageStorage('crtExitBegin').pointer<object>(0).get())) as NativeBytePointer;
+    const end = fact(crt.decodePointer(crt.imageStorage('crtExitEnd').pointer<object>(0).get())) as NativeBytePointer;
+    expect(end.offset - begin.offset).toBe(4);
+    expect(fact(crt.decodePointer(begin.fields.pointer<object>(begin.offset).get()))).toBe(callback);
+  });
+
   it('shares one inert exit-table facade per canonical Game owner', () => {
     const { crt } = selected();
     const a = NativeGameExitTable.forCrt(crt), b = NativeGameExitTable.forCrt(crt);
