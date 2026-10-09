@@ -4,6 +4,42 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local checkpoint — 9 October 2026: Game cinit and PE protection check
+
+Runtime revision `9540631a` enters the original Game `__cinit` call at
+`204678f2 -> 204665f4` using the existing browser startup stack and controller.
+The original `20466602 -> 204738b0` protection check executes its inline EH4
+frame, checks the current MZ/PE signatures, finds the section containing the
+math callback slot, and tests its current characteristics. The normal readonly
+slot returns through the original frame and reaches the indirect source call
+at `20466610`. That callback has not executed. Invalid headers or writable
+sections take the original branch to the unimplemented call at `20466617`.
+
+The source package captures 16 methods and 660 instructions. The generated
+runtime getter admits four methods and 150 instructions; captured floating-point
+methods remain context only. Original PE headers, the callback slot and EH4
+scope are retained canonical Game image views. Same-image pointer subtraction
+proves relative address differences through those views without assigning a
+host address. Unknown signature bytes retain unknown branch flags and stop
+without reseeding the header or consuming the pending call.
+
+Validation: 13 focused checks, typecheck, independent byte-identical JSON and
+TypeScript regeneration, production build, and all 3,082 tests across 284 files
+passed (397.79 seconds for the full suite). A local production browser entered
+Ardea and its developer panel reported `indirectSourceCall at 20466610`, with
+the environment initializer returned and 667 source operations completed.
+This is startup integration evidence; full world activation and a finishable
+campaign are still unproven.
+
+Three descriptive context labels were subsequently corrected: `2048c74b` is
+`__control87`, `2046a282` is `_errno`, and `2046a20a` dispatches invalid-parameter
+handling. The generated execution getter remained byte-identical. The next
+floating-point helpers were audited separately for subsequent implementation.
+
+PR #181 merged as `a3b8e07d42a0cc701571ca8fe9500e76cc5846c2` after successful
+CI run `37881573803`. Its Pages run `37882270567` completed successfully.
+This local Game checkpoint has not yet been published.
+
 ## Local checkpoint — 9 October 2026: SpyAdmin construction and shutdown registration
 
 Original `1004b4af -> 100089e5` now removes and registers SpyAdmin's handler

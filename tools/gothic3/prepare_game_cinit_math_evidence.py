@@ -14,8 +14,8 @@ TARGETS = {
     0x204696f6: 'pentiumDivideDispatch', 0x204696ba: 'pentiumDivideTest',
     0x20469691: 'setDefaultPrecision', 0x2047df48: 'controlFpSecure',
     0x20469672: 'encodeFloatPointers',
-    0x2048c74b: 'errno', 0x2046a282: 'invalidParameterNoInfo',
-    0x2046a20a: 'controlFp', 0x20467d64: 'encodePointer',
+    0x2048c74b: 'control87', 0x2046a282: 'errno',
+    0x2046a20a: 'invalidParameterDispatch', 0x20467d64: 'encodePointer',
     0x2046a0d6: 'invokeWatson',
 }
 

@@ -2501,7 +2501,7 @@
         "bodyInstructionBytesSha256": "a5624bed1d09696cc7f78c0db3312694841a0b24a256f579ddc1fbc6239016e0"
       },
       {
-        "label": "errno",
+        "label": "control87",
         "entryVA": "0x2048c74b",
         "bodyVA": "0x2048c74b",
         "entryChain": [],
@@ -4527,7 +4527,7 @@
         "bodyInstructionBytesSha256": "9969fed6c55ba63018dd96fd5396dc3ca80a81f27667f7c334d3737ec8e6d456"
       },
       {
-        "label": "invalidParameterNoInfo",
+        "label": "errno",
         "entryVA": "0x2046a282",
         "bodyVA": "0x2046a282",
         "entryChain": [],
@@ -4601,7 +4601,7 @@
         "bodyInstructionBytesSha256": "0e0cc0d6c4d377eb8cef5833010fe4226fac61ce169f7f15a854c29ac2fd369d"
       },
       {
-        "label": "controlFp",
+        "label": "invalidParameterDispatch",
         "entryVA": "0x2046a20a",
         "bodyVA": "0x2046a20a",
         "entryChain": [],

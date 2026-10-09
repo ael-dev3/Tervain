@@ -237,8 +237,10 @@ to the pointer-initialization call at `20466617`.
 The preparation tool captures 16 methods and 660 instructions. Runtime admission
 selects four methods and 150 instructions; floating-point dependencies remain
 context evidence. Thirteen focused checks and typechecking pass, and independent
-regeneration reproduces both JSON and TypeScript byte for byte. Broader validation
-and publication of this local checkpoint remain pending. Complete startup,
+regeneration reproduces both JSON and TypeScript byte for byte. At runtime revision
+`9540631a`, all 3,082 tests across 284 files passed in 397.79 seconds and the
+production build passed. A local production-browser observation confirmed the
+continuation at `20466610` after entering Ardea. Publication remains pending. Complete startup,
 world activation, campaign saves and a playable ending remain unfinished.
 
 - [Detailed workflow and reference paths](gothic3-rebuild-workflow.md)
