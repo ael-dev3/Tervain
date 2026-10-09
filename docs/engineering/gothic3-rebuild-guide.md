@@ -204,6 +204,19 @@ independent evidence regeneration and the build pass. All 3,023 tests across 278
 files passed in 315.11 seconds at `6b77e3be`. MessageAdmin's section remains held
 until dispatch completes.
 
+Local revision `64c62d8d` executes SpyAdmin's original absent-window return,
+finishes MessageAdmin dispatch and releases its actual critical section. The
+first separator logger returns and DLL initialization reaches the version-log
+call at `100a15ed`. Three focused checks, typechecking, independent regeneration
+of 93 methods and 5,461 instructions, the production build and all 3,025 tests
+across 278 files pass (321.63 seconds). Version formatting and subsequent startup
+remain unfinished; these continuations have no production callers.
+
+The preceding insertion checkpoint merged through
+[PR #176](https://github.com/ael-dev3/Tervain/pull/176) as
+`6562df265c7224aa863f0bac52eb11d9c4f4bcba` after successful validation.
+Its Pages deployment has not yet been verified for this record.
+
 - [Detailed workflow and reference paths](gothic3-rebuild-workflow.md)
 - [Architecture and implementation background](gothic3-rebuild-overview.md)
 - [Dated technical checkpoint history](gothic3-rebuilding-process.md)

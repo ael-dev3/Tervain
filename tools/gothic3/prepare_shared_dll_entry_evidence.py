@@ -148,6 +148,7 @@ def capture(study, output):
         0x10007441: 'dllMessageHolderAllocate',
         0x10006c1c: 'dllMessageErrorGet',
         0x10008b11: 'dllMessageSpyGet',
+        0x10008c06: 'dllSpyMessageCallback',
         0x100089e5: 'dllMessageSpyCreate',
         0x10001334: 'dllMessageSpieGet',0x10008887:'dllMessageSpieCreate',
         0x100ac841:'dllSpieFclose',0x100ac7cf:'dllSpieFcloseNoLock',0x100befd6:'dllSpieFcloseLock',0x100ac8b5:'dllSpieFcloseCleanup',

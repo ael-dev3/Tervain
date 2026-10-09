@@ -11069,3 +11069,26 @@ completed successfully. SpyAdmin callback completion, dispatcher return and the 
 release remain dependencies. These continuations have no production callers;
 complete startup, world activation, connected saves and a finishable campaign
 remain unfinished.
+
+### 9 October 2026: original SpyAdmin return and completed first logger dispatch
+
+At `64c62d8d`, the original callback thunk `10008c06` and body `1004b4d0`
+execute against the retained SpyAdmin context. Its previously observed absent
+window selects the original return path without constructing a message string.
+The actual callback returns at `100494dd`, restoring the caller's stack,
+registers and exception state. MessageAdmin finishes priority dispatch and
+executes LeaveCriticalSection at `1004956b`; physical depth becomes zero.
+The separator submission and logger return, and the DLL initializer reaches its
+next version-log call at `100a15ed`. The version formatter still needs execution.
+
+Three focused checks cover completion and rejection of damaged return/context
+state before releasing the section. Typechecking and the production build pass.
+All 3,025 tests across 278 files passed in 321.63 seconds. Independent regeneration
+matches all 93 captured methods and 5,461 instructions byte for byte.
+
+The preceding insertion work merged as `6562df265c7224aa863f0bac52eb11d9c4f4bcba`
+through PR #176 after validation run 37876975726 passed. Its Pages deployment is
+pending verification here. A tree comparison proves that squash equals the
+validated PR head; local history reconciliation preserves the validated runtime
+tree. Startup continuations still have no production callers, and campaign
+completion remains unproven.

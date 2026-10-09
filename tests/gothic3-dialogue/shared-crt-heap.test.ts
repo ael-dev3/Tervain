@@ -1633,6 +1633,30 @@ owner.processDllSpieAllocateDescriptor();
  owner.processDllSpieInitDescriptorSection();return {owner,platform};
 }
 
+it('executes original absent-window SpyAdmin callback and releases the logger section',()=>{
+ const {owner,platform}=originalFileOpenFixture({cwd:'C:/Gothic3',directories:['C:/','C:/Gothic3'],files:[]});
+ owner.processDllSpieCreateFile();owner.processDllSpieTerminate();owner.processDllMessageTerminate();owner.processDllMessageLog();owner.processDllErrorLogCallback();owner.processDllErrorLogAllocation();owner.processDllErrorLogFormatting();owner.processDllErrorLogInsertion();
+ const before=owner.snapshot(),message=before.dllFormatImages['10197d6c']!,spy=before.dllFormatImages['101ab11c']!;
+ expect(spy.readUnsigned(24)).toBe(0);expect(before.messageSectionHeld).toBe(true);
+ expect(owner.processDllSpyLogCallback()).toEqual({known:false,reason:'Original SharedBase DLL version log pending at 100a15ed'});
+ const after=owner.snapshot(),stack=after.caseState!.stack!.snapshot();expect(after.messageSectionHeld).toBe(false);
+ expect(platform.snapshot().physicalSections.find(row=>row.canonicalBacking===message.backing&&row.position===message.bytes.byteOffset-message.backing.bytes.byteOffset+4)!.depth).toBe(0);
+ for(const site of ['100494db','10049559','1004956b','1004980f','100a15cd'])expect(stack.calls.findLast(row=>row.site===site)!.returned).toBe(true);
+ expect(after.trace.filter(row=>row==='1004956b.LeaveCriticalSection')).toHaveLength(1);expect(stack.trace).toContain('1004b7bb.sharedInitializer.RET');
+ expect(stack.trace).toContain('1004b535.sharedInitializer.CMP');expect(stack.trace.some(row=>row.startsWith('1004b542.'))).toBe(false);
+ expect(after.initializerAllocations).toHaveLength(before.initializerAllocations.length);expect(stack.trace.some(row=>row.startsWith('1004b553.'))).toBe(false);
+ const calls=stack.calls.length;expect(owner.processDllSpyLogCallback()).toEqual({known:false,reason:'Original SharedBase DLL version log pending at 100a15ed'});expect(owner.snapshot().caseState!.stack!.snapshot().calls).toHaveLength(calls);
+},30_000);
+it('rejects damaged SpyAdmin callback return and context before releasing MessageAdmin section',()=>{
+ for(const displacement of [0,16]){
+  const {owner}=originalFileOpenFixture({cwd:'C:/Gothic3',directories:['C:/','C:/Gothic3'],files:[]});
+  owner.processDllSpieCreateFile();owner.processDllSpieTerminate();owner.processDllMessageTerminate();owner.processDllMessageLog();owner.processDllErrorLogCallback();owner.processDllErrorLogAllocation();owner.processDllErrorLogFormatting();owner.processDllErrorLogInsertion();
+  const before=owner.snapshot(),spy=before.dllFormatImages['101ab11c']!,bytes=spy.bytes.slice(),stack=before.caseState!.stack!.snapshot(),call=stack.calls.at(-1)!;
+  new NativeHeapObjectViews(stack.sharedDllResourceFrame!.handle.backing,call.position+displacement,4).writeUnsigned(0,0);
+  const result=owner.processDllSpyLogCallback();expect(result.known).toBe(false);if(result.known)throw new Error('Damaged SpyAdmin callback accepted');expect(result.reason).toMatch(/SpyAdmin callback return frame|expression slot/);
+  expect(owner.snapshot().messageSectionHeld).toBe(true);expect(spy.bytes).toEqual(bytes);expect(owner.snapshot().trace.filter(row=>row==='1004956b.LeaveCriticalSection')).toHaveLength(0);
+ }
+},30_000);
 it('executes original ErrorAdmin full-ring overwrite with wrapped cursors',()=>{
  const {owner}=originalFileOpenFixture({cwd:'C:/Gothic3',directories:['C:/','C:/Gothic3'],files:[]});
  owner.processDllSpieCreateFile();owner.processDllSpieTerminate();owner.processDllMessageTerminate();owner.processDllMessageLog();owner.processDllErrorLogCallback();owner.processDllErrorLogAllocation();owner.processDllErrorLogFormatting();
