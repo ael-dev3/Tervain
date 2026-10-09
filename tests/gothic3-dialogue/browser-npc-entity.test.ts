@@ -1,6 +1,8 @@
 import { randomUUID } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest';
+// These run the original instructions in the emulator: about 4–5 s each here, so the 5 s default fails under CI load.
+vi.setConfig({ testTimeout: 30_000 });
 import { BrowserNpcEntityRuntime, loadBrowserNpcEntitySources } from '../../src/gothic3/browser-npc-entity';
 import type { BrowserNpcEntityServices, BrowserNpcEntitySources } from '../../src/gothic3/browser-npc-entity';
 import { OriginalControlModuleState, OriginalControlReader } from '../../src/gothic3/control-reading';
