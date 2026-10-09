@@ -11092,3 +11092,32 @@ pending verification here. A tree comparison proves that squash equals the
 validated PR head; local history reconciliation preserves the validated runtime
 tree. Startup continuations still have no production callers, and campaign
 completion remains unproven.
+
+### 9 October 2026: version logger uses the retained static TLS block
+
+Local runtime revision `0f459fe3` resumes the actual DLL version-log frame at
+`100a15ed`. Original instructions `10049850`, `10049857` and `1004985c` read
+FS:0x2c, the SharedBase static TLS index and its vector entry. The existing
+`NativeSharedStaticTls` owner supplies the same live logical thread's original
+1,748-byte template. The declared VM loader assigns SharedBase slot zero; this
+is a virtual loader choice, not an observed Windows slot assignment.
+
+The original `LEA` at `10049860` selects the buffer at offset `0x108`. Existing
+buffer contents survive repeated acquisition. Pointer reads require the actual
+retained vector, index and block; a damaged native return frame is rejected before
+TLS acquisition. Initialization reaches the original `vsprintf` call at
+`10049871`, retaining its destination, format and varargs. Formatting and the
+subsequent MessageAdmin submission remain pending.
+
+Three focused checks and typechecking pass; the production build passes. The
+full suite is still running for this record. The next original formatter core,
+`100a7eab`, was independently captured from the installed module: 50 instructions,
+body hash `01a8e501079dfbac7738c12afe584792b8ec8feecdbcac4a70a16d3077ac389e`.
+It has not yet been executed by this continuation.
+
+PR #178's validation run 37878124727 passed. The preceding main deployment run
+37877993111 was cancelled when PR #177 merged externally as
+`6f231967907848e6d4b5f5c94a497a3d98fae1f1`; replacement deployment run
+37878497070 is still running. No completed deployment is inferred from either
+pending run. These continuations still need production integration and do not
+establish a finishable browser campaign.
