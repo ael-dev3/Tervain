@@ -218,8 +218,11 @@ argument cleanup. It admits the full original C++ initializer table and traverse
 65 leading null entries to `20466654 -> 204b11b0`. The callback requires the
 gCLayerBase property-type factory, whose native behavior remains unfinished.
 All 53 focused checks across three files, typechecking and source regeneration
-pass; the production build passed in 40.69 seconds. Full-suite and production
-browser verification are pending. The hosted campaign is still unfinished.
+pass; the production build passed in 40.69 seconds. A production browser entered
+Ardea with 202 scene objects, 70 character resources and HP 100, observing
+`20466654 -> 204b11b0` after 2,759 startup operations. NPC activation remains
+incomplete at the ScriptAdmin getter with 0/16 property sets attached. Full-suite
+verification is running. The hosted campaign is still unfinished.
 
 Independent review of PR #187 decoded all 9,147 buffer views in its 107 changed
 GLBs against the previous revision: geometry, images and semantic metadata
