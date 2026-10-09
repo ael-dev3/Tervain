@@ -71,10 +71,11 @@ a parent-type getter. Further instruction tracing identified it as the
 object-replacement and registration-toggle helper. That interpretation is
 used by the current implementation.
 
-Focused validation passed 31 tests across four files. Broad validation of
-this latest continuation and publication remain pending. The preceding
-wrapper-entry checkpoint passed 3,199 tests across 298 files and a production
-build. These results establish startup progress, not a playable campaign.
+The FreePoint continuation passed all 3,199 tests across 298 files in
+492.49 seconds. After integrating the newer main branch, all 57 focused
+startup and Hero checks passed, and the production build completed in
+47.14 seconds. Publication remains pending. These results establish startup
+progress; a playable campaign is still unverified.
 
 ### Browser verification of the FreePoint continuation
 
