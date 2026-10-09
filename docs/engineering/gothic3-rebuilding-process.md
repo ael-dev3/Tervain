@@ -30,7 +30,10 @@ At runtime revision `0dd36cdf`, all 56 focused checks across four files pass.
 Typechecking and independent byte-identical evidence regeneration pass. The
 production build passes in 46.15 seconds. A production browser entered Ardea
 and reported `sourceCall at 20466626`, with 789 environment source operations.
-Full-suite validation and publication remain pending. Complete engine startup,
+The complete suite passes all 3,087 tests across 284 files in 454.70 seconds
+with `npm test -- --testTimeout=30000`. Revision `937870fa` reconciles merged
+main without changing any file from `b186ca1d`; the tested runtime remains
+byte-identical to `0dd36cdf`. Publication remains pending. Complete engine startup,
 world activation, campaign saves and a finishable campaign remain unfinished.
 
 ## Local checkpoint — 9 October 2026: Game math callback return
@@ -64,7 +67,7 @@ runtime, evidence and focused-test paths are unchanged from `452ad563`.
 PR #183's preceding PE checkpoint deployed successfully in Pages run
 `37884441618`. The math continuation merged through PR #184 at
 `b03a143f0b01839430046792b8ea51132c5b3220` after CI run `37886867264` succeeded.
-Pages run `37887566918` is in progress; successful deployment is not yet verified.
+Pages run `37887566918` completed successfully for that merged revision.
 Full startup,
 world/NPC activation, campaign saves and a playable ending remain unfinished.
 
