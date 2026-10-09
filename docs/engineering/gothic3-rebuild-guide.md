@@ -47,7 +47,18 @@ same evidence-driven process to gameplay systems.
 
 ### Local checkpoint: primitive templates and scoped struct names
 
-The latest local Arena factory bridge reads the current original type vtable
+The latest local Arena registration continuation executes the SharedBase
+singleton getter, registration-enabled check and root-flag query. It follows
+the empty factory-array branch into the original insertion body and requests
+space for one entry. Startup stops at `1008eb30 -> 100035f8`, before array
+reservation and allocation. The factory array pointer remains NULL, with count
+and capacity both zero; registration and the root initializer have not returned.
+The source package captures 431 instructions. Twenty focused checks and
+typechecking pass, and independent source/runtime regeneration matches exactly.
+Full-suite, build, browser and deployment evidence for this continuation remain
+pending.
+
+The preceding local Arena factory bridge reads the current original type vtable
 and captured virtual slot, executes `2002adfb -> 2006d780`, and returns the
 factory subobject through the retained CALL/RET frame. The pushed wrapper
 argument remains available for the following SharedBase registration call.
@@ -55,7 +66,9 @@ Startup next stops at `200705d6 -> [207d86e0]` (`RegisterPropertyObject`).
 Twenty focused checks and typechecking pass; the 282-instruction source package
 and generated runtime independently reproduce byte for byte. Its full-suite,
 build, browser and deployment evidence remain pending. The preceding registration
-continuation's production build passed in 42.36 seconds; its full suite is running.
+continuation at `137b6da2` passed all 3,185 tests across 294 files in 447.44
+seconds, and its production build passed in 42.36 seconds. Those results apply
+to that earlier revision.
 
 The latest local Arena replacement now returns. The captured registration
 toggle executes twice on the canonical SharedBase singleton, restoring its
