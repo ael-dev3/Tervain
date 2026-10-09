@@ -37,8 +37,9 @@ encoded base to both exit cursor globals, and returns `0` on success or `24` for
 a returning allocation failure. The stack bridge preserves the actual CALL/RET
 frame and EAX result. The callback's 19 instructions are independently recovered
 in `game-crt`; this getter does not interpret them. Execution currently stops at
-`20466452 -> 2047470c`, the fourth C initializer, on the declared normal virtual
-CPU profile. Later startup and campaign integration remain unfinished.
+`20466638 -> 204637ce`, the atexit registration call after all five C callbacks,
+on the declared normal virtual CPU profile. Later startup and campaign
+integration remain unfinished.
 
 The second initializer uses original EFLAGS ID-bit toggling, CPUID leaves 0/1 and
 the original normal MOVAPD probe. It does not infer the browser host's CPU. The
@@ -63,9 +64,14 @@ The FILE initializer at `2047470c` is now captured with its 69 original
 instructions and cold image receipts for the FILE count (`207d29c0`), pointer
 vector (`207d1664`) and twenty 32-byte FILE records (`207b2e50`). Its two calloc
 sites, fallback count, pointer publication and descriptor lookup remain original
-source evidence. This capture grants no execution of that callback. Connecting
-it requires the existing Game heap and I/O descriptor allocations, signed
-pointer comparisons, three-operand IMUL and SAR semantics.
+source evidence. The local runtime now executes this callback using the existing
+Game heap and I/O descriptor allocations, signed comparisons proved from
+canonical virtual Game image addresses, three-operand IMUL and SAR semantics.
+Its normal return is followed by the fifth SSE callback and the completed C
+walker. The next atexit call remains unsupported. All 74 focused checks across
+four files, typechecking and the production build pass. Full-suite and browser
+verification remain outstanding for this new continuation. Allocation-failure
+profiles also need independent evidence before their execution is claimed.
 
 Optional precision, SSE control and the failed-lookup divide fallback remain
 context evidence outside the instruction getter.
