@@ -44,7 +44,7 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  expect(game.known).toBe(true);
  if(!game.known)throw new Error(game.reason);
  expect(game.value.attachResult).toEqual({known:false,
-  reason:'crtAttach204677e4: Unowned Translated Arena Status initializer pending: Unowned Arena Status cleanup registration at 204b1e44 -> 204637ce'});
+  reason:'crtAttach204677e4: Unowned Original Game C++ initializer callback is not yet admitted at 204b1e70'});
  const diagnostic=NativeSharedMessageDebug.forPlatform(platform).snapshot(),locale=diagnostic.formatterLocale!;
  expect(diagnostic.messageOwner).toBe(runtime.message);
  expect(diagnostic.messageGetterReturned).toBe(true);
@@ -72,7 +72,9 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  expect(status.propertyRegistered).toBe(true);
  expect(status.temporaryDestroyed).toBe(true);
  expect(status.temporaryName!.snapshot().destroyed).toBe(true);
- expect(status.initializerReturned).toBe(false);
+ expect(status.initializerReturned).toBe(true);
+ expect(status.trace).toContain('204b1e44.cleanup.registered');
+ expect(status.trace).toContain('204b1e4c.initializer.return');
  expect(runtime.message.snapshot().trace).toContain('10049574.message.threshold.return');
  expect(runtime.message.onMessageBelowThreshold(2)).toEqual({known:false,reason:'Unowned MessageAdmin.OnMessage callback loop at 1004951d'});
  expect(runtime.message.onMessageBelowThreshold(0xffffffff)).toEqual({known:true,value:true});

@@ -17,7 +17,7 @@ describe('selected browser NPC platform services', () => {
     expect(startup.propertyIdInvocation).toBe('not-entered');
     expect(startup.prerequisites.attachResult.known).toBe(false);
     if(startup.prerequisites.attachResult.known)throw new Error('Unfinished Game startup returned');
-    expect(startup.prerequisites.attachResult.reason).toContain('Unowned Arena Status cleanup registration at 204b1e44 -> 204637ce');
+    expect(startup.prerequisites.attachResult.reason).toContain('initializer callback is not yet admitted at 204b1e70');
     const first = owner.control.matrixIdentity();
     const second = owner.control.matrixIdentity();
     expect(first.known).toBe(true);

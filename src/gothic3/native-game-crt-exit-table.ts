@@ -6,6 +6,17 @@ import type { NativeBytePointer } from './native-pointer-geometry';
 import { NativeGameCrtOwner } from './native-game-crt';
 import { gameCinitStaticFiniReceipt } from './native-game-crt-cinit-source';
 import { gameArenaRootCleanupReceipt } from './native-game-arena-root-source';
+import statusCleanupSource from '../../assets/gothic3/status-cleanup/source.json';
+
+function statusCleanupReceipt() {
+  const method=statusCleanupSource.module.methods[0]!;
+  if(statusCleanupSource.module.inputSha256!=='b09afc5c180969a6302d9d706f0ad8efebf7c1fcd9301096bf5c1b1f2cf8eb2f' ||
+    method.entryVA!=='0x205499a0'||method.bodyVA!==method.entryVA||
+    method.bodyInstructionBytesSha256!=='3695be1da91480740edf289dfcafd60db4e64c48f4629be87f8e7534c8fae4c3'||
+    method.instructions.map(row=>row.bytes).join('')!=='b938507b20c70538507b20ec9a6520ff15dc877d206858507b20e81721adff8b0d50507b206838507b20ff15dc867d20c70538507b207c906520b938507b20ff25e8877d20')
+    throw new Error('Original Arena Status cleanup receipt differs');
+  return Object.freeze({module:'Game' as const,entry:'205499a0',body:'205499a0',bodyInstructionBytesSha256:method.bodyInstructionBytesSha256});
+}
 
 const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
 const unknown = <T>(reason: string): NativeValue<T> => ({ known: false, reason });
@@ -57,7 +68,7 @@ export class NativeGameExitTable {
     if (this.boundary) return unknown(this.boundary);
     const old = this.callbacks.get(label);
     if (old) return known(old);
-    const method = label === 'staticFiniWalker' ? gameCinitStaticFiniReceipt() : label==='arenaRootCleanup' ? gameArenaRootCleanupReceipt() : this.crt.sourceProfile.heapRules.methods[label];
+    const method = label === 'staticFiniWalker' ? gameCinitStaticFiniReceipt() : label==='arenaRootCleanup' ? gameArenaRootCleanupReceipt() : label==='arenaStatusCleanup' ? statusCleanupReceipt() : this.crt.sourceProfile.heapRules.methods[label];
     const entryChain = (method as typeof method & { readonly entryChain?: readonly {
       readonly va: string; readonly bytes: string; readonly targetVA: string;
     }[] } | undefined)?.entryChain;
@@ -235,6 +246,7 @@ export class NativeGameExitTable {
       const receipt = callbackOwners.get(callback);
       const method = receipt && (receipt.label === 'staticFiniWalker' ? gameCinitStaticFiniReceipt()
         : receipt.label === 'arenaRootCleanup' ? gameArenaRootCleanupReceipt()
+        : receipt.label === 'arenaStatusCleanup' ? statusCleanupReceipt()
         : this.crt.sourceProfile.heapRules.methods[receipt.label]);
       if (!receipt || receipt.crt !== this.crt || receipt.entry !== callback.entry || receipt.entry !== method?.entry ||
           receipt.body !== method?.body || receipt.hash !== method?.bodyInstructionBytesSha256 || callback.module !== 'Game') {

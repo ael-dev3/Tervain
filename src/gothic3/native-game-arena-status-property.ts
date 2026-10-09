@@ -14,6 +14,7 @@ import { NativeRuntimePlatform } from './native-runtime-platform';
 import { NativeSharedMessageDebug } from './native-shared-message-debug';
 import { NativePropertyTypeConstruction } from './native-property-type-construction';
 import { admitGameArenaStatusSource } from './native-game-arena-status-source';
+import {NativeGameExitTable} from './native-game-crt-exit-table';
 
 const owners = new WeakMap<NativeGameCrtOwner, NativeGameArenaStatusProperty>();
 const token = Object.freeze({});
@@ -31,6 +32,7 @@ export class NativeGameArenaStatusProperty {
   #descriptorStored = false;
   #propertyRegistered = false;
   #temporaryDestroyed = false;
+  #initializerReturned = false;
   #diagnosticNames:Readonly<{propertyName:NativeHeapCString;typeName:NativeHeapCString}>|null=null;
   #boundary: string | null = null;
   #trace: string[] = [];
@@ -133,6 +135,7 @@ export class NativeGameArenaStatusProperty {
   }
   initialize():NativeValue<void> {
     if(this.#boundary)return {known:false,reason:this.#boundary};
+    if(this.#initializerReturned)return {known:true,value:undefined};
     if(this.#active) {this.#boundary='Reentrant first Arena property initializer';return {known:false,reason:this.#boundary};}
     this.#active=true;
     try {
@@ -161,7 +164,13 @@ export class NativeGameArenaStatusProperty {
       fact(NativeHeapCString.prototype.destroy.call(this.#temporary));
       this.#temporaryDestroyed=true;
       this.#trace.push('204b1e39.temporaryCString.destroy');
-      throw new Error('Unowned Arena Status cleanup registration at 204b1e44 -> 204637ce');
+      const exit=NativeGameExitTable.forCrt(this.crt);
+      const callback=fact(exit.callbackForMethod('arenaStatusCleanup'));
+      const registered=fact(exit.atexit(callback));
+      this.#trace.push(registered===0?'204b1e44.cleanup.registered':'204b1e44.cleanup.returnMinusOne');
+      this.#initializerReturned=true;
+      this.#trace.push('204b1e4c.initializer.return');
+      return {known:true,value:undefined};
     } catch(error) {
       this.#boundary ??= error instanceof Error ? error.message : String(error);
       return {known:false,reason:this.#boundary};
@@ -171,5 +180,5 @@ export class NativeGameArenaStatusProperty {
     baseConstructed:this.#base!==null,createCompleted:this.#created,descriptorStored:this.#descriptorStored,
     diagnosticNames:this.#diagnosticNames,trace:Object.freeze([...this.#trace]),
     temporaryDestroyed:this.#temporaryDestroyed,
-    initializerReturned:false,propertyRegistered:this.#propertyRegistered,wholeCrtTraversalCompleted:false});}
+    initializerReturned:this.#initializerReturned,propertyRegistered:this.#propertyRegistered,wholeCrtTraversalCompleted:false});}
 }

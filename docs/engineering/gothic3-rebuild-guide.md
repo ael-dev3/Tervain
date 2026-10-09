@@ -13,6 +13,22 @@ finishable campaign.
 
 ## How the rebuild works
 
+### Current local checkpoint: first Arena property initializer returns
+
+The Status initializer now registers its original cleanup callback `205499a0`
+through the existing same-CRT exit table. The complete callback's eleven
+instructions are checked against original Game DLL bytes; admission pins its
+entry, body and instruction hash. Registration preserves the existing exit
+table and ordering. This registers callback data; its shutdown execution is
+still unfinished. The caller ignores a known `_atexit` failure as the original
+code does, without inventing a successful entry.
+
+The initializer returns at `204b1e4c` through the actual startup CALL/RET frame.
+Startup reaches the next C++ initializer, `204b1e70`, which is not yet supported.
+Typechecking and six focused production checks pass, including actual Status
+registration, temporary destruction, cleanup registration and initializer
+return. This checkpoint remains local; campaign completion is unproven.
+
 ### Current local checkpoint: Status registration returns
 
 After the actual filtered Debug return, property registration follows its
