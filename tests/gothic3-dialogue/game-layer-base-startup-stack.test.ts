@@ -46,11 +46,11 @@ describe('original Game C++ class-name initializers on the retained browser stac
     expect({ next: f.game.attachProgress.nextBoundary,
       reason: f.game.attachProgress.setEnvpProgress!.boundary,
       callbacks: NativeGameExitTable.forCrt(f.game.crt).snapshot().callbackCells.length }).toEqual({
-        next: { address: '204b1c80', name: 'translatedCrtCall', target: '2000b596' },
-        reason: 'Native simple-allocation table bucket for 59 bytes is not audited', callbacks: 140,
+        next: { address: '204b1cf0', name: 'translatedCrtCall', target: '2000bf78' },
+        reason: 'Game.___unDName.0x2800: Unowned getTemplateArgumentList primary data type', callbacks: 147,
       });
-    const completed = gameClassNameFamilySpecs.filter(spec => spec.initializer >= '204b11b0' && spec.initializer < '204b1c80');
-    expect(completed).toHaveLength(139);
+    const completed = gameClassNameFamilySpecs.filter(spec => spec.initializer >= '204b11b0' && spec.initializer < '204b1cf0');
+    expect(completed).toHaveLength(146);
     for (const spec of completed)
       expect(f.stack.snapshot().calls.find(call => call.site === spec.initializer)).toMatchObject({ returned: true });
   });
