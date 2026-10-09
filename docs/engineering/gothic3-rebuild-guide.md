@@ -108,6 +108,14 @@ LocaleUpdate call retains its NULL locale argument and uninitialized 16-byte
 receiver. Execution stops at `100b53ab -> 100a74b6`. This local frame is separate
 from instruction interpretation on the Game startup stack. Eight focused checks
 pass; LocaleUpdate, formatting, diagnostic dispatch and return remain unfinished.
+At local revision `892186f7`, typechecking, byte-identical independent evidence
+regeneration and the production build (35.62 seconds) pass. Full-suite and
+production-browser validation of this later formatter entry remain pending.
+
+The preceding Arena startup batch merged through PR #202 at
+`8e86398264d3a29983c762190cd6f90ff09b4243`. CI run `37927335964` passed all
+3,189 tests across 294 files, typechecking and the production build. Main Pages
+run `37928617229` is in progress; deployment success is not yet established.
 The root-insertion revision `6d7c14a7` passed all 3,185 tests across 294 files
 in 485.24 seconds and built in 44.31 seconds. These results apply to that earlier
 revision, before root cleanup registration, Status integration and TLS loading.
