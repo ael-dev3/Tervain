@@ -86,7 +86,9 @@ The local math-initializer work at revision `37859a9e` reaches the next original
 original branch skips optional precision setup. Conversion-pointer stores,
 processor-feature lookup and exception clearing are implemented locally.
 All 15 focused checks pass, typechecking passes and independent regeneration
-matches both outputs byte for byte. Full validation and publication remain pending.
+matches both outputs byte for byte. At integrated revision `db71a0b3`, all 3,084
+tests passed with a 30-second per-test allowance, and the production build passed.
+Publication remains pending.
 These results do not establish complete
 startup or campaign play.
 

@@ -25,7 +25,10 @@ the production build pass. A production browser entered Ardea and reported the
 actual next source call at `20466617`, with 700 environment source operations.
 The first full run passed 3,083 of 3,084 tests; one forest save-recovery check
 timed out at five seconds. All 11 checks in that file subsequently passed in
-isolation. Full validation with a larger per-test time allowance remains pending.
+isolation. At integrated revision `db71a0b3`, the complete rerun with
+`npm test -- --testTimeout=30000` passed all 3,084 tests across 284 files in
+485.72 seconds. Assertions were unchanged. The integrated production build
+passed in 57.07 seconds.
 
 Revision `a270bd46` integrates main's reviewed presentation fixes. Its Gothic
 runtime, evidence and focused-test paths are unchanged from `452ad563`.
