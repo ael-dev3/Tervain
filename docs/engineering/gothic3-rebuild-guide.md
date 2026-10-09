@@ -13,6 +13,34 @@ finishable campaign.
 
 ## How the rebuild works
 
+### Local checkpoint: primitive templates and scoped struct names
+
+The next continuation reuses the original primitive primary-type parser inside
+template arguments, recovers the original 57..64-byte allocation pool, and executes
+the selected ordinary scoped-name loop and `U` struct keyword branch. The scoped
+package captures four methods and 585 original instructions; its JSON and generated
+TypeScript reproduce byte for byte. The two additional allocator pools capture
+14 methods and 573 instructions, including their physical dispatch and geometry.
+
+Runtime revision `a2691946` returns from the first block's 154 class-name
+initializers, retaining 155 shutdown callbacks. Its checks verify
+`bTValArray<float>`, `bTObjArray<struct gCQuest_PS::SLogEntry>` and the nested
+`bTObjArray<class bTAutoPOSmartPtr<class gCQuest_PS> >`. All five focused checks
+pass. Startup next stops at table call `20466654 -> 204b1d70`: that callback
+has a different structure and is not yet admitted. Full-suite, build, browser and
+deployment validation of this 154-initializer revision are pending.
+
+The preceding 146-initializer runtime `70da7405` passed all 3,185 tests across
+294 files in 500.45 seconds, typechecking, five focused checks and a production
+build in 48.05 seconds. An actual production browser confirmed Ardea entry and
+4,220 startup operations at its then-current `204b1cf0` scoped-struct boundary.
+These earlier results do not validate the newer 154-initializer revision.
+The 64-initializer checkpoint merged through
+[PR #198](https://github.com/ael-dev3/Tervain/pull/198) as
+`6be9a3314032824e646ee63e595ff4d9f91ab9e0`; its Pages deployment succeeded.
+Full startup, world/NPC activation, campaign saves and ordinary play through an
+ending remain unfinished.
+
 ### Local checkpoint: pointer templates and their original allocator pool
 
 At runtime revision `f511a790`, the selected `PAV` class-pointer template argument
