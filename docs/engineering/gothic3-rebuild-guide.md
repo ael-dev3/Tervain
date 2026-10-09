@@ -210,7 +210,7 @@ runtime preserved unchanged by this integration.
 
 The FILE continuation merged through [PR #190](https://github.com/ael-dev3/Tervain/pull/190)
 as `b2c6524392bcb60e8f6b307868a72bc8d87042ad` after successful CI run
-`37894880852`. Its Pages run `37895942991` was observed in progress.
+`37894880852`. Its Pages run `37895942991` completed successfully.
 
 Further local revision `5481b8fa` registers the original static shutdown callback
 through the existing Game exit-table owner, preserving CALL/RET and source
@@ -221,8 +221,11 @@ All 53 focused checks across three files, typechecking and source regeneration
 pass; the production build passed in 40.69 seconds. A production browser entered
 Ardea with 202 scene objects, 70 character resources and HP 100, observing
 `20466654 -> 204b11b0` after 2,759 startup operations. NPC activation remains
-incomplete at the ScriptAdmin getter with 0/16 property sets attached. Full-suite
-verification is running. The hosted campaign is still unfinished.
+incomplete at the ScriptAdmin getter with 0/16 property sets attached. All 3,135
+tests across 287 files passed in 422.29 seconds with a 30-second per-test allowance.
+Reconciliation revision `503de5e2` incorporates merged main `b2c65243`; all eight
+conflict paths matched the reviewed PR #190 head, and reconciliation changed no
+runtime, evidence, generator or check. The hosted campaign is still unfinished.
 
 Independent review of PR #187 decoded all 9,147 buffer views in its 107 changed
 GLBs against the previous revision: geometry, images and semantic metadata
