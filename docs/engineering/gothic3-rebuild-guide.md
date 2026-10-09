@@ -72,7 +72,7 @@ Game startup continuations are connected to the browser startup stack.
 | --- | --- | --- |
 | Assets | Selected readers and viewers expose original world, tree and human resources for inspection. | Complete coverage and in-game visual fidelity. |
 | SharedBase startup | The supported absent-`zSpie.txt` profile returns `1` from the direct DLL entry after logging and callback dispatch. | Surrounding CRT wrapper, additional profiles and live Game integration. |
-| Game startup | The validated original `__cinit` PE protection check runs on the browser's retained stack and reaches `20466610`. | Remaining initializer callbacks and complete engine attachment. |
+| Game startup | Published code executes the original PE protection check and math initializer. The locally validated pointer loop reaches `20466626 -> 2046643f` on the browser's retained stack. | The C initializer walker, remaining callbacks and complete engine attachment. |
 | Campaign | The separate browser route can display the reconstructed Ardea scene. | Connected world/NPC activation, quest progression, campaign saves and a playthrough to an ending. |
 
 The Game PE checkpoint passed 3,082 tests, typechecking, source regeneration and
@@ -101,7 +101,14 @@ identities, actual table storage and original CALL/RET cleanup. The loop reaches
 across four files pass, including changed/unknown later slots and a foreign PTD
 codec. The production build passes, and a production browser observed the
 actual continuation at `20466626`. All 3,087 tests across 284 files pass with
-a 30-second per-test allowance. Publication remains pending.
+a 30-second per-test allowance. The checkpoint is submitted in
+[PR #185](https://github.com/ael-dev3/Tervain/pull/185); it is still open.
+
+The next local work connects the original C initializer walker to the existing
+Game exit-table owner. That work is unvalidated and is excluded from the results
+above. The five non-null C initializers must execute in their original table
+order before startup can enter the C++ initializer table. Later world and NPC
+activation still require their own implementation and browser evidence.
 
 ### Original files and reproducible outputs
 
