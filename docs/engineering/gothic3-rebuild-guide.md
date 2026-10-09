@@ -98,6 +98,16 @@ lower instructions on the startup stack, and it does not claim a returned
 initializer or completed property registration. Eleven focused checks across three
 files and typechecking pass; broad validation and browser proof remain pending.
 The preceding root-return build at `45b1e5d5` passed in 43.99 seconds.
+
+The next local diagnostic continuation translates the formatter entry's retained
+frame from the exact 25-instruction source selection. Its FILE, format and
+varargs inputs are actual diagnostic objects. Saved caller-register bits remain
+unknown, and cookie XOR EBP retains an opaque expression over the canonical
+cookie image and relative frame. Seven local DWORDs are zeroed; the pending
+LocaleUpdate call retains its NULL locale argument and uninitialized 16-byte
+receiver. Execution stops at `100b53ab -> 100a74b6`. This local frame is separate
+from instruction interpretation on the Game startup stack. Eight focused checks
+pass; LocaleUpdate, formatting, diagnostic dispatch and return remain unfinished.
 The root-insertion revision `6d7c14a7` passed all 3,185 tests across 294 files
 in 485.24 seconds and built in 44.31 seconds. These results apply to that earlier
 revision, before root cleanup registration, Status integration and TLS loading.

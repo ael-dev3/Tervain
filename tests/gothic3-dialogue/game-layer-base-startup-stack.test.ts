@@ -58,7 +58,7 @@ describe('original Game C++ class-name initializers on the retained browser stac
       reason: f.game.attachProgress.setEnvpProgress!.boundary,
       callbacks: NativeGameExitTable.forCrt(f.game.crt).snapshot().callbackCells.length }).toEqual({
         next: { address: '20466654', name: 'translatedCrtCall', target: '204b1dd0' },
-        reason: 'Translated Arena Status initializer pending: Property registration Message.Debug at 10088191: Unowned SharedBase output formatter at 100b5355 called from 100a7eff', callbacks: 159,
+        reason: 'Translated Arena Status initializer pending: Property registration Message.Debug at 10088191: Unowned SharedBase output LocaleUpdate at 100b53ab -> 100a74b6 (formatter 100b5355 called from 100a7eff)', callbacks: 159,
       });
     const arenaRoot=f.game.crt.imageStorage('arenaRootWrapper');
     const arenaVtable=arenaRoot.pointer(0).get() as NativeBytePointer;

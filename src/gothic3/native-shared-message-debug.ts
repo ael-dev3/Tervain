@@ -6,6 +6,8 @@ import {NativeSharedStaticTls} from './native-shared-static-tls';
 import {NativeHeapObjectViews} from './native-heap-views';
 import type {NativeBytePointer} from './native-pointer-geometry';
 import type {NativeValue} from './dialogue';
+import {NativeSharedCrtSecurityCookie} from './native-shared-crt-security-cookie';
+import {admitRegistrationOutputSource,registrationOutputPrefix} from './native-registration-output-source';
 const owners=new WeakMap<NativeRuntimePlatform,NativeSharedMessageDebug>();
 const token=Object.freeze({});
 const formatText="bCPropertyObjectTypeBase::RegisterPropertyTemplate - property '%s' with valuetype '%s' added.";
@@ -24,6 +26,11 @@ export class NativeSharedMessageDebug {
  #buffer:NativeHeapObjectViews|null=null;
  #format:NativeBytePointer;
  #trace:string[]=[];
+ #active=false;
+ #formatterFrame:NativeHeapObjectViews|null=null;
+ #formatterLocale:NativeHeapObjectViews|null=null;
+ #formatterCookieExpression:Readonly<{cookie:NativeHeapObjectViews;frame:NativeHeapObjectViews;ebpOffset:number}>|null=null;
+ #formatterRegisters:Readonly<{eax:NativeHeapObjectViews;ebx:NativeBytePointer;esi:0;edi:NativeHeapObjectViews;ecx:NativeHeapObjectViews}>|null=null;
  private constructor(private readonly platform:NativeRuntimePlatform,proof:object){
   if(proof!==token)throw new Error('Canonical SharedBase diagnostic owner required');
   if(source.sharedBaseSha256!=='5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214')throw new Error('Original SharedBase module required');
@@ -43,6 +50,8 @@ export class NativeSharedMessageDebug {
  }
  registerProperty(propertyName:NativeBytePointer,typeName:NativeBytePointer):NativeValue<void>{
   if(this.#boundary)return {known:false,reason:this.#boundary};
+  if(this.#active){this.#boundary='Reentrant property registration diagnostic';return {known:false,reason:this.#boundary};}
+  this.#active=true;
   try{
    const tls=fact(NativeSharedStaticTls.forPlatform(this.platform));
    this.#buffer=fact(NativeSharedStaticTls.prototype.debugBuffer.call(tls));
@@ -61,12 +70,48 @@ export class NativeSharedMessageDebug {
    this.#file.writeUnsigned(4,0x7fffffff);
    this.#file.writeUnsigned(12,0x42);
    this.#trace.push('100a7eff.callOutputFormatter');
-   // _output_l first needs its own cookie/stack and SharedBase LocaleUpdate
-   // /PTD owners. Its captured source is not an executable owner yet.
-   throw new Error('Unowned SharedBase output formatter at 100b5355 called from 100a7eff');
-  }catch(error){this.#boundary=error instanceof Error?error.message:String(error);return {known:false,reason:this.#boundary};}
+   this.#prepareFormatterEntry();
+   throw new Error('Unowned SharedBase output LocaleUpdate at 100b53ab -> 100a74b6 (formatter 100b5355 called from 100a7eff)');
+  }catch(error){this.#boundary??=error instanceof Error?error.message:String(error);return {known:false,reason:this.#boundary};}
+  finally{this.#active=false;}
+ }
+ /** Translate the pinned entry's local frame; this is not instruction
+  * interpretation on the Game startup stack. Saved caller registers and
+  * absolute stack-address bits remain unknown. No return is synthesized. */
+ #prepareFormatterEntry():void {
+  admitRegistrationOutputSource();
+  if(this.#formatterFrame || !this.#file || !this.#arguments || !this.#buffer ||
+    registrationOutputPrefix.length!==25 || registrationOutputPrefix[24]!.va!=='100b53ab' ||
+    registrationOutputPrefix[24]!.instruction!=='CALL 0x100a74b6')
+    throw new Error('Actual original registration formatter entry required');
+  const cookie=NativeSharedCrtSecurityCookie.forPlatform(this.platform);
+  fact(NativeSharedCrtSecurityCookie.prototype.readCookie.call(cookie));
+  if(this.#boundary)throw new Error(this.#boundary);
+  // Relative entry ESP 0x290 leaves room for locals, saved registers,
+  // the locale argument and the pending CALL word. EBP = ESP-4-0x1f8.
+  const frame=physical(0x2a4),ebp=0x94;
+  this.#formatterFrame=frame;
+  frame.pointer(0x294).set(this.#file);
+  frame.pointer(0x298).set(this.#format);
+  frame.writeUnsigned(0x29c,0);
+  frame.pointer(0x2a0).set(this.#arguments);
+  // cookie XOR EBP is retained as an opaque expression; numerical EBP
+  // bits cannot be derived from a JavaScript buffer or relative offset.
+  this.#formatterCookieExpression=Object.freeze({cookie:cookie.fields,frame,ebpOffset:ebp});
+  frame.pointer(ebp-0x30).set(this.#file);
+  frame.pointer(ebp-0x2c).set(this.#arguments);
+  for(const offset of [-0x4c,-0x18,-0x40,-0x20,-0x3c,-0x50,-0x44])frame.writeUnsigned(ebp+offset,0);
+  frame.writeUnsigned(4,0); // Original pushed NULL locale argument.
+  frame.pointer(0).set(Object.freeze({module:'SharedBase',source:'100b53b0'}));
+  this.#formatterLocale=new NativeHeapObjectViews(frame.backing,ebp-0x64,16);
+  this.#formatterRegisters=Object.freeze({eax:this.#file,ebx:this.#format,esi:0,edi:this.#arguments,ecx:this.#formatterLocale});
+  this.#trace.push('100b5355.translatedEntryFrame');
+  this.#trace.push('100b53ab.LocaleUpdate.pending');
  }
  snapshot(){return Object.freeze({boundary:this.#boundary,file:this.#file,arguments:this.#arguments,
   buffer:this.#buffer,format:this.#format,locale:null,trace:Object.freeze([...this.#trace]),
+  formatterFrame:this.#formatterFrame,formatterLocale:this.#formatterLocale,
+  formatterCookieExpression:this.#formatterCookieExpression,
+  formatterRegisters:this.#formatterRegisters,
   formatterReturned:false,terminatorWritten:false,messageDispatched:false,debugReturned:false});}
 }
