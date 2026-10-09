@@ -43,7 +43,7 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  expect(game.known).toBe(true);
  if(!game.known)throw new Error(game.reason);
  expect(game.value.attachResult).toEqual({known:false,
-  reason:'crtAttach204677e4: Unowned Translated Arena Status initializer pending: Property registration Message.Debug at 10088191: Unowned SharedBase registration OnMessage at 1004992b -> 10005560 (MessageAdmin getter returned)'});
+  reason:'crtAttach204677e4: Unowned Translated Arena Status initializer pending: Unowned property registration return after Message.Debug'});
  const diagnostic=NativeSharedMessageDebug.forPlatform(platform).snapshot(),locale=diagnostic.formatterLocale!;
  expect(diagnostic.messageOwner).toBe(runtime.message);
  expect(diagnostic.messageGetterReturned).toBe(true);
@@ -65,6 +65,12 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  expect(diagnostic.messageCallFrame!.pointer<{fields:NativeHeapObjectViews;offset:number}>(8).get()!.fields).toBe(diagnostic.buffer);
  expect([4,12,16,20,24].map(offset=>diagnostic.messageCallFrame!.readUnsigned(offset))).toEqual([1,0,0,0xffffffff,5]);
  expect(diagnostic.messageDispatched).toBe(false);
+ expect(diagnostic.messageCallReturned).toBe(true);
+ expect(diagnostic.debugReturned).toBe(true);
+ expect(runtime.message.snapshot().trace).toContain('10049574.message.threshold.return');
+ expect(runtime.message.onMessageBelowThreshold(2)).toEqual({known:false,reason:'Unowned MessageAdmin.OnMessage callback loop at 1004951d'});
+ expect(runtime.message.onMessageBelowThreshold(0xffffffff)).toEqual({known:true,value:true});
+ expect(runtime.message.onMessageBelowThreshold(-1).known).toBe(false);
  expect(owner.processAttach()).toEqual(result);
  expect(owner.snapshot().wholeCrtTraversalCompleted).toBe(false);
 });

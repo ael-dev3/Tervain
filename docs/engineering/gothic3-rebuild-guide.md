@@ -13,6 +13,19 @@ finishable campaign.
 
 ## How the rebuild works
 
+### Current local checkpoint: filtered diagnostic returns
+
+The registration diagnostic now executes OnMessage's original signed threshold
+comparison against the returned MessageAdmin owner's actual DWORD at offset
+`0x1c`. Type one and threshold one take the original immediate-success branch,
+return AL=1, and execute the six-argument return. Debug then returns at
+`10049931`. No callback is dispatched for this filtered message.
+Types above the live threshold retain an explicit unsupported callback-loop
+boundary. Startup advances to the unfinished property-registration return after
+Debug. Typechecking and six focused checks across combined startup and browser
+NPC services pass, including signed comparison and unsupported-loop checks.
+This local continuation has not been deployed or broadly validated.
+
 ### Current local checkpoint: actual MessageAdmin getter returns
 
 Registration Debug now looks up the runtime-admin factory's unique actual

@@ -40,6 +40,8 @@ export class NativeSharedMessageDebug {
  #messageCallFrame:NativeHeapObjectViews|null=null;
  #messageOwner:NativeMessageAdminModule|null=null;
  #messageGetterReturned=false;
+ #messageCallReturned=false;
+ #debugReturned=false;
  #formatterCookieExpression:Readonly<{cookie:NativeHeapObjectViews;cookieValue:number;frame:NativeHeapObjectViews;ebpOffset:number}>|null=null;
  #formatterRegisters:Readonly<{eax:NativeHeapObjectViews;ebx:NativeBytePointer;esi:0;edi:NativeHeapObjectViews;ecx:NativeHeapObjectViews}>|null=null;
  private constructor(private readonly platform:NativeRuntimePlatform,proof:object){
@@ -111,7 +113,11 @@ export class NativeSharedMessageDebug {
    if(returned!==owner)throw new Error('Actual registration MessageAdmin getter owner differs');
    this.#messageGetterReturned=true;
    this.#trace.push('10049929.MessageAdmin.getInstance.return');
-   throw new Error('Unowned SharedBase registration OnMessage at 1004992b -> 10005560 (MessageAdmin getter returned)');
+   const accepted=fact(owner.onMessageBelowThreshold(messageFrame.readUnsigned(4)));
+   if(!accepted)throw new Error('Original registration threshold branch must return AL=1');
+   this.#messageCallReturned=true;this.#trace.push('10049578.OnMessage.return');
+   this.#debugReturned=true;this.#trace.push('10049931.Message.Debug.return');
+   return {known:true,value:undefined};
   }catch(error){this.#boundary??=error instanceof Error?error.message:String(error);return {known:false,reason:this.#boundary};}
   finally{this.#active=false;}
  }
@@ -201,5 +207,6 @@ export class NativeSharedMessageDebug {
   messageOwner:this.#messageOwner,messageGetterReturned:this.#messageGetterReturned,
   formatterCookieExpression:this.#formatterCookieExpression,
   formatterRegisters:this.#formatterRegisters,
-  formatterReturned:this.#formatterReturned,terminatorWritten:this.#terminatorWritten,messageDispatched:false,debugReturned:false});}
+  formatterReturned:this.#formatterReturned,terminatorWritten:this.#terminatorWritten,messageCallReturned:this.#messageCallReturned,
+  messageDispatched:false,debugReturned:this.#debugReturned});}
 }
