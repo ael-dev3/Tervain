@@ -1,6 +1,7 @@
 /** Generated original Game LayerBase source admission; no initializer execution. */
 import sourceText from '../../assets/gothic3/layer-base-class-name/source.json?raw';
 import type { NativeCrtSourceRules, NativeCrtImageReceipt } from './native-game-crt-profile';
+import type { NativeGameIoInstruction } from './native-game-crt-io-source';
 const expected = {
   "schema": "gothic3-layer-base-class-name-evidence-v1",
   "module": {
@@ -219,19 +220,25 @@ const expected = {
             "va": "204b11b0",
             "bytes": "e821d7b5ff",
             "instruction": "CALL 0x2000e8d6",
-            "fileOffset": 4919728
+            "fileOffset": 4919728,
+            "rva": "004b11b0",
+            "assemblyLine": 1
           },
           {
             "va": "204b11b5",
             "bytes": "a360477b20",
             "instruction": "MOV [0x207b4760],EAX",
-            "fileOffset": 4919733
+            "fileOffset": 4919733,
+            "rva": "004b11b5",
+            "assemblyLine": 2
           },
           {
             "va": "204b11ba",
             "bytes": "c3",
             "instruction": "RET",
-            "fileOffset": 4919738
+            "fileOffset": 4919738,
+            "rva": "004b11ba",
+            "assemblyLine": 3
           }
         ],
         "entryChain": [],
@@ -484,7 +491,7 @@ const expected = {
       "ordinal": null
     }
   ],
-  "producerSha256": "1b4802aa710fc1e2c37aad4bc6411c5414b0d2152cca2d3d78e5b5a29da270ce",
+  "producerSha256": "0d0842a3d989a8b654438a41fe89af719ab565247be726980978198a9b62b786",
   "sourceOnly": true,
   "executionAdmitted": false,
   "wholeCrtTraversalCompleted": false,
@@ -515,7 +522,7 @@ export const gameLayerBaseImagePins: Record<string, readonly ['coldGlobals' | 'c
 for (const image of source.images) {
   const kind = image.label === 'layerBaseInitializerSlot' ? 'constBytes' : 'coldGlobals';
   const receipt = { ...image, module: 'Game', knownMask: 'ff'.repeat(image.bytes),
-    scope: kind === 'constBytes' ? 'original-file-backed-constant' : 'original-cold-image' };
+    scope: kind === 'constBytes' ? 'original-file-backed-constant' : 'cold-original-image' };
   (kind === 'constBytes' ? constBytes : coldGlobals)[image.label] = receipt;
   gameLayerBaseImagePins[image.label] = [kind, image.address, image.bytes, image.raw, image.sha256];
 }
@@ -532,4 +539,12 @@ export function gameLayerBaseImageReceipt(label: string): NativeCrtImageReceipt 
   const pin = gameLayerBaseImagePins[label];
   if (!pin) throw new Error('Unknown original Game LayerBase image label');
   return gameLayerBaseSourceRules[pin[0]][label]!;
+}
+/** Only the three independently verified initializer rows are interpreted. */
+export function gameLayerBaseInitializerInstruction(address: string): NativeGameIoInstruction {
+  admitGameLayerBaseSource();
+  const initializer = source.module.methods.find(method => method.label === 'layerBaseClassNameInitializer')!;
+  const row = initializer.instructions.find(point => point.va === address);
+  if (!row) throw new Error('Unowned original LayerBase initializer instruction: ' + address);
+  return row;
 }

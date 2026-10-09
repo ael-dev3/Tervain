@@ -29,14 +29,25 @@ imported JSON. The translated `NativeGameLayerBaseClassName` component uses
 canonical Game image fields and the existing Game RTTI, demangler, SharedBase
 string and Game shutdown callback owners. Its cold getter yields
 `eCProcessibleElement`, retains both guard writes and registers cleanup at
-`20034649`. Its component initializer publishes the retained static fields;
-it does not yet run on the actual browser startup stack.
+`20034649`. Its component initializer publishes the retained static fields.
+When browser startup supplies its existing same-platform MemoryAdmin, the
+interpreter executes the initializer's three original instructions on the
+retained Game stack. The getter uses the translated component and a physical
+CALL/RET frame; its 22 native instructions are not interpreted individually.
+The returned module pointer is stored by the original `MOV`, and the original
+`RET` resumes the C++ table loop at `20466656`. The next selected slot contains
+`204b11c0`, whose initializer remains unsupported.
 
 The string holder requests 29 bytes and uses the existing source-audited
 29..32-byte SharedBase pool. Component checks cover the cold name, cleanup,
 cached result, prior pointer, separate module caches, missing dependency,
-unknown guard bytes, missing allocation pools and foreign MemoryAdmin rejection. Focused tests
-across this component, Arena, Game exit-table and CRT demangler passed, together
-with TypeScript checking. These checks do not establish complete C++ startup
-or a playable campaign. The next integration must retain the actual startup
-stack and initializer order.
+unknown guard bytes, missing allocation pools and foreign MemoryAdmin rejection.
+Eighty-six focused tests across this component, startup stack, Game environment,
+Game image owner, exit-table and CRT demangler passed, together with TypeScript
+checking. Additional stack checks verify the successful
+original CALL/store/RET sequence and the retained nested CALL frames when the
+string pool is unavailable. Game startup retains its supplied heap and rejects
+replacement, foreign or caller-shaped MemoryAdmin objects. A profile without a
+supplied heap retains its earlier explicit initializer boundary.
+
+These checks do not establish complete C++ startup or a playable campaign.

@@ -8,6 +8,8 @@ import type { NativeModuleCrtHost } from './native-game-crt';
 import { browserGameCrtPlatformProfile } from './browser-game-crt-platform';
 import type { BrowserGameCrtPlatformProfile } from './browser-game-crt-platform';
 import type { NativeRuntimePlatform } from './native-runtime-platform';
+import { NativeMemoryAdmin } from './native-memory-admin';
+import { bindNativeGameLayerBaseMemory } from './native-game-layer-base-class-name';
 
 const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
 const unknown = (reason: string): { known: false; reason: string } => ({ known: false, reason });
@@ -26,6 +28,7 @@ export interface BrowserGameCrtStartup {
   readonly nativeModuleInstantiated: false;
 }
 interface RetainedStartup {
+  readonly memory: NativeMemoryAdmin | null;
   readonly compatibility: BrowserGameCrtPlatformProfile;
   phase: 'constructing' | 'returned';
   interruption: string | null;
@@ -54,11 +57,12 @@ export function canonicalBrowserGameCrtStartup(graph: BrowserGameCrtStartup,
 
 /** Construct the final host descriptor before the first canonical Game owner.
  * A retained interrupted graph cannot acquire replacement callbacks or replay. */
-export function createBrowserGameCrtStartup(platform: NativeRuntimePlatform): NativeValue<BrowserGameCrtStartup> {
+export function createBrowserGameCrtStartup(platform: NativeRuntimePlatform, memory?: NativeMemoryAdmin): NativeValue<BrowserGameCrtStartup> {
   const profile = browserGameCrtPlatformProfile(platform);
   if (!profile.known) return profile;
   const previous = retained.get(platform);
   if (previous) {
+    if (memory && previous.memory !== memory) return unknown('Browser Game startup cannot replace its retained SharedBase MemoryAdmin');
     if (previous.compatibility !== profile.value) return unknown('Browser Game startup cannot replace its retained compatibility provider');
     if (previous.phase === 'constructing') {
       previous.interruption = 'Reentry into browser Game startup is unowned';
@@ -70,7 +74,11 @@ export function createBrowserGameCrtStartup(platform: NativeRuntimePlatform): Na
     }
     return previous.result;
   }
-  const entry: RetainedStartup = { compatibility: profile.value, phase: 'constructing',
+  if (memory) {
+    const bound = bindNativeGameLayerBaseMemory(platform, memory);
+    if (!bound.known) return bound;
+  }
+  const entry: RetainedStartup = { memory: memory ?? null, compatibility: profile.value, phase: 'constructing',
     interruption: null, host: null, bootstrap: null,
     result: unknown('Browser Game startup is constructing') };
   retained.set(platform, entry);

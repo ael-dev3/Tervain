@@ -11,11 +11,27 @@ import { findNativeSpace } from './native-byte-string';
 import { nativeGameImageReceipt, admitNativeGameCrtSource } from './native-game-crt-profile';
 import { nativeGameTypeInfoForCrt } from './native-crt-undname';
 import type { NativeGameTypeInfoName } from './native-crt-undname';
+import type { NativeRuntimePlatform } from './native-runtime-platform';
 
 const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
 const unknown = <T>(reason: string): NativeValue<T> => ({ known: false, reason });
 const constructionToken = Object.freeze({});
 const owners = new WeakMap<NativeGameCrtOwner, NativeGameLayerBaseClassName>();
+const startupMemory = new WeakMap<NativeRuntimePlatform, NativeMemoryAdmin>();
+
+/** Bind the existing browser heap before Game startup enters its first C++ call. */
+export function bindNativeGameLayerBaseMemory(platform: NativeRuntimePlatform, memory: NativeMemoryAdmin): NativeValue<void> {
+  if (!NativeMemoryAdmin.isForPlatform(memory, platform)) return unknown('Actual same-platform SharedBase MemoryAdmin required');
+  const previous = startupMemory.get(platform);
+  if (previous && previous !== memory) return unknown('Game startup cannot replace its retained SharedBase MemoryAdmin');
+  startupMemory.set(platform, memory);
+  return known(undefined);
+}
+export function nativeGameLayerBaseMemoryForCrt(crt: NativeGameCrtOwner): NativeValue<NativeMemoryAdmin> {
+  const memory = startupMemory.get(crt.host.platform as NativeRuntimePlatform);
+  return memory && NativeMemoryAdmin.isForPlatform(memory, crt.host.platform as NativeRuntimePlatform)
+    ? known(memory) : unknown('Game C++ class-name startup requires its retained SharedBase MemoryAdmin');
+}
 
 function fact<T>(result: NativeValue<T>, operation: string): T {
   if (!result.known) throw new Error(operation + ': ' + result.reason);

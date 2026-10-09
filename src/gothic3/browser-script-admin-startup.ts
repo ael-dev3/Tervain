@@ -84,7 +84,7 @@ export function createBrowserScriptAdminStartup(platform: NativeRuntimePlatform,
       guard();
       if (!initialized.known) throw new Error(initialized.reason);
     }
-    const prerequisiteResult = createBrowserGameCrtStartup(platform);
+    const prerequisiteResult = createBrowserGameCrtStartup(platform, memory);
     guard();
     if (!prerequisiteResult.known) throw new Error(prerequisiteResult.reason);
     const prerequisites = prerequisiteResult.value;

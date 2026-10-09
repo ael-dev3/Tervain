@@ -96,6 +96,15 @@ Game startup continuations are connected to the browser startup stack.
 | Game startup | Merged code completes all five C callbacks, registers the static shutdown callback and reads the original C++ table through its first non-null slot, stopping at `20466654 -> 204b11b0`. | Execute the C++ initializers on the retained startup stack, then finish engine attachment. |
 | Campaign | The separate browser route can display the reconstructed Ardea scene. | Connected world/NPC activation, quest progression, campaign saves and a playthrough to an ending. |
 
+The next local checkpoint connects the first C++ class-name initializer,
+`204b11b0`, to the browser's existing SharedBase heap. Its original CALL, static
+result store and RET execute on the retained startup stack. The translated
+getter uses the actual `eCProcessibleElement` descriptor, both guard fields and
+the original cleanup callback. Successful startup reaches the next table
+target, `204b11c0`; a missing string pool retains the nested CALL frames and
+completed state. This checkpoint has passed 86 focused runtime checks and
+TypeScript checking; it is not yet published.
+
 The Game PE checkpoint passed 3,082 tests, typechecking, source regeneration and
 the production build at runtime revision `9540631a`. It merged through
 [PR #183](https://github.com/ael-dev3/Tervain/pull/183) as
