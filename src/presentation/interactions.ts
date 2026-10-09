@@ -7,7 +7,7 @@ import type { NpcId } from '../game/types';
 import { isWorldPickupItem, WORLD_PICKUP_MODELS } from '../content/pickups';
 import { worldPickupTargetY } from './worldPickups';
 import { hunterTableSurfaceY } from './hunterSupplies';
-import { hunterTradingOpen } from '../game/hunting';
+import { hunterTradingOpen, restockParams } from '../game/hunting';
 import { DEER_BODY, doorwayAhead } from './riding';
 
 export interface Interactable {
@@ -39,7 +39,7 @@ export function buildInteractables(app: App): Interactable[] {
   });
   list.push({
     id: 'hunter_restock', pos: () => ({ ...HUNTER_SUPPLY, y: hunterTableSurfaceY(app.world.terrain) + .12 }), r: HUNTER_SUPPLY.r,
-    prompt: () => S('prompt.restock_arrows'), enabled: () => hunterTradingOpen(st()) && (st().inventory.animal_hide ?? 0) > 0,
+    prompt: () => S('prompt.restock_arrows', restockParams(st())), enabled: () => hunterTradingOpen(st()) && (st().inventory.animal_hide ?? 0) > 0,
     act: () => app.restockArrows(), priority: -.6,
   });
   list.push({

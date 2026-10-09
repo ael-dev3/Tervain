@@ -51,7 +51,7 @@ interface Queued extends SpeechStep {
   at: number;
   chain?: SpeechChain;
   /** A remark of the hero's own waits for a conversation to finish, but not for ever. */
-  remark?: { until: number };
+  remark?: { until: number; cue?: HeroCue; last?: number; turn?: number };
   /** Times it has waited for its voice to load. */
   tries?: number;
 }
@@ -195,10 +195,12 @@ export class SpeechDirector {
     } else if (this.said.has(cue)) return false;
     if (delay === 0 && this.busyFor('hero') > 0) return false;
     const k = this.turns.get(cue) ?? 0;
+    const last = this.lastCue.get(cue);
     this.turns.set(cue, k + 1);
     this.said.add(cue);
     this.lastCue.set(cue, this.clock);
-    this.queue.push({ at: this.clock + delay, line: lines[k % lines.length]!, remark: { until: this.clock + delay + 20 } });
+    // What it was before, so a remark dropped unheard can be said again later (A71).
+    this.queue.push({ at: this.clock + delay, line: lines[k % lines.length]!, remark: { until: this.clock + delay + 20, cue, last, turn: k } });
     this.update(0);
     return true;
   }
@@ -227,6 +229,7 @@ export class SpeechDirector {
         const free = Math.max(this.busy.get('hero') ?? 0, ...[...this.held.values()]);
         if (free > this.clock) {
           if (free + 0.6 <= q.remark.until) this.queue.push({ ...q, at: free + 0.6 });
+          else this.unsay(q);
           this.queue.sort((a, b) => a.at - b.at);
           continue;
         }
@@ -265,10 +268,23 @@ export class SpeechDirector {
   clear() {
     // Forgetting scheduling metadata must also stop the sources belonging to the old session.
     for (const speaker of this.busy.keys()) this.hooks.hush?.(speaker);
+    // A hero remark still waiting was never heard, so it is not yet said (A71).
+    for (const q of this.queue.slice().reverse()) this.unsay(q);
     this.queue = [];
     this.busy.clear();
     this.held.clear();
     this.chains.clear();
+  }
+
+  /** Undo a hero remark's bookkeeping when it is dropped before it started (A71). */
+  private unsay(q: Queued) {
+    const cue = q.remark?.cue;
+    if (cue === undefined) return;
+    if (q.remark!.last === undefined) {
+      this.said.delete(cue);
+      this.lastCue.delete(cue);
+    } else this.lastCue.set(cue, q.remark!.last);
+    this.turns.set(cue, q.remark!.turn ?? 0);
   }
 
   private enqueueChain(cast: readonly NpcId[], steps: SpeechStep[], at: number, interaction: boolean, talk?: number) {

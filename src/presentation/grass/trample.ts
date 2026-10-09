@@ -25,6 +25,8 @@ export interface GrassMover {
 }
 
 export const TRAMPLE_MAX_MOVERS = 48;
+/** Footprints kept waiting for a GPU step; older ones are dropped beyond this (A71). */
+export const TRAMPLE_MAX_PENDING = TRAMPLE_MAX_MOVERS * 8;
 /** The field advances at its own fixed rate, so recovery is the same at any frame rate. */
 const STEP = 1 / 30;
 /** Seconds for a push and for flattening to recover to a third. */
@@ -147,10 +149,14 @@ export class GrassTrample {
 
   /** One-off brush footprints. Keep every sample until a GPU step consumes it, even when render frames run faster. */
   queueStamps(stamps: readonly GrassMover[]) {
-    if (this.disposed) return;
+    // Without half-float targets update() never runs a step, so nothing would ever drain the queue (A71).
+    if (this.disposed || !GPU.halfTargets) return;
     for (const stamp of stamps) {
       if ([stamp.x, stamp.z, stamp.radius].every(Number.isFinite) && stamp.radius > 0) this.pendingStamps.push({ ...stamp });
     }
+    // A stalled field (hidden tab, no steps) keeps only the newest footprints, like the ripple queue (A71).
+    const over = this.pendingStamps.length - TRAMPLE_MAX_PENDING;
+    if (over > 0) this.pendingStamps.splice(0, over);
   }
 
   /** Movers inside the field now (for tests and the debug panel). */

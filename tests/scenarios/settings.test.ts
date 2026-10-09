@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { DEFAULT_BINDINGS, defaultSettings, loadSettings, saveSettings } from '../../src/platform/settings';
+import { DEFAULT_BINDINGS, assignSlot, cancelsCapture, defaultSettings, loadSettings, resetToDefaults, saveSettings } from '../../src/platform/settings';
 
 afterEach(() => vi.unstubAllGlobals());
 
@@ -59,5 +59,30 @@ describe('persisted desktop settings', () => {
       storage(value);
       expect(loadSettings()).toEqual(defaultSettings());
     }
+  });
+});
+
+describe('settings panel rebinding (A71)', () => {
+  it('rebinding a slot to the key in its other slot keeps one copy instead of "W / W"', () => {
+    const b = defaultSettings().bindings;
+    b.forward = ['KeyW', 'ArrowUp'];
+    assignSlot(b, 'forward', 1, 'KeyW');
+    expect(b.forward).toEqual(['KeyW']);
+    assignSlot(b, 'forward', 1, 'ArrowUp');
+    expect(b.forward).toEqual(['KeyW', 'ArrowUp']);
+  });
+  it('lets Escape be bound back to pause while it still cancels every other rebind', () => {
+    expect(cancelsCapture('pause', 'Escape')).toBe(false);
+    expect(cancelsCapture('forward', 'Escape')).toBe(true);
+    expect(cancelsCapture('forward', 'KeyP')).toBe(false);
+  });
+  it('Reset to defaults asks for a world rebuild only when the quality actually changes', () => {
+    const st = defaultSettings();
+    st.bindings.pause = ['KeyP'];
+    expect(resetToDefaults(st)).toBe(false);
+    expect(st.bindings.pause).toEqual(['Escape']);
+    st.quality = 'low';
+    expect(resetToDefaults(st)).toBe(true);
+    expect(st.quality).toBe('high');
   });
 });

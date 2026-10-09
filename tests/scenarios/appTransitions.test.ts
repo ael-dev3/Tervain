@@ -832,6 +832,22 @@ describe('map keyboard capture routing', () => {
   });
 });
 
+describe('panel keys (A71)', () => {
+  it('lets the journal key (Tab) reach Input to close the journal instead of trapping focus', () => {
+    const { app, call } = fixture();
+    const trapTab = vi.fn(() => true);
+    Object.assign(app.panels, { isOpen: true, trapTab });
+    Reflect.set(app, 'mode', 'play'); Reflect.set(app, 'panelKind', 'journal');
+    const event = { code: 'Tab', defaultPrevented: false, preventDefault: vi.fn(), stopPropagation: vi.fn() };
+    call('onUiKey', event);
+    expect(trapTab).not.toHaveBeenCalled();
+    expect(event.preventDefault).not.toHaveBeenCalled();
+    Reflect.set(app, 'panelKind', 'pause');
+    call('onUiKey', event);
+    expect(trapTab).toHaveBeenCalledWith(event);
+  });
+});
+
 describe('shell corrections (A70)', () => {
   it('prepares the replaced title backdrop after a world rebuild for another quality, so it draws again', async () => {
     const { app, call, nextWorld } = rebuildFixture();
@@ -880,6 +896,20 @@ describe('shell corrections (A70)', () => {
     Object.defineProperty(second.input, 'locked', { get: () => true });
     second.call('respawn');
     expect(second.app.openPause).not.toHaveBeenCalled();
+  });
+
+  it('restarts the autosave countdown on a load and on respawn (A71)', () => {
+    const { app, call } = fixture();
+    Reflect.set(app, 'autosaveTimer', 0.5);
+    call('beginPlay', { recovered: null });
+    expect(Reflect.get(app, 'autosaveTimer')).toBe(90);
+    Object.assign(app, {
+      mode: 'dead', checkpoint: { x: 0, y: 0, z: 0, yaw: 0 }, enemies: [], hitStop: 0, autosaveTimer: 0.5,
+      world: { ...app.world, terrain: {} }, player: { ...app.player, stamina: 0 },
+      cam: { ...app.cam, reset: vi.fn() }, speech: { ...app.speech, hero: vi.fn() },
+    });
+    call('respawn');
+    expect(Reflect.get(app, 'autosaveTimer')).toBe(90);
   });
 });
 

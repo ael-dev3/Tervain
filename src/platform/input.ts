@@ -57,7 +57,8 @@ export class Input {
   private toggledThisFrame = new Set<Action>();
   private blockedCodes = new Set<string>();
   private blockedPad = new Set<number>();
-  private stickNeedsNeutral = false;
+  /** Axes that must return near rest after a reset; each recovers on its own so resting drift on one never locks all (A71). */
+  private stickNeedsNeutral = new Set<'lx' | 'ly' | 'rx' | 'ry'>();
   /** Reported once per gamepad D-pad/stick menu step. */
   onNavigate: ((dx: number, dy: number) => void) | null = null;
   private navCooldown = 0;
@@ -117,7 +118,8 @@ export class Input {
     const bindings = this.getSettings().bindings;
     const boundChord = chord && modifiers.every(([active, name]) => !active || ['Left', 'Right'].some((side) => {
       const code = `${name}${side}`;
-      return this.down.has(code) && ACTIONS.some((action) => bindings[action].includes(code));
+      // A bound modifier held across a panel or blur sits in blockedCodes until released; it still owns the chord (A71).
+      return (this.down.has(code) || this.blockedCodes.has(code)) && ACTIONS.some((action) => bindings[action].includes(code));
     }));
     if (chord && !boundChord) return;
     // A bound save or load key never reloads the page, whatever is open or focused: F5 with a panel open used to reload
@@ -211,7 +213,7 @@ export class Input {
     this.toggles = {};
     this.toggledThisFrame.clear();
     this.padAxes = { lx: 0, ly: 0, rx: 0, ry: 0 };
-    this.stickNeedsNeutral = true;
+    this.stickNeedsNeutral = new Set(['lx', 'ly', 'rx', 'ry']);
     this.lookX = this.lookY = this.wheel = 0;
     this.swallowClick = false;
     this.navCooldown = 0;
@@ -241,9 +243,10 @@ export class Input {
     this.gamepadConnected = true;
     const dz = (v: number) => (Math.abs(v) < 0.18 ? 0 : (v - Math.sign(v) * 0.18) / 0.82);
     this.padAxes = { lx: dz(pad.axes[0] ?? 0), ly: dz(pad.axes[1] ?? 0), rx: dz(pad.axes[2] ?? 0), ry: dz(pad.axes[3] ?? 0) };
-    if (this.stickNeedsNeutral) {
-      if (Object.values(this.padAxes).every((axis) => axis === 0)) this.stickNeedsNeutral = false;
-      else this.padAxes = { lx: 0, ly: 0, rx: 0, ry: 0 };
+    for (const axis of this.stickNeedsNeutral) {
+      // Below 0.35 counts as released, so a worn stick resting just past the deadzone still recovers (A71).
+      if (Math.abs(this.padAxes[axis]) < 0.35) this.stickNeedsNeutral.delete(axis);
+      else this.padAxes[axis] = 0;
     }
     const now = new Set<number>();
     pad.buttons.forEach((b, i) => {

@@ -27,6 +27,7 @@ export function nextHint(s: WorldState): Hint {
   if (!has('cracked_sluice')) return { key: 'hint.see_sluice', place: 'sluice' };
   if (!has('diversion_and_seep')) return { key: 'hint.see_quarry', place: 'quarry' };
   const inv = s.inventory;
-  if ((inv.sluice_brace ?? 0) < 1) return { key: 'hint.get_brace', place: 'quarry' };
+  // The wrench is a separate pickup: without it the repair fails at the sluice, so the yard comes first (A71).
+  if ((inv.sluice_brace ?? 0) < 1 || (inv.gate_wrench ?? 0) < 1) return { key: 'hint.get_brace', place: 'quarry' };
   return { key: 'hint.stabilize', place: 'sluice' };
 }

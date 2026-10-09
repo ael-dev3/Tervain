@@ -9,7 +9,7 @@ import { S } from './content/strings';
 import { CLOCK_RATE } from './game/constants';
 import { Game } from './game/game';
 import { nextHint } from './game/hints';
-import { huntingHint } from './game/hunting';
+import { huntingHint, restockParams } from './game/hunting';
 import { INSPECT_POINTS } from './content/inspect';
 import { ITEMS, itemAction } from './content/items';
 import { hasFact, hourOfDay, evalAll, createInitialState, formatClock, clockDay, evalCond } from './game/state';
@@ -858,6 +858,9 @@ export class App {
     this.clockAcc = 0;
     this.hitStop = this.deathRemaining = 0;
     this.bellClock = 3;
+    // A fresh session waits a full interval: the last session's leftover countdown would otherwise autosave a just-loaded
+    // older slot over the newer auto slot within a second (A71).
+    this.autosaveTimer = 90;
     if (fromLoad?.recovered) this.hud.toast(S(`menu.recovered.${fromLoad.recovered}`));
     if (this.settings.reducedMotion) this.hud.setVignette(0);
     this.canvas.focus?.({ preventScroll: true });
@@ -1269,6 +1272,10 @@ export class App {
     }
     if (!(this.mode === 'title' || this.panels.isOpen)) return;
     if (this.input.captureNext) return;
+    // The open panel's own key (Tab for the journal by default) reaches Input so it toggles the panel shut instead of
+    // moving focus (A71).
+    const own = this.panelKind === 'journal' || this.panelKind === 'map' || this.panelKind === 'inventory' ? this.panelKind : null;
+    if (this.mode === 'play' && own && this.settings.bindings[own].includes(e.code)) return;
     if (this.panels.trapTab(e)) return;
     const el = document.activeElement as HTMLElement | null;
     // The map consumes its arrows/+/- locally; capture-phase menu navigation must not steal those keys first.
@@ -1530,7 +1537,7 @@ export class App {
     if (this.mode !== 'play' || this.overlay !== 'none' || this.worldPaused) return;
     this.game.setPlayerTransform(this.player.x, this.player.y, this.player.z, this.player.yaw);
     const result = this.game.dispatch({ t: 'restockArrows' });
-    if (!result.ok) this.hud.toast(S(`hunting.${result.reason}`), 'bad');
+    if (!result.ok) this.hud.toast(S(`hunting.${result.reason}`, restockParams(this.game.state)), 'bad');
     else this.audio.pickup();
   }
 
@@ -2144,6 +2151,7 @@ export class App {
     this.cam.yaw = this.checkpoint.yaw;
     this.cam.reset();
     this.hitStop = 0;
+    this.autosaveTimer = 90; // the countdown restarts with the life, as it does with a load (A71)
     this.input.reset();
     this.speech.hero('respawn', { delay: 1, again: 1 });
     // Escape or leaving the window during the fall could not pause a dead player; it pauses now, rather than the world
@@ -2239,7 +2247,7 @@ export class App {
     if (this.mode === 'title') return;
     const s = this.game.state;
     const hint = nextHint(s);
-    const obj = this.settings.guidance ? S(huntingHint(s) ?? hint.key) : null;
+    const obj = this.settings.guidance ? S(huntingHint(s) ?? hint.key, restockParams(s)) : null;
     this.hud.update({
       health: s.player.health,
       maxHealth: s.player.maxHealth,

@@ -167,6 +167,26 @@ export function codeLabel(code: string | null | undefined): string {
 }
 
 /** Find another action already using this code (for conflict feedback while rebinding). */
+/** Writes `code` into one slot of `action`, dropping it from the action's other slot so a binding never reads "W / W"
+ * and silently loses the key that slot held (A71). */
+export function assignSlot(b: Bindings, action: Action, idx: number, code: string): void {
+  const slots = [...b[action]];
+  slots[idx] = code;
+  b[action] = slots.filter((c, i) => c && (i === idx || c !== code));
+}
+
+/** Escape cancels a rebind, except for pause, so a pause key moved off Escape can be put back on it (A71). */
+export function cancelsCapture(action: Action, code: string): boolean {
+  return code === 'Escape' && action !== 'pause';
+}
+
+/** Restores every default and reports whether the world needs rebuilding: only a quality change does (A71). */
+export function resetToDefaults(st: Settings): boolean {
+  const quality = st.quality;
+  Object.assign(st, defaultSettings());
+  return st.quality !== quality;
+}
+
 export function findConflict(b: Bindings, action: Action, code: string): Action | null {
   for (const a of ACTIONS) {
     if (a !== action && b[a].includes(code)) return a;
