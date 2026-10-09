@@ -10757,6 +10757,6 @@ Six focused checks and typechecking pass, including original flag outputs,
 shared OS storage identity and rejection of a damaged caller return word before
 descriptor allocation. Four existing complete-startup fixtures now use explicit
 30-second limits, following an observed five-second SpyAdmin timeout in PR #166;
-their assertions are unchanged. Full-suite and production-build validation are
-pending. This local continuation is not yet published and has no production
+their assertions are unchanged. The full suite passed 2,988 tests across
+277 files in 272.87 seconds; the production build also passed. This local continuation is not yet published and has no production
 caller. Complete startup and campaign integration still require further work.
