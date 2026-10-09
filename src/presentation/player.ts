@@ -1067,7 +1067,7 @@ export class Player {
     poseRig(this.rig, pose, dt);
     applyFlash(this.rig, this.rig.hitFlash);
     if (this.rig.hitFlash > 0) this.rig.hitFlash = Math.max(0, this.rig.hitFlash - dt * 4);
-    this.rig.root.position.set(this.x, this.y, this.z);
+    this.rig.root.position.set(this.x, this.y + seat, this.z);
     this.rig.root.rotation.y = this.yaw;
     this.huntingVisual.setSkinning(this.skinningProgress, this.channel?.t ?? 0, this.skinningHeight);
     this.huntingVisual.apply(dt);

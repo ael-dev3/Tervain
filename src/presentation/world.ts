@@ -584,7 +584,9 @@ export class WorldScene {
     const night = this.sky.state.nightness;
     // Inside a room the sky's fill is mostly shut out and the room's own warm light takes over (A66). Without
     // shadows (Low) the sun itself would shine through the roof, so it is dimmed there as well.
-    const indoor = this.interiorLight.update(dt, camera.position, night, this.time, settings.quality !== 'low');
+    // Hearth shadows stay off (A70): a further shadow sampler pushed every lit material past the texture-unit limit on
+    // high quality, and the world drew white.
+    const indoor = this.interiorLight.update(dt, camera.position, night, this.time, false);
     this.sky.hemi.intensity *= 1 - 0.55 * indoor;
     this.scene.environmentIntensity = this.skyFill * (1 - 0.6 * indoor);
     if (settings.quality === 'low') this.sky.sun.intensity *= 1 - 0.85 * indoor;

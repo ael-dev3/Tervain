@@ -65,7 +65,9 @@ export async function deduplicateTreeTextures(gltf: GLTF, buffer: ArrayBuffer): 
   const plans = await Promise.all(textures.map(async texture => {
     const textureIndex = gltf.parser.associations.get(texture)?.textures;
     if (!Number.isInteger(textureIndex) || textureIndex! < 0) throw new Error('Tree texture has no valid embedded source association.');
-    const source = json.textures?.[textureIndex!]?.source;
+    // A WebP image is named by its extension, the plain source being absent or a fallback (A70).
+    const def = json.textures?.[textureIndex!] as { source?: number; extensions?: { EXT_texture_webp?: { source?: number } } } | undefined;
+    const source = def?.extensions?.EXT_texture_webp?.source ?? def?.source;
     if (!Number.isInteger(source) || source! < 0) throw new Error('Tree texture has no embedded image.');
     const image = json.images?.[source!], imageView = image && Number.isInteger(image.bufferView) ? json.bufferViews?.[image.bufferView!] : undefined;
     if (!image || image.uri || !imageView || (imageView.buffer ?? 0) !== 0) throw new Error('Tree texture must use embedded image bytes.');

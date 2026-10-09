@@ -1,5 +1,7 @@
 # Tervain bug audit and Gothic 3 improvement proposals
 
+> **Status (A70):** TV-B01, TV-B02 and TV-B03 are fixed. `reproduce.mjs` now verifies the fixes and fails if a defect returns. The proposals are implemented as described in [the A70 record](../../a70-sweep.md).
+
 Audited source: [`cd3c76025cf471980e9ba117c935102148213b1d`][revision],
 8 October 2026. This includes the merged resident rigs, rooms, weathered surfaces,
 download policy and subsequent resident corrections.

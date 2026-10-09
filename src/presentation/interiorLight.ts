@@ -7,9 +7,8 @@ import { fromBuildingLocal, hearthOf, roomHalfSize, type InteriorSpec, type Room
  * light glows from the room's hearth (or hangs from its beams where it has none). One light serves every room, so the
  * number of lights in the scene, and with it every material's shader, never changes.
  *
- * On medium and high quality the hearth casts shadows (A70): benches, tables and posts throw them across the floor and up
- * the walls. The light is always a shadow caster there, so no material recompiles as the hero walks in or out; its
- * shadow map is drawn only while he is inside, and refreshed every other frame.
+ * The hearth can cast shadows (A70) when asked, its map drawn only while the hero is inside and refreshed every other
+ * frame; the world keeps it off, since one more shadow sampler exceeds the texture units of the richest materials.
  */
 export class InteriorLight {
   readonly light = new THREE.PointLight(0xffa25a, 0, 10, 1.4);

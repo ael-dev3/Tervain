@@ -1,5 +1,6 @@
 #!/usr/bin/env node
-// Diagnostic fixtures only: imports the running game's modules without changing them.
+// Diagnostic fixtures only: imports the running game's modules without changing them. Since A70 the same fixtures
+// verify the fixes: each check now fails if its defect returns.
 import fs from 'node:fs';
 import path from 'node:path';
 import assert from 'node:assert/strict';
@@ -45,10 +46,10 @@ try {
       aboveRoof:above.update(1,new THREE.Vector3(b.x,y,b.z),0,1),
       outside:outside.update(1,new THREE.Vector3(b.x+100,y,b.z+100),0,1)};
   `);
-  assert(report.findings['TV-B01'].aboveRoof>0.9);
-  assert.equal(report.findings['TV-B01'].aboveRoof,report.findings['TV-B01'].inside);
+  assert(report.findings['TV-B01'].inside>0.9);
+  assert.equal(report.findings['TV-B01'].aboveRoof,0);
   assert.equal(report.findings['TV-B01'].outside,0);
-  console.log('REPRODUCED TV-B01: above-roof camera classified as indoors');
+  console.log('FIXED TV-B01: a camera above the roof is outdoors; inside the room is indoors');
 
   report.findings['TV-B02']=await page.eval(String.raw`
     const {loadBakedTextures}=await import('/src/presentation/bakedTextures.ts');
@@ -71,9 +72,9 @@ try {
   const texture=report.findings['TV-B02'];
   assert.equal(texture.first,0);assert.equal(texture.attemptsBefore,texture.expectedAttempts);
   assert.equal(texture.restoredStatus,200);assert(texture.restoredBytes>0);
-  assert.equal(texture.retrySame,0);assert.equal(texture.retryOther,0);
-  assert.equal(texture.attemptsAfter,texture.attemptsBefore);
-  console.log('REPRODUCED TV-B02: restored surface downloads are never retried');
+  assert(texture.retrySame>0);assert(texture.retryOther>0);
+  assert(texture.attemptsAfter>texture.attemptsBefore);
+  console.log('FIXED TV-B02: surfaces load once downloads are restored');
 
   report.findings['TV-B03']=await page.eval(String.raw`
     const {Input}=await import('/src/platform/input.ts');
@@ -96,10 +97,10 @@ try {
   `);
   const pad=report.findings['TV-B03'];
   assert.equal(pad.vertical.connected,true);assert(Math.abs(pad.vertical.ry-1)<1e-12);
-  assert.equal(pad.vertical.device,'keyboard');assert.equal(pad.vertical.jumpHint,'Space');
+  assert.equal(pad.vertical.device,'gamepad');assert.equal(pad.vertical.jumpHint,'LB');
   assert.equal(pad.horizontal.device,'gamepad');assert.equal(pad.horizontal.jumpHint,'LB');
-  console.log('REPRODUCED TV-B03: vertical-only controller use keeps keyboard hints');
-  report.result='All three reported defects reproduced at this revision';
+  console.log('FIXED TV-B03: vertical-only controller use switches to controller hints');
+  report.result='All three reported defects are fixed at this revision (A70)';
 } catch(error) {
   report.error=String(error.stack??error);process.exitCode=1;console.error(report.error);
 } finally {
