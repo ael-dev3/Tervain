@@ -18,6 +18,9 @@ import {NativeSharedCrtSecurityCookie} from '../../src/gothic3/native-shared-crt
 import {createBrowserNpcRuntimeAdminOwner} from '../../src/gothic3/native-runtime-platform';
 import {NativeGameArenaStatusProperty} from '../../src/gothic3/native-game-arena-status-property';
 import {NativeGameArenaEnum} from '../../src/gothic3/native-game-arena-enum';
+import {NativeGameFreePointType} from '../../src/gothic3/native-game-freepoint-type';
+import {NativeGameFreePointClassName} from '../../src/gothic3/native-game-freepoint-class-name';
+import {NativeGameExitTable} from '../../src/gothic3/native-game-crt-exit-table';
 
 function platformFixture(){
  return createBrowserGameCrtPlatform({processInputs:browserGameProcessInputs,
@@ -46,8 +49,56 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  const game=createBrowserGameCrtStartup(platform,memory);
  expect(game.known).toBe(true);
  if(!game.known)throw new Error(game.reason);
- expect(game.value.attachResult).toEqual({known:false,
-  reason:'crtAttach204677e4: Unowned Original Game C++ initializer callback is not yet admitted at 204b2130'});
+ expect(game.value.attachResult,game.value.attachProgress.setEnvpProgress?.currentPC).toEqual({known:false,
+  reason:'crtAttach204677e4: Unowned Original Game C++ initializer callback is not yet admitted at 204b23d0'});
+ const executed=new Set(game.value.attachProgress.setEnvpProgress!.effects.map(effect=>effect.pc));
+ for(const pc of ['20072719','20072383','200730dd','204b217a','204b23ca'])expect(executed.has(pc)).toBe(true);
+ const freePoint=game.value.crt.imageStorage('freePointWrapper');
+ const freePointVtable=freePoint.pointer<{fields:NativeHeapObjectViews;offset:number}>(0).get()!;
+ expect(freePointVtable.fields).toBe(game.value.crt.imageStorage('freePointWrapperVtable'));
+ expect(freePointVtable.offset).toBe(0);
+ expect([4,8].map(offset=>freePoint.readUnsigned(offset))).toEqual([11,0]);
+ expect([...freePoint.knownMask.subarray(4,12)]).toEqual(Array(8).fill(255));
+ const freePointTypePointer=freePoint.pointer<{fields:NativeHeapObjectViews;offset:number}>(12).get()!;
+ expect(freePointTypePointer.fields).toBe(game.value.crt.imageStorage('freePointTypeAndGuard'));
+ expect(freePointTypePointer.offset).toBe(0);
+ expect(game.value.crt.imageStorage('arenaRootWrapper')).not.toBe(freePoint);
+ const freePointType=NativeGameFreePointType.forCrt(game.value.crt,memory);
+ expect(freePointType.storage.readUnsigned(60)).toBe(1);
+ expect(freePointType.fields.readUnsigned(0)).toBe(0x20659f94);
+ expect(freePointType.base.pointer(8).get()).toBeNull();
+ expect([12,16].map(offset=>freePointType.base.readUnsigned(offset))).toEqual([0,0]);
+ expect(freePointType.base.readUnsigned(20,1)&1).toBe(1);
+ const freePointState=freePointType.snapshot();
+ expect(freePointState).toMatchObject({entered:true,baseConstructed:true,factoryConstructed:true,registered:true,getterReturned:true});
+ expect(freePointState.trace).toEqual(['200732ed.type.guard1','200732f9.SharedBase.propertyTypeBase.return','200732ff.type.vtable20659f94','20073309.className.return','20073314.namedFactory.return','2007331f.propertySingleton.return','20073327.RegisterTemplate.return1','20073332.cleanup.registered-result0','2007333f.typeGetter.return']);
+ expect(freePointState.slot!.pointer(0).get()).toBe(freePointState.wrapper);
+ expect(new NativeHeapObjectViews(freePointState.wrapper!,0,4).pointer(0).get()).toBe(freePointType.fields);
+ expect(freePointState.callback).toMatchObject({module:'Game',label:'freePointTypeCleanup',entry:'20549b30'});
+ const freePointName=NativeGameFreePointClassName.forCrt(game.value.crt,memory),name=freePointName.get();
+ if(!name.known)throw new Error(name.reason);
+ expect(name.value.text()).toEqual({known:true,value:'gCAIHelper_FreePoint_PS'});
+ expect(freePointName.fields.readUnsigned(8)).toBe(3);
+ expect(freePointName.fields.pointer(4).get()).toBeNull();
+ expect(freePointName.snapshot().callback).toMatchObject({module:'Game',label:'gameClass204b23c0Destructor',entry:'2002ec53'});
+ expect(freePointName.get()).toEqual(name);
+ const classResult=freePointName.input.pointer<{fields:NativeHeapObjectViews;offset:number}>(0).get()!;
+ expect(classResult.fields).toBe(freePointName.fields);expect(classResult.offset).toBe(0);
+ const factoryRoot=freePointType.fields.pointer<{fields:NativeHeapObjectViews;offset:number}>(28).get()!;
+ expect(factoryRoot.offset).toBe(0);
+ expect(factoryRoot.fields.backing).toMatchObject({requestedBytes:36,capacity:40,freed:false});
+ expect([32,36].map(offset=>freePointType.fields.readUnsigned(offset))).toEqual([1,9]);
+ const registeredRoot=factoryRoot.fields.pointer<{fields:NativeHeapObjectViews;offset:number}>(0).get()!;
+ expect(registeredRoot.fields).toBe(freePoint);expect(registeredRoot.offset).toBe(0);
+ expect([...factoryRoot.fields.bytes.subarray(4,36)]).toEqual(Array(32).fill(0));
+ expect([...factoryRoot.fields.knownMask.subarray(4,36)]).toEqual(Array(32).fill(255));
+ const callbacks=NativeGameExitTable.forCrt(game.value.crt).snapshot().callbackCells;
+ expect(callbacks.filter(cell=>cell.callback?.entry==='20549b80')).toHaveLength(1);
+ expect(callbacks.filter(cell=>cell.callback?.entry==='2002ec53')).toHaveLength(1);
+ const freePointBaseString=freePointType.base.pointer(4).get();
+ expect(freePointType.get()).toEqual({known:true,value:freePointType.fields});
+ expect(freePointType.snapshot().wrapper).toBe(freePointState.wrapper);
+ expect(freePointType.base.pointer(4).get()).toBe(freePointBaseString);
  const diagnostic=NativeSharedMessageDebug.forPlatform(platform).snapshot(),locale=diagnostic.formatterLocale!;
  expect(diagnostic.messageOwner).toBe(runtime.message);
  expect(diagnostic.messageGetterReturned).toBe(true);
@@ -144,7 +195,7 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  expect(runtime.message.onMessageBelowThreshold(-1).known).toBe(false);
  expect(owner.processAttach()).toEqual(result);
  expect(owner.snapshot().wholeCrtTraversalCompleted).toBe(false);
-});
+},30000);
 it('retains output and rejects a changed cookie before returning or writing the terminator',()=>{
  const platform=platformFixture(),tls=NativeSharedStaticTls.forPlatform(platform);
  if(!tls.known)throw new Error(tls.reason);expect(tls.value.loadSharedBase().known).toBe(true);
@@ -169,4 +220,4 @@ it('retains output and rejects a changed cookie before returning or writing the 
  expect(state.messageDispatched).toBe(false);
  expect(state.messageCallFrame).toBeNull();
  expect(state.buffer!.knownMask[state.formatterOutputCount!]).toBe(255); // original TLS template stays known
-});
+},30000);

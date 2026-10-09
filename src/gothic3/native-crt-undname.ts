@@ -519,7 +519,7 @@ export function nativeSceneTypeInfoForCrt(crt: NativeEngineCrtOwner): NativeScen
   return name;
 }
 
-export type NativeGameTypeInfoTarget = 'navigation' | 'scriptAdmin' | 'arena' | 'arenaStatus' | 'layerBase' | 'objectRef' | `gameClass${string}`;
+export type NativeGameTypeInfoTarget = 'navigation' | 'scriptAdmin' | 'arena' | 'arenaStatus' | 'layerBase' | 'objectRef' | 'freePoint' | `gameClass${string}`;
 const gameTypeInfoTargets: Readonly<Record<string, {
   readonly descriptorStorage: string;
   readonly decoratedName: string;
@@ -530,6 +530,8 @@ const gameTypeInfoTargets: Readonly<Record<string, {
       label:'class-name initializer '+spec.initializer })])),
   objectRef: Object.freeze({ descriptorStorage: 'objectRefTypeInfoDescriptor',
     decoratedName: '.?AVbCObjectRefBase@@', label: 'ObjectRef base' }),
+  freePoint: Object.freeze({ descriptorStorage: 'freePointTypeInfoDescriptor',
+    decoratedName: '.?AVgCAIHelper_FreePoint_PS@@', label: 'AI FreePoint' }),
   layerBase: Object.freeze({ descriptorStorage: 'layerBaseTypeInfoDescriptor',
     decoratedName: '.?AVeCProcessibleElement@@', label: 'LayerBase property object base' }),
   arenaStatus: Object.freeze({ descriptorStorage: 'arenaStatusTypeInfoDescriptor',

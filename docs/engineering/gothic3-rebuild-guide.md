@@ -44,17 +44,141 @@ Each feature goes through the following steps:
    workflow triggers. Publish the reviewed checkpoint on `/gothic3/` and
    record which behavior it demonstrates.
 
-**Current local boundary:** Arena Status, None and Running initialization
-return through the retained startup stack. The next unsupported callback is
-`204b2130`, for the AI FreePoint wrapper/type. Source capture for that callback
-does not establish that it executes. Complete startup, world activation and
-a new-game-to-ending campaign remain unfinished. Local checkpoints and the
-hosted version can differ; validation below identifies the checkpoint covered.
+**Current local boundary:** Arena Status, None, Running and AI FreePoint
+initialization return through the retained startup stack. FreePoint's later
+class-name initializer also returns, sharing the same CString and cleanup
+owner. The next unsupported C++ initializer is `204b23d0`. Complete startup,
+world activation and a new-game-to-ending campaign remain unfinished. Local
+checkpoints and the hosted version can differ; validation below identifies
+the checkpoint covered.
 
 ### Checkpoint history
 
 The entries below describe successive local states, newest first. Statements
 about missing operations in older entries apply to those earlier checkpoints.
+
+### Current local checkpoint: FreePoint initialization returns
+
+The captured FreePoint wrapper, object-replacement helper and type accessor
+now execute through their original returns. Its property factory registers
+the actual wrapper in the retained root array, and the initializer registers
+its original cleanup callback before returning. The earlier class-name getter
+and later static initializer use one canonical CString owner; cleanup is
+registered once.
+
+The helper reached at `20073024 -> 2002a987` was previously described here as
+a parent-type getter. Further instruction tracing identified it as the
+object-replacement and registration-toggle helper. That interpretation is
+used by the current implementation.
+
+The FreePoint continuation passed all 3,199 tests across 298 files in
+492.49 seconds. After integrating the newer main branch, all 57 focused
+startup and Hero checks passed, and the production build completed in
+47.14 seconds. Publication remains pending. These results establish startup
+progress; a playable campaign is still unverified.
+
+### Browser verification of the FreePoint continuation
+
+The production build completed in 40.50 seconds. In a local production
+preview, Enter Ardea and the model inspector loaded. Selecting
+`Ardea_OutNovice_01` showed its original 11,280-triangle body/head pair.
+The developer panel reported startup stopping at `204b23d0`, confirming the
+continuation reaches the Label initializer in the browser too. The panel
+also reported 0/16 attached property sets and the unconnected Game ScriptAdmin
+getter, so this check does not establish live NPC activation or campaign play.
+
+The next helper's reproducible original instructions and image regions are
+recorded in `assets/gothic3/label-startup/`; its runtime execution is pending.
+
+### Earlier checkpoint: FreePoint wrapper initialization enters
+
+The actual initializer CALL at `204b216a` enters captured wrapper body
+`20073010` on the existing startup stack. It reads the original byte argument
+one, retains its local frame and saved ESI, and applies the recovered XOR/AND/XOR
+flag update to the actual wrapper. Flags become eleven; object and reflected
+type pointer identities remain retained. Startup reaches the unimplemented
+parent-type call at `20073024 -> 2002a987`. Wrapper initialization has not
+returned; its pending frame and previously applied state remain intact.
+
+Typechecking and 31 focused checks across four files pass in 31.51 seconds.
+Generated TypeScript independently regenerates exactly. The preceding
+class-name/factory full suite passed 3,197 tests and failed two five-second
+startup timeouts; those scenarios now have thirty-second limits and their
+unchanged assertions pass. Its build passed in 47.36 seconds. Full validation
+of this later continuation and a finishable campaign remain pending.
+
+### Earlier local checkpoint: FreePoint type registers and returns
+
+The getter reaches the actual existing property singleton and executes the
+recovered SharedBase RegisterTemplate behavior. It allocates the original
+four-byte wrapper with category `0xed`, retains the actual FreePoint type
+pointer, resolves its captured virtual class-name slot, and inserts the wrapper
+into the shared type table. Its captured type cleanup callback `20549b30`
+registers in the same exit table. The getter returns through its retained
+startup CALL/RET frame to `204b2154`; the initializer publishes that actual
+type pointer into its own wrapper's `+12` field. Startup stops at wrapper
+initialization `204b216a -> 20008571`. The initializer itself has not returned.
+
+Typechecking and 31 focused checks across four files pass. Checks inspect the
+table slot, wrapper allocation, type-pointer identity, cleanup capability and
+repeat getter behavior. Independent JSON and generated TypeScript regeneration
+match exactly. Broad validation of this later continuation remains pending.
+
+PR #206 merged at `c658019c`, but its main Pages workflow `37942706952`
+failed on five startup scenarios exceeding their five-second test timeouts;
+3,194 other tests passed. Those five scenarios now have thirty-second
+timeouts and pass locally with their assertions intact. This failed job did
+not publish that merged checkpoint. Full campaign play remains unfinished.
+
+### Earlier local checkpoint: FreePoint class name and factory construct
+
+The actual RTTI descriptor at `20798230` is captured from the matching Game
+DLL and admitted with its original decorated name. The class-name getter
+copies the prior static result into its cache, sets its two guard bits,
+uses the same Game CRT type-info demangler and SharedBase text constructor,
+and returns a retained CString containing `gCAIHelper_FreePoint_PS`.
+Its captured cleanup thunk `2002ec53 -> 20549b60` registers in the same exit
+table. Cleanup execution remains separate. The existing named-factory
+constructor then completes at the actual type's `+0x18` subobject.
+
+Startup stops at property singleton/registration at `2007331f`. Typechecking
+and 21 focused checks across three files pass; independent JSON and generated
+TypeScript regeneration match exactly. The preceding wrapper-only full suite
+passed 3,198 tests and failed one stale NPC-service frontier assertion, now
+updated and passing. Its build passed in 49.39 seconds. Broad validation of
+this later continuation remains pending. Full startup and campaign are unfinished.
+
+### Earlier local checkpoint: FreePoint property-type base constructs
+
+The actual initializer CALL at `204b214f` enters its translated type getter
+through the retained startup frame. The getter uses canonical type storage at
+`207b5088`, sets its original guard bit, invokes the existing SharedBase
+property-type base constructor with flag one, and installs vtable `20659f94`.
+It stops at its original class-name call `20073309 -> 20073120`. The pending
+native getter frame remains on the stack, and repeated entry retains the same
+interruption and CString owner without replaying construction.
+
+Typechecking and seventeen focused checks across two files pass. They inspect
+guard, vtable, base fields, retained string identity and incomplete registration.
+Broad validation of the preceding wrapper checkpoint is separate from this
+later continuation. FreePoint registration, initializer return and complete
+campaign play remain unfinished.
+
+### Earlier local checkpoint: FreePoint wrapper constructor returns
+
+Startup selects original callback `204b2130` and enters its retained CALL frame.
+Generated exact source admission supplies its fourteen original instructions
+and six canonical image receipts. The existing SharedBase wrapper constructor
+executes against FreePoint's separate sixteen-byte storage and returns through
+the same physical stack. Flags become ten, the original object field is zero,
+and the initializer installs the actual FreePoint vtable pointer. Startup
+reaches the unimplemented type getter at `204b214f -> 20035a08`.
+
+Typechecking and seventeen focused checks across two files pass. Checks inspect
+the actual vtable pointer identity, flags, zero fields, untouched type guard
+and separate Arena storage. Independent regeneration of JSON and generated
+TypeScript matches exactly. Broad validation and publication of this later
+continuation remain pending; the initializer and campaign remain unfinished.
 
 ### Current local checkpoint: Running enum returns
 
