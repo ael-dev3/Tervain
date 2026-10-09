@@ -46,8 +46,57 @@ describe('distributed model source notices', () => {
     }
   });
 
+  it('classifies every Meshy source, derived GLB and generated rig as Meshy Pro paid-plan output', () => {
+    const meshy = Object.entries(ledger.sources as Record<string, { generationService: string; license: Record<string, unknown> }>)
+      .filter(([, source]) => source.generationService === 'Meshy');
+    expect(meshy.length).toBeGreaterThan(0);
+    for (const [id, source] of meshy) {
+      expect(source.license.evidenceStatus, id).toBe('meshy-paid-plan-output');
+      expect(source.license.plan, id).toBe('Meshy Pro (paid)');
+      expect(source.license.confirmedAt, id).toBe('2026-10-09');
+      expect(source.license.confirmation, id).toBe('Confirmed by the project owner, 9 October 2026: generated under Meshy Pro.');
+      expect(source.license.terms, id).toMatch(/meshy\.ai\/terms-of-use.*2026-09-19.*section 3\.2/);
+      expect(source.license.notApplicable, id).toMatch(/CC BY 4\.0.*CC0/);
+      expect(source.license.spdx, id).toBeNull();
+    }
+    const meshyIds = new Set(meshy.map(([id]) => id));
+    const publicFiles = ledger.assets.filter((asset: { file: string }) => asset.file.startsWith('public/models/'));
+    for (const asset of publicFiles) {
+      expect(meshyIds.has(asset.sourceId), asset.file).toBe(true);
+      expect(asset.license.evidenceStatus, asset.file).toBe('meshy-paid-plan-output');
+      expect(asset.license.plan, asset.file).toBe('Meshy Pro (paid)');
+    }
+    for (const rig of ledger.generatedRigs) expect(ledger.sources[rig.sourceId].license.evidenceStatus, rig.file).toBe('meshy-paid-plan-output');
+    expect(JSON.stringify(ledger)).not.toContain('pending-source-classification');
+    expect(ledger.serviceRules).toMatchObject({ termsUpdated: '2026-09-19', plan: 'Meshy Pro (paid)', confirmedAt: '2026-10-09' });
+    expect(ledger.serviceRules.sections).toEqual(expect.arrayContaining(['3.1', '3.2', '3.3', '7.2']));
+  });
+
+  it('keeps the records the Meshy plan does not cover separate and unresolved', () => {
+    const hero = ledger.sources['wanderer-animated'];
+    expect(hero.separateRights).toEqual([expect.objectContaining({ evidenceStatus: 'pending-source-rights', component: expect.stringMatching(/Mixamo/) })]);
+    const archive = ledger.assets.filter((asset: { file: string }) => asset.file.startsWith('assets/warpkeep/'));
+    expect(archive.length).toBe(ledger.summary.archivedWarpkeepFiles);
+    for (const asset of archive) {
+      expect(asset.license.spdx, asset.file).toBe('LicenseRef-Warpkeep-Provenance-Required');
+      expect(asset.license.evidenceStatus, asset.file).not.toBe('meshy-paid-plan-output');
+    }
+    expect(ledger.resolutionRequired.join(' ')).toMatch(/Mixamo.*Warpkeep/s);
+  });
+
+  it('states the Meshy Pro classification in every distributed credit', () => {
+    for (const file of ['public/model-licenses.html', 'public/third-party-notices.txt', 'NOTICE', 'docs/engineering/model-licenses.md']) {
+      const text = readFileSync(join(root, file), 'utf8');
+      expect(text, file).toMatch(/Meshy Pro/);
+      expect(text, file).toMatch(/9 October 2026/);
+      expect(text, file).not.toMatch(/plan evidence is pending|classification (is )?(remains )?pending/i);
+    }
+    expect(readFileSync(join(root, 'public/model-licenses.html'), 'utf8')).toContain('created with <a href="https://www.meshy.ai/">Meshy</a>');
+    expect(ledger.credit).toMatch(/^Original-game imported models created with Meshy/);
+  });
+
   it('makes no commercial-clearance claim in the distributed credits', () => {
-    for (const file of ['public/model-licenses.html', 'public/model-licenses.json', 'public/third-party-notices.txt', 'NOTICE']) {
+    for (const file of ['public/model-licenses.html', 'public/model-licenses.json', 'public/third-party-notices.txt', 'NOTICE', 'docs/engineering/model-licenses.md']) {
       const text = readFileSync(join(root, file), 'utf8');
       expect(text, file).not.toMatch(/cleared for commercial|commercially cleared|commercial clearance (is )?(granted|established|confirmed)\b(?! is not)/i);
     }
