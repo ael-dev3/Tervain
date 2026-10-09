@@ -1639,6 +1639,30 @@ function originalVersionLogFixture(){
  owner.processDllSpieCreateFile();owner.processDllSpieTerminate();owner.processDllMessageTerminate();owner.processDllMessageLog();owner.processDllErrorLogCallback();owner.processDllErrorLogAllocation();owner.processDllErrorLogFormatting();owner.processDllErrorLogInsertion();owner.processDllSpyLogCallback();
  return fixture;
 }
+it('rejects damaged final separator frames before the third logger submission',()=>{
+ for(const displacement of [0,4]){
+  const {owner}=originalVersionLogFixture();owner.processDllVersionLogTls();owner.processDllVersionLogFormatting();owner.processDllMessageLog();owner.processDllErrorLogCallback();owner.processDllErrorLogAllocation();owner.processDllErrorLogFormatting();owner.processDllErrorLogInsertion();owner.processDllSpyLogCallback();
+  const before=owner.snapshot(),stack=before.caseState!.stack!.snapshot(),call=stack.calls.at(-1)!;
+  new NativeHeapObjectViews(stack.sharedDllResourceFrame!.handle.backing,call.position+displacement,4).writeUnsigned(0,0);
+  const result=owner.processDllSeparatorPrefix();expect(result.known).toBe(false);if(result.known)throw new Error('Damaged final separator accepted');expect(result.reason).toMatch(/original DLL separator frame|expression slot/);
+  const after=owner.snapshot();expect(after.messageSectionHeld).toBe(false);expect(after.dllEntryReturned).toBeNull();expect(after.trace.filter(row=>row==='10049528.EnterCriticalSection')).toHaveLength(2);
+ }
+},30_000);
+it('returns from original direct SharedBase DLL entry after its final separator',()=>{
+ const {owner}=originalVersionLogFixture();owner.processDllVersionLogTls();owner.processDllVersionLogFormatting();owner.processDllMessageLog();owner.processDllErrorLogCallback();owner.processDllErrorLogAllocation();owner.processDllErrorLogFormatting();owner.processDllErrorLogInsertion();owner.processDllSpyLogCallback();
+ expect(owner.processDllSeparatorPrefix()).toEqual({known:false,reason:'Original SharedBase MessageAdmin initialization log pending at 1004980f'});
+ owner.processDllMessageLog();owner.processDllErrorLogCallback();owner.processDllErrorLogAllocation();owner.processDllErrorLogFormatting();owner.processDllErrorLogInsertion();
+ expect(owner.processDllSpyLogCallback()).toEqual({known:true,value:1});
+ const state=owner.snapshot(),stack=state.caseState!.stack!.snapshot();
+ expect(state.dllEntryReturned).toBe(1);expect(state.dllEntryExecuted).toBe(true);expect(state.dllEntryBoundary).toBeNull();expect(state.wholeCrtTraversalCompleted).toBe(false);expect(state.messageSectionHeld).toBe(false);
+ expect(stack.phase).toBe('returned');expect(stack.boundary).toBeNull();
+ for(const site of ['100a15fc','100a1645','100adc8c'])expect(stack.calls.findLast(row=>row.site===site)!.returned).toBe(true);
+ expect(stack.trace).toContain('100a1607.sharedInitializer.RET');expect(stack.trace).toContain('100a164f.sharedInitializer.RET');
+ expect(stack.trace.some(row=>row.startsWith('100adc91.sharedInitializer.'))).toBe(false);
+ const ring=state.dllFormatImages['10142a58']!.pointer<{fields:NativeHeapObjectViews;offset:number}>(32).get()!.fields;expect(ring.readUnsigned(12)).toBe(3);
+ expect(state.trace.filter(row=>row==='1004956b.LeaveCriticalSection')).toHaveLength(3);
+ const calls=stack.calls.length;expect(owner.processDllEntryPrefix()).toEqual({known:true,value:1});expect(owner.snapshot().caseState!.stack!.snapshot().calls).toHaveLength(calls);
+},30_000);
 it('dispatches the actual version message and returns through original callback cleanup',()=>{
  const {owner}=originalVersionLogFixture(),format=owner.snapshot().dllFormatImages['100e7104']!;owner.processDllVersionLogTls();owner.processDllVersionLogFormatting();
  expect(owner.processDllMessageLog()).toEqual({known:false,reason:'Original SharedBase ErrorAdmin log callback pending at 100494db'});
