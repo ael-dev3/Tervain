@@ -169,6 +169,7 @@ export function reviveState(raw: unknown): WorldState | null {
   }
   if (!isNum(merged.player.maxHealth) || merged.player.maxHealth <= 0) merged.player.maxHealth = base.player.maxHealth;
   merged.player.health = Math.max(0, Math.min(merged.player.maxHealth, merged.player.health));
+  if (typeof merged.player.mount !== 'string' || !/^[0-9]{1,20}$/.test(merged.player.mount)) delete merged.player.mount;
   merged.skills = Array.isArray(raw.skills) && raw.skills.includes('steady_guard') ? ['steady_guard'] : [];
   if (!isObj(merged.evidence)) merged.evidence = {};
   if (!isObj(merged.grants)) merged.grants = {};

@@ -594,11 +594,14 @@ export class HeroAnimationController {
         if (p.straddle) {
           // Astride the saddle (A70): thighs forward and apart round the deer's barrel, knees bent, heels low; the root is
           // already at the saddle, so the hips stay where they are.
-          target['mixamorig:LeftUpLeg'] = [-0.7, 0, -0.45]; target['mixamorig:RightUpLeg'] = [-0.7, 0, 0.45];
-          target['mixamorig:LeftLeg'] = [0.95, 0, 0]; target['mixamorig:RightLeg'] = [0.95, 0, 0];
-          target['mixamorig:Spine'] = [0.08, 0, 0];
-          arm('Left', -0.35, -0.75); arm('Right', -0.35, -0.75);
-          this.bones['mixamorig:Hips'].position.y -= 0.9; break;
+          // Getting up (A71): from standing, the right leg lifts out and over the deer's back as the hips arc up, then
+          // both settle astride; getting down plays it backwards.
+          const m = Math.max(0, Math.min(1, p.mountSwing ?? 1)), over = Math.sin(Math.PI * m);
+          target['mixamorig:LeftUpLeg'] = [-0.7 * m, 0, -0.45 * m]; target['mixamorig:RightUpLeg'] = [-0.7 * m - 0.5 * over, 0, 0.45 * m + 0.9 * over];
+          target['mixamorig:LeftLeg'] = [0.95 * m, 0, 0]; target['mixamorig:RightLeg'] = [0.95 * m + 0.4 * over, 0, 0];
+          target['mixamorig:Spine'] = [0.08 + 0.3 * over, 0, 0];
+          arm('Left', -0.35 - 0.6 * over, -0.75); arm('Right', -0.35 - 0.6 * over, -0.75);
+          this.bones['mixamorig:Hips'].position.y -= 0.9 * m; break;
         }
         target['mixamorig:LeftUpLeg'] = [-1.15, 0, 0]; target['mixamorig:RightUpLeg'] = [-1.15, 0, 0];
         target['mixamorig:LeftLeg'] = [1.35, 0, 0]; target['mixamorig:RightLeg'] = [1.35, 0, 0];
