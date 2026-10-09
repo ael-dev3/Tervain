@@ -63,6 +63,8 @@ export interface Pose {
   rootY?: number;
   /** Seated astride a mount rather than on a bench (A70). */
   straddle?: boolean;
+  /** Getting up into the saddle (A71): 0 standing beside the mount .. 1 seated; the swinging leg goes over between. */
+  mountSwing?: number;
   mode: Mode;
   /** 0..1 speed factor for locomotion. */
   speed: number;

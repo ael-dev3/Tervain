@@ -4,7 +4,7 @@ import type { ItemId, PlaceId } from '../game/types';
 import type { Settings } from '../platform/settings';
 import { ANIMAL_CALL_EVENT, animalCallDetail, type AnimalCall } from './sound/animalAudio';
 import {
-  bellCue, consumeCues, EQUIP, hitCue, landCues, MAP_OPEN, PAGE, pickupCues, SATCHEL_CLOSE, SATCHEL_OPEN, stepCue, swingCue, UNEQUIP, worldCues,
+  bellCue, consumeCues, EQUIP, hitCue, hoofCues, landCues, MAP_OPEN, PAGE, pickupCues, SATCHEL_CLOSE, SATCHEL_OPEN, stepCue, swingCue, UNEQUIP, worldCues,
   type Cue, type SurfaceKind, type WorldAction,
 } from './sound/foley';
 import type { Vec3 } from './sound/soundscape';
@@ -706,6 +706,11 @@ export class AudioEngine {
 
   footstep(surface: SurfaceKind, running: boolean) {
     this.cue(stepCue(surface, running), { reverb: 0.04 });
+  }
+
+  /** The ridden deer's hoof striking (A71). */
+  hoof(surface: SurfaceKind, galloping: boolean) {
+    this.cue(hoofCues(surface, galloping), { reverb: 0.04 });
   }
 
   jump(surface: SurfaceKind) {

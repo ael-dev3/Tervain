@@ -170,6 +170,8 @@ export interface PlayerState {
   yaw: number;
   health: number;
   maxHealth: number;
+  /** The animal he was riding when saved (A71): a load puts him back in its saddle where he was. */
+  mount?: string | null;
 }
 
 export interface QuestState {
