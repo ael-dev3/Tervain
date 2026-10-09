@@ -1,3 +1,4 @@
+import {NativeGameAIHelperAdminType} from './native-game-ai-helper-admin-type';
 import {NativeGameLabelType} from './native-game-label-type';
 import {gameStrlenDwordCandidate} from './native-game-strlen-predicate';
 import {nativeMaskedBitfieldAssignment} from './native-masked-bitfield';
@@ -3069,6 +3070,21 @@ export class NativeX86ThreadStack {
     this.#store(this.#bank,this.#reg('EAX'),this.#moduleWord('labelTypeAndGuard',0));
     const returned=this.#ret(0),source=this.#record(returned).provenance;
     if(source?.kind!=='source'||source.type!=='code'||source.address!=='204b23f4')throw new Error('Actual Label type getter return required');
+  }); }
+  callGameAIHelperAdminTypeSingleton(controller:object):NativeValue<void> { return this.#run(controller,()=>{
+    const binding=this.#setEnvpBinding;if(!binding||binding.controller!==controller)throw new Error('Actual retained Game startup controller required');
+    const point=NativeGameCrtSetEnvp.canonicalAIHelperAdminTypeCallForCrt(binding.owner,binding.crt,controller);if(!point.known)throw new Error(point.reason);
+    if(this.#calls.filter(call=>!call.returned).at(-1)?.site!=='20466654')throw new Error('Actual pending AIHelperAdmin initializer frame required');
+    const crt=binding.crt as NativeGameCrtOwner,memory=nativeGameLayerBaseMemoryForCrt(crt);if(!memory.known)throw new Error(memory.reason);
+    this.#call('204b267f','204b2684');
+    const result=NativeGameAIHelperAdminType.prototype.get.call(NativeGameAIHelperAdminType.forCrt(crt,memory.value));
+    if(!result.known)throw new Error(result.reason);
+    const storage=NativeModuleCrtOwner.canonicalImageForOwner(crt,'aiHelperAdminTypeAndGuard');
+    if(!storage.known||result.value.backing!==storage.value.backing||result.value.bytes.byteOffset!==storage.value.bytes.byteOffset||result.value.bytes.length!==60)
+      throw new Error('Actual retained AIHelperAdmin type return required');
+    this.#store(this.#bank,this.#reg('EAX'),this.#moduleWord('aiHelperAdminTypeAndGuard',0));
+    const returned=this.#ret(0),source=this.#record(returned).provenance;
+    if(source?.kind!=='source'||source.type!=='code'||source.address!=='204b2684')throw new Error('Actual AIHelperAdmin type getter return required');
   }); }
   callGameFreePointTypeSingleton(controller:object):NativeValue<void> { return this.#run(controller,()=>{
     const binding=this.#setEnvpBinding;

@@ -347,6 +347,13 @@ export class NativeGameCrtSetEnvp {
       frame.site==='20466654'&&frame.returnPc==='20466656'&&owner.#requireSourcePoint(owner.#pc).instruction==='CALL 0x20006b0e'
       ?known(undefined):unknown('Actual original Label type-singleton CALL required');
   }
+  static canonicalAIHelperAdminTypeCallForCrt(owner:NativeGameCrtSetEnvp,crt:NativeModuleCrtOwner,controller:object):NativeValue<void> {
+    const active=NativeGameCrtSetEnvp.canonicalControllerForCrt(owner,crt,controller,'invoke');if(!active.known)return active;
+    const frame=owner.#frames.at(-1);
+    return owner.#pc==='204b267f'&&owner.#currentEntry==='204b2660'&&frame?.entry==='204b2660'&&
+      frame.site==='20466654'&&frame.returnPc==='20466656'&&owner.#requireSourcePoint(owner.#pc).instruction==='CALL 0x20016e32'
+      ?known(undefined):unknown('Actual original AIHelperAdmin type-singleton CALL required');
+  }
   static canonicalFreePointTypeCallForCrt(owner:NativeGameCrtSetEnvp,crt:NativeModuleCrtOwner,controller:object):NativeValue<void> {
     const active=NativeGameCrtSetEnvp.canonicalControllerForCrt(owner,crt,controller,'invoke');
     if(!active.known)return active;
@@ -778,6 +785,12 @@ export class NativeGameCrtSetEnvp {
       if(target.kind!=='immediate'||target.value!==0x20006b0e||returnPc!=='204b23f4')throw new Error('Original Label type singleton call target required');
       this.#nextBoundary=Object.freeze({pc:point.va,operation:'translatedCrtCall',target:'20006b0e'});
       fact(NativeX86ThreadStack.prototype.callGameLabelTypeSingleton.call(this.#stack,this.#controller));
+      this.#nextBoundary=null;return returnPc;
+    }
+    if(point.va==='204b267f') {
+      if(target.kind!=='immediate'||target.value!==0x20016e32||returnPc!=='204b2684')throw new Error('Original AIHelperAdmin type singleton call target required');
+      this.#nextBoundary=Object.freeze({pc:point.va,operation:'translatedCrtCall',target:'20016e32'});
+      fact(NativeX86ThreadStack.prototype.callGameAIHelperAdminTypeSingleton.call(this.#stack,this.#controller));
       this.#nextBoundary=null;return returnPc;
     }
     if(point.va==='204b214f') {

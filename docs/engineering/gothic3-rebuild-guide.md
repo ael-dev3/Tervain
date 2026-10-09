@@ -49,7 +49,8 @@ initialization return through the retained startup stack. FreePoint's later
 class-name initializer also returns, sharing the same CString and cleanup
 owner. Label initializer `204b23d0` now executes its wrapper constructor and stops
 after entering AI helper administrator initialization, at reflected-type
-getter CALL `204b267f -> 20016e32`. Complete startup,
+getter return and now stops at wrapper initialization CALL
+`204b269a -> 20026a08`. Complete startup,
 world activation and a new-game-to-ending campaign remain unfinished. Local
 checkpoints and the hosted version can differ; validation below identifies
 the checkpoint covered.
@@ -58,6 +59,21 @@ the checkpoint covered.
 
 The entries below describe successive local states, newest first. Statements
 about missing operations in older entries apply to those earlier checkpoints.
+
+### Current local checkpoint: AI helper administrator type registers and returns
+
+The reflected-type getter sets its guard, constructs the original property-type
+base and named factory, and retains vtable `2065a68c`. Its early class-name
+call uses the same canonical CString owner as later static initializer
+`204b2970`. Registration inserts the actual type in the shared property table
+and registers original cleanup `20549d10`. The getter returns through its
+retained startup frame; the initializer stores its actual type pointer and
+stops at wrapper initialization `204b269a -> 20026a08`.
+
+TypeScript checking and all 31 focused startup tests passed in 31.33 seconds.
+Tests inspect the class-name text and cleanup identity, actual registration
+slot and wrapper allocation, derived vtable, base flag and repeat getter
+return. The complete administrator initializer remains unfinished.
 
 ### Current local checkpoint: AI helper administrator wrapper constructs
 

@@ -24,7 +24,11 @@ decode. Shutdown execution remains unfinished.
 
 The current interpreter executes the SharedBase wrapper constructor, retains
 flags ten and a zero object field, and installs the original derived vtable.
-It stops at reflected-type getter CALL `204b267f -> 20016e32`. The complete
+The type getter now constructs the property-type base and named factory,
+reuses the canonical class-name owner, inserts the actual type in the shared
+property table, registers original cleanup `20549d10`, and returns through
+the retained startup stack. The initializer stores its actual type pointer
+and stops at wrapper initialization CALL `204b269a -> 20026a08`. The complete
 initializer has not returned. TypeScript checking and all 31 focused startup
 tests passed; broad validation and browser proof of this continuation are pending.
 
