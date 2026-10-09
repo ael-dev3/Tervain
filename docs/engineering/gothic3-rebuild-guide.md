@@ -83,6 +83,14 @@ formatter. NPC activation remained incomplete, with zero of sixteen property
 sets attached and an unconnected ScriptAdmin getter. This browser observation
 does not establish a finishable campaign; full-suite validation of that revision
 is still running, and these Arena changes have not been deployed.
+
+Full validation subsequently passed all 3,185 tests across 294 files in 481.17
+seconds at `1f31a021`. Main revision `5a348b20` is integrated at `37455aa9`;
+its Gothic runtime, evidence, generators and dialogue tests remain byte-identical
+to that validated revision. All 41 integrated checks across four files passed,
+including the main quest and model-ledger changes, and the integrated build
+passed in 45.53 seconds. Publication is pending; the supported startup still
+stops at the output formatter, and campaign completion remains unproven.
 Registration passes TLS lookup and prepares its actual FILE buffer, then stops
 at the unsupported output formatter (`100b5355`, called from `100a7eff`).
 This bridge does not interpret the initializer's
