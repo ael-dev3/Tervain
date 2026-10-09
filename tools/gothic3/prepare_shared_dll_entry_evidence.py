@@ -107,6 +107,18 @@ def capture(study, output):
         0x100010e1: 'dllMessageNewHolder',
         0x10007441: 'dllMessageHolderAllocate',
         0x10006c1c: 'dllMessageErrorGet',
+        0x10008b11: 'dllMessageSpyGet',
+        0x100089e5: 'dllMessageSpyCreate',
+        0x10001334: 'dllMessageSpieGet',0x10008887:'dllMessageSpieCreate',
+        0x100acc93:'dllSpieFopen',0x100acbcf:'dllSpieOpenFile',
+        0x100aedf7:'dllSpieMapWin32Error',0x100aede4:'dllSpieDosErrno',0x100aed96:'dllSpieErrorToErrno',
+        0x100ae4cb:'dllSpiePtdLower',0x100ae384:'dllSpiePtdProvider',0x100d0d6b:'dllSpieUnlockDescriptor',0x100d0b5c:'dllSpieSetDescriptorHandle',0x100d19cf:'dllSpieOpenCleanup',0x100acc89:'dllSpieFopenCleanup',0x100bf040:'dllSpieUnlockFile',
+        0x100bbf27:'dllSpieInitDescriptorSection',0x100bbf17:'dllSpieFallbackDescriptorSection',
+        0x100d0d8d:'dllSpieAllocateDescriptor',0x100d0e60:'dllSpieDescriptorUnlockInit',0x100d0f23:'dllSpieDescriptorUnlockTable',
+        0x100d1a2d:'dllSpieSharedOpen',0x100d1931:'dllSpieOpenDispatch',0x100d1122:'dllSpieOpenCore',0x100d44db:'dllSpieFileModeGet',0x100aa49d:'dllSpiePlatformGet',
+        0x100bfd6f:'dllSpieAcquireStream',0x100bfacf:'dllSpieOpenStream',0x100bf012:'dllSpieLockFile',0x100bfe96:'dllSpieStreamUnlock',
+        0x10007cac:'dllMessageRegister',0x1000631b:'dllMessageReserve',
+        0x10004133:'dllErrorBufferMalloc',0x100052fe:'dllErrorBufferHeapAllocate',0x10007644:'dllLargePoolDispatch',0x10007aa9:'dllLargePoolInitialize',
         0x10001db1:'dllErrorCreate',0x100032c4:'dllErrorInvalidate',0x10001c21:'dllMessageRemove',
     })
     pe = native.PE(binary)
@@ -140,6 +152,16 @@ def capture(study, output):
             'instruction': f'JMP dword ptr [0x{iat:08x}]', 'import': receipt})
     result['coldImages'] = []
     for label, address, size in [
+        ('dllSpieErrorMap',0x10140bd8,360),('dllSpieApplicationType',0x102f649c,4),
+        ('dllSpieDescriptorSectionScope',0x100f8d18,28),
+        ('dllSpieDescriptorScope',0x100f8fc0,28),
+        ('dllSpieSharedOpenScope',0x100f9048,28),('dllSpieDefaultFileMode',0x102f7048,4),
+        ('dllSpieStreamScope',0x100f8e20,28),('dllSpieCommitMode',0x102f6f88,4),('dllSpieOpenedFileCount',0x102f6ad4,4),
+        ('dllSpieState',0x10197dc0,28),('dllSpieGuard',0x10197de4,4),('dllSpieOpenFileScope',0x100f8730,28),
+        ('dllSpyShutdownSource',0x100e2890,41),
+        ('dllSpyState',0x101ab11c,32),('dllSpyGuard',0x101ab144,4),
+        ('dllErrorShutdownSource',0x100e2770,22),
+        ('dllErrorBufferScope',0x100f8338,12),('dllLargePoolBins',0x10144214,0x4004),('dllLargePoolRegionFirst',0x10148218,4),('dllLargePoolRegionCount',0x102fb04c,4),
         ('dllErrorState',0x10142a58,44),('dllErrorGuard',0x10142a8c,4),
         ('dllMessageState', 0x10197d6c, 32),
         ('dllMessageGuard', 0x10197d94, 4),
@@ -160,7 +182,7 @@ def capture(study, output):
         raw, section = image_bytes(pe, address, size)
         result['coldImages'].append({'label': label, 'address': f'{address:08x}',
             'size': size, 'bytes': raw.hex(), 'section': section})
-    for label, address in [('dllLogSourceFile', 0x100e7df8), ('procedureName', 0x100e8210), ('translationQuery', 0x100e81ec),
+    for label, address in [('dllSpieFilename',0x100e8088),('dllSpieFileMode',0x100e8094),('dllSpyWindowTitle',0x100e8114),('dllLogSourceFile', 0x100e7df8), ('procedureName', 0x100e8210), ('translationQuery', 0x100e81ec),
             ('translatedVersionQuery', 0x100e81b4), ('localeVersionQuery', 0x100e8188),
             ('versionDelimiter', 0x100e820c)]:
         value = pe.string(address)

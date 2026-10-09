@@ -4,6 +4,121 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local checkpoint — 9 October 2026: SpyAdmin construction and shutdown registration
+
+Original `1004b4af -> 100089e5` now removes and registers SpyAdmin's handler
+through the existing MessageAdmin getter, Remove, Register and Reserve bodies.
+The existing 112-byte record allocation is retained: count becomes 2 and capacity
+remains 9. ErrorAdmin's record stays intact; the second record stores handler
+`10008c06`, the actual SpyAdmin context and priority 1.
+
+Original `1004b83d` calls FindWindowA with NULL class and `[zSpy]`. The platform
+retains a copied diagnostic-window profile at construction and validates its
+service and window identities. The declared empty profile returns NULL, so the
+original constructor restores its saved registers and returns. A supplied window
+retains its opaque identity and follows the original positive branch, stopping
+at unsupported RegisterWindowMessageA (`1004b855`); it never takes the NULL path.
+This profile is separate from observations of native Windows host windows.
+
+Original `1004b4b9 -> 100a72d0` registers the encoded shutdown address `100e2890`.
+Its 41 original bytes are captured; registration does not execute shutdown.
+The SpyAdmin getter returns, and startup reaches the SpieAdmin getter at
+`1004979e -> 10001334`.
+
+Typechecking, focused NULL/positive profile checks, exact DLL regeneration and
+the production build pass. All 2,972 tests across 275 files pass (223.04 seconds).
+The DLL package contains 45 methods and 2,856 body instructions. Complete DLL
+attachment, world activation and campaign integration remain unfinished.
+
+## Local checkpoint — 9 October 2026: SpyAdmin cold getter
+
+Original `10049799 -> 10008b11 -> 1004b480` now executes the SpyAdmin cold
+guard, initializes the physical 24-byte critical section in its 32-byte object,
+and clears the window and mutex fields. The section retains the actual object
+backing and offset. Execution reaches the original constructor call at
+`1004b4af -> 100089e5`; that constructor remains pending.
+
+The getter's body and cold state are captured from the matching DLL. The DLL
+package now contains 44 methods and 2,788 body instructions. Source and emitted
+instruction regeneration compare exactly. Typechecking, the focused getter
+check, the production build and all 2,968 tests across 275 files pass (220.58
+seconds for the full suite). This is local component execution; complete DLL
+startup, live world activation and campaign integration remain unfinished.
+
+## Local checkpoint — 9 October 2026: ErrorAdmin termination registration
+
+Original `100219ad -> 100a72d0` now appends the encoded ErrorAdmin termination
+callback `100e2770` through the existing CRT exit-table walker, lock and pointer
+codec. Its 22 original bytes are captured from the hash-pinned DLL. Registration
+retains code identity; it does not execute the shutdown function. The callback
+occupies the nineteenth exit-table entry, with the actual cursor advancing from
+72 to 76 bytes. The getter and MessageAdmin Create tail-call return, and execution
+reaches `10049799 -> 10008b11`, the original SpyAdmin getter.
+
+This continuation exposed missing local-view registration for initializer calloc
+allocations. Those allocations already had owned heap spans; their actual view,
+backing and byte/mask identities are now retained when the allocator returns,
+allowing later DLL continuations to validate the exit-table storage.
+
+Focused execution, 41 source checks, typechecking, exact DLL evidence regeneration
+and the production build pass. The full suite passes 2,967 tests across 275
+files (235.86 seconds). SpyAdmin and
+SpieAdmin startup, full DLL attachment, live world activation and campaign
+integration remain unfinished.
+
+## Local checkpoint — 9 October 2026: ErrorAdmin callback registration
+
+Original MessageAdmin Register (`10007cac -> 10049650`) reserves nine handler
+records through `1000631b -> 10049d80`. Its NULL-old-buffer request is 108 bytes;
+the actual allocation table selects the dedicated 112-byte pool at
+`10003102 -> 100485f0`. Original initialization allocates a 0x700000-byte region,
+registers its data area and fills the bitmap for 65,462 slots. The allocator
+claims its first slot and the reserve code zeroes the nine-record span.
+
+The original record stores retain handler address `10002df6`, priority 1 and
+the actual ErrorAdmin context pointer. Array count/capacity stores execute,
+common locking and saved registers restore, and the constructor returns to
+the ErrorAdmin getter. Execution reaches termination registration at
+`100219ad -> 100a72d0`. The shutdown callback has been traced; its registration
+and the subsequent SpyAdmin/SpieAdmin getters remain required.
+
+Focused behavior and 40 source checks, typechecking, exact regeneration of both
+packages and the production build pass. The full suite passes 2,965 tests
+across 275 files (267.22 seconds).
+The initializer package contains 137 bodies and 5,500 instructions; the DLL
+package contains 43 methods and 2,772 instructions. This remains local startup
+component work; world and campaign integration remain unfinished.
+
+## Local checkpoint — 9 October 2026: variable-size ErrorAdmin buffer
+
+The original ErrorAdmin buffer Malloc (`10004133 -> 1003d8a0`) now executes its
+owned SEH frame, common MemoryAdmin locking and NULL-old-buffer branch through
+`100052fe -> 1003d790`. The 12,500-byte request selects the variable-size pool
+`10007644 -> 1003d1f0`. Its cold path allocates a 4 MiB region, initializes the
+original size-bin and region-list state, and splits a 13-unit block from the
+region. The returned payload starts at offset 16 and has 13,296 usable bytes;
+its header retains the original allocated marker and unit count. The remaining
+4,083-unit block stays free and linked into the original size bins.
+
+Payload views retain their physical region identity and require the original
+live block header. The common lock, FS and saved registers restore before the
+constructor continues. Its two additional holders allocate through original CRT
+new calls. Execution reaches MessageAdmin callback registration at
+`10022814 -> 10007cac`; the handler reserve and subsequent constructor return
+remain pending.
+
+The selected cold region path captures the first region-list cell. Additional
+region-list growth is not admitted by that capture. Focused behavior and source
+checks, typechecking, exact DLL evidence regeneration and the production build
+pass. The full suite passes 2,963 tests across 275 files (243.52 seconds).
+The DLL package contains 41 methods and
+2,650 instructions. This work remains local; it does not establish complete DLL
+startup, live world activation or playable campaign progression.
+
+PR #162 merged the preceding logging/ErrorAdmin prefix at
+`4d237924f7adf4246d5b6d47cace1cc74393ef04` after successful CI run `37855037370`.
+Pages run `37855751070` completed successfully.
+
 ## Local checkpoint — 9 October 2026: ErrorAdmin getter and cold invalidation
 
 The MessageAdmin Create tail-call enters the original ErrorAdmin getter at
@@ -10593,3 +10708,176 @@ the original division/padding path and changed division evidence. Typechecking a
 across 275 files (243.66 seconds). The FileVersion API return, version-string copy, frees, parsing and
 logging still need integration before complete DLL startup, world activation and
 campaign playthrough can be demonstrated. This continuation remains unpublished.
+
+
+## SpieAdmin startup and CRT stream acquisition (local work, 2026-10-09)
+
+The retained MessageAdmin stack now executes the original SpieAdmin getter,
+critical-section initialization and constructor. It follows the original
+`zSpie.txt` / `r` fopen wrapper and its validation against owned string images.
+The original fopen exception frame remains live while its dependencies execute.
+
+The CRT stream-acquisition body searches the actual initialized FILE pointer
+vector, selects slot 3, initializes its dynamic lock 19 through the original
+lock-construction path and reserves that FILE record. Its nested exception frame
+returns to the parent fopen frame and releases global stream lock 1. The original
+OpenStream parser then reaches shared file-open at `100bfd3a -> 100d1a2d`.
+At this boundary, lock 19 is held, the FILE descriptor is still -1 and no file has
+been opened. The unsupported call is retained for the next continuation.
+
+The source package contains 53 bodies and 3,346 body instructions; independent
+regeneration matches both source JSON and emitted instructions. Focused checks
+verify construction, stream state and rejection of a corrupted caller return
+word before FILE-slot acquisition. Typechecking and the production build passed.
+The first full run passed 2,985 tests with one existing startup-fixture test
+exceeding its five-second limit. That test now has an explicit 30-second limit;
+all three affected focused checks passed. The full rerun passed 2,986 tests
+across 277 files in 323.73 seconds before remote publication. These methods currently have no production callers; complete DLL
+startup, live world activation and campaign integration remain unfinished.
+
+
+## Original shared file-open validation and flags (local work, 2026-10-09)
+
+The pending `100d1a2d` call now executes the original shared-open wrapper,
+argument validator and core prefix. Its nested EH4 frame retains the original
+scope image and caller state. The interpreter records the actual frame's EBP;
+the fopen parent is checked by its retained identity rather than assuming the
+current OpenStream EBP belongs to it.
+
+The original file-mode and platform getters execute against the captured mode
+image and the existing live `osFields` root. That OS root is aliased, preserving
+its earlier initialization. The read-only path computes access `0x80000000`,
+sharing 3, disposition 3 and attributes `0x80`. It stops at the actual descriptor
+allocation call `100d1329 -> 100d0d8d`. FILE slot 3 remains reserved, lock 19 is
+held, and no descriptor or platform file-open return has been invented.
+
+Five additional original bodies bring the package to 58 bodies and 4,063 body
+instructions. Independent source and emitted-instruction regeneration matches.
+Six focused checks and typechecking pass, including original flag outputs,
+shared OS storage identity and rejection of a damaged caller return word before
+descriptor allocation. Four existing complete-startup fixtures now use explicit
+30-second limits, following an observed five-second SpyAdmin timeout in PR #166;
+their assertions are unchanged. The full suite passed 2,988 tests across
+277 files in 272.87 seconds; the production build also passed. This local continuation is not yet published and has no production
+caller. Complete startup and campaign integration still require further work.
+
+
+## Original descriptor allocator prefix (local work, 2026-10-09)
+
+The retained call at `100d1329 -> 100d0d8d` now enters the original descriptor
+allocator and its EH4 frame. It constructs dynamic CRT lock 11 through the
+existing original lock initializer, acquires that table lock, and scans the
+actual initialized 56-byte descriptor records. The first three records are in
+use; record 3 is the first available candidate in this fixture.
+
+The descriptor block's original backing, byte views, masks and DataView are now
+registered as retained local storage when its actual CRT allocation is created.
+Pointer arithmetic therefore checks that same live allocation instead of
+manufacturing a numerical address or replacement block. The original code takes
+lock 10 before reaching `100d0e1c -> 100bbf27`, the descriptor section initializer.
+At that boundary locks 10, 11 and FILE lock 19 are held. Record 3 still has a
+-1 handle, a clear open flag and zero section-initialization count. The record is
+not yet reserved or opened; section initialization and the remaining original
+allocator/open/cleanup bodies must run next.
+
+Three focused checks and typechecking pass. A damaged allocator return word is
+rejected before lock 11 construction or descriptor writes. Independent evidence
+regeneration matches 61 bodies and 4,195 original body instructions. Full-suite
+and production-build validation are pending. This local continuation has no
+production caller; complete engine startup and campaign play remain unfinished.
+
+
+### Descriptor validation follow-up (local work, 2026-10-09)
+
+The production build passed. The first full run passed 2,989 tests and had one
+existing ErrorAdmin variable-pool fixture exceed its five-second limit at
+5.068 seconds. The focused rerun passed. All remaining 19 tests that construct
+the complete version/startup fixture now have explicit 30-second limits;
+a comparison confirms their assertions and other code are unchanged.
+Typechecking and four focused checks pass after that adjustment. The full rerun
+passed 2,990 tests across 277 files in 249.11 seconds for this descriptor prefix.
+
+Separately, the deployed Ardea route was inspected in the Codex browser. Scene
+recovery reported 202 objects, 70 characters and three source routine positions.
+Entering Ardea completed Hero, journal and world-clock loading and rendered the
+scene with grounded Hero coordinates and HP 100/100. This is startup observation
+only: no campaign ending, full NPC behavior or save/reload playthrough was
+verified. PR #168 passed CI, was merged, and its Pages deployment succeeded.
+
+
+## Original descriptor section initializer and return to CreateFileA (local work, 2026-10-09)
+
+The retained `100bbf27` call now executes the original section wrapper and EH4
+frame. Its cache aliases the existing `pointer6ac0` storage; the original decoder
+uses the actual same-platform DecodePointer procedure and preserves the cache's
+identity. Both the cached spin procedure and the original `100bbf17` fallback
+execute against a 24-byte view of the original descriptor record's storage.
+The view is retained only after successful platform initialization.
+
+The original wrapper restores its frame. The allocator increments the descriptor
+initialization count, releases lock 10, enters the descriptor section, reserves
+the record, calculates descriptor index 3 through original signed IDIV and
+releases lock 11. Its own EH4 frame restores the shared-open parent. The core
+then pushes its actual filename, access, share, security attributes, disposition,
+attributes and template handle for `100d1372 CALL EDI`, whose IAT slot is the
+original KERNEL32 CreateFileA import at `102f9660`.
+
+At that boundary descriptor 3 is reserved with its section held, FILE lock 19
+is held, and table locks 10 and 11 are released. The descriptor handle is still
+-1; no platform file-open result is supplied. CreateFileA return, error/status
+mapping, file publication and original stream/descriptor cleanup remain next.
+The supported fallback is selected by the platform profile rather than forced.
+A foreign cached procedure is rejected before section storage is initialized.
+
+Four focused checks and typechecking pass, including original API scalar and
+security-attribute outputs, both initializer paths, cache rejection and source
+receipts. Independent source/runtime regeneration matches 63 bodies and 4,250
+body instructions. The preceding 2,990-test receipt covers the descriptor prefix;
+the combined continuation passed all 2,993 tests across 277 files in 289.32
+seconds. After reconciling the merged checkpoint history without changing the
+committed source tree, a fresh full run passed the same 2,993 tests in 281.64
+seconds. The production build passed. These methods have no production callers,
+and a finishable browser campaign has not been demonstrated.
+
+
+## Original CreateFileA results, errno mapping and FILE publication (local work, 2026-10-09)
+
+PR #169 merged the descriptor and section checkpoint as
+`f7227a67fbab82208cd3e2f8945879166e354d78` after successful validation run
+37866293534. Its Pages deployment 37867316566 completed successfully.
+Claude's documentation audit PR #166 also passed validation, merged as
+`7b9556fd042ff7c675de42625e1baf05ad4f818d`, and deployed successfully in run
+37866667399. Its findings are module fixture evidence, not implemented fixes.
+
+The pending `100d1372 CALL EDI` now resumes only with its actual return word,
+stack cursor, parent EH4 frame, import identity, filename pointer and original
+SECURITY_ATTRIBUTES storage. A copied virtual filesystem declares working
+directory, directories, regular-file bytes and read permission. Lookup determines
+the CreateFileA outcome; no universal absent-file return or host HANDLE is used.
+The supported API mode is GENERIC_READ, share-read/write, OPEN_EXISTING and
+FILE_ATTRIBUTE_NORMAL. Other modes and device/UNC names remain unsupported.
+This is a selected browser filesystem, not a claim about host Windows files.
+
+A missing file returns INVALID_HANDLE_VALUE and Windows error 2; a denied read
+returns error 5. Original `100aedf7`, `100aede4`, `100aed96`, `100aedd1`, the warm
+PTD getter and its TLS provider execute the captured 45-entry error table at
+`10140bd8`. They retain DOS error and errno in the actual PTD and preserve the
+last-error slot across the original getter. Original descriptor and fopen cleanup
+release their sections and FILE lock 19, then the failed fopen returns NULL.
+SpieAdmin reaches its actual shutdown registration call at `1004afc7`.
+
+An existing readable regular file returns a unique same-platform handle and the
+original GetFileType import returns FILE_TYPE_DISK. Original `100d0b5c` publishes
+the handle, the core stores descriptor text flags, and the OpenStream body
+publishes descriptor 3 into FILE slot 3 and increments the opened-file count.
+Original cleanup releases the descriptor section and FILE lock. SpieAdmin reaches
+its actual `1004b208 -> 100ac841` fclose call; close has not executed.
+
+Typechecking and 12 focused checks pass, including missing, denied and present
+files, actual handle/descriptor/FILE publication, lock release, damaged call
+rejection, undeclared filesystem, copied declarations and unsupported modes.
+Independent regeneration matches 73 original bodies and 4,449 body instructions.
+The full suite passed all 3,004 tests across 278 files in 352.45 seconds at
+commit `8f631ed8`. The production build passed.
+These methods still have no production callers. Full startup and a finishable
+browser campaign remain unfinished.

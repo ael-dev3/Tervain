@@ -81,6 +81,40 @@
       "assemblySha256": "e9d1ad2e188470db90fa5d02d1efa3003b01105aa43f633defbde5da989fd637",
       "cSha256": "a55f34cb28601215864a6d1afd760e37ce18ffca69b906aac73ec51c1d0eade9"
     },
+    "pool112Initialize": {
+      "entryVA": "0x10001951",
+      "bodyVA": "0x100467f0",
+      "bodyRanges": "100467f0-100468ae",
+      "instructionCount": 48,
+      "bodyByteCount": 191,
+      "bodyInstructionBytesSha256": "7c4477d8ff4b3a77c47be87c82e89734554f71d89a819080b217ab8680f0dab9",
+      "entryChain": [
+        {
+          "va": "10001951",
+          "bytes": "e99a4e0400",
+          "targetVA": "100467f0"
+        }
+      ],
+      "assemblySha256": "22ee1acb5b4d78f9a4e735ba134095a1fc2128c66c19a4d5d714dd9e5387685b",
+      "cSha256": "b4b89d4a0863a2570b4ddb4e2e82e8b360d65f9c586d527b9893de43243662de"
+    },
+    "pool112Allocate": {
+      "entryVA": "0x10005731",
+      "bodyVA": "0x1003e820",
+      "bodyRanges": "1003e820-1003e8a6",
+      "instructionCount": 51,
+      "bodyByteCount": 135,
+      "bodyInstructionBytesSha256": "7118b5f86e0f261ef751bd535848bb1449aecd61d07f18011fdb4ff52484ce3c",
+      "entryChain": [
+        {
+          "va": "10005731",
+          "bytes": "e9ea900300",
+          "targetVA": "1003e820"
+        }
+      ],
+      "assemblySha256": "def068059bb2be3b32374bd7be052f8758ef5a7f722db3428e106c015e7fee70",
+      "cSha256": "19ff300689c6c9e5177e9c06e0461a406b5a8b3b182054714af01c9d2db141cb"
+    },
     "pool12Initialize": {
       "entryVA": "0x10004683",
       "bodyVA": "0x10045cb0",
@@ -1418,6 +1452,24 @@
       "assemblySha256": "22c77006be4f82b772a619f2bd71e117dc829ad68a5dfb9f09a425d84fd05798",
       "cSha256": "adaef324230ffc45ecf8b9547071577f3081260808be348cf34b0cc0844c0a2d"
     },
+    "pool112Dispatch": {
+      "entryVA": "0x10003102",
+      "bodyVA": "0x100485f0",
+      "bodyRanges": "100485f0-1004866f",
+      "instructionCount": 43,
+      "bodyByteCount": 122,
+      "bodyInstructionBytesSha256": "ae08f33a0b0f57ae64dbceba2d1251cc62f4162d5c56f5114ada6679d2d975cf",
+      "entryChain": [
+        {
+          "va": "10003102",
+          "bytes": "e9e9540400",
+          "targetVA": "100485f0"
+        }
+      ],
+      "assemblySha256": "d864723d646a325e6e75674c2b88b135a278f658f5f63e5672069a6df1caede3",
+      "cSha256": null,
+      "reconstructedCUnavailable": true
+    },
     "pool12Dispatch": {
       "entryVA": "0x100028f6",
       "bodyVA": "0x10047e70",
@@ -2028,6 +2080,18 @@
       "containingEntry": "1000717b",
       "methodLabel": "pool1792Initialize"
     },
+    "100485f0": {
+      "containingEntry": "100485f0",
+      "methodLabel": "pool112Dispatch"
+    },
+    "10001951": {
+      "containingEntry": "10001951",
+      "methodLabel": "pool112Initialize"
+    },
+    "10005731": {
+      "containingEntry": "10005731",
+      "methodLabel": "pool112Allocate"
+    },
     "10047e70": {
       "containingEntry": "10047e70",
       "methodLabel": "pool12Dispatch"
@@ -2543,6 +2607,10 @@
     "10007be9": {
       "containingEntry": "10048ff0",
       "methodLabel": "pool1792Dispatch"
+    },
+    "10003102": {
+      "containingEntry": "100485f0",
+      "methodLabel": "pool112Dispatch"
     },
     "100028f6": {
       "containingEntry": "10047e70",
@@ -3123,6 +3191,54 @@
       "raw": "00070000ff000000",
       "bytes": 8,
       "sha256": "94e4fc08901eaf2f86013992cc1771b5733050ae3db148117174e81539a9c454",
+      "section": {
+        "virtualAddress": 937984,
+        "virtualSize": 366840,
+        "rawSize": 368640,
+        "rawOffset": 937984,
+        "fileBackedBytes": 8,
+        "loaderZeroFillBytes": 0
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "pool112State": {
+      "address": "102ffddc",
+      "raw": "000000000000000000000000",
+      "bytes": 12,
+      "sha256": "15ec7bf0b50732b49f8228e07d24365338f9e3ab994b00af08e5a3bffe55fd8b",
+      "section": {
+        "virtualAddress": 3125248,
+        "virtualSize": 20712,
+        "rawSize": 24576,
+        "rawOffset": 1331200,
+        "fileBackedBytes": 12,
+        "loaderZeroFillBytes": 0
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "pool112Descriptor": {
+      "address": "102fff1c",
+      "raw": "00000000",
+      "bytes": 4,
+      "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+      "section": {
+        "virtualAddress": 3125248,
+        "virtualSize": 20712,
+        "rawSize": 24576,
+        "rawOffset": 1331200,
+        "fileBackedBytes": 4,
+        "loaderZeroFillBytes": 0
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "pool112Geometry": {
+      "address": "100e7b00",
+      "raw": "70000000b6ff0000",
+      "bytes": 8,
+      "sha256": "e71189a8c7a8535d693c4289db6f7821d5c9d7947f7e720a58d652c7035de48a",
       "section": {
         "virtualAddress": 937984,
         "virtualSize": 366840,
@@ -4275,6 +4391,30 @@
       "method": "pool1792Initialize",
       "address": "100477fc",
       "raw": "e8e39afbff",
+      "instruction": "CALL 0x100012e4",
+      "kind": "direct",
+      "targetVA": "100012e4"
+    },
+    {
+      "method": "pool112Initialize",
+      "address": "10046805",
+      "raw": "e8c8430600",
+      "instruction": "CALL 0x100aabd2",
+      "kind": "direct",
+      "targetVA": "100aabd2"
+    },
+    {
+      "method": "pool112Initialize",
+      "address": "1004686e",
+      "raw": "e80d110600",
+      "instruction": "CALL 0x100a7980",
+      "kind": "direct",
+      "targetVA": "100a7980"
+    },
+    {
+      "method": "pool112Initialize",
+      "address": "100468a5",
+      "raw": "e83aaafbff",
       "instruction": "CALL 0x100012e4",
       "kind": "direct",
       "targetVA": "100012e4"
@@ -7791,6 +7931,29 @@
       "instruction": "CALL 0x100a72d0",
       "kind": "direct",
       "targetVA": "100a72d0"
+    },
+    {
+      "method": "pool112Dispatch",
+      "address": "10048637",
+      "raw": "e8f5d0fbff",
+      "instruction": "CALL 0x10005731",
+      "kind": "direct",
+      "targetVA": "10005731"
+    },
+    {
+      "method": "pool112Dispatch",
+      "address": "10048654",
+      "raw": "ffd7",
+      "instruction": "CALL EDI",
+      "kind": "register-or-memory-indirect"
+    },
+    {
+      "method": "pool112Dispatch",
+      "address": "1004865c",
+      "raw": "e8f092fbff",
+      "instruction": "CALL 0x10001951",
+      "kind": "direct",
+      "targetVA": "10001951"
     },
     {
       "method": "pool12Dispatch",

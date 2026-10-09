@@ -1,4 +1,6 @@
 import { NativeSharedCrtOwner } from './native-shared-crt';
+import { NativeWin32FileSystem, retainNativeWin32FileSystemSelection } from './native-win32-file-system';
+import type { NativeWin32FileSystemSelection, NativeWin32CreateFileResult } from './native-win32-file-system';
 /** Selected single-executor platform for source-owned runtime admins. It owns
  * byte storage, region ordering, CS capabilities and callback lifetimes. It
  * does not report observations of the host's Windows allocator, zSpy or files. */
@@ -137,6 +139,7 @@ export interface NativeEngineCrtPlatformServices {
   readonly threadStack?: NativeX86ThreadStackSelection;
   readonly startupIo?: NativeWin32StartupIoSelection;
   readonly standardIo?: NativeWin32StandardIoSelection;
+  readonly fileSystem?: NativeWin32FileSystemSelection;
   readonly argvNls?: NativeWin32ArgvNlsSelection;
   readonly setEnvp?: NativeWin32SetEnvpSelection;
   readonly entropy?: {
@@ -163,7 +166,7 @@ function retainCrtServices(selected: NativeEngineCrtPlatformServices | undefined
 } {
   if (selected === undefined) return { services: undefined, tls: [] };
   const { tlsValues, kernel32Available, pointerCodec, sectionSpinProcedure,
-    fiberLocalStorage, processHeap, osVersion, entropy, processInputs, threadStack, startupIo, standardIo, argvNls, setEnvp, processorFeatureProcedure, floatingPointPrecisionErratum } = selected;
+    fiberLocalStorage, processHeap, osVersion, entropy, processInputs, threadStack, startupIo, standardIo, fileSystem, argvNls, setEnvp, processorFeatureProcedure, floatingPointPrecisionErratum } = selected;
   if (typeof kernel32Available !== 'boolean' || (pointerCodec !== 'absent' && pointerCodec !== 'owned-bijection') ||
       [sectionSpinProcedure, fiberLocalStorage, processHeap, processorFeatureProcedure, floatingPointPrecisionErratum].some(value => value !== undefined && typeof value !== 'boolean')) {
     throw new Error('Explicit selected CRT registry configuration required');
@@ -191,6 +194,7 @@ function retainCrtServices(selected: NativeEngineCrtPlatformServices | undefined
     threadStack: threadStack === undefined ? undefined : retainNativeX86ThreadStackSelection(threadStack),
     startupIo: startupIo === undefined ? undefined : retainNativeWin32StartupIoSelection(startupIo),
     standardIo: standardIo === undefined ? undefined : retainNativeWin32StandardIoSelection(standardIo),
+    fileSystem: fileSystem === undefined ? undefined : retainNativeWin32FileSystemSelection(fileSystem),
     argvNls: argvNls === undefined ? undefined : retainNativeWin32ArgvNlsSelection(argvNls),
     setEnvp: setEnvp === undefined ? undefined : retainNativeWin32SetEnvpSelection(setEnvp) }), tls: Object.freeze(tls) };
 }
@@ -280,12 +284,15 @@ function admittedModuleAdminShutdown(address: string): boolean {
 
 /** Scoped diagnostic services. Empty owned registries are a selected platform
  * profile, not an inferred absence of native host windows or disk files. */
+const diagnosticWindows = new WeakMap<NativeRuntimeDiagnostics, ReadonlyMap<string, object>>();
+const platformDiagnostics = new WeakMap<NativeRuntimePlatform, NativeRuntimeDiagnostics>();
 export class NativeRuntimeDiagnostics implements NativeMessageDiagnosticPlatform {
   private readonly windows = new Map<string, object>();
   private readonly files = new Map<string, Uint8Array>();
   private readonly handles = new Map<object, { path: string; bytes: Uint8Array; closed: boolean }>();
   constructor(options: { windows?: ReadonlyMap<string, object>; files?: ReadonlyMap<string, Uint8Array> } = {}) {
     for (const [title, window] of options.windows ?? []) this.windows.set(title, window);
+    diagnosticWindows.set(this, new Map(this.windows));
     for (const [path, bytes] of options.files ?? []) this.files.set(path, bytes.slice());
   }
   findWindow(className: null, title: '[zSpy]'): NativeValue<object | null> {
@@ -307,6 +314,15 @@ export class NativeRuntimeDiagnostics implements NativeMessageDiagnosticPlatform
 }
 
 export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGeometryHost {
+  static diagnosticWindowForPlatform(platform: NativeRuntimePlatform, className: null, title: string): NativeValue<object | null> {
+    const diagnostics = platformDiagnostics.get(platform), windows = diagnostics && diagnosticWindows.get(diagnostics);
+    if (!windows || platform.diagnostics !== diagnostics || className !== null || title !== '[zSpy]') return unknown('Canonical diagnostic window profile and original query required');
+    return known(windows.get(title) ?? null);
+  }
+  static ownsDiagnosticWindow(platform: NativeRuntimePlatform, window: object): boolean {
+    const result = this.diagnosticWindowForPlatform(platform, null, '[zSpy]');
+    return result.known && result.value !== null && result.value === window;
+  }
   readonly diagnostics: NativeRuntimeDiagnostics;
   readonly #backing = new Map<object, BackingEntry>();
   readonly #releasedBackings = new WeakSet<NativeMemoryBacking>();
@@ -351,6 +367,8 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
   readonly #standardIoNormalReturns = new WeakMap<NativeStandardIoCallGrant, NativeStandardIoResult>();
   readonly #standardIoEffects = new WeakMap<NativeStandardIoCallGrant, Readonly<{ sectionRegistered: boolean }>>();
   readonly #standardHandles = new Map<object, Readonly<{ capability: NativeWin32HandleCapability; slot: number }>>();
+  readonly #fileSystem?: NativeWin32FileSystem;
+  readonly #fileOpenConsumed = new WeakSet<object>();
   #requestedHandleCount: number | undefined;
   private readonly sections = new Map<string, Section>();
   private readonly sectionIdentities = new Map<object, Section>();
@@ -384,11 +402,13 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
   constructor(options: { diagnostics?: NativeRuntimeDiagnostics; maximumAllocationBytes?: number; maximumOwnedBytes?: number;
     engineCrtServices?: NativeEngineCrtPlatformServices } = {}) {
     this.diagnostics = options.diagnostics ?? new NativeRuntimeDiagnostics();
+    platformDiagnostics.set(this, this.diagnostics);
     Object.freeze(this.#win32LastError);
     this.maximumAllocationBytes = options.maximumAllocationBytes ?? 64 * 1024 * 1024;
     this.maximumOwnedBytes = options.maximumOwnedBytes ?? 256 * 1024 * 1024;
     const crt = retainCrtServices(options.engineCrtServices);
     this.#crtServices = crt.services;
+    this.#fileSystem = crt.services?.fileSystem === undefined ? undefined : new NativeWin32FileSystem(this, crt.services.fileSystem);
     const process = crt.services?.processInputs;
     this.#nativeDirectionFlag = process?.initialDirectionFlag;
     this.#processInputEndpoints = process === undefined ? undefined : Object.freeze({
@@ -746,6 +766,24 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
     const active = NativeRuntimePlatform.requireActivePlatform(platform); if (!active.known) return active;
     return platform.#crtServices?.standardIo ? known(platform.#crtServices.standardIo) : unknown('Explicit retained standard-I/O selection required');
   }
+  static createSharedFileForPlatform(platform: NativeRuntimePlatform, call: object): NativeValue<NativeWin32CreateFileResult> {
+    const active = NativeRuntimePlatform.requireActivePlatform(platform); if (!active.known) return active;
+    const proof = NativeSharedCrtOwner.fileOpenArgumentsForPlatform(platform, call); if (!proof.known) return proof;
+    if (!platform.#fileSystem) return unknown('Explicit owned virtual filesystem required by CreateFileA');
+    if (platform.#fileOpenConsumed.has(call)) return unknown('Actual fresh file-open invocation required');
+    platform.#fileOpenConsumed.add(call);
+    const result = NativeWin32FileSystem.prototype.open.call(platform.#fileSystem, proof.value);
+    if (result.known) platform.#processLastError(result.value.lastError);
+    return result;
+  }
+  static ownsFileHandle(platform: NativeRuntimePlatform, handle: object): boolean {
+    return NativeRuntimePlatform.requireActivePlatform(platform).known && !!platform.#fileSystem && NativeWin32FileSystem.prototype.owns.call(platform.#fileSystem, handle);
+  }
+  static fileTypeForPlatform(platform: NativeRuntimePlatform, handle: object): NativeValue<number> {
+    const active = NativeRuntimePlatform.requireActivePlatform(platform); if (!active.known) return active;
+    return platform.#fileSystem ? NativeWin32FileSystem.prototype.fileType.call(platform.#fileSystem, handle) : unknown('Explicit owned virtual filesystem required by GetFileType');
+  }
+  fileSystemSnapshot() { return this.#fileSystem ? NativeWin32FileSystem.prototype.snapshot.call(this.#fileSystem) : null; }
   static canonicalStandardIoEndpointsForPlatform(platform: NativeRuntimePlatform,
     endpoints: NativeWin32StandardIoEndpoints): NativeValue<void> {
     const active = NativeRuntimePlatform.requireActivePlatform(platform); if (!active.known) return active;
@@ -1317,7 +1355,7 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
   }
   static virtualAllocForSharedInitializer(platform:NativeRuntimePlatform,size:number):NativeValue<NativeMemoryRegion|null> {
     const active=NativeRuntimePlatform.requireActivePlatform(platform);if(!active.known)return active;
-    if(size!==0xc2000&&size!==0x102000&&size!==0xc0000&&size!==0x70000)return unknown('Original 16/24-byte pool virtual reservation size required');
+    if(size!==0x700000&&size!==0x400000&&size!==0xc2000&&size!==0x102000&&size!==0xc0000&&size!==0x70000)return unknown('Original SharedBase pool virtual reservation size required');
     const previous=new Set(Array.from(platform.#backing.values(),entry=>entry.backing));
     const result=platform.virtualAlloc(size,0x103000,4);if(!result.known||!result.value)return result;
     const proof=NativeRuntimePlatform.canonicalVirtualRegionForPlatform(platform,result.value,size);if(!proof.known)return proof;

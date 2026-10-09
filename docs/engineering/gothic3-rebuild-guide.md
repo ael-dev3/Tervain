@@ -99,11 +99,20 @@ results, next unsupported dependency and deployment receipt.
 
 ## Published checkpoint and further reading
 
-[PR #162](https://github.com/ael-dev3/Tervain/pull/162) published selected
-MessageAdmin construction and the ErrorAdmin prefix at commit
-`4d237924f7adf4246d5b6d47cace1cc74393ef04`.
-Its [Pages deployment](https://github.com/ael-dev3/Tervain/actions/runs/37855751070)
-completed successfully. This establishes a component checkpoint.
+[PR #169](https://github.com/ael-dev3/Tervain/pull/169) merged original
+CRT descriptor allocation and section initialization at commit
+`f7227a67fbab82208cd3e2f8945879166e354d78`.
+Its [validation run](https://github.com/ael-dev3/Tervain/actions/runs/37866293534)
+completed successfully. The [Pages deployment](https://github.com/ael-dev3/Tervain/actions/runs/37867316566)
+completed successfully. This establishes a deployed component checkpoint.
+
+Further local work executes the original `CreateFileA` return against an owned
+virtual filesystem. Missing and denied files use the original error table and
+cleanup; an existing regular file is published into descriptor 3 and its FILE
+record. Execution reaches original SpieAdmin shutdown registration or `fclose`,
+respectively. These operations and complete startup, world activation and
+campaign integration remain unfinished. This file-open continuation is not yet
+published.
 
 - [Detailed workflow and reference paths](gothic3-rebuild-workflow.md)
 - [Architecture and implementation background](gothic3-rebuild-overview.md)
