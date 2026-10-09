@@ -1007,7 +1007,7 @@
         "bodyInstructionBytesSha256": "cdae62a83f39a1173f4d3f888d052d7a326f8a061fd63f0e070495778a2c27c1"
       },
       {
-        "label": "freePointParentTypeGetter",
+        "label": "freePointObjectReplacement",
         "entryVA": "0x2002a987",
         "bodyVA": "0x200725c0",
         "entryChain": [
@@ -2580,76 +2580,119 @@
   },
   "initializer": {
     "entry": "204b2130",
+    "assemblyPath": "assets/gothic3/game-cinit-callbacks/sources/Game/204b2130.asm.txt",
     "instructions": [
       {
         "va": "204b2130",
+        "rva": "4b2130",
+        "fileOffset": 4923696,
         "bytes": "b91c517b20",
-        "instruction": "MOV ECX,0x207b511c"
+        "instruction": "MOV ECX,0x207b511c",
+        "assemblyLine": 1
       },
       {
         "va": "204b2135",
+        "rva": "4b2135",
+        "fileOffset": 4923701,
         "bytes": "ff15b8877d20",
-        "instruction": "CALL dword ptr [0x207d87b8]"
+        "instruction": "CALL dword ptr [0x207d87b8]",
+        "assemblyLine": 2
       },
       {
         "va": "204b213b",
+        "rva": "4b213b",
+        "fileOffset": 4923707,
         "bytes": "c70524517b2000000000",
-        "instruction": "MOV dword ptr [0x207b5124],0x0"
+        "instruction": "MOV dword ptr [0x207b5124],0x0",
+        "assemblyLine": 3
       },
       {
         "va": "204b2145",
+        "rva": "4b2145",
+        "fileOffset": 4923717,
         "bytes": "c7051c517b2074a06520",
-        "instruction": "MOV dword ptr [0x207b511c],0x2065a074"
+        "instruction": "MOV dword ptr [0x207b511c],0x2065a074",
+        "assemblyLine": 4
       },
       {
         "va": "204b214f",
+        "rva": "4b214f",
+        "fileOffset": 4923727,
         "bytes": "e8b438b8ff",
-        "instruction": "CALL 0x20035a08"
+        "instruction": "CALL 0x20035a08",
+        "assemblyLine": 5
       },
       {
         "va": "204b2154",
+        "rva": "4b2154",
+        "fileOffset": 4923732,
         "bytes": "6a01",
-        "instruction": "PUSH 0x1"
+        "instruction": "PUSH 0x1",
+        "assemblyLine": 6
       },
       {
         "va": "204b2156",
+        "rva": "4b2156",
+        "fileOffset": 4923734,
         "bytes": "b91c517b20",
-        "instruction": "MOV ECX,0x207b511c"
+        "instruction": "MOV ECX,0x207b511c",
+        "assemblyLine": 7
       },
       {
         "va": "204b215b",
+        "rva": "4b215b",
+        "fileOffset": 4923739,
         "bytes": "a328517b20",
-        "instruction": "MOV [0x207b5128],EAX"
+        "instruction": "MOV [0x207b5128],EAX",
+        "assemblyLine": 8
       },
       {
         "va": "204b2160",
+        "rva": "4b2160",
+        "fileOffset": 4923744,
         "bytes": "c70524517b2000000000",
-        "instruction": "MOV dword ptr [0x207b5124],0x0"
+        "instruction": "MOV dword ptr [0x207b5124],0x0",
+        "assemblyLine": 9
       },
       {
         "va": "204b216a",
+        "rva": "4b216a",
+        "fileOffset": 4923754,
         "bytes": "e80264b5ff",
-        "instruction": "CALL 0x20008571"
+        "instruction": "CALL 0x20008571",
+        "assemblyLine": 10
       },
       {
         "va": "204b216f",
+        "rva": "4b216f",
+        "fileOffset": 4923759,
         "bytes": "68809b5420",
-        "instruction": "PUSH 0x20549b80"
+        "instruction": "PUSH 0x20549b80",
+        "assemblyLine": 11
       },
       {
         "va": "204b2174",
+        "rva": "4b2174",
+        "fileOffset": 4923764,
         "bytes": "e85516fbff",
-        "instruction": "CALL 0x204637ce"
+        "instruction": "CALL 0x204637ce",
+        "assemblyLine": 12
       },
       {
         "va": "204b2179",
+        "rva": "4b2179",
+        "fileOffset": 4923769,
         "bytes": "59",
-        "instruction": "POP ECX"
+        "instruction": "POP ECX",
+        "assemblyLine": 13
       },
       {
         "va": "204b217a",
+        "rva": "4b217a",
+        "fileOffset": 4923770,
         "bytes": "c3",
-        "instruction": "RET"
+        "instruction": "RET",
+        "assemblyLine": 14
       }
     ],
     "bodyInstructionBytesSha256": "0a4e341753d777af43dc80a707b6e8069f52029b69958d68aa7357912e27c164"
@@ -2700,7 +2743,52 @@
           "instruction": "JMP dword ptr [0x207d8834]"
         }
       ],
-      "bodyInstructionBytesSha256": "a500669138ec4825db52a03ce00e1a610128ed52b8769d0f300ee70eedffb3b5"
+      "bodyInstructionBytesSha256": "a500669138ec4825db52a03ce00e1a610128ed52b8769d0f300ee70eedffb3b5",
+      "entryChain": [
+        {
+          "va": "2002ec53",
+          "bytes": "e908af5100",
+          "targetVA": "20549b60"
+        }
+      ]
+    },
+    "wrapperCleanup": {
+      "entry": "20549b80",
+      "instructions": [
+        {
+          "va": "20549b80",
+          "bytes": "b91c517b20",
+          "instruction": "MOV ECX,0x207b511c",
+          "fileOffset": 5544832
+        },
+        {
+          "va": "20549b85",
+          "bytes": "c7051c517b2074a06520",
+          "instruction": "MOV dword ptr [0x207b511c],0x2065a074",
+          "fileOffset": 5544837
+        },
+        {
+          "va": "20549b8f",
+          "bytes": "e8fe3aadff",
+          "instruction": "CALL 0x2001d692",
+          "fileOffset": 5544847
+        },
+        {
+          "va": "20549b94",
+          "bytes": "b91c517b20",
+          "instruction": "MOV ECX,0x207b511c",
+          "fileOffset": 5544852
+        },
+        {
+          "va": "20549b99",
+          "bytes": "e94e85aeff",
+          "instruction": "JMP 0x200320ec",
+          "fileOffset": 5544857
+        }
+      ],
+      "capture": "bounded-original-PE-five-encoding-decode",
+      "bodyByteCount": 30,
+      "bodyInstructionBytesSha256": "85c3ef3ec5ff75bd11a89e7707dec7052860394ab3ffcca7cbb06496335c52b9"
     }
   },
   "images": [
@@ -2799,10 +2887,25 @@
       },
       "sha256": "c9f7c6f9eafb438bf3c94480af4e0075eb274c8328452fb0ca19952882b30ae1",
       "liveValueCaptured": false
+    },
+    {
+      "label": "freePointTypeInfoDescriptor",
+      "address": "20798230",
+      "bytes": 40,
+      "raw": "74636b20000000002e3f41566743414948656c7065725f46726565506f696e745f50534040000000",
+      "fileBackedBytes": 40,
+      "loaderZeroFillBytes": 0,
+      "section": {
+        "virtualAddress": 7954432,
+        "virtualSize": 248716,
+        "rawSize": 126976,
+        "rawOffset": 7954432
+      },
+      "sha256": "acf44e3d739dc835b31ef8048df76cef9e1c32d81f65c03c185d09376f91657c",
+      "liveValueCaptured": false
     }
   ],
-  "pendingCleanupCallback": "20549b80",
   "sourceOnly": true,
-  "initializerReturned": false,
+  "initializerReturnCaptured": false,
   "fullCampaignCompleted": false
 }

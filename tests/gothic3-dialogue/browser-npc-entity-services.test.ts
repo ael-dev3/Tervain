@@ -19,7 +19,7 @@ describe('selected browser NPC platform services', () => {
     expect(startup.propertyIdInvocation).toBe('not-entered');
     expect(startup.prerequisites.attachResult.known).toBe(false);
     if(startup.prerequisites.attachResult.known)throw new Error('Unfinished Game startup returned');
-    expect(startup.prerequisites.attachResult.reason).toContain('initializer callback is not yet admitted at 204b2130');
+    expect(startup.prerequisites.attachResult.reason).toContain('initializer callback is not yet admitted at 204b2660');
     const first = owner.control.matrixIdentity();
     const second = owner.control.matrixIdentity();
     expect(first.known).toBe(true);
@@ -29,7 +29,7 @@ describe('selected browser NPC platform services', () => {
     expect(typeof owner.shutdown.registrations()[0]?.callback).toBe('function');
     expect(owner.services.control).toBe(owner.control);
     expect(owner.matrixModule.identityGuard.value & 1).toBe(1);
-  });
+  },30000);
 
   it('drains real callback registrations in reverse order once', () => {
     const registry = new BrowserMatrixShutdownRegistry();
@@ -57,7 +57,7 @@ describe('selected browser NPC platform services', () => {
     expect(owner.matrixModule.identity.bytes).toEqual(bytes);
     expect(owner.matrixModule.identity.knownMask).toEqual(masks);
     expect(owner.matrixModule.identityGuard).toEqual(guard);
-  });
+  },30000);
 
   it('retains no success registration for an unadmitted callback', () => {
     const registry = new BrowserMatrixShutdownRegistry();

@@ -1,3 +1,4 @@
+import {labelTypeCleanupReceipt,labelWrapperCleanupReceipt} from './native-game-label-source';
 import type { NativeValue } from './dialogue';
 import { gameClassNameDestructorMatches } from './native-game-class-name-family-source';
 import { NativeHeapObjectViews } from './native-heap-views';
@@ -6,6 +7,7 @@ import type { NativeBytePointer } from './native-pointer-geometry';
 import { NativeGameCrtOwner } from './native-game-crt';
 import { gameCinitStaticFiniReceipt } from './native-game-crt-cinit-source';
 import { gameArenaRootCleanupReceipt } from './native-game-arena-root-source';
+import { freePointClassNameCleanupReceipt,freePointTypeCleanupReceipt,freePointWrapperCleanupReceipt } from './native-game-freepoint-source';
 import statusCleanupSource from '../../assets/gothic3/status-cleanup/source.json';
 import {arenaEnumNameCleanupReceipt,arenaEnumValueCleanupReceipt} from './native-game-arena-enum-source';
 
@@ -69,7 +71,7 @@ export class NativeGameExitTable {
     if (this.boundary) return unknown(this.boundary);
     const old = this.callbacks.get(label);
     if (old) return known(old);
-    const method = label === 'staticFiniWalker' ? gameCinitStaticFiniReceipt() : label==='arenaRootCleanup' ? gameArenaRootCleanupReceipt() : label==='arenaStatusCleanup' ? statusCleanupReceipt() : label==='enumNameRegistryCleanup' ? arenaEnumNameCleanupReceipt() : label==='enumValueRegistryCleanup' ? arenaEnumValueCleanupReceipt() : this.crt.sourceProfile.heapRules.methods[label];
+    const method = label==='labelWrapperCleanup' ? labelWrapperCleanupReceipt() : label==='labelTypeCleanup' ? labelTypeCleanupReceipt() : label==='freePointWrapperCleanup' ? freePointWrapperCleanupReceipt() : label==='freePointTypeCleanup' ? freePointTypeCleanupReceipt() : label==='freePointClassNameCleanup' ? freePointClassNameCleanupReceipt() : label === 'staticFiniWalker' ? gameCinitStaticFiniReceipt() : label==='arenaRootCleanup' ? gameArenaRootCleanupReceipt() : label==='arenaStatusCleanup' ? statusCleanupReceipt() : label==='enumNameRegistryCleanup' ? arenaEnumNameCleanupReceipt() : label==='enumValueRegistryCleanup' ? arenaEnumValueCleanupReceipt() : this.crt.sourceProfile.heapRules.methods[label];
     const entryChain = (method as typeof method & { readonly entryChain?: readonly {
       readonly va: string; readonly bytes: string; readonly targetVA: string;
     }[] } | undefined)?.entryChain;
@@ -92,7 +94,7 @@ export class NativeGameExitTable {
       method.body === '20549170' && method.bodyInstructionBytesSha256 === '8cc43ebdc7f754d959b0231ff1019c30c0c24396a71d3f03827b97e58b0e2f4e' &&
       entryChain?.length === 1 && entryChain[0]?.va === '20007a81' && entryChain[0]?.bytes === 'e9ea165400' && entryChain[0]?.targetVA === '20549170';
     if (!method || method.module !== 'Game' ||
-        (method.entry !== method.body && !exactNavigationDestructorThunk && !exactScriptAdminDestructorThunk && !exactArenaDestructorThunk && !exactStatusDestructorThunk && !exactLayerBaseDestructorThunk && !exactObjectRefDestructorThunk && !gameClassNameDestructorMatches(label,method)) ||
+        (method.entry !== method.body && label!=='freePointClassNameCleanup' && !exactNavigationDestructorThunk && !exactScriptAdminDestructorThunk && !exactArenaDestructorThunk && !exactStatusDestructorThunk && !exactLayerBaseDestructorThunk && !exactObjectRefDestructorThunk && !gameClassNameDestructorMatches(label,method)) ||
         !/^[0-9a-f]{8}$/.test(method.entry) || !/^[0-9a-f]{64}$/.test(method.bodyInstructionBytesSha256)) {
       return unknown('Complete pinned Game method receipt required for an onexit callback');
     }
@@ -250,6 +252,11 @@ export class NativeGameExitTable {
         : receipt.label === 'arenaStatusCleanup' ? statusCleanupReceipt()
         : receipt.label === 'enumNameRegistryCleanup' ? arenaEnumNameCleanupReceipt()
         : receipt.label === 'enumValueRegistryCleanup' ? arenaEnumValueCleanupReceipt()
+        : receipt.label === 'freePointClassNameCleanup' ? freePointClassNameCleanupReceipt()
+        : receipt.label === 'labelWrapperCleanup' ? labelWrapperCleanupReceipt()
+        : receipt.label === 'labelTypeCleanup' ? labelTypeCleanupReceipt()
+        : receipt.label === 'freePointTypeCleanup' ? freePointTypeCleanupReceipt()
+        : receipt.label === 'freePointWrapperCleanup' ? freePointWrapperCleanupReceipt()
         : this.crt.sourceProfile.heapRules.methods[receipt.label]);
       if (!receipt || receipt.crt !== this.crt || receipt.entry !== callback.entry || receipt.entry !== method?.entry ||
           receipt.body !== method?.body || receipt.hash !== method?.bodyInstructionBytesSha256 || callback.module !== 'Game') {
