@@ -99,19 +99,17 @@ results, next unsupported dependency and deployment receipt.
 
 ## Published checkpoint and further reading
 
-[PR #165](https://github.com/ael-dev3/Tervain/pull/165) merged original
-ErrorAdmin buffer handling, shutdown registration and selected SpyAdmin startup
-at commit `4e24c2f4728a2f5abddadb5f4d7e8f2c4a60723d`.
-Its [validation run](https://github.com/ael-dev3/Tervain/actions/runs/37859998746)
-succeeded. The [Pages run](https://github.com/ael-dev3/Tervain/actions/runs/37860775993)
-records deployment separately; merging alone does not establish deployment or
-campaign playability.
+[PR #168](https://github.com/ael-dev3/Tervain/pull/168) merged original
+CRT shared file-open validation and flag calculation at commit
+`ee6679e8e3a3f3a525abbf0d2cf1ab15aec2f41b`.
+Its [validation run](https://github.com/ael-dev3/Tervain/actions/runs/37863231622)
+and [Pages deployment](https://github.com/ael-dev3/Tervain/actions/runs/37863972416)
+completed successfully. This establishes a deployed component checkpoint.
 
-Further local work traces SpieAdmin construction and the original CRT file-open
-path for `zSpie.txt`. It currently stops at the shared file-open call
-`100d1a2d`, retaining the reserved FILE slot and its lock. This continuation is
-not yet a published checkpoint. Completing this dependency still leaves broader
-startup, world activation and campaign integration work.
+Further local work executes descriptor allocation, its cached section initializer
+and original fallback, and the return to `CreateFileA` at `100d1372`. The API return
+and original cleanup remain pending. This continuation is not yet published;
+complete startup, world activation and campaign integration remain unfinished.
 
 - [Detailed workflow and reference paths](gothic3-rebuild-workflow.md)
 - [Architecture and implementation background](gothic3-rebuild-overview.md)

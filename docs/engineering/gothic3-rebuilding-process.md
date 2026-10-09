@@ -10760,3 +10760,81 @@ descriptor allocation. Four existing complete-startup fixtures now use explicit
 their assertions are unchanged. The full suite passed 2,988 tests across
 277 files in 272.87 seconds; the production build also passed. This local continuation is not yet published and has no production
 caller. Complete startup and campaign integration still require further work.
+
+
+## Original descriptor allocator prefix (local work, 2026-10-09)
+
+The retained call at `100d1329 -> 100d0d8d` now enters the original descriptor
+allocator and its EH4 frame. It constructs dynamic CRT lock 11 through the
+existing original lock initializer, acquires that table lock, and scans the
+actual initialized 56-byte descriptor records. The first three records are in
+use; record 3 is the first available candidate in this fixture.
+
+The descriptor block's original backing, byte views, masks and DataView are now
+registered as retained local storage when its actual CRT allocation is created.
+Pointer arithmetic therefore checks that same live allocation instead of
+manufacturing a numerical address or replacement block. The original code takes
+lock 10 before reaching `100d0e1c -> 100bbf27`, the descriptor section initializer.
+At that boundary locks 10, 11 and FILE lock 19 are held. Record 3 still has a
+-1 handle, a clear open flag and zero section-initialization count. The record is
+not yet reserved or opened; section initialization and the remaining original
+allocator/open/cleanup bodies must run next.
+
+Three focused checks and typechecking pass. A damaged allocator return word is
+rejected before lock 11 construction or descriptor writes. Independent evidence
+regeneration matches 61 bodies and 4,195 original body instructions. Full-suite
+and production-build validation are pending. This local continuation has no
+production caller; complete engine startup and campaign play remain unfinished.
+
+
+### Descriptor validation follow-up (local work, 2026-10-09)
+
+The production build passed. The first full run passed 2,989 tests and had one
+existing ErrorAdmin variable-pool fixture exceed its five-second limit at
+5.068 seconds. The focused rerun passed. All remaining 19 tests that construct
+the complete version/startup fixture now have explicit 30-second limits;
+a comparison confirms their assertions and other code are unchanged.
+Typechecking and four focused checks pass after that adjustment. The full rerun
+passed 2,990 tests across 277 files in 249.11 seconds for this descriptor prefix.
+
+Separately, the deployed Ardea route was inspected in the Codex browser. Scene
+recovery reported 202 objects, 70 characters and three source routine positions.
+Entering Ardea completed Hero, journal and world-clock loading and rendered the
+scene with grounded Hero coordinates and HP 100/100. This is startup observation
+only: no campaign ending, full NPC behavior or save/reload playthrough was
+verified. PR #168 passed CI, was merged, and its Pages deployment succeeded.
+
+
+## Original descriptor section initializer and return to CreateFileA (local work, 2026-10-09)
+
+The retained `100bbf27` call now executes the original section wrapper and EH4
+frame. Its cache aliases the existing `pointer6ac0` storage; the original decoder
+uses the actual same-platform DecodePointer procedure and preserves the cache's
+identity. Both the cached spin procedure and the original `100bbf17` fallback
+execute against a 24-byte view of the original descriptor record's storage.
+The view is retained only after successful platform initialization.
+
+The original wrapper restores its frame. The allocator increments the descriptor
+initialization count, releases lock 10, enters the descriptor section, reserves
+the record, calculates descriptor index 3 through original signed IDIV and
+releases lock 11. Its own EH4 frame restores the shared-open parent. The core
+then pushes its actual filename, access, share, security attributes, disposition,
+attributes and template handle for `100d1372 CALL EDI`, whose IAT slot is the
+original KERNEL32 CreateFileA import at `102f9660`.
+
+At that boundary descriptor 3 is reserved with its section held, FILE lock 19
+is held, and table locks 10 and 11 are released. The descriptor handle is still
+-1; no platform file-open result is supplied. CreateFileA return, error/status
+mapping, file publication and original stream/descriptor cleanup remain next.
+The supported fallback is selected by the platform profile rather than forced.
+A foreign cached procedure is rejected before section storage is initialized.
+
+Four focused checks and typechecking pass, including original API scalar and
+security-attribute outputs, both initializer paths, cache rejection and source
+receipts. Independent source/runtime regeneration matches 63 bodies and 4,250
+body instructions. The preceding 2,990-test receipt covers the descriptor prefix;
+the combined continuation passed all 2,993 tests across 277 files in 289.32
+seconds. After reconciling the merged checkpoint history without changing the
+committed source tree, a fresh full run passed the same 2,993 tests in 281.64
+seconds. The production build passed. These methods have no production callers,
+and a finishable browser campaign has not been demonstrated.
