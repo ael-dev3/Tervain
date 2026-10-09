@@ -182,7 +182,7 @@ build pass at `06d998a8`. This checkpoint merged in
 `ee0a6c2c9129dd3749b51aad6314cfa850795a72` after successful
 [validation](https://github.com/ael-dev3/Tervain/actions/runs/37874648063).
 Its [Pages deployment](https://github.com/ael-dev3/Tervain/actions/runs/37875181203)
-is running.
+completed successfully.
 Formatting, insertion into ErrorAdmin's ring buffer and cleanup remain pending.
 
 Local revision `fdbac97f` executes the original `sprintf` and output engine using
