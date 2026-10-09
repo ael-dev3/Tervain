@@ -10877,6 +10877,7 @@ Typechecking and 12 focused checks pass, including missing, denied and present
 files, actual handle/descriptor/FILE publication, lock release, damaged call
 rejection, undeclared filesystem, copied declarations and unsupported modes.
 Independent regeneration matches 73 original bodies and 4,449 body instructions.
-Full-suite and production-build validation of this continuation are pending.
+The full suite passed all 3,004 tests across 278 files in 352.45 seconds at
+commit `8f631ed8`. The production build passed.
 These methods still have no production callers. Full startup and a finishable
 browser campaign remain unfinished.
