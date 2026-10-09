@@ -69,8 +69,9 @@ Game heap and I/O descriptor allocations, signed comparisons proved from
 canonical virtual Game image addresses, three-operand IMUL and SAR semantics.
 Its normal return is followed by the fifth SSE callback and the completed C
 walker. The next atexit call remains unsupported. All 74 focused checks across
-four files, typechecking and the production build pass. Full-suite and browser
-verification remain outstanding for this new continuation. Allocation-failure
+four files, typechecking and the production build pass. A production browser
+reached the same atexit boundary after 2,359 startup operations; NPC activation
+remains incomplete. Full-suite verification remains outstanding. Allocation-failure
 profiles also need independent evidence before their execution is claimed.
 
 Optional precision, SSE control and the failed-lookup divide fallback remain

@@ -190,8 +190,12 @@ atexit registration call. All 74 focused checks across four files pass,
 typechecking passes and the production build passes in 34.06 seconds. Count
 profiles check the original default/clamp branches, FILE aliases, zeroed unused
 entries, unknown physical allocation padding and prevention of replay.
-Full-suite and browser verification remain outstanding for this continuation;
-these results do not establish complete startup or campaign play.
+Production browser verification entered Ardea with 202 scene objects, 70
+character resources and HP 100, and reached the same atexit boundary after
+2,359 startup operations. NPC activation still stops at the unconnected
+ScriptAdmin getter with 0/16 property sets attached. Full-suite verification
+remains outstanding for this continuation; these results do not establish
+complete startup or campaign play.
 
 Independent review of PR #187 decoded all 9,147 buffer views in its 107 changed
 GLBs against the previous revision: geometry, images and semantic metadata
