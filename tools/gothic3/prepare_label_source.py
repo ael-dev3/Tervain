@@ -2,6 +2,7 @@
 import argparse
 import hashlib
 import json
+import re
 from pathlib import Path
 from read_dialogue_native_evidence import audit_module, PE
 
@@ -13,6 +14,7 @@ def capture(study):
         0x200340d6: 'labelClassName',
         0x20025e55: 'labelObjectReplacement',
         0x20017e27: 'labelTypeAccessor',
+        0x20004bb0: 'labelVirtualClassName',
     })
     pe = PE((study / '00_Original_Runtime/Game.dll').read_bytes())
     root = Path(__file__).parents[2]
@@ -26,6 +28,18 @@ def capture(study):
             fileOffset=pe.offset(va, len(raw) // 2), assemblyLine=line_number))
     assert len(instructions) == 14 and instructions[-1]['va'] == '204b241a'
     assert instructions[-1]['instruction'] == 'RET'
+    cleanup_rows = []
+    pattern = re.compile(r'([0-9a-f]{8}) \| ([0-9a-f]+) \| (.+)')
+    with (study / '01_Decompiled_Code/Game_dll/full_disassembly.asm').open(encoding='utf-8') as stream:
+        for line in stream:
+            match = pattern.fullmatch(line.rstrip('\r\n'))
+            if match and 0x20549c20 <= int(match[1],16) <= 0x20549c3a:
+                va = int(match[1],16)
+                assert pe.bytes(va,len(match[2])//2).hex() == match[2]
+                cleanup_rows.append(dict(va=match[1],bytes=match[2],instruction=match[3],fileOffset=pe.offset(va,len(match[2])//2)))
+    assert len(cleanup_rows)==5 and cleanup_rows[-1]['instruction']=='JMP dword ptr [0x207d87a4]'
+    cleanup = dict(entry='20549c20',instructions=cleanup_rows,
+        bodyInstructionBytesSha256=hashlib.sha256(b''.join(bytes.fromhex(row['bytes']) for row in cleanup_rows)).hexdigest())
     images = []
     for address, size, label in [
         (0x207b51c4, 16, 'labelWrapper'),
@@ -50,7 +64,7 @@ def capture(study):
         initializer=dict(entry='204b23d0', assemblyPath=assembly.relative_to(root).as_posix(),
             instructions=instructions, bodyInstructionBytesSha256=hashlib.sha256(
                 b''.join(bytes.fromhex(row['bytes']) for row in instructions)).hexdigest()),
-        images=images, sourceOnly=True, initializerReturnCaptured=False,
+        typeCleanup=cleanup, images=images, sourceOnly=True, initializerReturnCaptured=False,
         cleanupExecutionCaptured=False, fullCampaignCompleted=False)
 
 
@@ -78,6 +92,7 @@ export const labelImagePins = Object.fromEntries(source.images.map(image=>[image
 freeze(labelImagePins);
 export function labelImageReceipt(label:string):NativeCrtImageReceipt {admitGameLabelSource();const image=source.images.find(image=>image.label===label);if(!image)throw new Error('Unowned Label image');return Object.freeze({...image,module:'Game' as const,scope:image.loaderZeroFillBytes?'cold-original-image':'original-file-backed-constant',knownMask:'ff'.repeat(image.bytes)});}
 export function labelInitializerInstruction(pc:string):NativeGameIoInstruction {admitGameLabelSource();const row=source.initializer.instructions.find(row=>row.va===pc);if(!row)throw new Error('Unowned Label initializer instruction');return row;}
+export function labelTypeCleanupReceipt(){admitGameLabelSource();const cleanup=source.typeCleanup;if(cleanup.entry!=='20549c20')throw new Error('Original Label type cleanup differs');return Object.freeze({module:'Game' as const,entry:cleanup.entry,body:cleanup.entry,bodyInstructionBytesSha256:cleanup.bodyInstructionBytesSha256});}
 """.replace('EXPECTED', expected)
         args.typescript.write_text(generated, encoding='utf-8', newline='\n')
     for method in source['module']['methods']:

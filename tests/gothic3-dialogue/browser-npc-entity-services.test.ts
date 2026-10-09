@@ -19,7 +19,7 @@ describe('selected browser NPC platform services', () => {
     expect(startup.propertyIdInvocation).toBe('not-entered');
     expect(startup.prerequisites.attachResult.known).toBe(false);
     if(startup.prerequisites.attachResult.known)throw new Error('Unfinished Game startup returned');
-    expect(startup.prerequisites.attachResult.reason).toContain('Original Label registration CALL is not yet admitted at 200752cf -> 207d8868');
+    expect(startup.prerequisites.attachResult.reason).toContain('environment CALL at204b240a: CALL 0x200340e0');
     const first = owner.control.matrixIdentity();
     const second = owner.control.matrixIdentity();
     expect(first.known).toBe(true);

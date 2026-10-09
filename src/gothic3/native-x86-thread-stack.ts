@@ -3046,7 +3046,12 @@ export class NativeX86ThreadStack {
     this.#call('204b23ef','204b23f4');
     const result=NativeGameLabelType.prototype.get.call(NativeGameLabelType.forCrt(crt,memory.value));
     if(!result.known)throw new Error(result.reason);
-    throw new Error('Label type getter return is not implemented');
+    const storage=NativeModuleCrtOwner.canonicalImageForOwner(crt,'labelTypeAndGuard');
+    if(!storage.known||result.value.backing!==storage.value.backing||result.value.bytes.byteOffset!==storage.value.bytes.byteOffset||result.value.bytes.length!==60)
+      throw new Error('Actual retained Label type return required');
+    this.#store(this.#bank,this.#reg('EAX'),this.#moduleWord('labelTypeAndGuard',0));
+    const returned=this.#ret(0),source=this.#record(returned).provenance;
+    if(source?.kind!=='source'||source.type!=='code'||source.address!=='204b23f4')throw new Error('Actual Label type getter return required');
   }); }
   callGameFreePointTypeSingleton(controller:object):NativeValue<void> { return this.#run(controller,()=>{
     const binding=this.#setEnvpBinding;

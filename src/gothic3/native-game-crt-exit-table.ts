@@ -1,3 +1,4 @@
+import {labelTypeCleanupReceipt} from './native-game-label-source';
 import type { NativeValue } from './dialogue';
 import { gameClassNameDestructorMatches } from './native-game-class-name-family-source';
 import { NativeHeapObjectViews } from './native-heap-views';
@@ -70,7 +71,7 @@ export class NativeGameExitTable {
     if (this.boundary) return unknown(this.boundary);
     const old = this.callbacks.get(label);
     if (old) return known(old);
-    const method = label==='freePointWrapperCleanup' ? freePointWrapperCleanupReceipt() : label==='freePointTypeCleanup' ? freePointTypeCleanupReceipt() : label==='freePointClassNameCleanup' ? freePointClassNameCleanupReceipt() : label === 'staticFiniWalker' ? gameCinitStaticFiniReceipt() : label==='arenaRootCleanup' ? gameArenaRootCleanupReceipt() : label==='arenaStatusCleanup' ? statusCleanupReceipt() : label==='enumNameRegistryCleanup' ? arenaEnumNameCleanupReceipt() : label==='enumValueRegistryCleanup' ? arenaEnumValueCleanupReceipt() : this.crt.sourceProfile.heapRules.methods[label];
+    const method = label==='labelTypeCleanup' ? labelTypeCleanupReceipt() : label==='freePointWrapperCleanup' ? freePointWrapperCleanupReceipt() : label==='freePointTypeCleanup' ? freePointTypeCleanupReceipt() : label==='freePointClassNameCleanup' ? freePointClassNameCleanupReceipt() : label === 'staticFiniWalker' ? gameCinitStaticFiniReceipt() : label==='arenaRootCleanup' ? gameArenaRootCleanupReceipt() : label==='arenaStatusCleanup' ? statusCleanupReceipt() : label==='enumNameRegistryCleanup' ? arenaEnumNameCleanupReceipt() : label==='enumValueRegistryCleanup' ? arenaEnumValueCleanupReceipt() : this.crt.sourceProfile.heapRules.methods[label];
     const entryChain = (method as typeof method & { readonly entryChain?: readonly {
       readonly va: string; readonly bytes: string; readonly targetVA: string;
     }[] } | undefined)?.entryChain;
@@ -252,6 +253,7 @@ export class NativeGameExitTable {
         : receipt.label === 'enumNameRegistryCleanup' ? arenaEnumNameCleanupReceipt()
         : receipt.label === 'enumValueRegistryCleanup' ? arenaEnumValueCleanupReceipt()
         : receipt.label === 'freePointClassNameCleanup' ? freePointClassNameCleanupReceipt()
+        : receipt.label === 'labelTypeCleanup' ? labelTypeCleanupReceipt()
         : receipt.label === 'freePointTypeCleanup' ? freePointTypeCleanupReceipt()
         : receipt.label === 'freePointWrapperCleanup' ? freePointWrapperCleanupReceipt()
         : this.crt.sourceProfile.heapRules.methods[receipt.label]);

@@ -48,7 +48,7 @@ Each feature goes through the following steps:
 initialization return through the retained startup stack. FreePoint's later
 class-name initializer also returns, sharing the same CString and cleanup
 owner. Label initializer `204b23d0` now executes its wrapper constructor and stops
-inside that getter at registration CALL `200752cf -> 207d8868`. Complete startup,
+at wrapper initialization CALL `204b240a -> 200340e0`. Complete startup,
 world activation and a new-game-to-ending campaign remain unfinished. Local
 checkpoints and the hosted version can differ; validation below identifies
 the checkpoint covered.
@@ -57,6 +57,21 @@ the checkpoint covered.
 
 The entries below describe successive local states, newest first. Statements
 about missing operations in older entries apply to those earlier checkpoints.
+
+### Current local checkpoint: Label type registers and returns
+
+Label's actual reflected type is inserted into the shared property table with
+its retained wrapper allocation. Registration uses the original virtual
+class-name slot, whose three recovered jumps reach the existing Label CString
+owner. The type getter registers original cleanup `20549c20` and returns
+through its retained startup frame. The initializer stores the actual type
+pointer at wrapper offset twelve and stops at `204b240a -> 200340e0`.
+
+Independent source generations matched exactly, TypeScript checking passed,
+and all 31 focused tests passed in 22.49 seconds. Tests inspect the actual
+registration slot, wrapper allocation, cleanup identity and stable repeat
+getter return. Wrapper initialization and the complete initializer return
+remain unfinished.
 
 ### Current local checkpoint: Label class name and named factory construct
 
