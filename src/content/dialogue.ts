@@ -293,7 +293,7 @@ N('darin_rotation_ledger', 'quarry_foreman',
 N('darin_rotation_pay', 'quarry_foreman',
   'Night shifts cost my crew sleep, and I have nothing on paper to show them it has been done before. Put ten coin behind a shift bonus and I will sign, and you will not have to prove anything else.',
   [
-    ['Ten coin. Done.', 'darin_hub', { intent: 'commit', locked: true, when: [{ t: 'item', id: 'coin', min: 10 }], fx: [{ t: 'item', id: 'coin', delta: -10 }, { t: 'consent', party: 'darin' }] }],
+    ['Ten coin. Done.', 'darin_hub', { intent: 'commit', locked: true, when: [{ t: 'item', id: 'coin', min: 10 }], fx: [{ t: 'item', id: 'coin', delta: -10 }, { t: 'consent', party: 'darin' }, setFact('darin_bonus_paid')] }],
     ['I will find another way.', 'darin_hub', { intent: 'leave' }],
   ]);
 N('darin_report_rillford', 'quarry_foreman',

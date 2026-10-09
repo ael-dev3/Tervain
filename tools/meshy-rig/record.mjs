@@ -10,13 +10,11 @@ import { createHash } from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { MESHY_RIGHTS_BOUNDARY, meshyProAssetLicense, meshyProLicense, writeJson, writeLedger } from '../model-ledger/meshy.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const NPCS = path.join(ROOT, 'public/models/npcs');
 const sha256 = (file) => createHash('sha256').update(fs.readFileSync(file)).digest('hex');
-/** Written as the files are kept: two-space indents, and characters beyond ASCII escaped. */
-const writeJson = (file, value) => fs.writeFileSync(file,
-  `${JSON.stringify(value, null, 2).replace(/[\u0080-￿]/g, (c) => `\\u${c.charCodeAt(0).toString(16).padStart(4, '0')}`)}\n`);
 
 const manifestFile = path.join(NPCS, 'manifest.json');
 const manifest = JSON.parse(fs.readFileSync(manifestFile, 'utf8'));
@@ -42,18 +40,15 @@ ledger.sources['resident-motion'] = {
   recordedSupplier: 'Ael',
   creator: 'Generated with the Meshy API (animation library and text to motion) on the owner\'s account',
   generationService: 'Meshy',
-  license: {
-    spdx: null, version: null, evidenceStatus: 'pending-source-classification',
-    reason: 'The API responses do not record the account plan at generation time.',
-  },
+  license: meshyProLicense(),
   credit: `Resident motion: ${clips.clips.length} clips from Meshy's animation library and text to motion, on a Meshy auto-rig of an owner-supplied resident; two of them also move the wanderer's swimming.`,
   changes: 'Clips packed into one skeleton-only library: meshes, textures and scale channels removed, centimetres converted to metres, rotations stored as normalized 16-bit quaternions (tools/meshy-rig/build-motion.mjs). Each clip is retargeted to every resident\'s own rig, and the two swim clips to the wanderer\'s, at load time.',
-  rightsBoundary: 'Project-specific Tervain use is recorded. This is not proof of ownership or a general content license.',
+  rightsBoundary: MESHY_RIGHTS_BOUNDARY,
 };
 const entry = {
   file: 'public/models/npcs/motion/residents.glb', bytes: manifest.motion.bytes, sha256: manifest.motion.sha256,
   embeddedCopyright: null, embeddedCcDeclaration: false, externalDependencies: [], scope: 'original-game-model-catalog',
-  sourceId: 'resident-motion', license: { spdx: null, version: null, evidenceStatus: 'pending-source-classification' }, modified: true,
+  sourceId: 'resident-motion', license: meshyProAssetLicense(), modified: true,
 };
 // The rig files are not models but Meshy output all the same: each records the automatic-rigging task it came from.
 ledger.sources['resident-rigs'] = {
@@ -64,13 +59,10 @@ ledger.sources['resident-rigs'] = {
   recordedSupplier: 'Ael',
   creator: 'Generated with the Meshy API (automatic rigging) on the owner\'s account, from owner-supplied resident models',
   generationService: 'Meshy',
-  license: {
-    spdx: null, version: null, evidenceStatus: 'pending-source-classification',
-    reason: 'The API responses do not record the account plan at generation time.',
-  },
+  license: meshyProLicense(),
   credit: 'Resident rigs: Meshy automatic rigs of the owner-supplied residents, one per resident.',
   changes: 'Only the skeleton and skin weights are kept, transferred onto the shipped resident mesh (tools/meshy-rig/extract-rig.mjs); hashes of each rig file are in the resident manifest.',
-  rightsBoundary: 'Project-specific Tervain use is recorded. This is not proof of ownership or a general content license.',
+  rightsBoundary: MESHY_RIGHTS_BOUNDARY,
 };
 ledger.generatedRigs = fs.readdirSync(path.join(NPCS, 'rigs')).filter((name) => name.endsWith('.json')).sort()
   .map((name) => {
@@ -88,5 +80,5 @@ ledger.summary.publicModelFiles = publicAssets.length;
 ledger.summary.publicModelBytes = publicAssets.reduce((total, asset) => total + asset.bytes, 0);
 // Every catalogued file's hash matches its source record; the library's record is its clip list (clips.json).
 ledger.summary.hashesMatchedExistingSourceRecords = ledger.assets.length;
-writeJson(ledgerFile, ledger);
+writeLedger(ledgerFile, ledger);
 console.log(`manifest: ${manifest.assets.filter((asset) => asset.rig).length} rigs, motion ${manifest.motion.bytes} bytes; ledger: ${ledger.summary.publicModelFiles} public models`);

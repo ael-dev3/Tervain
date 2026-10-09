@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
-  <meta name="description" content="Tervain 3D model credits, source records, modifications and unresolved license classifications.">
+  <meta name="description" content="Tervain 3D model credits, source records, modifications and license classifications.">
   <title>Tervain — 3D model credits and licenses</title>
   <style>
     :root { color-scheme: light dark; --paper:#f3efe6; --ink:#292821; --muted:#656254; --line:#c9c1ae; --link:#514326; --panel:#e9e4d8; }
@@ -53,25 +53,25 @@
     <header>
       <span class="eyebrow">Tervain · source credits</span>
       <h1>3D models and their licenses</h1>
-      <p class="lead">Original-game imported models were created with <a href="https://www.meshy.ai/">Meshy</a>, supplied for Tervain and adapted for its world. The historical Warpkeep archive has its own source records.</p>
-      <p class="meta">Inventory reviewed 6 October 2026, resident motion and furniture added 8 October 2026, the sealed wanderer 9 October 2026 · 107 public GLBs · 209 archived Warpkeep GLBs</p>
+      <p class="lead">Original-game imported models were created with <a href="https://www.meshy.ai/">Meshy</a> under a Meshy Pro paid plan, supplied for Tervain and adapted for its world. The historical Warpkeep archive has its own source records.</p>
+      <p class="meta">Inventory reviewed 6 October 2026, resident motion and furniture added 8 October 2026, the sealed wanderer and the Meshy plan classification 9 October 2026 · 107 public GLBs · 209 archived Warpkeep GLBs</p>
     </header>
 
     <div class="notice">
-      <span class="status">Source license classification pending</span>
-      <p>Of the 107 public model files, 89 derive from 54 recorded Meshy source files, and the residents' 17 rig files, their motion library and 17 furniture models were generated with the Meshy API. Their generation-time or Community/listing licenses and source creator credits are not yet established by the available records. This page preserves credits and changes; it does not certify private ownership, a blanket CC license or commercial clearance.</p>
+      <span class="status">Meshy Pro paid-plan output</span>
+      <p>Of the 107 public model files, 89 derive from 54 recorded Meshy source files, and the residents' 17 rig files, their motion library and 17 furniture models were generated with the Meshy API. Confirmed by the project owner, 9 October 2026: all of this Meshy output was generated under Meshy Pro, a paid plan. It therefore follows Meshy’s paid-plan Customer Output terms; the free-plan CC BY 4.0 and Community CC0 branches do not apply to it. The animated hero’s Mixamo-named skeleton and animation content keeps a separate, unresolved source-rights record. This page preserves credits and changes; it does not certify a blanket CC license or commercial clearance.</p>
     </div>
 
     <h2>Original Tervain model catalog</h2>
     <p>Credit: Meshy source models, supplied by Ael; source-derived geometry, materials, rigging and original additions prepared for Tervain. Individual source hashes, filenames and transformations are in the linked records and the <a href="model-licenses.json">complete ledger</a>.</p>
     <div class="table-wrap">
       <table>
-        <caption>Recorded GLB catalog — Meshy license branch unresolved</caption>
+        <caption>Recorded GLB catalog — Meshy Pro paid-plan output</caption>
         <thead><tr><th scope="col">Family</th><th scope="col">Files</th><th scope="col">Changes and source record</th></tr></thead>
         <tbody>
           <tr><td>Animated Wanderer</td><td>1</td><td>The earlier approved mesh, skinned to the supplied animated skeleton by weight transfer, preserving the supplied clips, material and textures. Mixamo-named skeleton/animation content has a separate unresolved source-rights record. <a href="https://github.com/ael-dev3/Tervain/blob/main/docs/engineering/figures-crowns-timber-0.0.13.md">Sealed hero record</a>.</td></tr>
           <tr><td>Earlier Wanderers</td><td>2</td><td>Historical models retained for audit: the animated reduction (reduced geometry and consistent unit conversion, preserving supplied textures, UVs and clips) and the first approved model (reduction, original rig/clips, material refinement and runtime texture preparation). <a href="https://github.com/ael-dev3/Tervain/blob/main/docs/engineering/main-hero-animations-assets.json">Animated hero provenance</a>; <a href="https://github.com/ael-dev3/Tervain/blob/main/docs/engineering/main-hero-assets.json">historical hero provenance</a>.</td></tr>
-          <tr><td>Resident and enemy cast</td><td>17</td><td>15 supplied sources, adapted by role: reductions, repaired geometry, UV baking, material changes and an original Tervain biped rig. Each also has its own Meshy automatic rig in a file beside it (17 rig files, listed with their Meshy rigging task ids in the ledger; license classification pending). <a href="https://github.com/ael-dev3/Tervain/blob/main/docs/engineering/meshy-npc-assets.json">NPC source and modification record</a> · <a href="https://github.com/ael-dev3/Tervain/blob/main/docs/engineering/resident-rigs-0.0.13.md">Rig record</a>.</td></tr>
+          <tr><td>Resident and enemy cast</td><td>17</td><td>15 supplied sources, adapted by role: reductions, repaired geometry, UV baking, material changes and an original Tervain biped rig. Each also has its own Meshy automatic rig in a file beside it (17 rig files, listed with their Meshy rigging task ids in the ledger; Meshy Pro paid-plan output). <a href="https://github.com/ael-dev3/Tervain/blob/main/docs/engineering/meshy-npc-assets.json">NPC source and modification record</a> · <a href="https://github.com/ael-dev3/Tervain/blob/main/docs/engineering/resident-rigs-0.0.13.md">Rig record</a>.</td></tr>
           <tr><td>Interior furniture</td><td>17</td><td>Meshy text-to-3D results from written descriptions, each turned to face into its room, scaled, stood on the floor and given smaller maps. <a href="https://github.com/ael-dev3/Tervain/blob/main/public/models/furniture/manifest.json">Furniture record</a> · <a href="https://github.com/ael-dev3/Tervain/blob/main/docs/engineering/rooms-0.0.13.md">Rooms and furniture</a>.</td></tr>
           <tr><td>Resident motion</td><td>1</td><td>Clips from Meshy’s animation library and text to motion, generated on a Meshy automatic rig of a supplied resident, packed as one skeleton-only library and retargeted to each resident (and the wanderer’s swimming) as the game loads. <a href="https://github.com/ael-dev3/Tervain/blob/main/public/models/npcs/motion/clips.json">Clip record</a>.</td></tr>
           <tr><td>Wildlife and settlement animals</td><td>19</td><td>19 supplied sources, with UV-preserving reduction, source-derived contact repairs, meter conversion, original quadruped rigs and animations. Source textures and the seated cat’s pose are retained. <a href="https://github.com/ael-dev3/Tervain/blob/main/docs/engineering/meshy-animal-assets.json">Animal source and modification record</a>.</td></tr>
@@ -82,14 +82,16 @@
       </table>
     </div>
 
-    <h2>How the actual source license applies</h2>
-    <p><a href="https://www.meshy.ai/terms-of-use">Meshy’s terms</a>, updated 19 September 2026, distinguish Free output under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>, paid-output terms and Community 3D output under <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a>. Other Community content, including uploaded images, uses BY-NC 4.0. The source branch must be established for the specific asset; its filename does not prove that branch.</p>
+    <h2>How Meshy’s terms apply</h2>
+    <p><a href="https://www.meshy.ai/terms-of-use">Meshy’s terms</a>, updated 19 September 2026, distinguish free-plan output under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>, paid-plan output and Community output under <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a>. Every Meshy model, rig, motion clip and furniture piece here is paid-plan output (Meshy Pro):</p>
     <ul>
-      <li><strong>Confirmed CC BY 4.0:</strong> preserve supplied creator, copyright, license, disclaimer and practicable source notices; credit Meshy where designated; identify modifications and link the license. Existing CC freedoms remain, without added restrictions or implied endorsement.</li>
-      <li><strong>Confirmed CC0:</strong> this ledger adds no attribution or noncommercial restriction to CC0-covered rights. Source credit remains useful provenance.</li>
-      <li><strong>Unresolved or special permission:</strong> retain the recorded project-use scope while obtaining actual source evidence. Do not relabel it CC or claim private ownership.</li>
+      <li><strong>Section 3.2, paid plans:</strong> customers on a paid Meshy plan may keep their content private and, as between Meshy and them and to the extent possible under applicable law, own their Customer Output. Meshy keeps a non-exclusive license to use that content to provide its service.</li>
+      <li><strong>Section 3.1:</strong> Meshy’s own service assets are licensed only as far as they are part of, and needed to use, the output.</li>
+      <li><strong>Section 7.2:</strong> output is provided as is; Meshy does not guarantee that it is unique or unlike existing 3D models, and it may not qualify for intellectual-property protection.</li>
+      <li><strong>Not applicable here:</strong> the free-plan branch (section 3.2: Meshy-owned output under CC BY 4.0 with Meshy credit) and the Community branch (section 3.3: output posted on the Meshy Community page is CC0, other Community content BY-NC 4.0). No Community posting is recorded for these assets.</li>
     </ul>
-    <p>Actual CC rights take precedence over general repository media wording for the rights they grant. The <a href="https://github.com/ael-dev3/Tervain/blob/main/LICENSE-SCOPE.md">source-code license</a> does not license these model files or reduce a recipient’s existing CC rights. Trademark, publicity/privacy and third-party input or animation rights need their own applicable permission.</p>
+    <p>Should any source later be confirmed under a Creative Commons license, its CC freedoms apply in full: for CC BY 4.0, preserve supplied notices, credit as designated, identify modifications and link the license, without added restrictions or implied endorsement; for CC0, this ledger adds no attribution or noncommercial restriction. Unresolved or special-permission records keep their recorded project-use scope and are not relabeled CC.</p>
+    <p>Actual CC rights take precedence over general repository media wording for the rights they grant. The <a href="https://github.com/ael-dev3/Tervain/blob/main/LICENSE-SCOPE.md">source-code license</a> does not license these model files or reduce a recipient’s existing CC rights. The paid-plan classification does not clear trademark, publicity/privacy or third-party input or animation rights; they need their own applicable permission.</p>
 
     <details>
       <summary>Historical Warpkeep archive — 209 GLBs</summary>

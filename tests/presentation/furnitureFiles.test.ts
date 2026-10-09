@@ -42,7 +42,8 @@ describe('the prepared furniture (A66)', () => {
       const source = ledger.sources[entry.sourceId];
       expect(source.generationService, piece.id).toBe('Meshy');
       expect(source.sha256, piece.id).toBe(piece.source.sourceSha256);
-      expect(source.license.evidenceStatus, piece.id).toBe('pending-source-classification');
+      expect(source.license.evidenceStatus, piece.id).toBe('meshy-paid-plan-output');
+      expect(entry.license.evidenceStatus, piece.id).toBe('meshy-paid-plan-output');
     }
   });
 });

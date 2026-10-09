@@ -9,6 +9,11 @@ license Tervain's music, models, logos, faction identity or other media.
 
 3D model credits and per-asset permission records: model-licenses.html and
 model-licenses.json, included beside this notice in the production build.
+Original-game imported models were created with Meshy (https://www.meshy.ai/).
+All Meshy output in the project was generated under Meshy Pro, a paid plan
+(confirmed by the project owner, 9 October 2026), and follows Meshy's
+paid-plan Customer Output terms; Meshy's free-plan CC BY 4.0 and Community
+CC0 branches do not apply to it.
 Any confirmed Creative Commons asset keeps its separate grant; this project's
 code license does not impose extra restrictions on that asset. An unresolved
 provenance entry is not an open-content grant or a certification of clearance.

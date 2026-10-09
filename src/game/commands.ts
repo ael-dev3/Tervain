@@ -40,6 +40,8 @@ export function applyEffect(s: WorldState, e: Effect, events: GameEvent[]): stri
   switch (e.t) {
     case 'fact':
       s.facts[e.key] = e.value ?? true;
+      // Reconciled with Darin after paying his shift bonus, his word stands again without a second payment (A72).
+      if (e.key === 'darin_humiliated' && e.value === false && s.facts.darin_bonus_paid === true) s.facts.consent_darin = true;
       recomputeDerived(s, events);
       return null;
     case 'evidence':
