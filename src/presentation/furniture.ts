@@ -1,8 +1,8 @@
 import * as THREE from 'three';
 import { GLTFLoader, type GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import { FURNITURE, type FurniturePlacement } from '../world/furniture';
+import { FURNITURE, pieceSize, type FurniturePlacement } from '../world/furniture';
 import { FURNITURE_SIZES, type FurnitureId } from '../world/furnitureSizes';
-import { fromBuildingLocal, type InteriorSpec, type RoomLocator } from '../world/interiors';
+import { fromBuildingLocal, hearthOf, type InteriorSpec, type RoomLocator } from '../world/interiors';
 import { modelAssetUrl } from './assets/modelUrl';
 import { observeModelLoad, withModelLoadSlot, type ModelLoadProgress } from './assets/modelLoadQueue';
 import { downloadAsset } from './assets/download';
@@ -93,6 +93,25 @@ export function buildFurniture(templates: FurnitureTemplates, rooms: RoomLocator
     byPiece.set(p.piece, list);
   }
   const meshes: { mesh: THREE.InstancedMesh; instances: Instance[]; shown: string }[] = [];
+  // Each piece casts a soft shadow on the floor, leaning away from the hearth (A70). Drawn as a dark, feathered card
+  // under it, it needs no shadow map: a hearth light's own shadow would add a texture unit every lit material lacks room for.
+  const shade: Instance[] = [];
+  for (const p of placements) {
+    const [w, , d] = pieceSize(p.piece), b = p.room.building, hearth = hearthOf(p.room);
+    const away = hearth ? new THREE.Vector2(p.x - hearth.stack.x, p.z - hearth.stack.z) : new THREE.Vector2();
+    if (away.lengthSq() > 1e-6) away.normalize().multiplyScalar(0.12);
+    const world = fromBuildingLocal(b, p.x + away.x, p.z + away.y);
+    at.set(world.x, rooms.base(p.room) + p.room.floorTop + 0.004, world.z);
+    q.setFromAxisAngle(up, b.yaw + p.yaw);
+    shade.push({ room: p.room, centre: new THREE.Vector2(b.x, b.z), matrix: new THREE.Matrix4().compose(at, q, new THREE.Vector3(w * 1.3, 1, d * 1.3)) });
+  }
+  if (shade.length) {
+    const mesh = new THREE.InstancedMesh(shadeCard(), shadeMaterial(), shade.length);
+    mesh.name = 'Furniture / floor shadows';
+    mesh.count = 0; mesh.renderOrder = -1; mesh.frustumCulled = true;
+    group.add(mesh);
+    meshes.push({ mesh, instances: shade, shown: '' });
+  }
   for (const [id, instances] of byPiece) {
     const template = templates.get(id)!;
     const mesh = new THREE.InstancedMesh(template.geometry, template.material, instances.length);
@@ -143,6 +162,28 @@ export function buildFurniture(templates: FurnitureTemplates, rooms: RoomLocator
     stats: () => ({ furniture: drawn, furnitureTris: triangles }),
     dispose() {
       for (const { mesh } of meshes) mesh.dispose();
+      const card = meshes.find(({ mesh }) => mesh.name === 'Furniture / floor shadows')?.mesh;
+      if (card) { card.geometry.dispose(); (card.material as THREE.MeshBasicMaterial).map?.dispose(); (card.material as THREE.Material).dispose(); }
     },
   };
+}
+
+/** A unit floor card for a piece's shadow. */
+function shadeCard(): THREE.BufferGeometry {
+  return new THREE.PlaneGeometry(1, 1).rotateX(-Math.PI / 2);
+}
+
+/** Dark at the heart, feathered to nothing at the edges of a rounded footprint. */
+function shadeMaterial(): THREE.MeshBasicMaterial {
+  const n = 64, data = new Uint8Array(n * n * 4);
+  for (let j = 0; j < n; j++) for (let i = 0; i < n; i++) {
+    const x = Math.abs((i + 0.5) / n * 2 - 1), y = Math.abs((j + 0.5) / n * 2 - 1);
+    const edge = Math.max(0, Math.hypot(Math.max(0, x - 0.55), Math.max(0, y - 0.55)) / 0.45);
+    const a = Math.max(0, 1 - edge) ** 1.6;
+    data.set([0, 0, 0, Math.round(a * 255)], (j * n + i) * 4);
+  }
+  const map = new THREE.DataTexture(data, n, n, THREE.RGBAFormat);
+  map.magFilter = THREE.LinearFilter; map.minFilter = THREE.LinearFilter; map.needsUpdate = true;
+  return new THREE.MeshBasicMaterial({ color: 0x000000, map, transparent: true, opacity: 0.42, depthWrite: false,
+    polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -2 });
 }
