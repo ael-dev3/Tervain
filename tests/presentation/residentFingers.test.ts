@@ -219,6 +219,37 @@ describe('the residents\' own fingers (A72)', () => {
   }, 300_000);
 });
 
+describe('the writing pinch (A75)', () => {
+  it('holds the quill between thumb and fingers, not over the back of the hand', async () => {
+    for (const [id, work] of [['estate-steward', 'ledger'], ['quarry-foreman', 'ledger'], ['ash-recorder', 'writing']] as const) {
+      const { rig, mesh } = await residentRig(id, work);
+      const control = rig.npc!.fingers!;
+      const pose: Pose = { mode: 'work', speed: 0, time: 0, t: 0, amp: 1, workGesture: work };
+      for (let i = 0; i < 60; i++) poseRig(rig, pose, 1 / 30);
+      const grip = (rig.root.userData.meshyNpc.fingers.grips as Partial<Record<FingerSide, HandCurl>>).Right!;
+      expect(control.curl('Right').fingers, id).toBeCloseTo(grip.fingers, 2);
+      expect(grip.fingers, id).toBeLessThan(0.6);
+      const quill = rig.npc!.work!.props.find(p => p.name.endsWith('quill'))!.children[0]!;
+      rig.root.updateMatrixWorld(true); mesh.skeleton.update();
+      const nib = quill.getWorldPosition(new THREE.Vector3()), up = quill.localToWorld(new THREE.Vector3(0, 1, 0)).sub(nib).normalize();
+      // Distance from the shaft's first 12 cm to the nearest of some skinned vertices.
+      const gap = (vertices: number[]) => Math.min(...vertices.map(v => {
+        const p = mesh.localToWorld(mesh.getVertexPosition(v, new THREE.Vector3())).sub(nib);
+        const t = Math.min(0.12, Math.max(0, p.dot(up)));
+        return p.addScaledVector(up, -t).length();
+      }));
+      const plan = control.plan, base = 24 + 6;
+      const thumbTip: number[] = []; // the thumb's skin
+      for (let v = 0; v < plan.weights.length / 4; v++) for (let k = 0; k < 4; k++) { const j = plan.joints[v * 4 + k]!; if (j >= base && j <= base + 2 && plan.weights[v * 4 + k]! > 0.5) thumbTip.push(v); }
+      const thumbGap = gap(thumbTip), fingerGap = gap(fingertipVertices(plan, 'Right'));
+      log.push(`${id} quill: thumb ${(thumbGap * 1000).toFixed(1)} mm, fingertips ${(fingerGap * 1000).toFixed(1)} mm from the shaft`);
+      // Before A75 the quill crossed the back of the hand (the steward's thumb 35 mm and fingertips 22 mm from it).
+      expect(thumbGap, `${id} thumb`).toBeLessThan(0.008);
+      expect(fingerGap, `${id} fingers`).toBeLessThan(0.008);
+    }
+  }, 300_000);
+});
+
 /**
  * A fist bends each knuckle about 1.4 radians: the skin over its back stretches and the creases inside fold with linear
  * blending, but no edge of the hand grows past five times its length or folds to nothing, and nearly all stay between

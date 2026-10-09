@@ -532,9 +532,19 @@ export function createMeshyNpcRig(asset: Pick<GLTF, 'scene' | 'animations'>, ent
         // A handle across the fingers is seated in the hand, where they close on it; the tool keeps its turn.
         const handle = handleOf(grip.tool, grip.radius), seated = seatHandle(fingers.plan, positions, side, handle);
         const socket = grip.tool.parent!, holder = socket.parent!;
-        const from = holder.worldToLocal(residentMesh.localToWorld(handle.origin.clone()));
-        const to = holder.worldToLocal(residentMesh.localToWorld(handle.origin.clone().add(seated.offset)));
-        socket.position.add(to.sub(from));
+        if (seated.turn) {
+          // Turned about the handle's own origin and carried to its new place, in the model's bind space (A75).
+          const o = handle.origin, n = seated.handle.origin, mesh = residentMesh.matrixWorld;
+          const change = new THREE.Matrix4().makeTranslation(n.x, n.y, n.z).multiply(new THREE.Matrix4().makeRotationFromQuaternion(seated.turn))
+            .multiply(new THREE.Matrix4().makeTranslation(-o.x, -o.y, -o.z));
+          const socketWorld = mesh.clone().multiply(change).multiply(mesh.clone().invert()).multiply(socket.matrixWorld);
+          holder.matrixWorld.clone().invert().multiply(socketWorld).decompose(socket.position, socket.quaternion, socket.scale);
+          socket.updateMatrixWorld(true);
+        } else {
+          const from = holder.worldToLocal(residentMesh.localToWorld(handle.origin.clone()));
+          const to = holder.worldToLocal(residentMesh.localToWorld(handle.origin.clone().add(seated.offset)));
+          socket.position.add(to.sub(from));
+        }
         workGrips[side] = seated.curl;
       }
       const weapon = attachments?.weapon ?? null;
