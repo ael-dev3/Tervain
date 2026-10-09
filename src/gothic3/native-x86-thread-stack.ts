@@ -1,3 +1,4 @@
+import {NativeHeapCString} from './native-heap-cstring';
 import {NativeGameAIHelperAdminType} from './native-game-ai-helper-admin-type';
 import {NativeGameLabelType} from './native-game-label-type';
 import {gameStrlenDwordCandidate} from './native-game-strlen-predicate';
@@ -199,6 +200,7 @@ export class NativeX86ThreadStack {
   #binding: Binding | null = null;
   #argvBinding: ArgvBinding | null = null;
   #setEnvpBinding: SetEnvpBinding | null = null;
+  #aiHelperPropertyIdText: NativeHeapCString | null = null;
   #arenaPropertySingleton:NativePropertySingleton|null=null;
   readonly #arenaAllocations=new Map<NativeHeapObjectViews,{owner:NativeMemoryAdmin;allocation:NativeMemoryAllocation}>();
   #setEnvpTransferred = false;
@@ -3087,6 +3089,34 @@ export class NativeX86ThreadStack {
     this.#store(this.#bank,this.#reg('EAX'),this.#moduleWord('labelTypeAndGuard',0));
     const returned=this.#ret(0),source=this.#record(returned).provenance;
     if(source?.kind!=='source'||source.type!=='code'||source.address!=='204b23f4')throw new Error('Actual Label type getter return required');
+  }); }
+  aiHelperPropertyIdTextSnapshot() {return this.#aiHelperPropertyIdText?.snapshot()??null;}
+  callAIHelperPropertyIdTextConstructor(controller:object):NativeValue<void> {return this.#run(controller,()=>{
+    const binding=this.#setEnvpBinding;
+    if(!binding||binding.controller!==controller)throw new Error('Actual retained Game startup controller required');
+    const grant=NativeGameCrtSetEnvp.canonicalAIHelperPropertyIdTextCallForCrt(binding.owner,binding.crt,controller);
+    if(!grant.known)throw new Error(grant.reason);
+    if(this.#calls.filter(call=>!call.returned).at(-1)?.site!=='20466654')throw new Error('Actual pending PropertyID initializer frame required');
+    if(this.#aiHelperPropertyIdText)throw new Error('Original temporary CString construction cannot be replayed');
+    const crt=binding.crt as NativeGameCrtOwner,memory=nativeGameLayerBaseMemoryForCrt(crt);
+    if(!memory.known)throw new Error(memory.reason);
+    const receiver=this.#load(this.#bank,this.#reg('ECX'));
+    const esp=this.#address(this.#load(this.#bank,this.#reg('ESP')));
+    const destination=this.#memory(receiver,4);
+    if(destination.fields!==this.#stack||destination.offset!==esp+4)throw new Error('Actual original CString stack receiver required');
+    const input=this.#memory(this.#load(this.#stack,esp),1);
+    const literal=NativeModuleCrtOwner.canonicalImageForOwner(crt,'aiHelperPropertyIdGuidLiteral');
+    if(!literal.known||input.fields!==literal.value||input.offset!==0)throw new Error('Actual original GUID literal argument required');
+    const slot=new NativeHeapObjectViews(destination.fields.backing,
+      destination.fields.bytes.byteOffset-destination.fields.backing.bytes.byteOffset+destination.offset,4);
+    this.#call('204b26cc','204b26d2');
+    const text=NativeHeapCString.beginTextConstruction(memory.value,slot);
+    this.#aiHelperPropertyIdText=text;
+    const result=NativeHeapCString.prototype.constructText.call(text,Object.freeze(input));
+    if(!result.known)throw new Error(result.reason);
+    this.#store(this.#bank,this.#reg('EAX'),receiver);
+    const returned=this.#ret(4),source=this.#record(returned).provenance;
+    if(source?.kind!=='source'||source.type!=='code'||source.address!=='204b26d2')throw new Error('Actual original CString constructor return required');
   }); }
   callGameAIHelperAdminTypeSingleton(controller:object):NativeValue<void> { return this.#run(controller,()=>{
     const binding=this.#setEnvpBinding;if(!binding||binding.controller!==controller)throw new Error('Actual retained Game startup controller required');

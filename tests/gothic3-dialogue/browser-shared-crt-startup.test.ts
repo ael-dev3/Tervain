@@ -54,10 +54,16 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  expect(game.known).toBe(true);
  if(!game.known)throw new Error(game.reason);
  expect(game.value.attachResult,game.value.attachProgress.setEnvpProgress?.currentPC).toEqual({known:false,
-  reason:'crtAttach204677e4: Unowned Unowned original environment CALL at204b26cc: CALL dword ptr [0x207d890c]'});
+  reason:'crtAttach204677e4: Unowned Unowned original environment CALL at204b26da: CALL dword ptr [0x207d86b8]'});
  const executed=new Set(game.value.attachProgress.setEnvpProgress!.effects.map(effect=>effect.pc));
  for(const pc of ['204b26c0','204b26c3','204b26c8'])expect(executed.has(pc)).toBe(true);
- expect(executed.has('204b26cc')).toBe(false);
+ for(const pc of ['204b26cc','204b26d2','204b26d5','204b26d6'])expect(executed.has(pc)).toBe(true);
+ expect(executed.has('204b26da')).toBe(false);
+ const aiText=game.value.attachProgress.setEnvpProgress!.aiHelperPropertyIdText!;
+ expect(aiText.construction).toBe('complete');expect(aiText.destroyed).toBe(false);
+ expect(aiText.pointerReadable).toBe(true);expect(aiText.data!.allocation.freed).toBe(false);
+ expect(new TextDecoder().decode(aiText.data!.allocation.bytes.subarray(8,46))).toBe('{63A89794-0E97-480a-9999-3A9569A4FCE3}');
+ expect(aiText.data!.allocation.bytes[46]).toBe(0);
  expect(executed.has('204b270c')).toBe(false);
  const aiPropertyId=game.value.crt.imageStorage('aiHelperPropertyId');
  expect(aiPropertyId.bytes.length).toBe(20);

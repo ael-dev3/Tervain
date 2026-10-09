@@ -359,6 +359,15 @@ export class NativeGameCrtSetEnvp {
       frame.site==='20466654'&&frame.returnPc==='20466656'&&owner.#requireSourcePoint(owner.#pc).instruction==='CALL 0x20006b0e'
       ?known(undefined):unknown('Actual original Label type-singleton CALL required');
   }
+  static canonicalAIHelperPropertyIdTextCallForCrt(owner:NativeGameCrtSetEnvp,crt:NativeModuleCrtOwner,controller:object):NativeValue<void> {
+    if(owners.get(crt)?.owner!==owner||owner.#crt!==crt||owner.#controller!==controller||owner.#phase!=='invoking')
+      return unknown('Actual retained Game startup controller required');
+    const frame=owner.#frames.at(-1);
+    return owner.#pc==='204b26cc'&&owner.#currentEntry==='204b26c0'&&frame?.entry==='204b26c0'&&
+      frame.site==='20466654'&&frame.returnPc==='20466656'&&
+      owner.#requireSourcePoint(owner.#pc).instruction==='CALL dword ptr [0x207d890c]'
+      ?known(undefined):unknown('Actual original AI helper PropertyID CString CALL required');
+  }
   static canonicalAIHelperAdminTypeCallForCrt(owner:NativeGameCrtSetEnvp,crt:NativeModuleCrtOwner,controller:object):NativeValue<void> {
     const active=NativeGameCrtSetEnvp.canonicalControllerForCrt(owner,crt,controller,'invoke');if(!active.known)return active;
     const frame=owner.#frames.at(-1);
@@ -933,6 +942,13 @@ export class NativeGameCrtSetEnvp {
       }
       throw new Error('Original Game C++ initializer callback is not yet admitted at ' + callback);
     }
+    if(point.va==='204b26cc') {
+      if(this.#currentEntry!=='204b26c0'||target.kind!=='memory'||target.expression!=='0x207d890c'||target.fs||returnPc!=='204b26d2')
+        throw new Error('Original AI helper PropertyID CString import required');
+      this.#nextBoundary=Object.freeze({pc:point.va,operation:'translatedCrtCall',target:'10003ba7'});
+      fact(NativeX86ThreadStack.prototype.callAIHelperPropertyIdTextConstructor.call(this.#stack,this.#controller));
+      this.#nextBoundary=null;return returnPc;
+    }
     const classNameSpec = gameClassNameSpec(point.va);
     if (classNameSpec) {
       this.#nextBoundary = Object.freeze({ pc: point.va, operation: 'translatedCrtCall', target: classNameSpec.getter });
@@ -1130,6 +1146,7 @@ export class NativeGameCrtSetEnvp {
     const envCall = graph.calls.find(call => call.site === '204678e7');
     const imports = graph.setEnvpCalls;
     return Object.freeze({ module: 'Game' as const, phase: this.#phase, currentPC: this.#pc, boundary: this.#boundary,
+      aiHelperPropertyIdText: NativeX86ThreadStack.prototype.aiHelperPropertyIdTextSnapshot.call(this.#stack),
       nextBoundary: this.#nextBoundary, physicalGraphTransferred: this.#physicalGraphTransferred,
       envCalled: this.#envCalled || !!envCall, envRetExecuted: envCall?.returned === true,
       envReturned: this.#envResult !== null, envResult: this.#envResult,
