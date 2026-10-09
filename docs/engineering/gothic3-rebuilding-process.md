@@ -10908,6 +10908,9 @@ SpieAdmin enabled byte. Execution then stops at original callback registration
 The evidence package captures 86 original bodies and 4,898 instructions.
 Independent regeneration matches its JSON and generated TypeScript byte for byte.
 Typechecking and three focused close checks pass, including damaged-return
-rejection without retiring the file. Full-suite and production-build validation
-are in progress. These continuations have no production callers; startup, world
+rejection without retiring the file. After updating the independently verified
+source totals, all 3,007 tests across 278 files passed in 269.39 seconds at
+commit `bb30f0c5`. The production build passed at `44ff1d2e`; the later code
+change only updates the source-package test totals.
+These continuations have no production callers; startup, world
 activation and a complete playable campaign remain unfinished.
