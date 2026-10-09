@@ -145,13 +145,24 @@ Typechecking, focused close checks, all 3,007 tests and the production build pas
 The close continuation merged in [PR #171](https://github.com/ael-dev3/Tervain/pull/171)
 at `97b5cc081a9f70fc6ba886bc062ffd0ead61363e`. Its
 [validation](https://github.com/ael-dev3/Tervain/actions/runs/37870906965) passed;
-[deployment](https://github.com/ael-dev3/Tervain/actions/runs/37871431726) is in progress.
+[deployment](https://github.com/ael-dev3/Tervain/actions/runs/37871431726) completed successfully.
 
 New local work registers SpieAdmin's original callback for a present file, then
 reaches the Winsock ordinal-115 import. For an absent file it registers original
 SpieAdmin and MessageAdmin shutdown callbacks and returns to initial logging.
 Four focused checks and typechecking pass. The production build passed;
-all 3,011 tests passed across 278 files. These registrations have not been published.
+all 3,011 tests passed across 278 files. These registrations merged in
+[PR #172](https://github.com/ael-dev3/Tervain/pull/172) at
+`6b0d904b33a1ac561aa77992b3c92ae2c280bce3` after
+[successful validation](https://github.com/ael-dev3/Tervain/actions/runs/37871922842).
+Deployment of that revision is pending.
+
+Further local work executes the original logging submission and callback
+dispatcher. It enters MessageAdmin's actual critical section and reaches its
+stored ErrorAdmin callback at `100494db`, retaining the entered lock and original
+context. Typechecking, three focused checks and independent source regeneration
+pass. All 3,013 tests and the production build passed at `58033ca8`.
+This logger continuation has not yet been published.
 
 - [Detailed workflow and reference paths](gothic3-rebuild-workflow.md)
 - [Architecture and implementation background](gothic3-rebuild-overview.md)
