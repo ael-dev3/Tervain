@@ -47,12 +47,12 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  expect(game.known).toBe(true);
  if(!game.known)throw new Error(game.reason);
  expect(game.value.attachResult).toEqual({known:false,
-  reason:'crtAttach204677e4: Unowned Unowned original environment CALL at204b216a: CALL 0x20008571'});
+  reason:'crtAttach204677e4: Unowned Unowned original environment CALL at20073024: CALL 0x2002a987'});
  const freePoint=game.value.crt.imageStorage('freePointWrapper');
  const freePointVtable=freePoint.pointer<{fields:NativeHeapObjectViews;offset:number}>(0).get()!;
  expect(freePointVtable.fields).toBe(game.value.crt.imageStorage('freePointWrapperVtable'));
  expect(freePointVtable.offset).toBe(0);
- expect([4,8].map(offset=>freePoint.readUnsigned(offset))).toEqual([10,0]);
+ expect([4,8].map(offset=>freePoint.readUnsigned(offset))).toEqual([11,0]);
  expect([...freePoint.knownMask.subarray(4,12)]).toEqual(Array(8).fill(255));
  const freePointTypePointer=freePoint.pointer<{fields:NativeHeapObjectViews;offset:number}>(12).get()!;
  expect(freePointTypePointer.fields).toBe(game.value.crt.imageStorage('freePointTypeAndGuard'));

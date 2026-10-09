@@ -43,6 +43,9 @@ The later registration continuation now inserts the actual type into the
 shared property table, registers type cleanup `20549b30` and returns the
 getter through its actual startup frame. The initializer stores that type
 pointer at wrapper `+12` and stops at `204b216a -> 20008571`.
+The later wrapper continuation executes its captured body prefix on the retained
+startup stack, reads argument one and changes flags from ten to eleven. It stops
+at parent-type call `20073024 -> 2002a987`, preserving its pending frame.
 The FreePoint initializer has not returned. Cleanup execution is unfinished.
 
 Reproduce from the matching local study:

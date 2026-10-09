@@ -46,8 +46,8 @@ Each feature goes through the following steps:
 
 **Current local boundary:** Arena Status, None and Running initialization
 return through the retained startup stack. The next unsupported callback is
-`204b216a -> 20008571`, the AI FreePoint wrapper initialization call. Its
-reflected type now registers and returns into the actual wrapper. Complete startup, world activation and
+`20073024 -> 2002a987`, the AI FreePoint parent-type call. Its reflected type
+registers and returns, and wrapper initialization begins. Complete startup, world activation and
 a new-game-to-ending campaign remain unfinished. Local checkpoints and the
 hosted version can differ; validation below identifies the checkpoint covered.
 
@@ -56,7 +56,24 @@ hosted version can differ; validation below identifies the checkpoint covered.
 The entries below describe successive local states, newest first. Statements
 about missing operations in older entries apply to those earlier checkpoints.
 
-### Current local checkpoint: FreePoint type registers and returns
+### Current local checkpoint: FreePoint wrapper initialization enters
+
+The actual initializer CALL at `204b216a` enters captured wrapper body
+`20073010` on the existing startup stack. It reads the original byte argument
+one, retains its local frame and saved ESI, and applies the recovered XOR/AND/XOR
+flag update to the actual wrapper. Flags become eleven; object and reflected
+type pointer identities remain retained. Startup reaches the unimplemented
+parent-type call at `20073024 -> 2002a987`. Wrapper initialization has not
+returned; its pending frame and previously applied state remain intact.
+
+Typechecking and 31 focused checks across four files pass in 31.51 seconds.
+Generated TypeScript independently regenerates exactly. The preceding
+class-name/factory full suite passed 3,197 tests and failed two five-second
+startup timeouts; those scenarios now have thirty-second limits and their
+unchanged assertions pass. Its build passed in 47.36 seconds. Full validation
+of this later continuation and a finishable campaign remain pending.
+
+### Earlier local checkpoint: FreePoint type registers and returns
 
 The getter reaches the actual existing property singleton and executes the
 recovered SharedBase RegisterTemplate behavior. It allocates the original
