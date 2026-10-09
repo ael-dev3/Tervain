@@ -594,7 +594,9 @@ export class NpcActor {
     // A turn on the spot is stepped round rather than glided like a statue on a turntable (A69).
     const turned = Math.abs(wrapAngle(this.yaw - yawBefore));
     const stepping = !moving && !this.hidden && dt > 0 && turned > NPC_TURN_STEPPED * dt;
-    const gait = moving ? travel : stepping ? turned * NPC_TURN_STRIDE * (this.rig.height / 1.8) : 0;
+    // With their own turn clips they step round where they stand (A71); otherwise the walk is stepped round in place.
+    const inPlace = this.rig.resident?.stepsInPlace === true;
+    const gait = moving ? travel : stepping && !inPlace ? turned * NPC_TURN_STRIDE * (this.rig.height / 1.8) : 0;
 
     this.y = walkingGround(ctx.terrain, this.x, this.z, this.y);
 
@@ -616,7 +618,7 @@ export class NpcActor {
     // On a bed, sitting on it or lain down, they keep their seat until they are on their feet again (A70).
     const onBed = this.lying !== null && (this.lie > 0 || seatedNow);
     const seated = seatedNow || onBed;
-    if (moving || stepping) mode = 'walk';
+    if (moving || (stepping && !inPlace)) mode = 'walk';
     else if (this.talking) mode = this.speaking ? 'talk' : seated ? 'sit' : 'idle';
     else if (onBed) mode = 'sit';
     else if (!this.path && this.atDestination()) {
@@ -638,6 +640,7 @@ export class NpcActor {
       amp: ctx.reducedMotion && mode !== 'walk' ? 0.4 : 1,
       travel: gait,
       moveSpeed: dt > 0 ? gait / dt : 0,
+      turn: wrapAngle(this.yaw - yawBefore),
       workGesture: (this.goal.inside && INDOOR_GESTURES[this.goal.inside]) || style.work,
       // The real counter, rock face or ground the work is done against (A70).
       workSite: mode === 'work' ? (this.goal.inside ? this.indoorWorkSite(ctx) : workSiteFor(this.goal.anchor, this, ctx.terrain)) : undefined,

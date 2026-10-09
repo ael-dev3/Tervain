@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import type { Rig } from './characters';
 import { createHuntingArrow } from './huntingArrow';
+import type { HeroGrip } from './hero/animation';
 
 /** The arrow's line while the bow is only carried: forward, a little out from the leg and a touch down. */
 const BOW_AT_REST = new THREE.Vector3(.14, -.1, .98).normalize();
@@ -152,9 +153,9 @@ export class PlayerHuntingVisual {
       const target = this.rig.root.worldToLocal(nockWorld).add(new THREE.Vector3(-.025 - recoil * .13, .005, -recoil * .08));
       this.arm('Right', target, new THREE.Vector3(-.55, 1.42, .08));
       this.orientPalm(this.rightPalm, frame);
-      this.closeFingers('Right', .7);
+      this.closeFingers('Right', .7, 'draw');
     }
-    this.closeFingers('Left', .95);
+    this.closeFingers('Left', .95, 'bow');
     this.rig.root.updateMatrixWorld(true);
   }
 
@@ -205,8 +206,8 @@ export class PlayerHuntingVisual {
     this.armPalm('Right', new THREE.Vector3(-.1 + stroke, THREE.MathUtils.lerp(1.05, this.skinTargetHeight + .14, amount), .25 + .29 * amount), new THREE.Vector3(-.44, .6, .34));
     const toolQ = new THREE.Quaternion().setFromEuler(new THREE.Euler(.7 + stroke * 2, .25, -.15)).premultiply(this.rig.root.getWorldQuaternion(new THREE.Quaternion()));
     this.orientPalm(this.rightPalm, toolQ);
-    this.closeFingers('Right', .94);
-    this.closeFingers('Left', .35);
+    this.closeFingers('Right', .94, 'knife');
+    this.closeFingers('Left', .35, 'hide');
     // Keep the visual soles above the physics-owned floor without moving the authoritative player.
     this.rig.root.updateMatrixWorld(true);
     let lowest = Infinity;
@@ -297,14 +298,18 @@ export class PlayerHuntingVisual {
     this.worldRotation(object, object.getWorldQuaternion(new THREE.Quaternion()).premultiply(delta));
   }
 
-  private closeFingers(side: 'Left' | 'Right', amount: number): void {
+  /**
+   * The authored hero holds the grip through his own hands, faded in and out with his other grips (A71); a figure
+   * without them closes its fingers here.
+   */
+  private closeFingers(side: 'Left' | 'Right', amount: number, grip: HeroGrip): void {
+    if (this.rig.hero) { this.rig.hero.holdGrip(side, grip); return; }
     for (const part of ['Middle', 'Pinky', 'Ring', 'Thumb']) for (const i of [1, 2, 3, 4]) {
       const finger = this.joint(`${side}Hand${part}${i}`);
       if (!finger) continue;
       this.remember(finger);
-      if (!this.rig.hero?.applyHandGrip) finger.rotateZ((side === 'Left' ? -1 : 1) * amount * (part === 'Thumb' ? .4 : .65));
+      finger.rotateZ((side === 'Left' ? -1 : 1) * amount * (part === 'Thumb' ? .4 : .65));
     }
-    this.rig.hero?.applyHandGrip?.(side, amount);
   }
 
   /**
