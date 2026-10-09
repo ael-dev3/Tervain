@@ -92,7 +92,16 @@ callback data. The canonical Game exit-table owner uses that same receipt at
 capability creation and registration. Component checks establish a retained
 callback identity, one encoded callback cell and a four-byte cursor advance;
 they do not execute shutdown traversal. All 21 focused checks across two files
-and typechecking pass. The browser's original atexit CALL bridge remains pending.
+and typechecking pass.
+
+The local startup bridge now checks the original `20466638` CALL, the returned
+C walker and the actual pushed `20473801` source word. It invokes the existing
+atexit owner, preserves the physical CALL/RET and leaves argument cleanup to
+the original caller. Normal execution reaches `2046664e`, the first C++ table
+read; the table has not yet been admitted to this startup graph. A skipped exit
+initializer retains its earlier state and stops inside registration. All 51
+focused checks across three files and typechecking pass. Build, full-suite and
+production browser verification remain pending for this continuation.
 
 Regenerate from the repository root:
 

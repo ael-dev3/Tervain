@@ -2731,6 +2731,30 @@ export class NativeX86ThreadStack {
     const returned = this.#ret(0), source = this.#record(returned).provenance;
     if (source?.kind !== 'source' || source.type !== 'code' || source.address !== '20466454') throw new Error('Actual C initializer callback return required');
   }); }
+  /** Translate the existing CRT registration owner; shutdown is not invoked. */
+  registerGameStaticFini(controller: object): NativeValue<void> { return this.#run(controller, () => {
+    const binding = this.#setEnvpBinding;
+    if (!binding || binding.controller !== controller) throw new Error('Actual retained Game startup controller required');
+    const point = NativeGameCrtSetEnvp.canonicalStaticFiniRegistrationForCrt(binding.owner, binding.crt, controller);
+    if (!point.known) throw new Error(point.reason);
+    const pending = this.#calls.filter(call => !call.returned).at(-1);
+    if (pending?.site !== '204678f2' || !this.#calls.some(call => call.site === '20466626' && call.returned))
+      throw new Error('Actual returned C walker and retained cinit caller required');
+    const cursor = this.#address(this.#load(this.#bank, this.#reg('ESP')));
+    const argument = this.#record(this.#load(this.#stack, cursor)).provenance;
+    if (argument?.kind !== 'source' || argument.type !== 'code' || argument.address !== '20473801')
+      throw new Error('Actual pushed static shutdown callback source word required');
+    const table = NativeGameExitTable.forCrt(binding.crt as NativeGameCrtOwner);
+    const callback = table.callbackForMethod('staticFiniWalker');
+    if (!callback.known) throw new Error(callback.reason);
+    this.#call('20466638', '2046663d');
+    const result = table.atexit(callback.value);
+    if (!result.known) throw new Error(result.reason);
+    this.#store(this.#bank, this.#reg('EAX'), this.#mint(result.value >>> 0, 0xffffffff));
+    const returned = this.#ret(0), source = this.#record(returned).provenance;
+    if (source?.kind !== 'source' || source.type !== 'code' || source.address !== '2046663d')
+      throw new Error('Actual original atexit return required');
+  }); }
   /** Execute the recovered Game CRT wrapper under its existing owner. The
    * source loop owns CALL/RET; wrapper instruction interpretation is not claimed. */
   encodeGameCinitPointer(controller: object): NativeValue<void> { return this.#run(controller, () => {

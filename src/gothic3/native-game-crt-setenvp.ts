@@ -239,6 +239,12 @@ export class NativeGameCrtSetEnvp {
       return known(Object.freeze(owner.#frames.map(frame => Object.freeze({ entry: frame.entry, site: frame.site, returnPc: frame.returnPc }))));
     } catch (error) { return unknown(reason(error)); }
   }
+  static canonicalStaticFiniRegistrationForCrt(owner: NativeGameCrtSetEnvp, crt: NativeModuleCrtOwner, controller: object): NativeValue<void> {
+    const active = NativeGameCrtSetEnvp.canonicalControllerForCrt(owner, crt, controller, 'invoke'); if (!active.known) return active;
+    return owner.#pc === '20466638' && owner.#currentEntry === '204665f4' &&
+      owner.#requireSourcePoint(owner.#pc).instruction === 'CALL 0x204637ce'
+      ? known(undefined) : unknown('Actual original static shutdown registration CALL required');
+  }
   static canonicalSetEnvpReturnForCrt(owner: NativeGameCrtSetEnvp, crt: NativeModuleCrtOwner, controller: object): NativeValue<void> {
     const active = NativeGameCrtSetEnvp.canonicalControllerForCrt(owner, crt, controller, 'invoke'); if (!active.known) return active;
     const frame = owner.#frames.at(-1);
@@ -314,6 +320,7 @@ export class NativeGameCrtSetEnvp {
     }
     if (image) return fact(NativeX86ThreadStack.prototype.gameImageAddress.call(this.#stack, this.#controller, image.label, value - image.address));
     if (value === 0x20468600) return fact(NativeX86ThreadStack.prototype.sourceAddress.call(this.#stack, this.#controller, 'code', '20468600'));
+    if (value === 0x20473801) return fact(NativeX86ThreadStack.prototype.sourceAddress.call(this.#stack, this.#controller, 'code', '20473801'));
     return this.#immediate(value);
   }
   #address(expression: string): NativeX86Word32 {
@@ -375,6 +382,11 @@ export class NativeGameCrtSetEnvp {
     fact(NativeX86ThreadStack.prototype.storeWidth.call(this.#stack, this.#controller, this.#address(destination.expression), word, bytes));
   }
   #call(point: NativeGameIoInstruction, target: Operand, returnPc: string): string {
+    if (point.va === '20466638') {
+      this.#nextBoundary = Object.freeze({ pc: point.va, operation: 'translatedCrtCall', target: '204637ce' });
+      fact(NativeX86ThreadStack.prototype.registerGameStaticFini.call(this.#stack, this.#controller));
+      this.#nextBoundary = null; return returnPc;
+    }
     if (point.va === '20466452') {
       const callback = fact(NativeX86ThreadStack.prototype.resolveGameCinitErrorCallback.call(this.#stack, this.#controller));
       this.#nextBoundary = Object.freeze({ pc: point.va, operation: 'indirectSourceCall', target: callback });
