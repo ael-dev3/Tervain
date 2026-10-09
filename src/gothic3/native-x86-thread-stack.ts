@@ -12,6 +12,7 @@ import { sharedInitializerInstruction } from './native-shared-initializer-instru
 import { NativeRuntimePlatform } from './native-runtime-platform';
 import { NativeModuleCrtOwner } from './native-engine-crt-locks';
 import { NativeGameExitTable } from './native-game-crt-exit-table';
+import { NativeGameArenaType } from './native-game-arena-type';
 import { nativeGameLayerBaseMemoryForCrt } from './native-game-layer-base-class-name';
 import { getGameClassName } from './native-game-class-name-family';
 import { gameClassNameSpec } from './native-game-class-name-family-source';
@@ -2798,6 +2799,27 @@ export class NativeX86ThreadStack {
     const returned = this.#ret(0), source = this.#record(returned).provenance;
     if (source?.kind !== 'source' || source.type !== 'code' || source.address !== '2046663d')
       throw new Error('Actual original atexit return required');
+  }); }
+  callGameArenaTypeSingleton(controller:object):NativeValue<void> { return this.#run(controller,()=>{
+    const binding=this.#setEnvpBinding;
+    if(!binding || binding.controller!==controller)throw new Error('Actual retained Game startup controller required');
+    const point=NativeGameCrtSetEnvp.canonicalArenaTypeCallForCrt(binding.owner,binding.crt,controller);
+    if(!point.known)throw new Error(point.reason);
+    if(this.#calls.filter(call=>!call.returned).at(-1)?.site!=='20466654')
+      throw new Error('Actual pending Arena initializer frame required');
+    const crt=binding.crt as NativeGameCrtOwner;
+    const memory=nativeGameLayerBaseMemoryForCrt(crt); if(!memory.known)throw new Error(memory.reason);
+    this.#call('204b1d8f','204b1d94');
+    const owner=NativeGameArenaType.forCrt(crt,memory.value);
+    const result=NativeGameArenaType.prototype.get.call(owner); if(!result.known)throw new Error(result.reason);
+    const storage=NativeModuleCrtOwner.canonicalImageForOwner(crt,'arenaTypeAndGuard');
+    if(!storage.known || result.value.backing!==storage.value.backing ||
+      result.value.bytes.byteOffset!==storage.value.bytes.byteOffset || result.value.bytes.length!==60)
+      throw new Error('Actual retained original Arena type return required');
+    this.#store(this.#bank,this.#reg('EAX'),this.#moduleWord('arenaTypeAndGuard',0));
+    const returned=this.#ret(0), source=this.#record(returned).provenance;
+    if(source?.kind!=='source' || source.type!=='code' || source.address!=='204b1d94')
+      throw new Error('Actual Arena type singleton return required');
   }); }
   /** Execute the recovered Game CRT wrapper under its existing owner. The
    * source loop owns CALL/RET; wrapper instruction interpretation is not claimed. */

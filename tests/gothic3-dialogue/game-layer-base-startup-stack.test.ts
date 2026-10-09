@@ -9,9 +9,10 @@ import { browserGameStandardIoInputs } from '../../src/gothic3/browser-game-stan
 import { browserGameArgvNlsInputs } from '../../src/gothic3/browser-game-argv-nls-inputs';
 import { nativeVirtualX86CpuSelection } from '../../src/gothic3/native-x86-thread-stack-profile';
 import { NativeX86ThreadStack } from '../../src/gothic3/native-x86-thread-stack';
-import { NativeMemoryAdmin, nativeNpcHeapExtension, nativeSceneStartupHeapExtension, nativeClassNameHeapExtension } from '../../src/gothic3/native-memory-admin';
+import { NativeMemoryAdmin, nativeNpcHeapExtension, nativeSceneStartupHeapExtension, nativeClassNameHeapExtension, nativePropertyHeapExtension } from '../../src/gothic3/native-memory-admin';
 import { NativeGameLayerBaseClassName } from '../../src/gothic3/native-game-layer-base-class-name';
 import { NativeGameExitTable } from '../../src/gothic3/native-game-crt-exit-table';
+import { NativeGameArenaType } from '../../src/gothic3/native-game-arena-type';
 import { NativeGameClassName } from '../../src/gothic3/native-game-class-name-family';
 import { gameClassNameSpec, gameClassNameFamilySpecs } from '../../src/gothic3/native-game-class-name-family-source';
 
@@ -29,7 +30,7 @@ function fixture(textPool = true, objectRefPool = true, pointerPool = false) {
   const memory = new NativeMemoryAdmin(platform, { extensions: [
     ...(textPool ? [nativeNpcHeapExtension] : []),
     ...(objectRefPool ? [nativeSceneStartupHeapExtension] : []),
-    ...(pointerPool ? [nativeClassNameHeapExtension] : []),
+    ...(pointerPool ? [nativeClassNameHeapExtension,nativePropertyHeapExtension] : []),
   ] });
   const stack = fact(NativeX86ThreadStack.forPlatform(platform));
   const game = fact(createBrowserGameCrtStartup(platform, memory));
@@ -51,8 +52,8 @@ describe('original Game C++ class-name initializers on the retained browser stac
     expect({ next: f.game.attachProgress.nextBoundary,
       reason: f.game.attachProgress.setEnvpProgress!.boundary,
       callbacks: NativeGameExitTable.forCrt(f.game.crt).snapshot().callbackCells.length }).toEqual({
-        next: { address: '204b1d8f', name: 'sourceCall', target: '2000d152' },
-        reason: 'Unowned original environment CALL at204b1d8f: CALL 0x2000d152', callbacks: 155,
+        next: { address: '204b1daa', name: 'sourceCall', target: '200021d5' },
+        reason: 'Unowned original environment CALL at204b1daa: CALL 0x200021d5', callbacks: 157,
       });
     const arenaRoot=f.game.crt.imageStorage('arenaRootWrapper');
     const arenaVtable=arenaRoot.pointer(0).get() as NativeBytePointer;
@@ -60,8 +61,12 @@ describe('original Game C++ class-name initializers on the retained browser stac
     expect(arenaVtable.offset).toBe(0);
     expect(arenaRoot.readUnsigned(4)).toBe(10);
     expect(arenaRoot.readUnsigned(8)).toBe(0);
-    expect(arenaRoot.readUnsigned(12)).toBe(0);
+    const arenaTypePointer=arenaRoot.pointer(12).get() as NativeBytePointer;
+    expect(arenaTypePointer.fields).toBe(f.game.crt.imageStorage('arenaTypeAndGuard'));
+    expect(arenaTypePointer.offset).toBe(0);
+    expect(NativeGameArenaType.forCrt(f.game.crt,f.memory).snapshot()).toMatchObject({constructed:true,registered:true,boundary:null});
     expect(f.stack.snapshot().calls.find(call=>call.site==='204b1d75')).toMatchObject({returned:true});
+    expect(f.stack.snapshot().calls.find(call=>call.site==='204b1d8f')).toMatchObject({returned:true});
     expect(f.stack.snapshot().calls.filter(call=>!call.returned).map(call=>call.site))
       .toEqual(['204678f2','20466654']);
     const completed = gameClassNameFamilySpecs.filter(spec => spec.initializer >= '204b11b0' && spec.initializer < '204b1d70');

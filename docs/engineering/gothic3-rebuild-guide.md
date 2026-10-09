@@ -47,6 +47,18 @@ same evidence-driven process to gameplay systems.
 
 ### Local checkpoint: primitive templates and scoped struct names
 
+The latest local Arena type bridge returns through `204b1d8f -> 2000d152` using
+the existing canonical type owner and the original retained CALL/RET frame.
+The type is constructed and registered, its original pointer is stored in the
+root wrapper, and startup next stops at `204b1daa -> 200021d5` (wrapper
+initialization). The exit table now retains 157 callbacks. Twenty focused checks
+across two files pass, including the independent image receipt contract.
+Source and generated runtime reproduce byte for byte. The preceding constructor
+full suite finished with 3,184 passing tests and one receipt-scope failure;
+the new generator fixes that runtime receipt label while keeping the captured
+loader-zero-fill provenance. Full-suite, build, browser and deployment validation
+of the type bridge remain pending.
+
 The subsequent local Arena-root continuation now enters initializer `204b1d70`,
 executes SharedBase's original wrapper constructor `10089290` on the retained
 startup stack, returns to `204b1d7b`, and installs the original Arena vtable.

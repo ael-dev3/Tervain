@@ -271,6 +271,15 @@ export class NativeGameCrtSetEnvp {
       frame?.site === '204678e7' && frame.returnPc === '204678ec' && owner.#frames.length === 1 && owner.#importSite === null
       ? known(undefined) : unknown('Actual original setenvp RET/current restored callee required');
   }
+  static canonicalArenaTypeCallForCrt(owner:NativeGameCrtSetEnvp,crt:NativeModuleCrtOwner,controller:object):NativeValue<void> {
+    const active=NativeGameCrtSetEnvp.canonicalControllerForCrt(owner,crt,controller,'invoke');
+    if(!active.known)return active;
+    const frame=owner.#frames.at(-1);
+    return owner.#pc==='204b1d8f' && owner.#currentEntry==='204b1d70' &&
+      frame?.entry==='204b1d70' && frame.site==='20466654' && frame.returnPc==='20466656' &&
+      owner.#requireSourcePoint(owner.#pc).instruction==='CALL 0x2000d152'
+      ? known(undefined):unknown('Actual original Arena type-singleton CALL required');
+  }
   static canonicalReturnedSetEnvpForCrt(owner: NativeGameCrtSetEnvp, crt: NativeModuleCrtOwner,
     bootstrap: NativeCrtBootstrap, permit: object): NativeValue<0 | -1> {
     const entry = owners.get(crt);
@@ -404,6 +413,13 @@ export class NativeGameCrtSetEnvp {
     fact(NativeX86ThreadStack.prototype.storeWidth.call(this.#stack, this.#controller, this.#address(destination.expression), word, bytes));
   }
   #call(point: NativeGameIoInstruction, target: Operand, returnPc: string): string {
+    if(point.va==='204b1d8f') {
+      if(target.kind!=='immediate' || target.value!==0x2000d152 || returnPc!=='204b1d94')
+        throw new Error('Original Arena type singleton call target required');
+      this.#nextBoundary=Object.freeze({pc:point.va,operation:'translatedCrtCall',target:'2000d152'});
+      fact(NativeX86ThreadStack.prototype.callGameArenaTypeSingleton.call(this.#stack,this.#controller));
+      this.#nextBoundary=null; return returnPc;
+    }
     if(point.va==='204b1d75') {
       if(this.#currentEntry!=='204b1d70' || target.kind!=='memory' || target.expression!=='0x207d87b8' || target.fs)
         throw new Error('Original Arena wrapper constructor call required');

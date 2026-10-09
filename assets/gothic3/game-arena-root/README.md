@@ -34,6 +34,14 @@ The initialization path uses the actual type vtable and property singleton. A
 successful source capture does not establish that those runtime dependencies
 execute or that world/NPC activation is complete.
 
+The subsequent type bridge now connects the existing canonical Arena type
+owner through the original singleton CALL/RET frame. It constructs and registers
+the type and stores its pointer in the wrapper. Startup next stops at
+`204b1daa -> 200021d5`, with 157 shutdown callbacks retained. Twenty focused
+checks pass; broad validation and deployment of this continuation are pending.
+Runtime cold-image receipts use the established `cold-original-image` scope;
+the capture separately preserves the proven PE zero-fill origin.
+
 ## Reproduce
 
 From the repository root, supply the matching local study directory:
