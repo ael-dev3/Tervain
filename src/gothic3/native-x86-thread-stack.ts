@@ -50,7 +50,7 @@ type WordRecord = Readonly<{ value: number; mask: number; provenance?:
   Readonly<{ kind: 'process'; pointer: NativeBytePointer }> |
   Readonly<{ kind: 'heap'; heap: NativeWin32HeapCapability }> |
   Readonly<{ kind: 'allocation'; allocation: Allocation; offset: number; pointer: NativeBytePointer }> |
-  Readonly<{ kind: 'platform'; object: object; category: NativeStandardIoCapabilityKind | NativeArgvImportKind | 'GetModuleHandleA' | 'GetProcAddress' | 'IsProcessorFeaturePresent' | 'InitializerTlsGetValue' | 'InitializerPtdGetter' | 'InitializerEncodePointer' | 'InitializerDecodePointer' | 'InitializerPoolHeapAlloc' | 'InitializerCrtHeapFree' | 'InitializerPoolVirtualAlloc' | 'InitializerHeapSize' | 'InitializerInitializeSection' | 'InitializerMemorySectionInitialize' | 'InitializerMemorySectionEnter' | 'InitializerMemorySectionLeave' | 'InitializerSectionCache' | 'InitializerCreateFileA' | 'InitializerGetLastError' | 'InitializerSetLastError' | 'InitializerGetFileType' | 'InitializerCloseHandle' | 'InitializerFileHandle' | 'InitializerEncodedCode' | 'DllLstrcpyA' | 'DllVersionModule' | 'SpyFindWindowA' | 'DiagnosticWindow' | 'GameCinitModule' | 'GameCinitFeature' }> |
+  Readonly<{ kind: 'platform'; object: object; category: NativeStandardIoCapabilityKind | NativeArgvImportKind | 'GetModuleHandleA' | 'GetProcAddress' | 'IsProcessorFeaturePresent' | 'InitializerTlsGetValue' | 'InitializerPtdGetter' | 'InitializerEncodePointer' | 'InitializerDecodePointer' | 'InitializerPoolHeapAlloc' | 'InitializerCrtHeapFree' | 'InitializerPoolVirtualAlloc' | 'InitializerHeapSize' | 'InitializerInitializeSection' | 'InitializerMemorySectionInitialize' | 'InitializerMemorySectionEnter' | 'InitializerMemorySectionLeave' | 'InitializerSectionCache' | 'InitializerCreateFileA' | 'InitializerGetLastError' | 'InitializerSetLastError' | 'InitializerGetFileType' | 'InitializerCloseHandle' | 'InitializerFileHandle' | 'InitializerEncodedCode' | 'DllLstrcpyA' | 'DllVersionModule' | 'SpyFindWindowA' | 'DiagnosticWindow' | 'GameCinitModule' | 'GameCinitFeature' | 'GameCinitEncoded' }> |
   Readonly<{ kind: 'source'; type: 'code' | 'image'; address: string; fields?: NativeHeapObjectViews }> |
   Readonly<{ kind: 'xor'; left: NativeX86Word32; right: NativeX86Word32 }> |
   Readonly<{ kind: 'neg'; word: NativeX86Word32 }> |
@@ -163,6 +163,8 @@ export class NativeX86ThreadStack {
   readonly #startupViews = new Map<number, NativeHeapObjectViews>();
   readonly #nativePointers = new WeakMap<object, NativeX86Word32>();
   readonly #objects = new WeakMap<object, NativeX86Word32>();
+  readonly #cinitCodePointers = new Map<number, object>();
+  readonly #cinitEncodedPointers = new Set<object>();
   readonly #sectionViews = new Map<NativeMemoryBacking, Map<number, NativeHeapObjectViews>>();
   readonly #standardIoRows: { site: NativeStandardIoCallSite; callPushed: boolean; called: boolean; returned: boolean; sectionRegistered: boolean }[] = [];
   #standardGrant: NativeStandardIoCallGrant | null = null;
@@ -2540,6 +2542,11 @@ export class NativeX86ThreadStack {
   }
   #liveWord(word: NativeX86Word32): WordRecord {
     const record = this.#record(word), p = record.provenance;
+    if (p?.kind === 'platform' && p.category === 'GameCinitEncoded') {
+      const active = NativeRuntimePlatform.requireActivePlatform(this.#platform);
+      if (!active.known || !this.#setEnvpBinding || !this.#cinitEncodedPointers.has(p.object)) throw new Error('Actual same-Game encoded initializer pointer required');
+      this.#moduleWord('cinitFloatPointerTable', 0); return record;
+    }
     if (p?.kind === 'platform' && p.category === 'GameCinitModule') {
       const proof = NativeRuntimePlatform.canonicalWin32ModuleForPlatform(this.#platform, p.object);
       if (!proof.known) throw new Error(proof.reason); return record;
@@ -2670,6 +2677,40 @@ export class NativeX86ThreadStack {
     return this.#stackWord(offset);
   }
   gameImageAddress(controller: object, label: string, offset = 0): NativeValue<NativeX86Word32> { return this.#run(controller, () => this.#moduleWord(label, offset)); }
+  /** Execute the recovered Game CRT wrapper under its existing owner. The
+   * source loop owns CALL/RET; wrapper instruction interpretation is not claimed. */
+  encodeGameCinitPointer(controller: object): NativeValue<void> { return this.#run(controller, () => {
+    if (!this.#setEnvpBinding || this.#setEnvpBinding.controller !== controller) throw new Error('Actual Game pointer initializer controller required');
+    const pending = this.#calls.filter(call => !call.returned).at(-1);
+    if (pending?.site !== '20466617' || gameCinitInstruction('2046967e').instruction !== 'CALL 0x20467d64') throw new Error('Actual original Game pointer initializer call required');
+    const memory = this.#memory(this.#load(this.#bank, this.#reg('ESI')), 4);
+    const fields = NativeModuleCrtOwner.canonicalImageForOwner(this.#binding!.crt, 'cinitFloatPointerTable');
+    if (!fields.known || memory.fields !== fields.value || memory.offset % 4 !== 0 || memory.offset < 0 || memory.offset >= 40) throw new Error('Actual current conversion-table slot required');
+    const cursor = this.#address(this.#load(this.#bank, this.#reg('ESP'))), argument = this.#load(this.#stack, cursor);
+    if (argument !== this.#currentMemoryWord(memory.fields, memory.offset)) throw new Error('Actual conversion-table argument identity required');
+    const address = this.#numeric(argument, 4);
+    // These identities describe original code pointers; they grant no callable
+    // browser function, memory span or host address.
+    const conversionReturned = this.#calls.some(call => call.site === '20463917' && call.returned);
+    const expected = conversionReturned ? [0x20469651, 0x20468cf6, 0x20468cb4, 0x20468ce8, 0x20468c5e,
+      0x20469651, 0x204695cb, 0x20468c74, 0x20468bde, 0x20468b6d][memory.offset / 4] : 0x2047df3f;
+    if (address !== expected) throw new Error('Original current Game conversion code pointer required');
+    let pointer = this.#cinitCodePointers.get(address);
+    if (!pointer) { pointer = Object.freeze({ owner: this.#binding!.crt.identity, originalCodeAddress: address }); this.#cinitCodePointers.set(address, pointer); }
+    this.#call('2046967e', '20469683');
+    const encoded = NativeModuleCrtOwner.prototype.encodePointer.call(this.#binding!.crt, pointer);
+    if (!encoded.known) throw new Error(encoded.reason);
+    let result: NativeX86Word32;
+    if (encoded.value === null) result = this.#mint(0, 0xffffffff);
+    else {
+      this.#cinitEncodedPointers.add(encoded.value);
+      result = this.#objects.get(encoded.value) ?? this.#mint(0, 0, { kind: 'platform', object: encoded.value, category: 'GameCinitEncoded' });
+      this.#objects.set(encoded.value, result);
+    }
+    this.#store(this.#bank, this.#reg('EAX'), result);
+    const returned = this.#ret(0), source = this.#record(returned).provenance;
+    if (source?.kind !== 'source' || source.type !== 'code' || source.address !== '20469683') throw new Error('Actual Game pointer wrapper return required');
+  }); }
   callGameMathInitializer(controller: object, target: NativeX86Word32): NativeValue<void> { return this.#run(controller, () => {
     if (!this.#setEnvpBinding || this.#setEnvpBinding.controller !== controller) throw new Error('Actual Game startup controller required');
     const current = [...this.#calls].reverse().find(call => !call.returned);

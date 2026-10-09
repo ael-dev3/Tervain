@@ -577,6 +577,10 @@ export class NativeModuleCrtOwner {
         const procedure = ptd.pointer<NativeCrtPointerProcedure>(direction === 'EncodePointer' ? 0x1f8 : 0x1fc).get();
         if (procedure === null) return value;
         if (procedure.name !== direction) throw new Error('Actual matching retained PTD pointer procedure required');
+        if (this.module === 'Game') {
+          const proof = NativeRuntimePlatform.canonicalPointerCodecForPlatform(this.host.platform as NativeRuntimePlatform, procedure, direction);
+          if (!proof.known) throw new Error(proof.reason);
+        }
         return this.call(direction, () => procedure.invoke(value));
       }
     }
@@ -590,6 +594,10 @@ export class NativeModuleCrtOwner {
     const procedure = this.call('GetProcAddress(' + name + ')', () => this.host.platform.getWin32Procedure?.(module, name) ?? unknown('Actual owned CRT Win32 procedure lookup required'));
     if (procedure === null) return value;
     if (procedure.name !== direction) throw new Error('Actual matching owned CRT pointer procedure required');
+    if (this.module === 'Game') {
+      const proof = NativeRuntimePlatform.canonicalPointerCodecForPlatform(this.host.platform as NativeRuntimePlatform, procedure, direction);
+      if (!proof.known) throw new Error(proof.reason);
+    }
     return this.call(direction, () => procedure.invoke(value));
   }
   private pointerAvailable(): boolean {

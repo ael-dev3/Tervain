@@ -16,13 +16,17 @@ sets precision when requested, and clears x87 exceptions. Dynamic lookup uses
 test. Successful lookup still requires an owned feature result.
 
 The source package itself does not execute startup or supply an assumed feature
-result. The generated admission module selects seven functions (183 instructions):
+result. The generated admission module selects eight functions (197 instructions):
 `__cinit`, the protection check, PE validation, section lookup, the math callback,
-conversion-pointer initialization and processor-feature dispatch. The original
+conversion-pointer initialization, processor-feature dispatch and the pointer-encoding loop. The original
 caller pushes `0`, so this path skips optional precision setup. It writes the ten
 conversion pointers, invokes the owned processor-feature service, clears x87
-exceptions and returns to `20466616`. Execution next stops at
-`20466617 -> 20469672`, before pointer encoding.
+exceptions and returns to `20466616`. The original loop at `20469672` then encodes
+all ten pointers through the existing source-admitted Game CRT owner. Its actual
+CALL/RET and caller argument cleanup are retained; interpretation of the codec
+wrapper's 36 instructions is not claimed. Duplicate conversion addresses retain
+one code identity and one encoded identity. Execution stops at
+`20466626 -> 2046643f`, before the C initializer walker.
 
 Optional precision, SSE control and the failed-lookup divide fallback remain
 context evidence outside the instruction getter.

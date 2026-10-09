@@ -4,6 +4,33 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local checkpoint — 9 October 2026: Game conversion-pointer encoding
+
+The original loop at `20466617 -> 20469672` now executes its ten iterations on
+the retained startup stack. Its call at `2046967e` invokes the existing recovered
+Game CRT `encodePointer` implementation with the actual table argument, retains
+the CALL/RET slots and leaves cleanup to the original caller instructions.
+This is a translated CRT wrapper bridge; its 36 wrapper instructions are not
+interpreted by this continuation. Source admission selects eight methods and
+197 instructions from the unchanged 19-method, 784-instruction capture.
+
+Code identities retain their Game owner and original address; they do not grant
+host addresses, memory access or callable browser functions. The original
+conversion addresses retain their slot order. If the protection branch skipped
+math initialization, the original cold stub addresses are encoded instead.
+Repeated addresses share their code and encoded identities. Table stores retain
+opaque pointer sidecars and unknown numerical bits.
+
+Changed or unknown later slots stop without replaying the earlier encoding.
+Game's retained PTD and resolved codec procedures must belong to the platform;
+foreign cached procedures are rejected before invocation. Execution reaches
+`20466626 -> 2046643f`, before the five C initializer callbacks and later C++ table.
+
+All 56 focused checks across four files pass. Typechecking and independent
+byte-identical evidence regeneration pass. Full-suite and build validation,
+browser observation and publication remain pending. Complete engine startup,
+world activation, campaign saves and a finishable campaign remain unfinished.
+
 ## Local checkpoint — 9 October 2026: Game math callback return
 
 Runtime revision `37859a9e` executes the original indirect math call at
