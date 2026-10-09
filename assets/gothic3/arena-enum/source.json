@@ -4405,9 +4405,94 @@
     ],
     "bodyInstructionBytesSha256": "d9e6aa8825d31b1b9f0dfdbe3c8dc8c769d205d52b92f4a8b864c64aa857cff3"
   },
-  "pendingCleanupCallbacks": [
-    "20549a60"
-  ],
+  "valueRegistryCleanup": {
+    "entry": "20549a60",
+    "body": "20549a60",
+    "instructions": [
+      {
+        "va": "20549a60",
+        "bytes": "b9f04f7b20",
+        "instruction": "MOV ECX,0x207b4ff0"
+      },
+      {
+        "va": "20549a65",
+        "bytes": "e8a2ccacff",
+        "instruction": "CALL 0x2001670c"
+      },
+      {
+        "va": "20549a6a",
+        "bytes": "33c0",
+        "instruction": "XOR EAX,EAX"
+      },
+      {
+        "va": "20549a6c",
+        "bytes": "3df04f7b20",
+        "instruction": "CMP EAX,0x207b4ff0"
+      },
+      {
+        "va": "20549a71",
+        "bytes": "7436",
+        "instruction": "JZ 0x20549aa9"
+      },
+      {
+        "va": "20549a73",
+        "bytes": "a1f04f7b20",
+        "instruction": "MOV EAX,[0x207b4ff0]"
+      },
+      {
+        "va": "20549a78",
+        "bytes": "85c0",
+        "instruction": "TEST EAX,EAX"
+      },
+      {
+        "va": "20549a7a",
+        "bytes": "742d",
+        "instruction": "JZ 0x20549aa9"
+      },
+      {
+        "va": "20549a7c",
+        "bytes": "50",
+        "instruction": "PUSH EAX"
+      },
+      {
+        "va": "20549a7d",
+        "bytes": "ff15e0887d20",
+        "instruction": "CALL dword ptr [0x207d88e0]"
+      },
+      {
+        "va": "20549a83",
+        "bytes": "8bc8",
+        "instruction": "MOV ECX,EAX"
+      },
+      {
+        "va": "20549a85",
+        "bytes": "ff15dc887d20",
+        "instruction": "CALL dword ptr [0x207d88dc]"
+      },
+      {
+        "va": "20549a8b",
+        "bytes": "c705f04f7b2000000000",
+        "instruction": "MOV dword ptr [0x207b4ff0],0x0"
+      },
+      {
+        "va": "20549a95",
+        "bytes": "c705f44f7b2000000000",
+        "instruction": "MOV dword ptr [0x207b4ff4],0x0"
+      },
+      {
+        "va": "20549a9f",
+        "bytes": "c705f84f7b2000000000",
+        "instruction": "MOV dword ptr [0x207b4ff8],0x0"
+      },
+      {
+        "va": "20549aa9",
+        "bytes": "c3",
+        "instruction": "RET"
+      }
+    ],
+    "bodyInstructionBytesSha256": "835c8ccb74d102a53cb478b080e90c1985e0f33a19de13727e57ca10d858d337"
+  },
+  "pendingCleanupCallbacks": [],
   "images": [
     {
       "label": "statusNoneName",

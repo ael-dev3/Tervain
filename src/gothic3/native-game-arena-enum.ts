@@ -20,6 +20,11 @@ export class NativeGameArenaEnum {
  #nameEntry:NativeMemoryAllocation|null=null;
  #entryName:NativeHeapCString|null=null;
  #bucket:number|null=null;
+ #valueEntry:NativeMemoryAllocation|null=null;
+ #valueName:NativeHeapCString|null=null;
+ #valueBucket:number|null=null;
+ #returned=false;
+ #inserted=false;
  #trace:string[]=[];
  private constructor(readonly crt:NativeGameCrtOwner,private readonly memory:NativeMemoryAdmin){}
  static forCrt(crt:NativeGameCrtOwner,memory:NativeMemoryAdmin):NativeGameArenaEnum{
@@ -29,6 +34,7 @@ export class NativeGameArenaEnum {
  }
  initialize():NativeValue<void>{
   if(this.#boundary)return {known:false,reason:this.#boundary};
+  if(this.#returned)return {known:true,value:undefined};
   if(this.#entered)return {known:false,reason:'Original enum initializer cannot replay'};
   this.#entered=true;
   try{
@@ -127,10 +133,50 @@ export class NativeGameArenaEnum {
    for(let offset=0;offset<204;offset+=4)valueBucketFields.writeUnsigned(offset,0);
    valueRegistry.writeUnsigned(8,51);valueRegistry.writeUnsigned(4,43);
    this.#trace.push('20071186.enumValueRegistry.constructor.return');
-   throw new Error('Unowned enum value registry cleanup registration at 20071a07 -> 204637ce (20549a60)');
+   const valueCallback=fact(exit.callbackForMethod('enumValueRegistryCleanup'));
+   const valueRegistered=fact(exit.atexit(valueCallback));
+   this.#trace.push(valueRegistered===0?'20071a07.enumValueRegistry.cleanupRegistered':'20071a07.enumValueRegistry.cleanupReturnMinusOne');
+   const scalar=fields.readUnsigned(8),valueBucket=(scalar>>>4)%valueRegistry.readUnsigned(4);
+   this.#valueBucket=valueBucket;
+   const valueBucketSlot=new NativeHeapObjectViews(valueBuckets,valueBucket*4,4);
+   if(valueBucketSlot.readUnsigned(0)!==0)throw new Error('Unowned nonempty enum value bucket comparison at 200707c8');
+   this.#valueEntry=fact(this.memory.newObject(16,0x199));
+   if(!this.#valueEntry)throw new Error('Original enum value virtual assignment dereferences NULL at 20070815');
+   const valueEntryFields=new NativeHeapObjectViews(this.#valueEntry,0,16);
+   valueEntryFields.writeUnsigned(0,0x100e7e1c);
+   valueEntryFields.writeUnsigned(0,0x2065902c);
+   valueEntryFields.writeUnsigned(4,this.crt.imageStorage('enumValueScratch').readUnsigned(0));
+   this.#valueName=new NativeHeapCString(this.memory,new NativeHeapObjectViews(this.#valueEntry,8,4));
+   valueEntryFields.writeUnsigned(4,scalar);
+   valueEntryFields.pointer(12).set(null);
+   valueBucketSlot.pointer(0).set(this.#valueEntry);
+   valueRegistry.writeUnsigned(12,(valueRegistry.readUnsigned(12)+1)>>>0);
+   this.#trace.push('20070837.enumValue.lookupReturnActualCString');
+   fact(this.#valueName.assign(this.#temporary));
+   this.#trace.push('20071a1d.enumValue.nameAssigned');
+   if(descriptor.pointer(32).get()!==null)throw new Error('Unowned preexisting descriptor value array at 2007108b');
+   const arrayAllocation=fact(this.memory.newObject(12,0x1cf));
+   if(arrayAllocation){const initial=new NativeHeapObjectViews(arrayAllocation,0,12);for(const offset of [0,4,8])initial.writeUnsigned(offset,0);}
+   descriptor.pointer(32).set(arrayAllocation);
+   if(!arrayAllocation)throw new Error('Original enum insertion dereferences NULL array at 2007108e');
+   const array=new NativeHeapObjectViews(arrayAllocation,0,12);
+   // Original cold reserve(1,0) grows capacity by eight to nine DWORDs.
+   const values=fact(this.memory.realloc(null,36));
+   array.pointer(0).set(values);
+   if(!values)throw new Error('Original enum array memset dereferences NULL');
+   const valueSlots=new NativeHeapObjectViews(values,0,36);
+   for(let offset=0;offset<36;offset+=4)valueSlots.writeUnsigned(offset,0);
+   array.writeUnsigned(8,9);array.writeUnsigned(4,1);
+   valueSlots.pointer(0).set(this.#allocation);
+   this.#inserted=true;this.#trace.push('200710bb.enumValue.insertReturn1');
+   this.#trace.push('20071ee5.enumValue.constructorReturnActualReceiver');
+   fact(this.#temporary.destroy());this.#trace.push('204b1e9b.enumTemporary.destroy');
+   this.#returned=true;this.#trace.push('204b1ea2.enumInitializer.return');
+   return {known:true,value:undefined};
   }catch(error){this.#boundary=error instanceof Error?error.message:String(error);return {known:false,reason:this.#boundary};}
  }
  snapshot(){return Object.freeze({boundary:this.#boundary,temporary:this.#temporary,allocation:this.#allocation,
   nameEntry:this.#nameEntry,entryName:this.#entryName,bucket:this.#bucket,
-  trace:Object.freeze([...this.#trace]),initializerReturned:false,valueInserted:false});}
+  valueEntry:this.#valueEntry,valueName:this.#valueName,valueBucket:this.#valueBucket,
+  trace:Object.freeze([...this.#trace]),initializerReturned:this.#returned,valueInserted:this.#inserted});}
 }

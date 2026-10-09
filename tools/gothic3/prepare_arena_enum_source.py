@@ -26,18 +26,25 @@ def capture(study):
     })
     pe = PE((study / '00_Original_Runtime' / 'Game.dll').read_bytes())
     cleanup_instructions = []
+    value_cleanup_instructions = []
     pattern = re.compile(r'([0-9a-f]{8}) \| ([0-9a-f]+) \| (.+)')
     assembly = study / '01_Decompiled_Code/Game_dll/full_disassembly.asm'
     with assembly.open(encoding='utf-8') as stream:
         for line in stream:
             match = pattern.fullmatch(line.rstrip('\r\n'))
-            if not match or not 0x20549ac0 <= int(match[1], 16) <= 0x20549b09:
+            if not match:
+                continue
+            address = int(match[1],16)
+            selected = cleanup_instructions if 0x20549ac0 <= address <= 0x20549b09 else value_cleanup_instructions if 0x20549a60 <= address <= 0x20549aa9 else None
+            if selected is None:
                 continue
             assert pe.bytes(int(match[1],16),len(match[2])//2).hex() == match[2]
-            cleanup_instructions.append({'va':match[1], 'bytes':match[2], 'instruction':match[3]})
+            selected.append({'va':match[1], 'bytes':match[2], 'instruction':match[3]})
     assert len(cleanup_instructions) == 16 and cleanup_instructions[-1]['instruction'] == 'RET'
     cleanup_bytes = b''.join(bytes.fromhex(row['bytes']) for row in cleanup_instructions)
     assert len(cleanup_bytes) == 74
+    value_cleanup_bytes = b''.join(bytes.fromhex(row['bytes']) for row in value_cleanup_instructions)
+    assert len(value_cleanup_instructions)==16 and len(value_cleanup_bytes)==74 and value_cleanup_instructions[-1]['instruction']=='RET'
     # The targeted initializer was recovered after the original functions CSV.
     # Admit its committed disassembly directly against the matching PE.
     path = Path(__file__).parents[2] / 'assets/gothic3/game-cinit-callbacks/sources/Game/204b1e70.asm.txt'
@@ -76,7 +83,10 @@ def capture(study):
             'nameRegistryCleanup': {'entry':'20549ac0', 'body':'20549ac0',
                                     'instructions':cleanup_instructions,
                                     'bodyInstructionBytesSha256':hashlib.sha256(cleanup_bytes).hexdigest()},
-            'pendingCleanupCallbacks': ['20549a60'],
+            'valueRegistryCleanup': {'entry':'20549a60','body':'20549a60',
+                                    'instructions':value_cleanup_instructions,
+                                    'bodyInstructionBytesSha256':hashlib.sha256(value_cleanup_bytes).hexdigest()},
+            'pendingCleanupCallbacks': [],
             'images': images, 'sourceOnly': True,
             'initializerReturned': False, 'fullCampaignCompleted': False}
 
@@ -102,6 +112,7 @@ if __name__ == '__main__':
         code += "export const arenaEnumInstructions=source.module.methods;\n"
         code += "export const arenaEnumSharedInstructions=source.shared.methods;\n"
         code += "export function arenaEnumNameCleanupReceipt(){admitArenaEnumSource();const method=source.nameRegistryCleanup;return Object.freeze({module:'Game' as const,entry:method.entry,body:method.body,bodyInstructionBytesSha256:method.bodyInstructionBytesSha256});}\n"
+        code += "export function arenaEnumValueCleanupReceipt(){admitArenaEnumSource();const method=source.valueRegistryCleanup;return Object.freeze({module:'Game' as const,entry:method.entry,body:method.body,bodyInstructionBytesSha256:method.bodyInstructionBytesSha256});}\n"
         code += "export const arenaEnumImagePins=Object.fromEntries(source.images.map(image=>[image.label,[image.label==='statusNoneName'||image.label.endsWith('Vtable')?'constBytes':'coldGlobals',image.address,image.bytes,image.raw,image.sha256] as const]));freeze(arenaEnumImagePins);\n"
         code += "export function arenaEnumImageReceipt(label:string):NativeCrtImageReceipt {admitArenaEnumSource();const image=source.images.find(image=>image.label===label);if(!image)throw new Error('Unowned Arena enum image');return Object.freeze({...image,module:'Game',scope:arenaEnumImagePins[label]![0]==='coldGlobals'?'cold-original-image':'original-file-backed-constant',liveValueCaptured:false,knownMask:'ff'.repeat(image.bytes)});}\n"
         args.runtime_output.write_text(code, encoding='utf-8', newline='\n')

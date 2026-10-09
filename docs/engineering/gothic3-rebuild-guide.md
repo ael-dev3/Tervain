@@ -13,6 +13,24 @@ finishable campaign.
 
 ## How the rebuild works
 
+### Current local checkpoint: first enum initializer returns
+
+The value-registry cleanup callback `20549a60` is captured through its final
+RET: sixteen instructions and 74 PE-verified bytes. The actual exit-table
+registration completes. Value lookup selects the original scalar bucket,
+allocates its sixteen-byte entry, constructs the value and CString, links the
+entry and assigns the retained enum name. The descriptor then allocates its
+twelve-byte value-array holder, reserves nine slots through the existing heap
+and stores the actual twelve-byte enum object in slot zero. Its count is one.
+The temporary CString is destroyed and the original initializer returns at
+`204b1ea2` through the retained startup frame. Startup reaches `204b1eb0`.
+
+Typechecking, 22 focused checks across four files and exact independent source
+regeneration pass. The earlier full suite at `158af101` finished with 3,193
+passing tests and one image-metadata failure; that issue is corrected locally
+and its regression passes. A fresh full suite is required before publication.
+Full campaign completion remains unproven.
+
 ### Current local checkpoint: enum value assignment and second registry
 
 The actual original value-base vtable slot `+0x1c` resolves through
