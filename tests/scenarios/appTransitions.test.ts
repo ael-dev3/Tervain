@@ -831,3 +831,77 @@ describe('map keyboard capture routing', () => {
     expect(trapTab).toHaveBeenCalledTimes(2);
   });
 });
+
+describe('shell corrections (A70)', () => {
+  it('prepares the replaced title backdrop after a world rebuild for another quality, so it draws again', async () => {
+    const { app, call, nextWorld } = rebuildFixture();
+    vi.spyOn(WorldScene, 'create').mockResolvedValue(nextWorld() as unknown as WorldScene);
+    app.settings.quality = app.settings.quality === 'low' ? 'high' : 'low';
+    call('applySettings', true);
+    await finishReload(app);
+    expect(Reflect.get(app, 'prepareWorldGraphics')).toHaveBeenCalledOnce();
+    expect(Reflect.get(app, 'prepareMenuGraphics')).toHaveBeenCalledOnce();
+  });
+
+  it('resizes the render targets with the canvas when the quality preset changes the pixel ratio', () => {
+    const { app, call } = fixture();
+    vi.stubGlobal('window', { innerWidth: 1280, innerHeight: 720, devicePixelRatio: 2, addEventListener: vi.fn() });
+    let ratio = 2;
+    const renderer = { shadowMap: { enabled: true }, setPixelRatio: vi.fn((r: number) => { ratio = r; }), getPixelRatio: () => ratio, setSize: vi.fn() };
+    const grade = { setMsaa: vi.fn(), setSize: vi.fn(), bloom: true };
+    Object.assign(app, { renderer, grade, cam: { ...app.cam, setAspect: vi.fn() }, menuSceneDisposed: true });
+    app.settings.quality = 'low';
+    call('applyQualityToRenderer');
+    expect(grade.setSize).toHaveBeenLastCalledWith(1280, 720);
+    app.settings.quality = 'high';
+    call('applyQualityToRenderer');
+    expect(grade.setSize).toHaveBeenLastCalledWith(2560, 1440);
+  });
+
+  it('pauses on respawn when the window lost focus or the capture during the fall', () => {
+    const { app, call, document } = fixture();
+    Object.assign(app, {
+      mode: 'dead', checkpoint: { x: 0, y: 0, z: 0, yaw: 0 }, enemies: [], hitStop: 0,
+      world: { ...app.world, terrain: {} }, player: { ...app.player, stamina: 0 },
+      cam: { ...app.cam, reset: vi.fn() }, speech: { ...app.speech, hero: vi.fn() },
+    });
+    Object.assign(document, { hasFocus: () => false });
+    call('respawn');
+    expect(app.mode).toBe('play');
+    expect(app.openPause).toHaveBeenCalledOnce();
+    // Focused and still captured: back into play without a pause.
+    const second = fixture();
+    Object.assign(second.app, {
+      mode: 'dead', checkpoint: { x: 0, y: 0, z: 0, yaw: 0 }, enemies: [], hitStop: 0, wantPlayLock: true,
+      world: { ...second.app.world, terrain: {} }, player: { ...second.app.player, stamina: 0 },
+      cam: { ...second.app.cam, reset: vi.fn() }, speech: { ...second.app.speech, hero: vi.fn() },
+    });
+    Object.assign(second.document, { hasFocus: () => true, pointerLockElement: second.canvas });
+    Object.defineProperty(second.input, 'locked', { get: () => true });
+    second.call('respawn');
+    expect(second.app.openPause).not.toHaveBeenCalled();
+  });
+});
+
+describe('slow frames (A70)', () => {
+  it('catches a slow frame up in short steps, drawing only after the last and counting a press once', () => {
+    const { app, call, key } = rebuildFixture();
+    const steps: { dt: number; presenting: boolean; attack: boolean }[] = [];
+    Reflect.set(app, 'step', vi.fn((dt: number) => {
+      steps.push({ dt, presenting: Reflect.get(app, 'presenting') as boolean, attack: app.input.pressed('jump') });
+    }));
+    Reflect.set(app, 'worldPaused', false);
+    call('frame', 1000);
+    key(app.settings.bindings.jump[0]!);
+    call('frame', 1100);
+    expect(steps.map((s) => s.dt)).toEqual([0.05, 0.05]);
+    expect(steps.map((s) => s.presenting)).toEqual([false, true]);
+    expect(steps.map((s) => s.attack)).toEqual([true, false]);
+    expect(Reflect.get(app, 'presenting')).toBe(true);
+    // An ordinary frame is one step that draws.
+    steps.length = 0;
+    call('frame', 1116);
+    expect(steps).toHaveLength(1);
+    expect(steps[0]!.presenting).toBe(true);
+  });
+});

@@ -150,6 +150,8 @@ export class Player {
   private stepDist = 0;
   private clock = 0;
   private gaitTime = 0;
+  /** The facing at the last pose, for how far the hero turned between poses (A70). */
+  private poseYaw = 0;
   channel: { label: string; t: number; dur: number; done: () => void; kind?: 'skinning'; cancelled?: () => void } | null = null;
   shake = 0;
   inWater = false;
@@ -348,7 +350,12 @@ export class Player {
   }
 
   private supportAt(x: number, z: number, ctx: PlayerCtx, feetY = this.y): number {
-    return Math.max(ctx.terrain.supportAt(x, z, feetY), ctx.physics?.supportAt(x, z, feetY) ?? -Infinity);
+    const base = Math.max(ctx.terrain.supportAt(x, z, feetY), ctx.physics?.supportAt(x, z, feetY) ?? -Infinity);
+    // Low furniture is landed on, not sunk into, where the body fits above it (a stool under a table does not) (A70).
+    const top = ctx.colliders.lowTopAt(x, z, PLAYER_RADIUS * 0.6, feetY);
+    if (top === null || top <= base) return base;
+    const above = { minY: top + PLAYER_FOOT_CLEARANCE, maxY: top + PLAYER_BODY_HEIGHT, excludePrecise: Boolean(ctx.physics) };
+    return ctx.colliders.blocked(x, z, PLAYER_RADIUS, above) ? base : top;
   }
 
   /** Reachable standing windows select stairs for walking, but a fast fall must also meet surfaces crossed this frame. */
@@ -424,9 +431,14 @@ export class Player {
     const people = this.contacts(ctx);
     const target = ctx.colliders.resolve(this.x, this.z, PLAYER_RADIUS, undefined, bounds, people);
     if (!target.hit) return;
+    if (Math.hypot(target.x - this.x, target.z - this.z) > PLAYER_RADIUS * 2 + 0.05) return;
     const scenerySafe = ctx.colliders.move(this.x, this.z, target.x - this.x, target.z - this.z, PLAYER_RADIUS, undefined, bounds);
     const safe = ctx.physics?.move(this.x, this.y, this.z, scenerySafe.x - this.x, scenerySafe.z - this.z, this.grounded) ?? { ...scenerySafe, y: this.y };
     const ground = this.supportAt(safe.x, safe.z, ctx, safe.y);
+    // A push out of one body never crosses another: out of a sack pile against a wall it used to land the hero on the far
+    // side of the wall (A70). Only what he stands in may lie between.
+    const inside = new Set(ctx.colliders.near(this.x, this.z, PLAYER_RADIUS).map((c) => c.id));
+    if (ctx.colliders.cast(this.x, this.z, safe.x, safe.z, 0, inside, bounds)) return;
     if (!this.travelAllowed(safe.x, safe.z, safe.y, ctx) || ground - this.y > (this.grounded ? this.stepHeightAt(safe.x, safe.z, ground, ctx) : 0.18)) return;
     if (this.grounded && ground > this.y && this.stepHeightAt(safe.x, safe.z, ground, ctx) === ROCK_STEP_HEIGHT &&
       ctx.colliders.ceilingAt(safe.x, safe.z, PLAYER_RADIUS,
@@ -450,6 +462,9 @@ export class Player {
       if (Math.abs(mx) < 1e-8 && Math.abs(mz) < 1e-8) return false;
       const bounds = { minY: this.y + PLAYER_FOOT_CLEARANCE, maxY: this.y + PLAYER_BODY_HEIGHT, excludePrecise: Boolean(ctx.physics) };
       const result = ctx.colliders.move(this.x, this.z, mx, mz, PLAYER_RADIUS, undefined, bounds, contacts);
+      // A step never carries him further than he asked: the excess is a push out of a body he half-entered mid-jump (a window
+      // lintel), and its far side lies past the wall (A70).
+      if (Math.hypot(result.x - this.x, result.z - this.z) > Math.hypot(mx, mz) + 0.25) return false;
       const physical = ctx.physics?.move(this.x, this.y, this.z, result.x - this.x, result.z - this.z, this.grounded) ?? { ...result, y: this.y };
       const nx = physical.x;
       const nz = physical.z;
@@ -992,12 +1007,20 @@ export class Player {
     // Integrate gait phase from actual travel. Multiplying a lifetime clock by changing speed made legs snap on turns/stops.
     const gait = mode === 'walk' || mode === 'run' || mode === 'block';
     if (gait && this.grounded) this.gaitTime += this.lastMoveSpeed * dt / (mode === 'run' ? HERO_RUN_CYCLE : HERO_WALK_CYCLE);
+    // Guarding or aiming, he moves other than the way he faces: the legs follow the way of travel (A70). How far he
+    // turned since the last pose plants his feet as he turns on the spot; a jump of the facing (a load) is not a turn.
+    const strafing = this.state === 'free' && (this.blocking || this.bowAiming) && !this.swimming;
+    const heading = strafing && this.lastMoveSpeed > 0.12 ? Math.atan2(Math.sin(Math.atan2(this.vx, this.vz) - this.yaw), Math.cos(Math.atan2(this.vx, this.vz) - this.yaw)) : 0;
+    const turned = Math.atan2(Math.sin(this.yaw - this.poseYaw), Math.cos(this.yaw - this.poseYaw));
+    this.poseYaw = this.yaw;
     const pose: Pose = {
       mode, speed: speedNorm, time: gait ? this.gaitTime : this.clock, t,
       amp: ctx.settings.reducedMotion ? 0.6 : 1,
       grounded: this.grounded,
       travel: this.grounded && gait ? this.lastMoveSpeed * dt : 0,
       moveSpeed: this.lastMoveSpeed,
+      heading,
+      turn: Math.abs(turned) < 1.2 ? turned : 0,
     };
     this.huntingVisual.restorePose();
     poseRig(this.rig, pose, dt);

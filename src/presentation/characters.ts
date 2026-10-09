@@ -70,6 +70,10 @@ export interface Pose {
   grounded?: boolean;
   travel?: number;
   moveSpeed?: number;
+  /** The hero's way of travel against the way he faces, radians (0 ahead), where guard or aim lets them differ (A70). */
+  heading?: number;
+  /** How far the hero turned since his last pose, radians, for planting his feet as he turns on the spot (A70). */
+  turn?: number;
   /** Authored, restrained task motion; no gameplay state is inferred from the gesture. */
   workGesture?: WorkGesture;
   /** Talking or resting at a seat keeps the authored lower-body support instead of standing on every remark. */

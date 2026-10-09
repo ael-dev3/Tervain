@@ -12,7 +12,7 @@ import { hasFact } from '../game/state';
 import type { WorldState } from '../game/types';
 import { worldView, type WorldView } from '../game/worldView';
 import { buildStaticColliders, type Colliders } from '../world/colliders';
-import { BELL, MILL_WHEEL, SHORTCUT, SLUICE, STREAMS, WORLD } from '../world/layout';
+import { ARCHIVE_ROOM, BELL, bySpec, MILL_WHEEL, SHORTCUT, SLUICE, STREAMS, WORLD } from '../world/layout';
 import { NavGrid } from '../world/nav';
 import { Terrain, distToPolyline } from '../world/terrain';
 import { SkyRig } from './sky';
@@ -585,7 +585,7 @@ export class WorldScene {
     for (const s of this.physics.drainSplashes()) this.water.splash(s.x, s.y, s.z, s.energy);
     this.water.update(dt, v.flow, camera, focus, reduced, settings.reduceEffects);
     let shadowFrustum: THREE.Frustum | null = null;
-    if (settings.quality !== 'low' && this.sky.sun.castShadow) {
+    if (settings.quality !== 'low' && this.sky.sunShadows) {
       // Scene modules cull before the renderer updates light matrices. Use the real snapped
       // shadow volume now, so off-screen trees that shade visible ground remain submitted.
       this.sky.sun.updateMatrixWorld(); this.sky.sun.target.updateMatrixWorld();
@@ -656,9 +656,10 @@ export class WorldScene {
     return Math.abs(x + 46) < 3.6 && Math.abs(z + 102) < 3.1;
   }
 
-  /** Whether a point is under a roof: in the archive or in any building's room (A66). */
-  underRoof(x: number, z: number): boolean {
-    return this.insideArchive(x, z) || this.terrain.rooms.at(x, z) !== null;
+  /** Whether a point is under a roof: in the archive or in any building's room (A66), not above it (A70). */
+  underRoof(x: number, y: number, z: number): boolean {
+    return (this.insideArchive(x, z) && y < this.terrain.groundAt(x, z) + ARCHIVE_ROOM.wallBase + bySpec('archive').h + 0.25)
+      || this.terrain.rooms.within(x, y, z) !== null;
   }
 
   private readonly doorSwings: DoorSwings;

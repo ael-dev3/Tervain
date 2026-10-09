@@ -371,7 +371,9 @@ export class MenuScene {
     }
     // The awakening: one deterministic simulation of the door and every spirit, in the tree's own frame. A graphics
     // rebuild hands the running one over (same tree, same score), so nothing is re-simulated.
-    this.grove = opts.grove && opts.grove.count === GROVE_MAX_SPIRITS ? opts.grove : createMenuGrove({
+    // Handed over only for the same tree: a supplied crown replacing the drawn one needs perches on its own leaves (A70).
+    const sameTree = (a: readonly (readonly number[])[], b: readonly (readonly number[])[]) => a.length === b.length && a.every((p, i) => p.every((v, k) => v === b[i]![k]));
+    this.grove = opts.grove && opts.grove.count === GROVE_MAX_SPIRITS && sameTree(opts.grove.leafSites, tree.leafSites) ? opts.grove : createMenuGrove({
       trunk: tree.trunk,
       capsules: tree.capsules,
       leafSites: tree.leafSites,
@@ -615,7 +617,9 @@ export class MenuScene {
       } else hand.life = 0;
     } else {
       hand.life -= step / 0.35;
-      hand.vx *= 0.8; hand.vz *= 0.8;
+      // The same decay at any frame rate (A70).
+      const k = Math.pow(0.8, step * 60);
+      hand.vx *= k; hand.vz *= k;
     }
     if (hand.life > 0 && Number.isFinite(hand.x)) {
       const speed = Math.hypot(hand.vx, hand.vz);

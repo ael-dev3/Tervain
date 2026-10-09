@@ -309,7 +309,8 @@ export class NpcActor {
     // A short grid corner is not the destination. Reconnect farther along the route, dropping the bypassed corners.
     while (Math.hypot(target.x - this.x, target.z - this.z) < 3 && joinIndex < this.path!.length - 1) target = this.path![++joinIndex]!;
     const dx = target.x - this.x, dz = target.z - this.z, distance = Math.hypot(dx, dz);
-    if (distance < 3) return false;
+    // Within reach of their own place, with someone standing in the way: a step aside, then in (A70).
+    if (distance < 3) return joinIndex === this.path!.length - 1 && this.stepAside(target, distance, ctx, contacts);
     const fx = dx / distance, fz = dz / distance;
     for (const side of [1, -1]) for (const width of [1.1, 1.65, 2.2]) {
       const a = { x: this.x + fz * width * side, z: this.z - fx * width * side };
@@ -320,6 +321,25 @@ export class NpcActor {
       if (!clearNpcSegment(c, target, ctx, this.rig.height)) continue;
       for (const point of this.path!.slice(this.pi, joinIndex)) this.passedWaypoint(point);
       this.path = [a, b, c, ...this.path!.slice(joinIndex)];
+      this.pi = 0; this.dynamicWait = 0; this.stuck = 0;
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * The last few metres to a free place, round someone standing in the way: a short step to one side, then straight in.
+   * Before, a resident who had arrived first could hold the next one off for the whole meeting (A70). A place someone
+   * stands on is still waited for, as a doorway or a work edge is.
+   */
+  private stepAside(target: V2, distance: number, ctx: ActorContext, contacts: readonly Collider[]) {
+    if (distance < .2) return false;
+    if (contacts.some(c => c.kind === 'circle' && Math.hypot(c.x - target.x, c.z - target.z) < c.r + NPC_RADIUS)) return false;
+    const fx = (target.x - this.x) / distance, fz = (target.z - this.z) / distance;
+    for (const side of [1, -1]) for (const width of [.8, 1.1, 1.4]) {
+      const aside = { x: this.x + fz * width * side, z: this.z - fx * width * side };
+      if (!clearNpcSegment(this, aside, ctx, this.rig.height, contacts) || !clearNpcSegment(aside, target, ctx, this.rig.height, contacts)) continue;
+      this.path = [aside, { x: target.x, z: target.z }];
       this.pi = 0; this.dynamicWait = 0; this.stuck = 0;
       return true;
     }
@@ -515,7 +535,8 @@ export class NpcActor {
 
   get headPosition(): THREE.Vector3 {
     const seated = this.goal.activity === 'sit' && this.atDestination() && this.mode !== 'walk';
-    const lower = this.rig.cur?.lower;
+    // Authored rigs never write the procedural lower: they take the seated drop (A70).
+    const lower = this.rig.resident ? undefined : this.rig.cur?.lower;
     const supported = Number.isFinite(lower) ? Math.max(-.65, Math.min(0, lower!)) * ((this.rig.hipY || .95) / .95) : seated ? -.45 : 0;
     return new THREE.Vector3(this.x, this.y + 1.95 * this.def.look.height + supported, this.z);
   }

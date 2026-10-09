@@ -309,3 +309,36 @@ describe('standard third-person camera controls', () => {
     stored = JSON.stringify({ invertY: 'false' }); expect(loadSettings().invertY).toBe(false);
   });
 });
+
+describe('controller hints (A70)', () => {
+  it('any one stick axis past the threshold switches the hints to the controller, looking only up or down too', () => {
+    for (const axes of [[0, 0, 1, 0], [0, 0, 0, 1], [0, 0, 0, -1], [1, 0, 0, 0], [0, 1, 0, 0]]) {
+      const { input, setPad } = controls();
+      input.device = 'keyboard';
+      setPad(null, axes);
+      input.poll(1 / 60);
+      expect(input.device, JSON.stringify(axes)).toBe('gamepad');
+    }
+    // Neutral noise inside the dead zone leaves the keyboard's hints.
+    const { input, setPad } = controls();
+    input.device = 'keyboard';
+    setPad(null, [0.1, -0.1, 0.12, 0.15]);
+    input.poll(1 / 60);
+    expect(input.device).toBe('keyboard');
+  });
+});
+
+describe('browser keys while a panel is open (A70)', () => {
+  it('never lets a bound save or load key reload the page, with or without a panel open', () => {
+    const { input, emit } = controls();
+    for (const uiOpen of [false, true]) {
+      for (const code of ['F5', 'F9']) {
+        input.uiOpen = uiOpen;
+        const preventDefault = vi.fn();
+        emit('keydown', { code, repeat: false, target: { tagName: 'BODY' }, preventDefault });
+        emit('keyup', { code });
+        expect(preventDefault, `${code} with a panel ${uiOpen ? 'open' : 'closed'}`).toHaveBeenCalled();
+      }
+    }
+  });
+});

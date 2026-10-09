@@ -36,7 +36,8 @@ export class InteriorLight {
 
   /** Follow the camera in and out of rooms; returns how far indoors it is. */
   update(dt: number, camera: THREE.Vector3, night: number, time: number): number {
-    const here = this.rooms.at(camera.x, camera.z);
+    // A camera above the roof is outdoors, though it stands over the room's floor (A70).
+    const here = this.rooms.within(camera.x, camera.y, camera.z);
     if (here) this.room = here;
     this.indoor += ((here ? 1 : 0) - this.indoor) * (1 - Math.exp(-Math.max(0, dt) * 3));
     if (this.indoor < 1e-3 && !here) this.indoor = 0;

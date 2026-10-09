@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { mulberry32, smoothstep } from '../world/noise';
 import { sharedNoise } from './noiseTextures';
-import { SKY } from './skyState';
+import { RENDER_PX, SKY } from './skyState';
 
 /**
  * Sky, sun, moon, hemisphere fill and fog for the day/night cycle.
@@ -252,6 +252,11 @@ export class SkyRig {
   };
   state: SkyState = { nightness: 0, sunDir: new THREE.Vector3(0, 1, 0), moonDir: new THREE.Vector3(0, -1, 0), horizon: new THREE.Color(), top: new THREE.Color() };
   brightness = 1;
+
+  /** Whether the sun casts any shadow now (its shadow map is drawn). It always counts as a shadowed light. */
+  get sunShadows(): boolean {
+    return this.sun.shadow.autoUpdate;
+  }
   /** Time driving cloud drift; frozen while motion is reduced. */
   private cloudTime = 0;
   private tmp = new THREE.Color();
@@ -341,7 +346,11 @@ export class SkyRig {
     const day = smoothstep(5.5, 7, hour) * (1 - smoothstep(18.6, 20, hour));
     const ang = ((hour - 6) / 13) * Math.PI;
     const sunDir = this.state.sunDir.set(Math.cos(ang) * 0.95, Math.max(0.02, Math.sin(ang)) * 0.9 + 0.08, -0.32).normalize();
-    if (hour < 6 || hour > 19) sunDir.y = Math.max(0.03, sunDir.y * 0.4);
+    // Low beyond the day's ends, eased in over a few minutes either side rather than switched (A70): a jump at 06:00
+    // and 19:00 stretched the shadows 2.5 times in one frame and lost the disc.
+    const low = Math.max(1 - smoothstep(5.6, 6.0, hour), smoothstep(19.0, 19.4, hour));
+    if (low > 0) sunDir.y = Math.max(0.03, sunDir.y * (1 - 0.6 * low));
+    sunDir.normalize();
     SKY.sunDir.value.copy(sunDir);
     this.state.nightness = 1 - clampNum(day + smoothstep(4.8, 6.2, hour) * 0.5 * (hour < 12 ? 1 : 0) + (hour > 12 ? smoothstep(20.5, 18.8, hour) * 0.5 : 0), 0, 1);
     const nightAmt = this.state.nightness;
@@ -350,8 +359,9 @@ export class SkyRig {
     // The moon crosses the sky between 18:00 and 06:00 on the opposite side of the sun's arc.
     const mh = (hour + 6) % 24; // 0 at 18:00, 12 at 06:00
     const mAng = (mh / 12) * Math.PI;
-    const moonDir = this.state.moonDir.set(Math.cos(mAng) * 0.9, Math.sin(mAng) * 0.78 + 0.1, 0.34).normalize();
-    if (mh > 12) moonDir.y = -Math.abs(moonDir.y);
+    // Its lift fades out at the arc's ends, so it sets and rises without a flip (A70).
+    const lift = 0.1 * Math.min(1, Math.sin(Math.min(Math.PI, Math.max(0, mAng))) * 4);
+    const moonDir = this.state.moonDir.set(Math.cos(mAng) * 0.9, Math.sin(mAng) * 0.78 + lift, 0.34).normalize();
     SKY.moonDir.value.copy(moonDir);
 
     const br = this.brightness;
@@ -365,7 +375,12 @@ export class SkyRig {
     this.sun.position.z = Math.round(this.sun.position.z / step) * step;
     this.sun.target.position.x = Math.round(this.sun.target.position.x / step) * step;
     this.sun.target.position.z = Math.round(this.sun.target.position.z / step) * step;
-    this.sun.castShadow = sunI > 0.15;
+    // The sun keeps casting after dusk: switching it off changed the number of shadowed lights, and every shaded
+    // material was compiled again at dusk and dawn, a stall of seconds. Its shadow fades out instead, and the shadow map
+    // is not drawn while it casts nothing.
+    const shadow = clampNum((sunI - 0.12) / 0.06, 0, 1);
+    this.sun.shadow.intensity = shadow;
+    this.sun.shadow.autoUpdate = shadow > 0;
 
     this.moon.color.setHex(0x9ab0e8);
     const moonUp = clampNum(moonDir.y * 4, 0, 1);
@@ -396,7 +411,7 @@ export class SkyRig {
     SKY.time.value = this.cloudTime;
     this.starUniforms.uNight.value = clampNum(nightAmt * 1.3 - 0.15, 0, 1);
     this.starUniforms.uTime.value = this.cloudTime;
-    this.starUniforms.uPx.value = Math.min(window.devicePixelRatio || 1, 2);
+    this.starUniforms.uPx.value = RENDER_PX.value;
 
     // The sky follows the camera focus so the horizon never approaches.
     this.dome.position.copy(focus);

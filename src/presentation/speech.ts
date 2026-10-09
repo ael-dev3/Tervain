@@ -22,7 +22,7 @@ export interface SpeechHooks {
    * Plays a line (from a place in the world, when given) and returns its length in seconds, playable or not; null
    * when its voice is still loading and the line should wait a moment.
    */
-  say(line: string, at?: Vec3): number | null;
+  say(line: string, at?: Vec3 | (() => Vec3)): number | null;
   /** Shows the spoken words for as long as they are heard. */
   caption(speaker: Speaker, text: string, seconds: number): void;
   /** Stops what a speaker is saying (a passing remark, when the player starts a conversation). */
@@ -154,7 +154,7 @@ export class SpeechDirector {
   }
 
   /** A passing remark: said now unless they are already speaking; the words show in a bubble, not a caption. */
-  remark(npc: NpcId, line: string, at: Vec3): number {
+  remark(npc: NpcId, line: string, at: Vec3 | (() => Vec3)): number {
     if (this.busyFor(npc) > 0 || !VOICE_LINES[line]) return 0;
     // A remark whose voice is not ready is simply not made; there will be another.
     const seconds = this.hooks.say(line, at);
@@ -231,7 +231,8 @@ export class SpeechDirector {
           continue;
         }
       }
-      let seconds = this.hooks.say(q.line, q.where?.());
+      // The voice follows its speaker, who may walk on while saying it (A70).
+      let seconds = this.hooks.say(q.line, q.where);
       if (seconds === null) {
         // Its voice is on its way: wait a moment, then go ahead without it if need be.
         if ((q.tries ?? 0) < LOAD_TRIES) {

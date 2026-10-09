@@ -128,7 +128,7 @@ describe('who says what, and when', () => {
     const captions: string[] = [];
     const d = new SpeechDirector({
       say: (line, at) => {
-        said.push({ line, at });
+        said.push({ line, at: typeof at === "function" ? at() : at });
         return VOICE_AUDIO.lines[line as keyof typeof VOICE_AUDIO.lines]?.[2] ?? 1;
       },
       caption: (speaker, text) => captions.push(`${speaker}: ${text}`),
@@ -294,7 +294,7 @@ describe('overheard, and waiting for a voice', () => {
   });
   it('plays a scene in turns from where each person stands, once a day, holding both of them', () => {
     const said: { line: string; at?: { x: number } }[] = [];
-    const d = new SpeechDirector({ say: (line, at) => { said.push({ line, at }); return 2; }, caption: () => {} });
+    const d = new SpeechDirector({ say: (line, at) => { said.push({ line, at: typeof at === "function" ? at() : at }); return 2; }, caption: () => {} });
     const scene = SCENES.find((s) => s.id === 'quarry.waiting')!;
     expect(d.scene(scene, 0, here)).toBe(true);
     expect(d.scene(scene, 0, here)).toBe(false);

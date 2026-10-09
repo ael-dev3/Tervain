@@ -1,3 +1,4 @@
+import { GPU } from '../skyState';
 import * as THREE from 'three';
 
 /** The layer the sky dome and stars also live on, so a capture can draw them and nothing else. */
@@ -17,7 +18,7 @@ export class SkyCapture {
 
   constructor(size = 128, private readonly interval = 0.6) {
     this.target = new THREE.WebGLCubeRenderTarget(size, {
-      type: THREE.HalfFloatType, generateMipmaps: true,
+      type: GPU.halfTargets ? THREE.HalfFloatType : THREE.UnsignedByteType, generateMipmaps: true,
       minFilter: THREE.LinearMipmapLinearFilter, magFilter: THREE.LinearFilter,
       colorSpace: THREE.LinearSRGBColorSpace,
     });

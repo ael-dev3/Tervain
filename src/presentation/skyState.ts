@@ -6,6 +6,13 @@ import * as THREE from 'three';
  * per-frame wiring is needed. There is exactly one world at a time, so a module-level object is sufficient.
  * All colours are linear. Directions are world space.
  */
+/** The renderer's pixel ratio (quality-capped), for point sprites sized in pixels; set by the app on resize (A70). */
+export const RENDER_PX = { value: 1 };
+
+/** Whether the GPU can draw into half-float targets; set by the app once the renderer exists. Without it the water ripples
+ *  and grass trails rest, and the sky capture falls back to bytes (A70). */
+export const GPU = { halfTargets: true };
+
 export const SKY = {
   /** Sky colour straight up, and at the horizon (the horizon colour equals the fog colour). */
   top: { value: new THREE.Color(0x4c8fe0) },

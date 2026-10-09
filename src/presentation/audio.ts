@@ -656,7 +656,7 @@ export class AudioEngine {
   }
 
   /** A spoken line (src/content/voice.ts): it plays when the world's sound is running, and its length is returned either way. */
-  say(line: string, at?: Vec3): number | null {
+  say(line: string, at?: Vec3 | (() => Vec3)): number | null {
     const voiced = (VOICE_AUDIO.lines as Record<string, readonly [string, number, number, string]>)[line];
     if (!voiced) return 0;
     // While the world's sound runs, a line whose voice is still loading waits (null); otherwise it is shown silently.

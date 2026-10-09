@@ -108,6 +108,8 @@ interface Voice {
   started: number;
   speaker?: string;
   animal?: string;
+  /** A voice that follows its speaker: where to place its panner each frame (A70). */
+  follow?: { panner: PannerNode; at: () => Vec3 };
 }
 
 interface Bed {
@@ -129,7 +131,6 @@ interface PersonClock {
   work: number;
   burst: number;
   idle: number;
-  talk: number;
 }
 
 /**
@@ -470,7 +471,7 @@ export class SoundWorld {
    * centred (the hero). The speaker's previous line stops, and the score steps back while anyone speaks. False when
    * the line's bank has not loaded yet.
    */
-  speak(id: VoiceLineId, opt: { at?: Vec3 } = {}): boolean {
+  speak(id: VoiceLineId, opt: { at?: Vec3 | (() => Vec3) } = {}): boolean {
     if (this.disposed || !this.speechActive || this.hidden || this.ctx.state === 'closed') return false;
     const [bank, offset, length, speaker] = VOICE_AUDIO.lines[id];
     const buffer = this.voiceBuffers.get(bank);
@@ -481,6 +482,8 @@ export class SoundWorld {
     this.voiceUsed.set(bank, this.clock);
     const nodes: AudioNode[] = [];
     let voice: Voice | null = null;
+    let follow: Voice['follow'];
+    const at = typeof opt.at === 'function' ? opt.at() : opt.at;
     try {
       this.hush(speaker);
       this.makeRoom('dialogue');
@@ -493,7 +496,7 @@ export class SoundWorld {
       gain.gain.value = 1;
       source.connect(gain);
       let tail: AudioNode = gain;
-      if (opt.at) {
+      if (at) {
         const panner = ctx.createPanner();
         nodes.push(panner);
         panner.panningModel = 'equalpower';
@@ -502,12 +505,13 @@ export class SoundWorld {
         panner.refDistance = 3;
         panner.rolloffFactor = 1;
         panner.maxDistance = 10000;
-        placeAt(panner, opt.at);
+        placeAt(panner, at);
+        if (typeof opt.at === 'function') follow = { panner, at: opt.at };
         tail.connect(panner);
         tail = panner;
       }
       tail.connect(this.buses.dialogue);
-      if (opt.at) {
+      if (at) {
         // A little of the place's air on a voice out in the world.
         const send = ctx.createGain();
         nodes.push(send);
@@ -515,7 +519,7 @@ export class SoundWorld {
         tail.connect(send);
         for (const r of this.reverbs) send.connect(r.send);
       }
-      voice = { source, nodes, speaker, bus: 'dialogue', started: ctx.currentTime };
+      voice = { source, nodes, speaker, bus: 'dialogue', started: ctx.currentTime, follow };
       this.speaking.set(speaker, voice);
       this.voices.add(voice);
       const held = voice;
@@ -788,6 +792,11 @@ export class SoundWorld {
     const speechActive = frame?.mode === 'play' && !this.hidden;
     if (!speechActive && (this.speechActive || this.voiceLoads.size > 0)) this.cancelSpeech();
     this.speechActive = speechActive;
+    // A voice that follows its speaker moves with them, so a remark made walking is heard from the walker (A70).
+    for (const voice of this.speaking.values()) {
+      const follow = voice.follow;
+      if (follow) quietly(() => placeAt(follow.panner, follow.at()));
+    }
     try {
       this.clock += dt;
       if (frame) {
@@ -943,7 +952,7 @@ export class SoundWorld {
   private clockFor(id: string, x: number, z: number): PersonClock {
     let s = this.people.get(id);
     if (!s) {
-      s = { x, z, walked: this.random() * STRIDE.resident, work: 1 + this.random() * 4, burst: 0, idle: 10 + this.random() * 30, talk: this.random() * 3 };
+      s = { x, z, walked: this.random() * STRIDE.resident, work: 1 + this.random() * 4, burst: 0, idle: 10 + this.random() * 30 };
       this.people.set(id, s);
     }
     return s;
@@ -967,13 +976,8 @@ export class SoundWorld {
         }
       } else if (a.mode === 'work') {
         this.workTick(s, workSound(a.id, npcStyle(a.id).work), dt, at);
-      } else if (a.mode === 'talk') {
-        s.talk -= dt;
-        if (s.talk <= 0) {
-          s.talk = 4.3 + 2.5 * this.random();
-          if (d < 20) this.play({ clip: 'voice.murmur', gain: 0.5, pitch: 0.06 }, { at: { ...at, y: a.y + 1.6 }, bus: 'dialogue', ref: 2, maxDistance: 22 });
-        }
       }
+      // A resident talks only while their own voiced line plays: no crowd murmur over it (A70).
       if (a.mode !== 'walk' && a.mode !== 'talk') this.idleTick(s, dt, at, d);
     }
     for (const p of AMBIENT_PEOPLE_SOUND) {

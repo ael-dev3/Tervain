@@ -138,3 +138,25 @@ describe('a route\'s last step (A69)', () => {
     expect(path.some((p) => Math.hypot(p.x - goalCell.x, p.z - goalCell.z) < 1e-6)).toBe(false);
   });
 });
+
+describe('the last metres to a place (A70)', () => {
+  it('steps round someone standing in the way to a free place, but still waits for a place someone stands on', () => {
+    const def = { ...NPCS.ash_recorder, schedule: [{ from: 0, to: 24, anchor: 'ford_camp', activity: 'stand' as const }], overrides: [] };
+    const { npc, ctx, tick } = harness(def, 12), target = ANCHORS.ford_camp!;
+    npc.x = target.x - 2.6; npc.z = target.z;
+    Reflect.set(npc, 'destination', { x: target.x, z: target.z, yaw: 0 });
+    Reflect.set(npc, 'path', [{ x: target.x, z: target.z }]);
+    // Someone stands still on the line in, short of the place.
+    ctx.residentContacts = [{ id: 'person:rillford_reeve', kind: 'circle', x: target.x - 1.2, z: target.z, r: .35, active: true, minY: 0, maxY: 1.8 }];
+    tick(12);
+    expect(Math.hypot(npc.x - target.x, npc.z - target.z)).toBeLessThan(.2);
+    // On the place itself: a polite wait.
+    const second = harness(def, 12);
+    second.npc.x = target.x - 2.6; second.npc.z = target.z;
+    Reflect.set(second.npc, 'destination', { x: target.x, z: target.z, yaw: 0 });
+    Reflect.set(second.npc, 'path', [{ x: target.x, z: target.z }]);
+    second.ctx.residentContacts = [{ id: 'person:rillford_reeve', kind: 'circle', x: target.x, z: target.z, r: .35, active: true, minY: 0, maxY: 1.8 }];
+    second.tick(12);
+    expect(Math.hypot(second.npc.x - target.x, second.npc.z - target.z)).toBeGreaterThan(.6);
+  });
+});

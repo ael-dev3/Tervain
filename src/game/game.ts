@@ -61,7 +61,8 @@ export class Game {
 
   /** Advance the world clock by game minutes. Delivers any reports that have come due. */
   tickClock(minutes: number) {
-    if (minutes <= 0) return;
+    // A clock that once becomes NaN or Infinity can never be saved again.
+    if (!Number.isFinite(minutes) || minutes <= 0) return;
     this.dispatch({ t: 'advanceClock', minutes });
   }
 

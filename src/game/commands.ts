@@ -575,12 +575,14 @@ export function execute(s: WorldState, cmd: Command): CommandResult {
     }
 
     case 'advanceClock': {
+      if (!Number.isFinite(cmd.minutes)) return fail('invalid_minutes');
       s.clock += Math.max(0, cmd.minutes);
       deliverDueReports(s, events);
       return ok();
     }
 
     case 'useItem': {
+      if (s.player.health <= 0) return fail('player_dead');
       if (!isItemId(cmd.item)) return fail('unknown_item');
       if (itemAction(cmd.item) !== 'consume') return fail('not_usable');
       if (itemCount(s, cmd.item) < 1) return fail('missing_item');

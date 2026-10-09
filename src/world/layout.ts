@@ -311,9 +311,10 @@ export const ANCHORS: Record<string, Anchor> = {
   shrine_altar: a({ x: -14, z: -95.6 }, 3.1),
   shrine_steps: a({ x: -18, z: -95 }, 0),
   wetland_edge: a({ x: -15, z: -86 }, -2.2),
-  steward_cell: atDoor('shrine_hall', 1.4, 3),
+  // Within the hall's door's reach, so it opens for them (A70).
+  steward_cell: atDoor('shrine_hall', 1.4, 0.5),
   archive_door: atDoor('archive', 1.6),
-  warden_post: atDoor('shrine_hall', 1.4, -3),
+  warden_post: atDoor('shrine_hall', 1.4, -0.5),
   archive_back: a({ x: -46, z: -109.4 }, 0),
   quarry_yard: a({ x: 86, z: -24 }, 1.2),
   quarry_office: atDoor('quarry_office', 1.4),

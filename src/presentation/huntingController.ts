@@ -126,8 +126,11 @@ export class HuntingController {
     const far = ray.ray.at(HUNTING_ARROW_RANGE, new THREE.Vector3());
     const scenery = world.physics.traceProjectile(ray.ray.origin, far);
     const animal = world.animals.traceArrow(ray.ray.origin, ray.ray.direction, HUNTING_ARROW_RANGE);
-    const target = animal && (!scenery || animal.distance < scenery.distance) ? new THREE.Vector3().copy(animal.point)
-      : scenery ? new THREE.Vector3().copy(scenery.point) : far;
+    // A camera ray hit behind the bow (the hero's own cover, a shoulder-close post) would turn the arrow round (A70).
+    const past = ray.ray.origin.distanceTo(muzzle.origin) + 0.3;
+    const near = (hit: { distance: number } | null | undefined) => !!hit && hit.distance > past;
+    const target = near(animal) && (!near(scenery) || animal!.distance < scenery!.distance) ? new THREE.Vector3().copy(animal!.point)
+      : near(scenery) ? new THREE.Vector3().copy(scenery!.point) : far;
     const direction = arrowDirection(muzzle.origin, target);
     const shot = this.arrows.launch(muzzle.origin, direction, SPEED);
     if (!shot) return;

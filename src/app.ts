@@ -23,7 +23,7 @@ import { codeLabel, loadSettings } from './platform/settings';
 import { BrowserStore, SaveStore, SLOT_IDS, type SlotId } from './platform/storage';
 import { ENEMY_SPAWNS, PLACES, SPAWN, SLUICE, RITE_ALTAR, type V2 } from './world/layout';
 import { coastX } from './world/coast';
-import { canPlayerStandAt, supportedPlayerHeight } from './world/playerPlacement';
+import { canPlayerStandAt, PLAYER_BODY_RADIUS, supportedPlayerHeight } from './world/playerPlacement';
 import { EnemyActor, NpcActor, type ActorContext, type EnemyContext } from './presentation/actors';
 import { AudioEngine } from './presentation/audio';
 import { SpeechDirector } from './presentation/speech';
@@ -34,6 +34,7 @@ import { Grade } from './presentation/grade';
 import { buildInteractables, type Interactable } from './presentation/interactions';
 import { chooseInteractable } from './presentation/interactionTarget';
 import { Player } from './presentation/player';
+import { GPU, RENDER_PX } from './presentation/skyState';
 import { Hud } from './presentation/ui/hud';
 import { MapView } from './presentation/ui/map';
 import { PanelHost, aboutPanel, controlsPanel, huntingPanel, inventoryPanel, journalPanel, noticePanel, pauseMenu, settingsPanel, sluicePanel, slotsPanel, type PanelActions, type PanelCtx, type PanelSaveResult } from './presentation/ui/panels';
@@ -73,6 +74,8 @@ export class App {
   renderer!: THREE.WebGLRenderer;
   grade!: Grade;
   private lastFrameDt = 1 / 60;
+  /** Whether this step is the frame's last, which draws the picture and the HUD (a slow frame is caught up in several). */
+  private presenting = true;
   world!: WorldScene;
   private menuScene!: MenuScene;
   private menuVisitActive = false;
@@ -141,7 +144,8 @@ export class App {
   /** Spoken lines: exchanges with people and the hero's own remarks (A53). */
   private readonly speech = new SpeechDirector({
     say: (line, at) => this.audio.say(line, at),
-    hush: (speaker) => this.audio.hush(speaker),
+    // A remark cut short takes its words with it (A70).
+    hush: (speaker) => { this.audio.hush(speaker); this.bubbleState?.delete(speaker); },
     caption: (speaker, text, seconds) => {
       if (this.settings.captions) this.hud.speech(SPEAKER_NAMES[speaker], text, seconds);
     },
@@ -184,6 +188,7 @@ export class App {
     this.renderer.outputColorSpace = THREE.SRGBColorSpace;
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
     this.renderer.toneMappingExposure = 1.22;
+    GPU.halfTargets = this.renderer.extensions.has('EXT_color_buffer_float') || this.renderer.extensions.has('EXT_color_buffer_half_float');
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFShadowMap;
     this.grade = new Grade(this.renderer, { msaa: this.settings.quality !== 'low' });
@@ -226,7 +231,7 @@ export class App {
       this.input.reset();
       if (hidden) {
         this.hunting.controls(0, false);
-        this.speech.clear();
+        this.clearSpeech();
         this.autosaveQuiet();
         if (this.mode === 'play' && this.overlay === 'none' && !this.bench.active) this.openPause();
       }
@@ -339,7 +344,7 @@ export class App {
     this.panels.onOpen = () => {
       this.hunting.controls(0, false);
       this.audio.setWildlifeActive(false);
-      this.speech.clear();
+      this.clearSpeech();
       this.titleEl.inert = true;
       this.input.uiOpen = true;
       this.player.vx = this.player.vz = this.player.lastMoveSpeed = 0;
@@ -583,7 +588,7 @@ export class App {
     this.hunting.reset();
     this.audio?.setWildlifeActive(false);
     this.world?.animals?.setRunning(false);
-    this.speech.clear();
+    this.clearSpeech();
     if (!this.worldPaused) this.rebuildFocus = document.activeElement as HTMLElement | null;
     this.audio.pauseWorld();
     this.worldBuildFailed = false;
@@ -650,13 +655,15 @@ export class App {
     this.renderer.shadowMap.enabled = q !== 'low';
     this.grade.setMsaa(q !== 'low');
     this.grade.bloom = q !== 'low';
-    this.applyPixelRatio();
+    // The whole resize, not only the pixel ratio: the grade's and water's render targets follow the canvas (A70).
+    this.onResize();
   }
 
   private applyPixelRatio() {
     const q = this.settings.quality;
     const dpr = window.devicePixelRatio || 1;
     this.renderer.setPixelRatio(q === 'low' ? Math.min(dpr, 1) : q === 'medium' ? Math.min(dpr, 1.5) : Math.min(dpr, 2));
+    RENDER_PX.value = this.renderer.getPixelRatio();
   }
 
   private onResize() {
@@ -716,6 +723,8 @@ export class App {
           this.cam.reset();
         }
         await this.prepareWorldGraphics();
+        // The title and pause backdrop was replaced for the new preset: prepare it too, or it never draws again (A70).
+        if (!this.menuGraphicsReady) await this.prepareMenuGraphics();
       }
     } catch (error) {
       this.showWorldBuildFailure(error, () => this.applySettings(true));
@@ -732,7 +741,7 @@ export class App {
   private enterTitle() {
     // Returning from pause to the title is a fresh launch even though both screens use the menu scene.
     this.menuVisitActive = false;
-    this.speech.clear();
+    this.clearSpeech();
     this.world?.physics.release();
     this.mode = 'title';
     this.hud.show(false);
@@ -827,7 +836,7 @@ export class App {
 
   private beginPlay(fromLoad: { recovered: null | 'previous' | 'temporary' } | null) {
     if (this.worldPaused) return;
-    this.speech.clear();
+    this.clearSpeech();
     this.inventoryNotesChanged = false;
     this.hunting.reset();
     this.titleEl.classList.remove('on');
@@ -879,6 +888,9 @@ export class App {
   private safePosition(x: number, z: number, feetY?: number): V2 & { y: number } {
     const { terrain, colliders } = this.world;
     if (canPlayerStandAt(terrain, colliders, x, z, feetY)) return { x, z, y: supportedPlayerHeight(terrain, x, z, feetY) };
+    // A swimmer is saved and rebuilt where he swims, not carried ashore (A70).
+    const water = this.world.water?.world.sample(x, z);
+    if (water && water.depth > 0.9 && !colliders.blocked(x, z, PLAYER_BODY_RADIUS)) return { x, z, y: feetY ?? water.surface - 1.1 };
     const cell = this.world.nav.nearestOpen(x, z, 10);
     const position = cell ? this.world.nav.cellCenter(cell.i, cell.j) : { x: SPAWN.x, z: SPAWN.z };
     return { ...position, y: terrain.groundAt(position.x, position.z) };
@@ -921,14 +933,22 @@ export class App {
   private frame(now: number) {
     const frame = this.frameClock.tick(now);
     if (frame && !this.worldPaused) {
-      const { interval, dt } = frame;
+      const { interval, dt, steps } = frame;
       this.lastFrameDt = dt;
       if (interval < 5) this.recordFrame(interval);
       this.audioClock += dt;
       try {
-        this.step(dt);
+        // A slow frame is caught up in shorter steps, so the world keeps its own time at a low frame rate (A70). Only
+        // the last step draws, and a press or a mouse movement counts in the first alone.
+        for (let i = 0; i < steps; i++) {
+          this.presenting = i === steps - 1;
+          this.step(dt / steps);
+          if (!this.presenting) { this.input.consumePad(); this.input.endFrame(); }
+        }
       } catch (e) {
         console.error(e);
+      } finally {
+        this.presenting = true;
       }
     } else if (document.visibilityState !== 'hidden' && this.worldBuildFailed && !this.worldBuilding && !this.qualityReload) {
       // Recovery owns controller confirmation; no world or hidden menu action runs underneath it.
@@ -975,8 +995,10 @@ export class App {
         millNear: 0, millTurning: false, windAmount: 0.3 + 0.7 * gust, windTone: 360 + 180 * gust, quarryNear: 0,
         quarryWorking: false, time: this.audioClock, underRoof: false });
       this.audio.updateWorld(dt, null);
-      this.updateDebug(dt);
-      this.render();
+      if (this.presenting) {
+        this.updateDebug(this.lastFrameDt);
+        this.render();
+      }
       return;
     }
     const hour = hourOfDay(state.clock + this.clockAcc);
@@ -1019,7 +1041,7 @@ export class App {
     const hitStopped = this.hitStop > 0;
     if (playing && hitStopped) this.hitStop -= dt;
     if (playing && this.mode === 'play' && !hitStopped) {
-      this.world.physics.beginCharacter(this.player);
+      this.world.physics.beginCharacter(this.player, dt);
       this.player.update(dt, this.playerContext(true));
       this.updateEnemies(dt);
       this.checkDiscoveries();
@@ -1108,10 +1130,11 @@ export class App {
     this.hunting.afterWorld(dt, worldActive);
     this.audioUpdate(dt, this.cam.camera.position, hour);
 
-    this.updateHud(dt);
+    if (!this.presenting) return;
+    this.updateHud(this.lastFrameDt);
     this.hunting.updateHud();
     if (this.panelKind === 'map' && this.mapCanvas) this.renderMap();
-    this.updateDebug(dt);
+    this.updateDebug(this.lastFrameDt);
     this.render();
   }
 
@@ -1443,8 +1466,9 @@ export class App {
       return { x: p.x, y: p.y, z: p.z };
     };
     // While they speak they stop, turn to the player and talk with their hands (NpcActor.talking).
-    npc.faceTo = null;
-    if (!this.speech.talk(npc.id, where, this.game.state) && observation.ok) this.hud.toast(S(observation.key));
+    // Only an exchange that starts turns them to the player; one held in a scene keeps facing their partner (A70).
+    if (this.speech.talk(npc.id, where, this.game.state)) npc.faceTo = null;
+    else if (observation.ok) this.hud.toast(S(observation.key));
   }
 
   /** Inspection text is nonblocking; its evidence and personal observations remain in the journal. */
@@ -1745,7 +1769,7 @@ export class App {
           this.audio.discover(e.id);
           this.speech.hero(`place.${e.id}` as HeroCue, { delay: 1.2 });
           // Discovering somewhere new moves the respawn point there.
-          this.checkpoint = { x: this.player.x, y: this.player.y, z: this.player.z, yaw: this.player.yaw };
+          this.markCheckpoint();
           break;
         case 'shortcut':
           this.speech.hero('shortcut', { delay: 1 });
@@ -1788,12 +1812,19 @@ export class App {
     return r;
   }
 
+  /** The respawn point follows the player, but never to where a living enemy would meet him again (A70). */
+  private markCheckpoint() {
+    const p = this.player;
+    if (this.enemies.some(e => e.alive && Math.hypot(e.x - p.x, e.z - p.z) < 18)) return;
+    this.checkpoint = { x: p.x, y: p.y, z: p.z, yaw: p.yaw };
+  }
+
   private autosave(reason: string) {
     if (this.mode !== 'play' || this.worldPaused) return;
     this.stamp();
     const r = this.saves.save('auto', this.game.state);
     if (r.ok) {
-      this.checkpoint = { x: this.player.x, y: this.player.y, z: this.player.z, yaw: this.player.yaw };
+      this.markCheckpoint();
       this.hud.toast(S('menu.saved', { slot: S('menu.slot.auto') }));
     } else this.hud.toast(S('menu.savefailed', { reason: r.message }), 'bad');
     void reason;
@@ -1906,13 +1937,19 @@ export class App {
     }
   }
 
+  /** Stops all speech and its words over people's heads (a load, a panel, death, the title) (A70). */
+  private clearSpeech() {
+    this.speech.clear();
+    this.bubbleState?.clear();
+  }
+
   /** A remark (a line in voice.ts), voiced from where the person stands, with its words above their head. */
   bark(a: NpcActor, line: string): boolean {
     if (a.def.approachGreeting && this.audio.speechPlaybackPending) return false;
     const text = VOICE_LINES[line]?.text;
     if (!text || this.speech.busyFor(a.id) > 0) return false;
-    const p = a.headPosition;
-    const seconds = this.speech.remark(a.id, line, { x: p.x, y: p.y, z: p.z });
+    // Heard from where they are as they say it: a remark made on the way walks on with them (A70).
+    const seconds = this.speech.remark(a.id, line, () => { const p = a.headPosition; return { x: p.x, y: p.y, z: p.z }; });
     if (seconds <= 0) return false;
     this.bubbleState.set(a.id, { text: shown(text), until: performance.now() + Math.max(3600, seconds * 1000 + 800) });
     return true;
@@ -1987,7 +2024,7 @@ export class App {
   private onPlayerDeath() {
     this.hunting.reset();
     this.audio.setWildlifeActive(false);
-    this.speech.clear();
+    this.clearSpeech();
     this.world.physics.release();
     this.audio.death();
     this.mode = 'dead';
@@ -2010,6 +2047,10 @@ export class App {
     this.hitStop = 0;
     this.input.reset();
     this.speech.hero('respawn', { delay: 1, again: 1 });
+    // Escape or leaving the window during the fall could not pause a dead player; it pauses now, rather than the world
+    // running on unattended and uncaptured (A70).
+    const unfocused = typeof document.hasFocus === 'function' && !document.hasFocus();
+    if (!this.bench.active && (unfocused || (this.wantPlayLock && !this.input.locked))) this.openPause();
   }
 
   private checkDiscoveries() {
@@ -2048,7 +2089,7 @@ export class App {
     const w = this.world.waterProximity(camPos.x, camPos.z);
     const millD = Math.hypot(camPos.x + 14, camPos.z + 8);
     const quarryD = Math.hypot(camPos.x - 92, camPos.z + 26);
-    const indoors = this.world.underRoof(camPos.x, camPos.z);
+    const indoors = this.world.underRoof(camPos.x, camPos.y, camPos.z);
     this.audio.update(dt, {
       nightness: this.world.sky.state.nightness,
       waterProximity: w,
@@ -2109,7 +2150,8 @@ export class App {
       quickSlots: s.quickSlots,
       inventory: s.inventory,
       equippedWeapon: s.equippedWeapon,
-      timeText: S('hud.time', { n: clockDay(s.clock) + 1, time: formatClock(s.clock + this.clockAcc) }),
+      // Day and time from the same moment, so the day turns over with the clock at midnight.
+      timeText: S('hud.time', { n: clockDay(s.clock + this.clockAcc) + 1, time: formatClock(s.clock + this.clockAcc) }),
       objective: obj,
       fps: this.settings.showFps ? S('hud.fps', { fps: Math.round(this.fpsSmooth), ms: (1000 / Math.max(1, this.fpsSmooth)).toFixed(1) }) : null,
       blocking: this.player.blocking,
