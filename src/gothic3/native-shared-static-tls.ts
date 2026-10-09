@@ -80,6 +80,12 @@ export class NativeSharedStaticTls {
    return {known:true,value:new NativeHeapObjectViews(block.backing,expected.debugBufferOffset,block.bytes.length-expected.debugBufferOffset)};
   }catch(error){return {known:false,reason:error instanceof Error?error.message:String(error)};}
  }
+ /** Original FS:0x2c/index/vector operands, checked against this live loader. */
+ instructionOperands():NativeValue<Readonly<{index:NativeHeapObjectViews;vector:NativeHeapObjectViews;block:NativeHeapObjectViews}>> {
+  const buffer=this.debugBuffer();if(!buffer.known)return buffer;
+  if(this.#index.readUnsigned(0)!==0)return {known:false,reason:'Declared SharedBase loader slot zero required'};
+  return {known:true,value:Object.freeze({index:this.#index,vector:this.#vector,block:this.#block!})};
+ }
  snapshot(){return Object.freeze({loaded:this.#loaded,virtualLoaderSlot:this.#loaded?0:null,threadCapability:this.#selection.threadCapability,
   templateBytes:expected.templateRaw.length/2,sharedCrtInitialized:false,dllAttachExecuted:false});}
 }

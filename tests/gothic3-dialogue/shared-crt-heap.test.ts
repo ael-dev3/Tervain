@@ -1,3 +1,4 @@
+import {NativeSharedStaticTls} from '../../src/gothic3/native-shared-static-tls';
 import type {NativeWin32FileSystemSelection} from '../../src/gothic3/native-win32-file-system';
 import {NativeSharedVersionResource} from '../../src/gothic3/native-shared-version-resource';
 import {NativeSharedModuleImage} from '../../src/gothic3/native-shared-module-image';
@@ -1633,6 +1634,111 @@ owner.processDllSpieAllocateDescriptor();
  owner.processDllSpieInitDescriptorSection();return {owner,platform};
 }
 
+function originalVersionLogFixture(){
+ const fixture=originalFileOpenFixture({cwd:'C:/Gothic3',directories:['C:/','C:/Gothic3'],files:[]}),{owner}=fixture;
+ owner.processDllSpieCreateFile();owner.processDllSpieTerminate();owner.processDllMessageTerminate();owner.processDllMessageLog();owner.processDllErrorLogCallback();owner.processDllErrorLogAllocation();owner.processDllErrorLogFormatting();owner.processDllErrorLogInsertion();owner.processDllSpyLogCallback();
+ return fixture;
+}
+it('rejects damaged final separator frames before the third logger submission',()=>{
+ for(const displacement of [0,4]){
+  const {owner}=originalVersionLogFixture();owner.processDllVersionLogTls();owner.processDllVersionLogFormatting();owner.processDllMessageLog();owner.processDllErrorLogCallback();owner.processDllErrorLogAllocation();owner.processDllErrorLogFormatting();owner.processDllErrorLogInsertion();owner.processDllSpyLogCallback();
+  const before=owner.snapshot(),stack=before.caseState!.stack!.snapshot(),call=stack.calls.at(-1)!;
+  new NativeHeapObjectViews(stack.sharedDllResourceFrame!.handle.backing,call.position+displacement,4).writeUnsigned(0,0);
+  const result=owner.processDllSeparatorPrefix();expect(result.known).toBe(false);if(result.known)throw new Error('Damaged final separator accepted');expect(result.reason).toMatch(/original DLL separator frame|expression slot/);
+  const after=owner.snapshot();expect(after.messageSectionHeld).toBe(false);expect(after.dllEntryReturned).toBeNull();expect(after.trace.filter(row=>row==='10049528.EnterCriticalSection')).toHaveLength(2);
+ }
+},30_000);
+it('returns from original direct SharedBase DLL entry after its final separator',()=>{
+ const {owner}=originalVersionLogFixture();owner.processDllVersionLogTls();owner.processDllVersionLogFormatting();owner.processDllMessageLog();owner.processDllErrorLogCallback();owner.processDllErrorLogAllocation();owner.processDllErrorLogFormatting();owner.processDllErrorLogInsertion();owner.processDllSpyLogCallback();
+ expect(owner.processDllSeparatorPrefix()).toEqual({known:false,reason:'Original SharedBase MessageAdmin initialization log pending at 1004980f'});
+ owner.processDllMessageLog();owner.processDllErrorLogCallback();owner.processDllErrorLogAllocation();owner.processDllErrorLogFormatting();owner.processDllErrorLogInsertion();
+ expect(owner.processDllSpyLogCallback()).toEqual({known:true,value:1});
+ const state=owner.snapshot(),stack=state.caseState!.stack!.snapshot();
+ expect(state.dllEntryReturned).toBe(1);expect(state.dllEntryExecuted).toBe(true);expect(state.dllEntryBoundary).toBeNull();expect(state.wholeCrtTraversalCompleted).toBe(false);expect(state.messageSectionHeld).toBe(false);
+ expect(stack.phase).toBe('returned');expect(stack.boundary).toBeNull();
+ for(const site of ['100a15fc','100a1645','100adc8c'])expect(stack.calls.findLast(row=>row.site===site)!.returned).toBe(true);
+ expect(stack.trace).toContain('100a1607.sharedInitializer.RET');expect(stack.trace).toContain('100a164f.sharedInitializer.RET');
+ expect(stack.trace.some(row=>row.startsWith('100adc91.sharedInitializer.'))).toBe(false);
+ const ring=state.dllFormatImages['10142a58']!.pointer<{fields:NativeHeapObjectViews;offset:number}>(32).get()!.fields;expect(ring.readUnsigned(12)).toBe(3);
+ expect(state.trace.filter(row=>row==='1004956b.LeaveCriticalSection')).toHaveLength(3);
+ const calls=stack.calls.length;expect(owner.processDllEntryPrefix()).toEqual({known:true,value:1});expect(owner.snapshot().caseState!.stack!.snapshot().calls).toHaveLength(calls);
+},30_000);
+it('dispatches the actual version message and returns through original callback cleanup',()=>{
+ const {owner}=originalVersionLogFixture(),format=owner.snapshot().dllFormatImages['100e7104']!;owner.processDllVersionLogTls();owner.processDllVersionLogFormatting();
+ expect(owner.processDllMessageLog()).toEqual({known:false,reason:'Original SharedBase ErrorAdmin log callback pending at 100494db'});
+ expect(owner.snapshot().messageSectionHeld).toBe(true);
+ owner.processDllErrorLogCallback();owner.processDllErrorLogAllocation();owner.processDllErrorLogFormatting();
+ const temporary=owner.snapshot().caseState!.stack!.snapshot().sharedDllFormatFrame!.output;
+ expect(owner.processDllErrorLogInsertion()).toEqual({known:false,reason:'Original SharedBase SpyAdmin log callback pending at 100494db'});
+ expect(owner.processDllSpyLogCallback()).toEqual({known:false,reason:'Original SharedBase final separator log pending at 100a15fc'});
+ const state=owner.snapshot(),stack=state.caseState!.stack!.snapshot(),ringPointer=state.dllFormatImages['10142a58']!.pointer<{fields:NativeHeapObjectViews;offset:number}>(32).get()!,ring=ringPointer.fields;
+ expect(state.messageSectionHeld).toBe(false);expect(state.trace.filter(row=>row==='1004956b.LeaveCriticalSection')).toHaveLength(2);
+ expect(state.dllFormatImages['100e7104']).toBe(format);expect(temporary.backing.freed).toBe(true);
+ expect(ring.readUnsigned(8)).toBe(0);expect(ring.readUnsigned(12)).toBe(2);
+ const records=ring.pointer<{fields:NativeHeapObjectViews;offset:number}>(0).get()!.fields;
+ const first=new TextDecoder().decode(records.bytes.slice(0,250)).split('\0')[0]!,second=new TextDecoder().decode(records.bytes.slice(250,500)).split('\0')[0]!;
+ expect(first.startsWith('-'.repeat(75))).toBe(true);
+ expect(second).toBe("Gothic3 (RELEASE) Sharedbase:  Compileversion: 1.60.25931  (Rev. 29), Z:#472 -> '.\\kernel\\ge_message.cpp'");
+ for(const site of ['10049871','10049894','100494db','1004956b','100a15ed'])expect(stack.calls.findLast(row=>row.site===site)!.returned).toBe(true);
+ expect(stack.calls.at(-1)!.site).toBe('100a15fc');expect(stack.calls.at(-1)!.returned).toBe(false);
+ const count=stack.calls.length;expect(owner.processDllMessageLog()).toEqual({known:false,reason:'Original SharedBase final separator log pending at 100a15fc'});expect(owner.snapshot().caseState!.stack!.snapshot().calls).toHaveLength(count);
+},30_000);
+it('rejects a changed retained ErrorAdmin format on the second message',()=>{
+ const {owner}=originalVersionLogFixture();owner.processDllVersionLogTls();owner.processDllVersionLogFormatting();owner.processDllMessageLog();owner.processDllErrorLogCallback();owner.processDllErrorLogAllocation();
+ const state=owner.snapshot(),format=state.dllFormatImages['100e7104']!,ring=state.dllFormatImages['10142a58']!.pointer<{fields:NativeHeapObjectViews;offset:number}>(32).get()!.fields;
+ format.writeUnsigned(0,0x41,1);
+ expect(owner.processDllErrorLogFormatting()).toEqual({known:false,reason:'Actual retained original ErrorAdmin format bytes required'});
+ expect(owner.snapshot().messageSectionHeld).toBe(true);expect(ring.readUnsigned(12)).toBe(1);expect(owner.snapshot().dllFormatImages['100e7104']).toBe(format);expect(format.readUnsigned(0,1)).toBe(0x41);
+},30_000);
+it('rejects damaged version submission frames before entering MessageAdmin section',()=>{
+ for(const displacement of [0,8]){
+  const {owner}=originalVersionLogFixture();owner.processDllVersionLogTls();owner.processDllVersionLogFormatting();
+  const state=owner.snapshot(),stack=state.caseState!.stack!.snapshot(),call=stack.calls.at(-1)!;
+  new NativeHeapObjectViews(stack.sharedDllResourceFrame!.handle.backing,call.position+displacement,4).writeUnsigned(0,0);
+  const result=owner.processDllMessageLog();expect(result.known).toBe(false);if(result.known)throw new Error('Damaged version submission accepted');expect(result.reason).toMatch(/logger submission frame|version log TLS message|expression slot/);
+  expect(owner.snapshot().messageSectionHeld).toBe(false);expect(owner.snapshot().trace.filter(row=>row==='10049528.EnterCriticalSection')).toHaveLength(1);
+ }
+},30_000);
+it('executes original DLL version formatting into the actual TLS buffer',()=>{
+ const {owner,platform}=originalVersionLogFixture();owner.processDllVersionLogTls();
+ const selected=NativeSharedStaticTls.forPlatform(platform);if(!selected.known)throw new Error(selected.reason);
+ const buffer=selected.value.debugBuffer();if(!buffer.known)throw new Error(buffer.reason);
+ expect(owner.processDllVersionLogFormatting()).toEqual({known:false,reason:'Original SharedBase version MessageAdmin log pending at 10049894'});
+ const state=owner.snapshot(),stack=state.caseState!.stack!.snapshot();
+ const text=new TextDecoder().decode(buffer.value.bytes).split('\0')[0]!;
+ expect(stack.sharedDllInitializerFrame!.outputs.map(fields=>fields.readUnsigned(0))).toEqual([1,60,25931,29]);
+ expect(text).toBe('Gothic3 (RELEASE) Sharedbase:  Compileversion: 1.60.25931  (Rev. 29)');
+ expect(buffer.value.knownMask.slice(0,text.length+1).every(mask=>mask===255)).toBe(true);
+ expect(state.messageSectionHeld).toBe(false);expect(stack.calls.findLast(row=>row.site==='10049871')!.returned).toBe(true);expect(stack.calls.findLast(row=>row.site==='100a7eff')!.returned).toBe(true);
+ expect(stack.calls.at(-1)!.site).toBe('10049894');expect(stack.calls.at(-1)!.returned).toBe(false);
+},30_000);
+it('rejects damaged version formatter arguments before changing the TLS buffer',()=>{
+ for(const displacement of [0,4,8]){
+  const {owner,platform}=originalVersionLogFixture();owner.processDllVersionLogTls();
+  const selected=NativeSharedStaticTls.forPlatform(platform);if(!selected.known)throw new Error(selected.reason);const buffer=selected.value.debugBuffer();if(!buffer.known)throw new Error(buffer.reason);
+  const bytes=buffer.value.bytes.slice(),state=owner.snapshot(),stack=state.caseState!.stack!.snapshot(),call=stack.calls.at(-1)!;
+  new NativeHeapObjectViews(stack.sharedDllResourceFrame!.handle.backing,call.position+displacement,4).writeUnsigned(0,0);
+  const result=owner.processDllVersionLogFormatting();expect(result.known).toBe(false);if(result.known)throw new Error('Damaged formatter accepted');expect(result.reason).toMatch(/version formatter return frame|expression slot/);
+  expect(buffer.value.bytes).toEqual(bytes);expect(owner.snapshot().messageSectionHeld).toBe(false);expect(owner.snapshot().caseState!.stack!.snapshot().trace.some(row=>row.startsWith('100a7eab.'))).toBe(false);
+ }
+},30_000);
+it('executes original version logger TLS reads and retains its formatter frame',()=>{
+ const {owner,platform}=originalVersionLogFixture();
+ const selected=NativeSharedStaticTls.forPlatform(platform);if(!selected.known)throw new Error(selected.reason);const loaded=selected.value.loadSharedBase();if(!loaded.known)throw new Error(loaded.reason);const buffer=selected.value.debugBuffer();if(!buffer.known)throw new Error(buffer.reason);buffer.value.writeUnsigned(0,0x61,1);
+ expect(owner.processDllVersionLogTls()).toEqual({known:false,reason:'Original SharedBase DLL version formatting pending at 10049871'});
+ const state=owner.snapshot(),stack=state.caseState!.stack!.snapshot();
+ expect(state.messageSectionHeld).toBe(false);
+ for(const address of ['10049850','10049857','1004985c','10049860'])expect(stack.trace.some(row=>row.startsWith(address+'.'))).toBe(true);
+ expect(stack.calls.at(-1)!.site).toBe('10049871');expect(stack.calls.at(-1)!.returned).toBe(false);
+ expect(buffer.value.readUnsigned(0,1)).toBe(0x61);expect(selected.value.snapshot().virtualLoaderSlot).toBe(0);
+ const count=stack.calls.length;expect(owner.processDllVersionLogTls()).toEqual({known:false,reason:'Original SharedBase DLL version formatting pending at 10049871'});expect(owner.snapshot().caseState!.stack!.snapshot().calls).toHaveLength(count);
+},30_000);
+it('rejects a damaged original version logger return before TLS access',()=>{
+ const {owner}=originalVersionLogFixture(),state=owner.snapshot(),stack=state.caseState!.stack!.snapshot(),call=stack.calls.at(-1)!;
+ new NativeHeapObjectViews(stack.sharedDllResourceFrame!.handle.backing,call.position,4).writeUnsigned(0,0);
+ const result=owner.processDllVersionLogTls();expect(result.known).toBe(false);if(result.known)throw new Error('Damaged logger frame accepted');expect(result.reason).toMatch(/version logger return frame|expression slot/);
+ expect(owner.snapshot().caseState!.stack!.snapshot().trace.some(row=>row.startsWith('10049850.'))).toBe(false);
+},30_000);
 it('executes original absent-window SpyAdmin callback and releases the logger section',()=>{
  const {owner,platform}=originalFileOpenFixture({cwd:'C:/Gothic3',directories:['C:/','C:/Gothic3'],files:[]});
  owner.processDllSpieCreateFile();owner.processDllSpieTerminate();owner.processDllMessageTerminate();owner.processDllMessageLog();owner.processDllErrorLogCallback();owner.processDllErrorLogAllocation();owner.processDllErrorLogFormatting();owner.processDllErrorLogInsertion();

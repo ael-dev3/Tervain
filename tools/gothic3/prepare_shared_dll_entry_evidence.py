@@ -114,6 +114,7 @@ def capture(study, output):
         0x10008058: 'dllVersionQuery',
         0x1000840e: 'dllLogSeparator',
         0x1000871f: 'dllLogVersion',
+        0x100a7eab: 'dllVersionVsprintfCore',
         0x10002883: 'dllVersionResourceFallback',
         0x1000781a: 'dllVersionResourceValues',
         0x10002d42: 'dllVersionResourceLanguage',

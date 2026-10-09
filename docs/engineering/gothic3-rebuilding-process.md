@@ -11092,3 +11092,107 @@ pending verification here. A tree comparison proves that squash equals the
 validated PR head; local history reconciliation preserves the validated runtime
 tree. Startup continuations still have no production callers, and campaign
 completion remains unproven.
+
+### 9 October 2026: version logger uses the retained static TLS block
+
+Local runtime revision `0f459fe3` resumes the actual DLL version-log frame at
+`100a15ed`. Original instructions `10049850`, `10049857` and `1004985c` read
+FS:0x2c, the SharedBase static TLS index and its vector entry. The existing
+`NativeSharedStaticTls` owner supplies the same live logical thread's original
+1,748-byte template. The declared VM loader assigns SharedBase slot zero; this
+is a virtual loader choice, not an observed Windows slot assignment.
+
+The original `LEA` at `10049860` selects the buffer at offset `0x108`. Existing
+buffer contents survive repeated acquisition. Pointer reads require the actual
+retained vector, index and block; a damaged native return frame is rejected before
+TLS acquisition. Initialization reaches the original `vsprintf` call at
+`10049871`, retaining its destination, format and varargs. Formatting and the
+subsequent MessageAdmin submission remain pending.
+
+Three focused checks, typechecking and the production build pass. All 3,028 tests
+across 278 files passed in 333.96 seconds at `0f459fe3`. The next original formatter core,
+`100a7eab`, was independently captured from the installed module: 50 instructions,
+body hash `01a8e501079dfbac7738c12afe584792b8ec8feecdbcac4a70a16d3077ac389e`.
+It was captured for the subsequent formatter continuation.
+
+PR #178's validation run 37878124727 passed. The preceding main deployment run
+37877993111 was cancelled when PR #177 merged externally as
+`6f231967907848e6d4b5f5c94a497a3d98fae1f1`; replacement deployment run
+37878497070 is still running. No completed deployment is inferred from either
+pending run. These continuations still need production integration and do not
+establish a finishable browser campaign.
+
+### 9 October 2026: original version formatting reaches MessageAdmin submission
+
+Runtime revision `abe33e51` executes `100a7f27`, the original formatter core
+`100a7eab` and the existing output engine. The core creates its actual 32-byte
+CRT stream on the retained native stack. The destination is the same live TLS
+block at offset `0x108`; format and varargs come from the original pending call.
+The formatter writes `Gothic3 (RELEASE) Sharedbase:  Compileversion: 1.60.25931  (Rev. 29)`
+with its terminating NUL, using the four retained version-query outputs.
+
+The output engine and formatter return with the original caller registers and
+exception state restored. The logger invokes the warm MessageAdmin getter and
+reaches the actual submission at `10049894`. Submission and its callback cycle
+remain pending; the MessageAdmin section has not been entered for this message.
+Damaged return, destination and format arguments are rejected before changing
+the TLS buffer.
+
+Three focused checks, typechecking and independent byte-identical regeneration
+pass: 94 methods and 5,511 instructions. Full tests and the production build are
+running for this revision. This component execution still needs production
+integration and does not prove startup or campaign completion.
+
+The formatter's production build passed. Its full suite remains live for this
+record. The replacement Pages deployment run 37878497070 completed successfully
+at main revision `6f231967907848e6d4b5f5c94a497a3d98fae1f1`. After a fresh
+repository-wide Actions audit showed no main run active, PR #178 merged at its
+validated head as `ca66c80107552bf6ab2f8221e88d2aa70f51e0c5`. That merge's Pages
+deployment is pending verification. No local runtime or imported source package
+was changed while the formatter's full suite was running.
+
+The formatter's full suite completed successfully: 3,030 tests across 278 files
+in 381.37 seconds at `abe33e51`.
+
+### 9 October 2026: version callbacks, final separator and direct DLL return
+
+Runtime revision `29e3d24e` dispatches the actual TLS version message, inserts the
+second ErrorAdmin record, frees its actual temporary formatting buffer and
+returns through the original SpyAdmin callback. ErrorAdmin's format image keeps
+its identity on later messages; each use checks the original bytes. This fixes
+replacement of an image already referenced by a pending native call.
+
+Main revision `3136ae2adc087107704643c0e4829cc4e6d70d56`, including Claude's
+prototype changes, is integrated at `354040c8`. A path comparison proves main's
+Gothic files match PR #178's validated head; conflict resolution preserves the
+local Gothic continuation while incorporating main's other changes. Dependency
+installation encountered a locked shared Rolldown module; local installation
+then succeeded without changing the lockfile. Four integrated focused checks,
+typechecking and byte-identical source reproduction pass.
+
+At `f6e9bbfe`, the original final separator logger and third callback cycle also
+complete. Three ring records remain, temporary allocations are retired, and all
+three MessageAdmin sections are released. The original initializer returns at
+`100a1607`; DLL entry executes `RET 0xc` at `100a164f`, restoring the direct
+caller's registers and stack and returning `1`. Cached entry queries preserve
+that result without replaying initialization. Damaged final separator frames
+are rejected before the third submission.
+
+Six focused checks across two files, typechecking and the production build pass.
+All 3,076 tests across 283 files passed in 373.05 seconds at `f6e9bbfe`.
+The supported profile has no `zSpie.txt`; the
+present-file path still stops at an unsupported Winsock operation. The direct
+DLL ABI reaches `100adc91` without executing the surrounding CRT wrapper, and
+`wholeCrtTraversalCompleted` remains false. These continuations still have no
+production callers. Full engine startup and the browser campaign remain
+unfinished.
+
+Production integration review identifies the browser's retained Game frontier
+at `204678f2 -> 204665f4` (`__cinit`) in `native-game-crt-setenvp.ts`. The current
+browser NPC startup creates Game CRT and a selected Shared GUID initializer;
+it does not invoke the full SharedBase continuation. Existing source context in
+`game-attach-continuation` captures the 50-instruction Game `__cinit`, PE section
+validation for the math pointer, five C initializer entries and the C++ table.
+Those tables are source context, not execution evidence. The next integration
+must preserve the retained stack, image identities and prerequisite order while
+executing that frontier and its lower operations.
