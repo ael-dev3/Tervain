@@ -174,8 +174,7 @@ completed successfully for main `03e7cb02aa6b5a0064124b879c7359f5101d713b`.
 No deployment rerun was requested. The SSE continuation subsequently merged through
 [PR #188](https://github.com/ael-dev3/Tervain/pull/188) as
 `586377b3212f1a8d8bac234745b0db72dd5c99a5` after CI run `37892602492` passed.
-Pages run `37893245041` was observed in progress; deployment success is not yet
-established for this revision.
+Pages run `37893245041` completed successfully for this revision.
 
 The next source checkpoint, `0d1fb9cb`, captures the FILE-table initializer at
 `2047470c`: 69 instructions verified against the original Game PE and cold
@@ -183,6 +182,16 @@ receipts for the count, pointer vector and twenty FILE records. Six source check
 and typechecking pass, and independent regeneration matches JSON and TypeScript
 byte for byte. This callback still needs runtime execution on the existing heap
 and I/O descriptor graph. Its capture does not advance the browser frontier.
+
+Subsequent local runtime work executes that initializer on the retained Game
+heap and descriptor graph, then executes the fifth C callback and returns from
+the C walker. Focused execution reaches `20466638 -> 204637ce`, the original
+atexit registration call. All 74 focused checks across four files pass,
+typechecking passes and the production build passes in 34.06 seconds. Count
+profiles check the original default/clamp branches, FILE aliases, zeroed unused
+entries, unknown physical allocation padding and prevention of replay.
+Full-suite and browser verification remain outstanding for this continuation;
+these results do not establish complete startup or campaign play.
 
 Independent review of PR #187 decoded all 9,147 buffer views in its 107 changed
 GLBs against the previous revision: geometry, images and semantic metadata
