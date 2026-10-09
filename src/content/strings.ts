@@ -580,6 +580,8 @@ export const EN: Record<string, string> = {
   'set.quality.note': 'Changing quality reloads the valley (your position is kept).',
   'set.guidance': 'Show suggested next step',
   'set.fps': 'Show frame timing',
+  'set.framecap': 'Limit to 60 frames a second',
+  'set.framecap.desc': 'Keeps a fast display from working the graphics card harder than the game needs.',
   'set.barks': 'Show ambient remarks',
   'set.captions': 'Captions for important sounds',
   'set.controls': 'Input',

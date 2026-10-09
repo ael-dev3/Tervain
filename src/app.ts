@@ -16,7 +16,7 @@ import { hasFact, hourOfDay, evalAll, createInitialState, formatClock, clockDay,
 import { EVIDENCE_IDS, type Allocation, type Command, type GameEvent, type ItemId, type NpcId, type PlaceId, type WorldState } from './game/types';
 import { worldView } from './game/worldView';
 import { Input } from './platform/input';
-import { FrameClock } from './platform/frameTiming';
+import { FrameClock, cappedFrame } from './platform/frameTiming';
 import { waitForGraphicsReady } from './platform/graphicsReady';
 import { prepareSceneTextures } from './platform/prepareSceneTextures';
 import { codeLabel, loadSettings } from './platform/settings';
@@ -932,7 +932,14 @@ export class App {
 
   /* ============================== main loop ============================== */
 
+  private nextDraw = -Infinity;
   private frame(now: number) {
+    // On a display faster than 60 Hz, refreshes between frames are let pass: the same game, less heat (A71).
+    if (this.settings.frameCap60) {
+      const capped = cappedFrame(now, this.nextDraw);
+      this.nextDraw = capped.due;
+      if (!capped.draw) { requestAnimationFrame((t) => this.frame(t)); return; }
+    }
     const frame = this.frameClock.tick(now);
     if (frame && !this.worldPaused) {
       const { interval, dt, steps } = frame;

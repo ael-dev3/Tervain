@@ -41,3 +41,14 @@ export class FrameClock {
     return { interval, dt, steps: Math.max(1, Math.ceil(dt / SIM_STEP - 1e-9)) };
   }
 }
+
+/**
+ * The 60-frame cap's schedule (A71): whether a display refresh at `now` draws, and when the next frame is due. Frames
+ * fall due every sixtieth of a second on their own schedule, so 120 Hz and 144 Hz displays average 60; 2 ms of allowance
+ * keeps a jittery 60 Hz display at 60, and a frame more than 50 ms late restarts the schedule.
+ */
+export const CAPPED_FRAME = 1000 / 60;
+export function cappedFrame(now: number, due: number): { draw: boolean; due: number } {
+  if (now < due - 2) return { draw: false, due };
+  return { draw: true, due: now - due > 50 ? now + CAPPED_FRAME : due + CAPPED_FRAME };
+}
