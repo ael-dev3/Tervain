@@ -1,6 +1,6 @@
 # Original Arena property-object startup evidence
 
-This source package captures 282 instructions from the matching Game and
+This source package captures 480 instructions from the matching Game and
 SharedBase binaries. The runtime admits the initializer's selected prefix and
 executes the original SharedBase wrapper constructor on the retained stack.
 The whole initializer has not returned.

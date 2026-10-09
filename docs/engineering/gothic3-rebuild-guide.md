@@ -50,11 +50,12 @@ same evidence-driven process to gameplay systems.
 The latest local Arena registration continuation executes the SharedBase
 singleton getter, registration-enabled check and root-flag query. It follows
 the empty factory-array branch into the original insertion body and requests
-space for one entry. Startup stops at `1008eb30 -> 100035f8`, before array
-reservation and allocation. The factory array pointer remains NULL, with count
+space for one entry. The original reserve body computes capacity nine and a
+36-byte allocation request. Startup stops at `1008ddbb -> 10002aae`, before
+the MemoryAdmin getter and allocation. The factory array pointer remains NULL, with count
 and capacity both zero; registration and the root initializer have not returned.
-The source package captures 431 instructions. Twenty focused checks and
-typechecking pass, and independent source/runtime regeneration matches exactly.
+The source package captures 480 instructions. All five startup-stack checks
+pass for this latest reserve continuation; broader validation remains pending.
 Full-suite, build, browser and deployment evidence for this continuation remain
 pending.
 

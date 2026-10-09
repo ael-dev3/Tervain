@@ -53,8 +53,8 @@ describe('original Game C++ class-name initializers on the retained browser stac
     expect({ next: f.game.attachProgress.nextBoundary,
       reason: f.game.attachProgress.setEnvpProgress!.boundary,
       callbacks: NativeGameExitTable.forCrt(f.game.crt).snapshot().callbackCells.length }).toEqual({
-        next: { address: '200705d6', name: 'import', iat: '207d86e0' },
-        reason: 'Unowned original environment CALL at200705d6: CALL dword ptr [0x207d86e0]', callbacks: 157,
+        next: { address: '1008ddbb', name: 'sourceCall', target: '10002aae' },
+        reason: 'Unowned original environment CALL at1008ddbb: CALL 0x10002aae', callbacks: 157,
       });
     const arenaRoot=f.game.crt.imageStorage('arenaRootWrapper');
     const arenaVtable=arenaRoot.pointer(0).get() as NativeBytePointer;
@@ -74,11 +74,17 @@ describe('original Game C++ class-name initializers on the retained browser stac
     expect(f.stack.snapshot().calls.find(call=>call.site==='200705d2')).toMatchObject({returned:true,
       returnWord:{provenance:{kind:'source',type:'code',address:'200705d4'}}});
     expect(f.game.crt.imageStorage('arenaRootTypeVtable').readUnsigned(12)).toBe(0x2002adfb);
+    for(const site of ['1008d1a3','1008d1aa','1008d1b9'])
+      expect(f.stack.snapshot().calls.find(call=>call.site===site)).toMatchObject({returned:true});
+    const factory=NativeGameArenaType.forCrt(f.game.crt,f.memory).factory;
+    expect(factory.pointer(4).get()).toBeNull();
+    expect(factory.readUnsigned(8)).toBe(0);
+    expect(factory.readUnsigned(12)).toBe(0);
     const singleton=fact(NativePropertySingleton.forPlatform(f.platform,f.memory));
     expect(singleton.ranges.object.readUnsigned(4,1)).toBe(1);
     expect(singleton.ranges.object.pointer(8).get()).toBeNull();
     expect(f.stack.snapshot().calls.filter(call=>!call.returned).map(call=>call.site))
-      .toEqual(['204678f2','20466654','204b1daa']);
+      .toEqual(['204678f2','20466654','204b1daa','200705d6','1008d257','1008eb30']);
     const completed = gameClassNameFamilySpecs.filter(spec => spec.initializer >= '204b11b0' && spec.initializer < '204b1d70');
     expect(completed).toHaveLength(154);
     for (const spec of completed)

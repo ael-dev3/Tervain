@@ -22,6 +22,11 @@ def capture(study):
         0x100058a3: 'propertyWrapperIsRoot',
         0x100030da: 'objectRefSetPropertyObject',
         0x100020e5: 'propertySingletonEnableRegistration',
+        0x10006db6: 'propertyFactoryRegisterObject',
+        0x10001f23: 'propertyRegistrationEnabled',
+        0x10004fd4: 'propertySingletonGetter',
+        0x10007d92: 'factoryRootArrayInsert',
+        0x100035f8: 'factoryRootArrayReserve',
     })
     pe = PE((study / '00_Original_Runtime/Game.dll').read_bytes())
     images = []

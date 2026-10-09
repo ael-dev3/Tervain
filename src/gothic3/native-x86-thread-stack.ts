@@ -2843,7 +2843,8 @@ export class NativeX86ThreadStack {
     if(!binding || binding.controller!==controller)throw new Error('Actual retained Game startup controller required');
     const point=NativeGameCrtSetEnvp.canonicalArenaPropertySingletonCallForCrt(binding.owner,binding.crt,controller,site);
     if(!point.known)throw new Error(point.reason);
-    if(next!==(site==='2006f985'?'2006f98b':'2006f9f2') || this.#calls.filter(call=>!call.returned).at(-1)?.site!=='200705c4')
+    if(next!==(site==='1008d1a3'?'1008d1a8':site==='2006f985'?'2006f98b':'2006f9f2') ||
+      this.#calls.filter(call=>!call.returned).at(-1)?.site!==(site==='1008d1a3'?'200705d6':'200705c4'))
       throw new Error('Actual Arena replacement frame and singleton return required');
     admitArenaPropertySingletonImport();
     const memory=nativeGameLayerBaseMemoryForCrt(binding.crt as NativeGameCrtOwner); if(!memory.known)throw new Error(memory.reason);
