@@ -131,13 +131,6 @@ Its [validation run](https://github.com/ael-dev3/Tervain/actions/runs/3786865684
 completed successfully. The [Pages deployment](https://github.com/ael-dev3/Tervain/actions/runs/37869293906)
 completed successfully. This establishes a deployed component checkpoint.
 
-Further local work executes the original `CreateFileA` return against an owned
-virtual filesystem. Missing and denied files use the original error table and
-cleanup; an existing regular file is published into descriptor 3 and its FILE
-record. Execution reaches original SpieAdmin shutdown registration or `fclose`,
-respectively. These operations and complete startup, world activation and
-campaign integration remain unfinished.
-
 Further local work executes original `fclose`, closes the owned regular-file
 handle, clears descriptor and FILE flags, restores exception frames and releases
 their locks. It reaches SpieAdmin callback registration at `1004b226`.
@@ -155,14 +148,27 @@ all 3,011 tests passed across 278 files. These registrations merged in
 [PR #172](https://github.com/ael-dev3/Tervain/pull/172) at
 `6b0d904b33a1ac561aa77992b3c92ae2c280bce3` after
 [successful validation](https://github.com/ael-dev3/Tervain/actions/runs/37871922842).
-Deployment of that revision is pending.
+Its [Pages deployment](https://github.com/ael-dev3/Tervain/actions/runs/37872657537)
+completed successfully.
 
 Further local work executes the original logging submission and callback
 dispatcher. It enters MessageAdmin's actual critical section and reaches its
 stored ErrorAdmin callback at `100494db`, retaining the entered lock and original
 context. Typechecking, three focused checks and independent source regeneration
 pass. All 3,013 tests and the production build passed at `58033ca8`.
-This logger continuation has not yet been published.
+The logger continuation is proposed in
+[PR #173](https://github.com/ael-dev3/Tervain/pull/173); its
+[validation](https://github.com/ael-dev3/Tervain/actions/runs/37872785554) passed.
+It has not yet merged or deployed.
+
+The next local checkpoint recovers ErrorAdmin's callback from the original DLL
+bytes and disassembly, including a function omitted from the function catalogue.
+It executes the original string scans and retains the original temporary-buffer
+allocation request at `10022613`. The callback's formatting, buffer insertion,
+cleanup and return still need implementation. This work has no production
+callers and does not establish complete engine startup.
+At revision `a03998a4`, typechecking, three focused checks, independent source
+regeneration, all 3,015 tests across 278 files, and the production build passed.
 
 - [Detailed workflow and reference paths](gothic3-rebuild-workflow.md)
 - [Architecture and implementation background](gothic3-rebuild-overview.md)
