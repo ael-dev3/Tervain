@@ -140,9 +140,20 @@ Integrated revision `cf6300de` incorporates main `03e7cb02aa6b5a0064124b879c7359
 including Claude's externally merged [PR #187](https://github.com/ael-dev3/Tervain/pull/187).
 A path comparison proves that integration changed none of the local Gothic
 runtime, source packages, generators or checks. Installation from the updated
-lockfile succeeded; validation of the combined revision is running. Its newer
+lockfile succeeded. All 67 integrated focused checks and typechecking pass;
+the production build passed in 27.68 seconds. A production browser entered
+Ardea with 202 scene objects, 70 character resources and HP 100, reporting
+`20466452 -> 2047470c` after 1,443 startup operations. NPC activation remains
+incomplete at the unconnected ScriptAdmin getter, with 0/16 property sets
+attached. The combined full suite is running. Its newer
 main Pages run `37891214623` supersedes cancelled walker run `37890987247` and
 is still running. No deployment rerun was requested.
+
+Independent review of PR #187 decoded all 9,147 buffer views in its 107 changed
+GLBs against the previous revision: geometry, images and semantic metadata
+matched, and all 107 runtime size/hash receipts matched the reviewed blobs.
+That evidence concerns Tervain's model compression; it does not establish Gothic
+campaign completion.
 
 ### Original files and reproducible outputs
 
