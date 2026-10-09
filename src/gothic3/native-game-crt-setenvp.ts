@@ -13,6 +13,7 @@ import type { NativeHeapObjectViews } from './native-heap-views';
 import type { NativeGameIoInstruction } from './native-game-crt-io-source';
 import type { NativeSetEnvpCallSite, NativeWin32SetEnvpSelection } from './native-win32-setenvp';
 import { admitGameSetEnvpSource, gameSetEnvpInstruction, gameSetEnvpImageReceipt } from './native-game-crt-setenvp-source';
+import { gameCinitInstruction, gameCinitImageReceipt } from './native-game-crt-cinit-source';
 
 const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
 const unknown = (reason: string): { known: false; reason: string } => ({ known: false, reason });
@@ -54,16 +55,20 @@ const bodies = Object.freeze([
   ['20467c6a', '20467c6a-20467cbf;20467cc9-20467cf7'], ['204683ce', '204683ce-20468415'],
   ['20477c2a', '20477c2a-20477d20;20477d2f-20477d47'],
   ['20468570', '20468570-204685b4'], ['204685b5', '204685b5-204685c8'],
+  ['204665f4', '204665f4-20466685'], ['204738b0', '204738b0-20473938;20473950-2047396a'],
+  ['20473830', '20473830-20473858'], ['20473860', '20473860-204738a1'],
 ] as const);
 const ranges = new Map<string, readonly (readonly [number, number])[]>(bodies.map(([entry, text]) =>
   [entry, Object.freeze(text.split(';').map(range => Object.freeze(range.split('-').map(x => Number.parseInt(x, 16)) as [number, number]))) ]));
-const callerRows = new Set(['204678e7', '204678ec', '204678ee', '204678f0']);
+const callerRows = new Set(['204678e7', '204678ec', '204678ee', '204678f0', '204678f2']);
 const imageSpecs = Object.freeze([
   ['envp', '207d0a4c', 4], ['environmentAllocated', '207d2b6c', 4],
   ['environmentBlock', '207d0a74', 4], ['mbcInitialized', '207d2b84', 4],
   ['crtHeapMode', '207d1658', 4], ['crtHeapHandle', '207d11b4', 4], ['securityCookie', '207b2314', 4],
   ['crtMallocRetry', '207d0a94', 4], ['newMode', '207d14e0', 4],
   ['callocEH4Scope', '206e8f98', 28], ['freeEH4Scope', '206e8b70', 28],
+  ['cinitMathCallback', '206b638c', 4], ['cinitPEHeaders', '20000000', 672],
+  ['cinitNonwritableEH4Scope', '206e8db0', 28],
 ] as const);
 const imports = new Set<NativeSetEnvpCallSite>(['20477ce8', '20467cd2']);
 const lanes: Readonly<Record<string, Readonly<{ register: NativeX86Register; lane: Lane }>>> = Object.freeze({
@@ -154,7 +159,7 @@ export class NativeGameCrtSetEnvp {
     admitGameSetEnvpSource(); this.#crt = crt; this.#platform = crt.host.platform as NativeRuntimePlatform; this.#selection = selected;
     this.#requireCrt(); this.#stack = fact(NativeX86ThreadStack.forPlatform(this.#platform));
     this.#images = Object.freeze(imageSpecs.map(([label, address, bytes]) => {
-      const receipt = gameSetEnvpImageReceipt(label),
+      const receipt = label.startsWith('cinit') ? gameCinitImageReceipt(label) : gameSetEnvpImageReceipt(label),
         fields = fact(NativeModuleCrtOwner.canonicalImageForOwner(crt, label));
       if (receipt.address !== address || receipt.bytes !== bytes || fields.bytes.length !== bytes || fields.knownMask.length !== bytes) {
         throw new Error('Actual original environment image geometry differs: ' + label);
@@ -268,7 +273,8 @@ export class NativeGameCrtSetEnvp {
     const extent = ranges.get(this.#currentEntry), address = Number.parseInt(pc, 16);
     if (!extent?.some(([first, last]) => address >= first && address <= last) ||
         this.#currentEntry === '204677e4' && !callerRows.has(pc)) throw new Error('Unowned Game environment source frontier at' + pc);
-    const point = gameSetEnvpInstruction(pc);
+    const point = ['204665f4', '204738b0', '20473830', '20473860'].includes(this.#currentEntry)
+      ? gameCinitInstruction(pc) : gameSetEnvpInstruction(pc);
     if (point.va !== pc || !/^(?:[0-9a-f]{2})+$/.test(point.bytes)) throw new Error('Original environment row receipt differs at' + pc);
     return point;
   }
@@ -277,7 +283,7 @@ export class NativeGameCrtSetEnvp {
   #imageAt(value: number): Image | undefined { return this.#images.find(image => value >= image.address && value < image.address + image.bytes); }
   #literal(value: number): NativeX86Word32 {
     const image = this.#imageAt(value);
-    if (image && (image.label === 'callocEH4Scope' || image.label === 'freeEH4Scope') && value === image.address) {
+    if (image && (image.label === 'callocEH4Scope' || image.label === 'freeEH4Scope' || image.label === 'cinitNonwritableEH4Scope') && value === image.address) {
       const address = hex(value);
       fact(NativeX86ThreadStack.prototype.registerSourceImage.call(this.#stack, this.#controller, address, image.fields));
       return fact(NativeX86ThreadStack.prototype.sourceAddress.call(this.#stack, this.#controller, 'image', address));
@@ -351,7 +357,9 @@ export class NativeGameCrtSetEnvp {
       this.#importSite = null; return returnPc;
     }
     if (target.kind !== 'immediate' || !ranges.has(hex(target.value)) || hex(target.value) === '204677e4') {
-      this.#nextBoundary = target.kind === 'immediate' ? Object.freeze({ pc: point.va, operation: 'sourceCall', target: hex(target.value) })
+      this.#nextBoundary = point.va === '20466610'
+        ? Object.freeze({ pc: point.va, operation: 'indirectSourceCall', target: point.instruction.slice(5) })
+        : target.kind === 'immediate' ? Object.freeze({ pc: point.va, operation: 'sourceCall', target: hex(target.value) })
         : target.kind === 'memory' && /^0x[0-9a-f]{8}$/.test(target.expression)
           ? Object.freeze({ pc: point.va, operation: 'import', iat: target.expression.slice(2) })
           : Object.freeze({ pc: point.va, operation: 'import', target: point.instruction.slice(5) });
@@ -453,10 +461,6 @@ export class NativeGameCrtSetEnvp {
   #run(): void {
     while (true) {
       this.#guard();
-      if (this.#currentEntry === '204677e4' && this.#pc === '204678f2') {
-        gameSetEnvpInstruction(this.#pc); this.#nextBoundary = Object.freeze({ pc: this.#pc, target: '204665f4', operation: '__cinit' });
-        throw new Error('Unowned original __cinit CALL at204678f2 after environment returned' + this.#envResult);
-      }
       if (this.#currentEntry === '204677e4' && this.#pc === '20467907') {
         gameSetEnvpInstruction(this.#pc); this.#nextBoundary = Object.freeze({ pc: this.#pc,
           target: '2047453f', operation: '__ioterm' });
@@ -507,6 +511,8 @@ export class NativeGameCrtSetEnvp {
       environmentBlockCleared: this.#environmentBlockCleared, terminalNullWritten: this.#terminalNullWritten,
       environmentAllocated: this.#diagnosticScalar('environmentAllocated') === 1,
       mbcInitialized: this.#diagnosticScalar('mbcInitialized') === 1, cinitArgumentPrepared: this.#cinitArgumentPrepared,
+      cinitCalled: graph.calls.some(call => call.site === '204678f2'),
+      mathProtectionCheckReturned: graph.calls.some(call => call.site === '20466602' && call.returned),
       callerTestsCompleted: this.#callerTestsCompleted, sourceOperationsCompleted: this.#effects.length,
       effects: Object.freeze(this.#effects.map(effect => Object.freeze({ ...effect }))),
       wholeCrtTraversalCompleted: false, moduleAttachCompleted: false, fullCampaignCompleted: false });

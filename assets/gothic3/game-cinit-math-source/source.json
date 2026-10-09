@@ -5796,6 +5796,13 @@
       "bytes": 40,
       "raw": "3fdf47203fdf47203fdf47203fdf47203fdf47203fdf47203fdf47203fdf47203fdf47203fdf4720",
       "sha256": "a83803dc688bbbae5a05fa6094836038af9d95ae4d079d8ad7caf95f658238e1"
+    },
+    {
+      "label": "nonwritableEH4Scope",
+      "address": "206e8db0",
+      "bytes": 28,
+      "raw": "feffffff00000000d8ffffff00000000feffffff393947204d394720",
+      "sha256": "dce8e8deab21fe4cff6767e950dce3d5e6506eed65640cd6b9373cd27076b884"
     }
   ],
   "divideDispatchImports": [

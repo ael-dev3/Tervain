@@ -7,6 +7,9 @@ import { browserGameStandardIoInputs } from '../../src/gothic3/browser-game-stan
 import { browserGameArgvNlsInputs } from '../../src/gothic3/browser-game-argv-nls-inputs';
 import { NativeX86ThreadStack } from '../../src/gothic3/native-x86-thread-stack';
 import type { NativeValue } from '../../src/gothic3/dialogue';
+import { NativeGameCrtOwner, NativeModuleCrtOwner } from '../../src/gothic3/native-engine-crt-locks';
+import { NativeCrtBootstrap } from '../../src/gothic3/native-crt-bootstrap';
+import type { NativeHeapObjectViews } from '../../src/gothic3/native-heap-views';
 
 function fact<T>(value: NativeValue<T>): T {
   if (!value.known) throw new Error(value.reason);
@@ -36,11 +39,11 @@ describe('Game environment startup through the actual browser CRT graph', () => 
   it('copies the current environment, releases its input, and prepares the next initializer argument', () => {
     const { platform, stack: retainedStack, game } = startup();
     const attach = game.attachProgress;
-    expect(attach.setEnvpProgress?.boundary).toContain('__cinit CALL at204678f2');
+    expect(attach.setEnvpProgress?.boundary).toContain('CALL at20466610');
     expect(attach.ioResult).toBe(0);
     expect(attach.argvResult).toBe(0);
     expect(attach.setEnvpResult).toBe(0);
-    expect(attach.nextBoundary).toEqual({ name: '__cinit', address: '204678f2', target: '204665f4' });
+    expect(attach.nextBoundary).toEqual({ name: 'indirectSourceCall', address: '20466610', target: 'dword ptr [0x206b638c]' });
     expect(attach.setEnvpProgress).toMatchObject({
       physicalGraphTransferred: true, envRetExecuted: true, envReturned: true,
       countingPassReturned: true, visibleCount: 1, arrayCallReturned: true,
@@ -48,10 +51,14 @@ describe('Game environment startup through the actual browser CRT graph', () => 
       inputFreeReturned: true, inputReleased: true, environmentBlockCleared: true,
       terminalNullWritten: true, environmentAllocated: true, cinitArgumentPrepared: true,
       callerTestsCompleted: 1, wholeCrtTraversalCompleted: false,
+      cinitCalled: true, mathProtectionCheckReturned: true,
     });
     const stack = retainedStack.snapshot();
-    expect(stack.calls.every(call => call.returned)).toBe(true);
-    expect(stack.calls.some(call => call.site === '204678f2')).toBe(false);
+    expect(stack.calls.filter(call => !call.returned).map(call => call.site)).toEqual(['204678f2']);
+    expect(stack.calls.find(call => call.site === '20466602')).toMatchObject({ returned: true });
+    expect(stack.calls.find(call => call.site === '204738ef')).toMatchObject({ returned: true });
+    expect(stack.calls.find(call => call.site === '20473909')).toMatchObject({ returned: true });
+    expect(stack.calls.some(call => call.site === '20466610')).toBe(false);
     expect(stack.setEnvpCalls.map(call => ({ site: call.site, returned: call.returned, released: call.released })))
       .toEqual([
         { site: '20477ce8', returned: true, released: false },
@@ -127,6 +134,67 @@ describe('Game environment startup through the actual browser CRT graph', () => 
     });
     const before = stack.snapshot();
     game.bootstrap.processAttach();
+    expect(stack.snapshot()).toEqual(before);
+  });
+});
+
+describe('Original Game cinit PE protection check', () => {
+  function attachWithImageChange(change: (headers: NativeHeapObjectViews) => void) {
+    const platform = createBrowserGameCrtPlatform({
+      processInputs: browserGameProcessInputs,
+      threadStack: { reservationBytes: 4096, pageAlignment: 'virtual-page-4096' },
+      startupIo: browserGameStartupIoInputs, standardIo: browserGameStandardIoInputs,
+      argvNls: browserGameArgvNlsInputs,
+      setEnvp: { physicalGameHeapCapacity: 'round-eight-unknown-padding', heapFree: { outcome: 'success' } },
+    });
+    let bootstrap: NativeCrtBootstrap;
+    const crt = NativeGameCrtOwner.forPlatform({ platform,
+      errnoSlot: () => bootstrap.thread.errnoSlot(), getLastError: () => platform.getWin32LastError() });
+    bootstrap = NativeCrtBootstrap.forCrt(crt);
+    const stack = fact(NativeX86ThreadStack.forPlatform(platform));
+    const headers = fact(NativeModuleCrtOwner.canonicalImageForOwner(crt, 'cinitPEHeaders'));
+    change(headers);
+    NativeCrtBootstrap.processAttachForCrt(bootstrap, crt);
+    return { bootstrap, headers, crt, stack };
+  }
+
+  it('uses the current MZ signature and follows the original zero-result branch', () => {
+    const { bootstrap, headers, stack } = attachWithImageChange(fields => fields.writeUnsigned(0, 0, 2));
+    expect(headers.view.getUint16(0, true)).toBe(0);
+    expect(bootstrap.attachProgress().nextBoundary).toEqual({ name: 'sourceCall', address: '20466617', target: '20469672' });
+    expect(stack.snapshot().calls.find(call => call.site === '20466602')).toMatchObject({ returned: true });
+    expect(stack.snapshot().calls.some(call => call.site === '20473909')).toBe(false);
+    expect(stack.snapshot().calls.some(call => call.site === '20466610')).toBe(false);
+  });
+
+  it('reads the actual section characteristics instead of assuming readonly', () => {
+    const { bootstrap, headers, stack } = attachWithImageChange(fields => {
+      const nt = fields.view.getUint32(0x3c, true);
+      const sections = nt + 24 + fields.view.getUint16(nt + 20, true);
+      const count = fields.view.getUint16(nt + 6, true);
+      let found = false;
+      for (let index = 0; index < count; index++) {
+        const section = sections + index * 40, begin = fields.view.getUint32(section + 12, true);
+        const size = fields.view.getUint32(section + 8, true);
+        if (0x6b638c >= begin && 0x6b638c < begin + size) {
+          fields.writeUnsigned(section + 36, (fields.view.getUint32(section + 36, true) | 0x80000000) >>> 0);
+          found = true;
+        }
+      }
+      expect(found).toBe(true);
+    });
+    expect(bootstrap.attachProgress().nextBoundary?.address).toBe('20466617');
+    expect(stack.snapshot().calls.find(call => call.site === '20473909')).toMatchObject({ returned: true });
+    expect(headers.bytes.length).toBe(672);
+  });
+
+  it('stops on unknown signature bytes without reseeding the header or consuming its call', () => {
+    const { bootstrap, headers, stack } = attachWithImageChange(fields => { fields.knownMask[0] = 0; });
+    expect(bootstrap.attachProgress().nextBoundary?.address).toBe('20473839');
+    expect(headers.knownMask[0]).toBe(0);
+    expect(stack.snapshot().calls.find(call => call.site === '204738ef')).toMatchObject({ returned: false });
+    const before = stack.snapshot();
+    bootstrap.processAttach();
     expect(stack.snapshot()).toEqual(before);
   });
 });

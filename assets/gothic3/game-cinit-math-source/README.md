@@ -15,15 +15,22 @@ sets precision when requested, and clears x87 exceptions. Dynamic lookup uses
 `IsProcessorFeaturePresent`; a failed lookup branches to an actual x87 divide
 test. Successful lookup still requires an owned feature result.
 
-These are source receipts. They do not execute startup, supply an assumed feature
-result, or grant access to live Game memory. The interpreter still stops at the
-original `__cinit` call. Further callees outside this selected package must be
-captured or matched to existing admitted source before execution.
+The source package itself does not execute startup or supply an assumed feature
+result. The generated admission module selects four functions (150 instructions):
+`__cinit`, the protection check, PE validation and section lookup. The existing
+Game startup interpreter now calls `__cinit` on its retained frame, loads current
+owned header bytes, and returns from the protection check. With the original
+readonly callback slot, execution stops before the indirect math callback at
+`20466610`. Invalid headers or a writable section follow the original branch
+to the unimplemented pointer-initialization call at `20466617`.
+
+Floating-point methods remain context evidence outside the instruction getter.
+Further callees must be captured or matched to admitted source before execution.
 
 Regenerate from the repository root:
 
 ```powershell
-python tools/gothic3/prepare_game_cinit_math_evidence.py --study 'C:/Users/heyas/OneDrive/Рабочий стол/Gothic3_Decompiled_Study_2026-10-04' --output assets/gothic3/game-cinit-math-source/source.json
+python tools/gothic3/prepare_game_cinit_math_evidence.py --study 'C:/Users/heyas/OneDrive/Рабочий стол/Gothic3_Decompiled_Study_2026-10-04' --output assets/gothic3/game-cinit-math-source/source.json --runtime-output src/gothic3/native-game-crt-cinit-source.ts
 ```
 
 An independent regeneration matched the committed JSON byte for byte. No runtime

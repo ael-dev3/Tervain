@@ -11,6 +11,7 @@ import { admitGameIoAllocationSource, gameIoAllocationImagePins, gameIoAllocatio
 import { admitGameIoCompletionSource } from './native-game-crt-io-completion-source';
 import { admitGameArgvSource, gameArgvImagePins, gameArgvImageReceipt } from './native-game-crt-argv-source';
 import { admitGameSetEnvpSource, gameSetEnvpImagePins, gameSetEnvpImageReceipt } from './native-game-crt-setenvp-source';
+import { admitGameCinitSource, gameCinitImagePins, gameCinitImageReceipt } from './native-game-crt-cinit-source';
 
 export type NativeCrtModule = 'Engine' | 'Game';
 export interface NativeCrtMethodReceipt {
@@ -95,6 +96,7 @@ const methods = [
 export const nativeGameImagePins: Readonly<Record<string, readonly [
   'coldGlobals' | 'constBytes', string, number, string, string
 ]>> = Object.freeze({
+  ...gameCinitImagePins,
   ...gameArenaImagePins,
   ...gameArenaTypeImagePins,
   ...gameArenaStatusImagePins,
@@ -202,6 +204,7 @@ export function admitNativeGameCrtSource(): void {
   admitGameIoCompletionSource();
   admitGameArgvSource();
   admitGameSetEnvpSource();
+  admitGameCinitSource();
   if (rules.schema !== 'gothic3-game-crt-rules-v1' ||
       rules.inputs.Game !== 'b09afc5c180969a6302d9d706f0ad8efebf7c1fcd9301096bf5c1b1f2cf8eb2f' ||
       methods.some(([label, address, hash]) => rules.methods[label]?.module !== 'Game' || rules.methods[label]?.entry !== address ||
@@ -217,6 +220,7 @@ export function admitNativeGameCrtSource(): void {
   }
 }
 export function nativeGameImageReceipt(label: string): NativeCrtImageReceipt {
+  if (Object.hasOwn(gameCinitImagePins, label)) return gameCinitImageReceipt(label);
   if (Object.hasOwn(gameTemplateImagePins,label)) return gameTemplateImageReceipt(label);
   if (Object.hasOwn(gameArenaStatusImagePins,label)) return gameArenaStatusImageReceipt(label);
   if (Object.hasOwn(gameArenaTypeImagePins,label)) return gameArenaTypeImageReceipt(label);
