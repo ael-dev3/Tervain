@@ -10881,3 +10881,33 @@ The full suite passed all 3,004 tests across 278 files in 352.45 seconds at
 commit `8f631ed8`. The production build passed.
 These methods still have no production callers. Full startup and a finishable
 browser campaign remain unfinished.
+
+## Original fclose and owned handle retirement (local work, 2026-10-09)
+
+PR #170 passed validation run 37868656842, merged as
+`9551188c86977ead4507f2e133f24f2b3d67e129`, and deployed successfully in Pages
+run 37869293906. This publishes the file-open component described above.
+
+Local commit `44ff1d2e` continues the actual pending call at `1004b208` through
+original fclose, flush, buffer release, descriptor lookup, CloseHandle, descriptor
+clear and cleanup routines. It requires the original return word and FILE slot 3.
+The three nested EH4 frames use captured scope bytes and verify restoration.
+Descriptor section 180 and FILE lock 19 remain held during the actual close.
+
+The regular-file backend retires only a live same-platform handle. Its identity
+remains recognizable while original cleanup compares the old HANDLE and clears
+descriptor storage; API operations reject the retired handle. Foreign, copied and
+already-closed handles cannot close another file. The diagnostic socket remains
+outside this regular-file registry.
+
+Original instructions clear the descriptor handle to INVALID_HANDLE_VALUE, clear
+descriptor and FILE flags, release both locks, return from fclose and set the
+SpieAdmin enabled byte. Execution then stops at original callback registration
+`1004b226 -> 10007cac`; that registration has not yet executed.
+
+The evidence package captures 86 original bodies and 4,898 instructions.
+Independent regeneration matches its JSON and generated TypeScript byte for byte.
+Typechecking and three focused close checks pass, including damaged-return
+rejection without retiring the file. Full-suite and production-build validation
+are in progress. These continuations have no production callers; startup, world
+activation and a complete playable campaign remain unfinished.

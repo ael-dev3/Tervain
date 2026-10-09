@@ -124,11 +124,11 @@ results, next unsupported dependency and deployment receipt.
 
 ## Published checkpoint and further reading
 
-[PR #169](https://github.com/ael-dev3/Tervain/pull/169) merged original
-CRT descriptor allocation and section initialization at commit
-`f7227a67fbab82208cd3e2f8945879166e354d78`.
-Its [validation run](https://github.com/ael-dev3/Tervain/actions/runs/37866293534)
-completed successfully. The [Pages deployment](https://github.com/ael-dev3/Tervain/actions/runs/37867316566)
+[PR #170](https://github.com/ael-dev3/Tervain/pull/170) merged original
+file-open results, error mapping and FILE publication at commit
+`9551188c86977ead4507f2e133f24f2b3d67e129`.
+Its [validation run](https://github.com/ael-dev3/Tervain/actions/runs/37868656842)
+completed successfully. The [Pages deployment](https://github.com/ael-dev3/Tervain/actions/runs/37869293906)
 completed successfully. This establishes a deployed component checkpoint.
 
 Further local work executes the original `CreateFileA` return against an owned
@@ -136,8 +136,13 @@ virtual filesystem. Missing and denied files use the original error table and
 cleanup; an existing regular file is published into descriptor 3 and its FILE
 record. Execution reaches original SpieAdmin shutdown registration or `fclose`,
 respectively. These operations and complete startup, world activation and
-campaign integration remain unfinished. The file-open continuation is proposed in [PR #170](https://github.com/ael-dev3/Tervain/pull/170); it is not yet merged or deployed.
-Local close-handle work is still in progress and has not been validated.
+campaign integration remain unfinished.
+
+Further local work executes original `fclose`, closes the owned regular-file
+handle, clears descriptor and FILE flags, restores exception frames and releases
+their locks. It reaches SpieAdmin callback registration at `1004b226`.
+Typechecking, focused close checks, all 3,007 tests and the production build pass.
+This close continuation has not yet been published.
 
 - [Detailed workflow and reference paths](gothic3-rebuild-workflow.md)
 - [Architecture and implementation background](gothic3-rebuild-overview.md)
