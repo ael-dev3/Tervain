@@ -11002,3 +11002,33 @@ temporary allocation through original CRT cleanup, return from the callback and
 continue dispatch. These methods still have no production callers. Complete
 startup, world activation, campaign persistence and a finishable browser game
 remain unfinished.
+
+## Original ErrorAdmin formatted output (2026-10-09)
+
+Revision `fdbac97f` resumes the actual pending `10022632 -> 100aa234` call with
+its original return word, same owned output buffer and verified original format
+address. The generator captures all four ErrorAdmin format strings directly from
+the hash-pinned DLL. The native instruction count remains 5,060 across 88 methods;
+the original formatter and its output dependencies were already captured.
+
+Execution binds the actual caller's stack arguments and runs original `sprintf`,
+locale access, classification, output scanner and writer functions. It verifies
+the native stream and varargs locations, original output-engine register/FS
+restoration and formatter return. The result is 75 separator dashes followed by
+`, Z:#472 -> '.\kernel\ge_message.cpp'` and a terminating NUL. Only the bytes
+actually written become known. The original callback then reacquires its warm
+ErrorAdmin singleton and reaches `10022680 -> 1000102d`, the ring insertion call.
+
+Three focused checks cover exact output bytes/masks, returned original frames,
+preserved MessageAdmin lock, no repeated execution and damaged return, output
+and format rejection before writing. Typechecking, independent JSON/instruction
+regeneration and the production build pass at `fdbac97f`. All 3,020 tests across
+278 files passed in 309.13 seconds at that same runtime revision.
+
+PR #174 passed validation run 37874648063 and merged as
+`ee0a6c2c9129dd3749b51aad6314cfa850795a72`. Pages run 37875181203 is running.
+The next insertion work needs original append, pop, push and bounded-copy bodies,
+the two 250-byte scratch areas, original `MOVSD.REP` and `MOVSW` semantics and
+same-allocation CRT cleanup. This formatter continuation has no production
+callers. Complete startup, world activation, connected saving and campaign
+completion remain unfinished.

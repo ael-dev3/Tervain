@@ -161,7 +161,7 @@ The logger continuation merged in
 `43bff246c1491dd1128365a4f11f058eef76d4ff`; its
 [validation](https://github.com/ael-dev3/Tervain/actions/runs/37872785554) passed.
 Its [Pages deployment](https://github.com/ael-dev3/Tervain/actions/runs/37873976543)
-is running.
+completed successfully.
 
 The next local checkpoint recovers ErrorAdmin's callback from the original DLL
 bytes and disassembly, including a function omitted from the function catalogue.
@@ -177,8 +177,23 @@ call. It verifies the return frame, requested size, restored caller registers an
 same owned buffer passed to the original formatter at `10022632`. Damaged return
 words and requests are rejected before allocating. Two focused checks,
 typechecking, all 3,017 tests across 278 files (329.09 seconds), and the production
-build pass at `06d998a8`.
+build pass at `06d998a8`. This checkpoint merged in
+[PR #174](https://github.com/ael-dev3/Tervain/pull/174) at
+`ee0a6c2c9129dd3749b51aad6314cfa850795a72` after successful
+[validation](https://github.com/ael-dev3/Tervain/actions/runs/37874648063).
+Its [Pages deployment](https://github.com/ael-dev3/Tervain/actions/runs/37875181203)
+is running.
 Formatting, insertion into ErrorAdmin's ring buffer and cleanup remain pending.
+
+Local revision `fdbac97f` executes the original `sprintf` and output engine using
+the callback's actual buffer, format, string arguments and line number. It writes
+the original separator and source location with a terminating NUL, restores the
+formatter caller and reaches ring-buffer insertion at `10022680`. Damaged return,
+destination and format arguments are rejected before writing. Three focused
+checks, typechecking, independent evidence regeneration and the production build
+pass. All 3,020 tests across 278 files passed in 309.13 seconds at `fdbac97f`.
+Ring insertion, cleanup and callback
+return remain pending; these continuations still have no production callers.
 
 - [Detailed workflow and reference paths](gothic3-rebuild-workflow.md)
 - [Architecture and implementation background](gothic3-rebuild-overview.md)

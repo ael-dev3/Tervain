@@ -226,7 +226,7 @@ def capture(study, output):
         raw, section = image_bytes(pe, address, size)
         result['coldImages'].append({'label': label, 'address': f'{address:08x}',
             'size': size, 'bytes': raw.hex(), 'section': section})
-    for label, address in [('dllSpieFilename',0x100e8088),('dllSpieFileMode',0x100e8094),('dllSpyWindowTitle',0x100e8114),('dllLogSourceFile', 0x100e7df8), ('procedureName', 0x100e8210), ('translationQuery', 0x100e81ec),
+    for label, address in [('dllErrorFormatDescription',0x100e70d0),('dllErrorFormatMessage',0x100e70e0),('dllErrorFormatDescriptionSource',0x100e70e4),('dllErrorFormatSource',0x100e7104),('dllSpieFilename',0x100e8088),('dllSpieFileMode',0x100e8094),('dllSpyWindowTitle',0x100e8114),('dllLogSourceFile', 0x100e7df8), ('procedureName', 0x100e8210), ('translationQuery', 0x100e81ec),
             ('translatedVersionQuery', 0x100e81b4), ('localeVersionQuery', 0x100e8188),
             ('versionDelimiter', 0x100e820c)]:
         value = pe.string(address)

@@ -5,6 +5,11 @@ import source from '../../assets/gothic3/shared-dll-entry-source/source.json';
 import {sharedDllEntryInstruction} from '../../src/gothic3/native-shared-dll-entry-instructions';
 const sha=(bytes:Uint8Array)=>createHash('sha256').update(bytes).digest('hex');
 describe('original SharedBase DLL entry evidence',()=>{
+ it('retains the original ErrorAdmin callback format strings',()=>{
+  for(const [label,address,text] of [['dllErrorFormatDescription','100e70d0','%s, Desc:%s '],['dllErrorFormatMessage','100e70e0','%s '],['dllErrorFormatDescriptionSource','100e70e4',"%s, Desc:%s, Z:#%d -> '%s'"],['dllErrorFormatSource','100e7104',"%s, Z:#%d -> '%s'"]] as const){
+   const image=source.coldImages.find(row=>row.label===label)!;expect(image.address).toBe(address);expect(Buffer.from(image.bytes,'hex').toString('ascii')).toBe(text+'\0');expect(image.size).toBe(text.length+1);
+  }
+ });
  it('retains every original body and thunk instruction without granting execution',()=>{
   expect(source.inputSha256).toBe('5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214');
   expect(source.verifiedAgainstOriginalPE).toBe(true);
