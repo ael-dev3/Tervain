@@ -241,6 +241,20 @@ describe('allocations', () => {
     expect(g.state.facts.darin_humiliated).toBe(false);
   });
 
+  it('keeps a paid bonus through a quarrel: reconciling restores his consent without paying again (A72)', () => {
+    const g = newGame();
+    stabilized(g);
+    g.state.inventory.coin = 20;
+    g.state.facts.saw_seep = true;
+    talk(g, 'quarry_foreman', ['darin_cause', 'darin_hub', 'darin_rotation_pay', 'darin_hub']);
+    expect(g.state.inventory.coin).toBe(10);
+    talk(g, 'quarry_foreman', ['darin_humiliate']);
+    expect(g.state.facts.consent_darin).toBe(false);
+    talk(g, 'quarry_foreman', ['darin_mediate', 'darin_hub']);
+    expect(g.state.facts.consent_darin).toBe(true);
+    expect(g.state.inventory.coin).toBe(10);
+  });
+
   it('hiding the ledger yields a misleading public account', () => {
     const g = newGame();
     stabilized(g);
