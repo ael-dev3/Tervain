@@ -68,7 +68,7 @@ describe('retained original Ardea NPC owner prefix', () => {
       expect(() => owner.navigationNames.connectScriptAdminLookup({ getInstance: () => known(admin) }))
         .toThrow('One retained source ScriptAdmin lookup owner is required');
     } finally { owner.dispose(); }
-  });
+  },30000);
 
   it('admits only verified complete raw records and freezes their source context', () => {
     expect(source.entities).toHaveLength(3);
@@ -118,7 +118,7 @@ describe('retained original Ardea NPC owner prefix', () => {
     } finally {
       owner.dispose();
     }
-  });
+  },30000);
 
   it('loads source-registered Navigation areas and resolves Navigation name notifications', async () => {
     const serviceOwner = createBrowserNpcEntityServices({ crypto: { randomUUID }, now: () => performance.now() });

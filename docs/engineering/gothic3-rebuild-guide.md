@@ -46,8 +46,8 @@ Each feature goes through the following steps:
 
 **Current local boundary:** Arena Status, None and Running initialization
 return through the retained startup stack. The next unsupported callback is
-`2007331f`, the AI FreePoint property singleton/registration path. Its wrapper,
-property-type base, class-name cache and named factory now construct. Complete startup, world activation and
+`204b216a -> 20008571`, the AI FreePoint wrapper initialization call. Its
+reflected type now registers and returns into the actual wrapper. Complete startup, world activation and
 a new-game-to-ending campaign remain unfinished. Local checkpoints and the
 hosted version can differ; validation below identifies the checkpoint covered.
 
@@ -56,7 +56,30 @@ hosted version can differ; validation below identifies the checkpoint covered.
 The entries below describe successive local states, newest first. Statements
 about missing operations in older entries apply to those earlier checkpoints.
 
-### Current local checkpoint: FreePoint class name and factory construct
+### Current local checkpoint: FreePoint type registers and returns
+
+The getter reaches the actual existing property singleton and executes the
+recovered SharedBase RegisterTemplate behavior. It allocates the original
+four-byte wrapper with category `0xed`, retains the actual FreePoint type
+pointer, resolves its captured virtual class-name slot, and inserts the wrapper
+into the shared type table. Its captured type cleanup callback `20549b30`
+registers in the same exit table. The getter returns through its retained
+startup CALL/RET frame to `204b2154`; the initializer publishes that actual
+type pointer into its own wrapper's `+12` field. Startup stops at wrapper
+initialization `204b216a -> 20008571`. The initializer itself has not returned.
+
+Typechecking and 31 focused checks across four files pass. Checks inspect the
+table slot, wrapper allocation, type-pointer identity, cleanup capability and
+repeat getter behavior. Independent JSON and generated TypeScript regeneration
+match exactly. Broad validation of this later continuation remains pending.
+
+PR #206 merged at `c658019c`, but its main Pages workflow `37942706952`
+failed on five startup scenarios exceeding their five-second test timeouts;
+3,194 other tests passed. Those five scenarios now have thirty-second
+timeouts and pass locally with their assertions intact. This failed job did
+not publish that merged checkpoint. Full campaign play remains unfinished.
+
+### Earlier local checkpoint: FreePoint class name and factory construct
 
 The actual RTTI descriptor at `20798230` is captured from the matching Game
 DLL and admitted with its original decorated name. The class-name getter

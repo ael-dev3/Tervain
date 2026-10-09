@@ -3029,9 +3029,13 @@ export class NativeX86ThreadStack {
     this.#call('204b214f','204b2154');
     const result=NativeGameFreePointType.prototype.get.call(NativeGameFreePointType.forCrt(crt,memory.value));
     if(!result.known)throw new Error(result.reason);
-    // No getter return is admitted until all original construction and
-    // registration operations complete. Preserve the pending native frame.
-    throw new Error('FreePoint getter return is not yet admitted');
+    const storage=NativeModuleCrtOwner.canonicalImageForOwner(crt,'freePointTypeAndGuard');
+    if(!storage.known||result.value.backing!==storage.value.backing||result.value.bytes.byteOffset!==storage.value.bytes.byteOffset||result.value.bytes.length!==60)
+      throw new Error('Actual retained FreePoint type return required');
+    this.#store(this.#bank,this.#reg('EAX'),this.#moduleWord('freePointTypeAndGuard',0));
+    const returned=this.#ret(0),source=this.#record(returned).provenance;
+    if(source?.kind!=='source'||source.type!=='code'||source.address!=='204b2154')
+      throw new Error('Actual FreePoint type getter return required');
   }); }
   /** Execute the recovered Game CRT wrapper under its existing owner. The
    * source loop owns CALL/RET; wrapper instruction interpretation is not claimed. */
