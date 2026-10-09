@@ -2340,6 +2340,7 @@
     "instructions": [
       {
         "va": "204b23d0",
+        "rva": "4b23d0",
         "bytes": "b9c4517b20",
         "instruction": "MOV ECX,0x207b51c4",
         "fileOffset": 4924368,
@@ -2347,6 +2348,7 @@
       },
       {
         "va": "204b23d5",
+        "rva": "4b23d5",
         "bytes": "ff15b8877d20",
         "instruction": "CALL dword ptr [0x207d87b8]",
         "fileOffset": 4924373,
@@ -2354,6 +2356,7 @@
       },
       {
         "va": "204b23db",
+        "rva": "4b23db",
         "bytes": "c705cc517b2000000000",
         "instruction": "MOV dword ptr [0x207b51cc],0x0",
         "fileOffset": 4924379,
@@ -2361,6 +2364,7 @@
       },
       {
         "va": "204b23e5",
+        "rva": "4b23e5",
         "bytes": "c705c4517b205ca46520",
         "instruction": "MOV dword ptr [0x207b51c4],0x2065a45c",
         "fileOffset": 4924389,
@@ -2368,6 +2372,7 @@
       },
       {
         "va": "204b23ef",
+        "rva": "4b23ef",
         "bytes": "e81a47b5ff",
         "instruction": "CALL 0x20006b0e",
         "fileOffset": 4924399,
@@ -2375,6 +2380,7 @@
       },
       {
         "va": "204b23f4",
+        "rva": "4b23f4",
         "bytes": "6a01",
         "instruction": "PUSH 0x1",
         "fileOffset": 4924404,
@@ -2382,6 +2388,7 @@
       },
       {
         "va": "204b23f6",
+        "rva": "4b23f6",
         "bytes": "b9c4517b20",
         "instruction": "MOV ECX,0x207b51c4",
         "fileOffset": 4924406,
@@ -2389,6 +2396,7 @@
       },
       {
         "va": "204b23fb",
+        "rva": "4b23fb",
         "bytes": "a3d0517b20",
         "instruction": "MOV [0x207b51d0],EAX",
         "fileOffset": 4924411,
@@ -2396,6 +2404,7 @@
       },
       {
         "va": "204b2400",
+        "rva": "4b2400",
         "bytes": "c705cc517b2000000000",
         "instruction": "MOV dword ptr [0x207b51cc],0x0",
         "fileOffset": 4924416,
@@ -2403,6 +2412,7 @@
       },
       {
         "va": "204b240a",
+        "rva": "4b240a",
         "bytes": "e8d11cb8ff",
         "instruction": "CALL 0x200340e0",
         "fileOffset": 4924426,
@@ -2410,6 +2420,7 @@
       },
       {
         "va": "204b240f",
+        "rva": "4b240f",
         "bytes": "68509c5420",
         "instruction": "PUSH 0x20549c50",
         "fileOffset": 4924431,
@@ -2417,6 +2428,7 @@
       },
       {
         "va": "204b2414",
+        "rva": "4b2414",
         "bytes": "e8b513fbff",
         "instruction": "CALL 0x204637ce",
         "fileOffset": 4924436,
@@ -2424,6 +2436,7 @@
       },
       {
         "va": "204b2419",
+        "rva": "4b2419",
         "bytes": "59",
         "instruction": "POP ECX",
         "fileOffset": 4924441,
@@ -2431,6 +2444,7 @@
       },
       {
         "va": "204b241a",
+        "rva": "4b241a",
         "bytes": "c3",
         "instruction": "RET",
         "fileOffset": 4924442,

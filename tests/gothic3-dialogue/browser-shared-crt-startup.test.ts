@@ -50,9 +50,18 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  expect(game.known).toBe(true);
  if(!game.known)throw new Error(game.reason);
  expect(game.value.attachResult,game.value.attachProgress.setEnvpProgress?.currentPC).toEqual({known:false,
-  reason:'crtAttach204677e4: Unowned Original Game C++ initializer callback is not yet admitted at 204b23d0'});
+  reason:'crtAttach204677e4: Unowned Unowned original environment CALL at204b23ef: CALL 0x20006b0e'});
  const executed=new Set(game.value.attachProgress.setEnvpProgress!.effects.map(effect=>effect.pc));
  for(const pc of ['20072719','20072383','200730dd','204b217a','204b23ca'])expect(executed.has(pc)).toBe(true);
+ const labelWrapper=game.value.crt.imageStorage('labelWrapper');
+ const labelVtable=labelWrapper.pointer<{fields:NativeHeapObjectViews;offset:number}>(0).get()!;
+ expect(labelVtable.fields).toBe(game.value.crt.imageStorage('labelWrapperVtable'));
+ expect(labelVtable.offset).toBe(0);
+ expect([4,8,12].map(offset=>labelWrapper.readUnsigned(offset))).toEqual([10,0,0]);
+ expect([...labelWrapper.knownMask.subarray(4,16)]).toEqual(Array(12).fill(255));
+ expect(labelWrapper).not.toBe(game.value.crt.imageStorage('freePointWrapper'));
+ expect(executed.has('204b23d5')).toBe(true);
+ expect(executed.has('204b23e5')).toBe(true);
  const freePoint=game.value.crt.imageStorage('freePointWrapper');
  const freePointVtable=freePoint.pointer<{fields:NativeHeapObjectViews;offset:number}>(0).get()!;
  expect(freePointVtable.fields).toBe(game.value.crt.imageStorage('freePointWrapperVtable'));

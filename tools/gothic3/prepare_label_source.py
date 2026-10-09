@@ -22,7 +22,7 @@ def capture(study):
         address, raw, instruction = line.split(' | ', 2)
         va = int(address, 16)
         assert pe.bytes(va, len(raw) // 2).hex() == raw
-        instructions.append(dict(va=address, bytes=raw, instruction=instruction,
+        instructions.append(dict(va=address, rva=f'{va-pe.base:x}', bytes=raw, instruction=instruction,
             fileOffset=pe.offset(va, len(raw) // 2), assemblyLine=line_number))
     assert len(instructions) == 14 and instructions[-1]['va'] == '204b241a'
     assert instructions[-1]['instruction'] == 'RET'
@@ -58,9 +58,27 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--study', type=Path, required=True)
     parser.add_argument('--output', type=Path, required=True)
+    parser.add_argument('--typescript', type=Path)
     args = parser.parse_args()
     source = capture(args.study)
     args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_text(json.dumps(source, indent=2) + '\n', encoding='utf-8')
+    args.output.write_text(json.dumps(source, indent=2) + '\n', encoding='utf-8', newline='\n')
+    if args.typescript:
+        expected = json.dumps(args.output.read_text(encoding='utf-8'))
+        generated = """/** Generated original Label image and initializer admission. */
+import source from '../../assets/gothic3/label-startup/source.json';
+import sourceText from '../../assets/gothic3/label-startup/source.json?raw';
+import type { NativeCrtImageReceipt } from './native-game-crt-profile';
+import type { NativeGameIoInstruction } from './native-game-crt-io-source';
+const expectedText = EXPECTED;
+function freeze(value:unknown):void {if(value!==null&&typeof value==='object'&&!Object.isFrozen(value)){for(const child of Object.values(value))freeze(child);Object.freeze(value);}}
+export function admitGameLabelSource():void {if(sourceText!==expectedText)throw new Error('Original Label source differs');}
+admitGameLabelSource();freeze(source);
+export const labelImagePins = Object.fromEntries(source.images.map(image=>[image.label,[image.loaderZeroFillBytes?'coldGlobals':'constBytes',image.address,image.bytes,image.raw,image.sha256] as const]));
+freeze(labelImagePins);
+export function labelImageReceipt(label:string):NativeCrtImageReceipt {admitGameLabelSource();const image=source.images.find(image=>image.label===label);if(!image)throw new Error('Unowned Label image');return Object.freeze({...image,module:'Game' as const,scope:image.loaderZeroFillBytes?'cold-original-image':'original-file-backed-constant',knownMask:'ff'.repeat(image.bytes)});}
+export function labelInitializerInstruction(pc:string):NativeGameIoInstruction {admitGameLabelSource();const row=source.initializer.instructions.find(row=>row.va===pc);if(!row)throw new Error('Unowned Label initializer instruction');return row;}
+""".replace('EXPECTED', expected)
+        args.typescript.write_text(generated, encoding='utf-8', newline='\n')
     for method in source['module']['methods']:
         print(method['label'], method['bodyVA'], method['instructionCount'])

@@ -18,14 +18,16 @@ The accessor returns the receiver's `+0x18` property factory. The original
 initializer constructs the wrapper at `207b51c4`, obtains its type, initializes
 it with argument one, and registers cleanup `20549c50`. Type cleanup is
 `20549c20`; the class-name getter registers thunk `20007702`. Cleanup bodies
-and execution are not captured by this package. These are source receipts,
-not proof that the Label initializer executes in the browser.
+and execution are not captured by this package. The initializer prefix now executes the original SharedBase wrapper
+constructor on its own retained storage, sets flags to ten, clears its object
+field and installs the Label vtable. It stops at the reflected type getter
+CALL `204b23ef -> 20006b0e`. The complete Label initializer has not returned.
 
 Reproduce with:
 
 ```powershell
-python tools/gothic3/prepare_label_source.py --study '<study directory>' --output assets/gothic3/label-startup/source.json
+python tools/gothic3/prepare_label_source.py --study '<study directory>' --output assets/gothic3/label-startup/source.json --typescript src/gothic3/native-game-label-source.ts
 ```
 
 Two independent generations matched byte for byte. JSON SHA-256:
-`d41e8d05e1b9da04362176ffb356935fa19ca5ca379b43b72bc87330f8f17f79`.
+`9f16b816aa96fea0a71835a0d3ee8ab86198f40b8ae53e5b3c90408bdc3cc199`.

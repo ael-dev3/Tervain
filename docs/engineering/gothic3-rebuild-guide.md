@@ -47,7 +47,8 @@ Each feature goes through the following steps:
 **Current local boundary:** Arena Status, None, Running and AI FreePoint
 initialization return through the retained startup stack. FreePoint's later
 class-name initializer also returns, sharing the same CString and cleanup
-owner. The next unsupported C++ initializer is `204b23d0`. Complete startup,
+owner. Label initializer `204b23d0` now executes its wrapper constructor and stops
+at reflected-type getter CALL `204b23ef -> 20006b0e`. Complete startup,
 world activation and a new-game-to-ending campaign remain unfinished. Local
 checkpoints and the hosted version can differ; validation below identifies
 the checkpoint covered.
@@ -56,6 +57,17 @@ the checkpoint covered.
 
 The entries below describe successive local states, newest first. Statements
 about missing operations in older entries apply to those earlier checkpoints.
+
+### Current local checkpoint: Label wrapper constructor returns
+
+The original initializer enters on the retained C++ startup stack and calls
+SharedBase wrapper constructor `10089290` with its separate storage at
+`207b51c4`. After its return, flags are ten, the object field is zero and the
+original Label vtable is installed. Startup stops at `204b23ef -> 20006b0e`;
+the reflected type and complete initializer still need implementation.
+Independent source generations matched exactly, TypeScript checking passed,
+and all 31 focused startup tests passed in 24.67 seconds. This later checkpoint
+has not yet received a full-suite or production browser validation.
 
 ### Current local checkpoint: FreePoint initialization returns
 
