@@ -1,6 +1,6 @@
 # Original Arena property-object startup evidence
 
-This source-only package captures 257 instructions from the matching Game and
+This source package captures 263 instructions from the matching Game and
 SharedBase binaries. The runtime admits the initializer's selected prefix and
 executes the original SharedBase wrapper constructor on the retained stack.
 The whole initializer has not returned.
@@ -50,6 +50,14 @@ typechecking pass. The initializer and wrapper call remain pending; this does
 not establish complete property-object initialization.
 
 ## Reproduce
+
+The latest local continuation enters replacement at `2006f930`, retains the
+original saved registers, loads the captured SharedBase import targets, clears
+the wrapped-object pointer and returns from the indirect `IsRoot` call at
+`2006f97c`. Execution next stops at property singleton import `2006f985`.
+Twenty focused checks and typechecking pass, and the source/runtime independently
+regenerate byte for byte. Replacement, wrapper initialization and the parent
+initializer have not yet returned; broad validation and deployment are pending.
 
 From the repository root, supply the matching local study directory:
 

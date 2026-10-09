@@ -18,7 +18,7 @@ import { gameArgvInstruction } from './native-game-crt-argv-source';
 import { nativeGameImageReceipt } from './native-game-crt-profile';
 import { nativeGameLayerBaseMemoryForCrt } from './native-game-layer-base-class-name';
 import { gameClassNameSpec, gameClassNameFamilySpecs, gameClassNameFamilyInstruction } from './native-game-class-name-family-source';
-import { gameArenaRootInstruction, admitArenaWrapperConstructorImport } from './native-game-arena-root-source';
+import { gameArenaRootInstruction, admitArenaWrapperConstructorImport, gameArenaWrapperImportTarget } from './native-game-arena-root-source';
 import type { NativeGameCrtOwner } from './native-game-crt';
 
 const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
@@ -75,6 +75,8 @@ const bodies = Object.freeze([
   ['204b1d70','204b1d70-204b1dba'],
   ['10089290','10089290-100892be'],
   ['200705b0','200705b0-2007067f'],
+  ['2006f930','2006f930-2006faa3'],
+  ['100891b0','100891b0-100891b9'],
 ] as const);
 const ranges = new Map<string, readonly (readonly [number, number])[]>(bodies.map(([entry, text]) =>
   [entry, Object.freeze(text.split(';').map(range => Object.freeze(range.split('-').map(x => Number.parseInt(x, 16)) as [number, number]))) ]));
@@ -328,7 +330,7 @@ export class NativeGameCrtSetEnvp {
     const extent = ranges.get(this.#currentEntry), address = Number.parseInt(pc, 16);
     if (!extent?.some(([first, last]) => address >= first && address <= last) ||
         this.#currentEntry === '204677e4' && !callerRows.has(pc)) throw new Error('Unowned Game environment source frontier at' + pc);
-    const point = ['204b1d70','10089290','200705b0'].includes(this.#currentEntry) ? gameArenaRootInstruction(this.#currentEntry,pc)
+    const point = ['204b1d70','10089290','200705b0','2006f930','100891b0'].includes(this.#currentEntry) ? gameArenaRootInstruction(this.#currentEntry,pc)
       : gameClassNameSpec(this.#currentEntry) ? gameClassNameFamilyInstruction(this.#currentEntry,pc)
       : this.#currentEntry === '2046bcff' ? gameArgvInstruction(pc)
       : ['204665f4', '204738b0', '20473830', '20473860', '20463917', '204638a7',
@@ -390,6 +392,12 @@ export class NativeGameCrtSetEnvp {
     return fact(NativeX86ThreadStack.prototype.effectiveAddress.call(this.#stack, this.#controller, terms, displacement));
   }
   #read(value: Operand, bytes: Width = width(value)): NativeX86Word32 {
+    if(bytes===4 && value.kind==='memory' && !value.fs && this.#currentEntry==='2006f930' &&
+      ((this.#pc==='2006f957' && value.expression==='0x207d87c4') ||
+       (this.#pc==='2006f96d' && value.expression==='0x207d86e8'))) {
+      const target=gameArenaWrapperImportTarget(value.expression.slice(2));
+      return fact(NativeX86ThreadStack.prototype.sourceAddress.call(this.#stack,this.#controller,'code',target));
+    }
     if (value.kind === 'register') return value.lane
       ? fact(NativeX86ThreadStack.prototype.registerLane.call(this.#stack, this.#controller, value.register, value.lane)) : this.#register(value.register);
     if (value.kind === 'immediate') return this.#literal(value.value);
@@ -414,6 +422,22 @@ export class NativeGameCrtSetEnvp {
     fact(NativeX86ThreadStack.prototype.storeWidth.call(this.#stack, this.#controller, this.#address(destination.expression), word, bytes));
   }
   #call(point: NativeGameIoInstruction, target: Operand, returnPc: string): string {
+    if(point.va==='200705c4') {
+      if(this.#currentEntry!=='200705b0' || target.kind!=='immediate' || target.value!==0x2002dc8b)
+        throw new Error('Original Arena object replacement call required');
+      fact(NativeX86ThreadStack.prototype.call.call(this.#stack,this.#controller,point.va,returnPc));
+      this.#frames.push(Object.freeze({entry:'2006f930',site:point.va,returnPc,previousEntry:this.#currentEntry}));
+      this.#currentEntry='2006f930'; this.#nextBoundary=null; return '2006f930';
+    }
+    if(['2006f97c','2006f997','2006f9e3','2006f9fc'].includes(point.va)) {
+      if(this.#currentEntry!=='2006f930' || target.kind!=='register' || target.register!=='EBP' || target.lane)
+        throw new Error('Original Arena indirect IsRoot call required');
+      const body=gameArenaWrapperImportTarget('207d86e8');
+      fact(NativeX86ThreadStack.prototype.requireSourceAddress.call(this.#stack,this.#controller,this.#read(target),'code',body));
+      fact(NativeX86ThreadStack.prototype.call.call(this.#stack,this.#controller,point.va,returnPc));
+      this.#frames.push(Object.freeze({entry:body,site:point.va,returnPc,previousEntry:this.#currentEntry}));
+      this.#currentEntry=body; this.#nextBoundary=null; return body;
+    }
     if(point.va==='204b1daa') {
       if(this.#currentEntry!=='204b1d70' || target.kind!=='immediate' || target.value!==0x200021d5 || returnPc!=='204b1daf')
         throw new Error('Original Arena wrapper initialization call required');

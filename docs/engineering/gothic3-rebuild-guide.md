@@ -47,6 +47,20 @@ same evidence-driven process to gameplay systems.
 
 ### Local checkpoint: primitive templates and scoped struct names
 
+The latest local replacement continuation enters `2006f930`, executes the
+original root-flag query through its retained indirect-call capability, and
+stops at the property-singleton import `2006f985 -> [207d8868]`. Twenty focused
+checks and typechecking pass; the 263-instruction source package and generated
+runtime independently reproduce byte for byte. This replacement continuation
+has not returned, and its full-suite, build, browser and deployment validation
+remain pending.
+
+The preceding type-bridge revision `58e32391` passed all 3,185 tests across
+294 files in 452.05 seconds, and its production build passed in 42.26 seconds.
+Those results validate the type bridge, rather than the later replacement
+continuation. PR #200's Pages deployment completed successfully; actual hosted
+browser verification of that deployed 154-class-name revision remains pending.
+
 The subsequent local wrapper-initialization prefix now enters
 `204b1daa -> 200705b0`, preserving the original argument and parent frames.
 The captured MOVZX/XOR/AND/XOR sequence sets the root bit and preserves the

@@ -2469,6 +2469,102 @@
         "instructionCount": 13,
         "bodyByteCount": 47,
         "bodyInstructionBytesSha256": "f6758286f43a8d2f4a26d4ab190ae4d5a89ebd7bd9631fb13db1f70c4a5691c1"
+      },
+      {
+        "label": "propertyWrapperIsRoot",
+        "entryVA": "0x100058a3",
+        "bodyVA": "0x100891b0",
+        "entryChain": [
+          {
+            "va": "100058a3",
+            "bytes": "e908390800",
+            "targetVA": "100891b0"
+          }
+        ],
+        "bodyRanges": "100891b0-100891b6",
+        "instructions": [
+          {
+            "va": "100891b0",
+            "rva": "891b0",
+            "fileOffset": 561584,
+            "bytes": "8b4104",
+            "instruction": "MOV EAX,dword ptr [ECX + 0x4]",
+            "assemblyLine": 146948
+          },
+          {
+            "va": "100891b3",
+            "rva": "891b3",
+            "fileOffset": 561587,
+            "bytes": "83e001",
+            "instruction": "AND EAX,0x1",
+            "assemblyLine": 146949
+          },
+          {
+            "va": "100891b6",
+            "rva": "891b6",
+            "fileOffset": 561590,
+            "bytes": "c3",
+            "instruction": "RET",
+            "assemblyLine": 146950
+          }
+        ],
+        "reconstructedC": {
+          "path": "01_Decompiled_Code/SharedBase_dll/pseudocode/functions_00020.c",
+          "sha256": "4bbf03ba39f604980122040c6eb6a743737cb86c903d561cfc3ef7ae14f592f0",
+          "line": 3289,
+          "status": "decompiled"
+        },
+        "instructionCount": 3,
+        "bodyByteCount": 7,
+        "bodyInstructionBytesSha256": "b4d4dbba1d4e6b147ff5dad2b63ff0aadbb9ab439cd79dfa476e769357e713b5"
+      },
+      {
+        "label": "objectRefSetPropertyObject",
+        "entryVA": "0x100030da",
+        "bodyVA": "0x1004a520",
+        "entryChain": [
+          {
+            "va": "100030da",
+            "bytes": "e941740400",
+            "targetVA": "1004a520"
+          }
+        ],
+        "bodyRanges": "1004a520-1004a529",
+        "instructions": [
+          {
+            "va": "1004a520",
+            "rva": "4a520",
+            "fileOffset": 304416,
+            "bytes": "8b442404",
+            "instruction": "MOV EAX,dword ptr [ESP + 0x4]",
+            "assemblyLine": 83385
+          },
+          {
+            "va": "1004a524",
+            "rva": "4a524",
+            "fileOffset": 304420,
+            "bytes": "894104",
+            "instruction": "MOV dword ptr [ECX + 0x4],EAX",
+            "assemblyLine": 83386
+          },
+          {
+            "va": "1004a527",
+            "rva": "4a527",
+            "fileOffset": 304423,
+            "bytes": "c20400",
+            "instruction": "RET 0x4",
+            "assemblyLine": 83387
+          }
+        ],
+        "reconstructedC": {
+          "path": "01_Decompiled_Code/SharedBase_dll/pseudocode/functions_00016.c",
+          "sha256": "83bbb3dbf826490ad7208bb9d8bdc56a50abaa11707e2f486ca7c931878b0423",
+          "line": 4960,
+          "status": "decompiled"
+        },
+        "instructionCount": 3,
+        "bodyByteCount": 10,
+        "bodyInstructionBytesSha256": "01caaa228fe4f4c7fe4269994a79702b290762107c5e6b67c17e8d8525fc7585"
       }
     ],
     "constants": [],
@@ -2505,7 +2601,7 @@
       "liveValueCaptured": false
     }
   ],
-  "producerSha256": "0c887bcee7f1dca1bd2b598d28ed34e9a4c1bf1968bb2d67806031e256401624",
+  "producerSha256": "35a6c67cf6f1bea32e36d08dfb3f9a2d3dadb5acd180383758258b3f31f7fe0e",
   "sourceOnly": true,
   "initializerImplemented": false,
   "wholeCrtTraversalCompleted": false,
