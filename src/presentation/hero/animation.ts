@@ -4,6 +4,7 @@ import type { ResidentMotionLibrary } from '../npc/residentMotion';
 import { HERO_BONES, HERO_FINGERS, type HeroBoneName, type HeroBones } from './bones';
 import { HERO_RUN_CYCLE, HERO_RUN_SPEED, HERO_WALK_CYCLE, HERO_WALK_SPEED } from './locomotion';
 import { HERO_SWIM_CYCLE, HERO_SWIM_RATE, heroSwimClips } from './swim';
+import { buildTurnClips, SIDES, TURN_STEP, TurnSteps, type Legs, type Side } from '../turnSteps';
 
 export interface HeroPose extends Pose {
   grounded?: boolean;
@@ -25,6 +26,14 @@ export interface HeroPose extends Pose {
  */
 export const HERO_FOOT_PLANT = { reach: 0.28, drop: 0.3, rate: 12 } as const;
 
+/**
+ * Turning on the spot with steps (A71): once the twist passes HERO_LEG_TWIST.step the hero plays his turn clip
+ * (`turn.left` / `turn.right`, see ../turnSteps.ts) at `rate` (cycles a second per radian still to turn, from `least`
+ * to `most`), the hips coming round over the planted foot while the other steps; stopping mid-stride he takes a
+ * settling step over `settle` seconds rather than gliding his feet into the stand.
+ */
+export const HERO_TURN = { least: 1, most: 2.2, base: 0.9, perRadian: 1 / 1.2, settle: 0.55, creep: 0.05 } as const;
+
 export const HERO_LEG_TWIST = { most: 1.05, follow: 10, settle: 9, step: 0.7, stride: 0.22, back: [1.92, 1.4], relax: 0.6 } as const;
 
 /**
@@ -43,6 +52,23 @@ export const HERO_ACTION_FADE: Readonly<Record<string, { in: number; out: number
   dodge: { in: 0.06, out: 0.2, priority: 5 },
   hurt: { in: 0.05, out: 0.3, priority: 6 },
 };
+/**
+ * The hands' grips (A71), as fractions of the authored closed hand (Boxing_Practice) per finger chain: a relaxed curl
+ * standing about, a sword's grip, a fist in a fight, the bow's handle, the drawing fingers hooked on the string, the
+ * skinning knife, and the other hand spread over the hide. A grip changes over HERO_GRIP_FADE seconds, eased at both
+ * ends, never at once.
+ */
+export const HERO_HAND_GRIPS = {
+  relaxed: { Thumb: 0.12, Middle: 0.2, Ring: 0.25, Pinky: 0.3 },
+  sword: { Thumb: 0.85, Middle: 0.82, Ring: 0.84, Pinky: 0.86 },
+  fist: { Thumb: 1, Middle: 1, Ring: 1, Pinky: 1 },
+  bow: { Thumb: 0.8, Middle: 0.95, Ring: 0.95, Pinky: 0.95 },
+  draw: { Thumb: 0.35, Middle: 0.6, Ring: 0.7, Pinky: 0.8 },
+  knife: { Thumb: 0.9, Middle: 0.96, Ring: 0.96, Pinky: 0.96 },
+  hide: { Thumb: 0.2, Middle: 0.35, Ring: 0.35, Pinky: 0.4 },
+} as const satisfies Record<string, Record<(typeof HERO_FINGERS)[number], number>>;
+export type HeroGrip = keyof typeof HERO_HAND_GRIPS;
+export const HERO_GRIP_FADE = 0.2;
 const overlayOf = (mode: string) => mode.startsWith('attack') || mode === 'telegraph' || mode === 'strike' ? 'attack'
   : HERO_ACTION_FADE[mode] ? mode : 'idle';
 /** The legs and pelvis: no upper-body overlay may move them (A70); sitting, swimming and the airborne pose own them. */
@@ -126,6 +152,17 @@ export class HeroAnimationController {
   /** The overlay now leading and the one it took over from, for their fades (A70). */
   private overlay = 'idle';
   private overlayFrom = 'idle';
+  /** The turn clips' step layer and foot hold (A71); null keeps the older stepping through the walk. */
+  private readonly steps: TurnSteps | null = null;
+  private stepLead: Side = 'Left';
+  private stepAdvance = 0;
+  private settleLead: Side | null = null;
+  private wasMoving = false;
+  /** Each hand's grip: per finger chain, where it fades from and to, and how far (A71). */
+  private readonly grips = Object.fromEntries((['Left', 'Right'] as const).map((side) => [side, {
+    from: { ...HERO_HAND_GRIPS.relaxed } as Record<string, number>, to: { ...HERO_HAND_GRIPS.relaxed } as Record<string, number>,
+    now: { ...HERO_HAND_GRIPS.relaxed } as Record<string, number>, fade: 1, asked: null as { grip: HeroGrip; amount: number } | null,
+  }])) as Record<'Left' | 'Right', { from: Record<string, number>; to: Record<string, number>; now: Record<string, number>; fade: number; asked: { grip: HeroGrip; amount: number } | null }>;
 
   constructor(private readonly scene: THREE.Group, private readonly body: THREE.Group,
     private readonly bones: HeroBones, clips: readonly THREE.AnimationClip[]) {
@@ -211,6 +248,12 @@ export class HeroAnimationController {
       idleTracks.push(new THREE.QuaternionKeyframeTrack(`${bone.name}.quaternion`, [0, 1], [...q, ...q]));
     }
     const idle = new THREE.AnimationClip('RelaxedIdle', 1, idleTracks);
+    // The turn clips step from this stand pose with the walk's own swing (A71).
+    const legs = Object.fromEntries(SIDES.map((side) => [side, { upper: bones[`mixamorig:${side}UpLeg`],
+      lower: bones[`mixamorig:${side}Leg`], foot: bones[`mixamorig:${side}Foot`] }])) as Legs;
+    const stand = new Map(Object.values(bones).map((bone) => [bone, bone.quaternion.clone()] as const));
+    const turnClips = buildTurnClips(legs, stand, source('Walking'));
+    if (turnClips) this.steps = new TurnSteps(legs, turnClips, stand);
     this.restore();
     for (const clip of [idle, source('Walking'), source('Running'), source('Dead')]) {
       const action = this.mixer.clipAction(clip).play();
@@ -246,7 +289,9 @@ export class HeroAnimationController {
 
   get diagnostics() {
     return { phase: this.phase, distanceMetres: this.distance, cycleMetres: this.cycleMetres,
-      grounded: this.grounded, activeClip: this.clip, footContacts: this.footContacts,
+      grounded: this.grounded, activeClip: this.steps?.cycling && this.stepping ? `turn.${this.stepLead.toLowerCase()}` : this.clip,
+      footContacts: this.footContacts, turnClips: this.steps ? Object.values(this.steps.clips).map((clip) => clip.name) : [],
+      stepInfluence: this.steps?.influence ?? 0,
       walkWeight: this.motionBlend * (1 - this.runWeight), runWeight: this.motionBlend * this.runWeight,
       deathTime: this.deadClock, deathClamped: this.deadClock >= this.actions.get('Dead')!.getClip().duration } as const;
   }
@@ -258,6 +303,17 @@ export class HeroAnimationController {
 
   /** How far the figure is into its swimming lean, 0 upright .. 1. */
   get swimming(): number { return this.swimBlend; }
+
+  /**
+   * Hold a grip with one hand from the next pose on, faded in over HERO_GRIP_FADE (A71). Asked again each frame while it
+   * is held; once no longer asked, the hand fades back to what the hero is doing (sword, fist or relaxed).
+   */
+  holdGrip(side: 'Left' | 'Right', grip: HeroGrip, amount = 1): void {
+    this.grips[side].asked = { grip, amount: clamp(finite(amount, 1), 0, 1) };
+  }
+
+  /** The grip each hand is fading toward, per finger chain, for diagnostics. */
+  gripOf(side: 'Left' | 'Right'): Readonly<Record<string, number>> { return this.grips[side].now; }
 
   /** Equipment actions reuse the source's actual finger grip, without replacing its body or locomotion pose. */
   applyHandGrip(side: 'Left' | 'Right', amount: number): void {
@@ -277,9 +333,14 @@ export class HeroAnimationController {
     this.pendingFootfalls = 0; this.angles.clear();
     this.legYaw = this.standTwist = this.standingClock = this.heldClock = 0; this.backward = this.stepping = false;
     this.overlay = this.overlayFrom = 'idle';
+    for (const grip of Object.values(this.grips)) {
+      Object.assign(grip.from, HERO_HAND_GRIPS.relaxed); Object.assign(grip.to, HERO_HAND_GRIPS.relaxed); Object.assign(grip.now, HERO_HAND_GRIPS.relaxed);
+      grip.fade = 1; grip.asked = null;
+    }
+    this.steps?.reset(); this.stepAdvance = 0; this.settleLead = null; this.wasMoving = false;
     this.body.position.set(0, 0, 0); this.body.quaternion.identity();
     this.grounded = true; this.footContacts = [true, true];
-    this.sampleClips(); this.scene.updateMatrixWorld(true);
+    this.sampleClips(); this.closeHand('Left'); this.closeHand('Right'); this.scene.updateMatrixWorld(true);
   }
 
   pose(p: HeroPose, dt: number, blade: boolean): void {
@@ -313,7 +374,17 @@ export class HeroAnimationController {
       // A twist held once the body has stopped turning is stepped out too, so he does not stand twisted.
       this.heldClock = Math.abs(finite(p.turn)) > 1e-4 ? 0 : this.heldClock + step;
       if (Math.abs(this.standTwist) > HERO_LEG_TWIST.step || (this.heldClock > HERO_LEG_TWIST.relax && Math.abs(this.standTwist) > 0.15)) this.stepping = true;
-      if (this.stepping) {
+      if (this.stepping && this.steps) {
+        // The turn clip: the hips come round as the cycle runs, the feet stepping under them (A71).
+        const u0 = this.steps.cycling ? this.steps.progress : 0;
+        if (!this.steps.cycling) this.stepLead = this.standTwist > 0 ? 'Right' : 'Left';
+        const rate = clamp(HERO_TURN.base + Math.abs(this.standTwist) * HERO_TURN.perRadian, HERO_TURN.least, HERO_TURN.most);
+        this.stepAdvance = step * rate / TURN_STEP.duration;
+        const u1 = Math.min(1, u0 + this.stepAdvance);
+        this.standTwist = u1 >= 1 ? 0 : this.standTwist * (1 - smooth(u1)) / Math.max(1e-6, 1 - smooth(u0));
+        // Still turning as the cycle ends, he steps on into another; otherwise he stands.
+        if (u1 >= 1) this.stepping = Math.abs(finite(p.turn)) > 1e-4;
+      } else if (this.stepping) {
         const before = this.standTwist;
         this.standTwist = blend(this.standTwist, 0, step, HERO_LEG_TWIST.settle);
         stepTravel = Math.abs(before - this.standTwist) * HERO_LEG_TWIST.stride;
@@ -353,6 +424,22 @@ export class HeroAnimationController {
       this.poseActions(p, step, blade);
       this.twistLegs(this.legYaw);
     }
+    if (this.steps) {
+      // Stopping mid-stride, a settling step brings the feet under him rather than sliding them into the stand (A71).
+      const standing = !moving && canStep && p.mode !== 'swim' && this.swimBlend < 0.05;
+      if (standing && this.wasMoving && this.motionBlend > 0.3 && !this.steps.cycling) {
+        const [left, right] = this.footContacts;
+        this.settleLead = !left ? 'Left' : !right ? 'Right' : this.phase < 0.5 ? 'Right' : 'Left';
+      }
+      const lead = !standing ? null : this.stepping ? this.stepLead : this.settleLead;
+      this.steps.update({ dt: step, lead, release: !standing, hold: standing, engage: true, settleBeyond: TURN_STEP.stay,
+        creep: Math.abs(finite(p.turn)) > 1e-4 ? 0 : HERO_TURN.creep,
+        advance: this.stepping ? this.stepAdvance : step / HERO_TURN.settle,
+        anticipate: -this.legYaw, pivot: this.bones['mixamorig:Hips'].getWorldPosition(IK_B) });
+      this.settleLead = null;
+      this.pendingFootfalls += this.steps.consumeFootfalls();
+    }
+    this.wasMoving = moving;
     // Settle only the late tumble, leaving the upright/early foot contacts untouched. This pivot
     // follows the physics root but never moves it; reset() clears the visual floor correction.
     const deathProgress = this.deadClock / this.actions.get('Dead')!.getClip().duration;
@@ -393,7 +480,7 @@ export class HeroAnimationController {
     const leftDuty = THREE.MathUtils.lerp(0.472, 0.118, this.runWeight);
     const rightStart = THREE.MathUtils.lerp(0.488, 0.472, this.runWeight);
     const rightDuty = THREE.MathUtils.lerp(0.48, 0.143, this.runWeight);
-    this.footContacts = !this.grounded || dead ? [false, false] : travel === 0 ? [true, true] :
+    this.footContacts = !this.grounded || dead ? [false, false] : this.steps && this.steps.influence > 0 ? this.steps.contacts : travel === 0 ? [true, true] :
       [this.phase <= leftDuty, fraction(this.phase - rightStart) <= rightDuty];
     this.plantFeet(p, step, canStep && this.swimBlend < 0.05);
     this.scene.updateMatrixWorld(true);
@@ -665,13 +752,26 @@ export class HeroAnimationController {
     }
     const fighting = p.mode === 'block' || p.mode.startsWith('attack');
     for (const side of ['Left', 'Right'] as const) {
-      const key = `grip:${side}`, desired = fighting ? 1 : side === 'Right' && blade ? 0.82 : 0;
-      const amount = blend(this.angles.get(key) ?? 0, desired, dt, 22);
-      this.angles.set(key, amount);
-      for (const finger of HERO_FINGERS) for (const joint of [1, 2, 3, 4] as const) {
-        const name = `mixamorig:${side}Hand${finger}${joint}` as HeroBoneName;
-        this.bones[name].quaternion.slerp(this.gripPose.get(name)!, amount);
+      // Whatever the hand is asked to hold, else a fist fighting, the sword's grip, or the relaxed curl (A71).
+      const grip = this.grips[side], asked = grip.asked;
+      const shape = HERO_HAND_GRIPS[asked?.grip ?? (fighting ? 'fist' : side === 'Right' && blade ? 'sword' : 'relaxed')];
+      const amount = asked ? asked.amount : 1;
+      grip.asked = null;
+      if (HERO_FINGERS.some((finger) => Math.abs(shape[finger] * amount - grip.to[finger]!) > 1e-6)) {
+        for (const finger of HERO_FINGERS) { grip.from[finger] = grip.now[finger]!; grip.to[finger] = shape[finger] * amount; }
+        grip.fade = 0;
       }
+      grip.fade = Math.min(1, grip.fade + dt / HERO_GRIP_FADE);
+      for (const finger of HERO_FINGERS) grip.now[finger] = grip.from[finger]! + (grip.to[finger]! - grip.from[finger]!) * smooth(grip.fade);
+      this.closeHand(side);
+    }
+  }
+
+  /** Each finger chain toward the authored closed hand by its grip's amount. */
+  private closeHand(side: 'Left' | 'Right'): void {
+    for (const finger of HERO_FINGERS) for (const joint of [1, 2, 3, 4] as const) {
+      const name = `mixamorig:${side}Hand${finger}${joint}` as HeroBoneName;
+      this.bones[name].quaternion.slerp(this.gripPose.get(name)!, this.grips[side].now[finger]!);
     }
   }
 }
