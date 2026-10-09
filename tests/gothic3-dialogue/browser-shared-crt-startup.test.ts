@@ -15,6 +15,7 @@ import {NativeHeapObjectViews} from '../../src/gothic3/native-heap-views';
 import {NativeSharedCrtSecurityCookie} from '../../src/gothic3/native-shared-crt-security-cookie';
 import {createBrowserNpcRuntimeAdminOwner} from '../../src/gothic3/native-runtime-platform';
 import {NativeGameArenaStatusProperty} from '../../src/gothic3/native-game-arena-status-property';
+import {NativeGameArenaEnum} from '../../src/gothic3/native-game-arena-enum';
 
 function platformFixture(){
  return createBrowserGameCrtPlatform({processInputs:browserGameProcessInputs,
@@ -44,7 +45,7 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  expect(game.known).toBe(true);
  if(!game.known)throw new Error(game.reason);
  expect(game.value.attachResult).toEqual({known:false,
-  reason:'crtAttach204677e4: Unowned Original Game C++ initializer callback is not yet admitted at 204b1e70'});
+  reason:'crtAttach204677e4: Unowned Translated Arena Status initializer pending: Unowned enum bCObjectBase constructor at 20071e89 -> SharedBase IAT207d8700'});
  const diagnostic=NativeSharedMessageDebug.forPlatform(platform).snapshot(),locale=diagnostic.formatterLocale!;
  expect(diagnostic.messageOwner).toBe(runtime.message);
  expect(diagnostic.messageGetterReturned).toBe(true);
@@ -75,6 +76,14 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  expect(status.initializerReturned).toBe(true);
  expect(status.trace).toContain('204b1e44.cleanup.registered');
  expect(status.trace).toContain('204b1e4c.initializer.return');
+ const enumOwner=NativeGameArenaEnum.forCrt(game.value.crt,memory),enumState=enumOwner.snapshot();
+ expect(enumState.allocation).not.toBeNull();
+ expect(new NativeHeapObjectViews(enumState.allocation!,0,12).readUnsigned(0)).toBe(0x20659c74);
+ expect(enumState.temporary!.snapshot().destroyed).toBe(false);
+ expect(enumState.initializerReturned).toBe(false);
+ expect(enumState.valueInserted).toBe(false);
+ expect(enumOwner.initialize()).toEqual({known:false,reason:enumState.boundary});
+ expect(enumOwner.snapshot().allocation).toBe(enumState.allocation);
  expect(runtime.message.snapshot().trace).toContain('10049574.message.threshold.return');
  expect(runtime.message.onMessageBelowThreshold(2)).toEqual({known:false,reason:'Unowned MessageAdmin.OnMessage callback loop at 1004951d'});
  expect(runtime.message.onMessageBelowThreshold(0xffffffff)).toEqual({known:true,value:true});

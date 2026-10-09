@@ -5,5 +5,6 @@ const expectedText="{\n  \"schema\": \"gothic3-arena-enum-source-v1\",\n  \"modu
 export function admitArenaEnumSource():void {if(text!==expectedText)throw new Error('Original Arena enum source differs');}
 function freeze(value:unknown):void {if(value!==null&&typeof value==='object'&&!Object.isFrozen(value)){for(const child of Object.values(value))freeze(child);Object.freeze(value);}}
 admitArenaEnumSource();freeze(source);
+export const arenaEnumInstructions=source.module.methods;
 export const arenaEnumImagePins=Object.fromEntries(source.images.map(image=>[image.label,[image.label==='statusNoneName'||image.label.endsWith('Vtable')?'constBytes':'coldGlobals',image.address,image.bytes,image.raw,image.sha256] as const]));freeze(arenaEnumImagePins);
 export function arenaEnumImageReceipt(label:string):NativeCrtImageReceipt {admitArenaEnumSource();const image=source.images.find(image=>image.label===label);if(!image)throw new Error('Unowned Arena enum image');return Object.freeze({...image,module:'Game',scope:'cold-original-image',knownMask:'ff'.repeat(image.bytes)});}

@@ -13,6 +13,23 @@ finishable campaign.
 
 ## How the rebuild works
 
+### Current local checkpoint: first enum initializer enters
+
+Startup selects the actual `204b1e70` table entry at offset `0x374` and retains
+its original CALL frame. The translated owner constructs `gEArenaStatus_None`
+from the canonical nineteen-byte image, checks the live Status descriptor,
+writes enum scratch zero, allocates twelve bytes with original category `0x46`
+from the same MemoryAdmin and stores vtable `20659c74`. The next unsupported
+operation is the original SharedBase base-object constructor at `20071e89`,
+through IAT `207d8700`. The allocation and temporary name remain live; repeated
+entry retains the interruption without replaying allocation or writes.
+
+Typechecking and seven focused checks across three files pass. The preceding
+initializer-return checkpoint `c2b9593a` separately passed 3,193 tests across
+296 files in 479.54 seconds and built in 49.10 seconds. Those broad results do
+not cover this later enum continuation. Publication and full campaign remain
+unfinished.
+
 ### Current local checkpoint: first Arena property initializer returns
 
 The Status initializer now registers its original cleanup callback `205499a0`

@@ -16,6 +16,7 @@ import { NativeModuleCrtOwner } from './native-engine-crt-locks';
 import { NativeGameExitTable } from './native-game-crt-exit-table';
 import { NativeGameArenaType } from './native-game-arena-type';
 import { NativeGameArenaStatusProperty } from './native-game-arena-status-property';
+import {NativeGameArenaEnum} from './native-game-arena-enum';
 import { NativePropertySingleton } from './native-property-singleton';
 import { NativeSharedModuleImage } from './native-shared-module-image';
 import { admitArenaPropertySingletonImport } from './native-game-arena-root-source';
@@ -2834,24 +2835,25 @@ export class NativeX86ThreadStack {
     if (source?.kind !== 'source' || source.type !== 'code' || source.address !== '20466454') throw new Error('Actual C initializer callback return required');
   }); }
   /** Translate the existing CRT registration owner; shutdown is not invoked. */
-  callArenaStatusInitializer(controller:object):NativeValue<void> { return this.#run(controller,()=>{
+  callArenaStatusInitializer(controller:object,entry:'204b1dd0'|'204b1e70'='204b1dd0'):NativeValue<void> { return this.#run(controller,()=>{
     const binding=this.#setEnvpBinding;
     if(!binding || binding.controller!==controller)throw new Error('Actual retained Game startup controller required');
-    const point=NativeGameCrtSetEnvp.canonicalArenaStatusInitializerForCrt(binding.owner,binding.crt,controller);
+    const point=NativeGameCrtSetEnvp.canonicalArenaStatusInitializerForCrt(binding.owner,binding.crt,controller,entry);
     if(!point.known)throw new Error(point.reason);
     if(this.#calls.filter(call=>!call.returned).at(-1)?.site!=='204678f2')
       throw new Error('Actual pending Game cinit frame required');
     const cursor=this.#memory(this.#load(this.#bank,this.#reg('ESI')),4);
     const table=NativeModuleCrtOwner.canonicalImageForOwner(binding.crt,'cinitCppInitializerTable');
-    if(!table.known || cursor.fields!==table.value || cursor.offset!==0x370 ||
-      this.#numeric(this.#currentMemoryWord(cursor.fields,cursor.offset),4)!==0x204b1dd0 ||
+    if(!table.known || cursor.fields!==table.value || cursor.offset!==(entry==='204b1dd0'?0x370:0x374) ||
+      this.#numeric(this.#currentMemoryWord(cursor.fields,cursor.offset),4)!==Number.parseInt(entry,16) ||
       this.#load(this.#bank,this.#reg('EAX'))!==this.#currentMemoryWord(cursor.fields,cursor.offset))
       throw new Error('Actual Arena Status original initializer table slot required');
     const crt=binding.crt as NativeGameCrtOwner;
     const memory=nativeGameLayerBaseMemoryForCrt(crt); if(!memory.known)throw new Error(memory.reason);
     this.#call('20466654','20466656');
-    const owner=NativeGameArenaStatusProperty.forCrt(crt,memory.value);
-    const result=NativeGameArenaStatusProperty.prototype.initialize.call(owner);
+    const result=entry==='204b1dd0'
+      ? NativeGameArenaStatusProperty.prototype.initialize.call(NativeGameArenaStatusProperty.forCrt(crt,memory.value))
+      : NativeGameArenaEnum.prototype.initialize.call(NativeGameArenaEnum.forCrt(crt,memory.value));
     if(!result.known)throw new Error('Translated Arena Status initializer pending: '+result.reason);
     const returned=this.#ret(0), source=this.#record(returned).provenance;
     if(source?.kind!=='source'||source.type!=='code'||source.address!=='20466656')
