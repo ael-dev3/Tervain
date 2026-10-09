@@ -400,6 +400,8 @@ export class App {
       }
       const { WorldScene } = await import('./presentation/world');
       this.world = await WorldScene.create(this.game.state, structuredClone(this.settings), this.library, undefined, this.npcAssets!, {
+        // The animals follow the world in; a first visit downloads about a fifth less before entering (A70).
+        deferWildlife: true,
         onPhase: (p) => this.loadingScreen?.update(p.phase === 'finishing'
           ? { phase: 'graphics', detail: p.label }
           : { phase: p.phase, completed: p.completed, total: p.total, detail: p.label }),
