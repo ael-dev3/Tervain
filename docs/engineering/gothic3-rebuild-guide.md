@@ -54,10 +54,17 @@ space for one entry. The original reserve body computes capacity nine and a
 36-byte allocation request. Its MemoryAdmin getter uses the existing recovered
 implementation and returns the actual same-platform owner through the retained
 CALL/RET frame. Its opaque identity becomes the original realloc receiver.
-Startup stops at `1008ddc2 -> 10004133`, before realloc. The factory array pointer remains NULL, with count
-and capacity both zero; registration and the root initializer have not returned.
+The first NULL-old-buffer realloc now uses that actual owner and allocates the
+36-byte request from its audited 40-byte pool. The original pointer publication
+executes; startup stops at `1008dddb -> 100a7980`, before memset. The factory
+array has its allocation pointer, with count and capacity both zero;
+registration and the root initializer have not returned. Existing-buffer
+realloc is still unsupported in this bridge.
 The source package captures 542 instructions. All five startup-stack checks
 and typechecking pass for this continuation; broader validation remains pending.
+The preceding MemoryAdmin-getter revision `e67f69e8` has a passing production
+build (43.94 seconds); its full suite remains running in a separate unchanged
+checkout. Those results do not validate this later realloc continuation.
 Full-suite, build, browser and deployment evidence for this continuation remain
 pending.
 

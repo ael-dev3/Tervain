@@ -312,13 +312,14 @@ export class NativeGameCrtSetEnvp {
       owner.#requireSourcePoint(owner.#pc).instruction==='CALL 0x2000d152'
       ? known(undefined):unknown('Actual original Arena type-singleton CALL required');
   }
-  static canonicalArenaMemoryGetterCallForCrt(owner:NativeGameCrtSetEnvp,crt:NativeModuleCrtOwner,controller:object):NativeValue<void> {
+  static canonicalArenaMemoryGetterCallForCrt(owner:NativeGameCrtSetEnvp,crt:NativeModuleCrtOwner,controller:object,site='1008ddbb'):NativeValue<void> {
     const active=NativeGameCrtSetEnvp.canonicalControllerForCrt(owner,crt,controller,'invoke');
     if(!active.known)return active;
     const frame=owner.#frames.at(-1);
-    return owner.#pc==='1008ddbb' && owner.#currentEntry==='1008dd70' &&
+    const instruction=site==='1008ddbb'?'CALL 0x10002aae':site==='1008ddc2'?'CALL 0x10004133':null;
+    return instruction!==null && owner.#pc===site && owner.#currentEntry==='1008dd70' &&
       frame?.entry==='1008dd70' && frame.site==='1008eb30' && frame.returnPc==='1008eb35' &&
-      owner.#requireSourcePoint(owner.#pc).instruction==='CALL 0x10002aae'
+      owner.#requireSourcePoint(owner.#pc).instruction===instruction
       ? known(undefined):unknown('Actual original Arena reserve MemoryAdmin getter required');
   }
   static canonicalReturnedSetEnvpForCrt(owner: NativeGameCrtSetEnvp, crt: NativeModuleCrtOwner,
@@ -463,6 +464,12 @@ export class NativeGameCrtSetEnvp {
     fact(NativeX86ThreadStack.prototype.storeWidth.call(this.#stack, this.#controller, this.#address(destination.expression), word, bytes));
   }
   #call(point: NativeGameIoInstruction, target: Operand, returnPc: string): string {
+    if(point.va==='1008ddc2') {
+      if(this.#currentEntry!=='1008dd70' || target.kind!=='immediate' || target.value!==0x10004133)
+        throw new Error('Original Arena reserve MemoryAdmin realloc call required');
+      fact(NativeX86ThreadStack.prototype.callArenaMemoryAdminRealloc.call(this.#stack,this.#controller,returnPc));
+      this.#nextBoundary=null; return returnPc;
+    }
     if(point.va==='1008ddbb') {
       if(this.#currentEntry!=='1008dd70' || target.kind!=='immediate' || target.value!==0x10002aae)
         throw new Error('Original Arena reserve MemoryAdmin getter call required');

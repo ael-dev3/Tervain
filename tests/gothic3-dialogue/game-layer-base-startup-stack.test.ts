@@ -53,8 +53,8 @@ describe('original Game C++ class-name initializers on the retained browser stac
     expect({ next: f.game.attachProgress.nextBoundary,
       reason: f.game.attachProgress.setEnvpProgress!.boundary,
       callbacks: NativeGameExitTable.forCrt(f.game.crt).snapshot().callbackCells.length }).toEqual({
-        next: { address: '1008ddc2', name: 'sourceCall', target: '10004133' },
-        reason: 'Unowned original environment CALL at1008ddc2: CALL 0x10004133', callbacks: 157,
+        next: { address: '1008dddb', name: 'sourceCall', target: '100a7980' },
+        reason: 'Unowned original environment CALL at1008dddb: CALL 0x100a7980', callbacks: 157,
       });
     const arenaRoot=f.game.crt.imageStorage('arenaRootWrapper');
     const arenaVtable=arenaRoot.pointer(0).get() as NativeBytePointer;
@@ -74,10 +74,12 @@ describe('original Game C++ class-name initializers on the retained browser stac
     expect(f.stack.snapshot().calls.find(call=>call.site==='200705d2')).toMatchObject({returned:true,
       returnWord:{provenance:{kind:'source',type:'code',address:'200705d4'}}});
     expect(f.game.crt.imageStorage('arenaRootTypeVtable').readUnsigned(12)).toBe(0x2002adfb);
-    for(const site of ['1008d1a3','1008d1aa','1008d1b9','1008ddbb'])
+    for(const site of ['1008d1a3','1008d1aa','1008d1b9','1008ddbb','1008ddc2'])
       expect(f.stack.snapshot().calls.find(call=>call.site===site)).toMatchObject({returned:true});
     const factory=NativeGameArenaType.forCrt(f.game.crt,f.memory).factory;
-    expect(factory.pointer(4).get()).toBeNull();
+    const rootArray=factory.pointer(4).get() as NativeBytePointer;
+    expect(rootArray.offset).toBe(0);
+    expect(rootArray.fields.backing).toMatchObject({requestedBytes:36,capacity:40,freed:false});
     expect(factory.readUnsigned(8)).toBe(0);
     expect(factory.readUnsigned(12)).toBe(0);
     const singleton=fact(NativePropertySingleton.forPlatform(f.platform,f.memory));

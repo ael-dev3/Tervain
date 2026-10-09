@@ -5,6 +5,7 @@ import {nativeMaskedBitfieldAssignment} from './native-masked-bitfield';
 import type { NativeValue } from './dialogue';
 import { NativeHeapObjectViews } from './native-heap-views';
 import type { NativeMemoryBacking } from './native-memory-admin';
+import type { NativeMemoryAllocation } from './native-memory-admin';
 import { NativeMemoryAdmin } from './native-memory-admin';
 import { NativeSharedCrtOwner } from './native-shared-crt';
 import { sharedCommandLineInstruction } from './native-shared-command-line-instructions';
@@ -194,6 +195,7 @@ export class NativeX86ThreadStack {
   #argvBinding: ArgvBinding | null = null;
   #setEnvpBinding: SetEnvpBinding | null = null;
   #arenaPropertySingleton:NativePropertySingleton|null=null;
+  readonly #arenaAllocations=new Map<NativeHeapObjectViews,{owner:NativeMemoryAdmin;allocation:NativeMemoryAllocation}>();
   #setEnvpTransferred = false;
   #setEnvpReturned = false;
   #setEnvpGrant: NativeSetEnvpCallGrant | null = null;
@@ -2429,6 +2431,19 @@ export class NativeX86ThreadStack {
     this.#physical(this.#stack); this.#physical(this.#bank);
   }
   #sharedLocalPhysical(fields:NativeHeapObjectViews):void{
+    const allocation=this.#arenaAllocations.get(fields);
+    if(allocation && this.#setEnvpBinding) {
+      const memory=nativeGameLayerBaseMemoryForCrt(this.#setEnvpBinding.crt as NativeGameCrtOwner);
+      if(!memory.known || memory.value!==allocation.owner || !NativeMemoryAdmin.prototype.usesPlatform.call(allocation.owner,this.#platform) ||
+        fields.backing!==allocation.allocation || fields.backing.freed || allocation.allocation.region.freed ||
+        fields.bytes.buffer!==allocation.allocation.bytes.buffer || fields.bytes.byteOffset!==allocation.allocation.bytes.byteOffset ||
+        fields.bytes.length!==allocation.allocation.capacity || fields.knownMask.buffer!==allocation.allocation.knownMask.buffer ||
+        fields.knownMask.byteOffset!==allocation.allocation.knownMask.byteOffset || fields.knownMask.length!==fields.bytes.length ||
+        dataViewBuffer.call(fields.view)!==fields.bytes.buffer || dataViewByteOffset.call(fields.view)!==fields.bytes.byteOffset ||
+        dataViewByteLength.call(fields.view)!==fields.bytes.length)
+        throw new Error('Actual retained Arena SharedBase allocation required');
+      return;
+    }
     if(this.#arenaPropertySingleton?.ranges.object===fields && this.#setEnvpBinding) {
       const memory=nativeGameLayerBaseMemoryForCrt(this.#setEnvpBinding.crt as NativeGameCrtOwner);
       if(!memory.known)throw new Error(memory.reason);
@@ -2839,6 +2854,37 @@ export class NativeX86ThreadStack {
     }
     if(value!==0x2002adfb)throw new Error('Original Arena factory virtual slot changed');
     return this.#source('code','2002adfb');
+  }); }
+  callArenaMemoryAdminRealloc(controller:object,next:string):NativeValue<void> { return this.#run(controller,()=>{
+    const binding=this.#setEnvpBinding;
+    if(!binding || binding.controller!==controller)throw new Error('Actual retained Game startup controller required');
+    const point=NativeGameCrtSetEnvp.canonicalArenaMemoryGetterCallForCrt(binding.owner,binding.crt,controller,'1008ddc2');
+    if(!point.known)throw new Error(point.reason);
+    if(next!=='1008ddc7' || this.#calls.filter(call=>!call.returned).at(-1)?.site!=='1008eb30')
+      throw new Error('Actual retained Arena reserve realloc return frame required');
+    const memory=nativeGameLayerBaseMemoryForCrt(binding.crt as NativeGameCrtOwner); if(!memory.known)throw new Error(memory.reason);
+    const receiver=this.#record(this.#load(this.#bank,this.#reg('ECX'))).provenance;
+    if(receiver?.kind!=='arena-memory-admin' || receiver.owner!==memory.value)
+      throw new Error('Actual retained Arena MemoryAdmin realloc receiver required');
+    const cursor=this.#address(this.#load(this.#bank,this.#reg('ESP')));
+    // The supported first insertion has the original NULL old-array argument.
+    // Existing-buffer realloc needs its own retained allocation proof.
+    if(this.#numeric(this.#load(this.#stack,cursor),4)!==0)
+      throw new Error('Arena existing-buffer realloc ownership is not implemented');
+    const bytes=this.#numeric(this.#load(this.#stack,cursor+4),4);
+    this.#call('1008ddc2',next);
+    const result=NativeMemoryAdmin.prototype.realloc.call(memory.value,null,bytes); if(!result.known)throw new Error(result.reason);
+    let word=this.#mint(0,0xffffffff);
+    if(result.value) {
+      const fields=new NativeHeapObjectViews(result.value);
+      this.#arenaAllocations.set(fields,{owner:memory.value,allocation:result.value});
+      this.#sharedLocalPhysical(fields);
+      word=this.#mint(0,0,{kind:'shared-local',fields});
+    }
+    this.#store(this.#bank,this.#reg('EAX'),word);
+    const returned=this.#ret(8), source=this.#record(returned).provenance;
+    if(source?.kind!=='source' || source.type!=='code' || source.address!==next)
+      throw new Error('Actual Arena MemoryAdmin realloc return required');
   }); }
   callArenaMemoryAdminGetter(controller:object,next:string):NativeValue<void> { return this.#run(controller,()=>{
     const binding=this.#setEnvpBinding;
