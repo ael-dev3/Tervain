@@ -10,12 +10,58 @@ from read_dialogue_native_evidence import PE, audit_module, EXPECTED_INPUTS
 from prepare_runtime_admin_source import image_bytes
 
 
-def capture(study):
+def capture(study, callbacks):
     original = (study / '00_Original_Runtime/Game.dll').read_bytes()
     if hashlib.sha256(original).hexdigest() != EXPECTED_INPUTS['Game.dll']:
         raise ValueError('Original Game module differs')
     pe = PE(original)
     module = audit_module(study, 'Game_dll', 'Game.dll', {0x2000e8d6: 'layerBaseClassName'})
+    # This callback was recovered in a separate Ghidra project. Keep that
+    # provenance, and independently check every instruction against Game.dll.
+    index = json.loads((callbacks / 'callback-index.json').read_text(encoding='utf-8'))
+    if index['inputs']['Game'] != EXPECTED_INPUTS['Game.dll']:
+        raise ValueError('Callback package belongs to a different Game module')
+    initializer = index['callbacks']['204b11b0']
+    expected_refs = {
+        'assembly': ('sources/Game/204b11b0.asm.txt',
+                     'afa0d66a727f9a7b5b27a016fdb518e4ba1346db15be1973fd6dec079111bc1d'),
+        'c': ('sources/Game/204b11b0.c.txt',
+              '249a7b1bc92cbc0ff28a2a06dad23b6aa24dba17c75e553f9b93a397e0cfba35'),
+    }
+    listings = {}
+    for kind, (reference, digest) in expected_refs.items():
+        data = (callbacks / reference).read_bytes()
+        if (initializer[kind] != reference or initializer[kind + 'Sha256'] != digest
+                or hashlib.sha256(data).hexdigest() != digest):
+            raise ValueError('Recovered LayerBase initializer listing differs')
+        listings[kind] = data
+    initializer_rows = []
+    for line in listings['assembly'].splitlines():
+        match = re.fullmatch(rb'([0-9a-f]{8}) \| ([0-9a-f]+) \| (.+)', line)
+        if not match:
+            raise ValueError('Malformed LayerBase initializer instruction')
+        address, raw = int(match[1], 16), bytes.fromhex(match[2].decode())
+        if pe.bytes(address, len(raw)) != raw:
+            raise ValueError('LayerBase initializer differs from original PE')
+        initializer_rows.append(dict(va=f'{address:08x}', bytes=raw.hex(),
+                                     instruction=match[3].decode(), fileOffset=pe.offset(address, len(raw))))
+    if [(row['va'], row['bytes'], row['instruction']) for row in initializer_rows] != [
+        ('204b11b0', 'e821d7b5ff', 'CALL 0x2000e8d6'),
+        ('204b11b5', 'a360477b20', 'MOV [0x207b4760],EAX'),
+        ('204b11ba', 'c3', 'RET')]:
+        raise ValueError('Complete LayerBase initializer extent differs')
+    if (initializer['origin']['kind'] != 'supplemental-ghidra-recovery'
+            or initializer['origin']['catalogGap'] is not True
+            or initializer['instructionCount'] != 3 or initializer['instructionBytes'] != 11
+            or initializer['instructionBytesSha256'] !=
+            '9ef3a3702a68d5acc912a540b56a92930392f736c54362248a9ef0c2b76a29ff'):
+        raise ValueError('LayerBase initializer recovery receipt differs')
+    module['methods'].append(dict(label='layerBaseClassNameInitializer', entryVA='0x204b11b0',
+        bodyVA='0x204b11b0', bodyRanges=initializer['bodyRanges'], instructions=initializer_rows,
+        entryChain=[], bodyInstructionBytesSha256=initializer['instructionBytesSha256'],
+        recoveryOrigin=initializer['origin'], functionCatalogEntryPresent=False,
+        sourceRefs={kind: dict(path=reference, sha256=digest)
+                    for kind, (reference, digest) in expected_refs.items()}, verifiedAgainstOriginalPE=True))
     # The destructor body is absent from the function catalog. Preserve an
     # explicit ASM/PE recovery, including its real forwarding entry.
     entry, body, end = 0x20034649, 0x20549180, 0x2054918a
@@ -64,15 +110,19 @@ def capture(study):
         raise ValueError('Original class-name imports differ')
     return dict(schema='gothic3-layer-base-class-name-evidence-v1', module=module, images=images,
                 decoratedName=descriptor[8:terminator].decode('ascii'), imports=imports,
-                sourceOnly=True, executionAdmitted=False)
+                producerSha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+                sourceOnly=True, executionAdmitted=False, wholeCrtTraversalCompleted=False,
+                fullCampaignCompleted=False)
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--study', type=Path, required=True)
     parser.add_argument('--output', type=Path, required=True)
+    parser.add_argument('--callbacks', type=Path,
+                        default=Path(__file__).resolve().parents[2] / 'assets/gothic3/game-cinit-callbacks')
     args = parser.parse_args()
-    result = capture(args.study)
+    result = capture(args.study, args.callbacks)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(result, indent=2) + '\n', encoding='utf-8', newline='\n')
-    print('Captured original LayerBase getter, destructor and physical images; no execution granted')
+    print('Captured original LayerBase initializer, getter, destructor and physical images; no execution granted')
