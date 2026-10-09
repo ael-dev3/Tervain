@@ -3,6 +3,7 @@ import npcHeapRules from '../../assets/gothic3/npc-heap/runtime-rules.json';
 import arenaHeapRules from '../../assets/gothic3/arena-heap/runtime-rules.json';
 import propertyHeapRules from '../../assets/gothic3/property-heap/runtime-rules.json';
 import sceneStartupRules from '../../assets/gothic3/scene-startup/runtime-rules.json';
+import classNameHeapRules from '../../assets/gothic3/class-name-heap/runtime-rules.json';
 import type { NativeValue } from './dialogue';
 import type { NativeByteGeometryHost, NativeBytePointer } from './native-pointer-geometry';
 import { NativeHeapObjectViews } from './native-heap-views';
@@ -51,7 +52,7 @@ type BucketRule = {
 type Rules = { schema: string; inputs: { SharedBase: string }; coldGlobals: Record<string, ColdRange>; buckets: Record<string, BucketRule> };
 /** An exported source-admitted identity, not caller-provided pool constants. */
 export interface NativeMemoryRulesExtension {
-  readonly schema: 'gothic3-npc-heap-rules-v1' | 'gothic3-scene-startup-rules-v1' | 'gothic3-property-heap-rules-v1' | 'gothic3-arena-heap-rules-v1';
+  readonly schema: 'gothic3-npc-heap-rules-v1' | 'gothic3-scene-startup-rules-v1' | 'gothic3-property-heap-rules-v1' | 'gothic3-arena-heap-rules-v1' | 'gothic3-class-name-heap-rules-v1';
   readonly baseRulesSha256: string;
   readonly inputs: { readonly SharedBase: string; readonly Engine: string };
 }
@@ -61,6 +62,7 @@ const extensionSource = npcHeapRules as unknown as ExtensionRules;
 const arenaExtensionSource = arenaHeapRules as unknown as ExtensionRules;
 const propertyExtensionSource = propertyHeapRules as unknown as ExtensionRules;
 const sceneStartupExtensionSource = sceneStartupRules as unknown as ExtensionRules;
+const classNameExtensionSource = classNameHeapRules as unknown as ExtensionRules;
 const freezeSource = (value: unknown): void => {
   if (value !== null && typeof value === 'object' && !Object.isFrozen(value)) {
     for (const child of Object.values(value)) freezeSource(child);
@@ -71,6 +73,11 @@ freezeSource(extensionSource);
 freezeSource(propertyExtensionSource);
 freezeSource(arenaExtensionSource);
 freezeSource(sceneStartupExtensionSource);
+freezeSource(classNameExtensionSource);
+export const nativeClassNameHeapExtension: NativeMemoryRulesExtension = Object.freeze({
+  schema: 'gothic3-class-name-heap-rules-v1', baseRulesSha256: classNameExtensionSource.baseRulesSha256,
+  inputs: Object.freeze({ SharedBase: classNameExtensionSource.inputs.SharedBase, Engine: classNameExtensionSource.inputs.Engine }),
+});
 export const nativeNpcHeapExtension: NativeMemoryRulesExtension & { readonly schema: 'gothic3-npc-heap-rules-v1' } = Object.freeze({
   schema: 'gothic3-npc-heap-rules-v1', baseRulesSha256: extensionSource.baseRulesSha256,
   inputs: Object.freeze({ SharedBase: extensionSource.inputs.SharedBase, Engine: extensionSource.inputs.Engine }),
@@ -92,6 +99,7 @@ export const nativeArenaHeapExtension: NativeMemoryRulesExtension & { readonly s
   inputs: Object.freeze({ SharedBase: arenaExtensionSource.inputs.SharedBase, Engine: arenaExtensionSource.inputs.Engine }),
 });
 const admittedExtensions = new WeakMap<object, ExtensionRules>([
+  [nativeClassNameHeapExtension, classNameExtensionSource],
   [nativeArenaHeapExtension, arenaExtensionSource], [nativeNpcHeapExtension, extensionSource], [nativePropertyHeapExtension, propertyExtensionSource], [nativeSceneStartupHeapExtension, sceneStartupExtensionSource],
 ]);
 type Pool = { region: NativeMemoryRegion; bucket: Bucket; next: Pool | null };
@@ -182,7 +190,7 @@ export class NativeMemoryAdmin {
     const seen = new Set<object>();
     for (const extension of options.extensions ?? []) {
       const source = admittedExtensions.get(extension);
-      if (!source || seen.has(extension) || source.schema !== extension.schema || !['gothic3-npc-heap-rules-v1', 'gothic3-scene-startup-rules-v1', 'gothic3-property-heap-rules-v1', 'gothic3-arena-heap-rules-v1'].includes(source.schema) || source.baseRulesSha256 !== BASE_RULES_SHA || source.inputs.SharedBase !== SHARED_BASE || source.inputs.Engine !== 'd49ef92c0fdfeda433f6d04d0edeb7751e41e4c7c7effc1265630717029dc7e3') throw new Error('MemoryAdmin extension is not the original statically admitted source identity');
+      if (!source || seen.has(extension) || source.schema !== extension.schema || !['gothic3-npc-heap-rules-v1', 'gothic3-scene-startup-rules-v1', 'gothic3-property-heap-rules-v1', 'gothic3-arena-heap-rules-v1', 'gothic3-class-name-heap-rules-v1'].includes(source.schema) || source.baseRulesSha256 !== BASE_RULES_SHA || source.inputs.SharedBase !== SHARED_BASE || source.inputs.Engine !== 'd49ef92c0fdfeda433f6d04d0edeb7751e41e4c7c7effc1265630717029dc7e3') throw new Error('MemoryAdmin extension is not the original statically admitted source identity');
       seen.add(extension); sources.push(source);
     }
     // Prefer a larger exact source prefix before its contained base receipt;

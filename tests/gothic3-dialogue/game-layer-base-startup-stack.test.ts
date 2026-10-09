@@ -8,7 +8,7 @@ import { browserGameStandardIoInputs } from '../../src/gothic3/browser-game-stan
 import { browserGameArgvNlsInputs } from '../../src/gothic3/browser-game-argv-nls-inputs';
 import { nativeVirtualX86CpuSelection } from '../../src/gothic3/native-x86-thread-stack-profile';
 import { NativeX86ThreadStack } from '../../src/gothic3/native-x86-thread-stack';
-import { NativeMemoryAdmin, nativeNpcHeapExtension, nativeSceneStartupHeapExtension } from '../../src/gothic3/native-memory-admin';
+import { NativeMemoryAdmin, nativeNpcHeapExtension, nativeSceneStartupHeapExtension, nativeClassNameHeapExtension } from '../../src/gothic3/native-memory-admin';
 import { NativeGameLayerBaseClassName } from '../../src/gothic3/native-game-layer-base-class-name';
 import { NativeGameExitTable } from '../../src/gothic3/native-game-crt-exit-table';
 import { NativeGameClassName } from '../../src/gothic3/native-game-class-name-family';
@@ -23,11 +23,12 @@ function platformFixture() {
     setEnvp: { physicalGameHeapCapacity: 'round-eight-unknown-padding', heapFree: { outcome: 'success' } },
   });
 }
-function fixture(textPool = true, objectRefPool = true) {
+function fixture(textPool = true, objectRefPool = true, pointerPool = false) {
   const platform = platformFixture();
   const memory = new NativeMemoryAdmin(platform, { extensions: [
     ...(textPool ? [nativeNpcHeapExtension] : []),
     ...(objectRefPool ? [nativeSceneStartupHeapExtension] : []),
+    ...(pointerPool ? [nativeClassNameHeapExtension] : []),
   ] });
   const stack = fact(NativeX86ThreadStack.forPlatform(platform));
   const game = fact(createBrowserGameCrtStartup(platform, memory));
@@ -35,6 +36,22 @@ function fixture(textPool = true, objectRefPool = true) {
 }
 
 describe('original Game C++ class-name initializers on the retained browser stack', () => {
+  it('returns the pointer-template initializer through the original 56-byte pool', () => {
+    const f = fixture(true, true, true);
+    const pointerArray = NativeGameClassName.forSpec(f.game.crt,f.memory,gameClassNameSpec('204b1620')!);
+    expect(fact(fact(pointerArray.get()).text())).toBe('bTRefPtrArray<class bCPropertyObjectBase *>');
+    expect(f.stack.snapshot().calls.find(call => call.site === '204b1620')).toMatchObject({ returned: true });
+    expect({ next: f.game.attachProgress.nextBoundary,
+      reason: f.game.attachProgress.setEnvpProgress!.boundary,
+      callbacks: NativeGameExitTable.forCrt(f.game.crt).snapshot().callbackCells.length }).toEqual({
+        next: { address: '204b17d0', name: 'translatedCrtCall', target: '20011d06' },
+        reason: 'Game.___unDName.0x2800: Unowned getTemplateArgumentList primary data type', callbacks: 65,
+      });
+    const completed = gameClassNameFamilySpecs.filter(spec => spec.initializer >= '204b11b0' && spec.initializer < '204b17d0');
+    expect(completed).toHaveLength(64);
+    for (const spec of completed)
+      expect(f.stack.snapshot().calls.find(call => call.site === spec.initializer)).toMatchObject({ returned: true });
+  });
   it('rejects a caller-shaped or foreign heap before constructing the Game startup graph', () => {
     const f = fixture();
     const otherPlatform = platformFixture();

@@ -12,10 +12,12 @@ and `V` selects the existing class-name branch. It constructs the pointer DName,
 preserves its qualifier bit and composes it with the parsed class DName using the
 original operations. Other pointer grammar remains unsupported.
 
-The original initializer `204b1620` now reaches the SharedBase CString allocation
-for 52 bytes. The original allocator dispatch table maps requests 49..56 to
-`1000196a -> 10048370`; that pool is not yet admitted. The initializer therefore
-still does not return. This evidence does not establish completed startup,
+The original allocator dispatch table maps requests 49..56 to
+`1000196a -> 10048370`. With the separately admitted class-name heap extension,
+the original initializer `204b1620` returns. Startup completes 64 class-name
+initializers, retains 65 callbacks and reaches `204b17d0 -> 20011d06`, where
+another template argument type remains unsupported. Without that heap extension,
+the 52-byte allocation remains a boundary. This evidence does not establish completed startup,
 world/NPC activation, saves or a finishable campaign.
 
 The capture's `executionAdmitted: false` describes the entire source package:
