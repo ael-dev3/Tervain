@@ -88,9 +88,20 @@ processor-feature lookup and exception clearing are implemented locally.
 All 15 focused checks pass, typechecking passes and independent regeneration
 matches both outputs byte for byte. At integrated revision `db71a0b3`, all 3,084
 tests passed with a 30-second per-test allowance, and the production build passed.
-Publication remains pending.
+The math checkpoint merged through [PR #184](https://github.com/ael-dev3/Tervain/pull/184)
+as `b03a143f0b01839430046792b8ea51132c5b3220` after successful CI run
+`37886867264`. Its Pages run `37887566918` completed successfully.
 These results do not establish complete
 startup or campaign play.
+
+Further local revision `0dd36cdf` executes the ten-pointer encoding loop using
+the existing source-admitted Game CRT codec. It preserves duplicate code/encoded
+identities, actual table storage and original CALL/RET cleanup. The loop reaches
+`20466626 -> 2046643f`, before the C initializer walker. All 56 focused checks
+across four files pass, including changed/unknown later slots and a foreign PTD
+codec. The production build passes, and a production browser observed the
+actual continuation at `20466626`. All 3,087 tests across 284 files pass with
+a 30-second per-test allowance. Publication remains pending.
 
 ### Original files and reproducible outputs
 

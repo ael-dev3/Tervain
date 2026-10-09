@@ -59,6 +59,7 @@ const bodies = Object.freeze([
   ['20473830', '20473830-20473858'], ['20473860', '20473860-204738a1'],
   ['20463917', '20463917-20463934'], ['204638a7', '204638a7-20463906'],
   ['204696f6', '204696f6-2046971e'],
+  ['20469672', '20469672-20469690'],
 ] as const);
 const ranges = new Map<string, readonly (readonly [number, number])[]>(bodies.map(([entry, text]) =>
   [entry, Object.freeze(text.split(';').map(range => Object.freeze(range.split('-').map(x => Number.parseInt(x, 16)) as [number, number]))) ]));
@@ -279,7 +280,7 @@ export class NativeGameCrtSetEnvp {
     if (!extent?.some(([first, last]) => address >= first && address <= last) ||
         this.#currentEntry === '204677e4' && !callerRows.has(pc)) throw new Error('Unowned Game environment source frontier at' + pc);
     const point = ['204665f4', '204738b0', '20473830', '20473860', '20463917', '204638a7',
-      '204696f6'].includes(this.#currentEntry)
+      '204696f6', '20469672'].includes(this.#currentEntry)
       ? gameCinitInstruction(pc) : gameSetEnvpInstruction(pc);
     if (point.va !== pc || !/^(?:[0-9a-f]{2})+$/.test(point.bytes)) throw new Error('Original environment row receipt differs at' + pc);
     return point;
@@ -357,6 +358,11 @@ export class NativeGameCrtSetEnvp {
     fact(NativeX86ThreadStack.prototype.storeWidth.call(this.#stack, this.#controller, this.#address(destination.expression), word, bytes));
   }
   #call(point: NativeGameIoInstruction, target: Operand, returnPc: string): string {
+    if (point.va === '2046967e') {
+      this.#nextBoundary = Object.freeze({ pc: point.va, operation: 'translatedCrtCall', target: '20467d64' });
+      fact(NativeX86ThreadStack.prototype.encodeGameCinitPointer.call(this.#stack, this.#controller));
+      this.#nextBoundary = null; return returnPc;
+    }
     if (['204696fb', '2046970b', '20469717'].includes(point.va)) {
       this.#nextBoundary = Object.freeze({ pc: point.va, operation: 'import', target: point.instruction.slice(5) });
       fact(NativeX86ThreadStack.prototype.invokeGameCinitImport.call(this.#stack, this.#controller, point.va));
@@ -536,6 +542,7 @@ export class NativeGameCrtSetEnvp {
       mathProtectionCheckReturned: graph.calls.some(call => call.site === '20466602' && call.returned),
       mathInitializerReturned: graph.calls.some(call => call.site === '20466610' && call.returned),
       floatConversionInitializerReturned: graph.calls.some(call => call.site === '20463917' && call.returned),
+      floatPointerInitializerReturned: graph.calls.some(call => call.site === '20466617' && call.returned),
       callerTestsCompleted: this.#callerTestsCompleted, sourceOperationsCompleted: this.#effects.length,
       effects: Object.freeze(this.#effects.map(effect => Object.freeze({ ...effect }))),
       wholeCrtTraversalCompleted: false, moduleAttachCompleted: false, fullCampaignCompleted: false });

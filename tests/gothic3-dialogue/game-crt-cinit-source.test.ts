@@ -13,7 +13,7 @@ describe('Original Game cinit and PE-check source admission', () => {
   });
 
   it('keeps optional precision, SSE and divide-test fallbacks outside this execution getter', () => {
-    for (const pc of ['204696ba', '20469672', '2048bf68', '20469691', '204665f5']) {
+    for (const pc of ['204696ba', '20467d64', '2048bf68', '20469691', '204665f5']) {
       expect(() => gameCinitInstruction(pc)).toThrow('No admitted original Game cinit instruction');
     }
   });

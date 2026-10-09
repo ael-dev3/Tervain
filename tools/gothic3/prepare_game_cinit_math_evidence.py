@@ -62,7 +62,7 @@ def capture(study):
 
 def emit_runtime(result, path):
     selected = ['cinit', 'isNonwritableInCurrentImage', 'validateImageBase', 'findPESection',
-                'fpMath', 'floatConversionInit', 'pentiumDivideDispatch']
+                'fpMath', 'floatConversionInit', 'pentiumDivideDispatch', 'encodeFloatPointers']
     methods = [{key: method[key] for key in ('label', 'entryVA', 'bodyRanges',
                 'bodyInstructionBytesSha256', 'instructions')}
                for method in result['module']['methods'] if method['label'] in selected]
