@@ -1,7 +1,8 @@
-/** Original property-registration Debug call through TLS and vsprintf FILE setup.
- * The formatter has not returned; no text, terminator or message dispatch is fabricated. */
+/** Original property-registration Debug call through TLS, vsprintf and the
+ * actual runtime MessageAdmin getter. OnMessage dispatch remains pending. */
 import source from '../../assets/gothic3/arena-property-registration/source.json';
-import {NativeRuntimePlatform} from './native-runtime-platform';
+import {NativeRuntimePlatform,nativeRuntimeMessageAdminForPlatform} from './native-runtime-platform';
+import type {NativeMessageAdminModule} from './native-message-admin';
 import {NativeSharedStaticTls} from './native-shared-static-tls';
 import {NativeHeapObjectViews} from './native-heap-views';
 import type {NativeBytePointer} from './native-pointer-geometry';
@@ -37,6 +38,8 @@ export class NativeSharedMessageDebug {
  #formatterReturned=false;
  #terminatorWritten=false;
  #messageCallFrame:NativeHeapObjectViews|null=null;
+ #messageOwner:NativeMessageAdminModule|null=null;
+ #messageGetterReturned=false;
  #formatterCookieExpression:Readonly<{cookie:NativeHeapObjectViews;cookieValue:number;frame:NativeHeapObjectViews;ebpOffset:number}>|null=null;
  #formatterRegisters:Readonly<{eax:NativeHeapObjectViews;ebx:NativeBytePointer;esi:0;edi:NativeHeapObjectViews;ecx:NativeHeapObjectViews}>|null=null;
  private constructor(private readonly platform:NativeRuntimePlatform,proof:object){
@@ -102,7 +105,13 @@ export class NativeSharedMessageDebug {
    messageFrame.writeUnsigned(12,0);messageFrame.writeUnsigned(16,0);
    messageFrame.writeUnsigned(20,0xffffffff);messageFrame.writeUnsigned(24,5);
    this.#trace.push('10049924.MessageAdmin.getInstance.pending');
-   throw new Error('Unowned SharedBase registration MessageAdmin getter at 10049924 -> 100088b4 (vsprintf returned)');
+   const owner=fact(nativeRuntimeMessageAdminForPlatform(this.platform));
+   this.#messageOwner=owner;
+   const returned=fact(owner.getInstance());
+   if(returned!==owner)throw new Error('Actual registration MessageAdmin getter owner differs');
+   this.#messageGetterReturned=true;
+   this.#trace.push('10049929.MessageAdmin.getInstance.return');
+   throw new Error('Unowned SharedBase registration OnMessage at 1004992b -> 10005560 (MessageAdmin getter returned)');
   }catch(error){this.#boundary??=error instanceof Error?error.message:String(error);return {known:false,reason:this.#boundary};}
   finally{this.#active=false;}
  }
@@ -189,6 +198,7 @@ export class NativeSharedMessageDebug {
   localeReturned:this.#localeReturned,
   formatterOutputCount:this.#formatterOutputCount,
   messageCallFrame:this.#messageCallFrame,
+  messageOwner:this.#messageOwner,messageGetterReturned:this.#messageGetterReturned,
   formatterCookieExpression:this.#formatterCookieExpression,
   formatterRegisters:this.#formatterRegisters,
   formatterReturned:this.#formatterReturned,terminatorWritten:this.#terminatorWritten,messageDispatched:false,debugReturned:false});}

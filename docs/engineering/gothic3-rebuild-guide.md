@@ -13,6 +13,21 @@ finishable campaign.
 
 ## How the rebuild works
 
+### Current local checkpoint: actual MessageAdmin getter returns
+
+Registration Debug now looks up the runtime-admin factory's unique actual
+same-platform MessageAdmin module. Missing or ambiguous owners are rejected;
+lookup does not initialize or substitute a module. Its original getter runs
+through the existing recovered singleton implementation and returns the same
+owner, including its actual shutdown registrations and callback allocations.
+The retained diagnostic confirms that owner is ready and its threshold is one.
+Startup now stops at OnMessage, `1004992b -> 10005560`. Dispatch and the return
+from the Status initializer remain unfinished.
+
+The preceding formatter-return revision `3d59cf3d` passed 3,193 tests across
+296 files in 523.96 seconds. That full-suite receipt does not cover this later
+getter integration, which has typechecking and focused production checks.
+
 ### Current local checkpoint: registration formatting returns
 
 At `3d59cf3d`, the selected original narrow-string formatter path writes the

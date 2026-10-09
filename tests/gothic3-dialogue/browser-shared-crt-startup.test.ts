@@ -13,6 +13,7 @@ import {NativeSharedMessageDebug} from '../../src/gothic3/native-shared-message-
 import {NativeSharedGuidNull} from '../../src/gothic3/native-shared-guid-null';
 import {NativeHeapObjectViews} from '../../src/gothic3/native-heap-views';
 import {NativeSharedCrtSecurityCookie} from '../../src/gothic3/native-shared-crt-security-cookie';
+import {createBrowserNpcRuntimeAdminOwner} from '../../src/gothic3/native-runtime-platform';
 
 function platformFixture(){
  return createBrowserGameCrtPlatform({processInputs:browserGameProcessInputs,
@@ -37,13 +38,17 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  expect(guid.value.adoptReturnedCrtExecution().known).toBe(false);
  expect(guid.value.invokeInitializer().known).toBe(false);
  expect(guid.value.snapshot().executionOrigin).toBe('returned-crt');
- const memory=new NativeMemoryAdmin(platform,{extensions:[nativeNpcHeapExtension,nativeSceneStartupHeapExtension,nativeClassNameHeapExtension,nativePropertyHeapExtension]});
+ const runtime=createBrowserNpcRuntimeAdminOwner(platform),memory=runtime.memory;
  const game=createBrowserGameCrtStartup(platform,memory);
  expect(game.known).toBe(true);
  if(!game.known)throw new Error(game.reason);
  expect(game.value.attachResult).toEqual({known:false,
-  reason:'crtAttach204677e4: Unowned Translated Arena Status initializer pending: Property registration Message.Debug at 10088191: Unowned SharedBase registration MessageAdmin getter at 10049924 -> 100088b4 (vsprintf returned)'});
+  reason:'crtAttach204677e4: Unowned Translated Arena Status initializer pending: Property registration Message.Debug at 10088191: Unowned SharedBase registration OnMessage at 1004992b -> 10005560 (MessageAdmin getter returned)'});
  const diagnostic=NativeSharedMessageDebug.forPlatform(platform).snapshot(),locale=diagnostic.formatterLocale!;
+ expect(diagnostic.messageOwner).toBe(runtime.message);
+ expect(diagnostic.messageGetterReturned).toBe(true);
+ expect(runtime.message.snapshot().phase).toBe('ready');
+ expect(runtime.message.storage.uint(28)).toBe(1);
  expect(diagnostic.localeReturned).toBe(true);
  expect(locale.pointer(8).get()).toBe(owner.snapshot().ptd);
  expect(locale.pointer(0).get()).toBe(owner.snapshot().ptd!.pointer(0x6c).get());
