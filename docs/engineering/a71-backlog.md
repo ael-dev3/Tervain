@@ -29,8 +29,8 @@ each tree's textures are carried by all three of its detail files. Residents far
   before).
 - **Hands.** The hero's hands fade between relaxed, sword, fist, bow, string, knife and hide grips over 0.2 s; the
   fastest finger joint on an attack fell from 26–34 to under 12 rad/s.
-- **Hard limit:** the residents' rigs have 24 joints ending at the wrists, with no finger joints, so their fingers do not
-  move. A test records it.
+- **Fingers (since A72).** The residents' Meshy rigs end at the wrists; A72 adds thumb and finger chains of our own at
+  load to 31 of their 34 hands, and A75 checks them in the game: see [the A75 record](a75-hands-and-backlog.md).
 
 ## Riding
 
@@ -38,8 +38,8 @@ The hero walks to the clear side of the saddled deer and swings up in 0.8 s, and
 most 2.4 rad/s standing and 1.15 at a gallop, builds speed toward its walk (2.1 m/s) and gallop (6.2 m/s), and backs up
 slowly. Its nose, middle and rump are kept out of scenery (at a full gallop into a wall the head stops within 0.2 m), it
 cannot enter a doorway, and the camera draws back and up while riding. Hooves sound with its stride; galloping spends the
-deer's own stamina, shown on the stamina bar. A save made in the saddle loads with the hero back in it. Open: backing up
-plays the forward walk.
+deer's own stamina, shown on the stamina bar. A save made in the saddle loads with the hero back in it. Backing up plays
+the walk in reverse (A75).
 
 ## Flicker and heat
 
