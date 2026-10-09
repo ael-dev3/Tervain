@@ -108,6 +108,30 @@ export function meshyTreeParts(gltf: GLTF): Parts {
   if (count >= 20_000) throw new Error('Tree art must remain strictly below 20,000 triangles.');
   return result;
 }
+/** The file a tree model's images come from when it carries none of its own (A71). */
+function sharedImages(gltf: GLTF): string | null {
+  const extras = (gltf.parser.json as { asset?: { extras?: { tervainSharedImages?: unknown } } }).asset?.extras;
+  return typeof extras?.tervainSharedImages === 'string' ? extras.tervainSharedImages : null;
+}
+
+const TEXTURE_SLOTS = ['map', 'normalMap', 'roughnessMap', 'metalnessMap', 'aoMap', 'emissiveMap', 'alphaMap'] as const;
+const borrowed = new WeakSet<GLTF>();
+/** Give a mid or far model the near model's textures, material by material, slot by slot (A71). */
+function borrowTextures(near: GLTF, lod: GLTF) {
+  if (!sharedImages(lod) || borrowed.has(lod)) return;
+  const source = new Map<string, THREE.MeshStandardMaterial>();
+  near.scene.traverse(o => { const m = (o as THREE.Mesh).material as THREE.MeshStandardMaterial | undefined; if (m && !Array.isArray(m)) source.set(m.name, m); });
+  lod.scene.traverse(o => {
+    const m = (o as THREE.Mesh).material as THREE.MeshStandardMaterial | undefined;
+    const from = m && !Array.isArray(m) ? source.get(m.name) : undefined;
+    if (!m || !from) return;
+    for (const slot of TEXTURE_SLOTS) if (from[slot] && !m[slot]) (m as unknown as Record<string, THREE.Texture | null>)[slot] = from[slot];
+    m.needsUpdate = true;
+  });
+  assertDecodedTreeTextures(lod, meshyTreeParts(lod));
+  borrowed.add(lod);
+}
+
 async function load(id: string, lod: typeof MESHY_TREE_LODS[number]): Promise<GLTF> {
   const key = `${id}:${lod}`, existing = pending.get(key);
   if (existing) return existing;
@@ -121,8 +145,11 @@ async function load(id: string, lod: typeof MESHY_TREE_LODS[number]): Promise<GL
     try {
       const bounds = new THREE.Box3().setFromObject(gltf.scene);
       if (bounds.isEmpty() || ![...bounds.min, ...bounds.max].every(Number.isFinite)) throw new Error(`Tree ${id} has invalid geometry bounds.`);
-      assertDecodedTreeTextures(gltf, meshyTreeParts(gltf));
-      await deduplicateTreeTextures(gltf, buffer);
+      // A mid or far file whose images are the near file's carries none of its own; it borrows them once loaded (A71).
+      if (!sharedImages(gltf)) {
+        assertDecodedTreeTextures(gltf, meshyTreeParts(gltf));
+        await deduplicateTreeTextures(gltf, buffer);
+      }
     } catch (error) {
       disposeRejectedTree(gltf);
       throw error;
@@ -143,6 +170,7 @@ export async function loadMeshyTrees(ids: readonly string[] = MESHY_TREE_IDS, on
       while (active && next < selected.length) {
         const id = selected[next++]!;
         const lods = await Promise.all(MESHY_TREE_LODS.map(lod => load(id, lod)));
+        for (const lod of lods.slice(1)) borrowTextures(lods[0]!, lod);
         result.set(id, lods as unknown as readonly [GLTF, GLTF, GLTF]);
         if (active) onProgress?.(result.size, selected.length);
       }

@@ -742,7 +742,8 @@ export class Player {
     const d = Math.hypot(dx, dz) || 1;
     const f = this.facing;
     const facing = (dx / d) * f.x + (dz / d) * f.z > 0.17;
-    this.cancelSkinning();
+    // A blow breaks any channel, not only skinning: a rite or brace left set would freeze its bar and never finish (A71).
+    this.cancelChannel();
     this.setBowAim(null);
     if (this.blocking && facing && this.state === 'free') {
       const arms = this.arms(ctx.game);
@@ -793,6 +794,7 @@ export class Player {
     if (amount > 0) ctx.game.dispatch({ t: 'damagePlayer', amount });
     ctx.onHurt(amount, blocked);
     if (ctx.game.state.player.health <= 0) {
+      this.cancelChannel(); // death never leaves a channel behind (A71)
       this.state = 'dead';
       this.timer = 0;
       this.blocking = false;

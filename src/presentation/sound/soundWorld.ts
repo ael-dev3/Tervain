@@ -121,6 +121,9 @@ interface Bed {
   buffer: AudioBuffer | null;
   silentFor: number;
   target: number;
+  /** Failed loads in a row, and the context time before which the loop is not fetched again (A71). */
+  failures: number;
+  retryAt: number;
 }
 
 interface PersonClock {
@@ -146,6 +149,8 @@ const UPDATE_INTERVAL = 1 / 20;
 const LISTENER_INTERVAL = 1 / 60;
 /** A bed that stays silent this long gives its decoded memory back. */
 const BED_RELEASE = 45;
+/** Backoff after a bed loop fails to load: doubles from the first value up to the cap (A71). */
+const BED_RETRY: [number, number] = [10, 120];
 /** Fight loops and stings are decoded on demand and released after this long unused. */
 const MUSIC_RELEASE = 150;
 
@@ -908,13 +913,14 @@ export class SoundWorld {
       gain.connect(panner).connect(this.outdoor.filter);
     } else if (id === 'interior' || id === 'hall_drone' || id === 'underwater') gain.connect(this.buses.ambience);
     else gain.connect(this.outdoor.filter);
-    const bed: Bed = { id, gain, panner, source: null, loading: false, buffer: null, silentFor: 0, target: 0 };
+    const bed: Bed = { id, gain, panner, source: null, loading: false, buffer: null, silentFor: 0, target: 0, failures: 0, retryAt: 0 };
     this.beds.set(id, bed);
     return bed;
   }
 
   private startBed(bed: Bed) {
-    if (bed.loading) return;
+    // A failed loop waits out its backoff instead of being fetched again on every tick (A71).
+    if (bed.loading || (!bed.buffer && this.ctx.currentTime < bed.retryAt)) return;
     const play = (buffer: AudioBuffer) => {
       if (this.disposed || bed.source || bed.target <= 0.004) return;
       const s = this.ctx.createBufferSource();
@@ -932,7 +938,13 @@ export class SoundWorld {
     bed.loading = true;
     void this.decode(WORLD_AUDIO.loops[bed.id].file).then((buffer) => {
       bed.loading = false;
-      if (!buffer || this.disposed) return;
+      if (this.disposed) return;
+      if (!buffer) {
+        bed.failures++;
+        bed.retryAt = this.ctx.currentTime + Math.min(BED_RETRY[1], BED_RETRY[0] * 2 ** (bed.failures - 1));
+        return;
+      }
+      bed.failures = 0;
       bed.buffer = buffer;
       play(buffer);
     });
@@ -1250,7 +1262,8 @@ export class SoundWorld {
       night: (frame?.world.nightness ?? 0) > 0.55,
       diegetic: this.songLevel > 0.15,
       // The actual media clock owns the end: buffering or autoplay rejection consumes no unheard piece.
-      pieceFinished: !!this.piece?.media.ended,
+      // A piece that could not start (no Audio) or whose last format failed to load never ends: count it as done (A71).
+      pieceFinished: this.pieceOver(),
       // A panel opened mid-fight pauses the fight, not its music.
       threat: frame && frame.mode !== 'dead' ? frame.threat : 'none',
     });
@@ -1351,6 +1364,13 @@ export class SoundWorld {
     gain.gain.linearRampToValueAtTime(0.85, t + fadeIn);
     this.piece = { media, source, gain };
     this.playStream(media);
+  }
+
+  /** The piece has ended, failed after its last fallback, or never existed (A71). */
+  private pieceOver(): boolean {
+    const media = this.piece?.media;
+    if (!media) return true;
+    return media.ended || (!!media.error && !media.src.endsWith('.ogg'));
   }
 
   private currentStream(media: HTMLAudioElement): boolean {

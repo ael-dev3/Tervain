@@ -843,6 +843,27 @@ describe('world sound runtime', () => {
     expect(live[0]!.disconnect).toHaveBeenCalled();
   });
 
+  it('backs off a bed loop that fails to load instead of fetching it every tick (A71)', async () => {
+    const { ctx, world, fetched } = runtime();
+    const decode = ctx.decodeAudioData.getMockImplementation()!;
+    ctx.decodeAudioData.mockImplementation(async (data: { file: string }) => {
+      if (data.file.includes('loop-sea')) throw new Error('EncodingError');
+      return decode(data);
+    });
+    await flush();
+    const seaFetches = () => fetched.filter((f) => f.includes('/loop-sea.')).length;
+    for (let i = 0; i < 40; i++) { world.update(0.05, frame(STRAND)); await flush(); }
+    // The first failure may switch the codec once; no request per tick after that.
+    const early = seaFetches();
+    expect(early).toBeGreaterThan(0);
+    expect(early).toBeLessThanOrEqual(2);
+    ctx.currentTime += 11;
+    for (let i = 0; i < 4; i++) { world.update(0.05, frame(STRAND)); await flush(); }
+    expect(seaFetches()).toBe(early + 1);
+    for (let i = 0; i < 40; i++) { world.update(0.05, frame(STRAND)); await flush(); }
+    expect(seaFetches()).toBe(early + 1);
+  });
+
   it('fades place beds in where they belong, out under a menu, and releases them when long silent', async () => {
     const { ctx, world, fetched } = runtime();
     await flush();
@@ -989,6 +1010,18 @@ describe('world sound runtime', () => {
     const held = world as unknown as { bankBuffers: Map<string, unknown>; bankLoads: Map<string, unknown> };
     expect(held.bankBuffers.size).toBe(0);
     expect(held.bankLoads.size).toBe(0);
+  });
+
+  it('moves on from a piece whose stream fails after its last fallback instead of waiting forever (A71)', async () => {
+    const { world } = runtime(1);
+    await flush();
+    for (let t = 0; t < 20; t += 0.05) world.update(0.05, frame(PLACES.rillford));
+    expect(world.musicState.phase).toBe('piece');
+    const media = FakeMedia.made.at(-1)! as FakeMedia & { error: unknown };
+    media.src = media.src.replace(/\.ogg$/, '.m4a');
+    media.error = { code: 2 };
+    world.update(0.05, frame(PLACES.rillford));
+    expect(world.musicState.phase).toBe('wait');
   });
 
   it('waits for the real stream end through buffering and gesture rejection, while threats can interrupt', async () => {

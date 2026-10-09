@@ -8,6 +8,12 @@
  *                                              only these files or folders (paths under public/models)
  *
  *   node tools/optimise-models.mjs --images     only the image step;  --geometry  only the geometry step (no sharp)
+ *   node tools/optimise-models.mjs --share      only the tree-image sharing step (no sharp)
+ *
+ * Tree images are shared (A71): a tree's near, mid and far files carry the same images, so the mid and far files drop
+ * theirs, checked byte for byte against the near file's first, and borrow the near file's textures when loaded
+ * (src/presentation/meshyTrees.ts). Their materials keep every other setting; asset.extras.tervainSharedImages names
+ * the file the images come from.
  *
  * The GLB is edited surgically: the JSON keeps every node, mesh, accessor, skin, animation, material, extension and
  * extra as it was, and every buffer view keeps its index. Images are re-encoded (below). Geometry (vertex attributes,
@@ -39,9 +45,9 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const models = path.join(root, 'public', 'models');
 const args = process.argv.slice(2);
 const dry = args.includes('--dry');
-const imagesOnly = args.includes('--images'), geometryOnly = args.includes('--geometry');
+const imagesOnly = args.includes('--images'), geometryOnly = args.includes('--geometry'), shareOnly = args.includes('--share');
 /** sharp loads only for the image step, so geometry-only runs work without it. */
-const sharp = geometryOnly ? null : (await import('sharp')).default;
+const sharp = geometryOnly || shareOnly ? null : (await import('sharp')).default;
 const only = args.filter((arg) => !arg.startsWith('--')).map((arg) => arg.replace(/\\/g, '/').replace(/^\/+|\/+$/g, ''));
 
 /** Longest side by folder prefix and role. First matching prefix wins. */
@@ -273,9 +279,55 @@ function compressGeometry(json, bin) {
   return { bin: newBin, note: `geometry ${(before / 1e6).toFixed(2)} -> ${(after / 1e6).toFixed(2)} MB meshopt` };
 }
 
-async function optimise(bytes, caps) {
+/** Material texture slots, by their glTF names. */
+const TEXTURE_SLOTS = (material) => [material.pbrMetallicRoughness?.baseColorTexture && ['pbrMetallicRoughness', 'baseColorTexture'],
+  material.pbrMetallicRoughness?.metallicRoughnessTexture && ['pbrMetallicRoughness', 'metallicRoughnessTexture'],
+  material.normalTexture && [null, 'normalTexture'], material.occlusionTexture && [null, 'occlusionTexture'],
+  material.emissiveTexture && [null, 'emissiveTexture']].filter(Boolean);
+
+/** The bytes of each image in a GLB, in order. */
+function imageBytes(json, bin) {
+  return (json.images ?? []).map((image) => {
+    const view = json.bufferViews[image.bufferView];
+    return bin.subarray(view.byteOffset ?? 0, (view.byteOffset ?? 0) + view.byteLength);
+  });
+}
+
+/**
+ * A tree's mid or far file whose images are byte for byte the near file's: drop its images, textures and samplers and
+ * its materials' texture references, and name the near file as their source (A71). The image buffer views shrink to a
+ * byte; every other view keeps its index and contents.
+ */
+function shareTreeImages(rel, json, bin) {
+  const match = /^(flora\/meshy-012\/.+)-(mid|far)\.glb$/.exec(rel);
+  if (!match || json.asset?.extras?.tervainSharedImages || !(json.images ?? []).length) return null;
+  const nearRel = `${match[1]}-near.glb`, near = readGlb(fs.readFileSync(path.join(models, nearRel)));
+  const mine = imageBytes(json, bin), theirs = imageBytes(near.json, near.bin);
+  if (mine.length !== theirs.length || mine.some((bytes, i) => !bytes.equals(theirs[i]))) return null;
+  const names = (m) => (m.materials ?? []).map((material) => material.name).join('|');
+  if (names(json) !== names(near.json)) return null;
+  const replaced = new Map();
+  for (const image of json.images) replaced.set(image.bufferView, Buffer.alloc(1));
+  for (const material of json.materials ?? []) {
+    for (const [parent, slot] of TEXTURE_SLOTS(material)) delete (parent ? material[parent] : material)[slot];
+  }
+  delete json.images; delete json.textures; delete json.samplers;
+  json.extensionsUsed = (json.extensionsUsed ?? []).filter((name) => name !== WEBP_EXT);
+  json.extensionsRequired = (json.extensionsRequired ?? []).filter((name) => name !== WEBP_EXT);
+  if (!json.extensionsUsed.length) delete json.extensionsUsed;
+  if (!json.extensionsRequired.length) delete json.extensionsRequired;
+  json.asset.extras = { ...(json.asset.extras ?? {}), tervainSharedImages: nearRel.split('/').pop() };
+  return { bin: repack(json, bin, replaced), note: `images shared with ${nearRel.split('/').pop()}` };
+}
+
+async function optimise(bytes, caps, rel) {
   let { json, bin } = readGlb(bytes);
   const notes = [];
+  if (shareOnly || (!imagesOnly && !geometryOnly)) {
+    const shared = shareTreeImages(rel, json, bin);
+    if (shared) { bin = shared.bin; notes.push(shared.note); }
+    if (shareOnly) return notes.length ? { out: writeGlb(json, bin), notes } : null;
+  }
   if (!geometryOnly) {
     const images = await optimiseImages(json, bin, caps);
     if (images) { bin = images.bin; notes.push(...images.notes); }
@@ -296,7 +348,7 @@ for (const file of files) {
   const rel = path.relative(models, file).split(path.sep).join('/');
   const bytes = fs.readFileSync(file);
   before += bytes.length;
-  const result = await optimise(bytes, CAPS.find((c) => rel.startsWith(c.prefix)));
+  const result = await optimise(bytes, CAPS.find((c) => rel.startsWith(c.prefix)), rel);
   if (!result || result.out.length >= bytes.length) { after += bytes.length; console.log(`${rel}: unchanged`); continue; }
   after += result.out.length;
   if (!dry) fs.writeFileSync(file, result.out);

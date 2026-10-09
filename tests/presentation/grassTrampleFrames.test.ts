@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { describe, expect, it, vi } from 'vitest';
-import { GrassTrample, TRAMPLE_MAX_MOVERS, TRAMPLE_RECOVERY, type GrassMover } from '../../src/presentation/grass/trample';
+import { GPU } from '../../src/presentation/skyState';
+import { GrassTrample, TRAMPLE_MAX_MOVERS, TRAMPLE_MAX_PENDING, TRAMPLE_RECOVERY, type GrassMover } from '../../src/presentation/grass/trample';
 
 interface StampPass {
   stamps: GrassMover[];
@@ -35,6 +36,28 @@ function rendererFixture() {
 }
 
 describe('grass brush stamps between fixed GPU steps', () => {
+  it('drops footprints without half-float targets and keeps only the newest when steps stall (A71)', () => {
+    const field = new GrassTrample(16, 1000, { x: 0, z: 0 });
+    const { renderer, passes, previous } = rendererFixture();
+    const half = GPU.halfTargets;
+    try {
+      GPU.halfTargets = false;
+      for (let frame = 0; frame < 2000; frame++) {
+        field.queueStamps([{ x: frame, z: 1, radius: 0.5 }]);
+        field.update(renderer, 0, 0, 1 / 60);
+      }
+      GPU.halfTargets = true;
+      field.update(renderer, 0, 0, 1 / 30);
+      expect(passes.flatMap((p) => p.stamps)).toHaveLength(0);
+      passes.length = 0;
+      field.queueStamps(Array.from({ length: TRAMPLE_MAX_PENDING + 50 }, (_, i) => ({ x: i, z: 2, radius: 0.5 })));
+      field.update(renderer, 0, 0, 1 / 30);
+      const xs = passes.flatMap((p) => p.stamps).map((s) => s.x);
+      expect(xs).toHaveLength(TRAMPLE_MAX_PENDING);
+      expect(xs[0]).toBe(50);
+    } finally { GPU.halfTargets = half; field.dispose(); previous.dispose(); }
+  });
+
   it.each([60, 120])('keeps every transient sample across %i Hz frames until the 30 Hz step consumes it', (hz) => {
     const field = new GrassTrample(16, 100, { x: 0, z: 0 });
     const { renderer, passes, previous } = rendererFixture();

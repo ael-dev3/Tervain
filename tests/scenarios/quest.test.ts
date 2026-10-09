@@ -318,3 +318,17 @@ describe('rotation settles once', () => {
     expect(g.state.inventory.coin).toBe(6 + REWARD_COIN);
   });
 });
+
+describe('guidance toward the sluice repair (A71)', () => {
+  it('keeps pointing at the quarry until both the brace and the wrench are carried', async () => {
+    const { nextHint } = await import('../../src/game/hints');
+    const game = newGame();
+    must(game, { t: 'discover', place: 'rillford' });
+    must(game, { t: 'discover', place: 'sluice' });
+    investigate(game);
+    must(game, { t: 'pickup', pickupId: 'quarry_brace', item: 'sluice_brace', qty: 1 });
+    expect(nextHint(game.state)).toEqual({ key: 'hint.get_brace', place: 'quarry' });
+    must(game, { t: 'pickup', pickupId: 'quarry_wrench', item: 'gate_wrench', qty: 1 });
+    expect(nextHint(game.state)).toEqual({ key: 'hint.stabilize', place: 'sluice' });
+  });
+});

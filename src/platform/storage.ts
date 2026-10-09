@@ -253,6 +253,12 @@ export class SaveStore {
    */
   save(slot: SlotId, state: WorldState): { ok: true } | { ok: false; message: string } {
     try {
+      // A save from a newer version of the game is never overwritten by this one, which cannot read it (A71).
+      const existing = this.store.get(this.key(slot, 'cur'));
+      if (existing !== null) {
+        const found = this.decode(existing);
+        if (!found.ok && found.kind === 'incompatible') return { ok: false, message: 'This slot holds a save from a newer version of the game; it was kept.' };
+      }
       const text = this.encode(slot, state);
       if (text.length > MAX_SAVE_BYTES) return { ok: false, message: 'Save is too large.' };
       this.store.set(this.key(slot, 'tmp'), text);

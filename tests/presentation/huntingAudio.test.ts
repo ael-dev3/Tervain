@@ -228,3 +228,42 @@ describe('local hunting recordings', () => {
     audio.dispose();
   });
 });
+
+describe('hunting load failures (A71)', () => {
+  afterEach(() => { vi.useRealTimers(); });
+
+  it('retries a failed manifest or recording after a backoff instead of staying silent for the session', async () => {
+    vi.useFakeTimers({ toFake: ['Date'] });
+    const { audio, ctx, fetch } = fixture();
+    const real = fetch.getMockImplementation()!;
+    fetch.mockImplementationOnce(async () => { throw new TypeError('network blip'); });
+    audio.setActive(true);
+    audio.sound('bow_draw');
+    await flush();
+    expect(audio.diagnostics.state).toBe('unavailable');
+    ctx.currentTime += 10;
+    audio.sound('bow_draw');
+    await flush();
+    expect(fetch).toHaveBeenCalledTimes(1);
+    vi.setSystemTime(Date.now() + 6_000);
+    ctx.currentTime += 10;
+    fetch.mockImplementation(async (url: string, options?: RequestInit) => url.endsWith('.mp3')
+      ? new Response(null, { status: 503 }) : real(url, options));
+    audio.sound('bow_draw');
+    await flush();
+    expect(audio.diagnostics.state).toBe('ready');
+    expect(ctx.sources).toHaveLength(0);
+    const calls = fetch.mock.calls.length;
+    ctx.currentTime += 10;
+    audio.sound('bow_draw');
+    await flush();
+    expect(fetch).toHaveBeenCalledTimes(calls);
+    vi.setSystemTime(Date.now() + 6_000);
+    ctx.currentTime += 10;
+    fetch.mockImplementation(real);
+    audio.sound('bow_draw');
+    await flush();
+    expect(ctx.sources).toHaveLength(1);
+    audio.dispose();
+  });
+});

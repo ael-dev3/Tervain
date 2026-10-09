@@ -8,6 +8,9 @@ export const HUNTING_SOUND_KINDS: readonly HuntingSoundKind[] = [
   'bow_draw', 'bow_release', 'arrow_flesh', 'arrow_ground', 'skinning', 'skinning_complete',
 ];
 const KINDS: ReadonlySet<string> = new Set(HUNTING_SOUND_KINDS);
+/** Bounded retries for transient load failures (A71). */
+const LOAD_TRIES = 5;
+const LOAD_BACKOFF_MS = 5_000;
 const MANIFEST_URL = `${import.meta.env.BASE_URL}assets/audio/hunting/manifest.json`;
 const MAX_VOICES = 6;
 const CAPTIONS: Record<HuntingSoundKind, string> = {
@@ -68,6 +71,8 @@ export class HuntingAudio {
   private readonly buffers = new Map<HuntingSoundKind, Promise<AudioBuffer | null>>();
   private readonly requests = new Set<AbortController>();
   private manifest: Promise<Asset[]> | null = null;
+  /** Failed loads (manifest under its own key) and when they may be tried again: a network blip is not final (A71). */
+  private readonly failures = new Map<HuntingSoundKind | 'manifest', { count: number; retryAt: number }>();
   private state: 'not loaded' | 'loading' | 'ready' | 'unavailable' = 'not loaded';
   private decoded = 0;
 
@@ -103,7 +108,19 @@ export class HuntingAudio {
     }
   }
 
+  /** Forget a failed load so a later sound retries it, with a doubling backoff and a bounded number of tries (A71). */
+  private failed(key: HuntingSoundKind | 'manifest') {
+    const count = (this.failures.get(key)?.count ?? 0) + 1;
+    this.failures.set(key, { count, retryAt: count >= LOAD_TRIES ? Infinity : Date.now() + LOAD_BACKOFF_MS * 2 ** (count - 1) });
+  }
+
+  private retryDue(key: HuntingSoundKind | 'manifest') {
+    const failure = this.failures.get(key);
+    return !!failure && Date.now() >= failure.retryAt;
+  }
+
   private loadManifest() {
+    if (this.manifest && this.retryDue('manifest')) this.manifest = null;
     if (this.manifest) return this.manifest;
     this.state = 'loading';
     const request = new AbortController();
@@ -112,31 +129,38 @@ export class HuntingAudio {
       .then(async (response) => {
         if (!response.ok) throw new Error('Hunting manifest unavailable');
         return assetsFromManifest(await response.json());
-      }).then((assets) => { this.state = assets.length ? 'ready' : 'unavailable'; return assets; })
-      .catch(() => { this.state = 'unavailable'; return [] as Asset[]; })
+      }).then((assets) => { this.state = assets.length ? 'ready' : 'unavailable'; this.failures.delete('manifest'); return assets; })
+      .catch(() => { this.state = 'unavailable'; if (!this.disposed) this.failed('manifest'); return [] as Asset[]; })
       .finally(() => { this.requests.delete(request); });
     return this.manifest;
   }
 
   private loadBuffer(kind: HuntingSoundKind): Promise<AudioBuffer | null> {
+    if (this.retryDue(kind)) this.buffers.delete(kind);
     const cached = this.buffers.get(kind);
     if (cached) return cached;
     const buffer = this.loadManifest().then(async (assets) => {
       if (this.disposed) return null;
+      if (!assets.length && this.failures.has('manifest')) {
+        // The manifest itself failed: let this kind follow the manifest's retry rather than keep a null (A71).
+        this.buffers.delete(kind);
+        return null;
+      }
       const asset = assets.find((entry) => entry.id === kind);
       if (!asset) return null;
       const request = new AbortController();
       this.requests.add(request);
       try {
         const response = await fetch(asset.url, { signal: request.signal, integrity: integrity(asset.sha256) });
-        if (!response.ok) return null;
+        if (!response.ok) { this.failed(kind); return null; }
         const data = await response.arrayBuffer();
         if (!data.byteLength || data.byteLength > 120_000 || this.disposed) return null;
         const decoded = await this.ctx.decodeAudioData(data);
         if (!Number.isFinite(decoded.duration) || decoded.duration < 0.2 || decoded.duration > 4 || this.disposed) return null;
         this.decoded++;
+        this.failures.delete(kind);
         return decoded;
-      } catch { return null; }
+      } catch { if (!this.disposed) this.failed(kind); return null; }
       finally { this.requests.delete(request); }
     }).catch(() => null);
     this.buffers.set(kind, buffer);

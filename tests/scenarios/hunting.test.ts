@@ -341,3 +341,19 @@ describe('early woodland hunting objectives', () => {
     expect(game.state.hunting['deer-mount']).toBeUndefined();
   });
 });
+
+describe('restock wording follows the hunter rank (A71)', () => {
+  it('names the arrows a hide actually buys, and no hunting text promises a fixed six', async () => {
+    const { S } = await import('../../src/content/strings');
+    const { restockParams, HUNTER_RANKS } = await import('../../src/game/hunting');
+    const s = createInitialState('slot-1');
+    s.huntTally = { taken: HUNTER_RANKS[1].taken, species: { deer: HUNTER_RANKS[1].taken } };
+    const count = HUNTER_RANKS[1].arrows;
+    for (const key of ['hunting.objective.restock', 'hunting.restocked', 'hunting.need_hide', 'prompt.restock_arrows']) {
+      expect(S(key, restockParams(s)), key).toContain(`${count} arrows`);
+    }
+    for (const key of ['loading.tip.supplies', 'item.arrow.desc', 'item.animal_hide.desc', 'hunting.guide.supplies', 'inspect.hunter_supplies', 'board.hunting']) {
+      expect(S(key), key).not.toMatch(/\bsix\b|\b6 arrows/);
+    }
+  });
+});

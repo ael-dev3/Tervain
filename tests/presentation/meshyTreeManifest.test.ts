@@ -57,6 +57,12 @@ describe('frozen supplied-tree preparation receipts', () => {
         const node = instances.find((candidate: { name: string }) => candidate.name === part.name);
         expect(node).toBeDefined(); expect(part.mesh).toBe(node.mesh); expect(part.triangles).toBe(meshTriangles[node.mesh]);
       }
+      // A mid or far file shares its near file's images and carries none (A71).
+      if (json.asset?.extras?.tervainSharedImages) {
+        expect((receipt as { sharedImages?: string }).sharedImages).toBe(`${asset.id}-near.glb`);
+        expect(json.images).toBeUndefined(); expect(receipt.images).toHaveLength(0);
+        continue;
+      }
       expect(receipt.images).toHaveLength(json.images.length);
       const jsonLength = bytes.readUInt32LE(12), binaryOffset = 28 + jsonLength;
       for (const [i, image] of json.images.entries()) {
