@@ -1,5 +1,6 @@
 import type {NativeValue} from './dialogue';
 import {NativeGameCrtOwner} from './native-game-crt';
+import {NativeGameExitTable} from './native-game-crt-exit-table';
 import {NativeMemoryAdmin} from './native-memory-admin';
 import type {NativeMemoryAllocation} from './native-memory-admin';
 import {NativeHeapCString} from './native-heap-cstring';
@@ -80,7 +81,11 @@ export class NativeGameArenaEnum {
    registry.writeUnsigned(8,51);
    registry.writeUnsigned(4,43);
    this.#trace.push('200711e6.enumNameRegistry.constructor.return');
-   throw new Error('Unowned enum name registry cleanup registration at 200719c5 -> 204637ce (20549ac0)');
+   const exit=NativeGameExitTable.forCrt(this.crt);
+   const callback=fact(exit.callbackForMethod('enumNameRegistryCleanup'));
+   const registered=fact(exit.atexit(callback));
+   this.#trace.push(registered===0?'200719c5.enumNameRegistry.cleanupRegistered':'200719c5.enumNameRegistry.cleanupReturnMinusOne');
+   throw new Error('Unowned enum name registry lookup at 200719d7 -> 200708b0');
   }catch(error){this.#boundary=error instanceof Error?error.message:String(error);return {known:false,reason:this.#boundary};}
  }
  snapshot(){return Object.freeze({boundary:this.#boundary,temporary:this.#temporary,allocation:this.#allocation,

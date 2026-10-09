@@ -3838,8 +3838,94 @@
       }
     ]
   },
+  "nameRegistryCleanup": {
+    "entry": "20549ac0",
+    "body": "20549ac0",
+    "instructions": [
+      {
+        "va": "20549ac0",
+        "bytes": "b908507b20",
+        "instruction": "MOV ECX,0x207b5008"
+      },
+      {
+        "va": "20549ac5",
+        "bytes": "e89790acff",
+        "instruction": "CALL 0x20012b61"
+      },
+      {
+        "va": "20549aca",
+        "bytes": "33c0",
+        "instruction": "XOR EAX,EAX"
+      },
+      {
+        "va": "20549acc",
+        "bytes": "3d08507b20",
+        "instruction": "CMP EAX,0x207b5008"
+      },
+      {
+        "va": "20549ad1",
+        "bytes": "7436",
+        "instruction": "JZ 0x20549b09"
+      },
+      {
+        "va": "20549ad3",
+        "bytes": "a108507b20",
+        "instruction": "MOV EAX,[0x207b5008]"
+      },
+      {
+        "va": "20549ad8",
+        "bytes": "85c0",
+        "instruction": "TEST EAX,EAX"
+      },
+      {
+        "va": "20549ada",
+        "bytes": "742d",
+        "instruction": "JZ 0x20549b09"
+      },
+      {
+        "va": "20549adc",
+        "bytes": "50",
+        "instruction": "PUSH EAX"
+      },
+      {
+        "va": "20549add",
+        "bytes": "ff15e0887d20",
+        "instruction": "CALL dword ptr [0x207d88e0]"
+      },
+      {
+        "va": "20549ae3",
+        "bytes": "8bc8",
+        "instruction": "MOV ECX,EAX"
+      },
+      {
+        "va": "20549ae5",
+        "bytes": "ff15dc887d20",
+        "instruction": "CALL dword ptr [0x207d88dc]"
+      },
+      {
+        "va": "20549aeb",
+        "bytes": "c70508507b2000000000",
+        "instruction": "MOV dword ptr [0x207b5008],0x0"
+      },
+      {
+        "va": "20549af5",
+        "bytes": "c7050c507b2000000000",
+        "instruction": "MOV dword ptr [0x207b500c],0x0"
+      },
+      {
+        "va": "20549aff",
+        "bytes": "c70510507b2000000000",
+        "instruction": "MOV dword ptr [0x207b5010],0x0"
+      },
+      {
+        "va": "20549b09",
+        "bytes": "c3",
+        "instruction": "RET"
+      }
+    ],
+    "bodyInstructionBytesSha256": "d9e6aa8825d31b1b9f0dfdbe3c8dc8c769d205d52b92f4a8b864c64aa857cff3"
+  },
   "pendingCleanupCallbacks": [
-    "20549ac0",
     "20549a60"
   ],
   "images": [

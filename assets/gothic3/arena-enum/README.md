@@ -40,9 +40,12 @@ initializers; copying the visible enum label alone does not recover their state.
 The capture now includes both registry constructors and lookup bodies, the name
 registry reserve/find bodies and the descriptor value-array reserve body. It
 also retains the original registry and guard storage with PE section evidence.
-Cleanup targets `20549ac0` and `20549a60` are recorded as pending; their complete
-bodies are not admitted by this package. The original functions CSV omits these
-cleanup targets, so they require targeted recovery before callback admission.
+The original functions CSV omits cleanup targets `20549ac0` and `20549a60`.
+Targeted recovery now captures the complete name-registry callback `20549ac0`
+through its RET at `20549b09`: sixteen instructions, 74 PE-verified bytes.
+Generated exact-source admission supplies its exit-table receipt. Its actual
+registration completes and retains original order; shutdown execution remains
+unfinished. Value-registry cleanup `20549a60` still requires recovery.
 
 ## Canonical Game image integration
 

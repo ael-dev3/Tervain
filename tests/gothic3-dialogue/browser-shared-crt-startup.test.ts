@@ -45,7 +45,7 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  expect(game.known).toBe(true);
  if(!game.known)throw new Error(game.reason);
  expect(game.value.attachResult).toEqual({known:false,
-  reason:'crtAttach204677e4: Unowned Translated Arena Status initializer pending: Unowned enum name registry cleanup registration at 200719c5 -> 204637ce (20549ac0)'});
+  reason:'crtAttach204677e4: Unowned Translated Arena Status initializer pending: Unowned enum name registry lookup at 200719d7 -> 200708b0'});
  const diagnostic=NativeSharedMessageDebug.forPlatform(platform).snapshot(),locale=diagnostic.formatterLocale!;
  expect(diagnostic.messageOwner).toBe(runtime.message);
  expect(diagnostic.messageGetterReturned).toBe(true);
@@ -89,6 +89,7 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  expect(buckets.bytes.subarray(0,204).every(byte=>byte===0)).toBe(true);
  expect(buckets.knownMask.subarray(0,204).every(byte=>byte===255)).toBe(true);
  expect(enumState.trace).toContain('200711e6.enumNameRegistry.constructor.return');
+ expect(enumState.trace).toContain('200719c5.enumNameRegistry.cleanupRegistered');
  expect(enumState.temporary!.snapshot().destroyed).toBe(false);
  expect(enumState.initializerReturned).toBe(false);
  expect(enumState.valueInserted).toBe(false);

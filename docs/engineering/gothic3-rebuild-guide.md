@@ -13,6 +13,18 @@ finishable campaign.
 
 ## How the rebuild works
 
+### Current local checkpoint: enum name registry cleanup registers
+
+Targeted recovery captures callback `20549ac0` through its final RET at
+`20549b09`: sixteen instructions and 74 bytes, checked against the matching
+Game PE. Exact generated JSON admission supplies this callback's receipt to
+both exit-table capability construction and registration validation. The
+actual `_atexit` registration completes without invoking shutdown.
+Startup reaches name lookup at `200719d7 -> 200708b0`. Typechecking, seven
+focused checks and independent exact regeneration pass. The value registry
+cleanup target `20549a60` remains unadmitted; enum insertion and campaign
+completion remain unfinished. This checkpoint is local and undeployed.
+
 ### Current local checkpoint: enum name registry constructs
 
 The enum naming path sets the original name-registry guard bit and zeros the

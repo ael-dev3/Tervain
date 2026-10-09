@@ -7,6 +7,7 @@ import { NativeGameCrtOwner } from './native-game-crt';
 import { gameCinitStaticFiniReceipt } from './native-game-crt-cinit-source';
 import { gameArenaRootCleanupReceipt } from './native-game-arena-root-source';
 import statusCleanupSource from '../../assets/gothic3/status-cleanup/source.json';
+import {arenaEnumNameCleanupReceipt} from './native-game-arena-enum-source';
 
 function statusCleanupReceipt() {
   const method=statusCleanupSource.module.methods[0]!;
@@ -68,7 +69,7 @@ export class NativeGameExitTable {
     if (this.boundary) return unknown(this.boundary);
     const old = this.callbacks.get(label);
     if (old) return known(old);
-    const method = label === 'staticFiniWalker' ? gameCinitStaticFiniReceipt() : label==='arenaRootCleanup' ? gameArenaRootCleanupReceipt() : label==='arenaStatusCleanup' ? statusCleanupReceipt() : this.crt.sourceProfile.heapRules.methods[label];
+    const method = label === 'staticFiniWalker' ? gameCinitStaticFiniReceipt() : label==='arenaRootCleanup' ? gameArenaRootCleanupReceipt() : label==='arenaStatusCleanup' ? statusCleanupReceipt() : label==='enumNameRegistryCleanup' ? arenaEnumNameCleanupReceipt() : this.crt.sourceProfile.heapRules.methods[label];
     const entryChain = (method as typeof method & { readonly entryChain?: readonly {
       readonly va: string; readonly bytes: string; readonly targetVA: string;
     }[] } | undefined)?.entryChain;
@@ -247,6 +248,7 @@ export class NativeGameExitTable {
       const method = receipt && (receipt.label === 'staticFiniWalker' ? gameCinitStaticFiniReceipt()
         : receipt.label === 'arenaRootCleanup' ? gameArenaRootCleanupReceipt()
         : receipt.label === 'arenaStatusCleanup' ? statusCleanupReceipt()
+        : receipt.label === 'enumNameRegistryCleanup' ? arenaEnumNameCleanupReceipt()
         : this.crt.sourceProfile.heapRules.methods[receipt.label]);
       if (!receipt || receipt.crt !== this.crt || receipt.entry !== callback.entry || receipt.entry !== method?.entry ||
           receipt.body !== method?.body || receipt.hash !== method?.bodyInstructionBytesSha256 || callback.module !== 'Game') {
