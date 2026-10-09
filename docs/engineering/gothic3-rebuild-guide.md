@@ -182,7 +182,7 @@ build pass at `06d998a8`. This checkpoint merged in
 `ee0a6c2c9129dd3749b51aad6314cfa850795a72` after successful
 [validation](https://github.com/ael-dev3/Tervain/actions/runs/37874648063).
 Its [Pages deployment](https://github.com/ael-dev3/Tervain/actions/runs/37875181203)
-is running.
+completed successfully.
 Formatting, insertion into ErrorAdmin's ring buffer and cleanup remain pending.
 
 Local revision `fdbac97f` executes the original `sprintf` and output engine using
@@ -194,6 +194,15 @@ checks, typechecking, independent evidence regeneration and the production build
 pass. All 3,020 tests across 278 files passed in 309.13 seconds at `fdbac97f`.
 Ring insertion, cleanup and callback
 return remain pending; these continuations still have no production callers.
+
+Local revision `6b77e3be` executes original ring insertion, padded record copying,
+full-ring removal and cursor wrapping. It frees the same formatting allocation,
+returns from ErrorAdmin and reaches SpyAdmin's stored callback at `100494db`.
+The scratch areas use canonical mapped-image storage; reacquisition preserves
+their contents and CRT alignment geometry. Four focused checks, typechecking,
+independent evidence regeneration and the build pass. All 3,023 tests across 278
+files passed in 315.11 seconds at `6b77e3be`. MessageAdmin's section remains held
+until dispatch completes.
 
 - [Detailed workflow and reference paths](gothic3-rebuild-workflow.md)
 - [Architecture and implementation background](gothic3-rebuild-overview.md)

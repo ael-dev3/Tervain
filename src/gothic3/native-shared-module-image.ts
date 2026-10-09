@@ -9,6 +9,7 @@ import { NativeHeapObjectViews } from './native-heap-views';
 import type { NativeMemoryBacking } from './native-memory-admin';
 import type { NativeBytePointer } from './native-pointer-geometry';
 import { NativeRuntimePlatform } from './native-runtime-platform';
+import dllEntrySource from '../../assets/gothic3/shared-dll-entry-source/source.json';
 import { admitNativeSharedGuidNullSource, nativeSharedImageReceipt } from './native-shared-guid-null-profile';
 
 const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
@@ -18,7 +19,7 @@ const constructionToken = Object.freeze({});
 type CStringLabel = 'emptyCStringText' | 'guidEmptyLiteral';
 type GuidImageLabel = 'guidNullSourceLiteral' | 'guidNullPayload' | 'cppInitializers' | 'cInitializers';
 interface ImageRange {
-  readonly address: number; readonly length: number; readonly label: GuidImageLabel | CStringLabel | 'propertySingleton';
+  readonly address: number; readonly length: number; readonly label: GuidImageLabel | CStringLabel | 'propertySingleton' | 'dllErrorLogScratch' | 'dllErrorLogDiscard';
   readonly backing: NativeMemoryBacking; readonly identity: object;
   readonly bytes: Uint8Array; readonly masks: Uint8Array;
   readonly byteBuffer: ArrayBufferLike; readonly maskBuffer: ArrayBufferLike;
@@ -144,7 +145,7 @@ export class NativeSharedModuleImage {
       return known(undefined);
     } catch (error) { return unknown(error instanceof Error ? error.message : String(error)); }
   }
-  #acquire(label: GuidImageLabel | CStringLabel | 'propertySingleton', receipt: {
+  #acquire(label: GuidImageLabel | CStringLabel | 'propertySingleton' | 'dllErrorLogScratch' | 'dllErrorLogDiscard', receipt: {
     address: string; bytes: number; raw: string; knownMask: string;
   }): NativeHeapObjectViews {
     const state = stateFor(this), address = parseSpan(receipt.address, receipt.bytes);
@@ -221,6 +222,14 @@ export class NativeSharedModuleImage {
       state.guidRanges = Object.freeze({ source, payload, cppInitializers, cInitializers, slot: slot.value });
       return known(state.guidRanges);
     } catch (error) { return unknown(error instanceof Error ? error.message : String(error)); }
+  }
+  /** Original ErrorAdmin scratch storage, shared with CRT alignment geometry. */
+  errorLogScratch(label:'dllErrorLogScratch'|'dllErrorLogDiscard'):NativeValue<NativeHeapObjectViews>{
+    try{
+      stateFor(this);const address=label==='dllErrorLogScratch'?'10143ef8':'10144028',receipt=dllEntrySource.coldImages.find(row=>row.label===label);
+      if(dllEntrySource.inputSha256!==sharedBase||!receipt||receipt.address!==address||receipt.size!==250||receipt.bytes!=='00'.repeat(250))throw new Error('Original SharedBase ErrorAdmin scratch receipt required');
+      return known(this.#acquire(label,{address,bytes:250,raw:receipt.bytes,knownMask:'ff'.repeat(250)}));
+    }catch(error){return unknown(error instanceof Error?error.message:String(error));}
   }
   /** Exact loader-zero singleton and guard, acquired once per SharedBase image. */
   propertySingletonRanges(): NativeValue<NativeSharedPropertySingletonRanges> {

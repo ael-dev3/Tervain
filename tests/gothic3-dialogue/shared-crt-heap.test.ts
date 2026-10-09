@@ -1,5 +1,6 @@
 import type {NativeWin32FileSystemSelection} from '../../src/gothic3/native-win32-file-system';
 import {NativeSharedVersionResource} from '../../src/gothic3/native-shared-version-resource';
+import {NativeSharedModuleImage} from '../../src/gothic3/native-shared-module-image';
 import versionObservation from '../../assets/gothic3/shared-dll-entry-source/windows-version-api-observation.json';
 import {nativeVirtualX86CpuSelection, retainNativeX86ThreadStackSelection} from '../../src/gothic3/native-x86-thread-stack-profile';
 import type {NativeX86CpuSelection} from '../../src/gothic3/native-x86-thread-stack-profile';
@@ -1632,6 +1633,42 @@ owner.processDllSpieAllocateDescriptor();
  owner.processDllSpieInitDescriptorSection();return {owner,platform};
 }
 
+it('executes original ErrorAdmin full-ring overwrite with wrapped cursors',()=>{
+ const {owner}=originalFileOpenFixture({cwd:'C:/Gothic3',directories:['C:/','C:/Gothic3'],files:[]});
+ owner.processDllSpieCreateFile();owner.processDllSpieTerminate();owner.processDllMessageTerminate();owner.processDllMessageLog();owner.processDllErrorLogCallback();owner.processDllErrorLogAllocation();owner.processDllErrorLogFormatting();
+ const before=owner.snapshot(),buffer=before.initializerAllocations.at(-1)!,holder=before.dllFormatImages['10142a58']!.pointer<{fields:NativeHeapObjectViews;offset:number}>(32).get()!.fields,records=holder.pointer<{fields:NativeHeapObjectViews;offset:number}>(0).get()!.fields;
+ expect(holder.readUnsigned(4)).toBe(50);records.bytes.fill(92);records.knownMask.fill(255);const preserved=records.bytes.slice(0,49*250),old=records.bytes.slice(49*250,50*250);
+ holder.writeUnsigned(8,49);holder.writeUnsigned(12,49);holder.writeUnsigned(16,1,1);
+ expect(owner.processDllErrorLogInsertion()).toEqual({known:false,reason:'Original SharedBase SpyAdmin log callback pending at 100494db'});
+ expect(holder.readUnsigned(8)).toBe(0);expect(holder.readUnsigned(12)).toBe(0);expect(holder.readUnsigned(16,1)).toBe(1);expect(records.bytes.slice(0,49*250)).toEqual(preserved);
+ const after=owner.snapshot();expect(after.dllFormatImages['10144028']!.bytes).toEqual(old);expect(records.bytes.slice(49*250,50*250)).toEqual(after.dllFormatImages['10143ef8']!.bytes);expect(buffer.backing.freed).toBe(true);expect(after.messageSectionHeld).toBe(true);
+ expect(after.caseState!.stack!.snapshot().calls.findLast(row=>row.site==='1002250e')!.returned).toBe(true);
+},30_000);
+it('rejects damaged ErrorAdmin insertion return and input before changing the ring',()=>{
+ for(const displacement of [0,4]){
+  const {owner}=originalFileOpenFixture({cwd:'C:/Gothic3',directories:['C:/','C:/Gothic3'],files:[]});
+  owner.processDllSpieCreateFile();owner.processDllSpieTerminate();owner.processDllMessageTerminate();owner.processDllMessageLog();owner.processDllErrorLogCallback();owner.processDllErrorLogAllocation();owner.processDllErrorLogFormatting();
+  const before=owner.snapshot(),buffer=before.initializerAllocations.at(-1)!,holder=before.dllFormatImages['10142a58']!.pointer<{fields:NativeHeapObjectViews;offset:number}>(32).get()!.fields,records=holder.pointer<{fields:NativeHeapObjectViews;offset:number}>(0).get()!.fields,bytes=records.bytes.slice(),masks=records.knownMask.slice(),state=holder.bytes.slice(),stack=before.caseState!.stack!.snapshot(),call=stack.calls.at(-1)!;
+  new NativeHeapObjectViews(stack.sharedDllResourceFrame!.handle.backing,call.position+displacement,4).writeUnsigned(0,0);
+  const result=owner.processDllErrorLogInsertion();expect(result.known).toBe(false);if(result.known)throw new Error('Damaged insertion accepted');expect(result.reason).toMatch(/insertion return frame|expression slot/);
+  expect(records.bytes).toEqual(bytes);expect(records.knownMask).toEqual(masks);expect(holder.bytes).toEqual(state);expect(buffer.backing.freed).toBe(false);expect(owner.snapshot().messageSectionHeld).toBe(true);
+ }
+},30_000);
+it('executes original ErrorAdmin ring insertion and frees its formatting allocation',()=>{
+ const {owner,platform}=originalFileOpenFixture({cwd:'C:/Gothic3',directories:['C:/','C:/Gothic3'],files:[]});
+ owner.processDllSpieCreateFile();owner.processDllSpieTerminate();owner.processDllMessageTerminate();owner.processDllMessageLog();owner.processDllErrorLogCallback();owner.processDllErrorLogAllocation();owner.processDllErrorLogFormatting();
+ const before=owner.snapshot(),buffer=before.initializerAllocations.at(-1)!,holder=before.dllFormatImages['10142a58']!.pointer<{fields:NativeHeapObjectViews;offset:number}>(32).get()!.fields,records=holder.pointer<{fields:NativeHeapObjectViews;offset:number}>(0).get()!.fields;
+ expect(owner.processDllErrorLogInsertion()).toEqual({known:false,reason:'Original SharedBase SpyAdmin log callback pending at 100494db'});
+ const expected=new Uint8Array(250);expected.set(new TextEncoder().encode('-'.repeat(75)+", Z:#472 -> '.\\kernel\\ge_message.cpp'"));
+ expect(records.bytes.slice(0,250)).toEqual(expected);expect(records.knownMask.slice(0,250)).toEqual(new Uint8Array(250).fill(255));
+ expect(holder.readUnsigned(8)).toBe(0);expect(holder.readUnsigned(12)).toBe(1);expect(holder.readUnsigned(16,1)).toBe(0);expect(buffer.backing.freed).toBe(true);
+ const after=owner.snapshot(),stack=after.caseState!.stack!.snapshot();expect(after.messageSectionHeld).toBe(true);
+ for(const site of ['10022680','1002251f','1002252f','1002253f','10022686'])expect(stack.calls.findLast(row=>row.site===site)!.returned).toBe(true);
+ expect(stack.calls.find(row=>row.site==='100494db')!.returned).toBe(true);expect(stack.trace).toContain('10023423.sharedInitializer.MOVSW');
+ const image=NativeSharedModuleImage.forPlatform(platform);if(!image.known)throw new Error(image.reason);const scratch=image.value.errorLogScratch('dllErrorLogScratch');if(!scratch.known)throw new Error(scratch.reason);
+ expect(scratch.value).toBe(after.dllFormatImages['10143ef8']);expect(scratch.value.bytes[0]).toBe(45);expect(NativeRuntimePlatform.canonicalNativePointerModulo4ForPlatform(platform,{fields:scratch.value,offset:1})).toEqual({known:true,value:1});
+ const calls=stack.calls.length;expect(owner.processDllErrorLogInsertion()).toEqual({known:false,reason:'Original SharedBase SpyAdmin log callback pending at 100494db'});expect(owner.snapshot().caseState!.stack!.snapshot().calls).toHaveLength(calls);
+},30_000);
 it('executes original ErrorAdmin sprintf against its actual callback arguments',()=>{
  const {owner}=originalFileOpenFixture({cwd:'C:/Gothic3',directories:['C:/','C:/Gothic3'],files:[]});
  owner.processDllSpieCreateFile();owner.processDllSpieTerminate();owner.processDllMessageTerminate();owner.processDllMessageLog();owner.processDllErrorLogCallback();owner.processDllErrorLogAllocation();
