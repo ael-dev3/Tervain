@@ -1,9 +1,15 @@
 import { createInitialState } from '../game/state';
 import { normalizeEquippedWeapon, normalizeInventory, normalizeQuickSlots } from '../game/inventory';
-import { normalizeHunting, normalizeHuntTally } from '../game/hunting';
+import { ARROW_QUIVER_CAPACITY, normalizeHunting, normalizeHuntTally } from '../game/hunting';
 import { validMapMarker } from '../game/map';
 import { ARMED_START_REVISIONS, CONTENT_REVISION, NPC_IDS, SAVE_FORMAT_VERSION, WRECK_BLADE_PICKUP, type WorldState } from '../game/types';
 import { GAME_BUILD } from '../version';
+import type { Allocation, GateState, QuestPhase } from '../game/types';
+
+/** The values the game writes for these fields, so a save holding anything else is caught (A72). */
+const QUEST_PHASES = ['unseen', 'investigating', 'decision_ready', 'committed', 'settled'] as const satisfies readonly QuestPhase[];
+const GATE_STATES = ['damaged', 'jammed', 'stabilized'] as const satisfies readonly GateState[];
+const ALLOCATIONS = ['rillford', 'quarry', 'rotation'] as const satisfies readonly Allocation[];
 
 /**
  * Local saves behind a narrow adapter (architecture.md, "Saves and progression continuity").
@@ -144,6 +150,9 @@ export function reviveState(raw: unknown): WorldState | null {
   if (!isObj(q) || !isObj(p) || !isNum(raw.clock)) return null;
   if (!isNum(p.x) || !isNum(p.y) || !isNum(p.z) || !isNum(p.yaw) || !isNum(p.health)) return null;
   if (typeof q.phase !== 'string' || typeof q.gate !== 'string') return null;
+  // A damaged or hand-edited save must not carry values the game never writes (A72): an unknown phase or gate state is
+  // refused, an unknown allocation dropped.
+  if (!(QUEST_PHASES as readonly string[]).includes(q.phase) || !(GATE_STATES as readonly string[]).includes(q.gate)) return null;
   if (!isObj(raw.npcs) || !isObj(raw.inventory) || !isObj(raw.facts)) return null;
 
   const merged: WorldState = {
@@ -151,7 +160,10 @@ export function reviveState(raw: unknown): WorldState | null {
     ...(raw as unknown as WorldState),
     quest: { ...base.quest, ...(q as unknown as WorldState['quest']) },
     player: { ...base.player, ...(p as unknown as WorldState['player']) },
-    offenses: { pending: [], known: [], ...(isObj(raw.offenses) ? (raw.offenses as unknown as WorldState['offenses']) : {}) },
+    offenses: {
+      pending: isObj(raw.offenses) && Array.isArray(raw.offenses.pending) ? (raw.offenses.pending as unknown[]).filter(isObj) as unknown as WorldState['offenses']['pending'] : [],
+      known: isObj(raw.offenses) && Array.isArray(raw.offenses.known) ? (raw.offenses.known as unknown[]).filter(isObj) as unknown as WorldState['offenses']['known'] : [],
+    },
     npcs: { ...base.npcs },
     inventory: normalizeInventory(raw.inventory),
     quickSlots: normalizeQuickSlots(raw.quickSlots),
@@ -165,8 +177,21 @@ export function reviveState(raw: unknown): WorldState | null {
   };
   for (const id of NPC_IDS) {
     const n = (raw.npcs as Record<string, unknown>)[id];
-    if (isObj(n)) merged.npcs[id] = { ...base.npcs[id], ...(n as unknown as WorldState['npcs'][typeof id]) };
+    if (!isObj(n)) continue;
+    const was = base.npcs[id];
+    // Each field only when it has its own type; anything else keeps the starting value (A72).
+    merged.npcs[id] = {
+      ...was,
+      available: typeof n.available === 'boolean' ? n.available : was.available,
+      cause: typeof n.cause === 'string' || n.cause === null ? n.cause : was.cause,
+      trust: isNum(n.trust) ? n.trust : was.trust,
+      met: typeof n.met === 'boolean' ? n.met : was.met,
+    };
   }
+  if (merged.quest.allocation !== null && !(ALLOCATIONS as readonly unknown[]).includes(merged.quest.allocation)) merged.quest.allocation = null;
+  if (!isNum(merged.playSeconds) || merged.playSeconds < 0) merged.playSeconds = 0;
+  // The quiver never holds more than it can (A72).
+  if ((merged.inventory.arrow ?? 0) > ARROW_QUIVER_CAPACITY) merged.inventory = { ...merged.inventory, arrow: ARROW_QUIVER_CAPACITY };
   if (!isNum(merged.player.maxHealth) || merged.player.maxHealth <= 0) merged.player.maxHealth = base.player.maxHealth;
   merged.player.health = Math.max(0, Math.min(merged.player.maxHealth, merged.player.health));
   if (typeof merged.player.mount !== 'string' || !/^[0-9]{1,20}$/.test(merged.player.mount)) delete merged.player.mount;

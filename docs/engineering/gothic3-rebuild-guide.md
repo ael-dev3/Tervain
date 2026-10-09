@@ -13,6 +13,30 @@ finishable campaign.
 
 ## How the rebuild works
 
+### Local checkpoint: pointer templates and their original allocator pool
+
+At runtime revision `f511a790`, the selected `PAV` class-pointer template argument
+uses the recovered Game DName operations and SharedBase's original 49..56-byte
+allocation pool. Six demangler functions (1,077 instructions) and seven pool
+functions (288 instructions) are captured against the matching original binaries.
+The capture generators reproduce their outputs byte for byte.
+
+Startup returns from 64 original class-name initializers and retains 65 shutdown
+callbacks. It next stops at `204b17d0 -> 20011d06`, whose descriptor is
+`.?AV?$bTValArray@M@@`; primitive template arguments remain unsupported here.
+Typechecking and five focused checks pass. The complete suite passes 3,180 tests
+across 293 files in 437.35 seconds; the production build passes in 44.78 seconds.
+An actual production browser enters Ardea with 202 scene objects, 70 character
+resources and 3,400 environment/startup operations, confirming that next boundary.
+NPC activation still has 0/16 attached property sets at the unconnected ScriptAdmin
+getter. Full startup, world activation, campaign saves and an ending remain unfinished.
+
+The preceding class-name family checkpoint merged through
+[PR #197](https://github.com/ael-dev3/Tervain/pull/197) as
+`41a9391b1173628e19c7b1f6ab693c0e1179d06b` after its CI build passed.
+Its Pages deployment is still running at the time of this record. The pointer
+checkpoint above is local and has not yet been deployed.
+
 ### Practical sequence
 
 1. Inventory the installed game at `C:\Program Files (x86)\Steam\steamapps\common\Gothic 3`.
