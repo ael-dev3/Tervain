@@ -76,6 +76,19 @@ this latest continuation and publication remain pending. The preceding
 wrapper-entry checkpoint passed 3,199 tests across 298 files and a production
 build. These results establish startup progress, not a playable campaign.
 
+### Browser verification of the FreePoint continuation
+
+The production build completed in 40.50 seconds. In a local production
+preview, Enter Ardea and the model inspector loaded. Selecting
+`Ardea_OutNovice_01` showed its original 11,280-triangle body/head pair.
+The developer panel reported startup stopping at `204b23d0`, confirming the
+continuation reaches the Label initializer in the browser too. The panel
+also reported 0/16 attached property sets and the unconnected Game ScriptAdmin
+getter, so this check does not establish live NPC activation or campaign play.
+
+The next helper's reproducible original instructions and image regions are
+recorded in `assets/gothic3/label-startup/`; its runtime execution is pending.
+
 ### Earlier checkpoint: FreePoint wrapper initialization enters
 
 The actual initializer CALL at `204b216a` enters captured wrapper body
