@@ -3,12 +3,12 @@
  * Unknown bits remain unconstrained. Carry and accumulated predicate state
  * suffice to cover every completion without exponential enumeration. */
 import type { NativeValue } from './dialogue';
-export function gameStrlenDwordCandidate(value: number, knownMask: number): NativeValue<boolean> {
+export function gameStrlenDwordCandidate(value: number, knownMask: number, selectedMask = 0x81010100): NativeValue<boolean> {
   // State bit: carry in bit 0, any selected predicate bit in bit 1.
   let states = new Set<number>([0]);
   for (let bit = 0; bit < 32; bit++) {
     const constant = (0x7efefeff >>> bit) & 1;
-    const selected = ((0x81010100 >>> bit) & 1) !== 0;
+    const selected = ((selectedMask >>> bit) & 1) !== 0;
     const known = ((knownMask >>> bit) & 1) !== 0;
     const fixed = (value >>> bit) & 1;
     const next = new Set<number>();

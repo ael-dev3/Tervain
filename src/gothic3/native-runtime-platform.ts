@@ -1615,6 +1615,32 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
     // address ordering is used to compare these disjoint byte intervals.
     return known('forward');
   }
+  /** Explicit virtual HeapReAlloc profile: relocate, preserve physical bytes
+   * and opaque pointer sidecars, and retain unknown extension bytes. */
+  win32HeapReAlloc(heap: NativeWin32HeapCapability, flags: 0, pointer: NativeBytePointer,
+    bytes: number, profile: 'move-preserve-unknown-extension'): NativeValue<NativeMemoryBacking | null> {
+    if (profile !== 'move-preserve-unknown-extension' || flags !== 0 ||
+        !Number.isInteger(bytes) || bytes <= 0 || bytes > 0xffffffff)
+      return unknown('Explicit virtual HeapReAlloc profile and positive uint32 request required');
+    const retained = this.#winHeaps.get(heap.identity);
+    const geometry = this.#resolveNativePointer(pointer);
+    if (!retained || retained.capability !== heap || retained.destroyed || !geometry.known)
+      return unknown('Actual live HeapReAlloc heap and retained pointer required');
+    const old = geometry.value.canonicalBacking, entry = this.#backing.get(old.identity);
+    if (!entry || entry.backing !== old || entry.kind !== 'win32-heap' ||
+        !retained.allocations.has(old) || old.freed || this.#releasedBackings.has(old) ||
+        geometry.value.offset !== 0 || geometry.value.allocationBegin !== 0)
+      return unknown('HeapReAlloc requires this heap’s live allocation base');
+    const allocated = this.#win32HeapAlloc(heap, 0, bytes);
+    if (!allocated.known || allocated.value === null) return allocated;
+    const moved = allocated.value;
+    new NativeHeapObjectViews(moved).copyAllocationBytesFrom(new NativeHeapObjectViews(old),
+      Math.min(old.bytes.length, bytes));
+    // Once allocation and copying succeed, the selected operation owns release;
+    // an overridable public HeapFree method cannot intercept that transition.
+    this.#releasedBackings.add(old); old.freed = true; this.bytesOwned -= old.bytes.length;
+    return known(moved);
+  }
   win32HeapFree(heap: NativeWin32HeapCapability, flags: 0, backing: NativeMemoryBacking): NativeValue<boolean> {
     const retained = this.#winHeaps.get(heap.identity), entry = this.#backing.get(backing.identity);
     if (!retained || retained.capability !== heap || retained.destroyed || flags !== 0 ||

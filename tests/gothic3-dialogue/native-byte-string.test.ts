@@ -56,12 +56,15 @@ describe('source-owned UnMangle space search', () => {
     backing.bytes.set([0, 0x20, 0x80, 255]);
     expect(fact(findNativeSpace(platform, { fields: new NativeHeapObjectViews(backing), offset: 0 }))).toBeNull();
   });
-  it('preserves DWORD overreads beyond NUL and rejects unretained or unknown padding', () => {
+  it('preserves DWORD overreads and resolves only provable masked terminal words', () => {
     const short = fixture(1), accesses: string[] = [];
     const fields = new ObservedViews(short.backing, 'read', accesses);
     expect(findNativeSpace(short.platform, { fields, offset: 0 }).known).toBe(false);
     expect(accesses).toEqual(['read:0:4']);
     const masked = fixture(4); masked.backing.knownMask[3] = 0;
+    expect(fact(findNativeSpace(masked.platform, { fields: new NativeHeapObjectViews(masked.backing), offset: 0 }))).toBeNull();
+    expect(masked.backing.knownMask[3]).toBe(0);
+    masked.backing.bytes.set([65,65,65,0]);
     expect(findNativeSpace(masked.platform, { fields: new NativeHeapObjectViews(masked.backing), offset: 0 }).known).toBe(false);
   });
   it('handles high-bit byte lanes using the original wrapped DWORD detector', () => {

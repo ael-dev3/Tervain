@@ -1,4 +1,5 @@
 import type { NativeValue } from './dialogue';
+import { gameClassNameDestructorMatches } from './native-game-class-name-family-source';
 import { NativeHeapObjectViews } from './native-heap-views';
 import type { NativeMemoryBacking } from './native-memory-admin';
 import type { NativeBytePointer } from './native-pointer-geometry';
@@ -21,7 +22,7 @@ export interface NativeGameCrtCallback {
 }
 
 /** Physical Game CRT onexit globals and their actual mode-1 heap table.
- * Full table traversal and any reallocating path remain unowned. */
+ * Normal-mode table relocation is supported; full traversal remains unowned. */
 export class NativeGameExitTable {
   private readonly allocatedTables: NativeMemoryBacking[] = [];
   private readonly tablePointers = new WeakMap<object, Map<number, NativeBytePointer>>();
@@ -78,7 +79,7 @@ export class NativeGameExitTable {
       method.body === '20549170' && method.bodyInstructionBytesSha256 === '8cc43ebdc7f754d959b0231ff1019c30c0c24396a71d3f03827b97e58b0e2f4e' &&
       entryChain?.length === 1 && entryChain[0]?.va === '20007a81' && entryChain[0]?.bytes === 'e9ea165400' && entryChain[0]?.targetVA === '20549170';
     if (!method || method.module !== 'Game' ||
-        (method.entry !== method.body && !exactNavigationDestructorThunk && !exactScriptAdminDestructorThunk && !exactArenaDestructorThunk && !exactStatusDestructorThunk && !exactLayerBaseDestructorThunk && !exactObjectRefDestructorThunk) ||
+        (method.entry !== method.body && !exactNavigationDestructorThunk && !exactScriptAdminDestructorThunk && !exactArenaDestructorThunk && !exactStatusDestructorThunk && !exactLayerBaseDestructorThunk && !exactObjectRefDestructorThunk && !gameClassNameDestructorMatches(label,method)) ||
         !/^[0-9a-f]{8}$/.test(method.entry) || !/^[0-9a-f]{64}$/.test(method.bodyInstructionBytesSha256)) {
       return unknown('Complete pinned Game method receipt required for an onexit callback');
     }
@@ -170,7 +171,7 @@ export class NativeGameExitTable {
       return unknown('Original onexit cell store after NULL table pointer lacks retained allocation backing');
     }
     const geometry = this.crt.byteGeometry();
-    const beginGeometry = geometry.resolveNativePointer(begin);
+    let beginGeometry = geometry.resolveNativePointer(begin);
     if (!beginGeometry.known) return beginGeometry;
     const endGeometry = geometry.resolveNativePointer(end);
     if (!endGeometry.known) return endGeometry;
@@ -197,19 +198,36 @@ export class NativeGameExitTable {
       const requested = ((size.value >>> 0) + increment) >>> 0;
       if (requested >= (size.value >>> 0)) {
         this.trace.push('reallocCrt20468416.attempt(' + requested + ')');
-        return unknown('_realloc20477d87 inside the admitted reallocCrt20468416; growth result and storage relocation are unowned');
+        const grown = this.call('reallocCrt20468416', () => this.crt.reallocCrt(begin,requested));
+        if (!grown.known) return grown;
+        if (grown.value) {
+          this.allocatedTables.push(grown.value);
+          beginGeometry = geometry.resolveNativePointer(this.pointer(grown.value,0));
+          if (!beginGeometry.known) return beginGeometry;
+        } else {
+          const fallback = ((size.value >>> 0)+0x10) >>> 0;
+          if (fallback < (size.value >>> 0)) return known(null);
+          const retried = this.call('reallocCrt20468416.fallback', () => this.crt.reallocCrt(begin,fallback));
+          if (!retried.known) return retried;
+          if (!retried.value) return known(null);
+          this.allocatedTables.push(retried.value);
+          beginGeometry = geometry.resolveNativePointer(this.pointer(retried.value,0));
+          if (!beginGeometry.known) return beginGeometry;
+        }
+      } else {
+        const fallback = ((size.value >>> 0) + 0x10) >>> 0;
+        if (fallback < (size.value >>> 0)) return known(null);
+        const grown = this.call('reallocCrt20468416.fallback', () => this.crt.reallocCrt(begin,fallback));
+        if (!grown.known) return grown;
+        if (!grown.value) return known(null);
+        this.allocatedTables.push(grown.value);
+        beginGeometry = geometry.resolveNativePointer(this.pointer(grown.value,0));
+        if (!beginGeometry.known) return beginGeometry;
       }
-      const fallback = ((size.value >>> 0) + 0x10) >>> 0;
-      if (fallback < (size.value >>> 0)) {
-        this.trace.push('onexitAppend204636aa.fallback-growth-overflow-returnNULL');
-        return known(null);
-      }
-      this.trace.push('reallocCrt20468416.fallback-attempt(' + fallback + ')');
-      return unknown('_realloc20477d87 inside the admitted reallocCrt20468416 fallback; growth result and storage relocation are unowned');
     }
 
     const offset = endGeometry.value.offset;
-    if ((offset & 3) !== 0 || offset + 4 > endGeometry.value.allocationEnd) {
+    if ((offset & 3) !== 0 || offset + 4 > beginGeometry.value.allocationEnd) {
       return unknown('Original DWORD callback cell lacks retained aligned table storage');
     }
     if (callback !== null) {
@@ -222,6 +240,10 @@ export class NativeGameExitTable {
       }
     }
 
+    const encodedBegin = this.call('EncodePointer20467d64.begin', () => this.crt.encodePointer(this.pointer(beginGeometry.value.canonicalBacking,0)));
+    if (!encodedBegin.known) return encodedBegin;
+    this.cThis.pointer<object>(0).set(encodedBegin.value);
+    this.trace.push('crtExitBegin207d2b80.store');
     const encoded = this.call('EncodePointer20467d64.callback', () => this.crt.encodePointer(callback));
     if (!encoded.known) return encoded;
     let fields: NativeHeapObjectViews;
@@ -286,7 +308,7 @@ export class NativeGameExitTable {
   }
 
   snapshot() {
-    return Object.freeze({ scope: 'Game CRT onexit initialization and within-capacity callback registration',
+    return Object.freeze({ scope: 'Game CRT onexit initialization, callback registration and normal heap table growth',
       traversalOwned: false, boundary: this.boundary, active: this.active,
       tableAllocations: Object.freeze(this.allocatedTables.slice()),
       callbackCells: Object.freeze(this.cells.slice()),

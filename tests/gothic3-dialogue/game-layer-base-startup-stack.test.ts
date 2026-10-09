@@ -11,6 +11,8 @@ import { NativeX86ThreadStack } from '../../src/gothic3/native-x86-thread-stack'
 import { NativeMemoryAdmin, nativeNpcHeapExtension, nativeSceneStartupHeapExtension } from '../../src/gothic3/native-memory-admin';
 import { NativeGameLayerBaseClassName } from '../../src/gothic3/native-game-layer-base-class-name';
 import { NativeGameExitTable } from '../../src/gothic3/native-game-crt-exit-table';
+import { NativeGameClassName } from '../../src/gothic3/native-game-class-name-family';
+import { gameClassNameSpec, gameClassNameFamilySpecs } from '../../src/gothic3/native-game-class-name-family-source';
 
 function fact<T>(result: NativeValue<T>): T { if (!result.known) throw new Error(result.reason); return result.value; }
 function platformFixture() {
@@ -50,7 +52,12 @@ describe('original Game C++ class-name initializers on the retained browser stac
   });
   it('runs original CALL, static result store and RET before selecting the next original slot', () => {
     const f = fixture();
-    expect(f.game.attachProgress.nextBoundary).toEqual({ name: 'indirectSourceCall', address: '20466654', target: '204b11d0' });
+    const bool = NativeGameClassName.forSpec(f.game.crt,f.memory,gameClassNameSpec('204b11e0')!);
+    expect(fact(fact(bool.get()).text())).toBe('bool');
+    expect(f.game.attachProgress.nextBoundary).toEqual({ name: 'translatedCrtCall', address: '204b1620', target: '2000fed4' });
+    expect(fact(fact(NativeGameClassName.forSpec(f.game.crt,f.memory,gameClassNameSpec('204b13a0')!).get()).text())).toBe('eCTriggerBase_PS');
+    expect(fact(fact(NativeGameClassName.forSpec(f.game.crt,f.memory,gameClassNameSpec('204b1340')!).get()).text()))
+      .toBe('bTPropertyObject<class eCMainCache,class bCObjectRefBase>');
     const owner = NativeGameLayerBaseClassName.forCrt(f.game.crt, f.memory);
     expect(fact(fact(owner.get()).text())).toBe('eCProcessibleElement');
     expect(owner.fields.readUnsigned(8)).toBe(3);
@@ -58,23 +65,32 @@ describe('original Game C++ class-name initializers on the retained browser stac
     expect(published?.fields).toBe(owner.fields);
     expect(published?.offset).toBe(0);
     const calls = f.stack.snapshot().calls;
+    const completed = gameClassNameFamilySpecs.filter(spec => spec.initializer >= '204b11b0' && spec.initializer < '204b1620');
+    expect(completed).toHaveLength(37);
+    for (const {initializer} of completed) {
+      expect(calls.find(call => call.site === initializer)).toMatchObject({ returned: true });
+    }
+    expect(() => NativeGameClassName.forSpec(f.game.crt, f.memory,
+      { ...gameClassNameSpec('204b11e0')! })).toThrow('Actual nonlegacy');
     expect(calls.find(call => call.site === '20466654')).toMatchObject({ returned: true });
     expect(calls.find(call => call.site === '204b11b0')).toMatchObject({ returned: true });
-    expect(calls.filter(call => !call.returned).map(call => call.site)).toEqual(['204678f2']);
+    expect(calls.filter(call => !call.returned).map(call => call.site)).toEqual(['204678f2', '20466654', '204b1620']);
     const effects = f.game.attachProgress.setEnvpProgress!.effects.map(effect => effect.pc);
     for (const address of ['204b11b0', '204b11b5', '204b11ba']) expect(effects).toContain(address);
     const exit = NativeGameExitTable.forCrt(f.game.crt);
-    expect(exit.snapshot().callbackCells).toHaveLength(3);
+    expect(exit.snapshot().callbackCells).toHaveLength(38);
+    expect(exit.snapshot().tableAllocations.map(backing => [backing.bytes.length,backing.freed]))
+      .toEqual([[128,true],[256,false]]);
     expect(owner.snapshot().registeredCallback).toMatchObject({ entry: '20034649', label: 'layerBaseClassNameDestructor' });
     const before = f.game.bootstrap.attachProgress();
     expect(fact(createBrowserGameCrtStartup(f.platform, f.memory))).toBe(f.game);
     expect(fact(createBrowserGameCrtStartup(f.platform))).toBe(f.game);
     f.game.bootstrap.processAttach();
     expect(f.game.bootstrap.attachProgress()).toEqual(before);
-    expect(exit.snapshot().callbackCells).toHaveLength(3);
+    expect(exit.snapshot().callbackCells).toHaveLength(38);
     const replacement = new NativeMemoryAdmin(f.platform, { extensions: [nativeNpcHeapExtension] });
     expect(createBrowserGameCrtStartup(f.platform, replacement).known).toBe(false);
-    expect(f.game.crt.imageStorage('scriptAdminClassName').readUnsigned(8)).toBe(0);
+    expect(f.game.crt.imageStorage('scriptAdminClassName').readUnsigned(8)).toBe(3);
     const objectRef = NativeGameLayerBaseClassName.forObjectRefCrt(f.game.crt, f.memory);
     expect(fact(fact(objectRef.get()).text())).toBe('bCObjectRefBase');
     expect(objectRef.fields).not.toBe(owner.fields);
