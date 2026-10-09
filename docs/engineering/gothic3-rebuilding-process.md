@@ -10964,3 +10964,41 @@ same runtime revision. PR #172 passed validation run 37871922842 and merged as
 `6b0d904b33a1ac561aa77992b3c92ae2c280bce3`; deployment of that registration
 checkpoint is pending. These continuations have no production callers;
 complete startup, world activation and a finishable campaign remain unfinished.
+
+## Original ErrorAdmin callback and temporary allocation (2026-10-09)
+
+Revision `a03998a4` recovers callback thunk `10002df6` and its original body
+`10022590..10022696`. The function catalogue omitted that body. The preparation
+script checks all 106 instructions against the original SharedBase.dll bytes and
+matching disassembly, verifies contiguous coverage, internal direct branches and
+terminal `RET 0x1c`, and records the omission. The generated package contains 88
+methods and 5,060 instructions. Independent regeneration matches JSON and
+TypeScript byte for byte.
+
+Execution requires the actual pending indirect callback frame at `100494db`, its
+return word and original ErrorAdmin context. It executes the warm singleton
+getter and original message/source-file string scans, then reaches CRT malloc at
+`10022613 -> 100aaaf6` with the original length sum plus `0x200` on the stack.
+Typechecking, three focused checks, all 3,015 tests across 278 files and the
+production build passed. This checkpoint is proposed in
+[PR #174](https://github.com/ael-dev3/Tervain/pull/174).
+
+Revision `06d998a8` continues that exact pending allocation. The captured CRT
+malloc body calls HeapAlloc at `100aab6e` on the existing owned SharedBase heap.
+The interpreter verifies the returned allocation's exact requested extent and
+restoration of ESP, EBP, EBX, ESI, EDI and FS. Original callback instructions carry
+the same allocation to `sprintf` at `10022632 -> 100aa234`. Execution pauses there;
+the buffer contents remain unknown until the original formatter runs.
+
+MessageAdmin's physical critical section stays entered throughout the callback.
+Damaged malloc return words or size requests stop before allocation; repeating
+the continuation after its boundary advances does not replay allocation. Two
+focused checks, typechecking and the production build pass at `06d998a8`.
+All 3,017 tests across 278 files passed in 329.09 seconds at `06d998a8`.
+
+The next work must execute the formatter against these actual arguments, insert
+its text using ErrorAdmin's original 250-byte ring-record semantics, free the same
+temporary allocation through original CRT cleanup, return from the callback and
+continue dispatch. These methods still have no production callers. Complete
+startup, world activation, campaign persistence and a finishable browser game
+remain unfinished.

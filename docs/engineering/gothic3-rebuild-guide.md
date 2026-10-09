@@ -156,10 +156,12 @@ dispatcher. It enters MessageAdmin's actual critical section and reaches its
 stored ErrorAdmin callback at `100494db`, retaining the entered lock and original
 context. Typechecking, three focused checks and independent source regeneration
 pass. All 3,013 tests and the production build passed at `58033ca8`.
-The logger continuation is proposed in
-[PR #173](https://github.com/ael-dev3/Tervain/pull/173); its
+The logger continuation merged in
+[PR #173](https://github.com/ael-dev3/Tervain/pull/173) at
+`43bff246c1491dd1128365a4f11f058eef76d4ff`; its
 [validation](https://github.com/ael-dev3/Tervain/actions/runs/37872785554) passed.
-It has not yet merged or deployed.
+Its [Pages deployment](https://github.com/ael-dev3/Tervain/actions/runs/37873976543)
+is running.
 
 The next local checkpoint recovers ErrorAdmin's callback from the original DLL
 bytes and disassembly, including a function omitted from the function catalogue.
@@ -169,6 +171,14 @@ cleanup and return still need implementation. This work has no production
 callers and does not establish complete engine startup.
 At revision `a03998a4`, typechecking, three focused checks, independent source
 regeneration, all 3,015 tests across 278 files, and the production build passed.
+
+Local revision `06d998a8` executes the original CRT allocation from that pending
+call. It verifies the return frame, requested size, restored caller registers and
+same owned buffer passed to the original formatter at `10022632`. Damaged return
+words and requests are rejected before allocating. Two focused checks,
+typechecking, all 3,017 tests across 278 files (329.09 seconds), and the production
+build pass at `06d998a8`.
+Formatting, insertion into ErrorAdmin's ring buffer and cleanup remain pending.
 
 - [Detailed workflow and reference paths](gothic3-rebuild-workflow.md)
 - [Architecture and implementation background](gothic3-rebuild-overview.md)
