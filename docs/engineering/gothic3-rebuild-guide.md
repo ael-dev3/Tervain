@@ -47,6 +47,16 @@ same evidence-driven process to gameplay systems.
 
 ### Local checkpoint: primitive templates and scoped struct names
 
+The latest local Arena factory bridge reads the current original type vtable
+and captured virtual slot, executes `2002adfb -> 2006d780`, and returns the
+factory subobject through the retained CALL/RET frame. The pushed wrapper
+argument remains available for the following SharedBase registration call.
+Startup next stops at `200705d6 -> [207d86e0]` (`RegisterPropertyObject`).
+Twenty focused checks and typechecking pass; the 282-instruction source package
+and generated runtime independently reproduce byte for byte. Its full-suite,
+build, browser and deployment evidence remain pending. The preceding registration
+continuation's production build passed in 42.36 seconds; its full suite is running.
+
 The latest local Arena replacement now returns. The captured registration
 toggle executes twice on the canonical SharedBase singleton, restoring its
 enabled flag and clearing the temporary wrapper pointer. Both getter imports,

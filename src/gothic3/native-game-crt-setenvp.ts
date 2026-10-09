@@ -78,6 +78,7 @@ const bodies = Object.freeze([
   ['2006f930','2006f930-2006faa3'],
   ['100891b0','100891b0-100891b9'],
   ['10090010','10090010-10090045'],
+  ['2006d780','2006d780-2006d783'],
 ] as const);
 const ranges = new Map<string, readonly (readonly [number, number])[]>(bodies.map(([entry, text]) =>
   [entry, Object.freeze(text.split(';').map(range => Object.freeze(range.split('-').map(x => Number.parseInt(x, 16)) as [number, number]))) ]));
@@ -275,6 +276,16 @@ export class NativeGameCrtSetEnvp {
       frame?.site === '204678e7' && frame.returnPc === '204678ec' && owner.#frames.length === 1 && owner.#importSite === null
       ? known(undefined) : unknown('Actual original setenvp RET/current restored callee required');
   }
+  static canonicalArenaVirtualReadForCrt(owner:NativeGameCrtSetEnvp,crt:NativeModuleCrtOwner,controller:object,site:string):NativeValue<void> {
+    const active=NativeGameCrtSetEnvp.canonicalControllerForCrt(owner,crt,controller,'invoke');
+    if(!active.known)return active;
+    const frame=owner.#frames.at(-1);
+    const instruction=site==='200705cc'?'MOV EDX,dword ptr [ECX]':site==='200705ce'?'MOV EAX,dword ptr [EDX + 0xc]':null;
+    return instruction!==null && owner.#pc===site && owner.#currentEntry==='200705b0' &&
+      frame?.entry==='200705b0' && frame.site==='204b1daa' && frame.returnPc==='204b1daf' &&
+      owner.#requireSourcePoint(site).instruction===instruction
+      ? known(undefined):unknown('Actual original Arena virtual-table read required');
+  }
   static canonicalArenaPropertySingletonCallForCrt(owner:NativeGameCrtSetEnvp,crt:NativeModuleCrtOwner,controller:object,site:string):NativeValue<void> {
     const active=NativeGameCrtSetEnvp.canonicalControllerForCrt(owner,crt,controller,'invoke');
     if(!active.known)return active;
@@ -340,7 +351,7 @@ export class NativeGameCrtSetEnvp {
     const extent = ranges.get(this.#currentEntry), address = Number.parseInt(pc, 16);
     if (!extent?.some(([first, last]) => address >= first && address <= last) ||
         this.#currentEntry === '204677e4' && !callerRows.has(pc)) throw new Error('Unowned Game environment source frontier at' + pc);
-    const point = ['204b1d70','10089290','200705b0','2006f930','100891b0','10090010'].includes(this.#currentEntry) ? gameArenaRootInstruction(this.#currentEntry,pc)
+    const point = ['204b1d70','10089290','200705b0','2006f930','100891b0','10090010','2006d780'].includes(this.#currentEntry) ? gameArenaRootInstruction(this.#currentEntry,pc)
       : gameClassNameSpec(this.#currentEntry) ? gameClassNameFamilyInstruction(this.#currentEntry,pc)
       : this.#currentEntry === '2046bcff' ? gameArgvInstruction(pc)
       : ['204665f4', '204738b0', '20473830', '20473860', '20463917', '204638a7',
@@ -402,6 +413,9 @@ export class NativeGameCrtSetEnvp {
     return fact(NativeX86ThreadStack.prototype.effectiveAddress.call(this.#stack, this.#controller, terms, displacement));
   }
   #read(value: Operand, bytes: Width = width(value)): NativeX86Word32 {
+    if(this.#currentEntry==='200705b0' && bytes===4 && value.kind==='memory' && !value.fs &&
+      ((this.#pc==='200705cc' && value.expression==='ECX') || (this.#pc==='200705ce' && value.expression==='EDX + 0xc')))
+      return fact(NativeX86ThreadStack.prototype.loadArenaVirtualPointer.call(this.#stack,this.#controller,this.#pc,this.#address(value.expression)));
     if(bytes===4 && value.kind==='memory' && !value.fs && this.#currentEntry==='2006f930' &&
       ((this.#pc==='2006f957' && value.expression==='0x207d87c4') ||
        (this.#pc==='2006f96d' && value.expression==='0x207d86e8'))) {
@@ -432,6 +446,14 @@ export class NativeGameCrtSetEnvp {
     fact(NativeX86ThreadStack.prototype.storeWidth.call(this.#stack, this.#controller, this.#address(destination.expression), word, bytes));
   }
   #call(point: NativeGameIoInstruction, target: Operand, returnPc: string): string {
+    if(point.va==='200705d2') {
+      if(this.#currentEntry!=='200705b0' || target.kind!=='register' || target.register!=='EAX' || target.lane)
+        throw new Error('Original Arena factory virtual call required');
+      fact(NativeX86ThreadStack.prototype.requireSourceAddress.call(this.#stack,this.#controller,this.#read(target),'code','2002adfb'));
+      fact(NativeX86ThreadStack.prototype.call.call(this.#stack,this.#controller,point.va,returnPc));
+      this.#frames.push(Object.freeze({entry:'2006d780',site:point.va,returnPc,previousEntry:this.#currentEntry}));
+      this.#currentEntry='2006d780'; this.#nextBoundary=null; return '2006d780';
+    }
     if(['2006f98d','2006f9f4'].includes(point.va)) {
       if(this.#currentEntry!=='2006f930' || target.kind!=='memory' || target.expression!=='0x207d86ec' || target.fs)
         throw new Error('Original Arena registration toggle call required');
@@ -490,7 +512,7 @@ export class NativeGameCrtSetEnvp {
       const callback = fact(NativeX86ThreadStack.prototype.resolveGameCppInitializer.call(this.#stack, this.#controller));
       this.#nextBoundary = Object.freeze({ pc: point.va, operation: 'indirectSourceCall', target: callback });
       if (callback === '204b1d70' && nativeGameLayerBaseMemoryForCrt(this.#crt as NativeGameCrtOwner).known) {
-        this.#classImages = Object.freeze(['arenaRootWrapper','arenaRootVtable'].map(label => {
+        this.#classImages = Object.freeze(['arenaRootWrapper','arenaRootVtable','arenaRootTypeVtable'].map(label => {
           const receipt = nativeGameImageReceipt(label);
           const fields = fact(NativeModuleCrtOwner.canonicalImageForOwner(this.#crt,label));
           if(fields.bytes.length!==receipt.bytes || fields.knownMask.length!==receipt.bytes)

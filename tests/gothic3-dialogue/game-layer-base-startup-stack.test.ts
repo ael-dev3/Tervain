@@ -53,8 +53,8 @@ describe('original Game C++ class-name initializers on the retained browser stac
     expect({ next: f.game.attachProgress.nextBoundary,
       reason: f.game.attachProgress.setEnvpProgress!.boundary,
       callbacks: NativeGameExitTable.forCrt(f.game.crt).snapshot().callbackCells.length }).toEqual({
-        next: { address: '200705ce', name: 'sourceInstruction', instruction: 'MOV EAX,dword ptr [EDX + 0xc]' },
-        reason: 'Actual owned stack/allocation/module/process address required for memory access', callbacks: 157,
+        next: { address: '200705d6', name: 'import', iat: '207d86e0' },
+        reason: 'Unowned original environment CALL at200705d6: CALL dword ptr [0x207d86e0]', callbacks: 157,
       });
     const arenaRoot=f.game.crt.imageStorage('arenaRootWrapper');
     const arenaVtable=arenaRoot.pointer(0).get() as NativeBytePointer;
@@ -71,6 +71,9 @@ describe('original Game C++ class-name initializers on the retained browser stac
     expect(f.stack.snapshot().calls.find(call=>call.site==='2006f97c')).toMatchObject({returned:true});
     for(const site of ['2006f985','2006f98d','2006f9ec','2006f9f4','200705c4'])
       expect(f.stack.snapshot().calls.find(call=>call.site===site)).toMatchObject({returned:true});
+    expect(f.stack.snapshot().calls.find(call=>call.site==='200705d2')).toMatchObject({returned:true,
+      returnWord:{provenance:{kind:'source',type:'code',address:'200705d4'}}});
+    expect(f.game.crt.imageStorage('arenaRootTypeVtable').readUnsigned(12)).toBe(0x2002adfb);
     const singleton=fact(NativePropertySingleton.forPlatform(f.platform,f.memory));
     expect(singleton.ranges.object.readUnsigned(4,1)).toBe(1);
     expect(singleton.ranges.object.pointer(8).get()).toBeNull();

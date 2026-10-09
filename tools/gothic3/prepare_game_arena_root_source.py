@@ -15,6 +15,7 @@ def capture(study):
         0x200021d5: 'arenaInitializeWrapper',
         0x2002dc8b: 'arenaReplaceWrappedObject',
         0x20549970: 'arenaRootCleanup',
+        0x2002adfb: 'arenaTypeFactoryVirtual',
     })
     shared = audit_module(study, 'SharedBase_dll', 'SharedBase.dll', {
         0x10007130: 'propertyWrapperConstructor',
@@ -28,6 +29,7 @@ def capture(study):
         ('arenaRootWrapper', 0x207b5028, 16),
         ('arenaRootVtable', 0x206595dc, 68),
         ('arenaRootInitializerSlot', 0x2056c36c, 4),
+        ('arenaRootTypeVtable', 0x2065915c, 16),
     ]:
         scope = 'original-file-backed-constant'
         if label == 'arenaRootWrapper':
@@ -42,6 +44,8 @@ def capture(study):
             raw = pe.bytes(address, size)
         if label == 'arenaRootInitializerSlot':
             assert int.from_bytes(raw, 'little') == 0x204b1d70
+        if label == 'arenaRootTypeVtable':
+            assert int.from_bytes(raw[12:16], 'little') == 0x2002adfb
         images.append(dict(label=label, address=f'{address:08x}', bytes=size,
                            raw=raw.hex(), sha256=hashlib.sha256(raw).hexdigest(),
                            scope=scope, liveValueCaptured=False))

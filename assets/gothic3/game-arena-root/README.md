@@ -1,6 +1,6 @@
 # Original Arena property-object startup evidence
 
-This source package captures 280 instructions from the matching Game and
+This source package captures 282 instructions from the matching Game and
 SharedBase binaries. The runtime admits the initializer's selected prefix and
 executes the original SharedBase wrapper constructor on the retained stack.
 The whole initializer has not returned.
@@ -50,6 +50,16 @@ typechecking pass. The initializer and wrapper call remain pending; this does
 not establish complete property-object initialization.
 
 ## Reproduce
+
+The latest local continuation bridges the Arena type's actual vtable pointer
+and reads its current factory slot at byte offset 12. The independently captured
+slot contains `2002adfb`; its original `2006d780` LEA/RET body returns the
+factory subobject at type offset 24. The original caller's wrapper argument
+remains on the stack for the following registration call. The virtual call
+returns at `200705d4`, then startup stops at `200705d6 -> [207d86e0]`
+(`RegisterPropertyObject`). Twenty focused checks and typechecking pass, and
+independent source/runtime regeneration matches. Broad validation and deployment
+of this continuation are pending.
 
 The subsequent local continuation returns from wrapped-object replacement.
 Both property-singleton getters use the actual canonical SharedBase image;

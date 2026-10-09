@@ -2065,6 +2065,46 @@
         "instructionCount": 5,
         "bodyByteCount": 30,
         "bodyInstructionBytesSha256": "b3762b0a3f035e2f37c2c543f36c2f7606cc3fc6d9d6fd0c3b8dc0dffee942b6"
+      },
+      {
+        "label": "arenaTypeFactoryVirtual",
+        "entryVA": "0x2002adfb",
+        "bodyVA": "0x2006d780",
+        "entryChain": [
+          {
+            "va": "2002adfb",
+            "bytes": "e980290400",
+            "targetVA": "2006d780"
+          }
+        ],
+        "bodyRanges": "2006d780-2006d783",
+        "instructions": [
+          {
+            "va": "2006d780",
+            "rva": "6d780",
+            "fileOffset": 448384,
+            "bytes": "8d4118",
+            "instruction": "LEA EAX,[ECX + 0x18]",
+            "assemblyLine": 107024
+          },
+          {
+            "va": "2006d783",
+            "rva": "6d783",
+            "fileOffset": 448387,
+            "bytes": "c3",
+            "instruction": "RET",
+            "assemblyLine": 107025
+          }
+        ],
+        "reconstructedC": {
+          "path": "01_Decompiled_Code/Game_dll/pseudocode/functions_00060.c",
+          "sha256": "22beca795e7c05aa64cd6ec2b46f5d16e947d76672bd2ac5a9e39e809bf2cb67",
+          "line": 6265,
+          "status": "decompiled"
+        },
+        "instructionCount": 2,
+        "bodyByteCount": 4,
+        "bodyInstructionBytesSha256": "8b91dec277a1e45d013282c013b573b4b19b5d0d9edca7cc20469f39bd16cb54"
       }
     ],
     "constants": [
@@ -2759,9 +2799,18 @@
       "sha256": "646821e22359c35378e3a6efac2d3dfafdf38a215b88e29e2b86ee4e1591a70c",
       "scope": "original-file-backed-constant",
       "liveValueCaptured": false
+    },
+    {
+      "label": "arenaRootTypeVtable",
+      "address": "2065915c",
+      "bytes": 16,
+      "raw": "78d20120512f03204c3a0220fbad0220",
+      "sha256": "f4181fd9aef20a19a8748adfce5be9a142d74d6e89457360edeb95dcf650f08a",
+      "scope": "original-file-backed-constant",
+      "liveValueCaptured": false
     }
   ],
-  "producerSha256": "d7cf08a2cce3e3a70d002eb87c9c9f564a7c47c68d75531c405bde3ef5f43598",
+  "producerSha256": "bd46fd76b8fe8c749e3654ffe5df269134e2062948a488fac4ef81198ecd2141",
   "sourceOnly": true,
   "initializerImplemented": false,
   "wholeCrtTraversalCompleted": false,

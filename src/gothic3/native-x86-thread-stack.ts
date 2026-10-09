@@ -2818,6 +2818,26 @@ export class NativeX86ThreadStack {
     if (source?.kind !== 'source' || source.type !== 'code' || source.address !== '2046663d')
       throw new Error('Actual original atexit return required');
   }); }
+  loadArenaVirtualPointer(controller:object,site:string,address:NativeX86Word32):NativeValue<NativeX86Word32> { return this.#run(controller,()=>{
+    const binding=this.#setEnvpBinding;
+    if(!binding || binding.controller!==controller)throw new Error('Actual retained Game startup controller required');
+    const point=NativeGameCrtSetEnvp.canonicalArenaVirtualReadForCrt(binding.owner,binding.crt,controller,site);
+    if(!point.known)throw new Error(point.reason);
+    const memory=this.#memory(address,4);
+    const label=site==='200705cc'?'arenaTypeAndGuard':'arenaRootTypeVtable';
+    const expected=NativeModuleCrtOwner.canonicalImageForOwner(binding.crt,label);
+    const offset=site==='200705cc'?0:12;
+    if(!expected.known || memory.fields!==expected.value || memory.offset!==offset)
+      throw new Error('Actual current Arena virtual-table pointer required');
+    const value=NativeHeapObjectViews.prototype.readUnsigned.call(memory.fields,offset);
+    if(site==='200705cc') {
+      if(value!==Number.parseInt(nativeGameImageReceipt('arenaRootTypeVtable').address,16))
+        throw new Error('Original Arena type vtable changed');
+      return this.#moduleWord('arenaRootTypeVtable',0);
+    }
+    if(value!==0x2002adfb)throw new Error('Original Arena factory virtual slot changed');
+    return this.#source('code','2002adfb');
+  }); }
   callArenaPropertySingleton(controller:object,site:string,next:string):NativeValue<void> { return this.#run(controller,()=>{
     const binding=this.#setEnvpBinding;
     if(!binding || binding.controller!==controller)throw new Error('Actual retained Game startup controller required');
