@@ -1043,6 +1043,7 @@ export class App {
     if (playing && this.mode === 'play' && !hitStopped) {
       this.world.physics.beginCharacter(this.player, dt);
       this.player.update(dt, this.playerContext(true));
+      this.carryRider();
       this.updateEnemies(dt);
       this.checkDiscoveries();
     } else if (this.mode === 'dead') {
@@ -1084,7 +1085,7 @@ export class App {
       this.world.physics.syncActors([
         ...this.world.animals.physicalActors,
         ...this.npcs.map(n => ({ id: `person:${n.id}`, x: n.x, y: n.y, z: n.z, radius: .35, height: 2.1,
-          active: !n.hidden && this.game.state.npcs[n.id].available })),
+          active: n.solid && this.game.state.npcs[n.id].available })),
         ...this.enemies.map(e => ({ id: `enemy:${e.id}`, x: e.x, y: e.y, z: e.z, radius: e.radius, height: 2.1, active: e.alive })),
       ]);
       this.world.physics.step(dt, this.player, this.cam.yaw, this.cam.pitch);
@@ -1112,7 +1113,7 @@ export class App {
 
     // World presentation
     this.world.animals.setPeople([
-      ...this.npcs.map(n => ({ id: `person:${n.id}`, x: n.x, y: n.y, z: n.z, radius: .35, height: 2.1, active: !n.hidden && this.game.state.npcs[n.id].available })),
+      ...this.npcs.map(n => ({ id: `person:${n.id}`, x: n.x, y: n.y, z: n.z, radius: .35, height: 2.1, active: n.solid && this.game.state.npcs[n.id].available })),
       ...this.enemies.map(e => ({ id: `enemy:${e.id}`, x: e.x, y: e.y, z: e.z, radius: e.radius, height: 2.1, active: e.alive })),
     ]);
     // Interactions can open a panel or kill the player after the frame's initial play flag.
@@ -1120,7 +1121,7 @@ export class App {
       && !this.worldPaused && document.visibilityState !== 'hidden';
     // Residents and bandits walk through the grass as well as the hero; the world adds its animals and cargo.
     this.world.setGrassMovers([
-      ...this.npcs.filter((n) => !n.hidden && this.game.state.npcs[n.id].available).map((n) => ({ x: n.x, z: n.z, radius: 0.5, weight: 0.6 })),
+      ...this.npcs.filter((n) => n.solid && this.game.state.npcs[n.id].available).map((n) => ({ x: n.x, z: n.z, radius: 0.5, weight: 0.6 })),
       ...this.enemies.filter((e) => e.alive).map((e) => ({ x: e.x, z: e.z, radius: e.radius + 0.25, weight: 0.8 })),
     ]);
     this.world.update(dt, this.game.state, new THREE.Vector3(this.player.x, this.player.y, this.player.z), this.settings, hour, this.cam.camera, worldActive);
@@ -1161,6 +1162,7 @@ export class App {
     }
     this.grade.setLook({ night: this.world.sky.state.nightness });
     this.world.prepareGrass(this.renderer, this.lastFrameDt);
+    this.world.prepareInterior(this.renderer, this.cam.camera, this.lastFrameDt, this.settings);
     this.grade.render(this.world.scene, this.cam.camera, this.lastFrameDt, this.world.waterRenderInputs(this.settings));
   }
 
@@ -1437,6 +1439,32 @@ export class App {
     this.panels.push(huntingPanel(this.panelCtx()), { narrow: true });
   }
 
+  /** The saddled deer, the one animal that can be ridden (A70). */
+  static readonly MOUNT_ID = '1005232412';
+
+  mountDeer() {
+    if (this.mode !== 'play' || this.overlay !== 'none' || this.worldPaused || this.player.mount || !this.player.alive) return;
+    const at = this.world.animals?.mount(App.MOUNT_ID);
+    if (!at) return;
+    this.player.mountUp(App.MOUNT_ID, at.seat, at.x, at.y, at.z, at.yaw);
+    this.audio.pickup();
+  }
+
+  dismount() {
+    if (!this.player.mount) return;
+    const id = this.player.mount.id;
+    this.player.dismount(this.playerContext(false));
+    this.world.animals?.ride(id, null);
+  }
+
+  /** The deer carries its rider where he steers; deep water, a fall or death puts him down (A70). */
+  private carryRider() {
+    const mount = this.player.mount;
+    if (!mount) return;
+    if (!this.player.alive || this.player.swimming || this.player.state !== 'free') { this.dismount(); return; }
+    this.world.animals?.ride(mount.id, { x: this.player.x, z: this.player.z, yaw: this.player.yaw, speed: this.player.lastMoveSpeed });
+  }
+
   restockArrows() {
     if (this.mode !== 'play' || this.overlay !== 'none' || this.worldPaused) return;
     this.game.setPlayerTransform(this.player.x, this.player.y, this.player.z, this.player.yaw);
@@ -1571,7 +1599,8 @@ export class App {
   observersAt(x: number, z: number): NpcId[] {
     const out: NpcId[] = [];
     for (const n of this.npcs) {
-      if (n.hidden || !this.game.state.npcs[n.id].available) continue;
+      // Asleep in their beds, they see nothing (A70).
+      if (n.hidden || n.asleep || !this.game.state.npcs[n.id].available) continue;
       if (n.id !== 'shrine_warden' && n.id !== 'spring_steward') continue;
       const d = Math.hypot(n.x - x, n.z - z);
       if (d > 15) continue;
@@ -1760,6 +1789,10 @@ export class App {
         case 'toast':
           if (e.key.startsWith('hunting.')) this.hud.toast(S(e.key, e.params));
           break;
+        case 'wildlifeReturned':
+          // Game has come back to the woods, out of sight (A70).
+          this.world.animals?.syncHunting(this.game.state.hunting);
+          break;
         case 'skill':
           this.hud.toast(S('toast.skill', { name: S(`skill.${e.id}`) }), 'good');
           this.audio.quest();
@@ -1905,7 +1938,7 @@ export class App {
 
   private residentContact(n: NpcActor): CircleCollider {
     return { id: `person:${n.id}`, kind: 'circle', x: n.x, z: n.z, r: .35,
-      active: !n.hidden && this.game.state.npcs[n.id].available, minY: n.y, maxY: n.y + n.rig.height };
+      active: n.solid && this.game.state.npcs[n.id].available, minY: n.y, maxY: n.y + n.rig.height };
   }
 
   private enemyContact(e: EnemyActor): CircleCollider {
@@ -1920,7 +1953,7 @@ export class App {
     for (const scene of SCENES) {
       if (!inHours(hour, scene.hours) || !evalAll(state, scene.when)) continue;
       const [a, b] = scene.cast.map((id) => this.npcs.find((n) => n.id === id));
-      if (!a || !b || a.hidden || b.hidden || !state.npcs[a.id].available || !state.npcs[b.id].available) continue;
+      if (!a || !b || a.hidden || b.hidden || a.asleep || b.asleep || !state.npcs[a.id].available || !state.npcs[b.id].available) continue;
       // Only two people at their places talk between themselves: neither is stopped and turned about mid-route (A69).
       if (a.underway || b.underway) continue;
       if (Math.hypot(a.x - b.x, a.z - b.z) > 22) continue;

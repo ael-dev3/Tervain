@@ -41,7 +41,17 @@ const TOOLS: Partial<Record<WorkGesture, Placement[]>> = {
   provisioning: [{ kind: 'arrow', holder: 'RightHand', up: [0, 0, 1], front: [0, 1, 0], offset: [0.01, 0, 0] }],
 };
 
-export interface ResidentTools { props: THREE.Object3D[]; materials: THREE.MeshStandardMaterial[]; triangles: number }
+/** A tool's working ends, which the work contacts bring onto their surfaces (A70). */
+export type ToolPoint = 'chiselTip' | 'chiselButt' | 'hammerA' | 'hammerB' | 'rodFoot' | 'rodGrip';
+/** Each working end in its tool's own frame (the tool's model, which a rod may slide within its holder's fist). */
+export type ToolPoints = Partial<Record<ToolPoint, { tool: THREE.Object3D; point: THREE.Vector3 }>>;
+const ENDS: Partial<Record<WorkPropKind, (length: number) => [ToolPoint, [number, number, number]][]>> = {
+  chisel: () => [['chiselTip', [0, 0.17, 0]], ['chiselButt', [0, -0.06, 0]]],
+  hammer: () => [['hammerA', [0.065, 0.27, 0]], ['hammerB', [-0.065, 0.27, 0]]],
+  rod: length => [['rodFoot', [0, -length, 0]], ['rodGrip', [0, 0, 0]]],
+};
+
+export interface ResidentTools { props: THREE.Object3D[]; materials: THREE.MeshStandardMaterial[]; triangles: number; points: ToolPoints }
 
 /**
  * Build a resident's tools for `gesture` onto its rig, hidden until it works. `palm` gives each hand's palm centre in the
@@ -49,7 +59,7 @@ export interface ResidentTools { props: THREE.Object3D[]; materials: THREE.MeshS
  */
 export function createResidentTools(gesture: WorkGesture | undefined, bones: ResidentBones, scene: THREE.Object3D,
   palm: (side: 'LeftHand' | 'RightHand') => THREE.Vector3): ResidentTools {
-  const out: ResidentTools = { props: [], materials: [], triangles: 0 };
+  const out: ResidentTools = { props: [], materials: [], triangles: 0, points: {} };
   const placements = gesture ? TOOLS[gesture] : undefined;
   if (!placements) return out;
   scene.updateMatrixWorld(true);
@@ -81,6 +91,7 @@ export function createResidentTools(gesture: WorkGesture | undefined, bones: Res
     socket.add(built.group);
     socket.visible = false;
     holder.add(socket);
+    for (const [name, at] of ENDS[placement.kind]?.(placement.length ?? 1) ?? []) out.points[name] = { tool: built.group, point: new THREE.Vector3(...at) };
     out.props.push(socket);
     out.materials.push(...built.materials);
     out.triangles += built.triangles;

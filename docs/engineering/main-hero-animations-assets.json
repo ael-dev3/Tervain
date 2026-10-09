@@ -8,8 +8,8 @@
   },
   "runtime": {
     "path": "public/models/hero/weathered-wanderer-animated-hero.glb",
-    "sha256": "0b02a9c23763b6382e6ea87bd150bcef59a93149650524fa7a5f434951c8c8db",
-    "bytes": 11900048,
+    "sha256": "b2306614fcedb07b12666234f370a69632d301e6be8551fe559595abd60ec1f2",
+    "bytes": 9703460,
     "triangles": 65000,
     "vertices": 39622,
     "skinned_meshes": 1,
@@ -429,9 +429,9 @@
     },
     {
       "name": "Image_0",
-      "mimeType": "image/jpeg",
+      "mimeType": "image/webp",
       "bytes": 2635127,
-      "sha256": "c99f5da3891d60b16e67433029e7e2b15b3004cb511b2b9967b527bf84e9534b",
+      "sha256": "33c44b686167de53394298e86ee9e73f1f8beeb99c30aa54b64a2f3d2c51bb5f",
       "source_bytes_identical": true,
       "resolution": [
         2048,

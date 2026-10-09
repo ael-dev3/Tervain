@@ -237,7 +237,8 @@ void main() {
   float shrink = 1.0 - smoothstep(60.0, 900.0, distanceToEye) * 0.6;
   vec2 slope = vSlope * shrink + detail * (0.55 + 0.45 * smoothstep(0.4, 4.0, stillDepth)) + ripple.xy;
   vec3 N = normalize(vec3(-slope.x, 1.0, -slope.y));
-  float roughness = clamp(0.045 + footprint * 0.018 + smoothstep(40.0, 1200.0, distanceToEye) * 0.12, 0.04, 0.42);
+  // A70: a duller, rougher sea, nearer the murky Gothic water than a mirror.
+  float roughness = clamp(0.09 + footprint * 0.018 + smoothstep(40.0, 1200.0, distanceToEye) * 0.12, 0.08, 0.45);
 
   float day = 1.0 - uNight;
   if (cameraPosition.y < vWorld.y) {
@@ -270,7 +271,7 @@ void main() {
   R = normalize(vec3(R.x, R.y + 0.06 * roughness + 0.02, R.z));
   vec3 sky = waterSky(R, roughness, uTop, uHorizon);
   vec3 reflectionUV = vec3(projected.xy + N.xz * 0.08, projected.z);
-  vec3 reflected = waterReflection(sky, reflectionUV, projectedDx, projectedDy, roughness + length(vSlope) * 0.35) * 0.78;
+  vec3 reflected = waterReflection(sky, reflectionUV, projectedDx, projectedDy, roughness + length(vSlope) * 0.35) * 0.62;
 
   // The water's own light: scattered daylight, deeper and bluer offshore, greener over sand.
   float sunUp = clamp(L.y * 3.0, 0.0, 1.0);
@@ -284,7 +285,7 @@ void main() {
   vec3 transmitted = waterTransmission(scatter, N, vWorld, max(local, 0.0), uTime, day * min(uSunI, 2.0) * uDetail, path);
 
   vec3 color = mix(transmitted, reflected, clamp(fresnel, 0.0, 1.0));
-  color += uSunColor * waterSun(N, V, L, roughness) * uSunI * day * 0.9;
+  color += uSunColor * waterSun(N, V, L, roughness) * uSunI * day * 0.6;
 
   // Foam: breaking crests and the white water they leave, the swash's edge, whitecaps, rocks, wakes.
   float height = max(bed.w, 0.0);

@@ -54,6 +54,7 @@ export function createInitialState(slotId = 'slot-1'): WorldState {
     offenses: { pending: [], known: [] },
     defeated: {},
     hunting: {},
+    huntTally: { taken: 0, species: {} },
     discovered: {},
     locationChanges: {},
     // The renderer refines height; authored position and facing share the world landing source.

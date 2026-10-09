@@ -6,6 +6,10 @@ import { fromBuildingLocal, hearthOf, roomHalfSize, type InteriorSpec, type Room
  * a room would be lit as brightly as the open valley. While the camera is in a room that fill eases down, and a warm
  * light glows from the room's hearth (or hangs from its beams where it has none). One light serves every room, so the
  * number of lights in the scene, and with it every material's shader, never changes.
+ *
+ * On medium and high quality the hearth casts shadows (A70): benches, tables and posts throw them across the floor and up
+ * the walls. The light is always a shadow caster there, so no material recompiles as the hero walks in or out; its
+ * shadow map is drawn only while he is inside, and refreshed every other frame.
  */
 export class InteriorLight {
   readonly light = new THREE.PointLight(0xffa25a, 0, 10, 1.4);
@@ -16,7 +20,14 @@ export class InteriorLight {
   constructor(private readonly rooms: RoomLocator) {
     this.light.name = 'Interior light';
     this.light.castShadow = false;
+    const shadow = this.light.shadow;
+    shadow.mapSize.set(512, 512);
+    shadow.camera.near = 0.15; shadow.camera.far = 10;
+    shadow.bias = -0.002; shadow.normalBias = 0.03; shadow.radius = 3;
+    shadow.autoUpdate = false;
   }
+
+  private frame = 0;
 
   /** How far the camera is into a room, 0 outside .. 1 within (eased). */
   get indoors(): number { return this.indoor; }
@@ -35,7 +46,8 @@ export class InteriorLight {
   }
 
   /** Follow the camera in and out of rooms; returns how far indoors it is. */
-  update(dt: number, camera: THREE.Vector3, night: number, time: number): number {
+  update(dt: number, camera: THREE.Vector3, night: number, time: number, shadows = false): number {
+    this.light.castShadow = shadows;
     // A camera above the roof is outdoors, though it stands over the room's floor (A70).
     const here = this.rooms.within(camera.x, camera.y, camera.z);
     if (here) this.room = here;
@@ -45,6 +57,9 @@ export class InteriorLight {
     // A fire's slow unsteadiness: two incommensurate waves, never a strobe.
     const flame = 0.9 + 0.06 * Math.sin(time * 7.3) + 0.04 * Math.sin(time * 12.9 + 1.7);
     this.light.intensity = this.indoor * (2.2 + 4.5 * night) * flame;
+    const live = shadows && this.indoor > 0.02;
+    this.light.shadow.autoUpdate = false;
+    if (live && (this.frame++ & 1) === 0) this.light.shadow.needsUpdate = true;
     return this.indoor;
   }
 }

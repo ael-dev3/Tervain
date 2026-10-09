@@ -9,8 +9,8 @@
   },
   "runtime": {
     "path": "public/models/scenery/weathered-rock-pile-under-20k.glb",
-    "sha256": "3c41c0a398a83bfd7b1a337a792d99b86660f7c7545daecda1c3961ebbc0d325",
-    "bytes": 3382900,
+    "sha256": "91ce7c7d61c3ac0b495612124db6742d833bae5b056a61742ce9718db6e4984a",
+    "bytes": 1258720,
     "triangles": 5220,
     "vertices": 5578,
     "geometry": "Original position, normal, UV and index buffer bytes retained exactly; no decimation or geometric deformation.",
@@ -23,7 +23,7 @@
           2048
         ],
         "bytes": 1486838,
-        "sha256": "cd4cc5a96886e7419ff562376ada5b6b8f79be7dbb9fda70df911a7093c7a5b3"
+        "sha256": "9cd53f7c3e567bd864dfda6bf281fd2c9acd42836a1656d82ae3e063bdc5ea05"
       },
       {
         "role": "Filtered source rock normals",
@@ -32,7 +32,7 @@
           1024
         ],
         "bytes": 1604197,
-        "sha256": "a6e193105e75b01632ab23bd9f378e7f5039b82853511f3db9423bd3ec0bfa98"
+        "sha256": "2cbeddea89182fc832b7a85f37c5fd851fde4ca6e00bf59a91347f2d09d56ac0"
       },
       {
         "role": "Rough nonmetallic source stone",
@@ -41,7 +41,7 @@
           512
         ],
         "bytes": 80164,
-        "sha256": "d930c1229febd6e0d87ec1a5aaea1d8017e0337b7bbdeff667ceb183ce4e2a6b"
+        "sha256": "31f4dba1622aae05636118c537f4aec92f57372bb0142a6b6b7a7a5a9ea5de00"
       }
     ],
     "geometryBufferFidelity": [

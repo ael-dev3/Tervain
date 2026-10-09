@@ -152,8 +152,8 @@
       },
       "runtime": {
         "path": "public/models/npcs/caravan-master.glb",
-        "bytes": 8397452,
-        "sha256": "f9761d0c218664ddb6b11998530b91650d6a8f34e68465f60eb93d38f3a7bb5e",
+        "bytes": 4496652,
+        "sha256": "eb836db46672520fa5dcc7b782d74e7c31737c41326680c27c3bf6e9ee70d5ac",
         "triangles": 45996,
         "vertices": 44607,
         "joints": 11,
@@ -161,8 +161,8 @@
         "independentAudit": {
           "id": "caravan-master",
           "label": "caravan-master",
-          "bytes": 8397452,
-          "sha256": "f9761d0c218664ddb6b11998530b91650d6a8f34e68465f60eb93d38f3a7bb5e",
+          "bytes": 4496652,
+          "sha256": "eb836db46672520fa5dcc7b782d74e7c31737c41326680c27c3bf6e9ee70d5ac",
           "storedTriangles": 45996,
           "sceneTriangles": 45996,
           "vertices": 44607,
@@ -215,22 +215,22 @@
             {
               "index": 0,
               "name": "caravan-master-normal",
-              "mimeType": "image/png",
+              "mimeType": "image/jpeg",
               "format": "PNG",
               "width": 1024,
               "height": 1024,
               "bytes": 1442626,
-              "sha256": "57ad6cdd5415854f560f00b80adea4573c47652f16eba9301dfb16d3d6a7d58d"
+              "sha256": "430105244ad432b623f3be8de989c23606d4e26dec6a86a95c463e81c41d16ca"
             },
             {
               "index": 1,
               "name": "caravan-master-albedo",
-              "mimeType": "image/png",
+              "mimeType": "image/webp",
               "format": "PNG",
               "width": 1536,
               "height": 1536,
               "bytes": 3106452,
-              "sha256": "9400a8e188f86c328e8262662c33896bfbbc2cdc4b4c46ea8796889bb90bfa0c"
+              "sha256": "2df67503ebfc178f9bf40539aaec8bbbd2bb2304e618176dffe071edc5566373"
             }
           ],
           "maximumWeightSumError": 3.702007234096527e-08,
@@ -258,8 +258,8 @@
         "sourceTriangles": 551121,
         "runtime": {
           "file": "caravan-master.glb",
-          "bytes": 8397452,
-          "sha256": "f9761d0c218664ddb6b11998530b91650d6a8f34e68465f60eb93d38f3a7bb5e",
+          "bytes": 4496652,
+          "sha256": "eb836db46672520fa5dcc7b782d74e7c31737c41326680c27c3bf6e9ee70d5ac",
           "triangles": 45996,
           "vertices": 44607,
           "bones": 11,
@@ -616,8 +616,8 @@
         },
         "candidate": {
           "path": "local-evidence/tervain-character-polish/rebake/final-cast/caravan-master/caravan-master-surface-candidate.glb",
-          "bytes": 8397452,
-          "sha256": "f9761d0c218664ddb6b11998530b91650d6a8f34e68465f60eb93d38f3a7bb5e",
+          "bytes": 4496652,
+          "sha256": "eb836db46672520fa5dcc7b782d74e7c31737c41326680c27c3bf6e9ee70d5ac",
           "triangles": 45996,
           "vertices": 44607,
           "bones": 11,
@@ -896,8 +896,8 @@
       },
       "runtime": {
         "path": "public/models/npcs/rillford-reeve.glb",
-        "bytes": 11512824,
-        "sha256": "6b77c6125db65e442c3c5f212a56428d494e882a12bc854aae04ef3cb38087ed",
+        "bytes": 7088052,
+        "sha256": "0a3166f9f5ee28363d6fe73743eee0a7297aa415731f4c804a196e86dfcf84d3",
         "triangles": 45957,
         "vertices": 65659,
         "joints": 11,
@@ -905,8 +905,8 @@
         "independentAudit": {
           "id": "rillford-reeve",
           "label": "rillford-reeve",
-          "bytes": 11512824,
-          "sha256": "6b77c6125db65e442c3c5f212a56428d494e882a12bc854aae04ef3cb38087ed",
+          "bytes": 7088052,
+          "sha256": "0a3166f9f5ee28363d6fe73743eee0a7297aa415731f4c804a196e86dfcf84d3",
           "storedTriangles": 45957,
           "sceneTriangles": 45957,
           "vertices": 65659,
@@ -959,22 +959,22 @@
             {
               "index": 0,
               "name": "rillford-reeve-normal",
-              "mimeType": "image/png",
+              "mimeType": "image/jpeg",
               "format": "PNG",
               "width": 1024,
               "height": 1024,
               "bytes": 2078411,
-              "sha256": "f44af2644ebf37f93a59f308b281faefceaa313a1dab9fa52573befb18a3bf67"
+              "sha256": "b4b56234a69e5561829336111db2d315aaa852393f4e579a9b57d8592fb2e6e0"
             },
             {
               "index": 1,
               "name": "rillford-reeve-albedo",
-              "mimeType": "image/png",
+              "mimeType": "image/webp",
               "format": "PNG",
               "width": 1536,
               "height": 1536,
               "bytes": 3626341,
-              "sha256": "e1d87543f601ca61b04f665116eebee5355a572fc0830601426bdec93ca870c0"
+              "sha256": "366d0f882e9733a99390f97ea0efd10a494def42501a3570f96044e60eaba058"
             }
           ],
           "maximumWeightSumError": 4.0978193283081055e-08,
@@ -1009,8 +1009,8 @@
         "sourceTriangles": 1010718,
         "runtime": {
           "file": "rillford-reeve.glb",
-          "bytes": 11512824,
-          "sha256": "6b77c6125db65e442c3c5f212a56428d494e882a12bc854aae04ef3cb38087ed",
+          "bytes": 7088052,
+          "sha256": "0a3166f9f5ee28363d6fe73743eee0a7297aa415731f4c804a196e86dfcf84d3",
           "triangles": 45957,
           "vertices": 65659,
           "bones": 11,
@@ -1367,8 +1367,8 @@
         },
         "candidate": {
           "path": "local-evidence/tervain-character-polish/rebake/final-cast/rillford-reeve/rillford-reeve-surface-candidate.glb",
-          "bytes": 11512824,
-          "sha256": "6b77c6125db65e442c3c5f212a56428d494e882a12bc854aae04ef3cb38087ed",
+          "bytes": 7088052,
+          "sha256": "0a3166f9f5ee28363d6fe73743eee0a7297aa415731f4c804a196e86dfcf84d3",
           "triangles": 45957,
           "vertices": 65659,
           "bones": 11,
@@ -1647,8 +1647,8 @@
       },
       "runtime": {
         "path": "public/models/npcs/spring-steward.glb",
-        "bytes": 4204576,
-        "sha256": "d4dc3f02e3ff156acf020946d6b5edb195e6f226aaae59a0abac554e12728d9d",
+        "bytes": 1665124,
+        "sha256": "956a2af1201a998f69487ddcc50b562b4578f6a23163d6e601d5c868c7e49a50",
         "triangles": 10328,
         "vertices": 14001,
         "joints": 11,
@@ -1656,8 +1656,8 @@
         "independentAudit": {
           "id": "spring-steward",
           "label": "spring-steward",
-          "bytes": 4204576,
-          "sha256": "d4dc3f02e3ff156acf020946d6b5edb195e6f226aaae59a0abac554e12728d9d",
+          "bytes": 1665124,
+          "sha256": "956a2af1201a998f69487ddcc50b562b4578f6a23163d6e601d5c868c7e49a50",
           "storedTriangles": 10328,
           "sceneTriangles": 10328,
           "vertices": 14001,
@@ -1710,22 +1710,22 @@
             {
               "index": 0,
               "name": "spring-steward-normal",
-              "mimeType": "image/png",
+              "mimeType": "image/jpeg",
               "format": "PNG",
               "width": 1024,
               "height": 1024,
               "bytes": 361202,
-              "sha256": "83a0a3509c76e93bf472e9c21eec39f817e8e7376d4b33333f89c388362f2e39"
+              "sha256": "f87152a3c30a57fcc67cf8ffcf0d7df11d5aa202b9d9379d53fa2683bcd411ee"
             },
             {
               "index": 1,
               "name": "spring-steward-albedo",
-              "mimeType": "image/png",
+              "mimeType": "image/webp",
               "format": "PNG",
               "width": 1536,
               "height": 1536,
               "bytes": 2595374,
-              "sha256": "8e38e6c4930c694dc4d08cb38c811b27608a5e142490ed8a718b83d3fbf44530"
+              "sha256": "1666171f1ae3528260ab7b6e99f8cad01be60684fe88d42ae2470317595ace3c"
             }
           ],
           "maximumWeightSumError": 3.5390257835388184e-08,
@@ -1753,8 +1753,8 @@
         "sourceTriangles": 10329,
         "runtime": {
           "file": "spring-steward.glb",
-          "bytes": 4204576,
-          "sha256": "d4dc3f02e3ff156acf020946d6b5edb195e6f226aaae59a0abac554e12728d9d",
+          "bytes": 1665124,
+          "sha256": "956a2af1201a998f69487ddcc50b562b4578f6a23163d6e601d5c868c7e49a50",
           "triangles": 10328,
           "vertices": 14001,
           "bones": 11,
@@ -2111,8 +2111,8 @@
         },
         "candidate": {
           "path": "local-evidence/tervain-character-polish/rebake/final-cast/spring-steward/spring-steward-surface-candidate.glb",
-          "bytes": 4204576,
-          "sha256": "d4dc3f02e3ff156acf020946d6b5edb195e6f226aaae59a0abac554e12728d9d",
+          "bytes": 1665124,
+          "sha256": "956a2af1201a998f69487ddcc50b562b4578f6a23163d6e601d5c868c7e49a50",
           "triangles": 10328,
           "vertices": 14001,
           "bones": 11,
@@ -2391,8 +2391,8 @@
       },
       "runtime": {
         "path": "public/models/npcs/quarry-foreman.glb",
-        "bytes": 8520012,
-        "sha256": "5655797071def938a333bfab87ec41694a8b48c68334d913bd82b172fa59007c",
+        "bytes": 4111136,
+        "sha256": "73c806707dfa85e9326a59a52fcca1aeef7156bf36a07b1681e2f6f53f8aa864",
         "triangles": 46000,
         "vertices": 35936,
         "joints": 11,
@@ -2400,8 +2400,8 @@
         "independentAudit": {
           "id": "quarry-foreman",
           "label": "quarry-foreman",
-          "bytes": 8520012,
-          "sha256": "5655797071def938a333bfab87ec41694a8b48c68334d913bd82b172fa59007c",
+          "bytes": 4111136,
+          "sha256": "73c806707dfa85e9326a59a52fcca1aeef7156bf36a07b1681e2f6f53f8aa864",
           "storedTriangles": 46000,
           "sceneTriangles": 46000,
           "vertices": 35936,
@@ -2454,22 +2454,22 @@
             {
               "index": 0,
               "name": "quarry-foreman-normal",
-              "mimeType": "image/png",
+              "mimeType": "image/jpeg",
               "format": "PNG",
               "width": 1024,
               "height": 1024,
               "bytes": 1413932,
-              "sha256": "8afbbc72944e3830574fc16dc51f391909d6d7d6a9a5d6fbc76ee4c36ee1048f"
+              "sha256": "706eb177397fd500a7ac97c13b49dcf3b60f01ac6f216c6ad9fd39dc434766c5"
             },
             {
               "index": 1,
               "name": "quarry-foreman-albedo",
-              "mimeType": "image/png",
+              "mimeType": "image/webp",
               "format": "PNG",
               "width": 1536,
               "height": 1536,
               "bytes": 3951338,
-              "sha256": "c901c7fbd4e85bfe22d2cdf83828cfe265acb2da16ff8346d9ff03840503ca9f"
+              "sha256": "03fee4b28092bac729890cdad3990c324ec1665b67218bf6d526a82fd5d5e3f3"
             }
           ],
           "maximumWeightSumError": 3.3527612686157227e-08,
@@ -2497,8 +2497,8 @@
         "sourceTriangles": 326692,
         "runtime": {
           "file": "quarry-foreman.glb",
-          "bytes": 8520012,
-          "sha256": "5655797071def938a333bfab87ec41694a8b48c68334d913bd82b172fa59007c",
+          "bytes": 4111136,
+          "sha256": "73c806707dfa85e9326a59a52fcca1aeef7156bf36a07b1681e2f6f53f8aa864",
           "triangles": 46000,
           "vertices": 35936,
           "bones": 11,
@@ -2855,8 +2855,8 @@
         },
         "candidate": {
           "path": "local-evidence/tervain-character-polish/rebake/final-cast/quarry-foreman/quarry-foreman-surface-candidate.glb",
-          "bytes": 8520012,
-          "sha256": "5655797071def938a333bfab87ec41694a8b48c68334d913bd82b172fa59007c",
+          "bytes": 4111136,
+          "sha256": "73c806707dfa85e9326a59a52fcca1aeef7156bf36a07b1681e2f6f53f8aa864",
           "triangles": 46000,
           "vertices": 35936,
           "bones": 11,
@@ -3135,8 +3135,8 @@
       },
       "runtime": {
         "path": "public/models/npcs/maintenance-worker.glb",
-        "bytes": 7999928,
-        "sha256": "0a293717adb6541ee6f4adf1c02368589afbc0e17f9513543ca1b78e4c51e838",
+        "bytes": 4190648,
+        "sha256": "1c0ec90c43d24d0df09916205be73dec34f964e941e68372666566f1fd6dc648",
         "triangles": 45994,
         "vertices": 42137,
         "joints": 11,
@@ -3144,8 +3144,8 @@
         "independentAudit": {
           "id": "maintenance-worker",
           "label": "maintenance-worker",
-          "bytes": 7999928,
-          "sha256": "0a293717adb6541ee6f4adf1c02368589afbc0e17f9513543ca1b78e4c51e838",
+          "bytes": 4190648,
+          "sha256": "1c0ec90c43d24d0df09916205be73dec34f964e941e68372666566f1fd6dc648",
           "storedTriangles": 45994,
           "sceneTriangles": 45994,
           "vertices": 42137,
@@ -3198,22 +3198,22 @@
             {
               "index": 0,
               "name": "maintenance-worker-normal",
-              "mimeType": "image/png",
+              "mimeType": "image/jpeg",
               "format": "PNG",
               "width": 1024,
               "height": 1024,
               "bytes": 1351301,
-              "sha256": "8d0bf1d6d8bfa208d31fd8583d7b4420b6111841c70aa06671d36d166b723713"
+              "sha256": "051268e94fa0ee19c948080a07cd54c3237bd9448a448ebdba4e23130f902cfc"
             },
             {
               "index": 1,
               "name": "maintenance-worker-albedo",
-              "mimeType": "image/png",
+              "mimeType": "image/webp",
               "format": "PNG",
               "width": 1536,
               "height": 1536,
               "bytes": 2997822,
-              "sha256": "5e47684aa785ad39451fd49b3fc2def66f9de4dffc497ccda1c0a9a691fa73c3"
+              "sha256": "6323665b5c21fe662c8e3e8d9822091255f3caf334e01efcdf063d06bde98536"
             }
           ],
           "maximumWeightSumError": 4.470348358154297e-08,
@@ -3241,8 +3241,8 @@
         "sourceTriangles": 366108,
         "runtime": {
           "file": "maintenance-worker.glb",
-          "bytes": 7999928,
-          "sha256": "0a293717adb6541ee6f4adf1c02368589afbc0e17f9513543ca1b78e4c51e838",
+          "bytes": 4190648,
+          "sha256": "1c0ec90c43d24d0df09916205be73dec34f964e941e68372666566f1fd6dc648",
           "triangles": 45994,
           "vertices": 42137,
           "bones": 11,
@@ -3599,8 +3599,8 @@
         },
         "candidate": {
           "path": "local-evidence/tervain-character-polish/rebake/final-cast/maintenance-worker/maintenance-worker-surface-candidate.glb",
-          "bytes": 7999928,
-          "sha256": "0a293717adb6541ee6f4adf1c02368589afbc0e17f9513543ca1b78e4c51e838",
+          "bytes": 4190648,
+          "sha256": "1c0ec90c43d24d0df09916205be73dec34f964e941e68372666566f1fd6dc648",
           "triangles": 45994,
           "vertices": 42137,
           "bones": 11,
@@ -3879,8 +3879,8 @@
       },
       "runtime": {
         "path": "public/models/npcs/estate-steward.glb",
-        "bytes": 8090820,
-        "sha256": "2ea5cd78c0ace3775a745ce4345250ea944728168ba07cac4dc156572db89333",
+        "bytes": 4080464,
+        "sha256": "efa9254bd5d86f08d1499166a567650a54d375854f5e7cd562913b54d9e59e05",
         "triangles": 46000,
         "vertices": 39484,
         "joints": 11,
@@ -3888,8 +3888,8 @@
         "independentAudit": {
           "id": "estate-steward",
           "label": "estate-steward",
-          "bytes": 8090820,
-          "sha256": "2ea5cd78c0ace3775a745ce4345250ea944728168ba07cac4dc156572db89333",
+          "bytes": 4080464,
+          "sha256": "efa9254bd5d86f08d1499166a567650a54d375854f5e7cd562913b54d9e59e05",
           "storedTriangles": 46000,
           "sceneTriangles": 46000,
           "vertices": 39484,
@@ -3942,22 +3942,22 @@
             {
               "index": 0,
               "name": "estate-steward-normal",
-              "mimeType": "image/png",
+              "mimeType": "image/jpeg",
               "format": "PNG",
               "width": 1024,
               "height": 1024,
               "bytes": 1335329,
-              "sha256": "8031fa3a517e4e47cd8a24d64bb2f4ffe7613fd7e93831ba07fee0cb9a20574b"
+              "sha256": "1642803226c3f68fd689c04b05a13b0c417c974a536fcb92121467859977ed15"
             },
             {
               "index": 1,
               "name": "estate-steward-albedo",
-              "mimeType": "image/png",
+              "mimeType": "image/webp",
               "format": "PNG",
               "width": 1536,
               "height": 1536,
               "bytes": 3316882,
-              "sha256": "ab97c4ef05ada721af704d1ed720df6164fecba16303ab77f31f1f8cd097813c"
+              "sha256": "89658aeac478f8da7ba20525427dc35c667b7029a5e96f654efb7eccb958236d"
             }
           ],
           "maximumWeightSumError": 4.0978193283081055e-08,
@@ -3985,8 +3985,8 @@
         "sourceTriangles": 348238,
         "runtime": {
           "file": "estate-steward.glb",
-          "bytes": 8090820,
-          "sha256": "2ea5cd78c0ace3775a745ce4345250ea944728168ba07cac4dc156572db89333",
+          "bytes": 4080464,
+          "sha256": "efa9254bd5d86f08d1499166a567650a54d375854f5e7cd562913b54d9e59e05",
           "triangles": 46000,
           "vertices": 39484,
           "bones": 11,
@@ -4343,8 +4343,8 @@
         },
         "candidate": {
           "path": "local-evidence/tervain-character-polish/rebake/final-cast/estate-steward/estate-steward-surface-candidate.glb",
-          "bytes": 8090820,
-          "sha256": "2ea5cd78c0ace3775a745ce4345250ea944728168ba07cac4dc156572db89333",
+          "bytes": 4080464,
+          "sha256": "efa9254bd5d86f08d1499166a567650a54d375854f5e7cd562913b54d9e59e05",
           "triangles": 46000,
           "vertices": 39484,
           "bones": 11,
@@ -4623,8 +4623,8 @@
       },
       "runtime": {
         "path": "public/models/npcs/ash-recorder.glb",
-        "bytes": 5938408,
-        "sha256": "a0fa94035a2a0e38c89265767db0e63ea615414a91a44ecf488e514956580475",
+        "bytes": 3358524,
+        "sha256": "b867839eefdd4027be8a17e81f14163901138c75c3a00309f2afd6f6a97f50e1",
         "triangles": 34220,
         "vertices": 35677,
         "joints": 11,
@@ -4632,8 +4632,8 @@
         "independentAudit": {
           "id": "ash-recorder",
           "label": "ash-recorder",
-          "bytes": 5938408,
-          "sha256": "a0fa94035a2a0e38c89265767db0e63ea615414a91a44ecf488e514956580475",
+          "bytes": 3358524,
+          "sha256": "b867839eefdd4027be8a17e81f14163901138c75c3a00309f2afd6f6a97f50e1",
           "storedTriangles": 34220,
           "sceneTriangles": 34220,
           "vertices": 35677,
@@ -4686,22 +4686,22 @@
             {
               "index": 0,
               "name": "ash-recorder-normal",
-              "mimeType": "image/png",
+              "mimeType": "image/jpeg",
               "format": "PNG",
               "width": 1024,
               "height": 1024,
               "bytes": 180920,
-              "sha256": "bb9f62ab39f5d71fb9b2f9f7661b62d53395d41978f9ba6307adaf7b21ef8e48"
+              "sha256": "c0126c1b40ad224fcba3ef697ff7ac5b574c455654de337a7214bc6ac6020024"
             },
             {
               "index": 1,
               "name": "ash-recorder-albedo",
-              "mimeType": "image/png",
+              "mimeType": "image/webp",
               "format": "PNG",
               "width": 1536,
               "height": 1536,
               "bytes": 2694179,
-              "sha256": "782f6151dc9179d7ea99754d0b253bab59fea9d449e698e22ec1431c236fe21d"
+              "sha256": "9059c9271e0a76a0bb386d723d2fef9a350431b767f2042c9a80e2bc3835a9ea"
             }
           ],
           "maximumWeightSumError": 4.0978193283081055e-08,
@@ -4729,8 +4729,8 @@
         "sourceTriangles": 34220,
         "runtime": {
           "file": "ash-recorder.glb",
-          "bytes": 5938408,
-          "sha256": "a0fa94035a2a0e38c89265767db0e63ea615414a91a44ecf488e514956580475",
+          "bytes": 3358524,
+          "sha256": "b867839eefdd4027be8a17e81f14163901138c75c3a00309f2afd6f6a97f50e1",
           "triangles": 34220,
           "vertices": 35677,
           "bones": 11,
@@ -5087,8 +5087,8 @@
         },
         "candidate": {
           "path": "local-evidence/tervain-character-polish/rebake/final-cast/ash-recorder/ash-recorder-surface-candidate.glb",
-          "bytes": 5938408,
-          "sha256": "a0fa94035a2a0e38c89265767db0e63ea615414a91a44ecf488e514956580475",
+          "bytes": 3358524,
+          "sha256": "b867839eefdd4027be8a17e81f14163901138c75c3a00309f2afd6f6a97f50e1",
           "triangles": 34220,
           "vertices": 35677,
           "bones": 11,
@@ -5367,8 +5367,8 @@
       },
       "runtime": {
         "path": "public/models/npcs/shrine-warden.glb",
-        "bytes": 8497100,
-        "sha256": "113af114f2581feb89f55b843c617af6624f04996f0e0fb306074fcb39c7418d",
+        "bytes": 4136012,
+        "sha256": "48dacd6c735acc986b965344a581c8b08866671a978552b1c59e4c15643b13cb",
         "triangles": 46000,
         "vertices": 37313,
         "joints": 11,
@@ -5376,8 +5376,8 @@
         "independentAudit": {
           "id": "shrine-warden",
           "label": "shrine-warden",
-          "bytes": 8497100,
-          "sha256": "113af114f2581feb89f55b843c617af6624f04996f0e0fb306074fcb39c7418d",
+          "bytes": 4136012,
+          "sha256": "48dacd6c735acc986b965344a581c8b08866671a978552b1c59e4c15643b13cb",
           "storedTriangles": 46000,
           "sceneTriangles": 46000,
           "vertices": 37313,
@@ -5430,22 +5430,22 @@
             {
               "index": 0,
               "name": "shrine-warden-normal",
-              "mimeType": "image/png",
+              "mimeType": "image/jpeg",
               "format": "PNG",
               "width": 1024,
               "height": 1024,
               "bytes": 1504503,
-              "sha256": "b64255bc1e8d996d81891a4fe4384139b5eb8b4927378380cad5dbab01669f11"
+              "sha256": "c115154033deb1e540449d60d49d25b75504cd0e73e1e8f2ffe4d478e1dbf415"
             },
             {
               "index": 1,
               "name": "shrine-warden-albedo",
-              "mimeType": "image/png",
+              "mimeType": "image/webp",
               "format": "PNG",
               "width": 1536,
               "height": 1536,
               "bytes": 3727659,
-              "sha256": "b5adff700ae2a373a7febddfeb182eb8649776c254043c8461d936a72d304f22"
+              "sha256": "0874952a7cef96c481c070d8aa1b31d074f821f2582b4e6e70915eceb6bdb21e"
             }
           ],
           "maximumWeightSumError": 2.9802322387695312e-08,
@@ -5473,8 +5473,8 @@
         "sourceTriangles": 427364,
         "runtime": {
           "file": "shrine-warden.glb",
-          "bytes": 8497100,
-          "sha256": "113af114f2581feb89f55b843c617af6624f04996f0e0fb306074fcb39c7418d",
+          "bytes": 4136012,
+          "sha256": "48dacd6c735acc986b965344a581c8b08866671a978552b1c59e4c15643b13cb",
           "triangles": 46000,
           "vertices": 37313,
           "bones": 11,
@@ -5831,8 +5831,8 @@
         },
         "candidate": {
           "path": "local-evidence/tervain-character-polish/rebake/final-cast/shrine-warden/shrine-warden-surface-candidate.glb",
-          "bytes": 8497100,
-          "sha256": "113af114f2581feb89f55b843c617af6624f04996f0e0fb306074fcb39c7418d",
+          "bytes": 4136012,
+          "sha256": "48dacd6c735acc986b965344a581c8b08866671a978552b1c59e4c15643b13cb",
           "triangles": 46000,
           "vertices": 37313,
           "bones": 11,
@@ -6111,8 +6111,8 @@
       },
       "runtime": {
         "path": "public/models/npcs/mill-hand.glb",
-        "bytes": 4156620,
-        "sha256": "923a11e2d38dc4ae523379442244146e28535b61a80f6d6bea61dd2109c089f1",
+        "bytes": 1651960,
+        "sha256": "d4ea3aa8b8e4005054ba7cd63dbb68ff916aebe8dfd70a444a1dd663c0fa8537",
         "triangles": 10328,
         "vertices": 14001,
         "joints": 11,
@@ -6120,8 +6120,8 @@
         "independentAudit": {
           "id": "mill-hand",
           "label": "mill-hand",
-          "bytes": 4156620,
-          "sha256": "923a11e2d38dc4ae523379442244146e28535b61a80f6d6bea61dd2109c089f1",
+          "bytes": 1651960,
+          "sha256": "d4ea3aa8b8e4005054ba7cd63dbb68ff916aebe8dfd70a444a1dd663c0fa8537",
           "storedTriangles": 10328,
           "sceneTriangles": 10328,
           "vertices": 14001,
@@ -6174,22 +6174,22 @@
             {
               "index": 0,
               "name": "mill-hand-normal",
-              "mimeType": "image/png",
+              "mimeType": "image/jpeg",
               "format": "PNG",
               "width": 1024,
               "height": 1024,
               "bytes": 361202,
-              "sha256": "83a0a3509c76e93bf472e9c21eec39f817e8e7376d4b33333f89c388362f2e39"
+              "sha256": "f87152a3c30a57fcc67cf8ffcf0d7df11d5aa202b9d9379d53fa2683bcd411ee"
             },
             {
               "index": 1,
               "name": "mill-hand-albedo",
-              "mimeType": "image/png",
+              "mimeType": "image/webp",
               "format": "PNG",
               "width": 1536,
               "height": 1536,
               "bytes": 2547437,
-              "sha256": "9fa4e45fc1a9f28d38bd1886a31344e0cdc60789c0afc5ad83fa38da031d32e0"
+              "sha256": "e5699ec2305872d9562b79186f8f7920e89e5d5e37e4e68faf87676b19116d5a"
             }
           ],
           "maximumWeightSumError": 3.5390257835388184e-08,
@@ -6217,8 +6217,8 @@
         "sourceTriangles": 10329,
         "runtime": {
           "file": "mill-hand.glb",
-          "bytes": 4156620,
-          "sha256": "923a11e2d38dc4ae523379442244146e28535b61a80f6d6bea61dd2109c089f1",
+          "bytes": 1651960,
+          "sha256": "d4ea3aa8b8e4005054ba7cd63dbb68ff916aebe8dfd70a444a1dd663c0fa8537",
           "triangles": 10328,
           "vertices": 14001,
           "bones": 11,
@@ -6575,8 +6575,8 @@
         },
         "candidate": {
           "path": "local-evidence/tervain-character-polish/rebake/final-cast/mill-hand/mill-hand-surface-candidate.glb",
-          "bytes": 4156620,
-          "sha256": "923a11e2d38dc4ae523379442244146e28535b61a80f6d6bea61dd2109c089f1",
+          "bytes": 1651960,
+          "sha256": "d4ea3aa8b8e4005054ba7cd63dbb68ff916aebe8dfd70a444a1dd663c0fa8537",
           "triangles": 10328,
           "vertices": 14001,
           "bones": 11,
@@ -6855,8 +6855,8 @@
       },
       "runtime": {
         "path": "public/models/npcs/quarry-hand.glb",
-        "bytes": 11608676,
-        "sha256": "4bdf9fd3e998efc7321c49d8feefff54f401d7da363f653f020f65557144162e",
+        "bytes": 7223956,
+        "sha256": "3ba63d2f6311ab22d5b95efa1236f0c1242b124d40a705fe000c8ed461875400",
         "triangles": 45965,
         "vertices": 69044,
         "joints": 11,
@@ -6864,8 +6864,8 @@
         "independentAudit": {
           "id": "quarry-hand",
           "label": "quarry-hand",
-          "bytes": 11608676,
-          "sha256": "4bdf9fd3e998efc7321c49d8feefff54f401d7da363f653f020f65557144162e",
+          "bytes": 7223956,
+          "sha256": "3ba63d2f6311ab22d5b95efa1236f0c1242b124d40a705fe000c8ed461875400",
           "storedTriangles": 45965,
           "sceneTriangles": 45965,
           "vertices": 69044,
@@ -6918,22 +6918,22 @@
             {
               "index": 0,
               "name": "quarry-hand-normal",
-              "mimeType": "image/png",
+              "mimeType": "image/jpeg",
               "format": "PNG",
               "width": 1024,
               "height": 1024,
               "bytes": 1999610,
-              "sha256": "18762ceeb0b9849bbd69b4c49422cc96ab40e2a40f7b74862bc936ddd16bf988"
+              "sha256": "7bc0821c1d2a6822e1cd14c5787e49b869c286d4ae52db5be61007ed2ac7a078"
             },
             {
               "index": 1,
               "name": "quarry-hand-albedo",
-              "mimeType": "image/png",
+              "mimeType": "image/webp",
               "format": "PNG",
               "width": 1536,
               "height": 1536,
               "bytes": 3530088,
-              "sha256": "89e1c0d4f742c2933b8b1bc865f25260435aed58e33b5836029dd44d9e017f88"
+              "sha256": "ce9bc95445858aeb54cf350e5b6bb3ae425ed2ed57fdf02917b54b6301ca66d0"
             }
           ],
           "maximumWeightSumError": 4.1211023926734924e-08,
@@ -6961,8 +6961,8 @@
         "sourceTriangles": 960038,
         "runtime": {
           "file": "quarry-hand.glb",
-          "bytes": 11608676,
-          "sha256": "4bdf9fd3e998efc7321c49d8feefff54f401d7da363f653f020f65557144162e",
+          "bytes": 7223956,
+          "sha256": "3ba63d2f6311ab22d5b95efa1236f0c1242b124d40a705fe000c8ed461875400",
           "triangles": 45965,
           "vertices": 69044,
           "bones": 11,
@@ -7319,8 +7319,8 @@
         },
         "candidate": {
           "path": "local-evidence/tervain-character-polish/rebake/final-cast/quarry-hand/quarry-hand-surface-candidate.glb",
-          "bytes": 11608676,
-          "sha256": "4bdf9fd3e998efc7321c49d8feefff54f401d7da363f653f020f65557144162e",
+          "bytes": 7223956,
+          "sha256": "3ba63d2f6311ab22d5b95efa1236f0c1242b124d40a705fe000c8ed461875400",
           "triangles": 45965,
           "vertices": 69044,
           "bones": 11,
@@ -7599,8 +7599,8 @@
       },
       "runtime": {
         "path": "public/models/npcs/village-baker.glb",
-        "bytes": 8034236,
-        "sha256": "08a6e0f394b753c928c92db46016699303b89b6a7052cae285181a71089054c0",
+        "bytes": 4120752,
+        "sha256": "aaeaab03f1552e84ffb63dc796a48ce1bf41c9302fd905827695d932bb4f0324",
         "triangles": 45998,
         "vertices": 39935,
         "joints": 11,
@@ -7608,8 +7608,8 @@
         "independentAudit": {
           "id": "village-baker",
           "label": "village-baker",
-          "bytes": 8034236,
-          "sha256": "08a6e0f394b753c928c92db46016699303b89b6a7052cae285181a71089054c0",
+          "bytes": 4120752,
+          "sha256": "aaeaab03f1552e84ffb63dc796a48ce1bf41c9302fd905827695d932bb4f0324",
           "storedTriangles": 45998,
           "sceneTriangles": 45998,
           "vertices": 39935,
@@ -7662,22 +7662,22 @@
             {
               "index": 0,
               "name": "village-baker-normal",
-              "mimeType": "image/png",
+              "mimeType": "image/jpeg",
               "format": "PNG",
               "width": 1024,
               "height": 1024,
               "bytes": 1413576,
-              "sha256": "a8f5bdfc525f2416f4644eedc1e1c44abee8ac2b4996252084c5f388c8bdbb63"
+              "sha256": "f2fd1ad52a01d053566036b2f780f1548b5ccf2aed83e25db77991142017271b"
             },
             {
               "index": 1,
               "name": "village-baker-albedo",
-              "mimeType": "image/png",
+              "mimeType": "image/webp",
               "format": "PNG",
               "width": 1536,
               "height": 1536,
               "bytes": 3146042,
-              "sha256": "ab875b8422f2053733448f0e627eb593e3f0001b6eb9994c301730770cbe783a"
+              "sha256": "78ba16935465a7d1fe366168bc8320fd51e5d437973f9ef89bb8a2204419146f"
             }
           ],
           "maximumWeightSumError": 3.725290298461914e-08,
@@ -7705,8 +7705,8 @@
         "sourceTriangles": 421927,
         "runtime": {
           "file": "village-baker.glb",
-          "bytes": 8034236,
-          "sha256": "08a6e0f394b753c928c92db46016699303b89b6a7052cae285181a71089054c0",
+          "bytes": 4120752,
+          "sha256": "aaeaab03f1552e84ffb63dc796a48ce1bf41c9302fd905827695d932bb4f0324",
           "triangles": 45998,
           "vertices": 39935,
           "bones": 11,
@@ -8063,8 +8063,8 @@
         },
         "candidate": {
           "path": "local-evidence/tervain-character-polish/rebake/final-cast/village-baker/village-baker-surface-candidate.glb",
-          "bytes": 8034236,
-          "sha256": "08a6e0f394b753c928c92db46016699303b89b6a7052cae285181a71089054c0",
+          "bytes": 4120752,
+          "sha256": "aaeaab03f1552e84ffb63dc796a48ce1bf41c9302fd905827695d932bb4f0324",
           "triangles": 45998,
           "vertices": 39935,
           "bones": 11,
@@ -8343,8 +8343,8 @@
       },
       "runtime": {
         "path": "public/models/npcs/fisher.glb",
-        "bytes": 9396060,
-        "sha256": "9f3f7e576f28d66756ff3b563a74c128de5e10df74a8b19330c2f99720f1c980",
+        "bytes": 4726592,
+        "sha256": "c634db30a1b8750297cb7da78fe832e26ab2729d6b8bde26e6c7f96b838f2802",
         "triangles": 46000,
         "vertices": 41761,
         "joints": 11,
@@ -8352,8 +8352,8 @@
         "independentAudit": {
           "id": "fisher",
           "label": "fisher",
-          "bytes": 9396060,
-          "sha256": "9f3f7e576f28d66756ff3b563a74c128de5e10df74a8b19330c2f99720f1c980",
+          "bytes": 4726592,
+          "sha256": "c634db30a1b8750297cb7da78fe832e26ab2729d6b8bde26e6c7f96b838f2802",
           "storedTriangles": 46000,
           "sceneTriangles": 46000,
           "vertices": 41761,
@@ -8406,22 +8406,22 @@
             {
               "index": 0,
               "name": "fisher-normal",
-              "mimeType": "image/png",
+              "mimeType": "image/jpeg",
               "format": "PNG",
               "width": 1024,
               "height": 1024,
               "bytes": 1749062,
-              "sha256": "30fe7e0a717a123fbeb375612fb1a149f167c88e2c2348505164fc380fa0e26b"
+              "sha256": "1a85cc89b2fb410ecd15af3d621ec6469e78ad82607f1eb7ae9d8e949f616182"
             },
             {
               "index": 1,
               "name": "fisher-albedo",
-              "mimeType": "image/png",
+              "mimeType": "image/webp",
               "format": "PNG",
               "width": 1536,
               "height": 1536,
               "bytes": 4026286,
-              "sha256": "01a4f1cab79e504ccc0383923cd8a35e435fe8ec3a2ba874ffc2d8c2ea5e84c6"
+              "sha256": "ab751ae358fb6364d4fb7941b316a0a57434190ac9e00b3cce9d1695582a6838"
             }
           ],
           "maximumWeightSumError": 2.9802322387695312e-08,
@@ -8449,8 +8449,8 @@
         "sourceTriangles": 651430,
         "runtime": {
           "file": "fisher.glb",
-          "bytes": 9396060,
-          "sha256": "9f3f7e576f28d66756ff3b563a74c128de5e10df74a8b19330c2f99720f1c980",
+          "bytes": 4726592,
+          "sha256": "c634db30a1b8750297cb7da78fe832e26ab2729d6b8bde26e6c7f96b838f2802",
           "triangles": 46000,
           "vertices": 41761,
           "bones": 11,
@@ -8807,8 +8807,8 @@
         },
         "candidate": {
           "path": "local-evidence/tervain-character-polish/rebake/final-cast/fisher/fisher-surface-candidate.glb",
-          "bytes": 9396060,
-          "sha256": "9f3f7e576f28d66756ff3b563a74c128de5e10df74a8b19330c2f99720f1c980",
+          "bytes": 4726592,
+          "sha256": "c634db30a1b8750297cb7da78fe832e26ab2729d6b8bde26e6c7f96b838f2802",
           "triangles": 46000,
           "vertices": 41761,
           "bones": 11,
@@ -9087,8 +9087,8 @@
       },
       "runtime": {
         "path": "public/models/npcs/fireside.glb",
-        "bytes": 11500624,
-        "sha256": "728e18da4e9f5d8dd393a0eb81d564b0456fd3c933226ca5f587d68e28565ad8",
+        "bytes": 7085632,
+        "sha256": "2b8c9303a8564732ea654388f93de022fbf528a8de4e3f42fbb39b5bc0a1b916",
         "triangles": 45957,
         "vertices": 65659,
         "joints": 11,
@@ -9096,8 +9096,8 @@
         "independentAudit": {
           "id": "fireside",
           "label": "fireside",
-          "bytes": 11500624,
-          "sha256": "728e18da4e9f5d8dd393a0eb81d564b0456fd3c933226ca5f587d68e28565ad8",
+          "bytes": 7085632,
+          "sha256": "2b8c9303a8564732ea654388f93de022fbf528a8de4e3f42fbb39b5bc0a1b916",
           "storedTriangles": 45957,
           "sceneTriangles": 45957,
           "vertices": 65659,
@@ -9150,22 +9150,22 @@
             {
               "index": 0,
               "name": "fireside-normal",
-              "mimeType": "image/png",
+              "mimeType": "image/jpeg",
               "format": "PNG",
               "width": 1024,
               "height": 1024,
               "bytes": 2078411,
-              "sha256": "f44af2644ebf37f93a59f308b281faefceaa313a1dab9fa52573befb18a3bf67"
+              "sha256": "b4b56234a69e5561829336111db2d315aaa852393f4e579a9b57d8592fb2e6e0"
             },
             {
               "index": 1,
               "name": "fireside-albedo",
-              "mimeType": "image/png",
+              "mimeType": "image/webp",
               "format": "PNG",
               "width": 1536,
               "height": 1536,
               "bytes": 3614167,
-              "sha256": "c7920ed7b901b22e88ebb991a790e709a4b34ebcc672dccb26697f6bb7665698"
+              "sha256": "7793cd49ecb15a1b83f012b53639ffb11a2e98153643a24fc8de74d99f75864a"
             }
           ],
           "maximumWeightSumError": 4.0978193283081055e-08,
@@ -9200,8 +9200,8 @@
         "sourceTriangles": 1010718,
         "runtime": {
           "file": "fireside.glb",
-          "bytes": 11500624,
-          "sha256": "728e18da4e9f5d8dd393a0eb81d564b0456fd3c933226ca5f587d68e28565ad8",
+          "bytes": 7085632,
+          "sha256": "2b8c9303a8564732ea654388f93de022fbf528a8de4e3f42fbb39b5bc0a1b916",
           "triangles": 45957,
           "vertices": 65659,
           "bones": 11,
@@ -9558,8 +9558,8 @@
         },
         "candidate": {
           "path": "local-evidence/tervain-character-polish/rebake/final-cast/fireside/fireside-surface-candidate.glb",
-          "bytes": 11500624,
-          "sha256": "728e18da4e9f5d8dd393a0eb81d564b0456fd3c933226ca5f587d68e28565ad8",
+          "bytes": 7085632,
+          "sha256": "2b8c9303a8564732ea654388f93de022fbf528a8de4e3f42fbb39b5bc0a1b916",
           "triangles": 45957,
           "vertices": 65659,
           "bones": 11,
@@ -9838,8 +9838,8 @@
       },
       "runtime": {
         "path": "public/models/npcs/keeper.glb",
-        "bytes": 4759632,
-        "sha256": "b7866e8477ced006aaa9563c89e1a241fbe67c70dd4b2a2ee8d71d8e29292db6",
+        "bytes": 1490912,
+        "sha256": "a2ebd3587a408c06a80cdf040c433ac94aa7357bea5b6ab2a27f413fa0d7ed0e",
         "triangles": 9365,
         "vertices": 11387,
         "joints": 11,
@@ -9847,8 +9847,8 @@
         "independentAudit": {
           "id": "keeper",
           "label": "keeper",
-          "bytes": 4759632,
-          "sha256": "b7866e8477ced006aaa9563c89e1a241fbe67c70dd4b2a2ee8d71d8e29292db6",
+          "bytes": 1490912,
+          "sha256": "a2ebd3587a408c06a80cdf040c433ac94aa7357bea5b6ab2a27f413fa0d7ed0e",
           "storedTriangles": 9365,
           "sceneTriangles": 9365,
           "vertices": 11387,
@@ -9901,22 +9901,22 @@
             {
               "index": 0,
               "name": "keeper-normal",
-              "mimeType": "image/png",
+              "mimeType": "image/jpeg",
               "format": "PNG",
               "width": 1024,
               "height": 1024,
               "bytes": 353175,
-              "sha256": "562b201e63bcf53f083c2f89ba316fb25bd8f41e06af94ba8458aa8d4d7491fa"
+              "sha256": "6b02f606403998470be0c8336591b703c7850598b49748361603a89651ca8f0b"
             },
             {
               "index": 1,
               "name": "keeper-albedo",
-              "mimeType": "image/png",
+              "mimeType": "image/webp",
               "format": "PNG",
               "width": 1536,
               "height": 1536,
               "bytes": 3435486,
-              "sha256": "ac394f924a4f17e8b586719372ee35a7babb06fe6179c8827255ad9880bb6bab"
+              "sha256": "29af9201d5231600f1c4782909afa4cd1a9024c09401cdd01d73a105d748dcfc"
             }
           ],
           "maximumWeightSumError": 4.470348358154297e-08,
@@ -9944,8 +9944,8 @@
         "sourceTriangles": 9365,
         "runtime": {
           "file": "keeper.glb",
-          "bytes": 4759632,
-          "sha256": "b7866e8477ced006aaa9563c89e1a241fbe67c70dd4b2a2ee8d71d8e29292db6",
+          "bytes": 1490912,
+          "sha256": "a2ebd3587a408c06a80cdf040c433ac94aa7357bea5b6ab2a27f413fa0d7ed0e",
           "triangles": 9365,
           "vertices": 11387,
           "bones": 11,
@@ -10302,8 +10302,8 @@
         },
         "candidate": {
           "path": "local-evidence/tervain-character-polish/rebake/final-cast/keeper/keeper-surface-candidate.glb",
-          "bytes": 4759632,
-          "sha256": "b7866e8477ced006aaa9563c89e1a241fbe67c70dd4b2a2ee8d71d8e29292db6",
+          "bytes": 1490912,
+          "sha256": "a2ebd3587a408c06a80cdf040c433ac94aa7357bea5b6ab2a27f413fa0d7ed0e",
           "triangles": 9365,
           "vertices": 11387,
           "bones": 11,
@@ -10582,8 +10582,8 @@
       },
       "runtime": {
         "path": "public/models/npcs/ford-bandit-a.glb",
-        "bytes": 11767292,
-        "sha256": "5f56d0305eb21031c7e1336f89ab8536224770eac2a60187e5fb3654a65d55a2",
+        "bytes": 7133592,
+        "sha256": "611485409c2a80f455707273546c1cb3fbf8875ff3756f2c5a00cac35321b803",
         "triangles": 45963,
         "vertices": 65711,
         "joints": 11,
@@ -10591,8 +10591,8 @@
         "independentAudit": {
           "id": "ford-bandit-a",
           "label": "ford-bandit-a",
-          "bytes": 11767292,
-          "sha256": "5f56d0305eb21031c7e1336f89ab8536224770eac2a60187e5fb3654a65d55a2",
+          "bytes": 7133592,
+          "sha256": "611485409c2a80f455707273546c1cb3fbf8875ff3756f2c5a00cac35321b803",
           "storedTriangles": 45963,
           "sceneTriangles": 45963,
           "vertices": 65711,
@@ -10645,22 +10645,22 @@
             {
               "index": 0,
               "name": "ford-bandit-a-normal",
-              "mimeType": "image/png",
+              "mimeType": "image/jpeg",
               "format": "PNG",
               "width": 1024,
               "height": 1024,
               "bytes": 2117253,
-              "sha256": "464f75d78113e2aed8a3c6d6751ed4aa438913e98de27b6b166e85c6486bad0b"
+              "sha256": "1a00d7fd8e930faa1e26db5f0cb8a8fb74fd0c0f636b941f6e679a96d9d26f90"
             },
             {
               "index": 1,
               "name": "ford-bandit-a-albedo",
-              "mimeType": "image/png",
+              "mimeType": "image/webp",
               "format": "PNG",
               "width": 1536,
               "height": 1536,
               "bytes": 3837691,
-              "sha256": "282cf321c2698f06bd745fea0c7bbb45f24a6ccfa3cc0f19c4c345d93ef031fc"
+              "sha256": "b362ab95d8e62ea7b740889306376660c861ce894f4417d0d6a881a35090a24c"
             }
           ],
           "maximumWeightSumError": 4.470348358154297e-08,
@@ -10688,8 +10688,8 @@
         "sourceTriangles": 1363156,
         "runtime": {
           "file": "ford-bandit-a.glb",
-          "bytes": 11767292,
-          "sha256": "5f56d0305eb21031c7e1336f89ab8536224770eac2a60187e5fb3654a65d55a2",
+          "bytes": 7133592,
+          "sha256": "611485409c2a80f455707273546c1cb3fbf8875ff3756f2c5a00cac35321b803",
           "triangles": 45963,
           "vertices": 65711,
           "bones": 11,
@@ -11046,8 +11046,8 @@
         },
         "candidate": {
           "path": "local-evidence/tervain-character-polish/rebake/final-cast/ford-bandit-a/ford-bandit-a-surface-candidate.glb",
-          "bytes": 11767292,
-          "sha256": "5f56d0305eb21031c7e1336f89ab8536224770eac2a60187e5fb3654a65d55a2",
+          "bytes": 7133592,
+          "sha256": "611485409c2a80f455707273546c1cb3fbf8875ff3756f2c5a00cac35321b803",
           "triangles": 45963,
           "vertices": 65711,
           "bones": 11,
@@ -11326,8 +11326,8 @@
       },
       "runtime": {
         "path": "public/models/npcs/ford-bandit-b.glb",
-        "bytes": 8374680,
-        "sha256": "edaa8f5402e9c4ffb31a89a3bbb00bc675bd77a216939cd950b3c5418cae5b1e",
+        "bytes": 4298528,
+        "sha256": "b18905b589324c098b510200f65472e2e91a87ffb60b1aed017845b6833f1592",
         "triangles": 45999,
         "vertices": 41033,
         "joints": 11,
@@ -11335,8 +11335,8 @@
         "independentAudit": {
           "id": "ford-bandit-b",
           "label": "ford-bandit-b",
-          "bytes": 8374680,
-          "sha256": "edaa8f5402e9c4ffb31a89a3bbb00bc675bd77a216939cd950b3c5418cae5b1e",
+          "bytes": 4298528,
+          "sha256": "b18905b589324c098b510200f65472e2e91a87ffb60b1aed017845b6833f1592",
           "storedTriangles": 45999,
           "sceneTriangles": 45999,
           "vertices": 41033,
@@ -11389,22 +11389,22 @@
             {
               "index": 0,
               "name": "ford-bandit-b-normal",
-              "mimeType": "image/png",
+              "mimeType": "image/jpeg",
               "format": "PNG",
               "width": 1024,
               "height": 1024,
               "bytes": 1585573,
-              "sha256": "29402883039409a30929d8c3a044e0f94dbca5518a3b167d93de46ce41c3debc"
+              "sha256": "b9f715b836f6e8231676b3e99d349c8de3697bf91dd00c32c9898c7789747c78"
             },
             {
               "index": 1,
               "name": "ford-bandit-b-albedo",
-              "mimeType": "image/png",
+              "mimeType": "image/webp",
               "format": "PNG",
               "width": 1536,
               "height": 1536,
               "bytes": 3226613,
-              "sha256": "f6b652842612fc789b814165863834b25a07eb34878a90045663241f091f486f"
+              "sha256": "6d24cce3e9fd679bf915acc7b888451baee4dd1e950fe6a57455046f08e09085"
             }
           ],
           "maximumWeightSumError": 3.3527612686157227e-08,
@@ -11432,8 +11432,8 @@
         "sourceTriangles": 3062974,
         "runtime": {
           "file": "ford-bandit-b.glb",
-          "bytes": 8374680,
-          "sha256": "edaa8f5402e9c4ffb31a89a3bbb00bc675bd77a216939cd950b3c5418cae5b1e",
+          "bytes": 4298528,
+          "sha256": "b18905b589324c098b510200f65472e2e91a87ffb60b1aed017845b6833f1592",
           "triangles": 45999,
           "vertices": 41033,
           "bones": 11,
@@ -11790,8 +11790,8 @@
         },
         "candidate": {
           "path": "local-evidence/tervain-character-polish/rebake/final-cast/ford-bandit-b/ford-bandit-b-surface-candidate.glb",
-          "bytes": 8374680,
-          "sha256": "edaa8f5402e9c4ffb31a89a3bbb00bc675bd77a216939cd950b3c5418cae5b1e",
+          "bytes": 4298528,
+          "sha256": "b18905b589324c098b510200f65472e2e91a87ffb60b1aed017845b6833f1592",
           "triangles": 45999,
           "vertices": 41033,
           "bones": 11,
@@ -12070,8 +12070,8 @@
       },
       "runtime": {
         "path": "public/models/npcs/menu-warden.glb",
-        "bytes": 7671612,
-        "sha256": "533727123105bc7a449cf668f328e385a4a5a82afa961ac8ae392bdae7574d2e",
+        "bytes": 4034132,
+        "sha256": "01b5ab89307c267929fc7053ecb420dd72320fe062b9dfd6912fb742b3887ac9",
         "triangles": 45998,
         "vertices": 39356,
         "joints": 11,
@@ -12079,8 +12079,8 @@
         "independentAudit": {
           "id": "menu-warden",
           "label": "menu-warden",
-          "bytes": 7671612,
-          "sha256": "533727123105bc7a449cf668f328e385a4a5a82afa961ac8ae392bdae7574d2e",
+          "bytes": 4034132,
+          "sha256": "01b5ab89307c267929fc7053ecb420dd72320fe062b9dfd6912fb742b3887ac9",
           "storedTriangles": 45998,
           "sceneTriangles": 45998,
           "vertices": 39356,
@@ -12133,22 +12133,22 @@
             {
               "index": 0,
               "name": "menu-warden-normal",
-              "mimeType": "image/png",
+              "mimeType": "image/jpeg",
               "format": "PNG",
               "width": 1024,
               "height": 1024,
               "bytes": 1386741,
-              "sha256": "8da94a634321e99a37373555bc93495ccbbc98c697358bb53b142d8a51f3b7b3"
+              "sha256": "12d801cb08e1df77c2a26b12b868aabec3fc55a8623336c92dec97ffa3ba5fc9"
             },
             {
               "index": 1,
               "name": "menu-warden-albedo",
-              "mimeType": "image/png",
+              "mimeType": "image/webp",
               "format": "PNG",
               "width": 1536,
               "height": 1536,
               "bytes": 2856509,
-              "sha256": "a121ac23a3e29d3bef1196a2c375e958e2f254077cdca1e91ff27ab0536e6bca"
+              "sha256": "d350e507905e517c5e59f3046cee2eddae66ad8cef9757d1101a5f1b1bda1dc7"
             }
           ],
           "maximumWeightSumError": 3.725290298461914e-08,
@@ -12176,8 +12176,8 @@
         "sourceTriangles": 377061,
         "runtime": {
           "file": "menu-warden.glb",
-          "bytes": 7671612,
-          "sha256": "533727123105bc7a449cf668f328e385a4a5a82afa961ac8ae392bdae7574d2e",
+          "bytes": 4034132,
+          "sha256": "01b5ab89307c267929fc7053ecb420dd72320fe062b9dfd6912fb742b3887ac9",
           "triangles": 45998,
           "vertices": 39356,
           "bones": 11,
@@ -12534,8 +12534,8 @@
         },
         "candidate": {
           "path": "local-evidence/tervain-character-polish/rebake/final-cast/menu-warden/menu-warden-surface-candidate.glb",
-          "bytes": 7671612,
-          "sha256": "533727123105bc7a449cf668f328e385a4a5a82afa961ac8ae392bdae7574d2e",
+          "bytes": 4034132,
+          "sha256": "01b5ab89307c267929fc7053ecb420dd72320fe062b9dfd6912fb742b3887ac9",
           "triangles": 45998,
           "vertices": 39356,
           "bones": 11,

@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { S } from '../content/strings';
 import type { Game } from '../game/game';
-import { ANIMAL_SPECIES, HUNTING_ARROW_RANGE, SKINNING_SECONDS, type AnimalId } from '../game/hunting';
+import { ANIMAL_SPECIES, HUNTING_ARROW_RANGE, skinningSeconds, type AnimalId } from '../game/hunting';
 import type { Input } from '../platform/input';
 import { codeLabel, type Settings } from '../platform/settings';
 import type { AudioEngine } from './audio';
@@ -76,7 +76,7 @@ export class HuntingController {
     }
     if (input.pressed('skin')) this.skin();
     if (this.skinId && !this.skinValid(this.skinId)) player.cancelSkinning();
-    const available = player.bowEquipped(game) && player.state === 'free' && player.alive && !player.swimming && !world.physics.holding;
+    const available = player.bowEquipped(game) && player.state === 'free' && player.alive && !player.swimming && !player.mount && !world.physics.holding;
     if (!available) { this.cancelDraw(); cam.setAiming(false); return; }
     const held = input.isDown('attack');
     const aimHeld = input.isDown('block');
@@ -226,7 +226,7 @@ export class HuntingController {
     if (unavailable) { hud.toast(S(unavailable), unavailable === 'hunting.need_knife' ? 'bad' : undefined); return; }
     const frame = world.animals.skinningFrame(carcass.id, player)!;
     this.cancelDraw(); this.host.cam.setAiming(false);
-    const started = player.beginSkinning(frame.target.x, frame.target.z, SKINNING_SECONDS, () => {
+    const started = player.beginSkinning(frame.target.x, frame.target.z, skinningSeconds(game.state.huntTally), () => {
       audio.stopHuntingSounds('skinning');
       if (this.canAct() && this.skinValid(carcass.id)) {
         game.setPlayerTransform(player.x, player.y, player.z, player.yaw);

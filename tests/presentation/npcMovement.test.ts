@@ -158,7 +158,8 @@ describe('peaceful resident motion', () => {
   });
 
   it('waits inside a shared doorway instead of spawning overlapping residents, then exits when it clears', () => {
-    const { npc, ctx, tick } = harness(), home = ANCHORS.hunter_shelter!;
+    // Someone without a bed still goes in at their door (A70): the hunter's routine under a bedless name.
+    const { npc, ctx, tick } = harness({ ...NPCS.trail_hunter, id: 'caravan_master' }), home = ANCHORS.hunter_shelter!;
     ctx.residentContacts = [{ id: 'person:quarry_hand', kind: 'circle', x: home.x, z: home.z, r: .35, active: true, minY: 0, maxY: 1.8 }];
     ctx.hour = 7; tick(2);
     expect(npc.hidden).toBe(true); expect(npc.rig.root.visible).toBe(false);

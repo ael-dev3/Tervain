@@ -360,4 +360,22 @@ describe('direction, turning and action layers (A70)', () => {
       }
     }
   });
+  it('plants each foot on the ground under it, the pelvis lowered to the lower foot (A70)', () => {
+    const rig = createHeroRig(asset), left = soleVertices(rig, 'Left'), right = soleVertices(rig, 'Right');
+    rig.root.updateMatrixWorld(true);
+    const leftX = bindHeroBones(rig.root)['mixamorig:LeftFoot'].getWorldPosition(new THREE.Vector3()).x;
+    const flatL = lowestSole(rig, left), flatR = lowestSole(rig, right);
+    // A stair edge between the feet: the left foot's side stands 0.18 m higher.
+    const groundAt = (x: number) => (Math.sign(x) === Math.sign(leftX) ? 0.18 : 0);
+    for (let i = 0; i < 90; i++) rig.hero.pose(pose('idle', { groundAt, rootY: 0 }), 1 / 60, false);
+    expect(lowestSole(rig, left) - flatL).toBeCloseTo(0.18, 1);
+    expect(Math.abs(lowestSole(rig, right) - flatR)).toBeLessThan(0.03);
+    // Down a step the pelvis drops so the lower foot still reaches; airborne the legs hang free again.
+    const below = (x: number) => (Math.sign(x) === Math.sign(leftX) ? -0.2 : 0);
+    for (let i = 0; i < 90; i++) rig.hero.pose(pose('idle', { groundAt: below, rootY: 0 }), 1 / 60, false);
+    expect(lowestSole(rig, left) - flatL).toBeCloseTo(-0.2, 1);
+    expect(Math.abs(lowestSole(rig, right) - flatR)).toBeLessThan(0.03);
+    for (let i = 0; i < 90; i++) rig.hero.pose(pose('run', { grounded: false, groundAt: below, rootY: 0 }), 1 / 60, false);
+    expect(rig.body.position.y).toBeCloseTo(0, 3);
+  });
 });

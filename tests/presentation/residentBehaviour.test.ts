@@ -87,14 +87,15 @@ describe('residents turn and face like people (A69)', () => {
   });
 
   it('come out of their door facing the way they are going, not the door they went in by', () => {
-    const { npc, ctx, tick } = harness(NPCS.trail_hunter, 23);
-    expect(npc.hidden).toBe(true);
-    npc.yaw = 2.5;
-    ctx.hour = 7;
-    for (let i = 0; i < 600 && npc.hidden; i++) tick(1 / 60);
+    // Asleep at his shelter (A70), he gets up and turns to the way he is going within his first strides.
+    const { npc, ctx, tick } = harness(NPCS.trail_hunter, 23), start = { x: npc.x, z: npc.z };
     expect(npc.hidden).toBe(false);
+    expect(npc.lie).toBe(1);
+    ctx.hour = 7;
+    for (let i = 0; i < 900 && Math.hypot(npc.x - start.x, npc.z - start.z) < 1; i++) tick(1 / 60);
+    expect(npc.lie).toBe(0);
     const station = ANCHORS.hunter_station!;
-    expect(Math.abs(wrap(npc.yaw - Math.atan2(station.x - npc.x, station.z - npc.z)))).toBeLessThan(0.05);
+    expect(Math.abs(wrap(npc.yaw - Math.atan2(station.x - npc.x, station.z - npc.z)))).toBeLessThan(0.1);
   });
 
   it('are under way only with a route still to walk', () => {

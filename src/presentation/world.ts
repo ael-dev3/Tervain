@@ -1,6 +1,7 @@
 import { loadBakedTextures } from './bakedTextures';
 import { buildFurniture, loadFurniture, type FurnitureTemplates } from './furniture';
 import { InteriorLight } from './interiorLight';
+import { WindowView } from './windowView';
 import type { InteriorSpec } from '../world/interiors';
 import { DoorSwings, type DoorEvent } from './doors';
 import * as THREE from 'three';
@@ -205,7 +206,13 @@ export class WorldScene {
 
   /** Release GPU resources the scene graph does not own. */
   dispose() {
+    this.windowView.dispose();
     this.disposeOwned();
+  }
+
+  /** Renderer work before the world is drawn: what the windows of the room the camera is in look out on (A70). */
+  prepareInterior(renderer: THREE.WebGLRenderer, camera: THREE.Camera, dt: number, settings: Settings) {
+    this.windowView.update(renderer, this.scene, camera.position, dt, settings.quality !== 'low');
   }
 
   private static async build(state: WorldState, settings: Settings, library: AssetLibrary, terrainTex: TerrainTextures, pine: PineTemplates, rockPile: GLTF,
@@ -385,6 +392,7 @@ export class WorldScene {
     this.foliage = resources.foliage;
     this.disposeOwned = resources.disposeOwned;
     this.interiorLight = new InteriorLight(this.terrain.rooms);
+    this.windowView = new WindowView(this.terrain.rooms, this.scenery.daylightMat);
     this.doorSwings = new DoorSwings(this.scenery.doors ?? []);
     this.scene.add(this.interiorLight.light);
     this.skyFill = this.scene.environmentIntensity;
@@ -576,7 +584,7 @@ export class WorldScene {
     const night = this.sky.state.nightness;
     // Inside a room the sky's fill is mostly shut out and the room's own warm light takes over (A66). Without
     // shadows (Low) the sun itself would shine through the roof, so it is dimmed there as well.
-    const indoor = this.interiorLight.update(dt, camera.position, night, this.time);
+    const indoor = this.interiorLight.update(dt, camera.position, night, this.time, settings.quality !== 'low');
     this.sky.hemi.intensity *= 1 - 0.55 * indoor;
     this.scene.environmentIntensity = this.skyFill * (1 - 0.6 * indoor);
     if (settings.quality === 'low') this.sky.sun.intensity *= 1 - 0.85 * indoor;
@@ -664,6 +672,7 @@ export class WorldScene {
 
   private readonly doorSwings: DoorSwings;
   private readonly interiorLight: InteriorLight;
+  private readonly windowView: WindowView;
   /** The sky's image light at full strength, before a room dims it. */
   private readonly skyFill: number;
 

@@ -299,7 +299,9 @@ describe('persistent reachable world pickups with full scenery and vegetation', 
         player: { x: HUNTER_SUPPLY.x - 12, y: terrain.groundAt(HUNTER_SUPPLY.x - 12, HUNTER_SUPPLY.z - 12), z: HUNTER_SUPPLY.z - 12 },
         reducedMotion: false, onBark: vi.fn(() => false) };
       hunter.update(1 / 60, ctx);
-      expect(hunter.hidden).toBe(true);
+      // Asleep on his bedroll at the shelter, not vanished (A70).
+      expect(hunter.hidden).toBe(false);
+      expect(hunter.lie).toBe(1);
       expect({ x: hunter.x, z: hunter.z }).toEqual({ x: home.x, z: home.z });
       ctx.hour = 7;
       let elapsed = 0, maxStep = 0;
@@ -319,8 +321,9 @@ describe('persistent reachable world pickups with full scenery and vegetation', 
       expect(Math.atan2(Math.sin(hunter.yaw - work.yaw), Math.cos(hunter.yaw - work.yaw))).toBeCloseTo(0, 4);
       expect(pose).toHaveBeenLastCalledWith(hunter.rig, expect.objectContaining({ mode: 'work', workGesture: 'provisioning' }), 1 / 60);
       ctx.hour = 23;
-      for (let i = 0; i < 1800 && !hunter.hidden; i++) hunter.update(1 / 60, ctx);
-      expect(hunter.hidden, 'night return never reaches the shelter').toBe(true);
+      for (let i = 0; i < 1800 && hunter.lie < 1; i++) hunter.update(1 / 60, ctx);
+      expect(hunter.lie, 'night return never reaches the shelter and lies down (A70)').toBe(1);
+      expect(hunter.hidden).toBe(false);
       expect(Math.hypot(hunter.x - home.x, hunter.z - home.z)).toBeLessThan(.35);
     } finally { pose.mockRestore(); }
   });

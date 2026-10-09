@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { GLTFLoader, type GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import type { Species, TreeVariant } from './treeGen';
 import { assertNaturalModelBudget } from './naturalModelBudget';
 import { deduplicateTreeTextures } from './treeTexturePool';
@@ -13,6 +14,41 @@ export const MESHY_TREE_IDS = ['fir-spire', 'oak-elder', 'palm-date', 'palm-fan'
 export type MeshyTreeTemplates = ReadonlyMap<string, readonly [GLTF, GLTF, GLTF]>;
 export const MESHY_TREE_LODS = ['near', 'mid', 'far'] as const;
 const pending = new Map<string, Promise<GLTF>>();
+
+/** Broadleaf kinds whose exported leaflets leave a thin crown (A70). */
+const BROADLEAF = new Set<Species>(['oak', 'birch', 'orchard']);
+/** Each detail level of a tree stays under the natural-model budget; thickening fills up to just below it. */
+const TREE_TRIANGLES = 19_800;
+
+/**
+ * Fill a thin crown close up (A70). The 0.0.12 export cut the broadleaf leaf plates to small leaflets, so a near crown
+ * shows sky through it. The near detail gains a second layer of the same cards, turned about the trunk and drawn a
+ * tenth toward the crown's heart, filling the gaps between the first without changing the crown's outline. Middle and
+ * far detail, where the gaps do not read, are left as exported.
+ */
+function thicken(leaf: THREE.BufferGeometry | null, enabled: boolean, room: number): THREE.BufferGeometry | null {
+  if (!leaf || !enabled || room < 300) return leaf;
+  leaf.computeBoundingBox();
+  const box = leaf.boundingBox!;
+  const heart = new THREE.Vector3((box.min.x + box.max.x) / 2, box.min.y * 0.4 + box.max.y * 0.6, (box.min.z + box.max.z) / 2);
+  const inner = leaf.clone().applyMatrix4(new THREE.Matrix4().makeTranslation(heart.x, heart.y, heart.z)
+    .multiply(new THREE.Matrix4().makeRotationY(0.83)).multiply(new THREE.Matrix4().makeScale(0.9, 0.93, 0.9))
+    .multiply(new THREE.Matrix4().makeTranslation(-heart.x, -heart.y, -heart.z)));
+  // Within the tree budget: where a whole second layer would not fit, an even share of its cards does.
+  const cards = inner.index ? inner.index.count / 3 : inner.getAttribute('position').count / 3;
+  if (cards > room && inner.index) {
+    const keep = room / cards, src = inner.index.array, out: number[] = [];
+    for (let t = 0, acc = 0; t < cards; t++) { acc += keep; if (acc >= 1) { acc -= 1; out.push(src[t * 3]!, src[t * 3 + 1]!, src[t * 3 + 2]!); } }
+    inner.setIndex(out);
+  } else if (cards > room) { inner.dispose(); return leaf; }
+  const merged = mergeGeometries([leaf, inner]);
+  inner.dispose();
+  if (!merged) return leaf;
+  leaf.dispose();
+  merged.computeBoundingBox(); merged.computeBoundingSphere();
+  return merged;
+}
+
 export function meshyTreeUrl(id: string, lod: typeof MESHY_TREE_LODS[number], base = import.meta.env.BASE_URL, page = document.baseURI): URL {
   return modelAssetUrl(`flora/meshy-012/${id}-${lod}.glb`, base, page);
 }
@@ -176,8 +212,11 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
         geometries.add(geometry); return geometry;
       };
       const palette = decoded.map(parts => ({ wood: parts.wood ? cloneMaterial(parts.wood.material, true) : null, leaf: parts.leaf && species !== 'dead' ? cloneMaterial(parts.leaf.material, false) : null }));
-      const lods = decoded.map(parts => {
-        const wood = prepare(parts.wood, false), leaf = prepare(parts.leaf, true);
+      const lods = decoded.map((parts, lod) => {
+        const wood = prepare(parts.wood, false), exported = prepare(parts.leaf, true);
+        const triangles = (g: THREE.BufferGeometry | null) => (g ? (g.index?.count ?? g.getAttribute('position').count) / 3 : 0);
+        const leaf = thicken(exported, lod === 0 && BROADLEAF.has(species), TREE_TRIANGLES - triangles(wood) - triangles(exported));
+        if (leaf && leaf !== exported) { geometries.delete(exported!); geometries.add(leaf); }
         return { wood, leaf, tris: [wood, leaf].reduce((sum, geometry) => sum + (geometry ? (geometry.index?.count ?? geometry.getAttribute('position').count) / 3 : 0), 0) };
       }) as TreeVariant['lods'];
       const leafSurfaceSites = lods[0].leaf && palette[0]!.leaf

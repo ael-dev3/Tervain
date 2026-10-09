@@ -24,6 +24,7 @@ import { BI, BONES, box, ellipsoid, loft, Mesher, mul3, rigid, tube, type BoneNa
 import { poseHeroRig } from './hero/rig';
 import type { HeroAnimationController } from './hero/animation';
 import type { ResidentMotion } from './npc/residentMotion';
+import type { WorkSite } from './npc/workSites';
 
 /** Assets this module wants loaded before the world is built. */
 export const NEEDS: AssetNeed[] = [];
@@ -57,6 +58,11 @@ export type Mode =
   | 'swim';
 
 export interface Pose {
+  /** World ground height under a world point, and the root height, for feet planted on uneven ground (A70). */
+  groundAt?: (x: number, z: number) => number;
+  rootY?: number;
+  /** Seated astride a mount rather than on a bench (A70). */
+  straddle?: boolean;
   mode: Mode;
   /** 0..1 speed factor for locomotion. */
   speed: number;
@@ -76,6 +82,8 @@ export interface Pose {
   turn?: number;
   /** Authored, restrained task motion; no gameplay state is inferred from the gesture. */
   workGesture?: WorkGesture;
+  /** The real surface the work is done against, in the actor's frame: hands and tools are brought onto it (A70). */
+  workSite?: WorkSite;
   /** Talking or resting at a seat keeps the authored lower-body support instead of standing on every remark. */
   seated?: boolean;
   /** Height of the seat top above the actor's ground, metres: a fitted resident sits on it rather than at a fixed drop. */

@@ -2,6 +2,8 @@ import * as THREE from 'three';
 import type { Mode, Pose } from '../characters';
 import type { WorkGesture } from '../npcStyle';
 import { RESIDENT_JOINTS, type ResidentBones, type ResidentJoint, type ResidentRigData } from './residentRig';
+import type { ToolPoints } from './residentProps';
+import type { WorkSite } from './workSites';
 
 /**
  * The residents' motion (A65): authored clips from Meshy's animation library and Meshy's text-to-motion, all made on
@@ -397,7 +399,31 @@ export interface ResidentMotionOptions {
    * nearer the arms' rest, and the gestures that lift the arms away from the body are left out.
    */
   garmentArms?: number;
+  /** The hands' surfaces and the tools' working ends, for bringing them onto a work surface (A70). */
+  contacts?: WorkContacts;
 }
+
+/** A hand's surface: the vertices that follow it; in its joint's frame, their middle, the way the fingers run and the palm faces (A70). */
+export interface HandSurface { vertices: number[]; centre: THREE.Vector3; fingers: THREE.Vector3; palm: THREE.Vector3 }
+/** The skinned body whose hand vertices touch, each hand's surface, and the tools' working ends. */
+export interface WorkContacts { mesh: THREE.SkinnedMesh; hands: Partial<Record<Hand, HandSurface>>; tools: ToolPoints }
+type Hand = 'LeftHand' | 'RightHand';
+/** A work clip played alone, sampled in the actor's frame: each wrist, each hand's lowest point and each tool end (A70). */
+type ContactTrack = Map<string, THREE.Vector3[]>;
+/**
+ * Work contacts (A70). A palm rests this far above a counter top; a hand stays on it until the clip lifts it this far
+ * (with reduced motion, the lift scaled about the counter); a chisel stays on the face until the clip draws it back this
+ * far; a rod's foot stands on the ground while the rod is this upright (its axis' rise).
+ */
+const PALM_REST = 0.004, LIFT_OFF = [0.28, 0.4] as const, DRAW_BACK = [0.12, 0.25] as const, UPRIGHT = [0.35, 0.6] as const;
+/** A planted rod keeps this much of the clip's lean. */
+const ROD_LEAN = 0.3;
+/** The hammer's face stops this short of the chisel's struck end (half its head's depth). */
+const STRIKE_GAP = 0.012;
+/** How far over the face the chisel's edge may wander from where it strikes (metres). */
+const FACE_SPAN = 0.05;
+const REACH_JOINTS: ResidentJoint[] = ['LeftArm', 'LeftForeArm', 'LeftHand', 'RightArm', 'RightForeArm', 'RightHand'];
+const smooth = (v: number) => { const t = clamp01(v); return t * t * (3 - 2 * t); };
 
 /** The calmer conversation gestures and accents, for figures whose arms carry a garment. */
 const CALM_TALK = ['talk.chat', 'talk.listen'];
@@ -442,6 +468,10 @@ export class ResidentMotion {
   private readonly seatCurves = new Map<RetargetedClip, { track: THREE.KeyframeTrack; top: number; bottom: number }>();
 
   private readonly armRest: Map<ResidentJoint, THREE.Quaternion>;
+  /** Each work clip's contact samples (A70). */
+  private readonly tracks = new Map<RetargetedClip, ContactTrack>();
+  /** The arm joints' clip pose before the last reach, restored before the next (A70). */
+  private readonly reached: [ResidentJoint, THREE.Quaternion][] = [];
 
   constructor(private readonly scene: THREE.Group, private readonly body: THREE.Group, private readonly bones: ResidentBones,
     private readonly clips: ResidentClips, private readonly options: ResidentMotionOptions) {
@@ -555,6 +585,9 @@ export class ResidentMotion {
   }
 
   pose(p: Pose, dt: number): void {
+    // The mixer writes a joint only when its clip value changes: give back the arms' clip pose before reaching anew (A70).
+    for (const [joint, q] of this.reached) this.bones[joint].quaternion.copy(q);
+    this.reached.length = 0;
     const step = Number.isFinite(dt) ? Math.min(Math.max(dt, 0), 0.25) : 0;
     this.clock += step;
     const mode = p.mode;
@@ -605,6 +638,7 @@ export class ResidentMotion {
       const gesture = p.workGesture ?? 'general';
       seated = SEATED_WORK.has(gesture) || p.seated === true;
       leading = this.lead(MOTION_CLIPS.work[gesture]);
+      if (leading && p.workSite && this.options.contacts) this.trackOf(leading);
       if (leading) leading.time = fraction((leading.time + step) / leading.clip.clip.duration) * leading.clip.clip.duration;
     } else if (seated) {
       // Sitting down: the transition plays once from a standing pose, then the seated idle or talk.
@@ -673,9 +707,193 @@ export class ResidentMotion {
     this.body.position.copy(shift);
     this.body.rotation.set(0, 0, 0);
     this.plantFeet(shift.y);
+    if (mode === 'work' && leading && p.workSite && this.options.contacts) this.reachSite(p, p.workGesture ?? 'general', p.workSite, leading);
     this.wasSeated = seated && this.transition?.name !== MOTION_CLIPS.sitUp;
     this.lastMode = mode;
     this.scene.updateMatrixWorld(true);
+  }
+
+  /** A contact point of the pose as it stands, in the actor's frame: a wrist, a hand's lowest point or a tool's end (A70). */
+  private pointNow(name: string, out = new THREE.Vector3()): THREE.Vector3 {
+    const frame = this.body.parent!, contacts = this.options.contacts!;
+    if (name === 'LeftHand' || name === 'RightHand') out.setFromMatrixPosition(this.bones[name].matrixWorld);
+    else if (name === 'lowL' || name === 'lowR') {
+      // The hand's skin as drawn, not as a rigid hand: the wrist's vertices share the forearm's turn.
+      const hand = name === 'lowL' ? 'LeftHand' : 'RightHand', surface = contacts.hands[hand], mesh = contacts.mesh;
+      mesh.skeleton.update();
+      let lowest = Infinity;
+      for (const vertex of surface?.vertices ?? []) {
+        mesh.localToWorld(mesh.getVertexPosition(vertex, _v0));
+        _v1.copy(_v0); frame.worldToLocal(_v1);
+        if (_v1.y < lowest) { lowest = _v1.y; out.copy(_v0); }
+      }
+    } else if (name === 'palmL' || name === 'palmR') {
+      const hand = name === 'palmL' ? 'LeftHand' : 'RightHand';
+      out.copy(contacts.hands[hand]?.centre ?? _v0.set(0, 0, 0)).applyMatrix4(this.bones[hand].matrixWorld);
+    } else {
+      const end = contacts.tools[name as keyof ToolPoints];
+      if (!end) return out.set(NaN, NaN, NaN);
+      end.tool.localToWorld(out.copy(end.point));
+    }
+    return frame.worldToLocal(out);
+  }
+
+  /** The contact points a work clip moves, sampled through the clip played alone (A70). */
+  private trackOf(lead: Playing): ContactTrack {
+    let track = this.tracks.get(lead.clip);
+    if (track) return track;
+    track = new Map();
+    this.tracks.set(lead.clip, track);
+    const names = ['LeftHand', 'RightHand', 'lowL', 'lowR', ...Object.keys(this.options.contacts!.tools)];
+    for (const name of names) track.set(name, []);
+    const saved = [...this.playing.values()].map(q => ({ q, enabled: q.action.enabled, weight: q.action.getEffectiveWeight(), time: q.action.time }));
+    const bodyAt = this.body.position.clone(), bodyTurn = this.body.quaternion.clone();
+    for (const q of this.playing.values()) { q.action.enabled = q === lead; q.action.setEffectiveWeight(q === lead ? 1 : 0); }
+    this.body.position.set(0, 0, 0); this.body.quaternion.identity();
+    const samples = Math.max(2, Math.ceil(lead.clip.clip.duration * 30)), damping = this.options.garmentArms ?? 0;
+    for (let i = 0; i < samples; i++) {
+      lead.action.time = (i / samples) * lead.clip.clip.duration;
+      this.mixer.update(0);
+      if (damping > 0) for (const joint of ARM_JOINTS) this.bones[joint].quaternion.slerp(this.armRest.get(joint)!, damping);
+      this.body.updateMatrixWorld(true);
+      for (const name of names) track.get(name)!.push(this.pointNow(name));
+    }
+    for (const { q, enabled, weight, time } of saved) { q.action.enabled = enabled; q.action.setEffectiveWeight(weight); q.action.time = time; }
+    this.body.position.copy(bodyAt); this.body.quaternion.copy(bodyTurn);
+    return track;
+  }
+
+  /** A clip sample's contact points at a clip time (nearest sample). */
+  private sampleAt(track: ContactTrack, lead: Playing, name: string): THREE.Vector3 {
+    const samples = track.get(name)!;
+    return samples[Math.round(fraction(lead.time / lead.clip.clip.duration) * samples.length) % samples.length]!;
+  }
+
+  /** Turn a hand (world frame) by `turn`, `weight` of the way. */
+  private turnHand(hand: Hand, turn: THREE.Quaternion, weight: number): void {
+    if (weight <= 1e-4) return;
+    const bone = this.bones[hand];
+    const now = bone.getWorldQuaternion(_qa), target = _qb.copy(turn).multiply(now);
+    now.slerp(target, Math.min(1, weight));
+    bone.quaternion.copy(bone.parent!.getWorldQuaternion(_qp).invert().multiply(now));
+    bone.updateMatrixWorld(true);
+  }
+
+  /** Move a hand's wrist by `delta` (actor frame) with the arm's two joints, the hand keeping its turn. */
+  private moveHand(hand: Hand, delta: THREE.Vector3): void {
+    if (delta.lengthSq() < 1e-10) return;
+    const side = hand === 'LeftHand' ? 'Left' : 'Right';
+    const frame = this.body.parent!;
+    // Its own vectors: the reach below uses the shared ones.
+    const target = this.bones[hand].getWorldPosition(new THREE.Vector3()).add(delta.clone().transformDirection(frame.matrixWorld).multiplyScalar(delta.length()));
+    reachTwoJoints(this.bones[`${side}Arm`], this.bones[`${side}ForeArm`], this.bones[hand], target);
+  }
+
+  /** A direction in the actor's frame, in the world. */
+  private worldDirection(x: number, y: number, z: number, out: THREE.Vector3): THREE.Vector3 {
+    return out.set(x, y, z).transformDirection(this.body.parent!.matrixWorld);
+  }
+
+  /**
+   * Bring the work clip's hands and tools onto the real surface (A70): palms onto the counter top, the chisel's edge onto
+   * the quarry face with the hammer's face meeting its struck end where the clip's own blow lands, the rod's foot onto
+   * the ground. Everything the clip does away from the surface is kept, moved with it; with reduced motion the clip's
+   * movement is scaled about the contact. The work clip's weight fades the reach in and out.
+   */
+  private reachSite(p: Pose, gesture: WorkGesture, site: WorkSite, lead: Playing): void {
+    const weight = lead.weight, contacts = this.options.contacts!, track = this.tracks.get(lead.clip);
+    if (weight <= 1e-3 || !track) return;
+    const amp = clamp01(p.amp);
+    for (const joint of REACH_JOINTS) this.reached.push([joint, this.bones[joint].quaternion.clone()]);
+    this.body.updateMatrixWorld(true);
+    if (gesture === 'provisioning' && site.kind === 'counter') {
+      const top = site.top + PALM_REST;
+      for (const [hand, low, palm, inward] of [['LeftHand', 'lowL', 'palmL', -1], ['RightHand', 'lowR', 'palmR', 1]] as const) {
+        const surface = contacts.hands[hand];
+        if (!surface) continue;
+        const rest = Math.min(...track.get(low)!.map(v => v.y));
+        // Lifted this far above where the clip rests it; with reduced motion, less.
+        const lift = (this.pointNow(low, _a).y - rest) * amp;
+        const on = 1 - smooth((lift - LIFT_OFF[0]) / (LIFT_OFF[1] - LIFT_OFF[0]));
+        // On the counter the hand lies flat: palm down, fingers ahead and a little inward.
+        const fingers = this.worldDirection(inward * 0.2, -0.2, 1, _b).normalize(), down = this.worldDirection(0, -1, 0, _c);
+        const local = new THREE.Matrix4().makeBasis(surface.fingers, surface.palm, _n.crossVectors(surface.fingers, surface.palm).normalize());
+        down.sub(_v0.copy(fingers).multiplyScalar(down.dot(fingers))).normalize();
+        const world = new THREE.Matrix4().makeBasis(fingers, down, _v1.crossVectors(fingers, down));
+        const flat = _qc.setFromRotationMatrix(world.multiply(local.transpose()));
+        this.turnHand(hand, _turn.copy(flat).multiply(this.bones[hand].getWorldQuaternion(_qp).invert()), on * weight);
+        const lowest = this.pointNow(low, _a), centre = this.pointNow(palm, _v3.set(0, 0, 0)).clone();
+        const x = THREE.MathUtils.clamp(centre.x, site.x0 + 0.06, site.x1 - 0.06), z = THREE.MathUtils.clamp(centre.z, site.z0 + 0.07, site.z1 - 0.06);
+        const raised = lowest.y - rest;
+        const y = on * (top - lowest.y) + (1 - on) * (top - rest - (1 - amp) * raised);
+        const goal = new THREE.Vector3(centre.x + (x - centre.x) * weight, lowest.y + y * weight, centre.z + (z - centre.z) * weight);
+        // The skin at the wrist follows the forearm too: a second reach settles what the first left.
+        for (let pass = 0; pass < 3; pass++) {
+          const under = this.pointNow(low, _a).y, middle = this.pointNow(palm, _v3);
+          this.moveHand(hand, _v0.set(goal.x - middle.x, goal.y - under, goal.z - middle.z));
+        }
+      }
+    } else if (gesture === 'stonework' && site.kind === 'face' && contacts.tools.chiselTip && contacts.tools.chiselButt) {
+      const point = _a.fromArray(site.point).clone(), normal = _b.fromArray(site.normal).normalize().clone();
+      const tips = track.get('chiselTip')!, butts = track.get('chiselButt')!;
+      const reach = Math.max(...tips.map(t => t.z));
+      // The clip's blow: where its hammer comes nearest the chisel's end while the chisel is held out.
+      let strike = -1, face: 'hammerA' | 'hammerB' = 'hammerA', nearest = Infinity;
+      for (const end of ['hammerA', 'hammerB'] as const) {
+        const heads = track.get(end);
+        if (!heads) continue;
+        heads.forEach((head, i) => {
+          if (reach - tips[i]!.z > DRAW_BACK[0]) return;
+          const d = head.distanceTo(butts[i]!);
+          if (d < nearest) { nearest = d; strike = i; face = end; }
+        });
+      }
+      const tip0 = this.pointNow('chiselTip').clone(), butt0 = this.pointNow('chiselButt').clone();
+      const head0 = contacts.tools[face] ? this.pointNow(face).clone() : null;
+      const tipAtStrike = strike >= 0 ? tips[strike]! : this.sampleAt(track, lead, 'chiselTip');
+      const on = 1 - smooth((reach - tip0.z - DRAW_BACK[0]) / (DRAW_BACK[1] - DRAW_BACK[0]));
+      // The chisel points into the rock, a little downward.
+      const into = this.worldDirection(-normal.x, -normal.y - 0.25, -normal.z, _c).normalize();
+      const axis = this.worldDirection(tip0.x - butt0.x, tip0.y - butt0.y, tip0.z - butt0.z, _n).normalize();
+      this.turnHand('LeftHand', _turn.setFromUnitVectors(axis, into), on * weight);
+      // Its edge on the face where the clip holds it out, the clip's own motion kept (within the face while on it).
+      const move = tip0.clone().sub(tipAtStrike).multiplyScalar(amp);
+      // Kept to the flat of the face it is set to.
+      const across = move.clone().sub(normal.clone().multiplyScalar(move.dot(normal))).clampLength(0, FACE_SPAN);
+      const edge = point.clone().add(across.multiplyScalar(on).add(move.multiplyScalar(1 - on)));
+      this.moveHand('LeftHand', edge.sub(this.pointNow('chiselTip')).multiplyScalar(weight));
+      if (head0 && strike >= 0) {
+        // The hammer: the clip's swing relative to the chisel's end, turned so its blow comes along the chisel's axis.
+        const butt = this.pointNow('chiselButt').clone(), back = this.pointNow('chiselTip').clone().sub(butt).normalize().negate();
+        const atStrike = track.get(face)![strike]!.clone().sub(butts[strike]!);
+        const swing = head0.clone().sub(butt0).sub(atStrike).multiplyScalar(amp);
+        const turn = new THREE.Quaternion().setFromUnitVectors(atStrike.clone().normalize(), back);
+        const worldTurn = new THREE.Quaternion().setFromUnitVectors(this.worldDirection(atStrike.x, atStrike.y, atStrike.z, _v0).normalize(), this.worldDirection(back.x, back.y, back.z, _v1).normalize());
+        this.turnHand('RightHand', worldTurn, weight);
+        const target = butt.add(back.multiplyScalar(STRIKE_GAP)).add(swing.applyQuaternion(turn));
+        this.moveHand('RightHand', target.sub(this.pointNow(face)).multiplyScalar(weight));
+      }
+    } else if (gesture === 'measuring' && site.kind === 'ground' && contacts.tools.rodFoot && contacts.tools.rodGrip) {
+      // Stood up straighter than the clip leans it, then slid through the fist until its foot stands on the ground.
+      const rod = contacts.tools.rodFoot.tool;
+      rod.position.set(0, 0, 0);
+      rod.updateMatrixWorld(true);
+      const foot0 = this.pointNow('rodFoot').clone(), axis = this.pointNow('rodGrip').clone().sub(foot0).normalize();
+      const upright = smooth((axis.y - UPRIGHT[0]) / (UPRIGHT[1] - UPRIGHT[0])) * weight;
+      const straight = _c.set(axis.x * ROD_LEAN, Math.max(axis.y, 0.5), axis.z * ROD_LEAN).normalize();
+      this.turnHand('RightHand', _turn.setFromUnitVectors(this.worldDirection(axis.x, axis.y, axis.z, _a).normalize(), this.worldDirection(straight.x, straight.y, straight.z, _b).normalize()), upright);
+      // The hand goes as far as the arm reaches; the rod slides the rest.
+      const reached = this.pointNow('rodFoot', _a);
+      this.moveHand('RightHand', _v0.set(0, (site.heightAt(reached.x, reached.z) - reached.y) * upright, 0));
+      const foot = this.pointNow('rodFoot', _a), grip = this.pointNow('rodGrip', _b);
+      const metres = foot.distanceTo(grip) / Math.max(1e-6, contacts.tools.rodFoot.point.distanceTo(contacts.tools.rodGrip.point));
+      const along = grip.sub(foot).normalize();
+      if (along.y > 0.2) {
+        rod.position.y = (site.heightAt(foot.x, foot.z) - foot.y) * upright / along.y / metres;
+        rod.updateMatrixWorld(true);
+      }
+    }
+    this.body.updateMatrixWorld(true);
   }
 
   private idleClip(p: Pose): string {

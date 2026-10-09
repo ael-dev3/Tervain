@@ -318,8 +318,9 @@ export const ANCHORS: Record<string, Anchor> = {
   archive_back: a({ x: -46, z: -109.4 }, 0),
   quarry_yard: a({ x: 86, z: -24 }, 1.2),
   quarry_office: atDoor('quarry_office', 1.4),
-  // Within a hammer's reach of the westmost boulder's face, so the chisel meets stone.
-  quarry_face: a({ x: 97.25, z: -28.7 }, Math.PI / 2),
+  // Squarely before a flat facet of a quarry boulder, a forearm and chisel from it at chest height, on open ground the
+  // crew's paths reach (A70: the old post faced a sloping flank over a metre away).
+  quarry_face: a({ x: 109.08, z: -32.67 }, 5.858),
   crew_bunks: atDoor('crew_bunks', 1.4),
   cut_ledge: a({ x: 122, z: -72 }, 3.1),
   ford_camp: onBench(44, 32.4, 1.0, 0.3),

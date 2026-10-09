@@ -57,6 +57,71 @@ export const ARROW_QUIVER_CAPACITY = 40;
 export const HUNTER_MEAT_PRICE = 2;
 export const HUNTER_SUPPLY_POSITION = HUNTER_SUPPLY;
 
+/**
+ * The range refills (A70). A taken animal's kind comes back to its range after these in-game hours, an unskinned carcass
+ * is gone after CARCASS_HOURS, and a wound heals after WOUND_HOURS. Nothing returns within WILDLIFE_RETURN_DISTANCE of
+ * the hunter, so no animal appears before his eyes; pets and the mount never die, so never return.
+ */
+export const WILDLIFE_RETURN_HOURS: Record<AnimalSpecies, number> = {
+  deer: 20, stag: 30, boar: 26, wolf: 36, bear: 72, lion: 72, tiger: 72, cat: Infinity, dog: Infinity,
+};
+export const CARCASS_HOURS = 30, WOUND_HOURS = 6, WILDLIFE_RETURN_DISTANCE = 70;
+
+/** The hunter's standing grows with the game he takes (A70): Rowan pays more, trades more arrows, and skinning quickens. */
+export const HUNTER_RANKS = [
+  { taken: 0, key: 'novice', skinning: 1, meat: HUNTER_MEAT_PRICE, arrows: ARROW_RESTOCK_AMOUNT },
+  { taken: 3, key: 'tracker', skinning: 0.85, meat: HUNTER_MEAT_PRICE + 1, arrows: ARROW_RESTOCK_AMOUNT + 2 },
+  { taken: 8, key: 'hunter', skinning: 0.72, meat: HUNTER_MEAT_PRICE + 2, arrows: ARROW_RESTOCK_AMOUNT + 3 },
+  { taken: 15, key: 'master', skinning: 0.6, meat: HUNTER_MEAT_PRICE + 3, arrows: ARROW_RESTOCK_AMOUNT + 4 },
+] as const;
+export type HunterRank = typeof HUNTER_RANKS[number];
+
+/** Animals taken over the whole game, by kind; kept when their kind returns. */
+export interface HuntTally { taken: number; species: Partial<Record<AnimalSpecies, number>> }
+
+export function hunterRank(tally: HuntTally | undefined): HunterRank {
+  let rank: HunterRank = HUNTER_RANKS[0];
+  for (const r of HUNTER_RANKS) if ((tally?.taken ?? 0) >= r.taken) rank = r;
+  return rank;
+}
+
+export function skinningSeconds(tally: HuntTally | undefined): number {
+  return SKINNING_SECONDS * hunterRank(tally).skinning;
+}
+
+export function normalizeHuntTally(raw: unknown): HuntTally {
+  const tally: HuntTally = { taken: 0, species: {} };
+  if (!object(raw)) return tally;
+  const count = (v: unknown) => (typeof v === 'number' && Number.isInteger(v) && v >= 0 && v < 1e6 ? v : 0);
+  if (object(raw.species)) for (const species of Object.keys(MEAT_YIELD) as AnimalSpecies[]) {
+    const n = count(raw.species[species]);
+    if (n) tally.species[species] = n;
+  }
+  tally.taken = Math.max(count(raw.taken), Object.values(tally.species).reduce((a, b) => a + (b ?? 0), 0));
+  return tally;
+}
+
+/**
+ * Let the range refill: clear records whose time has come, away from the hunter (A70). Returns the ids that came back;
+ * the wildlife renderer restores an animal whose record is gone to its home.
+ */
+export function returnWildlife(s: WorldState): AnimalId[] {
+  const back: AnimalId[] = [];
+  for (const id of HUNTABLE_ANIMAL_IDS) {
+    const record = s.hunting[id];
+    if (!record) continue;
+    const hours = (s.clock - record.atClock) / 60;
+    const due = record.status === 'injured' ? WOUND_HOURS
+      : record.status === 'dead' ? Math.max(CARCASS_HOURS, WILDLIFE_RETURN_HOURS[ANIMAL_SPECIES[id]])
+      : WILDLIFE_RETURN_HOURS[ANIMAL_SPECIES[id]];
+    if (!(hours >= due)) continue;
+    if (Math.hypot(s.player.x - record.position.x, s.player.z - record.position.z) < WILDLIFE_RETURN_DISTANCE) continue;
+    delete s.hunting[id];
+    back.push(id);
+  }
+  return back;
+}
+
 /** Rowan's trade is a working service, available while he is awake at camp. */
 export function hunterTradingOpen(s: WorldState): boolean {
   const hour = ((s.clock % 1440) + 1440) % 1440 / 60;

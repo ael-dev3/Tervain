@@ -19,6 +19,12 @@ export interface HeroPose extends Pose {
  * cannot flip a planted foot to and fro. Standing, the feet stay planted while the body turns above them, until the
  * twist passes `step`, when they step round (`settle`, a rate) with `stride` metres of gait per radian.
  */
+/**
+ * Feet on the ground they stand on (A70): each foot is lifted to the ground under it, at most `reach` metres, the pelvis
+ * lowered to the lower foot by at most `drop`, the knees bent to match. `rate` eases the plant in and out.
+ */
+export const HERO_FOOT_PLANT = { reach: 0.28, drop: 0.3, rate: 12 } as const;
+
 export const HERO_LEG_TWIST = { most: 1.05, follow: 10, settle: 9, step: 0.7, stride: 0.22, back: [1.92, 1.4], relax: 0.6 } as const;
 
 /**
@@ -48,6 +54,13 @@ const clamp = THREE.MathUtils.clamp;
 const fraction = (value: number) => ((value % 1) + 1) % 1;
 const smooth = (value: number) => value * value * (3 - 2 * value);
 const blend = (current: number, target: number, dt: number, rate = 16) => current + (target - current) * (1 - Math.exp(-dt * rate));
+
+/** Apply a world-space rotation to a bone, keeping its parent. */
+function turnBone(bone: THREE.Bone, delta: THREE.Quaternion): void {
+  const world = bone.getWorldQuaternion(new THREE.Quaternion()).premultiply(delta);
+  bone.quaternion.copy(bone.parent!.getWorldQuaternion(new THREE.Quaternion()).invert().multiply(world));
+  bone.updateMatrixWorld(true);
+}
 const finite = (value: number | undefined, fallback = 0) => Number.isFinite(value) ? value! : fallback;
 /** Measured low-sole/backward-travel contact estimates, not source animation events. */
 export const HERO_GAIT_PHASE = { Walking: 0.292, Running: 0.311, rightContact: 0.48 } as const;
@@ -87,6 +100,7 @@ export class HeroAnimationController {
   private runWeight = 0;
   private pendingFootfalls = 0;
   private footContacts: readonly [boolean, boolean] = [true, true];
+  private plant = { left: 0, right: 0, pelvis: 0, weight: 0 };
   private grounded = true;
   private clip = 'RelaxedIdle';
   private deadClock = 0;
@@ -378,7 +392,52 @@ export class HeroAnimationController {
     const rightDuty = THREE.MathUtils.lerp(0.48, 0.143, this.runWeight);
     this.footContacts = !this.grounded || dead ? [false, false] : travel === 0 ? [true, true] :
       [this.phase <= leftDuty, fraction(this.phase - rightStart) <= rightDuty];
+    this.plantFeet(p, step, canStep && this.swimBlend < 0.05);
     this.scene.updateMatrixWorld(true);
+  }
+
+  /** Planted feet meet uneven ground: offsets from the root height to the ground under each ankle (A70). */
+  private plantFeet(p: HeroPose, step: number, active: boolean): void {
+    const plant = this.plant;
+    plant.weight = blend(plant.weight, active && p.groundAt && Number.isFinite(p.rootY) ? 1 : 0, step, HERO_FOOT_PLANT.rate);
+    if (plant.weight < 1e-3 || !p.groundAt) { plant.left = plant.right = plant.pelvis = 0; return; }
+    this.scene.updateMatrixWorld(true);
+    const rootY = p.rootY!, offsets: number[] = [];
+    for (const side of ['Left', 'Right'] as const) {
+      const ankle = this.bones[`mixamorig:${side}Foot`].getWorldPosition(new THREE.Vector3());
+      const ground = p.groundAt(ankle.x, ankle.z);
+      offsets.push(Number.isFinite(ground) ? clamp(ground - rootY, -HERO_FOOT_PLANT.drop, HERO_FOOT_PLANT.reach) : 0);
+    }
+    plant.left = blend(plant.left, offsets[0]!, step, HERO_FOOT_PLANT.rate);
+    plant.right = blend(plant.right, offsets[1]!, step, HERO_FOOT_PLANT.rate);
+    plant.pelvis = blend(plant.pelvis, Math.min(0, plant.left, plant.right), step, HERO_FOOT_PLANT.rate);
+    const w = plant.weight;
+    this.body.position.y += plant.pelvis * w;
+    this.scene.updateMatrixWorld(true);
+    this.reachLeg('Left', (plant.left - plant.pelvis) * w);
+    this.reachLeg('Right', (plant.right - plant.pelvis) * w);
+  }
+
+  /** Two-bone reach: lift the ankle by rise metres, bending the knee in its own plane, then aiming the thigh. */
+  private reachLeg(side: 'Left' | 'Right', rise: number): void {
+    if (Math.abs(rise) < 1e-4) return;
+    const upper = this.bones[`mixamorig:${side}UpLeg`], lower = this.bones[`mixamorig:${side}Leg`], foot = this.bones[`mixamorig:${side}Foot`];
+    const hip = upper.getWorldPosition(new THREE.Vector3()), knee = lower.getWorldPosition(new THREE.Vector3());
+    const ankle = foot.getWorldPosition(new THREE.Vector3()), target = ankle.clone().setY(ankle.y + rise);
+    const a = hip.distanceTo(knee), b = knee.distanceTo(ankle), sole = foot.getWorldQuaternion(new THREE.Quaternion());
+    if (a < 1e-4 || b < 1e-4) return;
+    const c = clamp(hip.distanceTo(target), Math.abs(a - b) + 1e-3, a + b - 1e-3);
+    const u = hip.clone().sub(knee).normalize(), v = ankle.clone().sub(knee).normalize();
+    const axis = new THREE.Vector3().crossVectors(u, v);
+    if (axis.lengthSq() < 1e-8) return;
+    axis.normalize();
+    const bend = Math.acos(clamp((a * a + b * b - c * c) / (2 * a * b), -1, 1));
+    turnBone(lower, new THREE.Quaternion().setFromUnitVectors(v, u.clone().applyAxisAngle(axis, bend)));
+    const reached = foot.getWorldPosition(new THREE.Vector3()).sub(hip).normalize();
+    turnBone(upper, new THREE.Quaternion().setFromUnitVectors(reached, target.sub(hip).normalize()));
+    // The sole keeps its world attitude, so the toes do not dip with the shin.
+    foot.quaternion.copy(lower.getWorldQuaternion(new THREE.Quaternion()).invert().multiply(sole));
+    foot.updateMatrixWorld(true);
   }
 
   private restore(): void {
@@ -529,6 +588,15 @@ export class HeroAnimationController {
       case 'talk':
         arm('Right', -0.25, -0.4, Math.sin(this.idleClock * 1.7) * 0.04 * amp); break;
       case 'sit':
+        if (p.straddle) {
+          // Astride the saddle (A70): thighs forward and apart round the deer's barrel, knees bent, heels low; the root is
+          // already at the saddle, so the hips stay where they are.
+          target['mixamorig:LeftUpLeg'] = [-0.7, 0, -0.45]; target['mixamorig:RightUpLeg'] = [-0.7, 0, 0.45];
+          target['mixamorig:LeftLeg'] = [0.95, 0, 0]; target['mixamorig:RightLeg'] = [0.95, 0, 0];
+          target['mixamorig:Spine'] = [0.08, 0, 0];
+          arm('Left', -0.35, -0.75); arm('Right', -0.35, -0.75);
+          this.bones['mixamorig:Hips'].position.y -= 0.9; break;
+        }
         target['mixamorig:LeftUpLeg'] = [-1.15, 0, 0]; target['mixamorig:RightUpLeg'] = [-1.15, 0, 0];
         target['mixamorig:LeftLeg'] = [1.35, 0, 0]; target['mixamorig:RightLeg'] = [1.35, 0, 0];
         this.bones['mixamorig:Hips'].position.y -= 0.4; break;
