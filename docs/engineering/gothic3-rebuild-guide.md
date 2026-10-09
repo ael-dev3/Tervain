@@ -72,7 +72,7 @@ Game startup continuations are connected to the browser startup stack.
 | --- | --- | --- |
 | Assets | Selected readers and viewers expose original world, tree and human resources for inspection. | Complete coverage and in-game visual fidelity. |
 | SharedBase startup | The supported absent-`zSpie.txt` profile returns `1` from the direct DLL entry after logging and callback dispatch. | Surrounding CRT wrapper, additional profiles and live Game integration. |
-| Game startup | The validated original `__cinit` PE protection check runs on the browser's retained stack and reaches `20466610`. | Remaining initializer callbacks and complete engine attachment. |
+| Game startup | Merged code executes the PE protection check, math initializer and pointer loop. The locally validated C walker initializes the exit table and reaches `20466452 -> 20469f3a` on the browser's retained stack. | Remaining initializer callbacks and complete engine attachment. |
 | Campaign | The separate browser route can display the reconstructed Ardea scene. | Connected world/NPC activation, quest progression, campaign saves and a playthrough to an ending. |
 
 The Game PE checkpoint passed 3,082 tests, typechecking, source regeneration and
@@ -101,7 +101,24 @@ identities, actual table storage and original CALL/RET cleanup. The loop reaches
 across four files pass, including changed/unknown later slots and a foreign PTD
 codec. The production build passes, and a production browser observed the
 actual continuation at `20466626`. All 3,087 tests across 284 files pass with
-a 30-second per-test allowance. Publication remains pending.
+a 30-second per-test allowance. The checkpoint is submitted in
+[PR #185](https://github.com/ael-dev3/Tervain/pull/185), merged as
+`773e5a907d5ea89dfe94e4a9413004fc80d4ac9d` after CI run `37888291714` passed.
+Its Pages run `37889214077` is still running; deployment is not yet verified.
+
+Local revision `afc083df` connects the original C initializer walker to the existing
+Game exit-table owner and reaches the second callback, `20466452 -> 20469f3a`.
+All 60 focused checks pass, typechecking passes and both generated source files
+reproduce byte for byte. All 3,091 tests across 284 files passed in 373.81 seconds
+with a 30-second per-test allowance. The production build passed in 37.36 seconds.
+A production browser loaded 202 Ardea scene objects and 70 character resources,
+entered the scene with HP 100, and reported the actual next callback at
+`20466452 -> 20469f3a` after 1,330 environment/startup source operations.
+NPC attachment still stops at the unconnected ScriptAdmin getter, with 0 of 16
+property sets attached. These results are separate from the pointer
+checkpoint above. The five non-null C initializers must execute in their original table
+order before startup can enter the C++ initializer table. Later world and NPC
+activation still require their own implementation and browser evidence.
 
 ### Original files and reproducible outputs
 

@@ -11,6 +11,8 @@ import {sharedDllEntryInstruction} from './native-shared-dll-entry-instructions'
 import { sharedInitializerInstruction } from './native-shared-initializer-instructions';
 import { NativeRuntimePlatform } from './native-runtime-platform';
 import { NativeModuleCrtOwner } from './native-engine-crt-locks';
+import { NativeGameExitTable } from './native-game-crt-exit-table';
+import type { NativeGameCrtOwner } from './native-game-crt';
 import { nativeGameImageReceipt } from './native-game-crt-profile';
 import { gameCinitInstruction } from './native-game-crt-cinit-source';
 import type { NativeWin32ModuleCapability, NativeCrtProcessorFeatureProcedure } from './native-runtime-platform';
@@ -2677,6 +2679,35 @@ export class NativeX86ThreadStack {
     return this.#stackWord(offset);
   }
   gameImageAddress(controller: object, label: string, offset = 0): NativeValue<NativeX86Word32> { return this.#run(controller, () => this.#moduleWord(label, offset)); }
+  #gameCinitErrorCallback(controller: object): string {
+    if (!this.#setEnvpBinding || this.#setEnvpBinding.controller !== controller ||
+        this.#calls.filter(call => !call.returned).at(-1)?.site !== '20466626' ||
+        gameCinitInstruction('20466452').instruction !== 'CALL ECX') throw new Error('Actual original Game C initializer walker required');
+    const memory = this.#memory(this.#load(this.#bank, this.#reg('ESI')), 4);
+    const table = NativeModuleCrtOwner.canonicalImageForOwner(this.#binding!.crt, 'cinitCInitializerTable');
+    if (!table.known || memory.fields !== table.value || memory.offset < 0 || memory.offset >= 540 || memory.offset % 4) throw new Error('Actual C initializer table cursor required');
+    const target = this.#load(this.#bank, this.#reg('ECX'));
+    if (target !== this.#currentMemoryWord(memory.fields, memory.offset)) throw new Error('Actual current C initializer target word required');
+    const expected = new Map([[65, 0x20463763], [66, 0x20469f3a], [67, 0x2046bcff], [68, 0x2047470c], [69, 0x2047e687]]).get(memory.offset / 4);
+    const address = this.#numeric(target, 4);
+    if (expected === undefined || address !== expected) throw new Error('Original current Game C initializer slot target required');
+    return address.toString(16).padStart(8, '0');
+  }
+  resolveGameCinitErrorCallback(controller: object): NativeValue<string> { return this.#run(controller, () => this.#gameCinitErrorCallback(controller)); }
+  /** Bridge the independently recovered 20463763 callback to its canonical Game
+   * CRT owner. The walker executes original instructions; this callback uses
+   * translated TypeScript with the original CALL/RET frame and result. */
+  initializeGameCinitExitTable(controller: object): NativeValue<void> { return this.#run(controller, () => {
+    if (this.#gameCinitErrorCallback(controller) !== '20463763') throw new Error('Original first C initializer required');
+    const table = NativeGameExitTable.forCrt(this.#binding!.crt as NativeGameCrtOwner);
+    this.#call('20466452', '20466454');
+    const result = NativeGameExitTable.prototype.initialize.call(table);
+    if (!result.known) throw new Error(result.reason);
+    if (result.value !== 0 && result.value !== 24) throw new Error('Original exit-table initializer result required');
+    this.#store(this.#bank, this.#reg('EAX'), this.#mint(result.value, 0xffffffff));
+    const returned = this.#ret(0), source = this.#record(returned).provenance;
+    if (source?.kind !== 'source' || source.type !== 'code' || source.address !== '20466454') throw new Error('Actual C initializer callback return required');
+  }); }
   /** Execute the recovered Game CRT wrapper under its existing owner. The
    * source loop owns CALL/RET; wrapper instruction interpretation is not claimed. */
   encodeGameCinitPointer(controller: object): NativeValue<void> { return this.#run(controller, () => {
