@@ -13,6 +13,20 @@ finishable campaign.
 
 ## How the rebuild works
 
+### Current local checkpoint: enum name lookup returns
+
+The cold name lookup hashes the actual retained CString with the existing
+original hash implementation and selects its bucket modulo 43. The original
+empty-bucket branch allocates sixteen bytes with category `0x199`, constructs
+its CString and value-base subobject, shares the temporary name through the
+recovered assignment and stores value zero and a NULL next link. It publishes
+the actual entry in that bucket and increments entry count to one.
+The actual +4 subobject is now available for the next virtual assignment at
+`200719e8`, which remains unsupported. Nonempty bucket comparison is also
+unfinished. Typechecking and six focused production checks pass; checks inspect
+the actual entry identity, bucket link, remaining empty buckets and scalar
+fields. These later local changes remain undeployed.
+
 ### Current local checkpoint: enum name registry cleanup registers
 
 Targeted recovery captures callback `20549ac0` through its final RET at

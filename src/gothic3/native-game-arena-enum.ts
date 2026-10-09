@@ -17,6 +17,9 @@ export class NativeGameArenaEnum {
  #entered=false;
  #temporary:NativeHeapCString|null=null;
  #allocation:NativeMemoryAllocation|null=null;
+ #nameEntry:NativeMemoryAllocation|null=null;
+ #entryName:NativeHeapCString|null=null;
+ #bucket:number|null=null;
  #trace:string[]=[];
  private constructor(readonly crt:NativeGameCrtOwner,private readonly memory:NativeMemoryAdmin){}
  static forCrt(crt:NativeGameCrtOwner,memory:NativeMemoryAdmin):NativeGameArenaEnum{
@@ -85,9 +88,27 @@ export class NativeGameArenaEnum {
    const callback=fact(exit.callbackForMethod('enumNameRegistryCleanup'));
    const registered=fact(exit.atexit(callback));
    this.#trace.push(registered===0?'200719c5.enumNameRegistry.cleanupRegistered':'200719c5.enumNameRegistry.cleanupReturnMinusOne');
-   throw new Error('Unowned enum name registry lookup at 200719d7 -> 200708b0');
+   const hash=fact(this.#temporary.hash()),bucket=hash%registry.readUnsigned(4);
+   this.#bucket=bucket;
+   const bucketSlot=new NativeHeapObjectViews(buckets,bucket*4,4);
+   if(bucketSlot.readUnsigned(0)!==0)throw new Error('Unowned nonempty enum name bucket comparison at 2006f6d4');
+   this.#trace.push('2006f6e6.enumName.findAbsent');
+   this.#nameEntry=fact(this.memory.newObject(16,0x199));
+   if(!this.#nameEntry)throw new Error('Original enum name assignment reaches NULL entry at 2007090e');
+   const entryFields=new NativeHeapObjectViews(this.#nameEntry,0,16);
+   this.#entryName=new NativeHeapCString(this.memory,new NativeHeapObjectViews(this.#nameEntry,0,4));
+   entryFields.writeUnsigned(4,0x100e7e1c);
+   entryFields.writeUnsigned(4,0x2065902c);
+   entryFields.writeUnsigned(8,this.crt.imageStorage('enumValueScratch').readUnsigned(0));
+   fact(this.#entryName.assign(this.#temporary));
+   entryFields.pointer(12).set(null);
+   bucketSlot.pointer(0).set(this.#nameEntry);
+   registry.writeUnsigned(12,(registry.readUnsigned(12)+1)>>>0);
+   this.#trace.push('2007092f.enumName.lookupReturnActualSubobject');
+   throw new Error('Unowned enum value virtual assignment at 200719e8 (name registry lookup returned)');
   }catch(error){this.#boundary=error instanceof Error?error.message:String(error);return {known:false,reason:this.#boundary};}
  }
  snapshot(){return Object.freeze({boundary:this.#boundary,temporary:this.#temporary,allocation:this.#allocation,
+  nameEntry:this.#nameEntry,entryName:this.#entryName,bucket:this.#bucket,
   trace:Object.freeze([...this.#trace]),initializerReturned:false,valueInserted:false});}
 }

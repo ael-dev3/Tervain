@@ -45,7 +45,7 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  expect(game.known).toBe(true);
  if(!game.known)throw new Error(game.reason);
  expect(game.value.attachResult).toEqual({known:false,
-  reason:'crtAttach204677e4: Unowned Translated Arena Status initializer pending: Unowned enum name registry lookup at 200719d7 -> 200708b0'});
+  reason:'crtAttach204677e4: Unowned Translated Arena Status initializer pending: Unowned enum value virtual assignment at 200719e8 (name registry lookup returned)'});
  const diagnostic=NativeSharedMessageDebug.forPlatform(platform).snapshot(),locale=diagnostic.formatterLocale!;
  expect(diagnostic.messageOwner).toBe(runtime.message);
  expect(diagnostic.messageGetterReturned).toBe(true);
@@ -84,10 +84,16 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  expect(enumState.trace).toContain('1004a1c8.enumBaseConstructor.return');
  const registry=game.value.crt.imageStorage('enumNameRegistry');
  expect(game.value.crt.imageStorage('enumNameRegistryGuard').readUnsigned(0)&1).toBe(1);
- expect([4,8,12].map(offset=>registry.readUnsigned(offset))).toEqual([43,51,0]);
- const buckets=registry.pointer<{bytes:Uint8Array;knownMask:Uint8Array}>(0).get()!;
- expect(buckets.bytes.subarray(0,204).every(byte=>byte===0)).toBe(true);
- expect(buckets.knownMask.subarray(0,204).every(byte=>byte===255)).toBe(true);
+ expect([4,8,12].map(offset=>registry.readUnsigned(offset))).toEqual([43,51,1]);
+ expect(enumState.bucket).toBeGreaterThanOrEqual(0);
+ expect(enumState.bucket).toBeLessThan(43);
+ const bucketFields=registry.pointer<{identity:object;bytes:Uint8Array;knownMask:Uint8Array;freed:boolean}>(0).get()!;
+ expect(new NativeHeapObjectViews(bucketFields,enumState.bucket!*4,4).pointer(0).get()).toBe(enumState.nameEntry);
+ for(let bucket=0;bucket<51;bucket++)if(bucket!==enumState.bucket)
+  expect(new NativeHeapObjectViews(bucketFields,bucket*4,4).readUnsigned(0)).toBe(0);
+ expect(new NativeHeapObjectViews(enumState.nameEntry!,0,16).readUnsigned(4)).toBe(0x2065902c);
+ expect(new NativeHeapObjectViews(enumState.nameEntry!,0,16).readUnsigned(8)).toBe(0);
+ expect(enumState.entryName!.snapshot().destroyed).toBe(false);
  expect(enumState.trace).toContain('200711e6.enumNameRegistry.constructor.return');
  expect(enumState.trace).toContain('200719c5.enumNameRegistry.cleanupRegistered');
  expect(enumState.temporary!.snapshot().destroyed).toBe(false);
