@@ -13,6 +13,38 @@ finishable campaign.
 
 ## How the rebuild works
 
+### From installed files to a playable browser game
+
+The rebuild follows two tracks that meet in the browser: converting the game's
+resources and reconstructing the behavior that uses them. Extracting a tree or a
+human mesh gives us a viewable model. Rebuilding a character also requires its
+materials, skeleton, animations, entity properties, routines and gameplay state.
+
+| Stage | Work | Result needed before advancing |
+| --- | --- | --- |
+| Reference inventory | Identify installed archives and matching Game, Engine and SharedBase DLLs; retain paths and hashes. | Traceable inputs for every export and recovered function. |
+| Asset recovery | Decode archive entries, meshes, textures, materials, animations and world records. | Browser resources linked to their original archive paths. |
+| Rendering | Reproduce material settings, foliage transparency, lighting, animation and placement. | Models and scenes compared with the installed game. |
+| Runtime recovery | Follow original calls and data, capture instruction bytes and implement their effects in TypeScript. | The supported operation returns with the original state and ownership rules. |
+| World integration | Connect initialization to entities, NPC property sets, navigation, routines and interactions. | Actors and the world update during ordinary play. |
+| Campaign integration | Connect dialogue, quests, combat, inventory and persistent saves. | A new game can progress, reload and reach an ending. |
+| Publication | Review changes, validate the exact revision and deploy `/gothic3/`. | A recorded deployed revision and observed browser behavior. |
+
+The matching local research inputs are in
+`C:/Users/heyas/OneDrive/Рабочий стол/Gothic3_Decompiled_Study_2026-10-04`.
+`00_Original_Runtime/` contains the reference DLLs;
+`01_Decompiled_Code/Game_dll/` contains `functions.csv`,
+`full_disassembly.asm` and the `pseudocode/` directory. These are local research
+paths, not files required on a player's computer. Decompiled names can be
+misleading, so instruction bytes determine the implementation.
+
+For the current startup continuation, follow the next unsupported initializer
+from its captured table entry to its actual callee. Recover the required imports,
+globals, allocation rules and cleanup callbacks, then connect the implementation
+to the existing startup walker. Preserve completed behavior and record the next
+unsupported address. Repeat until startup can activate the world, then apply the
+same evidence-driven process to gameplay systems.
+
 ### Local checkpoint: primitive templates and scoped struct names
 
 The next continuation reuses the original primitive primary-type parser inside
@@ -27,8 +59,9 @@ initializers, retaining 155 shutdown callbacks. Its checks verify
 `bTValArray<float>`, `bTObjArray<struct gCQuest_PS::SLogEntry>` and the nested
 `bTObjArray<class bTAutoPOSmartPtr<class gCQuest_PS> >`. All five focused checks
 pass. Startup next stops at table call `20466654 -> 204b1d70`: that callback
-has a different structure and is not yet admitted. Full-suite, build, browser and
-deployment validation of this 154-initializer revision are pending.
+has a different structure and is not yet admitted. The production build and
+typechecking pass in 34.33 seconds. Full-suite, browser and deployment validation
+of this 154-initializer revision are pending.
 
 The preceding 146-initializer runtime `70da7405` passed all 3,185 tests across
 294 files in 500.45 seconds, typechecking, five focused checks and a production
