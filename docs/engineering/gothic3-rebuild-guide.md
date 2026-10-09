@@ -50,7 +50,7 @@ class-name initializer also returns, sharing the same CString and cleanup
 owner. Label initializer `204b23d0` now executes its wrapper constructor and stops
 after entering AI helper administrator initialization, at reflected-type
 getter return and now stops at wrapper initialization CALL
-`204b269a -> 20026a08`. Complete startup,
+inside its wrapper at `20077054 -> 200319d0`. Complete startup,
 world activation and a new-game-to-ending campaign remain unfinished. Local
 checkpoints and the hosted version can differ; validation below identifies
 the checkpoint covered.
@@ -59,6 +59,18 @@ the checkpoint covered.
 
 The entries below describe successive local states, newest first. Statements
 about missing operations in older entries apply to those earlier checkpoints.
+
+### Current local checkpoint: AI helper administrator wrapper initialization enters
+
+Initializer CALL `204b269a` enters original body `20077040`, reads byte
+argument one and executes its flag update. The retained wrapper flags become
+eleven while its registered reflected-type pointer remains unchanged. Startup
+stops at object replacement `20077054 -> 200319d0`.
+
+The captured helper differs from Label: EBP holds the root-check target and
+EBX holds registration toggles; its other branch includes engine-component
+construction. Those operations still need implementation. TypeScript checking
+and all 31 focused startup tests passed in 31.49 seconds.
 
 ### Current local checkpoint: AI helper administrator type registers and returns
 

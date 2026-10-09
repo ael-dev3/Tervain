@@ -54,15 +54,16 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  expect(game.known).toBe(true);
  if(!game.known)throw new Error(game.reason);
  expect(game.value.attachResult,game.value.attachProgress.setEnvpProgress?.currentPC).toEqual({known:false,
-  reason:'crtAttach204677e4: Unowned Unowned original environment CALL at204b269a: CALL 0x20026a08'});
+  reason:'crtAttach204677e4: Unowned Unowned original environment CALL at20077054: CALL 0x200319d0'});
  const executed=new Set(game.value.attachProgress.setEnvpProgress!.effects.map(effect=>effect.pc));
  for(const pc of ['20072719','20072383','200730dd','204b217a','204b23ca','2007479a','20074403','2007510d','204b241a'])expect(executed.has(pc)).toBe(true);
  const aiWrapper=game.value.crt.imageStorage('aiHelperAdminWrapper');
  const aiVtable=aiWrapper.pointer<{fields:NativeHeapObjectViews;offset:number}>(0).get()!;
  expect(aiVtable.fields).toBe(game.value.crt.imageStorage('aiHelperAdminWrapperVtable'));expect(aiVtable.offset).toBe(0);
- expect([4,8].map(offset=>aiWrapper.readUnsigned(offset))).toEqual([10,0]);
+ expect([4,8].map(offset=>aiWrapper.readUnsigned(offset))).toEqual([11,0]);
  expect([...aiWrapper.knownMask.subarray(4,12)]).toEqual(Array(8).fill(255));
  expect(aiWrapper).not.toBe(game.value.crt.imageStorage('labelWrapper'));
+ expect(executed.has('20077051')).toBe(true);
  expect(executed.has('204b2665')).toBe(true);expect(executed.has('204b2675')).toBe(true);
  const aiType=NativeGameAIHelperAdminType.forCrt(game.value.crt,memory);
  expect(aiType.snapshot()).toMatchObject({entered:true,baseConstructed:true,factoryConstructed:true,registered:true,getterReturned:true});

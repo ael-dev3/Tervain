@@ -19,7 +19,7 @@ describe('selected browser NPC platform services', () => {
     expect(startup.propertyIdInvocation).toBe('not-entered');
     expect(startup.prerequisites.attachResult.known).toBe(false);
     if(startup.prerequisites.attachResult.known)throw new Error('Unfinished Game startup returned');
-    expect(startup.prerequisites.attachResult.reason).toContain('environment CALL at204b269a: CALL 0x20026a08');
+    expect(startup.prerequisites.attachResult.reason).toContain('environment CALL at20077054: CALL 0x200319d0');
     const first = owner.control.matrixIdentity();
     const second = owner.control.matrixIdentity();
     expect(first.known).toBe(true);

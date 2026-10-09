@@ -1,4 +1,4 @@
-import {aiHelperAdminInitializerInstruction} from './native-game-ai-helper-admin-source';
+import {aiHelperAdminInitializerInstruction,aiHelperAdminWrapperInstruction} from './native-game-ai-helper-admin-source';
 /** The bounded original Game caller/environment source unit. Every reached instruction
  * is lowered from its admitted original receipt into the same physical graph
  * that actually returned from argv. Heap imports require fixed private
@@ -79,6 +79,7 @@ const bodies = Object.freeze([
   ['204b2130','204b2130-204b217a'],
   ['204b23d0','204b23d0-204b241a'],
   ['204b2660','204b2660-204b26aa'],
+  ['20077040','20077040-2007710d'],
   ['20075040','20075040-2007510d'],
   ['20074640','20074640-2007479a'],
   ['20074400','20074400-20074403'],
@@ -452,7 +453,8 @@ export class NativeGameCrtSetEnvp {
     const extent = ranges.get(this.#currentEntry), address = Number.parseInt(pc, 16);
     if (!extent?.some(([first, last]) => address >= first && address <= last) ||
         this.#currentEntry === '204677e4' && !callerRows.has(pc)) throw new Error('Unowned Game environment source frontier at' + pc);
-    const point = this.#currentEntry==='204b2660' ? aiHelperAdminInitializerInstruction(pc)
+    const point = this.#currentEntry==='20077040' ? aiHelperAdminWrapperInstruction(pc)
+      : this.#currentEntry==='204b2660' ? aiHelperAdminInitializerInstruction(pc)
       : this.#currentEntry==='20074400' ? labelAccessorInstruction(pc)
       : this.#currentEntry==='20074640' ? labelReplacementInstruction(pc)
       : this.#currentEntry==='20075040' ? labelWrapperInstruction(pc)
@@ -759,6 +761,13 @@ export class NativeGameCrtSetEnvp {
       this.#nextBoundary=Object.freeze({pc:point.va,operation:'translatedCrtCall',target:'204637ce'});
       fact(NativeX86ThreadStack.prototype.registerLabelWrapperCleanup.call(this.#stack,this.#controller));
       this.#nextBoundary=null;return returnPc;
+    }
+    if(point.va==='204b269a') {
+      if(this.#currentEntry!=='204b2660'||target.kind!=='immediate'||target.value!==0x20026a08||returnPc!=='204b269f')
+        throw new Error('Original AI helper administrator wrapper initialization call required');
+      fact(NativeX86ThreadStack.prototype.call.call(this.#stack,this.#controller,point.va,returnPc));
+      this.#frames.push(Object.freeze({entry:'20077040',site:point.va,returnPc,previousEntry:this.#currentEntry}));
+      this.#currentEntry='20077040';this.#nextBoundary=null;return '20077040';
     }
     if(point.va==='204b240a') {
       if(this.#currentEntry!=='204b23d0'||target.kind!=='immediate'||target.value!==0x200340e0||returnPc!=='204b240f')

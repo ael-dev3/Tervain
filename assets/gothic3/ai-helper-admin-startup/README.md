@@ -28,7 +28,9 @@ The type getter now constructs the property-type base and named factory,
 reuses the canonical class-name owner, inserts the actual type in the shared
 property table, registers original cleanup `20549d10`, and returns through
 the retained startup stack. The initializer stores its actual type pointer
-and stops at wrapper initialization CALL `204b269a -> 20026a08`. The complete
+and enters wrapper initialization CALL `204b269a -> 20026a08`. Its original
+prefix reads byte argument one, retains its frame and updates flags to eleven.
+It stops at object replacement `20077054 -> 200319d0`. The complete
 initializer has not returned. TypeScript checking and all 31 focused startup
 tests passed; broad validation and browser proof of this continuation are pending.
 
