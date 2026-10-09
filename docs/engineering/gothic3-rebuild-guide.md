@@ -44,23 +44,34 @@ Each feature goes through the following steps:
    workflow triggers. Publish the reviewed checkpoint on `/gothic3/` and
    record which behavior it demonstrates.
 
-**Current local boundary:** Arena Status, None, Running and AI FreePoint
-initialization return through the retained startup stack. FreePoint's later
-class-name initializer also returns, sharing the same CString and cleanup
-owner. Label initializer `204b23d0` now executes its wrapper constructor and stops
-after entering AI helper administrator initialization, at reflected-type
-getter return and now stops at wrapper initialization CALL
-after the administrator returns, at C++ initializer `204b26c0`. Complete startup,
-world activation and a new-game-to-ending campaign remain unfinished. Local
-checkpoints and the hosted version can differ; validation below identifies
-the checkpoint covered.
+**Current local boundary:** Arena Status, None, Running, AI FreePoint, Label
+and AI helper administrator initialization return through the retained startup
+stack. Startup reaches the next unsupported C++ initializer, `204b26c0`.
+Complete startup, world activation and a new-game-to-ending campaign remain
+unfinished. Local checkpoints and the hosted version can differ; the validation
+receipts below identify the checkpoint covered.
+
+## What still has to be rebuilt
+
+- Continue original startup beyond each unsupported call, including shutdown
+  and cleanup, using captured instructions and the existing memory owners.
+- Activate the world and attach the required property sets to live NPCs.
+- Integrate movement, animation, AI routines, combat, dialogue and quest state
+  with the same entities that the renderer displays.
+- Implement persistent saves and reloads, then demonstrate a complete campaign
+  from a new game through an ending.
+
+See the [step-by-step workflow](gothic3-rebuild-workflow.md) for repository
+locations, reference paths and reproduction commands. The checkpoint history
+below records incremental behavior recovery; a successful checkpoint does not
+establish completion of these remaining features.
 
 ### Checkpoint history
 
 The entries below describe successive local states, newest first. Statements
 about missing operations in older entries apply to those earlier checkpoints.
 
-### Current local checkpoint: complete AI helper administrator initializer returns
+### Latest local checkpoint: complete AI helper administrator initializer returns
 
 The original object-replacement body executes its root checks through EBP and
 registration toggles through EBX. Its root path returns without entering the
@@ -80,7 +91,7 @@ The preceding complete Label continuation passed all 3,199 tests across 298
 files in 505.29 seconds and is proposed for publication in PR 210. Campaign
 completion remains unproven.
 
-### Current local checkpoint: AI helper administrator wrapper initialization enters
+### Historical checkpoint: AI helper administrator wrapper initialization enters
 
 Initializer CALL `204b269a` enters original body `20077040`, reads byte
 argument one and executes its flag update. The retained wrapper flags become
@@ -92,7 +103,7 @@ EBX holds registration toggles; its other branch includes engine-component
 construction. Those operations still need implementation. TypeScript checking
 and all 31 focused startup tests passed in 31.49 seconds.
 
-### Current local checkpoint: AI helper administrator type registers and returns
+### Historical checkpoint: AI helper administrator type registers and returns
 
 The reflected-type getter sets its guard, constructs the original property-type
 base and named factory, and retains vtable `2065a68c`. Its early class-name
@@ -107,7 +118,7 @@ Tests inspect the class-name text and cleanup identity, actual registration
 slot and wrapper allocation, derived vtable, base flag and repeat getter
 return. The complete administrator initializer remains unfinished.
 
-### Current local checkpoint: AI helper administrator wrapper constructs
+### Historical checkpoint: AI helper administrator wrapper constructs
 
 Initializer `204b2660` enters the retained startup stack and calls the existing
 SharedBase wrapper constructor on separate storage `207b5298`. It retains
@@ -120,7 +131,7 @@ its behavior still needs implementation. Independent generations matched,
 TypeScript checking passed, and all 31 focused tests passed in 30.88 seconds.
 The complete Label checkpoint described below remains in broader validation.
 
-### Current local checkpoint: complete Label initializer returns
+### Historical checkpoint: complete Label initializer returns
 
 The captured object-replacement body executes its original registration
 toggles on the retained singleton. The virtual accessor returns the actual
@@ -136,13 +147,13 @@ cleanup registration. All 31 tests passed, TypeScript checking passed and
 independent source generations matched exactly. The latest completion also passed a production build in 49.35 seconds.
 A local production browser loaded Ardea and its original NPC model inspector
 and reported startup at `204b2660`; live NPC activation still reported the
-unconnected ScriptAdmin getter and 0/16 attached property sets. Full-suite
-validation of this latest completion remains pending. The earlier Label
+unconnected ScriptAdmin getter and 0/16 attached property sets. This complete Label checkpoint passed all 3,199 tests across 298 files in
+505.29 seconds. The earlier Label
 wrapper-entry checkpoint passed all 3,199 tests across 298 files in 540.16
 seconds and a production build in 46.09 seconds. Cleanup execution and the
 playable campaign remain unfinished.
 
-### Current local checkpoint: Label wrapper initialization enters
+### Historical checkpoint: Label wrapper initialization enters
 
 The original initializer CALL `204b240a` enters wrapper body `20075040` on
 the existing startup stack. Its byte argument is one; the original flag
@@ -154,7 +165,7 @@ TypeScript checking and 31 focused tests passed. Independent JSON and
 TypeScript generations matched byte for byte. Broad validation of this
 later Label checkpoint is pending.
 
-### Current local checkpoint: Label type registers and returns
+### Historical checkpoint: Label type registers and returns
 
 Label's actual reflected type is inserted into the shared property table with
 its retained wrapper allocation. Registration uses the original virtual
@@ -169,7 +180,7 @@ registration slot, wrapper allocation, cleanup identity and stable repeat
 getter return. Wrapper initialization and the complete initializer return
 remain unfinished.
 
-### Current local checkpoint: Label class name and named factory construct
+### Historical checkpoint: Label class name and named factory construct
 
 The type getter reuses the canonical class-name owner from initializer
 `204b23b0`. Its Label cache and descriptor aliases are checked against the
@@ -182,7 +193,7 @@ Independent JSON and TypeScript generations matched exactly, TypeScript
 checking passed, and all 31 focused startup tests passed in 22.74 seconds.
 Type registration and complete Label initializer return remain unfinished.
 
-### Current local checkpoint: Label reflected-type base constructs
+### Historical checkpoint: Label reflected-type base constructs
 
 The original type getter CALL enters with a retained return to `204b23f4`.
 Its canonical owner sets the original guard, constructs the SharedBase
@@ -195,7 +206,7 @@ TypeScript checking and all 31 focused startup tests passed in 25.91 seconds.
 The checks inspect the base flag at offset twenty, zero array counters,
 separate FreePoint and Label storage, and unchanged state on repeat access.
 
-### Current local checkpoint: Label wrapper constructor returns
+### Historical checkpoint: Label wrapper constructor returns
 
 The original initializer enters on the retained C++ startup stack and calls
 SharedBase wrapper constructor `10089290` with its separate storage at
@@ -206,7 +217,7 @@ Independent source generations matched exactly, TypeScript checking passed,
 and all 31 focused startup tests passed in 24.67 seconds. This later checkpoint
 has not yet received a full-suite or production browser validation.
 
-### Current local checkpoint: FreePoint initialization returns
+### Historical checkpoint: FreePoint initialization returns
 
 The captured FreePoint wrapper, object-replacement helper and type accessor
 now execute through their original returns. Its property factory registers
@@ -337,7 +348,7 @@ and separate Arena storage. Independent regeneration of JSON and generated
 TypeScript matches exactly. Broad validation and publication of this later
 continuation remain pending; the initializer and campaign remain unfinished.
 
-### Current local checkpoint: Running enum returns
+### Historical checkpoint: Running enum returns
 
 Running now traverses the existing value bucket by actual scalar comparisons.
 Its scalar one shares bucket zero with None but retains a distinct entry;
@@ -353,7 +364,7 @@ pass. The full suite passed 3,199 tests across 298 files in 491.58 seconds,
 and the production build passed in 44.78 seconds. Publication remains pending.
 Full campaign playability remains unfinished.
 
-### Current local checkpoint: Running name lookup preserves prior entries
+### Historical checkpoint: Running name lookup preserves prior entries
 
 Running now hashes its actual CString and traverses the existing name bucket
 using the recovered CString equality overload and retained entry owners. A
@@ -366,7 +377,7 @@ Typechecking and seven focused checks pass. They inspect both name identities,
 bucket links, preserved None value, Running scalar and repeat-entry behavior.
 The later initializer has not returned, and publication remains pending.
 
-### Current local checkpoint: Running enum enters with retained registries
+### Historical checkpoint: Running enum enters with retained registries
 
 Startup now selects the actual Running initializer table slot at offset
 `0x378`. It requires the preceding None initializer's actual completed owner,
@@ -380,7 +391,7 @@ and allocation. Typechecking and seven focused checks across three files pass.
 The integrated build at `352ab998` passed in 38.34 seconds; its full suite
 remains running and does not cover this later local continuation.
 
-### Current local checkpoint: first enum initializer returns
+### Historical checkpoint: first enum initializer returns
 
 The value-registry cleanup callback `20549a60` is captured through its final
 RET: sixteen instructions and 74 PE-verified bytes. The actual exit-table
@@ -398,7 +409,7 @@ passing tests and one image-metadata failure; that issue is corrected locally
 and its regression passes. A fresh full suite is required before publication.
 Full campaign completion remains unproven.
 
-### Current local checkpoint: enum value assignment and second registry
+### Historical checkpoint: enum value assignment and second registry
 
 The actual original value-base vtable slot `+0x1c` resolves through
 `200067f8` to the five-instruction body `2006d540`. It copies the retained
@@ -415,7 +426,7 @@ constants: their scope and capture flag are now corrected, and the independent
 Game image-admission regression passes. The earlier full-suite run does not
 validate this correction or continuation. The work remains local and undeployed.
 
-### Current local checkpoint: enum name lookup returns
+### Historical checkpoint: enum name lookup returns
 
 The cold name lookup hashes the actual retained CString with the existing
 original hash implementation and selects its bucket modulo 43. The original
@@ -429,7 +440,7 @@ unfinished. Typechecking and six focused production checks pass; checks inspect
 the actual entry identity, bucket link, remaining empty buckets and scalar
 fields. These later local changes remain undeployed.
 
-### Current local checkpoint: enum name registry cleanup registers
+### Historical checkpoint: enum name registry cleanup registers
 
 Targeted recovery captures callback `20549ac0` through its final RET at
 `20549b09`: sixteen instructions and 74 bytes, checked against the matching
@@ -441,7 +452,7 @@ focused checks and independent exact regeneration pass. The value registry
 cleanup target `20549a60` remains unadmitted; enum insertion and campaign
 completion remain unfinished. This checkpoint is local and undeployed.
 
-### Current local checkpoint: enum name registry constructs
+### Historical checkpoint: enum name registry constructs
 
 The enum naming path sets the original name-registry guard bit and zeros the
 four canonical registry DWORDs. Its cold reserve(43,0) selects growth eight,
@@ -454,7 +465,7 @@ Typechecking and six focused production checks pass; regressions inspect the
 actual guard, counts and all 204 cleared bytes and their known masks.
 This continuation remains local and undeployed.
 
-### Current local checkpoint: enum base construction returns
+### Historical checkpoint: enum base construction returns
 
 The original SharedBase default `bCObjectBase` constructor resolves from
 `10007c11` to `1004a1c0`. Its three exact instructions return the actual
@@ -467,7 +478,7 @@ value. Typechecking, seven focused checks and byte-identical independent
 regeneration of both source JSON and generated TypeScript pass. These later
 local changes remain undeployed.
 
-### Current local checkpoint: first enum initializer enters
+### Historical checkpoint: first enum initializer enters
 
 Startup selects the actual `204b1e70` table entry at offset `0x374` and retains
 its original CALL frame. The translated owner constructs `gEArenaStatus_None`
@@ -484,7 +495,7 @@ initializer-return checkpoint `c2b9593a` separately passed 3,193 tests across
 not cover this later enum continuation. Publication and full campaign remain
 unfinished.
 
-### Current local checkpoint: first Arena property initializer returns
+### Historical checkpoint: first Arena property initializer returns
 
 The Status initializer now registers its original cleanup callback `205499a0`
 through the existing same-CRT exit table. The complete callback's eleven
@@ -500,7 +511,7 @@ Typechecking and six focused production checks pass, including actual Status
 registration, temporary destruction, cleanup registration and initializer
 return. This checkpoint remains local; campaign completion is unproven.
 
-### Current local checkpoint: Status registration returns
+### Historical checkpoint: Status registration returns
 
 After the actual filtered Debug return, property registration follows its
 original success epilogue at `10088196` through `1008819e`, returning AL=1.
@@ -512,7 +523,7 @@ unfinished. The initializer has not returned. Typechecking and six production
 checks pass, followed by two focused checks with explicit registration and
 temporary-destruction assertions. This continuation is local and undeployed.
 
-### Current local checkpoint: filtered diagnostic returns
+### Historical checkpoint: filtered diagnostic returns
 
 The registration diagnostic now executes OnMessage's original signed threshold
 comparison against the returned MessageAdmin owner's actual DWORD at offset
@@ -525,7 +536,7 @@ Debug. Typechecking and six focused checks across combined startup and browser
 NPC services pass, including signed comparison and unsupported-loop checks.
 This local continuation has not been deployed or broadly validated.
 
-### Current local checkpoint: actual MessageAdmin getter returns
+### Historical checkpoint: actual MessageAdmin getter returns
 
 Registration Debug now looks up the runtime-admin factory's unique actual
 same-platform MessageAdmin module. Missing or ambiguous owners are rejected;
@@ -540,7 +551,7 @@ The preceding formatter-return revision `3d59cf3d` passed 3,193 tests across
 296 files in 523.96 seconds. That full-suite receipt does not cover this later
 getter integration, which has typechecking and focused production checks.
 
-### Current local checkpoint: registration formatting returns
+### Historical checkpoint: registration formatting returns
 
 At `3d59cf3d`, the selected original narrow-string formatter path writes the
 property-registration message into the actual SharedBase TLS buffer. It uses
