@@ -15,7 +15,7 @@ import { createPlayerRig, poseRig, setArmed, setSash, applyFlash, type Mode, typ
 import { EnemyActor, NpcActor, lerpAngle } from './actors';
 import { HERO_WALK_SPEED, HERO_RUN_SPEED, HERO_GUARD_SPEED, HERO_WALK_CYCLE, HERO_RUN_CYCLE, HERO_RUN_THRESHOLD } from './hero/locomotion';
 import { PlayerHuntingVisual } from './playerHunting';
-import { deerBodyBlocked, gaitBob, MOUNT_SIDE, MOUNT_STAMINA, MOUNT_TIMES, mountStaminaStep, RIDE, steerMount } from './riding';
+import { deerBodyBlocked, deerBodyOverlap, gaitBob, MOUNT_SIDE, MOUNT_STAMINA, MOUNT_TIMES, mountStaminaStep, RIDE, steerMount } from './riding';
 
 export type PlayerState = 'free' | 'light' | 'heavy' | 'dodge' | 'hurt' | 'channel' | 'dead';
 
@@ -413,8 +413,16 @@ export class Player {
     const gallop = wantGallop && !this.mountSpent;
     const precise = Boolean(ctx.physics);
     const startBlocked = deerBodyBlocked(ctx.colliders, this.x, this.y, this.z, this.yaw, precise);
+    // Starting in trouble (set down where its body overlaps), a move may not make it worse: not deeper into scenery, never
+    // further into a doorway or room (A71). Before, every body check was skipped, and a deer could be ridden indoors.
+    const start = startBlocked ? deerBodyOverlap(ctx.colliders, this.x, this.y, this.z, this.yaw, precise) : null;
+    const worse = (x: number, y: number, z: number, yaw: number) => {
+      if (!start) return deerBodyBlocked(ctx.colliders, x, y, z, yaw, precise);
+      const now = deerBodyOverlap(ctx.colliders, x, y, z, yaw, precise);
+      return now.scenery > start.scenery || now.rooms > start.rooms;
+    };
     const next = steerMount({ speed: this.rideSpeed, yaw: this.yaw }, wx, wz, mag, gallop, dt);
-    if (startBlocked || !deerBodyBlocked(ctx.colliders, this.x, this.y, this.z, next.yaw, precise)) {
+    if (!worse(this.x, this.y, this.z, next.yaw)) {
       this.yaw = next.yaw; this.rideTurn = next.turn;
     } else this.rideTurn = 0;
     this.rideSpeed = next.speed;
@@ -424,7 +432,7 @@ export class Player {
     for (let i = 0; i < steps && !hit; i++) {
       const px = this.x, py = this.y, pz = this.z, ask = travel / steps;
       this.tryMove(f.x * ask, f.z * ask, ctx);
-      if (!startBlocked && deerBodyBlocked(ctx.colliders, this.x, this.y, this.z, this.yaw, precise)) { this.x = px; this.y = py; this.z = pz; hit = true; }
+      if (worse(this.x, this.y, this.z, this.yaw)) { this.x = px; this.y = py; this.z = pz; hit = true; }
       else if (Math.hypot(this.x - px, this.z - pz) < Math.abs(ask) * 0.3) hit = true;
     }
     // A deer that walks into something stops dead rather than grinding along it.

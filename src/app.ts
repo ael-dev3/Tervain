@@ -1893,7 +1893,8 @@ export class App {
   private stamp() {
     this.game.setPlayerTransform(this.player.x, this.player.y, this.player.z, this.player.yaw);
     // Saved in the saddle, a load puts him back in it (A71); getting up or down saves him afoot.
-    this.game.state.player.mount = this.player.mount?.id ?? null;
+    // A rider loaded in the saddle whose deer has not arrived yet is still riding it (A71).
+    this.game.state.player.mount = this.player.mount?.id ?? this.pendingMount?.id ?? null;
     this.game.state.physicalObjects = this.world.physics.snapshot().map(({ id, position, rotation }) => ({ id, position, rotation }));
   }
 
