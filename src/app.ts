@@ -16,7 +16,7 @@ import { hasFact, hourOfDay, evalAll, createInitialState, formatClock, clockDay,
 import { EVIDENCE_IDS, type Allocation, type Command, type GameEvent, type ItemId, type NpcId, type PlaceId, type WorldState } from './game/types';
 import { worldView } from './game/worldView';
 import { Input } from './platform/input';
-import { FrameClock } from './platform/frameTiming';
+import { FrameClock, cappedFrame } from './platform/frameTiming';
 import { waitForGraphicsReady } from './platform/graphicsReady';
 import { prepareSceneTextures } from './platform/prepareSceneTextures';
 import { codeLabel, loadSettings } from './platform/settings';
@@ -402,6 +402,8 @@ export class App {
       this.world = await WorldScene.create(this.game.state, structuredClone(this.settings), this.library, undefined, this.npcAssets!, {
         // The animals follow the world in; a first visit downloads about a fifth less before entering (A70).
         deferWildlife: true,
+        // So does the rooms' furniture: none of it is needed to set foot in the valley (backlog 4).
+        deferFurniture: true,
         onPhase: (p) => this.loadingScreen?.update(p.phase === 'finishing'
           ? { phase: 'graphics', detail: p.label }
           : { phase: p.phase, completed: p.completed, total: p.total, detail: p.label }),
@@ -540,7 +542,7 @@ export class App {
         // surfaces behind them, instead of each group waiting for the one before it to be prepared.
         const hero = this.prepareMainHero();
         void this.prepareNpcAssets().catch(() => {});
-        prefetchJourney(this.settings.quality);
+        prefetchJourney(this.settings.quality, { deferFurniture: true });
         await hero;
         do {
           this.reloadAgain = false;
@@ -870,6 +872,7 @@ export class App {
     const safe = this.safePosition(p.x, p.z, p.y);
     const fresh = fromLoad === null;
     const start = fresh ? { x: SPAWN.x, z: SPAWN.z, yaw: SPAWN.yaw } : { x: safe.x, z: safe.z, yaw: p.yaw };
+    this.pendingMount = !fresh && typeof p.mount === 'string' ? { id: p.mount, x: start.x, z: start.z } : null;
     this.player.setPosition(start.x, start.z, start.yaw, this.world.terrain, fresh ? undefined : safe.y);
     if (!fresh) {
       const top = this.world.physics.supportAt(start.x, start.z, p.y);
@@ -932,7 +935,14 @@ export class App {
 
   /* ============================== main loop ============================== */
 
+  private nextDraw = -Infinity;
   private frame(now: number) {
+    // On a display faster than 60 Hz, refreshes between frames are let pass: the same game, less heat (A71).
+    if (this.settings.frameCap60) {
+      const capped = cappedFrame(now, this.nextDraw);
+      this.nextDraw = capped.due;
+      if (!capped.draw) { requestAnimationFrame((t) => this.frame(t)); return; }
+    }
     const frame = this.frameClock.tick(now);
     if (frame && !this.worldPaused) {
       const { interval, dt, steps } = frame;
@@ -1108,6 +1118,7 @@ export class App {
     // Camera follow
     if (this.cam.mode === 'follow' && !this.bench.active) {
       const sitting = 0;
+      this.cam.mounted = this.riding;
       this.cam.follow(dt, this.player.x, this.player.y, this.player.z, this.world.terrain, this.world.colliders, this.settings.reducedMotion, this.player.shake, 1.55 + sitting);
       this.cam.clearWater((x, z) => this.world.water.world.surfaceAt(x, z), this.player.swimming);
       this.player.group.visible = this.cam.bodyVisible;
@@ -1129,7 +1140,7 @@ export class App {
     this.world.update(dt, this.game.state, new THREE.Vector3(this.player.x, this.player.y, this.player.z), this.settings, hour, this.cam.camera, worldActive);
     // Doors swing open for the wanderer and the residents who come to them, and shut behind them (A66); someone only
     // standing near a door, at their place outside it, leaves it shut (A69).
-    for (const swing of this.world.updateDoors(worldActive ? dt : 0, [this.player, ...this.npcs.filter((n) => n.underway)])) this.audio.door(swing.at, swing.open);
+    for (const swing of this.world.updateDoors(worldActive ? dt : 0, [...(this.riding ? [] : [this.player]), ...this.npcs.filter((n) => n.underway)])) this.audio.door(swing.at, swing.open);
     this.hunting.afterWorld(dt, worldActive);
     this.audioUpdate(dt, this.cam.camera.position, hour);
 
@@ -1446,30 +1457,73 @@ export class App {
 
   mountDeer() {
     if (this.mode !== 'play' || this.overlay !== 'none' || this.worldPaused || this.player.mount || !this.player.alive) return;
+    if (this.player.mountMove) return;
     const at = this.world.animals?.mount(App.MOUNT_ID);
     if (!at) return;
-    this.player.mountUp(App.MOUNT_ID, at.seat, at.x, at.y, at.z, at.yaw);
-    this.audio.pickup();
+    // He walks to the deer's side and swings up (A71); the deer is held still meanwhile.
+    if (this.player.beginMount(App.MOUNT_ID, at.seat, at, { colliders: this.world.colliders })) this.audio.pickup();
   }
 
+  /** Step down beside the deer (A71); where that cannot be done he is put down at once. */
   dismount() {
     if (!this.player.mount) return;
     const id = this.player.mount.id;
-    this.player.dismount(this.playerContext(false));
+    if (this.player.beginDismount(this.playerContext(false))) return;
     this.world.animals?.ride(id, null);
     this.ridden = null;
   }
 
+  /** Put down at once: deep water, a fall, death, the deer gone (A70). */
+  private forceDismount() {
+    const id = this.player.mount?.id ?? this.player.mountMove?.id;
+    this.player.dismount(this.playerContext(false));
+    if (id) this.world.animals?.ride(id, null);
+    this.ridden = null;
+  }
+
+  /** Whether the camera should ride high: seated, or swinging up or down (A71). */
+  private get riding(): boolean {
+    return this.player.mount !== null || (this.player.mountMove !== null && this.player.mountMove.kind !== 'approach');
+  }
+
+  /** A load made in the saddle puts him back in it once the deer is here (A71). */
+  private pendingMount: { id: string; x: number; z: number } | null = null;
+
   /** The deer carries its rider where he steers; deep water, a fall or death puts him down (A70). */
   private ridden: string | null = null;
   private carryRider() {
+    const animals = this.world.animals;
+    // Loaded in the saddle: the deer is brought under him as soon as it has arrived (A71).
+    if (this.pendingMount) {
+      const pending = this.pendingMount, at = animals?.mount(pending.id);
+      // Walked off before the deer arrived, he stays afoot.
+      if (this.player.mount || this.player.mountMove || !this.player.alive || this.player.swimming ||
+        Math.hypot(this.player.x - pending.x, this.player.z - pending.z) > 1) this.pendingMount = null;
+      else if (at) {
+        this.player.mountUp(pending.id, at.seat, this.player.x, this.player.y, this.player.z, this.player.yaw);
+        this.pendingMount = null;
+      }
+    }
+    // Getting up or down, the deer stands still where it is (A71).
+    const move = this.player.mountMove;
+    if (move) {
+      if (!animals?.mount(move.id)) { this.player.cancelMount({ terrain: this.world.terrain }); if (this.ridden) animals?.ride(this.ridden, null); this.ridden = null; return; }
+      this.ridden = move.id;
+      animals.ride(move.id, { x: move.deer.x, z: move.deer.z, yaw: move.deer.yaw, speed: 0 });
+      this.player.setMountGait(null);
+      return;
+    }
     const mount = this.player.mount;
     // Taken out of the saddle any other way (a load, a respawn, a teleport), the deer is let go too (A70).
-    if (!mount) { if (this.ridden) { this.world.animals?.ride(this.ridden, null); this.ridden = null; } return; }
+    if (!mount) { if (this.ridden) { animals?.ride(this.ridden, null); this.ridden = null; } return; }
     // No deer under him (the animals not yet arrived after a rebuild): he gets down.
-    if (!this.player.alive || this.player.swimming || this.player.state !== 'free' || !this.world.animals?.mount(mount.id)) { this.dismount(); return; }
+    if (!this.player.alive || this.player.swimming || this.player.state !== 'free' || !animals?.mount(mount.id)) { this.forceDismount(); return; }
     this.ridden = mount.id;
-    this.world.animals.ride(mount.id, { x: this.player.x, z: this.player.z, yaw: this.player.yaw, speed: this.player.lastMoveSpeed });
+    animals.ride(mount.id, { x: this.player.x, z: this.player.z, yaw: this.player.yaw, speed: this.player.rideSpeed });
+    // The saddle rises with the deer's stride, and its hooves sound on the ground underfoot (A71).
+    const gait = animals.rideGait(mount.id);
+    this.player.setMountGait(gait?.phase ?? null);
+    for (let i = 0; i < (gait?.footfalls ?? 0); i++) this.audio.hoof(this.player.surface, gait!.gait === 'Run');
   }
 
   restockArrows() {
@@ -1838,6 +1892,8 @@ export class App {
 
   private stamp() {
     this.game.setPlayerTransform(this.player.x, this.player.y, this.player.z, this.player.yaw);
+    // Saved in the saddle, a load puts him back in it (A71); getting up or down saves him afoot.
+    this.game.state.player.mount = this.player.mount?.id ?? null;
     this.game.state.physicalObjects = this.world.physics.snapshot().map(({ id, position, rotation }) => ({ id, position, rotation }));
   }
 
@@ -2186,8 +2242,9 @@ export class App {
     this.hud.update({
       health: s.player.health,
       maxHealth: s.player.maxHealth,
-      stamina: this.player.stamina,
-      exhausted: this.player.exhausted,
+      // In the saddle the bar shows the deer's gallop stamina (A71).
+      stamina: this.player.mount ? this.player.mountStamina : this.player.stamina,
+      exhausted: this.player.mount ? this.player.mountSpent : this.player.exhausted,
       coin: s.inventory.coin ?? 0,
       quickSlots: s.quickSlots,
       inventory: s.inventory,

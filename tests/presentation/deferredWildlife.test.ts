@@ -7,7 +7,7 @@ function fakeInner(): AnimalWildlife {
     group: new THREE.Group(), update: vi.fn(), dispose: vi.fn(), setPeople: vi.fn(), contacts: [{ id: 'animal:x', kind: 'circle', x: 0, z: 0, r: 1, active: true }],
     physicalActors: [], snapshot: () => [], syncHunting: vi.fn(), traceArrow: () => null, showArrowImpact: vi.fn(), alertShot: vi.fn(),
     nearestCarcass: (() => null) as never, skinningFrame: (() => null) as never, setRunning: vi.fn(), setReduceEffects: vi.fn(),
-    mount: () => ({ x: 1, y: 0, z: 2, yaw: 0, seat: 1.2 }), ride: vi.fn(),
+    mount: () => ({ x: 1, y: 0, z: 2, yaw: 0, seat: 1.2 }), ride: vi.fn(), rideGait: () => null,
   };
 }
 

@@ -1,4 +1,5 @@
-import { GLTFLoader, type GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { createGltfLoader } from './assets/gltfLoader';
 import { modelAssetUrl } from './assets/modelUrl';
 import { observeModelLoad, withModelLoadSlot, type ModelLoadProgress } from './assets/modelLoadQueue';
 import { downloadAsset } from './assets/download';
@@ -22,7 +23,7 @@ export function loadMainHero(progress?: ModelLoadProgress): Promise<GLTF> {
     if (header.getUint32(0, true) !== 0x46546c67 || header.getUint32(4, true) !== 2 || header.getUint32(8, true) !== buffer.byteLength) {
       throw new Error('The Wanderer model download is not a complete GLB 2 file.');
     }
-    return await new GLTFLoader().parseAsync(buffer, new URL('.', url).href);
+    return await createGltfLoader().parseAsync(buffer, new URL('.', url).href);
   }).catch((error: unknown) => {
     pending = null;
     throw error;

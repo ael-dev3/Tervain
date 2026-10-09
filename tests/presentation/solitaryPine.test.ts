@@ -17,7 +17,7 @@ describe('delivered Solitary Pine forest', () => {
     for (const file of PINE_FILES) {
       const { bytes, json } = pineBinary(file);
       expect(bytes.readUInt32LE(8)).toBe(bytes.length);
-      expect((json.extensionsRequired ?? []).filter((name: string) => name !== 'EXT_texture_webp')).toEqual([]);
+      expect((json.extensionsRequired ?? []).filter((name: string) => !['EXT_texture_webp', 'EXT_meshopt_compression'].includes(name))).toEqual([]);
       expect(json.images.every((image: { bufferView?: number; mimeType: string }) => image.bufferView !== undefined && ['image/png', 'image/jpeg', 'image/webp'].includes(image.mimeType))).toBe(true);
       const foliage = json.materials.find((material: { alphaMode: string }) => material.alphaMode === 'MASK');
       expect(foliage.alphaCutoff).toBe(0.42);

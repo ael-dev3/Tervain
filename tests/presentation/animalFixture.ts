@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs';
 import * as THREE from 'three';
-import { GLTFLoader, type GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { createGltfLoader } from '../../src/presentation/assets/gltfLoader';
 import { ANIMALS, type AnimalDefinition, type AnimalClip } from '../../src/presentation/animals/catalog';
 
 /** Small skin for lifecycle/controller tests. Real delivered topology is checked separately. */
@@ -45,7 +46,7 @@ export async function animalTemplates(definitions: readonly AnimalDefinition[] =
     const text = Buffer.from(JSON.stringify(json)), padded = Math.ceil(text.length / 4) * 4, bin = bytes.subarray(20 + length), decoded = Buffer.alloc(20 + padded + bin.length);
     decoded.writeUInt32LE(0x46546c67, 0); decoded.writeUInt32LE(2, 4); decoded.writeUInt32LE(decoded.length, 8);
     decoded.writeUInt32LE(padded, 12); decoded.writeUInt32LE(0x4e4f534a, 16); decoded.fill(32, 20, 20 + padded); text.copy(decoded, 20); bin.copy(decoded, 20 + padded);
-    const template = await new GLTFLoader().parseAsync(decoded.buffer.slice(decoded.byteOffset, decoded.byteOffset + decoded.byteLength) as ArrayBuffer, '');
+    const template = await createGltfLoader().parseAsync(decoded.buffer.slice(decoded.byteOffset, decoded.byteOffset + decoded.byteLength) as ArrayBuffer, '');
     result.set(definition.id, template);
   }
   return result;

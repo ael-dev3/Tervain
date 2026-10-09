@@ -738,6 +738,7 @@ export function settingsPanel(ctx: PanelCtx): HTMLElement {
     toggle(S('set.barks'), 'barks'),
     toggle(S('set.captions'), 'captions'),
     toggle(S('set.fps'), 'showFps'),
+    toggle(S('set.framecap'), 'frameCap60', S('set.framecap.desc')),
     h('h2', {}, S('set.controls')),
     range(S('set.sensitivity'), () => st.mouseSensitivity, (v) => (st.mouseSensitivity = v), 0.2, 3, 0.05, (v) => v.toFixed(2)),
     toggle(S('set.invert'), 'invertY'),

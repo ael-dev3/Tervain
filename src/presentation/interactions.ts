@@ -8,6 +8,7 @@ import { isWorldPickupItem, WORLD_PICKUP_MODELS } from '../content/pickups';
 import { worldPickupTargetY } from './worldPickups';
 import { hunterTableSurfaceY } from './hunterSupplies';
 import { hunterTradingOpen } from '../game/hunting';
+import { DEER_BODY, doorwayAhead } from './riding';
 
 export interface Interactable {
   id: string;
@@ -51,12 +52,21 @@ export function buildInteractables(app: App): Interactable[] {
   list.push({
     id: 'mount_deer', pos: () => { const m = app.world.animals?.mount(App_MOUNT); return m ? { x: m.x, y: m.y + m.seat, z: m.z } : { x: 1e9, z: 1e9 }; },
     r: 2.6, prompt: () => S('prompt.ride'), ignoreColliders: ['animal:' + App_MOUNT],
-    enabled: () => !app.player.mount && app.player.alive && !app.player.swimming && !!app.world.animals?.mount(App_MOUNT) && app.noThreatNear(),
+    enabled: () => !app.player.mount && !app.player.mountMove && app.player.alive && !app.player.swimming && !!app.world.animals?.mount(App_MOUNT) && app.noThreatNear(),
     act: () => app.mountDeer(), priority: -0.4,
   });
   list.push({
     id: 'dismount', pos: () => ({ x: app.player.x, y: app.player.y + 1.4, z: app.player.z }), r: 3,
     prompt: () => S('prompt.dismount'), enabled: () => !!app.player.mount, act: () => app.dismount(), priority: -5,
+  });
+  // A deer does not go indoors (A71): at a doorway the rider is offered to get down instead.
+  list.push({
+    id: 'dismount_door', pos: () => ({ x: app.player.x, y: app.player.y + 1.4, z: app.player.z }), r: 3,
+    prompt: () => S('prompt.dismount_door'), act: () => app.dismount(), priority: -6,
+    enabled: () => {
+      const p = app.player;
+      return !!p.mount && !p.mountMove && doorwayAhead(p.x + Math.sin(p.yaw) * DEER_BODY.front, p.z + Math.cos(p.yaw) * DEER_BODY.front) !== null;
+    },
   });
 
   // People.

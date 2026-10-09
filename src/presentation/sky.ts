@@ -228,7 +228,11 @@ void main() {
   #include <colorspace_fragment>
 }`;
 
+/** How far the sun moves before its shadow follows (radians), A71. */
+const SHADOW_DIR_STEP = 0.003;
+
 export class SkyRig {
+  private readonly shadowDir = new THREE.Vector3();
   readonly group = new THREE.Group();
   readonly sun = new THREE.DirectionalLight(0xffffff, 2);
   readonly moon = new THREE.DirectionalLight(0x8fa4d8, 0.0);
@@ -367,7 +371,10 @@ export class SkyRig {
     const br = this.brightness;
     this.sun.color.copy(SKY.sunColor.value);
     this.sun.intensity = sunI * 1.0 * br;
-    this.sun.position.copy(focus).addScaledVector(sunDir, 160);
+    // The shadow's direction follows the sun in steps of a sixth of a degree, not every frame: a sun moving a little each
+    // frame made shadow edges crawl, and a near wall flickered with them (A71). Light and shading keep the exact sun.
+    if (this.shadowDir.angleTo(sunDir) > SHADOW_DIR_STEP || !(this.shadowDir.lengthSq() > 0)) this.shadowDir.copy(sunDir);
+    this.sun.position.copy(focus).addScaledVector(this.shadowDir, 160);
     this.sun.target.position.copy(focus);
     // Snap the shadow focus to texel-ish steps so shadows do not shimmer while walking.
     const step = (140 / this.sun.shadow.mapSize.x) * 4;

@@ -1,5 +1,5 @@
 import { loadBakedTextures } from './bakedTextures';
-import { buildFurniture, loadFurniture, type FurnitureTemplates } from './furniture';
+import { buildFurniture, deferredFurniture, loadFurniture, type FurnitureTemplates } from './furniture';
 import { InteriorLight } from './interiorLight';
 import { WindowView } from './windowView';
 import type { InteriorSpec } from '../world/interiors';
@@ -70,6 +70,8 @@ export interface WorldCreateOptions extends CooperativeOptions {
   onPhase?: (progress: WorldBuildProgress) => void;
   /** Open the world before the animals' models arrive; they move in afterwards (A70). */
   deferWildlife?: boolean;
+  /** Open the world before the rooms' furniture models arrive; the rooms are furnished afterwards (backlog 4). */
+  deferFurniture?: boolean;
 }
 
 type WorldModules = { name: string; module: SceneModule }[];
@@ -168,7 +170,7 @@ export class WorldScene {
       stone: { completed: 0, total: 1 },
       trees: { completed: 0, total: new Set(MESHY_TREE_IDS).size * MESHY_TREE_LODS.length },
       animals: { completed: 0, total: options.deferWildlife ? 0 : ANIMALS.length },
-      furniture: { completed: 0, total: 1 },
+      furniture: { completed: 0, total: options.deferFurniture ? 0 : 1 },
     };
     const modelTotal = Object.values(modelFamilies).reduce((sum, family) => sum + family.total, 0);
     let modelProgressActive = true;
@@ -183,7 +185,7 @@ export class WorldScene {
     // The baked building surfaces download alongside the models; any that fail keep their generated textures.
     const surfaces = loadBakedTextures(settings.quality);
     setSharedLibrary(library);
-    let pine: PineTemplates, rockPile: GLTF, treeTemplates: MeshyTreeTemplates, animalTemplates: AnimalTemplates | null, furniture: FurnitureTemplates;
+    let pine: PineTemplates, rockPile: GLTF, treeTemplates: MeshyTreeTemplates, animalTemplates: AnimalTemplates | null, furniture: FurnitureTemplates | null;
     try {
       await library.preload(ALL_NEEDS, progress => modelProgress('library', progress.loaded, progress.total, progress.label));
       [pine, rockPile, treeTemplates, animalTemplates, furniture] = await Promise.all([
@@ -191,7 +193,7 @@ export class WorldScene {
         loadSourceRockPile((loaded, total) => modelProgress('stone', loaded, total, 'Woodland stone')),
         loadMeshyTrees(undefined, (loaded, total) => modelProgress('trees', loaded, total, 'Woodland models', MESHY_TREE_LODS.length)),
         options.deferWildlife ? Promise.resolve(null) : loadAnimalTemplates((loaded, total) => modelProgress('animals', loaded, total, 'Wildlife models')),
-        loadFurniture((loaded, total) => modelProgress('furniture', loaded, total, 'Furniture')),
+        options.deferFurniture ? Promise.resolve(null) : loadFurniture((loaded, total) => modelProgress('furniture', loaded, total, 'Furniture')),
       ]);
     } finally { modelProgressActive = false; }
     await checkpoint('models', 'World models', modelTotal, modelTotal);
@@ -218,7 +220,7 @@ export class WorldScene {
   }
 
   private static async build(state: WorldState, settings: Settings, library: AssetLibrary, terrainTex: TerrainTextures, pine: PineTemplates, rockPile: GLTF,
-    treeTemplates: MeshyTreeTemplates, animalTemplates: AnimalTemplates | null, furniture: FurnitureTemplates, npcAssets: MeshyNpcCatalog | undefined, options: WorldCreateOptions,
+    treeTemplates: MeshyTreeTemplates, animalTemplates: AnimalTemplates | null, furniture: FurnitureTemplates | null, npcAssets: MeshyNpcCatalog | undefined, options: WorldCreateOptions,
     phase: (stage: WorldBuildProgress['phase'], label: string, completed?: number, total?: number) => void,
     checkpoint: (stage: WorldBuildProgress['phase'], label: string, completed?: number, total?: number) => Promise<void>): Promise<WorldScene> {
     const t0 = performance.now();
@@ -294,7 +296,14 @@ export class WorldScene {
       scene.add(scenery.group);
       // A room's furniture shows only while someone can see into it (A66): see WorldScene.roomOpen.
       let roomOpen: (room: InteriorSpec) => boolean = () => true;
-      addModule('furniture', buildFurniture(furniture, terrain.rooms, (room) => roomOpen(room)));
+      // Deferred, the rooms stand empty until the pieces are here; their colliders come from the placements either way.
+      const furnishing = furniture ? null : deferredFurniture();
+      addModule('furniture', furnishing ?? buildFurniture(furniture!, terrain.rooms, (room) => roomOpen(room)));
+      if (furnishing) {
+        void Promise.resolve().then(() => loadFurniture()).then(
+          (templates) => furnishing.attach(buildFurniture(templates, terrain.rooms, (room) => roomOpen(room))),
+          (error) => console.warn('[furniture] the furniture could not be loaded; the rooms stay bare', error));
+      }
       await checkpoint('settlement', 'Hunter supplies and caravan');
       const hunterSupplies = buildHunterSupplies(terrain, colliders);
       addModule('hunter supplies', { group: hunterSupplies, update() {}, dispose: () => disposeHunterSupplies(hunterSupplies) });

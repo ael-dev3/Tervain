@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import * as THREE from 'three';
 const parser = vi.hoisted(() => vi.fn());
-vi.mock('three/examples/jsm/loaders/GLTFLoader.js', () => ({ GLTFLoader: class { parseAsync = parser; } }));
+vi.mock('three/examples/jsm/loaders/GLTFLoader.js', () => ({ GLTFLoader: class { parseAsync = parser; setMeshoptDecoder() { return this; } } }));
 const fetchMock = vi.fn<typeof fetch>();
 function response() {
   const data = new ArrayBuffer(12), header = new DataView(data);

@@ -40,6 +40,14 @@ export function stepCue(surface: SurfaceKind, running: boolean, random: () => nu
   return { clip, gain: running ? 0.45 : 0.3, pitch: running ? 0.05 : 0.035 };
 }
 
+/** A ridden deer's hoof striking (A71): its weight on the surface's step, a sharper knock on hard ground. */
+export function hoofCues(surface: SurfaceKind, galloping: boolean): Cue[] {
+  const step = stepCue(surface, galloping);
+  const cues: Cue[] = [{ ...step, gain: step.gain * (galloping ? 1.25 : 0.95), pitch: 0.09 }];
+  if (surface === 'road' || surface === 'stone') cues.push({ clip: 'land', gain: galloping ? 0.16 : 0.09, pitch: 0.12 });
+  return cues;
+}
+
 /** Landing after a jump or a drop, by the downward speed at contact (metres per second). */
 export function landCues(surface: SurfaceKind, fallSpeed: number): Cue[] {
   const hard = Math.min(1, Math.max(0, (fallSpeed - 3) / 6));

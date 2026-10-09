@@ -1,5 +1,6 @@
 import * as THREE from 'three';
-import { GLTFLoader, type GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { createGltfLoader } from './assets/gltfLoader';
 import { clone as cloneSkinned } from 'three/examples/jsm/utils/SkeletonUtils.js';
 import type { Collider } from '../world/colliders';
 import type { PhysicalActor } from '../world/physics';
@@ -131,7 +132,7 @@ function loadAnimal(definition: AnimalDefinition): Promise<GLTF> {
     if (header.getUint32(0, true) !== 0x46546c67 || header.getUint32(4, true) !== 2 || header.getUint32(8, true) !== bytes.byteLength) {
       throw new Error('The animal model download is not a complete GLB 2 file.');
     }
-    const template = await new GLTFLoader().parseAsync(bytes, new URL('.', url).href);
+    const template = await createGltfLoader().parseAsync(bytes, new URL('.', url).href);
     try { validateAnimalTemplate(template, definition); } catch (error) { releaseRejectedTemplate(template); throw error; }
     return template;
   }).catch(error => { pending.delete(definition.id); throw error; });
@@ -180,6 +181,14 @@ export class AnimalAnimation {
   duration(clip: AnimalClip) { return this.actions.get(clip)?.getClip().duration ?? 2; }
   has(clip: AnimalClip) { return this.actions.has(clip); }
   referenceSpeed(clip: 'Walk' | 'Run') { return this.motionSpeeds[clip]; }
+  /** How far through its stride a walking or running animal is (0..1), or null standing (A71). */
+  gaitPhase(): number | null {
+    if (this.current !== 'Walk' && this.current !== 'Run') return null;
+    const action = this.actions.get(this.current);
+    if (!action) return null;
+    const duration = action.getClip().duration;
+    return duration > 0 ? ((action.time % duration) + duration) % duration / duration : null;
+  }
   transition(clip: AnimalClip) {
     if (clip === this.current) return;
     const next = this.actions.get(clip);
@@ -351,6 +360,11 @@ export interface AnimalWildlife extends SceneModule {
   mount(id: string): { x: number; y: number; z: number; yaw: number; seat: number } | null;
   /** Carry a rider: the animal stands, walks or runs where he steers; null lets it go where it stands. */
   ride(id: string, at: { x: number; z: number; yaw: number; speed: number } | null): void;
+  /**
+   * The ridden animal's stride (A71): its phase (0..1, null standing), which gait, and how many hooves have struck since
+   * last asked: a four-beat stride strikes at each quarter of its clip.
+   */
+  rideGait(id: string): { phase: number | null; gait: 'Idle' | 'Walk' | 'Run'; footfalls: number } | null;
 }
 
 /** Independent peaceful wildlife controllers with optional durable hunting presentation. */
@@ -444,6 +458,7 @@ export function buildAnimals(ctx: Pick<BuildContext, 'terrain' | 'colliders' | '
   // The saddled deer can be ridden (A70): while carried, it follows its rider and keeps out of its own routine.
   let ridden: { animal: AnimalInstance; at: { x: number; z: number; yaw: number; speed: number } } | null = null;
   const seats = new Map<AnimalInstance, number>();
+  let rideGait: { id: string; phase: number | null; gait: 'Idle' | 'Walk' | 'Run'; footfalls: number } | null = null;
   const seatOf = (animal: AnimalInstance) => {
     let seat = seats.get(animal);
     if (seat !== undefined) return seat;
@@ -501,7 +516,13 @@ export function buildAnimals(ctx: Pick<BuildContext, 'terrain' | 'colliders' | '
       const animal = animals.find(a => a.definition.id === id);
       if (!animal) return;
       if (at) { ridden = { animal, at: { ...at } }; return; }
-      if (ridden?.animal === animal) { ridden = null; animal.path = []; rest(animal); }
+      if (ridden?.animal === animal) { ridden = null; rideGait = null; animal.path = []; rest(animal); }
+    },
+    rideGait(id) {
+      if (!rideGait || rideGait.id !== id) return null;
+      const out = { phase: rideGait.phase, gait: rideGait.gait, footfalls: rideGait.footfalls };
+      rideGait.footfalls = 0;
+      return out;
     },
     traceArrow: (origin, direction, distance) => running ? hunting.traceArrow(origin, direction, distance) : null,
     showArrowImpact: (hit, direction) => hunting.showArrowImpact(hit, direction),
@@ -539,9 +560,18 @@ export function buildAnimals(ctx: Pick<BuildContext, 'terrain' | 'colliders' | '
         if (ridden?.animal === animal) {
           const { at } = ridden;
           p.x = at.x; p.z = at.z; animal.yaw = at.yaw; animal.path = []; animal.alarm = null;
-          const gait: AnimalClip = at.speed > 2.6 ? 'Run' : at.speed > 0.15 ? 'Walk' : 'Idle';
+          const pace = Math.abs(at.speed), gait = pace > 2.6 ? 'Run' as const : pace > 0.15 ? 'Walk' as const : 'Idle' as const;
           enter(animal, gait);
-          animal.animation.update(dt, at.speed); place(animal, dt);
+          const before = animal.animation.gaitPhase();
+          animal.animation.update(dt, Math.abs(at.speed)); place(animal, dt);
+          const after = animal.animation.gaitPhase();
+          if (!rideGait || rideGait.id !== animal.definition.id) rideGait = { id: animal.definition.id, phase: null, gait, footfalls: 0 };
+          // Each quarter of the stride clip crossed is a hoof striking.
+          if (before !== null && after !== null) {
+            const crossed = Math.floor(after * 4) - Math.floor(before * 4) + (after < before ? 4 : 0);
+            rideGait.footfalls += Math.max(0, Math.min(4, crossed));
+          }
+          rideGait.phase = after; rideGait.gait = gait;
           continue;
         }
         // Left far from its rest, the mount is led home once well beyond the hunter's sight (A70).
@@ -676,5 +706,6 @@ export function deferredWildlife(): AnimalWildlife & { attach(inner: AnimalWildl
     setReduceEffects(value) { reduce = value; inner?.setReduceEffects(value); },
     mount: (id) => inner?.mount(id) ?? null,
     ride(id, at) { inner?.ride(id, at); },
+    rideGait: (id) => inner?.rideGait(id) ?? null,
   };
 }
