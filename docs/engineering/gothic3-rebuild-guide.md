@@ -46,7 +46,8 @@ Each feature goes through the following steps:
 
 **Current local boundary:** Arena Status, None, Running, AI FreePoint, Label
 and AI helper administrator initialization return through the retained startup
-stack. Startup reaches the next unsupported C++ initializer, `204b26c0`.
+stack. Startup enters PropertyID initializer `204b26c0` and reaches its unsupported
+CString constructor CALL at `204b26cc`.
 Complete startup, world activation and a new-game-to-ending campaign remain
 unfinished. Local checkpoints and the hosted version can differ; the validation
 receipts below identify the checkpoint covered.
@@ -71,7 +72,19 @@ establish completion of these remaining features.
 The entries below describe successive local states, newest first. Statements
 about missing operations in older entries apply to those earlier checkpoints.
 
-### Latest local checkpoint: complete AI helper administrator initializer returns
+### Latest local checkpoint: AI helper PropertyID initializer enters
+
+Initializer `204b26c0` enters on the retained startup stack. Its original stack
+reservation, GUID-literal push and CString receiver address execute. Execution
+stops at CString constructor import `204b26cc -> 207d890c`. The canonical
+20-byte PropertyID destination remains untouched. Construction, destruction and
+initializer return still need connection to startup execution.
+
+TypeScript checking and six focused tests passed in 14.28 seconds. Independent
+JSON and TypeScript generation matched. The preceding administrator checkpoint
+passed all 3,199 tests in 550.41 seconds; that result does not cover this prefix.
+
+### Historical checkpoint: complete AI helper administrator initializer returns
 
 The original object-replacement body executes its root checks through EBP and
 registration toggles through EBX. Its root path returns without entering the
@@ -84,8 +97,9 @@ Startup advances to the next unsupported C++ initializer, `204b26c0`.
 TypeScript checking and all 31 focused tests passed in 28.81 seconds. Tests
 inspect original helper, accessor, wrapper and initializer return PCs; actual
 factory membership; and exactly one class-name, type and wrapper cleanup
-registration. Full-suite validation and production browser proof of this
-latest administrator completion remain pending.
+registration. The complete administrator checkpoint passed all 3,199 tests across 298 files
+in 550.41 seconds and a production build. Production browser proof remains
+pending.
 
 The preceding complete Label continuation passed all 3,199 tests across 298
 files in 505.29 seconds and is proposed for publication in PR 210. Campaign
