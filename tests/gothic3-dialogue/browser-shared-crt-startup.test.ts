@@ -1,4 +1,6 @@
-import {expect,it} from 'vitest';
+import {expect,it,vi} from 'vitest';
+// These run the original instructions in the emulator: about 4–5 s each here, so the 5 s default fails under CI load.
+vi.setConfig({ testTimeout: 30_000 });
 import {createBrowserGameCrtPlatform} from '../../src/gothic3/browser-game-crt-platform';
 import {browserGameProcessInputs} from '../../src/gothic3/browser-game-process-inputs';
 import {browserGameStartupIoInputs} from '../../src/gothic3/browser-game-startup-io-inputs';
