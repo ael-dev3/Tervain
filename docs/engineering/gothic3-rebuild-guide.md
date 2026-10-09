@@ -122,7 +122,8 @@ activation still require their own implementation and browser evidence.
 
 The walker checkpoint merged through [PR #186](https://github.com/ael-dev3/Tervain/pull/186)
 as `07595915ef24d6b84e18a0379d280b133bf8b32c` after CI run `37890008569` passed.
-Its deployment is pending verification.
+Its initial deployment was superseded when main advanced through PR #187;
+the combined main deployment is recorded below.
 
 Local revision `f84aff4a` executes the original second C callback's EFLAGS, CPUID
 and normal SSE2 probe against declared virtual CPU state, then reads the third
@@ -147,7 +148,8 @@ Ardea with 202 scene objects, 70 character resources and HP 100, reporting
 incomplete at the unconnected ScriptAdmin getter, with 0/16 property sets
 attached. The combined full suite is running. Its newer
 main Pages run `37891214623` supersedes cancelled walker run `37890987247` and
-is still running. No deployment rerun was requested.
+completed successfully for main `03e7cb02aa6b5a0064124b879c7359f5101d713b`.
+No deployment rerun was requested. The local SSE continuation is not yet published.
 
 Independent review of PR #187 decoded all 9,147 buffer views in its 107 changed
 GLBs against the previous revision: geometry, images and semantic metadata
