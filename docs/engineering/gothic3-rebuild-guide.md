@@ -13,6 +13,23 @@ finishable campaign.
 
 ## How the rebuild works
 
+### Current local checkpoint: Running enum returns
+
+Running now traverses the existing value bucket by actual scalar comparisons.
+Its scalar one shares bucket zero with None but retains a distinct entry;
+the new chain points to the existing scalar-zero entry. The actual registry
+CString receives the name, entry count becomes two, and the existing descriptor
+array receives the actual Running object in slot one without growing capacity
+nine. Both None entries and slot zero remain intact. The temporary CString is
+destroyed and the original initializer returns at `204b1ee0` through its
+retained startup CALL frame. Startup reaches the next callback `204b2130`.
+
+Typechecking and 22 focused checks across four files pass. The integrated
+preceding checkpoint `352ab998` separately passed 3,199 tests across 298 files
+in 493.89 seconds and built in 38.34 seconds. These results do not validate
+the later Running continuation; full validation and publication remain pending.
+Full campaign playability remains unfinished.
+
 ### Current local checkpoint: Running name lookup preserves prior entries
 
 Running now hashes its actual CString and traverses the existing name bucket

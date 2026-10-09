@@ -32,6 +32,11 @@ export class NativeGameArenaEnum {
  #runningNameEntry:NativeMemoryAllocation|null=null;
  #runningEntryName:NativeHeapCString|null=null;
  #nameStrings=new WeakMap<object,NativeHeapCString>();
+ #valueStrings=new WeakMap<object,NativeHeapCString>();
+ #runningValueEntry:NativeMemoryAllocation|null=null;
+ #runningValueName:NativeHeapCString|null=null;
+ #runningReturned=false;
+ #runningInserted=false;
  #trace:string[]=[];
  private constructor(readonly crt:NativeGameCrtOwner,private readonly memory:NativeMemoryAdmin){}
  static forCrt(crt:NativeGameCrtOwner,memory:NativeMemoryAdmin):NativeGameArenaEnum{
@@ -155,6 +160,7 @@ export class NativeGameArenaEnum {
    valueEntryFields.writeUnsigned(0,0x2065902c);
    valueEntryFields.writeUnsigned(4,this.crt.imageStorage('enumValueScratch').readUnsigned(0));
    this.#valueName=new NativeHeapCString(this.memory,new NativeHeapObjectViews(this.#valueEntry,8,4));
+   this.#valueStrings.set(this.#valueEntry,this.#valueName);
    valueEntryFields.writeUnsigned(4,scalar);
    valueEntryFields.pointer(12).set(null);
    valueBucketSlot.pointer(0).set(this.#valueEntry);
@@ -185,6 +191,7 @@ export class NativeGameArenaEnum {
  }
  initializeRunning():NativeValue<void>{
   if(this.#runningBoundary)return {known:false,reason:this.#runningBoundary};
+  if(this.#runningReturned)return {known:true,value:undefined};
   if(!this.#returned||!this.#inserted)return {known:false,reason:'Actual preceding None enum initializer return required'};
   if(this.#runningEntered)return {known:false,reason:'Original Running initializer cannot replay'};
   this.#runningEntered=true;
@@ -244,12 +251,60 @@ export class NativeGameArenaEnum {
    const entry=new NativeHeapObjectViews(this.#runningNameEntry,0,16);
    entry.writeUnsigned(8,fields.readUnsigned(8));
    this.#trace.push('200719e8.Running.nameValueAssignment.return1');
-   throw new Error('Unowned retained enum value lookup for Running at 20071a16 -> 200707a0');
+   const valueRegistry=this.crt.imageStorage('enumValueRegistry');
+   const valueBuckets=valueRegistry.pointer<NativeMemoryAllocation>(0).get();
+   if(!valueBuckets||valueRegistry.readUnsigned(4)!==43)throw new Error('Actual retained enum value buckets required');
+   const scalar=fields.readUnsigned(8),valueBucket=(scalar>>>4)%valueRegistry.readUnsigned(4);
+   const valueSlot=new NativeHeapObjectViews(valueBuckets,valueBucket*4,4);
+   const valueHead=valueSlot.pointer<NativeMemoryAllocation>(0).get();
+   let valueFound:NativeMemoryAllocation|null=null,valueCurrent=valueHead;
+   const valueSeen=new Set<object>();
+   while(valueCurrent){
+    if(valueSeen.has(valueCurrent))throw new Error('Original enum value registry chain cycles');
+    valueSeen.add(valueCurrent);
+    const candidate=new NativeHeapObjectViews(valueCurrent,0,16);
+    if(candidate.readUnsigned(4)===scalar){valueFound=valueCurrent;break;}
+    valueCurrent=candidate.pointer<NativeMemoryAllocation>(12).get();
+   }
+   if(valueFound){
+    this.#runningValueEntry=valueFound;this.#runningValueName=this.#valueStrings.get(valueFound)??null;
+    if(!this.#runningValueName)throw new Error('Actual enum value registry CString owner required');
+   }else{
+    this.#runningValueEntry=fact(this.memory.newObject(16,0x199));
+    if(!this.#runningValueEntry)throw new Error('Original Running value assignment dereferences NULL entry');
+    const valueEntry=new NativeHeapObjectViews(this.#runningValueEntry,0,16);
+    valueEntry.writeUnsigned(0,0x100e7e1c);valueEntry.writeUnsigned(0,0x2065902c);
+    valueEntry.writeUnsigned(4,this.crt.imageStorage('enumValueScratch').readUnsigned(0));
+    this.#runningValueName=new NativeHeapCString(this.memory,new NativeHeapObjectViews(this.#runningValueEntry,8,4));
+    this.#valueStrings.set(this.#runningValueEntry,this.#runningValueName);
+    valueEntry.writeUnsigned(4,scalar);valueEntry.pointer(12).set(valueHead);
+    valueSlot.pointer(0).set(this.#runningValueEntry);
+    valueRegistry.writeUnsigned(12,(valueRegistry.readUnsigned(12)+1)>>>0);
+   }
+   fact(this.#runningValueName.assign(this.#runningTemporary));
+   this.#trace.push('20071a1d.Running.valueNameAssigned');
+   const descriptor=this.crt.imageStorage('arenaStatusDescriptor');
+   const arrayAllocation=descriptor.pointer<NativeMemoryAllocation>(32).get();
+   if(!arrayAllocation)throw new Error('Actual preceding enum value array required');
+   const array=new NativeHeapObjectViews(arrayAllocation,0,12);
+   const count=array.readUnsigned(4),requested=(count+1)>>>0;
+   if(count!==1||array.readUnsigned(8)!==9||requested>array.readUnsigned(8))
+    throw new Error('Unowned Running enum value array growth');
+   const values=array.pointer<NativeMemoryAllocation>(0).get();
+   if(!values)throw new Error('Original Running enum insertion dereferences NULL storage');
+   array.writeUnsigned(4,requested);
+   new NativeHeapObjectViews(values,(requested*4-4)>>>0,4).pointer(0).set(this.#runningAllocation);
+   this.#runningInserted=true;this.#trace.push('200710bb.Running.insertReturn1');
+   fact(this.#runningTemporary.destroy());
+   this.#runningReturned=true;this.#trace.push('204b1ee0.Running.initializer.return');
+   return {known:true,value:undefined};
   }catch(error){this.#runningBoundary=error instanceof Error?error.message:String(error);return {known:false,reason:this.#runningBoundary};}
  }
  snapshot(){return Object.freeze({boundary:this.#boundary,temporary:this.#temporary,allocation:this.#allocation,
   runningBoundary:this.#runningBoundary,runningTemporary:this.#runningTemporary,runningAllocation:this.#runningAllocation,
   runningNameEntry:this.#runningNameEntry,runningEntryName:this.#runningEntryName,
+  runningValueEntry:this.#runningValueEntry,runningValueName:this.#runningValueName,
+  runningReturned:this.#runningReturned,runningInserted:this.#runningInserted,
   nameEntry:this.#nameEntry,entryName:this.#entryName,bucket:this.#bucket,
   valueEntry:this.#valueEntry,valueName:this.#valueName,valueBucket:this.#valueBucket,
   trace:Object.freeze([...this.#trace]),initializerReturned:this.#returned,valueInserted:this.#inserted});}
