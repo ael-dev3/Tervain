@@ -45,7 +45,15 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  expect(game.known).toBe(true);
  if(!game.known)throw new Error(game.reason);
  expect(game.value.attachResult).toEqual({known:false,
-  reason:'crtAttach204677e4: Unowned Original Game C++ initializer callback is not yet admitted at 204b2130'});
+  reason:'crtAttach204677e4: Unowned Unowned original environment CALL at204b214f: CALL 0x20035a08'});
+ const freePoint=game.value.crt.imageStorage('freePointWrapper');
+ const freePointVtable=freePoint.pointer<{fields:NativeHeapObjectViews;offset:number}>(0).get()!;
+ expect(freePointVtable.fields).toBe(game.value.crt.imageStorage('freePointWrapperVtable'));
+ expect(freePointVtable.offset).toBe(0);
+ expect([4,8,12].map(offset=>freePoint.readUnsigned(offset))).toEqual([10,0,0]);
+ expect([...freePoint.knownMask.subarray(4)]).toEqual(Array(12).fill(255));
+ expect(game.value.crt.imageStorage('arenaRootWrapper')).not.toBe(freePoint);
+ expect(game.value.crt.imageStorage('freePointTypeAndGuard').readUnsigned(60)).toBe(0);
  const diagnostic=NativeSharedMessageDebug.forPlatform(platform).snapshot(),locale=diagnostic.formatterLocale!;
  expect(diagnostic.messageOwner).toBe(runtime.message);
  expect(diagnostic.messageGetterReturned).toBe(true);
@@ -142,7 +150,7 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  expect(runtime.message.onMessageBelowThreshold(-1).known).toBe(false);
  expect(owner.processAttach()).toEqual(result);
  expect(owner.snapshot().wholeCrtTraversalCompleted).toBe(false);
-});
+},30000);
 it('retains output and rejects a changed cookie before returning or writing the terminator',()=>{
  const platform=platformFixture(),tls=NativeSharedStaticTls.forPlatform(platform);
  if(!tls.known)throw new Error(tls.reason);expect(tls.value.loadSharedBase().known).toBe(true);

@@ -2580,76 +2580,119 @@
   },
   "initializer": {
     "entry": "204b2130",
+    "assemblyPath": "assets/gothic3/game-cinit-callbacks/sources/Game/204b2130.asm.txt",
     "instructions": [
       {
         "va": "204b2130",
+        "rva": "4b2130",
+        "fileOffset": 4923696,
         "bytes": "b91c517b20",
-        "instruction": "MOV ECX,0x207b511c"
+        "instruction": "MOV ECX,0x207b511c",
+        "assemblyLine": 1
       },
       {
         "va": "204b2135",
+        "rva": "4b2135",
+        "fileOffset": 4923701,
         "bytes": "ff15b8877d20",
-        "instruction": "CALL dword ptr [0x207d87b8]"
+        "instruction": "CALL dword ptr [0x207d87b8]",
+        "assemblyLine": 2
       },
       {
         "va": "204b213b",
+        "rva": "4b213b",
+        "fileOffset": 4923707,
         "bytes": "c70524517b2000000000",
-        "instruction": "MOV dword ptr [0x207b5124],0x0"
+        "instruction": "MOV dword ptr [0x207b5124],0x0",
+        "assemblyLine": 3
       },
       {
         "va": "204b2145",
+        "rva": "4b2145",
+        "fileOffset": 4923717,
         "bytes": "c7051c517b2074a06520",
-        "instruction": "MOV dword ptr [0x207b511c],0x2065a074"
+        "instruction": "MOV dword ptr [0x207b511c],0x2065a074",
+        "assemblyLine": 4
       },
       {
         "va": "204b214f",
+        "rva": "4b214f",
+        "fileOffset": 4923727,
         "bytes": "e8b438b8ff",
-        "instruction": "CALL 0x20035a08"
+        "instruction": "CALL 0x20035a08",
+        "assemblyLine": 5
       },
       {
         "va": "204b2154",
+        "rva": "4b2154",
+        "fileOffset": 4923732,
         "bytes": "6a01",
-        "instruction": "PUSH 0x1"
+        "instruction": "PUSH 0x1",
+        "assemblyLine": 6
       },
       {
         "va": "204b2156",
+        "rva": "4b2156",
+        "fileOffset": 4923734,
         "bytes": "b91c517b20",
-        "instruction": "MOV ECX,0x207b511c"
+        "instruction": "MOV ECX,0x207b511c",
+        "assemblyLine": 7
       },
       {
         "va": "204b215b",
+        "rva": "4b215b",
+        "fileOffset": 4923739,
         "bytes": "a328517b20",
-        "instruction": "MOV [0x207b5128],EAX"
+        "instruction": "MOV [0x207b5128],EAX",
+        "assemblyLine": 8
       },
       {
         "va": "204b2160",
+        "rva": "4b2160",
+        "fileOffset": 4923744,
         "bytes": "c70524517b2000000000",
-        "instruction": "MOV dword ptr [0x207b5124],0x0"
+        "instruction": "MOV dword ptr [0x207b5124],0x0",
+        "assemblyLine": 9
       },
       {
         "va": "204b216a",
+        "rva": "4b216a",
+        "fileOffset": 4923754,
         "bytes": "e80264b5ff",
-        "instruction": "CALL 0x20008571"
+        "instruction": "CALL 0x20008571",
+        "assemblyLine": 10
       },
       {
         "va": "204b216f",
+        "rva": "4b216f",
+        "fileOffset": 4923759,
         "bytes": "68809b5420",
-        "instruction": "PUSH 0x20549b80"
+        "instruction": "PUSH 0x20549b80",
+        "assemblyLine": 11
       },
       {
         "va": "204b2174",
+        "rva": "4b2174",
+        "fileOffset": 4923764,
         "bytes": "e85516fbff",
-        "instruction": "CALL 0x204637ce"
+        "instruction": "CALL 0x204637ce",
+        "assemblyLine": 12
       },
       {
         "va": "204b2179",
+        "rva": "4b2179",
+        "fileOffset": 4923769,
         "bytes": "59",
-        "instruction": "POP ECX"
+        "instruction": "POP ECX",
+        "assemblyLine": 13
       },
       {
         "va": "204b217a",
+        "rva": "4b217a",
+        "fileOffset": 4923770,
         "bytes": "c3",
-        "instruction": "RET"
+        "instruction": "RET",
+        "assemblyLine": 14
       }
     ],
     "bodyInstructionBytesSha256": "0a4e341753d777af43dc80a707b6e8069f52029b69958d68aa7357912e27c164"

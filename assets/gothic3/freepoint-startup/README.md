@@ -27,13 +27,19 @@ directly against the DLL. Wrapper cleanup `20549b80` remains uncaptured.
 
 Six image receipts distinguish original file-backed bytes from loader zero
 fill and retain section bounds. They are initial image evidence, not captured
-live object state. This package does not implement or execute FreePoint startup.
+live object state. The generated TypeScript admission now supplies the actual
+initializer instructions and canonical image receipts to browser startup.
+The original SharedBase wrapper constructor executes on FreePoint's separate
+storage and returns; flags become ten, the object field is zero, and the
+initializer installs its actual vtable pointer. Startup stops at the type
+getter call `204b214f -> 20035a08`. The FreePoint initializer has not returned.
 
 Reproduce from the matching local study:
 
 ```powershell
-python tools/gothic3/prepare_freepoint_source.py --study '<study directory>' --output assets/gothic3/freepoint-startup/source.json
+python tools/gothic3/prepare_freepoint_source.py --study '<study directory>' --output assets/gothic3/freepoint-startup/source.json --typescript src/gothic3/native-game-freepoint-source.ts
 ```
 
-Two separate generations matched exactly, SHA-256
-`da8aa591bcde0b1c52d4127725b135ef2964b99c713b990e7ad0308473b87b02`.
+Two separate generations matched exactly for both JSON and generated TypeScript.
+JSON SHA-256 is
+`e7c50bab7e37e59c1f86f98445cc5df66227f6e7e867c52f27c9218b67186e52`.

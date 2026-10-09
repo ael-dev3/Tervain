@@ -46,8 +46,8 @@ Each feature goes through the following steps:
 
 **Current local boundary:** Arena Status, None and Running initialization
 return through the retained startup stack. The next unsupported callback is
-`204b2130`, for the AI FreePoint wrapper/type. Source capture for that callback
-does not establish that it executes. Complete startup, world activation and
+`204b214f -> 20035a08`, the AI FreePoint type getter. Its preceding wrapper
+constructor and original field stores now execute. Complete startup, world activation and
 a new-game-to-ending campaign remain unfinished. Local checkpoints and the
 hosted version can differ; validation below identifies the checkpoint covered.
 
@@ -55,6 +55,22 @@ hosted version can differ; validation below identifies the checkpoint covered.
 
 The entries below describe successive local states, newest first. Statements
 about missing operations in older entries apply to those earlier checkpoints.
+
+### Current local checkpoint: FreePoint wrapper constructor returns
+
+Startup selects original callback `204b2130` and enters its retained CALL frame.
+Generated exact source admission supplies its fourteen original instructions
+and six canonical image receipts. The existing SharedBase wrapper constructor
+executes against FreePoint's separate sixteen-byte storage and returns through
+the same physical stack. Flags become ten, the original object field is zero,
+and the initializer installs the actual FreePoint vtable pointer. Startup
+reaches the unimplemented type getter at `204b214f -> 20035a08`.
+
+Typechecking and seventeen focused checks across two files pass. Checks inspect
+the actual vtable pointer identity, flags, zero fields, untouched type guard
+and separate Arena storage. Independent regeneration of JSON and generated
+TypeScript matches exactly. Broad validation and publication of this later
+continuation remain pending; the initializer and campaign remain unfinished.
 
 ### Current local checkpoint: Running enum returns
 

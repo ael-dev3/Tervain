@@ -19,6 +19,7 @@ import { nativeGameImageReceipt } from './native-game-crt-profile';
 import { nativeGameLayerBaseMemoryForCrt } from './native-game-layer-base-class-name';
 import { gameClassNameSpec, gameClassNameFamilySpecs, gameClassNameFamilyInstruction } from './native-game-class-name-family-source';
 import { gameArenaRootInstruction, admitArenaWrapperConstructorImport, gameArenaWrapperImportTarget, arenaRegistrationToggleTarget } from './native-game-arena-root-source';
+import { freePointInitializerInstruction } from './native-game-freepoint-source';
 import type { NativeGameCrtOwner } from './native-game-crt';
 
 const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
@@ -73,6 +74,7 @@ const bodies = Object.freeze([
   ['2047470c', '2047470c-204747bc'],
   ...gameClassNameFamilySpecs.map(spec => [spec.initializer, spec.initializer + '-' + spec.instructions.at(-1)!.va] as const),
   ['204b1d70','204b1d70-204b1dba'],
+  ['204b2130','204b2130-204b217a'],
   ['10089290','10089290-100892be'],
   ['200705b0','200705b0-2007067f'],
   ['2006f930','2006f930-2006faa3'],
@@ -388,7 +390,8 @@ export class NativeGameCrtSetEnvp {
     const extent = ranges.get(this.#currentEntry), address = Number.parseInt(pc, 16);
     if (!extent?.some(([first, last]) => address >= first && address <= last) ||
         this.#currentEntry === '204677e4' && !callerRows.has(pc)) throw new Error('Unowned Game environment source frontier at' + pc);
-    const point = ['204b1d70','10089290','200705b0','2006f930','100891b0','10090010','2006d780','1008d190','10090110','1008eb10','1008dd70','100a7980'].includes(this.#currentEntry) ? gameArenaRootInstruction(this.#currentEntry,pc)
+    const point = this.#currentEntry==='204b2130' ? freePointInitializerInstruction(pc)
+      : ['204b1d70','10089290','200705b0','2006f930','100891b0','10090010','2006d780','1008d190','10090110','1008eb10','1008dd70','100a7980'].includes(this.#currentEntry) ? gameArenaRootInstruction(this.#currentEntry,pc)
       : gameClassNameSpec(this.#currentEntry) ? gameClassNameFamilyInstruction(this.#currentEntry,pc)
       : this.#currentEntry === '2046bcff' ? gameArgvInstruction(pc)
       : ['204665f4', '204738b0', '20473830', '20473860', '20463917', '204638a7',
@@ -605,8 +608,8 @@ export class NativeGameCrtSetEnvp {
       fact(NativeX86ThreadStack.prototype.callGameArenaTypeSingleton.call(this.#stack,this.#controller));
       this.#nextBoundary=null; return returnPc;
     }
-    if(point.va==='204b1d75') {
-      if(this.#currentEntry!=='204b1d70' || target.kind!=='memory' || target.expression!=='0x207d87b8' || target.fs)
+    if(point.va==='204b1d75'||point.va==='204b2135') {
+      if(this.#currentEntry!==(point.va==='204b1d75'?'204b1d70':'204b2130') || target.kind!=='memory' || target.expression!=='0x207d87b8' || target.fs)
         throw new Error('Original Arena wrapper constructor call required');
       admitArenaWrapperConstructorImport();
       this.#nextBoundary=Object.freeze({pc:point.va,operation:'import',target:'207d87b8'});
@@ -625,8 +628,9 @@ export class NativeGameCrtSetEnvp {
         fact(NativeX86ThreadStack.prototype.callArenaStatusInitializer.call(this.#stack,this.#controller,callback));
         this.#frames.pop(); this.#nextBoundary=null; return returnPc;
       }
-      if (callback === '204b1d70' && nativeGameLayerBaseMemoryForCrt(this.#crt as NativeGameCrtOwner).known) {
-        this.#classImages = Object.freeze(['arenaRootWrapper','arenaRootVtable','arenaRootTypeVtable'].map(label => {
+      if ((callback === '204b1d70'||callback==='204b2130') && nativeGameLayerBaseMemoryForCrt(this.#crt as NativeGameCrtOwner).known) {
+        const labels=callback==='204b1d70'?['arenaRootWrapper','arenaRootVtable','arenaRootTypeVtable']:['freePointWrapper','freePointWrapperVtable','freePointTypeVtable'];
+        this.#classImages = Object.freeze(labels.map(label => {
           const receipt = nativeGameImageReceipt(label);
           const fields = fact(NativeModuleCrtOwner.canonicalImageForOwner(this.#crt,label));
           if(fields.bytes.length!==receipt.bytes || fields.knownMask.length!==receipt.bytes)

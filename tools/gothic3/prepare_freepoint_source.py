@@ -20,10 +20,12 @@ def capture(study):
     pe = PE((study / '00_Original_Runtime/Game.dll').read_bytes())
     path = Path(__file__).parents[2] / 'assets/gothic3/game-cinit-callbacks/sources/Game/204b2130.asm.txt'
     instructions = []
-    for line in path.read_text(encoding='utf-8').splitlines():
+    for line_number, line in enumerate(path.read_text(encoding='utf-8').splitlines(), 1):
         address, raw, instruction = line.split(' | ', 2)
         assert pe.bytes(int(address,16),len(raw)//2).hex()==raw
-        instructions.append({'va':address,'bytes':raw,'instruction':instruction})
+        instructions.append({'va':address,'rva':f'{int(address,16)-pe.base:x}',
+            'fileOffset':pe.offset(int(address,16),len(raw)//2),
+            'bytes':raw,'instruction':instruction,'assemblyLine':line_number})
     body = b''.join(bytes.fromhex(row['bytes']) for row in instructions)
     assert instructions[-1]['va']=='204b217a' and instructions[-1]['instruction']=='RET'
     cleanups = {'typeCleanup': [], 'classNameCleanup': []}
@@ -63,7 +65,7 @@ def capture(study):
             'section': {'virtualAddress': start, 'virtualSize': virtual_size, 'rawSize': raw_size, 'rawOffset': raw_offset},
             'sha256': hashlib.sha256(raw).hexdigest(), 'liveValueCaptured': False})
     return {'schema':'gothic3-freepoint-startup-source-v1','module':module,
-            'initializer':{'entry':'204b2130','instructions':instructions,
+            'initializer':{'entry':'204b2130','assemblyPath':str(path.relative_to(Path(__file__).parents[2])).replace('\\','/'),'instructions':instructions,
                            'bodyInstructionBytesSha256':hashlib.sha256(body).hexdigest()},
             'cleanups': cleanup_receipts, 'images': images,
             'pendingCleanupCallback':'20549b80','sourceOnly':True,
@@ -74,9 +76,27 @@ if __name__=='__main__':
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--study',type=Path,required=True)
     parser.add_argument('--output',type=Path,required=True)
+    parser.add_argument('--typescript',type=Path)
     args=parser.parse_args()
     source=capture(args.study)
     args.output.parent.mkdir(parents=True,exist_ok=True)
     args.output.write_text(json.dumps(source,indent=2)+'\n',encoding='utf-8',newline='\n')
+    if args.typescript:
+        expected = json.dumps(args.output.read_text(encoding='utf-8'))
+        generated = """/** Generated original FreePoint image and initializer admission. */
+import source from '../../assets/gothic3/freepoint-startup/source.json';
+import sourceText from '../../assets/gothic3/freepoint-startup/source.json?raw';
+import type { NativeCrtImageReceipt } from './native-game-crt-profile';
+import type { NativeGameIoInstruction } from './native-game-crt-io-source';
+const expectedText = EXPECTED;
+function freeze(value:unknown):void {if(value!==null&&typeof value==='object'&&!Object.isFrozen(value)){for(const child of Object.values(value))freeze(child);Object.freeze(value);}}
+export function admitGameFreePointSource():void {if(sourceText!==expectedText)throw new Error('Original FreePoint source differs');}
+admitGameFreePointSource();freeze(source);
+export const freePointImagePins = Object.fromEntries(source.images.map(image=>[image.label,[image.loaderZeroFillBytes?'coldGlobals':'constBytes',image.address,image.bytes,image.raw,image.sha256] as const]));
+freeze(freePointImagePins);
+export function freePointImageReceipt(label:string):NativeCrtImageReceipt {admitGameFreePointSource();const image=source.images.find(image=>image.label===label);if(!image)throw new Error('Unowned FreePoint image');return Object.freeze({...image,module:'Game' as const,scope:image.loaderZeroFillBytes?'cold-original-image':'original-file-backed-constant',knownMask:'ff'.repeat(image.bytes)});}
+export function freePointInitializerInstruction(pc:string):NativeGameIoInstruction {admitGameFreePointSource();const row=source.initializer.instructions.find(row=>row.va===pc);if(!row)throw new Error('Unowned FreePoint initializer instruction');return row;}
+""".replace('EXPECTED', expected)
+        args.typescript.write_text(generated,encoding='utf-8',newline='\n')
     for method in source['module']['methods']:
         print(method['label'],method['bodyVA'],method['instructionCount'])
