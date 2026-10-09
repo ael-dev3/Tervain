@@ -27,7 +27,7 @@
         "colorType": "RGBA",
         "alpha": true,
         "preparation": "Byte-exact copy; no crop, repaint, background removal or metadata stripping; caBX chunk retained.",
-        "intendedUse": "The single Hegemony standard in the native 3D menu (desert market in 0.0.4; Templar vigil since 0.0.5, A26); base-URL-aware loading.",
+        "intendedUse": "The single Hegemony standard in the native 3D menu (desert market in 0.0.4; Templar vigil since 0.0.5, A26); base-URL-aware loading. Since A75 the game loads the 512 px derivative below; this master stays in the repository unchanged.",
         "renderPreparation": "Since 0.0.5 the renderer draws the unchanged master into a canvas at runtime and weathers the copy for the one standard (A24): lower saturation and value, rubbed-thin patches, weave and mud over the cloth, and a matching light-through map in which the emblem blocks the low sun. No other surface carries the emblem. The bundled PNG is not modified."
       },
       "terms": {
@@ -45,6 +45,16 @@
         "fallbackAndDisposal": "Six CPU-only scene regression tests; no browser HTTP-failure simulation performed.",
         "publication": "Integrated and locally validated on f0dc24c; source published on codex/0-0-5-templar-forest. PR #4 is merged; this source record tracks the late follow-up branch. Public Pages hosting is unavailable (deploy 404; private:true, has_pages:false). See docs/production/releases/0.0.5.md#publication.",
         "desktopPackage": "not verified"
+      },
+      "runtimeDerivative": {
+        "path": "public/assets/menu/hegemony-emblem-512.webp",
+        "bytes": 87816,
+        "sha256": "6d9cfd41ad8d851a87c8ca8b8c87378fd17039fd103cc0823eb5be9da2b27239",
+        "width": 512,
+        "height": 512,
+        "alpha": true,
+        "preparation": "A75: the master above resized to 512 px (Lanczos) and encoded as WebP (quality 92, full alpha quality) with sharp; the banner canvas it is painted into is 384 px wide, so no visible detail is lost. Saves about 1.1 MiB before the title screen.",
+        "derivedFromSha256": "26e8664b1db0acf3e6db443caf46ef13e45fe9de794749e431b7c2e3d6fb8774"
       }
     }
   ]

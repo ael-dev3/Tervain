@@ -83,7 +83,7 @@ function browserResources(): MenuResources {
           img.src = url;
         }),
     },
-    emblemUrl: `${import.meta.env.BASE_URL}assets/menu/hegemony-emblem.png`,
+    emblemUrl: `${import.meta.env.BASE_URL}assets/menu/hegemony-emblem-512.webp`,
   };
 }
 

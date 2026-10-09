@@ -196,8 +196,8 @@ export interface NpcRigOptions {
 export const RESIDENT_GARMENT_ARMS: Readonly<Record<string, number>> = { 'caravan-master': 0.6 };
 
 /**
- * Hands modelled closed or covered (A72): the caravan master's sleeves hang over both, the baker's left is a fist. They
- * keep their shape; every other hand's fingers curl.
+ * Hands modelled closed (A72): both of the caravan master's and the baker's left are sculpted as fists, with no fingers
+ * apart to bend (seen in the game, A75). They keep their shape; every other hand's fingers curl.
  */
 export const RESIDENT_CLOSED_HANDS: Readonly<Record<string, readonly FingerSide[]>> = { 'caravan-master': ['Left', 'Right'], 'village-baker': ['Left'] };
 /** Fighting bare-handed: the poses that close a free hand into a fist (A72). */

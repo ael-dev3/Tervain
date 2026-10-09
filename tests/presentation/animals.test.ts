@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { buildAnimals, AnimalAnimation, validateAnimalTemplate, type AnimalCallEvent } from '../../src/presentation/animals';
+import { buildAnimals, AnimalAnimation, strideQuartersCrossed, validateAnimalTemplate, type AnimalCallEvent } from '../../src/presentation/animals';
 import { ANIMALS, requiredAnimalClips } from '../../src/presentation/animals/catalog';
 import { animalGroundAllowed, animalHabitatAllowed, animalRouteDistance, animalSegmentClear, findAnimalPath, findAnimalSite, type AnimalTerrain } from '../../src/presentation/animals/navigation';
 import { buildStaticColliders, Colliders } from '../../src/world/colliders';
@@ -50,6 +50,21 @@ describe('peaceful animated land wildlife', () => {
     controller.transition('Call'); controller.update(0.3, 0);
     expect(head.quaternion.angleTo(walked)).toBeGreaterThan(0.01);
     controller.dispose();
+  });
+
+  it('plays the stride backwards when backing up, and counts its hoofbeats either way (A75)', () => {
+    const source = animalFixture(), controller = new AnimalAnimation(source.scene, source.animations, 'dog');
+    controller.transition('Walk'); controller.update(0.5, 1);
+    const forward = controller.gaitPhase()!;
+    controller.update(0.2, -1);
+    const back = controller.gaitPhase()!;
+    expect(back).toBeLessThan(forward);
+    controller.dispose();
+    expect(strideQuartersCrossed(0.2, 0.3)).toBe(1);
+    expect(strideQuartersCrossed(0.95, 0.05)).toBe(1);
+    expect(strideQuartersCrossed(0.3, 0.2, true)).toBe(1);
+    expect(strideQuartersCrossed(0.05, 0.95, true)).toBe(1);
+    expect(strideQuartersCrossed(0.3, 0.28, true)).toBe(0);
   });
 
   it('creates private skeletons and disposable resources without retiring cached source art', () => {
