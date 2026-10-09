@@ -71,7 +71,8 @@ Its normal return is followed by the fifth SSE callback and the completed C
 walker. The next atexit call remains unsupported. All 74 focused checks across
 four files, typechecking and the production build pass. A production browser
 reached the same atexit boundary after 2,359 startup operations; NPC activation
-remains incomplete. Full-suite verification remains outstanding. Allocation-failure
+remains incomplete. All 3,130 tests across 287 files passed in 380.66 seconds
+before integrating the latest prototype changes. Allocation-failure
 profiles also need independent evidence before their execution is claimed.
 
 Optional precision, SSE control and the failed-lookup divide fallback remain

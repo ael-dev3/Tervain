@@ -193,9 +193,17 @@ entries, unknown physical allocation padding and prevention of replay.
 Production browser verification entered Ardea with 202 scene objects, 70
 character resources and HP 100, and reached the same atexit boundary after
 2,359 startup operations. NPC activation still stops at the unconnected
-ScriptAdmin getter with 0/16 property sets attached. Full-suite verification
-remains outstanding for this continuation; these results do not establish
-complete startup or campaign play.
+ScriptAdmin getter with 0/16 property sets attached. All 3,130 tests across
+287 files passed in 380.66 seconds with a 30-second per-test allowance.
+These results do not establish complete startup or campaign play.
+
+Integration revision `bc1dc060` incorporates main
+`64af8d5f6be1734c124bb1b8c1d3cbc3f5eb2339`, including externally merged
+[PR #189](https://github.com/ael-dev3/Tervain/pull/189). Its four changed paths
+concern Tervain riding and saves. All seven squash-history conflict paths were
+verified identical between main and the reviewed PR #188 head before preserving
+the local continuation. Integration changed no Gothic runtime, source evidence,
+generators or checks. Combined-revision validation is pending.
 
 Independent review of PR #187 decoded all 9,147 buffer views in its 107 changed
 GLBs against the previous revision: geometry, images and semantic metadata
