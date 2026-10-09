@@ -53,7 +53,8 @@ import { GAME_VERSION } from './version';
 import { loadMainHero } from './presentation/mainHero';
 import { createHeroRig, type MainHeroRig } from './presentation/hero/rig';
 import { HuntingController } from './presentation/huntingController';
-import { loadMeshyNpcCatalog, type MeshyNpcCatalog } from './presentation/meshynpcs';
+import { loadMeshyNpcCatalog, NPC_ROLES, type MeshyNpcCatalog } from './presentation/meshynpcs';
+import { ResidentArrivals, residentRolesNear, type AwaitingFigure } from './presentation/residentArrivals';
 import { ANIMALS, loadAnimalTemplates } from './presentation/animals';
 import { REALM_WIND } from './presentation/realmWind';
 import type { AnimalDefinition } from './presentation/animals/catalog';
@@ -89,6 +90,14 @@ export class App {
   private menuDeer: { template: GLTF; definition: AnimalDefinition } | undefined;
   private static readonly MENU_DEER_ID = '1005232412';
   private npcAssets: MeshyNpcCatalog | null = null;
+  /** The residents' catalog on its way: only the near ones' models before the world opens (stage 2). */
+  private npcAssetsLoad: Promise<void> | null = null;
+  /** Residents, hamlet people and bandits whose models arrive after the world opened (stage 2). */
+  private readonly arrivals = new ResidentArrivals();
+  /** The whole cast's catalog, asked for once the world is open. */
+  private castLoad: Promise<void> | null = null;
+  private readonly viewFrustum = new THREE.Frustum();
+  private readonly viewMatrix = new THREE.Matrix4();
   private menuAssets: MeshyNpcCatalog | null = null;
   private menuLoad: Promise<void> | null = null;
   private menuGraphicsReady = false;
@@ -378,7 +387,9 @@ export class App {
       // Shared flora caches must be released before replacement assets are constructed.
       if (this.world && !this.worldDisposed) this.rebuildPropPoses = this.world.physics.snapshot();
       if (this.world) this.disposeWorld();
-      if (!this.npcAssets) await this.prepareNpcAssets();
+      if (!this.npcAssets) await (this.npcAssetsLoad ?? this.prepareNpcAssets());
+      const cast = this.npcAssets!;
+      this.arrivals.clear();
       // The wanderer swims with the authored strokes from the residents' motion library once it is here.
       const library = this.npcAssets!.library, hero = (this.player.rig as Partial<MainHeroRig> | undefined)?.hero;
       if (library && hero) hero.useSwimClips(library);
@@ -387,16 +398,24 @@ export class App {
       // Stage private Meshy rigs before the world adopts them, so a failed build can release the complete cast.
       for (const definition of Object.values(NPCS)) {
         const height = definition.look.height * (npcStyle(definition.id).build === 'woman' ? 0.94 : 1);
-        const npc = new NpcActor(definition, this.npcAssets!.create(`named:${definition.id}`, height));
+        const role = `named:${definition.id}`, arrived = cast.has(role);
+        // Someone whose model is still on its way keeps their schedule unseen and cannot be met until it is here (stage 2).
+        const npc = new NpcActor(definition, arrived ? cast.create(role, height) : cast.standIn(role, height), arrived);
         npcs.push(npc);
         stagedCast.add(npc.rig.root);
+        if (!arrived) this.arrivals.add({ role, position: () => npc, unseen: () => npc.away,
+          adopt: (catalog) => npc.adoptRig(catalog.create(role, height)) });
       }
       for (const spawn of ENEMY_SPAWNS) {
         const variant = spawn.id === 'ford_bandit_b' ? 1 : 0;
-        const rig = spawn.kind === 'thornback' ? undefined : this.npcAssets!.create(`enemy:${spawn.id}`, 1.04 + variant * 0.05, 'blade');
-        const enemy = new EnemyActor(spawn, rig);
+        const role = `enemy:${spawn.id}`, scale = 1.04 + variant * 0.05, arrived = spawn.kind === 'thornback' || cast.has(role);
+        const rig = spawn.kind === 'thornback' ? undefined : arrived ? cast.create(role, scale, 'blade') : cast.standIn(role, scale, 'blade');
+        // A bandit still waiting for their model is out of every fight until it is here (stage 2).
+        const enemy = new EnemyActor(spawn, rig, arrived);
         enemies.push(enemy);
         stagedCast.add(enemy.rig.root);
+        if (!arrived) this.arrivals.add({ role, position: () => enemy, unseen: () => !enemy.rig.root.visible,
+          adopt: (catalog) => enemy.adoptRig(catalog.create(role, scale, 'blade')) });
       }
       const { WorldScene } = await import('./presentation/world');
       this.world = await WorldScene.create(this.game.state, structuredClone(this.settings), this.library, undefined, this.npcAssets!, {
@@ -417,6 +436,8 @@ export class App {
       for (const n of this.npcs) this.world.scene.add(n.rig.root);
       this.enemies = enemies;
       for (const e of this.enemies) this.world.scene.add(e.rig.root);
+      const ambient = this.world.modules?.find((m) => m.name === 'ambient')?.module as { awaiting?: AwaitingFigure[] } | undefined;
+      for (const figure of ambient?.awaiting ?? []) this.arrivals.add(figure);
       this.interactables = buildInteractables(this);
       this.syncWorldFromState(true);
       // Settle any provisional hero/procedural-tool sheets; imported NPC surfaces are already baked and loaded.
@@ -434,12 +455,39 @@ export class App {
   }
 
   /** No silent runtime fallback: an incomplete resident download uses the existing graphics recovery screen. */
-  private async prepareNpcAssets() {
-    if (this.npcAssets) return;
-    const assets = await loadMeshyNpcCatalog((loaded, total) => {
+  /** The residents' models: `roles` only (the near ones before entry, stage 2), else everyone's. */
+  private prepareNpcAssets(roles: readonly string[] = NPC_ROLES): Promise<void> {
+    if (this.npcAssets) return Promise.resolve();
+    if (this.npcAssetsLoad) return this.npcAssetsLoad;
+    const request = loadMeshyNpcCatalog((loaded, total) => {
       this.loadingScreen?.update({ phase: 'residents', completed: loaded, total });
+    }, roles).then((assets) => { this.npcAssets ??= assets; });
+    this.npcAssetsLoad = request;
+    void request.catch(() => {}).finally(() => { if (this.npcAssetsLoad === request) this.npcAssetsLoad = null; });
+    return request;
+  }
+
+  /**
+   * Everyone else's models, once the world is open (stage 2): they download behind the first view and the waiting
+   * figures take theirs as they arrive. A failed download is asked for again a little later; until then they stay unseen.
+   */
+  private completeCast() {
+    if (this.castLoad || NPC_ROLES.every((role) => this.npcAssets?.has(role))) return;
+    const request = loadMeshyNpcCatalog(undefined, NPC_ROLES).then((assets) => { this.npcAssets = assets; });
+    this.castLoad = request;
+    void request.catch((error) => {
+      console.warn('Residents still on their way:', error);
+      setTimeout(() => { if (this.castLoad === request) { this.castLoad = null; this.completeCast(); } }, 15_000);
     });
-    this.npcAssets = assets;
+  }
+
+  /** Whether the player could see someone standing at `p` now: in the camera's view and near enough to make out. */
+  private inView(p: { x: number; y: number; z: number }): boolean {
+    const camera = this.cam.camera;
+    if (camera.position.distanceTo(new THREE.Vector3(p.x, p.y + 0.9, p.z)) > 150) return false;
+    camera.updateMatrixWorld();
+    this.viewFrustum.setFromProjectionMatrix(this.viewMatrix.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse));
+    return this.viewFrustum.intersectsSphere(new THREE.Sphere(new THREE.Vector3(p.x, p.y + 0.9, p.z), 1.4));
   }
 
   private prepareMenuAssets(): Promise<void> {
@@ -485,7 +533,8 @@ export class App {
     const grove = this.menuScene.grove;
     const replacement = new MenuScene({ quality: this.settings.quality, treeTemplates: this.treeTemplates,
       trafficSeed: traffic.seed, trafficTime: traffic.elapsed, awakening, grove,
-      wardenRig: (this.menuAssets ?? this.npcAssets)?.create('menu:warden'), deer: this.menuDeer });
+      // The world's catalog holds the warden only once the whole cast is here (stage 2).
+      wardenRig: (this.menuAssets ?? (this.npcAssets?.has('menu:warden') ? this.npcAssets : null))?.create('menu:warden'), deer: this.menuDeer });
     this.menuGraphicsReady = false;
     if (!this.menuSceneDisposed) this.menuScene.dispose();
     this.menuScene = replacement;
@@ -541,7 +590,8 @@ export class App {
         // Everything the journey downloads starts now (A68): the wanderer, the residents, then the world's models and
         // surfaces behind them, instead of each group waiting for the one before it to be prepared.
         const hero = this.prepareMainHero();
-        void this.prepareNpcAssets().catch(() => {});
+        // Only the residents near where the journey starts come before it; the rest arrive after (stage 2).
+        void this.prepareNpcAssets(residentRolesNear(state)).catch(() => {});
         prefetchJourney(this.settings.quality, { deferFurniture: true });
         await hero;
         do {
@@ -555,7 +605,10 @@ export class App {
         }
         this.initialJourneyLoading = false;
         this.finishWorldBuild();
+        // Developer aid: what was fetched before the world opened is what started before this mark.
+        performance.mark?.('tervain:world-open');
         enter();
+        this.completeCast();
         // Every file the game needs has now been asked for: drop cached models that have since been replaced.
         void pruneContentCache();
       } catch (error) {
@@ -999,6 +1052,8 @@ export class App {
     const playing = this.mode === 'play' && this.overlay === 'none' && overlayAtStart === 'none';
     this.audio.setWildlifeActive(playing && document.visibilityState !== 'hidden');
     if (this.bench.active) this.stepBenchmark(dt);
+    // Those whose models have come take them where nobody is looking (stage 2), even while a panel holds the world still.
+    if (this.arrivals.count && this.world) this.arrivals.update(this.npcAssets, (p) => this.inView(p));
 
     if (this.menuBackgroundActive) {
       // The menu vigil is cosmetic. No patrols or game clock run beneath it.

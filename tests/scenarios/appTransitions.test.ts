@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { App } from '../../src/app';
+import { ResidentArrivals } from '../../src/presentation/residentArrivals';
 import { Game } from '../../src/game/game';
 import { createInitialState } from '../../src/game/state';
 import { Input } from '../../src/platform/input';
@@ -32,6 +33,7 @@ vi.mock('three', async (importOriginal) => {
 });
 vi.mock('../../src/presentation/ui/menuMaterials', () => ({ installMenuMaterials: vi.fn() }));
 vi.mock('../../src/presentation/actors', () => ({
+  resolveGoal: () => ({ anchor: 'hunter_station', activity: 'stand' }),
   NpcActor: class {
     id: string; x = 0; y = 0; z = 0;
     rig = { root: new THREE.Group() };
@@ -120,6 +122,7 @@ function fixture() {
   // Exercise App's actual lifecycle methods without starting a renderer or constructing another scene.
   const app = Object.assign(Object.create(App.prototype) as object, {
     mode: 'play', settings, input, canvas, game: new Game(createInitialState()),
+    arrivals: new ResidentArrivals(), npcAssetsLoad: null, castLoad: null,
     panels: { isOpen: false, closeAll: vi.fn(), el: new ElementFixture('DIV') },
     titleEl: new ElementFixture('DIV'), loadingEl: new ElementFixture('DIV'), debugEl: new ElementFixture('DIV'),
     hud: { el: { inert: true }, show: vi.fn(), showFade: vi.fn(), toast: vi.fn(), caption: vi.fn() },
@@ -185,7 +188,7 @@ function rebuildFixture() {
   const oldWorld = { scene: new THREE.Scene(), dispose: vi.fn(), terrain: {}, sky: { brightness: 1 }, syncStatic: vi.fn(), physics: { supportAt: vi.fn(() => null), snapshot: vi.fn(() => []), restore: vi.fn(), reset: vi.fn(), release: vi.fn() } };
   const nextWorld = () => ({ scene: new THREE.Scene(), dispose: vi.fn(), terrain: {}, sky: { brightness: 1 }, syncStatic: vi.fn(), physics: { supportAt: vi.fn(() => null), snapshot: vi.fn(() => []), restore: vi.fn(), reset: vi.fn(), release: vi.fn() } });
   Object.assign(f.app, {
-    world: oldWorld, library: {}, menuScene: new MenuScene({ quality: f.app.settings.quality }), npcAssets: { create: () => undefined },
+    world: oldWorld, library: {}, menuScene: new MenuScene({ quality: f.app.settings.quality }), npcAssets: { has: () => true, create: () => undefined },
     applyUiSettings: vi.fn(), applyQualityToRenderer: vi.fn(), renderer: {},
     prepareWorldGraphics: vi.fn().mockResolvedValue(undefined), prepareMenuGraphics: vi.fn().mockResolvedValue(undefined),
     frameClock: new FrameClock(), frameTimes: [], audioClock: 0, worldDirty: true,
@@ -203,7 +206,7 @@ describe('actual application world transitions', () => {
     const { app, call } = rebuildFixture();
     Reflect.set(app, 'npcAssets', null);
     const previousMenu = Reflect.get(app, 'menuScene') as MenuScene;
-    const models = { create: vi.fn(() => undefined) };
+    const models = { has: () => true, create: vi.fn(() => undefined) };
     const failure = new Error('Resident model download failed its integrity check.');
     npcCatalog.load.mockRejectedValueOnce(failure).mockResolvedValueOnce(models);
     await expect(call('prepareNpcAssets')).rejects.toBe(failure);
