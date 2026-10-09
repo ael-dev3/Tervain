@@ -231,6 +231,26 @@ describe('the deer\'s body against the world', () => {
   });
 });
 
+describe('a deer set down half in a doorway (A71)', () => {
+  it('can back out, but never be ridden further in', () => {
+    const room = INTERIORS[0]!, b = room.building;
+    // Its nose already in the doorway, facing in.
+    const at = fromBuildingLocal(b, room.door.x, b.d / 2 + 0.6), toward = fromBuildingLocal(b, room.door.x, b.d / 2 - 1);
+    const yaw = Math.atan2(toward.x - at.x, toward.z - at.z);
+    const inRoom = (pl: { x: number; z: number; yaw: number }) => deerBodyPoints(pl.x, pl.z, pl.yaw).filter(q => roomAtDoor(q.x, q.z)).length;
+    const s = setup();
+    s.ctx.viewYaw = yaw;
+    s.player.mountUp(DEER, 1.2, at.x, 0, at.z, yaw);
+    const start = inRoom(s.player);
+    expect(start).toBeGreaterThan(0);
+    s.setMove(0, 1);
+    for (let i = 0; i < 60 * 4; i++) { s.tick(); expect(inRoom(s.player)).toBeLessThanOrEqual(start); }
+    s.setMove(0, -1);
+    for (let i = 0; i < 60 * 6; i++) s.tick();
+    expect(inRoom(s.player)).toBeLessThan(start);
+  });
+});
+
 describe('saving in the saddle', () => {
   it('keeps the ridden deer in the save so a load puts him back in its saddle, and drops anything else', () => {
     const state = createInitialState(); state.player.mount = DEER; state.player.x = 12; state.player.z = -4;
