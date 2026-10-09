@@ -6,6 +6,8 @@ import { browserGameStartupIoInputs } from '../../src/gothic3/browser-game-start
 import { browserGameStandardIoInputs } from '../../src/gothic3/browser-game-standard-io-inputs';
 import { browserGameArgvNlsInputs } from '../../src/gothic3/browser-game-argv-nls-inputs';
 import { NativeX86ThreadStack } from '../../src/gothic3/native-x86-thread-stack';
+import { nativeVirtualX86CpuSelection } from '../../src/gothic3/native-x86-thread-stack-profile';
+import type { NativeX86CpuSelection } from '../../src/gothic3/native-x86-thread-stack-profile';
 import type { NativeValue } from '../../src/gothic3/dialogue';
 import { NativeGameCrtOwner, NativeModuleCrtOwner } from '../../src/gothic3/native-engine-crt-locks';
 import { NativeCrtBootstrap } from '../../src/gothic3/native-crt-bootstrap';
@@ -16,7 +18,8 @@ function fact<T>(value: NativeValue<T>): T {
   if (!value.known) throw new Error(value.reason);
   return value.value;
 }
-function startup(selected = true, free: 'success' | 'false' | 'unknown' = 'success', environment?: string | null) {
+function startup(selected = true, free: 'success' | 'false' | 'unknown' = 'success', environment?: string | null,
+  cpu: NativeX86CpuSelection | null = nativeVirtualX86CpuSelection) {
   const bytes = environment == null ? null : Array.from(environment, character => character.charCodeAt(0));
   const platform = createBrowserGameCrtPlatform({
     processInputs: environment === null ? { ...browserGameProcessInputs,
@@ -25,7 +28,7 @@ function startup(selected = true, free: 'success' | 'false' | 'unknown' = 'succe
       environmentA: { kind: 'buffer', bytes },
       environmentW: { kind: 'buffer', bytes: bytes.flatMap(byte => [byte, 0]) },
     } : browserGameProcessInputs,
-    threadStack: { reservationBytes: 4096, pageAlignment: 'virtual-page-4096' },
+    threadStack: { reservationBytes: 4096, pageAlignment: 'virtual-page-4096', ...(cpu ? { cpu } : {}) },
     startupIo: browserGameStartupIoInputs,
     standardIo: browserGameStandardIoInputs,
     argvNls: browserGameArgvNlsInputs,
@@ -40,11 +43,11 @@ describe('Game environment startup through the actual browser CRT graph', () => 
   it('copies the current environment, releases its input, and prepares the next initializer argument', () => {
     const { platform, stack: retainedStack, game } = startup();
     const attach = game.attachProgress;
-    expect(attach.setEnvpProgress?.boundary).toContain('not yet admitted at 20469f3a');
+    expect(attach.setEnvpProgress?.boundary).toContain('not yet admitted at 2047470c');
     expect(attach.ioResult).toBe(0);
     expect(attach.argvResult).toBe(0);
     expect(attach.setEnvpResult).toBe(0);
-    expect(attach.nextBoundary).toEqual({ name: 'indirectSourceCall', address: '20466452', target: '20469f3a' });
+    expect(attach.nextBoundary).toEqual({ name: 'indirectSourceCall', address: '20466452', target: '2047470c' });
     expect(attach.setEnvpProgress).toMatchObject({
       physicalGraphTransferred: true, envRetExecuted: true, envReturned: true,
       countingPassReturned: true, visibleCount: 1, arrayCallReturned: true,
@@ -56,10 +59,26 @@ describe('Game environment startup through the actual browser CRT graph', () => 
       mathInitializerReturned: true, floatConversionInitializerReturned: true,
       floatPointerInitializerReturned: true,
       exitTableInitializerReturned: true,
+      conversionSse2InitializerReturned: true, multibyteCInitializerReturned: true,
     });
     const stack = retainedStack.snapshot();
     expect(stack.calls.filter(call => !call.returned).map(call => call.site)).toEqual(['204678f2', '20466626']);
-    expect(stack.calls.filter(call => call.site === '20466452')).toHaveLength(1);
+    expect(stack.calls.filter(call => call.site === '20466452')).toHaveLength(3);
+    expect(stack.calls.filter(call => call.site === '20466452').every(call => call.returned)).toBe(true);
+    for (const site of ['20469f41', '2047e674', '2047e5de', '2047e621']) {
+      expect(stack.calls.find(call => call.site === site)).toMatchObject({ returned: true });
+    }
+    expect(fact(NativeModuleCrtOwner.canonicalImageForOwner(game.crt, 'cinitSse2ConversionAvailable')).readUnsigned(0)).toBe(1);
+    expect(fact(NativeModuleCrtOwner.canonicalImageForOwner(game.crt, 'mbcInitialized')).readUnsigned(0)).toBe(1);
+    // The retained stack includes the earlier argv invocation; __cinit does not repeat it.
+    expect(stack.calls.filter(call => call.site === '2046bd0a')).toHaveLength(1);
+    expect(attach.setEnvpProgress?.effects.some(effect => effect.pc === '2046bd0a')).toBe(false);
+    expect(stack.eflags.changed).toBe(false);
+    if (stack.eflags.changed) throw new Error('Retained EFLAGS cell required');
+    const flags = stack.eflags.word as { value: number; knownMask: number };
+    expect(flags.value & 0x200000).toBe(0);
+    expect(flags.knownMask & 0x200000).toBe(0x200000);
+    expect(stack.xmm.knownMask.slice(0, 16)).toEqual(stack.xmm.knownMask.slice(16, 32));
     expect(stack.calls.find(call => call.site === '20466452')).toMatchObject({ returned: true });
     const exitTable = NativeGameExitTable.forCrt(game.crt);
     const exitState = exitTable.snapshot();
@@ -130,6 +149,34 @@ describe('Game environment startup through the actual browser CRT graph', () => 
   });
 
   it.each([
+    { label: 'fixed ID bit', cpu: { initialEflags: 0x202, idBitWritable: false } },
+    { label: 'CPUID without SSE2', cpu: { ...nativeVirtualX86CpuSelection, cpuidLeaf1: [0x600, 0, 0, 0] as const } },
+  ])('returns the original zero SSE2 result for $label', ({ cpu }) => {
+    const { game, stack } = startup(true, 'success', undefined, cpu);
+    expect(game.attachProgress.nextBoundary).toEqual({ name: 'indirectSourceCall', address: '20466452', target: '2047470c' });
+    expect(fact(NativeModuleCrtOwner.canonicalImageForOwner(game.crt, 'cinitSse2ConversionAvailable')).readUnsigned(0)).toBe(0);
+    expect(stack.snapshot().calls.find(call => call.site === '20469f41')).toMatchObject({ returned: true });
+    expect(stack.snapshot().calls.some(call => call.site === '2047e674')).toBe(false);
+  });
+
+  it.each([
+    { label: 'undeclared CPU', cpu: null, address: '2047e63a' },
+    { label: 'missing CPUID leaf', cpu: { initialEflags: 0x202, idBitWritable: true }, address: '2047e64f' },
+    { label: 'SIMD exception', cpu: { ...nativeVirtualX86CpuSelection, sse2Execution: 'illegal-instruction' as const }, address: '2047e5e7' },
+  ])('retains the actual $label interruption without fabricating callback completion', ({ cpu, address }) => {
+    const { game, stack } = startup(true, 'success', undefined, cpu);
+    expect(game.attachProgress.nextBoundary?.address).toBe(address);
+    const before = stack.snapshot();
+    expect(before.calls.filter(call => call.site === '20466452')).toHaveLength(2);
+    expect(before.calls.filter(call => call.site === '20466452').map(call => call.returned)).toEqual([true, false]);
+    const exit = NativeGameExitTable.forCrt(game.crt);
+    expect(exit.snapshot().tableAllocations).toHaveLength(1);
+    game.bootstrap.processAttach();
+    expect(stack.snapshot()).toEqual(before);
+    expect(exit.snapshot().tableAllocations).toHaveLength(1);
+  });
+
+  it.each([
     { environment: '\0\0', strings: [] },
     { environment: '=C:=C:\\work\0FIRST=1\0SECOND=two\0\0', strings: ['FIRST=1', 'SECOND=two'] },
   ])('derives the table and copies from current entries: $strings', ({ environment, strings }) => {
@@ -195,7 +242,7 @@ describe('Original Game cinit PE protection check', () => {
   function attachWithImageChange(change: (headers: NativeHeapObjectViews, crt: NativeGameCrtOwner) => void) {
     const platform = createBrowserGameCrtPlatform({
       processInputs: browserGameProcessInputs,
-      threadStack: { reservationBytes: 4096, pageAlignment: 'virtual-page-4096' },
+      threadStack: { reservationBytes: 4096, pageAlignment: 'virtual-page-4096', cpu: nativeVirtualX86CpuSelection },
       startupIo: browserGameStartupIoInputs, standardIo: browserGameStandardIoInputs,
       argvNls: browserGameArgvNlsInputs,
       setEnvp: { physicalGameHeapCapacity: 'round-eight-unknown-padding', heapFree: { outcome: 'success' } },
@@ -214,7 +261,7 @@ describe('Original Game cinit PE protection check', () => {
   it('uses the current MZ signature and follows the original zero-result branch', () => {
     const { bootstrap, headers, stack } = attachWithImageChange(fields => fields.writeUnsigned(0, 0, 2));
     expect(headers.view.getUint16(0, true)).toBe(0);
-    expect(bootstrap.attachProgress().nextBoundary).toEqual({ name: 'indirectSourceCall', address: '20466452', target: '20469f3a' });
+    expect(bootstrap.attachProgress().nextBoundary).toEqual({ name: 'indirectSourceCall', address: '20466452', target: '2047470c' });
     expect(stack.snapshot().calls.find(call => call.site === '20466602')).toMatchObject({ returned: true });
     expect(stack.snapshot().calls.some(call => call.site === '20473909')).toBe(false);
     expect(stack.snapshot().calls.some(call => call.site === '20466610')).toBe(false);
@@ -311,6 +358,17 @@ describe('Original Game cinit PE protection check', () => {
     expect(bootstrap.attachProgress().setEnvpProgress?.boundary).toContain('Original current Game C initializer slot target required');
     expect(stack.snapshot().calls.some(call => call.site === '20466452')).toBe(false);
     expect(NativeGameExitTable.forCrt(crt).snapshot().tableAllocations).toEqual([]);
+  });
+
+  it('does not report exit-table initialization when its actual slot is NULL', () => {
+    const { bootstrap, crt, stack } = attachWithImageChange((_headers, owner) => {
+      fact(NativeModuleCrtOwner.canonicalImageForOwner(owner, 'cinitCInitializerTable')).writeUnsigned(65 * 4, 0);
+    });
+    expect(bootstrap.attachProgress().nextBoundary).toEqual({ name: 'indirectSourceCall', address: '20466452', target: '2047470c' });
+    expect(bootstrap.attachProgress().setEnvpProgress).toMatchObject({ exitTableInitializerReturned: false,
+      conversionSse2InitializerReturned: true, multibyteCInitializerReturned: true });
+    expect(NativeGameExitTable.forCrt(crt).snapshot().tableAllocations).toEqual([]);
+    expect(stack.snapshot().calls.filter(call => call.site === '20466452')).toHaveLength(2);
   });
 
   it('stops at unknown leading null bytes before reaching any C initializer', () => {

@@ -104,7 +104,7 @@ actual continuation at `20466626`. All 3,087 tests across 284 files pass with
 a 30-second per-test allowance. The checkpoint is submitted in
 [PR #185](https://github.com/ael-dev3/Tervain/pull/185), merged as
 `773e5a907d5ea89dfe94e4a9413004fc80d4ac9d` after CI run `37888291714` passed.
-Its Pages run `37889214077` is still running; deployment is not yet verified.
+Its Pages run `37889214077` completed successfully.
 
 Local revision `afc083df` connects the original C initializer walker to the existing
 Game exit-table owner and reaches the second callback, `20466452 -> 20469f3a`.
@@ -119,6 +119,44 @@ property sets attached. These results are separate from the pointer
 checkpoint above. The five non-null C initializers must execute in their original table
 order before startup can enter the C++ initializer table. Later world and NPC
 activation still require their own implementation and browser evidence.
+
+The walker checkpoint merged through [PR #186](https://github.com/ael-dev3/Tervain/pull/186)
+as `07595915ef24d6b84e18a0379d280b133bf8b32c` after CI run `37890008569` passed.
+Its initial deployment was superseded when main advanced through PR #187;
+the combined main deployment is recorded below.
+
+Local revision `f84aff4a` executes the original second C callback's EFLAGS, CPUID
+and normal SSE2 probe against declared virtual CPU state, then reads the third
+callback's already-initialized multibyte state from argv. It reaches
+`20466452 -> 2047470c`, the FILE-table initializer. All 67 focused checks across
+four files pass, typechecking passes and both generated source outputs reproduce
+byte for byte. At that revision, all 3,098 tests across 284 files passed in
+356.87 seconds with a 30-second per-test allowance. Build and browser verification
+remain pending. Fixed-ID and absent-SSE2 profiles return zero through original branches;
+undeclared CPU, missing CPUID leaf and SIMD-exception profiles retain the actual
+interrupted frame and earlier exit allocation. These results do not establish
+native exception dispatch, complete startup, NPC activation or campaign play.
+
+Integrated revision `cf6300de` incorporates main `03e7cb02aa6b5a0064124b879c7359f5101d713b`,
+including Claude's externally merged [PR #187](https://github.com/ael-dev3/Tervain/pull/187).
+A path comparison proves that integration changed none of the local Gothic
+runtime, source packages, generators or checks. Installation from the updated
+lockfile succeeded. All 67 integrated focused checks and typechecking pass;
+the production build passed in 27.68 seconds. A production browser entered
+Ardea with 202 scene objects, 70 character resources and HP 100, reporting
+`20466452 -> 2047470c` after 1,443 startup operations. NPC activation remains
+incomplete at the unconnected ScriptAdmin getter, with 0/16 property sets
+attached. All 3,123 tests across 287 files passed in 390.38 seconds on the
+combined runtime, with a 30-second per-test allowance. Its newer
+main Pages run `37891214623` supersedes cancelled walker run `37890987247` and
+completed successfully for main `03e7cb02aa6b5a0064124b879c7359f5101d713b`.
+No deployment rerun was requested. The local SSE continuation is not yet published.
+
+Independent review of PR #187 decoded all 9,147 buffer views in its 107 changed
+GLBs against the previous revision: geometry, images and semantic metadata
+matched, and all 107 runtime size/hash receipts matched the reviewed blobs.
+That evidence concerns Tervain's model compression; it does not establish Gothic
+campaign completion.
 
 ### Original files and reproducible outputs
 
