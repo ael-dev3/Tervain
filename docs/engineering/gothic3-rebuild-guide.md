@@ -78,15 +78,16 @@ Game startup continuations are connected to the browser startup stack.
 The Game PE checkpoint passed 3,082 tests, typechecking, source regeneration and
 the production build at runtime revision `9540631a`. It merged through
 [PR #183](https://github.com/ael-dev3/Tervain/pull/183) as
-`cfc14f1f16b620c86a3133321be5e2fad95530a7`. Deployment success for that revision
-has not been verified in this record.
+`cfc14f1f16b620c86a3133321be5e2fad95530a7`. Pages run `37884441618` completed
+successfully for that revision.
 
-The current uncommitted math-initializer work reaches the next original call,
+The local math-initializer work at revision `37859a9e` reaches the next original call,
 `20466617 -> 20469672`, in focused execution. Its caller passes `0`, so the
 original branch skips optional precision setup. Conversion-pointer stores,
 processor-feature lookup and exception clearing are implemented locally.
-One damaged-callback test assertion still fails; full validation and publication
-of this continuation remain pending. These results do not establish complete
+All 15 focused checks pass, typechecking passes and independent regeneration
+matches both outputs byte for byte. Full validation and publication remain pending.
+These results do not establish complete
 startup or campaign play.
 
 ### Original files and reproducible outputs
@@ -284,7 +285,7 @@ regeneration reproduces both JSON and TypeScript byte for byte. At runtime revis
 `9540631a`, all 3,082 tests across 284 files passed in 397.79 seconds and the
 production build passed. A local production-browser observation confirmed the
 continuation at `20466610` after entering Ardea. PR #183 merged this checkpoint;
-its deployment receipt remains pending in this record. Complete startup,
+Pages run `37884441618` succeeded. Complete startup,
 world activation, campaign saves and a playable ending remain unfinished.
 
 - [Detailed workflow and reference paths](gothic3-rebuild-workflow.md)

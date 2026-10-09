@@ -2,7 +2,7 @@
 
 This package captures the dependencies reached after the current browser Game
 startup frontier: `__cinit` at caller `204678f2`, target `204665f4`.
-It contains 16 original method receipts and 660 instructions verified against
+It contains 19 original method receipts and 784 instructions verified against
 the matching local `Game.dll`, along with 672 bytes of original PE headers,
 the math callback slot, floating-point constants, names used by dynamic lookup,
 and the ten-entry floating-point function pointer table.
@@ -16,15 +16,16 @@ sets precision when requested, and clears x87 exceptions. Dynamic lookup uses
 test. Successful lookup still requires an owned feature result.
 
 The source package itself does not execute startup or supply an assumed feature
-result. The generated admission module selects four functions (150 instructions):
-`__cinit`, the protection check, PE validation and section lookup. The existing
-Game startup interpreter now calls `__cinit` on its retained frame, loads current
-owned header bytes, and returns from the protection check. With the original
-readonly callback slot, execution stops before the indirect math callback at
-`20466610`. Invalid headers or a writable section follow the original branch
-to the unimplemented pointer-initialization call at `20466617`.
+result. The generated admission module selects seven functions (183 instructions):
+`__cinit`, the protection check, PE validation, section lookup, the math callback,
+conversion-pointer initialization and processor-feature dispatch. The original
+caller pushes `0`, so this path skips optional precision setup. It writes the ten
+conversion pointers, invokes the owned processor-feature service, clears x87
+exceptions and returns to `20466616`. Execution next stops at
+`20466617 -> 20469672`, before pointer encoding.
 
-Floating-point methods remain context evidence outside the instruction getter.
+Optional precision, SSE control and the failed-lookup divide fallback remain
+context evidence outside the instruction getter.
 Further callees must be captured or matched to admitted source before execution.
 
 Regenerate from the repository root:
