@@ -134,6 +134,20 @@ it('sits up to talk when spoken to in bed, and lies down again after (A70)', () 
   expect(baker.lie).toBe(1);
 }, 60000);
 
+it('sits up awake while a fight goes on nearby, and lies down again once it is over (A70)', () => {
+  const state = createInitialState();
+  const { ctx, people, run } = cast(state, 1);
+  const baker = people.find(n => n.id === 'village_baker')!;
+  expect(baker.asleep).toBe(true);
+  ctx.alarm = { x: baker.x + 12, z: baker.z };
+  run(3);
+  expect(baker.lie).toBe(0);
+  expect(baker.asleep).toBe(false);
+  ctx.alarm = null;
+  run(5);
+  expect(baker.lie).toBe(1);
+}, 60000);
+
 it.each([
   ['village_baker', 4.5, 6, 9, 'bakery'],
   ['mill_hand', 6.5, 8, 11, 'mill'],

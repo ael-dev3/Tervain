@@ -1920,6 +1920,8 @@ export class App {
       player: { x: this.player.x, z: this.player.z, y: this.player.y },
       reducedMotion: this.settings.reducedMotion,
       onBark: (a, text) => this.mode === 'play' && this.settings.barks && this.bark(a, text),
+      // A fight wakes the sleepers near it (A70).
+      alarm: (() => { const e = this.enemies.find(en => en.alive && en.engaged); return e ? { x: e.x, z: e.z } : null; })(),
     };
   }
 

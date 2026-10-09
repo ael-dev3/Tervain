@@ -35,6 +35,9 @@ export function resolveGoal(def: NpcDef, state: WorldState, hour: number): Goal 
   return { anchor: def.home, activity: 'rest' };
 }
 
+/** A fight this near wakes a sleeper (m), A70. */
+export const NPC_ALARM_REACH = 40;
+
 export interface ActorContext {
   terrain: Terrain;
   colliders: Colliders;
@@ -47,6 +50,8 @@ export interface ActorContext {
   hour: number;
   player: { x: number; z: number; y: number };
   reducedMotion: boolean;
+  /** Where a fight is going on, if anywhere (A70): sleepers within NPC_ALARM_REACH sit up awake until it is over. */
+  alarm?: { x: number; z: number } | null;
   /** A remark, by its line in voice.ts. */
   onBark: (a: NpcActor, line: string) => boolean | void;
 }
@@ -597,7 +602,8 @@ export class NpcActor {
     const seatedNow = this.seatedHere();
     const berth = this.restBerth();
     if (berth && seatedNow && !moving) { this.lying = berth; this.seatedFor += dt; } else if (!this.lying) this.seatedFor = 0;
-    const lieWanted = berth !== null && this.lying === berth && seatedNow && !this.talking && this.seatedFor >= NPC_SIT_BEFORE_LYING;
+    const alarmed = !!ctx.alarm && Math.hypot(ctx.alarm.x - this.x, ctx.alarm.z - this.z) < NPC_ALARM_REACH;
+    const lieWanted = berth !== null && this.lying === berth && seatedNow && !this.talking && !alarmed && this.seatedFor >= NPC_SIT_BEFORE_LYING;
     this.lie = Math.max(0, Math.min(1, this.lie + (lieWanted ? 1 : -1) * dt / NPC_LIE_SECONDS));
     // Sat up and off to somewhere else: the bed's edge is left as any seat is.
     if (this.lie === 0 && this.lying && (this.lying !== berth || !seatedNow)) { this.lying = null; this.seatedFor = 0; }
