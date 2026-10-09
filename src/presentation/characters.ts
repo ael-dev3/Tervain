@@ -687,6 +687,24 @@ export function createPlayerRig(): Rig {
   return rig;
 }
 
+/**
+ * A body with nothing to draw (stage 2): it holds the place of a resident or bandit whose model arrives after the world
+ * opens. Its joints exist so poses and seats work on it, and its height is the coming model's.
+ */
+export function createStandInRig(height: number, grip: Grip = 'none'): Rig {
+  const root = new THREE.Group(), body = new THREE.Group(), hipY = 0.95 * height / 1.8;
+  root.name = 'stand-in';
+  root.add(body);
+  const joint = (parent: THREE.Object3D, y: number) => { const o = new THREE.Object3D(); o.position.y = y; parent.add(o); return o; };
+  const hips = joint(body, hipY), torso = joint(hips, 0.1 * height), head = joint(torso, 0.4 * height);
+  return {
+    root, body, hips, torso, head,
+    armL: joint(torso, 0.35 * height), armR: joint(torso, 0.35 * height), legL: joint(hips, 0), legR: joint(hips, 0),
+    weapon: null, shield: null, scabbard: null, sheathed: null, grip, sash: null,
+    height, hipY, cur: {}, materials: [], hitFlash: 0, kind: 'humanoid',
+  };
+}
+
 export function createBanditRig(variant: number): Rig {
   const look: Look = { skin: 0xb98866, primary: variant ? 0x4a3a34 : 0x3f4a3a, secondary: 0x2a2a2a, hair: 0x2a2018, height: 1.04 + variant * 0.05, girth: 1.08, accessory: 'hood' };
   return createPersonRig({

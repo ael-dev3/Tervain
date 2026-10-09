@@ -4,7 +4,7 @@ import { createGltfLoader } from './assets/gltfLoader';
 import { clone as cloneSkinned } from 'three/examples/jsm/utils/SkeletonUtils.js';
 import { NPCS } from '../content/npcs';
 import type { NpcId } from '../game/types';
-import { createNpcAttachments, setArmed, type Grip, type Rig, type NpcEquipment, type Mode } from './characters';
+import { createNpcAttachments, createStandInRig, setArmed, type Grip, type Rig, type NpcEquipment, type Mode } from './characters';
 import { BONES, type BoneName } from './human/skin';
 import { repairNpcSurfaceGeometry, repairNpcSurfaceMaterial } from './npcSurface';
 import { installDualQuaternionSkinning } from './npc/dualQuaternionSkinning';
@@ -701,6 +701,19 @@ const ROLE_MOTION: Readonly<Record<string, { build: Build; work?: WorkGesture }>
 export class MeshyNpcCatalog {
   constructor(readonly manifest: MeshyNpcManifest, private readonly templates: ReadonlyMap<string, GLTF>,
     private readonly rigs: ReadonlyMap<string, ResidentRigData> = new Map(), readonly library: ResidentMotionLibrary | null = null) {}
+  /** Whether this catalog holds the role's model: a world opened with only the near residents lacks the rest (stage 2). */
+  has(role: string): boolean {
+    const id = this.manifest.roles[role];
+    return !!id && this.templates.has(id);
+  }
+  /**
+   * The place of a figure whose model is still on its way (stage 2): a body as tall as theirs with nothing to draw, so
+   * routes, seats and beds are found for them as before, until create() makes the real one.
+   */
+  standIn(role: string, heightScale = 1, grip: Grip = 'none'): Rig {
+    const entry = this.manifest.assets.find(candidate => candidate.id === this.manifest.roles[role]);
+    return createStandInRig((entry?.height ?? 1.8) * heightScale, grip);
+  }
   create(role: string, heightScale = 1, grip: Grip = 'none', options?: NpcRigOptions): Rig {
     const id = this.manifest.roles[role], entry = this.manifest.assets.find(candidate => candidate.id === id);
     const asset = id && this.templates.get(id);
@@ -784,7 +797,8 @@ function loadNpcManifest(): Promise<MeshyNpcManifest> {
  * A failed request remains visible and retryable without discarding accepted resident templates. */
 export function loadMeshyNpcCatalog(progress?: ModelLoadProgress, requiredRoles: readonly string[] = NPC_ROLES): Promise<MeshyNpcCatalog> {
   const roles = [...new Set(requiredRoles)];
-  if (!roles.length || roles.some(role => !NPC_ROLES.includes(role))) return Promise.reject(new Error('The requested resident roles are invalid.'));
+  // No roles at all is a catalog of the manifest and the motion library: a world entered far from everyone (stage 2).
+  if (roles.some(role => !NPC_ROLES.includes(role))) return Promise.reject(new Error('The requested resident roles are invalid.'));
   const key = JSON.stringify([...roles].sort()), cached = catalogs.get(key);
   if (cached) {
     const status = cached.progress;

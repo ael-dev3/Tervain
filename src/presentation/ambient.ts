@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { ANCHORS, bySpec, frontOf, BENCH_SEAT_HEIGHT } from '../world/layout';
 import type { BuildContext, FrameContext, SceneModule } from './context';
 import { createAmbientRig, poseRig, type AmbientStyle, type Look, type Mode, type Rig } from './characters';
+import type { AwaitingFigure } from './residentArrivals';
 
 /**
  * Silent residents of the inland hamlet. Their positions follow the relocated buildings and hearth;
@@ -69,7 +70,10 @@ const SPECS: Spec[] = [
 /** Who the hamlet's people are (for the people lineup and the sheet export). */
 export const AMBIENT_PEOPLE: readonly { look: Look; style: AmbientStyle }[] = SPECS.map((s) => ({ look: s.look, style: s.style }));
 
-interface Resident { rig: Rig; spec: Spec; t: number }
+/** Where each of the hamlet's people stands, by their model's role: the residents near the entry point come first (stage 2). */
+export const AMBIENT_PLACES: readonly { role: string; x: number; z: number }[] = SPECS.map((s) => ({ role: `ambient:${s.style.id}`, x: s.x, z: s.z }));
+
+interface Resident { rig: Rig; spec: Spec; t: number; arrived: boolean }
 
 function poseResident(p: Resident, dt: number, reducedMotion: boolean) {
   const total = p.spec.cycle.reduce((a, c) => a + c[1], 0);
@@ -93,13 +97,17 @@ function poseResident(p: Resident, dt: number, reducedMotion: boolean) {
   }, dt);
 }
 
-export function buildAmbient(ctx: BuildContext): SceneModule & { counts: { people: number } } {
+export function buildAmbient(ctx: BuildContext): SceneModule & { counts: { people: number }; awaiting: AwaitingFigure[] } {
   const { terrain, colliders } = ctx;
   const group = new THREE.Group();
   group.name = 'ambient';
   const people: Resident[] = [];
+  const awaiting: AwaitingFigure[] = [];
   SPECS.forEach((spec, i) => {
-    const rig = ctx.npcAssets?.create(`ambient:${spec.style.id}`, spec.look.height * (spec.style.build === 'woman' ? 0.94 : 1)) ?? createAmbientRig(spec.look, spec.style);
+    const role = `ambient:${spec.style.id}`, height = spec.look.height * (spec.style.build === 'woman' ? 0.94 : 1);
+    // A model still on its way leaves a stand-in with nothing to draw and no body to bump into (stage 2).
+    const arrived = !ctx.npcAssets || ctx.npcAssets.has(role);
+    const rig = !ctx.npcAssets ? createAmbientRig(spec.look, spec.style) : arrived ? ctx.npcAssets.create(role, height) : ctx.npcAssets.standIn(role, height);
     const ground = terrain.groundAt(spec.x, spec.z);
     rig.root.position.set(spec.x, ground, spec.z);
     rig.root.rotation.y = spec.yaw;
@@ -108,14 +116,31 @@ export function buildAmbient(ctx: BuildContext): SceneModule & { counts: { peopl
     const seatedLowering = spec.seated ? 0.48 * rig.hipY / 0.95 : 0;
     colliders.circle(`ambient:${i}`, spec.x, spec.z, spec.radius, true,
       { minY: ground - 0.04, maxY: ground + rig.height - seatedLowering + 0.1 });
-    const p = { rig, spec, t: i * 5.3 };
+    if (!arrived) colliders.setActive(`ambient:${i}`, false, false);
+    const p: Resident = { rig, spec, t: i * 5.3, arrived };
     // The first rendered frame already has its authored posture, without a bind-pose flash.
     poseResident(p, 1, ctx.settings?.reducedMotion ?? false);
     people.push(p);
+    if (!arrived) awaiting.push({
+      role,
+      position: () => p.rig.root.position,
+      adopt(catalog) {
+        const next = catalog.create(role, height), old = p.rig;
+        next.root.position.copy(old.root.position);
+        next.root.rotation.copy(old.root.rotation);
+        next.root.visible = old.root.visible;
+        group.add(next.root);
+        group.remove(old.root);
+        p.rig = next;
+        p.arrived = true;
+        poseResident(p, 1, ctx.settings?.reducedMotion ?? false);
+      },
+    });
   });
   return {
     group,
     counts: { people: people.length },
+    awaiting,
     update(dt: number, f: FrameContext) {
       if (f.wildlifeActive === false || !Number.isFinite(dt) || dt <= 0) return;
       // A resumed tab must not skip entire activities. Ordinary frame partitions
@@ -124,7 +149,7 @@ export function buildAmbient(ctx: BuildContext): SceneModule & { counts: { peopl
       people.forEach((p, i) => {
         p.rig.root.visible = !(p.spec.sleeps && f.nightness > 0.75);
         // A person going to bed is no wall for routes: no navigation rebuild at dusk and dawn (A70).
-        colliders.setActive(`ambient:${i}`, p.rig.root.visible, false);
+        colliders.setActive(`ambient:${i}`, p.rig.root.visible && p.arrived, false);
         if (!p.rig.root.visible) { p.t += elapsed; return; }
         // The shadow camera culls actual rig bounds, never a separate distance cutoff.
         let remaining = elapsed;
