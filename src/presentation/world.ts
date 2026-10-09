@@ -50,7 +50,7 @@ import { loadMeshyTrees, MESHY_TREE_IDS, MESHY_TREE_LODS, type MeshyTreeTemplate
 import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { buildCoastalBackdrop } from './coastalBackdrop';
 import { createGroundContactField } from './groundContacts';
-import { buildAnimals, loadAnimalTemplates, type AnimalTemplates, type AnimalWildlife } from './animals';
+import { buildAnimals, deferredWildlife, loadAnimalTemplates, type AnimalTemplates, type AnimalWildlife } from './animals';
 import { ANIMALS } from './animals/catalog';
 import { checkCancelled, yieldToBrowser, type CooperativeOptions } from '../platform/cooperative';
 import { disposeSceneResources } from './disposeScene';
@@ -68,6 +68,8 @@ export interface WorldBuildProgress {
 
 export interface WorldCreateOptions extends CooperativeOptions {
   onPhase?: (progress: WorldBuildProgress) => void;
+  /** Open the world before the animals' models arrive; they move in afterwards (A70). */
+  deferWildlife?: boolean;
 }
 
 type WorldModules = { name: string; module: SceneModule }[];
@@ -165,7 +167,7 @@ export class WorldScene {
       pine: { completed: 0, total: PINE_FILES.length },
       stone: { completed: 0, total: 1 },
       trees: { completed: 0, total: new Set(MESHY_TREE_IDS).size * MESHY_TREE_LODS.length },
-      animals: { completed: 0, total: ANIMALS.length },
+      animals: { completed: 0, total: options.deferWildlife ? 0 : ANIMALS.length },
       furniture: { completed: 0, total: 1 },
     };
     const modelTotal = Object.values(modelFamilies).reduce((sum, family) => sum + family.total, 0);
@@ -181,14 +183,14 @@ export class WorldScene {
     // The baked building surfaces download alongside the models; any that fail keep their generated textures.
     const surfaces = loadBakedTextures(settings.quality);
     setSharedLibrary(library);
-    let pine: PineTemplates, rockPile: GLTF, treeTemplates: MeshyTreeTemplates, animalTemplates: AnimalTemplates, furniture: FurnitureTemplates;
+    let pine: PineTemplates, rockPile: GLTF, treeTemplates: MeshyTreeTemplates, animalTemplates: AnimalTemplates | null, furniture: FurnitureTemplates;
     try {
       await library.preload(ALL_NEEDS, progress => modelProgress('library', progress.loaded, progress.total, progress.label));
       [pine, rockPile, treeTemplates, animalTemplates, furniture] = await Promise.all([
         loadSolitaryPine((loaded, total) => modelProgress('pine', loaded, total, 'Coastal pines')),
         loadSourceRockPile((loaded, total) => modelProgress('stone', loaded, total, 'Woodland stone')),
         loadMeshyTrees(undefined, (loaded, total) => modelProgress('trees', loaded, total, 'Woodland models', MESHY_TREE_LODS.length)),
-        loadAnimalTemplates((loaded, total) => modelProgress('animals', loaded, total, 'Wildlife models')),
+        options.deferWildlife ? Promise.resolve(null) : loadAnimalTemplates((loaded, total) => modelProgress('animals', loaded, total, 'Wildlife models')),
         loadFurniture((loaded, total) => modelProgress('furniture', loaded, total, 'Furniture')),
       ]);
     } finally { modelProgressActive = false; }
@@ -216,7 +218,7 @@ export class WorldScene {
   }
 
   private static async build(state: WorldState, settings: Settings, library: AssetLibrary, terrainTex: TerrainTextures, pine: PineTemplates, rockPile: GLTF,
-    treeTemplates: MeshyTreeTemplates, animalTemplates: AnimalTemplates, furniture: FurnitureTemplates, npcAssets: MeshyNpcCatalog | undefined, options: WorldCreateOptions,
+    treeTemplates: MeshyTreeTemplates, animalTemplates: AnimalTemplates | null, furniture: FurnitureTemplates, npcAssets: MeshyNpcCatalog | undefined, options: WorldCreateOptions,
     phase: (stage: WorldBuildProgress['phase'], label: string, completed?: number, total?: number) => void,
     checkpoint: (stage: WorldBuildProgress['phase'], label: string, completed?: number, total?: number) => Promise<void>): Promise<WorldScene> {
     const t0 = performance.now();
@@ -298,7 +300,14 @@ export class WorldScene {
       addModule('hunter supplies', { group: hunterSupplies, update() {}, dispose: () => disposeHunterSupplies(hunterSupplies) });
       addModule('caravan animal rest', buildAnimalCamp(terrain, colliders));
       await checkpoint('settlement', 'Wildlife');
-      const animals = addModule('land wildlife', buildAnimals(ctx, animalTemplates));
+      // Deferred, the world opens with a stand-in and the animals move in once their models are here (A70).
+      const arriving = animalTemplates ? null : deferredWildlife();
+      const animals: AnimalWildlife = addModule('land wildlife', arriving ?? buildAnimals(ctx, animalTemplates!));
+      if (arriving) {
+        void Promise.resolve().then(() => loadAnimalTemplates()).then(
+          (templates) => arriving.attach(buildAnimals(ctx, templates)),
+          (error) => console.warn('[wildlife] the animals could not be loaded; the world goes on without them', error));
+      }
       await checkpoint('settlement', 'Buildings, supplies and wildlife', 1, 1);
       // Register accepted source rocks and constructed thresholds before painting their ground contacts.
       // This field changes surface dressing only; support, obstacle identities and terrain planes are unchanged.

@@ -413,9 +413,9 @@ type ContactTrack = Map<string, THREE.Vector3[]>;
 /**
  * Work contacts (A70). A palm rests this far above a counter top; a hand stays on it until the clip lifts it this far
  * (with reduced motion, the lift scaled about the counter); a chisel stays on the face until the clip draws it back this
- * far; a rod's foot stands on the ground while the rod is this upright (its axis' rise).
+ * far; a rod's foot always stands on the ground.
  */
-const PALM_REST = 0.004, LIFT_OFF = [0.28, 0.4] as const, DRAW_BACK = [0.12, 0.25] as const, UPRIGHT = [0.35, 0.6] as const;
+const PALM_REST = 0.004, LIFT_OFF = [0.28, 0.4] as const, DRAW_BACK = [0.12, 0.25] as const;
 /** A planted rod keeps this much of the clip's lean. */
 const ROD_LEAN = 0.3;
 /** The hammer's face stops this short of the chisel's struck end (half its head's depth). */
@@ -872,6 +872,16 @@ export class ResidentMotion {
         this.turnHand('RightHand', worldTurn, weight);
         const target = butt.add(back.multiplyScalar(STRIKE_GAP)).add(swing.applyQuaternion(turn));
         this.moveHand('RightHand', target.sub(this.pointNow(face)).multiplyScalar(weight));
+        // Square the face to the chisel's end as the blow comes in: the head's axis along the chisel's (A70).
+        const other = face === 'hammerA' ? 'hammerB' : 'hammerA';
+        if (contacts.tools[other]) {
+          const into = this.pointNow('chiselTip').clone().sub(this.pointNow('chiselButt')).normalize();
+          const at = this.pointNow(face).clone(), head = at.clone().sub(this.pointNow(other)).normalize();
+          const near = smooth(1 - at.distanceTo(this.pointNow('chiselButt')) / 0.3) * weight;
+          this.turnHand('RightHand', new THREE.Quaternion().setFromUnitVectors(this.worldDirection(head.x, head.y, head.z, _v0).normalize(),
+            this.worldDirection(into.x, into.y, into.z, _v1).normalize()), near);
+          this.moveHand('RightHand', at.sub(this.pointNow(face)));
+        }
       }
     } else if (gesture === 'measuring' && site.kind === 'ground' && contacts.tools.rodFoot && contacts.tools.rodGrip) {
       // Stood up straighter than the clip leans it, then slid through the fist until its foot stands on the ground.
@@ -879,7 +889,8 @@ export class ResidentMotion {
       rod.position.set(0, 0, 0);
       rod.updateMatrixWorld(true);
       const foot0 = this.pointNow('rodFoot').clone(), axis = this.pointNow('rodGrip').clone().sub(foot0).normalize();
-      const upright = smooth((axis.y - UPRIGHT[0]) / (UPRIGHT[1] - UPRIGHT[0])) * weight;
+      // A measuring rod always stands: where the clip swings it nearly flat at its loop, it is stood up all the same (A70).
+      const upright = weight;
       const straight = _c.set(axis.x * ROD_LEAN, Math.max(axis.y, 0.5), axis.z * ROD_LEAN).normalize();
       this.turnHand('RightHand', _turn.setFromUnitVectors(this.worldDirection(axis.x, axis.y, axis.z, _a).normalize(), this.worldDirection(straight.x, straight.y, straight.z, _b).normalize()), upright);
       // The hand goes as far as the arm reaches; the rod slides the rest.

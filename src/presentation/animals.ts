@@ -638,3 +638,43 @@ export function buildAnimals(ctx: Pick<BuildContext, 'terrain' | 'colliders' | '
     },
   };
 }
+
+/**
+ * Wildlife that arrives after the world opens (A70). The animals' models are about a fifth of what a first visit
+ * downloads, and none is needed to set foot in the valley, so the world opens with this stand-in and the real animals
+ * move in once their models are here. Until then there are no animals to see, hit or ride; settings and the hunting
+ * records it is given are passed on when they arrive, the records restored as on a load.
+ */
+export function deferredWildlife(): AnimalWildlife & { attach(inner: AnimalWildlife): void; readonly arrived: boolean } {
+  const group = new THREE.Group(); group.name = 'Land wildlife (arriving)';
+  let inner: AnimalWildlife | null = null, disposed = false, people: readonly PhysicalActor[] = [];
+  let records: HuntingState = {}, running = true, reduce = false;
+  return {
+    group,
+    get arrived() { return inner !== null; },
+    attach(next) {
+      if (disposed) { next.dispose?.(); return; }
+      inner = next;
+      group.add(next.group);
+      next.setPeople(people); next.setRunning(running); next.setReduceEffects(reduce);
+      next.syncHunting(records, true);
+    },
+    update(dt, f) { inner?.update(dt, f); },
+    stats: () => inner?.stats?.() ?? {},
+    dispose() { disposed = true; inner?.dispose?.(); inner = null; },
+    setPeople(next) { people = next; inner?.setPeople(next); },
+    get contacts() { return inner?.contacts ?? []; },
+    get physicalActors() { return inner?.physicalActors ?? []; },
+    snapshot: () => inner?.snapshot() ?? [],
+    syncHunting(next, restore) { records = next; inner?.syncHunting(next, restore); },
+    traceArrow: (origin, direction, distance) => inner?.traceArrow(origin, direction, distance) ?? null,
+    showArrowImpact(hit, direction) { inner?.showArrowImpact(hit, direction); },
+    alertShot(position, radius) { inner?.alertShot(position, radius); },
+    nearestCarcass: ((...args: Parameters<AnimalWildlife['nearestCarcass']>) => inner ? inner.nearestCarcass(...args) : null) as AnimalWildlife['nearestCarcass'],
+    skinningFrame: ((...args: Parameters<AnimalWildlife['skinningFrame']>) => inner ? inner.skinningFrame(...args) : null) as AnimalWildlife['skinningFrame'],
+    setRunning(value) { running = value; inner?.setRunning(value); },
+    setReduceEffects(value) { reduce = value; inner?.setReduceEffects(value); },
+    mount: (id) => inner?.mount(id) ?? null,
+    ride(id, at) { inner?.ride(id, at); },
+  };
+}
