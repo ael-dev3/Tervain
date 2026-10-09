@@ -177,8 +177,9 @@ describe('resident work contacts at their real posts (A70)', () => {
       const rock = ray.intersectObjects(scenerySolids, false)[0];
       const edge = rock ? rock.distance - tip.distanceTo(butt) : Infinity;
       const strike = Math.min(...[0.065, -0.065].map(x => toolEnd(rig, 'hammer', x, 0.27, 0).distanceTo(butt)));
+      const square = Math.abs(toolEnd(rig, 'hammer', 0.065, 0.27, 0).sub(toolEnd(rig, 'hammer', -0.065, 0.27, 0)).normalize().dot(tip.clone().sub(butt).normalize()));
       const sunk = Math.min(...hand.flatMap(h => h().map(p => plane.distanceToPoint(p))));
-      return { edge, strike, sunk, reach: local(rig, tip).z };
+      return { edge, strike, sunk, square, reach: local(rig, tip).z };
     };
     const before: ReturnType<typeof measure>[] = [];
     play(false, 1, () => before.push(measure()));
@@ -200,6 +201,9 @@ describe('resident work contacts at their real posts (A70)', () => {
       // The blow lands where the clip's own blow does, the hammer's face on the chisel's end.
       expect(after[blow]!.strike).toBeLessThan(0.025);
       expect(Math.abs(blow - clipBlow)).toBeLessThanOrEqual(1);
+      // Its face square to the chisel's end, within 20 degrees (A70).
+      console.log(`hammer square at the blow, amp ${amp}: ${after[blow]!.square.toFixed(3)} (clip ${before[clipBlow]!.square.toFixed(3)})`);
+      expect(after[blow]!.square).toBeGreaterThan(Math.cos(20 * Math.PI / 180));
       expect(Math.min(...after.map(a => a.sunk)), 'hands into the rock').toBeGreaterThan(-0.01);
       swings.push(Math.max(...after.filter((_, i) => holding[i]).map(a => a.strike)));
     }
@@ -219,7 +223,8 @@ describe('resident work contacts at their real posts (A70)', () => {
     for (const amp of [1, 0.4]) {
       const after: ReturnType<typeof measure>[] = [];
       play(true, amp, () => after.push(measure()));
-      const gaps = after.filter((_, i) => i >= 15 && standing[i]).map(a => a.gap), was = before.filter((_, i) => i >= 15 && standing[i]).map(b => b.gap);
+      // Every frame, the clip's loop included (A70).
+      const gaps = after.filter((_, i) => i >= 15).map(a => a.gap), was = before.filter((_, i) => i >= 15 && standing[i]).map(b => b.gap);
       expect(gaps.length).toBeGreaterThan(FRAMES * 0.5);
       console.log(`rod amp ${amp}: foot to ground before ${fmt(Math.min(...was))}..${fmt(Math.max(...was))}, after ${fmt(Math.min(...gaps))}..${fmt(Math.max(...gaps))}`);
       expect(Math.min(...gaps)).toBeGreaterThan(-0.01);
