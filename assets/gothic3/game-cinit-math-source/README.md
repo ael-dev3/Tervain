@@ -101,7 +101,18 @@ the original caller. Normal execution reaches `2046664e`, the first C++ table
 read; the table has not yet been admitted to this startup graph. A skipped exit
 initializer retains its earlier state and stops inside registration. All 51
 focused checks across three files and typechecking pass. Build, full-suite and
-production browser verification remain pending for this continuation.
+production browser verification remain pending for this continuation. Its
+pre-table production build passed in 33.39 seconds.
+
+The full original C++ initializer table is now admitted as a retained image:
+`2056c000-20655410`, 955,408 bytes, 238,852 slots and 2,468 non-null entries.
+The local source loop traverses the first 65 null slots and reaches
+`20466654 -> 204b11b0`. Resolution checks the actual cursor, loaded target
+identity and original slot bytes; changed targets stop before CALL. The first
+callback's native property-type factory remains unowned. All 53 focused checks
+across three files and typechecking pass, and regeneration matches both outputs
+byte for byte. Full-suite, build and browser checks for this table continuation
+remain pending.
 
 Regenerate from the repository root:
 

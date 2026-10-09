@@ -2717,6 +2717,22 @@ export class NativeX86ThreadStack {
     return address.toString(16).padStart(8, '0');
   }
   resolveGameCinitErrorCallback(controller: object): NativeValue<string> { return this.#run(controller, () => this.#gameCinitErrorCallback(controller)); }
+  resolveGameCppInitializer(controller: object): NativeValue<string> { return this.#run(controller, () => {
+    if (!this.#setEnvpBinding || this.#setEnvpBinding.controller !== controller ||
+        this.#calls.filter(call => !call.returned).at(-1)?.site !== '204678f2' ||
+        gameCinitInstruction('20466654').instruction !== 'CALL EAX') throw new Error('Actual original Game C++ initializer caller required');
+    const memory = this.#memory(this.#load(this.#bank, this.#reg('ESI')), 4);
+    const table = NativeModuleCrtOwner.canonicalImageForOwner(this.#binding!.crt, 'cinitCppInitializerTable');
+    if (!table.known || memory.fields !== table.value || memory.offset < 0 || memory.offset >= 955408 || memory.offset % 4)
+      throw new Error('Actual original C++ initializer table cursor required');
+    const target = this.#load(this.#bank, this.#reg('EAX'));
+    if (target !== this.#currentMemoryWord(memory.fields, memory.offset)) throw new Error('Actual current C++ initializer target word required');
+    const raw = nativeGameImageReceipt('cinitCppInitializerTable').raw;
+    const expected = Number.parseInt(raw.slice(memory.offset * 2, memory.offset * 2 + 8).match(/../g)!.reverse().join(''), 16);
+    const address = this.#numeric(target, 4);
+    if (!expected || address !== expected) throw new Error('Original current Game C++ initializer slot target required');
+    return address.toString(16).padStart(8, '0');
+  }); }
   /** Bridge the independently recovered 20463763 callback to its canonical Game
    * CRT owner. The walker executes original instructions; this callback uses
    * translated TypeScript with the original CALL/RET frame and result. */

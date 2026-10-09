@@ -43,11 +43,11 @@ describe('Game environment startup through the actual browser CRT graph', () => 
   it('copies the current environment, releases its input, and prepares the next initializer argument', () => {
     const { platform, stack: retainedStack, game } = startup();
     const attach = game.attachProgress;
-    expect(attach.setEnvpProgress?.boundary).toContain('address required for memory access');
+    expect(attach.setEnvpProgress?.boundary).toContain('not yet admitted at 204b11b0');
     expect(attach.ioResult).toBe(0);
     expect(attach.argvResult).toBe(0);
     expect(attach.setEnvpResult).toBe(0);
-    expect(attach.nextBoundary).toEqual({ name: 'sourceInstruction', address: '2046664e', instruction: 'MOV EAX,dword ptr [ESI]' });
+    expect(attach.nextBoundary).toEqual({ name: 'indirectSourceCall', address: '20466654', target: '204b11b0' });
     expect(attach.setEnvpProgress).toMatchObject({
       physicalGraphTransferred: true, envRetExecuted: true, envReturned: true,
       countingPassReturned: true, visibleCount: 1, arrayCallReturned: true,
@@ -159,7 +159,7 @@ describe('Game environment startup through the actual browser CRT graph', () => 
     { label: 'CPUID without SSE2', cpu: { ...nativeVirtualX86CpuSelection, cpuidLeaf1: [0x600, 0, 0, 0] as const } },
   ])('returns the original zero SSE2 result for $label', ({ cpu }) => {
     const { game, stack } = startup(true, 'success', undefined, cpu);
-    expect(game.attachProgress.nextBoundary).toEqual({ name: 'sourceInstruction', address: '2046664e', instruction: 'MOV EAX,dword ptr [ESI]' });
+    expect(game.attachProgress.nextBoundary).toEqual({ name: 'indirectSourceCall', address: '20466654', target: '204b11b0' });
     expect(fact(NativeModuleCrtOwner.canonicalImageForOwner(game.crt, 'cinitSse2ConversionAvailable')).readUnsigned(0)).toBe(0);
     expect(stack.snapshot().calls.find(call => call.site === '20469f41')).toMatchObject({ returned: true });
     expect(stack.snapshot().calls.some(call => call.site === '2047e674')).toBe(false);
@@ -233,12 +233,23 @@ describe('Game environment startup through the actual browser CRT graph', () => 
 });
 
 describe('Original Game cinit PE protection check', () => {
+  it('rejects a changed C++ callback without undoing shutdown registration', () => {
+    const { bootstrap, crt, stack } = attachWithImageChange((_headers, owner) => {
+      fact(NativeModuleCrtOwner.canonicalImageForOwner(owner, 'cinitCppInitializerTable')).writeUnsigned(65 * 4, 0x204b11c0);
+    });
+    expect(bootstrap.attachProgress().nextBoundary?.address).toBe('20466654');
+    expect(bootstrap.attachProgress().setEnvpProgress?.boundary).toContain('Original current Game C++ initializer slot target required');
+    expect(stack.snapshot().calls.find(call => call.site === '20466638')).toMatchObject({ returned: true });
+    expect(stack.snapshot().calls.some(call => call.site === '20466654')).toBe(false);
+    expect(NativeGameExitTable.forCrt(crt).snapshot().callbackCells).toHaveLength(1);
+  });
+
   it.each([0, 1, 19, 20, 25, -1])('uses the original FILE count branch for %i', count => {
     const { bootstrap, crt, stack } = attachWithImageChange((_headers, owner) => {
       fact(NativeModuleCrtOwner.canonicalImageForOwner(owner, 'cinitStdioCount')).writeUnsigned(0, count >>> 0);
     });
     const expected = count === 0 ? 512 : Math.max(20, count);
-    expect(bootstrap.attachProgress().nextBoundary).toEqual({ name: 'sourceInstruction', address: '2046664e', instruction: 'MOV EAX,dword ptr [ESI]' });
+    expect(bootstrap.attachProgress().nextBoundary).toEqual({ name: 'indirectSourceCall', address: '20466654', target: '204b11b0' });
     expect(bootstrap.attachProgress().setEnvpProgress).toMatchObject({ stdioCount: expected,
       stdioInitializerReturned: true, floatingPointSse2InitializerReturned: true });
     const vector = crt.imageStorage('cinitStdioVector').pointer<{ fields: NativeHeapObjectViews; offset: number }>(0).get()!;
@@ -294,7 +305,7 @@ describe('Original Game cinit PE protection check', () => {
   it('uses the current MZ signature and follows the original zero-result branch', () => {
     const { bootstrap, headers, stack } = attachWithImageChange(fields => fields.writeUnsigned(0, 0, 2));
     expect(headers.view.getUint16(0, true)).toBe(0);
-    expect(bootstrap.attachProgress().nextBoundary).toEqual({ name: 'sourceInstruction', address: '2046664e', instruction: 'MOV EAX,dword ptr [ESI]' });
+    expect(bootstrap.attachProgress().nextBoundary).toEqual({ name: 'indirectSourceCall', address: '20466654', target: '204b11b0' });
     expect(stack.snapshot().calls.find(call => call.site === '20466602')).toMatchObject({ returned: true });
     expect(stack.snapshot().calls.some(call => call.site === '20473909')).toBe(false);
     expect(stack.snapshot().calls.some(call => call.site === '20466610')).toBe(false);
@@ -316,7 +327,7 @@ describe('Original Game cinit PE protection check', () => {
       }
       expect(found).toBe(true);
     });
-    expect(bootstrap.attachProgress().nextBoundary?.address).toBe('2046664e');
+    expect(bootstrap.attachProgress().nextBoundary?.address).toBe('20466654');
     expect(stack.snapshot().calls.find(call => call.site === '20473909')).toMatchObject({ returned: true });
     expect(headers.bytes.length).toBe(672);
   });

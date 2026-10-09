@@ -4,6 +4,15 @@ import { admitGameCinitSource, gameCinitImagePins, gameCinitImageReceipt, gameCi
   from '../../src/gothic3/native-game-crt-cinit-source';
 
 describe('Original Game cinit and PE-check source admission', () => {
+  it('pins the complete original C++ table including its leading null slots', () => {
+    const table = gameCinitImageReceipt('cinitCppInitializerTable');
+    expect(table).toMatchObject({ address: '2056c000', bytes: 955408,
+      sha256: 'b03bdc863cc852e3b14ef05e1082cb8616ce78c63efe3d35e5e80e9dcea40185' });
+    expect(table.raw.slice(0, 65 * 8)).toBe('00'.repeat(65 * 4));
+    expect(table.raw.slice(65 * 8, 66 * 8)).toBe('b0114b20');
+    expect(table.raw.length).toBe(955408 * 2);
+  });
+
   it('retains shutdown recovery provenance without granting its execution', () => {
     const source = JSON.parse(readFileSync(new URL('../../assets/gothic3/game-cinit-math-source/source.json', import.meta.url), 'utf8'));
     const walker = source.module.methods.find((method: { label: string }) => method.label === 'staticFiniWalker');

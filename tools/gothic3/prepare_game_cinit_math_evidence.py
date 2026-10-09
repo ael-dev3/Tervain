@@ -123,6 +123,7 @@ def capture(study):
         ('stdioCount', 0x207d29c0, 4), ('stdioVector', 0x207d1664, 4),
         ('stdioFiles', 0x207b2e50, 640),
         ('staticFiniTable', 0x206e86e0, 256),
+        ('cppInitializerTable', 0x2056c000, 955408),
     ):
         raw, _ = image_bytes(pe, address, size)
         literals.append({'label': label, 'address': f'{address:08x}', 'bytes': size,
@@ -160,7 +161,8 @@ def emit_runtime(result, path):
                             ('cinitSse2ConversionAvailable', 'sse2ConversionAvailable'),
                             ('cinitSse2ProbeEH4Scope', 'sse2ProbeEH4Scope'),
                             ('cinitStdioCount', 'stdioCount'), ('cinitStdioVector', 'stdioVector'),
-                            ('cinitStdioFiles', 'stdioFiles')]:
+                            ('cinitStdioFiles', 'stdioFiles'),
+                            ('cinitCppInitializerTable', 'cppInitializerTable')]:
         images[label] = next(row for row in result['literals'] if row['label'] == original)
     cold = {'cinitFloatPointerTable', 'cinitDivideErratum', 'cinitSse2Available', 'cinitSse2ConversionAvailable',
             'cinitStdioCount', 'cinitStdioVector', 'cinitStdioFiles'}
@@ -200,7 +202,8 @@ export function admitGameCinitSource(): void {
       cinitFloatPointerTable:'floatPointerTable',cinitDivideModule:'divideModule',cinitDivideExport:'divideExport',
       cinitDivideErratum:'divideErratum',cinitSse2Available:'sse2Available',cinitCInitializerTable:'cInitializerTable',
       cinitSse2ConversionAvailable:'sse2ConversionAvailable',cinitSse2ProbeEH4Scope:'sse2ProbeEH4Scope',
-      cinitStdioCount:'stdioCount',cinitStdioVector:'stdioVector',cinitStdioFiles:'stdioFiles'};
+      cinitStdioCount:'stdioCount',cinitStdioVector:'stdioVector',cinitStdioFiles:'stdioFiles',
+      cinitCppInitializerTable:'cppInitializerTable'};
     const original = label === 'cinitPEHeaders' ? source.originalHeaders : source.literals.find((row: { label: string }) => row.label === names[label]);
     if (!original || original.address !== pin[1] || original.bytes !== pin[2] || original.raw !== pin[3] || original.sha256 !== pin[4])
       throw new Error('Original Game cinit image differs: ' + label);

@@ -86,6 +86,7 @@ const imageSpecs = Object.freeze([
   ['cinitSse2ConversionAvailable', '207d2b40', 4], ['cinitSse2ProbeEH4Scope', '206e9018', 28],
   ['cinitStdioCount', '207d29c0', 4], ['cinitStdioVector', '207d1664', 4],
   ['cinitStdioFiles', '207b2e50', 640],
+  ['cinitCppInitializerTable', '2056c000', 955408],
   ['ioBlocks', '207d2a20', nativeGameImageReceipt('ioBlocks').bytes],
 ] as const);
 const imports = new Set<NativeSetEnvpCallSite>(['20477ce8', '20467cd2']);
@@ -312,6 +313,7 @@ export class NativeGameCrtSetEnvp {
   #literal(value: number): NativeX86Word32 {
     if (value === 0x20655730) return fact(NativeX86ThreadStack.prototype.gameImageAddress.call(this.#stack, this.#controller, 'cinitCInitializerTable', 540));
     if (value === 0x207b30d0) return fact(NativeX86ThreadStack.prototype.gameImageAddress.call(this.#stack, this.#controller, 'cinitStdioFiles', 640));
+    if (value === 0x20655410) return fact(NativeX86ThreadStack.prototype.gameImageAddress.call(this.#stack, this.#controller, 'cinitCppInitializerTable', 955408));
     const image = this.#imageAt(value);
     if (image && (image.label === 'callocEH4Scope' || image.label === 'freeEH4Scope' || image.label === 'cinitNonwritableEH4Scope' || image.label === 'cinitSse2ProbeEH4Scope') && value === image.address) {
       const address = hex(value);
@@ -382,6 +384,11 @@ export class NativeGameCrtSetEnvp {
     fact(NativeX86ThreadStack.prototype.storeWidth.call(this.#stack, this.#controller, this.#address(destination.expression), word, bytes));
   }
   #call(point: NativeGameIoInstruction, target: Operand, returnPc: string): string {
+    if (point.va === '20466654') {
+      const callback = fact(NativeX86ThreadStack.prototype.resolveGameCppInitializer.call(this.#stack, this.#controller));
+      this.#nextBoundary = Object.freeze({ pc: point.va, operation: 'indirectSourceCall', target: callback });
+      throw new Error('Original Game C++ initializer callback is not yet admitted at ' + callback);
+    }
     if (point.va === '20466638') {
       this.#nextBoundary = Object.freeze({ pc: point.va, operation: 'translatedCrtCall', target: '204637ce' });
       fact(NativeX86ThreadStack.prototype.registerGameStaticFini.call(this.#stack, this.#controller));
