@@ -9,7 +9,7 @@ import { clockDay, evalCond, formatClock } from '../../game/state';
 import { worldView } from '../../game/worldView';
 import type { Allocation, Cond, ItemId, WorldState } from '../../game/types';
 import { type Input } from '../../platform/input';
-import { ACTIONS, DEFAULT_BINDINGS, codeLabel, defaultSettings, findConflict, saveSettings, type Action, type Settings } from '../../platform/settings';
+import { ACTIONS, DEFAULT_BINDINGS, codeLabel, assignSlot, cancelsCapture, findConflict, resetToDefaults, saveSettings, type Action, type Settings } from '../../platform/settings';
 import { SLOT_IDS, type LoadResult, type SaveStore, type SlotId } from '../../platform/storage';
 import { clear, focusableElements, focusFirst, h, moveFocus, visibleControl } from './dom';
 import { EVIDENCE_IDS } from '../../game/types';
@@ -757,8 +757,7 @@ export function settingsPanel(ctx: PanelCtx): HTMLElement {
       'div',
       { class: 'row', style: { marginTop: '14px' } },
       h('button', { class: 'btn', 'data-nav': true, 'data-focus-key': 'settings-reset', onClick: () => {
-        Object.assign(st, defaultSettings());
-        commit(true);
+        commit(resetToDefaults(st));
         ctx.host.replaceTop(settingsPanel(ctx));
       } }, S('set.reset')),
       closeBtn(ctx, S('menu.back')),
@@ -785,8 +784,7 @@ function bindRow(ctx: PanelCtx, action: Action, commit: () => void): HTMLElement
           ? S('set.swapped', { other: S(`action.${displaced}`), key: codeLabel(old) })
           : S('set.unbound_other', { other: S(`action.${displaced}`) });
       } else note.textContent = '';
-      st.bindings[action][idx] = code;
-      st.bindings[action] = st.bindings[action].filter(Boolean);
+      assignSlot(st.bindings, action, idx, code);
       commit();
       ctx.toast(S('toast.bound', { action: S(`action.${action}`), key: codeLabel(code) }), 'good');
       ctx.host.replaceTop(settingsPanel(ctx));
@@ -799,7 +797,7 @@ function bindRow(ctx: PanelCtx, action: Action, commit: () => void): HTMLElement
         note.textContent = '';
       };
       ctx.input.captureNext = (code) => {
-        if (code === 'Escape') {
+        if (cancelsCapture(action, code)) {
           restore();
           note.textContent = '';
           return;

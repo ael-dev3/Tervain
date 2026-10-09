@@ -99,6 +99,20 @@ describe('player motion and action contacts', () => {
     expect(done).not.toHaveBeenCalled();
   });
 
+  it('breaks a rite or brace channel on an accepted hit so its bar never freezes (A71)', () => {
+    const s = setup();
+    const done = vi.fn();
+    expect(s.player.beginChannel('rite', 3, done)).toBe(true);
+    s.tick();
+    s.player.receiveHit(1, false, { x: 0, y: 0, z: .9 } as EnemyActor, s.ctx);
+    expect(s.player.state).toBe('hurt');
+    expect(s.player.channel).toBeNull();
+    for (let i = 0; i < 300; i++) s.tick();
+    expect(s.player.state).toBe('free');
+    expect(s.player.channel).toBeNull();
+    expect(done).not.toHaveBeenCalled();
+  });
+
   it('cancels a movement request on the exact skinning completion frame before its harvest callback', () => {
     const s = setup();
     const done = vi.fn(), cancelled = vi.fn();

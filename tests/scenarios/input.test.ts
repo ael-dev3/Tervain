@@ -342,3 +342,24 @@ describe('browser keys while a panel is open (A70)', () => {
     }
   });
 });
+
+describe('held input across panels (A71)', () => {
+  it('a stick resting just past the deadzone does not lock every axis after a menu', () => {
+    const { input, setPad } = controls();
+    setPad(null, [0.9, 0, 0.2, 0]); input.poll(1 / 60);
+    expect(input.padAxes.lx).toBeGreaterThan(0.8);
+    input.uiOpen = true; input.uiOpen = false;
+    setPad(null, [0, 0, 0.2, 0]); input.poll(1 / 60);
+    setPad(null, [0.9, 0, 0.2, 0]); input.poll(1 / 60);
+    expect(input.padAxes.lx).toBeGreaterThan(0.8);
+  });
+  it('a bound modifier held across a panel still owns its chords', () => {
+    const { input, emit, settings } = controls();
+    settings.bindings.sprint = ['ControlLeft'];
+    emit('keydown', { code: 'ControlLeft', ctrlKey: true, target: { tagName: 'BODY' } });
+    input.uiOpen = true; input.uiOpen = false;
+    emit('keydown', { code: 'ControlLeft', ctrlKey: true, repeat: true, target: { tagName: 'BODY' } });
+    emit('keydown', { code: 'KeyW', ctrlKey: true, target: { tagName: 'BODY' } });
+    expect(input.move().y).toBe(1);
+  });
+});

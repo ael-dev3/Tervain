@@ -85,6 +85,11 @@ export function hunterRank(tally: HuntTally | undefined): HunterRank {
   return rank;
 }
 
+/** Text params for the restock strings: the arrows one hide buys at the current rank, not a fixed six (A71). */
+export function restockParams(s: Pick<WorldState, 'huntTally'>): { count: number } {
+  return { count: hunterRank(s.huntTally).arrows };
+}
+
 export function skinningSeconds(tally: HuntTally | undefined): number {
   return SKINNING_SECONDS * hunterRank(tally).skinning;
 }

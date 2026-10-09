@@ -202,6 +202,19 @@ describe('who says what, and when', () => {
     expect(said.filter((x) => x.line.startsWith('hero.wounded')).map((x) => x.line)).toEqual(['hero.wounded.1', 'hero.wounded.2']);
   });
 
+  it('keeps a one-time remark unsaid when it is cleared before it plays (A71)', () => {
+    const { d, said } = director();
+    expect(d.hero('place.rillford', { delay: 1.2 })).toBe(true);
+    run(d, 0.5);
+    d.clear();
+    run(d, 10);
+    expect(said).toHaveLength(0);
+    expect(d.hero('place.rillford', { delay: 1.2 })).toBe(true);
+    run(d, 2);
+    expect(said.map((x) => x.line)).toEqual(['hero.place.rillford']);
+    expect(d.hero('place.rillford')).toBe(false);
+  });
+
   it('holds a delayed line back by the game clock, and a remark keeps its speaker from starting an exchange', () => {
     const { d, said } = director();
     d.hero('arrival', { delay: 3 });

@@ -243,6 +243,8 @@ export class NavGrid {
       anchor = cells[far]!;
       k = far + 1;
     }
+    // Start and goal snapped to one cell: the route is that cell, not empty, so a goal a step away is still reached (A71).
+    if (out.length === 0) out.push(cells[0]!);
     // Land exactly on the requested goal when it is reachable in a straight step. The goal cell's centre is only the
     // grid's: when the leg before it already reaches the goal, the route goes straight there instead of stepping up to
     // a point as much as 1.4 m aside and turning back (A69).
