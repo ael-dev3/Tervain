@@ -332,7 +332,7 @@ export class NativeGameCrtSetEnvp {
       owner.#requireSourcePoint(owner.#pc).instruction==='CALL 0x204637ce'
       ? known(undefined):unknown('Actual original Arena root cleanup registration call required');
   }
-  static canonicalArenaStatusInitializerForCrt(owner:NativeGameCrtSetEnvp,crt:NativeModuleCrtOwner,controller:object,entry:'204b1dd0'|'204b1e70'='204b1dd0'):NativeValue<void> {
+  static canonicalArenaStatusInitializerForCrt(owner:NativeGameCrtSetEnvp,crt:NativeModuleCrtOwner,controller:object,entry:'204b1dd0'|'204b1e70'|'204b1eb0'='204b1dd0'):NativeValue<void> {
     const active=NativeGameCrtSetEnvp.canonicalControllerForCrt(owner,crt,controller,'invoke');
     if(!active.known)return active;
     const frame=owner.#frames.at(-1);
@@ -617,7 +617,7 @@ export class NativeGameCrtSetEnvp {
     if (point.va === '20466654') {
       const callback = fact(NativeX86ThreadStack.prototype.resolveGameCppInitializer.call(this.#stack, this.#controller));
       this.#nextBoundary = Object.freeze({ pc: point.va, operation: 'indirectSourceCall', target: callback });
-      if((callback==='204b1dd0'||callback==='204b1e70') && nativeGameLayerBaseMemoryForCrt(this.#crt as NativeGameCrtOwner).known) {
+      if((callback==='204b1dd0'||callback==='204b1e70'||callback==='204b1eb0') && nativeGameLayerBaseMemoryForCrt(this.#crt as NativeGameCrtOwner).known) {
         // This is the existing translated initializer owner; its lower
         // instructions are not interpreted on this startup stack.
         this.#nextBoundary=Object.freeze({pc:point.va,operation:'translatedCrtCall',target:callback});

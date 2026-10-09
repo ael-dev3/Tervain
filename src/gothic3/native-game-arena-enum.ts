@@ -25,6 +25,10 @@ export class NativeGameArenaEnum {
  #valueBucket:number|null=null;
  #returned=false;
  #inserted=false;
+ #runningBoundary:string|null=null;
+ #runningEntered=false;
+ #runningTemporary:NativeHeapCString|null=null;
+ #runningAllocation:NativeMemoryAllocation|null=null;
  #trace:string[]=[];
  private constructor(readonly crt:NativeGameCrtOwner,private readonly memory:NativeMemoryAdmin){}
  static forCrt(crt:NativeGameCrtOwner,memory:NativeMemoryAdmin):NativeGameArenaEnum{
@@ -175,7 +179,40 @@ export class NativeGameArenaEnum {
    return {known:true,value:undefined};
   }catch(error){this.#boundary=error instanceof Error?error.message:String(error);return {known:false,reason:this.#boundary};}
  }
+ initializeRunning():NativeValue<void>{
+  if(this.#runningBoundary)return {known:false,reason:this.#runningBoundary};
+  if(!this.#returned||!this.#inserted)return {known:false,reason:'Actual preceding None enum initializer return required'};
+  if(this.#runningEntered)return {known:false,reason:'Original Running initializer cannot replay'};
+  this.#runningEntered=true;
+  try{
+   admitArenaEnumSource();
+   const method=arenaEnumInstructions.find(row=>row.label==='arenaRunningEnumConstructor');
+   if(method?.bodyVA!=='0x20071f10'||method.instructions.find(row=>row.va==='20071f12')?.instruction!=='PUSH 0x2a')
+    throw new Error('Original Running enum constructor source required');
+   const platform=this.crt.host.platform as NativeRuntimePlatform;
+   fact(NativeRuntimePlatform.canonicalGameModuleImageAccessForPlatform(platform,this.crt,'statusRunningName',0,22));
+   const slot=new NativeHeapObjectViews({identity:{},bytes:new Uint8Array(4),knownMask:new Uint8Array(4),freed:false});
+   this.#runningTemporary=NativeHeapCString.beginTextConstruction(this.memory,slot);
+   fact(this.#runningTemporary.constructText({fields:this.crt.imageStorage('statusRunningName'),offset:0}));
+   this.#runningAllocation=fact(this.memory.newObject(12,0x2a));
+   if(!this.#runningAllocation)throw new Error('Unowned Running NULL-value insertion at 20071f59');
+   const fields=new NativeHeapObjectViews(this.#runningAllocation,0,12);
+   fields.writeUnsigned(0,0x20659c74);
+   fields.writeUnsigned(4,0x100e7e1c);
+   fields.writeUnsigned(4,0x2065902c);
+   fact(NativeRuntimePlatform.canonicalGameModuleImageAccessForPlatform(platform,this.crt,'enumValueScratch',0,4));
+   fields.writeUnsigned(8,this.crt.imageStorage('enumValueScratch').readUnsigned(0));
+   fields.writeUnsigned(8,1);
+   this.#trace.push('20071f4e.Running.value1');
+   if((this.crt.imageStorage('enumNameRegistryGuard').readUnsigned(0)&1)===0 ||
+     (this.crt.imageStorage('enumValueRegistryGuard').readUnsigned(0)&1)===0)
+    throw new Error('Actual retained enum registry guards required');
+   this.#trace.push('200719ae.Running.reuseNameRegistry');
+   throw new Error('Unowned retained enum name lookup for Running at 200719d7 -> 200708b0');
+  }catch(error){this.#runningBoundary=error instanceof Error?error.message:String(error);return {known:false,reason:this.#runningBoundary};}
+ }
  snapshot(){return Object.freeze({boundary:this.#boundary,temporary:this.#temporary,allocation:this.#allocation,
+  runningBoundary:this.#runningBoundary,runningTemporary:this.#runningTemporary,runningAllocation:this.#runningAllocation,
   nameEntry:this.#nameEntry,entryName:this.#entryName,bucket:this.#bucket,
   valueEntry:this.#valueEntry,valueName:this.#valueName,valueBucket:this.#valueBucket,
   trace:Object.freeze([...this.#trace]),initializerReturned:this.#returned,valueInserted:this.#inserted});}

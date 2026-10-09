@@ -45,7 +45,7 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  expect(game.known).toBe(true);
  if(!game.known)throw new Error(game.reason);
  expect(game.value.attachResult).toEqual({known:false,
-  reason:'crtAttach204677e4: Unowned Original Game C++ initializer callback is not yet admitted at 204b1eb0'});
+  reason:'crtAttach204677e4: Unowned Translated Arena Status initializer pending: Unowned retained enum name lookup for Running at 200719d7 -> 200708b0'});
  const diagnostic=NativeSharedMessageDebug.forPlatform(platform).snapshot(),locale=diagnostic.formatterLocale!;
  expect(diagnostic.messageOwner).toBe(runtime.message);
  expect(diagnostic.messageGetterReturned).toBe(true);
@@ -117,6 +117,13 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  expect(enumState.valueInserted).toBe(true);
  expect(enumOwner.initialize()).toEqual({known:true,value:undefined});
  expect(enumOwner.snapshot().allocation).toBe(enumState.allocation);
+ expect(enumState.runningAllocation).not.toBeNull();
+ expect(enumState.runningAllocation).not.toBe(enumState.allocation);
+ expect(new NativeHeapObjectViews(enumState.runningAllocation!,0,12).readUnsigned(8)).toBe(1);
+ expect(enumState.runningTemporary!.snapshot().destroyed).toBe(false);
+ expect(game.value.crt.imageStorage('enumValueScratch').readUnsigned(0)).toBe(0);
+ expect(enumOwner.initializeRunning()).toEqual({known:false,reason:enumState.runningBoundary});
+ expect(enumOwner.snapshot().runningAllocation).toBe(enumState.runningAllocation);
  expect(runtime.message.snapshot().trace).toContain('10049574.message.threshold.return');
  expect(runtime.message.onMessageBelowThreshold(2)).toEqual({known:false,reason:'Unowned MessageAdmin.OnMessage callback loop at 1004951d'});
  expect(runtime.message.onMessageBelowThreshold(0xffffffff)).toEqual({known:true,value:true});

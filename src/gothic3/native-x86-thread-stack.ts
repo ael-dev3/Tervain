@@ -2835,7 +2835,7 @@ export class NativeX86ThreadStack {
     if (source?.kind !== 'source' || source.type !== 'code' || source.address !== '20466454') throw new Error('Actual C initializer callback return required');
   }); }
   /** Translate the existing CRT registration owner; shutdown is not invoked. */
-  callArenaStatusInitializer(controller:object,entry:'204b1dd0'|'204b1e70'='204b1dd0'):NativeValue<void> { return this.#run(controller,()=>{
+  callArenaStatusInitializer(controller:object,entry:'204b1dd0'|'204b1e70'|'204b1eb0'='204b1dd0'):NativeValue<void> { return this.#run(controller,()=>{
     const binding=this.#setEnvpBinding;
     if(!binding || binding.controller!==controller)throw new Error('Actual retained Game startup controller required');
     const point=NativeGameCrtSetEnvp.canonicalArenaStatusInitializerForCrt(binding.owner,binding.crt,controller,entry);
@@ -2844,7 +2844,7 @@ export class NativeX86ThreadStack {
       throw new Error('Actual pending Game cinit frame required');
     const cursor=this.#memory(this.#load(this.#bank,this.#reg('ESI')),4);
     const table=NativeModuleCrtOwner.canonicalImageForOwner(binding.crt,'cinitCppInitializerTable');
-    if(!table.known || cursor.fields!==table.value || cursor.offset!==(entry==='204b1dd0'?0x370:0x374) ||
+    if(!table.known || cursor.fields!==table.value || cursor.offset!==(entry==='204b1dd0'?0x370:entry==='204b1e70'?0x374:0x378) ||
       this.#numeric(this.#currentMemoryWord(cursor.fields,cursor.offset),4)!==Number.parseInt(entry,16) ||
       this.#load(this.#bank,this.#reg('EAX'))!==this.#currentMemoryWord(cursor.fields,cursor.offset))
       throw new Error('Actual Arena Status original initializer table slot required');
@@ -2853,7 +2853,8 @@ export class NativeX86ThreadStack {
     this.#call('20466654','20466656');
     const result=entry==='204b1dd0'
       ? NativeGameArenaStatusProperty.prototype.initialize.call(NativeGameArenaStatusProperty.forCrt(crt,memory.value))
-      : NativeGameArenaEnum.prototype.initialize.call(NativeGameArenaEnum.forCrt(crt,memory.value));
+      : entry==='204b1e70' ? NativeGameArenaEnum.prototype.initialize.call(NativeGameArenaEnum.forCrt(crt,memory.value))
+      : NativeGameArenaEnum.prototype.initializeRunning.call(NativeGameArenaEnum.forCrt(crt,memory.value));
     if(!result.known)throw new Error('Translated Arena Status initializer pending: '+result.reason);
     const returned=this.#ret(0), source=this.#record(returned).provenance;
     if(source?.kind!=='source'||source.type!=='code'||source.address!=='20466656')

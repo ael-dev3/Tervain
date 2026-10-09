@@ -13,6 +13,20 @@ finishable campaign.
 
 ## How the rebuild works
 
+### Current local checkpoint: Running enum enters with retained registries
+
+Startup now selects the actual Running initializer table slot at offset
+`0x378`. It requires the preceding None initializer's actual completed owner,
+constructs the original Running name, allocates a separate twelve-byte value
+with category `0x2a` and executes the recovered base/vtable stores. It reads
+the existing scratch scalar, then writes supplied value one without modifying
+scratch. Both registry guards and their prior allocations remain retained.
+Startup stops at Running name lookup at `200719d7 -> 200708b0`, which must
+handle the existing bucket state. Repeated entry preserves the interruption
+and allocation. Typechecking and seven focused checks across three files pass.
+The integrated build at `352ab998` passed in 38.34 seconds; its full suite
+remains running and does not cover this later local continuation.
+
 ### Current local checkpoint: first enum initializer returns
 
 The value-registry cleanup callback `20549a60` is captured through its final
