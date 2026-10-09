@@ -13,6 +13,70 @@ finishable campaign.
 
 ## How the rebuild works
 
+### From installed files to a playable browser game
+
+The rebuild follows two tracks that meet in the browser: converting the game's
+resources and reconstructing the behavior that uses them. Extracting a tree or a
+human mesh gives us a viewable model. Rebuilding a character also requires its
+materials, skeleton, animations, entity properties, routines and gameplay state.
+
+| Stage | Work | Result needed before advancing |
+| --- | --- | --- |
+| Reference inventory | Identify installed archives and matching Game, Engine and SharedBase DLLs; retain paths and hashes. | Traceable inputs for every export and recovered function. |
+| Asset recovery | Decode archive entries, meshes, textures, materials, animations and world records. | Browser resources linked to their original archive paths. |
+| Rendering | Reproduce material settings, foliage transparency, lighting, animation and placement. | Models and scenes compared with the installed game. |
+| Runtime recovery | Follow original calls and data, capture instruction bytes and implement their effects in TypeScript. | The supported operation returns with the original state and ownership rules. |
+| World integration | Connect initialization to entities, NPC property sets, navigation, routines and interactions. | Actors and the world update during ordinary play. |
+| Campaign integration | Connect dialogue, quests, combat, inventory and persistent saves. | A new game can progress, reload and reach an ending. |
+| Publication | Review changes, validate the exact revision and deploy `/gothic3/`. | A recorded deployed revision and observed browser behavior. |
+
+The matching local research inputs are in
+`C:/Users/heyas/OneDrive/Рабочий стол/Gothic3_Decompiled_Study_2026-10-04`.
+`00_Original_Runtime/` contains the reference DLLs;
+`01_Decompiled_Code/Game_dll/` contains `functions.csv`,
+`full_disassembly.asm` and the `pseudocode/` directory. These are local research
+paths, not files required on a player's computer. Decompiled names can be
+misleading, so instruction bytes determine the implementation.
+
+For the current startup continuation, follow the next unsupported initializer
+from its captured table entry to its actual callee. Recover the required imports,
+globals, allocation rules and cleanup callbacks, then connect the implementation
+to the existing startup walker. Preserve completed behavior and record the next
+unsupported address. Repeat until startup can activate the world, then apply the
+same evidence-driven process to gameplay systems.
+
+### Local checkpoint: primitive templates and scoped struct names
+
+The next continuation reuses the original primitive primary-type parser inside
+template arguments, recovers the original 57..64-byte allocation pool, and executes
+the selected ordinary scoped-name loop and `U` struct keyword branch. The scoped
+package captures four methods and 585 original instructions; its JSON and generated
+TypeScript reproduce byte for byte. The two additional allocator pools capture
+14 methods and 573 instructions, including their physical dispatch and geometry.
+
+Runtime revision `a2691946` returns from the first block's 154 class-name
+initializers, retaining 155 shutdown callbacks. Its checks verify
+`bTValArray<float>`, `bTObjArray<struct gCQuest_PS::SLogEntry>` and the nested
+`bTObjArray<class bTAutoPOSmartPtr<class gCQuest_PS> >`. All five focused checks
+pass. Startup next stops at table call `20466654 -> 204b1d70`: that callback
+has a different structure and is not yet admitted. The production build and
+typechecking pass in 34.33 seconds. The complete suite passes 3,185 tests across
+294 files in 437.60 seconds. An actual production browser enters Ardea and reports
+4,299 environment/startup operations at the same `204b1d70` boundary. The selected
+Ardea NPC still has 0/16 attached property sets at the unconnected ScriptAdmin
+getter. Deployment of this 154-initializer revision is pending.
+
+The preceding 146-initializer runtime `70da7405` passed all 3,185 tests across
+294 files in 500.45 seconds, typechecking, five focused checks and a production
+build in 48.05 seconds. An actual production browser confirmed Ardea entry and
+4,220 startup operations at its then-current `204b1cf0` scoped-struct boundary.
+These earlier results do not validate the newer 154-initializer revision.
+The 64-initializer checkpoint merged through
+[PR #198](https://github.com/ael-dev3/Tervain/pull/198) as
+`6be9a3314032824e646ee63e595ff4d9f91ab9e0`; its Pages deployment succeeded.
+Full startup, world/NPC activation, campaign saves and ordinary play through an
+ending remain unfinished.
+
 ### Local checkpoint: pointer templates and their original allocator pool
 
 At runtime revision `f511a790`, the selected `PAV` class-pointer template argument

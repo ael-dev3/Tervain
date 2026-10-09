@@ -2,6 +2,7 @@ import { admitGameLayerBaseSource, gameLayerBaseSourceRules, gameLayerBaseImageP
 import { admitGameObjectRefSource, gameObjectRefSourceRules, gameObjectRefImagePins, gameObjectRefImageReceipt } from './native-game-object-ref-source';
 import { admitGameClassNameFamilySource, gameClassNameFamilyRules, gameClassNameFamilyImagePins, gameClassNameFamilyImageReceipt } from './native-game-class-name-family-source';
 import { admitGamePrimitiveSource, gamePrimitiveSourceRules, gamePrimitiveImagePins, gamePrimitiveImageReceipt } from './native-game-primitive-source';
+import { admitGameScopedNameSource, gameScopedNameConstants, gameScopedNameImagePins, gameScopedNameImageReceipt } from './native-game-scoped-name-source';
 import { admitGameArenaStatusSource, gameArenaStatusSourceRules, gameArenaStatusImagePins, gameArenaStatusImageReceipt } from './native-game-arena-status-source';
 import { admitGameTemplateDemanglerSource, gameTemplateConstants, gameTemplateImagePins, gameTemplateImageReceipt } from './native-game-template-demangler-source';
 import { admitGameArenaTypeSource, gameArenaTypeSourceRules, gameArenaTypeImagePins, gameArenaTypeImageReceipt } from './native-game-arena-type-source';
@@ -46,7 +47,7 @@ const rules: NativeCrtSourceRules = { ...baseRules,
     ...(gameArenaStatusSourceRules.imports?.Game ?? []).filter(row => !baseRules.imports?.Game?.some(old => old.iatVA === row.iatVA))] },
   methods: { ...baseRules.methods, ...gameArenaSourceRules.methods, ...gameArenaTypeSourceRules.methods, ...gameArenaStatusSourceRules.methods, ...gameLayerBaseSourceRules.methods, ...gameObjectRefSourceRules.methods, ...gameClassNameFamilyRules.methods, ...gamePrimitiveSourceRules.methods },
   coldGlobals: { ...baseRules.coldGlobals, ...gameArenaSourceRules.coldGlobals, ...gameArenaTypeSourceRules.coldGlobals, ...gameArenaStatusSourceRules.coldGlobals, ...gameLayerBaseSourceRules.coldGlobals, ...gameObjectRefSourceRules.coldGlobals, ...gameClassNameFamilyRules.coldGlobals },
-  constBytes: { ...baseRules.constBytes, ...gameArenaSourceRules.constBytes, ...gameTemplateConstants, ...gameArenaStatusSourceRules.constBytes, ...gameLayerBaseSourceRules.constBytes, ...gameObjectRefSourceRules.constBytes, ...gamePrimitiveSourceRules.constBytes },
+  constBytes: { ...baseRules.constBytes, ...gameArenaSourceRules.constBytes, ...gameTemplateConstants, ...gameArenaStatusSourceRules.constBytes, ...gameLayerBaseSourceRules.constBytes, ...gameObjectRefSourceRules.constBytes, ...gamePrimitiveSourceRules.constBytes, ...gameScopedNameConstants },
 };
 function freeze(value: unknown): void {
   if (value !== null && typeof value === 'object' && !Object.isFrozen(value)) {
@@ -105,6 +106,7 @@ export const nativeGameImagePins: Readonly<Record<string, readonly [
   ...gameObjectRefImagePins,
   ...gameClassNameFamilyImagePins,
   ...gamePrimitiveImagePins,
+  ...gameScopedNameImagePins,
   ...gameArenaImagePins,
   ...gameArenaTypeImagePins,
   ...gameArenaStatusImagePins,
@@ -203,6 +205,7 @@ const imports = [
 ] as const;
 export function admitNativeGameCrtSource(): void {
   admitGamePrimitiveSource();
+  admitGameScopedNameSource();
   admitGameClassNameFamilySource();
   admitGameObjectRefSource();
   admitGameLayerBaseSource();
@@ -233,6 +236,7 @@ export function admitNativeGameCrtSource(): void {
 }
 export function nativeGameImageReceipt(label: string): NativeCrtImageReceipt {
   if (Object.hasOwn(gamePrimitiveImagePins,label)) return gamePrimitiveImageReceipt(label);
+  if (Object.hasOwn(gameScopedNameImagePins,label)) return gameScopedNameImageReceipt(label);
   if (Object.hasOwn(gameClassNameFamilyImagePins,label)) return gameClassNameFamilyImageReceipt(label);
   if (Object.hasOwn(gameObjectRefImagePins, label)) return gameObjectRefImageReceipt(label);
   if (Object.hasOwn(gameLayerBaseImagePins, label)) return gameLayerBaseImageReceipt(label);

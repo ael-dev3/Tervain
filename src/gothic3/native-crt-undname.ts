@@ -2,6 +2,7 @@ import { gameStrlenDwordCandidate } from './native-game-strlen-predicate';
 import { gameClassNameFamilySpecs } from './native-game-class-name-family-source';
 import { admitGamePrimitiveSource } from './native-game-primitive-source';
 import { admitGamePointerDemanglerSource } from './native-game-pointer-demangler-source';
+import { admitGameScopedNameSource } from './native-game-scoped-name-source';
 import { admitGameTemplateDemanglerSource } from './native-game-template-demangler-source';
 /** Module-owned ___unDName. The admitted grammar currently follows the
  * ordinary, unqualified class RTTI branch; other grammar remains a boundary. */
@@ -150,7 +151,19 @@ export class NativeCrtUndName {
       if (!firstArgument) fact(factory.append(argumentsResult, fact(factory.fromChar(0x2c), 'templateArguments.comma')), 'templateArguments.appendComma');
       firstArgument = false;
       const before = this.cursor();
-      if (this.byte() === 0x56 || (this.crt.module === 'Game' && this.byte() === 0x50)) {
+      if (this.crt.module === 'Game' && this.isPrimitiveToken()) {
+        const qualification = this.empty(factory);
+        const primary = this.primitivePrimary(factory, qualification);
+        const temporary = this.empty(factory);
+        fact(factory.assign(temporary, primary), 'templateArguments.assignPrimitivePrimary');
+        const after = this.cursor();
+        if (after.fields !== before.fields) throw new Error('Original template cursor backing changed');
+        if (after.offset - before.offset > 1 && third.fields.readUnsigned(0) !== 9)
+          fact(third.append(temporary), 'templateArguments.recordPrimitive');
+        fact(factory.append(argumentsResult, temporary), 'templateArguments.appendPrimitivePrimary');
+        continue;
+      }
+      if (this.byte() === 0x56 || (this.crt.module === 'Game' && [0x50,0x55].includes(this.byte()))) {
         const primary = this.byte() === 0x50 ? this.pointerClassPrimary(factory, second) : this.classPrimary(factory, second);
         const temporary = this.empty(factory);
         fact(factory.assign(temporary, primary), 'templateArguments.assignClassPrimary');
@@ -215,6 +228,29 @@ export class NativeCrtUndName {
     this.fields.writeUnsigned(48, this.flags() & ~0x2000); this.state.trace.push('grammar.dataType');
     let qualification = fact(factory.fromPointer(null), 'getDataType.pointerQualification');
     if (this.crt.module === 'Game' && this.byte() !== 0x3f) {
+      const primary = this.primitivePrimary(factory, qualification);
+      this.fields.writeUnsigned(48,this.flags() | 0x2000);
+      return fact(factory.copy(primary),'getDecoratedName.primitiveReturn');
+    }
+    if (this.byte() !== 0x3f) throw new Error('Unowned getDataType branch outside selected RTTI qualification');
+    this.advance(); // getDataType consumes '?' before calling getDataIndirectType.
+    if (this.byte() !== 0x41) throw new Error('Unowned getDataIndirectType qualification');
+    this.advance();
+    const indirect = this.empty(factory);
+    const word = indirect.fields.maskedWord(4);
+    word.value = word.value | 0x10; word.knownMask = word.knownMask | 0x10;
+    qualification = fact(factory.assign(qualification, fact(factory.copy(indirect), 'getDataIndirectType.return')), 'getDataType.assignQualification');
+    if (!qualification.isEmpty()) throw new Error('Unowned nonempty primary type qualification');
+    const primary = this.classPrimary(factory, replicator);
+    this.fields.writeUnsigned(48, this.flags() | 0x2000);
+    return fact(factory.copy(primary), 'getDecoratedName.return');
+  }
+  private isPrimitiveToken(): boolean {
+    return [0x45,0x47,0x48,0x4a,0x4b,0x4d].includes(this.byte()) || (this.byte() === 0x5f && this.byte(1) === 0x4e);
+  }
+  /** Shared original getPrimaryDataType -> getSimpleDataType branch; callers
+   * supply their actual empty qualification and retain their own flags. */
+  private primitivePrimary(factory: NativeCrtDNameFactory, qualification: NativeCrtDNameRecord): NativeCrtDNameRecord {
       admitGamePrimitiveSource();
       // These tokens follow the original getDataType -> getPrimaryDataType ->
       // getSimpleDataType branch with empty qualification. Pointer, reference
@@ -241,37 +277,58 @@ export class NativeCrtUndName {
         fact(factory.assign(local,unsigned),'getSimpleDataType.assignUnsigned');
       }
       this.state.trace.push('getSimpleDataType.primitiveReturn');
-      const primary = fact(factory.copy(local),'getSimpleDataType.copyReturn');
-      this.fields.writeUnsigned(48,this.flags() | 0x2000);
-      return fact(factory.copy(primary),'getDecoratedName.primitiveReturn');
-    }
-    if (this.byte() !== 0x3f) throw new Error('Unowned getDataType branch outside selected RTTI qualification');
-    this.advance(); // getDataType consumes '?' before calling getDataIndirectType.
-    if (this.byte() !== 0x41) throw new Error('Unowned getDataIndirectType qualification');
-    this.advance();
-    const indirect = this.empty(factory);
-    const word = indirect.fields.maskedWord(4);
-    word.value = word.value | 0x10; word.knownMask = word.knownMask | 0x10;
-    qualification = fact(factory.assign(qualification, fact(factory.copy(indirect), 'getDataIndirectType.return')), 'getDataType.assignQualification');
-    if (!qualification.isEmpty()) throw new Error('Unowned nonempty primary type qualification');
-    const primary = this.classPrimary(factory, replicator);
-    this.fields.writeUnsigned(48, this.flags() | 0x2000);
-    return fact(factory.copy(primary), 'getDecoratedName.return');
+      return fact(factory.copy(local),'getSimpleDataType.copyReturn');
   }
   /** The same original primary-type branch is called by ordinary RTTI and
    * template argument parsing, with the currently installed name replicator. */
   private classPrimary(factory: NativeCrtDNameFactory, replicator: NativeCrtReplicator,
     qualification?: NativeCrtDNameRecord): NativeCrtDNameRecord {
-    if (this.byte() !== 0x56) throw new Error('Unowned getPrimaryDataType/getSimpleDataType branch');
+    const struct = this.crt.module === 'Game' && this.byte() === 0x55;
+    if (this.byte() !== 0x56 && !struct) throw new Error('Unowned getPrimaryDataType/getSimpleDataType branch');
+    if (struct) admitGameScopedNameSource();
     this.advance(); this.advance(-1); // The simple-type default rewinds before ECSU.
     const keepKeyword = !(this.flags() & 0x8000) && !(this.flags() & 0x1000);
-    this.advance(); // getECSUDataType consumes 'V'.
-    const keyword = factory.sourceConstant('classKeyword', this.crt.module === 'Game' ? '206bee10' : '3089f408', 7);
+    this.advance(); // getECSUDataType consumes the selected V/U tag.
+    const keyword = struct ? factory.sourceConstant('gameScopedStructKeyword','206bee08',8)
+      : factory.sourceConstant('classKeyword', this.crt.module === 'Game' ? '206bee10' : '3089f408', 7);
     const className = this.empty(factory);
     fact(factory.assignText(className, { fields: keyword, offset: 0 }), 'getECSUDataType.classKeyword');
     const result = this.empty(factory);
     if (keepKeyword) fact(factory.assign(result, className), 'getECSUDataType.copyKeyword');
     const scoped = this.empty(factory);
+    const identifier = this.zName(factory, replicator);
+    fact(factory.assign(scoped, identifier), 'getScopedName.assign');
+    if (scoped.status === 0 && this.byte() !== 0 && this.byte() !== 0x40) {
+      if (this.crt.module !== 'Game') throw new Error('Unowned getScopedName scope grammar');
+      admitGameScopedNameSource();
+      const scope = this.ordinaryScope(factory, replicator);
+      const separator = this.scopeSeparator(factory);
+      const prefix = fact(factory.plus(scope, separator), 'getScopedName.scopeSeparator');
+      const joined = fact(factory.plus(prefix, scoped), 'getScopedName.scopeIdentifier');
+      fact(factory.assign(scoped, joined), 'getScopedName.assignQualified');
+    }
+    if (this.byte() === 0x40) this.advance();
+    else if (this.byte() === 0) {
+      if (scoped.isEmpty()) fact(factory.assignStatus(scoped, 2), 'getScopedName.emptyTruncated');
+      else {
+        fact(factory.status(2), 'getScopedName.truncatedPrefix');
+        throw new Error('Unowned getScopedName truncated-name concatenation30697e2e');
+      }
+    }
+    else fact(factory.assignStatus(scoped, 1), 'getScopedName.invalid');
+    fact(factory.append(result, scoped), 'getECSUDataType.appendName');
+    const ecsu = fact(factory.copy(result), 'getECSUDataType.return');
+    const simple = this.empty(factory); fact(factory.assign(simple, ecsu), 'getSimpleDataType.assign');
+    if (!simple.isEmpty() && qualification && !qualification.isEmpty()) {
+      const spaced = fact(factory.plus(fact(factory.fromChar(0x20), 'getSimpleDataType.qualificationSpace'), qualification),
+        'getSimpleDataType.spaceQualification');
+      fact(factory.append(simple, spaced), 'getSimpleDataType.appendQualification');
+    }
+    return fact(factory.copy(simple), 'getSimpleDataType.return');
+  }
+
+  /** The original name parser uses the caller's currently installed replicator. */
+  private zName(factory: NativeCrtDNameFactory, replicator: NativeCrtReplicator): NativeCrtDNameRecord {
     let identifier: NativeCrtDNameRecord;
     const current = this.byte();
     if (current >= 0x30 && current <= 0x39) {
@@ -309,27 +366,35 @@ export class NativeCrtUndName {
       identifier = fact(factory.copy(identifier), 'getZName.copyIdentifier');
       }
     }
-    fact(factory.assign(scoped, identifier), 'getScopedName.assign');
-    if (scoped.status === 0 && this.byte() !== 0 && this.byte() !== 0x40) throw new Error('Unowned getScopedName scope grammar');
-    if (this.byte() === 0x40) this.advance();
-    else if (this.byte() === 0) {
-      if (scoped.isEmpty()) fact(factory.assignStatus(scoped, 2), 'getScopedName.emptyTruncated');
-      else {
-        fact(factory.status(2), 'getScopedName.truncatedPrefix');
-        throw new Error('Unowned getScopedName truncated-name concatenation30697e2e');
+    return identifier;
+  }
+
+  private scopeSeparator(factory: NativeCrtDNameFactory): NativeCrtDNameRecord {
+    const separator = this.empty(factory);
+    fact(factory.assignText(separator,{fields:factory.sourceConstant('gameScopedSeparator','206bedec',3),offset:0}),
+      'getScope.separator');
+    return separator;
+  }
+
+  /** Selected ordinary scope-name loop. Lexical frames, anonymous namespaces,
+   * operator scopes and truncated scope composition remain source boundaries. */
+  private ordinaryScope(factory: NativeCrtDNameFactory, replicator: NativeCrtReplicator): NativeCrtDNameRecord {
+    admitGameScopedNameSource();
+    const result = this.empty(factory);
+    while (result.status === 0 && this.byte() !== 0 && this.byte() !== 0x40) {
+      if (this.fields.readUnsigned(56,1) !== 0 && this.fields.readUnsigned(57,1) === 0) return result;
+      if (!result.isEmpty()) {
+        const prefix = fact(factory.plus(this.scopeSeparator(factory), result), 'getScope.prefixSeparator');
+        fact(factory.assign(result,prefix), 'getScope.assignSeparator');
       }
+      if (this.byte() === 0x3f) throw new Error('Unowned getScope special-name branch');
+      const name = this.zName(factory,replicator);
+      const joined = fact(factory.plus(name,result), 'getScope.prependName');
+      fact(factory.assign(result,joined), 'getScope.assignName');
     }
-    else fact(factory.assignStatus(scoped, 1), 'getScopedName.invalid');
-    fact(factory.append(result, scoped), 'getECSUDataType.appendName');
-    const ecsu = fact(factory.copy(result), 'getECSUDataType.return');
-    const simple = this.empty(factory); fact(factory.assign(simple, ecsu), 'getSimpleDataType.assign');
-    if (!simple.isEmpty() && qualification && !qualification.isEmpty()) {
-      const spaced = fact(factory.plus(fact(factory.fromChar(0x20), 'getSimpleDataType.qualificationSpace'), qualification),
-        'getSimpleDataType.spaceQualification');
-      fact(factory.append(simple, spaced), 'getSimpleDataType.appendQualification');
-    }
-    const primary = fact(factory.copy(simple), 'getSimpleDataType.return');
-    return primary;
+    if (this.byte() === 0) throw new Error('Unowned getScope truncated-name branch');
+    if (this.byte() !== 0x40) throw new Error('Unowned getScope invalid-name branch');
+    return result;
   }
 
   /** Selected P/A/V branch of the original pointer parser. Other qualifiers,
