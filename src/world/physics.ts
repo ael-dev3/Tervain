@@ -177,8 +177,11 @@ export class RealmPhysics {
     this.initial = this.snapshot();
   }
 
-  beginCharacter(p: Vec3) {
+  /** dt is the frame the hero is about to move through: the controller turns his displacement into pushes on cargo over
+   *  that time, so a barrel is shoved alike at 30, 60 or 144 Hz (A70). */
+  beginCharacter(p: Vec3, dt = STEP) {
     this.playerStart = { ...p };
+    this.world.timestep = Number.isFinite(dt) && dt > 0 ? Math.min(.05, dt) : STEP;
     this.character.setTranslation(capsulePosition(p), false);
     this.world.propagateModifiedBodyPositionsToColliders();
   }
@@ -448,6 +451,7 @@ export class RealmPhysics {
       f.collider.setEnabled(f.source.active);
       this.projectileQueryDirty.add(f.collider);
     }
+    this.world.timestep = STEP;
     this.accumulated = Math.min(.1, this.accumulated + Math.min(.05, dt));
     const count = Math.floor((this.accumulated + 1e-9) / STEP);
     this.character.setTranslation(capsulePosition(this.playerStart), false);

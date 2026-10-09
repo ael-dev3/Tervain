@@ -1,6 +1,6 @@
 import { createInitialState } from '../game/state';
 import { normalizeEquippedWeapon, normalizeInventory, normalizeQuickSlots } from '../game/inventory';
-import { normalizeHunting } from '../game/hunting';
+import { normalizeHunting, normalizeHuntTally } from '../game/hunting';
 import { validMapMarker } from '../game/map';
 import { ARMED_START_REVISIONS, CONTENT_REVISION, NPC_IDS, SAVE_FORMAT_VERSION, WRECK_BLADE_PICKUP, type WorldState } from '../game/types';
 import { GAME_BUILD } from '../version';
@@ -158,6 +158,7 @@ export function reviveState(raw: unknown): WorldState | null {
     equippedWeapon: null,
     physicalObjects: physicalObjects(raw.physicalObjects),
     hunting: normalizeHunting(raw.hunting),
+    huntTally: normalizeHuntTally(raw.huntTally),
     mapMarker: validMapMarker(raw.mapMarker) ? { x: raw.mapMarker.x, z: raw.mapMarker.z } : null,
     saveFormatVersion: SAVE_FORMAT_VERSION,
     contentRevision: CONTENT_REVISION,

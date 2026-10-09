@@ -15,8 +15,8 @@
   },
   "runtime": {
     "path": "public/models/scenery/ancient-guardian-broadleaf-under-20k.glb",
-    "sha256": "a2962f54e7b97cae24576b0ca7219c2e50ac067c7af647f600f59fa45c080cc9",
-    "bytes": 14565860,
+    "sha256": "28f1c975e50cb690ed39ed6a90840c3e5c29a15c5f0b8348854d16cadcb14a10",
+    "bytes": 5379960,
     "triangles": 19319,
     "meshes": [
       {
@@ -38,21 +38,21 @@
         "width": 2048,
         "height": 2048,
         "bytes": 3563535,
-        "sha256": "c9a1c05766290822765a2c067cc1d0e879dbf0c0e0575c730eec8d5cad1ab5db"
+        "sha256": "9849ea2ea4e9c18315a7d167b72e98a47438e60f1650ef9676c0d6a3deeedb53"
       },
       {
         "name": "Source projected sculpt normal",
         "width": 1536,
         "height": 1536,
         "bytes": 4814297,
-        "sha256": "1957130f9825387a5dddb07e29b6f1f27aa536cf961d954e56c04883a0b47241"
+        "sha256": "b46852f733aa1841f030feb8fe446ced7b8c93c338ebb82e175296952a001898"
       },
       {
         "name": "Native source-alpha small leaf fringe",
         "width": 2048,
         "height": 2048,
         "bytes": 4951529,
-        "sha256": "2646ec2d5eff09d16d9a6f305d4bf67caf1c3df80d091f1703fbcecf8b1ce9c0"
+        "sha256": "6325fc4f0f8a36f6c75eaf3dc8c6bc8f0a554ca58ee0040f7270b223e8f32770"
       }
     ]
   },

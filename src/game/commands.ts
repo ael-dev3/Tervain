@@ -3,7 +3,7 @@ import { hotbarEligible, isItemId, itemAction, ITEMS } from '../content/items';
 import { APPLY_DELAY_MIN, REPORT_DELAY_MIN, REWARD_COIN, RITE_CALM_MIN, TRAINING_COST } from './constants';
 import { validQuantity, validQuickSlot } from './inventory';
 import {
-  animalLoot, ARROW_QUIVER_CAPACITY, ARROW_RESTOCK_AMOUNT, HUNTER_SUPPLY_POSITION, HUNTER_MEAT_PRICE, hunterTradingOpen,
+  ANIMAL_SPECIES, animalLoot, ARROW_QUIVER_CAPACITY, HUNTER_SUPPLY_POSITION, hunterRank, hunterTradingOpen, returnWildlife,
   isAnimalId, isHuntableAnimalId, normalizeAnimalYaw, SKINNING_REACH, validAnimalHit,
   type AnimalHit,
 } from './hunting';
@@ -317,6 +317,12 @@ export function execute(s: WorldState, cmd: Command): CommandResult {
       record.status = 'skinned';
       s.inventory.animal_hide = itemCount(s, 'animal_hide') + items.animal_hide;
       s.inventory.raw_meat = itemCount(s, 'raw_meat') + items.raw_meat;
+      // Each kill taken counts toward the hunter's standing; a new rank is announced (A70).
+      const before = hunterRank(s.huntTally), species = ANIMAL_SPECIES[cmd.id];
+      s.huntTally.taken += 1;
+      s.huntTally.species[species] = (s.huntTally.species[species] ?? 0) + 1;
+      const after = hunterRank(s.huntTally);
+      if (after !== before) events.push({ t: 'toast', key: `hunting.rank.${after.key}` });
       events.push(
         { t: 'item', id: 'animal_hide', delta: items.animal_hide },
         { t: 'item', id: 'raw_meat', delta: items.raw_meat },
@@ -332,13 +338,14 @@ export function execute(s: WorldState, cmd: Command): CommandResult {
       if (Math.hypot(s.player.x - HUNTER_SUPPLY_POSITION.x, s.player.z - HUNTER_SUPPLY_POSITION.z) > HUNTER_SUPPLY_POSITION.r) return fail('too_far');
       if (!hunterTradingOpen(s)) return fail('hunter_resting');
       if (itemCount(s, 'animal_hide') < 1) return fail('need_hide');
-      if (itemCount(s, 'arrow') + ARROW_RESTOCK_AMOUNT > ARROW_QUIVER_CAPACITY) return fail('arrow_quiver_full');
+      const arrows = hunterRank(s.huntTally).arrows;
+      if (itemCount(s, 'arrow') + arrows > ARROW_QUIVER_CAPACITY) return fail('arrow_quiver_full');
       s.inventory.animal_hide = itemCount(s, 'animal_hide') - 1;
-      s.inventory.arrow = itemCount(s, 'arrow') + ARROW_RESTOCK_AMOUNT;
+      s.inventory.arrow = itemCount(s, 'arrow') + arrows;
       s.npcs.trail_hunter.met = true;
       events.push(
-        { t: 'item', id: 'animal_hide', delta: -1 }, { t: 'item', id: 'arrow', delta: ARROW_RESTOCK_AMOUNT },
-        { t: 'toast', key: 'hunting.restocked', params: { count: ARROW_RESTOCK_AMOUNT } },
+        { t: 'item', id: 'animal_hide', delta: -1 }, { t: 'item', id: 'arrow', delta: arrows },
+        { t: 'toast', key: 'hunting.restocked', params: { count: arrows } },
         { t: 'autosave', reason: 'arrows_restocked' },
       );
       return ok();
@@ -350,14 +357,15 @@ export function execute(s: WorldState, cmd: Command): CommandResult {
       if (!hunterTradingOpen(s)) return fail('hunter_resting');
       const meat = itemCount(s, 'raw_meat'), coin = itemCount(s, 'coin');
       if (meat < 1) return fail('need_meat');
-      if (!validQuantity(meat) || !validQuantity(coin + HUNTER_MEAT_PRICE)) return fail('invalid_quantity');
+      const price = hunterRank(s.huntTally).meat;
+      if (!validQuantity(meat) || !validQuantity(coin + price)) return fail('invalid_quantity');
       s.inventory.raw_meat = meat - 1;
-      s.inventory.coin = coin + HUNTER_MEAT_PRICE;
+      s.inventory.coin = coin + price;
       s.facts.hunter_game_delivered = true;
       s.npcs.trail_hunter.met = true;
       events.push(
-        { t: 'item', id: 'raw_meat', delta: -1 }, { t: 'item', id: 'coin', delta: HUNTER_MEAT_PRICE },
-        { t: 'toast', key: 'hunting.meat_sold', params: { coin: HUNTER_MEAT_PRICE } },
+        { t: 'item', id: 'raw_meat', delta: -1 }, { t: 'item', id: 'coin', delta: price },
+        { t: 'toast', key: 'hunting.meat_sold', params: { coin: price } },
         { t: 'autosave', reason: 'game_meat_delivered' },
       );
       return ok();
@@ -575,12 +583,16 @@ export function execute(s: WorldState, cmd: Command): CommandResult {
     }
 
     case 'advanceClock': {
+      if (!Number.isFinite(cmd.minutes)) return fail('invalid_minutes');
       s.clock += Math.max(0, cmd.minutes);
       deliverDueReports(s, events);
+      const back = returnWildlife(s);
+      if (back.length) events.push({ t: 'wildlifeReturned', ids: back });
       return ok();
     }
 
     case 'useItem': {
+      if (s.player.health <= 0) return fail('player_dead');
       if (!isItemId(cmd.item)) return fail('unknown_item');
       if (itemAction(cmd.item) !== 'consume') return fail('not_usable');
       if (itemCount(s, cmd.item) < 1) return fail('missing_item');

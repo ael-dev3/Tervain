@@ -110,7 +110,8 @@ export function buildFurniture(templates: FurnitureTemplates, rooms: RoomLocator
     update(_dt: number, f: FrameContext) {
       camera.set(f.camera.position.x, f.camera.position.z);
       focus.set(f.focus.x, f.focus.z);
-      const inside = rooms.at(camera.x, camera.y), seen = new Map<InteriorSpec, boolean>();
+      // The room the camera is in, not one it looks down on from above the roof (A70).
+      const inside = rooms.within(f.camera.position.x, f.camera.position.y, f.camera.position.z), seen = new Map<InteriorSpec, boolean>();
       const visible = (instance: Instance) => {
         let v = seen.get(instance.room);
         if (v === undefined) {

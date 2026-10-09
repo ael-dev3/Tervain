@@ -25,36 +25,60 @@ const fetchChecked = (file: string, bytes?: number, sha256?: string): Promise<Ar
   downloadAsset(url(file), { label: `Surface ${file}`, bytes, sha256, holds: 'image data' });
 
 interface Download { size: number; albedo: Blob; normal: Blob }
+/** The checked files so far, and whether they are every one the manifest lists. */
+interface Downloads { files: ReadonlyMap<TexKey, Download>; complete: boolean }
 
-let downloads: Promise<Map<TexKey, Download>> | null = null;
-const decoded = new Map<number, Promise<Map<TexKey, BakedImages>>>();
-/** The size most recently asked for, which wins if two presets' loads finish out of order, and the size installed. */
-let wanted = 0, installed = 0;
+let manifest: Promise<BakedManifest> | null = null;
+/** Textures whose files arrived and checked out; kept, so a later pass fetches only what is still missing. */
+const fetched = new Map<TexKey, Download>();
+let pass: Promise<Downloads> | null = null;
+/**
+ * After the first pass, how many more may run for what is still missing (A70). Each world build may start one, so a
+ * surface outage that has since cleared is recovered by changing the quality or starting a journey, not only by a
+ * reload; the downloader's own retries still come first within each pass.
+ */
+const MORE_PASSES = 3;
+let passes = 0;
+const decoded = new Map<number, Promise<{ images: Map<TexKey, BakedImages>; complete: boolean }>>();
+/** The size most recently asked for, which wins if two presets' loads finish out of order; the size and count installed. */
+let wanted = 0, installed = 0, installedCount = 0;
+
+function loadManifest(): Promise<BakedManifest> {
+  manifest ??= fetchChecked('manifest.json').then((bytes) => {
+    const parsed = JSON.parse(new TextDecoder().decode(bytes)) as BakedManifest;
+    if (parsed.schema !== 1 || typeof parsed.textures !== 'object' || !parsed.textures) throw new Error('The surface manifest is incompatible.');
+    return parsed;
+  }).catch((error) => { manifest = null; throw error; });
+  return manifest;
+}
 
 /** Every baked texture the manifest lists, as checked JPEG data; a texture that fails is left out (and reported). */
-function download(): Promise<Map<TexKey, Download>> {
-  downloads ??= (async () => {
-    const manifest = JSON.parse(new TextDecoder().decode(await fetchChecked('manifest.json'))) as BakedManifest;
-    if (manifest.schema !== 1 || typeof manifest.textures !== 'object' || !manifest.textures) throw new Error('The surface manifest is incompatible.');
-    const found = new Map<TexKey, Download>();
+function download(): Promise<Downloads> {
+  if (pass) return pass;
+  pass = (async () => {
+    const listed = await loadManifest();
+    if (isComplete(listed) || passes > MORE_PASSES) return { files: new Map(fetched), complete: isComplete(listed) };
+    passes++;
     await Promise.all(TEX_KEYS.map(async (key) => {
-      const entry = manifest.textures[key];
-      if (!entry) return;
+      const entry = listed.textures[key];
+      if (!entry || fetched.has(key)) return;
       try {
         if (!FILE.test(entry.albedo.file) || !FILE.test(entry.normal.file) || !(entry.size >= 64 && entry.size <= 4096)) throw new Error(`The surface manifest's ${key} entry is malformed.`);
         const [albedo, normal] = await Promise.all([
           fetchChecked(entry.albedo.file, entry.albedo.bytes, entry.albedo.sha256),
           fetchChecked(entry.normal.file, entry.normal.bytes, entry.normal.sha256),
         ]);
-        found.set(key, { size: entry.size, albedo: new Blob([albedo], { type: 'image/jpeg' }), normal: new Blob([normal], { type: 'image/jpeg' }) });
+        fetched.set(key, { size: entry.size, albedo: new Blob([albedo], { type: 'image/jpeg' }), normal: new Blob([normal], { type: 'image/jpeg' }) });
       } catch (error) {
         console.warn(`[surfaces] ${key} keeps its generated texture:`, error);
       }
     }));
-    return found;
-  })().catch((error) => { downloads = null; throw error; });
-  return downloads;
+    return { files: new Map(fetched), complete: isComplete(listed) };
+  })().finally(() => { pass = null; });
+  return pass;
 }
+
+const isComplete = (listed: BakedManifest) => TEX_KEYS.every((key) => !listed.textures[key] || fetched.has(key));
 
 /** Decode without colour management (the normal map is data), resizing in the decoder when the preset wants fewer texels. */
 const decode = (blob: Blob, size: number, native: number): Promise<ImageBitmap> =>
@@ -63,28 +87,31 @@ const decode = (blob: Blob, size: number, native: number): Promise<ImageBitmap> 
     : { colorSpaceConversion: 'none', premultiplyAlpha: 'none', resizeWidth: size, resizeHeight: size, resizeQuality: 'high' });
 
 /** Every baked texture decoded at one size; a texture that fails to decode is left out (and reported). */
-async function decodeAll(size: number): Promise<Map<TexKey, BakedImages>> {
-  const found = await download().catch((error) => {
+async function decodeAll(size: number): Promise<{ images: Map<TexKey, BakedImages>; complete: boolean }> {
+  const found = await download().catch((error): Downloads => {
     console.warn('[surfaces] the baked surfaces could not load; the generated textures stay:', error);
-    return new Map<TexKey, Download>();
+    return { files: new Map(), complete: false };
   });
   const images = new Map<TexKey, BakedImages>();
-  await Promise.all([...found].map(async ([key, file]) => {
+  let complete = found.complete;
+  await Promise.all([...found.files].map(async ([key, file]) => {
     try {
       const texels = Math.min(size, file.size);
       const [map, normal] = await Promise.all([decode(file.albedo, texels, file.size), decode(file.normal, texels, file.size)]);
       images.set(key, { map, normal });
     } catch (error) {
+      complete = false;
       console.warn(`[surfaces] ${key} could not be decoded; it keeps its generated texture:`, error);
     }
   }));
-  return images;
+  return { images, complete };
 }
 
 /**
  * Load, check, decode and install the baked surfaces for a preset. Resolves to how many textures that preset has (0 when
  * none could load, which is never an error). The files download once; each preset's decode is kept while it is the one
- * in use, and a call for another preset replaces it.
+ * in use, and a call for another preset replaces it. Files that failed are fetched again by a later call, a bounded
+ * number of times, keeping those already checked (A70).
  */
 export async function loadBakedTextures(quality: Quality): Promise<number> {
   // Without an image decoder (tests, very old browsers) the generated textures are all there is.
@@ -96,12 +123,14 @@ export async function loadBakedTextures(quality: Quality): Promise<number> {
     request = decodeAll(size);
     decoded.set(size, request);
   }
-  const images = await request;
-  // Nothing loaded: forget this attempt, so the next world build tries again.
-  if (!images.size && decoded.get(size) === request) decoded.delete(size);
-  if (wanted === size && installed !== size && images.size) {
+  const { images, complete } = await request;
+  // Not everything loaded: forget this attempt, so the next world build tries again for what is still missing.
+  if (!complete && decoded.get(size) === request) decoded.delete(size);
+  // A later attempt that recovered more of a preset installs again (A70).
+  if (wanted === size && (installed !== size || images.size > installedCount) && images.size) {
     installBakedTextures(images, size, BAKED_TEXTURE_ANISOTROPY[quality]);
     installed = size;
+    installedCount = images.size;
     for (const other of [...decoded.keys()]) if (other !== size) decoded.delete(other);
   }
   return images.size;

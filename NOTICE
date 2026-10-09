@@ -40,7 +40,8 @@ This product includes material from the Warpkeep project (https://github.com/ael
    The residents' rig files (public/models/npcs/rigs/) and motion library
    (public/models/npcs/motion/) were generated with the Meshy API (automatic
    rigging, animation library and text to motion) and are recorded in the
-   resident manifest, motion/clips.json and the model ledger; their plan
+   resident manifest, motion/clips.json and the model ledger (rigs under
+   generatedRigs); their plan
    evidence is pending. The furniture (public/models/furniture/) was
    generated with Meshy's text to 3D and is recorded in its manifest and the
    model ledger; its plan evidence is pending.

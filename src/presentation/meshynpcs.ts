@@ -15,7 +15,7 @@ import { installResidentSurface, patchResidentShadow, residentHiddenLayers, resi
 import { npcStyle, type WorkGesture } from './npcStyle';
 import { installResidentRig, parseResidentRig, residentRestPose, type ResidentBones, type ResidentRigData } from './npc/residentRig';
 import { createResidentTools } from './npc/residentProps';
-import { CENTRED_CLIPS, clipsFor, LOCOMOTION, measureSeat, ResidentMotion, residentMotionLibrary, retargetClip, SEAT_MOMENTS, SEATED_CLIPS, type Build, type ResidentClips, type ResidentMotionLibrary } from './npc/residentMotion';
+import { CENTRED_CLIPS, clipsFor, LOCOMOTION, measureSeat, ResidentMotion, residentMotionLibrary, retargetClip, SEAT_MOMENTS, SEATED_CLIPS, type Build, type ResidentClips, type ResidentMotionLibrary, type WorkContacts } from './npc/residentMotion';
 import { BENCH_SEAT_HEIGHT } from '../world/layout';
 import { modelAssetUrl } from './assets/modelUrl';
 import { withModelLoadSlot, type ModelLoadProgress } from './assets/modelLoadQueue';
@@ -228,6 +228,47 @@ function residentClips(source: ResidentMotionSource, bones: ResidentBones, mesh?
 }
 
 /** The palm's centre in a rig's bind pose: the middle of the surface the hand joint mostly carries. */
+/**
+ * Each hand's surface in its own joint's frame, from the bind pose (A70): the vertices that follow the hand, and the way
+ * its fingers run and its palm faces (towards the body's middle line, as the tools are placed).
+ */
+const HAND_DIRECTIONS = 160;
+function residentHands(mesh: THREE.SkinnedMesh, own: ResidentBones, scene: THREE.Group): WorkContacts['hands'] {
+  const position = mesh.geometry.getAttribute('position'), index = mesh.geometry.getAttribute('skinIndex'), weight = mesh.geometry.getAttribute('skinWeight');
+  const out = {} as WorkContacts['hands'];
+  scene.updateMatrixWorld(true);
+  for (const side of ['LeftHand', 'RightHand'] as const) {
+    const hand = own[side], joint = mesh.skeleton.bones.indexOf(hand);
+    const toHand = new THREE.Matrix4().copy(hand.matrixWorld).invert().multiply(mesh.matrixWorld);
+    const all: [number, THREE.Vector3][] = [], centre = new THREE.Vector3();
+    for (let vertex = 0; vertex < position.count; vertex++) {
+      let w = 0;
+      for (let slot = 0; slot < 4; slot++) if (index.getComponent(vertex, slot) === joint) w += weight.getComponent(vertex, slot);
+      if (w < 0.6) continue;
+      const p = new THREE.Vector3().fromBufferAttribute(position, vertex).applyMatrix4(toHand);
+      all.push([vertex, p]); centre.add(p);
+    }
+    if (!all.length) continue;
+    centre.multiplyScalar(1 / all.length);
+    // Only the hand's outermost vertices can touch first: the furthest out along each of many directions.
+    const vertices = new Set<number>(), direction = new THREE.Vector3();
+    for (let i = 0; i < HAND_DIRECTIONS; i++) {
+      const y = 1 - (2 * i + 1) / HAND_DIRECTIONS, r = Math.sqrt(1 - y * y), a = i * Math.PI * (3 - Math.sqrt(5));
+      direction.set(Math.cos(a) * r, y, Math.sin(a) * r);
+      let best = all[0]!;
+      for (const candidate of all) if (candidate[1].dot(direction) > best[1].dot(direction)) best = candidate;
+      vertices.add(best[0]);
+    }
+    const fingers = centre.clone().normalize();
+    const toLocal = new THREE.Matrix3().setFromMatrix4(new THREE.Matrix4().copy(hand.matrixWorld).invert().multiply(scene.matrixWorld));
+    const wristX = scene.worldToLocal(hand.getWorldPosition(new THREE.Vector3())).x;
+    const inward = new THREE.Vector3(-Math.sign(wristX) || 1, 0, 0).applyMatrix3(toLocal).normalize();
+    const palm = inward.sub(fingers.clone().multiplyScalar(inward.dot(fingers))).normalize();
+    out[side] = { vertices: [...vertices], centre, fingers, palm };
+  }
+  return out;
+}
+
 function residentPalm(mesh: THREE.SkinnedMesh, hand: THREE.Bone, scene: THREE.Group): THREE.Vector3 {
   const joint = mesh.skeleton.bones.indexOf(hand);
   const position = mesh.geometry.getAttribute('position'), index = mesh.geometry.getAttribute('skinIndex'), weight = mesh.geometry.getAttribute('skinWeight');
@@ -444,6 +485,7 @@ export function createMeshyNpcRig(asset: Pick<GLTF, 'scene' | 'animations'>, ent
     rig.resident = new ResidentMotion(scene, body, own, residentClips(authored, own, residentMesh ?? undefined), {
       build: authored.build, seed: authored.seed, defaultSeat: BENCH_SEAT_HEIGHT, seatDepth: 0.13 * entry.height / 1.8,
       garmentArms: RESIDENT_GARMENT_ARMS[entry.id],
+      contacts: residentMesh ? { mesh: residentMesh, hands: residentHands(residentMesh, own, scene), tools: tools.points } : undefined,
     });
     root.userData.meshyNpc.animation = 'meshy-authored-clips';
     root.userData.meshyNpc.rig = 'meshy-auto-rig-v1';

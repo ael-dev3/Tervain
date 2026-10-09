@@ -24,6 +24,8 @@ export function loadResident(id: string): Promise<{ source: GLTF; entry: MeshyNp
     const bytes = readFileSync(new URL(`../../public/models/npcs/${entry.file}`, import.meta.url));
     const loader = new GLTFLoader();
     loader.register(() => ({ name: 'TERVAIN_RESIDENT_CPU_TEXTURES', loadTexture: () => Promise.resolve(new THREE.Texture()) }));
+    // WebP colour maps load through EXT_texture_webp, which would decode in a browser: give those empty textures too.
+    loader.register(() => ({ name: 'EXT_texture_webp', loadTexture: () => Promise.resolve(new THREE.Texture()) }));
     source = loader.parseAsync(bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength) as ArrayBuffer, '');
     parsed.set(id, source);
   }

@@ -120,6 +120,9 @@ export class Input {
       return this.down.has(code) && ACTIONS.some((action) => bindings[action].includes(code));
     }));
     if (chord && !boundChord) return;
+    // A bound save or load key never reloads the page, whatever is open or focused: F5 with a panel open used to reload
+    // the whole game (A70).
+    if ((e.code === 'F5' || e.code === 'F9') && ACTIONS.some((action) => bindings[action].includes(e.code))) e.preventDefault();
     const tag = (e.target as HTMLElement | null)?.tagName;
     const typing = tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || (e.target as HTMLElement | null)?.isContentEditable;
     if (typing && e.code !== 'Escape') return;
@@ -250,7 +253,8 @@ export class Input {
     for (const i of this.blockedPad) now.delete(i);
     for (const i of now) if (!this.padDown.has(i)) this.padPressed.add(i);
     this.padDown = now;
-    if (now.size > 0 || Math.abs(this.padAxes.lx) + Math.abs(this.padAxes.ly) + Math.abs(this.padAxes.rx) > 0.4) this.device = 'gamepad';
+    // Any of the four axes counts, the right stick's vertical too: looking only up or down is controller use.
+    if (now.size > 0 || Math.abs(this.padAxes.lx) + Math.abs(this.padAxes.ly) + Math.abs(this.padAxes.rx) + Math.abs(this.padAxes.ry) > 0.4) this.device = 'gamepad';
 
     // Menu navigation from D-pad or left stick.
     this.navCooldown -= dt;

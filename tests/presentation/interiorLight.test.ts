@@ -32,3 +32,19 @@ describe('light inside the rooms (A66)', () => {
     expect(light.light.position.y).toBeCloseTo(room.wallTop - 0.6, 6);
   });
 });
+
+describe('indoors only within the walls (A70)', () => {
+  it('treats a camera above the roof or under the floor as outdoors, over the very same floor', () => {
+    const room = INTERIORS.find((r) => r.building.id === 'reeve_house')!, p = fromBuildingLocal(room.building, 0, 0);
+    const at = (y: number) => rooms.within(p.x, y, p.z);
+    expect(at(room.floorTop + 1.6)).toBe(room);
+    expect(at(room.wallTop - 0.05)).toBe(room);
+    expect(at(room.wallTop + 20)).toBeNull();
+    expect(at(room.wallBase - 2)).toBeNull();
+    const above = new InteriorLight(rooms);
+    let indoors = 0;
+    for (let i = 0; i < 90; i++) indoors = above.update(1 / 30, new THREE.Vector3(p.x, room.wallTop + 20, p.z), 0, i / 30);
+    expect(indoors).toBe(0);
+    expect(above.light.intensity).toBe(0);
+  });
+});

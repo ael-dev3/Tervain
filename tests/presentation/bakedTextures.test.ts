@@ -109,3 +109,65 @@ describe('the baked building surfaces (A67)', () => {
     expect(kept).not.toHaveBeenCalled();
   });
 });
+
+describe('surfaces after an outage (A70)', () => {
+  it('fetches only what failed on a later world build, keeps what arrived, and installs the recovered set', async () => {
+    vi.resetModules();
+    let outage = true;
+    const asked: string[] = [];
+    vi.doMock('../../src/presentation/assets/download', () => ({
+      downloadAsset: async (url: URL) => {
+        const file = url.pathname.split('/').pop()!;
+        asked.push(file);
+        if (file === 'manifest.json') return new TextEncoder().encode(JSON.stringify(manifest)).buffer;
+        // During the outage every image but the stone ones fails, after the downloader's own retries.
+        if (outage && !file.startsWith('stone-')) throw new Error(`HTTP 503 for ${file}`);
+        return new ArrayBuffer(8);
+      },
+    }));
+    vi.stubGlobal('document', { baseURI: 'http://127.0.0.1/', createElement: () => ({ width: 0, height: 0, getContext: () => null }) });
+    vi.stubGlobal('createImageBitmap', async () => ({ width: 16, height: 16, close() {} }));
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    const { loadBakedTextures: load } = await import('../../src/presentation/bakedTextures');
+    const { isBaked: baked } = await import('../../src/presentation/buildingTextures');
+    expect(await load('low')).toBe(1);
+    expect(baked('stone')).toBe(true);
+    expect(baked('plaster')).toBe(false);
+    outage = false;
+    asked.length = 0;
+    expect(await load('low')).toBe(TEX_KEYS.length);
+    expect(baked('plaster')).toBe(true);
+    // Only the missing files were asked for again; the manifest and the stone maps were kept.
+    expect(asked).not.toContain('manifest.json');
+    expect(asked.filter((file) => file.startsWith('stone-'))).toEqual([]);
+    expect(asked.length).toBe((TEX_KEYS.length - 1) * 2);
+    // Complete now: a further build asks for nothing.
+    asked.length = 0;
+    expect(await load('low')).toBe(TEX_KEYS.length);
+    expect(asked).toEqual([]);
+    warn.mockRestore();
+    vi.doUnmock('../../src/presentation/assets/download');
+  });
+
+  it('stops asking again after a bounded number of failed passes', async () => {
+    vi.resetModules();
+    let asks = 0;
+    vi.doMock('../../src/presentation/assets/download', () => ({
+      downloadAsset: async (url: URL) => {
+        const file = url.pathname.split('/').pop()!;
+        if (file === 'manifest.json') return new TextEncoder().encode(JSON.stringify(manifest)).buffer;
+        asks++;
+        throw new Error(`HTTP 503 for ${file}`);
+      },
+    }));
+    vi.stubGlobal('document', { baseURI: 'http://127.0.0.1/', createElement: () => ({ width: 0, height: 0, getContext: () => null }) });
+    vi.stubGlobal('createImageBitmap', async () => ({ width: 16, height: 16, close() {} }));
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    const { loadBakedTextures: load } = await import('../../src/presentation/bakedTextures');
+    for (let i = 0; i < 8; i++) expect(await load('medium')).toBe(0);
+    // The first pass and three more, each asking for every image once.
+    expect(asks).toBe(4 * TEX_KEYS.length * 2);
+    warn.mockRestore();
+    vi.doUnmock('../../src/presentation/assets/download');
+  });
+});

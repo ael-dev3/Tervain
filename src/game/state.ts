@@ -54,6 +54,7 @@ export function createInitialState(slotId = 'slot-1'): WorldState {
     offenses: { pending: [], known: [] },
     defeated: {},
     hunting: {},
+    huntTally: { taken: 0, species: {} },
     discovered: {},
     locationChanges: {},
     // The renderer refines height; authored position and facing share the world landing source.
@@ -101,8 +102,10 @@ export function isDaytime(clock: number): boolean {
 }
 
 export function formatClock(clock: number): string {
-  const h = Math.floor(hourOfDay(clock));
-  const m = Math.floor((hourOfDay(clock) - h) * 60);
+  // Whole minutes, so an exact minute is never shown as the one before it (07:31 was 07:30 in floating point).
+  const t = ((Math.floor(clock) % MINUTES_PER_DAY) + MINUTES_PER_DAY) % MINUTES_PER_DAY;
+  const h = Math.floor(t / 60);
+  const m = t % 60;
   return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
 }
 

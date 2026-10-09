@@ -1,7 +1,7 @@
 // Persistent world model and command vocabulary for the Bellwether Vale slice.
 // Everything in src/game is renderer-free so scenarios can run without a browser
 // (docs/engineering/architecture.md: "The renderer displays state").
-import type { AnimalHit, AnimalId, HuntingState } from './hunting';
+import type { AnimalHit, AnimalId, HuntingState, HuntTally } from './hunting';
 
 export const SAVE_FORMAT_VERSION = 1;
 export const CONTENT_REVISION = 'deepwood-proto-0.0.5-unarmed';
@@ -217,6 +217,8 @@ export interface WorldState {
   defeated: Partial<Record<EncounterId, true>>;
   /** Injuries, corpse poses and harvested individuals persist across saves and scene rebuilds. */
   hunting: HuntingState;
+  /** Game taken over the whole game, which raises the hunter's standing (A70). */
+  huntTally: HuntTally;
   discovered: Partial<Record<PlaceId, true>>;
   /** Persistent differences from the content baseline (opened doors, taken pickups). */
   locationChanges: Record<string, string>;
@@ -305,6 +307,7 @@ export type GameEvent =
   | { t: 'bowShot'; hit: AnimalHit | null; killed: boolean }
   | { t: 'animalHit'; hit: AnimalHit; killed: boolean }
   | { t: 'animalSkinned'; id: AnimalId; items: Partial<Record<ItemId, number>> }
+  | { t: 'wildlifeReturned'; ids: AnimalId[] }
   | { t: 'quickSlots' }
   | { t: 'equipment'; item: ItemId | null }
   | { t: 'mapMarker'; marker: MapMarker | null }

@@ -12,6 +12,8 @@ export interface WaterRenderInputs {
   prepare?: (renderer: THREE.WebGLRenderer, scene: THREE.Scene, camera: THREE.Camera, dt: number) => void;
   /** With the camera under water: how far above the eye the surface stands, and the water's colour and absorption. */
   under?: WaterUnder | null;
+  /** Drawn in the water pass after the water itself (its spray), so the surface never paints over them (A70). */
+  overlays?: THREE.Object3D[];
 }
 
 export interface WaterUnder {
@@ -212,10 +214,12 @@ export class WaterRenderPass {
     this.prepare(source);
     const oldTarget = renderer.getRenderTarget(), oldAutoClear = renderer.autoClear;
     const oldMask = camera.layers.mask, meshMasks = input.meshes.map(mesh => mesh.layers.mask);
+    const overlays = input.overlays ?? [], overlayMasks = overlays.map(o => o.layers.mask);
     try {
       camera.updateMatrixWorld();
       this.captureReflection(renderer, scene, camera, source, dt, input);
       input.meshes.forEach((mesh, i) => { mesh.layers.mask = (oldMask & meshMasks[i]!) !== 0 ? 2 : 0; });
+      overlays.forEach((o, i) => { o.layers.mask = (oldMask & overlayMasks[i]!) !== 0 ? 2 : 0; });
       camera.layers.mask = oldMask & ~2;
       renderer.autoClear = true;
       renderer.setRenderTarget(source); renderer.render(scene, camera);
@@ -240,6 +244,7 @@ export class WaterRenderPass {
     } finally {
       camera.layers.mask = oldMask;
       input.meshes.forEach((mesh, i) => { mesh.layers.mask = meshMasks[i]!; });
+      overlays.forEach((o, i) => { o.layers.mask = overlayMasks[i]!; });
       renderer.autoClear = oldAutoClear; renderer.setRenderTarget(oldTarget);
     }
   }

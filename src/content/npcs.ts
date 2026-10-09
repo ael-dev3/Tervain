@@ -9,6 +9,11 @@ export interface ScheduleEntry {
   to: number;
   anchor: string;
   activity: Activity;
+  /**
+   * Indoors at a furnished spot of the anchor's building (world/homes.ts INDOOR_POSTS), A70: the anchor stays the
+   * place outside its door that routes and content checks know, and the resident walks in to the post.
+   */
+  inside?: string;
 }
 
 export interface ScheduleOverride {
@@ -78,7 +83,8 @@ export const NPCS: Record<NpcId, NpcDef> = {
     home: 'reeve_door',
     look: { skin: 0xd9a678, primary: 0x4d7a54, secondary: 0xc2a25a, hair: 0x5a3a2a, height: 1.0, girth: 1.0, accessory: 'shawl' },
     schedule: [
-      { from: 6, to: 8, anchor: 'reeve_door', activity: 'stand' },
+      // Her accounts at her own table before the day's business (A70).
+      { from: 6, to: 8, anchor: 'reeve_door', activity: 'work', inside: 'reeve_table' },
       { from: 8, to: 12, anchor: 'noticeboard', activity: 'talk' },
       { from: 12, to: 17, anchor: 'dry_channel', activity: 'stand' },
       { from: 17, to: 20, anchor: 'village_square', activity: 'talk' },
@@ -134,7 +140,8 @@ export const NPCS: Record<NpcId, NpcDef> = {
     faction: 'marcher',
     home: 'quarry_office',
     look: { skin: 0xd6ad8a, primary: 0x3a3f5a, secondary: 0xa89a5a, hair: 0x6a6a6a, height: 1.0, girth: 0.9, accessory: 'ledger' },
-    schedule: [day('quarry_office', 'stand', 8, 18), night('quarry_office', 18, 8)],
+    // The morning's ledgers at the office table, then at its door (A70).
+    schedule: [{ from: 8, to: 12, anchor: 'quarry_office', activity: 'work', inside: 'office_table' }, day('quarry_office', 'stand', 12, 18), night('quarry_office', 18, 8)],
     sleepsKey: 'npc.sleeps.steward_estate',
   },
   ash_recorder: {
@@ -170,7 +177,8 @@ export const NPCS: Record<NpcId, NpcDef> = {
     faction: 'league',
     home: 'mill_door',
     look: { skin: 0xd2a07c, primary: 0x9a8a5a, secondary: 0x6a4a3a, hair: 0x7a4a2a, height: 0.96, girth: 1.05, accessory: 'apron' },
-    schedule: [day('mill_door', 'stand', 7, 18), night('mill_door', 18, 7)],
+    // At the mill's bench through the morning, then out at its door (A70).
+    schedule: [{ from: 7, to: 10, anchor: 'mill_door', activity: 'work', inside: 'mill_bench' }, day('mill_door', 'stand', 10, 18), night('mill_door', 18, 7)],
     sleepsKey: 'npc.sleeps.mill',
   },
   quarry_hand: {
@@ -191,7 +199,8 @@ export const NPCS: Record<NpcId, NpcDef> = {
     faction: 'league',
     home: 'bakery_door',
     look: { skin: 0xdcb08a, primary: 0xc2a25a, secondary: 0xe8e0c8, hair: 0x4a3a2a, height: 0.97, girth: 1.15, accessory: 'apron' },
-    schedule: [day('bakery_door', 'stand', 5, 17), { from: 17, to: 20, anchor: 'village_well', activity: 'talk' }, night('bakery_door', 20, 5)],
+    // Baking at the oven from first light, then selling at the door (A70).
+    schedule: [{ from: 5, to: 8, anchor: 'bakery_door', activity: 'work', inside: 'bakery_oven' }, day('bakery_door', 'stand', 8, 17), { from: 17, to: 20, anchor: 'village_well', activity: 'talk' }, night('bakery_door', 20, 5)],
     sleepsKey: 'npc.sleeps.baker',
   },
   trail_hunter: {

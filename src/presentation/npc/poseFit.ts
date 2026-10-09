@@ -38,7 +38,11 @@ export interface WorkFit {
   props: { kind: WorkPropKind; holder: WorkHolder; position: [number, number, number]; quaternion: [number, number, number, number]; length?: number }[];
 }
 
-/** Where a working resident's surface or tool stands, relative to their feet (metres): the counter, the rock face. */
+/**
+ * Where a working resident's surface or tool stands, relative to their feet (metres): the counter, the rock face. These
+ * fit only the procedural poser, kept for a resident whose own rig fails to load; residents on their own rigs reach the
+ * real surfaces at their posts (npc/workSites.ts, A70).
+ */
 export const WORK_SITES = {
   /** The supplier's counter top and how far before him it begins. */
   counter: { height: 1.02, reach: 0.42 },

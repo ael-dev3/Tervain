@@ -3,7 +3,7 @@ import { beforeAll, describe, expect, it } from 'vitest';
 import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { clone as cloneSkinned } from 'three/examples/jsm/utils/SkeletonUtils.js';
 import { setArmed, setSash, type Mode } from '../../src/presentation/characters';
-import { HERO_GAIT_PHASE } from '../../src/presentation/hero/animation';
+import { HERO_ACTION_FADE, HERO_GAIT_PHASE, HERO_LEG_TWIST } from '../../src/presentation/hero/animation';
 import { bindHeroBones, HERO_BONES, HERO_FINGERS, type HeroBoneName } from '../../src/presentation/hero/bones';
 import { HERO_RUN_CYCLE, HERO_RUN_SPEED, HERO_WALK_CYCLE, HERO_WALK_SPEED } from '../../src/presentation/hero/locomotion';
 import { createHeroRig, type MainHeroRig } from '../../src/presentation/hero/rig';
@@ -272,5 +272,110 @@ describe('authored Mixamo playable hero', () => {
     expect(changed).toBeGreaterThan(4);
     expect(angle(a['mixamorig:LeftHandMiddle2'].quaternion, c['mixamorig:LeftHandMiddle2'].quaternion)).toBeGreaterThan(.3);
     for (const name of HERO_BONES.filter((name) => name.startsWith('Bone_'))) expect(angle(a[name].quaternion, b[name].quaternion)).toBeLessThan(.00001);
+  });
+});
+
+describe('direction, turning and action layers (A70)', () => {
+  const worldQ = (rig: MainHeroRig, name: HeroBoneName) => bindHeroBones(rig.root)[name].getWorldQuaternion(new THREE.Quaternion());
+  const yawOf = (q: THREE.Quaternion) => { const f = new THREE.Vector3(0, 0, 1).applyQuaternion(q); return Math.atan2(f.x, f.z); };
+  const turnBetween = (a: THREE.Quaternion, b: THREE.Quaternion) => { const d = yawOf(b) - yawOf(a); return Math.atan2(Math.sin(d), Math.cos(d)); };
+  const move = (rig: MainHeroRig, mode: Mode, heading: number, seconds: number, hz = 60, speed = 1.0725) => {
+    for (let i = 0; i < seconds * hz; i++) rig.hero.pose(pose(mode, { travel: speed / hz, moveSpeed: speed, heading }), 1 / hz, false);
+  };
+
+  it('strafing under guard turns the hips toward the way of travel while the chest stays ahead', () => {
+    const ahead = createHeroRig(asset), aside = createHeroRig(asset);
+    move(ahead, 'block', 0, 1); move(aside, 'block', Math.PI / 2, 1);
+    const hips = turnBetween(worldQ(ahead, 'mixamorig:Hips'), worldQ(aside, 'mixamorig:Hips'));
+    expect(hips).toBeGreaterThan(HERO_LEG_TWIST.most - 0.08);
+    expect(hips).toBeLessThan(HERO_LEG_TWIST.most + 0.08);
+    expect(Math.abs(turnBetween(worldQ(ahead, 'mixamorig:Spine2'), worldQ(aside, 'mixamorig:Spine2')))).toBeLessThan(0.08);
+    expect(Math.abs(turnBetween(worldQ(ahead, 'mixamorig:Head'), worldQ(aside, 'mixamorig:Head')))).toBeLessThan(0.08);
+  });
+
+  it('backing off plays the gait backward, with hysteresis at the boundary against a turning camera', () => {
+    const rig = createHeroRig(asset);
+    move(rig, 'block', Math.PI, 0.2);
+    const phases: number[] = [];
+    for (let i = 0; i < 20; i++) { move(rig, 'block', Math.PI, 1 / 60); phases.push(rig.hero.diagnostics.phase); }
+    const steps = phases.slice(1).map((p, i) => ((p - phases[i]! + 1.5) % 1) - 0.5);
+    expect(steps.every((d) => d < 0)).toBe(true);
+    expect(rig.hero.consumeFootfalls()).toBeGreaterThanOrEqual(0);
+    // Either side of the boundary: entered past 110°, left only below 80°.
+    const fresh = createHeroRig(asset), backward = () => Reflect.get(fresh.hero, 'backward') as boolean;
+    move(fresh, 'block', 1.75, 0.1); expect(backward()).toBe(false);
+    move(fresh, 'block', 1.95, 0.1); expect(backward()).toBe(true);
+    move(fresh, 'block', 1.6, 0.1); expect(backward()).toBe(true);
+    move(fresh, 'block', 1.75, 0.1); expect(backward()).toBe(true);
+    move(fresh, 'block', 1.3, 0.1); expect(backward()).toBe(false);
+  });
+
+  it('turning on the spot keeps the boots planted until the twist grows, then steps round', () => {
+    const rig = createHeroRig(asset);
+    for (let i = 0; i < 30; i++) rig.hero.pose(pose('block'), 1 / 60, false);
+    const feet = () => {
+      rig.root.updateMatrixWorld(true);
+      const bones = bindHeroBones(rig.root);
+      return (['Left', 'Right'] as const).map((side) => bones[`mixamorig:${side}Foot`].getWorldPosition(new THREE.Vector3()));
+    };
+    const before = feet();
+    // A slow quarter turn of the body: the outer root turns, the legs hold.
+    for (let i = 0; i < 20; i++) { rig.root.rotation.y += 0.02; rig.hero.pose(pose('block', { turn: 0.02 }), 1 / 60, false); }
+    const after = feet();
+    for (let side = 0; side < 2; side++) expect(after[side]!.distanceTo(before[side]!)).toBeLessThan(0.03);
+    // A long turn steps the legs round under the body again.
+    for (let i = 0; i < 40; i++) { rig.root.rotation.y += 0.04; rig.hero.pose(pose('block', { turn: 0.04 }), 1 / 60, false); }
+    for (let i = 0; i < 90; i++) rig.hero.pose(pose('block'), 1 / 60, false);
+    expect(Math.abs(Reflect.get(rig.hero, 'legYaw') as number)).toBeLessThan(0.05);
+  });
+
+  it('fades each action in and out at its own pace, the same at 30, 60 and 120 Hz', () => {
+    const armAt = (hz: number, mode: Mode, seconds: number, then?: { mode: Mode; seconds: number }) => {
+      const rig = createHeroRig(asset), rest = createHeroRig(asset);
+      for (let i = 0; i < 0.5 * hz; i++) { rig.hero.pose(pose('idle'), 1 / hz, false); rest.hero.pose(pose('idle'), 1 / hz, false); }
+      for (let i = 0; i < Math.round(seconds * hz); i++) { rig.hero.pose(pose(mode), 1 / hz, false); rest.hero.pose(pose('idle'), 1 / hz, false); }
+      if (then) for (let i = 0; i < Math.round(then.seconds * hz); i++) { rig.hero.pose(pose(then.mode), 1 / hz, false); rest.hero.pose(pose('idle'), 1 / hz, false); }
+      return angle(bindHeroBones(rig.root)['mixamorig:RightArm'].quaternion, bindHeroBones(rest.root)['mixamorig:RightArm'].quaternion);
+    };
+    const full = armAt(60, 'block', 1.5);
+    expect(full).toBeGreaterThan(0.3);
+    for (const hz of [30, 60, 120]) {
+      // Most of the guard is up within its fade-in, and fully raised by twice that.
+      expect(armAt(hz, 'block', HERO_ACTION_FADE.block!.in) / full, `${hz} Hz in`).toBeGreaterThan(0.85);
+      expect(armAt(hz, 'block', 2 * HERO_ACTION_FADE.block!.in) / full, `${hz} Hz in`).toBeGreaterThan(0.97);
+      // Lowering the guard hands back at the guard's own pace.
+      expect(armAt(hz, 'block', 1, { mode: 'idle', seconds: HERO_ACTION_FADE.block!.out }) / full, `${hz} Hz out`).toBeLessThan(0.15);
+      expect(Math.abs(armAt(hz, 'block', 0.1) - armAt(60, 'block', 0.1)), `${hz} Hz matches 60 Hz`).toBeLessThan(0.03);
+    }
+  });
+
+  it('keeps every upper-body action off the legs: hurt, attack and work over a walk leave the authored legs', () => {
+    for (const mode of ['hurt', 'attack_light', 'work', 'talk'] as Mode[]) {
+      const walk = createHeroRig(asset), act = createHeroRig(asset);
+      move(walk, 'walk', 0, 1); move(act, mode, 0, 1);
+      const one = bindHeroBones(walk.root), two = bindHeroBones(act.root);
+      for (const side of ['Left', 'Right'] as const) for (const part of ['UpLeg', 'Leg', 'Foot'] as const) {
+        const name = `mixamorig:${side}${part}` as const;
+        expect(angle(one[name].quaternion, two[name].quaternion), `${mode} ${name}`).toBeLessThan(1e-5);
+      }
+    }
+  });
+  it('plants each foot on the ground under it, the pelvis lowered to the lower foot (A70)', () => {
+    const rig = createHeroRig(asset), left = soleVertices(rig, 'Left'), right = soleVertices(rig, 'Right');
+    rig.root.updateMatrixWorld(true);
+    const leftX = bindHeroBones(rig.root)['mixamorig:LeftFoot'].getWorldPosition(new THREE.Vector3()).x;
+    const flatL = lowestSole(rig, left), flatR = lowestSole(rig, right);
+    // A stair edge between the feet: the left foot's side stands 0.18 m higher.
+    const groundAt = (x: number) => (Math.sign(x) === Math.sign(leftX) ? 0.18 : 0);
+    for (let i = 0; i < 90; i++) rig.hero.pose(pose('idle', { groundAt, rootY: 0 }), 1 / 60, false);
+    expect(lowestSole(rig, left) - flatL).toBeCloseTo(0.18, 1);
+    expect(Math.abs(lowestSole(rig, right) - flatR)).toBeLessThan(0.03);
+    // Down a step the pelvis drops so the lower foot still reaches; airborne the legs hang free again.
+    const below = (x: number) => (Math.sign(x) === Math.sign(leftX) ? -0.2 : 0);
+    for (let i = 0; i < 90; i++) rig.hero.pose(pose('idle', { groundAt: below, rootY: 0 }), 1 / 60, false);
+    expect(lowestSole(rig, left) - flatL).toBeCloseTo(-0.2, 1);
+    expect(Math.abs(lowestSole(rig, right) - flatR)).toBeLessThan(0.03);
+    for (let i = 0; i < 90; i++) rig.hero.pose(pose('run', { grounded: false, groundAt: below, rootY: 0 }), 1 / 60, false);
+    expect(rig.body.position.y).toBeCloseTo(0, 3);
   });
 });

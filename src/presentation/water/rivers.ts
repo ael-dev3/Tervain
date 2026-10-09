@@ -99,7 +99,8 @@ void main() {
   slope += ripple.xy;
   vec3 N = normalize(vec3(-slope.x, 1.0, -slope.y));
   vec3 V = normalize(cameraPosition - vWorld);
-  float roughness = clamp(0.035 + vRough * 0.3 + footprint * 0.02, 0.03, 0.5);
+  // A70: rivers and pools a little rougher and less sun-glazed, for Gothic grit.
+  float roughness = clamp(0.08 + vRough * 0.3 + footprint * 0.02, 0.07, 0.5);
   float day = 1.0 - uNight;
   vec3 L = normalize(uSunDir);
   float NdotV = max(dot(N, V), 0.0);
@@ -117,7 +118,7 @@ void main() {
   float path;
   vec3 transmitted = waterTransmission(scatter, N, vWorld, max(local, 0.0), uTime, day * min(uSunI, 2.0) * uDetail, path);
   vec3 color = mix(transmitted, reflected, clamp(fresnel, 0.0, 1.0));
-  color += uSunColor * waterSun(N, V, L, roughness) * uSunI * day * 0.85;
+  color += uSunColor * waterSun(N, V, L, roughness) * uSunI * day * 0.55;
 
   // White water: riffles, the fall, the race's drops; lace against the banks and anything standing in the stream.
   float banks = smoothstep(0.86, 1.0, abs(vAcross)) * 0.25;
