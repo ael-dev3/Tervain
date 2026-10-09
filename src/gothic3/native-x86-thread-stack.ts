@@ -12,7 +12,9 @@ import { sharedInitializerInstruction } from './native-shared-initializer-instru
 import { NativeRuntimePlatform } from './native-runtime-platform';
 import { NativeModuleCrtOwner } from './native-engine-crt-locks';
 import { NativeGameExitTable } from './native-game-crt-exit-table';
-import { NativeGameLayerBaseClassName, nativeGameLayerBaseMemoryForCrt } from './native-game-layer-base-class-name';
+import { nativeGameLayerBaseMemoryForCrt } from './native-game-layer-base-class-name';
+import { getGameClassName } from './native-game-class-name-family';
+import { gameClassNameSpec } from './native-game-class-name-family-source';
 import type { NativeGameCrtOwner } from './native-game-crt';
 import { nativeGameImageReceipt } from './native-game-crt-profile';
 import { gameCinitInstruction } from './native-game-crt-cinit-source';
@@ -2735,30 +2737,29 @@ export class NativeX86ThreadStack {
     return address.toString(16).padStart(8, '0');
   }); }
   /** Preserve the actual initializer CALL/RET while translating its pinned getter. */
-  callGameLayerBaseClassName(controller: object, initializer: '204b11b0' | '204b11c0' = '204b11b0'): NativeValue<void> { return this.#run(controller, () => {
+  callGameLayerBaseClassName(controller: object, initializer: string = '204b11b0'): NativeValue<void> { return this.#run(controller, () => {
     const binding = this.#setEnvpBinding;
     if (!binding || binding.controller !== controller) throw new Error('Actual retained Game startup controller required');
     const point = NativeGameCrtSetEnvp.canonicalLayerBaseGetterForCrt(binding.owner, binding.crt, controller, initializer);
     if (!point.known) throw new Error(point.reason);
     if (this.#calls.filter(call => !call.returned).at(-1)?.site !== '20466654')
-      throw new Error('Actual pending first C++ initializer frame required');
+      throw new Error('Actual pending C++ initializer frame required');
     const crt = binding.crt as NativeGameCrtOwner;
     const memory = nativeGameLayerBaseMemoryForCrt(crt);
     if (!memory.known) throw new Error(memory.reason);
-    const isLayerBase = initializer === '204b11b0';
-    const label = isLayerBase ? 'layerBaseClassName' : 'objectRefClassName';
-    const returnPc = isLayerBase ? '204b11b5' : '204b11c5';
-    const owner = isLayerBase ? NativeGameLayerBaseClassName.forCrt(crt, memory.value)
-      : NativeGameLayerBaseClassName.forObjectRefCrt(crt, memory.value);
+    const spec = gameClassNameSpec(initializer);
+    if (!spec) throw new Error('Original Game class-name initializer specification required');
+    const label = spec.labels.cache;
+    const returnPc = spec.instructions[1]!.va;
     this.#call(initializer, returnPc);
-    const result = NativeGameLayerBaseClassName.prototype.get.call(owner);
+    const result = getGameClassName(crt,memory.value,spec);
     if (!result.known) throw new Error(result.reason);
     const image = NativeModuleCrtOwner.canonicalImageForOwner(crt, label);
-    if (!image.known || image.value !== owner.fields) throw new Error('Actual retained LayerBase static image required');
+    if (!image.known || image.value !== result.value.fields) throw new Error('Actual retained Game class-name static image required');
     this.#store(this.#bank, this.#reg('EAX'), this.#moduleWord(label, 0));
     const returned = this.#ret(0), source = this.#record(returned).provenance;
     if (source?.kind !== 'source' || source.type !== 'code' || source.address !== returnPc)
-      throw new Error('Actual LayerBase class-name getter return required');
+      throw new Error('Actual Game class-name getter return required');
   }); }
   /** Bridge the independently recovered 20463763 callback to its canonical Game
    * CRT owner. The walker executes original instructions; this callback uses

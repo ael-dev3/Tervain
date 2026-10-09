@@ -2,6 +2,7 @@ import rules from '../../assets/gothic3/cstring-text-construction/runtime-rules.
 import type { NativeValue } from './dialogue';
 import { NativeHeapObjectViews } from './native-heap-views';
 import type { NativeByteGeometryHost, NativeBytePointer } from './native-pointer-geometry';
+import { gameStrlenDwordCandidate } from './native-game-strlen-predicate';
 
 const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
 const unknown = (reason: string): { known: false; reason: string } => ({ known: false, reason });
@@ -51,6 +52,22 @@ export function findNativeSpace(host: NativeByteGeometryHost, input: NativeByteP
     }
     const repeated = Math.imul(target, 0x01010101) >>> 0;
     for (;;) {
+      const loaded = input.fields.knownMask.subarray(cursor, cursor + 4).some(mask => mask !== 255)
+        ? input.fields.maskedWord(cursor, 4) : null;
+      if (loaded && loaded.knownMask !== 0xffffffff) {
+        // Preserve the whole native load. Both possible match branches return
+        // NULL when ordered candidate bytes reach a known NUL before any space
+        // and the original zero branch's lower predicate is certainly nonzero.
+        let terminal = false;
+        for (let index = 0; index < 4; index++) {
+          if (((loaded.knownMask >>> (index * 8)) & 255) !== 255) break;
+          const byte = (loaded.value >>> (index * 8)) & 255;
+          if (byte === target) break;
+          if (byte === 0) { terminal = true; break; }
+        }
+        const lowerZero = gameStrlenDwordCandidate(loaded.value, loaded.knownMask, 0x01010100);
+        if (terminal && lowerZero.known && lowerZero.value) return null;
+      }
       const word = input.fields.readUnsigned(cursor, 4);
       const targetWord = (word ^ repeated) >>> 0;
       const wordSum = (word + 0x7efefeff) >>> 0;

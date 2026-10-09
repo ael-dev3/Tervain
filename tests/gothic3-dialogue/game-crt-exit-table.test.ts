@@ -183,7 +183,7 @@ describe('source-owned Game CRT exit-table prefix', () => {
     expect(platform.snapshot().physicalSections.find(entry => entry.fields === section(crt, 8))?.depth).toBe(0);
   });
 
-  it('reaches the unowned _realloc callee on the first registration beyond 128 bytes', () => {
+  it('relocates the exit table on the first registration beyond 128 bytes', () => {
     class ObserveHeapSize extends NativeRuntimePlatform {
       calls = 0;
       override win32HeapSize(heap: NativeWin32HeapCapability | null, flags: 0, pointer: NativeBytePointer): NativeValue<number> {
@@ -196,13 +196,21 @@ describe('source-owned Game CRT exit-table prefix', () => {
     fact(exit.initialize());
     for (let i = 0; i < 32; i++) fact(exit.atexit(callback));
     const overflow = exit.atexit(callback);
-    expect(overflow.known).toBe(false);
-    if (!overflow.known) expect(overflow.reason).toContain('_realloc20477d87');
+    expect(fact(overflow)).toBe(0);
     expect(platform.calls).toBe(33);
-    expect(exit.snapshot().callbackCells).toHaveLength(32);
+    expect(exit.snapshot().callbackCells).toHaveLength(33);
+    const allocations = exit.snapshot().tableAllocations;
+    expect(allocations.map(backing => [backing.bytes.length,backing.freed])).toEqual([[128,true],[256,false]]);
+    const begin = fact(crt.decodePointer(crt.imageStorage('crtExitBegin').pointer<object>(0).get())) as NativeBytePointer;
+    const end = fact(crt.decodePointer(crt.imageStorage('crtExitEnd').pointer<object>(0).get())) as NativeBytePointer;
+    expect(begin.fields.backing).toBe(allocations[1]);
+    expect(end.fields.backing).toBe(allocations[1]);
+    expect(end.offset).toBe(132);
+    for (let index=0;index<33;index++)
+      expect(fact(crt.decodePointer(begin.fields.pointer<object>(index*4).get()))).toBe(callback);
     expect(exit.snapshot().trace).toContain('reallocCrt20468416.attempt(256)');
-    expect(platform.snapshot().physicalSections.find(entry => entry.fields === section(crt, 8))?.depth).toBe(1);
-    expect(exit.atexit(callback)).toEqual(overflow);
+    expect(platform.snapshot().physicalSections.find(entry => entry.fields === section(crt, 8))?.depth).toBe(0);
+    expect(fact(exit.atexit(callback))).toBe(0);
   });
 
   it('matches Game msize NULL error order and retains its unowned invalid-parameter boundary', () => {

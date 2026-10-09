@@ -16,6 +16,7 @@ import type { NativeSetEnvpCallGrant } from './native-win32-setenvp';
 import { NativeX86ThreadStack } from './native-x86-thread-stack';
 import type { NativeHeapAllocCallGrant } from './native-x86-thread-stack';
 import type { NativeArgvNlsCallGrant } from './native-win32-argv-nls';
+import { admitGameExitGrowthSource } from './native-game-exit-growth-source';
 import { NativeCrtThreadStartup } from './native-crt-thread-startup';
 
 const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
@@ -515,7 +516,7 @@ export class NativeModuleCrtOwner {
     if (!this.#heaps.has(heap) || heap.owner !== this.identity) throw new Error('Actual same-owner ' + this.module + ' CRT heap handle required');
     return heap;
   }
-  private retainedHeap(operation: 'HeapFree' | 'HeapDestroy'): NativeWin32HeapCapability {
+  private retainedHeap(operation: 'HeapFree' | 'HeapDestroy' | 'HeapReAlloc'): NativeWin32HeapCapability {
     const heap = this.physical.heapHandle.pointer<NativeWin32HeapCapability>(0).get();
     if (!heap) this.gate(operation + '(NULL) platform call');
     if (!this.#heaps.has(heap) || heap.owner !== this.identity) throw new Error('Actual same-owner ' + this.module + ' CRT heap handle required');
@@ -711,6 +712,47 @@ export class NativeModuleCrtOwner {
     }
   }
   malloc(bytes: number): NativeValue<NativeMemoryBacking | null> { return this.run('malloc30672ec7', () => this.allocate(bytes)); }
+  reallocCrt(pointer: NativeBytePointer, bytes: number): NativeValue<NativeMemoryBacking | null> {
+    if (this.module !== 'Game') return unknown('Original Game realloc CRT owner required');
+    return this.run('reallocCrt20468416', () => {
+      admitGameExitGrowthSource();
+      if (!Number.isInteger(bytes) || bytes < 0 || bytes > 0xffffffff) throw new Error('Original uint32 realloc size required');
+      const platform = this.host.platform;
+      if (!(platform instanceof NativeRuntimePlatform)) throw new Error('Canonical virtual realloc platform required');
+      const geometry = platform.resolveNativePointer(pointer);
+      if (!geometry.known) throw new Error(geometry.reason);
+      const old = geometry.value.canonicalBacking;
+      if (!this.#allocations.has(old) || geometry.value.offset !== 0 || old.freed)
+        throw new Error('Same CRT live realloc allocation base required');
+      if (bytes === 0) { this.release(old); return null; }
+      if (bytes > 0xffffffe0) this.gate('realloc20477f60 oversized request new-handler branch');
+      if (this.physical.heapSelector.readUnsigned(0) === 3) this.gate('realloc20477dd8 small-block branch under lock4');
+      const heap = this.retainedHeap('HeapReAlloc');
+      let delay = 0;
+      for (;;) {
+        let moved: NativeMemoryBacking | null;
+        for (;;) {
+          moved = this.call('HeapReAlloc207d7c60', () => Reflect.apply(NativeRuntimePlatform.prototype.win32HeapReAlloc,
+            platform, [heap,0,pointer,bytes,'move-preserve-unknown-extension']),
+            value => { if (value) this.#allocations.add(value); });
+          if (moved) return moved;
+          if (this.physical.newMode.readUnsigned(0) !== 0) {
+            const retry = this.call('callNewHandler204742dd', () => this.host.callNewHandler?.(bytes)
+              ?? unknown('Original realloc new-handler capability required'));
+            if (retry !== 0) continue;
+          }
+          const errno = this.errnoFields();
+          const error = this.call('GetLastError', () => this.host.getLastError?.() ?? unknown('Actual realloc last-error capability required'));
+          const mapped = this.call('osErrorToErrno2046a247', () => this.host.mapOsError?.(error) ?? unknown('Original realloc OS-error mapping required'));
+          errno.writeUnsigned(0,mapped); break;
+        }
+        if (this.physical.mallocWait.readUnsigned(0) === 0) return null;
+        this.call('Sleep('+delay+')', () => this.host.sleep?.(delay) ?? unknown('Original realloc Sleep retry capability required'));
+        delay = (delay+1000) >>> 0;
+        if (this.physical.mallocWait.readUnsigned(0) < delay) return null;
+      }
+    });
+  }
   mallocCrt(bytes: number): NativeValue<NativeMemoryBacking | null> {
     return this.run('mallocCrt3067c9c1', () => {
       let delay = 0;

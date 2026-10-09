@@ -1,5 +1,7 @@
 import { admitGameLayerBaseSource, gameLayerBaseSourceRules, gameLayerBaseImagePins, gameLayerBaseImageReceipt } from './native-game-layer-base-source';
 import { admitGameObjectRefSource, gameObjectRefSourceRules, gameObjectRefImagePins, gameObjectRefImageReceipt } from './native-game-object-ref-source';
+import { admitGameClassNameFamilySource, gameClassNameFamilyRules, gameClassNameFamilyImagePins, gameClassNameFamilyImageReceipt } from './native-game-class-name-family-source';
+import { admitGamePrimitiveSource, gamePrimitiveSourceRules, gamePrimitiveImagePins, gamePrimitiveImageReceipt } from './native-game-primitive-source';
 import { admitGameArenaStatusSource, gameArenaStatusSourceRules, gameArenaStatusImagePins, gameArenaStatusImageReceipt } from './native-game-arena-status-source';
 import { admitGameTemplateDemanglerSource, gameTemplateConstants, gameTemplateImagePins, gameTemplateImageReceipt } from './native-game-template-demangler-source';
 import { admitGameArenaTypeSource, gameArenaTypeSourceRules, gameArenaTypeImagePins, gameArenaTypeImageReceipt } from './native-game-arena-type-source';
@@ -42,9 +44,9 @@ const baseRules = JSON.parse(rulesText) as NativeCrtSourceRules;
 const rules: NativeCrtSourceRules = { ...baseRules,
   imports: { ...baseRules.imports, Game: [...(baseRules.imports?.Game ?? []),
     ...(gameArenaStatusSourceRules.imports?.Game ?? []).filter(row => !baseRules.imports?.Game?.some(old => old.iatVA === row.iatVA))] },
-  methods: { ...baseRules.methods, ...gameArenaSourceRules.methods, ...gameArenaTypeSourceRules.methods, ...gameArenaStatusSourceRules.methods, ...gameLayerBaseSourceRules.methods, ...gameObjectRefSourceRules.methods },
-  coldGlobals: { ...baseRules.coldGlobals, ...gameArenaSourceRules.coldGlobals, ...gameArenaTypeSourceRules.coldGlobals, ...gameArenaStatusSourceRules.coldGlobals, ...gameLayerBaseSourceRules.coldGlobals, ...gameObjectRefSourceRules.coldGlobals },
-  constBytes: { ...baseRules.constBytes, ...gameArenaSourceRules.constBytes, ...gameTemplateConstants, ...gameArenaStatusSourceRules.constBytes, ...gameLayerBaseSourceRules.constBytes, ...gameObjectRefSourceRules.constBytes },
+  methods: { ...baseRules.methods, ...gameArenaSourceRules.methods, ...gameArenaTypeSourceRules.methods, ...gameArenaStatusSourceRules.methods, ...gameLayerBaseSourceRules.methods, ...gameObjectRefSourceRules.methods, ...gameClassNameFamilyRules.methods, ...gamePrimitiveSourceRules.methods },
+  coldGlobals: { ...baseRules.coldGlobals, ...gameArenaSourceRules.coldGlobals, ...gameArenaTypeSourceRules.coldGlobals, ...gameArenaStatusSourceRules.coldGlobals, ...gameLayerBaseSourceRules.coldGlobals, ...gameObjectRefSourceRules.coldGlobals, ...gameClassNameFamilyRules.coldGlobals },
+  constBytes: { ...baseRules.constBytes, ...gameArenaSourceRules.constBytes, ...gameTemplateConstants, ...gameArenaStatusSourceRules.constBytes, ...gameLayerBaseSourceRules.constBytes, ...gameObjectRefSourceRules.constBytes, ...gamePrimitiveSourceRules.constBytes },
 };
 function freeze(value: unknown): void {
   if (value !== null && typeof value === 'object' && !Object.isFrozen(value)) {
@@ -101,6 +103,8 @@ export const nativeGameImagePins: Readonly<Record<string, readonly [
   ...gameCinitImagePins,
   ...gameLayerBaseImagePins,
   ...gameObjectRefImagePins,
+  ...gameClassNameFamilyImagePins,
+  ...gamePrimitiveImagePins,
   ...gameArenaImagePins,
   ...gameArenaTypeImagePins,
   ...gameArenaStatusImagePins,
@@ -198,6 +202,8 @@ const imports = [
   ['207d7c44', 'HeapCreate'], ['207d7c8c', 'Sleep'], ['207d7c94', 'GetProcAddress'],
 ] as const;
 export function admitNativeGameCrtSource(): void {
+  admitGamePrimitiveSource();
+  admitGameClassNameFamilySource();
   admitGameObjectRefSource();
   admitGameLayerBaseSource();
   admitGameTemplateDemanglerSource();
@@ -226,6 +232,8 @@ export function admitNativeGameCrtSource(): void {
   }
 }
 export function nativeGameImageReceipt(label: string): NativeCrtImageReceipt {
+  if (Object.hasOwn(gamePrimitiveImagePins,label)) return gamePrimitiveImageReceipt(label);
+  if (Object.hasOwn(gameClassNameFamilyImagePins,label)) return gameClassNameFamilyImageReceipt(label);
   if (Object.hasOwn(gameObjectRefImagePins, label)) return gameObjectRefImageReceipt(label);
   if (Object.hasOwn(gameLayerBaseImagePins, label)) return gameLayerBaseImageReceipt(label);
   if (Object.hasOwn(gameCinitImagePins, label)) return gameCinitImageReceipt(label);

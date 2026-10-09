@@ -1,4 +1,6 @@
 import { gameStrlenDwordCandidate } from './native-game-strlen-predicate';
+import { gameClassNameFamilySpecs } from './native-game-class-name-family-source';
+import { admitGamePrimitiveSource } from './native-game-primitive-source';
 import { admitGameTemplateDemanglerSource } from './native-game-template-demangler-source';
 /** Module-owned ___unDName. The admitted grammar currently follows the
  * ordinary, unqualified class RTTI branch; other grammar remains a boundary. */
@@ -147,6 +149,17 @@ export class NativeCrtUndName {
       if (!firstArgument) fact(factory.append(argumentsResult, fact(factory.fromChar(0x2c), 'templateArguments.comma')), 'templateArguments.appendComma');
       firstArgument = false;
       const before = this.cursor();
+      if (this.byte() === 0x56) {
+        const primary = this.classPrimary(factory, second);
+        const temporary = this.empty(factory);
+        fact(factory.assign(temporary, primary), 'templateArguments.assignClassPrimary');
+        const after = this.cursor();
+        if (after.fields !== before.fields) throw new Error('Original template cursor backing changed');
+        if (after.offset - before.offset > 1 && third.fields.readUnsigned(0) !== 9)
+          fact(third.append(temporary), 'templateArguments.recordClass');
+        fact(factory.append(argumentsResult, temporary), 'templateArguments.appendClassPrimary');
+        continue;
+      }
       if (this.byte() !== 0x57) throw new Error('Unowned getTemplateArgumentList primary data type');
       this.advance(); // getECSUDataType consumes W before getEnumType.
       const underlying = this.empty(factory);
@@ -200,6 +213,37 @@ export class NativeCrtUndName {
     if (!(this.flags() & 0x2000)) throw new Error('Unowned UnDecorator symbol/declaration grammar');
     this.fields.writeUnsigned(48, this.flags() & ~0x2000); this.state.trace.push('grammar.dataType');
     let qualification = fact(factory.fromPointer(null), 'getDataType.pointerQualification');
+    if (this.crt.module === 'Game' && this.byte() !== 0x3f) {
+      admitGamePrimitiveSource();
+      // These tokens follow the original getDataType -> getPrimaryDataType ->
+      // getSimpleDataType branch with empty qualification. Pointer, reference
+      // and extended types remain at their actual unsupported source boundary.
+      const primitive = this.byte() === 0x5f && this.byte(1) === 0x4e ? 'Bool'
+        : ({ E:'Char', G:'Short', H:'Int', J:'Long', K:'Long', M:'Float' } as Record<string,string>)[String.fromCharCode(this.byte())];
+      if (!primitive) throw new Error('Unowned Game primitive getSimpleDataType branch');
+      if (!qualification.isEmpty()) throw new Error('Unowned nonempty primitive data type qualification');
+      const code = this.byte(); this.advance(primitive === 'Bool' ? 2 : 1);
+      this.state.trace.push('getSimpleDataType.consumePrimitive');
+      const constants = {
+        Bool:['206bef94',5], Char:['206beff4',5], Short:['206befec',6],
+        Int:['206befe8',4], Long:['206befe0',5], Float:['206befd8',6],
+      } as const;
+      const [address,bytes] = constants[primitive as keyof typeof constants];
+      const local = this.empty(factory);
+      fact(factory.assignText(local,{ fields:factory.sourceConstant('gamePrimitive'+primitive+'Keyword',address,bytes), offset:0 }),
+        'getSimpleDataType.assignKeyword');
+      if ([0x45,0x47,0x4b].includes(code)) {
+        const prefix = this.empty(factory);
+        fact(factory.assignText(prefix,{ fields:factory.sourceConstant('gamePrimitiveUnsignedKeyword','206bed08',10),offset:0 }),
+          'getSimpleDataType.unsignedPrefix');
+        const unsigned = fact(factory.plus(prefix,local),'getSimpleDataType.prependUnsigned');
+        fact(factory.assign(local,unsigned),'getSimpleDataType.assignUnsigned');
+      }
+      this.state.trace.push('getSimpleDataType.primitiveReturn');
+      const primary = fact(factory.copy(local),'getSimpleDataType.copyReturn');
+      this.fields.writeUnsigned(48,this.flags() | 0x2000);
+      return fact(factory.copy(primary),'getDecoratedName.primitiveReturn');
+    }
     if (this.byte() !== 0x3f) throw new Error('Unowned getDataType branch outside selected RTTI qualification');
     this.advance(); // getDataType consumes '?' before calling getDataIndirectType.
     if (this.byte() !== 0x41) throw new Error('Unowned getDataIndirectType qualification');
@@ -209,6 +253,13 @@ export class NativeCrtUndName {
     word.value = word.value | 0x10; word.knownMask = word.knownMask | 0x10;
     qualification = fact(factory.assign(qualification, fact(factory.copy(indirect), 'getDataIndirectType.return')), 'getDataType.assignQualification');
     if (!qualification.isEmpty()) throw new Error('Unowned nonempty primary type qualification');
+    const primary = this.classPrimary(factory, replicator);
+    this.fields.writeUnsigned(48, this.flags() | 0x2000);
+    return fact(factory.copy(primary), 'getDecoratedName.return');
+  }
+  /** The same original primary-type branch is called by ordinary RTTI and
+   * template argument parsing, with the currently installed name replicator. */
+  private classPrimary(factory: NativeCrtDNameFactory, replicator: NativeCrtReplicator): NativeCrtDNameRecord {
     if (this.byte() !== 0x56) throw new Error('Unowned getPrimaryDataType/getSimpleDataType branch');
     this.advance(); this.advance(-1); // The simple-type default rewinds before ECSU.
     const keepKeyword = !(this.flags() & 0x8000) && !(this.flags() & 0x1000);
@@ -271,8 +322,7 @@ export class NativeCrtUndName {
     const ecsu = fact(factory.copy(result), 'getECSUDataType.return');
     const simple = this.empty(factory); fact(factory.assign(simple, ecsu), 'getSimpleDataType.assign');
     const primary = fact(factory.copy(simple), 'getSimpleDataType.return');
-    this.fields.writeUnsigned(48, this.flags() | 0x2000);
-    return fact(factory.copy(primary), 'getDecoratedName.return');
+    return primary;
   }
   unDName(input: NativeCrtBytePointer | null, flags: number, output: NativeCrtBytePointer | null = null,
     outputBytes = 0): NativeValue<NativeCrtBytePointer | null> {
@@ -371,12 +421,15 @@ export function nativeSceneTypeInfoForCrt(crt: NativeEngineCrtOwner): NativeScen
   return name;
 }
 
-export type NativeGameTypeInfoTarget = 'navigation' | 'scriptAdmin' | 'arena' | 'arenaStatus' | 'layerBase' | 'objectRef';
-const gameTypeInfoTargets: Readonly<Record<NativeGameTypeInfoTarget, {
+export type NativeGameTypeInfoTarget = 'navigation' | 'scriptAdmin' | 'arena' | 'arenaStatus' | 'layerBase' | 'objectRef' | `gameClass${string}`;
+const gameTypeInfoTargets: Readonly<Record<string, {
   readonly descriptorStorage: string;
   readonly decoratedName: string;
   readonly label: string;
 }>> = Object.freeze({
+  ...Object.fromEntries(gameClassNameFamilySpecs.filter(spec => !spec.legacyOwner).map(spec =>
+    [spec.typeTarget,Object.freeze({ descriptorStorage:spec.labels.descriptor, decoratedName:spec.decoratedName,
+      label:'class-name initializer '+spec.initializer })])),
   objectRef: Object.freeze({ descriptorStorage: 'objectRefTypeInfoDescriptor',
     decoratedName: '.?AVbCObjectRefBase@@', label: 'ObjectRef base' }),
   layerBase: Object.freeze({ descriptorStorage: 'layerBaseTypeInfoDescriptor',
@@ -421,6 +474,7 @@ export class NativeGameTypeInfoName {
           method.bodyInstructionBytesSha256 !== hash) throw new Error('Game type_info::Name source receipt differs: ' + label);
     }
     const typeSpec = gameTypeInfoTargets[this.target];
+    if (!typeSpec) throw new Error('Pinned original Game type-info target required');
     const descriptorReceipt = nativeGameImageReceipt(typeSpec.descriptorStorage);
     const listReceipt = nativeGameImageReceipt('crtTypeInfoList');
     this.descriptor = crt.imageStorage(typeSpec.descriptorStorage);
