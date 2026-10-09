@@ -124,22 +124,27 @@ export function buildFurniture(templates: FurnitureTemplates, rooms: RoomLocator
   }
   let drawn = 0, triangles = 0;
   const camera = new THREE.Vector2(), focus = new THREE.Vector2();
+  // The rooms that have furniture, in a fixed order; their visibility is checked once a frame and the instances rewritten
+  // only when it changes, so a still frame allocates nothing (A70).
+  const roomList = [...new Set(placements.map((p) => p.room))], roomShown = new Map<InteriorSpec, boolean>(roomList.map((room) => [room, false]));
+  let shownKey = -1;
   return {
     group,
     update(_dt: number, f: FrameContext) {
       camera.set(f.camera.position.x, f.camera.position.z);
       focus.set(f.focus.x, f.focus.z);
       // The room the camera is in, not one it looks down on from above the roof (A70).
-      const inside = rooms.within(f.camera.position.x, f.camera.position.y, f.camera.position.z), seen = new Map<InteriorSpec, boolean>();
-      const visible = (instance: Instance) => {
-        let v = seen.get(instance.room);
-        if (v === undefined) {
-          v = instance.room === inside || (open(instance.room)
-            && Math.min(instance.centre.distanceTo(camera), instance.centre.distanceTo(focus)) < DRAW_RANGE);
-          seen.set(instance.room, v);
-        }
-        return v;
-      };
+      const inside = rooms.within(f.camera.position.x, f.camera.position.y, f.camera.position.z);
+      let key = 0;
+      for (const [i, room] of roomList.entries()) {
+        const b = room.building, cx = b.x, cz = b.z;
+        const v = room === inside || (open(room) && Math.min(Math.hypot(cx - camera.x, cz - camera.y), Math.hypot(cx - focus.x, cz - focus.y)) < DRAW_RANGE);
+        roomShown.set(room, v);
+        if (v) key += 2 ** (i % 52) * (1 + Math.floor(i / 52));
+      }
+      if (key === shownKey) return;
+      shownKey = key;
+      const visible = (instance: Instance) => roomShown.get(instance.room)!;
       drawn = 0; triangles = 0;
       for (const entry of meshes) {
         const { mesh, instances } = entry;

@@ -56,9 +56,12 @@ const smooth = (value: number) => value * value * (3 - 2 * value);
 const blend = (current: number, target: number, dt: number, rate = 16) => current + (target - current) * (1 - Math.exp(-dt * rate));
 
 /** Apply a world-space rotation to a bone, keeping its parent. */
+const IK_A = new THREE.Vector3(), IK_B = new THREE.Vector3(), IK_C = new THREE.Vector3(), IK_D = new THREE.Vector3();
+const IK_U = new THREE.Vector3(), IK_V = new THREE.Vector3(), IK_AXIS = new THREE.Vector3();
+const IK_TURN = new THREE.Quaternion(), IK_SOLE = new THREE.Quaternion(), IK_PARENT = new THREE.Quaternion(), IK_WORLD = new THREE.Quaternion();
 function turnBone(bone: THREE.Bone, delta: THREE.Quaternion): void {
-  const world = bone.getWorldQuaternion(new THREE.Quaternion()).premultiply(delta);
-  bone.quaternion.copy(bone.parent!.getWorldQuaternion(new THREE.Quaternion()).invert().multiply(world));
+  const world = bone.getWorldQuaternion(IK_WORLD).premultiply(delta);
+  bone.quaternion.copy(bone.parent!.getWorldQuaternion(IK_PARENT).invert().multiply(world));
   bone.updateMatrixWorld(true);
 }
 const finite = (value: number | undefined, fallback = 0) => Number.isFinite(value) ? value! : fallback;
@@ -402,18 +405,18 @@ export class HeroAnimationController {
     plant.weight = blend(plant.weight, active && p.groundAt && Number.isFinite(p.rootY) ? 1 : 0, step, HERO_FOOT_PLANT.rate);
     if (plant.weight < 1e-3 || !p.groundAt) { plant.left = plant.right = plant.pelvis = 0; return; }
     this.scene.updateMatrixWorld(true);
-    const rootY = p.rootY!, offsets: number[] = [];
-    for (const side of ['Left', 'Right'] as const) {
-      const ankle = this.bones[`mixamorig:${side}Foot`].getWorldPosition(new THREE.Vector3());
-      const ground = p.groundAt(ankle.x, ankle.z);
-      offsets.push(Number.isFinite(ground) ? clamp(ground - rootY, -HERO_FOOT_PLANT.drop, HERO_FOOT_PLANT.reach) : 0);
-    }
-    plant.left = blend(plant.left, offsets[0]!, step, HERO_FOOT_PLANT.rate);
-    plant.right = blend(plant.right, offsets[1]!, step, HERO_FOOT_PLANT.rate);
+    // Scratch values only: this runs every frame for the hero (A70).
+    const rootY = p.rootY!, offset = (side: 'Left' | 'Right') => {
+      const ankle = this.bones[`mixamorig:${side}Foot`].getWorldPosition(IK_A);
+      const ground = p.groundAt!(ankle.x, ankle.z);
+      return Number.isFinite(ground) ? clamp(ground - rootY, -HERO_FOOT_PLANT.drop, HERO_FOOT_PLANT.reach) : 0;
+    };
+    plant.left = blend(plant.left, offset('Left'), step, HERO_FOOT_PLANT.rate);
+    plant.right = blend(plant.right, offset('Right'), step, HERO_FOOT_PLANT.rate);
     plant.pelvis = blend(plant.pelvis, Math.min(0, plant.left, plant.right), step, HERO_FOOT_PLANT.rate);
     const w = plant.weight;
     this.body.position.y += plant.pelvis * w;
-    this.scene.updateMatrixWorld(true);
+    this.body.updateMatrixWorld(true);
     this.reachLeg('Left', (plant.left - plant.pelvis) * w);
     this.reachLeg('Right', (plant.right - plant.pelvis) * w);
   }
@@ -422,21 +425,21 @@ export class HeroAnimationController {
   private reachLeg(side: 'Left' | 'Right', rise: number): void {
     if (Math.abs(rise) < 1e-4) return;
     const upper = this.bones[`mixamorig:${side}UpLeg`], lower = this.bones[`mixamorig:${side}Leg`], foot = this.bones[`mixamorig:${side}Foot`];
-    const hip = upper.getWorldPosition(new THREE.Vector3()), knee = lower.getWorldPosition(new THREE.Vector3());
-    const ankle = foot.getWorldPosition(new THREE.Vector3()), target = ankle.clone().setY(ankle.y + rise);
-    const a = hip.distanceTo(knee), b = knee.distanceTo(ankle), sole = foot.getWorldQuaternion(new THREE.Quaternion());
+    const hip = upper.getWorldPosition(IK_A), knee = lower.getWorldPosition(IK_B);
+    const ankle = foot.getWorldPosition(IK_C), target = IK_D.copy(ankle).setY(ankle.y + rise);
+    const a = hip.distanceTo(knee), b = knee.distanceTo(ankle), sole = foot.getWorldQuaternion(IK_SOLE);
     if (a < 1e-4 || b < 1e-4) return;
     const c = clamp(hip.distanceTo(target), Math.abs(a - b) + 1e-3, a + b - 1e-3);
-    const u = hip.clone().sub(knee).normalize(), v = ankle.clone().sub(knee).normalize();
-    const axis = new THREE.Vector3().crossVectors(u, v);
+    const u = IK_U.copy(hip).sub(knee).normalize(), v = IK_V.copy(ankle).sub(knee).normalize();
+    const axis = IK_AXIS.crossVectors(u, v);
     if (axis.lengthSq() < 1e-8) return;
     axis.normalize();
     const bend = Math.acos(clamp((a * a + b * b - c * c) / (2 * a * b), -1, 1));
-    turnBone(lower, new THREE.Quaternion().setFromUnitVectors(v, u.clone().applyAxisAngle(axis, bend)));
-    const reached = foot.getWorldPosition(new THREE.Vector3()).sub(hip).normalize();
-    turnBone(upper, new THREE.Quaternion().setFromUnitVectors(reached, target.sub(hip).normalize()));
+    turnBone(lower, IK_TURN.setFromUnitVectors(v, u.applyAxisAngle(axis, bend)));
+    const reached = foot.getWorldPosition(IK_C).sub(hip).normalize();
+    turnBone(upper, IK_TURN.setFromUnitVectors(reached, target.sub(hip).normalize()));
     // The sole keeps its world attitude, so the toes do not dip with the shin.
-    foot.quaternion.copy(lower.getWorldQuaternion(new THREE.Quaternion()).invert().multiply(sole));
+    foot.quaternion.copy(lower.getWorldQuaternion(IK_PARENT).invert().multiply(sole));
     foot.updateMatrixWorld(true);
   }
 

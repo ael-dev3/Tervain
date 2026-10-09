@@ -1457,14 +1457,19 @@ export class App {
     const id = this.player.mount.id;
     this.player.dismount(this.playerContext(false));
     this.world.animals?.ride(id, null);
+    this.ridden = null;
   }
 
   /** The deer carries its rider where he steers; deep water, a fall or death puts him down (A70). */
+  private ridden: string | null = null;
   private carryRider() {
     const mount = this.player.mount;
-    if (!mount) return;
-    if (!this.player.alive || this.player.swimming || this.player.state !== 'free') { this.dismount(); return; }
-    this.world.animals?.ride(mount.id, { x: this.player.x, z: this.player.z, yaw: this.player.yaw, speed: this.player.lastMoveSpeed });
+    // Taken out of the saddle any other way (a load, a respawn, a teleport), the deer is let go too (A70).
+    if (!mount) { if (this.ridden) { this.world.animals?.ride(this.ridden, null); this.ridden = null; } return; }
+    // No deer under him (the animals not yet arrived after a rebuild): he gets down.
+    if (!this.player.alive || this.player.swimming || this.player.state !== 'free' || !this.world.animals?.mount(mount.id)) { this.dismount(); return; }
+    this.ridden = mount.id;
+    this.world.animals.ride(mount.id, { x: this.player.x, z: this.player.z, yaw: this.player.yaw, speed: this.player.lastMoveSpeed });
   }
 
   restockArrows() {
@@ -1923,7 +1928,7 @@ export class App {
       reducedMotion: this.settings.reducedMotion,
       onBark: (a, text) => this.mode === 'play' && this.settings.barks && this.bark(a, text),
       // A fight wakes the sleepers near it (A70).
-      alarm: (() => { const e = this.enemies.find(en => en.alive && en.engaged); return e ? { x: e.x, z: e.z } : null; })(),
+      alarms: this.enemies.filter(en => en.alive && en.engaged).map(en => ({ x: en.x, z: en.z })),
     };
   }
 
