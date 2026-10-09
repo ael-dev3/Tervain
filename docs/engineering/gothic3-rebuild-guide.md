@@ -13,6 +13,49 @@ finishable campaign.
 
 ## How the rebuild works
 
+### Start here: the rebuilding process
+
+The browser rebuild combines recovered game data with a TypeScript runtime.
+Each feature goes through the following steps:
+
+1. **Identify the original input.** Start with the installed game at
+   `C:\Program Files (x86)\Steam\steamapps\common\Gothic 3`. Record the
+   archive, resource path, patch precedence and file hash. Preserve matching
+   `Game.dll`, `Engine.dll` and `SharedBase.dll` for behavior research.
+2. **Recover assets and records.** Use `tools/gothic3/` to read the relevant
+   format and export browser resources to `public/gothic3/`. Keep provenance
+   and source evidence in `assets/gothic3/`. Trees need their materials and
+   alpha textures; humans also need skeletons, skin weights and animations.
+3. **Trace the original behavior.** Follow the missing native call through
+   its instructions, imports, object layouts and callers. Compare decompiled
+   listings with the matching DLL bytes. Capture reproducible evidence before
+   implementing the operation.
+4. **Implement it in TypeScript.** Add the supported behavior in
+   `src/gothic3/`, preserving memory ownership, pointer identity, allocation,
+   callback order and cleanup. Continue the original startup state through
+   supported calls; retain an explicit boundary at unsupported operations.
+5. **Connect it to the browser world.** Use the same live entities for
+   rendering, input, movement, NPC routines, combat, dialogue and quests.
+   Connect persistent state to save and reload. Asset viewers and isolated
+   runtime components are intermediate milestones.
+6. **Validate and publish a checkpoint.** Inspect the diff, run relevant
+   checks and a production build, then inspect the affected scenario in the
+   browser. Before remote changes, inspect repository-wide Actions runs and
+   workflow triggers. Publish the reviewed checkpoint on `/gothic3/` and
+   record which behavior it demonstrates.
+
+**Current local boundary:** Arena Status, None and Running initialization
+return through the retained startup stack. The next unsupported callback is
+`204b2130`, for the AI FreePoint wrapper/type. Source capture for that callback
+does not establish that it executes. Complete startup, world activation and
+a new-game-to-ending campaign remain unfinished. Local checkpoints and the
+hosted version can differ; validation below identifies the checkpoint covered.
+
+### Checkpoint history
+
+The entries below describe successive local states, newest first. Statements
+about missing operations in older entries apply to those earlier checkpoints.
+
 ### Current local checkpoint: Running enum returns
 
 Running now traverses the existing value bucket by actual scalar comparisons.
@@ -24,10 +67,9 @@ nine. Both None entries and slot zero remain intact. The temporary CString is
 destroyed and the original initializer returns at `204b1ee0` through its
 retained startup CALL frame. Startup reaches the next callback `204b2130`.
 
-Typechecking and 22 focused checks across four files pass. The integrated
-preceding checkpoint `352ab998` separately passed 3,199 tests across 298 files
-in 493.89 seconds and built in 38.34 seconds. These results do not validate
-the later Running continuation; full validation and publication remain pending.
+At checkpoint `6a73d59d`, typechecking and 22 focused checks across four files
+pass. The full suite passed 3,199 tests across 298 files in 491.58 seconds,
+and the production build passed in 44.78 seconds. Publication remains pending.
 Full campaign playability remains unfinished.
 
 ### Current local checkpoint: Running name lookup preserves prior entries
