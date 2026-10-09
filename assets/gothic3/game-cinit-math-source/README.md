@@ -111,7 +111,7 @@ The local source loop traverses the first 65 null slots and reaches
 identity and original slot bytes; changed targets stop before CALL. The first
 callback's native property-type factory remains unowned. All 53 focused checks
 across three files and typechecking pass, and regeneration matches both outputs
-byte for byte. The production build passed in 40.69 seconds. Full-suite and
+byte for byte. The production build passed in 40.69 seconds. Full-suite
 verification remains pending. A production browser entered Ardea with 202
 scene objects, 70 character resources and HP 100, and observed
 `20466654 -> 204b11b0` after 2,759 startup operations. NPC activation remains
