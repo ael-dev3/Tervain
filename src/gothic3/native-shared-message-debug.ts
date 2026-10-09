@@ -8,6 +8,7 @@ import type {NativeBytePointer} from './native-pointer-geometry';
 import type {NativeValue} from './dialogue';
 import {NativeSharedCrtSecurityCookie} from './native-shared-crt-security-cookie';
 import {NativeSharedCrtOwner} from './native-shared-crt';
+import {runRegistrationFormatterLoop} from './native-registration-formatter';
 import {admitRegistrationOutputSource,registrationOutputPrefix,registrationLocalePrefix} from './native-registration-output-source';
 const owners=new WeakMap<NativeRuntimePlatform,NativeSharedMessageDebug>();
 const token=Object.freeze({});
@@ -32,6 +33,7 @@ export class NativeSharedMessageDebug {
  #formatterLocale:NativeHeapObjectViews|null=null;
  #localeCallFrame:NativeHeapObjectViews|null=null;
  #localeReturned=false;
+ #formatterOutputCount:number|null=null;
  #formatterCookieExpression:Readonly<{cookie:NativeHeapObjectViews;frame:NativeHeapObjectViews;ebpOffset:number}>|null=null;
  #formatterRegisters:Readonly<{eax:NativeHeapObjectViews;ebx:NativeBytePointer;esi:0;edi:NativeHeapObjectViews;ecx:NativeHeapObjectViews}>|null=null;
  private constructor(private readonly platform:NativeRuntimePlatform,proof:object){
@@ -87,7 +89,9 @@ export class NativeSharedMessageDebug {
    if(!locale.known)throw new Error(locale.reason);
    this.#localeReturned=true;
    this.#trace.push('100a7535.registrationLocale.return');
-   throw new Error('Unowned SharedBase registration formatter continuation at 100b53b0 (LocaleUpdate returned)');
+   this.#formatterOutputCount=runRegistrationFormatterLoop(this.#file,this.#format,this.#arguments,this.#formatterLocale!,this.#formatterFrame!);
+   this.#trace.push('100b5cae.registrationOutput.loopComplete');
+   throw new Error('Unowned SharedBase registration formatter cookie check at 100b5cbc -> 100b01c8 (output loop completed)');
   }catch(error){this.#boundary??=error instanceof Error?error.message:String(error);return {known:false,reason:this.#boundary};}
   finally{this.#active=false;}
  }
@@ -149,6 +153,7 @@ export class NativeSharedMessageDebug {
   formatterFrame:this.#formatterFrame,formatterLocale:this.#formatterLocale,
   localeCallFrame:this.#localeCallFrame,
   localeReturned:this.#localeReturned,
+  formatterOutputCount:this.#formatterOutputCount,
   formatterCookieExpression:this.#formatterCookieExpression,
   formatterRegisters:this.#formatterRegisters,
   formatterReturned:false,terminatorWritten:false,messageDispatched:false,debugReturned:false});}

@@ -1,5 +1,25 @@
 # Property-registration output entry
 
+## Registration output loop
+
+The translated narrow output loop now follows the original character
+classification, transition and dispatch tables for the actual registration
+format's literal text and two `%s` arguments. It reads the retained varargs
+pointers, scans the source strings and writes through the actual FILE cursor.
+The original write-character path decrements FILE capacity and increments the
+formatter output count. Locale cleanup clears the PTD bit acquired by the
+outer LocaleUpdate. Explicit-locale literal classification uses the pinned
+C-locale table selected by the actual locale pointer.
+
+The integrated Status diagnostic produces the complete original registration
+message, then stops at `100b5cbc -> 100b01c8`, the security-cookie check.
+No formatter return, caller's terminator or diagnostic dispatch is claimed.
+Other conversion and modifier states remain unsupported and preserve prior
+writes. Seven focused checks across three files, typechecking and independent
+byte-identical evidence regeneration pass. The earlier production integration
+at `968db386` separately passed 3,190 tests across 295 files in 542.94 seconds;
+that broad receipt does not cover this later loop implementation.
+
 The package also captures the complete formatter and LocaleUpdate instructions,
 plus `write_char` (`100b5289`), `write_multi_char` (`100b52bc`) and
 `write_string` (`100b52e0`). Original PE bytes retain the classification/transition

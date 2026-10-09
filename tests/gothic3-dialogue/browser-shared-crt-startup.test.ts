@@ -37,14 +37,18 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  expect(game.known).toBe(true);
  if(!game.known)throw new Error(game.reason);
  expect(game.value.attachResult).toEqual({known:false,
-  reason:'crtAttach204677e4: Unowned Translated Arena Status initializer pending: Property registration Message.Debug at 10088191: Unowned SharedBase registration formatter continuation at 100b53b0 (LocaleUpdate returned)'});
+  reason:'crtAttach204677e4: Unowned Translated Arena Status initializer pending: Property registration Message.Debug at 10088191: Unowned SharedBase registration formatter cookie check at 100b5cbc -> 100b01c8 (output loop completed)'});
  const diagnostic=NativeSharedMessageDebug.forPlatform(platform).snapshot(),locale=diagnostic.formatterLocale!;
  expect(diagnostic.localeReturned).toBe(true);
  expect(locale.pointer(8).get()).toBe(owner.snapshot().ptd);
  expect(locale.pointer(0).get()).toBe(owner.snapshot().ptd!.pointer(0x6c).get());
  expect(locale.pointer(4).get()).toBe(owner.snapshot().ptd!.pointer(0x68).get());
  expect(locale.readUnsigned(12,1)).toBe(1);
- expect(owner.snapshot().ptd!.readUnsigned(0x70)&2).toBe(2);
+ expect(owner.snapshot().ptd!.readUnsigned(0x70)&2).toBe(0);
+ const expected="bCPropertyObjectTypeBase::RegisterPropertyTemplate - property 'Status' with valuetype 'bTPropertyContainer<enum gEArenaStatus>' added.";
+ expect(diagnostic.formatterOutputCount).toBe(expected.length);
+ expect(new TextDecoder().decode(diagnostic.buffer!.bytes.subarray(0,expected.length))).toBe(expected);
+ expect(diagnostic.terminatorWritten).toBe(false);
  expect(diagnostic.formatterReturned).toBe(false);
  expect(diagnostic.messageDispatched).toBe(false);
  expect(owner.processAttach()).toEqual(result);

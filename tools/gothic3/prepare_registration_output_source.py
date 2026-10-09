@@ -10,7 +10,7 @@ def capture(study):
     module = audit_module(study, 'SharedBase_dll', 'SharedBase.dll', {
         0x100b5355: 'outputFormatter', 0x100a74b6: 'localeUpdate',
         0x100b5289: 'writeCharacter', 0x100b52bc: 'writeMultipleCharacters',
-        0x100b52e0: 'writeString'})
+        0x100b52e0: 'writeString', 0x100a99b3: 'isLeadByte'})
     formatter = module['methods'][0]
     assert formatter['bodyInstructionBytesSha256'] == 'b4cea1685c86d396c8b2298308b5b521c8185f73d5c2d9eda5a92aa7c9ef686b'
     boundary = next(index for index, row in enumerate(formatter['instructions'])
@@ -28,7 +28,8 @@ def capture(study):
     pe = PE(binary)
     tables = []
     for address, size, label in [(0x100ede50, 256, 'classificationAndTransitions'),
-                                 (0x100b5cc9, 32, 'stateDispatch')]:
+                                 (0x100b5cc9, 32, 'stateDispatch'),
+                                 (0x100f2e38, 512, 'initialLocaleCtype')]:
         raw = pe.bytes(address, size)
         tables.append(dict(label=label, address=f'{address:08x}', size=size,
                            bytes=raw.hex(), sha256=hashlib.sha256(raw).hexdigest()))
