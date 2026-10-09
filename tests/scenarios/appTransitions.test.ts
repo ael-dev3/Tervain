@@ -5,7 +5,7 @@ import { Game } from '../../src/game/game';
 import { createInitialState } from '../../src/game/state';
 import { Input } from '../../src/platform/input';
 import { defaultSettings } from '../../src/platform/settings';
-import { FrameClock } from '../../src/platform/frameTiming';
+import { FrameClock, MotionInterpolation, SIM_STEP } from '../../src/platform/frameTiming';
 import { WorldScene } from '../../src/presentation/world';
 import { MenuScene } from '../../src/presentation/menuScene';
 import { track } from '../../src/presentation/human/sheetPool';
@@ -913,25 +913,51 @@ describe('shell corrections (A70)', () => {
   });
 });
 
-describe('slow frames (A70)', () => {
-  it('catches a slow frame up in short steps, drawing only after the last and counting a press once', () => {
+describe('fixed steps (A72)', () => {
+  it('catches a slow frame up in fixed steps, drawing once after the last and counting a press once', () => {
     const { app, call, key } = rebuildFixture();
-    const steps: { dt: number; presenting: boolean; attack: boolean }[] = [];
-    Reflect.set(app, 'step', vi.fn((dt: number) => {
-      steps.push({ dt, presenting: Reflect.get(app, 'presenting') as boolean, attack: app.input.pressed('jump') });
-    }));
+    const steps: { dt: number; attack: boolean }[] = [];
+    Reflect.set(app, 'step', vi.fn((dt: number) => { steps.push({ dt, attack: app.input.pressed('jump') }); }));
+    const present = vi.fn();
+    Reflect.set(app, 'present', present);
     Reflect.set(app, 'worldPaused', false);
     call('frame', 1000);
     key(app.settings.bindings.jump[0]!);
     call('frame', 1100);
-    expect(steps.map((s) => s.dt)).toEqual([0.05, 0.05]);
-    expect(steps.map((s) => s.presenting)).toEqual([false, true]);
-    expect(steps.map((s) => s.attack)).toEqual([true, false]);
-    expect(Reflect.get(app, 'presenting')).toBe(true);
-    // An ordinary frame is one step that draws.
+    expect(steps.map((s) => s.dt)).toEqual(Array(6).fill(SIM_STEP));
+    expect(steps.map((s) => s.attack)).toEqual([true, false, false, false, false, false]);
+    expect(present).toHaveBeenCalledOnce();
+    // A frame shorter than a step on a fast display draws without stepping, and a press waits for the next step.
     steps.length = 0;
-    call('frame', 1116);
-    expect(steps).toHaveLength(1);
-    expect(steps[0]!.presenting).toBe(true);
+    call('frame', 1103);
+    key(app.settings.bindings.jump[0]!);
+    call('frame', 1106);
+    expect(steps).toHaveLength(0);
+    expect(present).toHaveBeenCalledTimes(3);
+    call('frame', 1120);
+    expect(steps).toEqual([{ dt: SIM_STEP, attack: true }]);
+  });
+
+  it('draws a hero moving at constant speed between steps on a 144 Hz display, without jitter', () => {
+    const { app, call, hunting } = rebuildFixture();
+    const speed = 6, drawn: number[] = [], times: number[] = [];
+    const group = app.player.group as THREE.Object3D;
+    group.position.set(0, 0, 0);
+    Object.assign(app, { mode: 'play', simStep: 0, motion: new MotionInterpolation(), npcs: [], enemies: [], world: { ...app.world, animals: { movers: () => [] } } });
+    Reflect.set(app, 'step', vi.fn((dt: number) => {
+      Reflect.set(app, 'simStep', (Reflect.get(app, 'simStep') as number) + 1);
+      group.position.x += speed * dt;
+      call('captureMotion');
+    }));
+    for (const name of ['updateHud', 'updateDebug']) Reflect.set(app, name, vi.fn());
+    Reflect.set(hunting, 'updateHud', vi.fn());
+    let now = 0;
+    Reflect.set(app, 'render', vi.fn(() => { drawn.push(group.position.x); times.push(now); }));
+    for (let i = 0; i < 144 * 2; i++) { now = 1000 + i * 1000 / 144; call('frame', now); }
+    // The simulated position is untouched by drawing.
+    expect(group.position.x).toBeCloseTo(speed * SIM_STEP * (Reflect.get(app, 'simStep') as number), 9);
+    // Drawn positions advance by the same amount every frame: a straight line in time, one step behind.
+    const moves = drawn.slice(10).map((x, k) => x - drawn[k + 9]!);
+    for (const m of moves) expect(m).toBeCloseTo(speed / 144, 6);
   });
 });

@@ -16,7 +16,7 @@ import { hasFact, hourOfDay, evalAll, createInitialState, formatClock, clockDay,
 import { EVIDENCE_IDS, type Allocation, type Command, type GameEvent, type ItemId, type NpcId, type PlaceId, type WorldState } from './game/types';
 import { worldView } from './game/worldView';
 import { Input } from './platform/input';
-import { FrameClock, cappedFrame } from './platform/frameTiming';
+import { FrameClock, MotionInterpolation, SIM_CATCH_UP, SIM_STEP, cappedFrame } from './platform/frameTiming';
 import { waitForGraphicsReady } from './platform/graphicsReady';
 import { prepareSceneTextures } from './platform/prepareSceneTextures';
 import { codeLabel, loadSettings } from './platform/settings';
@@ -75,7 +75,6 @@ export class App {
   grade!: Grade;
   private lastFrameDt = 1 / 60;
   /** Whether this step is the frame's last, which draws the picture and the HUD (a slow frame is caught up in several). */
-  private presenting = true;
   world!: WorldScene;
   private menuScene!: MenuScene;
   private menuVisitActive = false;
@@ -947,23 +946,24 @@ export class App {
       if (!capped.draw) { requestAnimationFrame((t) => this.frame(t)); return; }
     }
     const frame = this.frameClock.tick(now);
+    // Between fixed steps on a fast display, presses and mouse movement wait for the next step rather than being lost.
+    let held = false;
     if (frame && !this.worldPaused) {
-      const { interval, dt, steps } = frame;
-      this.lastFrameDt = dt;
+      const { interval, dt, steps, alpha } = frame;
+      this.lastFrameDt = Math.min(interval, SIM_CATCH_UP);
       if (interval < 5) this.recordFrame(interval);
       this.audioClock += dt;
+      held = steps === 0;
       try {
-        // A slow frame is caught up in shorter steps, so the world keeps its own time at a low frame rate (A70). Only
-        // the last step draws, and a press or a mouse movement counts in the first alone.
+        // The world advances in fixed steps, as many as the frame's time holds (A72). A press or a mouse movement
+        // counts in the first alone; the picture is drawn once, between the last two steps.
         for (let i = 0; i < steps; i++) {
-          this.presenting = i === steps - 1;
-          this.step(dt / steps);
-          if (!this.presenting) { this.input.consumePad(); this.input.endFrame(); }
+          this.step(SIM_STEP);
+          this.input.consumePad(); this.input.endFrame();
         }
+        this.present(alpha);
       } catch (e) {
         console.error(e);
-      } finally {
-        this.presenting = true;
       }
     } else if (document.visibilityState !== 'hidden' && this.worldBuildFailed && !this.worldBuilding && !this.qualityReload) {
       // Recovery owns controller confirmation; no world or hidden menu action runs underneath it.
@@ -976,13 +976,50 @@ export class App {
       // Baseline a held controller after returning; its old press must not become an attack.
       this.input.poll(0);
     }
-    this.input.consumePad();
-    this.input.endFrame();
+    if (!held) {
+      this.input.consumePad();
+      this.input.endFrame();
+    }
     requestAnimationFrame((t) => this.frame(t));
+  }
+
+  /** Moving things drawn between fixed steps (A72), and the step counter their records are stamped with. */
+  private readonly motion = new MotionInterpolation();
+  private simStep = 0;
+
+  /** What moves from step to step: the hero, the camera, residents, bandits, animals (the ridden deer too), arrows. */
+  private captureMotion() {
+    const objects: (THREE.Object3D | null | undefined)[] = [this.player.group, this.cam.camera];
+    for (const n of this.npcs) objects.push(n.rig.root);
+    for (const e of this.enemies) objects.push(e.rig.root);
+    objects.push(...(this.world.animals.movers?.() ?? []));
+    objects.push(...this.hunting.arrows.group.children);
+    this.motion.capture(this.simStep, objects);
+  }
+
+  /** Draw the frame: the HUD from the latest step, the world between its last two steps. */
+  private present(alpha: number) {
+    if (this.worldPaused || this.mode === 'loading') return;
+    if (this.menuBackgroundActive) {
+      this.updateDebug(this.lastFrameDt);
+      this.render();
+      return;
+    }
+    this.updateHud(this.lastFrameDt);
+    this.hunting.updateHud();
+    if (this.panelKind === 'map' && this.mapCanvas) this.renderMap();
+    this.updateDebug(this.lastFrameDt);
+    this.motion.apply(alpha, this.simStep);
+    try {
+      this.render();
+    } finally {
+      this.motion.restore();
+    }
   }
 
   private step(dt: number) {
     if (this.worldPaused) return;
+    this.simStep++;
     this.hunting.syncInputMode();
     this.input.poll(dt);
     const state = this.game.state;
@@ -1010,10 +1047,6 @@ export class App {
         millNear: 0, millTurning: false, windAmount: 0.3 + 0.7 * gust, windTone: 360 + 180 * gust, quarryNear: 0,
         quarryWorking: false, time: this.audioClock, underRoof: false });
       this.audio.updateWorld(dt, null);
-      if (this.presenting) {
-        this.updateDebug(this.lastFrameDt);
-        this.render();
-      }
       return;
     }
     const hour = hourOfDay(state.clock + this.clockAcc);
@@ -1147,12 +1180,7 @@ export class App {
     this.hunting.afterWorld(dt, worldActive);
     this.audioUpdate(dt, this.cam.camera.position, hour);
 
-    if (!this.presenting) return;
-    this.updateHud(this.lastFrameDt);
-    this.hunting.updateHud();
-    if (this.panelKind === 'map' && this.mapCanvas) this.renderMap();
-    this.updateDebug(this.lastFrameDt);
-    this.render();
+    this.captureMotion();
   }
 
   private render() {
