@@ -13,13 +13,16 @@ import { NativeGameLayerBaseClassName } from '../../src/gothic3/native-game-laye
 import { NativeGameExitTable } from '../../src/gothic3/native-game-crt-exit-table';
 
 function fact<T>(result: NativeValue<T>): T { if (!result.known) throw new Error(result.reason); return result.value; }
-function fixture(textPool = true) {
-  const platform = createBrowserGameCrtPlatform({
+function platformFixture() {
+  return createBrowserGameCrtPlatform({
     processInputs: browserGameProcessInputs,
     threadStack: { reservationBytes: 4096, pageAlignment: 'virtual-page-4096', cpu: nativeVirtualX86CpuSelection },
     startupIo: browserGameStartupIoInputs, standardIo: browserGameStandardIoInputs, argvNls: browserGameArgvNlsInputs,
     setEnvp: { physicalGameHeapCapacity: 'round-eight-unknown-padding', heapFree: { outcome: 'success' } },
   });
+}
+function fixture(textPool = true) {
+  const platform = platformFixture();
   const memory = new NativeMemoryAdmin(platform, { extensions: textPool
     ? [nativeNpcHeapExtension, nativeSceneStartupHeapExtension] : [nativeSceneStartupHeapExtension] });
   const stack = fact(NativeX86ThreadStack.forPlatform(platform));
@@ -30,8 +33,9 @@ function fixture(textPool = true) {
 describe('first Game C++ initializer on the retained browser stack', () => {
   it('rejects a caller-shaped or foreign heap before constructing the Game startup graph', () => {
     const f = fixture();
-    const other = fixture();
-    expect(createBrowserGameCrtStartup(other.platform, f.memory).known).toBe(false);
+    const otherPlatform = platformFixture();
+    expect(createBrowserGameCrtStartup(otherPlatform, f.memory)).toMatchObject({ known: false,
+      reason: expect.stringContaining('same-platform') });
     const shaped = Object.create(NativeMemoryAdmin.prototype) as NativeMemoryAdmin;
     shaped.usesPlatform = () => true;
     expect(createBrowserGameCrtStartup(f.platform, shaped).known).toBe(false);
