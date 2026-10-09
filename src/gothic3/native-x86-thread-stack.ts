@@ -2325,7 +2325,7 @@ export class NativeX86ThreadStack {
           this.#numeric(this.#load(this.#bank, this.#reg('ESI')), 4) !== call.args.bytes) throw new Error('Actual nested calloc scalar size and source frame required');
       const incoming = physical.at(-1), outer = physical.at(-2);
       if (!incoming || incoming.site !== '204683dc' || incoming.position !== call.frame + 4 || !outer ||
-          !['2047653f', '2047656d'].includes(outer.site) || outer.site !== call.args.callerSite || outer.position !== call.frame + 0x1c) throw new Error('Actual environment calloc wrapper/caller slots required');
+          !['2047653f', '2047656d', '2047472e', '20474747'].includes(outer.site) || outer.site !== call.args.callerSite || outer.position !== call.frame + 0x1c) throw new Error('Actual environment calloc wrapper/caller slots required');
     } else {
       const p = this.#record(call.words[2]!).provenance;
       if (call.args.flags !== 0 || chain.value.at(-1)?.entry !== '20467c6a' || p?.kind !== 'allocation' || p.offset !== 0 ||
@@ -3058,7 +3058,20 @@ export class NativeX86ThreadStack {
     // Opaque capabilities establish equality relations, never invented
     // numerical address ordering or sign bits. A minted valid handle is
     // distinct from NULL and the two native invalid-handle sentinels.
-    if (width === 4 && p?.kind === 'module' && q?.kind === 'module' && p.fields.bytes.buffer === q.fields.bytes.buffer) { const ap = p.fields.bytes.byteOffset + p.offset, bp = q.fields.bytes.byteOffset + q.offset; this.#flags((ap < bp ? 1 : 0) | (ap === bp ? 0x40 : 0), 0x41); return; }
+    if (width === 4 && p?.kind === 'module' && q?.kind === 'module') {
+      const crt = this.#binding!.crt;
+      for (const entry of [p, q]) {
+        const fields = NativeModuleCrtOwner.canonicalImageForOwner(crt, entry.label);
+        if (!fields.known || fields.value !== entry.fields) throw new Error('Actual same-Game canonical module comparison required');
+        const access = NativeRuntimePlatform.canonicalGameModuleImageAccessForPlatform(this.#platform, crt, entry.label, entry.offset, 0);
+        if (!access.known) throw new Error(access.reason);
+      }
+      // These are admitted addresses in the retained virtual Game image,
+      // independent of host buffer placement or opaque allocation addresses.
+      const av = Number.parseInt(nativeGameImageReceipt(p.label).address, 16) + p.offset;
+      const bv = Number.parseInt(nativeGameImageReceipt(q.label).address, 16) + q.offset;
+      this.#arithmeticFlags(av, bv, (av - bv) >>> 0, 4, true); return;
+    }
     if (width === 4 && p?.kind === 'platform' && q?.kind === 'platform') {
       this.#flags(p.object === q.object ? 0x40 : 0, 0x40); return;
     }

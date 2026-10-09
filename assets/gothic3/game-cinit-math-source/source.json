@@ -7330,6 +7330,741 @@
         "verifiedAgainstOriginalPE": true
       },
       {
+        "label": "initializeStdioTable",
+        "entryVA": "0x2047470c",
+        "bodyVA": "0x2047470c",
+        "bodyRanges": "2047470c-204747bc",
+        "entryChain": [],
+        "instructions": [
+          {
+            "va": "2047470c",
+            "rva": "47470c",
+            "bytes": "a1c0297d20",
+            "instruction": "MOV EAX,[0x207d29c0]",
+            "fileOffset": 4671244,
+            "assemblyLine": 1,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "20474711",
+            "rva": "474711",
+            "bytes": "85c0",
+            "instruction": "TEST EAX,EAX",
+            "fileOffset": 4671249,
+            "assemblyLine": 2,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "20474713",
+            "rva": "474713",
+            "bytes": "56",
+            "instruction": "PUSH ESI",
+            "fileOffset": 4671251,
+            "assemblyLine": 3,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "20474714",
+            "rva": "474714",
+            "bytes": "6a14",
+            "instruction": "PUSH 0x14",
+            "fileOffset": 4671252,
+            "assemblyLine": 4,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "20474716",
+            "rva": "474716",
+            "bytes": "5e",
+            "instruction": "POP ESI",
+            "fileOffset": 4671254,
+            "assemblyLine": 5,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "20474717",
+            "rva": "474717",
+            "bytes": "7507",
+            "instruction": "JNZ 0x20474720",
+            "fileOffset": 4671255,
+            "assemblyLine": 6,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "20474719",
+            "rva": "474719",
+            "bytes": "b800020000",
+            "instruction": "MOV EAX,0x200",
+            "fileOffset": 4671257,
+            "assemblyLine": 7,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "2047471e",
+            "rva": "47471e",
+            "bytes": "eb06",
+            "instruction": "JMP 0x20474726",
+            "fileOffset": 4671262,
+            "assemblyLine": 8,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "20474720",
+            "rva": "474720",
+            "bytes": "3bc6",
+            "instruction": "CMP EAX,ESI",
+            "fileOffset": 4671264,
+            "assemblyLine": 9,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "20474722",
+            "rva": "474722",
+            "bytes": "7d07",
+            "instruction": "JGE 0x2047472b",
+            "fileOffset": 4671266,
+            "assemblyLine": 10,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "20474724",
+            "rva": "474724",
+            "bytes": "8bc6",
+            "instruction": "MOV EAX,ESI",
+            "fileOffset": 4671268,
+            "assemblyLine": 11,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "20474726",
+            "rva": "474726",
+            "bytes": "a3c0297d20",
+            "instruction": "MOV [0x207d29c0],EAX",
+            "fileOffset": 4671270,
+            "assemblyLine": 12,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "2047472b",
+            "rva": "47472b",
+            "bytes": "6a04",
+            "instruction": "PUSH 0x4",
+            "fileOffset": 4671275,
+            "assemblyLine": 13,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "2047472d",
+            "rva": "47472d",
+            "bytes": "50",
+            "instruction": "PUSH EAX",
+            "fileOffset": 4671277,
+            "assemblyLine": 14,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "2047472e",
+            "rva": "47472e",
+            "bytes": "e89b3cffff",
+            "instruction": "CALL 0x204683ce",
+            "fileOffset": 4671278,
+            "assemblyLine": 15,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "20474733",
+            "rva": "474733",
+            "bytes": "85c0",
+            "instruction": "TEST EAX,EAX",
+            "fileOffset": 4671283,
+            "assemblyLine": 16,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "20474735",
+            "rva": "474735",
+            "bytes": "59",
+            "instruction": "POP ECX",
+            "fileOffset": 4671285,
+            "assemblyLine": 17,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "20474736",
+            "rva": "474736",
+            "bytes": "59",
+            "instruction": "POP ECX",
+            "fileOffset": 4671286,
+            "assemblyLine": 18,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "20474737",
+            "rva": "474737",
+            "bytes": "a364167d20",
+            "instruction": "MOV [0x207d1664],EAX",
+            "fileOffset": 4671287,
+            "assemblyLine": 19,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "2047473c",
+            "rva": "47473c",
+            "bytes": "751e",
+            "instruction": "JNZ 0x2047475c",
+            "fileOffset": 4671292,
+            "assemblyLine": 20,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "2047473e",
+            "rva": "47473e",
+            "bytes": "6a04",
+            "instruction": "PUSH 0x4",
+            "fileOffset": 4671294,
+            "assemblyLine": 21,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "20474740",
+            "rva": "474740",
+            "bytes": "56",
+            "instruction": "PUSH ESI",
+            "fileOffset": 4671296,
+            "assemblyLine": 22,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "20474741",
+            "rva": "474741",
+            "bytes": "8935c0297d20",
+            "instruction": "MOV dword ptr [0x207d29c0],ESI",
+            "fileOffset": 4671297,
+            "assemblyLine": 23,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "20474747",
+            "rva": "474747",
+            "bytes": "e8823cffff",
+            "instruction": "CALL 0x204683ce",
+            "fileOffset": 4671303,
+            "assemblyLine": 24,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "2047474c",
+            "rva": "47474c",
+            "bytes": "85c0",
+            "instruction": "TEST EAX,EAX",
+            "fileOffset": 4671308,
+            "assemblyLine": 25,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "2047474e",
+            "rva": "47474e",
+            "bytes": "59",
+            "instruction": "POP ECX",
+            "fileOffset": 4671310,
+            "assemblyLine": 26,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "2047474f",
+            "rva": "47474f",
+            "bytes": "59",
+            "instruction": "POP ECX",
+            "fileOffset": 4671311,
+            "assemblyLine": 27,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "20474750",
+            "rva": "474750",
+            "bytes": "a364167d20",
+            "instruction": "MOV [0x207d1664],EAX",
+            "fileOffset": 4671312,
+            "assemblyLine": 28,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "20474755",
+            "rva": "474755",
+            "bytes": "7505",
+            "instruction": "JNZ 0x2047475c",
+            "fileOffset": 4671317,
+            "assemblyLine": 29,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "20474757",
+            "rva": "474757",
+            "bytes": "6a1a",
+            "instruction": "PUSH 0x1a",
+            "fileOffset": 4671319,
+            "assemblyLine": 30,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "20474759",
+            "rva": "474759",
+            "bytes": "58",
+            "instruction": "POP EAX",
+            "fileOffset": 4671321,
+            "assemblyLine": 31,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "2047475a",
+            "rva": "47475a",
+            "bytes": "5e",
+            "instruction": "POP ESI",
+            "fileOffset": 4671322,
+            "assemblyLine": 32,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "2047475b",
+            "rva": "47475b",
+            "bytes": "c3",
+            "instruction": "RET",
+            "fileOffset": 4671323,
+            "assemblyLine": 33,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "2047475c",
+            "rva": "47475c",
+            "bytes": "33d2",
+            "instruction": "XOR EDX,EDX",
+            "fileOffset": 4671324,
+            "assemblyLine": 34,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "2047475e",
+            "rva": "47475e",
+            "bytes": "b9502e7b20",
+            "instruction": "MOV ECX,0x207b2e50",
+            "fileOffset": 4671326,
+            "assemblyLine": 35,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "20474763",
+            "rva": "474763",
+            "bytes": "eb05",
+            "instruction": "JMP 0x2047476a",
+            "fileOffset": 4671331,
+            "assemblyLine": 36,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "20474765",
+            "rva": "474765",
+            "bytes": "a164167d20",
+            "instruction": "MOV EAX,[0x207d1664]",
+            "fileOffset": 4671333,
+            "assemblyLine": 37,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "2047476a",
+            "rva": "47476a",
+            "bytes": "890c02",
+            "instruction": "MOV dword ptr [EDX + EAX*0x1],ECX",
+            "fileOffset": 4671338,
+            "assemblyLine": 38,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "2047476d",
+            "rva": "47476d",
+            "bytes": "83c120",
+            "instruction": "ADD ECX,0x20",
+            "fileOffset": 4671341,
+            "assemblyLine": 39,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "20474770",
+            "rva": "474770",
+            "bytes": "83c204",
+            "instruction": "ADD EDX,0x4",
+            "fileOffset": 4671344,
+            "assemblyLine": 40,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "20474773",
+            "rva": "474773",
+            "bytes": "81f9d0307b20",
+            "instruction": "CMP ECX,0x207b30d0",
+            "fileOffset": 4671347,
+            "assemblyLine": 41,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "20474779",
+            "rva": "474779",
+            "bytes": "7cea",
+            "instruction": "JL 0x20474765",
+            "fileOffset": 4671353,
+            "assemblyLine": 42,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "2047477b",
+            "rva": "47477b",
+            "bytes": "6afe",
+            "instruction": "PUSH -0x2",
+            "fileOffset": 4671355,
+            "assemblyLine": 43,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "2047477d",
+            "rva": "47477d",
+            "bytes": "5e",
+            "instruction": "POP ESI",
+            "fileOffset": 4671357,
+            "assemblyLine": 44,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "2047477e",
+            "rva": "47477e",
+            "bytes": "33d2",
+            "instruction": "XOR EDX,EDX",
+            "fileOffset": 4671358,
+            "assemblyLine": 45,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "20474780",
+            "rva": "474780",
+            "bytes": "b9602e7b20",
+            "instruction": "MOV ECX,0x207b2e60",
+            "fileOffset": 4671360,
+            "assemblyLine": 46,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "20474785",
+            "rva": "474785",
+            "bytes": "57",
+            "instruction": "PUSH EDI",
+            "fileOffset": 4671365,
+            "assemblyLine": 47,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "20474786",
+            "rva": "474786",
+            "bytes": "8bfa",
+            "instruction": "MOV EDI,EDX",
+            "fileOffset": 4671366,
+            "assemblyLine": 48,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "20474788",
+            "rva": "474788",
+            "bytes": "83e71f",
+            "instruction": "AND EDI,0x1f",
+            "fileOffset": 4671368,
+            "assemblyLine": 49,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "2047478b",
+            "rva": "47478b",
+            "bytes": "6bff38",
+            "instruction": "IMUL EDI,EDI,0x38",
+            "fileOffset": 4671371,
+            "assemblyLine": 50,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "2047478e",
+            "rva": "47478e",
+            "bytes": "8bc2",
+            "instruction": "MOV EAX,EDX",
+            "fileOffset": 4671374,
+            "assemblyLine": 51,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "20474790",
+            "rva": "474790",
+            "bytes": "c1f805",
+            "instruction": "SAR EAX,0x5",
+            "fileOffset": 4671376,
+            "assemblyLine": 52,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "20474793",
+            "rva": "474793",
+            "bytes": "8b0485202a7d20",
+            "instruction": "MOV EAX,dword ptr [EAX*0x4 + 0x207d2a20]",
+            "fileOffset": 4671379,
+            "assemblyLine": 53,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "2047479a",
+            "rva": "47479a",
+            "bytes": "8b0407",
+            "instruction": "MOV EAX,dword ptr [EDI + EAX*0x1]",
+            "fileOffset": 4671386,
+            "assemblyLine": 54,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "2047479d",
+            "rva": "47479d",
+            "bytes": "83f8ff",
+            "instruction": "CMP EAX,-0x1",
+            "fileOffset": 4671389,
+            "assemblyLine": 55,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "204747a0",
+            "rva": "4747a0",
+            "bytes": "7408",
+            "instruction": "JZ 0x204747aa",
+            "fileOffset": 4671392,
+            "assemblyLine": 56,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "204747a2",
+            "rva": "4747a2",
+            "bytes": "3bc6",
+            "instruction": "CMP EAX,ESI",
+            "fileOffset": 4671394,
+            "assemblyLine": 57,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "204747a4",
+            "rva": "4747a4",
+            "bytes": "7404",
+            "instruction": "JZ 0x204747aa",
+            "fileOffset": 4671396,
+            "assemblyLine": 58,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "204747a6",
+            "rva": "4747a6",
+            "bytes": "85c0",
+            "instruction": "TEST EAX,EAX",
+            "fileOffset": 4671398,
+            "assemblyLine": 59,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "204747a8",
+            "rva": "4747a8",
+            "bytes": "7502",
+            "instruction": "JNZ 0x204747ac",
+            "fileOffset": 4671400,
+            "assemblyLine": 60,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "204747aa",
+            "rva": "4747aa",
+            "bytes": "8931",
+            "instruction": "MOV dword ptr [ECX],ESI",
+            "fileOffset": 4671402,
+            "assemblyLine": 61,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "204747ac",
+            "rva": "4747ac",
+            "bytes": "83c120",
+            "instruction": "ADD ECX,0x20",
+            "fileOffset": 4671404,
+            "assemblyLine": 62,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "204747af",
+            "rva": "4747af",
+            "bytes": "42",
+            "instruction": "INC EDX",
+            "fileOffset": 4671407,
+            "assemblyLine": 63,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "204747b0",
+            "rva": "4747b0",
+            "bytes": "81f9c02e7b20",
+            "instruction": "CMP ECX,0x207b2ec0",
+            "fileOffset": 4671408,
+            "assemblyLine": 64,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "204747b6",
+            "rva": "4747b6",
+            "bytes": "7cce",
+            "instruction": "JL 0x20474786",
+            "fileOffset": 4671414,
+            "assemblyLine": 65,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "204747b8",
+            "rva": "4747b8",
+            "bytes": "5f",
+            "instruction": "POP EDI",
+            "fileOffset": 4671416,
+            "assemblyLine": 66,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "204747b9",
+            "rva": "4747b9",
+            "bytes": "33c0",
+            "instruction": "XOR EAX,EAX",
+            "fileOffset": 4671417,
+            "assemblyLine": 67,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "204747bb",
+            "rva": "4747bb",
+            "bytes": "5e",
+            "instruction": "POP ESI",
+            "fileOffset": 4671419,
+            "assemblyLine": 68,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          },
+          {
+            "va": "204747bc",
+            "rva": "4747bc",
+            "bytes": "c3",
+            "instruction": "RET",
+            "fileOffset": 4671420,
+            "assemblyLine": 69,
+            "assemblySource": "sources/Game/2047470c.asm.txt",
+            "assemblyOrigin": "supplemental-ghidra-recovery"
+          }
+        ],
+        "bodyInstructionBytesSha256": "87cabf1fd8f1eea1e059c95c59fbd22242ec9759d9fc3b8b854a680059c07292",
+        "supplementalReceipt": {
+          "entry": "2047470c",
+          "bodyRanges": "2047470c-204747bc",
+          "instructionCount": 69,
+          "instructionBytes": 177,
+          "instructionBytesSha256": "87cabf1fd8f1eea1e059c95c59fbd22242ec9759d9fc3b8b854a680059c07292",
+          "assembly": "sources/Game/2047470c.asm.txt",
+          "assemblySha256": "1818545940ac0f8224329a2f8375b3ccdb1bafc3ccf6aa5f26de25d0239ac014",
+          "c": "sources/Game/2047470c.c.txt",
+          "cSha256": "c2619c828964b23e7fc44832d525d889fb0cd19d3dfbadd33c2e427c5c9fb696",
+          "origin": {
+            "kind": "supplemental-ghidra-recovery",
+            "ghidraVersion": "12.1.4",
+            "functionCreatedInSeparateProject": true,
+            "catalogGap": true,
+            "functionMetadata": {
+              "address": "2047470c",
+              "name": "FUN_2047470c",
+              "qualified_name": "FUN_2047470c",
+              "signature": "undefined4 FUN_2047470c(void);",
+              "status": "decompiled",
+              "error": "",
+              "elapsed_ms": "887",
+              "body_bytes": "177",
+              "body_ranges": "2047470c-204747bc",
+              "is_thunk": "false",
+              "source": "DEFAULT",
+              "pseudocode_file": "pseudocode/entry_2047470c.c",
+              "pseudocode_line": "3"
+            }
+          },
+          "sourceOnly": true,
+          "executionAdmitted": false
+        },
+        "verifiedAgainstOriginalPE": true
+      },
+      {
         "label": "initializeFloatingPointSse2",
         "entryVA": "0x2047e687",
         "bodyVA": "0x2047e687",
@@ -7678,6 +8413,27 @@
       "bytes": 28,
       "raw": "feffffff00000000d4ffffff00000000fefffffff4e5472010e64720",
       "sha256": "c9cd003bd1a92a86c85db92068a2e617cbc5cf206c99e8bf3c196587d65f1edb"
+    },
+    {
+      "label": "stdioCount",
+      "address": "207d29c0",
+      "bytes": 4,
+      "raw": "00000000",
+      "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+    },
+    {
+      "label": "stdioVector",
+      "address": "207d1664",
+      "bytes": 4,
+      "raw": "00000000",
+      "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+    },
+    {
+      "label": "stdioFiles",
+      "address": "207b2e50",
+      "bytes": 640,
+      "raw": "c0197d2000000000c0197d2001010000000000000000000000100000000000000000000000000000000000000200000001000000000000000000000000000000000000000000000000000000020000000200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "sha256": "6a6aef040a8fe265df1bb5afc60286860e5c42b1515bf8257b060666e9ae6f24"
     }
   ],
   "divideDispatchImports": [

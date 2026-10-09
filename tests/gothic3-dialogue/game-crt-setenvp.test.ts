@@ -43,11 +43,11 @@ describe('Game environment startup through the actual browser CRT graph', () => 
   it('copies the current environment, releases its input, and prepares the next initializer argument', () => {
     const { platform, stack: retainedStack, game } = startup();
     const attach = game.attachProgress;
-    expect(attach.setEnvpProgress?.boundary).toContain('not yet admitted at 2047470c');
+    expect(attach.setEnvpProgress?.boundary).toContain('CALL at20466638: CALL 0x204637ce');
     expect(attach.ioResult).toBe(0);
     expect(attach.argvResult).toBe(0);
     expect(attach.setEnvpResult).toBe(0);
-    expect(attach.nextBoundary).toEqual({ name: 'indirectSourceCall', address: '20466452', target: '2047470c' });
+    expect(attach.nextBoundary).toEqual({ name: 'sourceCall', address: '20466638', target: '204637ce' });
     expect(attach.setEnvpProgress).toMatchObject({
       physicalGraphTransferred: true, envRetExecuted: true, envReturned: true,
       countingPassReturned: true, visibleCount: 1, arrayCallReturned: true,
@@ -60,10 +60,11 @@ describe('Game environment startup through the actual browser CRT graph', () => 
       floatPointerInitializerReturned: true,
       exitTableInitializerReturned: true,
       conversionSse2InitializerReturned: true, multibyteCInitializerReturned: true,
+      stdioInitializerReturned: true, stdioCount: 512, floatingPointSse2InitializerReturned: true,
     });
     const stack = retainedStack.snapshot();
-    expect(stack.calls.filter(call => !call.returned).map(call => call.site)).toEqual(['204678f2', '20466626']);
-    expect(stack.calls.filter(call => call.site === '20466452')).toHaveLength(3);
+    expect(stack.calls.filter(call => !call.returned).map(call => call.site)).toEqual(['204678f2']);
+    expect(stack.calls.filter(call => call.site === '20466452')).toHaveLength(5);
     expect(stack.calls.filter(call => call.site === '20466452').every(call => call.returned)).toBe(true);
     for (const site of ['20469f41', '2047e674', '2047e5de', '2047e621']) {
       expect(stack.calls.find(call => call.site === site)).toMatchObject({ returned: true });
@@ -122,6 +123,7 @@ describe('Game environment startup through the actual browser CRT graph', () => 
         { site: '20477ce8', returned: true, released: false },
         { site: '20477ce8', returned: true, released: false },
         { site: '20467cd2', returned: true, released: true },
+        { site: '20477ce8', returned: true, released: false },
       ]);
     const string = game.crt.snapshot().allocations.find(backing => !backing.freed &&
       backing.bytes.length === 24 && backing.bytes[0] === 'G'.charCodeAt(0));
@@ -153,7 +155,7 @@ describe('Game environment startup through the actual browser CRT graph', () => 
     { label: 'CPUID without SSE2', cpu: { ...nativeVirtualX86CpuSelection, cpuidLeaf1: [0x600, 0, 0, 0] as const } },
   ])('returns the original zero SSE2 result for $label', ({ cpu }) => {
     const { game, stack } = startup(true, 'success', undefined, cpu);
-    expect(game.attachProgress.nextBoundary).toEqual({ name: 'indirectSourceCall', address: '20466452', target: '2047470c' });
+    expect(game.attachProgress.nextBoundary).toEqual({ name: 'sourceCall', address: '20466638', target: '204637ce' });
     expect(fact(NativeModuleCrtOwner.canonicalImageForOwner(game.crt, 'cinitSse2ConversionAvailable')).readUnsigned(0)).toBe(0);
     expect(stack.snapshot().calls.find(call => call.site === '20469f41')).toMatchObject({ returned: true });
     expect(stack.snapshot().calls.some(call => call.site === '2047e674')).toBe(false);
@@ -188,7 +190,7 @@ describe('Game environment startup through the actual browser CRT graph', () => 
       terminalNullWritten: true, cinitArgumentPrepared: true,
     });
     const imports = stack.snapshot().setEnvpCalls;
-    expect(imports.filter(call => call.site === '20477ce8' && call.returned)).toHaveLength(strings.length + 1);
+    expect(imports.filter(call => call.site === '20477ce8' && call.returned && ['2047653f', '2047656d'].includes(call.callerSite))).toHaveLength(strings.length + 1);
     for (const string of strings) {
       const expected = Array.from(string + '\0', character => character.charCodeAt(0));
       expect(game.crt.snapshot().allocations.some(backing => !backing.freed &&
@@ -227,6 +229,33 @@ describe('Game environment startup through the actual browser CRT graph', () => 
 });
 
 describe('Original Game cinit PE protection check', () => {
+  it.each([0, 1, 19, 20, 25, -1])('uses the original FILE count branch for %i', count => {
+    const { bootstrap, crt, stack } = attachWithImageChange((_headers, owner) => {
+      fact(NativeModuleCrtOwner.canonicalImageForOwner(owner, 'cinitStdioCount')).writeUnsigned(0, count >>> 0);
+    });
+    const expected = count === 0 ? 512 : Math.max(20, count);
+    expect(bootstrap.attachProgress().nextBoundary).toEqual({ name: 'sourceCall', address: '20466638', target: '204637ce' });
+    expect(bootstrap.attachProgress().setEnvpProgress).toMatchObject({ stdioCount: expected,
+      stdioInitializerReturned: true, floatingPointSse2InitializerReturned: true });
+    const vector = crt.imageStorage('cinitStdioVector').pointer<{ fields: NativeHeapObjectViews; offset: number }>(0).get()!;
+    const files = fact(NativeModuleCrtOwner.canonicalImageForOwner(crt, 'cinitStdioFiles'));
+    expect(vector.offset).toBe(0);
+    expect(vector.fields.bytes.length).toBe(Math.ceil(expected * 4 / 8) * 8);
+    for (let index = 0; index < 20; index++) {
+      const record = vector.fields.pointer<{ fields: NativeHeapObjectViews; offset: number }>(index * 4).get()!;
+      expect(record.fields).toBe(files);
+      expect(record.offset).toBe(index * 32);
+    }
+    expect([...vector.fields.bytes.slice(80, expected * 4)]).toEqual(Array(expected * 4 - 80).fill(0));
+    expect([...vector.fields.knownMask.slice(80, expected * 4)]).toEqual(Array(expected * 4 - 80).fill(255));
+    expect([...vector.fields.knownMask.slice(expected * 4)]).toEqual(Array(vector.fields.bytes.length - expected * 4).fill(0));
+    expect(stack.snapshot().setEnvpCalls.filter(call => call.callerSite === '2047472e')).toHaveLength(1);
+    expect(stack.snapshot().calls.find(call => call.site === '20466626')).toMatchObject({ returned: true });
+    const before = stack.snapshot();
+    bootstrap.processAttach();
+    expect(stack.snapshot()).toEqual(before);
+  });
+
   it('rejects a foreign cached Game pointer codec before invoking it', () => {
     const { game } = startup();
     const ptd = fact(game.bootstrap.thread.getPtdNoExit())!;
@@ -261,7 +290,7 @@ describe('Original Game cinit PE protection check', () => {
   it('uses the current MZ signature and follows the original zero-result branch', () => {
     const { bootstrap, headers, stack } = attachWithImageChange(fields => fields.writeUnsigned(0, 0, 2));
     expect(headers.view.getUint16(0, true)).toBe(0);
-    expect(bootstrap.attachProgress().nextBoundary).toEqual({ name: 'indirectSourceCall', address: '20466452', target: '2047470c' });
+    expect(bootstrap.attachProgress().nextBoundary).toEqual({ name: 'sourceCall', address: '20466638', target: '204637ce' });
     expect(stack.snapshot().calls.find(call => call.site === '20466602')).toMatchObject({ returned: true });
     expect(stack.snapshot().calls.some(call => call.site === '20473909')).toBe(false);
     expect(stack.snapshot().calls.some(call => call.site === '20466610')).toBe(false);
@@ -283,7 +312,7 @@ describe('Original Game cinit PE protection check', () => {
       }
       expect(found).toBe(true);
     });
-    expect(bootstrap.attachProgress().nextBoundary?.address).toBe('20466452');
+    expect(bootstrap.attachProgress().nextBoundary?.address).toBe('20466638');
     expect(stack.snapshot().calls.find(call => call.site === '20473909')).toMatchObject({ returned: true });
     expect(headers.bytes.length).toBe(672);
   });
@@ -364,11 +393,11 @@ describe('Original Game cinit PE protection check', () => {
     const { bootstrap, crt, stack } = attachWithImageChange((_headers, owner) => {
       fact(NativeModuleCrtOwner.canonicalImageForOwner(owner, 'cinitCInitializerTable')).writeUnsigned(65 * 4, 0);
     });
-    expect(bootstrap.attachProgress().nextBoundary).toEqual({ name: 'indirectSourceCall', address: '20466452', target: '2047470c' });
+    expect(bootstrap.attachProgress().nextBoundary).toEqual({ name: 'sourceCall', address: '20466638', target: '204637ce' });
     expect(bootstrap.attachProgress().setEnvpProgress).toMatchObject({ exitTableInitializerReturned: false,
       conversionSse2InitializerReturned: true, multibyteCInitializerReturned: true });
     expect(NativeGameExitTable.forCrt(crt).snapshot().tableAllocations).toEqual([]);
-    expect(stack.snapshot().calls.filter(call => call.site === '20466452')).toHaveLength(2);
+    expect(stack.snapshot().calls.filter(call => call.site === '20466452')).toHaveLength(4);
   });
 
   it('stops at unknown leading null bytes before reaching any C initializer', () => {

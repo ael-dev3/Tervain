@@ -32,7 +32,9 @@ def supplemental_callbacks(pe):
     package = Path(__file__).resolve().parents[2] / 'assets/gothic3/game-cinit-callbacks'
     index = json.loads((package / 'callback-index.json').read_text(encoding='utf8'))
     methods = []
-    for address, label in [('20469f3a', 'initializeConversionSse2'), ('2047e687', 'initializeFloatingPointSse2')]:
+    for address, label in [('20469f3a', 'initializeConversionSse2'),
+                           ('2047470c', 'initializeStdioTable'),
+                           ('2047e687', 'initializeFloatingPointSse2')]:
         receipt = index['callbacks'][address]
         data = (package / receipt['assembly']).read_bytes()
         if hashlib.sha256(data).hexdigest() != receipt['assemblySha256']:
@@ -85,6 +87,8 @@ def capture(study):
         ('divideErratum', 0x207d0a24, 4), ('sse2Available', 0x207d2b50, 4),
         ('cInitializerTable', 0x20655514, 540),
         ('sse2ConversionAvailable', 0x207d2b40, 4), ('sse2ProbeEH4Scope', 0x206e9018, 28),
+        ('stdioCount', 0x207d29c0, 4), ('stdioVector', 0x207d1664, 4),
+        ('stdioFiles', 0x207b2e50, 640),
     ):
         raw, _ = image_bytes(pe, address, size)
         literals.append({'label': label, 'address': f'{address:08x}', 'bytes': size,
@@ -106,7 +110,7 @@ def emit_runtime(result, path):
     selected = ['cinit', 'isNonwritableInCurrentImage', 'validateImageBase', 'findPESection',
                 'fpMath', 'floatConversionInit', 'pentiumDivideDispatch', 'encodeFloatPointers',
                 'errorInitializerWalker', 'initializeConversionSse2', 'initializeFloatingPointSse2',
-                'querySse2Availability', 'probeSse2Execution']
+                'querySse2Availability', 'probeSse2Execution', 'initializeStdioTable']
     methods = [{key: method[key] for key in ('label', 'entryVA', 'bodyRanges',
                 'bodyInstructionBytesSha256', 'instructions')}
                for method in result['module']['methods'] if method['label'] in selected]
@@ -120,9 +124,12 @@ def emit_runtime(result, path):
                             ('cinitDivideErratum', 'divideErratum'), ('cinitSse2Available', 'sse2Available'),
                             ('cinitCInitializerTable', 'cInitializerTable'),
                             ('cinitSse2ConversionAvailable', 'sse2ConversionAvailable'),
-                            ('cinitSse2ProbeEH4Scope', 'sse2ProbeEH4Scope')]:
+                            ('cinitSse2ProbeEH4Scope', 'sse2ProbeEH4Scope'),
+                            ('cinitStdioCount', 'stdioCount'), ('cinitStdioVector', 'stdioVector'),
+                            ('cinitStdioFiles', 'stdioFiles')]:
         images[label] = next(row for row in result['literals'] if row['label'] == original)
-    cold = {'cinitFloatPointerTable', 'cinitDivideErratum', 'cinitSse2Available', 'cinitSse2ConversionAvailable'}
+    cold = {'cinitFloatPointerTable', 'cinitDivideErratum', 'cinitSse2Available', 'cinitSse2ConversionAvailable',
+            'cinitStdioCount', 'cinitStdioVector', 'cinitStdioFiles'}
     pins = {label: ['coldGlobals' if label in cold else 'constBytes', row['address'], row['bytes'], row['raw'], row['sha256']]
             for label, row in images.items()}
     compact = lambda value: json.dumps(value, separators=(',', ':'), ensure_ascii=False)
@@ -154,7 +161,8 @@ export function admitGameCinitSource(): void {
     const names: Record<string,string> = {cinitMathCallback:'mathCallback',cinitNonwritableEH4Scope:'nonwritableEH4Scope',
       cinitFloatPointerTable:'floatPointerTable',cinitDivideModule:'divideModule',cinitDivideExport:'divideExport',
       cinitDivideErratum:'divideErratum',cinitSse2Available:'sse2Available',cinitCInitializerTable:'cInitializerTable',
-      cinitSse2ConversionAvailable:'sse2ConversionAvailable',cinitSse2ProbeEH4Scope:'sse2ProbeEH4Scope'};
+      cinitSse2ConversionAvailable:'sse2ConversionAvailable',cinitSse2ProbeEH4Scope:'sse2ProbeEH4Scope',
+      cinitStdioCount:'stdioCount',cinitStdioVector:'stdioVector',cinitStdioFiles:'stdioFiles'};
     const original = label === 'cinitPEHeaders' ? source.originalHeaders : source.literals.find((row: { label: string }) => row.label === names[label]);
     if (!original || original.address !== pin[1] || original.bytes !== pin[2] || original.raw !== pin[3] || original.sha256 !== pin[4])
       throw new Error('Original Game cinit image differs: ' + label);
