@@ -53,8 +53,16 @@ startup stack, returns to `204b1d7b`, and installs the original Arena vtable.
 It next stops at the type-singleton call `204b1d8f -> 2000d152`. Five focused
 checks and typechecking pass. The first 154 class-name initializers remain
 returned, with 155 retained shutdown callbacks; the Arena initializer itself
-has not returned. Full-suite, build, browser and deployment validation of this
-subsequent continuation are pending.
+has not returned. The production build passes in 47.08 seconds. An actual
+production browser enters Ardea and reports 4,317 startup operations at the same
+type-singleton boundary; NPC activation still has 0/16 attached property sets.
+Full-suite and deployment validation of this subsequent continuation are pending.
+
+The preceding 154-class-name continuation merged through
+[PR #200](https://github.com/ael-dev3/Tervain/pull/200) as
+`af18502c3c1e464b6255ddffc994845c926290ef` after its exact-head CI passed.
+Its Pages deployment is running; this merge does not include the subsequent
+Arena constructor continuation.
 
 The next continuation reuses the original primitive primary-type parser inside
 template arguments, recovers the original 57..64-byte allocation pool, and executes
