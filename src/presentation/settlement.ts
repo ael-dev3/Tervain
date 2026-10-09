@@ -270,8 +270,11 @@ export function buildScenery(terrain: Terrain, colliders: Colliders, quality: 'l
     b2.scale.set(0.7, 0.7, 0.7);
     beam.add(a, b2);
     beam.visible = false;
-    beam.add(beamLight);
     group.add(beam);
+    // The lamp's light stays in the scene, dark by day: shown only with the beam, it changed the number of lights at
+    // dusk and dawn, and every lit material was compiled again, a stall of seconds.
+    beamLight.position.copy(lh.lampWorld);
+    group.add(beamLight);
   }
 
   /* ---------------- Shrine hall: a heavy stone hall with a slate hip roof and a colonnade ---------------- */

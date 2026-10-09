@@ -19,8 +19,8 @@
     {
       "level": "near",
       "path": "public/models/flora/solitary-pine-under-10k.glb",
-      "bytes": 4773764,
-      "sha256": "86b9af6fb0b71c07d1576c97b8a75be7375dd516dd2494d88a9ab1d555c4c042",
+      "bytes": 2181564,
+      "sha256": "3d1aa21ccc1782a806b9eef2626eeb28dd88c34fca03770572af06e55e77822c",
       "triangles": 9706,
       "meshes": 2,
       "images": [
@@ -84,8 +84,8 @@
     {
       "level": "mid",
       "path": "public/models/flora/solitary-pine-mid.glb",
-      "bytes": 3355388,
-      "sha256": "3379a32a9de01dd11b6858f940e4d104c849a6d4891ddaf61c59cab76f61448c",
+      "bytes": 1631276,
+      "sha256": "ae42206850128ad1af869197254482e400de181287d8e35ee8cc79d03c47c639",
       "triangles": 3610,
       "meshes": 2,
       "images": [
@@ -149,8 +149,8 @@
     {
       "level": "far",
       "path": "public/models/flora/solitary-pine-far.glb",
-      "bytes": 1152868,
-      "sha256": "c0eae639a95f6dbf15d2b3811b4c083fffb1f1ee7557dee16d3cba96f1d91427",
+      "bytes": 528164,
+      "sha256": "549474d7caaddb50b1ea6f395ea2d5053aa59258f49e663371a3d540aae3e49f",
       "triangles": 48,
       "meshes": 1,
       "images": [

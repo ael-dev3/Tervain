@@ -1,3 +1,4 @@
+import { GPU } from '../skyState';
 import * as THREE from 'three';
 
 /**
@@ -150,6 +151,7 @@ export class RippleField {
 
   /** Follow the player, advance the solve at its own fixed rate, and refresh the readable field. */
   update(renderer: THREE.WebGLRenderer, focusX: number, focusZ: number, dt: number) {
+    if (!GPU.halfTargets) return;
     if (this.disposed) return;
     const oldTarget = renderer.getRenderTarget(), oldAutoClear = renderer.autoClear;
     try {

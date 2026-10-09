@@ -159,6 +159,8 @@ export interface MenuGrove extends GroveState {
   /** True when a tree-local point is within the doorway tunnel or the hollow. */
   inHollow(x: number, y: number, z: number): boolean;
   stats: { steps: number; restores: number };
+  /** The leaves its spirits perch on, so a rebuild hands it over only for the same tree (A70). */
+  readonly leafSites: readonly Vec3[];
 }
 
 interface Snapshot {
@@ -916,6 +918,7 @@ export function createMenuGrove(world: GroveWorld, count: number): MenuGrove {
     get awake() { return awake; },
     rhythm: createMenuRhythmSample(),
     stats,
+    leafSites: world.leafSites,
     doorToTree,
     treeToDoor,
     inHollow,

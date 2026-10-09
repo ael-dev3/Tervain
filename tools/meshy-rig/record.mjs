@@ -55,6 +55,31 @@ const entry = {
   embeddedCopyright: null, embeddedCcDeclaration: false, externalDependencies: [], scope: 'original-game-model-catalog',
   sourceId: 'resident-motion', license: { spdx: null, version: null, evidenceStatus: 'pending-source-classification' }, modified: true,
 };
+// The rig files are not models but Meshy output all the same: each records the automatic-rigging task it came from.
+ledger.sources['resident-rigs'] = {
+  filename: 'models/npcs/rigs/*.json',
+  sha256: null,
+  sourceRecord: 'https://github.com/ael-dev3/Tervain/blob/main/docs/engineering/resident-rigs-0.0.13.md',
+  sourceAssetUrl: null,
+  recordedSupplier: 'Ael',
+  creator: 'Generated with the Meshy API (automatic rigging) on the owner\'s account, from owner-supplied resident models',
+  generationService: 'Meshy',
+  license: {
+    spdx: null, version: null, evidenceStatus: 'pending-source-classification',
+    reason: 'The API responses do not record the account plan at generation time.',
+  },
+  credit: 'Resident rigs: Meshy automatic rigs of the owner-supplied residents, one per resident.',
+  changes: 'Only the skeleton and skin weights are kept, transferred onto the shipped resident mesh (tools/meshy-rig/extract-rig.mjs); hashes of each rig file are in the resident manifest.',
+  rightsBoundary: 'Project-specific Tervain use is recorded. This is not proof of ownership or a general content license.',
+};
+ledger.generatedRigs = fs.readdirSync(path.join(NPCS, 'rigs')).filter((name) => name.endsWith('.json')).sort()
+  .map((name) => {
+    const rig = JSON.parse(fs.readFileSync(path.join(NPCS, 'rigs', name), 'utf8'));
+    return {
+      file: `public/models/npcs/rigs/${name}`, model: `public/models/npcs/${rig.model.file}`,
+      meshyRigTask: rig.meshy?.rigTask ?? null, created: rig.meshy?.created ?? null, sourceId: 'resident-rigs',
+    };
+  });
 ledger.assets = ledger.assets.filter((asset) => asset.file !== entry.file);
 ledger.assets.push(entry);
 ledger.assets.sort((a, b) => a.file.localeCompare(b.file));

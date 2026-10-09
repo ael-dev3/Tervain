@@ -133,14 +133,8 @@ export function buildEnvironment(scene: THREE.Scene, quality: Quality): Environm
   let current: THREE.DataTexture | null = null;
   let timer = REGEN_INTERVAL;
   let lastHour = -1;
-  let renderer: THREE.WebGLRenderer | null = null;
-  let exposure = 1.0;
   const previousHook = scene.onBeforeRender;
 
-  scene.onBeforeRender = function (this: THREE.Scene, r, s, c, g, m, gr) {
-    renderer = r as THREE.WebGLRenderer;
-    previousHook.call(this, r, s, c, g, m, gr);
-  };
   scene.environmentIntensity = spec.intensity;
 
   const regenerate = () => {
@@ -170,10 +164,6 @@ export function buildEnvironment(scene: THREE.Scene, quality: Quality): Environm
         timer = 0;
         regenerate();
       }
-      // Exposure: ease toward the value for this time of day.
-      const target = 1.0 + 0.34 * SKY.night.value;
-      exposure += (target - exposure) * (1 - Math.exp(-dt * 1.5));
-      if (renderer) renderer.toneMappingExposure = exposure * EXPOSURE_BASE;
     },
     dispose() {
       current?.dispose();
@@ -185,5 +175,3 @@ export function buildEnvironment(scene: THREE.Scene, quality: Quality): Environm
   };
 }
 
-/** Overall exposure. 1.22 was the flat value before the environment light was added. */
-const EXPOSURE_BASE = 1.14;

@@ -24,6 +24,35 @@ describe('distributed model source notices', () => {
     expect(ledger.summary.archivedWarpkeepFiles).toBe(glbs('assets/warpkeep').length);
   }, 60_000);
 
+  it('gives every shipped GLB a ledger entry with a recorded source, regardless of its current bytes', () => {
+    const recorded = new Map<string, { sourceId?: string }>(ledger.assets.map((asset: { file: string }) => [asset.file, asset]));
+    for (const file of glbs('public/models')) {
+      const sourceId = recorded.get(file)?.sourceId;
+      expect(sourceId, `${file} has no ledger entry`).toBeTruthy();
+      expect(ledger.sources[sourceId!], file).toBeDefined();
+      expect(ledger.sources[sourceId!].license, file).toBeDefined();
+    }
+  });
+
+  it('records every generated resident rig with its Meshy task', () => {
+    const rigs = readdirSync(join(root, 'public/models/npcs/rigs')).filter(name => name.endsWith('.json'))
+      .map(name => `public/models/npcs/rigs/${name}`).sort();
+    expect(ledger.generatedRigs.map((rig: { file: string }) => rig.file).sort()).toEqual(rigs);
+    for (const rig of ledger.generatedRigs) {
+      const record = JSON.parse(readFileSync(join(root, rig.file), 'utf8'));
+      expect(rig.meshyRigTask, rig.file).toBe(record.meshy.rigTask);
+      expect(rig.model, rig.file).toBe(`public/models/npcs/${record.model.file}`);
+      expect(ledger.sources[rig.sourceId]?.generationService, rig.file).toBe('Meshy');
+    }
+  });
+
+  it('makes no commercial-clearance claim in the distributed credits', () => {
+    for (const file of ['public/model-licenses.html', 'public/model-licenses.json', 'public/third-party-notices.txt', 'NOTICE']) {
+      const text = readFileSync(join(root, file), 'utf8');
+      expect(text, file).not.toMatch(/cleared for commercial|commercially cleared|commercial clearance (is )?(granted|established|confirmed)\b(?! is not)/i);
+    }
+  });
+
   it('retains the supplied animals, their exact source records and modification credit', () => {
     const record = JSON.parse(readFileSync(join(root, 'docs/engineering/meshy-animal-assets.json'), 'utf8'));
     expect(record.animals).toHaveLength(19);

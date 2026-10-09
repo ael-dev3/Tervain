@@ -167,7 +167,11 @@ export class Colliders {
     this.add({ id, kind: 'box', x, z, hw, hd, yaw, active, ...bounds });
   }
 
-  setActive(id: string, active: boolean) {
+  /**
+   * Switch a collider on or off. A small body that routes need not plan around (a sleeper's bench place) passes
+   * `routes: false`, so it does not force every walking route to be rebuilt (A70).
+   */
+  setActive(id: string, active: boolean, routes = true) {
     const list = this.byId.get(id);
     if (!list) return;
     let changed = false;
@@ -177,7 +181,7 @@ export class Colliders {
         changed = true;
       }
     }
-    if (changed) this.version++;
+    if (changed && routes) this.version++;
   }
 
   isActive(id: string): boolean {
@@ -272,6 +276,18 @@ export class Colliders {
       hit = true;
     }
     return { x: px, z: pz, hit };
+  }
+
+  /** The highest top of a low, active piece of furniture under a disc at or below feetY: something a falling
+   *  body lands on rather than sinks into (A70). */
+  lowTopAt(x: number, z: number, radius: number, feetY: number): number | null {
+    let best: number | null = null;
+    for (const c of this.near(x, z, radius)) {
+      if (!c.active || !c.id.includes(':furniture:') || c.minY === undefined || c.maxY === undefined || c.maxY - c.minY > 1.0) continue;
+      if (c.maxY > feetY + 1e-6 || (best !== null && c.maxY <= best) || !this.overlapsDisc(c, x, z, radius)) continue;
+      best = c.maxY;
+    }
+    return best;
   }
 
   private overlapsDisc(c: Collider, x: number, z: number, radius: number): boolean {

@@ -32,6 +32,17 @@ function fixture(quality: 'low' | 'medium' | 'high' = 'high') {
   return { terrain, colliders, excl, module, previousContacts, previousIds };
 }
 
+
+/** Width and height of an embedded PNG or JPEG (data maps may be either since the texture optimisation). */
+function imageSize(data: Buffer, mimeType: string): [number, number] {
+  if (mimeType === 'image/png') return [data.readUInt32BE(16), data.readUInt32BE(20)];
+  for (let at = 2; at + 9 < data.length;) {
+    const marker = data[at + 1]!, length = data.readUInt16BE(at + 2);
+    if (marker >= 0xc0 && marker <= 0xcf && marker !== 0xc4 && marker !== 0xc8 && marker !== 0xcc) return [data.readUInt16BE(at + 7), data.readUInt16BE(at + 5)];
+    at += 2 + length;
+  }
+  throw new Error(`No image size in ${mimeType}.`);
+}
 describe('owner rock pile derivative', () => {
   it('matches the recorded runtime hash and retains every original geometry buffer byte under the complete model budget', () => {
     const { bytes, json, binary } = rockPileBinary();
@@ -52,8 +63,7 @@ describe('owner rock pile derivative', () => {
     expect(json.images).toHaveLength(3);
     for (let i = 1; i < json.images.length; i++) {
       const view = json.bufferViews[json.images[i].bufferView], data = binary.subarray(view.byteOffset, view.byteOffset + view.byteLength);
-      expect(data.readUInt32BE(16)).toBe(i === 1 ? 1024 : 512);
-      expect(data.readUInt32BE(20)).toBe(i === 1 ? 1024 : 512);
+      expect(imageSize(data, json.images[i].mimeType)).toEqual(i === 1 ? [1024, 1024] : [512, 512]);
     }
   });
 

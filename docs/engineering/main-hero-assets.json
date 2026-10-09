@@ -26,8 +26,8 @@
   "runtime": {
     "path": "public/models/hero/weathered-wanderer-hero-50k.glb",
     "urlRelativeToBase": "models/hero/weathered-wanderer-hero-50k.glb",
-    "bytes": 28184920,
-    "sha256": "4d4c16e56ce8696b195828bb41ca2d1fb015c3ef855a9cd2472eaa4a1c7d6691",
+    "bytes": 3901276,
+    "sha256": "dedfdee893e5bbc3cab80d3b1f2d42ee6b6ec538bdf0545cd2221a7a382c8619",
     "sourceBytesSaved": 16225480,
     "reductionPercent": 36.54,
     "externalDependencies": [],
@@ -200,11 +200,11 @@
         "height": 4096,
         "channels": 3,
         "originalMimeType": "image/png",
-        "runtimeMimeType": "image/webp",
+        "runtimeMimeType": "image/jpeg",
         "sourceBytes": 21323919,
         "runtimeBytes": 13201662,
         "sourceEncodedSha256": "76b6bc02bf15fb52538c63181ac7b35735c49363d2f1f86f40f524ba37bd7e33",
-        "runtimeEncodedSha256": "2c76763acbacfd2312e19a860c5f6e20046a33bbf7286a609eb0f193fb1dacab",
+        "runtimeEncodedSha256": "1e0e782389918835faa57e179add251e1e9de72e37d56f13128c20780f2222b2",
         "decodedPixelSha256": "b86f99b4891238181eff637d0767c5520af2b2e78a7d3bf93a35680ace37917e",
         "decodedPixelBytesIdentical": true
       },
@@ -219,7 +219,7 @@
         "sourceBytes": 18850436,
         "runtimeBytes": 11874544,
         "sourceEncodedSha256": "c80bf42870d76f428b057a19ccb75ccca4ea6291e8a6134f3f0a8adc23145853",
-        "runtimeEncodedSha256": "64658648b0dba2a7563ab5be41515151e38a5bf8470ed68f1e2373b4198c46e0",
+        "runtimeEncodedSha256": "acb1a28b3491415504475fad8dcfe0464a6ec6bc694b5daa35458f97f4fb47ef",
         "decodedPixelSha256": "5196238b1caa3f0c4be6d0453a3fcd30f930fbeb40d5b2fde69a4b8c7758365c",
         "decodedPixelBytesIdentical": true
       },

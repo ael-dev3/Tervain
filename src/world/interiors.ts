@@ -122,9 +122,17 @@ export function onRoomFloor(room: InteriorSpec, lx: number, lz: number, margin =
   return Math.abs(lx - room.door.x) <= room.door.halfWidth + margin && lz >= hd - 1e-6 && lz <= room.building.d / 2 + 0.1 + margin;
 }
 
+/** How far below the foot of a room's walls, and above its ceiling, a point still counts as in it (metres). */
+const WITHIN_BELOW = 0.5, WITHIN_ABOVE = 0.25;
+
 export interface RoomLocator {
   /** The room whose floor or doorway holds this point, if any. */
   at(x: number, z: number): InteriorSpec | null;
+  /**
+   * The room a point in the world is actually inside: over its floor or doorway, and between the foot of its walls and
+   * its ceiling at the wall top. A point above the roof or under the floor is outside (A70).
+   */
+  within(x: number, y: number, z: number): InteriorSpec | null;
   /** The height of that floor, in the world. */
   floorAt(x: number, z: number): number | null;
   /** A room's ground frame: the averaged ground its walls and floor are measured from. */
@@ -150,6 +158,12 @@ export function roomLocator(heightAt: (x: number, z: number) => number): RoomLoc
   };
   return {
     at,
+    within(x, y, z) {
+      const room = at(x, z);
+      if (!room) return null;
+      const ground = base(room);
+      return y >= ground + room.wallBase - WITHIN_BELOW && y <= ground + room.wallTop + WITHIN_ABOVE ? room : null;
+    },
     floorAt(x, z) { const room = at(x, z); return room ? base(room) + room.floorTop : null; },
     base,
   };

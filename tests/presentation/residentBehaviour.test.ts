@@ -87,14 +87,15 @@ describe('residents turn and face like people (A69)', () => {
   });
 
   it('come out of their door facing the way they are going, not the door they went in by', () => {
-    const { npc, ctx, tick } = harness(NPCS.trail_hunter, 23);
-    expect(npc.hidden).toBe(true);
-    npc.yaw = 2.5;
-    ctx.hour = 7;
-    for (let i = 0; i < 600 && npc.hidden; i++) tick(1 / 60);
+    // Asleep at his shelter (A70), he gets up and turns to the way he is going within his first strides.
+    const { npc, ctx, tick } = harness(NPCS.trail_hunter, 23), start = { x: npc.x, z: npc.z };
     expect(npc.hidden).toBe(false);
+    expect(npc.lie).toBe(1);
+    ctx.hour = 7;
+    for (let i = 0; i < 900 && Math.hypot(npc.x - start.x, npc.z - start.z) < 1; i++) tick(1 / 60);
+    expect(npc.lie).toBe(0);
     const station = ANCHORS.hunter_station!;
-    expect(Math.abs(wrap(npc.yaw - Math.atan2(station.x - npc.x, station.z - npc.z)))).toBeLessThan(0.05);
+    expect(Math.abs(wrap(npc.yaw - Math.atan2(station.x - npc.x, station.z - npc.z)))).toBeLessThan(0.1);
   });
 
   it('are under way only with a route still to walk', () => {
@@ -136,5 +137,27 @@ describe('a route\'s last step (A69)', () => {
     expect(path.at(-1)).toEqual(to);
     const goalCell = centre(to.x, to.z);
     expect(path.some((p) => Math.hypot(p.x - goalCell.x, p.z - goalCell.z) < 1e-6)).toBe(false);
+  });
+});
+
+describe('the last metres to a place (A70)', () => {
+  it('steps round someone standing in the way to a free place, but still waits for a place someone stands on', () => {
+    const def = { ...NPCS.ash_recorder, schedule: [{ from: 0, to: 24, anchor: 'ford_camp', activity: 'stand' as const }], overrides: [] };
+    const { npc, ctx, tick } = harness(def, 12), target = ANCHORS.ford_camp!;
+    npc.x = target.x - 2.6; npc.z = target.z;
+    Reflect.set(npc, 'destination', { x: target.x, z: target.z, yaw: 0 });
+    Reflect.set(npc, 'path', [{ x: target.x, z: target.z }]);
+    // Someone stands still on the line in, short of the place.
+    ctx.residentContacts = [{ id: 'person:rillford_reeve', kind: 'circle', x: target.x - 1.2, z: target.z, r: .35, active: true, minY: 0, maxY: 1.8 }];
+    tick(12);
+    expect(Math.hypot(npc.x - target.x, npc.z - target.z)).toBeLessThan(.2);
+    // On the place itself: a polite wait.
+    const second = harness(def, 12);
+    second.npc.x = target.x - 2.6; second.npc.z = target.z;
+    Reflect.set(second.npc, 'destination', { x: target.x, z: target.z, yaw: 0 });
+    Reflect.set(second.npc, 'path', [{ x: target.x, z: target.z }]);
+    second.ctx.residentContacts = [{ id: 'person:rillford_reeve', kind: 'circle', x: target.x, z: target.z, r: .35, active: true, minY: 0, maxY: 1.8 }];
+    second.tick(12);
+    expect(Math.hypot(second.npc.x - target.x, second.npc.z - target.z)).toBeGreaterThan(.6);
   });
 });

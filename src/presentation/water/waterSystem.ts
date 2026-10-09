@@ -3,7 +3,7 @@ import type { Terrain } from '../../world/terrain';
 import { SEA_MAX_RISE } from '../../world/water/waves';
 import { WaterWorld, type WaterFlows, type WaterSample } from '../../world/water/waterWorld';
 import { detachWaterOptics } from '../waterOptics';
-import { SKY } from '../skyState';
+import { RENDER_PX, SKY } from '../skyState';
 import type { WaterRenderInputs, WaterUnder } from '../waterRenderPass';
 import { buildOcean, makeBathymetryTextures, type OceanHandle } from './ocean';
 import { RippleField } from './ripples';
@@ -147,7 +147,7 @@ export class WaterSystem {
     this.updateUnder(camera);
     const pc = camera as THREE.PerspectiveCamera;
     if (pc.isPerspectiveCamera) {
-      const height = typeof window === 'undefined' ? 720 : window.innerHeight * Math.min(window.devicePixelRatio || 1, 2);
+      const height = typeof window === 'undefined' ? 720 : window.innerHeight * RENDER_PX.value;
       (this.splashes.points.material as THREE.ShaderMaterial).uniforms.uScale!.value = height * 0.5 / Math.tan(THREE.MathUtils.degToRad(pc.fov) * 0.5);
     }
   }
@@ -205,6 +205,7 @@ export class WaterSystem {
       meshes: this.meshes, seaMaterial: this.ocean.mesh.material, quality: this.quality, enabled, reducedMotion,
       prepare: (renderer, scene, camera, dt) => this.prepare(renderer, scene, camera, dt),
       under: this.under,
+      overlays: [this.splashes.points],
     };
   }
 

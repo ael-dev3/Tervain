@@ -1,3 +1,4 @@
+import { GPU } from '../skyState';
 import * as THREE from 'three';
 
 /**
@@ -182,6 +183,7 @@ export class GrassTrample {
 
   /** Follow the focus (unless fixed), then advance the field at its own rate. */
   update(renderer: THREE.WebGLRenderer, focusX: number, focusZ: number, dt: number) {
+    if (!GPU.halfTargets) return;
     if (this.disposed) return;
     const oldTarget = renderer.getRenderTarget(), oldAutoClear = renderer.autoClear;
     try {

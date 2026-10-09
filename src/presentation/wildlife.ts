@@ -5,7 +5,7 @@ import { mulberry32 } from '../world/noise';
 import { groundOf } from './buildings';
 import type { BuildContext, FrameContext, SceneModule } from './context';
 import type { AssetNeed } from './assets/library';
-import { SKY } from './skyState';
+import { RENDER_PX, SKY } from './skyState';
 
 /** Assets this module wants loaded before the world is built. */
 export const NEEDS: AssetNeed[] = [];
@@ -216,7 +216,7 @@ export function buildWildlife(ctx: BuildContext): SceneModule {
       const h = f.hour;
       const cold = h < 9 ? 1 : h > 17 ? 1 : 0.35;
       smokeMat.uniforms.uStrength!.value = f.reducedMotion ? 0.3 : 0.45 + 0.45 * cold;
-      smokeMat.uniforms.uPx!.value = Math.min(window.devicePixelRatio || 1, 2);
+      smokeMat.uniforms.uPx!.value = RENDER_PX.value;
       smokeMat.uniforms.uColor!.value.setRGB(0.3 + 0.12 * (1 - f.nightness), 0.28 + 0.12 * (1 - f.nightness), 0.26 + 0.12 * (1 - f.nightness));
     },
     stats: () => ({ gulls: nGulls, chimneys: chimneys.length }),

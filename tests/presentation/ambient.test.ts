@@ -120,6 +120,8 @@ describe('ambient hamlet residents', () => {
     // Browser texture decoding alone is replaced. The delivered geometry,
     // inverse binds, skin weights and joint hierarchy remain byte-exact.
     loader.register(() => ({ name: 'TERVAIN_AMBIENT_CPU_TEXTURES', loadTexture: () => Promise.resolve(new THREE.Texture()) }));
+    // WebP colour maps load through EXT_texture_webp, which would decode in a browser: give those empty textures too.
+    loader.register(() => ({ name: 'EXT_texture_webp', loadTexture: () => Promise.resolve(new THREE.Texture()) }));
     const source = await loader.parseAsync(bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength) as ArrayBuffer, '');
     const fireside = createMeshyNpcRig(source, entry, .94), colliders = new Colliders();
     const terrain = new Terrain();

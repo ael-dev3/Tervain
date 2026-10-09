@@ -4,10 +4,12 @@ import { evalAll } from '../game/state';
 import type { EncounterId, NpcId, WorldState } from '../game/types';
 import type { Collider, Colliders } from '../world/colliders';
 import { ANCHORS, MAINT_ROUTE, type EnemySpawn, type V2 } from '../world/layout';
+import { berthFor, indoorPost, roomDoorstep, roomRoute, walkingGround, type Berth } from '../world/homes';
 import type { NavGrid } from '../world/nav';
 import type { Terrain } from '../world/terrain';
 import { applyFlash, createBanditRig, createNpcRig, createThornback, poseRig, type Mode, type Pose, type Rig } from './characters';
-import { npcStyle } from './npcStyle';
+import { npcStyle, type WorkGesture } from './npcStyle';
+import { workSiteFor, type WorkSite } from './npc/workSites';
 import { NpcApproachGreeting } from './npcApproachGreeting';
 import { EnemyRoute } from './enemyRoute';
 
@@ -16,6 +18,8 @@ const hourIn = (h: number, from: number, to: number) => (from <= to ? h >= from 
 export interface Goal {
   anchor: string;
   activity: Activity;
+  /** An indoor post within the anchor's building (A70). */
+  inside?: string;
 }
 
 /** Choose where an NPC should be, and what they should be doing, at this hour. */
@@ -26,7 +30,7 @@ export function resolveGoal(def: NpcDef, state: WorldState, hour: number): Goal 
     return { anchor: o.anchor, activity: o.activity };
   }
   for (const e of def.schedule) {
-    if (hourIn(hour, e.from, e.to)) return { anchor: e.anchor, activity: e.activity };
+    if (hourIn(hour, e.from, e.to)) return e.inside ? { anchor: e.anchor, activity: e.activity, inside: e.inside } : { anchor: e.anchor, activity: e.activity };
   }
   return { anchor: def.home, activity: 'rest' };
 }
@@ -66,6 +70,13 @@ const NPC_TURN_STEPPED = .6, NPC_TURN_STRIDE = .3;
 /** Within this of their place's heading (radians) a resident settles there: they sit down or start work facing it. */
 const NPC_SETTLED = .3;
 const wrapAngle = (a: number) => Math.atan2(Math.sin(a), Math.cos(a));
+/** What is done at each indoor post, whoever does it (A70). */
+const INDOOR_GESTURES: Record<string, WorkGesture> = { bakery_oven: 'baking', mill_bench: 'general', office_table: 'ledger', reeve_table: 'ledger' };
+const UP = new THREE.Vector3(0, 1, 0), FORWARD = new THREE.Vector3(0, 0, 1);
+/** Seconds to lie down from sitting on a bed's edge, or to sit up again; and a moment sat on it first (A70). */
+const NPC_LIE_SECONDS = 1.8, NPC_SIT_BEFORE_LYING = 1.2;
+/** Asleep beyond this from the player, their pose is renewed only every NPC_ASLEEP_POSE seconds; beyond the second they are not drawn (A70). */
+const NPC_ASLEEP_NEAR = 25, NPC_ASLEEP_FAR = 60, NPC_ASLEEP_POSE = .5;
 
 /** Turn `from` toward `to` at no more than `rate` radians a second, easing out over the last part of the turn (A69). */
 export function turnToward(from: number, to: number, rate: number, dt: number): number {
@@ -76,15 +87,22 @@ export function turnToward(from: number, to: number, rate: number, dt: number): 
 /** A resident's place: where they stand and which way they face, a seat's height, and who else shares a meeting place. */
 export type NpcPlace = V2 & { yaw: number; seat?: number; seatBack?: number; company?: readonly (V2 & { id: NpcId })[] };
 
+/** A stride's rise: 0.3 m over ground, up to a building's tread where the ground falls away below its doorstep (A70). */
+function riseOk(terrain: Pick<Terrain, 'groundAt'>, x: number, z: number, y: number, nx: number, nz: number, ny: number): boolean {
+  const rise = Math.abs(ny - y);
+  return rise <= .3 || rise <= .46 && (ny > terrain.groundAt(nx, nz) + .01 || y > terrain.groundAt(x, z) + .01);
+}
+
 /** Actual foot/body geometry, rather than a conservative navigation cell, decides a short local connection. */
 function clearNpcSegment(from: V2, to: V2, ctx: Pick<ActorContext, 'terrain' | 'colliders'>, height: number, extra: readonly Collider[] = []): boolean {
   const distance = Math.hypot(to.x - from.x, to.z - from.z), steps = Math.max(1, Math.ceil(distance / .15));
-  let x = from.x, z = from.z, y = ctx.terrain.groundAt(x, z);
+  let x = from.x, z = from.z, y = walkingGround(ctx.terrain, x, z);
   if (!Number.isFinite(y)) return false;
   for (let i = 1; i <= steps; i++) {
     const nx = from.x + (to.x - from.x) * i / steps, nz = from.z + (to.z - from.z) * i / steps;
-    const ny = ctx.terrain.groundAt(nx, nz);
-    if (!ctx.terrain.walkable(nx, nz) || !Number.isFinite(ny) || Math.abs(ny - y) > .3) return false;
+    // Up a building's doorstep and in over its threshold, a tread at a time (A70).
+    const ny = walkingGround(ctx.terrain, nx, nz, y);
+    if (!ctx.terrain.walkable(nx, nz) || !Number.isFinite(ny) || !riseOk(ctx.terrain, x, z, y, nx, nz, ny)) return false;
     const step = ctx.colliders.move(x, z, nx - x, nz - z, NPC_RADIUS, undefined,
       { minY: Math.min(y, ny) + .02, maxY: Math.max(y, ny) + height }, extra);
     if (Math.hypot(step.x - nx, step.z - nz) > .001) return false;
@@ -98,6 +116,9 @@ function clearNpcSegment(from: V2, to: V2, ctx: Pick<ActorContext, 'terrain' | '
  * The others' places at a shared anchor come too: a resident turns toward whoever is there with them (A69).
  */
 export function npcGoalPosition(def: NpcDef, goal: Goal, ctx: Pick<ActorContext, 'terrain' | 'colliders'>, height: number): NpcPlace {
+  // An indoor post is a furnished spot found in its room (A70).
+  const post = goal.inside ? indoorPost(goal.inside, ctx.terrain, ctx.colliders, height) : null;
+  if (post) return { x: post.x, z: post.z, yaw: post.yaw };
   const base = ANCHORS[goal.anchor] ?? { x: 0, z: 0, yaw: 0 };
   if (goal.activity !== 'stand' && goal.activity !== 'talk') return base;
   const entries = (d: NpcDef) => [...d.schedule, ...d.overrides ?? []];
@@ -166,6 +187,15 @@ export class NpcActor {
   private navVersion = -1;
   private unavailable = false;
   private waking = false;
+  /** Their bed for the night, found once (A70); undefined until looked for, null for someone with none. */
+  private berth: Berth | null | undefined = undefined;
+  private berthVersion = -1;
+  /** How far lain down on the bed they are on (0 sitting on its edge, 1 lying), and that bed while they are on it (A70). */
+  lie = 0;
+  private lying: Berth | null = null;
+  private seatedFor = 0;
+  /** Asleep with nobody near, their pose is only renewed now and then (A70). */
+  private poseWait = 0;
   private readonly approachGreeting: NpcApproachGreeting | null;
   mode: Mode = 'idle';
 
@@ -187,6 +217,39 @@ export class NpcActor {
     return !this.hidden;
   }
 
+  /** Lying in their bed (A70): they see nothing, remark on nothing and hold no scene with anyone. */
+  get asleep(): boolean {
+    return !this.hidden && this.lie > 0.5;
+  }
+
+  /** A standing body others walk round; someone on a bed is out of the way, on it (A70). */
+  get solid(): boolean {
+    return !this.hidden && this.lie === 0 && this.lying === null;
+  }
+
+  /** The top of the piece an indoor worker works at, in their own frame like the outdoor work sites (A70). */
+  private indoorWorkSite(ctx: ActorContext): WorkSite | undefined {
+    const post = this.goal.inside && indoorPost(this.goal.inside, ctx.terrain, ctx.colliders, this.rig.height);
+    if (!post) return undefined;
+    const c = Math.cos(this.yaw), s = Math.sin(this.yaw);
+    const local = post.corners.map(p => { const dx = p.x - this.x, dz = p.z - this.z; return [dx * c - dz * s, dx * s + dz * c] as const; });
+    return { kind: 'counter', top: post.top - this.y, x0: Math.min(...local.map(p => p[0])), x1: Math.max(...local.map(p => p[0])),
+      z0: Math.min(...local.map(p => p[1])), z1: Math.max(...local.map(p => p[1])) };
+  }
+
+  /** The bed a resting resident goes to (A70), looked for again only when the static world changes. */
+  private berthOf(ctx: Pick<ActorContext, 'terrain' | 'colliders'>): Berth | null {
+    if (this.berth === undefined || (this.berth === null && this.berthVersion !== ctx.colliders.version)) {
+      this.berth = berthFor(this.id, ctx.terrain, ctx.colliders, this.rig.height);
+      this.berthVersion = ctx.colliders.version;
+    }
+    return this.berth;
+  }
+
+  private restBerth(): Berth | null {
+    return this.goal.activity === 'rest' ? this.berth ?? null : null;
+  }
+
   /** Initial load/time-skip placement only; running schedules always walk rather than teleporting at a distance. */
   snapToGoal(ctx: ActorContext) {
     const g = resolveGoal(this.def, ctx.state, ctx.hour);
@@ -200,13 +263,18 @@ export class NpcActor {
     this.maintenanceCursor = 0;
     this.speed = this.stuck = this.dynamicWait = this.standDelay = this.routeRetry = this.routeFailures = 0;
     this.navVersion = ctx.colliders.version;
-    this.hidden = g.activity === 'rest';
+    // Loaded at night, a resident with a bed is found lying in it, never vanished at their door (A70).
+    const berth = g.activity === 'rest' ? this.berthOf(ctx) : null;
+    this.hidden = g.activity === 'rest' && !berth;
+    this.lying = berth;
+    this.lie = berth ? 1 : 0;
+    this.seatedFor = berth ? 2 : 0;
+    this.poseWait = 0;
     this.waking = false;
     this.placed = true;
-    this.y = ctx.terrain.groundAt(this.x, this.z);
-    this.rig.root.position.set(this.x, this.y, this.z);
-    this.rig.root.rotation.y = this.yaw;
+    this.y = walkingGround(ctx.terrain, this.x, this.z);
     this.rig.root.visible = !this.hidden;
+    this.placeRig();
   }
 
   private atDestination() {
@@ -224,7 +292,28 @@ export class NpcActor {
   }
 
   private seatedHere() {
-    return this.goal.activity === 'sit' && this.atDestination() && this.settled();
+    return (this.goal.activity === 'sit' || this.restBerth() !== null) && this.atDestination() && this.settled();
+  }
+
+  /**
+   * The body where it is: on its feet at (x, y, z) facing yaw, or, lain down on a bed, rolled onto its side about the
+   * seated hips until they rest on the bed's middle, head to its far end (A70).
+   */
+  private placeRig() {
+    const root = this.rig.root, berth = this.lying;
+    root.position.set(this.x, this.y, this.z);
+    root.rotation.set(0, this.yaw, 0);
+    if (!berth || this.lie <= 0) return;
+    const s = this.lie * this.lie * (3 - 2 * this.lie);
+    const sitting = new THREE.Quaternion().setFromAxisAngle(UP, this.yaw);
+    // Rolled about the way they face: their head goes to whichever side the bed's far end lies.
+    const side = new THREE.Vector3(1, 0, 0).applyQuaternion(sitting);
+    const roll = side.x * berth.head.x + side.z * berth.head.z > 0 ? -Math.PI / 2 : Math.PI / 2;
+    const lying = sitting.clone().multiply(new THREE.Quaternion().setFromAxisAngle(FORWARD, roll));
+    const pivot = new THREE.Vector3(0, berth.seat + .08, -berth.seatBack);
+    const target = new THREE.Vector3(berth.hip.x, berth.hip.y, berth.hip.z).sub(pivot.clone().applyQuaternion(lying));
+    root.position.lerp(target, s);
+    root.quaternion.copy(sitting.slerp(lying, s));
   }
 
   /** Which way a resident faces at their place: toward whoever shares it with them now, else its own heading (A69). */
@@ -244,6 +333,9 @@ export class NpcActor {
    * their feet, rather than from inside the bench; the seat's height is then taken from that spot's ground (A69).
    */
   private placeFor(goal: Goal, ctx: ActorContext): NpcPlace {
+    // To bed: before its edge, facing out of it, to sit down on it and lie down (A70).
+    const berth = goal.activity === 'rest' ? this.berthOf(ctx) : null;
+    if (berth) return { x: berth.stand.x, z: berth.stand.z, yaw: berth.yaw, seat: berth.seat, seatBack: berth.seatBack };
     const place = npcGoalPosition(this.def, goal, ctx, this.rig.height);
     // Resting at a seat ends where they stood up from it, not inside the bench.
     if ((goal.activity !== 'sit' && goal.activity !== 'rest') || place.seat === undefined) return place;
@@ -267,7 +359,24 @@ export class NpcActor {
     const from = { x: this.x, z: this.z }, to = this.destination;
     const continuingMaintenance = this.viaMaint;
     this.viaMaint = false;
-    if (Math.hypot(to.x - from.x, to.z - from.z) <= 3 && clearNpcSegment(from, to, ctx, this.rig.height)) {
+    const rooms = (ctx.terrain as Partial<Terrain>).rooms;
+    const inside = rooms?.at(from.x, from.z) ?? null, into = rooms?.at(to.x, to.z) ?? null;
+    if (inside || into) {
+      // In and out of a room by its doorway, on the room's own fine grid; between rooms by the paths outside (A70).
+      const parts: (V2[] | null)[] = [];
+      if (inside && inside === into) parts.push(roomRoute(inside, from, to, ctx.terrain, ctx.colliders, this.rig.height));
+      else {
+        let start: V2 = from;
+        if (inside) { parts.push(roomRoute(inside, from, roomDoorstep(inside), ctx.terrain, ctx.colliders, this.rig.height)); start = roomDoorstep(inside); }
+        const outside = into ? roomDoorstep(into) : to;
+        if (Math.hypot(outside.x - start.x, outside.z - start.z) > .2) {
+          parts.push(Math.hypot(outside.x - start.x, outside.z - start.z) <= 3 && clearNpcSegment(start, outside, ctx, this.rig.height)
+            ? [{ x: outside.x, z: outside.z }] : finishNpcPath(ctx.nav.findPath(start, outside), outside, ctx, this.rig.height));
+        }
+        if (into) parts.push(roomRoute(into, outside, to, ctx.terrain, ctx.colliders, this.rig.height));
+      }
+      this.path = parts.every(p => p) ? parts.flat() as V2[] : null;
+    } else if (Math.hypot(to.x - from.x, to.z - from.z) <= 3 && clearNpcSegment(from, to, ctx, this.rig.height)) {
       this.path = [{ x: to.x, z: to.z }];
     } else if (maintenance && this.def.id === 'maintenance_worker' && ctx.state.facts.ila_method === 'shortcut'
       && (continuingMaintenance || Math.hypot(this.x - MAINT_ROUTE[0]!.x, this.z - MAINT_ROUTE[0]!.z) < 30) && this.maintenanceCursor < MAINT_ROUTE.length) {
@@ -309,7 +418,8 @@ export class NpcActor {
     // A short grid corner is not the destination. Reconnect farther along the route, dropping the bypassed corners.
     while (Math.hypot(target.x - this.x, target.z - this.z) < 3 && joinIndex < this.path!.length - 1) target = this.path![++joinIndex]!;
     const dx = target.x - this.x, dz = target.z - this.z, distance = Math.hypot(dx, dz);
-    if (distance < 3) return false;
+    // Within reach of their own place, with someone standing in the way: a step aside, then in (A70).
+    if (distance < 3) return joinIndex === this.path!.length - 1 && this.stepAside(target, distance, ctx, contacts);
     const fx = dx / distance, fz = dz / distance;
     for (const side of [1, -1]) for (const width of [1.1, 1.65, 2.2]) {
       const a = { x: this.x + fz * width * side, z: this.z - fx * width * side };
@@ -320,6 +430,25 @@ export class NpcActor {
       if (!clearNpcSegment(c, target, ctx, this.rig.height)) continue;
       for (const point of this.path!.slice(this.pi, joinIndex)) this.passedWaypoint(point);
       this.path = [a, b, c, ...this.path!.slice(joinIndex)];
+      this.pi = 0; this.dynamicWait = 0; this.stuck = 0;
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * The last few metres to a free place, round someone standing in the way: a short step to one side, then straight in.
+   * Before, a resident who had arrived first could hold the next one off for the whole meeting (A70). A place someone
+   * stands on is still waited for, as a doorway or a work edge is.
+   */
+  private stepAside(target: V2, distance: number, ctx: ActorContext, contacts: readonly Collider[]) {
+    if (distance < .2) return false;
+    if (contacts.some(c => c.kind === 'circle' && Math.hypot(c.x - target.x, c.z - target.z) < c.r + NPC_RADIUS)) return false;
+    const fx = (target.x - this.x) / distance, fz = (target.z - this.z) / distance;
+    for (const side of [1, -1]) for (const width of [.8, 1.1, 1.4]) {
+      const aside = { x: this.x + fz * width * side, z: this.z - fx * width * side };
+      if (!clearNpcSegment(this, aside, ctx, this.rig.height, contacts) || !clearNpcSegment(aside, target, ctx, this.rig.height, contacts)) continue;
+      this.path = [aside, { x: target.x, z: target.z }];
       this.pi = 0; this.dynamicWait = 0; this.stuck = 0;
       return true;
     }
@@ -339,13 +468,14 @@ export class NpcActor {
     if (!this.placed) this.snapToGoal(ctx);
     const contacts = this.contacts(ctx);
     const goal = resolveGoal(this.def, ctx.state, ctx.hour);
-    const changed = goal.anchor !== this.goal.anchor || goal.activity !== this.goal.activity;
+    const changed = goal.anchor !== this.goal.anchor || goal.activity !== this.goal.activity || goal.inside !== this.goal.inside;
     if (changed || this.unavailable) {
       const wasResting = this.goal.activity === 'rest';
       let appeared = false;
       // Getting up from a seat takes its clip's own time to stand: they walk off on their feet, not mid-rise (A69).
-      if (this.mode === 'sit' || this.goal.activity === 'sit' && this.talking) this.standDelay = Math.max(.85, this.rig.resident?.standUpSeconds ?? 0);
+      if (this.mode === 'sit' || this.goal.activity === 'sit' && this.talking || this.lying) this.standDelay = Math.max(.85, this.rig.resident?.standUpSeconds ?? 0);
       this.goal = goal;
+      if (goal.activity === 'rest') this.berthOf(ctx);
       this.destination = this.placeFor(goal, ctx);
       if (this.hidden && goal.activity !== 'rest') {
         if (wasResting || this.waking) {
@@ -381,13 +511,19 @@ export class NpcActor {
     let dynamicBlocked = false;
     const substeps = Math.max(1, Math.ceil(dt / .05)), stepDt = dt / substeps;
     for (let sub = 0; sub < substeps; sub++) {
-      if (this.talking || this.hidden || this.standDelay > 0) { this.speed = 0; this.standDelay = Math.max(0, this.standDelay - stepDt); continue; }
+      // Lain down, they first sit up on the bed's edge, then get to their feet, then walk (A70).
+      if (this.talking || this.hidden || this.lie > 0 || this.standDelay > 0) {
+        this.speed = 0;
+        if (this.lie === 0) this.standDelay = Math.max(0, this.standDelay - stepDt);
+        continue;
+      }
       while (this.path && this.pi < this.path.length) {
         const wp = this.path[this.pi]!, d = Math.hypot(wp.x - this.x, wp.z - this.z);
         if (d <= (this.pi === this.path.length - 1 ? arrivalRadius(this.goal.activity) : .2)) { this.passedWaypoint(wp); this.pi++; continue; }
         // Short, verified corner cuts keep a route from stopping at every grid vertex.
         const next = this.path[this.pi + 1];
-        if (next && d < .55) {
+        // Indoors the route is already drawn clear of the furniture: no corner is cut there (A70).
+        if (next && d < .55 && !(ctx.terrain as Partial<Terrain>).rooms?.at(this.x, this.z)) {
           const n = Math.hypot(next.x - wp.x, next.z - wp.z), t = Math.min(1, .7 / (n || 1));
           const ahead = { x: wp.x + (next.x - wp.x) * t, z: wp.z + (next.z - wp.z) * t };
           if (clearNpcSegment(this, ahead, ctx, this.rig.height, contacts)) { this.passedWaypoint(wp); this.pi++; continue; }
@@ -405,23 +541,25 @@ export class NpcActor {
       const alignment = Math.max(0, Math.cos(yaw - this.yaw));
       const final = this.pi === this.path.length - 1;
       let wanted = Math.min(NPC_WALK_SPEED, Math.sqrt(2 * NPC_BRAKING * Math.max(0, final ? d - arrivalRadius(this.goal.activity) : d))) * alignment;
-      const ahead = Math.min(d, .65), y = ctx.terrain.groundAt(this.x, this.z);
+      const ahead = Math.min(d, .65), y = walkingGround(ctx.terrain, this.x, this.z, this.y);
       const hit = ctx.colliders.cast(this.x, this.z, this.x + dx / d * ahead, this.z + dz / d * ahead, NPC_RADIUS,
         new Set([`person:${this.id}`]), { minY: y + .02, maxY: y + this.rig.height }, contacts, true);
       if (hit) {
-        wanted = Math.min(wanted, Math.sqrt(2 * NPC_BRAKING * Math.max(0, hit.t * ahead - .025)));
-        dynamicBlocked ||= contacts.some(c => c.id === hit.collider.id);
+        const dynamic = contacts.some(c => c.id === hit.collider.id);
+        // A wall only grazed (a door jamb, a table's corner) is slid along rather than braked for (A70).
+        if (dynamic || -(hit.nx * dx + hit.nz * dz) / d > .35) wanted = Math.min(wanted, Math.sqrt(2 * NPC_BRAKING * Math.max(0, hit.t * ahead - .025)));
+        dynamicBlocked ||= dynamic;
       }
       const change = (wanted > this.speed ? NPC_ACCELERATION : NPC_BRAKING) * stepDt;
       this.speed += Math.max(-change, Math.min(change, wanted - this.speed));
       const step = Math.min(d, this.speed * alignment * stepDt);
-      const nx = this.x + dx / d * step, nz = this.z + dz / d * step, ny = ctx.terrain.groundAt(nx, nz);
-      if (!ctx.terrain.walkable(nx, nz) || !Number.isFinite(ny) || Math.abs(ny - y) > .3) { this.speed = 0; continue; }
+      const nx = this.x + dx / d * step, nz = this.z + dz / d * step, ny = walkingGround(ctx.terrain, nx, nz, y);
+      if (!ctx.terrain.walkable(nx, nz) || !Number.isFinite(ny) || !riseOk(ctx.terrain, this.x, this.z, y, nx, nz, ny)) { this.speed = 0; continue; }
       const result = ctx.colliders.move(this.x, this.z, nx - this.x, nz - this.z, NPC_RADIUS, `person:${this.id}`,
         { minY: Math.min(y, ny) + .02, maxY: Math.max(y, ny) + this.rig.height }, contacts);
-      const travel = Math.hypot(result.x - this.x, result.z - this.z), ground = ctx.terrain.groundAt(result.x, result.z);
+      const travel = Math.hypot(result.x - this.x, result.z - this.z), ground = walkingGround(ctx.terrain, result.x, result.z, y);
       // An overlapping visitor must not throw a resident across the lane in a single resolve call.
-      if (travel > step + .025 || !ctx.terrain.walkable(result.x, result.z) || !Number.isFinite(ground) || Math.abs(ground - y) > .3) { this.speed = 0; continue; }
+      if (travel > step + .025 || !ctx.terrain.walkable(result.x, result.z) || !Number.isFinite(ground) || !riseOk(ctx.terrain, this.x, this.z, y, result.x, result.z, ground)) { this.speed = 0; continue; }
       this.x = result.x; this.z = result.z; this.y = ground;
       travelled += travel;
       if (result.hit && travel < step * .2) this.speed = 0;
@@ -444,7 +582,8 @@ export class NpcActor {
         const a = this.destination;
         this.yaw = turnToward(this.yaw, this.placeYaw(ctx), NPC_TURN_STANDING, dt);
         // Off to rest from a seat, they are on their feet first (A69).
-        if (this.goal.activity === 'rest' && this.standDelay === 0 && Math.hypot(this.x - a.x, this.z - a.z) < 1.2) this.hidden = true;
+        // Someone without a bed still goes in at their door; everyone else goes to bed (A70).
+        if (this.goal.activity === 'rest' && !this.restBerth() && this.standDelay === 0 && Math.hypot(this.x - a.x, this.z - a.z) < 1.2) this.hidden = true;
       }
     }
     // A turn on the spot is stepped round rather than glided like a statue on a turntable (A69).
@@ -452,19 +591,32 @@ export class NpcActor {
     const stepping = !moving && !this.hidden && dt > 0 && turned > NPC_TURN_STEPPED * dt;
     const gait = moving ? travel : stepping ? turned * NPC_TURN_STRIDE * (this.rig.height / 1.8) : 0;
 
-    this.y = ctx.terrain.groundAt(this.x, this.z);
-    this.rig.root.visible = !this.hidden;
-    this.rig.root.position.set(this.x, this.y, this.z);
-    this.rig.root.rotation.y = this.yaw;
+    this.y = walkingGround(ctx.terrain, this.x, this.z, this.y);
+
+    // Sat on their bed a moment, they lie down; spoken to, they sit up to talk, and lie down again after (A70).
+    const seatedNow = this.seatedHere();
+    const berth = this.restBerth();
+    if (berth && seatedNow && !moving) { this.lying = berth; this.seatedFor += dt; } else if (!this.lying) this.seatedFor = 0;
+    const lieWanted = berth !== null && this.lying === berth && seatedNow && !this.talking && this.seatedFor >= NPC_SIT_BEFORE_LYING;
+    this.lie = Math.max(0, Math.min(1, this.lie + (lieWanted ? 1 : -1) * dt / NPC_LIE_SECONDS));
+    // Sat up and off to somewhere else: the bed's edge is left as any seat is.
+    if (this.lie === 0 && this.lying && (this.lying !== berth || !seatedNow)) { this.lying = null; this.seatedFor = 0; }
+    const playerDistance = Math.hypot(ctx.player.x - this.x, ctx.player.z - this.z);
+    const drawn = !this.hidden && !(this.lie === 1 && playerDistance > NPC_ASLEEP_FAR);
+    this.rig.root.visible = drawn;
+    this.placeRig();
 
     let mode: Mode = 'idle';
-    const seated = this.seatedHere();
+    // On a bed, sitting on it or lain down, they keep their seat until they are on their feet again (A70).
+    const onBed = this.lying !== null && (this.lie > 0 || seatedNow);
+    const seated = seatedNow || onBed;
     if (moving || stepping) mode = 'walk';
     else if (this.talking) mode = this.speaking ? 'talk' : seated ? 'sit' : 'idle';
+    else if (onBed) mode = 'sit';
     else if (!this.path && this.atDestination()) {
       // Work only reads as work at a work place, facing it; a seat is sat on once they have turned to it (A69).
       const act = this.goal.activity;
-      mode = act === 'work' && this.settled() ? 'work' : act === 'sit' && seated ? 'sit' : 'idle';
+      mode = act === 'work' && this.settled() ? 'work' : (act === 'sit' || this.restBerth()) && seated ? 'sit' : 'idle';
     }
     this.mode = mode;
     // A resident waiting at a doorway cannot keep walking in place. Only resolved route metres, or a turn stepped round on
@@ -480,17 +632,23 @@ export class NpcActor {
       amp: ctx.reducedMotion && mode !== 'walk' ? 0.4 : 1,
       travel: gait,
       moveSpeed: dt > 0 ? gait / dt : 0,
-      workGesture: style.work,
+      workGesture: (this.goal.inside && INDOOR_GESTURES[this.goal.inside]) || style.work,
+      // The real counter, rock face or ground the work is done against (A70).
+      workSite: mode === 'work' ? (this.goal.inside ? this.indoorWorkSite(ctx) : workSiteFor(this.goal.anchor, this, ctx.terrain)) : undefined,
       seated: mode !== 'walk' && seated,
-      seatHeight: this.destination.seat,
-      seatBack: this.destination.seatBack,
+      seatHeight: onBed ? this.lying!.seat : this.destination.seat,
+      seatBack: onBed ? this.lying!.seatBack : this.destination.seatBack,
       // Standing about, a resident folds their arms, looks round, shifts their weight (still when motion is reduced).
       idle: ctx.reducedMotion ? undefined : { seed: style.faceSeed, clock: this.clock },
     };
-    if (!this.hidden) poseRig(this.rig, pose, dt);
+    // Asleep away from the player, the pose is renewed now and then rather than every frame (A70).
+    this.poseWait += dt;
+    const lazy = this.lie === 1 && playerDistance > NPC_ASLEEP_NEAR;
+    if (drawn && (!lazy || this.poseWait >= NPC_ASLEEP_POSE)) { poseRig(this.rig, pose, this.poseWait); this.poseWait = 0; }
+    else if (!drawn) this.poseWait = 0;
 
-    // Ambient remarks when the player passes close.
-    if (!this.hidden) {
+    // Ambient remarks when the player passes close; the sleeping make none (A70).
+    if (!this.hidden && this.lie === 0) {
       if (this.approachGreeting && this.def.approachGreeting) {
         const distance = Math.hypot(ctx.player.x - this.x, ctx.player.z - this.z, ctx.player.y - this.y);
         this.approachGreeting.update(dt, distance, !this.talking,
@@ -514,10 +672,15 @@ export class NpcActor {
   }
 
   get headPosition(): THREE.Vector3 {
-    const seated = this.goal.activity === 'sit' && this.atDestination() && this.mode !== 'walk';
-    const lower = this.rig.cur?.lower;
+    const seated = (this.goal.activity === 'sit' || this.lying !== null) && this.atDestination() && this.mode !== 'walk';
+    // Authored rigs never write the procedural lower: they take the seated drop (A70).
+    const lower = this.rig.resident ? undefined : this.rig.cur?.lower;
     const supported = Number.isFinite(lower) ? Math.max(-.65, Math.min(0, lower!)) * ((this.rig.hipY || .95) / .95) : seated ? -.45 : 0;
-    return new THREE.Vector3(this.x, this.y + 1.95 * this.def.look.height + supported, this.z);
+    const up = new THREE.Vector3(this.x, this.y + 1.95 * this.def.look.height + supported, this.z);
+    if (!this.lying || this.lie <= 0) return up;
+    // Lain down, their head is on the bed beyond their hips (A70).
+    const { hip, head } = this.lying, s = this.lie * this.lie * (3 - 2 * this.lie);
+    return up.lerp(new THREE.Vector3(hip.x + head.x * .75, hip.y + .1, hip.z + head.z * .75), s);
   }
 }
 

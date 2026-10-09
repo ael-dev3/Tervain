@@ -58,6 +58,16 @@ export const ANIMAL_SPEEDS: Record<AnimalSpecies, { walk: number; run: number; n
   deer: { walk: 1.15, run: 3.5, notice: 16, flee: 10 },
 };
 
+/**
+ * How each kind meets the hunter (A70). Predators hold their ground, watching, until he comes within `holdUntil` of their
+ * flee distance; herd and pack animals carry an alarm to their own kind within `herd` metres, so a shot scatters a group.
+ */
+export const ANIMAL_TEMPERAMENT: Record<AnimalSpecies, { holdUntil: number; herd: number }> = {
+  tiger: { holdUntil: 0.55, herd: 0 }, lion: { holdUntil: 0.55, herd: 0 }, bear: { holdUntil: 0.6, herd: 0 },
+  wolf: { holdUntil: 0.65, herd: 35 }, cat: { holdUntil: 1, herd: 0 }, dog: { holdUntil: 1, herd: 0 },
+  boar: { holdUntil: 1, herd: 18 }, deer: { holdUntil: 1, herd: 24 },
+};
+
 export function requiredAnimalClips(definition: AnimalDefinition): readonly AnimalClip[] {
   if (definition.seated) return ['Idle', 'Alert', 'Call', 'Groom', 'Sleep'];
   return definition.species === 'deer' || definition.species === 'boar'

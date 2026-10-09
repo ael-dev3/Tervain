@@ -11,7 +11,7 @@ import { withModelLoadSlot } from './assets/modelLoadQueue';
 import { downloadAsset } from './assets/download';
 import { matteHide } from './matte';
 import { ANIMAL_AUDIO, ANIMAL_CALL_EVENT, type AnimalCall } from './sound/animalAudio';
-import { ANIMALS, ANIMAL_SPEEDS, ANIMAL_TRIANGLE_LIMIT, requiredAnimalClips, type AnimalClip, type AnimalDefinition, type AnimalSpecies } from './animals/catalog';
+import { ANIMALS, ANIMAL_SPEEDS, ANIMAL_TEMPERAMENT, ANIMAL_TRIANGLE_LIMIT, requiredAnimalClips, type AnimalClip, type AnimalDefinition, type AnimalSpecies } from './animals/catalog';
 import { animalGroundAllowed, animalHabitatAllowed, animalNavigationColliders, findAnimalPath, findAnimalSite, type AnimalSite } from './animals/navigation';
 import { AnimalHunting, type HuntingAnimal } from './animals/hunting/adapter';
 import type { AnimalArrowHit } from './animals/hunting/hit';
@@ -347,6 +347,10 @@ export interface AnimalWildlife extends SceneModule {
   skinningFrame: AnimalHunting['skinningFrame'];
   setRunning(value: boolean): void;
   setReduceEffects(value: boolean): void;
+  /** Where a rideable animal stands and how high its saddle sits above the ground there (A70); null for others. */
+  mount(id: string): { x: number; y: number; z: number; yaw: number; seat: number } | null;
+  /** Carry a rider: the animal stands, walks or runs where he steers; null lets it go where it stands. */
+  ride(id: string, at: { x: number; z: number; yaw: number; speed: number } | null): void;
 }
 
 /** Independent peaceful wildlife controllers with optional durable hunting presentation. */
@@ -426,14 +430,58 @@ export function buildAnimals(ctx: Pick<BuildContext, 'terrain' | 'colliders' | '
     if (Number.isFinite(correction)) point.y += THREE.MathUtils.clamp(correction, -0.06, 0.18) + 0.006;
     animal.root.updateMatrixWorld(true);
   };
+  // A frightened herd or pack animal carries the alarm to its own kind nearby, so a group scatters together (A70).
+  const spreadAlarm = (from: AnimalInstance, position: { x: number; z: number }) => {
+    const herd = ANIMAL_TEMPERAMENT[from.definition.species].herd;
+    if (!herd) return;
+    for (const other of animals) {
+      if (other === from || other.alarm || other.definition.tame || other.definition.species !== from.definition.species) continue;
+      if (!hunting.isVisible(other) || hunting.isDead(other)) continue;
+      if (Math.hypot(other.root.position.x - from.root.position.x, other.root.position.z - from.root.position.z) > herd) continue;
+      other.alarm = { ...position, remaining: 6 }; other.path = []; other.planIn = 0.15 + other.rng() * 0.5;
+    }
+  };
+  // The saddled deer can be ridden (A70): while carried, it follows its rider and keeps out of its own routine.
+  let ridden: { animal: AnimalInstance; at: { x: number; z: number; yaw: number; speed: number } } | null = null;
+  const seats = new Map<AnimalInstance, number>();
+  const seatOf = (animal: AnimalInstance) => {
+    let seat = seats.get(animal);
+    if (seat !== undefined) return seat;
+    // The highest point of the back over the middle of the body, in the standing pose: the saddle.
+    const box = animal.bounds, mid = (box.min.z + box.max.z) / 2, span = (box.max.z - box.min.z) * 0.12;
+    let top = -Infinity;
+    animal.scene.updateMatrixWorld(true);
+    const inverse = animal.root.matrixWorld.clone().invert();
+    animal.scene.traverse(object => {
+      const mesh = object as THREE.SkinnedMesh;
+      if (!mesh.isMesh) return;
+      const count = mesh.geometry.attributes.position!.count;
+      for (let i = 0; i < count; i += 3) {
+        (mesh.isSkinnedMesh ? mesh.getVertexPosition(i, vertex) : vertex.fromBufferAttribute(mesh.geometry.attributes.position!, i)).applyMatrix4(mesh.matrixWorld).applyMatrix4(inverse);
+        if (Math.abs(vertex.z - mid) < span && Math.abs(vertex.x) < span) top = Math.max(top, vertex.y);
+      }
+    });
+    seat = Number.isFinite(top) ? top + 0.02 : animal.size.y * 0.62;
+    seats.set(animal, seat);
+    return seat;
+  };
   const hunting = new AnimalHunting(animals, terrain, (body: HuntingAnimal, position) => {
     const animal = body as AnimalInstance;
     animal.alarm = { ...position, remaining: 8 }; animal.path = []; animal.planIn = 0; animal.callSent = true;
     if (!goal(animal, new THREE.Vector3(position.x, terrain.heightAt(position.x, position.z), position.z), true)) enter(animal, 'Alert');
+    spreadAlarm(animal, position);
   }, body => {
     const animal = body as AnimalInstance;
     animal.alarm = null; animal.path = []; animal.yaw = animal.initialYaw; animal.root.rotation.set(0, animal.yaw, 0);
-    animal.root.position.set(animal.home.x, terrain.heightAt(animal.home.x, animal.home.z), animal.home.z);
+    // A returning animal settles somewhere new in its range, so the same wood is a new encounter (A70).
+    let at: { x: number; z: number } = animal.home;
+    for (let attempt = 0; attempt < 8 && animal.definition.roam > 2 && !animal.definition.tame; attempt++) {
+      const a = animal.rng() * Math.PI * 2, r = animal.definition.roam * (0.2 + 0.5 * animal.rng());
+      const candidate = { x: animal.home.x + Math.sin(a) * r, z: animal.home.z + Math.cos(a) * r };
+      if (animalGroundAllowed(terrain, candidate, animal.home.radius) && animalHabitatAllowed(animal.definition, candidate)
+        && !colliders.blocked(candidate.x, candidate.z, animal.home.radius)) { at = candidate; animal.yaw = a; animal.root.rotation.set(0, a, 0); break; }
+    }
+    animal.root.position.set(at.x, terrain.heightAt(at.x, at.z), at.z);
     animal.state = 'Idle'; animal.stateTime = 0; animal.callSent = false; animal.callIn = 20 + animal.rng() * 35; rest(animal);
   });
   hunting.group.traverse(object => { if ((object as THREE.Mesh).isMesh) (object as THREE.Mesh).castShadow = ctx.quality !== 'low'; });
@@ -443,6 +491,18 @@ export function buildAnimals(ctx: Pick<BuildContext, 'terrain' | 'colliders' | '
     group,
     setPeople(next) { people = next; },
     syncHunting: (records, restore) => hunting.syncHunting(records, restore),
+    mount(id) {
+      const animal = animals.find(a => a.definition.id === id && a.definition.tame && !a.definition.seated && a.definition.species === 'deer');
+      if (!animal || !hunting.isVisible(animal)) return null;
+      const p = animal.root.position;
+      return { x: p.x, y: p.y, z: p.z, yaw: animal.yaw, seat: seatOf(animal) };
+    },
+    ride(id, at) {
+      const animal = animals.find(a => a.definition.id === id);
+      if (!animal) return;
+      if (at) { ridden = { animal, at: { ...at } }; return; }
+      if (ridden?.animal === animal) { ridden = null; animal.path = []; rest(animal); }
+    },
     traceArrow: (origin, direction, distance) => running ? hunting.traceArrow(origin, direction, distance) : null,
     showArrowImpact: (hit, direction) => hunting.showArrowImpact(hit, direction),
     alertShot: (position, radius) => hunting.alertShot(position, radius),
@@ -451,12 +511,12 @@ export function buildAnimals(ctx: Pick<BuildContext, 'terrain' | 'colliders' | '
     setRunning(value) { running = value && !disposed; hunting.setRunning(running); },
     setReduceEffects: value => hunting.setReduceEffects(value),
     get contacts(): Collider[] {
-      return animals.filter(animal => hunting.isVisible(animal)).map(animal => hunting.corpseContact(animal) ?? ({ id: `animal:${animal.definition.id}`, kind: 'box', x: animal.root.position.x, z: animal.root.position.z,
+      return animals.filter(animal => hunting.isVisible(animal) && animal !== ridden?.animal).map(animal => hunting.corpseContact(animal) ?? ({ id: `animal:${animal.definition.id}`, kind: 'box', x: animal.root.position.x, z: animal.root.position.z,
         hw: animal.size.x / 2 + 0.07, hd: animal.size.z / 2 + 0.07, yaw: animal.yaw, active: true,
         minY: animal.root.position.y, maxY: animal.root.position.y + animal.size.y }));
     },
     get physicalActors(): PhysicalActor[] {
-      return animals.filter(animal => hunting.isVisible(animal)).map(animal => {
+      return animals.filter(animal => hunting.isVisible(animal) && animal !== ridden?.animal).map(animal => {
         const corpse = hunting.corpseContact(animal);
         return { id: `animal:${animal.definition.id}`, x: corpse?.x ?? animal.root.position.x, y: corpse?.minY ?? animal.root.position.y, z: corpse?.z ?? animal.root.position.z,
           radius: corpse ? corpse.kind === 'box' ? Math.max(.18, Math.hypot(corpse.hw, corpse.hd)) : corpse.r : Math.max(.18, animal.size.x * .5),
@@ -476,6 +536,18 @@ export function buildAnimals(ctx: Pick<BuildContext, 'terrain' | 'colliders' | '
       hunting.group.traverse(object => { if ((object as THREE.Mesh).isMesh) (object as THREE.Mesh).castShadow = frame.quality !== 'low'; });
       for (const animal of animals) {
         const p = animal.root.position, distance = Math.hypot(p.x - frame.focus.x, p.z - frame.focus.z);
+        if (ridden?.animal === animal) {
+          const { at } = ridden;
+          p.x = at.x; p.z = at.z; animal.yaw = at.yaw; animal.path = []; animal.alarm = null;
+          const gait: AnimalClip = at.speed > 2.6 ? 'Run' : at.speed > 0.15 ? 'Walk' : 'Idle';
+          enter(animal, gait);
+          animal.animation.update(dt, at.speed); place(animal, dt);
+          continue;
+        }
+        // Left far from its rest, the mount is led home out of the hunter's sight.
+        if (animal.definition.tame && !animal.definition.seated && distance > 45 && !animalHabitatAllowed(animal.definition, p)) {
+          p.x = animal.home.x; p.z = animal.home.z; animal.yaw = animal.initialYaw; animal.path = []; rest(animal);
+        }
         // All nineteen remain in the scene on every preset. Expanded skin bounds let Three's actual
         // camera/shadow frusta reject submissions without a visible distance seam.
         animal.scene.traverse(object => { if ((object as THREE.Mesh).isMesh) (object as THREE.Mesh).castShadow = frame.quality !== 'low'; });
@@ -484,14 +556,19 @@ export function buildAnimals(ctx: Pick<BuildContext, 'terrain' | 'colliders' | '
         const fleeingFrom = animal.alarm ? new THREE.Vector3(animal.alarm.x, p.y, animal.alarm.z) : frame.focus;
         animal.stateTime += dt; animal.callIn -= dt; animal.alertIn = Math.max(0, animal.alertIn - dt); animal.planIn = Math.max(0, animal.planIn - dt);
         const speeds = ANIMAL_SPEEDS[animal.definition.species];
+        const holding = !animal.definition.tame && !animal.definition.seated && !animal.alarm && distance < speeds.flee;
         if (animal.definition.seated) {
           if (distance < speeds.notice && animal.alertIn <= 0 && animal.state !== 'Alert') { enter(animal, 'Alert'); animal.alertIn = 14; }
-        } else if (!animal.definition.tame && (distance < speeds.flee || animal.alarm)) {
+        } else if (!animal.definition.tame && (distance < speeds.flee * ANIMAL_TEMPERAMENT[animal.definition.species].holdUntil || animal.alarm)) {
+          if (!animal.alarm) spreadAlarm(animal, frame.focus);
           if (animal.planIn <= 0 && (animal.state !== 'Run' || !animal.path.length || animal.blockedFor > 0.4)) {
             if (!goal(animal, fleeingFrom, true)) { animal.path = []; enter(animal, 'Alert'); }
           }
         } else if (distance < speeds.notice && animal.alertIn <= 0 && animal.state !== 'Run' && animal.state !== 'Alert') {
           animal.path = []; enter(animal, 'Alert'); animal.alertIn = 13 + animal.rng() * 12;
+        } else if (!animal.definition.tame && distance < speeds.flee && animal.state !== 'Alert' && animal.state !== 'Call') {
+          // A predator inside its flee distance but standing its ground watches the hunter, and now and then warns him off.
+          animal.path = []; enter(animal, animal.rng() < 0.3 && animal.animation.has('Call') ? 'Call' : 'Alert');
         }
         const callNow = animal.state === 'Call' && !animal.callSent && animal.stateTime >= 0.25;
         let speed = 0;
@@ -521,7 +598,9 @@ export function buildAnimals(ctx: Pick<BuildContext, 'terrain' | 'colliders' | '
             animal.yaw += THREE.MathUtils.clamp(turn, -dt * 1.4, dt * 1.4);
           }
           const gestureDuration = animal.state === 'Call' ? Math.max(3.8, animal.animation.duration('Call')) : animal.animation.duration(animal.state);
-          if (['Call', 'Alert', 'Groom'].includes(animal.state) && animal.stateTime > gestureDuration + 0.2) rest(animal);
+          if (['Call', 'Alert', 'Groom'].includes(animal.state) && animal.stateTime > gestureDuration + 0.2) {
+            if (holding) { animal.stateTime = 0; enter(animal, 'Alert'); } else rest(animal);
+          }
           animal.rest -= dt;
           if (animal.callIn <= 0 && distance < ANIMAL_AUDIO.species[animal.definition.species].maxDistance && distance > speeds.flee + 1 && ['Idle', 'Graze', 'Sleep'].includes(animal.state)) {
             enter(animal, 'Call'); animal.callIn = 35 + animal.rng() * 40;

@@ -64,7 +64,11 @@ describe('continuous coastal atmosphere', () => {
     for (const hour of [22, 23, 24, 0]) {
       sky.update(hour, focus, 120, true);
       expect(sky.sun.intensity, 'night readability comes from fill, not artificial sunlight').toBe(0);
-      expect(sky.sun.castShadow).toBe(false);
+      // No sun shadow at night, and no shadow map drawn for it; it still counts as a shadowed light, so no material is
+      // compiled again at dusk or dawn.
+      expect(sky.sun.shadow.intensity).toBe(0);
+      expect(sky.sunShadows).toBe(false);
+      expect(sky.sun.castShadow).toBe(true);
     }
     for (const boundary of [0, 5.2, 20.2, 22]) {
       sky.update((boundary + 24 - 0.001) % 24, focus, 120, true);
@@ -72,6 +76,20 @@ describe('continuous coastal atmosphere', () => {
       sky.update((boundary + 0.001) % 24, focus, 120, true);
       const after = SKY.ambient.value;
       expect(Math.abs(luminance(before) - luminance(after))).toBeLessThan(0.001);
+    }
+  });
+
+  it('moves the sun and moon smoothly through the ends of the day, without a jump (A70)', () => {
+    let sun = new THREE.Vector3(), moon = new THREE.Vector3();
+    for (let step = 0; step <= 2400; step++) {
+      const hour = step / 100;
+      sky.update(hour, focus, 120, true);
+      if (step) {
+        expect(sky.state.sunDir.angleTo(sun), 'sun at ' + hour).toBeLessThan(0.03);
+        expect(sky.state.moonDir.angleTo(moon), 'moon at ' + hour).toBeLessThan(0.03);
+      }
+      expect(sky.state.sunDir.length()).toBeCloseTo(1, 6);
+      sun = sky.state.sunDir.clone(); moon = sky.state.moonDir.clone();
     }
   });
 

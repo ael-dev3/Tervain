@@ -123,7 +123,8 @@ export function buildAmbient(ctx: BuildContext): SceneModule & { counts: { peopl
       const elapsed = Math.min(dt, 0.25);
       people.forEach((p, i) => {
         p.rig.root.visible = !(p.spec.sleeps && f.nightness > 0.75);
-        colliders.setActive(`ambient:${i}`, p.rig.root.visible);
+        // A person going to bed is no wall for routes: no navigation rebuild at dusk and dawn (A70).
+        colliders.setActive(`ambient:${i}`, p.rig.root.visible, false);
         if (!p.rig.root.visible) { p.t += elapsed; return; }
         // The shadow camera culls actual rig bounds, never a separate distance cutoff.
         let remaining = elapsed;

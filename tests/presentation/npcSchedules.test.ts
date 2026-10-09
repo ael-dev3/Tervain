@@ -17,6 +17,7 @@ import { buildStaticColliders, type Colliders } from '../../src/world/colliders'
 import { NavGrid } from '../../src/world/nav';
 import { MAINT_ROUTE } from '../../src/world/layout';
 import { Terrain } from '../../src/world/terrain';
+import { berthFor } from '../../src/world/homes';
 
 vi.mock('../../src/presentation/characters', () => ({ poseRig: vi.fn(), applyFlash: vi.fn(), createNpcRig: vi.fn(), createBanditRig: vi.fn(), createThornback: vi.fn(),
   createAmbientRig: () => ({ root: new THREE.Group(), height: 1.8, hipY: .95 }) }));
@@ -69,7 +70,8 @@ describe.each(cases)('authored resident schedule: $name', ({ state: makeState })
     const npc = new NpcActor(def, { root: new THREE.Group(), height, materials: [], hitFlash: 0 } as unknown as Rig);
     npc.snapToGoal(ctx);
     for (const hour of [...hours.slice(1), hours[0]!]) {
-      const expected = resolveGoal(def, state, hour), target = npcGoalPosition(def, expected, ctx, height);
+      // A resting resident with a bed goes to stand before it (A70).
+      const expected = resolveGoal(def, state, hour), target = (expected.activity === 'rest' ? berthFor(def.id, terrain, colliders, height)?.stand : null) ?? npcGoalPosition(def, expected, ctx, height);
       const y = terrain.groundAt(target.x, target.z);
       expect(terrain.walkable(target.x, target.z), `${def.id} ${expected.anchor} exact feet`).toBe(true);
       expect(colliders.blocked(target.x, target.z, .35, { minY: y + .02, maxY: y + height }), `${def.id} ${expected.anchor} body overlap`).toBe(false);
@@ -79,10 +81,11 @@ describe.each(cases)('authored resident schedule: $name', ({ state: makeState })
         npc.update(.05, ctx);
         expect(Math.hypot(npc.x - x, npc.z - z), `${def.id} ${expected.anchor} schedule teleport`).toBeLessThanOrEqual(.078);
         const arrived = Math.hypot(npc.x - target.x, npc.z - target.z) <= (expected.activity === 'work' || expected.activity === 'sit' ? .06 : .15);
-        if (arrived && (expected.activity !== 'rest' || npc.hidden)) break;
+        if (arrived && (expected.activity !== 'rest' || npc.hidden || npc.lie === 1)) break;
       }
       expect(Math.hypot(npc.x - target.x, npc.z - target.z), `${def.id} ${hour}h ${expected.anchor} stalled at ${npc.x.toFixed(2)}, ${npc.z.toFixed(2)}`).toBeLessThanOrEqual(expected.activity === 'work' || expected.activity === 'sit' ? .06 : .15);
-      expect(npc.hidden, `${def.id} ${hour}h sleeping state`).toBe(expected.activity === 'rest');
+      // Residents with a bed lie in it rather than vanishing at their door (A70).
+      expect(npc.hidden || npc.lie === 1, `${def.id} ${hour}h sleeping state`).toBe(expected.activity === 'rest');
     }
   }, 15000);
 });
@@ -116,14 +119,14 @@ it('runs the full named cast through shared dawn exits, evening office arrivals 
     let complete = false;
     for (let frame = 0; frame < 6000; frame++) {
       // The same live snapshot/update contract as App: a subsequent resident sees earlier actors' resolved steps.
-      const contacts = cast.filter(n => !n.hidden).map(n => ({ id: `person:${n.id}`, kind: 'circle' as const, x: n.x, z: n.z, r: .35, active: true, minY: n.y + .02, maxY: n.y + n.rig.height }));
+      const contacts = cast.filter(n => n.solid).map(n => ({ id: `person:${n.id}`, kind: 'circle' as const, x: n.x, z: n.z, r: .35, active: true, minY: n.y + .02, maxY: n.y + n.rig.height }));
       ctx.residentContacts = contacts;
       for (const npc of cast) {
         const x = npc.x, z = npc.z; npc.update(.05, ctx);
         expect(Math.hypot(npc.x - x, npc.z - z), `${npc.id} shared exit jumps`).toBeLessThanOrEqual(.078);
         const contact = contacts.find(c => c.id === `person:${npc.id}`);
-        if (contact) Object.assign(contact, { x: npc.x, z: npc.z, minY: npc.y + .02, maxY: npc.y + npc.rig.height, active: !npc.hidden });
-        else if (!npc.hidden) contacts.push({ id: `person:${npc.id}`, kind: 'circle', x: npc.x, z: npc.z, r: .35, active: true, minY: npc.y + .02, maxY: npc.y + npc.rig.height });
+        if (contact) Object.assign(contact, { x: npc.x, z: npc.z, minY: npc.y + .02, maxY: npc.y + npc.rig.height, active: npc.solid });
+        else if (npc.solid) contacts.push({ id: `person:${npc.id}`, kind: 'circle', x: npc.x, z: npc.z, r: .35, active: true, minY: npc.y + .02, maxY: npc.y + npc.rig.height });
       }
       for (let i = 0; i < cast.length; i++) for (const other of cast.slice(i + 1)) {
         const npc = cast[i]!;
@@ -131,8 +134,8 @@ it('runs the full named cast through shared dawn exits, evening office arrivals 
         expect(Math.hypot(npc.x - other.x, npc.z - other.z), `${npc.id}/${other.id} body intersection at ${hour}h`).toBeGreaterThanOrEqual(.699);
       }
       complete = cast.every(n => {
-        const goal = resolveGoal(n.def, state, hour), target = npcGoalPosition(n.def, goal, ctx, n.rig.height);
-        return goal.activity === 'rest' ? n.hidden : !n.hidden && Math.hypot(n.x - target.x, n.z - target.z) <= (goal.activity === 'work' || goal.activity === 'sit' ? .06 : .15);
+        const goal = resolveGoal(n.def, state, hour), target = (goal.activity === 'rest' ? berthFor(n.id, terrain, colliders, n.rig.height)?.stand : null) ?? npcGoalPosition(n.def, goal, ctx, n.rig.height);
+        return goal.activity === 'rest' ? n.hidden || n.lie === 1 : !n.hidden && Math.hypot(n.x - target.x, n.z - target.z) <= (goal.activity === 'work' || goal.activity === 'sit' ? .06 : .15);
       });
       if (complete) break;
     }

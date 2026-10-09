@@ -22,6 +22,7 @@ export interface Interactable {
   priority?: number;
 }
 
+const App_MOUNT = '1005232412';
 const archiveDoorPos = () => frontOf(bySpec('archive'), 0.3);
 
 /** All things the player can act on, as data plus small actions over the game commands. */
@@ -44,6 +45,18 @@ export function buildInteractables(app: App): Interactable[] {
     id: 'hunter_sell_meat', pos: () => ({ ...hunterStationPoint(.7, .25), y: hunterTableSurfaceY(app.world.terrain) + .12 }), r: 2.2,
     prompt: () => S('prompt.sell_game_meat'), enabled: () => hunterTradingOpen(st()) && (st().inventory.raw_meat ?? 0) > 0,
     act: () => app.sellGameMeat(), priority: -.6,
+  });
+
+  // The saddled deer at the caravan rest can be ridden (A70).
+  list.push({
+    id: 'mount_deer', pos: () => { const m = app.world.animals?.mount(App_MOUNT); return m ? { x: m.x, y: m.y + m.seat, z: m.z } : { x: 1e9, z: 1e9 }; },
+    r: 2.6, prompt: () => S('prompt.ride'), ignoreColliders: ['animal:' + App_MOUNT],
+    enabled: () => !app.player.mount && app.player.alive && !app.player.swimming && !!app.world.animals?.mount(App_MOUNT) && app.noThreatNear(),
+    act: () => app.mountDeer(), priority: -0.4,
+  });
+  list.push({
+    id: 'dismount', pos: () => ({ x: app.player.x, y: app.player.y + 1.4, z: app.player.z }), r: 3,
+    prompt: () => S('prompt.dismount'), enabled: () => !!app.player.mount, act: () => app.dismount(), priority: -5,
   });
 
   // People.

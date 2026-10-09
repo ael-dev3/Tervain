@@ -6,238 +6,238 @@
       "id": "caravan-master",
       "file": "caravan-master.glb",
       "triangles": 45996,
-      "bytes": 8397452,
-      "sha256": "f9761d0c218664ddb6b11998530b91650d6a8f34e68465f60eb93d38f3a7bb5e",
+      "bytes": 4496652,
+      "sha256": "eb836db46672520fa5dcc7b782d74e7c31737c41326680c27c3bf6e9ee70d5ac",
       "height": 1.7998065948486328,
       "surfaceBake": "geometry-only-v1",
       "rig": {
         "file": "rigs/caravan-master.json",
         "bytes": 479631,
-        "sha256": "c0b80aa365cd66f38f3a8bb66390ce2a9b5193fb995d61de9404efeccec2fb5d"
+        "sha256": "b650660ae0b46e00ae860b273c3c5a8ee3de6640aed26fb5ea726f9c0e17fdec"
       }
     },
     {
       "id": "rillford-reeve",
       "file": "rillford-reeve.glb",
       "triangles": 45957,
-      "bytes": 11512824,
-      "sha256": "6b77c6125db65e442c3c5f212a56428d494e882a12bc854aae04ef3cb38087ed",
+      "bytes": 7088052,
+      "sha256": "0a3166f9f5ee28363d6fe73743eee0a7297aa415731f4c804a196e86dfcf84d3",
       "height": 1.8000023365020752,
       "surfaceBake": "geometry-only-v1",
       "rig": {
         "file": "rigs/rillford-reeve.json",
         "bytes": 704156,
-        "sha256": "5055100c42df4861c28236e04373c577180dd5206c60bd204e3fdfab784cf290"
+        "sha256": "2d2c59b46143bf256952a289bd44120d308251c4e8abf01ded2f43813dd8537d"
       }
     },
     {
       "id": "spring-steward",
       "file": "spring-steward.glb",
       "triangles": 10328,
-      "bytes": 4204576,
-      "sha256": "d4dc3f02e3ff156acf020946d6b5edb195e6f226aaae59a0abac554e12728d9d",
+      "bytes": 1665124,
+      "sha256": "956a2af1201a998f69487ddcc50b562b4578f6a23163d6e601d5c868c7e49a50",
       "height": 1.7999999523162842,
       "surfaceBake": "geometry-only-v1",
       "rig": {
         "file": "rigs/spring-steward.json",
         "bytes": 153151,
-        "sha256": "0c717ba72d2f27bb3b19dde37d0cbccfbf74323d151215cd7d3a1720d36df73a"
+        "sha256": "19942c4727848ae0850707fbb6b9bc767ca3a95b1d35ace4b960061cffb50431"
       }
     },
     {
       "id": "quarry-foreman",
       "file": "quarry-foreman.glb",
       "triangles": 46000,
-      "bytes": 8520012,
-      "sha256": "5655797071def938a333bfab87ec41694a8b48c68334d913bd82b172fa59007c",
+      "bytes": 4111136,
+      "sha256": "73c806707dfa85e9326a59a52fcca1aeef7156bf36a07b1681e2f6f53f8aa864",
       "height": 1.7997812032699585,
       "surfaceBake": "geometry-only-v1",
       "rig": {
         "file": "rigs/quarry-foreman.json",
         "bytes": 387119,
-        "sha256": "3ab8fd31d0a7dea821e3556097533189ae72e16266e1e2529cec5d5074f24364"
+        "sha256": "f9dbd6252a54a63605faf6e131773bb1a2ccb163518ec47a2e7f1aa316b384e8"
       }
     },
     {
       "id": "maintenance-worker",
       "file": "maintenance-worker.glb",
       "triangles": 45994,
-      "bytes": 7999928,
-      "sha256": "0a293717adb6541ee6f4adf1c02368589afbc0e17f9513543ca1b78e4c51e838",
+      "bytes": 4190648,
+      "sha256": "1c0ec90c43d24d0df09916205be73dec34f964e941e68372666566f1fd6dc648",
       "height": 1.7998889684677124,
       "surfaceBake": "geometry-only-v1",
       "rig": {
         "file": "rigs/maintenance-worker.json",
         "bytes": 453259,
-        "sha256": "e9b55a1836fff0462e8df3aaf270b603cf0fb1e9c3ed5a9f835ca50f17fb48ae"
+        "sha256": "45f9818e1a7d4b0a83cbd84884618fceb676dbe00e7e0ff242f67651ad230055"
       }
     },
     {
       "id": "estate-steward",
       "file": "estate-steward.glb",
       "triangles": 46000,
-      "bytes": 8090820,
-      "sha256": "2ea5cd78c0ace3775a745ce4345250ea944728168ba07cac4dc156572db89333",
+      "bytes": 4080464,
+      "sha256": "efa9254bd5d86f08d1499166a567650a54d375854f5e7cd562913b54d9e59e05",
       "height": 1.7997856140136719,
       "surfaceBake": "geometry-only-v1",
       "rig": {
         "file": "rigs/estate-steward.json",
         "bytes": 424974,
-        "sha256": "16266c33169c69d09481a632a09aad1a219ddf90e92f1db3f6b8bd5485aa844d"
+        "sha256": "7fb75ad5a11560a831b99aa83c4908d03552d4c6432c7efdffbb81b65d38c26e"
       }
     },
     {
       "id": "ash-recorder",
       "file": "ash-recorder.glb",
       "triangles": 34220,
-      "bytes": 5938408,
-      "sha256": "a0fa94035a2a0e38c89265767db0e63ea615414a91a44ecf488e514956580475",
+      "bytes": 3358524,
+      "sha256": "b867839eefdd4027be8a17e81f14163901138c75c3a00309f2afd6f6a97f50e1",
       "height": 1.7999999523162842,
       "surfaceBake": "geometry-only-v1",
       "rig": {
         "file": "rigs/ash-recorder.json",
         "bytes": 384264,
-        "sha256": "b133dd8261118eea7c9284f7c7a7b7dbfac45faa17f9447dbe8ac32d3f157437"
+        "sha256": "7ac51210f177f056f138194f347ee6900b46cabe3a0efb345332e1381db92d48"
       }
     },
     {
       "id": "shrine-warden",
       "file": "shrine-warden.glb",
       "triangles": 46000,
-      "bytes": 8497100,
-      "sha256": "113af114f2581feb89f55b843c617af6624f04996f0e0fb306074fcb39c7418d",
+      "bytes": 4136012,
+      "sha256": "48dacd6c735acc986b965344a581c8b08866671a978552b1c59e4c15643b13cb",
       "height": 1.801082968711853,
       "surfaceBake": "geometry-only-v1",
       "rig": {
         "file": "rigs/shrine-warden.json",
         "bytes": 401745,
-        "sha256": "91e830fb7336e71c7728d3bd3c34c81f433f46f9443bb1cdf7680e677d945730"
+        "sha256": "a9ab14b9ace1544b7862faafad13135ff1eafba57ca993bcd6858b526fe43022"
       }
     },
     {
       "id": "mill-hand",
       "file": "mill-hand.glb",
       "triangles": 10328,
-      "bytes": 4156620,
-      "sha256": "923a11e2d38dc4ae523379442244146e28535b61a80f6d6bea61dd2109c089f1",
+      "bytes": 1651960,
+      "sha256": "d4ea3aa8b8e4005054ba7cd63dbb68ff916aebe8dfd70a444a1dd663c0fa8537",
       "height": 1.7999999523162842,
       "surfaceBake": "geometry-only-v1",
       "rig": {
         "file": "rigs/mill-hand.json",
         "bytes": 153141,
-        "sha256": "99a85376d617f0ce3f78da0b8104b85da211e920e1365e953a2a203bcb744b92"
+        "sha256": "4eef42d7abeba3d277f1d821db396d9c5f4e37d34b9694c9b8aa953ef9d45b70"
       }
     },
     {
       "id": "quarry-hand",
       "file": "quarry-hand.glb",
       "triangles": 45965,
-      "bytes": 11608676,
-      "sha256": "4bdf9fd3e998efc7321c49d8feefff54f401d7da363f653f020f65557144162e",
+      "bytes": 7223956,
+      "sha256": "3ba63d2f6311ab22d5b95efa1236f0c1242b124d40a705fe000c8ed461875400",
       "height": 1.7994439601898193,
       "surfaceBake": "geometry-only-v1",
       "rig": {
         "file": "rigs/quarry-hand.json",
         "bytes": 740269,
-        "sha256": "7a6dc58c090a36eb08cdbbb6fb0346ccc13b8d2b98900096b8951847a89d3a02"
+        "sha256": "bc9b1f7bb176ead509622d8c410f188d4802560c836dbd2ae509b5e9edfb943c"
       }
     },
     {
       "id": "village-baker",
       "file": "village-baker.glb",
       "triangles": 45998,
-      "bytes": 8034236,
-      "sha256": "08a6e0f394b753c928c92db46016699303b89b6a7052cae285181a71089054c0",
+      "bytes": 4120752,
+      "sha256": "aaeaab03f1552e84ffb63dc796a48ce1bf41c9302fd905827695d932bb4f0324",
       "height": 1.7999660968780518,
       "surfaceBake": "geometry-only-v1",
       "rig": {
         "file": "rigs/village-baker.json",
         "bytes": 429780,
-        "sha256": "a084474ace450cac84a64aedbcfba7f5fa0d57c3ecc93b0931f6356be8e27de8"
+        "sha256": "dd6d0350b2114718e65d7589f0edd1403c64074cea1c3d2682046ffcc29a0807"
       }
     },
     {
       "id": "fisher",
       "file": "fisher.glb",
       "triangles": 46000,
-      "bytes": 9396060,
-      "sha256": "9f3f7e576f28d66756ff3b563a74c128de5e10df74a8b19330c2f99720f1c980",
+      "bytes": 4726592,
+      "sha256": "c634db30a1b8750297cb7da78fe832e26ab2729d6b8bde26e6c7f96b838f2802",
       "height": 1.7980806827545166,
       "surfaceBake": "geometry-only-v1",
       "rig": {
         "file": "rigs/fisher.json",
         "bytes": 449129,
-        "sha256": "1ec493f05efee76b14bca59946d3aad2a29fb2dc21e21a6c61597bdb3e63b2f9"
+        "sha256": "ded052dd0a1f7d250288ea2447c9e1e2ca75191d7dd45bf1aedd567c636adb04"
       }
     },
     {
       "id": "fireside",
       "file": "fireside.glb",
       "triangles": 45957,
-      "bytes": 11500624,
-      "sha256": "728e18da4e9f5d8dd393a0eb81d564b0456fd3c933226ca5f587d68e28565ad8",
+      "bytes": 7085632,
+      "sha256": "2b8c9303a8564732ea654388f93de022fbf528a8de4e3f42fbb39b5bc0a1b916",
       "height": 1.8000023365020752,
       "surfaceBake": "geometry-only-v1",
       "rig": {
         "file": "rigs/fireside.json",
         "bytes": 704170,
-        "sha256": "d36aaa164749b1a63741fd288a8d66e1ea4f8a766ce90792afc5ae3b13490706"
+        "sha256": "df56f93744e9fb87ebe86d63cf66d1aebbae26af57c3f2c6f5a8358057263010"
       }
     },
     {
       "id": "keeper",
       "file": "keeper.glb",
       "triangles": 9365,
-      "bytes": 4759632,
-      "sha256": "b7866e8477ced006aaa9563c89e1a241fbe67c70dd4b2a2ee8d71d8e29292db6",
+      "bytes": 1490912,
+      "sha256": "a2ebd3587a408c06a80cdf040c433ac94aa7357bea5b6ab2a27f413fa0d7ed0e",
       "height": 1.7999999523162842,
       "surfaceBake": "geometry-only-v1",
       "rig": {
         "file": "rigs/keeper.json",
         "bytes": 125132,
-        "sha256": "0785a2a92d6013db314baab12ae8f2abdbe80db85a08fe8ed13cf6f56a1d78f9"
+        "sha256": "bd26b926d913edd88c8a0042ec80828ee91be92ed47f77a636b103d9ed48dc6c"
       }
     },
     {
       "id": "ford-bandit-a",
       "file": "ford-bandit-a.glb",
       "triangles": 45963,
-      "bytes": 11767292,
-      "sha256": "5f56d0305eb21031c7e1336f89ab8536224770eac2a60187e5fb3654a65d55a2",
+      "bytes": 7133592,
+      "sha256": "611485409c2a80f455707273546c1cb3fbf8875ff3756f2c5a00cac35321b803",
       "height": 1.801072359085083,
       "surfaceBake": "geometry-only-v1",
       "rig": {
         "file": "rigs/ford-bandit-a.json",
         "bytes": 704741,
-        "sha256": "2c228ac022ff0eda6db709b95b6a8eb0594fceaca9c6b05d2f9b07262a68fb30"
+        "sha256": "163b3f6ecd35191839453acdbb6a8cd63e972efb2ecc3d039a349852835e0481"
       }
     },
     {
       "id": "ford-bandit-b",
       "file": "ford-bandit-b.glb",
       "triangles": 45999,
-      "bytes": 8374680,
-      "sha256": "edaa8f5402e9c4ffb31a89a3bbb00bc675bd77a216939cd950b3c5418cae5b1e",
+      "bytes": 4298528,
+      "sha256": "b18905b589324c098b510200f65472e2e91a87ffb60b1aed017845b6833f1592",
       "height": 1.8001842498779297,
       "surfaceBake": "geometry-only-v1",
       "rig": {
         "file": "rigs/ford-bandit-b.json",
         "bytes": 441487,
-        "sha256": "131242cb087a7e30ee767cb0b4b00025dfdb615bd75833a076c8325f2aa4305c"
+        "sha256": "d325a441de2bf91cc808519a6288cc765e10a9a6e350ddf3f7b6051fb6e99209"
       }
     },
     {
       "id": "menu-warden",
       "file": "menu-warden.glb",
       "triangles": 45998,
-      "bytes": 7671612,
-      "sha256": "533727123105bc7a449cf668f328e385a4a5a82afa961ac8ae392bdae7574d2e",
+      "bytes": 4034132,
+      "sha256": "01b5ab89307c267929fc7053ecb420dd72320fe062b9dfd6912fb742b3887ac9",
       "height": 1.800502061843872,
       "surfaceBake": "geometry-only-v1",
       "rig": {
         "file": "rigs/menu-warden.json",
         "bytes": 423615,
-        "sha256": "2a81978131f4cdb1d10895709f4e8773be74e844286fbc19013f216f7ff4589d"
+        "sha256": "441b29a6e2dbee552bea4e60f9442c4cdad0ce214e7b34448d6331ea9147ccfa"
       }
     }
   ],

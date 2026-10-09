@@ -15,11 +15,11 @@
       "filename": "tiger-1005232739.glb",
       "sourceFilename": "Meshy_AI_tiger_1005232739_texture.glb",
       "sourceSha256": "23fd4488d6c24ec7b090c5c476bfd9f74f242aedcfcd46333bdd294ac861dcca",
-      "outputSha256": "09ef740c9e01d5219bf3e7bef8f5f7bb43f6f454f10d71bad8aed0f2210f96a9",
+      "outputSha256": "5da4135f15a61debc854351da803a551dd931493c7071ff111d58a728c9d6071",
       "sourceTriangles": 335654,
       "triangles": 47155,
       "removedSourceGroundBridgeTriangles": 0,
-      "bytes": 8316704,
+      "bytes": 3305212,
       "height": 1.2,
       "bounds": {
         "min": [
@@ -274,11 +274,11 @@
       "filename": "lion-1005232726.glb",
       "sourceFilename": "Meshy_AI_Lion_1005232726_texture.glb",
       "sourceSha256": "2c7ef06a3ed4a53fc3069bcb1fe0bbc25a081336bae1787b6233e6fbb311c604",
-      "outputSha256": "84b2d1131bda6aac3b9d2826e0c9d659304a7a3089ca3c80ab1c3c5c5bf93d0c",
+      "outputSha256": "067a48b3251fa76098cdb361bb5cf48865f624a699da57d22e054ca0a2cda6f9",
       "sourceTriangles": 17934,
       "triangles": 17790,
       "removedSourceGroundBridgeTriangles": 144,
-      "bytes": 2239268,
+      "bytes": 1333020,
       "height": 1.3,
       "bounds": {
         "min": [
@@ -514,11 +514,11 @@
       "filename": "bear-1005170943.glb",
       "sourceFilename": "Meshy_AI__bear_1005170943_texture.glb",
       "sourceSha256": "8ce7280949fbb5506780b240a574a8b09acd6d9c48c58d0090c4f6e5077aa817",
-      "outputSha256": "3b5bd25bd1fce8e7d77e34f95a2d513018bb918c6410c09553d6e9d30b2ff03e",
+      "outputSha256": "aa61a7b7c0d751464466c68d6737c7cc81b57a10842a365668b8fd5e1d39c6fb",
       "sourceTriangles": 19169,
       "triangles": 19169,
       "removedSourceGroundBridgeTriangles": 0,
-      "bytes": 2041200,
+      "bytes": 1285340,
       "height": 1.5,
       "bounds": {
         "min": [
@@ -754,11 +754,11 @@
       "filename": "bear-1005232657.glb",
       "sourceFilename": "Meshy_AI_Bear__1005232657_texture.glb",
       "sourceSha256": "b2a1761e0713649cc33a1bf15ede455526539a994d64f224458591b6eac25d13",
-      "outputSha256": "f426b15053ee3e8df55326fc2617586287e74238b82dda096b4d945855e8a7f4",
+      "outputSha256": "6e70af679e8be60779eb181a60377766411d94c9bb793c4cfd4957060f0d1477",
       "sourceTriangles": 10000,
       "triangles": 9970,
       "removedSourceGroundBridgeTriangles": 30,
-      "bytes": 1854764,
+      "bytes": 1028352,
       "height": 1.5,
       "bounds": {
         "min": [
@@ -994,11 +994,11 @@
       "filename": "wolf-1005232644.glb",
       "sourceFilename": "Meshy_AI_Wolf_1005232644_texture.glb",
       "sourceSha256": "968c13e84fe37952fd5b9f32456d702b631a700f31e12e960e81ccda2d48cb6c",
-      "outputSha256": "86fa3a4f600a0850faf1eabad2973861ea9170fb4f53c783ffb1917a72cb12ce",
+      "outputSha256": "6d1e257e1deab6ec66db3abf5adb35b6a4fe90c739196556431e1e839a753a1b",
       "sourceTriangles": 757625,
       "triangles": 45968,
       "removedSourceGroundBridgeTriangles": 24,
-      "bytes": 8695576,
+      "bytes": 3224876,
       "height": 0.95,
       "bounds": {
         "min": [
@@ -1234,11 +1234,11 @@
       "filename": "wolf-1005232637.glb",
       "sourceFilename": "Meshy_AI_Wolf_1005232637_texture.glb",
       "sourceSha256": "4a7bb2485113e4878574f8c4645e1abb4db36f0cce27554624a57c46e075cea6",
-      "outputSha256": "d709962b161403642a77659cf244bab6daf19df70058af2282bd018b630e5e5d",
+      "outputSha256": "0e487ec82fe5b2496af71472b210e4fc12616a2ebe503620e5efbb98a2b9073b",
       "sourceTriangles": 202214,
       "triangles": 45888,
       "removedSourceGroundBridgeTriangles": 112,
-      "bytes": 4162360,
+      "bytes": 3043996,
       "height": 0.95,
       "bounds": {
         "min": [
@@ -1474,11 +1474,11 @@
       "filename": "wolf-1005232631.glb",
       "sourceFilename": "Meshy_AI_wolf_1005232631_texture.glb",
       "sourceSha256": "8e11f90d5a90699cb0beda881e3a87617f5fa4bcb043a8f24095bb651a7fed1a",
-      "outputSha256": "509b595a044acde49c444bf25544356d91ef827b07d98407ff47fa0aa50ff963",
+      "outputSha256": "0a08537369cbf926128193cfecc53977b5667547381165c014d38bad9ac89805",
       "sourceTriangles": 14840,
       "triangles": 14773,
       "removedSourceGroundBridgeTriangles": 67,
-      "bytes": 7783968,
+      "bytes": 1675128,
       "height": 0.95,
       "bounds": {
         "min": [
@@ -1714,11 +1714,11 @@
       "filename": "cat-1005232619.glb",
       "sourceFilename": "Meshy_AI_cat_1005232619_texture.glb",
       "sourceSha256": "c82af13a94f32f7b61bda5066a10fa57394765d05c180954b2827fdd4f90ea06",
-      "outputSha256": "4b31da3e0fbbca2176f68866d565f36ac0ff741e3f891c9e5fcc8a98c0368aba",
+      "outputSha256": "338a2b2c965407a8f271d140b5e0f4b4897f148c87729ddafca5c9741c908004",
       "sourceTriangles": 216993,
       "triangles": 45869,
       "removedSourceGroundBridgeTriangles": 125,
-      "bytes": 9322732,
+      "bytes": 3363656,
       "height": 0.4,
       "bounds": {
         "min": [
@@ -1954,11 +1954,11 @@
       "filename": "cat-1005232608.glb",
       "sourceFilename": "Meshy_AI_cat_1005232608_texture.glb",
       "sourceSha256": "bd526c835317a9cd2d89cf084773a9f35114189a4f813d279213bc60f69d22b0",
-      "outputSha256": "0ddc6430b7fc3ffc37eb86ec795fd32762fd45347851e46b44b9b227c75cf522",
+      "outputSha256": "56e6371abe03f98b2570b70ed9749cc6151172569e58c4550261a74a9b1a7b9a",
       "sourceTriangles": 333721,
       "triangles": 45423,
       "removedSourceGroundBridgeTriangles": 566,
-      "bytes": 11947516,
+      "bytes": 3509420,
       "height": 0.47,
       "bounds": {
         "min": [
@@ -2194,11 +2194,11 @@
       "filename": "cat-1005232556.glb",
       "sourceFilename": "Meshy_AI_cat_1005232556_texture.glb",
       "sourceSha256": "02869e5775739d8f5d34b591eeb41dc07c0507c626bda91f523ffb9213eb6fa7",
-      "outputSha256": "4234c20537f315fe7fb82cee5189ce5a7ab63a4cf8f562fbdabb449957d59222",
+      "outputSha256": "e8139c518a26131db4d34812685f0d406b0172dd907f2ba98b0d319e80dc332f",
       "sourceTriangles": 265126,
       "triangles": 45798,
       "removedSourceGroundBridgeTriangles": 201,
-      "bytes": 9386552,
+      "bytes": 3022992,
       "height": 0.4,
       "bounds": {
         "min": [
@@ -2434,11 +2434,11 @@
       "filename": "dog-1005232529.glb",
       "sourceFilename": "Meshy_AI_dog_1005232529_texture.glb",
       "sourceSha256": "318f62cc06ca7f84bfe0ee518666fa7df07d4868e0404b2546e9a6224e4e6355",
-      "outputSha256": "e67d090731783b23d39dac59acb75634b8960b9827ffafdfea5175ee0ba7b386",
+      "outputSha256": "a8ac13a3305988c2910716a3086b66d83a8a2cefb261fdd7939dd6fe741bf6a4",
       "sourceTriangles": 101084,
       "triangles": 46000,
       "removedSourceGroundBridgeTriangles": 0,
-      "bytes": 3468088,
+      "bytes": 2692828,
       "height": 0.8,
       "bounds": {
         "min": [
@@ -2674,11 +2674,11 @@
       "filename": "dog-1005232511.glb",
       "sourceFilename": "Meshy_AI_dog_1005232511_texture.glb",
       "sourceSha256": "dcf72635e50e74592233335ed5d1d4b983b28bb41469294305603245546cd6d8",
-      "outputSha256": "ef8b25bdd4a565601b16ff4562cc116e384877b3ce730b5a3fdc5eb624223f68",
+      "outputSha256": "2cff3baf184d718d719230d90b8f19480c1213bfa354198d146dc88027c157c4",
       "sourceTriangles": 16236,
       "triangles": 16235,
       "removedSourceGroundBridgeTriangles": 0,
-      "bytes": 6159064,
+      "bytes": 1334704,
       "height": 0.8,
       "bounds": {
         "min": [
@@ -2914,11 +2914,11 @@
       "filename": "boar-1005232450.glb",
       "sourceFilename": "Meshy_AI_Wild_Boar_1005232450_texture.glb",
       "sourceSha256": "6f99c5a7b3f66162000a25e8bf6f88926019512376f6e31179111723f09c1046",
-      "outputSha256": "83005905157086f6409b4359b093213b7596f711aac7eb523e79a5369856ef84",
+      "outputSha256": "5657b8014e68fbf9e3583e0ab7167b4031f9af90187f619717ba0370a5066bf4",
       "sourceTriangles": 494855,
       "triangles": 45999,
       "removedSourceGroundBridgeTriangles": 0,
-      "bytes": 11335756,
+      "bytes": 3606416,
       "height": 1.0,
       "bounds": {
         "min": [
@@ -3165,11 +3165,11 @@
       "filename": "boar-1005232442.glb",
       "sourceFilename": "Meshy_AI_boar_1005232442_texture.glb",
       "sourceSha256": "c93ee2d2a7884b9b6cd64336470c3fc9e8ce9b8ed74098d00d146dfa0b69c8b9",
-      "outputSha256": "379603393eaccf21649f694141224483338dc8d7ca6163c5691133abace144a4",
+      "outputSha256": "dfe6210fe0241f86db02a5e8b04e45a31fe5622f59aef9846f7b217d748f305f",
       "sourceTriangles": 19638,
       "triangles": 19638,
       "removedSourceGroundBridgeTriangles": 0,
-      "bytes": 2524816,
+      "bytes": 1501412,
       "height": 1.0,
       "bounds": {
         "min": [
@@ -3416,11 +3416,11 @@
       "filename": "boar-1005174818.glb",
       "sourceFilename": "Meshy_AI_BOAR_1005174818_texture.glb",
       "sourceSha256": "b3d81b85e2db966d8268c11e579a696977e3395dd501ae6f3256489fc9ec30f0",
-      "outputSha256": "ab76c49df449e2bd18880c444caa18d0ec27d63290490abdc3f5802d1b7be3f4",
+      "outputSha256": "69110e1d5323877a38b7c0eb08f60781daa34fee291d6e64047e08fb20e7a71b",
       "sourceTriangles": 781976,
       "triangles": 45748,
       "removedSourceGroundBridgeTriangles": 0,
-      "bytes": 14673220,
+      "bytes": 4754692,
       "height": 1.0,
       "bounds": {
         "min": [
@@ -3667,11 +3667,11 @@
       "filename": "deer-1005232424.glb",
       "sourceFilename": "Meshy_AI_Red_Deer_Stag_1005232424_texture.glb",
       "sourceSha256": "be4abbf9a65eb72f13962ce90bbbc27e8b3445c7bf83e239959f49a75e181aab",
-      "outputSha256": "77dac28f5728d12f1a7f51392252bd1a89c1d06b5de2d412c6de7af36a188524",
+      "outputSha256": "a215911200e1b4da105c1ab575c9ceaa1617f1854a754c9e706e9389288a5d0c",
       "sourceTriangles": 190339,
       "triangles": 45999,
       "removedSourceGroundBridgeTriangles": 0,
-      "bytes": 7340172,
+      "bytes": 2973992,
       "height": 2.25,
       "bounds": {
         "min": [
@@ -3918,11 +3918,11 @@
       "filename": "deer-1005232412.glb",
       "sourceFilename": "Meshy_AI_Deer_Mount_1005232412_texture.glb",
       "sourceSha256": "19cf404163f58fa7eb225a829751a82783694169b6ab30f2c93a84f9c5e7f5c2",
-      "outputSha256": "3c40f75b9d0db0371ca398472a776af51d699397688db13812d0c22d45546736",
+      "outputSha256": "f4d14e4cea6bc8154b1477512a42fc4364bacaceeef3ea749c583337e9d4b741",
       "sourceTriangles": 38476,
       "triangles": 38476,
       "removedSourceGroundBridgeTriangles": 0,
-      "bytes": 3706152,
+      "bytes": 2553992,
       "height": 2.25,
       "bounds": {
         "min": [
@@ -4169,11 +4169,11 @@
       "filename": "deer-1005232351.glb",
       "sourceFilename": "Meshy_AI_Deer_1005232351_texture.glb",
       "sourceSha256": "20a7c9e2ccecdcb3923d6f5cab68ee094b7460dabcc63b1842bdb39f6b3340da",
-      "outputSha256": "1ecaadeac8242db746c0b996df0f4111b013cd0e0f95611922109762418fbd5a",
+      "outputSha256": "b2c80e820f64e91c5efdcf3cf3255d47ff6eb95eec974ad6eef8c801dc670026",
       "sourceTriangles": 199316,
       "triangles": 45954,
       "removedSourceGroundBridgeTriangles": 46,
-      "bytes": 10474444,
+      "bytes": 3040556,
       "height": 2.25,
       "bounds": {
         "min": [
@@ -4426,11 +4426,11 @@
       "filename": "deer-1005232341.glb",
       "sourceFilename": "Meshy_AI_Deer_1005232341_texture.glb",
       "sourceSha256": "3332cdc6a0c928e35ba87828a515fb1ffcfeb525a7321e531a29bc8129d5e37a",
-      "outputSha256": "af78158ee4626b05c0e3129b581cb649e2d27e8c6687936dc39e0b1913e0da98",
+      "outputSha256": "b1c4345a345aefc07cb8bd42fd2ec8114b6fc525db5382e3a1c3618da560b299",
       "sourceTriangles": 247788,
       "triangles": 46000,
       "removedSourceGroundBridgeTriangles": 0,
-      "bytes": 11355452,
+      "bytes": 3226976,
       "height": 2.25,
       "bounds": {
         "min": [

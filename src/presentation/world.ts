@@ -1,6 +1,7 @@
 import { loadBakedTextures } from './bakedTextures';
 import { buildFurniture, loadFurniture, type FurnitureTemplates } from './furniture';
 import { InteriorLight } from './interiorLight';
+import { WindowView } from './windowView';
 import type { InteriorSpec } from '../world/interiors';
 import { DoorSwings, type DoorEvent } from './doors';
 import * as THREE from 'three';
@@ -12,7 +13,7 @@ import { hasFact } from '../game/state';
 import type { WorldState } from '../game/types';
 import { worldView, type WorldView } from '../game/worldView';
 import { buildStaticColliders, type Colliders } from '../world/colliders';
-import { BELL, MILL_WHEEL, SHORTCUT, SLUICE, STREAMS, WORLD } from '../world/layout';
+import { ARCHIVE_ROOM, BELL, bySpec, MILL_WHEEL, SHORTCUT, SLUICE, STREAMS, WORLD } from '../world/layout';
 import { NavGrid } from '../world/nav';
 import { Terrain, distToPolyline } from '../world/terrain';
 import { SkyRig } from './sky';
@@ -205,7 +206,13 @@ export class WorldScene {
 
   /** Release GPU resources the scene graph does not own. */
   dispose() {
+    this.windowView.dispose();
     this.disposeOwned();
+  }
+
+  /** Renderer work before the world is drawn: what the windows of the room the camera is in look out on (A70). */
+  prepareInterior(renderer: THREE.WebGLRenderer, camera: THREE.Camera, dt: number, settings: Settings) {
+    this.windowView.update(renderer, this.scene, camera.position, dt, settings.quality !== 'low');
   }
 
   private static async build(state: WorldState, settings: Settings, library: AssetLibrary, terrainTex: TerrainTextures, pine: PineTemplates, rockPile: GLTF,
@@ -385,6 +392,7 @@ export class WorldScene {
     this.foliage = resources.foliage;
     this.disposeOwned = resources.disposeOwned;
     this.interiorLight = new InteriorLight(this.terrain.rooms);
+    this.windowView = new WindowView(this.terrain.rooms, this.scenery.daylightMat);
     this.doorSwings = new DoorSwings(this.scenery.doors ?? []);
     this.scene.add(this.interiorLight.light);
     this.skyFill = this.scene.environmentIntensity;
@@ -576,7 +584,9 @@ export class WorldScene {
     const night = this.sky.state.nightness;
     // Inside a room the sky's fill is mostly shut out and the room's own warm light takes over (A66). Without
     // shadows (Low) the sun itself would shine through the roof, so it is dimmed there as well.
-    const indoor = this.interiorLight.update(dt, camera.position, night, this.time);
+    // Hearth shadows stay off (A70): a further shadow sampler pushed every lit material past the texture-unit limit on
+    // high quality, and the world drew white.
+    const indoor = this.interiorLight.update(dt, camera.position, night, this.time, false);
     this.sky.hemi.intensity *= 1 - 0.55 * indoor;
     this.scene.environmentIntensity = this.skyFill * (1 - 0.6 * indoor);
     if (settings.quality === 'low') this.sky.sun.intensity *= 1 - 0.85 * indoor;
@@ -585,7 +595,7 @@ export class WorldScene {
     for (const s of this.physics.drainSplashes()) this.water.splash(s.x, s.y, s.z, s.energy);
     this.water.update(dt, v.flow, camera, focus, reduced, settings.reduceEffects);
     let shadowFrustum: THREE.Frustum | null = null;
-    if (settings.quality !== 'low' && this.sky.sun.castShadow) {
+    if (settings.quality !== 'low' && this.sky.sunShadows) {
       // Scene modules cull before the renderer updates light matrices. Use the real snapped
       // shadow volume now, so off-screen trees that shade visible ground remain submitted.
       this.sky.sun.updateMatrixWorld(); this.sky.sun.target.updateMatrixWorld();
@@ -656,13 +666,15 @@ export class WorldScene {
     return Math.abs(x + 46) < 3.6 && Math.abs(z + 102) < 3.1;
   }
 
-  /** Whether a point is under a roof: in the archive or in any building's room (A66). */
-  underRoof(x: number, z: number): boolean {
-    return this.insideArchive(x, z) || this.terrain.rooms.at(x, z) !== null;
+  /** Whether a point is under a roof: in the archive or in any building's room (A66), not above it (A70). */
+  underRoof(x: number, y: number, z: number): boolean {
+    return (this.insideArchive(x, z) && y < this.terrain.groundAt(x, z) + ARCHIVE_ROOM.wallBase + bySpec('archive').h + 0.25)
+      || this.terrain.rooms.within(x, y, z) !== null;
   }
 
   private readonly doorSwings: DoorSwings;
   private readonly interiorLight: InteriorLight;
+  private readonly windowView: WindowView;
   /** The sky's image light at full strength, before a room dims it. */
   private readonly skyFill: number;
 

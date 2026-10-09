@@ -22,6 +22,8 @@ export const STAMINA_MAX = 100;
 /** A fresh meter supports about 133 seconds of uninterrupted exploration running. */
 const SPRINT_STAMINA_PER_SECOND = 0.75;
 const SPRINT_MIN_STAMINA = 0.5;
+/** The saddled deer's walk and run under a rider (m/s), A70. */
+export const MOUNT_WALK = 2.1, MOUNT_RUN = 6.2;
 const COST = { light: 12, heavy: 30, dodge: 22, jump: 6, blockHit: 18 };
 const DUR = { light: 0.62, heavy: 1.05, dodge: 0.4, hurt: 0.38 };
 /** Portion of the action after which the blow lands. */
@@ -150,12 +152,17 @@ export class Player {
   private stepDist = 0;
   private clock = 0;
   private gaitTime = 0;
+  /** The facing at the last pose, for how far the hero turned between poses (A70). */
+  private poseYaw = 0;
   channel: { label: string; t: number; dur: number; done: () => void; kind?: 'skinning'; cancelled?: () => void } | null = null;
   shake = 0;
   inWater = false;
   /** Swimming in water too deep to stand in; the depth of water at the feet (m, 0 on dry ground). */
   swimming = false;
   waterDepth = 0;
+  /** Riding the saddled deer (A70): which animal, how high its saddle sits, and its walking and running pace. */
+  mount: { id: string; seat: number } | null = null;
+  private mountBob = 0;
   private soaked = 0;
   private wakeClock = 0;
   private strokeClock = 0;
@@ -269,7 +276,29 @@ export class Player {
     return { x: Math.sin(this.yaw), z: Math.cos(this.yaw) };
   }
 
+  /** Climb into the saddle of an animal standing at (x, z) facing yaw (A70). */
+  mountUp(id: string, seat: number, x: number, y: number, z: number, yaw: number) {
+    this.cancelSkinning();
+    this.mount = { id, seat };
+    this.x = x; this.y = y; this.z = z; this.yaw = yaw; this.poseYaw = yaw;
+    this.vx = this.vz = this.vy = 0; this.grounded = true; this.blocking = false;
+  }
+
+  /** Step down beside the mount; returns where he stands. */
+  dismount(ctx: Pick<PlayerCtx, 'terrain' | 'colliders'>): void {
+    if (!this.mount) return;
+    this.mount = null;
+    for (const side of [1, -1, 2, -2]) {
+      const a = this.yaw + side * Math.PI / 2, d = Math.abs(side) === 2 ? 1.6 : 1.1;
+      const x = this.x + Math.sin(a) * d, z = this.z + Math.cos(a) * d;
+      if (!ctx.colliders.blocked(x, z, PLAYER_RADIUS)) { this.x = x; this.z = z; break; }
+    }
+    this.y = ctx.terrain.supportAt(this.x, this.z, this.y + 0.5);
+    this.vx = this.vz = this.vy = 0; this.grounded = true;
+  }
+
   setPosition(x: number, z: number, yaw: number, terrain: Terrain, feetY?: number) {
+    this.mount = null;
     this.cancelSkinning();
     this.huntingVisual.restorePose();
     this.huntingVisual.setAim(null);
@@ -348,7 +377,12 @@ export class Player {
   }
 
   private supportAt(x: number, z: number, ctx: PlayerCtx, feetY = this.y): number {
-    return Math.max(ctx.terrain.supportAt(x, z, feetY), ctx.physics?.supportAt(x, z, feetY) ?? -Infinity);
+    const base = Math.max(ctx.terrain.supportAt(x, z, feetY), ctx.physics?.supportAt(x, z, feetY) ?? -Infinity);
+    // Low furniture is landed on, not sunk into, where the body fits above it (a stool under a table does not) (A70).
+    const top = ctx.colliders.lowTopAt(x, z, PLAYER_RADIUS * 0.6, feetY);
+    if (top === null || top <= base) return base;
+    const above = { minY: top + PLAYER_FOOT_CLEARANCE, maxY: top + PLAYER_BODY_HEIGHT, excludePrecise: Boolean(ctx.physics) };
+    return ctx.colliders.blocked(x, z, PLAYER_RADIUS, above) ? base : top;
   }
 
   /** Reachable standing windows select stairs for walking, but a fast fall must also meet surfaces crossed this frame. */
@@ -424,9 +458,14 @@ export class Player {
     const people = this.contacts(ctx);
     const target = ctx.colliders.resolve(this.x, this.z, PLAYER_RADIUS, undefined, bounds, people);
     if (!target.hit) return;
+    if (Math.hypot(target.x - this.x, target.z - this.z) > PLAYER_RADIUS * 2 + 0.05) return;
     const scenerySafe = ctx.colliders.move(this.x, this.z, target.x - this.x, target.z - this.z, PLAYER_RADIUS, undefined, bounds);
     const safe = ctx.physics?.move(this.x, this.y, this.z, scenerySafe.x - this.x, scenerySafe.z - this.z, this.grounded) ?? { ...scenerySafe, y: this.y };
     const ground = this.supportAt(safe.x, safe.z, ctx, safe.y);
+    // A push out of one body never crosses another: out of a sack pile against a wall it used to land the hero on the far
+    // side of the wall (A70). Only what he stands in may lie between.
+    const inside = new Set(ctx.colliders.near(this.x, this.z, PLAYER_RADIUS).map((c) => c.id));
+    if (ctx.colliders.cast(this.x, this.z, safe.x, safe.z, 0, inside, bounds)) return;
     if (!this.travelAllowed(safe.x, safe.z, safe.y, ctx) || ground - this.y > (this.grounded ? this.stepHeightAt(safe.x, safe.z, ground, ctx) : 0.18)) return;
     if (this.grounded && ground > this.y && this.stepHeightAt(safe.x, safe.z, ground, ctx) === ROCK_STEP_HEIGHT &&
       ctx.colliders.ceilingAt(safe.x, safe.z, PLAYER_RADIUS,
@@ -450,6 +489,9 @@ export class Player {
       if (Math.abs(mx) < 1e-8 && Math.abs(mz) < 1e-8) return false;
       const bounds = { minY: this.y + PLAYER_FOOT_CLEARANCE, maxY: this.y + PLAYER_BODY_HEIGHT, excludePrecise: Boolean(ctx.physics) };
       const result = ctx.colliders.move(this.x, this.z, mx, mz, PLAYER_RADIUS, undefined, bounds, contacts);
+      // A step never carries him further than he asked: the excess is a push out of a body he half-entered mid-jump (a window
+      // lintel), and its far side lies past the wall (A70).
+      if (Math.hypot(result.x - this.x, result.z - this.z) > Math.hypot(mx, mz) + 0.25) return false;
       const physical = ctx.physics?.move(this.x, this.y, this.z, result.x - this.x, result.z - this.z, this.grounded) ?? { ...result, y: this.y };
       const nx = physical.x;
       const nz = physical.z;
@@ -655,7 +697,7 @@ export class Player {
     const hasInput = mag > 0.05;
 
     // Blocking.
-    const wantBlock = control && !hasBow && !this.swimming && (this.state === 'free') && inp.held('block');
+    const wantBlock = control && !hasBow && !this.swimming && !this.mount && (this.state === 'free') && inp.held('block');
     if (wantBlock && !this.blocking) this.blockTime = 0;
     this.blocking = wantBlock;
     if (this.blocking) this.blockTime += dt;
@@ -669,7 +711,7 @@ export class Player {
 
     // Actions (edge-triggered).
     const arms = this.arms(ctx.game);
-    if (control && this.state === 'free' && !this.swimming) {
+    if (control && this.state === 'free' && !this.swimming && !this.mount) {
       if (!hasBow && inp.pressed('attack') && !this.blocking && this.stamina >= arms.cost.light) {
         this.startAction('light', arms);
         this.spend(arms.cost.light);
@@ -717,6 +759,8 @@ export class Player {
       case 'free': {
         let target = sprinting ? HERO_RUN_SPEED : this.blocking || this.bowAiming ? HERO_GUARD_SPEED : HERO_WALK_SPEED;
         if (this.swimming) target = sprinting ? SWIM_SPRINT : SWIM_SPEED;
+        // In the saddle the deer sets the pace: an easy walk, a run with sprint held (A70).
+        else if (this.mount) target = sprinting ? MOUNT_RUN : MOUNT_WALK;
         else if (ctx.water) target *= wadeFactor(this.waterDepth);
         const back = mv.y < -0.3 && !this.blocking ? 0.7 : 1;
         speed = hasInput ? target * back * mag : 0;
@@ -860,7 +904,7 @@ export class Player {
     if (pendingBlow) this.resolveBlow(ctx);
 
     // Stamina.
-    if (sprinting && this.state === 'free' && this.lastMoveSpeed > 1) {
+    if (sprinting && this.state === 'free' && this.lastMoveSpeed > 1 && !this.mount) {
       this.stamina = Math.max(0, this.stamina - (this.swimming ? SWIM_SPRINT_STAMINA : SPRINT_STAMINA_PER_SECOND) * dt);
       this.staminaPause = 0.5;
       if (this.stamina <= SPRINT_MIN_STAMINA) {
@@ -987,23 +1031,43 @@ export class Player {
         else if (this.lastMoveSpeed > 0.12) mode = 'walk';
     }
     if (!this.grounded && !this.swimming && this.state === 'free') mode = 'run';
+    if (this.mount && this.state === 'free') mode = 'sit';
     this.mode = mode;
     const speedNorm = Math.min(1, this.lastMoveSpeed / (mode === 'swim' ? SWIM_SPEED : mode === 'run' ? HERO_RUN_SPEED : HERO_WALK_SPEED));
     // Integrate gait phase from actual travel. Multiplying a lifetime clock by changing speed made legs snap on turns/stops.
     const gait = mode === 'walk' || mode === 'run' || mode === 'block';
     if (gait && this.grounded) this.gaitTime += this.lastMoveSpeed * dt / (mode === 'run' ? HERO_RUN_CYCLE : HERO_WALK_CYCLE);
+    // Guarding or aiming, he moves other than the way he faces: the legs follow the way of travel (A70). How far he
+    // turned since the last pose plants his feet as he turns on the spot; a jump of the facing (a load) is not a turn.
+    const strafing = this.state === 'free' && (this.blocking || this.bowAiming) && !this.swimming;
+    const heading = strafing && this.lastMoveSpeed > 0.12 ? Math.atan2(Math.sin(Math.atan2(this.vx, this.vz) - this.yaw), Math.cos(Math.atan2(this.vx, this.vz) - this.yaw)) : 0;
+    const turned = Math.atan2(Math.sin(this.yaw - this.poseYaw), Math.cos(this.yaw - this.poseYaw));
+    this.poseYaw = this.yaw;
     const pose: Pose = {
       mode, speed: speedNorm, time: gait ? this.gaitTime : this.clock, t,
       amp: ctx.settings.reducedMotion ? 0.6 : 1,
       grounded: this.grounded,
       travel: this.grounded && gait ? this.lastMoveSpeed * dt : 0,
       moveSpeed: this.lastMoveSpeed,
+      heading,
+      turn: Math.abs(turned) < 1.2 ? turned : 0,
+      // The feet find the ground under them: a stair edge, a root, a slope (A70).
+      groundAt: (x: number, z: number) => this.supportAt(x, z, ctx, this.y + 0.35),
+      rootY: this.y,
+      straddle: this.mount !== null,
     };
     this.huntingVisual.restorePose();
+    // The root stands where he is before the pose, so the feet are planted against this frame's ground. In the saddle he
+    // sits on the deer's back, rising and falling a little with its gait.
+    this.mountBob += this.mount ? dt * this.lastMoveSpeed * 2.4 : 0;
+    const seat = this.mount ? this.mount.seat + Math.abs(Math.sin(this.mountBob)) * Math.min(0.06, this.lastMoveSpeed * 0.012) : 0;
+    this.rig.root.position.set(this.x, this.y + seat, this.z);
+    this.rig.root.rotation.y = this.yaw;
+    this.rig.root.updateMatrixWorld(true);
     poseRig(this.rig, pose, dt);
     applyFlash(this.rig, this.rig.hitFlash);
     if (this.rig.hitFlash > 0) this.rig.hitFlash = Math.max(0, this.rig.hitFlash - dt * 4);
-    this.rig.root.position.set(this.x, this.y, this.z);
+    this.rig.root.position.set(this.x, this.y + seat, this.z);
     this.rig.root.rotation.y = this.yaw;
     this.huntingVisual.setSkinning(this.skinningProgress, this.channel?.t ?? 0, this.skinningHeight);
     this.huntingVisual.apply(dt);

@@ -112,6 +112,26 @@ describe('peaceful animated land wildlife', () => {
     module.dispose?.();
   });
 
+  it('lets predators hold their ground and packs scatter together (A70)', () => {
+    const wolves = ANIMALS.filter(animal => animal.species === 'wolf'), source = animalFixture();
+    const terrain = new Terrain(), colliders = buildStaticColliders(terrain);
+    vi.spyOn(navigation, 'findAnimalPath').mockImplementation((_definition, _from, goal) => [goal]);
+    const module = buildAnimals({ terrain, colliders, quality: 'low' }, new Map(wolves.map(w => [w.id, source])), wolves, () => {});
+    const lead = module.snapshot()[0]!;
+    // Inside the flee distance but beyond where a wolf gives way: it stands and watches.
+    const watching = frame(new THREE.Vector3(lead.x + 6.2, lead.y, lead.z));
+    for (let k = 0; k < 240; k++) module.update(1 / 60, watching);
+    expect(module.snapshot()[0]!.state).toMatch(/Alert|Call/);
+    expect(module.snapshot().every(w => w.state !== 'Run')).toBe(true);
+    // Closer, it runs, and the pack within reach runs with it.
+    const close = frame(new THREE.Vector3(lead.x + 2.5, lead.y, lead.z));
+    for (let k = 0; k < 90; k++) module.update(1 / 60, close);
+    const pack = module.snapshot().filter(w => Math.hypot(w.x - lead.x, w.z - lead.z) < 35);
+    expect(pack.length).toBeGreaterThan(1);
+    expect(pack.every(w => w.state === 'Run' || w.state === 'Walk')).toBe(true);
+    module.dispose?.();
+  });
+
   it('bounds blocked escape replanning and escapes once a dynamic obstruction clears', () => {
     const source = animalFixture(), terrain = new Terrain(), colliders = buildStaticColliders(terrain);
     let blocked = true;

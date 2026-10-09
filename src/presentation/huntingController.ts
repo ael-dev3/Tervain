@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { S } from '../content/strings';
 import type { Game } from '../game/game';
-import { ANIMAL_SPECIES, HUNTING_ARROW_RANGE, SKINNING_SECONDS, type AnimalId } from '../game/hunting';
+import { ANIMAL_SPECIES, HUNTING_ARROW_RANGE, skinningSeconds, type AnimalId } from '../game/hunting';
 import type { Input } from '../platform/input';
 import { codeLabel, type Settings } from '../platform/settings';
 import type { AudioEngine } from './audio';
@@ -76,7 +76,7 @@ export class HuntingController {
     }
     if (input.pressed('skin')) this.skin();
     if (this.skinId && !this.skinValid(this.skinId)) player.cancelSkinning();
-    const available = player.bowEquipped(game) && player.state === 'free' && player.alive && !player.swimming && !world.physics.holding;
+    const available = player.bowEquipped(game) && player.state === 'free' && player.alive && !player.swimming && !player.mount && !world.physics.holding;
     if (!available) { this.cancelDraw(); cam.setAiming(false); return; }
     const held = input.isDown('attack');
     const aimHeld = input.isDown('block');
@@ -126,8 +126,11 @@ export class HuntingController {
     const far = ray.ray.at(HUNTING_ARROW_RANGE, new THREE.Vector3());
     const scenery = world.physics.traceProjectile(ray.ray.origin, far);
     const animal = world.animals.traceArrow(ray.ray.origin, ray.ray.direction, HUNTING_ARROW_RANGE);
-    const target = animal && (!scenery || animal.distance < scenery.distance) ? new THREE.Vector3().copy(animal.point)
-      : scenery ? new THREE.Vector3().copy(scenery.point) : far;
+    // A camera ray hit behind the bow (the hero's own cover, a shoulder-close post) would turn the arrow round (A70).
+    const past = ray.ray.origin.distanceTo(muzzle.origin) + 0.3;
+    const near = (hit: { distance: number } | null | undefined) => !!hit && hit.distance > past;
+    const target = near(animal) && (!near(scenery) || animal!.distance < scenery!.distance) ? new THREE.Vector3().copy(animal!.point)
+      : near(scenery) ? new THREE.Vector3().copy(scenery!.point) : far;
     const direction = arrowDirection(muzzle.origin, target);
     const shot = this.arrows.launch(muzzle.origin, direction, SPEED);
     if (!shot) return;
@@ -223,7 +226,7 @@ export class HuntingController {
     if (unavailable) { hud.toast(S(unavailable), unavailable === 'hunting.need_knife' ? 'bad' : undefined); return; }
     const frame = world.animals.skinningFrame(carcass.id, player)!;
     this.cancelDraw(); this.host.cam.setAiming(false);
-    const started = player.beginSkinning(frame.target.x, frame.target.z, SKINNING_SECONDS, () => {
+    const started = player.beginSkinning(frame.target.x, frame.target.z, skinningSeconds(game.state.huntTally), () => {
       audio.stopHuntingSounds('skinning');
       if (this.canAct() && this.skinValid(carcass.id)) {
         game.setPlayerTransform(player.x, player.y, player.z, player.yaw);
