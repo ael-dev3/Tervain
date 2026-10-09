@@ -11032,3 +11032,40 @@ the two 250-byte scratch areas, original `MOVSD.REP` and `MOVSW` semantics and
 same-allocation CRT cleanup. This formatter continuation has no production
 callers. Complete startup, world activation, connected saving and campaign
 completion remain unfinished.
+
+## Original ErrorAdmin ring insertion and cleanup (2026-10-09)
+
+Revision `6b77e3be` resumes original `10022680 -> 1000102d` only with its actual
+return frame, ErrorAdmin receiver and the same owned formatter buffer. The source
+package adds append, pop, push and bounded-copy bodies, bringing it to 92 methods
+and 5,254 instructions. Independent regeneration matches the JSON and emitted
+TypeScript byte for byte.
+
+The original append clears 250-byte scratch storage, copies at most 249 text
+bytes with zero padding, and pushes the complete 250-byte record. If the ring is
+full it first pops the oldest record into discard storage. Original pop and push
+execute 62 `MOVSD.REP` iterations and one `MOVSW`, update their cursors, wrap at
+capacity 50 and preserve the original full-byte behavior. The packed zero-byte
+predicate retains unknown bytes beyond the formatter's terminating NUL.
+
+Scratch areas `10143ef8` and `10144028` are acquired through the canonical
+SharedBase image registry. Their loader-zero receipts establish original storage
+once; subsequent acquisition preserves mutable contents. The platform's mapped
+geometry supplies CRT alignment. The copied record remains separate from the
+temporary buffer that original CRT `free` retires through HeapFree.
+
+Original ErrorAdmin returns with `RET 0x1c`; the dispatcher advances to SpyAdmin's
+stored callback `10008c06` at `100494db`. The MessageAdmin physical section remains
+held. Four focused checks verify normal padded insertion, full-ring overwrite
+with both cursors wrapping, preserved other records, canonical scratch identity,
+no reseeding, actual allocation retirement, returned original frames and damaged
+return/input rejection before changing records or freeing the buffer.
+Typechecking and the production build pass. All 3,023 tests across 278 files
+passed in 315.11 seconds at `6b77e3be`.
+
+PR #175 passed validation run 37875538581 and merged as
+`b9205c074cdab6d827ba7372239fc6504613d1f4`. Its Pages deployment run 37876248394 is
+running. SpyAdmin callback completion, dispatcher return and the original section
+release remain dependencies. These continuations have no production callers;
+complete startup, world activation, connected saves and a finishable campaign
+remain unfinished.
