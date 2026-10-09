@@ -13,6 +13,54 @@ finishable campaign.
 
 ## How the rebuild works
 
+### SharedBase prerequisite integration finding
+
+A local integration check now runs the existing SharedBase CRT process-attach
+helper on the actual browser compatibility platform with its process inputs,
+I/O selections and logical stack. The helper returns `1`, with its real PTD
+installed and initialized. This proves the selected helper path; the complete
+DLL wrapper remains unfinished.
+
+Running Game startup afterward currently stops at
+`crtAttach204677e4: Unowned ioInit204742ff at204678ce`. The retained stack's Game
+controller requires a cold phase and does not yet admit the returned SharedBase
+helper. Production ordering needs an explicit, verified module handoff before
+this prerequisite can be integrated. See
+`tests/gothic3-dialogue/browser-shared-crt-startup.test.ts` for the regression.
+
+All nine focused checks across three files and typechecking pass for the local
+locale-entry and prerequisite investigation. The preceding formatter-entry
+revision `dd1c79d2` passed 3,189 tests across 294 files in 548.19 seconds; that
+full-suite receipt does not cover the later local changes. PR #202's Pages run
+`37928617229` completed successfully. Hosted gameplay still needs observation,
+and these new local continuations have not been deployed.
+
+### Practical development cycle
+
+For each feature, follow one complete cycle:
+
+1. Locate the original resource or native function and record its path, version
+   and SHA-256. Resolve archive patch priority before exporting an asset.
+2. Recover the format or behavior from original bytes and disassembly. Keep
+   decompiled pseudocode as supporting research, and record unresolved behavior.
+3. Write a repeatable preparation tool in `tools/gothic3/`. Store source evidence
+   in `assets/gothic3/` and browser-ready resources in `public/gothic3/`.
+4. Implement the recovered behavior in `src/gothic3/`, preserving actual object
+   identity, allocation ownership, initialization order and cleanup. Stop at an
+   unsupported operation with the completed state retained.
+5. Connect the implementation to `/gothic3/`. Check the visible model or gameplay
+   result, including materials, animations and entity state where applicable.
+6. Inspect the diff, reproduce generated evidence independently and run the
+   relevant tests, typecheck and production build. Record the revision and results
+   in the checkpoint history.
+7. Inspect repository-wide Actions runs and workflow triggers before publishing.
+   Review the pull request, deploy the accepted revision and record the hosted
+   observation separately from local validation.
+
+Continue this cycle through startup, world activation, NPC behavior and campaign
+systems. Completion requires a demonstrated new-game-to-ending playthrough with
+save and reload; each intermediate checkpoint records only its verified scope.
+
 ### From installed files to a playable browser game
 
 The rebuild follows two tracks that meet in the browser: converting the game's

@@ -22,3 +22,12 @@ python tools/gothic3/prepare_registration_output_source.py --study 'C:/Users/hey
 Eight focused checks across the startup and Status-property files pass. The
 continuation has not received full-suite, production-browser or deployment
 validation.
+## Locale entry continuation
+
+The source package now also retains the seven original LocaleUpdate entry
+instructions through `100a74c5 -> 100ae542`. The translated callee retains the
+actual formatter return capability, NULL locale argument and saved ESI value.
+It writes zero to receiver byte 12. The other receiver bytes remain unknown.
+The PTD call is pending: browser startup has not completed the SharedBase CRT
+thread prerequisites. No PTD, locale pointers, formatter return or diagnostic
+dispatch is synthesized.

@@ -80,7 +80,7 @@ it('connects actual Status registration to loaded TLS and retains the original v
  const f=fixture(true,undefined,true,true);
  const result=f.owner.initialize();expect(result.known).toBe(false);
  if(result.known)throw new Error('Unowned formatter unexpectedly returned');
- expect(result.reason).toContain('100a7eff');expect(result.reason).toContain('100b5355');
+ expect(result.reason).toContain('100a74c5');expect(result.reason).toContain('100ae542');
  const diagnostic=NativeSharedMessageDebug.forPlatform(f.platform),state=diagnostic.snapshot();
  const file=state.file!;
  expect(file.bytes.length).toBe(32);
@@ -98,7 +98,7 @@ it('connects actual Status registration to loaded TLS and retains the original v
  expect(value(names.propertyName.text())).toBe('Status');
  expect(state.locale).toBeNull();expect(state.formatterReturned).toBe(false);
  expect(state.terminatorWritten).toBe(false);expect(state.messageDispatched).toBe(false);
- expect(state.trace).toEqual(['100498f0.loadThreadTlsBuffer','1004990a.retainActualVarargs','100a7f27.forwardWithNullLocale','100a7eff.callOutputFormatter','100b5355.translatedEntryFrame','100b53ab.LocaleUpdate.pending']);
+ expect(state.trace).toEqual(['100498f0.loadThreadTlsBuffer','1004990a.retainActualVarargs','100a7f27.forwardWithNullLocale','100a7eff.callOutputFormatter','100b5355.translatedEntryFrame','100b53ab.LocaleUpdate.pending','100a74b6.translatedLocaleEntry','100a74c5.getPTD.pending']);
  const entry=state.formatterFrame!;
  expect(entry.bytes.length).toBe(0x2a4);
  expect(entry.pointer(0x294).get()).toBe(state.file);
@@ -112,7 +112,13 @@ it('connects actual Status registration to loaded TLS and retains the original v
  expect(state.formatterCookieExpression!.frame).toBe(entry);
  expect(state.formatterCookieExpression!.ebpOffset).toBe(0x94);
  expect(state.formatterLocale!.bytes.byteOffset-entry.bytes.byteOffset).toBe(0x30);
- expect(Array.from(state.formatterLocale!.knownMask)).toEqual(Array(16).fill(0));
+ expect(Array.from(state.formatterLocale!.knownMask)).toEqual([...Array(12).fill(0),255,0,0,0]);
+ expect(state.formatterLocale!.readUnsigned(12,1)).toBe(0);
+ expect(state.localeCallFrame!.readUnsigned(4)).toBe(0);
+ expect(state.localeCallFrame!.readUnsigned(12)).toBe(0);
+ expect(state.localeCallFrame!.pointer(8).get()).toBe(entry.pointer(0).get());
+ expect(state.localeCallFrame!.pointer(0).get()).toEqual({module:'SharedBase',source:'100a74ca'});
+ expect(Array.from(state.formatterLocale!.knownMask.subarray(8,12))).toEqual([0,0,0,0]);
  expect(state.formatterRegisters).toMatchObject({eax:state.file,ebx:state.format,esi:0,edi:state.arguments,ecx:state.formatterLocale});
  expect(f.owner.initialize()).toEqual(result);expect(diagnostic.snapshot().file).toBe(file);
  expect(f.owner.snapshot().initializerReturned).toBe(false);

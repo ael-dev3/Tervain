@@ -15,10 +15,16 @@ def capture(study):
                     if row['va'] == '100b53ab')
     selected = formatter['instructions'][:boundary + 1]
     assert selected[-1]['instruction'] == 'CALL 0x100a74b6'
+    locale = module['methods'][1]
+    locale_boundary = next(index for index, row in enumerate(locale['instructions'])
+                           if row['va'] == '100a74c5')
+    locale_selected = locale['instructions'][:locale_boundary + 1]
+    assert locale_selected[-1]['instruction'] == 'CALL 0x100ae542'
     for method in module['methods']:
         method.pop('instructions')
     return dict(schema='gothic3-registration-output-entry-v1', module=module,
-                selectedPrefix=selected, pendingCall='100b53ab', sourceOnly=True,
+                selectedPrefix=selected, localePrefix=locale_selected,
+                pendingCall='100a74c5', sourceOnly=True,
                 formatterReturned=False, fullCampaignCompleted=False,
                 producerSha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest())
 
@@ -30,7 +36,8 @@ def runtime(source, path):
         + "export function admitRegistrationOutputSource():void { if(text!==expectedText)throw new Error('Original registration output source differs'); }\n"
         + "function freeze(value:unknown):void {if(value!==null&&typeof value==='object'&&!Object.isFrozen(value)){for(const child of Object.values(value))freeze(child);Object.freeze(value);}}\n"
         + "admitRegistrationOutputSource();freeze(source);\n"
-        + "export const registrationOutputPrefix=source.selectedPrefix;\n", encoding='utf-8', newline='\n')
+        + "export const registrationOutputPrefix=source.selectedPrefix;\n"
+        + "export const registrationLocalePrefix=source.localePrefix;\n", encoding='utf-8', newline='\n')
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)

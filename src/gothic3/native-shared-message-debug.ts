@@ -7,7 +7,7 @@ import {NativeHeapObjectViews} from './native-heap-views';
 import type {NativeBytePointer} from './native-pointer-geometry';
 import type {NativeValue} from './dialogue';
 import {NativeSharedCrtSecurityCookie} from './native-shared-crt-security-cookie';
-import {admitRegistrationOutputSource,registrationOutputPrefix} from './native-registration-output-source';
+import {admitRegistrationOutputSource,registrationOutputPrefix,registrationLocalePrefix} from './native-registration-output-source';
 const owners=new WeakMap<NativeRuntimePlatform,NativeSharedMessageDebug>();
 const token=Object.freeze({});
 const formatText="bCPropertyObjectTypeBase::RegisterPropertyTemplate - property '%s' with valuetype '%s' added.";
@@ -29,6 +29,7 @@ export class NativeSharedMessageDebug {
  #active=false;
  #formatterFrame:NativeHeapObjectViews|null=null;
  #formatterLocale:NativeHeapObjectViews|null=null;
+ #localeCallFrame:NativeHeapObjectViews|null=null;
  #formatterCookieExpression:Readonly<{cookie:NativeHeapObjectViews;frame:NativeHeapObjectViews;ebpOffset:number}>|null=null;
  #formatterRegisters:Readonly<{eax:NativeHeapObjectViews;ebx:NativeBytePointer;esi:0;edi:NativeHeapObjectViews;ecx:NativeHeapObjectViews}>|null=null;
  private constructor(private readonly platform:NativeRuntimePlatform,proof:object){
@@ -71,7 +72,8 @@ export class NativeSharedMessageDebug {
    this.#file.writeUnsigned(12,0x42);
    this.#trace.push('100a7eff.callOutputFormatter');
    this.#prepareFormatterEntry();
-   throw new Error('Unowned SharedBase output LocaleUpdate at 100b53ab -> 100a74b6 (formatter 100b5355 called from 100a7eff)');
+   this.#prepareLocaleEntry();
+   throw new Error('Unowned SharedBase registration locale PTD call at 100a74c5 -> 100ae542 (SharedBase CRT thread initialization required)');
   }catch(error){this.#boundary??=error instanceof Error?error.message:String(error);return {known:false,reason:this.#boundary};}
   finally{this.#active=false;}
  }
@@ -108,9 +110,30 @@ export class NativeSharedMessageDebug {
   this.#trace.push('100b5355.translatedEntryFrame');
   this.#trace.push('100b53ab.LocaleUpdate.pending');
  }
+ /** Separate translated callee frame preserves the actual caller return and
+  * NULL argument. The PTD CALL remains pending until its CRT owner is live. */
+ #prepareLocaleEntry():void {
+  admitRegistrationOutputSource();
+  if(!this.#formatterFrame||!this.#formatterLocale||this.#localeCallFrame||
+    registrationLocalePrefix.length!==7||registrationLocalePrefix[6]!.va!=='100a74c5'||
+    registrationLocalePrefix[6]!.instruction!=='CALL 0x100ae542')
+    throw new Error('Actual original registration LocaleUpdate entry required');
+  if(this.#formatterFrame.readUnsigned(4)!==0||this.#formatterRegisters?.esi!==0)
+    throw new Error('Actual NULL locale and formatter ESI required');
+  const frame=physical(16);
+  this.#localeCallFrame=frame;
+  frame.pointer(8).set(this.#formatterFrame.pointer(0).get());
+  frame.writeUnsigned(12,0); // Retained original NULL argument.
+  frame.writeUnsigned(4,0); // PUSH ESI, from the actual formatter register.
+  this.#formatterLocale.writeUnsigned(12,0,1);
+  frame.pointer(0).set(Object.freeze({module:'SharedBase',source:'100a74ca'}));
+  this.#trace.push('100a74b6.translatedLocaleEntry');
+  this.#trace.push('100a74c5.getPTD.pending');
+ }
  snapshot(){return Object.freeze({boundary:this.#boundary,file:this.#file,arguments:this.#arguments,
   buffer:this.#buffer,format:this.#format,locale:null,trace:Object.freeze([...this.#trace]),
   formatterFrame:this.#formatterFrame,formatterLocale:this.#formatterLocale,
+  localeCallFrame:this.#localeCallFrame,
   formatterCookieExpression:this.#formatterCookieExpression,
   formatterRegisters:this.#formatterRegisters,
   formatterReturned:false,terminatorWritten:false,messageDispatched:false,debugReturned:false});}
