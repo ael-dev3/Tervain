@@ -42,15 +42,19 @@ describe('original Game C++ class-name initializers on the retained browser stac
     expect(fact(fact(pointerArray.get()).text())).toBe('bTRefPtrArray<class bCPropertyObjectBase *>');
     expect(fact(fact(NativeGameClassName.forSpec(f.game.crt,f.memory,gameClassNameSpec('204b17d0')!).get()).text()))
       .toBe('bTValArray<float>');
+    expect(fact(fact(NativeGameClassName.forSpec(f.game.crt,f.memory,gameClassNameSpec('204b1cf0')!).get()).text()))
+      .toBe('bTObjArray<struct gCQuest_PS::SLogEntry>');
+    expect(fact(fact(NativeGameClassName.forSpec(f.game.crt,f.memory,gameClassNameSpec('204b1d50')!).get()).text()))
+      .toBe('bTObjArray<class bTAutoPOSmartPtr<class gCQuest_PS> >');
     expect(f.stack.snapshot().calls.find(call => call.site === '204b1620')).toMatchObject({ returned: true });
     expect({ next: f.game.attachProgress.nextBoundary,
       reason: f.game.attachProgress.setEnvpProgress!.boundary,
       callbacks: NativeGameExitTable.forCrt(f.game.crt).snapshot().callbackCells.length }).toEqual({
-        next: { address: '204b1cf0', name: 'translatedCrtCall', target: '2000bf78' },
-        reason: 'Game.___unDName.0x2800: Unowned getTemplateArgumentList primary data type', callbacks: 147,
+        next: { address: '20466654', name: 'indirectSourceCall', target: '204b1d70' },
+        reason: 'Original Game C++ initializer callback is not yet admitted at 204b1d70', callbacks: 155,
       });
-    const completed = gameClassNameFamilySpecs.filter(spec => spec.initializer >= '204b11b0' && spec.initializer < '204b1cf0');
-    expect(completed).toHaveLength(146);
+    const completed = gameClassNameFamilySpecs.filter(spec => spec.initializer >= '204b11b0' && spec.initializer < '204b1d70');
+    expect(completed).toHaveLength(154);
     for (const spec of completed)
       expect(f.stack.snapshot().calls.find(call => call.site === spec.initializer)).toMatchObject({ returned: true });
   });
