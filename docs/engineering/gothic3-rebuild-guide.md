@@ -65,6 +65,17 @@ initializer returns, with 155 completed C++ initializer calls and 158 shutdown
 callbacks. Startup stops before `204b1dd0`, the first Arena status-property
 initializer. Cleanup execution remains unimplemented. Existing-buffer
 realloc is still unsupported in this bridge.
+
+The subsequent startup bridge invokes the existing translated Arena Status
+initializer through its original table slot `2056c370`. Its actual CALL frame
+remains pending. Descriptor construction, Create and property-array insertion
+complete: the canonical Arena type retains one Status descriptor with capacity
+nine. Registration stops at Message.Debug (`10088191`) because the SharedBase
+static TLS module has not loaded. This bridge does not interpret the initializer's
+lower instructions on the startup stack, and it does not claim a returned
+initializer or completed property registration. Eight focused checks across two
+files and typechecking pass; broad validation and browser proof remain pending.
+The preceding root-return build at `45b1e5d5` passed in 43.99 seconds.
 The source package captures 589 instructions. Nineteen focused checks across two files
 and typechecking pass for this continuation; broader validation remains pending.
 The preceding MemoryAdmin-getter revision `e67f69e8` has a passing production

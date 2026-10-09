@@ -13,6 +13,8 @@ import { NativeMemoryAdmin, nativeNpcHeapExtension, nativeSceneStartupHeapExtens
 import { NativeGameLayerBaseClassName } from '../../src/gothic3/native-game-layer-base-class-name';
 import { NativeGameExitTable } from '../../src/gothic3/native-game-crt-exit-table';
 import { NativeGameArenaType } from '../../src/gothic3/native-game-arena-type';
+import { NativeGameArenaStatusProperty } from '../../src/gothic3/native-game-arena-status-property';
+import { NativeHeapObjectViews } from '../../src/gothic3/native-heap-views';
 import { NativePropertySingleton } from '../../src/gothic3/native-property-singleton';
 import { NativeGameClassName } from '../../src/gothic3/native-game-class-name-family';
 import { gameClassNameSpec, gameClassNameFamilySpecs } from '../../src/gothic3/native-game-class-name-family-source';
@@ -53,8 +55,8 @@ describe('original Game C++ class-name initializers on the retained browser stac
     expect({ next: f.game.attachProgress.nextBoundary,
       reason: f.game.attachProgress.setEnvpProgress!.boundary,
       callbacks: NativeGameExitTable.forCrt(f.game.crt).snapshot().callbackCells.length }).toEqual({
-        next: { address: '20466654', name: 'indirectSourceCall', target: '204b1dd0' },
-        reason: 'Original Game C++ initializer callback is not yet admitted at 204b1dd0', callbacks: 158,
+        next: { address: '20466654', name: 'translatedCrtCall', target: '204b1dd0' },
+        reason: 'Translated Arena Status initializer pending: Property registration Message.Debug at 10088191: SharedBase static TLS module has not loaded', callbacks: 159,
       });
     const arenaRoot=f.game.crt.imageStorage('arenaRootWrapper');
     const arenaVtable=arenaRoot.pointer(0).get() as NativeBytePointer;
@@ -93,7 +95,17 @@ describe('original Game C++ class-name initializers on the retained browser stac
     expect(f.stack.snapshot().calls.find(call=>call.site==='204b1db4')).toMatchObject({returned:true});
     expect(f.stack.snapshot().calls.filter(call=>call.site==='20466654'&&call.returned)).toHaveLength(155);
     expect(f.stack.snapshot().calls.filter(call=>!call.returned).map(call=>call.site))
-      .toEqual(['204678f2']);
+      .toEqual(['204678f2','20466654']);
+    const status=NativeGameArenaStatusProperty.forCrt(f.game.crt,f.memory);
+    expect(status.snapshot()).toMatchObject({baseConstructed:true,createCompleted:true,descriptorStored:true,
+      initializerReturned:false,propertyRegistered:false});
+    expect(status.fields).toBe(f.game.crt.imageStorage('arenaStatusDescriptor'));
+    expect(status.fields.pointer(24).get()).toBe(NativeGameArenaType.forCrt(f.game.crt,f.memory).fields);
+    const arena=NativeGameArenaType.forCrt(f.game.crt,f.memory).fields;
+    expect(arena.readUnsigned(12)).toBe(1);
+    expect(arena.readUnsigned(16)).toBe(9);
+    const properties=arena.pointer<{identity:object;bytes:Uint8Array;knownMask:Uint8Array;freed:boolean}>(8).get()!;
+    expect(new NativeHeapObjectViews(properties,0,4).pointer(0).get()).toBe(status.fields);
     const completed = gameClassNameFamilySpecs.filter(spec => spec.initializer >= '204b11b0' && spec.initializer < '204b1d70');
     expect(completed).toHaveLength(154);
     for (const spec of completed)
