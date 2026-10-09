@@ -49,13 +49,36 @@ def capture(study):
                 wholeCrtTraversalCompleted=False, fullCampaignCompleted=False)
 
 
+def runtime(source, path):
+    payload = json.dumps(source, indent=2) + '\n'
+    path.write_text(
+        "import sourceText from '../../assets/gothic3/game-arena-root/source.json?raw';\n"
+        + "import source from '../../assets/gothic3/game-arena-root/source.json';\n"
+        + "import type { NativeCrtImageReceipt } from './native-game-crt-profile';\n"
+        + "import type { NativeGameIoInstruction } from './native-game-crt-io-source';\n"
+        + 'const expectedText = ' + json.dumps(payload) + ';\n'
+        + "function freeze(value:unknown):void { if(value!==null && typeof value==='object' && !Object.isFrozen(value)){for(const child of Object.values(value))freeze(child);Object.freeze(value);} }\n"
+        + "export function admitGameArenaRootSource():void { if(sourceText!==expectedText)throw new Error('Original Arena root source differs'); }\n"
+        + "admitGameArenaRootSource(); freeze(source);\n"
+        + "export const gameArenaRootImages:Readonly<Record<string,NativeCrtImageReceipt>> = Object.fromEntries(source.images.map(image=>[image.label,{...image,module:'Game',knownMask:'ff'.repeat(image.bytes)}]));\n"
+        + "export const gameArenaRootImagePins = Object.fromEntries(source.images.map(image=>[image.label,[image.scope==='original-loader-zero-fill'?'coldGlobals':'constBytes',image.address,image.bytes,image.raw,image.sha256] as const]));\n"
+        + "freeze(gameArenaRootImages); freeze(gameArenaRootImagePins);\n"
+        + "export function gameArenaRootImageReceipt(label:string):NativeCrtImageReceipt { admitGameArenaRootSource(); const image=gameArenaRootImages[label]; if(!image)throw new Error('Unknown Arena root image'); return image; }\n"
+        + "export function gameArenaRootInstruction(entry:string,pc:string):NativeGameIoInstruction { admitGameArenaRootSource(); const method=[...source.module.methods,...source.shared.methods].find(method=>method.entryVA==='0x'+entry || method.bodyVA==='0x'+entry); const row=method?.instructions.find(row=>row.va===pc); if(!row)throw new Error('Unowned Arena root instruction'); return row; }\n"
+        + "export function admitArenaWrapperConstructorImport():void { admitGameArenaRootSource(); const imported=source.module.imports.find(row=>row.iatVA==='0x207d87b8'); if(!imported || imported.module!=='SharedBase.dll' || imported.name!=='??0bCPropertyObjectBase@@IAE@XZ' || imported.ordinal!==null)throw new Error('Original Arena wrapper constructor import differs'); }\n",
+        encoding='utf-8', newline='\n')
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--study', type=Path, required=True)
     parser.add_argument('--output', type=Path, required=True)
+    parser.add_argument('--runtime-output', type=Path)
     args = parser.parse_args()
     source = capture(args.study)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(source, indent=2) + '\n', encoding='utf-8', newline='\n')
+    if args.runtime_output:
+        runtime(source, args.runtime_output)
     print('Verified', sum(method['instructionCount'] for key in ['module', 'shared']
                           for method in source[key]['methods']), 'Arena startup instructions')

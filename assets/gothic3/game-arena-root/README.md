@@ -1,7 +1,9 @@
 # Original Arena property-object startup evidence
 
 This source-only package captures 257 instructions from the matching Game and
-SharedBase binaries. It does not yet admit the initializer into the runtime.
+SharedBase binaries. The runtime admits the initializer's selected prefix and
+executes the original SharedBase wrapper constructor on the retained stack.
+The whole initializer has not returned.
 
 The startup table slot `2056c36c` contains `204b1d70`. Despite the decompiler's
 destructor label, its instructions construct the root wrapper at `207b5028`,
@@ -20,6 +22,13 @@ bytes. None is a live memory capture.
 - Wrapped-object replacement `2002dc8b -> 2006f930`, including its allocation,
   Engine entity-property-set constructor, reference handling and virtual calls.
 - Root cleanup `20549970` and its lower destroy/destructor continuations.
+
+The current local continuation returns from the constructor call at `204b1d75`,
+installs the derived vtable, and stops at `204b1d8f -> 2000d152`. Its focused
+checks prove the retained vtable pointer, flags value 10, zero object/type fields,
+constructor CALL/RET and the still-pending parent initializer frame. Five focused
+checks and typechecking pass; full-suite, build, browser and deployment evidence
+for this continuation remain pending.
 
 The initialization path uses the actual type vtable and property singleton. A
 successful source capture does not establish that those runtime dependencies

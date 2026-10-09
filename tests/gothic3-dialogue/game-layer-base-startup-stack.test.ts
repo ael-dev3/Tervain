@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { NativeValue } from '../../src/gothic3/dialogue';
+import type { NativeBytePointer } from '../../src/gothic3/native-pointer-geometry';
 import { createBrowserGameCrtPlatform } from '../../src/gothic3/browser-game-crt-platform';
 import { createBrowserGameCrtStartup } from '../../src/gothic3/browser-game-crt-startup';
 import { browserGameProcessInputs } from '../../src/gothic3/browser-game-process-inputs';
@@ -50,9 +51,19 @@ describe('original Game C++ class-name initializers on the retained browser stac
     expect({ next: f.game.attachProgress.nextBoundary,
       reason: f.game.attachProgress.setEnvpProgress!.boundary,
       callbacks: NativeGameExitTable.forCrt(f.game.crt).snapshot().callbackCells.length }).toEqual({
-        next: { address: '20466654', name: 'indirectSourceCall', target: '204b1d70' },
-        reason: 'Original Game C++ initializer callback is not yet admitted at 204b1d70', callbacks: 155,
+        next: { address: '204b1d8f', name: 'sourceCall', target: '2000d152' },
+        reason: 'Unowned original environment CALL at204b1d8f: CALL 0x2000d152', callbacks: 155,
       });
+    const arenaRoot=f.game.crt.imageStorage('arenaRootWrapper');
+    const arenaVtable=arenaRoot.pointer(0).get() as NativeBytePointer;
+    expect(arenaVtable.fields).toBe(f.game.crt.imageStorage('arenaRootVtable'));
+    expect(arenaVtable.offset).toBe(0);
+    expect(arenaRoot.readUnsigned(4)).toBe(10);
+    expect(arenaRoot.readUnsigned(8)).toBe(0);
+    expect(arenaRoot.readUnsigned(12)).toBe(0);
+    expect(f.stack.snapshot().calls.find(call=>call.site==='204b1d75')).toMatchObject({returned:true});
+    expect(f.stack.snapshot().calls.filter(call=>!call.returned).map(call=>call.site))
+      .toEqual(['204678f2','20466654']);
     const completed = gameClassNameFamilySpecs.filter(spec => spec.initializer >= '204b11b0' && spec.initializer < '204b1d70');
     expect(completed).toHaveLength(154);
     for (const spec of completed)

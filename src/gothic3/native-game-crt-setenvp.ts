@@ -18,6 +18,7 @@ import { gameArgvInstruction } from './native-game-crt-argv-source';
 import { nativeGameImageReceipt } from './native-game-crt-profile';
 import { nativeGameLayerBaseMemoryForCrt } from './native-game-layer-base-class-name';
 import { gameClassNameSpec, gameClassNameFamilySpecs, gameClassNameFamilyInstruction } from './native-game-class-name-family-source';
+import { gameArenaRootInstruction, admitArenaWrapperConstructorImport } from './native-game-arena-root-source';
 import type { NativeGameCrtOwner } from './native-game-crt';
 
 const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
@@ -71,6 +72,8 @@ const bodies = Object.freeze([
   ['2046bcff', '2046bcff-2046bd1c'],
   ['2047470c', '2047470c-204747bc'],
   ...gameClassNameFamilySpecs.map(spec => [spec.initializer, spec.initializer + '-' + spec.instructions.at(-1)!.va] as const),
+  ['204b1d70','204b1d70-204b1dba'],
+  ['10089290','10089290-100892be'],
 ] as const);
 const ranges = new Map<string, readonly (readonly [number, number])[]>(bodies.map(([entry, text]) =>
   [entry, Object.freeze(text.split(';').map(range => Object.freeze(range.split('-').map(x => Number.parseInt(x, 16)) as [number, number]))) ]));
@@ -315,7 +318,8 @@ export class NativeGameCrtSetEnvp {
     const extent = ranges.get(this.#currentEntry), address = Number.parseInt(pc, 16);
     if (!extent?.some(([first, last]) => address >= first && address <= last) ||
         this.#currentEntry === '204677e4' && !callerRows.has(pc)) throw new Error('Unowned Game environment source frontier at' + pc);
-    const point = gameClassNameSpec(this.#currentEntry) ? gameClassNameFamilyInstruction(this.#currentEntry,pc)
+    const point = ['204b1d70','10089290'].includes(this.#currentEntry) ? gameArenaRootInstruction(this.#currentEntry,pc)
+      : gameClassNameSpec(this.#currentEntry) ? gameClassNameFamilyInstruction(this.#currentEntry,pc)
       : this.#currentEntry === '2046bcff' ? gameArgvInstruction(pc)
       : ['204665f4', '204738b0', '20473830', '20473860', '20463917', '204638a7',
       '204696f6', '20469672', '2046643f', '20469f3a', '2047e687', '2047e627', '2047e5d7', '2047470c'].includes(this.#currentEntry)
@@ -400,9 +404,30 @@ export class NativeGameCrtSetEnvp {
     fact(NativeX86ThreadStack.prototype.storeWidth.call(this.#stack, this.#controller, this.#address(destination.expression), word, bytes));
   }
   #call(point: NativeGameIoInstruction, target: Operand, returnPc: string): string {
+    if(point.va==='204b1d75') {
+      if(this.#currentEntry!=='204b1d70' || target.kind!=='memory' || target.expression!=='0x207d87b8' || target.fs)
+        throw new Error('Original Arena wrapper constructor call required');
+      admitArenaWrapperConstructorImport();
+      this.#nextBoundary=Object.freeze({pc:point.va,operation:'import',target:'207d87b8'});
+      fact(NativeX86ThreadStack.prototype.call.call(this.#stack,this.#controller,point.va,returnPc));
+      this.#frames.push(Object.freeze({entry:'10089290',site:point.va,returnPc,previousEntry:this.#currentEntry}));
+      this.#currentEntry='10089290'; this.#nextBoundary=null; return '10089290';
+    }
     if (point.va === '20466654') {
       const callback = fact(NativeX86ThreadStack.prototype.resolveGameCppInitializer.call(this.#stack, this.#controller));
       this.#nextBoundary = Object.freeze({ pc: point.va, operation: 'indirectSourceCall', target: callback });
+      if (callback === '204b1d70' && nativeGameLayerBaseMemoryForCrt(this.#crt as NativeGameCrtOwner).known) {
+        this.#classImages = Object.freeze(['arenaRootWrapper','arenaRootVtable'].map(label => {
+          const receipt = nativeGameImageReceipt(label);
+          const fields = fact(NativeModuleCrtOwner.canonicalImageForOwner(this.#crt,label));
+          if(fields.bytes.length!==receipt.bytes || fields.knownMask.length!==receipt.bytes)
+            throw new Error('Original Arena root image geometry required');
+          return Object.freeze({label,address:Number.parseInt(receipt.address,16),bytes:receipt.bytes,fields});
+        }));
+        fact(NativeX86ThreadStack.prototype.call.call(this.#stack,this.#controller,point.va,returnPc));
+        this.#frames.push(Object.freeze({entry:callback,site:point.va,returnPc,previousEntry:this.#currentEntry}));
+        this.#currentEntry=callback; this.#nextBoundary=null; return callback;
+      }
       if (gameClassNameSpec(callback) && nativeGameLayerBaseMemoryForCrt(this.#crt as NativeGameCrtOwner).known) {
         const spec = gameClassNameSpec(callback)!;
         this.#classImages = Object.freeze([spec.labels.cache,spec.labels.result].map(label => {

@@ -47,6 +47,15 @@ same evidence-driven process to gameplay systems.
 
 ### Local checkpoint: primitive templates and scoped struct names
 
+The subsequent local Arena-root continuation now enters initializer `204b1d70`,
+executes SharedBase's original wrapper constructor `10089290` on the retained
+startup stack, returns to `204b1d7b`, and installs the original Arena vtable.
+It next stops at the type-singleton call `204b1d8f -> 2000d152`. Five focused
+checks and typechecking pass. The first 154 class-name initializers remain
+returned, with 155 retained shutdown callbacks; the Arena initializer itself
+has not returned. Full-suite, build, browser and deployment validation of this
+subsequent continuation are pending.
+
 The next continuation reuses the original primitive primary-type parser inside
 template arguments, recovers the original 57..64-byte allocation pool, and executes
 the selected ordinary scoped-name loop and `U` struct keyword branch. The scoped

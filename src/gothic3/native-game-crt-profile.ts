@@ -3,6 +3,7 @@ import { admitGameObjectRefSource, gameObjectRefSourceRules, gameObjectRefImageP
 import { admitGameClassNameFamilySource, gameClassNameFamilyRules, gameClassNameFamilyImagePins, gameClassNameFamilyImageReceipt } from './native-game-class-name-family-source';
 import { admitGamePrimitiveSource, gamePrimitiveSourceRules, gamePrimitiveImagePins, gamePrimitiveImageReceipt } from './native-game-primitive-source';
 import { admitGameScopedNameSource, gameScopedNameConstants, gameScopedNameImagePins, gameScopedNameImageReceipt } from './native-game-scoped-name-source';
+import { admitGameArenaRootSource, gameArenaRootImagePins, gameArenaRootImageReceipt } from './native-game-arena-root-source';
 import { admitGameArenaStatusSource, gameArenaStatusSourceRules, gameArenaStatusImagePins, gameArenaStatusImageReceipt } from './native-game-arena-status-source';
 import { admitGameTemplateDemanglerSource, gameTemplateConstants, gameTemplateImagePins, gameTemplateImageReceipt } from './native-game-template-demangler-source';
 import { admitGameArenaTypeSource, gameArenaTypeSourceRules, gameArenaTypeImagePins, gameArenaTypeImageReceipt } from './native-game-arena-type-source';
@@ -107,6 +108,7 @@ export const nativeGameImagePins: Readonly<Record<string, readonly [
   ...gameClassNameFamilyImagePins,
   ...gamePrimitiveImagePins,
   ...gameScopedNameImagePins,
+  ...gameArenaRootImagePins,
   ...gameArenaImagePins,
   ...gameArenaTypeImagePins,
   ...gameArenaStatusImagePins,
@@ -207,6 +209,7 @@ export function admitNativeGameCrtSource(): void {
   admitGamePrimitiveSource();
   admitGameScopedNameSource();
   admitGameClassNameFamilySource();
+  admitGameArenaRootSource();
   admitGameObjectRefSource();
   admitGameLayerBaseSource();
   admitGameTemplateDemanglerSource();
@@ -237,6 +240,7 @@ export function admitNativeGameCrtSource(): void {
 export function nativeGameImageReceipt(label: string): NativeCrtImageReceipt {
   if (Object.hasOwn(gamePrimitiveImagePins,label)) return gamePrimitiveImageReceipt(label);
   if (Object.hasOwn(gameScopedNameImagePins,label)) return gameScopedNameImageReceipt(label);
+  if (Object.hasOwn(gameArenaRootImagePins,label)) return gameArenaRootImageReceipt(label);
   if (Object.hasOwn(gameClassNameFamilyImagePins,label)) return gameClassNameFamilyImageReceipt(label);
   if (Object.hasOwn(gameObjectRefImagePins, label)) return gameObjectRefImageReceipt(label);
   if (Object.hasOwn(gameLayerBaseImagePins, label)) return gameLayerBaseImageReceipt(label);
