@@ -11,6 +11,13 @@ def capture(study):
         0x20011b99: 'arenaEnumValueConstructor',
         0x2001bdf1: 'arenaEnumValueName',
         0x2001cf35: 'arenaEnumValueInsert',
+        0x2002a98c: 'enumNameRegistryConstructor',
+        0x200129ae: 'enumNameRegistryLookup',
+        0x2001efab: 'enumValueRegistryConstructor',
+        0x20029b4f: 'enumValueRegistryLookup',
+        0x2000ff83: 'enumValueArrayReserve',
+        0x20022b92: 'enumNameRegistryReserve',
+        0x20018b1a: 'enumNameRegistryFind',
     })
     pe = PE((study / '00_Original_Runtime' / 'Game.dll').read_bytes())
     # The targeted initializer was recovered after the original functions CSV.
@@ -28,6 +35,10 @@ def capture(study):
         (0x207b505c, 1, 'statusNoneReceiver'),
         (0x20659c74, 12, 'enumValueVtable'),
         (0x2065902c, 12, 'enumValueBaseVtable'),
+        (0x207b5008, 16, 'enumNameRegistry'),
+        (0x207b501c, 4, 'enumNameRegistryGuard'),
+        (0x207b4ff0, 16, 'enumValueRegistry'),
+        (0x207b5004, 4, 'enumValueRegistryGuard'),
     ]:
         rva = address - pe.base
         section = next((s for s in pe.sections if s[1] <= rva and rva + size <= s[1] + max(s[0], s[2])), None)
@@ -44,6 +55,7 @@ def capture(study):
                        'sha256': hashlib.sha256(raw).hexdigest()})
     return {'schema': 'gothic3-arena-enum-source-v1', 'module': module,
             'initializer': {'entry': '204b1e70', 'instructions': instructions},
+            'pendingCleanupCallbacks': ['20549ac0', '20549a60'],
             'images': images, 'sourceOnly': True,
             'initializerReturned': False, 'fullCampaignCompleted': False}
 

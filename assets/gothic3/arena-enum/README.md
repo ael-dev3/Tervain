@@ -28,6 +28,22 @@ from loader zero-fill. The receiver is loader zero-fill, not file-backed data.
 Independent regeneration matched exactly. Execution of this initializer is
 still unimplemented; capture does not claim runtime or campaign completion.
 
+## Shared registry prerequisites
+
+Value naming constructs two shared sixteen-byte hash registries. Their original
+constructors allocate 43 buckets, clear all 172 bucket bytes and retain the
+original registry guard bits. The name lookup may create a sixteen-byte entry
+with a retained CString, value-base subobject and chain link. The value registry
+has its own lookup path. These identities must remain shared across later enum
+initializers; copying the visible enum label alone does not recover their state.
+
+The capture now includes both registry constructors and lookup bodies, the name
+registry reserve/find bodies and the descriptor value-array reserve body. It
+also retains the original registry and guard storage with PE section evidence.
+Cleanup targets `20549ac0` and `20549a60` are recorded as pending; their complete
+bodies are not admitted by this package. The original functions CSV omits these
+cleanup targets, so they require targeted recovery before callback admission.
+
 ```powershell
 python tools/gothic3/prepare_arena_enum_source.py --study '<study directory>' --output assets/gothic3/arena-enum/source.json
 ```
