@@ -371,12 +371,14 @@ export function nativeSceneTypeInfoForCrt(crt: NativeEngineCrtOwner): NativeScen
   return name;
 }
 
-export type NativeGameTypeInfoTarget = 'navigation' | 'scriptAdmin' | 'arena' | 'arenaStatus' | 'layerBase';
+export type NativeGameTypeInfoTarget = 'navigation' | 'scriptAdmin' | 'arena' | 'arenaStatus' | 'layerBase' | 'objectRef';
 const gameTypeInfoTargets: Readonly<Record<NativeGameTypeInfoTarget, {
   readonly descriptorStorage: string;
   readonly decoratedName: string;
   readonly label: string;
 }>> = Object.freeze({
+  objectRef: Object.freeze({ descriptorStorage: 'objectRefTypeInfoDescriptor',
+    decoratedName: '.?AVbCObjectRefBase@@', label: 'ObjectRef base' }),
   layerBase: Object.freeze({ descriptorStorage: 'layerBaseTypeInfoDescriptor',
     decoratedName: '.?AVeCProcessibleElement@@', label: 'LayerBase property object base' }),
   arenaStatus: Object.freeze({ descriptorStorage: 'arenaStatusTypeInfoDescriptor',

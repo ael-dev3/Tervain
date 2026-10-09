@@ -40,6 +40,27 @@ function fixture(initializeExit = true, sourceMemory?:NativeMemoryAdmin, include
 }
 
 describe('Original Game LayerBase class-name startup', () => {
+  it('keeps ObjectRef prior state and destructor ownership separate from LayerBase', () => {
+    const f = fixture();
+    const objectRef = NativeGameLayerBaseClassName.forObjectRefCrt(f.crt, f.memory);
+    objectRef.initializerResult.pointer<NativeHeapObjectViews>(0).set(f.className.fields);
+    expect(value(value(objectRef.get()).text())).toBe('bCObjectRefBase');
+    expect(objectRef.fields.pointer<NativeHeapObjectViews>(4).get()).toBe(f.className.fields);
+    value(objectRef.initializeCachedClassName());
+    expect(objectRef.initializerResult.pointer(0).get()).toBe(objectRef.fields);
+    expect(objectRef.fields.pointer<NativeHeapObjectViews>(4).get()).toBe(f.className.fields);
+    expect(value(value(f.className.get()).text())).toBe('eCProcessibleElement');
+    const callback = objectRef.snapshot().registeredCallback!;
+    const pointerBytes = [...objectRef.fields.bytes.slice(0, 4)];
+    expect(objectRef.invokeRegisteredDestructor(f.className.snapshot().registeredCallback!).known).toBe(false);
+    value(objectRef.invokeRegisteredDestructor(callback));
+    expect([...objectRef.fields.bytes.slice(0, 4)]).toEqual(pointerBytes);
+    expect(objectRef.snapshot().name!.snapshot().destroyed).toBe(true);
+    expect(objectRef.snapshot().destroyed).toBe(true);
+    expect(objectRef.get().known).toBe(false);
+    expect(value(value(f.className.get()).text())).toBe('eCProcessibleElement');
+    expect(f.className.snapshot().destroyed).toBe(false);
+  });
   it('retains original guard and RTTI effects at an unavailable 29-byte string allocation', () => {
     const f = fixture(true, undefined, false);
     const result = f.className.get();

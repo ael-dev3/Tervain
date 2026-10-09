@@ -116,7 +116,7 @@ def capture(study, callbacks):
                 fullCampaignCompleted=False)
 
 
-def write_runtime(result, output):
+def write_runtime(result, output, namespace='layerBase', display='LayerBase', package='layer-base-class-name'):
     # The frozen receipt is independent of the imported package at runtime.
     # Regeneration requires the same PE and recovered-listing checks above.
     template = '''/** Generated original Game LayerBase source admission; no initializer execution. */
@@ -177,6 +177,7 @@ export function gameLayerBaseInitializerInstruction(address: string): NativeGame
 }
 '''
     output.parent.mkdir(parents=True, exist_ok=True)
+    template = template.replace('layer-base-class-name', package).replace('layerBase', namespace).replace('LayerBase', display)
     output.write_text(template.replace('__EXPECTED__', json.dumps(result, indent=2)),
                       encoding='utf-8', newline='\n')
 

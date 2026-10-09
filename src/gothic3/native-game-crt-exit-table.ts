@@ -74,8 +74,11 @@ export class NativeGameExitTable {
     const exactLayerBaseDestructorThunk = label === 'layerBaseClassNameDestructor' && method?.entry === '20034649' &&
       method.body === '20549180' && method.bodyInstructionBytesSha256 === 'c90a8c5cb71d1c5a452241b572312562b7aee48b6f9020dac6ec432519ff388e' &&
       entryChain?.length === 1 && entryChain[0]?.va === '20034649' && entryChain[0]?.bytes === 'e9324b5100' && entryChain[0]?.targetVA === '20549180';
+    const exactObjectRefDestructorThunk = label === 'objectRefClassNameDestructor' && method?.entry === '20007a81' &&
+      method.body === '20549170' && method.bodyInstructionBytesSha256 === '8cc43ebdc7f754d959b0231ff1019c30c0c24396a71d3f03827b97e58b0e2f4e' &&
+      entryChain?.length === 1 && entryChain[0]?.va === '20007a81' && entryChain[0]?.bytes === 'e9ea165400' && entryChain[0]?.targetVA === '20549170';
     if (!method || method.module !== 'Game' ||
-        (method.entry !== method.body && !exactNavigationDestructorThunk && !exactScriptAdminDestructorThunk && !exactArenaDestructorThunk && !exactStatusDestructorThunk && !exactLayerBaseDestructorThunk) ||
+        (method.entry !== method.body && !exactNavigationDestructorThunk && !exactScriptAdminDestructorThunk && !exactArenaDestructorThunk && !exactStatusDestructorThunk && !exactLayerBaseDestructorThunk && !exactObjectRefDestructorThunk) ||
         !/^[0-9a-f]{8}$/.test(method.entry) || !/^[0-9a-f]{64}$/.test(method.bodyInstructionBytesSha256)) {
       return unknown('Complete pinned Game method receipt required for an onexit callback');
     }
