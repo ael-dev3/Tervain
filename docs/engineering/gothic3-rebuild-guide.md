@@ -105,7 +105,7 @@ target, `204b11c0`; a missing string pool retains the nested CALL frames and
 completed state. This checkpoint has passed 86 focused runtime checks,
 TypeScript checking, all 3,160 tests across 291 files and the production build
 after integrating current main. The rendered production preview reports
-2,769 environment-source operations and the next target `204b11c0`. It is not
+2,769 environment-source operations and the next target `204b11c0`. It
 merged through [PR #193](https://github.com/ael-dev3/Tervain/pull/193) at
 `839e005433314be9149fd82c81dabdd9b60d0958`; its deployment is pending verification.
 The PR's foreign-heap test was corrected to avoid a redundant complete engine
