@@ -1,0 +1,260 @@
+{
+  "schema": "gothic3-status-cleanup-source-v1",
+  "module": {
+    "module": "Game.dll",
+    "inputSha256": "b09afc5c180969a6302d9d706f0ad8efebf7c1fcd9301096bf5c1b1f2cf8eb2f",
+    "functionsCsvSha256": "7683e99c3c22688b26c77eafc830f43abab471b9e9d3ca241e3157007c714018",
+    "assemblySha256": "fd23430904ab84b03e395bc4a705f5a475cc5816094603350a68e1bc2798f4dc",
+    "methods": [
+      {
+        "label": "arenaStatusCleanup",
+        "entryVA": "0x205499a0",
+        "bodyVA": "0x205499a0",
+        "entryChain": [],
+        "bodyRanges": "205499a0-205499e4",
+        "instructions": [
+          {
+            "va": "205499a0",
+            "rva": "5499a0",
+            "fileOffset": 5544352,
+            "bytes": "b938507b20",
+            "instruction": "MOV ECX,0x207b5038",
+            "assemblyLine": 1257160
+          },
+          {
+            "va": "205499a5",
+            "rva": "5499a5",
+            "fileOffset": 5544357,
+            "bytes": "c70538507b20ec9a6520",
+            "instruction": "MOV dword ptr [0x207b5038],0x20659aec",
+            "assemblyLine": 1257161
+          },
+          {
+            "va": "205499af",
+            "rva": "5499af",
+            "fileOffset": 5544367,
+            "bytes": "ff15dc877d20",
+            "instruction": "CALL dword ptr [0x207d87dc]",
+            "assemblyLine": 1257162
+          },
+          {
+            "va": "205499b5",
+            "rva": "5499b5",
+            "fileOffset": 5544373,
+            "bytes": "6858507b20",
+            "instruction": "PUSH 0x207b5058",
+            "assemblyLine": 1257163
+          },
+          {
+            "va": "205499ba",
+            "rva": "5499ba",
+            "fileOffset": 5544378,
+            "bytes": "e81721adff",
+            "instruction": "CALL 0x2001bad6",
+            "assemblyLine": 1257164
+          },
+          {
+            "va": "205499bf",
+            "rva": "5499bf",
+            "fileOffset": 5544383,
+            "bytes": "8b0d50507b20",
+            "instruction": "MOV ECX,dword ptr [0x207b5050]",
+            "assemblyLine": 1257165
+          },
+          {
+            "va": "205499c5",
+            "rva": "5499c5",
+            "fileOffset": 5544389,
+            "bytes": "6838507b20",
+            "instruction": "PUSH 0x207b5038",
+            "assemblyLine": 1257166
+          },
+          {
+            "va": "205499ca",
+            "rva": "5499ca",
+            "fileOffset": 5544394,
+            "bytes": "ff15dc867d20",
+            "instruction": "CALL dword ptr [0x207d86dc]",
+            "assemblyLine": 1257167
+          },
+          {
+            "va": "205499d0",
+            "rva": "5499d0",
+            "fileOffset": 5544400,
+            "bytes": "c70538507b207c906520",
+            "instruction": "MOV dword ptr [0x207b5038],0x2065907c",
+            "assemblyLine": 1257168
+          },
+          {
+            "va": "205499da",
+            "rva": "5499da",
+            "fileOffset": 5544410,
+            "bytes": "b938507b20",
+            "instruction": "MOV ECX,0x207b5038",
+            "assemblyLine": 1257169
+          },
+          {
+            "va": "205499df",
+            "rva": "5499df",
+            "fileOffset": 5544415,
+            "bytes": "ff25e8877d20",
+            "instruction": "JMP dword ptr [0x207d87e8]",
+            "assemblyLine": 1257170
+          }
+        ],
+        "reconstructedC": {
+          "path": "01_Decompiled_Code/Game_dll/pseudocode/functions_00128.c",
+          "sha256": "0c1c58d6e5c51e34659b6555d219c319a6f3e0f153bd5e4ea6239260a996a9d9",
+          "line": 2287,
+          "status": "decompiled"
+        },
+        "instructionCount": 11,
+        "bodyByteCount": 69,
+        "bodyInstructionBytesSha256": "3695be1da91480740edf289dfcafd60db4e64c48f4629be87f8e7534c8fae4c3"
+      }
+    ],
+    "constants": [
+      {
+        "label": "distanceDefaultMultiplier",
+        "va": "0x2065b1c4",
+        "kind": "float",
+        "value": 1.0,
+        "bytes": "0000803f",
+        "fileOffset": 6664644
+      },
+      {
+        "label": "distanceNpcTargetMultiplier",
+        "va": "0x2065cf5c",
+        "kind": "float",
+        "value": 0.25,
+        "bytes": "0000803e",
+        "fileOffset": 6672220
+      },
+      {
+        "label": "missingEntityDistance",
+        "va": "0x206afae8",
+        "kind": "float",
+        "value": 99999.0,
+        "bytes": "804fc347",
+        "fileOffset": 7011048
+      }
+    ],
+    "imports": [
+      {
+        "iatVA": "0x207d86dc",
+        "module": "SharedBase.dll",
+        "name": "?UnregisterPropertyTemplate@bCPropertyObjectTypeBase@@QAE_NPBVbCPropertyTypeBase@@@Z",
+        "ordinal": null
+      },
+      {
+        "iatVA": "0x207d87dc",
+        "module": "SharedBase.dll",
+        "name": "?Destroy@bCPropertyTypeBase@@MAEXXZ",
+        "ordinal": null
+      },
+      {
+        "iatVA": "0x207d87e8",
+        "module": "SharedBase.dll",
+        "name": "??1bCPropertyTypeBase@@UAE@XZ",
+        "ordinal": null
+      }
+    ],
+    "tables": [
+      {
+        "label": "deliveryCompletionTargets",
+        "va": "0x20338088",
+        "fileOffset": 3375240,
+        "bytes": "2c80332084803320",
+        "elementBytes": 4,
+        "values": [
+          "0x2033802c",
+          "0x20338084"
+        ]
+      },
+      {
+        "label": "deliveryCompletionTypeMap",
+        "va": "0x20338090",
+        "fileOffset": 3375248,
+        "bytes": "00000000000000000001000000",
+        "elementBytes": 1,
+        "values": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "label": "infoEndCallbackTargets",
+        "va": "0x20439354",
+        "fileOffset": 4428628,
+        "bytes": "3b84432034874320408743202188432002894320a28f43201d8e4320e98e43208b874320d68743206c884320b788432013914320",
+        "elementBytes": 4,
+        "values": [
+          "0x2043843b",
+          "0x20438734",
+          "0x20438740",
+          "0x20438821",
+          "0x20438902",
+          "0x20438fa2",
+          "0x20438e1d",
+          "0x20438ee9",
+          "0x2043878b",
+          "0x204387d6",
+          "0x2043886c",
+          "0x204388b7",
+          "0x20439113"
+        ]
+      },
+      {
+        "label": "infoEndCondition6Through34Map",
+        "va": "0x20439388",
+        "fileOffset": 4428680,
+        "bytes": "000c0c0c0c010c0c0203040c050c0c000c0c0c0c060708090c0c0c0a0b",
+        "elementBytes": 1,
+        "values": [
+          0,
+          12,
+          12,
+          12,
+          12,
+          1,
+          12,
+          12,
+          2,
+          3,
+          4,
+          12,
+          5,
+          12,
+          12,
+          0,
+          12,
+          12,
+          12,
+          12,
+          6,
+          7,
+          8,
+          9,
+          12,
+          12,
+          12,
+          10,
+          11
+        ]
+      }
+    ],
+    "verifiedAgainstOriginalPE": true
+  },
+  "sourceOnly": true
+}

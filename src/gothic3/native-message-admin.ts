@@ -2,6 +2,7 @@
  * records live in the retained MemoryAdmin allocations. Platform window, file,
  * critical-section and shutdown services are explicit capabilities. */
 import rulesText from '../../assets/gothic3/runtime-admin/runtime-rules.json?raw';
+import dispatchSource from '../../assets/gothic3/registration-dispatch/source.json';
 import type { NativeValue } from './dialogue';
 import type { NativeMemoryAdmin, NativeMemoryAllocation } from './native-memory-admin';
 
@@ -189,6 +190,21 @@ export class NativeMessageAdminModule {
     // Source ignores the signed _atexit return; the owned service records any
     // successful entry before returning. No registration is fabricated here.
     this.trace.push('message.shutdown.register'); this.phase = 'ready'; return known(this);
+  }
+  /** Original signed threshold branch at 10049518. Messages above the live
+   * threshold require the separately recovered lock and callback loop. */
+  onMessageBelowThreshold(type: number): NativeValue<boolean> {
+    const method = dispatchSource.module.methods.find(row => row.label === 'messageOnMessage');
+    if (dispatchSource.module.inputSha256 !== INPUT || method?.bodyVA !== '0x10049510' ||
+        method.bodyInstructionBytesSha256 !== '7401716b5a0dd3a5cd86ab316949606758774ca9753ed58ddb65a80b3fef1df5')
+      return unknown('Original MessageAdmin.OnMessage source differs');
+    if (this.phase !== 'ready') return unknown('Actual returned ready MessageAdmin owner required');
+    if (!Number.isInteger(type) || type < 0 || type > 0xffffffff)
+      return unknown('Actual original uint32 message type required');
+    if ((type | 0) > (this.storage.uint(28) | 0))
+      return unknown('Unowned MessageAdmin.OnMessage callback loop at 1004951d');
+    this.trace.push('10049574.message.threshold.return');
+    return known(true);
   }
   private block(reason: string): { known: false; reason: string } {
     this.phase = 'blocked'; this.boundary = reason; return unknown(reason);

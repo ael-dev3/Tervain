@@ -13,6 +13,350 @@ finishable campaign.
 
 ## How the rebuild works
 
+### Start here: the rebuilding process
+
+The browser rebuild combines recovered game data with a TypeScript runtime.
+Each feature goes through the following steps:
+
+1. **Identify the original input.** Start with the installed game at
+   `C:\Program Files (x86)\Steam\steamapps\common\Gothic 3`. Record the
+   archive, resource path, patch precedence and file hash. Preserve matching
+   `Game.dll`, `Engine.dll` and `SharedBase.dll` for behavior research.
+2. **Recover assets and records.** Use `tools/gothic3/` to read the relevant
+   format and export browser resources to `public/gothic3/`. Keep provenance
+   and source evidence in `assets/gothic3/`. Trees need their materials and
+   alpha textures; humans also need skeletons, skin weights and animations.
+3. **Trace the original behavior.** Follow the missing native call through
+   its instructions, imports, object layouts and callers. Compare decompiled
+   listings with the matching DLL bytes. Capture reproducible evidence before
+   implementing the operation.
+4. **Implement it in TypeScript.** Add the supported behavior in
+   `src/gothic3/`, preserving memory ownership, pointer identity, allocation,
+   callback order and cleanup. Continue the original startup state through
+   supported calls; retain an explicit boundary at unsupported operations.
+5. **Connect it to the browser world.** Use the same live entities for
+   rendering, input, movement, NPC routines, combat, dialogue and quests.
+   Connect persistent state to save and reload. Asset viewers and isolated
+   runtime components are intermediate milestones.
+6. **Validate and publish a checkpoint.** Inspect the diff, run relevant
+   checks and a production build, then inspect the affected scenario in the
+   browser. Before remote changes, inspect repository-wide Actions runs and
+   workflow triggers. Publish the reviewed checkpoint on `/gothic3/` and
+   record which behavior it demonstrates.
+
+**Current local boundary:** Arena Status, None and Running initialization
+return through the retained startup stack. The next unsupported callback is
+`204b2130`, for the AI FreePoint wrapper/type. Source capture for that callback
+does not establish that it executes. Complete startup, world activation and
+a new-game-to-ending campaign remain unfinished. Local checkpoints and the
+hosted version can differ; validation below identifies the checkpoint covered.
+
+### Checkpoint history
+
+The entries below describe successive local states, newest first. Statements
+about missing operations in older entries apply to those earlier checkpoints.
+
+### Current local checkpoint: Running enum returns
+
+Running now traverses the existing value bucket by actual scalar comparisons.
+Its scalar one shares bucket zero with None but retains a distinct entry;
+the new chain points to the existing scalar-zero entry. The actual registry
+CString receives the name, entry count becomes two, and the existing descriptor
+array receives the actual Running object in slot one without growing capacity
+nine. Both None entries and slot zero remain intact. The temporary CString is
+destroyed and the original initializer returns at `204b1ee0` through its
+retained startup CALL frame. Startup reaches the next callback `204b2130`.
+
+At checkpoint `6a73d59d`, typechecking and 22 focused checks across four files
+pass. The full suite passed 3,199 tests across 298 files in 491.58 seconds,
+and the production build passed in 44.78 seconds. Publication remains pending.
+Full campaign playability remains unfinished.
+
+### Current local checkpoint: Running name lookup preserves prior entries
+
+Running now hashes its actual CString and traverses the existing name bucket
+using the recovered CString equality overload and retained entry owners. A
+missing name allocates its original sixteen-byte entry, shares the name and
+links the prior bucket head rather than clearing it. The actual Running value
+one is copied into that entry's value subobject. Name entry count becomes two;
+the None name/value and descriptor array remain intact. Startup reaches the
+retained value lookup at `20071a16 -> 200707a0`.
+Typechecking and seven focused checks pass. They inspect both name identities,
+bucket links, preserved None value, Running scalar and repeat-entry behavior.
+The later initializer has not returned, and publication remains pending.
+
+### Current local checkpoint: Running enum enters with retained registries
+
+Startup now selects the actual Running initializer table slot at offset
+`0x378`. It requires the preceding None initializer's actual completed owner,
+constructs the original Running name, allocates a separate twelve-byte value
+with category `0x2a` and executes the recovered base/vtable stores. It reads
+the existing scratch scalar, then writes supplied value one without modifying
+scratch. Both registry guards and their prior allocations remain retained.
+Startup stops at Running name lookup at `200719d7 -> 200708b0`, which must
+handle the existing bucket state. Repeated entry preserves the interruption
+and allocation. Typechecking and seven focused checks across three files pass.
+The integrated build at `352ab998` passed in 38.34 seconds; its full suite
+remains running and does not cover this later local continuation.
+
+### Current local checkpoint: first enum initializer returns
+
+The value-registry cleanup callback `20549a60` is captured through its final
+RET: sixteen instructions and 74 PE-verified bytes. The actual exit-table
+registration completes. Value lookup selects the original scalar bucket,
+allocates its sixteen-byte entry, constructs the value and CString, links the
+entry and assigns the retained enum name. The descriptor then allocates its
+twelve-byte value-array holder, reserves nine slots through the existing heap
+and stores the actual twelve-byte enum object in slot zero. Its count is one.
+The temporary CString is destroyed and the original initializer returns at
+`204b1ea2` through the retained startup frame. Startup reaches `204b1eb0`.
+
+Typechecking, 22 focused checks across four files and exact independent source
+regeneration pass. The earlier full suite at `158af101` finished with 3,193
+passing tests and one image-metadata failure; that issue is corrected locally
+and its regression passes. A fresh full suite is required before publication.
+Full campaign completion remains unproven.
+
+### Current local checkpoint: enum value assignment and second registry
+
+The actual original value-base vtable slot `+0x1c` resolves through
+`200067f8` to the five-instruction body `2006d540`. It copies the retained
+value DWORD into the name entry's actual value subobject and returns one.
+The subsequent value-registry guard and constructor now execute with their
+separate canonical image and allocation. Its independently captured reserve
+helper `2006e860` produces 43 active buckets and capacity 51, clearing all
+204 bytes. Startup reaches cleanup registration for callback `20549a60` at
+`20071a07`; lookup and descriptor insertion remain unfinished.
+
+Typechecking and 22 focused checks across four files pass. Broad validation of
+the earlier checkpoint exposed incorrect image-receipt metadata for the enum
+constants: their scope and capture flag are now corrected, and the independent
+Game image-admission regression passes. The earlier full-suite run does not
+validate this correction or continuation. The work remains local and undeployed.
+
+### Current local checkpoint: enum name lookup returns
+
+The cold name lookup hashes the actual retained CString with the existing
+original hash implementation and selects its bucket modulo 43. The original
+empty-bucket branch allocates sixteen bytes with category `0x199`, constructs
+its CString and value-base subobject, shares the temporary name through the
+recovered assignment and stores value zero and a NULL next link. It publishes
+the actual entry in that bucket and increments entry count to one.
+The actual +4 subobject is now available for the next virtual assignment at
+`200719e8`, which remains unsupported. Nonempty bucket comparison is also
+unfinished. Typechecking and six focused production checks pass; checks inspect
+the actual entry identity, bucket link, remaining empty buckets and scalar
+fields. These later local changes remain undeployed.
+
+### Current local checkpoint: enum name registry cleanup registers
+
+Targeted recovery captures callback `20549ac0` through its final RET at
+`20549b09`: sixteen instructions and 74 bytes, checked against the matching
+Game PE. Exact generated JSON admission supplies this callback's receipt to
+both exit-table capability construction and registration validation. The
+actual `_atexit` registration completes without invoking shutdown.
+Startup reaches name lookup at `200719d7 -> 200708b0`. Typechecking, seven
+focused checks and independent exact regeneration pass. The value registry
+cleanup target `20549a60` remains unadmitted; enum insertion and campaign
+completion remain unfinished. This checkpoint is local and undeployed.
+
+### Current local checkpoint: enum name registry constructs
+
+The enum naming path sets the original name-registry guard bit and zeros the
+four canonical registry DWORDs. Its cold reserve(43,0) selects growth eight,
+allocates 204 bytes through the same existing MemoryAdmin, clears all 51 DWORDs
+and publishes capacity 51. The constructor then stores bucket count 43; entry
+count remains zero. The actual buffer and fields survive interruption.
+Startup reaches cleanup registration at `200719c5`, with callback `20549ac0`
+still requiring admission. Lookup and value insertion remain unfinished.
+Typechecking and six focused production checks pass; regressions inspect the
+actual guard, counts and all 204 cleared bytes and their known masks.
+This continuation remains local and undeployed.
+
+### Current local checkpoint: enum base construction returns
+
+The original SharedBase default `bCObjectBase` constructor resolves from
+`10007c11` to `1004a1c0`. Its three exact instructions return the actual
+receiver and store vtable `100e7e1c`. The enum continuation applies this to its
+retained allocation's +4 subobject, then restores derived value-base vtable
+`2065902c` and writes the actual scratch value zero at +8.
+Startup reaches value naming at `20071eab -> 200719a0`; the shared name/value
+registries remain unfinished. The initializer has not returned or inserted a
+value. Typechecking, seven focused checks and byte-identical independent
+regeneration of both source JSON and generated TypeScript pass. These later
+local changes remain undeployed.
+
+### Current local checkpoint: first enum initializer enters
+
+Startup selects the actual `204b1e70` table entry at offset `0x374` and retains
+its original CALL frame. The translated owner constructs `gEArenaStatus_None`
+from the canonical nineteen-byte image, checks the live Status descriptor,
+writes enum scratch zero, allocates twelve bytes with original category `0x46`
+from the same MemoryAdmin and stores vtable `20659c74`. The next unsupported
+operation is the original SharedBase base-object constructor at `20071e89`,
+through IAT `207d8700`. The allocation and temporary name remain live; repeated
+entry retains the interruption without replaying allocation or writes.
+
+Typechecking and seven focused checks across three files pass. The preceding
+initializer-return checkpoint `c2b9593a` separately passed 3,193 tests across
+296 files in 479.54 seconds and built in 49.10 seconds. Those broad results do
+not cover this later enum continuation. Publication and full campaign remain
+unfinished.
+
+### Current local checkpoint: first Arena property initializer returns
+
+The Status initializer now registers its original cleanup callback `205499a0`
+through the existing same-CRT exit table. The complete callback's eleven
+instructions are checked against original Game DLL bytes; admission pins its
+entry, body and instruction hash. Registration preserves the existing exit
+table and ordering. This registers callback data; its shutdown execution is
+still unfinished. The caller ignores a known `_atexit` failure as the original
+code does, without inventing a successful entry.
+
+The initializer returns at `204b1e4c` through the actual startup CALL/RET frame.
+Startup reaches the next C++ initializer, `204b1e70`, which is not yet supported.
+Typechecking and six focused production checks pass, including actual Status
+registration, temporary destruction, cleanup registration and initializer
+return. This checkpoint remains local; campaign completion is unproven.
+
+### Current local checkpoint: Status registration returns
+
+After the actual filtered Debug return, property registration follows its
+original success epilogue at `10088196` through `1008819e`, returning AL=1.
+The retained Arena array still owns the actual Status descriptor. The caller
+then destroys its temporary CString at `204b1e39` using the existing recovered
+destructor; regression checks confirm the temporary's destroyed state.
+Startup reaches cleanup registration at `204b1e44 -> 204637ce`, which remains
+unfinished. The initializer has not returned. Typechecking and six production
+checks pass, followed by two focused checks with explicit registration and
+temporary-destruction assertions. This continuation is local and undeployed.
+
+### Current local checkpoint: filtered diagnostic returns
+
+The registration diagnostic now executes OnMessage's original signed threshold
+comparison against the returned MessageAdmin owner's actual DWORD at offset
+`0x1c`. Type one and threshold one take the original immediate-success branch,
+return AL=1, and execute the six-argument return. Debug then returns at
+`10049931`. No callback is dispatched for this filtered message.
+Types above the live threshold retain an explicit unsupported callback-loop
+boundary. Startup advances to the unfinished property-registration return after
+Debug. Typechecking and six focused checks across combined startup and browser
+NPC services pass, including signed comparison and unsupported-loop checks.
+This local continuation has not been deployed or broadly validated.
+
+### Current local checkpoint: actual MessageAdmin getter returns
+
+Registration Debug now looks up the runtime-admin factory's unique actual
+same-platform MessageAdmin module. Missing or ambiguous owners are rejected;
+lookup does not initialize or substitute a module. Its original getter runs
+through the existing recovered singleton implementation and returns the same
+owner, including its actual shutdown registrations and callback allocations.
+The retained diagnostic confirms that owner is ready and its threshold is one.
+Startup now stops at OnMessage, `1004992b -> 10005560`. Dispatch and the return
+from the Status initializer remain unfinished.
+
+The preceding formatter-return revision `3d59cf3d` passed 3,193 tests across
+296 files in 523.96 seconds. That full-suite receipt does not cover this later
+getter integration, which has typechecking and focused production checks.
+
+### Current local checkpoint: registration formatting returns
+
+At `3d59cf3d`, the selected original narrow-string formatter path writes the
+property-registration message into the actual SharedBase TLS buffer. It uses
+captured classification and dispatch tables, the initialized locale and the
+original FILE cursor/count behavior. The recovered security-cookie check and
+formatter return complete, and the caller writes the terminating NUL.
+
+The retained next call is MessageAdmin's getter at `10049924 -> 100088b4`, with
+the actual message buffer and original arguments. Message dispatch, the return
+from the Status initializer and subsequent world activation remain unfinished.
+Eight focused checks across three files and typechecking pass. The production
+build passed in 47.06 seconds. Independent regeneration of both the source JSON
+and generated TypeScript matched their SHA-256 hashes exactly. Full-suite and
+browser validation of this revision have not yet been recorded here.
+This continuation is local and has not been deployed.
+
+### Production prerequisite ordering: local integration
+
+The browser NPC service now invokes the existing SharedBase CRT helper before
+Game startup when using the complete browser process-input profile. It retains
+the actual initialized CRT owner. The CRT GUID copy and the GUID service share
+the canonical module source and destination, and the service adopts the completed
+CRT execution instead of replaying the selected initializer. Cold, incomplete
+and repeated adoption are rejected. Prefix-only research profiles retain their
+selected initializer path.
+
+The integrated service reaches Arena Status with its actual PTD and returns
+from LocaleUpdate. Its next unsupported formatter instruction is `100b53b0`.
+Five focused checks across the combined-startup and production-service files
+pass using the repository's 30-second CI timeout; typechecking also passes.
+The production build at `968db386` passed in 49.28 seconds. Its full suite
+passed 3,190 tests across 295 files in 542.94 seconds against unchanged sources
+in the separate validation checkout.
+The preceding canonical GUID storage change passed 350 checks across the
+SharedBase CRT and combined-startup files in 348.49 seconds. This receipt covers
+the storage change, rather than the later production ordering and adoption.
+A fresh production browser observation at `968db386` entered Ardea and inspected
+`Ardea_OutNovice_01` (11,280 triangles, two material meshes). The actual developer
+panel reports the formatter interruption at `100b53b0 (LocaleUpdate returned)`,
+4,576 environment/startup source operations and incomplete NPC activation:
+zero of sixteen attached property sets, with the ScriptAdmin getter still
+unconnected. The scene reports 202 objects, 70 characters and three source
+routine positions. This establishes production integration of the locale
+prerequisite, rather than campaign playability. The complete DLL wrapper,
+NPC activation and campaign remain unfinished.
+
+### SharedBase prerequisite integration finding
+
+A local integration check now runs the existing SharedBase CRT process-attach
+helper on the actual browser compatibility platform with its process inputs,
+I/O selections and logical stack. The helper returns `1`, with its real PTD
+installed and initialized. This proves the selected helper path; the complete
+DLL wrapper remains unfinished.
+
+The initial combined check stopped at Game's I/O entry because its controller
+required a cold stack. The local handoff now admits the returned SharedBase
+helper only after checking its actual canonical owner, installed PTD, completed
+CALL records, restored ESP and saved registers, restored FS chain and original
+`100adc7e` return continuation. It retains the same physical thread stack.
+Game then completes I/O and reaches its C++ initializers, stopping at
+`204b11b0` in the fixture without the class-name memory pools. Production
+ordering and complete DLL-wrapper integration remain pending. See
+`tests/gothic3-dialogue/browser-shared-crt-startup.test.ts` for the regression.
+
+All nine focused checks across three files and typechecking pass for the local
+locale-entry and prerequisite investigation. The preceding formatter-entry
+revision `dd1c79d2` passed 3,189 tests across 294 files in 548.19 seconds; that
+full-suite receipt does not cover the later local changes. PR #202's Pages run
+`37928617229` completed successfully. Hosted gameplay still needs observation,
+and these new local continuations have not been deployed.
+
+### Practical development cycle
+
+For each feature, follow one complete cycle:
+
+1. Locate the original resource or native function and record its path, version
+   and SHA-256. Resolve archive patch priority before exporting an asset.
+2. Recover the format or behavior from original bytes and disassembly. Keep
+   decompiled pseudocode as supporting research, and record unresolved behavior.
+3. Write a repeatable preparation tool in `tools/gothic3/`. Store source evidence
+   in `assets/gothic3/` and browser-ready resources in `public/gothic3/`.
+4. Implement the recovered behavior in `src/gothic3/`, preserving actual object
+   identity, allocation ownership, initialization order and cleanup. Stop at an
+   unsupported operation with the completed state retained.
+5. Connect the implementation to `/gothic3/`. Check the visible model or gameplay
+   result, including materials, animations and entity state where applicable.
+6. Inspect the diff, reproduce generated evidence independently and run the
+   relevant tests, typecheck and production build. Record the revision and results
+   in the checkpoint history.
+7. Inspect repository-wide Actions runs and workflow triggers before publishing.
+   Review the pull request, deploy the accepted revision and record the hosted
+   observation separately from local validation.
+
+Continue this cycle through startup, world activation, NPC behavior and campaign
+systems. Completion requires a demonstrated new-game-to-ending playthrough with
+save and reload; each intermediate checkpoint records only its verified scope.
+
 ### From installed files to a playable browser game
 
 The rebuild follows two tracks that meet in the browser: converting the game's
@@ -98,6 +442,25 @@ lower instructions on the startup stack, and it does not claim a returned
 initializer or completed property registration. Eleven focused checks across three
 files and typechecking pass; broad validation and browser proof remain pending.
 The preceding root-return build at `45b1e5d5` passed in 43.99 seconds.
+
+The next local diagnostic continuation translates the formatter entry's retained
+frame from the exact 25-instruction source selection. Its FILE, format and
+varargs inputs are actual diagnostic objects. Saved caller-register bits remain
+unknown, and cookie XOR EBP retains an opaque expression over the canonical
+cookie image and relative frame. Seven local DWORDs are zeroed; the pending
+LocaleUpdate call retains its NULL locale argument and uninitialized 16-byte
+receiver. Execution stops at `100b53ab -> 100a74b6`. This local frame is separate
+from instruction interpretation on the Game startup stack. Eight focused checks
+pass; LocaleUpdate, formatting, diagnostic dispatch and return remain unfinished.
+At local revision `892186f7`, typechecking, byte-identical independent evidence
+regeneration and the production build (35.62 seconds) pass. Full-suite and
+production-browser validation of this later formatter entry remain pending.
+
+The preceding Arena startup batch merged through PR #202 at
+`8e86398264d3a29983c762190cd6f90ff09b4243`. CI run `37927335964` passed all
+3,189 tests across 294 files, typechecking and the production build. Main Pages
+run `37928617229` completed successfully. The later local continuations above
+are not included in that deployment.
 The root-insertion revision `6d7c14a7` passed all 3,185 tests across 294 files
 in 485.24 seconds and built in 44.31 seconds. These results apply to that earlier
 revision, before root cleanup registration, Status integration and TLS loading.
