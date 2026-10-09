@@ -20,6 +20,7 @@ def capture(study):
         0x10007130: 'propertyWrapperConstructor',
         0x100058a3: 'propertyWrapperIsRoot',
         0x100030da: 'objectRefSetPropertyObject',
+        0x100020e5: 'propertySingletonEnableRegistration',
     })
     pe = PE((study / '00_Original_Runtime/Game.dll').read_bytes())
     images = []
@@ -68,7 +69,9 @@ def runtime(source, path):
         + "export function gameArenaRootImageReceipt(label:string):NativeCrtImageReceipt { admitGameArenaRootSource(); const image=gameArenaRootImages[label]; if(!image)throw new Error('Unknown Arena root image'); return image; }\n"
         + "export function gameArenaRootInstruction(entry:string,pc:string):NativeGameIoInstruction { admitGameArenaRootSource(); const method=[...source.module.methods,...source.shared.methods].find(method=>method.entryVA==='0x'+entry || method.bodyVA==='0x'+entry); const row=method?.instructions.find(row=>row.va===pc); if(!row)throw new Error('Unowned Arena root instruction'); return row; }\n"
         + "export function admitArenaWrapperConstructorImport():void { admitGameArenaRootSource(); const imported=source.module.imports.find(row=>row.iatVA==='0x207d87b8'); if(!imported || imported.module!=='SharedBase.dll' || imported.name!=='??0bCPropertyObjectBase@@IAE@XZ' || imported.ordinal!==null)throw new Error('Original Arena wrapper constructor import differs'); }\n"
-        + "export function gameArenaWrapperImportTarget(iat:string):string { admitGameArenaRootSource(); const selected=iat==='207d86e8'?['propertyWrapperIsRoot','?IsRoot@bCPropertyObjectBase@@QBE_NXZ']:iat==='207d87c4'?['objectRefSetPropertyObject','?SetPropertyObject@bCObjectRefBase@@IAEXPBVbCPropertyObjectBase@@@Z']:null; const imported=source.module.imports.find(row=>row.iatVA==='0x'+iat); const method=source.shared.methods.find(method=>method.label===selected?.[0]); if(!selected || !imported || imported.module!=='SharedBase.dll' || imported.name!==selected[1] || imported.ordinal!==null || !method)throw new Error('Unowned Arena wrapper import'); return method.bodyVA.slice(2); }\n",
+        + "export function gameArenaWrapperImportTarget(iat:string):string { admitGameArenaRootSource(); const selected=iat==='207d86e8'?['propertyWrapperIsRoot','?IsRoot@bCPropertyObjectBase@@QBE_NXZ']:iat==='207d87c4'?['objectRefSetPropertyObject','?SetPropertyObject@bCObjectRefBase@@IAEXPBVbCPropertyObjectBase@@@Z']:null; const imported=source.module.imports.find(row=>row.iatVA==='0x'+iat); const method=source.shared.methods.find(method=>method.label===selected?.[0]); if(!selected || !imported || imported.module!=='SharedBase.dll' || imported.name!==selected[1] || imported.ordinal!==null || !method)throw new Error('Unowned Arena wrapper import'); return method.bodyVA.slice(2); }\n"
+        + "export function admitArenaPropertySingletonImport():void { admitGameArenaRootSource(); const imported=source.module.imports.find(row=>row.iatVA==='0x207d8868'); if(!imported || imported.module!=='SharedBase.dll' || imported.name!=='?GetInstance@bCPropertyObjectSingleton@@SGAAV1@XZ' || imported.ordinal!==null)throw new Error('Original Arena property singleton import differs'); }\n"
+        + "export function arenaRegistrationToggleTarget():string { admitGameArenaRootSource(); const imported=source.module.imports.find(row=>row.iatVA==='0x207d86ec'); const method=source.shared.methods.find(method=>method.label==='propertySingletonEnableRegistration'); if(!imported || imported.module!=='SharedBase.dll' || imported.name!=='?EnableRegistration@bCPropertyObjectSingleton@@QAEXPAX_N@Z' || imported.ordinal!==null || !method)throw new Error('Original Arena registration-toggle import differs'); return method.bodyVA.slice(2); }\n",
         encoding='utf-8', newline='\n')
 
 

@@ -1,6 +1,6 @@
 # Original Arena property-object startup evidence
 
-This source package captures 263 instructions from the matching Game and
+This source package captures 280 instructions from the matching Game and
 SharedBase binaries. The runtime admits the initializer's selected prefix and
 executes the original SharedBase wrapper constructor on the retained stack.
 The whole initializer has not returned.
@@ -50,6 +50,16 @@ typechecking pass. The initializer and wrapper call remain pending; this does
 not establish complete property-object initialization.
 
 ## Reproduce
+
+The subsequent local continuation returns from wrapped-object replacement.
+Both property-singleton getters use the actual canonical SharedBase image;
+the original `EnableRegistration` body disables registration for this wrapper
+and restores it after replacement. Checks prove both toggle returns, enabled
+flag 1, a cleared temporary owner pointer and the returned replacement frame.
+Startup next stops at `200705ce`, whose Arena type virtual-table access still
+needs its pointer bridge. Twenty focused checks and typechecking pass; independent
+source/runtime regeneration matches. Full-suite, build, browser and deployment
+validation of this continuation remain pending.
 
 The latest local continuation enters replacement at `2006f930`, retains the
 original saved registers, loads the captured SharedBase import targets, clears

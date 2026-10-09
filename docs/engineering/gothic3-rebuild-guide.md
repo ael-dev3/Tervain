@@ -47,6 +47,15 @@ same evidence-driven process to gameplay systems.
 
 ### Local checkpoint: primitive templates and scoped struct names
 
+The latest local Arena replacement now returns. The captured registration
+toggle executes twice on the canonical SharedBase singleton, restoring its
+enabled flag and clearing the temporary wrapper pointer. Both getter imports,
+toggle calls and replacement return through the original stack frames. Startup
+next stops at `200705ce`, loading the Arena type's factory virtual slot.
+Twenty focused checks and typechecking pass; the 280-instruction source package
+and generated runtime independently reproduce byte for byte. Full-suite, build,
+browser and deployment evidence for this continuation remain pending.
+
 The latest local replacement continuation enters `2006f930`, executes the
 original root-flag query through its retained indirect-call capability, and
 stops at the property-singleton import `2006f985 -> [207d8868]`. Twenty focused

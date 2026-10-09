@@ -13,6 +13,9 @@ import { NativeRuntimePlatform } from './native-runtime-platform';
 import { NativeModuleCrtOwner } from './native-engine-crt-locks';
 import { NativeGameExitTable } from './native-game-crt-exit-table';
 import { NativeGameArenaType } from './native-game-arena-type';
+import { NativePropertySingleton } from './native-property-singleton';
+import { NativeSharedModuleImage } from './native-shared-module-image';
+import { admitArenaPropertySingletonImport } from './native-game-arena-root-source';
 import { nativeGameLayerBaseMemoryForCrt } from './native-game-layer-base-class-name';
 import { getGameClassName } from './native-game-class-name-family';
 import { gameClassNameSpec } from './native-game-class-name-family-source';
@@ -188,6 +191,7 @@ export class NativeX86ThreadStack {
   #binding: Binding | null = null;
   #argvBinding: ArgvBinding | null = null;
   #setEnvpBinding: SetEnvpBinding | null = null;
+  #arenaPropertySingleton:NativePropertySingleton|null=null;
   #setEnvpTransferred = false;
   #setEnvpReturned = false;
   #setEnvpGrant: NativeSetEnvpCallGrant | null = null;
@@ -2423,6 +2427,20 @@ export class NativeX86ThreadStack {
     this.#physical(this.#stack); this.#physical(this.#bank);
   }
   #sharedLocalPhysical(fields:NativeHeapObjectViews):void{
+    if(this.#arenaPropertySingleton?.ranges.object===fields && this.#setEnvpBinding) {
+      const memory=nativeGameLayerBaseMemoryForCrt(this.#setEnvpBinding.crt as NativeGameCrtOwner);
+      if(!memory.known)throw new Error(memory.reason);
+      const owner=NativePropertySingleton.forPlatform(this.#platform,memory.value);
+      const image=NativeSharedModuleImage.forPlatform(this.#platform);
+      if(!owner.known || owner.value!==this.#arenaPropertySingleton || !image.known)
+        throw new Error('Actual same-platform Arena property singleton owner required');
+      const ranges=image.value.propertySingletonRanges();
+      if(!ranges.known || ranges.value!==owner.value.ranges || ranges.value.object!==fields || fields.backing.freed ||
+        fields.knownMask.length!==fields.bytes.length || dataViewBuffer.call(fields.view)!==fields.bytes.buffer ||
+        dataViewByteOffset.call(fields.view)!==fields.bytes.byteOffset || dataViewByteLength.call(fields.view)!==fields.bytes.length)
+        throw new Error('Actual retained property singleton physical image required');
+      return;
+    }
     const proof=this.#dllMemoryController?NativeSharedCrtOwner.dllMallocLocalStorageForPlatform(this.#platform,this.#dllMemoryController,fields):NativeSharedCrtOwner.argvLocalStorageForPlatform(this.#platform,this.#sharedArgvFrame?.controller??token,fields);if(!proof.known)throw new Error(proof.reason);
     if(dataViewBuffer.call(fields.view)!==fields.bytes.buffer||dataViewByteOffset.call(fields.view)!==fields.bytes.byteOffset||dataViewByteLength.call(fields.view)!==fields.bytes.length)throw new Error('Actual SharedBase argv physical view required');
   }
@@ -2800,6 +2818,27 @@ export class NativeX86ThreadStack {
     if (source?.kind !== 'source' || source.type !== 'code' || source.address !== '2046663d')
       throw new Error('Actual original atexit return required');
   }); }
+  callArenaPropertySingleton(controller:object,site:string,next:string):NativeValue<void> { return this.#run(controller,()=>{
+    const binding=this.#setEnvpBinding;
+    if(!binding || binding.controller!==controller)throw new Error('Actual retained Game startup controller required');
+    const point=NativeGameCrtSetEnvp.canonicalArenaPropertySingletonCallForCrt(binding.owner,binding.crt,controller,site);
+    if(!point.known)throw new Error(point.reason);
+    if(next!==(site==='2006f985'?'2006f98b':'2006f9f2') || this.#calls.filter(call=>!call.returned).at(-1)?.site!=='200705c4')
+      throw new Error('Actual Arena replacement frame and singleton return required');
+    admitArenaPropertySingletonImport();
+    const memory=nativeGameLayerBaseMemoryForCrt(binding.crt as NativeGameCrtOwner); if(!memory.known)throw new Error(memory.reason);
+    this.#call(site,next);
+    const selected=NativePropertySingleton.forPlatform(this.#platform,memory.value); if(!selected.known)throw new Error(selected.reason);
+    const result=NativePropertySingleton.prototype.get.call(selected.value); if(!result.known)throw new Error(result.reason);
+    if(result.value!==selected.value.ranges.object)throw new Error('Actual original property singleton image required');
+    if(this.#arenaPropertySingleton && this.#arenaPropertySingleton!==selected.value)
+      throw new Error('Arena property singleton cannot change its retained owner');
+    this.#arenaPropertySingleton=selected.value;
+    this.#store(this.#bank,this.#reg('EAX'),this.#mint(0,0,{kind:'shared-local',fields:result.value}));
+    const returned=this.#ret(0), source=this.#record(returned).provenance;
+    if(source?.kind!=='source' || source.type!=='code' || source.address!==next)
+      throw new Error('Actual property singleton import return required');
+  }); }
   callGameArenaTypeSingleton(controller:object):NativeValue<void> { return this.#run(controller,()=>{
     const binding=this.#setEnvpBinding;
     if(!binding || binding.controller!==controller)throw new Error('Actual retained Game startup controller required');
@@ -2935,7 +2974,7 @@ export class NativeX86ThreadStack {
     for (const term of terms) {
       const p = this.#liveWord(term.word).provenance, scale = term.scale ?? 1;
       if (![1, 2, 4, 8].includes(scale)) throw new Error('Actual x86 source scale required');
-      if (p && ['stack', 'allocation', 'module', 'process'].includes(p.kind)) {
+      if (p && ['stack', 'allocation', 'module', 'process', 'shared-local'].includes(p.kind)) {
         if (pointer || scale !== 1 || term.negative) throw new Error('One contained opaque base pointer required by LEA'); pointer = term.word;
       } else scalar += (this.#numeric(term.word, 4) | 0) * scale * (term.negative ? -1 : 1);
     }

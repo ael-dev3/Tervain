@@ -13,6 +13,7 @@ import { NativeMemoryAdmin, nativeNpcHeapExtension, nativeSceneStartupHeapExtens
 import { NativeGameLayerBaseClassName } from '../../src/gothic3/native-game-layer-base-class-name';
 import { NativeGameExitTable } from '../../src/gothic3/native-game-crt-exit-table';
 import { NativeGameArenaType } from '../../src/gothic3/native-game-arena-type';
+import { NativePropertySingleton } from '../../src/gothic3/native-property-singleton';
 import { NativeGameClassName } from '../../src/gothic3/native-game-class-name-family';
 import { gameClassNameSpec, gameClassNameFamilySpecs } from '../../src/gothic3/native-game-class-name-family-source';
 
@@ -52,8 +53,8 @@ describe('original Game C++ class-name initializers on the retained browser stac
     expect({ next: f.game.attachProgress.nextBoundary,
       reason: f.game.attachProgress.setEnvpProgress!.boundary,
       callbacks: NativeGameExitTable.forCrt(f.game.crt).snapshot().callbackCells.length }).toEqual({
-        next: { address: '2006f985', name: 'import', iat: '207d8868' },
-        reason: 'Unowned original environment CALL at2006f985: CALL dword ptr [0x207d8868]', callbacks: 157,
+        next: { address: '200705ce', name: 'sourceInstruction', instruction: 'MOV EAX,dword ptr [EDX + 0xc]' },
+        reason: 'Actual owned stack/allocation/module/process address required for memory access', callbacks: 157,
       });
     const arenaRoot=f.game.crt.imageStorage('arenaRootWrapper');
     const arenaVtable=arenaRoot.pointer(0).get() as NativeBytePointer;
@@ -68,8 +69,13 @@ describe('original Game C++ class-name initializers on the retained browser stac
     expect(f.stack.snapshot().calls.find(call=>call.site==='204b1d75')).toMatchObject({returned:true});
     expect(f.stack.snapshot().calls.find(call=>call.site==='204b1d8f')).toMatchObject({returned:true});
     expect(f.stack.snapshot().calls.find(call=>call.site==='2006f97c')).toMatchObject({returned:true});
+    for(const site of ['2006f985','2006f98d','2006f9ec','2006f9f4','200705c4'])
+      expect(f.stack.snapshot().calls.find(call=>call.site===site)).toMatchObject({returned:true});
+    const singleton=fact(NativePropertySingleton.forPlatform(f.platform,f.memory));
+    expect(singleton.ranges.object.readUnsigned(4,1)).toBe(1);
+    expect(singleton.ranges.object.pointer(8).get()).toBeNull();
     expect(f.stack.snapshot().calls.filter(call=>!call.returned).map(call=>call.site))
-      .toEqual(['204678f2','20466654','204b1daa','200705c4']);
+      .toEqual(['204678f2','20466654','204b1daa']);
     const completed = gameClassNameFamilySpecs.filter(spec => spec.initializer >= '204b11b0' && spec.initializer < '204b1d70');
     expect(completed).toHaveLength(154);
     for (const spec of completed)
