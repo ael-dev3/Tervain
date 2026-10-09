@@ -1007,7 +1007,7 @@
         "bodyInstructionBytesSha256": "cdae62a83f39a1173f4d3f888d052d7a326f8a061fd63f0e070495778a2c27c1"
       },
       {
-        "label": "freePointParentTypeGetter",
+        "label": "freePointObjectReplacement",
         "entryVA": "0x2002a987",
         "bodyVA": "0x200725c0",
         "entryChain": [
@@ -2751,6 +2751,44 @@
           "targetVA": "20549b60"
         }
       ]
+    },
+    "wrapperCleanup": {
+      "entry": "20549b80",
+      "instructions": [
+        {
+          "va": "20549b80",
+          "bytes": "b91c517b20",
+          "instruction": "MOV ECX,0x207b511c",
+          "fileOffset": 5544832
+        },
+        {
+          "va": "20549b85",
+          "bytes": "c7051c517b2074a06520",
+          "instruction": "MOV dword ptr [0x207b511c],0x2065a074",
+          "fileOffset": 5544837
+        },
+        {
+          "va": "20549b8f",
+          "bytes": "e8fe3aadff",
+          "instruction": "CALL 0x2001d692",
+          "fileOffset": 5544847
+        },
+        {
+          "va": "20549b94",
+          "bytes": "b91c517b20",
+          "instruction": "MOV ECX,0x207b511c",
+          "fileOffset": 5544852
+        },
+        {
+          "va": "20549b99",
+          "bytes": "e94e85aeff",
+          "instruction": "JMP 0x200320ec",
+          "fileOffset": 5544857
+        }
+      ],
+      "capture": "bounded-original-PE-five-encoding-decode",
+      "bodyByteCount": 30,
+      "bodyInstructionBytesSha256": "85c3ef3ec5ff75bd11a89e7707dec7052860394ab3ffcca7cbb06496335c52b9"
     }
   },
   "images": [
@@ -2853,9 +2891,9 @@
     {
       "label": "freePointTypeInfoDescriptor",
       "address": "20798230",
-      "bytes": 38,
-      "raw": "74636b20000000002e3f41566743414948656c7065725f46726565506f696e745f5053404000",
-      "fileBackedBytes": 38,
+      "bytes": 40,
+      "raw": "74636b20000000002e3f41566743414948656c7065725f46726565506f696e745f50534040000000",
+      "fileBackedBytes": 40,
       "loaderZeroFillBytes": 0,
       "section": {
         "virtualAddress": 7954432,
@@ -2863,12 +2901,11 @@
         "rawSize": 126976,
         "rawOffset": 7954432
       },
-      "sha256": "de679098effd3b65306432ae3f6922fc0950dad7ac1a57233fd10910aa4611ca",
+      "sha256": "acf44e3d739dc835b31ef8048df76cef9e1c32d81f65c03c185d09376f91657c",
       "liveValueCaptured": false
     }
   ],
-  "pendingCleanupCallback": "20549b80",
   "sourceOnly": true,
-  "initializerReturned": false,
+  "initializerReturnCaptured": false,
   "fullCampaignCompleted": false
 }

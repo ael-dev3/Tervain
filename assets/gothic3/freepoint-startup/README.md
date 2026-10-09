@@ -1,6 +1,6 @@
 # AI FreePoint startup evidence
 
-The next unsupported Game C++ initializer is `204b2130`. Its fourteen
+The recovered Game C++ initializer is `204b2130`. Its fourteen
 instructions construct the wrapper at `207b511c`, obtain its reflected type,
 initialize it with argument one, and register cleanup callback `20549b80`.
 
@@ -11,7 +11,7 @@ initialize it with argument one, and register cleanup callback `20549b80`.
 | Type getter | `200732e0` | 21 |
 | Wrapper initialization | `20073010` | 73 |
 | Class-name getter | `20073120` | 22 |
-| Parent-type dependency | `200725c0` | 125 |
+| Object replacement and registration toggles | `200725c0` | 125 |
 | Type accessor | `20072380` | 2 |
 | Wrapper object getter | `20072960` | 2 |
 
@@ -23,7 +23,8 @@ when implementing registration and initialization.
 The package also captures type cleanup `20549b30` and class-name cleanup
 `20549b60`, including their terminal imported tail jumps. Both are missing
 from the original functions CSV, so their targeted disassembly is checked
-directly against the DLL. Wrapper cleanup `20549b80` remains uncaptured.
+directly against the DLL. Wrapper cleanup `20549b80` is captured from its
+exact thirty original PE bytes using five bounded instruction encodings.
 
 Seven image receipts distinguish original file-backed bytes from loader zero
 fill and retain section bounds. They are initial image evidence, not captured
@@ -45,8 +46,12 @@ getter through its actual startup frame. The initializer stores that type
 pointer at wrapper `+12` and stops at `204b216a -> 20008571`.
 The later wrapper continuation executes its captured body prefix on the retained
 startup stack, reads argument one and changes flags from ten to eleven. It stops
-at parent-type call `20073024 -> 2002a987`, preserving its pending frame.
-The FreePoint initializer has not returned. Cleanup execution is unfinished.
+at object-replacement call `20073024 -> 2002a987` in that earlier checkpoint.
+The current continuation executes that helper, the type accessor and property
+factory registration, then returns from wrapper initialization and initializer
+`204b2130`. The later class-name initializer `204b23c0` shares the canonical
+CString owner and returns. Startup next stops at callback `204b23d0`. Cleanup
+callbacks are registered; shutdown traversal remains unfinished.
 
 Reproduce from the matching local study:
 
@@ -56,4 +61,4 @@ python tools/gothic3/prepare_freepoint_source.py --study '<study directory>' --o
 
 Two separate generations matched exactly for both JSON and generated TypeScript.
 JSON SHA-256 is
-`a7a0df92c359be5b15458a5f41dbb6faa79079ac03a09a7da7e00085a3058fd4`.
+`73208900fc37801000d4805e647e61078ffbf7ba857a065e7da3d8c7ed2cf122`.

@@ -44,19 +44,39 @@ Each feature goes through the following steps:
    workflow triggers. Publish the reviewed checkpoint on `/gothic3/` and
    record which behavior it demonstrates.
 
-**Current local boundary:** Arena Status, None and Running initialization
-return through the retained startup stack. The next unsupported callback is
-`20073024 -> 2002a987`, the AI FreePoint parent-type call. Its reflected type
-registers and returns, and wrapper initialization begins. Complete startup, world activation and
-a new-game-to-ending campaign remain unfinished. Local checkpoints and the
-hosted version can differ; validation below identifies the checkpoint covered.
+**Current local boundary:** Arena Status, None, Running and AI FreePoint
+initialization return through the retained startup stack. FreePoint's later
+class-name initializer also returns, sharing the same CString and cleanup
+owner. The next unsupported C++ initializer is `204b23d0`. Complete startup,
+world activation and a new-game-to-ending campaign remain unfinished. Local
+checkpoints and the hosted version can differ; validation below identifies
+the checkpoint covered.
 
 ### Checkpoint history
 
 The entries below describe successive local states, newest first. Statements
 about missing operations in older entries apply to those earlier checkpoints.
 
-### Current local checkpoint: FreePoint wrapper initialization enters
+### Current local checkpoint: FreePoint initialization returns
+
+The captured FreePoint wrapper, object-replacement helper and type accessor
+now execute through their original returns. Its property factory registers
+the actual wrapper in the retained root array, and the initializer registers
+its original cleanup callback before returning. The earlier class-name getter
+and later static initializer use one canonical CString owner; cleanup is
+registered once.
+
+The helper reached at `20073024 -> 2002a987` was previously described here as
+a parent-type getter. Further instruction tracing identified it as the
+object-replacement and registration-toggle helper. That interpretation is
+used by the current implementation.
+
+Focused validation passed 31 tests across four files. Broad validation of
+this latest continuation and publication remain pending. The preceding
+wrapper-entry checkpoint passed 3,199 tests across 298 files and a production
+build. These results establish startup progress, not a playable campaign.
+
+### Earlier checkpoint: FreePoint wrapper initialization enters
 
 The actual initializer CALL at `204b216a` enters captured wrapper body
 `20073010` on the existing startup stack. It reads the original byte argument

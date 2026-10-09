@@ -108,5 +108,5 @@ export class NativeGameFreePointType {
   }catch(error){this.#boundary=error instanceof Error?error.message:String(error);return {known:false,reason:this.#boundary};}
  }
  snapshot(){return Object.freeze({boundary:this.#boundary,entered:this.#entered,baseConstructed:this.#baseOwner!==null,factoryConstructed:this.#factoryOwner!==null,
-  initializerReturned:false,getterReturned:this.#returned,registered:this.#registered,wrapper:this.#wrapper,slot:this.#slot,callback:this.#callback,trace:Object.freeze([...this.#trace])});}
+  getterReturned:this.#returned,registered:this.#registered,wrapper:this.#wrapper,slot:this.#slot,callback:this.#callback,trace:Object.freeze([...this.#trace])});}
 }
