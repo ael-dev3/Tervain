@@ -4,6 +4,7 @@ import type { NativeValue } from './dialogue';
 import type { NativeHeapObjectViews } from './native-heap-views';
 import type { NativeRuntimePlatform } from './native-runtime-platform';
 import { NativeSharedModuleImage } from './native-shared-module-image';
+import { NativeSharedCrtOwner } from './native-shared-crt';
 import { admitNativeSharedGuidNullSource, nativeSharedGuidNullSource } from './native-shared-guid-null-profile';
 
 const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
@@ -30,6 +31,7 @@ function errorReason(error: unknown): string {
 export class NativeSharedGuidNull {
   readonly sourceProfile = nativeSharedGuidNullSource();
   #phase: Phase = 'not-invoked';
+  #executionOrigin: 'selected-body' | 'returned-crt' = 'selected-body';
   #boundary: string | null = null;
   #interruption: string | null = null;
   #currentInstruction: string | null = null;
@@ -74,6 +76,18 @@ export class NativeSharedGuidNull {
       return unknown('Actual canonical Shared GUIDNull owner for this platform required');
     }
     return owner.#retainedPayload();
+  }
+  /** Publish the service after its body executed in the actual CRT traversal;
+   * do not replay stores or infer completion from a zero payload. */
+  adoptReturnedCrtExecution():NativeValue<void>{
+    if(owners.get(this.#platform)!==this||this.#phase!=='not-invoked')
+      return unknown('One cold canonical GUID service required for CRT adoption');
+    const payload=NativeSharedCrtOwner.completedGuidPayloadForPlatform(this.#platform);
+    if(!payload.known)return payload;
+    if(payload.value!==this.#ranges.payload)return unknown('Actual same-image CRT GUID payload required');
+    try{this.#requireRanges();this.#executionOrigin='returned-crt';this.#phase='completed';
+      this.#trace.push('100e1470.adoptReturnedCrtExecution');return known(undefined);
+    }catch(error){return unknown(errorReason(error));}
   }
 
   #requireView(fields: NativeHeapObjectViews): void {
@@ -181,7 +195,7 @@ export class NativeSharedGuidNull {
 
   snapshot() {
     const payload = this.#retainedPayload();
-    return Object.freeze({ module: 'SharedBase' as const, phase: this.#phase, boundary: this.#boundary,
+    return Object.freeze({ module: 'SharedBase' as const, phase: this.#phase, boundary: this.#boundary,executionOrigin:this.#executionOrigin,
       currentInstruction: this.#currentInstruction, reachedInstructions: Object.freeze([...this.#reachedInstructions]),
       trace: Object.freeze([...this.#trace]),
       selectedInitializer: Object.freeze({ entry: '100e1470', table: '100e5000-100e5358',

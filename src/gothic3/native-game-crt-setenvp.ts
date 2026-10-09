@@ -332,11 +332,11 @@ export class NativeGameCrtSetEnvp {
       owner.#requireSourcePoint(owner.#pc).instruction==='CALL 0x204637ce'
       ? known(undefined):unknown('Actual original Arena root cleanup registration call required');
   }
-  static canonicalArenaStatusInitializerForCrt(owner:NativeGameCrtSetEnvp,crt:NativeModuleCrtOwner,controller:object):NativeValue<void> {
+  static canonicalArenaStatusInitializerForCrt(owner:NativeGameCrtSetEnvp,crt:NativeModuleCrtOwner,controller:object,entry:'204b1dd0'|'204b1e70'|'204b1eb0'='204b1dd0'):NativeValue<void> {
     const active=NativeGameCrtSetEnvp.canonicalControllerForCrt(owner,crt,controller,'invoke');
     if(!active.known)return active;
     const frame=owner.#frames.at(-1);
-    return owner.#pc==='20466654' && frame?.entry==='204b1dd0' &&
+    return owner.#pc==='20466654' && frame?.entry===entry &&
       frame.site==='20466654' && frame.returnPc==='20466656' &&
       owner.#requireSourcePoint(owner.#pc).instruction==='CALL EAX'
       ? known(undefined):unknown('Actual original Arena Status initializer call required');
@@ -617,12 +617,12 @@ export class NativeGameCrtSetEnvp {
     if (point.va === '20466654') {
       const callback = fact(NativeX86ThreadStack.prototype.resolveGameCppInitializer.call(this.#stack, this.#controller));
       this.#nextBoundary = Object.freeze({ pc: point.va, operation: 'indirectSourceCall', target: callback });
-      if(callback==='204b1dd0' && nativeGameLayerBaseMemoryForCrt(this.#crt as NativeGameCrtOwner).known) {
+      if((callback==='204b1dd0'||callback==='204b1e70'||callback==='204b1eb0') && nativeGameLayerBaseMemoryForCrt(this.#crt as NativeGameCrtOwner).known) {
         // This is the existing translated initializer owner; its lower
         // instructions are not interpreted on this startup stack.
         this.#nextBoundary=Object.freeze({pc:point.va,operation:'translatedCrtCall',target:callback});
         this.#frames.push(Object.freeze({entry:callback,site:point.va,returnPc,previousEntry:this.#currentEntry}));
-        fact(NativeX86ThreadStack.prototype.callArenaStatusInitializer.call(this.#stack,this.#controller));
+        fact(NativeX86ThreadStack.prototype.callArenaStatusInitializer.call(this.#stack,this.#controller,callback));
         this.#frames.pop(); this.#nextBoundary=null; return returnPc;
       }
       if (callback === '204b1d70' && nativeGameLayerBaseMemoryForCrt(this.#crt as NativeGameCrtOwner).known) {

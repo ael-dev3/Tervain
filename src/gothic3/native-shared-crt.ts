@@ -2,6 +2,7 @@
  * This owns distinct SharedBase images and selected locks/thread-index setup;
  * PTD allocation, initialization and full attach remain pending. */
 import {NativeSharedStaticTls} from './native-shared-static-tls';
+import {NativeSharedMessageDebug} from './native-shared-message-debug';
 import {NativeSharedModuleImage} from './native-shared-module-image';
 import {NativeX86ThreadStack} from './native-x86-thread-stack';
 import {NativeSharedVersionResource} from './native-shared-version-resource';
@@ -538,7 +539,9 @@ export class NativeSharedCrtOwner {
    const receipt=initializerSource.coldGlobals[label];if(receipt.address!==address||receipt.raw!==raw||receipt.bytes!==raw.length/2)throw new Error('Original onexit dependency image required');const fields=this.#retainLocal(receipt.bytes);for(let offset=0;offset<receipt.bytes;offset++)fields.writeUnsigned(offset,parseInt(raw.slice(offset*2,offset*2+2),16),1);if(label==='heapSizeImportSlot')fields.pointer(0).set(heapSizeProcedure);initializerImages[address]=fields;
   }
   for(const [label,address,raw] of [['staticCriticalSection','10197da0','000000000000000000000000000000000000000000000000'],['initializeSectionImportSlot','102f95f4','349b2f00']] as const){const receipt=initializerSource.coldGlobals[label];if(receipt.address!==address||receipt.raw!==raw||receipt.bytes!==raw.length/2)throw new Error('Original static section dependency receipt required');const fields=this.#retainLocal(receipt.bytes);for(let offset=0;offset<receipt.bytes;offset++)fields.writeUnsigned(offset,parseInt(raw.slice(offset*2,offset*2+2),16),1);if(label==='initializeSectionImportSlot')fields.pointer(0).set(initializeSectionProcedure);initializerImages[address]=fields;}
-  for(const [label,address] of [['staticValueSource','100ebb28'],['staticValueDestination','101ab150']] as const){const receipt=initializerSource.coldGlobals[label];if(receipt.address!==address||receipt.bytes!==16||receipt.raw!=='00'.repeat(16))throw new Error('Original static-value copy receipt required');const fields=this.#retainLocal(16);for(let offset=0;offset<16;offset++)fields.writeUnsigned(offset,0,1);initializerImages[address]=fields;}
+  const moduleImage=NativeSharedModuleImage.forPlatform(this.platform);if(!moduleImage.known)throw new Error(moduleImage.reason);
+  const guidRanges=moduleImage.value.guidNullRanges();if(!guidRanges.known)throw new Error(guidRanges.reason);
+  for(const [label,address,fields] of [['staticValueSource','100ebb28',guidRanges.value.source],['staticValueDestination','101ab150',guidRanges.value.payload]] as const){const receipt=initializerSource.coldGlobals[label];if(receipt.address!==address||receipt.bytes!==16||receipt.raw!=='00'.repeat(16))throw new Error('Original static-value copy receipt required');const backing=fields.backing;this.#locals.set(fields,{backing,bytes:fields.bytes,masks:fields.knownMask,backingBytes:backing.bytes,backingMasks:backing.knownMask,view:fields.view});initializerImages[address]=fields;}
   const rootLiteral=initializerSource.coldGlobals.rootTextLiteral;if(rootLiteral.address!=='100e9b5c'||rootLiteral.raw!=='526f6f7400'||rootLiteral.bytes!==5)throw new Error('Original Root text literal required');const rootFields=this.#retainLocal(5);for(let offset=0;offset<5;offset++)rootFields.writeUnsigned(offset,parseInt(rootLiteral.raw.slice(offset*2,offset*2+2),16),1);initializerImages['100e9b5c']=rootFields;
   for(const [label,entry,body,raw] of [['memoryGetInstance','10002aae','10020bf0','e93de10100'],['rootTextConstructor','10003ba7','100135f0','e944fa0000'],['rootTextAlloc','10007d65','10013240','e9d6b40000']] as const){const chain=initializerSource.methods[label].entryChain;if(chain.length!==1||chain[0]!.va!==entry||chain[0]!.targetVA!==body||chain[0]!.bytes!==raw)throw new Error('Original Root text entry thunk required');}
   const memoryState=initializerSource.coldGlobals.memoryAdminState;if(memoryState.address!=='10142798'||memoryState.bytes!==16||memoryState.raw!=='00'.repeat(16))throw new Error('Original MemoryAdmin static state required');const memoryFields=this.#retainLocal(16);for(let offset=0;offset<16;offset++)memoryFields.writeUnsigned(offset,0,1);initializerImages['10142798']=memoryFields;
@@ -791,6 +794,33 @@ export class NativeSharedCrtOwner {
   const active=NativeRuntimePlatform.requireActivePlatform(platform);if(!active.known)throw new Error(active.reason);
   const old=owners.get(platform);if(old)return old;
   const owner=new NativeSharedCrtOwner(platform,token);owners.set(platform,owner);return owner;
+ }
+ static initializeRegistrationLocaleForPlatform(platform:NativeRuntimePlatform,caller:NativeSharedMessageDebug):NativeValue<void>{
+  const owner=owners.get(platform);
+  if(!owner||owner.#active||owner.#attachReturned!==1||!owner.#ptdInstalled||!owner.#ptdInitialized)
+   return {known:false,reason:'Unowned SharedBase registration locale PTD call at 100a74c5 -> 100ae542 (SharedBase CRT thread initialization required)'};
+  const receiver=NativeSharedMessageDebug.registrationLocaleForPlatform(platform,caller);
+  if(!receiver.known)return receiver;
+  const fields=receiver.value,backing=fields.backing;
+  if(fields.bytes.length!==16||backing.freed)return {known:false,reason:'Actual live registration locale receiver required'};
+  owner.#locals.set(fields,{backing,bytes:fields.bytes,masks:fields.knownMask,backingBytes:backing.bytes,backingMasks:backing.knownMask,view:fields.view});
+  owner.#active=true;
+  try{owner.#initializeLocaleUpdate(fields,false);return {known:true,value:undefined};}
+  catch(error){return {known:false,reason:error instanceof Error?error.message:String(error)};}
+  finally{owner.#active=false;}
+ }
+ static completedGuidPayloadForPlatform(platform:NativeRuntimePlatform):NativeValue<NativeHeapObjectViews>{
+  const owner=owners.get(platform);
+  if(!owner||owner.#active||owner.#boundary||owner.#attachReturned!==1)
+   return {known:false,reason:'Actual returned SharedBase CRT initializer traversal required'};
+  try{
+   const image=NativeSharedModuleImage.forPlatform(platform);if(!image.known)return image;
+   const ranges=image.value.guidNullRanges();if(!ranges.known)return ranges;
+   if(owner.#initializerImages['100ebb28']!==ranges.value.source||owner.#initializerImages['101ab150']!==ranges.value.payload)
+    throw new Error('Actual canonical GUID source and destination required');
+   owner.#requireLocal(ranges.value.source);owner.#requireLocal(ranges.value.payload);
+   return {known:true,value:ranges.value.payload};
+  }catch(error){return {known:false,reason:error instanceof Error?error.message:String(error)};}
  }
  imageStorage(label:Image):NativeHeapObjectViews {
   const image=this.#images.get(label);if(!image)throw new Error('Unknown SharedBase image');

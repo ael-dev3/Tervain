@@ -1940,6 +1940,17 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
 /** Standalone cold admin owner. Connecting this to an NPC requires every
  * earlier source allocation on that NPC path to use this same MemoryAdmin;
  * logical factory allocation receipts alone do not satisfy that prerequisite. */
+const runtimeAdminOwners = new WeakMap<NativeRuntimePlatform, {memory: NativeMemoryAdmin; message: NativeMessageAdminModule} | null>();
+
+/** Lookup retains the actual factory-created module and does not initialize it.
+ * Ambiguous module lifetimes on one platform cannot supply a canonical owner. */
+export function nativeRuntimeMessageAdminForPlatform(platform: NativeRuntimePlatform): NativeValue<NativeMessageAdminModule> {
+  const owner = runtimeAdminOwners.get(platform);
+  if (!owner || !NativeMemoryAdmin.isForPlatform(owner.memory, platform))
+    return unknown('Actual unique same-platform runtime MessageAdmin owner is unavailable');
+  return known(owner.message);
+}
+
 export function createNativeRuntimeAdminOwner(platform = new NativeRuntimePlatform(),
   options: { readonly memoryExtensions?: readonly NativeMemoryRulesExtension[] } = {}) {
   const memory = new NativeMemoryAdmin(platform, { extensions: options.memoryExtensions ?? [] });
@@ -1956,6 +1967,7 @@ export function createNativeRuntimeAdminOwner(platform = new NativeRuntimePlatfo
     registerShutdown: (address, owner, callback) => platform.registerShutdown(address, owner, callback),
     messageAdmin: () => message.getInstance(),
     unregisterMessageCallbackForShutdown: (callback, owner) => message.unregisterForErrorShutdown(callback, owner) });
+  runtimeAdminOwners.set(platform, runtimeAdminOwners.has(platform) ? null : {memory, message});
   return Object.freeze({ platform, memory, message, error, dispose: () => platform.dispose() });
 }
 
