@@ -28,3 +28,13 @@ it('rejects a missing thread and keeps separate logical-thread TLS blocks',()=>{
  expect(left.backing.identity).not.toBe(right.backing.identity);
  left.writeUnsigned(0,0x61,1);expect(right.readUnsigned(0,1)).toBe(0);
 });
+it('retains actual TLS instruction operands and rejects corrupted slot state',()=>{
+ const owner=value(NativeSharedStaticTls.forPlatform(platform()));
+ expect(owner.instructionOperands().known).toBe(false);value(owner.loadSharedBase());
+ const operands=value(owner.instructionOperands()),buffer=value(owner.debugBuffer());
+ expect(operands.vector.pointer(0).get()).toBe(operands.block);
+ expect(operands.index.readUnsigned(0)).toBe(0);expect(operands.block.backing).toBe(buffer.backing);
+ buffer.writeUnsigned(0,0x61,1);value(owner.loadSharedBase());
+ expect(value(owner.instructionOperands()).block).toBe(operands.block);expect(value(owner.debugBuffer()).readUnsigned(0,1)).toBe(0x61);
+ operands.vector.pointer(0).set(null);expect(owner.instructionOperands().known).toBe(false);
+});

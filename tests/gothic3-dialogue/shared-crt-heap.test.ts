@@ -1,3 +1,4 @@
+import {NativeSharedStaticTls} from '../../src/gothic3/native-shared-static-tls';
 import type {NativeWin32FileSystemSelection} from '../../src/gothic3/native-win32-file-system';
 import {NativeSharedVersionResource} from '../../src/gothic3/native-shared-version-resource';
 import {NativeSharedModuleImage} from '../../src/gothic3/native-shared-module-image';
@@ -1633,6 +1634,28 @@ owner.processDllSpieAllocateDescriptor();
  owner.processDllSpieInitDescriptorSection();return {owner,platform};
 }
 
+function originalVersionLogFixture(){
+ const fixture=originalFileOpenFixture({cwd:'C:/Gothic3',directories:['C:/','C:/Gothic3'],files:[]}),{owner}=fixture;
+ owner.processDllSpieCreateFile();owner.processDllSpieTerminate();owner.processDllMessageTerminate();owner.processDllMessageLog();owner.processDllErrorLogCallback();owner.processDllErrorLogAllocation();owner.processDllErrorLogFormatting();owner.processDllErrorLogInsertion();owner.processDllSpyLogCallback();
+ return fixture;
+}
+it('executes original version logger TLS reads and retains its formatter frame',()=>{
+ const {owner,platform}=originalVersionLogFixture();
+ const selected=NativeSharedStaticTls.forPlatform(platform);if(!selected.known)throw new Error(selected.reason);const loaded=selected.value.loadSharedBase();if(!loaded.known)throw new Error(loaded.reason);const buffer=selected.value.debugBuffer();if(!buffer.known)throw new Error(buffer.reason);buffer.value.writeUnsigned(0,0x61,1);
+ expect(owner.processDllVersionLogTls()).toEqual({known:false,reason:'Original SharedBase DLL version formatting pending at 10049871'});
+ const state=owner.snapshot(),stack=state.caseState!.stack!.snapshot();
+ expect(state.messageSectionHeld).toBe(false);
+ for(const address of ['10049850','10049857','1004985c','10049860'])expect(stack.trace.some(row=>row.startsWith(address+'.'))).toBe(true);
+ expect(stack.calls.at(-1)!.site).toBe('10049871');expect(stack.calls.at(-1)!.returned).toBe(false);
+ expect(buffer.value.readUnsigned(0,1)).toBe(0x61);expect(selected.value.snapshot().virtualLoaderSlot).toBe(0);
+ const count=stack.calls.length;expect(owner.processDllVersionLogTls()).toEqual({known:false,reason:'Original SharedBase DLL version formatting pending at 10049871'});expect(owner.snapshot().caseState!.stack!.snapshot().calls).toHaveLength(count);
+},30_000);
+it('rejects a damaged original version logger return before TLS access',()=>{
+ const {owner}=originalVersionLogFixture(),state=owner.snapshot(),stack=state.caseState!.stack!.snapshot(),call=stack.calls.at(-1)!;
+ new NativeHeapObjectViews(stack.sharedDllResourceFrame!.handle.backing,call.position,4).writeUnsigned(0,0);
+ const result=owner.processDllVersionLogTls();expect(result.known).toBe(false);if(result.known)throw new Error('Damaged logger frame accepted');expect(result.reason).toMatch(/version logger return frame|expression slot/);
+ expect(owner.snapshot().caseState!.stack!.snapshot().trace.some(row=>row.startsWith('10049850.'))).toBe(false);
+},30_000);
 it('executes original absent-window SpyAdmin callback and releases the logger section',()=>{
  const {owner,platform}=originalFileOpenFixture({cwd:'C:/Gothic3',directories:['C:/','C:/Gothic3'],files:[]});
  owner.processDllSpieCreateFile();owner.processDllSpieTerminate();owner.processDllMessageTerminate();owner.processDllMessageLog();owner.processDllErrorLogCallback();owner.processDllErrorLogAllocation();owner.processDllErrorLogFormatting();owner.processDllErrorLogInsertion();
