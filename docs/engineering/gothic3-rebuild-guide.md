@@ -171,7 +171,18 @@ attached. All 3,123 tests across 287 files passed in 390.38 seconds on the
 combined runtime, with a 30-second per-test allowance. Its newer
 main Pages run `37891214623` supersedes cancelled walker run `37890987247` and
 completed successfully for main `03e7cb02aa6b5a0064124b879c7359f5101d713b`.
-No deployment rerun was requested. The local SSE continuation is not yet published.
+No deployment rerun was requested. The SSE continuation subsequently merged through
+[PR #188](https://github.com/ael-dev3/Tervain/pull/188) as
+`586377b3212f1a8d8bac234745b0db72dd5c99a5` after CI run `37892602492` passed.
+Pages run `37893245041` was observed in progress; deployment success is not yet
+established for this revision.
+
+The next source checkpoint, `0d1fb9cb`, captures the FILE-table initializer at
+`2047470c`: 69 instructions verified against the original Game PE and cold
+receipts for the count, pointer vector and twenty FILE records. Six source checks
+and typechecking pass, and independent regeneration matches JSON and TypeScript
+byte for byte. This callback still needs runtime execution on the existing heap
+and I/O descriptor graph. Its capture does not advance the browser frontier.
 
 Independent review of PR #187 decoded all 9,147 buffer views in its 107 changed
 GLBs against the previous revision: geometry, images and semantic metadata
