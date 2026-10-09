@@ -42,6 +42,13 @@ checks pass; broad validation and deployment of this continuation are pending.
 Runtime cold-image receipts use the established `cold-original-image` scope;
 the capture separately preserves the proven PE zero-fill origin.
 
+The next local prefix enters wrapper initialization through the captured
+`200021d5 -> 200705b0` alias. Original instructions consume the actual stack
+argument and set bit zero through their XOR sequence. Wrapper flags become 11,
+and execution stops at `200705c4 -> 2002dc8b`. Twenty focused checks and
+typechecking pass. The initializer and wrapper call remain pending; this does
+not establish complete property-object initialization.
+
 ## Reproduce
 
 From the repository root, supply the matching local study directory:

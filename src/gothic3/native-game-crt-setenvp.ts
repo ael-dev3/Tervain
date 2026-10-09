@@ -74,6 +74,7 @@ const bodies = Object.freeze([
   ...gameClassNameFamilySpecs.map(spec => [spec.initializer, spec.initializer + '-' + spec.instructions.at(-1)!.va] as const),
   ['204b1d70','204b1d70-204b1dba'],
   ['10089290','10089290-100892be'],
+  ['200705b0','200705b0-2007067f'],
 ] as const);
 const ranges = new Map<string, readonly (readonly [number, number])[]>(bodies.map(([entry, text]) =>
   [entry, Object.freeze(text.split(';').map(range => Object.freeze(range.split('-').map(x => Number.parseInt(x, 16)) as [number, number]))) ]));
@@ -327,7 +328,7 @@ export class NativeGameCrtSetEnvp {
     const extent = ranges.get(this.#currentEntry), address = Number.parseInt(pc, 16);
     if (!extent?.some(([first, last]) => address >= first && address <= last) ||
         this.#currentEntry === '204677e4' && !callerRows.has(pc)) throw new Error('Unowned Game environment source frontier at' + pc);
-    const point = ['204b1d70','10089290'].includes(this.#currentEntry) ? gameArenaRootInstruction(this.#currentEntry,pc)
+    const point = ['204b1d70','10089290','200705b0'].includes(this.#currentEntry) ? gameArenaRootInstruction(this.#currentEntry,pc)
       : gameClassNameSpec(this.#currentEntry) ? gameClassNameFamilyInstruction(this.#currentEntry,pc)
       : this.#currentEntry === '2046bcff' ? gameArgvInstruction(pc)
       : ['204665f4', '204738b0', '20473830', '20473860', '20463917', '204638a7',
@@ -413,6 +414,13 @@ export class NativeGameCrtSetEnvp {
     fact(NativeX86ThreadStack.prototype.storeWidth.call(this.#stack, this.#controller, this.#address(destination.expression), word, bytes));
   }
   #call(point: NativeGameIoInstruction, target: Operand, returnPc: string): string {
+    if(point.va==='204b1daa') {
+      if(this.#currentEntry!=='204b1d70' || target.kind!=='immediate' || target.value!==0x200021d5 || returnPc!=='204b1daf')
+        throw new Error('Original Arena wrapper initialization call required');
+      fact(NativeX86ThreadStack.prototype.call.call(this.#stack,this.#controller,point.va,returnPc));
+      this.#frames.push(Object.freeze({entry:'200705b0',site:point.va,returnPc,previousEntry:this.#currentEntry}));
+      this.#currentEntry='200705b0'; this.#nextBoundary=null; return '200705b0';
+    }
     if(point.va==='204b1d8f') {
       if(target.kind!=='immediate' || target.value!==0x2000d152 || returnPc!=='204b1d94')
         throw new Error('Original Arena type singleton call target required');

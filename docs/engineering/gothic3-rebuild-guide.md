@@ -47,6 +47,14 @@ same evidence-driven process to gameplay systems.
 
 ### Local checkpoint: primitive templates and scoped struct names
 
+The subsequent local wrapper-initialization prefix now enters
+`204b1daa -> 200705b0`, preserving the original argument and parent frames.
+The captured MOVZX/XOR/AND/XOR sequence sets the root bit and preserves the
+other wrapper flags, leaving flags value 11. Execution next stops at
+`200705c4 -> 2002dc8b` (wrapped-object replacement). Twenty focused checks and
+typechecking pass. This prefix has not returned; its full-suite, production
+build, browser and deployment evidence are pending.
+
 The latest local Arena type bridge returns through `204b1d8f -> 2000d152` using
 the existing canonical type owner and the original retained CALL/RET frame.
 The type is constructed and registered, its original pointer is stored in the
