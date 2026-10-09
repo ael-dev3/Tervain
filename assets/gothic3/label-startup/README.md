@@ -20,8 +20,9 @@ it with argument one, and registers cleanup `20549c50`. Type cleanup is
 `20549c20`; the class-name getter registers thunk `20007702`. Cleanup bodies
 and execution are not captured by this package. The initializer prefix now executes the original SharedBase wrapper
 constructor on its own retained storage, sets flags to ten, clears its object
-field and installs the Label vtable. It stops at the reflected type getter
-CALL `204b23ef -> 20006b0e`. The complete Label initializer has not returned.
+field and installs the Label vtable. The reflected type getter now sets its guard, constructs the type base with
+flag one and installs vtable `2065a384`. It stops at class-name CALL
+`200752b9 -> 200340d6`. The complete Label initializer has not returned.
 
 Reproduce with:
 

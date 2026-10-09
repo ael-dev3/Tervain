@@ -1,3 +1,4 @@
+import {NativeGameLabelType} from './native-game-label-type';
 import {gameStrlenDwordCandidate} from './native-game-strlen-predicate';
 import {nativeMaskedBitfieldAssignment} from './native-masked-bitfield';
 /** Retained virtual x86 stack/register/FS state. Numerical addresses stay
@@ -3036,6 +3037,16 @@ export class NativeX86ThreadStack {
     const returned=this.#ret(0), source=this.#record(returned).provenance;
     if(source?.kind!=='source' || source.type!=='code' || source.address!=='204b1d94')
       throw new Error('Actual Arena type singleton return required');
+  }); }
+  callGameLabelTypeSingleton(controller:object):NativeValue<void> { return this.#run(controller,()=>{
+    const binding=this.#setEnvpBinding;if(!binding||binding.controller!==controller)throw new Error('Actual retained Game startup controller required');
+    const point=NativeGameCrtSetEnvp.canonicalLabelTypeCallForCrt(binding.owner,binding.crt,controller);if(!point.known)throw new Error(point.reason);
+    if(this.#calls.filter(call=>!call.returned).at(-1)?.site!=='20466654')throw new Error('Actual pending Label initializer frame required');
+    const crt=binding.crt as NativeGameCrtOwner,memory=nativeGameLayerBaseMemoryForCrt(crt);if(!memory.known)throw new Error(memory.reason);
+    this.#call('204b23ef','204b23f4');
+    const result=NativeGameLabelType.prototype.get.call(NativeGameLabelType.forCrt(crt,memory.value));
+    if(!result.known)throw new Error(result.reason);
+    throw new Error('Label type getter return is not implemented');
   }); }
   callGameFreePointTypeSingleton(controller:object):NativeValue<void> { return this.#run(controller,()=>{
     const binding=this.#setEnvpBinding;

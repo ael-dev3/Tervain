@@ -1,3 +1,4 @@
+import {NativeGameLabelType} from '../../src/gothic3/native-game-label-type';
 import {expect,it,vi} from 'vitest';
 // These run the original instructions in the emulator: about 4–5 s each here, so the 5 s default fails under CI load.
 vi.setConfig({ testTimeout: 30_000 });
@@ -50,9 +51,19 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  expect(game.known).toBe(true);
  if(!game.known)throw new Error(game.reason);
  expect(game.value.attachResult,game.value.attachProgress.setEnvpProgress?.currentPC).toEqual({known:false,
-  reason:'crtAttach204677e4: Unowned Unowned original environment CALL at204b23ef: CALL 0x20006b0e'});
+  reason:'crtAttach204677e4: Unowned Original Label class-name CALL is not yet admitted at 200752b9 -> 200340d6'});
  const executed=new Set(game.value.attachProgress.setEnvpProgress!.effects.map(effect=>effect.pc));
  for(const pc of ['20072719','20072383','200730dd','204b217a','204b23ca'])expect(executed.has(pc)).toBe(true);
+ const labelType=NativeGameLabelType.forCrt(game.value.crt,memory);
+ expect(labelType.snapshot()).toMatchObject({entered:true,baseConstructed:true,getterReturned:false});
+ expect(labelType.storage.maskedWord(60,4).value&1).toBe(1);
+ expect(labelType.fields.readUnsigned(0)).toBe(0x2065a384);
+ expect(labelType.base.readUnsigned(20,1)&1).toBe(1);
+ expect([12,16].map(offset=>labelType.base.readUnsigned(offset))).toEqual([0,0]);
+ const labelBefore=[...labelType.storage.bytes];
+ expect(labelType.get().known).toBe(false);
+ expect([...labelType.storage.bytes]).toEqual(labelBefore);
+ expect(labelType.storage).not.toBe(game.value.crt.imageStorage('freePointTypeAndGuard'));
  const labelWrapper=game.value.crt.imageStorage('labelWrapper');
  const labelVtable=labelWrapper.pointer<{fields:NativeHeapObjectViews;offset:number}>(0).get()!;
  expect(labelVtable.fields).toBe(game.value.crt.imageStorage('labelWrapperVtable'));

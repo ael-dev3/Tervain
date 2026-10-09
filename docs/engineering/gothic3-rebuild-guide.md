@@ -48,7 +48,7 @@ Each feature goes through the following steps:
 initialization return through the retained startup stack. FreePoint's later
 class-name initializer also returns, sharing the same CString and cleanup
 owner. Label initializer `204b23d0` now executes its wrapper constructor and stops
-at reflected-type getter CALL `204b23ef -> 20006b0e`. Complete startup,
+inside that getter at class-name CALL `200752b9 -> 200340d6`. Complete startup,
 world activation and a new-game-to-ending campaign remain unfinished. Local
 checkpoints and the hosted version can differ; validation below identifies
 the checkpoint covered.
@@ -57,6 +57,19 @@ the checkpoint covered.
 
 The entries below describe successive local states, newest first. Statements
 about missing operations in older entries apply to those earlier checkpoints.
+
+### Current local checkpoint: Label reflected-type base constructs
+
+The original type getter CALL enters with a retained return to `204b23f4`.
+Its canonical owner sets the original guard, constructs the SharedBase
+property-type base with flag one, and installs vtable `2065a384` in storage
+`207b5138`. It stops at class-name CALL `200752b9 -> 200340d6` without
+returning or replaying the interrupted construction. Class naming, factory
+construction and type registration remain unfinished.
+
+TypeScript checking and all 31 focused startup tests passed in 25.91 seconds.
+The checks inspect the base flag at offset twenty, zero array counters,
+separate FreePoint and Label storage, and unchanged state on repeat access.
 
 ### Current local checkpoint: Label wrapper constructor returns
 
