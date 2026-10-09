@@ -1,0 +1,419 @@
+{
+  "schema": "gothic3-object-ref-class-name-evidence-v1",
+  "module": {
+    "module": "Game.dll",
+    "inputSha256": "b09afc5c180969a6302d9d706f0ad8efebf7c1fcd9301096bf5c1b1f2cf8eb2f",
+    "functionsCsvSha256": "7683e99c3c22688b26c77eafc830f43abab471b9e9d3ca241e3157007c714018",
+    "assemblySha256": "fd23430904ab84b03e395bc4a705f5a475cc5816094603350a68e1bc2798f4dc",
+    "methods": [
+      {
+        "label": "objectRefClassName",
+        "entryVA": "0x2002c9f8",
+        "bodyVA": "0x20047070",
+        "entryChain": [
+          {
+            "va": "2002c9f8",
+            "bytes": "e973a60100",
+            "targetVA": "20047070"
+          }
+        ],
+        "bodyRanges": "20047070-200470c6",
+        "instructions": [
+          {
+            "va": "20047070",
+            "rva": "47070",
+            "fileOffset": 290928,
+            "bytes": "a194457b20",
+            "instruction": "MOV EAX,[0x207b4594]",
+            "assemblyLine": 72270
+          },
+          {
+            "va": "20047075",
+            "rva": "47075",
+            "fileOffset": 290933,
+            "bytes": "a801",
+            "instruction": "TEST AL,0x1",
+            "assemblyLine": 72271
+          },
+          {
+            "va": "20047077",
+            "rva": "47077",
+            "fileOffset": 290935,
+            "bytes": "7514",
+            "instruction": "JNZ 0x2004708d",
+            "assemblyLine": 72272
+          },
+          {
+            "va": "20047079",
+            "rva": "47079",
+            "fileOffset": 290937,
+            "bytes": "8b0d1c477b20",
+            "instruction": "MOV ECX,dword ptr [0x207b471c]",
+            "assemblyLine": 72273
+          },
+          {
+            "va": "2004707f",
+            "rva": "4707f",
+            "fileOffset": 290943,
+            "bytes": "83c801",
+            "instruction": "OR EAX,0x1",
+            "assemblyLine": 72274
+          },
+          {
+            "va": "20047082",
+            "rva": "47082",
+            "fileOffset": 290946,
+            "bytes": "a394457b20",
+            "instruction": "MOV [0x207b4594],EAX",
+            "assemblyLine": 72275
+          },
+          {
+            "va": "20047087",
+            "rva": "47087",
+            "fileOffset": 290951,
+            "bytes": "890d90457b20",
+            "instruction": "MOV dword ptr [0x207b4590],ECX",
+            "assemblyLine": 72276
+          },
+          {
+            "va": "2004708d",
+            "rva": "4708d",
+            "fileOffset": 290957,
+            "bytes": "a802",
+            "instruction": "TEST AL,0x2",
+            "assemblyLine": 72278
+          },
+          {
+            "va": "2004708f",
+            "rva": "4708f",
+            "fileOffset": 290959,
+            "bytes": "7530",
+            "instruction": "JNZ 0x200470c1",
+            "assemblyLine": 72279
+          },
+          {
+            "va": "20047091",
+            "rva": "47091",
+            "fileOffset": 290961,
+            "bytes": "83c802",
+            "instruction": "OR EAX,0x2",
+            "assemblyLine": 72280
+          },
+          {
+            "va": "20047094",
+            "rva": "47094",
+            "fileOffset": 290964,
+            "bytes": "68180a7d20",
+            "instruction": "PUSH 0x207d0a18",
+            "assemblyLine": 72281
+          },
+          {
+            "va": "20047099",
+            "rva": "47099",
+            "fileOffset": 290969,
+            "bytes": "b930607920",
+            "instruction": "MOV ECX,0x20796030",
+            "assemblyLine": 72282
+          },
+          {
+            "va": "2004709e",
+            "rva": "4709e",
+            "fileOffset": 290974,
+            "bytes": "a394457b20",
+            "instruction": "MOV [0x207b4594],EAX",
+            "assemblyLine": 72283
+          },
+          {
+            "va": "200470a3",
+            "rva": "470a3",
+            "fileOffset": 290979,
+            "bytes": "e838c74100",
+            "instruction": "CALL 0x204637e0",
+            "assemblyLine": 72284
+          },
+          {
+            "va": "200470a8",
+            "rva": "470a8",
+            "fileOffset": 290984,
+            "bytes": "50",
+            "instruction": "PUSH EAX",
+            "assemblyLine": 72285
+          },
+          {
+            "va": "200470a9",
+            "rva": "470a9",
+            "fileOffset": 290985,
+            "bytes": "688c457b20",
+            "instruction": "PUSH 0x207b458c",
+            "assemblyLine": 72286
+          },
+          {
+            "va": "200470ae",
+            "rva": "470ae",
+            "fileOffset": 290990,
+            "bytes": "ff1530887d20",
+            "instruction": "CALL dword ptr [0x207d8830]",
+            "assemblyLine": 72287
+          },
+          {
+            "va": "200470b4",
+            "rva": "470b4",
+            "fileOffset": 290996,
+            "bytes": "68817a0020",
+            "instruction": "PUSH 0x20007a81",
+            "assemblyLine": 72288
+          },
+          {
+            "va": "200470b9",
+            "rva": "470b9",
+            "fileOffset": 291001,
+            "bytes": "e810c74100",
+            "instruction": "CALL 0x204637ce",
+            "assemblyLine": 72289
+          },
+          {
+            "va": "200470be",
+            "rva": "470be",
+            "fileOffset": 291006,
+            "bytes": "83c404",
+            "instruction": "ADD ESP,0x4",
+            "assemblyLine": 72290
+          },
+          {
+            "va": "200470c1",
+            "rva": "470c1",
+            "fileOffset": 291009,
+            "bytes": "b88c457b20",
+            "instruction": "MOV EAX,0x207b458c",
+            "assemblyLine": 72292
+          },
+          {
+            "va": "200470c6",
+            "rva": "470c6",
+            "fileOffset": 291014,
+            "bytes": "c3",
+            "instruction": "RET",
+            "assemblyLine": 72293
+          }
+        ],
+        "reconstructedC": {
+          "path": "01_Decompiled_Code/Game_dll/pseudocode/functions_00057.c",
+          "sha256": "05b5fdb8abac53f8acb9a887e0789707a7e0c98c57f8a97c41382cabab808533",
+          "line": 9061,
+          "status": "decompiled"
+        },
+        "instructionCount": 22,
+        "bodyByteCount": 87,
+        "bodyInstructionBytesSha256": "060a6bfcc54247e8a3aa5284a3483be91a587fe25b7a88d8ce95fb2820e1d0f8"
+      },
+      {
+        "label": "objectRefClassNameInitializer",
+        "entryVA": "0x204b11c0",
+        "bodyVA": "0x204b11c0",
+        "entryChain": [],
+        "instructions": [
+          {
+            "va": "204b11c0",
+            "bytes": "e833b8b7ff",
+            "instruction": "CALL 0x2002c9f8",
+            "rva": "4b11c0",
+            "fileOffset": 4919744,
+            "assemblyLine": 1
+          },
+          {
+            "va": "204b11c5",
+            "bytes": "a31c477b20",
+            "instruction": "MOV [0x207b471c],EAX",
+            "rva": "4b11c5",
+            "fileOffset": 4919749,
+            "assemblyLine": 2
+          },
+          {
+            "va": "204b11ca",
+            "bytes": "c3",
+            "instruction": "RET",
+            "rva": "4b11ca",
+            "fileOffset": 4919754,
+            "assemblyLine": 3
+          }
+        ],
+        "bodyRanges": "204b11c0-204b11ca",
+        "bodyInstructionBytesSha256": "b4b68426c719196907094a2384b7c47a7ad64f8f3b0bdf964a743108daa2eb4a",
+        "recoveryOrigin": {
+          "kind": "supplemental-ghidra-recovery",
+          "ghidraVersion": "12.1.4",
+          "functionCreatedInSeparateProject": true,
+          "catalogGap": true,
+          "functionMetadata": {
+            "address": "204b11c0",
+            "name": "FUN_204b11c0",
+            "qualified_name": "FUN_204b11c0",
+            "signature": "void FUN_204b11c0(void);",
+            "status": "decompiled",
+            "error": "",
+            "elapsed_ms": "3",
+            "body_bytes": "11",
+            "body_ranges": "204b11c0-204b11ca",
+            "is_thunk": "false",
+            "source": "DEFAULT",
+            "pseudocode_file": "pseudocode/entry_204b11c0.c",
+            "pseudocode_line": "3"
+          }
+        },
+        "sourceRefs": {
+          "entry": "204b11c0",
+          "bodyRanges": "204b11c0-204b11ca",
+          "instructionCount": 3,
+          "instructionBytes": 11,
+          "instructionBytesSha256": "b4b68426c719196907094a2384b7c47a7ad64f8f3b0bdf964a743108daa2eb4a",
+          "assembly": "sources/Game/204b11c0.asm.txt",
+          "assemblySha256": "bebf02aadc9cd65ce806115bc58ff2d5c939cd599aa44a12e86c131c5cd266c1",
+          "c": "sources/Game/204b11c0.c.txt",
+          "cSha256": "2abca1d1e4c2e363ec43dbe9efa9ecdfb256d7d866eef3178b7d659744d3c5dd",
+          "origin": {
+            "kind": "supplemental-ghidra-recovery",
+            "ghidraVersion": "12.1.4",
+            "functionCreatedInSeparateProject": true,
+            "catalogGap": true,
+            "functionMetadata": {
+              "address": "204b11c0",
+              "name": "FUN_204b11c0",
+              "qualified_name": "FUN_204b11c0",
+              "signature": "void FUN_204b11c0(void);",
+              "status": "decompiled",
+              "error": "",
+              "elapsed_ms": "3",
+              "body_bytes": "11",
+              "body_ranges": "204b11c0-204b11ca",
+              "is_thunk": "false",
+              "source": "DEFAULT",
+              "pseudocode_file": "pseudocode/entry_204b11c0.c",
+              "pseudocode_line": "3"
+            }
+          },
+          "sourceOnly": true,
+          "executionAdmitted": false
+        },
+        "functionCatalogEntryPresent": false,
+        "verifiedAgainstOriginalPE": true
+      },
+      {
+        "entry": "20007a81",
+        "body": "20549170",
+        "entryChain": [
+          {
+            "va": "20007a81",
+            "bytes": "e9ea165400",
+            "targetVA": "20549170"
+          }
+        ],
+        "bodyInstructionBytesSha256": "8cc43ebdc7f754d959b0231ff1019c30c0c24396a71d3f03827b97e58b0e2f4e",
+        "functionCatalogEntryPresent": false,
+        "instructions": [
+          {
+            "va": "20549170",
+            "rva": "549170",
+            "bytes": "b98c457b20",
+            "instruction": "MOV ECX,0x207b458c",
+            "assemblyLine": 1256772,
+            "fileOffset": 5542256
+          },
+          {
+            "va": "20549175",
+            "rva": "549175",
+            "bytes": "ff2534887d20",
+            "instruction": "JMP dword ptr [0x207d8834]",
+            "assemblyLine": 1256773,
+            "fileOffset": 5542261
+          }
+        ],
+        "sourceASMAvailable": true,
+        "recoveryOrigin": "explicit-contiguous-original-ASM-PE-extent",
+        "label": "objectRefClassNameDestructor",
+        "entryVA": "0x20007a81",
+        "bodyVA": "0x20549170"
+      }
+    ]
+  },
+  "images": [
+    {
+      "address": "207b458c",
+      "bytes": 12,
+      "raw": "000000000000000000000000",
+      "sha256": "15ec7bf0b50732b49f8228e07d24365338f9e3ab994b00af08e5a3bffe55fd8b",
+      "knownMask": "ffffffffffffffffffffffff",
+      "originalPESection": {
+        "virtualAddress": 7954432,
+        "virtualSize": 248716,
+        "rawSize": 126976,
+        "rawOffset": 7954432,
+        "fileBackedBytes": 12,
+        "loaderZeroFillBytes": 0
+      },
+      "liveValueCaptured": false,
+      "label": "objectRefClassName"
+    },
+    {
+      "address": "207b471c",
+      "bytes": 4,
+      "raw": "00000000",
+      "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+      "knownMask": "ffffffff",
+      "originalPESection": {
+        "virtualAddress": 7954432,
+        "virtualSize": 248716,
+        "rawSize": 126976,
+        "rawOffset": 7954432,
+        "fileBackedBytes": 4,
+        "loaderZeroFillBytes": 0
+      },
+      "liveValueCaptured": false,
+      "label": "objectRefInitializerResult"
+    },
+    {
+      "address": "20796030",
+      "bytes": 32,
+      "raw": "74636b20000000002e3f415662434f626a656374526566426173654040000000",
+      "sha256": "d5fa8e967b4590a6a042894f32fac329e79ca2575cd4190e17a1583e439ca46c",
+      "knownMask": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "originalPESection": {
+        "virtualAddress": 7954432,
+        "virtualSize": 248716,
+        "rawSize": 126976,
+        "rawOffset": 7954432,
+        "fileBackedBytes": 32,
+        "loaderZeroFillBytes": 0
+      },
+      "liveValueCaptured": false,
+      "label": "objectRefTypeInfoDescriptor"
+    },
+    {
+      "label": "objectRefInitializerSlot",
+      "address": "2056c108",
+      "bytes": 4,
+      "raw": "c0114b20",
+      "sha256": "076bd79fe13e117a2070339c76ad5b6961a36e36dd2076a219fbbac60327194e",
+      "liveValueCaptured": false
+    }
+  ],
+  "decoratedName": ".?AVbCObjectRefBase@@",
+  "imports": [
+    {
+      "iatVA": "0x207d8830",
+      "module": "SharedBase.dll",
+      "name": "?UnMangle@bCClassNameBase@@SG?AVbCString@@PBD@Z",
+      "ordinal": null
+    },
+    {
+      "iatVA": "0x207d8834",
+      "module": "SharedBase.dll",
+      "name": "??1bCString@@QAE@XZ",
+      "ordinal": null
+    }
+  ],
+  "producerSha256": "4101ae18c8b957c9ec1bfd6c367f4d7fa7acafbfb6ee12f863c185117ebcd4be",
+  "sourceOnly": true,
+  "executionAdmitted": false,
+  "wholeCrtTraversalCompleted": false,
+  "fullCampaignCompleted": false
+}

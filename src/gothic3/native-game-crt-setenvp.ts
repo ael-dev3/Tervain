@@ -18,6 +18,7 @@ import { gameArgvInstruction } from './native-game-crt-argv-source';
 import { nativeGameImageReceipt } from './native-game-crt-profile';
 import { nativeGameLayerBaseMemoryForCrt } from './native-game-layer-base-class-name';
 import { gameLayerBaseInitializerInstruction } from './native-game-layer-base-source';
+import { gameObjectRefInitializerInstruction } from './native-game-object-ref-source';
 import type { NativeGameCrtOwner } from './native-game-crt';
 
 const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
@@ -71,6 +72,7 @@ const bodies = Object.freeze([
   ['2046bcff', '2046bcff-2046bd1c'],
   ['2047470c', '2047470c-204747bc'],
   ['204b11b0', '204b11b0-204b11ba'],
+  ['204b11c0', '204b11c0-204b11ca'],
 ] as const);
 const ranges = new Map<string, readonly (readonly [number, number])[]>(bodies.map(([entry, text]) =>
   [entry, Object.freeze(text.split(';').map(range => Object.freeze(range.split('-').map(x => Number.parseInt(x, 16)) as [number, number]))) ]));
@@ -92,6 +94,7 @@ const imageSpecs = Object.freeze([
   ['cinitStdioFiles', '207b2e50', 640],
   ['cinitCppInitializerTable', '2056c000', 955408],
   ['layerBaseClassName', '207b4580', 12], ['layerBaseInitializerResult', '207b4760', 4],
+  ['objectRefClassName', '207b458c', 12], ['objectRefInitializerResult', '207b471c', 4],
   ['ioBlocks', '207d2a20', nativeGameImageReceipt('ioBlocks').bytes],
 ] as const);
 const imports = new Set<NativeSetEnvpCallSite>(['20477ce8', '20467cd2']);
@@ -185,7 +188,7 @@ export class NativeGameCrtSetEnvp {
     this.#requireCrt(); this.#stack = fact(NativeX86ThreadStack.forPlatform(this.#platform));
     this.#images = Object.freeze(imageSpecs.map(([label, address, bytes]) => {
       const receipt = label.startsWith('cinit') ? gameCinitImageReceipt(label)
-        : label === 'ioBlocks' || label.startsWith('layerBase') ? nativeGameImageReceipt(label) : gameSetEnvpImageReceipt(label),
+        : label === 'ioBlocks' || label.startsWith('layerBase') || label.startsWith('objectRef') ? nativeGameImageReceipt(label) : gameSetEnvpImageReceipt(label),
         fields = fact(NativeModuleCrtOwner.canonicalImageForOwner(crt, label));
       if (receipt.address !== address || receipt.bytes !== bytes || fields.bytes.length !== bytes || fields.knownMask.length !== bytes) {
         throw new Error('Actual original environment image geometry differs: ' + label);
@@ -251,12 +254,14 @@ export class NativeGameCrtSetEnvp {
       owner.#requireSourcePoint(owner.#pc).instruction === 'CALL 0x204637ce'
       ? known(undefined) : unknown('Actual original static shutdown registration CALL required');
   }
-  static canonicalLayerBaseGetterForCrt(owner: NativeGameCrtSetEnvp, crt: NativeModuleCrtOwner, controller: object): NativeValue<void> {
+  static canonicalLayerBaseGetterForCrt(owner: NativeGameCrtSetEnvp, crt: NativeModuleCrtOwner, controller: object,
+    initializer: '204b11b0' | '204b11c0' = '204b11b0'): NativeValue<void> {
     const active = NativeGameCrtSetEnvp.canonicalControllerForCrt(owner, crt, controller, 'invoke'); if (!active.known) return active;
     const frame = owner.#frames.at(-1);
-    return owner.#pc === '204b11b0' && owner.#currentEntry === '204b11b0' &&
-      frame?.entry === '204b11b0' && frame.site === '20466654' && frame.returnPc === '20466656' &&
-      owner.#requireSourcePoint(owner.#pc).instruction === 'CALL 0x2000e8d6'
+    const getter = initializer === '204b11b0' ? '2000e8d6' : initializer === '204b11c0' ? '2002c9f8' : null;
+    return getter !== null && owner.#pc === initializer && owner.#currentEntry === initializer &&
+      frame?.entry === initializer && frame.site === '20466654' && frame.returnPc === '20466656' &&
+      owner.#requireSourcePoint(owner.#pc).instruction === 'CALL 0x' + getter
       ? known(undefined) : unknown('Actual first C++ initializer class-name CALL required');
   }
   static canonicalSetEnvpReturnForCrt(owner: NativeGameCrtSetEnvp, crt: NativeModuleCrtOwner, controller: object): NativeValue<void> {
@@ -314,6 +319,7 @@ export class NativeGameCrtSetEnvp {
     if (!extent?.some(([first, last]) => address >= first && address <= last) ||
         this.#currentEntry === '204677e4' && !callerRows.has(pc)) throw new Error('Unowned Game environment source frontier at' + pc);
     const point = this.#currentEntry === '204b11b0' ? gameLayerBaseInitializerInstruction(pc)
+      : this.#currentEntry === '204b11c0' ? gameObjectRefInitializerInstruction(pc)
       : this.#currentEntry === '2046bcff' ? gameArgvInstruction(pc)
       : ['204665f4', '204738b0', '20473830', '20473860', '20463917', '204638a7',
       '204696f6', '20469672', '2046643f', '20469f3a', '2047e687', '2047e627', '2047e5d7', '2047470c'].includes(this.#currentEntry)
@@ -401,16 +407,16 @@ export class NativeGameCrtSetEnvp {
     if (point.va === '20466654') {
       const callback = fact(NativeX86ThreadStack.prototype.resolveGameCppInitializer.call(this.#stack, this.#controller));
       this.#nextBoundary = Object.freeze({ pc: point.va, operation: 'indirectSourceCall', target: callback });
-      if (callback === '204b11b0' && nativeGameLayerBaseMemoryForCrt(this.#crt as NativeGameCrtOwner).known) {
+      if ((callback === '204b11b0' || callback === '204b11c0') && nativeGameLayerBaseMemoryForCrt(this.#crt as NativeGameCrtOwner).known) {
         fact(NativeX86ThreadStack.prototype.call.call(this.#stack, this.#controller, point.va, returnPc));
         this.#frames.push(Object.freeze({ entry: callback, site: point.va, returnPc, previousEntry: this.#currentEntry }));
         this.#currentEntry = callback; this.#nextBoundary = null; return callback;
       }
       throw new Error('Original Game C++ initializer callback is not yet admitted at ' + callback);
     }
-    if (point.va === '204b11b0') {
-      this.#nextBoundary = Object.freeze({ pc: point.va, operation: 'translatedCrtCall', target: '2000e8d6' });
-      fact(NativeX86ThreadStack.prototype.callGameLayerBaseClassName.call(this.#stack, this.#controller));
+    if (point.va === '204b11b0' || point.va === '204b11c0') {
+      this.#nextBoundary = Object.freeze({ pc: point.va, operation: 'translatedCrtCall', target: point.va === '204b11b0' ? '2000e8d6' : '2002c9f8' });
+      fact(NativeX86ThreadStack.prototype.callGameLayerBaseClassName.call(this.#stack, this.#controller, point.va));
       this.#nextBoundary = null; return returnPc;
     }
     if (point.va === '20466638') {

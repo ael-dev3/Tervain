@@ -93,10 +93,10 @@ Game startup continuations are connected to the browser startup stack.
 | --- | --- | --- |
 | Assets | Selected readers and viewers expose original world, tree and human resources for inspection. | Complete coverage and in-game visual fidelity. |
 | SharedBase startup | The supported absent-`zSpie.txt` profile returns `1` from the direct DLL entry after logging and callback dispatch. | Surrounding CRT wrapper, additional profiles and live Game integration. |
-| Game startup | Merged code completes all five C callbacks, registers the static shutdown callback and reads the original C++ table through its first non-null slot, stopping at `20466654 -> 204b11b0`. | Execute the C++ initializers on the retained startup stack, then finish engine attachment. |
+| Game startup | Merged code completes all five C callbacks, registers the static shutdown callback and executes the first C++ class-name initializer, stopping at `20466654 -> 204b11c0`. | Execute the remaining C++ initializers on the retained startup stack, then finish engine attachment. |
 | Campaign | The separate browser route can display the reconstructed Ardea scene. | Connected world/NPC activation, quest progression, campaign saves and a playthrough to an ending. |
 
-The next local checkpoint connects the first C++ class-name initializer,
+The first C++ class-name checkpoint connects the initializer,
 `204b11b0`, to the browser's existing SharedBase heap. Its original CALL, static
 result store and RET execute on the retained startup stack. The translated
 getter uses the actual `eCProcessibleElement` descriptor, both guard fields and
@@ -106,8 +106,24 @@ completed state. This checkpoint has passed 86 focused runtime checks,
 TypeScript checking, all 3,160 tests across 291 files and the production build
 after integrating current main. The rendered production preview reports
 2,769 environment-source operations and the next target `204b11c0`. It is not
-yet published. Original NPC activation remains at the separate ScriptAdmin
+merged through [PR #193](https://github.com/ael-dev3/Tervain/pull/193) at
+`839e005433314be9149fd82c81dabdd9b60d0958`; its deployment is pending verification.
+The PR's foreign-heap test was corrected to avoid a redundant complete engine
+boot after CI hit its five-second timeout. Updated CI passed at `47e02907`.
+Original NPC activation remains at the separate ScriptAdmin
 getter boundary, with 0 of 16 property sets attached.
+
+The next local checkpoint executes the second initializer, `204b11c0`, using
+the original `bCObjectRefBase` descriptor and separate cache. Its source CALL,
+result store and RET reach `204b11d0`. The same SharedBase heap supplies the
+24-byte CString allocation; missing that pool retains the second getter's
+physical CALL and guard/RTTI effects. Component and startup checks also verify
+separate cleanup ownership and the original destructor's stale pointer bits.
+The broader source package captures 363 matching initializer/getter/cleanup
+patterns, including 59 recovered directly from original PE bytes where both
+the catalog and full assembly listing have gaps. Those additional patterns
+are evidence, not executed callbacks. Full validation and browser integration
+evidence for the second initializer are still pending.
 
 The Game PE checkpoint passed 3,082 tests, typechecking, source regeneration and
 the production build at runtime revision `9540631a`. It merged through
