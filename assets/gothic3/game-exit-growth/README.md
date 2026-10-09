@@ -16,6 +16,10 @@ the production build passed in 47.18 seconds. A rendered Ardea preview confirmed
 the next getter at `204b1620`, with 3,130 environment/startup operations. Publication
 remains outstanding. Small-block and oversized-request branches remain explicit boundaries.
 
+After integrating main, revision `af55ce5f` passes 3,179 tests across 293 files
+in 480.11 seconds and the production build in 37.87 seconds. The integration
+changes none of the tested Gothic runtime or source paths from `3c84d749`.
+
 ## Captured methods
 
 | Method | Original entry | Instructions |

@@ -88,6 +88,14 @@ The interruption is `getTemplateArgumentList` parsing the pointer argument in
 not published. Original NPC activation remains at 0/16 attached property sets;
 complete engine attachment and a finishable campaign remain unfinished.
 
+Integration `af55ce5f` includes main's merged #195 presentation changes and
+preserves every Gothic runtime, test, asset and preparation-tool path from
+`3c84d749`. Its complete suite passes 3,179 tests across 293 files in 480.11
+seconds, and its production build passes in 37.87 seconds. Publication of this
+family continuation remains pending. A hosted-browser check of the preceding
+ObjectRef checkpoint confirms `204b11d0` and 2,779 startup operations after the
+successful #194 and #195 deployments.
+
 ## 1. Record the original inputs
 
 The reference installation is
