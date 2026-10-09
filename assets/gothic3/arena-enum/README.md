@@ -44,6 +44,17 @@ Cleanup targets `20549ac0` and `20549a60` are recorded as pending; their complet
 bodies are not admitted by this package. The original functions CSV omits these
 cleanup targets, so they require targeted recovery before callback admission.
 
+## Canonical Game image integration
+
+Generated TypeScript admits the exact source JSON and freezes its source and
+image pins. The Game CRT profile uses these receipts for the actual module's
+name, vtables, scratch, registries and guard storage. Repeated lookup preserves
+the same view and later writes; it does not create fresh cold storage.
+The name receipt includes all nineteen bytes, including its original NUL.
+Typechecking and a focused canonical-image regression pass. Independent
+regeneration of both JSON and TypeScript matches byte for byte. Enum execution
+is still unfinished.
+
 ```powershell
 python tools/gothic3/prepare_arena_enum_source.py --study '<study directory>' --output assets/gothic3/arena-enum/source.json
 ```

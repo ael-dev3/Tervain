@@ -5,6 +5,7 @@ import { admitGamePrimitiveSource, gamePrimitiveSourceRules, gamePrimitiveImageP
 import { admitGameScopedNameSource, gameScopedNameConstants, gameScopedNameImagePins, gameScopedNameImageReceipt } from './native-game-scoped-name-source';
 import { admitGameArenaRootSource, gameArenaRootImagePins, gameArenaRootImageReceipt } from './native-game-arena-root-source';
 import { admitGameArenaStatusSource, gameArenaStatusSourceRules, gameArenaStatusImagePins, gameArenaStatusImageReceipt } from './native-game-arena-status-source';
+import {arenaEnumImagePins,arenaEnumImageReceipt} from './native-game-arena-enum-source';
 import { admitGameTemplateDemanglerSource, gameTemplateConstants, gameTemplateImagePins, gameTemplateImageReceipt } from './native-game-template-demangler-source';
 import { admitGameArenaTypeSource, gameArenaTypeSourceRules, gameArenaTypeImagePins, gameArenaTypeImageReceipt } from './native-game-arena-type-source';
 /** Original Game CRT admission. These pins were checked against the local
@@ -112,6 +113,7 @@ export const nativeGameImagePins: Readonly<Record<string, readonly [
   ...gameArenaImagePins,
   ...gameArenaTypeImagePins,
   ...gameArenaStatusImagePins,
+  ...arenaEnumImagePins,
   ...gameTemplateImagePins,
   ...gameContinuationImagePins,
   ...gameIoStartupImagePins,
@@ -238,6 +240,7 @@ export function admitNativeGameCrtSource(): void {
   }
 }
 export function nativeGameImageReceipt(label: string): NativeCrtImageReceipt {
+  if (Object.hasOwn(arenaEnumImagePins,label)) return arenaEnumImageReceipt(label);
   if (Object.hasOwn(gamePrimitiveImagePins,label)) return gamePrimitiveImageReceipt(label);
   if (Object.hasOwn(gameScopedNameImagePins,label)) return gameScopedNameImageReceipt(label);
   if (Object.hasOwn(gameArenaRootImagePins,label)) return gameArenaRootImageReceipt(label);

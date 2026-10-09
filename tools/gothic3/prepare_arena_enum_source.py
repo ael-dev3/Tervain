@@ -30,7 +30,7 @@ def capture(study):
         instructions.append({'va': address, 'bytes': raw, 'instruction': instruction})
     images = []
     for address, size, label in [
-        (0x20659d48, 18, 'statusNoneName'),
+        (0x20659d48, 19, 'statusNoneName'),
         (0x207b4f48, 4, 'enumValueScratch'),
         (0x207b505c, 1, 'statusNoneReceiver'),
         (0x20659c74, 12, 'enumValueVtable'),
@@ -64,9 +64,22 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--study', required=True, type=Path)
     parser.add_argument('--output', required=True, type=Path)
+    parser.add_argument('--runtime-output', type=Path)
     args = parser.parse_args()
     source = capture(args.study)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(source, indent=2) + '\n', encoding='utf-8', newline='\n')
+    if args.runtime_output:
+        payload = json.dumps(source, indent=2) + '\n'
+        code = "import text from '../../assets/gothic3/arena-enum/source.json?raw';\n"
+        code += "import source from '../../assets/gothic3/arena-enum/source.json';\n"
+        code += "import type {NativeCrtImageReceipt} from './native-game-crt-profile';\n"
+        code += 'const expectedText=' + json.dumps(payload) + ';\n'
+        code += "export function admitArenaEnumSource():void {if(text!==expectedText)throw new Error('Original Arena enum source differs');}\n"
+        code += "function freeze(value:unknown):void {if(value!==null&&typeof value==='object'&&!Object.isFrozen(value)){for(const child of Object.values(value))freeze(child);Object.freeze(value);}}\n"
+        code += "admitArenaEnumSource();freeze(source);\n"
+        code += "export const arenaEnumImagePins=Object.fromEntries(source.images.map(image=>[image.label,[image.label==='statusNoneName'||image.label.endsWith('Vtable')?'constBytes':'coldGlobals',image.address,image.bytes,image.raw,image.sha256] as const]));freeze(arenaEnumImagePins);\n"
+        code += "export function arenaEnumImageReceipt(label:string):NativeCrtImageReceipt {admitArenaEnumSource();const image=source.images.find(image=>image.label===label);if(!image)throw new Error('Unowned Arena enum image');return Object.freeze({...image,module:'Game',scope:'cold-original-image',knownMask:'ff'.repeat(image.bytes)});}\n"
+        args.runtime_output.write_text(code, encoding='utf-8', newline='\n')
     for method in source['module']['methods']:
         print(method['label'], method['bodyVA'], method['instructionCount'])
