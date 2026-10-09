@@ -102,8 +102,12 @@ result store and RET execute on the retained startup stack. The translated
 getter uses the actual `eCProcessibleElement` descriptor, both guard fields and
 the original cleanup callback. Successful startup reaches the next table
 target, `204b11c0`; a missing string pool retains the nested CALL frames and
-completed state. This checkpoint has passed 86 focused runtime checks and
-TypeScript checking; it is not yet published.
+completed state. This checkpoint has passed 86 focused runtime checks,
+TypeScript checking, all 3,160 tests across 291 files and the production build
+after integrating current main. The rendered production preview reports
+2,769 environment-source operations and the next target `204b11c0`. It is not
+yet published. Original NPC activation remains at the separate ScriptAdmin
+getter boundary, with 0 of 16 property sets attached.
 
 The Game PE checkpoint passed 3,082 tests, typechecking, source regeneration and
 the production build at runtime revision `9540631a`. It merged through

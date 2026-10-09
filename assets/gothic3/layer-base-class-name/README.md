@@ -51,3 +51,12 @@ replacement, foreign or caller-shaped MemoryAdmin objects. A profile without a
 supplied heap retains its earlier explicit initializer boundary.
 
 These checks do not establish complete C++ startup or a playable campaign.
+
+## Integrated checkpoint validation
+
+After integrating main's reviewed changes through PR #192, TypeScript checking,
+all 3,160 tests across 291 files (409.84 seconds) and the production build
+(40.4 seconds) passed. The browser preview rendered Ardea's original human
+model and reported startup blocked at the next target `204b11c0`, with 2,769
+environment-source operations completed. Original NPC activation still has
+0 of 16 property sets attached and stops at the unconnected ScriptAdmin getter.
