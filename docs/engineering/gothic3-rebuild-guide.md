@@ -75,6 +75,14 @@ the retained logical thread before entering Game startup, using the existing
 virtual loader's declared slot zero. This supplies loader state; SharedBase CRT
 initialization and DLL attachment remain separate unfinished prerequisites.
 Canonical startup checks retain the actual same-platform TLS owner.
+At revision `1f31a021`, the production build passed in 46.82 seconds. A fresh
+local production browser entered Ardea and inspected `Ardea_OutNovice_01`.
+The developer panel reported 4,576 environment/startup source operations and
+the same translated Status initializer interruption at the SharedBase output
+formatter. NPC activation remained incomplete, with zero of sixteen property
+sets attached and an unconnected ScriptAdmin getter. This browser observation
+does not establish a finishable campaign; full-suite validation of that revision
+is still running, and these Arena changes have not been deployed.
 Registration passes TLS lookup and prepares its actual FILE buffer, then stops
 at the unsupported output formatter (`100b5355`, called from `100a7eff`).
 This bridge does not interpret the initializer's
