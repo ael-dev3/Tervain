@@ -10,7 +10,9 @@ def capture(study):
     module = audit_module(study, 'SharedBase_dll', 'SharedBase.dll', {
         0x100b5355: 'outputFormatter', 0x100a74b6: 'localeUpdate',
         0x100b5289: 'writeCharacter', 0x100b52bc: 'writeMultipleCharacters',
-        0x100b52e0: 'writeString', 0x100a99b3: 'isLeadByte'})
+        0x100b52e0: 'writeString', 0x100a99b3: 'isLeadByte',
+        0x100b01c8: 'checkSecurityCookie', 0x100a7eab: 'vsprintfCore',
+        0x100a7f27: 'vsprintf', 0x100498f0: 'messageDebug'})
     formatter = module['methods'][0]
     assert formatter['bodyInstructionBytesSha256'] == 'b4cea1685c86d396c8b2298308b5b521c8185f73d5c2d9eda5a92aa7c9ef686b'
     boundary = next(index for index, row in enumerate(formatter['instructions'])

@@ -1,5 +1,22 @@
 # Property-registration output entry
 
+## Formatter and vsprintf return
+
+The translated epilogue now checks the recovered entry cookie against its
+actual canonical owner. The saved cookie XOR EBP relation remains opaque, using
+the same retained relative frame; numerical stack-address bits stay unknown.
+A changed cookie rejects return before the terminator store. On the supported
+path the formatter returns its actual output count, and the vsprintf caller
+decrements FILE capacity and writes its original NUL at the current cursor.
+
+The next pending call is the MessageAdmin getter at `10049924 -> 100088b4`.
+Its actual message pointer, type one, two NULL arguments, line minus one and
+priority five are retained with the original return continuation `10049929`.
+Message dispatch and Debug return remain unfinished. Eight focused checks across
+three files and typechecking pass, including changed-cookie rejection and
+pending-argument identity. Broad validation and production browser observation
+remain pending for this return continuation.
+
 ## Registration output loop
 
 The translated narrow output loop now follows the original character

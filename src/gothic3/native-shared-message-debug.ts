@@ -9,7 +9,7 @@ import type {NativeValue} from './dialogue';
 import {NativeSharedCrtSecurityCookie} from './native-shared-crt-security-cookie';
 import {NativeSharedCrtOwner} from './native-shared-crt';
 import {runRegistrationFormatterLoop} from './native-registration-formatter';
-import {admitRegistrationOutputSource,registrationOutputPrefix,registrationLocalePrefix} from './native-registration-output-source';
+import {admitRegistrationOutputSource,registrationOutputPrefix,registrationLocalePrefix,registrationOutputBodies} from './native-registration-output-source';
 const owners=new WeakMap<NativeRuntimePlatform,NativeSharedMessageDebug>();
 const token=Object.freeze({});
 const formatText="bCPropertyObjectTypeBase::RegisterPropertyTemplate - property '%s' with valuetype '%s' added.";
@@ -34,7 +34,10 @@ export class NativeSharedMessageDebug {
  #localeCallFrame:NativeHeapObjectViews|null=null;
  #localeReturned=false;
  #formatterOutputCount:number|null=null;
- #formatterCookieExpression:Readonly<{cookie:NativeHeapObjectViews;frame:NativeHeapObjectViews;ebpOffset:number}>|null=null;
+ #formatterReturned=false;
+ #terminatorWritten=false;
+ #messageCallFrame:NativeHeapObjectViews|null=null;
+ #formatterCookieExpression:Readonly<{cookie:NativeHeapObjectViews;cookieValue:number;frame:NativeHeapObjectViews;ebpOffset:number}>|null=null;
  #formatterRegisters:Readonly<{eax:NativeHeapObjectViews;ebx:NativeBytePointer;esi:0;edi:NativeHeapObjectViews;ecx:NativeHeapObjectViews}>|null=null;
  private constructor(private readonly platform:NativeRuntimePlatform,proof:object){
   if(proof!==token)throw new Error('Canonical SharedBase diagnostic owner required');
@@ -91,7 +94,15 @@ export class NativeSharedMessageDebug {
    this.#trace.push('100a7535.registrationLocale.return');
    this.#formatterOutputCount=runRegistrationFormatterLoop(this.#file,this.#format,this.#arguments,this.#formatterLocale!,this.#formatterFrame!);
    this.#trace.push('100b5cae.registrationOutput.loopComplete');
-   throw new Error('Unowned SharedBase registration formatter cookie check at 100b5cbc -> 100b01c8 (output loop completed)');
+   this.#finishFormatter();
+   const messageFrame=physical(28);this.#messageCallFrame=messageFrame;
+   messageFrame.pointer(0).set(Object.freeze({module:'SharedBase',source:'10049929'}));
+   messageFrame.writeUnsigned(4,1);
+   messageFrame.pointer<NativeBytePointer>(8).set(Object.freeze({fields:this.#buffer,offset:0}));
+   messageFrame.writeUnsigned(12,0);messageFrame.writeUnsigned(16,0);
+   messageFrame.writeUnsigned(20,0xffffffff);messageFrame.writeUnsigned(24,5);
+   this.#trace.push('10049924.MessageAdmin.getInstance.pending');
+   throw new Error('Unowned SharedBase registration MessageAdmin getter at 10049924 -> 100088b4 (vsprintf returned)');
   }catch(error){this.#boundary??=error instanceof Error?error.message:String(error);return {known:false,reason:this.#boundary};}
   finally{this.#active=false;}
  }
@@ -105,7 +116,7 @@ export class NativeSharedMessageDebug {
     registrationOutputPrefix[24]!.instruction!=='CALL 0x100a74b6')
     throw new Error('Actual original registration formatter entry required');
   const cookie=NativeSharedCrtSecurityCookie.forPlatform(this.platform);
-  fact(NativeSharedCrtSecurityCookie.prototype.readCookie.call(cookie));
+  const cookieValue=fact(NativeSharedCrtSecurityCookie.prototype.readCookie.call(cookie));
   if(this.#boundary)throw new Error(this.#boundary);
   // Relative entry ESP 0x290 leaves room for locals, saved registers,
   // the locale argument and the pending CALL word. EBP = ESP-4-0x1f8.
@@ -117,7 +128,7 @@ export class NativeSharedMessageDebug {
   frame.pointer(0x2a0).set(this.#arguments);
   // cookie XOR EBP is retained as an opaque expression; numerical EBP
   // bits cannot be derived from a JavaScript buffer or relative offset.
-  this.#formatterCookieExpression=Object.freeze({cookie:cookie.fields,frame,ebpOffset:ebp});
+  this.#formatterCookieExpression=Object.freeze({cookie:cookie.fields,cookieValue,frame,ebpOffset:ebp});
   frame.pointer(ebp-0x30).set(this.#file);
   frame.pointer(ebp-0x2c).set(this.#arguments);
   for(const offset of [-0x4c,-0x18,-0x40,-0x20,-0x3c,-0x50,-0x44])frame.writeUnsigned(ebp+offset,0);
@@ -148,13 +159,37 @@ export class NativeSharedMessageDebug {
   this.#trace.push('100a74b6.translatedLocaleEntry');
   this.#trace.push('100a74c5.getPTD.pending');
  }
+ #finishFormatter():void {
+  admitRegistrationOutputSource();
+  const check=registrationOutputBodies.checkSecurityCookie;
+  if(check.length!==4||check[0]!.instruction!=='CMP ECX,dword ptr [0x10140d6c]'||
+   check[2]!.instruction!=='RET')throw new Error('Original SharedBase cookie check required');
+  const expression=this.#formatterCookieExpression,cookie=NativeSharedCrtSecurityCookie.forPlatform(this.platform);
+  if(!expression||expression.frame!==this.#formatterFrame||expression.ebpOffset!==0x94||expression.cookie!==cookie.fields||
+   this.#formatterFrame!.knownMask.subarray(0x288,0x28c).some(mask=>mask!==0)||
+   fact(NativeSharedCrtSecurityCookie.prototype.readCookie.call(cookie))!==expression.cookieValue)
+   throw new Error('Original registration formatter security-cookie mismatch at 100b01d2');
+  // (saved cookie XOR this EBP) XOR this same EBP recovers the entry cookie.
+  // Saved caller-register bits remain unknown; no numerical stack address is minted.
+  this.#formatterReturned=true;this.#trace.push('100b5cc8.registrationFormatter.return');
+  const file=this.#file!,remaining=(file.readUnsigned(4)-1)|0;
+  file.writeUnsigned(4,remaining>>>0);
+  if(remaining<0)throw new Error('Unowned registration terminator flush at 100a7f1a');
+  const cursor=file.pointer<NativeBytePointer>(0).get();
+  if(!cursor||cursor.fields!==this.#buffer||cursor.offset!==this.#formatterOutputCount)
+   throw new Error('Actual returned registration FILE cursor required');
+  cursor.fields.writeUnsigned(cursor.offset,0,1);this.#terminatorWritten=true;
+  this.#trace.push('100a7f11.registrationTerminator.store');
+  this.#trace.push('100a7f26.vsprintfCore.return');
+ }
  snapshot(){return Object.freeze({boundary:this.#boundary,file:this.#file,arguments:this.#arguments,
   buffer:this.#buffer,format:this.#format,locale:null,trace:Object.freeze([...this.#trace]),
   formatterFrame:this.#formatterFrame,formatterLocale:this.#formatterLocale,
   localeCallFrame:this.#localeCallFrame,
   localeReturned:this.#localeReturned,
   formatterOutputCount:this.#formatterOutputCount,
+  messageCallFrame:this.#messageCallFrame,
   formatterCookieExpression:this.#formatterCookieExpression,
   formatterRegisters:this.#formatterRegisters,
-  formatterReturned:false,terminatorWritten:false,messageDispatched:false,debugReturned:false});}
+  formatterReturned:this.#formatterReturned,terminatorWritten:this.#terminatorWritten,messageDispatched:false,debugReturned:false});}
 }
