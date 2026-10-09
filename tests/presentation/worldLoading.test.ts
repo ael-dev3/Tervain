@@ -190,6 +190,10 @@ describe('world load and activation boundary', () => {
       expect(module.arrived).toBe(false);
       expect(controls.owners.find(resource => resource.name === 'furniture')).toBeUndefined();
       gate.resolve();
+      // Nothing is fetched until the world has opened (A72).
+      await new Promise((resolve) => setTimeout(resolve, 20));
+      expect(controls.furnitureLoads).toBe(0);
+      world.open();
       await vi.waitFor(() => expect(module.arrived).toBe(true));
       expect(controls.furnitureLoads).toBe(1);
       const furniture = controls.owners.find(resource => resource.name === 'furniture')!;

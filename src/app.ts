@@ -668,6 +668,7 @@ export class App {
 
   private finishWorldBuild() {
     if (this.worldBuildFailed) return;
+    this.world?.open?.();
     this.loadingScreen?.finish(false);
     this.loadingEl.classList.add('off');
     this.loadingEl.removeAttribute('role');
