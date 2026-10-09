@@ -11178,10 +11178,21 @@ caller's registers and stack and returning `1`. Cached entry queries preserve
 that result without replaying initialization. Damaged final separator frames
 are rejected before the third submission.
 
-Six focused checks across two files and typechecking pass. Full tests and the
-build are running for `f6e9bbfe`. The supported profile has no `zSpie.txt`; the
+Six focused checks across two files, typechecking and the production build pass.
+All 3,076 tests across 283 files passed in 373.05 seconds at `f6e9bbfe`.
+The supported profile has no `zSpie.txt`; the
 present-file path still stops at an unsupported Winsock operation. The direct
 DLL ABI reaches `100adc91` without executing the surrounding CRT wrapper, and
 `wholeCrtTraversalCompleted` remains false. These continuations still have no
 production callers. Full engine startup and the browser campaign remain
 unfinished.
+
+Production integration review identifies the browser's retained Game frontier
+at `204678f2 -> 204665f4` (`__cinit`) in `native-game-crt-setenvp.ts`. The current
+browser NPC startup creates Game CRT and a selected Shared GUID initializer;
+it does not invoke the full SharedBase continuation. Existing source context in
+`game-attach-continuation` captures the 50-instruction Game `__cinit`, PE section
+validation for the math pointer, five C initializer entries and the C++ table.
+Those tables are source context, not execution evidence. The next integration
+must preserve the retained stack, image identities and prerequisite order while
+executing that frontier and its lower operations.

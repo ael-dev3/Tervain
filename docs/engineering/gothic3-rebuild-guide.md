@@ -219,8 +219,8 @@ Its Pages deployment has not yet been verified for this record.
 
 Local revision `f6e9bbfe` executes the version formatter, both remaining callback
 cycles and the final separator, then returns `1` from the original direct
-SharedBase DLL entry. Six focused checks and typechecking pass; its full suite
-and build are running. This uses the supported virtual filesystem profile with
+SharedBase DLL entry. Six focused checks, typechecking and the production build
+pass. All 3,076 tests across 283 files passed in 373.05 seconds. This uses the supported virtual filesystem profile with
 no `zSpie.txt`. The direct DLL call does not execute the surrounding CRT wrapper.
 Production startup, live world activation, saves and campaign completion still
 need integration. The preceding formatter revision passed all 3,030 tests.
