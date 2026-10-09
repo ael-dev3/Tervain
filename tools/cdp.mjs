@@ -75,6 +75,8 @@ export async function openPage(url = process.env.TERVAIN_URL ?? 'http://127.0.0.
   await send('Runtime.enable');
   await send('Page.enable');
   await send('Emulation.setDeviceMetricsOverride', { width: w, height: h, deviceScaleFactor: 1, mobile: false });
+  // A headless window never holds focus on some platforms; without this the game sees a blur and pauses itself.
+  await send('Emulation.setFocusEmulationEnabled', { enabled: true });
   // Runs before any of the page's own scripts (for example, a seeded Math.random for repeatable captures).
   if (init) await send('Page.addScriptToEvaluateOnNewDocument', { source: init });
   await send('Page.navigate', { url });

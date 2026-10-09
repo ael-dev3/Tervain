@@ -3,6 +3,7 @@ import { createGltfLoader } from './assets/gltfLoader';
 import { modelAssetUrl } from './assets/modelUrl';
 import { observeModelLoad, withModelLoadSlot, type ModelLoadProgress } from './assets/modelLoadQueue';
 import { downloadAsset } from './assets/download';
+import { fitHeroFingers } from './hero/fingerFit';
 
 const FILE = 'hero/weathered-wanderer-hero-sealed.glb';
 let pending: Promise<GLTF> | null = null;
@@ -23,7 +24,10 @@ export function loadMainHero(progress?: ModelLoadProgress): Promise<GLTF> {
     if (header.getUint32(0, true) !== 0x46546c67 || header.getUint32(4, true) !== 2 || header.getUint32(8, true) !== buffer.byteLength) {
       throw new Error('The Wanderer model download is not a complete GLB 2 file.');
     }
-    return await createGltfLoader().parseAsync(buffer, new URL('.', url).href);
+    const asset = await createGltfLoader().parseAsync(buffer, new URL('.', url).href);
+    // The finger joints are seated in the A74 body's fingers before any rig is cloned from it (A75).
+    fitHeroFingers(asset);
+    return asset;
   }).catch((error: unknown) => {
     pending = null;
     throw error;

@@ -246,7 +246,7 @@ const resources: MenuResources = {
       return promise;
     },
   },
-  emblemUrl: '/assets/menu/hegemony-emblem.png',
+  emblemUrl: '/assets/menu/hegemony-emblem-512.webp',
 };
 
 let renderer: THREE.WebGLRenderer;

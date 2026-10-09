@@ -159,6 +159,16 @@ export async function loadAnimalTemplates(progress?: (loaded: number, total: num
   return templates;
 }
 
+/**
+ * How many quarters of a stride clip were crossed between two phases (0..1) in one update: forwards the phase grows and
+ * wraps from 1 to 0, backwards (A75) it falls and wraps from 0 to 1.
+ */
+export function strideQuartersCrossed(before: number, after: number, backwards = false): number {
+  const [from, to] = backwards ? [1 - before, 1 - after] : [before, after];
+  const crossed = Math.floor(to * 4) - Math.floor(from * 4) + (to < from ? 4 : 0);
+  return Math.max(0, Math.min(4, crossed));
+}
+
 /** Own actions on an independently cloned skeleton. Only bones can be clip targets; world placement is authoritative. */
 export class AnimalAnimation {
   readonly mixer: THREE.AnimationMixer;
@@ -202,7 +212,8 @@ export class AnimalAnimation {
     const action = this.actions.get(this.current);
     if (action && (this.current === 'Walk' || this.current === 'Run')) {
       const reference = this.referenceSpeed(this.current);
-      action.setEffectiveTimeScale(THREE.MathUtils.clamp(speed / reference, 0, 1.5));
+      // A negative speed (a ridden deer backing up, A75) plays the stride backwards.
+      action.setEffectiveTimeScale(THREE.MathUtils.clamp(speed / reference, -1.5, 1.5));
     }
     this.mixer.update(dt);
   }
@@ -566,14 +577,11 @@ export function buildAnimals(ctx: Pick<BuildContext, 'terrain' | 'colliders' | '
           const pace = Math.abs(at.speed), gait = pace > 2.6 ? 'Run' as const : pace > 0.15 ? 'Walk' as const : 'Idle' as const;
           enter(animal, gait);
           const before = animal.animation.gaitPhase();
-          animal.animation.update(dt, Math.abs(at.speed)); place(animal, dt);
+          animal.animation.update(dt, at.speed); place(animal, dt);
           const after = animal.animation.gaitPhase();
           if (!rideGait || rideGait.id !== animal.definition.id) rideGait = { id: animal.definition.id, phase: null, gait, footfalls: 0 };
-          // Each quarter of the stride clip crossed is a hoof striking.
-          if (before !== null && after !== null) {
-            const crossed = Math.floor(after * 4) - Math.floor(before * 4) + (after < before ? 4 : 0);
-            rideGait.footfalls += Math.max(0, Math.min(4, crossed));
-          }
+          // Each quarter of the stride clip crossed is a hoof striking, whichever way the stride runs.
+          if (before !== null && after !== null) rideGait.footfalls += strideQuartersCrossed(before, after, at.speed < 0);
           rideGait.phase = after; rideGait.gait = gait;
           continue;
         }
