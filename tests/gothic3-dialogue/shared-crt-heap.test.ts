@@ -1,3 +1,4 @@
+import type {NativeWin32FileSystemSelection} from '../../src/gothic3/native-win32-file-system';
 import {NativeSharedVersionResource} from '../../src/gothic3/native-shared-version-resource';
 import versionObservation from '../../assets/gothic3/shared-dll-entry-source/windows-version-api-observation.json';
 import {nativeVirtualX86CpuSelection, retainNativeX86ThreadStackSelection} from '../../src/gothic3/native-x86-thread-stack-profile';
@@ -297,9 +298,9 @@ it('owns the original 544-byte multibyte root and aliases its refcount field',()
 });
 
 
-function argumentFixture(ownLocale=1,selected=true,sse=false,stack:'aligned'|'opaque'|false=false,stackBytes=4096,commandBytes:readonly number[]=[0],environmentWide:readonly number[]|null=[0,0],environmentAnsi:readonly number[]|null=null,processor:{export?:boolean;erratum?:boolean;cpu?:NativeX86CpuSelection;diagnostics?:NativeRuntimeDiagnostics;sectionSpin?:boolean}={export:true,erratum:false}){
+function argumentFixture(ownLocale=1,selected=true,sse=false,stack:'aligned'|'opaque'|false=false,stackBytes=4096,commandBytes:readonly number[]=[0],environmentWide:readonly number[]|null=[0,0],environmentAnsi:readonly number[]|null=null,processor:{export?:boolean;erratum?:boolean;cpu?:NativeX86CpuSelection;diagnostics?:NativeRuntimeDiagnostics;sectionSpin?:boolean;fileSystem?:NativeWin32FileSystemSelection}={export:true,erratum:false}){
  let owner:NativeSharedCrtOwner;
- const platform=new NativeRuntimePlatform({diagnostics:processor.diagnostics,engineCrtServices:{tlsValues:new Map(),kernel32Available:true,pointerCodec:'owned-bijection',sectionSpinProcedure:processor.sectionSpin,processorFeatureProcedure:processor.export,floatingPointPrecisionErratum:processor.erratum,fiberLocalStorage:true,processHeap:true,osVersion:{platform:2,major:6,minor:1,build:42},entropy:{currentThreadId:()=>{owner.snapshot().ptd!.writeUnsigned(0x70,ownLocale);if(sse)owner.imageStorage('memcpySseFlag').writeUnsigned(0,1);return {known:true,value:9};}},processInputs:{acpCodePage:1252,conversionCoverage:'ascii-explicit-positive-count',initialDirectionFlag:0,commandLineA:{kind:'buffer',bytes:commandBytes},environmentW:environmentWide?{kind:'buffer',bytes:environmentWide}:{kind:'null'},environmentA:environmentAnsi?{kind:'buffer',bytes:environmentAnsi}:{kind:'null'}},startupIo:{startupInfoA:{outcome:'normal',writes:[{offset:50,width:2,value:0,knownMask:65535}]}},standardIo:{standardHandles:[{id:-10,result:'valid',fileType:2},{id:-11,result:'valid',fileType:3},{id:-12,result:'null',fileType:0}],setHandleCount:{result:0},sectionInitialization:'owned-registration'},threadStack:stack?{threadCapability:{},reservationBytes:stackBytes,addressModel:'opaque-relative',initialRegisters:'unknown',initialFs0:'unknown',pageAlignment:stack==='aligned'?'virtual-page-4096':undefined,cpu:processor.cpu}:undefined,argvNls:selected?{...nativeVirtualCp1252ArgvNlsSelection,lastError:{GetACP:88}}:undefined}});
+ const platform=new NativeRuntimePlatform({diagnostics:processor.diagnostics,engineCrtServices:{tlsValues:new Map(),kernel32Available:true,pointerCodec:'owned-bijection',sectionSpinProcedure:processor.sectionSpin,fileSystem:processor.fileSystem,processorFeatureProcedure:processor.export,floatingPointPrecisionErratum:processor.erratum,fiberLocalStorage:true,processHeap:true,osVersion:{platform:2,major:6,minor:1,build:42},entropy:{currentThreadId:()=>{owner.snapshot().ptd!.writeUnsigned(0x70,ownLocale);if(sse)owner.imageStorage('memcpySseFlag').writeUnsigned(0,1);return {known:true,value:9};}},processInputs:{acpCodePage:1252,conversionCoverage:'ascii-explicit-positive-count',initialDirectionFlag:0,commandLineA:{kind:'buffer',bytes:commandBytes},environmentW:environmentWide?{kind:'buffer',bytes:environmentWide}:{kind:'null'},environmentA:environmentAnsi?{kind:'buffer',bytes:environmentAnsi}:{kind:'null'}},startupIo:{startupInfoA:{outcome:'normal',writes:[{offset:50,width:2,value:0,knownMask:65535}]}},standardIo:{standardHandles:[{id:-10,result:'valid',fileType:2},{id:-11,result:'valid',fileType:3},{id:-12,result:'null',fileType:0}],setHandleCount:{result:0},sectionInitialization:'owned-registration'},threadStack:stack?{threadCapability:{},reservationBytes:stackBytes,addressModel:'opaque-relative',initialRegisters:'unknown',initialFs0:'unknown',pageAlignment:stack==='aligned'?'virtual-page-4096':undefined,cpu:processor.cpu}:undefined,argvNls:selected?{...nativeVirtualCp1252ArgvNlsSelection,lastError:{GetACP:88}}:undefined}});
  owner=NativeSharedCrtOwner.forPlatform(platform);return {platform,owner};
 }
 for(const ownLocale of [1,3])it(`uses actual SharedBase GetACP and preserves original locale flag ownership ${ownLocale}`,()=>{
@@ -633,7 +634,7 @@ it('reenters the processor probe with a fresh normal EH frame after its prior re
  const result=owner.processAttach();expect(result).toEqual({known:true,value:1});const snapshot=owner.snapshot().caseState!.stack!.snapshot();expect(snapshot.trace.filter(row=>row==='100ce055.sharedInitializer.MOVAPD')).toHaveLength(3);expect(snapshot.calls.filter(call=>call.site==='100ce08f').map(call=>call.returned)).toEqual([true,true,true]);expect(snapshot.processorSimdFrame!.returned).toBe(true);
 });
 
-function stdioFixture(count=0,diagnostics?:NativeRuntimeDiagnostics,sectionSpin?:boolean){const f=argumentFixture(1,true,false,'aligned',4096,[0],[0,0],null,{export:true,erratum:false,cpu:nativeVirtualX86CpuSelection,diagnostics,sectionSpin});f.owner.snapshot().initializerImages['102f8500']!.writeUnsigned(0,count);return f;}
+function stdioFixture(count=0,diagnostics?:NativeRuntimeDiagnostics,sectionSpin?:boolean,fileSystem?:NativeWin32FileSystemSelection){const f=argumentFixture(1,true,false,'aligned',4096,[0],[0,0],null,{export:true,erratum:false,cpu:nativeVirtualX86CpuSelection,diagnostics,sectionSpin,fileSystem});f.owner.snapshot().initializerImages['102f8500']!.writeUnsigned(0,count);return f;}
 function descriptorPending(owner:NativeSharedCrtOwner){return owner.snapshot().caseState?.stack?.snapshot().calls.some(call=>call.site==='100aab6e'&&!call.returned)??false;}
 for(const [requested,count] of [[0,512],[1,20],[19,20],[20,20],[33,33],[0x80000000,20],[0xffffffff,20]] as const)it(`initializes original FILE vector for signed requested count ${requested}`,()=>{
  const {owner}=stdioFixture(requested),result=owner.processAttach();expect(result).toEqual({known:true,value:1});const state=owner.snapshot(),images=state.initializerImages,files=images['10141790']!,vector=images['102f71c0']!.pointer<{fields:NativeHeapObjectViews;offset:number}>(0).get()!;
@@ -1621,4 +1622,57 @@ owner.processDllSpieAllocateDescriptor();
  expect(result.reason).toContain('same-platform descriptor initializer cache');
  expect(owner.snapshot().crtHeldSectionIds.toSorted()).toEqual([10,11,19]);expect(owner.snapshot().descriptorHeldSectionOffsets).toEqual([]);
  expect(before.ioBlock!.readUnsigned(172,1)).toBe(0);expect(before.ioBlock!.readUnsigned(176)).toBe(0);
+},30_000);
+
+function originalFileOpenFixture(fileSystem?:NativeWin32FileSystemSelection){
+ const {owner,platform}=fileVersionQueryFixture(stdioFixture(0,undefined,undefined,fileSystem));owner.processDllFileVersionQuery();owner.processDllLanguageFree();owner.processDllLanguageReturn();owner.processDllVersionToken();owner.processDllVersionInteger();owner.processDllVersionFree();owner.processDllSeparatorPrefix();owner.processDllMessageCreate();owner.processDllMessageHolder();owner.processDllMessageErrorGet();owner.processDllMessageErrorCreate();owner.processDllMessageErrorBuffer();owner.processDllMessageErrorRegister();owner.processDllMessageErrorTerminate();owner.processDllMessageSpyGet();owner.processDllMessageSpyCreate();owner.processDllMessageSpyTerminate();owner.processDllMessageSpieStartup();owner.processDllSpieAcquireStream();
+owner.processDllSpieSharedOpen();
+owner.processDllSpieAllocateDescriptor();
+
+ owner.processDllSpieInitDescriptorSection();return {owner,platform};
+}
+
+it('executes the original file-open failure and maps its Win32 error',()=>{
+ const {owner,platform}=originalFileOpenFixture({cwd:'C:/Gothic3',directories:['C:/','C:/Gothic3'],files:[]});
+ const result=owner.processDllSpieCreateFile();expect(result).toEqual({known:false,reason:'Original SharedBase SpieAdmin termination registration pending at 1004afc7'});
+ const state=owner.snapshot(),stack=state.caseState!.stack!.snapshot();
+ expect(state.ptd!.readUnsigned(8)).toBe(2);expect(state.ptd!.readUnsigned(12)).toBe(2);
+ expect(state.ioBlock!.readUnsigned(168)).toBe(0xffffffff);expect(state.ioBlock!.readUnsigned(172,1)).toBe(0);expect(state.ioBlock!.readUnsigned(176)).toBe(1);
+ expect(state.crtHeldSectionIds).toEqual([]);expect(state.descriptorHeldSectionOffsets).toEqual([]);
+ expect(state.initializerImages['10141790']!.readUnsigned(96+12)).toBe(0);expect(state.initializerImages['10141790']!.readUnsigned(96+16)).toBe(0xffffffff);
+ expect(platform.getWin32LastError()).toEqual({known:true,value:2});expect(platform.fileSystemSnapshot()!.openHandles).toHaveLength(0);
+ for(const site of ['100d1372','100d13d0','100d13d7','100aedf8','100aee04','100ae4db','100ae4e0','100d19b5','100d19f6','100d0d86','100acc7b','100bf064','1004b1f7','1004afbd'])expect(stack.calls.find(row=>row.site===site)!.returned).toBe(true);
+ expect(stack.calls.at(-1)!.site).toBe('1004afc7');
+
+},30_000);
+it('opens an actual selected file and retains an owned handle',()=>{
+ const {owner,platform}=originalFileOpenFixture({cwd:'C:/Gothic3',directories:['C:/','C:/Gothic3'],files:[{path:'zSpie.txt',bytes:[65,10],readable:true}]});
+ const result=owner.processDllSpieCreateFile();expect(result).toEqual({known:false,reason:'Original SharedBase SpieAdmin fclose pending at 1004b208'});
+ const state=owner.snapshot(),files=platform.fileSystemSnapshot()!,stack=state.caseState!.stack!.snapshot();
+ expect(files.openHandles).toHaveLength(1);const handle=files.openHandles[0]!.handle;
+ expect(files.openHandles[0]!.path).toBe('c:/gothic3/zspie.txt');expect(files.openHandles[0]!.inherit).toBe(true);expect(files.openHandles[0]!.byteLength).toBe(2);
+ expect(NativeRuntimePlatform.ownsFileHandle(platform,handle)).toBe(true);
+ expect(state.ioBlock!.pointer(168).get()).toBe(handle);expect(state.ioBlock!.readUnsigned(172,1)).toBe(0x81);expect(state.ioBlock!.readUnsigned(176)).toBe(1);
+ expect(state.crtHeldSectionIds).toEqual([]);expect(state.descriptorHeldSectionOffsets).toEqual([]);
+ expect(state.initializerImages['10141790']!.readUnsigned(96+12)).toBe(1);expect(state.initializerImages['10141790']!.readUnsigned(96+16)).toBe(3);expect(state.dllFormatImages['102f6ad4']!.readUnsigned(0)).toBe(1);
+ for(const site of ['100d1372','100d13ec','100d1453','100d19b5','100d19f6','100d0d86','100acc7b','100bf064','1004b1f7'])expect(stack.calls.find(row=>row.site===site)!.returned).toBe(true);
+ expect(stack.calls.at(-1)!.site).toBe('1004b208');
+
+},30_000);
+
+it('maps denied file reads through the original errno table',()=>{
+ const {owner,platform}=originalFileOpenFixture({cwd:'C:/Gothic3',directories:['C:/','C:/Gothic3'],files:[{path:'zSpie.txt',bytes:[1],readable:false}]});
+ expect(owner.processDllSpieCreateFile()).toEqual({known:false,reason:'Original SharedBase SpieAdmin termination registration pending at 1004afc7'});
+ expect(owner.snapshot().ptd!.readUnsigned(8)).toBe(13);expect(owner.snapshot().ptd!.readUnsigned(12)).toBe(5);expect(platform.fileSystemSnapshot()!.openHandles).toHaveLength(0);
+},30_000);
+it('rejects a damaged original CreateFileA return word before opening a file',()=>{
+ const {owner,platform}=originalFileOpenFixture({cwd:'C:/Gothic3',directories:['C:/','C:/Gothic3'],files:[{path:'zSpie.txt',bytes:[1],readable:true}]});
+ const state=owner.snapshot(),stack=state.caseState!.stack!.snapshot(),call=stack.calls.at(-1)!;
+ new NativeHeapObjectViews(stack.sharedDllResourceFrame!.handle.backing,call.position,4).writeUnsigned(0,0);
+ const result=owner.processDllSpieCreateFile();expect(result.known).toBe(false);if(result.known)throw new Error('Damaged return word accepted');expect(result.reason).toMatch(/CreateFileA return frame|expression slot/);
+ expect(platform.fileSystemSnapshot()!.openHandles).toHaveLength(0);expect(state.ioBlock!.readUnsigned(168)).toBe(0xffffffff);expect(owner.snapshot().crtHeldSectionIds).toEqual([19]);expect(owner.snapshot().descriptorHeldSectionOffsets).toEqual([180]);
+},30_000);
+it('retains the file-open boundary when no filesystem is selected',()=>{
+ const {owner,platform}=originalFileOpenFixture();const result=owner.processDllSpieCreateFile();expect(result.known).toBe(false);if(result.known)throw new Error('Undeclared filesystem accepted');expect(result.reason).toContain('Explicit owned virtual filesystem');
+ expect(platform.fileSystemSnapshot()).toBe(null);expect(owner.snapshot().ioBlock!.readUnsigned(168)).toBe(0xffffffff);expect(owner.snapshot().descriptorHeldSectionOffsets).toEqual([180]);
 },30_000);

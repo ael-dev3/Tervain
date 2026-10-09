@@ -99,17 +99,20 @@ results, next unsupported dependency and deployment receipt.
 
 ## Published checkpoint and further reading
 
-[PR #168](https://github.com/ael-dev3/Tervain/pull/168) merged original
-CRT shared file-open validation and flag calculation at commit
-`ee6679e8e3a3f3a525abbf0d2cf1ab15aec2f41b`.
-Its [validation run](https://github.com/ael-dev3/Tervain/actions/runs/37863231622)
-and [Pages deployment](https://github.com/ael-dev3/Tervain/actions/runs/37863972416)
+[PR #169](https://github.com/ael-dev3/Tervain/pull/169) merged original
+CRT descriptor allocation and section initialization at commit
+`f7227a67fbab82208cd3e2f8945879166e354d78`.
+Its [validation run](https://github.com/ael-dev3/Tervain/actions/runs/37866293534)
+completed successfully. The [Pages deployment](https://github.com/ael-dev3/Tervain/actions/runs/37867316566)
 completed successfully. This establishes a deployed component checkpoint.
 
-Further local work executes descriptor allocation, its cached section initializer
-and original fallback, and the return to `CreateFileA` at `100d1372`. The API return
-and original cleanup remain pending. This continuation is not yet published;
-complete startup, world activation and campaign integration remain unfinished.
+Further local work executes the original `CreateFileA` return against an owned
+virtual filesystem. Missing and denied files use the original error table and
+cleanup; an existing regular file is published into descriptor 3 and its FILE
+record. Execution reaches original SpieAdmin shutdown registration or `fclose`,
+respectively. These operations and complete startup, world activation and
+campaign integration remain unfinished. This file-open continuation is not yet
+published.
 
 - [Detailed workflow and reference paths](gothic3-rebuild-workflow.md)
 - [Architecture and implementation background](gothic3-rebuild-overview.md)

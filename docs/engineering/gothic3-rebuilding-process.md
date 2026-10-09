@@ -10838,3 +10838,46 @@ seconds. After reconciling the merged checkpoint history without changing the
 committed source tree, a fresh full run passed the same 2,993 tests in 281.64
 seconds. The production build passed. These methods have no production callers,
 and a finishable browser campaign has not been demonstrated.
+
+
+## Original CreateFileA results, errno mapping and FILE publication (local work, 2026-10-09)
+
+PR #169 merged the descriptor and section checkpoint as
+`f7227a67fbab82208cd3e2f8945879166e354d78` after successful validation run
+37866293534. Its Pages deployment 37867316566 completed successfully.
+Claude's documentation audit PR #166 also passed validation, merged as
+`7b9556fd042ff7c675de42625e1baf05ad4f818d`, and deployed successfully in run
+37866667399. Its findings are module fixture evidence, not implemented fixes.
+
+The pending `100d1372 CALL EDI` now resumes only with its actual return word,
+stack cursor, parent EH4 frame, import identity, filename pointer and original
+SECURITY_ATTRIBUTES storage. A copied virtual filesystem declares working
+directory, directories, regular-file bytes and read permission. Lookup determines
+the CreateFileA outcome; no universal absent-file return or host HANDLE is used.
+The supported API mode is GENERIC_READ, share-read/write, OPEN_EXISTING and
+FILE_ATTRIBUTE_NORMAL. Other modes and device/UNC names remain unsupported.
+This is a selected browser filesystem, not a claim about host Windows files.
+
+A missing file returns INVALID_HANDLE_VALUE and Windows error 2; a denied read
+returns error 5. Original `100aedf7`, `100aede4`, `100aed96`, `100aedd1`, the warm
+PTD getter and its TLS provider execute the captured 45-entry error table at
+`10140bd8`. They retain DOS error and errno in the actual PTD and preserve the
+last-error slot across the original getter. Original descriptor and fopen cleanup
+release their sections and FILE lock 19, then the failed fopen returns NULL.
+SpieAdmin reaches its actual shutdown registration call at `1004afc7`.
+
+An existing readable regular file returns a unique same-platform handle and the
+original GetFileType import returns FILE_TYPE_DISK. Original `100d0b5c` publishes
+the handle, the core stores descriptor text flags, and the OpenStream body
+publishes descriptor 3 into FILE slot 3 and increments the opened-file count.
+Original cleanup releases the descriptor section and FILE lock. SpieAdmin reaches
+its actual `1004b208 -> 100ac841` fclose call; close has not executed.
+
+Typechecking and 12 focused checks pass, including missing, denied and present
+files, actual handle/descriptor/FILE publication, lock release, damaged call
+rejection, undeclared filesystem, copied declarations and unsupported modes.
+Independent regeneration matches 73 original bodies and 4,449 body instructions.
+The full suite passed all 3,004 tests across 278 files in 352.45 seconds at
+commit `8f631ed8`. The production build passed.
+These methods still have no production callers. Full startup and a finishable
+browser campaign remain unfinished.
