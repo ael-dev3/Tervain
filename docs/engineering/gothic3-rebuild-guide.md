@@ -51,6 +51,31 @@ functions. At an unsupported operation, report its original address and retain
 the state already applied. Capture, component execution and live game integration
 are separate milestones.
 
+### What a native continuation means
+
+A checkpoint follows a real call chain from the original DLL. For example, the
+current startup work follows SpieAdmin opening zSpie.txt: acquire a CRT FILE
+record, allocate and lock descriptor 3, invoke CreateFileA, apply its return,
+and run the original error mapping or publish the opened handle. The TypeScript
+platform supplies owned memory and a virtual filesystem for these operations.
+
+The captured instructions, source addresses and input hashes live beside the
+implementation. Unsupported calls retain their address and current state so the
+next checkpoint can continue from that point. This is incremental behavior
+reconstruction; complete decompilation of every game module has not been
+established. These startup continuations currently have no production callers.
+
+### A repeatable checkpoint
+
+1. Identify the next unsupported call and its original caller.
+2. Capture its instruction bytes, imports, static data and cleanup dependencies.
+3. Generate the source-evidence package and TypeScript instruction tables.
+4. Implement the required platform operation with explicit ownership and lifetime.
+5. Check successful, failed and damaged-state paths against the original flow.
+6. Regenerate independently, inspect the diff and record local validation.
+7. Publish a reviewed revision and record its deployment separately.
+8. Connect the resulting state to browser gameplay and observe that integration.
+
 ## 4. Connect a playable world
 
 Complete startup and activate the world, player and NPCs. Connect rendering,
@@ -99,11 +124,11 @@ results, next unsupported dependency and deployment receipt.
 
 ## Published checkpoint and further reading
 
-[PR #169](https://github.com/ael-dev3/Tervain/pull/169) merged original
-CRT descriptor allocation and section initialization at commit
-`f7227a67fbab82208cd3e2f8945879166e354d78`.
-Its [validation run](https://github.com/ael-dev3/Tervain/actions/runs/37866293534)
-completed successfully. The [Pages deployment](https://github.com/ael-dev3/Tervain/actions/runs/37867316566)
+[PR #170](https://github.com/ael-dev3/Tervain/pull/170) merged original
+file-open results, error mapping and FILE publication at commit
+`9551188c86977ead4507f2e133f24f2b3d67e129`.
+Its [validation run](https://github.com/ael-dev3/Tervain/actions/runs/37868656842)
+completed successfully. The [Pages deployment](https://github.com/ael-dev3/Tervain/actions/runs/37869293906)
 completed successfully. This establishes a deployed component checkpoint.
 
 Further local work executes the original `CreateFileA` return against an owned
@@ -111,8 +136,13 @@ virtual filesystem. Missing and denied files use the original error table and
 cleanup; an existing regular file is published into descriptor 3 and its FILE
 record. Execution reaches original SpieAdmin shutdown registration or `fclose`,
 respectively. These operations and complete startup, world activation and
-campaign integration remain unfinished. This file-open continuation is not yet
-published.
+campaign integration remain unfinished.
+
+Further local work executes original `fclose`, closes the owned regular-file
+handle, clears descriptor and FILE flags, restores exception frames and releases
+their locks. It reaches SpieAdmin callback registration at `1004b226`.
+Typechecking, focused close checks, all 3,007 tests and the production build pass.
+This close continuation has not yet been published.
 
 - [Detailed workflow and reference paths](gothic3-rebuild-workflow.md)
 - [Architecture and implementation background](gothic3-rebuild-overview.md)

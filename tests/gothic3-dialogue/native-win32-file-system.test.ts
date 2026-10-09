@@ -8,6 +8,26 @@ const selection = (): NativeWin32FileSystemSelection => ({ cwd: 'C:/Gothic3', di
   files: [{ path: 'zSpie.txt', bytes: [65, 10], readable: true }] });
 
 describe('owned virtual regular files for original SharedBase startup', () => {
+  it('retires only the live owned handle and preserves its identity for native cleanup', () => {
+    const fs = new NativeWin32FileSystem({}, selection()), other = new NativeWin32FileSystem({}, selection());
+    const opened = fs.open(input()), sibling = fs.open(input()), foreign = other.open(input());
+    if (!opened.known || !sibling.known || !foreign.known || typeof opened.value.handle === 'number' ||
+        typeof sibling.value.handle === 'number' || typeof foreign.value.handle === 'number') throw new Error('Regular files did not open');
+    const handle = opened.value.handle;
+    expect(fs.close({ ...handle }).known).toBe(false);
+    expect(fs.close(foreign.value.handle).known).toBe(false);
+    expect(fs.snapshot().openHandles).toHaveLength(2);
+    expect(fs.close(handle)).toEqual({ known: true, value: 1 });
+    expect(fs.owns(handle)).toBe(false); expect(fs.recognizes(handle)).toBe(true);
+    expect(fs.recognizes({ ...handle })).toBe(false); expect(fs.recognizes(foreign.value.handle)).toBe(false);
+    expect(fs.close(handle).known).toBe(false); expect(fs.fileType(handle).known).toBe(false);
+    expect(fs.owns(sibling.value.handle)).toBe(true); expect(other.owns(foreign.value.handle)).toBe(true);
+    expect(fs.snapshot().retiredHandleCount).toBe(1);
+    expect(fs.snapshot().openHandles[0]!.handle).toBe(sibling.value.handle);
+    const reopened = fs.open(input());
+    if (!reopened.known || typeof reopened.value.handle === 'number') throw new Error('File did not reopen');
+    expect(reopened.value.handle).not.toBe(handle); expect(fs.owns(reopened.value.handle)).toBe(true);
+  });
   it('opens case-insensitive DOS paths into distinct owned regular-file handles', () => {
     const owner = {}, fs = new NativeWin32FileSystem(owner, selection()), first = fs.open(input('ZSPIE.TXT')), second = fs.open(input('./zSpie.txt'));
     expect(first.known).toBe(true); expect(second.known).toBe(true);

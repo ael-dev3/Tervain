@@ -369,6 +369,7 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
   readonly #standardHandles = new Map<object, Readonly<{ capability: NativeWin32HandleCapability; slot: number }>>();
   readonly #fileSystem?: NativeWin32FileSystem;
   readonly #fileOpenConsumed = new WeakSet<object>();
+  readonly #fileCloseConsumed = new WeakSet<object>();
   #requestedHandleCount: number | undefined;
   private readonly sections = new Map<string, Section>();
   private readonly sectionIdentities = new Map<object, Section>();
@@ -778,6 +779,16 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
   }
   static ownsFileHandle(platform: NativeRuntimePlatform, handle: object): boolean {
     return NativeRuntimePlatform.requireActivePlatform(platform).known && !!platform.#fileSystem && NativeWin32FileSystem.prototype.owns.call(platform.#fileSystem, handle);
+  }
+  static recognizesFileHandle(platform: NativeRuntimePlatform, handle: object): boolean {
+    return NativeRuntimePlatform.requireActivePlatform(platform).known && !!platform.#fileSystem && NativeWin32FileSystem.prototype.recognizes.call(platform.#fileSystem, handle);
+  }
+  static closeSharedFileForPlatform(platform: NativeRuntimePlatform, call: object): NativeValue<number> {
+    const active = NativeRuntimePlatform.requireActivePlatform(platform); if (!active.known) return active;
+    const proof = NativeSharedCrtOwner.fileCloseArgumentsForPlatform(platform, call); if (!proof.known) return proof;
+    if (!platform.#fileSystem || platform.#fileCloseConsumed.has(call)) return unknown('Actual fresh owned file-close invocation required');
+    platform.#fileCloseConsumed.add(call);
+    return NativeWin32FileSystem.prototype.close.call(platform.#fileSystem, proof.value);
   }
   static fileTypeForPlatform(platform: NativeRuntimePlatform, handle: object): NativeValue<number> {
     const active = NativeRuntimePlatform.requireActivePlatform(platform); if (!active.known) return active;
