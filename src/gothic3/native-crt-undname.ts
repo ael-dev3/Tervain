@@ -150,6 +150,18 @@ export class NativeCrtUndName {
       if (!firstArgument) fact(factory.append(argumentsResult, fact(factory.fromChar(0x2c), 'templateArguments.comma')), 'templateArguments.appendComma');
       firstArgument = false;
       const before = this.cursor();
+      if (this.crt.module === 'Game' && this.isPrimitiveToken()) {
+        const qualification = this.empty(factory);
+        const primary = this.primitivePrimary(factory, qualification);
+        const temporary = this.empty(factory);
+        fact(factory.assign(temporary, primary), 'templateArguments.assignPrimitivePrimary');
+        const after = this.cursor();
+        if (after.fields !== before.fields) throw new Error('Original template cursor backing changed');
+        if (after.offset - before.offset > 1 && third.fields.readUnsigned(0) !== 9)
+          fact(third.append(temporary), 'templateArguments.recordPrimitive');
+        fact(factory.append(argumentsResult, temporary), 'templateArguments.appendPrimitivePrimary');
+        continue;
+      }
       if (this.byte() === 0x56 || (this.crt.module === 'Game' && this.byte() === 0x50)) {
         const primary = this.byte() === 0x50 ? this.pointerClassPrimary(factory, second) : this.classPrimary(factory, second);
         const temporary = this.empty(factory);
@@ -215,6 +227,29 @@ export class NativeCrtUndName {
     this.fields.writeUnsigned(48, this.flags() & ~0x2000); this.state.trace.push('grammar.dataType');
     let qualification = fact(factory.fromPointer(null), 'getDataType.pointerQualification');
     if (this.crt.module === 'Game' && this.byte() !== 0x3f) {
+      const primary = this.primitivePrimary(factory, qualification);
+      this.fields.writeUnsigned(48,this.flags() | 0x2000);
+      return fact(factory.copy(primary),'getDecoratedName.primitiveReturn');
+    }
+    if (this.byte() !== 0x3f) throw new Error('Unowned getDataType branch outside selected RTTI qualification');
+    this.advance(); // getDataType consumes '?' before calling getDataIndirectType.
+    if (this.byte() !== 0x41) throw new Error('Unowned getDataIndirectType qualification');
+    this.advance();
+    const indirect = this.empty(factory);
+    const word = indirect.fields.maskedWord(4);
+    word.value = word.value | 0x10; word.knownMask = word.knownMask | 0x10;
+    qualification = fact(factory.assign(qualification, fact(factory.copy(indirect), 'getDataIndirectType.return')), 'getDataType.assignQualification');
+    if (!qualification.isEmpty()) throw new Error('Unowned nonempty primary type qualification');
+    const primary = this.classPrimary(factory, replicator);
+    this.fields.writeUnsigned(48, this.flags() | 0x2000);
+    return fact(factory.copy(primary), 'getDecoratedName.return');
+  }
+  private isPrimitiveToken(): boolean {
+    return [0x45,0x47,0x48,0x4a,0x4b,0x4d].includes(this.byte()) || (this.byte() === 0x5f && this.byte(1) === 0x4e);
+  }
+  /** Shared original getPrimaryDataType -> getSimpleDataType branch; callers
+   * supply their actual empty qualification and retain their own flags. */
+  private primitivePrimary(factory: NativeCrtDNameFactory, qualification: NativeCrtDNameRecord): NativeCrtDNameRecord {
       admitGamePrimitiveSource();
       // These tokens follow the original getDataType -> getPrimaryDataType ->
       // getSimpleDataType branch with empty qualification. Pointer, reference
@@ -241,22 +276,7 @@ export class NativeCrtUndName {
         fact(factory.assign(local,unsigned),'getSimpleDataType.assignUnsigned');
       }
       this.state.trace.push('getSimpleDataType.primitiveReturn');
-      const primary = fact(factory.copy(local),'getSimpleDataType.copyReturn');
-      this.fields.writeUnsigned(48,this.flags() | 0x2000);
-      return fact(factory.copy(primary),'getDecoratedName.primitiveReturn');
-    }
-    if (this.byte() !== 0x3f) throw new Error('Unowned getDataType branch outside selected RTTI qualification');
-    this.advance(); // getDataType consumes '?' before calling getDataIndirectType.
-    if (this.byte() !== 0x41) throw new Error('Unowned getDataIndirectType qualification');
-    this.advance();
-    const indirect = this.empty(factory);
-    const word = indirect.fields.maskedWord(4);
-    word.value = word.value | 0x10; word.knownMask = word.knownMask | 0x10;
-    qualification = fact(factory.assign(qualification, fact(factory.copy(indirect), 'getDataIndirectType.return')), 'getDataType.assignQualification');
-    if (!qualification.isEmpty()) throw new Error('Unowned nonempty primary type qualification');
-    const primary = this.classPrimary(factory, replicator);
-    this.fields.writeUnsigned(48, this.flags() | 0x2000);
-    return fact(factory.copy(primary), 'getDecoratedName.return');
+      return fact(factory.copy(local),'getSimpleDataType.copyReturn');
   }
   /** The same original primary-type branch is called by ordinary RTTI and
    * template argument parsing, with the currently installed name replicator. */

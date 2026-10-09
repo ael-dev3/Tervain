@@ -40,15 +40,17 @@ describe('original Game C++ class-name initializers on the retained browser stac
     const f = fixture(true, true, true);
     const pointerArray = NativeGameClassName.forSpec(f.game.crt,f.memory,gameClassNameSpec('204b1620')!);
     expect(fact(fact(pointerArray.get()).text())).toBe('bTRefPtrArray<class bCPropertyObjectBase *>');
+    expect(fact(fact(NativeGameClassName.forSpec(f.game.crt,f.memory,gameClassNameSpec('204b17d0')!).get()).text()))
+      .toBe('bTValArray<float>');
     expect(f.stack.snapshot().calls.find(call => call.site === '204b1620')).toMatchObject({ returned: true });
     expect({ next: f.game.attachProgress.nextBoundary,
       reason: f.game.attachProgress.setEnvpProgress!.boundary,
       callbacks: NativeGameExitTable.forCrt(f.game.crt).snapshot().callbackCells.length }).toEqual({
-        next: { address: '204b17d0', name: 'translatedCrtCall', target: '20011d06' },
-        reason: 'Game.___unDName.0x2800: Unowned getTemplateArgumentList primary data type', callbacks: 65,
+        next: { address: '204b1c80', name: 'translatedCrtCall', target: '2000b596' },
+        reason: 'Native simple-allocation table bucket for 59 bytes is not audited', callbacks: 140,
       });
-    const completed = gameClassNameFamilySpecs.filter(spec => spec.initializer >= '204b11b0' && spec.initializer < '204b17d0');
-    expect(completed).toHaveLength(64);
+    const completed = gameClassNameFamilySpecs.filter(spec => spec.initializer >= '204b11b0' && spec.initializer < '204b1c80');
+    expect(completed).toHaveLength(139);
     for (const spec of completed)
       expect(f.stack.snapshot().calls.find(call => call.site === spec.initializer)).toMatchObject({ returned: true });
   });
