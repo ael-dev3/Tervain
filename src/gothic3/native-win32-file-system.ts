@@ -75,6 +75,8 @@ export class NativeWin32FileSystem {
   readonly #directories: ReadonlySet<string>;
   readonly #files: ReadonlyMap<string, Readonly<{ bytes: Uint8Array; readable: boolean }>>;
   readonly #handles = new Map<object, Readonly<{ handle: NativeWin32FileHandle; path: string; inherit: boolean }>>();
+  readonly #knownHandles = new WeakSet<object>();
+  #retiredHandleCount = 0;
   constructor(owner: object, selection: NativeWin32FileSystemSelection) {
     this.#owner = owner;
     this.#cwd = path(own(selection, 'cwd'));
@@ -110,9 +112,16 @@ export class NativeWin32FileSystem {
     if (!file.readable) return failure(5);
     const handle = Object.freeze({ identity: Object.freeze({}), owner: this.#owner });
     this.#handles.set(handle, Object.freeze({ handle, path: filename, inherit: input.security.inherit !== 0 }));
+    this.#knownHandles.add(handle);
     return { known: true, value: Object.freeze({ handle }) };
   }
   owns(handle: object): boolean { return this.#handles.get(handle)?.handle === handle; }
+  recognizes(handle: object): boolean { return this.#knownHandles.has(handle); }
+  close(handle: object): NativeValue<number> {
+    if (!this.owns(handle)) return { known: false, reason: 'Actual live regular-file handle required by CloseHandle' };
+    this.#handles.delete(handle); this.#retiredHandleCount++;
+    return { known: true, value: 1 };
+  }
   fileType(handle: object): NativeValue<number> { return this.owns(handle) ? { known: true, value: 1 } : { known: false, reason: 'Actual live regular-file handle required' }; }
-  snapshot() { return Object.freeze({ cwd: this.#cwd, openHandles: Object.freeze([...this.#handles.values()].map(entry => Object.freeze({ handle: entry.handle, path: entry.path, inherit: entry.inherit, byteLength: this.#files.get(entry.path)!.bytes.length }))) }); }
+  snapshot() { return Object.freeze({ cwd: this.#cwd, retiredHandleCount: this.#retiredHandleCount, openHandles: Object.freeze([...this.#handles.values()].map(entry => Object.freeze({ handle: entry.handle, path: entry.path, inherit: entry.inherit, byteLength: this.#files.get(entry.path)!.bytes.length }))) }); }
 }

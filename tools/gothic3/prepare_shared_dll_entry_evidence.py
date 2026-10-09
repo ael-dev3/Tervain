@@ -110,6 +110,10 @@ def capture(study, output):
         0x10008b11: 'dllMessageSpyGet',
         0x100089e5: 'dllMessageSpyCreate',
         0x10001334: 'dllMessageSpieGet',0x10008887:'dllMessageSpieCreate',
+        0x100ac841:'dllSpieFclose',0x100ac7cf:'dllSpieFcloseNoLock',0x100befd6:'dllSpieFcloseLock',0x100ac8b5:'dllSpieFcloseCleanup',
+        0x100bf7a7:'dllSpieFlushStream',0x100bf77b:'dllSpieFreeStreamBuffer',0x100bf3f1:'dllSpieStreamDescriptor',
+        0x100bf6ae:'dllSpieClose',0x100bf61a:'dllSpieCloseDescriptor',0x100d0c5a:'dllSpieDescriptorHandle',
+        0x100d0bd9:'dllSpieClearDescriptorHandle',0x100d0ccb:'dllSpieLockDescriptor',0x100bf771:'dllSpieCloseCleanup',
         0x100acc93:'dllSpieFopen',0x100acbcf:'dllSpieOpenFile',
         0x100aedf7:'dllSpieMapWin32Error',0x100aede4:'dllSpieDosErrno',0x100aed96:'dllSpieErrorToErrno',
         0x100ae4cb:'dllSpiePtdLower',0x100ae384:'dllSpiePtdProvider',0x100d0d6b:'dllSpieUnlockDescriptor',0x100d0b5c:'dllSpieSetDescriptorHandle',0x100d19cf:'dllSpieOpenCleanup',0x100acc89:'dllSpieFopenCleanup',0x100bf040:'dllSpieUnlockFile',
@@ -152,6 +156,8 @@ def capture(study, output):
             'instruction': f'JMP dword ptr [0x{iat:08x}]', 'import': receipt})
     result['coldImages'] = []
     for label, address, size in [
+        ('dllSpieFcloseScope',0x100f86d0,28),('dllSpieCloseScope',0x100f8d98,28),('dllSpieLockDescriptorScope',0x100f8fa0,28),
+        ('dllSpieShutdownCallback',0x100e2830,71),('dllMessageShutdownCallback',0x100e27d0,51),
         ('dllSpieErrorMap',0x10140bd8,360),('dllSpieApplicationType',0x102f649c,4),
         ('dllSpieDescriptorSectionScope',0x100f8d18,28),
         ('dllSpieDescriptorScope',0x100f8fc0,28),
