@@ -111,6 +111,8 @@ def capture(study, output):
         0x100089e5: 'dllMessageSpyCreate',
         0x10001334: 'dllMessageSpieGet',0x10008887:'dllMessageSpieCreate',
         0x100acc93:'dllSpieFopen',0x100acbcf:'dllSpieOpenFile',
+        0x100aedf7:'dllSpieMapWin32Error',0x100aede4:'dllSpieDosErrno',0x100aed96:'dllSpieErrorToErrno',
+        0x100ae4cb:'dllSpiePtdLower',0x100ae384:'dllSpiePtdProvider',0x100d0d6b:'dllSpieUnlockDescriptor',0x100d0b5c:'dllSpieSetDescriptorHandle',0x100d19cf:'dllSpieOpenCleanup',0x100acc89:'dllSpieFopenCleanup',0x100bf040:'dllSpieUnlockFile',
         0x100bbf27:'dllSpieInitDescriptorSection',0x100bbf17:'dllSpieFallbackDescriptorSection',
         0x100d0d8d:'dllSpieAllocateDescriptor',0x100d0e60:'dllSpieDescriptorUnlockInit',0x100d0f23:'dllSpieDescriptorUnlockTable',
         0x100d1a2d:'dllSpieSharedOpen',0x100d1931:'dllSpieOpenDispatch',0x100d1122:'dllSpieOpenCore',0x100d44db:'dllSpieFileModeGet',0x100aa49d:'dllSpiePlatformGet',
@@ -150,6 +152,7 @@ def capture(study, output):
             'instruction': f'JMP dword ptr [0x{iat:08x}]', 'import': receipt})
     result['coldImages'] = []
     for label, address, size in [
+        ('dllSpieErrorMap',0x10140bd8,360),('dllSpieApplicationType',0x102f649c,4),
         ('dllSpieDescriptorSectionScope',0x100f8d18,28),
         ('dllSpieDescriptorScope',0x100f8fc0,28),
         ('dllSpieSharedOpenScope',0x100f9048,28),('dllSpieDefaultFileMode',0x102f7048,4),
