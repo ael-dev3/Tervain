@@ -1,0 +1,47 @@
+{
+  "schema": 1,
+  "revision": "cd3c76025cf471980e9ba117c935102148213b1d",
+  "environment": "Native headless Chromium; Vite development modules; isolated temporary browser profile",
+  "url": "http://127.0.0.1:5239/",
+  "scope": "Three module-level diagnostic fixtures. No ordinary rooftop traversal or physical-controller session claimed.",
+  "findings": {
+    "TV-B01": {
+      "fixture": "Real first room footprint with flat zero-height ground; three independent light owners",
+      "building": "reeve_house",
+      "wallTop": 3.6,
+      "aboveY": 23.6,
+      "inside": 0.950212931632136,
+      "aboveRoof": 0.950212931632136,
+      "outside": 0
+    },
+    "TV-B02": {
+      "fixture": "All building JPEG requests return 503 until manifest download/first decode finish; then original fetch is available",
+      "first": 0,
+      "expectedAttempts": 72,
+      "attemptsBefore": 72,
+      "restoredStatus": 200,
+      "restoredBytes": 92082,
+      "retrySame": 0,
+      "retryOther": 0,
+      "attemptsAfter": 72
+    },
+    "TV-B03": {
+      "fixture": "Standard-gamepad polling fixture, not a hardware-controller test",
+      "vertical": {
+        "device": "keyboard",
+        "connected": true,
+        "ry": 1.0000000000000002,
+        "jumpHint": "Space"
+      },
+      "horizontal": {
+        "device": "gamepad",
+        "jumpHint": "LB"
+      }
+    }
+  },
+  "result": "All three reported defects reproduced at this revision",
+  "consoleSummary": {
+    "controlledSurfaceWarnings": 12,
+    "errors": []
+  }
+}
