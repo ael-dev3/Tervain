@@ -2325,7 +2325,7 @@ export class NativeX86ThreadStack {
           this.#numeric(this.#load(this.#bank, this.#reg('ESI')), 4) !== call.args.bytes) throw new Error('Actual nested calloc scalar size and source frame required');
       const incoming = physical.at(-1), outer = physical.at(-2);
       if (!incoming || incoming.site !== '204683dc' || incoming.position !== call.frame + 4 || !outer ||
-          !['2047653f', '2047656d'].includes(outer.site) || outer.site !== call.args.callerSite || outer.position !== call.frame + 0x1c) throw new Error('Actual environment calloc wrapper/caller slots required');
+          !['2047653f', '2047656d', '2047472e', '20474747'].includes(outer.site) || outer.site !== call.args.callerSite || outer.position !== call.frame + 0x1c) throw new Error('Actual environment calloc wrapper/caller slots required');
     } else {
       const p = this.#record(call.words[2]!).provenance;
       if (call.args.flags !== 0 || chain.value.at(-1)?.entry !== '20467c6a' || p?.kind !== 'allocation' || p.offset !== 0 ||
@@ -2717,6 +2717,22 @@ export class NativeX86ThreadStack {
     return address.toString(16).padStart(8, '0');
   }
   resolveGameCinitErrorCallback(controller: object): NativeValue<string> { return this.#run(controller, () => this.#gameCinitErrorCallback(controller)); }
+  resolveGameCppInitializer(controller: object): NativeValue<string> { return this.#run(controller, () => {
+    if (!this.#setEnvpBinding || this.#setEnvpBinding.controller !== controller ||
+        this.#calls.filter(call => !call.returned).at(-1)?.site !== '204678f2' ||
+        gameCinitInstruction('20466654').instruction !== 'CALL EAX') throw new Error('Actual original Game C++ initializer caller required');
+    const memory = this.#memory(this.#load(this.#bank, this.#reg('ESI')), 4);
+    const table = NativeModuleCrtOwner.canonicalImageForOwner(this.#binding!.crt, 'cinitCppInitializerTable');
+    if (!table.known || memory.fields !== table.value || memory.offset < 0 || memory.offset >= 955408 || memory.offset % 4)
+      throw new Error('Actual original C++ initializer table cursor required');
+    const target = this.#load(this.#bank, this.#reg('EAX'));
+    if (target !== this.#currentMemoryWord(memory.fields, memory.offset)) throw new Error('Actual current C++ initializer target word required');
+    const raw = nativeGameImageReceipt('cinitCppInitializerTable').raw;
+    const expected = Number.parseInt(raw.slice(memory.offset * 2, memory.offset * 2 + 8).match(/../g)!.reverse().join(''), 16);
+    const address = this.#numeric(target, 4);
+    if (!expected || address !== expected) throw new Error('Original current Game C++ initializer slot target required');
+    return address.toString(16).padStart(8, '0');
+  }); }
   /** Bridge the independently recovered 20463763 callback to its canonical Game
    * CRT owner. The walker executes original instructions; this callback uses
    * translated TypeScript with the original CALL/RET frame and result. */
@@ -2730,6 +2746,30 @@ export class NativeX86ThreadStack {
     this.#store(this.#bank, this.#reg('EAX'), this.#mint(result.value, 0xffffffff));
     const returned = this.#ret(0), source = this.#record(returned).provenance;
     if (source?.kind !== 'source' || source.type !== 'code' || source.address !== '20466454') throw new Error('Actual C initializer callback return required');
+  }); }
+  /** Translate the existing CRT registration owner; shutdown is not invoked. */
+  registerGameStaticFini(controller: object): NativeValue<void> { return this.#run(controller, () => {
+    const binding = this.#setEnvpBinding;
+    if (!binding || binding.controller !== controller) throw new Error('Actual retained Game startup controller required');
+    const point = NativeGameCrtSetEnvp.canonicalStaticFiniRegistrationForCrt(binding.owner, binding.crt, controller);
+    if (!point.known) throw new Error(point.reason);
+    const pending = this.#calls.filter(call => !call.returned).at(-1);
+    if (pending?.site !== '204678f2' || !this.#calls.some(call => call.site === '20466626' && call.returned))
+      throw new Error('Actual returned C walker and retained cinit caller required');
+    const cursor = this.#address(this.#load(this.#bank, this.#reg('ESP')));
+    const argument = this.#record(this.#load(this.#stack, cursor)).provenance;
+    if (argument?.kind !== 'source' || argument.type !== 'code' || argument.address !== '20473801')
+      throw new Error('Actual pushed static shutdown callback source word required');
+    const table = NativeGameExitTable.forCrt(binding.crt as NativeGameCrtOwner);
+    const callback = table.callbackForMethod('staticFiniWalker');
+    if (!callback.known) throw new Error(callback.reason);
+    this.#call('20466638', '2046663d');
+    const result = table.atexit(callback.value);
+    if (!result.known) throw new Error(result.reason);
+    this.#store(this.#bank, this.#reg('EAX'), this.#mint(result.value >>> 0, 0xffffffff));
+    const returned = this.#ret(0), source = this.#record(returned).provenance;
+    if (source?.kind !== 'source' || source.type !== 'code' || source.address !== '2046663d')
+      throw new Error('Actual original atexit return required');
   }); }
   /** Execute the recovered Game CRT wrapper under its existing owner. The
    * source loop owns CALL/RET; wrapper instruction interpretation is not claimed. */
@@ -3058,7 +3098,20 @@ export class NativeX86ThreadStack {
     // Opaque capabilities establish equality relations, never invented
     // numerical address ordering or sign bits. A minted valid handle is
     // distinct from NULL and the two native invalid-handle sentinels.
-    if (width === 4 && p?.kind === 'module' && q?.kind === 'module' && p.fields.bytes.buffer === q.fields.bytes.buffer) { const ap = p.fields.bytes.byteOffset + p.offset, bp = q.fields.bytes.byteOffset + q.offset; this.#flags((ap < bp ? 1 : 0) | (ap === bp ? 0x40 : 0), 0x41); return; }
+    if (width === 4 && p?.kind === 'module' && q?.kind === 'module') {
+      const crt = this.#binding!.crt;
+      for (const entry of [p, q]) {
+        const fields = NativeModuleCrtOwner.canonicalImageForOwner(crt, entry.label);
+        if (!fields.known || fields.value !== entry.fields) throw new Error('Actual same-Game canonical module comparison required');
+        const access = NativeRuntimePlatform.canonicalGameModuleImageAccessForPlatform(this.#platform, crt, entry.label, entry.offset, 0);
+        if (!access.known) throw new Error(access.reason);
+      }
+      // These are admitted addresses in the retained virtual Game image,
+      // independent of host buffer placement or opaque allocation addresses.
+      const av = Number.parseInt(nativeGameImageReceipt(p.label).address, 16) + p.offset;
+      const bv = Number.parseInt(nativeGameImageReceipt(q.label).address, 16) + q.offset;
+      this.#arithmeticFlags(av, bv, (av - bv) >>> 0, 4, true); return;
+    }
     if (width === 4 && p?.kind === 'platform' && q?.kind === 'platform') {
       this.#flags(p.object === q.object ? 0x40 : 0, 0x40); return;
     }

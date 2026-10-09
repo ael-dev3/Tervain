@@ -1,8 +1,47 @@
 import { describe, expect, it } from 'vitest';
+import { readFileSync } from 'node:fs';
 import { admitGameCinitSource, gameCinitImagePins, gameCinitImageReceipt, gameCinitInstruction }
   from '../../src/gothic3/native-game-crt-cinit-source';
 
 describe('Original Game cinit and PE-check source admission', () => {
+  it('pins the complete original C++ table including its leading null slots', () => {
+    const table = gameCinitImageReceipt('cinitCppInitializerTable');
+    expect(table).toMatchObject({ address: '2056c000', bytes: 955408,
+      sha256: 'b03bdc863cc852e3b14ef05e1082cb8616ce78c63efe3d35e5e80e9dcea40185' });
+    expect(table.raw.slice(0, 65 * 8)).toBe('00'.repeat(65 * 4));
+    expect(table.raw.slice(65 * 8, 66 * 8)).toBe('b0114b20');
+    expect(table.raw.length).toBe(955408 * 2);
+  });
+
+  it('retains shutdown recovery provenance without granting its execution', () => {
+    const source = JSON.parse(readFileSync(new URL('../../assets/gothic3/game-cinit-math-source/source.json', import.meta.url), 'utf8'));
+    const walker = source.module.methods.find((method: { label: string }) => method.label === 'staticFiniWalker');
+    expect(walker).toMatchObject({ entryVA: '0x20473801', bodyRanges: '20473801-20473824',
+      functionCatalogEntryPresent: false, verifiedAgainstOriginalPE: true,
+      recoveryOrigin: 'explicit-contiguous-original-disassembly-extent',
+      bodyInstructionBytesSha256: '986b18c3a8f0645d9c2f415efcb1546abf399932f5f72e07b05dae318cb7f2a4' });
+    expect(walker.instructions).toHaveLength(17);
+    expect(walker.instructions.at(-1)).toMatchObject({ va: '20473824', bytes: 'c3', instruction: 'RET' });
+    expect(source.literals.find((row: { label: string }) => row.label === 'staticFiniTable')).toMatchObject({
+      address: '206e86e0', bytes: 256, raw: '00'.repeat(256),
+      sha256: '5341e6b2646979a70e57653007a1f310169421ec9bdd9f1a5648f75ade005af1' });
+    expect(() => gameCinitInstruction('20473801')).toThrow('No admitted original Game cinit instruction');
+  });
+
+  it('captures the original FILE initializer without claiming runtime execution', () => {
+    expect(gameCinitInstruction('2047472e')).toMatchObject({ bytes: 'e89b3cffff',
+      instruction: 'CALL 0x204683ce', assemblyOrigin: 'supplemental-ghidra-recovery' });
+    expect(gameCinitInstruction('20474747').instruction).toBe('CALL 0x204683ce');
+    expect(gameCinitInstruction('2047478b').instruction).toBe('IMUL EDI,EDI,0x38');
+    expect(gameCinitInstruction('20474790').instruction).toBe('SAR EAX,0x5');
+    expect(gameCinitInstruction('204747bc').instruction).toBe('RET');
+    expect(() => gameCinitInstruction('204747bd')).toThrow();
+    expect(gameCinitImageReceipt('cinitStdioCount')).toMatchObject({ address: '207d29c0', bytes: 4, liveValueCaptured: false });
+    expect(gameCinitImageReceipt('cinitStdioVector')).toMatchObject({ address: '207d1664', bytes: 4, liveValueCaptured: false });
+    expect(gameCinitImageReceipt('cinitStdioFiles')).toMatchObject({ address: '207b2e50', bytes: 640,
+      scope: 'cold-original-image', knownMask: 'ff'.repeat(640), liveValueCaptured: false });
+  });
+
   it('admits the original initializer and both section-check helpers', () => {
     expect(() => admitGameCinitSource()).not.toThrow();
     expect(gameCinitInstruction('204665f4')).toMatchObject({ bytes: '833d8c636b2000',

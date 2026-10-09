@@ -3,6 +3,7 @@ import { NativeHeapObjectViews } from './native-heap-views';
 import type { NativeMemoryBacking } from './native-memory-admin';
 import type { NativeBytePointer } from './native-pointer-geometry';
 import { NativeGameCrtOwner } from './native-game-crt';
+import { gameCinitStaticFiniReceipt } from './native-game-crt-cinit-source';
 
 const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
 const unknown = <T>(reason: string): NativeValue<T> => ({ known: false, reason });
@@ -54,7 +55,7 @@ export class NativeGameExitTable {
     if (this.boundary) return unknown(this.boundary);
     const old = this.callbacks.get(label);
     if (old) return known(old);
-    const method = this.crt.sourceProfile.heapRules.methods[label];
+    const method = label === 'staticFiniWalker' ? gameCinitStaticFiniReceipt() : this.crt.sourceProfile.heapRules.methods[label];
     const entryChain = (method as typeof method & { readonly entryChain?: readonly {
       readonly va: string; readonly bytes: string; readonly targetVA: string;
     }[] } | undefined)?.entryChain;
@@ -207,7 +208,8 @@ export class NativeGameExitTable {
     }
     if (callback !== null) {
       const receipt = callbackOwners.get(callback);
-      const method = receipt && this.crt.sourceProfile.heapRules.methods[receipt.label];
+      const method = receipt && (receipt.label === 'staticFiniWalker' ? gameCinitStaticFiniReceipt()
+        : this.crt.sourceProfile.heapRules.methods[receipt.label]);
       if (!receipt || receipt.crt !== this.crt || receipt.entry !== callback.entry || receipt.entry !== method?.entry ||
           receipt.body !== method?.body || receipt.hash !== method?.bodyInstructionBytesSha256 || callback.module !== 'Game') {
         return unknown('Callback must be this Game CRT owner’s admitted pinned function capability');

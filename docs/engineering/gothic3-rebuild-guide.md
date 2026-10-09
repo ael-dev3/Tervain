@@ -11,6 +11,27 @@ continuations exist. Complete engine startup, live world activation and campaign
 integration remain unfinished. The hosted route does not yet demonstrate a
 finishable campaign.
 
+## How the rebuild works
+
+The work has three connected parts: recover the original assets, reconstruct
+engine behavior from the matching native binaries, and connect that behavior to
+browser gameplay. TypeScript supplies the runtime; the original files supply
+the evidence for what it must do.
+
+```text
+Local Gothic 3 installation and matching DLLs
+    -> inventory, extract and record original paths and hashes
+    -> export browser assets and capture native instructions
+    -> implement the next supported runtime operation in TypeScript
+    -> validate its state changes and connect it to the browser
+    -> publish a reviewed checkpoint at /gothic3/
+    -> continue until a campaign can be played, saved and finished
+```
+
+This is an incremental reconstruction. Decompiled output is reference material;
+it is not a complete TypeScript game generated automatically from the DLLs.
+Each checkpoint records exactly what executes and where execution next stops.
+
 ## 1. Record the original inputs
 
 The reference installation is
@@ -72,7 +93,7 @@ Game startup continuations are connected to the browser startup stack.
 | --- | --- | --- |
 | Assets | Selected readers and viewers expose original world, tree and human resources for inspection. | Complete coverage and in-game visual fidelity. |
 | SharedBase startup | The supported absent-`zSpie.txt` profile returns `1` from the direct DLL entry after logging and callback dispatch. | Surrounding CRT wrapper, additional profiles and live Game integration. |
-| Game startup | Merged code executes the PE protection check, math initializer and pointer loop. The locally validated C walker initializes the exit table and reaches `20466452 -> 20469f3a` on the browser's retained stack. | Remaining initializer callbacks and complete engine attachment. |
+| Game startup | Merged code executes through the SSE and multibyte C callbacks. The locally validated FILE continuation completes all five C callbacks and reaches `20466638 -> 204637ce` on the browser's retained stack. | Atexit registration, later startup dependencies and complete engine attachment. |
 | Campaign | The separate browser route can display the reconstructed Ardea scene. | Connected world/NPC activation, quest progression, campaign saves and a playthrough to an ending. |
 
 The Game PE checkpoint passed 3,082 tests, typechecking, source regeneration and
@@ -131,8 +152,8 @@ callback's already-initialized multibyte state from argv. It reaches
 `20466452 -> 2047470c`, the FILE-table initializer. All 67 focused checks across
 four files pass, typechecking passes and both generated source outputs reproduce
 byte for byte. At that revision, all 3,098 tests across 284 files passed in
-356.87 seconds with a 30-second per-test allowance. Build and browser verification
-remain pending. Fixed-ID and absent-SSE2 profiles return zero through original branches;
+356.87 seconds with a 30-second per-test allowance. Subsequent integrated build
+and browser results are recorded below. Fixed-ID and absent-SSE2 profiles return zero through original branches;
 undeclared CPU, missing CPUID leaf and SIMD-exception profiles retain the actual
 interrupted frame and earlier exit allocation. These results do not establish
 native exception dispatch, complete startup, NPC activation or campaign play.
@@ -150,7 +171,61 @@ attached. All 3,123 tests across 287 files passed in 390.38 seconds on the
 combined runtime, with a 30-second per-test allowance. Its newer
 main Pages run `37891214623` supersedes cancelled walker run `37890987247` and
 completed successfully for main `03e7cb02aa6b5a0064124b879c7359f5101d713b`.
-No deployment rerun was requested. The local SSE continuation is not yet published.
+No deployment rerun was requested. The SSE continuation subsequently merged through
+[PR #188](https://github.com/ael-dev3/Tervain/pull/188) as
+`586377b3212f1a8d8bac234745b0db72dd5c99a5` after CI run `37892602492` passed.
+Pages run `37893245041` completed successfully for this revision.
+
+The next source checkpoint, `0d1fb9cb`, captures the FILE-table initializer at
+`2047470c`: 69 instructions verified against the original Game PE and cold
+receipts for the count, pointer vector and twenty FILE records. Six source checks
+and typechecking pass, and independent regeneration matches JSON and TypeScript
+byte for byte. This callback still needs runtime execution on the existing heap
+and I/O descriptor graph. Its capture does not advance the browser frontier.
+
+Subsequent local runtime work executes that initializer on the retained Game
+heap and descriptor graph, then executes the fifth C callback and returns from
+the C walker. Focused execution reaches `20466638 -> 204637ce`, the original
+atexit registration call. All 74 focused checks across four files pass,
+typechecking passes and the production build passes in 34.06 seconds. Count
+profiles check the original default/clamp branches, FILE aliases, zeroed unused
+entries, unknown physical allocation padding and prevention of replay.
+Production browser verification entered Ardea with 202 scene objects, 70
+character resources and HP 100, and reached the same atexit boundary after
+2,359 startup operations. NPC activation still stops at the unconnected
+ScriptAdmin getter with 0/16 property sets attached. All 3,130 tests across
+287 files passed in 380.66 seconds with a 30-second per-test allowance.
+These results do not establish complete startup or campaign play.
+
+Integration revision `bc1dc060` incorporates main
+`64af8d5f6be1734c124bb1b8c1d3cbc3f5eb2339`, including externally merged
+[PR #189](https://github.com/ael-dev3/Tervain/pull/189). Its four changed paths
+concern Tervain riding and saves. All seven squash-history conflict paths were
+verified identical between main and the reviewed PR #188 head before preserving
+the local continuation. Integration changed no Gothic runtime, source evidence,
+generators or checks. Combined-revision validation passed: 85 focused checks
+across five files (including riding), typechecking and a production build in
+28.79 seconds. The full-suite and browser observations above apply to the Gothic
+runtime preserved unchanged by this integration.
+
+The FILE continuation merged through [PR #190](https://github.com/ael-dev3/Tervain/pull/190)
+as `b2c6524392bcb60e8f6b307868a72bc8d87042ad` after successful CI run
+`37894880852`. Its Pages run `37895942991` completed successfully.
+
+Further local revision `5481b8fa` registers the original static shutdown callback
+through the existing Game exit-table owner, preserving CALL/RET and source
+argument cleanup. It admits the full original C++ initializer table and traverses
+65 leading null entries to `20466654 -> 204b11b0`. The callback requires the
+gCLayerBase property-type factory, whose native behavior remains unfinished.
+All 53 focused checks across three files, typechecking and source regeneration
+pass; the production build passed in 40.69 seconds. A production browser entered
+Ardea with 202 scene objects, 70 character resources and HP 100, observing
+`20466654 -> 204b11b0` after 2,759 startup operations. NPC activation remains
+incomplete at the ScriptAdmin getter with 0/16 property sets attached. All 3,135
+tests across 287 files passed in 422.29 seconds with a 30-second per-test allowance.
+Reconciliation revision `503de5e2` incorporates merged main `b2c65243`; all eight
+conflict paths matched the reviewed PR #190 head, and reconciliation changed no
+runtime, evidence, generator or check. The hosted campaign is still unfinished.
 
 Independent review of PR #187 decoded all 9,147 buffer views in its 107 changed
 GLBs against the previous revision: geometry, images and semantic metadata
