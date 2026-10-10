@@ -634,7 +634,7 @@ export class WorldScene {
       this.sky.sun.shadow.updateMatrices(this.sky.sun);
       shadowFrustum = this.sky.sun.shadow.getFrustum();
     }
-    const frame: FrameContext = { time: this.time, camera, focus, nightness: night, sunDir: this.sky.state.sunDir, shadowFrustum, reducedMotion: reduced, hour, view: v, quality: settings.quality, wildlifeActive };
+    const frame: FrameContext = { time: this.time, camera, focus, nightness: night, sunDir: this.sky.state.sunDir, shadowFrustum, reducedMotion: reduced, hour, view: v, quality: settings.quality, treeDetailByDistance: settings.treeDetailByDistance, wildlifeActive };
     this.animals.setRunning(wildlifeActive);
     this.animals.syncHunting(state.hunting);
     this.animals.setReduceEffects(settings.reduceEffects);

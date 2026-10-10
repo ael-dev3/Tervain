@@ -326,6 +326,7 @@ export class App {
     }
     this.hud.show(q.get('hud') !== '0');
     if (q.has('fps')) { this.settings.showFps = true; this.applyUiSettings(); }
+    if (q.has('treelod')) this.settings.treeDetailByDistance = q.get('treelod') !== '0';
     // `?shot=1&bench=1`: run the benchmark route at once; the report is logged as `TERVAIN_BENCH {json}` (A76).
     if (q.has('bench')) this.startBenchmark();
     document.title = 'READY';
@@ -1025,7 +1026,7 @@ export class App {
         }
         this.present(alpha);
         const sample = this.perf?.end(interval * 1000);
-        if (sample && this.bench.active) this.bench.samples.push({ segment: Math.floor(this.cam.benchT), sample });
+        if (sample && this.bench.active && !this.menuBackgroundActive) this.bench.samples.push({ segment: Math.floor(this.cam.benchT), sample });
       } catch (e) {
         console.error(e);
       }
@@ -2575,6 +2576,9 @@ export class App {
   }
 
   private stepBenchmark(dt: number) {
+    // The route measures the world: a panel opened over it (the pause menu when the window lost focus at load) would put
+    // the menu's backdrop in its place, so the benchmark keeps the screen (A76).
+    if (this.panels.isOpen) this.panels.closeAll();
     const done = this.cam.bench(dt);
     if (done) {
       this.cam.mode = 'follow';

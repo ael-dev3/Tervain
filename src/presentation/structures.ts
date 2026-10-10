@@ -22,7 +22,9 @@ export const TINT = {
   stone: 0xd6cec2,
   stoneDark: 0x9a9388,
   plaster: 0xe2d9c6,
-  iron: 0x77726a,
+  // A76: forged iron reads near-black with a dull sheen; the old light grey read as plastic close up.
+  iron: 0x57514a,
+  frame: 0xa89884,
   rust: 0x8a6a4a,
   rope: 0xb4a07a,
   cloth: 0xd6ccb4,
@@ -127,7 +129,8 @@ export function slab(B: Batch, w: number, h: number, d: number, y0: number, tint
  */
 export function timberFrame(R: Region, rnd: Rnd, w: number, d: number, h: number, y0: number, gap?: FaceGap) {
   const B = R.timber;
-  const t = TINT.woodDark;
+  // A76: smoked oak, dark but brown with its grain readable close up (woodDark read as black).
+  const t = TINT.frame;
   // How far out from the wall's face the frame's timbers stand (A75): set 3 cm out they sank 6 cm into the plaster, and the
   // mid rail showed through inside the rooms as a thin dark line across the walls. Now they lie wholly on the face.
   const OUT = 0.09;

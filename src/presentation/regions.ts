@@ -51,7 +51,10 @@ export class MaterialSet {
     tex('bronze', { normal: 0.65, rough: 0.87, metal: 0.6 });
     this.map.set('vc', new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.88, metalness: 0 }));
     // Forged, oxidised iron on hinges/hoops should retain broad dark values in hard coastal light.
-    this.map.set('metal', new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.85, metalness: 0.28 }));
+    // A76: hammered relief from the bronze fittings' surface, so straps and hinges are not smooth plastic close up.
+    const metal = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.8, metalness: 0.32, normalMap: makeTexPair('bronze', size, 8).normal });
+    metal.normalScale.set(0.9, 0.9);
+    this.map.set('metal', metal);
     this.map.set('leaf', new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.95, metalness: 0, side: THREE.DoubleSide }));
     const paneTex = makePaneTexture();
     this.disposables.push(paneTex);
@@ -86,6 +89,9 @@ export class MaterialSet {
       m.normalMap = pair.normal;
       m.needsUpdate = true;
     }
+    const metal = this.map.get('metal') as THREE.MeshStandardMaterial;
+    const relief = makeTexPair('bronze', this.size, 8).normal;
+    if (metal.normalMap !== relief) { metal.normalMap = relief; metal.needsUpdate = true; }
   }
 
   dispose() {

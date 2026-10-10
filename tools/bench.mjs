@@ -14,6 +14,7 @@
  * --url        the served build (default http://127.0.0.1:4173/)
  * --out        where to write the JSON report (default bench-<quality>-<time>.json)
  * --quick      half a second a segment instead of six (a functional check, e.g. software rendering)
+ * --treelod    with High's opt-in lighter distant trees (Settings → Lighter distant trees)
  * --runs N     repeat the route N times in one session (default 1); the first lap includes shader compiles
  */
 import fs from 'node:fs';
@@ -31,7 +32,7 @@ const runs = Number(arg('runs', '1'));
 const bench = process.argv.includes('--quick') ? 'quick' : '1';
 const out = arg('out', `bench-${quality}-${new Date().toISOString().replace(/[:.]/g, '-')}.json`);
 
-const page = await openPage(`${url}?shot=1&place=landing&hour=11&hud=1&fps=1&quality=${quality}&settle=30&bench=${bench}`, { w, h, headed });
+const page = await openPage(`${url}?shot=1&place=landing&hour=11&hud=1&fps=1&quality=${quality}&settle=30&bench=${bench}${process.argv.includes('--treelod') ? '&treelod=1' : ''}`, { w, h, headed });
 const reports = [];
 try {
   for (let i = 0; i < 1200; i++) {

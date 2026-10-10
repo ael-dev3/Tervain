@@ -9,6 +9,7 @@ import { observeModelLoad, withModelLoadSlot, type ModelLoadProgress } from './a
 import { downloadAsset } from './assets/download';
 import type { FrameContext, SceneModule } from './context';
 import { roughnessFloor } from './matte';
+import { clutterGeometry, clutterMaterial, clutterOnPiece, type ClutterKind } from './clutter';
 
 /**
  * The rooms' furniture, drawn (A66): the prepared Meshy pieces in public/models/furniture, placed as world/furniture.ts
@@ -123,6 +124,34 @@ export function buildFurniture(templates: FurnitureTemplates, rooms: RoomLocator
     group.add(mesh);
     meshes.push({ mesh, instances, shown: '' });
   }
+  // The small things on the tables, counters, desks, workbenches and chests (A76): the same spots on every piece of a
+  // kind, a few left empty and each turned its own way, by a hash of where the piece stands.
+  const byClutter = new Map<ClutterKind, Instance[]>();
+  const place = new THREE.Matrix4(), turn = new THREE.Quaternion();
+  for (const [id, instances] of byPiece) {
+    const template = templates.get(id);
+    if (!template) continue;
+    const items = clutterOnPiece(id, template, FURNITURE_SIZES[id]);
+    for (const [n, instance] of instances.entries()) for (const [k, item] of items.entries()) {
+      const seed = Math.abs(Math.sin((instance.centre.x * 12.99 + instance.centre.y * 78.23 + n * 37.7 + k * 11.3)) * 43758.55) % 1;
+      if (seed < 0.25) continue;
+      turn.setFromAxisAngle(up, seed * 40);
+      place.compose(item.at, turn, one);
+      const list = byClutter.get(item.kind) ?? [];
+      list.push({ room: instance.room, centre: instance.centre, matrix: instance.matrix.clone().multiply(place) });
+      byClutter.set(item.kind, list);
+    }
+  }
+  for (const [kind, instances] of byClutter) {
+    const mesh = new THREE.InstancedMesh(clutterGeometry(kind), clutterMaterial(kind), instances.length);
+    mesh.name = `Furniture / clutter ${kind}`;
+    mesh.castShadow = false;
+    mesh.receiveShadow = true;
+    mesh.count = 0;
+    mesh.userData.ownsResources = true;
+    group.add(mesh);
+    meshes.push({ mesh, instances, shown: '' });
+  }
   let drawn = 0, triangles = 0;
   const camera = new THREE.Vector2(), focus = new THREE.Vector2();
   // The rooms that have furniture, in a fixed order; their visibility is checked once a frame and the instances rewritten
@@ -162,12 +191,15 @@ export function buildFurniture(templates: FurnitureTemplates, rooms: RoomLocator
           mesh.visible = n > 0;
         }
         drawn += mesh.count;
-        triangles += mesh.count * (mesh.geometry.index?.count ?? 0) / 3;
+        triangles += mesh.count * (mesh.geometry.index?.count ?? mesh.geometry.getAttribute('position').count) / 3;
       }
     },
     stats: () => ({ furniture: drawn, furnitureTris: triangles }),
     dispose() {
-      for (const { mesh } of meshes) mesh.dispose();
+      for (const { mesh } of meshes) {
+        mesh.dispose();
+        if (mesh.userData.ownsResources) { mesh.geometry.dispose(); (mesh.material as THREE.Material).dispose(); }
+      }
       const card = meshes.find(({ mesh }) => mesh.name === 'Furniture / floor shadows')?.mesh;
       if (card) { card.geometry.dispose(); (card.material as THREE.MeshBasicMaterial).map?.dispose(); (card.material as THREE.Material).dispose(); }
     },

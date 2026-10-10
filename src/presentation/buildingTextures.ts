@@ -124,7 +124,7 @@ function plaster(n: number): [Field, number] {
   for (let o = 0; o < n * n; o++) {
     const edge = cr.f2[o]! - cr.f1[o]!;
     const crack = (1 - sstep(0.0, 0.006, edge)) * sstep(0.72, 0.86, low[o]!) * sstep(0.5, 0.7, mid[o]!);
-    let c = mixc([0.60, 0.565, 0.49], [0.70, 0.665, 0.585], clamp01(low[o]! * 0.6 + fine[o]! * 0.15 + (mid[o]! - 0.5) * 0.5));
+    let c = mixc([0.60, 0.565, 0.49], [0.70, 0.665, 0.585], clamp01(0.5 + (low[o]! - 0.5) * 0.45 + (fine[o]! - 0.5) * 0.3 + (mid[o]! - 0.5) * 0.2));
     c = [c[0] * (1 - crack * 0.22), c[1] * (1 - crack * 0.22), c[2] * (1 - crack * 0.22)];
     set(f, o, c, clamp01(0.6 + (mid[o]! - 0.5) * 0.06 + fine[o]! * 0.02 - crack * 0.03));
   }

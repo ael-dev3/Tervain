@@ -582,6 +582,8 @@ export const EN: Record<string, string> = {
   'set.guidance': 'Show suggested next step',
   'set.fps': 'Show frame timing',
   'set.framecap': 'Limit to 60 frames a second',
+  'set.treelod': 'Lighter distant trees (High)',
+  'set.treelod.desc': 'On High, trees beyond about 150 m use their lighter models, as on Medium. Off keeps every tree in full detail.',
   'set.framecap.desc': 'Keeps a fast display from working the graphics card harder than the game needs.',
   'set.barks': 'Show ambient remarks',
   'set.captions': 'Captions for important sounds',
