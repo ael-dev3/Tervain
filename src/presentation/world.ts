@@ -418,6 +418,8 @@ export class WorldScene {
     this.letIn = resources.letIn;
     this.interiorLight = new InteriorLight(this.terrain.rooms);
     this.windowView = new WindowView(this.terrain.rooms, this.scenery.daylightMat);
+    // The window views draw the trees with their middle models, as the water's reflection does (A77).
+    this.windowView.lighten = () => (this.modules.find((m) => m.name === 'forest')?.module as { lighterForReflection?: () => () => void } | undefined)?.lighterForReflection?.() ?? (() => {});
     this.doorSwings = new DoorSwings(this.scenery.doors ?? []);
     this.scene.add(this.interiorLight.light);
     this.skyFill = this.scene.environmentIntensity;
