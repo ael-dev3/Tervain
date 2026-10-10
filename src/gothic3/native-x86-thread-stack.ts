@@ -201,7 +201,7 @@ export class NativeX86ThreadStack {
   #engineArgvExecuting=false;
   #engineArgvCallerTested=false;
   #engineSetenvpCallerTested=false;
-  #engineCinitFrame:{crt:NativeModuleCrtOwner;bootstrap:NativeCrtBootstrap;pc:string;entryEsp:number;images:NativeEngineCinitImages;operations:number}|null=null;
+  #engineCinitFrame:{crt:NativeModuleCrtOwner;bootstrap:NativeCrtBootstrap;pc:string;entryEsp:number;images:NativeEngineCinitImages;operations:number;floatConversionWritten:boolean}|null=null;
   #engineSetenvpFrame:{crt:NativeModuleCrtOwner;bootstrap:NativeCrtBootstrap;phase:'running'|'blocked'|'returned';pc:string;boundary:string|null;operations:number;input:NativeBytePointer|null;cursor:number;entries:number;strlenCalls:number;vectorSlots:number|null;vector:NativeHeapObjectViews|null;vectorPublished:boolean;vectorReleased:boolean;vectorCleared:boolean;inputReleased:boolean;inputCleared:boolean;readyPublished:boolean;strings:NativeHeapObjectViews[];filledEntries:number;images:NativeEngineSetenvpImages;result:0|-1|null}|null=null;
   static enterEngineSetenvpForBootstrap(stack:NativeX86ThreadStack,bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object):NativeValue<0|-1>{
     const reached=NativeCrtBootstrap.engineSetenvpInputForCrt(bootstrap,crt,permit);if(!reached.known)return reached;
@@ -358,7 +358,7 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
       const images=NativeEngineCinitImages.forCrt(crt);if(!images.known)throw new Error(images.reason);
       stack.#physical(stack.#stack);stack.#physical(stack.#bank);
       const entryEsp=stack.#address(stack.#load(stack.#bank,stack.#reg('ESP')));
-      stack.#engineCinitFrame={crt,bootstrap,pc:'30677288',entryEsp,images:images.value,operations:0};
+      stack.#engineCinitFrame={crt,bootstrap,pc:'30677288',entryEsp,images:images.value,operations:0,floatConversionWritten:false};
       stack.#push(stack.#mint(0,0xffffffff));stack.#trace.push('30677288.EngineCinitCallerPush');stack.#engineCinitFrame.operations++;
       stack.#call('3067728a','3067728f');stack.#trace.push('3067728a.EngineCinitCallerCall');stack.#engineCinitFrame.operations++;
       stack.#engineCinitFrame.pc='3067d1c7';
@@ -380,7 +380,7 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
       stack.#store(stack.#bank,stack.#reg('EAX'),stack.#mint(readonly.value,0xffffffff));
       stack.#store(stack.#bank,stack.#reg('ECX'),stack.#mint(0,0));stack.#store(stack.#bank,stack.#reg('EDX'),stack.#mint(0,0));stack.#flags(0,0);
       stack.#ret();
-      const step=(pc:string,body:()=>void)=>{engineCinitInstruction('3067d1c7',pc);stack.#engineCinitFrame!.pc=pc;body();stack.#trace.push(pc+'.EngineCinitSource');stack.#engineCinitFrame!.operations++;};
+      const step=(pc:string,body:()=>void,entry='3067d1c7')=>{const live=NativeCrtBootstrap.canonicalEngineCinitCallForCrt(bootstrap,crt,permit);if(!live.known)throw new Error(live.reason);engineCinitInstruction(entry,pc);stack.#engineCinitFrame!.pc=pc;body();stack.#trace.push(pc+'.EngineCinitSource');stack.#engineCinitFrame!.operations++;};
       step('3067d1da',()=>stack.#logicalFlags(readonly.value,0xffffffff,4));
       step('3067d1dc',()=>{const esp=stack.#address(stack.#load(stack.#bank,stack.#reg('ESP')));stack.#store(stack.#bank,stack.#reg('ECX'),stack.#load(stack.#stack,esp));stack.#store(stack.#bank,stack.#reg('ESP'),stack.#stackWord(esp+4));});
       step('3067d1dd',()=>{});
@@ -388,10 +388,21 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
       step('3067d1df',()=>{const esp=stack.#address(stack.#load(stack.#bank,stack.#reg('ESP')));stack.#push(stack.#load(stack.#stack,esp+4));});
       step('3067d1e3',()=>stack.#call('3067d1e3','3067d1e9'));
       stack.#engineCinitFrame.pc=callback.target;
+      step('30671672',()=>stack.#call('30671672','30671677'),'30671672');
+      const table=NativeEngineCinitImages.imageForCrt(images.value,crt,'floatConversionPointers');if(!table.known)throw new Error(table.reason);
+      step('30671602',()=>stack.#store(stack.#bank,stack.#reg('EAX'),stack.#source('code','3067f56c')),'30671602');
+      for(const [pc,offset,target] of [
+        ['30671607',0,null],['3067160c',4,'3067ec11'],['30671616',8,'3067ebcf'],
+        ['30671620',12,'3067ec03'],['3067162a',16,'3067eb79'],['30671634',20,null],
+        ['30671639',24,'3067f4e6'],['30671643',28,'3067eb8f'],['3067164d',32,'3067eaf9'],['30671657',36,'3067ea88'],
+      ] as const){step(pc,()=>{const live=NativeEngineCinitImages.imageForCrt(images.value,crt,'floatConversionPointers');if(!live.known||live.value!==table.value)throw new Error('Retained Engine float conversion table required');stack.#store(table.value,offset,target?stack.#source('code',target):stack.#load(stack.#bank,stack.#reg('EAX')));},'30671602');}
+      step('30671661',()=>stack.#ret(),'30671602');stack.#engineCinitFrame.floatConversionWritten=true;
+      step('30671677',()=>stack.#call('30671677','3067167c'),'30671672');
+      stack.#engineCinitFrame.pc='3067f611';
       return known(undefined);
     }catch(error){return unknown(reason(error));}
   }
-  engineCinitFrameSnapshot(crt:NativeModuleCrtOwner){const f=this.#engineCinitFrame;if(!f||f.crt!==crt)return null;return Object.freeze({pc:f.pc,entryEsp:f.entryEsp,images:f.images,operations:f.operations,bank:this.#bank,stack:this.#stack});}
+  engineCinitFrameSnapshot(crt:NativeModuleCrtOwner){const f=this.#engineCinitFrame;if(!f||f.crt!==crt)return null;const table=NativeEngineCinitImages.imageForCrt(f.images,crt,'floatConversionPointers');const floatPointers=f.floatConversionWritten&&table.known?Object.freeze(Array.from({length:10},(_,i)=>this.#record(this.#load(table.value,i*4)))):null;return Object.freeze({pc:f.pc,entryEsp:f.entryEsp,images:f.images,operations:f.operations,floatConversionWritten:f.floatConversionWritten,floatPointers,bank:this.#bank,stack:this.#stack});}
   static testEngineSetenvpReturnForBootstrap(stack:NativeX86ThreadStack,bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object):NativeValue<'30677288'|'3067729f'>{
     const reached=NativeCrtBootstrap.canonicalEngineSetenvpCallerForCrt(bootstrap,crt,permit);if(!reached.known)return reached;
     try{
