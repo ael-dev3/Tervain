@@ -4,6 +4,15 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local checkpoint — 10 October 2026: Engine argument multibyte dependencies
+
+The argument evidence now includes the wrapper's nested multibyte setup and
+three immediate helper bodies. The package contains eight methods, 631 original
+instructions and 1,829 instruction bytes. Original PE verification and independent
+byte-identical regeneration pass. Deeper thread, locale, allocation and lock calls
+remain dependencies to recover; capturing these bodies does not execute them.
+The argument parser and complete browser campaign remain unfinished.
+
 ## Local checkpoint — 10 October 2026: Next Engine argument setup evidence
 
 The next startup function at `3068e76f` is now captured with its two-pass parser,

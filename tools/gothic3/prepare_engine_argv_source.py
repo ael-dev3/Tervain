@@ -12,6 +12,10 @@ def capture(study):
         0x3068e76f: 'engineArgumentSetup',
         0x3068e5d7: 'engineArgumentParser',
         0x30685007: 'engineArgumentMultibyteDependency',
+        0x30684e6d: 'engineArgumentMultibyteSetup',
+        0x30684b3a: 'engineArgumentMultibyteHelper30684b3a',
+        0x30684bde: 'engineArgumentMultibyteHelper30684bde',
+        0x30684c58: 'engineArgumentMultibyteHelper30684c58',
         0x3067c9c1: 'engineArgumentMallocCrt',
     })
     pe = PE((study / '00_Original_Runtime/Engine.dll').read_bytes())
@@ -38,6 +42,7 @@ def capture(study):
                 raw=caller.hex(), sha256=hashlib.sha256(caller).hexdigest()),
                 runtimeConnected=False,
                 notes=['Original module filename and two-pass command-line argument setup.',
+                       'Multibyte setup has additional thread, locale, allocation and lock dependencies.',
                        'Capture alone does not establish execution, allocation or returned argv.'])
 
 
