@@ -11793,3 +11793,27 @@ seconds), TypeScript checking and a production build. Source JSON, TypeScript
 admission and the Game comparison independently regenerate byte-identically.
 CPInfo padding, changed or unknown original table entries and rejection after
 actual output writes are covered. Full-suite validation is a separate gate.
+
+### 10 October 2026: Engine single-byte MBC fields (local checkpoint)
+
+The memset call now returns through its retained cdecl caller after clearing
+exactly 257 bytes in the actual Engine-owned allocation. Its captured body is
+translated as a bounded memory effect, not reported as CPU-dispatch instruction
+execution. Interruption keeps completed writes and the pending caller. The
+original single-byte branch stores code page 1252 and clears the related record
+fields before issuing `30684dc7 -> 306849b0`, the case-table routine, after 354
+admitted operations.
+
+Continuing to the CPInfo read exposed a stale stack expression after the API's
+owned output write. A private current-call writer now invalidates exactly the
+root stack slots that GetCPInfo overwrites; unrelated unowned changes still fail
+normal stack proofs. Fake or replayed grants cannot authorize writes. The earlier
+initializer checkpoint passed 3,331 full-suite tests in 313 files (539.32 seconds).
+This continuation passed 56 focused checks in four files (16.24 seconds), including
+partial memset writes, direction changes, the double-byte branch and exact span
+bounds. The complete campaign remains unfinished.
+
+The single-byte checkpoint also passed TypeScript checking and a production
+build. Source JSON, TypeScript admission and the Game comparison independently
+regenerate byte-identically. Its full-suite validation is separate from the
+preceding initializer checkpoint.

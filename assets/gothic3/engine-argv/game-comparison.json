@@ -1,6 +1,6 @@
 {
   "schema": "gothic3.engine-game-argv-comparison.v1",
-  "engineReceiptSha256": "7cb49a220a57e30194edd80dfe13496cf7b94dd0a6fe8554abb25b357e6842e9",
+  "engineReceiptSha256": "fdaebe91d7ce4ead6c116a591caed3ab0ad95b68b6eb5f3021a9d980f9cb12e0",
   "gameReceiptSha256": "e72aedd63e30c1b5ca485cf368a58f4a13ed627fc589b29d445d79ef776ff504",
   "comparisons": [
     {

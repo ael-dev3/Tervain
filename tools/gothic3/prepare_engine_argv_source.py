@@ -21,6 +21,8 @@ def capture(study):
         0x3067e12b: 'engineMultibyteGetPtdWrapper',
         0x30684bd5: 'engineMultibyteLocaleUnlock',
         0x30673389: 'engineCodepageLocaleUpdate',
+        0x30671690: 'engineMbcMemset',
+        0x306849b0: 'engineMbcCaseTables',
     })
     pe = PE((study / '00_Original_Runtime/Engine.dll').read_bytes())
     caller = pe.bytes(0x30677276, 5)
