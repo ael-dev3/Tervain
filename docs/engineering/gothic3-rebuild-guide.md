@@ -151,14 +151,24 @@ exactly 512 output bytes and reaches the conversion output call at `306915f8`
 after 1557 admitted operations. All 3352 tests across 313 files passed, and its
 Pages deployment succeeded.
 
-The newer local continuation fills the Unicode output and character types,
-returns through the original buffer cleanup and cookie check, releases its
-classification locale ownership and enters the case-mapping wrapper. It reaches
-`3067c94a -> 3067c57c` after 1660 admitted operations. The preceding output and
-classification-return checkpoints passed 3354 and 3355 tests respectively. The
-mapping wrapper passed 64 Engine frame tests and its production build;
-independent evidence regeneration is byte-identical. Its full suite is running.
-This newer continuation is awaiting publication. Case mapping, MBC publication,
+[PR #228](https://github.com/ael-dev3/Tervain/pull/228) fills Unicode output and
+character types, returns through buffer cleanup and cookie checking, releases
+classification locale ownership and enters the first case-mapping wrapper. It
+reaches `3067c94a -> 3067c57c` after 1660 admitted operations. Its full suite passed
+3356 tests across 313 files, and its Pages deployment succeeded.
+
+The newer local continuation probes the Unicode mapping API, scans the actual
+byte input, queries its conversion length and reserves separate input and mapped
+stack buffers through the original alignment and page-probe helpers. It converts
+the input to Unicode, queries mapped length and writes the declared lower-case
+Unicode results. It reaches narrowing preparation at `3067c779` after 3382
+admitted operations. Its full suite is running. Earlier probe, scan and buffer
+checkpoints passed 3357, 3359 and 3361 tests respectively. The latest focused
+checks, complete output-span and interruption checks, and production build
+passed. Independent source regeneration is byte-identical. This newer
+continuation is awaiting publication.
+
+Narrowing, cleanup and return, the second case-table mapping, MBC publication,
 complete startup and campaign integration remain unfinished.
 
 Complete startup, world activation and a new-game-to-ending campaign remain
