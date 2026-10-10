@@ -6,7 +6,7 @@ Rebuild Gothic 3 in TypeScript on Tervain's separate `/gothic3/` route. Completi
 means starting a new game, progressing through the campaign, saving and reloading,
 and reaching an ending through ordinary browser play.
 
-As of 9 October 2026, asset readers, viewers and selected native runtime
+As of 10 October 2026, asset readers, viewers and selected native runtime
 continuations exist. Complete engine startup, live world activation and campaign
 integration remain unfinished. The hosted route does not yet demonstrate a
 finishable campaign.
@@ -46,11 +46,34 @@ Each feature goes through the following steps:
 
 **Current local boundary:** Arena Status, None, Running, AI FreePoint, Label
 and AI helper administrator initialization return through the retained startup
-stack. Startup enters PropertyID initializer `204b26c0` and reaches its unsupported
-factory object-query CALL at `100905e9`.
+stack. PropertyID initializer `204b26c0` returns. Accessor-creator initializer
+`204b2720` resolves the registered AI helper type and returns its canonical
+factory through the original virtual accessor. The committed checkpoint
+`d39187ab3` stops at the factory object-query CALL at `100905e9`.
 Complete startup, world activation and a new-game-to-ending campaign remain
 unfinished. Local checkpoints and the hosted version can differ; the validation
 receipts below identify the checkpoint covered.
+
+## What a rebuilding checkpoint contains
+
+Each checkpoint should let another developer follow the same evidence:
+
+- **Inputs:** installed resource paths and hashes of the DLLs or archives used.
+- **Recovered behavior:** original callers, instruction bytes, object layouts,
+  imports and the next unsupported operation.
+- **Implementation:** the TypeScript owner of each live object, its allocation
+  and cleanup rules, and the browser integration that uses it.
+- **Reproduction:** evidence-generation commands, relevant validation receipts
+  and the revision covered by each receipt.
+- **Publication:** the reviewed revision and deployment receipt, with a clear
+  statement of the behavior observed in the hosted browser.
+
+Decompilation supplies research material. Rebuilding requires translating that
+behavior and supplying browser equivalents for the native platform services.
+Recovered model geometry also needs materials, texture transparency, skeletons
+and animation before it can reproduce the appearance of the original game.
+The final integration must connect these resources to live world entities,
+NPC decisions, dialogue, combat, quests and persistent saves.
 
 ## What still has to be rebuilt
 
