@@ -240,6 +240,13 @@ function plantedFootCycle(clip: THREE.AnimationClip, rest: RestPose): number {
  */
 export function measureSeat(clip: RetargetedClip, rest: RestPose, data: ResidentRigData, position: THREE.BufferAttribute,
   moments: readonly number[] = [0.3, 0.5, 0.7]): { x: number; y: number; z: number } {
+  const steps = measureSeatSteps(clip, rest, data, position, moments);
+  for (;;) { const next = steps.next(); if (next.done) return next.value; }
+}
+
+/** measureSeat a moment at a time, for a rig built over several frames. */
+export function* measureSeatSteps(clip: RetargetedClip, rest: RestPose, data: ResidentRigData, position: THREE.BufferAttribute,
+  moments: readonly number[] = [0.3, 0.5, 0.7]): Generator<void, { x: number; y: number; z: number }, void> {
   const root = new THREE.Group();
   const bones = new Map<ResidentJoint, THREE.Bone>();
   for (const joint of RESIDENT_JOINTS) {
@@ -287,6 +294,7 @@ export function measureSeat(clip: RetargetedClip, rest: RestPose, data: Resident
     heights.push(low);
     depths.push(patch.reduce((total, point) => total + point.z, 0) / Math.max(1, patch.length));
     sides.push(patch.reduce((total, point) => total + point.x, 0) / Math.max(1, patch.length));
+    yield;
   }
   mixer.uncacheRoot(root);
   heights.sort((a, b) => a - b);
@@ -461,6 +469,9 @@ export const SEAT_MOMENTS: Readonly<Record<string, readonly number[]>> = {
  * Plays a resident's clips for the game's poses. The game moves and turns the actor; this only animates the body under
  * it (the hips may move within the body, and a seated figure is lifted or lowered onto the real seat).
  */
+/** Work-clip contact samples taken a step of a rig's staged build (A80). */
+const TRACK_SAMPLES_A_STEP = 24;
+
 export class ResidentMotion {
   readonly mixer: THREE.AnimationMixer;
   private readonly playing = new Map<string, Playing>();
@@ -792,28 +803,46 @@ export class ResidentMotion {
 
   /** The contact points a work clip moves, sampled through the clip played alone (A70). */
   private trackOf(lead: Playing): ContactTrack {
-    let track = this.tracks.get(lead.clip);
-    if (track) return track;
-    track = new Map();
-    this.tracks.set(lead.clip, track);
+    const known = this.tracks.get(lead.clip);
+    if (known) return known;
+    const steps = this.trackSteps(lead);
+    for (;;) { const next = steps.next(); if (next.done) return next.value; }
+  }
+
+  /**
+   * Sample the work clip's contacts ahead of its first use (A80): a resident's first frame at work sampled the whole clip
+   * at once, 30-45 ms, so a rig built in steps does it then, a few samples a step. Nothing else plays the rig meanwhile.
+   */
+  *prepareWork(gesture: WorkGesture): Generator<void, void, void> {
+    if (!this.options.contacts) return;
+    const lead = this.use(MOTION_CLIPS.work[gesture]);
+    if (lead && !this.tracks.has(lead.clip)) yield* this.trackSteps(lead);
+  }
+
+  private *trackSteps(lead: Playing): Generator<void, ContactTrack, void> {
+    const track: ContactTrack = new Map();
     const names = ['LeftHand', 'RightHand', 'lowL', 'lowR', ...Object.keys(this.options.contacts!.tools)];
     for (const name of names) track.set(name, []);
-    const saved = [...this.playing.values()].map(q => ({ q, enabled: q.action.enabled, weight: q.action.getEffectiveWeight(), time: q.action.time }));
-    const bodyAt = this.body.position.clone(), bodyTurn = this.body.quaternion.clone();
-    for (const q of this.playing.values()) { q.action.enabled = q === lead; q.action.setEffectiveWeight(q === lead ? 1 : 0); }
-    this.body.position.set(0, 0, 0); this.body.quaternion.identity();
-    const handsBack = this.options.workHands?.();
     const samples = Math.max(2, Math.ceil(lead.clip.clip.duration * 30)), damping = this.options.garmentArms ?? 0;
-    for (let i = 0; i < samples; i++) {
-      lead.action.time = (i / samples) * lead.clip.clip.duration;
-      this.mixer.update(0);
-      if (damping > 0) for (const joint of ARM_JOINTS) this.bones[joint].quaternion.slerp(this.armRest.get(joint)!, damping);
-      this.body.updateMatrixWorld(true);
-      for (const name of names) track.get(name)!.push(this.pointNow(name));
+    for (let first = 0; first < samples; first += TRACK_SAMPLES_A_STEP) {
+      if (first) yield;
+      const saved = [...this.playing.values()].map(q => ({ q, enabled: q.action.enabled, weight: q.action.getEffectiveWeight(), time: q.action.time }));
+      const bodyAt = this.body.position.clone(), bodyTurn = this.body.quaternion.clone();
+      for (const q of this.playing.values()) { q.action.enabled = q === lead; q.action.setEffectiveWeight(q === lead ? 1 : 0); }
+      this.body.position.set(0, 0, 0); this.body.quaternion.identity();
+      const handsBack = this.options.workHands?.();
+      for (let i = first; i < Math.min(samples, first + TRACK_SAMPLES_A_STEP); i++) {
+        lead.action.time = (i / samples) * lead.clip.clip.duration;
+        this.mixer.update(0);
+        if (damping > 0) for (const joint of ARM_JOINTS) this.bones[joint].quaternion.slerp(this.armRest.get(joint)!, damping);
+        this.body.updateMatrixWorld(true);
+        for (const name of names) track.get(name)!.push(this.pointNow(name));
+      }
+      for (const { q, enabled, weight, time } of saved) { q.action.enabled = enabled; q.action.setEffectiveWeight(weight); q.action.time = time; }
+      this.body.position.copy(bodyAt); this.body.quaternion.copy(bodyTurn);
+      handsBack?.();
     }
-    for (const { q, enabled, weight, time } of saved) { q.action.enabled = enabled; q.action.setEffectiveWeight(weight); q.action.time = time; }
-    this.body.position.copy(bodyAt); this.body.quaternion.copy(bodyTurn);
-    handsBack?.();
+    this.tracks.set(lead.clip, track);
     return track;
   }
 

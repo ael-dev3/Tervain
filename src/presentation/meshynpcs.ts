@@ -16,8 +16,8 @@ import { installResidentSurface, patchResidentShadow, residentHiddenLayersSteps,
 import { npcStyle, type WorkGesture } from './npcStyle';
 import { installResidentRig, parseResidentRig, residentRestPose, type ResidentBones, type ResidentRigData } from './npc/residentRig';
 import { createResidentTools } from './npc/residentProps';
-import { curledVertices, FIST_CURL, gripCurl, OPEN_CURL, RELAXED_CURL, residentFingerPlan, seatHandle, type FingerSide, type HandCurl, type ResidentFingers } from './npc/residentFingers';
-import { CENTRED_CLIPS, clipsFor, LOCOMOTION, measureSeat, ResidentMotion, residentMotionLibrary, retargetClip, SEAT_MOMENTS, SEATED_CLIPS, type Build, type ResidentClips, type ResidentMotionLibrary, type WorkContacts } from './npc/residentMotion';
+import { curledVertices, FIST_CURL, gripCurl, OPEN_CURL, RELAXED_CURL, residentFingerPlanSteps, seatHandle, type FingerSide, type HandCurl, type ResidentFingers } from './npc/residentFingers';
+import { CENTRED_CLIPS, clipsFor, LOCOMOTION, measureSeatSteps, ResidentMotion, residentMotionLibrary, retargetClip, SEAT_MOMENTS, SEATED_CLIPS, type Build, type ResidentClips, type ResidentMotionLibrary, type WorkContacts } from './npc/residentMotion';
 import { BENCH_SEAT_HEIGHT } from '../world/layout';
 import { modelAssetUrl } from './assets/modelUrl';
 import { withModelLoadSlot, type ModelLoadProgress } from './assets/modelLoadQueue';
@@ -230,9 +230,10 @@ function* residentClips(source: ResidentMotionSource, bones: ResidentBones, mesh
       const library = source.library.clips.get(name);
       if (!library) continue;
       clip = retargetClip(library, source.library.rest, rest, LOCOMOTION.has(name), CENTRED_CLIPS.has(name));
-      // Seated clips are measured where they sit; getting down and up at their seated ends (A69).
+      // Seated clips are measured where they sit; getting down and up at their seated ends (A69), a moment a step.
       if ((SEATED_CLIPS.has(name) || SEAT_MOMENTS[name]) && mesh) {
-        clip.seat = measureSeat(clip, rest, source.data, mesh.geometry.getAttribute('position') as THREE.BufferAttribute, SEAT_MOMENTS[name]);
+        yield;
+        clip.seat = yield* measureSeatSteps(clip, rest, source.data, mesh.geometry.getAttribute('position') as THREE.BufferAttribute, SEAT_MOMENTS[name]);
       }
       known.set(name, clip);
       // A newly retargeted clip is a few milliseconds of work: the next waits for the next step (A78).
@@ -280,6 +281,8 @@ function* residentHands(mesh: THREE.SkinnedMesh, own: ResidentBones, scene: THRE
         for (const candidate of shape) if (candidate[1].dot(direction) > best[1].dot(direction)) best = candidate;
         vertices.add(best[0]);
       }
+      // Each shape's scan is a few milliseconds: the next waits for the next step.
+      yield;
     }
     const fingers = centre.clone().normalize();
     const toLocal = new THREE.Matrix3().setFromMatrix4(new THREE.Matrix4().copy(hand.matrixWorld).invert().multiply(scene.matrixWorld));
@@ -427,6 +430,7 @@ export function* createMeshyNpcRigSteps(asset: Pick<GLTF, 'scene' | 'animations'
       // Fit its private skin once; leave the cached source and every other resident's gait untouched.
       if ((entry.id === 'rillford-reeve' || entry.id === 'fireside') && !fittedSkirts.has(geometry)) {
         conditionLongSkirtSkin(skin); fittedSkirts.add(geometry);
+        yield;
       }
       skin.boundingSphere = new THREE.Sphere(new THREE.Vector3(0, entry.height / 2, 0), entry.height * 1.2);
       if (settings.surface) {
@@ -450,7 +454,7 @@ export function* createMeshyNpcRigSteps(asset: Pick<GLTF, 'scene' | 'animations'
       }
       // The resident's own rig replaces the eleven-joint skeleton once the measurements that read the old skin are done.
       if (authored && !installed.bones) {
-        const plan = settings.fingers ? residentFingerPlan(authored.data, skin.geometry, RESIDENT_CLOSED_HANDS[entry.id]) : undefined;
+        const plan = settings.fingers ? yield* residentFingerPlanSteps(authored.data, skin.geometry, RESIDENT_CLOSED_HANDS[entry.id]) : undefined;
         yield;
         const own = installResidentRig(skin, authored.data, plan);
         installed.bones = own.bones; installed.mesh = skin; installed.fingers = own.fingers;
@@ -509,6 +513,8 @@ export function* createMeshyNpcRigSteps(asset: Pick<GLTF, 'scene' | 'animations'
     }
     paint.push(...attachments.materials);
   }
+  // The equipment, the tools, each grip and the clips are steps of their own (A80).
+  yield;
   let completeTriangles = 0;
   root.traverse(object => {
     const mesh = object as THREE.Mesh;
@@ -540,6 +546,7 @@ export function* createMeshyNpcRigSteps(asset: Pick<GLTF, 'scene' | 'animations'
     // Tools first, while the rig still stands in its bind pose.
     const tools = createResidentTools(authored.work, own, scene, side => residentPalm(residentMesh!, own[side], scene));
     paint.push(...tools.materials);
+    yield;
     const fingers = installed.fingers;
     let handShapes: ((side: FingerSide, vertices: number[]) => Map<number, THREE.Vector3>[]) | undefined;
     if (fingers && residentMesh) {
@@ -571,9 +578,11 @@ export function* createMeshyNpcRigSteps(asset: Pick<GLTF, 'scene' | 'animations'
           socket.position.add(to.sub(from));
         }
         workGrips[side] = seated.curl;
+        yield;
       }
       const weapon = attachments?.weapon ?? null;
       const weaponGrip = weapon ? gripCurl(fingers.plan, positions, 'Right', handleOf(weapon, WEAPON_GRIP_RADIUS)) : null;
+      if (weapon) yield;
       root.userData.meshyNpc.fingers = {
         active: (['Left', 'Right'] as const).filter(side => fingers.plan.hands[side].active),
         grips: { ...workGrips, ...(weaponGrip ? { weapon: weaponGrip } : {}) },
@@ -596,6 +605,7 @@ export function* createMeshyNpcRigSteps(asset: Pick<GLTF, 'scene' | 'animations'
         }
       };
     }
+    yield;
     const clips = yield* residentClips(authored, own, residentMesh ?? undefined);
     const hands = residentMesh ? yield* residentHands(residentMesh, own, scene, handShapes) : undefined;
     rig.resident = new ResidentMotion(scene, body, own, clips, {
@@ -604,6 +614,8 @@ export function* createMeshyNpcRigSteps(asset: Pick<GLTF, 'scene' | 'animations'
       contacts: residentMesh && hands ? { mesh: residentMesh, hands, tools: tools.points } : undefined,
       workHands,
     });
+    // The work clip's contacts are sampled now, a few at a time, not on the resident's first frame at work (A80).
+    if (authored.work && rig.resident) yield* rig.resident.prepareWork(authored.work);
     root.userData.meshyNpc.animation = 'meshy-authored-clips';
     root.userData.meshyNpc.rig = 'meshy-auto-rig-v1';
     if (tools.props.length && authored.work) {
