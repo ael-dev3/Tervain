@@ -4,6 +4,18 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Hosted observation — 10 October 2026: PR #221
+
+PR #221 merged as `368c88aa4fd4bbd23a48cf5d06874cea93b45eab`.
+[Pages run 38058376491](https://github.com/ael-dev3/Tervain/actions/runs/38058376491)
+completed successfully. A fresh browser tab opened the hosted `/gothic3/` route,
+loaded 202 scene objects and 70 characters, and entered Ardea. The journal showed
+`Xardas_FindXardas` Running in the fresh source-seeded state. The Help panel
+explicitly describes incomplete NPC AI, startup callbacks and campaign paths.
+This observation verifies the deployed scene and journal; it does not establish
+full native startup, save compatibility or a finishable campaign. The later
+nested multibyte continuation below remains local.
+
 ## Local checkpoint — 10 October 2026: Engine nested multibyte exception frame
 
 The argument continuation executes the nested routine's three entry instructions,
