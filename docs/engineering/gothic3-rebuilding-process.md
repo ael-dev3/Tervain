@@ -12151,3 +12151,20 @@ suite passed 3371 tests in 313 files in 877.02 seconds with the 20-second CLI
 allowance. The newest full run will also include current main-branch presentation
 changes. Full startup, live world activation and a finishable campaign remain
 unfinished.
+
+
+### 11 October 2026: complete Engine argument setup publication validation
+
+Local combined revision `2d05d9660` passed all 3,414 tests across 313 files
+in 787.51 seconds, typechecking and a production build in 1m 8s. Engine's
+supported argument setup now counts, allocates, fills and publishes its vector
+and returns through `3068e827` to the original caller `3067727b`. The default
+input executes 13,819 operations and uses a 20-byte allocation.
+
+The preceding full run had one timeout in a test grouping two independent
+separator corruption cases; splitting those cases retained their assertions
+and per-case allowance. Both cases and the combined full suite now pass.
+This checkpoint is prepared for publication; these local results do not prove
+a deployed revision, complete Engine attachment, world activation or campaign
+completion. Claude's PR #233 has since merged and deployed as `7bf89f379`;
+that presentation change is separate from this locally validated revision.
