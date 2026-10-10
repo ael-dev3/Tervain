@@ -378,7 +378,14 @@ export class NativeX86ThreadStack {
           for(const name of ['ECX','EDX'] as const)set(name,stack.#mint(0,0));stack.#flags(0,0);
           set('ESP',stack.#stackWord(call.position+8));top.returned=true;stack.#currentPc=call.returnWord;call.phase='returned';
         });
-        frame.pc='306888a7';engineIoInstruction('306886ec',frame.pc);throw new Error('Engine standard-handle continuation at306888a7');
+        const validHandle=()=>{const p=stack.#liveWord(register('EDI')).provenance;if(p?.kind!=='platform'||p.category!=='handle')return false;const proof=NativeRuntimePlatform.standardIoCapabilityForPlatform(stack.#platform,p.object);if(!proof.known||proof.value!=='handle')throw new Error('Actual current Engine standard handle required');return true;};
+        step('306886ec','306888a7',()=>set('EDI',register('EAX')));
+        step('306886ec','306888a9',()=>{if(validHandle())stack.#flags(0,0x40);else{const number=stack.#numeric(register('EDI'),4);stack.#arithmeticFlags(number,0xffffffff,number-0xffffffff,4,true);}});
+        step('306886ec','306888ac',()=>{if(!validHandle()&&stack.#numeric(register('EDI'),4)===0xffffffff)throw new Error('Engine invalid standard handle branch at306888f1');});
+        step('306886ec','306888ae',()=>{if(validHandle())stack.#flags(0,0x40);else stack.#logicalFlags(stack.#numeric(register('EDI'),4),0xffffffff,4);});
+        step('306886ec','306888b0',()=>{if(!validHandle()&&stack.#numeric(register('EDI'),4)===0)throw new Error('Engine NULL standard handle branch at306888f1');});
+        step('306886ec','306888b2',()=>stack.#push(register('EDI')));
+        frame.pc='306888b3';engineIoInstruction('306886ec',frame.pc);throw new Error('Engine GetFileType IAT30afc744 at306888b3');
       }catch(error){frame.boundary??=reason(error);frame.phase='blocked';if(!stack.#executing){stack.#boundary??=frame.boundary;stack.#phase='blocked';}return unknown(frame.boundary);}
       finally{stack.#engineIoExecuting=false;}
     }catch(error){return unknown(reason(error));}

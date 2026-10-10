@@ -4,6 +4,18 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local checkpoint — 10 October 2026: Engine standard-handle branches
+
+The original six instructions after GetStdHandle retain EDI, reject invalid and
+NULL results through their original branches, and push a live opaque handle for
+GetFileType. A valid platform capability establishes only the required nonzero
+and non-invalid comparison facts; it does not disclose a numeric HANDLE.
+
+The valid browser prefix reaches `306888b3` / IAT `30afc744` after 452 instructions.
+GetFileType and the error branches remain unfinished. Sixteen focused checks and
+TypeScript checking pass. These local results do not prove complete engine startup
+or a finishable browser campaign; publication and full validation remain pending.
+
 ## Local checkpoint — 10 October 2026: Engine GetStdHandle return
 
 The original Engine standard-input call at `306888a1` now enters the platform's

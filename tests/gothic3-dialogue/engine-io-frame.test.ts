@@ -113,7 +113,7 @@ it('retains actual Engine standard-handle outcomes without manufacturing a handl
   const result=bootstrap.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Continuation unfinished');
   const frame=bootstrap.attachProgress().engineIoProgress!;
   if(outcome==='unknown'){expect(result.reason).toContain('Declared standard-handle result is unknown');expect(frame.pc).toBe('306888a1');expect(frame.operations).toBe(445);}
-  else{expect(result.reason).toContain('Engine standard-handle continuation at306888a7');expect(frame.operations).toBe(446);if(outcome==='valid')expect(frame.bank.maskedWord(0).knownMask).toBe(0);else expect(frame.bank.readUnsigned(0)).toBe(outcome==='null'?0:0xffffffff);}
+  else{expect(result.reason).toContain(outcome==='valid'?'Engine GetFileType IAT30afc744 at306888b3':outcome==='null'?'Engine NULL standard handle branch at306888f1':'Engine invalid standard handle branch at306888f1');expect(frame.operations).toBe(outcome==='valid'?452:outcome==='null'?450:448);if(outcome==='valid')expect(frame.bank.maskedWord(0).knownMask).toBe(0);else expect(frame.bank.readUnsigned(0)).toBe(outcome==='null'?0:0xffffffff);}
   expect(bootstrap.processAttach()).toEqual(result);
  }
 });
