@@ -1107,6 +1107,18 @@
     "tables": [],
     "verifiedAgainstOriginalPE": true
   },
+  "conversionFailureTail": [
+    {
+      "va": "3068e8ea",
+      "bytes": "59",
+      "instruction": "POP ECX"
+    },
+    {
+      "va": "3068e8eb",
+      "bytes": "895c2410",
+      "instruction": "MOV dword ptr [ESP + 0x10],EBX"
+    }
+  ],
   "images": [
     {
       "label": "environmentMode",

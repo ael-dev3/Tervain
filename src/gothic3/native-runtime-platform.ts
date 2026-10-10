@@ -1,5 +1,6 @@
 import type {NativeGuidTextPlatform} from './native-guid-text';
 import { NativeSharedCrtOwner } from './native-shared-crt';
+import { NativeEngineCrtEnvironment } from './native-engine-crt-environment';
 import { NativeWin32FileSystem, retainNativeWin32FileSystemSelection } from './native-win32-file-system';
 import type { NativeWin32FileSystemSelection, NativeWin32CreateFileResult } from './native-win32-file-system';
 /** Selected single-executor platform for source-owned runtime admins. It owns
@@ -1321,7 +1322,8 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
       if (!query && (output === null || outputBytes === 0)) return unknown('Actual admitted query or retained conversion destination required');
       if (output) {
         const shared=NativeSharedCrtOwner.canonicalEnvironmentDestinationForPlatform(this,output,outputBytes);
-        if(!shared.known){
+        const engine=NativeEngineCrtEnvironment.canonicalDestinationForPlatform(this,output,outputBytes);
+        if(!shared.known&&!engine.known){
           const heap = NativeModuleCrtOwner.canonicalGameHeapForPlatform(this, output); if (!heap.known) return heap;
           const destination = this.#canonicalGameHeapSpan(heap.value, output, outputBytes); if (!destination.known) return destination;
         }

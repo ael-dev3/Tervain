@@ -1,5 +1,5 @@
-/** Engine environment selection, scanning and actual CRT allocation.
- * Conversion fill and ANSI byte copying remain explicit dependencies. */
+/** Engine wide environment conversion with actual CRT allocation and cleanup.
+ * ANSI byte copying remains an explicit dependency. */
 import type { NativeValue } from './dialogue';
 import { NativeModuleCrtOwner } from './native-engine-crt-locks';
 import { NativeHeapObjectViews } from './native-heap-views';
@@ -13,6 +13,7 @@ const known=<T>(value:T):NativeValue<T>=>({known:true,value});
 const unknown=(reason:string):NativeValue<never>=>({known:false,reason});
 function fact<T>(value:NativeValue<T>):T{if(!value.known)throw new Error(value.reason);return value.value;}
 const owners=new WeakMap<NativeModuleCrtOwner,NativeEngineCrtEnvironment>();
+const outputs=new WeakMap<NativeMemoryBacking,Readonly<{crt:NativeModuleCrtOwner;platform:NativeRuntimePlatform;fields:NativeHeapObjectViews;bytes:number}>>();
 const token=Object.freeze({});
 export class NativeEngineCrtEnvironment {
   readonly #crt:NativeModuleCrtOwner;
@@ -51,6 +52,11 @@ export class NativeEngineCrtEnvironment {
       const owner=new NativeEngineCrtEnvironment(crt,token);owners.set(crt,owner);return known(owner);
     }catch(error){return unknown(error instanceof Error?error.message:String(error));}
   }
+  static canonicalDestinationForPlatform(platform:NativeRuntimePlatform,pointer:NativeBytePointer,bytes:number):NativeValue<void>{
+    const record=outputs.get(pointer.fields.backing);
+    if(!record||record.platform!==platform||record.fields!==pointer.fields||!Number.isInteger(pointer.offset)||pointer.offset<0||!Number.isInteger(bytes)||bytes<0||pointer.offset+bytes>record.bytes)return unknown('Actual retained Engine environment destination required');
+    return NativeModuleCrtOwner.canonicalEngineHeapDestination(record.crt,platform,pointer,bytes);
+  }
   #authority(){
     if(!NativeModuleCrtOwner.isConstructedOwner(this.#crt)||this.#crt.module!=='Engine'||this.#crt.host.platform!==this.#platform||this.#crt.host.platform.processInputEndpoints!==this.#endpoints)throw new Error('Actual retained Engine environment graph required');
     fact(NativeRuntimePlatform.requireActivePlatform(this.#platform));
@@ -72,9 +78,10 @@ export class NativeEngineCrtEnvironment {
     const fields=new NativeHeapObjectViews(this.#allocation);Object.freeze(fields);
     this.#output=Object.freeze({fields,offset:0});
     fact(NativeModuleCrtOwner.canonicalEngineHeapDestination(this.#crt,this.#platform,this.#output,this.#outputBytes!));
+    outputs.set(this.#allocation,Object.freeze({crt:this.#crt,platform:this.#platform,fields,bytes:this.#outputBytes!}));
     return this.#output;
   }
-  #finish(){this.#at('3068e95c');this.#phase='returned';this.#effect('environment.return',null);return known(null);}
+  #finish(value:NativeBytePointer|null=null){this.#at('3068e95c');this.#phase='returned';this.#effect('environment.return',value);return known(value);}
   capture():NativeValue<NativeBytePointer|null>{
     if(this.#phase==='blocked')return unknown(this.#boundary!);
     if(this.#phase==='invoking'){this.#phase='blocked';this.#boundary='Reentrant Engine environment capture cannot replay';return unknown(this.#boundary);}
@@ -94,7 +101,14 @@ export class NativeEngineCrtEnvironment {
         if(!Number.isInteger(this.#outputBytes)||this.#outputBytes<0||this.#outputBytes>0xffffffff)throw new Error('Actual Engine conversion DWORD required');
         if(this.#outputBytes===0){this.#call('3068e8f4','FreeEnvironmentStringsW.return',()=>this.#endpoints!.freeEnvironmentStringsW(this.#input!));return this.#finish();}
         if(this.#malloc('3068e8c2')===null){this.#call('3068e8f4','FreeEnvironmentStringsW.return',()=>this.#endpoints.freeEnvironmentStringsW(this.#input!));return this.#finish();}
-        this.#at('3068e8db');throw new Error('Engine environment conversion destination at3068e8db');
+        const converted=this.#call('3068e8db','WideCharToMultiByte.fill.return',()=>this.#endpoints.wideCharToMultiByte({codePage:0,flags:0,input:this.#input!,inputCharacters:this.#inputCharacters!,output:this.#output,outputBytes:this.#outputBytes!,defaultCharacter:null,usedDefaultCharacter:null}));
+        if(!Number.isInteger(converted)||converted<0||converted>0xffffffff)throw new Error('Actual Engine fill conversion DWORD required');
+        if(converted===0){
+          this.#call('3068e8e5','free30672f8a.return',()=>NativeModuleCrtOwner.prototype.free.call(this.#crt,this.#allocation));
+          this.#at('3068e8ea');this.#at('3068e8eb');this.#output=null;this.#effect('output.local.store',null);
+        }
+        this.#call('3068e8f4','FreeEnvironmentStringsW.return',()=>this.#endpoints.freeEnvironmentStringsW(this.#input!));
+        return this.#finish(this.#output);
       }
       if(mode!==0&&mode!==2)return this.#finish();
       this.#branch='ansi';if(this.#get('3068e906',false)===null)return this.#finish();

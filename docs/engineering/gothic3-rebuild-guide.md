@@ -57,8 +57,10 @@ dispatcher and registry. Its shutdown dependency now enters Engine's retained
 CRT attach prefix, stores the process command-line pointer and stops at Engine
 environment retrieval `3067725c -> 3068e828`. That routine selects the wide
 API, scans the retained input, measures conversion and allocates output through
-Engine's CRT. Execution now stops at conversion fill `3068e8db`; the ANSI path
-retains its actual allocation and stops at copy `3068e945 -> 30671cf0`.
+Engine's CRT. Wide conversion fills that buffer, releases its OS input and
+returns. The caller stores the actual result at `30af70d4`; execution now stops
+at I/O initialization `30677266 -> 306886ec`. The ANSI path retains its actual
+allocation and stops at copy `3068e945 -> 30671cf0`.
 Complete startup, world activation and a new-game-to-ending campaign remain
 unfinished. Local checkpoints and the hosted version can differ; the validation
 receipts below identify the checkpoint covered.
@@ -113,11 +115,14 @@ Its translated selection, scan and conversion-measurement prefix is connected
 to the retained browser Engine bootstrap. The subsequent allocation checkpoint
 passes 39 focused checks across five files and typechecking. Its destination
 proof rejects foreign owners/platforms, unregistered storage, invalid spans,
-released allocations and expired heaps. Conversion fill, ANSI copy and cleanup
-remain the next runtime dependencies. The preceding selection checkpoint
-(`973fc79a8`) passed a production build in 50.35 seconds; its full suite is still
-running. The allocation checkpoint has no full-suite, production-build or
-hosted-browser receipt yet.
+released allocations and expired heaps. The subsequent wide-conversion
+checkpoint passes 42 focused checks across five files, typechecking and exact
+independent evidence regeneration. It covers fill failure cleanup, fresh repeated
+allocations, destination ownership and pointer/NULL result stores. ANSI copy and
+Engine I/O remain runtime dependencies. The preceding selection checkpoint
+(`973fc79a8`) passed its production build in 50.35 seconds and all 3,233 tests
+across 304 files in 425.70 seconds. The wide-conversion checkpoint has no
+full-suite, production-build or hosted-browser receipt yet.
 
 Each checkpoint should let another developer follow the same evidence:
 

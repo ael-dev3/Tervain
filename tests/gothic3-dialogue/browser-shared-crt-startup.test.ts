@@ -55,15 +55,17 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  expect(game.known).toBe(true);
  if(!game.known)throw new Error(game.reason);
  expect(game.value.attachResult,game.value.attachProgress.setEnvpProgress?.currentPC).toEqual({known:false,
-  reason:'crtAttach204677e4: Unowned ModuleAdmin.GetInstance30088e90: atexit.ModuleAdmin30797fc0: Engine shutdown registration requires its CRT attach: crtAttach3067717c: Engine crtGetEnvironmentStringsA3068e828 at3067725c: Engine environment conversion destination at3068e8db'});
+  reason:'crtAttach204677e4: Unowned ModuleAdmin.GetInstance30088e90: atexit.ModuleAdmin30797fc0: Engine shutdown registration requires its CRT attach: crtAttach3067717c: Unowned Engine ioInit306886ec at30677266'});
  const engine=createBrowserEngineCrtStartup(platform);if(!engine.known)throw new Error(engine.reason);
  expect(createBrowserEngineCrtStartup(platform)).toBe(engine);
  expect(canonicalBrowserEngineCrtStartup(engine.value,platform).known).toBe(true);
  expect(canonicalBrowserEngineCrtStartup({...engine.value},platform).known).toBe(false);
  expect(engine.value.attachProgress).toMatchObject({module:'Engine',heapResult:1,mtResult:1,preCReturned:true,commandLineReturned:true,commandLineNonNull:true,crtTraversalCompleted:false});
- expect(engine.value.attachProgress.engineEnvironmentProgress).toMatchObject({mode:1,branch:'wide',pc:'3068e8db',inputCharacters:19,outputBytes:19,phase:'blocked'});
+ expect(engine.value.attachProgress.engineEnvironmentProgress).toMatchObject({mode:1,branch:'wide',pc:'3068e95c',inputCharacters:19,outputBytes:19,phase:'returned'});
  const env=engine.value.attachProgress.engineEnvironmentProgress!;
  expect(env.allocation).not.toBe(null);expect(env.output!.fields.backing).toBe(env.allocation);
+ expect(engine.value.attachProgress.engineEnvironmentStorage!.pointer(0).get()).toBe(env.output);
+ expect(engine.value.attachProgress.environmentReturned).toBe(true);
  expect(engine.value.attachProgress.engineCommandLineStorage!.pointer(0).get()).toBe(game.value.crt.imageStorage('commandLinePointer').pointer(0).get());
  expect(engine.value.crt.physical.heapHandle.pointer(0).get()).not.toBe(game.value.crt.physical.heapHandle.pointer(0).get());
  expect(engine.value.crt.physical.crtTlsIndexes.backing).not.toBe(game.value.crt.physical.crtTlsIndexes.backing);

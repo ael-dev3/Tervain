@@ -1,7 +1,8 @@
 # Engine CRT environment source
 
 This package captures the matching installed Engine.dll routine `3068e828`:
-130 instructions and 304 body bytes, verified against the original PE. It also
+130 catalogued instructions and 304 body bytes, verified against the original PE,
+plus two instructions covering five bytes omitted after the free call. It also
 records the six referenced KERNEL32 imports, loader-zero mode `30af7908`,
 loader-zero result pointer `30af70d4`, and the caller/store/next-call bytes.
 
@@ -30,15 +31,24 @@ of Game's environment mode. The translated prefix selects and scans wide or ANSI
 input, measures wide conversion, and allocates output through the actual Engine
 CRT at `3068e8c2` (wide) or `3068e92a` (ANSI). Private CRT allocation membership,
 the current heap capability and the platform's retained allocation span prove
-the destination. Execution stops at conversion fill `3068e8db` or ANSI copy
-`3068e945`, with the allocation and output pointer retained. NULL allocation
+the destination. Wide conversion fills the retained allocation. Zero fill result
+frees that same allocation and clears the local output using original bytes at
+`3068e8ea` and `3068e8eb`; these bytes were omitted by the catalog's nonreturning
+free assumption. The OS input is then released and the routine returns its
+actual output or NULL. ANSI execution still stops at copy `3068e945`, with the
+allocation and output pointer retained. NULL allocation
 releases the corresponding OS input before returning NULL. NULL inputs return
 NULL. A zero conversion
 measurement releases wide input before returning NULL; the original raw release
 BOOL is ignored. Completed calls permit another physical invocation, while a
 blocked call preserves its state and cannot replay the prefix.
 
-Fill conversion, ANSI copy and conversion-failure allocation cleanup remain
-unconnected. Once the routine
-returns, its original caller stores EAX at `30af70d4` and calls `306886ec` at
-`30677266`; this package does not establish that those operations execute.
+The platform admits conversion output only through a privately recorded Engine
+environment allocation and the CRT/platform heap checks. A copied view,
+foreign platform, out-of-range span or released allocation is rejected.
+Completed repeated calls produce separate physical allocations; older successful
+output remains valid until its actual allocation is released.
+
+The original caller stores the returned pointer or NULL at `30af70d4`. Browser
+startup now reaches the pending I/O call `30677266 -> 306886ec`. ANSI copy and
+I/O initialization remain unconnected; full CRT attachment is not established.

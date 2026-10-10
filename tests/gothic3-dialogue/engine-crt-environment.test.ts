@@ -15,18 +15,24 @@ function selected(inputs:NativeWin32ProcessInputSelection=browserGameProcessInpu
  if(!result.known)throw new Error(result.reason);return {platform,crt,owner:result.value};
 }
 describe('original Engine environment selection and measurement prefix',()=>{
- it('scans actual UTF16 input, measures it, and retains its pending allocation without replay',()=>{
-  const {crt,owner}=selected();const result=owner.capture();expect(result.known).toBe(false);
-  expect(owner.snapshot()).toMatchObject({module:'Engine',mode:1,branch:'wide',pc:'3068e8db',phase:'blocked',inputCharacters:19,outputBytes:19,invocations:1});
+ it('converts actual UTF16 input into Engine output and permits a fresh physical call',()=>{
+  const {crt,owner,platform}=selected();const result=owner.capture();expect(result.known).toBe(true);
+  if(!result.known||result.value===null)throw new Error('Actual converted output required');
+  expect(owner.snapshot()).toMatchObject({module:'Engine',mode:1,branch:'wide',pc:'3068e95c',phase:'returned',inputCharacters:19,outputBytes:19,invocations:1});
   expect(owner.snapshot().allocation).not.toBe(null);
   expect(owner.snapshot().output!.fields.backing).toBe(owner.snapshot().allocation);
   expect(owner.snapshot().input).not.toBe(null);expect(owner.snapshot().effects.map(effect=>effect.operation)).toContain('WideCharToMultiByte.measure.return');
-  const before=owner.snapshot();expect(owner.capture()).toEqual(result);expect(owner.snapshot()).toEqual(before);
+  expect(Array.from(result.value.fields.bytes.subarray(0,19))).toEqual(Array.from(browserGameProcessInputs.environmentA!.kind==='buffer'?browserGameProcessInputs.environmentA!.bytes:[]));
+  expect(owner.snapshot().input!.fields.backing.freed).toBe(true);
+  const next=owner.capture();if(!next.known||next.value===null)throw new Error('Fresh output required');
+  expect(next.value).not.toBe(result.value);expect(owner.snapshot().invocations).toBe(2);
+  expect(NativeEngineCrtEnvironment.canonicalDestinationForPlatform(platform,result.value,19).known).toBe(true);
   const again=NativeEngineCrtEnvironment.forCrt(crt);expect(again).toEqual({known:true,value:owner});
  });
  it('retains error120 ANSI selection and computes the original byte count',()=>{
   const {owner}=selected({...browserGameProcessInputs,environmentW:{kind:'null',lastError:120}});expect(owner.capture().known).toBe(false);
   expect(owner.snapshot()).toMatchObject({mode:2,branch:'ansi',pc:'3068e945',outputBytes:19,inputCharacters:null});
+  const before=owner.snapshot();expect(owner.capture().known).toBe(false);expect(owner.snapshot()).toEqual(before);
  });
  it('uses ANSI on a different wide failure without changing mode to2',()=>{
   const {owner}=selected({...browserGameProcessInputs,environmentW:{kind:'null',lastError:5}});owner.capture();
@@ -59,5 +65,18 @@ describe('original Engine environment selection and measurement prefix',()=>{
   expect(owner.snapshot()).toMatchObject({phase:'returned',allocation:null,output:null});
   expect(owner.snapshot().effects.map(effect=>effect.operation)).toContain(ansi?'FreeEnvironmentStringsA.return':'FreeEnvironmentStringsW.return');
   expect(allocation).toHaveBeenCalledOnce();allocation.mockRestore();
+ });
+ it('frees converted output on fill failure before releasing the wide input',()=>{
+  const {owner,platform}=selected({...browserGameProcessInputs,conversionFailure:{fill:{result:0}}});
+  expect(owner.capture()).toEqual({known:true,value:null});const state=owner.snapshot();
+  expect(state.output).toBe(null);expect(state.allocation!.freed).toBe(true);expect(state.input!.fields.backing.freed).toBe(true);
+  const effects=state.effects.map(effect=>effect.operation);expect(effects.indexOf('free30672f8a.return')).toBeLessThan(effects.indexOf('FreeEnvironmentStringsW.return'));
+  expect(NativeEngineCrtEnvironment.canonicalDestinationForPlatform(platform,{fields:new NativeHeapObjectViews(state.allocation!),offset:0},1).known).toBe(false);
+ });
+ it('rejects copied destination views and foreign platforms before conversion',()=>{
+  const a=selected(),b=selected();const result=a.owner.capture();if(!result.known||result.value===null)throw new Error('Output required');
+  expect(NativeEngineCrtEnvironment.canonicalDestinationForPlatform(b.platform,result.value,1).known).toBe(false);
+  expect(NativeEngineCrtEnvironment.canonicalDestinationForPlatform(a.platform,{fields:new NativeHeapObjectViews(result.value.fields.backing),offset:0},1).known).toBe(false);
+  expect(NativeEngineCrtEnvironment.canonicalDestinationForPlatform(a.platform,result.value,20).known).toBe(false);
  });
 });

@@ -25,7 +25,15 @@ def capture(study):
     continuation = pe.bytes(0x3067725c, 15)
     if continuation.hex() != 'e8c7750100a3d470af30e881140100':
         raise ValueError('Original Engine environment caller differs')
+    # The catalog marks free as nonreturning and omits this reachable tail.
+    # Pin the original bytes rather than inherit that decompiler assumption.
+    tail = [dict(va='3068e8ea', bytes='59', instruction='POP ECX'),
+            dict(va='3068e8eb', bytes='895c2410', instruction='MOV dword ptr [ESP + 0x10],EBX')]
+    for row in tail:
+        if pe.bytes(int(row['va'],16),len(row['bytes'])//2).hex()!=row['bytes']:
+            raise ValueError('Original Engine conversion-failure tail differs')
     return dict(schema='gothic3-engine-environment-source-v1', source=evidence,
+                conversionFailureTail=tail,
                 images=images, caller=dict(call='3067725c', target='3068e828',
                 store='30677261', nextCall='30677266', nextTarget='306886ec',
                 raw=continuation.hex(), sha256=hashlib.sha256(continuation).hexdigest()),
@@ -52,7 +60,7 @@ const expectedText = EXPECTED;
 function freeze(value:unknown):void {if(value&&typeof value==='object'&&!Object.isFrozen(value)){for(const child of Object.values(value))freeze(child);Object.freeze(value);}}
 freeze(source);
 export function admitEngineEnvironmentSource():void {if(sourceText!==expectedText)throw new Error('Original Engine environment source differs');}
-export function engineEnvironmentInstruction(pc:string){admitEngineEnvironmentSource();const row=source.source.methods[0]?.instructions.find(row=>row.va===pc);if(!row)throw new Error('Original Engine environment instruction required');return row;}
+export function engineEnvironmentInstruction(pc:string){admitEngineEnvironmentSource();const row=source.source.methods[0]?.instructions.find(row=>row.va===pc)??source.conversionFailureTail.find(row=>row.va===pc);if(!row)throw new Error('Original Engine environment instruction required');return row;}
 export function engineEnvironmentImage(label:string){admitEngineEnvironmentSource();const image=source.images.find(image=>image.label===label);if(!image)throw new Error('Original Engine environment image required');return image;}
 """.replace('EXPECTED', expected)
         args.typescript.write_text(generated, encoding='utf-8', newline='\n')
