@@ -1000,6 +1000,9 @@ export class App {
   /* ============================== main loop ============================== */
 
   private nextDraw = -Infinity;
+  /** Whether the step running is a frame's second or later (catching up): the arrivals' work runs in a frame's first. */
+  private catchUp = false;
+
   private frame(now: number) {
     // On a display faster than 60 Hz, refreshes between frames are let pass: the same game, less heat (A71).
     if (this.settings.frameCap60) {
@@ -1021,9 +1024,11 @@ export class App {
         // The world advances in fixed steps, as many as the frame's time holds (A72). A press or a mouse movement
         // counts in the first alone; the picture is drawn once, between the last two steps.
         for (let i = 0; i < steps; i++) {
+          this.catchUp = i > 0;
           this.step(SIM_STEP);
           this.input.consumePad(); this.input.endFrame();
         }
+        this.catchUp = false;
         this.present(alpha);
         const sample = this.perf?.end(interval * 1000);
         if (sample && this.bench.active && !this.menuBackgroundActive) this.bench.samples.push({ segment: Math.floor(this.cam.benchT), sample });
@@ -1110,7 +1115,9 @@ export class App {
       // same way (A79): the renderer's own first-view preparation passes over hidden objects.
       void this.warmHidden(scene);
     }
-    if (this.arrivals.count && this.world) {
+    // Once a frame, not once a step (A80): a long frame runs several catch-up steps, and each spending the arrivals'
+    // budget made the next frame longer still.
+    if (this.arrivals.count && this.world && !this.catchUp) {
       // A rig built while the world runs has its shaders compiled in parallel before it is shown (A78).
       const scene = this.world.scene;
       this.arrivals.warm ??= (rig) => this.warmShaders(rig.root, scene);

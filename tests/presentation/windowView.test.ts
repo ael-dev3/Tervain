@@ -53,4 +53,25 @@ describe('window view capture (A77, A78)', () => {
     expect(restored).toBe(12);
     view.dispose();
   });
+
+  it('shows plain daylight instead of another room view until the new capture is whole; the same room keeps its own (A80)', () => {
+    const { renderer } = stubRenderer();
+    const other = { ...room, building: { ...room.building, x: 20 } } as unknown as InteriorSpec;
+    let where: InteriorSpec | null = room;
+    const locator = { within: () => where, base: () => 0 } as unknown as RoomLocator;
+    const pane = new THREE.MeshBasicMaterial(), view = new WindowView(locator, pane, 16, 3), scene = new THREE.Scene(), at = new THREE.Vector3();
+    for (let i = 0; i < 6; i++) view.update(renderer, scene, at, 1 / 60, true);
+    expect(pane.envMap).not.toBeNull();
+    // Out and back into the same room: its view stays.
+    where = null; view.update(renderer, scene, at, 1 / 60, true);
+    where = room; view.update(renderer, scene, at, 1 / 60, true);
+    expect(pane.envMap).not.toBeNull();
+    // Into another room: daylight until its six faces are drawn.
+    where = other;
+    view.update(renderer, scene, at, 1 / 60, true);
+    expect(pane.envMap).toBeNull();
+    for (let i = 0; i < 5; i++) view.update(renderer, scene, at, 1 / 60, true);
+    expect(pane.envMap).not.toBeNull();
+    view.dispose();
+  });
 });

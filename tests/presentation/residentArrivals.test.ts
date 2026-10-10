@@ -138,7 +138,7 @@ describe('arrivals', () => {
   });
 
   it('builds a staged rig a little a frame, one figure at a time, and hands it over only once done and out of sight (A78)', () => {
-    // A clock that moves 1 ms each time it is read: three steps fit in a frame's budget.
+    // A clock that moves 1 ms each time it is read: one step a frame, as another as long as the last would not fit (A80).
     let clock = 0;
     const arrivals = new ResidentArrivals(() => clock++);
     const rig = arrivedRig(), steps: string[] = [];
@@ -156,14 +156,16 @@ describe('arrivals', () => {
     expect(arrivals.count).toBe(2);
     // Done, but walked into view: the finished rig waits.
     x = 0;
-    for (let i = 0; i < 5; i++) arrivals.update(held, inView);
+    for (let i = 0; i < 7; i++) arrivals.update(held, inView);
     expect(steps).toHaveLength(7);
     expect(staged.adopt).not.toHaveBeenCalled();
-    // Out of sight again: it changes over, with the rig that was built; the next figure's short build follows at once.
+    // Out of sight again: it changes over, with the rig that was built; the next figure's short build starts at once and
+    // ends the next frame.
     x = 100;
-    expect(arrivals.update(held, inView)).toBe(2);
+    expect(arrivals.update(held, inView)).toBe(1);
     expect(staged.adopt).toHaveBeenCalledWith(held, rig);
     expect(second.make).toHaveBeenCalledOnce();
+    expect(arrivals.update(held, inView)).toBe(1);
     expect(second.adopt).toHaveBeenCalledOnce();
     expect(arrivals.count).toBe(0);
   });

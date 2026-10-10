@@ -233,6 +233,14 @@ describe('resident work contacts at their real posts (A70)', () => {
     }
   }, 120000);
 
+  it('samples the contacts of the work clip while the rig is built, not on the first frame at work (A80)', async () => {
+    const { rig } = await atPost('quarry_hand');
+    const resident = rig.resident as unknown as { tracks: Map<unknown, Map<string, unknown[]>>; clips: Map<string, unknown> };
+    const track = resident.tracks.get(resident.clips.get(MOTION_CLIPS.work.stonework));
+    expect(track).toBeDefined();
+    expect(track!.get('LeftHand')!.length).toBeGreaterThan(2);
+  });
+
   it('gives a work site only where a resident works against something', () => {
     const at = { x: 0, y: 0, z: 0, yaw: 0 };
     expect(workSiteFor('village_square', at, terrain)).toBeUndefined();
