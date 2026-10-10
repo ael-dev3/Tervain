@@ -4,11 +4,13 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
-## Latest state — 10 October 2026: Engine command-line selection
+## Latest state — 10 October 2026: Engine argument counting parser return
 
-PR #230 deployed revision `f1505ca863aefc10d5a6cb883d1d379b8ac296ff` after
-successful main build and Pages deployment. Its default startup stops at
-`30684a93` after 5261 admitted operations.
+PR #230 deployed native startup revision `f1505ca863aefc10d5a6cb883d1d379b8ac296ff`,
+whose default stops at `30684a93` after 5261 admitted operations. Claude's
+[PR #232](https://github.com/ael-dev3/Tervain/pull/232) subsequently merged as
+`960fbbd109c57774113f2e964630e5a9c43b6ee0`; its main build and Pages deployment
+passed. That performance change does not complete native startup or the campaign.
 
 The newer local continuation completes the multibyte character record, installs
 it in Engine thread data, publishes the original globals, replaces the global
@@ -17,19 +19,29 @@ EH4 epilog and wrapper. Argument setup calls original `GetModuleFileNameA` with
 the owned 260-byte buffer. The selected virtual process filename supplies the
 bytes; this is a browser platform input, not observation of a Windows process.
 
-That combined filename revision passed all 3,394 tests across 313 files in
-745.15 seconds, TypeScript checking and a production build. Earlier full runs
-with timeouts remain recorded as failed validation; they are not green evidence.
+The combined filename revision passed all 3,394 tests across 313 files in
+745.15 seconds, TypeScript checking and a production build. Its subsequent
+command-line selection checkpoint passed all 3,398 tests across 313 files in
+801.76 seconds, TypeScript checking and a production build. Earlier full runs
+with timeouts remain failed validation and are not green evidence.
 
-The next local checkpoint selects the already-returned Engine process command
-line, publishes the filename pointer and prepares the actual counting-parser
-call `3068e7c4 -> 3068e5d7`. NULL and empty command lines use the filename buffer.
-An unknown first byte stops at its actual read without guessing fallback. The
-default reaches parser entry after 11,622 operations. All 149 focused checks
-across six files and TypeScript checking pass. The combined publication branch
-is undergoing full validation; these changes are not yet deployed.
+The latest local checkpoint executes the original counting parser and its
+lead-byte and locale helpers on the retained Engine stack. NULL and empty
+command lines use the filename buffer. Quote/backslash handling, empty
+arguments and tabs follow the captured instructions. The declared
+`"Gothic3.exe"` input produces vector count 2 (one argument and a NULL terminator)
+and 12 string bytes, then returns through `3068e7c4 -> 3068e7c9` after 12,669
+admitted operations. An unknown input or classification bit preserves produced
+state and pending calls; logical operations retain known-bit masks. Earlier
+stack values are observed before the parser reuses their slots.
 
-The parser body, Engine argv allocation, complete startup and a finishable
+All 158 focused checks across six files, TypeScript checking and a production
+build pass for the parser commit. Its source package contains 25 bodies and
+1,571 instructions; independent JSON/TypeScript regeneration is byte-identical.
+The publication branch now joins that checkpoint with deployed PR #232 and is
+undergoing full validation. The new native continuations are not yet deployed.
+
+Engine argv allocation, the filling pass, complete startup and a finishable
 browser campaign remain unfinished. Earlier sections below are historical
 receipts, including superseded boundaries.
 

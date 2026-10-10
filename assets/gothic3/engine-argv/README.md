@@ -33,9 +33,9 @@ lead-byte/locale helpers. The default returns to `3068e7c9` after 12,669
 operations, with vector count 2 and string storage 12 bytes (one argument plus
 the NULL vector terminator). NULL and empty
 command lines select the actual filename buffer; an unknown first byte stops at
-its read without guessing a fallback. All 158 distinct focused checks are covered by passing results, including
-quote/backslash handling, tabs, empty arguments and interrupted reads; TypeScript
-checking passes. A fresh combined focused run and build are pending. Earlier sections below record superseded
+its read without guessing a fallback. All 158 focused checks across six files, TypeScript checking and a production
+build pass, including quote/backslash handling, tabs, empty arguments and
+interrupted reads. Full validation of the publication branch is pending. Earlier sections below record superseded
 checkpoint boundaries. Engine-owned argv allocation, the filling pass and argument setup caller
 return remain unfinished. This does not prove
 complete engine startup or playable campaign.
