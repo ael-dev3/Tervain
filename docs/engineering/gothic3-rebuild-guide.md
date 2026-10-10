@@ -120,9 +120,10 @@ It preserves Engine-owned allocations, initializes the three standard handles,
 and restores the original stack and exception state. The next unsupported call
 in that merged revision is argument setup `30677276 -> 3068e76f`.
 
-Later local work enters argument setup and its multibyte initialization wrapper,
-then stops at the nested routine `30684e6d`, called from `30685012`. This local
-continuation is not included in PR #221. Capturing that routine and its data does
+The argument-startup checkpoint enters the multibyte routine, constructs its
+exception frame and returns the same Engine-owned thread-data record through
+the original getter wrapper. It stops at locale helper `30684b3a`, called from
+`30684e87`. This continuation is not included in PR #221. Capturing that routine and its data does
 not establish that its behavior has been implemented. A merged revision also
 needs deployment and browser observation before claiming hosted behavior.
 

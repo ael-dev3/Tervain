@@ -4,6 +4,20 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Publication checkpoint — 10 October 2026: Engine argument startup through PTD
+
+The publication branch joins argument source admission, retained Engine image
+ownership, physical argument entry, the multibyte wrapper, nested EH4 setup and
+the Engine PTD getter. Its normal cold path executes 51 source operations and
+stops before locale helper `30684b3a`. Locale setup, parsing and full attachment
+remain unfinished. The later locale continuation is separate local work.
+
+The PTD runtime revision `ea374c3b6` passed all 3,311 tests across 313 files in
+436.98 seconds. Publication adds descriptive locale receipts without changing
+that runtime; its source/image checks pass and its production build passes.
+The building-process guide has been joined to this branch for repository review.
+This checkpoint does not establish full world activation or a playable campaign.
+
 ## Local evidence — 10 October 2026: Engine multibyte locale dependency
 
 The argument receipt includes the locale helper's original EH4 scope at
