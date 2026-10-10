@@ -41,3 +41,7 @@ it('captures the original Engine MBC reference imports and static header without
 it('captures the original Engine global MBC publication storage extents',()=>{
  for(const [label,address,bytes] of [['globalMbcCodepage','30af770c',4],['globalMbcSingleByte','30af7710',4],['globalMbcLocale','30af7714',4],['globalMbcWideTypes','30af7700',10],['globalMbcCharacterTypes','30ad4df0',257],['globalMbcCaseBytes','30ad4ef8',256]] as const){const row=engineArgvImage(label);expect(row).toMatchObject({address,bytes});expect(row.raw.length).toBe(bytes*2);expect(Object.isFrozen(row)).toBe(true);}
 });
+
+it('captures the original four-instruction Engine global MBC unlock helper',()=>{
+ expect(['30684fce','30684fd0','30684fd5','30684fd6'].map(pc=>engineArgvInstruction('30684fce',pc).instruction)).toEqual(['PUSH 0xd','CALL 0x306832b6','POP ECX','RET']);
+});

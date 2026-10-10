@@ -2,8 +2,8 @@
 
 `research.json` captures the original call at `30677276 -> 3068e76f`, its
 70-instruction argument setup, the two-pass parser, multibyte dependency wrapper,
-and CRT malloc wrapper. The package contains 22 methods, 1,531 instructions and
-4,307 instruction bytes, checked against the matching original Engine.dll.
+and CRT malloc wrapper. The package contains 23 methods, 1,535 instructions and
+4,316 instruction bytes, checked against the matching original Engine.dll.
 
 The setup calls GetModuleFileNameA, selects the current command line or filename,
 counts arguments and characters, allocates storage, parses again, and publishes
@@ -18,7 +18,7 @@ python tools/gothic3/prepare_engine_argv_source.py --study <study-directory> --o
 ```
 
 Independent JSON and TypeScript regenerations are byte-identical. Two source checks and TypeScript checking pass. The JSON package has SHA-256
-`0f531c450284e1e1ed3b97aa4571d2d31a84c437526dbbf4b0232da17d42ad70`.
+`c127b0148598ed6c516ba70cf65a17ae95ae71b9b70b125fbd6c3c495f1e5134`.
 Engine.dll SHA-256 is
 `d49ef92c0fdfeda433f6d04d0edeb7751e41e4c7c7effc1265630717029dc7e3`.
 
@@ -222,3 +222,27 @@ Each execution proof validates the complete retained image owner once, preservin
 all ownership, storage and immutable-byte checks without repeating the same
 full validation for every label. A complete latest-checkpoint suite remains
 pending; these checks do not establish full campaign integration.
+
+## Engine global reference and multibyte caller return
+
+The normal continuation decrements the prior global reference through its actual
+import, preserves the static record, installs the same new allocation in the
+global pointer image, and increments its second retained reference. Its four-row
+unlock helper returns through the existing Engine lock service. The original
+EH4 epilog restores exception state and registers before returning multibyte
+setup to its wrapper. The wrapper pops its argument, publishes ready=1 and
+returns to argument setup. Default execution reaches module-filename preparation
+`3068e787` after 11,602 operations. The selected record has two references; opaque
+browser pointers retain object identity rather than inventing numeric addresses.
+Interrupted increments and unavailable unlocks retain the actual pending calls,
+installed record and held lock without marking startup ready. Policy branches
+that skip global publication return with the thread reference only. Module
+filename service, argument parsing, full startup and campaign integration remain
+unfinished. The Game environment test file now allows 20 seconds per check for
+its expanded native startup graph; all existing assertions remain in place.
+
+The 142 distinct focused checks are covered by 139 passes in the broader run
+and three corrected retained-frame/NULL-branch assertions passing separately.
+TypeScript checking and the production build pass. The 23-method source
+package independently regenerates identically. Complete latest-checkpoint
+validation remains pending; full campaign play remains unproven.

@@ -20,6 +20,7 @@ def capture(study):
         0x30672ec7: 'engineArgumentMallocLower',
         0x3067e12b: 'engineMultibyteGetPtdWrapper',
         0x30684bd5: 'engineMultibyteLocaleUnlock',
+        0x30684fce: 'engineMultibyteGlobalUnlock',
         0x30673389: 'engineCodepageLocaleUpdate',
         0x30671690: 'engineMbcMemset',
         0x306849b0: 'engineMbcCaseTables',
