@@ -34,7 +34,9 @@ import { createLeafBurst } from './foliage/leafBurst';
  * lighter source LODs beyond (the same baked leaf cards, so the same shapes in the shadow map). The Pine's far LOD is
  * four crossed planes, so its shadows stop at the middle model.
  */
-export const FLORA_SHADOW_LOD = { full: 25, middle: 70 } as const;
+// A76: the middle model's shadow is the full one's outline (the same leaf cards, compared on the ground in the served
+// build), so it takes over at 16 m rather than 25 m: a tree's shadow drawn at full detail is a third of the sun's pass.
+export const FLORA_SHADOW_LOD = { full: 16, middle: 70 } as const;
 export function floraShadowLod(distance: number, pine: boolean): 0 | 1 | 2 {
   if (distance < FLORA_SHADOW_LOD.full) return 0;
   if (distance < FLORA_SHADOW_LOD.middle || pine) return 1;
@@ -69,6 +71,8 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
    * a contact. Reduced Motion still reports the hit, while suppressing shakes and falling leaves.
    */
   strike(x: number, y: number, z: number, strength?: number, treeId?: string): boolean;
+  /** Draw the full-detail trees with their middle models until the returned function is called (A76). */
+  lighterForReflection(): () => void;
 } {
   const { terrain, colliders, quality, sway, excl } = ctx;
   const group = new THREE.Group();
@@ -292,6 +296,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
   let shadowTrees = 0;
   let shadowTris = 0;
   let disposed = false;
+  const reflectionProxies = new Map<THREE.InstancedMesh, THREE.BufferGeometry>();
   // High draws the full model at every distance (0.0.10, A62); its players may opt into Medium's bands (A76).
   let lodQuality = quality;
 
@@ -468,6 +473,28 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         }
       }
       return best;
+    },
+    lighterForReflection() {
+      // The water's planar reflection is a 512 px image of a rippled surface: there the middle model reads exactly as
+      // the full one, at a fraction of its triangles. Each full-detail mesh keeps its own instances and their distance
+      // coverage; only the vertex buffers are the middle model's, shared, never copied or freed (A76).
+      const swapped: [THREE.InstancedMesh, THREE.BufferGeometry][] = [];
+      for (const b of batches) for (const part of ['wood', 'leaf'] as const) {
+        const near = b.meshes[0]?.[part], mid = b.meshes[1]?.[part];
+        if (!near || !mid || near.count === 0) continue;
+        let proxy = reflectionProxies.get(near);
+        if (!proxy) {
+          proxy = new THREE.BufferGeometry();
+          for (const [name, attribute] of Object.entries(mid.geometry.attributes)) if (name !== 'aDistanceCoverage') proxy.setAttribute(name, attribute);
+          const coverage = near.geometry.getAttribute('aDistanceCoverage');
+          if (coverage) proxy.setAttribute('aDistanceCoverage', coverage);
+          proxy.setIndex(mid.geometry.index);
+          reflectionProxies.set(near, proxy);
+        }
+        swapped.push([near, near.geometry]);
+        near.geometry = proxy;
+      }
+      return () => { for (const [mesh, geometry] of swapped) mesh.geometry = geometry; };
     },
     stats: () => ({ trees: trees.length, solitaryPines, meshyTrees: meshy ? trees.length - solitaryPines : 0, treeObstacles: obstacles.length, treesDrawn: visible, treeTris: Math.round(drawTris),
       shadowTrees, shadowTris: Math.round(shadowTris), struckLeaves: burst?.active ?? 0, ...forestFloor?.stats?.(), ...fallingLeaves.stats?.() }),
