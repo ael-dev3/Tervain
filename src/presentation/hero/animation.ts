@@ -4,7 +4,7 @@ import type { ResidentMotionLibrary } from '../npc/residentMotion';
 import { HERO_BONES, HERO_FINGERS, type HeroBoneName, type HeroBones } from './bones';
 import { HERO_RUN_CYCLE, HERO_RUN_SPEED, HERO_WALK_CYCLE, HERO_WALK_SPEED } from './locomotion';
 import { HERO_SWIM_CYCLE, HERO_SWIM_RATE, heroSwimClips } from './swim';
-import { buildTurnClips, SIDES, TURN_STEP, TurnSteps, type Legs, type Side } from '../turnSteps';
+import { applyTurnLead, buildTurnClips, TurnLead, SIDES, TURN_STEP, TurnSteps, type Legs, type Side } from '../turnSteps';
 
 export interface HeroPose extends Pose {
   grounded?: boolean;
@@ -146,6 +146,8 @@ export class HeroAnimationController {
   private legYaw = 0;
   private backward = false;
   private standTwist = 0;
+  /** How far the head and chest are turned ahead into the turn (A76), radians. */
+  private readonly turnLead = new TurnLead();
   private stepping = false;
   private standingClock = 0;
   private heldClock = 0;
@@ -332,6 +334,7 @@ export class HeroAnimationController {
     this.swimBlend = this.swimMoving = this.swimClock = this.strokesPending = 0;
     this.pendingFootfalls = 0; this.angles.clear();
     this.legYaw = this.standTwist = this.standingClock = this.heldClock = 0; this.backward = this.stepping = false;
+    this.turnLead.reset();
     this.overlay = this.overlayFrom = 'idle';
     for (const grip of Object.values(this.grips)) {
       Object.assign(grip.from, HERO_HAND_GRIPS.relaxed); Object.assign(grip.to, HERO_HAND_GRIPS.relaxed); Object.assign(grip.now, HERO_HAND_GRIPS.relaxed);
@@ -423,6 +426,10 @@ export class HeroAnimationController {
     if (!dead) {
       this.poseActions(p, step, blade);
       this.twistLegs(this.legYaw);
+      // The head and chest lead his turn (A76).
+      this.turnLead.update(step > 0 ? finite(p.turn) / step : 0, step);
+      const sceneUp = new THREE.Vector3(0, 1, 0).applyQuaternion(this.scene.getWorldQuaternion(new THREE.Quaternion()));
+      applyTurnLead([[this.bones['mixamorig:Spine2'], 0.2], [this.bones['mixamorig:Neck'], 0.35], [this.bones['mixamorig:Head'], 0.45]], this.turnLead.lead, sceneUp, this.turnLead.held);
     }
     if (this.steps) {
       // Stopping mid-stride, a settling step brings the feet under him rather than sliding them into the stand (A71).

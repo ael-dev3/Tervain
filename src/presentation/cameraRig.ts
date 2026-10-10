@@ -60,6 +60,8 @@ export class CameraRig {
   mode: 'follow' | 'title' | 'bench' = 'follow';
   benchPath: { p: THREE.Vector3; look: THREE.Vector3 }[] = [];
   benchT = 0;
+  /** Seconds the benchmark route spends on each segment (6; `?bench=quick` 0.5, for a software-rendered check). */
+  benchSegmentSeconds = 6;
   private shakeT = 0;
   /** Developer aid (tools/shot.mjs `cam=`): a fixed camera position and target that overrides following. */
   manual: { p: THREE.Vector3; look: THREE.Vector3 } | null = null;
@@ -309,7 +311,7 @@ export class CameraRig {
   bench(dt: number) {
     const path = this.benchPath;
     if (path.length < 2) return true;
-    this.benchT += dt / 6; // seconds per segment
+    this.benchT += dt / this.benchSegmentSeconds;
     const seg = Math.floor(this.benchT);
     if (seg >= path.length - 1) return true;
     const t = this.benchT - seg;
