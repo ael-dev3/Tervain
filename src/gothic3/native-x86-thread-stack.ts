@@ -209,6 +209,7 @@ export class NativeX86ThreadStack {
   #aiHelperPropertyIdText: NativeHeapCString | null = null;
   #aiHelperAccessorName: NativeHeapCString | null = null;
   #aiHelperAccessorQueryNode: NativeHeapObjectViews | null = null;
+  #aiHelperCloneAllocation: NativeMemoryAllocation | null = null;
   #aiHelperPropertyIdTextDestroyedSnapshot: ReturnType<NativeHeapCString["snapshot"]> | null = null;
   #aiHelperPropertyIdGuid: NativeGuidText | null = null;
   #aiHelperPropertyIdGuidConstructed: Readonly<{bytes:readonly number[];mask:readonly number[]}> | null = null;
@@ -3127,7 +3128,29 @@ export class NativeX86ThreadStack {
     const returned=this.#ret(0),source=this.#record(returned).provenance;
     if(source?.kind!=='source'||source.type!=='code'||source.address!=='204b23f4')throw new Error('Actual Label type getter return required');
   }); }
+  callAIHelperCloneAllocation(controller:object):NativeValue<void> {return this.#run(controller,()=>{
+    const binding=this.#setEnvpBinding;if(!binding||binding.controller!==controller)throw new Error('Actual retained Game startup controller required');
+    const grant=NativeGameCrtSetEnvp.canonicalAIHelperCloneAllocationCallForCrt(binding.owner,binding.crt,controller);if(!grant.known)throw new Error(grant.reason);
+    if(this.#calls.filter(call=>!call.returned).at(-1)?.site!=='100905e9')throw new Error('Actual factory clone allocation frame required');
+    admitAIHelperCloneAllocationImport();
+    const cursor=this.#address(this.#load(this.#bank,this.#reg('ESP'))),bytes=this.#numeric(this.#load(this.#stack,cursor),4),tag=this.#numeric(this.#load(this.#stack,cursor+4),4);
+    if(bytes!==16||tag!==0x190)throw new Error('Original AI helper wrapper allocation arguments required');
+    const memory=nativeGameLayerBaseMemoryForCrt(binding.crt as NativeGameCrtOwner);if(!memory.known)throw new Error(memory.reason);
+    this.#call('20077bfb','20077c01');
+    const result=NativeMemoryAdmin.prototype.newObject.call(memory.value,bytes,tag);if(!result.known)throw new Error(result.reason);
+    let word=this.#mint(0,0xffffffff);
+    if(result.value) {
+      const fields=new NativeHeapObjectViews(result.value);
+      this.#aiHelperCloneAllocation=result.value;
+      this.#arenaAllocations.set(fields,{owner:memory.value,allocation:result.value});this.#sharedLocalPhysical(fields);
+      word=this.#mint(result.value.offset&3,3,{kind:'shared-local',fields});
+    }
+    this.#store(this.#bank,this.#reg('EAX'),word);
+    const returned=this.#ret(8),source=this.#record(returned).provenance;
+    if(source?.kind!=='source'||source.type!=='code'||source.address!=='20077c01')throw new Error('Actual tagged allocation callee cleanup and return required');
+  }); }
   aiHelperAccessorQueryNodeSnapshot() {return this.#aiHelperAccessorQueryNode;}
+  aiHelperCloneAllocationSnapshot() {return this.#aiHelperCloneAllocation;}
   callAIHelperAccessorTypeLookup(controller:object):NativeValue<void> {return this.#run(controller,()=>{
     const binding=this.#setEnvpBinding;if(!binding||binding.controller!==controller)throw new Error('Actual retained Game startup controller required');
     const grant=NativeGameCrtSetEnvp.canonicalAIHelperAccessorTypeLookupCallForCrt(binding.owner,binding.crt,controller);if(!grant.known)throw new Error(grant.reason);
@@ -4258,3 +4281,4 @@ export function retireNativeX86ThreadStackForPlatform(platform: NativeRuntimePla
   if (!NativeRuntimePlatform.threadStackLifetimeHasEnded(platform, selection)) return;
   const graph = graphs.get(platform); if (graph) retirements.get(graph)!();
 }
+import {admitAIHelperCloneAllocationImport} from './native-game-ai-helper-accessor-creator-source';

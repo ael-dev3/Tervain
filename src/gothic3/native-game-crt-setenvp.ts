@@ -422,6 +422,12 @@ export class NativeGameCrtSetEnvp {
     return owner.#pc==='100905b7'&&owner.#currentEntry==='10090590'&&frame?.entry==='10090590'&&frame.site==='100932f6'&&frame.returnPc==='100932fb'&&
       owner.#requireSourcePoint(owner.#pc).instruction==='CALL 0x100019d8'?known(undefined):unknown('Actual original query type lookup required');
   }
+  static canonicalAIHelperCloneAllocationCallForCrt(owner:NativeGameCrtSetEnvp,crt:NativeModuleCrtOwner,controller:object):NativeValue<void> {
+    const active=NativeGameCrtSetEnvp.canonicalControllerForCrt(owner,crt,controller,'invoke');if(!active.known)return active;
+    const frame=owner.#frames.at(-1);
+    return owner.#pc==='20077bfb'&&owner.#currentEntry==='20077bf0'&&frame?.entry==='20077bf0'&&frame.site==='100905e9'&&frame.returnPc==='100905ee'&&
+      owner.#requireSourcePoint(owner.#pc).instruction==='CALL dword ptr [0x207d88f8]'?known(undefined):unknown('Actual original AI helper clone allocation CALL required');
+  }
   static canonicalAIHelperAdminTypeCallForCrt(owner:NativeGameCrtSetEnvp,crt:NativeModuleCrtOwner,controller:object):NativeValue<void> {
     const active=NativeGameCrtSetEnvp.canonicalControllerForCrt(owner,crt,controller,'invoke');if(!active.known)return active;
     const frame=owner.#frames.at(-1);
@@ -678,6 +684,11 @@ export class NativeGameCrtSetEnvp {
     fact(NativeX86ThreadStack.prototype.storeWidth.call(this.#stack, this.#controller, this.#address(destination.expression), word, bytes));
   }
   #call(point: NativeGameIoInstruction, target: Operand, returnPc: string): string {
+    if(point.va==='20077bfb') {
+      if(this.#currentEntry!=='20077bf0'||target.kind!=='memory'||target.expression!=='0x207d88f8'||target.fs||returnPc!=='20077c01')throw new Error('Original AI helper clone allocation import required');
+      fact(NativeX86ThreadStack.prototype.callAIHelperCloneAllocation.call(this.#stack,this.#controller));
+      this.#nextBoundary=null;return returnPc;
+    }
     if(point.va==='204b1db4') {
       if(target.kind!=='immediate' || target.value!==0x204637ce)
         throw new Error('Original Arena root cleanup atexit target required');
@@ -1289,6 +1300,7 @@ export class NativeGameCrtSetEnvp {
     const imports = graph.setEnvpCalls;
     return Object.freeze({ module: 'Game' as const, phase: this.#phase, currentPC: this.#pc, boundary: this.#boundary,
       aiHelperAccessorQueryNode: NativeX86ThreadStack.prototype.aiHelperAccessorQueryNodeSnapshot.call(this.#stack),
+      aiHelperCloneAllocation: NativeX86ThreadStack.prototype.aiHelperCloneAllocationSnapshot.call(this.#stack),
       aiHelperPropertyIdText: NativeX86ThreadStack.prototype.aiHelperPropertyIdTextSnapshot.call(this.#stack),
       aiHelperPropertyIdGuid: NativeX86ThreadStack.prototype.aiHelperPropertyIdGuidSnapshot.call(this.#stack),
       nextBoundary: this.#nextBoundary, physicalGraphTransferred: this.#physicalGraphTransferred,

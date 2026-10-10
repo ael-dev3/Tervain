@@ -49,8 +49,8 @@ and AI helper administrator initialization return through the retained startup
 stack. PropertyID initializer `204b26c0` returns. Accessor-creator initializer
 `204b2720` resolves the registered AI helper type and returns its canonical
 factory through the original virtual accessor. The factory query finds the
-registered root wrapper and tail-dispatches its clone routine. Execution stops
-at the clone allocation CALL `20077bfb`, before creating the new wrapper.
+registered root wrapper and tail-dispatches its clone routine. The clone allocates
+its new wrapper and execution stops at the base constructor CALL `20077c09`.
 Complete startup, world activation and a new-game-to-ending campaign remain
 unfinished. Local checkpoints and the hosted version can differ; the validation
 receipts below identify the checkpoint covered.
@@ -96,7 +96,21 @@ establish completion of these remaining features.
 The entries below describe successive local states, newest first. Statements
 about missing operations in older entries apply to those earlier checkpoints.
 
-### Latest local checkpoint: factory query reaches the original wrapper clone
+### Latest local checkpoint: clone allocation returns
+
+The original clone allocation CALL `20077bfb` invokes the retained MemoryAdmin's
+tagged allocation with size `16` and category `0x190`. The returned allocation
+has its own live backing and remains separate from the registered root wrapper.
+The original callee cleanup consumes eight argument bytes; execution then
+copies the result into ESI, takes its non-null branch and sets ECX to the new
+wrapper. It stops at base constructor import CALL `20077c09`.
+
+Nine focused tests passed in 11.51 seconds. Tests check allocation size, lifetime,
+root-wrapper separation, category receipt and the executed branch instructions.
+TypeScript checking and independent source regeneration passed. Full startup,
+world activation and campaign completion remain unfinished.
+
+### Historical checkpoint: factory query reaches the original wrapper clone
 
 The original factory query reads its retained root array, checks the wrapper's
 root flag and tail-dispatches through its actual vtable slot `+56`. The vtable
