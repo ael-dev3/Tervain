@@ -4,7 +4,7 @@ import {NativeGameAIHelperAdminClassName} from '../../src/gothic3/native-game-ai
 import {NativeGameLabelClassName} from '../../src/gothic3/native-game-label-class-name';
 import {NativeGameLabelType} from '../../src/gothic3/native-game-label-type';
 import {expect,it,vi} from 'vitest';
-// These run the original instructions in the emulator: about 4â€“5 s each here, so the 5 s default fails under CI load.
+// These run the original instructions in the emulator: about 4Ã¢â‚¬â€œ5 s each here, so the 5 s default fails under CI load.
 vi.setConfig({ testTimeout: 30_000 });
 import {createBrowserGameCrtPlatform} from '../../src/gothic3/browser-game-crt-platform';
 import {browserGameProcessInputs} from '../../src/gothic3/browser-game-process-inputs';
@@ -55,12 +55,13 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  expect(game.known).toBe(true);
  if(!game.known)throw new Error(game.reason);
  expect(game.value.attachResult,game.value.attachProgress.setEnvpProgress?.currentPC).toEqual({known:false,
-  reason:'crtAttach204677e4: Unowned ModuleAdmin.GetInstance30088e90: atexit.ModuleAdmin30797fc0: Engine shutdown registration requires its CRT attach: crtAttach3067717c: Unowned Engine crtGetEnvironmentStringsA3068e828 at3067725c'});
+  reason:'crtAttach204677e4: Unowned ModuleAdmin.GetInstance30088e90: atexit.ModuleAdmin30797fc0: Engine shutdown registration requires its CRT attach: crtAttach3067717c: Engine crtGetEnvironmentStringsA3068e828 at3067725c: Engine environment allocation/output ownership3067c9c1 at3068e8c2'});
  const engine=createBrowserEngineCrtStartup(platform);if(!engine.known)throw new Error(engine.reason);
  expect(createBrowserEngineCrtStartup(platform)).toBe(engine);
  expect(canonicalBrowserEngineCrtStartup(engine.value,platform).known).toBe(true);
  expect(canonicalBrowserEngineCrtStartup({...engine.value},platform).known).toBe(false);
  expect(engine.value.attachProgress).toMatchObject({module:'Engine',heapResult:1,mtResult:1,preCReturned:true,commandLineReturned:true,commandLineNonNull:true,crtTraversalCompleted:false});
+ expect(engine.value.attachProgress.engineEnvironmentProgress).toMatchObject({mode:1,branch:'wide',pc:'3068e8c2',inputCharacters:19,outputBytes:19,phase:'blocked'});
  expect(engine.value.attachProgress.engineCommandLineStorage!.pointer(0).get()).toBe(game.value.crt.imageStorage('commandLinePointer').pointer(0).get());
  expect(engine.value.crt.physical.heapHandle.pointer(0).get()).not.toBe(game.value.crt.physical.heapHandle.pointer(0).get());
  expect(engine.value.crt.physical.crtTlsIndexes.backing).not.toBe(game.value.crt.physical.crtTlsIndexes.backing);

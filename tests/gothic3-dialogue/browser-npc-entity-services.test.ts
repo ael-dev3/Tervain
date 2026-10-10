@@ -1,6 +1,6 @@
 import { randomUUID } from 'node:crypto';
 import { describe, expect, it, vi } from 'vitest';
-// These run the original instructions in the emulator: about 4â€“5 s each here, so the 5 s default fails under CI load.
+// These run the original instructions in the emulator: about 4Ã¢â‚¬â€œ5 s each here, so the 5 s default fails under CI load.
 vi.setConfig({ testTimeout: 30_000 });
 import { BrowserMatrixShutdownRegistry, createBrowserNpcEntityServices } from '../../src/gothic3/browser-npc-entity-services';
 import { OriginalControlModuleState } from '../../src/gothic3/control-reading';
@@ -19,7 +19,7 @@ describe('selected browser NPC platform services', () => {
     expect(startup.propertyIdInvocation).toBe('not-entered');
     expect(startup.prerequisites.attachResult.known).toBe(false);
     if(startup.prerequisites.attachResult.known)throw new Error('Unfinished Game startup returned');
-    expect(startup.prerequisites.attachResult.reason).toContain('Engine shutdown registration requires its CRT attach: crtAttach3067717c: Unowned Engine crtGetEnvironmentStringsA3068e828 at3067725c');
+    expect(startup.prerequisites.attachResult.reason).toContain('Engine shutdown registration requires its CRT attach: crtAttach3067717c: Engine crtGetEnvironmentStringsA3068e828 at3067725c: Engine environment allocation/output ownership3067c9c1 at3068e8c2');
     const first = owner.control.matrixIdentity();
     const second = owner.control.matrixIdentity();
     expect(first.known).toBe(true);

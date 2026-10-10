@@ -55,7 +55,9 @@ Non-root initialization allocates a separate component and executes its Engine
 constructor chain. The translated module-administrator getter constructs its
 dispatcher and registry. Its shutdown dependency now enters Engine's retained
 CRT attach prefix, stores the process command-line pointer and stops at Engine
-environment retrieval `3067725c -> 3068e828`.
+environment retrieval `3067725c -> 3068e828`. That routine selects the wide
+API, scans the retained input and measures conversion; execution now stops at
+its allocation/output ownership dependency `3068e8c2 -> 3067c9c1`.
 Complete startup, world activation and a new-game-to-ending campaign remain
 unfinished. Local checkpoints and the hosted version can differ; the validation
 receipts below identify the checkpoint covered.
@@ -106,8 +108,11 @@ The next Engine environment dependency is captured in
 [`assets/gothic3/engine-environment/`](../../assets/gothic3/engine-environment/).
 Its 130 instructions, six platform imports, two cold globals and caller bytes
 are verified against the pinned DLL. Independent regeneration matches exactly.
-This is source evidence; connecting its allocation, conversion, copy and cleanup
-to the Engine CRT remains the next runtime step.
+Its translated selection, scan and conversion-measurement prefix is connected
+to the retained browser Engine bootstrap. All 34 focused checks across four
+files and typechecking pass. Output allocation, conversion fill, ANSI copy and
+cleanup remain the next runtime dependencies. This checkpoint has not yet been
+validated by a full suite, production build or hosted-browser observation.
 
 Each checkpoint should let another developer follow the same evidence:
 

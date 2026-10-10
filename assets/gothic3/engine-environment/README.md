@@ -8,7 +8,7 @@ loader-zero result pointer `30af70d4`, and the caller/store/next-call bytes.
 Reproduce from the repository root:
 
 ```powershell
-python tools/gothic3/prepare_engine_environment_source.py --study '<matching study directory>' --output assets/gothic3/engine-environment/research.json
+python tools/gothic3/prepare_engine_environment_source.py --study '<matching study directory>' --output assets/gothic3/engine-environment/research.json --typescript src/gothic3/native-engine-environment-source.ts
 ```
 
 The study directory contains `00_Original_Runtime/Engine.dll` and
@@ -24,7 +24,16 @@ performs conversion; conversion failure frees the allocation. Direct native
 dependencies are allocation `3067c9c1`, free `30672f8a`, and copy `30671cf0`.
 Their execution requires separate ownership and source evidence.
 
-This package is research evidence, with no runtime admission or browser caller.
-The live bootstrap still stops at `3067725c -> 3068e828`. Once the routine
+The generated admission pins the original package text. The browser bootstrap
+now invokes `NativeEngineCrtEnvironment` for the actual Engine CRT, independently
+of Game's environment mode. The translated prefix selects and scans wide or ANSI
+input, measures wide conversion, and retains the pending allocation call at
+`3068e8c2` (wide) or `3068e92a` (ANSI). NULL inputs return NULL. A zero conversion
+measurement releases wide input before returning NULL; the original raw release
+BOOL is ignored. Completed calls permit another physical invocation, while a
+blocked call preserves its state and cannot replay the prefix.
+
+Output allocation, fill conversion, ANSI copy and allocation cleanup remain
+unconnected. Once the routine
 returns, its original caller stores EAX at `30af70d4` and calls `306886ec` at
 `30677266`; this package does not establish that those operations execute.

@@ -14,6 +14,7 @@ import type { NativeMemoryBacking } from './native-memory-admin';
 import type { NativeWin32HeapCapability } from './native-runtime-platform';
 import { NativeRuntimePlatform } from './native-runtime-platform';
 import { NativeGameCrtEnvironment } from './native-game-crt-environment';
+import { NativeEngineCrtEnvironment } from './native-engine-crt-environment';
 import { NativeGameCrtIoInit } from './native-game-crt-ioinit';
 import { NativeGameCrtArgv } from './native-game-crt-argv';
 import { NativeGameCrtSetEnvp } from './native-game-crt-setenvp';
@@ -181,6 +182,7 @@ export interface NativeCrtAttachProgress {
   readonly environmentReturned: boolean;
   readonly environmentNonNull: boolean | null;
   readonly environmentProgress: ReturnType<NativeGameCrtEnvironment['snapshot']> | null;
+  readonly engineEnvironmentProgress: ReturnType<NativeEngineCrtEnvironment['snapshot']> | null;
   readonly ioProgress: ReturnType<NativeGameCrtIoInit['snapshot']> | null;
   readonly ioResult: number | null;
   readonly argvProgress: ReturnType<NativeGameCrtArgv['snapshot']> | null;
@@ -237,6 +239,7 @@ export class NativeCrtBootstrap {
   #commandLineBoundary: NativeCrtAttachProgress['commandLineBoundary'] = null;
   readonly #processInputs: NativeWin32ProcessInputEndpoints | null;
   readonly #environment: NativeValue<NativeGameCrtEnvironment> | null;
+  readonly #engineEnvironment: NativeValue<NativeEngineCrtEnvironment> | null;
   readonly #io: NativeValue<NativeGameCrtIoInit> | null;
   readonly #argv: NativeValue<NativeGameCrtArgv> | null;
   readonly #setEnvp: NativeValue<NativeGameCrtSetEnvp> | null;
@@ -383,6 +386,7 @@ export class NativeCrtBootstrap {
       this.#engineCommandLineStorage=new NativeHeapObjectViews({identity:Object.freeze({crt:crt.identity,address:row.address}),bytes:new Uint8Array(4),knownMask:new Uint8Array(4).fill(255),freed:false});this.#pin(this.#engineCommandLineStorage);
     }
     this.#environment = crt.module === 'Game' ? NativeGameCrtEnvironment.forCrt(crt) : null;
+    this.#engineEnvironment = crt.module === 'Engine' && this.#processInputs ? NativeEngineCrtEnvironment.forCrt(crt) : null;
     this.#io = crt.module === 'Game' ? NativeGameCrtIoInit.forCrt(crt) : null;
     this.#argv = crt.module === 'Game' ? NativeGameCrtArgv.forCrt(crt) : null;
     this.#setEnvp = crt.module === 'Game' ? NativeGameCrtSetEnvp.forCrt(crt) : null;
@@ -653,7 +657,13 @@ export class NativeCrtBootstrap {
       NativeHeapObjectViews.prototype.pointer.call(this.#checked(this.#engineCommandLineStorage),0).set(commandLine);
       this.#record('commandLinePointer.store',this.#commandLineNonNull,'30677257');
       this.#nextBoundary=Object.freeze({name:'environment',address:'3067725c',target:'3068e828'});
-      this.#gate('Engine crtGetEnvironmentStringsA3068e828 at3067725c');
+      const environment=this.#call('Engine crtGetEnvironmentStringsA3068e828 at3067725c',()=>this.#engineEnvironment?.known
+        ? this.#engineEnvironment.value.capture()
+        : unknown(this.#engineEnvironment&&!this.#engineEnvironment.known?this.#engineEnvironment.reason:'Actual Engine environment owner required'));
+      this.#environmentReturned=true;this.#environmentNonNull=environment!==null;
+      this.#record('environment.return',this.#environmentNonNull,'30677261');
+      this.#nextBoundary=Object.freeze({name:'environment',address:'30677261',target:'30af70d4'});
+      this.#gate('Engine environment result store30af70d4 at30677261');
     }
     const points = gameAttachContinuationInstructionPoints;
     const endpointProof = NativeRuntimePlatform.canonicalProcessInputEndpointsForPlatform(
@@ -844,6 +854,7 @@ export class NativeCrtBootstrap {
       commandLineReturned: this.#commandLineReturned, commandLineNonNull: this.#commandLineNonNull,
       environmentReturned: this.#environmentReturned, environmentNonNull: this.#environmentNonNull,
       environmentProgress: this.#environment?.known ? this.#environment.value.snapshot() : null,
+      engineEnvironmentProgress: this.#engineEnvironment?.known ? this.#engineEnvironment.value.snapshot() : null,
       ioProgress: this.#io?.known ? NativeGameCrtIoInit.prototype.snapshot.call(this.#io.value) : null,
       ioResult: this.#ioResult,
       argvProgress: this.#argv?.known ? NativeGameCrtArgv.prototype.snapshot.call(this.#argv.value) : null,
