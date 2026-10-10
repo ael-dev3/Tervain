@@ -374,6 +374,20 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
       engineCinitInstruction('3067d1c7','3067d1d0');stack.#push(stack.#mint(0,0,{kind:'source',type:'image',address:callback.slot,fields:fp.value}));stack.#trace.push('3067d1d0.EngineCinitSource');stack.#engineCinitFrame.operations++;
       engineCinitInstruction('3067d1c7','3067d1d5');stack.#call('3067d1d5','3067d1da');stack.#trace.push('3067d1d5.EngineCinitSource');stack.#engineCinitFrame.operations++;
       stack.#engineCinitFrame.pc='3068aa20';
+      const readonly=NativeEngineCinitImages.floatingPointSlotReadonlyForCrt(images.value,crt,fp.value);if(!readonly.known)throw new Error(readonly.reason);
+      const guardEsp=stack.#address(stack.#load(stack.#bank,stack.#reg('ESP'))),argument=stack.#record(stack.#load(stack.#stack,guardEsp+4)).provenance;
+      if(argument?.kind!=='source'||argument.type!=='image'||argument.address!==callback.slot||argument.fields!==fp.value)throw new Error('Actual readonly guard stack argument required');
+      stack.#store(stack.#bank,stack.#reg('EAX'),stack.#mint(readonly.value,0xffffffff));
+      stack.#store(stack.#bank,stack.#reg('ECX'),stack.#mint(0,0));stack.#store(stack.#bank,stack.#reg('EDX'),stack.#mint(0,0));stack.#flags(0,0);
+      stack.#ret();
+      const step=(pc:string,body:()=>void)=>{engineCinitInstruction('3067d1c7',pc);stack.#engineCinitFrame!.pc=pc;body();stack.#trace.push(pc+'.EngineCinitSource');stack.#engineCinitFrame!.operations++;};
+      step('3067d1da',()=>stack.#logicalFlags(readonly.value,0xffffffff,4));
+      step('3067d1dc',()=>{const esp=stack.#address(stack.#load(stack.#bank,stack.#reg('ESP')));stack.#store(stack.#bank,stack.#reg('ECX'),stack.#load(stack.#stack,esp));stack.#store(stack.#bank,stack.#reg('ESP'),stack.#stackWord(esp+4));});
+      step('3067d1dd',()=>{});
+      if(!readonly.value){stack.#engineCinitFrame.pc='3067d1ea';return known(undefined);}
+      step('3067d1df',()=>{const esp=stack.#address(stack.#load(stack.#bank,stack.#reg('ESP')));stack.#push(stack.#load(stack.#stack,esp+4));});
+      step('3067d1e3',()=>stack.#call('3067d1e3','3067d1e9'));
+      stack.#engineCinitFrame.pc=callback.target;
       return known(undefined);
     }catch(error){return unknown(reason(error));}
   }

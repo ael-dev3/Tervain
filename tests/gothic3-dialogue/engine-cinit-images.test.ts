@@ -22,3 +22,11 @@ it('rejects released or replaced backing without repairing it', () => {
   const b = fixture(), other = fact(NativeEngineCinitImages.imageForCrt(b.owner, b.crt, 'divideAdjustment'));
   Reflect.set(other.backing, 'bytes', new Uint8Array(4)); expect(NativeEngineCinitImages.forCrt(b.crt).known).toBe(false);
 });
+it('checks the original PE readonly section for the owned callback slot',()=>{
+ const {crt,owner}=fixture(),fp=fact(NativeEngineCinitImages.imageForCrt(owner,crt,'floatingPointCallback'));
+ expect(fact(NativeEngineCinitImages.floatingPointSlotReadonlyForCrt(owner,crt,fp))).toBe(1);
+ const other=fact(NativeEngineCinitImages.imageForCrt(owner,crt,'divideAdjustment'));
+ expect(NativeEngineCinitImages.floatingPointSlotReadonlyForCrt(owner,crt,other).known).toBe(false);
+ const header=fact(NativeEngineCinitImages.imageForCrt(owner,crt,'originalHeaders'));
+ header.knownMask[0]=0;expect(NativeEngineCinitImages.floatingPointSlotReadonlyForCrt(owner,crt,fp).known).toBe(false);expect(header.knownMask[0]).toBe(0);
+});
