@@ -728,3 +728,16 @@ it('enters the original Engine CRT initializer with argument zero and a pending 
  expect(graph.value.snapshot().trace).toContain('30677286.EngineSetenvpCallerJl');
  const before=graph.value.snapshot().trace;expect(bootstrap.processAttach()).toEqual(result);expect(graph.value.snapshot().trace).toEqual(before);
 });
+it.each([
+ [{},'3067f626','3067f626'],
+ [{processorFeatureProcedure:true},'3067f632','3067f632'],
+] as const)('retains unavailable Engine divide platform data at its original call %j', (features,pc,site)=>{
+ const {bootstrap,platform,crt}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,features),graph=NativeX86ThreadStack.forPlatform(platform);if(!graph.known)throw new Error(graph.reason);
+ const result=bootstrap.processAttach();expect(result.known).toBe(false);expect(bootstrap.attachProgress().engineCinitProgress).toMatchObject({pc,floatConversionWritten:true,precisionArgument:null});expect(graph.value.snapshot().calls.find(c=>c.site===site)).toMatchObject({returned:false});
+ const adjustment=bootstrap.attachProgress().engineCinitProgress!.images;expect(adjustment.crt).toBe(crt);expect(graph.value.snapshot().calls.some(c=>c.site==='3067d1ea')).toBe(false);
+ const before=graph.value.snapshot().trace;expect(bootstrap.processAttach()).toEqual(result);expect(graph.value.snapshot().trace).toEqual(before);
+});
+it('follows the original Engine x87 fallback when the feature export is absent',()=>{
+ const {bootstrap,platform}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{processorFeatureProcedure:false}),graph=NativeX86ThreadStack.forPlatform(platform);if(!graph.known)throw new Error(graph.reason);
+ expect(bootstrap.processAttach().known).toBe(false);expect(bootstrap.attachProgress().engineCinitProgress).toMatchObject({pc:'3067f5d5',operations:35});expect(graph.value.snapshot().calls.find(c=>c.site==='3067f626')).toMatchObject({returned:true});expect(graph.value.snapshot().calls.some(c=>c.site==='3067f632')).toBe(false);
+});

@@ -7,6 +7,7 @@ freeze(source);
 export function admitEngineCinitSource():void {if(sourceText!==expectedText)throw new Error('Original Engine initializer source differs');}
 export function engineCinitInstruction(entry:string,pc:string){admitEngineCinitSource();const method=source.source.methods.find(method=>method.bodyVA==='0x'+entry);const row=method?.instructions.find(row=>row.va===pc);if(!row)throw new Error('Original Engine initializer instruction required');return row;}
 export function engineCinitCaller(){admitEngineCinitSource();return source.caller;}
+export function engineCinitImport(iat:string){admitEngineCinitSource();const row=source.source.imports.find(row=>row.iatVA==='0x'+iat);if(!row)throw new Error('Original Engine initializer import required');return row;}
 export function engineCinitFloatingPointCallback(){admitEngineCinitSource();return source.floatingPointCallback;}
 export function engineCinitHeaders(){admitEngineCinitSource();return source.originalHeaders;}
 export function engineCinitImage(label:string){admitEngineCinitSource();const image=source.images.find(image=>image.label===label);if(!image)throw new Error('Original Engine initializer image required');return image;}
