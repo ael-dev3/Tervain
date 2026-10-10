@@ -181,14 +181,18 @@ Engine lock 13, and copies the header and all character tables to their original
 global extents. Its targeted checks cover complete copying, interrupted writes
 and retained state. The continuation also replaces the global pointer, retains a second reference,
 releases lock 13 and returns through the original exception epilog and wrapper.
-Default execution reaches module-filename preparation `3068e787` after 11,602
-operations. Its 142 distinct focused checks are covered by passing results, and
-TypeScript checking and production build pass. Full validation is running; this
+The next call returns the selected virtual process filename through the original
+`GetModuleFileNameA` ABI and the actual Engine-owned buffer. Default execution
+reaches command-line selection `3068e79f` after 11,608 operations. All 148
+distinct focused checks are covered by passing results, including three
+parameterized formatter damage cases. TypeScript checking, independent evidence
+regeneration and production build pass. Full validation is running; this
 continuation has not been deployed. A single full image-owner check preserves storage
 validation while removing repeated validation of the same owner.
 
 Temporary stack views are reused by later calls. Tests observe values and
-arguments at their actual returns. Module filename service, argument parsing and full startup remain unfinished.
+arguments at their actual returns. Command-line selection, argument parsing, argv allocation and full startup
+remain unfinished.
 
 Complete startup, world activation and a new-game-to-ending campaign remain
 unfinished. The checkpoint history records earlier boundaries and their evidence;

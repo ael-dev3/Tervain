@@ -4,37 +4,40 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
-## Latest state — 10 October 2026: multibyte setup and wrapper return
+## Latest state — 10 October 2026: Engine module filename return
 
 PR #230 deployed revision `f1505ca863aefc10d5a6cb883d1d379b8ac296ff` after
 successful main build and Pages deployment. It completes both case conversions
 and stops at `30684a93` after 5261 admitted operations.
 
-The newer local continuation builds the character record, returns its original
-initializers, installs it in Engine thread data, and publishes the header and
-complete character tables under lock 13. It replaces the global MBC pointer
-with the same allocation and retains its second reference through the actual
-imports. The four-instruction unlock helper releases the existing lock service;
-the retained EH4 epilog restores exception state and registers. Multibyte setup
-and its wrapper both return through their original slots, and the wrapper marks
-multibyte ready=1. Default execution reaches module-filename preparation
-`3068e787` after 11,602 operations.
+The newer local continuation completes the character record, installs it in
+Engine thread data and publishes all original multibyte globals. It replaces
+the global pointer, retains the second reference, releases lock 13 and returns
+through the original EH4 epilog and multibyte wrapper. The wrapper marks
+multibyte ready=1. Argument setup then calls original `GetModuleFileNameA`
+with NULL module, the owned 260-byte buffer and count 260 after clearing its
+separate sentinel. The selected virtual process filename supplies the API
+bytes; normal execution writes those bytes and terminator and returns its
+length through the actual stdcall slot. The current boundary is command-line
+pointer selection `3068e79f` after 11,608 operations.
 
-Interrupted increments and unavailable unlocks preserve the pending calls,
-installed record and held lock without manufacturing a ready result. Original
-policy branches that skip global publication return with one thread reference.
-The 23-method receipt independently regenerates identically. All 142 distinct
-focused checks are covered by passing results; TypeScript checking and build
-pass. Full validation of this combined continuation is running.
+Interrupted writes, increments and unavailable unlocks retain their produced
+state and actual pending calls. Reused stack slots are observed while their
+values are live. All 148 distinct focused checks are covered by passing
+results, with TypeScript checking, independent JSON/TypeScript regeneration
+and production build passing. Full validation of the combined publication
+branch is running. It is not yet deployed.
 
-The preceding table-publication full run reported 3382 passes and three
-timeouts across 313 files in 876.33 seconds: two five-second Game environment
-checks and one 30-second SharedBase heap check. It also reported two worker
-termination warnings. It is not a passing full result. The Game environment
-file now uses the same 20-second allowance as the expanded Engine graph.
+The preceding multibyte-return full run reported 3388 passes and one 30-second
+formatter timeout across 313 files in 866.75 seconds. That test grouped three
+independently initialized damage cases; they now run separately with unchanged
+inputs, assertions and per-case timeout, and all three pass. The prior
+876.33-second table-publication run had three timeouts and two worker
+termination warnings. Neither run is claimed as a passing full result.
 
-Full engine startup and a finishable browser campaign remain unfinished. Earlier
-sections below are historical receipts, including superseded boundaries.
+Command-line selection, the two-pass parser, Engine argv allocation, complete
+startup and a finishable browser campaign remain unfinished. Earlier sections
+below are historical receipts, including superseded boundaries.
 
 ## Publication checkpoint — 10 October 2026: Engine argument and locale startup
 
