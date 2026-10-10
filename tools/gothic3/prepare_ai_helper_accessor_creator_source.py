@@ -7,7 +7,7 @@ import hashlib
 import json
 from pathlib import Path
 
-from read_dialogue_native_evidence import EXPECTED_INPUTS, PE
+from read_dialogue_native_evidence import EXPECTED_INPUTS, PE, audit_module
 
 
 def capture(study):
@@ -16,6 +16,9 @@ def capture(study):
     if digest != EXPECTED_INPUTS['Game.dll']:
         raise ValueError('Unsupported Game.dll build')
     pe = PE(data)
+    EXPECTED_INPUTS['SharedBase.dll']='5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214'
+    shared=audit_module(study,'SharedBase_dll','SharedBase.dll',{
+        0x10002ee1:'accessorCreatorConstructor',0x10007036:'queryNewObject',0x10007356:'accessorCreatorDestructor'})
     root = Path(__file__).resolve().parents[2]
     rows = []
     assembly = root / 'assets/gothic3/game-cinit-callbacks/sources/Game/204b2720.asm.txt'
@@ -52,7 +55,7 @@ def capture(study):
             raw=image.hex(), fileBackedBytes=backed, loaderZeroFillBytes=size-backed,
             sha256=hashlib.sha256(image).hexdigest(), liveValueCaptured=False))
     return dict(schema='gothic3-ai-helper-accessor-creator-research-v1',
-        module='Game.dll', inputSha256=digest, initializer='204b2720',
+        module='Game.dll', inputSha256=digest, shared=shared, initializer='204b2720',
         extent='204b2720-204b2741', bytes=raw.hex(),
         bytesSha256=hashlib.sha256(raw).hexdigest(), instructions=rows,
         destination='207b52bc', cleanup='20549d50', imports=imports,
@@ -91,6 +94,7 @@ admitAIHelperAccessorCreatorSource();freeze(source);
 export const aiHelperAccessorCreatorImagePins=Object.fromEntries(source.images.map(image=>[image.label,[image.loaderZeroFillBytes?'coldGlobals':'constBytes',image.address,image.bytes,image.raw,image.sha256] as const]));
 freeze(aiHelperAccessorCreatorImagePins);
 export function aiHelperAccessorCreatorImageReceipt(label:string):NativeCrtImageReceipt {admitAIHelperAccessorCreatorSource();const image=source.images.find(image=>image.label===label);if(!image)throw new Error('Unowned AI helper accessor creator image');return Object.freeze({...image,module:'Game' as const,scope:image.loaderZeroFillBytes?'cold-original-image':'original-file-backed-constant',knownMask:'ff'.repeat(image.bytes)});}
+export function aiHelperAccessorCreatorConstructorInstruction(pc:string):NativeGameIoInstruction {admitAIHelperAccessorCreatorSource();const method=source.shared.methods.find(method=>method.label==='accessorCreatorConstructor'&&method.bodyVA==='0x100932e0');const row=method?.instructions.find(row=>row.va===pc);if(!row)throw new Error('Unowned original accessor constructor instruction');return row;}
 export function aiHelperAccessorCreatorCleanupReceipt(){admitAIHelperAccessorCreatorSource();const cleanup=source.cleanupReceipt;return Object.freeze({module:'Game' as const,entry:cleanup.entry,body:cleanup.entry,bodyInstructionBytesSha256:cleanup.bytesSha256});}
 export function aiHelperAccessorCreatorInstruction(pc:string):NativeGameIoInstruction {admitAIHelperAccessorCreatorSource();const row=source.instructions.find(row=>row.va===pc);if(!row)throw new Error('Unowned AI helper accessor creator instruction');return row;}
 """.replace('EXPECTED', expected)

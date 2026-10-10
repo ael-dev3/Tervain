@@ -206,6 +206,7 @@ export class NativeX86ThreadStack {
   #argvBinding: ArgvBinding | null = null;
   #setEnvpBinding: SetEnvpBinding | null = null;
   #aiHelperPropertyIdText: NativeHeapCString | null = null;
+  #aiHelperPropertyIdTextDestroyedSnapshot: ReturnType<NativeHeapCString["snapshot"]> | null = null;
   #aiHelperPropertyIdGuid: NativeGuidText | null = null;
   #aiHelperPropertyIdGuidConstructed: Readonly<{bytes:readonly number[];mask:readonly number[]}> | null = null;
   #aiHelperPropertyIdGuidLifetimeEnded=false;
@@ -3046,8 +3047,8 @@ export class NativeX86ThreadStack {
     const label=site==='20074699'||site==='200746dd';
     const aiHelperAdmin=site==='20076689'||site==='200766e1';
     const outerSite=this.#calls.filter(call=>!call.returned).at(-1)?.site;
-    if(next!==(site==='1008d1a3'?'1008d1a8':site==='2006f985'?'2006f98b':site==='20072619'?'2007261f':site==='2007265c'?'20072662':site==='20074699'?'2007469f':site==='200746dd'?'200746e3':site==='20076689'?'2007668f':site==='200766e1'?'200766e7':'2006f9f2') ||
-      !(site==='1008d1a3'?['200705d6','20073036','20075066','20077066'].includes(outerSite??''):outerSite===(aiHelperAdmin?'20077054':label?'20075054':freePoint?'20073024':'200705c4')))
+    if(next!==(site==='100932ef'?'100932f4':site==='1008d1a3'?'1008d1a8':site==='2006f985'?'2006f98b':site==='20072619'?'2007261f':site==='2007265c'?'20072662':site==='20074699'?'2007469f':site==='200746dd'?'200746e3':site==='20076689'?'2007668f':site==='200766e1'?'200766e7':'2006f9f2') ||
+      !(site==='100932ef'?outerSite==='204b2730':site==='1008d1a3'?['200705d6','20073036','20075066','20077066'].includes(outerSite??''):outerSite===(aiHelperAdmin?'20077054':label?'20075054':freePoint?'20073024':'200705c4')))
       throw new Error('Actual Arena replacement frame and singleton return required');
     admitArenaPropertySingletonImport();
     const memory=nativeGameLayerBaseMemoryForCrt(binding.crt as NativeGameCrtOwner); if(!memory.known)throw new Error(memory.reason);
@@ -3129,7 +3130,7 @@ export class NativeX86ThreadStack {
         throw new Error('Original literal RET GUID destructor required');
       this.#call(site,returnPc);
       if(site==='204b26f0')this.#aiHelperPropertyIdGuidLifetimeEnded=true;
-      if(site==='204b26f9') {const result=NativeHeapCString.prototype.destroy.call(this.#aiHelperPropertyIdText);if(!result.known)throw new Error(result.reason);}
+      if(site==='204b26f9') {const result=NativeHeapCString.prototype.destroy.call(this.#aiHelperPropertyIdText);if(!result.known)throw new Error(result.reason);this.#aiHelperPropertyIdTextDestroyedSnapshot=Object.freeze(this.#aiHelperPropertyIdText.snapshot());}
     } else {
       const esp=this.#address(this.#load(this.#bank,this.#reg('ESP')));
       if(this.#numeric(this.#load(this.#stack,esp),4)!==0x20549ce0)throw new Error('Actual pushed PropertyID cleanup required');
@@ -3188,7 +3189,7 @@ export class NativeX86ThreadStack {
     const returned=this.#ret(4),source=this.#record(returned).provenance;
     if(source?.kind!=='source'||source.type!=='code'||source.address!=='204b26e0')throw new Error('Actual GUID constructor return required');
   }); }
-  aiHelperPropertyIdTextSnapshot() {return this.#aiHelperPropertyIdText?.snapshot()??null;}
+  aiHelperPropertyIdTextSnapshot() {return this.#aiHelperPropertyIdTextDestroyedSnapshot??this.#aiHelperPropertyIdText?.snapshot()??null;}
   callAIHelperPropertyIdTextConstructor(controller:object):NativeValue<void> {return this.#run(controller,()=>{
     const binding=this.#setEnvpBinding;
     if(!binding||binding.controller!==controller)throw new Error('Actual retained Game startup controller required');

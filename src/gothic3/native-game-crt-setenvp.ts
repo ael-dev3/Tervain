@@ -1,4 +1,4 @@
-import {aiHelperAccessorCreatorInstruction} from './native-game-ai-helper-accessor-creator-source';
+import {aiHelperAccessorCreatorInstruction,aiHelperAccessorCreatorConstructorInstruction} from './native-game-ai-helper-accessor-creator-source';
 import {aiHelperPropertyIdInstruction} from './native-game-ai-helper-property-id-source';
 import {aiHelperAdminInitializerInstruction,aiHelperAdminWrapperInstruction,aiHelperAdminReplacementInstruction,aiHelperAdminAccessorInstruction} from './native-game-ai-helper-admin-source';
 /** The bounded original Game caller/environment source unit. Every reached instruction
@@ -83,6 +83,7 @@ const bodies = Object.freeze([
   ['204b2660','204b2660-204b26aa'],
   ['204b26c0','204b26c0-204b270c'],
   ['204b2720','204b2720-204b2741'],
+  ['100932e0','100932e0-10093330'],
   ['20077040','20077040-2007710d'],
   ['20076630','20076630-2007679e'],
   ['200763f0','200763f0-200763f3'],
@@ -326,7 +327,8 @@ export class NativeGameCrtSetEnvp {
     const active=NativeGameCrtSetEnvp.canonicalControllerForCrt(owner,crt,controller,'invoke');
     if(!active.known)return active;
     const frame=owner.#frames.at(-1);
-    const original=site==='1008d1a3'
+    const original=site==='100932ef' ? owner.#currentEntry==='100932e0'&&frame?.entry==='100932e0'&&frame.site==='204b2730'&&frame.returnPc==='204b2736'&&owner.#requireSourcePoint(site).instruction==='CALL 0x10004fd4'
+      : site==='1008d1a3'
       ? owner.#currentEntry==='1008d190' && frame?.entry==='1008d190' &&
         ((frame.site==='200705d6'&&frame.returnPc==='200705dc')||(frame.site==='20073036'&&frame.returnPc==='2007303c')||(frame.site==='20075066'&&frame.returnPc==='2007506c')||(frame.site==='20077066'&&frame.returnPc==='2007706c'))&&
         owner.#requireSourcePoint(site).instruction==='CALL 0x10004fd4'
@@ -508,7 +510,8 @@ export class NativeGameCrtSetEnvp {
     const extent = ranges.get(this.#currentEntry), address = Number.parseInt(pc, 16);
     if (!extent?.some(([first, last]) => address >= first && address <= last) ||
         this.#currentEntry === '204677e4' && !callerRows.has(pc)) throw new Error('Unowned Game environment source frontier at' + pc);
-    const point = this.#currentEntry==='204b2720' ? aiHelperAccessorCreatorInstruction(pc)
+    const point = this.#currentEntry==='100932e0' ? aiHelperAccessorCreatorConstructorInstruction(pc)
+      : this.#currentEntry==='204b2720' ? aiHelperAccessorCreatorInstruction(pc)
       : this.#currentEntry==='204b26c0' ? aiHelperPropertyIdInstruction(pc)
       : this.#currentEntry==='200763f0' ? aiHelperAdminAccessorInstruction(pc)
       : this.#currentEntry==='20076630' ? aiHelperAdminReplacementInstruction(pc)
@@ -702,6 +705,12 @@ export class NativeGameCrtSetEnvp {
       fact(NativeX86ThreadStack.prototype.call.call(this.#stack,this.#controller,point.va,returnPc));
       this.#frames.push(Object.freeze({entry:body,site:point.va,returnPc,previousEntry:this.#currentEntry}));
       this.#currentEntry=body; this.#nextBoundary=null; return body;
+    }
+    if(point.va==='100932ef') {
+      if(this.#currentEntry!=='100932e0'||target.kind!=='immediate'||target.value!==0x10004fd4||returnPc!=='100932f4')throw new Error('Original accessor singleton getter required');
+      this.#nextBoundary=Object.freeze({pc:point.va,operation:'translatedCrtCall',target:'10004fd4'});
+      fact(NativeX86ThreadStack.prototype.callArenaPropertySingleton.call(this.#stack,this.#controller,point.va,returnPc));
+      this.#nextBoundary=null;return returnPc;
     }
     if(point.va==='1008d1a3') {
       if(this.#currentEntry!=='1008d190' || target.kind!=='immediate' || target.value!==0x10004fd4)
@@ -970,6 +979,12 @@ export class NativeGameCrtSetEnvp {
         this.#currentEntry = callback; this.#nextBoundary = null; return callback;
       }
       throw new Error('Original Game C++ initializer callback is not yet admitted at ' + callback);
+    }
+    if(point.va==='204b2730') {
+      if(this.#currentEntry!=='204b2720'||target.kind!=='memory'||target.expression!=='0x207d86b4'||target.fs||returnPc!=='204b2736')throw new Error('Original accessor creator constructor import required');
+      fact(NativeX86ThreadStack.prototype.call.call(this.#stack,this.#controller,point.va,returnPc));
+      this.#frames.push(Object.freeze({entry:'100932e0',site:point.va,returnPc,previousEntry:this.#currentEntry}));
+      this.#currentEntry='100932e0';this.#nextBoundary=null;return '100932e0';
     }
     if(point.va==='204b2720') {
       if(this.#currentEntry!=='204b2720'||target.kind!=='immediate'||target.value!==0x200191f0||returnPc!=='204b2725')throw new Error('Original accessor class-name getter required');

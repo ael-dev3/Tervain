@@ -47,7 +47,7 @@ Each feature goes through the following steps:
 **Current local boundary:** Arena Status, None, Running, AI FreePoint, Label
 and AI helper administrator initialization return through the retained startup
 stack. Startup enters PropertyID initializer `204b26c0` and reaches its unsupported
-accessor creator constructor CALL at `204b2730`.
+accessor object query CALL at `100932f6`.
 Complete startup, world activation and a new-game-to-ending campaign remain
 unfinished. Local checkpoints and the hosted version can differ; the validation
 receipts below identify the checkpoint covered.
@@ -72,7 +72,22 @@ establish completion of these remaining features.
 The entries below describe successive local states, newest first. Statements
 about missing operations in older entries apply to those earlier checkpoints.
 
-### Latest local checkpoint: AI helper accessor class-name getter returns
+### Latest local checkpoint: accessor constructor reaches object query
+
+Original SharedBase body `100932e0` enters through the accessor constructor
+import. Its prologue preserves registers, reads the original class-name argument
+and clears the actual creator receiver. The singleton getter returns the same
+retained property singleton already used by type and root registration. Execution
+reaches QueryNewObject CALL `100932f6 -> 10007036`.
+
+Nine focused tests passed in 11.62 seconds. The source generator also verifies
+the original Shared constructor, query and destructor bodies. Independent JSON
+and TypeScript generations matched. CString diagnostics now retain the snapshot
+at destruction, rather than rereading a temporary stack slot after its lifetime.
+Object creation, reference callbacks, cleanup and initializer return remain
+unfinished; the full campaign is not playable yet.
+
+### Historical checkpoint: AI helper accessor class-name getter returns
 
 Initializer `204b2720` enters on the retained stack. Its class-name getter reuses
 the existing administrator CString owner, then pushes that pointer and the
