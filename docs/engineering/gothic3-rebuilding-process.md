@@ -11803,3 +11803,9 @@ Hosted observation after PR #223 deployment: a fresh `/gothic3/` tab loaded
 continues to identify incomplete NPC AI and campaign paths. This confirms scene
 and journal availability; it does not verify a particular native instruction
 address or a finishable campaign. The temporary verification tab was closed.
+
+The allocation-and-copy checkpoint (`adf8c4001`) passed all 3,325 local tests
+in 313 files in 456.95 seconds. The publication checkout, including current main,
+also passed its production build and all 45 focused checks in four files
+(18.76 seconds). These checks validate the supported startup continuation, not
+complete AI or campaign integration.
