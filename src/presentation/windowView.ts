@@ -81,6 +81,8 @@ export class WindowView {
         renderer.autoClear = true;
         this.camera.position.copy(at);
         this.camera.updateMatrixWorld(true);
+        // The cube's mipmaps are rebuilt once, after its last face, not after every one (A80 audit).
+        this.target.texture.generateMipmaps = this.face === faces.length - 1;
         renderer.setRenderTarget(this.target, this.face);
         renderer.render(scene, faces[this.face]!);
         this.face = this.face + 1 < faces.length ? this.face + 1 : -1;

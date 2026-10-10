@@ -5,7 +5,9 @@ import { ANCHORS, ENEMY_SPAWNS } from '../world/layout';
 import { resolveGoal } from './actors';
 import { AMBIENT_PLACES } from './ambient';
 import type { MeshyNpcCatalog } from './meshynpcs';
+import * as THREE from 'three';
 import type { Rig } from './characters';
+import { disposeSceneResources } from './disposeScene';
 
 /**
  * Residents after entry (stage 2 of backlog 4). Only the people near where the journey starts are downloaded before the
@@ -74,6 +76,8 @@ export class ResidentArrivals {
 
   clear() {
     this.waiting = [];
+    // A rig built for someone who never took it (the world went first) owns its own GPU resources (A80 audit).
+    if (this.building?.rig) discardRig(this.building.rig);
     this.building = null;
     // A new world brings its own scene to warm shaders against.
     this.warm = null;
@@ -140,8 +144,17 @@ export class ResidentArrivals {
       return 1;
     } catch (error) {
       this.building = null;
+      if (building.rig && !building.rig.root.parent) discardRig(building.rig);
       console.warn(`resident ${building.figure.role} could not take its model; keeping its stand-in`, error);
       return 0;
     }
   }
+}
+
+/** Release a rig that was built and never shown. */
+function discardRig(rig: Rig) {
+  const holder = new THREE.Scene();
+  holder.add(rig.root);
+  disposeSceneResources(holder, () => {});
+  holder.remove(rig.root);
 }
