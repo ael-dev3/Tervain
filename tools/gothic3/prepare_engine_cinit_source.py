@@ -24,12 +24,15 @@ def capture(study):
         0x3067d012: 'engineErrorInitializerWalker',
         0x30671596: 'engineExitRegistration',
         0x3067ca01: 'engineCInitializerCalloc',
+        0x3069c4f2: 'engineSse2Detection',
+        0x3069c4a2: 'engineSse2ExecutionProbe',
     })
     pe = PE((study / '00_Original_Runtime/Engine.dll').read_bytes())
     # The exported function CSV omits this complete body; retain its assembly
     # rows only after comparing each encoding with the pinned original PE.
     recovered=[('engineExitTableInitializer',0x3067152b,0x3067155a,20),
-               ('engineStreamTableInitializer',0x3067c3c7,0x3067c478,None)]
+               ('engineStreamTableInitializer',0x3067c3c7,0x3067c478,None),
+               ('engineSse2Initializer',0x3067f720,0x3067f734,5)]
     collected={begin:[] for _,begin,_,_ in recovered}
     asm=study/'01_Decompiled_Code/Engine_dll/full_disassembly.asm'
     for number,line in enumerate(asm.open('rb'),1):
@@ -94,6 +97,7 @@ def capture(study):
         ('streamCount', 0x30af91e0, 4),
         ('streamPointers', 0x30af7e8c, 4),
         ('staticStreams', 0x30ad45a8, 640),
+        ('sse2Ready', 0x30af7e58, 4),
     ]:
         rva = address-pe.base
         section = next(s for s in pe.sections if s[1] <= rva and rva+size <= s[1]+max(s[0],s[2]))
