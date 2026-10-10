@@ -11970,3 +11970,49 @@ The classification body restores its saved registers and returns through its act
 The first case-mapping call now prepares its nine original arguments, enters `3067c91e`, constructs a separate locale-update record with the same Engine PTD and forwards eight arguments to its lower body. It reaches `3067c94a -> 3067c57c` after 1660 admitted operations. Classification releases its acquired locale bit before mapping reacquires it; a check observes this transition at the actual constructor read. Reused stack aliases contain current memory, so prior argument slots and temporary probe values are not treated as historical snapshots.
 
 The captured source package now contains 21 methods, 1194 instructions and 3379 instruction bytes. Independent research JSON and generated TypeScript are byte-identical. TypeScript checking passed; the Engine frame suite passed all 64 tests. Production build passed. The preceding classification-return checkpoint passed 3355 tests across 313 files in 433.21 seconds. The matching lower mapping body was inspected separately (337 instructions); it is not yet admitted to the executable package. Mapping execution, MBC publication, complete startup and campaign play remain unfinished. PR #227 deployed successfully; this later local continuation is not yet published.
+
+
+### 10 October 2026: Engine Unicode case-mapping API probe
+
+The lower mapping body is now captured from matching Engine.dll bytes, together with its original LCMapStringW import and mutable API selector at `30af70ec`. The source package contains 22 methods, 1531 instructions, 4307 instruction bytes and sixteen image receipts. The runtime enters the original cookie frame, saves registers and issues the six-argument Unicode API-selection query with the original immutable UTF-16 NUL input. Its private grant validates locale zero, lower-case flag `0x100`, one input code unit and NULL/zero-capacity output; the selected browser service returns the required query length through the actual stdcall return. The Engine-owned selector is updated only after success.
+
+The default continuation reaches the input scan at `3067c5d3` after 1687 admitted operations. The scan, full case mapping, MBC publication, complete startup and campaign completion remain unfinished. TypeScript checking passed. Focused validation passed 81 of 82 checks; the remaining check incorrectly read a temporary Unicode buffer after the next mapping frame reused it. The corrected check validates all 256 output code units and types at the classification normal return and passed its targeted rerun. Independent source JSON and generated TypeScript are byte-identical; the shared argument comparison retains zero mismatches. Production build and all 82 focused tests across five files passed. The preceding mapping wrapper passed 3356 tests across 313 files in 515.77 seconds; PR #228 contains that checkpoint and is still in CI.
+
+
+### 10 October 2026: Engine mapping input scan
+
+The original mapping input scan now compares the explicit input count, reads the actual case byte array and executes its DEC, byte comparison, pointer increment and branch loop. It preserves DEC/INC carry behavior, includes an encountered terminator in the resulting count, and retains the original maximum count when no NUL occurs. The mutable mapping selector also follows its cached branch without repeating the API probe. Explicit code-page selection is checked before conversion setup; locale fallback and ANSI mapping remain explicit unsupported paths.
+
+The default 256-byte input reaches `3067c629` after 3244 admitted operations. A cached successful selector reaches the same instruction after 3231 operations. A NUL at byte seven yields a count of eight and reaches the boundary after 1753 operations. Default focused validation passed 82 tests across five files; both new cached-selector and early-NUL checks passed. Production build, including TypeScript checking of the added branch checks, passed. Conversion setup, mapped output, MBC publication, startup and campaign completion remain unfinished.
+
+
+### 10 October 2026: Engine mapping conversion-size query
+
+The original mapping body now loads its actual MultiByteToWideChar procedure, constructs six stack arguments, preserves SETNZ byte semantics and performs the indirect size query. The private import grant checks the matching source call and load, original byte-array pointer, selected code page, flags and NULL/zero-capacity destination. The scanned count may range from one through 256; this does not relax the separate classification call's fixed 256-byte contract. The query reads the declared Unicode repertoire, writes no output and returns through the retained stdcall frame.
+
+The default path reaches conversion allocation at `3067c64c` after 3256 admitted operations and returns 256 code units. Cached API selection reaches it after 3243 operations; an early NUL at byte seven reaches it after 1765 operations with count eight. TypeScript checking and all 84 focused checks across five files passed. A new targeted check also passed for exact scalar arguments, unchanged input bytes, actual return identity and rejection of a replayed output grant. Production build passed. The preceding API-probe checkpoint passed 3357 tests across 313 files in 457.27 seconds. Allocation, converted/mapped output, MBC publication, complete startup and the playable campaign remain unfinished.
+
+
+### 10 October 2026: Engine mapping stack-buffer allocation
+
+The mapping body now executes its count checks, original unsigned EDX:EAX division guard, size calculation and stack-versus-heap branch. Its bounded startup input selects the original aligned stack allocation. The shared source-backed alignment/page-probe continuation is reused with separate reservation state and the mapping call's actual return word; classification keeps its own state. The helper relocates the mapping return word before returning to `3067c674`. Source instructions mark the new raw buffer `0xcccc`, preserve header padding, store its output pointer and prepare the next conversion call.
+
+The default path reaches `3067c6b6` after 3311 admitted operations with a separate 520-byte raw stack alias (512 output bytes plus header). Cached selection reaches the same boundary after 3298 operations; the early-NUL case reaches it after 1820 operations with a smaller buffer. TypeScript checking and 85 focused checks across five files passed. A targeted allocation check also passed for alignment, buffer identity, padding preservation, actual helper return and replay resistance. Production build passed. Unicode output, case mapping, MBC publication, complete startup and a finishable browser campaign remain unfinished. The heap-allocation branch is retained as an unsupported path.
+
+
+### 10 October 2026: Engine mapping Unicode output and mapped-size query
+
+The mapping body now converts its scanned byte input into a separate Unicode alias inside its own aligned stack buffer. Its private output grant checks the original indirect procedure, completed size query, exact output pointer, capacity and defined WORD writes. The service invalidates root stack slots before intrinsic alias writes, preserving ownership and partial effects. It then loads the original LCMapStringW procedure and issues the six-argument mapped-size query against those actual converted code units. The declared case repertoire is checked before returning the required count; this query writes no mapped output.
+
+The default continuation reaches mapped-output allocation at `3067c712` after 3328 admitted operations. Both conversion and mapping-size calls return through their actual stdcall frames. Cached selection reaches it after 3315 operations; the early-NUL path reaches it after 1837 operations. TypeScript checking and 86 focused checks across five files passed. Two additional targeted checks passed for every Unicode code unit, output masks, return identities and retained partial writes on interruption. Prior temporary classification-buffer checks now observe its live return before subsequent mapping allocation reuses that stack span. Production build passed.
+
+The preceding scan checkpoint passed 3359 tests across 313 files in 484.04 seconds. PR #228 deployed successfully and contains the earlier mapping wrapper checkpoint. This newer output continuation is local. Mapped-output allocation, case conversion and narrowing, MBC publication, startup, connected gameplay and campaign completion remain unfinished.
+
+
+### 10 October 2026: Engine mapped Unicode case output
+
+The mapping body now executes its second division/size guard and aligned stack reservation. A distinct raw buffer and Unicode output alias preserve the input conversion buffer. The original direct LCMapStringW call validates locale, case flags, input count, destination capacity and both actual stack pointers. The declared lower-case repertoire is written through bounded WORD grants with root-slot invalidation; interrupted writes retain their partial output and pending return.
+
+The default continuation reaches byte-narrowing preparation at `3067c779` after 3382 admitted operations. Cached selection reaches it after 3369 operations; the early-NUL path reaches it after 1891 operations. TypeScript checking and all 88 focused tests across five files passed. Two new targeted checks passed for all 256 lower-case results, aligned non-overlapping buffers, allocation/header identity, actual returns and partial-output failure. Production build passed.
+
+The preceding first-buffer checkpoint passed 3361 tests across 313 files in 536.23 seconds. The mapped Unicode output remains local; narrowing, buffer cleanup, wrapper return, the second case-table mapping, MBC publication, startup and complete campaign play remain unfinished.
