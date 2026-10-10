@@ -47,6 +47,8 @@ export interface FrameContext {
   hour: number;
   view: WorldView;
   quality: Quality;
+  /** High only, opted into (A76): trees take Medium's distance detail instead of the full model at every distance. */
+  treeDetailByDistance?: boolean;
   /** Wildlife simulation and calls stop while menus, overlays or hit stop pause play. */
   wildlifeActive?: boolean;
 }

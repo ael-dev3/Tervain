@@ -174,8 +174,9 @@ def timber(n: int):
     ring = sstep(0.16, 0.1, kf1) * (1 - knot) * (kid < 0.3)
     height = 0.55 - adze * 0.07 + late * 0.04 + (fibre - 0.5) * 0.035 - check * 0.22 + knot * 0.03 - ring * 0.015
     tone = np.clip(figure * 0.7 + fibre * 0.3, 0, 1)
-    col = mix(rgb(0.10, 0.085, 0.065), rgb(0.29, 0.24, 0.18), sstep(0.1, 0.7, tone))
-    col = mix(col, rgb(0.37, 0.33, 0.27), sstep(0.65, 1.0, tone) * 0.6)
+    # A76: oak browns, warmer and with more spread between early and late wood, so the grain reads close up.
+    col = mix(rgb(0.12, 0.085, 0.055), rgb(0.33, 0.25, 0.16), sstep(0.1, 0.7, tone))
+    col = mix(col, rgb(0.42, 0.34, 0.24), sstep(0.65, 1.0, tone) * 0.6)
     col = shade(col, (1 - late * 0.25) * (0.88 + 0.24 * fibre) * (0.92 + 0.16 * (1 - adze)))
     # Weathered grey on the exposed faces; soot and dirt in broad patches; knots and checks dark.
     col = mix(col, shade(rgb(0.38, 0.36, 0.33), 0.8 + 0.3 * fibre), sstep(0.55, 0.85, fbm_at(u, v, 3, 3, 4, 330)) * 0.45)
@@ -204,9 +205,12 @@ def plaster(n: int):
     # Only a few hairlines, where the render has settled most.
     hair = (1 - sstep(0.0, 0.006, f2 - f1)) * sstep(0.72, 0.86, low) * sstep(0.5, 0.7, mid)
     height = (0.62 + (trowel - 0.5) * 0.07 + (low - 0.5) * 0.04 + (fine - 0.5) * 0.02 + (brush - 0.5) * 0.012
-              - hair * 0.025)
-    col = mix(rgb(0.60, 0.565, 0.49), rgb(0.70, 0.665, 0.585), np.clip(low * 0.6 + fine * 0.15 + (trowel - 0.5) * 0.9, 0, 1))
-    col = shade(col, 0.93 + 0.1 * fine + (brush - 0.5) * 0.06 + (trowel - 0.5) * 0.12)
+              + (fbm_at(u, v, 260, 260, 2, 356) - 0.5) * 0.012 - hair * 0.025)
+    # A76: the trowel's unevenness is in the relief, only faintly in the colour (it read as camouflage blotches close up);
+    # the lime's sand gives the surface a fine, even grain instead.
+    sand = fbm_at(u, v, 260, 260, 2, 356)
+    col = mix(rgb(0.60, 0.565, 0.49), rgb(0.70, 0.665, 0.585), np.clip(0.5 + (low - 0.5) * 0.45 + (fine - 0.5) * 0.3 + (trowel - 0.5) * 0.3, 0, 1))
+    col = shade(col, 0.95 + 0.08 * fine + (brush - 0.5) * 0.06 + (trowel - 0.5) * 0.05 + (sand - 0.5) * 0.12)
     # A faint warmth where hands and years have touched it, never a stain.
     col = mix(col, rgb(0.55, 0.50, 0.42), sstep(0.62, 0.85, mid) * 0.18)
     col = shade(col, 1 - hair * 0.22)
@@ -440,7 +444,7 @@ def bronze(n: int):
 # Mean brightness (luma of the sRGB albedo) each texture is levelled to: a little under the generated textures they replace,
 # so the change is in detail and grime rather than a darker world. Roof tile and bronze sit lower than their old, brighter
 # selves on purpose: weathered clay and tarnished metal.
-LEVEL = {"plaster": 0.56, "timber": 0.22, "planks": 0.27, "stone": 0.385, "cobble": 0.31, "tile": 0.24, "thatch": 0.26,
+LEVEL = {"plaster": 0.56, "timber": 0.27, "planks": 0.27, "stone": 0.385, "cobble": 0.31, "tile": 0.24, "thatch": 0.26,
          "slate": 0.26, "cloth": 0.30, "bark": 0.16, "rock": 0.37, "bronze": 0.27}
 
 

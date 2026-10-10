@@ -298,6 +298,14 @@ export function buildStandard(R: Region, terrain: Terrain, b: BuildingSpec, out:
   if (b.kind === 'house') {
     groundExteriorProp(R, terrain, () => barrel(R, rnd, -b.w / 2 + 0.7, 0, b.d / 2 + 0.7, 1));
     groundExteriorProp(R, terrain, () => sack(R, rnd, -b.w / 2 + 1.5, 0, b.d / 2 + 0.6, 1));
+    // A76: the back of a house is where its things are kept: a rain butt at one corner, a crate at the other.
+    groundExteriorProp(R, terrain, () => barrel(R, rnd, -b.w / 2 + 0.6, 0, -b.d / 2 - 0.55, 1.05));
+    groundExteriorProp(R, terrain, () => crate(R, rnd, b.w / 2 - 0.75, 0, -b.d / 2 - 0.5, 0.7, 0.5, 0.55, (rnd() - 0.5) * 0.4));
+  }
+  if (b.kind === 'inn') {
+    // A76: casks waiting by the inn's door.
+    groundExteriorProp(R, terrain, () => barrel(R, rnd, -b.w / 2 + 0.7, 0, b.d / 2 + 0.65, 1));
+    groundExteriorProp(R, terrain, () => barrel(R, rnd, -b.w / 2 + 1.4, 0, b.d / 2 + 0.6, 0.95));
   }
   if (b.kind === 'store' || b.kind === 'bunks' || b.kind === 'office') {
     groundExteriorProp(R, terrain, () => crate(R, rnd, b.w / 2 - 0.9, 0, b.d / 2 + 0.7, 0.8, 0.55, 0.6, 0.2));

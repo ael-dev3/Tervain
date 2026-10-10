@@ -292,6 +292,8 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
   let shadowTrees = 0;
   let shadowTris = 0;
   let disposed = false;
+  // High draws the full model at every distance (0.0.10, A62); its players may opt into Medium's bands (A76).
+  let lodQuality = quality;
 
   const refresh = (cam: THREE.Camera, shadowFrustum: THREE.Frustum | null | undefined) => {
     pv.multiplyMatrices(cam.projectionMatrix, cam.matrixWorldInverse);
@@ -339,7 +341,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         if (!inView) continue;
         // The stand supplies a shared value group; turning a tree must not change its colour.
         col.setRGB(t.tint, t.tint * 0.99, t.tint * 0.95);
-        const weights: number[] = forceLod >= 0 ? [0, 0, 0] : [...floraLodWeightsFor(v.species, quality, d)];
+        const weights: number[] = forceLod >= 0 ? [0, 0, 0] : [...floraLodWeightsFor(v.species, lodQuality, d)];
         if (forceLod >= 0) weights[Math.min(2, Math.floor(forceLod))] = 1;
         let intervalStart = 0;
         for (let l = 0; l < 3; l++) {
@@ -397,6 +399,9 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
       fallingLeaves.update(dt, f);
       burst?.update(dt, f.reducedMotion);
       sinceRefresh += dt;
+      const wantLod = quality === 'high' && f.treeDetailByDistance ? 'medium' : quality;
+      const lodChanged = wantLod !== lodQuality;
+      lodQuality = wantLod;
       const cam = f.camera;
       const moved = cam.position.distanceTo(lastCam);
       // The population is static. An idle camera needs no instance-buffer uploads
@@ -412,7 +417,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
       });
       // The two-metre bounds guard safely preloads moving shadow edges. Track the sun even
       // when the camera is idle, while limiting those shadow-only uploads to five per second.
-      if (!cameraChanged && (!shadowChanged || (!shadowGuardExceeded && shadowPresent === lastShadowPresent && sinceRefresh < 0.2))) return;
+      if (!lodChanged && !cameraChanged && (!shadowChanged || (!shadowGuardExceeded && shadowPresent === lastShadowPresent && sinceRefresh < 0.2))) return;
       sinceRefresh = 0;
       lastCam.copy(cam.position);
       lastRotation.copy(cam.quaternion);

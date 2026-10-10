@@ -70,13 +70,13 @@
       "size": 1024,
       "albedo": {
         "file": "plaster-albedo.jpg",
-        "bytes": 96200,
-        "sha256": "c1f19fdbcbb9df89678597a86ec11970503ea9d1f79ba1ce0424bf7dbe09183e"
+        "bytes": 152952,
+        "sha256": "a73d23027aba1132738d9140417e242d067e0d85a1e175fbb11fbb5242fd7212"
       },
       "normal": {
         "file": "plaster-normal.jpg",
-        "bytes": 113578,
-        "sha256": "2d31093c20abcb65579af6208f5ea132dffb22ed9ec56deea96c937046b18971"
+        "bytes": 168397,
+        "sha256": "4c3983e138f1474f27d7f71e366bb7b41c9162aa24e9eb107ccf3365822577ae"
       }
     },
     "rock": {
@@ -148,8 +148,8 @@
       "size": 1024,
       "albedo": {
         "file": "timber-albedo.jpg",
-        "bytes": 124893,
-        "sha256": "9e561da9f5a742bd6aef60e5d53d6f166027d21a2f025b1733991fdd7a338393"
+        "bytes": 152702,
+        "sha256": "9600363b8b01e4cd6dfba3b8e6949c45fd7e894b92bc1eab905df3a202692707"
       },
       "normal": {
         "file": "timber-normal.jpg",
