@@ -28,33 +28,37 @@ def capture(study):
     pe = PE((study / '00_Original_Runtime/Engine.dll').read_bytes())
     # The exported function CSV omits this complete body; retain its assembly
     # rows only after comparing each encoding with the pinned original PE.
-    rows=[]
+    recovered=[('engineExitTableInitializer',0x3067152b,0x3067155a,20),
+               ('engineStreamTableInitializer',0x3067c3c7,0x3067c478,None)]
+    collected={begin:[] for _,begin,_,_ in recovered}
     asm=study/'01_Decompiled_Code/Engine_dll/full_disassembly.asm'
     for number,line in enumerate(asm.open('rb'),1):
         match=re.match(rb'([0-9a-f]{8}) \| ([0-9a-f]+) \| (.+)',line)
         if not match:
             continue
         address=int(match[1],16)
-        if not 0x3067152b<=address<=0x30671559:
+        selected=next((begin for _,begin,end,_ in recovered if begin<=address<end),None)
+        if selected is None:
             continue
         raw=bytes.fromhex(match[2].decode())
         if pe.bytes(address,len(raw))!=raw:
             raise ValueError('Original Engine exit-table initializer encoding differs')
-        rows.append(dict(va=f'{address:08x}',rva=f'{address-pe.base:x}',fileOffset=pe.offset(address,len(raw)),
+        collected[selected].append(dict(va=f'{address:08x}',rva=f'{address-pe.base:x}',fileOffset=pe.offset(address,len(raw)),
             bytes=raw.hex(),instruction=match[3].decode().strip(),assemblyLine=number))
-    rows.sort(key=lambda row:int(row['va'],16))
-    cursor=0x3067152b
-    for row in rows:
-        if int(row['va'],16)!=cursor:
-            raise ValueError('Incomplete Engine exit-table initializer body')
-        cursor+=len(bytes.fromhex(row['bytes']))
-    if cursor!=0x3067155a or len(rows)!=20:
-        raise ValueError('Original Engine exit-table initializer extent differs')
-    raw=b''.join(bytes.fromhex(row['bytes']) for row in rows)
-    source['methods'].append(dict(label='engineExitTableInitializer',entryVA='0x3067152b',bodyVA='0x3067152b',
-        entryChain=[],bodyRanges='3067152b-30671559',instructions=rows,instructionCount=len(rows),
-        bodyByteCount=len(raw),bodyInstructionBytesSha256=hashlib.sha256(raw).hexdigest(),
-        recoveredFromAssemblyWithoutFunctionCSV=True))
+    for label,begin,end,count in recovered:
+        rows=sorted(collected[begin],key=lambda row:int(row['va'],16))
+        cursor=begin
+        for row in rows:
+            if int(row['va'],16)!=cursor:
+                raise ValueError('Incomplete Engine initializer body: '+label)
+            cursor+=len(bytes.fromhex(row['bytes']))
+        if cursor!=end or (count is not None and len(rows)!=count):
+            raise ValueError('Original Engine initializer extent differs: '+label)
+        raw=b''.join(bytes.fromhex(row['bytes']) for row in rows)
+        source['methods'].append(dict(label=label,entryVA=f'0x{begin:08x}',bodyVA=f'0x{begin:08x}',
+            entryChain=[],bodyRanges=f'{begin:08x}-{end-1:08x}',instructions=rows,instructionCount=len(rows),
+            bodyByteCount=len(raw),bodyInstructionBytesSha256=hashlib.sha256(raw).hexdigest(),
+            recoveredFromAssemblyWithoutFunctionCSV=True))
     caller = pe.bytes(0x30677284, 27)
     if caller.hex() != '85c07c176a00e8385f000085c059750bff05d070af30e9ac000000':
         raise ValueError('Original Engine initializer caller differs')
@@ -87,6 +91,9 @@ def capture(study):
         ('dynamicTlsCallback', 0x30af7e88, 4),
         ('exitTableBegin', 0x30af7e7c, 4),
         ('exitTableEnd', 0x30af7e80, 4),
+        ('streamCount', 0x30af91e0, 4),
+        ('streamPointers', 0x30af7e8c, 4),
+        ('staticStreams', 0x30ad45a8, 640),
     ]:
         rva = address-pe.base
         section = next(s for s in pe.sections if s[1] <= rva and rva+size <= s[1]+max(s[0],s[2]))
