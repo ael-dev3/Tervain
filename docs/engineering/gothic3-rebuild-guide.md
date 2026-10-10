@@ -250,7 +250,8 @@ minus-one cleanup paths. The next unsupported operation is that caller's TEST.
 The component's 158 focused checks are covered by passing results, including
 reruns of two assertions moved to their actual observation point. Typechecking,
 a production build and byte-identical source regeneration pass. Combined
-full-suite and deployment validation of this latest continuation are pending.
+validation passed all 3,428 tests across 313 files and a production build
+(1 minute 13 seconds). Deployment of this latest continuation is pending.
 Complete DLL startup, world activation and campaign integration remain
 unfinished. See the [checkpoint history](gothic3-rebuilding-process.md).
 
