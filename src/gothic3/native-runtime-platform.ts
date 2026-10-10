@@ -966,8 +966,10 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
       if(engine.known){
         this.#argvNlsConsumed.add(call);const selected=this.#crtServices!.argvNls!;
         const input=engine.value;let scalar:number;
-        if(input.kind==='MultiByteToWideChar'){
-          if(!input.input||input.count!==256||![1,9].includes(input.flags)||input.procedure!==this.#argvProcedures.get('MultiByteToWideChar'))throw new Error('Actual Engine conversion query ABI required');requirePhysicalNativeViews(input.input);
+        if(input.kind==='LCMapStringW'){
+          if(!input.input)throw new Error('Actual Engine Unicode mapping input required');if(input.site==='3067c5ac'){if(input.fields)throw new Error('Engine mapping probe output must be NULL');if(input.scalar!==0||input.flags!==0x100||input.count!==1||NativeHeapObjectViews.prototype.readUnsigned.call(input.input,0,2)!==0)throw new Error('Actual Engine Unicode mapping probe required');scalar=1;}else{if(!['3067c6d2','3067c76f'].includes(input.site)||(input.site==='3067c6d2'?input.fields!==null:!input.fields)||![0,0x409].includes(input.scalar!)||![0x100,0x200].includes(input.flags)||input.count<1||input.count>256||(input.site==='3067c6d2'&&input.procedure!==this.#argvProcedures.get('LCMapStringW')))throw new Error('Actual Engine Unicode mapping ABI required');const reverse=new Map(selected.reverse),table=input.flags===0x100?selected.lower:selected.upper;for(let index=0;index<input.count;index++){const code=NativeHeapObjectViews.prototype.readUnsigned.call(input.input,index*2,2),byte=reverse.get(code);if(byte===undefined||!Number.isInteger(table[byte]))throw new Error('Engine mapping input outside declared repertoire');if(input.fields){const write=NativeX86ThreadStack.writeEngineArgvNlsMemoryForPlatform(this,call,index*2,table[byte]!,2);if(!write.known)throw new Error(write.reason);}}scalar=input.count;}
+        }else if(input.kind==='MultiByteToWideChar'){
+          if(!input.input||(input.site==='3067c64a'||input.site==='3067c6b6'?input.count<1||input.count>256||(input.site==='3067c64a'&&input.fields!==null):input.count!==256)||![1,9].includes(input.flags)||input.procedure!==this.#argvProcedures.get('MultiByteToWideChar'))throw new Error('Actual Engine conversion query ABI required');requirePhysicalNativeViews(input.input);
           if(input.scalar!==selected.codePage)scalar=0;else{for(let index=0;index<input.count;index++){const byte=NativeHeapObjectViews.prototype.readUnsigned.call(input.input,index,1),code=selected.unicode[byte];if(!Number.isInteger(code))throw new Error('Engine conversion byte outside declared NLS repertoire');if(input.fields){requirePhysicalNativeViews(input.fields);const write=NativeX86ThreadStack.writeEngineArgvNlsMemoryForPlatform(this,call,index*2,code!,2);if(!write.known)throw new Error(write.reason);}}scalar=input.count;}
         }else if(input.kind==='GetStringTypeW'){
           if(input.scalar!==1||![1,256].includes(input.count)||!input.input||!input.fields)throw new Error('Actual Engine CT_CTYPE1 ABI required');requirePhysicalNativeViews(input.input);requirePhysicalNativeViews(input.fields);
@@ -1661,7 +1663,7 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
     if (!entry || entry.backing !== old || entry.kind !== 'win32-heap' ||
         !retained.allocations.has(old) || old.freed || this.#releasedBackings.has(old) ||
         geometry.value.offset !== 0 || geometry.value.allocationBegin !== 0)
-      return unknown('HeapReAlloc requires this heap’s live allocation base');
+      return unknown('HeapReAlloc requires this heapâ€™s live allocation base');
     const allocated = this.#win32HeapAlloc(heap, 0, bytes);
     if (!allocated.known || allocated.value === null) return allocated;
     const moved = allocated.value;
