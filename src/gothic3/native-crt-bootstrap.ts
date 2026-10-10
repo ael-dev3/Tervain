@@ -17,6 +17,7 @@ import { NativeGameCrtEnvironment } from './native-game-crt-environment';
 import { NativeEngineCrtEnvironment } from './native-engine-crt-environment';
 import { engineEnvironmentImage } from './native-engine-environment-source';
 import {admitEngineIoSource} from './native-engine-io-source';
+import {NativeEngineArgvImages} from './native-engine-argv-images';
 import { NativeEngineIoImages } from './native-engine-io-images';
 import { NativeX86ThreadStack } from './native-x86-thread-stack';
 import { NativeGameCrtIoInit } from './native-game-crt-ioinit';
@@ -183,6 +184,7 @@ export interface NativeCrtAttachProgress {
   readonly engineCommandLineStorage: NativeHeapObjectViews | null;
   readonly engineEnvironmentStorage: NativeHeapObjectViews | null;
   readonly engineIoImages: NativeEngineIoImages | null;
+  readonly engineArgvImages:NativeEngineArgvImages|null;
   readonly engineIoProgress: ReturnType<NativeX86ThreadStack['engineIoFrameSnapshot']>;
   readonly commandLineReturned: boolean;
   readonly commandLineNonNull: boolean | null;
@@ -268,6 +270,7 @@ export class NativeCrtBootstrap {
   #engineCommandLineStorage: NativeHeapObjectViews | null = null;
   #engineEnvironmentStorage: NativeHeapObjectViews | null = null;
   #engineIoImages: NativeEngineIoImages | null = null;
+  #engineArgvImages:NativeEngineArgvImages|null=null;
   #engineIoStack: NativeX86ThreadStack | null = null;
   readonly #engineIoCallPermit=Object.freeze({});
   #engineIoInvocationActive=false;
@@ -413,6 +416,7 @@ export class NativeCrtBootstrap {
       const ioImages=NativeEngineIoImages.forCrt(crt);
       if(!ioImages.known)throw new Error(ioImages.reason);
       this.#engineIoImages=ioImages.value;
+      const argvImages=NativeEngineArgvImages.forCrt(crt);if(!argvImages.known)throw new Error(argvImages.reason);this.#engineArgvImages=argvImages.value;
     }
     this.#environment = crt.module === 'Game' ? NativeGameCrtEnvironment.forCrt(crt) : null;
     this.#engineEnvironment = crt.module === 'Engine' && this.#processInputs ? NativeEngineCrtEnvironment.forCrt(crt) : null;
@@ -713,6 +717,10 @@ export class NativeCrtBootstrap {
       this.#trace.push('3067726b.EngineIoCallerTest','3067726d.EngineIoCallerJge');
       if(this.#ioResult!==0)throw new Error('Actual supported Engine I/O result required');
       this.#nextBoundary=Object.freeze({name:'startupCall',address:'30677276',target:'3068e76f'});
+      for(const label of ['multibyteReady','moduleFilename','moduleFilenameSentinel','programNamePointer','argumentCount','argumentVector'] as const){
+        if(!this.#engineArgvImages)throw new Error('Actual retained Engine argument image owner required');
+        this.#call('Engine argument image authority '+label,()=>NativeEngineArgvImages.imageForCrt(this.#engineArgvImages!,this.#crt,label));
+      }
       this.#gate('Engine startup call3068e76f at30677276');
     }
     const points = gameAttachContinuationInstructionPoints;
@@ -903,6 +911,7 @@ export class NativeCrtBootstrap {
       engineCommandLineStorage:this.#engineCommandLineStorage,
       engineEnvironmentStorage:this.#engineEnvironmentStorage,
       engineIoImages:this.#engineIoImages,
+      engineArgvImages:this.#engineArgvImages,
       engineIoProgress:this.#engineIoStack?.engineIoFrameSnapshot(this.#crt)??null,
       commandLineReturned: this.#commandLineReturned, commandLineNonNull: this.#commandLineNonNull,
       environmentReturned: this.#environmentReturned, environmentNonNull: this.#environmentNonNull,

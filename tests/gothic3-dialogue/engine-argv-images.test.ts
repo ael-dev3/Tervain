@@ -1,4 +1,5 @@
 import {expect,it} from 'vitest';
+import {NativeCrtBootstrap} from '../../src/gothic3/native-crt-bootstrap';
 import {NativeEngineArgvImages} from '../../src/gothic3/native-engine-argv-images';
 import {NativeEngineCrtOwner,NativeGameCrtOwner} from '../../src/gothic3/native-engine-crt-locks';
 import {NativeRuntimePlatform} from '../../src/gothic3/native-runtime-platform';
@@ -18,4 +19,10 @@ it('rejects foreign and counterfeit argument owners',()=>{
 it('rejects replaced or released argument image backing without repairing it',()=>{
  const a=fixture(),count=fact(NativeEngineArgvImages.imageForCrt(a.owner,a.crt,'argumentCount'));Reflect.set(count.backing,'bytes',new Uint8Array(4));expect(NativeEngineArgvImages.forCrt(a.crt).known).toBe(false);
  const b=fixture(),filename=fact(NativeEngineArgvImages.imageForCrt(b.owner,b.crt,'moduleFilename'));filename.backing.freed=true;expect(NativeEngineArgvImages.forCrt(b.crt).known).toBe(false);
+});
+
+it('connects the actual argument image owner to the retained Engine bootstrap',()=>{
+ const {crt,owner}=fixture(),bootstrap=NativeCrtBootstrap.forCrt(crt);expect(bootstrap.attachProgress().engineArgvImages).toBe(owner);
+ const count=fact(NativeEngineArgvImages.imageForCrt(owner,crt,'argumentCount'));count.writeUnsigned(0,7);expect(NativeCrtBootstrap.forCrt(crt)).toBe(bootstrap);expect(fact(NativeEngineArgvImages.imageForCrt(bootstrap.attachProgress().engineArgvImages!,crt,'argumentCount')).readUnsigned(0)).toBe(7);
+ expect(bootstrap.attachProgress().engineCommandLineStorage).not.toBe(null);expect(NativeEngineArgvImages.imageForCrt(owner,crt,'commandLinePointer' as never).known).toBe(false);
 });

@@ -4,6 +4,19 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local checkpoint — 10 October 2026: Argument images joined to Engine bootstrap
+
+The actual Engine CRT bootstrap now retains its existing per-CRT argument-image
+owner and validates all six new image roots before the next argument-setup call.
+The already-owned command-line pointer remains in its original bootstrap storage.
+Repeated bootstrap lookup retains changed argument state. Twenty-three focused
+checks across four files and TypeScript checking pass. No parser instructions
+execute yet; complete engine attachment and the browser campaign remain unfinished.
+
+The earlier publication checkpoint passed all 3,296 tests across 311 files in
+523.01 seconds and its production build passed. These full results precede the
+later expanded argument evidence and argument-image integration.
+
 ## Local checkpoint — 10 October 2026: Engine argument image ownership
 
 A per-Engine-CRT owner now retains the six new argument images: multibyte-ready
