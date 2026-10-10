@@ -4,6 +4,20 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local checkpoint — 10 October 2026: Next Engine argument setup evidence
+
+The next startup function at `3068e76f` is now captured with its two-pass parser,
+multibyte wrapper and CRT malloc wrapper: four methods, 277 instructions and
+687 bytes. Original PE checking and independent byte-identical regeneration pass.
+Seven cold image receipts and the exact caller bytes accompany the package under
+`assets/gothic3/engine-argv/`. The nested multibyte routine remains uncaptured.
+
+The three-standard-handle runtime revision passed all 3,294 tests across 311 files
+in 492.07 seconds. Those results precede the later SetHandleCount, EH4 return and
+CRT caller changes, which still need full validation. The new argv package is
+research evidence only; it does not execute the parser or complete attachment.
+The full playable browser campaign remains unfinished.
+
 ## Local checkpoint — 10 October 2026: Engine I/O caller continuation
 
 The Engine CRT bootstrap now accepts the I/O result only through the exact
