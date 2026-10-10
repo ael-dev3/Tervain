@@ -32,7 +32,8 @@ def capture(study):
     # rows only after comparing each encoding with the pinned original PE.
     recovered=[('engineExitTableInitializer',0x3067152b,0x3067155a,20),
                ('engineStreamTableInitializer',0x3067c3c7,0x3067c478,None),
-               ('engineSse2Initializer',0x3067f720,0x3067f734,5)]
+               ('engineSse2Initializer',0x3067f720,0x3067f734,5),
+               ('engineMultibyteInitializer',0x30685007,0x30685025,8)]
     collected={begin:[] for _,begin,_,_ in recovered}
     asm=study/'01_Decompiled_Code/Engine_dll/full_disassembly.asm'
     for number,line in enumerate(asm.open('rb'),1):

@@ -545,6 +545,21 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
             }
             target=null;
           }
+          if(target==='30685007'){
+            const multibyte=(pc:string,body:()=>void)=>step(pc,body,'30685007');
+            const argvImages=NativeCrtBootstrap.engineCinitArgvImagesForCrt(bootstrap,crt,permit);if(!argvImages.known)throw new Error(argvImages.reason);
+            const ready=NativeEngineArgvImages.imageForCrt(argvImages.value,crt,'multibyteReady');if(!ready.known)throw new Error(ready.reason);
+            let value=0;
+            multibyte('30685007',()=>{value=NativeHeapObjectViews.prototype.readUnsigned.call(ready.value,0,4);stack.#arithmeticFlags(value,0,value,4,true);});
+            multibyte('3068500e',()=>{});
+            if(value===0){
+              multibyte('30685010',()=>stack.#push(stack.#mint(0xfffffffd,0xffffffff)));
+              multibyte('30685012',()=>stack.#call('30685012','30685017'));
+              stack.#engineCinitFrame.pc='30684e6d';return known(undefined);
+            }
+            multibyte('30685022',()=>{setRegister('EAX',stack.#mint(0,0xffffffff));stack.#logicalFlags(0,0xffffffff,4);});
+            multibyte('30685024',()=>stack.#ret());target=null;
+          }
           if(target&&target!=='3067152b')return known(undefined);
           if(target){
           const exit=(pc:string,body:()=>void)=>step(pc,body,'3067152b');

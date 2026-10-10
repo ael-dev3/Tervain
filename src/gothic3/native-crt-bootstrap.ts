@@ -360,6 +360,11 @@ export class NativeCrtBootstrap {
       bootstrap.#assertCrt();return known(undefined);
     }catch(error){return unknown(failureReason(error));}
   }
+  static engineCinitArgvImagesForCrt(bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object):NativeValue<NativeEngineArgvImages>{
+    const proof=NativeCrtBootstrap.canonicalEngineCinitCallForCrt(bootstrap,crt,permit);
+    if(!proof.known)return proof;
+    return bootstrap.#engineArgvImages?known(bootstrap.#engineArgvImages):unknown('Retained Engine argument images required');
+  }
   static canonicalEngineSetenvpCallerForCrt(bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object):NativeValue<void>{
     try{const retained=bootstrapByCrt.get(crt),next=bootstrap.#nextBoundary;
       if(!NativeModuleCrtOwner.isConstructedOwner(crt)||crt.module!=='Engine'||retained?.phase!=='returned'||retained.owner!==bootstrap||bootstrap.#crt!==crt||bootstrap.#boundary!==null||bootstrap.#attachPhase!=='running'||!bootstrap.#active.has(bootstrap.#name('crtAttach'))||!bootstrap.#engineSetenvpCallerActive||permit!==bootstrap.#engineSetenvpCallerPermit||bootstrap.#lowerCall!=='Engine environment caller TEST/JL at30677284'||next?.address!=='30677284'||next.name!=='callerTest'||!bootstrap.#engineIoStack)return unknown('Actual reached same-Engine environment caller permit required');

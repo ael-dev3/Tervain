@@ -3898,6 +3898,83 @@
         "bodyByteCount": 20,
         "bodyInstructionBytesSha256": "caf7af48ec9ab4b0da12a158072ac69d5a1ed971539084d7ba8072b815f102f4",
         "recoveredFromAssemblyWithoutFunctionCSV": true
+      },
+      {
+        "label": "engineMultibyteInitializer",
+        "entryVA": "0x30685007",
+        "bodyVA": "0x30685007",
+        "entryChain": [],
+        "bodyRanges": "30685007-30685024",
+        "instructions": [
+          {
+            "va": "30685007",
+            "rva": "685007",
+            "fileOffset": 6836231,
+            "bytes": "833d847eaf3000",
+            "instruction": "CMP dword ptr [0x30af7e84],0x0",
+            "assemblyLine": 1742920
+          },
+          {
+            "va": "3068500e",
+            "rva": "68500e",
+            "fileOffset": 6836238,
+            "bytes": "7512",
+            "instruction": "JNZ 0x30685022",
+            "assemblyLine": 1742921
+          },
+          {
+            "va": "30685010",
+            "rva": "685010",
+            "fileOffset": 6836240,
+            "bytes": "6afd",
+            "instruction": "PUSH -0x3",
+            "assemblyLine": 1742922
+          },
+          {
+            "va": "30685012",
+            "rva": "685012",
+            "fileOffset": 6836242,
+            "bytes": "e856feffff",
+            "instruction": "CALL 0x30684e6d",
+            "assemblyLine": 1742923
+          },
+          {
+            "va": "30685017",
+            "rva": "685017",
+            "fileOffset": 6836247,
+            "bytes": "59",
+            "instruction": "POP ECX",
+            "assemblyLine": 1742924
+          },
+          {
+            "va": "30685018",
+            "rva": "685018",
+            "fileOffset": 6836248,
+            "bytes": "c705847eaf3001000000",
+            "instruction": "MOV dword ptr [0x30af7e84],0x1",
+            "assemblyLine": 1742925
+          },
+          {
+            "va": "30685022",
+            "rva": "685022",
+            "fileOffset": 6836258,
+            "bytes": "33c0",
+            "instruction": "XOR EAX,EAX",
+            "assemblyLine": 1742927
+          },
+          {
+            "va": "30685024",
+            "rva": "685024",
+            "fileOffset": 6836260,
+            "bytes": "c3",
+            "instruction": "RET",
+            "assemblyLine": 1742928
+          }
+        ],
+        "instructionCount": 8,
+        "bodyByteCount": 30,
+        "bodyInstructionBytesSha256": "89ccdaaff00f82555fbaf8f2d627d6bd7f3869031046e49ca727d6994c7fea78",
+        "recoveredFromAssemblyWithoutFunctionCSV": true
       }
     ],
     "constants": [],
