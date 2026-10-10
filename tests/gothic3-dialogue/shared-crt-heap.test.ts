@@ -1639,14 +1639,12 @@ function originalVersionLogFixture(){
  owner.processDllSpieCreateFile();owner.processDllSpieTerminate();owner.processDllMessageTerminate();owner.processDllMessageLog();owner.processDllErrorLogCallback();owner.processDllErrorLogAllocation();owner.processDllErrorLogFormatting();owner.processDllErrorLogInsertion();owner.processDllSpyLogCallback();
  return fixture;
 }
-it('rejects damaged final separator frames before the third logger submission',()=>{
- for(const displacement of [0,4]){
+it.each([0,4])('rejects damaged final separator frame at +%s before the third logger submission',displacement=>{
   const {owner}=originalVersionLogFixture();owner.processDllVersionLogTls();owner.processDllVersionLogFormatting();owner.processDllMessageLog();owner.processDllErrorLogCallback();owner.processDllErrorLogAllocation();owner.processDllErrorLogFormatting();owner.processDllErrorLogInsertion();owner.processDllSpyLogCallback();
   const before=owner.snapshot(),stack=before.caseState!.stack!.snapshot(),call=stack.calls.at(-1)!;
   new NativeHeapObjectViews(stack.sharedDllResourceFrame!.handle.backing,call.position+displacement,4).writeUnsigned(0,0);
   const result=owner.processDllSeparatorPrefix();expect(result.known).toBe(false);if(result.known)throw new Error('Damaged final separator accepted');expect(result.reason).toMatch(/original DLL separator frame|expression slot/);
   const after=owner.snapshot();expect(after.messageSectionHeld).toBe(false);expect(after.dllEntryReturned).toBeNull();expect(after.trace.filter(row=>row==='10049528.EnterCriticalSection')).toHaveLength(2);
- }
 },30_000);
 it('returns from original direct SharedBase DLL entry after its final separator',()=>{
  const {owner}=originalVersionLogFixture();owner.processDllVersionLogTls();owner.processDllVersionLogFormatting();owner.processDllMessageLog();owner.processDllErrorLogCallback();owner.processDllErrorLogAllocation();owner.processDllErrorLogFormatting();owner.processDllErrorLogInsertion();owner.processDllSpyLogCallback();
@@ -1712,15 +1710,13 @@ it('executes original DLL version formatting into the actual TLS buffer',()=>{
  expect(state.messageSectionHeld).toBe(false);expect(stack.calls.findLast(row=>row.site==='10049871')!.returned).toBe(true);expect(stack.calls.findLast(row=>row.site==='100a7eff')!.returned).toBe(true);
  expect(stack.calls.at(-1)!.site).toBe('10049894');expect(stack.calls.at(-1)!.returned).toBe(false);
 },30_000);
-it('rejects damaged version formatter arguments before changing the TLS buffer',()=>{
- for(const displacement of [0,4,8]){
+it.each([0,4,8])('rejects damaged version formatter arguments at +%i before changing the TLS buffer',displacement=>{
   const {owner,platform}=originalVersionLogFixture();owner.processDllVersionLogTls();
   const selected=NativeSharedStaticTls.forPlatform(platform);if(!selected.known)throw new Error(selected.reason);const buffer=selected.value.debugBuffer();if(!buffer.known)throw new Error(buffer.reason);
   const bytes=buffer.value.bytes.slice(),state=owner.snapshot(),stack=state.caseState!.stack!.snapshot(),call=stack.calls.at(-1)!;
   new NativeHeapObjectViews(stack.sharedDllResourceFrame!.handle.backing,call.position+displacement,4).writeUnsigned(0,0);
   const result=owner.processDllVersionLogFormatting();expect(result.known).toBe(false);if(result.known)throw new Error('Damaged formatter accepted');expect(result.reason).toMatch(/version formatter return frame|expression slot/);
   expect(buffer.value.bytes).toEqual(bytes);expect(owner.snapshot().messageSectionHeld).toBe(false);expect(owner.snapshot().caseState!.stack!.snapshot().trace.some(row=>row.startsWith('100a7eab.'))).toBe(false);
- }
 },30_000);
 it('executes original version logger TLS reads and retains its formatter frame',()=>{
  const {owner,platform}=originalVersionLogFixture();

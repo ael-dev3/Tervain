@@ -4,6 +4,49 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Latest state — 10 October 2026: Engine argument setup return
+
+PR #230 deployed native startup revision `f1505ca863aefc10d5a6cb883d1d379b8ac296ff`,
+whose default stops at `30684a93` after 5261 admitted operations. Claude's
+[PR #232](https://github.com/ael-dev3/Tervain/pull/232) subsequently merged as
+`960fbbd109c57774113f2e964630e5a9c43b6ee0`; its main build and Pages deployment
+passed. Complete native startup and the campaign remain unfinished.
+
+The newer local continuation completes and publishes multibyte tables, replaces
+the global pointer, retains its reference, unlocks and returns through the
+original EH4 epilog and wrapper. Original `GetModuleFileNameA` fills the owned
+260-byte buffer from the selected virtual process input. This supplies browser
+platform data, not observation of a Windows process. Command-line selection and
+the original counting parser then produce vector and string-storage sizes.
+
+The latest checkpoint follows the caller's overflow checks, original CRT malloc
+wrapper and second parser pass. For the declared `"Gothic3.exe"` input, it
+allocates 20 bytes, fills an owned string and NULL-terminated vector, publishes
+argc 1 and argv, restores saved registers and ESP, and returns 0 through
+`3068e827 -> 3067727b` after 13,819 admitted operations. Query and filling counts
+and helper calls are retained separately. NULL allocation returns -1 without
+replacing prior argument globals. Interrupted string writes or pointer
+publication preserve partial state and pending callers. Quote/backslash cases,
+empty arguments, tabs and CP1252 bytes are checked against actual filled storage.
+
+All 164 focused checks across six files, TypeScript checking and a production
+build pass for this continuation. The source package contains 25 bodies and
+1,571 instructions; independent JSON/TypeScript regeneration is byte-identical.
+The next caller's TEST/JL and Engine environment setup at `3068e4f2` are not yet
+implemented. DLL startup, world activation and a finishable campaign are unproven.
+
+The preceding filename checkpoint passed all 3,394 tests in 745.15 seconds, and
+command-line selection passed all 3,398 tests in 801.76 seconds, across 313 files,
+with typechecking and builds. The counting-parser publication run reported
+3,406 passes and one 30-second separator-test timeout across 313 files in 867.92
+seconds, plus two worker-termination warnings. It remains failed full validation.
+That test grouped two independent damage fixtures; the unchanged cases now run
+separately with the same per-case timeout, and both pass. The combined branch
+joins argv filling, this test repair and deployed PR #232 for fresh full
+validation. The newer native continuations are not yet deployed.
+
+Earlier sections below are historical receipts, including superseded boundaries.
+
 ## Publication checkpoint — 10 October 2026: Engine argument and locale startup
 
 The publication branch joins argument source admission, retained Engine image
@@ -12081,3 +12124,47 @@ timeouts across two files (313 total), in 985.15 seconds. Its only reported erro
 type was the timeout. The newest checkpoint will be run with a 20-second per-test
 timeout. This continuation still does not publish the MBC record or prove full
 startup, world activation or a finishable campaign.
+
+
+### 10 October 2026: Engine character record and initializer return
+
+Executed the original character-table loop into the Engine-owned 544-byte MBC
+record: classification bits select uppercase/lowercase flags and a byte from
+the corresponding live mapping table. All 256 outputs match the selected virtual
+CP1252 inputs; the final three record bytes and masks remain unchanged. The case
+routine and initializer check their original cookie relations, restore their
+saved registers and return through the real `30684dcc` and `30684ed0` words.
+The multibyte caller receives zero and reaches prior-record release preparation
+`30684ee0` after 7907 operations (7894 with cached API selection).
+
+Partial record publication retains earlier writes and both pending returns.
+Artificially shortening input at byte seven leaves later mapping bytes unowned;
+execution stops at their first native read `30684aa4`, after 2869 operations,
+instead of fabricating those bytes. The complete record still needs its original
+reference-count and PTD/module publication path.
+
+Typecheck and production build passed. The broad focused run passed 96 of 98
+checks; the two failures expected now-returned callers to remain pending. After
+updating those assertions, both affected tests passed. All 98 distinct focused
+checks are covered by those passing results. The preceding dual-conversion full
+suite passed 3371 tests in 313 files in 877.02 seconds with the 20-second CLI
+allowance. The newest full run will also include current main-branch presentation
+changes. Full startup, live world activation and a finishable campaign remain
+unfinished.
+
+
+### 11 October 2026: complete Engine argument setup publication validation
+
+Local combined revision `2d05d9660` passed all 3,414 tests across 313 files
+in 787.51 seconds, typechecking and a production build in 1m 8s. Engine's
+supported argument setup now counts, allocates, fills and publishes its vector
+and returns through `3068e827` to the original caller `3067727b`. The default
+input executes 13,819 operations and uses a 20-byte allocation.
+
+The preceding full run had one timeout in a test grouping two independent
+separator corruption cases; splitting those cases retained their assertions
+and per-case allowance. Both cases and the combined full suite now pass.
+This checkpoint is prepared for publication; these local results do not prove
+a deployed revision, complete Engine attachment, world activation or campaign
+completion. Claude's PR #233 has since merged and deployed as `7bf89f379`;
+that presentation change is separate from this locally validated revision.

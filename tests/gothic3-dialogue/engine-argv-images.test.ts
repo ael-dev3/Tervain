@@ -38,3 +38,7 @@ it('pins original multibyte scope bytes and stops on changed or unknown scope co
 it('pins the classification probe bytes and preserves the mutable selector',()=>{
  const {crt,owner}=fixture(),selector=fact(NativeEngineArgvImages.imageForCrt(owner,crt,'classificationApiSelector')),probe=fact(NativeEngineArgvImages.imageForCrt(owner,crt,'classificationWideProbe'));expect(probe.readUnsigned(0,2)).toBe(0);selector.writeUnsigned(0,2);expect(fact(NativeEngineArgvImages.forCrt(crt))).toBe(owner);expect(selector.readUnsigned(0)).toBe(2);probe.writeUnsigned(0,1,2);expect(NativeEngineArgvImages.forCrt(crt).known).toBe(false);expect(probe.readUnsigned(0,2)).toBe(1);
 });
+
+it('retains mutable Engine global table storage and rejects a released extent',()=>{
+ const {crt,owner}=fixture(),cases=fact(NativeEngineArgvImages.imageForCrt(owner,crt,'globalMbcCaseBytes'));expect(cases.bytes.length).toBe(256);cases.writeUnsigned(70,77,1);expect(fact(NativeEngineArgvImages.forCrt(crt))).toBe(owner);expect(fact(NativeEngineArgvImages.imageForCrt(owner,crt,'globalMbcCaseBytes'))).toBe(cases);expect(cases.readUnsigned(70,1)).toBe(77);cases.backing.freed=true;expect(NativeEngineArgvImages.forCrt(crt).known).toBe(false);
+});

@@ -165,28 +165,34 @@ writes lowercase Unicode output. It reaches narrowing preparation `3067c779`
 after 3382 admitted operations. Its full suite passed 3365 tests across 313 files;
 its main build and Pages deployment succeeded.
 
-The newer local continuation narrows Unicode output into the original byte
-destination and returns through both buffer cleanups, cookie checking and locale
-ownership release. It also executes the original uppercase mapping call into a
-separate destination, reusing the verified wrapper/body with its own arguments
-and return address. Both byte tables are complete for the declared CP1252 input.
-Default execution reaches the character-table publication loop `30684a93` after
-5261 admitted operations. Typecheck and production build passed. The focused run
-passed 94 of 95 checks; its sole stale stack-argument assertion was corrected and
-passed, alongside an additional uppercase interruption check. All 96 distinct
-focused checks are covered by those passing results. The latest full suite is
-running with a 20-second per-test timeout. The Engine I/O test file now uses
-that allowance by default for the expanded startup path. This work is awaiting
-publication.
+[PR #230](https://github.com/ael-dev3/Tervain/pull/230) executes both lowercase
+and uppercase conversion calls, narrows Unicode into separate original byte
+destinations, and returns through buffer cleanup, cookie checking and locale
+ownership release. Its main build and Pages deployment succeeded at revision
+`f1505ca863aefc10d5a6cb883d1d379b8ac296ff`. The deployed default path stops
+at character-record publication `30684a93` after 5261 admitted operations.
+The implementation full suite passed 3371 tests across 313 files.
 
-Temporary stack views are reused by later calls. Tests observe probe values and
-arguments at their actual returns rather than treating the reused storage as a
-historical snapshot. The previous narrowing full run reported 3332 passes and
-36 five-second timeouts in two files under concurrent local load; its only
-reported error type was the timeout.
+The newer local work completes the character record and returns both retained
+initializers; that checkpoint passed 3373 tests across 313 files. It then installs
+the record in Engine thread data through the original reference-count calls.
+The next continuation follows the global publication policy, acquires existing
+Engine lock 13, and copies the header and all character tables to their original
+global extents. Its targeted checks cover complete copying, interrupted writes
+and retained state. The continuation also replaces the global pointer, retains a second reference,
+releases lock 13 and returns through the original exception epilog and wrapper.
+The next call returns the selected virtual process filename through the original
+`GetModuleFileNameA` ABI and the actual Engine-owned buffer. Default execution
+reaches command-line selection `3068e79f` after 11,608 operations. All 148
+distinct focused checks are covered by passing results, including three
+parameterized formatter damage cases. TypeScript checking, independent evidence
+regeneration and production build pass. Full validation is running; this
+continuation has not been deployed. A single full image-owner check preserves storage
+validation while removing repeated validation of the same owner.
 
-The character-flag/conversion loop, MBC publication, complete startup and
-campaign integration remain unfinished.
+Temporary stack views are reused by later calls. Tests observe values and
+arguments at their actual returns. Command-line selection, argument parsing, argv allocation and full startup
+remain unfinished.
 
 Complete startup, world activation and a new-game-to-ending campaign remain
 unfinished. The checkpoint history records earlier boundaries and their evidence;

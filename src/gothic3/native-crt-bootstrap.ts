@@ -154,7 +154,7 @@ export type NativeCrtAttachOperationName = 'version.size.store' | 'GetVersionExA
   'os.minor.store' | 'os.build.store' | 'heapInit.return' | 'mtInit.return' |
   'heapTerm.return' | 'preCInit.return' | 'GetCommandLineA.boundary' |
   'GetCommandLineA.return' | 'commandLinePointer.store' | 'environment.return' |
-  'environmentBlock.store' | 'ioInit.boundary' | 'ioInit.enter' | 'ioInit.return' |
+  'environmentBlock.store' | 'ioInit.boundary' | 'ioInit.enter' | 'ioInit.return' | 'argumentSetup.return' |
   'argv.enter' | 'argv.return' | 'argv.boundary' | 'setEnvp.enter' | 'setEnvp.return' |
   'setEnvp.boundary' | 'crtAttach.return';
 export interface NativeCrtAttachOperation {
@@ -351,6 +351,10 @@ export class NativeCrtBootstrap {
   static engineArgvMbcForCrt(bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object):NativeValue<NativeHeapObjectViews>{
     const proof=NativeCrtBootstrap.canonicalEngineArgvCallForCrt(bootstrap,crt,permit);if(!proof.known)return proof;
     try{if(bootstrap.thread.host.crt!==crt)throw new Error('Actual Engine MBC owner required');return known(bootstrap.#checked(bootstrap.thread.physical.mbcObject));}catch(error){return unknown(failureReason(error));}
+  }
+  static engineArgvCommandLineForCrt(bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object):NativeValue<Readonly<{storage:NativeHeapObjectViews;pointer:NativeBytePointer|null}>>{
+    const proof=NativeCrtBootstrap.canonicalEngineArgvCallForCrt(bootstrap,crt,permit);if(!proof.known)return proof;
+    try{if(!bootstrap.#commandLineReturned||!bootstrap.#engineCommandLineStorage)throw new Error('Actual returned Engine command line storage required');const storage=bootstrap.#checked(bootstrap.#engineCommandLineStorage),pointer=NativeHeapObjectViews.prototype.pointer.call(storage,0).get() as NativeBytePointer|null;if(pointer!==null){const span=NativeRuntimePlatform.canonicalProcessInputSpanForPlatform(crt.host.platform as NativeRuntimePlatform,pointer,0);if(!span.known)throw new Error(span.reason);}return known(Object.freeze({storage,pointer}));}catch(error){return unknown(failureReason(error));}
   }
   static engineArgvLocaleLockForCrt(bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object,operation:'lock'|'unlock'):NativeValue<void>{
     const proof=NativeCrtBootstrap.canonicalEngineArgvCallForCrt(bootstrap,crt,permit);if(!proof.known)return proof;
@@ -758,7 +762,7 @@ export class NativeCrtBootstrap {
         this.#call('Engine argument image authority '+label,()=>NativeEngineArgvImages.imageForCrt(this.#engineArgvImages!,this.#crt,label));
       }
       this.#engineArgvInvocationActive=true;
-      try{this.#call('Engine argumentSetup3068e76f at30677276',()=>NativeX86ThreadStack.enterEngineArgvForBootstrap(this.#engineIoStack!,this,this.#crt,this.#engineArgvCallPermit));}
+      try{const result=this.#call('Engine argumentSetup3068e76f at30677276',()=>NativeX86ThreadStack.enterEngineArgvForBootstrap(this.#engineIoStack!,this,this.#crt,this.#engineArgvCallPermit));this.#record('argumentSetup.return',result,'3067727b');this.#nextBoundary=Object.freeze({name:'callerTest',address:'3067727b',instruction:'TEST EAX,EAX'});}
       finally{this.#engineArgvInvocationActive=false;}
       this.#gate('Engine argument caller result at3067727b');
     }

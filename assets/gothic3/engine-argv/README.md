@@ -2,12 +2,12 @@
 
 `research.json` captures the original call at `30677276 -> 3068e76f`, its
 70-instruction argument setup, the two-pass parser, multibyte dependency wrapper,
-and CRT malloc wrapper. The package contains 22 methods, 1,531 instructions and
-4,307 instruction bytes, checked against the matching original Engine.dll.
+and CRT malloc wrapper. The package contains 25 methods, 1,571 instructions and
+4,416 instruction bytes, checked against the matching original Engine.dll.
 
 The setup calls GetModuleFileNameA, selects the current command line or filename,
 counts arguments and characters, allocates storage, parses again, and publishes
-argument count and vector globals. Sixteen image receipts preserve original paths
+argument count and vector globals. Twenty-two image receipts preserve original paths
 through labels and addresses, including the module filename buffer and command
 line pointer. Their cold bytes do not authorize resetting already-live storage.
 
@@ -18,16 +18,30 @@ python tools/gothic3/prepare_engine_argv_source.py --study <study-directory> --o
 ```
 
 Independent JSON and TypeScript regenerations are byte-identical. Two source checks and TypeScript checking pass. The JSON package has SHA-256
-`de5c66335b474e309e2f0963a97ac60e06229bab7502ac55d972b8350678dc03`.
+`128923bceeb7d71ccb270f8acd835f6eb44ec27b8f615871c904b270beacd94b`.
 Engine.dll SHA-256 is
 `d49ef92c0fdfeda433f6d04d0edeb7751e41e4c7c7effc1265630717029dc7e3`.
 
-This package is evidence only (`runtimeConnected: false`). The wrapper's nested
-multibyte call at `30685012 -> 30684e6d` and three immediate helpers are captured.
-Deeper thread, locale, allocation and lock dependencies still require recovery
-before claiming full dependency coverage. Module filename
-service, parser execution, Engine-owned argv allocation and caller return remain
-unfinished. This does not prove complete engine startup or playable campaign.
+The preparation receipt retains `runtimeConnected: false`: capture alone is not
+an execution grant for every path in these bodies. The selected continuations
+below execute against the retained Engine CRT. Translated lower allocation and
+lock services have separate proof scopes.
+
+The current local default completes both parsing passes, allocates the original
+20-byte argument block, publishes argc 1 and the owned NULL-terminated argv,
+restores saved registers and returns 0 through `3068e827 -> 3067727b` after
+13,819 admitted operations. NULL and empty command lines use the filename
+buffer. A NULL argument allocation returns -1 without overwriting prior globals.
+Interrupted writes and publication preserve produced state and pending calls.
+
+All 164 focused checks across six files, TypeScript checking and a production
+build pass. Combined publication revision `2d05d9660` also passed all 3,414
+tests across 313 files in 787.51 seconds, typechecking and a production build
+in 1m 8s. Deployment remains a separate receipt.
+Earlier sections are historical checkpoints. Alternate code-page, locale refresh
+and malloc-wait paths remain unsupported. The next caller's result test and
+Engine environment setup remain unfinished; complete startup and a finishable
+campaign are unproven.
 
 ## Game implementation comparison
 
@@ -168,3 +182,149 @@ Interrupted uppercase narrowing preserves the complete lower table, its partial
 upper output and the actual pending return. Typecheck and production build
 passed. The character-flag/conversion loop, MBC publication, complete startup and
 campaign integration remain unfinished.
+
+
+## Engine character record and initializer return
+
+The original 256-iteration loop now reads each retained classification WORD,
+sets the Engine record's uppercase/lowercase flag at `29 + index`, and writes
+its selected conversion byte at `285 + index`. Nonletters receive zero; the
+last three bytes of the 544-byte record retain their previous bytes and masks.
+Both case-table and initializer cookie checks execute before their real returns.
+The multibyte caller receives zero and resumes at prior-record release
+preparation `30684ee0` after 7907 admitted operations (7894 with cached mapping
+API selection). The record is populated but is not yet installed into the PTD
+or published to module globals.
+
+An input NUL at byte seven completes bounded mappings, then stops at `30684aa4`
+after 2869 admitted operations when the native loop reads an unowned later
+mapping byte. Interrupted record writes preserve the written prefix, its flags
+and pending case/initializer returns. Typecheck and production build passed;
+96 broad focused checks passed, and the two obsolete pending-return assertions
+passed separately after correction. Full validation of this newest continuation
+is pending. Reference-count release/publication, remaining startup and campaign
+integration are unfinished.
+
+## Engine thread MBC reference installation
+
+The retained caller now decrements its previous thread MBC reference through
+original `InterlockedDecrement` import `30afc6f4`, preserves the static object,
+installs the completed allocation in PTD offset `0x68`, and increments it through
+original `InterlockedIncrement` import `30afc6f8`. The static header receipt at
+`30ad4bd0` is evidence only; its original zero count does not reset live storage.
+The default path executes 7,918 admitted operations and stops at global
+publication policy `30684f0a`. Interrupted increments retain the installed
+record and pending call. Global table publication, argument parsing and full
+browser campaign integration remain unfinished.
+
+## Engine global MBC table publication
+
+The next continuation checks the actual thread and global locale policy bits,
+acquires existing Engine lock 13, and copies the installed record header into
+the original code-page, single-byte and locale globals. The retained source
+loops copy five WORDs, 257 character-type bytes and 256 case-conversion bytes
+into their original Engine-owned image extents. Default execution reaches
+`30684f94` after 11,570 admitted operations, with the lock still held.
+Interrupted copies retain their written prefix and unchanged tail. Global MBC
+pointer replacement and lock release remain unfinished; this checkpoint does
+not return multibyte setup or establish complete startup or campaign play.
+
+The 107 distinct focused checks are covered by the broader run (102 passed)
+and corrected assertion/policy reruns. TypeScript checking and the production
+build pass. Independent JSON and TypeScript regeneration is byte-identical.
+Each execution proof validates the complete retained image owner once, preserving
+all ownership, storage and immutable-byte checks without repeating the same
+full validation for every label. A complete latest-checkpoint suite remains
+pending; these checks do not establish full campaign integration.
+
+## Engine global reference and multibyte caller return
+
+The normal continuation decrements the prior global reference through its actual
+import, preserves the static record, installs the same new allocation in the
+global pointer image, and increments its second retained reference. Its four-row
+unlock helper returns through the existing Engine lock service. The original
+EH4 epilog restores exception state and registers before returning multibyte
+setup to its wrapper. The wrapper pops its argument, publishes ready=1 and
+returns to argument setup. Default execution reaches module-filename preparation
+`3068e787` after 11,602 operations. The selected record has two references; opaque
+browser pointers retain object identity rather than inventing numeric addresses.
+Interrupted increments and unavailable unlocks retain the actual pending calls,
+installed record and held lock without marking startup ready. Policy branches
+that skip global publication return with the thread reference only. Module
+filename service, argument parsing, full startup and campaign integration remain
+unfinished. The Game environment test file now allows 20 seconds per check for
+its expanded native startup graph; all existing assertions remain in place.
+
+The 142 distinct focused checks are covered by 139 passes in the broader run
+and three corrected retained-frame/NULL-branch assertions passing separately.
+TypeScript checking and the production build pass. The 23-method source
+package independently regenerates identically. Complete latest-checkpoint
+validation remains pending; full campaign play remains unproven.
+
+## Engine module filename call
+
+The original `GetModuleFileNameA` import is admitted at IAT `30afc82c`. Argument
+setup pushes count 260, the actual Engine buffer and a NULL module handle, and
+clears the separate sentinel before calling it. The existing selected virtual
+process filename supplies the API bytes. Normal execution preserves buffer
+identity, writes those bytes and their terminator, returns through the real
+`RET 12` slot, and retains the returned length in EAX. It stops at command-line
+pointer selection `3068e79f`. Interrupted writes retain their prefix and pending
+call without a fabricated API return. The selected virtual filename is not a
+new observation of the host Windows process.
+
+All 145 distinct focused checks are covered by 143 passes plus two corrected
+readiness/retired-stack assertions. The code-page argument is observed while
+its call is active because the filename call reuses that stack storage.
+TypeScript checking and independent JSON/TypeScript regeneration pass.
+Complete startup and campaign integration remain unfinished.
+
+The production build passes. The existing three damaged formatter displacements
+are now separate parameterized checks with the same assertions and per-case
+timeout; all three pass, so 148 distinct focused checks are covered. The
+preceding multibyte-return full run reported 3388 passes and one grouped
+formatter timeout across 313 files. Full validation of this filename checkpoint
+remains pending.
+
+## Parser lead-byte dependency evidence
+
+All three calls in the original parser target `306846bd`. Its seven-instruction
+wrapper supplies mask 4, a zero secondary mask and NULL locale to the byte
+classification body at `306844ff`. That body invokes the already-captured locale
+update constructor `30673389`, reads the owned MBC character flags at offset 29
+and clears temporary PTD ownership when required. The two helper bodies are
+now captured and checked against the original PE bytes. The evidence capture checkpoint did not execute these bodies. The subsequent
+counting-parser continuation now executes them on the retained Engine stack.
+
+The helper evidence checkpoint passes 18 source/image checks, TypeScript checking
+and independent byte-identical JSON and TypeScript regeneration.
+
+## Counting parser continuation
+
+The parser and both lead-byte helper bodies execute only their captured rows.
+The locale constructor retains the actual PTD and current MBC pointer, including
+the newly installed Engine allocation. Its original getter service remains a
+translated lower service with a separately scoped proof. The helpers acquire
+and release PTD flag bit 2 through their original source instructions. Logical
+operations preserve known-bit masks; an unknown classification bit stops at the
+branch that consumes it with the pending calls and acquired ownership retained.
+
+Earlier stack-local values are checked before the parser reuses those slots.
+A returned counting pass proves its counts and return frame. It does not create
+argv storage, execute the filling pass, complete engine startup or prove campaign
+play.
+
+## Argument allocation, filling and return
+
+The original caller checks vector multiplication and total-size overflow before
+calling its captured CRT malloc wrapper. The translated lower allocator is
+bound to this Engine owner, and its actual cdecl return remains on the retained
+stack. The second parser pass writes only the returned argument allocation;
+vector entries carry capabilities into that same block, while string bytes and
+the NULL terminator are written through the captured instructions. Query and
+filling counts and helper-call totals are retained separately.
+
+Publication stores argc first and argv second. A failed second store keeps the
+new argc and prior argv, with no fabricated setup return. The normal return
+restores the outer caller's registers and ESP. The bootstrap records the actual
+0/-1 result and stops before executing caller TEST at `3067727b`.

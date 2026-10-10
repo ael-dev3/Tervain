@@ -11,6 +11,8 @@ def capture(study):
     evidence = audit_module(study, 'Engine_dll', 'Engine.dll', {
         0x3068e76f: 'engineArgumentSetup',
         0x3068e5d7: 'engineArgumentParser',
+        0x306846bd: 'engineArgumentLeadByteWrapper',
+        0x306844ff: 'engineArgumentByteClassification',
         0x30685007: 'engineArgumentMultibyteDependency',
         0x30684e6d: 'engineArgumentMultibyteSetup',
         0x30684b3a: 'engineArgumentMultibyteHelper30684b3a',
@@ -20,6 +22,7 @@ def capture(study):
         0x30672ec7: 'engineArgumentMallocLower',
         0x3067e12b: 'engineMultibyteGetPtdWrapper',
         0x30684bd5: 'engineMultibyteLocaleUnlock',
+        0x30684fce: 'engineMultibyteGlobalUnlock',
         0x30673389: 'engineCodepageLocaleUpdate',
         0x30671690: 'engineMbcMemset',
         0x306849b0: 'engineMbcCaseTables',
@@ -39,8 +42,11 @@ def capture(study):
     get_acp = next(row for row in pe.imports() if row['iatVA'] == '0x30afc734')
     if get_acp['module'].lower() != 'kernel32.dll' or get_acp['name'] != 'GetACP' or get_acp['ordinal'] is not None:
         raise ValueError('Original Engine GetACP import differs')
+    filename_import = next(row for row in pe.imports() if row['iatVA'] == '0x30afc82c')
+    if filename_import['module'].lower() != 'kernel32.dll' or filename_import['name'] != 'GetModuleFileNameA' or filename_import['ordinal'] is not None:
+        raise ValueError('Original Engine filename import differs')
     mbc_imports = {}
-    for name, address in [('IsValidCodePage', '0x30afc73c'), ('GetCPInfo', '0x30afc688')]:
+    for name, address in [('IsValidCodePage', '0x30afc73c'), ('GetCPInfo', '0x30afc688'), ('InterlockedDecrement', '0x30afc6f4'), ('InterlockedIncrement', '0x30afc6f8')]:
         row = next(row for row in pe.imports() if row['iatVA'] == address)
         if row['module'].lower() != 'kernel32.dll' or row['name'] != name or row['ordinal'] is not None:
             raise ValueError('Original Engine MBC import differs')
@@ -67,7 +73,13 @@ def capture(study):
                                  (0x30ad5000, 240, 'multibyteCodepageTable'),
                                  (0x30af7c34, 4, 'classificationApiSelector'),
                                  (0x30892f38, 2, 'classificationWideProbe'),
-                                 (0x30af70ec, 4, 'mappingApiSelector')]:
+                                 (0x30af70ec, 4, 'mappingApiSelector'),
+                                 (0x30af770c, 4, 'globalMbcCodepage'),
+                                 (0x30af7710, 4, 'globalMbcSingleByte'),
+                                 (0x30af7714, 4, 'globalMbcLocale'),
+                                 (0x30af7700, 10, 'globalMbcWideTypes'),
+                                 (0x30ad4df0, 257, 'globalMbcCharacterTypes'),
+                                 (0x30ad4ef8, 256, 'globalMbcCaseBytes')]:
         rva = address - pe.base
         section = next(s for s in pe.sections if s[1] <= rva and rva + size <= s[1] + max(s[0], s[2]))
         backed = max(0, min(size, section[1] + section[2] - rva))
@@ -76,7 +88,7 @@ def capture(study):
                            raw=raw.hex(), fileBackedBytes=backed, loaderZeroFillBytes=size-backed,
                            sha256=hashlib.sha256(raw).hexdigest()))
     return dict(schema='gothic3.engine-argv-source.v1', source=evidence,
-                images=images, codepageImport=get_acp, mbcImports=mbc_imports, classificationImports=classification_imports, caller=dict(call='30677276', target='3068e76f',
+                images=images, staticMbcHeader=dict(address='30ad4bd0', bytes=16, raw=pe.bytes(0x30ad4bd0,16).hex()), codepageImport=get_acp, filenameImport=filename_import, mbcImports=mbc_imports, classificationImports=classification_imports, caller=dict(call='30677276', target='3068e76f',
                 raw=caller.hex(), sha256=hashlib.sha256(caller).hexdigest()),
                 runtimeConnected=False,
                 notes=['Original module filename and two-pass command-line argument setup.',
@@ -103,8 +115,10 @@ function freeze(value:unknown):void {if(value&&typeof value==='object'&&!Object.
 freeze(source);
 export function admitEngineArgvSource():void {if(sourceText!==expectedText)throw new Error('Original Engine argument source differs');}
 export function engineArgvInstruction(entry:string,pc:string){admitEngineArgvSource();const method=source.source.methods.find(method=>method.bodyVA==='0x'+entry);const row=method?.instructions.find(row=>row.va===pc);if(!row)throw new Error('Original Engine argument method instruction required');return row;}
-export function engineArgvMbcImport(kind:'IsValidCodePage'|'GetCPInfo'){admitEngineArgvSource();return source.mbcImports[kind];}
+export function engineArgvMbcImport(kind:'IsValidCodePage'|'GetCPInfo'|'InterlockedDecrement'|'InterlockedIncrement'){admitEngineArgvSource();return source.mbcImports[kind];}
 export function engineArgvClassificationImport(kind:'GetStringTypeW'|'GetLastError'|'MultiByteToWideChar'|'GetStringTypeA'|'LCMapStringW'|'WideCharToMultiByte'){admitEngineArgvSource();return source.classificationImports[kind];}
+export function engineArgvStaticMbcHeader(){admitEngineArgvSource();return source.staticMbcHeader;}
+export function engineArgvFilenameImport(){admitEngineArgvSource();return source.filenameImport;}
 export function engineArgvGetACPImport(){admitEngineArgvSource();return source.codepageImport;}
 export function engineArgvImage(label:string){admitEngineArgvSource();const image=source.images.find(image=>image.label===label);if(!image)throw new Error('Original Engine argument image required');return image;}
 """.replace('EXPECTED', expected)
