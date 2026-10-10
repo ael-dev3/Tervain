@@ -1,4 +1,4 @@
-import {aiHelperAccessorCreatorInstruction,aiHelperAccessorCreatorConstructorInstruction,aiHelperAccessorQueryInstruction} from './native-game-ai-helper-accessor-creator-source';
+import {aiHelperAccessorCreatorInstruction,aiHelperAccessorCreatorConstructorInstruction,aiHelperAccessorQueryInstruction,aiHelperFactoryQueryInstruction,aiHelperWrapperQueryInstruction,aiHelperWrapperCloneInstruction} from './native-game-ai-helper-accessor-creator-source';
 import {aiHelperPropertyIdInstruction} from './native-game-ai-helper-property-id-source';
 import {aiHelperAdminInitializerInstruction,aiHelperAdminWrapperInstruction,aiHelperAdminReplacementInstruction,aiHelperAdminAccessorInstruction} from './native-game-ai-helper-admin-source';
 /** The bounded original Game caller/environment source unit. Every reached instruction
@@ -85,6 +85,9 @@ const bodies = Object.freeze([
   ['204b2720','204b2720-204b2741'],
   ['100932e0','100932e0-10093330'],
   ['10090590','10090590-100905f0'],
+  ['1008cdd0','1008cdd0-1008ce15'],
+  ['100890d0','100890d0-100890d5'],
+  ['20077bf0','20077bf0-20077c56'],
   ['20077040','20077040-2007710d'],
   ['20076630','20076630-2007679e'],
   ['200763f0','200763f0-200763f3'],
@@ -306,6 +309,10 @@ export class NativeGameCrtSetEnvp {
     const active=NativeGameCrtSetEnvp.canonicalControllerForCrt(owner,crt,controller,'invoke');
     if(!active.known)return active;
     const frame=owner.#frames.at(-1);
+    if(site==='100890d0'||site==='100890d2')return owner.#pc===site&&owner.#currentEntry==='100890d0'&&
+      frame?.entry==='100890d0'&&frame.site==='100905e9'&&frame.returnPc==='100905ee'&&
+      owner.#requireSourcePoint(site).instruction===(site==='100890d0'?'MOV EAX,dword ptr [ECX]':'MOV EDX,dword ptr [EAX + 0x38]')
+      ?known(undefined):unknown('Actual original wrapper object-query virtual read required');
     if(site==='100905e0'||site==='100905e2')return owner.#pc===site&&owner.#currentEntry==='10090590'&&
       frame?.entry==='10090590'&&frame.site==='100932f6'&&frame.returnPc==='100932fb'&&
       owner.#requireSourcePoint(site).instruction===(site==='100905e0'?'MOV EDX,dword ptr [ECX]':'MOV EAX,dword ptr [EDX + 0xc]')
@@ -527,7 +534,10 @@ export class NativeGameCrtSetEnvp {
     const extent = ranges.get(this.#currentEntry), address = Number.parseInt(pc, 16);
     if (!extent?.some(([first, last]) => address >= first && address <= last) ||
         this.#currentEntry === '204677e4' && !callerRows.has(pc)) throw new Error('Unowned Game environment source frontier at' + pc);
-    const point = this.#currentEntry==='10090590' ? aiHelperAccessorQueryInstruction(pc)
+    const point = this.#currentEntry==='1008cdd0' ? aiHelperFactoryQueryInstruction(pc)
+      : this.#currentEntry==='100890d0' ? aiHelperWrapperQueryInstruction(pc)
+      : this.#currentEntry==='20077bf0' ? aiHelperWrapperCloneInstruction(pc)
+      : this.#currentEntry==='10090590' ? aiHelperAccessorQueryInstruction(pc)
       : this.#currentEntry==='100932e0' ? aiHelperAccessorCreatorConstructorInstruction(pc)
       : this.#currentEntry==='204b2720' ? aiHelperAccessorCreatorInstruction(pc)
       : this.#currentEntry==='204b26c0' ? aiHelperPropertyIdInstruction(pc)
@@ -605,6 +615,9 @@ export class NativeGameCrtSetEnvp {
     return fact(NativeX86ThreadStack.prototype.effectiveAddress.call(this.#stack, this.#controller, terms, displacement));
   }
   #read(value: Operand, bytes: Width = width(value)): NativeX86Word32 {
+    if(this.#currentEntry==='100890d0'&&bytes===4&&value.kind==='memory'&&!value.fs&&
+      ((this.#pc==='100890d0'&&value.expression==='ECX')||(this.#pc==='100890d2'&&value.expression==='EAX + 0x38')))
+      return fact(NativeX86ThreadStack.prototype.loadAIHelperWrapperQueryVirtualPointer.call(this.#stack,this.#controller,this.#pc,this.#address(value.expression)));
     if(this.#currentEntry==='10090590'&&bytes===4&&value.kind==='memory'&&!value.fs&&
       ((this.#pc==='100905e0'&&value.expression==='ECX')||(this.#pc==='100905e2'&&value.expression==='EDX + 0xc')))
       return fact(NativeX86ThreadStack.prototype.loadArenaVirtualPointer.call(this.#stack,this.#controller,this.#pc,this.#address(value.expression)));
@@ -726,6 +739,13 @@ export class NativeGameCrtSetEnvp {
       fact(NativeX86ThreadStack.prototype.call.call(this.#stack,this.#controller,point.va,returnPc));
       this.#frames.push(Object.freeze({entry:body,site:point.va,returnPc,previousEntry:this.#currentEntry}));
       this.#currentEntry=body; this.#nextBoundary=null; return body;
+    }
+    if(point.va==='100905e9'||point.va==='1008cdde') {
+      const factory=point.va==='100905e9',entry=factory?'10007ec8':'100058a3',body=factory?'1008cdd0':'100891b0';
+      if(this.#currentEntry!==(factory?'10090590':'1008cdd0')||target.kind!=='immediate'||hex(target.value)!==entry)throw new Error('Original factory object query or root check required');
+      fact(NativeX86ThreadStack.prototype.call.call(this.#stack,this.#controller,point.va,returnPc));
+      this.#frames.push(Object.freeze({entry:body,site:point.va,returnPc,previousEntry:this.#currentEntry}));
+      this.#currentEntry=body;this.#nextBoundary=null;return body;
     }
     if(point.va==='100905b7') {
       if(this.#currentEntry!=='10090590'||target.kind!=='immediate'||target.value!==0x100019d8||returnPc!=='100905bc')throw new Error('Original query type-node lookup required');
@@ -1163,6 +1183,20 @@ export class NativeGameCrtSetEnvp {
     // presence before any physical operation or partial register store.
     const source = binary ? argument(1) : destination;
     if (opcode === 'CALL') return this.#call(point, destination, next);
+    if(point.va==='1008ce15'||point.va==='100890d5') {
+      const factory=point.va==='1008ce15',frame=this.#frames.at(-1);
+      if(this.#currentEntry!==(factory?'1008cdd0':'100890d0')||frame?.entry!==this.#currentEntry||frame.site!=='100905e9'||frame.returnPc!=='100905ee')throw new Error('Actual factory object-query tail frame required');
+      if(factory) {
+        if(destination.kind!=='immediate'||destination.value!==0x100056e6)throw new Error('Original wrapper-query tail target required');
+        aiHelperWrapperQueryInstruction('100890d0');
+      } else {
+        if(destination.kind!=='register'||destination.register!=='EDX'||destination.lane)throw new Error('Original wrapper clone virtual tail target required');
+        fact(NativeX86ThreadStack.prototype.requireSourceAddress.call(this.#stack,this.#controller,this.#read(destination),'code','20028efc'));
+        aiHelperWrapperCloneInstruction('20077bf0');
+      }
+      const body=factory?'100890d0':'20077bf0';
+      this.#frames[this.#frames.length-1]=Object.freeze({...frame,entry:body});this.#currentEntry=body;return body;
+    }
     if (opcode === 'JMP') {
       if (destination?.kind !== 'immediate') throw new Error('Original indirect environment JMP is not owned');
       const target = hex(destination.value);

@@ -48,8 +48,9 @@ Each feature goes through the following steps:
 and AI helper administrator initialization return through the retained startup
 stack. PropertyID initializer `204b26c0` returns. Accessor-creator initializer
 `204b2720` resolves the registered AI helper type and returns its canonical
-factory through the original virtual accessor. The committed checkpoint
-`d39187ab3` stops at the factory object-query CALL at `100905e9`.
+factory through the original virtual accessor. The factory query finds the
+registered root wrapper and tail-dispatches its clone routine. Execution stops
+at the clone allocation CALL `20077bfb`, before creating the new wrapper.
 Complete startup, world activation and a new-game-to-ending campaign remain
 unfinished. Local checkpoints and the hosted version can differ; the validation
 receipts below identify the checkpoint covered.
@@ -95,7 +96,22 @@ establish completion of these remaining features.
 The entries below describe successive local states, newest first. Statements
 about missing operations in older entries apply to those earlier checkpoints.
 
-### Latest local checkpoint: virtual factory accessor returns
+### Latest local checkpoint: factory query reaches the original wrapper clone
+
+The original factory query reads its retained root array, checks the wrapper's
+root flag and tail-dispatches through its actual vtable slot `+56`. The vtable
+pointer remains an opaque pointer capability belonging to the same Game image.
+The captured clone routine `20077bf0` preserves ESI and EDI and pushes the
+original allocation category `0x190` and size `16`. Execution stops before its
+allocation import CALL at `20077bfb`. The accessor initializer has not returned.
+
+Nine focused tests passed in 11.35 seconds; TypeScript checking and independent
+byte-identical source regeneration passed. The preceding virtual-accessor
+checkpoint passed all 3,216 tests across 301 files in 434.74 seconds and its
+production build. These earlier full checks do not cover this new continuation.
+Live world activation and a complete campaign remain unfinished.
+
+### Historical checkpoint: virtual factory accessor returns
 
 The original query reads the canonical type vtable and its captured slot `+12`.
 The slot reaches the existing two-instruction accessor body `200763f0`, which

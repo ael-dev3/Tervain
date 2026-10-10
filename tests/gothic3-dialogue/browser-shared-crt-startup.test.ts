@@ -54,7 +54,7 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  expect(game.known).toBe(true);
  if(!game.known)throw new Error(game.reason);
  expect(game.value.attachResult,game.value.attachProgress.setEnvpProgress?.currentPC).toEqual({known:false,
-  reason:'crtAttach204677e4: Unowned Unowned original environment CALL at100905e9: CALL 0x10007ec8'});
+  reason:'crtAttach204677e4: Unowned Unowned original environment CALL at20077bfb: CALL dword ptr [0x207d88f8]'});
  const executed=new Set(game.value.attachProgress.setEnvpProgress!.effects.map(effect=>effect.pc));
  for(const pc of ['204b26c0','204b26c3','204b26c8'])expect(executed.has(pc)).toBe(true);
  for(const pc of ['204b26cc','204b26d2','204b26d5','204b26d6'])expect(executed.has(pc)).toBe(true);
@@ -80,7 +80,9 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  for(const pc of ['100905b7','100905bc','100905be','100905c0','100905c3','100905c5','100905c7','100905e0','100905e2'])expect(executed.has(pc)).toBe(true);
  expect(executed.has('100905e5')).toBe(true);expect(executed.has('100905e7')).toBe(true);
  expect(game.value.attachProgress.setEnvpProgress!.effects.filter(effect=>effect.pc==='200763f3')).toHaveLength(2);
- expect(executed.has('100905e9')).toBe(false);
+ for(const pc of ['100905e9','1008cdd0','1008cdde','100891b0','1008ce15','100890d0','100890d2','100890d5','20077bf0','20077bf1','20077bf2','20077bf7','20077bf9'])expect(executed.has(pc)).toBe(true);
+ expect(executed.has('20077bfb')).toBe(false);
+ expect(executed.has('20077c01')).toBe(false);
  expect(executed.has('204b2741')).toBe(false);
  const accessorCreator=game.value.crt.imageStorage('aiHelperAccessorCreator');
  expect(accessorCreator.bytes.length).toBe(4);expect([...accessorCreator.bytes]).toEqual(Array(4).fill(0));

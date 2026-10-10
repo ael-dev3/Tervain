@@ -2975,6 +2975,21 @@ export class NativeX86ThreadStack {
     if (source?.kind !== 'source' || source.type !== 'code' || source.address !== '2046663d')
       throw new Error('Actual original atexit return required');
   }); }
+  loadAIHelperWrapperQueryVirtualPointer(controller:object,site:string,address:NativeX86Word32):NativeValue<NativeX86Word32> {return this.#run(controller,()=>{
+    const binding=this.#setEnvpBinding;if(!binding||binding.controller!==controller)throw new Error('Actual retained Game startup controller required');
+    const grant=NativeGameCrtSetEnvp.canonicalArenaVirtualReadForCrt(binding.owner,binding.crt,controller,site);if(!grant.known)throw new Error(grant.reason);
+    const first=site==='100890d0',label=first?'aiHelperAdminWrapper':'aiHelperAdminWrapperVtable',offset=first?0:56;
+    const memory=this.#memory(address,4),image=NativeModuleCrtOwner.canonicalImageForOwner(binding.crt,label);
+    if(!image.known||memory.fields!==image.value||memory.offset!==offset)throw new Error('Actual original root wrapper virtual slot required');
+    if(first) {
+      const pointer=NativeHeapObjectViews.prototype.pointer.call(memory.fields,offset).get() as NativeBytePointer|null;
+      const vtable=NativeModuleCrtOwner.canonicalImageForOwner(binding.crt,'aiHelperAdminWrapperVtable');
+      if(!vtable.known||!pointer||pointer.fields!==vtable.value||pointer.offset!==0)throw new Error('Original AI helper wrapper vtable changed');
+      return this.#moduleWord('aiHelperAdminWrapperVtable',0);
+    }
+    const value=NativeHeapObjectViews.prototype.readUnsigned.call(memory.fields,offset);
+    if(value!==0x20028efc)throw new Error('Original AI helper wrapper clone slot changed');return this.#source('code','20028efc');
+  }); }
   loadArenaVirtualPointer(controller:object,site:string,address:NativeX86Word32):NativeValue<NativeX86Word32> { return this.#run(controller,()=>{
     const binding=this.#setEnvpBinding;
     if(!binding || binding.controller!==controller)throw new Error('Actual retained Game startup controller required');
