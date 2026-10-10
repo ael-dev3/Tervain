@@ -101,13 +101,31 @@ about missing operations in older entries apply to those earlier checkpoints.
 
 ### Module-administrator research: next connection
 
+Engine exit registration now admits the original ModuleAdmin shutdown callback
+`30797fc0` as data belonging to its exit owner. It takes Engine CRT lock 8,
+decodes the live begin/end pointers, queries allocation size through the
+source-verified Engine `msize3067e45d`, stores an encoded callback, advances the
+encoded end pointer and unlocks. It rejects foreign callbacks before mutation.
+The initial 128-byte allocation holds 32 callback cells; execution stops at the
+actual growth routine `3067ca49` when more capacity is needed. Growth, shutdown
+traversal and browser Engine startup integration remain pending.
+
+The original initializer has no once guard. The previous implementation's
+cached success result was corrected: each completed invocation now performs a
+fresh allocation and pointer stores. Earlier allocations remain live through
+their CRT heap owner, matching the original repeated-call behavior.
+
+All 51 focused tests across four files passed in 9.93 seconds. TypeScript
+checking and independent byte-identical evidence regeneration passed. The
+browser ModuleAdmin getter still stops at its pending Engine exit-owner bridge.
+
 `NativeEngineExitTable` now translates the recovered exit initializer using
 an actual Engine CRT owner. It retains source-backed begin/end globals,
 calls the owner's `callocCrt(32, 4)` and pointer codec, stores the same encoded
 pointer in both globals and returns the original success `0` or allocation
 failure `24`. A codec failure retains the allocation and leaves the globals
-unwritten. Repeated calls retain the completed result or failure prefix.
-It rejects Game CRT owners. Registration and traversal remain unimplemented,
+unwritten. Repeated completed calls allocate again; an unknown failure prefix
+cannot be replayed. It rejects Game CRT owners. Growth and traversal remain unimplemented,
 and this initializer has not been connected to browser Engine startup.
 
 All 34 focused tests across three files passed in 9.60 seconds, including

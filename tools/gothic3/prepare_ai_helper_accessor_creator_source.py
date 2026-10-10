@@ -23,7 +23,8 @@ def capture(study):
         0x3002e9ec:'moduleAdminGetInstance',0x3003f026:'moduleInputDispatcherConstructor',
         0x3000f5bf:'moduleInputDispatcherCreate',0x30671596:'moduleEngineAtexit',
         0x3067155a:'moduleEngineOnexit',0x30671472:'moduleEngineOnexitTable',
-        0x30671590:'moduleEngineOnexitUnlock'})
+        0x30671590:'moduleEngineOnexitUnlock',0x3067e45d:'moduleEngineMsize',
+        0x3067cfe8:'moduleEngineOnexitLock',0x3067cff1:'moduleEngineOnexitRelease'})
     engine_pe=PE((study/'00_Original_Runtime/Engine.dll').read_bytes())
     exit_rows=[]
     with (study/'01_Decompiled_Code/Engine_dll/full_disassembly.asm').open(encoding='utf-8') as assembly:
@@ -56,6 +57,10 @@ def capture(study):
         exit_images.append(dict(label=label,address=f'{address:08x}',bytes=4,raw=raw.hex(),
             fileBackedBytes=backed,loaderZeroFillBytes=4-backed,sha256=hashlib.sha256(raw).hexdigest()))
     engine_exit_initialization['images']=exit_images
+    shutdown=engine_pe.bytes(0x30797fc0,10)
+    if shutdown.hex()!='b9789ead30e9663b88ff':
+        raise ValueError('Original Engine ModuleAdmin shutdown callback differs')
+    engine_exit_initialization['shutdownCallback']=dict(entry='30797fc0',raw=shutdown.hex(),sha256=hashlib.sha256(shutdown).hexdigest())
     game=audit_module(study,'Game_dll','Game.dll',{0x20028efc:'aiHelperWrapperClone'})
     shared=audit_module(study,'SharedBase_dll','SharedBase.dll',{
         0x10002ee1:'accessorCreatorConstructor',0x10007036:'queryNewObject',0x10007356:'accessorCreatorDestructor',0x100019d8:'queryTypeNode',0x10007ec8:'factoryQueryObject',0x100058a3:'factoryRootCheck',0x100056e6:'wrapperQueryObject',0x10001d07:'engineObjectRefBaseConstructor',0x10007c11:'engineObjectBaseConstructor'})

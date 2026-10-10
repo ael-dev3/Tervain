@@ -11,7 +11,8 @@ function fixture(codec:'absent'|'owned-bijection'='absent') {
   const crt=new NativeEngineCrtOwner({platform});
   // Explicit test OS selection; production initialization must recover these facts.
   crt.physical.crtOsFields.writeUnsigned(0,2);crt.physical.crtOsFields.writeUnsigned(12,6);
-  fact(crt.initHeap());return {crt,platform};
+  if(codec==='owned-bijection')crt.physical.sectionInitializer.pointer(0).set(fact(crt.encodePointer(null)));
+  fact(crt.initHeap());fact(crt.initLocks());return {crt,platform};
 }
 it('initializes the original Engine exit globals through its own CRT heap and codec',()=>{
   const {crt}=fixture('owned-bijection'),owner=NativeEngineExitTable.forCrt(crt);
@@ -27,8 +28,9 @@ it('initializes the original Engine exit globals through its own CRT heap and co
   const decoded=fact(crt.decodePointer(encoded)) as NativeBytePointer;
   expect(decoded).toBe(state.pointer);expect(decoded.fields.backing).toBe(allocation);expect(decoded.offset).toBe(0);
   expect([...owner.begin.knownMask]).toEqual(Array(4).fill(0));
-  const trace=state.trace;expect(fact(owner.initialize())).toBe(0);expect(owner.snapshot().trace).toEqual(trace);
-  expect(state.registrationOwned).toBe(false);expect(state.traversalOwned).toBe(false);
+  expect(fact(owner.initialize())).toBe(0);expect(owner.snapshot().allocation).not.toBe(allocation);expect(allocation.freed).toBe(false);
+  expect(owner.snapshot().trace.filter(row=>row==='30671530.calloc.return')).toHaveLength(2);
+  expect(state.registrationOwned).toBe('within-current-capacity');expect(state.traversalOwned).toBe(false);
 });
 it('retains the original NULL-allocation result and encoded globals',()=>{
   const {crt,platform}=fixture();vi.spyOn(platform,'win32HeapAlloc').mockReturnValue(known(null));
@@ -49,4 +51,28 @@ it('rejects a Game CRT owner',()=>{
   const platform=new NativeRuntimePlatform();
   const game=NativeGameCrtOwner.forPlatform({platform});
   expect(()=>NativeEngineExitTable.forCrt(game as unknown as NativeEngineCrtOwner)).toThrow('Actual Engine CRT owner required');
+});
+
+it('registers an encoded shutdown callback under Engine lock8 without invoking it',()=>{
+ const {crt}=fixture('owned-bijection'),owner=NativeEngineExitTable.forCrt(crt);
+ fact(owner.initialize());const callback=owner.moduleShutdownCallback();
+ expect(owner.moduleShutdownCallback()).toBe(callback);expect(fact(owner.atexit(callback))).toBe(0);
+ const state=owner.snapshot(),encoded=state.pointer!.fields.pointer<object>(0).get();
+ expect(encoded).not.toBe(callback);expect(fact(crt.decodePointer(encoded))).toBe(callback);
+ expect(state.callbackCells).toEqual([{allocation:state.allocation,offset:0,callback}]);
+ const end=fact(crt.decodePointer(owner.end.pointer<object>(0).get())) as NativeBytePointer;
+ expect(end.fields).toBe(state.pointer!.fields);expect(end.offset).toBe(4);
+ expect(state.trace.slice(-4)).toEqual(['3067cfe8.lock8','3067150b.callback.store','30671517.end.store','3067cff1.unlock8']);
+});
+it('rejects a foreign callback before taking a lock or writing a cell',()=>{
+ const first=NativeEngineExitTable.forCrt(fixture().crt),second=NativeEngineExitTable.forCrt(fixture().crt);
+ fact(first.initialize());const before=first.snapshot();
+ expect(first.atexit(second.moduleShutdownCallback()).known).toBe(false);
+ expect(first.snapshot().trace).toEqual(before.trace);expect(first.snapshot().callbackCells).toEqual([]);
+});
+it('preserves the full initial table at the actual growth frontier',()=>{
+ const owner=NativeEngineExitTable.forCrt(fixture().crt);fact(owner.initialize());const callback=owner.moduleShutdownCallback();
+ for(let i=0;i<32;i++)expect(fact(owner.atexit(callback))).toBe(0);
+ expect(owner.atexit(callback).known).toBe(false);
+ expect(owner.snapshot().boundary).toContain('growth3067ca49');expect(owner.snapshot().callbackCells).toHaveLength(32);
 });
