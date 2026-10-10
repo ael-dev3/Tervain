@@ -1,6 +1,9 @@
 import {NativePropertyTypeTable} from './native-property-type-table';
 import {createNativeEngineModuleOwner} from './native-engine-module-owner';
 import {createBrowserEngineCrtStartup} from './browser-engine-crt-startup';
+import {NativeCrtBootstrap} from './native-crt-bootstrap';
+import {NativeEngineIoImages} from './native-engine-io-images';
+import {engineIoInstruction} from './native-engine-io-source';
 import {NativeGameAIHelperAdminClassName} from './native-game-ai-helper-admin-class-name';
 import scriptAdminSource from '../../assets/gothic3/script-admin-startup/runtime-rules.json';
 import {constructNativePropertyIdFromGuid} from './native-property-id-guid';
@@ -106,6 +109,13 @@ interface StartupCall {
   readonly offset: number; readonly argument: NativeX86Word32; readonly position: number;
   readonly returnWord: NativeX86Word32; phase: 'pending' | 'returned';
 }
+interface EngineIoFrame {
+ readonly bootstrap:NativeCrtBootstrap;readonly crt:NativeModuleCrtOwner;readonly permit:object;
+ readonly images:NativeEngineIoImages;readonly scope:NativeHeapObjectViews;
+ phase:'running'|'blocked';pc:string;boundary:string|null;operations:number;
+ entryEsp:number;ebp:number|null;prologReturned:boolean;fsPublished:boolean;
+ startupInfo:NativeHeapObjectViews|null;
+}
 interface HeapCall {
   readonly stack: NativeX86ThreadStack; readonly controller: object; readonly crt: NativeModuleCrtOwner;
   readonly heap: NativeWin32HeapCapability; readonly heapWord: NativeX86Word32;
@@ -171,6 +181,91 @@ function reason(error: unknown): string {
 }
 
 export class NativeX86ThreadStack {
+  #engineIoFrame:EngineIoFrame|null=null;
+  #engineIoExecuting=false;
+  /** Borrow the actual thread graph for a reached translated Engine CRT call.
+   * This does not establish native DLL loader order or a complete CRT frame. */
+  static enterEngineIoForBootstrap(stack:NativeX86ThreadStack,bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object):NativeValue<void>{
+    const call=NativeCrtBootstrap.canonicalEngineIoCallForCrt(bootstrap,crt,permit);if(!call.known)return call;
+    try{
+      if(graphs.get(crt.host.platform as NativeRuntimePlatform)!==stack||stack.#platform!==crt.host.platform)throw new Error('Actual same-thread Engine I/O graph required');
+      if(stack.#engineIoExecuting)throw new Error('Reentrant Engine I/O frame cannot replay');
+      if(stack.#engineIoFrame)throw new Error(stack.#engineIoFrame.boundary??'Retained Engine I/O frame cannot restart');
+      if(stack.#phase==='running'){
+        const binding=stack.#setEnvpBinding;
+        if(!binding||!stack.#executing||stack.#calls.filter(call=>!call.returned).at(-1)?.site!=='200766c2')throw new Error('Actual pending Game module-administrator frame required for Engine bridge');
+        const parent=NativeGameCrtSetEnvp.canonicalAIHelperModuleAdminCallForCrt(binding.owner,binding.crt,binding.controller);if(!parent.known)throw new Error(parent.reason);
+      }else if(stack.#phase!=='cold'||stack.#binding||stack.#sharedArgvFrame||stack.#dllMemoryController)throw new Error('Actual cold Engine thread or reached Game bridge required');
+      stack.#physical(stack.#stack);stack.#physical(stack.#bank);
+      const images=bootstrap.attachProgress().engineIoImages;if(!images)throw new Error('Actual retained Engine I/O images required');
+      const scope=NativeEngineIoImages.imageForCrt(images,crt,'ioSehScope');if(!scope.known)throw new Error(scope.reason);
+      const frame:EngineIoFrame={bootstrap,crt,permit,images,scope:scope.value,phase:'running',pc:'30677266',boundary:null,operations:0,entryEsp:stack.#address(stack.#load(stack.#bank,stack.#reg('ESP'))),ebp:null,prologReturned:false,fsPublished:false,startupInfo:null};
+      stack.#engineIoFrame=frame;stack.#engineIoExecuting=true;stack.#phase='running';
+      const register=(name:NativeX86Register)=>stack.#load(stack.#bank,stack.#reg(name));
+      const set=(name:NativeX86Register,word:NativeX86Word32)=>stack.#store(stack.#bank,stack.#reg(name),word);
+      const relative=(name:'ESP'|'EBP',offset:number)=>stack.#address(register(name))+offset;
+      const value=(number:number)=>stack.#mint(number>>>0,0xffffffff);
+      const xor=(left:NativeX86Word32,right:NativeX86Word32)=>{
+        if(left===right){stack.#logicalFlags(0,0xffffffff,4);return value(0);}
+        const a=stack.#record(left),b=stack.#record(right);stack.#logicalFlags(a.value^b.value,a.mask&b.mask,4);
+        return stack.#mint(a.value^b.value,a.mask&b.mask,{kind:'xor',left,right});
+      };
+      const step=(entry:string,pc:string,body:()=>void)=>{
+        stack.#engineIoProof(frame);engineIoInstruction(entry,pc);frame.pc=pc;body();frame.operations++;
+        stack.#trace.push(pc+'.EngineIoSource');stack.#engineIoProof(frame);
+      };
+      try{
+        // The TypeScript CRT caller bridge issues the actual source CALL. Its
+        // return is distinct from the still-pending Game getter below it.
+        stack.#engineIoProof(frame);stack.#call('30677266','3067726b');
+        step('306886ec','306886ec',()=>stack.#push(value(0x54)));
+        step('306886ec','306886ee',()=>stack.#push(stack.#mint(0,0,{kind:'source',type:'image',address:'30956c00',fields:frame.scope})));
+        step('306886ec','306886f3',()=>stack.#call('306886f3','306886f8'));
+        const prolog=(pc:string,body:()=>void)=>step('3067e500',pc,body);
+        prolog('3067e500',()=>stack.#push(stack.#source('code','3067e590')));
+        prolog('3067e505',()=>stack.#push(stack.#load(stack.#bank,32)));
+        prolog('3067e50c',()=>set('EAX',stack.#load(stack.#stack,relative('ESP',0x10))));
+        prolog('3067e510',()=>stack.#store(stack.#stack,relative('ESP',0x10),register('EBP')));
+        prolog('3067e514',()=>{frame.ebp=relative('ESP',0x10);set('EBP',stack.#stackWord(frame.ebp));});
+        prolog('3067e518',()=>{const bytes=stack.#numeric(register('EAX'),4);set('ESP',stack.#stackWord(relative('ESP',-bytes)));stack.#flags(0,0);});
+        prolog('3067e51a',()=>stack.#push(register('EBX')));
+        prolog('3067e51b',()=>stack.#push(register('ESI')));
+        prolog('3067e51c',()=>stack.#push(register('EDI')));
+        prolog('3067e51d',()=>{const cookie=NativeCrtBootstrap.engineIoCookieForCrt(bootstrap,crt,permit);if(!cookie.known)throw new Error(cookie.reason);set('EAX',value(NativeHeapObjectViews.prototype.readUnsigned.call(cookie.value,0)));});
+        prolog('3067e522',()=>{const at=relative('EBP',-4);stack.#store(stack.#stack,at,xor(stack.#load(stack.#stack,at),register('EAX')));});
+        prolog('3067e525',()=>set('EAX',xor(register('EAX'),register('EBP'))));
+        prolog('3067e527',()=>stack.#push(register('EAX')));
+        prolog('3067e528',()=>stack.#store(stack.#stack,relative('EBP',-0x18),register('ESP')));
+        prolog('3067e52b',()=>stack.#push(stack.#load(stack.#stack,relative('EBP',-8))));
+        prolog('3067e52e',()=>set('EAX',stack.#load(stack.#stack,relative('EBP',-4))));
+        prolog('3067e531',()=>stack.#store(stack.#stack,relative('EBP',-4),value(0xfffffffe)));
+        prolog('3067e538',()=>stack.#store(stack.#stack,relative('EBP',-8),register('EAX')));
+        prolog('3067e53b',()=>set('EAX',stack.#stackWord(relative('EBP',-0x10))));
+        prolog('3067e53e',()=>{stack.#store(stack.#bank,32,register('EAX'));frame.fsPublished=true;});
+        prolog('3067e544',()=>{const result=stack.#record(stack.#ret()).provenance;if(result?.kind!=='source'||result.type!=='code'||result.address!=='306886f8')throw new Error('Actual Engine EH4 prolog return required');frame.prologReturned=true;});
+        step('306886ec','306886f8',()=>set('EDI',xor(register('EDI'),register('EDI'))));
+        step('306886ec','306886fa',()=>stack.#store(stack.#stack,relative('EBP',-4),register('EDI')));
+        step('306886ec','306886fd',()=>{
+          const offset=relative('EBP',-0x64);set('EAX',stack.#stackWord(offset));
+          frame.startupInfo=new NativeHeapObjectViews(stack.#stack.backing,offset,68);Object.freeze(frame.startupInfo);
+        });
+        step('306886ec','30688700',()=>stack.#push(register('EAX')));
+        frame.pc='30688701';engineIoInstruction('306886ec',frame.pc);throw new Error('Engine GetStartupInfoA IAT30afc748 at30688701');
+      }catch(error){frame.boundary??=reason(error);frame.phase='blocked';if(!stack.#executing){stack.#boundary??=frame.boundary;stack.#phase='blocked';}return unknown(frame.boundary);}
+      finally{stack.#engineIoExecuting=false;}
+    }catch(error){return unknown(reason(error));}
+  }
+  #engineIoProof(frame:EngineIoFrame):void{
+    if(this.#engineIoFrame!==frame||!this.#engineIoExecuting||frame.phase!=='running'||this.#phase!=='running')throw new Error(frame.boundary??'Actual active Engine I/O frame required');
+    const call=NativeCrtBootstrap.canonicalEngineIoCallForCrt(frame.bootstrap,frame.crt,frame.permit);if(!call.known)throw new Error(call.reason);
+    const selection=NativeRuntimePlatform.threadStackSelectionForPlatform(this.#platform);if(!selection.known||selection.value!==this.#selection)throw new Error('Actual selected Engine logical-thread lifetime required');
+    const scope=NativeEngineIoImages.imageForCrt(frame.images,frame.crt,'ioSehScope');if(!scope.known||scope.value!==frame.scope)throw new Error(scope.known?'Actual retained Engine scope required':scope.reason);
+    this.#physical(this.#stack);this.#physical(this.#bank);
+  }
+  engineIoFrameSnapshot(crt:NativeModuleCrtOwner){
+    const frame=this.#engineIoFrame;if(!frame||frame.crt!==crt)return null;
+    return Object.freeze({module:'Engine' as const,phase:frame.phase,pc:frame.pc,boundary:frame.boundary,operations:frame.operations,entryEsp:frame.entryEsp,ebp:frame.ebp,prologReturned:frame.prologReturned,fsPublished:frame.fsPublished,startupInfo:frame.startupInfo,scope:frame.scope,stack:this.#stack,bank:this.#bank});
+  }
   readonly #platform: NativeRuntimePlatform;
   readonly #selection: Readonly<NativeX86ThreadStackSelection>;
   readonly #stack: NativeHeapObjectViews;

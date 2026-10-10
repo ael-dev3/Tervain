@@ -4,6 +4,20 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local checkpoint — 10 October 2026: Engine I/O physical frame
+
+The Engine CRT caller now enters `306886ec` on the selected logical thread.
+The source prefix and EH4 prolog execute 28 instructions, retaining the actual
+stack, encoded scope, exception-chain update and 68-byte startup-info alias.
+The browser path preserves the pending Game module-administrator call at
+`200766c2` beneath this translated Engine caller bridge. This does not prove
+native DLL loader order or a complete literal CRT caller frame.
+
+Execution stops before Engine `GetStartupInfoA` at `30688701`; the writer,
+I/O record allocation and remaining initializer are unfinished. An unknown
+Engine cookie preserves the preceding frame writes and stops before publishing
+FS:[0]. Descriptive permits cannot enter or replay this frame.
+
 ## Local checkpoint — 9 October 2026: Game conversion-pointer encoding
 
 The original loop at `20466617 -> 20469672` now executes its ten iterations on
