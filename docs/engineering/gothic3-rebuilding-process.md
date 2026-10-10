@@ -11947,3 +11947,12 @@ The mapping body now converts its scanned byte input into a separate Unicode ali
 The default continuation reaches mapped-output allocation at `3067c712` after 3328 admitted operations. Both conversion and mapping-size calls return through their actual stdcall frames. Cached selection reaches it after 3315 operations; the early-NUL path reaches it after 1837 operations. TypeScript checking and 86 focused checks across five files passed. Two additional targeted checks passed for every Unicode code unit, output masks, return identities and retained partial writes on interruption. Prior temporary classification-buffer checks now observe its live return before subsequent mapping allocation reuses that stack span. Production build passed.
 
 The preceding scan checkpoint passed 3359 tests across 313 files in 484.04 seconds. PR #228 deployed successfully and contains the earlier mapping wrapper checkpoint. This newer output continuation is local. Mapped-output allocation, case conversion and narrowing, MBC publication, startup, connected gameplay and campaign completion remain unfinished.
+
+
+### 10 October 2026: Engine mapped Unicode case output
+
+The mapping body now executes its second division/size guard and aligned stack reservation. A distinct raw buffer and Unicode output alias preserve the input conversion buffer. The original direct LCMapStringW call validates locale, case flags, input count, destination capacity and both actual stack pointers. The declared lower-case repertoire is written through bounded WORD grants with root-slot invalidation; interrupted writes retain their partial output and pending return.
+
+The default continuation reaches byte-narrowing preparation at `3067c779` after 3382 admitted operations. Cached selection reaches it after 3369 operations; the early-NUL path reaches it after 1891 operations. TypeScript checking and all 88 focused tests across five files passed. Two new targeted checks passed for all 256 lower-case results, aligned non-overlapping buffers, allocation/header identity, actual returns and partial-output failure. Production build passed.
+
+The preceding first-buffer checkpoint passed 3361 tests across 313 files in 536.23 seconds. The mapped Unicode output remains local; narrowing, buffer cleanup, wrapper return, the second case-table mapping, MBC publication, startup and complete campaign play remain unfinished.
