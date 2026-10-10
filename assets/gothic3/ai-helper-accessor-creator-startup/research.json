@@ -4113,6 +4113,25 @@
     "tables": [],
     "verifiedAgainstOriginalPE": true
   },
+  "engineCommandLine": {
+    "address": "30af91f8",
+    "bytes": 4,
+    "raw": "00000000",
+    "fileBackedBytes": 0,
+    "loaderZeroFillBytes": 4,
+    "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+    "callSite": "30677251",
+    "storeSite": "30677257",
+    "nextCall": "3067725c",
+    "nextTarget": "3068e828",
+    "instructionsRaw": "ff159cc6af30a3f891af30e8c7750100",
+    "importBinding": {
+      "iatVA": "0x30afc69c",
+      "module": "KERNEL32.dll",
+      "name": "GetCommandLineA",
+      "ordinal": null
+    }
+  },
   "engineExitInitialization": {
     "entry": "3067152b",
     "extent": "3067152b-30671559",

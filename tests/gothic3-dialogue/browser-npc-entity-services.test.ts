@@ -19,7 +19,7 @@ describe('selected browser NPC platform services', () => {
     expect(startup.propertyIdInvocation).toBe('not-entered');
     expect(startup.prerequisites.attachResult.known).toBe(false);
     if(startup.prerequisites.attachResult.known)throw new Error('Unfinished Game startup returned');
-    expect(startup.prerequisites.attachResult.reason).toContain('Engine shutdown registration requires its CRT attach: crtAttach3067717c: Unowned GetCommandLineA IAT30afc69c at30677251');
+    expect(startup.prerequisites.attachResult.reason).toContain('Engine shutdown registration requires its CRT attach: crtAttach3067717c: Unowned Engine crtGetEnvironmentStringsA3068e828 at3067725c');
     const first = owner.control.matrixIdentity();
     const second = owner.control.matrixIdentity();
     expect(first.known).toBe(true);

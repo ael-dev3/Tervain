@@ -1,3 +1,4 @@
+import {browserGameProcessInputs} from '../../src/gothic3/browser-game-process-inputs';
 import { describe, expect, it } from 'vitest';
 import type { NativeValue } from '../../src/gothic3/dialogue';
 import { NativeCrtBootstrap } from '../../src/gothic3/native-crt-bootstrap';
@@ -267,4 +268,22 @@ describe('ordinary Engine DLL attach prefix with actual CRT startup owners', () 
     expect([...crt.physical.crtOsFields.dwordArray(0, 5)]).toEqual([1, 0xd678, 0x40a, 4, 10]);
     expect(crt.physical.heapSelector.readUnsigned(0)).toBe(3);
   });
+});
+
+it('stores Engine command-line pointer ownership and stops at the next environment call',()=>{
+ const platform=new NativeRuntimePlatform({engineCrtServices:{...services,tlsValues:new Map(),processInputs:browserGameProcessInputs}});
+ const {bootstrap}=selected(platform);const result=bootstrap.processAttach();
+ expect(result.known).toBe(false);if(result.known)throw new Error('Engine attach remains unfinished');
+ expect(result.reason).toContain('crtGetEnvironmentStringsA3068e828 at3067725c');
+ const progress=bootstrap.attachProgress();expect(progress.commandLineReturned).toBe(true);expect(progress.commandLineNonNull).toBe(true);
+ const fields=progress.engineCommandLineStorage!,pointer=fields.pointer(0).get();expect(pointer).not.toBe(null);
+ expect([...fields.knownMask]).toEqual(Array(4).fill(0));expect(progress.environmentReturned).toBe(false);
+ const before=bootstrap.snapshot().trace;expect(bootstrap.processAttach()).toEqual(result);expect(bootstrap.snapshot().trace).toEqual(before);
+});
+it('stores the actual NULL Engine command-line result without skipping the next call',()=>{
+ const platform=new NativeRuntimePlatform({engineCrtServices:{...services,tlsValues:new Map(),processInputs:{...browserGameProcessInputs,commandLineA:{kind:'null'}}}});
+ const {bootstrap}=selected(platform);expect(bootstrap.processAttach().known).toBe(false);
+ const progress=bootstrap.attachProgress();expect(progress.commandLineReturned).toBe(true);expect(progress.commandLineNonNull).toBe(false);
+ expect(progress.engineCommandLineStorage!.pointer(0).get()).toBe(null);expect([...progress.engineCommandLineStorage!.knownMask]).toEqual(Array(4).fill(255));
+ expect(progress.environmentReturned).toBe(false);expect(progress.nextBoundary).toMatchObject({address:'3067725c',target:'3068e828'});
 });

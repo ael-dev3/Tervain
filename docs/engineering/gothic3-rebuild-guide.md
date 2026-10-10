@@ -54,7 +54,8 @@ its new wrapper, executes its base constructor and retrieves the canonical type.
 Non-root initialization allocates a separate component and executes its Engine
 constructor chain. The translated module-administrator getter constructs its
 dispatcher and registry. Its shutdown dependency now enters Engine's retained
-CRT attach prefix and stops at command-line import `30677251`.
+CRT attach prefix, stores the process command-line pointer and stops at Engine
+environment retrieval `3067725c -> 3068e828`.
 Complete startup, world activation and a new-game-to-ending campaign remain
 unfinished. Local checkpoints and the hosted version can differ; the validation
 receipts below identify the checkpoint covered.
@@ -176,7 +177,22 @@ all 3,216 tests across 301 files in 440.70 seconds and its production build in
 34.96 seconds. Its validation checkout matched that checkpoint's tree. The
 later component constructor and research additions have focused receipts only.
 
-### Latest local checkpoint: retained Engine CRT attach reaches its command-line import
+### Latest local checkpoint: Engine command-line import returns
+
+The Engine attach bridge now calls the actual retained process input endpoint at
+`30677251`, verifies its pointer ownership and stores the result in Engine's own
+source-backed global `30af91f8` at `30677257`. A NULL result is stored without
+inventing a result branch. Engine and Game retain separate command-line globals
+that reference the same platform process input. Execution stops at the original
+environment retrieval CALL `3067725c -> 3068e828`.
+
+All 27 focused tests across three files passed in 10.93 seconds. They check
+actual pointer identity, opaque pointer masks, the NULL store, the next call
+and retained execution without replay. TypeScript checking and independent
+source generation passed. Environment retrieval, full Engine attach, exit
+initialization and a finishable campaign remain incomplete.
+
+### Historical checkpoint: retained Engine CRT attach reaches its command-line import
 
 The ModuleAdmin shutdown dependency now creates and retains Engine's own CRT
 bootstrap graph on the browser platform. Its errno callback uses Engine's

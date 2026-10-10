@@ -61,6 +61,15 @@ def capture(study):
     if shutdown.hex()!='b9789ead30e9663b88ff':
         raise ValueError('Original Engine ModuleAdmin shutdown callback differs')
     engine_exit_initialization['shutdownCallback']=dict(entry='30797fc0',raw=shutdown.hex(),sha256=hashlib.sha256(shutdown).hexdigest())
+    address=0x30af91f8;rva=address-engine_pe.base
+    section=next(s for s in engine_pe.sections if s[1]<=rva and rva+4<=s[1]+max(s[0],s[2]))
+    backed=max(0,min(4,section[1]+section[2]-rva))
+    command_line_raw=(engine_pe.bytes(address,backed) if backed else b'')+bytes(4-backed)
+    command_line=dict(address='30af91f8',bytes=4,raw=command_line_raw.hex(),fileBackedBytes=backed,
+        loaderZeroFillBytes=4-backed,sha256=hashlib.sha256(command_line_raw).hexdigest(),
+        callSite='30677251',storeSite='30677257',nextCall='3067725c',nextTarget='3068e828',
+        instructionsRaw=engine_pe.bytes(0x30677251,16).hex(),
+        importBinding=next(row for row in engine_pe.imports() if row['iatVA']=='0x30afc69c'))
     game=audit_module(study,'Game_dll','Game.dll',{0x20028efc:'aiHelperWrapperClone'})
     shared=audit_module(study,'SharedBase_dll','SharedBase.dll',{
         0x10002ee1:'accessorCreatorConstructor',0x10007036:'queryNewObject',0x10007356:'accessorCreatorDestructor',0x100019d8:'queryTypeNode',0x10007ec8:'factoryQueryObject',0x100058a3:'factoryRootCheck',0x100056e6:'wrapperQueryObject',0x10001d07:'engineObjectRefBaseConstructor',0x10007c11:'engineObjectBaseConstructor'})
@@ -100,7 +109,7 @@ def capture(study):
             raw=image.hex(), fileBackedBytes=backed, loaderZeroFillBytes=size-backed,
             sha256=hashlib.sha256(image).hexdigest(), liveValueCaptured=False))
     return dict(schema='gothic3-ai-helper-accessor-creator-research-v1',
-        module='Game.dll', inputSha256=digest, shared=shared, game=game, engine=engine, engineExitInitialization=engine_exit_initialization, initializer='204b2720',
+        module='Game.dll', inputSha256=digest, shared=shared, game=game, engine=engine, engineCommandLine=command_line, engineExitInitialization=engine_exit_initialization, initializer='204b2720',
         extent='204b2720-204b2741', bytes=raw.hex(),
         bytesSha256=hashlib.sha256(raw).hexdigest(), instructions=rows,
         destination='207b52bc', cleanup='20549d50', imports=imports,
