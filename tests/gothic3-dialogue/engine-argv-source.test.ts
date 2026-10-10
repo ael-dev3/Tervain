@@ -29,3 +29,7 @@ it('captures the exact classification imports and loader-zero selector without a
  for(const [kind,iatVA] of [['GetStringTypeW','0x30afc778'],['GetLastError','0x30afc86c'],['MultiByteToWideChar','0x30afc6e8'],['GetStringTypeA','0x30afc774']] as const){expect(engineArgvClassificationImport(kind)).toMatchObject({iatVA,module:'KERNEL32.dll',name:kind,ordinal:null});expect(Object.isFrozen(engineArgvClassificationImport(kind))).toBe(true);}
  expect(engineArgvImage('classificationApiSelector')).toMatchObject({address:'30af7c34',bytes:4,raw:'00000000',fileBackedBytes:0,loaderZeroFillBytes:4});expect(engineArgvImage('classificationWideProbe')).toMatchObject({address:'30892f38',bytes:2,raw:'0000',fileBackedBytes:2,loaderZeroFillBytes:0});expect(engineArgvInstruction('306914ea','30691517').instruction).toBe('CALL dword ptr [0x30afc778]');
 });
+
+it('captures the original Engine narrowing import and its mapping-body call',()=>{
+ expect(engineArgvClassificationImport('WideCharToMultiByte')).toMatchObject({iatVA:'0x30afc6fc',module:'KERNEL32.dll',name:'WideCharToMultiByte',ordinal:null});expect(Object.isFrozen(engineArgvClassificationImport('WideCharToMultiByte'))).toBe(true);expect(engineArgvInstruction('3067c57c','3067c792').instruction).toBe('CALL dword ptr [0x30afc6fc]');
+});

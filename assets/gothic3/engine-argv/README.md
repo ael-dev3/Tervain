@@ -18,7 +18,7 @@ python tools/gothic3/prepare_engine_argv_source.py --study <study-directory> --o
 ```
 
 Independent JSON and TypeScript regenerations are byte-identical. Two source checks and TypeScript checking pass. The JSON package has SHA-256
-`f6780dfff31cdce41d278bab414eceffcb415809fe6ec178bf14701317582a7b`.
+`de5c66335b474e309e2f0963a97ac60e06229bab7502ac55d972b8350678dc03`.
 Engine.dll SHA-256 is
 `d49ef92c0fdfeda433f6d04d0edeb7751e41e4c7c7effc1265630717029dc7e3`.
 
@@ -122,3 +122,29 @@ The source now issues the indirect MultiByteToWideChar size query using the orig
 ## Current local conversion-buffer boundary
 
 The original alignment and page-probe helpers now execute on the retained stack. They relocate the actual caller return word and return with ESP at the aligned reservation. Source instructions write the stack marker and prepare the wide span; the bounded memset bridge clears exactly 512 bytes. The default path stops before the conversion output call at `306915f8`, after 1557 admitted operations. The memset body remains captured evidence rather than counted source instructions. No Windows stack addresses or host page probes are supplied.
+
+
+## Engine mapped byte output
+
+The matching DLL import receipt now includes `WideCharToMultiByte` at IAT
+`30afc6fc`. The mapping body executes its original eight-argument call at
+`3067c792` and returns with 32 bytes of stdcall argument cleanup. Its mapped
+Unicode input and 256-byte destination remain separate aliases of the same
+Engine stack. A private output grant permits one-byte writes only within the
+actual converted count; interrupted writes preserve both earlier output and the
+pending return identity. Default CP1252 startup reaches buffer cleanup at
+`3067c79b` after 3394 admitted operations. Cleanup, wrapper return, the upper-case
+mapping, MBC publication and complete campaign integration remain unfinished.
+
+
+## Engine mapping cleanup and caller return
+
+The retained mapping body now executes both stack-buffer cleanup calls. Each
+checks its actual allocation header and returns through its own source return
+word; neither frees the Engine heap allocation. The body restores its saved
+registers, validates the original cookie XOR relation and returns to its wrapper.
+The wrapper clears only locale ownership it acquired, returns to `30684a6b`, and
+the case routine removes the original 68 bytes of caller arguments. Default
+execution reaches uppercase mapping preparation `30684a6e` after 3436 operations
+with the Engine PTD flag restored to one. A previously owned flag remains owned.
+Uppercase mapping and subsequent publication/startup/gameplay remain unfinished.
