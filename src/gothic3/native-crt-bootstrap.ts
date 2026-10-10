@@ -154,7 +154,7 @@ export type NativeCrtAttachOperationName = 'version.size.store' | 'GetVersionExA
   'os.minor.store' | 'os.build.store' | 'heapInit.return' | 'mtInit.return' |
   'heapTerm.return' | 'preCInit.return' | 'GetCommandLineA.boundary' |
   'GetCommandLineA.return' | 'commandLinePointer.store' | 'environment.return' |
-  'environmentBlock.store' | 'ioInit.boundary' | 'ioInit.enter' | 'ioInit.return' |
+  'environmentBlock.store' | 'ioInit.boundary' | 'ioInit.enter' | 'ioInit.return' | 'argumentSetup.return' |
   'argv.enter' | 'argv.return' | 'argv.boundary' | 'setEnvp.enter' | 'setEnvp.return' |
   'setEnvp.boundary' | 'crtAttach.return';
 export interface NativeCrtAttachOperation {
@@ -762,7 +762,7 @@ export class NativeCrtBootstrap {
         this.#call('Engine argument image authority '+label,()=>NativeEngineArgvImages.imageForCrt(this.#engineArgvImages!,this.#crt,label));
       }
       this.#engineArgvInvocationActive=true;
-      try{this.#call('Engine argumentSetup3068e76f at30677276',()=>NativeX86ThreadStack.enterEngineArgvForBootstrap(this.#engineIoStack!,this,this.#crt,this.#engineArgvCallPermit));}
+      try{const result=this.#call('Engine argumentSetup3068e76f at30677276',()=>NativeX86ThreadStack.enterEngineArgvForBootstrap(this.#engineIoStack!,this,this.#crt,this.#engineArgvCallPermit));this.#record('argumentSetup.return',result,'3067727b');this.#nextBoundary=Object.freeze({name:'callerTest',address:'3067727b',instruction:'TEST EAX,EAX'});}
       finally{this.#engineArgvInvocationActive=false;}
       this.#gate('Engine argument caller result at3067727b');
     }
