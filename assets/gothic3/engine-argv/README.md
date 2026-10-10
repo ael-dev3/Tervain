@@ -168,3 +168,25 @@ Interrupted uppercase narrowing preserves the complete lower table, its partial
 upper output and the actual pending return. Typecheck and production build
 passed. The character-flag/conversion loop, MBC publication, complete startup and
 campaign integration remain unfinished.
+
+
+## Engine character record and initializer return
+
+The original 256-iteration loop now reads each retained classification WORD,
+sets the Engine record's uppercase/lowercase flag at `29 + index`, and writes
+its selected conversion byte at `285 + index`. Nonletters receive zero; the
+last three bytes of the 544-byte record retain their previous bytes and masks.
+Both case-table and initializer cookie checks execute before their real returns.
+The multibyte caller receives zero and resumes at prior-record release
+preparation `30684ee0` after 7907 admitted operations (7894 with cached mapping
+API selection). The record is populated but is not yet installed into the PTD
+or published to module globals.
+
+An input NUL at byte seven completes bounded mappings, then stops at `30684aa4`
+after 2869 admitted operations when the native loop reads an unowned later
+mapping byte. Interrupted record writes preserve the written prefix, its flags
+and pending case/initializer returns. Typecheck and production build passed;
+96 broad focused checks passed, and the two obsolete pending-return assertions
+passed separately after correction. Full validation of this newest continuation
+is pending. Reference-count release/publication, remaining startup and campaign
+integration are unfinished.

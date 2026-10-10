@@ -12021,3 +12021,30 @@ timeouts across two files (313 total), in 985.15 seconds. Its only reported erro
 type was the timeout. The newest checkpoint will be run with a 20-second per-test
 timeout. This continuation still does not publish the MBC record or prove full
 startup, world activation or a finishable campaign.
+
+
+### 10 October 2026: Engine character record and initializer return
+
+Executed the original character-table loop into the Engine-owned 544-byte MBC
+record: classification bits select uppercase/lowercase flags and a byte from
+the corresponding live mapping table. All 256 outputs match the selected virtual
+CP1252 inputs; the final three record bytes and masks remain unchanged. The case
+routine and initializer check their original cookie relations, restore their
+saved registers and return through the real `30684dcc` and `30684ed0` words.
+The multibyte caller receives zero and reaches prior-record release preparation
+`30684ee0` after 7907 operations (7894 with cached API selection).
+
+Partial record publication retains earlier writes and both pending returns.
+Artificially shortening input at byte seven leaves later mapping bytes unowned;
+execution stops at their first native read `30684aa4`, after 2869 operations,
+instead of fabricating those bytes. The complete record still needs its original
+reference-count and PTD/module publication path.
+
+Typecheck and production build passed. The broad focused run passed 96 of 98
+checks; the two failures expected now-returned callers to remain pending. After
+updating those assertions, both affected tests passed. All 98 distinct focused
+checks are covered by those passing results. The preceding dual-conversion full
+suite passed 3371 tests in 313 files in 877.02 seconds with the 20-second CLI
+allowance. The newest full run will also include current main-branch presentation
+changes. Full startup, live world activation and a finishable campaign remain
+unfinished.
