@@ -1,3 +1,6 @@
+import {NativeCrtThreadStartup} from './native-crt-thread-startup';
+import {NativeEngineArgvImages} from './native-engine-argv-images';
+import {engineArgvInstruction} from './native-engine-argv-source';
 import {NativePropertyTypeTable} from './native-property-type-table';
 import {createNativeEngineModuleOwner} from './native-engine-module-owner';
 import {createBrowserEngineCrtStartup} from './browser-engine-crt-startup';
@@ -77,6 +80,7 @@ type WordRecord = Readonly<{ value: number; mask: number; provenance?:
   Readonly<{ kind: 'shared-local'; fields:NativeHeapObjectViews; offset?:number }> |
   Readonly<{ kind: 'module'; label: string; fields: NativeHeapObjectViews; offset: number }> |
   Readonly<{ kind: 'process'; pointer: NativeBytePointer }> |
+  Readonly<{kind:'engine-ptd';crt:NativeModuleCrtOwner;fields:NativeHeapObjectViews}> |
   Readonly<{kind:'engine-allocation';crt:NativeModuleCrtOwner;fields:NativeHeapObjectViews;offset:number}> |
   Readonly<{ kind: 'heap'; heap: NativeWin32HeapCapability }> |
   Readonly<{ kind: 'allocation'; allocation: Allocation; offset: number; pointer: NativeBytePointer }> |
@@ -110,6 +114,7 @@ interface StartupCall {
   readonly offset: number; readonly argument: NativeX86Word32; readonly position: number;
   readonly returnWord: NativeX86Word32; phase: 'pending' | 'returned';
 }
+interface EngineArgvFrame {readonly bootstrap:NativeCrtBootstrap;readonly crt:NativeModuleCrtOwner;readonly permit:object;readonly images:NativeEngineArgvImages;readonly entryEsp:number;phase:'running'|'blocked';pc:string;boundary:string|null;operations:number;ebp:number|null;multibyteEbp:number|null;multibyteFsPublished:boolean;multibytePrologReturned:boolean;multibytePtd:NativeHeapObjectViews|null;multibyteGetterReturned:boolean;}
 interface EngineIoFrame {
  readonly bootstrap:NativeCrtBootstrap;readonly crt:NativeModuleCrtOwner;readonly permit:object;
  readonly images:NativeEngineIoImages;readonly scope:NativeHeapObjectViews;
@@ -184,6 +189,118 @@ function reason(error: unknown): string {
 }
 
 export class NativeX86ThreadStack {
+  #engineArgvFrame:EngineArgvFrame|null=null;
+  #engineArgvExecuting=false;
+  static enterEngineArgvForBootstrap(stack:NativeX86ThreadStack,bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object):NativeValue<void>{
+    const reached=NativeCrtBootstrap.canonicalEngineArgvCallForCrt(bootstrap,crt,permit);if(!reached.known)return reached;
+    try{
+      const io=stack.#engineIoFrame,images=bootstrap.attachProgress().engineArgvImages;
+      if(graphs.get(crt.host.platform as NativeRuntimePlatform)!==stack||stack.#engineArgvExecuting||stack.#engineArgvFrame||!io||io.crt!==crt||io.bootstrap!==bootstrap||io.phase!=='returned'||!images||stack.#engineIoExecuting)throw new Error('Actual unreplayed Engine argument frame after returned I/O required');
+      if(stack.#phase==='running'){
+        const binding=stack.#setEnvpBinding;if(!stack.#executing||!binding||stack.#calls.filter(call=>!call.returned).at(-1)?.site!=='200766c2')throw new Error('Actual pending Game module-administrator parent required');
+        const parent=NativeGameCrtSetEnvp.canonicalAIHelperModuleAdminCallForCrt(binding.owner,binding.crt,binding.controller);if(!parent.known)throw new Error(parent.reason);
+      }else if(stack.#phase!=='returned'||stack.#executing||stack.#binding)throw new Error('Actual returned Engine thread required');
+      stack.#physical(stack.#stack);stack.#physical(stack.#bank);
+      const entryEsp=stack.#address(stack.#load(stack.#bank,stack.#reg('ESP')));
+      if(entryEsp!==io.entryEsp||stack.#numeric(stack.#load(stack.#bank,stack.#reg('EAX')),4)!==0)throw new Error('Actual Engine I/O return state required');
+      const frame:EngineArgvFrame={bootstrap,crt,permit,images,entryEsp,phase:'running',pc:'30677276',boundary:null,operations:0,ebp:null,multibyteEbp:null,multibyteFsPublished:false,multibytePrologReturned:false,multibytePtd:null,multibyteGetterReturned:false};stack.#engineArgvFrame=frame;stack.#engineArgvExecuting=true;stack.#phase='running';
+      const reg=(name:NativeX86Register)=>stack.#load(stack.#bank,stack.#reg(name)),set=(name:NativeX86Register,word:NativeX86Word32)=>stack.#store(stack.#bank,stack.#reg(name),word);
+      const step=(pc:string,body:()=>void,entry='3068e76f')=>{stack.#engineArgvProof(frame);if(entry==='3067e500')engineIoInstruction(entry,pc);else engineArgvInstruction(entry,pc);frame.pc=pc;body();frame.operations++;stack.#trace.push(pc+'.EngineArgvSource');stack.#engineArgvProof(frame);};
+      try{
+        stack.#engineArgvProof(frame);stack.#call('30677276','3067727b');
+        step('3068e76f',()=>stack.#push(reg('EBP')));
+        step('3068e770',()=>{set('EBP',reg('ESP'));frame.ebp=stack.#address(reg('EBP'));});
+        step('3068e772',()=>{set('ESP',stack.#stackWord(stack.#address(reg('ESP'))-12));stack.#flags(0,0);});
+        step('3068e775',()=>stack.#push(reg('EBX')));
+        step('3068e776',()=>{set('EBX',stack.#mint(0,0xffffffff));stack.#logicalFlags(0,0xffffffff,4);});
+        let ready=0;
+        step('3068e778',()=>{const image=NativeEngineArgvImages.imageForCrt(images,crt,'multibyteReady');if(!image.known)throw new Error(image.reason);ready=NativeHeapObjectViews.prototype.readUnsigned.call(image.value,0);stack.#arithmeticFlags(ready,0,ready,4,true);});
+        step('3068e77e',()=>stack.#push(reg('ESI')));
+        step('3068e77f',()=>stack.#push(reg('EDI')));
+        let initialize=false;step('3068e780',()=>{const flags=stack.#record(stack.#load(stack.#bank,36));if(!(flags.mask&0x40))throw new Error('Actual Engine argument comparison ZF required');initialize=!!(flags.value&0x40);});
+        if(initialize){
+          step('3068e782',()=>stack.#call('3068e782','3068e787'));
+          const wrapper=(pc:string,body:()=>void)=>step(pc,body,'30685007');
+          wrapper('30685007',()=>{const image=NativeEngineArgvImages.imageForCrt(images,crt,'multibyteReady');if(!image.known)throw new Error(image.reason);const current=NativeHeapObjectViews.prototype.readUnsigned.call(image.value,0);stack.#arithmeticFlags(current,0,current,4,true);});
+          let skip=false;wrapper('3068500e',()=>{const flags=stack.#record(stack.#load(stack.#bank,36));if(!(flags.mask&0x40))throw new Error('Actual Engine multibyte wrapper ZF required');skip=!(flags.value&0x40);});
+          if(!skip){
+            wrapper('30685010',()=>stack.#push(stack.#mint(0xfffffffd,0xffffffff)));
+            wrapper('30685012',()=>stack.#call('30685012','30685017'));
+            const nested=(pc:string,body:()=>void)=>step(pc,body,'30684e6d');
+            const relative=(name:'ESP'|'EBP',offset:number)=>stack.#address(reg(name))+offset;
+            const value=(number:number)=>stack.#mint(number>>>0,0xffffffff);
+            const xor=(left:NativeX86Word32,right:NativeX86Word32)=>{const a=stack.#record(left),b=stack.#record(right);stack.#logicalFlags(a.value^b.value,a.mask&b.mask,4);return stack.#mint(a.value^b.value,a.mask&b.mask,{kind:'xor',left,right});};
+            const scope=NativeEngineArgvImages.imageForCrt(images,crt,'multibyteSetupSehScope');if(!scope.known)throw new Error(scope.reason);
+            nested('30684e6d',()=>stack.#push(value(0x14)));
+            nested('30684e6f',()=>stack.#push(stack.#mint(0,0,{kind:'source',type:'image',address:'30956ba0',fields:scope.value})));
+            nested('30684e74',()=>stack.#call('30684e74','30684e79'));
+            const prolog=(pc:string,body:()=>void)=>step(pc,body,'3067e500');
+            prolog('3067e500',()=>stack.#push(stack.#source('code','3067e590')));
+            prolog('3067e505',()=>stack.#push(stack.#load(stack.#bank,32)));
+            prolog('3067e50c',()=>set('EAX',stack.#load(stack.#stack,relative('ESP',0x10))));
+            prolog('3067e510',()=>stack.#store(stack.#stack,relative('ESP',0x10),reg('EBP')));
+            prolog('3067e514',()=>{frame.multibyteEbp=relative('ESP',0x10);set('EBP',stack.#stackWord(frame.multibyteEbp));});
+            prolog('3067e518',()=>{const bytes=stack.#numeric(reg('EAX'),4);set('ESP',stack.#stackWord(relative('ESP',-bytes)));stack.#flags(0,0);});
+            prolog('3067e51a',()=>stack.#push(reg('EBX')));
+            prolog('3067e51b',()=>stack.#push(reg('ESI')));
+            prolog('3067e51c',()=>stack.#push(reg('EDI')));
+            prolog('3067e51d',()=>{const cookie=NativeCrtBootstrap.engineArgvCookieForCrt(bootstrap,crt,permit);if(!cookie.known)throw new Error(cookie.reason);set('EAX',value(NativeHeapObjectViews.prototype.readUnsigned.call(cookie.value,0)));});
+            prolog('3067e522',()=>{const at=relative('EBP',-4);stack.#store(stack.#stack,at,xor(stack.#load(stack.#stack,at),reg('EAX')));});
+            prolog('3067e525',()=>set('EAX',xor(reg('EAX'),reg('EBP'))));
+            prolog('3067e527',()=>stack.#push(reg('EAX')));
+            prolog('3067e528',()=>stack.#store(stack.#stack,relative('EBP',-0x18),reg('ESP')));
+            prolog('3067e52b',()=>stack.#push(stack.#load(stack.#stack,relative('EBP',-8))));
+            prolog('3067e52e',()=>set('EAX',stack.#load(stack.#stack,relative('EBP',-4))));
+            prolog('3067e531',()=>stack.#store(stack.#stack,relative('EBP',-4),value(0xfffffffe)));
+            prolog('3067e538',()=>stack.#store(stack.#stack,relative('EBP',-8),reg('EAX')));
+            prolog('3067e53b',()=>set('EAX',stack.#stackWord(relative('EBP',-0x10))));
+            prolog('3067e53e',()=>{stack.#store(stack.#bank,32,reg('EAX'));frame.multibyteFsPublished=true;});
+            prolog('3067e544',()=>{const result=stack.#record(stack.#ret()).provenance;if(result?.kind!=='source'||result.type!=='code'||result.address!=='30684e79')throw new Error('Actual Engine EH4 prolog return required');frame.multibytePrologReturned=true;});
+            nested('30684e79',()=>{stack.#store(stack.#stack,relative('EBP',-0x20),value(0xffffffff));stack.#logicalFlags(0xffffffff,0xffffffff,4);});
+            nested('30684e7d',()=>stack.#call('30684e7d','30684e82'));
+            const getter=(pc:string,body:()=>void)=>step(pc,body,'3067e12b');
+            getter('3067e12b',()=>stack.#push(reg('ESI')));
+            getter('3067e12c',()=>{
+              stack.#call('3067e12c','3067e131');
+              const result=NativeCrtBootstrap.engineArgvPtdForCrt(bootstrap,crt,permit);if(!result.known)throw new Error(result.reason);
+              frame.multibytePtd=result.value;
+              const returned=stack.#record(stack.#ret()).provenance;if(returned?.kind!=='source'||returned.type!=='code'||returned.address!=='3067e131')throw new Error('Actual Engine PTD getter service return required');
+              set('EAX',result.value?stack.#mint(0,0,{kind:'engine-ptd',crt,fields:result.value}):value(0));
+              set('ECX',stack.#mint(0,0));set('EDX',stack.#mint(0,0));stack.#flags(0,0);
+            });
+            getter('3067e131',()=>set('ESI',reg('EAX')));
+            getter('3067e133',()=>{const word=stack.#liveWord(reg('ESI'));if(word.provenance?.kind==='engine-ptd')stack.#flags(0,0x841);else stack.#logicalFlags(stack.#numeric(reg('ESI'),4),0xffffffff,4);});
+            let present=false;getter('3067e135',()=>{const flags=stack.#record(stack.#load(stack.#bank,36));if(!(flags.mask&0x40))throw new Error('Actual Engine PTD getter TEST ZF required');present=!(flags.value&0x40);});
+            if(!present){
+              getter('3067e137',()=>stack.#push(value(0x10)));
+              getter('3067e139',()=>stack.#call('3067e139','3067e13e'));
+              frame.pc='3067cf89';throw new Error('Engine NULL PTD fatal error3067cf89 at3067e139');
+            }
+            getter('3067e13f',()=>set('EAX',reg('ESI')));
+            getter('3067e141',()=>{const at=relative('ESP',0);set('ESI',stack.#load(stack.#stack,at));set('ESP',stack.#stackWord(at+4));});
+            getter('3067e142',()=>{const returned=stack.#record(stack.#ret()).provenance;if(returned?.kind!=='source'||returned.type!=='code'||returned.address!=='30684e82')throw new Error('Actual Engine PTD getter wrapper return required');frame.multibyteGetterReturned=true;});
+            nested('30684e82',()=>set('EDI',reg('EAX')));
+            nested('30684e84',()=>stack.#store(stack.#stack,relative('EBP',-0x24),reg('EDI')));
+            nested('30684e87',()=>stack.#call('30684e87','30684e8c'));
+            frame.pc='30684b3a';engineArgvInstruction('30684b3a',frame.pc);throw new Error('Engine multibyte locale helper30684b3a at30684e87');
+          }
+          wrapper('30685022',()=>{set('EAX',stack.#mint(0,0xffffffff));stack.#logicalFlags(0,0xffffffff,4);});
+          wrapper('30685024',()=>{const next=stack.#record(stack.#ret()).provenance;if(next?.kind!=='source'||next.type!=='code'||next.address!=='3068e787')throw new Error('Actual Engine multibyte wrapper return required');});
+        }
+        frame.pc='3068e787';engineArgvInstruction('3068e76f',frame.pc);throw new Error('Engine argument filename preparation at3068e787');
+      }catch(error){frame.boundary??=reason(error);frame.phase='blocked';if(!stack.#executing){stack.#boundary??=frame.boundary;stack.#phase='blocked';}return unknown(frame.boundary);}
+      finally{stack.#engineArgvExecuting=false;}
+    }catch(error){return unknown(reason(error));}
+  }
+  #engineArgvProof(frame:EngineArgvFrame):void{
+    if(this.#engineArgvFrame!==frame||!this.#engineArgvExecuting||frame.phase!=='running'||this.#phase!=='running')throw new Error(frame.boundary??'Actual active Engine argument frame required');
+    const reached=NativeCrtBootstrap.canonicalEngineArgvCallForCrt(frame.bootstrap,frame.crt,frame.permit);if(!reached.known)throw new Error(reached.reason);
+    const selection=NativeRuntimePlatform.threadStackSelectionForPlatform(this.#platform);if(!selection.known||selection.value!==this.#selection)throw new Error('Actual selected Engine argument logical-thread lifetime required');
+    for(const label of ['multibyteReady','moduleFilename','moduleFilenameSentinel','programNamePointer','argumentCount','argumentVector','multibyteSetupSehScope'] as const){const image=NativeEngineArgvImages.imageForCrt(frame.images,frame.crt,label);if(!image.known)throw new Error(image.reason);}
+    if(frame.multibytePtd){const ptd=NativeCrtThreadStartup.canonicalPtdForCrt(frame.crt,frame.multibytePtd);if(!ptd.known)throw new Error(ptd.reason);}
+    this.#physical(this.#stack);this.#physical(this.#bank);
+  }
+  engineArgvFrameSnapshot(crt:NativeModuleCrtOwner){const frame=this.#engineArgvFrame;if(!frame||frame.crt!==crt)return null;return Object.freeze({module:'Engine' as const,phase:frame.phase,pc:frame.pc,boundary:frame.boundary,operations:frame.operations,entryEsp:frame.entryEsp,ebp:frame.ebp,multibyteEbp:frame.multibyteEbp,multibyteFsPublished:frame.multibyteFsPublished,multibytePrologReturned:frame.multibytePrologReturned,multibytePtd:frame.multibytePtd,multibyteGetterReturned:frame.multibyteGetterReturned,stack:this.#stack,bank:this.#bank});}
   #engineIoFrame:EngineIoFrame|null=null;
   #engineIoExecuting=false;
   /** Borrow the actual thread graph for a reached translated Engine CRT call.
@@ -2994,6 +3111,7 @@ export class NativeX86ThreadStack {
       if (!proof.known) throw new Error(proof.reason); return record;
     }
     if(p?.kind==='difference'){this.#liveWord(p.left);this.#liveWord(p.right);}
+    if(p?.kind==='engine-ptd'){if(p.crt.module!=='Engine'||p.crt.host.platform!==this.#platform)throw new Error('Actual Engine PTD owner required');const owned=NativeCrtThreadStartup.canonicalPtdForCrt(p.crt,p.fields);if(!owned.known)throw new Error(owned.reason);}
     if(p?.kind==='engine-allocation'){const owned=NativeModuleCrtOwner.canonicalEngineHeapDestination(p.crt,this.#platform,{fields:p.fields,offset:p.offset},0);if(!owned.known)throw new Error(owned.reason);}
     if (p?.kind === 'allocation') this.#allocationLive(p.allocation, p.offset, 0);
     if (p?.kind === 'module') this.#moduleWord(p.label, p.offset);
@@ -4613,6 +4731,7 @@ export class NativeX86ThreadStack {
       return Object.freeze({ value: record.value, knownMask: record.mask, provenance: provenance?.kind === 'source'
         ? Object.freeze({ kind: provenance.kind, type: provenance.type, address: provenance.address })
         : provenance?.kind === 'stack' ? Object.freeze({ kind: provenance.kind, offset: provenance.offset })
+          : provenance?.kind === 'engine-ptd' ? Object.freeze({kind:provenance.kind,module:provenance.crt.module,capacity:provenance.fields.bytes.length})
           : provenance?.kind === 'heap' ? Object.freeze({ kind: provenance.kind })
             : provenance?.kind === 'allocation' ? Object.freeze({ kind: provenance.kind, offset: provenance.offset,
               capacity: (provenance.allocation.physical ?? provenance.allocation.fields).bytes.length,

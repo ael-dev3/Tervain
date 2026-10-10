@@ -17,6 +17,7 @@ import { NativeGameCrtEnvironment } from './native-game-crt-environment';
 import { NativeEngineCrtEnvironment } from './native-engine-crt-environment';
 import { engineEnvironmentImage } from './native-engine-environment-source';
 import {admitEngineIoSource} from './native-engine-io-source';
+import {NativeEngineArgvImages} from './native-engine-argv-images';
 import { NativeEngineIoImages } from './native-engine-io-images';
 import { NativeX86ThreadStack } from './native-x86-thread-stack';
 import { NativeGameCrtIoInit } from './native-game-crt-ioinit';
@@ -183,6 +184,8 @@ export interface NativeCrtAttachProgress {
   readonly engineCommandLineStorage: NativeHeapObjectViews | null;
   readonly engineEnvironmentStorage: NativeHeapObjectViews | null;
   readonly engineIoImages: NativeEngineIoImages | null;
+  readonly engineArgvImages:NativeEngineArgvImages|null;
+  readonly engineArgvProgress:ReturnType<NativeX86ThreadStack['engineArgvFrameSnapshot']>;
   readonly engineIoProgress: ReturnType<NativeX86ThreadStack['engineIoFrameSnapshot']>;
   readonly commandLineReturned: boolean;
   readonly commandLineNonNull: boolean | null;
@@ -268,6 +271,9 @@ export class NativeCrtBootstrap {
   #engineCommandLineStorage: NativeHeapObjectViews | null = null;
   #engineEnvironmentStorage: NativeHeapObjectViews | null = null;
   #engineIoImages: NativeEngineIoImages | null = null;
+  #engineArgvImages:NativeEngineArgvImages|null=null;
+  readonly #engineArgvCallPermit=Object.freeze({});
+  #engineArgvInvocationActive=false;
   #engineIoStack: NativeX86ThreadStack | null = null;
   readonly #engineIoCallPermit=Object.freeze({});
   #engineIoInvocationActive=false;
@@ -325,12 +331,32 @@ export class NativeCrtBootstrap {
     }
     return known(undefined);
   }
+  static canonicalEngineArgvCallForCrt(bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object):NativeValue<void>{
+    try{const retained=bootstrapByCrt.get(crt),next=bootstrap.#nextBoundary;
+      if(!NativeModuleCrtOwner.isConstructedOwner(crt)||crt.module!=='Engine'||retained?.phase!=='returned'||retained.owner!==bootstrap||bootstrap.#crt!==crt||bootstrap.#boundary!==null||bootstrap.#attachPhase!=='running'||!bootstrap.#active.has(bootstrap.#name('crtAttach'))||!bootstrap.#engineArgvInvocationActive||permit!==bootstrap.#engineArgvCallPermit||bootstrap.#lowerCall!=='Engine argumentSetup3068e76f at30677276'||next?.address!=='30677276'||!('target' in next)||next.target!=='3068e76f'||bootstrap.#ioResult!==0||!bootstrap.#engineIoStack||!bootstrap.#engineArgvImages)return unknown('Actual reached same-Engine argument call permit required');
+      bootstrap.#assertCrt();return known(undefined);
+    }catch(error){return unknown(failureReason(error));}
+  }
   static canonicalEngineIoCallForCrt(bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object):NativeValue<void>{
     try{const retained=bootstrapByCrt.get(crt);
       const next=bootstrap.#nextBoundary;
       if(!NativeModuleCrtOwner.isConstructedOwner(crt)||crt.module!=='Engine'||retained?.phase!=='returned'||retained.owner!==bootstrap||bootstrap.#crt!==crt||bootstrap.#boundary!==null||bootstrap.#attachPhase!=='running'||!bootstrap.#active.has(bootstrap.#name('crtAttach'))||!bootstrap.#engineIoInvocationActive||permit!==bootstrap.#engineIoCallPermit||bootstrap.#lowerCall!=='Engine ioInit306886ec at30677266'||next?.address!=='30677266'||!('target' in next)||next.target!=='306886ec')return unknown('Actual reached same-Engine I/O call permit required');
       bootstrap.#assertCrt();return known(undefined);
     }catch(error){return unknown(failureReason(error));}
+  }
+  static engineArgvPtdForCrt(bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object):NativeValue<NativeHeapObjectViews|null>{
+    const proof=NativeCrtBootstrap.canonicalEngineArgvCallForCrt(bootstrap,crt,permit);if(!proof.known)return proof;
+    try{
+      if(bootstrap.thread.host.crt!==crt)throw new Error('Actual same-Engine thread startup required');
+      const result=NativeCrtThreadStartup.prototype.getPtdNoExit.call(bootstrap.thread);if(!result.known)return result;
+      const current=NativeCrtBootstrap.canonicalEngineArgvCallForCrt(bootstrap,crt,permit);if(!current.known)return current;
+      if(bootstrap.thread.host.crt!==crt)throw new Error('Retained same-Engine thread startup required');
+      return result.value===null?known(null):NativeCrtThreadStartup.canonicalPtdForCrt(crt,result.value);
+    }catch(error){return unknown(failureReason(error));}
+  }
+  static engineArgvCookieForCrt(bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object):NativeValue<NativeHeapObjectViews>{
+    const proof=NativeCrtBootstrap.canonicalEngineArgvCallForCrt(bootstrap,crt,permit);if(!proof.known)return proof;
+    try{return known(bootstrap.#checked(bootstrap.physical.securityCookie));}catch(error){return unknown(failureReason(error));}
   }
   static engineIoCookieForCrt(bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object):NativeValue<NativeHeapObjectViews>{
     const proof=NativeCrtBootstrap.canonicalEngineIoCallForCrt(bootstrap,crt,permit);if(!proof.known)return proof;
@@ -413,6 +439,7 @@ export class NativeCrtBootstrap {
       const ioImages=NativeEngineIoImages.forCrt(crt);
       if(!ioImages.known)throw new Error(ioImages.reason);
       this.#engineIoImages=ioImages.value;
+      const argvImages=NativeEngineArgvImages.forCrt(crt);if(!argvImages.known)throw new Error(argvImages.reason);this.#engineArgvImages=argvImages.value;
     }
     this.#environment = crt.module === 'Game' ? NativeGameCrtEnvironment.forCrt(crt) : null;
     this.#engineEnvironment = crt.module === 'Engine' && this.#processInputs ? NativeEngineCrtEnvironment.forCrt(crt) : null;
@@ -713,7 +740,14 @@ export class NativeCrtBootstrap {
       this.#trace.push('3067726b.EngineIoCallerTest','3067726d.EngineIoCallerJge');
       if(this.#ioResult!==0)throw new Error('Actual supported Engine I/O result required');
       this.#nextBoundary=Object.freeze({name:'startupCall',address:'30677276',target:'3068e76f'});
-      this.#gate('Engine startup call3068e76f at30677276');
+      for(const label of ['multibyteReady','moduleFilename','moduleFilenameSentinel','programNamePointer','argumentCount','argumentVector'] as const){
+        if(!this.#engineArgvImages)throw new Error('Actual retained Engine argument image owner required');
+        this.#call('Engine argument image authority '+label,()=>NativeEngineArgvImages.imageForCrt(this.#engineArgvImages!,this.#crt,label));
+      }
+      this.#engineArgvInvocationActive=true;
+      try{this.#call('Engine argumentSetup3068e76f at30677276',()=>NativeX86ThreadStack.enterEngineArgvForBootstrap(this.#engineIoStack!,this,this.#crt,this.#engineArgvCallPermit));}
+      finally{this.#engineArgvInvocationActive=false;}
+      this.#gate('Engine argument caller result at3067727b');
     }
     const points = gameAttachContinuationInstructionPoints;
     const endpointProof = NativeRuntimePlatform.canonicalProcessInputEndpointsForPlatform(
@@ -903,6 +937,8 @@ export class NativeCrtBootstrap {
       engineCommandLineStorage:this.#engineCommandLineStorage,
       engineEnvironmentStorage:this.#engineEnvironmentStorage,
       engineIoImages:this.#engineIoImages,
+      engineArgvImages:this.#engineArgvImages,
+      engineArgvProgress:this.#engineIoStack?.engineArgvFrameSnapshot(this.#crt)??null,
       engineIoProgress:this.#engineIoStack?.engineIoFrameSnapshot(this.#crt)??null,
       commandLineReturned: this.#commandLineReturned, commandLineNonNull: this.#commandLineNonNull,
       environmentReturned: this.#environmentReturned, environmentNonNull: this.#environmentNonNull,

@@ -1,0 +1,97 @@
+{
+  "schema": "gothic3.engine-game-argv-comparison.v1",
+  "engineReceiptSha256": "47ed58ba615353dbc1a6de311a5fb228d52c2761cef0f325c5624ced41be1570",
+  "gameReceiptSha256": "e72aedd63e30c1b5ca485cf368a58f4a13ed627fc589b29d445d79ef776ff504",
+  "comparisons": [
+    {
+      "engine": "engineArgumentSetup",
+      "game": "setArgv",
+      "engineInstructions": 70,
+      "gameInstructions": 70,
+      "sameLength": true,
+      "addressDelta": "10217ff3",
+      "addressMap": {
+        "0x207d2b84": "0x30af7e84",
+        "0x20476794": "0x3068e787",
+        "0x2046bcff": "0x30685007",
+        "0x207d10a8": "0x30af7800",
+        "0x207d11ac": "0x30af7904",
+        "0x207d7bc0": "0x30afc82c",
+        "0x207d2b60": "0x30af91f8",
+        "0x207d0a5c": "0x30af7128",
+        "0x204767c2": "0x3068e7b5",
+        "0x204767c5": "0x3068e7b8",
+        "0x204765e4": "0x3068e5d7",
+        "0x2047682d": "0x3068e820",
+        "0x2046838e": "0x3067c9c1",
+        "0x207d0a40": "0x30af710c",
+        "0x207d0a44": "0x30af7110",
+        "0x20476830": "0x3068e823"
+      },
+      "mismatches": []
+    },
+    {
+      "engine": "engineArgumentParser",
+      "game": "parseCommandLine",
+      "engineInstructions": 175,
+      "gameInstructions": 175,
+      "sameLength": true,
+      "addressDelta": "10217ff3",
+      "addressMap": {
+        "0x2047660a": "0x3068e5fd",
+        "0x20476622": "0x3068e615",
+        "0x2047665e": "0x3068e651",
+        "0x20476630": "0x3068e623",
+        "0x2047012d": "0x306846bd",
+        "0x20476654": "0x3068e647",
+        "0x20476653": "0x3068e646",
+        "0x20476690": "0x3068e683",
+        "0x2047660d": "0x3068e600",
+        "0x2047666e": "0x3068e661",
+        "0x20476676": "0x3068e669",
+        "0x2047676c": "0x3068e75f",
+        "0x2047668d": "0x3068e680",
+        "0x20476693": "0x3068e686",
+        "0x20476683": "0x3068e676",
+        "0x204766ab": "0x3068e69e",
+        "0x204766b6": "0x3068e6a9",
+        "0x204766b4": "0x3068e6a7",
+        "0x204766e6": "0x3068e6d9",
+        "0x204766e4": "0x3068e6d7",
+        "0x204766d7": "0x3068e6ca",
+        "0x204766fc": "0x3068e6ef",
+        "0x204766f3": "0x3068e6e6",
+        "0x204766ea": "0x3068e6dd",
+        "0x20476757": "0x3068e74a",
+        "0x20476710": "0x3068e703",
+        "0x20476751": "0x3068e744",
+        "0x2047673f": "0x3068e732",
+        "0x20476733": "0x3068e726",
+        "0x2047674c": "0x3068e73f",
+        "0x204766ad": "0x3068e6a0",
+        "0x20476762": "0x3068e755",
+        "0x2047667a": "0x3068e66d",
+        "0x20476778": "0x3068e76b"
+      },
+      "mismatches": []
+    },
+    {
+      "engine": "engineArgumentMultibyteDependency",
+      "game": "initMbcTable",
+      "engineInstructions": 8,
+      "gameInstructions": 8,
+      "sameLength": true,
+      "addressDelta": "10219308",
+      "addressMap": {
+        "0x207d2b84": "0x30af7e84",
+        "0x2046bd1a": "0x30685022",
+        "0x2046bb65": "0x30684e6d"
+      },
+      "mismatches": []
+    }
+  ],
+  "notes": [
+    "Comparison preserves constants and instruction offsets; only module address operands may differ.",
+    "Equivalent structure does not grant Game execution capabilities to Engine or prove dependency equivalence."
+  ]
+}
