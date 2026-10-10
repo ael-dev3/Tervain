@@ -1,3 +1,4 @@
+import {NativeCrtThreadStartup} from './native-crt-thread-startup';
 import {NativeEngineArgvImages} from './native-engine-argv-images';
 import {engineArgvInstruction} from './native-engine-argv-source';
 import {NativePropertyTypeTable} from './native-property-type-table';
@@ -79,6 +80,7 @@ type WordRecord = Readonly<{ value: number; mask: number; provenance?:
   Readonly<{ kind: 'shared-local'; fields:NativeHeapObjectViews; offset?:number }> |
   Readonly<{ kind: 'module'; label: string; fields: NativeHeapObjectViews; offset: number }> |
   Readonly<{ kind: 'process'; pointer: NativeBytePointer }> |
+  Readonly<{kind:'engine-ptd';crt:NativeModuleCrtOwner;fields:NativeHeapObjectViews}> |
   Readonly<{kind:'engine-allocation';crt:NativeModuleCrtOwner;fields:NativeHeapObjectViews;offset:number}> |
   Readonly<{ kind: 'heap'; heap: NativeWin32HeapCapability }> |
   Readonly<{ kind: 'allocation'; allocation: Allocation; offset: number; pointer: NativeBytePointer }> |
@@ -112,7 +114,7 @@ interface StartupCall {
   readonly offset: number; readonly argument: NativeX86Word32; readonly position: number;
   readonly returnWord: NativeX86Word32; phase: 'pending' | 'returned';
 }
-interface EngineArgvFrame {readonly bootstrap:NativeCrtBootstrap;readonly crt:NativeModuleCrtOwner;readonly permit:object;readonly images:NativeEngineArgvImages;readonly entryEsp:number;phase:'running'|'blocked';pc:string;boundary:string|null;operations:number;ebp:number|null;multibyteEbp:number|null;multibyteFsPublished:boolean;multibytePrologReturned:boolean;}
+interface EngineArgvFrame {readonly bootstrap:NativeCrtBootstrap;readonly crt:NativeModuleCrtOwner;readonly permit:object;readonly images:NativeEngineArgvImages;readonly entryEsp:number;phase:'running'|'blocked';pc:string;boundary:string|null;operations:number;ebp:number|null;multibyteEbp:number|null;multibyteFsPublished:boolean;multibytePrologReturned:boolean;multibytePtd:NativeHeapObjectViews|null;multibyteGetterReturned:boolean;}
 interface EngineIoFrame {
  readonly bootstrap:NativeCrtBootstrap;readonly crt:NativeModuleCrtOwner;readonly permit:object;
  readonly images:NativeEngineIoImages;readonly scope:NativeHeapObjectViews;
@@ -201,7 +203,7 @@ export class NativeX86ThreadStack {
       stack.#physical(stack.#stack);stack.#physical(stack.#bank);
       const entryEsp=stack.#address(stack.#load(stack.#bank,stack.#reg('ESP')));
       if(entryEsp!==io.entryEsp||stack.#numeric(stack.#load(stack.#bank,stack.#reg('EAX')),4)!==0)throw new Error('Actual Engine I/O return state required');
-      const frame:EngineArgvFrame={bootstrap,crt,permit,images,entryEsp,phase:'running',pc:'30677276',boundary:null,operations:0,ebp:null,multibyteEbp:null,multibyteFsPublished:false,multibytePrologReturned:false};stack.#engineArgvFrame=frame;stack.#engineArgvExecuting=true;stack.#phase='running';
+      const frame:EngineArgvFrame={bootstrap,crt,permit,images,entryEsp,phase:'running',pc:'30677276',boundary:null,operations:0,ebp:null,multibyteEbp:null,multibyteFsPublished:false,multibytePrologReturned:false,multibytePtd:null,multibyteGetterReturned:false};stack.#engineArgvFrame=frame;stack.#engineArgvExecuting=true;stack.#phase='running';
       const reg=(name:NativeX86Register)=>stack.#load(stack.#bank,stack.#reg(name)),set=(name:NativeX86Register,word:NativeX86Word32)=>stack.#store(stack.#bank,stack.#reg(name),word);
       const step=(pc:string,body:()=>void,entry='3068e76f')=>{stack.#engineArgvProof(frame);if(entry==='3067e500')engineIoInstruction(entry,pc);else engineArgvInstruction(entry,pc);frame.pc=pc;body();frame.operations++;stack.#trace.push(pc+'.EngineArgvSource');stack.#engineArgvProof(frame);};
       try{
@@ -255,7 +257,32 @@ export class NativeX86ThreadStack {
             prolog('3067e53e',()=>{stack.#store(stack.#bank,32,reg('EAX'));frame.multibyteFsPublished=true;});
             prolog('3067e544',()=>{const result=stack.#record(stack.#ret()).provenance;if(result?.kind!=='source'||result.type!=='code'||result.address!=='30684e79')throw new Error('Actual Engine EH4 prolog return required');frame.multibytePrologReturned=true;});
             nested('30684e79',()=>{stack.#store(stack.#stack,relative('EBP',-0x20),value(0xffffffff));stack.#logicalFlags(0xffffffff,0xffffffff,4);});
-            frame.pc='30684e7d';engineArgvInstruction('30684e6d',frame.pc);throw new Error('Engine multibyte thread data getter3067e12b at30684e7d');
+            nested('30684e7d',()=>stack.#call('30684e7d','30684e82'));
+            const getter=(pc:string,body:()=>void)=>step(pc,body,'3067e12b');
+            getter('3067e12b',()=>stack.#push(reg('ESI')));
+            getter('3067e12c',()=>{
+              stack.#call('3067e12c','3067e131');
+              const result=NativeCrtBootstrap.engineArgvPtdForCrt(bootstrap,crt,permit);if(!result.known)throw new Error(result.reason);
+              frame.multibytePtd=result.value;
+              const returned=stack.#record(stack.#ret()).provenance;if(returned?.kind!=='source'||returned.type!=='code'||returned.address!=='3067e131')throw new Error('Actual Engine PTD getter service return required');
+              set('EAX',result.value?stack.#mint(0,0,{kind:'engine-ptd',crt,fields:result.value}):value(0));
+              set('ECX',stack.#mint(0,0));set('EDX',stack.#mint(0,0));stack.#flags(0,0);
+            });
+            getter('3067e131',()=>set('ESI',reg('EAX')));
+            getter('3067e133',()=>{const word=stack.#liveWord(reg('ESI'));if(word.provenance?.kind==='engine-ptd')stack.#flags(0,0x841);else stack.#logicalFlags(stack.#numeric(reg('ESI'),4),0xffffffff,4);});
+            let present=false;getter('3067e135',()=>{const flags=stack.#record(stack.#load(stack.#bank,36));if(!(flags.mask&0x40))throw new Error('Actual Engine PTD getter TEST ZF required');present=!(flags.value&0x40);});
+            if(!present){
+              getter('3067e137',()=>stack.#push(value(0x10)));
+              getter('3067e139',()=>stack.#call('3067e139','3067e13e'));
+              frame.pc='3067cf89';throw new Error('Engine NULL PTD fatal error3067cf89 at3067e139');
+            }
+            getter('3067e13f',()=>set('EAX',reg('ESI')));
+            getter('3067e141',()=>{const at=relative('ESP',0);set('ESI',stack.#load(stack.#stack,at));set('ESP',stack.#stackWord(at+4));});
+            getter('3067e142',()=>{const returned=stack.#record(stack.#ret()).provenance;if(returned?.kind!=='source'||returned.type!=='code'||returned.address!=='30684e82')throw new Error('Actual Engine PTD getter wrapper return required');frame.multibyteGetterReturned=true;});
+            nested('30684e82',()=>set('EDI',reg('EAX')));
+            nested('30684e84',()=>stack.#store(stack.#stack,relative('EBP',-0x24),reg('EDI')));
+            nested('30684e87',()=>stack.#call('30684e87','30684e8c'));
+            frame.pc='30684b3a';engineArgvInstruction('30684b3a',frame.pc);throw new Error('Engine multibyte locale helper30684b3a at30684e87');
           }
           wrapper('30685022',()=>{set('EAX',stack.#mint(0,0xffffffff));stack.#logicalFlags(0,0xffffffff,4);});
           wrapper('30685024',()=>{const next=stack.#record(stack.#ret()).provenance;if(next?.kind!=='source'||next.type!=='code'||next.address!=='3068e787')throw new Error('Actual Engine multibyte wrapper return required');});
@@ -270,9 +297,10 @@ export class NativeX86ThreadStack {
     const reached=NativeCrtBootstrap.canonicalEngineArgvCallForCrt(frame.bootstrap,frame.crt,frame.permit);if(!reached.known)throw new Error(reached.reason);
     const selection=NativeRuntimePlatform.threadStackSelectionForPlatform(this.#platform);if(!selection.known||selection.value!==this.#selection)throw new Error('Actual selected Engine argument logical-thread lifetime required');
     for(const label of ['multibyteReady','moduleFilename','moduleFilenameSentinel','programNamePointer','argumentCount','argumentVector','multibyteSetupSehScope'] as const){const image=NativeEngineArgvImages.imageForCrt(frame.images,frame.crt,label);if(!image.known)throw new Error(image.reason);}
+    if(frame.multibytePtd){const ptd=NativeCrtThreadStartup.canonicalPtdForCrt(frame.crt,frame.multibytePtd);if(!ptd.known)throw new Error(ptd.reason);}
     this.#physical(this.#stack);this.#physical(this.#bank);
   }
-  engineArgvFrameSnapshot(crt:NativeModuleCrtOwner){const frame=this.#engineArgvFrame;if(!frame||frame.crt!==crt)return null;return Object.freeze({module:'Engine' as const,phase:frame.phase,pc:frame.pc,boundary:frame.boundary,operations:frame.operations,entryEsp:frame.entryEsp,ebp:frame.ebp,multibyteEbp:frame.multibyteEbp,multibyteFsPublished:frame.multibyteFsPublished,multibytePrologReturned:frame.multibytePrologReturned,stack:this.#stack,bank:this.#bank});}
+  engineArgvFrameSnapshot(crt:NativeModuleCrtOwner){const frame=this.#engineArgvFrame;if(!frame||frame.crt!==crt)return null;return Object.freeze({module:'Engine' as const,phase:frame.phase,pc:frame.pc,boundary:frame.boundary,operations:frame.operations,entryEsp:frame.entryEsp,ebp:frame.ebp,multibyteEbp:frame.multibyteEbp,multibyteFsPublished:frame.multibyteFsPublished,multibytePrologReturned:frame.multibytePrologReturned,multibytePtd:frame.multibytePtd,multibyteGetterReturned:frame.multibyteGetterReturned,stack:this.#stack,bank:this.#bank});}
   #engineIoFrame:EngineIoFrame|null=null;
   #engineIoExecuting=false;
   /** Borrow the actual thread graph for a reached translated Engine CRT call.
@@ -3083,6 +3111,7 @@ export class NativeX86ThreadStack {
       if (!proof.known) throw new Error(proof.reason); return record;
     }
     if(p?.kind==='difference'){this.#liveWord(p.left);this.#liveWord(p.right);}
+    if(p?.kind==='engine-ptd'){if(p.crt.module!=='Engine'||p.crt.host.platform!==this.#platform)throw new Error('Actual Engine PTD owner required');const owned=NativeCrtThreadStartup.canonicalPtdForCrt(p.crt,p.fields);if(!owned.known)throw new Error(owned.reason);}
     if(p?.kind==='engine-allocation'){const owned=NativeModuleCrtOwner.canonicalEngineHeapDestination(p.crt,this.#platform,{fields:p.fields,offset:p.offset},0);if(!owned.known)throw new Error(owned.reason);}
     if (p?.kind === 'allocation') this.#allocationLive(p.allocation, p.offset, 0);
     if (p?.kind === 'module') this.#moduleWord(p.label, p.offset);
@@ -4702,6 +4731,7 @@ export class NativeX86ThreadStack {
       return Object.freeze({ value: record.value, knownMask: record.mask, provenance: provenance?.kind === 'source'
         ? Object.freeze({ kind: provenance.kind, type: provenance.type, address: provenance.address })
         : provenance?.kind === 'stack' ? Object.freeze({ kind: provenance.kind, offset: provenance.offset })
+          : provenance?.kind === 'engine-ptd' ? Object.freeze({kind:provenance.kind,module:provenance.crt.module,capacity:provenance.fields.bytes.length})
           : provenance?.kind === 'heap' ? Object.freeze({ kind: provenance.kind })
             : provenance?.kind === 'allocation' ? Object.freeze({ kind: provenance.kind, offset: provenance.offset,
               capacity: (provenance.allocation.physical ?? provenance.allocation.fields).bytes.length,

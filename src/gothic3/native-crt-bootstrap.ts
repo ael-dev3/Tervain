@@ -344,6 +344,16 @@ export class NativeCrtBootstrap {
       bootstrap.#assertCrt();return known(undefined);
     }catch(error){return unknown(failureReason(error));}
   }
+  static engineArgvPtdForCrt(bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object):NativeValue<NativeHeapObjectViews|null>{
+    const proof=NativeCrtBootstrap.canonicalEngineArgvCallForCrt(bootstrap,crt,permit);if(!proof.known)return proof;
+    try{
+      if(bootstrap.thread.host.crt!==crt)throw new Error('Actual same-Engine thread startup required');
+      const result=NativeCrtThreadStartup.prototype.getPtdNoExit.call(bootstrap.thread);if(!result.known)return result;
+      const current=NativeCrtBootstrap.canonicalEngineArgvCallForCrt(bootstrap,crt,permit);if(!current.known)return current;
+      if(bootstrap.thread.host.crt!==crt)throw new Error('Retained same-Engine thread startup required');
+      return result.value===null?known(null):NativeCrtThreadStartup.canonicalPtdForCrt(crt,result.value);
+    }catch(error){return unknown(failureReason(error));}
+  }
   static engineArgvCookieForCrt(bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object):NativeValue<NativeHeapObjectViews>{
     const proof=NativeCrtBootstrap.canonicalEngineArgvCallForCrt(bootstrap,crt,permit);if(!proof.known)return proof;
     try{return known(bootstrap.#checked(bootstrap.physical.securityCookie));}catch(error){return unknown(failureReason(error));}

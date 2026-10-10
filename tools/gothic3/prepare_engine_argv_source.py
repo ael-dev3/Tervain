@@ -17,6 +17,7 @@ def capture(study):
         0x30684bde: 'engineArgumentMultibyteHelper30684bde',
         0x30684c58: 'engineArgumentMultibyteHelper30684c58',
         0x3067c9c1: 'engineArgumentMallocCrt',
+        0x3067e12b: 'engineMultibyteGetPtdWrapper',
     })
     pe = PE((study / '00_Original_Runtime/Engine.dll').read_bytes())
     caller = pe.bytes(0x30677276, 5)

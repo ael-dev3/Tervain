@@ -4,6 +4,27 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local checkpoint — 10 October 2026: Engine multibyte PTD getter
+
+The nested multibyte call executes the original getter wrapper at `3067e12b`.
+Its actual inner CALL bridges to Engine's existing translated `getPtdNoExit`
+service under the active argument permit. The returned record must have retained
+same-Engine PTD membership and live canonical storage. The physical return slots,
+ESI save/restore, TEST and JNZ are executed before returning to multibyte setup.
+The caller stores that record in EDI and its local slot and calls locale helper
+`30684b3a` from `30684e87`, where supported execution currently stops.
+
+The cold path executes 51 source operations. A NULL service result retains the
+original fatal call with argument 16; an unowned record stops at the getter call.
+Neither path manufactures readiness or a successful nested setup return.
+Thirty-one focused checks across four files and TypeScript checking pass. The
+source package now includes the 11-instruction getter wrapper. The translated
+inner service uses its existing Engine thread-startup evidence; this does not
+claim instruction-by-instruction execution of that inner service on the physical
+stack. Full validation and publication of this continuation remain pending.
+Locale setup, argument parsing, full startup and campaign integration remain
+unfinished.
+
 ## Hosted observation — 10 October 2026: PR #221
 
 PR #221 merged as `368c88aa4fd4bbd23a48cf5d06874cea93b45eab`.
