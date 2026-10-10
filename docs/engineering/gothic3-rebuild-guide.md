@@ -145,7 +145,9 @@ require an actual constructed CRT and made reentrant initialization/registration
 retain an interruption boundary. It preserves any real allocation or lock already
 produced and prevents later stores or replay. All 26 relevant focused checks and
 typechecking pass; independent regeneration matches the six AI helper JSON and
-TypeScript outputs. Full validation of this final review change remains pending.
+TypeScript outputs. At runtime revision `34c2a4af2`, the final production build
+passed in 26.32 seconds and all 3,244 tests across 305 files passed in 395.27
+seconds with `npm test -- --testTimeout=30000` in the separate validation checkout.
 The exit-table owner still has no completed production startup integration.
 
 Each checkpoint should let another developer follow the same evidence:
