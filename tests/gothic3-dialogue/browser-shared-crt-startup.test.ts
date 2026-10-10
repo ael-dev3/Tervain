@@ -55,7 +55,7 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  expect(game.known).toBe(true);
  if(!game.known)throw new Error(game.reason);
  expect(game.value.attachResult,game.value.attachProgress.setEnvpProgress?.currentPC).toEqual({known:false,
-  reason:'crtAttach204677e4: Unowned ModuleAdmin.GetInstance30088e90: atexit.ModuleAdmin30797fc0: Engine shutdown registration requires its CRT attach: crtAttach3067717c: Unowned Engine environment-vector setup3068e4f2 at3067727f'});
+  reason:'crtAttach204677e4: Unowned ModuleAdmin.GetInstance30088e90: atexit.ModuleAdmin30797fc0: Engine shutdown registration requires its CRT attach: crtAttach3067717c: Engine environment-vector setup3068e4f2 at3067727f: Engine environment-vector calloc3067ca01 at3068e532'});
  const engine=createBrowserEngineCrtStartup(platform);if(!engine.known)throw new Error(engine.reason);
  expect(createBrowserEngineCrtStartup(platform)).toBe(engine);
  expect(canonicalBrowserEngineCrtStartup(engine.value,platform).known).toBe(true);

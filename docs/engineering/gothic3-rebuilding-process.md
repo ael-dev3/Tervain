@@ -12048,3 +12048,29 @@ suite passed 3371 tests in 313 files in 877.02 seconds with the 20-second CLI
 allowance. The newest full run will also include current main-branch presentation
 changes. Full startup, live world activation and a finishable campaign remain
 unfinished.
+
+
+### 11 October 2026: Engine environment-vector counting prefix
+
+The original argument caller TEST/JL now selects the success or failure call
+from the actual retained return register. On success, the real `3067727f` call
+enters `3068e4f2` on the same stack. The setup borrows Engine's existing converted
+environment block, counts entries while excluding those beginning with `=`, and
+pushes slot count plus DWORD element size before `3068e532 -> 3067ca01`. The
+allocation call remains pending. NULL input returns minus one through the real
+`30677284` return word. Unknown bytes preserve their scan prefix.
+
+The string-length helper is translated over canonical owned byte spans; its
+alignment-dependent machine paths are not counted as executed source rows. The
+five-body evidence package contains 252 instructions, including nine cleanup
+instructions recovered and checked against original PE bytes. Independent JSON
+and TypeScript regeneration matches byte-for-byte.
+
+Typechecking, 120 focused checks across three files (131.54 seconds), and the
+production build (1m 6s) pass. The initial broad run had two assertions observing
+ESP after startup advanced into the new pending call. They now retain the
+argument-return assertion at its actual moment and also check the later pending
+stack. A targeted empty-block assertion was corrected to cursor zero, matching
+the first terminating NUL. No assertions were removed. Allocation, copying,
+publication and cleanup still need runtime integration; full Engine attachment
+and a browser campaign through an ending remain unfinished.
