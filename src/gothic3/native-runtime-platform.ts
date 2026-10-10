@@ -962,6 +962,13 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
     if (!call || !this.#argvNlsEndpoints || this.#argvNlsActiveCall || this.#argvNlsConsumed.has(call)) return unknown('Fresh non-reentrant argv/NLS call required');
     this.#argvNlsActiveCall = call;
     try {
+      const engine=NativeX86ThreadStack.engineArgvNlsArgumentsForPlatform(this,call);
+      if(engine.known){
+        this.#argvNlsConsumed.add(call);const selected=this.#crtServices!.argvNls!;
+        const result: NativeArgvNlsResult=Object.freeze({kind:'scalar',value:selected.codePage >>> 0});this.#processLastError(selected.lastError?.GetACP);
+        const after=NativeX86ThreadStack.engineArgvNlsArgumentsForPlatform(this,call);if(!after.known)return after;
+        this.#argvNlsNormal.set(call,result);return known(result);
+      }
       const shared=NativeSharedCrtOwner.nlsArgumentsForPlatform(this,call);
       if(shared.known){
         this.#argvNlsConsumed.add(call);const input=shared.value,selection=this.#crtServices!.argvNls!;

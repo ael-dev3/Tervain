@@ -5873,6 +5873,12 @@
       "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
     }
   ],
+  "codepageImport": {
+    "iatVA": "0x30afc734",
+    "module": "KERNEL32.dll",
+    "name": "GetACP",
+    "ordinal": null
+  },
   "caller": {
     "call": "30677276",
     "target": "3068e76f",

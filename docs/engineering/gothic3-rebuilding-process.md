@@ -11733,3 +11733,21 @@ validation for the math pointer, five C initializer entries and the C++ table.
 Those tables are source context, not execution evidence. The next integration
 must preserve the retained stack, image identities and prerequisite order while
 executing that frontier and its lower operations.
+
+### 10 October 2026: Engine code-page return (local checkpoint)
+
+The supported original locale-update constructor now runs on the retained
+Engine stack, including its byte-sized ownership flag, PTD locale/MBC pointers,
+conditional flag acquisition and `RET 4`. Engine GetACP uses its captured IAT
+receipt and a private current-call grant through the selected process NLS
+service. Normal return restores the caller and clears only temporary ownership.
+Existing ownership and adjacent stack padding are preserved.
+
+The CP1252 browser scenario reaches `30684ea8 -> 3067c9c1`, the next 544-byte
+MBC allocation call, after 186 operations. Missing NLS service retains the
+pending GetACP call at `30684c28` after 171 operations. Forty-one focused checks
+passed across four files; source JSON and TypeScript independently regenerate
+byte-identically. TypeScript checking and the production build passed. Full-suite
+validation is a separate gate. The complete campaign remains unfinished.
+PR #223 merged the earlier locale checkpoint and rebuilding guide; it does not
+include this local code-page continuation.

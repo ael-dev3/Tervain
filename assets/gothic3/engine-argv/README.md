@@ -18,7 +18,7 @@ python tools/gothic3/prepare_engine_argv_source.py --study <study-directory> --o
 ```
 
 Independent JSON and TypeScript regenerations are byte-identical. Two source checks and TypeScript checking pass. The JSON package has SHA-256
-`521825f531d981a6957c8a6563307a13da23b4162e52f0615d9a264498aad89a`.
+`12c33e7727a7b816bcbb3d66c6b5e35b3a0bf14673895c80c1ee1d266b4a2b30`.
 Engine.dll SHA-256 is
 `d49ef92c0fdfeda433f6d04d0edeb7751e41e4c7c7effc1265630717029dc7e3`.
 
@@ -38,3 +38,19 @@ and offsets match with equal lengths and no reported mismatches. Regenerate with
 `tools/gothic3/compare_engine_game_argv_source.py --engine assets/gothic3/engine-argv/research.json --game assets/gothic3/game-argv/native-evidence.json --output assets/gothic3/engine-argv/game-comparison.json`.
 Independent regeneration and changed-instruction rejection pass. This comparison
 is an implementation aid, not authority to reuse Game pointers or call grants.
+
+## Engine code-page continuation
+
+The package also admits Engine's original `GetACP` import at IAT `30afc734`.
+The supported runtime path constructs the original 16-byte locale record on the
+retained Engine stack, obtains the same Engine PTD, and temporarily owns flag
+`0x2` only when it was previously clear. The original constructor returns with
+`RET 4`. The private import invocation returns the selected virtual process code
+page, then clears only the flag it acquired and returns to `30684e97`.
+
+With the browser CP1252 inputs, execution reaches the real 544-byte MBC malloc
+call at `30684ea8 -> 3067c9c1` after 186 admitted operations. Allocation and the
+remaining multibyte initialization are unfinished. With no NLS selection, the
+actual GetACP call remains pending at `30684c28` after 171 operations; the
+constructor's temporary flag remains set. This checkpoint does not finish
+startup or the campaign.
