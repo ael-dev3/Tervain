@@ -93,6 +93,7 @@ admitAIHelperPropertyIdSource();freeze(source);
 export const aiHelperPropertyIdImagePins=Object.fromEntries(source.images.map(image=>[image.label,[image.loaderZeroFillBytes?'coldGlobals':'constBytes',image.address,image.bytes,image.raw,image.sha256] as const]));
 freeze(aiHelperPropertyIdImagePins);
 export function aiHelperPropertyIdImageReceipt(label:string):NativeCrtImageReceipt {admitAIHelperPropertyIdSource();const image=source.images.find(image=>image.label===label);if(!image)throw new Error('Unowned AI helper PropertyID image');return Object.freeze({...image,module:'Game' as const,scope:image.loaderZeroFillBytes?'cold-original-image':'original-file-backed-constant',knownMask:'ff'.repeat(image.bytes)});}
+export function aiHelperPropertyIdCleanupReceipt(){admitAIHelperPropertyIdSource();const cleanup=source.cleanupReceipt;return Object.freeze({module:'Game' as const,entry:cleanup.entry,body:cleanup.entry,bodyInstructionBytesSha256:cleanup.bytesSha256});}
 export function aiHelperPropertyIdInstruction(pc:string):NativeGameIoInstruction {admitAIHelperPropertyIdSource();const row=source.instructions.find(row=>row.va===pc);if(!row)throw new Error('Unowned AI helper PropertyID instruction');return row;}
 """.replace('EXPECTED', expected)
         args.typescript.write_text(generated, encoding='utf-8', newline='\n')

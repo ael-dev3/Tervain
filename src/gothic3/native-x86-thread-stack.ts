@@ -1,3 +1,4 @@
+import scriptAdminSource from '../../assets/gothic3/script-admin-startup/runtime-rules.json';
 import {constructNativePropertyIdFromGuid} from './native-property-id-guid';
 import {NativeSharedGuidNull} from './native-shared-guid-null';
 import {NativeGuidText} from './native-guid-text';
@@ -3094,6 +3095,33 @@ export class NativeX86ThreadStack {
     this.#store(this.#bank,this.#reg('EAX'),this.#moduleWord('labelTypeAndGuard',0));
     const returned=this.#ret(0),source=this.#record(returned).provenance;
     if(source?.kind!=='source'||source.type!=='code'||source.address!=='204b23f4')throw new Error('Actual Label type getter return required');
+  }); }
+  finishAIHelperPropertyIdInitializerCall(controller:object,site:'204b26f0'|'204b26f9'|'204b2704'):NativeValue<void> {return this.#run(controller,()=>{
+    const binding=this.#setEnvpBinding;if(!binding||binding.controller!==controller)throw new Error('Actual retained Game startup controller required');
+    const grant=NativeGameCrtSetEnvp.canonicalAIHelperPropertyIdFinishCallForCrt(binding.owner,binding.crt,controller,site);if(!grant.known)throw new Error(grant.reason);
+    if(this.#calls.filter(call=>!call.returned).at(-1)?.site!=='20466654'||!this.#aiHelperPropertyIdGuid||!this.#aiHelperPropertyIdText)
+      throw new Error('Actual original PropertyID temporaries required');
+    const returnPc=site==='204b26f0'?'204b26f6':site==='204b26f9'?'204b26ff':'204b2709';
+    if(site==='204b26f0'||site==='204b26f9') {
+      const receiver=this.#memory(this.#load(this.#bank,this.#reg('ECX')),4);
+      const object=site==='204b26f0'?this.#aiHelperPropertyIdGuid.guid:this.#aiHelperPropertyIdText.slot;
+      if(receiver.fields.backing!==object.backing||receiver.fields.bytes.byteOffset+receiver.offset!==object.bytes.byteOffset)
+        throw new Error('Actual original temporary destructor receiver required');
+      if(site==='204b26f0'&&(scriptAdminSource.methods.guidDtor.body!=='10012440'||
+        scriptAdminSource.methods.guidDtor.bodyInstructionBytesSha256!=='ae3f4619b0413d70d3004b9131c3752153074e45725be13b9a148978895e359e'))
+        throw new Error('Original literal RET GUID destructor required');
+      this.#call(site,returnPc);
+      if(site==='204b26f9') {const result=NativeHeapCString.prototype.destroy.call(this.#aiHelperPropertyIdText);if(!result.known)throw new Error(result.reason);}
+    } else {
+      const esp=this.#address(this.#load(this.#bank,this.#reg('ESP')));
+      if(this.#numeric(this.#load(this.#stack,esp),4)!==0x20549ce0)throw new Error('Actual pushed PropertyID cleanup required');
+      const table=NativeGameExitTable.forCrt(binding.crt as NativeGameCrtOwner),callback=table.callbackForMethod('aiHelperPropertyIdCleanup');
+      if(!callback.known)throw new Error(callback.reason);
+      this.#call(site,returnPc);const result=table.atexit(callback.value);if(!result.known)throw new Error(result.reason);
+      this.#store(this.#bank,this.#reg('EAX'),this.#mint(result.value>>>0,0xffffffff));
+    }
+    const returned=this.#ret(0),source=this.#record(returned).provenance;
+    if(source?.kind!=='source'||source.type!=='code'||source.address!==returnPc)throw new Error('Actual original PropertyID finish return required');
   }); }
   callAIHelperPropertyIdConstructor(controller:object):NativeValue<void> {return this.#run(controller,()=>{
     const binding=this.#setEnvpBinding;if(!binding||binding.controller!==controller)throw new Error('Actual retained Game startup controller required');

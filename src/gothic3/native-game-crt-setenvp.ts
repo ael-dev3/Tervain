@@ -382,6 +382,12 @@ export class NativeGameCrtSetEnvp {
       frame.site==='20466654'&&frame.returnPc==='20466656'&&owner.#requireSourcePoint(owner.#pc).instruction==='CALL dword ptr [0x207d86ac]'
       ?known(undefined):unknown('Actual original AI helper PropertyID constructor CALL required');
   }
+  static canonicalAIHelperPropertyIdFinishCallForCrt(owner:NativeGameCrtSetEnvp,crt:NativeModuleCrtOwner,controller:object,site:'204b26f0'|'204b26f9'|'204b2704'):NativeValue<void> {
+    const active=NativeGameCrtSetEnvp.canonicalControllerForCrt(owner,crt,controller,'invoke');if(!active.known)return active;
+    const frame=owner.#frames.at(-1),instruction=site==='204b26f0'?'CALL dword ptr [0x207d86b0]':site==='204b26f9'?'CALL dword ptr [0x207d8834]':'CALL 0x204637ce';
+    return owner.#pc===site&&owner.#currentEntry==='204b26c0'&&frame?.entry==='204b26c0'&&frame.site==='20466654'&&frame.returnPc==='20466656'&&
+      owner.#requireSourcePoint(owner.#pc).instruction===instruction?known(undefined):unknown('Actual original PropertyID finish CALL required');
+  }
   static canonicalAIHelperAdminTypeCallForCrt(owner:NativeGameCrtSetEnvp,crt:NativeModuleCrtOwner,controller:object):NativeValue<void> {
     const active=NativeGameCrtSetEnvp.canonicalControllerForCrt(owner,crt,controller,'invoke');if(!active.known)return active;
     const frame=owner.#frames.at(-1);
@@ -955,6 +961,11 @@ export class NativeGameCrtSetEnvp {
         this.#currentEntry = callback; this.#nextBoundary = null; return callback;
       }
       throw new Error('Original Game C++ initializer callback is not yet admitted at ' + callback);
+    }
+    if(point.va==='204b26f0'||point.va==='204b26f9'||point.va==='204b2704') {
+      this.#nextBoundary=Object.freeze({pc:point.va,operation:'translatedCrtCall',target:point.instruction.slice(5)});
+      fact(NativeX86ThreadStack.prototype.finishAIHelperPropertyIdInitializerCall.call(this.#stack,this.#controller,point.va));
+      this.#nextBoundary=null;return returnPc;
     }
     if(point.va==='204b26e6') {
       if(this.#currentEntry!=='204b26c0'||target.kind!=='memory'||target.expression!=='0x207d86ac'||target.fs||returnPc!=='204b26ec')

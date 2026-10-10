@@ -54,13 +54,13 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  expect(game.known).toBe(true);
  if(!game.known)throw new Error(game.reason);
  expect(game.value.attachResult,game.value.attachProgress.setEnvpProgress?.currentPC).toEqual({known:false,
-  reason:'crtAttach204677e4: Unowned Unowned original environment CALL at204b26f0: CALL dword ptr [0x207d86b0]'});
+  reason:'crtAttach204677e4: Unowned Original Game C++ initializer callback is not yet admitted at 204b2720'});
  const executed=new Set(game.value.attachProgress.setEnvpProgress!.effects.map(effect=>effect.pc));
  for(const pc of ['204b26c0','204b26c3','204b26c8'])expect(executed.has(pc)).toBe(true);
  for(const pc of ['204b26cc','204b26d2','204b26d5','204b26d6'])expect(executed.has(pc)).toBe(true);
  for(const pc of ['204b26da','204b26e0','204b26e1'])expect(executed.has(pc)).toBe(true);
  expect(executed.has('204b26e6')).toBe(true);expect(executed.has('204b26ec')).toBe(true);
- expect(executed.has('204b26f0')).toBe(false);
+ for(const pc of ['204b26f0','204b26f6','204b26f9','204b26ff','204b2704','204b2709','204b270c'])expect(executed.has(pc)).toBe(true);
  const aiGuid=game.value.attachProgress.setEnvpProgress!.aiHelperPropertyIdGuid!;
  expect(aiGuid.blocked).toBe(null);expect(aiGuid.queryCharacters).toBe(39);expect(aiGuid.requestBytes).toBe(78);
  expect(aiGuid.wideAllocation!.freed).toBe(true);
@@ -70,11 +70,10 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  expect([...aiGuid.receiver.knownMask.subarray(17,20)]).toEqual(aiGuid.paddingBefore!.mask);
  expect([...aiGuid.receiver.bytes.subarray(17,20)]).toEqual(aiGuid.paddingBefore!.bytes);
  const aiText=game.value.attachProgress.setEnvpProgress!.aiHelperPropertyIdText!;
- expect(aiText.construction).toBe('complete');expect(aiText.destroyed).toBe(false);
- expect(aiText.pointerReadable).toBe(true);expect(aiText.data!.allocation.freed).toBe(false);
- expect(new TextDecoder().decode(aiText.data!.allocation.bytes.subarray(8,46))).toBe('{63A89794-0E97-480a-9999-3A9569A4FCE3}');
- expect(aiText.data!.allocation.bytes[46]).toBe(0);
- expect(executed.has('204b270c')).toBe(false);
+ expect(aiText.construction).toBe('complete');expect(aiText.destroyed).toBe(true);
+ expect(aiText.pointerReadable).toBe(true);expect(aiText.data!.allocation.freed).toBe(true);
+ expect(aiText.blockedReason).toBe(null);
+ expect(executed.has('204b2720')).toBe(false);
  const aiPropertyId=game.value.crt.imageStorage('aiHelperPropertyId');
  expect(aiPropertyId.bytes.length).toBe(20);
  expect([...aiPropertyId.bytes.subarray(0,16)]).toEqual([...aiGuid.receiver.bytes.subarray(0,16)]);
@@ -193,6 +192,7 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  expect(callbacks.filter(cell=>cell.callback?.entry==='20549b80')).toHaveLength(1);
  expect(callbacks.filter(cell=>cell.callback?.entry==='20549c50')).toHaveLength(1);
  expect(callbacks.filter(cell=>cell.callback?.entry==='20549d60')).toHaveLength(1);
+ expect(callbacks.filter(cell=>cell.callback?.entry==='20549ce0')).toHaveLength(1);
  expect(callbacks.filter(cell=>cell.callback?.entry==='20549d10')).toHaveLength(1);
  expect(callbacks.filter(cell=>cell.callback?.entry==='20029c94')).toHaveLength(1);
  expect(callbacks.filter(cell=>cell.callback?.entry==='20549c20')).toHaveLength(1);
