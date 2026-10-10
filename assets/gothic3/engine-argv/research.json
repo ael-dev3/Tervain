@@ -12899,6 +12899,11 @@
       "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
     }
   ],
+  "staticMbcHeader": {
+    "address": "30ad4bd0",
+    "bytes": 16,
+    "raw": "00000000000000000000000000000000"
+  },
   "codepageImport": {
     "iatVA": "0x30afc734",
     "module": "KERNEL32.dll",
@@ -12916,6 +12921,18 @@
       "iatVA": "0x30afc688",
       "module": "KERNEL32.dll",
       "name": "GetCPInfo",
+      "ordinal": null
+    },
+    "InterlockedDecrement": {
+      "iatVA": "0x30afc6f4",
+      "module": "KERNEL32.dll",
+      "name": "InterlockedDecrement",
+      "ordinal": null
+    },
+    "InterlockedIncrement": {
+      "iatVA": "0x30afc6f8",
+      "module": "KERNEL32.dll",
+      "name": "InterlockedIncrement",
       "ordinal": null
     }
   },

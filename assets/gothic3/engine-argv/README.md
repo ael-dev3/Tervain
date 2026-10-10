@@ -18,7 +18,7 @@ python tools/gothic3/prepare_engine_argv_source.py --study <study-directory> --o
 ```
 
 Independent JSON and TypeScript regenerations are byte-identical. Two source checks and TypeScript checking pass. The JSON package has SHA-256
-`de5c66335b474e309e2f0963a97ac60e06229bab7502ac55d972b8350678dc03`.
+`3dcfe7e4923b2274df2e272fa74e5e18df5d3f92b6fee0398774c0c2a5db8d43`.
 Engine.dll SHA-256 is
 `d49ef92c0fdfeda433f6d04d0edeb7751e41e4c7c7effc1265630717029dc7e3`.
 
@@ -190,3 +190,15 @@ and pending case/initializer returns. Typecheck and production build passed;
 passed separately after correction. Full validation of this newest continuation
 is pending. Reference-count release/publication, remaining startup and campaign
 integration are unfinished.
+
+## Engine thread MBC reference installation
+
+The retained caller now decrements its previous thread MBC reference through
+original `InterlockedDecrement` import `30afc6f4`, preserves the static object,
+installs the completed allocation in PTD offset `0x68`, and increments it through
+original `InterlockedIncrement` import `30afc6f8`. The static header receipt at
+`30ad4bd0` is evidence only; its original zero count does not reset live storage.
+The default path executes 7,918 admitted operations and stops at global
+publication policy `30684f0a`. Interrupted increments retain the installed
+record and pending call. Global table publication, argument parsing and full
+browser campaign integration remain unfinished.
