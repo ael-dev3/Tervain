@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { installSkinDetail } from './skinDetail';
 import { clone as cloneSkinned } from 'three/examples/jsm/utils/SkeletonUtils.js';
 import type { Pose, Rig } from '../characters';
 import { roughnessFloor } from '../matte';
@@ -53,6 +54,8 @@ export function createHeroRig(asset: HeroAsset): MainHeroRig {
   if (skins !== 1) throw new Error(`Main hero requires one skinned character mesh; found ${skins}`);
   // The model's own roughness reaches 0.5 on leather and skin, which read polished under the sky light (A67).
   for (const material of materials) roughnessFloor(material, HERO_ROUGHNESS_FLOOR);
+  // The body's skin is painted one flat pink; it gets pores, mottling and relief where it shows (A75).
+  for (const material of materials) installSkinDetail(material);
   // Dual-quaternion skinning, as the residents have (A63): shoulders, elbows, wrists and hips keep their volume where
   // linear blending pinched them into the "candy wrapper" folds of an A-pose rig without twist joints (A69).
   scene.traverse((object) => {
