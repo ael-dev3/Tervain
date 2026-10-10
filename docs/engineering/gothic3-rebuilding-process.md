@@ -4,6 +4,21 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local checkpoint — 10 October 2026: Three Engine standard handles
+
+The original standard-handle loop now executes its stdin, stdout and stderr
+iterations. Original arithmetic derives IDs `-10`, `-11` and `-12`; each call
+retains its own pending argument and return. Each record adopts its actual virtual
+handle and initializes its separate 24-byte Engine section before incrementing
+its count. The remaining 29 records keep their original unused defaults.
+
+The browser prefix executes 563 instructions and pushes handle count 32 for
+`SetHandleCount` at `3068890b` / IAT `30afc740`. That call and the final I/O epilog
+remain unfinished. Eighteen focused integration checks and TypeScript checking
+pass; a separate check verifies three distinct capabilities and three record
+counts of one. Full validation and publication remain pending. Complete campaign
+play is still unfinished.
+
 ## Local checkpoint — 10 October 2026: Engine first I/O section return
 
 The original caller at `306888e1` invokes the recovered Engine critical-section

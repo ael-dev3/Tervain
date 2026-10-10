@@ -345,6 +345,7 @@ export class NativeX86ThreadStack {
         step('306886ec','30688763',()=>{inheritedBytes=NativeHeapObjectViews.prototype.readUnsigned.call(stack.#stack,relative('EBP',-0x32),2);const di=stack.#numeric(register('EDI'),2);stack.#arithmeticFlags(inheritedBytes,di,inheritedBytes-di,2,true);});
         step('306886ec','30688767',()=>{if(inheritedBytes!==0)throw new Error('Engine inherited handle block at3068876d');});
         step('306886ec','3068886a',()=>set('EBX',xor(register('EBX'),register('EBX'))));
+        let nextStandard=true;while(nextStandard){
         step('306886ec','3068886c',()=>set('ESI',register('EBX')));
         step('306886ec','3068886e',()=>{const index=stack.#numeric(register('ESI'),4);set('ESI',value(index*56));stack.#flags(0,0x801);});
         step('306886ec','30688871',()=>{
@@ -358,16 +359,24 @@ export class NativeX86ThreadStack {
         step('306886ec','3068887c',()=>{if(stack.#numeric(register('EAX'),4)!==0xffffffff)throw new Error('Engine existing standard handle at3068887e');});
         step('306886ec','30688889',()=>{const p=allocationPointer(register('ESI'));NativeHeapObjectViews.prototype.writeUnsigned.call(p.fields,p.offset+4,0x81,1);});
         step('306886ec','3068888d',()=>stack.#logicalFlags(stack.#numeric(register('EBX'),4),0xffffffff,4));
-        step('306886ec','3068888f',()=>{if(stack.#numeric(register('EBX'),4)!==0)throw new Error('Engine later standard handle at30688896');});
-        step('306886ec','30688891',()=>stack.#push(value(0xfffffff6)));
-        step('306886ec','30688893',()=>{const position=relative('ESP',0);set('EAX',stack.#load(stack.#stack,position));set('ESP',stack.#stackWord(position+4));});
-        step('306886ec','30688894',()=>{});
+        let first=false;step('306886ec','3068888f',()=>{first=stack.#numeric(register('EBX'),4)===0;});
+        if(first){
+          step('306886ec','30688891',()=>stack.#push(value(0xfffffff6)));
+          step('306886ec','30688893',()=>{const position=relative('ESP',0);set('EAX',stack.#load(stack.#stack,position));set('ESP',stack.#stackWord(position+4));});
+          step('306886ec','30688894',()=>{});
+        }else{
+          step('306886ec','30688896',()=>set('EAX',register('EBX')));
+          step('306886ec','30688898',()=>{const number=stack.#numeric(register('EAX'),4),next=(number-1)>>>0,before=stack.#record(stack.#load(stack.#bank,36));set('EAX',value(next));stack.#arithmeticFlags(number,1,next,4,true);const after=stack.#record(stack.#load(stack.#bank,36));stack.#flags((after.value&~1)|(before.value&1),(after.mask&~1)|(before.mask&1));});
+          step('306886ec','30688899',()=>{const number=stack.#numeric(register('EAX'),4),next=(-number)>>>0;set('EAX',value(next));stack.#arithmeticFlags(0,number,next,4,true);});
+          step('306886ec','3068889b',()=>{const flags=stack.#record(stack.#load(stack.#bank,36));if(!(flags.mask&1))throw new Error('Actual Engine standard-ID carry required');const carry=flags.value&1;set('EAX',value(-carry));stack.#arithmeticFlags(0,0,-carry,4,true,carry);});
+          step('306886ec','3068889d',()=>{const number=stack.#numeric(register('EAX'),4),next=(number+0xfffffff5)>>>0;set('EAX',value(next));stack.#arithmeticFlags(number,0xfffffff5,next,4,false);});
+        }
         step('306886ec','306888a0',()=>stack.#push(register('EAX')));
         step('306886ec','306888a1',()=>{
           const endpoints=stack.#platform.standardIoEndpoints;if(!endpoints)throw new Error('Engine GetStdHandle IAT30afc718 at306888a1');
           const proof=NativeRuntimePlatform.canonicalStandardIoEndpointsForPlatform(stack.#platform,endpoints);if(!proof.known)throw new Error(proof.reason);
           const argument=stack.#load(stack.#stack,relative('ESP',0)),scalar=stack.#numeric(argument,4);
-          if(scalar!==0xfffffff6)throw new Error('Actual Engine standard-input ID required');
+          if(scalar!==((-10-stack.#numeric(register('EBX'),4))>>>0))throw new Error('Actual Engine standard-handle ID required');
           stack.#call('306888a1','306888a7');const top=stack.#calls.at(-1)!,grant=Object.freeze({identity:Object.freeze({})});
           const call={stack,frame,args:Object.freeze({site:'306888a1' as const,kind:'GetStdHandle' as const,crt,scalar}),position:top.position,argument,returnWord:top.returnWord,phase:'pending' as 'pending'|'returned'};
           engineStandardCalls.set(grant,call);const result=endpoints.invoke(grant);if(!result.known)throw new Error(result.reason);
@@ -428,8 +437,10 @@ export class NativeX86ThreadStack {
         step('306886ec','306888ef',()=>{});
         step('306886ec','306888fb',()=>{const number=stack.#numeric(register('EBX'),4),next=(number+1)>>>0;set('EBX',value(next));const before=stack.#record(stack.#load(stack.#bank,36));stack.#arithmeticFlags(number,1,next,4,false);const after=stack.#record(stack.#load(stack.#bank,36));stack.#flags((after.value&~1)|(before.value&1),(after.mask&~1)|(before.mask&1));});
         step('306886ec','306888fc',()=>{const number=stack.#numeric(register('EBX'),4);stack.#arithmeticFlags(number,3,number-3,4,true);});
-        step('306886ec','306888ff',()=>{if(stack.#numeric(register('EBX'),4)!==1)throw new Error('Actual next Engine standard-handle index required');});
-        frame.pc='3068886c';engineIoInstruction('306886ec',frame.pc);throw new Error('Engine next standard-handle record at3068886c');
+        step('306886ec','306888ff',()=>{const index=stack.#numeric(register('EBX'),4);if(index>3)throw new Error('Actual bounded Engine standard-handle index required');nextStandard=index<3;});
+        }
+        step('306886ec','30688905',()=>{const count=NativeEngineIoImages.imageForCrt(frame.images,crt,'ioHandleCount');if(!count.known)throw new Error(count.reason);stack.#push(value(count.value.readUnsigned(0)));});
+        frame.pc='3068890b';engineIoInstruction('306886ec',frame.pc);throw new Error('Engine SetHandleCount IAT30afc740 at3068890b');
       }catch(error){frame.boundary??=reason(error);frame.phase='blocked';if(!stack.#executing){stack.#boundary??=frame.boundary;stack.#phase='blocked';}return unknown(frame.boundary);}
       finally{stack.#engineIoExecuting=false;}
     }catch(error){return unknown(reason(error));}
