@@ -1,5 +1,6 @@
 import {NativePropertyTypeTable} from './native-property-type-table';
 import {createNativeEngineModuleOwner} from './native-engine-module-owner';
+import {createBrowserEngineCrtStartup} from './browser-engine-crt-startup';
 import {NativeGameAIHelperAdminClassName} from './native-game-ai-helper-admin-class-name';
 import scriptAdminSource from '../../assets/gothic3/script-admin-startup/runtime-rules.json';
 import {constructNativePropertyIdFromGuid} from './native-property-id-guid';
@@ -3168,7 +3169,11 @@ export class NativeX86ThreadStack {
         return allocation&&allocation.owner===memory.value&&!allocation.allocation.freed?known(fields):unknown('Actual retained Engine component fields required');
       },
       moduleClassNameEquals:()=>unknown('Original Engine module class-name comparison is not connected'),
-      registerShutdown:()=>unknown('Original Engine onexit3067155a requires its Engine CRT exit-table owner'),
+      registerShutdown:()=>{
+        const engine=createBrowserEngineCrtStartup(this.#platform);if(!engine.known)return engine;
+        if(!engine.value.attachResult.known)return unknown('Engine shutdown registration requires its CRT attach: '+engine.value.attachResult.reason);
+        return unknown('Original Engine onexit3067155a requires its Engine CRT exit-table owner');
+      },
     });
     this.#call('200766c2','200766c8');
     const result=this.#aiHelperModuleOwner.moduleAdmin.getInstance();if(!result.known)throw new Error(result.reason);

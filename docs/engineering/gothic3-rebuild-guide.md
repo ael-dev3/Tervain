@@ -53,7 +53,8 @@ registered root wrapper and tail-dispatches its clone routine. The clone allocat
 its new wrapper, executes its base constructor and retrieves the canonical type.
 Non-root initialization allocates a separate component and executes its Engine
 constructor chain. The translated module-administrator getter constructs its
-dispatcher and registry, then stops at Engine shutdown registration.
+dispatcher and registry. Its shutdown dependency now enters Engine's retained
+CRT attach prefix and stops at command-line import `30677251`.
 Complete startup, world activation and a new-game-to-ending campaign remain
 unfinished. Local checkpoints and the hosted version can differ; the validation
 receipts below identify the checkpoint covered.
@@ -175,7 +176,24 @@ all 3,216 tests across 301 files in 440.70 seconds and its production build in
 34.96 seconds. Its validation checkout matched that checkpoint's tree. The
 later component constructor and research additions have focused receipts only.
 
-### Latest local checkpoint: ModuleAdmin construction reaches Engine shutdown registration
+### Latest local checkpoint: retained Engine CRT attach reaches its command-line import
+
+The ModuleAdmin shutdown dependency now creates and retains Engine's own CRT
+bootstrap graph on the browser platform. Its errno callback uses Engine's
+bootstrap thread, and its heap and TLS storage are separate from Game's.
+The existing translated Engine attach prefix initializes the heap, multithread
+state and pre-C callbacks, then stops at `GetCommandLineA`, IAT `30afc69c`,
+source call site `30677251`. Repeated graph requests reuse the same execution;
+copied descriptions cannot prove ownership. Reentry during construction is
+retained as an interruption.
+
+Thirteen focused tests across three files passed in 11.79 seconds, including
+the Game-to-Engine dependency, graph identity and separate heap/TLS storage.
+TypeScript checking passed. Engine attach, its static exit initializer and
+ModuleAdmin shutdown registration remain incomplete. This bridge establishes
+an explicit Engine dependency; it does not prove complete DLL loading or startup.
+
+### Historical checkpoint: ModuleAdmin construction reaches Engine shutdown registration
 
 The original Game getter CALL `200766c2` enters the retained ModuleAdmin owner
 through a translated bridge. Its source-ordered getter sets the guard,

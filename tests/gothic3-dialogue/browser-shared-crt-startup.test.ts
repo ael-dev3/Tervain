@@ -1,3 +1,4 @@
+import {createBrowserEngineCrtStartup,canonicalBrowserEngineCrtStartup} from '../../src/gothic3/browser-engine-crt-startup';
 import {NativeGameAIHelperAdminType} from '../../src/gothic3/native-game-ai-helper-admin-type';
 import {NativeGameAIHelperAdminClassName} from '../../src/gothic3/native-game-ai-helper-admin-class-name';
 import {NativeGameLabelClassName} from '../../src/gothic3/native-game-label-class-name';
@@ -54,7 +55,14 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  expect(game.known).toBe(true);
  if(!game.known)throw new Error(game.reason);
  expect(game.value.attachResult,game.value.attachProgress.setEnvpProgress?.currentPC).toEqual({known:false,
-  reason:'crtAttach204677e4: Unowned ModuleAdmin.GetInstance30088e90: atexit.ModuleAdmin30797fc0: Original Engine onexit3067155a requires its Engine CRT exit-table owner'});
+  reason:'crtAttach204677e4: Unowned ModuleAdmin.GetInstance30088e90: atexit.ModuleAdmin30797fc0: Engine shutdown registration requires its CRT attach: crtAttach3067717c: Unowned GetCommandLineA IAT30afc69c at30677251'});
+ const engine=createBrowserEngineCrtStartup(platform);if(!engine.known)throw new Error(engine.reason);
+ expect(createBrowserEngineCrtStartup(platform)).toBe(engine);
+ expect(canonicalBrowserEngineCrtStartup(engine.value,platform).known).toBe(true);
+ expect(canonicalBrowserEngineCrtStartup({...engine.value},platform).known).toBe(false);
+ expect(engine.value.attachProgress).toMatchObject({module:'Engine',heapResult:1,mtResult:1,preCReturned:true,commandLineReturned:false,crtTraversalCompleted:false});
+ expect(engine.value.crt.physical.heapHandle.pointer(0).get()).not.toBe(game.value.crt.physical.heapHandle.pointer(0).get());
+ expect(engine.value.crt.physical.crtTlsIndexes.backing).not.toBe(game.value.crt.physical.crtTlsIndexes.backing);
  const executed=new Set(game.value.attachProgress.setEnvpProgress!.effects.map(effect=>effect.pc));
  for(const pc of ['204b26c0','204b26c3','204b26c8'])expect(executed.has(pc)).toBe(true);
  for(const pc of ['204b26cc','204b26d2','204b26d5','204b26d6'])expect(executed.has(pc)).toBe(true);
