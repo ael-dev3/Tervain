@@ -1,0 +1,51 @@
+"""Capture original Engine command-line argument setup and first dependencies."""
+import argparse
+import hashlib
+import json
+from pathlib import Path
+from read_dialogue_native_evidence import EXPECTED_INPUTS, PE, audit_module
+
+
+def capture(study):
+    EXPECTED_INPUTS['Engine.dll'] = 'd49ef92c0fdfeda433f6d04d0edeb7751e41e4c7c7effc1265630717029dc7e3'
+    evidence = audit_module(study, 'Engine_dll', 'Engine.dll', {
+        0x3068e76f: 'engineArgumentSetup',
+        0x3068e5d7: 'engineArgumentParser',
+        0x30685007: 'engineArgumentMultibyteDependency',
+        0x3067c9c1: 'engineArgumentMallocCrt',
+    })
+    pe = PE((study / '00_Original_Runtime/Engine.dll').read_bytes())
+    caller = pe.bytes(0x30677276, 5)
+    if caller.hex() != 'e8f4740100':
+        raise ValueError('Original Engine argument caller differs')
+    images = []
+    for address, size, label in [(0x30af7e84, 4, 'multibyteReady'),
+                                 (0x30af7800, 260, 'moduleFilename'),
+                                 (0x30af7904, 1, 'moduleFilenameSentinel'),
+                                 (0x30af91f8, 4, 'commandLinePointer'),
+                                 (0x30af7128, 4, 'programNamePointer'),
+                                 (0x30af710c, 4, 'argumentCount'),
+                                 (0x30af7110, 4, 'argumentVector')]:
+        rva = address - pe.base
+        section = next(s for s in pe.sections if s[1] <= rva and rva + size <= s[1] + max(s[0], s[2]))
+        backed = max(0, min(size, section[1] + section[2] - rva))
+        raw = (pe.bytes(address, backed) if backed else b'') + bytes(size - backed)
+        images.append(dict(label=label, address=f'{address:08x}', bytes=size,
+                           raw=raw.hex(), fileBackedBytes=backed, loaderZeroFillBytes=size-backed,
+                           sha256=hashlib.sha256(raw).hexdigest()))
+    return dict(schema='gothic3.engine-argv-source.v1', source=evidence,
+                images=images, caller=dict(call='30677276', target='3068e76f',
+                raw=caller.hex(), sha256=hashlib.sha256(caller).hexdigest()),
+                runtimeConnected=False,
+                notes=['Original module filename and two-pass command-line argument setup.',
+                       'Capture alone does not establish execution, allocation or returned argv.'])
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--study', required=True, type=Path)
+    parser.add_argument('--output', required=True, type=Path)
+    args = parser.parse_args()
+    receipt = capture(args.study)
+    args.output.parent.mkdir(parents=True, exist_ok=True)
+    args.output.write_text(json.dumps(receipt, indent=2) + '\n', encoding='utf-8', newline='\n')

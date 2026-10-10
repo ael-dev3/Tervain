@@ -1,6 +1,9 @@
 import {NativePropertyTypeTable} from './native-property-type-table';
 import {createNativeEngineModuleOwner} from './native-engine-module-owner';
 import {createBrowserEngineCrtStartup} from './browser-engine-crt-startup';
+import {NativeCrtBootstrap} from './native-crt-bootstrap';
+import {NativeEngineIoImages} from './native-engine-io-images';
+import {engineIoInstruction} from './native-engine-io-source';
 import {NativeGameAIHelperAdminClassName} from './native-game-ai-helper-admin-class-name';
 import scriptAdminSource from '../../assets/gothic3/script-admin-startup/runtime-rules.json';
 import {constructNativePropertyIdFromGuid} from './native-property-id-guid';
@@ -74,6 +77,7 @@ type WordRecord = Readonly<{ value: number; mask: number; provenance?:
   Readonly<{ kind: 'shared-local'; fields:NativeHeapObjectViews; offset?:number }> |
   Readonly<{ kind: 'module'; label: string; fields: NativeHeapObjectViews; offset: number }> |
   Readonly<{ kind: 'process'; pointer: NativeBytePointer }> |
+  Readonly<{kind:'engine-allocation';crt:NativeModuleCrtOwner;fields:NativeHeapObjectViews;offset:number}> |
   Readonly<{ kind: 'heap'; heap: NativeWin32HeapCapability }> |
   Readonly<{ kind: 'allocation'; allocation: Allocation; offset: number; pointer: NativeBytePointer }> |
   Readonly<{ kind: 'platform'; object: object; category: NativeStandardIoCapabilityKind | NativeArgvImportKind | 'GetModuleHandleA' | 'GetProcAddress' | 'IsProcessorFeaturePresent' | 'InitializerTlsGetValue' | 'InitializerPtdGetter' | 'InitializerEncodePointer' | 'InitializerDecodePointer' | 'InitializerPoolHeapAlloc' | 'InitializerCrtHeapFree' | 'InitializerPoolVirtualAlloc' | 'InitializerHeapSize' | 'InitializerInitializeSection' | 'InitializerMemorySectionInitialize' | 'InitializerMemorySectionEnter' | 'InitializerMemorySectionLeave' | 'InitializerSectionCache' | 'InitializerCreateFileA' | 'InitializerGetLastError' | 'InitializerSetLastError' | 'InitializerGetFileType' | 'InitializerCloseHandle' | 'InitializerFileHandle' | 'InitializerEncodedCode' | 'DllLstrcpyA' | 'DllVersionModule' | 'SpyFindWindowA' | 'DiagnosticWindow' | 'GameCinitModule' | 'GameCinitFeature' | 'GameCinitEncoded' }> |
@@ -106,6 +110,13 @@ interface StartupCall {
   readonly offset: number; readonly argument: NativeX86Word32; readonly position: number;
   readonly returnWord: NativeX86Word32; phase: 'pending' | 'returned';
 }
+interface EngineIoFrame {
+ readonly bootstrap:NativeCrtBootstrap;readonly crt:NativeModuleCrtOwner;readonly permit:object;
+ readonly images:NativeEngineIoImages;readonly scope:NativeHeapObjectViews;
+ phase:'running'|'blocked'|'returned';pc:string;boundary:string|null;operations:number;
+ entryEsp:number;ebp:number|null;prologReturned:boolean;fsPublished:boolean;
+ startupInfo:NativeHeapObjectViews|null;allocation:NativeHeapObjectViews|null;callocReturned:boolean;fileType:number|null;section:NativeHeapObjectViews|null;sectionResult:boolean|null;setHandleCountResult:number|null;fsRestored:boolean;
+}
 interface HeapCall {
   readonly stack: NativeX86ThreadStack; readonly controller: object; readonly crt: NativeModuleCrtOwner;
   readonly heap: NativeWin32HeapCapability; readonly heapWord: NativeX86Word32;
@@ -114,16 +125,17 @@ interface HeapCall {
   phase: 'pending' | 'returned';
 }
 export interface NativeStandardIoArguments {
-  readonly site: NativeStandardIoCallSite; readonly kind: NativeStandardIoCallKind; readonly crt: NativeModuleCrtOwner;
+  readonly site: NativeStandardIoCallSite | '306888a1' | '306888b3' | '3068890b'; readonly kind: NativeStandardIoCallKind; readonly crt: NativeModuleCrtOwner;
   readonly scalar?: number; readonly object?: object | null; readonly procedure?: object;
   readonly section?: NativeBytePointer; readonly sectionFields?: NativeHeapObjectViews;
 }
 interface StandardCall {
-  readonly stack: NativeX86ThreadStack; readonly controller: object; readonly args: NativeStandardIoArguments;
+  readonly stack: NativeX86ThreadStack; readonly controller: object; readonly args: NativeStandardIoArguments & {readonly site:NativeStandardIoCallSite};
   readonly position: number; readonly frame: number; readonly fs: NativeX86Word32;
   readonly argumentWords: readonly NativeX86Word32[]; readonly returnWord: NativeX86Word32;
   readonly argumentBytes: 4 | 8; phase: 'pending' | 'returned';
 }
+const engineStandardCalls=new WeakMap<NativeStandardIoCallGrant,{stack:NativeX86ThreadStack;frame:EngineIoFrame;args:NativeStandardIoArguments;position:number;argument:NativeX86Word32;returnWord:NativeX86Word32;phase:'pending'|'returned'}>();
 const standardSites: Readonly<Record<NativeStandardIoCallSite, Readonly<{ kind: NativeStandardIoCallKind; returnAddress: string; argumentBytes: 4 | 8; position: number }>>> = Object.freeze({
   '204744b4': Object.freeze({ kind: 'GetStdHandle', returnAddress: '204744ba', argumentBytes: 4, position: -0x7c }),
   '204744c6': Object.freeze({ kind: 'GetFileType', returnAddress: '204744cc', argumentBytes: 4, position: -0x7c }),
@@ -136,6 +148,7 @@ const standardSites: Readonly<Record<NativeStandardIoCallSite, Readonly<{ kind: 
 });
 const graphs = new WeakMap<NativeRuntimePlatform, NativeX86ThreadStack>();
 const retirements = new WeakMap<NativeX86ThreadStack, () => void>();
+const engineStartupCalls=new WeakMap<NativeStartupInfoCallGrant,{stack:NativeX86ThreadStack;frame:EngineIoFrame;offset:number;argument:NativeX86Word32;position:number;returnWord:NativeX86Word32;phase:'pending'|'returned'}>();
 const startupCalls = new WeakMap<NativeStartupInfoCallGrant, StartupCall>();
 const heapCalls = new WeakMap<NativeHeapAllocCallGrant, HeapCall>();
 const standardCalls = new WeakMap<NativeStandardIoCallGrant, StandardCall>();
@@ -171,6 +184,332 @@ function reason(error: unknown): string {
 }
 
 export class NativeX86ThreadStack {
+  #engineIoFrame:EngineIoFrame|null=null;
+  #engineIoExecuting=false;
+  /** Borrow the actual thread graph for a reached translated Engine CRT call.
+   * This does not establish native DLL loader order or a complete CRT frame. */
+  static enterEngineIoForBootstrap(stack:NativeX86ThreadStack,bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object):NativeValue<void>{
+    const call=NativeCrtBootstrap.canonicalEngineIoCallForCrt(bootstrap,crt,permit);if(!call.known)return call;
+    try{
+      if(graphs.get(crt.host.platform as NativeRuntimePlatform)!==stack||stack.#platform!==crt.host.platform)throw new Error('Actual same-thread Engine I/O graph required');
+      if(stack.#engineIoExecuting)throw new Error('Reentrant Engine I/O frame cannot replay');
+      if(stack.#engineIoFrame)throw new Error(stack.#engineIoFrame.boundary??'Retained Engine I/O frame cannot restart');
+      if(stack.#phase==='running'){
+        const binding=stack.#setEnvpBinding;
+        if(!binding||!stack.#executing||stack.#calls.filter(call=>!call.returned).at(-1)?.site!=='200766c2')throw new Error('Actual pending Game module-administrator frame required for Engine bridge');
+        const parent=NativeGameCrtSetEnvp.canonicalAIHelperModuleAdminCallForCrt(binding.owner,binding.crt,binding.controller);if(!parent.known)throw new Error(parent.reason);
+      }else if(stack.#phase!=='cold'||stack.#binding||stack.#sharedArgvFrame||stack.#dllMemoryController)throw new Error('Actual cold Engine thread or reached Game bridge required');
+      stack.#physical(stack.#stack);stack.#physical(stack.#bank);
+      const images=bootstrap.attachProgress().engineIoImages;if(!images)throw new Error('Actual retained Engine I/O images required');
+      const scope=NativeEngineIoImages.imageForCrt(images,crt,'ioSehScope');if(!scope.known)throw new Error(scope.reason);
+      const frame:EngineIoFrame={bootstrap,crt,permit,images,scope:scope.value,phase:'running',pc:'30677266',boundary:null,operations:0,entryEsp:stack.#address(stack.#load(stack.#bank,stack.#reg('ESP'))),ebp:null,prologReturned:false,fsPublished:false,startupInfo:null,allocation:null,callocReturned:false,fileType:null,section:null,sectionResult:null,setHandleCountResult:null,fsRestored:false};
+      stack.#engineIoFrame=frame;stack.#engineIoExecuting=true;stack.#phase='running';
+      const register=(name:NativeX86Register)=>stack.#load(stack.#bank,stack.#reg(name));
+      const set=(name:NativeX86Register,word:NativeX86Word32)=>stack.#store(stack.#bank,stack.#reg(name),word);
+      const relative=(name:'ESP'|'EBP',offset:number)=>stack.#address(register(name))+offset;
+      const value=(number:number)=>stack.#mint(number>>>0,0xffffffff);
+      const xor=(left:NativeX86Word32,right:NativeX86Word32)=>{
+        if(left===right){stack.#logicalFlags(0,0xffffffff,4);return value(0);}
+        const a=stack.#record(left),b=stack.#record(right);stack.#logicalFlags(a.value^b.value,a.mask&b.mask,4);
+        return stack.#mint(a.value^b.value,a.mask&b.mask,{kind:'xor',left,right});
+      };
+      const step=(entry:string,pc:string,body:()=>void)=>{
+        stack.#engineIoProof(frame);engineIoInstruction(entry,pc);frame.pc=pc;body();frame.operations++;
+        stack.#trace.push(pc+'.EngineIoSource');stack.#engineIoProof(frame);
+      };
+      try{
+        // The TypeScript CRT caller bridge issues the actual source CALL. Its
+        // return is distinct from the still-pending Game getter below it.
+        stack.#engineIoProof(frame);stack.#call('30677266','3067726b');
+        step('306886ec','306886ec',()=>stack.#push(value(0x54)));
+        step('306886ec','306886ee',()=>stack.#push(stack.#mint(0,0,{kind:'source',type:'image',address:'30956c00',fields:frame.scope})));
+        step('306886ec','306886f3',()=>stack.#call('306886f3','306886f8'));
+        const prolog=(pc:string,body:()=>void)=>step('3067e500',pc,body);
+        prolog('3067e500',()=>stack.#push(stack.#source('code','3067e590')));
+        prolog('3067e505',()=>stack.#push(stack.#load(stack.#bank,32)));
+        prolog('3067e50c',()=>set('EAX',stack.#load(stack.#stack,relative('ESP',0x10))));
+        prolog('3067e510',()=>stack.#store(stack.#stack,relative('ESP',0x10),register('EBP')));
+        prolog('3067e514',()=>{frame.ebp=relative('ESP',0x10);set('EBP',stack.#stackWord(frame.ebp));});
+        prolog('3067e518',()=>{const bytes=stack.#numeric(register('EAX'),4);set('ESP',stack.#stackWord(relative('ESP',-bytes)));stack.#flags(0,0);});
+        prolog('3067e51a',()=>stack.#push(register('EBX')));
+        prolog('3067e51b',()=>stack.#push(register('ESI')));
+        prolog('3067e51c',()=>stack.#push(register('EDI')));
+        prolog('3067e51d',()=>{const cookie=NativeCrtBootstrap.engineIoCookieForCrt(bootstrap,crt,permit);if(!cookie.known)throw new Error(cookie.reason);set('EAX',value(NativeHeapObjectViews.prototype.readUnsigned.call(cookie.value,0)));});
+        prolog('3067e522',()=>{const at=relative('EBP',-4);stack.#store(stack.#stack,at,xor(stack.#load(stack.#stack,at),register('EAX')));});
+        prolog('3067e525',()=>set('EAX',xor(register('EAX'),register('EBP'))));
+        prolog('3067e527',()=>stack.#push(register('EAX')));
+        prolog('3067e528',()=>stack.#store(stack.#stack,relative('EBP',-0x18),register('ESP')));
+        prolog('3067e52b',()=>stack.#push(stack.#load(stack.#stack,relative('EBP',-8))));
+        prolog('3067e52e',()=>set('EAX',stack.#load(stack.#stack,relative('EBP',-4))));
+        prolog('3067e531',()=>stack.#store(stack.#stack,relative('EBP',-4),value(0xfffffffe)));
+        prolog('3067e538',()=>stack.#store(stack.#stack,relative('EBP',-8),register('EAX')));
+        prolog('3067e53b',()=>set('EAX',stack.#stackWord(relative('EBP',-0x10))));
+        prolog('3067e53e',()=>{stack.#store(stack.#bank,32,register('EAX'));frame.fsPublished=true;});
+        prolog('3067e544',()=>{const result=stack.#record(stack.#ret()).provenance;if(result?.kind!=='source'||result.type!=='code'||result.address!=='306886f8')throw new Error('Actual Engine EH4 prolog return required');frame.prologReturned=true;});
+        step('306886ec','306886f8',()=>set('EDI',xor(register('EDI'),register('EDI'))));
+        step('306886ec','306886fa',()=>stack.#store(stack.#stack,relative('EBP',-4),register('EDI')));
+        step('306886ec','306886fd',()=>{
+          const offset=relative('EBP',-0x64);set('EAX',stack.#stackWord(offset));
+          frame.startupInfo=new NativeHeapObjectViews(stack.#stack.backing,offset,68);Object.freeze(frame.startupInfo);
+        });
+        step('306886ec','30688700',()=>stack.#push(register('EAX')));
+        step('306886ec','30688701',()=>{
+          const endpoints=stack.#platform.startupIoEndpoints;if(!endpoints)throw new Error('Engine GetStartupInfoA IAT30afc748 at30688701');
+          const endpointProof=NativeRuntimePlatform.canonicalStartupIoEndpointsForPlatform(stack.#platform,endpoints);if(!endpointProof.known)throw new Error(endpointProof.reason);
+          const argumentPosition=relative('ESP',0),argument=stack.#load(stack.#stack,argumentPosition),offset=frame.ebp!-0x64;
+          if(stack.#address(argument)!==offset)throw new Error('Actual Engine STARTUPINFOA argument required');
+          stack.#call('30688701','30688707');const top=stack.#calls.at(-1)!;
+          const grant=Object.freeze({identity:Object.freeze({})}),call={stack,frame,offset,argument,position:top.position,returnWord:top.returnWord,phase:'pending' as 'pending'|'returned'};
+          engineStartupCalls.set(grant,call);
+          const result=endpoints.getStartupInfoA(grant);if(!result.known)throw new Error(result.reason);
+          const returned=NativeRuntimePlatform.canonicalStartupInfoNormalReturnForPlatform(stack.#platform,grant);if(!returned.known)throw new Error(returned.reason);
+          stack.#engineStartupProof(call);
+          for(const name of ['EAX','ECX','EDX'] as const)set(name,stack.#mint(0,0));stack.#flags(0,0);
+          set('ESP',stack.#stackWord(call.position+8));top.returned=true;stack.#currentPc=call.returnWord;call.phase='returned';
+        });
+        step('306886ec','30688707',()=>stack.#store(stack.#stack,relative('EBP',-4),value(0xfffffffe)));
+        step('306886ec','3068870e',()=>stack.#push(value(0x38)));
+        step('306886ec','30688710',()=>stack.#push(value(0x20)));
+        step('306886ec','30688712',()=>{const position=relative('ESP',0);set('ESI',stack.#load(stack.#stack,position));set('ESP',stack.#stackWord(position+4));});
+        step('306886ec','30688713',()=>stack.#push(register('ESI')));
+        step('306886ec','30688714',()=>{
+          const argumentPosition=relative('ESP',0);
+          const count=stack.#numeric(stack.#load(stack.#stack,argumentPosition),4),size=stack.#numeric(stack.#load(stack.#stack,argumentPosition+4),4);
+          if(count!==32||size!==56)throw new Error('Actual Engine I/O calloc operands required');
+          stack.#call('30688714','30688719');
+          // Recovered CRT wrapper bridge; not an instruction interpreter for
+          // its allocator body. It returns storage from the actual Engine heap.
+          const allocated=crt.callocCrt(count,size);if(!allocated.known)throw new Error(allocated.reason);
+          stack.#engineIoProof(frame);
+          if(allocated.value){
+            const fields=new NativeHeapObjectViews(allocated.value);Object.freeze(fields);
+            const owned=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields,offset:0},count*size);if(!owned.known)throw new Error(owned.reason);
+            frame.allocation=fields;set('EAX',stack.#mint(0,0,{kind:'engine-allocation',crt,fields,offset:0}));
+          }else set('EAX',value(0));
+          for(const name of ['ECX','EDX'] as const)set(name,stack.#mint(0,0));stack.#flags(0,0);
+          const continuation=stack.#record(stack.#ret()).provenance;
+          if(continuation?.kind!=='source'||continuation.type!=='code'||continuation.address!=='30688719'||relative('ESP',0)!==argumentPosition)throw new Error('Actual Engine calloc cdecl return required');
+          frame.callocReturned=true;
+        });
+        const popEcx=()=>{const position=relative('ESP',0);set('ECX',stack.#load(stack.#stack,position));set('ESP',stack.#stackWord(position+4));};
+        step('306886ec','30688719',popEcx);
+        step('306886ec','3068871a',popEcx);
+        step('306886ec','3068871b',()=>{if(stack.#numeric(register('EDI'),4)!==0)throw new Error('Actual Engine null comparison required');stack.#liveWord(register('EAX'));stack.#flags(frame.allocation?0:0x40,0x40);});
+        step('306886ec','3068871d',()=>{if(!frame.allocation)throw new Error('Engine I/O allocation failure branch at30688923');});
+        step('306886ec','30688723',()=>{
+          const table=NativeEngineIoImages.imageForCrt(frame.images,crt,'ioBlockPointers');if(!table.known)throw new Error(table.reason);
+          const allocation=frame.allocation!;const owned=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields:allocation,offset:0},1792);if(!owned.known)throw new Error(owned.reason);
+          table.value.pointer(0).set(Object.freeze({fields:allocation,offset:0}));
+        });
+        step('306886ec','30688728',()=>{const count=NativeEngineIoImages.imageForCrt(frame.images,crt,'ioHandleCount');if(!count.known)throw new Error(count.reason);count.value.writeUnsigned(0,stack.#numeric(register('ESI'),4));});
+        step('306886ec','3068872e',()=>{const fields=frame.allocation!;const owned=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields,offset:1792},0);if(!owned.known)throw new Error(owned.reason);set('ECX',stack.#mint(0,0,{kind:'engine-allocation',crt,fields,offset:1792}));});
+        step('306886ec','30688734',()=>{});
+        const allocationPointer=(word:NativeX86Word32)=>{
+          const p=stack.#liveWord(word).provenance;
+          if(p?.kind!=='engine-allocation'||p.crt!==crt||p.fields!==frame.allocation)throw new Error('Actual same-Engine I/O block pointer required');
+          return p;
+        };
+        const compare=()=>{
+          const left=allocationPointer(register('EAX')),right=allocationPointer(register('ECX'));
+          // Same allocation, bounded offsets: only CF and ZF are established.
+          stack.#flags((left.offset<right.offset?1:0)|(left.offset===right.offset?0x40:0),0x41);
+        };
+        step('306886ec','3068875f',compare);
+        let more=false;
+        step('306886ec','30688761',()=>{more=allocationPointer(register('EAX')).offset<allocationPointer(register('ECX')).offset;});
+        while(more){
+          const store=(pc:string,offset:number,width:1|4,number:number)=>step('306886ec',pc,()=>{
+            const p=allocationPointer(register('EAX')),position=p.offset+offset;
+            const owned=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields:p.fields,offset:position},width);if(!owned.known)throw new Error(owned.reason);
+            NativeHeapObjectViews.prototype.writeUnsigned.call(p.fields,position,number,width);
+          });
+          store('30688736',4,1,0);
+          step('306886ec','3068873a',()=>{const p=allocationPointer(register('EAX'));const owned=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields:p.fields,offset:p.offset},4);if(!owned.known)throw new Error(owned.reason);NativeHeapObjectViews.prototype.writeUnsigned.call(p.fields,p.offset,0xffffffff);stack.#logicalFlags(0xffffffff,0xffffffff,4);});
+          store('3068873d',5,1,10);
+          store('30688741',8,4,stack.#numeric(register('EDI'),4));
+          store('30688744',0x24,1,0);
+          store('30688748',0x25,1,10);
+          store('3068874c',0x26,1,10);
+          step('306886ec','30688750',()=>{const p=allocationPointer(register('EAX'));const offset=p.offset+56;const owned=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields:p.fields,offset},0);if(!owned.known)throw new Error(owned.reason);set('EAX',stack.#mint(0,0,{kind:'engine-allocation',crt,fields:p.fields,offset}));stack.#flags(0,0);});
+          step('306886ec','30688753',()=>{
+            const table=NativeEngineIoImages.imageForCrt(frame.images,crt,'ioBlockPointers');if(!table.known)throw new Error(table.reason);
+            const pointer=table.value.pointer<NativeBytePointer>(0).get();if(!pointer||pointer.fields!==frame.allocation||pointer.offset!==0)throw new Error('Actual current Engine I/O table base required');
+            const owned=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,pointer,1792);if(!owned.known)throw new Error(owned.reason);
+            set('ECX',stack.#mint(0,0,{kind:'engine-allocation',crt,fields:pointer.fields,offset:0}));
+          });
+          step('306886ec','30688759',()=>{const p=allocationPointer(register('ECX'));set('ECX',stack.#mint(0,0,{kind:'engine-allocation',crt,fields:p.fields,offset:p.offset+1792}));stack.#flags(0,0);});
+          step('306886ec','3068875f',compare);
+          step('306886ec','30688761',()=>{more=allocationPointer(register('EAX')).offset<allocationPointer(register('ECX')).offset;});
+        }
+        let inheritedBytes=0;
+        step('306886ec','30688763',()=>{inheritedBytes=NativeHeapObjectViews.prototype.readUnsigned.call(stack.#stack,relative('EBP',-0x32),2);const di=stack.#numeric(register('EDI'),2);stack.#arithmeticFlags(inheritedBytes,di,inheritedBytes-di,2,true);});
+        step('306886ec','30688767',()=>{if(inheritedBytes!==0)throw new Error('Engine inherited handle block at3068876d');});
+        step('306886ec','3068886a',()=>set('EBX',xor(register('EBX'),register('EBX'))));
+        let nextStandard=true;while(nextStandard){
+        step('306886ec','3068886c',()=>set('ESI',register('EBX')));
+        step('306886ec','3068886e',()=>{const index=stack.#numeric(register('ESI'),4);set('ESI',value(index*56));stack.#flags(0,0x801);});
+        step('306886ec','30688871',()=>{
+          const offset=stack.#numeric(register('ESI'),4),table=NativeEngineIoImages.imageForCrt(frame.images,crt,'ioBlockPointers');if(!table.known)throw new Error(table.reason);
+          const pointer=table.value.pointer<NativeBytePointer>(0).get();if(!pointer||pointer.fields!==frame.allocation||pointer.offset!==0)throw new Error('Actual Engine standard-handle record base required');
+          const owned=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields:pointer.fields,offset},56);if(!owned.known)throw new Error(owned.reason);
+          set('ESI',stack.#mint(0,0,{kind:'engine-allocation',crt,fields:pointer.fields,offset}));stack.#flags(0,0);
+        });
+        step('306886ec','30688877',()=>{const p=allocationPointer(register('ESI'));set('EAX',value(NativeHeapObjectViews.prototype.readUnsigned.call(p.fields,p.offset)));});
+        step('306886ec','30688879',()=>{const handle=stack.#numeric(register('EAX'),4);stack.#arithmeticFlags(handle,0xffffffff,handle-0xffffffff,4,true);});
+        step('306886ec','3068887c',()=>{if(stack.#numeric(register('EAX'),4)!==0xffffffff)throw new Error('Engine existing standard handle at3068887e');});
+        step('306886ec','30688889',()=>{const p=allocationPointer(register('ESI'));NativeHeapObjectViews.prototype.writeUnsigned.call(p.fields,p.offset+4,0x81,1);});
+        step('306886ec','3068888d',()=>stack.#logicalFlags(stack.#numeric(register('EBX'),4),0xffffffff,4));
+        let first=false;step('306886ec','3068888f',()=>{first=stack.#numeric(register('EBX'),4)===0;});
+        if(first){
+          step('306886ec','30688891',()=>stack.#push(value(0xfffffff6)));
+          step('306886ec','30688893',()=>{const position=relative('ESP',0);set('EAX',stack.#load(stack.#stack,position));set('ESP',stack.#stackWord(position+4));});
+          step('306886ec','30688894',()=>{});
+        }else{
+          step('306886ec','30688896',()=>set('EAX',register('EBX')));
+          step('306886ec','30688898',()=>{const number=stack.#numeric(register('EAX'),4),next=(number-1)>>>0,before=stack.#record(stack.#load(stack.#bank,36));set('EAX',value(next));stack.#arithmeticFlags(number,1,next,4,true);const after=stack.#record(stack.#load(stack.#bank,36));stack.#flags((after.value&~1)|(before.value&1),(after.mask&~1)|(before.mask&1));});
+          step('306886ec','30688899',()=>{const number=stack.#numeric(register('EAX'),4),next=(-number)>>>0;set('EAX',value(next));stack.#arithmeticFlags(0,number,next,4,true);});
+          step('306886ec','3068889b',()=>{const flags=stack.#record(stack.#load(stack.#bank,36));if(!(flags.mask&1))throw new Error('Actual Engine standard-ID carry required');const carry=flags.value&1;set('EAX',value(-carry));stack.#arithmeticFlags(0,0,-carry,4,true,carry);});
+          step('306886ec','3068889d',()=>{const number=stack.#numeric(register('EAX'),4),next=(number+0xfffffff5)>>>0;set('EAX',value(next));stack.#arithmeticFlags(number,0xfffffff5,next,4,false);});
+        }
+        step('306886ec','306888a0',()=>stack.#push(register('EAX')));
+        step('306886ec','306888a1',()=>{
+          const endpoints=stack.#platform.standardIoEndpoints;if(!endpoints)throw new Error('Engine GetStdHandle IAT30afc718 at306888a1');
+          const proof=NativeRuntimePlatform.canonicalStandardIoEndpointsForPlatform(stack.#platform,endpoints);if(!proof.known)throw new Error(proof.reason);
+          const argument=stack.#load(stack.#stack,relative('ESP',0)),scalar=stack.#numeric(argument,4);
+          if(scalar!==((-10-stack.#numeric(register('EBX'),4))>>>0))throw new Error('Actual Engine standard-handle ID required');
+          stack.#call('306888a1','306888a7');const top=stack.#calls.at(-1)!,grant=Object.freeze({identity:Object.freeze({})});
+          const call={stack,frame,args:Object.freeze({site:'306888a1' as const,kind:'GetStdHandle' as const,crt,scalar}),position:top.position,argument,returnWord:top.returnWord,phase:'pending' as 'pending'|'returned'};
+          engineStandardCalls.set(grant,call);const result=endpoints.invoke(grant);if(!result.known)throw new Error(result.reason);
+          const returned=NativeRuntimePlatform.canonicalStandardIoNormalReturnForPlatform(stack.#platform,grant);if(!returned.known||returned.value!==result.value)throw new Error(returned.known?'Actual Engine GetStdHandle result required':returned.reason);
+          stack.#engineStandardProof(call);
+          if(typeof result.value==='object'&&result.value!==null){const capability=NativeRuntimePlatform.standardIoCapabilityForPlatform(stack.#platform,result.value);if(!capability.known||capability.value!=='handle')throw new Error('Actual platform standard-handle capability required');set('EAX',stack.#mint(0,0,{kind:'platform',object:result.value,category:'handle'}));}
+          else if(result.value===null||result.value===0xffffffff)set('EAX',value(result.value===null?0:0xffffffff));else throw new Error('Actual Engine standard-handle result required');
+          for(const name of ['ECX','EDX'] as const)set(name,stack.#mint(0,0));stack.#flags(0,0);
+          set('ESP',stack.#stackWord(call.position+8));top.returned=true;stack.#currentPc=call.returnWord;call.phase='returned';
+        });
+        const validHandle=()=>{const p=stack.#liveWord(register('EDI')).provenance;if(p?.kind!=='platform'||p.category!=='handle')return false;const proof=NativeRuntimePlatform.standardIoCapabilityForPlatform(stack.#platform,p.object);if(!proof.known||proof.value!=='handle')throw new Error('Actual current Engine standard handle required');return true;};
+        step('306886ec','306888a7',()=>set('EDI',register('EAX')));
+        step('306886ec','306888a9',()=>{if(validHandle())stack.#flags(0,0x40);else{const number=stack.#numeric(register('EDI'),4);stack.#arithmeticFlags(number,0xffffffff,number-0xffffffff,4,true);}});
+        step('306886ec','306888ac',()=>{if(!validHandle()&&stack.#numeric(register('EDI'),4)===0xffffffff)throw new Error('Engine invalid standard handle branch at306888f1');});
+        step('306886ec','306888ae',()=>{if(validHandle())stack.#flags(0,0x40);else stack.#logicalFlags(stack.#numeric(register('EDI'),4),0xffffffff,4);});
+        step('306886ec','306888b0',()=>{if(!validHandle()&&stack.#numeric(register('EDI'),4)===0)throw new Error('Engine NULL standard handle branch at306888f1');});
+        step('306886ec','306888b2',()=>stack.#push(register('EDI')));
+        step('306886ec','306888b3',()=>{
+          const endpoints=stack.#platform.standardIoEndpoints;if(!endpoints)throw new Error('Engine GetFileType IAT30afc744 at306888b3');
+          const endpointProof=NativeRuntimePlatform.canonicalStandardIoEndpointsForPlatform(stack.#platform,endpoints);if(!endpointProof.known)throw new Error(endpointProof.reason);
+          const argument=stack.#load(stack.#stack,relative('ESP',0)),p=stack.#liveWord(argument).provenance;
+          if(p?.kind!=='platform'||p.category!=='handle')throw new Error('Actual Engine GetFileType handle argument required');
+          const capability=NativeRuntimePlatform.standardIoCapabilityForPlatform(stack.#platform,p.object);if(!capability.known||capability.value!=='handle')throw new Error('Actual current GetFileType handle required');
+          stack.#call('306888b3','306888b9');const top=stack.#calls.at(-1)!,grant=Object.freeze({identity:Object.freeze({})});
+          const call={stack,frame,args:Object.freeze({site:'306888b3' as const,kind:'GetFileType' as const,crt,object:p.object}),position:top.position,argument,returnWord:top.returnWord,phase:'pending' as 'pending'|'returned'};
+          engineStandardCalls.set(grant,call);const result=endpoints.invoke(grant);if(!result.known)throw new Error(result.reason);
+          const returned=NativeRuntimePlatform.canonicalStandardIoNormalReturnForPlatform(stack.#platform,grant);if(!returned.known||returned.value!==result.value)throw new Error(returned.known?'Actual Engine GetFileType return required':returned.reason);
+          stack.#engineStandardProof(call);
+          if(typeof result.value!=='number'||!Number.isInteger(result.value)||result.value<0||result.value>0xffffffff)throw new Error('Actual GetFileType DWORD result required');
+          frame.fileType=result.value;set('EAX',value(result.value));for(const name of ['ECX','EDX'] as const)set(name,stack.#mint(0,0));stack.#flags(0,0);
+          set('ESP',stack.#stackWord(call.position+8));top.returned=true;stack.#currentPc=call.returnWord;call.phase='returned';
+        });
+        step('306886ec','306888b9',()=>stack.#logicalFlags(stack.#numeric(register('EAX'),4),0xffffffff,4));
+        step('306886ec','306888bb',()=>{if(stack.#numeric(register('EAX'),4)===0)throw new Error('Engine zero file-type branch at306888f1');});
+        step('306886ec','306888bd',()=>{const p=allocationPointer(register('ESI')),handle=stack.#liveWord(register('EDI')).provenance;if(handle?.kind!=='platform'||handle.category!=='handle')throw new Error('Actual Engine handle adoption required');const owned=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields:p.fields,offset:p.offset},4);if(!owned.known)throw new Error(owned.reason);p.fields.pointer(p.offset).set(handle.object);});
+        step('306886ec','306888bf',()=>{const masked=stack.#numeric(register('EAX'),4)&255;set('EAX',value(masked));stack.#logicalFlags(masked,0xffffffff,4);});
+        step('306886ec','306888c4',()=>{const number=stack.#numeric(register('EAX'),4);stack.#arithmeticFlags(number,2,number-2,4,true);});
+        let character=false;step('306886ec','306888c7',()=>{character=stack.#numeric(register('EAX'),4)===2;});
+        const orRecordFlag=(pc:string,flag:number)=>step('306886ec',pc,()=>{const p=allocationPointer(register('ESI'));const owned=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields:p.fields,offset:p.offset+4},1);if(!owned.known)throw new Error(owned.reason);const number=NativeHeapObjectViews.prototype.readUnsigned.call(p.fields,p.offset+4,1)|flag;NativeHeapObjectViews.prototype.writeUnsigned.call(p.fields,p.offset+4,number,1);stack.#logicalFlags(number,255,1);});
+        if(character){orRecordFlag('306888c9',0x40);step('306886ec','306888cd',()=>{});}
+        else{let pipe=false;step('306886ec','306888cf',()=>{const number=stack.#numeric(register('EAX'),4);stack.#arithmeticFlags(number,3,number-3,4,true);});step('306886ec','306888d2',()=>{pipe=stack.#numeric(register('EAX'),4)===3;});if(pipe)orRecordFlag('306888d4',8);}
+        step('306886ec','306888d8',()=>stack.#push(value(4000)));
+        step('306886ec','306888dd',()=>{const p=allocationPointer(register('ESI'));const owned=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields:p.fields,offset:p.offset+12},24);if(!owned.known)throw new Error(owned.reason);set('EAX',stack.#mint(0,0,{kind:'engine-allocation',crt,fields:p.fields,offset:p.offset+12}));});
+        step('306886ec','306888e0',()=>stack.#push(register('EAX')));
+        step('306886ec','306888e1',()=>{
+          const argumentPosition=relative('ESP',0),sectionPointer=allocationPointer(stack.#load(stack.#stack,argumentPosition));
+          if(stack.#numeric(stack.#load(stack.#stack,argumentPosition+4),4)!==4000)throw new Error('Actual Engine section spin count4000 required');
+          const section=new NativeHeapObjectViews(sectionPointer.fields.backing,sectionPointer.offset,24);Object.freeze(section);frame.section=section;
+          stack.#call('306888e1','306888e6');const result=crt.initializeHeapCriticalSection(Object.freeze({fields:section,offset:0}));if(!result.known)throw new Error(result.reason);
+          frame.sectionResult=result.value;stack.#engineIoProof(frame);const owned=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields:section,offset:0},24);if(!owned.known)throw new Error(owned.reason);
+          set('EAX',value(result.value?1:0));for(const name of ['ECX','EDX'] as const)set(name,stack.#mint(0,0));stack.#flags(0,0);
+          const continuation=stack.#record(stack.#ret()).provenance;if(continuation?.kind!=='source'||continuation.type!=='code'||continuation.address!=='306888e6'||relative('ESP',0)!==argumentPosition)throw new Error('Actual Engine section cdecl return required');
+        });
+        step('306886ec','306888e6',popEcx);step('306886ec','306888e7',popEcx);
+        step('306886ec','306888e8',()=>stack.#logicalFlags(stack.#numeric(register('EAX'),4),0xffffffff,4));
+        step('306886ec','306888ea',()=>{if(stack.#numeric(register('EAX'),4)===0)throw new Error('Engine I/O section failure at30688923');});
+        step('306886ec','306888ec',()=>{const p=allocationPointer(register('ESI'));const number=NativeHeapObjectViews.prototype.readUnsigned.call(p.fields,p.offset+8),next=(number+1)>>>0;NativeHeapObjectViews.prototype.writeUnsigned.call(p.fields,p.offset+8,next);const before=stack.#record(stack.#load(stack.#bank,36));stack.#arithmeticFlags(number,1,next,4,false);const after=stack.#record(stack.#load(stack.#bank,36));stack.#flags((after.value&~1)|(before.value&1),(after.mask&~1)|(before.mask&1));});
+        step('306886ec','306888ef',()=>{});
+        step('306886ec','306888fb',()=>{const number=stack.#numeric(register('EBX'),4),next=(number+1)>>>0;set('EBX',value(next));const before=stack.#record(stack.#load(stack.#bank,36));stack.#arithmeticFlags(number,1,next,4,false);const after=stack.#record(stack.#load(stack.#bank,36));stack.#flags((after.value&~1)|(before.value&1),(after.mask&~1)|(before.mask&1));});
+        step('306886ec','306888fc',()=>{const number=stack.#numeric(register('EBX'),4);stack.#arithmeticFlags(number,3,number-3,4,true);});
+        step('306886ec','306888ff',()=>{const index=stack.#numeric(register('EBX'),4);if(index>3)throw new Error('Actual bounded Engine standard-handle index required');nextStandard=index<3;});
+        }
+        step('306886ec','30688905',()=>{const count=NativeEngineIoImages.imageForCrt(frame.images,crt,'ioHandleCount');if(!count.known)throw new Error(count.reason);stack.#push(value(count.value.readUnsigned(0)));});
+        step('306886ec','3068890b',()=>{
+          const endpoints=stack.#platform.standardIoEndpoints;if(!endpoints)throw new Error('Engine SetHandleCount IAT30afc740 at3068890b');
+          const endpointProof=NativeRuntimePlatform.canonicalStandardIoEndpointsForPlatform(stack.#platform,endpoints);if(!endpointProof.known)throw new Error(endpointProof.reason);
+          const argument=stack.#load(stack.#stack,relative('ESP',0)),scalar=stack.#numeric(argument,4);if(scalar!==32)throw new Error('Actual Engine handle count32 required');
+          stack.#call('3068890b','30688911');const top=stack.#calls.at(-1)!,grant=Object.freeze({identity:Object.freeze({})});
+          const call={stack,frame,args:Object.freeze({site:'3068890b' as const,kind:'SetHandleCount' as const,crt,scalar}),position:top.position,argument,returnWord:top.returnWord,phase:'pending' as 'pending'|'returned'};
+          engineStandardCalls.set(grant,call);const result=endpoints.invoke(grant);if(!result.known)throw new Error(result.reason);
+          const returned=NativeRuntimePlatform.canonicalStandardIoNormalReturnForPlatform(stack.#platform,grant);if(!returned.known||returned.value!==result.value)throw new Error(returned.known?'Actual Engine SetHandleCount result required':returned.reason);
+          stack.#engineStandardProof(call);if(typeof result.value!=='number'||!Number.isInteger(result.value)||result.value<0||result.value>0xffffffff)throw new Error('Actual SetHandleCount DWORD result required');
+          frame.setHandleCountResult=result.value;set('EAX',value(result.value));for(const name of ['ECX','EDX'] as const)set(name,stack.#mint(0,0));stack.#flags(0,0);
+          set('ESP',stack.#stackWord(call.position+8));top.returned=true;stack.#currentPc=call.returnWord;call.phase='returned';
+        });
+        step('306886ec','30688911',()=>set('EAX',xor(register('EAX'),register('EAX'))));
+        step('306886ec','30688913',()=>{});
+        step('306886ec','30688926',()=>stack.#call('30688926','3068892b'));
+        const epilog=(pc:string,body:()=>void)=>step('3067e545',pc,body);
+        const pop=(name:NativeX86Register)=>{const position=relative('ESP',0);set(name,stack.#load(stack.#stack,position));set('ESP',stack.#stackWord(position+4));};
+        epilog('3067e545',()=>set('ECX',stack.#load(stack.#stack,relative('EBP',-0x10))));
+        epilog('3067e548',()=>{stack.#store(stack.#bank,32,register('ECX'));frame.fsRestored=true;});
+        epilog('3067e54f',()=>pop('ECX'));
+        epilog('3067e550',()=>pop('EDI'));
+        epilog('3067e551',()=>pop('EDI'));
+        epilog('3067e552',()=>pop('ESI'));
+        epilog('3067e553',()=>pop('EBX'));
+        epilog('3067e554',()=>set('ESP',register('EBP')));
+        epilog('3067e556',()=>pop('EBP'));
+        epilog('3067e557',()=>stack.#push(register('ECX')));
+        epilog('3067e558',()=>{const next=stack.#record(stack.#ret()).provenance;if(next?.kind!=='source'||next.type!=='code'||next.address!=='3068892b')throw new Error('Actual Engine EH4 epilog return required');});
+        step('306886ec','3068892b',()=>{const next=stack.#record(stack.#ret()).provenance;if(next?.kind!=='source'||next.type!=='code'||next.address!=='3067726b'||relative('ESP',0)!==frame.entryEsp||stack.#numeric(register('EAX'),4)!==0)throw new Error('Actual Engine I/O caller return and zero result required');});
+        frame.phase='returned';if(!stack.#executing)stack.#phase='returned';return known(undefined);
+      }catch(error){frame.boundary??=reason(error);frame.phase='blocked';if(!stack.#executing){stack.#boundary??=frame.boundary;stack.#phase='blocked';}return unknown(frame.boundary);}
+      finally{stack.#engineIoExecuting=false;}
+    }catch(error){return unknown(reason(error));}
+  }
+  static returnedEngineIoForBootstrap(stack:NativeX86ThreadStack,bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object):NativeValue<number>{
+    const reached=NativeCrtBootstrap.canonicalEngineIoCallForCrt(bootstrap,crt,permit);if(!reached.known)return reached;
+    try{
+      const frame=stack.#engineIoFrame,caller=stack.#calls.findLast(call=>call.site==='30677266');
+      if(graphs.get(crt.host.platform as NativeRuntimePlatform)!==stack||!frame||frame.bootstrap!==bootstrap||frame.crt!==crt||frame.permit!==permit||frame.phase!=='returned'||frame.pc!=='3068892b'||!frame.fsRestored||stack.#engineIoExecuting||!caller?.returned||stack.#currentPc!==caller.returnWord)throw new Error('Actual returned Engine I/O frame required');
+      stack.#physical(stack.#bank);stack.#physical(stack.#stack);
+      if(stack.#address(stack.#load(stack.#bank,stack.#reg('ESP')))!==frame.entryEsp)throw new Error('Actual restored Engine I/O caller stack required');
+      const result=stack.#numeric(stack.#load(stack.#bank,stack.#reg('EAX')),4);if(result!==0)throw new Error('Actual supported Engine I/O zero return required');
+      const scope=NativeEngineIoImages.imageForCrt(frame.images,crt,'ioSehScope');if(!scope.known||scope.value!==frame.scope)throw new Error('Actual retained Engine I/O source required');
+      return known(result);
+    }catch(error){return unknown(reason(error));}
+  }
+  #engineStandardProof(call:NonNullable<ReturnType<typeof engineStandardCalls.get>>):void{
+    this.#engineIoProof(call.frame);const top=this.#calls.at(-1);
+    if(call.phase!=='pending'||call.frame.pc!==call.args.site||!top||top.returned||top.site!==call.args.site||top.position!==call.position||top.returnWord!==call.returnWord||
+      this.#address(this.#load(this.#bank,this.#reg('ESP')))!==call.position||this.#load(this.#stack,call.position)!==call.returnWord||this.#load(this.#stack,call.position+4)!==call.argument||(call.args.kind!=='GetFileType'?this.#numeric(call.argument,4)!==call.args.scalar:this.#record(call.argument).provenance?.kind!=='platform'||(this.#record(call.argument).provenance as {object?:object}).object!==call.args.object))throw new Error('Actual pending Engine standard-I/O call required');
+  }
+  #engineStartupProof(call:NonNullable<ReturnType<typeof engineStartupCalls.get>>):void{
+    this.#engineIoProof(call.frame);
+    const top=this.#calls.at(-1);
+    if(call.phase!=='pending'||call.frame.pc!=='30688701'||!top||top.returned||top.site!=='30688701'||top.position!==call.position||top.returnWord!==call.returnWord||
+      this.#address(this.#load(this.#bank,this.#reg('ESP')))!==call.position||this.#load(this.#stack,call.position)!==call.returnWord||
+      this.#load(this.#stack,call.position+4)!==call.argument||this.#address(call.argument)!==call.offset||
+      call.frame.startupInfo?.backing!==this.#stack.backing||call.offset!==call.frame.ebp!-0x64)throw new Error('Actual pending Engine startup argument and return required');
+  }
+  #engineIoProof(frame:EngineIoFrame):void{
+    if(this.#engineIoFrame!==frame||!this.#engineIoExecuting||frame.phase!=='running'||this.#phase!=='running')throw new Error(frame.boundary??'Actual active Engine I/O frame required');
+    const call=NativeCrtBootstrap.canonicalEngineIoCallForCrt(frame.bootstrap,frame.crt,frame.permit);if(!call.known)throw new Error(call.reason);
+    const selection=NativeRuntimePlatform.threadStackSelectionForPlatform(this.#platform);if(!selection.known||selection.value!==this.#selection)throw new Error('Actual selected Engine logical-thread lifetime required');
+    const scope=NativeEngineIoImages.imageForCrt(frame.images,frame.crt,'ioSehScope');if(!scope.known||scope.value!==frame.scope)throw new Error(scope.known?'Actual retained Engine scope required':scope.reason);
+    this.#physical(this.#stack);this.#physical(this.#bank);
+  }
+  engineIoFrameSnapshot(crt:NativeModuleCrtOwner){
+    const frame=this.#engineIoFrame;if(!frame||frame.crt!==crt)return null;
+    return Object.freeze({module:'Engine' as const,phase:frame.phase,pc:frame.pc,boundary:frame.boundary,operations:frame.operations,entryEsp:frame.entryEsp,ebp:frame.ebp,prologReturned:frame.prologReturned,fsPublished:frame.fsPublished,startupInfo:frame.startupInfo,allocation:frame.allocation,callocReturned:frame.callocReturned,fileType:frame.fileType,section:frame.section,sectionResult:frame.sectionResult,setHandleCountResult:frame.setHandleCountResult,fsRestored:frame.fsRestored,scope:frame.scope,stack:this.#stack,bank:this.#bank});
+  }
   readonly #platform: NativeRuntimePlatform;
   readonly #selection: Readonly<NativeX86ThreadStackSelection>;
   readonly #stack: NativeHeapObjectViews;
@@ -2087,6 +2426,8 @@ export class NativeX86ThreadStack {
     grant: NativeStartupInfoCallGrant): NativeValue<void> {
     const invocation = NativeRuntimePlatform.canonicalStartupInfoInvocationForPlatform(platform, grant);
     if (!invocation.known) return invocation;
+    const engine=engineStartupCalls.get(grant);
+    if(engine){try{if(graphs.get(platform)!==engine.stack)throw new Error('Actual same-platform Engine startup call required');engine.stack.#engineStartupProof(engine);return known(undefined);}catch(error){return unknown(reason(error));}}
     const call = startupCalls.get(grant);
     if (!call || graphs.get(platform) !== call.stack) return unknown('Actual same-platform privately minted startup call required');
     try { call.stack.#startupProof(grant, call); return known(undefined); }
@@ -2104,6 +2445,7 @@ export class NativeX86ThreadStack {
   static standardIoArgumentsForPlatform(platform: NativeRuntimePlatform,
     grant: NativeStandardIoCallGrant): NativeValue<NativeStandardIoArguments> {
     const active = NativeRuntimePlatform.canonicalStandardIoInvocationForPlatform(platform, grant); if (!active.known) return active;
+    const engine=engineStandardCalls.get(grant);if(engine){try{if(graphs.get(platform)!==engine.stack)throw new Error('Actual Engine standard-I/O graph required');engine.stack.#engineStandardProof(engine);return known(engine.args);}catch(error){return unknown(reason(error));}}
     const call = standardCalls.get(grant);
     if (!call || graphs.get(platform) !== call.stack) return unknown('Actual private same-platform standard-I/O call required');
     try { call.stack.#standardProof(grant, call); return known(call.args); }
@@ -2128,7 +2470,7 @@ export class NativeX86ThreadStack {
   static writeStartupInfoForCall(platform: NativeRuntimePlatform, grant: NativeStartupInfoCallGrant,
     offset: number, width: 1 | 2 | 4, value: number, mask: number): NativeValue<void> {
     const admitted = NativeX86ThreadStack.canonicalStartupInfoCallForPlatform(platform, grant); if (!admitted.known) return admitted;
-    const call = startupCalls.get(grant)!;
+    const call = engineStartupCalls.get(grant)??startupCalls.get(grant)!;
     try {
       const maximum = width === 4 ? 0xffffffff : width === 2 ? 0xffff : 0xff;
       if (![1, 2, 4].includes(width) || !Number.isSafeInteger(offset) || offset < 0 || offset + width > 68 ||
@@ -2145,7 +2487,7 @@ export class NativeX86ThreadStack {
       if (slots) for (const begin of slots.keys()) if (begin < position + width && begin + 4 > position) slots.delete(begin);
       const current = NativeHeapObjectViews.prototype.maskedWord.call(stack.#stack, position, width);
       current.value = value; current.knownMask = mask;
-      stack.#startupProof(grant, call); return known(undefined);
+      const engine=engineStartupCalls.get(grant);if(engine)stack.#engineStartupProof(engine);else stack.#startupProof(grant,call as StartupCall); return known(undefined);
     } catch (error) { return unknown(reason(error)); }
   }
   #startupProof(grant: NativeStartupInfoCallGrant, call: StartupCall): void {
@@ -2652,6 +2994,7 @@ export class NativeX86ThreadStack {
       if (!proof.known) throw new Error(proof.reason); return record;
     }
     if(p?.kind==='difference'){this.#liveWord(p.left);this.#liveWord(p.right);}
+    if(p?.kind==='engine-allocation'){const owned=NativeModuleCrtOwner.canonicalEngineHeapDestination(p.crt,this.#platform,{fields:p.fields,offset:p.offset},0);if(!owned.known)throw new Error(owned.reason);}
     if (p?.kind === 'allocation') this.#allocationLive(p.allocation, p.offset, 0);
     if (p?.kind === 'module') this.#moduleWord(p.label, p.offset);
     if (p?.kind === 'process') this.#processWord(p.pointer);
@@ -4047,7 +4390,7 @@ export class NativeX86ThreadStack {
         scalar = this.#numeric(argumentWords[1]!, 4); procedure = this.#platformObject(this.#load(this.#bank, this.#reg('ESI')), 'section'); break;
       }
     }
-    const args: NativeStandardIoArguments = Object.freeze({ site, kind: spec.kind, crt: binding.crt, scalar, object, procedure, section, sectionFields });
+    const args: NativeStandardIoArguments & {readonly site:NativeStandardIoCallSite} = Object.freeze({ site, kind: spec.kind, crt: binding.crt, scalar, object, procedure, section, sectionFields });
     const row = { site, callPushed: false, called: false, returned: false, sectionRegistered: false };
     this.#standardIoRows.push(row);
     // Capacity failure happens at this real CALL, retaining the existing

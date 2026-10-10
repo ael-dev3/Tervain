@@ -16,7 +16,9 @@ import { NativeRuntimePlatform } from './native-runtime-platform';
 import { NativeGameCrtEnvironment } from './native-game-crt-environment';
 import { NativeEngineCrtEnvironment } from './native-engine-crt-environment';
 import { engineEnvironmentImage } from './native-engine-environment-source';
+import {admitEngineIoSource} from './native-engine-io-source';
 import { NativeEngineIoImages } from './native-engine-io-images';
+import { NativeX86ThreadStack } from './native-x86-thread-stack';
 import { NativeGameCrtIoInit } from './native-game-crt-ioinit';
 import { NativeGameCrtArgv } from './native-game-crt-argv';
 import { NativeGameCrtSetEnvp } from './native-game-crt-setenvp';
@@ -181,6 +183,7 @@ export interface NativeCrtAttachProgress {
   readonly engineCommandLineStorage: NativeHeapObjectViews | null;
   readonly engineEnvironmentStorage: NativeHeapObjectViews | null;
   readonly engineIoImages: NativeEngineIoImages | null;
+  readonly engineIoProgress: ReturnType<NativeX86ThreadStack['engineIoFrameSnapshot']>;
   readonly commandLineReturned: boolean;
   readonly commandLineNonNull: boolean | null;
   readonly environmentReturned: boolean;
@@ -265,6 +268,9 @@ export class NativeCrtBootstrap {
   #engineCommandLineStorage: NativeHeapObjectViews | null = null;
   #engineEnvironmentStorage: NativeHeapObjectViews | null = null;
   #engineIoImages: NativeEngineIoImages | null = null;
+  #engineIoStack: NativeX86ThreadStack | null = null;
+  readonly #engineIoCallPermit=Object.freeze({});
+  #engineIoInvocationActive=false;
   #commandLineReturned = false;
   #commandLineNonNull: boolean | null = null;
   #environmentReturned = false;
@@ -318,6 +324,17 @@ export class NativeCrtBootstrap {
       return unknown('Actual reached same-CRT Game attach I/O call permit required');
     }
     return known(undefined);
+  }
+  static canonicalEngineIoCallForCrt(bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object):NativeValue<void>{
+    try{const retained=bootstrapByCrt.get(crt);
+      const next=bootstrap.#nextBoundary;
+      if(!NativeModuleCrtOwner.isConstructedOwner(crt)||crt.module!=='Engine'||retained?.phase!=='returned'||retained.owner!==bootstrap||bootstrap.#crt!==crt||bootstrap.#boundary!==null||bootstrap.#attachPhase!=='running'||!bootstrap.#active.has(bootstrap.#name('crtAttach'))||!bootstrap.#engineIoInvocationActive||permit!==bootstrap.#engineIoCallPermit||bootstrap.#lowerCall!=='Engine ioInit306886ec at30677266'||next?.address!=='30677266'||!('target' in next)||next.target!=='306886ec')return unknown('Actual reached same-Engine I/O call permit required');
+      bootstrap.#assertCrt();return known(undefined);
+    }catch(error){return unknown(failureReason(error));}
+  }
+  static engineIoCookieForCrt(bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object):NativeValue<NativeHeapObjectViews>{
+    const proof=NativeCrtBootstrap.canonicalEngineIoCallForCrt(bootstrap,crt,permit);if(!proof.known)return proof;
+    try{return known(bootstrap.#checked(bootstrap.physical.securityCookie));}catch(error){return unknown(failureReason(error));}
   }
   /** The reached caller and argv callee have a separate private scope. It is
    * entered while the original I/O callback still owns its real return, so a
@@ -683,7 +700,20 @@ export class NativeCrtBootstrap {
         if(!this.#engineIoImages)throw new Error('Actual retained Engine I/O image owner required');
         this.#call('Engine I/O image authority '+label,()=>NativeEngineIoImages.imageForCrt(this.#engineIoImages!,this.#crt,label));
       }
-      this.#gate('Engine ioInit306886ec at30677266');
+      this.#engineIoInvocationActive=true;
+      try{
+        this.#ioResult=this.#call('Engine ioInit306886ec at30677266',()=>{
+          const selected=NativeX86ThreadStack.forPlatform(this.#crt.host.platform as NativeRuntimePlatform);if(!selected.known)return selected;
+          this.#engineIoStack=selected.value;
+          const entered=NativeX86ThreadStack.enterEngineIoForBootstrap(selected.value,this,this.#crt,this.#engineIoCallPermit);if(!entered.known)return entered;
+          return NativeX86ThreadStack.returnedEngineIoForBootstrap(selected.value,this,this.#crt,this.#engineIoCallPermit);
+        });
+      }finally{this.#engineIoInvocationActive=false;}
+      admitEngineIoSource();this.#record('ioInit.return',this.#ioResult,'3067726b');
+      this.#trace.push('3067726b.EngineIoCallerTest','3067726d.EngineIoCallerJge');
+      if(this.#ioResult!==0)throw new Error('Actual supported Engine I/O result required');
+      this.#nextBoundary=Object.freeze({name:'startupCall',address:'30677276',target:'3068e76f'});
+      this.#gate('Engine startup call3068e76f at30677276');
     }
     const points = gameAttachContinuationInstructionPoints;
     const endpointProof = NativeRuntimePlatform.canonicalProcessInputEndpointsForPlatform(
@@ -873,6 +903,7 @@ export class NativeCrtBootstrap {
       engineCommandLineStorage:this.#engineCommandLineStorage,
       engineEnvironmentStorage:this.#engineEnvironmentStorage,
       engineIoImages:this.#engineIoImages,
+      engineIoProgress:this.#engineIoStack?.engineIoFrameSnapshot(this.#crt)??null,
       commandLineReturned: this.#commandLineReturned, commandLineNonNull: this.#commandLineNonNull,
       environmentReturned: this.#environmentReturned, environmentNonNull: this.#environmentNonNull,
       environmentProgress: this.#environment?.known ? this.#environment.value.snapshot() : null,

@@ -4,6 +4,235 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local checkpoint — 10 October 2026: Next Engine argument setup evidence
+
+The next startup function at `3068e76f` is now captured with its two-pass parser,
+multibyte wrapper and CRT malloc wrapper: four methods, 277 instructions and
+687 bytes. Original PE checking and independent byte-identical regeneration pass.
+Seven cold image receipts and the exact caller bytes accompany the package under
+`assets/gothic3/engine-argv/`. The nested multibyte routine remains uncaptured.
+
+The three-standard-handle runtime revision passed all 3,294 tests across 311 files
+in 492.07 seconds. Those results precede the later SetHandleCount, EH4 return and
+CRT caller changes, which still need full validation. The new argv package is
+research evidence only; it does not execute the parser or complete attachment.
+The full playable browser campaign remains unfinished.
+
+## Local checkpoint — 10 October 2026: Engine I/O caller continuation
+
+The Engine CRT bootstrap now accepts the I/O result only through the exact
+private reached call permit and returned physical frame. It verifies the retained
+caller return, restored ESP, live source images and actual EAX zero before
+recording the return at `3067726b`. The original captured caller receipt admits
+the result test and nonnegative branch. Startup reaches the next original call
+`30677276 -> 3068e76f`; its implementation and purpose remain unverified here.
+
+Twenty focused integration checks and TypeScript checking pass. A separate check
+rejects descriptive return permits before and after completion without changing
+retained state. This completes the supported I/O callee and its result branch,
+not full CRT/DLL attachment or gameplay activation. Full validation and public
+deployment of this latest revision remain pending; the full campaign is unfinished.
+
+## Local checkpoint — 10 October 2026: Engine I/O normal return
+
+The original SetHandleCount import now receives the current Engine count 32,
+returns its declared DWORD, and completes its actual stdcall stack cleanup. The
+original caller deliberately discards that value and sets EAX to zero. The EH4
+epilog restores FS:[0], callee-saved registers, EBP and the entry ESP before the
+final RET returns to `3067726b`. The supported virtual profile completes this
+I/O callee after 579 source instructions; the containing CRT caller continuation
+is still unfinished. Native DLL loader order is not established by this bridge.
+
+Nineteen focused integration checks and TypeScript checking pass. Separate checks
+cover varied SetHandleCount results, restored frame state and no replay. Inherited
+blocks and invalid/NULL/error paths remain unsupported. Full validation and public
+deployment of this latest revision remain pending. Complete browser campaign
+play remains unfinished.
+
+## Local checkpoint — 10 October 2026: Three Engine standard handles
+
+The original standard-handle loop now executes its stdin, stdout and stderr
+iterations. Original arithmetic derives IDs `-10`, `-11` and `-12`; each call
+retains its own pending argument and return. Each record adopts its actual virtual
+handle and initializes its separate 24-byte Engine section before incrementing
+its count. The remaining 29 records keep their original unused defaults.
+
+The browser prefix executes 563 instructions and pushes handle count 32 for
+`SetHandleCount` at `3068890b` / IAT `30afc740`. That call and the final I/O epilog
+remain unfinished. Eighteen focused integration checks and TypeScript checking
+pass; a separate check verifies three distinct capabilities and three record
+counts of one. Full validation and publication remain pending. Complete campaign
+play is still unfinished.
+
+## Local checkpoint — 10 October 2026: Engine first I/O section return
+
+The original caller at `306888e1` invokes the recovered Engine critical-section
+helper with its actual 24-byte allocation alias and spin count 4,000. Its cdecl
+return preserves both arguments until the original POP instructions. A true
+result increments the record count; a false result stops at the original failure
+branch without incrementing it. Both INC operations preserve the previous CF.
+
+The browser prefix executes 474 instructions and reaches the next standard-handle
+record at `3068886c`. Only the first standard record is connected so far. The
+helper is a translated bridge, not literal execution of its full native body.
+Seventeen focused integration checks and TypeScript checking pass. Section lookup
+can change last-error after the preceding GetFileType call. Full validation and
+public deployment of this latest revision remain pending; the campaign remains
+unfinished.
+
+## Local checkpoint — 10 October 2026: Engine handle adoption and section argument
+
+Engine's original instructions now test the returned file type, adopt the actual
+opaque standard-input handle into its first I/O record, mask the file type and
+apply character (`0x40`) or pipe (`0x08`) flags. A zero file type stops at the
+original unfinished error branch without adopting the handle. Handle storage
+retains unknown numeric bits and the platform capability rather than inventing
+a Windows address.
+
+The caller pushes spin count 4,000 and the contained 24-byte section at record
+offset 12. The browser prefix executes 464 instructions and stops before the
+section helper at `306888e1 -> 30696484`. Seventeen focused checks and TypeScript
+checking pass. Full validation and public deployment of this latest change remain
+pending. This remains partial engine startup; complete campaign play is unfinished.
+
+## Local checkpoint — 10 October 2026: Engine GetFileType return
+
+Engine's original `GetFileType` call at `306888b3` now consumes the exact opaque
+standard-input capability on the selected thread. Its private call grant is
+separate from Game calls and validates the pending argument and return. Runtime
+checks the current virtual handle, returns the declared DWORD file type and
+updates logical-thread last-error state. Normal return performs stdcall cleanup;
+EAX retains the actual file type while ECX/EDX and arithmetic flags remain unknown.
+
+Execution reaches `306888b9` after 453 source instructions. Subsequent handle
+adoption, flags and critical-section initialization remain unfinished. Sixteen
+integration-focused checks and TypeScript checking pass; additional checks cover
+file types 0, 1, 2, 3 and `0xffffffff` with last-error preservation. Full validation
+and public deployment of this latest revision remain pending. Complete browser
+campaign play remains unfinished.
+
+## Local checkpoint — 10 October 2026: Engine standard-handle branches
+
+The original six instructions after GetStdHandle retain EDI, reject invalid and
+NULL results through their original branches, and push a live opaque handle for
+GetFileType. A valid platform capability establishes only the required nonzero
+and non-invalid comparison facts; it does not disclose a numeric HANDLE.
+
+The valid browser prefix reaches `306888b3` / IAT `30afc744` after 452 instructions.
+GetFileType and the error branches remain unfinished. Sixteen focused checks and
+TypeScript checking pass. These local results do not prove complete engine startup
+or a finishable browser campaign; publication and full validation remain pending.
+
+## Local checkpoint — 10 October 2026: Engine GetStdHandle return
+
+The original Engine standard-input call at `306888a1` now enters the platform's
+standard-I/O endpoint through its own private call registry. Admission checks the
+Engine frame, actual stack argument, pending return and original `-10` ID. It
+uses the existing virtual process's opaque handle capability, NULL or invalid
+handle result; an unknown outcome retains the pending call without cleanup.
+A confirmed normal return applies stdcall RET4 and leaves ECX/EDX unknown.
+
+The browser prefix now executes 446 instructions and stops at `306888a7`, before
+handle adoption and GetFileType. Fourteen integration-focused checks and
+TypeScript checking pass. Separate checks cover valid, NULL, invalid and unknown
+standard-input outcomes without replay. Full validation and public deployment of
+this later revision remain pending. The complete browser campaign is unfinished.
+
+## Local checkpoint — 10 October 2026: Engine standard-input preparation
+
+Engine startup reads the actual 16-bit inherited-handle size from the returned
+STARTUPINFOA storage. The declared browser profile provides zero and follows
+the original branch to standard handles. Unknown size bits stop at the compare;
+a nonzero size stops at the unimplemented inherited-block branch. Neither is
+silently treated as an empty block.
+
+The first standard record is resolved through Engine's current table pointer,
+its original `-1` handle is checked, flags become `0x81`, and the caller pushes
+`STD_INPUT_HANDLE` (`-10`). The successful prefix executes 445 instructions and
+stops before `GetStdHandle` at `306888a1` / IAT `30afc718`. No host handle is
+fabricated. Thirteen integration-focused checks and TypeScript checking pass.
+The record-loop production build passes; public deployment of these later local
+changes remains pending. The hosted PR #220 deployment succeeded independently.
+Complete engine startup and a finishable browser campaign remain unfinished.
+
+## Local checkpoint — 10 October 2026: Engine I/O record loop
+
+The original Engine loop now initializes all 32 records in its actual retained
+1,792-byte block. It stores handle `-1`, zero flags and counter fields, and the
+original newline defaults. Each instruction checks the active frame; pointer
+relations require the same Engine allocation with contained offsets. Every
+iteration reloads the current published table base rather than assuming it is
+unchanged. The loop establishes only CF and ZF from its same-allocation offsets;
+other arithmetic flags remain unknown.
+
+The successful prefix executes 429 source instructions and reaches `30688763`,
+before inherited startup handles. Thirteen focused checks pass, including exact
+bytes for every record and changed-table interruption after the first record.
+Interruption retains prior writes and does not replay. TypeScript checking passes.
+Full validation and public deployment of this revision remain pending. This is
+partial engine startup, not evidence of a finishable campaign.
+
+## Local checkpoint — 10 October 2026: Engine I/O block publication
+
+Eight original caller instructions now remove calloc arguments, compare the
+returned allocation against NULL, publish its opaque pointer in Engine's own
+`30af7d20` table, store handle count 32 at `30af7cdc`, and prepare the end pointer.
+Execution stops at the original record-loop comparison `3068875f`. Record field
+stores, startup handle adoption and later critical sections are unfinished.
+
+Twelve focused checks across three files and TypeScript checking pass. The image
+checks verify that the count and table reference the actual retained allocation.
+The preceding EH4 frame revision passed all 3,284 tests across 311 files in
+495.80 seconds and its production build passed. Those broad results do not yet
+cover this later writer, calloc and publication revision. Public deployment of
+these local changes remains pending; the campaign remains unfinished.
+
+## Local checkpoint — 10 October 2026: Engine I/O calloc return
+
+The actual caller at `30688714` now reads its retained count and size arguments
+and invokes the recovered Engine CRT calloc implementation for 32 records of
+56 bytes. A non-NULL result must belong to the current Engine CRT heap and cover
+all 1,792 bytes. EAX retains an opaque allocation identity; it supplies no numeric
+browser address or Game allocation capability. The cdecl return leaves both
+arguments on the actual thread stack for the original caller to clean up.
+
+This is a translated allocator bridge, not instruction-by-instruction execution
+of the allocator body. Execution stops at `30688719`, before caller cleanup and
+record initialization. Twelve focused checks and TypeScript checking pass locally;
+full integration validation and public deployment of this change are pending.
+The campaign remains unfinished.
+
+## Local checkpoint — 10 October 2026: Engine startup-info writer
+
+Engine `GetStartupInfoA` at `30688701` now uses a privately registered call
+on the selected thread. Runtime admission verifies the exact pending return,
+argument, Engine bootstrap permit and physical 68-byte alias. The writer uses
+the existing copied virtual platform declaration; no host Windows process is
+queried. Stores invalidate overlapping cached stack words. Unknown outcomes
+retain applied stores and the pending return without replay.
+
+A confirmed normal return consumes the return and argument with stdcall RET4,
+leaves volatile registers unknown, and resumes five original instructions.
+Execution reaches `30688714 -> 3067ca01`, before allocating 32 I/O records of
+56 bytes each. The calloc bridge and remaining I/O initialization are unfinished.
+Eleven focused checks across three files and TypeScript checking pass locally.
+This change is not yet publicly deployed and does not complete engine startup
+or prove playable campaign progression.
+
+## Local checkpoint — 10 October 2026: Engine I/O physical frame
+
+The Engine CRT caller now enters `306886ec` on the selected logical thread.
+The source prefix and EH4 prolog execute 28 instructions, retaining the actual
+stack, encoded scope, exception-chain update and 68-byte startup-info alias.
+The browser path preserves the pending Game module-administrator call at
+`200766c2` beneath this translated Engine caller bridge. This does not prove
+native DLL loader order or a complete literal CRT caller frame.
+
+Execution stops before Engine `GetStartupInfoA` at `30688701`; the writer,
+I/O record allocation and remaining initializer are unfinished. An unknown
+Engine cookie preserves the preceding frame writes and stops before publishing
+FS:[0]. Descriptive permits cannot enter or replay this frame.
+
 ## Local checkpoint — 9 October 2026: Game conversion-pointer encoding
 
 The original loop at `20466617 -> 20469672` now executes its ten iterations on
