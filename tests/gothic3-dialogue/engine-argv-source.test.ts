@@ -1,5 +1,5 @@
 import {expect,it} from 'vitest';
-import {admitEngineArgvSource,engineArgvInstruction,engineArgvImage,engineArgvGetACPImport,engineArgvMbcImport,engineArgvClassificationImport} from '../../src/gothic3/native-engine-argv-source';
+import {admitEngineArgvSource,engineArgvInstruction,engineArgvImage,engineArgvGetACPImport,engineArgvMbcImport,engineArgvStaticMbcHeader,engineArgvClassificationImport} from '../../src/gothic3/native-engine-argv-source';
 it('admits the original Engine argument bodies without granting cross-method instruction identity',()=>{
  expect(()=>admitEngineArgvSource()).not.toThrow();
  for(const entry of ['3068e76f','3068e5d7','30685007','30684e6d','30684b3a','30684bde','30684c58','3067c9c1','30672ec7','3067e12b','30684bd5','30673389','30671690','306849b0','306916a2','306914ea','3068de60','30674820'])expect(engineArgvInstruction(entry,entry).va).toBe(entry);
@@ -32,4 +32,8 @@ it('captures the exact classification imports and loader-zero selector without a
 
 it('captures the original Engine narrowing import and its mapping-body call',()=>{
  expect(engineArgvClassificationImport('WideCharToMultiByte')).toMatchObject({iatVA:'0x30afc6fc',module:'KERNEL32.dll',name:'WideCharToMultiByte',ordinal:null});expect(Object.isFrozen(engineArgvClassificationImport('WideCharToMultiByte'))).toBe(true);expect(engineArgvInstruction('3067c57c','3067c792').instruction).toBe('CALL dword ptr [0x30afc6fc]');
+});
+
+it('captures the original Engine MBC reference imports and static header without reseeding live state',()=>{
+ for(const [kind,iatVA,site] of [['InterlockedDecrement','0x30afc6f4','30684ee3'],['InterlockedIncrement','0x30afc6f8','30684f02']] as const){expect(engineArgvMbcImport(kind)).toMatchObject({iatVA,module:'KERNEL32.dll',name:kind,ordinal:null});expect(Object.isFrozen(engineArgvMbcImport(kind))).toBe(true);expect(engineArgvInstruction('30684e6d',site).instruction).toBe(kind==='InterlockedDecrement'?`CALL dword ptr [${iatVA}]`:`MOV EDI,dword ptr [${iatVA}]`);}expect(engineArgvStaticMbcHeader()).toEqual({address:'30ad4bd0',bytes:16,raw:'0'.repeat(32)});expect(Object.isFrozen(engineArgvStaticMbcHeader())).toBe(true);
 });
