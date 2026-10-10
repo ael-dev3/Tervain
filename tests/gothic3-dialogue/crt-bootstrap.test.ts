@@ -2,6 +2,7 @@ import {browserGameProcessInputs} from '../../src/gothic3/browser-game-process-i
 import { describe, expect, it } from 'vitest';
 import type { NativeValue } from '../../src/gothic3/dialogue';
 import { NativeCrtBootstrap } from '../../src/gothic3/native-crt-bootstrap';
+import { NativeEngineIoImages } from '../../src/gothic3/native-engine-io-images';
 import { NativeEngineCrtOwner } from '../../src/gothic3/native-engine-crt-locks';
 import { NativeHeapObjectViews } from '../../src/gothic3/native-heap-views';
 import type { NativeMemoryBacking } from '../../src/gothic3/native-memory-admin';
@@ -280,6 +281,21 @@ it('stores Engine command-line and converted environment pointers before the I/O
  expect([...fields.knownMask]).toEqual(Array(4).fill(0));expect(progress.environmentReturned).toBe(true);
  expect(progress.engineEnvironmentStorage!.pointer(0).get()).toBe(progress.engineEnvironmentProgress!.output);
  const before=bootstrap.snapshot().trace;expect(bootstrap.processAttach()).toEqual(result);expect(bootstrap.snapshot().trace).toEqual(before);
+});
+it('retains completed environment stores when changed I/O scope blocks the next call',()=>{
+ const platform=new NativeRuntimePlatform({engineCrtServices:{...services,tlsValues:new Map(),processInputs:browserGameProcessInputs}});
+ const {bootstrap,crt}=selected(platform),owner=bootstrap.attachProgress().engineIoImages!;
+ const scope=fact(NativeEngineIoImages.imageForCrt(owner,crt,'ioSehScope'));
+ scope.knownMask[0]=0;
+ const result=bootstrap.processAttach();expect(result.known).toBe(false);
+ if(result.known)throw new Error('Changed scope must block Engine I/O');
+ expect(result.reason).toContain('Engine I/O image authority ioHandleCount');
+ expect(result.reason).toContain('Native field contains unowned backing bits');
+ const progress=bootstrap.attachProgress();expect(progress.environmentReturned).toBe(true);
+ expect(progress.engineEnvironmentStorage!.pointer(0).get()).toBe(progress.engineEnvironmentProgress!.output);
+ expect(progress.ioResult).toBe(null);expect(progress.ioProgress).toBe(null);
+ const before=bootstrap.snapshot().trace;expect(bootstrap.processAttach()).toEqual(result);expect(bootstrap.snapshot().trace).toEqual(before);
+ expect(scope.knownMask[0]).toBe(0);
 });
 it('stores the actual NULL Engine command-line result without skipping the next call',()=>{
  const platform=new NativeRuntimePlatform({engineCrtServices:{...services,tlsValues:new Map(),processInputs:{...browserGameProcessInputs,commandLineA:{kind:'null'}}}});

@@ -208,6 +208,16 @@ bytes. The package retains the loader-zero count and 64-slot pointer table,
 file-backed exception scope, imports and caller branches. Independent generation
 matches byte for byte. I/O runtime integration remains unfinished.
 
+The next local checkpoint admits that exact I/O receipt through generated
+TypeScript and retains Engine's count, block-pointer table and exception scope
+in a per-CRT image owner. The actual Engine bootstrap shares this owner and
+validates its storage before the pending I/O call. Changed or unknown scope
+bytes interrupt startup without replaying completed environment work. Thirty
+focused checks across three files, typechecking, a production build and exact
+independent JSON/TypeScript regeneration pass. This supplies the storage needed
+for I/O implementation; it does not execute the I/O frame or return from I/O.
+This checkpoint is local and is not included in PR #219.
+
 Prepublication review additionally tightened Engine exit-table construction to
 require an actual constructed CRT and made reentrant initialization/registration
 retain an interruption boundary. It preserves any real allocation or lock already

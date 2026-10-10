@@ -11,7 +11,7 @@ instruction bytes, imports and original data images are retained in `research.js
 Reproduce from the repository root:
 
 ```powershell
-python tools/gothic3/prepare_engine_io_source.py --study '<matching study directory>' --output assets/gothic3/engine-io/research.json
+python tools/gothic3/prepare_engine_io_source.py --study '<matching study directory>' --output assets/gothic3/engine-io/research.json --typescript src/gothic3/native-engine-io-source.ts
 ```
 
 The matching study has `00_Original_Runtime/Engine.dll` and the function catalog
@@ -37,7 +37,11 @@ The original caller tests that result at `3067726b`. A negative result calls
 
 ## Implementation work remaining
 
-This is source evidence, with no runtime admission or I/O execution yet.
+The generated TypeScript module admits the exact source receipt. The retained
+Engine bootstrap now owns the source-backed count, pointer table and EH4 scope
+through `NativeEngineIoImages`. Mutable count/table storage is retained without
+reseeding; changed scope bytes, foreign owners and released or replaced storage
+are rejected. This establishes cold image ownership, with no I/O execution yet.
 The Engine frame, startup-info output, record allocations, critical sections and
 opaque handle capabilities must be connected to their actual owners. Implement
 the captured epilogue and section helper, and capture their remaining reached
