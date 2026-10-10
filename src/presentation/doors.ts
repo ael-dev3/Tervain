@@ -2,8 +2,11 @@ import * as THREE from 'three';
 import { fromBuildingLocal, type InteriorSpec } from '../world/interiors';
 import type { DoorLeaf } from './buildings';
 
-/** Doors (A66): how near a doorway someone opens it, how long it stays open after, and how far and fast it swings. */
-export const DOOR_REACH = 2.4, DOOR_LINGER = 1.5, DOOR_OPENING = 0.6, DOOR_CLOSING = 0.9, DOOR_SWING = 1.66;
+/**
+ * Doors (A66): how near a doorway someone opens it, how long it stays open after, and how far and fast it swings. Open, a
+ * leaf stands square into the room (A75): at 95° it leaned back towards the wall beside its hinge.
+ */
+export const DOOR_REACH = 2.4, DOOR_LINGER = 1.5, DOOR_OPENING = 0.6, DOOR_CLOSING = 0.9, DOOR_SWING = Math.PI / 2;
 
 export interface DoorEvent { at: THREE.Vector3; open: boolean }
 

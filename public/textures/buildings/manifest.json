@@ -70,13 +70,13 @@
       "size": 1024,
       "albedo": {
         "file": "plaster-albedo.jpg",
-        "bytes": 144131,
-        "sha256": "bf91014029cef7fc61bb7977afe6c16b3ac4c5f1cf386938c143dbeb8bff4c52"
+        "bytes": 96200,
+        "sha256": "c1f19fdbcbb9df89678597a86ec11970503ea9d1f79ba1ce0424bf7dbe09183e"
       },
       "normal": {
         "file": "plaster-normal.jpg",
-        "bytes": 232922,
-        "sha256": "c1804a2092ba41726f1952aeb0cab480c0417d1d360748161ae29318e560c3ba"
+        "bytes": 113578,
+        "sha256": "2d31093c20abcb65579af6208f5ea132dffb22ed9ec56deea96c937046b18971"
       }
     },
     "rock": {
