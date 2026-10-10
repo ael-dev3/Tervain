@@ -340,7 +340,29 @@ export class NativeX86ThreadStack {
           step('306886ec','3068875f',compare);
           step('306886ec','30688761',()=>{more=allocationPointer(register('EAX')).offset<allocationPointer(register('ECX')).offset;});
         }
-        frame.pc='30688763';engineIoInstruction('306886ec',frame.pc);throw new Error('Engine startup inherited handles at30688763');
+        let inheritedBytes=0;
+        step('306886ec','30688763',()=>{inheritedBytes=NativeHeapObjectViews.prototype.readUnsigned.call(stack.#stack,relative('EBP',-0x32),2);const di=stack.#numeric(register('EDI'),2);stack.#arithmeticFlags(inheritedBytes,di,inheritedBytes-di,2,true);});
+        step('306886ec','30688767',()=>{if(inheritedBytes!==0)throw new Error('Engine inherited handle block at3068876d');});
+        step('306886ec','3068886a',()=>set('EBX',xor(register('EBX'),register('EBX'))));
+        step('306886ec','3068886c',()=>set('ESI',register('EBX')));
+        step('306886ec','3068886e',()=>{const index=stack.#numeric(register('ESI'),4);set('ESI',value(index*56));stack.#flags(0,0x801);});
+        step('306886ec','30688871',()=>{
+          const offset=stack.#numeric(register('ESI'),4),table=NativeEngineIoImages.imageForCrt(frame.images,crt,'ioBlockPointers');if(!table.known)throw new Error(table.reason);
+          const pointer=table.value.pointer<NativeBytePointer>(0).get();if(!pointer||pointer.fields!==frame.allocation||pointer.offset!==0)throw new Error('Actual Engine standard-handle record base required');
+          const owned=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields:pointer.fields,offset},56);if(!owned.known)throw new Error(owned.reason);
+          set('ESI',stack.#mint(0,0,{kind:'engine-allocation',crt,fields:pointer.fields,offset}));stack.#flags(0,0);
+        });
+        step('306886ec','30688877',()=>{const p=allocationPointer(register('ESI'));set('EAX',value(NativeHeapObjectViews.prototype.readUnsigned.call(p.fields,p.offset)));});
+        step('306886ec','30688879',()=>{const handle=stack.#numeric(register('EAX'),4);stack.#arithmeticFlags(handle,0xffffffff,handle-0xffffffff,4,true);});
+        step('306886ec','3068887c',()=>{if(stack.#numeric(register('EAX'),4)!==0xffffffff)throw new Error('Engine existing standard handle at3068887e');});
+        step('306886ec','30688889',()=>{const p=allocationPointer(register('ESI'));NativeHeapObjectViews.prototype.writeUnsigned.call(p.fields,p.offset+4,0x81,1);});
+        step('306886ec','3068888d',()=>stack.#logicalFlags(stack.#numeric(register('EBX'),4),0xffffffff,4));
+        step('306886ec','3068888f',()=>{if(stack.#numeric(register('EBX'),4)!==0)throw new Error('Engine later standard handle at30688896');});
+        step('306886ec','30688891',()=>stack.#push(value(0xfffffff6)));
+        step('306886ec','30688893',()=>{const position=relative('ESP',0);set('EAX',stack.#load(stack.#stack,position));set('ESP',stack.#stackWord(position+4));});
+        step('306886ec','30688894',()=>{});
+        step('306886ec','306888a0',()=>stack.#push(register('EAX')));
+        frame.pc='306888a1';engineIoInstruction('306886ec',frame.pc);throw new Error('Engine GetStdHandle IAT30afc718 at306888a1');
       }catch(error){frame.boundary??=reason(error);frame.phase='blocked';if(!stack.#executing){stack.#boundary??=frame.boundary;stack.#phase='blocked';}return unknown(frame.boundary);}
       finally{stack.#engineIoExecuting=false;}
     }catch(error){return unknown(reason(error));}

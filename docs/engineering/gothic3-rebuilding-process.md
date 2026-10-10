@@ -4,6 +4,23 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local checkpoint — 10 October 2026: Engine standard-input preparation
+
+Engine startup reads the actual 16-bit inherited-handle size from the returned
+STARTUPINFOA storage. The declared browser profile provides zero and follows
+the original branch to standard handles. Unknown size bits stop at the compare;
+a nonzero size stops at the unimplemented inherited-block branch. Neither is
+silently treated as an empty block.
+
+The first standard record is resolved through Engine's current table pointer,
+its original `-1` handle is checked, flags become `0x81`, and the caller pushes
+`STD_INPUT_HANDLE` (`-10`). The successful prefix executes 445 instructions and
+stops before `GetStdHandle` at `306888a1` / IAT `30afc718`. No host handle is
+fabricated. Thirteen integration-focused checks and TypeScript checking pass.
+The record-loop production build passes; public deployment of these later local
+changes remains pending. The hosted PR #220 deployment succeeded independently.
+Complete engine startup and a finishable browser campaign remain unfinished.
+
 ## Local checkpoint — 10 October 2026: Engine I/O record loop
 
 The original Engine loop now initializes all 32 records in its actual retained
