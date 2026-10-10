@@ -100,6 +100,12 @@ about missing operations in older entries apply to those earlier checkpoints.
 
 ### Module-administrator research: next connection
 
+Main revision `7428ccf0a` (merged PR #218) is integrated locally at `31c7fb2ee`.
+It adds Tervain reflection and tree-shadow optimizations without changing the
+Gothic runtime. The combined checkout passed 24 focused tests across five files
+in 14.77 seconds and TypeScript checking. Full-suite and production-build
+validation of the combined tree are pending; publication has not occurred.
+
 The source package now captures 48 original Engine instructions for
 ModuleAdmin.GetInstance `3002e9ec -> 30088e90`, embedded input-dispatcher
 construction `3003f026 -> 30087c80`, Create `3000f5bf -> 300877c0` and Engine
