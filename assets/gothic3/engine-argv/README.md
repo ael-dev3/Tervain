@@ -2,8 +2,8 @@
 
 `research.json` captures the original call at `30677276 -> 3068e76f`, its
 70-instruction argument setup, the two-pass parser, multibyte dependency wrapper,
-and CRT malloc wrapper. The package contains 20 methods, 1,171 instructions and
-3,312 instruction bytes, checked against the matching original Engine.dll.
+and CRT malloc wrapper. The package contains 21 methods, 1,194 instructions and
+3,379 instruction bytes, checked against the matching original Engine.dll.
 
 The setup calls GetModuleFileNameA, selects the current command line or filename,
 counts arguments and characters, allocates storage, parses again, and publishes
@@ -18,7 +18,7 @@ python tools/gothic3/prepare_engine_argv_source.py --study <study-directory> --o
 ```
 
 Independent JSON and TypeScript regenerations are byte-identical. Two source checks and TypeScript checking pass. The JSON package has SHA-256
-`73ce472743e4e67ebdd77b2229949e8e87fdc7db43b5e42ddaaf977d25cfcb9f`.
+`694b7aa24891cf881758d194fce5f93a082afe61b05f67d3fdf55f0a526a710b`.
 Engine.dll SHA-256 is
 `d49ef92c0fdfeda433f6d04d0edeb7751e41e4c7c7effc1265630717029dc7e3`.
 
