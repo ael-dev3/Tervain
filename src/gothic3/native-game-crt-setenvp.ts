@@ -375,6 +375,13 @@ export class NativeGameCrtSetEnvp {
       frame.site==='20466654'&&frame.returnPc==='20466656'&&owner.#requireSourcePoint(owner.#pc).instruction==='CALL dword ptr [0x207d86b8]'
       ?known(undefined):unknown('Actual original AI helper PropertyID GUID CALL required');
   }
+  static canonicalAIHelperPropertyIdConstructCallForCrt(owner:NativeGameCrtSetEnvp,crt:NativeModuleCrtOwner,controller:object):NativeValue<void> {
+    const active=NativeGameCrtSetEnvp.canonicalControllerForCrt(owner,crt,controller,'invoke');if(!active.known)return active;
+    const frame=owner.#frames.at(-1);
+    return owner.#pc==='204b26e6'&&owner.#currentEntry==='204b26c0'&&frame?.entry==='204b26c0'&&
+      frame.site==='20466654'&&frame.returnPc==='20466656'&&owner.#requireSourcePoint(owner.#pc).instruction==='CALL dword ptr [0x207d86ac]'
+      ?known(undefined):unknown('Actual original AI helper PropertyID constructor CALL required');
+  }
   static canonicalAIHelperAdminTypeCallForCrt(owner:NativeGameCrtSetEnvp,crt:NativeModuleCrtOwner,controller:object):NativeValue<void> {
     const active=NativeGameCrtSetEnvp.canonicalControllerForCrt(owner,crt,controller,'invoke');if(!active.known)return active;
     const frame=owner.#frames.at(-1);
@@ -948,6 +955,13 @@ export class NativeGameCrtSetEnvp {
         this.#currentEntry = callback; this.#nextBoundary = null; return callback;
       }
       throw new Error('Original Game C++ initializer callback is not yet admitted at ' + callback);
+    }
+    if(point.va==='204b26e6') {
+      if(this.#currentEntry!=='204b26c0'||target.kind!=='memory'||target.expression!=='0x207d86ac'||target.fs||returnPc!=='204b26ec')
+        throw new Error('Original AI helper PropertyID constructor import required');
+      this.#nextBoundary=Object.freeze({pc:point.va,operation:'translatedCrtCall',target:'1000459d'});
+      fact(NativeX86ThreadStack.prototype.callAIHelperPropertyIdConstructor.call(this.#stack,this.#controller));
+      this.#nextBoundary=null;return returnPc;
     }
     if(point.va==='204b26da') {
       if(this.#currentEntry!=='204b26c0'||target.kind!=='memory'||target.expression!=='0x207d86b8'||target.fs||returnPc!=='204b26e0')

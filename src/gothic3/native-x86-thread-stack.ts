@@ -1,3 +1,5 @@
+import {constructNativePropertyIdFromGuid} from './native-property-id-guid';
+import {NativeSharedGuidNull} from './native-shared-guid-null';
 import {NativeGuidText} from './native-guid-text';
 import {NativeHeapCString} from './native-heap-cstring';
 import {NativeGameAIHelperAdminType} from './native-game-ai-helper-admin-type';
@@ -3092,6 +3094,25 @@ export class NativeX86ThreadStack {
     this.#store(this.#bank,this.#reg('EAX'),this.#moduleWord('labelTypeAndGuard',0));
     const returned=this.#ret(0),source=this.#record(returned).provenance;
     if(source?.kind!=='source'||source.type!=='code'||source.address!=='204b23f4')throw new Error('Actual Label type getter return required');
+  }); }
+  callAIHelperPropertyIdConstructor(controller:object):NativeValue<void> {return this.#run(controller,()=>{
+    const binding=this.#setEnvpBinding;if(!binding||binding.controller!==controller)throw new Error('Actual retained Game startup controller required');
+    const grant=NativeGameCrtSetEnvp.canonicalAIHelperPropertyIdConstructCallForCrt(binding.owner,binding.crt,controller);if(!grant.known)throw new Error(grant.reason);
+    if(this.#calls.filter(call=>!call.returned).at(-1)?.site!=='20466654'||!this.#aiHelperPropertyIdGuid)throw new Error('Actual PropertyID initializer and GUID required');
+    const receiver=this.#load(this.#bank,this.#reg('ECX')),esp=this.#address(this.#load(this.#bank,this.#reg('ESP')));
+    const destination=this.#memory(receiver,4),argument=this.#memory(this.#load(this.#stack,esp),4);
+    const image=NativeModuleCrtOwner.canonicalImageForOwner(binding.crt,'aiHelperPropertyId');
+    const guid=this.#aiHelperPropertyIdGuid.guid;
+    if(!image.known||destination.fields!==image.value||destination.offset!==0||argument.fields.backing!==guid.backing||
+      argument.fields.bytes.byteOffset+argument.offset!==guid.bytes.byteOffset)throw new Error('Actual retained PropertyID destination and GUID argument required');
+    this.#call('204b26e6','204b26ec');
+    const result=constructNativePropertyIdFromGuid(image.value,guid,()=>{
+      const shared=NativeSharedGuidNull.forPlatform(this.#platform);if(!shared.known)return shared;
+      return NativeSharedGuidNull.canonicalPayloadForPlatform(shared.value,this.#platform);
+    });if(!result.known)throw new Error(result.reason);
+    this.#store(this.#bank,this.#reg('EAX'),receiver);
+    const returned=this.#ret(4),source=this.#record(returned).provenance;
+    if(source?.kind!=='source'||source.type!=='code'||source.address!=='204b26ec')throw new Error('Actual PropertyID constructor return required');
   }); }
   aiHelperPropertyIdGuidSnapshot() {const guid=this.#aiHelperPropertyIdGuid;return guid?Object.freeze({...guid.snapshot(),paddingBefore:this.#aiHelperPropertyIdGuidPaddingBefore}):null;}
   callAIHelperPropertyIdGuidConstructor(controller:object):NativeValue<void> {return this.#run(controller,()=>{

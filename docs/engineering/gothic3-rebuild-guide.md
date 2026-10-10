@@ -47,7 +47,7 @@ Each feature goes through the following steps:
 **Current local boundary:** Arena Status, None, Running, AI FreePoint, Label
 and AI helper administrator initialization return through the retained startup
 stack. Startup enters PropertyID initializer `204b26c0` and reaches its unsupported
-PropertyID constructor CALL at `204b26e6`.
+temporary GUID destructor CALL at `204b26f0`.
 Complete startup, world activation and a new-game-to-ending campaign remain
 unfinished. Local checkpoints and the hosted version can differ; the validation
 receipts below identify the checkpoint covered.
@@ -72,7 +72,21 @@ establish completion of these remaining features.
 The entries below describe successive local states, newest first. Statements
 about missing operations in older entries apply to those earlier checkpoints.
 
-### Latest local checkpoint: AI helper GUID constructor returns
+### Latest local checkpoint: AI helper PropertyID constructor returns
+
+The original PropertyID constructor clears its canonical destination in the
+captured store order, checks the retained GUID validity and compares its payload
+against the same mutable Shared GUIDNull image. For this non-null GUID it copies
+the four payload DWORDs and clears the trailing cache. It returns its actual
+destination through the original frame and reaches temporary GUID destructor
+`204b26f0 -> 207d86b0`.
+
+Six browser startup tests passed in 11.81 seconds, and three additional checks
+cover invalid GUIDs, null GUIDs and payload copying without validity or padding.
+TypeScript checking passed. Temporary destruction, cleanup registration and the
+complete initializer return remain pending; campaign completion is unproven.
+
+### Historical checkpoint: AI helper GUID constructor returns
 
 The GUID constructor uses the retained CString and the actual 20-byte stack
 receiver. Its existing SetData owner calls the selected browser ASCII-to-UTF16

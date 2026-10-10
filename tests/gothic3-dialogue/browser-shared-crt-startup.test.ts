@@ -54,12 +54,13 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  expect(game.known).toBe(true);
  if(!game.known)throw new Error(game.reason);
  expect(game.value.attachResult,game.value.attachProgress.setEnvpProgress?.currentPC).toEqual({known:false,
-  reason:'crtAttach204677e4: Unowned Unowned original environment CALL at204b26e6: CALL dword ptr [0x207d86ac]'});
+  reason:'crtAttach204677e4: Unowned Unowned original environment CALL at204b26f0: CALL dword ptr [0x207d86b0]'});
  const executed=new Set(game.value.attachProgress.setEnvpProgress!.effects.map(effect=>effect.pc));
  for(const pc of ['204b26c0','204b26c3','204b26c8'])expect(executed.has(pc)).toBe(true);
  for(const pc of ['204b26cc','204b26d2','204b26d5','204b26d6'])expect(executed.has(pc)).toBe(true);
  for(const pc of ['204b26da','204b26e0','204b26e1'])expect(executed.has(pc)).toBe(true);
- expect(executed.has('204b26e6')).toBe(false);
+ expect(executed.has('204b26e6')).toBe(true);expect(executed.has('204b26ec')).toBe(true);
+ expect(executed.has('204b26f0')).toBe(false);
  const aiGuid=game.value.attachProgress.setEnvpProgress!.aiHelperPropertyIdGuid!;
  expect(aiGuid.blocked).toBe(null);expect(aiGuid.queryCharacters).toBe(39);expect(aiGuid.requestBytes).toBe(78);
  expect(aiGuid.wideAllocation!.freed).toBe(true);
@@ -76,7 +77,8 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  expect(executed.has('204b270c')).toBe(false);
  const aiPropertyId=game.value.crt.imageStorage('aiHelperPropertyId');
  expect(aiPropertyId.bytes.length).toBe(20);
- expect([...aiPropertyId.bytes]).toEqual(Array(20).fill(0));
+ expect([...aiPropertyId.bytes.subarray(0,16)]).toEqual([...aiGuid.receiver.bytes.subarray(0,16)]);
+ expect(aiPropertyId.readUnsigned(16)).toBe(0);
  expect([...aiPropertyId.knownMask]).toEqual(Array(20).fill(255));
  expect(game.value.crt.imageStorage('aiHelperPropertyIdGuidLiteral').bytes.length).toBe(39);
 
