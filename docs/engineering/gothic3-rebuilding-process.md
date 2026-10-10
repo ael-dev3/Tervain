@@ -4,6 +4,21 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local checkpoint — 10 October 2026: Engine handle adoption and section argument
+
+Engine's original instructions now test the returned file type, adopt the actual
+opaque standard-input handle into its first I/O record, mask the file type and
+apply character (`0x40`) or pipe (`0x08`) flags. A zero file type stops at the
+original unfinished error branch without adopting the handle. Handle storage
+retains unknown numeric bits and the platform capability rather than inventing
+a Windows address.
+
+The caller pushes spin count 4,000 and the contained 24-byte section at record
+offset 12. The browser prefix executes 464 instructions and stops before the
+section helper at `306888e1 -> 30696484`. Seventeen focused checks and TypeScript
+checking pass. Full validation and public deployment of this latest change remain
+pending. This remains partial engine startup; complete campaign play is unfinished.
+
 ## Local checkpoint — 10 October 2026: Engine GetFileType return
 
 Engine's original `GetFileType` call at `306888b3` now consumes the exact opaque

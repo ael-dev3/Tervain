@@ -113,7 +113,7 @@ it('retains actual Engine standard-handle outcomes without manufacturing a handl
   const result=bootstrap.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Continuation unfinished');
   const frame=bootstrap.attachProgress().engineIoProgress!;
   if(outcome==='unknown'){expect(result.reason).toContain('Declared standard-handle result is unknown');expect(frame.pc).toBe('306888a1');expect(frame.operations).toBe(445);}
-  else{expect(result.reason).toContain(outcome==='valid'?'Engine file-type continuation at306888b9':outcome==='null'?'Engine NULL standard handle branch at306888f1':'Engine invalid standard handle branch at306888f1');expect(frame.operations).toBe(outcome==='valid'?453:outcome==='null'?450:448);if(outcome==='valid')expect(frame.bank.readUnsigned(0)).toBe(2);else expect(frame.bank.readUnsigned(0)).toBe(outcome==='null'?0:0xffffffff);}
+  else{expect(result.reason).toContain(outcome==='valid'?'Engine I/O section30696484 at306888e1':outcome==='null'?'Engine NULL standard handle branch at306888f1':'Engine invalid standard handle branch at306888f1');expect(frame.operations).toBe(outcome==='valid'?464:outcome==='null'?450:448);if(outcome==='valid')expect(frame.fileType).toBe(2);else expect(frame.bank.readUnsigned(0)).toBe(outcome==='null'?0:0xffffffff);}
   expect(bootstrap.processAttach()).toEqual(result);
  }
 });
@@ -135,6 +135,6 @@ it('retains declared Engine GetFileType DWORDs and last-error state',()=>{
  for(const fileType of [0,1,2,3,0xffffffff]){
   const standardIo={...browserGameStandardIoInputs,standardHandles:browserGameStandardIoInputs.standardHandles.map((entry,index)=>index===0?{...entry,fileType,fileTypeLastError:17}:entry)};
   const {bootstrap,platform}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},standardIo),result=bootstrap.processAttach();expect(result.known).toBe(false);
-  const frame=bootstrap.attachProgress().engineIoProgress!;expect(frame.pc).toBe('306888b9');expect(frame.operations).toBe(453);expect(frame.bank.readUnsigned(0)).toBe(fileType);expect(platform.getWin32LastError()).toEqual({known:true,value:17});expect(bootstrap.processAttach()).toEqual(result);
+  const frame=bootstrap.attachProgress().engineIoProgress!;expect(frame.pc).toBe(fileType===0?'306888bb':'306888e1');expect(frame.operations).toBe(fileType===0?454:fileType===3?465:464);expect(frame.fileType).toBe(fileType);expect(frame.allocation!.readUnsigned(4,1)).toBe(fileType===2?0xc1:fileType===3?0x89:0x81);if(fileType!==0){const adopted=frame.allocation!.pointer<object>(0).get();expect(adopted).not.toBe(null);expect(NativeRuntimePlatform.standardIoCapabilityForPlatform(platform,adopted!)).toEqual({known:true,value:'handle'});expect(frame.allocation!.maskedWord(0).knownMask).toBe(0);}expect(platform.getWin32LastError()).toEqual({known:true,value:17});expect(bootstrap.processAttach()).toEqual(result);
  }
 });

@@ -115,7 +115,7 @@ interface EngineIoFrame {
  readonly images:NativeEngineIoImages;readonly scope:NativeHeapObjectViews;
  phase:'running'|'blocked';pc:string;boundary:string|null;operations:number;
  entryEsp:number;ebp:number|null;prologReturned:boolean;fsPublished:boolean;
- startupInfo:NativeHeapObjectViews|null;allocation:NativeHeapObjectViews|null;callocReturned:boolean;
+ startupInfo:NativeHeapObjectViews|null;allocation:NativeHeapObjectViews|null;callocReturned:boolean;fileType:number|null;
 }
 interface HeapCall {
   readonly stack: NativeX86ThreadStack; readonly controller: object; readonly crt: NativeModuleCrtOwner;
@@ -202,7 +202,7 @@ export class NativeX86ThreadStack {
       stack.#physical(stack.#stack);stack.#physical(stack.#bank);
       const images=bootstrap.attachProgress().engineIoImages;if(!images)throw new Error('Actual retained Engine I/O images required');
       const scope=NativeEngineIoImages.imageForCrt(images,crt,'ioSehScope');if(!scope.known)throw new Error(scope.reason);
-      const frame:EngineIoFrame={bootstrap,crt,permit,images,scope:scope.value,phase:'running',pc:'30677266',boundary:null,operations:0,entryEsp:stack.#address(stack.#load(stack.#bank,stack.#reg('ESP'))),ebp:null,prologReturned:false,fsPublished:false,startupInfo:null,allocation:null,callocReturned:false};
+      const frame:EngineIoFrame={bootstrap,crt,permit,images,scope:scope.value,phase:'running',pc:'30677266',boundary:null,operations:0,entryEsp:stack.#address(stack.#load(stack.#bank,stack.#reg('ESP'))),ebp:null,prologReturned:false,fsPublished:false,startupInfo:null,allocation:null,callocReturned:false,fileType:null};
       stack.#engineIoFrame=frame;stack.#engineIoExecuting=true;stack.#phase='running';
       const register=(name:NativeX86Register)=>stack.#load(stack.#bank,stack.#reg(name));
       const set=(name:NativeX86Register,word:NativeX86Word32)=>stack.#store(stack.#bank,stack.#reg(name),word);
@@ -397,10 +397,22 @@ export class NativeX86ThreadStack {
           const returned=NativeRuntimePlatform.canonicalStandardIoNormalReturnForPlatform(stack.#platform,grant);if(!returned.known||returned.value!==result.value)throw new Error(returned.known?'Actual Engine GetFileType return required':returned.reason);
           stack.#engineStandardProof(call);
           if(typeof result.value!=='number'||!Number.isInteger(result.value)||result.value<0||result.value>0xffffffff)throw new Error('Actual GetFileType DWORD result required');
-          set('EAX',value(result.value));for(const name of ['ECX','EDX'] as const)set(name,stack.#mint(0,0));stack.#flags(0,0);
+          frame.fileType=result.value;set('EAX',value(result.value));for(const name of ['ECX','EDX'] as const)set(name,stack.#mint(0,0));stack.#flags(0,0);
           set('ESP',stack.#stackWord(call.position+8));top.returned=true;stack.#currentPc=call.returnWord;call.phase='returned';
         });
-        frame.pc='306888b9';engineIoInstruction('306886ec',frame.pc);throw new Error('Engine file-type continuation at306888b9');
+        step('306886ec','306888b9',()=>stack.#logicalFlags(stack.#numeric(register('EAX'),4),0xffffffff,4));
+        step('306886ec','306888bb',()=>{if(stack.#numeric(register('EAX'),4)===0)throw new Error('Engine zero file-type branch at306888f1');});
+        step('306886ec','306888bd',()=>{const p=allocationPointer(register('ESI')),handle=stack.#liveWord(register('EDI')).provenance;if(handle?.kind!=='platform'||handle.category!=='handle')throw new Error('Actual Engine handle adoption required');const owned=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields:p.fields,offset:p.offset},4);if(!owned.known)throw new Error(owned.reason);p.fields.pointer(p.offset).set(handle.object);});
+        step('306886ec','306888bf',()=>{const masked=stack.#numeric(register('EAX'),4)&255;set('EAX',value(masked));stack.#logicalFlags(masked,0xffffffff,4);});
+        step('306886ec','306888c4',()=>{const number=stack.#numeric(register('EAX'),4);stack.#arithmeticFlags(number,2,number-2,4,true);});
+        let character=false;step('306886ec','306888c7',()=>{character=stack.#numeric(register('EAX'),4)===2;});
+        const orRecordFlag=(pc:string,flag:number)=>step('306886ec',pc,()=>{const p=allocationPointer(register('ESI'));const owned=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields:p.fields,offset:p.offset+4},1);if(!owned.known)throw new Error(owned.reason);const number=NativeHeapObjectViews.prototype.readUnsigned.call(p.fields,p.offset+4,1)|flag;NativeHeapObjectViews.prototype.writeUnsigned.call(p.fields,p.offset+4,number,1);stack.#logicalFlags(number,255,1);});
+        if(character){orRecordFlag('306888c9',0x40);step('306886ec','306888cd',()=>{});}
+        else{let pipe=false;step('306886ec','306888cf',()=>{const number=stack.#numeric(register('EAX'),4);stack.#arithmeticFlags(number,3,number-3,4,true);});step('306886ec','306888d2',()=>{pipe=stack.#numeric(register('EAX'),4)===3;});if(pipe)orRecordFlag('306888d4',8);}
+        step('306886ec','306888d8',()=>stack.#push(value(4000)));
+        step('306886ec','306888dd',()=>{const p=allocationPointer(register('ESI'));const owned=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields:p.fields,offset:p.offset+12},24);if(!owned.known)throw new Error(owned.reason);set('EAX',stack.#mint(0,0,{kind:'engine-allocation',crt,fields:p.fields,offset:p.offset+12}));});
+        step('306886ec','306888e0',()=>stack.#push(register('EAX')));
+        frame.pc='306888e1';engineIoInstruction('306886ec',frame.pc);throw new Error('Engine I/O section30696484 at306888e1');
       }catch(error){frame.boundary??=reason(error);frame.phase='blocked';if(!stack.#executing){stack.#boundary??=frame.boundary;stack.#phase='blocked';}return unknown(frame.boundary);}
       finally{stack.#engineIoExecuting=false;}
     }catch(error){return unknown(reason(error));}
@@ -427,7 +439,7 @@ export class NativeX86ThreadStack {
   }
   engineIoFrameSnapshot(crt:NativeModuleCrtOwner){
     const frame=this.#engineIoFrame;if(!frame||frame.crt!==crt)return null;
-    return Object.freeze({module:'Engine' as const,phase:frame.phase,pc:frame.pc,boundary:frame.boundary,operations:frame.operations,entryEsp:frame.entryEsp,ebp:frame.ebp,prologReturned:frame.prologReturned,fsPublished:frame.fsPublished,startupInfo:frame.startupInfo,allocation:frame.allocation,callocReturned:frame.callocReturned,scope:frame.scope,stack:this.#stack,bank:this.#bank});
+    return Object.freeze({module:'Engine' as const,phase:frame.phase,pc:frame.pc,boundary:frame.boundary,operations:frame.operations,entryEsp:frame.entryEsp,ebp:frame.ebp,prologReturned:frame.prologReturned,fsPublished:frame.fsPublished,startupInfo:frame.startupInfo,allocation:frame.allocation,callocReturned:frame.callocReturned,fileType:frame.fileType,scope:frame.scope,stack:this.#stack,bank:this.#bank});
   }
   readonly #platform: NativeRuntimePlatform;
   readonly #selection: Readonly<NativeX86ThreadStackSelection>;

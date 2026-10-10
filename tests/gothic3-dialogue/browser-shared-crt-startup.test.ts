@@ -55,13 +55,13 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  expect(game.known).toBe(true);
  if(!game.known)throw new Error(game.reason);
  expect(game.value.attachResult,game.value.attachProgress.setEnvpProgress?.currentPC).toEqual({known:false,
-  reason:'crtAttach204677e4: Unowned ModuleAdmin.GetInstance30088e90: atexit.ModuleAdmin30797fc0: Engine shutdown registration requires its CRT attach: crtAttach3067717c: Engine ioInit306886ec at30677266: Engine file-type continuation at306888b9'});
+  reason:'crtAttach204677e4: Unowned ModuleAdmin.GetInstance30088e90: atexit.ModuleAdmin30797fc0: Engine shutdown registration requires its CRT attach: crtAttach3067717c: Engine ioInit306886ec at30677266: Engine I/O section30696484 at306888e1'});
  const engine=createBrowserEngineCrtStartup(platform);if(!engine.known)throw new Error(engine.reason);
  expect(createBrowserEngineCrtStartup(platform)).toBe(engine);
  expect(canonicalBrowserEngineCrtStartup(engine.value,platform).known).toBe(true);
  expect(canonicalBrowserEngineCrtStartup({...engine.value},platform).known).toBe(false);
  expect(engine.value.attachProgress).toMatchObject({module:'Engine',heapResult:1,mtResult:1,preCReturned:true,commandLineReturned:true,commandLineNonNull:true,crtTraversalCompleted:false});
- expect(engine.value.attachProgress.engineIoProgress).toMatchObject({module:'Engine',phase:'blocked',pc:'306888b9',operations:453,prologReturned:true,fsPublished:true});
+ expect(engine.value.attachProgress.engineIoProgress).toMatchObject({module:'Engine',phase:'blocked',pc:'306888e1',operations:464,prologReturned:true,fsPublished:true});
  expect(game.value.attachProgress.setEnvpProgress!.currentPC).toBe('200766c2');
  expect(engine.value.attachProgress.engineEnvironmentProgress).toMatchObject({mode:1,branch:'wide',pc:'3068e95c',inputCharacters:19,outputBytes:19,phase:'returned'});
  const env=engine.value.attachProgress.engineEnvironmentProgress!;
