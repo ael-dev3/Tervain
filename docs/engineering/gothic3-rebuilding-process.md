@@ -4,51 +4,48 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
-## Latest state — 10 October 2026: Engine argument counting parser return
+## Latest state — 10 October 2026: Engine argument setup return
 
 PR #230 deployed native startup revision `f1505ca863aefc10d5a6cb883d1d379b8ac296ff`,
 whose default stops at `30684a93` after 5261 admitted operations. Claude's
 [PR #232](https://github.com/ael-dev3/Tervain/pull/232) subsequently merged as
 `960fbbd109c57774113f2e964630e5a9c43b6ee0`; its main build and Pages deployment
-passed. That performance change does not complete native startup or the campaign.
+passed. Complete native startup and the campaign remain unfinished.
 
-The newer local continuation completes the multibyte character record, installs
-it in Engine thread data, publishes the original globals, replaces the global
-pointer, retains its reference, releases lock 13 and returns through the original
-EH4 epilog and wrapper. Argument setup calls original `GetModuleFileNameA` with
-the owned 260-byte buffer. The selected virtual process filename supplies the
-bytes; this is a browser platform input, not observation of a Windows process.
+The newer local continuation completes and publishes multibyte tables, replaces
+the global pointer, retains its reference, unlocks and returns through the
+original EH4 epilog and wrapper. Original `GetModuleFileNameA` fills the owned
+260-byte buffer from the selected virtual process input. This supplies browser
+platform data, not observation of a Windows process. Command-line selection and
+the original counting parser then produce vector and string-storage sizes.
 
-The combined filename revision passed all 3,394 tests across 313 files in
-745.15 seconds, TypeScript checking and a production build. Its subsequent
-command-line selection checkpoint passed all 3,398 tests across 313 files in
-801.76 seconds, TypeScript checking and a production build. Earlier full runs
-with timeouts remain failed validation and are not green evidence.
+The latest checkpoint follows the caller's overflow checks, original CRT malloc
+wrapper and second parser pass. For the declared `"Gothic3.exe"` input, it
+allocates 20 bytes, fills an owned string and NULL-terminated vector, publishes
+argc 1 and argv, restores saved registers and ESP, and returns 0 through
+`3068e827 -> 3067727b` after 13,819 admitted operations. Query and filling counts
+and helper calls are retained separately. NULL allocation returns -1 without
+replacing prior argument globals. Interrupted string writes or pointer
+publication preserve partial state and pending callers. Quote/backslash cases,
+empty arguments, tabs and CP1252 bytes are checked against actual filled storage.
 
-The latest local checkpoint executes the original counting parser and its
-lead-byte and locale helpers on the retained Engine stack. NULL and empty
-command lines use the filename buffer. Quote/backslash handling, empty
-arguments and tabs follow the captured instructions. The declared
-`"Gothic3.exe"` input produces vector count 2 (one argument and a NULL terminator)
-and 12 string bytes, then returns through `3068e7c4 -> 3068e7c9` after 12,669
-admitted operations. An unknown input or classification bit preserves produced
-state and pending calls; logical operations retain known-bit masks. Earlier
-stack values are observed before the parser reuses their slots.
-
-All 158 focused checks across six files, TypeScript checking and a production
-build pass for the parser commit. Its source package contains 25 bodies and
+All 164 focused checks across six files, TypeScript checking and a production
+build pass for this continuation. The source package contains 25 bodies and
 1,571 instructions; independent JSON/TypeScript regeneration is byte-identical.
-The publication branch joins that checkpoint with deployed PR #232. Its full
-run reported 3,406 passes and one 30-second timeout across 313 files in 867.92
-seconds. The timed-out separator damage test grouped two independent fixtures;
-they now run as separate cases with unchanged inputs, assertions and per-case
-timeout. The run also reported two worker-termination warnings. This is failed
-full validation, not a green result. The new native continuations are not yet
-deployed.
+The next caller's TEST/JL and Engine environment setup at `3068e4f2` are not yet
+implemented. DLL startup, world activation and a finishable campaign are unproven.
 
-Engine argv allocation, the filling pass, complete startup and a finishable
-browser campaign remain unfinished. Earlier sections below are historical
-receipts, including superseded boundaries.
+The preceding filename checkpoint passed all 3,394 tests in 745.15 seconds, and
+command-line selection passed all 3,398 tests in 801.76 seconds, across 313 files,
+with typechecking and builds. The counting-parser publication run reported
+3,406 passes and one 30-second separator-test timeout across 313 files in 867.92
+seconds, plus two worker-termination warnings. It remains failed full validation.
+That test grouped two independent damage fixtures; the unchanged cases now run
+separately with the same per-case timeout, and both pass. The combined branch
+joins argv filling, this test repair and deployed PR #232 for fresh full
+validation. The newer native continuations are not yet deployed.
+
+Earlier sections below are historical receipts, including superseded boundaries.
 
 ## Publication checkpoint — 10 October 2026: Engine argument and locale startup
 

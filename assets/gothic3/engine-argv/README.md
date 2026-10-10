@@ -22,23 +22,24 @@ Independent JSON and TypeScript regenerations are byte-identical. Two source che
 Engine.dll SHA-256 is
 `d49ef92c0fdfeda433f6d04d0edeb7751e41e4c7c7effc1265630717029dc7e3`.
 
-The receipt keeps `runtimeConnected: false` because complete argument setup
-and its caller return remain unfinished. The selected runtime continuations
-listed below execute against the retained Engine CRT. Captured bytes and
-translated lower allocator/lock services retain separate proof scopes; capture
-alone does not authorize execution. The current local default selects the retained
-process command line, publishes the filename pointer, and makes the original
-counting-parser call `3068e7c4 -> 3068e5d7`, then executes the parser and its
-lead-byte/locale helpers. The default returns to `3068e7c9` after 12,669
-operations, with vector count 2 and string storage 12 bytes (one argument plus
-the NULL vector terminator). NULL and empty
-command lines select the actual filename buffer; an unknown first byte stops at
-its read without guessing a fallback. All 158 focused checks across six files, TypeScript checking and a production
-build pass, including quote/backslash handling, tabs, empty arguments and
-interrupted reads. Full validation of the publication branch is pending. Earlier sections below record superseded
-checkpoint boundaries. Engine-owned argv allocation, the filling pass and argument setup caller
-return remain unfinished. This does not prove
-complete engine startup or playable campaign.
+The preparation receipt retains `runtimeConnected: false`: capture alone is not
+an execution grant for every path in these bodies. The selected continuations
+below execute against the retained Engine CRT. Translated lower allocation and
+lock services have separate proof scopes.
+
+The current local default completes both parsing passes, allocates the original
+20-byte argument block, publishes argc 1 and the owned NULL-terminated argv,
+restores saved registers and returns 0 through `3068e827 -> 3067727b` after
+13,819 admitted operations. NULL and empty command lines use the filename
+buffer. A NULL argument allocation returns -1 without overwriting prior globals.
+Interrupted writes and publication preserve produced state and pending calls.
+
+All 164 focused checks across six files, TypeScript checking and a production
+build pass. Full validation of the combined publication branch is pending.
+Earlier sections are historical checkpoints. Alternate code-page, locale refresh
+and malloc-wait paths remain unsupported. The next caller's result test and
+Engine environment setup remain unfinished; complete startup and a finishable
+campaign are unproven.
 
 ## Game implementation comparison
 
@@ -310,3 +311,18 @@ Earlier stack-local values are checked before the parser reuses those slots.
 A returned counting pass proves its counts and return frame. It does not create
 argv storage, execute the filling pass, complete engine startup or prove campaign
 play.
+
+## Argument allocation, filling and return
+
+The original caller checks vector multiplication and total-size overflow before
+calling its captured CRT malloc wrapper. The translated lower allocator is
+bound to this Engine owner, and its actual cdecl return remains on the retained
+stack. The second parser pass writes only the returned argument allocation;
+vector entries carry capabilities into that same block, while string bytes and
+the NULL terminator are written through the captured instructions. Query and
+filling counts and helper-call totals are retained separately.
+
+Publication stores argc first and argv second. A failed second store keeps the
+new argc and prior argv, with no fabricated setup return. The normal return
+restores the outer caller's registers and ESP. The bootstrap records the actual
+0/-1 result and stops before executing caller TEST at `3067727b`.
