@@ -11866,3 +11866,9 @@ Hosted observation after PR #224 deployment: a fresh `/gothic3/` tab loaded
 scene and journal after deployment, not a specific native instruction frontier
 or a completed campaign. The combined publication checkout passed its production
 build and all 56 focused checks in four files (29.60 seconds).
+
+The single-byte checkpoint (`47c420e01`) passed all 3,336 full-suite tests in
+313 files in 541.56 seconds. The combined publication checkout retains the same
+runtime/evidence changes and the already validated main changes from PR #224.
+The next pending native dependency is case-table construction, not a completed
+startup or campaign.
