@@ -630,7 +630,19 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
             step('3067cff8',()=>pop('ECX'),'3067cff1');step('3067cff9',()=>stack.#ret(),'3067cff1');step('30671595',()=>stack.#ret(),'30671590');
             step('30671587',()=>setRegister('EAX',stack.#load(stack.#stack,relative('EBP',-28))),'3067155a');
             step('3067158a',()=>stack.#call('3067158a','3067158f'),'3067155a');
-            stack.#engineCinitFrame.pc='3067e545';return known(undefined);
+            const epilog=(pc:string,body:()=>void)=>step(pc,body,'3067e545');
+            epilog('3067e545',()=>setRegister('ECX',stack.#load(stack.#stack,relative('EBP',-16))));
+            epilog('3067e548',()=>stack.#store(stack.#bank,32,register('ECX')));epilog('3067e54f',()=>pop('ECX'));epilog('3067e550',()=>pop('EDI'));epilog('3067e551',()=>pop('EDI'));epilog('3067e552',()=>pop('ESI'));epilog('3067e553',()=>pop('EBX'));
+            epilog('3067e554',()=>setRegister('ESP',register('EBP')));epilog('3067e556',()=>pop('EBP'));epilog('3067e557',()=>stack.#push(register('ECX')));
+            epilog('3067e558',()=>{const p=stack.#record(stack.#ret()).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!=='3067158f')throw new Error('Original Engine onexit epilog return required');});
+            step('3067158f',()=>stack.#ret(),'3067155a');
+            step('3067159f',()=>{const p=stack.#record(register('EAX')).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!=='30671144')throw new Error('Actual nonnull Engine registered callback return required');setRegister('EAX',stack.#mint(0,0));stack.#flags(1,1);},'30671596');
+            step('306715a1',()=>{const flags=stack.#record(stack.#load(stack.#bank,36));if(!(flags.mask&1)||!(flags.value&1))throw new Error('Original nonnull callback carry required');setRegister('EAX',stack.#mint(0xffffffff,0xffffffff));stack.#arithmeticFlags(0,1,0xffffffff,4,true);},'30671596');
+            step('306715a3',()=>{const old=stack.#numeric(register('EAX'),4);setRegister('EAX',stack.#mint(1,0xffffffff));stack.#arithmeticFlags(0,old,1,4,true);},'30671596');step('306715a5',()=>pop('ECX'),'30671596');
+            step('306715a6',()=>{const old=stack.#record(stack.#load(stack.#bank,36));setRegister('EAX',stack.#mint(0,0xffffffff));stack.#arithmeticFlags(1,1,0,4,true);const next=stack.#record(stack.#load(stack.#bank,36));stack.#flags((next.value&~1)|(old.value&1),(next.mask&~1)|(old.mask&1));},'30671596');step('306715a7',()=>stack.#ret(),'30671596');
+            callback('3067118c',()=>{const value=stack.#numeric(register('EAX'),4);setRegister('EAX',stack.#mint((-value)>>>0,0xffffffff));stack.#arithmeticFlags(0,value,(-value)>>>0,4,true);});
+            callback('3067118e',()=>{const flags=stack.#record(stack.#load(stack.#bank,36));if(!(flags.mask&1))throw new Error('Actual initializer result carry required');const value=flags.value&1?0xffffffff:0;setRegister('EAX',stack.#mint(value,0xffffffff));stack.#arithmeticFlags(0,flags.value&1,value,4,true);});
+            callback('30671190',()=>pop('ECX'));callback('30671191',()=>{const value=stack.#numeric(register('EAX'),4)&24;setRegister('EAX',stack.#mint(value,0xffffffff));stack.#logicalFlags(value,0xffffffff,4);});callback('30671194',()=>stack.#ret());target=null;
           }
           if(target&&target!=='3067152b')return known(undefined);
           if(target){

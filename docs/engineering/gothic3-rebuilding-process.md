@@ -4,6 +4,20 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local continuation — 11 October 2026: C initializer walker return
+
+Onexit now retains its callback result, executes the original finally wrapper
+and releases Engine lock 8. The original EH4 epilog restores FS, saved registers
+and EBP. Both registration wrappers return their actual successful result, and
+the C initializer walker consumes all remaining zero slots. The selected normal
+path returns zero to `3067d1fe` after 2,176 admitted operations. All six C
+callbacks have returned; C++ initialization and full startup remain unfinished.
+
+Three focused runtime checks, typechecking before the assertion updates, and
+independent byte-identical JSON/TypeScript regeneration pass. Fresh combined
+validation of earlier revision `e8e62bd80` remains live. The latest continuation
+is local and does not establish a campaign playable through an ending.
+
 ## Local continuation — 11 October 2026: exit callback storage
 
 The normal onexit storage routine decodes the existing exit-table base and

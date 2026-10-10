@@ -33,6 +33,7 @@ def capture(study):
         0x3067cff1: 'engineExitUnlock',
         0x30671590: 'engineExitFinally',
         0x3067e500: 'engineOnexitEh4Prolog',
+        0x3067e545: 'engineOnexitEh4Epilog',
         0x3067dedb: 'engineDecodePointer',
         0x3067e45d: 'engineExitTableSize',
     })

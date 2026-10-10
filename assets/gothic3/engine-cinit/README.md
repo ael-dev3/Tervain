@@ -1,7 +1,7 @@
 # Engine CRT initializer evidence
 
 This package records the next dependency after Engine environment-vector return.
-It captures 29 original bodies (673 instructions), the caller at `30677284`,
+It captures 30 original bodies (684 instructions), the caller at `30677284`,
 the floating-point callback at `30892ac0`, and two original initializer tables.
 The C initializer table has 200 slots with 6 nonzero entries. The C++ table has
 93,705 slots with 1,963 nonzero entries; omitted entries are verified zero.
@@ -14,7 +14,7 @@ python tools/gothic3/prepare_engine_cinit_source.py --study '<study-root>' --out
 
 The generator checks the original Engine.dll hash and exact caller bytes.
 Independent regeneration produced identical JSON, SHA-256
-``7e5356cc5db8311ce8481f097f48abfa73a48740392205751a7b04d1817d5c27``.
+``969e3719703eba6658e7b97cd487225a2153f1b43632167383bde7a25b1021a1``.
 
 The capture's `runtimeConnected: false` records evidence preparation; it grants
 no execution authority. The TypeScript continuation separately obtains a
@@ -61,3 +61,8 @@ stores it in the existing table. It publishes the encoded cursor at offset 4
 and returns to onexit `30671577`, after 1,624 admitted operations. The allocation
 growth branch remains a pending dependency. Lock and exception cleanup have not
 yet returned.
+
+The normal shutdown-registration path now releases lock 8, restores FS and saved
+registers through the original epilog, and returns from both callback wrappers.
+The C initializer walker consumes the remaining zero slots and returns zero to
+`3067d1fe` after 2,176 admitted operations. C++ initialization remains unfinished.
