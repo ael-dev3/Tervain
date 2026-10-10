@@ -38,8 +38,13 @@ stack values are observed before the parser reuses their slots.
 All 158 focused checks across six files, TypeScript checking and a production
 build pass for the parser commit. Its source package contains 25 bodies and
 1,571 instructions; independent JSON/TypeScript regeneration is byte-identical.
-The publication branch now joins that checkpoint with deployed PR #232 and is
-undergoing full validation. The new native continuations are not yet deployed.
+The publication branch joins that checkpoint with deployed PR #232. Its full
+run reported 3,406 passes and one 30-second timeout across 313 files in 867.92
+seconds. The timed-out separator damage test grouped two independent fixtures;
+they now run as separate cases with unchanged inputs, assertions and per-case
+timeout. The run also reported two worker-termination warnings. This is failed
+full validation, not a green result. The new native continuations are not yet
+deployed.
 
 Engine argv allocation, the filling pass, complete startup and a finishable
 browser campaign remain unfinished. Earlier sections below are historical
