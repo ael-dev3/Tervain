@@ -11751,3 +11751,61 @@ validation for the math pointer, five C initializer entries and the C++ table.
 Those tables are source context, not execution evidence. The next integration
 must preserve the retained stack, image identities and prerequisite order while
 executing that frontier and its lower operations.
+
+### 10 October 2026: Engine code-page return (local checkpoint)
+
+The supported original locale-update constructor now runs on the retained
+Engine stack, including its byte-sized ownership flag, PTD locale/MBC pointers,
+conditional flag acquisition and `RET 4`. Engine GetACP uses its captured IAT
+receipt and a private current-call grant through the selected process NLS
+service. Normal return restores the caller and clears only temporary ownership.
+Existing ownership and adjacent stack padding are preserved.
+
+The CP1252 browser scenario reaches `30684ea8 -> 3067c9c1`, the next 544-byte
+MBC allocation call, after 186 operations. Missing NLS service retains the
+pending GetACP call at `30684c28` after 171 operations. Forty-one focused checks
+passed across four files; source JSON and TypeScript independently regenerate
+byte-identically. TypeScript checking and the production build passed. Full-suite
+validation is a separate gate. The complete campaign remains unfinished.
+PR #223 merged the earlier locale checkpoint and rebuilding guide; it does not
+include this local code-page continuation.
+
+### 10 October 2026: Engine MBC allocation and copy (local checkpoint)
+
+The original malloc wrapper executes on the retained Engine stack. Its lower
+call uses the already translated same-owner allocator; that lower body is now
+captured separately (78 instructions) and is not described as source-stack
+instruction execution. The 544-byte allocation is retained in the Engine heap.
+Both cdecl returns restore their actual callers before the parent copies the
+thread MBC with 136 DWORD moves and clears the new reference count.
+
+The browser CP1252 path reaches `30684ecb -> 30684c58` after 211 admitted
+operations. Forty-five focused checks passed across four files, including copied
+masks, source isolation, NULL allocation, unavailable allocator and unsupported
+backward-copy retention. This is a local checkpoint; the preceding code-page
+checkpoint has a separate full-suite run. The complete campaign remains
+unfinished.
+
+The MBC allocation checkpoint also passed TypeScript checking and a production
+build. Source JSON, TypeScript admission and the Game comparison independently
+regenerate byte-identically. The copied constructor stack record is a live alias;
+subsequent native calls can reuse its bytes after its lifetime ends.
+
+The preceding code-page checkpoint (`8e4deca77`) passed the complete local suite:
+3,321 tests in 313 files, 514.44 seconds. The subsequent allocation-and-copy
+checkpoint has its own full-suite validation. PR #223 deployed successfully via
+Actions run `38063606634` at main revision
+`87e8a812c41a4ad6382f435820902e872f1068bc`.
+
+Hosted observation after PR #223 deployment: a fresh `/gothic3/` tab loaded
+202 scene objects and 70 characters, entered Ardea, and showed
+`Xardas_FindXardas` as Running in the original quest journal. The interface
+continues to identify incomplete NPC AI and campaign paths. This confirms scene
+and journal availability; it does not verify a particular native instruction
+address or a finishable campaign. The temporary verification tab was closed.
+
+The allocation-and-copy checkpoint (`adf8c4001`) passed all 3,325 local tests
+in 313 files in 456.95 seconds. The publication checkout, including current main,
+also passed its production build and all 45 focused checks in four files
+(18.76 seconds). These checks validate the supported startup continuation, not
+complete AI or campaign integration.

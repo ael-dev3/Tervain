@@ -2,8 +2,8 @@
 
 `research.json` captures the original call at `30677276 -> 3068e76f`, its
 70-instruction argument setup, the two-pass parser, multibyte dependency wrapper,
-and CRT malloc wrapper. The package contains 11 methods, 688 instructions and
-1,992 instruction bytes, checked against the matching original Engine.dll.
+and CRT malloc wrapper. The package contains 12 methods, 766 instructions and
+2,187 instruction bytes, checked against the matching original Engine.dll.
 
 The setup calls GetModuleFileNameA, selects the current command line or filename,
 counts arguments and characters, allocates storage, parses again, and publishes
@@ -18,7 +18,7 @@ python tools/gothic3/prepare_engine_argv_source.py --study <study-directory> --o
 ```
 
 Independent JSON and TypeScript regenerations are byte-identical. Two source checks and TypeScript checking pass. The JSON package has SHA-256
-`521825f531d981a6957c8a6563307a13da23b4162e52f0615d9a264498aad89a`.
+`b79097f9b2533518d5fd10cea88eb62d0f1b9c6bd021fedf2255714ea6adc4bb`.
 Engine.dll SHA-256 is
 `d49ef92c0fdfeda433f6d04d0edeb7751e41e4c7c7effc1265630717029dc7e3`.
 
@@ -38,3 +38,37 @@ and offsets match with equal lengths and no reported mismatches. Regenerate with
 `tools/gothic3/compare_engine_game_argv_source.py --engine assets/gothic3/engine-argv/research.json --game assets/gothic3/game-argv/native-evidence.json --output assets/gothic3/engine-argv/game-comparison.json`.
 Independent regeneration and changed-instruction rejection pass. This comparison
 is an implementation aid, not authority to reuse Game pointers or call grants.
+
+## Engine code-page continuation
+
+The package also admits Engine's original `GetACP` import at IAT `30afc734`.
+The supported runtime path constructs the original 16-byte locale record on the
+retained Engine stack, obtains the same Engine PTD, and temporarily owns flag
+`0x2` only when it was previously clear. The original constructor returns with
+`RET 4`. The private import invocation returns the selected virtual process code
+page, then clears only the flag it acquired and returns to `30684e97`.
+
+With the browser CP1252 inputs, execution reaches the real 544-byte MBC malloc
+call at `30684ea8 -> 3067c9c1` after 186 admitted operations. Allocation and the
+remaining multibyte initialization are unfinished. With no NLS selection, the
+actual GetACP call remains pending at `30684c28` after 171 operations; the
+constructor's temporary flag remains set. This checkpoint does not finish
+startup or the campaign.
+
+## Engine MBC allocation continuation
+
+The malloc wrapper now runs its retained source stack and bridges the existing
+translated lower allocator `30672ec7` against the same Engine CRT owner. The
+lower body's 78 instructions are captured as evidence; they are not counted as
+instructions executed on this source stack. No Game allocation is reused.
+
+Normal allocation returns through both cdecl callers. The original REP MOVSD
+copies 136 DWORDs from the actual thread MBC into the separate 544-byte Engine
+allocation, preserving physical bytes and known-bit masks. It observes the
+selected logical thread's direction flag. The following AND clears only the new
+record's reference count. Execution then issues the actual initialization call
+`30684ecb -> 30684c58`, stopping at that helper after 211 admitted operations.
+
+NULL allocation, unavailable lower service and unsupported backward copy retain
+their actual branches, pending calls or allocation effects. Code-page table
+initialization, publication and full startup remain unfinished.

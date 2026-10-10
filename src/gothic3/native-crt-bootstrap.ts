@@ -344,6 +344,10 @@ export class NativeCrtBootstrap {
       bootstrap.#assertCrt();return known(undefined);
     }catch(error){return unknown(failureReason(error));}
   }
+  static engineArgvLocaleForCrt(bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object):NativeValue<Readonly<{current:NativeHeapObjectViews;original:NativeHeapObjectViews}>>{
+    const proof=NativeCrtBootstrap.canonicalEngineArgvCallForCrt(bootstrap,crt,permit);if(!proof.known)return proof;
+    try{if(bootstrap.thread.host.crt!==crt)throw new Error('Actual Engine locale owner required');return known(Object.freeze({current:bootstrap.#checked(bootstrap.thread.physical.currentLocale),original:bootstrap.#checked(bootstrap.thread.physical.defaultLocale)}));}catch(error){return unknown(failureReason(error));}
+  }
   static engineArgvMbcForCrt(bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object):NativeValue<NativeHeapObjectViews>{
     const proof=NativeCrtBootstrap.canonicalEngineArgvCallForCrt(bootstrap,crt,permit);if(!proof.known)return proof;
     try{if(bootstrap.thread.host.crt!==crt)throw new Error('Actual Engine MBC owner required');return known(bootstrap.#checked(bootstrap.thread.physical.mbcObject));}catch(error){return unknown(failureReason(error));}

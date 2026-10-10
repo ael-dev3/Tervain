@@ -122,10 +122,18 @@ in that merged revision is argument setup `30677276 -> 3068e76f`.
 
 The argument-startup checkpoint enters the multibyte routine, constructs its
 exception frame, returns the same Engine-owned thread-data record and completes
-the supported locale-helper path. It stops at code-page helper `30684bde`, called
-from `30684e92`. This continuation is not included in PR #221. Capturing that routine and its data does
-not establish that its behavior has been implemented. A merged revision also
-needs deployment and browser observation before claiming hosted behavior.
+the supported locale-helper path. That checkpoint merged in [PR #223](https://github.com/ael-dev3/Tervain/pull/223)
+and deployed successfully. It stops at code-page helper `30684bde`, called from
+`30684e92`.
+
+The next local checkpoint returns the selected process code page through the
+original locale-update record, allocates a separate Engine MBC record and copies
+the thread's existing state. It reaches code-page initialization
+`30684ecb -> 30684c58` after 211 admitted operations. The captured lower allocator
+uses its existing TypeScript implementation; its body is not counted as
+instructions executed on the retained source stack. This local continuation
+requires its own full-suite validation and deployment before claiming hosted
+behavior.
 
 Complete startup, world activation and a new-game-to-ending campaign remain
 unfinished. The checkpoint history records earlier boundaries and their evidence;
