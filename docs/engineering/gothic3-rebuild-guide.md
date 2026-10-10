@@ -51,7 +51,8 @@ stack. PropertyID initializer `204b26c0` returns. Accessor-creator initializer
 factory through the original virtual accessor. The factory query finds the
 registered root wrapper and tail-dispatches its clone routine. The clone allocates
 its new wrapper, executes its base constructor and retrieves the canonical type.
-Execution stops at non-root initialization CALL `20077c33`.
+Non-root initialization allocates a separate component and stops at its Engine
+constructor import CALL `200766b2`.
 Complete startup, world activation and a new-game-to-ending campaign remain
 unfinished. Local checkpoints and the hosted version can differ; the validation
 receipts below identify the checkpoint covered.
@@ -97,7 +98,24 @@ establish completion of these remaining features.
 The entries below describe successive local states, newest first. Statements
 about missing operations in older entries apply to those earlier checkpoints.
 
-### Latest local checkpoint: clone base construction and type getter return
+### Latest local checkpoint: non-root component allocation returns
+
+Clone initialization enters the captured wrapper body with root argument `0`.
+Its replacement routine follows the original non-root branch and calls tagged
+allocation with size `24` and category `0xc4`. MemoryAdmin returns a separate
+live component allocation. The original callee cleanup consumes eight argument
+bytes; EDI receives the component and ECX becomes its constructor receiver.
+Execution stops at Engine import CALL `200766b2`, before that constructor runs.
+The wrapper's component pointer remains null until later original stores.
+
+Nine focused tests passed in 13.86 seconds. They check component size, lifetime,
+separation from the wrapper, allocation category and executed branch instructions.
+TypeScript checking passed. The preceding clone-construction production build
+passed in 34.96 seconds; its full suite remains running. Those checks do not
+cover this new continuation. Full startup and a finishable campaign remain
+unfinished.
+
+### Historical checkpoint: clone base construction and type getter return
 
 The clone calls the existing original base-constructor body `10089290` on its
 live allocation. The constructor returns, and the clone's instructions clear

@@ -13,7 +13,12 @@ python tools/gothic3/prepare_ai_helper_accessor_creator_source.py --study "C:/Us
 ```
 
 The class-name call is connected to the existing canonical CString owner.
-The accessor constructor, object query, reference callbacks, cleanup registration
-and initializer return remain unfinished. Captured source alone proves no
-runtime execution. Related original creator behavior is recorded in the
-ScriptAdmin startup package at SharedBase body `100932e0`.
+The constructor enters the original object query. The query resolves the
+registered AI helper type, retrieves its factory and dispatches the root
+wrapper's original clone routine. The clone allocates and constructs its base,
+obtains the canonical type and enters non-root initialization. That path
+allocates a separate component and stops before its Engine constructor CALL
+`200766b2`. Reference callbacks, cleanup registration and initializer return
+remain unfinished. Captured source alone proves no runtime execution. See the
+[rebuild guide](../../../docs/engineering/gothic3-rebuild-guide.md) for validation
+receipts and the remaining campaign work.

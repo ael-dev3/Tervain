@@ -210,6 +210,7 @@ export class NativeX86ThreadStack {
   #aiHelperAccessorName: NativeHeapCString | null = null;
   #aiHelperAccessorQueryNode: NativeHeapObjectViews | null = null;
   #aiHelperCloneAllocation: NativeMemoryAllocation | null = null;
+  #aiHelperComponentAllocation: NativeMemoryAllocation | null = null;
   #aiHelperPropertyIdTextDestroyedSnapshot: ReturnType<NativeHeapCString["snapshot"]> | null = null;
   #aiHelperPropertyIdGuid: NativeGuidText | null = null;
   #aiHelperPropertyIdGuidConstructed: Readonly<{bytes:readonly number[];mask:readonly number[]}> | null = null;
@@ -3128,29 +3129,31 @@ export class NativeX86ThreadStack {
     const returned=this.#ret(0),source=this.#record(returned).provenance;
     if(source?.kind!=='source'||source.type!=='code'||source.address!=='204b23f4')throw new Error('Actual Label type getter return required');
   }); }
-  callAIHelperCloneAllocation(controller:object):NativeValue<void> {return this.#run(controller,()=>{
+  callAIHelperCloneAllocation(controller:object,site:string='20077bfb'):NativeValue<void> {return this.#run(controller,()=>{
     const binding=this.#setEnvpBinding;if(!binding||binding.controller!==controller)throw new Error('Actual retained Game startup controller required');
-    const grant=NativeGameCrtSetEnvp.canonicalAIHelperCloneAllocationCallForCrt(binding.owner,binding.crt,controller);if(!grant.known)throw new Error(grant.reason);
-    if(this.#calls.filter(call=>!call.returned).at(-1)?.site!=='100905e9')throw new Error('Actual factory clone allocation frame required');
+    const grant=NativeGameCrtSetEnvp.canonicalAIHelperCloneAllocationCallForCrt(binding.owner,binding.crt,controller,site);if(!grant.known)throw new Error(grant.reason);
+    const component=site==='200766a4',next=component?'200766aa':'20077c01';
+    if(this.#calls.filter(call=>!call.returned).at(-1)?.site!==(component?'20077054':'100905e9'))throw new Error('Actual AI helper allocation frame required');
     admitAIHelperCloneAllocationImport();
     const cursor=this.#address(this.#load(this.#bank,this.#reg('ESP'))),bytes=this.#numeric(this.#load(this.#stack,cursor),4),tag=this.#numeric(this.#load(this.#stack,cursor+4),4);
-    if(bytes!==16||tag!==0x190)throw new Error('Original AI helper wrapper allocation arguments required');
+    if(bytes!==(component?24:16)||tag!==(component?0xc4:0x190))throw new Error('Original AI helper allocation arguments required');
     const memory=nativeGameLayerBaseMemoryForCrt(binding.crt as NativeGameCrtOwner);if(!memory.known)throw new Error(memory.reason);
-    this.#call('20077bfb','20077c01');
+    this.#call(site,next);
     const result=NativeMemoryAdmin.prototype.newObject.call(memory.value,bytes,tag);if(!result.known)throw new Error(result.reason);
     let word=this.#mint(0,0xffffffff);
     if(result.value) {
       const fields=new NativeHeapObjectViews(result.value);
-      this.#aiHelperCloneAllocation=result.value;
+      if(component)this.#aiHelperComponentAllocation=result.value;else this.#aiHelperCloneAllocation=result.value;
       this.#arenaAllocations.set(fields,{owner:memory.value,allocation:result.value});this.#sharedLocalPhysical(fields);
       word=this.#mint(result.value.offset&3,3,{kind:'shared-local',fields});
     }
     this.#store(this.#bank,this.#reg('EAX'),word);
     const returned=this.#ret(8),source=this.#record(returned).provenance;
-    if(source?.kind!=='source'||source.type!=='code'||source.address!=='20077c01')throw new Error('Actual tagged allocation callee cleanup and return required');
+    if(source?.kind!=='source'||source.type!=='code'||source.address!==next)throw new Error('Actual tagged allocation callee cleanup and return required');
   }); }
   aiHelperAccessorQueryNodeSnapshot() {return this.#aiHelperAccessorQueryNode;}
   aiHelperCloneAllocationSnapshot() {return this.#aiHelperCloneAllocation;}
+  aiHelperComponentAllocationSnapshot() {return this.#aiHelperComponentAllocation;}
   callAIHelperAccessorTypeLookup(controller:object):NativeValue<void> {return this.#run(controller,()=>{
     const binding=this.#setEnvpBinding;if(!binding||binding.controller!==controller)throw new Error('Actual retained Game startup controller required');
     const grant=NativeGameCrtSetEnvp.canonicalAIHelperAccessorTypeLookupCallForCrt(binding.owner,binding.crt,controller);if(!grant.known)throw new Error(grant.reason);

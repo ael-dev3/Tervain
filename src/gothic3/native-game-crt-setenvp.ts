@@ -318,7 +318,7 @@ export class NativeGameCrtSetEnvp {
       owner.#requireSourcePoint(site).instruction===(site==='100905e0'?'MOV EDX,dword ptr [ECX]':'MOV EAX,dword ptr [EDX + 0xc]')
       ?known(undefined):unknown('Actual original accessor query virtual-table read required');
     if(site==='2007705c'||site==='2007705e')return owner.#pc===site&&owner.#currentEntry==='20077040'&&
-      frame?.entry==='20077040'&&frame.site==='204b269a'&&frame.returnPc==='204b269f'&&
+      frame?.entry==='20077040'&&((frame.site==='204b269a'&&frame.returnPc==='204b269f')||(frame.site==='20077c33'&&frame.returnPc==='20077c38'))&&
       owner.#requireSourcePoint(site).instruction===(site==='2007705c'?'MOV EDX,dword ptr [ECX]':'MOV EAX,dword ptr [EDX + 0xc]')
       ?known(undefined):unknown('Actual original AI helper administrator virtual-table read required');
     if(site==='2007505c'||site==='2007505e')return owner.#pc===site&&owner.#currentEntry==='20075040'&&
@@ -422,9 +422,12 @@ export class NativeGameCrtSetEnvp {
     return owner.#pc==='100905b7'&&owner.#currentEntry==='10090590'&&frame?.entry==='10090590'&&frame.site==='100932f6'&&frame.returnPc==='100932fb'&&
       owner.#requireSourcePoint(owner.#pc).instruction==='CALL 0x100019d8'?known(undefined):unknown('Actual original query type lookup required');
   }
-  static canonicalAIHelperCloneAllocationCallForCrt(owner:NativeGameCrtSetEnvp,crt:NativeModuleCrtOwner,controller:object):NativeValue<void> {
+  static canonicalAIHelperCloneAllocationCallForCrt(owner:NativeGameCrtSetEnvp,crt:NativeModuleCrtOwner,controller:object,site:string='20077bfb'):NativeValue<void> {
     const active=NativeGameCrtSetEnvp.canonicalControllerForCrt(owner,crt,controller,'invoke');if(!active.known)return active;
     const frame=owner.#frames.at(-1);
+    if(site==='200766a4')return owner.#pc===site&&owner.#currentEntry==='20076630'&&frame?.entry==='20076630'&&frame.site==='20077054'&&frame.returnPc==='20077059'&&owner.#requireSourcePoint(site).instruction==='CALL dword ptr [0x207d88f8]'
+      ?known(undefined):unknown('Actual original AI helper component allocation CALL required');
+    if(site!=='20077bfb')return unknown('Original AI helper allocation site required');
     return owner.#pc==='20077bfb'&&owner.#currentEntry==='20077bf0'&&frame?.entry==='20077bf0'&&frame.site==='100905e9'&&frame.returnPc==='100905ee'&&
       owner.#requireSourcePoint(owner.#pc).instruction==='CALL dword ptr [0x207d88f8]'?known(undefined):unknown('Actual original AI helper clone allocation CALL required');
   }
@@ -686,9 +689,10 @@ export class NativeGameCrtSetEnvp {
     fact(NativeX86ThreadStack.prototype.storeWidth.call(this.#stack, this.#controller, this.#address(destination.expression), word, bytes));
   }
   #call(point: NativeGameIoInstruction, target: Operand, returnPc: string): string {
-    if(point.va==='20077bfb') {
-      if(this.#currentEntry!=='20077bf0'||target.kind!=='memory'||target.expression!=='0x207d88f8'||target.fs||returnPc!=='20077c01')throw new Error('Original AI helper clone allocation import required');
-      fact(NativeX86ThreadStack.prototype.callAIHelperCloneAllocation.call(this.#stack,this.#controller));
+    if(point.va==='20077bfb'||point.va==='200766a4') {
+      const component=point.va==='200766a4';
+      if(this.#currentEntry!==(component?'20076630':'20077bf0')||target.kind!=='memory'||target.expression!=='0x207d88f8'||target.fs||returnPc!==(component?'200766aa':'20077c01'))throw new Error('Original AI helper allocation import required');
+      fact(NativeX86ThreadStack.prototype.callAIHelperCloneAllocation.call(this.#stack,this.#controller,point.va));
       this.#nextBoundary=null;return returnPc;
     }
     if(point.va==='204b1db4') {
@@ -950,8 +954,9 @@ export class NativeGameCrtSetEnvp {
       fact(NativeX86ThreadStack.prototype.registerAIHelperAdminWrapperCleanup.call(this.#stack,this.#controller));
       this.#nextBoundary=null;return returnPc;
     }
-    if(point.va==='204b269a') {
-      if(this.#currentEntry!=='204b2660'||target.kind!=='immediate'||target.value!==0x20026a08||returnPc!=='204b269f')
+    if(point.va==='204b269a'||point.va==='20077c33') {
+      const clone=point.va==='20077c33';
+      if(this.#currentEntry!==(clone?'20077bf0':'204b2660')||target.kind!=='immediate'||target.value!==0x20026a08||returnPc!==(clone?'20077c38':'204b269f'))
         throw new Error('Original AI helper administrator wrapper initialization call required');
       fact(NativeX86ThreadStack.prototype.call.call(this.#stack,this.#controller,point.va,returnPc));
       this.#frames.push(Object.freeze({entry:'20077040',site:point.va,returnPc,previousEntry:this.#currentEntry}));
@@ -1303,6 +1308,7 @@ export class NativeGameCrtSetEnvp {
     return Object.freeze({ module: 'Game' as const, phase: this.#phase, currentPC: this.#pc, boundary: this.#boundary,
       aiHelperAccessorQueryNode: NativeX86ThreadStack.prototype.aiHelperAccessorQueryNodeSnapshot.call(this.#stack),
       aiHelperCloneAllocation: NativeX86ThreadStack.prototype.aiHelperCloneAllocationSnapshot.call(this.#stack),
+      aiHelperComponentAllocation: NativeX86ThreadStack.prototype.aiHelperComponentAllocationSnapshot.call(this.#stack),
       aiHelperPropertyIdText: NativeX86ThreadStack.prototype.aiHelperPropertyIdTextSnapshot.call(this.#stack),
       aiHelperPropertyIdGuid: NativeX86ThreadStack.prototype.aiHelperPropertyIdGuidSnapshot.call(this.#stack),
       nextBoundary: this.#nextBoundary, physicalGraphTransferred: this.#physicalGraphTransferred,

@@ -54,7 +54,7 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  expect(game.known).toBe(true);
  if(!game.known)throw new Error(game.reason);
  expect(game.value.attachResult,game.value.attachProgress.setEnvpProgress?.currentPC).toEqual({known:false,
-  reason:'crtAttach204677e4: Unowned Unowned original environment CALL at20077c33: CALL 0x20026a08'});
+  reason:'crtAttach204677e4: Unowned Unowned original environment CALL at200766b2: CALL dword ptr [0x207d6ddc]'});
  const executed=new Set(game.value.attachProgress.setEnvpProgress!.effects.map(effect=>effect.pc));
  for(const pc of ['204b26c0','204b26c3','204b26c8'])expect(executed.has(pc)).toBe(true);
  for(const pc of ['204b26cc','204b26d2','204b26d5','204b26d6'])expect(executed.has(pc)).toBe(true);
@@ -83,7 +83,12 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  for(const pc of ['100905e9','1008cdd0','1008cdde','100891b0','1008ce15','100890d0','100890d2','100890d5','20077bf0','20077bf1','20077bf2','20077bf7','20077bf9'])expect(executed.has(pc)).toBe(true);
  for(const pc of ['20077bfb','20077c01','20077c03','20077c05','20077c07'])expect(executed.has(pc)).toBe(true);
  for(const pc of ['20077c09','10089290','100892be','20077c0f','20077c16','20077c1c','20077c21','20077c25','20077c27','20077c29','20077c2c'])expect(executed.has(pc)).toBe(true);
- expect(executed.has('20077c33')).toBe(false);
+ for(const pc of ['20077c33','20077040','20077054','20076697','2007669b','2007669d','200766a2','200766a4','200766aa','200766ac','200766ae','200766b0'])expect(executed.has(pc)).toBe(true);
+ expect(executed.has('200766b2')).toBe(false);
+ const component=game.value.attachProgress.setEnvpProgress!.aiHelperComponentAllocation!;
+ expect(component.requestedBytes).toBe(24);expect(component.capacity).toBeGreaterThanOrEqual(24);expect(component.freed).toBe(false);
+ expect(component).not.toBe(game.value.attachProgress.setEnvpProgress!.aiHelperCloneAllocation);
+ expect(memory.snapshot().trace).toContain('tagged-new:24:196');
  const clone=game.value.attachProgress.setEnvpProgress!.aiHelperCloneAllocation!;
  expect(clone.requestedBytes).toBe(16);expect(clone.capacity).toBeGreaterThanOrEqual(16);expect(clone.freed).toBe(false);
  expect(clone).not.toBe(NativeGameAIHelperAdminType.forCrt(game.value.crt,memory).snapshot().wrapper);
