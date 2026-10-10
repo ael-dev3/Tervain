@@ -777,7 +777,41 @@ export class NativeX86ThreadStack {
             body('30691606',()=>{invokeMbcNls('GetStringTypeW','30691606','3069160c',16);frame.mbcCaseTypesReturned=true;});
             body('3069160c',()=>stack.#store(stack.#stack,relative('EBP',-8),reg('EAX')));
             body('3069160f',()=>stack.#push(reg('EBX')));
-            frame.pc='30691610';engineArgvInstruction('306914ea',frame.pc);throw new Error('Engine conversion buffer cleanup30675d66 at30691610');
+            body('30691610',()=>stack.#call('30691610','30691615'));
+            const cleanup=(pc:string,operation:()=>void)=>step(pc,operation,'30675d66');
+            cleanup('30675d66',()=>set('EAX',stack.#load(stack.#stack,relative('ESP',4))));
+            cleanup('30675d6a',()=>{const pointer=stack.#liveWord(reg('EAX')).provenance;if(pointer?.kind!=='stack')throw new Error('Actual Engine stack conversion buffer required');stack.#flags(0,64);});
+            cleanup('30675d6c',()=>{if(branchZero())throw new Error('Engine null conversion cleanup path unsupported');});
+            cleanup('30675d6e',()=>set('EAX',stack.#stackWord(stack.#address(reg('EAX'))-8)));
+            cleanup('30675d71',()=>{const offset=stack.#address(reg('EAX'));if(offset!==frame.mbcStackEntryEsp!-frame.mbcStackBytes!)throw new Error('Actual Engine conversion allocation header required');const marker=stack.#numeric(stack.#load(stack.#stack,offset),4);stack.#arithmeticFlags(marker,0xdddd,(marker-0xdddd)>>>0,4,true);});
+            cleanup('30675d77',()=>{if(!branchZero())return;throw new Error('Engine heap conversion buffer release unsupported');});
+            cleanup('30675d80',()=>{const target=stack.#liveWord(stack.#ret()).provenance;if(target?.kind!=='source'||target.type!=='code'||target.address!=='30691615')throw new Error('Actual Engine buffer cleanup return required');});
+            body('30691615',()=>set('EAX',stack.#load(stack.#stack,relative('EBP',-8))));
+            body('30691618',()=>pop('ECX'));
+            body('30691619',()=>{});
+            body('30691690',()=>set('ESP',stack.#stackWord(relative('EBP',-20))));
+            body('30691693',()=>pop('EDI'));
+            body('30691694',()=>pop('ESI'));
+            body('30691695',()=>pop('EBX'));
+            body('30691696',()=>set('ECX',stack.#load(stack.#stack,relative('EBP',-4))));
+            body('30691699',()=>{const encoded=stack.#liveWord(reg('ECX')).provenance;if(encoded?.kind!=='xor'||encoded.right!==reg('EBP'))throw new Error('Actual retained Engine classification cookie XOR relation required');const decoded=stack.#liveWord(encoded.left);set('ECX',encoded.left);stack.#logicalFlags(decoded.value,decoded.mask,4);});
+            body('3069169b',()=>stack.#call('3069169b','306916a0'));
+            const cookieStep=(pc:string,operation:()=>void)=>step(pc,operation,'3067746c');
+            cookieStep('3067746c',()=>{const cookie=NativeCrtBootstrap.engineArgvCookieForCrt(bootstrap,crt,permit);if(!cookie.known)throw new Error(cookie.reason);const left=stack.#numeric(reg('ECX'),4),right=NativeHeapObjectViews.prototype.readUnsigned.call(cookie.value,0);stack.#arithmeticFlags(left,right,(left-right)>>>0,4,true);});
+            cookieStep('30677472',()=>{if(!branchZero())throw new Error('Engine classification cookie mismatch');});
+            cookieStep('30677474',()=>{const target=stack.#liveWord(stack.#ret()).provenance;if(target?.kind!=='source'||target.type!=='code'||target.address!=='306916a0')throw new Error('Actual Engine classification cookie return required');});
+            body('306916a0',()=>{set('ESP',reg('EBP'));pop('EBP');});
+            body('306916a1',()=>{const target=stack.#liveWord(stack.#ret()).provenance;if(target?.kind!=='source'||target.type!=='code'||target.address!=='306916d0')throw new Error('Actual Engine classification body return required');});
+            classify('306916d0',()=>set('ESP',stack.#stackWord(relative('ESP',28))));
+            classify('306916d3',()=>{const byte=NativeHeapObjectViews.prototype.maskedWord.call(stack.#stack,relative('EBP',-4),1);if(byte.knownMask!==255)throw new Error('Actual Engine classification locale ownership byte required');stack.#arithmeticFlags(byte.value,0,byte.value,1,true);});
+            let acquired=false;classify('306916d7',()=>{acquired=!branchZero();});
+            if(acquired){
+              classify('306916d9',()=>{const pointer=stack.#load(stack.#stack,relative('EBP',-8));if(ptd(pointer)!==frame.mbcClassifyPtd)throw new Error('Actual Engine classification PTD required');set('ECX',pointer);});
+              classify('306916dc',()=>{const fields=ptd(reg('ECX')),flags=NativeHeapObjectViews.prototype.maskedWord.call(fields,0x70),result=flags.value&0xfffffffd,mask=flags.knownMask|2;stack.#store(fields,0x70,stack.#mint(result,mask));stack.#logicalFlags(result,mask,4);});
+            }
+            classify('306916e0',()=>{set('ESP',reg('EBP'));pop('EBP');});
+            classify('306916e1',()=>{const target=stack.#liveWord(stack.#ret()).provenance;if(target?.kind!=='source'||target.type!=='code'||target.address!=='30684a4b'||relative('EBP',0)!==frame.mbcCaseEbp)throw new Error('Actual Engine classification wrapper return required');});
+            frame.pc='30684a4b';engineArgvInstruction('306849b0',frame.pc);throw new Error('Engine case mapping preparation at30684a4b');
           }
           wrapper('30685022',()=>{set('EAX',stack.#mint(0,0xffffffff));stack.#logicalFlags(0,0xffffffff,4);});
           wrapper('30685024',()=>{const next=stack.#record(stack.#ret()).provenance;if(next?.kind!=='source'||next.type!=='code'||next.address!=='3068e787')throw new Error('Actual Engine multibyte wrapper return required');});

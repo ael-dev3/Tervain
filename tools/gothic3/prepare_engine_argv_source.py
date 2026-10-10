@@ -27,6 +27,8 @@ def capture(study):
         0x306914ea: 'engineMbcCharacterTypesBody',
         0x3068de60: 'engineConversionStackAlignment',
         0x30674820: 'engineConversionStackProbe',
+        0x30675d66: 'engineConversionBufferCleanup',
+        0x3067746c: 'engineConversionCookieCheck',
     })
     pe = PE((study / '00_Original_Runtime/Engine.dll').read_bytes())
     caller = pe.bytes(0x30677276, 5)
