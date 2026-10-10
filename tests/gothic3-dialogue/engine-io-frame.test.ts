@@ -1,5 +1,6 @@
 import {expect,it,vi} from 'vitest';
 import {NativeCrtBootstrap} from '../../src/gothic3/native-crt-bootstrap';
+import {NativeEngineIoImages} from '../../src/gothic3/native-engine-io-images';
 import {NativeEngineCrtOwner} from '../../src/gothic3/native-engine-crt-locks';
 import {NativeX86ThreadStack} from '../../src/gothic3/native-x86-thread-stack';
 import {NativeRuntimePlatform} from '../../src/gothic3/native-runtime-platform';
@@ -47,9 +48,10 @@ it('retains the pushed frame prefix when the current Engine cookie becomes unkno
 });
 
 it('returns from the Engine startup writer with actual stores and stdcall cleanup',()=>{
- const {bootstrap}=fixture({writes:[{offset:0,width:4,value:68,knownMask:0xffffffff},{offset:45,width:1,value:0xa5,knownMask:0xff}],outcome:'normal'});
- const result=bootstrap.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Continuation unfinished');expect(result.reason).toContain('Engine I/O continuation at30688719');
- const frame=bootstrap.attachProgress().engineIoProgress!;expect(frame.operations).toBe(35);expect(frame.callocReturned).toBe(true);expect(frame.allocation!.bytes.length).toBe(1792);expect([...frame.allocation!.bytes]).toEqual(Array(1792).fill(0));expect([...frame.allocation!.knownMask]).toEqual(Array(1792).fill(255));expect(frame.startupInfo!.readUnsigned(0)).toBe(68);expect(frame.startupInfo!.readUnsigned(45,1)).toBe(0xa5);
+ const {bootstrap,crt}=fixture({writes:[{offset:0,width:4,value:68,knownMask:0xffffffff},{offset:45,width:1,value:0xa5,knownMask:0xff}],outcome:'normal'});
+ const result=bootstrap.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Continuation unfinished');expect(result.reason).toContain('Engine I/O record loop at3068875f');
+ const frame=bootstrap.attachProgress().engineIoProgress!;expect(frame.operations).toBe(43);expect(frame.callocReturned).toBe(true);expect(frame.allocation!.bytes.length).toBe(1792);expect([...frame.allocation!.bytes]).toEqual(Array(1792).fill(0));expect([...frame.allocation!.knownMask]).toEqual(Array(1792).fill(255));
+ const images=bootstrap.attachProgress().engineIoImages!,table=NativeEngineIoImages.imageForCrt(images,crt,'ioBlockPointers'),count=NativeEngineIoImages.imageForCrt(images,crt,'ioHandleCount');if(!table.known||!count.known)throw new Error('Missing Engine images');expect(count.value.readUnsigned(0)).toBe(32);expect(table.value.pointer<{fields:NativeHeapObjectViews;offset:number}>(0).get()).toMatchObject({fields:frame.allocation,offset:0});expect(frame.startupInfo!.readUnsigned(0)).toBe(68);expect(frame.startupInfo!.readUnsigned(45,1)).toBe(0xa5);
  for(const offset of [0,4,8])expect(frame.bank.maskedWord(offset).knownMask).toBe(0);
  const trace=bootstrap.snapshot().trace;expect(bootstrap.processAttach()).toEqual(result);expect(bootstrap.snapshot().trace).toEqual(trace);
 });

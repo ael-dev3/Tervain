@@ -290,7 +290,20 @@ export class NativeX86ThreadStack {
           if(continuation?.kind!=='source'||continuation.type!=='code'||continuation.address!=='30688719'||relative('ESP',0)!==argumentPosition)throw new Error('Actual Engine calloc cdecl return required');
           frame.callocReturned=true;
         });
-        frame.pc='30688719';engineIoInstruction('306886ec',frame.pc);throw new Error('Engine I/O continuation at30688719');
+        const popEcx=()=>{const position=relative('ESP',0);set('ECX',stack.#load(stack.#stack,position));set('ESP',stack.#stackWord(position+4));};
+        step('306886ec','30688719',popEcx);
+        step('306886ec','3068871a',popEcx);
+        step('306886ec','3068871b',()=>{if(stack.#numeric(register('EDI'),4)!==0)throw new Error('Actual Engine null comparison required');stack.#liveWord(register('EAX'));stack.#flags(frame.allocation?0:0x40,0x40);});
+        step('306886ec','3068871d',()=>{if(!frame.allocation)throw new Error('Engine I/O allocation failure branch at30688923');});
+        step('306886ec','30688723',()=>{
+          const table=NativeEngineIoImages.imageForCrt(frame.images,crt,'ioBlockPointers');if(!table.known)throw new Error(table.reason);
+          const allocation=frame.allocation!;const owned=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields:allocation,offset:0},1792);if(!owned.known)throw new Error(owned.reason);
+          table.value.pointer(0).set(Object.freeze({fields:allocation,offset:0}));
+        });
+        step('306886ec','30688728',()=>{const count=NativeEngineIoImages.imageForCrt(frame.images,crt,'ioHandleCount');if(!count.known)throw new Error(count.reason);count.value.writeUnsigned(0,stack.#numeric(register('ESI'),4));});
+        step('306886ec','3068872e',()=>{const fields=frame.allocation!;const owned=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields,offset:1792},0);if(!owned.known)throw new Error(owned.reason);set('ECX',stack.#mint(0,0,{kind:'engine-allocation',crt,fields,offset:1792}));});
+        step('306886ec','30688734',()=>{});
+        frame.pc='3068875f';engineIoInstruction('306886ec',frame.pc);throw new Error('Engine I/O record loop at3068875f');
       }catch(error){frame.boundary??=reason(error);frame.phase='blocked';if(!stack.#executing){stack.#boundary??=frame.boundary;stack.#phase='blocked';}return unknown(frame.boundary);}
       finally{stack.#engineIoExecuting=false;}
     }catch(error){return unknown(reason(error));}

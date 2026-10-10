@@ -4,6 +4,21 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local checkpoint — 10 October 2026: Engine I/O block publication
+
+Eight original caller instructions now remove calloc arguments, compare the
+returned allocation against NULL, publish its opaque pointer in Engine's own
+`30af7d20` table, store handle count 32 at `30af7cdc`, and prepare the end pointer.
+Execution stops at the original record-loop comparison `3068875f`. Record field
+stores, startup handle adoption and later critical sections are unfinished.
+
+Twelve focused checks across three files and TypeScript checking pass. The image
+checks verify that the count and table reference the actual retained allocation.
+The preceding EH4 frame revision passed all 3,284 tests across 311 files in
+495.80 seconds and its production build passed. Those broad results do not yet
+cover this later writer, calloc and publication revision. Public deployment of
+these local changes remains pending; the campaign remains unfinished.
+
 ## Local checkpoint — 10 October 2026: Engine I/O calloc return
 
 The actual caller at `30688714` now reads its retained count and size arguments
