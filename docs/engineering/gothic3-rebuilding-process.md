@@ -4,6 +4,20 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local checkpoint — 10 October 2026: Engine argument image ownership
+
+A per-Engine-CRT owner now retains the six new argument images: multibyte-ready
+state, module filename and sentinel, program-name pointer, argument count and
+argument vector. Source admission verifies their receipts. The existing CRT
+bootstrap command-line image is deliberately excluded, so creating this owner
+cannot allocate or reseed a second command-line pointer image.
+
+Five focused checks and TypeScript checking pass. Mutable image contents and
+pointer identities survive repeated lookup. Foreign CRTs, Game owners, prototype
+counterfeits, replaced backing arrays and released storage are rejected without
+repair. This is cold data ownership only; it does not run the parser or attach the
+Engine DLL. Complete browser campaign play remains unfinished.
+
 ## Local checkpoint — 10 October 2026: Engine argument source admission
 
 The argument generator now emits TypeScript source admission alongside its JSON
