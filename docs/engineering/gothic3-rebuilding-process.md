@@ -11859,3 +11859,10 @@ PR #224 merged at main revision `6f962c2787c44e9f718bf7b6875ac4afa78213e9`.
 Its build and Pages deployment succeeded in Actions run `38066036605`. The next
 publication checkout resolves the dated-receipt merge by keeping both the prior
 validation/hosted observations and the newer initializer receipts.
+
+Hosted observation after PR #224 deployment: a fresh `/gothic3/` tab loaded
+202 scene objects and 70 characters, entered Ardea and showed
+`Xardas_FindXardas` as Running. The temporary tab was closed. This verifies the
+scene and journal after deployment, not a specific native instruction frontier
+or a completed campaign. The combined publication checkout passed its production
+build and all 56 focused checks in four files (29.60 seconds).
