@@ -1663,7 +1663,7 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
     if (!entry || entry.backing !== old || entry.kind !== 'win32-heap' ||
         !retained.allocations.has(old) || old.freed || this.#releasedBackings.has(old) ||
         geometry.value.offset !== 0 || geometry.value.allocationBegin !== 0)
-      return unknown('HeapReAlloc requires this heapâ€™s live allocation base');
+      return unknown('HeapReAlloc requires this heap’s live allocation base');
     const allocated = this.#win32HeapAlloc(heap, 0, bytes);
     if (!allocated.known || allocated.value === null) return allocated;
     const moved = allocated.value;
