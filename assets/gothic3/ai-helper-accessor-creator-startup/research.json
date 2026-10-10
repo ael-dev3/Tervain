@@ -1,0 +1,136 @@
+{
+  "schema": "gothic3-ai-helper-accessor-creator-research-v1",
+  "module": "Game.dll",
+  "inputSha256": "b09afc5c180969a6302d9d706f0ad8efebf7c1fcd9301096bf5c1b1f2cf8eb2f",
+  "initializer": "204b2720",
+  "extent": "204b2720-204b2741",
+  "bytes": "e8cb6ab6ff5068a8527b20b9bc527b20ff15b4867d2068509d5420e88e10fbff59c3",
+  "bytesSha256": "2faf21fc7db134b9eb007357f8d502465ee77c2619e546d7e056e03eb0d79aad",
+  "instructions": [
+    {
+      "va": "204b2720",
+      "rva": "4b2720",
+      "fileOffset": 4925216,
+      "bytes": "e8cb6ab6ff",
+      "instruction": "CALL 0x200191f0",
+      "assemblyLine": 1
+    },
+    {
+      "va": "204b2725",
+      "rva": "4b2725",
+      "fileOffset": 4925221,
+      "bytes": "50",
+      "instruction": "PUSH EAX",
+      "assemblyLine": 2
+    },
+    {
+      "va": "204b2726",
+      "rva": "4b2726",
+      "fileOffset": 4925222,
+      "bytes": "68a8527b20",
+      "instruction": "PUSH 0x207b52a8",
+      "assemblyLine": 3
+    },
+    {
+      "va": "204b272b",
+      "rva": "4b272b",
+      "fileOffset": 4925227,
+      "bytes": "b9bc527b20",
+      "instruction": "MOV ECX,0x207b52bc",
+      "assemblyLine": 4
+    },
+    {
+      "va": "204b2730",
+      "rva": "4b2730",
+      "fileOffset": 4925232,
+      "bytes": "ff15b4867d20",
+      "instruction": "CALL dword ptr [0x207d86b4]",
+      "assemblyLine": 5
+    },
+    {
+      "va": "204b2736",
+      "rva": "4b2736",
+      "fileOffset": 4925238,
+      "bytes": "68509d5420",
+      "instruction": "PUSH 0x20549d50",
+      "assemblyLine": 6
+    },
+    {
+      "va": "204b273b",
+      "rva": "4b273b",
+      "fileOffset": 4925243,
+      "bytes": "e88e10fbff",
+      "instruction": "CALL 0x204637ce",
+      "assemblyLine": 7
+    },
+    {
+      "va": "204b2740",
+      "rva": "4b2740",
+      "fileOffset": 4925248,
+      "bytes": "59",
+      "instruction": "POP ECX",
+      "assemblyLine": 8
+    },
+    {
+      "va": "204b2741",
+      "rva": "4b2741",
+      "fileOffset": 4925249,
+      "bytes": "c3",
+      "instruction": "RET",
+      "assemblyLine": 9
+    }
+  ],
+  "destination": "207b52bc",
+  "cleanup": "20549d50",
+  "imports": [
+    {
+      "iatVA": "0x207d86b4",
+      "module": "SharedBase.dll",
+      "name": "??0bCAccessorCreator@@QAE@ABVbCPropertyID@@PBVbCString@@@Z",
+      "ordinal": null
+    }
+  ],
+  "cleanupReceipt": {
+    "entry": "20549d50",
+    "bytes": "b9bc527b20ff25d0887d20",
+    "bytesSha256": "36f02bf105093fe5cee074976b865bb465f6baf25cc80ba7175d7ca361f9c7fa",
+    "instructions": [
+      {
+        "va": "20549d50",
+        "bytes": "b9bc527b20",
+        "instruction": "MOV ECX,0x207b52bc"
+      },
+      {
+        "va": "20549d55",
+        "bytes": "ff25d0887d20",
+        "instruction": "JMP dword ptr [0x207d88d0]"
+      }
+    ],
+    "importBinding": {
+      "iatVA": "0x207d88d0",
+      "module": "SharedBase.dll",
+      "name": "??1bCAccessorCreator@@QAE@XZ",
+      "ordinal": null
+    }
+  },
+  "images": [
+    {
+      "label": "aiHelperAccessorCreator",
+      "address": "207b52bc",
+      "bytes": 4,
+      "raw": "00000000",
+      "fileBackedBytes": 0,
+      "loaderZeroFillBytes": 4,
+      "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+      "liveValueCaptured": false
+    }
+  ],
+  "relatedImplementation": "src/gothic3/native-game-script-admin-startup.ts",
+  "runtimeConnected": false,
+  "initializerReturnVerified": false,
+  "notes": [
+    "The class-name getter reuses the canonical AI helper administrator CString.",
+    "The accessor creator receives the retained PropertyID and class-name pointer.",
+    "Source capture alone does not establish startup execution or return."
+  ]
+}

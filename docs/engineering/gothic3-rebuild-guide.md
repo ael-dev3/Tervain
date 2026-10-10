@@ -47,7 +47,7 @@ Each feature goes through the following steps:
 **Current local boundary:** Arena Status, None, Running, AI FreePoint, Label
 and AI helper administrator initialization return through the retained startup
 stack. Startup enters PropertyID initializer `204b26c0` and reaches its unsupported
-unsupported C++ initializer `204b2720`.
+accessor creator constructor CALL at `204b2730`.
 Complete startup, world activation and a new-game-to-ending campaign remain
 unfinished. Local checkpoints and the hosted version can differ; the validation
 receipts below identify the checkpoint covered.
@@ -72,7 +72,19 @@ establish completion of these remaining features.
 The entries below describe successive local states, newest first. Statements
 about missing operations in older entries apply to those earlier checkpoints.
 
-### Latest local checkpoint: complete AI helper PropertyID initializer returns
+### Latest local checkpoint: AI helper accessor class-name getter returns
+
+Initializer `204b2720` enters on the retained stack. Its class-name getter reuses
+the existing administrator CString owner, then pushes that pointer and the
+retained PropertyID and prepares the separate accessor creator receiver.
+Execution stops at constructor import `204b2730 -> 207d86b4`.
+
+Nine focused tests passed in 13.77 seconds. Independent JSON and generated
+TypeScript matched. Diagnostics retain GUID construction-time bytes and mark
+the temporary lifetime ended; later stack reuse is not represented as live GUID
+state. Accessor construction and the initializer return remain unfinished.
+
+### Historical checkpoint: complete AI helper PropertyID initializer returns
 
 The original GUID destructor returns without stores. CString destruction uses
 the same retained temporary owner and frees its allocation. The initializer

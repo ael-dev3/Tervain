@@ -1,3 +1,4 @@
+import {NativeGameAIHelperAdminClassName} from './native-game-ai-helper-admin-class-name';
 import scriptAdminSource from '../../assets/gothic3/script-admin-startup/runtime-rules.json';
 import {constructNativePropertyIdFromGuid} from './native-property-id-guid';
 import {NativeSharedGuidNull} from './native-shared-guid-null';
@@ -206,6 +207,8 @@ export class NativeX86ThreadStack {
   #setEnvpBinding: SetEnvpBinding | null = null;
   #aiHelperPropertyIdText: NativeHeapCString | null = null;
   #aiHelperPropertyIdGuid: NativeGuidText | null = null;
+  #aiHelperPropertyIdGuidConstructed: Readonly<{bytes:readonly number[];mask:readonly number[]}> | null = null;
+  #aiHelperPropertyIdGuidLifetimeEnded=false;
   #aiHelperPropertyIdGuidPaddingBefore: Readonly<{bytes:readonly number[];mask:readonly number[]}> | null = null;
   #arenaPropertySingleton:NativePropertySingleton|null=null;
   readonly #arenaAllocations=new Map<NativeHeapObjectViews,{owner:NativeMemoryAdmin;allocation:NativeMemoryAllocation}>();
@@ -3096,6 +3099,20 @@ export class NativeX86ThreadStack {
     const returned=this.#ret(0),source=this.#record(returned).provenance;
     if(source?.kind!=='source'||source.type!=='code'||source.address!=='204b23f4')throw new Error('Actual Label type getter return required');
   }); }
+  callAIHelperAccessorClassName(controller:object):NativeValue<void> {return this.#run(controller,()=>{
+    const binding=this.#setEnvpBinding;if(!binding||binding.controller!==controller)throw new Error('Actual retained Game startup controller required');
+    const grant=NativeGameCrtSetEnvp.canonicalAIHelperAccessorClassNameCallForCrt(binding.owner,binding.crt,controller);if(!grant.known)throw new Error(grant.reason);
+    if(this.#calls.filter(call=>!call.returned).at(-1)?.site!=='20466654')throw new Error('Actual accessor initializer frame required');
+    const crt=binding.crt as NativeGameCrtOwner,memory=nativeGameLayerBaseMemoryForCrt(crt);if(!memory.known)throw new Error(memory.reason);
+    this.#call('204b2720','204b2725');
+    const name=NativeGameAIHelperAdminClassName.prototype.get.call(NativeGameAIHelperAdminClassName.forCrt(crt,memory.value));if(!name.known)throw new Error(name.reason);
+    const image=NativeModuleCrtOwner.canonicalImageForOwner(crt,'aiHelperAdminClassNameAndCache');
+    if(!image.known||name.value.slot.backing!==image.value.backing||name.value.slot.bytes.byteOffset!==image.value.bytes.byteOffset||name.value.slot.bytes.length!==4)
+      throw new Error('Actual retained AI helper class-name CString required');
+    this.#store(this.#bank,this.#reg('EAX'),this.#moduleWord('aiHelperAdminClassNameAndCache',0));
+    const returned=this.#ret(0),source=this.#record(returned).provenance;
+    if(source?.kind!=='source'||source.type!=='code'||source.address!=='204b2725')throw new Error('Actual accessor class-name return required');
+  }); }
   finishAIHelperPropertyIdInitializerCall(controller:object,site:'204b26f0'|'204b26f9'|'204b2704'):NativeValue<void> {return this.#run(controller,()=>{
     const binding=this.#setEnvpBinding;if(!binding||binding.controller!==controller)throw new Error('Actual retained Game startup controller required');
     const grant=NativeGameCrtSetEnvp.canonicalAIHelperPropertyIdFinishCallForCrt(binding.owner,binding.crt,controller,site);if(!grant.known)throw new Error(grant.reason);
@@ -3111,6 +3128,7 @@ export class NativeX86ThreadStack {
         scriptAdminSource.methods.guidDtor.bodyInstructionBytesSha256!=='ae3f4619b0413d70d3004b9131c3752153074e45725be13b9a148978895e359e'))
         throw new Error('Original literal RET GUID destructor required');
       this.#call(site,returnPc);
+      if(site==='204b26f0')this.#aiHelperPropertyIdGuidLifetimeEnded=true;
       if(site==='204b26f9') {const result=NativeHeapCString.prototype.destroy.call(this.#aiHelperPropertyIdText);if(!result.known)throw new Error(result.reason);}
     } else {
       const esp=this.#address(this.#load(this.#bank,this.#reg('ESP')));
@@ -3142,7 +3160,7 @@ export class NativeX86ThreadStack {
     const returned=this.#ret(4),source=this.#record(returned).provenance;
     if(source?.kind!=='source'||source.type!=='code'||source.address!=='204b26ec')throw new Error('Actual PropertyID constructor return required');
   }); }
-  aiHelperPropertyIdGuidSnapshot() {const guid=this.#aiHelperPropertyIdGuid;return guid?Object.freeze({...guid.snapshot(),paddingBefore:this.#aiHelperPropertyIdGuidPaddingBefore}):null;}
+  aiHelperPropertyIdGuidSnapshot() {const guid=this.#aiHelperPropertyIdGuid;return guid?Object.freeze({...guid.snapshot(),paddingBefore:this.#aiHelperPropertyIdGuidPaddingBefore,constructed:this.#aiHelperPropertyIdGuidConstructed,lifetimeEnded:this.#aiHelperPropertyIdGuidLifetimeEnded}):null;}
   callAIHelperPropertyIdGuidConstructor(controller:object):NativeValue<void> {return this.#run(controller,()=>{
     const binding=this.#setEnvpBinding;
     if(!binding||binding.controller!==controller)throw new Error('Actual retained Game startup controller required');
@@ -3164,6 +3182,7 @@ export class NativeX86ThreadStack {
     const guid=new NativeGuidText(memory.value,guidFields,platform.value);this.#aiHelperPropertyIdGuid=guid;
     const result=NativeGuidText.prototype.setData.call(guid,this.#aiHelperPropertyIdText);
     if(!result.known)throw new Error(result.reason);
+    this.#aiHelperPropertyIdGuidConstructed=Object.freeze({bytes:Object.freeze([...guidFields.bytes]),mask:Object.freeze([...guidFields.knownMask])});
     // Original bCGuid text constructor ignores SetData's BOOL and returns this.
     this.#store(this.#bank,this.#reg('EAX'),receiver);
     const returned=this.#ret(4),source=this.#record(returned).provenance;

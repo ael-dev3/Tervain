@@ -1,3 +1,4 @@
+import {aiHelperAccessorCreatorInstruction} from './native-game-ai-helper-accessor-creator-source';
 import {aiHelperPropertyIdInstruction} from './native-game-ai-helper-property-id-source';
 import {aiHelperAdminInitializerInstruction,aiHelperAdminWrapperInstruction,aiHelperAdminReplacementInstruction,aiHelperAdminAccessorInstruction} from './native-game-ai-helper-admin-source';
 /** The bounded original Game caller/environment source unit. Every reached instruction
@@ -81,6 +82,7 @@ const bodies = Object.freeze([
   ['204b23d0','204b23d0-204b241a'],
   ['204b2660','204b2660-204b26aa'],
   ['204b26c0','204b26c0-204b270c'],
+  ['204b2720','204b2720-204b2741'],
   ['20077040','20077040-2007710d'],
   ['20076630','20076630-2007679e'],
   ['200763f0','200763f0-200763f3'],
@@ -388,6 +390,12 @@ export class NativeGameCrtSetEnvp {
     return owner.#pc===site&&owner.#currentEntry==='204b26c0'&&frame?.entry==='204b26c0'&&frame.site==='20466654'&&frame.returnPc==='20466656'&&
       owner.#requireSourcePoint(owner.#pc).instruction===instruction?known(undefined):unknown('Actual original PropertyID finish CALL required');
   }
+  static canonicalAIHelperAccessorClassNameCallForCrt(owner:NativeGameCrtSetEnvp,crt:NativeModuleCrtOwner,controller:object):NativeValue<void> {
+    const active=NativeGameCrtSetEnvp.canonicalControllerForCrt(owner,crt,controller,'invoke');if(!active.known)return active;
+    const frame=owner.#frames.at(-1);
+    return owner.#pc==='204b2720'&&owner.#currentEntry==='204b2720'&&frame?.entry==='204b2720'&&frame.site==='20466654'&&frame.returnPc==='20466656'&&
+      owner.#requireSourcePoint(owner.#pc).instruction==='CALL 0x200191f0'?known(undefined):unknown('Actual original AI helper accessor class-name CALL required');
+  }
   static canonicalAIHelperAdminTypeCallForCrt(owner:NativeGameCrtSetEnvp,crt:NativeModuleCrtOwner,controller:object):NativeValue<void> {
     const active=NativeGameCrtSetEnvp.canonicalControllerForCrt(owner,crt,controller,'invoke');if(!active.known)return active;
     const frame=owner.#frames.at(-1);
@@ -500,7 +508,8 @@ export class NativeGameCrtSetEnvp {
     const extent = ranges.get(this.#currentEntry), address = Number.parseInt(pc, 16);
     if (!extent?.some(([first, last]) => address >= first && address <= last) ||
         this.#currentEntry === '204677e4' && !callerRows.has(pc)) throw new Error('Unowned Game environment source frontier at' + pc);
-    const point = this.#currentEntry==='204b26c0' ? aiHelperPropertyIdInstruction(pc)
+    const point = this.#currentEntry==='204b2720' ? aiHelperAccessorCreatorInstruction(pc)
+      : this.#currentEntry==='204b26c0' ? aiHelperPropertyIdInstruction(pc)
       : this.#currentEntry==='200763f0' ? aiHelperAdminAccessorInstruction(pc)
       : this.#currentEntry==='20076630' ? aiHelperAdminReplacementInstruction(pc)
       : this.#currentEntry==='20077040' ? aiHelperAdminWrapperInstruction(pc)
@@ -934,8 +943,8 @@ export class NativeGameCrtSetEnvp {
         fact(NativeX86ThreadStack.prototype.callArenaStatusInitializer.call(this.#stack,this.#controller,callback));
         this.#frames.pop(); this.#nextBoundary=null; return returnPc;
       }
-      if ((callback === '204b1d70'||callback==='204b2130'||callback==='204b23d0'||callback==='204b2660'||callback==='204b26c0') && nativeGameLayerBaseMemoryForCrt(this.#crt as NativeGameCrtOwner).known) {
-        const labels=callback==='204b26c0'?['aiHelperPropertyId','aiHelperPropertyIdGuidLiteral']:callback==='204b2660'?['aiHelperAdminWrapper','aiHelperAdminWrapperVtable','aiHelperAdminTypeVtable']:callback==='204b1d70'?['arenaRootWrapper','arenaRootVtable','arenaRootTypeVtable']:callback==='204b23d0'?['labelWrapper','labelWrapperVtable','labelTypeVtable']:['freePointWrapper','freePointWrapperVtable','freePointTypeVtable'];
+      if ((callback === '204b1d70'||callback==='204b2130'||callback==='204b23d0'||callback==='204b2660'||callback==='204b26c0'||callback==='204b2720') && nativeGameLayerBaseMemoryForCrt(this.#crt as NativeGameCrtOwner).known) {
+        const labels=callback==='204b2720'?['aiHelperAccessorCreator','aiHelperPropertyId','aiHelperAdminClassNameAndCache']:callback==='204b26c0'?['aiHelperPropertyId','aiHelperPropertyIdGuidLiteral']:callback==='204b2660'?['aiHelperAdminWrapper','aiHelperAdminWrapperVtable','aiHelperAdminTypeVtable']:callback==='204b1d70'?['arenaRootWrapper','arenaRootVtable','arenaRootTypeVtable']:callback==='204b23d0'?['labelWrapper','labelWrapperVtable','labelTypeVtable']:['freePointWrapper','freePointWrapperVtable','freePointTypeVtable'];
         this.#classImages = Object.freeze(labels.map(label => {
           const receipt = nativeGameImageReceipt(label);
           const fields = fact(NativeModuleCrtOwner.canonicalImageForOwner(this.#crt,label));
@@ -961,6 +970,12 @@ export class NativeGameCrtSetEnvp {
         this.#currentEntry = callback; this.#nextBoundary = null; return callback;
       }
       throw new Error('Original Game C++ initializer callback is not yet admitted at ' + callback);
+    }
+    if(point.va==='204b2720') {
+      if(this.#currentEntry!=='204b2720'||target.kind!=='immediate'||target.value!==0x200191f0||returnPc!=='204b2725')throw new Error('Original accessor class-name getter required');
+      this.#nextBoundary=Object.freeze({pc:point.va,operation:'translatedCrtCall',target:'200191f0'});
+      fact(NativeX86ThreadStack.prototype.callAIHelperAccessorClassName.call(this.#stack,this.#controller));
+      this.#nextBoundary=null;return returnPc;
     }
     if(point.va==='204b26f0'||point.va==='204b26f9'||point.va==='204b2704') {
       this.#nextBoundary=Object.freeze({pc:point.va,operation:'translatedCrtCall',target:point.instruction.slice(5)});
