@@ -12168,3 +12168,73 @@ This checkpoint is prepared for publication; these local results do not prove
 a deployed revision, complete Engine attachment, world activation or campaign
 completion. Claude's PR #233 has since merged and deployed as `7bf89f379`;
 that presentation change is separate from this locally validated revision.
+
+### 11 October 2026: Engine environment-vector counting prefix
+
+The original argument caller TEST/JL now selects the success or failure call
+from the actual retained return register. On success, the real `3067727f` call
+enters `3068e4f2` on the same stack. The setup borrows Engine's existing converted
+environment block, counts entries while excluding those beginning with `=`, and
+pushes slot count plus DWORD element size before `3068e532 -> 3067ca01`. The
+allocation call remains pending. NULL input returns minus one through the real
+`30677284` return word. Unknown bytes preserve their scan prefix.
+
+The string-length helper is translated over canonical owned byte spans; its
+alignment-dependent machine paths are not counted as executed source rows. The
+five-body evidence package contains 252 instructions, including nine cleanup
+instructions recovered and checked against original PE bytes. Independent JSON
+and TypeScript regeneration matches byte-for-byte.
+
+Typechecking, 120 focused checks across three files (131.54 seconds), and the
+production build (1m 6s) pass. The initial broad run had two assertions observing
+ESP after startup advanced into the new pending call. They now retain the
+argument-return assertion at its actual moment and also check the later pending
+stack. A targeted empty-block assertion was corrected to cursor zero, matching
+the first terminating NUL. No assertions were removed. Allocation, copying,
+publication and cleanup still need runtime integration; full Engine attachment
+and a browser campaign through an ending remain unfinished.
+
+
+### 11 October 2026: complete supported Engine environment-vector setup
+
+The retained setup allocates its vector through Engine's CRT, publishes
+`30af7118`, allocates each accepted string and executes the admitted bounded-copy
+success path. It releases the original converted input, clears `30af70d4`,
+writes the vector terminator, publishes `30af7e6c = 1`, restores its registers
+and returns zero through the original `30677284` word. The default input owns
+an 8-byte vector and an 18-byte string; its prior 19-byte double-NUL input block
+is released. No Game heap, pointer or call grant substitutes for an Engine owner.
+
+NULL input and NULL vector allocation return minus one. Per-string allocation
+failure releases and clears the vector while preserving the original input,
+as the original source specifies. Unknown bytes retain partial copies and pending
+calls. Interruption after input release retains that lifetime change and cannot
+replay free. `strlen`, calloc and free are translated through their owning
+contracts; their internal machine paths are not counted as executed source rows.
+The caller and bounded-copy instructions execute from their original receipts.
+
+Thirteen targeted checks pass. The six-file focused run passed 156 checks and
+failed two assertions expecting an earlier frontier. Those assertions now check
+the earlier state at its actual moment and the later return/cleanup state; both
+pass in their separate rerun, covering all 158 distinct checks. Typechecking and
+a production build (59.10 seconds) pass. Full combined validation is pending.
+The preceding counting-prefix merge `33d7fbe7c` passed all 3,420 tests in 313
+files in 835.84 seconds, typechecking and a production build in 1m 18s.
+
+PR #234 merged as `7ff73071e`; its Pages workflow `38091104701` completed
+successfully. This deploys the preceding argument-setup checkpoint, not this
+newer local environment implementation. The in-app browser did not attach for
+a hosted-page inspection, so deployment evidence is not a browser observation.
+The current local boundary is the caller TEST at `30677284`. Full Engine
+attachment, live world activation and a campaign playable through an ending
+remain unfinished.
+# 11 October 2026: complete Engine environment-vector validation
+
+The combined checkpoint at `411f86b35` passed typecheck, all 3,428 tests
+across 313 files, and the production build. The suite took 831.47 seconds.
+This proves the selected Engine environment-vector implementation and its
+covered integration scenarios; it does not establish complete startup or a
+finishable campaign. Its retained caller still stops at `30677284`.
+
+The subsequent CRT initializer work is in a separate checkout and is outside
+this validation receipt. Publication and deployment require their own evidence.

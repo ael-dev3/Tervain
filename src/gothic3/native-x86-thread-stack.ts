@@ -1,5 +1,8 @@
 import {NativeCrtThreadStartup} from './native-crt-thread-startup';
 import {NativeEngineArgvImages} from './native-engine-argv-images';
+import {engineSetenvpCaller,engineSetenvpInstruction} from './native-engine-setenvp-source';
+import {NativeEngineCrtEnvironment} from './native-engine-crt-environment';
+import {NativeEngineSetenvpImages} from './native-engine-setenvp-images';
 import {engineArgvInstruction,engineArgvGetACPImport,engineArgvFilenameImport,engineArgvMbcImport,engineArgvStaticMbcHeader,engineArgvClassificationImport} from './native-engine-argv-source';
 import {NativePropertyTypeTable} from './native-property-type-table';
 import {createNativeEngineModuleOwner} from './native-engine-module-owner';
@@ -194,6 +197,172 @@ function reason(error: unknown): string {
 export class NativeX86ThreadStack {
   #engineArgvFrame:EngineArgvFrame|null=null;
   #engineArgvExecuting=false;
+  #engineArgvCallerTested=false;
+  #engineSetenvpFrame:{crt:NativeModuleCrtOwner;bootstrap:NativeCrtBootstrap;phase:'running'|'blocked'|'returned';pc:string;boundary:string|null;operations:number;input:NativeBytePointer|null;cursor:number;entries:number;strlenCalls:number;vectorSlots:number|null;vector:NativeHeapObjectViews|null;vectorPublished:boolean;vectorReleased:boolean;vectorCleared:boolean;inputReleased:boolean;inputCleared:boolean;readyPublished:boolean;strings:NativeHeapObjectViews[];filledEntries:number;images:NativeEngineSetenvpImages;result:0|-1|null}|null=null;
+  static enterEngineSetenvpForBootstrap(stack:NativeX86ThreadStack,bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object):NativeValue<0|-1>{
+    const reached=NativeCrtBootstrap.engineSetenvpInputForCrt(bootstrap,crt,permit);if(!reached.known)return reached;
+    try{
+      const argv=stack.#engineArgvFrame;
+      if(graphs.get(crt.host.platform as NativeRuntimePlatform)!==stack||!stack.#engineArgvCallerTested||stack.#engineSetenvpFrame||!argv||argv.crt!==crt||argv.bootstrap!==bootstrap||argv.phase!=='returned'||argv.result!==0||stack.#engineArgvExecuting||stack.#engineIoExecuting)throw new Error('Actual unreplayed Engine environment caller required');
+      const selectedImages=NativeEngineSetenvpImages.forCrt(crt);if(!selectedImages.known)throw new Error(selectedImages.reason);
+      const frame={crt,bootstrap,phase:'running' as 'running'|'blocked'|'returned',pc:'3067727f',boundary:null as string|null,operations:0,input:reached.value.pointer,cursor:0,entries:0,strlenCalls:0,vectorSlots:null as number|null,vector:null as NativeHeapObjectViews|null,vectorPublished:false,vectorReleased:false,vectorCleared:false,inputReleased:false,inputCleared:false,readyPublished:false,strings:[] as NativeHeapObjectViews[],filledEntries:0,images:selectedImages.value,result:null as 0|-1|null};stack.#engineSetenvpFrame=frame;
+      const reg=(name:NativeX86Register)=>stack.#load(stack.#bank,stack.#reg(name));
+      const set=(name:NativeX86Register,word:NativeX86Word32)=>stack.#store(stack.#bank,stack.#reg(name),word);
+      const number=(name:NativeX86Register)=>stack.#numeric(reg(name),4);
+      const value=(n:number)=>stack.#mint(n,0xffffffff);
+      const incrementEdi=()=>{const before=stack.#record(stack.#load(stack.#bank,36)),old=number('EDI'),next=(old+1)>>>0;set('EDI',value(next));stack.#arithmeticFlags(old,1,next,4,false);const after=stack.#record(stack.#load(stack.#bank,36));stack.#flags((after.value&~1)|(before.value&1),(after.mask&~1)|(before.mask&1));return next;};
+      const proof=()=>{const live=NativeCrtBootstrap.engineSetenvpInputForCrt(bootstrap,crt,permit);if(!live.known)throw new Error(live.reason);if(live.value.pointer!==(frame.inputCleared?null:frame.input)||live.value.storage!==reached.value.storage||live.value.images!==reached.value.images||frame.phase!=='running')throw new Error('Actual retained Engine environment input required');for(const label of ['environmentVector','environmentReady'] as const){const image=NativeEngineSetenvpImages.imageForCrt(frame.images,crt,label);if(!image.known)throw new Error(image.reason);}if(frame.vector&&!frame.vectorReleased){const span=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields:frame.vector,offset:0},frame.vectorSlots!*4);if(!span.known)throw new Error(span.reason);}
+for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields,offset:0},fields.bytes.length);if(!span.known)throw new Error(span.reason);}
+      stack.#physical(stack.#stack);stack.#physical(stack.#bank);};
+      const step=(pc:string,body:()=>void,entry='3068e4f2')=>{proof();engineSetenvpInstruction(entry,pc);frame.pc=pc;body();frame.operations++;stack.#trace.push(pc+'.EngineSetenvpSource');proof();};
+      const pop=(name:NativeX86Register)=>{const esp=stack.#address(reg('ESP'));set(name,stack.#load(stack.#stack,esp));set('ESP',stack.#stackWord(esp+4));};
+      const byte=()=>{if(!frame.input)throw new Error('Actual non-NULL Engine environment block required');const pointer={fields:frame.input.fields,offset:frame.input.offset+frame.cursor};const checked=NativeEngineCrtEnvironment.canonicalDestinationForPlatform(stack.#platform,pointer,1);if(!checked.known)throw new Error(checked.reason);return NativeHeapObjectViews.prototype.readUnsigned.call(pointer.fields,pointer.offset,1);};
+      const inputWord=()=>frame.input?stack.#mint(0,0,{kind:'engine-allocation',crt,fields:frame.input.fields,offset:frame.input.offset+frame.cursor}):value(0);
+      const finishAfterFree=(result:0|-1)=>{
+        if(result===0){
+          step('3068e59d',()=>{stack.#invalidateRange(reached.value.storage,0,4);stack.#store(reached.value.storage,0,reg('EBX'));NativeHeapObjectViews.prototype.pointer.call(reached.value.storage,0).set(null);frame.inputCleared=true;});
+          step('3068e5a3',()=>{const p=stack.#liveWord(reg('EDI')).provenance;if(p?.kind!=='engine-allocation'||p.crt!==crt||p.fields!==frame.vector||p.offset!==frame.filledEntries*4)throw new Error('Actual Engine environment vector terminator required');const span=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields:p.fields,offset:p.offset},4);if(!span.known)throw new Error(span.reason);stack.#invalidateRange(p.fields,p.offset,4);stack.#store(p.fields,p.offset,reg('EBX'));NativeHeapObjectViews.prototype.pointer.call(p.fields,p.offset).set(null);});
+          step('3068e5a5',()=>{const image=NativeEngineSetenvpImages.imageForCrt(frame.images,crt,'environmentReady');if(!image.known)throw new Error(image.reason);stack.#invalidateRange(image.value,0,4);NativeHeapObjectViews.prototype.writeUnsigned.call(image.value,0,1,4);frame.readyPublished=true;});
+          step('3068e5af',()=>{set('EAX',value(0));stack.#logicalFlags(0,0xffffffff,4);});
+        }else{
+          step('3068e5c2',()=>{const image=NativeEngineSetenvpImages.imageForCrt(frame.images,crt,'environmentVector');if(!image.known)throw new Error(image.reason);stack.#invalidateRange(image.value,0,4);stack.#store(image.value,0,reg('EBX'));NativeHeapObjectViews.prototype.pointer.call(image.value,0).set(null);frame.vectorCleared=true;});
+          step('3068e5c8',()=>{set('EAX',value(0xffffffff));stack.#logicalFlags(0xffffffff,0xffffffff,4);});step('3068e5cb',()=>{});
+        }
+        step('3068e5b1',()=>pop('ECX'));step('3068e5b2',()=>pop('EBP'));step('3068e5b3',()=>pop('EDI'));step('3068e5b4',()=>pop('ESI'));step('3068e5b5',()=>pop('EBX'));
+        step('3068e5b6',()=>{const p=stack.#liveWord(stack.#ret()).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!=='30677284'||stack.#address(reg('ESP'))!==argv.entryEsp||number('EAX')!==(result>>>0))throw new Error('Actual Engine environment setup caller return required');});
+        frame.result=result;frame.phase='returned';frame.pc='30677284';if(!stack.#executing)stack.#phase='returned';return known(result);
+      };
+      const free=(site:string,returnPc:string,fields:NativeHeapObjectViews)=>{
+        step(site,()=>{stack.#call(site,returnPc);engineSetenvpInstruction('30672f8a','30672f8a');const esp=stack.#address(reg('ESP')),p=stack.#liveWord(stack.#load(stack.#stack,esp+4)).provenance;if(p?.kind!=='engine-allocation'||p.crt!==crt||p.fields!==fields||p.offset!==0)throw new Error('Actual Engine environment free base pointer required');const span=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields,offset:0},0);if(!span.known)throw new Error(span.reason);const released=NativeModuleCrtOwner.prototype.free.call(crt,fields.backing);if(!released.known)throw new Error(released.reason);if(!fields.backing.freed)throw new Error('Actual Engine environment allocation release required');
+          if(site==='3068e598'){const noted=NativeCrtBootstrap.noteEngineSetenvpInputReleasedForCrt(bootstrap,crt,permit,frame.input!);if(!noted.known)throw new Error(noted.reason);frame.inputReleased=true;}else frame.vectorReleased=true;
+          set('EAX',stack.#mint(0,0));set('ECX',stack.#mint(0,0));set('EDX',stack.#mint(0,0));stack.#flags(0,0);const returned=stack.#liveWord(stack.#ret()).provenance;if(returned?.kind!=='source'||returned.type!=='code'||returned.address!==returnPc)throw new Error('Actual Engine free caller return required');
+        });
+      };
+
+      try{
+        proof();if(stack.#address(reg('ESP'))!==argv.entryEsp||number('EAX')!==0)throw new Error('Actual Engine environment entry stack and zero argument result required');
+        if(!stack.#executing)stack.#phase='running';stack.#call('3067727f','30677284');
+        step('3068e4f2',()=>stack.#push(reg('EBX')));
+        step('3068e4f3',()=>{set('EBX',value(0));stack.#logicalFlags(0,0xffffffff,4);});
+        let ready=0;step('3068e4f5',()=>{const image=NativeEngineArgvImages.imageForCrt(reached.value.images,crt,'multibyteReady');if(!image.known)throw new Error(image.reason);ready=NativeHeapObjectViews.prototype.readUnsigned.call(image.value,0,4);stack.#arithmeticFlags(ready,0,ready,4,true);});
+        step('3068e4fb',()=>stack.#push(reg('ESI')));step('3068e4fc',()=>stack.#push(reg('EDI')));step('3068e4fd',()=>{});
+        if(!ready){step('3068e4ff',()=>stack.#call('3068e4ff','3068e504'));throw new Error('Engine environment multibyte dependency30685007 at3068e4ff');}
+        step('3068e504',()=>set('ESI',inputWord()));step('3068e50a',()=>{set('EDI',value(0));stack.#logicalFlags(0,0xffffffff,4);});
+        step('3068e50c',()=>{if(frame.input)stack.#flags(0,0x841);else stack.#arithmeticFlags(0,0,0,4,true);});step('3068e50e',()=>{});
+        if(!frame.input){
+          step('3068e510',()=>{set('EAX',value(0xffffffff));stack.#logicalFlags(0xffffffff,0xffffffff,4);});step('3068e513',()=>{});
+          step('3068e5b3',()=>pop('EDI'));step('3068e5b4',()=>pop('ESI'));step('3068e5b5',()=>pop('EBX'));
+          step('3068e5b6',()=>{const p=stack.#liveWord(stack.#ret()).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!=='30677284'||stack.#address(reg('ESP'))!==argv.entryEsp)throw new Error('Actual Engine NULL environment caller return required');});
+          frame.result=-1;frame.phase='returned';frame.pc='30677284';if(!stack.#executing)stack.#phase='returned';return known(-1);
+        }
+        for(;;){
+          let first=0;step('3068e528',()=>{first=byte();const old=stack.#liveWord(reg('EAX'));set('EAX',stack.#mint((old.value&0xffffff00)|first,(old.mask&0xffffff00)|255));});
+          step('3068e52a',()=>stack.#arithmeticFlags(first,0,first,1,true));step('3068e52c',()=>{});if(first===0)break;
+          step('3068e518',()=>stack.#arithmeticFlags(first,61,(first-61)&255,1,true));step('3068e51a',()=>{});
+          if(first!==61)step('3068e51c',()=>{frame.entries=incrementEdi();});
+          step('3068e51d',()=>stack.#push(reg('ESI')));
+          step('3068e51e',()=>{
+            stack.#call('3068e51e','3068e523');engineSetenvpInstruction('30679ad0','30679ad0');
+            // Translate strlen's value contract over the canonical owned span.
+            // Its alignment-dependent machine paths are not counted as executed
+            // source instructions; caller/return words remain the real ones.
+            let length=0;for(;;){proof();const pointer={fields:frame.input!.fields,offset:frame.input!.offset+frame.cursor+length};const span=NativeEngineCrtEnvironment.canonicalDestinationForPlatform(stack.#platform,pointer,1);if(!span.known)throw new Error(span.reason);if(NativeHeapObjectViews.prototype.readUnsigned.call(pointer.fields,pointer.offset,1)===0)break;length++;}
+            set('EAX',value(length));set('ECX',reg('ESI'));set('EDX',stack.#mint(0,0));stack.#flags(0,0);
+            const returned=stack.#liveWord(stack.#ret()).provenance;if(returned?.kind!=='source'||returned.type!=='code'||returned.address!=='3068e523')throw new Error('Actual Engine strlen caller return required');frame.strlenCalls++;
+          });
+          step('3068e523',()=>pop('ECX'));
+          step('3068e524',()=>{frame.cursor+=number('EAX')+1;const span=NativeEngineCrtEnvironment.canonicalDestinationForPlatform(stack.#platform,{fields:frame.input!.fields,offset:frame.input!.offset+frame.cursor},0);if(!span.known)throw new Error(span.reason);set('ESI',inputWord());});
+        }
+        step('3068e52e',()=>stack.#push(value(4)));
+        step('3068e530',()=>{frame.vectorSlots=incrementEdi();});
+        step('3068e531',()=>stack.#push(reg('EDI')));
+        step('3068e532',()=>{
+          stack.#call('3068e532','3068e537');engineSetenvpInstruction('3067ca01','3067ca01');
+          const esp=stack.#address(reg('ESP')),count=stack.#numeric(stack.#load(stack.#stack,esp+4),4),size=stack.#numeric(stack.#load(stack.#stack,esp+8),4);
+          if(count!==frame.vectorSlots||size!==4)throw new Error('Actual Engine envp calloc count and DWORD size required');
+          const allocated=NativeModuleCrtOwner.prototype.callocCrt.call(crt,count,size);if(!allocated.known)throw new Error(allocated.reason);proof();
+          if(allocated.value){frame.vector=new NativeHeapObjectViews(allocated.value);Object.freeze(frame.vector);const span=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields:frame.vector,offset:0},count*size);if(!span.known)throw new Error(span.reason);set('EAX',stack.#mint(0,0,{kind:'engine-allocation',crt,fields:frame.vector,offset:0}));}
+          else set('EAX',value(0));
+          set('ECX',stack.#mint(0,0));set('EDX',stack.#mint(0,0));stack.#flags(0,0);
+          const returned=stack.#liveWord(stack.#ret()).provenance;if(returned?.kind!=='source'||returned.type!=='code'||returned.address!=='3068e537')throw new Error('Actual Engine vector calloc return required');
+        });
+        step('3068e537',()=>set('EDI',reg('EAX')));
+        step('3068e539',()=>{if(frame.vector)stack.#flags(0,0x841);else stack.#arithmeticFlags(0,0,0,4,true);});
+        step('3068e53b',()=>pop('ECX'));step('3068e53c',()=>pop('ECX'));
+        step('3068e53d',()=>{const image=NativeEngineSetenvpImages.imageForCrt(frame.images,crt,'environmentVector');if(!image.known)throw new Error(image.reason);stack.#invalidateRange(image.value,0,4);stack.#store(image.value,0,reg('EDI'));NativeHeapObjectViews.prototype.pointer.call(image.value,0).set(frame.vector?Object.freeze({fields:frame.vector,offset:0}):null);frame.vectorPublished=true;});
+        step('3068e543',()=>{});
+        if(!frame.vector){
+          step('3068e510',()=>{set('EAX',value(0xffffffff));stack.#logicalFlags(0xffffffff,0xffffffff,4);});step('3068e513',()=>{});
+          step('3068e5b3',()=>pop('EDI'));step('3068e5b4',()=>pop('ESI'));step('3068e5b5',()=>pop('EBX'));
+          step('3068e5b6',()=>{const p=stack.#liveWord(stack.#ret()).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!=='30677284'||stack.#address(reg('ESP'))!==argv.entryEsp)throw new Error('Actual Engine failed vector caller return required');});
+          frame.result=-1;frame.phase='returned';frame.pc='30677284';if(!stack.#executing)stack.#phase='returned';return known(-1);
+        }
+        step('3068e545',()=>{frame.cursor=0;set('ESI',inputWord());});step('3068e54b',()=>stack.#push(reg('EBP')));step('3068e54c',()=>{});
+        for(;;){
+          let first=0;step('3068e58e',()=>{first=byte();stack.#arithmeticFlags(first,0,first,1,true);});step('3068e590',()=>{});
+          if(first===0){step('3068e592',()=>stack.#push(stack.#mint(0,0,{kind:'engine-allocation',crt,fields:frame.input!.fields,offset:frame.input!.offset})));free('3068e598','3068e59d',frame.input!.fields);return finishAfterFree(0);}
+          step('3068e54e',()=>stack.#push(reg('ESI')));
+          step('3068e54f',()=>{
+            stack.#call('3068e54f','3068e554');engineSetenvpInstruction('30679ad0','30679ad0');let length=0;
+            for(;;){proof();const pointer={fields:frame.input!.fields,offset:frame.input!.offset+frame.cursor+length},span=NativeEngineCrtEnvironment.canonicalDestinationForPlatform(stack.#platform,pointer,1);if(!span.known)throw new Error(span.reason);if(NativeHeapObjectViews.prototype.readUnsigned.call(pointer.fields,pointer.offset,1)===0)break;length++;}
+            set('EAX',value(length));set('ECX',reg('ESI'));set('EDX',stack.#mint(0,0));stack.#flags(0,0);const returned=stack.#liveWord(stack.#ret()).provenance;if(returned?.kind!=='source'||returned.type!=='code'||returned.address!=='3068e554')throw new Error('Actual Engine filling strlen return required');frame.strlenCalls++;
+          });
+          step('3068e554',()=>set('EBP',reg('EAX')));
+          step('3068e556',()=>{const before=stack.#record(stack.#load(stack.#bank,36)),old=number('EBP'),next=(old+1)>>>0;set('EBP',value(next));stack.#arithmeticFlags(old,1,next,4,false);const after=stack.#record(stack.#load(stack.#bank,36));stack.#flags((after.value&~1)|(before.value&1),(after.mask&~1)|(before.mask&1));});
+          step('3068e557',()=>{first=byte();stack.#arithmeticFlags(first,61,(first-61)&255,1,true);});step('3068e55a',()=>pop('ECX'));step('3068e55b',()=>{});
+          if(first===61){step('3068e58c',()=>{frame.cursor+=number('EBP');set('ESI',inputWord());stack.#flags(0,0);});continue;}
+          step('3068e55d',()=>stack.#push(value(1)));step('3068e55f',()=>stack.#push(reg('EBP')));
+          let destination:NativeHeapObjectViews|null=null;
+          step('3068e560',()=>{
+            stack.#call('3068e560','3068e565');engineSetenvpInstruction('3067ca01','3067ca01');const esp=stack.#address(reg('ESP')),count=stack.#numeric(stack.#load(stack.#stack,esp+4),4),size=stack.#numeric(stack.#load(stack.#stack,esp+8),4);
+            if(count!==number('EBP')||size!==1)throw new Error('Actual Engine environment string calloc size required');const allocated=NativeModuleCrtOwner.prototype.callocCrt.call(crt,count,size);if(!allocated.known)throw new Error(allocated.reason);proof();
+            if(allocated.value){destination=new NativeHeapObjectViews(allocated.value);Object.freeze(destination);const span=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields:destination,offset:0},count);if(!span.known)throw new Error(span.reason);frame.strings.push(destination);set('EAX',stack.#mint(0,0,{kind:'engine-allocation',crt,fields:destination,offset:0}));}else set('EAX',value(0));
+            set('ECX',stack.#mint(0,0));set('EDX',stack.#mint(0,0));stack.#flags(0,0);const returned=stack.#liveWord(stack.#ret()).provenance;if(returned?.kind!=='source'||returned.type!=='code'||returned.address!=='3068e565')throw new Error('Actual Engine string calloc return required');
+          });
+          step('3068e565',()=>{if(destination)stack.#flags(0,0x841);else stack.#arithmeticFlags(0,0,0,4,true);});step('3068e567',()=>pop('ECX'));step('3068e568',()=>pop('ECX'));
+          step('3068e569',()=>{const p=stack.#liveWord(reg('EDI')).provenance;if(p?.kind!=='engine-allocation'||p.crt!==crt||p.fields!==frame.vector||p.offset!==frame.filledEntries*4)throw new Error('Actual Engine environment vector entry required');const span=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields:p.fields,offset:p.offset},4);if(!span.known)throw new Error(span.reason);stack.#invalidateRange(p.fields,p.offset,4);stack.#store(p.fields,p.offset,reg('EAX'));NativeHeapObjectViews.prototype.pointer.call(p.fields,p.offset).set(destination?Object.freeze({fields:destination,offset:0}):null);});
+          step('3068e56b',()=>{});
+          if(!destination){step('3068e5b7',()=>{const image=NativeEngineSetenvpImages.imageForCrt(frame.images,crt,'environmentVector');if(!image.known)throw new Error(image.reason);const pointer=NativeHeapObjectViews.prototype.pointer.call(image.value,0).get() as NativeBytePointer|null;if(pointer?.fields!==frame.vector||pointer.offset!==0)throw new Error('Actual Engine global environment vector free pointer required');stack.#push(stack.#mint(0,0,{kind:'engine-allocation',crt,fields:pointer.fields,offset:0}));});free('3068e5bd','3068e5c2',frame.vector!);return finishAfterFree(-1);}
+          step('3068e56d',()=>stack.#push(reg('ESI')));step('3068e56e',()=>stack.#push(reg('EBP')));step('3068e56f',()=>stack.#push(reg('EAX')));
+          step('3068e570',()=>stack.#call('3068e570','3068e575'));
+          const copy=(pc:string,body:()=>void)=>step(pc,body,'3068a84a');
+          const pointer=(name:NativeX86Register,write=false)=>{const p=stack.#liveWord(reg(name)).provenance;if(p?.kind!=='engine-allocation'||p.crt!==crt||p.fields!==(write?destination:frame.input!.fields))throw new Error('Actual Engine bounded copy pointer required');const span=write?NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields:p.fields,offset:p.offset},1):NativeEngineCrtEnvironment.canonicalDestinationForPlatform(stack.#platform,{fields:p.fields,offset:p.offset},1);if(!span.known)throw new Error(span.reason);return p;};
+          const advance=(name:NativeX86Register)=>{const p=stack.#liveWord(reg(name)).provenance;if(p?.kind!=='engine-allocation'||p.crt!==crt)throw new Error('Actual Engine copy pointer increment required');const span=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields:p.fields,offset:p.offset+1},0);if(!span.known)throw new Error(span.reason);set(name,stack.#mint(0,0,{...p,offset:p.offset+1}));const flags=stack.#record(stack.#load(stack.#bank,36));stack.#flags(flags.value&1,flags.mask&1);};
+          copy('3068a84a',()=>set('ECX',stack.#load(stack.#stack,stack.#address(reg('ESP'))+4)));copy('3068a84e',()=>stack.#push(reg('EBX')));copy('3068a84f',()=>{set('EBX',value(0));stack.#logicalFlags(0,0xffffffff,4);});copy('3068a851',()=>{pointer('ECX',true);stack.#flags(0,0x841);});copy('3068a853',()=>stack.#push(reg('ESI')));copy('3068a854',()=>stack.#push(reg('EDI')));copy('3068a855',()=>{});
+          copy('3068a857',()=>set('EDI',stack.#load(stack.#stack,stack.#address(reg('ESP'))+20)));copy('3068a85b',()=>stack.#arithmeticFlags(number('EDI'),0,number('EDI'),4,true));copy('3068a85d',()=>{if(number('EDI')===0)throw new Error('Engine strcpy_s zero capacity at3068a85f');});
+          copy('3068a87a',()=>set('ESI',stack.#load(stack.#stack,stack.#address(reg('ESP'))+24)));copy('3068a87e',()=>{pointer('ESI');stack.#flags(0,0x841);});copy('3068a880',()=>{});copy('3068a886',()=>set('EDX',reg('ECX')));
+          for(;;){let character=0;copy('3068a888',()=>{const p=pointer('ESI');character=NativeHeapObjectViews.prototype.readUnsigned.call(p.fields,p.offset,1);const eax=stack.#liveWord(reg('EAX'));set('EAX',stack.#mint((eax.value&0xffffff00)|character,(eax.mask&0xffffff00)|255));});copy('3068a88a',()=>{const p=pointer('EDX',true);stack.#invalidateRange(p.fields,p.offset,1);NativeHeapObjectViews.prototype.writeUnsigned.call(p.fields,p.offset,character,1);});copy('3068a88c',()=>advance('EDX'));copy('3068a88d',()=>advance('ESI'));copy('3068a88e',()=>stack.#arithmeticFlags(character,0,character,1,true));copy('3068a890',()=>{});if(character===0)break;
+            copy('3068a892',()=>{const flags=stack.#record(stack.#load(stack.#bank,36)),old=number('EDI'),next=(old-1)>>>0;set('EDI',value(next));stack.#arithmeticFlags(old,1,next,4,true);const after=stack.#record(stack.#load(stack.#bank,36));stack.#flags((after.value&~1)|(flags.value&1),(after.mask&~1)|(flags.mask&1));});copy('3068a893',()=>{});if(number('EDI')===0)break;
+          }
+          copy('3068a895',()=>stack.#arithmeticFlags(number('EDI'),0,number('EDI'),4,true));copy('3068a897',()=>{});
+          if(number('EDI')===0){copy('3068a899',()=>{const p=pointer('ECX',true);stack.#invalidateRange(p.fields,p.offset,1);NativeHeapObjectViews.prototype.writeUnsigned.call(p.fields,p.offset,0,1);});copy('3068a89b',()=>stack.#call('3068a89b','3068a8a0'));throw new Error('Engine strcpy_s range errno306783df at3068a89b');}
+          copy('3068a8a9',()=>{set('EAX',value(0));stack.#logicalFlags(0,0xffffffff,4);});copy('3068a8ab',()=>pop('EDI'));copy('3068a8ac',()=>pop('ESI'));copy('3068a8ad',()=>pop('EBX'));copy('3068a8ae',()=>{const returned=stack.#liveWord(stack.#ret()).provenance;if(returned?.kind!=='source'||returned.type!=='code'||returned.address!=='3068e575')throw new Error('Actual Engine bounded copy caller return required');});
+          step('3068e575',()=>{set('ESP',stack.#stackWord(stack.#address(reg('ESP'))+12));stack.#flags(0,0);});step('3068e578',()=>stack.#logicalFlags(number('EAX'),0xffffffff,4));step('3068e57a',()=>{if(number('EAX')!==0)throw new Error('Engine environment invalid parameter at3068e57c');});
+          step('3068e589',()=>{const p=stack.#liveWord(reg('EDI')).provenance;if(p?.kind!=='engine-allocation'||p.fields!==frame.vector||p.crt!==crt)throw new Error('Actual Engine environment vector advance required');frame.filledEntries++;set('EDI',stack.#mint(0,0,{...p,offset:p.offset+4}));stack.#flags(0,0);});
+          step('3068e58c',()=>{frame.cursor+=number('EBP');set('ESI',inputWord());stack.#flags(0,0);});
+        }
+      }catch(error){frame.boundary??=reason(error);frame.phase='blocked';if(!stack.#executing){stack.#boundary??=frame.boundary;stack.#phase='blocked';}return unknown(frame.boundary);}
+    }catch(error){return unknown(reason(error));}
+  }
+  engineSetenvpFrameSnapshot(crt:NativeModuleCrtOwner){const frame=this.#engineSetenvpFrame;if(!frame||frame.crt!==crt)return null;return Object.freeze({phase:frame.phase,pc:frame.pc,boundary:frame.boundary,operations:frame.operations,input:frame.input,cursor:frame.cursor,entries:frame.entries,strlenCalls:frame.strlenCalls,vectorSlots:frame.vectorSlots,vector:frame.vector,vectorPublished:frame.vectorPublished,vectorReleased:frame.vectorReleased,vectorCleared:frame.vectorCleared,inputReleased:frame.inputReleased,inputCleared:frame.inputCleared,readyPublished:frame.readyPublished,strings:Object.freeze([...frame.strings]),filledEntries:frame.filledEntries,images:frame.images,result:frame.result,bank:this.#bank,stack:this.#stack});}
+  static testEngineArgvReturnForBootstrap(stack:NativeX86ThreadStack,bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object):NativeValue<'3067727f'|'3067729f'>{
+    const reached=NativeCrtBootstrap.canonicalEngineArgvCallerForCrt(bootstrap,crt,permit);if(!reached.known)return reached;
+    try{
+      const frame=stack.#engineArgvFrame,caller=engineSetenvpCaller();
+      if(graphs.get(crt.host.platform as NativeRuntimePlatform)!==stack||stack.#engineArgvExecuting||stack.#engineIoExecuting||stack.#engineArgvCallerTested||!frame||frame.bootstrap!==bootstrap||frame.crt!==crt||frame.phase!=='returned'||frame.pc!=='3067727b'||frame.result===null)throw new Error('Actual unreplayed returned Engine argument frame required');
+      if(caller.resultTest!=='3067727b'||caller.failureBranch!=='3067727d'||caller.raw!=='85c07c20e86e720100')throw new Error('Original Engine argument caller TEST/JL required');
+      stack.#physical(stack.#stack);stack.#physical(stack.#bank);
+      if(stack.#address(stack.#load(stack.#bank,stack.#reg('ESP')))!==frame.entryEsp)throw new Error('Actual Engine argument caller stack required');
+      const result=stack.#numeric(stack.#load(stack.#bank,stack.#reg('EAX')),4);
+      if((result|0)!==frame.result)throw new Error('Actual retained Engine argument result required');
+      stack.#logicalFlags(result,0xffffffff,4);stack.#trace.push('3067727b.EngineArgvCallerTest');
+      // TEST clears OF. The original signed JL therefore takes the negative
+      // branch exactly when the now-known sign bit is set.
+      const target=(result&0x80000000)!==0?'3067729f':'3067727f';
+      stack.#trace.push('3067727d.EngineArgvCallerJl');stack.#engineArgvCallerTested=true;
+      return known(target);
+    }catch(error){return unknown(reason(error));}
+  }
   static enterEngineArgvForBootstrap(stack:NativeX86ThreadStack,bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object):NativeValue<0|-1>{
     const reached=NativeCrtBootstrap.canonicalEngineArgvCallForCrt(bootstrap,crt,permit);if(!reached.known)return reached;
     try{

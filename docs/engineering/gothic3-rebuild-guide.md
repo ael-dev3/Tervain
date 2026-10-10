@@ -225,9 +225,60 @@ These steps overlap: each implemented system needs integration with the world
 and its existing dependencies. The completion claim requires observed gameplay
 through the ending, with working persistence.
 
-## Concrete example: rebuilding the AI helper startup
+## Current implementation boundary: 11 October 2026
 
-The current work follows a dependency from Game's AI helper factory into
+The latest local Engine argument setup executes the supported CP1252 path:
+multibyte initialization, module filename selection, command-line counting,
+allocation, argument filling and publication of `argc` and `argv`. It returns
+through the original setup instruction `3068e827` to caller `3067727b`, after
+13,819 admitted operations for the default input. The default allocation holds
+`Gothic3.exe` and its argument vector in 20 bytes.
+
+Argument setup passed 164 focused checks and combined validation of 3,414
+tests across 313 files, typechecking and a production build. It merged in
+[PR #234](https://github.com/ael-dev3/Tervain/pull/234) as `7ff73071e`. Its
+[Pages workflow](https://github.com/ael-dev3/Tervain/actions/runs/38091104701)
+completed successfully; deployment and browser observations are separate receipts.
+
+The latest local continuation executes the original caller TEST/JL and completes
+Engine environment-vector setup at `3068e4f2`. It counts the retained block's
+entries, excludes those beginning with `=`, allocates the vector and strings,
+executes bounded copying, releases and clears the input, publishes readiness
+and returns through `30677284`. NULL input or allocation follows the supported
+minus-one cleanup paths. The next unsupported operation is that caller's TEST.
+
+The component's 158 focused checks are covered by passing results, including
+reruns of two assertions moved to their actual observation point. Typechecking,
+a production build and byte-identical source regeneration pass. Combined
+validation passed all 3,428 tests across 313 files and a production build
+(1 minute 13 seconds). Deployment of this latest continuation is pending.
+Complete DLL startup, world activation and campaign integration remain
+unfinished. See the [checkpoint history](gothic3-rebuilding-process.md).
+
+## What to record for every rebuilding step
+
+Use this checklist when adding a feature or advancing a native continuation:
+
+- **Input:** original archive/resource path or DLL hash, patch precedence, and
+  the relevant function, instruction range or data record.
+- **Recovery:** generator command, checked-in evidence paths, output hashes,
+  and an independent regeneration comparison.
+- **Implementation:** TypeScript entry point, memory and resource owners,
+  platform services, supported branches and explicit unsupported branches.
+- **Integration:** the retained caller or live entity using the result, with
+  pointer identity, allocation lifetime, failure handling and cleanup preserved.
+- **Validation:** revision, commands and results; browser observations when
+  applicable; the exact next unsupported operation and state already produced.
+- **Publication:** reviewed commit/PR, workflow and deployment receipts, deployed
+  revision and the behavior actually observed there.
+
+This record lets the next step continue from established state and lets a
+reviewer reproduce the claim. Original local file paths document provenance;
+they are not resources that the hosted browser can read from a visitor's PC.
+
+## Historical example: rebuilding the AI helper startup
+
+This earlier checkpoint follows a dependency from Game's AI helper factory into
 Engine's module administrator and CRT startup. This shows how a native behavior
 becomes browser code:
 

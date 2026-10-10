@@ -1,3 +1,4 @@
+import {NativeX86ThreadStack} from '../../src/gothic3/native-x86-thread-stack';
 import {createBrowserEngineCrtStartup,canonicalBrowserEngineCrtStartup} from '../../src/gothic3/browser-engine-crt-startup';
 import {NativeGameAIHelperAdminType} from '../../src/gothic3/native-game-ai-helper-admin-type';
 import {NativeGameAIHelperAdminClassName} from '../../src/gothic3/native-game-ai-helper-admin-class-name';
@@ -51,11 +52,11 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  expect(guid.value.invokeInitializer().known).toBe(false);
  expect(guid.value.snapshot().executionOrigin).toBe('returned-crt');
  const runtime=createBrowserNpcRuntimeAdminOwner(platform),memory=runtime.memory;
- const game=createBrowserGameCrtStartup(platform,memory);
+ const originalEnvironmentEntry=NativeX86ThreadStack.enterEngineSetenvpForBootstrap;let storedEnvironment:unknown;const environmentSpy=vi.spyOn(NativeX86ThreadStack,'enterEngineSetenvpForBootstrap').mockImplementation((...args)=>{storedEnvironment=args[1].attachProgress().engineEnvironmentStorage!.pointer(0).get();return originalEnvironmentEntry(...args);});let game:ReturnType<typeof createBrowserGameCrtStartup>;try{game=createBrowserGameCrtStartup(platform,memory);}finally{environmentSpy.mockRestore();}
  expect(game.known).toBe(true);
  if(!game.known)throw new Error(game.reason);
  expect(game.value.attachResult,game.value.attachProgress.setEnvpProgress?.currentPC).toEqual({known:false,
-  reason:'crtAttach204677e4: Unowned ModuleAdmin.GetInstance30088e90: atexit.ModuleAdmin30797fc0: Engine shutdown registration requires its CRT attach: crtAttach3067717c: Unowned Engine argument caller result at3067727b'});
+  reason:'crtAttach204677e4: Unowned ModuleAdmin.GetInstance30088e90: atexit.ModuleAdmin30797fc0: Engine shutdown registration requires its CRT attach: crtAttach3067717c: Unowned Engine environment-vector result at30677284'});
  const engine=createBrowserEngineCrtStartup(platform);if(!engine.known)throw new Error(engine.reason);
  expect(createBrowserEngineCrtStartup(platform)).toBe(engine);
  expect(canonicalBrowserEngineCrtStartup(engine.value,platform).known).toBe(true);
@@ -66,7 +67,7 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  expect(engine.value.attachProgress.engineEnvironmentProgress).toMatchObject({mode:1,branch:'wide',pc:'3068e95c',inputCharacters:19,outputBytes:19,phase:'returned'});
  const env=engine.value.attachProgress.engineEnvironmentProgress!;
  expect(env.allocation).not.toBe(null);expect(env.output!.fields.backing).toBe(env.allocation);
- expect(engine.value.attachProgress.engineEnvironmentStorage!.pointer(0).get()).toBe(env.output);
+ expect(storedEnvironment).toBe(env.output);expect(engine.value.attachProgress.engineEnvironmentStorage!.pointer(0).get()).toBe(null);expect(env.allocation!.freed).toBe(true);expect(engine.value.attachProgress.engineSetenvpProgress).toMatchObject({phase:'returned',pc:'30677284',result:0,inputReleased:true,inputCleared:true,readyPublished:true,filledEntries:1});
  expect(engine.value.attachProgress.environmentReturned).toBe(true);
  expect(engine.value.attachProgress.engineCommandLineStorage!.pointer(0).get()).toBe(game.value.crt.imageStorage('commandLinePointer').pointer(0).get());
  expect(engine.value.crt.physical.heapHandle.pointer(0).get()).not.toBe(game.value.crt.physical.heapHandle.pointer(0).get());
