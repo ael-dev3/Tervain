@@ -2,12 +2,12 @@
 
 `research.json` captures the original call at `30677276 -> 3068e76f`, its
 70-instruction argument setup, the two-pass parser, multibyte dependency wrapper,
-and CRT malloc wrapper. The package contains 16 methods, 1,130 instructions and
-3,206 instruction bytes, checked against the matching original Engine.dll.
+and CRT malloc wrapper. The package contains 18 methods, 1,158 instructions and
+3,271 instruction bytes, checked against the matching original Engine.dll.
 
 The setup calls GetModuleFileNameA, selects the current command line or filename,
 counts arguments and characters, allocates storage, parses again, and publishes
-argument count and vector globals. Thirteen image receipts preserve original paths
+argument count and vector globals. Fifteen image receipts preserve original paths
 through labels and addresses, including the module filename buffer and command
 line pointer. Their cold bytes do not authorize resetting already-live storage.
 
@@ -18,7 +18,7 @@ python tools/gothic3/prepare_engine_argv_source.py --study <study-directory> --o
 ```
 
 Independent JSON and TypeScript regenerations are byte-identical. Two source checks and TypeScript checking pass. The JSON package has SHA-256
-`e4289a160e290a456700dc5cfe515f07f2b758c173ead694b844c5aa91962faa`.
+`6e06490da3819d289093b64242cd50e621096bbc6aa66c17424072abdd2c3c4a`.
 Engine.dll SHA-256 is
 `d49ef92c0fdfeda433f6d04d0edeb7751e41e4c7c7effc1265630717029dc7e3`.
 
@@ -107,6 +107,18 @@ record fields with the original STOSD instructions, and issues the case-table
 call `30684dc7 -> 306849b0`. It stops at that helper after 354 admitted operations.
 Case-table construction, MBC publication and full startup remain unfinished.
 
-## Current local classification boundary
+## Classification wrapper checkpoint
 
 The retained Engine continuation returns the case GetCPInfo import, prepares the 256-byte character input and enters the original classification wrapper. Its locale constructor uses the same Engine PTD and a separate stack record. The default path reaches `306916cb -> 306914ea` after 1459 admitted operations. The lower classification body is captured but not executed. Temporary PTD ownership remains held until the real caller can return. Full startup and campaign integration remain unfinished.
+
+## Unicode probe checkpoint
+
+The lower classification body now executes its cold API probe with the immutable original Unicode input and a separate retained stack WORD. The checked GetStringTypeW return sets the same Engine-owned selector to one and reaches `3069155d` before wide conversion, after 1486 admitted operations. Cached dispatch, failed-probe handling and the conversion path remain unfinished.
+
+## Conversion-query checkpoint
+
+The source now issues the indirect MultiByteToWideChar size query using the original procedure and six stack arguments. Its checked same-Engine 256-byte input alias remains unchanged; NULL output and zero capacity produce count 256 through the selected process NLS table. Source branches prepare a 520-byte buffer request and stop before stack reservation `306915af -> 3068de60`, after 1510 admitted operations. Conversion output, classification completion and full startup remain unfinished.
+
+## Current local conversion-buffer boundary
+
+The original alignment and page-probe helpers now execute on the retained stack. They relocate the actual caller return word and return with ESP at the aligned reservation. Source instructions write the stack marker and prepare the wide span; the bounded memset bridge clears exactly 512 bytes. The default path stops before the conversion output call at `306915f8`, after 1557 admitted operations. The memset body remains captured evidence rather than counted source instructions. No Windows stack addresses or host page probes are supplied.

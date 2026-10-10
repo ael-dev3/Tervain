@@ -34,3 +34,7 @@ it('pins original multibyte scope bytes and stops on changed or unknown scope co
  scope.writeUnsigned(0,before,1);scope.knownMask[0]=0;expect(NativeEngineArgvImages.imageForCrt(owner,crt,'argumentCount').known).toBe(false);expect(scope.knownMask[0]).toBe(0);
  }
 });
+
+it('pins the classification probe bytes and preserves the mutable selector',()=>{
+ const {crt,owner}=fixture(),selector=fact(NativeEngineArgvImages.imageForCrt(owner,crt,'classificationApiSelector')),probe=fact(NativeEngineArgvImages.imageForCrt(owner,crt,'classificationWideProbe'));expect(probe.readUnsigned(0,2)).toBe(0);selector.writeUnsigned(0,2);expect(fact(NativeEngineArgvImages.forCrt(crt))).toBe(owner);expect(selector.readUnsigned(0)).toBe(2);probe.writeUnsigned(0,1,2);expect(NativeEngineArgvImages.forCrt(crt).known).toBe(false);expect(probe.readUnsigned(0,2)).toBe(1);
+});

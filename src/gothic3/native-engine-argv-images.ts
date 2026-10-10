@@ -6,8 +6,8 @@ import {NativeModuleCrtOwner} from './native-engine-crt-locks';
 import {NativeRuntimePlatform} from './native-runtime-platform';
 import {NativeHeapObjectViews} from './native-heap-views';
 import {engineArgvImage} from './native-engine-argv-source';
-type Label='multibyteReady'|'moduleFilename'|'moduleFilenameSentinel'|'programNamePointer'|'argumentCount'|'argumentVector'|'multibyteSetupSehScope'|'multibyteLocaleSehScope'|'multibyteLocaleFlags'|'currentMultibytePointer'|'codepageAutomatic'|'multibyteCodepageTable';
-const labels:readonly Label[]=Object.freeze(['multibyteReady','moduleFilename','moduleFilenameSentinel','programNamePointer','argumentCount','argumentVector','multibyteSetupSehScope','multibyteLocaleSehScope','multibyteLocaleFlags','currentMultibytePointer','codepageAutomatic','multibyteCodepageTable']);
+type Label='multibyteReady'|'moduleFilename'|'moduleFilenameSentinel'|'programNamePointer'|'argumentCount'|'argumentVector'|'multibyteSetupSehScope'|'multibyteLocaleSehScope'|'multibyteLocaleFlags'|'currentMultibytePointer'|'codepageAutomatic'|'multibyteCodepageTable'|'classificationApiSelector'|'classificationWideProbe';
+const labels:readonly Label[]=Object.freeze(['multibyteReady','moduleFilename','moduleFilenameSentinel','programNamePointer','argumentCount','argumentVector','multibyteSetupSehScope','multibyteLocaleSehScope','multibyteLocaleFlags','currentMultibytePointer','codepageAutomatic','multibyteCodepageTable','classificationApiSelector','classificationWideProbe']);
 const owners=new WeakMap<NativeModuleCrtOwner,NativeEngineArgvImages>();
 const token=Object.freeze({});
 const fact=<T>(value:NativeValue<T>):T=>{if(!value.known)throw new Error(value.reason);return value.value;};
@@ -37,7 +37,7 @@ export class NativeEngineArgvImages {
   for(const label of labels){
    const proof=this.#images.get(label)!;engineArgvImage(label);const fields=proof.fields;
    if(fields.backing!==proof.backing||fields.backing.freed||fields.bytes!==proof.bytes||fields.knownMask!==proof.masks||fields.view!==proof.view||fields.backing.bytes!==proof.rootBytes||fields.backing.knownMask!==proof.rootMasks||fields.bytes.buffer!==proof.rootBytes.buffer||fields.bytes.byteOffset!==proof.rootBytes.byteOffset||fields.knownMask.buffer!==proof.rootMasks.buffer||fields.knownMask.byteOffset!==proof.rootMasks.byteOffset||fields.bytes.buffer!==fields.view.buffer||fields.bytes.byteOffset!==fields.view.byteOffset||fields.bytes.length!==fields.view.byteLength)throw new Error('Original Engine argument image storage changed');
-   if(label==='multibyteSetupSehScope'||label==='multibyteLocaleSehScope')for(let offset=0;offset<fields.bytes.length;offset++)if(NativeHeapObjectViews.prototype.readUnsigned.call(fields,offset,1)!==parseInt(proof.raw.slice(offset*2,offset*2+2),16))throw new Error('Original Engine multibyte scope bytes changed');
+   if(label==='multibyteSetupSehScope'||label==='multibyteLocaleSehScope'||label==='classificationWideProbe')for(let offset=0;offset<fields.bytes.length;offset++)if(NativeHeapObjectViews.prototype.readUnsigned.call(fields,offset,1)!==parseInt(proof.raw.slice(offset*2,offset*2+2),16))throw new Error('Original Engine multibyte scope bytes changed');
   }
  }
  static imageForCrt(owner:NativeEngineArgvImages,crt:NativeModuleCrtOwner,label:Label):NativeValue<NativeHeapObjectViews>{

@@ -11907,3 +11907,40 @@ Local wrapper validation: 62 tests across four files passed in 21.56 seconds; `n
 The preceding 1408-operation case-input continuation passed its full suite: 3341 tests across 313 files in 414.46 seconds. The newer classification-wrapper full suite is running separately. Publication preparation retains both the earlier public deployment receipts and the newer local continuation receipts.
 
 Publication-branch validation: 62 tests across four files passed in 21.72 seconds, production build including TypeScript checking passed, and the diff has no whitespace errors. The merge preserves all earlier dated receipts and updates the reader guide to distinguish the deployed 354-operation checkpoint from the local 1459-operation wrapper. The wrapper full-suite process remains live; this receipt does not claim its result.
+
+
+## 10 October 2026: Engine Unicode classification probe
+
+The original lower classification routine now enters its retained frame and reads the current Engine-owned API selector at `30af7c34`. Its loader-zero image is separate from the immutable two-byte Unicode probe at `30892f38`. The source package captures the exact GetStringTypeW, GetLastError, MultiByteToWideChar and GetStringTypeA import identities, alongside both image receipts. Source package SHA-256: `2a85ae264fc449abd6088e6268340eba95570d4ed5ad5fc92b545958f000171d`. The 16 methods, 1130 instructions and 3206 instruction bytes are unchanged. Independent JSON, TypeScript and comparison regenerations are byte-identical.
+
+On the cold selector path, the source constructs an actual stack WORD output at body EBP minus eight and invokes CT_CTYPE1 GetStringTypeW with the original one-code-unit input. The private grant checks that source image, same Engine owner, scalar/type, count, actual return slot and stack alias. The platform consumes the selected NLS classification table and writes exactly two bytes through the checked retained-stack writer; adjacent bytes stay untouched. Successful stdcall return restores its real caller, source instructions set the selector to one, and the default path stops at `3069155d` before wide conversion after 1486 admitted operations. The wrapper remains pending and temporary PTD ownership remains held. Warm selector dispatch and failed-probe GetLastError handling have explicit unsupported boundaries; no selector bytes are reseeded.
+
+The preceding 1459-operation classification wrapper passed its full suite: 3342 tests across 313 files in 416.95 seconds. The current probe remains locally validated only; complete classification, case mapping, MBC publication, complete startup and playable campaign remain unfinished.
+
+Local probe validation: 72 tests across five files passed in 19.87 seconds; production build including TypeScript checking passed; independent JSON/TypeScript/comparison regeneration is byte-identical; `git diff --check` passed. Full-suite and public deployment validation of this probe remain pending.
+
+
+## 10 October 2026: Engine character conversion size query
+
+The retained source now clears its temporary probe DWORD, consumes the explicit code page, loads the original MultiByteToWideChar import into ESI using the selected platform procedure capability, and constructs all six real query arguments. Its private grant checks the indirect CALL ESI and original import load, same platform procedure, 256-byte case-input stack alias, flags one or nine, and NULL output with zero capacity. The platform reads the current input through the copied process CP1252 table and returns the required count without writing any output memory. The actual stdcall return cleans 24 argument bytes.
+
+The default source path receives count 256, checks failure, signed count and overflow branches, calculates 520 buffer bytes and takes the original stack-buffer route. It stops before `306915af -> 3068de60`, the stack reservation helper, after 1510 admitted operations. Query input remains unchanged, the classification wrapper remains pending, and its PTD ownership stays held. The probe alias now reads zero because the subsequent original DWORD store clears it; probe output and adjacent-byte preservation are checked at the actual import return, before that later store.
+
+Focused validation: 74 tests across five files passed in 24.15 seconds, including exact six-argument ABI, procedure/return identity, unchanged query input and retention on a substitute normal-return object. TypeScript checking passed. Stack reservation, conversion output, complete classification, case mapping, MBC publication, complete startup and playable campaign integration remain unfinished. Production build and broader validation for this query remain pending at this receipt.
+
+Follow-up conversion-query review preserves EAX upper bits for the original SETNZ AL instruction. The corrected focused suite passed 74 tests across five files in 21.80 seconds. The preceding Unicode probe passed its full suite: 3347 tests across 313 files in 418.92 seconds. PR #226 merged as `374f95049478679abcb8c0da953b76f9ba9aa30c` after successful CI and a fresh repository-wide audit of 487 runs over five pages with no active runs. Main Pages workflow `38070559439` is running; hosted deployment of that wrapper is not yet claimed.
+
+Final conversion-query production build including TypeScript checking passed, and `git diff --check` passed. The next original stack-reservation helper was independently inspected: nine instructions at `3068de60`, aligning the requested size and jumping to `30674820`. This scratch evidence does not admit or execute that helper. The query full-suite and deployment receipts remain pending.
+
+
+## 10 October 2026: Engine aligned conversion stack buffer
+
+The package now admits the original nine-instruction alignment helper at `3068de60` and 19-instruction probe at `30674820`: 18 methods, 1158 instructions and 3271 instruction bytes, SHA-256 `6e06490da3819d289093b64242cd50e621096bbc6aa66c17424072abdd2c3c4a`. Independent JSON, TypeScript and comparison regenerations are byte-identical.
+
+The retained Engine caller requests 520 bytes. The helpers consume declared virtual page/alignment geometry, align the request, preserve the caller ECX, and move the exact original return-word capability into the new stack location before returning. Relative addresses stay inside the same nonwrapping selected stack reservation. The original page loop reads mapped stack storage when needed; no Windows address or host guard-page claim is made. Missing geometry and out-of-reservation addresses retain explicit unsupported boundaries.
+
+The real caller creates a 520-byte raw stack alias, writes `0xcccc`, skips the eight-byte header, and invokes a checked same-stack memset bridge for exactly 512 bytes. That translated memory effect preserves the header padding, does not count the captured memset body as executed instructions, and retains any partial writes on interruption. Six output-conversion arguments are prepared; the default path stops before CALL ESI at `306915f8`, after 1557 admitted operations. Output conversion, complete classification, case mapping, MBC publication, full startup and playable campaign remain unfinished.
+
+Focused validation: 77 tests across five files passed in 21.91 seconds. The preceding conversion query passed its full suite: 3349 tests across 313 files in 410.34 seconds. PR #226 deployed successfully as `374f95049478679abcb8c0da953b76f9ba9aa30c`, workflow `38070559439`. That public checkpoint reaches the earlier classification-wrapper boundary; the newer query and buffer are not claimed as deployed. Production and broader validation of the current buffer remain pending at this receipt.
+
+Current buffer production validation: `npm run build` completed successfully, including TypeScript checking, and `git diff --check` passed. The query-ABI test observes arguments at the real query return because the subsequent aligned reservation and clear legitimately reuse their old stack bytes. Buffer full-suite and deployment validation remain pending.
