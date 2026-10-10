@@ -122,7 +122,16 @@ allocations, destination ownership and pointer/NULL result stores. ANSI copy and
 Engine I/O remain runtime dependencies. The preceding selection checkpoint
 (`973fc79a8`) passed its production build in 50.35 seconds and all 3,233 tests
 across 304 files in 425.70 seconds. The wide-conversion checkpoint has no
-full-suite, production-build or hosted-browser receipt yet.
+full-suite or hosted-browser receipt yet. Its production build passed in
+29.28 seconds; the full suite is currently running in the separate validation
+checkout.
+
+Engine's next I/O dependency is captured in
+[`assets/gothic3/engine-io/`](../../assets/gothic3/engine-io/): the initializer,
+EH4 prologue and calloc wrapper total 233 verified instructions and 703 body
+bytes. The package retains the loader-zero count and 64-slot pointer table,
+file-backed exception scope, imports and caller branches. Independent generation
+matches byte for byte. I/O runtime integration remains unfinished.
 
 Each checkpoint should let another developer follow the same evidence:
 
