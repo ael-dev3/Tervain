@@ -11946,3 +11946,27 @@ Focused validation: 77 tests across five files passed in 21.91 seconds. The prec
 Current buffer production validation: `npm run build` completed successfully, including TypeScript checking, and `git diff --check` passed. The query-ABI test observes arguments at the real query return because the subsequent aligned reservation and clear legitimately reuse their old stack bytes. Buffer full-suite and deployment validation remain pending.
 
 Publication-branch validation for the combined probe/query/buffer: 77 tests across five files passed in 23.84 seconds; production build including TypeScript checking passed; the diff has no whitespace errors. Earlier probe and query full suites passed. The latest buffer full-suite process remains live; its result and public deployment remain pending.
+
+### 10 October 2026: Engine Unicode conversion output and character types
+
+The retained Engine classification body now executes the conversion output call at `306915f8` and the Unicode character-type call at `30691606`. Both consume their actual source arguments and write bounded 512-byte aliases on the original Engine stack. The declared code-page repertoire supplies the Unicode and CT_CTYPE1 values; all 256 input positions are checked, including the original space substitution at position zero. Interrupted conversion retains partial writes and the pending native return.
+
+The default continuation reaches `30691610` after 1567 admitted operations, before buffer cleanup. Cleanup, classification return, case mapping, MBC publication, complete startup and campaign play remain unfinished.
+
+Validation: initial focused suite 77 tests / five files passed; the expanded Engine frame suite passed 62 tests, including complete output spans and interruption; production build passed. Full-suite validation for this output continuation is pending. The preceding aligned-buffer checkpoint passed 3352 tests / 313 files and merged as PR #227; its Pages deployment is running.
+
+Matching Engine.dll evidence was independently inspected for cleanup `30675d66` and cookie check `3067746c`. Cleanup tests the allocation header against `0xdddd`; the stack allocation carries `0xcccc`, so its original branch returns without freeing heap memory. This evidence is captured outside the repository for the next implementation step; those helper bodies have not yet been added to the executable source package.
+
+
+### 10 October 2026: Engine classification cleanup and return
+
+The original stack-buffer cleanup helper and security-cookie check are now captured from matching Engine.dll bytes, bringing this source package to 20 methods, 1171 instructions and 3312 instruction bytes. The stack header is compared with the original heap marker; its `0xcccc` value follows the return branch without invoking heap release. The retained cookie XOR relationship recovers the original cookie without inventing absolute stack addresses.
+
+The classification body restores its saved registers and returns through its actual pending call. The wrapper releases only the PTD locale bit it acquired, preserves pre-existing ownership, restores the case-table frame and returns to `30684a4b` after 1597 admitted operations. Converted Unicode and character types remain in their original stack aliases. Focused validation passed 80 tests across five files, including cleanup returns, allocation lifetime, full output spans and interruption. Production build passed; independent source JSON and generated TypeScript are byte-identical. The preceding output continuation passed 3354 tests across 313 files in 432.39 seconds. Case mapping, MBC publication, full startup, live world activation and campaign completion remain unfinished.
+
+
+### 10 October 2026: Engine case mapping wrapper
+
+The first case-mapping call now prepares its nine original arguments, enters `3067c91e`, constructs a separate locale-update record with the same Engine PTD and forwards eight arguments to its lower body. It reaches `3067c94a -> 3067c57c` after 1660 admitted operations. Classification releases its acquired locale bit before mapping reacquires it; a check observes this transition at the actual constructor read. Reused stack aliases contain current memory, so prior argument slots and temporary probe values are not treated as historical snapshots.
+
+The captured source package now contains 21 methods, 1194 instructions and 3379 instruction bytes. Independent research JSON and generated TypeScript are byte-identical. TypeScript checking passed; the Engine frame suite passed all 64 tests. Production build passed. The preceding classification-return checkpoint passed 3355 tests across 313 files in 433.21 seconds. The matching lower mapping body was inspected separately (337 instructions); it is not yet admitted to the executable package. Mapping execution, MBC publication, complete startup and campaign play remain unfinished. PR #227 deployed successfully; this later local continuation is not yet published.

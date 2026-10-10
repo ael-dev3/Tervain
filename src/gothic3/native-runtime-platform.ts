@@ -968,11 +968,10 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
         const input=engine.value;let scalar:number;
         if(input.kind==='MultiByteToWideChar'){
           if(!input.input||input.count!==256||![1,9].includes(input.flags)||input.procedure!==this.#argvProcedures.get('MultiByteToWideChar'))throw new Error('Actual Engine conversion query ABI required');requirePhysicalNativeViews(input.input);
-          if(input.scalar!==selected.codePage)scalar=0;else{for(let index=0;index<input.count;index++){const byte=NativeHeapObjectViews.prototype.readUnsigned.call(input.input,index,1);if(!Number.isInteger(selected.unicode[byte]))throw new Error('Engine conversion byte outside declared NLS repertoire');}scalar=input.count;}
+          if(input.scalar!==selected.codePage)scalar=0;else{for(let index=0;index<input.count;index++){const byte=NativeHeapObjectViews.prototype.readUnsigned.call(input.input,index,1),code=selected.unicode[byte];if(!Number.isInteger(code))throw new Error('Engine conversion byte outside declared NLS repertoire');if(input.fields){requirePhysicalNativeViews(input.fields);const write=NativeX86ThreadStack.writeEngineArgvNlsMemoryForPlatform(this,call,index*2,code!,2);if(!write.known)throw new Error(write.reason);}}scalar=input.count;}
         }else if(input.kind==='GetStringTypeW'){
-          if(input.scalar!==1||input.count!==1||!input.input||!input.fields)throw new Error('Actual Engine CT_CTYPE1 probe ABI required');requirePhysicalNativeViews(input.input);requirePhysicalNativeViews(input.fields);
-          const code=NativeHeapObjectViews.prototype.readUnsigned.call(input.input,0,2),byte=new Map(selected.reverse).get(code);if(byte===undefined)throw new Error('Engine probe outside declared NLS repertoire');
-          const write=NativeX86ThreadStack.writeEngineArgvNlsMemoryForPlatform(this,call,0,selected.ctype1[byte]!,2);if(!write.known)throw new Error(write.reason);scalar=1;
+          if(input.scalar!==1||![1,256].includes(input.count)||!input.input||!input.fields)throw new Error('Actual Engine CT_CTYPE1 ABI required');requirePhysicalNativeViews(input.input);requirePhysicalNativeViews(input.fields);
+          const reverse=new Map(selected.reverse);for(let index=0;index<input.count;index++){const code=NativeHeapObjectViews.prototype.readUnsigned.call(input.input,index*2,2),byte=reverse.get(code);if(byte===undefined)throw new Error('Engine classification outside declared NLS repertoire');const write=NativeX86ThreadStack.writeEngineArgvNlsMemoryForPlatform(this,call,index*2,selected.ctype1[byte]!,2);if(!write.known)throw new Error(write.reason);}scalar=1;
         }else if(input.kind==='GetACP')scalar=selected.codePage;
         else if(input.kind==='IsValidCodePage')scalar=input.scalar===selected.codePage?1:0;
         else if(input.scalar!==selected.codePage)scalar=0;
