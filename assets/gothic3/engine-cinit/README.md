@@ -29,7 +29,13 @@ and C initializer walker. Its first callback allocates and publishes the
 path also initializes the stream table at `3067c3c7`, including its 20-entry
 allocation retry and failure result of 26. It links the original 20 static FILE
 records and reads the existing Engine I/O blocks under their retained owner.
-The normal path stops at the next callback, `3067f720`. Initializer completion and campaign
+The SSE2 callback at `3067f720` executes its original ID-toggle and CPUID logic
+using the retained virtual CPU selection. Its normal execution probe contract
+copies XMM1 into XMM0 and returns one; the contract's internal instructions are
+excluded from the executed-source count. Missing selections or an unsupported
+SIMD exception retain the actual pending instruction. Zero feature results take
+the original zero-return path. The normal path stops at `30685007`.
+Initializer completion and campaign
 activation remain unfinished.
 
 Use retained Engine ownership when implementing these routines; captured

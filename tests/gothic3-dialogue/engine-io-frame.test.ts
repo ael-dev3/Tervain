@@ -1,3 +1,4 @@
+import {nativeVirtualX86CpuSelection,type NativeX86CpuSelection} from '../../src/gothic3/native-x86-thread-stack-profile';
 import type {NativeWin32ProcessInputSelection} from '../../src/gothic3/native-win32-process-inputs';
 import type {NativeArgvNlsCallGrant,NativeWin32ArgvNlsSelection} from '../../src/gothic3/native-win32-argv-nls';
 import {browserGameArgvNlsInputs} from '../../src/gothic3/browser-game-argv-nls-inputs';
@@ -8,6 +9,7 @@ vi.setConfig({testTimeout:20_000});
 import {NativeCrtBootstrap} from '../../src/gothic3/native-crt-bootstrap';
 import {NativeEngineCrtEnvironment} from '../../src/gothic3/native-engine-crt-environment';
 import {NativeEngineSetenvpImages} from '../../src/gothic3/native-engine-setenvp-images';
+import {NativeEngineCinitImages} from '../../src/gothic3/native-engine-cinit-images';
 import {NativeEngineArgvImages} from '../../src/gothic3/native-engine-argv-images';
 import {NativeEngineIoImages} from '../../src/gothic3/native-engine-io-images';
 import {NativeModuleCrtOwner,NativeEngineCrtOwner} from '../../src/gothic3/native-engine-crt-locks';
@@ -18,10 +20,10 @@ import type {NativeStartupInfoWriterSelection} from '../../src/gothic3/native-wi
 import type {NativeWin32StandardIoSelection} from '../../src/gothic3/native-win32-standard-io';
 import {browserGameStandardIoInputs} from '../../src/gothic3/browser-game-standard-io-inputs';
 import {browserGameProcessInputs} from '../../src/gothic3/browser-game-process-inputs';
-function fixture(startupInfoA?:NativeStartupInfoWriterSelection,standardIo?:NativeWin32StandardIoSelection,argvNls?:NativeWin32ArgvNlsSelection,pageAlignment=true,processInputs:NativeWin32ProcessInputSelection=browserGameProcessInputs,features:{processorFeatureProcedure?:boolean;floatingPointPrecisionErratum?:boolean}={processorFeatureProcedure:true,floatingPointPrecisionErratum:false}){
+function fixture(startupInfoA?:NativeStartupInfoWriterSelection,standardIo?:NativeWin32StandardIoSelection,argvNls?:NativeWin32ArgvNlsSelection,pageAlignment=true,processInputs:NativeWin32ProcessInputSelection=browserGameProcessInputs,features:{processorFeatureProcedure?:boolean;floatingPointPrecisionErratum?:boolean;cpu?:NativeX86CpuSelection|null}={processorFeatureProcedure:true,floatingPointPrecisionErratum:false}){
  const platform=new NativeRuntimePlatform({engineCrtServices:{...features,argvNls,standardIo,startupIo:startupInfoA?{startupInfoA}:undefined,tlsValues:new Map(),kernel32Available:true,pointerCodec:'absent',fiberLocalStorage:true,processHeap:true,osVersion:{platform:2,major:6,minor:1,build:42},processInputs,
   entropy:{systemTimeAsFileTime:()=>({known:true,value:{low:0x12345678,high:1}}),currentProcessId:()=>({known:true,value:4}),currentThreadId:()=>({known:true,value:5}),tickCount:()=>({known:true,value:6}),performanceCounter:()=>({known:true,value:{success:true,low:7,high:8}})},
-  threadStack:{threadCapability:{},reservationBytes:4096,addressModel:'opaque-relative',initialRegisters:'unknown',initialFs0:'unknown',pageAlignment:pageAlignment?'virtual-page-4096':undefined}}});
+  threadStack:{cpu:features.cpu===null?undefined:features.cpu??nativeVirtualX86CpuSelection,threadCapability:{},reservationBytes:4096,addressModel:'opaque-relative',initialRegisters:'unknown',initialFs0:'unknown',pageAlignment:pageAlignment?'virtual-page-4096':undefined}}});
  let bootstrap:NativeCrtBootstrap;const crt=new NativeEngineCrtOwner({platform,errnoSlot:()=>bootstrap.thread.errnoSlot(),getLastError:()=>platform.getWin32LastError()});bootstrap=NativeCrtBootstrap.forCrt(crt);return {crt,platform,bootstrap};
 }
 function observeBeforeParser(bootstrap:NativeCrtBootstrap,observe:()=>void){
@@ -284,7 +286,7 @@ it('retains the actual locale caller when its lock service cannot return',()=>{
 it('returns Engine GetACP through its retained caller and clears temporary PTD ownership',()=>{
  const {bootstrap,crt,platform}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs);
  const original=NativeRuntimePlatform.canonicalArgvNlsNormalReturnForPlatform;let selectedArgument:number|null=null;const spy=vi.spyOn(NativeRuntimePlatform,'canonicalArgvNlsNormalReturnForPlatform').mockImplementation((...args)=>{const result=original(...args),frame=bootstrap.attachProgress().engineArgvProgress;if(frame?.pc==='30684cc9')selectedArgument=frame.stack.readUnsigned(frame.entryEsp-40);return result;});let result;try{result=bootstrap.processAttach();}finally{spy.mockRestore();}expect(result.known).toBe(false);if(result.known)throw new Error('Startup remains unfinished');
- expect(result.reason).toContain('Engine CRT initializer dependency at3067f720');
+ expect(result.reason).toContain('Engine CRT initializer dependency at30685007');
  const frame=bootstrap.attachProgress().engineArgvProgress!;
  expect(frame).toMatchObject({pc:'3067727b',operations:13819,codepageCtorReturned:true,codepageAcpReturned:true,codepageReturned:true,codepageResult:1252});
  expect(frame.codepagePtd!.readUnsigned(0x70)).toBe(1);expect(selectedArgument).toBe(1252);
@@ -515,7 +517,7 @@ it('releases classification ownership before constructing the separate mapping l
 });
 
 it('returns the Engine Unicode mapping probe through its actual six-argument call',()=>{
- const {bootstrap,platform,crt}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs),graph=NativeX86ThreadStack.forPlatform(platform);if(!graph.known)throw new Error(graph.reason);const result=bootstrap.processAttach(),frame=bootstrap.attachProgress().engineArgvProgress!;expect(result.known).toBe(false);if(result.known)throw new Error('Mapping scan remains unfinished');expect(result.reason).toContain('Engine CRT initializer dependency at3067f720');expect(frame).toMatchObject({pc:'3067727b',operations:13819});
+ const {bootstrap,platform,crt}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs),graph=NativeX86ThreadStack.forPlatform(platform);if(!graph.known)throw new Error(graph.reason);const result=bootstrap.processAttach(),frame=bootstrap.attachProgress().engineArgvProgress!;expect(result.known).toBe(false);if(result.known)throw new Error('Mapping scan remains unfinished');expect(result.reason).toContain('Engine CRT initializer dependency at30685007');expect(frame).toMatchObject({pc:'3067727b',operations:13819});
  const selector=NativeEngineArgvImages.imageForCrt(bootstrap.attachProgress().engineArgvImages!,crt,'mappingApiSelector');if(!selector.known)throw new Error(selector.reason);expect(selector.value.readUnsigned(0)).toBe(1);const call=graph.value.snapshot().calls.find(call=>call.site==='3067c5ac')!;expect(call.returned).toBe(true);expect(call.returnWord).toMatchObject({provenance:{kind:'source',type:'code',address:'3067c5b2'}});expect(graph.value.snapshot().calls.find(call=>call.site==='3067c94a')?.returned).toBe(true);expect(bootstrap.processAttach()).toEqual(result);
 });
 
@@ -711,13 +713,13 @@ it('retains released input and completed entries when Engine readiness publicati
 it('enters the original Engine CRT initializer with argument zero and a pending owned return',()=>{
  const {bootstrap,platform,crt}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs),graph=NativeX86ThreadStack.forPlatform(platform);if(!graph.known)throw new Error(graph.reason);
  const result=bootstrap.processAttach(),frame=bootstrap.attachProgress().engineCinitProgress!;
- expect(result.known).toBe(false);expect(frame).toMatchObject({pc:'3067f720',operations:898,exitTableResult:0,streamCount:512,streamResult:0,floatConversionWritten:true});
+ expect(result.known).toBe(false);expect(frame).toMatchObject({pc:'30685007',operations:955,sse2Result:1,exitTableResult:0,streamCount:512,streamResult:0,floatConversionWritten:true});
  expect(frame.images.crt).toBe(crt);
  expect(frame.streamAllocation!.bytes.length).toBe(2048);expect(frame.streamPointers!.map(word=>word.provenance)).toEqual(Array.from({length:20},(_,i)=>expect.objectContaining({kind:'engine-image',crt,offset:i*32})));expect(frame.streamAllocation!.readUnsigned(80)).toBe(0);
- expect(graph.value.snapshot().calls.find(c=>c.site==='3067c3e9')).toMatchObject({returned:true});expect(graph.value.snapshot().calls.filter(c=>c.site==='3067d025').filter(c=>c.returned)).toHaveLength(2);
+ expect(graph.value.snapshot().calls.find(c=>c.site==='3067c3e9')).toMatchObject({returned:true});expect(graph.value.snapshot().calls.filter(c=>c.site==='3067d025').filter(c=>c.returned)).toHaveLength(3);
  expect(frame.exitTableAllocation!.bytes.length).toBe(128);expect(frame.exitTableAllocation!.readUnsigned(0)).toBe(0);expect(frame.exitTableAllocation!.backing.freed).toBe(false);
  expect(graph.value.snapshot().calls.find(c=>c.site==='30671530')).toMatchObject({returned:true});expect(graph.value.snapshot().calls.find(c=>c.site==='30671538')).toMatchObject({returned:true});expect(graph.value.snapshot().calls.filter(c=>c.site==='3067d025')[0]).toMatchObject({returned:true});
- expect(graph.value.snapshot().trace.filter(pc=>pc==='3067d01f.EngineCinitSource')).toHaveLength(68);
+ expect(graph.value.snapshot().trace.filter(pc=>pc==='3067d01f.EngineCinitSource')).toHaveLength(69);
  expect(graph.value.snapshot().calls.filter(c=>c.site==='3067d025').at(-1)).toMatchObject({returned:false,position:frame.entryEsp-28,returnWord:{provenance:{kind:'source',type:'code',address:'3067d027'}}});
  const encodedCalls=graph.value.snapshot().calls.filter(c=>c.site==='3067f599');expect(encodedCalls).toHaveLength(10);expect(encodedCalls.every(c=>c.returned)).toBe(true);
  expect(graph.value.snapshot().calls.find(c=>c.site==='3067d1f9')).toMatchObject({returned:false,position:frame.entryEsp-20,returnWord:{provenance:{kind:'source',type:'code',address:'3067d1fe'}}});
@@ -758,6 +760,22 @@ it('returns the original Engine exit-table allocation failure to the C initializ
 it.each([false,true])('preserves Engine stream calloc retry and failure (both fail=%s)',bothFail=>{
  const {bootstrap,platform}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs),graph=NativeX86ThreadStack.forPlatform(platform);if(!graph.known)throw new Error(graph.reason);
  const allocate=platform.win32HeapAlloc.bind(platform),spy=vi.spyOn(platform,'win32HeapAlloc').mockImplementation((...args)=>args[1]===8&&(args[2]===2048||(bothFail&&args[2]===80))?{known:true,value:null}:allocate(...args));let result;try{result=bootstrap.processAttach();}finally{spy.mockRestore();}
- const frame=bootstrap.attachProgress().engineCinitProgress!;expect(result.known).toBe(false);expect(frame).toMatchObject({pc:bothFail?'3067d1fe':'3067f720',streamCount:20,streamResult:bothFail?26:0});expect(frame.streamAllocation?.bytes.length??null).toBe(bothFail?null:80);expect(graph.value.snapshot().calls.find(c=>c.site==='3067c402')).toMatchObject({returned:true});expect(graph.value.snapshot().calls.filter(c=>c.site==='3067d025')).toHaveLength(bothFail?2:3);
+ const frame=bootstrap.attachProgress().engineCinitProgress!;expect(result.known).toBe(false);expect(frame).toMatchObject({pc:bothFail?'3067d1fe':'30685007',streamCount:20,streamResult:bothFail?26:0});expect(frame.streamAllocation?.bytes.length??null).toBe(bothFail?null:80);expect(graph.value.snapshot().calls.find(c=>c.site==='3067c402')).toMatchObject({returned:true});expect(graph.value.snapshot().calls.filter(c=>c.site==='3067d025')).toHaveLength(bothFail?2:4);
  const before=graph.value.snapshot().trace;expect(bootstrap.processAttach()).toEqual(result);expect(graph.value.snapshot().trace).toEqual(before);
+});
+it.each([
+ ['missing CPU',null,'3069c505'],
+ ['missing leaf zero',{...nativeVirtualX86CpuSelection,cpuidLeaf0:undefined},'3069c51a'],
+ ['missing leaf one',{...nativeVirtualX86CpuSelection,cpuidLeaf1:undefined},'3069c52d'],
+ ['unimplemented SIMD exception',{...nativeVirtualX86CpuSelection,sse2Execution:'illegal-instruction'},'3069c53f'],
+] as const)('preserves the Engine SSE2 boundary for %s',(_label,cpu,pc)=>{
+ const {bootstrap,platform,crt}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{processorFeatureProcedure:true,floatingPointPrecisionErratum:false,cpu}),graph=NativeX86ThreadStack.forPlatform(platform);if(!graph.known)throw new Error(graph.reason);
+ const result=bootstrap.processAttach(),frame=bootstrap.attachProgress().engineCinitProgress!;expect(result.known).toBe(false);expect(frame).toMatchObject({pc,sse2Result:null});const ready=NativeEngineCinitImages.imageForCrt(frame.images,crt,'sse2Ready');if(!ready.known)throw new Error(ready.reason);expect(ready.value.readUnsigned(0)).toBe(0);expect(graph.value.snapshot().calls.find(c=>c.site==='3067f727')).toMatchObject({returned:false});const before=graph.value.snapshot().trace;expect(bootstrap.processAttach()).toEqual(result);expect(graph.value.snapshot().trace).toEqual(before);
+});
+it.each([
+ ['unwritable ID bit',{...nativeVirtualX86CpuSelection,idBitWritable:false}],
+ ['SSE2 bit absent',{...nativeVirtualX86CpuSelection,cpuidLeaf1:[0x600,0,0,0] as const}],
+] as const)('returns the original zero Engine SSE2 result for %s',(_label,cpu)=>{
+ const {bootstrap,platform,crt}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{processorFeatureProcedure:true,floatingPointPrecisionErratum:false,cpu}),graph=NativeX86ThreadStack.forPlatform(platform);if(!graph.known)throw new Error(graph.reason);
+ expect(bootstrap.processAttach().known).toBe(false);const frame=bootstrap.attachProgress().engineCinitProgress!;expect(frame).toMatchObject({pc:'30685007',sse2Result:0});const ready=NativeEngineCinitImages.imageForCrt(frame.images,crt,'sse2Ready');if(!ready.known)throw new Error(ready.reason);expect(ready.value.readUnsigned(0)).toBe(0);expect(graph.value.snapshot().calls.find(c=>c.site==='3067f727')).toMatchObject({returned:true});expect(graph.value.snapshot().calls.some(c=>c.site==='3069c53f')).toBe(false);
 });

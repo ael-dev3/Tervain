@@ -202,7 +202,7 @@ export class NativeX86ThreadStack {
   #engineArgvExecuting=false;
   #engineArgvCallerTested=false;
   #engineSetenvpCallerTested=false;
-  #engineCinitFrame:{crt:NativeModuleCrtOwner;bootstrap:NativeCrtBootstrap;pc:string;entryEsp:number;images:NativeEngineCinitImages;operations:number;floatConversionWritten:boolean;precisionArgument:number|null;exitTableAllocation:NativeHeapObjectViews|null;exitTableResult:0|24|null;streamAllocation:NativeHeapObjectViews|null;streamCount:number|null;streamResult:0|26|null}|null=null;
+  #engineCinitFrame:{crt:NativeModuleCrtOwner;bootstrap:NativeCrtBootstrap;pc:string;entryEsp:number;images:NativeEngineCinitImages;operations:number;floatConversionWritten:boolean;precisionArgument:number|null;exitTableAllocation:NativeHeapObjectViews|null;exitTableResult:0|24|null;streamAllocation:NativeHeapObjectViews|null;streamCount:number|null;streamResult:0|26|null;sse2Result:0|1|null}|null=null;
   #engineSetenvpFrame:{crt:NativeModuleCrtOwner;bootstrap:NativeCrtBootstrap;phase:'running'|'blocked'|'returned';pc:string;boundary:string|null;operations:number;input:NativeBytePointer|null;cursor:number;entries:number;strlenCalls:number;vectorSlots:number|null;vector:NativeHeapObjectViews|null;vectorPublished:boolean;vectorReleased:boolean;vectorCleared:boolean;inputReleased:boolean;inputCleared:boolean;readyPublished:boolean;strings:NativeHeapObjectViews[];filledEntries:number;images:NativeEngineSetenvpImages;result:0|-1|null}|null=null;
   static enterEngineSetenvpForBootstrap(stack:NativeX86ThreadStack,bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object):NativeValue<0|-1>{
     const reached=NativeCrtBootstrap.engineSetenvpInputForCrt(bootstrap,crt,permit);if(!reached.known)return reached;
@@ -359,7 +359,7 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
       const images=NativeEngineCinitImages.forCrt(crt);if(!images.known)throw new Error(images.reason);
       stack.#physical(stack.#stack);stack.#physical(stack.#bank);
       const entryEsp=stack.#address(stack.#load(stack.#bank,stack.#reg('ESP')));
-      stack.#engineCinitFrame={crt,bootstrap,pc:'30677288',entryEsp,images:images.value,operations:0,floatConversionWritten:false,precisionArgument:null,exitTableAllocation:null,exitTableResult:null,streamAllocation:null,streamCount:null,streamResult:null};
+      stack.#engineCinitFrame={crt,bootstrap,pc:'30677288',entryEsp,images:images.value,operations:0,floatConversionWritten:false,precisionArgument:null,exitTableAllocation:null,exitTableResult:null,streamAllocation:null,streamCount:null,streamResult:null,sse2Result:null};
       stack.#push(stack.#mint(0,0xffffffff));stack.#trace.push('30677288.EngineCinitCallerPush');stack.#engineCinitFrame.operations++;
       stack.#call('3067728a','3067728f');stack.#trace.push('3067728a.EngineCinitCallerCall');stack.#engineCinitFrame.operations++;
       stack.#engineCinitFrame.pc='3067d1c7';
@@ -471,6 +471,39 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
         walk('3067d021',()=>stack.#flags(target?0:0x44,0x841|(target?0:0x84)));walk('3067d023',()=>{});
         if(target){
           walk('3067d025',()=>stack.#call('3067d025','3067d027'));stack.#engineCinitFrame.pc=target;
+          if(target==='3067f720'){
+            const init=(pc:string,body:()=>void)=>step(pc,body,'3067f720'),cpuStep=(pc:string,body:()=>void)=>step(pc,body,'3069c4f2');
+            const ready=NativeEngineCinitImages.imageForCrt(images.value,crt,'sse2Ready');if(!ready.known)throw new Error(ready.reason);
+            init('3067f720',()=>{stack.#store(ready.value,0,stack.#mint(0,0xffffffff));stack.#logicalFlags(0,0xffffffff,4);});init('3067f727',()=>stack.#call('3067f727','3067f72c'));
+            cpuStep('3069c4f2',()=>stack.#push(register('EBP')));cpuStep('3069c4f3',()=>setRegister('EBP',register('ESP')));
+            cpuStep('3069c4f5',()=>{setRegister('ESP',stack.#stackWord(stack.#address(register('ESP'))-24));stack.#flags(0,0);});
+            const local=(offset:number)=>stack.#address(register('EBP'))+offset;
+            const zero=()=>{setRegister('EAX',stack.#mint(0,0xffffffff));stack.#logicalFlags(0,0xffffffff,4);};
+            cpuStep('3069c4f8',zero);cpuStep('3069c4fa',()=>stack.#push(register('EBX')));
+            for(const [pc,offset] of [['3069c4fb',-4],['3069c4fe',-12],['3069c501',-8]] as const)cpuStep(pc,()=>stack.#store(stack.#stack,local(offset),register('EAX')));
+            cpuStep('3069c504',()=>stack.#push(register('EBX')));cpuStep('3069c505',()=>stack.#pushFlags());cpuStep('3069c506',()=>pop('EAX'));cpuStep('3069c507',()=>setRegister('ECX',register('EAX')));
+            cpuStep('3069c509',()=>{const left=register('EAX'),a=stack.#record(left),right=stack.#mint(0x200000,0xffffffff),value=(a.value^0x200000)>>>0;setRegister('EAX',stack.#mint(value,a.mask,{kind:'xor',left,right}));stack.#logicalFlags(value,a.mask,4);});
+            cpuStep('3069c50e',()=>stack.#push(register('EAX')));cpuStep('3069c50f',()=>stack.#popFlags());cpuStep('3069c510',()=>stack.#pushFlags());cpuStep('3069c511',()=>pop('EDX'));
+            let difference=0;
+            cpuStep('3069c512',()=>{const left=register('EDX'),right=register('ECX'),a=stack.#record(left),b=stack.#record(right);if(left===right)difference=0;else if(a.provenance?.kind==='xor'&&a.provenance.left===right&&stack.#record(a.provenance.right).value===0x200000&&(b.mask&0x200000))difference=((b.value&0x200000)?-0x200000:0x200000)>>>0;else throw new Error('Actual retained Engine EFLAGS ID-toggle correlation required');setRegister('EDX',stack.#mint(difference,0xffffffff));stack.#arithmeticFlags(a.value,b.value,difference,4,true);});cpuStep('3069c514',()=>{});
+            if(difference!==0){
+              cpuStep('3069c516',()=>stack.#push(register('ECX')));cpuStep('3069c517',()=>stack.#popFlags());cpuStep('3069c518',zero);
+              const cpuid=()=>{const cpu=stack.#selection.cpu;if(!cpu||!cpu.idBitWritable)throw new Error('Retained CPUID-capable Engine virtual CPU required');const leaf=stack.#numeric(register('EAX'),4),tuple=leaf===0?cpu.cpuidLeaf0:leaf===1?cpu.cpuidLeaf1:undefined;if(!tuple)throw new Error('Explicit Engine virtual CPUID leaf '+leaf+' required');for(const [index,name] of (['EAX','EBX','ECX','EDX'] as const).entries())setRegister(name,stack.#mint(tuple[index]!,0xffffffff));};
+              cpuStep('3069c51a',cpuid);
+              for(const [pc,offset,name] of [['3069c51c',-12,'EAX'],['3069c51f',-24,'EBX'],['3069c522',-20,'EDX'],['3069c525',-16,'ECX']] as const)cpuStep(pc,()=>stack.#store(stack.#stack,local(offset),register(name)));
+              cpuStep('3069c528',()=>setRegister('EAX',stack.#mint(1,0xffffffff)));cpuStep('3069c52d',cpuid);cpuStep('3069c52f',()=>stack.#store(stack.#stack,local(-4),register('EDX')));cpuStep('3069c532',()=>stack.#store(stack.#stack,local(-8),register('EAX')));
+            }
+            cpuStep('3069c535',()=>pop('EBX'));
+            let sse=false;cpuStep('3069c536',()=>{const value=stack.#numeric(stack.#load(stack.#stack,local(-4)),4)&0x4000000;sse=value!==0;stack.#logicalFlags(value,0xffffffff,4);});cpuStep('3069c53d',()=>{});
+            if(sse){
+              cpuStep('3069c53f',()=>{stack.#call('3069c53f','3069c544');engineCinitInstruction('3069c4a2','3069c4b2');if(stack.#selection.cpu?.sse2Execution!=='normal')throw new Error('Explicit normal Engine SSE2 execution or original exception dispatch required');stack.#physical(stack.#xmm);for(let offset=0;offset<16;offset+=4)stack.#store(stack.#xmm,offset,stack.#load(stack.#xmm,offset+16));hostReturn(stack.#mint(1,0xffffffff),0);});
+              cpuStep('3069c544',()=>stack.#logicalFlags(stack.#numeric(register('EAX'),4),0xffffffff,4));cpuStep('3069c546',()=>{});cpuStep('3069c548',zero);
+              cpuStep('3069c54a',()=>{const old=stack.#record(stack.#load(stack.#bank,36));setRegister('EAX',stack.#mint(1,0xffffffff));stack.#arithmeticFlags(0,1,1,4,false);const after=stack.#record(stack.#load(stack.#bank,36));stack.#flags((after.value&~1)|(old.value&1),(after.mask&~1)|(old.mask&1));});cpuStep('3069c54b',()=>{});
+            }else cpuStep('3069c54d',zero);
+            cpuStep('3069c54f',()=>pop('EBX'));cpuStep('3069c550',()=>{setRegister('ESP',register('EBP'));pop('EBP');});cpuStep('3069c551',()=>stack.#ret());
+            init('3067f72c',()=>{const result=stack.#numeric(register('EAX'),4);if(result!==0&&result!==1)throw new Error('Actual Engine SSE2 result required');stack.#engineCinitFrame!.sse2Result=result;stack.#store(ready.value,0,register('EAX'));});init('3067f731',zero);init('3067f733',()=>stack.#ret());
+            target=null;
+          }
           if(target==='3067c3c7'){
             const stream=(pc:string,body:()=>void)=>step(pc,body,'3067c3c7');
             const global=(label:'streamCount'|'streamPointers'|'staticStreams')=>{const value=NativeEngineCinitImages.imageForCrt(images.value,crt,label);if(!value.known)throw new Error(value.reason);return value.value;};
@@ -536,7 +569,7 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
       return known(undefined);
     }catch(error){return unknown(reason(error));}
   }
-  engineCinitFrameSnapshot(crt:NativeModuleCrtOwner){const f=this.#engineCinitFrame;if(!f||f.crt!==crt)return null;const table=NativeEngineCinitImages.imageForCrt(f.images,crt,'floatConversionPointers');const streamPointers=f.streamAllocation&&f.streamResult===0?Object.freeze(Array.from({length:20},(_,i)=>this.#record(this.#load(f.streamAllocation!,i*4)))):null;const floatPointers=f.floatConversionWritten&&table.known?Object.freeze(Array.from({length:10},(_,i)=>this.#record(this.#load(table.value,i*4)))):null;return Object.freeze({pc:f.pc,entryEsp:f.entryEsp,images:f.images,operations:f.operations,floatConversionWritten:f.floatConversionWritten,precisionArgument:f.precisionArgument,exitTableAllocation:f.exitTableAllocation,exitTableResult:f.exitTableResult,streamAllocation:f.streamAllocation,streamCount:f.streamCount,streamResult:f.streamResult,streamPointers,floatPointers,bank:this.#bank,stack:this.#stack});}
+  engineCinitFrameSnapshot(crt:NativeModuleCrtOwner){const f=this.#engineCinitFrame;if(!f||f.crt!==crt)return null;const table=NativeEngineCinitImages.imageForCrt(f.images,crt,'floatConversionPointers');const streamPointers=f.streamAllocation&&f.streamResult===0?Object.freeze(Array.from({length:20},(_,i)=>this.#record(this.#load(f.streamAllocation!,i*4)))):null;const floatPointers=f.floatConversionWritten&&table.known?Object.freeze(Array.from({length:10},(_,i)=>this.#record(this.#load(table.value,i*4)))):null;return Object.freeze({pc:f.pc,entryEsp:f.entryEsp,images:f.images,operations:f.operations,floatConversionWritten:f.floatConversionWritten,precisionArgument:f.precisionArgument,exitTableAllocation:f.exitTableAllocation,exitTableResult:f.exitTableResult,streamAllocation:f.streamAllocation,streamCount:f.streamCount,streamResult:f.streamResult,sse2Result:f.sse2Result,streamPointers,floatPointers,bank:this.#bank,stack:this.#stack});}
   static testEngineSetenvpReturnForBootstrap(stack:NativeX86ThreadStack,bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object):NativeValue<'30677288'|'3067729f'>{
     const reached=NativeCrtBootstrap.canonicalEngineSetenvpCallerForCrt(bootstrap,crt,permit);if(!reached.known)return reached;
     try{
