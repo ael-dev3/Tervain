@@ -143,6 +143,11 @@ float gFlower = step(aSlope.w * 0.72, gR5) * step(gR5, aSlope.w);
 float gDry = step(gR6, aSlope.z);
 float gH = uClump.z * aShape.z * (0.5 + 0.55 * gR2 * gR2 + 0.3 * gR3) * (1.0 + 0.32 * gStem + 0.1 * gFlower);
 float gW = uClump.y * (0.6 + 0.75 * gR3) * gSizeComp * gPresence * (1.0 - 0.72 * max(gStem, gFlower));
+// A79: right in front of a low camera a blade filled the view as a wide, flat ribbon, and the near plane cut the nearest
+// into slabs hanging in the air. Close blades are slimmer, and those at the lens narrow away before the plane reaches
+// them (in the sun's shadow pass the eye is the light's, far off, so shadows keep every blade).
+float gEye = distance(cameraPosition, vec3(gRootW.x, gGround, gRootW.y));
+gW *= mix(0.55, 1.0, smoothstep(1.2, 6.0, gEye)) * smoothstep(0.3, 0.9, gEye);
 
 // Wind: a gust front leaning whole bands of grass, and each blade's own flutter inside it.
 vec2 gWd = uWindDir.xy;

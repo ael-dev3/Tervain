@@ -61,7 +61,9 @@ export const FOLIAGE_LOOK: FoliageLook = {
   saturation: 0.7,
   variation: 1,
   shadeThrough: 0.55,
-  clumps: { gaps: 1, shade: 0.45, rough: 0.55, size: 1.1 },
+  // A79: the shell's gaps between masses and the roughened card cut made near crowns noisy and blotchy, with dark clumps
+  // between masses (owner playtest on a GPU); the masses keep only a faint shading.
+  clumps: { gaps: 0, shade: 0.15, rough: 0, size: 1.1 },
   edgeOn: [0.2, 0.55],
 };
 
@@ -161,6 +163,9 @@ const LEAF_ALPHA_TEST_GLSL = /* glsl */ `
   // A card seen edge-on smears its texture into streaks; it fades out as it turns away, and the cards behind fill in.
   float tvFacing = abs( dot( normalize( cross( dFdx( vViewPosition ), dFdy( vViewPosition ) ) ), normalize( vViewPosition ) ) );
   tvA *= smoothstep( uFoliageEdgeOn.x, uFoliageEdgeOn.y, tvFacing );
+  // A79: a card within a metre or two of the eye covers the screen as one smeared, dark shape; it fades out there, as
+  // the camera slips past the leaves rather than through a wall of them.
+  tvA *= smoothstep( 0.6, 1.6, length( vViewPosition ) );
   float tvFine = 1.0 - smoothstep( 0.02, 0.06, length( fwidth( vTvLeafP ) ) );
   tvA += ( tvLeafNoise( vTvLeafP * 17.0 ) - 0.5 ) * uFoliageClump.z * tvFine * step( 0.02, tvA );
   #ifdef USE_MAP

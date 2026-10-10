@@ -1,7 +1,7 @@
 import { loadBakedTextures } from './bakedTextures';
 import { buildFurniture, deferredFurniture, loadFurniture, type FurnitureTemplates } from './furniture';
 import { InteriorLight } from './interiorLight';
-import { WindowView } from './windowView';
+import { WINDOW_VIEW_SIZE, WindowView } from './windowView';
 import type { InteriorSpec } from '../world/interiors';
 import { DoorSwings, type DoorEvent } from './doors';
 import * as THREE from 'three';
@@ -81,6 +81,7 @@ export interface WorldWarming { warm: ((object: THREE.Object3D) => Promise<unkno
 
 interface WorldResources {
   warming: WorldWarming;
+  quality: Settings['quality'];
   /** Lets in what arrives after the world opens (A72). */
   letIn: () => void;
   scene: THREE.Scene;
@@ -390,7 +391,7 @@ export class WorldScene {
       checkCancelled(options.signal);
       const world = new WorldScene(state, library, {
         scene, terrain, colliders, sky, water, sway, modules, environment, scenery, animals, terrainMesh,
-        physics, nav, lanternLights, dust, dustData, riteResponse, foliage, buildMs: performance.now() - t0, disposeOwned, letIn, warming,
+        physics, nav, lanternLights, dust, dustData, riteResponse, foliage, buildMs: performance.now() - t0, disposeOwned, letIn, warming, quality: settings.quality,
       });
       roomOpen = (room) => world.roomOpen(room);
       phase('finishing', 'Scene ready', 1, 1);
@@ -426,7 +427,7 @@ export class WorldScene {
     this.letIn = resources.letIn;
     this.warming = resources.warming;
     this.interiorLight = new InteriorLight(this.terrain.rooms);
-    this.windowView = new WindowView(this.terrain.rooms, this.scenery.daylightMat);
+    this.windowView = new WindowView(this.terrain.rooms, this.scenery.daylightMat, WINDOW_VIEW_SIZE[resources.quality]);
     // The window views draw the trees with their middle models, as the water's reflection does (A77).
     this.windowView.lighten = () => (this.modules.find((m) => m.name === 'forest')?.module as { lighterForReflection?: () => () => void } | undefined)?.lighterForReflection?.() ?? (() => {});
     this.doorSwings = new DoorSwings(this.scenery.doors ?? []);

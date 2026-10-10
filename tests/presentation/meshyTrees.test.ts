@@ -118,8 +118,9 @@ describe('actual supplied Meshy tree catalog', () => {
         const variant = forest.variant(species, 0, id), near = variant.lods[0], exported = meshyTreeParts(templates.get(id)![0]).leaf!.geometry;
         const count = (geometry: THREE.BufferGeometry) => (geometry.index?.count ?? geometry.getAttribute('position').count) / 3;
         expect(near.tris, id).toBeLessThanOrEqual(19_800); expect(near.tris, id).toBeGreaterThan(19_500);
-        expect(count(near.wood!), id).toBeLessThan(7_000);
-        expect(count(near.leaf!), id).toBeGreaterThan(2 * count(exported));
+        // A79: the wood is simplified without crossing its UV seams (no stretched branch texture), near 8,000 triangles.
+        expect(count(near.wood!), id).toBeLessThan(9_000);
+        expect(count(near.leaf!), id).toBeGreaterThan(1.8 * count(exported));
         // Middle detail is left as exported.
         expect(count(variant.lods[1].leaf!)).toBe(count(meshyTreeParts(templates.get(id)![1]).leaf!.geometry));
       }

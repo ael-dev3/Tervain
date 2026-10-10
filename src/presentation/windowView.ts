@@ -13,8 +13,12 @@ import { fromBuildingLocal, roomHalfSize, type InteriorSpec, type RoomLocator } 
  * capture in a room each refresh redraws one face a frame, so the same work is spread over six frames. The camera stands
  * still for a room, so the faces always meet. Since A78 the first capture in a room is spread the same way.
  */
-/** The capture's cube face size (px): 96 px read as a blurred blob through a pane near the camera (A75). */
-export const WINDOW_VIEW_SIZE = 320;
+/**
+ * The capture's cube face size (px) by quality: 96 px read as a blurred blob through a pane near the camera (A75), and
+ * so did 320 px on a 1080p screen, a pane showing about 140 of its pixels across 400 (A79). Each refresh draws one face
+ * a frame, so a larger face costs fill, not draw calls.
+ */
+export const WINDOW_VIEW_SIZE = { high: 1024, medium: 640, low: 320 } as const;
 
 export class WindowView {
   private readonly target: THREE.WebGLCubeRenderTarget;
@@ -26,8 +30,10 @@ export class WindowView {
   /** Lighten what the capture draws (the trees' middle models); returns how to put it back. */
   lighten: (() => () => void) | null = null;
 
-  constructor(private readonly rooms: RoomLocator, private readonly pane: THREE.MeshBasicMaterial, size = WINDOW_VIEW_SIZE, private readonly interval = 3) {
-    this.target = new THREE.WebGLCubeRenderTarget(size, { generateMipmaps: false, minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter });
+  constructor(private readonly rooms: RoomLocator, private readonly pane: THREE.MeshBasicMaterial, size: number = WINDOW_VIEW_SIZE.high, private readonly interval = 3) {
+    // Mipmapped, so a pane seen small or at a slant does not sparkle (the mips are rebuilt as each face is drawn).
+    this.target = new THREE.WebGLCubeRenderTarget(size, { generateMipmaps: true, minFilter: THREE.LinearMipmapLinearFilter, magFilter: THREE.LinearFilter });
+    this.target.texture.anisotropy = 8;
     this.target.texture.mapping = THREE.CubeRefractionMapping;
     this.camera = new THREE.CubeCamera(0.5, 900, this.target);
   }
