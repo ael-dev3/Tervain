@@ -11809,3 +11809,66 @@ in 313 files in 456.95 seconds. The publication checkout, including current main
 also passed its production build and all 45 focused checks in four files
 (18.76 seconds). These checks validate the supported startup continuation, not
 complete AI or campaign integration.
+
+### 10 October 2026: Engine MBC initializer services (local checkpoint)
+
+The initializer resumes on its retained caller, constructs its cookie-protected
+frame and calls the same code-page helper with the positive code-page argument.
+That helper acquires and releases its own temporary locale ownership, resets the
+automatic-codepage image as the source specifies, and returns to the initializer.
+The five original code-page records are scanned in owned storage.
+
+Private Engine import grants now admit the original IsValidCodePage and GetCPInfo
+calls, including their current return slots and physical stack arguments. The
+selected virtual CP1252 process writes the defined CPInfo fields; substituted
+normal-return objects cannot authorize the caller even after real writes occur.
+The next pending call is `30684cf4 -> 30671690`, the classification memset, after
+337 admitted operations. Full initialization and the campaign remain unfinished.
+
+This initializer checkpoint passed 51 focused checks in four files (14.49
+seconds), TypeScript checking and a production build. Source JSON, TypeScript
+admission and the Game comparison independently regenerate byte-identically.
+CPInfo padding, changed or unknown original table entries and rejection after
+actual output writes are covered. Full-suite validation is a separate gate.
+
+### 10 October 2026: Engine single-byte MBC fields (local checkpoint)
+
+The memset call now returns through its retained cdecl caller after clearing
+exactly 257 bytes in the actual Engine-owned allocation. Its captured body is
+translated as a bounded memory effect, not reported as CPU-dispatch instruction
+execution. Interruption keeps completed writes and the pending caller. The
+original single-byte branch stores code page 1252 and clears the related record
+fields before issuing `30684dc7 -> 306849b0`, the case-table routine, after 354
+admitted operations.
+
+Continuing to the CPInfo read exposed a stale stack expression after the API's
+owned output write. A private current-call writer now invalidates exactly the
+root stack slots that GetCPInfo overwrites; unrelated unowned changes still fail
+normal stack proofs. Fake or replayed grants cannot authorize writes. The earlier
+initializer checkpoint passed 3,331 full-suite tests in 313 files (539.32 seconds).
+This continuation passed 56 focused checks in four files (16.24 seconds), including
+partial memset writes, direction changes, the double-byte branch and exact span
+bounds. The complete campaign remains unfinished.
+
+The single-byte checkpoint also passed TypeScript checking and a production
+build. Source JSON, TypeScript admission and the Game comparison independently
+regenerate byte-identically. Its full-suite validation is separate from the
+preceding initializer checkpoint.
+
+PR #224 merged at main revision `6f962c2787c44e9f718bf7b6875ac4afa78213e9`.
+Its build and Pages deployment succeeded in Actions run `38066036605`. The next
+publication checkout resolves the dated-receipt merge by keeping both the prior
+validation/hosted observations and the newer initializer receipts.
+
+Hosted observation after PR #224 deployment: a fresh `/gothic3/` tab loaded
+202 scene objects and 70 characters, entered Ardea and showed
+`Xardas_FindXardas` as Running. The temporary tab was closed. This verifies the
+scene and journal after deployment, not a specific native instruction frontier
+or a completed campaign. The combined publication checkout passed its production
+build and all 56 focused checks in four files (29.60 seconds).
+
+The single-byte checkpoint (`47c420e01`) passed all 3,336 full-suite tests in
+313 files in 541.56 seconds. The combined publication checkout retains the same
+runtime/evidence changes and the already validated main changes from PR #224.
+The next pending native dependency is case-table construction, not a completed
+startup or campaign.

@@ -126,14 +126,19 @@ the supported locale-helper path. That checkpoint merged in [PR #223](https://gi
 and deployed successfully. It stops at code-page helper `30684bde`, called from
 `30684e92`.
 
-The next local checkpoint returns the selected process code page through the
-original locale-update record, allocates a separate Engine MBC record and copies
-the thread's existing state. It reaches code-page initialization
-`30684ecb -> 30684c58` after 211 admitted operations. The captured lower allocator
-uses its existing TypeScript implementation; its body is not counted as
-instructions executed on the retained source stack. This local continuation
-requires its own full-suite validation and deployment before claiming hosted
-behavior.
+[PR #224](https://github.com/ael-dev3/Tervain/pull/224) returns the selected process
+code page through the original locale-update record, allocates a separate Engine
+MBC record and copies the thread's existing state. It reaches code-page
+initialization `30684ecb -> 30684c58` after 211 admitted operations and deployed
+successfully. The captured lower allocator uses its existing TypeScript
+implementation; its body is not counted as instructions executed on the retained
+source stack.
+
+The next local continuation runs the initializer through its original code-page
+services, clears the classification span and initializes the single-byte record
+fields. It reaches `30684dc7 -> 306849b0`, the case-table routine, after 354
+admitted operations. Its own full-suite validation and deployment are required
+before claiming hosted behavior.
 
 Complete startup, world activation and a new-game-to-ending campaign remain
 unfinished. The checkpoint history records earlier boundaries and their evidence;

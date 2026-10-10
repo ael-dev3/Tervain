@@ -2,12 +2,12 @@
 
 `research.json` captures the original call at `30677276 -> 3068e76f`, its
 70-instruction argument setup, the two-pass parser, multibyte dependency wrapper,
-and CRT malloc wrapper. The package contains 12 methods, 766 instructions and
-2,187 instruction bytes, checked against the matching original Engine.dll.
+and CRT malloc wrapper. The package contains 14 methods, 944 instructions and
+2,703 instruction bytes, checked against the matching original Engine.dll.
 
 The setup calls GetModuleFileNameA, selects the current command line or filename,
 counts arguments and characters, allocates storage, parses again, and publishes
-argument count and vector globals. Twelve image receipts preserve original paths
+argument count and vector globals. Thirteen image receipts preserve original paths
 through labels and addresses, including the module filename buffer and command
 line pointer. Their cold bytes do not authorize resetting already-live storage.
 
@@ -18,7 +18,7 @@ python tools/gothic3/prepare_engine_argv_source.py --study <study-directory> --o
 ```
 
 Independent JSON and TypeScript regenerations are byte-identical. Two source checks and TypeScript checking pass. The JSON package has SHA-256
-`b79097f9b2533518d5fd10cea88eb62d0f1b9c6bd021fedf2255714ea6adc4bb`.
+`fdaebe91d7ce4ead6c116a591caed3ab0ad95b68b6eb5f3021a9d980f9cb12e0`.
 Engine.dll SHA-256 is
 `d49ef92c0fdfeda433f6d04d0edeb7751e41e4c7c7effc1265630717029dc7e3`.
 
@@ -72,3 +72,37 @@ record's reference count. Execution then issues the actual initialization call
 NULL allocation, unavailable lower service and unsupported backward copy retain
 their actual branches, pending calls or allocation effects. Code-page table
 initialization, publication and full startup remain unfinished.
+
+## Engine MBC initializer and process services
+
+The initializer now calls the same retained code-page helper with its positive
+argument, preserving a separate caller and stack record. It scans the five
+original code-page table records at `30ad5000`; those owned bytes are read in
+their current state. The CP1252 path returns through the original
+IsValidCodePage and GetCPInfo imports with private current-call grants and exact
+stack arguments. CPInfo stores eighteen defined bytes into its original 20-byte
+stack record, preserving its two padding bytes.
+
+The current path reaches the actual classification memset call
+`30684cf4 -> 30671690` after 337 admitted operations. Classification, case tables,
+MBC publication and complete startup remain unfinished. The earlier allocation
+checkpoint is PR #224; it does not include this initializer continuation.
+
+## Engine single-byte initialization
+
+The retained caller now bridges the captured memset's memory behavior for its
+exact same-Engine destination, zero value and 257-byte classification span. The
+bridge requires the current forward logical-thread direction and retains partial
+writes if interrupted; it does not count the memset's CPU-dispatch instruction
+body as executed source instructions. Its original cdecl return precedes caller
+argument cleanup.
+
+GetCPInfo output writes now use a private current-call writer to invalidate
+only the owned stack expression slots they overwrite. The next actual read of
+MaxCharSize therefore consumes the returned bytes without treating an old cached
+word as current. Fake and replayed grants cannot write output.
+
+The supported single-byte branch publishes code page 1252, clears the related
+record fields with the original STOSD instructions, and issues the case-table
+call `30684dc7 -> 306849b0`. It stops at that helper after 354 admitted operations.
+Case-table construction, MBC publication and full startup remain unfinished.
