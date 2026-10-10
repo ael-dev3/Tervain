@@ -183,7 +183,7 @@ describe('grass material', () => {
     expect(f.indexOf('#define RE_Direct RE_Direct_Grass')).toBeLessThan(f.indexOf('#include <lights_fragment_begin>'));
     // Blades are lit from the side facing the viewer; the double-sided flip would darken every back face.
     expect(shader.fragmentShader).not.toContain('normal *= faceDirection;');
-    expect(shader.fragmentShader).toContain('diffuseColor.rgb = vGCol;');
+    expect(shader.fragmentShader).toContain('diffuseColor.rgb = vGCol * ( 0.8 + 0.28 * ( 1.0 - abs( vGInfo.y ) ) );');
     expect(shader.vertexShader).not.toMatch(/\b(?:NaN|Infinity|undefined)\b/);
     // Shared uniforms are the live objects, so wind and trample updates reach every compiled program.
     expect(shader.uniforms.uGrassTime).toBe(wind.uniforms.uGrassTime);

@@ -411,7 +411,7 @@ export class App {
         npcs.push(npc);
         stagedCast.add(npc.rig.root);
         if (!arrived) this.arrivals.add({ role, position: () => npc, unseen: () => npc.away,
-          adopt: (catalog) => npc.adoptRig(catalog.create(role, height)) });
+          adopt: (catalog, rig) => npc.adoptRig(rig ?? catalog.create(role, height)), make: (catalog) => catalog.createSteps(role, height) });
       }
       for (const spawn of ENEMY_SPAWNS) {
         const variant = spawn.id === 'ford_bandit_b' ? 1 : 0;
@@ -422,7 +422,7 @@ export class App {
         enemies.push(enemy);
         stagedCast.add(enemy.rig.root);
         if (!arrived) this.arrivals.add({ role, position: () => enemy, unseen: () => !enemy.rig.root.visible,
-          adopt: (catalog) => enemy.adoptRig(catalog.create(role, scale, 'blade')) });
+          adopt: (catalog, rig) => enemy.adoptRig(rig ?? catalog.create(role, scale, 'blade')), make: (catalog) => catalog.createSteps(role, scale, 'blade') });
       }
       const { WorldScene } = await import('./presentation/world');
       this.world = await WorldScene.create(this.game.state, structuredClone(this.settings), this.library, undefined, this.npcAssets!, {
@@ -1102,7 +1102,17 @@ export class App {
     this.audio.setWildlifeActive(playing && document.visibilityState !== 'hidden');
     if (this.bench.active) this.stepBenchmark(dt);
     // Those whose models have come take them where nobody is looking (stage 2), even while a panel holds the world still.
-    if (this.arrivals.count && this.world) this.arrivals.update(this.npcAssets, (p) => this.inView(p));
+    if (this.world && !this.world.warming.warm) {
+      // The animals and furniture that arrive after the world opens are compiled in parallel before they show (A78).
+      const scene = this.world.scene;
+      this.world.warming.warm = (object) => this.warmShaders(object, scene);
+    }
+    if (this.arrivals.count && this.world) {
+      // A rig built while the world runs has its shaders compiled in parallel before it is shown (A78).
+      const scene = this.world.scene;
+      this.arrivals.warm ??= (rig) => this.warmShaders(rig.root, scene);
+      this.arrivals.update(this.npcAssets, (p) => this.inView(p));
+    }
 
     if (this.menuBackgroundActive) {
       // The menu vigil is cosmetic. No patrols or game clock run beneath it.
@@ -2537,6 +2547,43 @@ export class App {
   private debugHeal() {
     this.game.dispatch({ t: 'healPlayer', amount: 100 });
     this.player.stamina = 100;
+  }
+
+  /**
+   * Compile an arriving object's shaders in parallel before it is shown (A78), as the world draws it: into the grade's
+   * linear scene target (its programs differ from the screen's, which tone-map), under the world's lights.
+   */
+  private warmShaders(object: THREE.Object3D, scene: THREE.Scene): Promise<unknown> {
+    const r = this.renderer, previous = r.getRenderTarget();
+    const restore: [THREE.Mesh, THREE.Material | THREE.Material[]][] = [];
+    try {
+      if (this.grade?.enabled) r.setRenderTarget(this.grade.target);
+      const colour = r.compileAsync(object, this.cam.camera, scene);
+      // The sun's shadow pass draws casters with their depth material: its own, or three's packed depth material on the
+      // side opposite the surface, depth unpacked (as WebGLShadowMap picks it). Compiled the same way, so the first shadow does not stall.
+      if (!r.shadowMap.enabled) return colour;
+      object.traverse((o) => {
+        const mesh = o as THREE.Mesh;
+        if (!mesh.isMesh || !mesh.castShadow || Array.isArray(mesh.material)) return;
+        const source = mesh.material as THREE.MeshStandardMaterial;
+        // As WebGLShadowMap.getDepthMaterial sets it up for a PCF shadow.
+        const depth = (mesh.customDepthMaterial ?? new THREE.MeshDepthMaterial({ depthPacking: THREE.BasicDepthPacking })) as THREE.MeshDepthMaterial;
+        depth.side = source.shadowSide ?? (source.side === THREE.FrontSide ? THREE.BackSide : source.side === THREE.BackSide ? THREE.FrontSide : THREE.DoubleSide);
+        depth.map = source.map ?? null; depth.alphaMap = source.alphaMap ?? null;
+        depth.alphaTest = source.alphaToCoverage ? 0.5 : source.alphaTest;
+        depth.displacementMap = source.displacementMap ?? null;
+        restore.push([mesh, mesh.material]); mesh.material = depth;
+      });
+      if (!restore.length) return colour;
+      // The shadow pass compiles under the lighting left from the previous pass, with or without the point lights: the
+      // depth programs are prepared under both.
+      const daylight = new THREE.Scene();
+      scene.traverseVisible((o) => { if ((o as THREE.Light).isLight && !(o as THREE.PointLight).isPointLight) daylight.add((o as THREE.Light).clone()); });
+      return Promise.all([colour, r.compileAsync(object, this.cam.camera, scene), r.compileAsync(object, this.cam.camera, daylight)]);
+    } finally {
+      for (const [mesh, material] of restore) mesh.material = material;
+      r.setRenderTarget(previous);
+    }
   }
 
   private startBenchmark() {

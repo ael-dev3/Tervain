@@ -84,6 +84,13 @@ export type ResidentAxis = readonly [THREE.Vector3, THREE.Vector3];
  */
 export function residentHiddenLayers(geometry: THREE.BufferGeometry, jointNames: readonly string[],
   axes: readonly ResidentAxis[] = [[new THREE.Vector3(), new THREE.Vector3(0, 2, 0)]], gap = HIDDEN_GAP): Float32Array {
+  const steps = residentHiddenLayersSteps(geometry, jointNames, axes, gap);
+  for (;;) { const next = steps.next(); if (next.done) return next.value; }
+}
+
+/** residentHiddenLayers a part at a time (A78): the grid, then every 2,048 surface points of each pass. */
+export function* residentHiddenLayersSteps(geometry: THREE.BufferGeometry, jointNames: readonly string[],
+  axes: readonly ResidentAxis[] = [[new THREE.Vector3(), new THREE.Vector3(0, 2, 0)]], gap = HIDDEN_GAP): Generator<void, Float32Array, void> {
   const position = geometry.getAttribute('position'), normal = geometry.getAttribute('normal'), index = geometry.index;
   const joints = geometry.getAttribute('skinIndex'), weights = geometry.getAttribute('skinWeight');
   const hidden = new Float32Array(position.count);
@@ -188,9 +195,11 @@ export function residentHiddenLayers(geometry: THREE.BufferGeometry, jointNames:
     const x = pointNormal[point * 3]!, y = pointNormal[point * 3 + 1]!, z = pointNormal[point * 3 + 2]!, length = Math.hypot(x, y, z);
     return length < 1e-9 ? null : [x / length, y / length, z / length] as const;
   };
+  yield;
   for (let point = 0; point < points; point++) {
     const d = free[point] ? null : direction(point);
     if (d && cast(point, d[0], d[1], d[2], gap, false, true) >= 0) covered[point] = 1;
+    if ((point & 2047) === 2047) yield;
   }
   // The back of a covered outer face's own cloth is covered too. (A lining is covered by the layer it lies against,
   // but the back of its cloth is the painted face: the side turned away from the nearest bone tells them apart.)
@@ -208,6 +217,7 @@ export function residentHiddenLayers(geometry: THREE.BufferGeometry, jointNames:
     if (d[0] * ox + d[1] * oy + d[2] * oz <= 0) continue;
     const behind = cast(point, -d[0], -d[1], -d[2], LINING_DEPTH, true, false);
     if (behind >= 0) for (let k = 0; k < 3; k++) { const back = node[corners[behind * 3 + k]!]!; if (!free[back]) covered[back] = 1; }
+    if ((point & 2047) === 2047) yield;
   }
   for (let vertex = 0; vertex < position.count; vertex++) hidden[vertex] = covered[node[vertex]!]!;
   return hidden;

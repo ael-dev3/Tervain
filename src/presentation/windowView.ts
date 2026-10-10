@@ -13,8 +13,12 @@ import { fromBuildingLocal, roomHalfSize, type InteriorSpec, type RoomLocator } 
  * capture in a room each refresh redraws one face a frame, so the same work is spread over six frames. The camera stands
  * still for a room, so the faces always meet. Since A78 the first capture in a room is spread the same way.
  */
-/** The capture's cube face size (px): 96 px read as a blurred blob through a pane near the camera (A75). */
-export const WINDOW_VIEW_SIZE = 320;
+/**
+ * The capture's cube face size (px) by quality: 96 px read as a blurred blob through a pane near the camera (A75), and
+ * so did 320 px on a 1080p screen, a pane showing about 140 of its pixels across 400 (A79). Each refresh draws one face
+ * a frame, so a larger face costs fill, not draw calls.
+ */
+export const WINDOW_VIEW_SIZE = { high: 1024, medium: 640, low: 320 } as const;
 
 export class WindowView {
   private readonly target: THREE.WebGLCubeRenderTarget;
@@ -26,8 +30,16 @@ export class WindowView {
   /** Lighten what the capture draws (the trees' middle models); returns how to put it back. */
   lighten: (() => () => void) | null = null;
 
-  constructor(private readonly rooms: RoomLocator, private readonly pane: THREE.MeshBasicMaterial, size = WINDOW_VIEW_SIZE, private readonly interval = 3) {
-    this.target = new THREE.WebGLCubeRenderTarget(size, { generateMipmaps: false, minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter });
+  /**
+   * Only rooms whose windows are painted panes take a capture (A79): the houses' windows are real openings now, through
+   * which the world itself is seen; the shrine hall's are still panes.
+   */
+  painted: (room: InteriorSpec) => boolean = () => true;
+
+  constructor(private readonly rooms: RoomLocator, private readonly pane: THREE.MeshBasicMaterial, size: number = WINDOW_VIEW_SIZE.high, private readonly interval = 3) {
+    // Mipmapped, so a pane seen small or at a slant does not sparkle (the mips are rebuilt as each face is drawn).
+    this.target = new THREE.WebGLCubeRenderTarget(size, { generateMipmaps: true, minFilter: THREE.LinearMipmapLinearFilter, magFilter: THREE.LinearFilter });
+    this.target.texture.anisotropy = 8;
     this.target.texture.mapping = THREE.CubeRefractionMapping;
     this.camera = new THREE.CubeCamera(0.5, 900, this.target);
   }
@@ -42,7 +54,8 @@ export class WindowView {
 
   /** Follow the camera; capture the outside of the room it is in when due. Returns whether a view is shown. */
   update(renderer: THREE.WebGLRenderer, scene: THREE.Scene, camera: THREE.Vector3, dt: number, enabled: boolean): boolean {
-    const here = enabled ? this.rooms.within(camera.x, camera.y, camera.z) : null;
+    const within = enabled ? this.rooms.within(camera.x, camera.y, camera.z) : null;
+    const here = within && this.painted(within) ? within : null;
     if (!here) {
       // The panes face into the rooms, so outdoors the last view is never seen; keeping it spares a shader rebuild.
       this.room = null; this.age = Infinity;

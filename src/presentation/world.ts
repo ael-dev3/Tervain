@@ -1,7 +1,7 @@
 import { loadBakedTextures } from './bakedTextures';
 import { buildFurniture, deferredFurniture, loadFurniture, type FurnitureTemplates } from './furniture';
 import { InteriorLight } from './interiorLight';
-import { WindowView } from './windowView';
+import { WINDOW_VIEW_SIZE, WindowView } from './windowView';
 import type { InteriorSpec } from '../world/interiors';
 import { DoorSwings, type DoorEvent } from './doors';
 import * as THREE from 'three';
@@ -76,7 +76,15 @@ export interface WorldCreateOptions extends CooperativeOptions {
 
 type WorldModules = { name: string; module: SceneModule }[];
 type DustParticle = { x: number; y: number; z: number; vx: number; vy: number; vz: number; life: number };
+/** How the world prepares what arrives after it opened (A78): set by the app, which holds the renderer and camera. */
+/** A room's furniture is drawn while the camera is within this many metres of its building (A79: seen through windows). */
+export const ROOM_SEEN_FROM = 25;
+
+export interface WorldWarming { warm: ((object: THREE.Object3D) => Promise<unknown>) | null }
+
 interface WorldResources {
+  warming: WorldWarming;
+  quality: Settings['quality'];
   /** Lets in what arrives after the world opens (A72). */
   letIn: () => void;
   scene: THREE.Scene;
@@ -218,6 +226,7 @@ export class WorldScene {
 
   /** Renderer work before the world is drawn: what the windows of the room the camera is in look out on (A70). */
   prepareInterior(renderer: THREE.WebGLRenderer, camera: THREE.Camera, dt: number, settings: Settings) {
+    this.eye.copy(camera.position);
     this.windowView.update(renderer, this.scene, camera.position, dt, settings.quality !== 'low');
   }
 
@@ -227,6 +236,7 @@ export class WorldScene {
     checkpoint: (stage: WorldBuildProgress['phase'], label: string, completed?: number, total?: number) => Promise<void>): Promise<WorldScene> {
     const t0 = performance.now();
     const scene = new THREE.Scene(), modules: WorldModules = [];
+    const warming: WorldWarming = { warm: null };
     const owned: (() => void)[] = [() => terrainTex.dispose()];
     let disposed = false;
     const own = <T extends { dispose?(): void }>(resource: T): T => {
@@ -302,12 +312,15 @@ export class WorldScene {
       // first view needs (A72); WorldScene.open() lets it in.
       let letIn!: () => void;
       const opened = new Promise<void>((resolve) => { letIn = resolve; });
+      // What arrives later has its shaders compiled in parallel before it is shown (A78); the app supplies how.
+      const ready = <T extends SceneModule>(module: T): Promise<T> =>
+        (warming.warm?.(module.group) ?? Promise.resolve()).then(() => module, () => module);
       // Deferred, the rooms stand empty until the pieces are here; their colliders come from the placements either way.
       const furnishing = furniture ? null : deferredFurniture();
       addModule('furniture', furnishing ?? buildFurniture(furniture!, terrain.rooms, (room) => roomOpen(room)));
       if (furnishing) {
         void opened.then(() => loadFurniture()).then(
-          (templates) => furnishing.attach(buildFurniture(templates, terrain.rooms, (room) => roomOpen(room))),
+          (templates) => ready(buildFurniture(templates, terrain.rooms, (room) => roomOpen(room))).then((module) => furnishing.attach(module)),
           (error) => console.warn('[furniture] the furniture could not be loaded; the rooms stay bare', error));
       }
       await checkpoint('settlement', 'Hunter supplies and caravan');
@@ -320,7 +333,7 @@ export class WorldScene {
       const animals: AnimalWildlife = addModule('land wildlife', arriving ?? buildAnimals(ctx, animalTemplates!));
       if (arriving) {
         void opened.then(() => loadAnimalTemplates()).then(
-          (templates) => arriving.attach(buildAnimals(ctx, templates)),
+          (templates) => ready(buildAnimals(ctx, templates)).then((module) => arriving.attach(module)),
           (error) => console.warn('[wildlife] the animals could not be loaded; the world goes on without them', error));
       }
       await checkpoint('settlement', 'Buildings, supplies and wildlife', 1, 1);
@@ -382,7 +395,7 @@ export class WorldScene {
       checkCancelled(options.signal);
       const world = new WorldScene(state, library, {
         scene, terrain, colliders, sky, water, sway, modules, environment, scenery, animals, terrainMesh,
-        physics, nav, lanternLights, dust, dustData, riteResponse, foliage, buildMs: performance.now() - t0, disposeOwned, letIn,
+        physics, nav, lanternLights, dust, dustData, riteResponse, foliage, buildMs: performance.now() - t0, disposeOwned, letIn, warming, quality: settings.quality,
       });
       roomOpen = (room) => world.roomOpen(room);
       phase('finishing', 'Scene ready', 1, 1);
@@ -416,8 +429,10 @@ export class WorldScene {
     this.foliage = resources.foliage;
     this.disposeOwned = resources.disposeOwned;
     this.letIn = resources.letIn;
+    this.warming = resources.warming;
     this.interiorLight = new InteriorLight(this.terrain.rooms);
-    this.windowView = new WindowView(this.terrain.rooms, this.scenery.daylightMat);
+    this.windowView = new WindowView(this.terrain.rooms, this.scenery.daylightMat, WINDOW_VIEW_SIZE[resources.quality]);
+    this.windowView.painted = (room) => room.building.kind === 'shrine';
     // The window views draw the trees with their middle models, as the water's reflection does (A77).
     this.windowView.lighten = () => (this.modules.find((m) => m.name === 'forest')?.module as { lighterForReflection?: () => () => void } | undefined)?.lighterForReflection?.() ?? (() => {});
     this.doorSwings = new DoorSwings(this.scenery.doors ?? []);
@@ -719,6 +734,10 @@ export class WorldScene {
   private readonly interiorLight: InteriorLight;
   private readonly windowView: WindowView;
   private readonly letIn: () => void;
+  /** Where the camera stood this frame, for the rooms seen through their windows (A79). */
+  private readonly eye = new THREE.Vector3(1e6, 0, 1e6);
+  /** Compile what arrives after the world opened before it is shown; the app sets `warm` (A78). */
+  readonly warming: WorldWarming;
 
   /** The world has opened to the player: the animals and furniture that follow may now be fetched (A72). */
   open() { this.letIn(); }
@@ -727,7 +746,9 @@ export class WorldScene {
 
   /** Whether a room's door stands at all open, so its inside can be seen from outside (A66). */
   roomOpen(room: InteriorSpec): boolean {
-    return this.doorSwings.openness(room) > 0;
+    // A79: through its windows a room is seen from outside too, so its furniture stays while the eye is near.
+    const b = room.building;
+    return this.doorSwings.openness(room) > 0 || Math.hypot(this.eye.x - b.x, this.eye.z - b.z) < ROOM_SEEN_FROM;
   }
 
   /** Swing the rooms' doors for the wanderer and residents near them (A66); returns door sounds to play. */

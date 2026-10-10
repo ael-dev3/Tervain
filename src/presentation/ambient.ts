@@ -124,8 +124,9 @@ export function buildAmbient(ctx: BuildContext): SceneModule & { counts: { peopl
     if (!arrived) awaiting.push({
       role,
       position: () => p.rig.root.position,
-      adopt(catalog) {
-        const next = catalog.create(role, height), old = p.rig;
+      make: (catalog) => catalog.createSteps(role, height),
+      adopt(catalog, built) {
+        const next = built ?? catalog.create(role, height), old = p.rig;
         next.root.position.copy(old.root.position);
         next.root.rotation.copy(old.root.rotation);
         next.root.visible = old.root.visible;
