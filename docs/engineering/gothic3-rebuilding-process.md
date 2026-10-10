@@ -4,6 +4,27 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local continuation — 11 October 2026: exit callback storage
+
+The normal onexit storage routine decodes the existing exit-table base and
+cursor, compares their owned offsets and queries allocation size through the
+retained Engine msize service. Its original encoding calls store shutdown
+callback `30671144` in the existing 128-byte allocation and advance the encoded
+cursor by four bytes. Saved registers are restored and the routine returns to
+onexit at `30671577`, with its exception frame and lock still retained.
+Allocation growth remains an explicit dependency; the normal path does not
+pretend to execute reallocation. The selected path reaches 1,624 admitted
+operations. Nineteen focused checks across three files, typechecking and exact
+independent JSON/TypeScript regeneration pass. Checks inspect callback identity,
+cursor ownership and the physical return, rather than only result counts.
+
+The preceding `4f26498688801ed3f2b859711fa57cf3351dd1ea` checkpoint completed
+full validation: 3,450 tests across 315 files in 900.32 seconds, typechecking
+and a production build in 1 minute 16 seconds. That evidence predates the newer
+registration continuations. Fresh combined validation follows this checkpoint;
+these local changes are not yet published. Complete startup and a campaign
+playable through an ending remain unfinished.
+
 ## Local continuation — 11 October 2026: onexit exception frame and lock
 
 The shutdown-registration continuation executes the original 21-instruction

@@ -1,7 +1,7 @@
 # Engine CRT initializer evidence
 
 This package records the next dependency after Engine environment-vector return.
-It captures 27 original bodies (587 instructions), the caller at `30677284`,
+It captures 29 original bodies (673 instructions), the caller at `30677284`,
 the floating-point callback at `30892ac0`, and two original initializer tables.
 The C initializer table has 200 slots with 6 nonzero entries. The C++ table has
 93,705 slots with 1,963 nonzero entries; omitted entries are verified zero.
@@ -14,7 +14,7 @@ python tools/gothic3/prepare_engine_cinit_source.py --study '<study-root>' --out
 
 The generator checks the original Engine.dll hash and exact caller bytes.
 Independent regeneration produced identical JSON, SHA-256
-``236fcb343ebdcbba5fd8c4572e9af7ec745b7af431e374ba1d711436b14c0724``.
+``7e5356cc5db8311ce8481f097f48abfa73a48740392205751a7b04d1817d5c27``.
 
 The capture's `runtimeConnected: false` records evidence preparation; it grants
 no execution authority. The TypeScript continuation separately obtains a
@@ -54,3 +54,10 @@ Its exact pinned PE bytes are decoded with Capstone 5.0.7, with decoder provenan
 in the receipt. Install that version or supply `--capstone-path <library-root>`.
 The onexit scope includes its 16-byte header and 12-byte handler record; its
 original bytes are checked as immutable storage. Registration is not complete.
+
+The normal storage routine decodes the retained exit pointers, queries the actual
+allocation size through Engine msize, encodes the original shutdown callback and
+stores it in the existing table. It publishes the encoded cursor at offset 4
+and returns to onexit `30671577`, after 1,624 admitted operations. The allocation
+growth branch remains a pending dependency. Lock and exception cleanup have not
+yet returned.
