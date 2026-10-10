@@ -112,7 +112,7 @@ interface StartupCall {
   readonly offset: number; readonly argument: NativeX86Word32; readonly position: number;
   readonly returnWord: NativeX86Word32; phase: 'pending' | 'returned';
 }
-interface EngineArgvFrame {readonly bootstrap:NativeCrtBootstrap;readonly crt:NativeModuleCrtOwner;readonly permit:object;readonly images:NativeEngineArgvImages;readonly entryEsp:number;phase:'running'|'blocked';pc:string;boundary:string|null;operations:number;ebp:number|null;}
+interface EngineArgvFrame {readonly bootstrap:NativeCrtBootstrap;readonly crt:NativeModuleCrtOwner;readonly permit:object;readonly images:NativeEngineArgvImages;readonly entryEsp:number;phase:'running'|'blocked';pc:string;boundary:string|null;operations:number;ebp:number|null;multibyteEbp:number|null;multibyteFsPublished:boolean;multibytePrologReturned:boolean;}
 interface EngineIoFrame {
  readonly bootstrap:NativeCrtBootstrap;readonly crt:NativeModuleCrtOwner;readonly permit:object;
  readonly images:NativeEngineIoImages;readonly scope:NativeHeapObjectViews;
@@ -201,9 +201,9 @@ export class NativeX86ThreadStack {
       stack.#physical(stack.#stack);stack.#physical(stack.#bank);
       const entryEsp=stack.#address(stack.#load(stack.#bank,stack.#reg('ESP')));
       if(entryEsp!==io.entryEsp||stack.#numeric(stack.#load(stack.#bank,stack.#reg('EAX')),4)!==0)throw new Error('Actual Engine I/O return state required');
-      const frame:EngineArgvFrame={bootstrap,crt,permit,images,entryEsp,phase:'running',pc:'30677276',boundary:null,operations:0,ebp:null};stack.#engineArgvFrame=frame;stack.#engineArgvExecuting=true;stack.#phase='running';
+      const frame:EngineArgvFrame={bootstrap,crt,permit,images,entryEsp,phase:'running',pc:'30677276',boundary:null,operations:0,ebp:null,multibyteEbp:null,multibyteFsPublished:false,multibytePrologReturned:false};stack.#engineArgvFrame=frame;stack.#engineArgvExecuting=true;stack.#phase='running';
       const reg=(name:NativeX86Register)=>stack.#load(stack.#bank,stack.#reg(name)),set=(name:NativeX86Register,word:NativeX86Word32)=>stack.#store(stack.#bank,stack.#reg(name),word);
-      const step=(pc:string,body:()=>void,entry='3068e76f')=>{stack.#engineArgvProof(frame);engineArgvInstruction(entry,pc);frame.pc=pc;body();frame.operations++;stack.#trace.push(pc+'.EngineArgvSource');stack.#engineArgvProof(frame);};
+      const step=(pc:string,body:()=>void,entry='3068e76f')=>{stack.#engineArgvProof(frame);if(entry==='3067e500')engineIoInstruction(entry,pc);else engineArgvInstruction(entry,pc);frame.pc=pc;body();frame.operations++;stack.#trace.push(pc+'.EngineArgvSource');stack.#engineArgvProof(frame);};
       try{
         stack.#engineArgvProof(frame);stack.#call('30677276','3067727b');
         step('3068e76f',()=>stack.#push(reg('EBP')));
@@ -224,7 +224,38 @@ export class NativeX86ThreadStack {
           if(!skip){
             wrapper('30685010',()=>stack.#push(stack.#mint(0xfffffffd,0xffffffff)));
             wrapper('30685012',()=>stack.#call('30685012','30685017'));
-            frame.pc='30684e6d';engineArgvInstruction('30684e6d',frame.pc);throw new Error('Engine argument multibyte setup30684e6d at30685012');
+            const nested=(pc:string,body:()=>void)=>step(pc,body,'30684e6d');
+            const relative=(name:'ESP'|'EBP',offset:number)=>stack.#address(reg(name))+offset;
+            const value=(number:number)=>stack.#mint(number>>>0,0xffffffff);
+            const xor=(left:NativeX86Word32,right:NativeX86Word32)=>{const a=stack.#record(left),b=stack.#record(right);stack.#logicalFlags(a.value^b.value,a.mask&b.mask,4);return stack.#mint(a.value^b.value,a.mask&b.mask,{kind:'xor',left,right});};
+            const scope=NativeEngineArgvImages.imageForCrt(images,crt,'multibyteSetupSehScope');if(!scope.known)throw new Error(scope.reason);
+            nested('30684e6d',()=>stack.#push(value(0x14)));
+            nested('30684e6f',()=>stack.#push(stack.#mint(0,0,{kind:'source',type:'image',address:'30956ba0',fields:scope.value})));
+            nested('30684e74',()=>stack.#call('30684e74','30684e79'));
+            const prolog=(pc:string,body:()=>void)=>step(pc,body,'3067e500');
+            prolog('3067e500',()=>stack.#push(stack.#source('code','3067e590')));
+            prolog('3067e505',()=>stack.#push(stack.#load(stack.#bank,32)));
+            prolog('3067e50c',()=>set('EAX',stack.#load(stack.#stack,relative('ESP',0x10))));
+            prolog('3067e510',()=>stack.#store(stack.#stack,relative('ESP',0x10),reg('EBP')));
+            prolog('3067e514',()=>{frame.multibyteEbp=relative('ESP',0x10);set('EBP',stack.#stackWord(frame.multibyteEbp));});
+            prolog('3067e518',()=>{const bytes=stack.#numeric(reg('EAX'),4);set('ESP',stack.#stackWord(relative('ESP',-bytes)));stack.#flags(0,0);});
+            prolog('3067e51a',()=>stack.#push(reg('EBX')));
+            prolog('3067e51b',()=>stack.#push(reg('ESI')));
+            prolog('3067e51c',()=>stack.#push(reg('EDI')));
+            prolog('3067e51d',()=>{const cookie=NativeCrtBootstrap.engineArgvCookieForCrt(bootstrap,crt,permit);if(!cookie.known)throw new Error(cookie.reason);set('EAX',value(NativeHeapObjectViews.prototype.readUnsigned.call(cookie.value,0)));});
+            prolog('3067e522',()=>{const at=relative('EBP',-4);stack.#store(stack.#stack,at,xor(stack.#load(stack.#stack,at),reg('EAX')));});
+            prolog('3067e525',()=>set('EAX',xor(reg('EAX'),reg('EBP'))));
+            prolog('3067e527',()=>stack.#push(reg('EAX')));
+            prolog('3067e528',()=>stack.#store(stack.#stack,relative('EBP',-0x18),reg('ESP')));
+            prolog('3067e52b',()=>stack.#push(stack.#load(stack.#stack,relative('EBP',-8))));
+            prolog('3067e52e',()=>set('EAX',stack.#load(stack.#stack,relative('EBP',-4))));
+            prolog('3067e531',()=>stack.#store(stack.#stack,relative('EBP',-4),value(0xfffffffe)));
+            prolog('3067e538',()=>stack.#store(stack.#stack,relative('EBP',-8),reg('EAX')));
+            prolog('3067e53b',()=>set('EAX',stack.#stackWord(relative('EBP',-0x10))));
+            prolog('3067e53e',()=>{stack.#store(stack.#bank,32,reg('EAX'));frame.multibyteFsPublished=true;});
+            prolog('3067e544',()=>{const result=stack.#record(stack.#ret()).provenance;if(result?.kind!=='source'||result.type!=='code'||result.address!=='30684e79')throw new Error('Actual Engine EH4 prolog return required');frame.multibytePrologReturned=true;});
+            nested('30684e79',()=>{stack.#store(stack.#stack,relative('EBP',-0x20),value(0xffffffff));stack.#logicalFlags(0xffffffff,0xffffffff,4);});
+            frame.pc='30684e7d';engineArgvInstruction('30684e6d',frame.pc);throw new Error('Engine multibyte thread data getter3067e12b at30684e7d');
           }
           wrapper('30685022',()=>{set('EAX',stack.#mint(0,0xffffffff));stack.#logicalFlags(0,0xffffffff,4);});
           wrapper('30685024',()=>{const next=stack.#record(stack.#ret()).provenance;if(next?.kind!=='source'||next.type!=='code'||next.address!=='3068e787')throw new Error('Actual Engine multibyte wrapper return required');});
@@ -238,10 +269,10 @@ export class NativeX86ThreadStack {
     if(this.#engineArgvFrame!==frame||!this.#engineArgvExecuting||frame.phase!=='running'||this.#phase!=='running')throw new Error(frame.boundary??'Actual active Engine argument frame required');
     const reached=NativeCrtBootstrap.canonicalEngineArgvCallForCrt(frame.bootstrap,frame.crt,frame.permit);if(!reached.known)throw new Error(reached.reason);
     const selection=NativeRuntimePlatform.threadStackSelectionForPlatform(this.#platform);if(!selection.known||selection.value!==this.#selection)throw new Error('Actual selected Engine argument logical-thread lifetime required');
-    for(const label of ['multibyteReady','moduleFilename','moduleFilenameSentinel','programNamePointer','argumentCount','argumentVector'] as const){const image=NativeEngineArgvImages.imageForCrt(frame.images,frame.crt,label);if(!image.known)throw new Error(image.reason);}
+    for(const label of ['multibyteReady','moduleFilename','moduleFilenameSentinel','programNamePointer','argumentCount','argumentVector','multibyteSetupSehScope'] as const){const image=NativeEngineArgvImages.imageForCrt(frame.images,frame.crt,label);if(!image.known)throw new Error(image.reason);}
     this.#physical(this.#stack);this.#physical(this.#bank);
   }
-  engineArgvFrameSnapshot(crt:NativeModuleCrtOwner){const frame=this.#engineArgvFrame;if(!frame||frame.crt!==crt)return null;return Object.freeze({module:'Engine' as const,phase:frame.phase,pc:frame.pc,boundary:frame.boundary,operations:frame.operations,entryEsp:frame.entryEsp,ebp:frame.ebp,stack:this.#stack,bank:this.#bank});}
+  engineArgvFrameSnapshot(crt:NativeModuleCrtOwner){const frame=this.#engineArgvFrame;if(!frame||frame.crt!==crt)return null;return Object.freeze({module:'Engine' as const,phase:frame.phase,pc:frame.pc,boundary:frame.boundary,operations:frame.operations,entryEsp:frame.entryEsp,ebp:frame.ebp,multibyteEbp:frame.multibyteEbp,multibyteFsPublished:frame.multibyteFsPublished,multibytePrologReturned:frame.multibytePrologReturned,stack:this.#stack,bank:this.#bank});}
   #engineIoFrame:EngineIoFrame|null=null;
   #engineIoExecuting=false;
   /** Borrow the actual thread graph for a reached translated Engine CRT call.

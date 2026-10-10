@@ -344,6 +344,10 @@ export class NativeCrtBootstrap {
       bootstrap.#assertCrt();return known(undefined);
     }catch(error){return unknown(failureReason(error));}
   }
+  static engineArgvCookieForCrt(bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object):NativeValue<NativeHeapObjectViews>{
+    const proof=NativeCrtBootstrap.canonicalEngineArgvCallForCrt(bootstrap,crt,permit);if(!proof.known)return proof;
+    try{return known(bootstrap.#checked(bootstrap.physical.securityCookie));}catch(error){return unknown(failureReason(error));}
+  }
   static engineIoCookieForCrt(bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object):NativeValue<NativeHeapObjectViews>{
     const proof=NativeCrtBootstrap.canonicalEngineIoCallForCrt(bootstrap,crt,permit);if(!proof.known)return proof;
     try{return known(bootstrap.#checked(bootstrap.physical.securityCookie));}catch(error){return unknown(failureReason(error));}

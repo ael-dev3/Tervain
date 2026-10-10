@@ -4,6 +4,29 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local checkpoint — 10 October 2026: Engine nested multibyte exception frame
+
+The argument continuation executes the nested routine's three entry instructions,
+its original 21-instruction Engine EH4 prolog, and its local OR store on the
+retained physical thread. The original scope at `30956ba0` is owned by Engine's
+argument images and checked against its immutable receipt. The cookie is read
+only under the active Engine argument permit. Outer and nested EBP are recorded
+separately.
+
+The cold path reaches 39 operations and stops at the thread-data getter
+`30684e7d -> 3067e12b`. The nested FS frame and both pending returns remain live;
+readiness stays zero. Shared EH4 instructions use the exact existing Engine I/O
+receipt for `3067e500`; argument instructions use their own source admission.
+Unknown cookie bytes stop at the actual read before publishing the new FS frame.
+Independent evidence regeneration is byte-identical and TypeScript checking passes.
+Twenty-seven focused checks pass, including immutable scope validation and an
+unknown-cookie stop. Full validation of this continuation remains pending.
+
+The preceding argument prefix passed all 3,304 tests across 313 files in
+467.61 seconds. That full result precedes this change. Thread/locale setup,
+parser execution, full startup and campaign integration remain unfinished.
+This local continuation has not been deployed.
+
 ## Local checkpoint — 10 October 2026: Engine argument initialization wrapper
 
 The reached argument call now executes the original multibyte wrapper on the

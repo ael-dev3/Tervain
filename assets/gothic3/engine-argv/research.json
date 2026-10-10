@@ -5316,6 +5316,15 @@
       "fileBackedBytes": 0,
       "loaderZeroFillBytes": 4,
       "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+    },
+    {
+      "label": "multibyteSetupSehScope",
+      "address": "30956ba0",
+      "bytes": 28,
+      "raw": "feffffff00000000ccffffff00000000feffffff00000000ce4f6830",
+      "fileBackedBytes": 28,
+      "loaderZeroFillBytes": 0,
+      "sha256": "e8077e9633cb456f64a852c82f5cc79b18217c1a14eae03def7fdeaaf63784ce"
     }
   ],
   "caller": {

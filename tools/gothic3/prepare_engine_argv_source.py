@@ -29,7 +29,8 @@ def capture(study):
                                  (0x30af91f8, 4, 'commandLinePointer'),
                                  (0x30af7128, 4, 'programNamePointer'),
                                  (0x30af710c, 4, 'argumentCount'),
-                                 (0x30af7110, 4, 'argumentVector')]:
+                                 (0x30af7110, 4, 'argumentVector'),
+                                 (0x30956ba0, 28, 'multibyteSetupSehScope')]:
         rva = address - pe.base
         section = next(s for s in pe.sections if s[1] <= rva and rva + size <= s[1] + max(s[0], s[2]))
         backed = max(0, min(size, section[1] + section[2] - rva))
