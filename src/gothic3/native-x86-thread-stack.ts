@@ -125,16 +125,17 @@ interface HeapCall {
   phase: 'pending' | 'returned';
 }
 export interface NativeStandardIoArguments {
-  readonly site: NativeStandardIoCallSite; readonly kind: NativeStandardIoCallKind; readonly crt: NativeModuleCrtOwner;
+  readonly site: NativeStandardIoCallSite | '306888a1'; readonly kind: NativeStandardIoCallKind; readonly crt: NativeModuleCrtOwner;
   readonly scalar?: number; readonly object?: object | null; readonly procedure?: object;
   readonly section?: NativeBytePointer; readonly sectionFields?: NativeHeapObjectViews;
 }
 interface StandardCall {
-  readonly stack: NativeX86ThreadStack; readonly controller: object; readonly args: NativeStandardIoArguments;
+  readonly stack: NativeX86ThreadStack; readonly controller: object; readonly args: NativeStandardIoArguments & {readonly site:NativeStandardIoCallSite};
   readonly position: number; readonly frame: number; readonly fs: NativeX86Word32;
   readonly argumentWords: readonly NativeX86Word32[]; readonly returnWord: NativeX86Word32;
   readonly argumentBytes: 4 | 8; phase: 'pending' | 'returned';
 }
+const engineStandardCalls=new WeakMap<NativeStandardIoCallGrant,{stack:NativeX86ThreadStack;frame:EngineIoFrame;args:NativeStandardIoArguments;position:number;argument:NativeX86Word32;returnWord:NativeX86Word32;phase:'pending'|'returned'}>();
 const standardSites: Readonly<Record<NativeStandardIoCallSite, Readonly<{ kind: NativeStandardIoCallKind; returnAddress: string; argumentBytes: 4 | 8; position: number }>>> = Object.freeze({
   '204744b4': Object.freeze({ kind: 'GetStdHandle', returnAddress: '204744ba', argumentBytes: 4, position: -0x7c }),
   '204744c6': Object.freeze({ kind: 'GetFileType', returnAddress: '204744cc', argumentBytes: 4, position: -0x7c }),
@@ -362,10 +363,30 @@ export class NativeX86ThreadStack {
         step('306886ec','30688893',()=>{const position=relative('ESP',0);set('EAX',stack.#load(stack.#stack,position));set('ESP',stack.#stackWord(position+4));});
         step('306886ec','30688894',()=>{});
         step('306886ec','306888a0',()=>stack.#push(register('EAX')));
-        frame.pc='306888a1';engineIoInstruction('306886ec',frame.pc);throw new Error('Engine GetStdHandle IAT30afc718 at306888a1');
+        step('306886ec','306888a1',()=>{
+          const endpoints=stack.#platform.standardIoEndpoints;if(!endpoints)throw new Error('Engine GetStdHandle IAT30afc718 at306888a1');
+          const proof=NativeRuntimePlatform.canonicalStandardIoEndpointsForPlatform(stack.#platform,endpoints);if(!proof.known)throw new Error(proof.reason);
+          const argument=stack.#load(stack.#stack,relative('ESP',0)),scalar=stack.#numeric(argument,4);
+          if(scalar!==0xfffffff6)throw new Error('Actual Engine standard-input ID required');
+          stack.#call('306888a1','306888a7');const top=stack.#calls.at(-1)!,grant=Object.freeze({identity:Object.freeze({})});
+          const call={stack,frame,args:Object.freeze({site:'306888a1' as const,kind:'GetStdHandle' as const,crt,scalar}),position:top.position,argument,returnWord:top.returnWord,phase:'pending' as 'pending'|'returned'};
+          engineStandardCalls.set(grant,call);const result=endpoints.invoke(grant);if(!result.known)throw new Error(result.reason);
+          const returned=NativeRuntimePlatform.canonicalStandardIoNormalReturnForPlatform(stack.#platform,grant);if(!returned.known||returned.value!==result.value)throw new Error(returned.known?'Actual Engine GetStdHandle result required':returned.reason);
+          stack.#engineStandardProof(call);
+          if(typeof result.value==='object'&&result.value!==null){const capability=NativeRuntimePlatform.standardIoCapabilityForPlatform(stack.#platform,result.value);if(!capability.known||capability.value!=='handle')throw new Error('Actual platform standard-handle capability required');set('EAX',stack.#mint(0,0,{kind:'platform',object:result.value,category:'handle'}));}
+          else if(result.value===null||result.value===0xffffffff)set('EAX',value(result.value===null?0:0xffffffff));else throw new Error('Actual Engine standard-handle result required');
+          for(const name of ['ECX','EDX'] as const)set(name,stack.#mint(0,0));stack.#flags(0,0);
+          set('ESP',stack.#stackWord(call.position+8));top.returned=true;stack.#currentPc=call.returnWord;call.phase='returned';
+        });
+        frame.pc='306888a7';engineIoInstruction('306886ec',frame.pc);throw new Error('Engine standard-handle continuation at306888a7');
       }catch(error){frame.boundary??=reason(error);frame.phase='blocked';if(!stack.#executing){stack.#boundary??=frame.boundary;stack.#phase='blocked';}return unknown(frame.boundary);}
       finally{stack.#engineIoExecuting=false;}
     }catch(error){return unknown(reason(error));}
+  }
+  #engineStandardProof(call:NonNullable<ReturnType<typeof engineStandardCalls.get>>):void{
+    this.#engineIoProof(call.frame);const top=this.#calls.at(-1);
+    if(call.phase!=='pending'||call.frame.pc!=='306888a1'||!top||top.returned||top.site!=='306888a1'||top.position!==call.position||top.returnWord!==call.returnWord||
+      this.#address(this.#load(this.#bank,this.#reg('ESP')))!==call.position||this.#load(this.#stack,call.position)!==call.returnWord||this.#load(this.#stack,call.position+4)!==call.argument||this.#numeric(call.argument,4)!==call.args.scalar)throw new Error('Actual pending Engine GetStdHandle call required');
   }
   #engineStartupProof(call:NonNullable<ReturnType<typeof engineStartupCalls.get>>):void{
     this.#engineIoProof(call.frame);
@@ -2321,6 +2342,7 @@ export class NativeX86ThreadStack {
   static standardIoArgumentsForPlatform(platform: NativeRuntimePlatform,
     grant: NativeStandardIoCallGrant): NativeValue<NativeStandardIoArguments> {
     const active = NativeRuntimePlatform.canonicalStandardIoInvocationForPlatform(platform, grant); if (!active.known) return active;
+    const engine=engineStandardCalls.get(grant);if(engine){try{if(graphs.get(platform)!==engine.stack)throw new Error('Actual Engine standard-I/O graph required');engine.stack.#engineStandardProof(engine);return known(engine.args);}catch(error){return unknown(reason(error));}}
     const call = standardCalls.get(grant);
     if (!call || graphs.get(platform) !== call.stack) return unknown('Actual private same-platform standard-I/O call required');
     try { call.stack.#standardProof(grant, call); return known(call.args); }
@@ -4265,7 +4287,7 @@ export class NativeX86ThreadStack {
         scalar = this.#numeric(argumentWords[1]!, 4); procedure = this.#platformObject(this.#load(this.#bank, this.#reg('ESI')), 'section'); break;
       }
     }
-    const args: NativeStandardIoArguments = Object.freeze({ site, kind: spec.kind, crt: binding.crt, scalar, object, procedure, section, sectionFields });
+    const args: NativeStandardIoArguments & {readonly site:NativeStandardIoCallSite} = Object.freeze({ site, kind: spec.kind, crt: binding.crt, scalar, object, procedure, section, sectionFields });
     const row = { site, callPushed: false, called: false, returned: false, sectionRegistered: false };
     this.#standardIoRows.push(row);
     // Capacity failure happens at this real CALL, retaining the existing

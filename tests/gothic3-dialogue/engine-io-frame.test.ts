@@ -6,9 +6,11 @@ import {NativeX86ThreadStack} from '../../src/gothic3/native-x86-thread-stack';
 import {NativeRuntimePlatform} from '../../src/gothic3/native-runtime-platform';
 import {NativeHeapObjectViews} from '../../src/gothic3/native-heap-views';
 import type {NativeStartupInfoWriterSelection} from '../../src/gothic3/native-win32-startup-io';
+import type {NativeWin32StandardIoSelection} from '../../src/gothic3/native-win32-standard-io';
+import {browserGameStandardIoInputs} from '../../src/gothic3/browser-game-standard-io-inputs';
 import {browserGameProcessInputs} from '../../src/gothic3/browser-game-process-inputs';
-function fixture(startupInfoA?:NativeStartupInfoWriterSelection){
- const platform=new NativeRuntimePlatform({engineCrtServices:{startupIo:startupInfoA?{startupInfoA}:undefined,tlsValues:new Map(),kernel32Available:true,pointerCodec:'absent',fiberLocalStorage:true,processHeap:true,osVersion:{platform:2,major:6,minor:1,build:42},processInputs:browserGameProcessInputs,
+function fixture(startupInfoA?:NativeStartupInfoWriterSelection,standardIo?:NativeWin32StandardIoSelection){
+ const platform=new NativeRuntimePlatform({engineCrtServices:{standardIo,startupIo:startupInfoA?{startupInfoA}:undefined,tlsValues:new Map(),kernel32Available:true,pointerCodec:'absent',fiberLocalStorage:true,processHeap:true,osVersion:{platform:2,major:6,minor:1,build:42},processInputs:browserGameProcessInputs,
   entropy:{systemTimeAsFileTime:()=>({known:true,value:{low:0x12345678,high:1}}),currentProcessId:()=>({known:true,value:4}),currentThreadId:()=>({known:true,value:5}),tickCount:()=>({known:true,value:6}),performanceCounter:()=>({known:true,value:{success:true,low:7,high:8}})},
   threadStack:{threadCapability:{},reservationBytes:4096,addressModel:'opaque-relative',initialRegisters:'unknown',initialFs0:'unknown',pageAlignment:'virtual-page-4096'}}});
  let bootstrap:NativeCrtBootstrap;const crt=new NativeEngineCrtOwner({platform,errnoSlot:()=>bootstrap.thread.errnoSlot(),getLastError:()=>platform.getWin32LastError()});bootstrap=NativeCrtBootstrap.forCrt(crt);return {crt,platform,bootstrap};
@@ -101,5 +103,17 @@ it('does not skip an unknown or nonzero inherited-handle size',()=>{
   const {bootstrap}=fixture({writes:[{offset:50,width:2,value,knownMask}],outcome:'normal'}),result=bootstrap.processAttach();expect(result.known).toBe(false);
   const frame=bootstrap.attachProgress().engineIoProgress!;expect(frame.pc).toBe(pc);expect(frame.operations).toBe(operations);expect(frame.allocation!.readUnsigned(4,1)).toBe(0);
   expect(bootstrap.processAttach()).toEqual(result);expect(frame.allocation!.readUnsigned(4,1)).toBe(0);
+ }
+});
+
+it('retains actual Engine standard-handle outcomes without manufacturing a handle',()=>{
+ for(const outcome of ['valid','null','invalid','unknown'] as const){
+  const standardIo={...browserGameStandardIoInputs,standardHandles:browserGameStandardIoInputs.standardHandles.map((entry,index)=>index===0?{...entry,result:outcome}:entry)};
+  const {bootstrap}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},standardIo);
+  const result=bootstrap.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Continuation unfinished');
+  const frame=bootstrap.attachProgress().engineIoProgress!;
+  if(outcome==='unknown'){expect(result.reason).toContain('Declared standard-handle result is unknown');expect(frame.pc).toBe('306888a1');expect(frame.operations).toBe(445);}
+  else{expect(result.reason).toContain('Engine standard-handle continuation at306888a7');expect(frame.operations).toBe(446);if(outcome==='valid')expect(frame.bank.maskedWord(0).knownMask).toBe(0);else expect(frame.bank.readUnsigned(0)).toBe(outcome==='null'?0:0xffffffff);}
+  expect(bootstrap.processAttach()).toEqual(result);
  }
 });

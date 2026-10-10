@@ -4,6 +4,21 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local checkpoint — 10 October 2026: Engine GetStdHandle return
+
+The original Engine standard-input call at `306888a1` now enters the platform's
+standard-I/O endpoint through its own private call registry. Admission checks the
+Engine frame, actual stack argument, pending return and original `-10` ID. It
+uses the existing virtual process's opaque handle capability, NULL or invalid
+handle result; an unknown outcome retains the pending call without cleanup.
+A confirmed normal return applies stdcall RET4 and leaves ECX/EDX unknown.
+
+The browser prefix now executes 446 instructions and stops at `306888a7`, before
+handle adoption and GetFileType. Fourteen integration-focused checks and
+TypeScript checking pass. Separate checks cover valid, NULL, invalid and unknown
+standard-input outcomes without replay. Full validation and public deployment of
+this later revision remain pending. The complete browser campaign is unfinished.
+
 ## Local checkpoint — 10 October 2026: Engine standard-input preparation
 
 Engine startup reads the actual 16-bit inherited-handle size from the returned
