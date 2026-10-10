@@ -47,7 +47,11 @@ memory and objects before it can support a gameplay claim.
 | `docs/engineering/gothic3-rebuilding-process.md` | Dated checkpoint history and validation receipts |
 | `.github/workflows/pages.yml` | Pull-request validation and main-branch deployment |
 
-### Current startup work: 2026-10-09
+For the latest local implementation boundary, read the
+[rebuild guide](gothic3-rebuild-guide.md#current-implementation-boundary-10-october-2026).
+The following example records an earlier checkpoint.
+
+### Historical startup example: 2026-10-09
 
 [PR #161](https://github.com/ael-dev3/Tervain/pull/161) merged as
 `d6b28f9e37e9dfce20a89e5afc2ab0aa2a107cf6`. The selected SharedBase

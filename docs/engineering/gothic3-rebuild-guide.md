@@ -112,31 +112,47 @@ Each feature goes through the following steps:
    workflow triggers. Publish the reviewed checkpoint on `/gothic3/` and
    record which behavior it demonstrates.
 
-**Current local boundary:** Arena Status, None, Running, AI FreePoint, Label
-and AI helper administrator initialization return through the retained startup
-stack. PropertyID initializer `204b26c0` returns. Accessor-creator initializer
-`204b2720` resolves the registered AI helper type and returns its canonical
-factory through the original virtual accessor. The factory query finds the
-registered root wrapper and tail-dispatches its clone routine. The clone allocates
-its new wrapper, executes its base constructor and retrieves the canonical type.
-Non-root initialization allocates a separate component and executes its Engine
-constructor chain. The translated module-administrator getter constructs its
-dispatcher and registry. Its shutdown dependency now enters Engine's retained
-CRT attach prefix, stores the process command-line pointer and stops at Engine
-environment retrieval `3067725c -> 3068e828`. That routine selects the wide
-API, scans the retained input, measures conversion and allocates output through
-Engine's CRT. Wide conversion fills that buffer, releases its OS input and
-returns. The caller stores the actual result at `30af70d4`; execution now stops
-at I/O initialization `30677266 -> 306886ec`. The latest local ANSI fallback
-also copies its actual output through `3068e945 -> 30671cf0`, releases the OS
-input and returns before the same pending I/O call.
-Complete startup, world activation and a new-game-to-ending campaign remain
-unfinished. Local checkpoints and the hosted version can differ; the validation
-receipts below identify the checkpoint covered.
+## Current implementation boundary: 10 October 2026
 
-## Concrete example: rebuilding the AI helper startup
+The latest local Engine argument setup executes the supported CP1252 path:
+multibyte initialization, module filename selection, command-line counting,
+allocation, argument filling and publication of `argc` and `argv`. It returns
+through the original setup instruction `3068e827` to caller `3067727b`, after
+13,819 admitted operations for the default input. The default allocation holds
+`Gothic3.exe` and its argument vector in 20 bytes.
 
-The current work follows a dependency from Game's AI helper factory into
+This is a local component milestone. Its focused validation passed 164 checks,
+typechecking and a production build. Full combined publication validation is
+pending; no deployment or campaign claim follows from those component results.
+The next dependency is the caller's result check and Engine environment-vector
+setup at `3068e4f2`. Complete DLL startup, live world activation and campaign
+integration remain unfinished. See the [checkpoint history](gothic3-rebuilding-process.md)
+for dated receipts and the distinction between local and deployed revisions.
+
+## What to record for every rebuilding step
+
+Use this checklist when adding a feature or advancing a native continuation:
+
+- **Input:** original archive/resource path or DLL hash, patch precedence, and
+  the relevant function, instruction range or data record.
+- **Recovery:** generator command, checked-in evidence paths, output hashes,
+  and an independent regeneration comparison.
+- **Implementation:** TypeScript entry point, memory and resource owners,
+  platform services, supported branches and explicit unsupported branches.
+- **Integration:** the retained caller or live entity using the result, with
+  pointer identity, allocation lifetime, failure handling and cleanup preserved.
+- **Validation:** revision, commands and results; browser observations when
+  applicable; the exact next unsupported operation and state already produced.
+- **Publication:** reviewed commit/PR, workflow and deployment receipts, deployed
+  revision and the behavior actually observed there.
+
+This record lets the next step continue from established state and lets a
+reviewer reproduce the claim. Original local file paths document provenance;
+they are not resources that the hosted browser can read from a visitor's PC.
+
+## Historical example: rebuilding the AI helper startup
+
+This earlier checkpoint follows a dependency from Game's AI helper factory into
 Engine's module administrator and CRT startup. This shows how a native behavior
 becomes browser code:
 
