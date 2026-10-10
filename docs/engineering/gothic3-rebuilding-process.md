@@ -4,6 +4,21 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local checkpoint — 10 October 2026: Engine I/O caller continuation
+
+The Engine CRT bootstrap now accepts the I/O result only through the exact
+private reached call permit and returned physical frame. It verifies the retained
+caller return, restored ESP, live source images and actual EAX zero before
+recording the return at `3067726b`. The original captured caller receipt admits
+the result test and nonnegative branch. Startup reaches the next original call
+`30677276 -> 3068e76f`; its implementation and purpose remain unverified here.
+
+Twenty focused integration checks and TypeScript checking pass. A separate check
+rejects descriptive return permits before and after completion without changing
+retained state. This completes the supported I/O callee and its result branch,
+not full CRT/DLL attachment or gameplay activation. Full validation and public
+deployment of this latest revision remain pending; the full campaign is unfinished.
+
 ## Local checkpoint — 10 October 2026: Engine I/O normal return
 
 The original SetHandleCount import now receives the current Engine count 32,

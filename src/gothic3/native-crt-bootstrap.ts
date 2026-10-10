@@ -16,6 +16,7 @@ import { NativeRuntimePlatform } from './native-runtime-platform';
 import { NativeGameCrtEnvironment } from './native-game-crt-environment';
 import { NativeEngineCrtEnvironment } from './native-engine-crt-environment';
 import { engineEnvironmentImage } from './native-engine-environment-source';
+import {admitEngineIoSource} from './native-engine-io-source';
 import { NativeEngineIoImages } from './native-engine-io-images';
 import { NativeX86ThreadStack } from './native-x86-thread-stack';
 import { NativeGameCrtIoInit } from './native-game-crt-ioinit';
@@ -701,13 +702,18 @@ export class NativeCrtBootstrap {
       }
       this.#engineIoInvocationActive=true;
       try{
-        this.#call('Engine ioInit306886ec at30677266',()=>{
+        this.#ioResult=this.#call('Engine ioInit306886ec at30677266',()=>{
           const selected=NativeX86ThreadStack.forPlatform(this.#crt.host.platform as NativeRuntimePlatform);if(!selected.known)return selected;
           this.#engineIoStack=selected.value;
-          return NativeX86ThreadStack.enterEngineIoForBootstrap(selected.value,this,this.#crt,this.#engineIoCallPermit);
+          const entered=NativeX86ThreadStack.enterEngineIoForBootstrap(selected.value,this,this.#crt,this.#engineIoCallPermit);if(!entered.known)return entered;
+          return NativeX86ThreadStack.returnedEngineIoForBootstrap(selected.value,this,this.#crt,this.#engineIoCallPermit);
         });
       }finally{this.#engineIoInvocationActive=false;}
-      this.#gate('Engine I/O caller result at3067726b');
+      admitEngineIoSource();this.#record('ioInit.return',this.#ioResult,'3067726b');
+      this.#trace.push('3067726b.EngineIoCallerTest','3067726d.EngineIoCallerJge');
+      if(this.#ioResult!==0)throw new Error('Actual supported Engine I/O result required');
+      this.#nextBoundary=Object.freeze({name:'startupCall',address:'30677276',target:'3068e76f'});
+      this.#gate('Engine startup call3068e76f at30677276');
     }
     const points = gameAttachContinuationInstructionPoints;
     const endpointProof = NativeRuntimePlatform.canonicalProcessInputEndpointsForPlatform(

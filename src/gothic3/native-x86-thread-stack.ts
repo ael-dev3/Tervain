@@ -474,6 +474,18 @@ export class NativeX86ThreadStack {
       finally{stack.#engineIoExecuting=false;}
     }catch(error){return unknown(reason(error));}
   }
+  static returnedEngineIoForBootstrap(stack:NativeX86ThreadStack,bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object):NativeValue<number>{
+    const reached=NativeCrtBootstrap.canonicalEngineIoCallForCrt(bootstrap,crt,permit);if(!reached.known)return reached;
+    try{
+      const frame=stack.#engineIoFrame,caller=stack.#calls.findLast(call=>call.site==='30677266');
+      if(graphs.get(crt.host.platform as NativeRuntimePlatform)!==stack||!frame||frame.bootstrap!==bootstrap||frame.crt!==crt||frame.permit!==permit||frame.phase!=='returned'||frame.pc!=='3068892b'||!frame.fsRestored||stack.#engineIoExecuting||!caller?.returned||stack.#currentPc!==caller.returnWord)throw new Error('Actual returned Engine I/O frame required');
+      stack.#physical(stack.#bank);stack.#physical(stack.#stack);
+      if(stack.#address(stack.#load(stack.#bank,stack.#reg('ESP')))!==frame.entryEsp)throw new Error('Actual restored Engine I/O caller stack required');
+      const result=stack.#numeric(stack.#load(stack.#bank,stack.#reg('EAX')),4);if(result!==0)throw new Error('Actual supported Engine I/O zero return required');
+      const scope=NativeEngineIoImages.imageForCrt(frame.images,crt,'ioSehScope');if(!scope.known||scope.value!==frame.scope)throw new Error('Actual retained Engine I/O source required');
+      return known(result);
+    }catch(error){return unknown(reason(error));}
+  }
   #engineStandardProof(call:NonNullable<ReturnType<typeof engineStandardCalls.get>>):void{
     this.#engineIoProof(call.frame);const top=this.#calls.at(-1);
     if(call.phase!=='pending'||call.frame.pc!==call.args.site||!top||top.returned||top.site!==call.args.site||top.position!==call.position||top.returnWord!==call.returnWord||
