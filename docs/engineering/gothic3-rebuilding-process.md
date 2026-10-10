@@ -4,6 +4,21 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local checkpoint — 10 October 2026: Engine I/O calloc return
+
+The actual caller at `30688714` now reads its retained count and size arguments
+and invokes the recovered Engine CRT calloc implementation for 32 records of
+56 bytes. A non-NULL result must belong to the current Engine CRT heap and cover
+all 1,792 bytes. EAX retains an opaque allocation identity; it supplies no numeric
+browser address or Game allocation capability. The cdecl return leaves both
+arguments on the actual thread stack for the original caller to clean up.
+
+This is a translated allocator bridge, not instruction-by-instruction execution
+of the allocator body. Execution stops at `30688719`, before caller cleanup and
+record initialization. Twelve focused checks and TypeScript checking pass locally;
+full integration validation and public deployment of this change are pending.
+The campaign remains unfinished.
+
 ## Local checkpoint — 10 October 2026: Engine startup-info writer
 
 Engine `GetStartupInfoA` at `30688701` now uses a privately registered call

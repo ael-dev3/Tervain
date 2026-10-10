@@ -77,6 +77,7 @@ type WordRecord = Readonly<{ value: number; mask: number; provenance?:
   Readonly<{ kind: 'shared-local'; fields:NativeHeapObjectViews; offset?:number }> |
   Readonly<{ kind: 'module'; label: string; fields: NativeHeapObjectViews; offset: number }> |
   Readonly<{ kind: 'process'; pointer: NativeBytePointer }> |
+  Readonly<{kind:'engine-allocation';crt:NativeModuleCrtOwner;fields:NativeHeapObjectViews;offset:number}> |
   Readonly<{ kind: 'heap'; heap: NativeWin32HeapCapability }> |
   Readonly<{ kind: 'allocation'; allocation: Allocation; offset: number; pointer: NativeBytePointer }> |
   Readonly<{ kind: 'platform'; object: object; category: NativeStandardIoCapabilityKind | NativeArgvImportKind | 'GetModuleHandleA' | 'GetProcAddress' | 'IsProcessorFeaturePresent' | 'InitializerTlsGetValue' | 'InitializerPtdGetter' | 'InitializerEncodePointer' | 'InitializerDecodePointer' | 'InitializerPoolHeapAlloc' | 'InitializerCrtHeapFree' | 'InitializerPoolVirtualAlloc' | 'InitializerHeapSize' | 'InitializerInitializeSection' | 'InitializerMemorySectionInitialize' | 'InitializerMemorySectionEnter' | 'InitializerMemorySectionLeave' | 'InitializerSectionCache' | 'InitializerCreateFileA' | 'InitializerGetLastError' | 'InitializerSetLastError' | 'InitializerGetFileType' | 'InitializerCloseHandle' | 'InitializerFileHandle' | 'InitializerEncodedCode' | 'DllLstrcpyA' | 'DllVersionModule' | 'SpyFindWindowA' | 'DiagnosticWindow' | 'GameCinitModule' | 'GameCinitFeature' | 'GameCinitEncoded' }> |
@@ -114,7 +115,7 @@ interface EngineIoFrame {
  readonly images:NativeEngineIoImages;readonly scope:NativeHeapObjectViews;
  phase:'running'|'blocked';pc:string;boundary:string|null;operations:number;
  entryEsp:number;ebp:number|null;prologReturned:boolean;fsPublished:boolean;
- startupInfo:NativeHeapObjectViews|null;
+ startupInfo:NativeHeapObjectViews|null;allocation:NativeHeapObjectViews|null;callocReturned:boolean;
 }
 interface HeapCall {
   readonly stack: NativeX86ThreadStack; readonly controller: object; readonly crt: NativeModuleCrtOwner;
@@ -200,7 +201,7 @@ export class NativeX86ThreadStack {
       stack.#physical(stack.#stack);stack.#physical(stack.#bank);
       const images=bootstrap.attachProgress().engineIoImages;if(!images)throw new Error('Actual retained Engine I/O images required');
       const scope=NativeEngineIoImages.imageForCrt(images,crt,'ioSehScope');if(!scope.known)throw new Error(scope.reason);
-      const frame:EngineIoFrame={bootstrap,crt,permit,images,scope:scope.value,phase:'running',pc:'30677266',boundary:null,operations:0,entryEsp:stack.#address(stack.#load(stack.#bank,stack.#reg('ESP'))),ebp:null,prologReturned:false,fsPublished:false,startupInfo:null};
+      const frame:EngineIoFrame={bootstrap,crt,permit,images,scope:scope.value,phase:'running',pc:'30677266',boundary:null,operations:0,entryEsp:stack.#address(stack.#load(stack.#bank,stack.#reg('ESP'))),ebp:null,prologReturned:false,fsPublished:false,startupInfo:null,allocation:null,callocReturned:false};
       stack.#engineIoFrame=frame;stack.#engineIoExecuting=true;stack.#phase='running';
       const register=(name:NativeX86Register)=>stack.#load(stack.#bank,stack.#reg(name));
       const set=(name:NativeX86Register,word:NativeX86Word32)=>stack.#store(stack.#bank,stack.#reg(name),word);
@@ -270,7 +271,26 @@ export class NativeX86ThreadStack {
         step('306886ec','30688710',()=>stack.#push(value(0x20)));
         step('306886ec','30688712',()=>{const position=relative('ESP',0);set('ESI',stack.#load(stack.#stack,position));set('ESP',stack.#stackWord(position+4));});
         step('306886ec','30688713',()=>stack.#push(register('ESI')));
-        frame.pc='30688714';engineIoInstruction('306886ec',frame.pc);throw new Error('Engine calloc3067ca01 at30688714');
+        step('306886ec','30688714',()=>{
+          const argumentPosition=relative('ESP',0);
+          const count=stack.#numeric(stack.#load(stack.#stack,argumentPosition),4),size=stack.#numeric(stack.#load(stack.#stack,argumentPosition+4),4);
+          if(count!==32||size!==56)throw new Error('Actual Engine I/O calloc operands required');
+          stack.#call('30688714','30688719');
+          // Recovered CRT wrapper bridge; not an instruction interpreter for
+          // its allocator body. It returns storage from the actual Engine heap.
+          const allocated=crt.callocCrt(count,size);if(!allocated.known)throw new Error(allocated.reason);
+          stack.#engineIoProof(frame);
+          if(allocated.value){
+            const fields=new NativeHeapObjectViews(allocated.value);Object.freeze(fields);
+            const owned=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields,offset:0},count*size);if(!owned.known)throw new Error(owned.reason);
+            frame.allocation=fields;set('EAX',stack.#mint(0,0,{kind:'engine-allocation',crt,fields,offset:0}));
+          }else set('EAX',value(0));
+          for(const name of ['ECX','EDX'] as const)set(name,stack.#mint(0,0));stack.#flags(0,0);
+          const continuation=stack.#record(stack.#ret()).provenance;
+          if(continuation?.kind!=='source'||continuation.type!=='code'||continuation.address!=='30688719'||relative('ESP',0)!==argumentPosition)throw new Error('Actual Engine calloc cdecl return required');
+          frame.callocReturned=true;
+        });
+        frame.pc='30688719';engineIoInstruction('306886ec',frame.pc);throw new Error('Engine I/O continuation at30688719');
       }catch(error){frame.boundary??=reason(error);frame.phase='blocked';if(!stack.#executing){stack.#boundary??=frame.boundary;stack.#phase='blocked';}return unknown(frame.boundary);}
       finally{stack.#engineIoExecuting=false;}
     }catch(error){return unknown(reason(error));}
@@ -292,7 +312,7 @@ export class NativeX86ThreadStack {
   }
   engineIoFrameSnapshot(crt:NativeModuleCrtOwner){
     const frame=this.#engineIoFrame;if(!frame||frame.crt!==crt)return null;
-    return Object.freeze({module:'Engine' as const,phase:frame.phase,pc:frame.pc,boundary:frame.boundary,operations:frame.operations,entryEsp:frame.entryEsp,ebp:frame.ebp,prologReturned:frame.prologReturned,fsPublished:frame.fsPublished,startupInfo:frame.startupInfo,scope:frame.scope,stack:this.#stack,bank:this.#bank});
+    return Object.freeze({module:'Engine' as const,phase:frame.phase,pc:frame.pc,boundary:frame.boundary,operations:frame.operations,entryEsp:frame.entryEsp,ebp:frame.ebp,prologReturned:frame.prologReturned,fsPublished:frame.fsPublished,startupInfo:frame.startupInfo,allocation:frame.allocation,callocReturned:frame.callocReturned,scope:frame.scope,stack:this.#stack,bank:this.#bank});
   }
   readonly #platform: NativeRuntimePlatform;
   readonly #selection: Readonly<NativeX86ThreadStackSelection>;
@@ -2777,6 +2797,7 @@ export class NativeX86ThreadStack {
       if (!proof.known) throw new Error(proof.reason); return record;
     }
     if(p?.kind==='difference'){this.#liveWord(p.left);this.#liveWord(p.right);}
+    if(p?.kind==='engine-allocation'){const owned=NativeModuleCrtOwner.canonicalEngineHeapDestination(p.crt,this.#platform,{fields:p.fields,offset:p.offset},0);if(!owned.known)throw new Error(owned.reason);}
     if (p?.kind === 'allocation') this.#allocationLive(p.allocation, p.offset, 0);
     if (p?.kind === 'module') this.#moduleWord(p.label, p.offset);
     if (p?.kind === 'process') this.#processWord(p.pointer);

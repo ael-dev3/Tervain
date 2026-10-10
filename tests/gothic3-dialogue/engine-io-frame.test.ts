@@ -48,8 +48,8 @@ it('retains the pushed frame prefix when the current Engine cookie becomes unkno
 
 it('returns from the Engine startup writer with actual stores and stdcall cleanup',()=>{
  const {bootstrap}=fixture({writes:[{offset:0,width:4,value:68,knownMask:0xffffffff},{offset:45,width:1,value:0xa5,knownMask:0xff}],outcome:'normal'});
- const result=bootstrap.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Continuation unfinished');expect(result.reason).toContain('Engine calloc3067ca01 at30688714');
- const frame=bootstrap.attachProgress().engineIoProgress!;expect(frame.operations).toBe(34);expect(frame.startupInfo!.readUnsigned(0)).toBe(68);expect(frame.startupInfo!.readUnsigned(45,1)).toBe(0xa5);
+ const result=bootstrap.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Continuation unfinished');expect(result.reason).toContain('Engine I/O continuation at30688719');
+ const frame=bootstrap.attachProgress().engineIoProgress!;expect(frame.operations).toBe(35);expect(frame.callocReturned).toBe(true);expect(frame.allocation!.bytes.length).toBe(1792);expect([...frame.allocation!.bytes]).toEqual(Array(1792).fill(0));expect([...frame.allocation!.knownMask]).toEqual(Array(1792).fill(255));expect(frame.startupInfo!.readUnsigned(0)).toBe(68);expect(frame.startupInfo!.readUnsigned(45,1)).toBe(0xa5);
  for(const offset of [0,4,8])expect(frame.bank.maskedWord(offset).knownMask).toBe(0);
  const trace=bootstrap.snapshot().trace;expect(bootstrap.processAttach()).toEqual(result);expect(bootstrap.snapshot().trace).toEqual(trace);
 });
