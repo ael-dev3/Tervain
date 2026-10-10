@@ -18,6 +18,7 @@ def capture(study):
         0x30684c58: 'engineArgumentMultibyteHelper30684c58',
         0x3067c9c1: 'engineArgumentMallocCrt',
         0x3067e12b: 'engineMultibyteGetPtdWrapper',
+        0x30684bd5: 'engineMultibyteLocaleUnlock',
     })
     pe = PE((study / '00_Original_Runtime/Engine.dll').read_bytes())
     caller = pe.bytes(0x30677276, 5)
@@ -31,7 +32,10 @@ def capture(study):
                                  (0x30af7128, 4, 'programNamePointer'),
                                  (0x30af710c, 4, 'argumentCount'),
                                  (0x30af7110, 4, 'argumentVector'),
-                                 (0x30956ba0, 28, 'multibyteSetupSehScope')]:
+                                 (0x30956ba0, 28, 'multibyteSetupSehScope'),
+                                 (0x30956b80, 28, 'multibyteLocaleSehScope'),
+                                 (0x30ad50f0, 4, 'multibyteLocaleFlags'),
+                                 (0x30ad4ff8, 4, 'currentMultibytePointer')]:
         rva = address - pe.base
         section = next(s for s in pe.sections if s[1] <= rva and rva + size <= s[1] + max(s[0], s[2]))
         backed = max(0, min(size, section[1] + section[2] - rva))

@@ -4,6 +4,21 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local evidence — 10 October 2026: Engine multibyte locale dependency
+
+The argument receipt includes the locale helper's original EH4 scope at
+`30956b80`, the locale configuration DWORD at `30ad50f0`, the current MBC pointer
+image at `30ad4ff8`, and the four-instruction unlock wrapper at `30684bd5`.
+The original flag value is `fffffffe`; the pointer receipt names `30ad4bd0`,
+whose MBC object already belongs to the retained Engine thread startup. Future
+execution must connect to that same live object rather than allocate a duplicate.
+These new receipts are descriptive evidence only; the locale helper remains
+unimplemented. Its cold PTD flags select lock 13 before comparing MBC pointers.
+
+The preceding exception-frame runtime checkpoint passed all 3,308 tests across
+313 files in 425.44 seconds. That full result precedes the PTD getter and this
+expanded evidence. The full browser campaign remains unfinished.
+
 ## Local checkpoint — 10 October 2026: Engine multibyte PTD getter
 
 The nested multibyte call executes the original getter wrapper at `3067e12b`.
@@ -17,7 +32,8 @@ The caller stores that record in EDI and its local slot and calls locale helper
 The cold path executes 51 source operations. A NULL service result retains the
 original fatal call with argument 16; an unowned record stops at the getter call.
 Neither path manufactures readiness or a successful nested setup return.
-Thirty-one focused checks across four files and TypeScript checking pass. The
+Thirty-one focused checks across four files, TypeScript checking and the
+production build pass. The
 source package now includes the 11-instruction getter wrapper. The translated
 inner service uses its existing Engine thread-startup evidence; this does not
 claim instruction-by-instruction execution of that inner service on the physical

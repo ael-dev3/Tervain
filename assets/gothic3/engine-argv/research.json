@@ -5303,6 +5303,56 @@
         "instructionCount": 11,
         "bodyByteCount": 24,
         "bodyInstructionBytesSha256": "1df5508650f3f8111bf083b225e0b9910e6a0d309b15cf41c2798211280904e3"
+      },
+      {
+        "label": "engineMultibyteLocaleUnlock",
+        "entryVA": "0x30684bd5",
+        "bodyVA": "0x30684bd5",
+        "entryChain": [],
+        "bodyRanges": "30684bd5-30684bdd",
+        "instructions": [
+          {
+            "va": "30684bd5",
+            "rva": "684bd5",
+            "fileOffset": 6835157,
+            "bytes": "6a0d",
+            "instruction": "PUSH 0xd",
+            "assemblyLine": 1742531
+          },
+          {
+            "va": "30684bd7",
+            "rva": "684bd7",
+            "fileOffset": 6835159,
+            "bytes": "e8dae6ffff",
+            "instruction": "CALL 0x306832b6",
+            "assemblyLine": 1742532
+          },
+          {
+            "va": "30684bdc",
+            "rva": "684bdc",
+            "fileOffset": 6835164,
+            "bytes": "59",
+            "instruction": "POP ECX",
+            "assemblyLine": 1742533
+          },
+          {
+            "va": "30684bdd",
+            "rva": "684bdd",
+            "fileOffset": 6835165,
+            "bytes": "c3",
+            "instruction": "RET",
+            "assemblyLine": 1742534
+          }
+        ],
+        "reconstructedC": {
+          "path": "01_Decompiled_Code/Engine_dll/pseudocode/functions_00169.c",
+          "sha256": "1ba3aee81bcd1b3d0c508291f30dfa2374148c9f66ffbc96c65fb44134596a29",
+          "line": 8857,
+          "status": "decompiled"
+        },
+        "instructionCount": 4,
+        "bodyByteCount": 9,
+        "bodyInstructionBytesSha256": "13c0fe99df78591367325c62027f6c59024d7631a863131902acd3f5567f7024"
       }
     ],
     "constants": [],
@@ -5431,6 +5481,33 @@
       "fileBackedBytes": 28,
       "loaderZeroFillBytes": 0,
       "sha256": "e8077e9633cb456f64a852c82f5cc79b18217c1a14eae03def7fdeaaf63784ce"
+    },
+    {
+      "label": "multibyteLocaleSehScope",
+      "address": "30956b80",
+      "bytes": 28,
+      "raw": "feffffff00000000d4ffffff00000000feffffff00000000d24b6830",
+      "fileBackedBytes": 28,
+      "loaderZeroFillBytes": 0,
+      "sha256": "8a9db29edd2897265b3ed36440987692f4090778db47e159d518735ec424df2e"
+    },
+    {
+      "label": "multibyteLocaleFlags",
+      "address": "30ad50f0",
+      "bytes": 4,
+      "raw": "feffffff",
+      "fileBackedBytes": 4,
+      "loaderZeroFillBytes": 0,
+      "sha256": "b4248c210a2905b94345e1a8414d0e12efcfb2f4f0f2397159a71283397a0ccd"
+    },
+    {
+      "label": "currentMultibytePointer",
+      "address": "30ad4ff8",
+      "bytes": 4,
+      "raw": "d04bad30",
+      "fileBackedBytes": 4,
+      "loaderZeroFillBytes": 0,
+      "sha256": "3dd2bd63dc6dc5bcbb282d2ae35cdb712684d3ce99dc432e6c385171be2273f2"
     }
   ],
   "caller": {
