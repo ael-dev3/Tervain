@@ -850,7 +850,7 @@ export class NativeX86ThreadStack {
             mapBody('3067c590',()=>{const left=NativeHeapObjectViews.prototype.readUnsigned.call(mapSelector.value,0);stack.#arithmeticFlags(left,0,left,4,true);});
             mapBody('3067c596',()=>stack.#push(reg('EDI')));
             mapBody('3067c597',()=>set('ESI',reg('ECX')));
-            let mapCached=false;mapBody('3067c599',()=>{mapCached=!branchZero();});if(mapCached){frame.pc='3067c5d3';throw new Error('Engine cached mapping API selection at3067c5d3');}
+            let mapCached=false;mapBody('3067c599',()=>{mapCached=!branchZero();});if(!mapCached){
             mapBody('3067c59b',()=>stack.#push(reg('EBX')));
             mapBody('3067c59c',()=>stack.#push(reg('EBX')));
             mapBody('3067c59d',()=>{set('EDI',value(0));stack.#logicalFlags(0,0xffffffff,4);});
@@ -864,7 +864,43 @@ export class NativeX86ThreadStack {
             let mapSucceeded=false;mapBody('3067c5b4',()=>{mapSucceeded=!branchZero();});if(!mapSucceeded){frame.pc='3067c5be';throw new Error('Engine mapping probe failure GetLastError at3067c5be');}
             mapBody('3067c5b6',()=>{stack.#invalidateRange(mapSelector.value,0,4);stack.#store(mapSelector.value,0,reg('EDI'));});
             mapBody('3067c5bc',()=>{});
-            frame.pc='3067c5d3';engineArgvInstruction('3067c57c',frame.pc);throw new Error('Engine mapping input scan at3067c5d3');
+            }
+            const compareMapping=(left:number,right:number,width:1|4=4)=>stack.#arithmeticFlags(left,right,(left-right)>>>0,width,true);
+            const signedBranch=(inclusive:boolean)=>{const flags=stack.#record(stack.#load(stack.#bank,36));if((flags.mask&0x8c0)!==0x8c0)throw new Error('Owned Engine mapping signed branch flags required');const less=!!(flags.value&128)!==!!(flags.value&2048);return less||(inclusive&&!!(flags.value&64));};
+            mapBody('3067c5d3',()=>compareMapping(stack.#numeric(stack.#load(stack.#stack,relative('EBP',20)),4),stack.#numeric(reg('EBX'),4)));
+            let skipScan=false;mapBody('3067c5d6',()=>{skipScan=signedBranch(true);});
+            if(!skipScan){
+              mapBody('3067c5d8',()=>set('ECX',stack.#load(stack.#stack,relative('EBP',20))));
+              mapBody('3067c5db',()=>{const pointer=stack.#load(stack.#stack,relative('EBP',16));if(stack.#address(pointer)!==frame.mbcCaseEbp!+0x398)throw new Error('Actual Engine mapping input array required');set('EAX',pointer);});
+              let terminated=false;
+              for(;;){
+                mapBody('3067c5de',()=>{const left=stack.#numeric(reg('ECX'),4),flags=stack.#record(stack.#load(stack.#bank,36)),result=(left-1)>>>0;set('ECX',value(result));stack.#arithmeticFlags(left,1,result,4,true);const changed=stack.#record(stack.#load(stack.#bank,36));stack.#flags((changed.value&~1)|(flags.value&1),(changed.mask&~1)|(flags.mask&1));});
+                mapBody('3067c5df',()=>{const offset=stack.#address(reg('EAX'));if(offset<frame.mbcCaseEbp!+0x398||offset>=frame.mbcCaseEbp!+0x498)throw new Error('Engine mapping scan outside actual byte array');compareMapping(NativeHeapObjectViews.prototype.readUnsigned.call(stack.#stack,offset,1),stack.#numeric(reg('EBX'),1),1);});
+                mapBody('3067c5e1',()=>{terminated=branchZero();});if(terminated)break;
+                mapBody('3067c5e3',()=>{const flags=stack.#record(stack.#load(stack.#bank,36));set('EAX',stack.#stackWord(stack.#address(reg('EAX'))+1));stack.#flags(flags.value&1,flags.mask&1);});
+                mapBody('3067c5e4',()=>compareMapping(stack.#numeric(reg('ECX'),4),stack.#numeric(reg('EBX'),4)));
+                let repeat=false;mapBody('3067c5e6',()=>{repeat=!branchZero();});if(!repeat)break;
+              }
+              if(!terminated)mapBody('3067c5e8',()=>{set('ECX',value(0xffffffff));stack.#logicalFlags(0xffffffff,0xffffffff,4);});
+              mapBody('3067c5eb',()=>set('EAX',stack.#load(stack.#stack,relative('EBP',20))));
+              mapBody('3067c5ee',()=>{const left=stack.#numeric(reg('EAX'),4),right=stack.#numeric(reg('ECX'),4),result=(left-right)>>>0;set('EAX',value(result));compareMapping(left,right);});
+              mapBody('3067c5f0',()=>{const left=stack.#numeric(reg('EAX'),4),flags=stack.#record(stack.#load(stack.#bank,36)),result=(left-1)>>>0;set('EAX',value(result));stack.#arithmeticFlags(left,1,result,4,true);const changed=stack.#record(stack.#load(stack.#bank,36));stack.#flags((changed.value&~1)|(flags.value&1),(changed.mask&~1)|(flags.mask&1));});
+              mapBody('3067c5f1',()=>compareMapping(stack.#numeric(reg('EAX'),4),stack.#numeric(stack.#load(stack.#stack,relative('EBP',20)),4)));
+              let atLimit=false;mapBody('3067c5f4',()=>{atLimit=!signedBranch(false);});
+              if(!atLimit)mapBody('3067c5f6',()=>{const left=stack.#numeric(reg('EAX'),4),flags=stack.#record(stack.#load(stack.#bank,36)),result=(left+1)>>>0;set('EAX',value(result));stack.#arithmeticFlags(left,1,result,4,false);const changed=stack.#record(stack.#load(stack.#bank,36));stack.#flags((changed.value&~1)|(flags.value&1),(changed.mask&~1)|(flags.mask&1));});
+              mapBody('3067c5f7',()=>stack.#store(stack.#stack,relative('EBP',20),reg('EAX')));
+            }
+            mapBody('3067c5fa',()=>set('EAX',value(NativeHeapObjectViews.prototype.readUnsigned.call(mapSelector.value,0))));
+            mapBody('3067c5ff',()=>compareMapping(stack.#numeric(reg('EAX'),4),2));
+            let fallback=false;mapBody('3067c602',()=>{fallback=branchZero();});if(fallback){frame.pc='3067c7b3';throw new Error('Engine ANSI mapping path unsupported');}
+            mapBody('3067c608',()=>compareMapping(stack.#numeric(reg('EAX'),4),stack.#numeric(reg('EBX'),4)));
+            mapBody('3067c60a',()=>{fallback=branchZero();});if(fallback){frame.pc='3067c7b3';throw new Error('Engine unresolved mapping API unsupported');}
+            mapBody('3067c610',()=>compareMapping(stack.#numeric(reg('EAX'),4),1));
+            mapBody('3067c613',()=>{fallback=!branchZero();});if(fallback){frame.pc='3067c7e4';throw new Error('Engine invalid mapping API selector');}
+            mapBody('3067c619',()=>compareMapping(stack.#numeric(stack.#load(stack.#stack,relative('EBP',32)),4),stack.#numeric(reg('EBX'),4)));
+            mapBody('3067c61c',()=>stack.#store(stack.#stack,relative('EBP',-8),reg('EBX')));
+            let explicitMappingCP=false;mapBody('3067c61f',()=>{explicitMappingCP=!branchZero();});if(!explicitMappingCP){frame.pc='3067c621';throw new Error('Engine mapping locale code-page fallback unsupported');}
+            frame.pc='3067c629';engineArgvInstruction('3067c57c',frame.pc);throw new Error('Engine mapping conversion query preparation at3067c629');
           }
           wrapper('30685022',()=>{set('EAX',stack.#mint(0,0xffffffff));stack.#logicalFlags(0,0xffffffff,4);});
           wrapper('30685024',()=>{const next=stack.#record(stack.#ret()).provenance;if(next?.kind!=='source'||next.type!=='code'||next.address!=='3068e787')throw new Error('Actual Engine multibyte wrapper return required');});
