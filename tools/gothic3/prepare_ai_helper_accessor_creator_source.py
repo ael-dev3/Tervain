@@ -47,6 +47,15 @@ def capture(study):
         instructions=exit_rows,bytes=exit_raw.hex(),bytesSha256=hashlib.sha256(exit_raw).hexdigest(),
         initializerSlot=dict(address='30816a2c',bytes=exit_slot.hex(),sha256=hashlib.sha256(exit_slot).hexdigest()),
         exitBegin='30af7e80',exitEnd='30af7e7c',runtimeConnected=False)
+    exit_images=[]
+    for address,label in [(0x30af7e80,'exitBegin'),(0x30af7e7c,'exitEnd')]:
+        rva=address-engine_pe.base
+        section=next(s for s in engine_pe.sections if s[1]<=rva and rva+4<=s[1]+max(s[0],s[2]))
+        backed=max(0,min(4,section[1]+section[2]-rva))
+        raw=(engine_pe.bytes(address,backed) if backed else b'')+bytes(4-backed)
+        exit_images.append(dict(label=label,address=f'{address:08x}',bytes=4,raw=raw.hex(),
+            fileBackedBytes=backed,loaderZeroFillBytes=4-backed,sha256=hashlib.sha256(raw).hexdigest()))
+    engine_exit_initialization['images']=exit_images
     game=audit_module(study,'Game_dll','Game.dll',{0x20028efc:'aiHelperWrapperClone'})
     shared=audit_module(study,'SharedBase_dll','SharedBase.dll',{
         0x10002ee1:'accessorCreatorConstructor',0x10007036:'queryNewObject',0x10007356:'accessorCreatorDestructor',0x100019d8:'queryTypeNode',0x10007ec8:'factoryQueryObject',0x100058a3:'factoryRootCheck',0x100056e6:'wrapperQueryObject',0x10001d07:'engineObjectRefBaseConstructor',0x10007c11:'engineObjectBaseConstructor'})

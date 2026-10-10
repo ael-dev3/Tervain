@@ -101,6 +101,20 @@ about missing operations in older entries apply to those earlier checkpoints.
 
 ### Module-administrator research: next connection
 
+`NativeEngineExitTable` now translates the recovered exit initializer using
+an actual Engine CRT owner. It retains source-backed begin/end globals,
+calls the owner's `callocCrt(32, 4)` and pointer codec, stores the same encoded
+pointer in both globals and returns the original success `0` or allocation
+failure `24`. A codec failure retains the allocation and leaves the globals
+unwritten. Repeated calls retain the completed result or failure prefix.
+It rejects Game CRT owners. Registration and traversal remain unimplemented,
+and this initializer has not been connected to browser Engine startup.
+
+All 34 focused tests across three files passed in 9.60 seconds, including
+initializer ownership, encoded pointers, NULL allocation and codec failure.
+TypeScript checking and independent source regeneration passed. ModuleAdmin's
+pending shutdown registration still prevents its getter from returning.
+
 Engine's exit-registration source now includes onexit `3067155a`, table
 insertion/growth `30671472` and unlock `30671590`. Its separate initializer
 `3067152b-30671559` was absent from the function catalog; every recovered

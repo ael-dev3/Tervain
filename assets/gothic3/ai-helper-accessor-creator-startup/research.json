@@ -3723,7 +3723,27 @@
     },
     "exitBegin": "30af7e80",
     "exitEnd": "30af7e7c",
-    "runtimeConnected": false
+    "runtimeConnected": false,
+    "images": [
+      {
+        "label": "exitBegin",
+        "address": "30af7e80",
+        "bytes": 4,
+        "raw": "00000000",
+        "fileBackedBytes": 0,
+        "loaderZeroFillBytes": 4,
+        "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+      },
+      {
+        "label": "exitEnd",
+        "address": "30af7e7c",
+        "bytes": 4,
+        "raw": "00000000",
+        "fileBackedBytes": 0,
+        "loaderZeroFillBytes": 4,
+        "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+      }
+    ]
   },
   "initializer": "204b2720",
   "extent": "204b2720-204b2741",
