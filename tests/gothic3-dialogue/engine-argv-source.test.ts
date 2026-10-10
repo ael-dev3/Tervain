@@ -1,8 +1,8 @@
 import {expect,it} from 'vitest';
-import {admitEngineArgvSource,engineArgvInstruction,engineArgvImage} from '../../src/gothic3/native-engine-argv-source';
+import {admitEngineArgvSource,engineArgvInstruction,engineArgvImage,engineArgvGetACPImport} from '../../src/gothic3/native-engine-argv-source';
 it('admits the original Engine argument bodies without granting cross-method instruction identity',()=>{
  expect(()=>admitEngineArgvSource()).not.toThrow();
- for(const entry of ['3068e76f','3068e5d7','30685007','30684e6d','30684b3a','30684bde','30684c58','3067c9c1','3067e12b','30684bd5','30673389'])expect(engineArgvInstruction(entry,entry).va).toBe(entry);
+ for(const entry of ['3068e76f','3068e5d7','30685007','30684e6d','30684b3a','30684bde','30684c58','3067c9c1','30672ec7','3067e12b','30684bd5','30673389'])expect(engineArgvInstruction(entry,entry).va).toBe(entry);
  expect(engineArgvInstruction('3068e76f','3068e799').instruction).toBe('CALL dword ptr [0x30afc82c]');
  expect(engineArgvInstruction('30685007','30685012').instruction).toBe('CALL 0x30684e6d');
  expect(()=>engineArgvInstruction('3068e76f','30684e6d')).toThrow();expect(()=>engineArgvInstruction('20476000','3068e76f')).toThrow();
@@ -12,4 +12,10 @@ it('retains frozen original Engine argument global receipts without supplying li
   const row=engineArgvImage(label);expect(row).toMatchObject({address,bytes});expect(row.raw.length).toBe(bytes*2);expect(Object.isFrozen(row)).toBe(true);
  }
  expect(()=>engineArgvImage('GameArgvPointer')).toThrow();
+});
+
+it('captures the exact Engine GetACP import used by the code-page helper',()=>{
+ expect(engineArgvGetACPImport()).toMatchObject({iatVA:'0x30afc734',module:'KERNEL32.dll',name:'GetACP',ordinal:null});
+ expect(engineArgvInstruction('30684bde','30684c28').instruction).toBe('CALL dword ptr [0x30afc734]');
+ expect(Object.isFrozen(engineArgvGetACPImport())).toBe(true);
 });

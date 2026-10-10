@@ -17,6 +17,7 @@ def capture(study):
         0x30684bde: 'engineArgumentMultibyteHelper30684bde',
         0x30684c58: 'engineArgumentMultibyteHelper30684c58',
         0x3067c9c1: 'engineArgumentMallocCrt',
+        0x30672ec7: 'engineArgumentMallocLower',
         0x3067e12b: 'engineMultibyteGetPtdWrapper',
         0x30684bd5: 'engineMultibyteLocaleUnlock',
         0x30673389: 'engineCodepageLocaleUpdate',
@@ -25,6 +26,9 @@ def capture(study):
     caller = pe.bytes(0x30677276, 5)
     if caller.hex() != 'e8f4740100':
         raise ValueError('Original Engine argument caller differs')
+    get_acp = next(row for row in pe.imports() if row['iatVA'] == '0x30afc734')
+    if get_acp['module'].lower() != 'kernel32.dll' or get_acp['name'] != 'GetACP' or get_acp['ordinal'] is not None:
+        raise ValueError('Original Engine GetACP import differs')
     images = []
     for address, size, label in [(0x30af7e84, 4, 'multibyteReady'),
                                  (0x30af7800, 260, 'moduleFilename'),
@@ -46,7 +50,7 @@ def capture(study):
                            raw=raw.hex(), fileBackedBytes=backed, loaderZeroFillBytes=size-backed,
                            sha256=hashlib.sha256(raw).hexdigest()))
     return dict(schema='gothic3.engine-argv-source.v1', source=evidence,
-                images=images, caller=dict(call='30677276', target='3068e76f',
+                images=images, codepageImport=get_acp, caller=dict(call='30677276', target='3068e76f',
                 raw=caller.hex(), sha256=hashlib.sha256(caller).hexdigest()),
                 runtimeConnected=False,
                 notes=['Original module filename and two-pass command-line argument setup.',
@@ -73,6 +77,7 @@ function freeze(value:unknown):void {if(value&&typeof value==='object'&&!Object.
 freeze(source);
 export function admitEngineArgvSource():void {if(sourceText!==expectedText)throw new Error('Original Engine argument source differs');}
 export function engineArgvInstruction(entry:string,pc:string){admitEngineArgvSource();const method=source.source.methods.find(method=>method.bodyVA==='0x'+entry);const row=method?.instructions.find(row=>row.va===pc);if(!row)throw new Error('Original Engine argument method instruction required');return row;}
+export function engineArgvGetACPImport(){admitEngineArgvSource();return source.codepageImport;}
 export function engineArgvImage(label:string){admitEngineArgvSource();const image=source.images.find(image=>image.label===label);if(!image)throw new Error('Original Engine argument image required');return image;}
 """.replace('EXPECTED', expected)
         args.typescript.write_text(generated, encoding='utf-8', newline='\n')
