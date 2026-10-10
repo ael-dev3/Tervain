@@ -2174,7 +2174,11 @@
     "target": "3068e4f2",
     "returnAddress": "30677284",
     "raw": "85c07c20e86e720100",
-    "sha256": "541e1035d91d5dda864704c96f2138f1dec6cfc192b28e32869ff28d55959edf"
+    "sha256": "541e1035d91d5dda864704c96f2138f1dec6cfc192b28e32869ff28d55959edf",
+    "failureCall": "3067729f",
+    "failureCallTarget": "3068892c",
+    "failureCallRaw": "e888160100",
+    "failureCallSha256": "dae9ce684a0c86597847a3f175b258dafcac9b0db459ba6f08cfba7531260b04"
   },
   "runtimeConnected": false,
   "notes": [

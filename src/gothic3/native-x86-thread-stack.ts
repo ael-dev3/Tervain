@@ -1,5 +1,6 @@
 import {NativeCrtThreadStartup} from './native-crt-thread-startup';
 import {NativeEngineArgvImages} from './native-engine-argv-images';
+import {engineSetenvpCaller} from './native-engine-setenvp-source';
 import {engineArgvInstruction,engineArgvGetACPImport,engineArgvFilenameImport,engineArgvMbcImport,engineArgvStaticMbcHeader,engineArgvClassificationImport} from './native-engine-argv-source';
 import {NativePropertyTypeTable} from './native-property-type-table';
 import {createNativeEngineModuleOwner} from './native-engine-module-owner';
@@ -194,6 +195,25 @@ function reason(error: unknown): string {
 export class NativeX86ThreadStack {
   #engineArgvFrame:EngineArgvFrame|null=null;
   #engineArgvExecuting=false;
+  #engineArgvCallerTested=false;
+  static testEngineArgvReturnForBootstrap(stack:NativeX86ThreadStack,bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object):NativeValue<'3067727f'|'3067729f'>{
+    const reached=NativeCrtBootstrap.canonicalEngineArgvCallerForCrt(bootstrap,crt,permit);if(!reached.known)return reached;
+    try{
+      const frame=stack.#engineArgvFrame,caller=engineSetenvpCaller();
+      if(graphs.get(crt.host.platform as NativeRuntimePlatform)!==stack||stack.#engineArgvExecuting||stack.#engineIoExecuting||stack.#engineArgvCallerTested||!frame||frame.bootstrap!==bootstrap||frame.crt!==crt||frame.phase!=='returned'||frame.pc!=='3067727b'||frame.result===null)throw new Error('Actual unreplayed returned Engine argument frame required');
+      if(caller.resultTest!=='3067727b'||caller.failureBranch!=='3067727d'||caller.raw!=='85c07c20e86e720100')throw new Error('Original Engine argument caller TEST/JL required');
+      stack.#physical(stack.#stack);stack.#physical(stack.#bank);
+      if(stack.#address(stack.#load(stack.#bank,stack.#reg('ESP')))!==frame.entryEsp)throw new Error('Actual Engine argument caller stack required');
+      const result=stack.#numeric(stack.#load(stack.#bank,stack.#reg('EAX')),4);
+      if((result|0)!==frame.result)throw new Error('Actual retained Engine argument result required');
+      stack.#logicalFlags(result,0xffffffff,4);stack.#trace.push('3067727b.EngineArgvCallerTest');
+      // TEST clears OF. The original signed JL therefore takes the negative
+      // branch exactly when the now-known sign bit is set.
+      const target=(result&0x80000000)!==0?'3067729f':'3067727f';
+      stack.#trace.push('3067727d.EngineArgvCallerJl');stack.#engineArgvCallerTested=true;
+      return known(target);
+    }catch(error){return unknown(reason(error));}
+  }
   static enterEngineArgvForBootstrap(stack:NativeX86ThreadStack,bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object):NativeValue<0|-1>{
     const reached=NativeCrtBootstrap.canonicalEngineArgvCallForCrt(bootstrap,crt,permit);if(!reached.known)return reached;
     try{

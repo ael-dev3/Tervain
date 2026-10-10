@@ -45,6 +45,9 @@ def capture(study):
     caller = pe.bytes(0x3067727b, 9)
     if caller.hex() != '85c07c20e86e720100':
         raise ValueError('Original Engine post-argument caller differs')
+    failure = pe.bytes(0x3067729f, 5)
+    if failure.hex() != 'e888160100':
+        raise ValueError('Original Engine argument failure cleanup call differs')
     images = []
     for address, label in [(0x30af7118, 'environmentVector'), (0x30af7e6c, 'environmentReady')]:
         rva = address - pe.base
@@ -56,7 +59,9 @@ def capture(study):
     return dict(schema='gothic3.engine-setenvp-source.v1', source=source, images=images,
         caller=dict(resultTest='3067727b', failureBranch='3067727d', failureTarget='3067729f',
             call='3067727f', target='3068e4f2', returnAddress='30677284', raw=caller.hex(),
-            sha256=hashlib.sha256(caller).hexdigest()), runtimeConnected=False,
+            sha256=hashlib.sha256(caller).hexdigest(), failureCall='3067729f',
+            failureCallTarget='3068892c', failureCallRaw=failure.hex(),
+            failureCallSha256=hashlib.sha256(failure).hexdigest()), runtimeConnected=False,
         notes=['Retain the existing Engine environment block at 30af70d4; do not seed another owner.',
             'Cleanup rows omitted from the assembly export are checked against original PE bytes.',
             'Capture does not establish environment-vector execution or full Engine attachment.'])

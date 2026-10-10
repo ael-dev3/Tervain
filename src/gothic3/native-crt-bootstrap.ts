@@ -273,6 +273,8 @@ export class NativeCrtBootstrap {
   #engineIoImages: NativeEngineIoImages | null = null;
   #engineArgvImages:NativeEngineArgvImages|null=null;
   readonly #engineArgvCallPermit=Object.freeze({});
+  readonly #engineArgvCallerPermit=Object.freeze({});
+  #engineArgvCallerActive=false;
   #engineArgvInvocationActive=false;
   #engineIoStack: NativeX86ThreadStack | null = null;
   readonly #engineIoCallPermit=Object.freeze({});
@@ -334,6 +336,12 @@ export class NativeCrtBootstrap {
   static canonicalEngineArgvCallForCrt(bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object):NativeValue<void>{
     try{const retained=bootstrapByCrt.get(crt),next=bootstrap.#nextBoundary;
       if(!NativeModuleCrtOwner.isConstructedOwner(crt)||crt.module!=='Engine'||retained?.phase!=='returned'||retained.owner!==bootstrap||bootstrap.#crt!==crt||bootstrap.#boundary!==null||bootstrap.#attachPhase!=='running'||!bootstrap.#active.has(bootstrap.#name('crtAttach'))||!bootstrap.#engineArgvInvocationActive||permit!==bootstrap.#engineArgvCallPermit||bootstrap.#lowerCall!=='Engine argumentSetup3068e76f at30677276'||next?.address!=='30677276'||!('target' in next)||next.target!=='3068e76f'||bootstrap.#ioResult!==0||!bootstrap.#engineIoStack||!bootstrap.#engineArgvImages)return unknown('Actual reached same-Engine argument call permit required');
+      bootstrap.#assertCrt();return known(undefined);
+    }catch(error){return unknown(failureReason(error));}
+  }
+  static canonicalEngineArgvCallerForCrt(bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object):NativeValue<void>{
+    try{const retained=bootstrapByCrt.get(crt),next=bootstrap.#nextBoundary;
+      if(!NativeModuleCrtOwner.isConstructedOwner(crt)||crt.module!=='Engine'||retained?.phase!=='returned'||retained.owner!==bootstrap||bootstrap.#crt!==crt||bootstrap.#boundary!==null||bootstrap.#attachPhase!=='running'||!bootstrap.#active.has(bootstrap.#name('crtAttach'))||!bootstrap.#engineArgvCallerActive||permit!==bootstrap.#engineArgvCallerPermit||bootstrap.#lowerCall!=='Engine argument caller TEST/JL at3067727b'||next?.address!=='3067727b'||next.name!=='callerTest'||bootstrap.#ioResult!==0||!bootstrap.#engineIoStack)return unknown('Actual reached same-Engine argument caller permit required');
       bootstrap.#assertCrt();return known(undefined);
     }catch(error){return unknown(failureReason(error));}
   }
@@ -764,7 +772,13 @@ export class NativeCrtBootstrap {
       this.#engineArgvInvocationActive=true;
       try{const result=this.#call('Engine argumentSetup3068e76f at30677276',()=>NativeX86ThreadStack.enterEngineArgvForBootstrap(this.#engineIoStack!,this,this.#crt,this.#engineArgvCallPermit));this.#record('argumentSetup.return',result,'3067727b');this.#nextBoundary=Object.freeze({name:'callerTest',address:'3067727b',instruction:'TEST EAX,EAX'});}
       finally{this.#engineArgvInvocationActive=false;}
-      this.#gate('Engine argument caller result at3067727b');
+      this.#engineArgvCallerActive=true;
+      let next:'3067727f'|'3067729f';
+      try{next=this.#call('Engine argument caller TEST/JL at3067727b',()=>NativeX86ThreadStack.testEngineArgvReturnForBootstrap(this.#engineIoStack!,this,this.#crt,this.#engineArgvCallerPermit));}
+      finally{this.#engineArgvCallerActive=false;}
+      const target=next==='3067727f'?'3068e4f2':'3068892c';
+      this.#nextBoundary=Object.freeze({name:'startupCall',address:next,target});
+      this.#gate(next==='3067727f'?'Engine environment-vector setup3068e4f2 at3067727f':'Engine argument failure cleanup3068892c at3067729f');
     }
     const points = gameAttachContinuationInstructionPoints;
     const endpointProof = NativeRuntimePlatform.canonicalProcessInputEndpointsForPlatform(
