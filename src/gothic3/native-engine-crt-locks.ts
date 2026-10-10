@@ -369,6 +369,7 @@ export class NativeModuleCrtOwner {
   readonly #heaps = new Set<NativeWin32HeapCapability>();
   readonly #allocations = new Set<NativeMemoryBacking>();
   private readonly dynamicSections = new Map<NativeHeapObjectViews, NativeMemoryBacking>();
+  #heapSectionActive = false;
   private readonly trace: string[] = [];
   private readonly fallbackSectionProcedure: NativeCrtSectionProcedure = Object.freeze({ identity: Object.freeze({}),
     owner: this.identity, name: 'InitializeCriticalSectionAndSpinCount',
@@ -623,7 +624,7 @@ export class NativeModuleCrtOwner {
   pointerEncodingAvailable(): NativeValue<boolean> { return this.run('pointerEncodingAvailability3067ddf8', () => this.pointerAvailable()); }
   encodePointer(value: object | null): NativeValue<object | null> { return this.run('encodePointer3067de64', () => this.codec(value, 'EncodePointer')); }
   decodePointer(value: object | null): NativeValue<object | null> { return this.run('decodePointer3067dedb', () => this.codec(value, 'DecodePointer')); }
-  private initializeSection(fields: NativeHeapObjectViews): boolean {
+  private initializeSection(fields: NativeHeapObjectViews, requireRuntimeProcedure = false): boolean {
     const encoded = this.physical.sectionInitializer.pointer<object>(0).get();
     let selected = this.codec(encoded, 'DecodePointer');
     if (selected === null) {
@@ -645,6 +646,10 @@ export class NativeModuleCrtOwner {
       this.physical.sectionInitializer.pointer<object>(0).set(cached); this.note('sectionInitializer.cache');
     }
     const procedure = selected as NativeCrtSectionProcedure;
+    if(requireRuntimeProcedure&&procedure!==this.fallbackSectionProcedure){
+      const proof=NativeRuntimePlatform.standardIoCapabilityForPlatform(this.host.platform as NativeRuntimePlatform,procedure);
+      if(!proof.known||proof.value!=='section')throw new Error('Actual same-platform Engine section procedure required');
+    }
     if (procedure.name !== 'InitializeCriticalSectionAndSpinCount' || typeof procedure.invoke !== 'function') {
       throw new Error('Decoded section initializer has no actual owned procedure capability');
     }
@@ -656,6 +661,27 @@ export class NativeModuleCrtOwner {
         this.call('SetLastError(8)', () => this.host.platform.setWin32LastError?.(8) ?? unknown('Actual owned Win32 SetLastError capability required'));
         this.note('initCritSecExceptionHandler30696521.return0'); return known(false);
       }
+    });
+  }
+  /** Original Engine30696484 at the I/O callers uses spin count4000 and a
+   * 24-byte section within a live Engine allocation. This helper does not
+   * initialize the surrounding I/O record or establish an I/O return. */
+  initializeHeapCriticalSection(pointer:NativeBytePointer):NativeValue<boolean>{
+    if(this.#heapSectionActive){this.boundary??='Reentrant Engine heap section initialization';return unknown(this.boundary);}
+    return this.run('crtInitCritSecAndSpinCount30696484',()=>{
+      const platform=this.host.platform as NativeRuntimePlatform;
+      const retained=Object.freeze({fields:pointer.fields,offset:pointer.offset});
+      const proof=NativeModuleCrtOwner.canonicalEngineHeapDestination(this,platform,retained,24);
+      if(!proof.known)throw new Error(proof.reason);
+      if(retained.offset!==0||retained.fields.bytes.length!==24)throw new Error('Actual 24-byte Engine section view required');
+      const fields=retained.fields;
+      this.#heapSectionActive=true;
+      try{
+        const result=this.initializeSection(fields,true);
+        const after=NativeModuleCrtOwner.canonicalEngineHeapDestination(this,platform,retained,24);
+        if(!after.known)throw new Error(after.reason);
+        return result;
+      }finally{this.#heapSectionActive=false;}
     });
   }
   initHeap(argument = 1): NativeValue<number> {

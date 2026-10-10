@@ -4,8 +4,8 @@ import {NativeModuleCrtOwner} from './native-engine-crt-locks';
 import {NativeRuntimePlatform} from './native-runtime-platform';
 import {NativeHeapObjectViews} from './native-heap-views';
 import {engineIoImage} from './native-engine-io-source';
-type Label='ioHandleCount'|'ioBlockPointers'|'ioSehScope';
-const labels:readonly Label[]=Object.freeze(['ioHandleCount','ioBlockPointers','ioSehScope']);
+type Label='ioHandleCount'|'ioBlockPointers'|'ioSehScope'|'ioSectionSehScope'|'ioCallocSehScope';
+const labels:readonly Label[]=Object.freeze(['ioHandleCount','ioBlockPointers','ioSehScope','ioSectionSehScope','ioCallocSehScope']);
 const owners=new WeakMap<NativeModuleCrtOwner,NativeEngineIoImages>();
 const token=Object.freeze({});
 const fact=<T>(value:NativeValue<T>):T=>{if(!value.known)throw new Error(value.reason);return value.value;};
@@ -35,7 +35,7 @@ export class NativeEngineIoImages {
   for(const label of labels){
    const proof=this.#images.get(label)!;engineIoImage(label);const fields=proof.fields;
    if(fields.backing!==proof.backing||fields.backing.freed||fields.bytes!==proof.bytes||fields.knownMask!==proof.masks||fields.view!==proof.view||fields.backing.bytes!==proof.rootBytes||fields.backing.knownMask!==proof.rootMasks||fields.bytes.buffer!==proof.rootBytes.buffer||fields.bytes.byteOffset!==proof.rootBytes.byteOffset||fields.knownMask.buffer!==proof.rootMasks.buffer||fields.knownMask.byteOffset!==proof.rootMasks.byteOffset||fields.bytes.buffer!==fields.view.buffer||fields.bytes.byteOffset!==fields.view.byteOffset||fields.bytes.length!==fields.view.byteLength)throw new Error('Original Engine I/O image storage changed');
-   if(label==='ioSehScope')for(let offset=0;offset<fields.bytes.length;offset++)if(NativeHeapObjectViews.prototype.readUnsigned.call(fields,offset,1)!==parseInt(proof.raw.slice(offset*2,offset*2+2),16))throw new Error('Original Engine I/O scope bytes changed');
+   if(label.endsWith('SehScope'))for(let offset=0;offset<fields.bytes.length;offset++)if(NativeHeapObjectViews.prototype.readUnsigned.call(fields,offset,1)!==parseInt(proof.raw.slice(offset*2,offset*2+2),16))throw new Error('Original Engine I/O scope bytes changed');
   }
  }
  static imageForCrt(owner:NativeEngineIoImages,crt:NativeModuleCrtOwner,label:Label):NativeValue<NativeHeapObjectViews>{

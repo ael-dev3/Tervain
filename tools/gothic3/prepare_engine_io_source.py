@@ -15,12 +15,19 @@ def capture(study):
         0x3067ca01: 'engineIoCallocCrt',
         0x3067e545: 'engineIoSehEpilog',
         0x30696484: 'engineIoCriticalSection',
+        0x30695a7f: 'engineIoCallocImpl',
+        0x30696474: 'engineIoCriticalSectionFallback',
+        0x3067dedb: 'engineIoDecodePointer',
+        0x3067de64: 'engineIoEncodePointer',
+        0x3067d032: 'engineIoGetOsPlatform',
     })
     pe = PE((study / '00_Original_Runtime/Engine.dll').read_bytes())
     images = []
     for address, size, label in [(0x30af7cdc, 4, 'ioHandleCount'),
                                  (0x30af7d20, 256, 'ioBlockPointers'),
-                                 (0x30956c00, 28, 'ioSehScope')]:
+                                 (0x30956c00, 28, 'ioSehScope'),
+                                 (0x30956ea0, 28, 'ioSectionSehScope'),
+                                 (0x30956e20, 28, 'ioCallocSehScope')]:
         rva = address - pe.base
         section = next(s for s in pe.sections if s[1] <= rva and rva + size <= s[1] + max(s[0], s[2]))
         backed = max(0, min(size, section[1] + section[2] - rva))

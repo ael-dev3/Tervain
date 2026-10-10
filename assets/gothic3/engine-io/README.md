@@ -8,6 +8,13 @@ This package captures five verified bodies: I/O initialization (186 instructions
 The DLL hash, catalog/disassembly hashes,
 instruction bytes, imports and original data images are retained in `research.json`.
 
+The package additionally captures calloc implementation `30695a7f`, section
+fallback `30696474`, pointer decode/encode `3067dedb`/`3067de64`, and OS accessor
+`3067d032`. The ten bodies total 489 instructions and 1,433 instruction bytes.
+Nested allocator scope `30956e20` and section scope `30956ea0` are retained with
+the original I/O scope. These additional bodies supply dependency evidence;
+capture does not imply that the I/O caller executes them.
+
 Reproduce from the repository root:
 
 ```powershell
@@ -42,6 +49,12 @@ Engine bootstrap now owns the source-backed count, pointer table and EH4 scope
 through `NativeEngineIoImages`. Mutable count/table storage is retained without
 reseeding; changed scope bytes, foreign owners and released or replaced storage
 are rejected. This establishes cold image ownership, with no I/O execution yet.
+The Engine CRT's translated `initializeHeapCriticalSection` helper admits an
+actual 24-byte view within its own live heap allocation and the original spin
+count 4,000. It uses the existing recovered section routine, retains the exact
+physical view and actual BOOL, checks the resolved procedure's platform identity,
+and preserves a reentrant or released-storage interruption without replay. The
+surrounding I/O record and its caller still need implementation.
 The Engine frame, startup-info output, record allocations, critical sections and
 opaque handle capabilities must be connected to their actual owners. Implement
 the captured epilogue and section helper, and capture their remaining reached

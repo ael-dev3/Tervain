@@ -39,3 +39,10 @@ it('rejects replaced backing arrays and released image storage',()=>{
  const b=fixture(),table=fact(NativeEngineIoImages.imageForCrt(b.owner,b.crt,'ioBlockPointers'));table.backing.freed=true;
  expect(NativeEngineIoImages.forCrt(b.crt).known).toBe(false);
 });
+it.each(['ioCallocSehScope','ioSectionSehScope'] as const)('retains and verifies nested scope %s',label=>{
+ const {crt,owner}=fixture(),scope=fact(NativeEngineIoImages.imageForCrt(owner,crt,label));
+ expect(scope.bytes.length).toBe(28);expect(fact(NativeEngineIoImages.forCrt(crt))).toBe(owner);
+ const before=scope.readUnsigned(4);scope.writeUnsigned(4,before^1);
+ expect(NativeEngineIoImages.imageForCrt(owner,crt,'ioBlockPointers').known).toBe(false);
+ expect(scope.readUnsigned(4)).toBe((before^1)>>>0);
+});

@@ -218,6 +218,16 @@ independent JSON/TypeScript regeneration pass. This supplies the storage needed
 for I/O implementation; it does not execute the I/O frame or return from I/O.
 This checkpoint is local and is not included in PR #219.
 
+Further local I/O dependency work captures ten bodies with 489 instructions and
+1,433 instruction bytes, including the allocator, pointer codecs, OS accessor
+and section fallback. Both nested EH4 scopes have retained, validated views.
+Engine's heap-section helper now invokes its recovered initializer on the exact
+24-byte view from a live Engine allocation and returns the actual BOOL. It
+rejects foreign procedures and preserves interruption after reentrancy or lower
+storage release. All 67 focused checks across five files and typechecking pass;
+the enlarged source package regenerates independently byte for byte. These
+changes do not yet execute the complete I/O caller.
+
 Prepublication review additionally tightened Engine exit-table construction to
 require an actual constructed CRT and made reentrant initialization/registration
 retain an interruption boundary. It preserves any real allocation or lock already
