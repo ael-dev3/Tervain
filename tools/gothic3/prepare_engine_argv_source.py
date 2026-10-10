@@ -17,6 +17,7 @@ def capture(study):
         0x30684bde: 'engineArgumentMultibyteHelper30684bde',
         0x30684c58: 'engineArgumentMultibyteHelper30684c58',
         0x3067c9c1: 'engineArgumentMallocCrt',
+        0x30672ec7: 'engineArgumentMallocLower',
         0x3067e12b: 'engineMultibyteGetPtdWrapper',
         0x30684bd5: 'engineMultibyteLocaleUnlock',
         0x30673389: 'engineCodepageLocaleUpdate',

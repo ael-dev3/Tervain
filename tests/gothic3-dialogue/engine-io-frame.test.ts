@@ -5,7 +5,7 @@ import {expect,it,vi} from 'vitest';
 import {NativeCrtBootstrap} from '../../src/gothic3/native-crt-bootstrap';
 import {NativeEngineArgvImages} from '../../src/gothic3/native-engine-argv-images';
 import {NativeEngineIoImages} from '../../src/gothic3/native-engine-io-images';
-import {NativeEngineCrtOwner} from '../../src/gothic3/native-engine-crt-locks';
+import {NativeModuleCrtOwner,NativeEngineCrtOwner} from '../../src/gothic3/native-engine-crt-locks';
 import {NativeX86ThreadStack} from '../../src/gothic3/native-x86-thread-stack';
 import {NativeRuntimePlatform} from '../../src/gothic3/native-runtime-platform';
 import {NativeHeapObjectViews} from '../../src/gothic3/native-heap-views';
@@ -273,14 +273,14 @@ it('retains the actual locale caller when its lock service cannot return',()=>{
 it('returns Engine GetACP through its retained caller and clears temporary PTD ownership',()=>{
  const {bootstrap,crt,platform}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs);
  const result=bootstrap.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Startup remains unfinished');
- expect(result.reason).toContain('Engine multibyte MBC malloc3067c9c1 at30684ea8');
+ expect(result.reason).toContain('Engine MBC code-page initialization30684c58 at30684ecb');
  const frame=bootstrap.attachProgress().engineArgvProgress!;
- expect(frame).toMatchObject({pc:'3067c9c1',operations:186,codepageCtorReturned:true,codepageAcpReturned:true,codepageReturned:true,codepageResult:1252});
+ expect(frame).toMatchObject({pc:'30684c58',operations:211,codepageCtorReturned:true,codepageAcpReturned:true,codepageReturned:true,codepageResult:1252});
  expect(frame.codepagePtd!.readUnsigned(0x70)).toBe(1);expect(frame.stack.readUnsigned(frame.entryEsp-40)).toBe(1252);
- expect(frame.codepageLocaleRecord!.readUnsigned(12,1)).toBe(1);
+
  const automatic=NativeEngineArgvImages.imageForCrt(bootstrap.attachProgress().engineArgvImages!,crt,'codepageAutomatic');if(!automatic.known)throw new Error(automatic.reason);expect(automatic.value.readUnsigned(0)).toBe(1);
  expect(NativeX86ThreadStack.engineArgvNlsArgumentsForPlatform(platform,{identity:{}}).known).toBe(false);
- expect(bootstrap.processAttach()).toEqual(result);expect(bootstrap.attachProgress().engineArgvProgress!.operations).toBe(186);
+ expect(bootstrap.processAttach()).toEqual(result);expect(bootstrap.attachProgress().engineArgvProgress!.operations).toBe(211);
 });
 
 it('preserves an already owned Engine locale flag through the code-page helper',()=>{
@@ -289,7 +289,7 @@ it('preserves an already owned Engine locale flag through the code-page helper',
  const probe=vi.spyOn(NativeCrtBootstrap,'engineArgvPtdForCrt').mockImplementation((...args)=>{const result=original(...args);if(result.known&&result.value&&!changed&&bootstrap.attachProgress().engineArgvProgress?.codepageEbp!=null){result.value.writeUnsigned(0x70,3);changed=true;}return result;});
  let result;try{result=bootstrap.processAttach();}finally{probe.mockRestore();}
  expect(changed).toBe(true);expect(result.known).toBe(false);const frame=bootstrap.attachProgress().engineArgvProgress!;
- expect(frame).toMatchObject({pc:'3067c9c1',codepageReturned:true,codepageResult:1252});expect(frame.codepagePtd!.readUnsigned(0x70)).toBe(3);expect(frame.codepageLocaleRecord!.readUnsigned(12,1)).toBe(0);
+ expect(frame).toMatchObject({pc:'30684c58',codepageReturned:true,codepageResult:1252});expect(frame.codepagePtd!.readUnsigned(0x70)).toBe(3);
 });
 it('retains the pending Engine GetACP call and temporary ownership when no NLS service is selected',()=>{
  const {bootstrap,platform}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs);
@@ -306,4 +306,34 @@ it('writes the Engine locale ownership byte without replacing retained padding',
   const bytes=selected?this.bytes.slice(offset+1,offset+4):null,masks=selected?this.knownMask.slice(offset+1,offset+4):null;
   original.call(this,offset,value,width);if(selected){observed++;expect(this.bytes.slice(offset+1,offset+4)).toEqual(bytes);expect(this.knownMask.slice(offset+1,offset+4)).toEqual(masks);}
  });try{bootstrap.processAttach();}finally{probe.mockRestore();}expect(observed).toBe(2);
+});
+
+it('copies the actual Engine MBC bytes and masks into its separately owned allocation',()=>{
+ const {bootstrap,crt,platform}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs);
+ const source=bootstrap.thread.physical.mbcObject;source.bytes[500]=0xa5;source.knownMask[500]=0x55;
+ const originalBytes=source.bytes.slice(),originalMasks=source.knownMask.slice();const graph=NativeX86ThreadStack.forPlatform(platform);if(!graph.known)throw new Error(graph.reason);
+ const result=bootstrap.processAttach();expect(result.known).toBe(false);const frame=bootstrap.attachProgress().engineArgvProgress!,destination=frame.multibyteAllocation!;
+ expect(frame).toMatchObject({pc:'30684c58',operations:211,multibyteMallocReturned:true,multibyteCopyReturned:true});expect(destination.backing).not.toBe(source.backing);expect(destination.bytes.length).toBe(544);
+ expect(NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,platform,{fields:destination,offset:0},544).known).toBe(true);
+ expect(destination.readUnsigned(0)).toBe(0);expect(destination.bytes.slice(4)).toEqual(originalBytes.slice(4));expect(destination.knownMask.slice(4)).toEqual(originalMasks.slice(4));expect(source.bytes.slice(4)).toEqual(originalBytes.slice(4));expect(source.knownMask.slice(4)).toEqual(originalMasks.slice(4));
+ expect(frame.bank.readUnsigned(8)).toBe(0);expect(graph.value.snapshot().calls.find(call=>call.site==='3067c9c9')?.returned).toBe(true);expect(graph.value.snapshot().calls.find(call=>call.site==='30684ea8')?.returned).toBe(true);expect(graph.value.snapshot().calls.find(call=>call.site==='30684ecb')?.returned).toBe(false);expect(bootstrap.processAttach()).toEqual(result);
+});
+it('retains the original Engine NULL allocation branch without copying or initializing MBC',()=>{
+ const {bootstrap,crt,platform}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs);crt.physical.mallocWait.writeUnsigned(0,0);
+ const original=platform.win32HeapAlloc.bind(platform),probe=vi.spyOn(platform,'win32HeapAlloc').mockImplementation((heap,flags,bytes)=>bytes===544?{known:true,value:null}:original(heap,flags,bytes));
+ let result;try{result=bootstrap.processAttach();}finally{probe.mockRestore();}
+ expect(result.known).toBe(false);const frame=bootstrap.attachProgress().engineArgvProgress!;expect(frame).toMatchObject({pc:'30684ffe',operations:205,multibyteAllocation:null,multibyteMallocReturned:true,multibyteCopyReturned:false});expect(bootstrap.thread.errnoSlot()).toMatchObject({known:true});expect(bootstrap.processAttach()).toEqual(result);
+});
+
+it('retains a real Engine lower malloc call when its service cannot return',()=>{
+ const {bootstrap,platform}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs),graph=NativeX86ThreadStack.forPlatform(platform);if(!graph.known)throw new Error(graph.reason);
+ const original=NativeModuleCrtOwner.prototype.malloc,probe=vi.spyOn(NativeModuleCrtOwner.prototype,'malloc').mockImplementation(function(this:NativeModuleCrtOwner,bytes){return bytes===544?{known:false,reason:'Reached Engine lower malloc unavailable'}:original.call(this,bytes);});
+ let result;try{result=bootstrap.processAttach();}finally{probe.mockRestore();}
+ expect(result.known).toBe(false);expect(bootstrap.attachProgress().engineArgvProgress).toMatchObject({pc:'3067c9c9',operations:190,multibyteMallocReturned:false,multibyteAllocation:null,multibyteCopyReturned:false});expect(graph.value.snapshot().calls.find(call=>call.site==='3067c9c9')?.returned).toBe(false);expect(bootstrap.processAttach()).toEqual(result);
+});
+it('retains the owned Engine allocation when a backward MBC copy is unsupported',()=>{
+ const {bootstrap,crt,platform}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs);
+ expect(NativeRuntimePlatform.writeNativeDirectionFlag(platform,1).known).toBe(true);const result=bootstrap.processAttach();expect(result.known).toBe(false);
+ const frame=bootstrap.attachProgress().engineArgvProgress!;expect(frame).toMatchObject({pc:'30684ec2',operations:206,multibyteMallocReturned:true,multibyteCopyReturned:false});expect(frame.multibyteAllocation).not.toBe(null);
+ expect(NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,platform,{fields:frame.multibyteAllocation!,offset:0},544).known).toBe(true);expect(frame.multibyteAllocation!.backing.freed).toBe(false);expect(bootstrap.processAttach()).toEqual(result);
 });

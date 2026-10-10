@@ -11751,3 +11751,24 @@ byte-identically. TypeScript checking and the production build passed. Full-suit
 validation is a separate gate. The complete campaign remains unfinished.
 PR #223 merged the earlier locale checkpoint and rebuilding guide; it does not
 include this local code-page continuation.
+
+### 10 October 2026: Engine MBC allocation and copy (local checkpoint)
+
+The original malloc wrapper executes on the retained Engine stack. Its lower
+call uses the already translated same-owner allocator; that lower body is now
+captured separately (78 instructions) and is not described as source-stack
+instruction execution. The 544-byte allocation is retained in the Engine heap.
+Both cdecl returns restore their actual callers before the parent copies the
+thread MBC with 136 DWORD moves and clears the new reference count.
+
+The browser CP1252 path reaches `30684ecb -> 30684c58` after 211 admitted
+operations. Forty-five focused checks passed across four files, including copied
+masks, source isolation, NULL allocation, unavailable allocator and unsupported
+backward-copy retention. This is a local checkpoint; the preceding code-page
+checkpoint has a separate full-suite run. The complete campaign remains
+unfinished.
+
+The MBC allocation checkpoint also passed TypeScript checking and a production
+build. Source JSON, TypeScript admission and the Game comparison independently
+regenerate byte-identically. The copied constructor stack record is a live alias;
+subsequent native calls can reuse its bytes after its lifetime ends.
