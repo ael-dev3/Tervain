@@ -7,7 +7,7 @@ and CRT malloc wrapper. The package contains 22 methods, 1,531 instructions and
 
 The setup calls GetModuleFileNameA, selects the current command line or filename,
 counts arguments and characters, allocates storage, parses again, and publishes
-argument count and vector globals. Sixteen image receipts preserve original paths
+argument count and vector globals. Twenty-two image receipts preserve original paths
 through labels and addresses, including the module filename buffer and command
 line pointer. Their cold bytes do not authorize resetting already-live storage.
 
@@ -18,7 +18,7 @@ python tools/gothic3/prepare_engine_argv_source.py --study <study-directory> --o
 ```
 
 Independent JSON and TypeScript regenerations are byte-identical. Two source checks and TypeScript checking pass. The JSON package has SHA-256
-`3dcfe7e4923b2274df2e272fa74e5e18df5d3f92b6fee0398774c0c2a5db8d43`.
+`0f531c450284e1e1ed3b97aa4571d2d31a84c437526dbbf4b0232da17d42ad70`.
 Engine.dll SHA-256 is
 `d49ef92c0fdfeda433f6d04d0edeb7751e41e4c7c7effc1265630717029dc7e3`.
 
@@ -202,3 +202,23 @@ The default path executes 7,918 admitted operations and stops at global
 publication policy `30684f0a`. Interrupted increments retain the installed
 record and pending call. Global table publication, argument parsing and full
 browser campaign integration remain unfinished.
+
+## Engine global MBC table publication
+
+The next continuation checks the actual thread and global locale policy bits,
+acquires existing Engine lock 13, and copies the installed record header into
+the original code-page, single-byte and locale globals. The retained source
+loops copy five WORDs, 257 character-type bytes and 256 case-conversion bytes
+into their original Engine-owned image extents. Default execution reaches
+`30684f94` after 11,570 admitted operations, with the lock still held.
+Interrupted copies retain their written prefix and unchanged tail. Global MBC
+pointer replacement and lock release remain unfinished; this checkpoint does
+not return multibyte setup or establish complete startup or campaign play.
+
+The 107 distinct focused checks are covered by the broader run (102 passed)
+and corrected assertion/policy reruns. TypeScript checking and the production
+build pass. Independent JSON and TypeScript regeneration is byte-identical.
+Each execution proof validates the complete retained image owner once, preserving
+all ownership, storage and immutable-byte checks without repeating the same
+full validation for every label. A complete latest-checkpoint suite remains
+pending; these checks do not establish full campaign integration.
