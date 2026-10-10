@@ -2282,7 +2282,7 @@ export class NativeX86ThreadStack {
         // Only the selected original pointer cells establish this loader
         // relation. An arbitrary scalar numerically matching a source VA does
         // not acquire a pointer capability. Later stores use actual sidecars.
-        for (const [cell,label] of [['currentMbcPointer','mbcObject'],['currentLocale','defaultLocale'],['aiHelperAdminTypeAndGuard','aiHelperAdminTypeVtable']] as const) {
+        for (const [cell,label] of [['currentMbcPointer','mbcObject'],['currentLocale','defaultLocale']] as const) {
           const origin=NativeModuleCrtOwner.canonicalImageForOwner(this.#binding!.crt,cell);
           if(origin.known&&origin.value===fields&&offset===0&&current.value===Number.parseInt(nativeGameImageReceipt(label).address,16))return this.#moduleWord(label,0);
         }
@@ -2983,8 +2983,8 @@ export class NativeX86ThreadStack {
     const memory=this.#memory(address,4);
     const freePoint=site==='2007302c'||site==='2007302e';
     const labelType=site==='2007505c'||site==='2007505e';
-    const aiHelperAdmin=site==='2007705c'||site==='2007705e';
-    const first=site==='200705cc'||site==='2007302c'||site==='2007505c'||site==='2007705c';
+    const aiHelperAdmin=site==='2007705c'||site==='2007705e'||site==='100905e0'||site==='100905e2';
+    const first=site==='200705cc'||site==='2007302c'||site==='2007505c'||site==='2007705c'||site==='100905e0';
     const label=aiHelperAdmin?(first?'aiHelperAdminTypeAndGuard':'aiHelperAdminTypeVtable'):labelType?(first?'labelTypeAndGuard':'labelTypeVtable'):freePoint?(first?'freePointTypeAndGuard':'freePointTypeVtable'):first?'arenaTypeAndGuard':'arenaRootTypeVtable';
     const expected=NativeModuleCrtOwner.canonicalImageForOwner(binding.crt,label);
     const offset=first?0:12;

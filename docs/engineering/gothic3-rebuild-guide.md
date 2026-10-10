@@ -47,7 +47,7 @@ Each feature goes through the following steps:
 **Current local boundary:** Arena Status, None, Running, AI FreePoint, Label
 and AI helper administrator initialization return through the retained startup
 stack. Startup enters PropertyID initializer `204b26c0` and reaches its unsupported
-virtual factory-accessor CALL at `100905e5`.
+factory object-query CALL at `100905e9`.
 Complete startup, world activation and a new-game-to-ending campaign remain
 unfinished. Local checkpoints and the hosted version can differ; the validation
 receipts below identify the checkpoint covered.
@@ -72,7 +72,22 @@ establish completion of these remaining features.
 The entries below describe successive local states, newest first. Statements
 about missing operations in older entries apply to those earlier checkpoints.
 
-### Latest local checkpoint: query resolves the registered AI helper type
+### Latest local checkpoint: virtual factory accessor returns
+
+The original query reads the canonical type vtable and its captured slot `+12`.
+The slot reaches the existing two-instruction accessor body `200763f0`, which
+returns the same retained factory at type offset `+24`. Its RET returns to the
+query frame at `100905e7`. Execution reaches factory QueryObject call
+`100905e9 -> 10007ec8`.
+
+Nine focused tests passed in 11.39 seconds and TypeScript checking passed.
+Independent source generation matched. The source package now also captures the
+original factory query, root check and wrapper object-query dispatch. Those
+captured methods have not yet been connected to this startup path. Factory
+object creation, reference callbacks and the complete accessor initializer
+remain unfinished; campaign completion is unproven.
+
+### Historical checkpoint: query resolves the registered AI helper type
 
 The original node lookup hashes the retained CString, searches the same property
 table and returns its actual node. Its value wrapper points to the canonical

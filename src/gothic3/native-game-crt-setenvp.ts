@@ -306,6 +306,10 @@ export class NativeGameCrtSetEnvp {
     const active=NativeGameCrtSetEnvp.canonicalControllerForCrt(owner,crt,controller,'invoke');
     if(!active.known)return active;
     const frame=owner.#frames.at(-1);
+    if(site==='100905e0'||site==='100905e2')return owner.#pc===site&&owner.#currentEntry==='10090590'&&
+      frame?.entry==='10090590'&&frame.site==='100932f6'&&frame.returnPc==='100932fb'&&
+      owner.#requireSourcePoint(site).instruction===(site==='100905e0'?'MOV EDX,dword ptr [ECX]':'MOV EAX,dword ptr [EDX + 0xc]')
+      ?known(undefined):unknown('Actual original accessor query virtual-table read required');
     if(site==='2007705c'||site==='2007705e')return owner.#pc===site&&owner.#currentEntry==='20077040'&&
       frame?.entry==='20077040'&&frame.site==='204b269a'&&frame.returnPc==='204b269f'&&
       owner.#requireSourcePoint(site).instruction===(site==='2007705c'?'MOV EDX,dword ptr [ECX]':'MOV EAX,dword ptr [EDX + 0xc]')
@@ -601,6 +605,9 @@ export class NativeGameCrtSetEnvp {
     return fact(NativeX86ThreadStack.prototype.effectiveAddress.call(this.#stack, this.#controller, terms, displacement));
   }
   #read(value: Operand, bytes: Width = width(value)): NativeX86Word32 {
+    if(this.#currentEntry==='10090590'&&bytes===4&&value.kind==='memory'&&!value.fs&&
+      ((this.#pc==='100905e0'&&value.expression==='ECX')||(this.#pc==='100905e2'&&value.expression==='EDX + 0xc')))
+      return fact(NativeX86ThreadStack.prototype.loadArenaVirtualPointer.call(this.#stack,this.#controller,this.#pc,this.#address(value.expression)));
     if(this.#currentEntry==='20077040'&&bytes===4&&value.kind==='memory'&&!value.fs&&
       ((this.#pc==='2007705c'&&value.expression==='ECX')||(this.#pc==='2007705e'&&value.expression==='EDX + 0xc')))
       return fact(NativeX86ThreadStack.prototype.loadArenaVirtualPointer.call(this.#stack,this.#controller,this.#pc,this.#address(value.expression)));
@@ -777,8 +784,8 @@ export class NativeGameCrtSetEnvp {
       this.#frames.push(Object.freeze({entry:'20074400',site:point.va,returnPc,previousEntry:this.#currentEntry}));
       this.#currentEntry='20074400';this.#nextBoundary=null;return '20074400';
     }
-    if(point.va==='20077062'){
-      if(this.#currentEntry!=='20077040'||target.kind!=='register'||target.register!=='EAX'||target.lane)
+    if(point.va==='20077062'||point.va==='100905e5'){
+      if(this.#currentEntry!==(point.va==='100905e5'?'10090590':'20077040')||target.kind!=='register'||target.register!=='EAX'||target.lane)
         throw new Error('Original AI helper administrator factory accessor call required');
       aiHelperAdminAccessorInstruction('200763f0');
       fact(NativeX86ThreadStack.prototype.requireSourceAddress.call(this.#stack,this.#controller,this.#read(target),'code','2000e59d'));
