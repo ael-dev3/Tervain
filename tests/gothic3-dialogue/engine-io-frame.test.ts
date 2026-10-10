@@ -59,3 +59,22 @@ it('retains Engine writer prefix on unknown outcome without normal-return cleanu
  const frame=bootstrap.attachProgress().engineIoProgress!;expect(frame.pc).toBe('30688701');expect(frame.operations).toBe(28);expect(frame.startupInfo!.readUnsigned(0)).toBe(68);
  expect(bootstrap.processAttach()).toEqual(result);expect(frame.startupInfo!.readUnsigned(0)).toBe(68);
 });
+
+it('rejects a changed Engine stdcall return after retaining writer stores',()=>{
+ const {bootstrap}=fixture({writes:[{offset:0,width:4,value:68,knownMask:0xffffffff}],outcome:'normal'});
+ const original=NativeRuntimePlatform.canonicalStartupInfoNormalReturnForPlatform;
+ const proof=vi.spyOn(NativeRuntimePlatform,'canonicalStartupInfoNormalReturnForPlatform').mockImplementation((platform,grant)=>{
+  const result=original.call(NativeRuntimePlatform,platform,grant);
+  const frame=bootstrap.attachProgress().engineIoProgress;
+  if(frame?.pc==='30688701'){
+   // Last source push holds the argument; the import return is directly below.
+   frame.stack.knownMask[frame.ebp!-0x7c]=0xff;
+  }
+  return result;
+ });
+ let result;try{result=bootstrap.processAttach();}finally{proof.mockRestore();}
+ expect(result.known).toBe(false);if(result.known)throw new Error('Changed return accepted');
+ expect(result.reason).toContain('Retained x86 expression slot changed outside its actual store');
+ const frame=bootstrap.attachProgress().engineIoProgress!;expect(frame.pc).toBe('30688701');expect(frame.operations).toBe(28);expect(frame.startupInfo!.readUnsigned(0)).toBe(68);
+ expect(bootstrap.processAttach()).toEqual(result);
+});
