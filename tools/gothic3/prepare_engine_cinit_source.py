@@ -19,6 +19,7 @@ def capture(study):
         0x3067f611: 'engineDivideDispatch',
         0x3067f5ac: 'enginePrecisionInit',
         0x3067f58d: 'engineEncodeFloatPointers',
+        0x3067de64: 'engineEncodePointer',
         0x3067d012: 'engineErrorInitializerWalker',
         0x30671596: 'engineExitRegistration',
     })

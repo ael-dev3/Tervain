@@ -2,10 +2,10 @@ import type { NativeValue } from './dialogue';
 import { NativeModuleCrtOwner } from './native-engine-crt-locks';
 import { NativeRuntimePlatform } from './native-runtime-platform';
 import { NativeHeapObjectViews } from './native-heap-views';
-import { engineCinitImage, engineCinitHeaders, engineCinitFloatingPointCallback, engineCinitString } from './native-engine-cinit-source';
+import { engineCinitImage, engineCinitHeaders, engineCinitFloatingPointCallback, engineCinitString, engineCinitTable } from './native-engine-cinit-source';
 
-type Label = 'divideModule' | 'divideExport' | 'originalHeaders' | 'floatingPointCallback' | 'floatConversionPointers' | 'divideAdjustment' | 'dynamicTlsCallback';
-function original(label:Label){if(label==='originalHeaders')return engineCinitHeaders();if(label==='divideModule'||label==='divideExport'){const row=engineCinitString(label);return {...row,bytes:row.raw.length/2};}return engineCinitImage(label);}
+type Label = 'errorInitializers' | 'divideModule' | 'divideExport' | 'originalHeaders' | 'floatingPointCallback' | 'floatConversionPointers' | 'divideAdjustment' | 'dynamicTlsCallback';
+function original(label:Label){if(label==='errorInitializers'){const table=engineCinitTable(label),bytes=new Uint8Array(table.slots*4),view=new DataView(bytes.buffer),begin=parseInt(table.begin,16);for(const entry of table.nonzeroEntries)view.setUint32(parseInt(entry.slot,16)-begin,parseInt(entry.target,16),true);return {address:table.begin,bytes:bytes.length,raw:Array.from(bytes,b=>b.toString(16).padStart(2,'0')).join('')};}if(label==='originalHeaders')return engineCinitHeaders();if(label==='divideModule'||label==='divideExport'){const row=engineCinitString(label);return {...row,bytes:row.raw.length/2};}return engineCinitImage(label);}
 const owners = new WeakMap<NativeModuleCrtOwner, NativeEngineCinitImages>();
 const token = Object.freeze({});
 const buffer = Object.getOwnPropertyDescriptor(DataView.prototype, 'buffer')!.get!;
@@ -15,7 +15,7 @@ export class NativeEngineCinitImages {
   readonly #images = new Map<Label, { fields: NativeHeapObjectViews; backing: NativeHeapObjectViews['backing']; bytes: Uint8Array; masks: Uint8Array; rootBytes: Uint8Array; rootMasks: Uint8Array; view: DataView; size: number }>();
   private constructor(readonly crt: NativeModuleCrtOwner, grant: object) {
     if (grant !== token || new.target !== NativeEngineCinitImages || !NativeModuleCrtOwner.isConstructedOwner(crt) || crt.module !== 'Engine' || !(crt.host.platform instanceof NativeRuntimePlatform)) throw new Error('Constructed Engine initializer owner required');
-    for (const label of ['divideModule','divideExport','originalHeaders', 'floatingPointCallback', 'floatConversionPointers', 'divideAdjustment', 'dynamicTlsCallback'] as const) {
+    for (const label of ['errorInitializers','divideModule','divideExport','originalHeaders', 'floatingPointCallback', 'floatConversionPointers', 'divideAdjustment', 'dynamicTlsCallback'] as const) {
       const row = original(label);
       const bytes = Uint8Array.from(row.raw.match(/../g)!, byte => parseInt(byte, 16));
       if (bytes.length !== row.bytes) throw new Error('Original initializer image extent required');

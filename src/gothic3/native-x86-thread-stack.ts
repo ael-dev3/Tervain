@@ -89,9 +89,10 @@ type WordRecord = Readonly<{ value: number; mask: number; provenance?:
   Readonly<{kind:'engine-mbc';crt:NativeModuleCrtOwner;fields:NativeHeapObjectViews;offset?:number}> |
   Readonly<{kind:'engine-ptd';crt:NativeModuleCrtOwner;fields:NativeHeapObjectViews}> |
   Readonly<{kind:'engine-allocation';crt:NativeModuleCrtOwner;fields:NativeHeapObjectViews;offset:number}> |
+  Readonly<{kind:'engine-image';crt:NativeModuleCrtOwner;fields:NativeHeapObjectViews;offset:number}> |
   Readonly<{ kind: 'heap'; heap: NativeWin32HeapCapability }> |
   Readonly<{ kind: 'allocation'; allocation: Allocation; offset: number; pointer: NativeBytePointer }> |
-  Readonly<{ kind: 'platform'; object: object; category: NativeStandardIoCapabilityKind | NativeArgvImportKind | 'GetModuleHandleA' | 'GetProcAddress' | 'IsProcessorFeaturePresent' | 'InitializerTlsGetValue' | 'InitializerPtdGetter' | 'InitializerEncodePointer' | 'InitializerDecodePointer' | 'InitializerPoolHeapAlloc' | 'InitializerCrtHeapFree' | 'InitializerPoolVirtualAlloc' | 'InitializerHeapSize' | 'InitializerInitializeSection' | 'InitializerMemorySectionInitialize' | 'InitializerMemorySectionEnter' | 'InitializerMemorySectionLeave' | 'InitializerSectionCache' | 'InitializerCreateFileA' | 'InitializerGetLastError' | 'InitializerSetLastError' | 'InitializerGetFileType' | 'InitializerCloseHandle' | 'InitializerFileHandle' | 'InitializerEncodedCode' | 'DllLstrcpyA' | 'DllVersionModule' | 'SpyFindWindowA' | 'DiagnosticWindow' | 'EngineCinitModule' | 'EngineCinitFeature' | 'GameCinitModule' | 'GameCinitFeature' | 'GameCinitEncoded' }> |
+  Readonly<{ kind: 'platform'; object: object; category: NativeStandardIoCapabilityKind | NativeArgvImportKind | 'GetModuleHandleA' | 'GetProcAddress' | 'IsProcessorFeaturePresent' | 'InitializerTlsGetValue' | 'InitializerPtdGetter' | 'InitializerEncodePointer' | 'InitializerDecodePointer' | 'InitializerPoolHeapAlloc' | 'InitializerCrtHeapFree' | 'InitializerPoolVirtualAlloc' | 'InitializerHeapSize' | 'InitializerInitializeSection' | 'InitializerMemorySectionInitialize' | 'InitializerMemorySectionEnter' | 'InitializerMemorySectionLeave' | 'InitializerSectionCache' | 'InitializerCreateFileA' | 'InitializerGetLastError' | 'InitializerSetLastError' | 'InitializerGetFileType' | 'InitializerCloseHandle' | 'InitializerFileHandle' | 'InitializerEncodedCode' | 'DllLstrcpyA' | 'DllVersionModule' | 'SpyFindWindowA' | 'DiagnosticWindow' | 'EngineCinitEncoded' | 'EngineCinitModule' | 'EngineCinitFeature' | 'GameCinitModule' | 'GameCinitFeature' | 'GameCinitEncoded' }> |
   Readonly<{ kind: 'source'; type: 'code' | 'image'; address: string; fields?: NativeHeapObjectViews }> |
   Readonly<{ kind: 'xor'; left: NativeX86Word32; right: NativeX86Word32 }> |
   Readonly<{ kind: 'neg'; word: NativeX86Word32 }> |
@@ -430,6 +431,28 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
       fpStep('3067168f',()=>stack.#ret());
       step('3067d1e9',()=>{const esp=stack.#address(stack.#load(stack.#bank,stack.#reg('ESP')));stack.#store(stack.#bank,stack.#reg('ECX'),stack.#load(stack.#stack,esp));stack.#store(stack.#bank,stack.#reg('ESP'),stack.#stackWord(esp+4));});
       step('3067d1ea',()=>stack.#call('3067d1ea','3067d1ef'));stack.#engineCinitFrame.pc='3067f58d';
+      const encodeStep=(pc:string,body:()=>void)=>step(pc,body,'3067f58d');
+      const register=(name:NativeX86Register)=>stack.#load(stack.#bank,stack.#reg(name));
+      const setRegister=(name:NativeX86Register,word:NativeX86Word32)=>stack.#store(stack.#bank,stack.#reg(name),word);
+      const pop=(name:NativeX86Register)=>{const esp=stack.#address(register('ESP'));setRegister(name,stack.#load(stack.#stack,esp));setRegister('ESP',stack.#stackWord(esp+4));};
+      encodeStep('3067f58d',()=>stack.#push(register('ESI')));encodeStep('3067f58e',()=>stack.#push(register('EDI')));
+      encodeStep('3067f58f',()=>{setRegister('EDI',stack.#mint(0,0xffffffff));stack.#logicalFlags(0,0xffffffff,4);});
+      for(let index=0;index<10;index++){
+        encodeStep('3067f591',()=>{const offset=stack.#numeric(register('EDI'),4),live=NativeEngineCinitImages.imageForCrt(images.value,crt,'floatConversionPointers');if(!live.known||live.value!==table.value||offset!==index*4)throw new Error('Actual Engine float encoding cursor required');setRegister('ESI',stack.#mint(0,0,{kind:'engine-image',crt,fields:table.value,offset}));});
+        const location=()=>{const p=stack.#record(register('ESI')).provenance;if(p?.kind!=='engine-image'||p.crt!==crt||p.fields!==table.value||p.offset!==index*4)throw new Error('Actual Engine float encoding image pointer required');return p.offset;};
+        encodeStep('3067f597',()=>stack.#push(stack.#load(table.value,location())));
+        encodeStep('3067f599',()=>{stack.#call('3067f599','3067f59e');engineCinitInstruction('3067de64','3067de64');const esp=stack.#address(register('ESP')),word=stack.#load(stack.#stack,esp+4),source=stack.#record(word).provenance;if(source?.kind!=='source'||source.type!=='code')throw new Error('Actual Engine conversion code pointer required');const encoded=NativeModuleCrtOwner.prototype.encodePointer.call(crt,word);if(!encoded.known)throw new Error(encoded.reason);if(encoded.value===null)throw new Error('Nonzero Engine conversion code encoding required');hostReturn(encoded.value===word?word:stack.#mint(0,0,{kind:'platform',object:encoded.value,category:'EngineCinitEncoded'}),0);});
+        encodeStep('3067f59e',()=>{const before=stack.#numeric(register('EDI'),4),next=(before+4)>>>0;setRegister('EDI',stack.#mint(next,0xffffffff));stack.#arithmeticFlags(before,4,next,4,false);});
+        encodeStep('3067f5a1',()=>{const current=stack.#numeric(register('EDI'),4);stack.#arithmeticFlags(current,40,(current-40)>>>0,4,true);});
+        encodeStep('3067f5a4',()=>pop('ECX'));
+        encodeStep('3067f5a5',()=>stack.#store(table.value,location(),register('EAX')));
+        encodeStep('3067f5a7',()=>{const flags=stack.#record(stack.#load(stack.#bank,36));if((flags.mask&1)!==1||Boolean(flags.value&1)!==(index<9))throw new Error('Actual Engine encoding loop branch flags required');});
+      }
+      encodeStep('3067f5a9',()=>pop('EDI'));encodeStep('3067f5aa',()=>pop('ESI'));encodeStep('3067f5ab',()=>stack.#ret());
+      const initializers=NativeEngineCinitImages.imageForCrt(images.value,crt,'errorInitializers');if(!initializers.known)throw new Error(initializers.reason);
+      step('3067d1ef',()=>stack.#push(stack.#mint(0,0,{kind:'engine-image',crt,fields:initializers.value,offset:initializers.value.bytes.length})));
+      step('3067d1f4',()=>stack.#push(stack.#mint(0,0,{kind:'engine-image',crt,fields:initializers.value,offset:0})));
+      step('3067d1f9',()=>stack.#call('3067d1f9','3067d1fe'));stack.#engineCinitFrame.pc='3067d012';
       return known(undefined);
     }catch(error){return unknown(reason(error));}
   }
