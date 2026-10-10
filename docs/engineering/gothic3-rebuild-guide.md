@@ -134,11 +134,19 @@ successfully. The captured lower allocator uses its existing TypeScript
 implementation; its body is not counted as instructions executed on the retained
 source stack.
 
-The next local continuation runs the initializer through its original code-page
-services, clears the classification span and initializes the single-byte record
-fields. It reaches `30684dc7 -> 306849b0`, the case-table routine, after 354
-admitted operations. Its own full-suite validation and deployment are required
-before claiming hosted behavior.
+[PR #225](https://github.com/ael-dev3/Tervain/pull/225) runs the initializer
+through its original code-page services, clears the classification span and
+initializes the single-byte record fields. It deployed successfully and reaches
+`30684dc7 -> 306849b0`, the case-table routine, after 354 admitted operations.
+
+The next local continuation returns case-table CPInfo, prepares its 256-byte
+character input, and enters the classification wrapper using a separate locale
+record and the same Engine thread data. It reaches the lower classification body
+`306916cb -> 306914ea` after 1459 admitted operations. The lower body has been
+captured but has not executed. Its temporary locale ownership remains held while
+the call is pending. The preceding character-input checkpoint passed 3341 tests
+across 313 files; full-suite validation and deployment of the newer wrapper remain
+pending.
 
 Complete startup, world activation and a new-game-to-ending campaign remain
 unfinished. The checkpoint history records earlier boundaries and their evidence;

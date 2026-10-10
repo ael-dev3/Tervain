@@ -11872,3 +11872,38 @@ The single-byte checkpoint (`47c420e01`) passed all 3,336 full-suite tests in
 runtime/evidence changes and the already validated main changes from PR #224.
 The next pending native dependency is case-table construction, not a completed
 startup or campaign.
+
+
+## 10 October 2026: Engine case-table entry continuation
+
+The local retained Engine stack now executes the eleven original entry instructions at `306849b0` through `306849d1`. It saves the initializer EBP, reserves 1308 stack bytes, constructs the case-frame EBP from the actual ESP, stores the same Engine cookie XOR that EBP, saves EBX/EDI, and pushes the actual CPInfo stack destination and code page read from the new Engine-owned MBC allocation. It stops before the `GetCPInfo` call at `306849d4`, after 365 admitted operations. The case-table import has not executed, the caller remains retained, and startup/campaign completion remains unproven. Structural and cookie-unavailability checks cover stack arguments and retained allocation lifetime. Validation receipts follow after terminal results.
+
+Local validation: 58 tests across four files passed in 15.53 seconds; `npm run build` completed successfully, including TypeScript checking; `git diff --check` passed. The broader suite and deployment of this eleven-instruction continuation remain pending. PR #225 merged as `2676c2d2b2b321271721f319512b0bc1bbeae825`; its Pages workflow `38068086327` was still running at this receipt. That merged checkpoint reaches the previous 354-operation boundary.
+
+
+## 10 October 2026: Engine case CPInfo and character input
+
+The local Engine continuation executes the case-table GetCPInfo import at `306849d4` against the same retained logical thread, with its own 20-byte CPInfo alias at case EBP minus 124. The private NLS grant records the actual call site; the source import, pending return word, stack arguments and output alias are checked before writes. Defined output writes invalidate the corresponding retained stack slots and preserve both padding bytes. The initializer CPInfo record remains separate.
+
+The successful single-byte path fills all 256 input bytes using the original MOV/INC/CMP/JC loop, preserves INC carry behavior, replaces byte zero with space, and reads the returned lead byte before choosing the branch. It pushes eight classification arguments from the actual Engine allocation and stack records. It stops before `30684a46 -> 306916a2` after 1408 admitted operations. The classification wrapper, case-map calls, publication of the new MBC record, full startup and campaign integration remain unfinished. Unsupported lead-byte ranges and interrupted input stores retain the real preceding effects.
+
+Focused validation: 61 tests across four files passed in 23.09 seconds. Production build, wider validation and deployment of this continuation remain pending at this receipt.
+
+Production validation for the case-input continuation: `npm run build` completed successfully, including TypeScript checking, and `git diff --check` passed. The original next classification wrapper at `306916a2` was independently inspected from matching Engine.dll bytes: 22 instructions, with locale construction through `30673389` and a downstream call to `306914ea`. That scratch inspection does not admit or execute either classification routine.
+
+
+## 10 October 2026: Engine character-classification wrapper
+
+The source package now captures the matching Engine classification wrapper `306916a2` (22 instructions) and lower body `306914ea` (164 instructions). It contains 16 methods, 1130 instructions and 3206 instruction bytes; SHA-256 `e4289a160e290a456700dc5cfe515f07f2b758c173ead694b844c5aa91962faa`. Independent JSON, generated TypeScript and Game-comparison regeneration are byte-identical; the three compared setup/parser/wrapper methods still have no mismatches.
+
+The local continuation issues the actual case-to-classification call, constructs a separate 16-byte locale-update record in the retained wrapper frame, and runs the original same-Engine locale constructor. The shared constructor implementation now validates the actual return address and records the caller-specific PTD and completion. Classification keeps its own alias and the original code-page record remains separate. The wrapper forwards seven actual arguments and its locale-record ECX to `306916cb -> 306914ea`, stopping at that body after 1459 admitted operations on the default path. The PTD flag `0x2` remains acquired and the wrapper record flag at offset 12 is one while that call is pending. Cleanup will follow the original caller only after the lower body returns.
+
+The lower classification body is captured but not executed. It requires additional NLS and allocation dependencies; case mapping, MBC publication, complete startup and playable campaign integration remain unfinished.
+
+Earlier case-entry full-suite receipt: 3338 tests across 313 files passed in 423.35 seconds. PR #225 deployed successfully as `2676c2d2b2b321271721f319512b0bc1bbeae825`; workflow `38068086327` has successful build and deploy jobs. That deployed revision reaches 354 operations. The newer 1408-operation input continuation has a separate full suite running. These receipts do not prove hosted execution of the current local wrapper or a finishable campaign.
+
+Local wrapper validation: 62 tests across four files passed in 21.56 seconds; `npm run build` completed successfully, including TypeScript checking; `git diff --check` passed. The focused checks verify the separate locale-record alias, same-Engine PTD identity, acquired ownership flag, original constructor return, forwarded arguments and retained lower caller. Full-suite and public deployment validation for this wrapper remain pending.
+
+The preceding 1408-operation case-input continuation passed its full suite: 3341 tests across 313 files in 414.46 seconds. The newer classification-wrapper full suite is running separately. Publication preparation retains both the earlier public deployment receipts and the newer local continuation receipts.
+
+Publication-branch validation: 62 tests across four files passed in 21.72 seconds, production build including TypeScript checking passed, and the diff has no whitespace errors. The merge preserves all earlier dated receipts and updates the reader guide to distinguish the deployed 354-operation checkpoint from the local 1459-operation wrapper. The wrapper full-suite process remains live; this receipt does not claim its result.

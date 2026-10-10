@@ -2,7 +2,7 @@ import {expect,it} from 'vitest';
 import {admitEngineArgvSource,engineArgvInstruction,engineArgvImage,engineArgvGetACPImport,engineArgvMbcImport} from '../../src/gothic3/native-engine-argv-source';
 it('admits the original Engine argument bodies without granting cross-method instruction identity',()=>{
  expect(()=>admitEngineArgvSource()).not.toThrow();
- for(const entry of ['3068e76f','3068e5d7','30685007','30684e6d','30684b3a','30684bde','30684c58','3067c9c1','30672ec7','3067e12b','30684bd5','30673389','30671690','306849b0'])expect(engineArgvInstruction(entry,entry).va).toBe(entry);
+ for(const entry of ['3068e76f','3068e5d7','30685007','30684e6d','30684b3a','30684bde','30684c58','3067c9c1','30672ec7','3067e12b','30684bd5','30673389','30671690','306849b0','306916a2','306914ea'])expect(engineArgvInstruction(entry,entry).va).toBe(entry);
  expect(engineArgvInstruction('3068e76f','3068e799').instruction).toBe('CALL dword ptr [0x30afc82c]');
  expect(engineArgvInstruction('30685007','30685012').instruction).toBe('CALL 0x30684e6d');
  expect(()=>engineArgvInstruction('3068e76f','30684e6d')).toThrow();expect(()=>engineArgvInstruction('20476000','3068e76f')).toThrow();
