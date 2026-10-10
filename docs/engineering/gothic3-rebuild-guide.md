@@ -175,7 +175,9 @@ Default execution reaches the character-table publication loop `30684a93` after
 passed 94 of 95 checks; its sole stale stack-argument assertion was corrected and
 passed, alongside an additional uppercase interruption check. All 96 distinct
 focused checks are covered by those passing results. The latest full suite is
-running with a 20-second per-test timeout. This work is awaiting publication.
+running with a 20-second per-test timeout. The Engine I/O test file now uses
+that allowance by default for the expanded startup path. This work is awaiting
+publication.
 
 Temporary stack views are reused by later calls. Tests observe probe values and
 arguments at their actual returns rather than treating the reused storage as a

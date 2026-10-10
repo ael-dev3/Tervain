@@ -2,6 +2,8 @@ import type {NativeArgvNlsCallGrant,NativeWin32ArgvNlsSelection} from '../../src
 import {browserGameArgvNlsInputs} from '../../src/gothic3/browser-game-argv-nls-inputs';
 import {NativeCrtThreadStartup} from '../../src/gothic3/native-crt-thread-startup';
 import {expect,it,vi} from 'vitest';
+// Retained Engine startup now executes both case conversions; allow for CI load.
+vi.setConfig({testTimeout:20_000});
 import {NativeCrtBootstrap} from '../../src/gothic3/native-crt-bootstrap';
 import {NativeEngineArgvImages} from '../../src/gothic3/native-engine-argv-images';
 import {NativeEngineIoImages} from '../../src/gothic3/native-engine-io-images';
