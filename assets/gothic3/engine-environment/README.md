@@ -35,8 +35,12 @@ the destination. Wide conversion fills the retained allocation. Zero fill result
 frees that same allocation and clears the local output using original bytes at
 `3068e8ea` and `3068e8eb`; these bytes were omitted by the catalog's nonreturning
 free assumption. The OS input is then released and the routine returns its
-actual output or NULL. ANSI execution still stops at copy `3068e945`, with the
-allocation and output pointer retained. NULL allocation
+actual output or NULL. ANSI execution now invokes Engine's scalar copy owner at
+`3068e945`, then releases OS input at `3068e94e` and returns its actual allocation.
+The copy's separate [source package](../engine-byte-copy/README.md) owns its
+instructions, dispatch storage, overlap direction and masked transfers. A
+blocked copy preserves the allocation, applied writes and unreleased OS input.
+NULL allocation
 releases the corresponding OS input before returning NULL. NULL inputs return
 NULL. A zero conversion
 measurement releases wide input before returning NULL; the original raw release
@@ -50,5 +54,6 @@ Completed repeated calls produce separate physical allocations; older successful
 output remains valid until its actual allocation is released.
 
 The original caller stores the returned pointer or NULL at `30af70d4`. Browser
-startup now reaches the pending I/O call `30677266 -> 306886ec`. ANSI copy and
-I/O initialization remain unconnected; full CRT attachment is not established.
+startup now reaches the pending I/O call `30677266 -> 306886ec` through both
+successful environment branches. I/O initialization remains unfinished; full
+CRT attachment is not established.
