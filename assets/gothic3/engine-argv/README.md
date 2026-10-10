@@ -18,16 +18,19 @@ python tools/gothic3/prepare_engine_argv_source.py --study <study-directory> --o
 ```
 
 Independent JSON and TypeScript regenerations are byte-identical. Two source checks and TypeScript checking pass. The JSON package has SHA-256
-`c127b0148598ed6c516ba70cf65a17ae95ae71b9b70b125fbd6c3c495f1e5134`.
+`042b11f2acc4563e2fb8f8f56a5fee77aca84946d976cb771153f05ab348559a`.
 Engine.dll SHA-256 is
 `d49ef92c0fdfeda433f6d04d0edeb7751e41e4c7c7effc1265630717029dc7e3`.
 
-This package is evidence only (`runtimeConnected: false`). The wrapper's nested
-multibyte call at `30685012 -> 30684e6d` and three immediate helpers are captured.
-Deeper thread, locale, allocation and lock dependencies still require recovery
-before claiming full dependency coverage. Module filename
-service, parser execution, Engine-owned argv allocation and caller return remain
-unfinished. This does not prove complete engine startup or playable campaign.
+The receipt keeps `runtimeConnected: false` because complete argument setup
+and its caller return remain unfinished. The selected runtime continuations
+listed below execute against the retained Engine CRT. Captured bytes and
+translated lower allocator/lock services retain separate proof scopes; capture
+alone does not authorize execution. The current local default reaches command
+line selection `3068e79f` after 11,608 operations. Earlier sections below record
+superseded checkpoint boundaries. Argument selection, parsing, Engine-owned
+argv allocation and caller return remain unfinished. This does not prove
+complete engine startup or playable campaign.
 
 ## Game implementation comparison
 
@@ -246,3 +249,28 @@ and three corrected retained-frame/NULL-branch assertions passing separately.
 TypeScript checking and the production build pass. The 23-method source
 package independently regenerates identically. Complete latest-checkpoint
 validation remains pending; full campaign play remains unproven.
+
+## Engine module filename call
+
+The original `GetModuleFileNameA` import is admitted at IAT `30afc82c`. Argument
+setup pushes count 260, the actual Engine buffer and a NULL module handle, and
+clears the separate sentinel before calling it. The existing selected virtual
+process filename supplies the API bytes. Normal execution preserves buffer
+identity, writes those bytes and their terminator, returns through the real
+`RET 12` slot, and retains the returned length in EAX. It stops at command-line
+pointer selection `3068e79f`. Interrupted writes retain their prefix and pending
+call without a fabricated API return. The selected virtual filename is not a
+new observation of the host Windows process.
+
+All 145 distinct focused checks are covered by 143 passes plus two corrected
+readiness/retired-stack assertions. The code-page argument is observed while
+its call is active because the filename call reuses that stack storage.
+TypeScript checking and independent JSON/TypeScript regeneration pass.
+Complete startup and campaign integration remain unfinished.
+
+The production build passes. The existing three damaged formatter displacements
+are now separate parameterized checks with the same assertions and per-case
+timeout; all three pass, so 148 distinct focused checks are covered. The
+preceding multibyte-return full run reported 3388 passes and one grouped
+formatter timeout across 313 files. Full validation of this filename checkpoint
+remains pending.

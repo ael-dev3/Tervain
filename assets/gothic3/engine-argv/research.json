@@ -13014,6 +13014,12 @@
     "name": "GetACP",
     "ordinal": null
   },
+  "filenameImport": {
+    "iatVA": "0x30afc82c",
+    "module": "KERNEL32.dll",
+    "name": "GetModuleFileNameA",
+    "ordinal": null
+  },
   "mbcImports": {
     "IsValidCodePage": {
       "iatVA": "0x30afc73c",

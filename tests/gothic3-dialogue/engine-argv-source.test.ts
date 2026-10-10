@@ -1,5 +1,5 @@
 import {expect,it} from 'vitest';
-import {admitEngineArgvSource,engineArgvInstruction,engineArgvImage,engineArgvGetACPImport,engineArgvMbcImport,engineArgvStaticMbcHeader,engineArgvClassificationImport} from '../../src/gothic3/native-engine-argv-source';
+import {admitEngineArgvSource,engineArgvInstruction,engineArgvImage,engineArgvGetACPImport,engineArgvFilenameImport,engineArgvMbcImport,engineArgvStaticMbcHeader,engineArgvClassificationImport} from '../../src/gothic3/native-engine-argv-source';
 it('admits the original Engine argument bodies without granting cross-method instruction identity',()=>{
  expect(()=>admitEngineArgvSource()).not.toThrow();
  for(const entry of ['3068e76f','3068e5d7','30685007','30684e6d','30684b3a','30684bde','30684c58','3067c9c1','30672ec7','3067e12b','30684bd5','30673389','30671690','306849b0','306916a2','306914ea','3068de60','30674820'])expect(engineArgvInstruction(entry,entry).va).toBe(entry);
@@ -44,4 +44,8 @@ it('captures the original Engine global MBC publication storage extents',()=>{
 
 it('captures the original four-instruction Engine global MBC unlock helper',()=>{
  expect(['30684fce','30684fd0','30684fd5','30684fd6'].map(pc=>engineArgvInstruction('30684fce',pc).instruction)).toEqual(['PUSH 0xd','CALL 0x306832b6','POP ECX','RET']);
+});
+
+it('captures the exact Engine module filename import and argument-setup call',()=>{
+ expect(engineArgvFilenameImport()).toMatchObject({iatVA:'0x30afc82c',module:'KERNEL32.dll',name:'GetModuleFileNameA',ordinal:null});expect(Object.isFrozen(engineArgvFilenameImport())).toBe(true);expect(engineArgvInstruction('3068e76f','3068e799').instruction).toBe('CALL dword ptr [0x30afc82c]');
 });
