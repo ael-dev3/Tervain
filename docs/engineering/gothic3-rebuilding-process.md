@@ -12228,3 +12228,13 @@ a hosted-page inspection, so deployment evidence is not a browser observation.
 The current local boundary is the caller TEST at `30677284`. Full Engine
 attachment, live world activation and a campaign playable through an ending
 remain unfinished.
+# 11 October 2026: complete Engine environment-vector validation
+
+The combined checkpoint at `411f86b35` passed typecheck, all 3,428 tests
+across 313 files, and the production build. The suite took 831.47 seconds.
+This proves the selected Engine environment-vector implementation and its
+covered integration scenarios; it does not establish complete startup or a
+finishable campaign. Its retained caller still stops at `30677284`.
+
+The subsequent CRT initializer work is in a separate checkout and is outside
+this validation receipt. Publication and deployment require their own evidence.
