@@ -85,3 +85,36 @@ screen's own backdrop (the menu warden 2.5 MiB and a deer 1.8 MiB) and the resid
 
 Meshy credits: none spent in A75 (no API key in this environment). Totals stay as recorded: trees and fingers 30 of 100,
 hero 35 of 200.
+
+## Playtest round (Ael, 9–10 October 2026)
+
+Fixed in the served build and checked with before and after captures (#213, #214):
+
+- **Walls**: plaster rebaked as cared-for lime render; no peeling, mould or streaks. "Gritty like Gothic 3" is the art
+  style, not filthy homes.
+- **Shutters** swung inward through the wall into the rooms; they open outward. **Doors** open to 90°, square into the
+  room. The "wardrobe leaning by the hearth" was the open door leaf.
+- **Windows**: the view from inside is captured at 320 px (96 px read as a blurred blob).
+- **Woodpile** stands clear of the foundation's rubble course. **Near grass** blades are about 40% narrower, with a third
+  more of them.
+- **Bow**: slung across the back while carried; in hand to aim, shoot and for 2.5 s after; the draw comes to the jaw with
+  the elbow raised.
+- **Hero skin**: the body's texture paints all skin one flat pink. A material patch adds pore grain, mottling, muscle and
+  tendon forms, faint arm hair and matching relief where the texture is skin-coloured; no triangles added.
+- **Rooms**: brighter by day (the sky's fill eases down less, the hearth light is stronger and reaches the far walls);
+  direct sun is cut indoors on every preset, since shadow maps leak through the walls. Houses gain a writing desk with a
+  stool and a second store, low enough for the space under the windows; pieces that do not fit their wall try another.
+- **Timber frame** stands on the wall's face instead of 6 cm inside it.
+- **Tree crowns**: more light inside and in their own shadow, softer card edges. Near crowns already use 19,800 of their
+  20,000 triangles, so no more cards fit; new crown art needs Meshy (no key in this environment).
+
+Checked in the running game: every furniture model's bounds match its declared size and stand on the floor; residents
+lie in their beds at night (the reeve, 23:30); the hero mounts the saddled deer.
+
+Still open:
+
+- A hairline at window height on the inside of some plaster walls. The wall's grid is continuous there and the frame is
+  now wholly outside the wall; the cause is not yet found.
+- Tree crown silhouettes (card art), as above.
+- Authored turn clips (Meshy motion; no key here).
+- Frame-time figures on a GPU (this container has none).
