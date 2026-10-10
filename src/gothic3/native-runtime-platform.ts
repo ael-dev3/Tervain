@@ -1,3 +1,4 @@
+import type {NativeGuidTextPlatform} from './native-guid-text';
 import { NativeSharedCrtOwner } from './native-shared-crt';
 import { NativeWin32FileSystem, retainNativeWin32FileSystemSelection } from './native-win32-file-system';
 import type { NativeWin32FileSystemSelection, NativeWin32CreateFileResult } from './native-win32-file-system';
@@ -314,6 +315,10 @@ export class NativeRuntimeDiagnostics implements NativeMessageDiagnosticPlatform
 }
 
 export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGeometryHost {
+  readonly #guidTextPlatform?: NativeGuidTextPlatform;
+  static canonicalGuidTextPlatform(platform:NativeRuntimePlatform):NativeValue<NativeGuidTextPlatform> {
+    return platform.#guidTextPlatform?known(platform.#guidTextPlatform):unknown('Selected GUID text platform absent');
+  }
   static diagnosticWindowForPlatform(platform: NativeRuntimePlatform, className: null, title: string): NativeValue<object | null> {
     const diagnostics = platformDiagnostics.get(platform), windows = diagnostics && diagnosticWindows.get(diagnostics);
     if (!windows || platform.diagnostics !== diagnostics || className !== null || title !== '[zSpy]') return unknown('Canonical diagnostic window profile and original query required');
@@ -401,7 +406,13 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
   private bytesOwned = 0;
   private nextOrdinal = 0;
   constructor(options: { diagnostics?: NativeRuntimeDiagnostics; maximumAllocationBytes?: number; maximumOwnedBytes?: number;
-    engineCrtServices?: NativeEngineCrtPlatformServices } = {}) {
+    engineCrtServices?: NativeEngineCrtPlatformServices; guidTextPlatform?: NativeGuidTextPlatform } = {}) {
+    const guid=options.guidTextPlatform;
+    if(guid!==undefined) {
+      if(typeof guid.multiByteToWideChar!=='function'||typeof guid.iidFromString!=='function')throw new Error('Actual GUID text platform callbacks required');
+      const convert=guid.multiByteToWideChar.bind(guid),parse=guid.iidFromString.bind(guid);
+      this.#guidTextPlatform=Object.freeze({multiByteToWideChar:convert,iidFromString:parse});
+    }
     this.diagnostics = options.diagnostics ?? new NativeRuntimeDiagnostics();
     platformDiagnostics.set(this, this.diagnostics);
     Object.freeze(this.#win32LastError);

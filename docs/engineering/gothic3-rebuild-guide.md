@@ -47,7 +47,7 @@ Each feature goes through the following steps:
 **Current local boundary:** Arena Status, None, Running, AI FreePoint, Label
 and AI helper administrator initialization return through the retained startup
 stack. Startup enters PropertyID initializer `204b26c0` and reaches its unsupported
-GUID constructor CALL at `204b26da`.
+PropertyID constructor CALL at `204b26e6`.
 Complete startup, world activation and a new-game-to-ending campaign remain
 unfinished. Local checkpoints and the hosted version can differ; the validation
 receipts below identify the checkpoint covered.
@@ -72,7 +72,24 @@ establish completion of these remaining features.
 The entries below describe successive local states, newest first. Statements
 about missing operations in older entries apply to those earlier checkpoints.
 
-### Latest local checkpoint: AI helper PropertyID CString constructor returns
+### Latest local checkpoint: AI helper GUID constructor returns
+
+The GUID constructor uses the retained CString and the actual 20-byte stack
+receiver. Its existing SetData owner calls the selected browser ASCII-to-UTF16
+and canonical IID conversion services, writes the original GUID payload and
+validity byte, and frees its 78-byte temporary conversion buffer. The constructor
+ignores SetData's BOOL, returns its actual receiver and removes its four-byte
+argument through the original frame. Startup reaches PropertyID constructor
+`204b26e6 -> 207d86ac`.
+
+Six focused tests passed in 11.57 seconds. They inspect the exact little-endian
+GUID payload, validity flag, freed conversion allocation, preserved padding
+bytes and masks, live CString, and untouched PropertyID destination. These are
+selected browser compatibility services; native Windows functions are not
+executed. PropertyID construction, temporary destruction, cleanup registration
+and complete initializer return remain pending.
+
+### Historical checkpoint: AI helper PropertyID CString constructor returns
 
 CALL `204b26cc` invokes the existing CString text constructor with the actual
 stack receiver, canonical GUID literal and retained MemoryAdmin. The temporary

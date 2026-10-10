@@ -1,3 +1,4 @@
+import {NativeGuidText} from './native-guid-text';
 import {NativeHeapCString} from './native-heap-cstring';
 import {NativeGameAIHelperAdminType} from './native-game-ai-helper-admin-type';
 import {NativeGameLabelType} from './native-game-label-type';
@@ -201,6 +202,8 @@ export class NativeX86ThreadStack {
   #argvBinding: ArgvBinding | null = null;
   #setEnvpBinding: SetEnvpBinding | null = null;
   #aiHelperPropertyIdText: NativeHeapCString | null = null;
+  #aiHelperPropertyIdGuid: NativeGuidText | null = null;
+  #aiHelperPropertyIdGuidPaddingBefore: Readonly<{bytes:readonly number[];mask:readonly number[]}> | null = null;
   #arenaPropertySingleton:NativePropertySingleton|null=null;
   readonly #arenaAllocations=new Map<NativeHeapObjectViews,{owner:NativeMemoryAdmin;allocation:NativeMemoryAllocation}>();
   #setEnvpTransferred = false;
@@ -3089,6 +3092,33 @@ export class NativeX86ThreadStack {
     this.#store(this.#bank,this.#reg('EAX'),this.#moduleWord('labelTypeAndGuard',0));
     const returned=this.#ret(0),source=this.#record(returned).provenance;
     if(source?.kind!=='source'||source.type!=='code'||source.address!=='204b23f4')throw new Error('Actual Label type getter return required');
+  }); }
+  aiHelperPropertyIdGuidSnapshot() {const guid=this.#aiHelperPropertyIdGuid;return guid?Object.freeze({...guid.snapshot(),paddingBefore:this.#aiHelperPropertyIdGuidPaddingBefore}):null;}
+  callAIHelperPropertyIdGuidConstructor(controller:object):NativeValue<void> {return this.#run(controller,()=>{
+    const binding=this.#setEnvpBinding;
+    if(!binding||binding.controller!==controller)throw new Error('Actual retained Game startup controller required');
+    const grant=NativeGameCrtSetEnvp.canonicalAIHelperPropertyIdGuidCallForCrt(binding.owner,binding.crt,controller);
+    if(!grant.known)throw new Error(grant.reason);
+    if(this.#calls.filter(call=>!call.returned).at(-1)?.site!=='20466654')throw new Error('Actual pending PropertyID initializer frame required');
+    if(!this.#aiHelperPropertyIdText||this.#aiHelperPropertyIdGuid)throw new Error('Actual once-only temporary GUID construction required');
+    const crt=binding.crt as NativeGameCrtOwner,memory=nativeGameLayerBaseMemoryForCrt(crt);
+    if(!memory.known)throw new Error(memory.reason);
+    const platform=NativeRuntimePlatform.canonicalGuidTextPlatform(this.#platform);if(!platform.known)throw new Error(platform.reason);
+    const receiver=this.#load(this.#bank,this.#reg('ECX')),esp=this.#address(this.#load(this.#bank,this.#reg('ESP')));
+    const destination=this.#memory(receiver,4),argument=this.#memory(this.#load(this.#stack,esp),4);
+    if(destination.fields!==this.#stack||destination.offset!==esp+8||argument.fields!==this.#stack||argument.offset!==esp+4)
+      throw new Error('Actual GUID and CString stack arguments required');
+    const guidFields=new NativeHeapObjectViews(this.#stack.backing,
+      this.#stack.bytes.byteOffset-this.#stack.backing.bytes.byteOffset+destination.offset,20);
+    this.#aiHelperPropertyIdGuidPaddingBefore=Object.freeze({bytes:Object.freeze([...guidFields.bytes.subarray(17,20)]),mask:Object.freeze([...guidFields.knownMask.subarray(17,20)])});
+    this.#call('204b26da','204b26e0');
+    const guid=new NativeGuidText(memory.value,guidFields,platform.value);this.#aiHelperPropertyIdGuid=guid;
+    const result=NativeGuidText.prototype.setData.call(guid,this.#aiHelperPropertyIdText);
+    if(!result.known)throw new Error(result.reason);
+    // Original bCGuid text constructor ignores SetData's BOOL and returns this.
+    this.#store(this.#bank,this.#reg('EAX'),receiver);
+    const returned=this.#ret(4),source=this.#record(returned).provenance;
+    if(source?.kind!=='source'||source.type!=='code'||source.address!=='204b26e0')throw new Error('Actual GUID constructor return required');
   }); }
   aiHelperPropertyIdTextSnapshot() {return this.#aiHelperPropertyIdText?.snapshot()??null;}
   callAIHelperPropertyIdTextConstructor(controller:object):NativeValue<void> {return this.#run(controller,()=>{
