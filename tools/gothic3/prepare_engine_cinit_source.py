@@ -49,6 +49,7 @@ def capture(study):
     headers = pe.data[:nt+24+optional_size+section_count*40]
     images = []
     for label, address, size in [
+        ('floatingPointCallback', 0x30892ac0, 4),
         ('floatConversionPointers', 0x30ad4900, 40),
         ('divideAdjustment', 0x30af70a8, 4),
         ('dynamicTlsCallback', 0x30af7e88, 4),

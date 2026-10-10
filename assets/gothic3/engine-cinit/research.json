@@ -10034,6 +10034,15 @@
   ],
   "images": [
     {
+      "label": "floatingPointCallback",
+      "address": "30892ac0",
+      "bytes": 4,
+      "raw": "72166730",
+      "fileBackedBytes": 4,
+      "loaderZeroFillBytes": 0,
+      "sha256": "4bf2eb43701e0837a753a711913f831625c9619b91747ed7b2f052497ce25046"
+    },
+    {
       "label": "floatConversionPointers",
       "address": "30ad4900",
       "bytes": 40,

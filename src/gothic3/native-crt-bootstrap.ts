@@ -830,7 +830,7 @@ export class NativeCrtBootstrap {
       try{this.#call('Engine CRT initializer3067d1c7 at3067728a',()=>NativeX86ThreadStack.enterEngineCinitForBootstrap(this.#engineIoStack!,this,this.#crt,this.#engineCinitPermit));}
       finally{this.#engineCinitActive=false;}
       this.#nextBoundary=Object.freeze({name:'startupCall',address:'3067728a',target:'3067d1c7'});
-      this.#gate('Engine CRT initializer3067d1c7 at3067728a');
+      this.#gate('Engine CRT initializer dependency at'+this.#engineIoStack!.engineCinitFrameSnapshot(this.#crt)!.pc);
     }
     const points = gameAttachContinuationInstructionPoints;
     const endpointProof = NativeRuntimePlatform.canonicalProcessInputEndpointsForPlatform(

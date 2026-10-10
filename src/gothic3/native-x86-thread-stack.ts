@@ -1,7 +1,7 @@
 import {NativeCrtThreadStartup} from './native-crt-thread-startup';
 import {NativeEngineArgvImages} from './native-engine-argv-images';
 import {engineSetenvpCaller,engineSetenvpInstruction} from './native-engine-setenvp-source';
-import {engineCinitCaller} from './native-engine-cinit-source';
+import {engineCinitCaller,engineCinitInstruction,engineCinitFloatingPointCallback} from './native-engine-cinit-source';
 import {NativeEngineCinitImages} from './native-engine-cinit-images';
 import {NativeEngineCrtEnvironment} from './native-engine-crt-environment';
 import {NativeEngineSetenvpImages} from './native-engine-setenvp-images';
@@ -362,6 +362,18 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
       stack.#push(stack.#mint(0,0xffffffff));stack.#trace.push('30677288.EngineCinitCallerPush');stack.#engineCinitFrame.operations++;
       stack.#call('3067728a','3067728f');stack.#trace.push('3067728a.EngineCinitCallerCall');stack.#engineCinitFrame.operations++;
       stack.#engineCinitFrame.pc='3067d1c7';
+      const fp=NativeEngineCinitImages.imageForCrt(images.value,crt,'floatingPointCallback');if(!fp.known)throw new Error(fp.reason);
+      engineCinitInstruction('3067d1c7','3067d1c7');
+      const raw=NativeHeapObjectViews.prototype.readUnsigned.call(fp.value,0,4),callback=engineCinitFloatingPointCallback();
+      // Only the zero comparison is required by this branch. A source code
+      // pointer does not supply a browser numerical address or a known sign bit.
+      stack.#flags(raw===0?0x40:0,0x841);stack.#trace.push('3067d1c7.EngineCinitSource');stack.#engineCinitFrame.operations++;
+      engineCinitInstruction('3067d1c7','3067d1ce');stack.#trace.push('3067d1ce.EngineCinitSource');stack.#engineCinitFrame.operations++;
+      if(raw===0){stack.#engineCinitFrame.pc='3067d1ea';return known(undefined);}
+      if(raw!==parseInt(callback.target,16))throw new Error('Original retained Engine floating-point callback required');
+      engineCinitInstruction('3067d1c7','3067d1d0');stack.#push(stack.#mint(0,0,{kind:'source',type:'image',address:callback.slot,fields:fp.value}));stack.#trace.push('3067d1d0.EngineCinitSource');stack.#engineCinitFrame.operations++;
+      engineCinitInstruction('3067d1c7','3067d1d5');stack.#call('3067d1d5','3067d1da');stack.#trace.push('3067d1d5.EngineCinitSource');stack.#engineCinitFrame.operations++;
+      stack.#engineCinitFrame.pc='3068aa20';
       return known(undefined);
     }catch(error){return unknown(reason(error));}
   }

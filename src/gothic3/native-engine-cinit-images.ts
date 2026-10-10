@@ -4,7 +4,7 @@ import { NativeRuntimePlatform } from './native-runtime-platform';
 import { NativeHeapObjectViews } from './native-heap-views';
 import { engineCinitImage } from './native-engine-cinit-source';
 
-type Label = 'floatConversionPointers' | 'divideAdjustment' | 'dynamicTlsCallback';
+type Label = 'floatingPointCallback' | 'floatConversionPointers' | 'divideAdjustment' | 'dynamicTlsCallback';
 const owners = new WeakMap<NativeModuleCrtOwner, NativeEngineCinitImages>();
 const token = Object.freeze({});
 const buffer = Object.getOwnPropertyDescriptor(DataView.prototype, 'buffer')!.get!;
@@ -14,7 +14,7 @@ export class NativeEngineCinitImages {
   readonly #images = new Map<Label, { fields: NativeHeapObjectViews; backing: NativeHeapObjectViews['backing']; bytes: Uint8Array; masks: Uint8Array; rootBytes: Uint8Array; rootMasks: Uint8Array; view: DataView; size: number }>();
   private constructor(readonly crt: NativeModuleCrtOwner, grant: object) {
     if (grant !== token || new.target !== NativeEngineCinitImages || !NativeModuleCrtOwner.isConstructedOwner(crt) || crt.module !== 'Engine' || !(crt.host.platform instanceof NativeRuntimePlatform)) throw new Error('Constructed Engine initializer owner required');
-    for (const label of ['floatConversionPointers', 'divideAdjustment', 'dynamicTlsCallback'] as const) {
+    for (const label of ['floatingPointCallback', 'floatConversionPointers', 'divideAdjustment', 'dynamicTlsCallback'] as const) {
       const row = engineCinitImage(label);
       const bytes = Uint8Array.from(row.raw.match(/../g)!, byte => parseInt(byte, 16));
       if (bytes.length !== row.bytes) throw new Error('Original initializer image extent required');

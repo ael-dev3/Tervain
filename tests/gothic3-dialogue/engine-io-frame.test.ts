@@ -284,7 +284,7 @@ it('retains the actual locale caller when its lock service cannot return',()=>{
 it('returns Engine GetACP through its retained caller and clears temporary PTD ownership',()=>{
  const {bootstrap,crt,platform}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs);
  const original=NativeRuntimePlatform.canonicalArgvNlsNormalReturnForPlatform;let selectedArgument:number|null=null;const spy=vi.spyOn(NativeRuntimePlatform,'canonicalArgvNlsNormalReturnForPlatform').mockImplementation((...args)=>{const result=original(...args),frame=bootstrap.attachProgress().engineArgvProgress;if(frame?.pc==='30684cc9')selectedArgument=frame.stack.readUnsigned(frame.entryEsp-40);return result;});let result;try{result=bootstrap.processAttach();}finally{spy.mockRestore();}expect(result.known).toBe(false);if(result.known)throw new Error('Startup remains unfinished');
- expect(result.reason).toContain('Engine CRT initializer3067d1c7 at3067728a');
+ expect(result.reason).toContain('Engine CRT initializer dependency at3068aa20');
  const frame=bootstrap.attachProgress().engineArgvProgress!;
  expect(frame).toMatchObject({pc:'3067727b',operations:13819,codepageCtorReturned:true,codepageAcpReturned:true,codepageReturned:true,codepageResult:1252});
  expect(frame.codepagePtd!.readUnsigned(0x70)).toBe(1);expect(selectedArgument).toBe(1252);
@@ -515,7 +515,7 @@ it('releases classification ownership before constructing the separate mapping l
 });
 
 it('returns the Engine Unicode mapping probe through its actual six-argument call',()=>{
- const {bootstrap,platform,crt}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs),graph=NativeX86ThreadStack.forPlatform(platform);if(!graph.known)throw new Error(graph.reason);const result=bootstrap.processAttach(),frame=bootstrap.attachProgress().engineArgvProgress!;expect(result.known).toBe(false);if(result.known)throw new Error('Mapping scan remains unfinished');expect(result.reason).toContain('Engine CRT initializer3067d1c7 at3067728a');expect(frame).toMatchObject({pc:'3067727b',operations:13819});
+ const {bootstrap,platform,crt}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs),graph=NativeX86ThreadStack.forPlatform(platform);if(!graph.known)throw new Error(graph.reason);const result=bootstrap.processAttach(),frame=bootstrap.attachProgress().engineArgvProgress!;expect(result.known).toBe(false);if(result.known)throw new Error('Mapping scan remains unfinished');expect(result.reason).toContain('Engine CRT initializer dependency at3068aa20');expect(frame).toMatchObject({pc:'3067727b',operations:13819});
  const selector=NativeEngineArgvImages.imageForCrt(bootstrap.attachProgress().engineArgvImages!,crt,'mappingApiSelector');if(!selector.known)throw new Error(selector.reason);expect(selector.value.readUnsigned(0)).toBe(1);const call=graph.value.snapshot().calls.find(call=>call.site==='3067c5ac')!;expect(call.returned).toBe(true);expect(call.returnWord).toMatchObject({provenance:{kind:'source',type:'code',address:'3067c5b2'}});expect(graph.value.snapshot().calls.find(call=>call.site==='3067c94a')?.returned).toBe(true);expect(bootstrap.processAttach()).toEqual(result);
 });
 
@@ -711,7 +711,9 @@ it('retains released input and completed entries when Engine readiness publicati
 it('enters the original Engine CRT initializer with argument zero and a pending owned return',()=>{
  const {bootstrap,platform,crt}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs),graph=NativeX86ThreadStack.forPlatform(platform);if(!graph.known)throw new Error(graph.reason);
  const result=bootstrap.processAttach(),frame=bootstrap.attachProgress().engineCinitProgress!;
- expect(result.known).toBe(false);expect(frame).toMatchObject({pc:'3067d1c7',operations:2});
+ expect(result.known).toBe(false);expect(frame).toMatchObject({pc:'3068aa20',operations:6});
+ expect(frame.images.crt).toBe(crt);
+ expect(graph.value.snapshot().calls.find(c=>c.site==='3067d1d5')).toMatchObject({returned:false,returnWord:{provenance:{kind:'source',type:'code',address:'3067d1da'}}});
  const call=graph.value.snapshot().calls.find(c=>c.site==='3067728a')!;
  expect(call).toMatchObject({returned:false,position:frame.entryEsp-8,returnWord:{provenance:{kind:'source',type:'code',address:'3067728f'}}});
  expect(frame.stack.readUnsigned(call.position+4)).toBe(0);

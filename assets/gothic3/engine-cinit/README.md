@@ -14,7 +14,7 @@ python tools/gothic3/prepare_engine_cinit_source.py --study '<study-root>' --out
 
 The generator checks the original Engine.dll hash and exact caller bytes.
 Independent regeneration produced identical JSON, SHA-256
-``2dc1561e9c325fa80a3d45846425f7b7d011ccabf74943a5b0dcc355fe165b3b``.
+``9315f6f9df53f0398c937f9b5fccb9a4c54e0191a51e46d2759ad063d733af8f``.
 
 This is evidence preparation. The initializer is not connected to runtime yet.
 The captured bodies cover the readonly image guard, floating-point setup,
