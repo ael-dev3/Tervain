@@ -24,6 +24,8 @@ export class WindowView {
   private readonly target: THREE.WebGLCubeRenderTarget;
   private readonly camera: THREE.CubeCamera;
   private room: InteriorSpec | null = null;
+  /** The room whose outside the cube holds (its six faces done). */
+  private captured: InteriorSpec | null = null;
   private age = Infinity;
   /** The face to redraw next while a refresh is spread over frames, or -1 between refreshes. */
   private face = -1;
@@ -62,7 +64,12 @@ export class WindowView {
       return false;
     }
     const entered = here !== this.room;
-    if (entered) { this.room = here; this.age = Infinity; this.face = -1; }
+    if (entered) {
+      // A different room's view is not shown here (A80 audit): the panes go back to plain daylight until this room's
+      // capture is whole (the material's program is kept; only its map is let go).
+      if (this.pane.envMap && this.captured !== here) { this.pane.envMap = null; this.pane.needsUpdate = true; }
+      this.room = here; this.age = Infinity; this.face = -1;
+    }
     if (Number.isFinite(dt) && dt > 0) this.age += dt;
     // The capture already carries the light outside; the pane only tempers it a little.
     if (this.pane.envMap) this.pane.color.setScalar(0.9);
@@ -92,6 +99,7 @@ export class WindowView {
         renderer.autoClear = oldAutoClear;
         renderer.setRenderTarget(oldTarget);
       }
+      if (this.face < 0) this.captured = here;
       if (this.face < 0 && this.pane.envMap !== this.target.texture) {
         this.pane.envMap = this.target.texture;
         this.pane.combine = THREE.MultiplyOperation;

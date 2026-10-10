@@ -126,11 +126,16 @@ export class ResidentArrivals {
     const building = this.building!;
     try {
       if (!building.rig) {
+        // Another step is taken only if one as long as the last still fits the budget (A80): a short step followed by a
+        // long one made a frame of 20-40 ms.
         const started = this.now();
+        let last = 0;
         do {
+          const before = this.now();
           const next = building.steps.next();
           if (next.done) { building.rig = next.value; break; }
-        } while (this.now() - started < ARRIVAL_BUDGET_MS);
+          last = this.now() - before;
+        } while (this.now() - started + last < ARRIVAL_BUDGET_MS);
         if (building.rig) {
           if (this.warm) {
             const settle = () => { building.ready = true; };

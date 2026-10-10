@@ -44,7 +44,31 @@ An independent read of the new preparation, merging, window and wall code found 
 - **Shadow preparation made a new depth material for every shadow-casting mesh,** for the whole world. There is now one
   per configuration.
 - **The window cube's mipmaps were rebuilt after each face;** they are now rebuilt once a refresh.
+- **Entering another painted room showed the last room's view** through its panes until the new capture was whole.
+  Its panes now show plain daylight until then; the same room keeps its own view.
 - **On the stone sluice hut, long corner stones reached about 0.2 m into the front window's opening.** They now stop
   short of it, drawing the same random choices.
+
+## The 50–70 ms frames (follow-up)
+
+The frames of 50–70 ms left above were traced frame by frame, timing each part of every frame over 40 ms and labelling
+every step of a rig's staged build:
+
+| Cause | Change |
+| --- | --- |
+| **Catch-up steps each spent the arrivals' budget.** A long frame runs several fixed steps to catch up, and each took another 3 ms (or more) of rig building, so one long frame made the next longer: one frame ran 15 build steps. | Rig building runs in a frame's first step only. |
+| **A short step followed by a long one.** The budget let another step start while any time was left, so 2 ms then 20 ms made a 22 ms slice. | Another step starts only if one as long as the last still fits. |
+| **A resident's first frame at work** sampled the whole work clip's hand and tool contacts at once: 30–53 ms. | Sampled while the rig is built, a few samples a step (`ResidentMotion.prepareWork`). |
+| **Long build steps** (10–24 ms): hidden-layer passes cut by a count of points, a whole hand's finger plan, both hands' contact scans, a seated clip's retarget and its seat measured together, equipment, tools and grips. | The hidden-layer passes end each step by the clock (3 ms), the finger plan yields between its phases, each hand shape, seat moment, grip and the equipment are steps of their own. Longest step 24 → 13 ms. |
+
+First minute on the route, served build, three sessions:
+
+| | Worst frame | Frames over 100 ms | Frames over 50 ms | Frames over 33 ms |
+| --- | ---: | ---: | ---: | ---: |
+| A80 as merged | 138–152 ms | 1 | 8–15 | — |
+| Follow-up | 90–115 ms | 0–1 | 1–4 | 5 |
+
+The worst is the world's first frame. The few frames over 50 ms left are the frame after a slow draw catching up two or
+three steps.
 
 No Meshy credits spent.

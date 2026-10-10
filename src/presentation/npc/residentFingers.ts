@@ -206,6 +206,12 @@ const inactiveChain = (at: Vec3, along: Vec3, axis: Vec3): FingerChainPlan => ({
  * the prepared model's own (bind space, as the rig was made for).
  */
 export function planResidentFingers(data: ResidentRigData, position: ArrayLike<number>, index: ArrayLike<number>, closed: readonly FingerSide[] = []): ResidentFingerPlan {
+  const steps = planResidentFingersSteps(data, position, index, closed);
+  for (;;) { const next = steps.next(); if (next.done) return next.value; }
+}
+
+/** planResidentFingers a hand at a time (A80), for a resident built over several frames. */
+export function* planResidentFingersSteps(data: ResidentRigData, position: ArrayLike<number>, index: ArrayLike<number>, closed: readonly FingerSide[] = []): Generator<void, ResidentFingerPlan, void> {
   const vertices = data.vertices;
   const joints = new Uint16Array(vertices * 4), weights = new Float32Array(vertices * 4);
   for (let i = 0; i < joints.length; i++) { joints[i] = data.joints[i]!; weights[i] = data.weights[i]! / 255; }
@@ -215,10 +221,12 @@ export function planResidentFingers(data: ResidentRigData, position: ArrayLike<n
     return w / 255;
   };
   const hands = {} as Record<FingerSide, FingerHandPlan>;
-  FINGER_SIDES.forEach((side, sideIndex) => {
+  for (const [sideIndex, side] of FINGER_SIDES.entries()) {
     const joint = HAND_INDEX[side], bone = data.bones[joint]!;
     const wrist = bone.position as Vec3;
     const surface = handSurface(position, index, v => handWeight(v, joint) > 0.25, vertices);
+    // A hand's plan is tens of milliseconds on a dense model: it is taken in a few steps (A80).
+    yield;
     let handVertices = 0;
     for (let v = 0; v < vertices; v++) if (handWeight(v, joint) >= 0.6) handVertices++;
     const carried: number[] = [];
@@ -253,6 +261,7 @@ export function planResidentFingers(data: ResidentRigData, position: ArrayLike<n
     const reachList = mostly.map(n => t[n]!).sort((a, b) => a - b);
     const reach = reachList[Math.floor(reachList.length * 0.995)] ?? 0;
     const found = tipsOf(t).filter(p => shell.has(p.node) && t[p.node]! > 0.3 * reach);
+    yield;
     // The thumb: a protrusion along the hand or out from it, the furthest aside from the longest finger and the shorter.
     const longest = found.reduce<Peak | null>((best, p) => !best || t[p.node]! > t[best.node]! ? p : best, null);
     const aside = (p: Peak) => longest ? Math.hypot(...sub(across(p.node), across(longest.node))) : 0;
@@ -270,6 +279,7 @@ export function planResidentFingers(data: ResidentRigData, position: ArrayLike<n
       const side1 = reject([0, 0, 1], along), side2 = cross(along, side1);
       for (let k = 0; k < THUMB_DIRECTIONS; k++) {
         const turn = (2 * Math.PI * k) / THUMB_DIRECTIONS;
+        if (k) yield;
         const height = heights(norm(add(scale(side1, Math.cos(turn)), scale(side2, Math.sin(turn)))));
         for (const peak of tipsOf(height)) {
           if (!shell.has(peak.node) || peak.prominence < 1.5 * TIP_PROMINENCE || t[peak.node]! < 0.2 * reach || t[peak.node]! > 0.8 * reach) continue;
@@ -355,6 +365,7 @@ export function planResidentFingers(data: ResidentRigData, position: ArrayLike<n
       };
     }
 
+    yield;
     if (active) {
       const thumbStart = new Float64Array(surface.nodes.length);
       for (const n of thumbRegion) thumbStart[n] = 1;
@@ -387,6 +398,7 @@ export function planResidentFingers(data: ResidentRigData, position: ArrayLike<n
       for (let n = 0; n < surface.nodes.length; n++) for (const m of surface.neighbours[n]!) { edge += Math.hypot(...sub(surface.point(n), surface.point(m))); edges++; }
       const rings = Math.min(6, Math.max(1, Math.round(SPREAD / Math.max(1e-4, edge / Math.max(1, edges)))));
       for (let s = 0; s < 7; s++) {
+        yield;
         const smooth = soften(surface, Float64Array.from(share, x => x[s]!), rings);
         for (let n = 0; n < share.length; n++) share[n]![s] = smooth[n]!;
       }
@@ -417,18 +429,25 @@ export function planResidentFingers(data: ResidentRigData, position: ArrayLike<n
       side, hand: `${side}Hand` as ResidentJoint, active, tips: found.length, handVertices, palm, reach, knuckle, votes,
       fingers, thumb,
     };
-  });
+    yield;
+  }
   return { hands, joints, weights };
 }
 
 const plans = new WeakMap<ResidentRigData, ResidentFingerPlan>();
 /** One plan per rig (every actor of a model shares it); the `closed` hands are modelled closed or covered and keep their shape. */
 export function residentFingerPlan(data: ResidentRigData, geometry: THREE.BufferGeometry, closed: readonly FingerSide[] = []): ResidentFingerPlan {
+  const steps = residentFingerPlanSteps(data, geometry, closed);
+  for (;;) { const next = steps.next(); if (next.done) return next.value; }
+}
+
+/** residentFingerPlan a hand at a time (A80). */
+export function* residentFingerPlanSteps(data: ResidentRigData, geometry: THREE.BufferGeometry, closed: readonly FingerSide[] = []): Generator<void, ResidentFingerPlan, void> {
   let plan = plans.get(data);
   if (!plan) {
     const position = geometry.getAttribute('position') as THREE.BufferAttribute;
     const index = geometry.index?.array ?? Uint32Array.from({ length: position.count }, (_, i) => i);
-    plan = planResidentFingers(data, position.array as ArrayLike<number>, index, closed);
+    plan = yield* planResidentFingersSteps(data, position.array as ArrayLike<number>, index, closed);
     plans.set(data, plan);
   }
   return plan;
