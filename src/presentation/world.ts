@@ -227,6 +227,7 @@ export class WorldScene {
   /** Renderer work before the world is drawn: what the windows of the room the camera is in look out on (A70). */
   prepareInterior(renderer: THREE.WebGLRenderer, camera: THREE.Camera, dt: number, settings: Settings) {
     this.eye.copy(camera.position);
+    this.shareLights();
     this.windowView.update(renderer, this.scene, camera.position, dt, settings.quality !== 'low');
   }
 
@@ -734,6 +735,25 @@ export class WorldScene {
   private readonly interiorLight: InteriorLight;
   private readonly windowView: WindowView;
   private readonly letIn: () => void;
+  /**
+   * Every light on every layer (A79). three builds each material's program for the lights a pass sees, and the passes
+   * look at different layers (the water's own layer, the shadow casters', the sky's): a pass that saw fewer lights made
+   * every material it drew compile another program the first time, a 100-370 ms frame each. A light lights only what it
+   * did before; the passes now all see the same lights. Checked each frame against a list refreshed as lights come.
+   */
+  private sharedLights = new WeakSet<THREE.Light>();
+  private lightCheck = 0;
+  private shareLights() {
+    if (this.lightCheck-- > 0) return;
+    this.lightCheck = 120;
+    this.scene.traverse((o) => {
+      const light = o as THREE.Light;
+      if (!light.isLight || this.sharedLights.has(light)) return;
+      light.layers.enableAll();
+      this.sharedLights.add(light);
+    });
+  }
+
   /** Where the camera stood this frame, for the rooms seen through their windows (A79). */
   private readonly eye = new THREE.Vector3(1e6, 0, 1e6);
   /** Compile what arrives after the world opened before it is shown; the app sets `warm` (A78). */
