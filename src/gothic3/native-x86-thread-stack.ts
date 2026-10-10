@@ -1,7 +1,7 @@
 import {NativeCrtThreadStartup} from './native-crt-thread-startup';
 import {NativeEngineArgvImages} from './native-engine-argv-images';
 import {engineSetenvpCaller,engineSetenvpInstruction} from './native-engine-setenvp-source';
-import {engineCinitCaller,engineCinitInstruction,engineCinitFloatingPointCallback,engineCinitImport} from './native-engine-cinit-source';
+import {engineCinitCaller,engineCinitInstruction,engineCinitFloatingPointCallback,engineCinitImport,engineCinitTableTarget} from './native-engine-cinit-source';
 import {NativeEngineCinitImages} from './native-engine-cinit-images';
 import {NativeEngineCrtEnvironment} from './native-engine-crt-environment';
 import {NativeEngineSetenvpImages} from './native-engine-setenvp-images';
@@ -453,6 +453,25 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
       step('3067d1ef',()=>stack.#push(stack.#mint(0,0,{kind:'engine-image',crt,fields:initializers.value,offset:initializers.value.bytes.length})));
       step('3067d1f4',()=>stack.#push(stack.#mint(0,0,{kind:'engine-image',crt,fields:initializers.value,offset:0})));
       step('3067d1f9',()=>stack.#call('3067d1f9','3067d1fe'));stack.#engineCinitFrame.pc='3067d012';
+      const walk=(pc:string,body:()=>void)=>step(pc,body,'3067d012');
+      const cursor=()=>{const p=stack.#record(register('ESI')).provenance;if(p?.kind!=='engine-image'||p.crt!==crt||p.fields!==initializers.value||p.offset<0||p.offset>initializers.value.bytes.length||p.offset%4)throw new Error('Actual Engine C initializer cursor required');return p.offset;};
+      walk('3067d012',()=>stack.#push(register('ESI')));
+      walk('3067d013',()=>{const esp=stack.#address(register('ESP')),word=stack.#load(stack.#stack,esp+8),p=stack.#record(word).provenance;if(p?.kind!=='engine-image'||p.crt!==crt||p.fields!==initializers.value||p.offset!==0)throw new Error('Actual Engine C initializer begin argument required');setRegister('ESI',word);});
+      walk('3067d017',()=>{setRegister('EAX',stack.#mint(0,0xffffffff));stack.#logicalFlags(0,0xffffffff,4);});
+      walk('3067d019',()=>{});
+      for(;;){
+        let end=0;
+        walk('3067d02a',()=>{const esp=stack.#address(register('ESP')),p=stack.#record(stack.#load(stack.#stack,esp+12)).provenance;if(p?.kind!=='engine-image'||p.crt!==crt||p.fields!==initializers.value||p.offset!==initializers.value.bytes.length)throw new Error('Actual Engine C initializer end argument required');end=p.offset;const current=cursor();stack.#arithmeticFlags(current,end,(current-end)>>>0,4,true);});
+        walk('3067d02e',()=>{});
+        if(cursor()>=end){walk('3067d030',()=>pop('ESI'));walk('3067d031',()=>stack.#ret());stack.#engineCinitFrame.pc='3067d1fe';return known(undefined);}
+        let result=0;walk('3067d01b',()=>{result=stack.#numeric(register('EAX'),4);stack.#logicalFlags(result,0xffffffff,4);});walk('3067d01d',()=>{});
+        if(result!==0){walk('3067d030',()=>pop('ESI'));walk('3067d031',()=>stack.#ret());stack.#engineCinitFrame.pc='3067d1fe';return known(undefined);}
+        let target:string|null=null;
+        walk('3067d01f',()=>{const offset=cursor(),live=NativeEngineCinitImages.imageForCrt(images.value,crt,'errorInitializers');if(!live.known||live.value!==initializers.value)throw new Error('Retained Engine C initializer table required');const raw=NativeHeapObjectViews.prototype.readUnsigned.call(initializers.value,offset,4);if(raw){target=engineCinitTableTarget('errorInitializers',(0x30816928+offset).toString(16));if(!target||parseInt(target,16)!==raw)throw new Error('Admitted original Engine C initializer callback required');setRegister('ECX',stack.#source('code',target));}else setRegister('ECX',stack.#mint(0,0xffffffff));});
+        walk('3067d021',()=>stack.#flags(target?0:0x44,0x841|(target?0:0x84)));walk('3067d023',()=>{});
+        if(target){walk('3067d025',()=>stack.#call('3067d025','3067d027'));stack.#engineCinitFrame.pc=target;return known(undefined);}
+        walk('3067d027',()=>{const before=cursor(),next=before+4;setRegister('ESI',stack.#mint(0,0,{kind:'engine-image',crt,fields:initializers.value,offset:next}));stack.#arithmeticFlags(before,4,next,4,false);});
+      }
       return known(undefined);
     }catch(error){return unknown(reason(error));}
   }
