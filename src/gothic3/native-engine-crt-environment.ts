@@ -1,5 +1,4 @@
-/** Engine wide environment conversion with actual CRT allocation and cleanup.
- * ANSI byte copying remains an explicit dependency. */
+/** Engine environment conversion/copy with actual CRT allocation and cleanup. */
 import type { NativeValue } from './dialogue';
 import { NativeModuleCrtOwner } from './native-engine-crt-locks';
 import { NativeHeapObjectViews } from './native-heap-views';
@@ -8,6 +7,7 @@ import type { NativeBytePointer } from './native-pointer-geometry';
 import type { NativeMemoryBacking } from './native-memory-admin';
 import type { NativeWin32ProcessInputEndpoints } from './native-win32-process-inputs';
 import { admitEngineEnvironmentSource, engineEnvironmentImage, engineEnvironmentInstruction } from './native-engine-environment-source';
+import { NativeEngineCrtByteCopy } from './native-engine-crt-byte-copy';
 
 const known=<T>(value:T):NativeValue<T>=>({known:true,value});
 const unknown=(reason:string):NativeValue<never>=>({known:false,reason});
@@ -20,6 +20,7 @@ export class NativeEngineCrtEnvironment {
   readonly #platform:NativeRuntimePlatform;
   readonly #endpoints:Readonly<NativeWin32ProcessInputEndpoints>;
   readonly #mode:NativeHeapObjectViews;
+  readonly #copy:NativeEngineCrtByteCopy;
   #phase:'cold'|'invoking'|'returned'|'blocked'='cold';
   #boundary:string|null=null;
   #pc='3068e828';
@@ -45,6 +46,7 @@ export class NativeEngineCrtEnvironment {
     const image=engineEnvironmentImage('environmentMode');
     if(image.address!=='30af7908'||image.raw!=='00000000'||image.bytes!==4)throw new Error('Original Engine environment mode required');
     this.#mode=new NativeHeapObjectViews({identity:Object.freeze({crt:crt.identity,address:image.address}),bytes:new Uint8Array(4),knownMask:new Uint8Array(4).fill(255),freed:false});
+    this.#copy=fact(NativeEngineCrtByteCopy.forCrt(crt));
     Object.freeze(this.#mode);Object.freeze(this);
   }
   static forCrt(crt:NativeModuleCrtOwner):NativeValue<NativeEngineCrtEnvironment>{
@@ -115,8 +117,12 @@ export class NativeEngineCrtEnvironment {
       if(this.#read('3068e916',1)!==0){for(;;){do{this.#cursor++;}while(this.#read('3068e91b',1)!==0);this.#cursor++;if(this.#read('3068e920',1)===0)break;}}
       this.#outputBytes=(this.#cursor+1)>>>0;
       if(this.#malloc('3068e92a')===null){this.#call('3068e937','FreeEnvironmentStringsA.return',()=>this.#endpoints.freeEnvironmentStringsA(this.#input!));return this.#finish();}
-      this.#at('3068e945');throw new Error('Engine environment memcpy30671cf0 at3068e945');
+      const copied=this.#call('3068e945','memcpy30671cf0.return',()=>NativeEngineCrtByteCopy.copyForCrt(this.#copy,this.#crt,this.#output!,this.#input!,this.#outputBytes!));
+      if(copied!==this.#output)throw new Error('Actual Engine memcpy destination return required');
+      this.#call('3068e94e','FreeEnvironmentStringsA.return',()=>this.#endpoints.freeEnvironmentStringsA(this.#input!));
+      this.#at('3068e954');this.#effect('output.return-register',this.#output);
+      return this.#finish(this.#output);
     }catch(error){this.#boundary??=error instanceof Error?error.message:String(error);this.#phase='blocked';return unknown(this.#boundary);}
   }
-  snapshot(){return Object.freeze({module:'Engine' as const,entry:'3068e828',phase:this.#phase,boundary:this.#boundary,pc:this.#pc,mode:NativeHeapObjectViews.prototype.readUnsigned.call(this.#mode,0,4),branch:this.#branch,input:this.#input,scanCursor:this.#cursor,scanReads:this.#reads,inputCharacters:this.#inputCharacters,outputBytes:this.#outputBytes,allocation:this.#allocation,output:this.#output,invocations:this.#invocations,effects:Object.freeze([...this.#effects])});}
+  snapshot(){return Object.freeze({module:'Engine' as const,entry:'3068e828',phase:this.#phase,boundary:this.#boundary,pc:this.#pc,mode:NativeHeapObjectViews.prototype.readUnsigned.call(this.#mode,0,4),branch:this.#branch,input:this.#input,scanCursor:this.#cursor,scanReads:this.#reads,inputCharacters:this.#inputCharacters,outputBytes:this.#outputBytes,allocation:this.#allocation,output:this.#output,invocations:this.#invocations,copyProgress:this.#copy.snapshot(),effects:Object.freeze([...this.#effects])});}
 }

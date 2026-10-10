@@ -16,12 +16,27 @@ must distinguish them.
 Reproduce with your matching study directory:
 
 ```powershell
-python tools/gothic3/prepare_engine_byte_copy_source.py --study '<matching study directory>' --output assets/gothic3/engine-byte-copy/research.json
+python tools/gothic3/prepare_engine_byte_copy_source.py --study '<matching study directory>' --output assets/gothic3/engine-byte-copy/research.json --typescript src/gothic3/native-engine-byte-copy-source.ts
 ```
 
-The package is evidence only. Engine environment capture still stops at the
-ANSI memcpy call. Runtime copying must use Engine's live allocation and the
-actual process-input block, preserve byte knowledge and overlap direction,
-validate current dispatch storage and retain any applied prefix at a boundary.
-It must release input only after the real copy returns. Game's similar routine
-does not provide Engine instruction addresses or memory authority.
+The generated module admits the exact receipt. `NativeEngineCrtByteCopy`
+translates the scalar routine with Engine's instruction addresses and retained
+dispatch images. Every reached source operation is checked against its captured
+instruction. Each load/store uses current same-platform allocator or process
+storage and preserves byte knowledge. Overlapping spans copy in the original
+direction, including STD/REP/CLD. Changed table targets or storage stop without
+replaying the applied prefix. Numerical source addresses are metadata and do
+not grant host memory access.
+
+Engine's ANSI environment branch now calls this owner with its actual output
+allocation and process-input block. It releases input only after copying
+returns and returns that same allocation. A failed copy retains the allocation,
+written bytes and unreleased OS input. The separate Game owner supplies no
+Engine memory or instruction authority. Matching Game and Engine routines were
+compared instruction by instruction during adaptation: all 247 operations
+correspond after accounting for their actual module addresses.
+
+The current flag and dispatch views are retained per Engine CRT and exposed
+through the owner's checked image getter for subsequent integration. Engine's
+later CPU initialization must use that same flag view. Vector execution,
+shutdown-drain admission and a complete Engine attach remain unfinished.

@@ -311,3 +311,12 @@ it('stores the actual NULL Engine environment result before reaching I/O',()=>{
  expect(progress.engineEnvironmentStorage!.pointer(0).get()).toBe(null);expect([...progress.engineEnvironmentStorage!.knownMask]).toEqual(Array(4).fill(255));
  expect(progress.nextBoundary).toMatchObject({address:'30677266',target:'306886ec'});
 });
+it('stores the actual ANSI copy result before the pending Engine I/O call',()=>{
+ const platform=new NativeRuntimePlatform({engineCrtServices:{...services,tlsValues:new Map(),processInputs:{...browserGameProcessInputs,environmentW:{kind:'null',lastError:120}}}});
+ const {bootstrap}=selected(platform),result=bootstrap.processAttach();expect(result.known).toBe(false);
+ if(result.known)throw new Error('Engine I/O is unfinished');expect(result.reason).toContain('Engine ioInit306886ec at30677266');
+ const progress=bootstrap.attachProgress();expect(progress.environmentReturned).toBe(true);expect(progress.environmentNonNull).toBe(true);
+ expect(progress.engineEnvironmentProgress).toMatchObject({mode:2,branch:'ansi',phase:'returned'});
+ expect(progress.engineEnvironmentStorage!.pointer(0).get()).toBe(progress.engineEnvironmentProgress!.output);
+ expect(progress.engineEnvironmentProgress!.input!.fields.backing.freed).toBe(true);
+});

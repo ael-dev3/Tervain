@@ -2,6 +2,7 @@ import {describe,expect,it,vi} from 'vitest';
 import {browserGameProcessInputs} from '../../src/gothic3/browser-game-process-inputs';
 import {NativeEngineCrtOwner,NativeGameCrtOwner} from '../../src/gothic3/native-engine-crt-locks';
 import {NativeEngineCrtEnvironment} from '../../src/gothic3/native-engine-crt-environment';
+import {NativeEngineCrtByteCopy} from '../../src/gothic3/native-engine-crt-byte-copy';
 import {NativeRuntimePlatform} from '../../src/gothic3/native-runtime-platform';
 import {NativeHeapObjectViews} from '../../src/gothic3/native-heap-views';
 import type {NativeWin32ProcessInputSelection} from '../../src/gothic3/native-win32-process-inputs';
@@ -15,6 +16,17 @@ function selected(inputs:NativeWin32ProcessInputSelection=browserGameProcessInpu
  if(!result.known)throw new Error(result.reason);return {platform,crt,owner:result.value};
 }
 describe('original Engine environment selection and measurement prefix',()=>{
+ it('retains actual ANSI copy stores and OS input when a later dispatch is unsupported',()=>{
+  const {owner,crt}=selected({...browserGameProcessInputs,environmentW:{kind:'null',lastError:120}});
+  const copy=NativeEngineCrtByteCopy.forCrt(crt);if(!copy.known)throw new Error(copy.reason);
+  const table=NativeEngineCrtByteCopy.imageForCrt(copy.value,crt,'forwardTail');if(!table.known)throw new Error(table.reason);
+  table.value.writeUnsigned(12,0x2046407c);const result=owner.capture();expect(result.known).toBe(false);
+  const state=owner.snapshot();expect(state).toMatchObject({phase:'blocked',pc:'3068e945',mode:2});
+  expect(state.input!.fields.backing.freed).toBe(false);expect(state.copyProgress.invocations[0]).toMatchObject({phase:'blocked',bytesStored:16});
+  expect(state.effects.map(effect=>effect.operation)).not.toContain('FreeEnvironmentStringsA.return');
+  expect([...state.output!.fields.knownMask.subarray(0,19)]).toEqual([...Array(16).fill(255),0,0,0]);
+  expect(owner.capture()).toEqual(result);expect(owner.snapshot()).toEqual(state);
+ });
  it('converts actual UTF16 input into Engine output and permits a fresh physical call',()=>{
   const {crt,owner,platform}=selected();const result=owner.capture();expect(result.known).toBe(true);
   if(!result.known||result.value===null)throw new Error('Actual converted output required');
@@ -29,14 +41,17 @@ describe('original Engine environment selection and measurement prefix',()=>{
   expect(NativeEngineCrtEnvironment.canonicalDestinationForPlatform(platform,result.value,19).known).toBe(true);
   const again=NativeEngineCrtEnvironment.forCrt(crt);expect(again).toEqual({known:true,value:owner});
  });
- it('retains error120 ANSI selection and computes the original byte count',()=>{
-  const {owner}=selected({...browserGameProcessInputs,environmentW:{kind:'null',lastError:120}});expect(owner.capture().known).toBe(false);
-  expect(owner.snapshot()).toMatchObject({mode:2,branch:'ansi',pc:'3068e945',outputBytes:19,inputCharacters:null});
-  const before=owner.snapshot();expect(owner.capture().known).toBe(false);expect(owner.snapshot()).toEqual(before);
+ it('copies error120 ANSI input into the actual allocation and releases OS storage',()=>{
+  const {owner}=selected({...browserGameProcessInputs,environmentW:{kind:'null',lastError:120}});const result=owner.capture();expect(result.known).toBe(true);
+  expect(owner.snapshot()).toMatchObject({mode:2,branch:'ansi',pc:'3068e95c',phase:'returned',outputBytes:19,inputCharacters:null});
+  if(!result.known||!result.value)throw new Error('Actual ANSI output required');
+  expect([...result.value.fields.bytes.subarray(0,19)]).toEqual(browserGameProcessInputs.environmentA!.kind==='buffer'?browserGameProcessInputs.environmentA!.bytes:[]);
+  expect(owner.snapshot().input!.fields.backing.freed).toBe(true);expect(owner.snapshot().copyProgress.invocations[0]).toMatchObject({phase:'returned',bytesStored:19});
+  const next=owner.capture();expect(next.known).toBe(true);if(!next.known)throw new Error(next.reason);expect(next.value).not.toBe(result.value);
  });
  it('uses ANSI on a different wide failure without changing mode to2',()=>{
-  const {owner}=selected({...browserGameProcessInputs,environmentW:{kind:'null',lastError:5}});owner.capture();
-  expect(owner.snapshot()).toMatchObject({mode:0,branch:'ansi',pc:'3068e945'});
+  const {owner}=selected({...browserGameProcessInputs,environmentW:{kind:'null',lastError:5}});expect(owner.capture().known).toBe(true);
+  expect(owner.snapshot()).toMatchObject({mode:0,branch:'ansi',pc:'3068e95c',phase:'returned'});
  });
  it('releases wide input and returns NULL after zero conversion measurement',()=>{
   const {owner}=selected({...browserGameProcessInputs,conversionFailure:{query:{result:0}}});

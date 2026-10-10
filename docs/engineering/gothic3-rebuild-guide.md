@@ -127,8 +127,9 @@ environment retrieval `3067725c -> 3068e828`. That routine selects the wide
 API, scans the retained input, measures conversion and allocates output through
 Engine's CRT. Wide conversion fills that buffer, releases its OS input and
 returns. The caller stores the actual result at `30af70d4`; execution now stops
-at I/O initialization `30677266 -> 306886ec`. The ANSI path retains its actual
-allocation and stops at copy `3068e945 -> 30671cf0`.
+at I/O initialization `30677266 -> 306886ec`. The latest local ANSI fallback
+also copies its actual output through `3068e945 -> 30671cf0`, releases the OS
+input and returns before the same pending I/O call.
 Complete startup, world activation and a new-game-to-ending campaign remain
 unfinished. Local checkpoints and the hosted version can differ; the validation
 receipts below identify the checkpoint covered.
@@ -227,6 +228,23 @@ rejects foreign procedures and preserves interruption after reentrancy or lower
 storage release. All 67 focused checks across five files and typechecking pass;
 the enlarged source package regenerates independently byte for byte. These
 changes do not yet execute the complete I/O caller.
+
+The subsequent local ANSI checkpoint translates Engine's scalar memcpy from
+its own 247-instruction capture. Alignment, DWORD/tail dispatch, overlap
+direction and byte masks use the actual retained storage. Unsupported dispatch
+or reentrancy preserves applied writes and cannot replay. The environment
+routine releases its ANSI input only after the copy returns, and the bootstrap
+stores the actual output pointer before Engine I/O. Independent JSON/TypeScript
+regeneration, typechecking and 54 focused checks across four files pass.
+
+PR #219 merged at `2e086edd68c90b2df3fe133007f9309cb0594565` after its CI passed.
+Pages run `38051390876` completed successfully. The hosted browser entered
+Ardea and inspected `Ardea_OutNovice_01`; its panel confirmed the pending Engine
+I/O call and incomplete NPC activation with 0 of 16 property sets. The newer
+I/O ownership, heap-section helper and ANSI copy changes are local and are not
+part of that deployment. The preceding I/O dependency checkpoint passed all
+3,261 tests across 308 files in 487.27 seconds and its production build in the
+separate validation checkout.
 
 Prepublication review additionally tightened Engine exit-table construction to
 require an actual constructed CRT and made reentrant initialization/registration

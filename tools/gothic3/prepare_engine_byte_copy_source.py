@@ -46,7 +46,21 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--study', required=True, type=Path)
     parser.add_argument('--output', required=True, type=Path)
+    parser.add_argument('--typescript', type=Path)
     args = parser.parse_args()
     receipt = capture(args.study)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(receipt, indent=2) + '\n', encoding='utf-8', newline='\n')
+    if args.typescript:
+        expected = json.dumps(args.output.read_text(encoding='utf-8'))
+        generated = """/** Generated original Engine memcpy admission. */
+import source from '../../assets/gothic3/engine-byte-copy/research.json';
+import sourceText from '../../assets/gothic3/engine-byte-copy/research.json?raw';
+const expectedText = EXPECTED;
+function freeze(value:unknown):void {if(value&&typeof value==='object'&&!Object.isFrozen(value)){for(const child of Object.values(value))freeze(child);Object.freeze(value);}}
+freeze(source);
+export function admitEngineByteCopySource():void {if(sourceText!==expectedText)throw new Error('Original Engine memcpy source differs');}
+export function engineByteCopyInstruction(pc:string){admitEngineByteCopySource();const row=source.source.methods[0]?.instructions.find(row=>row.va===pc);if(!row)throw new Error('Original Engine memcpy instruction required');return row;}
+export function engineByteCopyImage(label:string){admitEngineByteCopySource();const row=source.images.find(row=>row.label===label);if(!row)throw new Error('Original Engine memcpy image required');return row;}
+""".replace('EXPECTED', expected)
+        args.typescript.write_text(generated, encoding='utf-8', newline='\n')
