@@ -11885,3 +11885,14 @@ The real caller creates a 520-byte raw stack alias, writes `0xcccc`, skips the e
 Focused validation: 77 tests across five files passed in 21.91 seconds. The preceding conversion query passed its full suite: 3349 tests across 313 files in 410.34 seconds. PR #226 deployed successfully as `374f95049478679abcb8c0da953b76f9ba9aa30c`, workflow `38070559439`. That public checkpoint reaches the earlier classification-wrapper boundary; the newer query and buffer are not claimed as deployed. Production and broader validation of the current buffer remain pending at this receipt.
 
 Current buffer production validation: `npm run build` completed successfully, including TypeScript checking, and `git diff --check` passed. The query-ABI test observes arguments at the real query return because the subsequent aligned reservation and clear legitimately reuse their old stack bytes. Buffer full-suite and deployment validation remain pending.
+
+
+### 10 October 2026: Engine Unicode conversion output and character types
+
+The retained Engine classification body now executes the conversion output call at `306915f8` and the Unicode character-type call at `30691606`. Both consume their actual source arguments and write bounded 512-byte aliases on the original Engine stack. The declared code-page repertoire supplies the Unicode and CT_CTYPE1 values; all 256 input positions are checked, including the original space substitution at position zero. Interrupted conversion retains partial writes and the pending native return.
+
+The default continuation reaches `30691610` after 1567 admitted operations, before buffer cleanup. Cleanup, classification return, case mapping, MBC publication, complete startup and campaign play remain unfinished.
+
+Validation: initial focused suite 77 tests / five files passed; the expanded Engine frame suite passed 62 tests, including complete output spans and interruption; production build passed. Full-suite validation for this output continuation is pending. The preceding aligned-buffer checkpoint passed 3352 tests / 313 files and merged as PR #227; its Pages deployment is running.
+
+Matching Engine.dll evidence was independently inspected for cleanup `30675d66` and cookie check `3067746c`. Cleanup tests the allocation header against `0xdddd`; the stack allocation carries `0xcccc`, so its original branch returns without freeing heap memory. This evidence is captured outside the repository for the next implementation step; those helper bodies have not yet been added to the executable source package.
