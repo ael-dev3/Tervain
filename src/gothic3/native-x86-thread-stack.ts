@@ -1,3 +1,5 @@
+import {NativeEngineArgvImages} from './native-engine-argv-images';
+import {engineArgvInstruction} from './native-engine-argv-source';
 import {NativePropertyTypeTable} from './native-property-type-table';
 import {createNativeEngineModuleOwner} from './native-engine-module-owner';
 import {createBrowserEngineCrtStartup} from './browser-engine-crt-startup';
@@ -110,6 +112,7 @@ interface StartupCall {
   readonly offset: number; readonly argument: NativeX86Word32; readonly position: number;
   readonly returnWord: NativeX86Word32; phase: 'pending' | 'returned';
 }
+interface EngineArgvFrame {readonly bootstrap:NativeCrtBootstrap;readonly crt:NativeModuleCrtOwner;readonly permit:object;readonly images:NativeEngineArgvImages;readonly entryEsp:number;phase:'running'|'blocked';pc:string;boundary:string|null;operations:number;ebp:number|null;}
 interface EngineIoFrame {
  readonly bootstrap:NativeCrtBootstrap;readonly crt:NativeModuleCrtOwner;readonly permit:object;
  readonly images:NativeEngineIoImages;readonly scope:NativeHeapObjectViews;
@@ -184,6 +187,49 @@ function reason(error: unknown): string {
 }
 
 export class NativeX86ThreadStack {
+  #engineArgvFrame:EngineArgvFrame|null=null;
+  #engineArgvExecuting=false;
+  static enterEngineArgvForBootstrap(stack:NativeX86ThreadStack,bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object):NativeValue<void>{
+    const reached=NativeCrtBootstrap.canonicalEngineArgvCallForCrt(bootstrap,crt,permit);if(!reached.known)return reached;
+    try{
+      const io=stack.#engineIoFrame,images=bootstrap.attachProgress().engineArgvImages;
+      if(graphs.get(crt.host.platform as NativeRuntimePlatform)!==stack||stack.#engineArgvExecuting||stack.#engineArgvFrame||!io||io.crt!==crt||io.bootstrap!==bootstrap||io.phase!=='returned'||!images||stack.#engineIoExecuting)throw new Error('Actual unreplayed Engine argument frame after returned I/O required');
+      if(stack.#phase==='running'){
+        const binding=stack.#setEnvpBinding;if(!stack.#executing||!binding||stack.#calls.filter(call=>!call.returned).at(-1)?.site!=='200766c2')throw new Error('Actual pending Game module-administrator parent required');
+        const parent=NativeGameCrtSetEnvp.canonicalAIHelperModuleAdminCallForCrt(binding.owner,binding.crt,binding.controller);if(!parent.known)throw new Error(parent.reason);
+      }else if(stack.#phase!=='returned'||stack.#executing||stack.#binding)throw new Error('Actual returned Engine thread required');
+      stack.#physical(stack.#stack);stack.#physical(stack.#bank);
+      const entryEsp=stack.#address(stack.#load(stack.#bank,stack.#reg('ESP')));
+      if(entryEsp!==io.entryEsp||stack.#numeric(stack.#load(stack.#bank,stack.#reg('EAX')),4)!==0)throw new Error('Actual Engine I/O return state required');
+      const frame:EngineArgvFrame={bootstrap,crt,permit,images,entryEsp,phase:'running',pc:'30677276',boundary:null,operations:0,ebp:null};stack.#engineArgvFrame=frame;stack.#engineArgvExecuting=true;stack.#phase='running';
+      const reg=(name:NativeX86Register)=>stack.#load(stack.#bank,stack.#reg(name)),set=(name:NativeX86Register,word:NativeX86Word32)=>stack.#store(stack.#bank,stack.#reg(name),word);
+      const step=(pc:string,body:()=>void)=>{stack.#engineArgvProof(frame);engineArgvInstruction('3068e76f',pc);frame.pc=pc;body();frame.operations++;stack.#trace.push(pc+'.EngineArgvSource');stack.#engineArgvProof(frame);};
+      try{
+        stack.#engineArgvProof(frame);stack.#call('30677276','3067727b');
+        step('3068e76f',()=>stack.#push(reg('EBP')));
+        step('3068e770',()=>{set('EBP',reg('ESP'));frame.ebp=stack.#address(reg('EBP'));});
+        step('3068e772',()=>{set('ESP',stack.#stackWord(stack.#address(reg('ESP'))-12));stack.#flags(0,0);});
+        step('3068e775',()=>stack.#push(reg('EBX')));
+        step('3068e776',()=>{set('EBX',stack.#mint(0,0xffffffff));stack.#logicalFlags(0,0xffffffff,4);});
+        let ready=0;
+        step('3068e778',()=>{const image=NativeEngineArgvImages.imageForCrt(images,crt,'multibyteReady');if(!image.known)throw new Error(image.reason);ready=NativeHeapObjectViews.prototype.readUnsigned.call(image.value,0);stack.#arithmeticFlags(ready,0,ready,4,true);});
+        step('3068e77e',()=>stack.#push(reg('ESI')));
+        step('3068e77f',()=>stack.#push(reg('EDI')));
+        let initialize=false;step('3068e780',()=>{const flags=stack.#record(stack.#load(stack.#bank,36));if(!(flags.mask&0x40))throw new Error('Actual Engine argument comparison ZF required');initialize=!!(flags.value&0x40);});
+        frame.pc=initialize?'3068e782':'3068e787';engineArgvInstruction('3068e76f',frame.pc);
+        throw new Error(initialize?'Engine argument multibyte init30685007 at3068e782':'Engine argument filename preparation at3068e787');
+      }catch(error){frame.boundary??=reason(error);frame.phase='blocked';if(!stack.#executing){stack.#boundary??=frame.boundary;stack.#phase='blocked';}return unknown(frame.boundary);}
+      finally{stack.#engineArgvExecuting=false;}
+    }catch(error){return unknown(reason(error));}
+  }
+  #engineArgvProof(frame:EngineArgvFrame):void{
+    if(this.#engineArgvFrame!==frame||!this.#engineArgvExecuting||frame.phase!=='running'||this.#phase!=='running')throw new Error(frame.boundary??'Actual active Engine argument frame required');
+    const reached=NativeCrtBootstrap.canonicalEngineArgvCallForCrt(frame.bootstrap,frame.crt,frame.permit);if(!reached.known)throw new Error(reached.reason);
+    const selection=NativeRuntimePlatform.threadStackSelectionForPlatform(this.#platform);if(!selection.known||selection.value!==this.#selection)throw new Error('Actual selected Engine argument logical-thread lifetime required');
+    for(const label of ['multibyteReady','moduleFilename','moduleFilenameSentinel','programNamePointer','argumentCount','argumentVector'] as const){const image=NativeEngineArgvImages.imageForCrt(frame.images,frame.crt,label);if(!image.known)throw new Error(image.reason);}
+    this.#physical(this.#stack);this.#physical(this.#bank);
+  }
+  engineArgvFrameSnapshot(crt:NativeModuleCrtOwner){const frame=this.#engineArgvFrame;if(!frame||frame.crt!==crt)return null;return Object.freeze({module:'Engine' as const,phase:frame.phase,pc:frame.pc,boundary:frame.boundary,operations:frame.operations,entryEsp:frame.entryEsp,ebp:frame.ebp,stack:this.#stack,bank:this.#bank});}
   #engineIoFrame:EngineIoFrame|null=null;
   #engineIoExecuting=false;
   /** Borrow the actual thread graph for a reached translated Engine CRT call.

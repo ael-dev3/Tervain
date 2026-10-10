@@ -4,6 +4,22 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local checkpoint — 10 October 2026: Engine argument physical prefix
+
+The reached Engine argument call now owns a separate private permit and retained
+frame on the same selected thread as its completed I/O call. Nine original
+instructions save EBP/EBX/ESI/EDI, reserve 12 local bytes, clear EBX, read current
+multibyte-ready state and follow the actual comparison ZF. The normal cold state
+reaches `3068e782 -> 30685007`; a current ready flag skips to `3068e787`, while
+unknown ready bits stop at the comparison without manufacturing a default.
+
+Twenty-three focused checks across three files and TypeScript checking pass.
+Descriptive permits cannot enter or replay the argument frame. The I/O restoration
+check captures register state at its actual return, before the following argument
+callee changes those same physical registers. Multibyte initialization, filename
+retrieval and parser execution remain unfinished. Full validation and publication
+of this later revision are pending; complete campaign play remains unfinished.
+
 ## Local checkpoint — 10 October 2026: Engine/Game argument structure comparison
 
 A reproducible comparison checks original Engine and Game argument setup, parser
