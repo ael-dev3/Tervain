@@ -26,10 +26,14 @@ The receipt keeps `runtimeConnected: false` because complete argument setup
 and its caller return remain unfinished. The selected runtime continuations
 listed below execute against the retained Engine CRT. Captured bytes and
 translated lower allocator/lock services retain separate proof scopes; capture
-alone does not authorize execution. The current local default reaches command
-line selection `3068e79f` after 11,608 operations. Earlier sections below record
-superseded checkpoint boundaries. Argument selection, parsing, Engine-owned
-argv allocation and caller return remain unfinished. This does not prove
+alone does not authorize execution. The current local default selects the retained
+process command line, publishes the filename pointer, and makes the original
+counting-parser call `3068e7c4 -> 3068e5d7` after 11,622 operations. NULL and empty
+command lines select the actual filename buffer; an unknown first byte stops at
+its read without guessing a fallback. All 149 focused checks across six files
+and TypeScript checking pass. Earlier sections below record superseded
+checkpoint boundaries. The parser body, Engine-owned argv allocation and caller
+return remain unfinished. This does not prove
 complete engine startup or playable campaign.
 
 ## Game implementation comparison

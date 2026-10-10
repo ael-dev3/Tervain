@@ -352,6 +352,10 @@ export class NativeCrtBootstrap {
     const proof=NativeCrtBootstrap.canonicalEngineArgvCallForCrt(bootstrap,crt,permit);if(!proof.known)return proof;
     try{if(bootstrap.thread.host.crt!==crt)throw new Error('Actual Engine MBC owner required');return known(bootstrap.#checked(bootstrap.thread.physical.mbcObject));}catch(error){return unknown(failureReason(error));}
   }
+  static engineArgvCommandLineForCrt(bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object):NativeValue<Readonly<{storage:NativeHeapObjectViews;pointer:NativeBytePointer|null}>>{
+    const proof=NativeCrtBootstrap.canonicalEngineArgvCallForCrt(bootstrap,crt,permit);if(!proof.known)return proof;
+    try{if(!bootstrap.#commandLineReturned||!bootstrap.#engineCommandLineStorage)throw new Error('Actual returned Engine command line storage required');const storage=bootstrap.#checked(bootstrap.#engineCommandLineStorage),pointer=NativeHeapObjectViews.prototype.pointer.call(storage,0).get() as NativeBytePointer|null;if(pointer!==null){const span=NativeRuntimePlatform.canonicalProcessInputSpanForPlatform(crt.host.platform as NativeRuntimePlatform,pointer,0);if(!span.known)throw new Error(span.reason);}return known(Object.freeze({storage,pointer}));}catch(error){return unknown(failureReason(error));}
+  }
   static engineArgvLocaleLockForCrt(bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object,operation:'lock'|'unlock'):NativeValue<void>{
     const proof=NativeCrtBootstrap.canonicalEngineArgvCallForCrt(bootstrap,crt,permit);if(!proof.known)return proof;
     if(operation!=='lock'&&operation!=='unlock')return unknown('Actual Engine locale lock operation required');
