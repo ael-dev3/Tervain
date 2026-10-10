@@ -2,8 +2,8 @@
 
 `research.json` captures the original call at `30677276 -> 3068e76f`, its
 70-instruction argument setup, the two-pass parser, multibyte dependency wrapper,
-and CRT malloc wrapper. The package contains 23 methods, 1,535 instructions and
-4,316 instruction bytes, checked against the matching original Engine.dll.
+and CRT malloc wrapper. The package contains 25 methods, 1,571 instructions and
+4,416 instruction bytes, checked against the matching original Engine.dll.
 
 The setup calls GetModuleFileNameA, selects the current command line or filename,
 counts arguments and characters, allocates storage, parses again, and publishes
@@ -18,7 +18,7 @@ python tools/gothic3/prepare_engine_argv_source.py --study <study-directory> --o
 ```
 
 Independent JSON and TypeScript regenerations are byte-identical. Two source checks and TypeScript checking pass. The JSON package has SHA-256
-`042b11f2acc4563e2fb8f8f56a5fee77aca84946d976cb771153f05ab348559a`.
+`128923bceeb7d71ccb270f8acd835f6eb44ec27b8f615871c904b270beacd94b`.
 Engine.dll SHA-256 is
 `d49ef92c0fdfeda433f6d04d0edeb7751e41e4c7c7effc1265630717029dc7e3`.
 
@@ -278,3 +278,16 @@ timeout; all three pass, so 148 distinct focused checks are covered. The
 preceding multibyte-return full run reported 3388 passes and one grouped
 formatter timeout across 313 files. Full validation of this filename checkpoint
 remains pending.
+
+## Parser lead-byte dependency evidence
+
+All three calls in the original parser target `306846bd`. Its seven-instruction
+wrapper supplies mask 4, a zero secondary mask and NULL locale to the byte
+classification body at `306844ff`. That body invokes the already-captured locale
+update constructor `30673389`, reads the owned MBC character flags at offset 29
+and clears temporary PTD ownership when required. The two helper bodies are
+now captured and checked against the original PE bytes. This adds evidence; it
+does not execute the parser or advance the runtime boundary.
+
+The helper evidence checkpoint passes 18 source/image checks, TypeScript checking
+and independent byte-identical JSON and TypeScript regeneration.

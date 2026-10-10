@@ -49,3 +49,11 @@ it('captures the original four-instruction Engine global MBC unlock helper',()=>
 it('captures the exact Engine module filename import and argument-setup call',()=>{
  expect(engineArgvFilenameImport()).toMatchObject({iatVA:'0x30afc82c',module:'KERNEL32.dll',name:'GetModuleFileNameA',ordinal:null});expect(Object.isFrozen(engineArgvFilenameImport())).toBe(true);expect(engineArgvInstruction('3068e76f','3068e799').instruction).toBe('CALL dword ptr [0x30afc82c]');
 });
+
+it('captures all Engine parser lead-byte calls and their actual locale classification dependency',()=>{
+ for(const pc of ['3068e62a','3068e70f','3068e732'])expect(engineArgvInstruction('3068e5d7',pc).instruction).toBe('CALL 0x306846bd');
+ expect(engineArgvInstruction('306846bd','306846c7').instruction).toBe('CALL 0x306844ff');
+ expect(engineArgvInstruction('306844ff','3068450b').instruction).toBe('CALL 0x30673389');
+ expect(engineArgvInstruction('306844ff','3068451a').instruction).toBe('TEST byte ptr [ECX + EAX*0x1 + 0x1d],DL');
+ expect(()=>engineArgvInstruction('3068e5d7','306846bd')).toThrow();
+});
