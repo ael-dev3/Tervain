@@ -4,6 +4,22 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local checkpoint — 10 October 2026: Engine first I/O section return
+
+The original caller at `306888e1` invokes the recovered Engine critical-section
+helper with its actual 24-byte allocation alias and spin count 4,000. Its cdecl
+return preserves both arguments until the original POP instructions. A true
+result increments the record count; a false result stops at the original failure
+branch without incrementing it. Both INC operations preserve the previous CF.
+
+The browser prefix executes 474 instructions and reaches the next standard-handle
+record at `3068886c`. Only the first standard record is connected so far. The
+helper is a translated bridge, not literal execution of its full native body.
+Seventeen focused integration checks and TypeScript checking pass. Section lookup
+can change last-error after the preceding GetFileType call. Full validation and
+public deployment of this latest revision remain pending; the campaign remains
+unfinished.
+
 ## Local checkpoint — 10 October 2026: Engine handle adoption and section argument
 
 Engine's original instructions now test the returned file type, adopt the actual
