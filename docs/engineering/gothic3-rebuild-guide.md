@@ -101,11 +101,28 @@ about missing operations in older entries apply to those earlier checkpoints.
 
 ### Module-administrator research: next connection
 
+Engine's exit-registration source now includes onexit `3067155a`, table
+insertion/growth `30671472` and unlock `30671590`. Its separate initializer
+`3067152b-30671559` was absent from the function catalog; every recovered
+instruction was checked against matching Engine DLL bytes, including contiguous
+coverage. Image slot `30816a2c` contains the initializer address. The initializer
+calls `calloc(32, 4)`, encodes the returned 128-byte table pointer and writes it
+to begin/end globals `30af7e80` and `30af7e7c`. Registration subsequently decodes
+those globals, checks capacity, grows the CRT allocation if necessary and stores
+an encoded callback. This source capture has not connected the Engine exit owner
+or completed the pending ModuleAdmin getter.
+
+Independent generation, TypeScript checking and nine focused tests passed
+(12.17 seconds). The integrated checkpoint `78c1335ea` passed all 3,217 tests
+across 302 files in 411.49 seconds and its build in 29.90 seconds. These full
+checks precede the ModuleAdmin bridge and latest exit-source additions.
+
 Main revision `7428ccf0a` (merged PR #218) is integrated locally at `31c7fb2ee`.
 It adds Tervain reflection and tree-shadow optimizations without changing the
 Gothic runtime. The combined checkout passed 24 focused tests across five files
 in 14.77 seconds and TypeScript checking. Full-suite and production-build
-validation of the combined tree are pending; publication has not occurred.
+validation of that combined tree passed as recorded above; publication has not
+occurred.
 
 The source package now captures 48 original Engine instructions for
 ModuleAdmin.GetInstance `3002e9ec -> 30088e90`, embedded input-dispatcher

@@ -21,7 +21,32 @@ def capture(study):
     engine=audit_module(study,'Engine_dll','Engine.dll',{
         0x300027b1:'engineComponentConstructor',0x30035a5d:'engineComponentBaseConstructor',
         0x3002e9ec:'moduleAdminGetInstance',0x3003f026:'moduleInputDispatcherConstructor',
-        0x3000f5bf:'moduleInputDispatcherCreate',0x30671596:'moduleEngineAtexit'})
+        0x3000f5bf:'moduleInputDispatcherCreate',0x30671596:'moduleEngineAtexit',
+        0x3067155a:'moduleEngineOnexit',0x30671472:'moduleEngineOnexitTable',
+        0x30671590:'moduleEngineOnexitUnlock'})
+    engine_pe=PE((study/'00_Original_Runtime/Engine.dll').read_bytes())
+    exit_rows=[]
+    with (study/'01_Decompiled_Code/Engine_dll/full_disassembly.asm').open(encoding='utf-8') as assembly:
+        for line_number,line in enumerate(assembly,1):
+            if ' | ' not in line:
+                continue
+            address,raw,instruction=line.strip().split(' | ',2)
+            if not '3067152b'<=address<='30671559':
+                continue
+            va=int(address,16)
+            if engine_pe.bytes(va,len(raw)//2).hex()!=raw:
+                raise ValueError('Engine exit initializer differs from original bytes')
+            exit_rows.append(dict(va=address,bytes=raw,instruction=instruction,assemblyLine=line_number))
+    exit_raw=bytes.fromhex(''.join(row['bytes'] for row in exit_rows))
+    if exit_raw!=engine_pe.bytes(0x3067152b,0x2f) or exit_rows[-1]['instruction']!='RET':
+        raise ValueError('Incomplete Engine exit initializer extent')
+    exit_slot=engine_pe.bytes(0x30816a2c,4)
+    if exit_slot.hex()!='2b156730':
+        raise ValueError('Original Engine exit initializer slot differs')
+    engine_exit_initialization=dict(entry='3067152b',extent='3067152b-30671559',
+        instructions=exit_rows,bytes=exit_raw.hex(),bytesSha256=hashlib.sha256(exit_raw).hexdigest(),
+        initializerSlot=dict(address='30816a2c',bytes=exit_slot.hex(),sha256=hashlib.sha256(exit_slot).hexdigest()),
+        exitBegin='30af7e80',exitEnd='30af7e7c',runtimeConnected=False)
     game=audit_module(study,'Game_dll','Game.dll',{0x20028efc:'aiHelperWrapperClone'})
     shared=audit_module(study,'SharedBase_dll','SharedBase.dll',{
         0x10002ee1:'accessorCreatorConstructor',0x10007036:'queryNewObject',0x10007356:'accessorCreatorDestructor',0x100019d8:'queryTypeNode',0x10007ec8:'factoryQueryObject',0x100058a3:'factoryRootCheck',0x100056e6:'wrapperQueryObject',0x10001d07:'engineObjectRefBaseConstructor',0x10007c11:'engineObjectBaseConstructor'})
@@ -61,7 +86,7 @@ def capture(study):
             raw=image.hex(), fileBackedBytes=backed, loaderZeroFillBytes=size-backed,
             sha256=hashlib.sha256(image).hexdigest(), liveValueCaptured=False))
     return dict(schema='gothic3-ai-helper-accessor-creator-research-v1',
-        module='Game.dll', inputSha256=digest, shared=shared, game=game, engine=engine, initializer='204b2720',
+        module='Game.dll', inputSha256=digest, shared=shared, game=game, engine=engine, engineExitInitialization=engine_exit_initialization, initializer='204b2720',
         extent='204b2720-204b2741', bytes=raw.hex(),
         bytesSha256=hashlib.sha256(raw).hexdigest(), instructions=rows,
         destination='207b52bc', cleanup='20549d50', imports=imports,
