@@ -4,6 +4,22 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local checkpoint — 10 October 2026: Engine I/O normal return
+
+The original SetHandleCount import now receives the current Engine count 32,
+returns its declared DWORD, and completes its actual stdcall stack cleanup. The
+original caller deliberately discards that value and sets EAX to zero. The EH4
+epilog restores FS:[0], callee-saved registers, EBP and the entry ESP before the
+final RET returns to `3067726b`. The supported virtual profile completes this
+I/O callee after 579 source instructions; the containing CRT caller continuation
+is still unfinished. Native DLL loader order is not established by this bridge.
+
+Nineteen focused integration checks and TypeScript checking pass. Separate checks
+cover varied SetHandleCount results, restored frame state and no replay. Inherited
+blocks and invalid/NULL/error paths remain unsupported. Full validation and public
+deployment of this latest revision remain pending. Complete browser campaign
+play remains unfinished.
+
 ## Local checkpoint — 10 October 2026: Three Engine standard handles
 
 The original standard-handle loop now executes its stdin, stdout and stderr

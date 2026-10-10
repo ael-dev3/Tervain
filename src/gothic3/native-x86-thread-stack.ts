@@ -113,9 +113,9 @@ interface StartupCall {
 interface EngineIoFrame {
  readonly bootstrap:NativeCrtBootstrap;readonly crt:NativeModuleCrtOwner;readonly permit:object;
  readonly images:NativeEngineIoImages;readonly scope:NativeHeapObjectViews;
- phase:'running'|'blocked';pc:string;boundary:string|null;operations:number;
+ phase:'running'|'blocked'|'returned';pc:string;boundary:string|null;operations:number;
  entryEsp:number;ebp:number|null;prologReturned:boolean;fsPublished:boolean;
- startupInfo:NativeHeapObjectViews|null;allocation:NativeHeapObjectViews|null;callocReturned:boolean;fileType:number|null;section:NativeHeapObjectViews|null;sectionResult:boolean|null;
+ startupInfo:NativeHeapObjectViews|null;allocation:NativeHeapObjectViews|null;callocReturned:boolean;fileType:number|null;section:NativeHeapObjectViews|null;sectionResult:boolean|null;setHandleCountResult:number|null;fsRestored:boolean;
 }
 interface HeapCall {
   readonly stack: NativeX86ThreadStack; readonly controller: object; readonly crt: NativeModuleCrtOwner;
@@ -125,7 +125,7 @@ interface HeapCall {
   phase: 'pending' | 'returned';
 }
 export interface NativeStandardIoArguments {
-  readonly site: NativeStandardIoCallSite | '306888a1' | '306888b3'; readonly kind: NativeStandardIoCallKind; readonly crt: NativeModuleCrtOwner;
+  readonly site: NativeStandardIoCallSite | '306888a1' | '306888b3' | '3068890b'; readonly kind: NativeStandardIoCallKind; readonly crt: NativeModuleCrtOwner;
   readonly scalar?: number; readonly object?: object | null; readonly procedure?: object;
   readonly section?: NativeBytePointer; readonly sectionFields?: NativeHeapObjectViews;
 }
@@ -202,7 +202,7 @@ export class NativeX86ThreadStack {
       stack.#physical(stack.#stack);stack.#physical(stack.#bank);
       const images=bootstrap.attachProgress().engineIoImages;if(!images)throw new Error('Actual retained Engine I/O images required');
       const scope=NativeEngineIoImages.imageForCrt(images,crt,'ioSehScope');if(!scope.known)throw new Error(scope.reason);
-      const frame:EngineIoFrame={bootstrap,crt,permit,images,scope:scope.value,phase:'running',pc:'30677266',boundary:null,operations:0,entryEsp:stack.#address(stack.#load(stack.#bank,stack.#reg('ESP'))),ebp:null,prologReturned:false,fsPublished:false,startupInfo:null,allocation:null,callocReturned:false,fileType:null,section:null,sectionResult:null};
+      const frame:EngineIoFrame={bootstrap,crt,permit,images,scope:scope.value,phase:'running',pc:'30677266',boundary:null,operations:0,entryEsp:stack.#address(stack.#load(stack.#bank,stack.#reg('ESP'))),ebp:null,prologReturned:false,fsPublished:false,startupInfo:null,allocation:null,callocReturned:false,fileType:null,section:null,sectionResult:null,setHandleCountResult:null,fsRestored:false};
       stack.#engineIoFrame=frame;stack.#engineIoExecuting=true;stack.#phase='running';
       const register=(name:NativeX86Register)=>stack.#load(stack.#bank,stack.#reg(name));
       const set=(name:NativeX86Register,word:NativeX86Word32)=>stack.#store(stack.#bank,stack.#reg(name),word);
@@ -440,7 +440,36 @@ export class NativeX86ThreadStack {
         step('306886ec','306888ff',()=>{const index=stack.#numeric(register('EBX'),4);if(index>3)throw new Error('Actual bounded Engine standard-handle index required');nextStandard=index<3;});
         }
         step('306886ec','30688905',()=>{const count=NativeEngineIoImages.imageForCrt(frame.images,crt,'ioHandleCount');if(!count.known)throw new Error(count.reason);stack.#push(value(count.value.readUnsigned(0)));});
-        frame.pc='3068890b';engineIoInstruction('306886ec',frame.pc);throw new Error('Engine SetHandleCount IAT30afc740 at3068890b');
+        step('306886ec','3068890b',()=>{
+          const endpoints=stack.#platform.standardIoEndpoints;if(!endpoints)throw new Error('Engine SetHandleCount IAT30afc740 at3068890b');
+          const endpointProof=NativeRuntimePlatform.canonicalStandardIoEndpointsForPlatform(stack.#platform,endpoints);if(!endpointProof.known)throw new Error(endpointProof.reason);
+          const argument=stack.#load(stack.#stack,relative('ESP',0)),scalar=stack.#numeric(argument,4);if(scalar!==32)throw new Error('Actual Engine handle count32 required');
+          stack.#call('3068890b','30688911');const top=stack.#calls.at(-1)!,grant=Object.freeze({identity:Object.freeze({})});
+          const call={stack,frame,args:Object.freeze({site:'3068890b' as const,kind:'SetHandleCount' as const,crt,scalar}),position:top.position,argument,returnWord:top.returnWord,phase:'pending' as 'pending'|'returned'};
+          engineStandardCalls.set(grant,call);const result=endpoints.invoke(grant);if(!result.known)throw new Error(result.reason);
+          const returned=NativeRuntimePlatform.canonicalStandardIoNormalReturnForPlatform(stack.#platform,grant);if(!returned.known||returned.value!==result.value)throw new Error(returned.known?'Actual Engine SetHandleCount result required':returned.reason);
+          stack.#engineStandardProof(call);if(typeof result.value!=='number'||!Number.isInteger(result.value)||result.value<0||result.value>0xffffffff)throw new Error('Actual SetHandleCount DWORD result required');
+          frame.setHandleCountResult=result.value;set('EAX',value(result.value));for(const name of ['ECX','EDX'] as const)set(name,stack.#mint(0,0));stack.#flags(0,0);
+          set('ESP',stack.#stackWord(call.position+8));top.returned=true;stack.#currentPc=call.returnWord;call.phase='returned';
+        });
+        step('306886ec','30688911',()=>set('EAX',xor(register('EAX'),register('EAX'))));
+        step('306886ec','30688913',()=>{});
+        step('306886ec','30688926',()=>stack.#call('30688926','3068892b'));
+        const epilog=(pc:string,body:()=>void)=>step('3067e545',pc,body);
+        const pop=(name:NativeX86Register)=>{const position=relative('ESP',0);set(name,stack.#load(stack.#stack,position));set('ESP',stack.#stackWord(position+4));};
+        epilog('3067e545',()=>set('ECX',stack.#load(stack.#stack,relative('EBP',-0x10))));
+        epilog('3067e548',()=>{stack.#store(stack.#bank,32,register('ECX'));frame.fsRestored=true;});
+        epilog('3067e54f',()=>pop('ECX'));
+        epilog('3067e550',()=>pop('EDI'));
+        epilog('3067e551',()=>pop('EDI'));
+        epilog('3067e552',()=>pop('ESI'));
+        epilog('3067e553',()=>pop('EBX'));
+        epilog('3067e554',()=>set('ESP',register('EBP')));
+        epilog('3067e556',()=>pop('EBP'));
+        epilog('3067e557',()=>stack.#push(register('ECX')));
+        epilog('3067e558',()=>{const next=stack.#record(stack.#ret()).provenance;if(next?.kind!=='source'||next.type!=='code'||next.address!=='3068892b')throw new Error('Actual Engine EH4 epilog return required');});
+        step('306886ec','3068892b',()=>{const next=stack.#record(stack.#ret()).provenance;if(next?.kind!=='source'||next.type!=='code'||next.address!=='3067726b'||relative('ESP',0)!==frame.entryEsp||stack.#numeric(register('EAX'),4)!==0)throw new Error('Actual Engine I/O caller return and zero result required');});
+        frame.phase='returned';if(!stack.#executing)stack.#phase='returned';return known(undefined);
       }catch(error){frame.boundary??=reason(error);frame.phase='blocked';if(!stack.#executing){stack.#boundary??=frame.boundary;stack.#phase='blocked';}return unknown(frame.boundary);}
       finally{stack.#engineIoExecuting=false;}
     }catch(error){return unknown(reason(error));}
@@ -448,7 +477,7 @@ export class NativeX86ThreadStack {
   #engineStandardProof(call:NonNullable<ReturnType<typeof engineStandardCalls.get>>):void{
     this.#engineIoProof(call.frame);const top=this.#calls.at(-1);
     if(call.phase!=='pending'||call.frame.pc!==call.args.site||!top||top.returned||top.site!==call.args.site||top.position!==call.position||top.returnWord!==call.returnWord||
-      this.#address(this.#load(this.#bank,this.#reg('ESP')))!==call.position||this.#load(this.#stack,call.position)!==call.returnWord||this.#load(this.#stack,call.position+4)!==call.argument||(call.args.kind==='GetStdHandle'?this.#numeric(call.argument,4)!==call.args.scalar:this.#record(call.argument).provenance?.kind!=='platform'||(this.#record(call.argument).provenance as {object?:object}).object!==call.args.object))throw new Error('Actual pending Engine standard-I/O call required');
+      this.#address(this.#load(this.#bank,this.#reg('ESP')))!==call.position||this.#load(this.#stack,call.position)!==call.returnWord||this.#load(this.#stack,call.position+4)!==call.argument||(call.args.kind!=='GetFileType'?this.#numeric(call.argument,4)!==call.args.scalar:this.#record(call.argument).provenance?.kind!=='platform'||(this.#record(call.argument).provenance as {object?:object}).object!==call.args.object))throw new Error('Actual pending Engine standard-I/O call required');
   }
   #engineStartupProof(call:NonNullable<ReturnType<typeof engineStartupCalls.get>>):void{
     this.#engineIoProof(call.frame);
@@ -467,7 +496,7 @@ export class NativeX86ThreadStack {
   }
   engineIoFrameSnapshot(crt:NativeModuleCrtOwner){
     const frame=this.#engineIoFrame;if(!frame||frame.crt!==crt)return null;
-    return Object.freeze({module:'Engine' as const,phase:frame.phase,pc:frame.pc,boundary:frame.boundary,operations:frame.operations,entryEsp:frame.entryEsp,ebp:frame.ebp,prologReturned:frame.prologReturned,fsPublished:frame.fsPublished,startupInfo:frame.startupInfo,allocation:frame.allocation,callocReturned:frame.callocReturned,fileType:frame.fileType,section:frame.section,sectionResult:frame.sectionResult,scope:frame.scope,stack:this.#stack,bank:this.#bank});
+    return Object.freeze({module:'Engine' as const,phase:frame.phase,pc:frame.pc,boundary:frame.boundary,operations:frame.operations,entryEsp:frame.entryEsp,ebp:frame.ebp,prologReturned:frame.prologReturned,fsPublished:frame.fsPublished,startupInfo:frame.startupInfo,allocation:frame.allocation,callocReturned:frame.callocReturned,fileType:frame.fileType,section:frame.section,sectionResult:frame.sectionResult,setHandleCountResult:frame.setHandleCountResult,fsRestored:frame.fsRestored,scope:frame.scope,stack:this.#stack,bank:this.#bank});
   }
   readonly #platform: NativeRuntimePlatform;
   readonly #selection: Readonly<NativeX86ThreadStackSelection>;
