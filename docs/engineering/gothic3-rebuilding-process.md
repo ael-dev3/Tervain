@@ -11790,3 +11790,16 @@ The MBC allocation checkpoint also passed TypeScript checking and a production
 build. Source JSON, TypeScript admission and the Game comparison independently
 regenerate byte-identically. The copied constructor stack record is a live alias;
 subsequent native calls can reuse its bytes after its lifetime ends.
+
+The preceding code-page checkpoint (`8e4deca77`) passed the complete local suite:
+3,321 tests in 313 files, 514.44 seconds. The subsequent allocation-and-copy
+checkpoint has its own full-suite validation. PR #223 deployed successfully via
+Actions run `38063606634` at main revision
+`87e8a812c41a4ad6382f435820902e872f1068bc`.
+
+Hosted observation after PR #223 deployment: a fresh `/gothic3/` tab loaded
+202 scene objects and 70 characters, entered Ardea, and showed
+`Xardas_FindXardas` as Running in the original quest journal. The interface
+continues to identify incomplete NPC AI and campaign paths. This confirms scene
+and journal availability; it does not verify a particular native instruction
+address or a finishable campaign. The temporary verification tab was closed.
