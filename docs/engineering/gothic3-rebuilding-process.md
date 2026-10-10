@@ -4,6 +4,229 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Publication checkpoint — 10 October 2026: Engine argument and locale startup
+
+The publication branch joins argument source admission, retained Engine image
+ownership, physical argument entry, the multibyte wrapper, nested EH4 setup,
+the PTD getter and the locale helper's supported return. The normal cold path
+executes 122 source operations and stops at code-page helper `30684bde`.
+The current-pointer receipt resolves only the original default MBC object or
+NULL; dynamic pointer replacement remains an explicit unsupported branch.
+
+Runtime revision `6a236ba50` passed all 3,316 tests across 313 files in 491.90
+seconds. Source/image checks and independent regeneration cover the later
+descriptive constructor receipt; that addition does not change the runtime.
+TypeScript checking and the locale-helper production build pass. The rebuilding
+guide update is joined to this branch. After joining main and Claude PR #222,
+63 focused checks across seven files and a fresh production build pass.
+Complete startup, live NPC/campaign
+integration and a new-game-to-ending browser campaign remain unfinished.
+
+## Local evidence — 10 October 2026: Code-page locale update constructor
+
+The next helper at `30684bde` invokes `30673389` with a 16-byte stack object
+and a NULL argument before selecting a code page. Its original constructor
+receipt is now captured with the `30af76fc` automatic-code-page flag. The cold
+constructor saves current PTD, locale and MBC pointers into the stack object,
+compares the pointers with current globals, and temporarily sets PTD flag bit 2
+if it was clear. The code-page helper later clears that bit only if the object's
+own flag says the constructor set it. Unsupported calls must preserve this state;
+they must not fabricate destructor cleanup or a normal code-page return.
+
+The constructor and the code-page helper remain unimplemented. The existing
+locale-helper production build passes. Complete startup and campaign play remain
+unfinished.
+
+## Local checkpoint — 10 October 2026: Engine locale helper return
+
+The retained argument frame now executes the locale helper at `30684b3a`.
+It uses the original immutable scope, the active Engine cookie and the current
+same-CRT PTD. The cold flags select lock 13; the current MBC pointer is resolved
+to the existing thread-owned `30ad4bd0` object. Matching pointers follow the
+original unlock wrapper and EH4 epilog. The helper restores FS, callee-saved
+registers and nested EBP before returning its actual MBC object to multibyte setup.
+The caller loads its current MBC pointer and `-3` parameter and reaches code-page
+helper `30684bde` from `30684e92`. The cold path executes 122 source operations.
+
+Current flags can select the original fast path without taking lock 13. Unknown
+flag bits stop at their actual read. A pointer mismatch stops at the unimplemented
+replacement branch with the actual lock retained. An unavailable lock service
+retains its pending return rather than fabricating success. The current-pointer
+receipt resolves only the original default object or NULL; dynamic MBC objects
+remain unsupported. The inner lock/unlock calls use the existing translated
+Engine CRT services and do not claim physical execution of every lock instruction.
+
+Forty-one focused checks across five files pass. The preceding PTD runtime
+passed all 3,311 tests across 313 files in 436.98
+seconds. That full result precedes this locale continuation. Code-page setup,
+argument parsing, full startup and campaign integration remain unfinished.
+
+## Local evidence — 10 October 2026: Engine multibyte locale dependency
+
+The argument receipt includes the locale helper's original EH4 scope at
+`30956b80`, the locale configuration DWORD at `30ad50f0`, the current MBC pointer
+image at `30ad4ff8`, and the four-instruction unlock wrapper at `30684bd5`.
+The original flag value is `fffffffe`; the pointer receipt names `30ad4bd0`,
+whose MBC object already belongs to the retained Engine thread startup. Future
+execution must connect to that same live object rather than allocate a duplicate.
+These new receipts are descriptive evidence only; the locale helper remains
+unimplemented. Its cold PTD flags select lock 13 before comparing MBC pointers.
+
+The preceding exception-frame runtime checkpoint passed all 3,308 tests across
+313 files in 425.44 seconds. That full result precedes the PTD getter and this
+expanded evidence. The full browser campaign remains unfinished.
+
+## Local checkpoint — 10 October 2026: Engine multibyte PTD getter
+
+The nested multibyte call executes the original getter wrapper at `3067e12b`.
+Its actual inner CALL bridges to Engine's existing translated `getPtdNoExit`
+service under the active argument permit. The returned record must have retained
+same-Engine PTD membership and live canonical storage. The physical return slots,
+ESI save/restore, TEST and JNZ are executed before returning to multibyte setup.
+The caller stores that record in EDI and its local slot and calls locale helper
+`30684b3a` from `30684e87`, where supported execution currently stops.
+
+The cold path executes 51 source operations. A NULL service result retains the
+original fatal call with argument 16; an unowned record stops at the getter call.
+Neither path manufactures readiness or a successful nested setup return.
+Thirty-one focused checks across four files, TypeScript checking and the
+production build pass. The
+source package now includes the 11-instruction getter wrapper. The translated
+inner service uses its existing Engine thread-startup evidence; this does not
+claim instruction-by-instruction execution of that inner service on the physical
+stack. Full validation and publication of this continuation remain pending.
+Locale setup, argument parsing, full startup and campaign integration remain
+unfinished.
+
+## Hosted observation — 10 October 2026: PR #221
+
+PR #221 merged as `368c88aa4fd4bbd23a48cf5d06874cea93b45eab`.
+[Pages run 38058376491](https://github.com/ael-dev3/Tervain/actions/runs/38058376491)
+completed successfully. A fresh browser tab opened the hosted `/gothic3/` route,
+loaded 202 scene objects and 70 characters, and entered Ardea. The journal showed
+`Xardas_FindXardas` Running in the fresh source-seeded state. The Help panel
+explicitly describes incomplete NPC AI, startup callbacks and campaign paths.
+This observation verifies the deployed scene and journal; it does not establish
+full native startup, save compatibility or a finishable campaign. The later
+nested multibyte continuation below remains local.
+
+## Local checkpoint — 10 October 2026: Engine nested multibyte exception frame
+
+The argument continuation executes the nested routine's three entry instructions,
+its original 21-instruction Engine EH4 prolog, and its local OR store on the
+retained physical thread. The original scope at `30956ba0` is owned by Engine's
+argument images and checked against its immutable receipt. The cookie is read
+only under the active Engine argument permit. Outer and nested EBP are recorded
+separately.
+
+The cold path reaches 39 operations and stops at the thread-data getter
+`30684e7d -> 3067e12b`. The nested FS frame and both pending returns remain live;
+readiness stays zero. Shared EH4 instructions use the exact existing Engine I/O
+receipt for `3067e500`; argument instructions use their own source admission.
+Unknown cookie bytes stop at the actual read before publishing the new FS frame.
+Independent evidence regeneration is byte-identical; TypeScript checking and the
+production build pass.
+Twenty-seven focused checks pass, including immutable scope validation and an
+unknown-cookie stop. Full validation of this continuation remains pending.
+
+The preceding argument prefix passed all 3,304 tests across 313 files in
+467.61 seconds. That full result precedes this change. Thread/locale setup,
+parser execution, full startup and campaign integration remain unfinished.
+This local continuation has not been deployed.
+
+## Local checkpoint — 10 October 2026: Engine argument initialization wrapper
+
+The reached argument call now executes the original multibyte wrapper on the
+same physical thread. It rereads the current ready flag, follows its actual ZF,
+and, for the cold state, pushes `-3` and issues the nested CALL to `30684e6d`.
+The prefix stops before that deeper routine with both return slots and its argument
+retained. The wrapper does not mark readiness before the nested call returns.
+If the current wrapper read is already ready, its original zero return and RET
+resume the argument caller at `3068e787` without running multibyte setup.
+
+Twenty-three focused integration checks and TypeScript checking pass. Additional
+checks cover the exact pending argument and a changed wrapper readiness value.
+The deeper locale/thread setup remains unfinished. Full validation and deployment
+of this later revision are pending; the full browser campaign remains unfinished.
+
+## Local checkpoint — 10 October 2026: Engine argument physical prefix
+
+The reached Engine argument call now owns a separate private permit and retained
+frame on the same selected thread as its completed I/O call. Nine original
+instructions save EBP/EBX/ESI/EDI, reserve 12 local bytes, clear EBX, read current
+multibyte-ready state and follow the actual comparison ZF. The normal cold state
+reaches `3068e782 -> 30685007`; a current ready flag skips to `3068e787`, while
+unknown ready bits stop at the comparison without manufacturing a default.
+
+Twenty-three focused checks across three files and TypeScript checking pass.
+Descriptive permits cannot enter or replay the argument frame. The I/O restoration
+check captures register state at its actual return, before the following argument
+callee changes those same physical registers. Multibyte initialization, filename
+retrieval and parser execution remain unfinished. Full validation and publication
+of this later revision are pending; complete campaign play remains unfinished.
+
+## Local checkpoint — 10 October 2026: Engine/Game argument structure comparison
+
+A reproducible comparison checks original Engine and Game argument setup, parser
+and initialization-wrapper receipts. Their 70, 175 and eight instructions have
+matching structure, constants and offsets after explicit module-address operand
+mapping. All three lengths match and no structural mismatches are reported.
+The comparison preserves receipt hashes and address relations under
+`assets/gothic3/engine-argv/game-comparison.json`.
+
+Independent regeneration and a deliberately changed-instruction rejection check
+pass. This identifies an implementation reference; it does not make Game call
+permits, pointers, heaps or procedures valid in Engine, and it does not prove
+that deeper dependencies are equivalent. Engine parser execution and full browser
+campaign play remain unfinished. PR #221's Engine I/O CI is still running.
+
+## Local checkpoint — 10 October 2026: Argument images joined to Engine bootstrap
+
+The actual Engine CRT bootstrap now retains its existing per-CRT argument-image
+owner and validates all six new image roots before the next argument-setup call.
+The already-owned command-line pointer remains in its original bootstrap storage.
+Repeated bootstrap lookup retains changed argument state. Twenty-three focused
+checks across four files and TypeScript checking pass. No parser instructions
+execute yet; complete engine attachment and the browser campaign remain unfinished.
+
+The earlier publication checkpoint passed all 3,296 tests across 311 files in
+523.01 seconds and its production build passed. These full results precede the
+later expanded argument evidence and argument-image integration.
+
+## Local checkpoint — 10 October 2026: Engine argument image ownership
+
+A per-Engine-CRT owner now retains the six new argument images: multibyte-ready
+state, module filename and sentinel, program-name pointer, argument count and
+argument vector. Source admission verifies their receipts. The existing CRT
+bootstrap command-line image is deliberately excluded, so creating this owner
+cannot allocate or reseed a second command-line pointer image.
+
+Five focused checks and TypeScript checking pass. Mutable image contents and
+pointer identities survive repeated lookup. Foreign CRTs, Game owners, prototype
+counterfeits, replaced backing arrays and released storage are rejected without
+repair. This is cold data ownership only; it does not run the parser or attach the
+Engine DLL. Complete browser campaign play remains unfinished.
+
+## Local checkpoint — 10 October 2026: Engine argument source admission
+
+The argument generator now emits TypeScript source admission alongside its JSON
+receipt. Admission requires exact text and method membership; original Engine
+addresses cannot be substituted with Game or another captured method's rows.
+Seven global receipts are frozen descriptive data and do not provide live pointer
+or execution authority. Two focused source checks and TypeScript checking pass.
+Independent JSON and TypeScript regeneration are byte-identical. The parser is
+still unimplemented, and this source admission does not complete startup or the
+browser campaign.
+
+## Local checkpoint — 10 October 2026: Engine argument multibyte dependencies
+
+The argument evidence now includes the wrapper's nested multibyte setup and
+three immediate helper bodies. The package contains eight methods, 631 original
+instructions and 1,829 instruction bytes. Original PE verification and independent
+byte-identical regeneration pass. Deeper thread, locale, allocation and lock calls
+remain dependencies to recover; capturing these bodies does not execute them.
+The argument parser and complete browser campaign remain unfinished.
+
 ## Local checkpoint — 10 October 2026: Next Engine argument setup evidence
 
 The next startup function at `3068e76f` is now captured with its two-pass parser,

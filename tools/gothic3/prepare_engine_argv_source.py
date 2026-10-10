@@ -12,7 +12,14 @@ def capture(study):
         0x3068e76f: 'engineArgumentSetup',
         0x3068e5d7: 'engineArgumentParser',
         0x30685007: 'engineArgumentMultibyteDependency',
+        0x30684e6d: 'engineArgumentMultibyteSetup',
+        0x30684b3a: 'engineArgumentMultibyteHelper30684b3a',
+        0x30684bde: 'engineArgumentMultibyteHelper30684bde',
+        0x30684c58: 'engineArgumentMultibyteHelper30684c58',
         0x3067c9c1: 'engineArgumentMallocCrt',
+        0x3067e12b: 'engineMultibyteGetPtdWrapper',
+        0x30684bd5: 'engineMultibyteLocaleUnlock',
+        0x30673389: 'engineCodepageLocaleUpdate',
     })
     pe = PE((study / '00_Original_Runtime/Engine.dll').read_bytes())
     caller = pe.bytes(0x30677276, 5)
@@ -25,7 +32,12 @@ def capture(study):
                                  (0x30af91f8, 4, 'commandLinePointer'),
                                  (0x30af7128, 4, 'programNamePointer'),
                                  (0x30af710c, 4, 'argumentCount'),
-                                 (0x30af7110, 4, 'argumentVector')]:
+                                 (0x30af7110, 4, 'argumentVector'),
+                                 (0x30956ba0, 28, 'multibyteSetupSehScope'),
+                                 (0x30956b80, 28, 'multibyteLocaleSehScope'),
+                                 (0x30ad50f0, 4, 'multibyteLocaleFlags'),
+                                 (0x30ad4ff8, 4, 'currentMultibytePointer'),
+                                 (0x30af76fc, 4, 'codepageAutomatic')]:
         rva = address - pe.base
         section = next(s for s in pe.sections if s[1] <= rva and rva + size <= s[1] + max(s[0], s[2]))
         backed = max(0, min(size, section[1] + section[2] - rva))
@@ -38,6 +50,7 @@ def capture(study):
                 raw=caller.hex(), sha256=hashlib.sha256(caller).hexdigest()),
                 runtimeConnected=False,
                 notes=['Original module filename and two-pass command-line argument setup.',
+                       'Multibyte setup has additional thread, locale, allocation and lock dependencies.',
                        'Capture alone does not establish execution, allocation or returned argv.'])
 
 
@@ -45,7 +58,21 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--study', required=True, type=Path)
     parser.add_argument('--output', required=True, type=Path)
+    parser.add_argument('--typescript', type=Path)
     args = parser.parse_args()
     receipt = capture(args.study)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(receipt, indent=2) + '\n', encoding='utf-8', newline='\n')
+    if args.typescript:
+        expected = json.dumps(args.output.read_text(encoding='utf-8'))
+        generated = """/** Generated original Engine argument source admission. */
+import source from '../../assets/gothic3/engine-argv/research.json';
+import sourceText from '../../assets/gothic3/engine-argv/research.json?raw';
+const expectedText = EXPECTED;
+function freeze(value:unknown):void {if(value&&typeof value==='object'&&!Object.isFrozen(value)){for(const child of Object.values(value))freeze(child);Object.freeze(value);}}
+freeze(source);
+export function admitEngineArgvSource():void {if(sourceText!==expectedText)throw new Error('Original Engine argument source differs');}
+export function engineArgvInstruction(entry:string,pc:string){admitEngineArgvSource();const method=source.source.methods.find(method=>method.bodyVA==='0x'+entry);const row=method?.instructions.find(row=>row.va===pc);if(!row)throw new Error('Original Engine argument method instruction required');return row;}
+export function engineArgvImage(label:string){admitEngineArgvSource();const image=source.images.find(image=>image.label===label);if(!image)throw new Error('Original Engine argument image required');return image;}
+""".replace('EXPECTED', expected)
+        args.typescript.write_text(generated, encoding='utf-8', newline='\n')

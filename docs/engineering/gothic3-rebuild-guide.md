@@ -112,27 +112,51 @@ Each feature goes through the following steps:
    workflow triggers. Publish the reviewed checkpoint on `/gothic3/` and
    record which behavior it demonstrates.
 
-**Current local boundary:** Arena Status, None, Running, AI FreePoint, Label
-and AI helper administrator initialization return through the retained startup
-stack. PropertyID initializer `204b26c0` returns. Accessor-creator initializer
-`204b2720` resolves the registered AI helper type and returns its canonical
-factory through the original virtual accessor. The factory query finds the
-registered root wrapper and tail-dispatches its clone routine. The clone allocates
-its new wrapper, executes its base constructor and retrieves the canonical type.
-Non-root initialization allocates a separate component and executes its Engine
-constructor chain. The translated module-administrator getter constructs its
-dispatcher and registry. Its shutdown dependency now enters Engine's retained
-CRT attach prefix, stores the process command-line pointer and stops at Engine
-environment retrieval `3067725c -> 3068e828`. That routine selects the wide
-API, scans the retained input, measures conversion and allocates output through
-Engine's CRT. Wide conversion fills that buffer, releases its OS input and
-returns. The caller stores the actual result at `30af70d4`; execution now stops
-at I/O initialization `30677266 -> 306886ec`. The latest local ANSI fallback
-also copies its actual output through `3068e945 -> 30671cf0`, releases the OS
-input and returns before the same pending I/O call.
+### Progress recorded on 10 October 2026
+
+The supported Engine I/O initialization path now returns through its retained
+caller. This checkpoint merged in [PR #221](https://github.com/ael-dev3/Tervain/pull/221).
+It preserves Engine-owned allocations, initializes the three standard handles,
+and restores the original stack and exception state. The next unsupported call
+in that merged revision is argument setup `30677276 -> 3068e76f`.
+
+The argument-startup checkpoint enters the multibyte routine, constructs its
+exception frame, returns the same Engine-owned thread-data record and completes
+the supported locale-helper path. It stops at code-page helper `30684bde`, called
+from `30684e92`. This continuation is not included in PR #221. Capturing that routine and its data does
+not establish that its behavior has been implemented. A merged revision also
+needs deployment and browser observation before claiming hosted behavior.
+
 Complete startup, world activation and a new-game-to-ending campaign remain
-unfinished. Local checkpoints and the hosted version can differ; the validation
-receipts below identify the checkpoint covered.
+unfinished. The checkpoint history records earlier boundaries and their evidence;
+those dated boundaries should not be read as the latest implementation status.
+
+## Where to find the work
+
+| Location | Purpose |
+| --- | --- |
+| `tools/gothic3/` | Asset readers, evidence capture and reproducible preparation scripts. |
+| `assets/gothic3/` | Research receipts, native instruction records and comparison evidence. |
+| `src/gothic3/` | TypeScript runtime, browser integration and admitted native source records. |
+| `public/gothic3/` | Resources served to the browser. |
+| `tests/gothic3-dialogue/` | Checks for recovered behavior, state ownership and supported continuations. |
+| `docs/engineering/gothic3-rebuilding-process.md` | Dated technical checkpoints, validation and remaining work. |
+
+## What still needs to be rebuilt
+
+1. Finish the startup dependencies using the matching original instruction and
+   data evidence, including argument and thread/locale initialization.
+2. Activate a connected world with terrain, placements, streaming and collision.
+3. Connect human meshes, skeletons and animations to live NPC behavior and player
+   movement, interaction and combat.
+4. Execute dialogue, quest conditions and consequences against persistent world
+   state, including the campaign's ending conditions.
+5. Implement save and reload for that state, then demonstrate a complete campaign
+   through ordinary browser play.
+
+These steps overlap: each implemented system needs integration with the world
+and its existing dependencies. The completion claim requires observed gameplay
+through the ending, with working persistence.
 
 ## Concrete example: rebuilding the AI helper startup
 
