@@ -620,7 +620,17 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
             storage('30671510',()=>stack.#push(register('EDI')));storage('30671511',()=>encode('30671511','30671516'));storage('30671516',()=>pop('ECX'));storage('30671517',()=>stack.#store(global('exitTableBegin'),0,register('EAX')));
             storage('3067151c',()=>setRegister('EAX',stack.#load(stack.#stack,relative('ESP',28))));storage('30671520',()=>pop('ECX'));storage('30671521',()=>{});
             storage('30671525',()=>pop('EDI'));storage('30671526',()=>pop('ESI'));storage('30671527',()=>pop('EBP'));storage('30671528',()=>pop('EBX'));storage('30671529',()=>pop('ECX'));storage('3067152a',()=>stack.#ret());
-            stack.#engineCinitFrame.pc='30671577';return known(undefined);
+            step('30671577',()=>pop('ECX'),'3067155a');
+            step('30671578',()=>stack.#store(stack.#stack,relative('EBP',-28),register('EAX')),'3067155a');
+            step('3067157b',()=>stack.#store(stack.#stack,relative('EBP',-4),stack.#mint(0xfffffffe,0xffffffff)),'3067155a');
+            step('30671582',()=>stack.#call('30671582','30671587'),'3067155a');
+            step('30671590',()=>stack.#call('30671590','30671595'),'30671590');
+            step('3067cff1',()=>stack.#push(stack.#mint(8,0xffffffff)),'3067cff1');
+            step('3067cff3',()=>{stack.#call('3067cff3','3067cff8');if(!stack.#engineCinitFrame!.onexitLockHeld||stack.#numeric(stack.#load(stack.#stack,relative('ESP',4)),4)!==8)throw new Error('Actual held Engine exit lock required');const result=NativeCrtBootstrap.engineCinitExitLockForCrt(bootstrap,crt,permit,'unlock');if(!result.known)throw new Error(result.reason);stack.#engineCinitFrame!.onexitLockHeld=false;hostReturn(stack.#mint(0,0),0);},'3067cff1');
+            step('3067cff8',()=>pop('ECX'),'3067cff1');step('3067cff9',()=>stack.#ret(),'3067cff1');step('30671595',()=>stack.#ret(),'30671590');
+            step('30671587',()=>setRegister('EAX',stack.#load(stack.#stack,relative('EBP',-28))),'3067155a');
+            step('3067158a',()=>stack.#call('3067158a','3067158f'),'3067155a');
+            stack.#engineCinitFrame.pc='3067e545';return known(undefined);
           }
           if(target&&target!=='3067152b')return known(undefined);
           if(target){
