@@ -4,40 +4,34 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
-## Latest state — 10 October 2026: Engine module filename return
+## Latest state — 10 October 2026: Engine command-line selection
 
 PR #230 deployed revision `f1505ca863aefc10d5a6cb883d1d379b8ac296ff` after
-successful main build and Pages deployment. It completes both case conversions
-and stops at `30684a93` after 5261 admitted operations.
+successful main build and Pages deployment. Its default startup stops at
+`30684a93` after 5261 admitted operations.
 
-The newer local continuation completes the character record, installs it in
-Engine thread data and publishes all original multibyte globals. It replaces
-the global pointer, retains the second reference, releases lock 13 and returns
-through the original EH4 epilog and multibyte wrapper. The wrapper marks
-multibyte ready=1. Argument setup then calls original `GetModuleFileNameA`
-with NULL module, the owned 260-byte buffer and count 260 after clearing its
-separate sentinel. The selected virtual process filename supplies the API
-bytes; normal execution writes those bytes and terminator and returns its
-length through the actual stdcall slot. The current boundary is command-line
-pointer selection `3068e79f` after 11,608 operations.
+The newer local continuation completes the multibyte character record, installs
+it in Engine thread data, publishes the original globals, replaces the global
+pointer, retains its reference, releases lock 13 and returns through the original
+EH4 epilog and wrapper. Argument setup calls original `GetModuleFileNameA` with
+the owned 260-byte buffer. The selected virtual process filename supplies the
+bytes; this is a browser platform input, not observation of a Windows process.
 
-Interrupted writes, increments and unavailable unlocks retain their produced
-state and actual pending calls. Reused stack slots are observed while their
-values are live. All 148 distinct focused checks are covered by passing
-results, with TypeScript checking, independent JSON/TypeScript regeneration
-and production build passing. Full validation of the combined publication
-branch is running. It is not yet deployed.
+That combined filename revision passed all 3,394 tests across 313 files in
+745.15 seconds, TypeScript checking and a production build. Earlier full runs
+with timeouts remain recorded as failed validation; they are not green evidence.
 
-The preceding multibyte-return full run reported 3388 passes and one 30-second
-formatter timeout across 313 files in 866.75 seconds. That test grouped three
-independently initialized damage cases; they now run separately with unchanged
-inputs, assertions and per-case timeout, and all three pass. The prior
-876.33-second table-publication run had three timeouts and two worker
-termination warnings. Neither run is claimed as a passing full result.
+The next local checkpoint selects the already-returned Engine process command
+line, publishes the filename pointer and prepares the actual counting-parser
+call `3068e7c4 -> 3068e5d7`. NULL and empty command lines use the filename buffer.
+An unknown first byte stops at its actual read without guessing fallback. The
+default reaches parser entry after 11,622 operations. All 149 focused checks
+across six files and TypeScript checking pass. The combined publication branch
+is undergoing full validation; these changes are not yet deployed.
 
-Command-line selection, the two-pass parser, Engine argv allocation, complete
-startup and a finishable browser campaign remain unfinished. Earlier sections
-below are historical receipts, including superseded boundaries.
+The parser body, Engine argv allocation, complete startup and a finishable
+browser campaign remain unfinished. Earlier sections below are historical
+receipts, including superseded boundaries.
 
 ## Publication checkpoint — 10 October 2026: Engine argument and locale startup
 
