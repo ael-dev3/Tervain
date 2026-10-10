@@ -135,3 +135,16 @@ actual converted count; interrupted writes preserve both earlier output and the
 pending return identity. Default CP1252 startup reaches buffer cleanup at
 `3067c79b` after 3394 admitted operations. Cleanup, wrapper return, the upper-case
 mapping, MBC publication and complete campaign integration remain unfinished.
+
+
+## Engine mapping cleanup and caller return
+
+The retained mapping body now executes both stack-buffer cleanup calls. Each
+checks its actual allocation header and returns through its own source return
+word; neither frees the Engine heap allocation. The body restores its saved
+registers, validates the original cookie XOR relation and returns to its wrapper.
+The wrapper clears only locale ownership it acquired, returns to `30684a6b`, and
+the case routine removes the original 68 bytes of caller arguments. Default
+execution reaches uppercase mapping preparation `30684a6e` after 3436 operations
+with the Engine PTD flag restored to one. A previously owned flag remains owned.
+Uppercase mapping and subsequent publication/startup/gameplay remain unfinished.

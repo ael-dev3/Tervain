@@ -11974,3 +11974,24 @@ Typecheck, production build and 92 focused tests across five files passed.
 All six source evidence checks passed, including the additional narrowing import
 check. The next full-suite run is pending.
 This does not establish complete startup or a finishable browser campaign.
+
+
+### 10 October 2026: Engine mapping cleanup and caller return
+
+Factored the already admitted stack-buffer cleanup and cookie helpers so the
+classification and mapping bodies execute the same original helper instructions
+with their own allocation bases and return words. Mapping now returns through
+both buffer cleanups, checks its cookie, restores registers, releases only its
+acquired locale ownership and returns to its retained case-table caller.
+The caller removes 68 bytes of original arguments. It reaches uppercase mapping
+preparation `30684a6e` after 3436 operations (3423 with a cached mapping API;
+1945 with an input NUL at byte seven).
+
+Typecheck and production build passed. Six targeted caller/ownership checks
+passed with a 20-second per-test timeout. The broader focused run passed 93 of
+94 checks; its sole failure was the old assertion that the now-returned mapping
+body remained pending. After updating that assertion, its affected test passed.
+The earlier narrowing full suite reported five-second timeouts under concurrent
+local validation load, including unchanged startup tests; its final result and
+a full run with an appropriate timeout remain pending. Complete engine startup
+and a finishable campaign are still unproven.
