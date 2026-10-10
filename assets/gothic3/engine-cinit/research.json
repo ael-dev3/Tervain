@@ -3975,6 +3975,51 @@
         "bodyByteCount": 30,
         "bodyInstructionBytesSha256": "89ccdaaff00f82555fbaf8f2d627d6bd7f3869031046e49ca727d6994c7fea78",
         "recoveredFromAssemblyWithoutFunctionCSV": true
+      },
+      {
+        "label": "engineSse2ControlInitializer",
+        "entryVA": "0x3069c552",
+        "bodyVA": "0x3069c552",
+        "entryChain": [],
+        "bodyRanges": "3069c552-3069c55e",
+        "instructions": [
+          {
+            "va": "3069c552",
+            "rva": "69c552",
+            "fileOffset": 6931794,
+            "bytes": "e89bffffff",
+            "instruction": "CALL 0x3069c4f2",
+            "assemblyLine": 1771757
+          },
+          {
+            "va": "3069c557",
+            "rva": "69c557",
+            "fileOffset": 6931799,
+            "bytes": "a3687eaf30",
+            "instruction": "MOV [0x30af7e68],EAX",
+            "assemblyLine": 1771758
+          },
+          {
+            "va": "3069c55c",
+            "rva": "69c55c",
+            "fileOffset": 6931804,
+            "bytes": "33c0",
+            "instruction": "XOR EAX,EAX",
+            "assemblyLine": 1771759
+          },
+          {
+            "va": "3069c55e",
+            "rva": "69c55e",
+            "fileOffset": 6931806,
+            "bytes": "c3",
+            "instruction": "RET",
+            "assemblyLine": 1771760
+          }
+        ],
+        "instructionCount": 4,
+        "bodyByteCount": 13,
+        "bodyInstructionBytesSha256": "02dc890a0eedce323353947c135bcfc61e54a29c18ffcf1bd385ba8346bc82bc",
+        "recoveredFromAssemblyWithoutFunctionCSV": true
       }
     ],
     "constants": [],
@@ -12005,6 +12050,15 @@
     {
       "label": "sse2Ready",
       "address": "30af7e58",
+      "bytes": 4,
+      "raw": "00000000",
+      "fileBackedBytes": 0,
+      "loaderZeroFillBytes": 4,
+      "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+    },
+    {
+      "label": "sse2Control",
+      "address": "30af7e68",
       "bytes": 4,
       "raw": "00000000",
       "fileBackedBytes": 0,

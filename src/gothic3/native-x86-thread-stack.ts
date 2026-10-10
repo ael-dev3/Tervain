@@ -202,7 +202,7 @@ export class NativeX86ThreadStack {
   #engineArgvExecuting=false;
   #engineArgvCallerTested=false;
   #engineSetenvpCallerTested=false;
-  #engineCinitFrame:{crt:NativeModuleCrtOwner;bootstrap:NativeCrtBootstrap;pc:string;entryEsp:number;images:NativeEngineCinitImages;operations:number;floatConversionWritten:boolean;precisionArgument:number|null;exitTableAllocation:NativeHeapObjectViews|null;exitTableResult:0|24|null;streamAllocation:NativeHeapObjectViews|null;streamCount:number|null;streamResult:0|26|null;sse2Result:0|1|null}|null=null;
+  #engineCinitFrame:{crt:NativeModuleCrtOwner;bootstrap:NativeCrtBootstrap;pc:string;entryEsp:number;images:NativeEngineCinitImages;operations:number;floatConversionWritten:boolean;precisionArgument:number|null;exitTableAllocation:NativeHeapObjectViews|null;exitTableResult:0|24|null;streamAllocation:NativeHeapObjectViews|null;streamCount:number|null;streamResult:0|26|null;sse2Result:0|1|null;sse2ControlResult:0|1|null}|null=null;
   #engineSetenvpFrame:{crt:NativeModuleCrtOwner;bootstrap:NativeCrtBootstrap;phase:'running'|'blocked'|'returned';pc:string;boundary:string|null;operations:number;input:NativeBytePointer|null;cursor:number;entries:number;strlenCalls:number;vectorSlots:number|null;vector:NativeHeapObjectViews|null;vectorPublished:boolean;vectorReleased:boolean;vectorCleared:boolean;inputReleased:boolean;inputCleared:boolean;readyPublished:boolean;strings:NativeHeapObjectViews[];filledEntries:number;images:NativeEngineSetenvpImages;result:0|-1|null}|null=null;
   static enterEngineSetenvpForBootstrap(stack:NativeX86ThreadStack,bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object):NativeValue<0|-1>{
     const reached=NativeCrtBootstrap.engineSetenvpInputForCrt(bootstrap,crt,permit);if(!reached.known)return reached;
@@ -359,7 +359,7 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
       const images=NativeEngineCinitImages.forCrt(crt);if(!images.known)throw new Error(images.reason);
       stack.#physical(stack.#stack);stack.#physical(stack.#bank);
       const entryEsp=stack.#address(stack.#load(stack.#bank,stack.#reg('ESP')));
-      stack.#engineCinitFrame={crt,bootstrap,pc:'30677288',entryEsp,images:images.value,operations:0,floatConversionWritten:false,precisionArgument:null,exitTableAllocation:null,exitTableResult:null,streamAllocation:null,streamCount:null,streamResult:null,sse2Result:null};
+      stack.#engineCinitFrame={crt,bootstrap,pc:'30677288',entryEsp,images:images.value,operations:0,floatConversionWritten:false,precisionArgument:null,exitTableAllocation:null,exitTableResult:null,streamAllocation:null,streamCount:null,streamResult:null,sse2Result:null,sse2ControlResult:null};
       stack.#push(stack.#mint(0,0xffffffff));stack.#trace.push('30677288.EngineCinitCallerPush');stack.#engineCinitFrame.operations++;
       stack.#call('3067728a','3067728f');stack.#trace.push('3067728a.EngineCinitCallerCall');stack.#engineCinitFrame.operations++;
       stack.#engineCinitFrame.pc='3067d1c7';
@@ -471,10 +471,11 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
         walk('3067d021',()=>stack.#flags(target?0:0x44,0x841|(target?0:0x84)));walk('3067d023',()=>{});
         if(target){
           walk('3067d025',()=>stack.#call('3067d025','3067d027'));stack.#engineCinitFrame.pc=target;
-          if(target==='3067f720'){
-            const init=(pc:string,body:()=>void)=>step(pc,body,'3067f720'),cpuStep=(pc:string,body:()=>void)=>step(pc,body,'3069c4f2');
-            const ready=NativeEngineCinitImages.imageForCrt(images.value,crt,'sse2Ready');if(!ready.known)throw new Error(ready.reason);
-            init('3067f720',()=>{stack.#store(ready.value,0,stack.#mint(0,0xffffffff));stack.#logicalFlags(0,0xffffffff,4);});init('3067f727',()=>stack.#call('3067f727','3067f72c'));
+          if(target==='3067f720'||target==='3069c552'){
+            const control=target==='3069c552',entry=target;
+            const init=(pc:string,body:()=>void)=>step(pc,body,entry),cpuStep=(pc:string,body:()=>void)=>step(pc,body,'3069c4f2');
+            const ready=NativeEngineCinitImages.imageForCrt(images.value,crt,control?'sse2Control':'sse2Ready');if(!ready.known)throw new Error(ready.reason);
+            if(control)init('3069c552',()=>stack.#call('3069c552','3069c557'));else{init('3067f720',()=>{stack.#store(ready.value,0,stack.#mint(0,0xffffffff));stack.#logicalFlags(0,0xffffffff,4);});init('3067f727',()=>stack.#call('3067f727','3067f72c'));}
             cpuStep('3069c4f2',()=>stack.#push(register('EBP')));cpuStep('3069c4f3',()=>setRegister('EBP',register('ESP')));
             cpuStep('3069c4f5',()=>{setRegister('ESP',stack.#stackWord(stack.#address(register('ESP'))-24));stack.#flags(0,0);});
             const local=(offset:number)=>stack.#address(register('EBP'))+offset;
@@ -501,7 +502,7 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
               cpuStep('3069c54a',()=>{const old=stack.#record(stack.#load(stack.#bank,36));setRegister('EAX',stack.#mint(1,0xffffffff));stack.#arithmeticFlags(0,1,1,4,false);const after=stack.#record(stack.#load(stack.#bank,36));stack.#flags((after.value&~1)|(old.value&1),(after.mask&~1)|(old.mask&1));});cpuStep('3069c54b',()=>{});
             }else cpuStep('3069c54d',zero);
             cpuStep('3069c54f',()=>pop('EBX'));cpuStep('3069c550',()=>{setRegister('ESP',register('EBP'));pop('EBP');});cpuStep('3069c551',()=>stack.#ret());
-            init('3067f72c',()=>{const result=stack.#numeric(register('EAX'),4);if(result!==0&&result!==1)throw new Error('Actual Engine SSE2 result required');stack.#engineCinitFrame!.sse2Result=result;stack.#store(ready.value,0,register('EAX'));});init('3067f731',zero);init('3067f733',()=>stack.#ret());
+            init(control?'3069c557':'3067f72c',()=>{const result=stack.#numeric(register('EAX'),4);if(result!==0&&result!==1)throw new Error('Actual Engine SSE2 result required');if(control)stack.#engineCinitFrame!.sse2ControlResult=result;else stack.#engineCinitFrame!.sse2Result=result;stack.#store(ready.value,0,register('EAX'));});init(control?'3069c55c':'3067f731',zero);init(control?'3069c55e':'3067f733',()=>stack.#ret());
             target=null;
           }
           if(target==='3067c3c7'){
@@ -584,7 +585,7 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
       return known(undefined);
     }catch(error){return unknown(reason(error));}
   }
-  engineCinitFrameSnapshot(crt:NativeModuleCrtOwner){const f=this.#engineCinitFrame;if(!f||f.crt!==crt)return null;const table=NativeEngineCinitImages.imageForCrt(f.images,crt,'floatConversionPointers');const streamPointers=f.streamAllocation&&f.streamResult===0?Object.freeze(Array.from({length:20},(_,i)=>this.#record(this.#load(f.streamAllocation!,i*4)))):null;const floatPointers=f.floatConversionWritten&&table.known?Object.freeze(Array.from({length:10},(_,i)=>this.#record(this.#load(table.value,i*4)))):null;return Object.freeze({pc:f.pc,entryEsp:f.entryEsp,images:f.images,operations:f.operations,floatConversionWritten:f.floatConversionWritten,precisionArgument:f.precisionArgument,exitTableAllocation:f.exitTableAllocation,exitTableResult:f.exitTableResult,streamAllocation:f.streamAllocation,streamCount:f.streamCount,streamResult:f.streamResult,sse2Result:f.sse2Result,streamPointers,floatPointers,bank:this.#bank,stack:this.#stack});}
+  engineCinitFrameSnapshot(crt:NativeModuleCrtOwner){const f=this.#engineCinitFrame;if(!f||f.crt!==crt)return null;const table=NativeEngineCinitImages.imageForCrt(f.images,crt,'floatConversionPointers');const streamPointers=f.streamAllocation&&f.streamResult===0?Object.freeze(Array.from({length:20},(_,i)=>this.#record(this.#load(f.streamAllocation!,i*4)))):null;const floatPointers=f.floatConversionWritten&&table.known?Object.freeze(Array.from({length:10},(_,i)=>this.#record(this.#load(table.value,i*4)))):null;return Object.freeze({pc:f.pc,entryEsp:f.entryEsp,images:f.images,operations:f.operations,floatConversionWritten:f.floatConversionWritten,precisionArgument:f.precisionArgument,exitTableAllocation:f.exitTableAllocation,exitTableResult:f.exitTableResult,streamAllocation:f.streamAllocation,streamCount:f.streamCount,streamResult:f.streamResult,sse2Result:f.sse2Result,sse2ControlResult:f.sse2ControlResult,streamPointers,floatPointers,bank:this.#bank,stack:this.#stack});}
   static testEngineSetenvpReturnForBootstrap(stack:NativeX86ThreadStack,bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object):NativeValue<'30677288'|'3067729f'>{
     const reached=NativeCrtBootstrap.canonicalEngineSetenvpCallerForCrt(bootstrap,crt,permit);if(!reached.known)return reached;
     try{

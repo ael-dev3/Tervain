@@ -33,7 +33,8 @@ def capture(study):
     recovered=[('engineExitTableInitializer',0x3067152b,0x3067155a,20),
                ('engineStreamTableInitializer',0x3067c3c7,0x3067c478,None),
                ('engineSse2Initializer',0x3067f720,0x3067f734,5),
-               ('engineMultibyteInitializer',0x30685007,0x30685025,8)]
+               ('engineMultibyteInitializer',0x30685007,0x30685025,8),
+               ('engineSse2ControlInitializer',0x3069c552,0x3069c55f,4)]
     collected={begin:[] for _,begin,_,_ in recovered}
     asm=study/'01_Decompiled_Code/Engine_dll/full_disassembly.asm'
     for number,line in enumerate(asm.open('rb'),1):
@@ -99,6 +100,7 @@ def capture(study):
         ('streamPointers', 0x30af7e8c, 4),
         ('staticStreams', 0x30ad45a8, 640),
         ('sse2Ready', 0x30af7e58, 4),
+        ('sse2Control', 0x30af7e68, 4),
     ]:
         rva = address-pe.base
         section = next(s for s in pe.sections if s[1] <= rva and rva+size <= s[1]+max(s[0],s[2]))

@@ -4,6 +4,22 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local continuation — 11 October 2026: fourth and fifth C initializers
+
+The fourth initializer reads the original multibyte-ready flag from the retained
+argument images. A nonzero flag follows its original return; zero preserves the
+pending setup call rather than manufacturing readiness. The fifth initializer
+calls the original CPU helper a second time and publishes its result to the
+separate `30af7e68` global. Both calls use the same retained virtual CPU selection.
+
+The normal selected path now reaches the sixth initializer, `30671182`, after
+1,544 admitted C-initializer operations. Sixteen focused checks across three
+files pass, including both source/image packages, repeated CPU execution and
+the cleared multibyte-ready branch. Final typechecking passes and independent
+JSON/TypeScript regeneration is byte-identical. Full validation of the preceding
+`4f2649868` checkpoint is still running. This continuation remains local;
+full startup and campaign completion remain unfinished.
+
 ## Current state — 11 October 2026: environment setup and C initializers
 
 The rebuilding work follows two connected tracks: prepare original resources
