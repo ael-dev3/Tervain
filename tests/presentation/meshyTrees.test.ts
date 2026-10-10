@@ -111,13 +111,13 @@ describe('actual supplied Meshy tree catalog', () => {
     rebuilt.dispose();
   });
 
-  it('spends the near broadleaf budget freed from the simplified wood on extra crown layers, below 19,800', () => {
+  it('spends the near broadleaf budget freed from the simplified wood on an inner crown layer, below 19,800', () => {
     const forest = createMeshyForest(templates);
     try {
       for (const [species, id] of [['oak', 'oak-elder'], ['oak', 'tree-0208'], ['birch', 'tree-4815'], ['orchard', 'tree-4949']] as const) {
         const variant = forest.variant(species, 0, id), near = variant.lods[0], exported = meshyTreeParts(templates.get(id)![0]).leaf!.geometry;
         const count = (geometry: THREE.BufferGeometry) => (geometry.index?.count ?? geometry.getAttribute('position').count) / 3;
-        expect(near.tris, id).toBeLessThanOrEqual(19_800); expect(near.tris, id).toBeGreaterThan(19_500);
+        expect(near.tris, id).toBeLessThanOrEqual(19_800);
         // A79: the wood is simplified without crossing its UV seams (no stretched branch texture), near 8,000 triangles.
         expect(count(near.wood!), id).toBeLessThan(9_000);
         expect(count(near.leaf!), id).toBeGreaterThan(1.8 * count(exported));

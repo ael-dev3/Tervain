@@ -143,11 +143,6 @@ float gFlower = step(aSlope.w * 0.72, gR5) * step(gR5, aSlope.w);
 float gDry = step(gR6, aSlope.z);
 float gH = uClump.z * aShape.z * (0.5 + 0.55 * gR2 * gR2 + 0.3 * gR3) * (1.0 + 0.32 * gStem + 0.1 * gFlower);
 float gW = uClump.y * (0.6 + 0.75 * gR3) * gSizeComp * gPresence * (1.0 - 0.72 * max(gStem, gFlower));
-// A79: right in front of a low camera a blade filled the view as a wide, flat ribbon, and the near plane cut the nearest
-// into slabs hanging in the air. Close blades are slimmer, and those at the lens narrow away before the plane reaches
-// them (in the sun's shadow pass the eye is the light's, far off, so shadows keep every blade).
-float gEye = distance(cameraPosition, vec3(gRootW.x, gGround, gRootW.y));
-gW *= mix(0.55, 1.0, smoothstep(1.2, 6.0, gEye)) * smoothstep(0.3, 0.9, gEye);
 
 // Wind: a gust front leaning whole bands of grass, and each blade's own flutter inside it.
 vec2 gWd = uWindDir.xy;
@@ -206,7 +201,13 @@ vec2 gEyeH = normalize(gToEye.xz + vec2(1e-4, 0.0));
 vec2 gSideEye = vec2(-gEyeH.y, gEyeH.x);
 vec2 gAcrossH = normalize(mix(gAcross.xz, gSideEye * sign(dot(gAcross.xz, gSideEye) + 1e-4), 0.35));
 gAcross = vec3(gAcrossH.x, 0.0, gAcrossH.y);
-vec3 gBladePos = vec3(gRootW.x, gGround, gRootW.y) + gCurve + gAcross * (gEdge * 0.5 * gW * gProfile);
+// A79: in front of a low camera a blade filled the view as a wide, flat ribbon, and where a tall blade leant into the lens
+// the near plane cut it into a slab hanging in the air. Measured at each point of the blade, not its root: close by it
+// is slimmer, and at the lens it narrows away before the plane reaches it (in the sun's shadow pass the eye is the
+// light's, far off, so shadows keep every blade).
+float gEye = distance(cameraPosition, vec3(gRootW.x, gGround, gRootW.y) + gCurve);
+float gNear = mix(0.6, 1.0, smoothstep(1.0, 5.0, gEye)) * smoothstep(0.35, 1.0, gEye);
+vec3 gBladePos = vec3(gRootW.x, gGround, gRootW.y) + gCurve + gAcross * (gEdge * 0.5 * gW * gNear * gProfile);
 
 // Normal: the face, turned to the viewer's side, rounded toward the edges and drawn a little toward the sky.
 vec3 gN = normalize(cross(gAcross, gTangent));
@@ -304,7 +305,9 @@ export function createGrassMaterial(opts: GrassMaterialOptions): GrassMaterial {
       .replace('#include <begin_vertex>', 'vec3 transformed = gBladePos;');
     shader.fragmentShader = f0
       .replace('#include <common>', `#include <common>\n${GRASS_FRAGMENT_DECL}`)
-      .replace('#include <color_fragment>', 'diffuseColor.rgb = vGCol;')
+      // A79: a blade is creased along its midrib: paler down the middle, darker toward its edges, so it reads as a leaf, not
+      // a flat strip.
+      .replace('#include <color_fragment>', 'diffuseColor.rgb = vGCol * ( 0.8 + 0.28 * ( 1.0 - abs( vGInfo.y ) ) );')
       .replace('#include <normal_fragment_begin>', NORMAL_BEGIN)
       .replace('#include <lights_lambert_pars_fragment>', `#include <lights_lambert_pars_fragment>\n${GRASS_LIGHT_GLSL}`);
     opts.patch?.(shader);

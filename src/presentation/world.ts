@@ -77,6 +77,9 @@ export interface WorldCreateOptions extends CooperativeOptions {
 type WorldModules = { name: string; module: SceneModule }[];
 type DustParticle = { x: number; y: number; z: number; vx: number; vy: number; vz: number; life: number };
 /** How the world prepares what arrives after it opened (A78): set by the app, which holds the renderer and camera. */
+/** A room's furniture is drawn while the camera is within this many metres of its building (A79: seen through windows). */
+export const ROOM_SEEN_FROM = 25;
+
 export interface WorldWarming { warm: ((object: THREE.Object3D) => Promise<unknown>) | null }
 
 interface WorldResources {
@@ -223,6 +226,7 @@ export class WorldScene {
 
   /** Renderer work before the world is drawn: what the windows of the room the camera is in look out on (A70). */
   prepareInterior(renderer: THREE.WebGLRenderer, camera: THREE.Camera, dt: number, settings: Settings) {
+    this.eye.copy(camera.position);
     this.windowView.update(renderer, this.scene, camera.position, dt, settings.quality !== 'low');
   }
 
@@ -428,6 +432,7 @@ export class WorldScene {
     this.warming = resources.warming;
     this.interiorLight = new InteriorLight(this.terrain.rooms);
     this.windowView = new WindowView(this.terrain.rooms, this.scenery.daylightMat, WINDOW_VIEW_SIZE[resources.quality]);
+    this.windowView.painted = (room) => room.building.kind === 'shrine';
     // The window views draw the trees with their middle models, as the water's reflection does (A77).
     this.windowView.lighten = () => (this.modules.find((m) => m.name === 'forest')?.module as { lighterForReflection?: () => () => void } | undefined)?.lighterForReflection?.() ?? (() => {});
     this.doorSwings = new DoorSwings(this.scenery.doors ?? []);
@@ -729,6 +734,8 @@ export class WorldScene {
   private readonly interiorLight: InteriorLight;
   private readonly windowView: WindowView;
   private readonly letIn: () => void;
+  /** Where the camera stood this frame, for the rooms seen through their windows (A79). */
+  private readonly eye = new THREE.Vector3(1e6, 0, 1e6);
   /** Compile what arrives after the world opened before it is shown; the app sets `warm` (A78). */
   readonly warming: WorldWarming;
 
@@ -739,7 +746,9 @@ export class WorldScene {
 
   /** Whether a room's door stands at all open, so its inside can be seen from outside (A66). */
   roomOpen(room: InteriorSpec): boolean {
-    return this.doorSwings.openness(room) > 0;
+    // A79: through its windows a room is seen from outside too, so its furniture stays while the eye is near.
+    const b = room.building;
+    return this.doorSwings.openness(room) > 0 || Math.hypot(this.eye.x - b.x, this.eye.z - b.z) < ROOM_SEEN_FROM;
   }
 
   /** Swing the rooms' doors for the wanderer and residents near them (A66); returns door sounds to play. */

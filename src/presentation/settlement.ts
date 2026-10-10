@@ -908,6 +908,9 @@ export function buildScenery(terrain: Terrain, colliders: Colliders, quality: 'l
     const c = new THREE.Color(0x30302a).lerp(new THREE.Color(0xffb85a), Math.min(1, n * 1.2));
     mats.windowMat.color.copy(c);
     mats.lanternMat.color.copy(c);
+    // A real window's lamplight after dark (A79), over its clear glass, seen from outside.
+    const glow = mats.nightGlowMat as THREE.MeshBasicMaterial | undefined;
+    if (glow) glow.opacity = Math.min(1, n * 1.2) * 0.6;
     // Seen from inside, a window is the light outside: pale daylight fading to the blue of night.
     mats.daylightMat.color.copy(DAYLIGHT).lerp(NIGHT_SKY, Math.min(1, n * 1.15));
   };

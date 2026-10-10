@@ -30,6 +30,12 @@ export class WindowView {
   /** Lighten what the capture draws (the trees' middle models); returns how to put it back. */
   lighten: (() => () => void) | null = null;
 
+  /**
+   * Only rooms whose windows are painted panes take a capture (A79): the houses' windows are real openings now, through
+   * which the world itself is seen; the shrine hall's are still panes.
+   */
+  painted: (room: InteriorSpec) => boolean = () => true;
+
   constructor(private readonly rooms: RoomLocator, private readonly pane: THREE.MeshBasicMaterial, size: number = WINDOW_VIEW_SIZE.high, private readonly interval = 3) {
     // Mipmapped, so a pane seen small or at a slant does not sparkle (the mips are rebuilt as each face is drawn).
     this.target = new THREE.WebGLCubeRenderTarget(size, { generateMipmaps: true, minFilter: THREE.LinearMipmapLinearFilter, magFilter: THREE.LinearFilter });
@@ -48,7 +54,8 @@ export class WindowView {
 
   /** Follow the camera; capture the outside of the room it is in when due. Returns whether a view is shown. */
   update(renderer: THREE.WebGLRenderer, scene: THREE.Scene, camera: THREE.Vector3, dt: number, enabled: boolean): boolean {
-    const here = enabled ? this.rooms.within(camera.x, camera.y, camera.z) : null;
+    const within = enabled ? this.rooms.within(camera.x, camera.y, camera.z) : null;
+    const here = within && this.painted(within) ? within : null;
     if (!here) {
       // The panes face into the rooms, so outdoors the last view is never seen; keeping it spares a shader rebuild.
       this.room = null; this.age = Infinity;
