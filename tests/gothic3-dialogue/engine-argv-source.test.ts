@@ -1,5 +1,5 @@
 import {expect,it} from 'vitest';
-import {admitEngineArgvSource,engineArgvInstruction,engineArgvImage,engineArgvGetACPImport,engineArgvMbcImport} from '../../src/gothic3/native-engine-argv-source';
+import {admitEngineArgvSource,engineArgvInstruction,engineArgvImage,engineArgvGetACPImport,engineArgvMbcImport,engineArgvClassificationImport} from '../../src/gothic3/native-engine-argv-source';
 it('admits the original Engine argument bodies without granting cross-method instruction identity',()=>{
  expect(()=>admitEngineArgvSource()).not.toThrow();
  for(const entry of ['3068e76f','3068e5d7','30685007','30684e6d','30684b3a','30684bde','30684c58','3067c9c1','30672ec7','3067e12b','30684bd5','30673389','30671690','306849b0','306916a2','306914ea'])expect(engineArgvInstruction(entry,entry).va).toBe(entry);
@@ -23,4 +23,9 @@ it('captures the exact Engine GetACP import used by the code-page helper',()=>{
 it('admits the exact Engine MBC imports and original five code-page records',()=>{
  for(const [kind,iatVA,site] of [['IsValidCodePage','0x30afc73c','30684cc9'],['GetCPInfo','0x30afc688','30684cdc']] as const){expect(engineArgvMbcImport(kind)).toMatchObject({iatVA,module:'KERNEL32.dll',name:kind,ordinal:null});expect(Object.isFrozen(engineArgvMbcImport(kind))).toBe(true);expect(engineArgvInstruction('30684c58',site).instruction).toBe(`CALL dword ptr [${iatVA}]`);}
  const row=engineArgvImage('multibyteCodepageTable');expect(Array.from({length:5},(_,index)=>{const raw=row.raw.slice(index*96,index*96+8);return parseInt(raw.match(/../g)!.reverse().join(''),16);})).toEqual([932,936,949,950,1361]);
+});
+
+it('captures the exact classification imports and loader-zero selector without a live pointer',()=>{
+ for(const [kind,iatVA] of [['GetStringTypeW','0x30afc778'],['GetLastError','0x30afc86c'],['MultiByteToWideChar','0x30afc6e8'],['GetStringTypeA','0x30afc774']] as const){expect(engineArgvClassificationImport(kind)).toMatchObject({iatVA,module:'KERNEL32.dll',name:kind,ordinal:null});expect(Object.isFrozen(engineArgvClassificationImport(kind))).toBe(true);}
+ expect(engineArgvImage('classificationApiSelector')).toMatchObject({address:'30af7c34',bytes:4,raw:'00000000',fileBackedBytes:0,loaderZeroFillBytes:4});expect(engineArgvImage('classificationWideProbe')).toMatchObject({address:'30892f38',bytes:2,raw:'0000',fileBackedBytes:2,loaderZeroFillBytes:0});expect(engineArgvInstruction('306914ea','30691517').instruction).toBe('CALL dword ptr [0x30afc778]');
 });

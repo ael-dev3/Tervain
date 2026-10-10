@@ -9536,6 +9536,24 @@
       "fileBackedBytes": 240,
       "loaderZeroFillBytes": 0,
       "sha256": "bdb03f7a145976f2c290206ebd8efd878e013c5bb058b02cfc9c01b1a1fa3970"
+    },
+    {
+      "label": "classificationApiSelector",
+      "address": "30af7c34",
+      "bytes": 4,
+      "raw": "00000000",
+      "fileBackedBytes": 0,
+      "loaderZeroFillBytes": 4,
+      "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+    },
+    {
+      "label": "classificationWideProbe",
+      "address": "30892f38",
+      "bytes": 2,
+      "raw": "0000",
+      "fileBackedBytes": 2,
+      "loaderZeroFillBytes": 0,
+      "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7"
     }
   ],
   "codepageImport": {
@@ -9555,6 +9573,32 @@
       "iatVA": "0x30afc688",
       "module": "KERNEL32.dll",
       "name": "GetCPInfo",
+      "ordinal": null
+    }
+  },
+  "classificationImports": {
+    "GetStringTypeW": {
+      "iatVA": "0x30afc778",
+      "module": "KERNEL32.dll",
+      "name": "GetStringTypeW",
+      "ordinal": null
+    },
+    "GetLastError": {
+      "iatVA": "0x30afc86c",
+      "module": "KERNEL32.dll",
+      "name": "GetLastError",
+      "ordinal": null
+    },
+    "MultiByteToWideChar": {
+      "iatVA": "0x30afc6e8",
+      "module": "KERNEL32.dll",
+      "name": "MultiByteToWideChar",
+      "ordinal": null
+    },
+    "GetStringTypeA": {
+      "iatVA": "0x30afc774",
+      "module": "KERNEL32.dll",
+      "name": "GetStringTypeA",
       "ordinal": null
     }
   },
