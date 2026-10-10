@@ -4,6 +4,21 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local checkpoint — 10 October 2026: Engine/Game argument structure comparison
+
+A reproducible comparison checks original Engine and Game argument setup, parser
+and initialization-wrapper receipts. Their 70, 175 and eight instructions have
+matching structure, constants and offsets after explicit module-address operand
+mapping. All three lengths match and no structural mismatches are reported.
+The comparison preserves receipt hashes and address relations under
+`assets/gothic3/engine-argv/game-comparison.json`.
+
+Independent regeneration and a deliberately changed-instruction rejection check
+pass. This identifies an implementation reference; it does not make Game call
+permits, pointers, heaps or procedures valid in Engine, and it does not prove
+that deeper dependencies are equivalent. Engine parser execution and full browser
+campaign play remain unfinished. PR #221's Engine I/O CI is still running.
+
 ## Local checkpoint — 10 October 2026: Argument images joined to Engine bootstrap
 
 The actual Engine CRT bootstrap now retains its existing per-CRT argument-image

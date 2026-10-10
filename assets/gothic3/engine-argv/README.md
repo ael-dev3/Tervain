@@ -28,3 +28,13 @@ Deeper thread, locale, allocation and lock dependencies still require recovery
 before claiming full dependency coverage. Module filename
 service, parser execution, Engine-owned argv allocation and caller return remain
 unfinished. This does not prove complete engine startup or playable campaign.
+
+## Game implementation comparison
+
+`game-comparison.json` compares the original argument setup (70 instructions),
+parser (175) and initialization wrapper (eight) with the separately captured Game
+versions. After module-address operand mapping, instruction structure, constants
+and offsets match with equal lengths and no reported mismatches. Regenerate with
+`tools/gothic3/compare_engine_game_argv_source.py --engine assets/gothic3/engine-argv/research.json --game assets/gothic3/game-argv/native-evidence.json --output assets/gothic3/engine-argv/game-comparison.json`.
+Independent regeneration and changed-instruction rejection pass. This comparison
+is an implementation aid, not authority to reuse Game pointers or call grants.
