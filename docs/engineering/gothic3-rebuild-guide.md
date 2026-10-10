@@ -102,6 +102,13 @@ relationships must be recovered and connected before accepting visual fidelity.
 
 ## What a rebuilding checkpoint contains
 
+The next Engine environment dependency is captured in
+[`assets/gothic3/engine-environment/`](../../assets/gothic3/engine-environment/).
+Its 130 instructions, six platform imports, two cold globals and caller bytes
+are verified against the pinned DLL. Independent regeneration matches exactly.
+This is source evidence; connecting its allocation, conversion, copy and cleanup
+to the Engine CRT remains the next runtime step.
+
 Each checkpoint should let another developer follow the same evidence:
 
 - **Inputs:** installed resource paths and hashes of the DLLs or archives used.
