@@ -19,7 +19,7 @@ describe('selected browser NPC platform services', () => {
     expect(startup.propertyIdInvocation).toBe('not-entered');
     expect(startup.prerequisites.attachResult.known).toBe(false);
     if(startup.prerequisites.attachResult.known)throw new Error('Unfinished Game startup returned');
-    expect(startup.prerequisites.attachResult.reason).toContain('Engine argument multibyte init30685007 at3068e782');
+    expect(startup.prerequisites.attachResult.reason).toContain('Engine argument multibyte setup30684e6d at30685012');
     const first = owner.control.matrixIdentity();
     const second = owner.control.matrixIdentity();
     expect(first.known).toBe(true);

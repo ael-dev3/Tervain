@@ -4,6 +4,21 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local checkpoint — 10 October 2026: Engine argument initialization wrapper
+
+The reached argument call now executes the original multibyte wrapper on the
+same physical thread. It rereads the current ready flag, follows its actual ZF,
+and, for the cold state, pushes `-3` and issues the nested CALL to `30684e6d`.
+The prefix stops before that deeper routine with both return slots and its argument
+retained. The wrapper does not mark readiness before the nested call returns.
+If the current wrapper read is already ready, its original zero return and RET
+resume the argument caller at `3068e787` without running multibyte setup.
+
+Twenty-three focused integration checks and TypeScript checking pass. Additional
+checks cover the exact pending argument and a changed wrapper readiness value.
+The deeper locale/thread setup remains unfinished. Full validation and deployment
+of this later revision are pending; the full browser campaign remains unfinished.
+
 ## Local checkpoint — 10 October 2026: Engine argument physical prefix
 
 The reached Engine argument call now owns a separate private permit and retained

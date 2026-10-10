@@ -203,7 +203,7 @@ export class NativeX86ThreadStack {
       if(entryEsp!==io.entryEsp||stack.#numeric(stack.#load(stack.#bank,stack.#reg('EAX')),4)!==0)throw new Error('Actual Engine I/O return state required');
       const frame:EngineArgvFrame={bootstrap,crt,permit,images,entryEsp,phase:'running',pc:'30677276',boundary:null,operations:0,ebp:null};stack.#engineArgvFrame=frame;stack.#engineArgvExecuting=true;stack.#phase='running';
       const reg=(name:NativeX86Register)=>stack.#load(stack.#bank,stack.#reg(name)),set=(name:NativeX86Register,word:NativeX86Word32)=>stack.#store(stack.#bank,stack.#reg(name),word);
-      const step=(pc:string,body:()=>void)=>{stack.#engineArgvProof(frame);engineArgvInstruction('3068e76f',pc);frame.pc=pc;body();frame.operations++;stack.#trace.push(pc+'.EngineArgvSource');stack.#engineArgvProof(frame);};
+      const step=(pc:string,body:()=>void,entry='3068e76f')=>{stack.#engineArgvProof(frame);engineArgvInstruction(entry,pc);frame.pc=pc;body();frame.operations++;stack.#trace.push(pc+'.EngineArgvSource');stack.#engineArgvProof(frame);};
       try{
         stack.#engineArgvProof(frame);stack.#call('30677276','3067727b');
         step('3068e76f',()=>stack.#push(reg('EBP')));
@@ -216,8 +216,20 @@ export class NativeX86ThreadStack {
         step('3068e77e',()=>stack.#push(reg('ESI')));
         step('3068e77f',()=>stack.#push(reg('EDI')));
         let initialize=false;step('3068e780',()=>{const flags=stack.#record(stack.#load(stack.#bank,36));if(!(flags.mask&0x40))throw new Error('Actual Engine argument comparison ZF required');initialize=!!(flags.value&0x40);});
-        frame.pc=initialize?'3068e782':'3068e787';engineArgvInstruction('3068e76f',frame.pc);
-        throw new Error(initialize?'Engine argument multibyte init30685007 at3068e782':'Engine argument filename preparation at3068e787');
+        if(initialize){
+          step('3068e782',()=>stack.#call('3068e782','3068e787'));
+          const wrapper=(pc:string,body:()=>void)=>step(pc,body,'30685007');
+          wrapper('30685007',()=>{const image=NativeEngineArgvImages.imageForCrt(images,crt,'multibyteReady');if(!image.known)throw new Error(image.reason);const current=NativeHeapObjectViews.prototype.readUnsigned.call(image.value,0);stack.#arithmeticFlags(current,0,current,4,true);});
+          let skip=false;wrapper('3068500e',()=>{const flags=stack.#record(stack.#load(stack.#bank,36));if(!(flags.mask&0x40))throw new Error('Actual Engine multibyte wrapper ZF required');skip=!(flags.value&0x40);});
+          if(!skip){
+            wrapper('30685010',()=>stack.#push(stack.#mint(0xfffffffd,0xffffffff)));
+            wrapper('30685012',()=>stack.#call('30685012','30685017'));
+            frame.pc='30684e6d';engineArgvInstruction('30684e6d',frame.pc);throw new Error('Engine argument multibyte setup30684e6d at30685012');
+          }
+          wrapper('30685022',()=>{set('EAX',stack.#mint(0,0xffffffff));stack.#logicalFlags(0,0xffffffff,4);});
+          wrapper('30685024',()=>{const next=stack.#record(stack.#ret()).provenance;if(next?.kind!=='source'||next.type!=='code'||next.address!=='3068e787')throw new Error('Actual Engine multibyte wrapper return required');});
+        }
+        frame.pc='3068e787';engineArgvInstruction('3068e76f',frame.pc);throw new Error('Engine argument filename preparation at3068e787');
       }catch(error){frame.boundary??=reason(error);frame.phase='blocked';if(!stack.#executing){stack.#boundary??=frame.boundary;stack.#phase='blocked';}return unknown(frame.boundary);}
       finally{stack.#engineArgvExecuting=false;}
     }catch(error){return unknown(reason(error));}

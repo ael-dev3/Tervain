@@ -114,7 +114,7 @@ it('retains actual Engine standard-handle outcomes without manufacturing a handl
   const result=bootstrap.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Continuation unfinished');
   const frame=bootstrap.attachProgress().engineIoProgress!;
   if(outcome==='unknown'){expect(result.reason).toContain('Declared standard-handle result is unknown');expect(frame.pc).toBe('306888a1');expect(frame.operations).toBe(445);}
-  else{expect(result.reason).toContain(outcome==='valid'?'Engine argument multibyte init30685007 at3068e782':outcome==='null'?'Engine NULL standard handle branch at306888f1':'Engine invalid standard handle branch at306888f1');expect(frame.operations).toBe(outcome==='valid'?579:outcome==='null'?450:448);if(outcome==='valid'){expect(frame.fileType).toBe(2);expect(frame.sectionResult).toBe(true);expect(frame.section!.backing).toBe(frame.allocation!.backing);expect(frame.section!.bytes.length).toBe(24);expect(frame.section!.bytes.byteOffset-frame.allocation!.bytes.byteOffset).toBe(124);expect(frame.allocation!.readUnsigned(8)).toBe(1);}else expect(frame.bank.readUnsigned(0)).toBe(outcome==='null'?0:0xffffffff);}
+  else{expect(result.reason).toContain(outcome==='valid'?'Engine argument multibyte setup30684e6d at30685012':outcome==='null'?'Engine NULL standard handle branch at306888f1':'Engine invalid standard handle branch at306888f1');expect(frame.operations).toBe(outcome==='valid'?579:outcome==='null'?450:448);if(outcome==='valid'){expect(frame.fileType).toBe(2);expect(frame.sectionResult).toBe(true);expect(frame.section!.backing).toBe(frame.allocation!.backing);expect(frame.section!.bytes.length).toBe(24);expect(frame.section!.bytes.byteOffset-frame.allocation!.bytes.byteOffset).toBe(124);expect(frame.allocation!.readUnsigned(8)).toBe(1);}else expect(frame.bank.readUnsigned(0)).toBe(outcome==='null'?0:0xffffffff);}
   expect(bootstrap.processAttach()).toEqual(result);
  }
 });
@@ -163,7 +163,7 @@ it('restores the Engine I/O frame and returns zero after declared SetHandleCount
   const {bootstrap}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},{...browserGameStandardIoInputs,setHandleCount:{result:countResult}});
   const original=NativeX86ThreadStack.returnedEngineIoForBootstrap;let returnedMasks:number[]=[];
   const proof=vi.spyOn(NativeX86ThreadStack,'returnedEngineIoForBootstrap').mockImplementation((stack,owner,actualCrt,permit)=>{const value=original.call(NativeX86ThreadStack,stack,owner,actualCrt,permit);if(value.known&&owner===bootstrap)returnedMasks=[...owner.attachProgress().engineIoProgress!.bank.knownMask];return value;});
-  let result;try{result=bootstrap.processAttach();}finally{proof.mockRestore();}expect(result.known).toBe(false);if(result.known)throw new Error('CRT caller continuation unfinished');expect(result.reason).toContain('Engine argument multibyte init30685007 at3068e782');
+  let result;try{result=bootstrap.processAttach();}finally{proof.mockRestore();}expect(result.known).toBe(false);if(result.known)throw new Error('CRT caller continuation unfinished');expect(result.reason).toContain('Engine argument multibyte setup30684e6d at30685012');
   const frame=bootstrap.attachProgress().engineIoProgress!;expect(frame.phase).toBe('returned');expect(frame.pc).toBe('3068892b');expect(frame.operations).toBe(579);expect(frame.fsRestored).toBe(true);expect(frame.setHandleCountResult).toBe(countResult);expect(frame.bank.readUnsigned(0)).toBe(0);
   for(const offset of [4,16,20,24,32])expect(returnedMasks.slice(offset,offset+4)).toEqual([0,0,0,0]);
   expect(bootstrap.processAttach()).toEqual(result);expect(bootstrap.attachProgress().engineIoProgress!.operations).toBe(579);
@@ -181,8 +181,8 @@ it('executes the Engine argument prefix on the retained thread and rejects repla
  const {bootstrap,crt,platform}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs),graph=NativeX86ThreadStack.forPlatform(platform);if(!graph.known)throw new Error(graph.reason);
  expect(NativeX86ThreadStack.enterEngineArgvForBootstrap(graph.value,bootstrap,crt,{}).known).toBe(false);expect(graph.value.engineArgvFrameSnapshot(crt)).toBe(null);
  const result=bootstrap.processAttach();expect(result.known).toBe(false);const frame=bootstrap.attachProgress().engineArgvProgress!;
- expect(frame).toMatchObject({phase:'blocked',pc:'3068e782',operations:9,entryEsp:4096,ebp:4088});expect(frame.stack).toBe(bootstrap.attachProgress().engineIoProgress!.stack);expect(frame.bank.readUnsigned(4)).toBe(0);
- expect(NativeX86ThreadStack.enterEngineArgvForBootstrap(graph.value,bootstrap,crt,{}).known).toBe(false);expect(bootstrap.processAttach()).toEqual(result);expect(bootstrap.attachProgress().engineArgvProgress!.operations).toBe(9);
+ expect(frame).toMatchObject({phase:'blocked',pc:'30684e6d',operations:14,entryEsp:4096,ebp:4088});expect(frame.stack).toBe(bootstrap.attachProgress().engineIoProgress!.stack);expect(frame.bank.readUnsigned(4)).toBe(0);
+ expect(NativeX86ThreadStack.enterEngineArgvForBootstrap(graph.value,bootstrap,crt,{}).known).toBe(false);expect(bootstrap.processAttach()).toEqual(result);expect(bootstrap.attachProgress().engineArgvProgress!.operations).toBe(14);
 });
 it('uses the current Engine argument readiness bits rather than reseeding them',()=>{
  for(const [ready,mask,pc,operations] of [[1,255,'3068e787',9],[0,0,'3068e778',5]] as const){
@@ -190,4 +190,17 @@ it('uses the current Engine argument readiness bits rather than reseeding them',
   const image=NativeEngineArgvImages.imageForCrt(bootstrap.attachProgress().engineArgvImages!,crt,'multibyteReady');if(!image.known)throw new Error(image.reason);image.value.writeUnsigned(0,ready);image.value.knownMask[0]=mask;
   const result=bootstrap.processAttach();expect(result.known).toBe(false);expect(bootstrap.attachProgress().engineArgvProgress).toMatchObject({pc,operations});expect(image.value.bytes[0]).toBe(ready);expect(image.value.knownMask[0]).toBe(mask);expect(bootstrap.processAttach()).toEqual(result);
  }
+});
+
+it('retains the pending Engine multibyte argument without prematurely marking it ready',()=>{
+ const {bootstrap,crt}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs),result=bootstrap.processAttach();expect(result.known).toBe(false);
+ const frame=bootstrap.attachProgress().engineArgvProgress!;expect(frame.pc).toBe('30684e6d');expect(frame.operations).toBe(14);expect(frame.stack.readUnsigned(frame.entryEsp-40)).toBe(0xfffffffd);expect(frame.stack.maskedWord(frame.entryEsp-44).knownMask).toBe(0);
+ const ready=NativeEngineArgvImages.imageForCrt(bootstrap.attachProgress().engineArgvImages!,crt,'multibyteReady');if(!ready.known)throw new Error(ready.reason);expect(ready.value.readUnsigned(0)).toBe(0);expect(bootstrap.processAttach()).toEqual(result);expect(ready.value.readUnsigned(0)).toBe(0);
+});
+it('rereads current readiness in the Engine initialization wrapper and preserves its real return',()=>{
+ const {bootstrap,crt}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs),ready=NativeEngineArgvImages.imageForCrt(bootstrap.attachProgress().engineArgvImages!,crt,'multibyteReady');if(!ready.known)throw new Error(ready.reason);
+ const original=NativeHeapObjectViews.prototype.readUnsigned;let reads=0;
+ const read=vi.spyOn(NativeHeapObjectViews.prototype,'readUnsigned').mockImplementation(function(this:NativeHeapObjectViews,offset,width){if(this===ready.value&&++reads===2)this.writeUnsigned(0,1);return original.call(this,offset,width);});
+ let result;try{result=bootstrap.processAttach();}finally{read.mockRestore();}
+ expect(result.known).toBe(false);const frame=bootstrap.attachProgress().engineArgvProgress!;expect(frame.pc).toBe('3068e787');expect(frame.operations).toBe(14);expect(reads).toBe(2);expect(ready.value.readUnsigned(0)).toBe(1);expect(bootstrap.processAttach()).toEqual(result);
 });
