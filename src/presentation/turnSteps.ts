@@ -32,6 +32,58 @@ export const TURN_STEP = {
   stay: 0.03,
 } as const;
 
+/**
+ * The upper body leads a turn (A76): the eyes go first, then the head, the neck and the chest, the hips and feet after.
+ * While a figure turns at `rate` radians a second the chain from chest to head is turned `ahead` seconds of that turn
+ * further round (at most `most` radians in all), shared out up the spine; it eases in and out over `ease` per second.
+ */
+export const TURN_LEAD = { ahead: 0.3, most: 0.6, ease: 9 } as const;
+const LEAD_AXIS = new THREE.Vector3(), LEAD_TURN = new THREE.Quaternion(), LEAD_PARENT = new THREE.Quaternion();
+
+/** A figure's lead, eased twice so it sets off and stops without a jolt however suddenly the turn starts or ends. */
+export class TurnLead {
+  /** Radians the chain is turned ahead. */
+  lead = 0;
+  private want = 0;
+  /** Follow turning at `rate` radians a second for `dt` seconds. */
+  update(rate: number, dt: number): number {
+    if (!(dt > 0)) return this.lead;
+    const target = Math.max(-TURN_LEAD.most, Math.min(TURN_LEAD.most, Number.isFinite(rate) ? rate * TURN_LEAD.ahead : 0));
+    const k = -Math.expm1(-dt * TURN_LEAD.ease);
+    this.want += (target - this.want) * k;
+    this.lead += (this.want - this.lead) * k;
+    return this.lead;
+  }
+  /** The joints as the lead found and left them (see {@link applyTurnLead}). */
+  readonly held = new Map<THREE.Bone, { before: THREE.Quaternion; after: THREE.Quaternion }>();
+  reset() { this.lead = this.want = 0; }
+}
+
+/**
+ * Turn a chain, chest first and head last, by its shares of `lead` radians about `up` (world space): each joint is
+ * turned about the vertical as its parent now stands, so the turns add up the chain. A joint no clip sets again before
+ * the next frame would keep the turn and add the next one to it, so `held` remembers each joint as it was and as it was
+ * left: one found as it was left is put back first.
+ */
+export function applyTurnLead(chain: readonly (readonly [THREE.Bone | undefined, number])[], lead: number, up: THREE.Vector3,
+  held: Map<THREE.Bone, { before: THREE.Quaternion; after: THREE.Quaternion }>): void {
+  for (const [bone] of chain) {
+    const was = bone && held.get(bone);
+    if (was && bone.quaternion.equals(was.after)) bone.quaternion.copy(was.before);
+  }
+  held.clear();
+  if (Math.abs(lead) < 1e-4) return;
+  for (const [bone, share] of chain) {
+    if (!bone?.parent) continue;
+    const before = bone.quaternion.clone();
+    bone.parent.updateWorldMatrix(true, false);
+    LEAD_AXIS.copy(up).applyQuaternion(bone.parent.getWorldQuaternion(LEAD_PARENT).invert()).normalize();
+    bone.quaternion.premultiply(LEAD_TURN.setFromAxisAngle(LEAD_AXIS, lead * share));
+    bone.updateMatrixWorld(true);
+    held.set(bone, { before, after: bone.quaternion.clone() });
+  }
+}
+
 export type Side = 'Left' | 'Right';
 export const SIDES = ['Left', 'Right'] as const;
 export interface LegChain { upper: THREE.Bone; lower: THREE.Bone; foot: THREE.Bone }

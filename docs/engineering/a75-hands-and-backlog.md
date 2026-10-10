@@ -111,10 +111,6 @@ Fixed in the served build and checked with before and after captures (#213, #214
 Checked in the running game: every furniture model's bounds match its declared size and stand on the floor; residents
 lie in their beds at night (the reeve, 23:30); the hero mounts the saddled deer.
 
-Still open:
-
-- A hairline at window height on the inside of some plaster walls. The wall's grid is continuous there and the frame is
-  now wholly outside the wall; the cause is not yet found.
-- Tree crown silhouettes (card art), as above.
-- Authored turn clips (Meshy motion; no key here).
-- Frame-time figures on a GPU (this container has none).
+Still open at A75, taken up in [A76](a76-crowns-turns-walls-frame-cost.md): the hairline at window height (found and
+fixed), tree crown silhouettes (shader leaf masses), turns (the upper body now leads), and frame-time figures on a GPU
+(overlay and benchmark built; the figures need Ael's hardware).

@@ -14,6 +14,9 @@ export type MatKey = TexKey | 'vc' | 'metal' | 'leaf' | 'glow' | 'pane' | 'dayli
  */
 export const DEPTH_RANK: Partial<Record<MatKey, number>> = { stone: 1, rock: 1, vc: 2, glow: 2, daylight: 2, pane: 3, timber: 4, metal: 5 };
 
+/** Surfaces laid on a face that need the slope-scaled offset too (none of them is seen edge-on through a wall). */
+const SLOPE_OFFSET = new Set<MatKey>(['stone', 'rock', 'vc', 'glow', 'daylight', 'pane']);
+
 export class MaterialSet {
   readonly map = new Map<MatKey, THREE.Material>();
   readonly windowMat: THREE.MeshBasicMaterial;
@@ -62,7 +65,9 @@ export class MaterialSet {
       const rank = DEPTH_RANK[key];
       if (!rank) continue;
       material.polygonOffset = true;
-      material.polygonOffsetFactor = -rank;
+      // Only a constant offset for pieces standing on a face (A76): a slope-scaled one pulled the edge-on tops of the timber
+      // frame's rails through the 24 cm wall, a hairline at window height inside the rooms.
+      material.polygonOffsetFactor = SLOPE_OFFSET.has(key) ? -rank : 0;
       material.polygonOffsetUnits = -rank;
     }
     // A set made before the baked surfaces arrived (the title camp) takes them up as soon as they are installed.
