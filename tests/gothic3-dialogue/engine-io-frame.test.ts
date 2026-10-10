@@ -49,8 +49,8 @@ it('retains the pushed frame prefix when the current Engine cookie becomes unkno
 
 it('returns from the Engine startup writer with actual stores and stdcall cleanup',()=>{
  const {bootstrap,crt}=fixture({writes:[{offset:0,width:4,value:68,knownMask:0xffffffff},{offset:45,width:1,value:0xa5,knownMask:0xff}],outcome:'normal'});
- const result=bootstrap.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Continuation unfinished');expect(result.reason).toContain('Engine I/O record loop at3068875f');
- const frame=bootstrap.attachProgress().engineIoProgress!;expect(frame.operations).toBe(43);expect(frame.callocReturned).toBe(true);expect(frame.allocation!.bytes.length).toBe(1792);expect([...frame.allocation!.bytes]).toEqual(Array(1792).fill(0));expect([...frame.allocation!.knownMask]).toEqual(Array(1792).fill(255));
+ const result=bootstrap.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Continuation unfinished');expect(result.reason).toContain('Engine startup inherited handles at30688763');
+ const frame=bootstrap.attachProgress().engineIoProgress!;expect(frame.operations).toBe(429);expect(frame.callocReturned).toBe(true);expect(frame.allocation!.bytes.length).toBe(1792);for(let record=0;record<32;record++){const expected=Array(56).fill(0);expected.splice(0,4,255,255,255,255);expected[5]=expected[0x25]=expected[0x26]=10;expect([...frame.allocation!.bytes.subarray(record*56,(record+1)*56)]).toEqual(expected);}expect([...frame.allocation!.knownMask]).toEqual(Array(1792).fill(255));
  const images=bootstrap.attachProgress().engineIoImages!,table=NativeEngineIoImages.imageForCrt(images,crt,'ioBlockPointers'),count=NativeEngineIoImages.imageForCrt(images,crt,'ioHandleCount');if(!table.known||!count.known)throw new Error('Missing Engine images');expect(count.value.readUnsigned(0)).toBe(32);expect(table.value.pointer<{fields:NativeHeapObjectViews;offset:number}>(0).get()).toMatchObject({fields:frame.allocation,offset:0});expect(frame.startupInfo!.readUnsigned(0)).toBe(68);expect(frame.startupInfo!.readUnsigned(45,1)).toBe(0xa5);
  for(const offset of [0,4,8])expect(frame.bank.maskedWord(offset).knownMask).toBe(0);
  const trace=bootstrap.snapshot().trace;expect(bootstrap.processAttach()).toEqual(result);expect(bootstrap.snapshot().trace).toEqual(trace);
@@ -79,4 +79,19 @@ it('rejects a changed Engine stdcall return after retaining writer stores',()=>{
  expect(result.reason).toContain('Retained x86 expression slot changed outside its actual store');
  const frame=bootstrap.attachProgress().engineIoProgress!;expect(frame.pc).toBe('30688701');expect(frame.operations).toBe(28);expect(frame.startupInfo!.readUnsigned(0)).toBe(68);
  expect(bootstrap.processAttach()).toEqual(result);
+});
+
+it('retains the first initialized Engine record when its published table pointer changes',()=>{
+ const {bootstrap,crt}=fixture({writes:[],outcome:'normal'}),original=NativeHeapObjectViews.prototype.writeUnsigned;let injected=false;
+ const write=vi.spyOn(NativeHeapObjectViews.prototype,'writeUnsigned').mockImplementation(function(this:NativeHeapObjectViews,offset,value,width){
+  original.call(this,offset,value,width);
+  const frame=bootstrap.attachProgress().engineIoProgress;
+  if(!injected&&frame?.allocation===this&&offset===5){
+   injected=true;const table=NativeEngineIoImages.imageForCrt(bootstrap.attachProgress().engineIoImages!,crt,'ioBlockPointers');if(!table.known)throw new Error(table.reason);table.value.pointer(0).set(null);
+  }
+ });
+ let result;try{result=bootstrap.processAttach();}finally{write.mockRestore();}
+ expect(result.known).toBe(false);if(result.known)throw new Error('Changed table accepted');expect(result.reason).toContain('Actual current Engine I/O table base required');
+ const frame=bootstrap.attachProgress().engineIoProgress!;expect(frame.pc).toBe('30688753');expect(frame.operations).toBe(53);expect(frame.allocation!.readUnsigned(0)).toBe(0xffffffff);expect(frame.allocation!.readUnsigned(5,1)).toBe(10);expect(frame.allocation!.readUnsigned(0x26,1)).toBe(10);expect(frame.allocation!.readUnsigned(56)).toBe(0);
+ expect(bootstrap.processAttach()).toEqual(result);expect(frame.allocation!.readUnsigned(56)).toBe(0);
 });

@@ -4,6 +4,23 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local checkpoint — 10 October 2026: Engine I/O record loop
+
+The original Engine loop now initializes all 32 records in its actual retained
+1,792-byte block. It stores handle `-1`, zero flags and counter fields, and the
+original newline defaults. Each instruction checks the active frame; pointer
+relations require the same Engine allocation with contained offsets. Every
+iteration reloads the current published table base rather than assuming it is
+unchanged. The loop establishes only CF and ZF from its same-allocation offsets;
+other arithmetic flags remain unknown.
+
+The successful prefix executes 429 source instructions and reaches `30688763`,
+before inherited startup handles. Thirteen focused checks pass, including exact
+bytes for every record and changed-table interruption after the first record.
+Interruption retains prior writes and does not replay. TypeScript checking passes.
+Full validation and public deployment of this revision remain pending. This is
+partial engine startup, not evidence of a finishable campaign.
+
 ## Local checkpoint — 10 October 2026: Engine I/O block publication
 
 Eight original caller instructions now remove calloc arguments, compare the

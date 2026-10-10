@@ -303,7 +303,44 @@ export class NativeX86ThreadStack {
         step('306886ec','30688728',()=>{const count=NativeEngineIoImages.imageForCrt(frame.images,crt,'ioHandleCount');if(!count.known)throw new Error(count.reason);count.value.writeUnsigned(0,stack.#numeric(register('ESI'),4));});
         step('306886ec','3068872e',()=>{const fields=frame.allocation!;const owned=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields,offset:1792},0);if(!owned.known)throw new Error(owned.reason);set('ECX',stack.#mint(0,0,{kind:'engine-allocation',crt,fields,offset:1792}));});
         step('306886ec','30688734',()=>{});
-        frame.pc='3068875f';engineIoInstruction('306886ec',frame.pc);throw new Error('Engine I/O record loop at3068875f');
+        const allocationPointer=(word:NativeX86Word32)=>{
+          const p=stack.#liveWord(word).provenance;
+          if(p?.kind!=='engine-allocation'||p.crt!==crt||p.fields!==frame.allocation)throw new Error('Actual same-Engine I/O block pointer required');
+          return p;
+        };
+        const compare=()=>{
+          const left=allocationPointer(register('EAX')),right=allocationPointer(register('ECX'));
+          // Same allocation, bounded offsets: only CF and ZF are established.
+          stack.#flags((left.offset<right.offset?1:0)|(left.offset===right.offset?0x40:0),0x41);
+        };
+        step('306886ec','3068875f',compare);
+        let more=false;
+        step('306886ec','30688761',()=>{more=allocationPointer(register('EAX')).offset<allocationPointer(register('ECX')).offset;});
+        while(more){
+          const store=(pc:string,offset:number,width:1|4,number:number)=>step('306886ec',pc,()=>{
+            const p=allocationPointer(register('EAX')),position=p.offset+offset;
+            const owned=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields:p.fields,offset:position},width);if(!owned.known)throw new Error(owned.reason);
+            NativeHeapObjectViews.prototype.writeUnsigned.call(p.fields,position,number,width);
+          });
+          store('30688736',4,1,0);
+          step('306886ec','3068873a',()=>{const p=allocationPointer(register('EAX'));const owned=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields:p.fields,offset:p.offset},4);if(!owned.known)throw new Error(owned.reason);NativeHeapObjectViews.prototype.writeUnsigned.call(p.fields,p.offset,0xffffffff);stack.#logicalFlags(0xffffffff,0xffffffff,4);});
+          store('3068873d',5,1,10);
+          store('30688741',8,4,stack.#numeric(register('EDI'),4));
+          store('30688744',0x24,1,0);
+          store('30688748',0x25,1,10);
+          store('3068874c',0x26,1,10);
+          step('306886ec','30688750',()=>{const p=allocationPointer(register('EAX'));const offset=p.offset+56;const owned=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields:p.fields,offset},0);if(!owned.known)throw new Error(owned.reason);set('EAX',stack.#mint(0,0,{kind:'engine-allocation',crt,fields:p.fields,offset}));stack.#flags(0,0);});
+          step('306886ec','30688753',()=>{
+            const table=NativeEngineIoImages.imageForCrt(frame.images,crt,'ioBlockPointers');if(!table.known)throw new Error(table.reason);
+            const pointer=table.value.pointer<NativeBytePointer>(0).get();if(!pointer||pointer.fields!==frame.allocation||pointer.offset!==0)throw new Error('Actual current Engine I/O table base required');
+            const owned=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,pointer,1792);if(!owned.known)throw new Error(owned.reason);
+            set('ECX',stack.#mint(0,0,{kind:'engine-allocation',crt,fields:pointer.fields,offset:0}));
+          });
+          step('306886ec','30688759',()=>{const p=allocationPointer(register('ECX'));set('ECX',stack.#mint(0,0,{kind:'engine-allocation',crt,fields:p.fields,offset:p.offset+1792}));stack.#flags(0,0);});
+          step('306886ec','3068875f',compare);
+          step('306886ec','30688761',()=>{more=allocationPointer(register('EAX')).offset<allocationPointer(register('ECX')).offset;});
+        }
+        frame.pc='30688763';engineIoInstruction('306886ec',frame.pc);throw new Error('Engine startup inherited handles at30688763');
       }catch(error){frame.boundary??=reason(error);frame.phase='blocked';if(!stack.#executing){stack.#boundary??=frame.boundary;stack.#phase='blocked';}return unknown(frame.boundary);}
       finally{stack.#engineIoExecuting=false;}
     }catch(error){return unknown(reason(error));}
