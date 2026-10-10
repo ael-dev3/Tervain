@@ -2,8 +2,8 @@
 
 `research.json` captures the original call at `30677276 -> 3068e76f`, its
 70-instruction argument setup, the two-pass parser, multibyte dependency wrapper,
-and CRT malloc wrapper. The package contains 14 methods, 944 instructions and
-2,703 instruction bytes, checked against the matching original Engine.dll.
+and CRT malloc wrapper. The package contains 16 methods, 1,130 instructions and
+3,206 instruction bytes, checked against the matching original Engine.dll.
 
 The setup calls GetModuleFileNameA, selects the current command line or filename,
 counts arguments and characters, allocates storage, parses again, and publishes
@@ -18,7 +18,7 @@ python tools/gothic3/prepare_engine_argv_source.py --study <study-directory> --o
 ```
 
 Independent JSON and TypeScript regenerations are byte-identical. Two source checks and TypeScript checking pass. The JSON package has SHA-256
-`fdaebe91d7ce4ead6c116a591caed3ab0ad95b68b6eb5f3021a9d980f9cb12e0`.
+`e4289a160e290a456700dc5cfe515f07f2b758c173ead694b844c5aa91962faa`.
 Engine.dll SHA-256 is
 `d49ef92c0fdfeda433f6d04d0edeb7751e41e4c7c7effc1265630717029dc7e3`.
 
@@ -106,3 +106,7 @@ The supported single-byte branch publishes code page 1252, clears the related
 record fields with the original STOSD instructions, and issues the case-table
 call `30684dc7 -> 306849b0`. It stops at that helper after 354 admitted operations.
 Case-table construction, MBC publication and full startup remain unfinished.
+
+## Current local classification boundary
+
+The retained Engine continuation returns the case GetCPInfo import, prepares the 256-byte character input and enters the original classification wrapper. Its locale constructor uses the same Engine PTD and a separate stack record. The default path reaches `306916cb -> 306914ea` after 1459 admitted operations. The lower classification body is captured but not executed. Temporary PTD ownership remains held until the real caller can return. Full startup and campaign integration remain unfinished.

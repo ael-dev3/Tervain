@@ -11835,3 +11835,16 @@ The successful single-byte path fills all 256 input bytes using the original MOV
 Focused validation: 61 tests across four files passed in 23.09 seconds. Production build, wider validation and deployment of this continuation remain pending at this receipt.
 
 Production validation for the case-input continuation: `npm run build` completed successfully, including TypeScript checking, and `git diff --check` passed. The original next classification wrapper at `306916a2` was independently inspected from matching Engine.dll bytes: 22 instructions, with locale construction through `30673389` and a downstream call to `306914ea`. That scratch inspection does not admit or execute either classification routine.
+
+
+## 10 October 2026: Engine character-classification wrapper
+
+The source package now captures the matching Engine classification wrapper `306916a2` (22 instructions) and lower body `306914ea` (164 instructions). It contains 16 methods, 1130 instructions and 3206 instruction bytes; SHA-256 `e4289a160e290a456700dc5cfe515f07f2b758c173ead694b844c5aa91962faa`. Independent JSON, generated TypeScript and Game-comparison regeneration are byte-identical; the three compared setup/parser/wrapper methods still have no mismatches.
+
+The local continuation issues the actual case-to-classification call, constructs a separate 16-byte locale-update record in the retained wrapper frame, and runs the original same-Engine locale constructor. The shared constructor implementation now validates the actual return address and records the caller-specific PTD and completion. Classification keeps its own alias and the original code-page record remains separate. The wrapper forwards seven actual arguments and its locale-record ECX to `306916cb -> 306914ea`, stopping at that body after 1459 admitted operations on the default path. The PTD flag `0x2` remains acquired and the wrapper record flag at offset 12 is one while that call is pending. Cleanup will follow the original caller only after the lower body returns.
+
+The lower classification body is captured but not executed. It requires additional NLS and allocation dependencies; case mapping, MBC publication, complete startup and playable campaign integration remain unfinished.
+
+Earlier case-entry full-suite receipt: 3338 tests across 313 files passed in 423.35 seconds. PR #225 deployed successfully as `2676c2d2b2b321271721f319512b0bc1bbeae825`; workflow `38068086327` has successful build and deploy jobs. That deployed revision reaches 354 operations. The newer 1408-operation input continuation has a separate full suite running. These receipts do not prove hosted execution of the current local wrapper or a finishable campaign.
+
+Local wrapper validation: 62 tests across four files passed in 21.56 seconds; `npm run build` completed successfully, including TypeScript checking; `git diff --check` passed. The focused checks verify the separate locale-record alias, same-Engine PTD identity, acquired ownership flag, original constructor return, forwarded arguments and retained lower caller. Full-suite and public deployment validation for this wrapper remain pending.
