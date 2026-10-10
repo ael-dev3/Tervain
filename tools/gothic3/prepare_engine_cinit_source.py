@@ -58,7 +58,30 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--study', required=True, type=Path)
     parser.add_argument('--output', required=True, type=Path)
+    parser.add_argument('--typescript', type=Path)
     args = parser.parse_args()
     receipt = capture(args.study)
     args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_text(json.dumps(receipt, indent=2) + '\n', encoding='utf-8', newline='\n')
+    text = json.dumps(receipt, indent=2) + '\n'
+    args.output.write_text(text, encoding='utf-8', newline='\n')
+    if args.typescript:
+        generated = """/** Generated original Engine CRT initializer source admission. */
+import source from '../../assets/gothic3/engine-cinit/research.json';
+import sourceText from '../../assets/gothic3/engine-cinit/research.json?raw';
+const expectedText = EXPECTED;
+function freeze(value:unknown):void {if(value&&typeof value==='object'&&!Object.isFrozen(value)){for(const child of Object.values(value))freeze(child);Object.freeze(value);}}
+freeze(source);
+export function admitEngineCinitSource():void {if(sourceText!==expectedText)throw new Error('Original Engine initializer source differs');}
+export function engineCinitInstruction(entry:string,pc:string){admitEngineCinitSource();const method=source.source.methods.find(method=>method.bodyVA==='0x'+entry);const row=method?.instructions.find(row=>row.va===pc);if(!row)throw new Error('Original Engine initializer instruction required');return row;}
+export function engineCinitCaller(){admitEngineCinitSource();return source.caller;}
+export function engineCinitFloatingPointCallback(){admitEngineCinitSource();return source.floatingPointCallback;}
+export function engineCinitTable(label:string){admitEngineCinitSource();const table=source.initializerTables.find(table=>table.label===label);if(!table)throw new Error('Original Engine initializer table required');return table;}
+export function engineCinitTableTarget(label:string,slot:string):string|null {
+ const table=engineCinitTable(label);
+ if(!/^[0-9a-f]{8}$/.test(slot))throw new Error('Original Engine initializer slot required');
+ const address=parseInt(slot,16),begin=parseInt(table.begin,16),end=parseInt(table.end,16);
+ if(address<begin||address>=end||(address-begin)%4!==0)throw new Error('Original Engine initializer slot outside table');
+ return table.nonzeroEntries.find(entry=>entry.slot===slot)?.target??null;
+}
+""".replace('EXPECTED', json.dumps(text))
+        args.typescript.write_text(generated, encoding='utf-8', newline='\n')
