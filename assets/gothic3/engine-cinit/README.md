@@ -16,9 +16,18 @@ The generator checks the original Engine.dll hash and exact caller bytes.
 Independent regeneration produced identical JSON, SHA-256
 ``eab6984f4c075c0f4cd0fd55f121d1e2d8e18e8c31662bbd18a3512d8b00627b``.
 
-This is evidence preparation. The initializer is not connected to runtime yet.
+The capture's `runtimeConnected: false` records evidence preparation; it grants
+no execution authority. The TypeScript continuation separately obtains a
+private permit from the actually reached Engine startup caller.
 The captured bodies cover the readonly image guard, floating-point setup,
 pointer encoding, C initializer walker and exit registration. The individual
 C++ callback implementations and their downstream dependencies remain work.
+The selected continuation now executes the readonly guard contract, original
+floating-point conversion setup, divide dispatch, ten-pointer encoding loop,
+and C initializer walker. Its first callback allocates and publishes the
+128-byte CRT exit table, including the original failure result of 24. The normal
+path stops at the next callback, `3067c3c7`. Initializer completion and campaign
+activation remain unfinished.
+
 Use retained Engine ownership when implementing these routines; captured
 addresses identify original locations and cannot serve as browser pointers.

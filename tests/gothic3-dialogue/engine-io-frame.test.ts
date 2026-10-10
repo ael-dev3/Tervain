@@ -284,7 +284,7 @@ it('retains the actual locale caller when its lock service cannot return',()=>{
 it('returns Engine GetACP through its retained caller and clears temporary PTD ownership',()=>{
  const {bootstrap,crt,platform}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs);
  const original=NativeRuntimePlatform.canonicalArgvNlsNormalReturnForPlatform;let selectedArgument:number|null=null;const spy=vi.spyOn(NativeRuntimePlatform,'canonicalArgvNlsNormalReturnForPlatform').mockImplementation((...args)=>{const result=original(...args),frame=bootstrap.attachProgress().engineArgvProgress;if(frame?.pc==='30684cc9')selectedArgument=frame.stack.readUnsigned(frame.entryEsp-40);return result;});let result;try{result=bootstrap.processAttach();}finally{spy.mockRestore();}expect(result.known).toBe(false);if(result.known)throw new Error('Startup remains unfinished');
- expect(result.reason).toContain('Engine CRT initializer dependency at3067152b');
+ expect(result.reason).toContain('Engine CRT initializer dependency at3067c3c7');
  const frame=bootstrap.attachProgress().engineArgvProgress!;
  expect(frame).toMatchObject({pc:'3067727b',operations:13819,codepageCtorReturned:true,codepageAcpReturned:true,codepageReturned:true,codepageResult:1252});
  expect(frame.codepagePtd!.readUnsigned(0x70)).toBe(1);expect(selectedArgument).toBe(1252);
@@ -515,7 +515,7 @@ it('releases classification ownership before constructing the separate mapping l
 });
 
 it('returns the Engine Unicode mapping probe through its actual six-argument call',()=>{
- const {bootstrap,platform,crt}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs),graph=NativeX86ThreadStack.forPlatform(platform);if(!graph.known)throw new Error(graph.reason);const result=bootstrap.processAttach(),frame=bootstrap.attachProgress().engineArgvProgress!;expect(result.known).toBe(false);if(result.known)throw new Error('Mapping scan remains unfinished');expect(result.reason).toContain('Engine CRT initializer dependency at3067152b');expect(frame).toMatchObject({pc:'3067727b',operations:13819});
+ const {bootstrap,platform,crt}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs),graph=NativeX86ThreadStack.forPlatform(platform);if(!graph.known)throw new Error(graph.reason);const result=bootstrap.processAttach(),frame=bootstrap.attachProgress().engineArgvProgress!;expect(result.known).toBe(false);if(result.known)throw new Error('Mapping scan remains unfinished');expect(result.reason).toContain('Engine CRT initializer dependency at3067c3c7');expect(frame).toMatchObject({pc:'3067727b',operations:13819});
  const selector=NativeEngineArgvImages.imageForCrt(bootstrap.attachProgress().engineArgvImages!,crt,'mappingApiSelector');if(!selector.known)throw new Error(selector.reason);expect(selector.value.readUnsigned(0)).toBe(1);const call=graph.value.snapshot().calls.find(call=>call.site==='3067c5ac')!;expect(call.returned).toBe(true);expect(call.returnWord).toMatchObject({provenance:{kind:'source',type:'code',address:'3067c5b2'}});expect(graph.value.snapshot().calls.find(call=>call.site==='3067c94a')?.returned).toBe(true);expect(bootstrap.processAttach()).toEqual(result);
 });
 
@@ -711,10 +711,12 @@ it('retains released input and completed entries when Engine readiness publicati
 it('enters the original Engine CRT initializer with argument zero and a pending owned return',()=>{
  const {bootstrap,platform,crt}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs),graph=NativeX86ThreadStack.forPlatform(platform);if(!graph.known)throw new Error(graph.reason);
  const result=bootstrap.processAttach(),frame=bootstrap.attachProgress().engineCinitProgress!;
- expect(result.known).toBe(false);expect(frame).toMatchObject({pc:'3067152b',operations:665,floatConversionWritten:true});
+ expect(result.known).toBe(false);expect(frame).toMatchObject({pc:'3067c3c7',operations:690,exitTableResult:0,floatConversionWritten:true});
  expect(frame.images.crt).toBe(crt);
- expect(graph.value.snapshot().trace.filter(pc=>pc==='3067d01f.EngineCinitSource')).toHaveLength(66);
- expect(graph.value.snapshot().calls.find(c=>c.site==='3067d025')).toMatchObject({returned:false,position:frame.entryEsp-28,returnWord:{provenance:{kind:'source',type:'code',address:'3067d027'}}});
+ expect(frame.exitTableAllocation!.bytes.length).toBe(128);expect(frame.exitTableAllocation!.readUnsigned(0)).toBe(0);expect(frame.exitTableAllocation!.backing.freed).toBe(false);
+ expect(graph.value.snapshot().calls.find(c=>c.site==='30671530')).toMatchObject({returned:true});expect(graph.value.snapshot().calls.find(c=>c.site==='30671538')).toMatchObject({returned:true});expect(graph.value.snapshot().calls.filter(c=>c.site==='3067d025')[0]).toMatchObject({returned:true});
+ expect(graph.value.snapshot().trace.filter(pc=>pc==='3067d01f.EngineCinitSource')).toHaveLength(67);
+ expect(graph.value.snapshot().calls.filter(c=>c.site==='3067d025').at(-1)).toMatchObject({returned:false,position:frame.entryEsp-28,returnWord:{provenance:{kind:'source',type:'code',address:'3067d027'}}});
  const encodedCalls=graph.value.snapshot().calls.filter(c=>c.site==='3067f599');expect(encodedCalls).toHaveLength(10);expect(encodedCalls.every(c=>c.returned)).toBe(true);
  expect(graph.value.snapshot().calls.find(c=>c.site==='3067d1f9')).toMatchObject({returned:false,position:frame.entryEsp-20,returnWord:{provenance:{kind:'source',type:'code',address:'3067d1fe'}}});
  expect(frame.bank.maskedWord(40).value&0x80ff).toBe(0);expect(frame.bank.maskedWord(40).knownMask&0x80ff).toBe(0x80ff);
@@ -744,4 +746,10 @@ it.each([
 it('follows the original Engine x87 fallback when the feature export is absent',()=>{
  const {bootstrap,platform}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{processorFeatureProcedure:false}),graph=NativeX86ThreadStack.forPlatform(platform);if(!graph.known)throw new Error(graph.reason);
  expect(bootstrap.processAttach().known).toBe(false);expect(bootstrap.attachProgress().engineCinitProgress).toMatchObject({pc:'3067f5d5',operations:35});expect(graph.value.snapshot().calls.find(c=>c.site==='3067f626')).toMatchObject({returned:true});expect(graph.value.snapshot().calls.some(c=>c.site==='3067f632')).toBe(false);
+});
+it('returns the original Engine exit-table allocation failure to the C initializer caller',()=>{
+ const {bootstrap,platform}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs),graph=NativeX86ThreadStack.forPlatform(platform);if(!graph.known)throw new Error(graph.reason);
+ const allocate=platform.win32HeapAlloc.bind(platform),spy=vi.spyOn(platform,'win32HeapAlloc').mockImplementation((...args)=>args[1]===8&&args[2]===128?{known:true,value:null}:allocate(...args));let result;try{result=bootstrap.processAttach();}finally{spy.mockRestore();}
+ expect(result.known).toBe(false);expect(bootstrap.attachProgress().engineCinitProgress).toMatchObject({pc:'3067d1fe',exitTableAllocation:null,exitTableResult:24,operations:688});expect(graph.value.snapshot().calls.filter(c=>c.site==='3067d025')).toHaveLength(1);expect(graph.value.snapshot().calls.find(c=>c.site==='3067d1f9')).toMatchObject({returned:true});
+ const before=graph.value.snapshot().trace;expect(bootstrap.processAttach()).toEqual(result);expect(graph.value.snapshot().trace).toEqual(before);
 });

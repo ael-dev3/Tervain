@@ -202,7 +202,7 @@ export class NativeX86ThreadStack {
   #engineArgvExecuting=false;
   #engineArgvCallerTested=false;
   #engineSetenvpCallerTested=false;
-  #engineCinitFrame:{crt:NativeModuleCrtOwner;bootstrap:NativeCrtBootstrap;pc:string;entryEsp:number;images:NativeEngineCinitImages;operations:number;floatConversionWritten:boolean;precisionArgument:number|null}|null=null;
+  #engineCinitFrame:{crt:NativeModuleCrtOwner;bootstrap:NativeCrtBootstrap;pc:string;entryEsp:number;images:NativeEngineCinitImages;operations:number;floatConversionWritten:boolean;precisionArgument:number|null;exitTableAllocation:NativeHeapObjectViews|null;exitTableResult:0|24|null}|null=null;
   #engineSetenvpFrame:{crt:NativeModuleCrtOwner;bootstrap:NativeCrtBootstrap;phase:'running'|'blocked'|'returned';pc:string;boundary:string|null;operations:number;input:NativeBytePointer|null;cursor:number;entries:number;strlenCalls:number;vectorSlots:number|null;vector:NativeHeapObjectViews|null;vectorPublished:boolean;vectorReleased:boolean;vectorCleared:boolean;inputReleased:boolean;inputCleared:boolean;readyPublished:boolean;strings:NativeHeapObjectViews[];filledEntries:number;images:NativeEngineSetenvpImages;result:0|-1|null}|null=null;
   static enterEngineSetenvpForBootstrap(stack:NativeX86ThreadStack,bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object):NativeValue<0|-1>{
     const reached=NativeCrtBootstrap.engineSetenvpInputForCrt(bootstrap,crt,permit);if(!reached.known)return reached;
@@ -359,7 +359,7 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
       const images=NativeEngineCinitImages.forCrt(crt);if(!images.known)throw new Error(images.reason);
       stack.#physical(stack.#stack);stack.#physical(stack.#bank);
       const entryEsp=stack.#address(stack.#load(stack.#bank,stack.#reg('ESP')));
-      stack.#engineCinitFrame={crt,bootstrap,pc:'30677288',entryEsp,images:images.value,operations:0,floatConversionWritten:false,precisionArgument:null};
+      stack.#engineCinitFrame={crt,bootstrap,pc:'30677288',entryEsp,images:images.value,operations:0,floatConversionWritten:false,precisionArgument:null,exitTableAllocation:null,exitTableResult:null};
       stack.#push(stack.#mint(0,0xffffffff));stack.#trace.push('30677288.EngineCinitCallerPush');stack.#engineCinitFrame.operations++;
       stack.#call('3067728a','3067728f');stack.#trace.push('3067728a.EngineCinitCallerCall');stack.#engineCinitFrame.operations++;
       stack.#engineCinitFrame.pc='3067d1c7';
@@ -469,13 +469,31 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
         let target:string|null=null;
         walk('3067d01f',()=>{const offset=cursor(),live=NativeEngineCinitImages.imageForCrt(images.value,crt,'errorInitializers');if(!live.known||live.value!==initializers.value)throw new Error('Retained Engine C initializer table required');const raw=NativeHeapObjectViews.prototype.readUnsigned.call(initializers.value,offset,4);if(raw){target=engineCinitTableTarget('errorInitializers',(0x30816928+offset).toString(16));if(!target||parseInt(target,16)!==raw)throw new Error('Admitted original Engine C initializer callback required');setRegister('ECX',stack.#source('code',target));}else setRegister('ECX',stack.#mint(0,0xffffffff));});
         walk('3067d021',()=>stack.#flags(target?0:0x44,0x841|(target?0:0x84)));walk('3067d023',()=>{});
-        if(target){walk('3067d025',()=>stack.#call('3067d025','3067d027'));stack.#engineCinitFrame.pc=target;return known(undefined);}
+        if(target){
+          walk('3067d025',()=>stack.#call('3067d025','3067d027'));stack.#engineCinitFrame.pc=target;
+          if(target!=='3067152b')return known(undefined);
+          const exit=(pc:string,body:()=>void)=>step(pc,body,'3067152b');
+          let allocation:NativeHeapObjectViews|null=null;
+          exit('3067152b',()=>stack.#push(register('ESI')));
+          exit('3067152c',()=>stack.#push(stack.#mint(4,0xffffffff)));
+          exit('3067152e',()=>stack.#push(stack.#mint(32,0xffffffff)));
+          exit('30671530',()=>{stack.#call('30671530','30671535');engineCinitInstruction('3067ca01','3067ca01');const esp=stack.#address(register('ESP')),count=stack.#numeric(stack.#load(stack.#stack,esp+4),4),size=stack.#numeric(stack.#load(stack.#stack,esp+8),4);if(count!==32||size!==4)throw new Error('Original Engine exit-table calloc arguments required');const allocated=NativeModuleCrtOwner.prototype.callocCrt.call(crt,count,size);if(!allocated.known)throw new Error(allocated.reason);if(allocated.value){allocation=new NativeHeapObjectViews(allocated.value);Object.freeze(allocation);const span=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields:allocation,offset:0},128);if(!span.known)throw new Error(span.reason);stack.#engineCinitFrame!.exitTableAllocation=allocation;}hostReturn(allocation?stack.#mint(0,0,{kind:'engine-allocation',crt,fields:allocation,offset:0}):stack.#mint(0,0xffffffff),0);});
+          exit('30671535',()=>setRegister('ESI',register('EAX')));
+          exit('30671537',()=>stack.#push(register('ESI')));
+          exit('30671538',()=>{stack.#call('30671538','3067153d');const esp=stack.#address(register('ESP')),word=stack.#load(stack.#stack,esp+4),p=stack.#record(word).provenance;if(allocation&&(p?.kind!=='engine-allocation'||p.crt!==crt||p.fields!==allocation||p.offset!==0))throw new Error('Actual Engine exit-table allocation pointer required');if(!allocation&&stack.#numeric(word,4)!==0)throw new Error('Actual NULL Engine exit-table pointer required');const encoded=NativeModuleCrtOwner.prototype.encodePointer.call(crt,allocation?word:null);if(!encoded.known)throw new Error(encoded.reason);hostReturn(encoded.value===null?stack.#mint(0,0xffffffff):encoded.value===word?word:stack.#mint(0,0,{kind:'platform',object:encoded.value,category:'EngineCinitEncoded'}),0);});
+          exit('3067153d',()=>{const before=stack.#address(register('ESP'));setRegister('ESP',stack.#stackWord(before+12));stack.#arithmeticFlags(before,12,before+12,4,false);});
+          exit('30671540',()=>{if(allocation)stack.#flags(0,0x841);else stack.#logicalFlags(0,0xffffffff,4);});
+          for(const [pc,label] of [['30671542','exitTableEnd'],['30671547','exitTableBegin']] as const)exit(pc,()=>{const image=NativeEngineCinitImages.imageForCrt(images.value,crt,label);if(!image.known)throw new Error(image.reason);stack.#store(image.value,0,register('EAX'));});
+          exit('3067154c',()=>{});
+          if(!allocation){exit('3067154e',()=>stack.#push(stack.#mint(24,0xffffffff)));exit('30671550',()=>pop('EAX'));exit('30671551',()=>pop('ESI'));exit('30671552',()=>stack.#ret());stack.#engineCinitFrame.exitTableResult=24;}
+          else{exit('30671553',()=>{const span=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields:allocation!,offset:0},4);if(!span.known)throw new Error(span.reason);stack.#store(allocation!,0,stack.#mint(0,0xffffffff));stack.#logicalFlags(0,0xffffffff,4);});exit('30671556',()=>{setRegister('EAX',stack.#mint(0,0xffffffff));stack.#logicalFlags(0,0xffffffff,4);});exit('30671558',()=>pop('ESI'));exit('30671559',()=>stack.#ret());stack.#engineCinitFrame.exitTableResult=0;}
+        }
         walk('3067d027',()=>{const before=cursor(),next=before+4;setRegister('ESI',stack.#mint(0,0,{kind:'engine-image',crt,fields:initializers.value,offset:next}));stack.#arithmeticFlags(before,4,next,4,false);});
       }
       return known(undefined);
     }catch(error){return unknown(reason(error));}
   }
-  engineCinitFrameSnapshot(crt:NativeModuleCrtOwner){const f=this.#engineCinitFrame;if(!f||f.crt!==crt)return null;const table=NativeEngineCinitImages.imageForCrt(f.images,crt,'floatConversionPointers');const floatPointers=f.floatConversionWritten&&table.known?Object.freeze(Array.from({length:10},(_,i)=>this.#record(this.#load(table.value,i*4)))):null;return Object.freeze({pc:f.pc,entryEsp:f.entryEsp,images:f.images,operations:f.operations,floatConversionWritten:f.floatConversionWritten,precisionArgument:f.precisionArgument,floatPointers,bank:this.#bank,stack:this.#stack});}
+  engineCinitFrameSnapshot(crt:NativeModuleCrtOwner){const f=this.#engineCinitFrame;if(!f||f.crt!==crt)return null;const table=NativeEngineCinitImages.imageForCrt(f.images,crt,'floatConversionPointers');const floatPointers=f.floatConversionWritten&&table.known?Object.freeze(Array.from({length:10},(_,i)=>this.#record(this.#load(table.value,i*4)))):null;return Object.freeze({pc:f.pc,entryEsp:f.entryEsp,images:f.images,operations:f.operations,floatConversionWritten:f.floatConversionWritten,precisionArgument:f.precisionArgument,exitTableAllocation:f.exitTableAllocation,exitTableResult:f.exitTableResult,floatPointers,bank:this.#bank,stack:this.#stack});}
   static testEngineSetenvpReturnForBootstrap(stack:NativeX86ThreadStack,bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object):NativeValue<'30677288'|'3067729f'>{
     const reached=NativeCrtBootstrap.canonicalEngineSetenvpCallerForCrt(bootstrap,crt,permit);if(!reached.known)return reached;
     try{
