@@ -1,6 +1,8 @@
 import {NativeCrtThreadStartup} from './native-crt-thread-startup';
 import {NativeEngineArgvImages} from './native-engine-argv-images';
 import {engineSetenvpCaller,engineSetenvpInstruction} from './native-engine-setenvp-source';
+import {engineCinitCaller} from './native-engine-cinit-source';
+import {NativeEngineCinitImages} from './native-engine-cinit-images';
 import {NativeEngineCrtEnvironment} from './native-engine-crt-environment';
 import {NativeEngineSetenvpImages} from './native-engine-setenvp-images';
 import {engineArgvInstruction,engineArgvGetACPImport,engineArgvFilenameImport,engineArgvMbcImport,engineArgvStaticMbcHeader,engineArgvClassificationImport} from './native-engine-argv-source';
@@ -198,6 +200,8 @@ export class NativeX86ThreadStack {
   #engineArgvFrame:EngineArgvFrame|null=null;
   #engineArgvExecuting=false;
   #engineArgvCallerTested=false;
+  #engineSetenvpCallerTested=false;
+  #engineCinitFrame:{crt:NativeModuleCrtOwner;bootstrap:NativeCrtBootstrap;pc:string;entryEsp:number;images:NativeEngineCinitImages;operations:number}|null=null;
   #engineSetenvpFrame:{crt:NativeModuleCrtOwner;bootstrap:NativeCrtBootstrap;phase:'running'|'blocked'|'returned';pc:string;boundary:string|null;operations:number;input:NativeBytePointer|null;cursor:number;entries:number;strlenCalls:number;vectorSlots:number|null;vector:NativeHeapObjectViews|null;vectorPublished:boolean;vectorReleased:boolean;vectorCleared:boolean;inputReleased:boolean;inputCleared:boolean;readyPublished:boolean;strings:NativeHeapObjectViews[];filledEntries:number;images:NativeEngineSetenvpImages;result:0|-1|null}|null=null;
   static enterEngineSetenvpForBootstrap(stack:NativeX86ThreadStack,bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object):NativeValue<0|-1>{
     const reached=NativeCrtBootstrap.engineSetenvpInputForCrt(bootstrap,crt,permit);if(!reached.known)return reached;
@@ -345,6 +349,38 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
     }catch(error){return unknown(reason(error));}
   }
   engineSetenvpFrameSnapshot(crt:NativeModuleCrtOwner){const frame=this.#engineSetenvpFrame;if(!frame||frame.crt!==crt)return null;return Object.freeze({phase:frame.phase,pc:frame.pc,boundary:frame.boundary,operations:frame.operations,input:frame.input,cursor:frame.cursor,entries:frame.entries,strlenCalls:frame.strlenCalls,vectorSlots:frame.vectorSlots,vector:frame.vector,vectorPublished:frame.vectorPublished,vectorReleased:frame.vectorReleased,vectorCleared:frame.vectorCleared,inputReleased:frame.inputReleased,inputCleared:frame.inputCleared,readyPublished:frame.readyPublished,strings:Object.freeze([...frame.strings]),filledEntries:frame.filledEntries,images:frame.images,result:frame.result,bank:this.#bank,stack:this.#stack});}
+  static enterEngineCinitForBootstrap(stack:NativeX86ThreadStack,bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object):NativeValue<void>{
+    const reached=NativeCrtBootstrap.canonicalEngineCinitCallForCrt(bootstrap,crt,permit);if(!reached.known)return reached;
+    try{
+      const env=stack.#engineSetenvpFrame,caller=engineCinitCaller();
+      if(graphs.get(crt.host.platform as NativeRuntimePlatform)!==stack||!stack.#engineSetenvpCallerTested||stack.#engineCinitFrame||!env||env.crt!==crt||env.bootstrap!==bootstrap||env.phase!=='returned'||env.result!==0||stack.#engineArgvExecuting||stack.#engineIoExecuting)throw new Error('Actual unreplayed Engine initializer caller required');
+      if(caller.call!=='3067728a'||caller.target!=='3067d1c7'||caller.returnAddress!=='3067728f'||caller.raw.slice(8,22)!=='6a00e8385f0000')throw new Error('Original Engine initializer PUSH/CALL required');
+      const images=NativeEngineCinitImages.forCrt(crt);if(!images.known)throw new Error(images.reason);
+      stack.#physical(stack.#stack);stack.#physical(stack.#bank);
+      const entryEsp=stack.#address(stack.#load(stack.#bank,stack.#reg('ESP')));
+      stack.#engineCinitFrame={crt,bootstrap,pc:'30677288',entryEsp,images:images.value,operations:0};
+      stack.#push(stack.#mint(0,0xffffffff));stack.#trace.push('30677288.EngineCinitCallerPush');stack.#engineCinitFrame.operations++;
+      stack.#call('3067728a','3067728f');stack.#trace.push('3067728a.EngineCinitCallerCall');stack.#engineCinitFrame.operations++;
+      stack.#engineCinitFrame.pc='3067d1c7';
+      return known(undefined);
+    }catch(error){return unknown(reason(error));}
+  }
+  engineCinitFrameSnapshot(crt:NativeModuleCrtOwner){const f=this.#engineCinitFrame;if(!f||f.crt!==crt)return null;return Object.freeze({pc:f.pc,entryEsp:f.entryEsp,images:f.images,operations:f.operations,bank:this.#bank,stack:this.#stack});}
+  static testEngineSetenvpReturnForBootstrap(stack:NativeX86ThreadStack,bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object):NativeValue<'30677288'|'3067729f'>{
+    const reached=NativeCrtBootstrap.canonicalEngineSetenvpCallerForCrt(bootstrap,crt,permit);if(!reached.known)return reached;
+    try{
+      const frame=stack.#engineSetenvpFrame,caller=engineCinitCaller();
+      if(graphs.get(crt.host.platform as NativeRuntimePlatform)!==stack||stack.#engineArgvExecuting||stack.#engineIoExecuting||stack.#engineSetenvpCallerTested||!frame||frame.bootstrap!==bootstrap||frame.crt!==crt||frame.phase!=='returned'||frame.pc!=='30677284'||frame.result===null)throw new Error('Actual unreplayed returned Engine environment frame required');
+      if(caller.resultTest!=='30677284'||caller.failureBranch!=='30677286'||!caller.raw.startsWith('85c07c17'))throw new Error('Original Engine environment caller TEST/JL required');
+      stack.#physical(stack.#stack);stack.#physical(stack.#bank);
+      const result=stack.#numeric(stack.#load(stack.#bank,stack.#reg('EAX')),4);
+      if((result|0)!==frame.result)throw new Error('Actual retained Engine environment result required');
+      stack.#logicalFlags(result,0xffffffff,4);stack.#trace.push('30677284.EngineSetenvpCallerTest');
+      const target=(result&0x80000000)!==0?'3067729f':'30677288';
+      stack.#trace.push('30677286.EngineSetenvpCallerJl');stack.#engineSetenvpCallerTested=true;
+      return known(target);
+    }catch(error){return unknown(reason(error));}
+  }
   static testEngineArgvReturnForBootstrap(stack:NativeX86ThreadStack,bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object):NativeValue<'3067727f'|'3067729f'>{
     const reached=NativeCrtBootstrap.canonicalEngineArgvCallerForCrt(bootstrap,crt,permit);if(!reached.known)return reached;
     try{

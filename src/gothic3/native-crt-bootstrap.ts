@@ -187,6 +187,7 @@ export interface NativeCrtAttachProgress {
   readonly engineArgvImages:NativeEngineArgvImages|null;
   readonly engineArgvProgress:ReturnType<NativeX86ThreadStack['engineArgvFrameSnapshot']>;
   readonly engineSetenvpProgress:ReturnType<NativeX86ThreadStack['engineSetenvpFrameSnapshot']>;
+  readonly engineCinitProgress:ReturnType<NativeX86ThreadStack['engineCinitFrameSnapshot']>;
   readonly engineIoProgress: ReturnType<NativeX86ThreadStack['engineIoFrameSnapshot']>;
   readonly commandLineReturned: boolean;
   readonly commandLineNonNull: boolean | null;
@@ -279,6 +280,10 @@ export class NativeCrtBootstrap {
   readonly #engineSetenvpPermit=Object.freeze({});
   #engineSetenvpActive=false;
   #engineSetenvpInputReleased=false;
+  readonly #engineSetenvpCallerPermit=Object.freeze({});
+  #engineSetenvpCallerActive=false;
+  readonly #engineCinitPermit=Object.freeze({});
+  #engineCinitActive=false;
   #engineArgvInvocationActive=false;
   #engineIoStack: NativeX86ThreadStack | null = null;
   readonly #engineIoCallPermit=Object.freeze({});
@@ -346,6 +351,18 @@ export class NativeCrtBootstrap {
   static canonicalEngineArgvCallerForCrt(bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object):NativeValue<void>{
     try{const retained=bootstrapByCrt.get(crt),next=bootstrap.#nextBoundary;
       if(!NativeModuleCrtOwner.isConstructedOwner(crt)||crt.module!=='Engine'||retained?.phase!=='returned'||retained.owner!==bootstrap||bootstrap.#crt!==crt||bootstrap.#boundary!==null||bootstrap.#attachPhase!=='running'||!bootstrap.#active.has(bootstrap.#name('crtAttach'))||!bootstrap.#engineArgvCallerActive||permit!==bootstrap.#engineArgvCallerPermit||bootstrap.#lowerCall!=='Engine argument caller TEST/JL at3067727b'||next?.address!=='3067727b'||next.name!=='callerTest'||bootstrap.#ioResult!==0||!bootstrap.#engineIoStack)return unknown('Actual reached same-Engine argument caller permit required');
+      bootstrap.#assertCrt();return known(undefined);
+    }catch(error){return unknown(failureReason(error));}
+  }
+  static canonicalEngineCinitCallForCrt(bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object):NativeValue<void>{
+    try{const retained=bootstrapByCrt.get(crt),next=bootstrap.#nextBoundary;
+      if(!NativeModuleCrtOwner.isConstructedOwner(crt)||crt.module!=='Engine'||retained?.phase!=='returned'||retained.owner!==bootstrap||bootstrap.#crt!==crt||bootstrap.#boundary!==null||bootstrap.#attachPhase!=='running'||!bootstrap.#active.has(bootstrap.#name('crtAttach'))||!bootstrap.#engineCinitActive||permit!==bootstrap.#engineCinitPermit||bootstrap.#lowerCall!=='Engine CRT initializer3067d1c7 at3067728a'||next?.address!=='30677288'||next.name!=='callerTest'||!bootstrap.#engineIoStack)return unknown('Actual reached same-Engine initializer caller permit required');
+      bootstrap.#assertCrt();return known(undefined);
+    }catch(error){return unknown(failureReason(error));}
+  }
+  static canonicalEngineSetenvpCallerForCrt(bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object):NativeValue<void>{
+    try{const retained=bootstrapByCrt.get(crt),next=bootstrap.#nextBoundary;
+      if(!NativeModuleCrtOwner.isConstructedOwner(crt)||crt.module!=='Engine'||retained?.phase!=='returned'||retained.owner!==bootstrap||bootstrap.#crt!==crt||bootstrap.#boundary!==null||bootstrap.#attachPhase!=='running'||!bootstrap.#active.has(bootstrap.#name('crtAttach'))||!bootstrap.#engineSetenvpCallerActive||permit!==bootstrap.#engineSetenvpCallerPermit||bootstrap.#lowerCall!=='Engine environment caller TEST/JL at30677284'||next?.address!=='30677284'||next.name!=='callerTest'||!bootstrap.#engineIoStack)return unknown('Actual reached same-Engine environment caller permit required');
       bootstrap.#assertCrt();return known(undefined);
     }catch(error){return unknown(failureReason(error));}
   }
@@ -800,7 +817,20 @@ export class NativeCrtBootstrap {
       this.#engineSetenvpActive=true;
       try{const result=this.#call('Engine environment-vector setup3068e4f2 at3067727f',()=>NativeX86ThreadStack.enterEngineSetenvpForBootstrap(this.#engineIoStack!,this,this.#crt,this.#engineSetenvpPermit));this.#record('environmentVector.return',result,'30677284');this.#nextBoundary=Object.freeze({name:'callerTest',address:'30677284',instruction:'TEST EAX,EAX'});}
       finally{this.#engineSetenvpActive=false;}
-      this.#gate('Engine environment-vector result at30677284');
+      this.#engineSetenvpCallerActive=true;
+      let environmentNext:'30677288'|'3067729f';
+      try{environmentNext=this.#call('Engine environment caller TEST/JL at30677284',()=>NativeX86ThreadStack.testEngineSetenvpReturnForBootstrap(this.#engineIoStack!,this,this.#crt,this.#engineSetenvpCallerPermit));}
+      finally{this.#engineSetenvpCallerActive=false;}
+      if(environmentNext==='3067729f'){
+        this.#nextBoundary=Object.freeze({name:'startupCall',address:environmentNext,target:'3068892c'});
+        this.#gate('Engine environment failure cleanup3068892c at3067729f');
+      }
+      this.#nextBoundary=Object.freeze({name:'callerTest',address:'30677288',instruction:'PUSH 0x0'});
+      this.#engineCinitActive=true;
+      try{this.#call('Engine CRT initializer3067d1c7 at3067728a',()=>NativeX86ThreadStack.enterEngineCinitForBootstrap(this.#engineIoStack!,this,this.#crt,this.#engineCinitPermit));}
+      finally{this.#engineCinitActive=false;}
+      this.#nextBoundary=Object.freeze({name:'startupCall',address:'3067728a',target:'3067d1c7'});
+      this.#gate('Engine CRT initializer3067d1c7 at3067728a');
     }
     const points = gameAttachContinuationInstructionPoints;
     const endpointProof = NativeRuntimePlatform.canonicalProcessInputEndpointsForPlatform(
@@ -993,6 +1023,7 @@ export class NativeCrtBootstrap {
       engineArgvImages:this.#engineArgvImages,
       engineArgvProgress:this.#engineIoStack?.engineArgvFrameSnapshot(this.#crt)??null,
       engineSetenvpProgress:this.#engineIoStack?.engineSetenvpFrameSnapshot(this.#crt)??null,
+      engineCinitProgress:this.#engineIoStack?.engineCinitFrameSnapshot(this.#crt)??null,
       engineIoProgress:this.#engineIoStack?.engineIoFrameSnapshot(this.#crt)??null,
       commandLineReturned: this.#commandLineReturned, commandLineNonNull: this.#commandLineNonNull,
       environmentReturned: this.#environmentReturned, environmentNonNull: this.#environmentNonNull,
