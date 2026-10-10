@@ -1,3 +1,16 @@
+import {NativePropertyTypeTable} from './native-property-type-table';
+import {createNativeEngineModuleOwner} from './native-engine-module-owner';
+import {createBrowserEngineCrtStartup} from './browser-engine-crt-startup';
+import {NativeCrtBootstrap} from './native-crt-bootstrap';
+import {NativeEngineIoImages} from './native-engine-io-images';
+import {engineIoInstruction} from './native-engine-io-source';
+import {NativeGameAIHelperAdminClassName} from './native-game-ai-helper-admin-class-name';
+import scriptAdminSource from '../../assets/gothic3/script-admin-startup/runtime-rules.json';
+import {constructNativePropertyIdFromGuid} from './native-property-id-guid';
+import {NativeSharedGuidNull} from './native-shared-guid-null';
+import {NativeGuidText} from './native-guid-text';
+import {NativeHeapCString} from './native-heap-cstring';
+import {NativeGameAIHelperAdminType} from './native-game-ai-helper-admin-type';
 import {NativeGameLabelType} from './native-game-label-type';
 import {gameStrlenDwordCandidate} from './native-game-strlen-predicate';
 import {nativeMaskedBitfieldAssignment} from './native-masked-bitfield';
@@ -64,6 +77,7 @@ type WordRecord = Readonly<{ value: number; mask: number; provenance?:
   Readonly<{ kind: 'shared-local'; fields:NativeHeapObjectViews; offset?:number }> |
   Readonly<{ kind: 'module'; label: string; fields: NativeHeapObjectViews; offset: number }> |
   Readonly<{ kind: 'process'; pointer: NativeBytePointer }> |
+  Readonly<{kind:'engine-allocation';crt:NativeModuleCrtOwner;fields:NativeHeapObjectViews;offset:number}> |
   Readonly<{ kind: 'heap'; heap: NativeWin32HeapCapability }> |
   Readonly<{ kind: 'allocation'; allocation: Allocation; offset: number; pointer: NativeBytePointer }> |
   Readonly<{ kind: 'platform'; object: object; category: NativeStandardIoCapabilityKind | NativeArgvImportKind | 'GetModuleHandleA' | 'GetProcAddress' | 'IsProcessorFeaturePresent' | 'InitializerTlsGetValue' | 'InitializerPtdGetter' | 'InitializerEncodePointer' | 'InitializerDecodePointer' | 'InitializerPoolHeapAlloc' | 'InitializerCrtHeapFree' | 'InitializerPoolVirtualAlloc' | 'InitializerHeapSize' | 'InitializerInitializeSection' | 'InitializerMemorySectionInitialize' | 'InitializerMemorySectionEnter' | 'InitializerMemorySectionLeave' | 'InitializerSectionCache' | 'InitializerCreateFileA' | 'InitializerGetLastError' | 'InitializerSetLastError' | 'InitializerGetFileType' | 'InitializerCloseHandle' | 'InitializerFileHandle' | 'InitializerEncodedCode' | 'DllLstrcpyA' | 'DllVersionModule' | 'SpyFindWindowA' | 'DiagnosticWindow' | 'GameCinitModule' | 'GameCinitFeature' | 'GameCinitEncoded' }> |
@@ -96,6 +110,13 @@ interface StartupCall {
   readonly offset: number; readonly argument: NativeX86Word32; readonly position: number;
   readonly returnWord: NativeX86Word32; phase: 'pending' | 'returned';
 }
+interface EngineIoFrame {
+ readonly bootstrap:NativeCrtBootstrap;readonly crt:NativeModuleCrtOwner;readonly permit:object;
+ readonly images:NativeEngineIoImages;readonly scope:NativeHeapObjectViews;
+ phase:'running'|'blocked'|'returned';pc:string;boundary:string|null;operations:number;
+ entryEsp:number;ebp:number|null;prologReturned:boolean;fsPublished:boolean;
+ startupInfo:NativeHeapObjectViews|null;allocation:NativeHeapObjectViews|null;callocReturned:boolean;fileType:number|null;section:NativeHeapObjectViews|null;sectionResult:boolean|null;setHandleCountResult:number|null;fsRestored:boolean;
+}
 interface HeapCall {
   readonly stack: NativeX86ThreadStack; readonly controller: object; readonly crt: NativeModuleCrtOwner;
   readonly heap: NativeWin32HeapCapability; readonly heapWord: NativeX86Word32;
@@ -104,16 +125,17 @@ interface HeapCall {
   phase: 'pending' | 'returned';
 }
 export interface NativeStandardIoArguments {
-  readonly site: NativeStandardIoCallSite; readonly kind: NativeStandardIoCallKind; readonly crt: NativeModuleCrtOwner;
+  readonly site: NativeStandardIoCallSite | '306888a1' | '306888b3' | '3068890b'; readonly kind: NativeStandardIoCallKind; readonly crt: NativeModuleCrtOwner;
   readonly scalar?: number; readonly object?: object | null; readonly procedure?: object;
   readonly section?: NativeBytePointer; readonly sectionFields?: NativeHeapObjectViews;
 }
 interface StandardCall {
-  readonly stack: NativeX86ThreadStack; readonly controller: object; readonly args: NativeStandardIoArguments;
+  readonly stack: NativeX86ThreadStack; readonly controller: object; readonly args: NativeStandardIoArguments & {readonly site:NativeStandardIoCallSite};
   readonly position: number; readonly frame: number; readonly fs: NativeX86Word32;
   readonly argumentWords: readonly NativeX86Word32[]; readonly returnWord: NativeX86Word32;
   readonly argumentBytes: 4 | 8; phase: 'pending' | 'returned';
 }
+const engineStandardCalls=new WeakMap<NativeStandardIoCallGrant,{stack:NativeX86ThreadStack;frame:EngineIoFrame;args:NativeStandardIoArguments;position:number;argument:NativeX86Word32;returnWord:NativeX86Word32;phase:'pending'|'returned'}>();
 const standardSites: Readonly<Record<NativeStandardIoCallSite, Readonly<{ kind: NativeStandardIoCallKind; returnAddress: string; argumentBytes: 4 | 8; position: number }>>> = Object.freeze({
   '204744b4': Object.freeze({ kind: 'GetStdHandle', returnAddress: '204744ba', argumentBytes: 4, position: -0x7c }),
   '204744c6': Object.freeze({ kind: 'GetFileType', returnAddress: '204744cc', argumentBytes: 4, position: -0x7c }),
@@ -126,6 +148,7 @@ const standardSites: Readonly<Record<NativeStandardIoCallSite, Readonly<{ kind: 
 });
 const graphs = new WeakMap<NativeRuntimePlatform, NativeX86ThreadStack>();
 const retirements = new WeakMap<NativeX86ThreadStack, () => void>();
+const engineStartupCalls=new WeakMap<NativeStartupInfoCallGrant,{stack:NativeX86ThreadStack;frame:EngineIoFrame;offset:number;argument:NativeX86Word32;position:number;returnWord:NativeX86Word32;phase:'pending'|'returned'}>();
 const startupCalls = new WeakMap<NativeStartupInfoCallGrant, StartupCall>();
 const heapCalls = new WeakMap<NativeHeapAllocCallGrant, HeapCall>();
 const standardCalls = new WeakMap<NativeStandardIoCallGrant, StandardCall>();
@@ -161,6 +184,332 @@ function reason(error: unknown): string {
 }
 
 export class NativeX86ThreadStack {
+  #engineIoFrame:EngineIoFrame|null=null;
+  #engineIoExecuting=false;
+  /** Borrow the actual thread graph for a reached translated Engine CRT call.
+   * This does not establish native DLL loader order or a complete CRT frame. */
+  static enterEngineIoForBootstrap(stack:NativeX86ThreadStack,bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object):NativeValue<void>{
+    const call=NativeCrtBootstrap.canonicalEngineIoCallForCrt(bootstrap,crt,permit);if(!call.known)return call;
+    try{
+      if(graphs.get(crt.host.platform as NativeRuntimePlatform)!==stack||stack.#platform!==crt.host.platform)throw new Error('Actual same-thread Engine I/O graph required');
+      if(stack.#engineIoExecuting)throw new Error('Reentrant Engine I/O frame cannot replay');
+      if(stack.#engineIoFrame)throw new Error(stack.#engineIoFrame.boundary??'Retained Engine I/O frame cannot restart');
+      if(stack.#phase==='running'){
+        const binding=stack.#setEnvpBinding;
+        if(!binding||!stack.#executing||stack.#calls.filter(call=>!call.returned).at(-1)?.site!=='200766c2')throw new Error('Actual pending Game module-administrator frame required for Engine bridge');
+        const parent=NativeGameCrtSetEnvp.canonicalAIHelperModuleAdminCallForCrt(binding.owner,binding.crt,binding.controller);if(!parent.known)throw new Error(parent.reason);
+      }else if(stack.#phase!=='cold'||stack.#binding||stack.#sharedArgvFrame||stack.#dllMemoryController)throw new Error('Actual cold Engine thread or reached Game bridge required');
+      stack.#physical(stack.#stack);stack.#physical(stack.#bank);
+      const images=bootstrap.attachProgress().engineIoImages;if(!images)throw new Error('Actual retained Engine I/O images required');
+      const scope=NativeEngineIoImages.imageForCrt(images,crt,'ioSehScope');if(!scope.known)throw new Error(scope.reason);
+      const frame:EngineIoFrame={bootstrap,crt,permit,images,scope:scope.value,phase:'running',pc:'30677266',boundary:null,operations:0,entryEsp:stack.#address(stack.#load(stack.#bank,stack.#reg('ESP'))),ebp:null,prologReturned:false,fsPublished:false,startupInfo:null,allocation:null,callocReturned:false,fileType:null,section:null,sectionResult:null,setHandleCountResult:null,fsRestored:false};
+      stack.#engineIoFrame=frame;stack.#engineIoExecuting=true;stack.#phase='running';
+      const register=(name:NativeX86Register)=>stack.#load(stack.#bank,stack.#reg(name));
+      const set=(name:NativeX86Register,word:NativeX86Word32)=>stack.#store(stack.#bank,stack.#reg(name),word);
+      const relative=(name:'ESP'|'EBP',offset:number)=>stack.#address(register(name))+offset;
+      const value=(number:number)=>stack.#mint(number>>>0,0xffffffff);
+      const xor=(left:NativeX86Word32,right:NativeX86Word32)=>{
+        if(left===right){stack.#logicalFlags(0,0xffffffff,4);return value(0);}
+        const a=stack.#record(left),b=stack.#record(right);stack.#logicalFlags(a.value^b.value,a.mask&b.mask,4);
+        return stack.#mint(a.value^b.value,a.mask&b.mask,{kind:'xor',left,right});
+      };
+      const step=(entry:string,pc:string,body:()=>void)=>{
+        stack.#engineIoProof(frame);engineIoInstruction(entry,pc);frame.pc=pc;body();frame.operations++;
+        stack.#trace.push(pc+'.EngineIoSource');stack.#engineIoProof(frame);
+      };
+      try{
+        // The TypeScript CRT caller bridge issues the actual source CALL. Its
+        // return is distinct from the still-pending Game getter below it.
+        stack.#engineIoProof(frame);stack.#call('30677266','3067726b');
+        step('306886ec','306886ec',()=>stack.#push(value(0x54)));
+        step('306886ec','306886ee',()=>stack.#push(stack.#mint(0,0,{kind:'source',type:'image',address:'30956c00',fields:frame.scope})));
+        step('306886ec','306886f3',()=>stack.#call('306886f3','306886f8'));
+        const prolog=(pc:string,body:()=>void)=>step('3067e500',pc,body);
+        prolog('3067e500',()=>stack.#push(stack.#source('code','3067e590')));
+        prolog('3067e505',()=>stack.#push(stack.#load(stack.#bank,32)));
+        prolog('3067e50c',()=>set('EAX',stack.#load(stack.#stack,relative('ESP',0x10))));
+        prolog('3067e510',()=>stack.#store(stack.#stack,relative('ESP',0x10),register('EBP')));
+        prolog('3067e514',()=>{frame.ebp=relative('ESP',0x10);set('EBP',stack.#stackWord(frame.ebp));});
+        prolog('3067e518',()=>{const bytes=stack.#numeric(register('EAX'),4);set('ESP',stack.#stackWord(relative('ESP',-bytes)));stack.#flags(0,0);});
+        prolog('3067e51a',()=>stack.#push(register('EBX')));
+        prolog('3067e51b',()=>stack.#push(register('ESI')));
+        prolog('3067e51c',()=>stack.#push(register('EDI')));
+        prolog('3067e51d',()=>{const cookie=NativeCrtBootstrap.engineIoCookieForCrt(bootstrap,crt,permit);if(!cookie.known)throw new Error(cookie.reason);set('EAX',value(NativeHeapObjectViews.prototype.readUnsigned.call(cookie.value,0)));});
+        prolog('3067e522',()=>{const at=relative('EBP',-4);stack.#store(stack.#stack,at,xor(stack.#load(stack.#stack,at),register('EAX')));});
+        prolog('3067e525',()=>set('EAX',xor(register('EAX'),register('EBP'))));
+        prolog('3067e527',()=>stack.#push(register('EAX')));
+        prolog('3067e528',()=>stack.#store(stack.#stack,relative('EBP',-0x18),register('ESP')));
+        prolog('3067e52b',()=>stack.#push(stack.#load(stack.#stack,relative('EBP',-8))));
+        prolog('3067e52e',()=>set('EAX',stack.#load(stack.#stack,relative('EBP',-4))));
+        prolog('3067e531',()=>stack.#store(stack.#stack,relative('EBP',-4),value(0xfffffffe)));
+        prolog('3067e538',()=>stack.#store(stack.#stack,relative('EBP',-8),register('EAX')));
+        prolog('3067e53b',()=>set('EAX',stack.#stackWord(relative('EBP',-0x10))));
+        prolog('3067e53e',()=>{stack.#store(stack.#bank,32,register('EAX'));frame.fsPublished=true;});
+        prolog('3067e544',()=>{const result=stack.#record(stack.#ret()).provenance;if(result?.kind!=='source'||result.type!=='code'||result.address!=='306886f8')throw new Error('Actual Engine EH4 prolog return required');frame.prologReturned=true;});
+        step('306886ec','306886f8',()=>set('EDI',xor(register('EDI'),register('EDI'))));
+        step('306886ec','306886fa',()=>stack.#store(stack.#stack,relative('EBP',-4),register('EDI')));
+        step('306886ec','306886fd',()=>{
+          const offset=relative('EBP',-0x64);set('EAX',stack.#stackWord(offset));
+          frame.startupInfo=new NativeHeapObjectViews(stack.#stack.backing,offset,68);Object.freeze(frame.startupInfo);
+        });
+        step('306886ec','30688700',()=>stack.#push(register('EAX')));
+        step('306886ec','30688701',()=>{
+          const endpoints=stack.#platform.startupIoEndpoints;if(!endpoints)throw new Error('Engine GetStartupInfoA IAT30afc748 at30688701');
+          const endpointProof=NativeRuntimePlatform.canonicalStartupIoEndpointsForPlatform(stack.#platform,endpoints);if(!endpointProof.known)throw new Error(endpointProof.reason);
+          const argumentPosition=relative('ESP',0),argument=stack.#load(stack.#stack,argumentPosition),offset=frame.ebp!-0x64;
+          if(stack.#address(argument)!==offset)throw new Error('Actual Engine STARTUPINFOA argument required');
+          stack.#call('30688701','30688707');const top=stack.#calls.at(-1)!;
+          const grant=Object.freeze({identity:Object.freeze({})}),call={stack,frame,offset,argument,position:top.position,returnWord:top.returnWord,phase:'pending' as 'pending'|'returned'};
+          engineStartupCalls.set(grant,call);
+          const result=endpoints.getStartupInfoA(grant);if(!result.known)throw new Error(result.reason);
+          const returned=NativeRuntimePlatform.canonicalStartupInfoNormalReturnForPlatform(stack.#platform,grant);if(!returned.known)throw new Error(returned.reason);
+          stack.#engineStartupProof(call);
+          for(const name of ['EAX','ECX','EDX'] as const)set(name,stack.#mint(0,0));stack.#flags(0,0);
+          set('ESP',stack.#stackWord(call.position+8));top.returned=true;stack.#currentPc=call.returnWord;call.phase='returned';
+        });
+        step('306886ec','30688707',()=>stack.#store(stack.#stack,relative('EBP',-4),value(0xfffffffe)));
+        step('306886ec','3068870e',()=>stack.#push(value(0x38)));
+        step('306886ec','30688710',()=>stack.#push(value(0x20)));
+        step('306886ec','30688712',()=>{const position=relative('ESP',0);set('ESI',stack.#load(stack.#stack,position));set('ESP',stack.#stackWord(position+4));});
+        step('306886ec','30688713',()=>stack.#push(register('ESI')));
+        step('306886ec','30688714',()=>{
+          const argumentPosition=relative('ESP',0);
+          const count=stack.#numeric(stack.#load(stack.#stack,argumentPosition),4),size=stack.#numeric(stack.#load(stack.#stack,argumentPosition+4),4);
+          if(count!==32||size!==56)throw new Error('Actual Engine I/O calloc operands required');
+          stack.#call('30688714','30688719');
+          // Recovered CRT wrapper bridge; not an instruction interpreter for
+          // its allocator body. It returns storage from the actual Engine heap.
+          const allocated=crt.callocCrt(count,size);if(!allocated.known)throw new Error(allocated.reason);
+          stack.#engineIoProof(frame);
+          if(allocated.value){
+            const fields=new NativeHeapObjectViews(allocated.value);Object.freeze(fields);
+            const owned=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields,offset:0},count*size);if(!owned.known)throw new Error(owned.reason);
+            frame.allocation=fields;set('EAX',stack.#mint(0,0,{kind:'engine-allocation',crt,fields,offset:0}));
+          }else set('EAX',value(0));
+          for(const name of ['ECX','EDX'] as const)set(name,stack.#mint(0,0));stack.#flags(0,0);
+          const continuation=stack.#record(stack.#ret()).provenance;
+          if(continuation?.kind!=='source'||continuation.type!=='code'||continuation.address!=='30688719'||relative('ESP',0)!==argumentPosition)throw new Error('Actual Engine calloc cdecl return required');
+          frame.callocReturned=true;
+        });
+        const popEcx=()=>{const position=relative('ESP',0);set('ECX',stack.#load(stack.#stack,position));set('ESP',stack.#stackWord(position+4));};
+        step('306886ec','30688719',popEcx);
+        step('306886ec','3068871a',popEcx);
+        step('306886ec','3068871b',()=>{if(stack.#numeric(register('EDI'),4)!==0)throw new Error('Actual Engine null comparison required');stack.#liveWord(register('EAX'));stack.#flags(frame.allocation?0:0x40,0x40);});
+        step('306886ec','3068871d',()=>{if(!frame.allocation)throw new Error('Engine I/O allocation failure branch at30688923');});
+        step('306886ec','30688723',()=>{
+          const table=NativeEngineIoImages.imageForCrt(frame.images,crt,'ioBlockPointers');if(!table.known)throw new Error(table.reason);
+          const allocation=frame.allocation!;const owned=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields:allocation,offset:0},1792);if(!owned.known)throw new Error(owned.reason);
+          table.value.pointer(0).set(Object.freeze({fields:allocation,offset:0}));
+        });
+        step('306886ec','30688728',()=>{const count=NativeEngineIoImages.imageForCrt(frame.images,crt,'ioHandleCount');if(!count.known)throw new Error(count.reason);count.value.writeUnsigned(0,stack.#numeric(register('ESI'),4));});
+        step('306886ec','3068872e',()=>{const fields=frame.allocation!;const owned=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields,offset:1792},0);if(!owned.known)throw new Error(owned.reason);set('ECX',stack.#mint(0,0,{kind:'engine-allocation',crt,fields,offset:1792}));});
+        step('306886ec','30688734',()=>{});
+        const allocationPointer=(word:NativeX86Word32)=>{
+          const p=stack.#liveWord(word).provenance;
+          if(p?.kind!=='engine-allocation'||p.crt!==crt||p.fields!==frame.allocation)throw new Error('Actual same-Engine I/O block pointer required');
+          return p;
+        };
+        const compare=()=>{
+          const left=allocationPointer(register('EAX')),right=allocationPointer(register('ECX'));
+          // Same allocation, bounded offsets: only CF and ZF are established.
+          stack.#flags((left.offset<right.offset?1:0)|(left.offset===right.offset?0x40:0),0x41);
+        };
+        step('306886ec','3068875f',compare);
+        let more=false;
+        step('306886ec','30688761',()=>{more=allocationPointer(register('EAX')).offset<allocationPointer(register('ECX')).offset;});
+        while(more){
+          const store=(pc:string,offset:number,width:1|4,number:number)=>step('306886ec',pc,()=>{
+            const p=allocationPointer(register('EAX')),position=p.offset+offset;
+            const owned=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields:p.fields,offset:position},width);if(!owned.known)throw new Error(owned.reason);
+            NativeHeapObjectViews.prototype.writeUnsigned.call(p.fields,position,number,width);
+          });
+          store('30688736',4,1,0);
+          step('306886ec','3068873a',()=>{const p=allocationPointer(register('EAX'));const owned=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields:p.fields,offset:p.offset},4);if(!owned.known)throw new Error(owned.reason);NativeHeapObjectViews.prototype.writeUnsigned.call(p.fields,p.offset,0xffffffff);stack.#logicalFlags(0xffffffff,0xffffffff,4);});
+          store('3068873d',5,1,10);
+          store('30688741',8,4,stack.#numeric(register('EDI'),4));
+          store('30688744',0x24,1,0);
+          store('30688748',0x25,1,10);
+          store('3068874c',0x26,1,10);
+          step('306886ec','30688750',()=>{const p=allocationPointer(register('EAX'));const offset=p.offset+56;const owned=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields:p.fields,offset},0);if(!owned.known)throw new Error(owned.reason);set('EAX',stack.#mint(0,0,{kind:'engine-allocation',crt,fields:p.fields,offset}));stack.#flags(0,0);});
+          step('306886ec','30688753',()=>{
+            const table=NativeEngineIoImages.imageForCrt(frame.images,crt,'ioBlockPointers');if(!table.known)throw new Error(table.reason);
+            const pointer=table.value.pointer<NativeBytePointer>(0).get();if(!pointer||pointer.fields!==frame.allocation||pointer.offset!==0)throw new Error('Actual current Engine I/O table base required');
+            const owned=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,pointer,1792);if(!owned.known)throw new Error(owned.reason);
+            set('ECX',stack.#mint(0,0,{kind:'engine-allocation',crt,fields:pointer.fields,offset:0}));
+          });
+          step('306886ec','30688759',()=>{const p=allocationPointer(register('ECX'));set('ECX',stack.#mint(0,0,{kind:'engine-allocation',crt,fields:p.fields,offset:p.offset+1792}));stack.#flags(0,0);});
+          step('306886ec','3068875f',compare);
+          step('306886ec','30688761',()=>{more=allocationPointer(register('EAX')).offset<allocationPointer(register('ECX')).offset;});
+        }
+        let inheritedBytes=0;
+        step('306886ec','30688763',()=>{inheritedBytes=NativeHeapObjectViews.prototype.readUnsigned.call(stack.#stack,relative('EBP',-0x32),2);const di=stack.#numeric(register('EDI'),2);stack.#arithmeticFlags(inheritedBytes,di,inheritedBytes-di,2,true);});
+        step('306886ec','30688767',()=>{if(inheritedBytes!==0)throw new Error('Engine inherited handle block at3068876d');});
+        step('306886ec','3068886a',()=>set('EBX',xor(register('EBX'),register('EBX'))));
+        let nextStandard=true;while(nextStandard){
+        step('306886ec','3068886c',()=>set('ESI',register('EBX')));
+        step('306886ec','3068886e',()=>{const index=stack.#numeric(register('ESI'),4);set('ESI',value(index*56));stack.#flags(0,0x801);});
+        step('306886ec','30688871',()=>{
+          const offset=stack.#numeric(register('ESI'),4),table=NativeEngineIoImages.imageForCrt(frame.images,crt,'ioBlockPointers');if(!table.known)throw new Error(table.reason);
+          const pointer=table.value.pointer<NativeBytePointer>(0).get();if(!pointer||pointer.fields!==frame.allocation||pointer.offset!==0)throw new Error('Actual Engine standard-handle record base required');
+          const owned=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields:pointer.fields,offset},56);if(!owned.known)throw new Error(owned.reason);
+          set('ESI',stack.#mint(0,0,{kind:'engine-allocation',crt,fields:pointer.fields,offset}));stack.#flags(0,0);
+        });
+        step('306886ec','30688877',()=>{const p=allocationPointer(register('ESI'));set('EAX',value(NativeHeapObjectViews.prototype.readUnsigned.call(p.fields,p.offset)));});
+        step('306886ec','30688879',()=>{const handle=stack.#numeric(register('EAX'),4);stack.#arithmeticFlags(handle,0xffffffff,handle-0xffffffff,4,true);});
+        step('306886ec','3068887c',()=>{if(stack.#numeric(register('EAX'),4)!==0xffffffff)throw new Error('Engine existing standard handle at3068887e');});
+        step('306886ec','30688889',()=>{const p=allocationPointer(register('ESI'));NativeHeapObjectViews.prototype.writeUnsigned.call(p.fields,p.offset+4,0x81,1);});
+        step('306886ec','3068888d',()=>stack.#logicalFlags(stack.#numeric(register('EBX'),4),0xffffffff,4));
+        let first=false;step('306886ec','3068888f',()=>{first=stack.#numeric(register('EBX'),4)===0;});
+        if(first){
+          step('306886ec','30688891',()=>stack.#push(value(0xfffffff6)));
+          step('306886ec','30688893',()=>{const position=relative('ESP',0);set('EAX',stack.#load(stack.#stack,position));set('ESP',stack.#stackWord(position+4));});
+          step('306886ec','30688894',()=>{});
+        }else{
+          step('306886ec','30688896',()=>set('EAX',register('EBX')));
+          step('306886ec','30688898',()=>{const number=stack.#numeric(register('EAX'),4),next=(number-1)>>>0,before=stack.#record(stack.#load(stack.#bank,36));set('EAX',value(next));stack.#arithmeticFlags(number,1,next,4,true);const after=stack.#record(stack.#load(stack.#bank,36));stack.#flags((after.value&~1)|(before.value&1),(after.mask&~1)|(before.mask&1));});
+          step('306886ec','30688899',()=>{const number=stack.#numeric(register('EAX'),4),next=(-number)>>>0;set('EAX',value(next));stack.#arithmeticFlags(0,number,next,4,true);});
+          step('306886ec','3068889b',()=>{const flags=stack.#record(stack.#load(stack.#bank,36));if(!(flags.mask&1))throw new Error('Actual Engine standard-ID carry required');const carry=flags.value&1;set('EAX',value(-carry));stack.#arithmeticFlags(0,0,-carry,4,true,carry);});
+          step('306886ec','3068889d',()=>{const number=stack.#numeric(register('EAX'),4),next=(number+0xfffffff5)>>>0;set('EAX',value(next));stack.#arithmeticFlags(number,0xfffffff5,next,4,false);});
+        }
+        step('306886ec','306888a0',()=>stack.#push(register('EAX')));
+        step('306886ec','306888a1',()=>{
+          const endpoints=stack.#platform.standardIoEndpoints;if(!endpoints)throw new Error('Engine GetStdHandle IAT30afc718 at306888a1');
+          const proof=NativeRuntimePlatform.canonicalStandardIoEndpointsForPlatform(stack.#platform,endpoints);if(!proof.known)throw new Error(proof.reason);
+          const argument=stack.#load(stack.#stack,relative('ESP',0)),scalar=stack.#numeric(argument,4);
+          if(scalar!==((-10-stack.#numeric(register('EBX'),4))>>>0))throw new Error('Actual Engine standard-handle ID required');
+          stack.#call('306888a1','306888a7');const top=stack.#calls.at(-1)!,grant=Object.freeze({identity:Object.freeze({})});
+          const call={stack,frame,args:Object.freeze({site:'306888a1' as const,kind:'GetStdHandle' as const,crt,scalar}),position:top.position,argument,returnWord:top.returnWord,phase:'pending' as 'pending'|'returned'};
+          engineStandardCalls.set(grant,call);const result=endpoints.invoke(grant);if(!result.known)throw new Error(result.reason);
+          const returned=NativeRuntimePlatform.canonicalStandardIoNormalReturnForPlatform(stack.#platform,grant);if(!returned.known||returned.value!==result.value)throw new Error(returned.known?'Actual Engine GetStdHandle result required':returned.reason);
+          stack.#engineStandardProof(call);
+          if(typeof result.value==='object'&&result.value!==null){const capability=NativeRuntimePlatform.standardIoCapabilityForPlatform(stack.#platform,result.value);if(!capability.known||capability.value!=='handle')throw new Error('Actual platform standard-handle capability required');set('EAX',stack.#mint(0,0,{kind:'platform',object:result.value,category:'handle'}));}
+          else if(result.value===null||result.value===0xffffffff)set('EAX',value(result.value===null?0:0xffffffff));else throw new Error('Actual Engine standard-handle result required');
+          for(const name of ['ECX','EDX'] as const)set(name,stack.#mint(0,0));stack.#flags(0,0);
+          set('ESP',stack.#stackWord(call.position+8));top.returned=true;stack.#currentPc=call.returnWord;call.phase='returned';
+        });
+        const validHandle=()=>{const p=stack.#liveWord(register('EDI')).provenance;if(p?.kind!=='platform'||p.category!=='handle')return false;const proof=NativeRuntimePlatform.standardIoCapabilityForPlatform(stack.#platform,p.object);if(!proof.known||proof.value!=='handle')throw new Error('Actual current Engine standard handle required');return true;};
+        step('306886ec','306888a7',()=>set('EDI',register('EAX')));
+        step('306886ec','306888a9',()=>{if(validHandle())stack.#flags(0,0x40);else{const number=stack.#numeric(register('EDI'),4);stack.#arithmeticFlags(number,0xffffffff,number-0xffffffff,4,true);}});
+        step('306886ec','306888ac',()=>{if(!validHandle()&&stack.#numeric(register('EDI'),4)===0xffffffff)throw new Error('Engine invalid standard handle branch at306888f1');});
+        step('306886ec','306888ae',()=>{if(validHandle())stack.#flags(0,0x40);else stack.#logicalFlags(stack.#numeric(register('EDI'),4),0xffffffff,4);});
+        step('306886ec','306888b0',()=>{if(!validHandle()&&stack.#numeric(register('EDI'),4)===0)throw new Error('Engine NULL standard handle branch at306888f1');});
+        step('306886ec','306888b2',()=>stack.#push(register('EDI')));
+        step('306886ec','306888b3',()=>{
+          const endpoints=stack.#platform.standardIoEndpoints;if(!endpoints)throw new Error('Engine GetFileType IAT30afc744 at306888b3');
+          const endpointProof=NativeRuntimePlatform.canonicalStandardIoEndpointsForPlatform(stack.#platform,endpoints);if(!endpointProof.known)throw new Error(endpointProof.reason);
+          const argument=stack.#load(stack.#stack,relative('ESP',0)),p=stack.#liveWord(argument).provenance;
+          if(p?.kind!=='platform'||p.category!=='handle')throw new Error('Actual Engine GetFileType handle argument required');
+          const capability=NativeRuntimePlatform.standardIoCapabilityForPlatform(stack.#platform,p.object);if(!capability.known||capability.value!=='handle')throw new Error('Actual current GetFileType handle required');
+          stack.#call('306888b3','306888b9');const top=stack.#calls.at(-1)!,grant=Object.freeze({identity:Object.freeze({})});
+          const call={stack,frame,args:Object.freeze({site:'306888b3' as const,kind:'GetFileType' as const,crt,object:p.object}),position:top.position,argument,returnWord:top.returnWord,phase:'pending' as 'pending'|'returned'};
+          engineStandardCalls.set(grant,call);const result=endpoints.invoke(grant);if(!result.known)throw new Error(result.reason);
+          const returned=NativeRuntimePlatform.canonicalStandardIoNormalReturnForPlatform(stack.#platform,grant);if(!returned.known||returned.value!==result.value)throw new Error(returned.known?'Actual Engine GetFileType return required':returned.reason);
+          stack.#engineStandardProof(call);
+          if(typeof result.value!=='number'||!Number.isInteger(result.value)||result.value<0||result.value>0xffffffff)throw new Error('Actual GetFileType DWORD result required');
+          frame.fileType=result.value;set('EAX',value(result.value));for(const name of ['ECX','EDX'] as const)set(name,stack.#mint(0,0));stack.#flags(0,0);
+          set('ESP',stack.#stackWord(call.position+8));top.returned=true;stack.#currentPc=call.returnWord;call.phase='returned';
+        });
+        step('306886ec','306888b9',()=>stack.#logicalFlags(stack.#numeric(register('EAX'),4),0xffffffff,4));
+        step('306886ec','306888bb',()=>{if(stack.#numeric(register('EAX'),4)===0)throw new Error('Engine zero file-type branch at306888f1');});
+        step('306886ec','306888bd',()=>{const p=allocationPointer(register('ESI')),handle=stack.#liveWord(register('EDI')).provenance;if(handle?.kind!=='platform'||handle.category!=='handle')throw new Error('Actual Engine handle adoption required');const owned=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields:p.fields,offset:p.offset},4);if(!owned.known)throw new Error(owned.reason);p.fields.pointer(p.offset).set(handle.object);});
+        step('306886ec','306888bf',()=>{const masked=stack.#numeric(register('EAX'),4)&255;set('EAX',value(masked));stack.#logicalFlags(masked,0xffffffff,4);});
+        step('306886ec','306888c4',()=>{const number=stack.#numeric(register('EAX'),4);stack.#arithmeticFlags(number,2,number-2,4,true);});
+        let character=false;step('306886ec','306888c7',()=>{character=stack.#numeric(register('EAX'),4)===2;});
+        const orRecordFlag=(pc:string,flag:number)=>step('306886ec',pc,()=>{const p=allocationPointer(register('ESI'));const owned=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields:p.fields,offset:p.offset+4},1);if(!owned.known)throw new Error(owned.reason);const number=NativeHeapObjectViews.prototype.readUnsigned.call(p.fields,p.offset+4,1)|flag;NativeHeapObjectViews.prototype.writeUnsigned.call(p.fields,p.offset+4,number,1);stack.#logicalFlags(number,255,1);});
+        if(character){orRecordFlag('306888c9',0x40);step('306886ec','306888cd',()=>{});}
+        else{let pipe=false;step('306886ec','306888cf',()=>{const number=stack.#numeric(register('EAX'),4);stack.#arithmeticFlags(number,3,number-3,4,true);});step('306886ec','306888d2',()=>{pipe=stack.#numeric(register('EAX'),4)===3;});if(pipe)orRecordFlag('306888d4',8);}
+        step('306886ec','306888d8',()=>stack.#push(value(4000)));
+        step('306886ec','306888dd',()=>{const p=allocationPointer(register('ESI'));const owned=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields:p.fields,offset:p.offset+12},24);if(!owned.known)throw new Error(owned.reason);set('EAX',stack.#mint(0,0,{kind:'engine-allocation',crt,fields:p.fields,offset:p.offset+12}));});
+        step('306886ec','306888e0',()=>stack.#push(register('EAX')));
+        step('306886ec','306888e1',()=>{
+          const argumentPosition=relative('ESP',0),sectionPointer=allocationPointer(stack.#load(stack.#stack,argumentPosition));
+          if(stack.#numeric(stack.#load(stack.#stack,argumentPosition+4),4)!==4000)throw new Error('Actual Engine section spin count4000 required');
+          const section=new NativeHeapObjectViews(sectionPointer.fields.backing,sectionPointer.offset,24);Object.freeze(section);frame.section=section;
+          stack.#call('306888e1','306888e6');const result=crt.initializeHeapCriticalSection(Object.freeze({fields:section,offset:0}));if(!result.known)throw new Error(result.reason);
+          frame.sectionResult=result.value;stack.#engineIoProof(frame);const owned=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields:section,offset:0},24);if(!owned.known)throw new Error(owned.reason);
+          set('EAX',value(result.value?1:0));for(const name of ['ECX','EDX'] as const)set(name,stack.#mint(0,0));stack.#flags(0,0);
+          const continuation=stack.#record(stack.#ret()).provenance;if(continuation?.kind!=='source'||continuation.type!=='code'||continuation.address!=='306888e6'||relative('ESP',0)!==argumentPosition)throw new Error('Actual Engine section cdecl return required');
+        });
+        step('306886ec','306888e6',popEcx);step('306886ec','306888e7',popEcx);
+        step('306886ec','306888e8',()=>stack.#logicalFlags(stack.#numeric(register('EAX'),4),0xffffffff,4));
+        step('306886ec','306888ea',()=>{if(stack.#numeric(register('EAX'),4)===0)throw new Error('Engine I/O section failure at30688923');});
+        step('306886ec','306888ec',()=>{const p=allocationPointer(register('ESI'));const number=NativeHeapObjectViews.prototype.readUnsigned.call(p.fields,p.offset+8),next=(number+1)>>>0;NativeHeapObjectViews.prototype.writeUnsigned.call(p.fields,p.offset+8,next);const before=stack.#record(stack.#load(stack.#bank,36));stack.#arithmeticFlags(number,1,next,4,false);const after=stack.#record(stack.#load(stack.#bank,36));stack.#flags((after.value&~1)|(before.value&1),(after.mask&~1)|(before.mask&1));});
+        step('306886ec','306888ef',()=>{});
+        step('306886ec','306888fb',()=>{const number=stack.#numeric(register('EBX'),4),next=(number+1)>>>0;set('EBX',value(next));const before=stack.#record(stack.#load(stack.#bank,36));stack.#arithmeticFlags(number,1,next,4,false);const after=stack.#record(stack.#load(stack.#bank,36));stack.#flags((after.value&~1)|(before.value&1),(after.mask&~1)|(before.mask&1));});
+        step('306886ec','306888fc',()=>{const number=stack.#numeric(register('EBX'),4);stack.#arithmeticFlags(number,3,number-3,4,true);});
+        step('306886ec','306888ff',()=>{const index=stack.#numeric(register('EBX'),4);if(index>3)throw new Error('Actual bounded Engine standard-handle index required');nextStandard=index<3;});
+        }
+        step('306886ec','30688905',()=>{const count=NativeEngineIoImages.imageForCrt(frame.images,crt,'ioHandleCount');if(!count.known)throw new Error(count.reason);stack.#push(value(count.value.readUnsigned(0)));});
+        step('306886ec','3068890b',()=>{
+          const endpoints=stack.#platform.standardIoEndpoints;if(!endpoints)throw new Error('Engine SetHandleCount IAT30afc740 at3068890b');
+          const endpointProof=NativeRuntimePlatform.canonicalStandardIoEndpointsForPlatform(stack.#platform,endpoints);if(!endpointProof.known)throw new Error(endpointProof.reason);
+          const argument=stack.#load(stack.#stack,relative('ESP',0)),scalar=stack.#numeric(argument,4);if(scalar!==32)throw new Error('Actual Engine handle count32 required');
+          stack.#call('3068890b','30688911');const top=stack.#calls.at(-1)!,grant=Object.freeze({identity:Object.freeze({})});
+          const call={stack,frame,args:Object.freeze({site:'3068890b' as const,kind:'SetHandleCount' as const,crt,scalar}),position:top.position,argument,returnWord:top.returnWord,phase:'pending' as 'pending'|'returned'};
+          engineStandardCalls.set(grant,call);const result=endpoints.invoke(grant);if(!result.known)throw new Error(result.reason);
+          const returned=NativeRuntimePlatform.canonicalStandardIoNormalReturnForPlatform(stack.#platform,grant);if(!returned.known||returned.value!==result.value)throw new Error(returned.known?'Actual Engine SetHandleCount result required':returned.reason);
+          stack.#engineStandardProof(call);if(typeof result.value!=='number'||!Number.isInteger(result.value)||result.value<0||result.value>0xffffffff)throw new Error('Actual SetHandleCount DWORD result required');
+          frame.setHandleCountResult=result.value;set('EAX',value(result.value));for(const name of ['ECX','EDX'] as const)set(name,stack.#mint(0,0));stack.#flags(0,0);
+          set('ESP',stack.#stackWord(call.position+8));top.returned=true;stack.#currentPc=call.returnWord;call.phase='returned';
+        });
+        step('306886ec','30688911',()=>set('EAX',xor(register('EAX'),register('EAX'))));
+        step('306886ec','30688913',()=>{});
+        step('306886ec','30688926',()=>stack.#call('30688926','3068892b'));
+        const epilog=(pc:string,body:()=>void)=>step('3067e545',pc,body);
+        const pop=(name:NativeX86Register)=>{const position=relative('ESP',0);set(name,stack.#load(stack.#stack,position));set('ESP',stack.#stackWord(position+4));};
+        epilog('3067e545',()=>set('ECX',stack.#load(stack.#stack,relative('EBP',-0x10))));
+        epilog('3067e548',()=>{stack.#store(stack.#bank,32,register('ECX'));frame.fsRestored=true;});
+        epilog('3067e54f',()=>pop('ECX'));
+        epilog('3067e550',()=>pop('EDI'));
+        epilog('3067e551',()=>pop('EDI'));
+        epilog('3067e552',()=>pop('ESI'));
+        epilog('3067e553',()=>pop('EBX'));
+        epilog('3067e554',()=>set('ESP',register('EBP')));
+        epilog('3067e556',()=>pop('EBP'));
+        epilog('3067e557',()=>stack.#push(register('ECX')));
+        epilog('3067e558',()=>{const next=stack.#record(stack.#ret()).provenance;if(next?.kind!=='source'||next.type!=='code'||next.address!=='3068892b')throw new Error('Actual Engine EH4 epilog return required');});
+        step('306886ec','3068892b',()=>{const next=stack.#record(stack.#ret()).provenance;if(next?.kind!=='source'||next.type!=='code'||next.address!=='3067726b'||relative('ESP',0)!==frame.entryEsp||stack.#numeric(register('EAX'),4)!==0)throw new Error('Actual Engine I/O caller return and zero result required');});
+        frame.phase='returned';if(!stack.#executing)stack.#phase='returned';return known(undefined);
+      }catch(error){frame.boundary??=reason(error);frame.phase='blocked';if(!stack.#executing){stack.#boundary??=frame.boundary;stack.#phase='blocked';}return unknown(frame.boundary);}
+      finally{stack.#engineIoExecuting=false;}
+    }catch(error){return unknown(reason(error));}
+  }
+  static returnedEngineIoForBootstrap(stack:NativeX86ThreadStack,bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object):NativeValue<number>{
+    const reached=NativeCrtBootstrap.canonicalEngineIoCallForCrt(bootstrap,crt,permit);if(!reached.known)return reached;
+    try{
+      const frame=stack.#engineIoFrame,caller=stack.#calls.findLast(call=>call.site==='30677266');
+      if(graphs.get(crt.host.platform as NativeRuntimePlatform)!==stack||!frame||frame.bootstrap!==bootstrap||frame.crt!==crt||frame.permit!==permit||frame.phase!=='returned'||frame.pc!=='3068892b'||!frame.fsRestored||stack.#engineIoExecuting||!caller?.returned||stack.#currentPc!==caller.returnWord)throw new Error('Actual returned Engine I/O frame required');
+      stack.#physical(stack.#bank);stack.#physical(stack.#stack);
+      if(stack.#address(stack.#load(stack.#bank,stack.#reg('ESP')))!==frame.entryEsp)throw new Error('Actual restored Engine I/O caller stack required');
+      const result=stack.#numeric(stack.#load(stack.#bank,stack.#reg('EAX')),4);if(result!==0)throw new Error('Actual supported Engine I/O zero return required');
+      const scope=NativeEngineIoImages.imageForCrt(frame.images,crt,'ioSehScope');if(!scope.known||scope.value!==frame.scope)throw new Error('Actual retained Engine I/O source required');
+      return known(result);
+    }catch(error){return unknown(reason(error));}
+  }
+  #engineStandardProof(call:NonNullable<ReturnType<typeof engineStandardCalls.get>>):void{
+    this.#engineIoProof(call.frame);const top=this.#calls.at(-1);
+    if(call.phase!=='pending'||call.frame.pc!==call.args.site||!top||top.returned||top.site!==call.args.site||top.position!==call.position||top.returnWord!==call.returnWord||
+      this.#address(this.#load(this.#bank,this.#reg('ESP')))!==call.position||this.#load(this.#stack,call.position)!==call.returnWord||this.#load(this.#stack,call.position+4)!==call.argument||(call.args.kind!=='GetFileType'?this.#numeric(call.argument,4)!==call.args.scalar:this.#record(call.argument).provenance?.kind!=='platform'||(this.#record(call.argument).provenance as {object?:object}).object!==call.args.object))throw new Error('Actual pending Engine standard-I/O call required');
+  }
+  #engineStartupProof(call:NonNullable<ReturnType<typeof engineStartupCalls.get>>):void{
+    this.#engineIoProof(call.frame);
+    const top=this.#calls.at(-1);
+    if(call.phase!=='pending'||call.frame.pc!=='30688701'||!top||top.returned||top.site!=='30688701'||top.position!==call.position||top.returnWord!==call.returnWord||
+      this.#address(this.#load(this.#bank,this.#reg('ESP')))!==call.position||this.#load(this.#stack,call.position)!==call.returnWord||
+      this.#load(this.#stack,call.position+4)!==call.argument||this.#address(call.argument)!==call.offset||
+      call.frame.startupInfo?.backing!==this.#stack.backing||call.offset!==call.frame.ebp!-0x64)throw new Error('Actual pending Engine startup argument and return required');
+  }
+  #engineIoProof(frame:EngineIoFrame):void{
+    if(this.#engineIoFrame!==frame||!this.#engineIoExecuting||frame.phase!=='running'||this.#phase!=='running')throw new Error(frame.boundary??'Actual active Engine I/O frame required');
+    const call=NativeCrtBootstrap.canonicalEngineIoCallForCrt(frame.bootstrap,frame.crt,frame.permit);if(!call.known)throw new Error(call.reason);
+    const selection=NativeRuntimePlatform.threadStackSelectionForPlatform(this.#platform);if(!selection.known||selection.value!==this.#selection)throw new Error('Actual selected Engine logical-thread lifetime required');
+    const scope=NativeEngineIoImages.imageForCrt(frame.images,frame.crt,'ioSehScope');if(!scope.known||scope.value!==frame.scope)throw new Error(scope.known?'Actual retained Engine scope required':scope.reason);
+    this.#physical(this.#stack);this.#physical(this.#bank);
+  }
+  engineIoFrameSnapshot(crt:NativeModuleCrtOwner){
+    const frame=this.#engineIoFrame;if(!frame||frame.crt!==crt)return null;
+    return Object.freeze({module:'Engine' as const,phase:frame.phase,pc:frame.pc,boundary:frame.boundary,operations:frame.operations,entryEsp:frame.entryEsp,ebp:frame.ebp,prologReturned:frame.prologReturned,fsPublished:frame.fsPublished,startupInfo:frame.startupInfo,allocation:frame.allocation,callocReturned:frame.callocReturned,fileType:frame.fileType,section:frame.section,sectionResult:frame.sectionResult,setHandleCountResult:frame.setHandleCountResult,fsRestored:frame.fsRestored,scope:frame.scope,stack:this.#stack,bank:this.#bank});
+  }
   readonly #platform: NativeRuntimePlatform;
   readonly #selection: Readonly<NativeX86ThreadStackSelection>;
   readonly #stack: NativeHeapObjectViews;
@@ -198,6 +547,17 @@ export class NativeX86ThreadStack {
   #binding: Binding | null = null;
   #argvBinding: ArgvBinding | null = null;
   #setEnvpBinding: SetEnvpBinding | null = null;
+  #aiHelperPropertyIdText: NativeHeapCString | null = null;
+  #aiHelperAccessorName: NativeHeapCString | null = null;
+  #aiHelperAccessorQueryNode: NativeHeapObjectViews | null = null;
+  #aiHelperCloneAllocation: NativeMemoryAllocation | null = null;
+  #aiHelperComponentAllocation: NativeMemoryAllocation | null = null;
+  #aiHelperModuleOwner: ReturnType<typeof createNativeEngineModuleOwner<NativeHeapObjectViews>> | null = null;
+  #aiHelperPropertyIdTextDestroyedSnapshot: ReturnType<NativeHeapCString["snapshot"]> | null = null;
+  #aiHelperPropertyIdGuid: NativeGuidText | null = null;
+  #aiHelperPropertyIdGuidConstructed: Readonly<{bytes:readonly number[];mask:readonly number[]}> | null = null;
+  #aiHelperPropertyIdGuidLifetimeEnded=false;
+  #aiHelperPropertyIdGuidPaddingBefore: Readonly<{bytes:readonly number[];mask:readonly number[]}> | null = null;
   #arenaPropertySingleton:NativePropertySingleton|null=null;
   readonly #arenaAllocations=new Map<NativeHeapObjectViews,{owner:NativeMemoryAdmin;allocation:NativeMemoryAllocation}>();
   #setEnvpTransferred = false;
@@ -2066,6 +2426,8 @@ export class NativeX86ThreadStack {
     grant: NativeStartupInfoCallGrant): NativeValue<void> {
     const invocation = NativeRuntimePlatform.canonicalStartupInfoInvocationForPlatform(platform, grant);
     if (!invocation.known) return invocation;
+    const engine=engineStartupCalls.get(grant);
+    if(engine){try{if(graphs.get(platform)!==engine.stack)throw new Error('Actual same-platform Engine startup call required');engine.stack.#engineStartupProof(engine);return known(undefined);}catch(error){return unknown(reason(error));}}
     const call = startupCalls.get(grant);
     if (!call || graphs.get(platform) !== call.stack) return unknown('Actual same-platform privately minted startup call required');
     try { call.stack.#startupProof(grant, call); return known(undefined); }
@@ -2083,6 +2445,7 @@ export class NativeX86ThreadStack {
   static standardIoArgumentsForPlatform(platform: NativeRuntimePlatform,
     grant: NativeStandardIoCallGrant): NativeValue<NativeStandardIoArguments> {
     const active = NativeRuntimePlatform.canonicalStandardIoInvocationForPlatform(platform, grant); if (!active.known) return active;
+    const engine=engineStandardCalls.get(grant);if(engine){try{if(graphs.get(platform)!==engine.stack)throw new Error('Actual Engine standard-I/O graph required');engine.stack.#engineStandardProof(engine);return known(engine.args);}catch(error){return unknown(reason(error));}}
     const call = standardCalls.get(grant);
     if (!call || graphs.get(platform) !== call.stack) return unknown('Actual private same-platform standard-I/O call required');
     try { call.stack.#standardProof(grant, call); return known(call.args); }
@@ -2107,7 +2470,7 @@ export class NativeX86ThreadStack {
   static writeStartupInfoForCall(platform: NativeRuntimePlatform, grant: NativeStartupInfoCallGrant,
     offset: number, width: 1 | 2 | 4, value: number, mask: number): NativeValue<void> {
     const admitted = NativeX86ThreadStack.canonicalStartupInfoCallForPlatform(platform, grant); if (!admitted.known) return admitted;
-    const call = startupCalls.get(grant)!;
+    const call = engineStartupCalls.get(grant)??startupCalls.get(grant)!;
     try {
       const maximum = width === 4 ? 0xffffffff : width === 2 ? 0xffff : 0xff;
       if (![1, 2, 4].includes(width) || !Number.isSafeInteger(offset) || offset < 0 || offset + width > 68 ||
@@ -2124,7 +2487,7 @@ export class NativeX86ThreadStack {
       if (slots) for (const begin of slots.keys()) if (begin < position + width && begin + 4 > position) slots.delete(begin);
       const current = NativeHeapObjectViews.prototype.maskedWord.call(stack.#stack, position, width);
       current.value = value; current.knownMask = mask;
-      stack.#startupProof(grant, call); return known(undefined);
+      const engine=engineStartupCalls.get(grant);if(engine)stack.#engineStartupProof(engine);else stack.#startupProof(grant,call as StartupCall); return known(undefined);
     } catch (error) { return unknown(reason(error)); }
   }
   #startupProof(grant: NativeStartupInfoCallGrant, call: StartupCall): void {
@@ -2219,6 +2582,15 @@ export class NativeX86ThreadStack {
   }
   #pointerWord(pointer: object): NativeX86Word32 {
     const old = this.#nativePointers.get(pointer); if (old) { this.#liveWord(old); return old; }
+    if(this.#aiHelperAccessorQueryNode&&this.#setEnvpBinding&&pointer===this.#aiHelperAccessorQueryNode.pointer(4).get()) {
+      const crt=this.#setEnvpBinding.crt as NativeGameCrtOwner,memory=nativeGameLayerBaseMemoryForCrt(crt);if(!memory.known)throw new Error(memory.reason);
+      const type=NativeGameAIHelperAdminType.forCrt(crt,memory.value),wrapper=type.snapshot().wrapper;
+      if(!wrapper||pointer!==wrapper||wrapper.freed||wrapper.region.freed)throw new Error('Actual live registered AI helper type wrapper required');
+      const fields=new NativeHeapObjectViews(wrapper,0,wrapper.capacity);
+      this.#arenaAllocations.set(fields,{owner:memory.value,allocation:wrapper});this.#sharedLocalPhysical(fields);
+      const word=this.#mint(wrapper.offset&3,3,{kind:'shared-local',fields});this.#nativePointers.set(pointer,word);return word;
+    }
+
     if (this.#setEnvpBinding && pointer && 'fields' in pointer && 'offset' in pointer) {
       const original = NativeModuleCrtOwner.canonicalEnvironmentAllocationForPlatform(this.#binding!.crt, this.#platform, pointer as NativeBytePointer);
       if (original.known) {
@@ -2228,7 +2600,7 @@ export class NativeX86ThreadStack {
     }
     const heap = NativeModuleCrtOwner.canonicalGameHeapHandleForPlatform(this.#binding!.crt, this.#platform);
     if (heap.known && heap.value === pointer) return this.#mint(0, 0, { kind: 'heap', heap: heap.value });
-    const labels = ['mbcObject', 'mbcRefCounter', 'defaultLocale', 'currentLocale', 'moduleName', 'globalMbcType', 'globalMbcCase', 'globalMbcFields', 'CPtable', 'crtStaticSections'];
+    const labels = ['aiHelperAdminTypeAndGuard','aiHelperAdminTypeVtable','mbcObject', 'mbcRefCounter', 'defaultLocale', 'currentLocale', 'moduleName', 'globalMbcType', 'globalMbcCase', 'globalMbcFields', 'CPtable', 'crtStaticSections'];
     for (const label of labels) {
       const image = NativeModuleCrtOwner.canonicalImageForOwner(this.#binding!.crt, label);
       if (image.known && image.value === pointer) return this.#moduleWord(label, 0);
@@ -2254,7 +2626,7 @@ export class NativeX86ThreadStack {
       if (message !== 'Non-NULL numerical native pointer has no owned browser capability' && !message.startsWith('Native field contains unowned backing bits')) throw error;
       const current = NativeHeapObjectViews.prototype.maskedWord.call(fields, offset);
       if (current.knownMask === 0xffffffff) {
-        // Only the two captured original pointer cells establish this loader
+        // Only the selected original pointer cells establish this loader
         // relation. An arbitrary scalar numerically matching a source VA does
         // not acquire a pointer capability. Later stores use actual sidecars.
         for (const [cell,label] of [['currentMbcPointer','mbcObject'],['currentLocale','defaultLocale']] as const) {
@@ -2622,6 +2994,7 @@ export class NativeX86ThreadStack {
       if (!proof.known) throw new Error(proof.reason); return record;
     }
     if(p?.kind==='difference'){this.#liveWord(p.left);this.#liveWord(p.right);}
+    if(p?.kind==='engine-allocation'){const owned=NativeModuleCrtOwner.canonicalEngineHeapDestination(p.crt,this.#platform,{fields:p.fields,offset:p.offset},0);if(!owned.known)throw new Error(owned.reason);}
     if (p?.kind === 'allocation') this.#allocationLive(p.allocation, p.offset, 0);
     if (p?.kind === 'module') this.#moduleWord(p.label, p.offset);
     if (p?.kind === 'process') this.#processWord(p.pointer);
@@ -2912,6 +3285,21 @@ export class NativeX86ThreadStack {
     const returned=this.#ret(0),source=this.#record(returned).provenance;
     if(source?.kind!=='source'||source.type!=='code'||source.address!=='204b2419')throw new Error('Actual Label cleanup registration return required');
   }); }
+  registerAIHelperAdminWrapperCleanup(controller:object):NativeValue<void> { return this.#run(controller,()=>{
+    const binding=this.#setEnvpBinding;
+    if(!binding||binding.controller!==controller)throw new Error('Actual retained Game startup controller required');
+    const point=NativeGameCrtSetEnvp.canonicalAIHelperAdminCleanupCallForCrt(binding.owner,binding.crt,controller);if(!point.known)throw new Error(point.reason);
+    if(this.#calls.filter(call=>!call.returned).at(-1)?.site!=='20466654')throw new Error('Actual pending AIHelperAdmin initializer frame required');
+    const cursor=this.#address(this.#load(this.#bank,this.#reg('ESP')));
+    if(this.#numeric(this.#load(this.#stack,cursor),4)!==0x20549d60)throw new Error('Actual pushed AIHelperAdmin cleanup address required');
+    const table=NativeGameExitTable.forCrt(binding.crt as NativeGameCrtOwner),callback=table.callbackForMethod('aiHelperAdminWrapperCleanup');
+    if(!callback.known)throw new Error(callback.reason);
+    this.#call('204b26a4','204b26a9');
+    const result=table.atexit(callback.value);if(!result.known)throw new Error(result.reason);
+    this.#store(this.#bank,this.#reg('EAX'),this.#mint(result.value>>>0,0xffffffff));
+    const returned=this.#ret(0),source=this.#record(returned).provenance;
+    if(source?.kind!=='source'||source.type!=='code'||source.address!=='204b26a9')throw new Error('Actual AIHelperAdmin cleanup registration return required');
+  }); }
   registerGameStaticFini(controller: object): NativeValue<void> { return this.#run(controller, () => {
     const binding = this.#setEnvpBinding;
     if (!binding || binding.controller !== controller) throw new Error('Actual retained Game startup controller required');
@@ -2935,6 +3323,21 @@ export class NativeX86ThreadStack {
     if (source?.kind !== 'source' || source.type !== 'code' || source.address !== '2046663d')
       throw new Error('Actual original atexit return required');
   }); }
+  loadAIHelperWrapperQueryVirtualPointer(controller:object,site:string,address:NativeX86Word32):NativeValue<NativeX86Word32> {return this.#run(controller,()=>{
+    const binding=this.#setEnvpBinding;if(!binding||binding.controller!==controller)throw new Error('Actual retained Game startup controller required');
+    const grant=NativeGameCrtSetEnvp.canonicalArenaVirtualReadForCrt(binding.owner,binding.crt,controller,site);if(!grant.known)throw new Error(grant.reason);
+    const first=site==='100890d0',label=first?'aiHelperAdminWrapper':'aiHelperAdminWrapperVtable',offset=first?0:56;
+    const memory=this.#memory(address,4),image=NativeModuleCrtOwner.canonicalImageForOwner(binding.crt,label);
+    if(!image.known||memory.fields!==image.value||memory.offset!==offset)throw new Error('Actual original root wrapper virtual slot required');
+    if(first) {
+      const pointer=NativeHeapObjectViews.prototype.pointer.call(memory.fields,offset).get() as NativeBytePointer|null;
+      const vtable=NativeModuleCrtOwner.canonicalImageForOwner(binding.crt,'aiHelperAdminWrapperVtable');
+      if(!vtable.known||!pointer||pointer.fields!==vtable.value||pointer.offset!==0)throw new Error('Original AI helper wrapper vtable changed');
+      return this.#moduleWord('aiHelperAdminWrapperVtable',0);
+    }
+    const value=NativeHeapObjectViews.prototype.readUnsigned.call(memory.fields,offset);
+    if(value!==0x20028efc)throw new Error('Original AI helper wrapper clone slot changed');return this.#source('code','20028efc');
+  }); }
   loadArenaVirtualPointer(controller:object,site:string,address:NativeX86Word32):NativeValue<NativeX86Word32> { return this.#run(controller,()=>{
     const binding=this.#setEnvpBinding;
     if(!binding || binding.controller!==controller)throw new Error('Actual retained Game startup controller required');
@@ -2943,21 +3346,22 @@ export class NativeX86ThreadStack {
     const memory=this.#memory(address,4);
     const freePoint=site==='2007302c'||site==='2007302e';
     const labelType=site==='2007505c'||site==='2007505e';
-    const first=site==='200705cc'||site==='2007302c'||site==='2007505c';
-    const label=labelType?(first?'labelTypeAndGuard':'labelTypeVtable'):freePoint?(first?'freePointTypeAndGuard':'freePointTypeVtable'):first?'arenaTypeAndGuard':'arenaRootTypeVtable';
+    const aiHelperAdmin=site==='2007705c'||site==='2007705e'||site==='100905e0'||site==='100905e2';
+    const first=site==='200705cc'||site==='2007302c'||site==='2007505c'||site==='2007705c'||site==='100905e0';
+    const label=aiHelperAdmin?(first?'aiHelperAdminTypeAndGuard':'aiHelperAdminTypeVtable'):labelType?(first?'labelTypeAndGuard':'labelTypeVtable'):freePoint?(first?'freePointTypeAndGuard':'freePointTypeVtable'):first?'arenaTypeAndGuard':'arenaRootTypeVtable';
     const expected=NativeModuleCrtOwner.canonicalImageForOwner(binding.crt,label);
     const offset=first?0:12;
     if(!expected.known || memory.fields!==expected.value || memory.offset!==offset)
       throw new Error('Actual current Arena virtual-table pointer required');
     const value=NativeHeapObjectViews.prototype.readUnsigned.call(memory.fields,offset);
     if(first) {
-      const vtable=labelType?'labelTypeVtable':freePoint?'freePointTypeVtable':'arenaRootTypeVtable';
+      const vtable=aiHelperAdmin?'aiHelperAdminTypeVtable':labelType?'labelTypeVtable':freePoint?'freePointTypeVtable':'arenaRootTypeVtable';
       if(value!==Number.parseInt(nativeGameImageReceipt(vtable).address,16))
         throw new Error('Original Arena type vtable changed');
       return this.#moduleWord(vtable,0);
     }
-    if(value!==(labelType?0x20017e27:freePoint?0x20024672:0x2002adfb))throw new Error('Original factory virtual slot changed');
-    return this.#source('code',labelType?'20017e27':freePoint?'20024672':'2002adfb');
+    if(value!==(aiHelperAdmin?0x2000e59d:labelType?0x20017e27:freePoint?0x20024672:0x2002adfb))throw new Error('Original factory virtual slot changed');
+    return this.#source('code',aiHelperAdmin?'2000e59d':labelType?'20017e27':freePoint?'20024672':'2002adfb');
   }); }
   callArenaMemoryAdminRealloc(controller:object,next:string):NativeValue<void> { return this.#run(controller,()=>{
     const binding=this.#setEnvpBinding;
@@ -3016,9 +3420,10 @@ export class NativeX86ThreadStack {
     if(!point.known)throw new Error(point.reason);
     const freePoint=site==='20072619'||site==='2007265c';
     const label=site==='20074699'||site==='200746dd';
+    const aiHelperAdmin=site==='20076689'||site==='200766e1';
     const outerSite=this.#calls.filter(call=>!call.returned).at(-1)?.site;
-    if(next!==(site==='1008d1a3'?'1008d1a8':site==='2006f985'?'2006f98b':site==='20072619'?'2007261f':site==='2007265c'?'20072662':site==='20074699'?'2007469f':site==='200746dd'?'200746e3':'2006f9f2') ||
-      !(site==='1008d1a3'?['200705d6','20073036','20075066'].includes(outerSite??''):outerSite===(label?'20075054':freePoint?'20073024':'200705c4')))
+    if(next!==(site==='100932ef'?'100932f4':site==='1008d1a3'?'1008d1a8':site==='2006f985'?'2006f98b':site==='20072619'?'2007261f':site==='2007265c'?'20072662':site==='20074699'?'2007469f':site==='200746dd'?'200746e3':site==='20076689'?'2007668f':site==='200766e1'?'200766e7':'2006f9f2') ||
+      !(site==='100932ef'?outerSite==='204b2730':site==='1008d1a3'?['200705d6','20073036','20075066','20077066'].includes(outerSite??''):outerSite===(aiHelperAdmin?'20077054':label?'20075054':freePoint?'20073024':'200705c4')))
       throw new Error('Actual Arena replacement frame and singleton return required');
     admitArenaPropertySingletonImport();
     const memory=nativeGameLayerBaseMemoryForCrt(binding.crt as NativeGameCrtOwner); if(!memory.known)throw new Error(memory.reason);
@@ -3069,6 +3474,230 @@ export class NativeX86ThreadStack {
     this.#store(this.#bank,this.#reg('EAX'),this.#moduleWord('labelTypeAndGuard',0));
     const returned=this.#ret(0),source=this.#record(returned).provenance;
     if(source?.kind!=='source'||source.type!=='code'||source.address!=='204b23f4')throw new Error('Actual Label type getter return required');
+  }); }
+  callAIHelperCloneAllocation(controller:object,site:string='20077bfb'):NativeValue<void> {return this.#run(controller,()=>{
+    const binding=this.#setEnvpBinding;if(!binding||binding.controller!==controller)throw new Error('Actual retained Game startup controller required');
+    const grant=NativeGameCrtSetEnvp.canonicalAIHelperCloneAllocationCallForCrt(binding.owner,binding.crt,controller,site);if(!grant.known)throw new Error(grant.reason);
+    const component=site==='200766a4',next=component?'200766aa':'20077c01';
+    if(this.#calls.filter(call=>!call.returned).at(-1)?.site!==(component?'20077054':'100905e9'))throw new Error('Actual AI helper allocation frame required');
+    admitAIHelperCloneAllocationImport();
+    const cursor=this.#address(this.#load(this.#bank,this.#reg('ESP'))),bytes=this.#numeric(this.#load(this.#stack,cursor),4),tag=this.#numeric(this.#load(this.#stack,cursor+4),4);
+    if(bytes!==(component?24:16)||tag!==(component?0xc4:0x190))throw new Error('Original AI helper allocation arguments required');
+    const memory=nativeGameLayerBaseMemoryForCrt(binding.crt as NativeGameCrtOwner);if(!memory.known)throw new Error(memory.reason);
+    this.#call(site,next);
+    const result=NativeMemoryAdmin.prototype.newObject.call(memory.value,bytes,tag);if(!result.known)throw new Error(result.reason);
+    let word=this.#mint(0,0xffffffff);
+    if(result.value) {
+      const fields=new NativeHeapObjectViews(result.value);
+      if(component)this.#aiHelperComponentAllocation=result.value;else this.#aiHelperCloneAllocation=result.value;
+      this.#arenaAllocations.set(fields,{owner:memory.value,allocation:result.value});this.#sharedLocalPhysical(fields);
+      word=this.#mint(result.value.offset&3,3,{kind:'shared-local',fields});
+    }
+    this.#store(this.#bank,this.#reg('EAX'),word);
+    const returned=this.#ret(8),source=this.#record(returned).provenance;
+    if(source?.kind!=='source'||source.type!=='code'||source.address!==next)throw new Error('Actual tagged allocation callee cleanup and return required');
+  }); }
+  aiHelperAccessorQueryNodeSnapshot() {return this.#aiHelperAccessorQueryNode;}
+  aiHelperCloneAllocationSnapshot() {return this.#aiHelperCloneAllocation;}
+  aiHelperComponentAllocationSnapshot() {return this.#aiHelperComponentAllocation;}
+  aiHelperModuleAdminSnapshot() {return this.#aiHelperModuleOwner?Object.freeze({module:this.#aiHelperModuleOwner.moduleAdmin.snapshot(),fields:this.#aiHelperModuleOwner.moduleAdmin.fields,guard:this.#aiHelperModuleOwner.moduleAdmin.guard}):null;}
+  callAIHelperModuleAdminGetter(controller:object):NativeValue<void> {return this.#run(controller,()=>{
+    const binding=this.#setEnvpBinding;if(!binding||binding.controller!==controller)throw new Error('Actual retained Game startup controller required');
+    const grant=NativeGameCrtSetEnvp.canonicalAIHelperModuleAdminCallForCrt(binding.owner,binding.crt,controller);if(!grant.known)throw new Error(grant.reason);
+    if(this.#calls.filter(call=>!call.returned).at(-1)?.site!=='20077054'||!this.#aiHelperComponentAllocation)throw new Error('Actual component replacement frame required');
+    const memory=nativeGameLayerBaseMemoryForCrt(binding.crt as NativeGameCrtOwner);if(!memory.known)throw new Error(memory.reason);
+    if(!this.#aiHelperModuleOwner)this.#aiHelperModuleOwner=createNativeEngineModuleOwner<NativeHeapObjectViews>(memory.value,{
+      componentFields:fields=>{
+        const allocation=this.#arenaAllocations.get(fields);
+        return allocation&&allocation.owner===memory.value&&!allocation.allocation.freed?known(fields):unknown('Actual retained Engine component fields required');
+      },
+      moduleClassNameEquals:()=>unknown('Original Engine module class-name comparison is not connected'),
+      registerShutdown:()=>{
+        const engine=createBrowserEngineCrtStartup(this.#platform);if(!engine.known)return engine;
+        if(!engine.value.attachResult.known)return unknown('Engine shutdown registration requires its CRT attach: '+engine.value.attachResult.reason);
+        return unknown('Original Engine onexit3067155a requires its Engine CRT exit-table owner');
+      },
+    });
+    this.#call('200766c2','200766c8');
+    const result=this.#aiHelperModuleOwner.moduleAdmin.getInstance();if(!result.known)throw new Error(result.reason);
+    throw new Error('Original ModuleAdmin getter return capability is not connected');
+  }); }
+  callAIHelperAccessorTypeLookup(controller:object):NativeValue<void> {return this.#run(controller,()=>{
+    const binding=this.#setEnvpBinding;if(!binding||binding.controller!==controller)throw new Error('Actual retained Game startup controller required');
+    const grant=NativeGameCrtSetEnvp.canonicalAIHelperAccessorTypeLookupCallForCrt(binding.owner,binding.crt,controller);if(!grant.known)throw new Error(grant.reason);
+    if(this.#calls.filter(call=>!call.returned).at(-1)?.site!=='100932f6'||!this.#aiHelperAccessorName||!this.#arenaPropertySingleton)
+      throw new Error('Actual retained accessor query arguments required');
+    const esp=this.#address(this.#load(this.#bank,this.#reg('ESP'))),receiver=this.#memory(this.#load(this.#bank,this.#reg('ECX')),4);
+    const name=this.#memory(this.#load(this.#stack,esp),4),index=this.#memory(this.#load(this.#stack,esp+4),4);
+    const table=NativePropertySingleton.prototype.table.call(this.#arenaPropertySingleton);if(!table.known)throw new Error(table.reason);
+    if(receiver.fields.backing!==table.value.fields.backing||receiver.fields.bytes.byteOffset+receiver.offset!==table.value.fields.bytes.byteOffset||
+      name.fields.backing!==this.#aiHelperAccessorName.slot.backing||name.fields.bytes.byteOffset+name.offset!==this.#aiHelperAccessorName.slot.bytes.byteOffset||
+      index.fields!==this.#stack)throw new Error('Actual original table, name and stack index output required');
+    const output=new NativeHeapObjectViews(this.#stack.backing,this.#stack.bytes.byteOffset-this.#stack.backing.bytes.byteOffset+index.offset,4);
+    this.#call('100905b7','100905bc');
+    const result=NativePropertyTypeTable.prototype.findNode.call(table.value,this.#aiHelperAccessorName,output);if(!result.known)throw new Error(result.reason);
+    let word:NativeX86Word32;
+    if(result.value) {
+      const allocation=NativePropertyTypeTable.canonicalNodeAllocation(table.value,result.value);if(!allocation.known)throw new Error(allocation.reason);
+      const memory=nativeGameLayerBaseMemoryForCrt(binding.crt as NativeGameCrtOwner);if(!memory.known)throw new Error(memory.reason);
+      this.#arenaAllocations.set(result.value,{owner:memory.value,allocation:allocation.value});
+      this.#sharedLocalPhysical(result.value);this.#aiHelperAccessorQueryNode=result.value;
+      word=this.#mint(allocation.value.offset&3,3,{kind:'shared-local',fields:result.value});
+    } else word=this.#mint(0,0xffffffff);
+    this.#store(this.#bank,this.#reg('EAX'),word);
+    const returned=this.#ret(8),source=this.#record(returned).provenance;
+    if(source?.kind!=='source'||source.type!=='code'||source.address!=='100905bc')throw new Error('Actual query node lookup return required');
+  }); }
+  callAIHelperAccessorStringEmpty(controller:object,site:'1009059a'|'100905a5'):NativeValue<void> {return this.#run(controller,()=>{
+    const binding=this.#setEnvpBinding;if(!binding||binding.controller!==controller)throw new Error('Actual retained Game startup controller required');
+    const grant=NativeGameCrtSetEnvp.canonicalAIHelperAccessorEmptyCallForCrt(binding.owner,binding.crt,controller,site);if(!grant.known)throw new Error(grant.reason);
+    if(this.#calls.filter(call=>!call.returned).at(-1)?.site!=='100932f6')throw new Error('Actual accessor object query frame required');
+    const crt=binding.crt as NativeGameCrtOwner,memory=nativeGameLayerBaseMemoryForCrt(crt);if(!memory.known)throw new Error(memory.reason);
+    const receiver=this.#memory(this.#load(this.#bank,this.#reg('ECX')),4);
+    const name=this.#aiHelperAccessorName;if(!name||!name.usesMemoryAdmin(memory.value))throw new Error('Actual retained query class-name owner required');
+    if(receiver.fields.backing!==name.slot.backing||receiver.fields.bytes.byteOffset+receiver.offset!==name.slot.bytes.byteOffset)
+      throw new Error('Actual retained query class-name CString required');
+    const next=site==='1009059a'?'1009059f':'100905aa';this.#call(site,next);
+    const result=NativeHeapCString.prototype.isEmpty.call(name);if(!result.known)throw new Error(result.reason);
+    // The caller consumes AL only; no unsupported upper EAX bits are inferred.
+    this.#store(this.#bank,this.#reg('EAX'),this.#mint(result.value?1:0,0xff));
+    const returned=this.#ret(0),source=this.#record(returned).provenance;
+    if(source?.kind!=='source'||source.type!=='code'||source.address!==next)throw new Error('Actual query CString check return required');
+  }); }
+  callAIHelperAccessorClassName(controller:object):NativeValue<void> {return this.#run(controller,()=>{
+    const binding=this.#setEnvpBinding;if(!binding||binding.controller!==controller)throw new Error('Actual retained Game startup controller required');
+    const grant=NativeGameCrtSetEnvp.canonicalAIHelperAccessorClassNameCallForCrt(binding.owner,binding.crt,controller);if(!grant.known)throw new Error(grant.reason);
+    if(this.#calls.filter(call=>!call.returned).at(-1)?.site!=='20466654')throw new Error('Actual accessor initializer frame required');
+    const crt=binding.crt as NativeGameCrtOwner,memory=nativeGameLayerBaseMemoryForCrt(crt);if(!memory.known)throw new Error(memory.reason);
+    this.#call('204b2720','204b2725');
+    const name=NativeGameAIHelperAdminClassName.prototype.get.call(NativeGameAIHelperAdminClassName.forCrt(crt,memory.value));if(!name.known)throw new Error(name.reason);
+    if(this.#aiHelperAccessorName&&this.#aiHelperAccessorName!==name.value)throw new Error('Accessor class-name owner cannot change');
+    this.#aiHelperAccessorName=name.value;
+    const image=NativeModuleCrtOwner.canonicalImageForOwner(crt,'aiHelperAdminClassNameAndCache');
+    if(!image.known||name.value.slot.backing!==image.value.backing||name.value.slot.bytes.byteOffset!==image.value.bytes.byteOffset||name.value.slot.bytes.length!==4)
+      throw new Error('Actual retained AI helper class-name CString required');
+    this.#store(this.#bank,this.#reg('EAX'),this.#moduleWord('aiHelperAdminClassNameAndCache',0));
+    const returned=this.#ret(0),source=this.#record(returned).provenance;
+    if(source?.kind!=='source'||source.type!=='code'||source.address!=='204b2725')throw new Error('Actual accessor class-name return required');
+  }); }
+  finishAIHelperPropertyIdInitializerCall(controller:object,site:'204b26f0'|'204b26f9'|'204b2704'):NativeValue<void> {return this.#run(controller,()=>{
+    const binding=this.#setEnvpBinding;if(!binding||binding.controller!==controller)throw new Error('Actual retained Game startup controller required');
+    const grant=NativeGameCrtSetEnvp.canonicalAIHelperPropertyIdFinishCallForCrt(binding.owner,binding.crt,controller,site);if(!grant.known)throw new Error(grant.reason);
+    if(this.#calls.filter(call=>!call.returned).at(-1)?.site!=='20466654'||!this.#aiHelperPropertyIdGuid||!this.#aiHelperPropertyIdText)
+      throw new Error('Actual original PropertyID temporaries required');
+    const returnPc=site==='204b26f0'?'204b26f6':site==='204b26f9'?'204b26ff':'204b2709';
+    if(site==='204b26f0'||site==='204b26f9') {
+      const receiver=this.#memory(this.#load(this.#bank,this.#reg('ECX')),4);
+      const object=site==='204b26f0'?this.#aiHelperPropertyIdGuid.guid:this.#aiHelperPropertyIdText.slot;
+      if(receiver.fields.backing!==object.backing||receiver.fields.bytes.byteOffset+receiver.offset!==object.bytes.byteOffset)
+        throw new Error('Actual original temporary destructor receiver required');
+      if(site==='204b26f0'&&(scriptAdminSource.methods.guidDtor.body!=='10012440'||
+        scriptAdminSource.methods.guidDtor.bodyInstructionBytesSha256!=='ae3f4619b0413d70d3004b9131c3752153074e45725be13b9a148978895e359e'))
+        throw new Error('Original literal RET GUID destructor required');
+      this.#call(site,returnPc);
+      if(site==='204b26f0')this.#aiHelperPropertyIdGuidLifetimeEnded=true;
+      if(site==='204b26f9') {const result=NativeHeapCString.prototype.destroy.call(this.#aiHelperPropertyIdText);if(!result.known)throw new Error(result.reason);this.#aiHelperPropertyIdTextDestroyedSnapshot=Object.freeze(this.#aiHelperPropertyIdText.snapshot());}
+    } else {
+      const esp=this.#address(this.#load(this.#bank,this.#reg('ESP')));
+      if(this.#numeric(this.#load(this.#stack,esp),4)!==0x20549ce0)throw new Error('Actual pushed PropertyID cleanup required');
+      const table=NativeGameExitTable.forCrt(binding.crt as NativeGameCrtOwner),callback=table.callbackForMethod('aiHelperPropertyIdCleanup');
+      if(!callback.known)throw new Error(callback.reason);
+      this.#call(site,returnPc);const result=table.atexit(callback.value);if(!result.known)throw new Error(result.reason);
+      this.#store(this.#bank,this.#reg('EAX'),this.#mint(result.value>>>0,0xffffffff));
+    }
+    const returned=this.#ret(0),source=this.#record(returned).provenance;
+    if(source?.kind!=='source'||source.type!=='code'||source.address!==returnPc)throw new Error('Actual original PropertyID finish return required');
+  }); }
+  callAIHelperPropertyIdConstructor(controller:object):NativeValue<void> {return this.#run(controller,()=>{
+    const binding=this.#setEnvpBinding;if(!binding||binding.controller!==controller)throw new Error('Actual retained Game startup controller required');
+    const grant=NativeGameCrtSetEnvp.canonicalAIHelperPropertyIdConstructCallForCrt(binding.owner,binding.crt,controller);if(!grant.known)throw new Error(grant.reason);
+    if(this.#calls.filter(call=>!call.returned).at(-1)?.site!=='20466654'||!this.#aiHelperPropertyIdGuid)throw new Error('Actual PropertyID initializer and GUID required');
+    const receiver=this.#load(this.#bank,this.#reg('ECX')),esp=this.#address(this.#load(this.#bank,this.#reg('ESP')));
+    const destination=this.#memory(receiver,4),argument=this.#memory(this.#load(this.#stack,esp),4);
+    const image=NativeModuleCrtOwner.canonicalImageForOwner(binding.crt,'aiHelperPropertyId');
+    const guid=this.#aiHelperPropertyIdGuid.guid;
+    if(!image.known||destination.fields!==image.value||destination.offset!==0||argument.fields.backing!==guid.backing||
+      argument.fields.bytes.byteOffset+argument.offset!==guid.bytes.byteOffset)throw new Error('Actual retained PropertyID destination and GUID argument required');
+    this.#call('204b26e6','204b26ec');
+    const result=constructNativePropertyIdFromGuid(image.value,guid,()=>{
+      const shared=NativeSharedGuidNull.forPlatform(this.#platform);if(!shared.known)return shared;
+      return NativeSharedGuidNull.canonicalPayloadForPlatform(shared.value,this.#platform);
+    });if(!result.known)throw new Error(result.reason);
+    this.#store(this.#bank,this.#reg('EAX'),receiver);
+    const returned=this.#ret(4),source=this.#record(returned).provenance;
+    if(source?.kind!=='source'||source.type!=='code'||source.address!=='204b26ec')throw new Error('Actual PropertyID constructor return required');
+  }); }
+  aiHelperPropertyIdGuidSnapshot() {const guid=this.#aiHelperPropertyIdGuid;return guid?Object.freeze({...guid.snapshot(),paddingBefore:this.#aiHelperPropertyIdGuidPaddingBefore,constructed:this.#aiHelperPropertyIdGuidConstructed,lifetimeEnded:this.#aiHelperPropertyIdGuidLifetimeEnded}):null;}
+  callAIHelperPropertyIdGuidConstructor(controller:object):NativeValue<void> {return this.#run(controller,()=>{
+    const binding=this.#setEnvpBinding;
+    if(!binding||binding.controller!==controller)throw new Error('Actual retained Game startup controller required');
+    const grant=NativeGameCrtSetEnvp.canonicalAIHelperPropertyIdGuidCallForCrt(binding.owner,binding.crt,controller);
+    if(!grant.known)throw new Error(grant.reason);
+    if(this.#calls.filter(call=>!call.returned).at(-1)?.site!=='20466654')throw new Error('Actual pending PropertyID initializer frame required');
+    if(!this.#aiHelperPropertyIdText||this.#aiHelperPropertyIdGuid)throw new Error('Actual once-only temporary GUID construction required');
+    const crt=binding.crt as NativeGameCrtOwner,memory=nativeGameLayerBaseMemoryForCrt(crt);
+    if(!memory.known)throw new Error(memory.reason);
+    const platform=NativeRuntimePlatform.canonicalGuidTextPlatform(this.#platform);if(!platform.known)throw new Error(platform.reason);
+    const receiver=this.#load(this.#bank,this.#reg('ECX')),esp=this.#address(this.#load(this.#bank,this.#reg('ESP')));
+    const destination=this.#memory(receiver,4),argument=this.#memory(this.#load(this.#stack,esp),4);
+    if(destination.fields!==this.#stack||destination.offset!==esp+8||argument.fields!==this.#stack||argument.offset!==esp+4)
+      throw new Error('Actual GUID and CString stack arguments required');
+    const guidFields=new NativeHeapObjectViews(this.#stack.backing,
+      this.#stack.bytes.byteOffset-this.#stack.backing.bytes.byteOffset+destination.offset,20);
+    this.#aiHelperPropertyIdGuidPaddingBefore=Object.freeze({bytes:Object.freeze([...guidFields.bytes.subarray(17,20)]),mask:Object.freeze([...guidFields.knownMask.subarray(17,20)])});
+    this.#call('204b26da','204b26e0');
+    const guid=new NativeGuidText(memory.value,guidFields,platform.value);this.#aiHelperPropertyIdGuid=guid;
+    const result=NativeGuidText.prototype.setData.call(guid,this.#aiHelperPropertyIdText);
+    if(!result.known)throw new Error(result.reason);
+    this.#aiHelperPropertyIdGuidConstructed=Object.freeze({bytes:Object.freeze([...guidFields.bytes]),mask:Object.freeze([...guidFields.knownMask])});
+    // Original bCGuid text constructor ignores SetData's BOOL and returns this.
+    this.#store(this.#bank,this.#reg('EAX'),receiver);
+    const returned=this.#ret(4),source=this.#record(returned).provenance;
+    if(source?.kind!=='source'||source.type!=='code'||source.address!=='204b26e0')throw new Error('Actual GUID constructor return required');
+  }); }
+  aiHelperPropertyIdTextSnapshot() {return this.#aiHelperPropertyIdTextDestroyedSnapshot??this.#aiHelperPropertyIdText?.snapshot()??null;}
+  callAIHelperPropertyIdTextConstructor(controller:object):NativeValue<void> {return this.#run(controller,()=>{
+    const binding=this.#setEnvpBinding;
+    if(!binding||binding.controller!==controller)throw new Error('Actual retained Game startup controller required');
+    const grant=NativeGameCrtSetEnvp.canonicalAIHelperPropertyIdTextCallForCrt(binding.owner,binding.crt,controller);
+    if(!grant.known)throw new Error(grant.reason);
+    if(this.#calls.filter(call=>!call.returned).at(-1)?.site!=='20466654')throw new Error('Actual pending PropertyID initializer frame required');
+    if(this.#aiHelperPropertyIdText)throw new Error('Original temporary CString construction cannot be replayed');
+    const crt=binding.crt as NativeGameCrtOwner,memory=nativeGameLayerBaseMemoryForCrt(crt);
+    if(!memory.known)throw new Error(memory.reason);
+    const receiver=this.#load(this.#bank,this.#reg('ECX'));
+    const esp=this.#address(this.#load(this.#bank,this.#reg('ESP')));
+    const destination=this.#memory(receiver,4);
+    if(destination.fields!==this.#stack||destination.offset!==esp+4)throw new Error('Actual original CString stack receiver required');
+    const input=this.#memory(this.#load(this.#stack,esp),1);
+    const literal=NativeModuleCrtOwner.canonicalImageForOwner(crt,'aiHelperPropertyIdGuidLiteral');
+    if(!literal.known||input.fields!==literal.value||input.offset!==0)throw new Error('Actual original GUID literal argument required');
+    const slot=new NativeHeapObjectViews(destination.fields.backing,
+      destination.fields.bytes.byteOffset-destination.fields.backing.bytes.byteOffset+destination.offset,4);
+    this.#call('204b26cc','204b26d2');
+    const text=NativeHeapCString.beginTextConstruction(memory.value,slot);
+    this.#aiHelperPropertyIdText=text;
+    const result=NativeHeapCString.prototype.constructText.call(text,Object.freeze(input));
+    if(!result.known)throw new Error(result.reason);
+    this.#store(this.#bank,this.#reg('EAX'),receiver);
+    const returned=this.#ret(4),source=this.#record(returned).provenance;
+    if(source?.kind!=='source'||source.type!=='code'||source.address!=='204b26d2')throw new Error('Actual original CString constructor return required');
+  }); }
+  callGameAIHelperAdminTypeSingleton(controller:object,site:string='204b267f'):NativeValue<void> { return this.#run(controller,()=>{
+    const binding=this.#setEnvpBinding;if(!binding||binding.controller!==controller)throw new Error('Actual retained Game startup controller required');
+    const point=NativeGameCrtSetEnvp.canonicalAIHelperAdminTypeCallForCrt(binding.owner,binding.crt,controller);if(!point.known)throw new Error(point.reason);
+    const clone=site==='20077c1c',next=clone?'20077c21':'204b2684';
+    if((site!=='204b267f'&&!clone)||this.#calls.filter(call=>!call.returned).at(-1)?.site!==(clone?'100905e9':'20466654'))throw new Error('Actual pending AIHelperAdmin initializer or clone frame required');
+    const crt=binding.crt as NativeGameCrtOwner,memory=nativeGameLayerBaseMemoryForCrt(crt);if(!memory.known)throw new Error(memory.reason);
+    this.#call(site,next);
+    const result=NativeGameAIHelperAdminType.prototype.get.call(NativeGameAIHelperAdminType.forCrt(crt,memory.value));
+    if(!result.known)throw new Error(result.reason);
+    const storage=NativeModuleCrtOwner.canonicalImageForOwner(crt,'aiHelperAdminTypeAndGuard');
+    if(!storage.known||result.value.backing!==storage.value.backing||result.value.bytes.byteOffset!==storage.value.bytes.byteOffset||result.value.bytes.length!==60)
+      throw new Error('Actual retained AIHelperAdmin type return required');
+    this.#store(this.#bank,this.#reg('EAX'),this.#moduleWord('aiHelperAdminTypeAndGuard',0));
+    const returned=this.#ret(0),source=this.#record(returned).provenance;
+    if(source?.kind!=='source'||source.type!=='code'||source.address!==next)throw new Error('Actual AIHelperAdmin type getter return required');
   }); }
   callGameFreePointTypeSingleton(controller:object):NativeValue<void> { return this.#run(controller,()=>{
     const binding=this.#setEnvpBinding;
@@ -3447,7 +4076,7 @@ export class NativeX86ThreadStack {
   }); }
   test(controller: object, left: NativeX86Word32, right: NativeX86Word32, width: Width = 4): NativeValue<void> { return this.#run(controller, () => {
     const a = this.#liveWord(left), b = this.#liveWord(right);
-    if (width === 4 && left === right && (a.provenance && ['allocation','heap','platform','module','process','stack'].includes(a.provenance.kind))) { this.#flags(0, 0x841); return; }
+    if (width === 4 && left === right && (a.provenance && ['allocation','heap','platform','module','process','stack','shared-local'].includes(a.provenance.kind))) { this.#flags(0, 0x841); return; }
     const mask = (a.mask & b.mask) | ((~a.value) & a.mask) | ((~b.value) & b.mask);
     this.#logicalFlags(a.value & b.value, mask, width);
   }); }
@@ -3761,7 +4390,7 @@ export class NativeX86ThreadStack {
         scalar = this.#numeric(argumentWords[1]!, 4); procedure = this.#platformObject(this.#load(this.#bank, this.#reg('ESI')), 'section'); break;
       }
     }
-    const args: NativeStandardIoArguments = Object.freeze({ site, kind: spec.kind, crt: binding.crt, scalar, object, procedure, section, sectionFields });
+    const args: NativeStandardIoArguments & {readonly site:NativeStandardIoCallSite} = Object.freeze({ site, kind: spec.kind, crt: binding.crt, scalar, object, procedure, section, sectionFields });
     const row = { site, callPushed: false, called: false, returned: false, sectionRegistered: false };
     this.#standardIoRows.push(row);
     // Capacity failure happens at this real CALL, retaining the existing
@@ -4024,3 +4653,4 @@ export function retireNativeX86ThreadStackForPlatform(platform: NativeRuntimePla
   if (!NativeRuntimePlatform.threadStackLifetimeHasEnded(platform, selection)) return;
   const graph = graphs.get(platform); if (graph) retirements.get(graph)!();
 }
+import {admitAIHelperCloneAllocationImport} from './native-game-ai-helper-accessor-creator-source';

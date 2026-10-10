@@ -1,0 +1,252 @@
+{
+  "schema": "gothic3-ai-helper-property-id-research-v1",
+  "module": "Game.dll",
+  "inputSha256": "b09afc5c180969a6302d9d706f0ad8efebf7c1fcd9301096bf5c1b1f2cf8eb2f",
+  "initializer": "204b26c0",
+  "extent": "204b26c0-204b270c",
+  "bytes": "83ec1868bca665208d4c2404ff150c897d208d0424508d4c2408ff15b8867d2050b9a8527b20ff15ac867d208d4c2404ff15b0867d208d0c24ff1534887d2068e09c5420e8c510fbff83c41cc3",
+  "bytesSha256": "3b1ac6287c82970576758477e4d7b2b4a5071530335ccf017fd89d6963d98e28",
+  "instructions": [
+    {
+      "va": "204b26c0",
+      "rva": "4b26c0",
+      "fileOffset": 4925120,
+      "bytes": "83ec18",
+      "instruction": "SUB ESP,0x18",
+      "assemblyLine": 1
+    },
+    {
+      "va": "204b26c3",
+      "rva": "4b26c3",
+      "fileOffset": 4925123,
+      "bytes": "68bca66520",
+      "instruction": "PUSH 0x2065a6bc",
+      "assemblyLine": 2
+    },
+    {
+      "va": "204b26c8",
+      "rva": "4b26c8",
+      "fileOffset": 4925128,
+      "bytes": "8d4c2404",
+      "instruction": "LEA ECX,[ESP + 0x4]",
+      "assemblyLine": 3
+    },
+    {
+      "va": "204b26cc",
+      "rva": "4b26cc",
+      "fileOffset": 4925132,
+      "bytes": "ff150c897d20",
+      "instruction": "CALL dword ptr [0x207d890c]",
+      "assemblyLine": 4
+    },
+    {
+      "va": "204b26d2",
+      "rva": "4b26d2",
+      "fileOffset": 4925138,
+      "bytes": "8d0424",
+      "instruction": "LEA EAX,[ESP]",
+      "assemblyLine": 5
+    },
+    {
+      "va": "204b26d5",
+      "rva": "4b26d5",
+      "fileOffset": 4925141,
+      "bytes": "50",
+      "instruction": "PUSH EAX",
+      "assemblyLine": 6
+    },
+    {
+      "va": "204b26d6",
+      "rva": "4b26d6",
+      "fileOffset": 4925142,
+      "bytes": "8d4c2408",
+      "instruction": "LEA ECX,[ESP + 0x8]",
+      "assemblyLine": 7
+    },
+    {
+      "va": "204b26da",
+      "rva": "4b26da",
+      "fileOffset": 4925146,
+      "bytes": "ff15b8867d20",
+      "instruction": "CALL dword ptr [0x207d86b8]",
+      "assemblyLine": 8
+    },
+    {
+      "va": "204b26e0",
+      "rva": "4b26e0",
+      "fileOffset": 4925152,
+      "bytes": "50",
+      "instruction": "PUSH EAX",
+      "assemblyLine": 9
+    },
+    {
+      "va": "204b26e1",
+      "rva": "4b26e1",
+      "fileOffset": 4925153,
+      "bytes": "b9a8527b20",
+      "instruction": "MOV ECX,0x207b52a8",
+      "assemblyLine": 10
+    },
+    {
+      "va": "204b26e6",
+      "rva": "4b26e6",
+      "fileOffset": 4925158,
+      "bytes": "ff15ac867d20",
+      "instruction": "CALL dword ptr [0x207d86ac]",
+      "assemblyLine": 11
+    },
+    {
+      "va": "204b26ec",
+      "rva": "4b26ec",
+      "fileOffset": 4925164,
+      "bytes": "8d4c2404",
+      "instruction": "LEA ECX,[ESP + 0x4]",
+      "assemblyLine": 12
+    },
+    {
+      "va": "204b26f0",
+      "rva": "4b26f0",
+      "fileOffset": 4925168,
+      "bytes": "ff15b0867d20",
+      "instruction": "CALL dword ptr [0x207d86b0]",
+      "assemblyLine": 13
+    },
+    {
+      "va": "204b26f6",
+      "rva": "4b26f6",
+      "fileOffset": 4925174,
+      "bytes": "8d0c24",
+      "instruction": "LEA ECX,[ESP]",
+      "assemblyLine": 14
+    },
+    {
+      "va": "204b26f9",
+      "rva": "4b26f9",
+      "fileOffset": 4925177,
+      "bytes": "ff1534887d20",
+      "instruction": "CALL dword ptr [0x207d8834]",
+      "assemblyLine": 15
+    },
+    {
+      "va": "204b26ff",
+      "rva": "4b26ff",
+      "fileOffset": 4925183,
+      "bytes": "68e09c5420",
+      "instruction": "PUSH 0x20549ce0",
+      "assemblyLine": 16
+    },
+    {
+      "va": "204b2704",
+      "rva": "4b2704",
+      "fileOffset": 4925188,
+      "bytes": "e8c510fbff",
+      "instruction": "CALL 0x204637ce",
+      "assemblyLine": 17
+    },
+    {
+      "va": "204b2709",
+      "rva": "4b2709",
+      "fileOffset": 4925193,
+      "bytes": "83c41c",
+      "instruction": "ADD ESP,0x1c",
+      "assemblyLine": 18
+    },
+    {
+      "va": "204b270c",
+      "rva": "4b270c",
+      "fileOffset": 4925196,
+      "bytes": "c3",
+      "instruction": "RET",
+      "assemblyLine": 19
+    }
+  ],
+  "guidLiteralAddress": "2065a6bc",
+  "guidLiteral": "{63A89794-0E97-480a-9999-3A9569A4FCE3}",
+  "destination": "207b52a8",
+  "cleanup": "20549ce0",
+  "imports": [
+    {
+      "iatVA": "0x207d86ac",
+      "module": "SharedBase.dll",
+      "name": "??0bCPropertyID@@QAE@ABVbCGuid@@@Z",
+      "ordinal": null
+    },
+    {
+      "iatVA": "0x207d86b0",
+      "module": "SharedBase.dll",
+      "name": "??1bCGuid@@QAE@XZ",
+      "ordinal": null
+    },
+    {
+      "iatVA": "0x207d86b8",
+      "module": "SharedBase.dll",
+      "name": "??0bCGuid@@QAE@ABVbCString@@@Z",
+      "ordinal": null
+    },
+    {
+      "iatVA": "0x207d8834",
+      "module": "SharedBase.dll",
+      "name": "??1bCString@@QAE@XZ",
+      "ordinal": null
+    },
+    {
+      "iatVA": "0x207d890c",
+      "module": "SharedBase.dll",
+      "name": "??0bCString@@QAE@PBD@Z",
+      "ordinal": null
+    }
+  ],
+  "cleanupReceipt": {
+    "entry": "20549ce0",
+    "bytes": "b9a8527b20ff25d4887d20",
+    "bytesSha256": "4a1f95ba4ad146908eeec084681559a619bb7ad55b8ad7630c6969108a418ce7",
+    "instructions": [
+      {
+        "va": "20549ce0",
+        "bytes": "b9a8527b20",
+        "instruction": "MOV ECX,0x207b52a8"
+      },
+      {
+        "va": "20549ce5",
+        "bytes": "ff25d4887d20",
+        "instruction": "JMP dword ptr [0x207d88d4]"
+      }
+    ],
+    "importBinding": {
+      "iatVA": "0x207d88d4",
+      "module": "SharedBase.dll",
+      "name": "??1bCPropertyID@@QAE@XZ",
+      "ordinal": null
+    }
+  },
+  "images": [
+    {
+      "label": "aiHelperPropertyId",
+      "address": "207b52a8",
+      "bytes": 20,
+      "raw": "0000000000000000000000000000000000000000",
+      "fileBackedBytes": 0,
+      "loaderZeroFillBytes": 20,
+      "sha256": "de47c9b27eb8d300dbb5f2c353e632c393262cf06340c4fa7f1b40c4cbd36f90",
+      "liveValueCaptured": false
+    },
+    {
+      "label": "aiHelperPropertyIdGuidLiteral",
+      "address": "2065a6bc",
+      "bytes": 39,
+      "raw": "7b36334138393739342d304539372d343830612d393939392d3341393536394134464345337d00",
+      "fileBackedBytes": 39,
+      "loaderZeroFillBytes": 0,
+      "sha256": "a376dd6bfb95bd0e701d4ba9b393690b75cccdca6b0746b5670c595512e149af",
+      "liveValueCaptured": false
+    }
+  ],
+  "relatedImplementation": "src/gothic3/native-game-script-admin-startup.ts",
+  "runtimeConnected": false,
+  "initializerReturnVerified": false,
+  "notes": [
+    "Original CString and GUID temporaries must retain their constructor and destructor behavior.",
+    "PropertyID construction and cleanup must use canonical image storage.",
+    "Source capture alone does not establish startup execution or return."
+  ]
+}

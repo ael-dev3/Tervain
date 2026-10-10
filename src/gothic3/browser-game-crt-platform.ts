@@ -1,3 +1,4 @@
+import {selectAsciiGuidTextPlatform} from './native-guid-platform';
 /** Declared browser Win32 compatibility provider for the selected Game CRT
  * processAttach prefix. These ABI fields describe a virtual environment;
  * they are not observations of the browser's host OS or Windows thread IDs.
@@ -262,7 +263,7 @@ export function createBrowserGameCrtPlatform(options: { readonly processInputs?:
     argvNls: argv,
     setEnvp: envp,
   });
-  platform = new NativeRuntimePlatform({ engineCrtServices: services });
+  platform = new NativeRuntimePlatform({ engineCrtServices: services, guidTextPlatform: selectAsciiGuidTextPlatform() });
   const retainedStack = stackSelection === undefined ? undefined : NativeRuntimePlatform.threadStackSelectionForPlatform(platform);
   if (retainedStack && !retainedStack.known) throw new Error(retainedStack.reason);
   const retainedStartup = startup === undefined ? undefined : NativeRuntimePlatform.startupIoSelectionForPlatform(platform);

@@ -1,6 +1,6 @@
 import { randomUUID } from 'node:crypto';
 import { describe, expect, it, vi } from 'vitest';
-// These run the original instructions in the emulator: about 4–5 s each here, so the 5 s default fails under CI load.
+// These execute original instructions: about 4-5 seconds each locally; use a longer timeout under CI load.
 vi.setConfig({ testTimeout: 30_000 });
 import { BrowserMatrixShutdownRegistry, createBrowserNpcEntityServices } from '../../src/gothic3/browser-npc-entity-services';
 import { OriginalControlModuleState } from '../../src/gothic3/control-reading';
@@ -19,7 +19,7 @@ describe('selected browser NPC platform services', () => {
     expect(startup.propertyIdInvocation).toBe('not-entered');
     expect(startup.prerequisites.attachResult.known).toBe(false);
     if(startup.prerequisites.attachResult.known)throw new Error('Unfinished Game startup returned');
-    expect(startup.prerequisites.attachResult.reason).toContain('initializer callback is not yet admitted at 204b2660');
+    expect(startup.prerequisites.attachResult.reason).toContain('Engine startup call3068e76f at30677276');
     const first = owner.control.matrixIdentity();
     const second = owner.control.matrixIdentity();
     expect(first.known).toBe(true);

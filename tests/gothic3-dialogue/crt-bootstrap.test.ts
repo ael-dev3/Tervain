@@ -1,6 +1,8 @@
+import {browserGameProcessInputs} from '../../src/gothic3/browser-game-process-inputs';
 import { describe, expect, it } from 'vitest';
 import type { NativeValue } from '../../src/gothic3/dialogue';
 import { NativeCrtBootstrap } from '../../src/gothic3/native-crt-bootstrap';
+import { NativeEngineIoImages } from '../../src/gothic3/native-engine-io-images';
 import { NativeEngineCrtOwner } from '../../src/gothic3/native-engine-crt-locks';
 import { NativeHeapObjectViews } from '../../src/gothic3/native-heap-views';
 import type { NativeMemoryBacking } from '../../src/gothic3/native-memory-admin';
@@ -267,4 +269,54 @@ describe('ordinary Engine DLL attach prefix with actual CRT startup owners', () 
     expect([...crt.physical.crtOsFields.dwordArray(0, 5)]).toEqual([1, 0xd678, 0x40a, 4, 10]);
     expect(crt.physical.heapSelector.readUnsigned(0)).toBe(3);
   });
+});
+
+it('stores Engine command-line and converted environment pointers before the I/O call',()=>{
+ const platform=new NativeRuntimePlatform({engineCrtServices:{...services,tlsValues:new Map(),processInputs:browserGameProcessInputs}});
+ const {bootstrap}=selected(platform);const result=bootstrap.processAttach();
+ expect(result.known).toBe(false);if(result.known)throw new Error('Engine attach remains unfinished');
+ expect(result.reason).toContain('Engine ioInit306886ec at30677266');
+ const progress=bootstrap.attachProgress();expect(progress.commandLineReturned).toBe(true);expect(progress.commandLineNonNull).toBe(true);
+ const fields=progress.engineCommandLineStorage!,pointer=fields.pointer(0).get();expect(pointer).not.toBe(null);
+ expect([...fields.knownMask]).toEqual(Array(4).fill(0));expect(progress.environmentReturned).toBe(true);
+ expect(progress.engineEnvironmentStorage!.pointer(0).get()).toBe(progress.engineEnvironmentProgress!.output);
+ const before=bootstrap.snapshot().trace;expect(bootstrap.processAttach()).toEqual(result);expect(bootstrap.snapshot().trace).toEqual(before);
+});
+it('retains completed environment stores when changed I/O scope blocks the next call',()=>{
+ const platform=new NativeRuntimePlatform({engineCrtServices:{...services,tlsValues:new Map(),processInputs:browserGameProcessInputs}});
+ const {bootstrap,crt}=selected(platform),owner=bootstrap.attachProgress().engineIoImages!;
+ const scope=fact(NativeEngineIoImages.imageForCrt(owner,crt,'ioSehScope'));
+ scope.knownMask[0]=0;
+ const result=bootstrap.processAttach();expect(result.known).toBe(false);
+ if(result.known)throw new Error('Changed scope must block Engine I/O');
+ expect(result.reason).toContain('Engine I/O image authority ioHandleCount');
+ expect(result.reason).toContain('Native field contains unowned backing bits');
+ const progress=bootstrap.attachProgress();expect(progress.environmentReturned).toBe(true);
+ expect(progress.engineEnvironmentStorage!.pointer(0).get()).toBe(progress.engineEnvironmentProgress!.output);
+ expect(progress.ioResult).toBe(null);expect(progress.ioProgress).toBe(null);
+ const before=bootstrap.snapshot().trace;expect(bootstrap.processAttach()).toEqual(result);expect(bootstrap.snapshot().trace).toEqual(before);
+ expect(scope.knownMask[0]).toBe(0);
+});
+it('stores the actual NULL Engine command-line result without skipping the next call',()=>{
+ const platform=new NativeRuntimePlatform({engineCrtServices:{...services,tlsValues:new Map(),processInputs:{...browserGameProcessInputs,commandLineA:{kind:'null'}}}});
+ const {bootstrap}=selected(platform);expect(bootstrap.processAttach().known).toBe(false);
+ const progress=bootstrap.attachProgress();expect(progress.commandLineReturned).toBe(true);expect(progress.commandLineNonNull).toBe(false);
+ expect(progress.engineCommandLineStorage!.pointer(0).get()).toBe(null);expect([...progress.engineCommandLineStorage!.knownMask]).toEqual(Array(4).fill(255));
+ expect(progress.environmentReturned).toBe(true);expect(progress.nextBoundary).toMatchObject({address:'30677266',target:'306886ec'});
+});
+it('stores the actual NULL Engine environment result before reaching I/O',()=>{
+ const platform=new NativeRuntimePlatform({engineCrtServices:{...services,tlsValues:new Map(),processInputs:{...browserGameProcessInputs,environmentW:{kind:'null',lastError:120},environmentA:{kind:'null'}}}});
+ const {bootstrap}=selected(platform);const result=bootstrap.processAttach();expect(result.known).toBe(false);
+ const progress=bootstrap.attachProgress();expect(progress.environmentReturned).toBe(true);expect(progress.environmentNonNull).toBe(false);
+ expect(progress.engineEnvironmentStorage!.pointer(0).get()).toBe(null);expect([...progress.engineEnvironmentStorage!.knownMask]).toEqual(Array(4).fill(255));
+ expect(progress.nextBoundary).toMatchObject({address:'30677266',target:'306886ec'});
+});
+it('stores the actual ANSI copy result before the pending Engine I/O call',()=>{
+ const platform=new NativeRuntimePlatform({engineCrtServices:{...services,tlsValues:new Map(),processInputs:{...browserGameProcessInputs,environmentW:{kind:'null',lastError:120}}}});
+ const {bootstrap}=selected(platform),result=bootstrap.processAttach();expect(result.known).toBe(false);
+ if(result.known)throw new Error('Engine I/O is unfinished');expect(result.reason).toContain('Engine ioInit306886ec at30677266');
+ const progress=bootstrap.attachProgress();expect(progress.environmentReturned).toBe(true);expect(progress.environmentNonNull).toBe(true);
+ expect(progress.engineEnvironmentProgress).toMatchObject({mode:2,branch:'ansi',phase:'returned'});
+ expect(progress.engineEnvironmentStorage!.pointer(0).get()).toBe(progress.engineEnvironmentProgress!.output);
+ expect(progress.engineEnvironmentProgress!.input!.fields.backing.freed).toBe(true);
 });

@@ -1,3 +1,5 @@
+import engineExitSource from '../../assets/gothic3/ai-helper-accessor-creator-startup/research.json';
+import {admitAIHelperAccessorCreatorSource} from './native-game-ai-helper-accessor-creator-source';
 /** Engine CRT heap/lock-table owner. OS initialization, TLS errno, CRT fatal
  * handling and the encoded section-procedure resolver remain explicit gates.
  * The selected platform supplies the lower Win32 heap/section capabilities. */
@@ -283,6 +285,17 @@ export class NativeModuleCrtOwner {
         : unknown('Actual current same-owner Game CRT heap capability required');
     } catch (error) { return unknown(error instanceof Error ? error.message : String(error)); }
   }
+  static canonicalEngineHeapDestination(owner:NativeModuleCrtOwner,platform:NativeRuntimePlatform,
+    pointer:NativeBytePointer,bytes:number):NativeValue<void>{
+    if(!NativeModuleCrtOwner.isConstructedOwner(owner)||owner.module!=='Engine'||owner.host.platform!==platform||owner.#heapTerminated)return unknown('Actual live same-platform Engine CRT required');
+    try{
+      const retained=Object.freeze({fields:pointer.fields,offset:pointer.offset});
+      if(!owner.#allocations.has(retained.fields.backing)||retained.fields.backing.freed)return unknown('Actual allocation returned by this Engine CRT required');
+      const heap=NativeHeapObjectViews.prototype.pointer.call(owner.physical.heapHandle,0).get() as NativeWin32HeapCapability|null;
+      if(!heap||heap.owner!==owner.identity||!owner.#heaps.has(heap))return unknown('Actual current Engine CRT heap required');
+      return NativeRuntimePlatform.canonicalOwnedWin32HeapAllocationSpan(platform,heap,owner.identity,retained,bytes);
+    }catch(error){return unknown(error instanceof Error?error.message:String(error));}
+  }
   static heapAllocForArgvCall(owner: NativeModuleCrtOwner, platform: NativeRuntimePlatform,
     call: NativeArgvNlsCallGrant): NativeValue<NativeMemoryBacking | null> {
     const admitted = NativeX86ThreadStack.argvArgumentsForPlatform(platform, call); if (!admitted.known) return admitted;
@@ -356,6 +369,7 @@ export class NativeModuleCrtOwner {
   readonly #heaps = new Set<NativeWin32HeapCapability>();
   readonly #allocations = new Set<NativeMemoryBacking>();
   private readonly dynamicSections = new Map<NativeHeapObjectViews, NativeMemoryBacking>();
+  #heapSectionActive = false;
   private readonly trace: string[] = [];
   private readonly fallbackSectionProcedure: NativeCrtSectionProcedure = Object.freeze({ identity: Object.freeze({}),
     owner: this.identity, name: 'InitializeCriticalSectionAndSpinCount',
@@ -610,7 +624,7 @@ export class NativeModuleCrtOwner {
   pointerEncodingAvailable(): NativeValue<boolean> { return this.run('pointerEncodingAvailability3067ddf8', () => this.pointerAvailable()); }
   encodePointer(value: object | null): NativeValue<object | null> { return this.run('encodePointer3067de64', () => this.codec(value, 'EncodePointer')); }
   decodePointer(value: object | null): NativeValue<object | null> { return this.run('decodePointer3067dedb', () => this.codec(value, 'DecodePointer')); }
-  private initializeSection(fields: NativeHeapObjectViews): boolean {
+  private initializeSection(fields: NativeHeapObjectViews, requireRuntimeProcedure = false): boolean {
     const encoded = this.physical.sectionInitializer.pointer<object>(0).get();
     let selected = this.codec(encoded, 'DecodePointer');
     if (selected === null) {
@@ -632,6 +646,10 @@ export class NativeModuleCrtOwner {
       this.physical.sectionInitializer.pointer<object>(0).set(cached); this.note('sectionInitializer.cache');
     }
     const procedure = selected as NativeCrtSectionProcedure;
+    if(requireRuntimeProcedure&&procedure!==this.fallbackSectionProcedure){
+      const proof=NativeRuntimePlatform.standardIoCapabilityForPlatform(this.host.platform as NativeRuntimePlatform,procedure);
+      if(!proof.known||proof.value!=='section')throw new Error('Actual same-platform Engine section procedure required');
+    }
     if (procedure.name !== 'InitializeCriticalSectionAndSpinCount' || typeof procedure.invoke !== 'function') {
       throw new Error('Decoded section initializer has no actual owned procedure capability');
     }
@@ -643,6 +661,27 @@ export class NativeModuleCrtOwner {
         this.call('SetLastError(8)', () => this.host.platform.setWin32LastError?.(8) ?? unknown('Actual owned Win32 SetLastError capability required'));
         this.note('initCritSecExceptionHandler30696521.return0'); return known(false);
       }
+    });
+  }
+  /** Original Engine30696484 at the I/O callers uses spin count4000 and a
+   * 24-byte section within a live Engine allocation. This helper does not
+   * initialize the surrounding I/O record or establish an I/O return. */
+  initializeHeapCriticalSection(pointer:NativeBytePointer):NativeValue<boolean>{
+    if(this.#heapSectionActive){this.boundary??='Reentrant Engine heap section initialization';return unknown(this.boundary);}
+    return this.run('crtInitCritSecAndSpinCount30696484',()=>{
+      const platform=this.host.platform as NativeRuntimePlatform;
+      const retained=Object.freeze({fields:pointer.fields,offset:pointer.offset});
+      const proof=NativeModuleCrtOwner.canonicalEngineHeapDestination(this,platform,retained,24);
+      if(!proof.known)throw new Error(proof.reason);
+      if(retained.offset!==0||retained.fields.bytes.length!==24)throw new Error('Actual 24-byte Engine section view required');
+      const fields=retained.fields;
+      this.#heapSectionActive=true;
+      try{
+        const result=this.initializeSection(fields,true);
+        const after=NativeModuleCrtOwner.canonicalEngineHeapDestination(this,platform,retained,24);
+        if(!after.known)throw new Error(after.reason);
+        return result;
+      }finally{this.#heapSectionActive=false;}
     });
   }
   initHeap(argument = 1): NativeValue<number> {
@@ -816,16 +855,17 @@ export class NativeModuleCrtOwner {
   }
   free(backing: NativeMemoryBacking | null): NativeValue<void> { return this.run('free30672f8a', () => this.release(backing), true, backing ?? 'freeNULL'); }
   msize(pointer: NativeBytePointer | null): NativeValue<number> {
-    if (this.module !== 'Game') return unknown('Game __msize source owner required');
-    return this.run('msize204684cd', () => {
-      if (pointer === null) { this.errno(22); this.gate('invalidParameter2046a20a(0,0,0,0,0) after msize(NULL)'); }
+    const engine=this.module==='Engine';
+    if(engine){admitAIHelperAccessorCreatorSource();const method=engineExitSource.engine.methods.find(method=>method.label==='moduleEngineMsize');if(engineExitSource.engine.inputSha256!=='d49ef92c0fdfeda433f6d04d0edeb7751e41e4c7c7effc1265630717029dc7e3'||method?.bodyVA!=='0x3067e45d'||method.bodyInstructionBytesSha256!=='7a1f46e1c66ed08dc4460a044761abd345dfb11b22e2c62daf2b43a059ff5938')return unknown('Original Engine msize source required');}
+    return this.run(engine?'msize3067e45d':'msize204684cd', () => {
+      if (pointer === null) { this.errno(22); this.gate((engine?'invalidParameter30674d58':'invalidParameter2046a20a')+'(0,0,0,0,0) after msize(NULL)'); }
       if (this.physical.heapSelector.readUnsigned(0) === 3) {
         const locked = this.lock(4);
         if (!locked.known) throw new Error(locked.reason);
-        this.gate('small-block size lookup20476d1c and msize cleanup20468567');
+        this.gate(engine?'small-block size lookup306834c2 and msize cleanup3067e4f7':'small-block size lookup20476d1c and msize cleanup20468567');
       }
       const heap = this.physical.heapHandle.pointer<NativeWin32HeapCapability>(0).get();
-      const size = this.call('HeapSize207d7bac(Game heap,0,pointer)',
+      const size = this.call(engine?'HeapSize30afc710(Engine heap,0,pointer)':'HeapSize207d7bac(Game heap,0,pointer)',
         () => this.host.platform.win32HeapSize(heap, 0, pointer));
       if (!Number.isInteger(size) || size < 0 || size > 0xffffffff) throw new Error('Original 32-bit HeapSize result required');
       return size >>> 0;
