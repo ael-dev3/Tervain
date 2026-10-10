@@ -37,3 +37,7 @@ it('captures the original Engine narrowing import and its mapping-body call',()=
 it('captures the original Engine MBC reference imports and static header without reseeding live state',()=>{
  for(const [kind,iatVA,site] of [['InterlockedDecrement','0x30afc6f4','30684ee3'],['InterlockedIncrement','0x30afc6f8','30684f02']] as const){expect(engineArgvMbcImport(kind)).toMatchObject({iatVA,module:'KERNEL32.dll',name:kind,ordinal:null});expect(Object.isFrozen(engineArgvMbcImport(kind))).toBe(true);expect(engineArgvInstruction('30684e6d',site).instruction).toBe(kind==='InterlockedDecrement'?`CALL dword ptr [${iatVA}]`:`MOV EDI,dword ptr [${iatVA}]`);}expect(engineArgvStaticMbcHeader()).toEqual({address:'30ad4bd0',bytes:16,raw:'0'.repeat(32)});expect(Object.isFrozen(engineArgvStaticMbcHeader())).toBe(true);
 });
+
+it('captures the original Engine global MBC publication storage extents',()=>{
+ for(const [label,address,bytes] of [['globalMbcCodepage','30af770c',4],['globalMbcSingleByte','30af7710',4],['globalMbcLocale','30af7714',4],['globalMbcWideTypes','30af7700',10],['globalMbcCharacterTypes','30ad4df0',257],['globalMbcCaseBytes','30ad4ef8',256]] as const){const row=engineArgvImage(label);expect(row).toMatchObject({address,bytes});expect(row.raw.length).toBe(bytes*2);expect(Object.isFrozen(row)).toBe(true);}
+});

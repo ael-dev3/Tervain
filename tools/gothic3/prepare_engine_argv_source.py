@@ -67,7 +67,13 @@ def capture(study):
                                  (0x30ad5000, 240, 'multibyteCodepageTable'),
                                  (0x30af7c34, 4, 'classificationApiSelector'),
                                  (0x30892f38, 2, 'classificationWideProbe'),
-                                 (0x30af70ec, 4, 'mappingApiSelector')]:
+                                 (0x30af70ec, 4, 'mappingApiSelector'),
+                                 (0x30af770c, 4, 'globalMbcCodepage'),
+                                 (0x30af7710, 4, 'globalMbcSingleByte'),
+                                 (0x30af7714, 4, 'globalMbcLocale'),
+                                 (0x30af7700, 10, 'globalMbcWideTypes'),
+                                 (0x30ad4df0, 257, 'globalMbcCharacterTypes'),
+                                 (0x30ad4ef8, 256, 'globalMbcCaseBytes')]:
         rva = address - pe.base
         section = next(s for s in pe.sections if s[1] <= rva and rva + size <= s[1] + max(s[0], s[2]))
         backed = max(0, min(size, section[1] + section[2] - rva))
