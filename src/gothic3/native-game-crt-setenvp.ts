@@ -405,6 +405,12 @@ export class NativeGameCrtSetEnvp {
     return owner.#pc===site&&owner.#currentEntry==='10090590'&&frame?.entry==='10090590'&&frame.site==='100932f6'&&frame.returnPc==='100932fb'&&
       owner.#requireSourcePoint(owner.#pc).instruction==='CALL 0x10002f5e'?known(undefined):unknown('Actual original accessor query CString check required');
   }
+  static canonicalAIHelperAccessorTypeLookupCallForCrt(owner:NativeGameCrtSetEnvp,crt:NativeModuleCrtOwner,controller:object):NativeValue<void> {
+    const active=NativeGameCrtSetEnvp.canonicalControllerForCrt(owner,crt,controller,'invoke');if(!active.known)return active;
+    const frame=owner.#frames.at(-1);
+    return owner.#pc==='100905b7'&&owner.#currentEntry==='10090590'&&frame?.entry==='10090590'&&frame.site==='100932f6'&&frame.returnPc==='100932fb'&&
+      owner.#requireSourcePoint(owner.#pc).instruction==='CALL 0x100019d8'?known(undefined):unknown('Actual original query type lookup required');
+  }
   static canonicalAIHelperAdminTypeCallForCrt(owner:NativeGameCrtSetEnvp,crt:NativeModuleCrtOwner,controller:object):NativeValue<void> {
     const active=NativeGameCrtSetEnvp.canonicalControllerForCrt(owner,crt,controller,'invoke');if(!active.known)return active;
     const frame=owner.#frames.at(-1);
@@ -713,6 +719,12 @@ export class NativeGameCrtSetEnvp {
       fact(NativeX86ThreadStack.prototype.call.call(this.#stack,this.#controller,point.va,returnPc));
       this.#frames.push(Object.freeze({entry:body,site:point.va,returnPc,previousEntry:this.#currentEntry}));
       this.#currentEntry=body; this.#nextBoundary=null; return body;
+    }
+    if(point.va==='100905b7') {
+      if(this.#currentEntry!=='10090590'||target.kind!=='immediate'||target.value!==0x100019d8||returnPc!=='100905bc')throw new Error('Original query type-node lookup required');
+      this.#nextBoundary=Object.freeze({pc:point.va,operation:'translatedCrtCall',target:'100019d8'});
+      fact(NativeX86ThreadStack.prototype.callAIHelperAccessorTypeLookup.call(this.#stack,this.#controller));
+      this.#nextBoundary=null;return returnPc;
     }
     if(point.va==='100932f6') {
       if(this.#currentEntry!=='100932e0'||target.kind!=='immediate'||target.value!==0x10007036||returnPc!=='100932fb')throw new Error('Original accessor QueryNewObject target required');
@@ -1235,6 +1247,7 @@ export class NativeGameCrtSetEnvp {
     const envCall = graph.calls.find(call => call.site === '204678e7');
     const imports = graph.setEnvpCalls;
     return Object.freeze({ module: 'Game' as const, phase: this.#phase, currentPC: this.#pc, boundary: this.#boundary,
+      aiHelperAccessorQueryNode: NativeX86ThreadStack.prototype.aiHelperAccessorQueryNodeSnapshot.call(this.#stack),
       aiHelperPropertyIdText: NativeX86ThreadStack.prototype.aiHelperPropertyIdTextSnapshot.call(this.#stack),
       aiHelperPropertyIdGuid: NativeX86ThreadStack.prototype.aiHelperPropertyIdGuidSnapshot.call(this.#stack),
       nextBoundary: this.#nextBoundary, physicalGraphTransferred: this.#physicalGraphTransferred,

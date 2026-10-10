@@ -47,7 +47,7 @@ Each feature goes through the following steps:
 **Current local boundary:** Arena Status, None, Running, AI FreePoint, Label
 and AI helper administrator initialization return through the retained startup
 stack. Startup enters PropertyID initializer `204b26c0` and reaches its unsupported
-registered-type lookup CALL at `100905b7`.
+virtual factory-accessor CALL at `100905e5`.
 Complete startup, world activation and a new-game-to-ending campaign remain
 unfinished. Local checkpoints and the hosted version can differ; the validation
 receipts below identify the checkpoint covered.
@@ -72,7 +72,22 @@ establish completion of these remaining features.
 The entries below describe successive local states, newest first. Statements
 about missing operations in older entries apply to those earlier checkpoints.
 
-### Latest local checkpoint: object query reaches registered-type lookup
+### Latest local checkpoint: query resolves the registered AI helper type
+
+The original node lookup hashes the retained CString, searches the same property
+table and returns its actual node. Its value wrapper points to the canonical
+administrator type registered earlier. The query executes its non-null branches
+and reads that type's retained vtable. Execution reaches the virtual factory
+accessor CALL at `100905e5`.
+
+Nine focused tests passed in 11.42 seconds. Tests inspect the node's live backing,
+its exact registration-slot alias, wrapper identity and original query branch
+instructions. TypeScript checking and independent source regeneration passed.
+The actual allocation capability establishes non-nullness without assigning a
+browser numeric address. The factory accessor call and object creation remain
+unfinished; full startup and campaign completion remain unproven.
+
+### Historical checkpoint: object query reaches registered-type lookup
 
 The original QueryNewObject body enters with the retained singleton and
 class-name argument. Both original CString emptiness calls return through their

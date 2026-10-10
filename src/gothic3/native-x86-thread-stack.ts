@@ -1,3 +1,4 @@
+import {NativePropertyTypeTable} from './native-property-type-table';
 import {NativeGameAIHelperAdminClassName} from './native-game-ai-helper-admin-class-name';
 import scriptAdminSource from '../../assets/gothic3/script-admin-startup/runtime-rules.json';
 import {constructNativePropertyIdFromGuid} from './native-property-id-guid';
@@ -207,6 +208,7 @@ export class NativeX86ThreadStack {
   #setEnvpBinding: SetEnvpBinding | null = null;
   #aiHelperPropertyIdText: NativeHeapCString | null = null;
   #aiHelperAccessorName: NativeHeapCString | null = null;
+  #aiHelperAccessorQueryNode: NativeHeapObjectViews | null = null;
   #aiHelperPropertyIdTextDestroyedSnapshot: ReturnType<NativeHeapCString["snapshot"]> | null = null;
   #aiHelperPropertyIdGuid: NativeGuidText | null = null;
   #aiHelperPropertyIdGuidConstructed: Readonly<{bytes:readonly number[];mask:readonly number[]}> | null = null;
@@ -2233,6 +2235,15 @@ export class NativeX86ThreadStack {
   }
   #pointerWord(pointer: object): NativeX86Word32 {
     const old = this.#nativePointers.get(pointer); if (old) { this.#liveWord(old); return old; }
+    if(this.#aiHelperAccessorQueryNode&&this.#setEnvpBinding&&pointer===this.#aiHelperAccessorQueryNode.pointer(4).get()) {
+      const crt=this.#setEnvpBinding.crt as NativeGameCrtOwner,memory=nativeGameLayerBaseMemoryForCrt(crt);if(!memory.known)throw new Error(memory.reason);
+      const type=NativeGameAIHelperAdminType.forCrt(crt,memory.value),wrapper=type.snapshot().wrapper;
+      if(!wrapper||pointer!==wrapper||wrapper.freed||wrapper.region.freed)throw new Error('Actual live registered AI helper type wrapper required');
+      const fields=new NativeHeapObjectViews(wrapper,0,wrapper.capacity);
+      this.#arenaAllocations.set(fields,{owner:memory.value,allocation:wrapper});this.#sharedLocalPhysical(fields);
+      const word=this.#mint(wrapper.offset&3,3,{kind:'shared-local',fields});this.#nativePointers.set(pointer,word);return word;
+    }
+
     if (this.#setEnvpBinding && pointer && 'fields' in pointer && 'offset' in pointer) {
       const original = NativeModuleCrtOwner.canonicalEnvironmentAllocationForPlatform(this.#binding!.crt, this.#platform, pointer as NativeBytePointer);
       if (original.known) {
@@ -2242,7 +2253,7 @@ export class NativeX86ThreadStack {
     }
     const heap = NativeModuleCrtOwner.canonicalGameHeapHandleForPlatform(this.#binding!.crt, this.#platform);
     if (heap.known && heap.value === pointer) return this.#mint(0, 0, { kind: 'heap', heap: heap.value });
-    const labels = ['mbcObject', 'mbcRefCounter', 'defaultLocale', 'currentLocale', 'moduleName', 'globalMbcType', 'globalMbcCase', 'globalMbcFields', 'CPtable', 'crtStaticSections'];
+    const labels = ['aiHelperAdminTypeAndGuard','aiHelperAdminTypeVtable','mbcObject', 'mbcRefCounter', 'defaultLocale', 'currentLocale', 'moduleName', 'globalMbcType', 'globalMbcCase', 'globalMbcFields', 'CPtable', 'crtStaticSections'];
     for (const label of labels) {
       const image = NativeModuleCrtOwner.canonicalImageForOwner(this.#binding!.crt, label);
       if (image.known && image.value === pointer) return this.#moduleWord(label, 0);
@@ -2268,10 +2279,10 @@ export class NativeX86ThreadStack {
       if (message !== 'Non-NULL numerical native pointer has no owned browser capability' && !message.startsWith('Native field contains unowned backing bits')) throw error;
       const current = NativeHeapObjectViews.prototype.maskedWord.call(fields, offset);
       if (current.knownMask === 0xffffffff) {
-        // Only the two captured original pointer cells establish this loader
+        // Only the selected original pointer cells establish this loader
         // relation. An arbitrary scalar numerically matching a source VA does
         // not acquire a pointer capability. Later stores use actual sidecars.
-        for (const [cell,label] of [['currentMbcPointer','mbcObject'],['currentLocale','defaultLocale']] as const) {
+        for (const [cell,label] of [['currentMbcPointer','mbcObject'],['currentLocale','defaultLocale'],['aiHelperAdminTypeAndGuard','aiHelperAdminTypeVtable']] as const) {
           const origin=NativeModuleCrtOwner.canonicalImageForOwner(this.#binding!.crt,cell);
           if(origin.known&&origin.value===fields&&offset===0&&current.value===Number.parseInt(nativeGameImageReceipt(label).address,16))return this.#moduleWord(label,0);
         }
@@ -3101,6 +3112,33 @@ export class NativeX86ThreadStack {
     const returned=this.#ret(0),source=this.#record(returned).provenance;
     if(source?.kind!=='source'||source.type!=='code'||source.address!=='204b23f4')throw new Error('Actual Label type getter return required');
   }); }
+  aiHelperAccessorQueryNodeSnapshot() {return this.#aiHelperAccessorQueryNode;}
+  callAIHelperAccessorTypeLookup(controller:object):NativeValue<void> {return this.#run(controller,()=>{
+    const binding=this.#setEnvpBinding;if(!binding||binding.controller!==controller)throw new Error('Actual retained Game startup controller required');
+    const grant=NativeGameCrtSetEnvp.canonicalAIHelperAccessorTypeLookupCallForCrt(binding.owner,binding.crt,controller);if(!grant.known)throw new Error(grant.reason);
+    if(this.#calls.filter(call=>!call.returned).at(-1)?.site!=='100932f6'||!this.#aiHelperAccessorName||!this.#arenaPropertySingleton)
+      throw new Error('Actual retained accessor query arguments required');
+    const esp=this.#address(this.#load(this.#bank,this.#reg('ESP'))),receiver=this.#memory(this.#load(this.#bank,this.#reg('ECX')),4);
+    const name=this.#memory(this.#load(this.#stack,esp),4),index=this.#memory(this.#load(this.#stack,esp+4),4);
+    const table=NativePropertySingleton.prototype.table.call(this.#arenaPropertySingleton);if(!table.known)throw new Error(table.reason);
+    if(receiver.fields.backing!==table.value.fields.backing||receiver.fields.bytes.byteOffset+receiver.offset!==table.value.fields.bytes.byteOffset||
+      name.fields.backing!==this.#aiHelperAccessorName.slot.backing||name.fields.bytes.byteOffset+name.offset!==this.#aiHelperAccessorName.slot.bytes.byteOffset||
+      index.fields!==this.#stack)throw new Error('Actual original table, name and stack index output required');
+    const output=new NativeHeapObjectViews(this.#stack.backing,this.#stack.bytes.byteOffset-this.#stack.backing.bytes.byteOffset+index.offset,4);
+    this.#call('100905b7','100905bc');
+    const result=NativePropertyTypeTable.prototype.findNode.call(table.value,this.#aiHelperAccessorName,output);if(!result.known)throw new Error(result.reason);
+    let word:NativeX86Word32;
+    if(result.value) {
+      const allocation=NativePropertyTypeTable.canonicalNodeAllocation(table.value,result.value);if(!allocation.known)throw new Error(allocation.reason);
+      const memory=nativeGameLayerBaseMemoryForCrt(binding.crt as NativeGameCrtOwner);if(!memory.known)throw new Error(memory.reason);
+      this.#arenaAllocations.set(result.value,{owner:memory.value,allocation:allocation.value});
+      this.#sharedLocalPhysical(result.value);this.#aiHelperAccessorQueryNode=result.value;
+      word=this.#mint(allocation.value.offset&3,3,{kind:'shared-local',fields:result.value});
+    } else word=this.#mint(0,0xffffffff);
+    this.#store(this.#bank,this.#reg('EAX'),word);
+    const returned=this.#ret(8),source=this.#record(returned).provenance;
+    if(source?.kind!=='source'||source.type!=='code'||source.address!=='100905bc')throw new Error('Actual query node lookup return required');
+  }); }
   callAIHelperAccessorStringEmpty(controller:object,site:'1009059a'|'100905a5'):NativeValue<void> {return this.#run(controller,()=>{
     const binding=this.#setEnvpBinding;if(!binding||binding.controller!==controller)throw new Error('Actual retained Game startup controller required');
     const grant=NativeGameCrtSetEnvp.canonicalAIHelperAccessorEmptyCallForCrt(binding.owner,binding.crt,controller,site);if(!grant.known)throw new Error(grant.reason);
@@ -3628,7 +3666,7 @@ export class NativeX86ThreadStack {
   }); }
   test(controller: object, left: NativeX86Word32, right: NativeX86Word32, width: Width = 4): NativeValue<void> { return this.#run(controller, () => {
     const a = this.#liveWord(left), b = this.#liveWord(right);
-    if (width === 4 && left === right && (a.provenance && ['allocation','heap','platform','module','process','stack'].includes(a.provenance.kind))) { this.#flags(0, 0x841); return; }
+    if (width === 4 && left === right && (a.provenance && ['allocation','heap','platform','module','process','stack','shared-local'].includes(a.provenance.kind))) { this.#flags(0, 0x841); return; }
     const mask = (a.mask & b.mask) | ((~a.value) & a.mask) | ((~b.value) & b.mask);
     this.#logicalFlags(a.value & b.value, mask, width);
   }); }

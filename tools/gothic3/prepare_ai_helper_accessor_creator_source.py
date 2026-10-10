@@ -18,7 +18,7 @@ def capture(study):
     pe = PE(data)
     EXPECTED_INPUTS['SharedBase.dll']='5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214'
     shared=audit_module(study,'SharedBase_dll','SharedBase.dll',{
-        0x10002ee1:'accessorCreatorConstructor',0x10007036:'queryNewObject',0x10007356:'accessorCreatorDestructor'})
+        0x10002ee1:'accessorCreatorConstructor',0x10007036:'queryNewObject',0x10007356:'accessorCreatorDestructor',0x100019d8:'queryTypeNode'})
     root = Path(__file__).resolve().parents[2]
     rows = []
     assembly = root / 'assets/gothic3/game-cinit-callbacks/sources/Game/204b2720.asm.txt'

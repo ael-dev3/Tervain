@@ -54,7 +54,7 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  expect(game.known).toBe(true);
  if(!game.known)throw new Error(game.reason);
  expect(game.value.attachResult,game.value.attachProgress.setEnvpProgress?.currentPC).toEqual({known:false,
-  reason:'crtAttach204677e4: Unowned Unowned original environment CALL at100905b7: CALL 0x100019d8'});
+  reason:'crtAttach204677e4: Unowned Unowned original environment CALL at100905e5: CALL EAX'});
  const executed=new Set(game.value.attachProgress.setEnvpProgress!.effects.map(effect=>effect.pc));
  for(const pc of ['204b26c0','204b26c3','204b26c8'])expect(executed.has(pc)).toBe(true);
  for(const pc of ['204b26cc','204b26d2','204b26d5','204b26d6'])expect(executed.has(pc)).toBe(true);
@@ -77,7 +77,8 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  for(const pc of ['204b2730','100932e0','100932e4','100932e5','100932e6','100932e8','100932e9'])expect(executed.has(pc)).toBe(true);
  expect(executed.has('100932ef')).toBe(true);expect(executed.has('100932f4')).toBe(true);
  for(const pc of ['100932f6','10090590','1009059a','1009059f','100905a5','100905aa','100905ae','100905b2','100905b3','100905b4'])expect(executed.has(pc)).toBe(true);
- expect(executed.has('100905b7')).toBe(false);
+ for(const pc of ['100905b7','100905bc','100905be','100905c0','100905c3','100905c5','100905c7','100905e0','100905e2'])expect(executed.has(pc)).toBe(true);
+ expect(executed.has('100905e5')).toBe(false);
  expect(executed.has('204b2741')).toBe(false);
  const accessorCreator=game.value.crt.imageStorage('aiHelperAccessorCreator');
  expect(accessorCreator.bytes.length).toBe(4);expect([...accessorCreator.bytes]).toEqual(Array(4).fill(0));
@@ -105,6 +106,11 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  const aiTypePointer=aiWrapper.pointer<{fields:NativeHeapObjectViews;offset:number}>(12).get()!;
  expect(aiTypePointer.fields).toBe(aiType.storage);expect(aiTypePointer.offset).toBe(0);
  expect(aiType.get()).toEqual({known:true,value:aiType.fields});
+ const queryNode=game.value.attachProgress.setEnvpProgress!.aiHelperAccessorQueryNode!;
+ expect(queryNode.bytes.length).toBe(12);expect(queryNode.backing.freed).toBe(false);
+ expect(queryNode.pointer(4).get()).toBe(aiType.snapshot().wrapper);
+ expect(queryNode.backing).toBe(aiType.snapshot().slot!.backing);
+ expect(queryNode.bytes.byteOffset+4).toBe(aiType.snapshot().slot!.bytes.byteOffset);
  const aiState=aiType.snapshot();expect(aiState.callback!.entry).toBe('20549d10');
  expect(aiState.slot!.pointer(0).get()).toBe(aiState.wrapper);
  expect(new NativeHeapObjectViews(aiState.wrapper!,0,4).pointer(0).get()).toBe(aiType.fields);

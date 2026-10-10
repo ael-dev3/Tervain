@@ -807,6 +807,326 @@
         "instructionCount": 17,
         "bodyByteCount": 46,
         "bodyInstructionBytesSha256": "915087f1f71432d30343acfb01cb92e0cc697ab3b8cfe6fab713d6c878aa0b2f"
+      },
+      {
+        "label": "queryTypeNode",
+        "entryVA": "0x100019d8",
+        "bodyVA": "0x10090c90",
+        "entryChain": [
+          {
+            "va": "100019d8",
+            "bytes": "e9b3f20800",
+            "targetVA": "10090c90"
+          }
+        ],
+        "bodyRanges": "10090c90-10090ce2",
+        "instructions": [
+          {
+            "va": "10090c90",
+            "rva": "90c90",
+            "fileOffset": 593040,
+            "bytes": "53",
+            "instruction": "PUSH EBX",
+            "assemblyLine": 154859
+          },
+          {
+            "va": "10090c91",
+            "rva": "90c91",
+            "fileOffset": 593041,
+            "bytes": "8b5c2408",
+            "instruction": "MOV EBX,dword ptr [ESP + 0x8]",
+            "assemblyLine": 154860
+          },
+          {
+            "va": "10090c95",
+            "rva": "90c95",
+            "fileOffset": 593045,
+            "bytes": "56",
+            "instruction": "PUSH ESI",
+            "assemblyLine": 154861
+          },
+          {
+            "va": "10090c96",
+            "rva": "90c96",
+            "fileOffset": 593046,
+            "bytes": "57",
+            "instruction": "PUSH EDI",
+            "assemblyLine": 154862
+          },
+          {
+            "va": "10090c97",
+            "rva": "90c97",
+            "fileOffset": 593047,
+            "bytes": "8bf1",
+            "instruction": "MOV ESI,ECX",
+            "assemblyLine": 154863
+          },
+          {
+            "va": "10090c99",
+            "rva": "90c99",
+            "fileOffset": 593049,
+            "bytes": "8b7e04",
+            "instruction": "MOV EDI,dword ptr [ESI + 0x4]",
+            "assemblyLine": 154864
+          },
+          {
+            "va": "10090c9c",
+            "rva": "90c9c",
+            "fileOffset": 593052,
+            "bytes": "53",
+            "instruction": "PUSH EBX",
+            "assemblyLine": 154865
+          },
+          {
+            "va": "10090c9d",
+            "rva": "90c9d",
+            "fileOffset": 593053,
+            "bytes": "e8d81ff7ff",
+            "instruction": "CALL 0x10002c7a",
+            "assemblyLine": 154866
+          },
+          {
+            "va": "10090ca2",
+            "rva": "90ca2",
+            "fileOffset": 593058,
+            "bytes": "33d2",
+            "instruction": "XOR EDX,EDX",
+            "assemblyLine": 154867
+          },
+          {
+            "va": "10090ca4",
+            "rva": "90ca4",
+            "fileOffset": 593060,
+            "bytes": "f7f7",
+            "instruction": "DIV EDI",
+            "assemblyLine": 154868
+          },
+          {
+            "va": "10090ca6",
+            "rva": "90ca6",
+            "fileOffset": 593062,
+            "bytes": "8b442414",
+            "instruction": "MOV EAX,dword ptr [ESP + 0x14]",
+            "assemblyLine": 154869
+          },
+          {
+            "va": "10090caa",
+            "rva": "90caa",
+            "fileOffset": 593066,
+            "bytes": "8910",
+            "instruction": "MOV dword ptr [EAX],EDX",
+            "assemblyLine": 154870
+          },
+          {
+            "va": "10090cac",
+            "rva": "90cac",
+            "fileOffset": 593068,
+            "bytes": "3b5604",
+            "instruction": "CMP EDX,dword ptr [ESI + 0x4]",
+            "assemblyLine": 154871
+          },
+          {
+            "va": "10090caf",
+            "rva": "90caf",
+            "fileOffset": 593071,
+            "bytes": "7322",
+            "instruction": "JNC 0x10090cd3",
+            "assemblyLine": 154872
+          },
+          {
+            "va": "10090cb1",
+            "rva": "90cb1",
+            "fileOffset": 593073,
+            "bytes": "8b0e",
+            "instruction": "MOV ECX,dword ptr [ESI]",
+            "assemblyLine": 154873
+          },
+          {
+            "va": "10090cb3",
+            "rva": "90cb3",
+            "fileOffset": 593075,
+            "bytes": "8b3491",
+            "instruction": "MOV ESI,dword ptr [ECX + EDX*0x4]",
+            "assemblyLine": 154874
+          },
+          {
+            "va": "10090cb6",
+            "rva": "90cb6",
+            "fileOffset": 593078,
+            "bytes": "85f6",
+            "instruction": "TEST ESI,ESI",
+            "assemblyLine": 154875
+          },
+          {
+            "va": "10090cb8",
+            "rva": "90cb8",
+            "fileOffset": 593080,
+            "bytes": "7419",
+            "instruction": "JZ 0x10090cd3",
+            "assemblyLine": 154876
+          },
+          {
+            "va": "10090cba",
+            "rva": "90cba",
+            "fileOffset": 593082,
+            "bytes": "8d9b00000000",
+            "instruction": "LEA EBX,[EBX]",
+            "assemblyLine": 154877
+          },
+          {
+            "va": "10090cc0",
+            "rva": "90cc0",
+            "fileOffset": 593088,
+            "bytes": "56",
+            "instruction": "PUSH ESI",
+            "assemblyLine": 154879
+          },
+          {
+            "va": "10090cc1",
+            "rva": "90cc1",
+            "fileOffset": 593089,
+            "bytes": "8bcb",
+            "instruction": "MOV ECX,EBX",
+            "assemblyLine": 154880
+          },
+          {
+            "va": "10090cc3",
+            "rva": "90cc3",
+            "fileOffset": 593091,
+            "bytes": "e8f121f7ff",
+            "instruction": "CALL 0x10002eb9",
+            "assemblyLine": 154881
+          },
+          {
+            "va": "10090cc8",
+            "rva": "90cc8",
+            "fileOffset": 593096,
+            "bytes": "84c0",
+            "instruction": "TEST AL,AL",
+            "assemblyLine": 154882
+          },
+          {
+            "va": "10090cca",
+            "rva": "90cca",
+            "fileOffset": 593098,
+            "bytes": "750f",
+            "instruction": "JNZ 0x10090cdb",
+            "assemblyLine": 154883
+          },
+          {
+            "va": "10090ccc",
+            "rva": "90ccc",
+            "fileOffset": 593100,
+            "bytes": "8b7608",
+            "instruction": "MOV ESI,dword ptr [ESI + 0x8]",
+            "assemblyLine": 154884
+          },
+          {
+            "va": "10090ccf",
+            "rva": "90ccf",
+            "fileOffset": 593103,
+            "bytes": "85f6",
+            "instruction": "TEST ESI,ESI",
+            "assemblyLine": 154885
+          },
+          {
+            "va": "10090cd1",
+            "rva": "90cd1",
+            "fileOffset": 593105,
+            "bytes": "75ed",
+            "instruction": "JNZ 0x10090cc0",
+            "assemblyLine": 154886
+          },
+          {
+            "va": "10090cd3",
+            "rva": "90cd3",
+            "fileOffset": 593107,
+            "bytes": "5f",
+            "instruction": "POP EDI",
+            "assemblyLine": 154888
+          },
+          {
+            "va": "10090cd4",
+            "rva": "90cd4",
+            "fileOffset": 593108,
+            "bytes": "5e",
+            "instruction": "POP ESI",
+            "assemblyLine": 154889
+          },
+          {
+            "va": "10090cd5",
+            "rva": "90cd5",
+            "fileOffset": 593109,
+            "bytes": "33c0",
+            "instruction": "XOR EAX,EAX",
+            "assemblyLine": 154890
+          },
+          {
+            "va": "10090cd7",
+            "rva": "90cd7",
+            "fileOffset": 593111,
+            "bytes": "5b",
+            "instruction": "POP EBX",
+            "assemblyLine": 154891
+          },
+          {
+            "va": "10090cd8",
+            "rva": "90cd8",
+            "fileOffset": 593112,
+            "bytes": "c20800",
+            "instruction": "RET 0x8",
+            "assemblyLine": 154892
+          },
+          {
+            "va": "10090cdb",
+            "rva": "90cdb",
+            "fileOffset": 593115,
+            "bytes": "5f",
+            "instruction": "POP EDI",
+            "assemblyLine": 154894
+          },
+          {
+            "va": "10090cdc",
+            "rva": "90cdc",
+            "fileOffset": 593116,
+            "bytes": "8bc6",
+            "instruction": "MOV EAX,ESI",
+            "assemblyLine": 154895
+          },
+          {
+            "va": "10090cde",
+            "rva": "90cde",
+            "fileOffset": 593118,
+            "bytes": "5e",
+            "instruction": "POP ESI",
+            "assemblyLine": 154896
+          },
+          {
+            "va": "10090cdf",
+            "rva": "90cdf",
+            "fileOffset": 593119,
+            "bytes": "5b",
+            "instruction": "POP EBX",
+            "assemblyLine": 154897
+          },
+          {
+            "va": "10090ce0",
+            "rva": "90ce0",
+            "fileOffset": 593120,
+            "bytes": "c20800",
+            "instruction": "RET 0x8",
+            "assemblyLine": 154898
+          }
+        ],
+        "reconstructedC": {
+          "path": "01_Decompiled_Code/SharedBase_dll/pseudocode/functions_00020.c",
+          "sha256": "4bbf03ba39f604980122040c6eb6a743737cb86c903d561cfc3ef7ae14f592f0",
+          "line": 10006,
+          "status": "decompiled"
+        },
+        "instructionCount": 37,
+        "bodyByteCount": 83,
+        "bodyInstructionBytesSha256": "48c922fe18aab4399b4f4fe7a315c0cc6f9a1f5276c89a502e3088cdb4704e06"
       }
     ],
     "constants": [],
