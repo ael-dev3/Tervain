@@ -4,19 +4,60 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
-## Publication checkpoint — 10 October 2026: Engine argument startup through PTD
+## Publication checkpoint — 10 October 2026: Engine argument and locale startup
 
 The publication branch joins argument source admission, retained Engine image
-ownership, physical argument entry, the multibyte wrapper, nested EH4 setup and
-the Engine PTD getter. Its normal cold path executes 51 source operations and
-stops before locale helper `30684b3a`. Locale setup, parsing and full attachment
-remain unfinished. The later locale continuation is separate local work.
+ownership, physical argument entry, the multibyte wrapper, nested EH4 setup,
+the PTD getter and the locale helper's supported return. The normal cold path
+executes 122 source operations and stops at code-page helper `30684bde`.
+The current-pointer receipt resolves only the original default MBC object or
+NULL; dynamic pointer replacement remains an explicit unsupported branch.
 
-The PTD runtime revision `ea374c3b6` passed all 3,311 tests across 313 files in
-436.98 seconds. Publication adds descriptive locale receipts without changing
-that runtime; its source/image checks pass and its production build passes.
-The building-process guide has been joined to this branch for repository review.
-This checkpoint does not establish full world activation or a playable campaign.
+Runtime revision `6a236ba50` passed all 3,316 tests across 313 files in 491.90
+seconds. Source/image checks and independent regeneration cover the later
+descriptive constructor receipt; that addition does not change the runtime.
+TypeScript checking and the locale-helper production build pass. The rebuilding
+guide update is joined to this branch. Complete startup, live NPC/campaign
+integration and a new-game-to-ending browser campaign remain unfinished.
+
+## Local evidence — 10 October 2026: Code-page locale update constructor
+
+The next helper at `30684bde` invokes `30673389` with a 16-byte stack object
+and a NULL argument before selecting a code page. Its original constructor
+receipt is now captured with the `30af76fc` automatic-code-page flag. The cold
+constructor saves current PTD, locale and MBC pointers into the stack object,
+compares the pointers with current globals, and temporarily sets PTD flag bit 2
+if it was clear. The code-page helper later clears that bit only if the object's
+own flag says the constructor set it. Unsupported calls must preserve this state;
+they must not fabricate destructor cleanup or a normal code-page return.
+
+The constructor and the code-page helper remain unimplemented. The existing
+locale-helper production build passes. Complete startup and campaign play remain
+unfinished.
+
+## Local checkpoint — 10 October 2026: Engine locale helper return
+
+The retained argument frame now executes the locale helper at `30684b3a`.
+It uses the original immutable scope, the active Engine cookie and the current
+same-CRT PTD. The cold flags select lock 13; the current MBC pointer is resolved
+to the existing thread-owned `30ad4bd0` object. Matching pointers follow the
+original unlock wrapper and EH4 epilog. The helper restores FS, callee-saved
+registers and nested EBP before returning its actual MBC object to multibyte setup.
+The caller loads its current MBC pointer and `-3` parameter and reaches code-page
+helper `30684bde` from `30684e92`. The cold path executes 122 source operations.
+
+Current flags can select the original fast path without taking lock 13. Unknown
+flag bits stop at their actual read. A pointer mismatch stops at the unimplemented
+replacement branch with the actual lock retained. An unavailable lock service
+retains its pending return rather than fabricating success. The current-pointer
+receipt resolves only the original default object or NULL; dynamic MBC objects
+remain unsupported. The inner lock/unlock calls use the existing translated
+Engine CRT services and do not claim physical execution of every lock instruction.
+
+Forty-one focused checks across five files pass. The preceding PTD runtime
+passed all 3,311 tests across 313 files in 436.98
+seconds. That full result precedes this locale continuation. Code-page setup,
+argument parsing, full startup and campaign integration remain unfinished.
 
 ## Local evidence — 10 October 2026: Engine multibyte locale dependency
 

@@ -115,7 +115,7 @@ it('retains actual Engine standard-handle outcomes without manufacturing a handl
   const result=bootstrap.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Continuation unfinished');
   const frame=bootstrap.attachProgress().engineIoProgress!;
   if(outcome==='unknown'){expect(result.reason).toContain('Declared standard-handle result is unknown');expect(frame.pc).toBe('306888a1');expect(frame.operations).toBe(445);}
-  else{expect(result.reason).toContain(outcome==='valid'?'Engine multibyte locale helper30684b3a at30684e87':outcome==='null'?'Engine NULL standard handle branch at306888f1':'Engine invalid standard handle branch at306888f1');expect(frame.operations).toBe(outcome==='valid'?579:outcome==='null'?450:448);if(outcome==='valid'){expect(frame.fileType).toBe(2);expect(frame.sectionResult).toBe(true);expect(frame.section!.backing).toBe(frame.allocation!.backing);expect(frame.section!.bytes.length).toBe(24);expect(frame.section!.bytes.byteOffset-frame.allocation!.bytes.byteOffset).toBe(124);expect(frame.allocation!.readUnsigned(8)).toBe(1);}else expect(frame.bank.readUnsigned(0)).toBe(outcome==='null'?0:0xffffffff);}
+  else{expect(result.reason).toContain(outcome==='valid'?'Engine multibyte codepage helper30684bde at30684e92':outcome==='null'?'Engine NULL standard handle branch at306888f1':'Engine invalid standard handle branch at306888f1');expect(frame.operations).toBe(outcome==='valid'?579:outcome==='null'?450:448);if(outcome==='valid'){expect(frame.fileType).toBe(2);expect(frame.sectionResult).toBe(true);expect(frame.section!.backing).toBe(frame.allocation!.backing);expect(frame.section!.bytes.length).toBe(24);expect(frame.section!.bytes.byteOffset-frame.allocation!.bytes.byteOffset).toBe(124);expect(frame.allocation!.readUnsigned(8)).toBe(1);}else expect(frame.bank.readUnsigned(0)).toBe(outcome==='null'?0:0xffffffff);}
   expect(bootstrap.processAttach()).toEqual(result);
  }
 });
@@ -164,7 +164,7 @@ it('restores the Engine I/O frame and returns zero after declared SetHandleCount
   const {bootstrap}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},{...browserGameStandardIoInputs,setHandleCount:{result:countResult}});
   const original=NativeX86ThreadStack.returnedEngineIoForBootstrap;let returnedMasks:number[]=[];let returnedEax:number|null=null;
   const proof=vi.spyOn(NativeX86ThreadStack,'returnedEngineIoForBootstrap').mockImplementation((stack,owner,actualCrt,permit)=>{const value=original.call(NativeX86ThreadStack,stack,owner,actualCrt,permit);if(value.known&&owner===bootstrap){returnedMasks=[...owner.attachProgress().engineIoProgress!.bank.knownMask];returnedEax=owner.attachProgress().engineIoProgress!.bank.readUnsigned(0);}return value;});
-  let result;try{result=bootstrap.processAttach();}finally{proof.mockRestore();}expect(result.known).toBe(false);if(result.known)throw new Error('CRT caller continuation unfinished');expect(result.reason).toContain('Engine multibyte locale helper30684b3a at30684e87');
+  let result;try{result=bootstrap.processAttach();}finally{proof.mockRestore();}expect(result.known).toBe(false);if(result.known)throw new Error('CRT caller continuation unfinished');expect(result.reason).toContain('Engine multibyte codepage helper30684bde at30684e92');
   const frame=bootstrap.attachProgress().engineIoProgress!;expect(frame.phase).toBe('returned');expect(frame.pc).toBe('3068892b');expect(frame.operations).toBe(579);expect(frame.fsRestored).toBe(true);expect(frame.setHandleCountResult).toBe(countResult);expect(returnedEax).toBe(0);
   for(const offset of [4,16,20,24,32])expect(returnedMasks.slice(offset,offset+4)).toEqual([0,0,0,0]);
   expect(bootstrap.processAttach()).toEqual(result);expect(bootstrap.attachProgress().engineIoProgress!.operations).toBe(579);
@@ -182,8 +182,8 @@ it('executes the Engine argument prefix on the retained thread and rejects repla
  const {bootstrap,crt,platform}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs),graph=NativeX86ThreadStack.forPlatform(platform);if(!graph.known)throw new Error(graph.reason);
  expect(NativeX86ThreadStack.enterEngineArgvForBootstrap(graph.value,bootstrap,crt,{}).known).toBe(false);expect(graph.value.engineArgvFrameSnapshot(crt)).toBe(null);
  const result=bootstrap.processAttach();expect(result.known).toBe(false);const frame=bootstrap.attachProgress().engineArgvProgress!;
- expect(frame).toMatchObject({phase:'blocked',pc:'30684b3a',operations:51,entryEsp:4096,ebp:4088});expect(frame.stack).toBe(bootstrap.attachProgress().engineIoProgress!.stack);expect(frame.bank.readUnsigned(4)).toBe(0);
- expect(NativeX86ThreadStack.enterEngineArgvForBootstrap(graph.value,bootstrap,crt,{}).known).toBe(false);expect(bootstrap.processAttach()).toEqual(result);expect(bootstrap.attachProgress().engineArgvProgress!.operations).toBe(51);
+ expect(frame).toMatchObject({phase:'blocked',pc:'30684bde',operations:122,entryEsp:4096,ebp:4088});expect(frame.stack).toBe(bootstrap.attachProgress().engineIoProgress!.stack);expect(graph.value.snapshot().registers.EBX).toMatchObject({changed:false,word:{provenance:{kind:'engine-mbc',module:'Engine',capacity:544}}});
+ expect(NativeX86ThreadStack.enterEngineArgvForBootstrap(graph.value,bootstrap,crt,{}).known).toBe(false);expect(bootstrap.processAttach()).toEqual(result);expect(bootstrap.attachProgress().engineArgvProgress!.operations).toBe(122);
 });
 it('uses the current Engine argument readiness bits rather than reseeding them',()=>{
  for(const [ready,mask,pc,operations] of [[1,255,'3068e787',9],[0,0,'3068e778',5]] as const){
@@ -195,7 +195,7 @@ it('uses the current Engine argument readiness bits rather than reseeding them',
 
 it('retains the pending Engine multibyte argument without prematurely marking it ready',()=>{
  const {bootstrap,crt,platform}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs),graph=NativeX86ThreadStack.forPlatform(platform);if(!graph.known)throw new Error(graph.reason);const result=bootstrap.processAttach();expect(result.known).toBe(false);
- const frame=bootstrap.attachProgress().engineArgvProgress!;expect(frame.pc).toBe('30684b3a');expect(frame.operations).toBe(51);expect(frame.stack.readUnsigned(frame.entryEsp-40)).toBe(0xfffffffd);expect(frame.multibyteEbp).toBe(frame.entryEsp-48);expect(frame.multibyteFsPublished).toBe(true);expect(frame.multibytePrologReturned).toBe(true);expect(graph.value.snapshot().fs0).toMatchObject({changed:false,word:{provenance:{kind:'stack',offset:frame.multibyteEbp!-16}}});expect(frame.stack.readUnsigned(frame.multibyteEbp!-32)).toBe(0xffffffff);expect(frame.stack.maskedWord(frame.entryEsp-44).knownMask).toBe(0);
+ const frame=bootstrap.attachProgress().engineArgvProgress!;expect(frame.pc).toBe('30684bde');expect(frame.operations).toBe(122);expect(frame.stack.readUnsigned(frame.entryEsp-40)).toBe(0xfffffffd);expect(frame.multibyteEbp).toBe(frame.entryEsp-48);expect(frame.multibyteFsPublished).toBe(true);expect(frame.multibytePrologReturned).toBe(true);expect(graph.value.snapshot().fs0).toMatchObject({changed:false,word:{provenance:{kind:'stack',offset:frame.multibyteEbp!-16}}});expect(frame.stack.readUnsigned(frame.multibyteEbp!-32)).toBe(0xffffffff);expect(frame.stack.maskedWord(frame.entryEsp-44).knownMask).toBe(0);
  const ready=NativeEngineArgvImages.imageForCrt(bootstrap.attachProgress().engineArgvImages!,crt,'multibyteReady');if(!ready.known)throw new Error(ready.reason);expect(ready.value.readUnsigned(0)).toBe(0);expect(bootstrap.processAttach()).toEqual(result);expect(ready.value.readUnsigned(0)).toBe(0);
 });
 it('rereads current readiness in the Engine initialization wrapper and preserves its real return',()=>{
@@ -220,10 +220,10 @@ it('returns the actual Engine PTD through both pending getter calls',()=>{
  const {bootstrap,crt,platform}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs),graph=NativeX86ThreadStack.forPlatform(platform);if(!graph.known)throw new Error(graph.reason);
  expect(NativeCrtBootstrap.engineArgvPtdForCrt(bootstrap,crt,{}).known).toBe(false);
  const result=bootstrap.processAttach(),frame=bootstrap.attachProgress().engineArgvProgress!;
- expect(frame).toMatchObject({pc:'30684b3a',operations:51,multibyteGetterReturned:true});expect(frame.multibytePtd).not.toBe(null);
+ expect(frame).toMatchObject({pc:'30684bde',operations:122,multibyteGetterReturned:true});expect(frame.multibytePtd).not.toBe(null);
  expect(NativeCrtThreadStartup.canonicalPtdForCrt(crt,frame.multibytePtd!)).toEqual({known:true,value:frame.multibytePtd});
  expect(graph.value.snapshot().registers.EDI).toMatchObject({changed:false,word:{provenance:{kind:'engine-ptd',module:'Engine',capacity:532}}});
- const calls=graph.value.snapshot().calls;for(const site of ['30684e7d','3067e12c'])expect(calls.find(call=>call.site===site)?.returned).toBe(true);expect(calls.find(call=>call.site==='30684e87')?.returned).toBe(false);
+ const calls=graph.value.snapshot().calls;for(const site of ['30684e7d','3067e12c'])expect(calls.find(call=>call.site===site)?.returned).toBe(true);expect(calls.find(call=>call.site==='30684e87')?.returned).toBe(true);
  expect(bootstrap.processAttach()).toEqual(result);expect(bootstrap.attachProgress().engineArgvProgress!.multibytePtd).toBe(frame.multibytePtd);
 });
 it('rejects an unowned PTD returned from the reached Engine getter service',()=>{
@@ -237,4 +237,33 @@ it('retains the original fatal call when the reached Engine PTD service returns 
  expect(result.known).toBe(false);if(result.known)throw new Error('Original fatal dependency must stop');expect(result.reason).toContain('Engine NULL PTD fatal error3067cf89 at3067e139');
  const frame=bootstrap.attachProgress().engineArgvProgress!;expect(frame).toMatchObject({pc:'3067cf89',operations:47,multibyteGetterReturned:false,multibytePtd:null});
  const call=graph.value.snapshot().calls.find(call=>call.site==='3067e139')!;expect(call.returned).toBe(false);expect(frame.stack.readUnsigned(call.position+4)).toBe(16);expect(bootstrap.processAttach()).toEqual(result);
+});
+
+it('returns the Engine locale helper with the retained MBC and restores the nested frame',()=>{
+ const {bootstrap,crt,platform}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs),graph=NativeX86ThreadStack.forPlatform(platform);if(!graph.known)throw new Error(graph.reason);
+ expect(NativeCrtBootstrap.engineArgvMbcForCrt(bootstrap,crt,{}).known).toBe(false);expect(NativeCrtBootstrap.engineArgvLocaleLockForCrt(bootstrap,crt,{},'lock').known).toBe(false);
+ const result=bootstrap.processAttach(),frame=bootstrap.attachProgress().engineArgvProgress!;
+ expect(frame).toMatchObject({pc:'30684bde',operations:122,localePrologReturned:true,localeGetterReturned:true,localeReturned:true,localeFsRestored:true,localeLockHeld:false});
+ expect(frame.localeMbc).toBe(bootstrap.thread.physical.mbcObject);expect(frame.localePtd).toBe(frame.multibytePtd);expect(frame.localeEbp).toBe(frame.multibyteEbp!-60);
+ expect(graph.value.snapshot().fs0).toMatchObject({changed:false,word:{provenance:{kind:'stack',offset:frame.multibyteEbp!-16}}});
+ expect(frame.bank.readUnsigned(16)).toBe(0xfffffffd);const calls=graph.value.snapshot().calls;for(const site of ['30684b41','30684b46','30684b76','30684bcb','30684bd7','30684b6e','30684e87'])expect(calls.find(call=>call.site===site)?.returned).toBe(true);
+ expect(calls.find(call=>call.site==='30684e92')?.returned).toBe(false);expect(bootstrap.processAttach()).toEqual(result);
+});
+it('retains lock 13 at the original unsupported MBC replacement branch',()=>{
+ const {bootstrap,crt}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs),image=NativeEngineArgvImages.imageForCrt(bootstrap.attachProgress().engineArgvImages!,crt,'currentMultibytePointer');if(!image.known)throw new Error(image.reason);image.value.writeUnsigned(0,0);
+ const result=bootstrap.processAttach();expect(result.known).toBe(false);expect(bootstrap.attachProgress().engineArgvProgress).toMatchObject({pc:'30684b8e',operations:96,localeLockHeld:true,localeReturned:false,localeFsRestored:false});expect(bootstrap.processAttach()).toEqual(result);expect(image.value.readUnsigned(0)).toBe(0);
+});
+it('reads the current Engine locale flags without repairing unknown bits',()=>{
+ const {bootstrap,crt}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs),image=NativeEngineArgvImages.imageForCrt(bootstrap.attachProgress().engineArgvImages!,crt,'multibyteLocaleFlags');if(!image.known)throw new Error(image.reason);image.value.knownMask[0]=0;
+ const result=bootstrap.processAttach();expect(result.known).toBe(false);expect(bootstrap.attachProgress().engineArgvProgress).toMatchObject({pc:'30684b4d',operations:85,localeLockHeld:false,localeReturned:false});expect(bootstrap.processAttach()).toEqual(result);expect(image.value.knownMask[0]).toBe(0);
+});
+it('follows the current Engine locale fast path without entering lock 13',()=>{
+ const {bootstrap,crt,platform}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs),graph=NativeX86ThreadStack.forPlatform(platform);if(!graph.known)throw new Error(graph.reason);const image=NativeEngineArgvImages.imageForCrt(bootstrap.attachProgress().engineArgvImages!,crt,'multibyteLocaleFlags');if(!image.known)throw new Error(image.reason);image.value.writeUnsigned(0,1);
+ const result=bootstrap.processAttach();expect(result.known).toBe(false);expect(bootstrap.attachProgress().engineArgvProgress).toMatchObject({pc:'30684bde',operations:110,localeReturned:true,localeFsRestored:true,localeLockHeld:false});expect(graph.value.snapshot().calls.some(call=>call.site==='30684b76')).toBe(false);expect(bootstrap.processAttach()).toEqual(result);
+});
+
+it('retains the actual locale caller when its lock service cannot return',()=>{
+ const {bootstrap,platform}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs),graph=NativeX86ThreadStack.forPlatform(platform);if(!graph.known)throw new Error(graph.reason);
+ const lock=vi.spyOn(NativeCrtBootstrap,'engineArgvLocaleLockForCrt').mockReturnValue({known:false,reason:'Reached Engine lock 13 endpoint unavailable'});let result;try{result=bootstrap.processAttach();}finally{lock.mockRestore();}
+ expect(result.known).toBe(false);expect(bootstrap.attachProgress().engineArgvProgress).toMatchObject({pc:'30684b76',operations:89,localeLockHeld:false,localeReturned:false,localeFsRestored:false});expect(graph.value.snapshot().calls.find(call=>call.site==='30684b76')?.returned).toBe(false);expect(bootstrap.processAttach()).toEqual(result);
 });

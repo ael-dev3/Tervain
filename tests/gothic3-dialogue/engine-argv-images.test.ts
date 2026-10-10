@@ -28,7 +28,9 @@ it('connects the actual argument image owner to the retained Engine bootstrap',(
 });
 
 it('pins original multibyte scope bytes and stops on changed or unknown scope contents',()=>{
- const {crt,owner}=fixture(),scope=fact(NativeEngineArgvImages.imageForCrt(owner,crt,'multibyteSetupSehScope'));expect(scope.bytes.length).toBe(28);
+ for(const label of ['multibyteSetupSehScope','multibyteLocaleSehScope'] as const){
+ const {crt,owner}=fixture(),scope=fact(NativeEngineArgvImages.imageForCrt(owner,crt,label));expect(scope.bytes.length).toBe(28);
  const before=scope.readUnsigned(0,1);scope.writeUnsigned(0,before^1,1);expect(NativeEngineArgvImages.forCrt(crt).known).toBe(false);expect(scope.readUnsigned(0,1)).toBe(before^1);
  scope.writeUnsigned(0,before,1);scope.knownMask[0]=0;expect(NativeEngineArgvImages.imageForCrt(owner,crt,'argumentCount').known).toBe(false);expect(scope.knownMask[0]).toBe(0);
+ }
 });

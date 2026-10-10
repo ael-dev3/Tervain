@@ -121,9 +121,9 @@ and restores the original stack and exception state. The next unsupported call
 in that merged revision is argument setup `30677276 -> 3068e76f`.
 
 The argument-startup checkpoint enters the multibyte routine, constructs its
-exception frame and returns the same Engine-owned thread-data record through
-the original getter wrapper. It stops at locale helper `30684b3a`, called from
-`30684e87`. This continuation is not included in PR #221. Capturing that routine and its data does
+exception frame, returns the same Engine-owned thread-data record and completes
+the supported locale-helper path. It stops at code-page helper `30684bde`, called
+from `30684e92`. This continuation is not included in PR #221. Capturing that routine and its data does
 not establish that its behavior has been implemented. A merged revision also
 needs deployment and browser observation before claiming hosted behavior.
 
