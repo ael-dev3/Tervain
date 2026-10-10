@@ -26,7 +26,10 @@ The selected continuation now executes the readonly guard contract, original
 floating-point conversion setup, divide dispatch, ten-pointer encoding loop,
 and C initializer walker. Its first callback allocates and publishes the
 128-byte CRT exit table, including the original failure result of 24. The normal
-path stops at the next callback, `3067c3c7`. Initializer completion and campaign
+path also initializes the stream table at `3067c3c7`, including its 20-entry
+allocation retry and failure result of 26. It links the original 20 static FILE
+records and reads the existing Engine I/O blocks under their retained owner.
+The normal path stops at the next callback, `3067f720`. Initializer completion and campaign
 activation remain unfinished.
 
 Use retained Engine ownership when implementing these routines; captured
