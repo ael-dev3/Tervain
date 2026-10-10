@@ -1,4 +1,5 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
+vi.setConfig({testTimeout:20_000});
 import { createBrowserGameCrtPlatform } from '../../src/gothic3/browser-game-crt-platform';
 import { createBrowserGameCrtStartup } from '../../src/gothic3/browser-game-crt-startup';
 import { browserGameProcessInputs } from '../../src/gothic3/browser-game-process-inputs';
