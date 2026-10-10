@@ -11,7 +11,7 @@ import { fromBuildingLocal, roomHalfSize, type InteriorSpec, type RoomLocator } 
  * Its cost (A77): the capture drew the whole scene six times in one frame, up to 7.8 M triangles, a hitch every three
  * seconds indoors. The trees now come in with their middle models (as in the water's reflection), and after the first
  * capture in a room each refresh redraws one face a frame, so the same work is spread over six frames. The camera stands
- * still for a room, so the faces always meet.
+ * still for a room, so the faces always meet. Since A78 the first capture in a room is spread the same way.
  */
 /** The capture's cube face size (px): 96 px read as a blurred blob through a pane near the camera (A75). */
 export const WINDOW_VIEW_SIZE = 320;
@@ -53,9 +53,11 @@ export class WindowView {
     if (Number.isFinite(dt) && dt > 0) this.age += dt;
     // The capture already carries the light outside; the pane only tempers it a little.
     if (this.pane.envMap) this.pane.color.setScalar(0.9);
-    const whole = this.age >= this.interval && (entered || !this.pane.envMap);
-    if (whole || this.face >= 0 || this.age >= this.interval) {
-      if (this.age >= this.interval) { this.age = 0; this.face = whole ? -1 : 0; }
+    // Every capture, the first in a room included, draws one face a frame (A78): drawn at once on entering a room it cost
+    // a 1,200-draw, 16 M-triangle frame (39 ms of CPU) in the doorway. Until its six faces are done the panes keep the
+    // view they had, or their flat daylight before the first capture of all.
+    if (this.age >= this.interval && this.face < 0) { this.age = 0; this.face = 0; }
+    if (this.face >= 0) {
       const { at, near } = this.frame(here);
       const faces = this.camera.children as THREE.PerspectiveCamera[];
       for (const face of faces) if (face.near !== near) { face.near = near; face.updateProjectionMatrix(); }
@@ -66,20 +68,16 @@ export class WindowView {
         renderer.autoClear = true;
         this.camera.position.copy(at);
         this.camera.updateMatrixWorld(true);
-        if (this.face < 0) this.camera.update(renderer, scene);
-        else {
-          // One face of the refresh this frame; the others follow on the next frames.
-          renderer.setRenderTarget(this.target, this.face);
-          renderer.render(scene, faces[this.face]!);
-          this.face = this.face + 1 < faces.length ? this.face + 1 : -1;
-        }
+        renderer.setRenderTarget(this.target, this.face);
+        renderer.render(scene, faces[this.face]!);
+        this.face = this.face + 1 < faces.length ? this.face + 1 : -1;
       } finally {
         restore?.();
         renderer.shadowMap.autoUpdate = oldShadow;
         renderer.autoClear = oldAutoClear;
         renderer.setRenderTarget(oldTarget);
       }
-      if (this.pane.envMap !== this.target.texture) {
+      if (this.face < 0 && this.pane.envMap !== this.target.texture) {
         this.pane.envMap = this.target.texture;
         this.pane.combine = THREE.MultiplyOperation;
         this.pane.reflectivity = 1;
