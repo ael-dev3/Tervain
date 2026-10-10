@@ -11,6 +11,8 @@ def capture(study):
     evidence = audit_module(study, 'Engine_dll', 'Engine.dll', {
         0x3068e76f: 'engineArgumentSetup',
         0x3068e5d7: 'engineArgumentParser',
+        0x306846bd: 'engineArgumentLeadByteWrapper',
+        0x306844ff: 'engineArgumentByteClassification',
         0x30685007: 'engineArgumentMultibyteDependency',
         0x30684e6d: 'engineArgumentMultibyteSetup',
         0x30684b3a: 'engineArgumentMultibyteHelper30684b3a',

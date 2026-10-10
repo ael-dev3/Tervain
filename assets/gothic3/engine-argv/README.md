@@ -2,8 +2,8 @@
 
 `research.json` captures the original call at `30677276 -> 3068e76f`, its
 70-instruction argument setup, the two-pass parser, multibyte dependency wrapper,
-and CRT malloc wrapper. The package contains 23 methods, 1,535 instructions and
-4,316 instruction bytes, checked against the matching original Engine.dll.
+and CRT malloc wrapper. The package contains 25 methods, 1,571 instructions and
+4,416 instruction bytes, checked against the matching original Engine.dll.
 
 The setup calls GetModuleFileNameA, selects the current command line or filename,
 counts arguments and characters, allocates storage, parses again, and publishes
@@ -18,7 +18,7 @@ python tools/gothic3/prepare_engine_argv_source.py --study <study-directory> --o
 ```
 
 Independent JSON and TypeScript regenerations are byte-identical. Two source checks and TypeScript checking pass. The JSON package has SHA-256
-`042b11f2acc4563e2fb8f8f56a5fee77aca84946d976cb771153f05ab348559a`.
+`128923bceeb7d71ccb270f8acd835f6eb44ec27b8f615871c904b270beacd94b`.
 Engine.dll SHA-256 is
 `d49ef92c0fdfeda433f6d04d0edeb7751e41e4c7c7effc1265630717029dc7e3`.
 
@@ -28,11 +28,15 @@ listed below execute against the retained Engine CRT. Captured bytes and
 translated lower allocator/lock services retain separate proof scopes; capture
 alone does not authorize execution. The current local default selects the retained
 process command line, publishes the filename pointer, and makes the original
-counting-parser call `3068e7c4 -> 3068e5d7` after 11,622 operations. NULL and empty
+counting-parser call `3068e7c4 -> 3068e5d7`, then executes the parser and its
+lead-byte/locale helpers. The default returns to `3068e7c9` after 12,669
+operations, with vector count 2 and string storage 12 bytes (one argument plus
+the NULL vector terminator). NULL and empty
 command lines select the actual filename buffer; an unknown first byte stops at
-its read without guessing a fallback. All 149 focused checks across six files
-and TypeScript checking pass. Earlier sections below record superseded
-checkpoint boundaries. The parser body, Engine-owned argv allocation and caller
+its read without guessing a fallback. All 158 distinct focused checks are covered by passing results, including
+quote/backslash handling, tabs, empty arguments and interrupted reads; TypeScript
+checking passes. A fresh combined focused run and build are pending. Earlier sections below record superseded
+checkpoint boundaries. Engine-owned argv allocation, the filling pass and argument setup caller
 return remain unfinished. This does not prove
 complete engine startup or playable campaign.
 
@@ -278,3 +282,31 @@ timeout; all three pass, so 148 distinct focused checks are covered. The
 preceding multibyte-return full run reported 3388 passes and one grouped
 formatter timeout across 313 files. Full validation of this filename checkpoint
 remains pending.
+
+## Parser lead-byte dependency evidence
+
+All three calls in the original parser target `306846bd`. Its seven-instruction
+wrapper supplies mask 4, a zero secondary mask and NULL locale to the byte
+classification body at `306844ff`. That body invokes the already-captured locale
+update constructor `30673389`, reads the owned MBC character flags at offset 29
+and clears temporary PTD ownership when required. The two helper bodies are
+now captured and checked against the original PE bytes. The evidence capture checkpoint did not execute these bodies. The subsequent
+counting-parser continuation now executes them on the retained Engine stack.
+
+The helper evidence checkpoint passes 18 source/image checks, TypeScript checking
+and independent byte-identical JSON and TypeScript regeneration.
+
+## Counting parser continuation
+
+The parser and both lead-byte helper bodies execute only their captured rows.
+The locale constructor retains the actual PTD and current MBC pointer, including
+the newly installed Engine allocation. Its original getter service remains a
+translated lower service with a separately scoped proof. The helpers acquire
+and release PTD flag bit 2 through their original source instructions. Logical
+operations preserve known-bit masks; an unknown classification bit stops at the
+branch that consumes it with the pending calls and acquired ownership retained.
+
+Earlier stack-local values are checked before the parser reuses those slots.
+A returned counting pass proves its counts and return frame. It does not create
+argv storage, execute the filling pass, complete engine startup or prove campaign
+play.
