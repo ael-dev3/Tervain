@@ -4,6 +4,22 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local checkpoint — 10 October 2026: Engine GetFileType return
+
+Engine's original `GetFileType` call at `306888b3` now consumes the exact opaque
+standard-input capability on the selected thread. Its private call grant is
+separate from Game calls and validates the pending argument and return. Runtime
+checks the current virtual handle, returns the declared DWORD file type and
+updates logical-thread last-error state. Normal return performs stdcall cleanup;
+EAX retains the actual file type while ECX/EDX and arithmetic flags remain unknown.
+
+Execution reaches `306888b9` after 453 source instructions. Subsequent handle
+adoption, flags and critical-section initialization remain unfinished. Sixteen
+integration-focused checks and TypeScript checking pass; additional checks cover
+file types 0, 1, 2, 3 and `0xffffffff` with last-error preservation. Full validation
+and public deployment of this latest revision remain pending. Complete browser
+campaign play remains unfinished.
+
 ## Local checkpoint — 10 October 2026: Engine standard-handle branches
 
 The original six instructions after GetStdHandle retain EDI, reject invalid and

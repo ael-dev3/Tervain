@@ -125,7 +125,7 @@ interface HeapCall {
   phase: 'pending' | 'returned';
 }
 export interface NativeStandardIoArguments {
-  readonly site: NativeStandardIoCallSite | '306888a1'; readonly kind: NativeStandardIoCallKind; readonly crt: NativeModuleCrtOwner;
+  readonly site: NativeStandardIoCallSite | '306888a1' | '306888b3'; readonly kind: NativeStandardIoCallKind; readonly crt: NativeModuleCrtOwner;
   readonly scalar?: number; readonly object?: object | null; readonly procedure?: object;
   readonly section?: NativeBytePointer; readonly sectionFields?: NativeHeapObjectViews;
 }
@@ -385,15 +385,30 @@ export class NativeX86ThreadStack {
         step('306886ec','306888ae',()=>{if(validHandle())stack.#flags(0,0x40);else stack.#logicalFlags(stack.#numeric(register('EDI'),4),0xffffffff,4);});
         step('306886ec','306888b0',()=>{if(!validHandle()&&stack.#numeric(register('EDI'),4)===0)throw new Error('Engine NULL standard handle branch at306888f1');});
         step('306886ec','306888b2',()=>stack.#push(register('EDI')));
-        frame.pc='306888b3';engineIoInstruction('306886ec',frame.pc);throw new Error('Engine GetFileType IAT30afc744 at306888b3');
+        step('306886ec','306888b3',()=>{
+          const endpoints=stack.#platform.standardIoEndpoints;if(!endpoints)throw new Error('Engine GetFileType IAT30afc744 at306888b3');
+          const endpointProof=NativeRuntimePlatform.canonicalStandardIoEndpointsForPlatform(stack.#platform,endpoints);if(!endpointProof.known)throw new Error(endpointProof.reason);
+          const argument=stack.#load(stack.#stack,relative('ESP',0)),p=stack.#liveWord(argument).provenance;
+          if(p?.kind!=='platform'||p.category!=='handle')throw new Error('Actual Engine GetFileType handle argument required');
+          const capability=NativeRuntimePlatform.standardIoCapabilityForPlatform(stack.#platform,p.object);if(!capability.known||capability.value!=='handle')throw new Error('Actual current GetFileType handle required');
+          stack.#call('306888b3','306888b9');const top=stack.#calls.at(-1)!,grant=Object.freeze({identity:Object.freeze({})});
+          const call={stack,frame,args:Object.freeze({site:'306888b3' as const,kind:'GetFileType' as const,crt,object:p.object}),position:top.position,argument,returnWord:top.returnWord,phase:'pending' as 'pending'|'returned'};
+          engineStandardCalls.set(grant,call);const result=endpoints.invoke(grant);if(!result.known)throw new Error(result.reason);
+          const returned=NativeRuntimePlatform.canonicalStandardIoNormalReturnForPlatform(stack.#platform,grant);if(!returned.known||returned.value!==result.value)throw new Error(returned.known?'Actual Engine GetFileType return required':returned.reason);
+          stack.#engineStandardProof(call);
+          if(typeof result.value!=='number'||!Number.isInteger(result.value)||result.value<0||result.value>0xffffffff)throw new Error('Actual GetFileType DWORD result required');
+          set('EAX',value(result.value));for(const name of ['ECX','EDX'] as const)set(name,stack.#mint(0,0));stack.#flags(0,0);
+          set('ESP',stack.#stackWord(call.position+8));top.returned=true;stack.#currentPc=call.returnWord;call.phase='returned';
+        });
+        frame.pc='306888b9';engineIoInstruction('306886ec',frame.pc);throw new Error('Engine file-type continuation at306888b9');
       }catch(error){frame.boundary??=reason(error);frame.phase='blocked';if(!stack.#executing){stack.#boundary??=frame.boundary;stack.#phase='blocked';}return unknown(frame.boundary);}
       finally{stack.#engineIoExecuting=false;}
     }catch(error){return unknown(reason(error));}
   }
   #engineStandardProof(call:NonNullable<ReturnType<typeof engineStandardCalls.get>>):void{
     this.#engineIoProof(call.frame);const top=this.#calls.at(-1);
-    if(call.phase!=='pending'||call.frame.pc!=='306888a1'||!top||top.returned||top.site!=='306888a1'||top.position!==call.position||top.returnWord!==call.returnWord||
-      this.#address(this.#load(this.#bank,this.#reg('ESP')))!==call.position||this.#load(this.#stack,call.position)!==call.returnWord||this.#load(this.#stack,call.position+4)!==call.argument||this.#numeric(call.argument,4)!==call.args.scalar)throw new Error('Actual pending Engine GetStdHandle call required');
+    if(call.phase!=='pending'||call.frame.pc!==call.args.site||!top||top.returned||top.site!==call.args.site||top.position!==call.position||top.returnWord!==call.returnWord||
+      this.#address(this.#load(this.#bank,this.#reg('ESP')))!==call.position||this.#load(this.#stack,call.position)!==call.returnWord||this.#load(this.#stack,call.position+4)!==call.argument||(call.args.kind==='GetStdHandle'?this.#numeric(call.argument,4)!==call.args.scalar:this.#record(call.argument).provenance?.kind!=='platform'||(this.#record(call.argument).provenance as {object?:object}).object!==call.args.object))throw new Error('Actual pending Engine standard-I/O call required');
   }
   #engineStartupProof(call:NonNullable<ReturnType<typeof engineStartupCalls.get>>):void{
     this.#engineIoProof(call.frame);
