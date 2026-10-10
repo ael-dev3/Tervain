@@ -98,6 +98,25 @@ establish completion of these remaining features.
 The entries below describe successive local states, newest first. Statements
 about missing operations in older entries apply to those earlier checkpoints.
 
+### Module-administrator research: next connection
+
+The source package now captures 48 original Engine instructions for
+ModuleAdmin.GetInstance `3002e9ec -> 30088e90`, embedded input-dispatcher
+construction `3003f026 -> 30087c80`, Create `3000f5bf -> 300877c0` and Engine
+atexit wrapper `30671596`. The getter sets its guard before construction, builds
+the dispatcher in static storage `30ad9e78`, clears its module registry, calls
+Create and registers shutdown callback `30797fc0` through Engine's CRT. This
+callback requires its Engine exit-table owner. The existing ModuleAdmin owner
+already translates the dispatcher and registry operations; connecting it to
+this startup call still requires the actual shutdown registration service.
+These captured methods have not executed on the current startup path.
+
+Independent byte-identical generation, TypeScript checking and nine focused
+tests passed (11.89 seconds). The earlier runtime checkpoint `53359a5f9` passed
+all 3,216 tests across 301 files in 440.70 seconds and its production build in
+34.96 seconds. Its validation checkout matched that checkpoint's tree. The
+later component constructor and research additions have focused receipts only.
+
 ### Latest local checkpoint: Engine component constructor chain returns
 
 The component's Engine constructor `300027b1 -> 30100fe0` calls its base
