@@ -13,6 +13,74 @@ finishable campaign.
 
 ## How the rebuild works
 
+### What we recover and what we implement
+
+The installed Windows game supplies two kinds of reference: assets describing
+the world, and native code describing how that world behaves. The rebuilding
+process carries both into a browser implementation:
+
+```text
+Local Gothic 3 installation
+  |-- archives -> resource readers -> meshes, textures, animations, world records
+  |                                      |
+  |                                      v
+  |                               browser rendering
+  |
+  `-- matching DLLs -> bytes + disassembly + decompiled listings
+                                  |
+                                  v
+                      verified source evidence packages
+                                  |
+                                  v
+                 TypeScript execution and platform services
+                                  |
+                                  v
+             live entities, NPCs, combat, dialogue, quests, saves
+```
+
+**Asset recovery.** Inventory the installation and resolve archive patch
+precedence before choosing a resource. Decode its format, preserve its original
+path and hash, and export a browser representation. A tree requires mesh and
+material relationships; a human also requires a skeleton, skin weights and
+animations. Terrain and entity placement connect those resources to a world.
+Extraction and format decoding must be investigated individually before saying
+that a particular file is encrypted.
+
+**Behavior recovery.** Native DLLs contain compiled machine code. Decompilers
+produce approximate readable listings; they do not restore the original source
+project or produce a working TypeScript game. Check important instructions,
+branches, imports and memory layouts against the matching original DLL bytes.
+The preparation scripts record those receipts so an implementation can be
+reviewed and independently regenerated.
+
+**Runtime implementation.** Selected x86 instruction continuations and
+translated routines run against TypeScript objects representing owned memory,
+stacks, heaps, locks and platform services. Original addresses identify the
+reference instruction or object; they are not usable browser memory addresses.
+Windows calls need implemented browser equivalents with the required return
+values and state changes. Preserve separate DLL ownership, pointer identity,
+allocation lifetime, callback order and cleanup when joining these routines.
+
+**Integration.** Rendering an extracted model proves that the model can be
+inspected. Play requires the renderer and game systems to use the same live
+entities. NPC activation must connect to animation, decisions, interactions,
+combat and dialogue. Quest consequences must survive save and reload and feed
+the campaign's ending conditions.
+
+### How we decide the next implementation step
+
+Run the current browser scenario and read its reported unsupported operation.
+Trace that call in the matching native evidence, identify its dependencies,
+implement the supported state changes, and resume the retained caller. If a
+later operation is unsupported, keep the state already produced and report its
+address. Do not fabricate a successful return merely to advance startup.
+
+Record captured evidence, local execution, validation and public deployment
+separately. A captured function can still lack runtime implementation; a passing
+component test can still lack gameplay integration; a local build can differ
+from the hosted revision. The dated receipts below state what each checkpoint
+actually demonstrates.
+
 ### Start here: the rebuilding process
 
 The browser rebuild combines recovered game data with a TypeScript runtime.
@@ -59,8 +127,9 @@ environment retrieval `3067725c -> 3068e828`. That routine selects the wide
 API, scans the retained input, measures conversion and allocates output through
 Engine's CRT. Wide conversion fills that buffer, releases its OS input and
 returns. The caller stores the actual result at `30af70d4`; execution now stops
-at I/O initialization `30677266 -> 306886ec`. The ANSI path retains its actual
-allocation and stops at copy `3068e945 -> 30671cf0`.
+at I/O initialization `30677266 -> 306886ec`. The latest local ANSI fallback
+also copies its actual output through `3068e945 -> 30671cf0`, releases the OS
+input and returns before the same pending I/O call.
 Complete startup, world activation and a new-game-to-ending campaign remain
 unfinished. Local checkpoints and the hosted version can differ; the validation
 receipts below identify the checkpoint covered.
@@ -139,6 +208,43 @@ instructions and 870 body
 bytes. The package retains the loader-zero count and 64-slot pointer table,
 file-backed exception scope, imports and caller branches. Independent generation
 matches byte for byte. I/O runtime integration remains unfinished.
+
+The next local checkpoint admits that exact I/O receipt through generated
+TypeScript and retains Engine's count, block-pointer table and exception scope
+in a per-CRT image owner. The actual Engine bootstrap shares this owner and
+validates its storage before the pending I/O call. Changed or unknown scope
+bytes interrupt startup without replaying completed environment work. Thirty
+focused checks across three files, typechecking, a production build and exact
+independent JSON/TypeScript regeneration pass. This supplies the storage needed
+for I/O implementation; it does not execute the I/O frame or return from I/O.
+This checkpoint is local and is not included in PR #219.
+
+Further local I/O dependency work captures ten bodies with 489 instructions and
+1,433 instruction bytes, including the allocator, pointer codecs, OS accessor
+and section fallback. Both nested EH4 scopes have retained, validated views.
+Engine's heap-section helper now invokes its recovered initializer on the exact
+24-byte view from a live Engine allocation and returns the actual BOOL. It
+rejects foreign procedures and preserves interruption after reentrancy or lower
+storage release. All 67 focused checks across five files and typechecking pass;
+the enlarged source package regenerates independently byte for byte. These
+changes do not yet execute the complete I/O caller.
+
+The subsequent local ANSI checkpoint translates Engine's scalar memcpy from
+its own 247-instruction capture. Alignment, DWORD/tail dispatch, overlap
+direction and byte masks use the actual retained storage. Unsupported dispatch
+or reentrancy preserves applied writes and cannot replay. The environment
+routine releases its ANSI input only after the copy returns, and the bootstrap
+stores the actual output pointer before Engine I/O. Independent JSON/TypeScript
+regeneration, typechecking and 54 focused checks across four files pass.
+
+PR #219 merged at `2e086edd68c90b2df3fe133007f9309cb0594565` after its CI passed.
+Pages run `38051390876` completed successfully. The hosted browser entered
+Ardea and inspected `Ardea_OutNovice_01`; its panel confirmed the pending Engine
+I/O call and incomplete NPC activation with 0 of 16 property sets. The newer
+I/O ownership, heap-section helper and ANSI copy changes are local and are not
+part of that deployment. The preceding I/O dependency checkpoint passed all
+3,261 tests across 308 files in 487.27 seconds and its production build in the
+separate validation checkout.
 
 Prepublication review additionally tightened Engine exit-table construction to
 require an actual constructed CRT and made reentrant initialization/registration

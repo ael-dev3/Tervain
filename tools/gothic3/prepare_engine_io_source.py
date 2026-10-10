@@ -15,12 +15,19 @@ def capture(study):
         0x3067ca01: 'engineIoCallocCrt',
         0x3067e545: 'engineIoSehEpilog',
         0x30696484: 'engineIoCriticalSection',
+        0x30695a7f: 'engineIoCallocImpl',
+        0x30696474: 'engineIoCriticalSectionFallback',
+        0x3067dedb: 'engineIoDecodePointer',
+        0x3067de64: 'engineIoEncodePointer',
+        0x3067d032: 'engineIoGetOsPlatform',
     })
     pe = PE((study / '00_Original_Runtime/Engine.dll').read_bytes())
     images = []
     for address, size, label in [(0x30af7cdc, 4, 'ioHandleCount'),
                                  (0x30af7d20, 256, 'ioBlockPointers'),
-                                 (0x30956c00, 28, 'ioSehScope')]:
+                                 (0x30956c00, 28, 'ioSehScope'),
+                                 (0x30956ea0, 28, 'ioSectionSehScope'),
+                                 (0x30956e20, 28, 'ioCallocSehScope')]:
         rva = address - pe.base
         section = next(s for s in pe.sections if s[1] <= rva and rva + size <= s[1] + max(s[0], s[2]))
         backed = max(0, min(size, section[1] + section[2] - rva))
@@ -47,7 +54,21 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--study', required=True, type=Path)
     parser.add_argument('--output', required=True, type=Path)
+    parser.add_argument('--typescript', type=Path)
     args = parser.parse_args()
     receipt = capture(args.study)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(receipt, indent=2) + '\n', encoding='utf-8', newline='\n')
+    if args.typescript:
+        expected = json.dumps(args.output.read_text(encoding='utf-8'))
+        generated = """/** Generated original Engine I/O source admission. */
+import source from '../../assets/gothic3/engine-io/research.json';
+import sourceText from '../../assets/gothic3/engine-io/research.json?raw';
+const expectedText = EXPECTED;
+function freeze(value:unknown):void {if(value&&typeof value==='object'&&!Object.isFrozen(value)){for(const child of Object.values(value))freeze(child);Object.freeze(value);}}
+freeze(source);
+export function admitEngineIoSource():void {if(sourceText!==expectedText)throw new Error('Original Engine I/O source differs');}
+export function engineIoInstruction(entry:string,pc:string){admitEngineIoSource();const method=source.source.methods.find(method=>method.bodyVA==='0x'+entry);const row=method?.instructions.find(row=>row.va===pc);if(!row)throw new Error('Original Engine I/O method instruction required');return row;}
+export function engineIoImage(label:string){admitEngineIoSource();const image=source.images.find(image=>image.label===label);if(!image)throw new Error('Original Engine I/O image required');return image;}
+""".replace('EXPECTED', expected)
+        args.typescript.write_text(generated, encoding='utf-8', newline='\n')

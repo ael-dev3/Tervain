@@ -16,6 +16,7 @@ import { NativeRuntimePlatform } from './native-runtime-platform';
 import { NativeGameCrtEnvironment } from './native-game-crt-environment';
 import { NativeEngineCrtEnvironment } from './native-engine-crt-environment';
 import { engineEnvironmentImage } from './native-engine-environment-source';
+import { NativeEngineIoImages } from './native-engine-io-images';
 import { NativeGameCrtIoInit } from './native-game-crt-ioinit';
 import { NativeGameCrtArgv } from './native-game-crt-argv';
 import { NativeGameCrtSetEnvp } from './native-game-crt-setenvp';
@@ -179,6 +180,7 @@ export interface NativeCrtAttachProgress {
    * numerical x86 addresses for the actual retained browser capabilities. */
   readonly engineCommandLineStorage: NativeHeapObjectViews | null;
   readonly engineEnvironmentStorage: NativeHeapObjectViews | null;
+  readonly engineIoImages: NativeEngineIoImages | null;
   readonly commandLineReturned: boolean;
   readonly commandLineNonNull: boolean | null;
   readonly environmentReturned: boolean;
@@ -262,6 +264,7 @@ export class NativeCrtBootstrap {
   #ioResult: number | null = null;
   #engineCommandLineStorage: NativeHeapObjectViews | null = null;
   #engineEnvironmentStorage: NativeHeapObjectViews | null = null;
+  #engineIoImages: NativeEngineIoImages | null = null;
   #commandLineReturned = false;
   #commandLineNonNull: boolean | null = null;
   #environmentReturned = false;
@@ -390,6 +393,9 @@ export class NativeCrtBootstrap {
       const environmentImage=engineEnvironmentImage('environmentPointer');
       if(environmentImage.address!=='30af70d4'||environmentImage.raw!=='00000000'||environmentImage.bytes!==4)throw new Error('Original Engine environment pointer image required');
       this.#engineEnvironmentStorage=new NativeHeapObjectViews({identity:Object.freeze({crt:crt.identity,address:environmentImage.address}),bytes:new Uint8Array(4),knownMask:new Uint8Array(4).fill(255),freed:false});this.#pin(this.#engineEnvironmentStorage);
+      const ioImages=NativeEngineIoImages.forCrt(crt);
+      if(!ioImages.known)throw new Error(ioImages.reason);
+      this.#engineIoImages=ioImages.value;
     }
     this.#environment = crt.module === 'Game' ? NativeGameCrtEnvironment.forCrt(crt) : null;
     this.#engineEnvironment = crt.module === 'Engine' && this.#processInputs ? NativeEngineCrtEnvironment.forCrt(crt) : null;
@@ -673,6 +679,10 @@ export class NativeCrtBootstrap {
       NativeHeapObjectViews.prototype.pointer.call(this.#checked(this.#engineEnvironmentStorage),0).set(environment);
       this.#record('environmentBlock.store',this.#environmentNonNull,'30677261');
       this.#nextBoundary=Object.freeze({name:'io',address:'30677266',target:'306886ec'});
+      for(const label of ['ioHandleCount','ioBlockPointers','ioSehScope'] as const){
+        if(!this.#engineIoImages)throw new Error('Actual retained Engine I/O image owner required');
+        this.#call('Engine I/O image authority '+label,()=>NativeEngineIoImages.imageForCrt(this.#engineIoImages!,this.#crt,label));
+      }
       this.#gate('Engine ioInit306886ec at30677266');
     }
     const points = gameAttachContinuationInstructionPoints;
@@ -862,6 +872,7 @@ export class NativeCrtBootstrap {
       preCReturned: this.#preCReturned, commandLineBoundary: this.#commandLineBoundary,
       engineCommandLineStorage:this.#engineCommandLineStorage,
       engineEnvironmentStorage:this.#engineEnvironmentStorage,
+      engineIoImages:this.#engineIoImages,
       commandLineReturned: this.#commandLineReturned, commandLineNonNull: this.#commandLineNonNull,
       environmentReturned: this.#environmentReturned, environmentNonNull: this.#environmentNonNull,
       environmentProgress: this.#environment?.known ? this.#environment.value.snapshot() : null,
