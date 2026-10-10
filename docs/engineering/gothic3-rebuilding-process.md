@@ -11817,3 +11817,10 @@ The single-byte checkpoint also passed TypeScript checking and a production
 build. Source JSON, TypeScript admission and the Game comparison independently
 regenerate byte-identically. Its full-suite validation is separate from the
 preceding initializer checkpoint.
+
+
+## 10 October 2026: Engine case-table entry continuation
+
+The local retained Engine stack now executes the eleven original entry instructions at `306849b0` through `306849d1`. It saves the initializer EBP, reserves 1308 stack bytes, constructs the case-frame EBP from the actual ESP, stores the same Engine cookie XOR that EBP, saves EBX/EDI, and pushes the actual CPInfo stack destination and code page read from the new Engine-owned MBC allocation. It stops before the `GetCPInfo` call at `306849d4`, after 365 admitted operations. The case-table import has not executed, the caller remains retained, and startup/campaign completion remains unproven. Structural and cookie-unavailability checks cover stack arguments and retained allocation lifetime. Validation receipts follow after terminal results.
+
+Local validation: 58 tests across four files passed in 15.53 seconds; `npm run build` completed successfully, including TypeScript checking; `git diff --check` passed. The broader suite and deployment of this eleven-instruction continuation remain pending. PR #225 merged as `2676c2d2b2b321271721f319512b0bc1bbeae825`; its Pages workflow `38068086327` was still running at this receipt. That merged checkpoint reaches the previous 354-operation boundary.

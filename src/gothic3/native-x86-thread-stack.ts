@@ -586,7 +586,19 @@ export class NativeX86ThreadStack {
             initialize('30684e11',()=>{});
             initialize('30684dc5',()=>set('ESI',reg('EBX')));
             initialize('30684dc7',()=>stack.#call('30684dc7','30684dcc'));
-            frame.pc='306849b0';engineArgvInstruction('306849b0',frame.pc);throw new Error('Engine MBC case tables306849b0 at30684dc7');
+            const caseStep=(pc:string,body:()=>void)=>step(pc,body,'306849b0');
+            caseStep('306849b0',()=>stack.#push(reg('EBP')));
+            caseStep('306849b1',()=>set('EBP',stack.#stackWord(relative('ESP',-1180))));
+            caseStep('306849b8',()=>{set('ESP',stack.#stackWord(relative('ESP',-1308)));stack.#flags(0,0);});
+            caseStep('306849be',()=>{const cookie=NativeCrtBootstrap.engineArgvCookieForCrt(bootstrap,crt,permit);if(!cookie.known)throw new Error(cookie.reason);set('EAX',value(NativeHeapObjectViews.prototype.readUnsigned.call(cookie.value,0)));});
+            caseStep('306849c3',()=>set('EAX',xor(reg('EAX'),reg('EBP'))));
+            caseStep('306849c5',()=>stack.#store(stack.#stack,relative('EBP',0x498),reg('EAX')));
+            caseStep('306849cb',()=>stack.#push(reg('EBX')));
+            caseStep('306849cc',()=>stack.#push(reg('EDI')));
+            caseStep('306849cd',()=>set('EAX',stack.#stackWord(relative('EBP',-0x7c))));
+            caseStep('306849d0',()=>stack.#push(reg('EAX')));
+            caseStep('306849d1',()=>{const fields=allocation(reg('ESI'));stack.#push(stack.#load(fields,4));});
+            frame.pc='306849d4';engineArgvInstruction('306849b0',frame.pc);throw new Error('Engine case-table GetCPInfo at306849d4');
           }
           wrapper('30685022',()=>{set('EAX',stack.#mint(0,0xffffffff));stack.#logicalFlags(0,0xffffffff,4);});
           wrapper('30685024',()=>{const next=stack.#record(stack.#ret()).provenance;if(next?.kind!=='source'||next.type!=='code'||next.address!=='3068e787')throw new Error('Actual Engine multibyte wrapper return required');});
