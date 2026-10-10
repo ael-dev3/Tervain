@@ -47,7 +47,7 @@ Each feature goes through the following steps:
 **Current local boundary:** Arena Status, None, Running, AI FreePoint, Label
 and AI helper administrator initialization return through the retained startup
 stack. Startup enters PropertyID initializer `204b26c0` and reaches its unsupported
-accessor object query CALL at `100932f6`.
+registered-type lookup CALL at `100905b7`.
 Complete startup, world activation and a new-game-to-ending campaign remain
 unfinished. Local checkpoints and the hosted version can differ; the validation
 receipts below identify the checkpoint covered.
@@ -72,7 +72,20 @@ establish completion of these remaining features.
 The entries below describe successive local states, newest first. Statements
 about missing operations in older entries apply to those earlier checkpoints.
 
-### Latest local checkpoint: accessor constructor reaches object query
+### Latest local checkpoint: object query reaches registered-type lookup
+
+The original QueryNewObject body enters with the retained singleton and
+class-name argument. Both original CString emptiness calls return through their
+actual frames, using the same class-name owner. The query prepares its original
+table and hash-index arguments and reaches lookup `100905b7 -> 100019d8`.
+
+Nine focused tests passed in 12.08 seconds. The complete PropertyID checkpoint
+before these later accessor changes passed all 3,202 tests across 299 files in
+443.85 seconds and a production build. That broad result does not validate this
+later query or the subsequently integrated main changes. Type lookup, factory
+creation, reference callbacks and accessor return remain unfinished.
+
+### Historical checkpoint: accessor constructor reaches object query
 
 Original SharedBase body `100932e0` enters through the accessor constructor
 import. Its prologue preserves registers, reads the original class-name argument

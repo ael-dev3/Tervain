@@ -1,4 +1,4 @@
-import {aiHelperAccessorCreatorInstruction,aiHelperAccessorCreatorConstructorInstruction} from './native-game-ai-helper-accessor-creator-source';
+import {aiHelperAccessorCreatorInstruction,aiHelperAccessorCreatorConstructorInstruction,aiHelperAccessorQueryInstruction} from './native-game-ai-helper-accessor-creator-source';
 import {aiHelperPropertyIdInstruction} from './native-game-ai-helper-property-id-source';
 import {aiHelperAdminInitializerInstruction,aiHelperAdminWrapperInstruction,aiHelperAdminReplacementInstruction,aiHelperAdminAccessorInstruction} from './native-game-ai-helper-admin-source';
 /** The bounded original Game caller/environment source unit. Every reached instruction
@@ -84,6 +84,7 @@ const bodies = Object.freeze([
   ['204b26c0','204b26c0-204b270c'],
   ['204b2720','204b2720-204b2741'],
   ['100932e0','100932e0-10093330'],
+  ['10090590','10090590-100905f0'],
   ['20077040','20077040-2007710d'],
   ['20076630','20076630-2007679e'],
   ['200763f0','200763f0-200763f3'],
@@ -398,6 +399,12 @@ export class NativeGameCrtSetEnvp {
     return owner.#pc==='204b2720'&&owner.#currentEntry==='204b2720'&&frame?.entry==='204b2720'&&frame.site==='20466654'&&frame.returnPc==='20466656'&&
       owner.#requireSourcePoint(owner.#pc).instruction==='CALL 0x200191f0'?known(undefined):unknown('Actual original AI helper accessor class-name CALL required');
   }
+  static canonicalAIHelperAccessorEmptyCallForCrt(owner:NativeGameCrtSetEnvp,crt:NativeModuleCrtOwner,controller:object,site:'1009059a'|'100905a5'):NativeValue<void> {
+    const active=NativeGameCrtSetEnvp.canonicalControllerForCrt(owner,crt,controller,'invoke');if(!active.known)return active;
+    const frame=owner.#frames.at(-1);
+    return owner.#pc===site&&owner.#currentEntry==='10090590'&&frame?.entry==='10090590'&&frame.site==='100932f6'&&frame.returnPc==='100932fb'&&
+      owner.#requireSourcePoint(owner.#pc).instruction==='CALL 0x10002f5e'?known(undefined):unknown('Actual original accessor query CString check required');
+  }
   static canonicalAIHelperAdminTypeCallForCrt(owner:NativeGameCrtSetEnvp,crt:NativeModuleCrtOwner,controller:object):NativeValue<void> {
     const active=NativeGameCrtSetEnvp.canonicalControllerForCrt(owner,crt,controller,'invoke');if(!active.known)return active;
     const frame=owner.#frames.at(-1);
@@ -510,7 +517,8 @@ export class NativeGameCrtSetEnvp {
     const extent = ranges.get(this.#currentEntry), address = Number.parseInt(pc, 16);
     if (!extent?.some(([first, last]) => address >= first && address <= last) ||
         this.#currentEntry === '204677e4' && !callerRows.has(pc)) throw new Error('Unowned Game environment source frontier at' + pc);
-    const point = this.#currentEntry==='100932e0' ? aiHelperAccessorCreatorConstructorInstruction(pc)
+    const point = this.#currentEntry==='10090590' ? aiHelperAccessorQueryInstruction(pc)
+      : this.#currentEntry==='100932e0' ? aiHelperAccessorCreatorConstructorInstruction(pc)
       : this.#currentEntry==='204b2720' ? aiHelperAccessorCreatorInstruction(pc)
       : this.#currentEntry==='204b26c0' ? aiHelperPropertyIdInstruction(pc)
       : this.#currentEntry==='200763f0' ? aiHelperAdminAccessorInstruction(pc)
@@ -705,6 +713,18 @@ export class NativeGameCrtSetEnvp {
       fact(NativeX86ThreadStack.prototype.call.call(this.#stack,this.#controller,point.va,returnPc));
       this.#frames.push(Object.freeze({entry:body,site:point.va,returnPc,previousEntry:this.#currentEntry}));
       this.#currentEntry=body; this.#nextBoundary=null; return body;
+    }
+    if(point.va==='100932f6') {
+      if(this.#currentEntry!=='100932e0'||target.kind!=='immediate'||target.value!==0x10007036||returnPc!=='100932fb')throw new Error('Original accessor QueryNewObject target required');
+      fact(NativeX86ThreadStack.prototype.call.call(this.#stack,this.#controller,point.va,returnPc));
+      this.#frames.push(Object.freeze({entry:'10090590',site:point.va,returnPc,previousEntry:this.#currentEntry}));
+      this.#currentEntry='10090590';this.#nextBoundary=null;return '10090590';
+    }
+    if(point.va==='1009059a'||point.va==='100905a5') {
+      if(this.#currentEntry!=='10090590'||target.kind!=='immediate'||target.value!==0x10002f5e)throw new Error('Original query CString emptiness target required');
+      this.#nextBoundary=Object.freeze({pc:point.va,operation:'translatedCrtCall',target:'10002f5e'});
+      fact(NativeX86ThreadStack.prototype.callAIHelperAccessorStringEmpty.call(this.#stack,this.#controller,point.va));
+      this.#nextBoundary=null;return returnPc;
     }
     if(point.va==='100932ef') {
       if(this.#currentEntry!=='100932e0'||target.kind!=='immediate'||target.value!==0x10004fd4||returnPc!=='100932f4')throw new Error('Original accessor singleton getter required');

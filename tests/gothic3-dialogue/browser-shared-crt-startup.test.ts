@@ -54,7 +54,7 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  expect(game.known).toBe(true);
  if(!game.known)throw new Error(game.reason);
  expect(game.value.attachResult,game.value.attachProgress.setEnvpProgress?.currentPC).toEqual({known:false,
-  reason:'crtAttach204677e4: Unowned Unowned original environment CALL at100932f6: CALL 0x10007036'});
+  reason:'crtAttach204677e4: Unowned Unowned original environment CALL at100905b7: CALL 0x100019d8'});
  const executed=new Set(game.value.attachProgress.setEnvpProgress!.effects.map(effect=>effect.pc));
  for(const pc of ['204b26c0','204b26c3','204b26c8'])expect(executed.has(pc)).toBe(true);
  for(const pc of ['204b26cc','204b26d2','204b26d5','204b26d6'])expect(executed.has(pc)).toBe(true);
@@ -76,7 +76,8 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  for(const pc of ['204b2720','204b2725','204b2726','204b272b'])expect(executed.has(pc)).toBe(true);
  for(const pc of ['204b2730','100932e0','100932e4','100932e5','100932e6','100932e8','100932e9'])expect(executed.has(pc)).toBe(true);
  expect(executed.has('100932ef')).toBe(true);expect(executed.has('100932f4')).toBe(true);
- expect(executed.has('100932f6')).toBe(false);
+ for(const pc of ['100932f6','10090590','1009059a','1009059f','100905a5','100905aa','100905ae','100905b2','100905b3','100905b4'])expect(executed.has(pc)).toBe(true);
+ expect(executed.has('100905b7')).toBe(false);
  expect(executed.has('204b2741')).toBe(false);
  const accessorCreator=game.value.crt.imageStorage('aiHelperAccessorCreator');
  expect(accessorCreator.bytes.length).toBe(4);expect([...accessorCreator.bytes]).toEqual(Array(4).fill(0));

@@ -206,6 +206,7 @@ export class NativeX86ThreadStack {
   #argvBinding: ArgvBinding | null = null;
   #setEnvpBinding: SetEnvpBinding | null = null;
   #aiHelperPropertyIdText: NativeHeapCString | null = null;
+  #aiHelperAccessorName: NativeHeapCString | null = null;
   #aiHelperPropertyIdTextDestroyedSnapshot: ReturnType<NativeHeapCString["snapshot"]> | null = null;
   #aiHelperPropertyIdGuid: NativeGuidText | null = null;
   #aiHelperPropertyIdGuidConstructed: Readonly<{bytes:readonly number[];mask:readonly number[]}> | null = null;
@@ -3100,6 +3101,22 @@ export class NativeX86ThreadStack {
     const returned=this.#ret(0),source=this.#record(returned).provenance;
     if(source?.kind!=='source'||source.type!=='code'||source.address!=='204b23f4')throw new Error('Actual Label type getter return required');
   }); }
+  callAIHelperAccessorStringEmpty(controller:object,site:'1009059a'|'100905a5'):NativeValue<void> {return this.#run(controller,()=>{
+    const binding=this.#setEnvpBinding;if(!binding||binding.controller!==controller)throw new Error('Actual retained Game startup controller required');
+    const grant=NativeGameCrtSetEnvp.canonicalAIHelperAccessorEmptyCallForCrt(binding.owner,binding.crt,controller,site);if(!grant.known)throw new Error(grant.reason);
+    if(this.#calls.filter(call=>!call.returned).at(-1)?.site!=='100932f6')throw new Error('Actual accessor object query frame required');
+    const crt=binding.crt as NativeGameCrtOwner,memory=nativeGameLayerBaseMemoryForCrt(crt);if(!memory.known)throw new Error(memory.reason);
+    const receiver=this.#memory(this.#load(this.#bank,this.#reg('ECX')),4);
+    const name=this.#aiHelperAccessorName;if(!name||!name.usesMemoryAdmin(memory.value))throw new Error('Actual retained query class-name owner required');
+    if(receiver.fields.backing!==name.slot.backing||receiver.fields.bytes.byteOffset+receiver.offset!==name.slot.bytes.byteOffset)
+      throw new Error('Actual retained query class-name CString required');
+    const next=site==='1009059a'?'1009059f':'100905aa';this.#call(site,next);
+    const result=NativeHeapCString.prototype.isEmpty.call(name);if(!result.known)throw new Error(result.reason);
+    // The caller consumes AL only; no unsupported upper EAX bits are inferred.
+    this.#store(this.#bank,this.#reg('EAX'),this.#mint(result.value?1:0,0xff));
+    const returned=this.#ret(0),source=this.#record(returned).provenance;
+    if(source?.kind!=='source'||source.type!=='code'||source.address!==next)throw new Error('Actual query CString check return required');
+  }); }
   callAIHelperAccessorClassName(controller:object):NativeValue<void> {return this.#run(controller,()=>{
     const binding=this.#setEnvpBinding;if(!binding||binding.controller!==controller)throw new Error('Actual retained Game startup controller required');
     const grant=NativeGameCrtSetEnvp.canonicalAIHelperAccessorClassNameCallForCrt(binding.owner,binding.crt,controller);if(!grant.known)throw new Error(grant.reason);
@@ -3107,6 +3124,8 @@ export class NativeX86ThreadStack {
     const crt=binding.crt as NativeGameCrtOwner,memory=nativeGameLayerBaseMemoryForCrt(crt);if(!memory.known)throw new Error(memory.reason);
     this.#call('204b2720','204b2725');
     const name=NativeGameAIHelperAdminClassName.prototype.get.call(NativeGameAIHelperAdminClassName.forCrt(crt,memory.value));if(!name.known)throw new Error(name.reason);
+    if(this.#aiHelperAccessorName&&this.#aiHelperAccessorName!==name.value)throw new Error('Accessor class-name owner cannot change');
+    this.#aiHelperAccessorName=name.value;
     const image=NativeModuleCrtOwner.canonicalImageForOwner(crt,'aiHelperAdminClassNameAndCache');
     if(!image.known||name.value.slot.backing!==image.value.backing||name.value.slot.bytes.byteOffset!==image.value.bytes.byteOffset||name.value.slot.bytes.length!==4)
       throw new Error('Actual retained AI helper class-name CString required');
