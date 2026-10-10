@@ -6519,6 +6519,15 @@
       "fileBackedBytes": 0,
       "loaderZeroFillBytes": 4,
       "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+    },
+    {
+      "label": "multibyteCodepageTable",
+      "address": "30ad5000",
+      "bytes": 240,
+      "raw": "a4030000608279822100000000000000a6df000000000000a1a5000000000000819fe0fc00000000407e80fc00000000a8030000c1a3daa320000000000000000000000000000000000000000000000081fe00000000000040fe000000000000b5030000c1a3daa320000000000000000000000000000000000000000000000081fe00000000000041fe000000000000b6030000cfa2e4a21a00e5a2e8a25b000000000000000000000000000000000081fe000000000000407ea1fe000000005105000051da5eda20005fda6ada32000000000000000000000000000000000081d3d8dee0f90000317e81fe00000000",
+      "fileBackedBytes": 240,
+      "loaderZeroFillBytes": 0,
+      "sha256": "bdb03f7a145976f2c290206ebd8efd878e013c5bb058b02cfc9c01b1a1fa3970"
     }
   ],
   "codepageImport": {
@@ -6526,6 +6535,20 @@
     "module": "KERNEL32.dll",
     "name": "GetACP",
     "ordinal": null
+  },
+  "mbcImports": {
+    "IsValidCodePage": {
+      "iatVA": "0x30afc73c",
+      "module": "KERNEL32.dll",
+      "name": "IsValidCodePage",
+      "ordinal": null
+    },
+    "GetCPInfo": {
+      "iatVA": "0x30afc688",
+      "module": "KERNEL32.dll",
+      "name": "GetCPInfo",
+      "ordinal": null
+    }
   },
   "caller": {
     "call": "30677276",

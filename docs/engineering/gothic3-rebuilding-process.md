@@ -11772,3 +11772,24 @@ The MBC allocation checkpoint also passed TypeScript checking and a production
 build. Source JSON, TypeScript admission and the Game comparison independently
 regenerate byte-identically. The copied constructor stack record is a live alias;
 subsequent native calls can reuse its bytes after its lifetime ends.
+
+### 10 October 2026: Engine MBC initializer services (local checkpoint)
+
+The initializer resumes on its retained caller, constructs its cookie-protected
+frame and calls the same code-page helper with the positive code-page argument.
+That helper acquires and releases its own temporary locale ownership, resets the
+automatic-codepage image as the source specifies, and returns to the initializer.
+The five original code-page records are scanned in owned storage.
+
+Private Engine import grants now admit the original IsValidCodePage and GetCPInfo
+calls, including their current return slots and physical stack arguments. The
+selected virtual CP1252 process writes the defined CPInfo fields; substituted
+normal-return objects cannot authorize the caller even after real writes occur.
+The next pending call is `30684cf4 -> 30671690`, the classification memset, after
+337 admitted operations. Full initialization and the campaign remain unfinished.
+
+This initializer checkpoint passed 51 focused checks in four files (14.49
+seconds), TypeScript checking and a production build. Source JSON, TypeScript
+admission and the Game comparison independently regenerate byte-identically.
+CPInfo padding, changed or unknown original table entries and rejection after
+actual output writes are covered. Full-suite validation is a separate gate.

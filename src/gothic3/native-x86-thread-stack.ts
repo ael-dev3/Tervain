@@ -1,6 +1,6 @@
 import {NativeCrtThreadStartup} from './native-crt-thread-startup';
 import {NativeEngineArgvImages} from './native-engine-argv-images';
-import {engineArgvInstruction,engineArgvGetACPImport} from './native-engine-argv-source';
+import {engineArgvInstruction,engineArgvGetACPImport,engineArgvMbcImport} from './native-engine-argv-source';
 import {NativePropertyTypeTable} from './native-property-type-table';
 import {createNativeEngineModuleOwner} from './native-engine-module-owner';
 import {createBrowserEngineCrtStartup} from './browser-engine-crt-startup';
@@ -116,7 +116,7 @@ interface StartupCall {
   readonly offset: number; readonly argument: NativeX86Word32; readonly position: number;
   readonly returnWord: NativeX86Word32; phase: 'pending' | 'returned';
 }
-interface EngineArgvFrame {readonly bootstrap:NativeCrtBootstrap;readonly crt:NativeModuleCrtOwner;readonly permit:object;readonly images:NativeEngineArgvImages;readonly entryEsp:number;phase:'running'|'blocked';pc:string;boundary:string|null;operations:number;ebp:number|null;multibyteEbp:number|null;multibyteFsPublished:boolean;multibytePrologReturned:boolean;multibytePtd:NativeHeapObjectViews|null;multibyteGetterReturned:boolean;localeEbp:number|null;localePtd:NativeHeapObjectViews|null;localeMbc:NativeHeapObjectViews|null;localePrologReturned:boolean;localeGetterReturned:boolean;localeFsRestored:boolean;localeLockHeld:boolean;localeReturned:boolean;codepageEbp:number|null;codepageLocaleRecord:NativeHeapObjectViews|null;codepagePtd:NativeHeapObjectViews|null;codepageLocale:NativeHeapObjectViews|null;codepageCtorReturned:boolean;codepageAcpReturned:boolean;codepageReturned:boolean;codepageResult:number|null;multibyteAllocation:NativeHeapObjectViews|null;multibyteMallocReturned:boolean;multibyteCopyReturned:boolean;}
+interface EngineArgvFrame {readonly bootstrap:NativeCrtBootstrap;readonly crt:NativeModuleCrtOwner;readonly permit:object;readonly images:NativeEngineArgvImages;readonly entryEsp:number;phase:'running'|'blocked';pc:string;boundary:string|null;operations:number;ebp:number|null;multibyteEbp:number|null;multibyteFsPublished:boolean;multibytePrologReturned:boolean;multibytePtd:NativeHeapObjectViews|null;multibyteGetterReturned:boolean;localeEbp:number|null;localePtd:NativeHeapObjectViews|null;localeMbc:NativeHeapObjectViews|null;localePrologReturned:boolean;localeGetterReturned:boolean;localeFsRestored:boolean;localeLockHeld:boolean;localeReturned:boolean;codepageEbp:number|null;codepageLocaleRecord:NativeHeapObjectViews|null;codepagePtd:NativeHeapObjectViews|null;codepageLocale:NativeHeapObjectViews|null;codepageCtorReturned:boolean;codepageAcpReturned:boolean;codepageReturned:boolean;codepageResult:number|null;multibyteAllocation:NativeHeapObjectViews|null;multibyteMallocReturned:boolean;multibyteCopyReturned:boolean;mbcInitEbp:number|null;mbcInitCodepageReturned:boolean;mbcValidCodepageReturned:boolean;mbcInfo:NativeHeapObjectViews|null;mbcInfoReturned:boolean;}
 interface EngineIoFrame {
  readonly bootstrap:NativeCrtBootstrap;readonly crt:NativeModuleCrtOwner;readonly permit:object;
  readonly images:NativeEngineIoImages;readonly scope:NativeHeapObjectViews;
@@ -156,7 +156,7 @@ const standardSites: Readonly<Record<NativeStandardIoCallSite, Readonly<{ kind: 
 const graphs = new WeakMap<NativeRuntimePlatform, NativeX86ThreadStack>();
 const retirements = new WeakMap<NativeX86ThreadStack, () => void>();
 const engineStartupCalls=new WeakMap<NativeStartupInfoCallGrant,{stack:NativeX86ThreadStack;frame:EngineIoFrame;offset:number;argument:NativeX86Word32;position:number;returnWord:NativeX86Word32;phase:'pending'|'returned'}>();
-const engineArgvNlsCalls=new WeakMap<NativeArgvNlsCallGrant,{stack:NativeX86ThreadStack;frame:EngineArgvFrame;position:number;returnWord:NativeX86Word32;phase:'pending'|'returned'}>();
+const engineArgvNlsCalls=new WeakMap<NativeArgvNlsCallGrant,{stack:NativeX86ThreadStack;frame:EngineArgvFrame;kind:'GetACP'|'IsValidCodePage'|'GetCPInfo';position:number;returnWord:NativeX86Word32;phase:'pending'|'returned'}>();
 const startupCalls = new WeakMap<NativeStartupInfoCallGrant, StartupCall>();
 const heapCalls = new WeakMap<NativeHeapAllocCallGrant, HeapCall>();
 const standardCalls = new WeakMap<NativeStandardIoCallGrant, StandardCall>();
@@ -206,7 +206,7 @@ export class NativeX86ThreadStack {
       stack.#physical(stack.#stack);stack.#physical(stack.#bank);
       const entryEsp=stack.#address(stack.#load(stack.#bank,stack.#reg('ESP')));
       if(entryEsp!==io.entryEsp||stack.#numeric(stack.#load(stack.#bank,stack.#reg('EAX')),4)!==0)throw new Error('Actual Engine I/O return state required');
-      const frame:EngineArgvFrame={bootstrap,crt,permit,images,entryEsp,phase:'running',pc:'30677276',boundary:null,operations:0,ebp:null,multibyteEbp:null,multibyteFsPublished:false,multibytePrologReturned:false,multibytePtd:null,multibyteGetterReturned:false,localeEbp:null,localePtd:null,localeMbc:null,localePrologReturned:false,localeGetterReturned:false,localeFsRestored:false,localeLockHeld:false,localeReturned:false,codepageEbp:null,codepageLocaleRecord:null,codepagePtd:null,codepageLocale:null,codepageCtorReturned:false,codepageAcpReturned:false,codepageReturned:false,codepageResult:null,multibyteAllocation:null,multibyteMallocReturned:false,multibyteCopyReturned:false};stack.#engineArgvFrame=frame;stack.#engineArgvExecuting=true;stack.#phase='running';
+      const frame:EngineArgvFrame={bootstrap,crt,permit,images,entryEsp,phase:'running',pc:'30677276',boundary:null,operations:0,ebp:null,multibyteEbp:null,multibyteFsPublished:false,multibytePrologReturned:false,multibytePtd:null,multibyteGetterReturned:false,localeEbp:null,localePtd:null,localeMbc:null,localePrologReturned:false,localeGetterReturned:false,localeFsRestored:false,localeLockHeld:false,localeReturned:false,codepageEbp:null,codepageLocaleRecord:null,codepagePtd:null,codepageLocale:null,codepageCtorReturned:false,codepageAcpReturned:false,codepageReturned:false,codepageResult:null,multibyteAllocation:null,multibyteMallocReturned:false,multibyteCopyReturned:false,mbcInitEbp:null,mbcInitCodepageReturned:false,mbcValidCodepageReturned:false,mbcInfo:null,mbcInfoReturned:false};stack.#engineArgvFrame=frame;stack.#engineArgvExecuting=true;stack.#phase='running';
       const reg=(name:NativeX86Register)=>stack.#load(stack.#bank,stack.#reg(name)),set=(name:NativeX86Register,word:NativeX86Word32)=>stack.#store(stack.#bank,stack.#reg(name),word);
       const step=(pc:string,body:()=>void,entry='3068e76f')=>{stack.#engineArgvProof(frame);if(entry==='3067e500')engineIoInstruction(entry,pc);else engineArgvInstruction(entry,pc);frame.pc=pc;body();frame.operations++;stack.#trace.push(pc+'.EngineArgvSource');stack.#engineArgvProof(frame);};
       try{
@@ -345,6 +345,8 @@ export class NativeX86ThreadStack {
             nested('30684e8c',()=>set('EBX',mbcWord(NativeHeapObjectViews.prototype.pointer.call(ptd(reg('EDI')),0x68).get())));
             nested('30684e8f',()=>set('ESI',stack.#load(stack.#stack,relative('EBP',8))));
             nested('30684e92',()=>stack.#call('30684e92','30684e97'));
+            const runCodepage=(returnAddress:string,parentEbp:number)=>{
+              frame.codepageLocaleRecord=null;frame.codepageEbp=null;frame.codepageCtorReturned=false;frame.codepageReturned=false;
             const codepage=(pc:string,body:()=>void)=>step(pc,body,'30684bde');
             const localeWord=(pointer:object|null)=>{if(pointer===null)return value(0);const owned=NativeCrtBootstrap.engineArgvLocaleForCrt(bootstrap,crt,permit);if(!owned.known)throw new Error(owned.reason);if(pointer!==owned.value.original)throw new Error('Engine dynamic locale remains unsupported');frame.codepageLocale=owned.value.original;return stack.#mint(0,0,{kind:'engine-locale',crt,fields:owned.value.original});};
             const localePointer=(word:NativeX86Word32)=>{const p=stack.#liveWord(word).provenance;if(p?.kind==='engine-locale'&&p.crt===crt)return p.fields;if(stack.#numeric(word,4)===0)return null;throw new Error('Actual Engine locale pointer or NULL required');};
@@ -399,13 +401,13 @@ export class NativeX86ThreadStack {
             if(!acp){frame.pc='30684bfb';engineArgvInstruction('30684bde',frame.pc);throw new Error('Engine OEM code-page query at30684bfb');}
             codepage('30684c19',()=>{const input=stack.#numeric(reg('ESI'),4);stack.#arithmeticFlags(input,0xfffffffd,(input-0xfffffffd)>>>0,4,true);});
             codepage('30684c1c',()=>{acp=branchZero();});
-            if(!acp){frame.pc='30684c30';engineArgvInstruction('30684bde',frame.pc);throw new Error('Engine alternate code-page selection at30684c30');}
+            if(acp){
             codepage('30684c1e',()=>NativeHeapObjectViews.prototype.writeUnsigned.call(automatic.value,0,1));
             codepage('30684c28',()=>{
               stack.#call('30684c28','30684c2e');const top=stack.#calls.at(-1)!;
               const endpoints=stack.#platform.argvNlsEndpoints;if(!endpoints)throw new Error('Engine GetACP IAT30afc734 at30684c28');
               const endpoint=NativeRuntimePlatform.canonicalArgvNlsEndpointsForPlatform(stack.#platform,endpoints);if(!endpoint.known)throw new Error(endpoint.reason);
-              const grant=Object.freeze({identity:Object.freeze({})}),call={stack,frame,position:top.position,returnWord:top.returnWord,phase:'pending' as 'pending'|'returned'};engineArgvNlsCalls.set(grant,call);
+              const grant=Object.freeze({identity:Object.freeze({})}),call={stack,frame,kind:'GetACP' as const,position:top.position,returnWord:top.returnWord,phase:'pending' as 'pending'|'returned'};engineArgvNlsCalls.set(grant,call);
               const result=endpoints.invoke(grant);if(!result.known)throw new Error(result.reason);
               const normal=NativeRuntimePlatform.canonicalArgvNlsNormalReturnForPlatform(stack.#platform,grant);if(!normal.known)throw new Error(normal.reason);if(normal.value!==result.value||result.value.kind!=='scalar')throw new Error('Actual Engine ACP normal result required');
               const returned=stack.#record(stack.#ret()).provenance;if(returned?.kind!=='source'||returned.type!=='code'||returned.address!=='30684c2e')throw new Error('Actual Engine GetACP RET0 required');call.phase='returned';
@@ -419,9 +421,23 @@ export class NativeX86ThreadStack {
               codepage('30684c13',()=>{const fields=ptd(reg('ECX')),flags=NativeHeapObjectViews.prototype.maskedWord.call(fields,0x70);const result=flags.value&0xfffffffd,mask=flags.knownMask|2;stack.#store(fields,0x70,stack.#mint(result,mask));stack.#logicalFlags(result,mask,4);});
               codepage('30684c17',()=>{});
             }
+            }else{
+              codepage('30684c30',()=>{const input=stack.#numeric(reg('ESI'),4);stack.#arithmeticFlags(input,0xfffffffc,(input-0xfffffffc)>>>0,4,true);});
+              let borrowed=false;codepage('30684c33',()=>{borrowed=branchZero();});
+              if(borrowed){frame.pc='30684c35';engineArgvInstruction('30684bde',frame.pc);throw new Error('Engine borrowed locale code-page at30684c35');}
+              codepage('30684c47',()=>{const own=NativeHeapObjectViews.prototype.readUnsigned.call(stack.#stack,relative('EBP',-4),1),zero=stack.#numeric(reg('EBX'),1);stack.#arithmeticFlags(own,zero,(own-zero)&255,1,true);});
+              let retained=false;codepage('30684c4a',()=>{retained=branchZero();});
+              if(!retained){
+                codepage('30684c4c',()=>set('EAX',stack.#load(stack.#stack,relative('EBP',-8))));
+                codepage('30684c4f',()=>{const fields=ptd(reg('EAX')),flags=NativeHeapObjectViews.prototype.maskedWord.call(fields,0x70),result=flags.value&0xfffffffd,mask=flags.knownMask|2;stack.#store(fields,0x70,stack.#mint(result,mask));stack.#logicalFlags(result,mask,4);});
+              }
+              codepage('30684c53',()=>set('EAX',reg('ESI')));
+            }
             codepage('30684c55',()=>pop('EBX'));
             codepage('30684c56',()=>{set('ESP',reg('EBP'));pop('EBP');});
-            codepage('30684c57',()=>{const returned=stack.#record(stack.#ret()).provenance;if(returned?.kind!=='source'||returned.type!=='code'||returned.address!=='30684e97'||relative('EBP',0)!==frame.multibyteEbp)throw new Error('Actual Engine code-page helper return required');frame.codepageResult=stack.#numeric(reg('EAX'),4);frame.codepageReturned=true;});
+            codepage('30684c57',()=>{const returned=stack.#record(stack.#ret()).provenance;if(returned?.kind!=='source'||returned.type!=='code'||returned.address!==returnAddress||relative('EBP',0)!==parentEbp)throw new Error('Actual Engine code-page helper return required');frame.codepageResult=stack.#numeric(reg('EAX'),4);frame.codepageReturned=true;});
+            };
+            runCodepage('30684e97',frame.multibyteEbp!);
             nested('30684e97',()=>stack.#store(stack.#stack,relative('EBP',8),reg('EAX')));
             nested('30684e9a',()=>{const fields=mbcPointer(reg('EBX'));if(!fields)throw new Error('Actual Engine current MBC for code-page comparison required');const input=stack.#numeric(reg('EAX'),4),current=NativeHeapObjectViews.prototype.readUnsigned.call(fields,4);stack.#arithmeticFlags(input,current,(input-current)>>>0,4,true);});
             let unchanged=false;nested('30684e9d',()=>{unchanged=branchZero();});
@@ -476,7 +492,71 @@ export class NativeX86ThreadStack {
             nested('30684ec7',()=>stack.#push(reg('EBX')));
             nested('30684ec8',()=>stack.#push(stack.#load(stack.#stack,relative('EBP',8))));
             nested('30684ecb',()=>stack.#call('30684ecb','30684ed0'));
-            frame.pc='30684c58';engineArgvInstruction('30684c58',frame.pc);throw new Error('Engine MBC code-page initialization30684c58 at30684ecb');
+            const initialize=(pc:string,body:()=>void)=>step(pc,body,'30684c58');
+            initialize('30684c58',()=>stack.#push(reg('EBP')));
+            initialize('30684c59',()=>{set('EBP',reg('ESP'));frame.mbcInitEbp=relative('EBP',0);});
+            initialize('30684c5b',()=>{set('ESP',stack.#stackWord(relative('ESP',-32)));stack.#flags(0,0);});
+            initialize('30684c5e',()=>{const cookie=NativeCrtBootstrap.engineArgvCookieForCrt(bootstrap,crt,permit);if(!cookie.known)throw new Error(cookie.reason);set('EAX',value(NativeHeapObjectViews.prototype.readUnsigned.call(cookie.value,0)));});
+            initialize('30684c63',()=>set('EAX',xor(reg('EAX'),reg('EBP'))));
+            initialize('30684c65',()=>stack.#store(stack.#stack,relative('EBP',-4),reg('EAX')));
+            initialize('30684c68',()=>stack.#push(reg('EBX')));
+            initialize('30684c69',()=>set('EBX',stack.#load(stack.#stack,relative('EBP',12))));
+            initialize('30684c6c',()=>stack.#push(reg('ESI')));
+            initialize('30684c6d',()=>set('ESI',stack.#load(stack.#stack,relative('EBP',8))));
+            initialize('30684c70',()=>stack.#push(reg('EDI')));
+            initialize('30684c71',()=>stack.#call('30684c71','30684c76'));
+            runCodepage('30684c76',frame.mbcInitEbp!);frame.mbcInitCodepageReturned=true;
+            initialize('30684c76',()=>set('EDI',reg('EAX')));
+            initialize('30684c78',()=>{set('ESI',value(0));stack.#logicalFlags(0,0xffffffff,4);});
+            initialize('30684c7a',()=>{const left=stack.#numeric(reg('EDI'),4),right=stack.#numeric(reg('ESI'),4);stack.#arithmeticFlags(left,right,(left-right)>>>0,4,true);});
+            initialize('30684c7c',()=>stack.#store(stack.#stack,relative('EBP',8),reg('EDI')));
+            let nonzero=false;initialize('30684c7f',()=>{nonzero=!branchZero();});
+            if(!nonzero){frame.pc='30684c81';engineArgvInstruction('30684c58',frame.pc);throw new Error('Engine zero code-page initialization at30684c81');}
+            initialize('30684c8f',()=>stack.#store(stack.#stack,relative('EBP',-28),reg('ESI')));
+            initialize('30684c92',()=>{set('EAX',value(0));stack.#logicalFlags(0,0xffffffff,4);});
+            const table=NativeEngineArgvImages.imageForCrt(images,crt,'multibyteCodepageTable');if(!table.known)throw new Error(table.reason);
+            for(;;){
+              initialize('30684c94',()=>{const offset=stack.#numeric(reg('EAX'),4);if(offset>=240||offset%48)throw new Error('Actual Engine code-page table record required');const left=NativeHeapObjectViews.prototype.readUnsigned.call(table.value,offset),right=stack.#numeric(reg('EDI'),4);stack.#arithmeticFlags(left,right,(left-right)>>>0,4,true);});
+              let special=false;initialize('30684c9a',()=>{special=branchZero();});
+              if(special){frame.pc='30684d31';engineArgvInstruction('30684c58',frame.pc);throw new Error('Engine special MBC code-page table branch at30684d31');}
+              initialize('30684ca0',()=>{const offset=relative('EBP',-28),left=stack.#numeric(stack.#load(stack.#stack,offset),4),flags=stack.#record(stack.#load(stack.#bank,36));stack.#store(stack.#stack,offset,value(left+1));stack.#arithmeticFlags(left,1,(left+1)>>>0,4,false);const updated=stack.#record(stack.#load(stack.#bank,36));stack.#flags((updated.value&~1)|(flags.value&1),(updated.mask&~1)|(flags.mask&1));});
+              initialize('30684ca3',()=>{const left=stack.#numeric(reg('EAX'),4),result=(left+48)>>>0;set('EAX',value(result));stack.#arithmeticFlags(left,48,result,4,false);});
+              initialize('30684ca6',()=>{const left=stack.#numeric(reg('EAX'),4);stack.#arithmeticFlags(left,240,(left-240)>>>0,4,true);});
+              let next=false;initialize('30684cab',()=>{const flags=stack.#record(stack.#load(stack.#bank,36));if(!(flags.mask&1))throw new Error('Owned Engine code-page table JC flag required');next=!!(flags.value&1);});if(!next)break;
+            }
+            initialize('30684cad',()=>{const left=stack.#numeric(reg('EDI'),4);stack.#arithmeticFlags(left,65000,(left-65000)>>>0,4,true);});
+            let unsupported=false;initialize('30684cb3',()=>{unsupported=branchZero();});
+            if(unsupported){frame.pc='30684e1f';engineArgvInstruction('30684c58',frame.pc);throw new Error('Engine rejected code-page65000 at30684e1f');}
+            initialize('30684cb9',()=>{const left=stack.#numeric(reg('EDI'),4);stack.#arithmeticFlags(left,65001,(left-65001)>>>0,4,true);});
+            initialize('30684cbf',()=>{unsupported=branchZero();});
+            if(unsupported){frame.pc='30684e1f';engineArgvInstruction('30684c58',frame.pc);throw new Error('Engine rejected code-page65001 at30684e1f');}
+            initialize('30684cc5',()=>set('EAX',value(stack.#numeric(reg('EDI'),2))));
+            initialize('30684cc8',()=>stack.#push(reg('EAX')));
+            const invokeMbcNls=(kind:'IsValidCodePage'|'GetCPInfo',site:string,returnAddress:string,argumentBytes:number)=>{
+              stack.#call(site,returnAddress);const top=stack.#calls.at(-1)!;
+              const endpoints=stack.#platform.argvNlsEndpoints;if(!endpoints)throw new Error(`Engine ${kind} import at${site}`);
+              const endpoint=NativeRuntimePlatform.canonicalArgvNlsEndpointsForPlatform(stack.#platform,endpoints);if(!endpoint.known)throw new Error(endpoint.reason);
+              const grant=Object.freeze({identity:Object.freeze({})}),call={stack,frame,kind,position:top.position,returnWord:top.returnWord,phase:'pending' as 'pending'|'returned'};engineArgvNlsCalls.set(grant,call);
+              const result=endpoints.invoke(grant);if(!result.known)throw new Error(result.reason);
+              const normal=NativeRuntimePlatform.canonicalArgvNlsNormalReturnForPlatform(stack.#platform,grant);if(!normal.known)throw new Error(normal.reason);if(normal.value!==result.value||result.value.kind!=='scalar')throw new Error('Actual Engine MBC import normal result required');
+              const returned=stack.#record(stack.#ret(argumentBytes)).provenance;if(returned?.kind!=='source'||returned.type!=='code'||returned.address!==returnAddress)throw new Error('Actual Engine MBC stdcall return required');call.phase='returned';set('EAX',value(result.value.value));set('ECX',stack.#mint(0,0));set('EDX',stack.#mint(0,0));stack.#flags(0,0);
+            };
+            initialize('30684cc9',()=>{invokeMbcNls('IsValidCodePage','30684cc9','30684ccf',4);frame.mbcValidCodepageReturned=true;});
+            initialize('30684ccf',()=>{const input=stack.#numeric(reg('EAX'),4);stack.#logicalFlags(input,0xffffffff,4);});
+            let valid=false;initialize('30684cd1',()=>{valid=!branchZero();});
+            if(!valid){frame.pc='30684e1f';engineArgvInstruction('30684c58',frame.pc);throw new Error('Engine invalid MBC code-page at30684e1f');}
+            initialize('30684cd7',()=>{const position=relative('EBP',-24);frame.mbcInfo=new NativeHeapObjectViews(stack.#stack.backing,position,20);Object.freeze(frame.mbcInfo);set('EAX',stack.#stackWord(position));});
+            initialize('30684cda',()=>stack.#push(reg('EAX')));
+            initialize('30684cdb',()=>stack.#push(reg('EDI')));
+            initialize('30684cdc',()=>{invokeMbcNls('GetCPInfo','30684cdc','30684ce2',8);frame.mbcInfoReturned=true;});
+            initialize('30684ce2',()=>{const input=stack.#numeric(reg('EAX'),4);stack.#logicalFlags(input,0xffffffff,4);});
+            let info=false;initialize('30684ce4',()=>{info=!branchZero();});
+            if(!info){frame.pc='30684e13';engineArgvInstruction('30684c58',frame.pc);throw new Error('Engine failed MBC CPInfo at30684e13');}
+            initialize('30684cea',()=>stack.#push(value(257)));
+            initialize('30684cef',()=>{const pointer=stack.#liveWord(reg('EBX')).provenance;if(pointer?.kind!=='engine-allocation'||pointer.crt!==crt||pointer.fields!==frame.multibyteAllocation||pointer.offset!==0)throw new Error('Actual Engine MBC classification allocation required');set('EAX',stack.#mint(0,0,{kind:'engine-allocation',crt,fields:pointer.fields,offset:28}));});
+            initialize('30684cf2',()=>stack.#push(reg('ESI')));
+            initialize('30684cf3',()=>stack.#push(reg('EAX')));
+            initialize('30684cf4',()=>{stack.#call('30684cf4','30684cf9');throw new Error('Engine MBC classification memset30671690 at30684cf4');});
           }
           wrapper('30685022',()=>{set('EAX',stack.#mint(0,0xffffffff));stack.#logicalFlags(0,0xffffffff,4);});
           wrapper('30685024',()=>{const next=stack.#record(stack.#ret()).provenance;if(next?.kind!=='source'||next.type!=='code'||next.address!=='3068e787')throw new Error('Actual Engine multibyte wrapper return required');});
@@ -490,26 +570,38 @@ export class NativeX86ThreadStack {
     if(this.#engineArgvFrame!==frame||!this.#engineArgvExecuting||frame.phase!=='running'||this.#phase!=='running')throw new Error(frame.boundary??'Actual active Engine argument frame required');
     const reached=NativeCrtBootstrap.canonicalEngineArgvCallForCrt(frame.bootstrap,frame.crt,frame.permit);if(!reached.known)throw new Error(reached.reason);
     const selection=NativeRuntimePlatform.threadStackSelectionForPlatform(this.#platform);if(!selection.known||selection.value!==this.#selection)throw new Error('Actual selected Engine argument logical-thread lifetime required');
-    for(const label of ['multibyteReady','moduleFilename','moduleFilenameSentinel','programNamePointer','argumentCount','argumentVector','multibyteSetupSehScope','multibyteLocaleSehScope','multibyteLocaleFlags','currentMultibytePointer','codepageAutomatic'] as const){const image=NativeEngineArgvImages.imageForCrt(frame.images,frame.crt,label);if(!image.known)throw new Error(image.reason);}
+    for(const label of ['multibyteReady','moduleFilename','moduleFilenameSentinel','programNamePointer','argumentCount','argumentVector','multibyteSetupSehScope','multibyteLocaleSehScope','multibyteLocaleFlags','currentMultibytePointer','codepageAutomatic','multibyteCodepageTable'] as const){const image=NativeEngineArgvImages.imageForCrt(frame.images,frame.crt,label);if(!image.known)throw new Error(image.reason);}
     if(frame.multibytePtd){const ptd=NativeCrtThreadStartup.canonicalPtdForCrt(frame.crt,frame.multibytePtd);if(!ptd.known)throw new Error(ptd.reason);}
     if(frame.localePtd){const ptd=NativeCrtThreadStartup.canonicalPtdForCrt(frame.crt,frame.localePtd);if(!ptd.known)throw new Error(ptd.reason);}
     if(frame.localeMbc){const mbc=NativeCrtBootstrap.engineArgvMbcForCrt(frame.bootstrap,frame.crt,frame.permit);if(!mbc.known)throw new Error(mbc.reason);if(mbc.value!==frame.localeMbc)throw new Error('Actual retained Engine locale MBC required');}
     if(frame.codepagePtd){const ptd=NativeCrtThreadStartup.canonicalPtdForCrt(frame.crt,frame.codepagePtd);if(!ptd.known)throw new Error(ptd.reason);}
     if(frame.codepageLocale){const locale=NativeCrtBootstrap.engineArgvLocaleForCrt(frame.bootstrap,frame.crt,frame.permit);if(!locale.known)throw new Error(locale.reason);if(locale.value.original!==frame.codepageLocale)throw new Error('Actual retained Engine code-page locale required');}
     if(frame.multibyteAllocation){const allocation=NativeModuleCrtOwner.canonicalEngineHeapDestination(frame.crt,this.#platform,{fields:frame.multibyteAllocation,offset:0},544);if(!allocation.known)throw new Error(allocation.reason);}
+    if(frame.mbcInfo){const fields=frame.mbcInfo;if(frame.mbcInitEbp===null||fields.backing!==this.#stack.backing||fields.bytes.buffer!==this.#stack.bytes.buffer||fields.bytes.byteOffset!==this.#stack.bytes.byteOffset+frame.mbcInitEbp-24||fields.bytes.length!==20||fields.knownMask.buffer!==this.#stack.knownMask.buffer||fields.knownMask.byteOffset!==this.#stack.knownMask.byteOffset+frame.mbcInitEbp-24||fields.knownMask.length!==20||dataViewBuffer.call(fields.view)!==fields.bytes.buffer||dataViewByteOffset.call(fields.view)!==fields.bytes.byteOffset||dataViewByteLength.call(fields.view)!==20)throw new Error('Actual retained Engine CPInfo alias required');}
     if(frame.codepageLocaleRecord){if(frame.codepageEbp===null||frame.codepageLocaleRecord.backing!==this.#stack.backing||frame.codepageLocaleRecord.bytes.byteOffset!==this.#stack.bytes.byteOffset+frame.codepageEbp-16||frame.codepageLocaleRecord.bytes.length!==16||frame.codepageLocaleRecord.bytes.buffer!==this.#stack.bytes.buffer||frame.codepageLocaleRecord.knownMask.buffer!==this.#stack.knownMask.buffer||frame.codepageLocaleRecord.knownMask.byteOffset!==this.#stack.knownMask.byteOffset+frame.codepageEbp-16||frame.codepageLocaleRecord.knownMask.length!==16||dataViewBuffer.call(frame.codepageLocaleRecord.view)!==frame.codepageLocaleRecord.bytes.buffer||dataViewByteOffset.call(frame.codepageLocaleRecord.view)!==frame.codepageLocaleRecord.bytes.byteOffset||dataViewByteLength.call(frame.codepageLocaleRecord.view)!==16)throw new Error('Actual Engine code-page stack record alias required');}
     this.#physical(this.#stack);this.#physical(this.#bank);
   }
-  engineArgvFrameSnapshot(crt:NativeModuleCrtOwner){const frame=this.#engineArgvFrame;if(!frame||frame.crt!==crt)return null;return Object.freeze({module:'Engine' as const,phase:frame.phase,pc:frame.pc,boundary:frame.boundary,operations:frame.operations,entryEsp:frame.entryEsp,ebp:frame.ebp,multibyteEbp:frame.multibyteEbp,multibyteFsPublished:frame.multibyteFsPublished,multibytePrologReturned:frame.multibytePrologReturned,multibytePtd:frame.multibytePtd,multibyteGetterReturned:frame.multibyteGetterReturned,localeEbp:frame.localeEbp,localePtd:frame.localePtd,localeMbc:frame.localeMbc,localePrologReturned:frame.localePrologReturned,localeGetterReturned:frame.localeGetterReturned,localeFsRestored:frame.localeFsRestored,localeLockHeld:frame.localeLockHeld,localeReturned:frame.localeReturned,codepageEbp:frame.codepageEbp,codepageLocaleRecord:frame.codepageLocaleRecord,codepagePtd:frame.codepagePtd,codepageLocale:frame.codepageLocale,codepageCtorReturned:frame.codepageCtorReturned,codepageAcpReturned:frame.codepageAcpReturned,codepageReturned:frame.codepageReturned,codepageResult:frame.codepageResult,multibyteAllocation:frame.multibyteAllocation,multibyteMallocReturned:frame.multibyteMallocReturned,multibyteCopyReturned:frame.multibyteCopyReturned,stack:this.#stack,bank:this.#bank});}
-  static engineArgvNlsArgumentsForPlatform(platform:NativeRuntimePlatform,grant:NativeArgvNlsCallGrant):NativeValue<Readonly<{kind:'GetACP';site:'30684c28';crt:NativeModuleCrtOwner}>>{
+  engineArgvFrameSnapshot(crt:NativeModuleCrtOwner){const frame=this.#engineArgvFrame;if(!frame||frame.crt!==crt)return null;return Object.freeze({module:'Engine' as const,phase:frame.phase,pc:frame.pc,boundary:frame.boundary,operations:frame.operations,entryEsp:frame.entryEsp,ebp:frame.ebp,multibyteEbp:frame.multibyteEbp,multibyteFsPublished:frame.multibyteFsPublished,multibytePrologReturned:frame.multibytePrologReturned,multibytePtd:frame.multibytePtd,multibyteGetterReturned:frame.multibyteGetterReturned,localeEbp:frame.localeEbp,localePtd:frame.localePtd,localeMbc:frame.localeMbc,localePrologReturned:frame.localePrologReturned,localeGetterReturned:frame.localeGetterReturned,localeFsRestored:frame.localeFsRestored,localeLockHeld:frame.localeLockHeld,localeReturned:frame.localeReturned,codepageEbp:frame.codepageEbp,codepageLocaleRecord:frame.codepageLocaleRecord,codepagePtd:frame.codepagePtd,codepageLocale:frame.codepageLocale,codepageCtorReturned:frame.codepageCtorReturned,codepageAcpReturned:frame.codepageAcpReturned,codepageReturned:frame.codepageReturned,codepageResult:frame.codepageResult,multibyteAllocation:frame.multibyteAllocation,multibyteMallocReturned:frame.multibyteMallocReturned,multibyteCopyReturned:frame.multibyteCopyReturned,mbcInitEbp:frame.mbcInitEbp,mbcInitCodepageReturned:frame.mbcInitCodepageReturned,mbcValidCodepageReturned:frame.mbcValidCodepageReturned,mbcInfo:frame.mbcInfo,mbcInfoReturned:frame.mbcInfoReturned,stack:this.#stack,bank:this.#bank});}
+  static engineArgvNlsArgumentsForPlatform(platform:NativeRuntimePlatform,grant:NativeArgvNlsCallGrant):NativeValue<Readonly<{kind:'GetACP'|'IsValidCodePage'|'GetCPInfo';site:string;crt:NativeModuleCrtOwner;scalar:number|null;fields:NativeHeapObjectViews|null}>>{
     try{
-      const call=engineArgvNlsCalls.get(grant);if(!call||call.phase!=='pending'||graphs.get(platform)!==call.stack||call.stack.#platform!==platform)throw new Error('Actual pending Engine ACP call required');
-      const {stack,frame}=call;stack.#engineArgvProof(frame);const active=NativeRuntimePlatform.canonicalArgvNlsInvocationForPlatform(platform,grant);if(!active.known)throw new Error(active.reason);
-      const source=engineArgvGetACPImport();if(source.iatVA!=='0x30afc734'||source.module.toLowerCase()!=='kernel32.dll'||source.name!=='GetACP'||source.ordinal!==null||engineArgvInstruction('30684bde','30684c28').instruction!=='CALL dword ptr [0x30afc734]')throw new Error('Original Engine GetACP import required');
-      const pending=stack.#calls.at(-1);if(frame.pc!=='30684c28'||!frame.codepageCtorReturned||pending?.site!=='30684c28'||pending.returned||pending.position!==call.position||pending.returnWord!==call.returnWord||stack.#address(stack.#load(stack.#bank,stack.#reg('ESP')))!==call.position||stack.#load(stack.#stack,call.position)!==call.returnWord)throw new Error('Actual Engine GetACP caller and return slot required');
-      return known(Object.freeze({kind:'GetACP',site:'30684c28',crt:frame.crt}));
+      const call=engineArgvNlsCalls.get(grant);if(!call||call.phase!=='pending'||graphs.get(platform)!==call.stack||call.stack.#platform!==platform)throw new Error('Actual pending Engine NLS call required');
+      const stack=call.stack,frame=call.frame;stack.#engineArgvProof(frame);
+      const active=NativeRuntimePlatform.canonicalArgvNlsInvocationForPlatform(platform,grant);if(!active.known)throw new Error(active.reason);
+      const site=call.kind==='GetACP'?'30684c28':call.kind==='IsValidCodePage'?'30684cc9':'30684cdc',entry=call.kind==='GetACP'?'30684bde':'30684c58';
+      const receipt=call.kind==='GetACP'?engineArgvGetACPImport():engineArgvMbcImport(call.kind);
+      if(receipt.module.toLowerCase()!=='kernel32.dll'||receipt.name!==call.kind||receipt.ordinal!==null||engineArgvInstruction(entry,site).instruction!==`CALL dword ptr [${receipt.iatVA}]`)throw new Error('Original Engine NLS import identity required');
+      const top=stack.#calls.at(-1);if(frame.pc!==site||!frame.codepageCtorReturned||!top||top.returned||top.site!==site||top.position!==call.position||top.returnWord!==call.returnWord||stack.#address(stack.#load(stack.#bank,stack.#reg('ESP')))!==call.position||stack.#load(stack.#stack,call.position)!==call.returnWord)throw new Error('Actual current Engine NLS call and return slot required');
+      const scalar=call.kind==='GetACP'?null:stack.#numeric(stack.#load(stack.#stack,call.position+4),4);
+      const fields=call.kind==='GetCPInfo'?frame.mbcInfo:null;
+      if(call.kind!=='GetACP'&&!frame.mbcInitCodepageReturned)throw new Error('Actual Engine MBC code-page caller required');
+      if(call.kind==='GetCPInfo'){
+        const pointer=stack.#liveWord(stack.#load(stack.#stack,call.position+8)).provenance;
+        if(!fields||frame.mbcInitEbp===null||pointer?.kind!=='stack'||pointer.offset!==frame.mbcInitEbp-24)throw new Error('Actual Engine GetCPInfo stack output required');
+      }
+      return known(Object.freeze({kind:call.kind,site,crt:frame.crt,scalar,fields}));
     }catch(error){return unknown(reason(error));}
   }
+
   #engineIoFrame:EngineIoFrame|null=null;
   #engineIoExecuting=false;
   /** Borrow the actual thread graph for a reached translated Engine CRT call.

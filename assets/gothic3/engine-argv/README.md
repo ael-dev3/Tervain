@@ -7,7 +7,7 @@ and CRT malloc wrapper. The package contains 12 methods, 766 instructions and
 
 The setup calls GetModuleFileNameA, selects the current command line or filename,
 counts arguments and characters, allocates storage, parses again, and publishes
-argument count and vector globals. Twelve image receipts preserve original paths
+argument count and vector globals. Thirteen image receipts preserve original paths
 through labels and addresses, including the module filename buffer and command
 line pointer. Their cold bytes do not authorize resetting already-live storage.
 
@@ -18,7 +18,7 @@ python tools/gothic3/prepare_engine_argv_source.py --study <study-directory> --o
 ```
 
 Independent JSON and TypeScript regenerations are byte-identical. Two source checks and TypeScript checking pass. The JSON package has SHA-256
-`b79097f9b2533518d5fd10cea88eb62d0f1b9c6bd021fedf2255714ea6adc4bb`.
+`7cb49a220a57e30194edd80dfe13496cf7b94dd0a6fe8554abb25b357e6842e9`.
 Engine.dll SHA-256 is
 `d49ef92c0fdfeda433f6d04d0edeb7751e41e4c7c7effc1265630717029dc7e3`.
 
@@ -72,3 +72,18 @@ record's reference count. Execution then issues the actual initialization call
 NULL allocation, unavailable lower service and unsupported backward copy retain
 their actual branches, pending calls or allocation effects. Code-page table
 initialization, publication and full startup remain unfinished.
+
+## Engine MBC initializer and process services
+
+The initializer now calls the same retained code-page helper with its positive
+argument, preserving a separate caller and stack record. It scans the five
+original code-page table records at `30ad5000`; those owned bytes are read in
+their current state. The CP1252 path returns through the original
+IsValidCodePage and GetCPInfo imports with private current-call grants and exact
+stack arguments. CPInfo stores eighteen defined bytes into its original 20-byte
+stack record, preserving its two padding bytes.
+
+The current path reaches the actual classification memset call
+`30684cf4 -> 30671690` after 337 admitted operations. Classification, case tables,
+MBC publication and complete startup remain unfinished. The earlier allocation
+checkpoint is PR #224; it does not include this initializer continuation.
