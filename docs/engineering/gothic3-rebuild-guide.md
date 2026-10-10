@@ -13,6 +13,74 @@ finishable campaign.
 
 ## How the rebuild works
 
+### What we recover and what we implement
+
+The installed Windows game supplies two kinds of reference: assets describing
+the world, and native code describing how that world behaves. The rebuilding
+process carries both into a browser implementation:
+
+```text
+Local Gothic 3 installation
+  |-- archives -> resource readers -> meshes, textures, animations, world records
+  |                                      |
+  |                                      v
+  |                               browser rendering
+  |
+  `-- matching DLLs -> bytes + disassembly + decompiled listings
+                                  |
+                                  v
+                      verified source evidence packages
+                                  |
+                                  v
+                 TypeScript execution and platform services
+                                  |
+                                  v
+             live entities, NPCs, combat, dialogue, quests, saves
+```
+
+**Asset recovery.** Inventory the installation and resolve archive patch
+precedence before choosing a resource. Decode its format, preserve its original
+path and hash, and export a browser representation. A tree requires mesh and
+material relationships; a human also requires a skeleton, skin weights and
+animations. Terrain and entity placement connect those resources to a world.
+Extraction and format decoding must be investigated individually before saying
+that a particular file is encrypted.
+
+**Behavior recovery.** Native DLLs contain compiled machine code. Decompilers
+produce approximate readable listings; they do not restore the original source
+project or produce a working TypeScript game. Check important instructions,
+branches, imports and memory layouts against the matching original DLL bytes.
+The preparation scripts record those receipts so an implementation can be
+reviewed and independently regenerated.
+
+**Runtime implementation.** Selected x86 instruction continuations and
+translated routines run against TypeScript objects representing owned memory,
+stacks, heaps, locks and platform services. Original addresses identify the
+reference instruction or object; they are not usable browser memory addresses.
+Windows calls need implemented browser equivalents with the required return
+values and state changes. Preserve separate DLL ownership, pointer identity,
+allocation lifetime, callback order and cleanup when joining these routines.
+
+**Integration.** Rendering an extracted model proves that the model can be
+inspected. Play requires the renderer and game systems to use the same live
+entities. NPC activation must connect to animation, decisions, interactions,
+combat and dialogue. Quest consequences must survive save and reload and feed
+the campaign's ending conditions.
+
+### How we decide the next implementation step
+
+Run the current browser scenario and read its reported unsupported operation.
+Trace that call in the matching native evidence, identify its dependencies,
+implement the supported state changes, and resume the retained caller. If a
+later operation is unsupported, keep the state already produced and report its
+address. Do not fabricate a successful return merely to advance startup.
+
+Record captured evidence, local execution, validation and public deployment
+separately. A captured function can still lack runtime implementation; a passing
+component test can still lack gameplay integration; a local build can differ
+from the hosted revision. The dated receipts below state what each checkpoint
+actually demonstrates.
+
 ### Start here: the rebuilding process
 
 The browser rebuild combines recovered game data with a TypeScript runtime.
