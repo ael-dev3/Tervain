@@ -108,6 +108,8 @@ export async function openPage(url = process.env.TERVAIN_URL ?? 'http://127.0.0.
       return send('Input.dispatchMouseEvent', { type: 'mousePressed', x, y, button: 'left', clickCount: 1 }).then(() => send('Input.dispatchMouseEvent', { type: 'mouseReleased', x, y, button: 'left', clickCount: 1 }));
     },
     wait: (ms) => new Promise((r) => setTimeout(r, ms)),
+    /** Any DevTools protocol command (e.g. Profiler.start), for tools beyond the helpers above. */
+    cdp: (method, params = {}) => send(method, params),
     console: () => logs.splice(0),
     close() {
       try {

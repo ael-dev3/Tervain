@@ -14,6 +14,13 @@ export interface WaterRenderInputs {
   under?: WaterUnder | null;
   /** Drawn in the water pass after the water itself (its spray), so the surface never paints over them (A70). */
   overlays?: THREE.Object3D[];
+  /**
+   * Left out of the planar reflection (A76): the grass and the forest floor's plants, a third of what the reflection
+   * drew, are lost in a 512 px image of a rippled surface; the land, trees, buildings and figures stay in it.
+   */
+  unreflected?: THREE.Object3D[];
+  /** Lighten what the reflection draws (the trees' middle models, A76); returns how to put it back. */
+  lighten?: () => () => void;
 }
 
 export interface WaterUnder {
@@ -156,10 +163,14 @@ export class WaterRenderPass {
     // a frozen valid image for Reduced Motion. Camera movement never waits.
     if (!this.reflectionValid || moved || this.reflectionAge >= interval && (lightingChanged || !input.reducedMotion)) {
       const visible = input.meshes.map(mesh => mesh.visible);
+      const unreflected = input.unreflected ?? [], shown = unreflected.map(object => object.visible);
+      let restoreDetail: (() => void) | null = null;
       const oldTarget = renderer.getRenderTarget(), oldAutoClear = renderer.autoClear;
       const oldShadow = renderer.shadowMap.autoUpdate, oldXr = renderer.xr.enabled;
       try {
         for (const mesh of input.meshes) mesh.visible = false;
+        for (const object of unreflected) object.visible = false;
+        restoreDetail = input.lighten?.() ?? null;
         renderer.autoClear = true;
         this.reflectionValid = false;
         this.reflector.getReflectionCamera(camera).layers.mask = camera.layers.mask & ~2;
@@ -171,6 +182,8 @@ export class WaterRenderPass {
         this.reflectionLight.set(sun, night);
       } finally {
         input.meshes.forEach((mesh, i) => { mesh.visible = visible[i]!; });
+        unreflected.forEach((object, i) => { object.visible = shown[i]!; });
+        restoreDetail?.();
         renderer.autoClear = oldAutoClear; renderer.shadowMap.autoUpdate = oldShadow; renderer.xr.enabled = oldXr;
         renderer.setRenderTarget(oldTarget);
       }

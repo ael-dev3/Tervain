@@ -324,6 +324,19 @@ describe('the forest with wind, shadow-only casters and strikes', () => {
     // The nearest tree casts from its full model; trees across the volume from lighter ones.
     const near = casters.filter((m) => m.name.startsWith('solitary-pine:0:') && m.count > 0);
     expect(near.length).toBeGreaterThan(0);
+    // The water's reflection draws the full-detail trees with their middle models, same instances, and gives them back (A76).
+    const full = colour.filter((m) => /:0:(wood|foliage)$/.test(m.name) && m.count > 0);
+    expect(full.length).toBeGreaterThan(0);
+    const before = full.map((m) => m.geometry);
+    const restore = forest.lighterForReflection();
+    for (const [i, m] of full.entries()) {
+      const middles = colour.filter((o) => o.name === m.name.replace(':0:', ':1:'));
+      expect(m.geometry).not.toBe(before[i]);
+      expect(middles.some((o) => o.geometry.index === m.geometry.index && o.geometry.getAttribute('position') === m.geometry.getAttribute('position'))).toBe(true);
+      expect(m.geometry.getAttribute('aDistanceCoverage')).toBe(before[i]!.getAttribute('aDistanceCoverage'));
+    }
+    restore();
+    full.forEach((m, i) => expect(m.geometry).toBe(before[i]));
     // An arrow in the trunk shakes it and knocks leaves loose; one in open air hits nothing.
     const ground = terrain.heightAt(tree.x, tree.z);
     expect(forest.strike(tree.x + 0.1, ground + 1.5, tree.z, 1, tree.collisionId!)).toBe(true);

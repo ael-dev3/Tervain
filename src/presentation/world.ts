@@ -418,6 +418,8 @@ export class WorldScene {
     this.letIn = resources.letIn;
     this.interiorLight = new InteriorLight(this.terrain.rooms);
     this.windowView = new WindowView(this.terrain.rooms, this.scenery.daylightMat);
+    // The window views draw the trees with their middle models, as the water's reflection does (A77).
+    this.windowView.lighten = () => (this.modules.find((m) => m.name === 'forest')?.module as { lighterForReflection?: () => () => void } | undefined)?.lighterForReflection?.() ?? (() => {});
     this.doorSwings = new DoorSwings(this.scenery.doors ?? []);
     this.scene.add(this.interiorLight.light);
     this.skyFill = this.scene.environmentIntensity;
@@ -551,8 +553,17 @@ export class WorldScene {
   }
 
   waterRenderInputs(settings: Settings): WaterRenderInputs {
-    return this.water.renderInputs(settings.quality !== 'low' && !settings.reduceEffects, settings.reducedMotion);
+    const inputs = this.water.renderInputs(settings.quality !== 'low' && !settings.reduceEffects, settings.reducedMotion);
+    // The grass and the forest floor arrive after the world opens; looked up until both are there (A76).
+    if (this.unreflected.length < 3 && this.unreflectedLook++ % 60 === 0) {
+      this.unreflected = [];
+      this.scene.traverse((o) => { if (o.name === 'grass-near' || o.name === 'grass-far' || o.name === 'deepwood_forest_floor') this.unreflected.push(o); });
+    }
+    const forest = this.modules.find((m) => m.name === 'forest')?.module as { lighterForReflection?: () => () => void } | undefined;
+    return { ...inputs, unreflected: this.unreflected, lighten: forest?.lighterForReflection };
   }
+  private unreflected: THREE.Object3D[] = [];
+  private unreflectedLook = 0;
 
   /** Nearest distance to any watercourse, for the ambience bed. */
   waterProximity(x: number, z: number): number {

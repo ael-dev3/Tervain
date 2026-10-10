@@ -7,6 +7,11 @@ import { fromBuildingLocal, roomHalfSize, type InteriorSpec, type RoomLocator } 
  * in, its near plane past the room's own walls and roof, so the capture sees straight through them to what lies
  * outside; each pane samples it along the line of sight, so the view shifts as the hero moves about the room. It is
  * captured on entering a room and every few seconds while there, never outdoors.
+ *
+ * Its cost (A77): the capture drew the whole scene six times in one frame, up to 7.8 M triangles, a hitch every three
+ * seconds indoors. The trees now come in with their middle models (as in the water's reflection), and after the first
+ * capture in a room each refresh redraws one face a frame, so the same work is spread over six frames. The camera stands
+ * still for a room, so the faces always meet.
  */
 /** The capture's cube face size (px): 96 px read as a blurred blob through a pane near the camera (A75). */
 export const WINDOW_VIEW_SIZE = 320;
@@ -16,6 +21,10 @@ export class WindowView {
   private readonly camera: THREE.CubeCamera;
   private room: InteriorSpec | null = null;
   private age = Infinity;
+  /** The face to redraw next while a refresh is spread over frames, or -1 between refreshes. */
+  private face = -1;
+  /** Lighten what the capture draws (the trees' middle models); returns how to put it back. */
+  lighten: (() => () => void) | null = null;
 
   constructor(private readonly rooms: RoomLocator, private readonly pane: THREE.MeshBasicMaterial, size = WINDOW_VIEW_SIZE, private readonly interval = 3) {
     this.target = new THREE.WebGLCubeRenderTarget(size, { generateMipmaps: false, minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter });
@@ -39,22 +48,33 @@ export class WindowView {
       this.room = null; this.age = Infinity;
       return false;
     }
-    if (here !== this.room) { this.room = here; this.age = Infinity; }
+    const entered = here !== this.room;
+    if (entered) { this.room = here; this.age = Infinity; this.face = -1; }
     if (Number.isFinite(dt) && dt > 0) this.age += dt;
     // The capture already carries the light outside; the pane only tempers it a little.
     if (this.pane.envMap) this.pane.color.setScalar(0.9);
-    if (this.age >= this.interval) {
-      this.age = 0;
+    const whole = this.age >= this.interval && (entered || !this.pane.envMap);
+    if (whole || this.face >= 0 || this.age >= this.interval) {
+      if (this.age >= this.interval) { this.age = 0; this.face = whole ? -1 : 0; }
       const { at, near } = this.frame(here);
-      for (const face of this.camera.children as THREE.PerspectiveCamera[]) { face.near = near; face.updateProjectionMatrix(); }
+      const faces = this.camera.children as THREE.PerspectiveCamera[];
+      for (const face of faces) if (face.near !== near) { face.near = near; face.updateProjectionMatrix(); }
       const oldTarget = renderer.getRenderTarget(), oldShadow = renderer.shadowMap.autoUpdate, oldAutoClear = renderer.autoClear;
+      const restore = this.lighten?.() ?? null;
       try {
         renderer.shadowMap.autoUpdate = false;
         renderer.autoClear = true;
         this.camera.position.copy(at);
         this.camera.updateMatrixWorld(true);
-        this.camera.update(renderer, scene);
+        if (this.face < 0) this.camera.update(renderer, scene);
+        else {
+          // One face of the refresh this frame; the others follow on the next frames.
+          renderer.setRenderTarget(this.target, this.face);
+          renderer.render(scene, faces[this.face]!);
+          this.face = this.face + 1 < faces.length ? this.face + 1 : -1;
+        }
       } finally {
+        restore?.();
         renderer.shadowMap.autoUpdate = oldShadow;
         renderer.autoClear = oldAutoClear;
         renderer.setRenderTarget(oldTarget);
