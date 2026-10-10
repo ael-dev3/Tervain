@@ -431,6 +431,8 @@ export class NativeGameCrtSetEnvp {
   static canonicalAIHelperAdminTypeCallForCrt(owner:NativeGameCrtSetEnvp,crt:NativeModuleCrtOwner,controller:object):NativeValue<void> {
     const active=NativeGameCrtSetEnvp.canonicalControllerForCrt(owner,crt,controller,'invoke');if(!active.known)return active;
     const frame=owner.#frames.at(-1);
+    if(owner.#pc==='20077c1c')return owner.#currentEntry==='20077bf0'&&frame?.entry==='20077bf0'&&frame.site==='100905e9'&&frame.returnPc==='100905ee'&&owner.#requireSourcePoint(owner.#pc).instruction==='CALL 0x20016e32'
+      ?known(undefined):unknown('Actual original clone AIHelperAdmin type getter required');
     return owner.#pc==='204b267f'&&owner.#currentEntry==='204b2660'&&frame?.entry==='204b2660'&&
       frame.site==='20466654'&&frame.returnPc==='20466656'&&owner.#requireSourcePoint(owner.#pc).instruction==='CALL 0x20016e32'
       ?known(undefined):unknown('Actual original AIHelperAdmin type-singleton CALL required');
@@ -982,10 +984,10 @@ export class NativeGameCrtSetEnvp {
       fact(NativeX86ThreadStack.prototype.callGameLabelTypeSingleton.call(this.#stack,this.#controller));
       this.#nextBoundary=null;return returnPc;
     }
-    if(point.va==='204b267f') {
-      if(target.kind!=='immediate'||target.value!==0x20016e32||returnPc!=='204b2684')throw new Error('Original AIHelperAdmin type singleton call target required');
+    if(point.va==='204b267f'||point.va==='20077c1c') {
+      if(target.kind!=='immediate'||target.value!==0x20016e32||returnPc!==(point.va==='20077c1c'?'20077c21':'204b2684'))throw new Error('Original AIHelperAdmin type singleton call target required');
       this.#nextBoundary=Object.freeze({pc:point.va,operation:'translatedCrtCall',target:'20016e32'});
-      fact(NativeX86ThreadStack.prototype.callGameAIHelperAdminTypeSingleton.call(this.#stack,this.#controller));
+      fact(NativeX86ThreadStack.prototype.callGameAIHelperAdminTypeSingleton.call(this.#stack,this.#controller,point.va));
       this.#nextBoundary=null;return returnPc;
     }
     if(point.va==='204b214f') {
@@ -1002,8 +1004,8 @@ export class NativeGameCrtSetEnvp {
       fact(NativeX86ThreadStack.prototype.callGameArenaTypeSingleton.call(this.#stack,this.#controller));
       this.#nextBoundary=null; return returnPc;
     }
-    if(point.va==='204b1d75'||point.va==='204b2135'||point.va==='204b23d5'||point.va==='204b2665') {
-      if(this.#currentEntry!==(point.va==='204b1d75'?'204b1d70':point.va==='204b23d5'?'204b23d0':point.va==='204b2665'?'204b2660':'204b2130') || target.kind!=='memory' || target.expression!=='0x207d87b8' || target.fs)
+    if(point.va==='204b1d75'||point.va==='204b2135'||point.va==='204b23d5'||point.va==='204b2665'||point.va==='20077c09') {
+      if(this.#currentEntry!==(point.va==='20077c09'?'20077bf0':point.va==='204b1d75'?'204b1d70':point.va==='204b23d5'?'204b23d0':point.va==='204b2665'?'204b2660':'204b2130') || target.kind!=='memory' || target.expression!=='0x207d87b8' || target.fs)
         throw new Error('Original Arena wrapper constructor call required');
       admitArenaWrapperConstructorImport();
       this.#nextBoundary=Object.freeze({pc:point.va,operation:'import',target:'207d87b8'});

@@ -50,7 +50,8 @@ stack. PropertyID initializer `204b26c0` returns. Accessor-creator initializer
 `204b2720` resolves the registered AI helper type and returns its canonical
 factory through the original virtual accessor. The factory query finds the
 registered root wrapper and tail-dispatches its clone routine. The clone allocates
-its new wrapper and execution stops at the base constructor CALL `20077c09`.
+its new wrapper, executes its base constructor and retrieves the canonical type.
+Execution stops at non-root initialization CALL `20077c33`.
 Complete startup, world activation and a new-game-to-ending campaign remain
 unfinished. Local checkpoints and the hosted version can differ; the validation
 receipts below identify the checkpoint covered.
@@ -96,7 +97,22 @@ establish completion of these remaining features.
 The entries below describe successive local states, newest first. Statements
 about missing operations in older entries apply to those earlier checkpoints.
 
-### Latest local checkpoint: clone allocation returns
+### Latest local checkpoint: clone base construction and type getter return
+
+The clone calls the existing original base-constructor body `10089290` on its
+live allocation. The constructor returns, and the clone's instructions clear
+the object pointer and write its Game vtable constant. Its call at `20077c1c`
+uses the same canonical AI helper type owner as earlier startup registration.
+Subsequent stores retain that type pointer, leave the object pointer null and
+produce flags `10`. Execution reaches `20077c33 -> 20026a08` with the original
+non-root argument `0`; initialization of the actual component remains pending.
+
+Nine focused tests passed in 11.28 seconds. They inspect the allocation's actual
+fields, opaque type-pointer masks, vtable constant and executed instructions.
+TypeScript checking passed. Full engine startup and campaign completion remain
+unfinished.
+
+### Historical checkpoint: clone allocation returns
 
 The original clone allocation CALL `20077bfb` invokes the retained MemoryAdmin's
 tagged allocation with size `16` and category `0x190`. The returned allocation
