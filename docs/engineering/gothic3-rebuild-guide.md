@@ -157,19 +157,36 @@ classification locale ownership and enters the first case-mapping wrapper. It
 reaches `3067c94a -> 3067c57c` after 1660 admitted operations. Its full suite passed
 3356 tests across 313 files, and its Pages deployment succeeded.
 
-The newer local continuation probes the Unicode mapping API, scans the actual
-byte input, queries its conversion length and reserves separate input and mapped
-stack buffers through the original alignment and page-probe helpers. It converts
-the input to Unicode, queries mapped length and writes the declared lower-case
-Unicode results. It reaches narrowing preparation at `3067c779` after 3382
-admitted operations. Its full suite is running. Earlier probe, scan and buffer
-checkpoints passed 3357, 3359 and 3361 tests respectively. The latest focused
-checks, complete output-span and interruption checks, and production build
-passed. Independent source regeneration is byte-identical. This newer
-continuation is awaiting publication.
+[PR #229](https://github.com/ael-dev3/Tervain/pull/229) probes the Unicode
+mapping API, scans the actual byte input, queries conversion length and reserves
+separate input and mapped stack buffers through the original alignment and
+page-probe helpers. It converts the input to Unicode, queries mapped length and
+writes lowercase Unicode output. It reaches narrowing preparation `3067c779`
+after 3382 admitted operations. Its full suite passed 3365 tests across 313 files;
+its main build and Pages deployment succeeded.
 
-Narrowing, cleanup and return, the second case-table mapping, MBC publication,
-complete startup and campaign integration remain unfinished.
+The newer local continuation narrows Unicode output into the original byte
+destination and returns through both buffer cleanups, cookie checking and locale
+ownership release. It also executes the original uppercase mapping call into a
+separate destination, reusing the verified wrapper/body with its own arguments
+and return address. Both byte tables are complete for the declared CP1252 input.
+Default execution reaches the character-table publication loop `30684a93` after
+5261 admitted operations. Typecheck and production build passed. The focused run
+passed 94 of 95 checks; its sole stale stack-argument assertion was corrected and
+passed, alongside an additional uppercase interruption check. All 96 distinct
+focused checks are covered by those passing results. The latest full suite is
+running with a 20-second per-test timeout. The Engine I/O test file now uses
+that allowance by default for the expanded startup path. This work is awaiting
+publication.
+
+Temporary stack views are reused by later calls. Tests observe probe values and
+arguments at their actual returns rather than treating the reused storage as a
+historical snapshot. The previous narrowing full run reported 3332 passes and
+36 five-second timeouts in two files under concurrent local load; its only
+reported error type was the timeout.
+
+The character-flag/conversion loop, MBC publication, complete startup and
+campaign integration remain unfinished.
 
 Complete startup, world activation and a new-game-to-ending campaign remain
 unfinished. The checkpoint history records earlier boundaries and their evidence;

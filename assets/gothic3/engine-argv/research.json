@@ -12949,6 +12949,12 @@
       "module": "KERNEL32.dll",
       "name": "LCMapStringW",
       "ordinal": null
+    },
+    "WideCharToMultiByte": {
+      "iatVA": "0x30afc6fc",
+      "module": "KERNEL32.dll",
+      "name": "WideCharToMultiByte",
+      "ordinal": null
     }
   },
   "caller": {

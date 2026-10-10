@@ -12016,3 +12016,68 @@ The mapping body now executes its second division/size guard and aligned stack r
 The default continuation reaches byte-narrowing preparation at `3067c779` after 3382 admitted operations. Cached selection reaches it after 3369 operations; the early-NUL path reaches it after 1891 operations. TypeScript checking and all 88 focused tests across five files passed. Two new targeted checks passed for all 256 lower-case results, aligned non-overlapping buffers, allocation/header identity, actual returns and partial-output failure. Production build passed.
 
 The preceding first-buffer checkpoint passed 3361 tests across 313 files in 536.23 seconds. The mapped Unicode output remains local; narrowing, buffer cleanup, wrapper return, the second case-table mapping, MBC publication, startup and complete campaign play remain unfinished.
+
+
+### 10 October 2026: Engine mapped byte narrowing
+
+Verified the original Engine `WideCharToMultiByte` import against the matching
+DLL and independently regenerated the JSON and TypeScript evidence byte for
+byte. Continued the retained mapping frame through its original argument pushes,
+eight-argument conversion, actual stdcall return and result store. All 256 lower
+case results are written into the original case-table byte destination with
+bounded one-byte writes. Partial-write interruption retains the pending native
+return and prevents startup replay. Default continuation reaches `3067c79b`
+buffer cleanup after 3394 admitted operations; cached API selection reaches
+3381 and an input NUL at byte seven reaches 1903.
+
+Typecheck, production build and 92 focused tests across five files passed.
+All six source evidence checks passed, including the additional narrowing import
+check. The next full-suite run is pending.
+This does not establish complete startup or a finishable browser campaign.
+
+
+### 10 October 2026: Engine mapping cleanup and caller return
+
+Factored the already admitted stack-buffer cleanup and cookie helpers so the
+classification and mapping bodies execute the same original helper instructions
+with their own allocation bases and return words. Mapping now returns through
+both buffer cleanups, checks its cookie, restores registers, releases only its
+acquired locale ownership and returns to its retained case-table caller.
+The caller removes 68 bytes of original arguments. It reaches uppercase mapping
+preparation `30684a6e` after 3436 operations (3423 with a cached mapping API;
+1945 with an input NUL at byte seven).
+
+Typecheck and production build passed. Six targeted caller/ownership checks
+passed with a 20-second per-test timeout. The broader focused run passed 93 of
+94 checks; its sole failure was the old assertion that the now-returned mapping
+body remained pending. After updating that assertion, its affected test passed.
+The earlier narrowing full suite reported five-second timeouts under concurrent
+local validation load, including unchanged startup tests; its final result and
+a full run with an appropriate timeout remain pending. Complete engine startup
+and a finishable campaign are still unproven.
+
+
+### 10 October 2026: both Engine case mappings
+
+Reused the admitted mapping wrapper/body for the original uppercase caller at
+`30684a8b`, preserving its `0x200` flags, separate byte destination and original
+return word. Both calls execute conversion, stack-buffer cleanup, cookie checks
+and locale ownership release. Completed lower/upper byte spans remain separate
+aliases of the Engine case frame. The default path reaches publication loop
+`30684a93` after 5261 admitted operations (5248 with cached API selection; 2279
+with a NUL input at byte seven). The source evidence package remains unchanged.
+
+Typecheck and production build passed. The broader focused run passed 94 of 95
+checks; its sole failure read classification arguments after their slots had
+been reused by the uppercase call. The corrected test captures the actual call
+arguments while live. That test and an additional uppercase interruption check
+passed separately, validating all 96 distinct focused checks across those runs.
+Probe output is likewise observed at its real API return. Interrupted upper byte
+conversion retains the completed lower table and the actual pending second
+return, with temporary locale ownership still held.
+
+The earlier narrowing full suite finished with 3332 passes and 36 five-second
+timeouts across two files (313 total), in 985.15 seconds. Its only reported error
+type was the timeout. The newest checkpoint will be run with a 20-second per-test
+timeout. This continuation still does not publish the MBC record or prove full
+startup, world activation or a finishable campaign.
