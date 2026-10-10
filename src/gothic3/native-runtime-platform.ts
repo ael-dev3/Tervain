@@ -965,7 +965,12 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
       const engine=NativeX86ThreadStack.engineArgvNlsArgumentsForPlatform(this,call);
       if(engine.known){
         this.#argvNlsConsumed.add(call);const selected=this.#crtServices!.argvNls!;
-        const result: NativeArgvNlsResult=Object.freeze({kind:'scalar',value:selected.codePage >>> 0});this.#processLastError(selected.lastError?.GetACP);
+        const input=engine.value;let scalar:number;
+        if(input.kind==='GetACP')scalar=selected.codePage;
+        else if(input.kind==='IsValidCodePage')scalar=input.scalar===selected.codePage?1:0;
+        else if(input.scalar!==selected.codePage)scalar=0;
+        else{const fields=input.fields;if(!fields)throw new Error('Actual Engine CPInfo output required');requirePhysicalNativeViews(fields);const write=(offset:number,value:number,width:1|4)=>{const result=NativeX86ThreadStack.writeEngineArgvNlsMemoryForPlatform(this,call,offset,value,width);if(!result.known)throw new Error(result.reason);};write(0,1,4);write(4,63,1);write(5,0,1);for(let offset=6;offset<18;offset++)write(offset,0,1);scalar=1;}
+        const result: NativeArgvNlsResult=Object.freeze({kind:'scalar',value:scalar >>> 0});this.#processLastError(selected.lastError?.[input.kind]);
         const after=NativeX86ThreadStack.engineArgvNlsArgumentsForPlatform(this,call);if(!after.known)return after;
         this.#argvNlsNormal.set(call,result);return known(result);
       }
