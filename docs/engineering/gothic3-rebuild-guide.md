@@ -179,14 +179,16 @@ the record in Engine thread data through the original reference-count calls.
 The next continuation follows the global publication policy, acquires existing
 Engine lock 13, and copies the header and all character tables to their original
 global extents. Its targeted checks cover complete copying, interrupted writes
-and retained state. Default execution reaches global MBC pointer replacement
-`30684f94` after 11,570 operations. Broader validation is running; this continuation
-has not been deployed. A single full image-owner check preserves storage
+and retained state. The continuation also replaces the global pointer, retains a second reference,
+releases lock 13 and returns through the original exception epilog and wrapper.
+Default execution reaches module-filename preparation `3068e787` after 11,602
+operations. Its 142 distinct focused checks are covered by passing results, and
+TypeScript checking and production build pass. Full validation is running; this
+continuation has not been deployed. A single full image-owner check preserves storage
 validation while removing repeated validation of the same owner.
 
 Temporary stack views are reused by later calls. Tests observe values and
-arguments at their actual returns. Global pointer replacement, lock release,
-argument parsing and full startup remain unfinished.
+arguments at their actual returns. Module filename service, argument parsing and full startup remain unfinished.
 
 Complete startup, world activation and a new-game-to-ending campaign remain
 unfinished. The checkpoint history records earlier boundaries and their evidence;

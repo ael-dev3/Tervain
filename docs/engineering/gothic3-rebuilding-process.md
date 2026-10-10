@@ -4,28 +4,37 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
-## Latest state — 10 October 2026: global multibyte table publication
+## Latest state — 10 October 2026: multibyte setup and wrapper return
 
 PR #230 deployed revision `f1505ca863aefc10d5a6cb883d1d379b8ac296ff` after
 successful main build and Pages deployment. It completes both case conversions
 and stops at `30684a93` after 5261 admitted operations.
 
-The newer local continuation constructs all character flags and case bytes,
-returns the case and code-page initializers, installs the record in Engine PTD
-and executes the original decrement/increment imports. It then follows the
-actual publication policy, obtains Engine lock 13, and copies three header
-DWORDs, five wide-type WORDs, 257 character-type bytes and 256 case bytes to
-captured global images. The next unsupported instruction is global pointer
-replacement `30684f94`; the default prefix executes 11,570 operations.
-Interrupted copies retain the written prefix, unchanged tail and held lock.
-The 22-image receipt independently regenerates identically. Targeted checks and
-TypeScript checking pass; broader checks and build are underway. The preceding
-character-record full suite passed 3373 tests across 313 files. The subsequent
-reference-count full run is still running and has reported timeouts; it is not
-claimed as a passing full result.
+The newer local continuation builds the character record, returns its original
+initializers, installs it in Engine thread data, and publishes the header and
+complete character tables under lock 13. It replaces the global MBC pointer
+with the same allocation and retains its second reference through the actual
+imports. The four-instruction unlock helper releases the existing lock service;
+the retained EH4 epilog restores exception state and registers. Multibyte setup
+and its wrapper both return through their original slots, and the wrapper marks
+multibyte ready=1. Default execution reaches module-filename preparation
+`3068e787` after 11,602 operations.
+
+Interrupted increments and unavailable unlocks preserve the pending calls,
+installed record and held lock without manufacturing a ready result. Original
+policy branches that skip global publication return with one thread reference.
+The 23-method receipt independently regenerates identically. All 142 distinct
+focused checks are covered by passing results; TypeScript checking and build
+pass. Full validation of this combined continuation is running.
+
+The preceding table-publication full run reported 3382 passes and three
+timeouts across 313 files in 876.33 seconds: two five-second Game environment
+checks and one 30-second SharedBase heap check. It also reported two worker
+termination warnings. It is not a passing full result. The Game environment
+file now uses the same 20-second allowance as the expanded Engine graph.
 
 Full engine startup and a finishable browser campaign remain unfinished. Earlier
-sections below are dated historical receipts, including superseded boundaries.
+sections below are historical receipts, including superseded boundaries.
 
 ## Publication checkpoint — 10 October 2026: Engine argument and locale startup
 
