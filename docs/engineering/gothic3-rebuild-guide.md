@@ -60,6 +60,46 @@ Complete startup, world activation and a new-game-to-ending campaign remain
 unfinished. Local checkpoints and the hosted version can differ; the validation
 receipts below identify the checkpoint covered.
 
+## Concrete example: rebuilding the AI helper startup
+
+The current work follows a dependency from Game's AI helper factory into
+Engine's module administrator and CRT startup. This shows how a native behavior
+becomes browser code:
+
+1. Capture the matching DLL instructions and cold globals with
+   `tools/gothic3/prepare_ai_helper_accessor_creator_source.py`.
+2. Store the traceable input evidence in
+   `assets/gothic3/ai-helper-accessor-creator-startup/research.json`, and emit the
+   admitted instruction module
+   `src/gothic3/native-game-ai-helper-accessor-creator-source.ts`.
+3. Continue the existing Game stack through factory lookup, wrapper allocation
+   and component construction. Preserve the original caller and pending return
+   while the module administrator needs Engine startup.
+4. Create Engine's separate CRT owner in
+   `src/gothic3/browser-engine-crt-startup.ts`. The Game and Engine heaps and
+   thread storage remain distinct, while platform process inputs retain their
+   shared identity.
+5. In `src/gothic3/native-crt-bootstrap.ts`, invoke the owned command-line
+   endpoint and store its actual result in Engine's original global
+   `30af91f8`. Stop at the next unsupported environment call
+   `3067725c -> 3068e828`, preserving all state already produced.
+
+At local runtime revision `4132b39e1`, 27 focused tests across three files,
+typechecking and independent byte-identical evidence regeneration passed.
+Those checks cover the command-line continuation, including NULL and pointer
+results. They do not establish complete Engine attachment or campaign play.
+The separate Engine exit-table implementation still needs startup integration,
+table growth and shutdown traversal.
+
+## Why extracted trees and humans can look different
+
+A mesh alone supplies geometry. Reproducing the installed game's appearance
+also requires the correct material assignments, texture alpha, normals, scale,
+lighting and rendering behavior. Human models additionally need their original
+skeleton, skin weights, animation and equipment attachments. World placement
+and the selected level of detail affect what appears in a scene. Each of these
+relationships must be recovered and connected before accepting visual fidelity.
+
 ## What a rebuilding checkpoint contains
 
 Each checkpoint should let another developer follow the same evidence:
