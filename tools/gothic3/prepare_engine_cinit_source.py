@@ -2,6 +2,7 @@
 import argparse
 import hashlib
 import json
+import struct
 from pathlib import Path
 from read_dialogue_native_evidence import EXPECTED_INPUTS, PE, audit_module
 
@@ -42,12 +43,42 @@ def capture(study):
     fp = pe.bytes(0x30892ac0, 4)
     if int.from_bytes(fp, 'little') != 0x30671672:
         raise ValueError('Original Engine floating-point initializer differs')
+    nt = struct.unpack_from('<I', pe.data, 0x3c)[0]
+    section_count = struct.unpack_from('<H', pe.data, nt+6)[0]
+    optional_size = struct.unpack_from('<H', pe.data, nt+20)[0]
+    headers = pe.data[:nt+24+optional_size+section_count*40]
+    images = []
+    for label, address, size in [
+        ('floatConversionPointers', 0x30ad4900, 40),
+        ('divideAdjustment', 0x30af70a8, 4),
+        ('dynamicTlsCallback', 0x30af7e88, 4),
+    ]:
+        rva = address-pe.base
+        section = next(s for s in pe.sections if s[1] <= rva and rva+size <= s[1]+max(s[0],s[2]))
+        backed = max(0,min(size,section[1]+section[2]-rva))
+        raw = (pe.bytes(address,backed) if backed else b'')+bytes(size-backed)
+        images.append(dict(label=label,address=f'{address:08x}',bytes=size,raw=raw.hex(),
+            fileBackedBytes=backed,loaderZeroFillBytes=size-backed,sha256=hashlib.sha256(raw).hexdigest()))
+    strings = []
+    for label,address in [('divideModule',0x30893dbc),('divideExport',0x30893da0)]:
+        raw = bytearray()
+        for offset in range(256):
+            byte = pe.bytes(address+offset,1)
+            raw.extend(byte)
+            if byte == b'\0':
+                break
+        else:
+            raise ValueError('Unterminated original Engine divide dispatch string')
+        strings.append(dict(label=label,address=f'{address:08x}',raw=raw.hex(),
+            text=raw[:-1].decode('ascii'),sha256=hashlib.sha256(raw).hexdigest()))
     return dict(schema='gothic3.engine-cinit-source.v1', source=source,
         caller=dict(resultTest='30677284', failureBranch='30677286',
             failureTarget='3067729f', call='3067728a', target='3067d1c7',
             returnAddress='3067728f', raw=caller.hex(), sha256=hashlib.sha256(caller).hexdigest()),
         floatingPointCallback=dict(slot='30892ac0', target='30671672', raw=fp.hex()),
-        initializerTables=tables, runtimeConnected=False,
+        initializerTables=tables, images=images, strings=strings,
+        originalHeaders=dict(address=f'{pe.base:08x}',bytes=len(headers),raw=headers.hex(),sha256=hashlib.sha256(headers).hexdigest()),
+        runtimeConnected=False,
         notes=['Source capture does not establish initializer execution.',
             'Callback table slots are original addresses, not browser memory pointers.',
             'Engine initialization requires its own retained owner and caller authority.',
@@ -75,6 +106,9 @@ export function admitEngineCinitSource():void {if(sourceText!==expectedText)thro
 export function engineCinitInstruction(entry:string,pc:string){admitEngineCinitSource();const method=source.source.methods.find(method=>method.bodyVA==='0x'+entry);const row=method?.instructions.find(row=>row.va===pc);if(!row)throw new Error('Original Engine initializer instruction required');return row;}
 export function engineCinitCaller(){admitEngineCinitSource();return source.caller;}
 export function engineCinitFloatingPointCallback(){admitEngineCinitSource();return source.floatingPointCallback;}
+export function engineCinitHeaders(){admitEngineCinitSource();return source.originalHeaders;}
+export function engineCinitImage(label:string){admitEngineCinitSource();const image=source.images.find(image=>image.label===label);if(!image)throw new Error('Original Engine initializer image required');return image;}
+export function engineCinitString(label:string){admitEngineCinitSource();const string=source.strings.find(string=>string.label===label);if(!string)throw new Error('Original Engine initializer string required');return string;}
 export function engineCinitTable(label:string){admitEngineCinitSource();const table=source.initializerTables.find(table=>table.label===label);if(!table)throw new Error('Original Engine initializer table required');return table;}
 export function engineCinitTableTarget(label:string,slot:string):string|null {
  const table=engineCinitTable(label);
