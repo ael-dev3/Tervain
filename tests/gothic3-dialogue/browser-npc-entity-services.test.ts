@@ -1,6 +1,6 @@
 import { randomUUID } from 'node:crypto';
 import { describe, expect, it, vi } from 'vitest';
-// These run the original instructions in the emulator: about 4Ã¢â‚¬â€œ5 s each here, so the 5 s default fails under CI load.
+// These execute original instructions: about 4-5 seconds each locally; use a longer timeout under CI load.
 vi.setConfig({ testTimeout: 30_000 });
 import { BrowserMatrixShutdownRegistry, createBrowserNpcEntityServices } from '../../src/gothic3/browser-npc-entity-services';
 import { OriginalControlModuleState } from '../../src/gothic3/control-reading';

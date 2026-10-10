@@ -4,7 +4,7 @@ import {NativeGameAIHelperAdminClassName} from '../../src/gothic3/native-game-ai
 import {NativeGameLabelClassName} from '../../src/gothic3/native-game-label-class-name';
 import {NativeGameLabelType} from '../../src/gothic3/native-game-label-type';
 import {expect,it,vi} from 'vitest';
-// These run the original instructions in the emulator: about 4Ã¢â‚¬â€œ5 s each here, so the 5 s default fails under CI load.
+// These execute original instructions: about 4-5 seconds each locally; use a longer timeout under CI load.
 vi.setConfig({ testTimeout: 30_000 });
 import {createBrowserGameCrtPlatform} from '../../src/gothic3/browser-game-crt-platform';
 import {browserGameProcessInputs} from '../../src/gothic3/browser-game-process-inputs';
