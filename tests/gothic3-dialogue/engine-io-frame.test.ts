@@ -117,3 +117,16 @@ it('retains actual Engine standard-handle outcomes without manufacturing a handl
   expect(bootstrap.processAttach()).toEqual(result);
  }
 });
+
+it('rejects an altered Engine standard-input return without completing stack cleanup',()=>{
+ const {bootstrap}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs);
+ const original=NativeRuntimePlatform.canonicalStandardIoNormalReturnForPlatform;
+ const proof=vi.spyOn(NativeRuntimePlatform,'canonicalStandardIoNormalReturnForPlatform').mockImplementation((platform,grant)=>{
+  const result=original.call(NativeRuntimePlatform,platform,grant),frame=bootstrap.attachProgress().engineIoProgress;
+  if(frame?.pc==='306888a1')frame.stack.knownMask[frame.ebp!-0x7c]=0xff;
+  return result;
+ });
+ let result;try{result=bootstrap.processAttach();}finally{proof.mockRestore();}
+ expect(result.known).toBe(false);if(result.known)throw new Error('Changed standard-input return accepted');expect(result.reason).toContain('Retained x86 expression slot changed outside its actual store');
+ const frame=bootstrap.attachProgress().engineIoProgress!;expect(frame.pc).toBe('306888a1');expect(frame.operations).toBe(445);expect(frame.allocation!.readUnsigned(4,1)).toBe(0x81);expect(bootstrap.processAttach()).toEqual(result);
+});
