@@ -1,10 +1,11 @@
-/** Engine environment selection and scan prefix, using its own cold mode global.
- * Allocation/output ownership is the next dependency; no output is synthesized. */
+/** Engine environment selection, scanning and actual CRT allocation.
+ * Conversion fill and ANSI byte copying remain explicit dependencies. */
 import type { NativeValue } from './dialogue';
 import { NativeModuleCrtOwner } from './native-engine-crt-locks';
 import { NativeHeapObjectViews } from './native-heap-views';
 import { NativeRuntimePlatform } from './native-runtime-platform';
 import type { NativeBytePointer } from './native-pointer-geometry';
+import type { NativeMemoryBacking } from './native-memory-admin';
 import type { NativeWin32ProcessInputEndpoints } from './native-win32-process-inputs';
 import { admitEngineEnvironmentSource, engineEnvironmentImage, engineEnvironmentInstruction } from './native-engine-environment-source';
 
@@ -27,6 +28,8 @@ export class NativeEngineCrtEnvironment {
   #reads=0;
   #inputCharacters:number|null=null;
   #outputBytes:number|null=null;
+  #allocation:NativeMemoryBacking|null=null;
+  #output:NativeBytePointer|null=null;
   #invocations=0;
   readonly #effects:{pc:string;operation:string;value:unknown}[]=[];
   private constructor(crt:NativeModuleCrtOwner,cap:object){
@@ -63,11 +66,19 @@ export class NativeEngineCrtEnvironment {
   #storeMode(pc:string,value:number){this.#at(pc);NativeHeapObjectViews.prototype.writeUnsigned.call(this.#mode,0,value,4);this.#effect('mode.store',value);}
   #get(pc:string,wide:boolean){this.#input=this.#call(pc,wide?'GetEnvironmentStringsW.return':'GetEnvironmentStrings.return',()=>wide?this.#endpoints!.getEnvironmentStringsW():this.#endpoints!.getEnvironmentStrings());return this.#input;}
   #read(pc:string,width:1|2){this.#at(pc);const value=fact(NativeRuntimePlatform.readProcessInputUnsigned(this.#platform,this.#input!,this.#cursor,width));this.#reads++;return value;}
+  #malloc(pc:string){
+    this.#allocation=this.#call(pc,'mallocCrt3067c9c1.return',()=>NativeModuleCrtOwner.prototype.mallocCrt.call(this.#crt,this.#outputBytes!));
+    if(this.#allocation===null)return null;
+    const fields=new NativeHeapObjectViews(this.#allocation);Object.freeze(fields);
+    this.#output=Object.freeze({fields,offset:0});
+    fact(NativeModuleCrtOwner.canonicalEngineHeapDestination(this.#crt,this.#platform,this.#output,this.#outputBytes!));
+    return this.#output;
+  }
   #finish(){this.#at('3068e95c');this.#phase='returned';this.#effect('environment.return',null);return known(null);}
   capture():NativeValue<NativeBytePointer|null>{
     if(this.#phase==='blocked')return unknown(this.#boundary!);
     if(this.#phase==='invoking'){this.#phase='blocked';this.#boundary='Reentrant Engine environment capture cannot replay';return unknown(this.#boundary);}
-    this.#phase='invoking';this.#input=null;this.#branch=null;this.#cursor=0;this.#reads=0;this.#inputCharacters=null;this.#outputBytes=null;this.#invocations++;
+    this.#phase='invoking';this.#input=null;this.#branch=null;this.#cursor=0;this.#reads=0;this.#inputCharacters=null;this.#outputBytes=null;this.#allocation=null;this.#output=null;this.#invocations++;
     try{
       admitEngineEnvironmentSource();let mode=this.#readMode('3068e82a');
       if(mode===0){
@@ -82,13 +93,16 @@ export class NativeEngineCrtEnvironment {
         this.#outputBytes=this.#call('3068e8b9','WideCharToMultiByte.measure.return',()=>this.#endpoints!.wideCharToMultiByte({codePage:0,flags:0,input:this.#input!,inputCharacters:this.#inputCharacters!,output:null,outputBytes:0,defaultCharacter:null,usedDefaultCharacter:null}));
         if(!Number.isInteger(this.#outputBytes)||this.#outputBytes<0||this.#outputBytes>0xffffffff)throw new Error('Actual Engine conversion DWORD required');
         if(this.#outputBytes===0){this.#call('3068e8f4','FreeEnvironmentStringsW.return',()=>this.#endpoints!.freeEnvironmentStringsW(this.#input!));return this.#finish();}
-        this.#at('3068e8c2');throw new Error('Engine environment allocation/output ownership3067c9c1 at3068e8c2');
+        if(this.#malloc('3068e8c2')===null){this.#call('3068e8f4','FreeEnvironmentStringsW.return',()=>this.#endpoints.freeEnvironmentStringsW(this.#input!));return this.#finish();}
+        this.#at('3068e8db');throw new Error('Engine environment conversion destination at3068e8db');
       }
       if(mode!==0&&mode!==2)return this.#finish();
       this.#branch='ansi';if(this.#get('3068e906',false)===null)return this.#finish();
       if(this.#read('3068e916',1)!==0){for(;;){do{this.#cursor++;}while(this.#read('3068e91b',1)!==0);this.#cursor++;if(this.#read('3068e920',1)===0)break;}}
-      this.#outputBytes=(this.#cursor+1)>>>0;this.#at('3068e92a');throw new Error('Engine environment allocation/output ownership3067c9c1 at3068e92a');
+      this.#outputBytes=(this.#cursor+1)>>>0;
+      if(this.#malloc('3068e92a')===null){this.#call('3068e937','FreeEnvironmentStringsA.return',()=>this.#endpoints.freeEnvironmentStringsA(this.#input!));return this.#finish();}
+      this.#at('3068e945');throw new Error('Engine environment memcpy30671cf0 at3068e945');
     }catch(error){this.#boundary??=error instanceof Error?error.message:String(error);this.#phase='blocked';return unknown(this.#boundary);}
   }
-  snapshot(){return Object.freeze({module:'Engine' as const,entry:'3068e828',phase:this.#phase,boundary:this.#boundary,pc:this.#pc,mode:NativeHeapObjectViews.prototype.readUnsigned.call(this.#mode,0,4),branch:this.#branch,input:this.#input,scanCursor:this.#cursor,scanReads:this.#reads,inputCharacters:this.#inputCharacters,outputBytes:this.#outputBytes,invocations:this.#invocations,effects:Object.freeze([...this.#effects])});}
+  snapshot(){return Object.freeze({module:'Engine' as const,entry:'3068e828',phase:this.#phase,boundary:this.#boundary,pc:this.#pc,mode:NativeHeapObjectViews.prototype.readUnsigned.call(this.#mode,0,4),branch:this.#branch,input:this.#input,scanCursor:this.#cursor,scanReads:this.#reads,inputCharacters:this.#inputCharacters,outputBytes:this.#outputBytes,allocation:this.#allocation,output:this.#output,invocations:this.#invocations,effects:Object.freeze([...this.#effects])});}
 }

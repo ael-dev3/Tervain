@@ -285,6 +285,17 @@ export class NativeModuleCrtOwner {
         : unknown('Actual current same-owner Game CRT heap capability required');
     } catch (error) { return unknown(error instanceof Error ? error.message : String(error)); }
   }
+  static canonicalEngineHeapDestination(owner:NativeModuleCrtOwner,platform:NativeRuntimePlatform,
+    pointer:NativeBytePointer,bytes:number):NativeValue<void>{
+    if(!NativeModuleCrtOwner.isConstructedOwner(owner)||owner.module!=='Engine'||owner.host.platform!==platform||owner.#heapTerminated)return unknown('Actual live same-platform Engine CRT required');
+    try{
+      const retained=Object.freeze({fields:pointer.fields,offset:pointer.offset});
+      if(!owner.#allocations.has(retained.fields.backing)||retained.fields.backing.freed)return unknown('Actual allocation returned by this Engine CRT required');
+      const heap=NativeHeapObjectViews.prototype.pointer.call(owner.physical.heapHandle,0).get() as NativeWin32HeapCapability|null;
+      if(!heap||heap.owner!==owner.identity||!owner.#heaps.has(heap))return unknown('Actual current Engine CRT heap required');
+      return NativeRuntimePlatform.canonicalOwnedWin32HeapAllocationSpan(platform,heap,owner.identity,retained,bytes);
+    }catch(error){return unknown(error instanceof Error?error.message:String(error));}
+  }
   static heapAllocForArgvCall(owner: NativeModuleCrtOwner, platform: NativeRuntimePlatform,
     call: NativeArgvNlsCallGrant): NativeValue<NativeMemoryBacking | null> {
     const admitted = NativeX86ThreadStack.argvArgumentsForPlatform(platform, call); if (!admitted.known) return admitted;

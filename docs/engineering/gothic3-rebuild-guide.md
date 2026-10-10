@@ -56,8 +56,9 @@ constructor chain. The translated module-administrator getter constructs its
 dispatcher and registry. Its shutdown dependency now enters Engine's retained
 CRT attach prefix, stores the process command-line pointer and stops at Engine
 environment retrieval `3067725c -> 3068e828`. That routine selects the wide
-API, scans the retained input and measures conversion; execution now stops at
-its allocation/output ownership dependency `3068e8c2 -> 3067c9c1`.
+API, scans the retained input, measures conversion and allocates output through
+Engine's CRT. Execution now stops at conversion fill `3068e8db`; the ANSI path
+retains its actual allocation and stops at copy `3068e945 -> 30671cf0`.
 Complete startup, world activation and a new-game-to-ending campaign remain
 unfinished. Local checkpoints and the hosted version can differ; the validation
 receipts below identify the checkpoint covered.
@@ -109,10 +110,14 @@ The next Engine environment dependency is captured in
 Its 130 instructions, six platform imports, two cold globals and caller bytes
 are verified against the pinned DLL. Independent regeneration matches exactly.
 Its translated selection, scan and conversion-measurement prefix is connected
-to the retained browser Engine bootstrap. All 34 focused checks across four
-files and typechecking pass. Output allocation, conversion fill, ANSI copy and
-cleanup remain the next runtime dependencies. This checkpoint has not yet been
-validated by a full suite, production build or hosted-browser observation.
+to the retained browser Engine bootstrap. The subsequent allocation checkpoint
+passes 39 focused checks across five files and typechecking. Its destination
+proof rejects foreign owners/platforms, unregistered storage, invalid spans,
+released allocations and expired heaps. Conversion fill, ANSI copy and cleanup
+remain the next runtime dependencies. The preceding selection checkpoint
+(`973fc79a8`) passed a production build in 50.35 seconds; its full suite is still
+running. The allocation checkpoint has no full-suite, production-build or
+hosted-browser receipt yet.
 
 Each checkpoint should let another developer follow the same evidence:
 

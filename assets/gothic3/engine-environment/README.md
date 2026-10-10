@@ -27,13 +27,18 @@ Their execution requires separate ownership and source evidence.
 The generated admission pins the original package text. The browser bootstrap
 now invokes `NativeEngineCrtEnvironment` for the actual Engine CRT, independently
 of Game's environment mode. The translated prefix selects and scans wide or ANSI
-input, measures wide conversion, and retains the pending allocation call at
-`3068e8c2` (wide) or `3068e92a` (ANSI). NULL inputs return NULL. A zero conversion
+input, measures wide conversion, and allocates output through the actual Engine
+CRT at `3068e8c2` (wide) or `3068e92a` (ANSI). Private CRT allocation membership,
+the current heap capability and the platform's retained allocation span prove
+the destination. Execution stops at conversion fill `3068e8db` or ANSI copy
+`3068e945`, with the allocation and output pointer retained. NULL allocation
+releases the corresponding OS input before returning NULL. NULL inputs return
+NULL. A zero conversion
 measurement releases wide input before returning NULL; the original raw release
 BOOL is ignored. Completed calls permit another physical invocation, while a
 blocked call preserves its state and cannot replay the prefix.
 
-Output allocation, fill conversion, ANSI copy and allocation cleanup remain
+Fill conversion, ANSI copy and conversion-failure allocation cleanup remain
 unconnected. Once the routine
 returns, its original caller stores EAX at `30af70d4` and calls `306886ec` at
 `30677266`; this package does not establish that those operations execute.
