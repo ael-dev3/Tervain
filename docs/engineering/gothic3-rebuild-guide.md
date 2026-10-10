@@ -52,7 +52,8 @@ factory through the original virtual accessor. The factory query finds the
 registered root wrapper and tail-dispatches its clone routine. The clone allocates
 its new wrapper, executes its base constructor and retrieves the canonical type.
 Non-root initialization allocates a separate component and executes its Engine
-constructor chain. It stops at module-administrator getter CALL `200766c2`.
+constructor chain. The translated module-administrator getter constructs its
+dispatcher and registry, then stops at Engine shutdown registration.
 Complete startup, world activation and a new-game-to-ending campaign remain
 unfinished. Local checkpoints and the hosted version can differ; the validation
 receipts below identify the checkpoint covered.
@@ -115,7 +116,9 @@ Create and registers shutdown callback `30797fc0` through Engine's CRT. This
 callback requires its Engine exit-table owner. The existing ModuleAdmin owner
 already translates the dispatcher and registry operations; connecting it to
 this startup call still requires the actual shutdown registration service.
-These captured methods have not executed on the current startup path.
+The getter now connects to the existing translated ModuleAdmin/dispatcher
+owners. These captured instruction bodies are not interpreted on the startup
+stack by that bridge.
 
 Independent byte-identical generation, TypeScript checking and nine focused
 tests passed (11.89 seconds). The earlier runtime checkpoint `53359a5f9` passed
@@ -123,7 +126,23 @@ all 3,216 tests across 301 files in 440.70 seconds and its production build in
 34.96 seconds. Its validation checkout matched that checkpoint's tree. The
 later component constructor and research additions have focused receipts only.
 
-### Latest local checkpoint: Engine component constructor chain returns
+### Latest local checkpoint: ModuleAdmin construction reaches Engine shutdown registration
+
+The original Game getter CALL `200766c2` enters the retained ModuleAdmin owner
+through a translated bridge. Its source-ordered getter sets the guard,
+constructs the dispatcher in its original 84-byte static object, installs the
+ModuleAdmin vtable and clears its registry. Dispatcher Create completes. The
+getter then stops at shutdown registration because Engine's onexit path has no
+connected Engine CRT exit-table owner. The Game CALL remains pending; the getter
+has not returned and no module has been registered.
+
+Nine focused tests passed in 13.37 seconds. They check the actual guard, vtable,
+registry and dispatcher slots, plus the missing atexit receipt. TypeScript
+checking passed. The preceding integrated checkpoint's production build passed
+in 29.90 seconds; its full suite remains running. Complete startup and a
+finishable browser campaign remain unfinished.
+
+### Historical checkpoint: Engine component constructor chain returns
 
 The component's Engine constructor `300027b1 -> 30100fe0` calls its base
 `30035a5d -> 30103020`, which enters SharedBase ObjectRefBase constructor

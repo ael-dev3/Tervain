@@ -444,6 +444,12 @@ export class NativeGameCrtSetEnvp {
       frame.site==='20466654'&&frame.returnPc==='20466656'&&owner.#requireSourcePoint(owner.#pc).instruction==='CALL 0x20016e32'
       ?known(undefined):unknown('Actual original AIHelperAdmin type-singleton CALL required');
   }
+  static canonicalAIHelperModuleAdminCallForCrt(owner:NativeGameCrtSetEnvp,crt:NativeModuleCrtOwner,controller:object):NativeValue<void> {
+    const active=NativeGameCrtSetEnvp.canonicalControllerForCrt(owner,crt,controller,'invoke');if(!active.known)return active;
+    const frame=owner.#frames.at(-1);
+    return owner.#pc==='200766c2'&&owner.#currentEntry==='20076630'&&frame?.entry==='20076630'&&frame.site==='20077054'&&frame.returnPc==='20077059'&&owner.#requireSourcePoint(owner.#pc).instruction==='CALL dword ptr [0x207d7158]'
+      ?known(undefined):unknown('Actual original AI helper ModuleAdmin getter required');
+  }
   static canonicalFreePointTypeCallForCrt(owner:NativeGameCrtSetEnvp,crt:NativeModuleCrtOwner,controller:object):NativeValue<void> {
     const active=NativeGameCrtSetEnvp.canonicalControllerForCrt(owner,crt,controller,'invoke');
     if(!active.known)return active;
@@ -694,6 +700,12 @@ export class NativeGameCrtSetEnvp {
     fact(NativeX86ThreadStack.prototype.storeWidth.call(this.#stack, this.#controller, this.#address(destination.expression), word, bytes));
   }
   #call(point: NativeGameIoInstruction, target: Operand, returnPc: string): string {
+    if(point.va==='200766c2') {
+      if(this.#currentEntry!=='20076630'||target.kind!=='memory'||target.expression!=='0x207d7158'||target.fs||returnPc!=='200766c8')throw new Error('Original ModuleAdmin getter import required');
+      this.#nextBoundary=Object.freeze({pc:point.va,operation:'translatedCrtCall',target:'3002e9ec'});
+      fact(NativeX86ThreadStack.prototype.callAIHelperModuleAdminGetter.call(this.#stack,this.#controller));
+      this.#nextBoundary=null;return returnPc;
+    }
     const componentConstructors:Readonly<Record<string,readonly[string,string,string,string]>>={
       '200766b2':['20076630','CALL dword ptr [0x207d6ddc]','30100fe0','200766b8'],
       '30100fe3':['30100fe0','CALL 0x30035a5d','30103020','30100fe8'],
@@ -1329,6 +1341,7 @@ export class NativeGameCrtSetEnvp {
       aiHelperAccessorQueryNode: NativeX86ThreadStack.prototype.aiHelperAccessorQueryNodeSnapshot.call(this.#stack),
       aiHelperCloneAllocation: NativeX86ThreadStack.prototype.aiHelperCloneAllocationSnapshot.call(this.#stack),
       aiHelperComponentAllocation: NativeX86ThreadStack.prototype.aiHelperComponentAllocationSnapshot.call(this.#stack),
+      aiHelperModuleAdmin: NativeX86ThreadStack.prototype.aiHelperModuleAdminSnapshot.call(this.#stack),
       aiHelperPropertyIdText: NativeX86ThreadStack.prototype.aiHelperPropertyIdTextSnapshot.call(this.#stack),
       aiHelperPropertyIdGuid: NativeX86ThreadStack.prototype.aiHelperPropertyIdGuidSnapshot.call(this.#stack),
       nextBoundary: this.#nextBoundary, physicalGraphTransferred: this.#physicalGraphTransferred,

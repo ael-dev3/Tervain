@@ -54,7 +54,7 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  expect(game.known).toBe(true);
  if(!game.known)throw new Error(game.reason);
  expect(game.value.attachResult,game.value.attachProgress.setEnvpProgress?.currentPC).toEqual({known:false,
-  reason:'crtAttach204677e4: Unowned Unowned original environment CALL at200766c2: CALL dword ptr [0x207d7158]'});
+  reason:'crtAttach204677e4: Unowned ModuleAdmin.GetInstance30088e90: atexit.ModuleAdmin30797fc0: Original Engine onexit3067155a requires its Engine CRT exit-table owner'});
  const executed=new Set(game.value.attachProgress.setEnvpProgress!.effects.map(effect=>effect.pc));
  for(const pc of ['204b26c0','204b26c3','204b26c8'])expect(executed.has(pc)).toBe(true);
  for(const pc of ['204b26cc','204b26d2','204b26d5','204b26d6'])expect(executed.has(pc)).toBe(true);
@@ -86,6 +86,15 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  for(const pc of ['20077c33','20077040','20077054','20076697','2007669b','2007669d','200766a2','200766a4','200766aa','200766ac','200766ae','200766b0'])expect(executed.has(pc)).toBe(true);
  for(const pc of ['200766b2','30100fe0','30100fe3','30103020','30103023','1004a5a0','1004a5a3','1004a1c0','1004a1c8','1004a5c6','30103036','30100ff9','200766b8','200766be'])expect(executed.has(pc)).toBe(true);
  expect(executed.has('200766c2')).toBe(false);
+ const moduleAdmin=game.value.attachProgress.setEnvpProgress!.aiHelperModuleAdmin!;
+ expect(moduleAdmin.module.guard).toBe(1);expect(moduleAdmin.module.initialized).toBe(false);
+ expect(moduleAdmin.module.moduleCount).toBe(0);expect(moduleAdmin.module.moduleCapacity).toBe(0);expect(moduleAdmin.module.modules).toEqual([]);
+ expect(moduleAdmin.module.trace).toContain('moduleAdmin.vtable-and-registry-zero');
+ expect(moduleAdmin.module.trace).not.toContain('moduleAdmin.atexit');
+ expect(moduleAdmin.fields.bytes.length).toBe(84);expect(moduleAdmin.guard.readUnsigned(0)).toBe(1);
+ expect(moduleAdmin.fields.pointer<{module:string;address:string}>(0).get()).toEqual({module:'Engine',address:'3081cdd4'});
+ expect([52,56,60].map(offset=>moduleAdmin.fields.readUnsigned(offset))).toEqual([0,0,0]);
+ expect([16,28,40,44].map(offset=>moduleAdmin.fields.pointer(offset).get())).toEqual([null,null,null,null]);
  const component=game.value.attachProgress.setEnvpProgress!.aiHelperComponentAllocation!;
  expect(component.requestedBytes).toBe(24);expect(component.capacity).toBeGreaterThanOrEqual(24);expect(component.freed).toBe(false);
  expect(component).not.toBe(game.value.attachProgress.setEnvpProgress!.aiHelperCloneAllocation);

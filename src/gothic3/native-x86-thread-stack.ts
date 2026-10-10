@@ -1,4 +1,5 @@
 import {NativePropertyTypeTable} from './native-property-type-table';
+import {createNativeEngineModuleOwner} from './native-engine-module-owner';
 import {NativeGameAIHelperAdminClassName} from './native-game-ai-helper-admin-class-name';
 import scriptAdminSource from '../../assets/gothic3/script-admin-startup/runtime-rules.json';
 import {constructNativePropertyIdFromGuid} from './native-property-id-guid';
@@ -211,6 +212,7 @@ export class NativeX86ThreadStack {
   #aiHelperAccessorQueryNode: NativeHeapObjectViews | null = null;
   #aiHelperCloneAllocation: NativeMemoryAllocation | null = null;
   #aiHelperComponentAllocation: NativeMemoryAllocation | null = null;
+  #aiHelperModuleOwner: ReturnType<typeof createNativeEngineModuleOwner<NativeHeapObjectViews>> | null = null;
   #aiHelperPropertyIdTextDestroyedSnapshot: ReturnType<NativeHeapCString["snapshot"]> | null = null;
   #aiHelperPropertyIdGuid: NativeGuidText | null = null;
   #aiHelperPropertyIdGuidConstructed: Readonly<{bytes:readonly number[];mask:readonly number[]}> | null = null;
@@ -3154,6 +3156,24 @@ export class NativeX86ThreadStack {
   aiHelperAccessorQueryNodeSnapshot() {return this.#aiHelperAccessorQueryNode;}
   aiHelperCloneAllocationSnapshot() {return this.#aiHelperCloneAllocation;}
   aiHelperComponentAllocationSnapshot() {return this.#aiHelperComponentAllocation;}
+  aiHelperModuleAdminSnapshot() {return this.#aiHelperModuleOwner?Object.freeze({module:this.#aiHelperModuleOwner.moduleAdmin.snapshot(),fields:this.#aiHelperModuleOwner.moduleAdmin.fields,guard:this.#aiHelperModuleOwner.moduleAdmin.guard}):null;}
+  callAIHelperModuleAdminGetter(controller:object):NativeValue<void> {return this.#run(controller,()=>{
+    const binding=this.#setEnvpBinding;if(!binding||binding.controller!==controller)throw new Error('Actual retained Game startup controller required');
+    const grant=NativeGameCrtSetEnvp.canonicalAIHelperModuleAdminCallForCrt(binding.owner,binding.crt,controller);if(!grant.known)throw new Error(grant.reason);
+    if(this.#calls.filter(call=>!call.returned).at(-1)?.site!=='20077054'||!this.#aiHelperComponentAllocation)throw new Error('Actual component replacement frame required');
+    const memory=nativeGameLayerBaseMemoryForCrt(binding.crt as NativeGameCrtOwner);if(!memory.known)throw new Error(memory.reason);
+    if(!this.#aiHelperModuleOwner)this.#aiHelperModuleOwner=createNativeEngineModuleOwner<NativeHeapObjectViews>(memory.value,{
+      componentFields:fields=>{
+        const allocation=this.#arenaAllocations.get(fields);
+        return allocation&&allocation.owner===memory.value&&!allocation.allocation.freed?known(fields):unknown('Actual retained Engine component fields required');
+      },
+      moduleClassNameEquals:()=>unknown('Original Engine module class-name comparison is not connected'),
+      registerShutdown:()=>unknown('Original Engine onexit3067155a requires its Engine CRT exit-table owner'),
+    });
+    this.#call('200766c2','200766c8');
+    const result=this.#aiHelperModuleOwner.moduleAdmin.getInstance();if(!result.known)throw new Error(result.reason);
+    throw new Error('Original ModuleAdmin getter return capability is not connected');
+  }); }
   callAIHelperAccessorTypeLookup(controller:object):NativeValue<void> {return this.#run(controller,()=>{
     const binding=this.#setEnvpBinding;if(!binding||binding.controller!==controller)throw new Error('Actual retained Game startup controller required');
     const grant=NativeGameCrtSetEnvp.canonicalAIHelperAccessorTypeLookupCallForCrt(binding.owner,binding.crt,controller);if(!grant.known)throw new Error(grant.reason);
