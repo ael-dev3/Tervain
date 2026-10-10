@@ -50,7 +50,7 @@ it('stops before storing exit pointers when the actual codec fails without reall
 it('rejects a Game CRT owner',()=>{
   const platform=new NativeRuntimePlatform();
   const game=NativeGameCrtOwner.forPlatform({platform});
-  expect(()=>NativeEngineExitTable.forCrt(game as unknown as NativeEngineCrtOwner)).toThrow('Actual Engine CRT owner required');
+  expect(()=>NativeEngineExitTable.forCrt(game as unknown as NativeEngineCrtOwner)).toThrow('Actual constructed Engine CRT owner required');
 });
 
 it('registers an encoded shutdown callback under Engine lock8 without invoking it',()=>{
@@ -75,4 +75,23 @@ it('preserves the full initial table at the actual growth frontier',()=>{
  for(let i=0;i<32;i++)expect(fact(owner.atexit(callback))).toBe(0);
  expect(owner.atexit(callback).known).toBe(false);
  expect(owner.snapshot().boundary).toContain('growth3067ca49');expect(owner.snapshot().callbackCells).toHaveLength(32);
+});
+it('rejects a prototype-only Engine CRT facade',()=>{
+ const fake=Object.create(NativeEngineCrtOwner.prototype);fake.module='Engine';
+ expect(()=>NativeEngineExitTable.forCrt(fake)).toThrow('Actual constructed Engine CRT owner required');
+});
+it('retains allocation but blocks stores after reentrant initialization',()=>{
+ const {crt}=fixture(),owner=NativeEngineExitTable.forCrt(crt),original=crt.callocCrt;
+ const call=vi.spyOn(crt,'callocCrt').mockImplementation((count,size)=>{
+  expect(owner.initialize().known).toBe(false);return original.call(crt,count,size);
+ });
+ expect(owner.initialize().known).toBe(false);const state=owner.snapshot();
+ expect(state.allocation).not.toBe(null);expect(owner.begin.readUnsigned(0)).toBe(0);expect(owner.end.readUnsigned(0)).toBe(0);
+ expect(owner.initialize().known).toBe(false);expect(owner.snapshot()).toEqual(state);expect(call).toHaveBeenCalledOnce();call.mockRestore();
+});
+it('blocks callback stores after reentrant registration under the original lock',()=>{
+ const {crt}=fixture(),owner=NativeEngineExitTable.forCrt(crt);fact(owner.initialize());const callback=owner.moduleShutdownCallback(),original=crt.lock;
+ const call=vi.spyOn(crt,'lock').mockImplementation(id=>{expect(owner.atexit(callback).known).toBe(false);return original.call(crt,id);});
+ expect(owner.atexit(callback).known).toBe(false);const state=owner.snapshot();expect(state.callbackCells).toEqual([]);
+ expect(owner.atexit(callback).known).toBe(false);expect(owner.snapshot()).toEqual(state);expect(call).toHaveBeenCalledOnce();call.mockRestore();
 });

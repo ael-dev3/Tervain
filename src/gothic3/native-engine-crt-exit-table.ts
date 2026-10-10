@@ -1,6 +1,6 @@
 import source from '../../assets/gothic3/ai-helper-accessor-creator-startup/research.json';
 import {admitAIHelperAccessorCreatorSource} from './native-game-ai-helper-accessor-creator-source';
-import {NativeEngineCrtOwner} from './native-engine-crt-locks';
+import {NativeEngineCrtOwner,NativeModuleCrtOwner} from './native-engine-crt-locks';
 import {NativeHeapObjectViews} from './native-heap-views';
 import type {NativeMemoryBacking} from './native-memory-admin';
 import type {NativeBytePointer} from './native-pointer-geometry';
@@ -32,7 +32,7 @@ export class NativeEngineExitTable {
   #callback:NativeEngineExitCallback|null=null;
   readonly #cells:{readonly allocation:NativeMemoryBacking;readonly offset:number;readonly callback:NativeEngineExitCallback|null}[]=[];
   private constructor(readonly crt:NativeEngineCrtOwner) {
-    if(!(crt instanceof NativeEngineCrtOwner)||crt.module!=='Engine')throw new Error('Actual Engine CRT owner required');
+    if(!NativeModuleCrtOwner.isConstructedOwner(crt)||!(crt instanceof NativeEngineCrtOwner)||crt.module!=='Engine')throw new Error('Actual constructed Engine CRT owner required');
   }
   static forCrt(crt:NativeEngineCrtOwner):NativeEngineExitTable {
     const old=owners.get(crt);if(old)return old;
@@ -40,7 +40,7 @@ export class NativeEngineExitTable {
   }
   initialize():NativeValue<0|24> {
     if(this.#boundary)return unknown(this.#boundary);
-    if(this.#active)return unknown('Engine exit initializer is already executing');
+    if(this.#active){this.#boundary='Reentrant Engine exit initializer cannot replay';return unknown(this.#boundary);}
     this.#active=true;
     this.#completed=false;this.#result=null;
     try {
@@ -51,7 +51,9 @@ export class NativeEngineExitTable {
       this.#allocation=allocation.value;
       this.#pointer=allocation.value?Object.freeze({fields:new NativeHeapObjectViews(allocation.value),offset:0}):null;
       this.#trace.push('30671530.calloc.return');
+      if(this.#boundary)throw new Error(this.#boundary);
       const encoded=this.crt.encodePointer(this.#pointer);if(!encoded.known)throw new Error(encoded.reason);
+      if(this.#boundary)throw new Error(this.#boundary);
       this.begin.pointer(0).set(encoded.value);this.#trace.push('30671542.begin.store');
       this.end.pointer(0).set(encoded.value);this.#trace.push('30671547.end.store');
       if(this.#allocation){this.#pointer!.fields.writeUnsigned(0,0);this.#trace.push('30671553.first.cell.zero');this.#result=0;}
@@ -70,12 +72,12 @@ export class NativeEngineExitTable {
   }
   atexit(callback:NativeEngineExitCallback|null):NativeValue<0|-1> {
     if(this.#boundary)return unknown(this.#boundary);
-    if(this.#active)return unknown('Engine exit table is already executing');
+    if(this.#active){this.#boundary='Reentrant Engine exit registration cannot replay';return unknown(this.#boundary);}
     if(callback!==null&&callback!==this.#callback)return unknown('Same Engine exit owner callback required');
     if(!this.#completed||this.#result!==0||!this.#allocation||!this.#pointer)return unknown('Original Engine exit initialization must return successfully');
     this.#active=true;
     try {
-      const take=<T>(result:NativeValue<T>):T=>{if(!result.known)throw new Error(result.reason);return result.value;};
+      const take=<T>(result:NativeValue<T>):T=>{if(!result.known)throw new Error(result.reason);if(this.#boundary)throw new Error(this.#boundary);return result.value;};
       take(this.crt.lock(8));this.#trace.push('3067cfe8.lock8');
       const begin=take(this.crt.decodePointer(this.begin.pointer<object>(0).get())) as NativeBytePointer|null;
       const end=take(this.crt.decodePointer(this.end.pointer<object>(0).get())) as NativeBytePointer|null;

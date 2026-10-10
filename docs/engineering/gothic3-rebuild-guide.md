@@ -122,9 +122,10 @@ allocations, destination ownership and pointer/NULL result stores. ANSI copy and
 Engine I/O remain runtime dependencies. The preceding selection checkpoint
 (`973fc79a8`) passed its production build in 50.35 seconds and all 3,233 tests
 across 304 files in 425.70 seconds. The wide-conversion checkpoint has no
-full-suite or hosted-browser receipt yet. Its production build passed in
-29.28 seconds; the full suite is currently running in the separate validation
-checkout. A local production browser at validation revision `693142418` entered
+hosted-browser receipt yet. Its production build passed in
+29.28 seconds and all 3,241 tests across 305 files passed in 386.66 seconds in
+the separate validation checkout. A local production browser at validation
+revision `693142418` entered
 Ardea and inspected `Ardea_OutNovice_01`. Its developer panel confirmed the
 pending Engine I/O call `30677266 -> 306886ec` through the same Game startup
 dependency. The NPC still reports 0 of 16 attached property sets and incomplete
@@ -138,6 +139,14 @@ instructions and 870 body
 bytes. The package retains the loader-zero count and 64-slot pointer table,
 file-backed exception scope, imports and caller branches. Independent generation
 matches byte for byte. I/O runtime integration remains unfinished.
+
+Prepublication review additionally tightened Engine exit-table construction to
+require an actual constructed CRT and made reentrant initialization/registration
+retain an interruption boundary. It preserves any real allocation or lock already
+produced and prevents later stores or replay. All 26 relevant focused checks and
+typechecking pass; independent regeneration matches the six AI helper JSON and
+TypeScript outputs. Full validation of this final review change remains pending.
+The exit-table owner still has no completed production startup integration.
 
 Each checkpoint should let another developer follow the same evidence:
 
