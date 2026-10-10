@@ -91,7 +91,7 @@ type WordRecord = Readonly<{ value: number; mask: number; provenance?:
   Readonly<{kind:'engine-allocation';crt:NativeModuleCrtOwner;fields:NativeHeapObjectViews;offset:number}> |
   Readonly<{ kind: 'heap'; heap: NativeWin32HeapCapability }> |
   Readonly<{ kind: 'allocation'; allocation: Allocation; offset: number; pointer: NativeBytePointer }> |
-  Readonly<{ kind: 'platform'; object: object; category: NativeStandardIoCapabilityKind | NativeArgvImportKind | 'GetModuleHandleA' | 'GetProcAddress' | 'IsProcessorFeaturePresent' | 'InitializerTlsGetValue' | 'InitializerPtdGetter' | 'InitializerEncodePointer' | 'InitializerDecodePointer' | 'InitializerPoolHeapAlloc' | 'InitializerCrtHeapFree' | 'InitializerPoolVirtualAlloc' | 'InitializerHeapSize' | 'InitializerInitializeSection' | 'InitializerMemorySectionInitialize' | 'InitializerMemorySectionEnter' | 'InitializerMemorySectionLeave' | 'InitializerSectionCache' | 'InitializerCreateFileA' | 'InitializerGetLastError' | 'InitializerSetLastError' | 'InitializerGetFileType' | 'InitializerCloseHandle' | 'InitializerFileHandle' | 'InitializerEncodedCode' | 'DllLstrcpyA' | 'DllVersionModule' | 'SpyFindWindowA' | 'DiagnosticWindow' | 'GameCinitModule' | 'GameCinitFeature' | 'GameCinitEncoded' }> |
+  Readonly<{ kind: 'platform'; object: object; category: NativeStandardIoCapabilityKind | NativeArgvImportKind | 'GetModuleHandleA' | 'GetProcAddress' | 'IsProcessorFeaturePresent' | 'InitializerTlsGetValue' | 'InitializerPtdGetter' | 'InitializerEncodePointer' | 'InitializerDecodePointer' | 'InitializerPoolHeapAlloc' | 'InitializerCrtHeapFree' | 'InitializerPoolVirtualAlloc' | 'InitializerHeapSize' | 'InitializerInitializeSection' | 'InitializerMemorySectionInitialize' | 'InitializerMemorySectionEnter' | 'InitializerMemorySectionLeave' | 'InitializerSectionCache' | 'InitializerCreateFileA' | 'InitializerGetLastError' | 'InitializerSetLastError' | 'InitializerGetFileType' | 'InitializerCloseHandle' | 'InitializerFileHandle' | 'InitializerEncodedCode' | 'DllLstrcpyA' | 'DllVersionModule' | 'SpyFindWindowA' | 'DiagnosticWindow' | 'EngineCinitModule' | 'EngineCinitFeature' | 'GameCinitModule' | 'GameCinitFeature' | 'GameCinitEncoded' }> |
   Readonly<{ kind: 'source'; type: 'code' | 'image'; address: string; fields?: NativeHeapObjectViews }> |
   Readonly<{ kind: 'xor'; left: NativeX86Word32; right: NativeX86Word32 }> |
   Readonly<{ kind: 'neg'; word: NativeX86Word32 }> |
@@ -201,7 +201,7 @@ export class NativeX86ThreadStack {
   #engineArgvExecuting=false;
   #engineArgvCallerTested=false;
   #engineSetenvpCallerTested=false;
-  #engineCinitFrame:{crt:NativeModuleCrtOwner;bootstrap:NativeCrtBootstrap;pc:string;entryEsp:number;images:NativeEngineCinitImages;operations:number;floatConversionWritten:boolean}|null=null;
+  #engineCinitFrame:{crt:NativeModuleCrtOwner;bootstrap:NativeCrtBootstrap;pc:string;entryEsp:number;images:NativeEngineCinitImages;operations:number;floatConversionWritten:boolean;precisionArgument:number|null}|null=null;
   #engineSetenvpFrame:{crt:NativeModuleCrtOwner;bootstrap:NativeCrtBootstrap;phase:'running'|'blocked'|'returned';pc:string;boundary:string|null;operations:number;input:NativeBytePointer|null;cursor:number;entries:number;strlenCalls:number;vectorSlots:number|null;vector:NativeHeapObjectViews|null;vectorPublished:boolean;vectorReleased:boolean;vectorCleared:boolean;inputReleased:boolean;inputCleared:boolean;readyPublished:boolean;strings:NativeHeapObjectViews[];filledEntries:number;images:NativeEngineSetenvpImages;result:0|-1|null}|null=null;
   static enterEngineSetenvpForBootstrap(stack:NativeX86ThreadStack,bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object):NativeValue<0|-1>{
     const reached=NativeCrtBootstrap.engineSetenvpInputForCrt(bootstrap,crt,permit);if(!reached.known)return reached;
@@ -358,7 +358,7 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
       const images=NativeEngineCinitImages.forCrt(crt);if(!images.known)throw new Error(images.reason);
       stack.#physical(stack.#stack);stack.#physical(stack.#bank);
       const entryEsp=stack.#address(stack.#load(stack.#bank,stack.#reg('ESP')));
-      stack.#engineCinitFrame={crt,bootstrap,pc:'30677288',entryEsp,images:images.value,operations:0,floatConversionWritten:false};
+      stack.#engineCinitFrame={crt,bootstrap,pc:'30677288',entryEsp,images:images.value,operations:0,floatConversionWritten:false,precisionArgument:null};
       stack.#push(stack.#mint(0,0xffffffff));stack.#trace.push('30677288.EngineCinitCallerPush');stack.#engineCinitFrame.operations++;
       stack.#call('3067728a','3067728f');stack.#trace.push('3067728a.EngineCinitCallerCall');stack.#engineCinitFrame.operations++;
       stack.#engineCinitFrame.pc='3067d1c7';
@@ -399,10 +399,39 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
       step('30671661',()=>stack.#ret(),'30671602');stack.#engineCinitFrame.floatConversionWritten=true;
       step('30671677',()=>stack.#call('30671677','3067167c'),'30671672');
       stack.#engineCinitFrame.pc='3067f611';
+      const literal=(label:'divideModule'|'divideExport',address:string)=>{const fields=NativeEngineCinitImages.imageForCrt(images.value,crt,label);if(!fields.known)throw new Error(fields.reason);return stack.#mint(0,0,{kind:'source',type:'image',address,fields:fields.value});};
+      const dispatch=(pc:string,body:()=>void)=>step(pc,body,'3067f611');
+      const hostReturn=(word:NativeX86Word32,args:number)=>{stack.#store(stack.#bank,stack.#reg('EAX'),word);stack.#store(stack.#bank,stack.#reg('ECX'),stack.#mint(0,0));stack.#store(stack.#bank,stack.#reg('EDX'),stack.#mint(0,0));stack.#flags(0,0);stack.#ret(args);};
+      dispatch('3067f611',()=>stack.#push(literal('divideModule','30893dbc')));
+      let module:NativeWin32ModuleCapability|null=null;
+      dispatch('3067f616',()=>{stack.#call('3067f616','3067f61c');const found=NativeRuntimePlatform.prototype.getWin32ModuleHandle.call(stack.#platform,'KERNEL32');if(!found.known)throw new Error(found.reason);if(found.value){const proof=NativeRuntimePlatform.canonicalWin32ModuleForPlatform(stack.#platform,found.value);if(!proof.known)throw new Error(proof.reason);module=proof.value;}hostReturn(module?stack.#mint(0,0,{kind:'platform',object:module,category:'EngineCinitModule'}):stack.#mint(0,0xffffffff),4);});
+      dispatch('3067f61c',()=>stack.#flags(module?0:0x44,0x841|(module?0:0x84)));
+      dispatch('3067f61e',()=>{});
+      if(!module){dispatch('3067f635',()=>{});stack.#engineCinitFrame.pc='3067f5d5';return known(undefined);}
+      dispatch('3067f620',()=>stack.#push(literal('divideExport','30893da0')));
+      dispatch('3067f625',()=>stack.#push(stack.#load(stack.#bank,stack.#reg('EAX'))));
+      let procedure:NativeCrtProcessorFeatureProcedure|null=null;
+      dispatch('3067f626',()=>{stack.#call('3067f626','3067f62c');const resolve=NativeRuntimePlatform.prototype.getWin32Procedure as (this:NativeRuntimePlatform,module:NativeWin32ModuleCapability,name:'IsProcessorFeaturePresent')=>NativeValue<NativeCrtProcessorFeatureProcedure|null>;const found=resolve.call(stack.#platform,module!,'IsProcessorFeaturePresent');if(!found.known)throw new Error(found.reason);if(found.value){const proof=NativeRuntimePlatform.canonicalProcessorFeatureProcedureForPlatform(stack.#platform,found.value);if(!proof.known)throw new Error(proof.reason);procedure=proof.value;}hostReturn(procedure?stack.#mint(0,0,{kind:'platform',object:procedure,category:'EngineCinitFeature'}):stack.#mint(0,0xffffffff),8);});
+      dispatch('3067f62c',()=>stack.#flags(procedure?0:0x44,0x841|(procedure?0:0x84)));
+      dispatch('3067f62e',()=>{});
+      if(!procedure){dispatch('3067f635',()=>{});stack.#engineCinitFrame.pc='3067f5d5';return known(undefined);}
+      dispatch('3067f630',()=>stack.#push(stack.#mint(0,0xffffffff)));
+      dispatch('3067f632',()=>{stack.#call('3067f632','3067f634');const live=NativeRuntimePlatform.canonicalProcessorFeatureProcedureForPlatform(stack.#platform,procedure!);if(!live.known)throw new Error(live.reason);const esp=stack.#address(stack.#load(stack.#bank,stack.#reg('ESP'))),feature=stack.#numeric(stack.#load(stack.#stack,esp+4),4),result=live.value.invoke(feature);if(!result.known)throw new Error(result.reason);hostReturn(stack.#mint(result.value,0xffffffff),4);});
+      dispatch('3067f634',()=>stack.#ret());
+      const fpStep=(pc:string,body:()=>void)=>step(pc,body,'30671672');
+      let precisionArgument=0;
+      fpStep('3067167c',()=>{const esp=stack.#address(stack.#load(stack.#bank,stack.#reg('ESP')));precisionArgument=stack.#numeric(stack.#load(stack.#stack,esp+4),4);stack.#engineCinitFrame!.precisionArgument=precisionArgument;stack.#arithmeticFlags(precisionArgument,0,precisionArgument,4,true);});
+      fpStep('30671681',()=>{const selected=NativeEngineCinitImages.imageForCrt(images.value,crt,'divideAdjustment');if(!selected.known)throw new Error(selected.reason);stack.#store(selected.value,0,stack.#load(stack.#bank,stack.#reg('EAX')));});
+      fpStep('30671686',()=>{});
+      if(precisionArgument!==0){fpStep('30671688',()=>stack.#call('30671688','3067168d'));stack.#engineCinitFrame.pc='3067f5ac';return known(undefined);}
+      fpStep('3067168d',()=>{const before=stack.#record(stack.#load(stack.#bank,40));stack.#store(stack.#bank,40,stack.#mint(before.value&~0x80ff,before.mask|0x80ff));});
+      fpStep('3067168f',()=>stack.#ret());
+      step('3067d1e9',()=>{const esp=stack.#address(stack.#load(stack.#bank,stack.#reg('ESP')));stack.#store(stack.#bank,stack.#reg('ECX'),stack.#load(stack.#stack,esp));stack.#store(stack.#bank,stack.#reg('ESP'),stack.#stackWord(esp+4));});
+      step('3067d1ea',()=>stack.#call('3067d1ea','3067d1ef'));stack.#engineCinitFrame.pc='3067f58d';
       return known(undefined);
     }catch(error){return unknown(reason(error));}
   }
-  engineCinitFrameSnapshot(crt:NativeModuleCrtOwner){const f=this.#engineCinitFrame;if(!f||f.crt!==crt)return null;const table=NativeEngineCinitImages.imageForCrt(f.images,crt,'floatConversionPointers');const floatPointers=f.floatConversionWritten&&table.known?Object.freeze(Array.from({length:10},(_,i)=>this.#record(this.#load(table.value,i*4)))):null;return Object.freeze({pc:f.pc,entryEsp:f.entryEsp,images:f.images,operations:f.operations,floatConversionWritten:f.floatConversionWritten,floatPointers,bank:this.#bank,stack:this.#stack});}
+  engineCinitFrameSnapshot(crt:NativeModuleCrtOwner){const f=this.#engineCinitFrame;if(!f||f.crt!==crt)return null;const table=NativeEngineCinitImages.imageForCrt(f.images,crt,'floatConversionPointers');const floatPointers=f.floatConversionWritten&&table.known?Object.freeze(Array.from({length:10},(_,i)=>this.#record(this.#load(table.value,i*4)))):null;return Object.freeze({pc:f.pc,entryEsp:f.entryEsp,images:f.images,operations:f.operations,floatConversionWritten:f.floatConversionWritten,precisionArgument:f.precisionArgument,floatPointers,bank:this.#bank,stack:this.#stack});}
   static testEngineSetenvpReturnForBootstrap(stack:NativeX86ThreadStack,bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object):NativeValue<'30677288'|'3067729f'>{
     const reached=NativeCrtBootstrap.canonicalEngineSetenvpCallerForCrt(bootstrap,crt,permit);if(!reached.known)return reached;
     try{
