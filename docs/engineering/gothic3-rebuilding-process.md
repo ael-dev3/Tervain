@@ -12055,3 +12055,29 @@ The earlier narrowing full suite reported five-second timeouts under concurrent
 local validation load, including unchanged startup tests; its final result and
 a full run with an appropriate timeout remain pending. Complete engine startup
 and a finishable campaign are still unproven.
+
+
+### 10 October 2026: both Engine case mappings
+
+Reused the admitted mapping wrapper/body for the original uppercase caller at
+`30684a8b`, preserving its `0x200` flags, separate byte destination and original
+return word. Both calls execute conversion, stack-buffer cleanup, cookie checks
+and locale ownership release. Completed lower/upper byte spans remain separate
+aliases of the Engine case frame. The default path reaches publication loop
+`30684a93` after 5261 admitted operations (5248 with cached API selection; 2279
+with a NUL input at byte seven). The source evidence package remains unchanged.
+
+Typecheck and production build passed. The broader focused run passed 94 of 95
+checks; its sole failure read classification arguments after their slots had
+been reused by the uppercase call. The corrected test captures the actual call
+arguments while live. That test and an additional uppercase interruption check
+passed separately, validating all 96 distinct focused checks across those runs.
+Probe output is likewise observed at its real API return. Interrupted upper byte
+conversion retains the completed lower table and the actual pending second
+return, with temporary locale ownership still held.
+
+The earlier narrowing full suite finished with 3332 passes and 36 five-second
+timeouts across two files (313 total), in 985.15 seconds. Its only reported error
+type was the timeout. The newest checkpoint will be run with a 20-second per-test
+timeout. This continuation still does not publish the MBC record or prove full
+startup, world activation or a finishable campaign.

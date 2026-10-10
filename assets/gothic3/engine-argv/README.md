@@ -148,3 +148,23 @@ the case routine removes the original 68 bytes of caller arguments. Default
 execution reaches uppercase mapping preparation `30684a6e` after 3436 operations
 with the Engine PTD flag restored to one. A previously owned flag remains owned.
 Uppercase mapping and subsequent publication/startup/gameplay remain unfinished.
+
+
+## Both Engine case mappings
+
+The case routine now executes its original second call at `30684a8b` with
+`LCMAP_UPPERCASE` (`0x200`), the original `0x198` byte destination and return
+address `30684a90`. It reuses the verified mapping wrapper/body against a fresh
+current frame, preserving the completed `0x298` lowercase destination. Both
+calls run their original conversion, cleanup, cookie and locale-release paths.
+Temporary stack aliases describe the current call; they are reused by the next
+call and are not historical value snapshots. Completed byte tables remain live
+in distinct spans of the case frame.
+
+Default CP1252 execution reaches case-table publication `30684a93` after 5261
+operations, cached selection after 5248 and an input NUL at byte seven after
+2279. Every lower/upper output and the one-time probe passed targeted checks.
+Interrupted uppercase narrowing preserves the complete lower table, its partial
+upper output and the actual pending return. Typecheck and production build
+passed. The character-flag/conversion loop, MBC publication, complete startup and
+campaign integration remain unfinished.
