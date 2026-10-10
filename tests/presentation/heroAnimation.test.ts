@@ -3,7 +3,8 @@ import { beforeAll, describe, expect, it } from 'vitest';
 import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { clone as cloneSkinned } from 'three/examples/jsm/utils/SkeletonUtils.js';
 import { setArmed, setSash, type Mode } from '../../src/presentation/characters';
-import { HERO_ACTION_FADE, HERO_GAIT_PHASE, HERO_LEG_TWIST } from '../../src/presentation/hero/animation';
+import { HERO_ACTION_FADE, HERO_GAIT_PHASE, HERO_HAND_GRIPS, HERO_LEG_TWIST, type HeroGrip } from '../../src/presentation/hero/animation';
+import { blendDualQuaternions, writeDualQuaternion } from '../../src/presentation/npc/dualQuaternionSkinning';
 import { bindHeroBones, HERO_BONES, HERO_FINGERS, type HeroBoneName } from '../../src/presentation/hero/bones';
 import { HERO_RUN_CYCLE, HERO_RUN_SPEED, HERO_WALK_CYCLE, HERO_WALK_SPEED } from '../../src/presentation/hero/locomotion';
 import { createHeroRig, type MainHeroRig } from '../../src/presentation/hero/rig';
@@ -400,32 +401,45 @@ describe('hand skin under the grip (A73)', () => {
     }
   });
 
-  it('keeps the hands from tearing in a full fist: no hand edge stretches ten times its rest length', () => {
-    const grip = sourcePose('Boxing_Practice', 0.25);
-    const scene = cloneSkinned(asset.scene), bones = bindHeroBones(scene), skin = skinOf(scene);
-    scene.updateMatrixWorld(true); skin.skeleton.update();
-    const { position, skinIndex } = skin.geometry.attributes, index = skin.geometry.index!;
-    const handBone = skin.skeleton.bones.map((bone) => /Hand/.test(bone.name));
-    const at = () => Array.from({ length: position!.count }, (_, v) => skin.getVertexPosition(v, new THREE.Vector3()));
-    const rest = at();
-    for (const side of ['Left', 'Right'] as const) for (const finger of HERO_FINGERS) for (const joint of [1, 2, 3, 4]) {
-      const name = `mixamorig:${side}Hand${finger}${joint}` as HeroBoneName;
-      bones[name].quaternion.copy(grip[name].quaternion);
-    }
-    scene.updateMatrixWorld(true); skin.skeleton.update();
-    const now = at();
-    let worst = 0;
-    for (let i = 0; i < index.count; i += 3) for (let c = 0; c < 3; c++) {
-      const a = index.getX(i + c), b = index.getX(i + (c + 1) % 3);
-      if (!handBone[skinIndex!.getX(a)]) continue;
-      const length = rest[a]!.distanceTo(rest[b]!);
-      if (length >= 1e-3) worst = Math.max(worst, now[a]!.distanceTo(now[b]!) / length);
-    }
-    expect(worst).toBeGreaterThan(1);
-    // Before A73 the thumb tore from the palm at 16x, and with the digits 30-50 mm off their chains the worst finger edge
-    // still reached 8.7x. With the joints seated in the creases (A75) the worst are 1-2 mm slivers in the webs between
-    // fused fingers, about 6.6x (the previous body managed 5.9x).
-    expect(worst).toBeLessThan(7);
+  it('keeps the hands from tearing in a grip, measured on the skin as drawn (dual quaternions)', () => {
+    const closed = sourcePose('Boxing_Practice', 0.25);
+    const stretch = (grip: HeroGrip) => {
+      const scene = cloneSkinned(asset.scene), bones = bindHeroBones(scene), skin = skinOf(scene);
+      const { position, skinIndex, skinWeight } = skin.geometry.attributes, index = skin.geometry.index!;
+      const handBone = skin.skeleton.bones.map((bone) => /Hand/.test(bone.name));
+      const motions = new Float32Array(skin.skeleton.bones.length * 8), matrix = new THREE.Matrix4();
+      const at = () => {
+        scene.updateMatrixWorld(true); skin.skeleton.update();
+        for (let j = 0; j < skin.skeleton.bones.length; j++) {
+          matrix.fromArray(skin.skeleton.boneMatrices!, j * 16).premultiply(skin.bindMatrixInverse).multiply(skin.bindMatrix);
+          writeDualQuaternion(matrix, motions, j * 8);
+        }
+        return Array.from({ length: position!.count }, (_, v) => blendDualQuaternions(motions,
+          [0, 1, 2, 3].map((k) => skinIndex!.getComponent(v, k)), [0, 1, 2, 3].map((k) => skinWeight!.getComponent(v, k)),
+          new THREE.Vector3().fromBufferAttribute(position!, v)));
+      };
+      const rest = at();
+      for (const side of ['Left', 'Right'] as const) for (const finger of HERO_FINGERS) for (const joint of [1, 2, 3, 4]) {
+        const name = `mixamorig:${side}Hand${finger}${joint}` as HeroBoneName;
+        bones[name].quaternion.slerp(closed[name].quaternion, HERO_HAND_GRIPS[grip][finger]);
+      }
+      const now = at(), ratios: number[] = [];
+      for (let i = 0; i < index.count; i += 3) for (let c = 0; c < 3; c++) {
+        const a = index.getX(i + c), b = index.getX(i + (c + 1) % 3);
+        if (!handBone[skinIndex!.getX(a)]) continue;
+        const length = rest[a]!.distanceTo(rest[b]!);
+        if (length >= 1e-3) ratios.push(now[a]!.distanceTo(now[b]!) / length);
+      }
+      ratios.sort((x, y) => y - x);
+      return { worst: ratios[0]!, rare: ratios[Math.floor(ratios.length / 1000)]! };
+    };
+    // Before A73 the thumb tore from the palm at 16x. Drawn as the game draws it, the previous body's worst hand edges
+    // stretched 6.9x on the sword and 8.8x in a fist (one in a thousand: 3.7x, 4.4x). With the joints seated in the creases
+    // (A75) and the hand's weights evened (A78), the worst are 1-2 mm web slivers: 5.6x and 6.7x (3.7x, 4.1x).
+    const sword = stretch('sword'), fist = stretch('fist');
+    expect(sword.worst).toBeGreaterThan(1);
+    expect(sword.worst).toBeLessThan(6); expect(sword.rare).toBeLessThan(3.75);
+    expect(fist.worst).toBeLessThan(7); expect(fist.rare).toBeLessThan(4.3);
   });
 });
 

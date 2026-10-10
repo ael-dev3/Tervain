@@ -153,6 +153,9 @@ frames each, so medians are rough):
 | Medium | 418 (1,413) | 3.02 M (16.9 M) | 89 / 190 ms |
 | Low | 173 (418) | 0.78 M (1.5 M) | 83 / 155 ms |
 
+The same route on an RTX 3080 Ti (frame, CPU and GPU times that mean something) is in
+[A78](a78-frames-on-the-gpu.md#the-route-on-the-rtx-3080-ti).
+
 The "most" column is the heaviest single frame of the route: the frames in which the window views, the grass field and
 the shadow map are all redrawn at once (each pass is now counted). Over the whole route the opt-in saves about 10% of
 High's triangles in the median. A first run of this benchmark had measured the pause menu's backdrop instead of the

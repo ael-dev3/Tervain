@@ -3,6 +3,14 @@
 The cloud session that worked A70–A77 hands over to a session on Ael's PC (RTX 3080). This note is the starting point:
 the goal, the rules, every backlog item's state, what was in progress and the exact next steps.
 
+## Update (A78, local GPU session)
+
+Done: the real-GPU benchmark on an RTX 3080 Ti for every preset, before and after
+([A78 frames](engineering/a78-frames-on-the-gpu.md)); the window-view measurement (handover step 1); the hand weights
+evened, so every grip stretches less than the previous body's did as drawn ([A78 hands](engineering/a78-hands-even.md)).
+Open next: residents' rigs set up over several frames on arrival (50–260 ms hitches today), the first lap's compile
+freeze, and staged loading of the near tree files.
+
 ## Goal
 
 Bring Tervain to an honest 10/10: Gothic 3's grounded, muted look up close, figures that move and touch the world

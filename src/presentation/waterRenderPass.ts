@@ -34,6 +34,9 @@ export interface WaterUnder {
   light: number;
 }
 
+/** A single mesh smaller than this (pixels of radius in the reflection image) is left out of the reflection (A78). */
+export const REFLECTION_DETAIL_PX = 1.5;
+
 /** Reuse the opaque scene color/depth; only water is drawn again after the copy. */
 export class WaterRenderPass {
   private composite: THREE.WebGLRenderTarget | null = null;
@@ -63,6 +66,13 @@ export class WaterRenderPass {
   });
   private quad: THREE.Mesh;
   private disposed = false;
+  /** The scene's single meshes, gathered every few seconds, for leaving tiny ones out of the reflection (A78). */
+  private detail: THREE.Mesh[] = [];
+  private detailAge = Infinity;
+  private detailScene: THREE.Scene | null = null;
+  private detailSphere = new THREE.Sphere();
+  private detailBox = new THREE.Box3();
+  private mirroredEye = new THREE.Vector3();
 
   constructor() {
     const geo = new THREE.BufferGeometry();
@@ -119,6 +129,55 @@ export class WaterRenderPass {
     return this.visibilityFrustum.intersectsBox(this.visibilityBox);
   }
 
+  /**
+   * Hide, for the reflection only, single meshes that would cover less than REFLECTION_DETAIL_PX pixels of radius in the
+   * reflection image as seen from the mirrored eye (A78): doors, props, tools and stones far up the shore. In a rippled
+   * 512 px reflection they are sub-pixel specks, yet each cost a draw call; the land, trees, buildings and near figures
+   * stay. Meshes wholly below the water plane (the sea floor's ground) are hidden too: the reflection clips them away,
+   * but its culling does not know the plane. Returns what was hidden, to show again once the reflection is drawn.
+   */
+  /**
+   * Every few seconds: gather the scene's single meshes (for hideTinyDetail), and put every light on the water's layer
+   * too (A78). The water's own pass draws layer 1 alone; with the lights only on layer 0 it saw none, three took that
+   * as a change of lighting, and on the next pass re-resolved the shader program of every lit material (about 130
+   * lookups a frame). Lights on both layers light exactly what they did; only the lighting state stays the same.
+   */
+  private gather(scene: THREE.Scene, dt: number) {
+    this.detailAge += Number.isFinite(dt) && dt > 0 ? dt : 0;
+    if (this.detailScene === scene && this.detailAge <= 2) return;
+    this.detail = [];
+    scene.traverse((object) => {
+      if ((object as THREE.Light).isLight) { object.layers.enable(1); return; }
+      const mesh = object as THREE.Mesh;
+      if (mesh.isMesh && mesh.visible && !(mesh as THREE.InstancedMesh).isInstancedMesh && !(mesh as THREE.BatchedMesh).isBatchedMesh && mesh.frustumCulled) this.detail.push(mesh);
+    });
+    this.detailScene = scene; this.detailAge = 0;
+  }
+
+  private hideTinyDetail(camera: THREE.Camera, size: number): THREE.Object3D[] {
+    const perspective = camera as THREE.PerspectiveCamera;
+    if (!perspective.isPerspectiveCamera) return [];
+    // The reflection camera stands at the eye mirrored in the water plane; its picture has the main view's field.
+    const plane = this.reflector!.getWorldPosition(this.mirroredEye).y;
+    this.mirroredEye.copy(this.currentCameraPosition); this.mirroredEye.y = 2 * plane - this.mirroredEye.y;
+    const pixelsPerRadian = size / 2 / Math.tan(THREE.MathUtils.degToRad(perspective.fov) / 2);
+    const hidden: THREE.Object3D[] = [];
+    for (const mesh of this.detail) {
+      if (!mesh.visible || !mesh.parent) continue;
+      const geometry = mesh.geometry;
+      if (!geometry.boundingSphere) geometry.computeBoundingSphere();
+      const sphere = this.detailSphere.copy(geometry.boundingSphere!).applyMatrix4(mesh.matrixWorld);
+      const distance = sphere.center.distanceTo(this.mirroredEye) - sphere.radius;
+      let hide = distance > 0 && sphere.radius / distance * pixelsPerRadian < REFLECTION_DETAIL_PX;
+      if (!hide && sphere.center.y - sphere.radius < plane) {
+        if (!geometry.boundingBox) geometry.computeBoundingBox();
+        hide = this.detailBox.copy(geometry.boundingBox!).applyMatrix4(mesh.matrixWorld).max.y < plane - 0.01;
+      }
+      if (hide) { mesh.visible = false; hidden.push(mesh); }
+    }
+    return hidden;
+  }
+
   private captureReflection(renderer: THREE.WebGLRenderer, scene: THREE.Scene, camera: THREE.Camera,
     source: THREE.WebGLRenderTarget, dt: number, input: WaterRenderInputs) {
     const u = input.seaMaterial.uniforms;
@@ -164,13 +223,14 @@ export class WaterRenderPass {
     if (!this.reflectionValid || moved || this.reflectionAge >= interval && (lightingChanged || !input.reducedMotion)) {
       const visible = input.meshes.map(mesh => mesh.visible);
       const unreflected = input.unreflected ?? [], shown = unreflected.map(object => object.visible);
-      let restoreDetail: (() => void) | null = null;
+      let restoreDetail: (() => void) | null = null, hiddenDetail: THREE.Object3D[] = [];
       const oldTarget = renderer.getRenderTarget(), oldAutoClear = renderer.autoClear;
       const oldShadow = renderer.shadowMap.autoUpdate, oldXr = renderer.xr.enabled;
       try {
         for (const mesh of input.meshes) mesh.visible = false;
         for (const object of unreflected) object.visible = false;
         restoreDetail = input.lighten?.() ?? null;
+        hiddenDetail = this.hideTinyDetail(camera, size);
         renderer.autoClear = true;
         this.reflectionValid = false;
         this.reflector.getReflectionCamera(camera).layers.mask = camera.layers.mask & ~2;
@@ -184,6 +244,7 @@ export class WaterRenderPass {
         input.meshes.forEach((mesh, i) => { mesh.visible = visible[i]!; });
         unreflected.forEach((object, i) => { object.visible = shown[i]!; });
         restoreDetail?.();
+        for (const object of hiddenDetail) object.visible = true;
         renderer.autoClear = oldAutoClear; renderer.shadowMap.autoUpdate = oldShadow; renderer.xr.enabled = oldXr;
         renderer.setRenderTarget(oldTarget);
       }
@@ -225,6 +286,7 @@ export class WaterRenderPass {
       return source.texture;
     }
     this.prepare(source);
+    this.gather(scene, dt);
     const oldTarget = renderer.getRenderTarget(), oldAutoClear = renderer.autoClear;
     const oldMask = camera.layers.mask, meshMasks = input.meshes.map(mesh => mesh.layers.mask);
     const overlays = input.overlays ?? [], overlayMasks = overlays.map(o => o.layers.mask);

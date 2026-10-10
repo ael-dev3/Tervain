@@ -21,6 +21,9 @@ const CREASE_VERTICES = 6;
 /** No joint moves further than this (metres): a larger move means the crease measured something else. */
 const MAX_MOVE = 0.1;
 
+/** Smoothing passes over the hand's weights after the cross-finger weights are levelled (A78). */
+const HAND_WEIGHT_PASSES = 3;
+
 export interface FingerFitReport { joint: string; moved: number }
 
 export function fitHeroFingers(asset: Pick<GLTF, 'scene' | 'animations'>): FingerFitReport[] {
@@ -81,6 +84,7 @@ export function fitHeroFingers(asset: Pick<GLTF, 'scene' | 'animations'>): Finge
       });
     }
   }
+  evenHandWeights(mesh, HAND_WEIGHT_PASSES);
   if (!moved.size) { asset.scene.userData[FITTED] = report; return report; }
   // New inverse binds: the same rest turn, at the new place.
   const oldBindWorld = bindWorld.map((matrix) => matrix.clone());
@@ -110,4 +114,83 @@ export function fitHeroFingers(asset: Pick<GLTF, 'scene' | 'animations'>): Finge
   asset.scene.updateMatrixWorld(true);
   asset.scene.userData[FITTED] = report;
   return report;
+}
+
+/**
+ * Even out the hand's skin weights (A78). The body's fingers are fused at the webs, and a vertex on one finger often
+ * carried a little of a neighbouring finger at another knuckle (the ring tip a touch of the middle finger's second
+ * joint): in a grip those joints swing far apart, so 1-2 mm web slivers stretched six to seven times. Each cross-finger
+ * weight is first moved to the neighbour's joint at the vertex's own knuckle, which curls alongside it, and then the hand's
+ * weights are smoothed over the surface a few times (seams welded by position). Weights never change the bind pose, so the
+ * skin still stands exactly as modelled.
+ */
+export function evenHandWeights(mesh: THREE.SkinnedMesh, passes: number): void {
+  const geometry = mesh.geometry, bones = mesh.skeleton.bones;
+  const position = geometry.attributes.position, skinIndex = geometry.attributes.skinIndex, skinWeight = geometry.attributes.skinWeight;
+  if (!position || !skinIndex || !skinWeight || !geometry.index) return;
+  const index = geometry.index, count = position.count;
+  const digit = bones.map((bone) => /(Left|Right)Hand(Thumb|Index|Middle|Ring|Pinky)(\d)$/.exec(bone.name.replace(':', '')));
+  const joint = new Map(bones.map((bone, i) => [bone.name.replace(':', '').replace(/^mixamorig/, ''), i]));
+  const hand = bones.map((bone) => /Hand/.test(bone.name));
+  // Weights per vertex as joint -> weight.
+  const weights = Array.from({ length: count }, (_, v) => {
+    const map = new Map<number, number>();
+    for (let s = 0; s < 4; s++) {
+      const w = skinWeight.getComponent(v, s);
+      if (w > 0) map.set(skinIndex.getComponent(v, s), (map.get(skinIndex.getComponent(v, s)) ?? 0) + w);
+    }
+    return map;
+  });
+  // Level: a neighbouring finger's weight moves to its joint at this vertex's own knuckle (thumbs keep theirs).
+  for (const map of weights) {
+    let own = -1, heaviest = 0;
+    for (const [j, w] of map) if (digit[j] && w > heaviest) { heaviest = w; own = j; }
+    if (own < 0 || digit[own]![2] === 'Thumb') continue;
+    const [, side, finger, knuckle] = digit[own]!;
+    for (const [j, w] of [...map]) {
+      const other = digit[j];
+      if (!other || other[2] === finger || other[2] === 'Thumb') continue;
+      const target = joint.get(`${side}Hand${other[2]}${knuckle}`);
+      if (target === undefined || target === j) continue;
+      map.delete(j); map.set(target, (map.get(target) ?? 0) + w);
+    }
+  }
+  // Smooth the hand's vertices over the surface, seams welded by position.
+  const welded = new Map<string, number>(), weld = new Int32Array(count);
+  for (let v = 0; v < count; v++) {
+    const key = `${position.getX(v).toFixed(5)},${position.getY(v).toFixed(5)},${position.getZ(v).toFixed(5)}`;
+    weld[v] = welded.get(key) ?? (welded.set(key, v), v);
+  }
+  const near = new Map<number, Set<number>>();
+  for (let i = 0; i + 2 < index.count; i += 3) for (let c = 0; c < 3; c++) {
+    const a = weld[index.getX(i + c)]!, b = weld[index.getX(i + (c + 1) % 3)]!;
+    if (a === b) continue;
+    (near.get(a) ?? near.set(a, new Set()).get(a)!).add(b);
+    (near.get(b) ?? near.set(b, new Set()).get(b)!).add(a);
+  }
+  const handVertices = [...new Set(weld)].filter((v) => {
+    let w = 0;
+    for (const [j, x] of weights[v]!) if (hand[j]) w += x;
+    return w > 0.5;
+  });
+  for (let pass = 0; pass < passes; pass++) {
+    const next = new Map<number, Map<number, number>>();
+    for (const v of handVertices) {
+      const around = near.get(v);
+      if (!around?.size) continue;
+      const map = new Map<number, number>();
+      for (const [j, w] of weights[v]!) map.set(j, w * 0.5);
+      for (const u of around) for (const [j, w] of weights[u]!) map.set(j, (map.get(j) ?? 0) + w * 0.5 / around.size);
+      next.set(v, map);
+    }
+    for (const [v, map] of next) weights[v] = map;
+  }
+  // Back into four slots, heaviest first, normalised; a smoothed vertex's seam twins take its weights.
+  const smoothed = new Set(handVertices);
+  for (let v = 0; v < count; v++) {
+    const top = [...weights[smoothed.has(weld[v]!) ? weld[v]! : v]!].sort((a, b) => b[1] - a[1]).slice(0, 4);
+    const total = top.reduce((sum, [, w]) => sum + w, 0) || 1;
+    for (let s = 0; s < 4; s++) { skinIndex.setComponent(v, s, top[s]?.[0] ?? 0); skinWeight.setComponent(v, s, top[s] ? top[s]![1] / total : 0); }
+  }
+  skinIndex.needsUpdate = true; skinWeight.needsUpdate = true;
 }
