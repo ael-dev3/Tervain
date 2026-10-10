@@ -142,6 +142,20 @@ It saves little: from the paths and the town nearly every tree in view is within
 models are drawn (each to its share of pixels), which costs more than it saves. It matters only on the longest views, and
 there by 3%. So the decision to keep full trees on High costs little; the opt-in is there for a weak GPU.
 
-BENCH_TABLE
+**The route, measured here** (`tools/bench.mjs --quick`, 960×600, software rendering: the frame and CPU times are
+SwiftShader's and say nothing about a GPU; the counts are what the game submits, which is the same on any machine; 40
+frames each, so medians are rough):
+
+| Preset | Draw calls, median (most) | Triangles, median (most) | CPU per frame, median / p95 |
+| --- | ---: | ---: | ---: |
+| High | 418 (1,385) | 4.01 M (19.3 M) | 88 / 219 ms |
+| High, lighter distant trees | 440 (1,465) | 3.63 M (20.7 M) | 98 / 280 ms |
+| Medium | 418 (1,413) | 3.02 M (16.9 M) | 89 / 190 ms |
+| Low | 173 (418) | 0.78 M (1.5 M) | 83 / 155 ms |
+
+The "most" column is the heaviest single frame of the route: the frames in which the window views, the grass field and
+the shadow map are all redrawn at once (each pass is now counted). Over the whole route the opt-in saves about 10% of
+High's triangles in the median. A first run of this benchmark had measured the pause menu's backdrop instead of the
+world (the menu had opened behind it at load); the route now keeps the screen and drops any frame drawn under a menu.
 
 Meshy credits: none spent. Totals stay as recorded: trees and fingers 30 of 100, hero 35 of 200.
