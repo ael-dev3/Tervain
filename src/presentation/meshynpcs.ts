@@ -12,7 +12,7 @@ import { applyNpcSkinRepair, computeNpcSkinRepair, type LowerGarment, type SkinR
 import { fitNpcJoints, measuredPalm, type NpcJointFit } from './npc/jointFit';
 import { fitNpcPoses, measureBody, type FittedWork, type NpcPoseFit } from './npc/poseFit';
 import { createWorkProp } from './npc/workProps';
-import { installResidentSurface, patchResidentShadow, residentHiddenLayers, residentSkinPrior, type ResidentAxis } from './npc/residentSurface';
+import { installResidentSurface, patchResidentShadow, residentHiddenLayersSteps, residentSkinPrior, type ResidentAxis } from './npc/residentSurface';
 import { npcStyle, type WorkGesture } from './npcStyle';
 import { installResidentRig, parseResidentRig, residentRestPose, type ResidentBones, type ResidentRigData } from './npc/residentRig';
 import { createResidentTools } from './npc/residentProps';
@@ -219,7 +219,7 @@ export const NPC_RIG_DEFAULTS: Required<Omit<NpcRigOptions, 'work'>> & Pick<NpcR
 
 /** Clips retargeted onto one model's rig, shared by every actor of that model. */
 const retargeted = new WeakMap<ResidentRigData, Map<string, ReturnType<typeof retargetClip>>>();
-function residentClips(source: ResidentMotionSource, bones: ResidentBones, mesh?: THREE.SkinnedMesh): ResidentClips {
+function* residentClips(source: ResidentMotionSource, bones: ResidentBones, mesh?: THREE.SkinnedMesh): Generator<void, ResidentClips, void> {
   let known = retargeted.get(source.data);
   if (!known) { known = new Map(); retargeted.set(source.data, known); }
   const rest = residentRestPose(bones);
@@ -235,6 +235,8 @@ function residentClips(source: ResidentMotionSource, bones: ResidentBones, mesh?
         clip.seat = measureSeat(clip, rest, source.data, mesh.geometry.getAttribute('position') as THREE.BufferAttribute, SEAT_MOMENTS[name]);
       }
       known.set(name, clip);
+      // A newly retargeted clip is a few milliseconds of work: the next waits for the next step (A78).
+      yield;
     }
     clips.set(name, clip);
   }
@@ -247,8 +249,8 @@ function residentClips(source: ResidentMotionSource, bones: ResidentBones, mesh?
  * its fingers run and its palm faces (towards the body's middle line, as the tools are placed).
  */
 const HAND_DIRECTIONS = 160;
-function residentHands(mesh: THREE.SkinnedMesh, own: ResidentBones, scene: THREE.Group,
-  curled?: (side: FingerSide, vertices: number[]) => Map<number, THREE.Vector3>[]): WorkContacts['hands'] {
+function* residentHands(mesh: THREE.SkinnedMesh, own: ResidentBones, scene: THREE.Group,
+  curled?: (side: FingerSide, vertices: number[]) => Map<number, THREE.Vector3>[]): Generator<void, WorkContacts['hands'], void> {
   const position = mesh.geometry.getAttribute('position'), index = mesh.geometry.getAttribute('skinIndex'), weight = mesh.geometry.getAttribute('skinWeight');
   const out = {} as WorkContacts['hands'];
   scene.updateMatrixWorld(true);
@@ -285,6 +287,7 @@ function residentHands(mesh: THREE.SkinnedMesh, own: ResidentBones, scene: THREE
     const inward = new THREE.Vector3(-Math.sign(wristX) || 1, 0, 0).applyMatrix3(toLocal).normalize();
     const palm = inward.sub(fingers.clone().multiplyScalar(inward.dot(fingers))).normalize();
     out[side] = { vertices: [...vertices], centre, fingers, palm };
+    yield;
   }
   return out;
 }
@@ -340,6 +343,22 @@ const poseFits = new WeakMap<THREE.BufferGeometry, Map<string, NpcPoseFit>>();
 /** A private animated skeleton and GPU resources per actor/world; only decoded image pixels are shared. */
 export function createMeshyNpcRig(asset: Pick<GLTF, 'scene' | 'animations'>, entry: MeshyNpcEntry, heightScale = 1, grip: Grip = 'none', equipment?: NpcEquipment,
   options: NpcRigOptions = {}, motion?: ResidentMotionSource): Rig {
+  return finish(createMeshyNpcRigSteps(asset, entry, heightScale, grip, equipment, options, motion));
+}
+
+/** Run a staged build to its end at once. */
+export function finish<T>(steps: Generator<void, T, void>): T {
+  for (;;) { const next = steps.next(); if (next.done) return next.value; }
+}
+
+/**
+ * createMeshyNpcRig as steps (A78). A resident's rig is set up from their own model: its covered layers, finger plan,
+ * clips retargeted with their seats measured, and hand shapes, 50-260 ms in all. Every resident has their own model,
+ * so nothing is shared; a figure who takes their model after the world has opened therefore builds it a step at a time
+ * (each a few to a few tens of milliseconds), instead of stalling one frame for all of it.
+ */
+export function* createMeshyNpcRigSteps(asset: Pick<GLTF, 'scene' | 'animations'>, entry: MeshyNpcEntry, heightScale = 1, grip: Grip = 'none', equipment?: NpcEquipment,
+  options: NpcRigOptions = {}, motion?: ResidentMotionSource): Generator<void, Rig, void> {
   const settings = { ...NPC_RIG_DEFAULTS, ...options };
   // On its own rig a resident plays authored clips: the eleven-joint repairs and fitted poses do not apply.
   const authored = settings.authoredMotion && motion ? motion : null;
@@ -351,8 +370,10 @@ export function createMeshyNpcRig(asset: Pick<GLTF, 'scene' | 'animations'>, ent
   const scene = cloneSkinned(asset.scene) as THREE.Group;
   body.add(scene);
   const bones = bindNpcBones(scene);
+  yield;
   const jointFit = settings.jointFit ? fittedJoints(asset.scene, scene, bones) : null;
   const repairJoints = settings.skinRepair ? npcRepairJoints(scene, bones) : null;
+  yield;
   const geometries = new Map<THREE.BufferGeometry, THREE.BufferGeometry>();
   const sourceOf = (own: THREE.BufferGeometry) => { for (const [template, clone] of geometries) if (clone === own) return template; return own; };
   const fittedSkirts = new Set<THREE.BufferGeometry>();
@@ -378,9 +399,9 @@ export function createMeshyNpcRig(asset: Pick<GLTF, 'scene' | 'animations'>, ent
     }
     return copy;
   };
-  scene.traverse(object => {
-    const mesh = object as THREE.Mesh;
-    if (!mesh.isMesh) return;
+  const parts: THREE.Mesh[] = [];
+  scene.traverse(object => { if ((object as THREE.Mesh).isMesh) parts.push(object as THREE.Mesh); });
+  for (const mesh of parts) {
     let geometry = geometries.get(mesh.geometry);
     if (!geometry) {
       geometry = mesh.geometry.clone();
@@ -395,6 +416,7 @@ export function createMeshyNpcRig(asset: Pick<GLTF, 'scene' | 'animations'>, ent
           { lowerGarment: NPC_LOWER_GARMENTS[entry.id] ?? 'shared', armGarments: entry.id in NPC_ARM_GARMENTS, armReach: NPC_ARM_GARMENTS[entry.id] }));
       }
       geometries.set(mesh.geometry, geometry);
+      yield;
     }
     mesh.geometry = geometry;
     mesh.material = Array.isArray(mesh.material) ? mesh.material.map(ownMaterial) : ownMaterial(mesh.material);
@@ -413,12 +435,12 @@ export function createMeshyNpcRig(asset: Pick<GLTF, 'scene' | 'animations'>, ent
         let priors = skinPriors.get(source);
         if (!priors) { priors = new Map(); skinPriors.set(source, priors); }
         let prior = priors.get(priorKey);
-        if (!prior) { prior = residentSkinPrior(skin.geometry, names); priors.set(priorKey, prior); }
+        if (!prior) { prior = residentSkinPrior(skin.geometry, names); priors.set(priorKey, prior); yield; }
         const hiddenKey = `${settings.jointFit}`;
         let byFit = hiddenLayers.get(source);
         if (!byFit) { byFit = new Map(); hiddenLayers.set(source, byFit); }
         let hidden = byFit.get(hiddenKey);
-        if (!hidden) { hidden = residentHiddenLayers(source, names, residentAxes(repairJoints ?? npcRepairJoints(scene, bones))); byFit.set(hiddenKey, hidden); }
+        if (!hidden) { hidden = yield* residentHiddenLayersSteps(source, names, residentAxes(repairJoints ?? npcRepairJoints(scene, bones))); byFit.set(hiddenKey, hidden); yield; }
         for (const material of Array.isArray(skin.material) ? skin.material : [skin.material]) {
           if ((material as THREE.MeshStandardMaterial).isMeshStandardMaterial) {
             installResidentSurface(material as THREE.MeshStandardMaterial, skin.geometry, prior,
@@ -429,8 +451,10 @@ export function createMeshyNpcRig(asset: Pick<GLTF, 'scene' | 'animations'>, ent
       // The resident's own rig replaces the eleven-joint skeleton once the measurements that read the old skin are done.
       if (authored && !installed.bones) {
         const plan = settings.fingers ? residentFingerPlan(authored.data, skin.geometry, RESIDENT_CLOSED_HANDS[entry.id]) : undefined;
+        yield;
         const own = installResidentRig(skin, authored.data, plan);
         installed.bones = own.bones; installed.mesh = skin; installed.fingers = own.fingers;
+        yield;
       }
       // The matching shadow materials belong to the actor's colour material and leave with it.
       const owner = Array.isArray(skin.material) ? skin.material[0] : skin.material;
@@ -447,7 +471,8 @@ export function createMeshyNpcRig(asset: Pick<GLTF, 'scene' | 'animations'>, ent
         for (const shadow of [skin.customDepthMaterial, skin.customDistanceMaterial]) if (shadow) patchResidentShadow(shadow as THREE.MeshDepthMaterial);
       }
     }
-  });
+  }
+  yield;
   const carried = equipment ?? (grip === 'blade' ? 'blade' : undefined);
   const attachments = carried ? createNpcAttachments(carried) : null;
   const residentBones = installed.bones, residentMesh = installed.mesh;
@@ -571,10 +596,12 @@ export function createMeshyNpcRig(asset: Pick<GLTF, 'scene' | 'animations'>, ent
         }
       };
     }
-    rig.resident = new ResidentMotion(scene, body, own, residentClips(authored, own, residentMesh ?? undefined), {
+    const clips = yield* residentClips(authored, own, residentMesh ?? undefined);
+    const hands = residentMesh ? yield* residentHands(residentMesh, own, scene, handShapes) : undefined;
+    rig.resident = new ResidentMotion(scene, body, own, clips, {
       build: authored.build, seed: authored.seed, defaultSeat: BENCH_SEAT_HEIGHT, seatDepth: 0.13 * entry.height / 1.8,
       garmentArms: RESIDENT_GARMENT_ARMS[entry.id],
-      contacts: residentMesh ? { mesh: residentMesh, hands: residentHands(residentMesh, own, scene, handShapes), tools: tools.points } : undefined,
+      contacts: residentMesh && hands ? { mesh: residentMesh, hands, tools: tools.points } : undefined,
       workHands,
     });
     root.userData.meshyNpc.animation = 'meshy-authored-clips';
@@ -805,6 +832,10 @@ export class MeshyNpcCatalog {
     return createStandInRig((entry?.height ?? 1.8) * heightScale, grip);
   }
   create(role: string, heightScale = 1, grip: Grip = 'none', options?: NpcRigOptions): Rig {
+    return finish(this.createSteps(role, heightScale, grip, options));
+  }
+  /** create() a step at a time, for a figure taking their model while the world runs (A78). */
+  createSteps(role: string, heightScale = 1, grip: Grip = 'none', options?: NpcRigOptions): Generator<void, Rig, void> {
     const id = this.manifest.roles[role], entry = this.manifest.assets.find(candidate => candidate.id === id);
     const asset = id && this.templates.get(id);
     if (!entry || !asset) throw new Error(`Resident model ${role} has not been prepared.`);
@@ -821,7 +852,7 @@ export class MeshyNpcCatalog {
       seed: style?.faceSeed ?? [...role].reduce((h, c) => Math.imul(h ^ c.charCodeAt(0), 16777619), 2166136261),
       fighter: role.startsWith('enemy:'), work: task ?? known?.work,
     } : undefined;
-    return createMeshyNpcRig(asset, entry, heightScale, grip, equipment, { work, ...options }, motion);
+    return createMeshyNpcRigSteps(asset, entry, heightScale, grip, equipment, { work, ...options }, motion);
   }
 }
 
