@@ -4,6 +4,17 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local checkpoint — 10 October 2026: Engine argument source admission
+
+The argument generator now emits TypeScript source admission alongside its JSON
+receipt. Admission requires exact text and method membership; original Engine
+addresses cannot be substituted with Game or another captured method's rows.
+Seven global receipts are frozen descriptive data and do not provide live pointer
+or execution authority. Two focused source checks and TypeScript checking pass.
+Independent JSON and TypeScript regeneration are byte-identical. The parser is
+still unimplemented, and this source admission does not complete startup or the
+browser campaign.
+
 ## Local checkpoint — 10 October 2026: Engine argument multibyte dependencies
 
 The argument evidence now includes the wrapper's nested multibyte setup and

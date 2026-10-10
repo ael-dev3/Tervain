@@ -50,7 +50,21 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--study', required=True, type=Path)
     parser.add_argument('--output', required=True, type=Path)
+    parser.add_argument('--typescript', type=Path)
     args = parser.parse_args()
     receipt = capture(args.study)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(receipt, indent=2) + '\n', encoding='utf-8', newline='\n')
+    if args.typescript:
+        expected = json.dumps(args.output.read_text(encoding='utf-8'))
+        generated = """/** Generated original Engine argument source admission. */
+import source from '../../assets/gothic3/engine-argv/research.json';
+import sourceText from '../../assets/gothic3/engine-argv/research.json?raw';
+const expectedText = EXPECTED;
+function freeze(value:unknown):void {if(value&&typeof value==='object'&&!Object.isFrozen(value)){for(const child of Object.values(value))freeze(child);Object.freeze(value);}}
+freeze(source);
+export function admitEngineArgvSource():void {if(sourceText!==expectedText)throw new Error('Original Engine argument source differs');}
+export function engineArgvInstruction(entry:string,pc:string){admitEngineArgvSource();const method=source.source.methods.find(method=>method.bodyVA==='0x'+entry);const row=method?.instructions.find(row=>row.va===pc);if(!row)throw new Error('Original Engine argument method instruction required');return row;}
+export function engineArgvImage(label:string){admitEngineArgvSource();const image=source.images.find(image=>image.label===label);if(!image)throw new Error('Original Engine argument image required');return image;}
+""".replace('EXPECTED', expected)
+        args.typescript.write_text(generated, encoding='utf-8', newline='\n')
