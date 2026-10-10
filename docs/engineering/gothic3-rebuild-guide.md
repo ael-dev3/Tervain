@@ -126,14 +126,50 @@ the supported locale-helper path. That checkpoint merged in [PR #223](https://gi
 and deployed successfully. It stops at code-page helper `30684bde`, called from
 `30684e92`.
 
-The next local checkpoint returns the selected process code page through the
-original locale-update record, allocates a separate Engine MBC record and copies
-the thread's existing state. It reaches code-page initialization
-`30684ecb -> 30684c58` after 211 admitted operations. The captured lower allocator
-uses its existing TypeScript implementation; its body is not counted as
-instructions executed on the retained source stack. This local continuation
-requires its own full-suite validation and deployment before claiming hosted
-behavior.
+[PR #224](https://github.com/ael-dev3/Tervain/pull/224) returns the selected process
+code page through the original locale-update record, allocates a separate Engine
+MBC record and copies the thread's existing state. It reaches code-page
+initialization `30684ecb -> 30684c58` after 211 admitted operations and deployed
+successfully. The captured lower allocator uses its existing TypeScript
+implementation; its body is not counted as instructions executed on the retained
+source stack.
+
+[PR #225](https://github.com/ael-dev3/Tervain/pull/225) runs the initializer
+through its original code-page services, clears the classification span and
+initializes the single-byte record fields. It deployed successfully and reaches
+`30684dc7 -> 306849b0`, the case-table routine, after 354 admitted operations.
+
+[PR #226](https://github.com/ael-dev3/Tervain/pull/226) returns case-table CPInfo,
+prepares the 256-byte character input and enters the classification wrapper using
+a separate locale record and the same Engine thread data. Its full suite passed
+3342 tests across 313 files, and it deployed successfully. It reaches the lower
+classification body `306916cb -> 306914ea` after 1459 admitted operations.
+
+[PR #227](https://github.com/ael-dev3/Tervain/pull/227) executes the Unicode API
+probe, conversion size query and aligned stack-buffer reservation. It clears
+exactly 512 output bytes and reaches the conversion output call at `306915f8`
+after 1557 admitted operations. All 3352 tests across 313 files passed, and its
+Pages deployment succeeded.
+
+[PR #228](https://github.com/ael-dev3/Tervain/pull/228) fills Unicode output and
+character types, returns through buffer cleanup and cookie checking, releases
+classification locale ownership and enters the first case-mapping wrapper. It
+reaches `3067c94a -> 3067c57c` after 1660 admitted operations. Its full suite passed
+3356 tests across 313 files, and its Pages deployment succeeded.
+
+The newer local continuation probes the Unicode mapping API, scans the actual
+byte input, queries its conversion length and reserves separate input and mapped
+stack buffers through the original alignment and page-probe helpers. It converts
+the input to Unicode, queries mapped length and writes the declared lower-case
+Unicode results. It reaches narrowing preparation at `3067c779` after 3382
+admitted operations. Its full suite is running. Earlier probe, scan and buffer
+checkpoints passed 3357, 3359 and 3361 tests respectively. The latest focused
+checks, complete output-span and interruption checks, and production build
+passed. Independent source regeneration is byte-identical. This newer
+continuation is awaiting publication.
+
+Narrowing, cleanup and return, the second case-table mapping, MBC publication,
+complete startup and campaign integration remain unfinished.
 
 Complete startup, world activation and a new-game-to-ending campaign remain
 unfinished. The checkpoint history records earlier boundaries and their evidence;

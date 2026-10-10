@@ -11809,3 +11809,210 @@ in 313 files in 456.95 seconds. The publication checkout, including current main
 also passed its production build and all 45 focused checks in four files
 (18.76 seconds). These checks validate the supported startup continuation, not
 complete AI or campaign integration.
+
+### 10 October 2026: Engine MBC initializer services (local checkpoint)
+
+The initializer resumes on its retained caller, constructs its cookie-protected
+frame and calls the same code-page helper with the positive code-page argument.
+That helper acquires and releases its own temporary locale ownership, resets the
+automatic-codepage image as the source specifies, and returns to the initializer.
+The five original code-page records are scanned in owned storage.
+
+Private Engine import grants now admit the original IsValidCodePage and GetCPInfo
+calls, including their current return slots and physical stack arguments. The
+selected virtual CP1252 process writes the defined CPInfo fields; substituted
+normal-return objects cannot authorize the caller even after real writes occur.
+The next pending call is `30684cf4 -> 30671690`, the classification memset, after
+337 admitted operations. Full initialization and the campaign remain unfinished.
+
+This initializer checkpoint passed 51 focused checks in four files (14.49
+seconds), TypeScript checking and a production build. Source JSON, TypeScript
+admission and the Game comparison independently regenerate byte-identically.
+CPInfo padding, changed or unknown original table entries and rejection after
+actual output writes are covered. Full-suite validation is a separate gate.
+
+### 10 October 2026: Engine single-byte MBC fields (local checkpoint)
+
+The memset call now returns through its retained cdecl caller after clearing
+exactly 257 bytes in the actual Engine-owned allocation. Its captured body is
+translated as a bounded memory effect, not reported as CPU-dispatch instruction
+execution. Interruption keeps completed writes and the pending caller. The
+original single-byte branch stores code page 1252 and clears the related record
+fields before issuing `30684dc7 -> 306849b0`, the case-table routine, after 354
+admitted operations.
+
+Continuing to the CPInfo read exposed a stale stack expression after the API's
+owned output write. A private current-call writer now invalidates exactly the
+root stack slots that GetCPInfo overwrites; unrelated unowned changes still fail
+normal stack proofs. Fake or replayed grants cannot authorize writes. The earlier
+initializer checkpoint passed 3,331 full-suite tests in 313 files (539.32 seconds).
+This continuation passed 56 focused checks in four files (16.24 seconds), including
+partial memset writes, direction changes, the double-byte branch and exact span
+bounds. The complete campaign remains unfinished.
+
+The single-byte checkpoint also passed TypeScript checking and a production
+build. Source JSON, TypeScript admission and the Game comparison independently
+regenerate byte-identically. Its full-suite validation is separate from the
+preceding initializer checkpoint.
+
+PR #224 merged at main revision `6f962c2787c44e9f718bf7b6875ac4afa78213e9`.
+Its build and Pages deployment succeeded in Actions run `38066036605`. The next
+publication checkout resolves the dated-receipt merge by keeping both the prior
+validation/hosted observations and the newer initializer receipts.
+
+Hosted observation after PR #224 deployment: a fresh `/gothic3/` tab loaded
+202 scene objects and 70 characters, entered Ardea and showed
+`Xardas_FindXardas` as Running. The temporary tab was closed. This verifies the
+scene and journal after deployment, not a specific native instruction frontier
+or a completed campaign. The combined publication checkout passed its production
+build and all 56 focused checks in four files (29.60 seconds).
+
+The single-byte checkpoint (`47c420e01`) passed all 3,336 full-suite tests in
+313 files in 541.56 seconds. The combined publication checkout retains the same
+runtime/evidence changes and the already validated main changes from PR #224.
+The next pending native dependency is case-table construction, not a completed
+startup or campaign.
+
+
+## 10 October 2026: Engine case-table entry continuation
+
+The local retained Engine stack now executes the eleven original entry instructions at `306849b0` through `306849d1`. It saves the initializer EBP, reserves 1308 stack bytes, constructs the case-frame EBP from the actual ESP, stores the same Engine cookie XOR that EBP, saves EBX/EDI, and pushes the actual CPInfo stack destination and code page read from the new Engine-owned MBC allocation. It stops before the `GetCPInfo` call at `306849d4`, after 365 admitted operations. The case-table import has not executed, the caller remains retained, and startup/campaign completion remains unproven. Structural and cookie-unavailability checks cover stack arguments and retained allocation lifetime. Validation receipts follow after terminal results.
+
+Local validation: 58 tests across four files passed in 15.53 seconds; `npm run build` completed successfully, including TypeScript checking; `git diff --check` passed. The broader suite and deployment of this eleven-instruction continuation remain pending. PR #225 merged as `2676c2d2b2b321271721f319512b0bc1bbeae825`; its Pages workflow `38068086327` was still running at this receipt. That merged checkpoint reaches the previous 354-operation boundary.
+
+
+## 10 October 2026: Engine case CPInfo and character input
+
+The local Engine continuation executes the case-table GetCPInfo import at `306849d4` against the same retained logical thread, with its own 20-byte CPInfo alias at case EBP minus 124. The private NLS grant records the actual call site; the source import, pending return word, stack arguments and output alias are checked before writes. Defined output writes invalidate the corresponding retained stack slots and preserve both padding bytes. The initializer CPInfo record remains separate.
+
+The successful single-byte path fills all 256 input bytes using the original MOV/INC/CMP/JC loop, preserves INC carry behavior, replaces byte zero with space, and reads the returned lead byte before choosing the branch. It pushes eight classification arguments from the actual Engine allocation and stack records. It stops before `30684a46 -> 306916a2` after 1408 admitted operations. The classification wrapper, case-map calls, publication of the new MBC record, full startup and campaign integration remain unfinished. Unsupported lead-byte ranges and interrupted input stores retain the real preceding effects.
+
+Focused validation: 61 tests across four files passed in 23.09 seconds. Production build, wider validation and deployment of this continuation remain pending at this receipt.
+
+Production validation for the case-input continuation: `npm run build` completed successfully, including TypeScript checking, and `git diff --check` passed. The original next classification wrapper at `306916a2` was independently inspected from matching Engine.dll bytes: 22 instructions, with locale construction through `30673389` and a downstream call to `306914ea`. That scratch inspection does not admit or execute either classification routine.
+
+
+## 10 October 2026: Engine character-classification wrapper
+
+The source package now captures the matching Engine classification wrapper `306916a2` (22 instructions) and lower body `306914ea` (164 instructions). It contains 16 methods, 1130 instructions and 3206 instruction bytes; SHA-256 `e4289a160e290a456700dc5cfe515f07f2b758c173ead694b844c5aa91962faa`. Independent JSON, generated TypeScript and Game-comparison regeneration are byte-identical; the three compared setup/parser/wrapper methods still have no mismatches.
+
+The local continuation issues the actual case-to-classification call, constructs a separate 16-byte locale-update record in the retained wrapper frame, and runs the original same-Engine locale constructor. The shared constructor implementation now validates the actual return address and records the caller-specific PTD and completion. Classification keeps its own alias and the original code-page record remains separate. The wrapper forwards seven actual arguments and its locale-record ECX to `306916cb -> 306914ea`, stopping at that body after 1459 admitted operations on the default path. The PTD flag `0x2` remains acquired and the wrapper record flag at offset 12 is one while that call is pending. Cleanup will follow the original caller only after the lower body returns.
+
+The lower classification body is captured but not executed. It requires additional NLS and allocation dependencies; case mapping, MBC publication, complete startup and playable campaign integration remain unfinished.
+
+Earlier case-entry full-suite receipt: 3338 tests across 313 files passed in 423.35 seconds. PR #225 deployed successfully as `2676c2d2b2b321271721f319512b0bc1bbeae825`; workflow `38068086327` has successful build and deploy jobs. That deployed revision reaches 354 operations. The newer 1408-operation input continuation has a separate full suite running. These receipts do not prove hosted execution of the current local wrapper or a finishable campaign.
+
+Local wrapper validation: 62 tests across four files passed in 21.56 seconds; `npm run build` completed successfully, including TypeScript checking; `git diff --check` passed. The focused checks verify the separate locale-record alias, same-Engine PTD identity, acquired ownership flag, original constructor return, forwarded arguments and retained lower caller. Full-suite and public deployment validation for this wrapper remain pending.
+
+The preceding 1408-operation case-input continuation passed its full suite: 3341 tests across 313 files in 414.46 seconds. The newer classification-wrapper full suite is running separately. Publication preparation retains both the earlier public deployment receipts and the newer local continuation receipts.
+
+Publication-branch validation: 62 tests across four files passed in 21.72 seconds, production build including TypeScript checking passed, and the diff has no whitespace errors. The merge preserves all earlier dated receipts and updates the reader guide to distinguish the deployed 354-operation checkpoint from the local 1459-operation wrapper. The wrapper full-suite process remains live; this receipt does not claim its result.
+
+
+## 10 October 2026: Engine Unicode classification probe
+
+The original lower classification routine now enters its retained frame and reads the current Engine-owned API selector at `30af7c34`. Its loader-zero image is separate from the immutable two-byte Unicode probe at `30892f38`. The source package captures the exact GetStringTypeW, GetLastError, MultiByteToWideChar and GetStringTypeA import identities, alongside both image receipts. Source package SHA-256: `2a85ae264fc449abd6088e6268340eba95570d4ed5ad5fc92b545958f000171d`. The 16 methods, 1130 instructions and 3206 instruction bytes are unchanged. Independent JSON, TypeScript and comparison regenerations are byte-identical.
+
+On the cold selector path, the source constructs an actual stack WORD output at body EBP minus eight and invokes CT_CTYPE1 GetStringTypeW with the original one-code-unit input. The private grant checks that source image, same Engine owner, scalar/type, count, actual return slot and stack alias. The platform consumes the selected NLS classification table and writes exactly two bytes through the checked retained-stack writer; adjacent bytes stay untouched. Successful stdcall return restores its real caller, source instructions set the selector to one, and the default path stops at `3069155d` before wide conversion after 1486 admitted operations. The wrapper remains pending and temporary PTD ownership remains held. Warm selector dispatch and failed-probe GetLastError handling have explicit unsupported boundaries; no selector bytes are reseeded.
+
+The preceding 1459-operation classification wrapper passed its full suite: 3342 tests across 313 files in 416.95 seconds. The current probe remains locally validated only; complete classification, case mapping, MBC publication, complete startup and playable campaign remain unfinished.
+
+Local probe validation: 72 tests across five files passed in 19.87 seconds; production build including TypeScript checking passed; independent JSON/TypeScript/comparison regeneration is byte-identical; `git diff --check` passed. Full-suite and public deployment validation of this probe remain pending.
+
+
+## 10 October 2026: Engine character conversion size query
+
+The retained source now clears its temporary probe DWORD, consumes the explicit code page, loads the original MultiByteToWideChar import into ESI using the selected platform procedure capability, and constructs all six real query arguments. Its private grant checks the indirect CALL ESI and original import load, same platform procedure, 256-byte case-input stack alias, flags one or nine, and NULL output with zero capacity. The platform reads the current input through the copied process CP1252 table and returns the required count without writing any output memory. The actual stdcall return cleans 24 argument bytes.
+
+The default source path receives count 256, checks failure, signed count and overflow branches, calculates 520 buffer bytes and takes the original stack-buffer route. It stops before `306915af -> 3068de60`, the stack reservation helper, after 1510 admitted operations. Query input remains unchanged, the classification wrapper remains pending, and its PTD ownership stays held. The probe alias now reads zero because the subsequent original DWORD store clears it; probe output and adjacent-byte preservation are checked at the actual import return, before that later store.
+
+Focused validation: 74 tests across five files passed in 24.15 seconds, including exact six-argument ABI, procedure/return identity, unchanged query input and retention on a substitute normal-return object. TypeScript checking passed. Stack reservation, conversion output, complete classification, case mapping, MBC publication, complete startup and playable campaign integration remain unfinished. Production build and broader validation for this query remain pending at this receipt.
+
+Follow-up conversion-query review preserves EAX upper bits for the original SETNZ AL instruction. The corrected focused suite passed 74 tests across five files in 21.80 seconds. The preceding Unicode probe passed its full suite: 3347 tests across 313 files in 418.92 seconds. PR #226 merged as `374f95049478679abcb8c0da953b76f9ba9aa30c` after successful CI and a fresh repository-wide audit of 487 runs over five pages with no active runs. Main Pages workflow `38070559439` is running; hosted deployment of that wrapper is not yet claimed.
+
+Final conversion-query production build including TypeScript checking passed, and `git diff --check` passed. The next original stack-reservation helper was independently inspected: nine instructions at `3068de60`, aligning the requested size and jumping to `30674820`. This scratch evidence does not admit or execute that helper. The query full-suite and deployment receipts remain pending.
+
+
+## 10 October 2026: Engine aligned conversion stack buffer
+
+The package now admits the original nine-instruction alignment helper at `3068de60` and 19-instruction probe at `30674820`: 18 methods, 1158 instructions and 3271 instruction bytes, SHA-256 `6e06490da3819d289093b64242cd50e621096bbc6aa66c17424072abdd2c3c4a`. Independent JSON, TypeScript and comparison regenerations are byte-identical.
+
+The retained Engine caller requests 520 bytes. The helpers consume declared virtual page/alignment geometry, align the request, preserve the caller ECX, and move the exact original return-word capability into the new stack location before returning. Relative addresses stay inside the same nonwrapping selected stack reservation. The original page loop reads mapped stack storage when needed; no Windows address or host guard-page claim is made. Missing geometry and out-of-reservation addresses retain explicit unsupported boundaries.
+
+The real caller creates a 520-byte raw stack alias, writes `0xcccc`, skips the eight-byte header, and invokes a checked same-stack memset bridge for exactly 512 bytes. That translated memory effect preserves the header padding, does not count the captured memset body as executed instructions, and retains any partial writes on interruption. Six output-conversion arguments are prepared; the default path stops before CALL ESI at `306915f8`, after 1557 admitted operations. Output conversion, complete classification, case mapping, MBC publication, full startup and playable campaign remain unfinished.
+
+Focused validation: 77 tests across five files passed in 21.91 seconds. The preceding conversion query passed its full suite: 3349 tests across 313 files in 410.34 seconds. PR #226 deployed successfully as `374f95049478679abcb8c0da953b76f9ba9aa30c`, workflow `38070559439`. That public checkpoint reaches the earlier classification-wrapper boundary; the newer query and buffer are not claimed as deployed. Production and broader validation of the current buffer remain pending at this receipt.
+
+Current buffer production validation: `npm run build` completed successfully, including TypeScript checking, and `git diff --check` passed. The query-ABI test observes arguments at the real query return because the subsequent aligned reservation and clear legitimately reuse their old stack bytes. Buffer full-suite and deployment validation remain pending.
+
+Publication-branch validation for the combined probe/query/buffer: 77 tests across five files passed in 23.84 seconds; production build including TypeScript checking passed; the diff has no whitespace errors. Earlier probe and query full suites passed. The latest buffer full-suite process remains live; its result and public deployment remain pending.
+
+### 10 October 2026: Engine Unicode conversion output and character types
+
+The retained Engine classification body now executes the conversion output call at `306915f8` and the Unicode character-type call at `30691606`. Both consume their actual source arguments and write bounded 512-byte aliases on the original Engine stack. The declared code-page repertoire supplies the Unicode and CT_CTYPE1 values; all 256 input positions are checked, including the original space substitution at position zero. Interrupted conversion retains partial writes and the pending native return.
+
+The default continuation reaches `30691610` after 1567 admitted operations, before buffer cleanup. Cleanup, classification return, case mapping, MBC publication, complete startup and campaign play remain unfinished.
+
+Validation: initial focused suite 77 tests / five files passed; the expanded Engine frame suite passed 62 tests, including complete output spans and interruption; production build passed. Full-suite validation for this output continuation is pending. The preceding aligned-buffer checkpoint passed 3352 tests / 313 files and merged as PR #227; its Pages deployment is running.
+
+Matching Engine.dll evidence was independently inspected for cleanup `30675d66` and cookie check `3067746c`. Cleanup tests the allocation header against `0xdddd`; the stack allocation carries `0xcccc`, so its original branch returns without freeing heap memory. This evidence is captured outside the repository for the next implementation step; those helper bodies have not yet been added to the executable source package.
+
+
+### 10 October 2026: Engine classification cleanup and return
+
+The original stack-buffer cleanup helper and security-cookie check are now captured from matching Engine.dll bytes, bringing this source package to 20 methods, 1171 instructions and 3312 instruction bytes. The stack header is compared with the original heap marker; its `0xcccc` value follows the return branch without invoking heap release. The retained cookie XOR relationship recovers the original cookie without inventing absolute stack addresses.
+
+The classification body restores its saved registers and returns through its actual pending call. The wrapper releases only the PTD locale bit it acquired, preserves pre-existing ownership, restores the case-table frame and returns to `30684a4b` after 1597 admitted operations. Converted Unicode and character types remain in their original stack aliases. Focused validation passed 80 tests across five files, including cleanup returns, allocation lifetime, full output spans and interruption. Production build passed; independent source JSON and generated TypeScript are byte-identical. The preceding output continuation passed 3354 tests across 313 files in 432.39 seconds. Case mapping, MBC publication, full startup, live world activation and campaign completion remain unfinished.
+
+
+### 10 October 2026: Engine case mapping wrapper
+
+The first case-mapping call now prepares its nine original arguments, enters `3067c91e`, constructs a separate locale-update record with the same Engine PTD and forwards eight arguments to its lower body. It reaches `3067c94a -> 3067c57c` after 1660 admitted operations. Classification releases its acquired locale bit before mapping reacquires it; a check observes this transition at the actual constructor read. Reused stack aliases contain current memory, so prior argument slots and temporary probe values are not treated as historical snapshots.
+
+The captured source package now contains 21 methods, 1194 instructions and 3379 instruction bytes. Independent research JSON and generated TypeScript are byte-identical. TypeScript checking passed; the Engine frame suite passed all 64 tests. Production build passed. The preceding classification-return checkpoint passed 3355 tests across 313 files in 433.21 seconds. The matching lower mapping body was inspected separately (337 instructions); it is not yet admitted to the executable package. Mapping execution, MBC publication, complete startup and campaign play remain unfinished. PR #227 deployed successfully; this later local continuation is not yet published.
+
+
+### 10 October 2026: Engine Unicode case-mapping API probe
+
+The lower mapping body is now captured from matching Engine.dll bytes, together with its original LCMapStringW import and mutable API selector at `30af70ec`. The source package contains 22 methods, 1531 instructions, 4307 instruction bytes and sixteen image receipts. The runtime enters the original cookie frame, saves registers and issues the six-argument Unicode API-selection query with the original immutable UTF-16 NUL input. Its private grant validates locale zero, lower-case flag `0x100`, one input code unit and NULL/zero-capacity output; the selected browser service returns the required query length through the actual stdcall return. The Engine-owned selector is updated only after success.
+
+The default continuation reaches the input scan at `3067c5d3` after 1687 admitted operations. The scan, full case mapping, MBC publication, complete startup and campaign completion remain unfinished. TypeScript checking passed. Focused validation passed 81 of 82 checks; the remaining check incorrectly read a temporary Unicode buffer after the next mapping frame reused it. The corrected check validates all 256 output code units and types at the classification normal return and passed its targeted rerun. Independent source JSON and generated TypeScript are byte-identical; the shared argument comparison retains zero mismatches. Production build and all 82 focused tests across five files passed. The preceding mapping wrapper passed 3356 tests across 313 files in 515.77 seconds; PR #228 contains that checkpoint and is still in CI.
+
+
+### 10 October 2026: Engine mapping input scan
+
+The original mapping input scan now compares the explicit input count, reads the actual case byte array and executes its DEC, byte comparison, pointer increment and branch loop. It preserves DEC/INC carry behavior, includes an encountered terminator in the resulting count, and retains the original maximum count when no NUL occurs. The mutable mapping selector also follows its cached branch without repeating the API probe. Explicit code-page selection is checked before conversion setup; locale fallback and ANSI mapping remain explicit unsupported paths.
+
+The default 256-byte input reaches `3067c629` after 3244 admitted operations. A cached successful selector reaches the same instruction after 3231 operations. A NUL at byte seven yields a count of eight and reaches the boundary after 1753 operations. Default focused validation passed 82 tests across five files; both new cached-selector and early-NUL checks passed. Production build, including TypeScript checking of the added branch checks, passed. Conversion setup, mapped output, MBC publication, startup and campaign completion remain unfinished.
+
+
+### 10 October 2026: Engine mapping conversion-size query
+
+The original mapping body now loads its actual MultiByteToWideChar procedure, constructs six stack arguments, preserves SETNZ byte semantics and performs the indirect size query. The private import grant checks the matching source call and load, original byte-array pointer, selected code page, flags and NULL/zero-capacity destination. The scanned count may range from one through 256; this does not relax the separate classification call's fixed 256-byte contract. The query reads the declared Unicode repertoire, writes no output and returns through the retained stdcall frame.
+
+The default path reaches conversion allocation at `3067c64c` after 3256 admitted operations and returns 256 code units. Cached API selection reaches it after 3243 operations; an early NUL at byte seven reaches it after 1765 operations with count eight. TypeScript checking and all 84 focused checks across five files passed. A new targeted check also passed for exact scalar arguments, unchanged input bytes, actual return identity and rejection of a replayed output grant. Production build passed. The preceding API-probe checkpoint passed 3357 tests across 313 files in 457.27 seconds. Allocation, converted/mapped output, MBC publication, complete startup and the playable campaign remain unfinished.
+
+
+### 10 October 2026: Engine mapping stack-buffer allocation
+
+The mapping body now executes its count checks, original unsigned EDX:EAX division guard, size calculation and stack-versus-heap branch. Its bounded startup input selects the original aligned stack allocation. The shared source-backed alignment/page-probe continuation is reused with separate reservation state and the mapping call's actual return word; classification keeps its own state. The helper relocates the mapping return word before returning to `3067c674`. Source instructions mark the new raw buffer `0xcccc`, preserve header padding, store its output pointer and prepare the next conversion call.
+
+The default path reaches `3067c6b6` after 3311 admitted operations with a separate 520-byte raw stack alias (512 output bytes plus header). Cached selection reaches the same boundary after 3298 operations; the early-NUL case reaches it after 1820 operations with a smaller buffer. TypeScript checking and 85 focused checks across five files passed. A targeted allocation check also passed for alignment, buffer identity, padding preservation, actual helper return and replay resistance. Production build passed. Unicode output, case mapping, MBC publication, complete startup and a finishable browser campaign remain unfinished. The heap-allocation branch is retained as an unsupported path.
+
+
+### 10 October 2026: Engine mapping Unicode output and mapped-size query
+
+The mapping body now converts its scanned byte input into a separate Unicode alias inside its own aligned stack buffer. Its private output grant checks the original indirect procedure, completed size query, exact output pointer, capacity and defined WORD writes. The service invalidates root stack slots before intrinsic alias writes, preserving ownership and partial effects. It then loads the original LCMapStringW procedure and issues the six-argument mapped-size query against those actual converted code units. The declared case repertoire is checked before returning the required count; this query writes no mapped output.
+
+The default continuation reaches mapped-output allocation at `3067c712` after 3328 admitted operations. Both conversion and mapping-size calls return through their actual stdcall frames. Cached selection reaches it after 3315 operations; the early-NUL path reaches it after 1837 operations. TypeScript checking and 86 focused checks across five files passed. Two additional targeted checks passed for every Unicode code unit, output masks, return identities and retained partial writes on interruption. Prior temporary classification-buffer checks now observe its live return before subsequent mapping allocation reuses that stack span. Production build passed.
+
+The preceding scan checkpoint passed 3359 tests across 313 files in 484.04 seconds. PR #228 deployed successfully and contains the earlier mapping wrapper checkpoint. This newer output continuation is local. Mapped-output allocation, case conversion and narrowing, MBC publication, startup, connected gameplay and campaign completion remain unfinished.
+
+
+### 10 October 2026: Engine mapped Unicode case output
+
+The mapping body now executes its second division/size guard and aligned stack reservation. A distinct raw buffer and Unicode output alias preserve the input conversion buffer. The original direct LCMapStringW call validates locale, case flags, input count, destination capacity and both actual stack pointers. The declared lower-case repertoire is written through bounded WORD grants with root-slot invalidation; interrupted writes retain their partial output and pending return.
+
+The default continuation reaches byte-narrowing preparation at `3067c779` after 3382 admitted operations. Cached selection reaches it after 3369 operations; the early-NUL path reaches it after 1891 operations. TypeScript checking and all 88 focused tests across five files passed. Two new targeted checks passed for all 256 lower-case results, aligned non-overlapping buffers, allocation/header identity, actual returns and partial-output failure. Production build passed.
+
+The preceding first-buffer checkpoint passed 3361 tests across 313 files in 536.23 seconds. The mapped Unicode output remains local; narrowing, buffer cleanup, wrapper return, the second case-table mapping, MBC publication, startup and complete campaign play remain unfinished.
