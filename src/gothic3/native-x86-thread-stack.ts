@@ -455,6 +455,16 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
       step('3067d1f9',()=>stack.#call('3067d1f9','3067d1fe'));stack.#engineCinitFrame.pc='3067d012';
       const walk=(pc:string,body:()=>void)=>step(pc,body,'3067d012');
       const cursor=()=>{const p=stack.#record(register('ESI')).provenance;if(p?.kind!=='engine-image'||p.crt!==crt||p.fields!==initializers.value||p.offset<0||p.offset>initializers.value.bytes.length||p.offset%4)throw new Error('Actual Engine C initializer cursor required');return p.offset;};
+      const afterWalk=()=>{
+        let result=0;
+        step('3067d1fe',()=>{result=stack.#numeric(register('EAX'),4);stack.#logicalFlags(result,0xffffffff,4);});
+        step('3067d200',()=>pop('ECX'));step('3067d201',()=>pop('ECX'));step('3067d202',()=>{});
+        if(result!==0){stack.#engineCinitFrame!.pc='3067d258';return known(undefined);}
+        step('3067d204',()=>stack.#push(register('ESI')));step('3067d205',()=>stack.#push(register('EDI')));
+        step('3067d206',()=>stack.#push(stack.#source('code','3068e981')));
+        step('3067d20b',()=>stack.#call('3067d20b','3067d210'));
+        stack.#engineCinitFrame!.pc='30671596';return known(undefined);
+      };
       walk('3067d012',()=>stack.#push(register('ESI')));
       walk('3067d013',()=>{const esp=stack.#address(register('ESP')),word=stack.#load(stack.#stack,esp+8),p=stack.#record(word).provenance;if(p?.kind!=='engine-image'||p.crt!==crt||p.fields!==initializers.value||p.offset!==0)throw new Error('Actual Engine C initializer begin argument required');setRegister('ESI',word);});
       walk('3067d017',()=>{setRegister('EAX',stack.#mint(0,0xffffffff));stack.#logicalFlags(0,0xffffffff,4);});
@@ -463,9 +473,9 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
         let end=0;
         walk('3067d02a',()=>{const esp=stack.#address(register('ESP')),p=stack.#record(stack.#load(stack.#stack,esp+12)).provenance;if(p?.kind!=='engine-image'||p.crt!==crt||p.fields!==initializers.value||p.offset!==initializers.value.bytes.length)throw new Error('Actual Engine C initializer end argument required');end=p.offset;const current=cursor();stack.#arithmeticFlags(current,end,(current-end)>>>0,4,true);});
         walk('3067d02e',()=>{});
-        if(cursor()>=end){walk('3067d030',()=>pop('ESI'));walk('3067d031',()=>stack.#ret());stack.#engineCinitFrame.pc='3067d1fe';return known(undefined);}
+        if(cursor()>=end){walk('3067d030',()=>pop('ESI'));walk('3067d031',()=>stack.#ret());return afterWalk();}
         let result=0;walk('3067d01b',()=>{result=stack.#numeric(register('EAX'),4);stack.#logicalFlags(result,0xffffffff,4);});walk('3067d01d',()=>{});
-        if(result!==0){walk('3067d030',()=>pop('ESI'));walk('3067d031',()=>stack.#ret());stack.#engineCinitFrame.pc='3067d1fe';return known(undefined);}
+        if(result!==0){walk('3067d030',()=>pop('ESI'));walk('3067d031',()=>stack.#ret());return afterWalk();}
         let target:string|null=null;
         walk('3067d01f',()=>{const offset=cursor(),live=NativeEngineCinitImages.imageForCrt(images.value,crt,'errorInitializers');if(!live.known||live.value!==initializers.value)throw new Error('Retained Engine C initializer table required');const raw=NativeHeapObjectViews.prototype.readUnsigned.call(initializers.value,offset,4);if(raw){target=engineCinitTableTarget('errorInitializers',(0x30816928+offset).toString(16));if(!target||parseInt(target,16)!==raw)throw new Error('Admitted original Engine C initializer callback required');setRegister('ECX',stack.#source('code',target));}else setRegister('ECX',stack.#mint(0,0xffffffff));});
         walk('3067d021',()=>stack.#flags(target?0:0x44,0x841|(target?0:0x84)));walk('3067d023',()=>{});

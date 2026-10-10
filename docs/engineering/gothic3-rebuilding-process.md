@@ -4,6 +4,22 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local continuation — 11 October 2026: caller checks and second registration
+
+The original C initializer caller now tests the walker result and removes both
+physical table arguments. Error returns take the original branch to `3067d258`.
+The normal return saves ESI/EDI, pushes shutdown callback `3068e981` and calls
+exit registration from `3067d20b`, preserving its actual pending return to
+`3067d210`. This is a second registration before the C++ initializer table;
+it has not been replaced with the earlier callback's cached result.
+
+The normal selected path stops at registration `30671596` after 2,184 admitted
+operations. Three focused normal-path checks and two retry checks pass;
+typechecking passed before the assertion updates. The separate combined run
+for `e8e62bd80` passed 153 checks across five files and continues through full
+validation. This newer continuation remains local. C++ initialization and a
+campaign through an ending remain unfinished.
+
 ## Local continuation — 11 October 2026: C initializer walker return
 
 Onexit now retains its callback result, executes the original finally wrapper
