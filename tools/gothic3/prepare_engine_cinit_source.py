@@ -32,6 +32,7 @@ def capture(study):
         0x3067cfe8: 'engineExitLock',
         0x3067cff1: 'engineExitUnlock',
         0x30671590: 'engineExitFinally',
+        0x3067e500: 'engineOnexitEh4Prolog',
     })
     pe = PE((study / '00_Original_Runtime/Engine.dll').read_bytes())
     # The exported function CSV omits this complete body; retain its assembly

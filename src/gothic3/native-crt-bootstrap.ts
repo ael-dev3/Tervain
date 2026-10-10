@@ -360,6 +360,15 @@ export class NativeCrtBootstrap {
       bootstrap.#assertCrt();return known(undefined);
     }catch(error){return unknown(failureReason(error));}
   }
+  static engineCinitExitLockForCrt(bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object,operation:'lock'|'unlock'):NativeValue<void>{
+    const proof=NativeCrtBootstrap.canonicalEngineCinitCallForCrt(bootstrap,crt,permit);if(!proof.known)return proof;
+    if(operation!=='lock'&&operation!=='unlock')return unknown('Actual Engine exit lock operation required');
+    return operation==='lock'?NativeModuleCrtOwner.prototype.lock.call(crt,8):NativeModuleCrtOwner.prototype.unlock.call(crt,8);
+  }
+  static engineCinitCookieForCrt(bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object):NativeValue<NativeHeapObjectViews>{
+    const proof=NativeCrtBootstrap.canonicalEngineCinitCallForCrt(bootstrap,crt,permit);if(!proof.known)return proof;
+    try{return known(bootstrap.#checked(bootstrap.physical.securityCookie));}catch(error){return unknown(failureReason(error));}
+  }
   static engineCinitArgvImagesForCrt(bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object):NativeValue<NativeEngineArgvImages>{
     const proof=NativeCrtBootstrap.canonicalEngineCinitCallForCrt(bootstrap,crt,permit);
     if(!proof.known)return proof;

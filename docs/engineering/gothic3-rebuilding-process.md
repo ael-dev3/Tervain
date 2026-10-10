@@ -4,6 +4,24 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local continuation — 11 October 2026: onexit exception frame and lock
+
+The shutdown-registration continuation executes the original 21-instruction
+EH4 prolog using the retained Engine security cookie. It preserves the caller's
+EBP, builds the physical exception frame, publishes FS and returns to onexit.
+The original exit-lock wrapper pushes lock 8 and calls the retained Engine CRT
+lock service under the active initializer permit. Its physical return and
+argument cleanup execute before onexit marks its protected scope and forwards
+the original shutdown callback to storage routine `30671472`.
+
+The normal path stops at that routine after 1,580 admitted operations, with
+lock 8 and the exception frame retained. Unknown cookie bytes stop at their
+actual load before FS publication. Eighteen focused checks across three files
+pass, and the final permit adjustment passes both registration-frame checks.
+Typechecking and independent JSON/TypeScript regeneration pass. Full validation
+of the earlier `4f2649868` checkpoint remains live. This continuation is local;
+callback registration, full startup and a finishable campaign remain unfinished.
+
 ## Local continuation — 11 October 2026: shutdown registration entry
 
 The sixth C initializer is absent from the original disassembly and function
