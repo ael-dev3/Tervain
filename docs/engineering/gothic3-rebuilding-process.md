@@ -17,7 +17,9 @@ Runtime revision `6a236ba50` passed all 3,316 tests across 313 files in 491.90
 seconds. Source/image checks and independent regeneration cover the later
 descriptive constructor receipt; that addition does not change the runtime.
 TypeScript checking and the locale-helper production build pass. The rebuilding
-guide update is joined to this branch. Complete startup, live NPC/campaign
+guide update is joined to this branch. After joining main and Claude PR #222,
+63 focused checks across seven files and a fresh production build pass.
+Complete startup, live NPC/campaign
 integration and a new-game-to-ending browser campaign remain unfinished.
 
 ## Local evidence — 10 October 2026: Code-page locale update constructor
