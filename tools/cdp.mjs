@@ -24,13 +24,14 @@ const candidates = [
   '/usr/bin/chromium',
 ].filter(Boolean);
 
-export async function openPage(url = process.env.TERVAIN_URL ?? 'http://127.0.0.1:5173/', { w = 1280, h = 720, init = null, flags = [] } = {}) {
+export async function openPage(url = process.env.TERVAIN_URL ?? 'http://127.0.0.1:5173/', { w = 1280, h = 720, init = null, flags = [], headed = false } = {}) {
   const browser = candidates.find((c) => fs.existsSync(c));
   if (!browser) throw new Error('no Chrome/Edge found; set CHROME');
   const port = 9300 + Math.floor(Math.random() * 500);
   const profile = fs.mkdtempSync(path.join(os.tmpdir(), 'tervain-cdp-'));
+  // Headed runs draw on the machine's own GPU (benchmarks on real hardware); headless ones fall back to software.
   const browserArgs = [
-    '--headless=new', '--no-sandbox', '--hide-scrollbars', '--ignore-gpu-blocklist', '--enable-unsafe-swiftshader',
+    ...(headed ? [] : ['--headless=new']), '--no-sandbox', '--hide-scrollbars', '--ignore-gpu-blocklist', ...(headed ? [] : ['--enable-unsafe-swiftshader']),
     `--remote-debugging-port=${port}`, `--user-data-dir=${profile}`, `--window-size=${w},${h}`, ...flags, 'about:blank',
   ];
   if (process.platform === 'win32') browserArgs.splice(4, 0, '--use-angle=d3d11');
@@ -75,6 +76,8 @@ export async function openPage(url = process.env.TERVAIN_URL ?? 'http://127.0.0.
   await send('Runtime.enable');
   await send('Page.enable');
   await send('Emulation.setDeviceMetricsOverride', { width: w, height: h, deviceScaleFactor: 1, mobile: false });
+  // A headless window never holds focus on some platforms; without this the game sees a blur and pauses itself.
+  await send('Emulation.setFocusEmulationEnabled', { enabled: true });
   // Runs before any of the page's own scripts (for example, a seeded Math.random for repeatable captures).
   if (init) await send('Page.addScriptToEvaluateOnNewDocument', { source: init });
   await send('Page.navigate', { url });

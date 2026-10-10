@@ -7,6 +7,7 @@ import { HERO_ACTION_FADE, HERO_GAIT_PHASE, HERO_LEG_TWIST } from '../../src/pre
 import { bindHeroBones, HERO_BONES, HERO_FINGERS, type HeroBoneName } from '../../src/presentation/hero/bones';
 import { HERO_RUN_CYCLE, HERO_RUN_SPEED, HERO_WALK_CYCLE, HERO_WALK_SPEED } from '../../src/presentation/hero/locomotion';
 import { createHeroRig, type MainHeroRig } from '../../src/presentation/hero/rig';
+import { fitHeroFingers } from '../../src/presentation/hero/fingerFit';
 import { loadHeroWithoutImages, meshes } from './heroFixture';
 
 let asset: GLTF;
@@ -380,5 +381,78 @@ describe('direction, turning and action layers (A70)', () => {
     expect(Math.abs(lowestSole(rig, right) - flatR)).toBeLessThan(0.03);
     for (let i = 0; i < 90; i++) rig.hero.pose(pose('run', { grounded: false, groundAt: below, rootY: 0 }), 1 / 60, false);
     expect(rig.body.position.y).toBeCloseTo(0, 3);
+  });
+});
+
+describe('hand skin under the grip (A73)', () => {
+  const gripped = (side: 'Left' | 'Right') => (['Thumb', 'Middle', 'Ring', 'Pinky'] as const)
+    .flatMap((finger) => [1, 2, 3].map((joint) => `mixamorig:${side}Hand${finger}${joint}` as HeroBoneName));
+
+  it('gives every finger joint the grip turns, Thumb1 included, its own share of the skin', () => {
+    const skin = skinOf(asset.scene), { skinIndex, skinWeight } = skin.geometry.attributes;
+    const total = new Map<string, number>();
+    for (let i = 0; i < skinIndex!.count; i++) for (let k = 0; k < 4; k++) {
+      const name = skin.skeleton.bones[skinIndex!.getComponent(i, k)]!.name;
+      total.set(name, (total.get(name) ?? 0) + skinWeight!.getComponent(i, k));
+    }
+    for (const side of ['Left', 'Right'] as const) for (const name of gripped(side)) {
+      expect(total.get(name.replace(':', '')) ?? total.get(name) ?? 0, name).toBeGreaterThan(5);
+    }
+  });
+
+  it('keeps the hands from tearing in a full fist: no hand edge stretches ten times its rest length', () => {
+    const grip = sourcePose('Boxing_Practice', 0.25);
+    const scene = cloneSkinned(asset.scene), bones = bindHeroBones(scene), skin = skinOf(scene);
+    scene.updateMatrixWorld(true); skin.skeleton.update();
+    const { position, skinIndex } = skin.geometry.attributes, index = skin.geometry.index!;
+    const handBone = skin.skeleton.bones.map((bone) => /Hand/.test(bone.name));
+    const at = () => Array.from({ length: position!.count }, (_, v) => skin.getVertexPosition(v, new THREE.Vector3()));
+    const rest = at();
+    for (const side of ['Left', 'Right'] as const) for (const finger of HERO_FINGERS) for (const joint of [1, 2, 3, 4]) {
+      const name = `mixamorig:${side}Hand${finger}${joint}` as HeroBoneName;
+      bones[name].quaternion.copy(grip[name].quaternion);
+    }
+    scene.updateMatrixWorld(true); skin.skeleton.update();
+    const now = at();
+    let worst = 0;
+    for (let i = 0; i < index.count; i += 3) for (let c = 0; c < 3; c++) {
+      const a = index.getX(i + c), b = index.getX(i + (c + 1) % 3);
+      if (!handBone[skinIndex!.getX(a)]) continue;
+      const length = rest[a]!.distanceTo(rest[b]!);
+      if (length >= 1e-3) worst = Math.max(worst, now[a]!.distanceTo(now[b]!) / length);
+    }
+    expect(worst).toBeGreaterThan(1);
+    // Before A73 the thumb tore from the palm at 16x, and with the digits 30-50 mm off their chains the worst finger edge
+    // still reached 8.7x. With the joints seated in the creases (A75) the worst are 1-2 mm slivers in the webs between
+    // fused fingers, about 6.6x (the previous body managed 5.9x).
+    expect(worst).toBeLessThan(7);
+  });
+});
+
+describe('finger joints seated in the fingers (A75)', () => {
+  it('moves every finger joint onto its crease, keeps the skin exactly as modelled at bind, and carries the clips along', () => {
+    const report = fitHeroFingers(asset);
+    // Thumb, Middle, Ring and Pinky, four joints each, both hands.
+    expect(report).toHaveLength(32);
+    for (const { joint, moved } of report) {
+      expect(moved, joint).toBeGreaterThan(0.02);
+      expect(moved, joint).toBeLessThan(0.1);
+    }
+    // Asked again, the asset is not moved twice.
+    expect(fitHeroFingers(asset)).toBe(report);
+    const scene = cloneSkinned(asset.scene), skin = skinOf(scene);
+    skin.skeleton.pose(); scene.updateMatrixWorld(true); skin.skeleton.update();
+    const position = skin.geometry.getAttribute('position'), at = new THREE.Vector3(), rest = new THREE.Vector3();
+    let error = 0;
+    for (let i = 0; i < position.count; i++) error = Math.max(error, skin.getVertexPosition(i, at).distanceTo(rest.fromBufferAttribute(position, i)));
+    expect(error).toBeLessThan(1e-5);
+    // Each clip holds a finger joint where its rest now is, so no clip pulls a knuckle back off its finger.
+    const bones = bindHeroBones(scene);
+    for (const clip of asset.animations) for (const track of clip.tracks) {
+      const match = /^(mixamorig:?\w+Hand(?:Thumb|Middle|Ring|Pinky)\d)\.position$/.exec(track.name);
+      if (!match) continue;
+      const bone = Object.values(bones).find((b) => b.name === match[1])!;
+      expect(new THREE.Vector3().fromArray(track.values, 0).distanceTo(bone.position), `${clip.name} ${track.name}`).toBeLessThan(2e-3);
+    }
   });
 });

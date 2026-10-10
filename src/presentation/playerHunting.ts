@@ -3,8 +3,20 @@ import type { Rig } from './characters';
 import { createHuntingArrow } from './huntingArrow';
 import type { HeroGrip } from './hero/animation';
 
-/** The arrow's line while the bow is only carried: forward, a little out from the leg and a touch down. */
+/** The arrow's line while the bow is held ready after a shot: forward, a little out from the leg and a touch down. */
 const BOW_AT_REST = new THREE.Vector3(.14, -.1, .98).normalize();
+/**
+ * How long the bow stays in hand after the last aim or shot before it goes back on his back (A75). As in Gothic 3 the
+ * bow is carried slung on the back and taken in hand to shoot; walking and running with it hanging by the leg left
+ * the string across his body and his bow hand clenched.
+ */
+export const BOW_READY_SECONDS = 2.5;
+/**
+ * Slung across the back (root space: +x his left, +z forward): the grip behind his shoulder blades, the limbs from his
+ * right hip up over his left shoulder, the string outward, away from his back.
+ */
+const SLUNG_AT = new THREE.Vector3(.02, 1.34, -.2);
+const SLUNG_UP = new THREE.Vector3(.42, .9, 0).normalize();
 
 type Snapshot = { position: THREE.Vector3; quaternion: THREE.Quaternion };
 const Z = new THREE.Vector3(0, 0, 1);
@@ -30,6 +42,9 @@ export class PlayerHuntingVisual {
   private direction = new THREE.Vector3(0, 0, 1);
   private equipped = false;
   private aiming = false;
+  /** Seconds the bow stays in hand before it is slung on the back again (A75). */
+  private ready = 0;
+  private readonly back: THREE.Group;
   private draw = 0;
   private recoil = 0;
   private skinProgress: number | null = null;
@@ -59,6 +74,16 @@ export class PlayerHuntingVisual {
     this.string.name = 'Hunting / drawn bow string';
     this.bow.add(limbs, handle, this.string, this.nockedArrow);
     this.leftPalm.add(this.bow);
+    // The back socket rides the upper spine, so the slung bow moves with his chest and shoulders (A75).
+    this.back = new THREE.Group();
+    this.back.name = 'Hunting / bow slung on the back';
+    const spine = this.joint('Spine2') ?? this.joint('Spine1') ?? this.joint('Spine') ?? rig.torso ?? rig.root;
+    rig.root.updateMatrixWorld(true);
+    const up = SLUNG_UP, forward = Z.clone(), across = up.clone().cross(forward).normalize();
+    const slung = new THREE.Matrix4().makeBasis(across, up, forward.clone().crossVectors(across, up)).setPosition(SLUNG_AT);
+    new THREE.Matrix4().copy(spine.matrixWorld).invert().multiply(rig.root.matrixWorld).multiply(slung)
+      .decompose(this.back.position, this.back.quaternion, this.back.scale);
+    spine.add(this.back);
     const steel = new THREE.MeshStandardMaterial({ color: 0x958e82, roughness: .72, metalness: .5 });
     this.knife.name = 'Hunting / skinning knife in right palm';
     const blade = new THREE.Mesh(new THREE.BoxGeometry(.023, .018, .18), steel);
@@ -94,7 +119,7 @@ export class PlayerHuntingVisual {
   setAim(direction: { x: number; y: number; z: number } | null, draw = 0): void {
     this.aiming = direction !== null && [direction.x, direction.y, direction.z].every(Number.isFinite) &&
       direction.x * direction.x + direction.y * direction.y + direction.z * direction.z > 1e-8;
-    if (this.aiming) this.direction.set(direction!.x, direction!.y, direction!.z).normalize();
+    if (this.aiming) { this.direction.set(direction!.x, direction!.y, direction!.z).normalize(); this.ready = BOW_READY_SECONDS; }
     this.draw = Number.isFinite(draw) ? clamp(draw, 0, 1) : 0;
   }
 
@@ -116,6 +141,9 @@ export class PlayerHuntingVisual {
     return { origin, direction: this.direction.clone() };
   }
 
+  /** Whether the bow is in his hand (aiming, or ready after a shot) rather than slung on his back (A75). */
+  get inHand(): boolean { return this.equipped && (this.aiming || this.ready > 0 || this.recoil > 0); }
+
   /** Must run before poseRig: remove exactly the previous overlay without accumulating its rotations. */
   restorePose(): void {
     for (const [object, pose] of this.modified) { object.position.copy(pose.position); object.quaternion.copy(pose.quaternion); }
@@ -127,12 +155,24 @@ export class PlayerHuntingVisual {
     if (this.skinProgress !== null) { this.poseSkinning(); return; }
     this.knife.visible = false;
     this.bow.visible = this.equipped;
-    if (!this.equipped) return;
+    if (!this.equipped) { this.ready = 0; return; }
+    if (!this.aiming) this.ready = Math.max(0, this.ready - Math.max(0, dt));
+    // Carried, the bow rides on his back and both hands hang free; it comes to hand to aim and shoot (A75).
+    if (!this.inHand) {
+      if (this.bow.parent !== this.back) this.back.add(this.bow);
+      this.nockedArrow.visible = false;
+      const positions = this.string.geometry.attributes.position as THREE.BufferAttribute;
+      positions.setXYZ(1, 0, 0, -.14); positions.needsUpdate = true;
+      return;
+    }
+    if (this.bow.parent !== this.leftPalm) this.leftPalm.add(this.bow);
     const localDir = this.direction.clone().applyQuaternion(this.rig.root.getWorldQuaternion(new THREE.Quaternion()).invert());
     // At rest the bow hangs upright beside the leg, its back to the front and the string behind the grip (A69). It was
     // pitched 36° nose-down, which laid it diagonally across the thigh with the string cutting in front of the body.
     const bowDirection = this.aiming ? localDir : BOW_AT_REST;
-    const hand = this.aiming ? new THREE.Vector3(.12, 1.42, 0).addScaledVector(bowDirection, .66) : new THREE.Vector3(.34, .9, .1);
+    // Aiming, the arrow runs along the line of his jaw (A75; it was at his chest): the draw comes to his face, as Gothic 3's
+    // archers draw.
+    const hand = this.aiming ? new THREE.Vector3(.12, 1.55, 0).addScaledVector(bowDirection, .66) : new THREE.Vector3(.34, .9, .1);
     this.arm('Left', hand, new THREE.Vector3(.5, 1.3, .26));
     this.rig.root.updateMatrixWorld(true);
     const frame = new THREE.Quaternion().setFromUnitVectors(Z, bowDirection).premultiply(this.rig.root.getWorldQuaternion(new THREE.Quaternion()));
@@ -151,7 +191,7 @@ export class PlayerHuntingVisual {
     if (this.aiming) {
       const nockWorld = this.bow.localToWorld(new THREE.Vector3(0, 0, nock));
       const target = this.rig.root.worldToLocal(nockWorld).add(new THREE.Vector3(-.025 - recoil * .13, .005, -recoil * .08));
-      this.arm('Right', target, new THREE.Vector3(-.55, 1.42, .08));
+      this.arm('Right', target, new THREE.Vector3(-.55, 1.62, -.05));
       this.orientPalm(this.rightPalm, frame);
       this.closeFingers('Right', .7, 'draw');
     }
@@ -162,7 +202,7 @@ export class PlayerHuntingVisual {
   dispose(): void {
     this.restorePose();
     const geometries = new Set<THREE.BufferGeometry>(), materials = new Set<THREE.Material>();
-    for (const holder of [this.leftPalm, this.rightPalm]) {
+    for (const holder of [this.leftPalm, this.rightPalm, this.back]) {
       holder.removeFromParent();
       holder.traverse((object) => {
         const mesh = object as THREE.Mesh;

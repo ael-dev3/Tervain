@@ -1,4 +1,6 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
+// These run the original instructions in the emulator: about 4–5 s each here, so the 5 s default fails under load.
+vi.setConfig({ testTimeout: 30_000 });
 import type { NativeValue } from '../../src/gothic3/dialogue';
 import type { NativeBytePointer } from '../../src/gothic3/native-pointer-geometry';
 import { createBrowserGameCrtPlatform } from '../../src/gothic3/browser-game-crt-platform';

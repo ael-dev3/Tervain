@@ -8,13 +8,16 @@ import { fromBuildingLocal, roomHalfSize, type InteriorSpec, type RoomLocator } 
  * outside; each pane samples it along the line of sight, so the view shifts as the hero moves about the room. It is
  * captured on entering a room and every few seconds while there, never outdoors.
  */
+/** The capture's cube face size (px): 96 px read as a blurred blob through a pane near the camera (A75). */
+export const WINDOW_VIEW_SIZE = 320;
+
 export class WindowView {
   private readonly target: THREE.WebGLCubeRenderTarget;
   private readonly camera: THREE.CubeCamera;
   private room: InteriorSpec | null = null;
   private age = Infinity;
 
-  constructor(private readonly rooms: RoomLocator, private readonly pane: THREE.MeshBasicMaterial, size = 96, private readonly interval = 3) {
+  constructor(private readonly rooms: RoomLocator, private readonly pane: THREE.MeshBasicMaterial, size = WINDOW_VIEW_SIZE, private readonly interval = 3) {
     this.target = new THREE.WebGLCubeRenderTarget(size, { generateMipmaps: false, minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter });
     this.target.texture.mapping = THREE.CubeRefractionMapping;
     this.camera = new THREE.CubeCamera(0.5, 900, this.target);

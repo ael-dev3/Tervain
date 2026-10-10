@@ -39,17 +39,30 @@ export interface FoliageLook {
   variation: number;
   /** Light through the leaves left in the crown's own shadow, of what it would be in the open (0..1). */
   shadeThrough: number;
+  /**
+   * Leaf masses (A76): how much the outer shell thins between masses (0..1), how dark the spaces between masses fall
+   * (0 none), how far a card's straight cut is roughened at leaf scale, and the size of a mass (metres).
+   */
+  clumps: { gaps: number; shade: number; rough: number; size: number };
+  /** A card fades out between these facings toward the eye (|cos|), as it turns edge-on (A76). */
+  edgeOn: readonly [number, number];
 }
 
 export const FOLIAGE_LOOK: FoliageLook = {
   // A69: the crown shades as one rounded mass (its cards no longer fight it) and keeps more of its greens and inner light.
-  crownNormal: 0.8,
-  translucency: 0.9,
-  transTint: new THREE.Color(1.0, 1.1, 0.55),
-  innerShade: 0.72,
-  saturation: 0.95,
+  // A76: the crown shades more as one mass, and light through the leaves is weaker and less yellow (no lime highlights).
+  crownNormal: 0.85,
+  translucency: 0.55,
+  transTint: new THREE.Color(0.9, 0.95, 0.7),
+  // A75: the heart of a near crown and its leaves in their own shadow went near-black, so a crown read as blotchy dark
+  // clumps between bright cards (owner playtest). Gothic 3's crowns stay soft and evenly lit inside.
+  innerShade: 0.82,
+  // A76: muted toward Gothic 3's olive greens.
+  saturation: 0.7,
   variation: 1,
-  shadeThrough: 0.4,
+  shadeThrough: 0.55,
+  clumps: { gaps: 1, shade: 0.45, rough: 0.55, size: 1.1 },
+  edgeOn: [0.2, 0.55],
 };
 
 /** The crown spheroid of a leaf geometry, from its bounds in the mesh's own space. */
@@ -83,6 +96,7 @@ uniform vec2 uCrownRadii;
 varying vec3 vCrownN;
 varying float vCrownDepth;
 varying float vFoliageHue;
+varying vec3 vTvLeafP;
 `;
 
 const LEAF_VERTEX_BODY = /* glsl */ `
@@ -102,6 +116,8 @@ const LEAF_VERTEX_BODY = /* glsl */ `
   vec3 tvN = normalize(vec3(tvE.x / tvRh, tvE.y / tvRv, tvE.z / tvRh) + vec3(0.0, 0.12, 0.0) / max(tvRv, 0.1));
   vCrownN = normalize((viewMatrix * vec4(tvN, 0.0)).xyz);
   vFoliageHue = fract(sin(dot(tvCW[3].xz, vec2(12.9898, 78.233))) * 43758.5453) - 0.5;
+  // Where the leaf is in its crown, in metres, offset by where the tree stands: each tree's clumps fall differently (A76).
+  vTvLeafP = (transformed - uCrownCentre.xyz) * tvCS + tvCW[3].xyz * 0.37;
 }
 `;
 
@@ -110,9 +126,21 @@ uniform vec4 uFoliageLook;
 uniform vec3 uFoliageTransTint;
 uniform float uFoliageSaturation;
 uniform float uFoliageShadeThrough;
+uniform vec4 uFoliageClump;
+uniform vec2 uFoliageEdgeOn;
 varying vec3 vCrownN;
 varying float vCrownDepth;
 varying float vFoliageHue;
+varying vec3 vTvLeafP;
+// How much of a leaf mass this point is in (0 the gap between masses, 1 the heart of one), for its colour and its edge.
+float tvClump = 0.5;
+float tvLeafHash( vec3 p ) { p = fract( p * 0.3183099 + 0.1 ); p *= 17.0; return fract( p.x * p.y * p.z * ( p.x + p.y + p.z ) ); }
+float tvLeafNoise( vec3 x ) {
+  vec3 i = floor( x ), f = fract( x );
+  f = f * f * ( 3.0 - 2.0 * f );
+  return mix( mix( mix( tvLeafHash( i ), tvLeafHash( i + vec3( 1, 0, 0 ) ), f.x ), mix( tvLeafHash( i + vec3( 0, 1, 0 ) ), tvLeafHash( i + vec3( 1, 1, 0 ) ), f.x ), f.y ),
+    mix( mix( tvLeafHash( i + vec3( 0, 0, 1 ) ), tvLeafHash( i + vec3( 1, 0, 1 ) ), f.x ), mix( tvLeafHash( i + vec3( 0, 1, 1 ) ), tvLeafHash( i + vec3( 1, 1, 1 ) ), f.x ), f.y ), f.z );
+}
 // The light that reaches a leaf before its shadow is applied, for the share that still passes through it.
 vec3 tvLitColour = vec3( 0.0 );
 `;
@@ -125,13 +153,24 @@ const LEAF_ALPHA_TEST_GLSL = /* glsl */ `
 #ifdef USE_ALPHATEST
 {
   float tvA = diffuseColor.a;
+  // Leaf masses (A76): on the crown's outer shell the cards thin out between masses, so the outline breaks into clumps
+  // with sky between them instead of the cards' own edges; the cards' straight cut is roughened at leaf scale, fading
+  // out once a pixel covers several leaves so it never shimmers.
+  float tvShell = smoothstep( 0.6, 1.02, vCrownDepth );
+  tvA *= 1.0 - uFoliageClump.x * tvShell * smoothstep( 0.5, 0.27, tvClump );
+  // A card seen edge-on smears its texture into streaks; it fades out as it turns away, and the cards behind fill in.
+  float tvFacing = abs( dot( normalize( cross( dFdx( vViewPosition ), dFdy( vViewPosition ) ) ), normalize( vViewPosition ) ) );
+  tvA *= smoothstep( uFoliageEdgeOn.x, uFoliageEdgeOn.y, tvFacing );
+  float tvFine = 1.0 - smoothstep( 0.02, 0.06, length( fwidth( vTvLeafP ) ) );
+  tvA += ( tvLeafNoise( vTvLeafP * 17.0 ) - 0.5 ) * uFoliageClump.z * tvFine * step( 0.02, tvA );
   #ifdef USE_MAP
     vec2 tvTexels = vMapUv * vec2( textureSize( map, 0 ) );
     float tvMip = max( 0.0, 0.5 * log2( max( dot( dFdx( tvTexels ), dFdx( tvTexels ) ), dot( dFdy( tvTexels ), dFdy( tvTexels ) ) ) ) );
     tvA *= 1.0 + 0.12 * tvMip;
   #endif
   #ifdef ALPHA_TO_COVERAGE
-    diffuseColor.a = clamp( ( tvA - alphaTest ) / max( fwidth( tvA ), 1e-4 ) + 0.5, 0.0, 1.0 );
+    // A75: the ramp spans about two pixels, so card silhouettes soften instead of reading as hard cut-outs.
+    diffuseColor.a = clamp( ( tvA - alphaTest ) / max( 2.0 * fwidth( tvA ), 1e-4 ) + 0.5, 0.0, 1.0 );
     if ( diffuseColor.a == 0.0 ) discard;
   #else
     if ( tvA < alphaTest ) discard;
@@ -170,6 +209,11 @@ void RE_Direct_Foliage( const in IncidentLight directLight, const in vec3 geomet
 
 const LEAF_COLOUR_GLSL = /* glsl */ `
 {
+  // Leaf masses (A76): a clump's heart is fuller and the spaces between clumps fall into shade, so a crown reads as masses
+  // of leaves rather than card after card.
+  vec3 tvMassP = vTvLeafP / max( uFoliageClump.w, 0.05 );
+  tvClump = tvLeafNoise( tvMassP ) * 0.6 + tvLeafNoise( tvMassP * 2.6 + 7.1 ) * 0.4;
+  diffuseColor.rgb *= mix( 1.0 - uFoliageClump.y, 1.05, smoothstep( 0.22, 0.72, tvClump ) );
   // Natural greens: draw back saturation beyond what leaves have, vary each tree a little.
   float tvL = dot( diffuseColor.rgb, vec3( 0.2126, 0.7152, 0.0722 ) );
   float tvSat = max( max( diffuseColor.r, diffuseColor.g ), diffuseColor.b ) - min( min( diffuseColor.r, diffuseColor.g ), diffuseColor.b );
@@ -224,6 +268,8 @@ export function installFoliage(material: THREE.Material, opts: FoliageInstall): 
     uFoliageTransTint: { value: look.transTint.clone() },
     uFoliageSaturation: { value: look.saturation },
     uFoliageShadeThrough: { value: look.shadeThrough },
+    uFoliageEdgeOn: { value: new THREE.Vector2(look.edgeOn[0], look.edgeOn[1]) },
+    uFoliageClump: { value: new THREE.Vector4(look.clumps.gaps, look.clumps.shade, look.clumps.rough, look.clumps.size) },
   };
   let failed = false;
   const physical = (material as THREE.MeshStandardMaterial).isMeshStandardMaterial === true;
@@ -257,11 +303,13 @@ export function installFoliage(material: THREE.Material, opts: FoliageInstall): 
         ${LEAF_SKY_GLSL}`);
   };
   material.customProgramCacheKey = function() {
-    return `${programKey.call(this)}|tervain-foliage-v1-${opts.leaf ? 'leaf' : 'wood'}${foliageOptionsKey(opts.weight, opts.key)}`;
+    return `${programKey.call(this)}|tervain-foliage-v2-${opts.leaf ? 'leaf' : 'wood'}${foliageOptionsKey(opts.weight, opts.key)}`;
   };
   material.needsUpdate = true;
   const result: InstalledFoliage = { uniforms: own, ok: () => !failed };
   installed.set(material, result);
+  // Reachable from the material for review tooling (tools/cdp.mjs) that tunes the look in the running game.
+  material.userData.tvFoliage = own;
   return result;
 }
 

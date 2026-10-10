@@ -67,6 +67,8 @@ export interface Settings {
   showFps: boolean;
   /** Draw at most 60 frames a second, however fast the display refreshes: a cooler, quieter machine (A71). */
   frameCap60: boolean;
+  /** High only: trees use Medium's distance detail rather than the full model at every distance (A76). Off by default. */
+  treeDetailByDistance: boolean;
   barks: boolean;
   captions: boolean;
   mouseSensitivity: number;
@@ -94,6 +96,7 @@ export function defaultSettings(): Settings {
     guidance: true,
     showFps: false,
     frameCap60: true,
+    treeDetailByDistance: false,
     barks: true,
     captions: true,
     mouseSensitivity: 1,
@@ -131,7 +134,7 @@ export function loadSettings(): Settings {
     merged.textScale = bounded(parsed.textScale, base.textScale, 0.8, 1.8);
     merged.brightness = bounded(parsed.brightness, base.brightness, 0.6, 1.6);
     merged.mouseSensitivity = bounded(parsed.mouseSensitivity, base.mouseSensitivity, 0.2, 3);
-    const flags = ['reducedMotion', 'highContrast', 'reduceEffects', 'guidance', 'showFps', 'frameCap60', 'barks', 'captions', 'invertY', 'toggleSprint', 'toggleBlock'] as const;
+    const flags = ['reducedMotion', 'highContrast', 'reduceEffects', 'guidance', 'showFps', 'frameCap60', 'treeDetailByDistance', 'barks', 'captions', 'invertY', 'toggleSprint', 'toggleBlock'] as const;
     for (const flag of flags) merged[flag] = boolean(parsed[flag], base[flag]);
     for (const bus of ['master', 'music', 'effects', 'ambience', 'dialogue'] as const) merged.volumes[bus] = bounded(volumes[bus], base.volumes[bus], 0, 1);
     // Preserve deliberately empty actions and every real key, while rejecting sparse/foreign entries and duplicates.

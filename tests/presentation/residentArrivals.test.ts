@@ -120,6 +120,23 @@ describe('arrivals', () => {
     expect(arrivals.count).toBe(0);
   });
 
+  it('drops a figure whose model fails to set up, warns, and still hands the others theirs', () => {
+    const arrivals = new ResidentArrivals(), broken = figure('named:mill_hand', 100), fine = figure('named:village_baker', 100);
+    broken.adopt.mockImplementation(() => { throw new Error('bad rig'); });
+    arrivals.add(broken); arrivals.add(fine);
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    try {
+      expect(arrivals.update(catalog(['named:mill_hand', 'named:village_baker']), () => false)).toBe(1);
+      expect(fine.adopt).toHaveBeenCalledOnce();
+      expect(warn).toHaveBeenCalledOnce();
+      expect(arrivals.count).toBe(0);
+      expect(arrivals.update(catalog(['named:mill_hand']), () => false)).toBe(0);
+      expect(broken.adopt).toHaveBeenCalledOnce();
+    } finally {
+      warn.mockRestore();
+    }
+  });
+
   it('leaves the hamlet people whose models are on their way unseen and out of the way until they come', () => {
     const colliders = new Colliders(), terrain = { groundAt: () => 2, heightAt: () => -5 } as unknown as Terrain;
     const assets = { has: (role: string) => role === 'ambient:keeper', create: vi.fn((_: string, h: number) => arrivedRig(1.8 * h)),

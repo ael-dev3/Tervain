@@ -484,11 +484,8 @@ export class ResidentFingers {
   }
 }
 
-/**
- * Where a hand's vertices lie at a curl, in the model's bind space with the hand at rest (linear blending, as the rig's
- * skin does without its dual-quaternion pass): for the grip measurements and the tests.
- */
-export function curledVertices(plan: ResidentFingerPlan, position: ArrayLike<number>, side: FingerSide, curl: Readonly<HandCurl>, only?: Iterable<number>): Map<number, THREE.Vector3> {
+/** Each finger joint's turn at a curl (bind space, the hand at rest), keyed by its index in the skeleton. */
+function chainTransforms(plan: ResidentFingerPlan, side: FingerSide, curl: Readonly<HandCurl>): Map<number, THREE.Matrix4> {
   const base = 24 + FINGER_SIDES.indexOf(side) * 6;
   const transforms = new Map<number, THREE.Matrix4>();
   for (const chain of FINGER_CHAINS) {
@@ -502,6 +499,15 @@ export function curledVertices(plan: ResidentFingerPlan, position: ArrayLike<num
       transforms.set(base + (chain === 'Thumb' ? 0 : 3) + k, world);
     }
   }
+  return transforms;
+}
+
+/**
+ * Where a hand's vertices lie at a curl, in the model's bind space with the hand at rest (linear blending, as the rig's
+ * skin does without its dual-quaternion pass): for the grip measurements and the tests.
+ */
+export function curledVertices(plan: ResidentFingerPlan, position: ArrayLike<number>, side: FingerSide, curl: Readonly<HandCurl>, only?: Iterable<number>): Map<number, THREE.Vector3> {
+  const transforms = chainTransforms(plan, side, curl);
   const out = new Map<number, THREE.Vector3>(), v = new THREE.Vector3(), sum = new THREE.Vector3();
   const list = only ?? Array.from({ length: position.length / 3 }, (_, i) => i);
   for (const i of list) {
@@ -580,6 +586,60 @@ function handVerticesOf(plan: ResidentFingerPlan, side: FingerSide): number[] {
   return out;
 }
 
+/** A pen held to write (A75): the fingers close this far on it; the thumb as far as it takes to lie along it. */
+export const PINCH_CURL: Readonly<HandCurl> = { fingers: 0.45, thumb: 0.45 };
+/**
+ * The pen lies just clear (metres) of the finger pads' skin, out of the palm and towards the thumb, its nib this far
+ * beyond them, and this far out of the thumb's middle on its palm side.
+ */
+const PAD_DEPTH = 0.003, PAD_ASIDE = 0.002, NIB_REACH = 0.03, THUMB_SIDE = 0.012;
+
+/** The least distance from `point` to the segment from `origin` along `direction` for `length`. */
+function segmentGap(point: THREE.Vector3, origin: THREE.Vector3, direction: THREE.Vector3, length: number): number {
+  const d = point.clone().sub(origin), t = Math.min(length, Math.max(0, d.dot(direction)));
+  return d.addScaledVector(direction, -t).length();
+}
+
+/**
+ * Where a pen lies in a writing hand (A75), in the model's bind space with the hand at rest: on the thumb side of the
+ * curled fingers' pads with its nib a little beyond them, its shaft back along the inside of the thumb and out past the
+ * web of the hand, and the thumb curled so its tip is nearest the shaft. The residents' fingers bend as one and their
+ * thumbs cannot reach the pads, so this is a pen pressed by the fingers against the thumb. Null for a hand without
+ * finger chains.
+ */
+export function pinchHandle(plan: ResidentFingerPlan, position: ArrayLike<number>, side: FingerSide): { origin: THREE.Vector3; direction: THREE.Vector3; curl: HandCurl } | null {
+  const hand = plan.hands[side];
+  if (!hand.active) return null;
+  const base = 24 + FINGER_SIDES.indexOf(side) * 6, v = (a: Vec3) => new THREE.Vector3(...a);
+  const fingerEnd = chainTransforms(plan, side, PINCH_CURL).get(base + 5)!;
+  const pad = v(hand.fingers.joints[2]).lerp(v(hand.fingers.tip), 0.5).applyMatrix4(fingerEnd);
+  const palm = v(hand.palm), padPalm = palm.clone().transformDirection(fingerEnd);
+  const along = v(hand.fingers.joints[1]).sub(v(hand.fingers.joints[0])).normalize();
+  const aside = v(hand.thumb.joints[1]).sub(v(hand.fingers.joints[0]));
+  aside.addScaledVector(along, -aside.dot(along)).addScaledVector(palm, -aside.dot(palm)).normalize();
+  // The pen touches the fingers' skin where it faces the palm and the thumb most: from there, just clear of it.
+  let contact = pad, most = -Infinity;
+  for (const p of curledVertices(plan, position, side, PINCH_CURL, fingertipVertices(plan, side)).values()) {
+    const score = p.dot(padPalm) + p.dot(aside);
+    if (score > most) { most = score; contact = p; }
+  }
+  const touch = contact.clone().addScaledVector(padPalm, PAD_DEPTH).addScaledVector(aside, PAD_ASIDE);
+  // Back along the inside of the thumb: over the middle of the thumb as it curls onto the pen, on its palm side.
+  let best: { origin: THREE.Vector3; direction: THREE.Vector3; curl: HandCurl; gap: number } | null = null;
+  for (let c = 0; c <= 0.95001; c += 0.05) {
+    const turn = chainTransforms(plan, side, { fingers: PINCH_CURL.fingers, thumb: c });
+    const rest = v(hand.thumb.joints[1]).lerp(v(hand.thumb.joints[2]), 0.5).applyMatrix4(turn.get(base)!)
+      .addScaledVector(palm.clone().transformDirection(turn.get(base)!), THUMB_SIDE);
+    // From the pads to the thumb, the nib standing out beyond the pads on the same line.
+    const direction = rest.sub(touch).normalize(), origin = touch.clone().addScaledVector(direction, -NIB_REACH);
+    // The thumb's tip presses on the shaft too: the curl that brings it nearest.
+    const tip = v(hand.thumb.tip).applyMatrix4(turn.get(base + 2)!);
+    const gap = segmentGap(tip, origin, direction, 0.15) + 0.002 * c;
+    if (!best || gap < best.gap) best = { origin, direction, curl: { fingers: PINCH_CURL.fingers, thumb: c }, gap };
+  }
+  return { origin: best!.origin, direction: best!.direction, curl: best!.curl };
+}
+
 /** A handle that runs across the fingers is seated in the hand like this: the turn of the tool is kept. */
 const ACROSS_FINGERS = 0.6;
 /** It lies this far (metres) short of the knuckle line, along the fingers, clear of the palm by this much. */
@@ -588,12 +648,19 @@ const GRIP_SEAT = 0.012, GRIP_CLEAR = 0.001;
 /**
  * Seat a handle in a hand (A72): a handle that runs across the fingers is moved, square to its own length, to lie just
  * short of the knuckles and just clear of the palm, where the curled fingers close on it; a handle that runs along the
- * fingers (a quill) stays where it was placed. Returns how far it moved (the model's bind space) and the grip on it.
+ * fingers (a quill) is taken into the writing pinch and turned (`turn`, about its own origin). Returns how far it moved
+ * (the model's bind space) and the grip on it.
  */
-export function seatHandle(plan: ResidentFingerPlan, position: ArrayLike<number>, side: FingerSide, handle: Handle): { offset: THREE.Vector3; curl: HandCurl; handle: Handle } {
+export function seatHandle(plan: ResidentFingerPlan, position: ArrayLike<number>, side: FingerSide, handle: Handle): { offset: THREE.Vector3; curl: HandCurl; handle: Handle; turn?: THREE.Quaternion } {
   const hand = plan.hands[side], offset = new THREE.Vector3();
   if (!hand.active) return { offset, curl: { ...RELAXED_CURL }, handle };
   const along = new THREE.Vector3(...hand.fingers.joints[1]).sub(new THREE.Vector3(...hand.fingers.joints[0])).normalize();
+  // A pen along the fingers is taken into the writing pinch, turned to lie through the web of the hand (A75).
+  const pinch = Math.abs(handle.direction.dot(along)) >= ACROSS_FINGERS ? pinchHandle(plan, position, side) : null;
+  if (pinch) {
+    return { offset: pinch.origin.clone().sub(handle.origin), curl: pinch.curl, turn: new THREE.Quaternion().setFromUnitVectors(handle.direction, pinch.direction),
+      handle: { origin: pinch.origin, direction: pinch.direction, radius: handle.radius } };
+  }
   if (Math.abs(handle.direction.dot(along)) < ACROSS_FINGERS) {
     const palm = new THREE.Vector3(...hand.palm);
     palm.addScaledVector(along, -palm.dot(along)).normalize();

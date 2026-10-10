@@ -13,14 +13,19 @@ Original-game imported models were created with Meshy (https://www.meshy.ai/).
 The resident rigs, the resident motion library, the furniture and the
 wanderer's body were generated for Tervain through its own Meshy account
 under Meshy Pro, a paid plan (task ids recorded), and follow Meshy's paid-plan Customer Output terms
-(section 3.2). Many of the 54 supplied Meshy source models were downloaded
-from the Meshy Community and made by other creators; which ones, and by whom
-(creator not recorded so far), is unresolved and listed in the ledger's
-toConfirm list. Meshy's terms (Last Updated 19 September 2026, section 3.3)
-make a Community 3D model CC0 1.0; its creator is credited wherever known.
-Other Community content, such as images, is CC BY-NC 4.0: attribution
-required, no commercial use; no asset is recorded under it. Commercial
-clearance is unsettled until the unresolved sources are confirmed.
+(section 3.2). Of the 54 supplied Meshy source models, 52 are classified as
+Meshy Community downloads made by other creators, on the owner's
+recollection (9 October 2026), not individually verified: creator not
+recorded, listing not recorded (the ledger's toVerify list). The two earlier
+wanderer sources stay unresolved (toConfirm), because their own records
+point to generation for the project. Meshy's terms (Last Updated 19
+September 2026, section 3.3) make a Community 3D model CC0 1.0, which needs
+no attribution. Thanks to the Meshy Community creators whose models Tervain
+uses; each will be credited by name as it is identified. Other Community
+content, such as images, is CC BY-NC 4.0: attribution required, no
+commercial use; no asset is recorded under it. Commercial clearance is
+unsettled until the Community classifications are verified and the
+unresolved sources are confirmed.
 Any confirmed Creative Commons asset keeps its separate grant; this project's
 code license does not impose extra restrictions on that asset. An unresolved
 provenance entry is not an open-content grant or a certification of clearance.

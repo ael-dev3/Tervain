@@ -174,8 +174,9 @@ def timber(n: int):
     ring = sstep(0.16, 0.1, kf1) * (1 - knot) * (kid < 0.3)
     height = 0.55 - adze * 0.07 + late * 0.04 + (fibre - 0.5) * 0.035 - check * 0.22 + knot * 0.03 - ring * 0.015
     tone = np.clip(figure * 0.7 + fibre * 0.3, 0, 1)
-    col = mix(rgb(0.10, 0.085, 0.065), rgb(0.29, 0.24, 0.18), sstep(0.1, 0.7, tone))
-    col = mix(col, rgb(0.37, 0.33, 0.27), sstep(0.65, 1.0, tone) * 0.6)
+    # A76: oak browns, warmer and with more spread between early and late wood, so the grain reads close up.
+    col = mix(rgb(0.12, 0.085, 0.055), rgb(0.33, 0.25, 0.16), sstep(0.1, 0.7, tone))
+    col = mix(col, rgb(0.42, 0.34, 0.24), sstep(0.65, 1.0, tone) * 0.6)
     col = shade(col, (1 - late * 0.25) * (0.88 + 0.24 * fibre) * (0.92 + 0.16 * (1 - adze)))
     # Weathered grey on the exposed faces; soot and dirt in broad patches; knots and checks dark.
     col = mix(col, shade(rgb(0.38, 0.36, 0.33), 0.8 + 0.3 * fibre), sstep(0.55, 0.85, fbm_at(u, v, 3, 3, 4, 330)) * 0.45)
@@ -188,41 +189,33 @@ def timber(n: int):
 
 
 def plaster(n: int):
-    """Dingy lime render over daub and rubble: an uneven trowelled skin, hairline cracks, rain streaks and damp, mould,
-    and patches where the render has fallen away to show the clay and stone behind it, with a broken lip around each."""
+    """Cared-for lime render (A75): a trowelled limewash skin, warm off-white, with soft unevenness, the odd hairline
+    crack and a faint brush grain. Lived-in, not neglected: no peeling, mould or rain streaks (the game darkens the foot
+    of outer walls with its own damp and splashed mud). Owner direction, 9 October 2026: "gritty like Gothic 3" is the
+    art style, not filthy homes."""
     u, v = grid(n)
     px = n / 1024
     low = fbm_at(u, v, 3, 3, 4, 341)
     mid = fbm_at(u, v, 9, 9, 3, 342)
     fine = fbm_at(u, v, 110, 110, 2, 343)
     trowel = fbm_at(u, v, 14, 10, 3, 344)
-    rubble, rubble_h, _ = stone(n)
-    peelf = mid * 0.55 + low * 0.3 + fbm_at(u, v, 34, 34, 2, 345) * 0.15
-    peel = sstep(0.655, 0.665, peelf)
-    lip = sstep(0.62, 0.655, peelf) * (1 - peel)
+    brush = fbm_at(u, v, 70, 6, 2, 355)
     wu, wv = warp(u, v, 0.03, 6, 346)
     f1, f2, _, _, _ = cells_at(wu, wv, 5, 6, 347, 0.95)
-    crack = (1 - sstep(0.0, 0.01, f2 - f1)) * sstep(0.45, 0.7, low) * (1 - peel)
-    hair = (1 - sstep(0.0, 0.012, np.abs(fbm_at(u, v, 8, 8, 3, 348) - 0.5))) * sstep(0.6, 0.75, mid) * (1 - peel)
-    height = (0.62 + (trowel - 0.5) * 0.09 + (low - 0.5) * 0.05 + (fine - 0.5) * 0.025 + lip * 0.02
-              - crack * 0.06 - hair * 0.03 - peel * (0.16 - rubble_h * 0.12))
-    col = mix(rgb(0.36, 0.33, 0.28), rgb(0.55, 0.51, 0.43), np.clip(low * 0.75 + fine * 0.15 + (trowel - 0.5) * 0.4, 0, 1))
-    col = shade(col, 0.86 + 0.2 * fine)
-    rain = fbm_at(u, v, 30, 3, 3, 349) * fbm_at(u, v, 4, 2, 2, 350)
-    col = mix(col, rgb(0.23, 0.21, 0.16), sstep(0.28, 0.58, rain) * 0.4)
-    damp = sstep(0.6, 0.82, fbm_at(u, v, 5, 4, 4, 351))
-    col = mix(col, rgb(0.24, 0.24, 0.18), damp * 0.35)
-    mould = sstep(0.7, 0.82, fbm_at(u, v, 18, 14, 4, 352)) * sstep(0.3, 0.7, damp + rain)
-    col = mix(col, rgb(0.12, 0.13, 0.09), mould * 0.5)
-    col = shade(col, 1 - crack * 0.45 - hair * 0.25)
-    # Behind the render: straw-bound clay daub in some patches, the rubble wall in others.
-    straw = (1 - sstep(0.0, 0.08, ridged_at(u, v, 30, 10, 2, 353))) * 0.5
-    daub = shade(mix(rgb(0.30, 0.25, 0.18), rgb(0.40, 0.34, 0.24), fine), 1 - straw * 0.2)
-    behind = mix(daub, shade(rubble, 0.9), sstep(0.45, 0.6, fbm_at(u, v, 6, 6, 3, 354)))
-    col = mix(col, behind, peel)
-    col = shade(col, 1 - lip * 0.18)
-    col = shade(col, 1 - np.clip(cavity(height, 4 * px) * 2.5, 0, 0.3))
-    return col, height, 1.8
+    # Only a few hairlines, where the render has settled most.
+    hair = (1 - sstep(0.0, 0.006, f2 - f1)) * sstep(0.72, 0.86, low) * sstep(0.5, 0.7, mid)
+    height = (0.62 + (trowel - 0.5) * 0.07 + (low - 0.5) * 0.04 + (fine - 0.5) * 0.02 + (brush - 0.5) * 0.012
+              + (fbm_at(u, v, 260, 260, 2, 356) - 0.5) * 0.012 - hair * 0.025)
+    # A76: the trowel's unevenness is in the relief, only faintly in the colour (it read as camouflage blotches close up);
+    # the lime's sand gives the surface a fine, even grain instead.
+    sand = fbm_at(u, v, 260, 260, 2, 356)
+    col = mix(rgb(0.60, 0.565, 0.49), rgb(0.70, 0.665, 0.585), np.clip(0.5 + (low - 0.5) * 0.45 + (fine - 0.5) * 0.3 + (trowel - 0.5) * 0.3, 0, 1))
+    col = shade(col, 0.95 + 0.08 * fine + (brush - 0.5) * 0.06 + (trowel - 0.5) * 0.05 + (sand - 0.5) * 0.12)
+    # A faint warmth where hands and years have touched it, never a stain.
+    col = mix(col, rgb(0.55, 0.50, 0.42), sstep(0.62, 0.85, mid) * 0.18)
+    col = shade(col, 1 - hair * 0.22)
+    col = shade(col, 1 - np.clip(cavity(height, 4 * px) * 1.5, 0, 0.12))
+    return col, height, 1.2
 
 
 def cobble(n: int):
@@ -451,7 +444,7 @@ def bronze(n: int):
 # Mean brightness (luma of the sRGB albedo) each texture is levelled to: a little under the generated textures they replace,
 # so the change is in detail and grime rather than a darker world. Roof tile and bronze sit lower than their old, brighter
 # selves on purpose: weathered clay and tarnished metal.
-LEVEL = {"plaster": 0.425, "timber": 0.22, "planks": 0.27, "stone": 0.385, "cobble": 0.31, "tile": 0.24, "thatch": 0.26,
+LEVEL = {"plaster": 0.56, "timber": 0.27, "planks": 0.27, "stone": 0.385, "cobble": 0.31, "tile": 0.24, "thatch": 0.26,
          "slate": 0.26, "cloth": 0.30, "bark": 0.16, "rock": 0.37, "bronze": 0.27}
 
 

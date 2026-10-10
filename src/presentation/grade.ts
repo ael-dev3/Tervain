@@ -193,8 +193,8 @@ export class Grade {
         tBloom: { value: null as THREE.Texture | null },
         uBloom: { value: 0.24 },
         uTime: { value: 0 },
-        uSaturation: { value: 0.92 },
-        uContrast: { value: 1.1 },
+        uSaturation: { value: 0.88 },
+        uContrast: { value: 1.13 },
         uVignette: { value: 0.18 },
         uGrain: { value: 0.012 },
         uEarth: { value: 1 },
@@ -297,7 +297,7 @@ export class Grade {
   }
 
   render(scene: THREE.Scene, camera: THREE.Camera, dt: number, water?: WaterRenderInputs) {
-    this.renderer.info.reset();
+    // The frame's statistics are reset as it begins (perfMeter.ts), so the grass and window passes before this count too.
     if (!this.enabled) {
       if (water) for (const mesh of water.meshes) detachWaterOptics(mesh.material);
       this.waterPass.releaseTargets();

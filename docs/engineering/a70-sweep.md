@@ -49,8 +49,9 @@ furniture take part in building the world, and deferring them needs that build r
   foot, and each leg solved as a two-bone reach with the sole kept level.
 - Work clips touch their surfaces: the supplier's palms rest 0.2–0.4 cm above the counter, the chisel meets the quarry
   face within 1.6 cm and the hammer meets the chisel at the clip's blow, and the measuring rod stands on the ground.
-- Open: authored turn clips (both the hero and residents turn with stepping derived from their gaits); resident fingers
-  (the resident rigs have no finger joints); the rod leaves the ground for about half a second at its clip's loop.
+- Open: authored turn clips (both the hero and residents turn with stepping derived from their gaits). Since closed:
+  resident fingers (A72, checked in the game in A75); the rod at its clip's loop (stood up every frame since the A70
+  follow-up, held by `workContact.test.ts`).
 
 ## Residents indoors
 

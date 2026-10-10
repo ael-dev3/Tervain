@@ -13,6 +13,10 @@ vi.mock('three/examples/jsm/loaders/GLTFLoader.js', () => ({
   },
 }));
 
+// The parsed stand-in has no skeleton to seat fingers on; the fit itself is tested with the real model.
+const fitMock = vi.hoisted(() => vi.fn(() => []));
+vi.mock('../../src/presentation/hero/fingerFit', () => ({ fitHeroFingers: fitMock }));
+
 // An empty, valid GLB 2 document is enough to exercise transport validation.
 // Parsing is mocked so these loading/retry tests do not need images or a GPU.
 function glb() {
@@ -87,6 +91,8 @@ describe('main hero transport and loading-screen retry', () => {
     await expect(first).resolves.toBe(parsedHero);
     expect(loaderMock.construct).toHaveBeenCalledOnce();
     expect(loaderMock.parseAsync).toHaveBeenCalledWith(buffer, 'https://ael-dev3.github.io/Tervain/models/hero/');
+    // The finger joints are seated in the loaded asset before anyone rigs it (A75).
+    expect(fitMock).toHaveBeenCalledWith(parsedHero);
     expect(subject.loadMainHero()).toBe(first);
     await expect(subject.loadMainHero()).resolves.toBe(parsedHero);
     expect(fetchMock).toHaveBeenCalledOnce();

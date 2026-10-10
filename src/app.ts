@@ -1,3 +1,4 @@
+import { PerfMeter, perfLine, summarise, type FrameSample } from './presentation/perfMeter';
 import { loadMeshyTrees, type MeshyTreeTemplates } from './presentation/meshyTrees';
 import { loadBakedTextures } from './presentation/bakedTextures';
 import { pruneContentCache } from './presentation/assets/download';
@@ -140,7 +141,9 @@ export class App {
   private frameTimes: number[] = [];
   private fpsSmooth = 60;
   private debugTimer = 0;
-  private bench: { active: boolean; frames: number[]; startedAt: number; result: string | null } = { active: false, frames: [], startedAt: 0, result: null };
+  private bench: { active: boolean; frames: number[]; samples: { segment: number; sample: FrameSample }[]; startedAt: number; result: string | null } = { active: false, frames: [], samples: [], startedAt: 0, result: null };
+  /** What each frame costs: CPU, GPU where measurable, draw calls and triangles (A76). */
+  private perf: PerfMeter | null = null;
   private lockingOut = false;
   private lastHint = '';
   /** Monotonic seconds for ambient audio scheduling; unlike world time it survives a world rebuild. */
@@ -189,6 +192,7 @@ export class App {
 
     try {
       this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas, antialias: false, powerPreference: 'high-performance' });
+      this.perf = new PerfMeter(this.renderer);
     } catch {
       this.loadingEl.textContent = S('menu.webgl');
       return;
@@ -321,6 +325,10 @@ export class App {
       this.input.endFrame();
     }
     this.hud.show(q.get('hud') !== '0');
+    if (q.has('fps')) { this.settings.showFps = true; this.applyUiSettings(); }
+    if (q.has('treelod')) this.settings.treeDetailByDistance = q.get('treelod') !== '0';
+    // `?shot=1&bench=1`: run the benchmark route at once; the report is logged as `TERVAIN_BENCH {json}` (A76).
+    if (q.has('bench')) this.startBenchmark();
     document.title = 'READY';
   }
 
@@ -1008,6 +1016,7 @@ export class App {
       if (interval < 5) this.recordFrame(interval);
       this.audioClock += dt;
       held = steps === 0;
+      this.perf?.begin();
       try {
         // The world advances in fixed steps, as many as the frame's time holds (A72). A press or a mouse movement
         // counts in the first alone; the picture is drawn once, between the last two steps.
@@ -1016,6 +1025,8 @@ export class App {
           this.input.consumePad(); this.input.endFrame();
         }
         this.present(alpha);
+        const sample = this.perf?.end(interval * 1000);
+        if (sample && this.bench.active && !this.menuBackgroundActive) this.bench.samples.push({ segment: Math.floor(this.cam.benchT), sample });
       } catch (e) {
         console.error(e);
       }
@@ -2345,7 +2356,7 @@ export class App {
       // Day and time from the same moment, so the day turns over with the clock at midnight.
       timeText: S('hud.time', { n: clockDay(s.clock + this.clockAcc) + 1, time: formatClock(s.clock + this.clockAcc) }),
       objective: obj,
-      fps: this.settings.showFps ? S('hud.fps', { fps: Math.round(this.fpsSmooth), ms: (1000 / Math.max(1, this.fpsSmooth)).toFixed(1) }) : null,
+      fps: this.settings.showFps ? `${S('hud.fps', { fps: Math.round(this.fpsSmooth), ms: (1000 / Math.max(1, this.fpsSmooth)).toFixed(1) })}${this.perf ? `\n${perfLine(this.perf.recent(), this.perf.gpuTimer)}` : ''}` : null,
       blocking: this.player.blocking,
       heading: this.cam.yaw,
       accessKeys: { inventory: this.input.label('inventory', codeLabel), journal: this.input.label('journal', codeLabel), map: this.input.label('map', codeLabel) },
@@ -2558,12 +2569,16 @@ export class App {
     this.cam.mode = 'bench';
     this.cam.benchPath = route;
     this.cam.benchT = 0;
-    this.bench = { active: true, frames: [], startedAt: performance.now(), result: null };
+    this.cam.benchSegmentSeconds = new URLSearchParams(location.search).get('bench') === 'quick' ? 0.5 : 6;
+    this.bench = { active: true, frames: [], samples: [], startedAt: performance.now(), result: null };
     this.panels.closeAll();
     this.debugEl.style.display = 'none';
   }
 
   private stepBenchmark(dt: number) {
+    // The route measures the world: a panel opened over it (the pause menu when the window lost focus at load) would put
+    // the menu's backdrop in its place, so the benchmark keeps the screen (A76).
+    if (this.panels.isOpen) this.panels.closeAll();
     const done = this.cam.bench(dt);
     if (done) {
       this.cam.mode = 'follow';
@@ -2572,7 +2587,11 @@ export class App {
       const gl = this.renderer.getContext();
       const dbg = gl.getExtension('WEBGL_debug_renderer_info');
       const gpu = dbg ? String(gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL)) : 'unknown (renderer info not exposed)';
-      const info = this.renderer.info;
+      const segments = this.cam.benchPath.map((_, i) => summarise(this.bench.samples.filter((x) => x.segment === i).map((x) => x.sample)));
+      const whole = summarise(this.bench.samples.map((x) => x.sample));
+      const report = { date: new Date().toISOString(), build: GAME_VERSION, revision: REVISION, quality: this.settings.quality, viewport: [window.innerWidth, window.innerHeight], pixelRatio: this.renderer.getPixelRatio(), gpu, userAgent: navigator.userAgent, gpuTimer: this.perf?.gpuTimer ?? false, whole, segments };
+      (window as unknown as { tervainBench?: unknown }).tervainBench = report;
+      console.info(`TERVAIN_BENCH ${JSON.stringify(report)}`);
       this.bench.result = [
         `date ${new Date().toISOString()}`,
         `build ${GAME_VERSION} rev ${REVISION}  quality ${this.settings.quality}  viewport ${window.innerWidth}x${window.innerHeight} @${this.renderer.getPixelRatio()}x`,
@@ -2580,7 +2599,10 @@ export class App {
         `ua ${navigator.userAgent}`,
         `game hour ${formatClock(this.game.state.clock)}  phase ${this.game.state.quest.phase} (not pinned during the run)`,
         `frames ${a.length}  median ${q(0.5).toFixed(2)} ms  p95 ${q(0.95).toFixed(2)} ms  p99 ${q(0.99).toFixed(2)} ms  worst ${(a[a.length - 1] ?? 0).toFixed(1)} ms`,
-        `last-frame draw calls ${info.render.calls}  triangles ${info.render.triangles}`,
+        `cpu median ${whole.cpu.median.toFixed(2)} ms  p95 ${whole.cpu.p95.toFixed(2)} ms  gpu ${whole.gpu ? `median ${whole.gpu.median.toFixed(2)} ms  p95 ${whole.gpu.p95.toFixed(2)} ms (${whole.gpu.frames} frames timed)` : 'not measurable in this browser'}`,
+        `draw calls median ${whole.calls.median}  max ${whole.calls.max}  triangles median ${(whole.triangles.median / 1e6).toFixed(2)} M  max ${(whole.triangles.max / 1e6).toFixed(2)} M`,
+        'segment  frame-median  cpu-median  gpu-median  draws  M-tris',
+        ...segments.map((g, i) => `${String(i).padStart(7)}  ${g.interval.median.toFixed(2).padStart(12)}  ${g.cpu.median.toFixed(2).padStart(10)}  ${(g.gpu ? g.gpu.median.toFixed(2) : '-').padStart(10)}  ${String(Math.round(g.calls.median)).padStart(5)}  ${(g.triangles.median / 1e6).toFixed(2).padStart(6)}`),
         'Frame times are wall-clock intervals between animation frames, recorded uncapped; they are limited by the display refresh rate.',
       ].join('\n');
       this.bench.active = false;

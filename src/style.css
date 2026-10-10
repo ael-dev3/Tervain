@@ -209,6 +209,7 @@ body.reduced-motion * {
 }
 
 .hud-fps {
+  white-space: pre-line;
   position: absolute;
   right: 16px;
   top: 64px;
@@ -1647,7 +1648,7 @@ pre.debug {
 .hud-top-left .obj-title { font-family: var(--menu-serif); color: #ddc18c; letter-spacing: .08em; }
 .hud-top-left .obj-text { font-size: .94rem; line-height: 1.4; color: #e2d6bd; text-shadow: 0 1px 2px #000; }
 .hud-top-right { padding: 0; width: min(180px, 25vw); color: #e1d0a6; font: .78rem/1.5 var(--menu-serif); text-shadow: 0 1px 4px #000, 0 0 5px #000; }
-.hud-top-right .hud-fps { position: static; margin-top: 5px; padding: 3px 5px; max-width: 100%; white-space: normal; overflow-wrap: normal; font-size: .65rem; }
+.hud-top-right .hud-fps { position: static; margin-top: 5px; padding: 3px 5px; max-width: 100%; white-space: pre-line; overflow-wrap: normal; font-size: .65rem; }
 .prompt { display: none; white-space: normal; overflow: visible; text-overflow: clip; width: max-content; max-width: min(640px, 90vw); text-align: center; border-color: #b99860; background: #201810ed; font-family: var(--menu-serif); line-height: 1.4; box-shadow: 0 4px 10px #0005; }
 .prompt kbd { color: #f5e2ba; background: #453322; border-color: #b99860; }
 .toasts { top: 84px; width: min(470px, 80vw); }

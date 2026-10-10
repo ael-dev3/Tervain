@@ -82,6 +82,13 @@ const wallMat = (b: BuildingSpec) => (b.wall === 'stone' ? 'stone' : b.wall === 
  * Sink the lowest point slightly through the lowest local ground sample so the downhill edge never hovers.
  * Moving only the newly authored vertices preserves the shell, doorsteps, shapes and decorative RNG sequence.
  */
+/**
+ * How far out from the front wall the woodpile's middle stands (A75): its logs reach 0.28 m either side, and the
+ * foundation's rubble course stands out to about 0.52 m (0.1 m out, up to 0.7 m deep, a little turned), so the pile
+ * stands clear of the stones instead of through them, on the ground.
+ */
+export const WOODPILE_CLEAR = 0.9;
+
 function groundExteriorProp(R: Region, terrain: Terrain, author: () => void) {
   const starts = new Map([...R.batches].map(([key, batch]) => [key, batch.p.n]));
   author();
@@ -287,10 +294,18 @@ export function buildStandard(R: Region, terrain: Terrain, b: BuildingSpec, out:
   const lp = ctx.toWorld(doorX + 0.95, y0 + 2.2, b.d / 2 + 0.35);
   out.lanterns.push(lp.clone());
   lantern(R, doorX + 0.95, y0 + 2.4, b.d / 2 + 0.15);
-  if (b.kind === 'house' || b.kind === 'reeve' || b.kind === 'inn') groundExteriorProp(R, terrain, () => woodpile(R, rnd, b.w / 2 - 0.8, b.d / 2 + 0.55, (rnd() - 0.5) * 0.3, 1.5, 4));
+  if (b.kind === 'house' || b.kind === 'reeve' || b.kind === 'inn') groundExteriorProp(R, terrain, () => woodpile(R, rnd, b.w / 2 - 0.8, b.d / 2 + WOODPILE_CLEAR, (rnd() - 0.5) * 0.3, 1.5, 4));
   if (b.kind === 'house') {
     groundExteriorProp(R, terrain, () => barrel(R, rnd, -b.w / 2 + 0.7, 0, b.d / 2 + 0.7, 1));
     groundExteriorProp(R, terrain, () => sack(R, rnd, -b.w / 2 + 1.5, 0, b.d / 2 + 0.6, 1));
+    // A76: the back of a house is where its things are kept: a rain butt at one corner, a crate at the other.
+    groundExteriorProp(R, terrain, () => barrel(R, rnd, -b.w / 2 + 0.6, 0, -b.d / 2 - 0.55, 1.05));
+    groundExteriorProp(R, terrain, () => crate(R, rnd, b.w / 2 - 0.75, 0, -b.d / 2 - 0.5, 0.7, 0.5, 0.55, (rnd() - 0.5) * 0.4));
+  }
+  if (b.kind === 'inn') {
+    // A76: casks waiting by the inn's door.
+    groundExteriorProp(R, terrain, () => barrel(R, rnd, -b.w / 2 + 0.7, 0, b.d / 2 + 0.65, 1));
+    groundExteriorProp(R, terrain, () => barrel(R, rnd, -b.w / 2 + 1.4, 0, b.d / 2 + 0.6, 0.95));
   }
   if (b.kind === 'store' || b.kind === 'bunks' || b.kind === 'office') {
     groundExteriorProp(R, terrain, () => crate(R, rnd, b.w / 2 - 0.9, 0, b.d / 2 + 0.7, 0.8, 0.55, 0.6, 0.2));

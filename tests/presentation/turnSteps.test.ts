@@ -100,6 +100,31 @@ describe('turning on the spot with turn clips (A71)', () => {
     expectNoPop(spins, 16, 'hero turn');
   });
 
+  it('leads a turn with the head and chest: turned ahead into it while turning, straight again once turned (A76)', () => {
+    const rig = createHeroRig(asset), bones = bindHeroBones(rig.root), hz = 60;
+    const headAhead = () => { rig.root.updateMatrixWorld(true); return wrap(yawOf(bones['mixamorig:Head'].getWorldQuaternion(new THREE.Quaternion())) - rig.root.rotation.y); };
+    for (let i = 0; i < hz; i++) rig.hero.pose(heroPose(), 1 / hz, false);
+    const rest = headAhead();
+    let most = 0;
+    for (let i = 0; i < hz; i++) {
+      rig.root.rotation.y += 2 / hz;
+      rig.hero.pose(heroPose('idle', { turn: 2 / hz }), 1 / hz, false);
+      most = Math.max(most, headAhead() - rest);
+    }
+    expect(most).toBeGreaterThan(0.25);
+    expect(most).toBeLessThan(0.8);
+    for (let i = 0; i < 2 * hz; i++) rig.hero.pose(heroPose(), 1 / hz, false);
+    expect(Math.abs(headAhead() - rest)).toBeLessThan(0.03);
+    // Turning the other way leads the other way.
+    let least = 0;
+    for (let i = 0; i < hz / 2; i++) {
+      rig.root.rotation.y -= 2 / hz;
+      rig.hero.pose(heroPose('idle', { turn: -2 / hz }), 1 / hz, false);
+      least = Math.min(least, headAhead() - rest);
+    }
+    expect(least).toBeLessThan(-0.2);
+  });
+
   it('turns a resident on the spot with their own turn clips, feet held, home again after, no pops', async () => {
     const { source, entry } = await loadResident('estate-steward');
     const motion: ResidentMotionSource = { data: await loadResidentRigData('estate-steward'), library: residentMotionLibrary(await loadResidentMotion()), build: 'man', seed: 7, fighter: false };

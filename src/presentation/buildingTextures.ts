@@ -115,28 +115,20 @@ function timber(n: number): [Field, number] {
 }
 
 function plaster(n: number): [Field, number] {
+  // Cared-for lime render (A75), as the baked map: trowelled and even, the odd hairline, no peeling, mould or streaks.
   const f = newField(n);
   const low = fbmField(n, 3, 3, 4, 321);
   const mid = fbmField(n, 9, 9, 3, 322);
   const fine = fbmField(n, 60, 60, 2, 323);
   const cr = voronoi(n, 4, 324, 0.95);
-  const peel = voronoi(n, 3, 325, 1);
-  const rubble = stone(n)[0];
   for (let o = 0; o < n * n; o++) {
     const edge = cr.f2[o]! - cr.f1[o]!;
-    const crack = (1 - sstep(0.0, 0.012, edge)) * sstep(0.42, 0.72, low[o]!);
-    // peeled patches expose the rubble behind
-    const pm = sstep(0.69, 0.79, mid[o]! * 0.6 + (1 - peel.f1[o]!) * 0.5 + low[o]! * 0.2);
-    let c = mixc([0.415, 0.375, 0.294], [0.66, 0.603, 0.485], clamp01(low[o]! * 0.85 + fine[o]! * 0.17));
-    const u = (o % n) / n, v = Math.floor(o / n) / n;
-    const rain = pnoise(u, v, 20, 2, 327) * pnoise(u, v, 3, 3, 328);
-    c = mixc(c, [0.23, 0.21, 0.16], sstep(0.36, 0.66, rain) * 0.32);
-    const st: RGB = [rubble.rgb[o * 3]!, rubble.rgb[o * 3 + 1]!, rubble.rgb[o * 3 + 2]!];
-    c = mixc(c, st, pm);
-    c = [c[0] * (1 - crack * 0.4), c[1] * (1 - crack * 0.4), c[2] * (1 - crack * 0.4)];
-    set(f, o, c, clamp01(0.57 - pm * 0.12 + rubble.h[o]! * pm * 0.1 - crack * 0.12 + fine[o]! * 0.035));
+    const crack = (1 - sstep(0.0, 0.006, edge)) * sstep(0.72, 0.86, low[o]!) * sstep(0.5, 0.7, mid[o]!);
+    let c = mixc([0.60, 0.565, 0.49], [0.70, 0.665, 0.585], clamp01(0.5 + (low[o]! - 0.5) * 0.45 + (fine[o]! - 0.5) * 0.3 + (mid[o]! - 0.5) * 0.2));
+    c = [c[0] * (1 - crack * 0.22), c[1] * (1 - crack * 0.22), c[2] * (1 - crack * 0.22)];
+    set(f, o, c, clamp01(0.6 + (mid[o]! - 0.5) * 0.06 + fine[o]! * 0.02 - crack * 0.03));
   }
-  return [f, 1.15];
+  return [f, 1.2];
 }
 
 function stone(n: number): [Field, number] {

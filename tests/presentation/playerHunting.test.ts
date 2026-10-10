@@ -3,7 +3,7 @@ import { beforeAll, describe, expect, it, vi } from 'vitest';
 import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { Player } from '../../src/presentation/player';
 import { Game } from '../../src/game/game';
-import { PlayerHuntingVisual } from '../../src/presentation/playerHunting';
+import { BOW_READY_SECONDS, PlayerHuntingVisual } from '../../src/presentation/playerHunting';
 import { createHeroRig } from '../../src/presentation/hero/rig';
 import { bindHeroBones } from '../../src/presentation/hero/bones';
 import { HERO_GRIP_FADE } from '../../src/presentation/hero/animation';
@@ -185,5 +185,41 @@ describe('bow and skinning on the delivered hero skeleton', () => {
     for (let i = 0; i < 60 * HERO_GRIP_FADE + 2; i++) s.pose();
     expect(s.bones[name].quaternion.clone().normalize().angleTo(relaxed)).toBeLessThan(1e-6);
     s.visual.dispose();
+  });
+});
+
+describe('carrying the bow (A75)', () => {
+  it('slings it across his back while carried, takes it in hand to aim, and slings it again once he stops shooting', () => {
+    const s = setup();
+    s.rig.root.position.set(4, 1, -2);
+    s.rig.root.rotation.y = .6;
+    s.visual.setEquipped(true);
+    s.visual.setAim(null);
+    s.pose();
+    expect(s.visual.inHand).toBe(false);
+    expect(s.visual.bow.visible).toBe(true);
+    s.rig.root.updateMatrixWorld(true);
+    const local = (o: THREE.Object3D) => s.rig.root.worldToLocal(o.getWorldPosition(new THREE.Vector3()));
+    const grip = local(s.visual.bow);
+    // Behind him and between the shoulder blades, not by his leg.
+    expect(grip.z).toBeLessThan(-.08);
+    expect(grip.y).toBeGreaterThan(1);
+    // The string is on the outside, away from his back.
+    const string = s.visual.bow.getObjectByName('Hunting / drawn bow string')!;
+    expect(local(string.parent!).z).toBeLessThan(0);
+    const stringMid = s.rig.root.worldToLocal(string.localToWorld(new THREE.Vector3(0, 0, -.14)));
+    expect(stringMid.z).toBeLessThan(grip.z);
+    // No grip asked of the free hands while it is slung.
+    expect(s.rig.hero.gripOf('Left')).toEqual(s.rig.hero.gripOf('Right'));
+    s.visual.setAim(new THREE.Vector3(0, 0, 1), .5);
+    s.pose();
+    expect(s.visual.inHand).toBe(true);
+    expect(s.visual.bow.parent!.parent).toBe(s.bones['mixamorig:LeftHand']);
+    s.visual.setAim(null);
+    for (let t = 0; t < BOW_READY_SECONDS - .2; t += 1 / 30) s.pose(1 / 30);
+    expect(s.visual.inHand).toBe(true);
+    for (let t = 0; t < .5; t += 1 / 30) s.pose(1 / 30);
+    expect(s.visual.inHand).toBe(false);
+    expect(s.visual.nockedArrow.visible).toBe(false);
   });
 });
