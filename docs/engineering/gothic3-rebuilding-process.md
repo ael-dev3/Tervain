@@ -4,6 +4,21 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local evidence — 10 October 2026: Code-page locale update constructor
+
+The next helper at `30684bde` invokes `30673389` with a 16-byte stack object
+and a NULL argument before selecting a code page. Its original constructor
+receipt is now captured with the `30af76fc` automatic-code-page flag. The cold
+constructor saves current PTD, locale and MBC pointers into the stack object,
+compares the pointers with current globals, and temporarily sets PTD flag bit 2
+if it was clear. The code-page helper later clears that bit only if the object's
+own flag says the constructor set it. Unsupported calls must preserve this state;
+they must not fabricate destructor cleanup or a normal code-page return.
+
+The constructor and the code-page helper remain unimplemented. The existing
+locale-helper production build passes. Complete startup and campaign play remain
+unfinished.
+
 ## Local checkpoint — 10 October 2026: Engine locale helper return
 
 The retained argument frame now executes the locale helper at `30684b3a`.
