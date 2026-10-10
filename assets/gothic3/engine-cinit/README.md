@@ -1,7 +1,7 @@
 # Engine CRT initializer evidence
 
 This package records the next dependency after Engine environment-vector return.
-It captures 20 original bodies (460 instructions), the caller at `30677284`,
+It captures 26 original bodies (566 instructions), the caller at `30677284`,
 the floating-point callback at `30892ac0`, and two original initializer tables.
 The C initializer table has 200 slots with 6 nonzero entries. The C++ table has
 93,705 slots with 1,963 nonzero entries; omitted entries are verified zero.
@@ -14,7 +14,7 @@ python tools/gothic3/prepare_engine_cinit_source.py --study '<study-root>' --out
 
 The generator checks the original Engine.dll hash and exact caller bytes.
 Independent regeneration produced identical JSON, SHA-256
-``a23848b4859e4a96c8d89f25f729cb9c6a9adb6d249cedb9c8aef94b15d60afe``.
+``3938da608b5fcd5982e03634313d1a741bacecf9544f013da036af45ec456218``.
 
 The capture's `runtimeConnected: false` records evidence preparation; it grants
 no execution authority. The TypeScript continuation separately obtains a
@@ -44,5 +44,12 @@ addresses identify original locations and cannot serve as browser pointers.
 The fourth C initializer reads the retained argument multibyte-ready image.
 Its ready branch returns normally; a cleared flag preserves the pending original
 setup call. The fifth initializer reruns the original CPU helper and publishes its own
-SSE2 control global. The normal local boundary is now the sixth initializer,
-`30671182`, after 1,544 admitted operations.
+SSE2 control global. The sixth initializer pushes shutdown callback `30671144` and enters the original
+exit-registration wrapper and onexit routine. Execution stops at its pending
+EH4 prolog `3067e500`, after 1,551 admitted operations.
+
+The sixth initializer is absent from the original disassembly and function CSV.
+Its exact pinned PE bytes are decoded with Capstone 5.0.7, with decoder provenance
+in the receipt. Install that version or supply `--capstone-path <library-root>`.
+The onexit scope includes its 16-byte header and 12-byte handler record; its
+original bytes are checked as immutable storage. Registration is not complete.

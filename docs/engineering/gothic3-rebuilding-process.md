@@ -4,6 +4,24 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local continuation — 11 October 2026: shutdown registration entry
+
+The sixth C initializer is absent from the original disassembly and function
+CSV. Its exact pinned Engine DLL bytes are now captured with Capstone decoder
+provenance. It pushes the original shutdown callback `30671144` and calls the
+exit-registration wrapper, which forwards the actual argument to onexit.
+The retained physical stack now includes the initializer, registration, onexit
+and EH4 prolog returns. The original 28-byte exception scope is owned and
+checked against immutable source bytes.
+
+The selected normal path stops at EH4 prolog `3067e500` after 1,551 admitted
+C-initializer operations. Exit registration has not returned or published a
+callback. Seventeen focused checks across three files pass; the final source
+and image checks pass after completing the scope capture. Typechecking passes
+and independent JSON/TypeScript regeneration is byte-identical. Full validation
+of the earlier `4f2649868` checkpoint remains live. This continuation is local;
+complete startup and a campaign through an ending remain unfinished.
+
 ## Local continuation — 11 October 2026: fourth and fifth C initializers
 
 The fourth initializer reads the original multibyte-ready flag from the retained

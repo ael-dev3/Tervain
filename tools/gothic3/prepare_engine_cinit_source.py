@@ -1,5 +1,6 @@
 """Capture the pinned Engine CRT initializer and its immediate dependencies."""
 import argparse
+import sys
 import hashlib
 import json
 import struct
@@ -26,6 +27,11 @@ def capture(study):
         0x3067ca01: 'engineCInitializerCalloc',
         0x3069c4f2: 'engineSse2Detection',
         0x3069c4a2: 'engineSse2ExecutionProbe',
+        0x3067155a: 'engineOnexit',
+        0x30671472: 'engineOnexitStorage',
+        0x3067cfe8: 'engineExitLock',
+        0x3067cff1: 'engineExitUnlock',
+        0x30671590: 'engineExitFinally',
     })
     pe = PE((study / '00_Original_Runtime/Engine.dll').read_bytes())
     # The exported function CSV omits this complete body; retain its assembly
@@ -64,6 +70,22 @@ def capture(study):
             entryChain=[],bodyRanges=f'{begin:08x}-{end-1:08x}',instructions=rows,instructionCount=len(rows),
             bodyByteCount=len(raw),bodyInstructionBytesSha256=hashlib.sha256(raw).hexdigest(),
             recoveredFromAssemblyWithoutFunctionCSV=True))
+    # This callback is absent from both the original listing and function CSV.
+    # Decode only its exact pinned bytes, recording decoder provenance.
+    import capstone
+    decoder=capstone.Cs(capstone.CS_ARCH_X86,capstone.CS_MODE_32)
+    begin,end=0x30671182,0x30671195
+    raw=pe.bytes(begin,end-begin)
+    if raw.hex()!='6844116730e80a040000f7d81bc05983e018c3':
+        raise ValueError('Original Engine exit callback initializer differs')
+    rows=[dict(va=f'{i.address:08x}',rva=f'{i.address-pe.base:x}',fileOffset=pe.offset(i.address,i.size),
+        bytes=i.bytes.hex(),instruction=(i.mnemonic+' '+i.op_str).strip()) for i in decoder.disasm(raw,begin)]
+    if len(rows)!=7 or b''.join(bytes.fromhex(r['bytes']) for r in rows)!=raw:
+        raise ValueError('Incomplete Engine exit callback initializer decoding')
+    source['methods'].append(dict(label='engineExitCallbackInitializer',entryVA=f'0x{begin:08x}',bodyVA=f'0x{begin:08x}',
+        entryChain=[],bodyRanges=f'{begin:08x}-{end-1:08x}',instructions=rows,instructionCount=len(rows),
+        bodyByteCount=len(raw),bodyInstructionBytesSha256=hashlib.sha256(raw).hexdigest(),
+        recoveredFromOriginalPEWithoutAssembly=True,decoder=f'capstone {capstone.__version__}'))
     caller = pe.bytes(0x30677284, 27)
     if caller.hex() != '85c07c176a00e8385f000085c059750bff05d070af30e9ac000000':
         raise ValueError('Original Engine initializer caller differs')
@@ -101,6 +123,7 @@ def capture(study):
         ('staticStreams', 0x30ad45a8, 640),
         ('sse2Ready', 0x30af7e58, 4),
         ('sse2Control', 0x30af7e68, 4),
+        ('onexitSehScope', 0x30956388, 28),
     ]:
         rva = address-pe.base
         section = next(s for s in pe.sections if s[1] <= rva and rva+size <= s[1]+max(s[0],s[2]))
@@ -139,7 +162,10 @@ if __name__ == '__main__':
     parser.add_argument('--study', required=True, type=Path)
     parser.add_argument('--output', required=True, type=Path)
     parser.add_argument('--typescript', type=Path)
+    parser.add_argument('--capstone-path',type=Path)
     args = parser.parse_args()
+    if args.capstone_path:
+        sys.path.insert(0,str(args.capstone_path.resolve()))
     receipt = capture(args.study)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     text = json.dumps(receipt, indent=2) + '\n'

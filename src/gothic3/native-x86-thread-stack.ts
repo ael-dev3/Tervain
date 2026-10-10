@@ -561,6 +561,18 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
             multibyte('30685022',()=>{setRegister('EAX',stack.#mint(0,0xffffffff));stack.#logicalFlags(0,0xffffffff,4);});
             multibyte('30685024',()=>stack.#ret());target=null;
           }
+          if(target==='30671182'){
+            const callback=(pc:string,body:()=>void)=>step(pc,body,'30671182');
+            callback('30671182',()=>stack.#push(stack.#source('code','30671144')));
+            callback('30671187',()=>stack.#call('30671187','3067118c'));
+            step('30671596',()=>{const esp=stack.#address(register('ESP')),argument=stack.#load(stack.#stack,esp+4),p=stack.#record(argument).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!=='30671144')throw new Error('Original Engine shutdown callback argument required');stack.#push(argument);},'30671596');
+            step('3067159a',()=>stack.#call('3067159a','3067159f'),'30671596');
+            const scope=NativeEngineCinitImages.imageForCrt(images.value,crt,'onexitSehScope');if(!scope.known)throw new Error(scope.reason);
+            step('3067155a',()=>stack.#push(stack.#mint(12,0xffffffff)),'3067155a');
+            step('3067155c',()=>stack.#push(stack.#mint(0,0,{kind:'source',type:'image',address:'30956388',fields:scope.value})),'3067155a');
+            step('30671561',()=>stack.#call('30671561','30671566'),'3067155a');
+            stack.#engineCinitFrame.pc='3067e500';return known(undefined);
+          }
           if(target&&target!=='3067152b')return known(undefined);
           if(target){
           const exit=(pc:string,body:()=>void)=>step(pc,body,'3067152b');
