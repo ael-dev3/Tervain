@@ -233,7 +233,7 @@ function buildStandardPass(R: Region, terrain: Terrain, b: BuildingSpec, out: Bu
     timberFrame(R, rnd, b.w, b.d, wallH, y0, gap, openings);
   } else {
     roomWalls(R.stone, b.w, b.d, wallH, y0, t, room.door, jitterTone(TINT.stone, rnd, 0.05), 0.9, openings);
-    quoins(R, rnd, b.w, b.d, wallH, y0);
+    quoins(R, rnd, b.w, b.d, wallH, y0, openings);
   }
 
   // Roof.

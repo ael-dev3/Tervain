@@ -192,6 +192,24 @@ describe('arrivals', () => {
     expect(arrivals.warm).toBeNull();
   });
 
+  it('releases a rig built for someone who never took it when the arrivals are cleared (A80)', () => {
+    // A clock that moves 10 ms a reading: one step a frame.
+    let clock = 0, x = 100;
+    const arrivals = new ResidentArrivals(() => (clock += 10)), rig = arrivedRig(), disposed = vi.fn();
+    rig.root.traverse((o) => { const mesh = o as THREE.Mesh; if (mesh.isMesh) mesh.geometry.addEventListener('dispose', disposed); });
+    const staged = { role: 'named:mill_hand', position: () => ({ x, y: 0, z: 0 }), adopt: vi.fn(), *make() { yield; return rig; } } satisfies AwaitingFigure;
+    arrivals.add(staged);
+    const inView = (p: { x: number }) => p.x < 50;
+    // Started out of sight; finished once they have walked into view, so it waits.
+    arrivals.update(catalog(['named:mill_hand']), inView);
+    x = 0;
+    arrivals.update(catalog(['named:mill_hand']), inView);
+    expect(staged.adopt).not.toHaveBeenCalled();
+    arrivals.clear();
+    expect(disposed).toHaveBeenCalled();
+    expect(rig.root.parent).toBeNull();
+  });
+
   it('drops a staged figure whose build fails, warns, and moves on', () => {
     const arrivals = new ResidentArrivals(), fine = figure('named:village_baker', 100);
     const broken = { ...figure('named:mill_hand', 100), *make(): Generator<void, Rig, void> { yield; throw new Error('bad rig'); } };

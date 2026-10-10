@@ -224,7 +224,7 @@ export function timberFrame(R: Region, rnd: Rnd, w: number, d: number, h: number
 }
 
 /** Rubble corners: alternating long and short stones proud of the wall. */
-export function quoins(R: Region, rnd: Rnd, w: number, d: number, h: number, y0: number) {
+export function quoins(R: Region, rnd: Rnd, w: number, d: number, h: number, y0: number, openings: readonly WallOpening[] = []) {
   const B = R.stone;
   for (const sx of [-1, 1]) for (const sz of [-1, 1]) {
     let y = y0;
@@ -234,7 +234,19 @@ export function quoins(R: Region, rnd: Rnd, w: number, d: number, h: number, y0:
       const long = i % 2 === 0;
       const lx = (long ? 0.62 : 0.34) + rnd() * 0.12;
       const lz = (long ? 0.34 : 0.62) + rnd() * 0.12;
-      B.box(lx, sh, lz, sx * (w / 2 - lx / 2 + 0.06), y, sz * (d / 2 - lz / 2 + 0.06), jitterTone(TINT.stone, rnd, 0.10), { ry: (rnd() - 0.5) * 0.06, jit: 0.045, amp: 0.04 });
+      // A80 audit: a long corner stone stops short of a window opening on its wall rather than reaching into it.
+      let bx = lx, bz = lz;
+      for (const o of openings) {
+        if (y + sh <= o.y0 - 0.05 || y >= o.y1 + 0.05) continue;
+        if ((o.side === 'front' && sz > 0) || (o.side === 'back' && sz < 0)) {
+          if (Math.sign(o.at) === sx || Math.abs(o.at) < o.half) bx = Math.min(bx, Math.max(0.12, w / 2 + 0.06 - (Math.abs(o.at) + o.half) - 0.04));
+        }
+        if ((o.side === 'east' && sx > 0) || (o.side === 'west' && sx < 0)) {
+          if (Math.sign(o.at) === sz || Math.abs(o.at) < o.half) bz = Math.min(bz, Math.max(0.12, d / 2 + 0.06 - (Math.abs(o.at) + o.half) - 0.04));
+        }
+      }
+      const tone = jitterTone(TINT.stone, rnd, 0.10), ry = (rnd() - 0.5) * 0.06;
+      B.box(bx, sh, bz, sx * (w / 2 - bx / 2 + 0.06), y, sz * (d / 2 - bz / 2 + 0.06), tone, { ry, jit: 0.045, amp: 0.04 });
       y += sh + 0.01;
       i++;
     }

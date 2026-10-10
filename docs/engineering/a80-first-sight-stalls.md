@@ -28,4 +28,23 @@ The one frame over 100 ms is the world's first. During the first minute, frames 
 while a late resident's rig is built step by step and an arriving mesh takes its first draw. No draw on the route
 creates a shader program any more, and none takes over 40 ms.
 
+## Audit of A78–A80 (fixed)
+
+An independent read of the new preparation, merging, window and wall code found the following, now fixed:
+
+- **Hidden pieces' shadow programs were built for the wrong lights.** When the whole world was prepared, its own
+  lights counted on top of the stand-in light scenes, so those programs matched no shadow pass. The world's lights are
+  now left out of those two compiles.
+- **Preparation outlived a rebuilt world.** Texture uploads and first draws went on after the world was rebuilt or
+  disposed, re-uploading released textures (a GPU leak) and drawing into the old scene. Each preparation now stops as
+  soon as its world is no longer the one being played.
+- **A rig built and never adopted leaked.** A resident's rig was built but still waiting out of sight when the world
+  was rebuilt (or its handover failed); it was dropped without releasing its geometries, materials and textures. It is
+  now released (test in `residentArrivals.test.ts`).
+- **Shadow preparation made a new depth material for every shadow-casting mesh,** for the whole world. There is now one
+  per configuration.
+- **The window cube's mipmaps were rebuilt after each face;** they are now rebuilt once a refresh.
+- **On the stone sluice hut, long corner stones reached about 0.2 m into the front window's opening.** They now stop
+  short of it, drawing the same random choices.
+
 No Meshy credits spent.
