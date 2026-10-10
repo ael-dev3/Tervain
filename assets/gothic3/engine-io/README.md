@@ -1,9 +1,11 @@
 # Engine CRT I/O initialization source
 
 Original `Engine.dll` entry `306886ec` is the current browser startup boundary.
-This package captures three verified bodies: I/O initialization (186 instructions,
+This package captures five verified bodies: I/O initialization (186 instructions,
 562 bytes), EH4 prologue `3067e500` (21 instructions, 69 bytes), and calloc wrapper
-`3067ca01` (26 instructions, 72 bytes). The DLL hash, catalog/disassembly hashes,
+`3067ca01` (26 instructions, 72 bytes), EH4 epilogue `3067e545` (11 instructions,
+20 bytes), and critical-section helper `30696484` (50 instructions, 147 bytes).
+The DLL hash, catalog/disassembly hashes,
 instruction bytes, imports and original data images are retained in `research.json`.
 
 Reproduce from the repository root:
@@ -37,7 +39,7 @@ The original caller tests that result at `3067726b`. A negative result calls
 
 This is source evidence, with no runtime admission or I/O execution yet.
 The Engine frame, startup-info output, record allocations, critical sections and
-opaque handle capabilities must be connected to their actual owners. Capture and
-implement the remaining reached callees, including epilogue `3067e545` and section
-initialization `30696484`, before claiming a normal I/O return. Preserve explicit
+opaque handle capabilities must be connected to their actual owners. Implement
+the captured epilogue and section helper, and capture their remaining reached
+dependencies before claiming a normal I/O return. Preserve explicit
 boundaries for inherited-handle paths and exception dispatch until implemented.

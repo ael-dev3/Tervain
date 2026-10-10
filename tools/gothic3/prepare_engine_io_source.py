@@ -13,6 +13,8 @@ def capture(study):
         0x306886ec: 'engineIoInit',
         0x3067e500: 'engineIoSehProlog',
         0x3067ca01: 'engineIoCallocCrt',
+        0x3067e545: 'engineIoSehEpilog',
+        0x30696484: 'engineIoCriticalSection',
     })
     pe = PE((study / '00_Original_Runtime/Engine.dll').read_bytes())
     images = []

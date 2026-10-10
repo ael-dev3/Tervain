@@ -124,11 +124,17 @@ Engine I/O remain runtime dependencies. The preceding selection checkpoint
 across 304 files in 425.70 seconds. The wide-conversion checkpoint has no
 full-suite or hosted-browser receipt yet. Its production build passed in
 29.28 seconds; the full suite is currently running in the separate validation
-checkout.
+checkout. A local production browser at validation revision `693142418` entered
+Ardea and inspected `Ardea_OutNovice_01`. Its developer panel confirmed the
+pending Engine I/O call `30677266 -> 306886ec` through the same Game startup
+dependency. The NPC still reports 0 of 16 attached property sets and incomplete
+activation. This is local browser evidence; the public deployment has not been
+updated by this checkpoint.
 
 Engine's next I/O dependency is captured in
 [`assets/gothic3/engine-io/`](../../assets/gothic3/engine-io/): the initializer,
-EH4 prologue and calloc wrapper total 233 verified instructions and 703 body
+EH4 prologue/epilogue, calloc wrapper and section helper total 294 verified
+instructions and 870 body
 bytes. The package retains the loader-zero count and 64-slot pointer table,
 file-backed exception scope, imports and caller branches. Independent generation
 matches byte for byte. I/O runtime integration remains unfinished.
