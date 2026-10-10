@@ -344,6 +344,15 @@ export class NativeCrtBootstrap {
       bootstrap.#assertCrt();return known(undefined);
     }catch(error){return unknown(failureReason(error));}
   }
+  static engineArgvMbcForCrt(bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object):NativeValue<NativeHeapObjectViews>{
+    const proof=NativeCrtBootstrap.canonicalEngineArgvCallForCrt(bootstrap,crt,permit);if(!proof.known)return proof;
+    try{if(bootstrap.thread.host.crt!==crt)throw new Error('Actual Engine MBC owner required');return known(bootstrap.#checked(bootstrap.thread.physical.mbcObject));}catch(error){return unknown(failureReason(error));}
+  }
+  static engineArgvLocaleLockForCrt(bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object,operation:'lock'|'unlock'):NativeValue<void>{
+    const proof=NativeCrtBootstrap.canonicalEngineArgvCallForCrt(bootstrap,crt,permit);if(!proof.known)return proof;
+    if(operation!=='lock'&&operation!=='unlock')return unknown('Actual Engine locale lock operation required');
+    return operation==='lock'?NativeModuleCrtOwner.prototype.lock.call(crt,13):NativeModuleCrtOwner.prototype.unlock.call(crt,13);
+  }
   static engineArgvPtdForCrt(bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object):NativeValue<NativeHeapObjectViews|null>{
     const proof=NativeCrtBootstrap.canonicalEngineArgvCallForCrt(bootstrap,crt,permit);if(!proof.known)return proof;
     try{

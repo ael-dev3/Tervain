@@ -4,6 +4,30 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local checkpoint — 10 October 2026: Engine locale helper return
+
+The retained argument frame now executes the locale helper at `30684b3a`.
+It uses the original immutable scope, the active Engine cookie and the current
+same-CRT PTD. The cold flags select lock 13; the current MBC pointer is resolved
+to the existing thread-owned `30ad4bd0` object. Matching pointers follow the
+original unlock wrapper and EH4 epilog. The helper restores FS, callee-saved
+registers and nested EBP before returning its actual MBC object to multibyte setup.
+The caller loads its current MBC pointer and `-3` parameter and reaches code-page
+helper `30684bde` from `30684e92`. The cold path executes 122 source operations.
+
+Current flags can select the original fast path without taking lock 13. Unknown
+flag bits stop at their actual read. A pointer mismatch stops at the unimplemented
+replacement branch with the actual lock retained. An unavailable lock service
+retains its pending return rather than fabricating success. The current-pointer
+receipt resolves only the original default object or NULL; dynamic MBC objects
+remain unsupported. The inner lock/unlock calls use the existing translated
+Engine CRT services and do not claim physical execution of every lock instruction.
+
+Forty-one focused checks across five files pass. The preceding PTD runtime
+passed all 3,311 tests across 313 files in 436.98
+seconds. That full result precedes this locale continuation. Code-page setup,
+argument parsing, full startup and campaign integration remain unfinished.
+
 ## Local evidence — 10 October 2026: Engine multibyte locale dependency
 
 The argument receipt includes the locale helper's original EH4 scope at
