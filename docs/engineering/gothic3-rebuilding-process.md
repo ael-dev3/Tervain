@@ -4,7 +4,64 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
-## Latest state — 10 October 2026: Engine argument setup return
+## Current state — 11 October 2026: environment setup and C initializers
+
+The rebuilding work follows two connected tracks: prepare original resources
+for browser rendering, and recover the state changes needed to make those
+resources behave as a game. The [overview](gothic3-rebuild-overview.md) gives the
+contributor checklist; the [workflow](gothic3-rebuild-workflow.md) explains the
+sequence from installed inputs to a playable campaign.
+
+### Published checkpoint
+
+[PR #235](https://github.com/ael-dev3/Tervain/pull/235) completes the selected
+Engine environment-vector allocation, copying, publication and cleanup paths.
+It joins Claude's already-merged [PR #236](https://github.com/ael-dev3/Tervain/pull/236).
+Main revision `9a06762233cb145177a84bd2947441cbd500e2ca` passed its
+[build and Pages deployment](https://github.com/ael-dev3/Tervain/actions/runs/38094298066).
+The environment continuation passed 3,428 tests across 313 files, typechecking
+and a production build before publication. Deployment confirms publication;
+full native startup and a campaign through an ending remain unfinished.
+
+### Newer local continuation
+
+Local runtime revision `4f2649868` enters Engine's C initializer from the
+returned environment frame, retaining the original stack, memory owners and
+pending calls. It executes floating-point setup, encodes the ten conversion
+pointers, walks the original initializer table, allocates the exit table,
+constructs the stream table and runs the first SSE2 initializer. CPU behavior
+comes from an explicitly selected virtual CPU, rather than host hardware.
+
+The normal selected path stops at the fourth initializer, `30685007`, after
+955 admitted C-initializer operations. Unsupported calls retain their actual
+pending returns and applied writes. They do not manufacture a successful
+startup. The combined focused validation passed 148 tests across five files;
+full-suite validation and the production build for this newer continuation
+are still pending. This continuation is not included in the deployed revision.
+
+### How the next checkpoint is made
+
+1. Locate the next original caller, callee and data images in the matching
+   Engine DLL and disassembly; verify their bytes and record their hashes.
+2. Extend `tools/gothic3/prepare_engine_cinit_source.py`, retaining evidence in
+   `assets/gothic3/engine-cinit/` and generated admission data in
+   `src/gothic3/native-engine-cinit-source.ts`.
+3. Implement the selected instructions in `native-x86-thread-stack.ts`, with
+   startup authority in `native-crt-bootstrap.ts` and owned images in
+   `native-engine-cinit-images.ts`. Consume state already produced by argv and
+   I/O setup; preserve its identity across callbacks.
+4. Check supported returns, allocation failures and unavailable dependencies.
+   Compare independent evidence regeneration, inspect the diff, and record
+   focused checks, typechecking, full validation and build results separately.
+5. Inspect repository-wide Actions runs and workflow triggers before remote
+   changes. Publish a reviewed checkpoint and record its deployment receipt.
+6. Continue into world activation, NPC behavior, combat, dialogue, quests and
+   saves. Establish completion with a fresh browser game that progresses
+   through an ending and survives save/reload.
+
+Earlier sections below preserve historical boundaries and validation receipts.
+
+## Historical state — 10 October 2026: Engine argument setup return
 
 PR #230 deployed native startup revision `f1505ca863aefc10d5a6cb883d1d379b8ac296ff`,
 whose default stops at `30684a93` after 5261 admitted operations. Claude's

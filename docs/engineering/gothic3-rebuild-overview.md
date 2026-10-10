@@ -48,11 +48,10 @@ history linked below:
    Record the successful deployment separately from local implementation.
 
 The checkpoint history distinguishes local implementation, reviewed changes and
-successful deployments. Merged PR #161 includes selected version-resource query,
-copy, parsing and buffer cleanup continuations. Its Pages deployment completed
-successfully. Later MessageAdmin logging work remains local.
-Complete DLL startup, Game/world activation and campaign integration still
-require work. See the workflow's dated status for the exact execution boundary.
+successful deployments. The [current dated record](gothic3-rebuilding-process.md#current-state--11-october-2026-environment-setup-and-c-initializers)
+identifies the deployed environment setup and newer local C-initializer work.
+Complete DLL startup, world activation and a campaign through an ending still
+require work.
 
 ## Working on the reconstruction locally
 
@@ -111,8 +110,10 @@ and the next missing dependency. Three states matter:
   receipts determine what is supported.
 - **Published:** a reviewed commit has completed the Pages deployment workflow.
 
-These states are recorded separately. As of 8 October 2026, the published runtime checkpoint is [PR #159](https://github.com/ael-dev3/Tervain/pull/159) (Pages run 37844108225 succeeded). Full engine startup, world activation
-and campaign completion remain outstanding.
+These states are recorded separately. Read the
+[current dated record](gothic3-rebuilding-process.md#current-state--11-october-2026-environment-setup-and-c-initializers)
+for publication receipts and the next unsupported operation. Full engine startup,
+world activation and campaign completion remain outstanding.
 
 ## Process at a glance
 
