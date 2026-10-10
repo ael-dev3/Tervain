@@ -4,9 +4,10 @@ import {NativeEngineCrtOwner} from '../../src/gothic3/native-engine-crt-locks';
 import {NativeX86ThreadStack} from '../../src/gothic3/native-x86-thread-stack';
 import {NativeRuntimePlatform} from '../../src/gothic3/native-runtime-platform';
 import {NativeHeapObjectViews} from '../../src/gothic3/native-heap-views';
+import type {NativeStartupInfoWriterSelection} from '../../src/gothic3/native-win32-startup-io';
 import {browserGameProcessInputs} from '../../src/gothic3/browser-game-process-inputs';
-function fixture(){
- const platform=new NativeRuntimePlatform({engineCrtServices:{tlsValues:new Map(),kernel32Available:true,pointerCodec:'absent',fiberLocalStorage:true,processHeap:true,osVersion:{platform:2,major:6,minor:1,build:42},processInputs:browserGameProcessInputs,
+function fixture(startupInfoA?:NativeStartupInfoWriterSelection){
+ const platform=new NativeRuntimePlatform({engineCrtServices:{startupIo:startupInfoA?{startupInfoA}:undefined,tlsValues:new Map(),kernel32Available:true,pointerCodec:'absent',fiberLocalStorage:true,processHeap:true,osVersion:{platform:2,major:6,minor:1,build:42},processInputs:browserGameProcessInputs,
   entropy:{systemTimeAsFileTime:()=>({known:true,value:{low:0x12345678,high:1}}),currentProcessId:()=>({known:true,value:4}),currentThreadId:()=>({known:true,value:5}),tickCount:()=>({known:true,value:6}),performanceCounter:()=>({known:true,value:{success:true,low:7,high:8}})},
   threadStack:{threadCapability:{},reservationBytes:4096,addressModel:'opaque-relative',initialRegisters:'unknown',initialFs0:'unknown',pageAlignment:'virtual-page-4096'}}});
  let bootstrap:NativeCrtBootstrap;const crt=new NativeEngineCrtOwner({platform,errnoSlot:()=>bootstrap.thread.errnoSlot(),getLastError:()=>platform.getWin32LastError()});bootstrap=NativeCrtBootstrap.forCrt(crt);return {crt,platform,bootstrap};
@@ -43,4 +44,18 @@ it('retains the pushed frame prefix when the current Engine cookie becomes unkno
  const frame=bootstrap.attachProgress().engineIoProgress!;expect(frame).toMatchObject({phase:'blocked',pc:'3067e51d',operations:12,prologReturned:false,fsPublished:false,startupInfo:null});
  expect([...frame.bank.knownMask.subarray(32,36)]).toEqual([0,0,0,0]);
  expect(bootstrap.processAttach()).toEqual(result);expect(bootstrap.attachProgress().engineIoProgress!.operations).toBe(12);
+});
+
+it('returns from the Engine startup writer with actual stores and stdcall cleanup',()=>{
+ const {bootstrap}=fixture({writes:[{offset:0,width:4,value:68,knownMask:0xffffffff},{offset:45,width:1,value:0xa5,knownMask:0xff}],outcome:'normal'});
+ const result=bootstrap.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Continuation unfinished');expect(result.reason).toContain('Engine calloc3067ca01 at30688714');
+ const frame=bootstrap.attachProgress().engineIoProgress!;expect(frame.operations).toBe(34);expect(frame.startupInfo!.readUnsigned(0)).toBe(68);expect(frame.startupInfo!.readUnsigned(45,1)).toBe(0xa5);
+ for(const offset of [0,4,8])expect(frame.bank.maskedWord(offset).knownMask).toBe(0);
+ const trace=bootstrap.snapshot().trace;expect(bootstrap.processAttach()).toEqual(result);expect(bootstrap.snapshot().trace).toEqual(trace);
+});
+it('retains Engine writer prefix on unknown outcome without normal-return cleanup',()=>{
+ const {bootstrap}=fixture({writes:[{offset:0,width:4,value:68,knownMask:0xffffffff}],outcome:'unknown',reason:'Engine writer unavailable after prefix'});
+ const result=bootstrap.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Unknown writer returned');expect(result.reason).toContain('Engine writer unavailable after prefix');
+ const frame=bootstrap.attachProgress().engineIoProgress!;expect(frame.pc).toBe('30688701');expect(frame.operations).toBe(28);expect(frame.startupInfo!.readUnsigned(0)).toBe(68);
+ expect(bootstrap.processAttach()).toEqual(result);expect(frame.startupInfo!.readUnsigned(0)).toBe(68);
 });

@@ -4,6 +4,23 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local checkpoint — 10 October 2026: Engine startup-info writer
+
+Engine `GetStartupInfoA` at `30688701` now uses a privately registered call
+on the selected thread. Runtime admission verifies the exact pending return,
+argument, Engine bootstrap permit and physical 68-byte alias. The writer uses
+the existing copied virtual platform declaration; no host Windows process is
+queried. Stores invalidate overlapping cached stack words. Unknown outcomes
+retain applied stores and the pending return without replay.
+
+A confirmed normal return consumes the return and argument with stdcall RET4,
+leaves volatile registers unknown, and resumes five original instructions.
+Execution reaches `30688714 -> 3067ca01`, before allocating 32 I/O records of
+56 bytes each. The calloc bridge and remaining I/O initialization are unfinished.
+Eleven focused checks across three files and TypeScript checking pass locally.
+This change is not yet publicly deployed and does not complete engine startup
+or prove playable campaign progression.
+
 ## Local checkpoint — 10 October 2026: Engine I/O physical frame
 
 The Engine CRT caller now enters `306886ec` on the selected logical thread.

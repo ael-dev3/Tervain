@@ -146,6 +146,7 @@ const standardSites: Readonly<Record<NativeStandardIoCallSite, Readonly<{ kind: 
 });
 const graphs = new WeakMap<NativeRuntimePlatform, NativeX86ThreadStack>();
 const retirements = new WeakMap<NativeX86ThreadStack, () => void>();
+const engineStartupCalls=new WeakMap<NativeStartupInfoCallGrant,{stack:NativeX86ThreadStack;frame:EngineIoFrame;offset:number;argument:NativeX86Word32;position:number;returnWord:NativeX86Word32;phase:'pending'|'returned'}>();
 const startupCalls = new WeakMap<NativeStartupInfoCallGrant, StartupCall>();
 const heapCalls = new WeakMap<NativeHeapAllocCallGrant, HeapCall>();
 const standardCalls = new WeakMap<NativeStandardIoCallGrant, StandardCall>();
@@ -250,10 +251,37 @@ export class NativeX86ThreadStack {
           frame.startupInfo=new NativeHeapObjectViews(stack.#stack.backing,offset,68);Object.freeze(frame.startupInfo);
         });
         step('306886ec','30688700',()=>stack.#push(register('EAX')));
-        frame.pc='30688701';engineIoInstruction('306886ec',frame.pc);throw new Error('Engine GetStartupInfoA IAT30afc748 at30688701');
+        step('306886ec','30688701',()=>{
+          const endpoints=stack.#platform.startupIoEndpoints;if(!endpoints)throw new Error('Engine GetStartupInfoA IAT30afc748 at30688701');
+          const endpointProof=NativeRuntimePlatform.canonicalStartupIoEndpointsForPlatform(stack.#platform,endpoints);if(!endpointProof.known)throw new Error(endpointProof.reason);
+          const argumentPosition=relative('ESP',0),argument=stack.#load(stack.#stack,argumentPosition),offset=frame.ebp!-0x64;
+          if(stack.#address(argument)!==offset)throw new Error('Actual Engine STARTUPINFOA argument required');
+          stack.#call('30688701','30688707');const top=stack.#calls.at(-1)!;
+          const grant=Object.freeze({identity:Object.freeze({})}),call={stack,frame,offset,argument,position:top.position,returnWord:top.returnWord,phase:'pending' as 'pending'|'returned'};
+          engineStartupCalls.set(grant,call);
+          const result=endpoints.getStartupInfoA(grant);if(!result.known)throw new Error(result.reason);
+          const returned=NativeRuntimePlatform.canonicalStartupInfoNormalReturnForPlatform(stack.#platform,grant);if(!returned.known)throw new Error(returned.reason);
+          stack.#engineStartupProof(call);
+          for(const name of ['EAX','ECX','EDX'] as const)set(name,stack.#mint(0,0));stack.#flags(0,0);
+          set('ESP',stack.#stackWord(call.position+8));top.returned=true;stack.#currentPc=call.returnWord;call.phase='returned';
+        });
+        step('306886ec','30688707',()=>stack.#store(stack.#stack,relative('EBP',-4),value(0xfffffffe)));
+        step('306886ec','3068870e',()=>stack.#push(value(0x38)));
+        step('306886ec','30688710',()=>stack.#push(value(0x20)));
+        step('306886ec','30688712',()=>{const position=relative('ESP',0);set('ESI',stack.#load(stack.#stack,position));set('ESP',stack.#stackWord(position+4));});
+        step('306886ec','30688713',()=>stack.#push(register('ESI')));
+        frame.pc='30688714';engineIoInstruction('306886ec',frame.pc);throw new Error('Engine calloc3067ca01 at30688714');
       }catch(error){frame.boundary??=reason(error);frame.phase='blocked';if(!stack.#executing){stack.#boundary??=frame.boundary;stack.#phase='blocked';}return unknown(frame.boundary);}
       finally{stack.#engineIoExecuting=false;}
     }catch(error){return unknown(reason(error));}
+  }
+  #engineStartupProof(call:NonNullable<ReturnType<typeof engineStartupCalls.get>>):void{
+    this.#engineIoProof(call.frame);
+    const top=this.#calls.at(-1);
+    if(call.phase!=='pending'||call.frame.pc!=='30688701'||!top||top.returned||top.site!=='30688701'||top.position!==call.position||top.returnWord!==call.returnWord||
+      this.#address(this.#load(this.#bank,this.#reg('ESP')))!==call.position||this.#load(this.#stack,call.position)!==call.returnWord||
+      this.#load(this.#stack,call.position+4)!==call.argument||this.#address(call.argument)!==call.offset||
+      call.frame.startupInfo?.backing!==this.#stack.backing||call.offset!==call.frame.ebp!-0x64)throw new Error('Actual pending Engine startup argument and return required');
   }
   #engineIoProof(frame:EngineIoFrame):void{
     if(this.#engineIoFrame!==frame||!this.#engineIoExecuting||frame.phase!=='running'||this.#phase!=='running')throw new Error(frame.boundary??'Actual active Engine I/O frame required');
@@ -2182,6 +2210,8 @@ export class NativeX86ThreadStack {
     grant: NativeStartupInfoCallGrant): NativeValue<void> {
     const invocation = NativeRuntimePlatform.canonicalStartupInfoInvocationForPlatform(platform, grant);
     if (!invocation.known) return invocation;
+    const engine=engineStartupCalls.get(grant);
+    if(engine){try{if(graphs.get(platform)!==engine.stack)throw new Error('Actual same-platform Engine startup call required');engine.stack.#engineStartupProof(engine);return known(undefined);}catch(error){return unknown(reason(error));}}
     const call = startupCalls.get(grant);
     if (!call || graphs.get(platform) !== call.stack) return unknown('Actual same-platform privately minted startup call required');
     try { call.stack.#startupProof(grant, call); return known(undefined); }
@@ -2223,7 +2253,7 @@ export class NativeX86ThreadStack {
   static writeStartupInfoForCall(platform: NativeRuntimePlatform, grant: NativeStartupInfoCallGrant,
     offset: number, width: 1 | 2 | 4, value: number, mask: number): NativeValue<void> {
     const admitted = NativeX86ThreadStack.canonicalStartupInfoCallForPlatform(platform, grant); if (!admitted.known) return admitted;
-    const call = startupCalls.get(grant)!;
+    const call = engineStartupCalls.get(grant)??startupCalls.get(grant)!;
     try {
       const maximum = width === 4 ? 0xffffffff : width === 2 ? 0xffff : 0xff;
       if (![1, 2, 4].includes(width) || !Number.isSafeInteger(offset) || offset < 0 || offset + width > 68 ||
@@ -2240,7 +2270,7 @@ export class NativeX86ThreadStack {
       if (slots) for (const begin of slots.keys()) if (begin < position + width && begin + 4 > position) slots.delete(begin);
       const current = NativeHeapObjectViews.prototype.maskedWord.call(stack.#stack, position, width);
       current.value = value; current.knownMask = mask;
-      stack.#startupProof(grant, call); return known(undefined);
+      const engine=engineStartupCalls.get(grant);if(engine)stack.#engineStartupProof(engine);else stack.#startupProof(grant,call as StartupCall); return known(undefined);
     } catch (error) { return unknown(reason(error)); }
   }
   #startupProof(grant: NativeStartupInfoCallGrant, call: StartupCall): void {
