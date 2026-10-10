@@ -18,7 +18,8 @@ The cold path reaches 39 operations and stops at the thread-data getter
 readiness stays zero. Shared EH4 instructions use the exact existing Engine I/O
 receipt for `3067e500`; argument instructions use their own source admission.
 Unknown cookie bytes stop at the actual read before publishing the new FS frame.
-Independent evidence regeneration is byte-identical and TypeScript checking passes.
+Independent evidence regeneration is byte-identical; TypeScript checking and the
+production build pass.
 Twenty-seven focused checks pass, including immutable scope validation and an
 unknown-cookie stop. Full validation of this continuation remains pending.
 
