@@ -966,7 +966,10 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
       if(engine.known){
         this.#argvNlsConsumed.add(call);const selected=this.#crtServices!.argvNls!;
         const input=engine.value;let scalar:number;
-        if(input.kind==='GetStringTypeW'){
+        if(input.kind==='MultiByteToWideChar'){
+          if(!input.input||input.count!==256||![1,9].includes(input.flags)||input.procedure!==this.#argvProcedures.get('MultiByteToWideChar'))throw new Error('Actual Engine conversion query ABI required');requirePhysicalNativeViews(input.input);
+          if(input.scalar!==selected.codePage)scalar=0;else{for(let index=0;index<input.count;index++){const byte=NativeHeapObjectViews.prototype.readUnsigned.call(input.input,index,1);if(!Number.isInteger(selected.unicode[byte]))throw new Error('Engine conversion byte outside declared NLS repertoire');}scalar=input.count;}
+        }else if(input.kind==='GetStringTypeW'){
           if(input.scalar!==1||input.count!==1||!input.input||!input.fields)throw new Error('Actual Engine CT_CTYPE1 probe ABI required');requirePhysicalNativeViews(input.input);requirePhysicalNativeViews(input.fields);
           const code=NativeHeapObjectViews.prototype.readUnsigned.call(input.input,0,2),byte=new Map(selected.reverse).get(code);if(byte===undefined)throw new Error('Engine probe outside declared NLS repertoire');
           const write=NativeX86ThreadStack.writeEngineArgvNlsMemoryForPlatform(this,call,0,selected.ctype1[byte]!,2);if(!write.known)throw new Error(write.reason);scalar=1;

@@ -11859,3 +11859,16 @@ On the cold selector path, the source constructs an actual stack WORD output at 
 The preceding 1459-operation classification wrapper passed its full suite: 3342 tests across 313 files in 416.95 seconds. The current probe remains locally validated only; complete classification, case mapping, MBC publication, complete startup and playable campaign remain unfinished.
 
 Local probe validation: 72 tests across five files passed in 19.87 seconds; production build including TypeScript checking passed; independent JSON/TypeScript/comparison regeneration is byte-identical; `git diff --check` passed. Full-suite and public deployment validation of this probe remain pending.
+
+
+## 10 October 2026: Engine character conversion size query
+
+The retained source now clears its temporary probe DWORD, consumes the explicit code page, loads the original MultiByteToWideChar import into ESI using the selected platform procedure capability, and constructs all six real query arguments. Its private grant checks the indirect CALL ESI and original import load, same platform procedure, 256-byte case-input stack alias, flags one or nine, and NULL output with zero capacity. The platform reads the current input through the copied process CP1252 table and returns the required count without writing any output memory. The actual stdcall return cleans 24 argument bytes.
+
+The default source path receives count 256, checks failure, signed count and overflow branches, calculates 520 buffer bytes and takes the original stack-buffer route. It stops before `306915af -> 3068de60`, the stack reservation helper, after 1510 admitted operations. Query input remains unchanged, the classification wrapper remains pending, and its PTD ownership stays held. The probe alias now reads zero because the subsequent original DWORD store clears it; probe output and adjacent-byte preservation are checked at the actual import return, before that later store.
+
+Focused validation: 74 tests across five files passed in 24.15 seconds, including exact six-argument ABI, procedure/return identity, unchanged query input and retention on a substitute normal-return object. TypeScript checking passed. Stack reservation, conversion output, complete classification, case mapping, MBC publication, complete startup and playable campaign integration remain unfinished. Production build and broader validation for this query remain pending at this receipt.
+
+Follow-up conversion-query review preserves EAX upper bits for the original SETNZ AL instruction. The corrected focused suite passed 74 tests across five files in 21.80 seconds. The preceding Unicode probe passed its full suite: 3347 tests across 313 files in 418.92 seconds. PR #226 merged as `374f95049478679abcb8c0da953b76f9ba9aa30c` after successful CI and a fresh repository-wide audit of 487 runs over five pages with no active runs. Main Pages workflow `38070559439` is running; hosted deployment of that wrapper is not yet claimed.
+
+Final conversion-query production build including TypeScript checking passed, and `git diff --check` passed. The next original stack-reservation helper was independently inspected: nine instructions at `3068de60`, aligning the requested size and jumping to `30674820`. This scratch evidence does not admit or execute that helper. The query full-suite and deployment receipts remain pending.

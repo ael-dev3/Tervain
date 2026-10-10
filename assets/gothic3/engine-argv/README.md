@@ -111,6 +111,10 @@ Case-table construction, MBC publication and full startup remain unfinished.
 
 The retained Engine continuation returns the case GetCPInfo import, prepares the 256-byte character input and enters the original classification wrapper. Its locale constructor uses the same Engine PTD and a separate stack record. The default path reaches `306916cb -> 306914ea` after 1459 admitted operations. The lower classification body is captured but not executed. Temporary PTD ownership remains held until the real caller can return. Full startup and campaign integration remain unfinished.
 
-## Current local Unicode probe boundary
+## Unicode probe checkpoint
 
 The lower classification body now executes its cold API probe with the immutable original Unicode input and a separate retained stack WORD. The checked GetStringTypeW return sets the same Engine-owned selector to one and reaches `3069155d` before wide conversion, after 1486 admitted operations. Cached dispatch, failed-probe handling and the conversion path remain unfinished.
+
+## Current local conversion-query boundary
+
+The source now issues the indirect MultiByteToWideChar size query using the original procedure and six stack arguments. Its checked same-Engine 256-byte input alias remains unchanged; NULL output and zero capacity produce count 256 through the selected process NLS table. Source branches prepare a 520-byte buffer request and stop before stack reservation `306915af -> 3068de60`, after 1510 admitted operations. Conversion output, classification completion and full startup remain unfinished.
