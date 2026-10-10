@@ -55,7 +55,10 @@ function wishes(room: InteriorSpec): Wish[] {
   switch (b.kind) {
     case 'house':
       return [W('bed', 'back', -0.6), W('chest', 'back', 0.15), ...tableWith([-0.3, 0.05], 'stool', 2), W('shelf', 'left', -0.5),
-        W('cupboard', 'right', 0.55), W('sacks', 'front', 0.85), ...(HOUSE_EXTRA[b.id] ?? []).map((piece) => W(piece, 'left', 0.4))];
+        W('cupboard', 'right', 0.55), W('sacks', 'front', 0.85), ...(HOUSE_EXTRA[b.id] ?? []).map((piece) => W(piece, 'left', 0.4)),
+        // A75: the windows leave a house's walls no room for anything tall but its cupboard, so its shelf rarely stood and
+        // rooms read bare. Low pieces fit under the sills: a writing desk with its stool, and a second store of sacks.
+        W('desk', 'right', -0.4), B('stool', 8 + (HOUSE_EXTRA[b.id]?.length ?? 0), 'front'), W('sacks', 'right', -0.7)];
     case 'reeve':
       return [W('desk', 'left', -0.2), B('chair', 0, 'front'), ...tableWith([0.05, 0.15], 'chair', 2, ['left', 'right']),
         W('bed', 'back', 0.55), W('bookshelf', 'back', -0.75), W('chest', 'back', -0.1), W('cupboard', 'right', 0.6), W('sacks', 'front', 0.9)];
@@ -240,15 +243,19 @@ export function furnishRoom(room: InteriorSpec): FurniturePlacement[] {
       const [fx, fz] = wish.spot ?? [0, 0], yaw = wish.yaw ?? 0;
       for (let x = -hw; x <= hw; x += 0.1) for (let z = -hd; z <= hd; z += 0.1) candidates.push({ x, z, yaw, cost: Math.hypot(x - fx * hw, z - fz * hd) });
     } else {
-      const yaw = WALL_YAW[wish.at], inset = d / 2 + 0.03;
-      const length = wish.at === 'back' || wish.at === 'front' ? hw : hd;
-      // Along each wall, "left" is the left end as seen from the room's middle facing that wall.
-      const sign = wish.at === 'back' ? 1 : wish.at === 'front' ? -1 : wish.at === 'left' ? -1 : 1;
-      const want = (wish.along ?? 0) * length * sign;
-      for (let t = -length + w / 2; t <= length - w / 2 + 1e-6; t += 0.05) {
-        const spot = wish.at === 'back' ? { x: t, z: -hd + inset } : wish.at === 'front' ? { x: t, z: hd - inset }
-          : wish.at === 'left' ? { x: -hw + inset, z: t } : { x: hw - inset, z: t };
-        candidates.push({ ...spot, yaw, cost: Math.abs(t - want) });
+      // Against its wall first; where that wall has no room for it, against another (A75): rooms had left out most of
+      // their shelves and work pieces, and read bare.
+      for (const at of [wish.at, ...(['back', 'left', 'right', 'front'] as const).filter((other) => other !== wish.at)]) {
+        const yaw = WALL_YAW[at], inset = d / 2 + 0.03, other = at === wish.at ? 0 : 100;
+        const length = at === 'back' || at === 'front' ? hw : hd;
+        // Along each wall, "left" is the left end as seen from the room's middle facing that wall.
+        const sign = at === 'back' ? 1 : at === 'front' ? -1 : at === 'left' ? -1 : 1;
+        const want = (wish.along ?? 0) * length * sign;
+        for (let t = -length + w / 2; t <= length - w / 2 + 1e-6; t += 0.05) {
+          const spot = at === 'back' ? { x: t, z: -hd + inset } : at === 'front' ? { x: t, z: hd - inset }
+            : at === 'left' ? { x: -hw + inset, z: t } : { x: hw - inset, z: t };
+          candidates.push({ ...spot, yaw, cost: other + Math.abs(t - want) });
+        }
       }
     }
     candidates.sort((a, b) => a.cost - b.cost);
