@@ -411,7 +411,7 @@ export class App {
         npcs.push(npc);
         stagedCast.add(npc.rig.root);
         if (!arrived) this.arrivals.add({ role, position: () => npc, unseen: () => npc.away,
-          adopt: (catalog) => npc.adoptRig(catalog.create(role, height)) });
+          adopt: (catalog, rig) => npc.adoptRig(rig ?? catalog.create(role, height)), make: (catalog) => catalog.createSteps(role, height) });
       }
       for (const spawn of ENEMY_SPAWNS) {
         const variant = spawn.id === 'ford_bandit_b' ? 1 : 0;
@@ -422,7 +422,7 @@ export class App {
         enemies.push(enemy);
         stagedCast.add(enemy.rig.root);
         if (!arrived) this.arrivals.add({ role, position: () => enemy, unseen: () => !enemy.rig.root.visible,
-          adopt: (catalog) => enemy.adoptRig(catalog.create(role, scale, 'blade')) });
+          adopt: (catalog, rig) => enemy.adoptRig(rig ?? catalog.create(role, scale, 'blade')), make: (catalog) => catalog.createSteps(role, scale, 'blade') });
       }
       const { WorldScene } = await import('./presentation/world');
       this.world = await WorldScene.create(this.game.state, structuredClone(this.settings), this.library, undefined, this.npcAssets!, {
@@ -1102,7 +1102,20 @@ export class App {
     this.audio.setWildlifeActive(playing && document.visibilityState !== 'hidden');
     if (this.bench.active) this.stepBenchmark(dt);
     // Those whose models have come take them where nobody is looking (stage 2), even while a panel holds the world still.
-    if (this.arrivals.count && this.world) this.arrivals.update(this.npcAssets, (p) => this.inView(p));
+    if (this.world && !this.world.warming.warm) {
+      // The animals and furniture that arrive after the world opens are compiled in parallel before they show (A78).
+      const scene = this.world.scene;
+      this.world.warming.warm = (object) => this.warmShaders(object, scene);
+      // What the world holds hidden at first (rooms' furniture and clutter, shown as one comes near) is prepared the
+      // same way (A79): the renderer's own first-view preparation passes over hidden objects.
+      void this.warmHidden(scene);
+    }
+    if (this.arrivals.count && this.world) {
+      // A rig built while the world runs has its shaders compiled in parallel before it is shown (A78).
+      const scene = this.world.scene;
+      this.arrivals.warm ??= (rig) => this.warmShaders(rig.root, scene);
+      this.arrivals.update(this.npcAssets, (p) => this.inView(p));
+    }
 
     if (this.menuBackgroundActive) {
       // The menu vigil is cosmetic. No patrols or game clock run beneath it.
@@ -2537,6 +2550,145 @@ export class App {
   private debugHeal() {
     this.game.dispatch({ t: 'healPlayer', amount: 100 });
     this.player.stamina = 100;
+  }
+
+  /**
+   * Compile an arriving object's shaders in parallel before it is shown (A78), as the world draws it: into the grade's
+   * linear scene target (its programs differ from the screen's, which tone-map), under the world's lights.
+   */
+  /** One depth material a shadow configuration, kept so the programs prepared with them stay alive for the real pass. */
+  private readonly warmDepth = new Map<string, THREE.MeshDepthMaterial>();
+
+  private warmShaders(object: THREE.Object3D, scene: THREE.Scene, draws = true): Promise<unknown> {
+    const r = this.renderer, previous = r.getRenderTarget(), world = this.world;
+    const restore: [THREE.Mesh, THREE.Material | THREE.Material[]][] = [];
+    // Pieces held hidden until needed (a room's furniture and clutter, an animal not yet out) are prepared too: shown
+    // only while their programs are compiled, synchronously, so nothing is drawn meanwhile.
+    const hidden: THREE.Object3D[] = [];
+    object.traverse((o) => { if (!o.visible) { hidden.push(o); o.visible = true; } });
+    try {
+      if (this.grade?.enabled) r.setRenderTarget(this.grade.target);
+      const colour = r.compileAsync(object, this.cam.camera, scene);
+      // The sun's shadow pass draws casters with their depth material: its own, or three's packed depth material on the
+      // side opposite the surface, depth unpacked (as WebGLShadowMap picks it). Compiled the same way, so the first shadow does not stall.
+      if (!r.shadowMap.enabled) return colour;
+      object.traverse((o) => {
+        const mesh = o as THREE.Mesh;
+        if (!mesh.isMesh || !mesh.castShadow || Array.isArray(mesh.material)) return;
+        const source = mesh.material as THREE.MeshStandardMaterial;
+        // As WebGLShadowMap.getDepthMaterial sets it up for a PCF shadow.
+        const side = source.shadowSide ?? (source.side === THREE.FrontSide ? THREE.BackSide : source.side === THREE.BackSide ? THREE.FrontSide : THREE.DoubleSide);
+        const alphaTest = source.alphaToCoverage ? 0.5 : source.alphaTest;
+        let depth = mesh.customDepthMaterial as THREE.MeshDepthMaterial | undefined;
+        if (!depth) {
+          const key = `${side}|${alphaTest}|${source.map?.uuid ?? ''}|${source.alphaMap?.uuid ?? ''}|${source.displacementMap?.uuid ?? ''}`;
+          depth = this.warmDepth.get(key);
+          if (!depth) { depth = new THREE.MeshDepthMaterial({ depthPacking: THREE.BasicDepthPacking }); this.warmDepth.set(key, depth); }
+        }
+        depth.side = side; depth.alphaTest = alphaTest;
+        depth.map = source.map ?? null; depth.alphaMap = source.alphaMap ?? null;
+        depth.displacementMap = source.displacementMap ?? null;
+        restore.push([mesh, mesh.material]); mesh.material = depth;
+      });
+      if (!restore.length) return colour.then(() => this.uploadTextures(object, draws, world));
+      // The shadow pass draws with no scene, so without fog (its programs key on the fog's kind even where a depth material
+      // ignores it), under the lighting left from the previous pass, with or without the point lights: the depth programs
+      // are prepared under both, fog-free.
+      const lit = new THREE.Scene(), daylight = new THREE.Scene();
+      scene.traverseVisible((o) => {
+        const light = o as THREE.Light;
+        if (!light.isLight) return;
+        lit.add(light.clone());
+        if (!(light as THREE.PointLight).isPointLight) daylight.add(light.clone());
+      });
+      // Lights inside the object itself (the world's, when the whole world is prepared) would be counted on top of the
+      // stand-in scenes' and make programs no shadow pass uses: they are out of these two compiles.
+      const own: THREE.Object3D[] = [];
+      object.traverse((o) => { if ((o as THREE.Light).isLight && o.visible) { o.visible = false; own.push(o); } });
+      let shadows: Promise<unknown>[];
+      try { shadows = [r.compileAsync(object, this.cam.camera, lit), r.compileAsync(object, this.cam.camera, daylight)]; } finally { for (const o of own) o.visible = true; }
+      return Promise.all([colour, ...shadows]).then(() => this.uploadTextures(object, draws, world));
+    } finally {
+      for (const [mesh, material] of restore) mesh.material = material;
+      for (const o of hidden) o.visible = false;
+      r.setRenderTarget(previous);
+    }
+  }
+
+  /**
+   * Hand an arriving object's textures to the GPU one a frame before it is shown (A79): uploaded at its first draw, the
+   * animals' maps cost a 160 ms frame.
+   */
+  /** The world's hidden pieces are prepared once it opens, as arrivals are (warmShaders shows them while it compiles). */
+  private warmHidden(scene: THREE.Scene): Promise<unknown> {
+    return this.warmShaders(scene, scene, false);
+  }
+
+  /** Whether the world a preparation began in is still the one being played (not rebuilt or disposed meanwhile). */
+  private stillWorld(world: WorldScene | undefined): boolean {
+    return !!world && this.world === world && !this.worldDisposed;
+  }
+
+  private async uploadTextures(object: THREE.Object3D, draws = true, world = this.world): Promise<void> {
+    const textures = new Set<THREE.Texture>();
+    object.traverse((o) => {
+      const material = (o as THREE.Mesh).material;
+      for (const m of Array.isArray(material) ? material : material ? [material] : []) {
+        for (const value of Object.values(m)) if ((value as THREE.Texture | null)?.isTexture) textures.add(value as THREE.Texture);
+      }
+    });
+    for (const texture of textures) {
+      await new Promise((resolve) => requestAnimationFrame(resolve));
+      // A world rebuilt meanwhile has released these: uploading them again would leak them (A80 audit).
+      if (!this.stillWorld(world)) return;
+      this.renderer.initTexture(texture);
+    }
+    if (draws) await this.firstDraws(object, world);
+  }
+
+  /**
+   * Draw each of an arriving object's meshes once, a mesh a frame, into a one-pixel target, in its colour and its shadow
+   * material (A79): the driver finishes a program at its first real draw, which for the animals was a 150 ms frame even
+   * with every program compiled and every texture uploaded.
+   */
+  private async firstDraws(object: THREE.Object3D, world = this.world): Promise<void> {
+    if (!world || !this.stillWorld(world) || object.parent) return;
+    const target = new THREE.WebGLRenderTarget(1, 1), r = this.renderer;
+    const meshes: { mesh: THREE.Mesh; visible: boolean }[] = [];
+    object.traverse((o) => { if ((o as THREE.Mesh).isMesh) meshes.push({ mesh: o as THREE.Mesh, visible: o.visible }); });
+    try {
+      for (const { mesh, visible } of meshes) {
+        if (!visible) continue;
+        await new Promise((resolve) => requestAnimationFrame(resolve));
+        if (!this.stillWorld(world) || object.parent) return;
+        const scene = world.scene;
+        // In the world's own scene, with its lights, fog and shadow maps as the frame left them, so the programs and
+        // vertex layouts are exactly the ones its first real frame will use; everything else is hidden for the draw.
+        // Only drawable things are hidden, never the groups lights live in (the sun is in the sky's group): the lights the
+        // draw sees must be the frame's own, or it builds programs no frame will use.
+        const hidden: THREE.Object3D[] = [], previous = r.getRenderTarget(), shadows = r.shadowMap.autoUpdate, culled = mesh.frustumCulled;
+        scene.traverse((o) => {
+          const drawn = (o as THREE.Mesh).isMesh || (o as THREE.Points).isPoints || (o as THREE.Line).isLine || (o as THREE.Sprite).isSprite;
+          if (drawn && o.visible) { o.visible = false; hidden.push(o); }
+        });
+        for (const other of meshes) other.mesh.visible = other.mesh === mesh;
+        scene.add(object);
+        mesh.frustumCulled = false;
+        try {
+          r.shadowMap.autoUpdate = false;
+          r.setRenderTarget(target);
+          r.render(scene, this.cam.camera);
+        } finally {
+          mesh.frustumCulled = culled;
+          scene.remove(object);
+          for (const other of meshes) other.mesh.visible = other.visible;
+          for (const o of hidden) o.visible = true;
+          r.setRenderTarget(previous); r.shadowMap.autoUpdate = shadows;
+        }
+      }
+    } finally {
+      target.dispose();
+    }
   }
 
   private startBenchmark() {

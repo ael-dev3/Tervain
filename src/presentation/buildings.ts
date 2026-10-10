@@ -5,11 +5,12 @@ import { mulberry32 } from '../world/noise';
 import { buildingEntry, buildingGround } from '../world/buildingEntries';
 import { CHIMNEY_STACK, chimneyOf, FIREPLACE, hearthOf, interiorOf, roomOf, type InteriorSpec } from '../world/interiors';
 import type { Terrain } from '../world/terrain';
-import { hash3, mulc, rgb } from './buildKit';
-import type { Region } from './regions';
+import { Ctx, hash3, mulc, rgb } from './buildKit';
+import { Region } from './regions';
 import { authorLighthouse } from './lighthouse';
 import {
   TINT,
+  type WallOpening,
   chimney,
   crate,
   barrel,
@@ -111,7 +112,7 @@ function groundExteriorProp(R: Region, terrain: Terrain, author: () => void) {
  * round the opening, tie beams under the roof, the stack of the chimney standing on the floor, and the inner face of
  * every window, which shows the daylight outside. Drawn on its own random sequence, so the outside is unchanged.
  */
-export function roomInterior(R: Region, room: InteriorSpec, windows: { x: number; z: number; y: number; ry: number; w: number; h: number }[], floorOf: 'planks' | 'stone' = 'planks') {
+export function roomInterior(R: Region, room: InteriorSpec, windows: { x: number; z: number; y: number; ry: number; w: number; h: number }[], floorOf: 'planks' | 'stone' = 'planks', openings = false) {
   const b = room.building, t = room.wall, hw = b.w / 2 - t, hd = b.d / 2 - t;
   const inner: Rnd = mulberry32(Math.floor(hash3(b.x, b.z, 23) * 1e9));
   const { x: dx, halfWidth: dw, height: dh } = room.door;
@@ -161,18 +162,33 @@ export function roomInterior(R: Region, room: InteriorSpec, windows: { x: number
   // Every window, seen from inside: the daylight through it, a frame and a sill.
   for (const win of windows) {
     R.ctx.push(win.x, win.y, win.z, win.ry);
-    R.daylight.box(win.w, win.h, 0.02, 0, 0, 0.012, 0xffffff, { jit: 0 });
+    // A real opening (A79) shows the world itself; elsewhere a pane of daylight stands for it.
+    if (!openings) R.daylight.box(win.w, win.h, 0.02, 0, 0, 0.012, 0xffffff, { jit: 0 });
     R.timber.box(win.w + 0.18, 0.08, 0.16, 0, -0.08, 0.06, frame(), { grain: 'x', jit: 0.04 });
     R.timber.box(win.w + 0.18, 0.08, 0.06, 0, win.h, 0.03, frame(), { grain: 'x', jit: 0.04 });
     for (const side of [-1, 1]) R.timber.box(0.07, win.h, 0.06, side * (win.w / 2 + 0.035), 0, 0.03, frame(), { grain: 'y', jit: 0.04 });
-    R.timber.box(0.04, win.h, 0.04, 0, 0, 0.03, frame(), { grain: 'y', jit: 0.03 });
-    R.timber.box(win.w, 0.04, 0.04, 0, win.h * 0.5, 0.03, frame(), { grain: 'x', jit: 0.03 });
+    // The mullions are the glazing's own, on the outside, where the opening is real (A79); a second cross inside would
+    // double them across the wall's depth. Their tones are still drawn, so the room's other tones stay as they were.
+    const mullion = frame(), transom = frame();
+    if (!openings) {
+      R.timber.box(0.04, win.h, 0.04, 0, 0, 0.03, mullion, { grain: 'y', jit: 0.03 });
+      R.timber.box(win.w, 0.04, 0.04, 0, win.h * 0.5, 0.03, transom, { grain: 'x', jit: 0.03 });
+    }
     R.ctx.pop();
   }
 }
 
 /** Any ordinary building: foundation, walls in the chosen material, sagging roof, door, windows, chimney, and the clutter of use. */
 export function buildStandard(R: Region, terrain: Terrain, b: BuildingSpec, out: BuildOut) {
+  // A79: the windows are real openings through the walls. They are placed by the building's own random sequence after
+  // the walls are drawn, so a first pass into a scratch region finds where they fall; the walls are then built with the
+  // openings there, every random choice (tones, shutters, clutter) the same as before.
+  const found: WallOpening[] = [];
+  buildStandardPass(new Region(`${b.id}:openings`, new Ctx()), terrain, b, { lanterns: [] }, [], found);
+  buildStandardPass(R, terrain, b, out, found, []);
+}
+
+function buildStandardPass(R: Region, terrain: Terrain, b: BuildingSpec, out: BuildOut, openings: readonly WallOpening[], found: WallOpening[]) {
   const { avg, lo } = groundOf(terrain, b);
   const rnd: Rnd = mulberry32(Math.floor(hash3(b.x, b.z, 17) * 1e9));
   // The shared room (whose furniture and colliders the world uses), or a fresh description of a building variant.
@@ -193,7 +209,11 @@ export function buildStandard(R: Region, terrain: Terrain, b: BuildingSpec, out:
     const faces: [number, number, number, number][] = [[0, b.d / 2, 0, b.w], [0, -b.d / 2, Math.PI, b.w], [b.w / 2, 0, Math.PI / 2, b.d], [-b.w / 2, 0, -Math.PI / 2, b.d]];
     for (const [fx, fz, yaw, len] of faces) {
       ctx.push(fx, 0, fz, yaw);
-      plankFace(R, rnd, len, wallH, y0, TINT.wood, fz > 0 ? gap : undefined);
+      // The openings on this face, along the face (its local x runs as the push turns it).
+      const side = fz > 0 ? 'front' : fz < 0 ? 'back' : fx > 0 ? 'east' : 'west';
+      const along = (at: number) => side === 'front' || side === 'west' ? at : -at;
+      const holes = openings.filter((o) => o.side === side).map((o) => ({ x0: along(o.at) - o.half, x1: along(o.at) + o.half, y0: o.y0, y1: o.y1 }));
+      plankFace(R, rnd, len, wallH, y0, TINT.wood, fz > 0 ? gap : undefined, holes);
       ctx.pop();
     }
     for (const sx of [-1, 1]) for (const sz of [-1, 1]) post(R.timber, rnd, sx * (b.w / 2 + 0.02), sz * (b.d / 2 + 0.02), y0 + wallH + 0.15, 0.24, jitterTone(TINT.woodDark, rnd, 0.1), 0.2);
@@ -207,13 +227,13 @@ export function buildStandard(R: Region, terrain: Terrain, b: BuildingSpec, out:
     }
     for (const y of [y0 + wallH - 0.08, y0 + wallH * 0.42]) for (const sx of [-1, 1]) R.timber.bx(sx * (b.w / 2 + 0.06) - 0.06, y, -b.d / 2 - 0.04, sx * (b.w / 2 + 0.06) + 0.06, y + 0.14, b.d / 2 + 0.04, jitterTone(TINT.woodDark, rnd, 0.1), { grain: 'z', jit: 0.1 });
     // Boards line the room inside, a little behind the outer boards so their gaps stay dark.
-    roomWalls(R.planks, b.w - 0.06, b.d - 0.06, wallH, y0, t - 0.03, room.door, mulc(rgb(TINT.wood), 0.82));
+    roomWalls(R.planks, b.w - 0.06, b.d - 0.06, wallH, y0, t - 0.03, room.door, mulc(rgb(TINT.wood), 0.82), 0.7, openings);
   } else if (b.wall === 'plaster') {
-    roomWalls(R.plaster, b.w, b.d, wallH, y0, t, room.door, jitterTone(TINT.plaster, rnd, 0.06));
-    timberFrame(R, rnd, b.w, b.d, wallH, y0, gap);
+    roomWalls(R.plaster, b.w, b.d, wallH, y0, t, room.door, jitterTone(TINT.plaster, rnd, 0.06), 0.7, openings);
+    timberFrame(R, rnd, b.w, b.d, wallH, y0, gap, openings);
   } else {
-    roomWalls(R.stone, b.w, b.d, wallH, y0, t, room.door, jitterTone(TINT.stone, rnd, 0.05), 0.9);
-    quoins(R, rnd, b.w, b.d, wallH, y0);
+    roomWalls(R.stone, b.w, b.d, wallH, y0, t, room.door, jitterTone(TINT.stone, rnd, 0.05), 0.9, openings);
+    quoins(R, rnd, b.w, b.d, wallH, y0, openings);
   }
 
   // Roof.
@@ -267,24 +287,29 @@ export function buildStandard(R: Region, terrain: Terrain, b: BuildingSpec, out:
   } else door(R, rnd, doorOpts);
   const windows: { x: number; z: number; y: number; ry: number; w: number; h: number }[] = [];
   const inside = (x: number, z: number, ry: number) => windows.push({ x, z, y: y0 + wallH * 0.45, ry, w: 0.72, h: 0.82 });
+  const opening = (side: WallOpening['side'], at: number) => found.push({ side, at, half: 0.36, y0: y0 + wallH * 0.45, y1: y0 + wallH * 0.45 + 0.82 });
   for (const side of [-1, 1]) {
     const wx = side * Math.min(b.w * 0.32, b.w / 2 - 0.75);
     if (Math.abs(wx - doorX) >= 1.25) {
-      windowAt(R, rnd, { x: wx, y: y0 + wallH * 0.45, z: b.d / 2 + 0.02, shutters: true, stone: b.wall === 'stone' });
+      windowAt(R, rnd, { x: wx, y: y0 + wallH * 0.45, z: b.d / 2 + 0.02, shutters: true, stone: b.wall === 'stone', opening: true });
       inside(wx, b.d / 2 - t - 0.005, Math.PI);
+      opening('front', wx);
     }
   }
   const eastZ = (rnd() - 0.5) * b.d * 0.4;
-  windowAt(R, rnd, { x: b.w / 2 + 0.02, y: y0 + wallH * 0.45, z: eastZ, ry: Math.PI / 2, stone: b.wall === 'stone' });
+  windowAt(R, rnd, { x: b.w / 2 + 0.02, y: y0 + wallH * 0.45, z: eastZ, ry: Math.PI / 2, stone: b.wall === 'stone', opening: true });
   inside(b.w / 2 - t - 0.005, eastZ, -Math.PI / 2);
+  opening('east', eastZ);
   const westZ = (rnd() - 0.5) * b.d * 0.4;
-  windowAt(R, rnd, { x: -b.w / 2 - 0.02, y: y0 + wallH * 0.45, z: westZ, ry: -Math.PI / 2, stone: b.wall === 'stone' });
+  windowAt(R, rnd, { x: -b.w / 2 - 0.02, y: y0 + wallH * 0.45, z: westZ, ry: -Math.PI / 2, stone: b.wall === 'stone', opening: true });
   inside(-b.w / 2 + t + 0.005, westZ, Math.PI / 2);
+  opening('west', westZ);
   for (const side of [-1, 1]) {
-    windowAt(R, rnd, { x: side * b.w * 0.24, y: y0 + wallH * 0.45, z: -b.d / 2 - 0.02, ry: Math.PI, stone: b.wall === 'stone' });
+    windowAt(R, rnd, { x: side * b.w * 0.24, y: y0 + wallH * 0.45, z: -b.d / 2 - 0.02, ry: Math.PI, stone: b.wall === 'stone', opening: true });
     inside(side * b.w * 0.24, -b.d / 2 + t + 0.005, 0);
+    opening('back', side * b.w * 0.24);
   }
-  roomInterior(R, room, windows);
+  roomInterior(R, room, windows, 'planks', true);
 
   // Chimney.
   const chimneyAt = chimneyOf(b);

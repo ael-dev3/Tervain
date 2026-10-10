@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { mergeStaticParts } from './staticMerge';
 import { CARAVAN_ANIMAL_REST as REST, caravanAnimalPoint } from '../world/caravanAnimal';
 import type { Colliders } from '../world/colliders';
 import type { Terrain } from '../world/terrain';
@@ -72,7 +73,8 @@ export function buildAnimalCamp(terrain: Pick<Terrain, 'heightAt'>, colliders: C
     box(`pannier-flap:${i}`, b.width + .015, .06, b.depth + .015, leather, b.x, ground.high + h - .015, z);
     collider(`pannier:${i}`, b.x, z, b.width + .015, b.depth + .05, ground.low - .018, ground.high + h + .015);
   }
-  group.updateMatrixWorld(true);
+  // Troughs, belts, buckles and flaps drawn as one mesh per material (A78).
+  for (const mesh of mergeStaticParts(group)) geometries.add(mesh.geometry);
   return { group, update() {}, stats: () => ({ caravanMountProps: 6 }), dispose() {
     if (disposed) return; disposed = true;
     for (const geometry of geometries) geometry.dispose();

@@ -137,6 +137,96 @@ describe('arrivals', () => {
     }
   });
 
+  it('builds a staged rig a little a frame, one figure at a time, and hands it over only once done and out of sight (A78)', () => {
+    // A clock that moves 1 ms each time it is read: three steps fit in a frame's budget.
+    let clock = 0;
+    const arrivals = new ResidentArrivals(() => clock++);
+    const rig = arrivedRig(), steps: string[] = [];
+    let x = 100;
+    const staged = { role: 'named:mill_hand', position: () => ({ x, y: 0, z: 0 }), adopt: vi.fn<(catalog: MeshyNpcCatalog, rig?: Rig) => void>(),
+      *make() { for (let i = 0; i < 7; i++) { steps.push(`step ${i}`); yield; } return rig; } } satisfies AwaitingFigure;
+    const second = { ...figure('named:village_baker', 100), make: vi.fn(function* () { yield; return arrivedRig(); }) };
+    arrivals.add(staged); arrivals.add(second);
+    const held = catalog(['named:mill_hand', 'named:village_baker']), inView = (p: { x: number }) => p.x < 50;
+    expect(arrivals.update(held, inView)).toBe(0);
+    expect(steps.length).toBeGreaterThan(0);
+    expect(steps.length).toBeLessThan(7);
+    // Only one figure builds at a time.
+    expect(second.make).not.toHaveBeenCalled();
+    expect(arrivals.count).toBe(2);
+    // Done, but walked into view: the finished rig waits.
+    x = 0;
+    for (let i = 0; i < 5; i++) arrivals.update(held, inView);
+    expect(steps).toHaveLength(7);
+    expect(staged.adopt).not.toHaveBeenCalled();
+    // Out of sight again: it changes over, with the rig that was built; the next figure's short build follows at once.
+    x = 100;
+    expect(arrivals.update(held, inView)).toBe(2);
+    expect(staged.adopt).toHaveBeenCalledWith(held, rig);
+    expect(second.make).toHaveBeenCalledOnce();
+    expect(second.adopt).toHaveBeenCalledOnce();
+    expect(arrivals.count).toBe(0);
+  });
+
+  it('waits for the shaders of a built rig before it changes over, and changes over even if warming fails', async () => {
+    const arrivals = new ResidentArrivals(), rig = arrivedRig();
+    let release!: () => void;
+    arrivals.warm = vi.fn(() => new Promise<void>((resolve) => { release = resolve; }));
+    const staged = { role: 'named:mill_hand', position: () => ({ x: 100, y: 0, z: 0 }), adopt: vi.fn(), *make() { yield; return rig; } } satisfies AwaitingFigure;
+    const failing = { role: 'named:village_baker', position: () => ({ x: 100, y: 0, z: 0 }), adopt: vi.fn(), *make() { return arrivedRig(); } } satisfies AwaitingFigure;
+    arrivals.add(staged); arrivals.add(failing);
+    const held = catalog(['named:mill_hand', 'named:village_baker']);
+    for (let i = 0; i < 3; i++) arrivals.update(held, () => false);
+    expect(arrivals.warm).toHaveBeenCalledWith(rig);
+    expect(staged.adopt).not.toHaveBeenCalled();
+    release(); await Promise.resolve(); await Promise.resolve();
+    // The next figure's shaders fail to warm: it changes over all the same.
+    arrivals.warm = () => Promise.reject(new Error('no compile'));
+    expect(arrivals.update(held, () => false)).toBe(1);
+    expect(staged.adopt).toHaveBeenCalledWith(held, rig);
+    expect(failing.adopt).not.toHaveBeenCalled();
+    await Promise.resolve(); await Promise.resolve();
+    expect(arrivals.update(held, () => false)).toBe(1);
+    expect(failing.adopt).toHaveBeenCalledOnce();
+    arrivals.clear();
+    expect(arrivals.warm).toBeNull();
+  });
+
+  it('releases a rig built for someone who never took it when the arrivals are cleared (A80)', () => {
+    // A clock that moves 10 ms a reading: one step a frame.
+    let clock = 0, x = 100;
+    const arrivals = new ResidentArrivals(() => (clock += 10)), rig = arrivedRig(), disposed = vi.fn();
+    rig.root.traverse((o) => { const mesh = o as THREE.Mesh; if (mesh.isMesh) mesh.geometry.addEventListener('dispose', disposed); });
+    const staged = { role: 'named:mill_hand', position: () => ({ x, y: 0, z: 0 }), adopt: vi.fn(), *make() { yield; return rig; } } satisfies AwaitingFigure;
+    arrivals.add(staged);
+    const inView = (p: { x: number }) => p.x < 50;
+    // Started out of sight; finished once they have walked into view, so it waits.
+    arrivals.update(catalog(['named:mill_hand']), inView);
+    x = 0;
+    arrivals.update(catalog(['named:mill_hand']), inView);
+    expect(staged.adopt).not.toHaveBeenCalled();
+    arrivals.clear();
+    expect(disposed).toHaveBeenCalled();
+    expect(rig.root.parent).toBeNull();
+  });
+
+  it('drops a staged figure whose build fails, warns, and moves on', () => {
+    const arrivals = new ResidentArrivals(), fine = figure('named:village_baker', 100);
+    const broken = { ...figure('named:mill_hand', 100), *make(): Generator<void, Rig, void> { yield; throw new Error('bad rig'); } };
+    arrivals.add(broken); arrivals.add(fine);
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    try {
+      const held = catalog(['named:mill_hand', 'named:village_baker']);
+      for (let i = 0; i < 4; i++) arrivals.update(held, () => false);
+      expect(warn).toHaveBeenCalledOnce();
+      expect(broken.adopt).not.toHaveBeenCalled();
+      expect(fine.adopt).toHaveBeenCalledOnce();
+      expect(arrivals.count).toBe(0);
+    } finally {
+      warn.mockRestore();
+    }
+  });
+
   it('leaves the hamlet people whose models are on their way unseen and out of the way until they come', () => {
     const colliders = new Colliders(), terrain = { groundAt: () => 2, heightAt: () => -5 } as unknown as Terrain;
     const assets = { has: (role: string) => role === 'ambient:keeper', create: vi.fn((_: string, h: number) => arrivedRig(1.8 * h)),

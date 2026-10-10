@@ -4,6 +4,67 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Latest state — 10 October 2026: Engine argument setup return
+
+PR #230 deployed native startup revision `f1505ca863aefc10d5a6cb883d1d379b8ac296ff`,
+whose default stops at `30684a93` after 5261 admitted operations. Claude's
+[PR #232](https://github.com/ael-dev3/Tervain/pull/232) subsequently merged as
+`960fbbd109c57774113f2e964630e5a9c43b6ee0`; its main build and Pages deployment
+passed. Complete native startup and the campaign remain unfinished.
+
+The newer local continuation completes and publishes multibyte tables, replaces
+the global pointer, retains its reference, unlocks and returns through the
+original EH4 epilog and wrapper. Original `GetModuleFileNameA` fills the owned
+260-byte buffer from the selected virtual process input. This supplies browser
+platform data, not observation of a Windows process. Command-line selection and
+the original counting parser then produce vector and string-storage sizes.
+
+The latest checkpoint follows the caller's overflow checks, original CRT malloc
+wrapper and second parser pass. For the declared `"Gothic3.exe"` input, it
+allocates 20 bytes, fills an owned string and NULL-terminated vector, publishes
+argc 1 and argv, restores saved registers and ESP, and returns 0 through
+`3068e827 -> 3067727b` after 13,819 admitted operations. Query and filling counts
+and helper calls are retained separately. NULL allocation returns -1 without
+replacing prior argument globals. Interrupted string writes or pointer
+publication preserve partial state and pending callers. Quote/backslash cases,
+empty arguments, tabs and CP1252 bytes are checked against actual filled storage.
+
+All 164 focused checks across six files, TypeScript checking and a production
+build pass for this continuation. The source package contains 25 bodies and
+1,571 instructions; independent JSON/TypeScript regeneration is byte-identical.
+The next caller's TEST/JL and Engine environment setup at `3068e4f2` are not yet
+implemented. DLL startup, world activation and a finishable campaign are unproven.
+
+The preceding filename checkpoint passed all 3,394 tests in 745.15 seconds, and
+command-line selection passed all 3,398 tests in 801.76 seconds, across 313 files,
+with typechecking and builds. The counting-parser publication run reported
+3,406 passes and one 30-second separator-test timeout across 313 files in 867.92
+seconds, plus two worker-termination warnings. It remains failed full validation.
+That test grouped two independent damage fixtures; the unchanged cases now run
+separately with the same per-case timeout, and both pass. The combined branch
+joins argv filling, this test repair and deployed PR #232 for fresh full
+validation. The newer native continuations are not yet deployed.
+
+Earlier sections below are historical receipts, including superseded boundaries.
+
+## Publication checkpoint — 10 October 2026: Engine argument and locale startup
+
+The publication branch joins argument source admission, retained Engine image
+ownership, physical argument entry, the multibyte wrapper, nested EH4 setup,
+the PTD getter and the locale helper's supported return. The normal cold path
+executes 122 source operations and stops at code-page helper `30684bde`.
+The current-pointer receipt resolves only the original default MBC object or
+NULL; dynamic pointer replacement remains an explicit unsupported branch.
+
+Runtime revision `6a236ba50` passed all 3,316 tests across 313 files in 491.90
+seconds. Source/image checks and independent regeneration cover the later
+descriptive constructor receipt; that addition does not change the runtime.
+TypeScript checking and the locale-helper production build pass. The rebuilding
+guide update is joined to this branch. After joining main and Claude PR #222,
+63 focused checks across seven files and a fresh production build pass.
+Complete startup, live NPC/campaign
+integration and a new-game-to-ending browser campaign remain unfinished.
+
 ## Local evidence — 10 October 2026: Code-page locale update constructor
 
 The next helper at `30684bde` invokes `30673389` with a 16-byte stack object
@@ -11773,6 +11834,25 @@ build. Source JSON, TypeScript admission and the Game comparison independently
 regenerate byte-identically. The copied constructor stack record is a live alias;
 subsequent native calls can reuse its bytes after its lifetime ends.
 
+The preceding code-page checkpoint (`8e4deca77`) passed the complete local suite:
+3,321 tests in 313 files, 514.44 seconds. The subsequent allocation-and-copy
+checkpoint has its own full-suite validation. PR #223 deployed successfully via
+Actions run `38063606634` at main revision
+`87e8a812c41a4ad6382f435820902e872f1068bc`.
+
+Hosted observation after PR #223 deployment: a fresh `/gothic3/` tab loaded
+202 scene objects and 70 characters, entered Ardea, and showed
+`Xardas_FindXardas` as Running in the original quest journal. The interface
+continues to identify incomplete NPC AI and campaign paths. This confirms scene
+and journal availability; it does not verify a particular native instruction
+address or a finishable campaign. The temporary verification tab was closed.
+
+The allocation-and-copy checkpoint (`adf8c4001`) passed all 3,325 local tests
+in 313 files in 456.95 seconds. The publication checkout, including current main,
+also passed its production build and all 45 focused checks in four files
+(18.76 seconds). These checks validate the supported startup continuation, not
+complete AI or campaign integration.
+
 ### 10 October 2026: Engine MBC initializer services (local checkpoint)
 
 The initializer resumes on its retained caller, constructs its cookie-protected
@@ -11818,6 +11898,24 @@ build. Source JSON, TypeScript admission and the Game comparison independently
 regenerate byte-identically. Its full-suite validation is separate from the
 preceding initializer checkpoint.
 
+PR #224 merged at main revision `6f962c2787c44e9f718bf7b6875ac4afa78213e9`.
+Its build and Pages deployment succeeded in Actions run `38066036605`. The next
+publication checkout resolves the dated-receipt merge by keeping both the prior
+validation/hosted observations and the newer initializer receipts.
+
+Hosted observation after PR #224 deployment: a fresh `/gothic3/` tab loaded
+202 scene objects and 70 characters, entered Ardea and showed
+`Xardas_FindXardas` as Running. The temporary tab was closed. This verifies the
+scene and journal after deployment, not a specific native instruction frontier
+or a completed campaign. The combined publication checkout passed its production
+build and all 56 focused checks in four files (29.60 seconds).
+
+The single-byte checkpoint (`47c420e01`) passed all 3,336 full-suite tests in
+313 files in 541.56 seconds. The combined publication checkout retains the same
+runtime/evidence changes and the already validated main changes from PR #224.
+The next pending native dependency is case-table construction, not a completed
+startup or campaign.
+
 
 ## 10 October 2026: Engine case-table entry continuation
 
@@ -11848,6 +11946,10 @@ The lower classification body is captured but not executed. It requires addition
 Earlier case-entry full-suite receipt: 3338 tests across 313 files passed in 423.35 seconds. PR #225 deployed successfully as `2676c2d2b2b321271721f319512b0bc1bbeae825`; workflow `38068086327` has successful build and deploy jobs. That deployed revision reaches 354 operations. The newer 1408-operation input continuation has a separate full suite running. These receipts do not prove hosted execution of the current local wrapper or a finishable campaign.
 
 Local wrapper validation: 62 tests across four files passed in 21.56 seconds; `npm run build` completed successfully, including TypeScript checking; `git diff --check` passed. The focused checks verify the separate locale-record alias, same-Engine PTD identity, acquired ownership flag, original constructor return, forwarded arguments and retained lower caller. Full-suite and public deployment validation for this wrapper remain pending.
+
+The preceding 1408-operation case-input continuation passed its full suite: 3341 tests across 313 files in 414.46 seconds. The newer classification-wrapper full suite is running separately. Publication preparation retains both the earlier public deployment receipts and the newer local continuation receipts.
+
+Publication-branch validation: 62 tests across four files passed in 21.72 seconds, production build including TypeScript checking passed, and the diff has no whitespace errors. The merge preserves all earlier dated receipts and updates the reader guide to distinguish the deployed 354-operation checkpoint from the local 1459-operation wrapper. The wrapper full-suite process remains live; this receipt does not claim its result.
 
 
 ## 10 October 2026: Engine Unicode classification probe
@@ -11886,6 +11988,7 @@ Focused validation: 77 tests across five files passed in 21.91 seconds. The prec
 
 Current buffer production validation: `npm run build` completed successfully, including TypeScript checking, and `git diff --check` passed. The query-ABI test observes arguments at the real query return because the subsequent aligned reservation and clear legitimately reuse their old stack bytes. Buffer full-suite and deployment validation remain pending.
 
+Publication-branch validation for the combined probe/query/buffer: 77 tests across five files passed in 23.84 seconds; production build including TypeScript checking passed; the diff has no whitespace errors. Earlier probe and query full suites passed. The latest buffer full-suite process remains live; its result and public deployment remain pending.
 
 ### 10 October 2026: Engine Unicode conversion output and character types
 
@@ -12049,6 +12152,22 @@ allowance. The newest full run will also include current main-branch presentatio
 changes. Full startup, live world activation and a finishable campaign remain
 unfinished.
 
+
+### 11 October 2026: complete Engine argument setup publication validation
+
+Local combined revision `2d05d9660` passed all 3,414 tests across 313 files
+in 787.51 seconds, typechecking and a production build in 1m 8s. Engine's
+supported argument setup now counts, allocates, fills and publishes its vector
+and returns through `3068e827` to the original caller `3067727b`. The default
+input executes 13,819 operations and uses a 20-byte allocation.
+
+The preceding full run had one timeout in a test grouping two independent
+separator corruption cases; splitting those cases retained their assertions
+and per-case allowance. Both cases and the combined full suite now pass.
+This checkpoint is prepared for publication; these local results do not prove
+a deployed revision, complete Engine attachment, world activation or campaign
+completion. Claude's PR #233 has since merged and deployed as `7bf89f379`;
+that presentation change is separate from this locally validated revision.
 
 ### 11 October 2026: Engine environment-vector counting prefix
 

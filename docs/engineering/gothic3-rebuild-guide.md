@@ -112,7 +112,120 @@ Each feature goes through the following steps:
    workflow triggers. Publish the reviewed checkpoint on `/gothic3/` and
    record which behavior it demonstrates.
 
-## Current implementation boundary: 10 October 2026
+### Progress recorded on 10 October 2026
+
+The supported Engine I/O initialization path now returns through its retained
+caller. This checkpoint merged in [PR #221](https://github.com/ael-dev3/Tervain/pull/221).
+It preserves Engine-owned allocations, initializes the three standard handles,
+and restores the original stack and exception state. The next unsupported call
+in that merged revision is argument setup `30677276 -> 3068e76f`.
+
+The argument-startup checkpoint enters the multibyte routine, constructs its
+exception frame, returns the same Engine-owned thread-data record and completes
+the supported locale-helper path. That checkpoint merged in [PR #223](https://github.com/ael-dev3/Tervain/pull/223)
+and deployed successfully. It stops at code-page helper `30684bde`, called from
+`30684e92`.
+
+[PR #224](https://github.com/ael-dev3/Tervain/pull/224) returns the selected process
+code page through the original locale-update record, allocates a separate Engine
+MBC record and copies the thread's existing state. It reaches code-page
+initialization `30684ecb -> 30684c58` after 211 admitted operations and deployed
+successfully. The captured lower allocator uses its existing TypeScript
+implementation; its body is not counted as instructions executed on the retained
+source stack.
+
+[PR #225](https://github.com/ael-dev3/Tervain/pull/225) runs the initializer
+through its original code-page services, clears the classification span and
+initializes the single-byte record fields. It deployed successfully and reaches
+`30684dc7 -> 306849b0`, the case-table routine, after 354 admitted operations.
+
+[PR #226](https://github.com/ael-dev3/Tervain/pull/226) returns case-table CPInfo,
+prepares the 256-byte character input and enters the classification wrapper using
+a separate locale record and the same Engine thread data. Its full suite passed
+3342 tests across 313 files, and it deployed successfully. It reaches the lower
+classification body `306916cb -> 306914ea` after 1459 admitted operations.
+
+[PR #227](https://github.com/ael-dev3/Tervain/pull/227) executes the Unicode API
+probe, conversion size query and aligned stack-buffer reservation. It clears
+exactly 512 output bytes and reaches the conversion output call at `306915f8`
+after 1557 admitted operations. All 3352 tests across 313 files passed, and its
+Pages deployment succeeded.
+
+[PR #228](https://github.com/ael-dev3/Tervain/pull/228) fills Unicode output and
+character types, returns through buffer cleanup and cookie checking, releases
+classification locale ownership and enters the first case-mapping wrapper. It
+reaches `3067c94a -> 3067c57c` after 1660 admitted operations. Its full suite passed
+3356 tests across 313 files, and its Pages deployment succeeded.
+
+[PR #229](https://github.com/ael-dev3/Tervain/pull/229) probes the Unicode
+mapping API, scans the actual byte input, queries conversion length and reserves
+separate input and mapped stack buffers through the original alignment and
+page-probe helpers. It converts the input to Unicode, queries mapped length and
+writes lowercase Unicode output. It reaches narrowing preparation `3067c779`
+after 3382 admitted operations. Its full suite passed 3365 tests across 313 files;
+its main build and Pages deployment succeeded.
+
+[PR #230](https://github.com/ael-dev3/Tervain/pull/230) executes both lowercase
+and uppercase conversion calls, narrows Unicode into separate original byte
+destinations, and returns through buffer cleanup, cookie checking and locale
+ownership release. Its main build and Pages deployment succeeded at revision
+`f1505ca863aefc10d5a6cb883d1d379b8ac296ff`. The deployed default path stops
+at character-record publication `30684a93` after 5261 admitted operations.
+The implementation full suite passed 3371 tests across 313 files.
+
+The newer local work completes the character record and returns both retained
+initializers; that checkpoint passed 3373 tests across 313 files. It then installs
+the record in Engine thread data through the original reference-count calls.
+The next continuation follows the global publication policy, acquires existing
+Engine lock 13, and copies the header and all character tables to their original
+global extents. Its targeted checks cover complete copying, interrupted writes
+and retained state. The continuation also replaces the global pointer, retains a second reference,
+releases lock 13 and returns through the original exception epilog and wrapper.
+The next call returns the selected virtual process filename through the original
+`GetModuleFileNameA` ABI and the actual Engine-owned buffer. Default execution
+reaches command-line selection `3068e79f` after 11,608 operations. All 148
+distinct focused checks are covered by passing results, including three
+parameterized formatter damage cases. TypeScript checking, independent evidence
+regeneration and production build pass. Full validation is running; this
+continuation has not been deployed. A single full image-owner check preserves storage
+validation while removing repeated validation of the same owner.
+
+Temporary stack views are reused by later calls. Tests observe values and
+arguments at their actual returns. Command-line selection, argument parsing, argv allocation and full startup
+remain unfinished.
+
+Complete startup, world activation and a new-game-to-ending campaign remain
+unfinished. The checkpoint history records earlier boundaries and their evidence;
+those dated boundaries should not be read as the latest implementation status.
+
+## Where to find the work
+
+| Location | Purpose |
+| --- | --- |
+| `tools/gothic3/` | Asset readers, evidence capture and reproducible preparation scripts. |
+| `assets/gothic3/` | Research receipts, native instruction records and comparison evidence. |
+| `src/gothic3/` | TypeScript runtime, browser integration and admitted native source records. |
+| `public/gothic3/` | Resources served to the browser. |
+| `tests/gothic3-dialogue/` | Checks for recovered behavior, state ownership and supported continuations. |
+| `docs/engineering/gothic3-rebuilding-process.md` | Dated technical checkpoints, validation and remaining work. |
+
+## What still needs to be rebuilt
+
+1. Finish the startup dependencies using the matching original instruction and
+   data evidence, including argument and thread/locale initialization.
+2. Activate a connected world with terrain, placements, streaming and collision.
+3. Connect human meshes, skeletons and animations to live NPC behavior and player
+   movement, interaction and combat.
+4. Execute dialogue, quest conditions and consequences against persistent world
+   state, including the campaign's ending conditions.
+5. Implement save and reload for that state, then demonstrate a complete campaign
+   through ordinary browser play.
+
+These steps overlap: each implemented system needs integration with the world
+and its existing dependencies. The completion claim requires observed gameplay
+through the ending, with working persistence.
+
+## Current implementation boundary: 11 October 2026
 
 The latest local Engine argument setup executes the supported CP1252 path:
 multibyte initialization, module filename selection, command-line counting,
@@ -121,13 +234,20 @@ through the original setup instruction `3068e827` to caller `3067727b`, after
 13,819 admitted operations for the default input. The default allocation holds
 `Gothic3.exe` and its argument vector in 20 bytes.
 
-This is a local component milestone. Its focused validation passed 164 checks,
-typechecking and a production build. Full combined publication validation is
-pending; no deployment or campaign claim follows from those component results.
-The next dependency is the caller's result check and Engine environment-vector
-setup at `3068e4f2`. Complete DLL startup, live world activation and campaign
-integration remain unfinished. See the [checkpoint history](gothic3-rebuilding-process.md)
-for dated receipts and the distinction between local and deployed revisions.
+Argument setup passed 164 focused checks and combined validation of 3,414
+tests across 313 files, typechecking and a production build. It merged in
+[PR #234](https://github.com/ael-dev3/Tervain/pull/234) as `7ff73071e`. Its
+Pages workflow is still running; merge and deployment are separate receipts.
+
+The latest local continuation executes the original caller TEST/JL and enters
+Engine environment-vector setup at `3068e4f2`. It counts the retained block's
+entries, excluding those beginning with `=`, and reaches the pending vector
+allocation call `3068e532 -> 3067ca01`. NULL input returns minus one through
+`30677284`. This prefix passed 120 focused checks, typechecking, a production
+build and byte-identical evidence regeneration. Its combined full-suite and
+deployment validation are still pending. Allocation, copying and cleanup remain
+unsupported, and complete DLL startup, world activation and campaign integration
+remain unfinished. See the [checkpoint history](gothic3-rebuilding-process.md).
 
 ## What to record for every rebuilding step
 

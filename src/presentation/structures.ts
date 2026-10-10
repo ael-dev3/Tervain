@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import type { Batch } from './buildKit';
-import { asRGB, hash3, mulc, rgb, type Col, type RGB } from './buildKit';
+import { asRGB, hash3, mulc, rgb, type BoxOpts, type Col, type RGB } from './buildKit';
 import type { Region } from './regions';
 import { hipRoof, gableRoof, leanRoof, ROOFS, type RoofResult } from './roofs';
 import { rockShapes } from './scatter';
@@ -77,10 +77,46 @@ export function foundation(R: Region, rnd: Rnd, w: number, d: number, top: numbe
 export interface FaceGap { x0: number; x1: number; top: number }
 
 /**
+ * A window opening through a room's wall (A79), in the building's own frame: which wall, where along it (x on the front
+ * and back walls, z on the side walls), its half width, and its sill and head heights.
+ */
+export interface WallOpening { side: 'front' | 'back' | 'east' | 'west'; at: number; half: number; y0: number; y1: number }
+
+/** Spans of [u0, u1] (along a wall) with vertical extents [v0, v1] cut out of it. */
+interface Hole { a: number; b: number; v0: number; v1: number }
+
+/**
+ * A wall slab from u0 to u1 along `axis`, n0 to n1 through it, yb to yt high, with rectangular holes cut through it: the
+ * solid stretches beside each hole stand full height, and over and under it the wall runs above its head and below
+ * its sill. The faces round each hole are its reveals. With the doorway alone it is the three slabs the front wall was.
+ */
+function wallWithHoles(B: Batch, axis: 'x' | 'z', u0: number, u1: number, n0: number, n1: number, yb: number, yt: number, holes: Hole[], tint: Col, o: BoxOpts) {
+  const slab = (a: number, b: number, v0: number, v1: number) => {
+    if (b - a < 1e-4 || v1 - v0 < 1e-4) return;
+    if (axis === 'x') B.bx(a, v0, n0, b, v1, n1, tint, o); else B.bx(n0, v0, a, n1, v1, b, tint, o);
+  };
+  let u = u0;
+  for (const hole of [...holes].sort((p, q) => p.a - q.a)) {
+    const a = Math.max(u0, hole.a), b = Math.min(u1, hole.b);
+    if (b <= a) continue;
+    slab(u, a, yb, yt);
+    slab(a, b, yb, Math.max(yb, hole.v0));
+    slab(a, b, Math.min(yt, hole.v1), yt);
+    u = b;
+  }
+  slab(u, u1, yb, yt);
+}
+
+/** The openings on one wall as holes along it. */
+function holesOn(openings: readonly WallOpening[], side: WallOpening['side']): Hole[] {
+  return openings.filter((o) => o.side === side).map((o) => ({ a: o.at - o.half, b: o.at + o.half, v0: o.y0, v1: o.y1 }));
+}
+
+/**
  * A run of vertical boards. Each stands slightly proud or recessed, at a slightly different height, with a gap. Boards
  * across a doorway stop above it; the decorative random sequence is the same with or without one.
  */
-export function plankFace(R: Region, rnd: Rnd, len: number, h: number, y0: number, tint = TINT.wood, gap?: FaceGap) {
+export function plankFace(R: Region, rnd: Rnd, len: number, h: number, y0: number, tint = TINT.wood, gap?: FaceGap, windows: readonly { x0: number; x1: number; y0: number; y1: number }[] = []) {
   const B = R.planks;
   let x = -len / 2;
   while (x < len / 2 - 0.05) {
@@ -90,7 +126,15 @@ export function plankFace(R: Region, rnd: Rnd, len: number, h: number, y0: numbe
     const depth = 0.06 + rnd() * 0.02, z = (rnd() - 0.5) * 0.06, tone = jitterTone(tint, rnd, 0.09);
     const o = { ry: (rnd() - 0.5) * 0.02, rz: (rnd() - 0.5) * 0.014, jit: 0.045, grain: 'y' as const, amp: 0.035 };
     const width = pw * 0.93, left = cx - width / 2, right = cx + width / 2;
-    if (!gap || right <= gap.x0 || left >= gap.x1) B.box(width, top, depth, cx, y0, z, tone, o);
+    const window = windows.find((win) => right > win.x0 && left < win.x1);
+    if (window) {
+      // A79: a board across a window opening stops at its sill and starts again over its head; beside it, full height.
+      if (left < window.x0) B.box(window.x0 - left, top, depth, (left + window.x0) / 2, y0, z, tone, o);
+      if (right > window.x1) B.box(right - window.x1, top, depth, (window.x1 + right) / 2, y0, z, tone, o);
+      const over = Math.max(left, window.x0), under = Math.min(right, window.x1);
+      if (window.y0 > y0) B.box(under - over, window.y0 - y0, depth, (over + under) / 2, y0, z, tone, o);
+      if (y0 + top > window.y1) B.box(under - over, y0 + top - window.y1, depth, (over + under) / 2, window.y1, z, tone, o);
+    } else if (!gap || right <= gap.x0 || left >= gap.x1) B.box(width, top, depth, cx, y0, z, tone, o);
     else {
       // The parts beside the doorway stand full height; the part over it starts at the lintel.
       if (left < gap.x0) B.box(gap.x0 - left, top, depth, (left + gap.x0) / 2, y0, z, tone, o);
@@ -106,15 +150,13 @@ export function plankFace(R: Region, rnd: Rnd, len: number, h: number, y0: numbe
  * Walls of a given thickness, standing inward from the footprint line, with a doorway through the front (+z) wall:
  * the door's width and height, centred at `door.x`.
  */
-export function roomWalls(B: Batch, w: number, d: number, h: number, y0: number, t: number, door: { x: number; halfWidth: number; height: number }, tint: Col, sub = 0.7) {
+export function roomWalls(B: Batch, w: number, d: number, h: number, y0: number, t: number, door: { x: number; halfWidth: number; height: number }, tint: Col, sub = 0.7, openings: readonly WallOpening[] = []) {
   const o = { sub, amp: 0.045, jit: 0.02 };
-  const x0 = door.x - door.halfWidth, x1 = door.x + door.halfWidth;
-  B.bx(-w / 2, y0, d / 2 - t, x0, y0 + h, d / 2, tint, o);
-  B.bx(x1, y0, d / 2 - t, w / 2, y0 + h, d / 2, tint, o);
-  B.bx(x0, y0 + door.height, d / 2 - t, x1, y0 + h, d / 2, tint, o);
-  B.bx(-w / 2, y0, -d / 2, w / 2, y0 + h, -d / 2 + t, tint, o);
-  B.bx(-w / 2, y0, -d / 2 + t, -w / 2 + t, y0 + h, d / 2 - t, tint, o);
-  B.bx(w / 2 - t, y0, -d / 2 + t, w / 2, y0 + h, d / 2 - t, tint, o);
+  const doorway: Hole = { a: door.x - door.halfWidth, b: door.x + door.halfWidth, v0: y0, v1: y0 + door.height };
+  wallWithHoles(B, 'x', -w / 2, w / 2, d / 2 - t, d / 2, y0, y0 + h, [doorway, ...holesOn(openings, 'front')], tint, o);
+  wallWithHoles(B, 'x', -w / 2, w / 2, -d / 2, -d / 2 + t, y0, y0 + h, holesOn(openings, 'back'), tint, o);
+  wallWithHoles(B, 'z', -d / 2 + t, d / 2 - t, -w / 2, -w / 2 + t, y0, y0 + h, holesOn(openings, 'west'), tint, o);
+  wallWithHoles(B, 'z', -d / 2 + t, d / 2 - t, w / 2 - t, w / 2, y0, y0 + h, holesOn(openings, 'east'), tint, o);
 }
 
 /** A wall slab in one material with a subdivided front so vertex colour noise reads on large planes. */
@@ -127,7 +169,7 @@ export function slab(B: Batch, w: number, h: number, d: number, y0: number, tint
  * doorway in the front wall (local x from x0 to x1, up to `top` above y0) the rails and studs stop at its sides; the
  * decorative random sequence is unchanged.
  */
-export function timberFrame(R: Region, rnd: Rnd, w: number, d: number, h: number, y0: number, gap?: FaceGap) {
+export function timberFrame(R: Region, rnd: Rnd, w: number, d: number, h: number, y0: number, gap?: FaceGap, openings: readonly WallOpening[] = []) {
   const B = R.timber;
   // A76: smoked oak, dark but brown with its grain readable close up (woodDark read as black).
   const t = TINT.frame;
@@ -136,15 +178,27 @@ export function timberFrame(R: Region, rnd: Rnd, w: number, d: number, h: number
   const OUT = 0.09;
   for (const sx of [-1, 1]) for (const sz of [-1, 1]) post(B, rnd, sx * (w / 2 + 0.02), sz * (d / 2 + 0.02), y0 + h + 0.1, 0.26, jitterTone(t, rnd, 0.1), 0.2);
   const rails = [y0 + 0.02, y0 + h * 0.46, y0 + h - 0.05];
+  // A79: a rail at a window's height stops at its frame, as at the doorway, so it never crosses the opening.
+  const across = (side: WallOpening['side'], y: number) => openings.filter((o) => o.side === side && y + 0.17 > o.y0 - 0.12 && y < o.y1 + 0.12)
+    .map((o) => ({ a: o.at - o.half - 0.1, b: o.at + o.half + 0.1 }));
+  const rail = (axis: 'x' | 'z', u0: number, u1: number, y: number, n0: number, n1: number, cuts: { a: number; b: number }[], tone: Col) => {
+    const piece = (a: number, b: number) => {
+      if (b - a < 1e-3) return;
+      if (axis === 'x') B.bx(a, y, n0, b, y + 0.17, n1, tone, { grain: 'x', jit: 0.1 });
+      else B.bx(n0, y, a, n1, y + 0.17, b, tone, { grain: 'z', jit: 0.1 });
+    };
+    let u = u0;
+    for (const cut of [...cuts].sort((p, q) => p.a - q.a)) { piece(u, cut.a); u = Math.max(u, cut.b); }
+    piece(u, u1);
+  };
   for (const y of rails) {
     for (const sz of [-1, 1]) {
       const tone = jitterTone(t, rnd, 0.12), z0 = sz * (d / 2 + OUT) - 0.09, z1 = sz * (d / 2 + OUT) + 0.09;
-      if (sz === 1 && gap && y < y0 + gap.top) {
-        B.bx(-w / 2 - 0.05, y, z0, gap.x0, y + 0.17, z1, tone, { grain: 'x', jit: 0.1 });
-        B.bx(gap.x1, y, z0, w / 2 + 0.05, y + 0.17, z1, tone, { grain: 'x', jit: 0.1 });
-      } else B.bx(-w / 2 - 0.05, y, z0, w / 2 + 0.05, y + 0.17, z1, tone, { grain: 'x', jit: 0.1 });
+      const cuts = across(sz === 1 ? 'front' : 'back', y);
+      if (sz === 1 && gap && y < y0 + gap.top) cuts.push({ a: gap.x0, b: gap.x1 });
+      rail('x', -w / 2 - 0.05, w / 2 + 0.05, y, z0, z1, cuts, tone);
     }
-    for (const sx of [-1, 1]) B.bx(sx * (w / 2 + OUT) - 0.09, y, -d / 2 - 0.05, sx * (w / 2 + OUT) + 0.09, y + 0.17, d / 2 + 0.05, jitterTone(t, rnd, 0.12), { grain: 'z', jit: 0.1 });
+    for (const sx of [-1, 1]) rail('z', -d / 2 - 0.05, d / 2 + 0.05, y, sx * (w / 2 + OUT) - 0.09, sx * (w / 2 + OUT) + 0.09, across(sx === 1 ? 'east' : 'west', y), jitterTone(t, rnd, 0.12));
   }
   // Intermediate studs and corner braces.
   const nStud = Math.max(1, Math.round(w / 2.1) - 1);
@@ -152,8 +206,12 @@ export function timberFrame(R: Region, rnd: Rnd, w: number, d: number, h: number
     const x = -w / 2 + (i * w) / (nStud + 1) + (rnd() - 0.5) * 0.2;
     for (const sz of [-1, 1]) {
       const tone = jitterTone(t, rnd, 0.1), rz = (rnd() - 0.5) * 0.03;
-      // A stud never stands in the doorway; over it, it shortens to the lintel.
-      if (sz === 1 && gap && x + 0.07 > gap.x0 && x - 0.07 < gap.x1) {
+      // A stud never stands in the doorway; over it, it shortens to the lintel. Nor in a window (A79): under and over it.
+      const window = openings.find((o) => o.side === (sz === 1 ? 'front' : 'back') && x + 0.07 > o.at - o.half - 0.1 && x - 0.07 < o.at + o.half + 0.1);
+      if (window) {
+        if (window.y0 - 0.12 > y0 + 0.05) B.box(0.14, window.y0 - 0.12 - (y0 + 0.05), 0.16, x, y0 + 0.05, sz * (d / 2 + OUT), tone, { grain: 'y', rz, jit: 0.1 });
+        if (y0 + h - 0.05 > window.y1 + 0.12) B.box(0.14, y0 + h - 0.05 - (window.y1 + 0.12), 0.16, x, window.y1 + 0.12, sz * (d / 2 + OUT), tone, { grain: 'y', rz, jit: 0.1 });
+      } else if (sz === 1 && gap && x + 0.07 > gap.x0 && x - 0.07 < gap.x1) {
         if (h - 0.1 > gap.top + 0.05) B.box(0.14, h - 0.1 - gap.top - 0.05, 0.16, x, y0 + gap.top + 0.1, sz * (d / 2 + OUT), tone, { grain: 'y', rz, jit: 0.1 });
       } else B.box(0.14, h - 0.1, 0.16, x, y0 + 0.05, sz * (d / 2 + OUT), tone, { grain: 'y', rz, jit: 0.1 });
     }
@@ -166,7 +224,7 @@ export function timberFrame(R: Region, rnd: Rnd, w: number, d: number, h: number
 }
 
 /** Rubble corners: alternating long and short stones proud of the wall. */
-export function quoins(R: Region, rnd: Rnd, w: number, d: number, h: number, y0: number) {
+export function quoins(R: Region, rnd: Rnd, w: number, d: number, h: number, y0: number, openings: readonly WallOpening[] = []) {
   const B = R.stone;
   for (const sx of [-1, 1]) for (const sz of [-1, 1]) {
     let y = y0;
@@ -176,7 +234,19 @@ export function quoins(R: Region, rnd: Rnd, w: number, d: number, h: number, y0:
       const long = i % 2 === 0;
       const lx = (long ? 0.62 : 0.34) + rnd() * 0.12;
       const lz = (long ? 0.34 : 0.62) + rnd() * 0.12;
-      B.box(lx, sh, lz, sx * (w / 2 - lx / 2 + 0.06), y, sz * (d / 2 - lz / 2 + 0.06), jitterTone(TINT.stone, rnd, 0.10), { ry: (rnd() - 0.5) * 0.06, jit: 0.045, amp: 0.04 });
+      // A80 audit: a long corner stone stops short of a window opening on its wall rather than reaching into it.
+      let bx = lx, bz = lz;
+      for (const o of openings) {
+        if (y + sh <= o.y0 - 0.05 || y >= o.y1 + 0.05) continue;
+        if ((o.side === 'front' && sz > 0) || (o.side === 'back' && sz < 0)) {
+          if (Math.sign(o.at) === sx || Math.abs(o.at) < o.half) bx = Math.min(bx, Math.max(0.12, w / 2 + 0.06 - (Math.abs(o.at) + o.half) - 0.04));
+        }
+        if ((o.side === 'east' && sx > 0) || (o.side === 'west' && sx < 0)) {
+          if (Math.sign(o.at) === sz || Math.abs(o.at) < o.half) bz = Math.min(bz, Math.max(0.12, d / 2 + 0.06 - (Math.abs(o.at) + o.half) - 0.04));
+        }
+      }
+      const tone = jitterTone(TINT.stone, rnd, 0.10), ry = (rnd() - 0.5) * 0.06;
+      B.box(bx, sh, bz, sx * (w / 2 - bx / 2 + 0.06), y, sz * (d / 2 - bz / 2 + 0.06), tone, { ry, jit: 0.045, amp: 0.04 });
       y += sh + 0.01;
       i++;
     }
@@ -254,6 +324,8 @@ export interface WindowOpts {
   /** Rotation of the window about y, in the caller's frame (0 faces +z). */
   ry?: number;
   shutters?: boolean;
+  /** A real opening through the wall behind (A79): clear glass and a night glow instead of the dark backing and pane. */
+  opening?: boolean;
   /** Heavy lime-set jambs on stone structures, retaining the same window envelope. */
   stone?: boolean;
 }
@@ -266,14 +338,22 @@ export function windowAt(R: Region, rnd: Rnd, o: WindowOpts) {
   ctx.push(o.x, o.y, o.z, o.ry ?? 0);
   const frame = o.stone ? R.stone : R.timber;
   const tint = () => jitterTone(o.stone ? TINT.stone : TINT.woodDark, rnd, 0.075);
-  // A recessed dark reveal makes the small opening legible in bright sunlight without bright glass.
-  R.vc.box(w + 0.15, h + 0.12, 0.02, 0, -0.055, 0.005, 0x171610, { jit: 0, amp: 0 });
+  // A recessed dark reveal makes the small opening legible in bright sunlight without bright glass. A real opening
+  // through the wall (A79) needs none: the room behind it is the dark.
+  if (!o.opening) R.vc.box(w + 0.15, h + 0.12, 0.02, 0, -0.055, 0.005, 0x171610, { jit: 0, amp: 0 });
   frame.box(w + 0.2, 0.11, 0.2, 0, -0.1, 0.06, tint(), { jit: 0.1 });
   frame.box(w + 0.2, 0.11, 0.16, 0, h, 0.05, tint(), { jit: 0.1 });
   frame.box(0.1, h + 0.1, 0.14, -w / 2 - 0.05, -0.03, 0.05, tint(), { jit: 0.1, grain: 'y' });
   frame.box(0.1, h + 0.1, 0.14, w / 2 + 0.05, -0.03, 0.05, tint(), { jit: 0.1, grain: 'y' });
-  R.glow.box(w, h, 0.03, 0, 0, 0.04, 0xffffff, { jit: 0 });
-  R.pane.box(w, h, 0.04, 0, 0, 0.045, 0xffffff, { jit: 0 });
+  if (o.opening) {
+    // A79: clear glass a little inside the wall's outer face, so the world is seen through it from the room and the room
+    // from outside; after dark the room's lamplight shows over it from outside only (a plane facing out).
+    R.glass.box(w, h, 0.01, 0, 0, -0.07, 0xffffff, { jit: 0 });
+    R.nightGlow.quad([-w / 2, 0, -0.055, w / 2, 0, -0.055, w / 2, h, -0.055, -w / 2, h, -0.055], 0xffffff, { amp: 0 });
+  } else {
+    R.glow.box(w, h, 0.03, 0, 0, 0.04, 0xffffff, { jit: 0 });
+    R.pane.box(w, h, 0.04, 0, 0, 0.045, 0xffffff, { jit: 0 });
+  }
   R.timber.box(0.05, h, 0.06, 0, 0, 0.075, jitterTone(TINT.woodDark, rnd), { jit: 0.05 });
   R.timber.box(w, 0.05, 0.06, 0, h * 0.5, 0.075, jitterTone(TINT.woodDark, rnd), { jit: 0.05 });
   if (o.shutters ?? true) {

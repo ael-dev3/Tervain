@@ -10,17 +10,19 @@
  *
  * Close up, the exported near trees spent about 14,000 of their 20,000 triangles on bark and some 5,500 on leaf cards,
  * so a crown showed sky through it. Their mid files carry the same wood at about 4,900 triangles and read the same
- * from a few metres, so the near wood loses little at about 6,000. The freed budget is spent on leaf cards at load
+ * from a few metres, so the near wood loses little at about 8,000. The freed budget is spent on leaf cards at load
  * (thicken() in src/presentation/meshyTrees.ts).
  *
  * - The file's EXT_meshopt_compression views are decoded (three's MeshoptDecoder, as the game decodes them), the wood
  *   is simplified, and the file is written without compression; optimise-models.mjs --geometry then compresses it
  *   again losslessly, exactly as every other model.
  * - Simplification is meshoptimizer's attribute-aware edge collapse, which never moves a vertex (every kept vertex is
- *   an original one, with its normal, UV and tangent) and lets an open border collapse only along itself. The exported
- *   wood's UV atlas is cut into many small islands, so it may collapse across a UV seam (Permissive) where the
- *   weighted normal and UV error stays within the ceiling (MAX_ERROR); locking seams and borders outright stopped it
- *   near 12,000 triangles. The surface deviation (original vertices to the simplified surface) is reported per file.
+ *   an original one, with its normal, UV and tangent) and lets an open border collapse only along itself. It never
+ *   collapses across a UV seam (A79). A72 allowed that (Permissive) to reach 6,000 triangles, and it stretched a
+ *   branch's texture island over its neighbours': 8-40 % of the wood's surface mapped more than 8:1 (0-2 % in the
+ *   exports), and close up the branches read as long smeared ribbons streaked with the atlas's greens. With seams kept,
+ *   the wood stops near 8,000 triangles at the error ceiling (MAX_ERROR); the leaning palm near 12,000. The surface
+ *   deviation (original vertices to the simplified surface) is reported per file.
  * - Locked: all wood at the foot of the tree (the lowest share of its height in TARGETS, where it meets the soil), and,
  *   with the triangles around them, its lowest and topmost vertex and its widest vertex in each of BANDS height bands,
  *   so height, ground contact and the radius at every height are kept (checked below to stay within 1 %).
@@ -48,14 +50,14 @@ const MESHOPT_EXT = 'EXT_meshopt_compression';
  * heights as planted; a tree also planted as a shrub (1.5 m) needs about 1.7 %. The dead tree (tree-1537) is all
  * wood and keeps it.
  */
-const NEAR_WOOD = 6000, FOOT = 0.005, SHRUB_FOOT = 0.02;
+const NEAR_WOOD = 8000, FOOT = 0.005, SHRUB_FOOT = 0.02;
 const TARGETS = {
   'oak-elder-near.glb': [NEAR_WOOD, FOOT], 'tree-0208-near.glb': [NEAR_WOOD, FOOT], 'tree-1505-near.glb': [NEAR_WOOD, FOOT],
   'tree-4815-near.glb': [NEAR_WOOD, FOOT], 'tree-1521-near.glb': [NEAR_WOOD, SHRUB_FOOT], 'tree-4949-near.glb': [NEAR_WOOD, SHRUB_FOOT],
   'palm-fan-near.glb': [NEAR_WOOD, FOOT], 'palm-lean-near.glb': [NEAR_WOOD, FOOT],
   // The sentinel's mid and far files carried its whole 13,000-triangle wood; they come down with it. Its wood is
   // mostly open rims and stops near 8,000 within the error ceiling at every level.
-  'verdant-sentinel-near.glb': [NEAR_WOOD, FOOT], 'verdant-sentinel-mid.glb': [4900, FOOT], 'verdant-sentinel-far.glb': [1900, FOOT],
+  'verdant-sentinel-near.glb': [NEAR_WOOD, FOOT], 'verdant-sentinel-mid.glb': [NEAR_WOOD, FOOT], 'verdant-sentinel-far.glb': [NEAR_WOOD, FOOT],
 };
 /** Height bands whose widest vertex is kept, so the wood's radius at every height stays put. */
 const BANDS = 128;
@@ -264,7 +266,7 @@ function rebalance(file, [target, base]) {
   const attributes = new Float32Array(count * 5);
   for (let i = 0; i < count; i++) attributes.set([normals[i * 3], normals[i * 3 + 1], normals[i * 3 + 2], uvs[i * 2], uvs[i * 2 + 1]], i * 5);
   const [simplified, error] = MeshoptSimplifier.simplifyWithAttributes(source, positions, 3, attributes, 5, WEIGHTS, lock,
-    target * 3, MAX_ERROR, ['Permissive']);
+    target * 3, MAX_ERROR, []);
   const after = simplified.length / 3;
   // Compact: keep the used vertices, in their original order.
   const keptOld = Uint32Array.from(new Set(simplified)).sort(), kept = keptOld.length, renumber = new Map();

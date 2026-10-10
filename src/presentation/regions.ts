@@ -3,7 +3,7 @@ import { Batch, Ctx } from './buildKit';
 import { TILE_M, isBaked, makePaneTexture, makeTexPair, onBakedTextures, type TexKey } from './buildingTextures';
 
 /** The materials a region can draw with. One draw call per material actually used. */
-export type MatKey = TexKey | 'vc' | 'metal' | 'leaf' | 'glow' | 'pane' | 'daylight';
+export type MatKey = TexKey | 'vc' | 'metal' | 'leaf' | 'glow' | 'pane' | 'daylight' | 'glass' | 'nightGlow';
 
 /**
  * Depth priority where faces share a plane (A69). Buildings lay trim on walls: a frame's rail on the gable, a stud on the
@@ -23,6 +23,13 @@ export class MaterialSet {
   readonly lanternMat: THREE.MeshBasicMaterial;
   /** Window panes seen from inside a room (A66): the daylight outside them, dimming to the night. */
   readonly daylightMat: THREE.MeshBasicMaterial;
+  /**
+   * Glass in a real window opening (A79): clear, faintly tinted, reflecting a little sky, so the world outside is seen
+   * through it from the room and the room from outside.
+   */
+  readonly glassMat: THREE.MeshStandardMaterial;
+  /** The lamplight of an inhabited room after dark, seen from outside only, over the glass (A79); its opacity is the night. */
+  readonly nightGlowMat: THREE.MeshBasicMaterial;
   private disposables: { dispose(): void }[] = [];
   private readonly textured = new Map<TexKey, THREE.MeshStandardMaterial>();
   private readonly unsubscribe: () => void;
@@ -64,6 +71,12 @@ export class MaterialSet {
     this.map.set('glow', this.lanternMat);
     this.daylightMat = new THREE.MeshBasicMaterial({ color: 0xd2d8dc });
     this.map.set('daylight', this.daylightMat);
+    this.glassMat = new THREE.MeshStandardMaterial({ color: 0x8a9a9a, roughness: 0.1, metalness: 0, transparent: true, opacity: 0.09, depthWrite: false, side: THREE.DoubleSide, envMapIntensity: 1.4 });
+    this.glassMat.name = 'Window glass';
+    this.map.set('glass', this.glassMat);
+    this.nightGlowMat = new THREE.MeshBasicMaterial({ color: 0xffb85a, transparent: true, opacity: 0, depthWrite: false, blending: THREE.AdditiveBlending, side: THREE.FrontSide });
+    this.nightGlowMat.name = 'Window night glow';
+    this.map.set('nightGlow', this.nightGlowMat);
     for (const [key, material] of this.map) {
       const rank = DEPTH_RANK[key];
       if (!rank) continue;
@@ -114,7 +127,7 @@ export class Region {
     if (!b) {
       const textured = key in TILE_M;
       b = new Batch(this.ctx, key, textured ? 1 / TILE_M[key as TexKey] : 1);
-      if (key === 'glow' || key === 'pane' || key === 'daylight') b.amp = 0;
+      if (key === 'glow' || key === 'pane' || key === 'daylight' || key === 'glass' || key === 'nightGlow') b.amp = 0;
       this.batches.set(key, b);
     }
     return b;
@@ -173,6 +186,12 @@ export class Region {
   get daylight() {
     return this.get('daylight');
   }
+  get glass() {
+    return this.get('glass');
+  }
+  get nightGlow() {
+    return this.get('nightGlow');
+  }
 
   get tris(): number {
     let t = 0;
@@ -189,7 +208,7 @@ export class Region {
       if (!geo) continue;
       const mesh = new THREE.Mesh(geo, mats.get(key));
       mesh.name = `${this.name}:${key}`;
-      const emissive = key === 'glow' || key === 'pane' || key === 'daylight';
+      const emissive = key === 'glow' || key === 'pane' || key === 'daylight' || key === 'glass' || key === 'nightGlow';
       mesh.castShadow = (opts.shadows ?? true) && !emissive;
       mesh.receiveShadow = !emissive;
       if (opts.isStatic ?? true) {

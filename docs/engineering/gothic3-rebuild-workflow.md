@@ -48,7 +48,7 @@ memory and objects before it can support a gameplay claim.
 | `.github/workflows/pages.yml` | Pull-request validation and main-branch deployment |
 
 For the latest local implementation boundary, read the
-[rebuild guide](gothic3-rebuild-guide.md#current-implementation-boundary-10-october-2026).
+[rebuild guide](gothic3-rebuild-guide.md#current-implementation-boundary-11-october-2026).
 The following example records an earlier checkpoint.
 
 ### Historical startup example: 2026-10-09

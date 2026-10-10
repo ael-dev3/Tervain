@@ -34,8 +34,10 @@ restores saved registers and returns 0 through `3068e827 -> 3067727b` after
 buffer. A NULL argument allocation returns -1 without overwriting prior globals.
 Interrupted writes and publication preserve produced state and pending calls.
 
-All 164 distinct focused checks are covered by passing results and TypeScript
-checking passes. Fresh combined checks and the production build are pending.
+All 164 focused checks across six files, TypeScript checking and a production
+build pass. Combined publication revision `2d05d9660` also passed all 3,414
+tests across 313 files in 787.51 seconds, typechecking and a production build
+in 1m 8s. Deployment remains a separate receipt.
 Earlier sections are historical checkpoints. Alternate code-page, locale refresh
 and malloc-wait paths remain unsupported. The next caller's result test and
 Engine environment setup remain unfinished; complete startup and a finishable

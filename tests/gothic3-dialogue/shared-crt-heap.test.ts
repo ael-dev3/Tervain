@@ -1639,14 +1639,12 @@ function originalVersionLogFixture(){
  owner.processDllSpieCreateFile();owner.processDllSpieTerminate();owner.processDllMessageTerminate();owner.processDllMessageLog();owner.processDllErrorLogCallback();owner.processDllErrorLogAllocation();owner.processDllErrorLogFormatting();owner.processDllErrorLogInsertion();owner.processDllSpyLogCallback();
  return fixture;
 }
-it('rejects damaged final separator frames before the third logger submission',()=>{
- for(const displacement of [0,4]){
+it.each([0,4])('rejects damaged final separator frame at +%s before the third logger submission',displacement=>{
   const {owner}=originalVersionLogFixture();owner.processDllVersionLogTls();owner.processDllVersionLogFormatting();owner.processDllMessageLog();owner.processDllErrorLogCallback();owner.processDllErrorLogAllocation();owner.processDllErrorLogFormatting();owner.processDllErrorLogInsertion();owner.processDllSpyLogCallback();
   const before=owner.snapshot(),stack=before.caseState!.stack!.snapshot(),call=stack.calls.at(-1)!;
   new NativeHeapObjectViews(stack.sharedDllResourceFrame!.handle.backing,call.position+displacement,4).writeUnsigned(0,0);
   const result=owner.processDllSeparatorPrefix();expect(result.known).toBe(false);if(result.known)throw new Error('Damaged final separator accepted');expect(result.reason).toMatch(/original DLL separator frame|expression slot/);
   const after=owner.snapshot();expect(after.messageSectionHeld).toBe(false);expect(after.dllEntryReturned).toBeNull();expect(after.trace.filter(row=>row==='10049528.EnterCriticalSection')).toHaveLength(2);
- }
 },30_000);
 it('returns from original direct SharedBase DLL entry after its final separator',()=>{
  const {owner}=originalVersionLogFixture();owner.processDllVersionLogTls();owner.processDllVersionLogFormatting();owner.processDllMessageLog();owner.processDllErrorLogCallback();owner.processDllErrorLogAllocation();owner.processDllErrorLogFormatting();owner.processDllErrorLogInsertion();owner.processDllSpyLogCallback();

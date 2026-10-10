@@ -25,14 +25,15 @@ const TREE_TRIANGLES = 19_800;
  * and drawn toward it, so its cards fall between the cards already there and stay inside the crown's outline. The
  * second turns the other way and sits deeper, filling the crown's heart.
  */
+// A79: only the inner layer. A layer at 90 % lay just under the crown's surface and showed through its gaps as a second,
+// smeared copy of the outer cards (owner playtest: noisy, smeared crowns); the inner one fills the body and stays behind.
 const CROWN_LAYERS: readonly { turn: number; scale: readonly [number, number, number] }[] = [
-  { turn: 0.83, scale: [0.9, 0.93, 0.9] },
   { turn: -1.91, scale: [0.8, 0.87, 0.8] },
 ];
 
 /**
  * Fill a thin crown close up (A70). The 0.0.12 export cut the broadleaf leaf plates to small leaflets, so a near crown
- * shows sky through it. The near detail gains up to two more layers of the same cards (CROWN_LAYERS), within the tree
+ * shows sky through it. The near detail gains an inner layer of the same cards (CROWN_LAYERS), within the tree
  * budget: the near wood was simplified to make room for them (A72, tools/rebalance-tree-wood.mjs). Middle and far
  * detail, where the gaps do not read, are left as exported.
  */
@@ -61,8 +62,11 @@ function thicken(leaf: THREE.BufferGeometry | null, enabled: boolean, room: numb
   const merged = mergeGeometries([leaf, ...layers]);
   layers.forEach(layer => layer.dispose());
   if (!merged) return leaf;
+  const exportedIndexCount = leaf.index ? leaf.index.count : leaf.getAttribute('position').count;
   leaf.dispose();
   merged.computeBoundingBox(); merged.computeBoundingSphere();
+  // The exported cards come first; the added layers follow them (for diagnostics and the layer comparisons).
+  merged.userData.exportedIndexCount = exportedIndexCount;
   return merged;
 }
 

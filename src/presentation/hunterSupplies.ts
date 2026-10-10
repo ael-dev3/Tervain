@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { mergeStaticParts } from './staticMerge';
 import { HUNTER_CAMP, HUNTER_SUPPLY, HUNTER_TABLE as T, hunterStationPoint } from '../world/layout';
 import type { Terrain } from '../world/terrain';
 import type { Colliders } from '../world/colliders';
@@ -213,7 +214,9 @@ export function buildHunterSupplies(terrain: Pick<Terrain, 'heightAt'>, collider
       solid(`hunter-sign-pin-${x}`, .018, .018, .008, x, T.signCentreAboveTop, T.signZ + T.signDepth / 2 + .003, iron);
     }
   }
-  group.updateMatrixWorld(true);
+  // Dozens of planks, legs, pins, ties and hides: drawn as one mesh per material, a few draws instead of about 60 in
+  // the colour pass and as many again in the sun's shadow (A78).
+  mergeStaticParts(group);
   return group;
 }
 
