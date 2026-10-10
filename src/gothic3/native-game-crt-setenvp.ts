@@ -1,4 +1,4 @@
-import {aiHelperAccessorCreatorInstruction,aiHelperAccessorCreatorConstructorInstruction,aiHelperAccessorQueryInstruction,aiHelperFactoryQueryInstruction,aiHelperWrapperQueryInstruction,aiHelperWrapperCloneInstruction} from './native-game-ai-helper-accessor-creator-source';
+import {aiHelperAccessorCreatorInstruction,aiHelperAccessorCreatorConstructorInstruction,aiHelperAccessorQueryInstruction,aiHelperFactoryQueryInstruction,aiHelperWrapperQueryInstruction,aiHelperWrapperCloneInstruction,aiHelperComponentConstructorInstruction} from './native-game-ai-helper-accessor-creator-source';
 import {aiHelperPropertyIdInstruction} from './native-game-ai-helper-property-id-source';
 import {aiHelperAdminInitializerInstruction,aiHelperAdminWrapperInstruction,aiHelperAdminReplacementInstruction,aiHelperAdminAccessorInstruction} from './native-game-ai-helper-admin-source';
 /** The bounded original Game caller/environment source unit. Every reached instruction
@@ -88,6 +88,10 @@ const bodies = Object.freeze([
   ['1008cdd0','1008cdd0-1008ce15'],
   ['100890d0','100890d0-100890d5'],
   ['20077bf0','20077bf0-20077c56'],
+  ['30100fe0','30100fe0-30100ff9'],
+  ['30103020','30103020-30103036'],
+  ['1004a5a0','1004a5a0-1004a5c6'],
+  ['1004a1c0','1004a1c0-1004a1c8'],
   ['20077040','20077040-2007710d'],
   ['20076630','20076630-2007679e'],
   ['200763f0','200763f0-200763f3'],
@@ -545,7 +549,8 @@ export class NativeGameCrtSetEnvp {
     const extent = ranges.get(this.#currentEntry), address = Number.parseInt(pc, 16);
     if (!extent?.some(([first, last]) => address >= first && address <= last) ||
         this.#currentEntry === '204677e4' && !callerRows.has(pc)) throw new Error('Unowned Game environment source frontier at' + pc);
-    const point = this.#currentEntry==='1008cdd0' ? aiHelperFactoryQueryInstruction(pc)
+    const point = ['30100fe0','30103020','1004a5a0','1004a1c0'].includes(this.#currentEntry)?aiHelperComponentConstructorInstruction(this.#currentEntry,pc)
+      : this.#currentEntry==='1008cdd0' ? aiHelperFactoryQueryInstruction(pc)
       : this.#currentEntry==='100890d0' ? aiHelperWrapperQueryInstruction(pc)
       : this.#currentEntry==='20077bf0' ? aiHelperWrapperCloneInstruction(pc)
       : this.#currentEntry==='10090590' ? aiHelperAccessorQueryInstruction(pc)
@@ -689,6 +694,21 @@ export class NativeGameCrtSetEnvp {
     fact(NativeX86ThreadStack.prototype.storeWidth.call(this.#stack, this.#controller, this.#address(destination.expression), word, bytes));
   }
   #call(point: NativeGameIoInstruction, target: Operand, returnPc: string): string {
+    const componentConstructors:Readonly<Record<string,readonly[string,string,string,string]>>={
+      '200766b2':['20076630','CALL dword ptr [0x207d6ddc]','30100fe0','200766b8'],
+      '30100fe3':['30100fe0','CALL 0x30035a5d','30103020','30100fe8'],
+      '30103023':['30103020','CALL dword ptr [0x30afdc08]','1004a5a0','30103029'],
+      '1004a5a3':['1004a5a0','CALL 0x10007c11','1004a1c0','1004a5a8'],
+    };
+    const componentConstructor=componentConstructors[point.va];
+    if(componentConstructor) {
+      const [caller,instruction,body,next]=componentConstructor;
+      if(this.#currentEntry!==caller||point.instruction!==instruction||returnPc!==next)throw new Error('Original AI helper component constructor call chain required');
+      aiHelperComponentConstructorInstruction(body,body);
+      fact(NativeX86ThreadStack.prototype.call.call(this.#stack,this.#controller,point.va,returnPc));
+      this.#frames.push(Object.freeze({entry:body,site:point.va,returnPc,previousEntry:this.#currentEntry}));
+      this.#currentEntry=body;this.#nextBoundary=null;return body;
+    }
     if(point.va==='20077bfb'||point.va==='200766a4') {
       const component=point.va==='200766a4';
       if(this.#currentEntry!==(component?'20076630':'20077bf0')||target.kind!=='memory'||target.expression!=='0x207d88f8'||target.fs||returnPc!==(component?'200766aa':'20077c01'))throw new Error('Original AI helper allocation import required');

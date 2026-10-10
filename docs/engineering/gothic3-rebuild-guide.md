@@ -51,8 +51,8 @@ stack. PropertyID initializer `204b26c0` returns. Accessor-creator initializer
 factory through the original virtual accessor. The factory query finds the
 registered root wrapper and tail-dispatches its clone routine. The clone allocates
 its new wrapper, executes its base constructor and retrieves the canonical type.
-Non-root initialization allocates a separate component and stops at its Engine
-constructor import CALL `200766b2`.
+Non-root initialization allocates a separate component and executes its Engine
+constructor chain. It stops at module-administrator getter CALL `200766c2`.
 Complete startup, world activation and a new-game-to-ending campaign remain
 unfinished. Local checkpoints and the hosted version can differ; the validation
 receipts below identify the checkpoint covered.
@@ -98,7 +98,23 @@ establish completion of these remaining features.
 The entries below describe successive local states, newest first. Statements
 about missing operations in older entries apply to those earlier checkpoints.
 
-### Latest local checkpoint: non-root component allocation returns
+### Latest local checkpoint: Engine component constructor chain returns
+
+The component's Engine constructor `300027b1 -> 30100fe0` calls its base
+`30035a5d -> 30103020`, which enters SharedBase ObjectRefBase constructor
+`10001d07 -> 1004a5a0` and ObjectBase constructor `10007c11 -> 1004a1c0`.
+Captured matching DLL instructions execute on the same retained startup stack
+and live component allocation. Every constructor returns to its original caller.
+Game then writes the AI helper vtable `2065a54c` and clears byte `+20`.
+Execution stops at module-administrator getter import CALL `200766c2`.
+
+Nine focused tests passed in 13.88 seconds. They inspect the actual component's
+reference fields, initialization flags, final vtable and all four constructor
+returns. TypeScript checking and independent byte-identical source regeneration
+passed. Module registration, complete startup and campaign completion remain
+unfinished.
+
+### Historical checkpoint: non-root component allocation returns
 
 Clone initialization enters the captured wrapper body with root argument `0`.
 Its replacement routine follows the original non-root branch and calls tagged

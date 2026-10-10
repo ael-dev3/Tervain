@@ -17,9 +17,11 @@ def capture(study):
         raise ValueError('Unsupported Game.dll build')
     pe = PE(data)
     EXPECTED_INPUTS['SharedBase.dll']='5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214'
+    EXPECTED_INPUTS['Engine.dll']='d49ef92c0fdfeda433f6d04d0edeb7751e41e4c7c7effc1265630717029dc7e3'
+    engine=audit_module(study,'Engine_dll','Engine.dll',{0x300027b1:'engineComponentConstructor',0x30035a5d:'engineComponentBaseConstructor'})
     game=audit_module(study,'Game_dll','Game.dll',{0x20028efc:'aiHelperWrapperClone'})
     shared=audit_module(study,'SharedBase_dll','SharedBase.dll',{
-        0x10002ee1:'accessorCreatorConstructor',0x10007036:'queryNewObject',0x10007356:'accessorCreatorDestructor',0x100019d8:'queryTypeNode',0x10007ec8:'factoryQueryObject',0x100058a3:'factoryRootCheck',0x100056e6:'wrapperQueryObject'})
+        0x10002ee1:'accessorCreatorConstructor',0x10007036:'queryNewObject',0x10007356:'accessorCreatorDestructor',0x100019d8:'queryTypeNode',0x10007ec8:'factoryQueryObject',0x100058a3:'factoryRootCheck',0x100056e6:'wrapperQueryObject',0x10001d07:'engineObjectRefBaseConstructor',0x10007c11:'engineObjectBaseConstructor'})
     root = Path(__file__).resolve().parents[2]
     rows = []
     assembly = root / 'assets/gothic3/game-cinit-callbacks/sources/Game/204b2720.asm.txt'
@@ -56,7 +58,7 @@ def capture(study):
             raw=image.hex(), fileBackedBytes=backed, loaderZeroFillBytes=size-backed,
             sha256=hashlib.sha256(image).hexdigest(), liveValueCaptured=False))
     return dict(schema='gothic3-ai-helper-accessor-creator-research-v1',
-        module='Game.dll', inputSha256=digest, shared=shared, game=game, initializer='204b2720',
+        module='Game.dll', inputSha256=digest, shared=shared, game=game, engine=engine, initializer='204b2720',
         extent='204b2720-204b2741', bytes=raw.hex(),
         bytesSha256=hashlib.sha256(raw).hexdigest(), instructions=rows,
         destination='207b52bc', cleanup='20549d50', imports=imports,
@@ -101,6 +103,7 @@ export function aiHelperFactoryQueryInstruction(pc:string):NativeGameIoInstructi
 export function aiHelperWrapperQueryInstruction(pc:string):NativeGameIoInstruction {admitAIHelperAccessorCreatorSource();const method=source.shared.methods.find(method=>method.label==='wrapperQueryObject'&&method.bodyVA==='0x100890d0');const row=method?.instructions.find(row=>row.va===pc);if(!row)throw new Error('Unowned original wrapper query instruction');return row;}
 export function aiHelperWrapperCloneInstruction(pc:string):NativeGameIoInstruction {admitAIHelperAccessorCreatorSource();const method=source.game.methods.find(method=>method.label==='aiHelperWrapperClone'&&method.bodyVA==='0x20077bf0');const row=method?.instructions.find(row=>row.va===pc);if(!row)throw new Error('Unowned original AI helper wrapper clone instruction');return row;}
 export function admitAIHelperCloneAllocationImport():void {admitAIHelperAccessorCreatorSource();const binding=source.game.imports.find(binding=>binding.iatVA==='0x207d88f8');if(binding?.module!=='SharedBase.dll'||binding.name!=='_new@8')throw new Error('Original tagged allocation import required');}
+export function aiHelperComponentConstructorInstruction(entry:string,pc:string):NativeGameIoInstruction {admitAIHelperAccessorCreatorSource();const methods=[...source.engine.methods,...source.shared.methods.filter(method=>method.label==='engineObjectRefBaseConstructor'||method.label==='engineObjectBaseConstructor')];const method=methods.find(method=>method.bodyVA==='0x'+entry);const row=method?.instructions.find(row=>row.va===pc);if(!row)throw new Error('Original AI helper component constructor instruction required');return row;}
 export function aiHelperAccessorCreatorCleanupReceipt(){admitAIHelperAccessorCreatorSource();const cleanup=source.cleanupReceipt;return Object.freeze({module:'Game' as const,entry:cleanup.entry,body:cleanup.entry,bodyInstructionBytesSha256:cleanup.bytesSha256});}
 export function aiHelperAccessorCreatorInstruction(pc:string):NativeGameIoInstruction {admitAIHelperAccessorCreatorSource();const row=source.instructions.find(row=>row.va===pc);if(!row)throw new Error('Unowned AI helper accessor creator instruction');return row;}
 """.replace('EXPECTED', expected)

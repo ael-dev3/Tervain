@@ -17,8 +17,9 @@ The constructor enters the original object query. The query resolves the
 registered AI helper type, retrieves its factory and dispatches the root
 wrapper's original clone routine. The clone allocates and constructs its base,
 obtains the canonical type and enters non-root initialization. That path
-allocates a separate component and stops before its Engine constructor CALL
-`200766b2`. Reference callbacks, cleanup registration and initializer return
+allocates a separate component and executes its Engine and SharedBase base
+constructor chain. It stops at module-administrator getter CALL `200766c2`.
+Reference callbacks, cleanup registration and initializer return
 remain unfinished. Captured source alone proves no runtime execution. See the
 [rebuild guide](../../../docs/engineering/gothic3-rebuild-guide.md) for validation
 receipts and the remaining campaign work.
