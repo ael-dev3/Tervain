@@ -6,7 +6,7 @@ Rebuild Gothic 3 in TypeScript on Tervain's separate `/gothic3/` route. Completi
 means starting a new game, progressing through the campaign, saving and reloading,
 and reaching an ending through ordinary browser play.
 
-As of 9 October 2026, asset readers, viewers and selected native runtime
+As of 10 October 2026, asset readers, viewers and selected native runtime
 continuations exist. Complete engine startup, live world activation and campaign
 integration remain unfinished. The hosted route does not yet demonstrate a
 finishable campaign.
@@ -44,21 +44,555 @@ Each feature goes through the following steps:
    workflow triggers. Publish the reviewed checkpoint on `/gothic3/` and
    record which behavior it demonstrates.
 
-**Current local boundary:** Arena Status, None, Running and AI FreePoint
-initialization return through the retained startup stack. FreePoint's later
-class-name initializer also returns, sharing the same CString and cleanup
-owner. Label initializer `204b23d0` now executes its wrapper constructor and stops
-after Label returns, at the next C++ initializer `204b2660`. Complete startup,
-world activation and a new-game-to-ending campaign remain unfinished. Local
-checkpoints and the hosted version can differ; validation below identifies
-the checkpoint covered.
+**Current local boundary:** Arena Status, None, Running, AI FreePoint, Label
+and AI helper administrator initialization return through the retained startup
+stack. PropertyID initializer `204b26c0` returns. Accessor-creator initializer
+`204b2720` resolves the registered AI helper type and returns its canonical
+factory through the original virtual accessor. The factory query finds the
+registered root wrapper and tail-dispatches its clone routine. The clone allocates
+its new wrapper, executes its base constructor and retrieves the canonical type.
+Non-root initialization allocates a separate component and executes its Engine
+constructor chain. The translated module-administrator getter constructs its
+dispatcher and registry. Its shutdown dependency now enters Engine's retained
+CRT attach prefix, stores the process command-line pointer and stops at Engine
+environment retrieval `3067725c -> 3068e828`. That routine selects the wide
+API, scans the retained input, measures conversion and allocates output through
+Engine's CRT. Wide conversion fills that buffer, releases its OS input and
+returns. The caller stores the actual result at `30af70d4`; execution now stops
+at I/O initialization `30677266 -> 306886ec`. The ANSI path retains its actual
+allocation and stops at copy `3068e945 -> 30671cf0`.
+Complete startup, world activation and a new-game-to-ending campaign remain
+unfinished. Local checkpoints and the hosted version can differ; the validation
+receipts below identify the checkpoint covered.
+
+## Concrete example: rebuilding the AI helper startup
+
+The current work follows a dependency from Game's AI helper factory into
+Engine's module administrator and CRT startup. This shows how a native behavior
+becomes browser code:
+
+1. Capture the matching DLL instructions and cold globals with
+   `tools/gothic3/prepare_ai_helper_accessor_creator_source.py`.
+2. Store the traceable input evidence in
+   `assets/gothic3/ai-helper-accessor-creator-startup/research.json`, and emit the
+   admitted instruction module
+   `src/gothic3/native-game-ai-helper-accessor-creator-source.ts`.
+3. Continue the existing Game stack through factory lookup, wrapper allocation
+   and component construction. Preserve the original caller and pending return
+   while the module administrator needs Engine startup.
+4. Create Engine's separate CRT owner in
+   `src/gothic3/browser-engine-crt-startup.ts`. The Game and Engine heaps and
+   thread storage remain distinct, while platform process inputs retain their
+   shared identity.
+5. In `src/gothic3/native-crt-bootstrap.ts`, invoke the owned command-line
+   endpoint and store its actual result in Engine's original global
+   `30af91f8`. Stop at the next unsupported environment call
+   `3067725c -> 3068e828`, preserving all state already produced.
+
+At local runtime revision `4132b39e1`, 27 focused tests across three files,
+typechecking and independent byte-identical evidence regeneration passed.
+Those checks cover the command-line continuation, including NULL and pointer
+results. They do not establish complete Engine attachment or campaign play.
+The separate Engine exit-table implementation still needs startup integration,
+table growth and shutdown traversal.
+
+## Why extracted trees and humans can look different
+
+A mesh alone supplies geometry. Reproducing the installed game's appearance
+also requires the correct material assignments, texture alpha, normals, scale,
+lighting and rendering behavior. Human models additionally need their original
+skeleton, skin weights, animation and equipment attachments. World placement
+and the selected level of detail affect what appears in a scene. Each of these
+relationships must be recovered and connected before accepting visual fidelity.
+
+## What a rebuilding checkpoint contains
+
+The next Engine environment dependency is captured in
+[`assets/gothic3/engine-environment/`](../../assets/gothic3/engine-environment/).
+Its 130 instructions, six platform imports, two cold globals and caller bytes
+are verified against the pinned DLL. Independent regeneration matches exactly.
+Its translated selection, scan and conversion-measurement prefix is connected
+to the retained browser Engine bootstrap. The subsequent allocation checkpoint
+passes 39 focused checks across five files and typechecking. Its destination
+proof rejects foreign owners/platforms, unregistered storage, invalid spans,
+released allocations and expired heaps. The subsequent wide-conversion
+checkpoint passes 42 focused checks across five files, typechecking and exact
+independent evidence regeneration. It covers fill failure cleanup, fresh repeated
+allocations, destination ownership and pointer/NULL result stores. ANSI copy and
+Engine I/O remain runtime dependencies. The preceding selection checkpoint
+(`973fc79a8`) passed its production build in 50.35 seconds and all 3,233 tests
+across 304 files in 425.70 seconds. The wide-conversion checkpoint has no
+hosted-browser receipt yet. Its production build passed in
+29.28 seconds and all 3,241 tests across 305 files passed in 386.66 seconds in
+the separate validation checkout. A local production browser at validation
+revision `693142418` entered
+Ardea and inspected `Ardea_OutNovice_01`. Its developer panel confirmed the
+pending Engine I/O call `30677266 -> 306886ec` through the same Game startup
+dependency. The NPC still reports 0 of 16 attached property sets and incomplete
+activation. This is local browser evidence; the public deployment has not been
+updated by this checkpoint.
+
+Engine's next I/O dependency is captured in
+[`assets/gothic3/engine-io/`](../../assets/gothic3/engine-io/): the initializer,
+EH4 prologue/epilogue, calloc wrapper and section helper total 294 verified
+instructions and 870 body
+bytes. The package retains the loader-zero count and 64-slot pointer table,
+file-backed exception scope, imports and caller branches. Independent generation
+matches byte for byte. I/O runtime integration remains unfinished.
+
+Prepublication review additionally tightened Engine exit-table construction to
+require an actual constructed CRT and made reentrant initialization/registration
+retain an interruption boundary. It preserves any real allocation or lock already
+produced and prevents later stores or replay. All 26 relevant focused checks and
+typechecking pass; independent regeneration matches the six AI helper JSON and
+TypeScript outputs. At runtime revision `34c2a4af2`, the final production build
+passed in 26.32 seconds and all 3,244 tests across 305 files passed in 395.27
+seconds with `npm test -- --testTimeout=30000` in the separate validation checkout.
+The exit-table owner still has no completed production startup integration.
+
+Each checkpoint should let another developer follow the same evidence:
+
+- **Inputs:** installed resource paths and hashes of the DLLs or archives used.
+- **Recovered behavior:** original callers, instruction bytes, object layouts,
+  imports and the next unsupported operation.
+- **Implementation:** the TypeScript owner of each live object, its allocation
+  and cleanup rules, and the browser integration that uses it.
+- **Reproduction:** evidence-generation commands, relevant validation receipts
+  and the revision covered by each receipt.
+- **Publication:** the reviewed revision and deployment receipt, with a clear
+  statement of the behavior observed in the hosted browser.
+
+Decompilation supplies research material. Rebuilding requires translating that
+behavior and supplying browser equivalents for the native platform services.
+Recovered model geometry also needs materials, texture transparency, skeletons
+and animation before it can reproduce the appearance of the original game.
+The final integration must connect these resources to live world entities,
+NPC decisions, dialogue, combat, quests and persistent saves.
+
+## What still has to be rebuilt
+
+- Continue original startup beyond each unsupported call, including shutdown
+  and cleanup, using captured instructions and the existing memory owners.
+- Activate the world and attach the required property sets to live NPCs.
+- Integrate movement, animation, AI routines, combat, dialogue and quest state
+  with the same entities that the renderer displays.
+- Implement persistent saves and reloads, then demonstrate a complete campaign
+  from a new game through an ending.
+
+See the [step-by-step workflow](gothic3-rebuild-workflow.md) for repository
+locations, reference paths and reproduction commands. The checkpoint history
+below records incremental behavior recovery; a successful checkpoint does not
+establish completion of these remaining features.
 
 ### Checkpoint history
 
 The entries below describe successive local states, newest first. Statements
 about missing operations in older entries apply to those earlier checkpoints.
 
-### Current local checkpoint: complete Label initializer returns
+### Module-administrator research: next connection
+
+Engine exit registration now admits the original ModuleAdmin shutdown callback
+`30797fc0` as data belonging to its exit owner. It takes Engine CRT lock 8,
+decodes the live begin/end pointers, queries allocation size through the
+source-verified Engine `msize3067e45d`, stores an encoded callback, advances the
+encoded end pointer and unlocks. It rejects foreign callbacks before mutation.
+The initial 128-byte allocation holds 32 callback cells; execution stops at the
+actual growth routine `3067ca49` when more capacity is needed. Growth, shutdown
+traversal and browser Engine startup integration remain pending.
+
+The original initializer has no once guard. The previous implementation's
+cached success result was corrected: each completed invocation now performs a
+fresh allocation and pointer stores. Earlier allocations remain live through
+their CRT heap owner, matching the original repeated-call behavior.
+
+All 51 focused tests across four files passed in 9.93 seconds. TypeScript
+checking and independent byte-identical evidence regeneration passed. The
+browser ModuleAdmin getter still stops at its pending Engine exit-owner bridge.
+
+`NativeEngineExitTable` now translates the recovered exit initializer using
+an actual Engine CRT owner. It retains source-backed begin/end globals,
+calls the owner's `callocCrt(32, 4)` and pointer codec, stores the same encoded
+pointer in both globals and returns the original success `0` or allocation
+failure `24`. A codec failure retains the allocation and leaves the globals
+unwritten. Repeated completed calls allocate again; an unknown failure prefix
+cannot be replayed. It rejects Game CRT owners. Growth and traversal remain unimplemented,
+and this initializer has not been connected to browser Engine startup.
+
+All 34 focused tests across three files passed in 9.60 seconds, including
+initializer ownership, encoded pointers, NULL allocation and codec failure.
+TypeScript checking and independent source regeneration passed. ModuleAdmin's
+pending shutdown registration still prevents its getter from returning.
+
+Engine's exit-registration source now includes onexit `3067155a`, table
+insertion/growth `30671472` and unlock `30671590`. Its separate initializer
+`3067152b-30671559` was absent from the function catalog; every recovered
+instruction was checked against matching Engine DLL bytes, including contiguous
+coverage. Image slot `30816a2c` contains the initializer address. The initializer
+calls `calloc(32, 4)`, encodes the returned 128-byte table pointer and writes it
+to begin/end globals `30af7e80` and `30af7e7c`. Registration subsequently decodes
+those globals, checks capacity, grows the CRT allocation if necessary and stores
+an encoded callback. This source capture has not connected the Engine exit owner
+or completed the pending ModuleAdmin getter.
+
+Independent generation, TypeScript checking and nine focused tests passed
+(12.17 seconds). The integrated checkpoint `78c1335ea` passed all 3,217 tests
+across 302 files in 411.49 seconds and its build in 29.90 seconds. These full
+checks precede the ModuleAdmin bridge and latest exit-source additions.
+
+Main revision `7428ccf0a` (merged PR #218) is integrated locally at `31c7fb2ee`.
+It adds Tervain reflection and tree-shadow optimizations without changing the
+Gothic runtime. The combined checkout passed 24 focused tests across five files
+in 14.77 seconds and TypeScript checking. Full-suite and production-build
+validation of that combined tree passed as recorded above; publication has not
+occurred.
+
+The source package now captures 48 original Engine instructions for
+ModuleAdmin.GetInstance `3002e9ec -> 30088e90`, embedded input-dispatcher
+construction `3003f026 -> 30087c80`, Create `3000f5bf -> 300877c0` and Engine
+atexit wrapper `30671596`. The getter sets its guard before construction, builds
+the dispatcher in static storage `30ad9e78`, clears its module registry, calls
+Create and registers shutdown callback `30797fc0` through Engine's CRT. This
+callback requires its Engine exit-table owner. The existing ModuleAdmin owner
+already translates the dispatcher and registry operations; connecting it to
+this startup call still requires the actual shutdown registration service.
+The getter now connects to the existing translated ModuleAdmin/dispatcher
+owners. These captured instruction bodies are not interpreted on the startup
+stack by that bridge.
+
+Independent byte-identical generation, TypeScript checking and nine focused
+tests passed (11.89 seconds). The earlier runtime checkpoint `53359a5f9` passed
+all 3,216 tests across 301 files in 440.70 seconds and its production build in
+34.96 seconds. Its validation checkout matched that checkpoint's tree. The
+later component constructor and research additions have focused receipts only.
+
+### Latest local checkpoint: Engine command-line import returns
+
+The Engine attach bridge now calls the actual retained process input endpoint at
+`30677251`, verifies its pointer ownership and stores the result in Engine's own
+source-backed global `30af91f8` at `30677257`. A NULL result is stored without
+inventing a result branch. Engine and Game retain separate command-line globals
+that reference the same platform process input. Execution stops at the original
+environment retrieval CALL `3067725c -> 3068e828`.
+
+All 27 focused tests across three files passed in 10.93 seconds. They check
+actual pointer identity, opaque pointer masks, the NULL store, the next call
+and retained execution without replay. TypeScript checking and independent
+source generation passed. Environment retrieval, full Engine attach, exit
+initialization and a finishable campaign remain incomplete.
+
+### Historical checkpoint: retained Engine CRT attach reaches its command-line import
+
+The ModuleAdmin shutdown dependency now creates and retains Engine's own CRT
+bootstrap graph on the browser platform. Its errno callback uses Engine's
+bootstrap thread, and its heap and TLS storage are separate from Game's.
+The existing translated Engine attach prefix initializes the heap, multithread
+state and pre-C callbacks, then stops at `GetCommandLineA`, IAT `30afc69c`,
+source call site `30677251`. Repeated graph requests reuse the same execution;
+copied descriptions cannot prove ownership. Reentry during construction is
+retained as an interruption.
+
+Thirteen focused tests across three files passed in 11.79 seconds, including
+the Game-to-Engine dependency, graph identity and separate heap/TLS storage.
+TypeScript checking passed. Engine attach, its static exit initializer and
+ModuleAdmin shutdown registration remain incomplete. This bridge establishes
+an explicit Engine dependency; it does not prove complete DLL loading or startup.
+
+### Historical checkpoint: ModuleAdmin construction reaches Engine shutdown registration
+
+The original Game getter CALL `200766c2` enters the retained ModuleAdmin owner
+through a translated bridge. Its source-ordered getter sets the guard,
+constructs the dispatcher in its original 84-byte static object, installs the
+ModuleAdmin vtable and clears its registry. Dispatcher Create completes. The
+getter then stops at shutdown registration because Engine's onexit path has no
+connected Engine CRT exit-table owner. The Game CALL remains pending; the getter
+has not returned and no module has been registered.
+
+Nine focused tests passed in 13.37 seconds. They check the actual guard, vtable,
+registry and dispatcher slots, plus the missing atexit receipt. TypeScript
+checking passed. The preceding integrated checkpoint's production build passed
+in 29.90 seconds; its full suite remains running. Complete startup and a
+finishable browser campaign remain unfinished.
+
+### Historical checkpoint: Engine component constructor chain returns
+
+The component's Engine constructor `300027b1 -> 30100fe0` calls its base
+`30035a5d -> 30103020`, which enters SharedBase ObjectRefBase constructor
+`10001d07 -> 1004a5a0` and ObjectBase constructor `10007c11 -> 1004a1c0`.
+Captured matching DLL instructions execute on the same retained startup stack
+and live component allocation. Every constructor returns to its original caller.
+Game then writes the AI helper vtable `2065a54c` and clears byte `+20`.
+Execution stops at module-administrator getter import CALL `200766c2`.
+
+Nine focused tests passed in 13.88 seconds. They inspect the actual component's
+reference fields, initialization flags, final vtable and all four constructor
+returns. TypeScript checking and independent byte-identical source regeneration
+passed. Module registration, complete startup and campaign completion remain
+unfinished.
+
+### Historical checkpoint: non-root component allocation returns
+
+Clone initialization enters the captured wrapper body with root argument `0`.
+Its replacement routine follows the original non-root branch and calls tagged
+allocation with size `24` and category `0xc4`. MemoryAdmin returns a separate
+live component allocation. The original callee cleanup consumes eight argument
+bytes; EDI receives the component and ECX becomes its constructor receiver.
+Execution stops at Engine import CALL `200766b2`, before that constructor runs.
+The wrapper's component pointer remains null until later original stores.
+
+Nine focused tests passed in 13.86 seconds. They check component size, lifetime,
+separation from the wrapper, allocation category and executed branch instructions.
+TypeScript checking passed. The preceding clone-construction production build
+passed in 34.96 seconds; its full suite remains running. Those checks do not
+cover this new continuation. Full startup and a finishable campaign remain
+unfinished.
+
+### Historical checkpoint: clone base construction and type getter return
+
+The clone calls the existing original base-constructor body `10089290` on its
+live allocation. The constructor returns, and the clone's instructions clear
+the object pointer and write its Game vtable constant. Its call at `20077c1c`
+uses the same canonical AI helper type owner as earlier startup registration.
+Subsequent stores retain that type pointer, leave the object pointer null and
+produce flags `10`. Execution reaches `20077c33 -> 20026a08` with the original
+non-root argument `0`; initialization of the actual component remains pending.
+
+Nine focused tests passed in 11.28 seconds. They inspect the allocation's actual
+fields, opaque type-pointer masks, vtable constant and executed instructions.
+TypeScript checking passed. Full engine startup and campaign completion remain
+unfinished.
+
+### Historical checkpoint: clone allocation returns
+
+The original clone allocation CALL `20077bfb` invokes the retained MemoryAdmin's
+tagged allocation with size `16` and category `0x190`. The returned allocation
+has its own live backing and remains separate from the registered root wrapper.
+The original callee cleanup consumes eight argument bytes; execution then
+copies the result into ESI, takes its non-null branch and sets ECX to the new
+wrapper. It stops at base constructor import CALL `20077c09`.
+
+Nine focused tests passed in 11.51 seconds. Tests check allocation size, lifetime,
+root-wrapper separation, category receipt and the executed branch instructions.
+TypeScript checking and independent source regeneration passed. Full startup,
+world activation and campaign completion remain unfinished.
+
+### Historical checkpoint: factory query reaches the original wrapper clone
+
+The original factory query reads its retained root array, checks the wrapper's
+root flag and tail-dispatches through its actual vtable slot `+56`. The vtable
+pointer remains an opaque pointer capability belonging to the same Game image.
+The captured clone routine `20077bf0` preserves ESI and EDI and pushes the
+original allocation category `0x190` and size `16`. Execution stops before its
+allocation import CALL at `20077bfb`. The accessor initializer has not returned.
+
+Nine focused tests passed in 11.35 seconds; TypeScript checking and independent
+byte-identical source regeneration passed. The preceding virtual-accessor
+checkpoint passed all 3,216 tests across 301 files in 434.74 seconds and its
+production build. These earlier full checks do not cover this new continuation.
+Live world activation and a complete campaign remain unfinished.
+
+### Historical checkpoint: virtual factory accessor returns
+
+The original query reads the canonical type vtable and its captured slot `+12`.
+The slot reaches the existing two-instruction accessor body `200763f0`, which
+returns the same retained factory at type offset `+24`. Its RET returns to the
+query frame at `100905e7`. Execution reaches factory QueryObject call
+`100905e9 -> 10007ec8`.
+
+Nine focused tests passed in 11.39 seconds and TypeScript checking passed.
+Independent source generation matched. The source package now also captures the
+original factory query, root check and wrapper object-query dispatch. Those
+captured methods have not yet been connected to this startup path. Factory
+object creation, reference callbacks and the complete accessor initializer
+remain unfinished; campaign completion is unproven.
+
+### Historical checkpoint: query resolves the registered AI helper type
+
+The original node lookup hashes the retained CString, searches the same property
+table and returns its actual node. Its value wrapper points to the canonical
+administrator type registered earlier. The query executes its non-null branches
+and reads that type's retained vtable. Execution reaches the virtual factory
+accessor CALL at `100905e5`.
+
+Nine focused tests passed in 11.42 seconds. Tests inspect the node's live backing,
+its exact registration-slot alias, wrapper identity and original query branch
+instructions. TypeScript checking and independent source regeneration passed.
+The actual allocation capability establishes non-nullness without assigning a
+browser numeric address. The factory accessor call and object creation remain
+unfinished; full startup and campaign completion remain unproven.
+
+### Historical checkpoint: object query reaches registered-type lookup
+
+The original QueryNewObject body enters with the retained singleton and
+class-name argument. Both original CString emptiness calls return through their
+actual frames, using the same class-name owner. The query prepares its original
+table and hash-index arguments and reaches lookup `100905b7 -> 100019d8`.
+
+Nine focused tests passed in 12.08 seconds. The complete PropertyID checkpoint
+before these later accessor changes passed all 3,202 tests across 299 files in
+443.85 seconds and a production build. That broad result does not validate this
+later query or the subsequently integrated main changes. Type lookup, factory
+creation, reference callbacks and accessor return remain unfinished.
+
+### Historical checkpoint: accessor constructor reaches object query
+
+Original SharedBase body `100932e0` enters through the accessor constructor
+import. Its prologue preserves registers, reads the original class-name argument
+and clears the actual creator receiver. The singleton getter returns the same
+retained property singleton already used by type and root registration. Execution
+reaches QueryNewObject CALL `100932f6 -> 10007036`.
+
+Nine focused tests passed in 11.62 seconds. The source generator also verifies
+the original Shared constructor, query and destructor bodies. Independent JSON
+and TypeScript generations matched. CString diagnostics now retain the snapshot
+at destruction, rather than rereading a temporary stack slot after its lifetime.
+Object creation, reference callbacks, cleanup and initializer return remain
+unfinished; the full campaign is not playable yet.
+
+### Historical checkpoint: AI helper accessor class-name getter returns
+
+Initializer `204b2720` enters on the retained stack. Its class-name getter reuses
+the existing administrator CString owner, then pushes that pointer and the
+retained PropertyID and prepares the separate accessor creator receiver.
+Execution stops at constructor import `204b2730 -> 207d86b4`.
+
+Nine focused tests passed in 13.77 seconds. Independent JSON and generated
+TypeScript matched. Diagnostics retain GUID construction-time bytes and mark
+the temporary lifetime ended; later stack reuse is not represented as live GUID
+state. Accessor construction and the initializer return remain unfinished.
+
+### Historical checkpoint: complete AI helper PropertyID initializer returns
+
+The original GUID destructor returns without stores. CString destruction uses
+the same retained temporary owner and frees its allocation. The initializer
+registers original cleanup `20549ce0` once in the Game exit table, restores its
+stack and returns at `204b270c`. Startup advances to unsupported callback
+`204b2720`.
+
+Focused checks verify the executed destruction and initializer return, freed
+CString and conversion allocations, retained PropertyID bytes, and exactly one
+cleanup callback. TypeScript checking and independent JSON/TypeScript source
+regeneration passed. Full-suite and production browser validation of this
+completion remain pending. Complete startup and campaign play remain unfinished.
+
+### Historical checkpoint: AI helper PropertyID constructor returns
+
+The original PropertyID constructor clears its canonical destination in the
+captured store order, checks the retained GUID validity and compares its payload
+against the same mutable Shared GUIDNull image. For this non-null GUID it copies
+the four payload DWORDs and clears the trailing cache. It returns its actual
+destination through the original frame and reaches temporary GUID destructor
+`204b26f0 -> 207d86b0`.
+
+Six browser startup tests passed in 11.81 seconds, and three additional checks
+cover invalid GUIDs, null GUIDs and payload copying without validity or padding.
+TypeScript checking passed. Temporary destruction, cleanup registration and the
+complete initializer return remain pending; campaign completion is unproven.
+
+### Historical checkpoint: AI helper GUID constructor returns
+
+The GUID constructor uses the retained CString and the actual 20-byte stack
+receiver. Its existing SetData owner calls the selected browser ASCII-to-UTF16
+and canonical IID conversion services, writes the original GUID payload and
+validity byte, and frees its 78-byte temporary conversion buffer. The constructor
+ignores SetData's BOOL, returns its actual receiver and removes its four-byte
+argument through the original frame. Startup reaches PropertyID constructor
+`204b26e6 -> 207d86ac`.
+
+Six focused tests passed in 11.57 seconds. They inspect the exact little-endian
+GUID payload, validity flag, freed conversion allocation, preserved padding
+bytes and masks, live CString, and untouched PropertyID destination. These are
+selected browser compatibility services; native Windows functions are not
+executed. PropertyID construction, temporary destruction, cleanup registration
+and complete initializer return remain pending.
+
+### Historical checkpoint: AI helper PropertyID CString constructor returns
+
+CALL `204b26cc` invokes the existing CString text constructor with the actual
+stack receiver, canonical GUID literal and retained MemoryAdmin. The temporary
+owns the original GUID text allocation. The original CALL/RET frame removes the
+four-byte argument and returns to `204b26d2`; initializer execution proceeds to
+GUID constructor import `204b26da -> 207d86b8`.
+
+TypeScript checking and six focused tests passed in 15.91 seconds. Tests inspect
+the executed constructor and following address setup, retained live allocation,
+exact GUID string and NUL terminator, untouched PropertyID destination, and
+unexecuted GUID constructor and initializer return. GUID construction, temporary
+destruction, cleanup registration and complete initializer return remain pending.
+
+### Historical checkpoint: AI helper PropertyID initializer enters
+
+Initializer `204b26c0` enters on the retained startup stack. Its original stack
+reservation, GUID-literal push and CString receiver address execute. Execution
+stops at CString constructor import `204b26cc -> 207d890c`. The canonical
+20-byte PropertyID destination remains untouched. Construction, destruction and
+initializer return still need connection to startup execution.
+
+TypeScript checking and six focused tests passed in 14.28 seconds. Independent
+JSON and TypeScript generation matched. The preceding administrator checkpoint
+passed all 3,199 tests in 550.41 seconds; that result does not cover this prefix.
+
+### Historical checkpoint: complete AI helper administrator initializer returns
+
+The original object-replacement body executes its root checks through EBP and
+registration toggles through EBX. Its root path returns without entering the
+unimplemented engine-component allocation branch. The actual virtual accessor
+returns the retained factory, which registers the administrator wrapper in its
+root array. Wrapper initialization and initializer `204b2660` return through
+the existing startup stack after registering original cleanup `20549d60`.
+Startup advances to the next unsupported C++ initializer, `204b26c0`.
+
+TypeScript checking and all 31 focused tests passed in 28.81 seconds. Tests
+inspect original helper, accessor, wrapper and initializer return PCs; actual
+factory membership; and exactly one class-name, type and wrapper cleanup
+registration. The complete administrator checkpoint passed all 3,199 tests across 298 files
+in 550.41 seconds and a production build. Production browser proof remains
+pending.
+
+The preceding complete Label continuation passed all 3,199 tests across 298
+files in 505.29 seconds and is proposed for publication in PR 210. Campaign
+completion remains unproven.
+
+### Historical checkpoint: AI helper administrator wrapper initialization enters
+
+Initializer CALL `204b269a` enters original body `20077040`, reads byte
+argument one and executes its flag update. The retained wrapper flags become
+eleven while its registered reflected-type pointer remains unchanged. Startup
+stops at object replacement `20077054 -> 200319d0`.
+
+The captured helper differs from Label: EBP holds the root-check target and
+EBX holds registration toggles; its other branch includes engine-component
+construction. Those operations still need implementation. TypeScript checking
+and all 31 focused startup tests passed in 31.49 seconds.
+
+### Historical checkpoint: AI helper administrator type registers and returns
+
+The reflected-type getter sets its guard, constructs the original property-type
+base and named factory, and retains vtable `2065a68c`. Its early class-name
+call uses the same canonical CString owner as later static initializer
+`204b2970`. Registration inserts the actual type in the shared property table
+and registers original cleanup `20549d10`. The getter returns through its
+retained startup frame; the initializer stores its actual type pointer and
+stops at wrapper initialization `204b269a -> 20026a08`.
+
+TypeScript checking and all 31 focused startup tests passed in 31.33 seconds.
+Tests inspect the class-name text and cleanup identity, actual registration
+slot and wrapper allocation, derived vtable, base flag and repeat getter
+return. The complete administrator initializer remains unfinished.
+
+### Historical checkpoint: AI helper administrator wrapper constructs
+
+Initializer `204b2660` enters the retained startup stack and calls the existing
+SharedBase wrapper constructor on separate storage `207b5298`. It retains
+flags ten, a zero object field and the original derived vtable. Startup stops
+at type getter CALL `204b267f -> 20016e32`. The full initializer has not returned.
+
+Its own evidence package records six helper bodies, seven image regions and
+both cleanup callbacks. The object-replacement body has 132 instructions;
+its behavior still needs implementation. Independent generations matched,
+TypeScript checking passed, and all 31 focused tests passed in 30.88 seconds.
+The complete Label checkpoint described below remains in broader validation.
+
+### Historical checkpoint: complete Label initializer returns
 
 The captured object-replacement body executes its original registration
 toggles on the retained singleton. The virtual accessor returns the actual
@@ -74,13 +608,13 @@ cleanup registration. All 31 tests passed, TypeScript checking passed and
 independent source generations matched exactly. The latest completion also passed a production build in 49.35 seconds.
 A local production browser loaded Ardea and its original NPC model inspector
 and reported startup at `204b2660`; live NPC activation still reported the
-unconnected ScriptAdmin getter and 0/16 attached property sets. Full-suite
-validation of this latest completion remains pending. The earlier Label
+unconnected ScriptAdmin getter and 0/16 attached property sets. This complete Label checkpoint passed all 3,199 tests across 298 files in
+505.29 seconds. The earlier Label
 wrapper-entry checkpoint passed all 3,199 tests across 298 files in 540.16
 seconds and a production build in 46.09 seconds. Cleanup execution and the
 playable campaign remain unfinished.
 
-### Current local checkpoint: Label wrapper initialization enters
+### Historical checkpoint: Label wrapper initialization enters
 
 The original initializer CALL `204b240a` enters wrapper body `20075040` on
 the existing startup stack. Its byte argument is one; the original flag
@@ -92,7 +626,7 @@ TypeScript checking and 31 focused tests passed. Independent JSON and
 TypeScript generations matched byte for byte. Broad validation of this
 later Label checkpoint is pending.
 
-### Current local checkpoint: Label type registers and returns
+### Historical checkpoint: Label type registers and returns
 
 Label's actual reflected type is inserted into the shared property table with
 its retained wrapper allocation. Registration uses the original virtual
@@ -107,7 +641,7 @@ registration slot, wrapper allocation, cleanup identity and stable repeat
 getter return. Wrapper initialization and the complete initializer return
 remain unfinished.
 
-### Current local checkpoint: Label class name and named factory construct
+### Historical checkpoint: Label class name and named factory construct
 
 The type getter reuses the canonical class-name owner from initializer
 `204b23b0`. Its Label cache and descriptor aliases are checked against the
@@ -120,7 +654,7 @@ Independent JSON and TypeScript generations matched exactly, TypeScript
 checking passed, and all 31 focused startup tests passed in 22.74 seconds.
 Type registration and complete Label initializer return remain unfinished.
 
-### Current local checkpoint: Label reflected-type base constructs
+### Historical checkpoint: Label reflected-type base constructs
 
 The original type getter CALL enters with a retained return to `204b23f4`.
 Its canonical owner sets the original guard, constructs the SharedBase
@@ -133,7 +667,7 @@ TypeScript checking and all 31 focused startup tests passed in 25.91 seconds.
 The checks inspect the base flag at offset twenty, zero array counters,
 separate FreePoint and Label storage, and unchanged state on repeat access.
 
-### Current local checkpoint: Label wrapper constructor returns
+### Historical checkpoint: Label wrapper constructor returns
 
 The original initializer enters on the retained C++ startup stack and calls
 SharedBase wrapper constructor `10089290` with its separate storage at
@@ -144,7 +678,7 @@ Independent source generations matched exactly, TypeScript checking passed,
 and all 31 focused startup tests passed in 24.67 seconds. This later checkpoint
 has not yet received a full-suite or production browser validation.
 
-### Current local checkpoint: FreePoint initialization returns
+### Historical checkpoint: FreePoint initialization returns
 
 The captured FreePoint wrapper, object-replacement helper and type accessor
 now execute through their original returns. Its property factory registers
@@ -275,7 +809,7 @@ and separate Arena storage. Independent regeneration of JSON and generated
 TypeScript matches exactly. Broad validation and publication of this later
 continuation remain pending; the initializer and campaign remain unfinished.
 
-### Current local checkpoint: Running enum returns
+### Historical checkpoint: Running enum returns
 
 Running now traverses the existing value bucket by actual scalar comparisons.
 Its scalar one shares bucket zero with None but retains a distinct entry;
@@ -291,7 +825,7 @@ pass. The full suite passed 3,199 tests across 298 files in 491.58 seconds,
 and the production build passed in 44.78 seconds. Publication remains pending.
 Full campaign playability remains unfinished.
 
-### Current local checkpoint: Running name lookup preserves prior entries
+### Historical checkpoint: Running name lookup preserves prior entries
 
 Running now hashes its actual CString and traverses the existing name bucket
 using the recovered CString equality overload and retained entry owners. A
@@ -304,7 +838,7 @@ Typechecking and seven focused checks pass. They inspect both name identities,
 bucket links, preserved None value, Running scalar and repeat-entry behavior.
 The later initializer has not returned, and publication remains pending.
 
-### Current local checkpoint: Running enum enters with retained registries
+### Historical checkpoint: Running enum enters with retained registries
 
 Startup now selects the actual Running initializer table slot at offset
 `0x378`. It requires the preceding None initializer's actual completed owner,
@@ -318,7 +852,7 @@ and allocation. Typechecking and seven focused checks across three files pass.
 The integrated build at `352ab998` passed in 38.34 seconds; its full suite
 remains running and does not cover this later local continuation.
 
-### Current local checkpoint: first enum initializer returns
+### Historical checkpoint: first enum initializer returns
 
 The value-registry cleanup callback `20549a60` is captured through its final
 RET: sixteen instructions and 74 PE-verified bytes. The actual exit-table
@@ -336,7 +870,7 @@ passing tests and one image-metadata failure; that issue is corrected locally
 and its regression passes. A fresh full suite is required before publication.
 Full campaign completion remains unproven.
 
-### Current local checkpoint: enum value assignment and second registry
+### Historical checkpoint: enum value assignment and second registry
 
 The actual original value-base vtable slot `+0x1c` resolves through
 `200067f8` to the five-instruction body `2006d540`. It copies the retained
@@ -353,7 +887,7 @@ constants: their scope and capture flag are now corrected, and the independent
 Game image-admission regression passes. The earlier full-suite run does not
 validate this correction or continuation. The work remains local and undeployed.
 
-### Current local checkpoint: enum name lookup returns
+### Historical checkpoint: enum name lookup returns
 
 The cold name lookup hashes the actual retained CString with the existing
 original hash implementation and selects its bucket modulo 43. The original
@@ -367,7 +901,7 @@ unfinished. Typechecking and six focused production checks pass; checks inspect
 the actual entry identity, bucket link, remaining empty buckets and scalar
 fields. These later local changes remain undeployed.
 
-### Current local checkpoint: enum name registry cleanup registers
+### Historical checkpoint: enum name registry cleanup registers
 
 Targeted recovery captures callback `20549ac0` through its final RET at
 `20549b09`: sixteen instructions and 74 bytes, checked against the matching
@@ -379,7 +913,7 @@ focused checks and independent exact regeneration pass. The value registry
 cleanup target `20549a60` remains unadmitted; enum insertion and campaign
 completion remain unfinished. This checkpoint is local and undeployed.
 
-### Current local checkpoint: enum name registry constructs
+### Historical checkpoint: enum name registry constructs
 
 The enum naming path sets the original name-registry guard bit and zeros the
 four canonical registry DWORDs. Its cold reserve(43,0) selects growth eight,
@@ -392,7 +926,7 @@ Typechecking and six focused production checks pass; regressions inspect the
 actual guard, counts and all 204 cleared bytes and their known masks.
 This continuation remains local and undeployed.
 
-### Current local checkpoint: enum base construction returns
+### Historical checkpoint: enum base construction returns
 
 The original SharedBase default `bCObjectBase` constructor resolves from
 `10007c11` to `1004a1c0`. Its three exact instructions return the actual
@@ -405,7 +939,7 @@ value. Typechecking, seven focused checks and byte-identical independent
 regeneration of both source JSON and generated TypeScript pass. These later
 local changes remain undeployed.
 
-### Current local checkpoint: first enum initializer enters
+### Historical checkpoint: first enum initializer enters
 
 Startup selects the actual `204b1e70` table entry at offset `0x374` and retains
 its original CALL frame. The translated owner constructs `gEArenaStatus_None`
@@ -422,7 +956,7 @@ initializer-return checkpoint `c2b9593a` separately passed 3,193 tests across
 not cover this later enum continuation. Publication and full campaign remain
 unfinished.
 
-### Current local checkpoint: first Arena property initializer returns
+### Historical checkpoint: first Arena property initializer returns
 
 The Status initializer now registers its original cleanup callback `205499a0`
 through the existing same-CRT exit table. The complete callback's eleven
@@ -438,7 +972,7 @@ Typechecking and six focused production checks pass, including actual Status
 registration, temporary destruction, cleanup registration and initializer
 return. This checkpoint remains local; campaign completion is unproven.
 
-### Current local checkpoint: Status registration returns
+### Historical checkpoint: Status registration returns
 
 After the actual filtered Debug return, property registration follows its
 original success epilogue at `10088196` through `1008819e`, returning AL=1.
@@ -450,7 +984,7 @@ unfinished. The initializer has not returned. Typechecking and six production
 checks pass, followed by two focused checks with explicit registration and
 temporary-destruction assertions. This continuation is local and undeployed.
 
-### Current local checkpoint: filtered diagnostic returns
+### Historical checkpoint: filtered diagnostic returns
 
 The registration diagnostic now executes OnMessage's original signed threshold
 comparison against the returned MessageAdmin owner's actual DWORD at offset
@@ -463,7 +997,7 @@ Debug. Typechecking and six focused checks across combined startup and browser
 NPC services pass, including signed comparison and unsupported-loop checks.
 This local continuation has not been deployed or broadly validated.
 
-### Current local checkpoint: actual MessageAdmin getter returns
+### Historical checkpoint: actual MessageAdmin getter returns
 
 Registration Debug now looks up the runtime-admin factory's unique actual
 same-platform MessageAdmin module. Missing or ambiguous owners are rejected;
@@ -478,7 +1012,7 @@ The preceding formatter-return revision `3d59cf3d` passed 3,193 tests across
 296 files in 523.96 seconds. That full-suite receipt does not cover this later
 getter integration, which has typechecking and focused production checks.
 
-### Current local checkpoint: registration formatting returns
+### Historical checkpoint: registration formatting returns
 
 At `3d59cf3d`, the selected original narrow-string formatter path writes the
 property-registration message into the actual SharedBase TLS buffer. It uses

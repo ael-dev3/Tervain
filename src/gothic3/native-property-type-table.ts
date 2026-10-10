@@ -10,9 +10,10 @@ import type { NativeValue } from './dialogue';
 
 function fact<T>(result: NativeValue<T>): T { if (!result.known) throw new Error(result.reason); return result.value; }
 const constructed = new WeakMap<object, Set<number>>();
+const nodeOwners=new WeakMap<NativeHeapObjectViews,Node>();
 class Node {
   constructor(readonly fields: NativeHeapObjectViews, readonly name: NativeHeapCString,
-    readonly memory: NativeMemoryAdmin) {}
+    readonly memory: NativeMemoryAdmin,readonly table:NativePropertyTypeTable) {nodeOwners.set(fields,this);}
 }
 export class NativePropertyTypeTable {
   private active = false;
@@ -103,6 +104,16 @@ export class NativePropertyTypeTable {
       return node ? this.valueSlot(node) : null;
     });
   }
+  /** Original query lookup10090c90 returns the node, before its value DWORD. */
+  findNode(name:NativeHeapCString,index:NativeHeapObjectViews):NativeValue<NativeHeapObjectViews|null> {
+    return this.run(()=>this.find(name,index)?.fields??null);
+  }
+  static canonicalNodeAllocation(table:NativePropertyTypeTable,fields:NativeHeapObjectViews):NativeValue<NativeMemoryAllocation> {
+    const node=nodeOwners.get(fields);
+    if(!node||node.table!==table||node.memory!==table.memory||table.boundary||table.fields.backing.freed||fields.backing.freed||fields.bytes.length!==12)
+      return {known:false,reason:'Actual live same-heap property table node required'};
+    return {known:true,value:fields.backing as NativeMemoryAllocation};
+  }
   private valueSlot(node: Node): NativeHeapObjectViews {
     const begin = node.fields.bytes.byteOffset - node.fields.backing.bytes.byteOffset;
     return new NativeHeapObjectViews(node.fields.backing, begin + 4, 4);
@@ -178,7 +189,7 @@ export class NativePropertyTypeTable {
       const buckets = this.buckets();
       const bucket = (index.readUnsigned(0) * 4) >>> 0;
       fields.pointer(8).set(buckets.pointer<Node>(bucket).get());
-      const node = new Node(fields, string, this.memory);
+      const node = new Node(fields, string, this.memory,this);
       // The original reloads bucket storage before linking the node.
       const current = this.buckets();
       current.pointer(bucket).set(node);

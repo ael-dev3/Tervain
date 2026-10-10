@@ -1,3 +1,5 @@
+import engineContinuation from '../../assets/gothic3/ai-helper-accessor-creator-startup/research.json';
+import {admitAIHelperAccessorCreatorSource} from './native-game-ai-helper-accessor-creator-source';
 /** Selected ordinary Engine/Game DLL attach prefix. Original PE receipts own cold
  * globals; explicit platform calls own process outputs. Completing this prefix
  * does not complete DLL initialization or activate the browser NPC reader. */
@@ -12,6 +14,8 @@ import type { NativeMemoryBacking } from './native-memory-admin';
 import type { NativeWin32HeapCapability } from './native-runtime-platform';
 import { NativeRuntimePlatform } from './native-runtime-platform';
 import { NativeGameCrtEnvironment } from './native-game-crt-environment';
+import { NativeEngineCrtEnvironment } from './native-engine-crt-environment';
+import { engineEnvironmentImage } from './native-engine-environment-source';
 import { NativeGameCrtIoInit } from './native-game-crt-ioinit';
 import { NativeGameCrtArgv } from './native-game-crt-argv';
 import { NativeGameCrtSetEnvp } from './native-game-crt-setenvp';
@@ -173,11 +177,14 @@ export interface NativeCrtAttachProgress {
   readonly commandLineBoundary: Readonly<{ address: string; iat: string }> | null;
   /** Pointer results are described as NULL/non-NULL without inventing raw
    * numerical x86 addresses for the actual retained browser capabilities. */
+  readonly engineCommandLineStorage: NativeHeapObjectViews | null;
+  readonly engineEnvironmentStorage: NativeHeapObjectViews | null;
   readonly commandLineReturned: boolean;
   readonly commandLineNonNull: boolean | null;
   readonly environmentReturned: boolean;
   readonly environmentNonNull: boolean | null;
   readonly environmentProgress: ReturnType<NativeGameCrtEnvironment['snapshot']> | null;
+  readonly engineEnvironmentProgress: ReturnType<NativeEngineCrtEnvironment['snapshot']> | null;
   readonly ioProgress: ReturnType<NativeGameCrtIoInit['snapshot']> | null;
   readonly ioResult: number | null;
   readonly argvProgress: ReturnType<NativeGameCrtArgv['snapshot']> | null;
@@ -234,6 +241,7 @@ export class NativeCrtBootstrap {
   #commandLineBoundary: NativeCrtAttachProgress['commandLineBoundary'] = null;
   readonly #processInputs: NativeWin32ProcessInputEndpoints | null;
   readonly #environment: NativeValue<NativeGameCrtEnvironment> | null;
+  readonly #engineEnvironment: NativeValue<NativeEngineCrtEnvironment> | null;
   readonly #io: NativeValue<NativeGameCrtIoInit> | null;
   readonly #argv: NativeValue<NativeGameCrtArgv> | null;
   readonly #setEnvp: NativeValue<NativeGameCrtSetEnvp> | null;
@@ -252,6 +260,8 @@ export class NativeCrtBootstrap {
   #argvResult: 0 | -1 | null = null;
   #setEnvpResult: 0 | -1 | null = null;
   #ioResult: number | null = null;
+  #engineCommandLineStorage: NativeHeapObjectViews | null = null;
+  #engineEnvironmentStorage: NativeHeapObjectViews | null = null;
   #commandLineReturned = false;
   #commandLineNonNull: boolean | null = null;
   #environmentReturned = false;
@@ -372,8 +382,17 @@ export class NativeCrtBootstrap {
     // Retain continuation owners before the selected attach's first execution.
     // Missing process services do not skip or prematurely run its native
     // prefix; their unknown result is consumed only at the reached call.
-    this.#processInputs = crt.module === 'Game' ? crt.host.platform.processInputEndpoints ?? null : null;
+    this.#processInputs = crt.host.platform.processInputEndpoints ?? null;
+    if(crt.module==='Engine'){
+      admitAIHelperAccessorCreatorSource();const row=engineContinuation.engineCommandLine;
+      if(row.address!=='30af91f8'||row.raw!=='00000000'||row.importBinding.module!=='KERNEL32.dll'||row.importBinding.name!=='GetCommandLineA'||row.instructionsRaw!=='ff159cc6af30a3f891af30e8c7750100')throw new Error('Original Engine command-line input source required');
+      this.#engineCommandLineStorage=new NativeHeapObjectViews({identity:Object.freeze({crt:crt.identity,address:row.address}),bytes:new Uint8Array(4),knownMask:new Uint8Array(4).fill(255),freed:false});this.#pin(this.#engineCommandLineStorage);
+      const environmentImage=engineEnvironmentImage('environmentPointer');
+      if(environmentImage.address!=='30af70d4'||environmentImage.raw!=='00000000'||environmentImage.bytes!==4)throw new Error('Original Engine environment pointer image required');
+      this.#engineEnvironmentStorage=new NativeHeapObjectViews({identity:Object.freeze({crt:crt.identity,address:environmentImage.address}),bytes:new Uint8Array(4),knownMask:new Uint8Array(4).fill(255),freed:false});this.#pin(this.#engineEnvironmentStorage);
+    }
     this.#environment = crt.module === 'Game' ? NativeGameCrtEnvironment.forCrt(crt) : null;
+    this.#engineEnvironment = crt.module === 'Engine' && this.#processInputs ? NativeEngineCrtEnvironment.forCrt(crt) : null;
     this.#io = crt.module === 'Game' ? NativeGameCrtIoInit.forCrt(crt) : null;
     this.#argv = crt.module === 'Game' ? NativeGameCrtArgv.forCrt(crt) : null;
     this.#setEnvp = crt.module === 'Game' ? NativeGameCrtSetEnvp.forCrt(crt) : null;
@@ -627,11 +646,34 @@ export class NativeCrtBootstrap {
     this.#preCInitialize();
     this.#preCReturned = true;
     this.#record('preCInit.return', null, this.#point('30677251', '204678b9'));
-    if (this.#crt.module === 'Engine' || !this.#processInputs) {
+    if (!this.#processInputs) {
       this.#commandLineBoundary = Object.freeze({ address: this.#instruction('30677251', 'commandLineCall'),
         iat: this.#instruction('30afc69c', 'commandLineIat') });
       this.#record('GetCommandLineA.boundary', null, this.#commandLineBoundary.address);
       this.#gate('GetCommandLineA IAT' + this.#instruction('30afc69c', 'commandLineIat') + ' at' + this.#instruction('30677251', 'commandLineCall'));
+    }
+    if(this.#crt.module==='Engine') {
+      const proof=NativeRuntimePlatform.canonicalProcessInputEndpointsForPlatform(this.#crt.host.platform as NativeRuntimePlatform,this.#processInputs);
+      this.#call('Engine process input endpoint authority',()=>proof);
+      const commandLine=this.#call('GetCommandLineA IAT30afc69c at30677251',()=>this.#processInputs!.getCommandLineA());
+      this.#commandLineReturned=true;this.#commandLineNonNull=commandLine!==null;
+      this.#record('GetCommandLineA.return',this.#commandLineNonNull,'30677257');
+      if(commandLine!==null)this.#call('Engine command-line pointer authority',()=>NativeRuntimePlatform.canonicalProcessInputSpanForPlatform(this.#crt.host.platform as NativeRuntimePlatform,commandLine,0));
+      if(!this.#engineCommandLineStorage)throw new Error('Retained Engine command-line storage required');
+      NativeHeapObjectViews.prototype.pointer.call(this.#checked(this.#engineCommandLineStorage),0).set(commandLine);
+      this.#record('commandLinePointer.store',this.#commandLineNonNull,'30677257');
+      this.#nextBoundary=Object.freeze({name:'environment',address:'3067725c',target:'3068e828'});
+      const environment=this.#call('Engine crtGetEnvironmentStringsA3068e828 at3067725c',()=>this.#engineEnvironment?.known
+        ? this.#engineEnvironment.value.capture()
+        : unknown(this.#engineEnvironment&&!this.#engineEnvironment.known?this.#engineEnvironment.reason:'Actual Engine environment owner required'));
+      this.#environmentReturned=true;this.#environmentNonNull=environment!==null;
+      this.#record('environment.return',this.#environmentNonNull,'30677261');
+      if(environment!==null)this.#call('Engine environment pointer authority',()=>NativeEngineCrtEnvironment.canonicalDestinationForPlatform(this.#crt.host.platform as NativeRuntimePlatform,environment,0));
+      if(!this.#engineEnvironmentStorage)throw new Error('Actual retained Engine environment storage required');
+      NativeHeapObjectViews.prototype.pointer.call(this.#checked(this.#engineEnvironmentStorage),0).set(environment);
+      this.#record('environmentBlock.store',this.#environmentNonNull,'30677261');
+      this.#nextBoundary=Object.freeze({name:'io',address:'30677266',target:'306886ec'});
+      this.#gate('Engine ioInit306886ec at30677266');
     }
     const points = gameAttachContinuationInstructionPoints;
     const endpointProof = NativeRuntimePlatform.canonicalProcessInputEndpointsForPlatform(
@@ -818,9 +860,12 @@ export class NativeCrtBootstrap {
       result, operations: Object.freeze([...this.#attachOperations]), versionRecord,
       versionAvailable: this.#versionAvailable, heapResult: this.#heapResult, mtResult: this.#mtResult,
       preCReturned: this.#preCReturned, commandLineBoundary: this.#commandLineBoundary,
+      engineCommandLineStorage:this.#engineCommandLineStorage,
+      engineEnvironmentStorage:this.#engineEnvironmentStorage,
       commandLineReturned: this.#commandLineReturned, commandLineNonNull: this.#commandLineNonNull,
       environmentReturned: this.#environmentReturned, environmentNonNull: this.#environmentNonNull,
       environmentProgress: this.#environment?.known ? this.#environment.value.snapshot() : null,
+      engineEnvironmentProgress: this.#engineEnvironment?.known ? this.#engineEnvironment.value.snapshot() : null,
       ioProgress: this.#io?.known ? NativeGameCrtIoInit.prototype.snapshot.call(this.#io.value) : null,
       ioResult: this.#ioResult,
       argvProgress: this.#argv?.known ? NativeGameCrtArgv.prototype.snapshot.call(this.#argv.value) : null,
