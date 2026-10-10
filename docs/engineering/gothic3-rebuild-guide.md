@@ -145,15 +145,21 @@ a separate locale record and the same Engine thread data. Its full suite passed
 3342 tests across 313 files, and it deployed successfully. It reaches the lower
 classification body `306916cb -> 306914ea` after 1459 admitted operations.
 
-The next local continuation executes that body's Unicode API probe and conversion
-size query, then reserves an aligned buffer on the retained Engine stack. The
-original return word moves to the new stack location. Source instructions write
-the stack marker and a bounded memset bridge clears exactly 512 output bytes.
-It reaches the conversion output call at `306915f8` after 1557 admitted operations.
-The preceding conversion query passed 3349 tests across 313 files. The newer
-buffer passed 77 focused tests and its production build; its full suite is running.
-Output conversion, classification completion and publication of the new MBC
-record remain unfinished. Deployment of this newer continuation is pending.
+[PR #227](https://github.com/ael-dev3/Tervain/pull/227) executes the Unicode API
+probe, conversion size query and aligned stack-buffer reservation. It clears
+exactly 512 output bytes and reaches the conversion output call at `306915f8`
+after 1557 admitted operations. All 3352 tests across 313 files passed, and its
+Pages deployment succeeded.
+
+The newer local continuation fills the Unicode output and character types,
+returns through the original buffer cleanup and cookie check, releases its
+classification locale ownership and enters the case-mapping wrapper. It reaches
+`3067c94a -> 3067c57c` after 1660 admitted operations. The preceding output and
+classification-return checkpoints passed 3354 and 3355 tests respectively. The
+mapping wrapper passed 64 Engine frame tests and its production build;
+independent evidence regeneration is byte-identical. Its full suite is running.
+This newer continuation is awaiting publication. Case mapping, MBC publication,
+complete startup and campaign integration remain unfinished.
 
 Complete startup, world activation and a new-game-to-ending campaign remain
 unfinished. The checkpoint history records earlier boundaries and their evidence;
