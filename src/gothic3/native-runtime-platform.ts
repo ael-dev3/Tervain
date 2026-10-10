@@ -966,7 +966,9 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
       if(engine.known){
         this.#argvNlsConsumed.add(call);const selected=this.#crtServices!.argvNls!;
         const input=engine.value;let scalar:number;
-        if(input.kind==='MultiByteToWideChar'){
+        if(input.kind==='LCMapStringW'){
+          if(input.scalar!==0||input.flags!==0x100||input.count!==1||!input.input||input.fields||NativeHeapObjectViews.prototype.readUnsigned.call(input.input,0,2)!==0)throw new Error('Actual Engine Unicode mapping probe required');scalar=1;
+        }else if(input.kind==='MultiByteToWideChar'){
           if(!input.input||input.count!==256||![1,9].includes(input.flags)||input.procedure!==this.#argvProcedures.get('MultiByteToWideChar'))throw new Error('Actual Engine conversion query ABI required');requirePhysicalNativeViews(input.input);
           if(input.scalar!==selected.codePage)scalar=0;else{for(let index=0;index<input.count;index++){const byte=NativeHeapObjectViews.prototype.readUnsigned.call(input.input,index,1),code=selected.unicode[byte];if(!Number.isInteger(code))throw new Error('Engine conversion byte outside declared NLS repertoire');if(input.fields){requirePhysicalNativeViews(input.fields);const write=NativeX86ThreadStack.writeEngineArgvNlsMemoryForPlatform(this,call,index*2,code!,2);if(!write.known)throw new Error(write.reason);}}scalar=input.count;}
         }else if(input.kind==='GetStringTypeW'){
@@ -1661,7 +1663,7 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
     if (!entry || entry.backing !== old || entry.kind !== 'win32-heap' ||
         !retained.allocations.has(old) || old.freed || this.#releasedBackings.has(old) ||
         geometry.value.offset !== 0 || geometry.value.allocationBegin !== 0)
-      return unknown('HeapReAlloc requires this heap’s live allocation base');
+      return unknown('HeapReAlloc requires this heapâ€™s live allocation base');
     const allocated = this.#win32HeapAlloc(heap, 0, bytes);
     if (!allocated.known || allocated.value === null) return allocated;
     const moved = allocated.value;
