@@ -11,7 +11,7 @@ import { fromBuildingLocal, hearthOf, roomHalfSize, type InteriorSpec, type Room
  * frame; the world keeps it off, since one more shadow sampler exceeds the texture units of the richest materials.
  */
 export class InteriorLight {
-  readonly light = new THREE.PointLight(0xffa25a, 0, 10, 1.4);
+  readonly light = new THREE.PointLight(0xffa25a, 0, 13, 1.25);
   private indoor = 0;
   private room: InteriorSpec | null = null;
   private readonly glows = new Map<InteriorSpec, THREE.Vector3>();
@@ -55,7 +55,8 @@ export class InteriorLight {
     if (this.room) this.light.position.copy(this.glowOf(this.room));
     // A fire's slow unsteadiness: two incommensurate waves, never a strobe.
     const flame = 0.9 + 0.06 * Math.sin(time * 7.3) + 0.04 * Math.sin(time * 12.9 + 1.7);
-    this.light.intensity = this.indoor * (2.2 + 4.5 * night) * flame;
+    // A75: stronger and reaching the far walls, so the corners of a room are not lost in black.
+    this.light.intensity = this.indoor * (3.2 + 4.5 * night) * flame;
     const live = shadows && this.indoor > 0.02;
     this.light.shadow.autoUpdate = false;
     if (live && (this.frame++ & 1) === 0) this.light.shadow.needsUpdate = true;

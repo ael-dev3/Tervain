@@ -128,17 +128,20 @@ export function slab(B: Batch, w: number, h: number, d: number, y0: number, tint
 export function timberFrame(R: Region, rnd: Rnd, w: number, d: number, h: number, y0: number, gap?: FaceGap) {
   const B = R.timber;
   const t = TINT.woodDark;
+  // How far out from the wall's face the frame's timbers stand (A75): set 3 cm out they sank 6 cm into the plaster, and the
+  // mid rail showed through inside the rooms as a thin dark line across the walls. Now they lie wholly on the face.
+  const OUT = 0.09;
   for (const sx of [-1, 1]) for (const sz of [-1, 1]) post(B, rnd, sx * (w / 2 + 0.02), sz * (d / 2 + 0.02), y0 + h + 0.1, 0.26, jitterTone(t, rnd, 0.1), 0.2);
   const rails = [y0 + 0.02, y0 + h * 0.46, y0 + h - 0.05];
   for (const y of rails) {
     for (const sz of [-1, 1]) {
-      const tone = jitterTone(t, rnd, 0.12), z0 = sz * (d / 2 + 0.03) - 0.09, z1 = sz * (d / 2 + 0.03) + 0.09;
+      const tone = jitterTone(t, rnd, 0.12), z0 = sz * (d / 2 + OUT) - 0.09, z1 = sz * (d / 2 + OUT) + 0.09;
       if (sz === 1 && gap && y < y0 + gap.top) {
         B.bx(-w / 2 - 0.05, y, z0, gap.x0, y + 0.17, z1, tone, { grain: 'x', jit: 0.1 });
         B.bx(gap.x1, y, z0, w / 2 + 0.05, y + 0.17, z1, tone, { grain: 'x', jit: 0.1 });
       } else B.bx(-w / 2 - 0.05, y, z0, w / 2 + 0.05, y + 0.17, z1, tone, { grain: 'x', jit: 0.1 });
     }
-    for (const sx of [-1, 1]) B.bx(sx * (w / 2 + 0.03) - 0.09, y, -d / 2 - 0.05, sx * (w / 2 + 0.03) + 0.09, y + 0.17, d / 2 + 0.05, jitterTone(t, rnd, 0.12), { grain: 'z', jit: 0.1 });
+    for (const sx of [-1, 1]) B.bx(sx * (w / 2 + OUT) - 0.09, y, -d / 2 - 0.05, sx * (w / 2 + OUT) + 0.09, y + 0.17, d / 2 + 0.05, jitterTone(t, rnd, 0.12), { grain: 'z', jit: 0.1 });
   }
   // Intermediate studs and corner braces.
   const nStud = Math.max(1, Math.round(w / 2.1) - 1);
@@ -148,13 +151,13 @@ export function timberFrame(R: Region, rnd: Rnd, w: number, d: number, h: number
       const tone = jitterTone(t, rnd, 0.1), rz = (rnd() - 0.5) * 0.03;
       // A stud never stands in the doorway; over it, it shortens to the lintel.
       if (sz === 1 && gap && x + 0.07 > gap.x0 && x - 0.07 < gap.x1) {
-        if (h - 0.1 > gap.top + 0.05) B.box(0.14, h - 0.1 - gap.top - 0.05, 0.16, x, y0 + gap.top + 0.1, sz * (d / 2 + 0.03), tone, { grain: 'y', rz, jit: 0.1 });
-      } else B.box(0.14, h - 0.1, 0.16, x, y0 + 0.05, sz * (d / 2 + 0.03), tone, { grain: 'y', rz, jit: 0.1 });
+        if (h - 0.1 > gap.top + 0.05) B.box(0.14, h - 0.1 - gap.top - 0.05, 0.16, x, y0 + gap.top + 0.1, sz * (d / 2 + OUT), tone, { grain: 'y', rz, jit: 0.1 });
+      } else B.box(0.14, h - 0.1, 0.16, x, y0 + 0.05, sz * (d / 2 + OUT), tone, { grain: 'y', rz, jit: 0.1 });
     }
   }
   for (const sz of [-1, 1]) for (const sx of [-1, 1]) {
-    const bx = sx * (w / 2 + 0.03);
-    const bz = sz * (d / 2 + 0.03);
+    const bx = sx * (w / 2 + OUT);
+    const bz = sz * (d / 2 + OUT);
     B.rod(bx, y0 + h * 0.46, bz, bx - sx * Math.min(1.1, w * 0.13), y0 + h - 0.1, bz, 0.06, 4, jitterTone(t, rnd, 0.1), { caps: false });
   }
 }

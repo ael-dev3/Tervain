@@ -612,9 +612,16 @@ export class WorldScene {
     // Hearth shadows stay off (A70): a further shadow sampler pushed every lit material past the texture-unit limit on
     // high quality, and the world drew white.
     const indoor = this.interiorLight.update(dt, camera.position, night, this.time, false);
-    this.sky.hemi.intensity *= 1 - 0.55 * indoor;
-    this.scene.environmentIntensity = this.skyFill * (1 - 0.6 * indoor);
-    if (settings.quality === 'low') this.sky.sun.intensity *= 1 - 0.85 * indoor;
+    // Indoors the sky's fill eases down, less by day (A75): daylight comes in through the windows and the open door, and
+    // rooms at noon read as lit, lived-in places rather than caves. At night it falls as before and the hearth carries
+    // the room.
+    const day = 1 - night;
+    this.sky.hemi.intensity *= 1 - (0.55 - 0.25 * day) * indoor;
+    this.scene.environmentIntensity = this.skyFill * (1 - (0.6 - 0.3 * day) * indoor);
+    // Direct sun never reaches inside (A75): on medium and high the shadow maps were trusted to keep it out, but they leak
+    // through walls 24 cm thick, lighting the inner face of the far wall and drawing the outer frame's rails across it as
+    // thin dark lines. The day's fill above carries the room instead.
+    this.sky.sun.intensity *= 1 - 0.85 * indoor;
     this.scenery.setNight(night);
     this.scenery.update(dt, this.time, night);
     for (const s of this.physics.drainSplashes()) this.water.splash(s.x, s.y, s.z, s.energy);
