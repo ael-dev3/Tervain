@@ -1,7 +1,7 @@
 # Engine CRT initializer evidence
 
 This package records the next dependency after Engine environment-vector return.
-It captures 64 original bodies (2325 instructions), the caller at `30677284`,
+It captures 65 original bodies (2371 instructions), the caller at `30677284`,
 the floating-point callback at `30892ac0`, and two original initializer tables.
 The C initializer table has 200 slots with 6 nonzero entries. The C++ table has
 93,705 slots with 1,963 nonzero entries; omitted entries are verified zero.
@@ -14,7 +14,7 @@ python tools/gothic3/prepare_engine_cinit_source.py --study '<study-root>' --out
 
 The generator checks the original Engine.dll hash and exact caller bytes.
 Independent regeneration produced identical JSON, SHA-256
-``0246a065f07a5b7773140d59a10e5bb82fa20815f328f124699a417fe17e625c``.
+``20db5682d7208e8c340fe75983ec1fbe66d0608a12540f351097a8004ba677c1``.
 
 The capture's `runtimeConnected: false` records evidence preparation; it grants
 no execution authority. The TypeScript continuation separately obtains a
@@ -332,3 +332,26 @@ pending actual call, held lock and live output rather than fabricating return.
 
 Typechecking, 18 selected runtime checks and all 19 source/image checks pass.
 This checkpoint is local; broader integration validation follows.
+
+## Original type-name length caller
+
+The original caller removes its six undecoration arguments, retains the returned
+owned output in its local, compares it with NULL and passes it to the original
+`30679ad0` strlen. The pending call is reached after 4,015 admitted operations.
+The optimized scan now executes through its actual return, as recorded below. Cache publication, startup and
+a complete playable campaign remain unfinished.
+
+## Local continuation — 11 October 2026: original type-name length scan
+
+The actual type-name caller removes the six undecoration arguments and passes
+its retained live output to `30679ad0`. The original optimized strlen uses the
+runtime's canonical heap alignment proof, reads two DWORDs, selects the known
+zero second byte in the second DWORD and returns length 5 at `3067dae2` after
+4,043 admitted operations. Padding remains unconstrained: stored padding bits
+of zero or 255 produce the same result without changing their unknown masks.
+An unknown terminator stops at the original ambiguous DWORD predicate.
+
+Typechecking and seven scan/return/failure checks pass. The captured source
+independently regenerates byte-for-byte. Earlier source/image validation passed
+all 19 checks; broader integration validation follows. This work is local;
+cache publication, complete startup and a finishable campaign remain unfinished.

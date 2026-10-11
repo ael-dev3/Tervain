@@ -1,5 +1,20 @@
 # Gothic 3 rebuilding process
 
+## Local continuation — 11 October 2026: original type-name length scan
+
+The actual type-name caller removes the six undecoration arguments and passes
+its retained live output to `30679ad0`. The original optimized strlen uses the
+runtime's canonical heap alignment proof, reads two DWORDs, selects the known
+zero second byte in the second DWORD and returns length 5 at `3067dae2` after
+4,043 admitted operations. Padding remains unconstrained: stored padding bits
+of zero or 255 produce the same result without changing their unknown masks.
+An unknown terminator stops at the original ambiguous DWORD predicate.
+
+Typechecking and seven scan/return/failure checks pass. The captured source
+independently regenerates byte-for-byte. Earlier source/image validation passed
+all 19 checks; broader integration validation follows. This work is local;
+cache publication, complete startup and a finishable campaign remain unfinished.
+
 ## Local continuation — 11 October 2026: original undecoration return
 
 The original finally helper passes lock ID 5 to the retained Engine CRT unlock
