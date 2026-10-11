@@ -95,6 +95,18 @@ function readMesh(r: BinaryReader, o: PropertyObject): VegetationMesh {
   };
 }
 
+/** Why a plant mesh cannot be drawn, or null: its streams must agree with its vertices, as `.xcmsh` elements are
+ * checked (A99). Unchecked, one bad plant failed every draw of its kind, silently (A105 scout). */
+export function vegetationMeshProblem(m: VegetationMesh): string | null {
+  const n = m.positions.length / 3;
+  if (!Number.isInteger(n) || n === 0) return 'positions';
+  if (m.normals.length !== 0 && m.normals.length !== n * 3) return 'normals';
+  if (m.uvs.length !== 0 && m.uvs.length !== n * 2) return 'uvs';
+  if (m.indices.length === 0 || m.indices.length % 3 !== 0) return 'indices';
+  for (let i = 0; i < m.indices.length; i++) if (m.indices[i]! >= n) return 'index range';
+  return null;
+}
+
 /** Read an `eCVegetation_PS` set's class data. `r` must read the file the set came from. */
 export function parseVegetation(r: BinaryReader, set: PropertyObject): Vegetation {
   const meshes: VegetationMesh[] = [];

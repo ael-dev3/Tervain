@@ -233,11 +233,14 @@ export function furnishRoom(room: InteriorSpec): FurniturePlacement[] {
     if (wish.at === 'floor' && wish.beside) {
       const host = byWish[wish.beside.of];
       if (host) {
-        const r = footprint(host.piece, host.x, host.z, host.yaw);
-        const gap = 0.06 + d / 2, o = wish.beside.offset ?? 0;
-        const spot = { front: { x: (r.x0 + r.x1) / 2 + o, z: r.z1 + gap, yaw: Math.PI }, back: { x: (r.x0 + r.x1) / 2 + o, z: r.z0 - gap, yaw: 0 },
-          left: { x: r.x0 - gap, z: (r.z0 + r.z1) / 2 + o, yaw: -Math.PI / 2 }, right: { x: r.x1 + gap, z: (r.z0 + r.z1) / 2 + o, yaw: Math.PI / 2 } }[wish.beside.side];
-        candidates.push({ ...spot, cost: 0 });
+        // In the host's own frame, each seat facing the piece (A105 scout): sides were taken along the room's axes, so a
+        // desk turned to face a side wall had its stool at its end, and the left and right seats of a table had their
+        // yaws swapped and turned their backs on it.
+        const [hw2, , hd2] = pieceSize(host.piece), gap = 0.06 + d / 2, o = wish.beside.offset ?? 0;
+        const local = { front: { x: o, z: hd2 / 2 + gap, turn: Math.PI }, back: { x: o, z: -(hd2 / 2 + gap), turn: 0 },
+          left: { x: -(hw2 / 2 + gap), z: o, turn: Math.PI / 2 }, right: { x: hw2 / 2 + gap, z: o, turn: -Math.PI / 2 } }[wish.beside.side];
+        const c = Math.cos(host.yaw), sn = Math.sin(host.yaw);
+        candidates.push({ x: host.x + local.x * c + local.z * sn, z: host.z - local.x * sn + local.z * c, yaw: host.yaw + local.turn, cost: 0 });
       }
     } else if (wish.at === 'floor') {
       const [fx, fz] = wish.spot ?? [0, 0], yaw = wish.yaw ?? 0;
