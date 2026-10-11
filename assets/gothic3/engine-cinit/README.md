@@ -3341,3 +3341,10 @@ Validation: normal length and unknown virtual-target cases passed, as did the ea
 The captured list, text and character virtual writers now traverse the actual parsed template graph and return through the original writer caller at 3069b0d3. The live 64-byte output contains exactly class bTPropertyObject<class eCMainCache,class bCObjectRefBase> followed by a null terminator; all 64 output bytes are known. A final-terminator interruption preserves the 63 written characters, unknown terminator, live output allocation, held undecoration lock and unfinished original writer call. The following repeated-space normalization and outer return remain pending; startup and the campaign remain incomplete.
 
 Local evidence: typecheck, two focused normal/interrupted writer checks, 83 source/image/browser checks and production build passed. These changes were not included in the earlier full-suite receipt and are not yet deployed.
+
+
+## MainCache generated-name normalization and parser return
+
+After the recursive writer returns, the original 3069b0d3-3069b0fd byte loop copies the generated name in place, retains one space in each run, and writes its final null terminator. The original LEAVE and RET return the live output pointer through the captured 3069b2de caller to 3069b2e3. Arena cleanup, unlock, type-name cache integration and the remaining startup/campaign are still pending.
+
+The normal check proves the exact 64 output bytes and returned parser call. An unknown byte during normalization stops at 3069b0f3 with the original parser call unfinished, output alive and lock held. The writer-terminator interruption remains covered. Typecheck, these three focused checks, 83 source/image/browser checks and production build passed locally. No claim of a new full-suite pass or deployment is made.
