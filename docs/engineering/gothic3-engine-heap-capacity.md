@@ -392,3 +392,20 @@ constructor calls changed that register. The continuation instead supplies the
 original second type-info image and checks it against the retained configuration.
 Type parsing, full startup, publication and campaign completion remain unfinished.
 The earlier combined validation remains running and predates this continuation.
+
+### Shared type-parser prefix and original temporary — 11 October 2026
+
+Both property calls now execute the same original type-parser prolog and flag
+branch, clear bit `0x2000` in the retained parser configuration, and pass their
+real output slot and NULL temporary argument into the data-type parser. The
+original temporary constructor preserves unknown bits while initializing its
+pointer and kind fields, then returns to `3069b887`. The second call reaches
+that address after 4,946 admitted operations. Its name cursor remains the
+original bCString type-info pointer; lock five stays held.
+
+Typechecking and five focused checks pass. Earlier combined revision
+`31207602620c9334092b5c9ca494fd0352411a26` passed all 240 focused checks in five
+files and is now running the full suite; it predates the newer parser work.
+Captured data-parser instructions show that the next `?` comparison branches
+at `3069b896` to `3069b8e0`, requiring its own continuation. Data dispatch, full
+startup, publication and campaign play remain unfinished.

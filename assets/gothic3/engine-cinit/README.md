@@ -587,3 +587,9 @@ reaches the second type-parser call at `3069a2f7` after 4,917 operations.
 Typechecking and five focused checks pass. Name bytes, partial-register masks,
 parser configuration and arena ownership are retained; no decoded name is
 supplied. Type parsing, full startup and campaign remain unfinished and local.
+
+The shared type-parser prefix and original temporary constructor now return the
+second call to `3069b887` after 4,946 operations. Typechecking and five focused
+checks pass. Earlier combined revision passed 240 focused checks and is running
+its full suite; it predates this local continuation. The next original question
+mark data-type branch, full startup and campaign remain unfinished.

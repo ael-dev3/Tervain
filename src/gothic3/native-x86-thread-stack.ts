@@ -665,6 +665,22 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
                 parse('3069b03b',()=>setRegister('EAX',stack.#stackWord(relative('EBP',-32))));parse('3069b03e',()=>stack.#push(register('EAX')));parse('3069b03f',()=>stack.#call('3069b03f','3069b044'));
         return {parse};
       };
+      const runTypeParserPrefix=(config:NativeHeapObjectViews)=>{
+        const relative=(name:'ESP'|'EBP',offset:number)=>stack.#address(register(name))+offset;
+                const type=(pc:string,body:()=>void)=>step(pc,body,'3069a2f7');
+                type('3069a2f7',()=>stack.#push(register('EBP')));type('3069a2f8',()=>setRegister('EBP',register('ESP')));type('3069a2fa',()=>{const a=relative('ESP',0),r=a-32;setRegister('ESP',stack.#stackWord(r));stack.#arithmeticFlags(a,32,r,4,true);});type('3069a2fd',()=>stack.#push(register('ESI')));type('3069a2fe',()=>setRegister('ESI',stack.#mint(0x2000,0xffffffff)));
+                let parseFlags=0;type('3069a303',()=>{parseFlags=NativeHeapObjectViews.prototype.readUnsigned.call(config,28,4);stack.#logicalFlags(parseFlags&0x2000,0xffffffff,4);});type('3069a309',()=>stack.#push(register('EDI')));type('3069a30a',()=>{if(!(parseFlags&0x2000))throw new Error('Original undecoration type-parser alternate branch remains pending');});
+                type('3069a30c',()=>{const v=(parseFlags&0xffffdfff)>>>0;stack.#store(config,28,stack.#mint(v,0xffffffff));stack.#logicalFlags(v,0xffffffff,4);});type('3069a316',()=>setRegister('EAX',stack.#stackWord(relative('EBP',-16))));type('3069a319',()=>stack.#push(stack.#mint(0,0xffffffff)));type('3069a31b',()=>stack.#push(register('EAX')));type('3069a31c',()=>stack.#call('3069a31c','3069a321'));
+                const data=(pc:string,body:()=>void)=>step(pc,body,'3069b876');
+                const localAnd=(offset:number,mask:number)=>{const at=relative('EBP',offset),r=stack.#record(stack.#load(stack.#stack,at)),v=(r.value&mask)>>>0,m=(r.mask|~mask)>>>0;stack.#store(stack.#stack,at,stack.#mint(v,m));stack.#logicalFlags(v,m,4);};
+                const localExtent=(bytes:number)=>{const a=relative('ESP',0),r=a-bytes;setRegister('ESP',stack.#stackWord(r));stack.#arithmeticFlags(a,bytes,r,4,true);};
+                data('3069b876',()=>stack.#push(register('EBP')));data('3069b877',()=>setRegister('EBP',register('ESP')));data('3069b879',()=>localExtent(24));data('3069b87c',()=>stack.#push(stack.#load(stack.#stack,relative('EBP',12))));data('3069b87f',()=>setRegister('ECX',stack.#stackWord(relative('EBP',-8))));data('3069b882',()=>stack.#call('3069b882','3069b887'));
+                const temporary=(pc:string,body:()=>void)=>step(pc,body,'30696ffb');
+                temporary('30696ffb',()=>{const v=stack.#numeric(stack.#load(stack.#stack,relative('ESP',4)),4);stack.#arithmeticFlags(v,0,v,4,true);if(v!==0)throw new Error('Original nonnull temporary constructor remains pending');});temporary('30697000',()=>stack.#push(register('ESI')));temporary('30697001',()=>setRegister('ESI',register('ECX')));temporary('30697003',()=>{});
+                const temporaryAnd=(offset:number,mask:number)=>{const at=stack.#address(register('ESI'))+offset,r=stack.#record(stack.#load(stack.#stack,at)),v=(r.value&mask)>>>0,m=(r.mask|~mask)>>>0;stack.#store(stack.#stack,at,stack.#mint(v,m));stack.#logicalFlags(v,m,4);};
+                temporary('3069703d',()=>temporaryAnd(4,0xfffffff0));temporary('30697041',()=>temporaryAnd(0,0));temporary('30697044',()=>temporaryAnd(4,0xfffff00f));temporary('3069704b',()=>setRegister('EAX',register('ESI')));temporary('3069704d',()=>pop('ESI'));temporary('3069704e',()=>{const p=stack.#record(stack.#ret(4)).provenance;if(p?.kind!=='source'||p.address!=='3069b887')throw new Error('Actual data-type temporary return required');});
+        return {type,data,localAnd,localExtent};
+      };
       const runExitRegistration=(callbackAddress:'30671144'|'3068e981'|'30011a40')=>{
             step('30671596',()=>{const esp=stack.#address(register('ESP')),argument=stack.#load(stack.#stack,esp+4),p=stack.#record(argument).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!==callbackAddress)throw new Error('Original Engine shutdown callback argument required');stack.#push(argument);},'30671596');
             step('3067159a',()=>stack.#call('3067159a','3067159f'),'30671596');
@@ -775,18 +791,7 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
                 const {warmArena,config}=runParserConstructionReturn(globals.value,{constructor,internal,field,fieldPrefix},{arena,arenaPrefix,requested},allocation);
                 undecorate('3069b2d8',()=>setRegister('ECX',stack.#stackWord(relative('EBP',-148))));undecorate('3069b2de',()=>stack.#call('3069b2de','3069b2e3'));
                 const {parse}=runNameParserPrefix(config,typeInfo);
-                const type=(pc:string,body:()=>void)=>step(pc,body,'3069a2f7');
-                type('3069a2f7',()=>stack.#push(register('EBP')));type('3069a2f8',()=>setRegister('EBP',register('ESP')));type('3069a2fa',()=>{const a=relative('ESP',0),r=a-32;setRegister('ESP',stack.#stackWord(r));stack.#arithmeticFlags(a,32,r,4,true);});type('3069a2fd',()=>stack.#push(register('ESI')));type('3069a2fe',()=>setRegister('ESI',stack.#mint(0x2000,0xffffffff)));
-                let parseFlags=0;type('3069a303',()=>{parseFlags=NativeHeapObjectViews.prototype.readUnsigned.call(config,28,4);stack.#logicalFlags(parseFlags&0x2000,0xffffffff,4);});type('3069a309',()=>stack.#push(register('EDI')));type('3069a30a',()=>{if(!(parseFlags&0x2000))throw new Error('Original undecoration type-parser alternate branch remains pending');});
-                type('3069a30c',()=>{const v=(parseFlags&0xffffdfff)>>>0;stack.#store(config,28,stack.#mint(v,0xffffffff));stack.#logicalFlags(v,0xffffffff,4);});type('3069a316',()=>setRegister('EAX',stack.#stackWord(relative('EBP',-16))));type('3069a319',()=>stack.#push(stack.#mint(0,0xffffffff)));type('3069a31b',()=>stack.#push(register('EAX')));type('3069a31c',()=>stack.#call('3069a31c','3069a321'));
-                const data=(pc:string,body:()=>void)=>step(pc,body,'3069b876');
-                const localAnd=(offset:number,mask:number)=>{const at=relative('EBP',offset),r=stack.#record(stack.#load(stack.#stack,at)),v=(r.value&mask)>>>0,m=(r.mask|~mask)>>>0;stack.#store(stack.#stack,at,stack.#mint(v,m));stack.#logicalFlags(v,m,4);};
-                const localExtent=(bytes:number)=>{const a=relative('ESP',0),r=a-bytes;setRegister('ESP',stack.#stackWord(r));stack.#arithmeticFlags(a,bytes,r,4,true);};
-                data('3069b876',()=>stack.#push(register('EBP')));data('3069b877',()=>setRegister('EBP',register('ESP')));data('3069b879',()=>localExtent(24));data('3069b87c',()=>stack.#push(stack.#load(stack.#stack,relative('EBP',12))));data('3069b87f',()=>setRegister('ECX',stack.#stackWord(relative('EBP',-8))));data('3069b882',()=>stack.#call('3069b882','3069b887'));
-                const temporary=(pc:string,body:()=>void)=>step(pc,body,'30696ffb');
-                temporary('30696ffb',()=>{const v=stack.#numeric(stack.#load(stack.#stack,relative('ESP',4)),4);stack.#arithmeticFlags(v,0,v,4,true);if(v!==0)throw new Error('Original nonnull temporary constructor remains pending');});temporary('30697000',()=>stack.#push(register('ESI')));temporary('30697001',()=>setRegister('ESI',register('ECX')));temporary('30697003',()=>{});
-                const temporaryAnd=(offset:number,mask:number)=>{const at=stack.#address(register('ESI'))+offset,r=stack.#record(stack.#load(stack.#stack,at)),v=(r.value&mask)>>>0,m=(r.mask|~mask)>>>0;stack.#store(stack.#stack,at,stack.#mint(v,m));stack.#logicalFlags(v,m,4);};
-                temporary('3069703d',()=>temporaryAnd(4,0xfffffff0));temporary('30697041',()=>temporaryAnd(0,0));temporary('30697044',()=>temporaryAnd(4,0xfffff00f));temporary('3069704b',()=>setRegister('EAX',register('ESI')));temporary('3069704d',()=>pop('ESI'));temporary('3069704e',()=>{const p=stack.#record(stack.#ret(4)).provenance;if(p?.kind!=='source'||p.address!=='3069b887')throw new Error('Actual data-type temporary return required');});
+                const {type,data,localAnd,localExtent}=runTypeParserPrefix(config);
                 const nameByte=(word:NativeX86Word32)=>{const p=stack.#record(word).provenance;if(p?.kind!=='engine-image'||p.crt!==crt||p.fields!==typeInfo||p.offset!==9)throw new Error('Actual original type-code cursor required');return NativeHeapObjectViews.prototype.readUnsigned.call(p.fields,p.offset,1);};let typeByte=0;
                 data('3069b887',()=>setRegister('EAX',stack.#load(config,12)));data('3069b88c',()=>{typeByte=nameByte(register('EAX'));const r=stack.#record(register('EAX'));setRegister('EAX',stack.#mint((r.value&0xffffff00)|typeByte,(r.mask|255)>>>0));});data('3069b88e',()=>{setRegister('ECX',stack.#mint(0,0xffffffff));stack.#logicalFlags(0,0xffffffff,4);});
                 for(const [cmp,branch,value] of [['3069b890','3069b892',0],['3069b894','3069b896',63],['3069b898','3069b89a',88]] as const){data(cmp,()=>stack.#arithmeticFlags(typeByte,value,(typeByte-value)&255,1,true));data(branch,()=>{if(typeByte===value)throw new Error('Original data-type alternate branch remains pending');});}
@@ -1105,7 +1110,8 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
               const constructed=runParserConstructionReturn(decoder.globals.value,parser,request,allocation);
               decoder.undecorate('3069b2d8',()=>setRegister('ECX',stack.#stackWord(stack.#address(register('EBP'))-148)));decoder.undecorate('3069b2de',()=>stack.#call('3069b2de','3069b2e3'));
               runNameParserPrefix(constructed.config,image('visualAnimationSecondTypeInfo'));
-              stack.#engineCinitFrame!.pc='3069a2f7';return known(undefined);
+              runTypeParserPrefix(constructed.config);
+              stack.#engineCinitFrame!.pc='3069b887';return known(undefined);
             }
             return known(undefined);
           }
