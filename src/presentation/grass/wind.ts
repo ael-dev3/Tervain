@@ -100,6 +100,12 @@ export interface GrassWindUniforms {
   tGust: THREE.IUniform<THREE.Texture>;
 }
 
+/**
+ * Seconds after which a shader's animation clock starts again (A90 scout): 2^14, so it never reaches the 2^15 s where single
+ * precision steps by 4 ms.
+ */
+export const SHADER_CLOCK_WRAP = 16384;
+
 export class GrassWind {
   readonly uniforms: GrassWindUniforms;
   private readonly base: number;
@@ -156,7 +162,9 @@ export class GrassWind {
       this.turbX = wrap(this.turbX, TURBULENCE_SPAN); this.turbZ = wrap(this.turbZ, TURBULENCE_SPAN);
     }
     this.uniforms.uGustScroll.value.set(this.gustX, this.gustZ, this.turbX, this.turbZ);
-    this.uniforms.uGrassTime.value = reduced ? this.uniforms.uGrassTime.value : t;
+    // The shaders get the clock modulo SHADER_CLOCK_WRAP (A90 scout): past 2^15 s a single float moves in 4 ms steps, and
+    // the fast leaf flutter it drives stuttered. One small jump in the sway every few hours is the price.
+    this.uniforms.uGrassTime.value = reduced ? this.uniforms.uGrassTime.value : t % SHADER_CLOCK_WRAP;
   }
 
   /** The broad gust field at (x, z) now, 0..1: the same value the grass shader reads. */

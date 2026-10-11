@@ -55,7 +55,7 @@ import { buildAnimals, deferredWildlife, loadAnimalTemplates, type AnimalTemplat
 import { ANIMALS } from './animals/catalog';
 import { checkCancelled, yieldToBrowser, type CooperativeOptions } from '../platform/cooperative';
 import { disposeSceneResources } from './disposeScene';
-import { GrassWind } from './grass/wind';
+import { GrassWind, SHADER_CLOCK_WRAP } from './grass/wind';
 import { REALM_WIND } from './realmWind';
 import { FOLIAGE_MAX_MOVERS, createFoliageField, type FoliageField } from './foliage/foliageWind';
 import { installShadowOnlyGroup } from './foliage/shadowCasters';
@@ -643,7 +643,7 @@ export class WorldScene {
     this.view = worldView(state);
     const v = this.view;
     const reduced = settings.reducedMotion;
-    this.sway.uTime.value = this.time;
+    this.sway.uTime.value = this.time % SHADER_CLOCK_WRAP;
     this.sway.uWind.value = reduced ? 0.25 : 1;
     // The wind crosses grass and trees alike; Reduced Motion holds the trees entirely still.
     this.foliage.wind.update(dt, { reducedMotion: reduced });

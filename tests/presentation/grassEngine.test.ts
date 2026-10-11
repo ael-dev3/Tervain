@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { describe, expect, it, vi } from 'vitest';
 import { bladeRow, clumpTriangles, createGrassClump } from '../../src/presentation/grass/bladeGeometry';
-import { GUST_SPAN, GUST_TEXELS, GrassWind, gustField } from '../../src/presentation/grass/wind';
+import { GUST_SPAN, GUST_TEXELS, GrassWind, gustField, SHADER_CLOCK_WRAP } from '../../src/presentation/grass/wind';
 import { GrassTrample, TRAMPLE_MAX_MOVERS, TRAMPLE_RECOVERY, type GrassMover } from '../../src/presentation/grass/trample';
 import { createGrassMaterial, type GrassMaterialOptions } from '../../src/presentation/grass/grassMaterial';
 import { createGrassField, GRASS_CLUMP, GRASS_MAX_SCALE, GRASS_QUALITY } from '../../src/presentation/grass/grassField';
@@ -250,6 +250,20 @@ describe('realm grass field', () => {
     field.update(new THREE.Vector3(ARRIVAL_ROUTE[2]!.x, 5, ARRIVAL_ROUTE[2]!.z));
     expect(field.stats().instances).toBe(0);
     field.dispose();
+    wind.dispose();
+  });
+});
+
+describe('the wind clock over a long session (A90 scout)', () => {
+  it('hands the shaders a clock that stays small enough for single precision, however long the session', () => {
+    const wind = new GrassWind(WIND);
+    // Ten hours in.
+    Reflect.set(wind, 'time', 36000);
+    wind.update(1 / 60);
+    const t = wind.uniforms.uGrassTime.value as number;
+    expect(t).toBeGreaterThanOrEqual(0);
+    expect(t).toBeLessThan(SHADER_CLOCK_WRAP);
+    expect(SHADER_CLOCK_WRAP).toBeLessThanOrEqual(2 ** 15);
     wind.dispose();
   });
 });
