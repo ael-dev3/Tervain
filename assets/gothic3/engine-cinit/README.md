@@ -651,3 +651,10 @@ The original qualifier rendering-flag branches now select `3069ae9f` after
 combined build passed after an isolated lighthouse check; a newer combined
 checkout including PR #244 is under validation with one test worker. This local
 continuation, complete startup and campaign remain unfinished.
+
+The original plain qualifier decoder now returns to `3069b903` after 5,314
+operations. Its live output is NULL with known qualifier flags 16, and the outer
+ESI is restored. Typechecking and seven distinct focused checks pass. Copy
+operand checks admit a fresh equal scalar read of the same physical unknown
+flag slot, while retaining register and pointer checks. Remaining class-name
+parsing, full startup and campaign remain unfinished and local.

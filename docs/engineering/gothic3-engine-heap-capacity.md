@@ -584,3 +584,24 @@ runtime through the preceding modifier continuation. It is running typechecking,
 a full suite with one worker to reduce contention, then a build on success.
 This newer rendering-flags continuation is not in that frozen checkout. Full
 startup, publication and campaign completion remain unfinished.
+
+### Original plain qualifier decoder return — 11 October 2026
+
+The decoder now executes the caller-mode comparison, both actual empty-argument
+checks, original qualifier flag stores, final value copy and original epilog.
+It returns to `3069b903` after 5,314 admitted operations. The returned caller
+slot is a known NULL pointer with lower twelve flag bits known and value 16.
+ESI is restored to the outer data-parser value `0x2000`; the retained name cursor
+still points beyond the decoded `A` qualifier. Parsing the remaining class name
+is unfinished; this qualifier return supplies no bCString text or startup result.
+
+The shared copy check now permits a fresh scalar read of the same physical
+unknown destination flags only when its value and mask equal the retained
+operand and current physical slot. Register identity checks and pointer checks
+remain in force. This resolves an overly strict identity comparison reached by
+the new caller, without repairing unknown bits. Typechecking and seven distinct
+focused runtime/browser/failure/regression checks pass, including a separate
+returned-output check. An unrelated fatal-call test expectation changed by a
+broad replacement was restored and passed; the outer ESI expectation was updated
+to the actual restored caller register. Combined validation remains live on the
+preceding revision. Full startup, publication and campaign play remain unfinished.
