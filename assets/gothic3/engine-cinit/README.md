@@ -469,3 +469,16 @@ are 4,206. The search and UnMangle calls remain pending, the cache stays live,
 and the temporary output stays freed. No CString construction result is supplied.
 Typechecking and a dedicated dispatch/ownership/lifetime check pass. Full
 integration validation of this continuation remains pending.
+
+## Local aligned character-search DWORD — 11 October 2026
+
+The original character-search tail uses retained allocator alignment, expands
+its space byte into a repeated DWORD and executes the first native DWORD load
+and its match/zero predicates. That word contains `floa`; neither predicate
+selects a return. EDX advances to offset four. The second four-byte load at
+`100a7338` cannot be admitted against the six-byte Engine allocation, so the
+actual load remains pending after 4,234 operations (51 SharedBase operations).
+The cache remains live and known; no tail bytes, CString or return are invented.
+A dedicated execution/span/lifetime/repeated-call check and typechecking pass.
+The next dependency is a justified Engine physical-span policy; alignment alone
+cannot supply it. Full integration validation remains pending.
