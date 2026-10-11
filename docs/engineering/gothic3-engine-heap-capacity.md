@@ -2185,3 +2185,19 @@ identity/extent comparisons preserve the checks and passed in 9.46 seconds total
 requested size, capacity, physical byte masks, distinct identity, canonical
 same-platform allocation membership and the actual returned malloc caller.
 This checkpoint is local; full startup and campaign completion remain unproven.
+
+
+2026-10-11 — original camera CString header and copy (local)
+
+Executed the original allocation return, header writes, destination publication
+and copy call. The live fourth CString records length 12 and reference count 1;
+its bytes at offset 8 contain `eCCameraBase` followed by the original terminator.
+The source is the actual retained camera cache allocation at offset 6. Its
+SharedBase copy caller returned; startup stops at `10013632` after 13,908
+instructions, before constructor cleanup. The camera root is still null.
+
+Validation: TypeScript checking, the strengthened normal runtime check and six
+browser startup checks passed. Checks retain physical allocation membership,
+byte masks, header values, copied name and original allocation/copy return
+state. Source packages are unchanged. This checkpoint is local and does not
+prove full engine startup or campaign completion with save/reload.
