@@ -1,7 +1,7 @@
 # Engine CRT initializer evidence
 
 This package records the next dependency after Engine environment-vector return.
-It captures 68 original bodies (2429 instructions), the caller at `30677284`,
+It captures 70 original bodies (2454 instructions), the caller at `30677284`,
 the floating-point callback at `30892ac0`, and two original initializer tables.
 The C initializer table has 200 slots with 6 nonzero entries. The C++ table has
 93,705 slots with 1,963 nonzero entries; omitted entries are verified zero.
@@ -14,7 +14,7 @@ python tools/gothic3/prepare_engine_cinit_source.py --study '<study-root>' --out
 
 The generator checks the original Engine.dll hash and exact caller bytes.
 Independent regeneration produced identical JSON, SHA-256
-``c8cc2f13db81ed51e37300c4e505e46a1493d8d4d1d9ffb5212f4d2cbbaecdf0``.
+``8279be0b7234a9f0ae8f7507b7c23f7cbefca2d6ee59decaaac96ab2a9abed2c``.
 
 The capture's `runtimeConnected: false` records evidence preparation; it grants
 no execution authority. The TypeScript continuation separately obtains a
@@ -524,3 +524,13 @@ callback at `3067d229` after 4,437 source operations. Five focused checks and
 typechecking pass. Callback destruction and remaining C++ traversal are not
 claimed complete. The earlier combined revision passed 3,542 tests and its
 production build; the newer CString/registration work needs combined validation.
+
+The local C++ walker advances the first returned callback and reads the second
+original table slot, `307bb108 -> 307322c0`. The separately captured property
+thunk uses bCString RTTI and its own flags/storage/type-info images. Its original
+fresh prefix reaches `30076593 -> 306713ae` after 4,460 source operations. The
+first property's root and third exit slot remain published. Five runtime/browser
+checks, all 23 source/image checks and typechecking pass; independent regeneration
+is byte-identical. An unknown second guard retains the completed first callback
+and stops at `30076567` without repairing its mask. Second type-name execution,
+remaining startup and the campaign remain unfinished.

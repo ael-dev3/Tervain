@@ -71,3 +71,9 @@ it('retains and protects the original text-node vtable entry',()=>{
 for(const storage of ['bytes','knownMask'] as const)it('rejects altered readonly text-node writer vtable '+storage,()=>{
  const {crt,owner}=fixture(),table=fact(NativeEngineCinitImages.imageForCrt(owner,crt,'undecorationTextVtableEntry'));expect(table.bytes.length).toBe(12);expect(table.readUnsigned(8)).toBe(0x306973db);table[storage][8]=table[storage][8]!^1;expect(NativeEngineCinitImages.imageForCrt(owner,crt,'undecorationTextVtableEntry').known).toBe(false);
 });
+
+it('owns separate second-property images and the original bCString RTTI',()=>{
+ const {crt,owner}=fixture(),flags=fact(NativeEngineCinitImages.imageForCrt(owner,crt,'visualAnimationSecondFlags')),storage=fact(NativeEngineCinitImages.imageForCrt(owner,crt,'visualAnimationSecondStorage')),info=fact(NativeEngineCinitImages.imageForCrt(owner,crt,'visualAnimationSecondTypeInfo'));
+ expect(flags.readUnsigned(0)).toBe(0);expect(storage.readUnsigned(0)).toBe(0);expect(info.readUnsigned(4)).toBe(0);expect(String.fromCharCode(...info.bytes.subarray(8,-1))).toBe('.?AVbCString@@');
+ const first=fact(NativeEngineCinitImages.imageForCrt(owner,crt,'visualAnimationFloatStorage'));expect(storage.backing).not.toBe(first.backing);flags.writeUnsigned(0,3);expect(first.readUnsigned(0)).toBe(0);expect(fact(NativeEngineCinitImages.imageForCrt(owner,crt,'visualAnimationSecondFlags'))).toBe(flags);
+});

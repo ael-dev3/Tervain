@@ -235,3 +235,25 @@ The earlier combined revision passed 233 focused checks, all 3,542 tests across
 MemoryAdmin, CString allocation/copy and property-registration continuations.
 A new combined validation with current main is required. Complete startup and
 a campaign playable through an ending remain unfinished.
+
+### Second C++ property initializer — 11 October 2026
+
+The original walker advances to slot `307bb108` and calls its captured target
+`307322c0`. That wrapper calls `30016fea -> 30076560`; its original RTTI at
+`30aa29e0` names `.?AVbCString@@`. Separate flags, root, storage and type-info
+images preserve that initializer's actual ownership. Fourteen captured prefix
+rows initialize its fresh guard/default fields and pass the original shared
+cache root plus this second type-info object to `30076593 -> 306713ae`.
+Execution stops at that pending type-name call after 4,460 admitted operations.
+The first property remains published and its callback remains in exit slot three.
+
+Five distinct runtime/browser checks and all 23 source/image checks pass, with
+typechecking and byte-identical independent regeneration. An unknown second
+root guard stops at `30076567` after 4,448 operations, retaining the completed
+first callback and unknown mask. Tests observe the first property's published
+root separately from current EAX, which the walker and second prefix legitimately
+replace. The preceding combined first-property revision passed all 243 startup
+checks and has entered full-suite validation. This newer second-property
+continuation is local and is not included in that frozen validation checkout.
+Second type-name construction, complete startup and a playable campaign through
+an ending remain unfinished.

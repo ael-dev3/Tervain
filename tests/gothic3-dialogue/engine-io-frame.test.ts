@@ -1168,14 +1168,15 @@ it('scans the original live cache in CString construction and passes length five
 
 
 it('binds the original CString allocation call to the retained MemoryAdmin',()=>{
- const {bootstrap,platform}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{engineHeapLayout:'rounded-eight',processorFeatureProcedure:true,floatingPointPrecisionErratum:false});
+ const {bootstrap,platform,crt}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{engineHeapLayout:'rounded-eight',processorFeatureProcedure:true,floatingPointPrecisionErratum:false});
  const owner=createNativeRuntimeAdminOwner(platform);expect(bootstrap.processAttach().known).toBe(false);const f=bootstrap.attachProgress().engineCinitProgress!;
- expect({pc:f.pc,operations:f.operations}).toEqual({pc:'3067d229',operations:4437});expect(f.exitTableThird?.provenance).toMatchObject({kind:'source',type:'code',address:'30011a40'});expect(f.onexitLockHeld).toBe(false);expect(f.typeNameMemoryAdmin).toBe(owner.memory);
- const pointer=f.currentEaxWord.provenance;if(pointer?.kind!=='engine-image')throw new Error('Expected returned property destination');expect(pointer.offset).toBe(0);expect(f.typeNameCStringCopyReturned).toBe(true);expect([...f.typeNameCString!.bytes.subarray(8,14)]).toEqual([102,108,111,97,116,0]);expect(f.typeNameCString!.backing).toMatchObject({requestedBytes:14,capacity:16,freed:false});expect(f.typeNameCString!.readUnsigned(0)).toBe(5);expect(f.typeNameCString!.readUnsigned(4,2)).toBe(1);expect(f.typeNameCString!.readUnsigned(13,1)).toBe(0);
+ expect({pc:f.pc,operations:f.operations}).toEqual({pc:'306713ae',operations:4460});expect(f.exitTableThird?.provenance).toMatchObject({kind:'source',type:'code',address:'30011a40'});expect(f.onexitLockHeld).toBe(false);expect(f.typeNameMemoryAdmin).toBe(owner.memory);
+ const pointer=f.visualAnimationFloatRootWord?.provenance;if(pointer?.kind!=='engine-image')throw new Error('Expected published property destination');expect(pointer.offset).toBe(0);expect(f.cppCursor?.provenance).toMatchObject({kind:'engine-image',offset:0x108});expect(f.typeNameCStringCopyReturned).toBe(true);expect([...f.typeNameCString!.bytes.subarray(8,14)]).toEqual([102,108,111,97,116,0]);expect(f.typeNameCString!.backing).toMatchObject({requestedBytes:14,capacity:16,freed:false});expect(f.typeNameCString!.readUnsigned(0)).toBe(5);expect(f.typeNameCString!.readUnsigned(4,2)).toBe(1);expect(f.typeNameCString!.readUnsigned(13,1)).toBe(0);
  const graph=NativeX86ThreadStack.forPlatform(platform);if(!graph.known)throw new Error(graph.reason);
  expect(graph.value.snapshot().calls.find(c=>c.site==='10013257')?.returned).toBe(true);
  expect(graph.value.snapshot().calls.find(c=>c.site==='1001325e')?.returned).toBe(true);
  expect(platform.snapshot().pending.filter(c=>c.address==='100e2710')).toHaveLength(1);
+ const secondFlags=NativeEngineCinitImages.imageForCrt(f.images,crt,'visualAnimationSecondFlags');if(!secondFlags.known)throw new Error(secondFlags.reason);expect(secondFlags.value.readUnsigned(0)).toBe(3);expect(graph.value.snapshot().calls.find(c=>c.site==='30076593')?.returned).toBe(false);
 });
 
 it.each(['missing','ambiguous'] as const)('retains the real MemoryAdmin caller with an %s owner',mode=>{
@@ -1233,7 +1234,7 @@ it('copies an unknown final source byte without claiming known CString text',()=
  createNativeRuntimeAdminOwner(platform);const masked=NativeHeapObjectViews.prototype.maskedWord;
  const spy=vi.spyOn(NativeHeapObjectViews.prototype,'maskedWord').mockImplementation(function(this:NativeHeapObjectViews,offset,width){if(this.bytes.length===6&&offset===4&&width===1)this.knownMask[4]=0;return masked.call(this,offset,width);});
  try{expect(bootstrap.processAttach().known).toBe(false);}finally{spy.mockRestore();}
- const f=bootstrap.attachProgress().engineCinitProgress!;expect({pc:f.pc,operations:f.operations,returned:f.typeNameCStringCopyReturned}).toEqual({pc:'3067d229',operations:4437,returned:true});
+ const f=bootstrap.attachProgress().engineCinitProgress!;expect({pc:f.pc,operations:f.operations,returned:f.typeNameCStringCopyReturned}).toEqual({pc:'306713ae',operations:4460,returned:true});
  expect([...f.typeNameCString!.knownMask.subarray(8,14)]).toEqual([255,255,255,255,0,255]);expect(()=>f.typeNameCString!.readUnsigned(12,1)).toThrow('unowned backing bits');
 });
 
@@ -1245,4 +1246,11 @@ it('retains the completed CString when property shutdown lock acquisition fails'
  const f=bootstrap.attachProgress().engineCinitProgress!;expect(f.pc).toBe('3067cfea');expect(f.typeNameCStringCopyReturned).toBe(true);expect(f.onexitLockHeld).toBe(false);expect(f.exitTableThird?.value).toBe(0);
  expect([...f.typeNameCString!.bytes.subarray(8,14)]).toEqual([102,108,111,97,116,0]);
  expect(result!.known).toBe(false);if(result!.known)throw new Error('Interrupted registration returned');expect(result!.reason).toContain('property shutdown lock unavailable');expect(bootstrap.processAttach()).toEqual(result!);expect(locks).toBe(3);
+});
+
+it('retains the first completed initializer when the second property guard is unknown',()=>{
+ const {bootstrap,platform,crt}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{engineHeapLayout:'rounded-eight',processorFeatureProcedure:true,floatingPointPrecisionErratum:false});
+ createNativeRuntimeAdminOwner(platform);const images=NativeEngineCinitImages.forCrt(crt);if(!images.known)throw new Error(images.reason);const flags=NativeEngineCinitImages.imageForCrt(images.value,crt,'visualAnimationSecondFlags');if(!flags.known)throw new Error(flags.reason);flags.value.knownMask[0]=0;
+ const result=bootstrap.processAttach(),f=bootstrap.attachProgress().engineCinitProgress!;expect({pc:f.pc,operations:f.operations}).toEqual({pc:'30076567',operations:4448});expect(f.typeNameCStringCopyReturned).toBe(true);expect(f.exitTableThird?.provenance).toMatchObject({kind:'source',type:'code',address:'30011a40'});expect(flags.value.knownMask[0]).toBe(0);
+ const graph=NativeX86ThreadStack.forPlatform(platform);if(!graph.known)throw new Error(graph.reason);expect(graph.value.snapshot().calls.find(c=>c.site==='307322b0')?.returned).toBe(true);expect(graph.value.snapshot().calls.find(c=>c.site==='307322c0')?.returned).toBe(false);expect(bootstrap.processAttach()).toEqual(result);
 });
