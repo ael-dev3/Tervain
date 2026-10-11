@@ -2465,3 +2465,24 @@ fabricated NUL. The output allocation and held lock remain owned and live, and
 the writer call stays pending in both cases. This is a local checkpoint, not a
 deployed game or proof of complete startup and campaign play. The older combined
 validation at `015b00c0c3a1b7db32bc6620d1e54295d88b59cb` is still running.
+
+
+### 11 October 2026: original reference-base name-parser return
+
+The name parser now processes its actual written output, retains the single
+class/name separator, writes its final terminator and restores its original
+frame. It returns the owned output pointer at `3069b2e3` after 17,613 operations.
+The 24-byte allocation still contains 22 known text/NUL bytes and two unknown
+padding bytes. The separate arena remains live, lock 5 remains held and the
+reference-base root remains known NULL. Arena cleanup, unlock and outer return
+remain pending.
+
+Typechecking, five focused runtime checks and six browser-startup checks pass.
+The parser continuation exactly matches the captured class-name path. Making
+output byte 8 unknown stops at `3069b0f3` while all other writer-established
+bytes retain their masks. Interrupted final terminator storage stops at
+`3069b0fb`; the writer's already established NUL stays known rather than being
+artificially erased. The writer call is returned and the name-parser call stays
+pending in both failures. This is a local checkpoint, not deployment or proof
+of complete startup and campaign play. Earlier combined validation remains live
+at `015b00c0c3a1b7db32bc6620d1e54295d88b59cb`.
