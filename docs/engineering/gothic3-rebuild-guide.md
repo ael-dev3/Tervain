@@ -1,5 +1,40 @@
 # Gothic 3 rebuilding process
 
+## Local checkpoint — 11 October 2026: template name and first argument prefix
+
+The shared class-property identifier worker now accepts the original cursor and
+physical return address, allowing `30699255` to parse `bTPropertyObject` through
+the same instruction sequence used by ordinary property names. Its 16 known
+characters live in the retained arena, its name-cache append and cookie check
+complete, and the cursor reaches offset 31. The template routine assigns the
+returned value, checks it, and calls argument-list parser `30698a86`.
+
+The first argument prefix initializes the actual temporary result, sets the
+original parser byte at `30af7c8d`, reads the `V` class tag and calls the compound
+parser. Its original call `3069b770` (`e83cfcffff`) targets basic-type parser
+`3069b3b1`, where execution remains pending. Argument decoding, template return,
+property publication and shutdown registration remain unfinished. Twenty-seven
+completed property CStrings and their exit entries remain live.
+
+Typechecking and 24 selected normal/guard/marker/argument/prior-copy checks passed.
+The pending address was then corrected from the wrong parser entry to the actual
+relative-call target; two focused runtime/source checks passed for that correction.
+All 79 source/image/browser checks and the production build passed. Independent
+JSON/TypeScript regeneration matched. Evidence contains 188 methods and 4,509
+instructions; JSON SHA-256:
+`923bbcc1dd27e0a36737d255b64031ec62e3b4ae3a723eb96c0fb031b77be263`.
+Every previous method and data record is unchanged except the parser-global image,
+which extends from 37 to 38 bytes with the original loader-zero-filled byte at
+`30af7c8d`. The earlier 37 bytes are preserved exactly.
+
+The component/main-PR-262 combination at `16914f87d` separately passed all 3,891
+checks across 335 files, typechecking and build. It does not validate later GUID,
+resource or template changes. Combined revision `2b50a182d` (committed template
+contexts plus main through PR 263) is now in separate full-suite validation.
+This newest continuation is local and not deployed. Full startup and a campaign
+played from a new game through an ending remain unfinished.
+
+
 ## Local checkpoint — 11 October 2026: original MainCache template parser prefix
 
 Callback `30732460`, thunk `3003d8f7` and body `30077220` now enter the original

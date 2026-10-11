@@ -66,7 +66,7 @@ it('retains and protects the original field vtable entry',()=>{
  const {crt,owner}=fixture(),table=fact(NativeEngineCinitImages.imageForCrt(owner,crt,'undecorationFieldVtableEntry'));expect(table.bytes.length).toBe(4);expect(Buffer.from(table.bytes).toString('hex')).toBe(engineCinitImage('undecorationFieldVtableEntry').raw);table.bytes[0]=table.bytes[0]!^1;expect(NativeEngineCinitImages.imageForCrt(owner,crt,'undecorationFieldVtableEntry').known).toBe(false);
 });
 
-for(const label of ['undecorationListVtableEntry','undecorationBasicTypeCaseMap','undecorationBasicTypeTargets','undecorationFloatLiteral','undecorationScopeSeparatorLiteral','undecorationClassLiteral','undecorationTemplateParameterLiteral','undecorationGenericTypeLiteral'] as const)it('owns and protects original '+label+' bytes',()=>{
+for(const label of ['undecorationCharacterVtableEntry','undecorationListVtableEntry','undecorationBasicTypeCaseMap','undecorationBasicTypeTargets','undecorationFloatLiteral','undecorationScopeSeparatorLiteral','undecorationClassLiteral','undecorationTemplateParameterLiteral','undecorationGenericTypeLiteral'] as const)it('owns and protects original '+label+' bytes',()=>{
  const {crt,owner}=fixture(),image=fact(NativeEngineCinitImages.imageForCrt(owner,crt,label)),receipt=engineCinitImage(label);expect(Buffer.from(image.bytes).toString('hex')).toBe(receipt.raw);expect(image.knownMask.every(byte=>byte===255)).toBe(true);image.bytes[0]=image.bytes[0]!^1;expect(NativeEngineCinitImages.imageForCrt(owner,crt,label).known).toBe(false);
 });
 

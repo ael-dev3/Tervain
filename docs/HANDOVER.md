@@ -100,13 +100,13 @@ believably, and frames that are light without any visible loss. "Honest" means e
 | 1 | Indoor light and sound respect floor and ceiling | Done (A70); re-verified A75. |
 | 2 | Bounded recovery for failed building textures | Done (A70). |
 | 3 | Controller hints on right-stick look | Done (A70). |
-| 4 | Smaller first download, staged loading | Done to 57.7 MiB before entry (A72, A75); the journey's files are fetched while the menu is open (A86). The near-model swap below was not built. |
+| 4 | Smaller first download, staged loading | Done to 57.7 MiB before entry (A72, A75); the journey's files are fetched while the menu is open (A86). Measured again in A108: after the menu the wait is local work, not download (the same at 20 Mbit/s and unthrottled), and its largest stall is removed. The near-model swap below was not built (it would shorten only the download). |
 | 5 | Fixed-step simulation, interpolated drawing | Done (A72). |
 | 6 | Animation: transitions, contact, turns, feet, fingers | Done: phases and overlays (A70–A72), turns led by head and chest (A76), feet planted on uneven ground (A70), finger joints seated and the quill in the writing hand (A75). Authored turns on the spot for residents (A83) and the wanderer (A85). **Hard limit:** three modelled-fist hands (fingers not separable without new source models; Meshy caps apply). |
 | 7 | Residents inhabit interiors | Done (A70). |
 | 8 | Hunting, respawn, encounters, progression, riding | Done (A70, A71, A75). |
 | 9 | Close-up quality (Gothic 3) | Done in A76: plaster, timber, stone, iron, cloth, ground, colour grade, room and village clutter; crown leaf masses; wall hairline. **Hard limit:** a shadow-casting hearth light exceeds the richest materials' texture units. Crown silhouettes feather on the outer shell (A107, checked on the GPU, no popping); new crown exports would finish them. |
-| 10 | Performance evidence | Container (software rendering) numbers in A76 and A77. Real-GPU frame and GPU times in A78. The GPU geometry count levels off (A82 update above). |
+| 10 | Performance evidence | Container (software rendering) numbers in A76 and A77. Real-GPU frame and GPU times in A78. The GPU geometry count levels off (A82 update above). Journey entry split by stage on the GPU; the first view's 6 s frozen frame removed, entry about 20 s to about 14.6 s on every preset (A108). |
 | 11 | Asset ledger | Done as far as the records go: CC0 classification above; the Warpkeep per-set provenance is written (A107, [records](engineering/warpkeep-provenance.json)). Parked for the owner: only the animated hero's origin (its Mixamo-named skeleton and clips). |
 | 12 | Hero rework polish | Done (A73, A75). |
 | 13 | Frame cost (A77) | Done (A77, merged); measured on the GPU in A78. The steps listed below were all taken in A78–A86. |

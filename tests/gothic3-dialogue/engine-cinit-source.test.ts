@@ -210,3 +210,34 @@ it('captures the reference-base shutdown thunk and exact storage destructor body
  expect(engineCinitInstruction('30797f80','30797f80')).toMatchObject({bytes:'b9109aad30',instruction:'mov ecx, 0x30ad9a10'});
  expect(engineCinitInstruction('30797f80','30797f85')).toMatchObject({bytes:'ff25dcdbaf30',instruction:'jmp dword ptr [0x30afdbdc]'});
 });
+
+
+it('pins the original template compound call to the basic-type parser',()=>{
+ const call=engineCinitInstruction('3069b738','3069b770');
+ expect(call.bytes).toBe('e83cfcffff');
+ const target=(0x3069b770+5+Buffer.from(call.bytes.slice(2),'hex').readInt32LE(0))>>>0;
+ expect(target.toString(16)).toBe('3069b3b1');
+ expect(engineCinitInstruction('30698a86','30698be1').bytes).toBe('e8522b0000');
+ expect(engineCinitInstruction('306991ad','30699282').bytes).toBe('e8fff7ffff');
+});
+
+
+it('pins original template comma and character-node routines',()=>{
+ expect(engineCinitInstruction('30697b95','30697bc8').bytes).toBe('e823f0ffff');
+ expect(engineCinitInstruction('30697b95','30697bd5').bytes).toBe('c7008cf28930');
+ expect(engineCinitInstruction('30697b95','30697be5').bytes).toBe('e879f2ffff');
+ expect(engineCinitInstruction('30697b95','30697bfc').bytes).toBe('c20400');
+ expect(engineCinitInstruction('30696ea2','30696ea4').bytes).toBe('40');
+ expect(engineCinitInstruction('30696ea6','30696ea6').bytes).toBe('8a4108');
+ expect(engineCinitInstruction('30696eaa','30696ebc').bytes).toBe('8808');
+ expect(engineCinitInstruction('30696eaa','30696ec2').bytes).toBe('c20800');
+});
+
+
+it('pins the original template parent combination and last-character calls',()=>{
+ expect(engineCinitInstruction('306991ad','3069928e').bytes).toBe('e807ebffff');
+ expect(engineCinitInstruction('306991ad','306992a2').bytes).toBe('e892deffff');
+ expect(engineCinitInstruction('30697d9a','30697dab').bytes).toBe('e802f9ffff');
+ expect(engineCinitInstruction('30697d9a','30697db2').bytes).toBe('e85ffdffff');
+ expect(engineCinitInstruction('30697139','30697150').bytes).toBe('ff10');
+});

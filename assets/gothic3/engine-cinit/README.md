@@ -3193,3 +3193,151 @@ The capture contains 187 methods and 4,364 instructions. JSON SHA-256:
 Earlier copy and batch checks retain their completed state before this parser
 replaces shared scratch fields. This checkpoint is local and not deployed;
 full-suite validation of the preceding component/main combination is separate.
+
+
+## Local checkpoint — 11 October 2026: template name and first argument prefix
+
+The shared class-property identifier worker now accepts the original cursor and
+physical return address, allowing `30699255` to parse `bTPropertyObject` through
+the same instruction sequence used by ordinary property names. Its 16 known
+characters live in the retained arena, its name-cache append and cookie check
+complete, and the cursor reaches offset 31. The template routine assigns the
+returned value, checks it, and calls argument-list parser `30698a86`.
+
+The first argument prefix initializes the actual temporary result, sets the
+original parser byte at `30af7c8d`, reads the `V` class tag and calls the compound
+parser. Its original call `3069b770` (`e83cfcffff`) targets basic-type parser
+`3069b3b1`, where execution remains pending. Argument decoding, template return,
+property publication and shutdown registration remain unfinished. Twenty-seven
+completed property CStrings and their exit entries remain live.
+
+Typechecking and 24 selected normal/guard/marker/argument/prior-copy checks passed.
+The pending address was then corrected from the wrong parser entry to the actual
+relative-call target; two focused runtime/source checks passed for that correction.
+All 79 source/image/browser checks and the production build passed. Independent
+JSON/TypeScript regeneration matched. Evidence contains 188 methods and 4,509
+instructions; JSON SHA-256:
+`923bbcc1dd27e0a36737d255b64031ec62e3b4ae3a723eb96c0fb031b77be263`.
+Every previous method and data record is unchanged except the parser-global image,
+which extends from 37 to 38 bytes with the original loader-zero-filled byte at
+`30af7c8d`. The earlier 37 bytes are preserved exactly.
+
+The component/main-PR-262 combination at `16914f87d` separately passed all 3,891
+checks across 335 files, typechecking and build. It does not validate later GUID,
+resource or template changes. Combined revision `2b50a182d` (committed template
+contexts plus main through PR 263) is now in separate full-suite validation.
+This newest continuation is local and not deployed. Full startup and a campaign
+played from a new game through an ending remain unfinished.
+
+
+## MainCache first class argument continuation
+
+The shared class keyword, scoped-name and class-return workers now execute the
+original first template argument `eCMainCache`, including physical returns to
+`30698be6` and parsed-value assignment at `30698bec`. The original cursor is 45;
+execution remains pending at `30698bf1`, before argument caching and append.
+The template property root is still zero, its CString is not constructed, and
+the existing 27 property strings and 29 shutdown registrations are retained.
+
+The focused regression had 25 passing cases and one incorrect test expectation:
+the name loop had already committed cursor 43 when reading the closing delimiter.
+After correcting that expectation, both interruption cases passed. All 79 source,
+image and browser startup checks, typechecking and the production build passed.
+The separate combined full-suite run remains active and does not cover this
+newest continuation. No new source capture bytes were added. This checkpoint is
+local; full startup and a new-game-to-ending browser campaign are unfinished.
+
+
+## MainCache first argument cache and append
+
+The first parsed class argument now follows the original span comparison,
+reference cache append at `30698c0c`, and empty-destination append at `30698c17`.
+Both physical returns are retained. Execution is pending at `30698c1c`, before
+the loop advances to the second argument. The cursor remains 45 and the property
+root remains zero; no template CString or shutdown registration is fabricated.
+Pointer subtraction proves the same-image offset difference but retains unknown
+AF and OF flags until the following original CMP replaces them.
+
+All 26 selected property regressions and 79 source/image/browser startup checks
+passed, as did typechecking and the production build. The separate full suite
+reported an older five-property test inspecting the later call graph against an
+earlier snapshot; its capture-time correction passed in an independent checkout.
+That full run is still active. No source capture bytes changed in this checkpoint.
+This work is local and full startup and a playable new-game-to-ending campaign
+remain unfinished.
+
+
+## Original template comma and character-node capture
+
+The capture now includes AppendCharacter at `30697b95` and the three character
+node methods at `30696ea2`, `30696ea6` and `30696eaa`, plus the original 12-byte
+vtable at `3089f28c`. These 55 instructions are source evidence, not an executed
+continuation. The current execution boundary remains `30698c1c`.
+
+An independent capture matched every new method against the pinned DLL and
+saved disassembly. All 196 prior Engine/SharedBase method records and all prior
+image records are unchanged. The Engine inventory is now 192 methods and 4,564
+instructions; JSON SHA-256 is
+`12d212506d9fc0dee50bab897af7138233c9c7363bc74eb18d2a067b8e360d99`.
+All 75 source and image checks and typechecking passed. Runtime connection of
+the comma routine and second argument is still required. No deployment or full
+campaign completion is claimed.
+
+
+## Executed template comma continuation
+
+The original argument loop now reads the second class tag at cursor 45, appends
+the comma through `30697b95`, allocates its original character node and vtable,
+and physically returns through `30698aec`. Execution remains pending at
+`30698af1` before decoding the second argument. No template CString is built.
+The extracted node-to-list worker executes the same original bytes for both
+class text and the argument list.
+
+The normal comma node and an interrupted byte store passed focused checks.
+All 28 selected property regressions, 81 source/image/browser startup checks,
+typechecking and production build passed. The older combined full suite remains
+active with its historical call-graph snapshot test failure, whose correction
+was separately verified and integrated. This comma continuation is local.
+Second-argument execution is in a separate checkout under validation; full
+startup and a playable new-game-to-ending campaign remain unfinished.
+
+
+## Template parent dependencies captured
+
+The original calls after the argument-list return at `30699287` now have pinned
+source evidence for `30697d9a` (qualified value combination) and `30697139`
+(last character through the original node vtable). The 43 added instructions
+are source evidence only. Every prior method and image record is unchanged,
+and both new methods match an independent DLL/disassembly capture.
+
+The Engine capture contains 194 methods and 4,607 instructions. JSON SHA-256:
+`6bc07347b0fd207359b05b72264ba23a9393379281f1ce388af86b2688b8dba1`.
+All 76 source/image checks and typechecking passed. The committed runtime in
+this checkout still stops before the second argument at `30698af1`; the
+separate second-argument checkout has passed its focused checks and 81
+source/image/browser startup checks, with property regressions still running.
+These captures and native continuations are local, not deployed.
+
+
+## Second argument integrated with deployed main
+
+The second class argument `bCObjectRefBase` now executes in this checkout. Its
+original class/scoped-name returns, reference cache append and output list
+append are retained. The argument-list routine reads the end marker at cursor
+63, clears its active flag, verifies its cookie and physically returns to
+`30699287`. The outer template-name parser remains pending; no property root,
+CString or completed startup is fabricated.
+
+All four runtime/test files match the independently validated second-argument
+checkout, where 30 selected property regressions, 81 source/image/browser
+checks, typechecking and build passed. After integration with main PR 264 and
+the expanded parent source capture, five focused compatibility checks, all
+82 source/image/browser startup checks and typechecking passed. The earlier
+140 main integration checks cover the preceding comma runtime.
+
+The separate older full suite completed with 3,958 passing checks and one
+historical snapshot-timing failure; its capture-time correction passed in
+that checkout. That targeted correction is not a full-suite rerun. A full
+validation of this newest combined revision is still required before publishing
+this native checkpoint. Full startup and a complete browser campaign remain
+unachieved.
