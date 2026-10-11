@@ -653,7 +653,26 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
                 arena('30696c2a',()=>setRegister('ECX',stack.#mint(0,0,{kind:'engine-image',crt,fields:globals.value,offset:0})));arena('30696c2f',()=>stack.#call('30696c2f','30696c34'));
                 arenaPrefix(4100,1);arena('30696c05',()=>stack.#push(register('EDI')));
                 arena('30696c06',()=>{const p=stack.#record(stack.#load(globals.value,0)).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!=='30672ec7')throw new Error('Actual retained arena allocator callback required');stack.#call('30696c06','30696c08');});
-                stack.#engineCinitFrame!.pc='30672ec7';return known(undefined);
+                stack.#engineCinitFrame!.pc='30672ec7';const requested=stack.#numeric(stack.#load(stack.#stack,relative('ESP',4)),4);
+                engineCinitInstruction('30672ec7','30672ec7');const allocated=NativeModuleCrtOwner.prototype.malloc.call(crt,requested);if(!allocated.known)throw new Error(allocated.reason);
+                const arenaBacking=allocated.value?new NativeHeapObjectViews(allocated.value):null;
+                if(arenaBacking){Object.freeze(arenaBacking);const proof=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields:arenaBacking,offset:0},requested);if(!proof.known)throw new Error(proof.reason);}
+                const arenaWord=(offset:number)=>{if(!arenaBacking)throw new Error('Actual arena allocation required');return stack.#mint(0,0,{kind:'engine-allocation',crt,fields:arenaBacking,offset});};
+                hostReturn(arenaBacking?arenaWord(0):stack.#mint(0,0xffffffff),0);
+                arena('30696c08',()=>pop('ECX'));arena('30696c09',()=>{});arena('30696c6f',()=>pop('EDI'));arena('30696c70',()=>pop('ESI'));
+                arena('30696c71',()=>{const p=stack.#record(stack.#ret(8)).provenance;if(p?.kind!=='source'||p.address!=='30696c34')throw new Error('Actual recursive arena return required');});
+                arena('30696c34',()=>{if(arenaBacking)stack.#flags(0,0x841);else stack.#logicalFlags(0,0xffffffff,4);});arena('30696c36',()=>{});
+                if(!arenaBacking){stack.#engineCinitFrame!.pc='30696c3d';return known(undefined);}
+                arena('30696c38',()=>{stack.#store(arenaBacking,0,stack.#mint(0,0xffffffff));stack.#logicalFlags(0,0xffffffff,4);});arena('30696c3b',()=>{});arena('30696c3f',()=>stack.#flags(0,0x841));arena('30696c41',()=>{});
+                arena('30696c43',()=>setRegister('ECX',stack.#load(globals.value,12)));arena('30696c46',()=>{const v=stack.#numeric(register('ECX'),4);stack.#logicalFlags(v,0xffffffff,4);});arena('30696c48',()=>{if(stack.#numeric(register('ECX'),4)!==0)throw new Error('Actual cold arena tail required');});
+                arena('30696c4e',()=>stack.#store(globals.value,8,register('EAX')));
+                arena('30696c51',()=>{const a=stack.#numeric(register('EBX'),4),b=stack.#numeric(register('EDI'),4),v=(a-b)>>>0;setRegister('EBX',stack.#mint(v,0xffffffff));stack.#arithmeticFlags(a,b,v,4,true);});
+                arena('30696c53',()=>stack.#store(globals.value,12,register('EAX')));arena('30696c56',()=>stack.#store(globals.value,16,register('EBX')));arena('30696c59',()=>{});
+                arena('30696c64',()=>setRegister('EAX',stack.#load(globals.value,12)));arena('30696c67',()=>setRegister('ECX',stack.#load(globals.value,16)));
+                arena('30696c6a',()=>{const p=stack.#record(register('EAX')).provenance;if(p?.kind!=='engine-allocation'||p.crt!==crt||p.fields!==arenaBacking||p.offset!==0)throw new Error('Actual retained arena tail required');const offset=stack.#numeric(register('ECX'),4)+4,proof=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields:arenaBacking,offset},16);if(!proof.known)throw new Error(proof.reason);setRegister('EAX',arenaWord(offset));});
+                arena('30696c6e',()=>pop('EBX'));arena('30696c6f',()=>pop('EDI'));arena('30696c70',()=>pop('ESI'));arena('30696c71',()=>{const p=stack.#record(stack.#ret(8)).provenance;if(p?.kind!=='source'||p.address!=='30697082')throw new Error('Actual field allocation return required');});
+                field('30697082',()=>stack.#flags(0,0x841));field('30697084',()=>{});field('30697086',()=>stack.#push(register('EDI')));field('30697087',()=>setRegister('ECX',register('EAX')));field('30697089',()=>stack.#call('30697089','3069708e'));
+                stack.#engineCinitFrame!.pc='30696ef8';return known(undefined);
               }
               stack.#engineCinitFrame!.pc='30076691';return known(undefined);
             }

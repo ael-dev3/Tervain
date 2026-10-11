@@ -4,6 +4,24 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local continuation — 11 October 2026: owned arena allocation and returns
+
+The stored malloc callback now uses the retained Engine CRT heap service. This
+is a translated allocation contract; its internal instructions are excluded from
+the physical count. The actual recursive allocator returns, clears the block
+link, publishes head and tail, and retains 4,080 free bytes. Its original address
+calculation returns a 16-byte slice at offset 4,084 in the actual 4,104-byte
+allocation. Both arena returns preserve their caller identities and cleanup.
+The field constructor call at `30696ef8` remains pending after 2,888 operations.
+
+Two normal/frame checks and three allocation identity/failure checks pass;
+TypeScript typechecking passes. An unavailable allocation preserves its pending
+malloc call; a null allocation stops at the original failure branch without
+publishing a block. The newer tests also corrected optional-array typing before
+acceptance. Combined validation of predecessor `46318a772` remains live in its
+frozen checkout. This change remains local; field construction, name parsing,
+complete startup and campaign integration are still unfinished.
+
 ## Local continuation — 11 October 2026: parser arena allocation caller
 
 The original arena allocator now executes its cold-capacity branch, requests a

@@ -118,3 +118,10 @@ The arena allocator follows the actual cold-capacity branch, requests a new
 the stored malloc capability. Execution stops at `30672ec7` after 2,857 admitted
 operations. Both arena calls and their caller remain pending; allocation and
 cleanup are still unfinished.
+
+The admitted stored malloc callback now uses the retained Engine CRT allocation
+contract. Contract internals are excluded from the physical instruction count.
+The successful arena caller links its actual allocation, retains 4,080 free
+bytes and returns the 16-byte slice at offset 4,084. Original POPs and RET 8
+return both arena calls. The field constructor at `30696ef8` remains pending
+after 2,888 operations. Null and unavailable malloc retain their actual boundaries.
