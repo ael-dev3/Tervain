@@ -3389,3 +3389,8 @@ The original class-type parser routes the W token through `30699645` and calls `
 ## Original enum table and keyword bytes
 
 Captured `30698051` (eight original jump-table words), the enum literal at `3089f410`, and char/short/int/long/unsigned literals used by helper `30697f9d`. Digit 4 targets `30697ff1`, bypassing underlying keyword insertion; odd digits pass through the original unsigned-prefix branch. These facts identify parser work required by the next W4 template argument; source capture does not establish runtime execution.
+
+
+## Shape-group enum-template constructor prefix
+
+The original callback `30732640` and constructor `30078390` now enter the property-name parser using their original fields and byte-verified source. Template argument parsing uses the actual cursor returned by the identifier parser, replacing MainCache-specific offsets. The W branch executes its original instructions through CALL `3069964b`, retaining the unfinished enum helper at `30697f9d` and its actual caller. Root publication, CString completion and shutdown registration for this property remain pending: initializer cursor is `0x1e8`, exit cursor is 236, type-name cache lock is unlocked and undecoration lock is held. MainCache regression observations capture its parser byte and call graph at its own checkpoint before later templates modify shared state. Typechecking and five targeted checks passed; broader browser checks and build are separate outstanding validation. Full startup and campaign completion remain unfinished.
