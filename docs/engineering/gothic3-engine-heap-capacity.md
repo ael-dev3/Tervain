@@ -998,3 +998,18 @@ typechecking, all 3,575 tests across 319 files and the production build. Its
 full suite took 1,769.02 seconds and predates the cache continuation. These
 results are separate receipts. This checkpoint is local; identifier return,
 complete startup and the finishable browser campaign remain unfinished.
+
+
+### 2026-10-11: combined cache-append validation
+
+Frozen revision `3244c7c5f5ffa65674b0eb09513fba0f797939fd` completed
+TypeScript checking, all 3,595 tests across 320 files, and the production build.
+The full suite took 1,727.36 seconds; its process exited successfully. This
+revision includes the original name-cache append continuation and main through
+PR 246. It predates the subsequent class/type returns and output-assignment
+continuation in the development checkout. Those changes need separate checks.
+
+PR 247 was externally merged as `9adc29dbac2d025c82bae033a9028c7023922238`;
+its Pages deployment run `38117866407` completed successfully. That published
+revision does not contain the local native-runtime continuations. Successful
+builds and deployments do not prove engine startup or campaign completion.
