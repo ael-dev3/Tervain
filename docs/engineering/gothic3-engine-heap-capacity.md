@@ -2007,3 +2007,21 @@ the undecoration caller and lock retained. Normal-path checks verify the
 NameParser return, output bytes/masks and prior roots/shutdown entries.
 Original evidence packages are unchanged. This local checkpoint has not been
 deployed and does not establish complete startup or full campaign persistence.
+
+
+### 2026-10-11 — camera parser arena destruction and caller return (local)
+
+Executed the original arena chain destructor/free, finally handler releasing
+lock 5, EH epilog and undecoration return. The type-name caller regains its
+live output at `3067dad1` after 13,427 operations. The parser arena is freed;
+checks observe its raw historical bytes without native reads after release.
+The separate output still contains nineteen known bytes and five unknown
+padding bytes. Length scan, type cache and camera root publication remain
+pending. Prior published roots/CStrings/shutdown entries remain intact.
+
+Validation: TypeScript checking, ten focused runtime checks and six browser
+startup checks passed. A further unavailable arena free check passed at
+`30672f8a`, retaining the destructor caller, lock and earlier CStrings/shutdown
+cursor. Original instruction packages are unchanged. This local checkpoint
+has not been deployed and does not establish complete engine startup or a
+campaign playable through an ending with persistence.
