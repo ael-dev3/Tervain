@@ -191,7 +191,7 @@ function rebuildFixture() {
     world: oldWorld, library: {}, menuScene: new MenuScene({ quality: f.app.settings.quality }), npcAssets: { has: () => true, create: () => undefined },
     applyUiSettings: vi.fn(), applyQualityToRenderer: vi.fn(), renderer: {},
     prepareWorldGraphics: vi.fn().mockResolvedValue(undefined), prepareMenuGraphics: vi.fn().mockResolvedValue(undefined),
-    frameClock: new FrameClock(), frameTimes: [], audioClock: 0, worldDirty: true,
+    frameClock: new FrameClock(), frameTimes: [], audioClock: 0, worldDirty: true, warmDepth: new Map(),
     hud: { ...f.app.hud, el: new ElementFixture('DIV') },
   });
   vi.stubGlobal('requestAnimationFrame', vi.fn());
@@ -371,7 +371,7 @@ describe('actual application world transitions', () => {
     app.game.state.player.y = 26.2;
     const saved = { ...app.game.state.player };
     call('beginPlay', { recovered: null });
-    expect(app.player.setPosition).toHaveBeenCalledWith(saved.x, saved.z, saved.yaw, app.world.terrain, 26.2);
+    expect(app.player.setPosition).toHaveBeenCalledWith(saved.x, saved.z, saved.yaw, app.world.terrain, 26.2, false);
   });
 
   it('restores saved prop support on the rig without offsetting its persistent parent on later loads', () => {
@@ -673,7 +673,7 @@ describe('actual application world transitions', () => {
     expect(app.input.uiOpen).toBe(false);
     expect(app.game.state.inventory.arrow).toBe(9);
     expect(app.game.state.clock).toBe(chosen.clock);
-    expect(app.player.setPosition).toHaveBeenCalledWith(12, 34, .6, app.world.terrain, 26.2);
+    expect(app.player.setPosition).toHaveBeenCalledWith(12, 34, .6, app.world.terrain, 26.2, false);
     expect(app.hud.toast).toHaveBeenCalledWith('The latest write was damaged, so the previous save was restored.');
     expect(app.hud.toast).toHaveBeenCalledWith('Game loaded.');
   });
@@ -832,6 +832,41 @@ describe('map keyboard capture routing', () => {
     trapTab.mockReturnValue(true);
     call('onUiKey', { ...event, code: 'Tab' });
     expect(trapTab).toHaveBeenCalledTimes(2);
+  });
+});
+
+describe('the respawn point (A87 scout)', () => {
+  it('is never set beside a foe post, even before that foe has arrived', () => {
+    const { app, call } = fixture();
+    Object.assign(app, { enemies: [], checkpoint: null });
+    Object.assign(app.player, { x: 86, y: 0, z: 40, yaw: 0 });
+    call('markCheckpoint');
+    expect(Reflect.get(app, 'checkpoint')).toBeNull();
+    // Away from every post, it is set.
+    Object.assign(app.player, { x: 0, y: 0, z: 0 });
+    call('markCheckpoint');
+    expect(Reflect.get(app, 'checkpoint')).toMatchObject({ x: 0, z: 0 });
+  });
+});
+
+describe('a list in a panel (A87 scout)', () => {
+  it('moves on with up and down rather than changing its option, and keeps left and right for the option', () => {
+    const { app, document, call } = fixture();
+    class Select {}
+    vi.stubGlobal('HTMLSelectElement', Select);
+    vi.stubGlobal('HTMLInputElement', class {});
+    const navigate = vi.fn();
+    Object.assign(app.panels, { isOpen: true, trapTab: vi.fn(() => false), navigate });
+    Object.assign(Reflect.get(app, 'audio'), { uiMove: vi.fn() });
+    document.activeElement = Object.assign(new Select(), { matches: () => false, closest: () => null }) as unknown as ElementFixture;
+    const down = { code: 'ArrowDown', defaultPrevented: false, preventDefault: vi.fn(), stopPropagation: vi.fn() };
+    call('onUiKey', down);
+    expect(down.preventDefault).toHaveBeenCalled();
+    expect(navigate).toHaveBeenCalledWith(0, 1);
+    const right = { ...down, code: 'ArrowRight', preventDefault: vi.fn() };
+    call('onUiKey', right);
+    expect(right.preventDefault).not.toHaveBeenCalled();
+    expect(navigate).toHaveBeenCalledOnce();
   });
 });
 

@@ -96,8 +96,10 @@ export function hunterRank(tally: HuntTally | undefined): HunterRank {
 }
 
 /** Text params for the restock strings: the arrows one hide buys at the current rank, not a fixed six (A71). */
-export function restockParams(s: Pick<WorldState, 'huntTally'>): { count: number } {
-  return { count: hunterRank(s.huntTally).arrows };
+/** The arrows a hide buys now: the rank's, as many as still fit the quiver (A89 scout: the prompt promised the full count). */
+export function restockParams(s: Pick<WorldState, 'huntTally'> & Partial<Pick<WorldState, 'inventory'>>): { count: number } {
+  const room = s.inventory ? ARROW_QUIVER_CAPACITY - (s.inventory.arrow ?? 0) : Infinity;
+  return { count: Math.max(0, Math.min(hunterRank(s.huntTally).arrows, room)) };
 }
 
 export function skinningSeconds(tally: HuntTally | undefined): number {

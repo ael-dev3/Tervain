@@ -147,7 +147,7 @@ export interface SceneryHandles {
   /** The lighthouse lamp room: the beam group turns and the lamp glows after dark. */
   lighthouse: { beam: THREE.Group; lamp: THREE.Vector3; light: THREE.PointLight };
   setNight(n: number): void;
-  update(dt: number, time: number, night: number): void;
+  update(dt: number, time: number, night: number, reducedMotion?: boolean): void;
   dispose(): void;
 }
 
@@ -945,12 +945,17 @@ export function buildScenery(terrain: Terrain, colliders: Colliders, quality: 'l
     quarryBanner,
     lighthouse: { beam, lamp: lampWorld, light: beamLight },
     setNight,
-    update(dt: number, _time: number, night: number) {
-      // The beam turns once every eight seconds and shows only after dusk.
-      const on = night > 0.35;
-      beam.visible = on;
-      beamLight.intensity = on ? 26 * Math.min(1, (night - 0.35) * 2) : 0;
-      if (on) beam.rotation.y += dt * 0.78;
+    update(dt: number, _time: number, night: number, reducedMotion = false) {
+      // The beam turns once every eight seconds and shows only after dusk, fading in and out with its light (A89 scout:
+      // the cones popped on and off at full strength); with motion reduced it turns slowly.
+      const fade = Math.max(0, Math.min(1, (night - 0.35) * 2));
+      beam.visible = fade > 0;
+      for (const cone of beam.children) {
+        const uniforms = ((cone as THREE.Mesh).material as THREE.ShaderMaterial).uniforms;
+        if (uniforms?.uAlpha) uniforms.uAlpha.value = 0.3 * fade;
+      }
+      beamLight.intensity = 26 * fade;
+      if (fade > 0) beam.rotation.y += dt * (reducedMotion ? 0.12 : 0.78);
     },
     dispose() {
       mats.dispose();

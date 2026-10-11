@@ -348,7 +348,9 @@ export class SkyRig {
 
     // Sun arc: rises east-ish at 6, sets at 19.
     const day = smoothstep(5.5, 7, hour) * (1 - smoothstep(18.6, 20, hour));
-    const ang = ((hour - 6) / 13) * Math.PI;
+    // By night it goes on round below the horizon, from 19:00 back to 06:00, so the day wraps without a jump (A89 scout:
+    // the arc, not periodic, turned the sun 66 degrees at midnight, and the night clouds' lit side with it).
+    const ang = hour >= 6 && hour <= 19 ? ((hour - 6) / 13) * Math.PI : Math.PI + ((((hour - 19) % 24) + 24) % 24) / 11 * Math.PI;
     const sunDir = this.state.sunDir.set(Math.cos(ang) * 0.95, Math.max(0.02, Math.sin(ang)) * 0.9 + 0.08, -0.32).normalize();
     // Low beyond the day's ends, eased in over a few minutes either side rather than switched (A70): a jump at 06:00
     // and 19:00 stretched the shadows 2.5 times in one frame and lost the disc.

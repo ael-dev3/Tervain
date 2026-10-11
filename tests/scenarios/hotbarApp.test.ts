@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import { App } from '../../src/app';
+import { App, quickSlotPressed } from '../../src/app';
 import { Game } from '../../src/game/game';
 import type { ItemId } from '../../src/game/types';
 import { HuntingController } from '../../src/presentation/huntingController';
@@ -41,6 +41,19 @@ function fixture() {
   const call = (method: string, ...args: unknown[]) => Reflect.apply(Reflect.get(App.prototype, method), app, args);
   return { app, game, call, hunting, buttons };
 }
+
+describe('number keys for quick slots (A89 scout)', () => {
+  it('open the slot, unless that digit is bound to an action, which keeps it alone', () => {
+    const bindings = defaultSettings().bindings;
+    expect(quickSlotPressed((code) => code === 'Digit1', bindings)).toBe(0);
+    expect(quickSlotPressed((code) => code === 'Numpad0', bindings)).toBe(9);
+    expect(quickSlotPressed(() => false, bindings)).toBeNull();
+    const rebound = { ...bindings, interact: ['Digit1'] };
+    expect(quickSlotPressed((code) => code === 'Digit1', rebound)).toBeNull();
+    // The keypad's 1 is still slot 1.
+    expect(quickSlotPressed((code) => code === 'Numpad1', rebound)).toBe(0);
+  });
+});
 
 describe('actual App hotbar and inventory routes', () => {
   it('starts with ten empty slots and refuses empty, depleted and invalid activation', () => {

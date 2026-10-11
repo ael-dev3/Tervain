@@ -154,42 +154,43 @@ describe('arrivals', () => {
     // Only one figure builds at a time.
     expect(second.make).not.toHaveBeenCalled();
     expect(arrivals.count).toBe(2);
-    // Done, but walked into view: the finished rig waits.
+    // Done, but walked into view: the finished rig waits, and no longer holds up the next figure's build (A87 scout),
+    // who is out of sight and changes over meanwhile.
     x = 0;
-    for (let i = 0; i < 7; i++) arrivals.update(held, inView);
+    for (let i = 0; i < 9; i++) arrivals.update(held, inView);
     expect(steps).toHaveLength(7);
     expect(staged.adopt).not.toHaveBeenCalled();
-    // Out of sight again: it changes over, with the rig that was built; the next figure's short build starts at once and
-    // ends the next frame.
+    expect(second.make).toHaveBeenCalledOnce();
+    expect(second.adopt).toHaveBeenCalledOnce();
+    expect(arrivals.count).toBe(1);
+    // Out of sight again: it changes over, with the rig that was built.
     x = 100;
     expect(arrivals.update(held, inView)).toBe(1);
     expect(staged.adopt).toHaveBeenCalledWith(held, rig);
-    expect(second.make).toHaveBeenCalledOnce();
-    expect(arrivals.update(held, inView)).toBe(1);
-    expect(second.adopt).toHaveBeenCalledOnce();
     expect(arrivals.count).toBe(0);
   });
 
   it('waits for the shaders of a built rig before it changes over, and changes over even if warming fails', async () => {
     const arrivals = new ResidentArrivals(), rig = arrivedRig();
     let release!: () => void;
-    arrivals.warm = vi.fn(() => new Promise<void>((resolve) => { release = resolve; }));
+    // The first rig's shaders take a while; the next figure's fail to warm.
+    arrivals.warm = vi.fn((built: Rig) => built === rig ? new Promise<void>((resolve) => { release = resolve; }) : Promise.reject(new Error('no compile')));
     const staged = { role: 'named:mill_hand', position: () => ({ x: 100, y: 0, z: 0 }), adopt: vi.fn(), *make() { yield; return rig; } } satisfies AwaitingFigure;
     const failing = { role: 'named:village_baker', position: () => ({ x: 100, y: 0, z: 0 }), adopt: vi.fn(), *make() { return arrivedRig(); } } satisfies AwaitingFigure;
     arrivals.add(staged); arrivals.add(failing);
     const held = catalog(['named:mill_hand', 'named:village_baker']);
+    // The first rig waits for its shaders; the next figure's build goes on meanwhile.
     for (let i = 0; i < 3; i++) arrivals.update(held, () => false);
     expect(arrivals.warm).toHaveBeenCalledWith(rig);
     expect(staged.adopt).not.toHaveBeenCalled();
-    release(); await Promise.resolve(); await Promise.resolve();
-    // The next figure's shaders fail to warm: it changes over all the same.
-    arrivals.warm = () => Promise.reject(new Error('no compile'));
-    expect(arrivals.update(held, () => false)).toBe(1);
-    expect(staged.adopt).toHaveBeenCalledWith(held, rig);
-    expect(failing.adopt).not.toHaveBeenCalled();
     await Promise.resolve(); await Promise.resolve();
+    // Failing to warm, it changes over all the same; the first waits on until its shaders are done.
     expect(arrivals.update(held, () => false)).toBe(1);
     expect(failing.adopt).toHaveBeenCalledOnce();
+    expect(staged.adopt).not.toHaveBeenCalled();
+    release(); await Promise.resolve(); await Promise.resolve();
+    expect(arrivals.update(held, () => false)).toBe(1);
+    expect(staged.adopt).toHaveBeenCalledWith(held, rig);
     arrivals.clear();
     expect(arrivals.warm).toBeNull();
   });

@@ -66,6 +66,21 @@ import type { CircleCollider } from './world/colliders';
 
 /** How far round the line from the camera to the wanderer leaves give way (A84), metres. */
 const FOLIAGE_FOCUS_RADIUS = 1.3;
+/** Right-stick scrolling of an open panel (A87 scout): dead zone, and pixels a second at full tilt. */
+const PANEL_SCROLL = { dead: 0.2, speed: 900 } as const;
+
+/**
+ * The quick slot whose number key was pressed (1-9, 0 for the tenth), or null. A digit bound to an action is that
+ * action's alone (A89 scout: with Interact on 1, pressing it picked up and ate the bread in slot 1 at once).
+ */
+export function quickSlotPressed(pressedKey: (code: string) => boolean, bindings: Readonly<Record<string, readonly string[]>>): number | null {
+  const bound = new Set(Object.values(bindings).flat());
+  for (let slot = 0; slot < 10; slot++) {
+    const key = (slot + 1) % 10;
+    if ([`Digit${key}`, `Numpad${key}`].some((code) => !bound.has(code) && pressedKey(code))) return slot;
+  }
+  return null;
+}
 
 type Mode = 'loading' | 'title' | 'play' | 'dead';
 
@@ -162,9 +177,9 @@ export class App {
   private readonly speech = new SpeechDirector({
     say: (line, at) => this.audio.say(line, at),
     // A remark cut short takes its words with it (A70).
-    hush: (speaker) => { this.audio.hush(speaker); this.bubbleState?.delete(speaker); },
+    hush: (speaker) => { this.audio.hush(speaker); this.bubbleState?.delete(speaker); this.hud?.hushSpeech?.(speaker); },
     caption: (speaker, text, seconds) => {
-      if (this.settings.captions) this.hud.speech(SPEAKER_NAMES[speaker], text, seconds);
+      if (this.settings.captions) this.hud.speech(SPEAKER_NAMES[speaker], text, seconds, speaker);
     },
   });
   /** Screenshot and film tools start a game without the hero's opening words. */
@@ -618,6 +633,8 @@ export class App {
           await this.buildWorld();
           await this.prepareWorldGraphics(fromLoad);
         } while (this.reloadAgain);
+        // A quality changed while the journey loaded reaches the menu's backdrop too (A87 scout).
+        if (this.menuScene.quality !== this.settings.quality) { this.replaceMenuScene(); void this.prepareMenuGraphics(); }
         if (!this.menuAssets) {
           // A failed optional menu download can recover from the now-loaded world template caches.
           void this.prepareMenuAssets().catch((error) => console.warn('Menu backdrop unavailable', error));
@@ -669,6 +686,9 @@ export class App {
     const world = this.world;
     this.worldDisposed = true;
     this.hunting.detach();
+    // The depth materials kept for preparing shadows point at this world's textures (A87 scout).
+    for (const depth of this.warmDepth.values()) depth.dispose();
+    this.warmDepth.clear();
     const scene = world.scene;
     // This rig persists across quality/world rebuilds and keeps its GPU resources.
     scene.remove(this.player.group);
@@ -815,7 +835,7 @@ export class App {
         // The player rig and action state survive graphics rebuilds; do not rewind to a stale pre-load transform.
         const safe = this.safePosition(this.player.x, this.player.z, this.player.y);
         if (safe.x !== this.player.x || safe.z !== this.player.z) {
-          this.player.setPosition(safe.x, safe.z, this.player.yaw, this.world.terrain, safe.y);
+          this.player.setPosition(safe.x, safe.z, this.player.yaw, this.world.terrain, safe.y, safe.afloat === true);
           this.cam.reset();
         }
         await this.prepareWorldGraphics();
@@ -970,7 +990,7 @@ export class App {
     const fresh = fromLoad === null;
     const start = fresh ? { x: SPAWN.x, z: SPAWN.z, yaw: SPAWN.yaw } : { x: safe.x, z: safe.z, yaw: p.yaw };
     this.pendingMount = !fresh && typeof p.mount === 'string' ? { id: p.mount, x: start.x, z: start.z } : null;
-    this.player.setPosition(start.x, start.z, start.yaw, this.world.terrain, fresh ? undefined : safe.y);
+    this.player.setPosition(start.x, start.z, start.yaw, this.world.terrain, fresh ? undefined : safe.y, !fresh && safe.afloat === true);
     if (!fresh) {
       const top = this.world.physics.supportAt(start.x, start.z, p.y);
       if (top !== null && Math.abs(top - p.y) < .12) {
@@ -987,12 +1007,12 @@ export class App {
   }
 
   /** Player positions that are no longer standable (geometry changed between builds) fall back to a safe place. */
-  private safePosition(x: number, z: number, feetY?: number): V2 & { y: number } {
+  private safePosition(x: number, z: number, feetY?: number): V2 & { y: number; afloat?: boolean } {
     const { terrain, colliders } = this.world;
     if (canPlayerStandAt(terrain, colliders, x, z, feetY)) return { x, z, y: supportedPlayerHeight(terrain, x, z, feetY) };
     // A swimmer is saved and rebuilt where he swims, not carried ashore (A70).
     const water = this.world.water?.world.sample(x, z);
-    if (water && water.depth > 0.9 && !colliders.blocked(x, z, PLAYER_BODY_RADIUS)) return { x, z, y: feetY ?? water.surface - 1.1 };
+    if (water && water.depth > 0.9 && !colliders.blocked(x, z, PLAYER_BODY_RADIUS)) return { x, z, y: feetY ?? water.surface - 1.1, afloat: true };
     const cell = this.world.nav.nearestOpen(x, z, 10);
     const position = cell ? this.world.nav.cellCenter(cell.i, cell.j) : { x: SPAWN.x, z: SPAWN.z };
     return { ...position, y: terrain.groundAt(position.x, position.z) };
@@ -1005,6 +1025,8 @@ export class App {
   }
 
   private syncWorldFromState(snap: boolean) {
+    // The actors are set from the state: their sounds must not hear that as something happening (A89 scout).
+    if (snap) this.audio?.forgetActors?.();
     this.player.syncEquipment(this.game);
     this.world.syncStatic(this.game.state, snap);
     this.world.animals?.syncHunting(this.game.state.hunting, true);
@@ -1128,6 +1150,9 @@ export class App {
     this.simStep++;
     this.hunting.syncInputMode();
     this.input.poll(dt);
+    // The right stick scrolls an open panel, so a controller reaches the whole of a long journal page (A87 scout).
+    const scrollStick = this.input.padAxes.ry;
+    if (this.panels.isOpen && Math.abs(scrollStick) > PANEL_SCROLL.dead) this.panels.scroll?.(scrollStick * PANEL_SCROLL.speed * dt);
     const state = this.game.state;
     if (this.world && this.worldDirty) {
       this.world.syncStatic(state, false);
@@ -1146,7 +1171,8 @@ export class App {
     if (this.world && !this.world.warming.warm) {
       // The animals and furniture that arrive after the world opens are compiled in parallel before they show (A78).
       const scene = this.world.scene;
-      this.world.warming.warm = (object) => this.warmShaders(object, scene);
+      const world = this.world;
+      this.world.warming.warm = (object) => this.warmShaders(object, scene, true, world);
       // What the world holds hidden at first (rooms' furniture and clutter, shown as one comes near) is prepared the
       // same way (A79): the renderer's own first-view preparation passes over hidden objects.
       void this.warmHidden(scene);
@@ -1156,7 +1182,8 @@ export class App {
     if (this.arrivals.count && this.world && !this.catchUp) {
       // A rig built while the world runs has its shaders compiled in parallel before it is shown (A78).
       const scene = this.world.scene;
-      this.arrivals.warm ??= (rig) => this.warmShaders(rig.root, scene);
+      const world = this.world;
+      this.arrivals.warm ??= (rig) => this.warmShaders(rig.root, scene, true, world);
       this.arrivals.update(this.npcAssets, (p) => this.inView(p));
     }
 
@@ -1391,10 +1418,8 @@ export class App {
       if (inp.pressed('quicksave')) this.saveTo('quick');
       if (inp.pressed('quickload')) this.loadSlot('quick');
       if (inp.pressed('heal')) this.usePoultice();
-      for (let slot = 0; slot < 10; slot++) {
-        const key = (slot + 1) % 10;
-        if (inp.pressedKey(`Digit${key}`) || inp.pressedKey(`Numpad${key}`)) { this.activateQuickSlot(slot); break; }
-      }
+      const slot = quickSlotPressed((code) => inp.pressedKey(code), this.settings.bindings);
+      if (slot !== null) this.activateQuickSlot(slot);
     }
   }
 
@@ -1443,7 +1468,9 @@ export class App {
     const vertical = e.code === 'ArrowDown' || e.code === 'ArrowUp';
     const horizontal = e.code === 'ArrowLeft' || e.code === 'ArrowRight';
     if (!vertical && !horizontal) return;
-    if (isSelect) return; // arrows change the option natively
+    // Left and right change a list's option natively; up and down move on through the panel like every other row
+    // (A87 scout): natively they changed the quality as focus passed, rebuilding the world, and could not get past it.
+    if (isSelect && horizontal) return;
     if (isRange && horizontal) return; // arrows adjust the slider natively
     e.preventDefault();
     e.stopPropagation();
@@ -1816,8 +1843,15 @@ export class App {
     if (r.ok) {
       this.hud.toast(S(cmd.t === 'archiveAccess' && cmd.method === 'borrowed_key' ? 'toast.unlocked.key' : 'toast.archive.open'), 'good');
       this.audio.worldEvent('door', '[The archive door opens]');
+      this.speech.hero('place.archive' as HeroCue, { delay: 1.5 });
       this.world.syncStatic(this.game.state, false);
     } else this.hud.toast(S('toast.archive.withdrawn'), 'bad');
+  }
+
+  /** Whether the archive can be seen into: its door opened or its shutter forced. */
+  private archiveOpen(): boolean {
+    const changes = this.game.state.locationChanges;
+    return changes.archive_door === 'open' || changes.archive_shutter === 'forced';
   }
 
   /** Who could plausibly have seen the player at this spot: awake, close, with a clear line of sight. */
@@ -1844,6 +1878,7 @@ export class App {
     }
     this.audio.worldEvent('shutter', '[The archive shutter is forced open]');
     this.hud.toast(S('toast.archive.forced'));
+    this.speech.hero('place.archive' as HeroCue, { delay: 1.5 });
     this.world.syncStatic(this.game.state, false);
     // A witness cue the player can act on: the observer calls out.
     const w = this.npcs.find((n) => seenBy.includes(n.id));
@@ -2003,7 +2038,11 @@ export class App {
           } else this.audio.quest();
           break;
         case 'grant':
-          for (const [id, qty] of Object.entries(e.items) as [ItemId, number][]) this.hud.toast(S('toast.item.gain', { qty, name: S(ITEMS[id].nameKey) }), 'good');
+          for (const [id, qty] of Object.entries(e.items) as [ItemId, number][]) {
+            this.hud.toast(S('toast.item.gain', { qty, name: S(ITEMS[id].nameKey) }), 'good');
+            // A reward is remarked on as a find is (A89 scout: the key's and the reed's lines were never heard).
+            this.speech.hero(`item.${id}` as HeroCue, { delay: 0.6 });
+          }
           this.audio.pickup(Object.keys(e.items)[0] as ItemId | undefined);
           break;
         case 'item':
@@ -2025,7 +2064,8 @@ export class App {
         case 'place':
           this.hud.toast(S('toast.place', { name: S(`place.${e.id}`) }), 'evidence');
           this.audio.discover(e.id);
-          this.speech.hero(`place.${e.id}` as HeroCue, { delay: 1.2 });
+          // The archive's shelves are remarked on once it stands open, not from outside its locked door (A89 scout).
+          if (e.id !== 'archive' || this.archiveOpen()) this.speech.hero(`place.${e.id}` as HeroCue, { delay: 1.2 });
           // Discovering somewhere new moves the respawn point there.
           this.markCheckpoint();
           break;
@@ -2077,6 +2117,10 @@ export class App {
   private markCheckpoint() {
     const p = this.player;
     if (this.enemies.some(e => e.alive && Math.hypot(e.x - p.x, e.z - p.z) < 18)) return;
+    // Nor beside a foe's post, whether or not its model has arrived yet (A87 scout): one not yet here is not in the list
+    // above, and it comes back to its post as the player respawns there.
+    const defeated = this.game.state.defeated;
+    if (ENEMY_SPAWNS.some(spawn => !defeated[spawn.id] && Math.hypot(spawn.x - p.x, spawn.z - p.z) < 18)) return;
     this.checkpoint = { x: p.x, y: p.y, z: p.z, yaw: p.yaw };
   }
 
@@ -2204,6 +2248,8 @@ export class App {
   private clearSpeech() {
     this.speech.clear();
     this.bubbleState?.clear();
+    // Captions go with the voices (A87 scout): they stayed their whole length, even over a freshly loaded game.
+    this.hud?.hushSpeech?.();
   }
 
   /** A remark (a line in voice.ts), voiced from where the person stands, with its words above their head. */
@@ -2300,7 +2346,7 @@ export class App {
     if (this.mode !== 'dead') return;
     this.game.dispatch({ t: 'healPlayer', amount: 100 });
     const cp = this.safePosition(this.checkpoint.x, this.checkpoint.z, this.checkpoint.y);
-    this.player.setPosition(cp.x, cp.z, this.checkpoint.yaw, this.world.terrain, cp.y);
+    this.player.setPosition(cp.x, cp.z, this.checkpoint.yaw, this.world.terrain, cp.y, cp.afloat === true);
     this.player.stamina = 100;
     for (const e of this.enemies) e.reset(this.world);
     this.hud.showFade(false);
@@ -2608,8 +2654,10 @@ export class App {
   /** One depth material a shadow configuration, kept so the programs prepared with them stay alive for the real pass. */
   private readonly warmDepth = new Map<string, THREE.MeshDepthMaterial>();
 
-  private warmShaders(object: THREE.Object3D, scene: THREE.Scene, draws = true): Promise<unknown> {
-    const r = this.renderer, previous = r.getRenderTarget(), world = this.world;
+  private warmShaders(object: THREE.Object3D, scene: THREE.Scene, draws = true, world = this.world): Promise<unknown> {
+    // A hook set by a world since rebuilt prepares nothing against the new one (A87 scout).
+    if (!this.stillWorld(world)) return Promise.resolve();
+    const r = this.renderer, previous = r.getRenderTarget();
     const restore: [THREE.Mesh, THREE.Material | THREE.Material[]][] = [];
     // Pieces held hidden until needed (a room's furniture and clutter, an animal not yet out) are prepared too: shown
     // only while their programs are compiled, synchronously, so nothing is drawn meanwhile.

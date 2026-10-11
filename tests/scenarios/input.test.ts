@@ -198,6 +198,21 @@ describe('input across world and interface boundaries',()=>{
     expect(input.pressed('attack')).toBe(true); expect(input.label('attack', (code) => code)).toBe('X');
   });
 
+  it('keeps a held walk and a toggled sprint when the bow is taken up or put away; only RT must be let go (A87 scout)',()=>{
+    const { input, settings, key, setPad } = controls();
+    settings.toggleSprint = true;
+    key('KeyW'); key('ShiftLeft');
+    expect(input.move().y).not.toBe(0); expect(input.held('sprint')).toBe(true);
+    input.endFrame();
+    input.bowMode = true; input.poll(1 / 60);
+    expect(input.move().y).not.toBe(0); expect(input.held('sprint')).toBe(true);
+    // RT held as sprint does not become a draw until it is let go.
+    input.bowMode = false; setPad(7); input.poll(1 / 60); input.bowMode = true; input.poll(1 / 60);
+    expect(input.isDown('attack')).toBe(false);
+    setPad(null); input.poll(1 / 60); setPad(7); input.poll(1 / 60);
+    expect(input.isDown('attack')).toBe(true);
+  });
+
   it('does not turn a Skin button click into a bow shot even with the pointer captured',()=>{
     const { input, emit, document, target } = controls();
     input.bowMode = true; document.pointerLockElement = target;

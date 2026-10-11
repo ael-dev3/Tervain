@@ -62,7 +62,7 @@ export interface SoundProp {
   wet?: number;
 }
 
-export type GroundProbe = Pick<Terrain, 'deckAt' | 'carveAt' | 'seaDepth' | 'slopeAt'>;
+export type GroundProbe = Pick<Terrain, 'deckAt' | 'carveAt' | 'seaDepth' | 'slopeAt'> & Partial<Pick<Terrain, 'rooms'>>;
 
 export interface SoundFrame {
   /** play: the world runs; paused: a panel or conversation is open over it; dead: the fall. */
@@ -263,7 +263,7 @@ export class SoundWorld {
   private readonly objects = new Map<string, { speed: number; cooldown: number }>();
   private piece: { media: HTMLAudioElement; source: MediaElementAudioSourceNode; gain: GainNode } | null = null;
   /** The inn's tune, streamed through the walls (a muffle) from the inn's place in the world. */
-  private song: { id: SongId; media: HTMLAudioElement; source: MediaElementAudioSourceNode; gain: GainNode; nodes: AudioNode[] } | null = null;
+  private song: { id: SongId; media: HTMLAudioElement; source: MediaElementAudioSourceNode; gain: GainNode; walls: BiquadFilterNode; nodes: AudioNode[] } | null = null;
   private lastSong: SongId | null = null;
   private songRest = 5;
   private songAway = 0;
@@ -1028,6 +1028,15 @@ export class SoundWorld {
     );
   }
 
+  /**
+   * Forget who was where and doing what (A89 scout): after a load the actors are set from the save, and a foe the save
+   * has dead would otherwise be heard to die as the change was noticed.
+   */
+  forgetActors() {
+    this.foes.clear();
+    this.people.clear();
+  }
+
   /** Enemies are heard by what they do: winding up, striking, staggering, falling, running. Noticing comes from the game. */
   private updateEnemies(frame: SoundFrame) {
     for (const e of frame.enemies) {
@@ -1190,13 +1199,16 @@ export class SoundWorld {
    * Walking away lets the tune fade; staying away a while lets it end. A fight drowns it.
    */
   private updateSong(dt: number, frame: SoundFrame | null) {
-    const target = frame && frame.mode !== 'dead' ? innSong({ ...frame.listener, indoors: frame.indoors }, frame.world) : null;
+    const inInn = !!frame && frame.terrain.rooms?.at(frame.listener.x, frame.listener.z)?.building.kind === 'inn';
+    const target = frame && frame.mode !== 'dead' ? innSong({ ...frame.listener, indoors: frame.indoors, inInn }, frame.world) : null;
     const level = (target?.gain ?? 0) * (frame?.threat === 'none' ? 1 : 0.25);
     this.songLevel = level;
     const t = this.ctx.currentTime;
     const s = this.song;
     if (s) {
       this.target(s.gain.gain, 0.9 * level, t, 0.8, 0.002);
+      // Its walls are between the tune and the listener only from outside (A89 scout).
+      this.target(s.walls.frequency, inInn ? 16000 : 2300, t, 0.6, 1);
       this.songAway = level < 0.01 ? this.songAway + dt : 0;
       if (s.media.ended || this.songAway > 12) {
         this.releaseSong(s.media.ended ? 0.05 : 1);
@@ -1234,7 +1246,7 @@ export class SoundWorld {
     const gain = this.ctx.createGain();
     gain.gain.value = 0;
     source.connect(walls).connect(panner).connect(gain).connect(this.duck);
-    this.song = { id, media, source, gain, nodes: [source, walls, panner, gain] };
+    this.song = { id, media, source, gain, walls, nodes: [source, walls, panner, gain] };
     this.playStream(media);
   }
 

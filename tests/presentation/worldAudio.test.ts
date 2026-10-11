@@ -1122,6 +1122,20 @@ describe('world sound runtime', () => {
     expect(steps()).toBeLessThan(100);
   });
 
+  it('does not cry out for a foe a loaded save has already dead (A89 scout)', async () => {
+    const { ctx, world } = runtime(5);
+    await flush();
+    const center = PLACES.rillford;
+    const bandit = { id: 'ford_bandit_a', x: center.x, y: 0, z: center.z - 6, state: 'idle', alive: true, spawn: { kind: 'bandit' as const } };
+    world.update(0.05, frame(center, { enemies: [bandit] }));
+    const takes = (WORLD_AUDIO.banks.combat.clips as Record<string, readonly (readonly [number, number])[]>)['voice.death']!;
+    const deaths = () => ctx.sources.filter((s) => s.buffer?.file === 'bank-combat' && takes.some(([o]) => Math.abs(s.started![1]! - o) < 1e-6)).length;
+    // A load sets the foe dead where the save had it: the actors are forgotten first, so nothing is heard.
+    world.forgetActors();
+    world.update(0.05, frame(center, { enemies: [{ ...bandit, state: 'dead', alive: false }] }));
+    expect(deaths()).toBe(0);
+  });
+
   it('plays crickets with their own voices at night, a heartbeat when badly wounded, and the inn with the score held back', async () => {
     const { ctx, world } = runtime(9);
     await flush();

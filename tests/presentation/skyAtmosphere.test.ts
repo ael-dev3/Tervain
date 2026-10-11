@@ -91,6 +91,11 @@ describe('continuous coastal atmosphere', () => {
       expect(sky.state.sunDir.length()).toBeCloseTo(1, 6);
       sun = sky.state.sunDir.clone(); moon = sky.state.moonDir.clone();
     }
+     // And across midnight, where the day wraps (A89 scout: the sun turned 66 degrees there).
+    sky.update(23.999, focus, 120, true);
+    const late = sky.state.sunDir.clone();
+    sky.update(0, focus, 120, true);
+    expect(sky.state.sunDir.angleTo(late)).toBeLessThan(0.03);
   });
 
   it('freezes cloud and star motion while day/night lighting and brightness remain accessible', () => {

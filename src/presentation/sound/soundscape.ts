@@ -35,6 +35,8 @@ export interface Vec3 {
 export interface ListenerState extends Vec3 {
   /** Inside a roofed room (the archive). */
   indoors: boolean;
+  /** Inside the inn's own room, with the music rather than behind its walls (A89 scout). */
+  inInn?: boolean;
 }
 
 export interface WorldSoundState {
@@ -360,14 +362,27 @@ export function innEvening(hour: number): number {
 /** The inn's music as heard by the listener: through its walls, fading with distance. */
 export function innSong(l: ListenerState, w: WorldSoundState): { gain: number; at: Vec3 } {
   const d = Math.hypot(INN.x - l.x, INN.z - l.z);
-  return { gain: innEvening(w.hour) * within(d, 7, 48) * (l.indoors ? 0.3 : 1), at: { x: INN.x, y: 1.6, z: INN.z } };
+  // In the inn the tune is heard whole; in another room it is heard through two sets of walls (A89 scout).
+  const muffled = l.indoors && !l.inInn ? 0.3 : 1;
+  return { gain: innEvening(w.hour) * (l.inInn ? 1 : within(d, 7, 48)) * muffled, at: { x: INN.x, y: 1.6, z: INN.z } };
 }
 
 /* ------------------------------------------------------------------ ground under other feet */
 
+/**
+ * A room's floor under (x, z), if any (A89 scout): the shrine hall is flagged, every other room boarded. The ground
+ * height already includes a room's floor, so the outdoor rules beneath took every floor for grass or road.
+ */
+export function roomFloorSurface(terrain: Partial<Pick<Terrain, 'rooms'>>, x: number, z: number): SurfaceKind | null {
+  const room = terrain.rooms?.at(x, z);
+  return room ? (room.building.kind === 'shrine' ? 'stone' : 'deck') : null;
+}
+
 /** The surface under a resident or an enemy: the player's rules without the physics and stair cases. */
-export function groundSurface(terrain: Pick<Terrain, 'deckAt' | 'carveAt' | 'seaDepth' | 'slopeAt'>, x: number, z: number): SurfaceKind {
+export function groundSurface(terrain: Pick<Terrain, 'deckAt' | 'carveAt' | 'seaDepth' | 'slopeAt'> & Partial<Pick<Terrain, 'rooms'>>, x: number, z: number): SurfaceKind {
   if (terrain.deckAt(x, z)) return 'deck';
+  const floor = roomFloorSurface(terrain, x, z);
+  if (floor) return floor;
   if (terrain.carveAt(x, z) > 0.12 || terrain.seaDepth(x, z) > 0.12) return 'water';
   if (roadWeight(x, z) > 0.55) return 'road';
   if (terrain.slopeAt(x, z) > 0.5) return 'stone';
