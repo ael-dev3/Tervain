@@ -39,6 +39,7 @@ def capture(study):
         0x3001c3c8: 'engineVisualAnimationFloatPropertyType',
         0x30016fea: 'engineVisualAnimationSecondPropertyType',
         0x30015bef: 'engineVisualAnimationThirdPropertyType',
+        0x3000d9f9: 'engineCameraBaseObjectPropertyType',
         0x306713ae: 'enginePropertyTypeNameWrapper',
         0x3067da97: 'enginePropertyTypeName',
         0x3069b26b: 'engineUndecorateName',
@@ -100,7 +101,8 @@ def capture(study):
                ('engineSse2ControlInitializer',0x3069c552,0x3069c55f,4),
                ('engineVisualAnimationFloatInitializer',0x307322b0,0x307322bb,3),
                ('engineVisualAnimationSecondPropertyInitializer',0x307322c0,0x307322cb,3),
-               ('engineVisualAnimationThirdPropertyInitializer',0x307322d0,0x307322db,3)]
+               ('engineVisualAnimationThirdPropertyInitializer',0x307322d0,0x307322db,3),
+               ('engineCameraBaseObjectPropertyInitializer',0x307322e0,0x307322eb,3)]
     collected={begin:[] for _,begin,_,_ in recovered}
     asm=study/'01_Decompiled_Code/Engine_dll/full_disassembly.asm'
     for number,line in enumerate(asm.open('rb'),1):
@@ -215,6 +217,13 @@ def capture(study):
             break
     else:
         raise ValueError('Unterminated original third visual animation type info')
+    camera_type_info_size=8
+    for offset in range(4096):
+        camera_type_info_size+=1
+        if pe.bytes(0x30aa2a1c+8+offset,1)==b'\0':
+            break
+    else:
+        raise ValueError('Unterminated original camera base object type info')
     images = []
     for label, address, size in [
         ('floatingPointCallback', 0x30892ac0, 4),
@@ -253,6 +262,10 @@ def capture(study):
         ('visualAnimationSecondRoot', 0x30ad9e34, 4),
         ('visualAnimationSecondStorage', 0x30ad99e0, 8),
         ('visualAnimationSecondTypeInfo', 0x30aa29e0, second_type_info_size),
+        ('cameraBaseObjectFlags', 0x30ad9a0c, 4),
+        ('cameraBaseObjectRoot', 0x30ad9e2c, 4),
+        ('cameraBaseObjectStorage', 0x30ad9a04, 8),
+        ('cameraBaseObjectTypeInfo', 0x30aa2a1c, camera_type_info_size),
         ('visualAnimationThirdFlags', 0x30ad99f4, 4),
         ('visualAnimationThirdRoot', 0x30ad9e30, 4),
         ('visualAnimationThirdStorage', 0x30ad99ec, 8),

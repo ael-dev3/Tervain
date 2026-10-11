@@ -1778,3 +1778,29 @@ This checkpoint remains local. Combined validation is still live on frozen
 `6a6de81b6f535c855a9ac8b3c12510b9186d99d5`, predating the writer and later
 int stages. Full engine startup, world activation and a browser campaign through
 an ending with working save/reload remain unfinished.
+
+
+## 2026-10-11: original camera object initializer prefix
+
+The source package now captures initializer `307322e0`, thunk `3000d9f9` and
+body `300766d0`, plus its distinct flags, root, storage and 27-byte RTTI at
+`30aa2a1c` (`.?AVeCCameraBase@@`). The original prefix preserves the default
+and RTTI arguments, checks the empty cache, enters undecoration and obtains
+lock 5. Execution stops at the pending parser constructor `3069747a` after
+10,059 source operations. All three preceding properties remain published;
+the camera root has not been published.
+
+TypeScript checking passed. Two focused runtime checks passed in 13.97 seconds.
+An unknown camera-cache word stops at `3067daa8`, retaining the camera caller
+and the preceding published int property. Fifty source, image and browser
+startup checks passed across four files in 46.28 seconds. Independent source
+regeneration produced byte-identical JSON and TypeScript packages (SHA-256
+`74162b01e1aa1ba8bc18d1a3d64b54c5d931497bcae89d738a9846cb707071b6` and
+`33f95590ccd7a50e731b27a3d9d66c538f3af70fb10aaa766db7cc33c93fb979`).
+A reused-call assertion was corrected to distinguish the prior returned
+undecoration caller from the new pending camera caller.
+
+The earlier frozen combined revision `6a6de81b6f535c855a9ac8b3c12510b9186d99d5`
+has completed: all 3,642 tests in 323 files and its production build passed.
+It predates the writer and later int/camera steps. These additions remain local.
+Full engine startup and complete browser campaign persistence remain unfinished.
