@@ -3356,3 +3356,6 @@ This integration copies the locally validated native/evidence files from `9961e8
 ## Integrated exit-table growth checkpoint
 
 Native files from `5977c5975` include the original PVS prefetcher, Engine realloc capability, exit-table growth preserving prior callback-word provenance, and `eCOcclusionProcessor` constructor return. The dispatcher now remains pending at `307324a0`, C++ cursor `0x180`, exit cursor 132. This integration keeps main through PR269 and the original ending-evidence capture. The predecessor `5a612b405a31f1d83d6fa5062dfc969a4dbba82d` passed all 3,999 checks in 336 files and build; the exact receipt is `validation-main269-geometry.json`. Development growth checks passed five focused cases, 95 source/image/browser/allocator checks, typechecking, regeneration and build. These are separate revisions and scopes; integration validation is recorded separately. Complete startup and campaign play remain unfinished.
+
+
+The integration revision `d67c8bc95` passed typechecking, five focused startup/growth cases, 117 source/ownership/browser checks in eight files and production build. `validation-main269-exit-growth.json` records this scope and the separate 3,999-check predecessor. No newer local full-suite result or completed campaign is claimed.

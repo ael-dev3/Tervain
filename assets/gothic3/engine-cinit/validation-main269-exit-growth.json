@@ -1,0 +1,32 @@
+{
+  "revision": "d67c8bc95b4dde4ebc56e3baa5b5c0986f5422a2",
+  "typecheckExitCode": 0,
+  "focusedStartupChecks": {
+    "passed": 5,
+    "files": 1
+  },
+  "sourceOwnershipBrowserChecks": {
+    "passed": 117,
+    "files": 8
+  },
+  "buildExitCode": 0,
+  "pipelineSession": 69234,
+  "pipelineExitCode": 0,
+  "fullSuiteBaseline": {
+    "revision": "5a612b405a31f1d83d6fa5062dfc969a4dbba82d",
+    "passed": 3999,
+    "files": 336,
+    "receipt": "validation-main269-geometry.json"
+  },
+  "fullSuiteRerun": false,
+  "sourceJsonSha256": "f8c2f42ff23d63dd0b3b3466820d86a3713f3d61710a5985d24bbeaa462caf2d",
+  "pendingCallback": "307324a0",
+  "campaignCompletionVerified": false,
+  "deployed": false,
+  "logs": [
+    "gothic3-main269-exit-growth-integration-typecheck.log",
+    "gothic3-main269-exit-growth-integration-probe.log",
+    "gothic3-main269-exit-growth-integration-source-browser.log",
+    "gothic3-main269-exit-growth-integration-build.log"
+  ]
+}
