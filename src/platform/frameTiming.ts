@@ -71,6 +71,10 @@ export class FrameClock {
 interface Motion {
   prev: THREE.Vector3; prevQ: THREE.Quaternion;
   cur: THREE.Vector3; curQ: THREE.Quaternion;
+  /** The simulated Euler as the game wrote it. Gameplay sets `rotation.y` alone; a quaternion written back would make
+   * three re-derive the Euler, and past a quarter turn that reads (π, π − yaw, π), so the next `rotation.y = yaw` turned
+   * the hero upside down every other frame (A113). */
+  curE: THREE.Euler;
   step: number;
 }
 
@@ -93,7 +97,7 @@ export class MotionInterpolation {
       if (!object) continue;
       let m = this.motions.get(object);
       if (!m) {
-        m = { prev: object.position.clone(), prevQ: object.quaternion.clone(), cur: object.position.clone(), curQ: object.quaternion.clone(), step };
+        m = { prev: object.position.clone(), prevQ: object.quaternion.clone(), cur: object.position.clone(), curQ: object.quaternion.clone(), curE: object.rotation.clone(), step };
         this.motions.set(object, m);
         continue;
       }
@@ -102,7 +106,7 @@ export class MotionInterpolation {
       } else {
         m.prev.copy(object.position); m.prevQ.copy(object.quaternion);
       }
-      m.cur.copy(object.position); m.curQ.copy(object.quaternion);
+      m.cur.copy(object.position); m.curQ.copy(object.quaternion); m.curE.copy(object.rotation);
       m.step = step;
     }
     for (const [object, m] of this.motions) if (m.step !== step) this.motions.delete(object);
@@ -128,7 +132,7 @@ export class MotionInterpolation {
     for (const object of this.applied) {
       const m = this.motions.get(object);
       if (!m) continue;
-      object.position.copy(m.cur); object.quaternion.copy(m.curQ);
+      object.position.copy(m.cur); object.rotation.copy(m.curE);
       if ((object as THREE.Camera).isCamera) object.updateMatrixWorld();
     }
     this.applied = [];

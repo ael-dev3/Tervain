@@ -52,7 +52,8 @@ import type { WorldScene } from './presentation/world';
 import { LoadingScreen } from './presentation/ui/loadingScreen';
 import { MenuScene } from './presentation/menuScene';
 import { disposeSceneResources } from './presentation/disposeScene';
-import { GAME_VERSION } from './version';
+import { BUILD_LABEL, GAME_VERSION, SOURCE_REVISION as REVISION } from './version';
+import { fetchLiveBuild, newerBuild, shouldReloadFor, type LiveBuild } from './platform/buildCheck';
 import { loadMainHero } from './presentation/mainHero';
 import { createHeroRig, type MainHeroRig } from './presentation/hero/rig';
 import { HuntingController } from './presentation/huntingController';
@@ -85,7 +86,6 @@ export function quickSlotPressed(pressedKey: (code: string) => boolean, bindings
 
 type Mode = 'loading' | 'title' | 'play' | 'dead';
 
-const REVISION = typeof __SOURCE_REVISION__ === 'string' ? __SOURCE_REVISION__ : 'dev';
 
 export class App {
   settings = loadSettings();
@@ -211,6 +211,7 @@ export class App {
     // The menu surfaces (dust, leather, bronze, parchment) also dress the loading screen, so make them first.
     installMenuMaterials();
     this.loadingScreen.start({ mode: 'initial', phase: 'prepare' });
+    void this.checkLiveBuild(true);
 
     try {
       this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas, antialias: false, powerPreference: 'high-performance' });
@@ -928,7 +929,7 @@ export class App {
       title: S('menu.music.gesture'),
       onClick: () => this.audio.resume({ retryPending: true }),
     }, S('menu.music.play')) as HTMLButtonElement;
-    this.titleEl.append(createMenuScreen({ menu, subtitle: S('menu.affiliation'), version: GAME_VERSION, variant: 'title', musicControl: this.musicUnlockEl }));
+    this.titleEl.append(createMenuScreen({ menu, subtitle: S('menu.affiliation'), version: BUILD_LABEL, variant: 'title', musicControl: this.musicUnlockEl }));
     this.syncMusicUnlock();
     this.focusTitle();
   }
@@ -1678,6 +1679,30 @@ export class App {
     if (this.worldPaused) return;
     this.panelKind = 'pause';
     this.panels.push(pauseMenu(this.panelCtx()), { narrow: true });
+    void this.checkLiveBuild(false);
+  }
+
+  private liveBuildNotice: HTMLElement | null = null;
+
+  /** Keeps a tester on the latest merge: reload once on start when the page came from cache, else offer it on pause. */
+  private async checkLiveBuild(onStart: boolean) {
+    if (this.liveBuildNotice || new URLSearchParams(location.search).has('shot')) return;
+    const live = newerBuild(REVISION, await fetchLiveBuild());
+    if (!live) return;
+    let storage: Storage | null = null;
+    try { storage = sessionStorage; } catch { storage = null; }
+    if (onStart && this.mode === 'loading' && shouldReloadFor(live, storage)) {
+      location.reload();
+      return;
+    }
+    this.showLiveBuildNotice(live);
+  }
+
+  private showLiveBuildNotice(live: LiveBuild) {
+    const button = h('button', { type: 'button', class: 'build-reload' }, `Load ${live.version} · ${live.revision}`);
+    button.addEventListener('click', () => location.reload());
+    this.liveBuildNotice = h('div', { class: 'build-notice', role: 'status' }, h('span', {}, `A newer build is live (this is ${REVISION}).`), button);
+    this.uiRoot.append(this.liveBuildNotice);
   }
 
   private togglePanel(kind: 'journal' | 'inventory' | 'map') {
