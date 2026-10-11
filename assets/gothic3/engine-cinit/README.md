@@ -746,3 +746,17 @@ constructor and fatal-call checks pass. The extracted prefix and its retained
 first-path continuation were reviewed. This change remains local; complete
 startup and campaign completion remain unfinished. Earlier combined validation
 is still running in its frozen checkout.
+
+## 2026-10-11: original class string-initialization prefix
+
+The shared original initializer checks the live class value's kind and NULL
+node, reads its retained literal and six-character length, and reaches the
+16-byte text-node allocation at `3069765e -> 30696bf0`. The retained initializer
+has executed 5,512 source operations. The existing float path uses the same
+prefix; the arena allocation remains pending for the class path.
+
+TypeScript checking and five focused allocation, unknown-byte, qualifier,
+constructor and fatal-call regression checks pass. The extracted prefix was
+reviewed against its unchanged original operations. This work remains local;
+class text-node construction, complete startup and campaign play are unfinished.
+Earlier combined validation remains running in its frozen checkout.
