@@ -1616,8 +1616,13 @@ const prefix=runPropertyTypeNamePrefix(image('objectRefBaseTypeInfo'),image('vis
               const request=runColdArenaRequest(decoder.globals.value);
               const allocation=runColdArenaAllocation(decoder.globals.value,request);if(!allocation.ready)return known(undefined);
               runFieldConstructionReturn(parser.field,allocation.arenaBacking,3,4084,'306972c5');
-              runParserConstructionReturn(decoder.globals.value,parser,request,allocation);
-              stack.#engineCinitFrame!.pc='3069b2d8';return known(undefined);
+              const constructed=runParserConstructionReturn(decoder.globals.value,parser,request,allocation);
+                            decoder.undecorate('3069b2d8',()=>setRegister('ECX',stack.#stackWord(stack.#address(register('EBP'))-148)));decoder.undecorate('3069b2de',()=>stack.#call('3069b2de','3069b2e3'));
+              runNameParserPrefix(constructed.config,image('objectRefBaseTypeInfo'));
+              const typePrefix=runTypeParserPrefix(constructed.config);
+              const dispatch=runDataTypeDispatch(constructed.config,image('objectRefBaseTypeInfo'),typePrefix.data);
+              if(dispatch.target!=='3069b8e0'){stack.#engineCinitFrame!.pc=dispatch.target;return known(undefined);}
+              stack.#engineCinitFrame!.pc='3069b8e0';return known(undefined);
             }
             if(target==='307322e0'){
               step('307322e0',()=>stack.#call('307322e0','307322e5'),'307322e0');step('3000d9f9',()=>{},'3000d9f9');

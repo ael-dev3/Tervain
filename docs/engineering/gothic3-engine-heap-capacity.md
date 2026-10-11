@@ -2279,3 +2279,19 @@ retains the original caller at `30672ec7`, keeps lock 5 held and preserves the
 completed camera string and registration while leaving the new root null.
 Source packages are unchanged. This local checkpoint does not establish full
 engine startup or a finishable campaign with save/reload.
+
+
+2026-10-11 — original reference-base decorated-type dispatch (local)
+
+Executed the original NameParser and TypeParser prefixes, the DataTypeParser
+local construction and its first-byte dispatch. The actual retained RTTI byte
+at offset 9 is `?` and selects `3069b8e0`; startup stops there after 14,548
+instructions. Name/type/data callers remain pending, the new arena stays live,
+its root remains null and lock 5 stays held. Camera state remains published.
+
+Validation: TypeScript checking, the strengthened normal runtime check and six
+browser startup checks passed. The normal check distinguishes returned earlier
+camera calls from the new pending name/data calls, checks the actual masked
+RTTI byte and preserves same-owner arena membership and internal field state.
+Source packages are unchanged. This local checkpoint does not establish full
+startup or campaign completion with save/reload.
