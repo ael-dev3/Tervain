@@ -2588,3 +2588,24 @@ continuation matches the previously captured camera span without code changes.
 Typechecking, six runtime checks and six browser startup checks pass locally.
 Cache publication and copy, complete engine startup and a finishable campaign
 remain outstanding. These changes have not been deployed.
+
+
+## Local continuation — 11 October 2026: reference-base bounded cache copy
+
+The original type-name caller publishes its actual 22-byte cache allocation in
+the reference-base type-info slot and passes it, its derived capacity and the
+live undecoration output to `3068a84a`. The captured bounded copier writes
+`class bCObjectRefBase` followed by NUL, restores its saved registers and returns
+status zero through its physical caller. Execution stops before list linking
+at `3067db48` after 17,955 admitted operations. The cache node remains
+uninitialized, the prior camera list root remains intact, and lock 14 is held.
+
+An unknown ninth source byte or interrupted ninth destination write leaves the
+actual eight-byte prefix `class bC`, unknown remaining destination bytes and the
+pending copier call. The live output and cache allocation are retained. No
+successful return or cleanup is fabricated. The admitted publication/copy span
+matches the captured camera continuation without code changes.
+
+Typechecking, eight focused runtime checks and six browser startup checks pass
+locally. List linking, output release, type-name return, complete startup and a
+finishable campaign remain outstanding. These changes are not deployed.
