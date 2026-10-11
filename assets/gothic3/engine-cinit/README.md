@@ -435,3 +435,18 @@ The temporary output is freed and lock 14 is released. Normal execution has
 4,180 admitted operations. A dedicated return/ownership check passes; combined
 validation of this newer continuation is still pending. Full startup and a
 finishable browser campaign remain unfinished.
+
+## Local SharedBase UnMangle caller — 11 October 2026
+
+The actual property caller pushes the returned Engine cache pointer and its
+original static result storage, validates IAT `30afdab0` against the original
+SharedBase export receipt and retains call `3007667e -> 100088cd` pending.
+Its arguments preserve Engine ownership; no CString result or successful
+SharedBase return is fabricated. Normal execution has 4,183 admitted operations.
+A dedicated argument/lifetime/pending-call check and typechecking pass.
+
+The next dependency is SharedBase UnMangle (`10091550`) and its CString
+construction. Its search uses DWORD reads. Engine allocations currently retain
+exact capacity; rounded physical allocation views exist only for the explicitly
+selected Game heap. Alignment alone does not prove readable tail capacity.
+Combined validation and browser campaign completion remain pending.
