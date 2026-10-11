@@ -2936,3 +2936,40 @@ methods and 3,645 body instructions. JSON SHA-256 is
 Full repository validation of the preceding combined revision remains separate;
 this newer continuation has not been deployed. Complete engine startup, live
 world activation and a browser campaign through an ending remain unfinished.
+
+
+## 11 October 2026: matrix property completion
+
+The shared class continuation now executes the original matrix callback
+`30732310`, its `30015fbe -> 30076820` property body and its physical return.
+The original RTTI at `30aa2a60` is parsed to `class bCMatrix` plus NUL. The
+15-byte logical cache text remains live. The temporary name output is a
+16-byte allocation and is released using its retained original malloc request,
+replacing the incorrect fixed 24-byte span in this shared cleanup path.
+
+The seventh property CString requests 17 bytes and has 20 bytes of backing
+capacity. Its header contains length 8 and reference count 1; bytes 8 through
+16 contain `bCMatrix` plus NUL. It is distinct from the prior same-size
+`bCString` allocation, and all seven property CStrings remain live. Original
+flags at `30ad9a30` become 3; storage at `30ad9a28` retains its NULL parent.
+The root at `30ad9e20` points to that actual owned storage. Shutdown
+`3000be1f -> 30797f60` is registered as the ninth exit callback, the exit cursor
+advances to 36 bytes, and the C++ cursor advances to 0x120. All startup locks
+are released on the normal path. Execution stops at the next, unsupported
+vector initializer, `30732320`.
+
+Ten matrix runtime checks cover normal completion, both unknown guard bits,
+unavailable and NULL allocation, aliasing the retained bCString allocation,
+unknown copy-source masks, interrupted DWORD copy and unavailable exit lock
+and unlock. Earlier six-property and padding checks capture their actual state
+before the matrix initializer starts. Typechecking, these ten checks, the
+preceding 21 selected continuation checks, all 57 source/image/browser checks,
+and the production build (1m 5s) pass locally. These focused sets overlap at
+matrix normal completion and are not a full-suite receipt.
+
+Independent JSON and generated TypeScript recapture are byte-identical. All
+previous methods, images and other source evidence are unchanged. The package
+contains 102 methods and 3,673 body instructions; JSON SHA-256 is
+`681c4d51363cd602db6ca667728727523fce7cccb9da8f1e1a5d53dcaa04e4bd`.
+This continuation has not been deployed. Full engine startup, live world
+activation, campaign integration and play through an ending remain unfinished.

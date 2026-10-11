@@ -339,6 +339,33 @@ through the ending, with working persistence.
 
 ## Current implementation boundary: 11 October 2026
 
+The latest local continuation completes seven original property initializers,
+including the matrix callback `30732310 -> 30015fbe -> 30076820`. It parses the
+original RTTI, constructs the owned `bCMatrix` CString, publishes its storage
+root and registers shutdown `3000be1f`. Its 16-byte temporary output is freed;
+seven property CStrings and their caches remain live. All startup locks are
+released. Execution stops at the unsupported vector initializer `30732320`.
+Ten matrix runtime checks, TypeScript checking, 57 source/image/browser checks,
+exact independent evidence regeneration and the production build pass locally.
+The [source receipt](../../assets/gothic3/engine-cinit/README.md#11-october-2026-matrix-property-completion)
+records the original addresses, allocation sizes and failure behavior. The
+new matrix continuation has not been deployed or fully suite-validated.
+
+The previous combined revision `93565f806949b4e4d698c18174548ee906b4d01a`
+passed all 3,771 tests in 330 files, typechecking and its production build.
+That result covers its retained obsolete-class undecoration entry and main
+through PR #258; it does not validate later matrix or complete obsolete-class
+support. Main also now includes externally merged PRs #259 and #260. Their
+reviewed main revision `269c2d88e30c2359fa937857f3d0948bec37eaa9` passed
+177 local checks and typechecking. PR #259's Pages run `38145192347` succeeded;
+PR #260's Pages run `38147514419` was still running when inspected. Publication
+and gameplay evidence remain separate from these checks.
+
+Complete engine startup, world/NPC activation and the original campaign with
+save/reload through an ending remain unfinished.
+
+### Earlier startup observation retained for history
+
 The deployed checkpoint is main revision `2f721b1525291936b7ce51cdea5939b6c7d4cb37`.
 It includes environment-vector setup from [PR #235](https://github.com/ael-dev3/Tervain/pull/235).
 The [Pages workflow](https://github.com/ael-dev3/Tervain/actions/runs/38102253395)

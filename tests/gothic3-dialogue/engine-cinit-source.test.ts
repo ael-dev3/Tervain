@@ -3,6 +3,15 @@ import { admitEngineCinitSource, engineCinitCaller, engineCinitFloatingPointCall
   engineCinitInstruction, engineCinitUnMangleInstruction, engineCinitUnMangleLiteral, engineCinitTable, engineCinitTableTarget } from '../../src/gothic3/native-engine-cinit-source';
 
 describe('original Engine CRT initializer evidence', () => {
+  it('pins the original matrix callback, property body and shutdown', () => {
+    expect(engineCinitInstruction('30732310','30732310').bytes).toBe('e8a93c8eff');
+    expect(engineCinitInstruction('30732310','30732315').bytes).toBe('a3209ead30');
+    expect(engineCinitInstruction('30015fbe','30076820').bytes).toBe('a1309aad30');
+    expect(engineCinitInstruction('3000be1f','3000be1f').bytes).toBe('e93cc17800');
+    expect(engineCinitInstruction('30797f60','30797f60').bytes).toBe('b9289aad30');
+    expect(engineCinitInstruction('30797f60','30797f65').bytes).toBe('ff25dcdbaf30');
+  });
+
   it('pins the original obsolete-class shutdown thunk and CString destructor tail', () => {
     expect(engineCinitInstruction('30018c5a','30018c5a').bytes).toBe('e911f37700');
     expect(engineCinitInstruction('30797f70','30797f70').bytes).toBe('b91c9aad30');

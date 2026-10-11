@@ -2882,3 +2882,16 @@ Revision `4716d0ec1` passed its production build (64 seconds) and the build
 process exited zero. Its earlier typechecking, seven runtime checks and 53
 source/image/browser checks passed. This local build does not prove complete
 startup or a playable campaign, and this revision has not been deployed.
+
+
+## 11 October 2026: matrix output and CString capacities
+
+The matrix continuation derives a 15-byte logical name-cache allocation,
+a 16-byte temporary parser output, and a CString request of 17 bytes with
+20 bytes of physical backing. Output cleanup proves the retained original
+malloc extent; the shared class path no longer assumes every output is 24
+bytes. The previous bCString also requested 17 bytes, so the allocation guard
+must reject aliasing that retained live allocation before publishing a new
+CString. Focused normal, alias, unavailable/NULL, mask and interrupted-copy
+checks pass. The next unsupported initializer is `30732320`; this is local
+component evidence, not full startup or campaign completion.
