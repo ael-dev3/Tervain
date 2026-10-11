@@ -83,10 +83,9 @@ inputs for research, not portable build requirements for every contributor.
 
 Keep four claims separate: evidence captured, behavior implemented, checks
 passed, and revision deployed. Each checkpoint records its actual supported
-boundary and remaining work. The current local native continuation completes the camera and reference-base
+boundary and remaining work. The current local native continuation completes the camera, reference-base, obsolete-class and matrix
 property initializers, including their names, roots and shutdown registration.
-It enters the next obsolete-class initializer and stops at its original
-parser-constructor call (`3069747a`). Complete engine
+It stops at the next vector-property initializer (`30732320`). Complete engine
 startup, world activation and campaign play remain outstanding.
 
 For detailed commands and implementation history, see the

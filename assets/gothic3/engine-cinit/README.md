@@ -2914,3 +2914,74 @@ PR #258 with the captured property inventory and obsolete-class undecoration
 entry. It does not include the later full obsolete-class continuation or the
 matrix implementation, and does not demonstrate complete engine startup or a
 campaign playable through an ending.
+
+
+## 11 October 2026: shared class-property continuation and obsolete-class completion
+
+The reference-base and obsolete-class properties now use the same retained
+class continuation. Property instruction addresses, RTTI/storage/root images,
+physical return words and shutdown callback are selected from the two captured
+original routines. Shared parser, allocator, copy and cleanup operations still
+execute their existing source receipts; this does not admit all 258 inventory
+entries. The original obsolete-class shutdown thunk/body is captured only
+after comparing its bytes with the pinned Engine DLL. Independent regeneration
+is byte-identical and all previously captured evidence records are unchanged.
+
+The sixth property constructs `bCObsoleteClass` plus NUL in a distinct live
+24-byte CString, publishes its actual root, registers shutdown `30018c5a`,
+and returns through `30732305` to the original C++ walker. The exit cursor is
+32 bytes; the C++ cursor advances to 0x11c. Six property CStrings remain live
+and all startup locks are released. Execution stops at the next initializer,
+`30732310` (the matrix property). No campaign completion is claimed.
+
+The malloc contract rejects a retained live allocation even when its request
+size matches, protecting the previous reference-base CString. Unavailable and
+NULL allocation, unknown source masks, interrupted copy and unavailable exit
+lock/unlock preserve their original pending calls, ownership and partial state.
+The five-property check captures its state before the sixth initializer starts,
+so later stack reuse is not mistaken for earlier state.
+
+Typechecking, twenty distinct runtime checks, all 56 source/image/browser
+checks and a production build (1m 7s) pass locally. The package contains 98
+methods and 3,645 body instructions. JSON SHA-256 is
+`1ae985a5f2d5bda50f933d7da2e1a6d5f9764c7373c83262fcf1124508f6d6ab`.
+Full repository validation of the preceding combined revision remains separate;
+this newer continuation has not been deployed. Complete engine startup, live
+world activation and a browser campaign through an ending remain unfinished.
+
+
+## 11 October 2026: matrix property completion
+
+The shared class continuation now executes the original matrix callback
+`30732310`, its `30015fbe -> 30076820` property body and its physical return.
+The original RTTI at `30aa2a60` is parsed to `class bCMatrix` plus NUL. The
+15-byte logical cache text remains live. The temporary name output is a
+16-byte allocation and is released using its retained original malloc request,
+replacing the incorrect fixed 24-byte span in this shared cleanup path.
+
+The seventh property CString requests 17 bytes and has 20 bytes of backing
+capacity. Its header contains length 8 and reference count 1; bytes 8 through
+16 contain `bCMatrix` plus NUL. It is distinct from the prior same-size
+`bCString` allocation, and all seven property CStrings remain live. Original
+flags at `30ad9a30` become 3; storage at `30ad9a28` retains its NULL parent.
+The root at `30ad9e20` points to that actual owned storage. Shutdown
+`3000be1f -> 30797f60` is registered as the ninth exit callback, the exit cursor
+advances to 36 bytes, and the C++ cursor advances to 0x120. All startup locks
+are released on the normal path. Execution stops at the next, unsupported
+vector initializer, `30732320`.
+
+Ten matrix runtime checks cover normal completion, both unknown guard bits,
+unavailable and NULL allocation, aliasing the retained bCString allocation,
+unknown copy-source masks, interrupted DWORD copy and unavailable exit lock
+and unlock. Earlier six-property and padding checks capture their actual state
+before the matrix initializer starts. Typechecking, these ten checks, the
+preceding 21 selected continuation checks, all 57 source/image/browser checks,
+and the production build (1m 5s) pass locally. These focused sets overlap at
+matrix normal completion and are not a full-suite receipt.
+
+Independent JSON and generated TypeScript recapture are byte-identical. All
+previous methods, images and other source evidence are unchanged. The package
+contains 102 methods and 3,673 body instructions; JSON SHA-256 is
+`681c4d51363cd602db6ca667728727523fce7cccb9da8f1e1a5d53dcaa04e4bd`.
+This continuation has not been deployed. Full engine startup, live world
+activation, campaign integration and play through an ending remain unfinished.

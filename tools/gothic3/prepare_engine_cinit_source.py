@@ -42,6 +42,7 @@ def capture(study):
         0x3000d9f9: 'engineCameraBaseObjectPropertyType',
         0x300247da: 'engineObjectRefBasePropertyType',
         0x3003251a: 'engineObsoleteClassPropertyType',
+        0x30015fbe: 'engineMatrixPropertyType',
         0x306713ae: 'enginePropertyTypeNameWrapper',
         0x3067da97: 'enginePropertyTypeName',
         0x3069b26b: 'engineUndecorateName',
@@ -106,7 +107,8 @@ def capture(study):
                ('engineVisualAnimationThirdPropertyInitializer',0x307322d0,0x307322db,3),
                ('engineCameraBaseObjectPropertyInitializer',0x307322e0,0x307322eb,3),
                ('engineObjectRefBasePropertyInitializer',0x307322f0,0x307322fb,3),
-               ('engineObsoleteClassPropertyInitializer',0x30732300,0x3073230b,3)]
+               ('engineObsoleteClassPropertyInitializer',0x30732300,0x3073230b,3),
+               ('engineMatrixPropertyInitializer',0x30732310,0x3073231b,3)]
     collected={begin:[] for _,begin,_,_ in recovered}
     asm=study/'01_Decompiled_Code/Engine_dll/full_disassembly.asm'
     for number,line in enumerate(asm.open('rb'),1):
@@ -155,6 +157,14 @@ def capture(study):
     # These cleanup instructions are omitted from the function listing.
     # Admit them only from exact bytes in the hash-pinned original DLL.
     for label, begin, encoded, count in [
+        ('engineMatrixShutdownThunk', 0x3000be1f,
+         'e93cc17800', 1),
+        ('engineMatrixShutdownBody', 0x30797f60,
+         'b9289aad30ff25dcdbaf30', 2),
+        ('engineObsoleteClassShutdownThunk', 0x30018c5a,
+         'e911f37700', 1),
+        ('engineObsoleteClassShutdownBody', 0x30797f70,
+         'b91c9aad30ff25dcdbaf30', 2),
         ('engineObjectRefBaseShutdownThunk', 0x300098e0,
          'e99be67800', 1),
         ('engineObjectRefBaseShutdownBody', 0x30797f80,
@@ -246,6 +256,13 @@ def capture(study):
             break
     else:
         raise ValueError('Unterminated original obsolete class type info')
+    matrix_type_info_size=8
+    for offset in range(4096):
+        matrix_type_info_size+=1
+        if pe.bytes(0x30aa2a60+8+offset,1)==b'\0':
+            break
+    else:
+        raise ValueError('Unterminated original matrix type info')
     images = []
     for label, address, size in [
         ('floatingPointCallback', 0x30892ac0, 4),
@@ -292,6 +309,10 @@ def capture(study):
         ('obsoleteClassRoot', 0x30ad9e24, 4),
         ('obsoleteClassStorage', 0x30ad9a1c, 8),
         ('obsoleteClassTypeInfo', 0x30aa2a3c, obsolete_class_type_info_size),
+        ('matrixPropertyFlags', 0x30ad9a30, 4),
+        ('matrixPropertyRoot', 0x30ad9e20, 4),
+        ('matrixPropertyStorage', 0x30ad9a28, 8),
+        ('matrixPropertyTypeInfo', 0x30aa2a60, matrix_type_info_size),
         ('cameraBaseObjectFlags', 0x30ad9a0c, 4),
         ('cameraBaseObjectRoot', 0x30ad9e2c, 4),
         ('cameraBaseObjectStorage', 0x30ad9a04, 8),
