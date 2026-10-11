@@ -549,3 +549,10 @@ Nine focused checks and typechecking pass, including second-lock failure without
 replay or loss of the first property. No second parser or decoded name is
 fabricated. Full startup, publication of this continuation and campaign play
 remain unfinished.
+
+The shared parser-constructor prefix now reaches the second original 16-byte
+arena request at `30696bf0` after 4,578 source operations. The actual pending
+caller, stack field-kind bits and held lock five are retained. Typechecking,
+four focused runtime/browser checks and three subsequent regression checks pass.
+The second arena allocation and decoded name remain unfinished; this local
+continuation has not been published or proven as complete startup or campaign play.

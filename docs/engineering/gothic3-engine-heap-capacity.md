@@ -294,3 +294,19 @@ slot still present and no replay. The earlier combined first-property revision's
 full suite remains running. This newer decoder-prefix continuation is local;
 second parser execution, complete startup and a playable campaign through an
 ending remain unfinished.
+
+### Shared parser construction and second arena request — 11 October 2026
+
+Both property calls now execute the same original parser-constructor and first
+field-constructor prefix. The second call retains its actual stack receiver,
+sets the known low field-kind bits to three while preserving the upper bits,
+and pushes the original arena arguments: 16 bytes and zero. Execution reaches
+`3069707d -> 30696bf0` after 4,578 admitted operations. The arena call remains
+pending and lock five remains held; no second allocation or decoded name is
+supplied.
+
+Typechecking passes. Four focused runtime/browser checks pass, followed by
+three focused regression checks that also inspect the pending arena arguments
+and field flags. The earlier combined first-property validation is still running
+and does not include this continuation. Full startup, deployment of this local
+continuation and campaign play through an ending remain unfinished.
