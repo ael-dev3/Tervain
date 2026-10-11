@@ -2335,3 +2335,15 @@ Engine methods and 3,614 body instructions. SHA-256: JSON
 `15c4fc760e5f46e709a8f0bdf50c0e46b8c7df1624c801ccb88c5764cb3deb30`;
 TypeScript `2fe484c9551ab95bbd7843eb00cae204adc7f4094698f8b569637c1d258a2959`.
 This local capture does not establish full startup or campaign completion.
+
+
+### 11 October 2026: camera-root combined validation completed
+
+Combined revision `0876db5c167eb25158cd6542ae495dc6807216cf` passed
+typechecking, all 3,698 tests across 326 files (1,845.54 seconds), and the
+production build (about 60 seconds). The process completed with exit code zero.
+This combines main through PR #253 with native startup through `8110ec6bf`,
+including completed camera property publication and reference-base source
+capture. Its native boundary is `307322f0`; newer reference-base execution and
+PR #254 are outside this receipt. This is local validation, not deployment or
+proof of a finishable browser campaign.
