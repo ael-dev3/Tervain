@@ -4,6 +4,7 @@ import { admitEngineCinitSource, engineCinitCaller, engineCinitFloatingPointCall
 
 describe('original Engine CRT initializer evidence', () => {
   it.each([
+    ['307323d0','e8a71e8eff','3001427c','30076e30','a1c09aad30','300418d0','e9cb657500','30797ea0','b9b89aad30'],
     ['30732370','e8126790ff','30038a87','30076ac0','a1789aad30','30042037','e9c45e7500','30797f00','b9709aad30'],
     ['30732380','e82b1d8eff','300140b0','30076b50','a1849aad30','30026864','e987167700','30797ef0','b97c9aad30'],
     ['30732390','e81b9890ff','3003bbb0','30076c20','a1909aad30','300267d8','e903177700','30797ee0','b9889aad30'],

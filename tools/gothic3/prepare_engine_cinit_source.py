@@ -48,6 +48,7 @@ def capture(study):
         0x3001c468: 'engineRectPropertyType',
         0x3000c0b8: 'engineBoolPropertyType',
         0x30044a94: 'engineInputReceiverPropertyType',
+        0x3001427c: 'engineGuidPropertyType',
         0x30038a87: 'engineComponentPropertyType',
         0x300140b0: 'illuminationAdminPropertyType',
         0x3003bbb0: 'materialAdminPropertyType',
@@ -130,7 +131,8 @@ def capture(study):
                ('materialAdminPropertyInitializer',0x30732390,0x3073239b,3),
                ('guiManagerPropertyInitializer',0x307323a0,0x307323ab,3),
                ('actionMapperPropertyInitializer',0x307323b0,0x307323bb,3),
-               ('contextBasePropertyInitializer',0x307323c0,0x307323cb,3)]
+               ('contextBasePropertyInitializer',0x307323c0,0x307323cb,3),
+               ('engineGuidPropertyInitializer',0x307323d0,0x307323db,3)]
     collected={begin:[] for _,begin,_,_ in recovered}
     asm=study/'01_Decompiled_Code/Engine_dll/full_disassembly.asm'
     for number,line in enumerate(asm.open('rb'),1):
@@ -191,6 +193,8 @@ def capture(study):
         ('actionMapperPropertyShutdownBody', 0x30797ec0, 'b9a09aad30ff25dcdbaf30', 2),
         ('contextBasePropertyShutdownThunk', 0x3003c2b3, 'e9f8bb7500', 1),
         ('contextBasePropertyShutdownBody', 0x30797eb0, 'b9ac9aad30ff25dcdbaf30', 2),
+        ('engineGuidShutdownThunk', 0x300418d0, 'e9cb657500', 1),
+        ('engineGuidShutdownBody', 0x30797ea0, 'b9b89aad30ff25dcdbaf30', 2),
         ('engineInputReceiverShutdownThunk', 0x30003e3b, 'e9d0407900', 1),
         ('engineInputReceiverShutdownBody', 0x30797f10, 'b9649aad30ff25dcdbaf30', 2),
         ('engineBoolShutdownThunk', 0x3002ca2f, 'e9ecb47600', 1),
@@ -398,6 +402,10 @@ def capture(study):
         ('contextBasePropertyRoot', 0x30ad9df4, 4),
         ('contextBasePropertyStorage', 0x30ad9aac, 8),
         ('contextBasePropertyTypeInfo', 0x30aa2b70, property_type_info_size(0x30aa2b70)),
+        ('guidPropertyFlags', 0x30ad9ac0, 4),
+        ('guidPropertyRoot', 0x30ad9df0, 4),
+        ('guidPropertyStorage', 0x30ad9ab8, 8),
+        ('guidPropertyTypeInfo', 0x30aa2b94, property_type_info_size(0x30aa2b94)),
         ('inputReceiverPropertyFlags', 0x30ad9a6c, 4),
         ('inputReceiverPropertyRoot', 0x30ad9e0c, 4),
         ('inputReceiverPropertyStorage', 0x30ad9a64, 8),

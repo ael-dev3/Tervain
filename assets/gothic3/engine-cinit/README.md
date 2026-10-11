@@ -3122,3 +3122,27 @@ No duplicate allocator admission was retained. The additional research captures
 `c920302d5` separately passed all 351 startup-frame checks in 915.07 seconds;
 that result does not validate this larger batch. This checkpoint is local and
 has not been deployed.
+
+
+## Local checkpoint — 11 October 2026: original GUID property
+
+Callback `307323d0`, thunk `3001427c` and body `30076e30` now complete the
+original bCGuid property initialization. The nineteenth CString retains length
+six, reference count one, a 15-byte request and 16-byte capacity, with exact
+`bCGuid` text followed by NUL. The actual property root and flags are published,
+and shutdown thunk `300418d0` is registered as exit entry twenty-one. Its body
+`30797ea0` passes the original storage to the SharedBase destructor import.
+The exit cursor reaches 84 and the C++ cursor reaches `0x150`. Startup stops at
+`307323e0` (bCBox); complete startup and campaign play remain unfinished.
+
+Typechecking, nine selected GUID/preceding-batch checks, all 69 source/image/
+browser checks and the production build passed. The selected checks include
+unknown guard bits, unavailable and NULL allocation, aliasing an existing
+rectangle CString with the same request and capacity, unknown source-byte
+propagation, and interruption before copying a DWORD. The preceding batch's
+completion is retained before GUID initialization changes shared scratch state.
+Independent JSON/TypeScript regeneration matched exactly and preserved all old
+methods, images and unchanged sections. Evidence: 150 methods, 4,009 instructions;
+JSON SHA-256 `1bcb11ad9fc00749c82ce7983340c42a1a8d46531f7165745effa3a134f3545e`.
+The preceding component/main combination is still in full-suite validation in a
+separate checkout. This local checkpoint has not been deployed.

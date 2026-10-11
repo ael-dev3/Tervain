@@ -131,7 +131,8 @@ passed, and revision deployed. Each checkpoint records its actual supported
 boundary and remaining work. The current local native continuation completes the camera, reference-base, obsolete-class, matrix, vector, vector2
 rectangle, boolean and input-receiver property initializers, including their names, roots and shutdown registration.
 The engine-component and five admin/context property initializers also complete.
-It stops at the next GUID-property initializer (`307323d0`). Complete engine
+The GUID property initializer also completes.
+It stops at the next box-property initializer (`307323e0`). Complete engine
 startup, world activation and campaign play remain outstanding.
 
 For detailed commands and implementation history, see the
