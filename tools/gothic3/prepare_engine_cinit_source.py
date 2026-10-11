@@ -36,6 +36,9 @@ def capture(study):
         0x3067e545: 'engineOnexitEh4Epilog',
         0x3067dedb: 'engineDecodePointer',
         0x3067e45d: 'engineExitTableSize',
+        0x3001c3c8: 'engineVisualAnimationFloatPropertyType',
+        0x306713ae: 'enginePropertyTypeNameWrapper',
+        0x3067da97: 'enginePropertyTypeName',
     })
     pe = PE((study / '00_Original_Runtime/Engine.dll').read_bytes())
     # The exported function CSV omits this complete body; retain its assembly
@@ -44,7 +47,8 @@ def capture(study):
                ('engineStreamTableInitializer',0x3067c3c7,0x3067c478,None),
                ('engineSse2Initializer',0x3067f720,0x3067f734,5),
                ('engineMultibyteInitializer',0x30685007,0x30685025,8),
-               ('engineSse2ControlInitializer',0x3069c552,0x3069c55f,4)]
+               ('engineSse2ControlInitializer',0x3069c552,0x3069c55f,4),
+               ('engineVisualAnimationFloatInitializer',0x307322b0,0x307322bb,3)]
     collected={begin:[] for _,begin,_,_ in recovered}
     asm=study/'01_Decompiled_Code/Engine_dll/full_disassembly.asm'
     for number,line in enumerate(asm.open('rb'),1):
@@ -114,6 +118,13 @@ def capture(study):
     section_count = struct.unpack_from('<H', pe.data, nt+6)[0]
     optional_size = struct.unpack_from('<H', pe.data, nt+20)[0]
     headers = pe.data[:nt+24+optional_size+section_count*40]
+    type_info_size=8
+    for offset in range(4096):
+        type_info_size+=1
+        if pe.bytes(0x30aa2a0c+8+offset,1)==b'\0':
+            break
+    else:
+        raise ValueError('Unterminated original visual animation type info')
     images = []
     for label, address, size in [
         ('floatingPointCallback', 0x30892ac0, 4),
@@ -128,6 +139,11 @@ def capture(study):
         ('sse2Ready', 0x30af7e58, 4),
         ('sse2Control', 0x30af7e68, 4),
         ('onexitSehScope', 0x30956388, 28),
+        ('visualAnimationFloatFlags', 0x30ad9a00, 4),
+        ('visualAnimationFloatRoot', 0x30ad9e38, 4),
+        ('visualAnimationFloatStorage', 0x30ad99f8, 8),
+        ('visualAnimationFloatDefault', 0x30af70ac, 4),
+        ('visualAnimationFloatTypeInfo', 0x30aa2a0c, type_info_size),
     ]:
         rva = address-pe.base
         section = next(s for s in pe.sections if s[1] <= rva and rva+size <= s[1]+max(s[0],s[2]))
@@ -182,7 +198,7 @@ const expectedText = EXPECTED;
 function freeze(value:unknown):void {if(value&&typeof value==='object'&&!Object.isFrozen(value)){for(const child of Object.values(value))freeze(child);Object.freeze(value);}}
 freeze(source);
 export function admitEngineCinitSource():void {if(sourceText!==expectedText)throw new Error('Original Engine initializer source differs');}
-export function engineCinitInstruction(entry:string,pc:string){admitEngineCinitSource();const method=source.source.methods.find(method=>method.bodyVA==='0x'+entry);const row=method?.instructions.find(row=>row.va===pc);if(!row)throw new Error('Original Engine initializer instruction required');return row;}
+export function engineCinitInstruction(entry:string,pc:string){admitEngineCinitSource();const method=source.source.methods.find(method=>method.bodyVA==='0x'+entry||method.entryVA==='0x'+entry);const row=method?.instructions.find(row=>row.va===pc)??method?.entryChain.find(row=>row.va===pc);if(!row)throw new Error('Original Engine initializer instruction required');return row;}
 export function engineCinitCaller(){admitEngineCinitSource();return source.caller;}
 export function engineCinitImport(iat:string){admitEngineCinitSource();const row=source.source.imports.find(row=>row.iatVA==='0x'+iat);if(!row)throw new Error('Original Engine initializer import required');return row;}
 export function engineCinitFloatingPointCallback(){admitEngineCinitSource();return source.floatingPointCallback;}

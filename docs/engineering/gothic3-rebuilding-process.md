@@ -4,6 +4,24 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local continuation — 11 October 2026: first property-type initializer
+
+The first C++ callback calls export thunk `3001c3c8`, whose pinned jump reaches
+property getter `30076640`. The original getter copies its current root into
+static storage, updates initialization bits and calls the type-name wrapper.
+Its actual default pointer and 11-byte type-info record are retained Engine
+images; the original decorated type name is `.M`. Pending returns remain live
+for the callback, getter and name wrapper. No property object or name result is
+manufactured before the actual name routine returns.
+
+The normal path stops at `3067da97` after 2,711 admitted operations. Six focused
+checks pass, followed by three flag checks and all three source checks. Final
+typechecking and independent byte-identical JSON/TypeScript regeneration pass.
+Flag loads retain masks; unknown tested bits stop at their actual branch, while
+unrelated unknown bits remain unknown through OR and store instructions.
+Earlier combined full validation remains live. This continuation is local;
+remaining C++ initialization, full startup and campaign completion remain work.
+
 ## Local continuation — 11 October 2026: owned C++ initializer table
 
 The captured C++ table now has canonical Engine-owned runtime storage containing

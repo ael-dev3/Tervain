@@ -552,7 +552,33 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
           let target:string|null=null;
           step('3067d221',()=>{const offset=position(register('ESI')),live=NativeEngineCinitImages.imageForCrt(images.value,crt,'cppInitializers');if(!live.known||live.value!==table.value)throw new Error('Retained Engine C++ initializer table required');const raw=NativeHeapObjectViews.prototype.readUnsigned.call(table.value,offset,4);if(raw){target=engineCinitTableTarget('cppInitializers',(0x307bb000+offset).toString(16));if(!target||parseInt(target,16)!==raw)throw new Error('Original Engine C++ callback target required');setRegister('EAX',stack.#source('code',target));}else setRegister('EAX',stack.#mint(0,0xffffffff));});
           step('3067d223',()=>{if(target)stack.#flags(0,0x841);else stack.#logicalFlags(0,0xffffffff,4);});step('3067d225',()=>{});
-          if(target){step('3067d227',()=>stack.#call('3067d227','3067d229'));stack.#engineCinitFrame!.pc=target;return known(undefined);}
+          if(target){
+            step('3067d227',()=>stack.#call('3067d227','3067d229'));stack.#engineCinitFrame!.pc=target;
+            if(target==='307322b0'){
+              step('307322b0',()=>stack.#call('307322b0','307322b5'),'307322b0');step('3001c3c8',()=>{},'3001c3c8');
+              const property=(pc:string,body:()=>void)=>step(pc,body,'30076640');
+              const image=(label:'visualAnimationFloatFlags'|'visualAnimationFloatRoot'|'visualAnimationFloatStorage'|'visualAnimationFloatDefault'|'visualAnimationFloatTypeInfo')=>{const value=NativeEngineCinitImages.imageForCrt(images.value,crt,label);if(!value.known)throw new Error(value.reason);return value.value;};
+              const flags=image('visualAnimationFloatFlags'),storage=image('visualAnimationFloatStorage');let bits=0,mask=0;
+              property('30076640',()=>{const word=stack.#load(flags,0),record=stack.#record(word);bits=record.value;mask=record.mask;setRegister('EAX',word);});
+              property('30076645',()=>stack.#logicalFlags(bits&1,(mask|~1)&0xff,1));property('30076647',()=>{if(!(stack.#record(stack.#load(stack.#bank,36)).mask&0x40))throw new Error('Actual property root initialization ZF required');});
+              if(!(bits&1)){
+                property('30076649',()=>setRegister('ECX',stack.#load(image('visualAnimationFloatRoot'),0)));
+                property('3007664f',()=>{bits=(bits|1)>>>0;mask=(mask|1)>>>0;setRegister('EAX',stack.#mint(bits,mask));stack.#logicalFlags(bits,mask,4);});property('30076652',()=>stack.#store(flags,0,register('EAX')));property('30076657',()=>stack.#store(storage,4,register('ECX')));
+              }
+              property('3007665d',()=>stack.#logicalFlags(bits&2,(mask|~2)&0xff,1));property('3007665f',()=>{if(!(stack.#record(stack.#load(stack.#bank,36)).mask&0x40))throw new Error('Actual property type initialization ZF required');});
+              if(!(bits&2)){
+                property('30076661',()=>{bits=(bits|2)>>>0;mask=(mask|2)>>>0;setRegister('EAX',stack.#mint(bits,mask));stack.#logicalFlags(bits,mask,4);});
+                property('30076664',()=>stack.#push(stack.#mint(0,0,{kind:'engine-image',crt,fields:image('visualAnimationFloatDefault'),offset:0})));
+                property('30076669',()=>setRegister('ECX',stack.#mint(0,0,{kind:'engine-image',crt,fields:image('visualAnimationFloatTypeInfo'),offset:0})));
+                property('3007666e',()=>stack.#store(flags,0,register('EAX')));property('30076673',()=>stack.#call('30076673','30076678'));
+                step('306713ae',()=>{const esp=stack.#address(register('ESP')),argument=stack.#load(stack.#stack,esp+4),p=stack.#record(argument).provenance;if(p?.kind!=='engine-image'||p.crt!==crt||p.fields!==image('visualAnimationFloatDefault')||p.offset!==0)throw new Error('Actual visual-animation default argument required');stack.#push(argument);},'306713ae');
+                step('306713b2',()=>{const word=register('ECX'),p=stack.#record(word).provenance;if(p?.kind!=='engine-image'||p.crt!==crt||p.fields!==image('visualAnimationFloatTypeInfo')||p.offset!==0)throw new Error('Actual visual-animation type-info argument required');stack.#push(word);},'306713ae');
+                step('306713b3',()=>stack.#call('306713b3','306713b8'),'306713ae');stack.#engineCinitFrame!.pc='3067da97';return known(undefined);
+              }
+              stack.#engineCinitFrame!.pc='30076691';return known(undefined);
+            }
+            return known(undefined);
+          }
           step('3067d229',()=>{const offset=position(register('ESI'));setRegister('ESI',pointer(offset+4));stack.#flags(0,0);});
           step('3067d22c',()=>{const a=position(register('ESI')),b=position(register('EDI'));stack.#arithmeticFlags(a,b,(a-b)>>>0,4,true);});step('3067d22e',()=>{});
         }

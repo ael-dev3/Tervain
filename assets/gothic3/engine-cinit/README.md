@@ -1,7 +1,7 @@
 # Engine CRT initializer evidence
 
 This package records the next dependency after Engine environment-vector return.
-It captures 30 original bodies (684 instructions), the caller at `30677284`,
+It captures 34 original bodies (797 instructions), the caller at `30677284`,
 the floating-point callback at `30892ac0`, and two original initializer tables.
 The C initializer table has 200 slots with 6 nonzero entries. The C++ table has
 93,705 slots with 1,963 nonzero entries; omitted entries are verified zero.
@@ -14,7 +14,7 @@ python tools/gothic3/prepare_engine_cinit_source.py --study '<study-root>' --out
 
 The generator checks the original Engine.dll hash and exact caller bytes.
 Independent regeneration produced identical JSON, SHA-256
-``969e3719703eba6658e7b97cd487225a2153f1b43632167383bde7a25b1021a1``.
+``b98c94125e39d9ff2ed574a5268e8a6e380ead1a977d61a28a0c2d366e5dec49``.
 
 The capture's `runtimeConnected: false` records evidence preparation; it grants
 no execution authority. The TypeScript continuation separately obtains a
@@ -71,3 +71,10 @@ The C++ initializer table is now owned by the same Engine image class. Its entir
 93,705-slot runtime image matches the original table SHA-256. The original loop
 reaches callback `307322b0` after 65 zero slots, preserving the pending return
 to `3067d229`. Normal execution stops there after 2,692 admitted operations.
+
+The first C++ callback now calls the admitted export thunk and executes the
+visual-animation float property getter. Its root-copy and initialization-bit
+stores use retained original images. The type-name wrapper forwards the actual
+default pointer and type-info record, whose decorated name is `.M`. Execution
+stops at name routine `3067da97` after 2,711 operations. Unknown tested flag bits
+stop at their branch; unrelated unknown bits remain unknown through the stores.
