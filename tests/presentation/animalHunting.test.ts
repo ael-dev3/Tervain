@@ -209,3 +209,34 @@ describe('posed triangle arrow contacts', () => {
     effects.setReduced(true); expect(effects.stats().droplets).toBe(0); effects.dispose(); expect(mesh.skeleton.bones[2]!.getObjectByName('embedded hunting arrow')).toBeUndefined();
   });
 });
+
+describe('eighth scout fixes: wounded flight and a load\'s settling (A101)', () => {
+  it('sends a wounded animal away from the hunter it faces, not along its own facing toward him', () => {
+    const module = buildAnimals({ terrain, colliders: new Colliders(), quality: 'low' }, new Map([[tiger.id, fixture()]]), [tiger], () => {});
+    const home = module.snapshot()[0]!;
+    const hunter = new THREE.Vector3(home.x + 12, 0, home.z), input = { ...frame(), focus: hunter };
+    module.update(.05, input);
+    // Struck while facing the archer.
+    module.syncHunting({ tiger: record('injured', { ...home, yaw: Math.PI / 2 }) });
+    const before = Math.hypot(home.x - hunter.x, home.z - hunter.z);
+    for (let i = 0; i < 40; i++) module.update(.05, input);
+    const after = module.snapshot()[0]!;
+    expect(Math.hypot(after.x - hunter.x, after.z - hunter.z)).toBeGreaterThan(before);
+    module.dispose?.();
+  });
+
+  it('settles animals on a load away from where the hunter arrives, not where he stood before it', () => {
+    const module = buildAnimals({ terrain, colliders: new Colliders(), quality: 'low' }, new Map([[tiger.id, fixture()]]), [tiger], () => {});
+    const home = module.snapshot()[0]!;
+    for (const side of [0, 1, 2, 3]) {
+      // Last seen far off; the load sets him down 30 m from the animal's home.
+      module.update(.05, { ...frame(), focus: new THREE.Vector3(home.x + 400, 0, home.z + 400) });
+      module.syncHunting({ tiger: record('injured', home) });
+      const a = side * Math.PI / 2, arrival = { x: home.x + Math.sin(a) * 30, z: home.z + Math.cos(a) * 30 };
+      module.syncHunting({}, true, arrival);
+      const back = module.snapshot()[0]!;
+      expect(Math.hypot(back.x - arrival.x, back.z - arrival.z), `side ${side}`).toBeGreaterThanOrEqual(30 - 1e-6);
+    }
+    module.dispose?.();
+  });
+});

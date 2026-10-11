@@ -133,7 +133,7 @@ function fixture() {
       bowEquipped: vi.fn((game: Game) => game.state.equippedWeapon === 'hunting_bow' && (game.state.inventory.hunting_bow ?? 0) > 0),
       setBowAim: vi.fn(), cancelSkinning: vi.fn(),
     },
-    cam: { reset: vi.fn(), setAiming: vi.fn(), yaw: 0, pitch: 0 }, world: { terrain: { groundAt: () => 0 }, insideArchive: () => false, physics: { holding: null, supportAt: vi.fn(() => null), reset: vi.fn(), restore: vi.fn(), release: vi.fn() } },
+    cam: { reset: vi.fn(), setAiming: vi.fn(), yaw: 0, pitch: 0 }, world: { terrain: { groundAt: () => 0 }, occupiesArchive: () => false, physics: { holding: null, supportAt: vi.fn(() => null), reset: vi.fn(), restore: vi.fn(), release: vi.fn() } },
     syncMenuHudVisibility: vi.fn(), syncWorldFromState: vi.fn(),
     safePosition: (x: number, z: number, y = 0) => ({ x, z, y }),
     wantLock: vi.fn(), openPause: vi.fn(), speech: { clear: vi.fn(), forget: vi.fn() },
@@ -186,8 +186,8 @@ function deferred<T>() {
 
 function rebuildFixture() {
   const f = fixture();
-  const oldWorld = { scene: new THREE.Scene(), dispose: vi.fn(), terrain: { groundAt: () => 0 }, sky: { brightness: 1 }, syncStatic: vi.fn(), insideArchive: () => false, physics: { supportAt: vi.fn(() => null), snapshot: vi.fn(() => []), restore: vi.fn(), reset: vi.fn(), release: vi.fn() } };
-  const nextWorld = () => ({ scene: new THREE.Scene(), dispose: vi.fn(), terrain: { groundAt: () => 0 }, sky: { brightness: 1 }, syncStatic: vi.fn(), insideArchive: () => false, physics: { supportAt: vi.fn(() => null), snapshot: vi.fn(() => []), restore: vi.fn(), reset: vi.fn(), release: vi.fn() } });
+  const oldWorld = { scene: new THREE.Scene(), dispose: vi.fn(), terrain: { groundAt: () => 0 }, sky: { brightness: 1 }, syncStatic: vi.fn(), occupiesArchive: () => false, physics: { supportAt: vi.fn(() => null), snapshot: vi.fn(() => []), restore: vi.fn(), reset: vi.fn(), release: vi.fn() } };
+  const nextWorld = () => ({ scene: new THREE.Scene(), dispose: vi.fn(), terrain: { groundAt: () => 0 }, sky: { brightness: 1 }, syncStatic: vi.fn(), occupiesArchive: () => false, physics: { supportAt: vi.fn(() => null), snapshot: vi.fn(() => []), restore: vi.fn(), reset: vi.fn(), release: vi.fn() } });
   Object.assign(f.app, {
     world: oldWorld, library: {}, menuScene: new MenuScene({ quality: f.app.settings.quality }), npcAssets: { has: () => true, create: () => undefined },
     applyUiSettings: vi.fn(), applyQualityToRenderer: vi.fn(), renderer: {},
@@ -372,7 +372,7 @@ describe('actual application world transitions', () => {
     const post = ENEMY_SPAWNS.find((spawn) => spawn.id === 'ford_bandit_a')!;
     Object.assign(app.player, { x: post.x + 3, z: post.z, stamina: 4, exhausted: true, mountStamina: 2, mountSpent: true });
     Object.assign(app.game.state.player, { x: post.x + 3, z: post.z });
-    Object.assign(app.world, { insideArchive: () => true });
+    Object.assign(app.world, { occupiesArchive: () => true });
     Object.assign(app, { wasNight: true, archiveWasOccupied: false });
     call('beginPlay', { recovered: null });
     expect(Reflect.get(app, 'checkpoint')).toMatchObject({ x: SPAWN.x, z: SPAWN.z });
@@ -384,6 +384,19 @@ describe('actual application world transitions', () => {
     Object.assign(app.player, { x: SPAWN.x + 30, z: SPAWN.z });
     call('beginPlay', { recovered: null });
     expect(Reflect.get(app, 'checkpoint')).toMatchObject({ x: SPAWN.x + 30, z: SPAWN.z });
+  });
+
+  it('sets the archive’s door for where a load puts him before the world is synced (A101 scout)', () => {
+    const { app, call } = fixture();
+    // Standing outside before the load; the save was made inside the sealed archive.
+    Object.assign(app.game.state.player, { x: -46, z: -102 });
+    const seen: boolean[] = [];
+    Object.assign(app.world, {
+      occupiesArchive: (x: number, z: number) => Math.abs(x + 46) < 4 && Math.abs(z + 102) < 4, playerInArchive: false,
+    });
+    Reflect.set(app, 'syncWorldFromState', vi.fn(() => { seen.push(Reflect.get(app.world, 'playerInArchive') as boolean); }));
+    call('beginPlay', { recovered: null });
+    expect(seen[0]).toBe(true);
   });
 
   it('forwards the supported saved height when loading an upper floor', () => {
@@ -914,7 +927,7 @@ describe('panel keys (A71)', () => {
 describe('shell corrections (A70)', () => {
   it('tells a rebuilt world who is in the archive before its door and shutter are set (A93 scout)', async () => {
     const { app, call, nextWorld } = rebuildFixture();
-    const inside = { ...nextWorld(), insideArchive: () => true, playerInArchive: false };
+    const inside = { ...nextWorld(), occupiesArchive: () => true, playerInArchive: false };
     vi.spyOn(WorldScene, 'create').mockResolvedValue(inside as unknown as WorldScene);
     let seen: boolean | null = null;
     const sync = Reflect.get(app, 'syncWorldFromState') as (restore?: boolean) => void;

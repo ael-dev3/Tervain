@@ -29,7 +29,7 @@ describe('third scout fixes: game rules and content (A94)', () => {
       g.state.quest.allocation = 'rotation';
       for (let hour = 0; hour < 24; hour++) {
         const goal = resolveGoal(NPCS.quarry_hand, g.state, hour + 0.5);
-        if (hour >= 18 || hour < 6) expect([phase, hour, goal.anchor, goal.activity]).toEqual([phase, hour, 'quarry_face', 'work']);
+        if (hour >= 19 || hour < 6) expect([phase, hour, goal.anchor, goal.activity]).toEqual([phase, hour, 'quarry_face', 'work']);
         else expect([phase, hour, goal.anchor, goal.activity]).toEqual([phase, hour, 'crew_bunks', 'rest']);
       }
     }

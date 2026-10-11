@@ -474,7 +474,7 @@ export class App {
       this.interactables = buildInteractables(this);
       // A new world must know who is in the archive before its door and shutter close: one rebuilt with the player inside
       // a reported archive locked them in (A93 scout).
-      this.world.playerInArchive = this.archiveWasOccupied = this.world.insideArchive(this.player.x, this.player.z);
+      this.world.playerInArchive = this.archiveWasOccupied = this.world.occupiesArchive(this.player.x, this.player.z, PLAYER_BODY_RADIUS);
       this.syncWorldFromState(true);
       // Settle any provisional hero/procedural-tool sheets; imported NPC surfaces are already baked and loaded.
       await sheetsSettled();
@@ -1010,10 +1010,12 @@ export class App {
   private placePlayerForEntry(fromLoad: { recovered: null | 'previous' | 'temporary' } | null) {
     this.world.physics.reset();
     this.world.physics.restore(this.game.state.physicalObjects);
-    this.syncWorldFromState(true);
-    const p = this.game.state.player;
+    const p = this.game.state.player, fresh = fromLoad === null, arrival = fresh ? SPAWN : p;
+    // The archive's door and shutter are set for where he arrives, not where he stood before the load (A101 scout: a load
+    // into a sealed archive from outside closed them round him; the reverse left them open).
+    this.world.playerInArchive = this.world.occupiesArchive(arrival.x, arrival.z, PLAYER_BODY_RADIUS);
+    this.syncWorldFromState(true, arrival);
     const safe = this.safePosition(p.x, p.z, p.y);
-    const fresh = fromLoad === null;
     const start = fresh ? { x: SPAWN.x, z: SPAWN.z, yaw: SPAWN.yaw } : { x: safe.x, z: safe.z, yaw: p.yaw };
     this.pendingMount = !fresh && typeof p.mount === 'string' ? { id: p.mount, x: start.x, z: start.z } : null;
     this.player.setPosition(start.x, start.z, start.yaw, this.world.terrain, fresh ? undefined : safe.y, !fresh && safe.afloat === true);
@@ -1038,7 +1040,10 @@ export class App {
     this.checkpoint = { x: SPAWN.x, z: SPAWN.z, yaw: SPAWN.yaw, y: this.world.terrain.groundAt(SPAWN.x, SPAWN.z) };
     this.markCheckpoint();
     // Who is in the archive is read from where the load put him, not kept from before it (A95 scout: a false "sealed" toast).
-    this.world.playerInArchive = this.archiveWasOccupied = this.world.insideArchive(this.player.x, this.player.z);
+    const occupied = this.world.occupiesArchive(this.player.x, this.player.z, PLAYER_BODY_RADIUS);
+    // Set down somewhere safer than the saved spot: the door follows him there too.
+    if (occupied !== this.world.playerInArchive) this.worldDirty = true;
+    this.world.playerInArchive = this.archiveWasOccupied = occupied;
     this.game.setPlayerTransform(this.player.x, this.player.y, this.player.z, this.player.yaw);
   }
 
@@ -1060,12 +1065,13 @@ export class App {
     this.enterTitle();
   }
 
-  private syncWorldFromState(snap: boolean) {
+  /** `hunter` is where he will stand: on a load, the saved spot rather than wherever he stood before it (A101 scout). */
+  private syncWorldFromState(snap: boolean, hunter: { x: number; z: number } = this.player) {
     // The actors are set from the state: their sounds must not hear that as something happening (A89 scout).
     if (snap) this.audio?.forgetActors?.();
     this.player.syncEquipment(this.game);
     this.world.syncStatic(this.game.state, snap);
-    this.world.animals?.syncHunting(this.game.state.hunting, true);
+    this.world.animals?.syncHunting(this.game.state.hunting, true, { x: hunter.x, z: hunter.z });
     const ctx = this.actorContext();
     for (const n of this.npcs) n.snapToGoal(ctx);
     for (const e of this.enemies) {
@@ -1242,7 +1248,7 @@ export class App {
     const hour = hourOfDay(state.clock + this.clockAcc);
 
     // A sealed archive never traps someone inside: the door and shutter only close behind the player once they are out.
-    const inArchive = this.world.insideArchive(this.player.x, this.player.z);
+    const inArchive = this.world.occupiesArchive(this.player.x, this.player.z, PLAYER_BODY_RADIUS);
     if (inArchive !== this.archiveWasOccupied) {
       this.archiveWasOccupied = inArchive;
       this.worldDirty = true;
@@ -1526,7 +1532,8 @@ export class App {
     else {
       const items = [...this.titleEl.querySelectorAll<HTMLElement>('[data-nav]')];
       const i = items.indexOf(el as HTMLElement);
-      items[(i + step + items.length) % items.length]?.focus();
+      // With nothing focused, up starts from the last choice and down from the first (A101 scout: up skipped the last).
+      items[i < 0 ? (step > 0 ? 0 : items.length - 1) : (i + step + items.length) % items.length]?.focus();
     }
     this.audio.uiMove();
   }
@@ -1557,8 +1564,8 @@ export class App {
     if (this.panels.isOpen) this.panels.navigate(dx, dy);
     else if (this.mode === 'title') {
       const items = [...this.titleEl.querySelectorAll<HTMLElement>('[data-nav]')];
-      const i = items.indexOf(document.activeElement as HTMLElement);
-      items[(i + (dy || dx) + items.length) % items.length]?.focus();
+      const i = items.indexOf(document.activeElement as HTMLElement), step = dy || dx;
+      items[i < 0 ? (step > 0 ? 0 : items.length - 1) : (i + step + items.length) % items.length]?.focus();
     }
     this.audio.uiMove();
   }
