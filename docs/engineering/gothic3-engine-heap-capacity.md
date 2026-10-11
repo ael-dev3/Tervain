@@ -2330,3 +2330,26 @@ from pending compound/basic calls, verify the actual class byte/register state,
 and preserve canonical arena membership, physical fields and camera lifetime.
 Source packages are unchanged. This local checkpoint does not establish
 complete engine startup or campaign completion with save/reload.
+
+
+### 11 October 2026: reference-base class keyword and scoped-name prefix
+
+The original reference-base type selector now enters the class parser using its
+own retained RTTI image. The captured class-keyword constructor allocates its
+node and six character bytes in the distinct live 4,104-byte reference-base
+parser arena, copies `class `, and enters the original scoped-name routine.
+Execution reaches identifier parser `30699300` after 15,323 admitted operations.
+The RTTI cursor remains at offset 12. Lock 5 stays held, the reference-base root
+remains known NULL, and the camera CString and six registered shutdown callbacks
+remain intact. The snapshot's copied-type record still describes the completed
+camera parse; it is historical evidence, not the new class node.
+
+Typechecking, three selected runtime checks and six browser-startup checks pass.
+The class keyword/scoped-name prefix matches the previously implemented captured
+camera path exactly except for the RTTI owner. Interrupting the third character
+write stops at `30696f4b`, retains only `cl` as known bytes, preserves the live
+arena and held lock, and leaves the original copy call pending. No identifier,
+property root or callback return is fabricated. This checkpoint is local and
+has not been deployed. Complete startup and a finishable campaign remain
+unfinished. The earlier combined validation process is still running and does
+not validate this newer continuation.
