@@ -34,3 +34,9 @@ describe('fifth scout fixes: interface text (A96)', () => {
     expect(S('set.cancelhint.pause')).not.toContain('Esc');
   });
 });
+
+describe('seventh scout fixes: the journal names no stale price (A100)', () => {
+  it('does not quote the novice meat price once the hunter is paid more', () => {
+    expect(S('journal.obs.game_provisions')).not.toMatch(/two coins/);
+  });
+});
