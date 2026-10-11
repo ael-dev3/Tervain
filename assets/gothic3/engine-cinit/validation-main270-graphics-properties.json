@@ -1,0 +1,28 @@
+{
+  "testedRevision": "2beaac2affb83621761bd149c3b7d4b6addeb667",
+  "mainBaseline": "e248573b26f1a45a4be9c9e74d5a0a5c519e03bb",
+  "typecheck": "passed",
+  "focusedStartupChecks": {
+    "passed": 3,
+    "skipped": 480
+  },
+  "relatedChecks": {
+    "filesPassed": 7,
+    "testsPassed": 151
+  },
+  "productionBuild": "passed",
+  "fullSuiteRerun": false,
+  "runtimeBoundary": {
+    "nextUnsupportedCallback": "307325b0",
+    "cppInitializerCursor": "0x1c4",
+    "shutdownRegistrations": 50,
+    "exitTableCapacityBytes": 256
+  },
+  "scope": "Seventeen original graphics and resource property initializers integrated with main 270. This does not establish complete startup or a playable campaign.",
+  "logs": [
+    "gothic3-main270-graphics-integration-typecheck.log",
+    "gothic3-main270-graphics-integration-probe.log",
+    "gothic3-main270-graphics-integration-source-browser.log",
+    "gothic3-main270-graphics-integration-build.log"
+  ]
+}
