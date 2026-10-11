@@ -1,0 +1,33 @@
+{
+  "testedStartupRevision": "7ad59156e31a4c0e4570350eb70defc21c17aa81",
+  "typecheck": {
+    "result": "passed",
+    "revision": "9d3e70388addff1754134d297a2c263f6eb51b29"
+  },
+  "relatedChecks": {
+    "result": "passed",
+    "testsPassed": 120,
+    "filesPassed": 3,
+    "revision": "5e252a327"
+  },
+  "focusedStartupChecks": {
+    "result": "passed",
+    "testsPassed": 2,
+    "testsSkipped": 486,
+    "npcFileSelected": false
+  },
+  "productionBuild": {
+    "result": "passed",
+    "revision": "5e252a327",
+    "durationSeconds": 43.77
+  },
+  "fullSuiteRerun": false,
+  "runtimeBoundary": {
+    "nextUnsupportedCallback": "307325c0",
+    "cppInitializerCursor": "0x1c8",
+    "shutdownRegistrations": 51,
+    "exitTableCapacityBytes": 256
+  },
+  "deployment": "Not yet published; existing main deployment still running when this receipt was recorded.",
+  "scope": "Original post-processing administrator constructor, CString, shutdown registration and root publication. Interrupted callback store preserves caller, lock, cursor and unpublished root. Full startup and campaign completion remain unverified."
+}
