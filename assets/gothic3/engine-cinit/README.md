@@ -1,7 +1,7 @@
 # Engine CRT initializer evidence
 
 This package records the next dependency after Engine environment-vector return.
-It captures 52 original bodies (2027 instructions), the caller at `30677284`,
+It captures 54 original bodies (2091 instructions), the caller at `30677284`,
 the floating-point callback at `30892ac0`, and two original initializer tables.
 The C initializer table has 200 slots with 6 nonzero entries. The C++ table has
 93,705 slots with 1,963 nonzero entries; omitted entries are verified zero.
@@ -14,7 +14,7 @@ python tools/gothic3/prepare_engine_cinit_source.py --study '<study-root>' --out
 
 The generator checks the original Engine.dll hash and exact caller bytes.
 Independent regeneration produced identical JSON, SHA-256
-``d4d69d300a8fbceda42c63f3b1b7a882dbe1fd93e0a0c02b9799489298cb410f``.
+``11da4b149f92582ce554297c5c15723b06820a65779d21e32122fcb694ddd3a6``.
 
 The capture's `runtimeConnected: false` records evidence preparation; it grants
 no execution authority. The TypeScript continuation separately obtains a
@@ -179,3 +179,21 @@ writes exactly five bytes at offset 4,012; three padding bytes remain unknown.
 Copy, text-node, initializer and string-constructor returns now execute through
 the physical stack. The basic-type caller stops at `3069b601` after 3,449
 operations. Final parser output, cleanup and cache publication remain pending.
+
+
+### 11 October 2026: original basic-type value copy
+
+The M qualifier comparisons follow their actual branches into the temporary-empty
+helper. Its zero-node branch returns one, and the basic parser calls the original
+value-copy routine at `30696c93`. All 54 instructions of that routine now execute:
+each masked XOR assignment preserves the unchanged destination's other bits,
+and the text-node pointer retains its Engine allocation identity. The physical
+RET 4 returns to `3069b553`; the selected path reaches 3,531 admitted operations.
+The basic, compound and data-type parser returns remain pending, followed by
+name output, cleanup, cache publication and later initialization.
+
+Typechecking passed; nine existing focused checks and one new ownership/flag
+check passed. Independent regeneration reproduced JSON and TypeScript exactly.
+The earlier `a8f295e60` checkpoint passed 173 focused checks, all 3,475 tests in
+315 files, and a production build. That full-suite receipt predates this copy
+implementation. This continuation is local and has not been deployed.

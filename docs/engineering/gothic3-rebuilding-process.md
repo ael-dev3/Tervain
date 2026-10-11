@@ -12787,3 +12787,21 @@ finishable campaign. Its retained caller still stops at `30677284`.
 
 The subsequent CRT initializer work is in a separate checkout and is outside
 this validation receipt. Publication and deployment require their own evidence.
+
+
+### 11 October 2026: original basic-type value copy
+
+The M qualifier comparisons follow their actual branches into the temporary-empty
+helper. Its zero-node branch returns one, and the basic parser calls the original
+value-copy routine at `30696c93`. All 54 instructions of that routine now execute:
+each masked XOR assignment preserves the unchanged destination's other bits,
+and the text-node pointer retains its Engine allocation identity. The physical
+RET 4 returns to `3069b553`; the selected path reaches 3,531 admitted operations.
+The basic, compound and data-type parser returns remain pending, followed by
+name output, cleanup, cache publication and later initialization.
+
+Typechecking passed; nine existing focused checks and one new ownership/flag
+check passed. Independent regeneration reproduced JSON and TypeScript exactly.
+The earlier `a8f295e60` checkpoint passed 173 focused checks, all 3,475 tests in
+315 files, and a production build. That full-suite receipt predates this copy
+implementation. This continuation is local and has not been deployed.
