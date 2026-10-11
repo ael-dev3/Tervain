@@ -2133,3 +2133,18 @@ focused runtime checks passed. The new unknown-cache-character check stops at
 Six browser startup checks passed. Source packages are unchanged. This local
 checkpoint has not been deployed and does not establish complete engine startup
 or a playable campaign ending with save/reload.
+
+
+2026-10-11 — original camera CString constructor length scan (local)
+
+Executed the original constructor thunk/prolog with the camera property storage
+as destination and the live cached-name pointer at offset 6 as input. Its byte
+scan reads the twelve characters of `eCCameraBase` and its terminator, derives
+length 12 from pointers in the same allocation, and calls the original CString
+allocation routine. Startup now stops at `10007d65` after 13,883 operations.
+No fourth CString has been allocated or published; the camera root remains null.
+
+Validation: TypeScript checking, the strengthened normal runtime check and six
+browser startup checks passed. The normal check verifies actual length 12 and
+the pending allocation caller. Source packages are unchanged. This checkpoint
+is local and does not prove complete engine startup or campaign completion.
