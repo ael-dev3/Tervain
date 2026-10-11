@@ -9,7 +9,7 @@
     "archivedWarpkeepBytes": 23676804,
     "hashesMatchedExistingSourceRecords": 316,
     "modelsWithEmbeddedCcDeclaration": 0,
-    "licenseClassification": "Meshy sources are classified by recorded evidence (A73, correcting A72; A75 applies the owner's answer). 20 sources the project generated through its own Meshy API calls, with task ids recorded (the 17 furniture pieces, the 17 resident rigs, the resident motion library and the wanderer\u2019s Meshy 7.1 body), are paid-plan Customer Output (Meshy terms, Last Updated 19 September 2026, section 3.2). 52 supplied sources are classified as Meshy Community downloads, 3D models under CC0 1.0 (section 3.3(a)), on the owner's answer of 2026-10-09 that they are probably all Community downloads: provenance basis \u201cowner recollection, not individually verified\u201d, creators and listing URLs not recorded. 2 supplied sources stay unresolved because repository records contradict that recollection (wanderer-historical, wanderer-animated). No commercial-clearance certificate is asserted. The animated hero\u2019s Mixamo-named skeleton/animation content and the Warpkeep archive remain separately unresolved.",
+    "licenseClassification": "Meshy sources are classified by recorded evidence (A73, correcting A72; A75 applies the owner's answer). 20 sources the project generated through its own Meshy API calls, with task ids recorded (the 17 furniture pieces, the 17 resident rigs, the resident motion library and the wanderer\u2019s Meshy 7.1 body), are paid-plan Customer Output (Meshy terms, Last Updated 19 September 2026, section 3.2). 52 supplied sources are classified as Meshy Community downloads, 3D models under CC0 1.0 (section 3.3(a)), on the owner's answer of 2026-10-09 that they are probably all Community downloads: provenance basis \u201cowner recollection, not individually verified\u201d, creators and listing URLs not recorded. 2 supplied sources stay unresolved because repository records contradict that recollection (wanderer-historical, wanderer-animated). No commercial-clearance certificate is asserted. The animated hero\u2019s Mixamo-named skeleton/animation content matches Meshy rigging and its animation library by public evidence and follows that source\u2019s unresolved Meshy provenance; the Warpkeep archive has its own per-set records.",
     "meshyProvenance": {
       "ael-generated-meshy-pro": {
         "sources": 20,
@@ -38,7 +38,7 @@
       "url": "https://creativecommons.org/publicdomain/zero/1.0/",
       "condition": "When an applicable source is confirmed CC0, this ledger does not impose attribution or noncommercial restrictions on its CC0-covered rights; source credit is retained for provenance."
     },
-    "unresolvedOrSpecial": "Unresolved Meshy sources, owner-specific permission and other unresolved records (the animated hero\u2019s Mixamo-named content, the Warpkeep archive) are not relabeled CC or privately owned by this ledger.",
+    "unresolvedOrSpecial": "Unresolved Meshy sources, owner-specific permission and other unresolved records (the animated hero\u2019s source, the Warpkeep archive) are not relabeled CC or privately owned by this ledger.",
     "ccByNc4": {
       "url": "https://creativecommons.org/licenses/by-nc/4.0/",
       "condition": "Meshy terms section 3.3(b): Community content other than Customer Output (for example images uploaded to the Community) is CC BY-NC 4.0, which requires attribution and permits no commercial use. No source is recorded under it; any such content found among the supplied sources must be attributed and flagged as non-commercial."
@@ -116,13 +116,13 @@
       "separateRights": [
         {
           "component": "Mixamo-named skeleton and animation content in the supplied animated source",
-          "evidenceStatus": "pending-source-rights",
-          "note": "Separate from the Meshy provenance question. Its separate source rights are not independently established."
+          "evidenceStatus": "meshy-output-by-public-evidence",
+          "note": "Public Meshy evidence (read 2026-10-11) indicates this is Meshy output in Mixamo-compatible naming, not Adobe Mixamo content: of its six clips, Run_03, Casual_Walk, Dead and Boxing_Practice are Meshy animation-library actions 15, 30, 8 and 87 (https://docs.meshy.ai/en/api/animation-library), and Walking and Running are the default animations a Meshy rigging task returns (basic_animations, https://docs.meshy.ai/en/api/rigging); Meshy states its rigs follow Mixamo bone naming (https://www.meshy.ai/features/ai-auto-rigging). It therefore follows the source\u2019s Meshy provenance, which remains unresolved. No license or clearance is asserted by this record."
         }
       ],
       "provenance": {
         "classification": "unresolved",
-        "evidence": "Supplied Meshy hero GLB (owner-supplied per its hero record). The source record names the owner as supplier only; no Meshy task id from the project's generation, no Community listing URL, no creator name and no author or generator metadata are recorded, and the original file is not in the repository. A Meshy_AI_* export filename does not show who generated a model. The owner's recollection (2026-10-09) that the supplied sources are Community downloads is not applied here: Repository evidence points to generation for the project: it is the animated export of the same Weathered Wanderer (Tervain's own named hero) whose prompts are recorded as kept in the owner's workshop (docs/engineering/main-hero-assets.json), and it carries Mixamo-named skeleton and clips recorded separately.",
+        "evidence": "Supplied Meshy hero GLB (owner-supplied per its hero record). The source record names the owner as supplier only; no Meshy task id from the project's generation, no Community listing URL, no creator name and no author or generator metadata are recorded, and the original file is not in the repository. A Meshy_AI_* export filename does not show who generated a model. The owner's recollection (2026-10-09) that the supplied sources are Community downloads is not applied here: Repository evidence points to generation for the project: it is the animated export of the same Weathered Wanderer (Tervain's own named hero) whose prompts are recorded as kept in the owner's workshop (docs/engineering/main-hero-assets.json), and it carries a Mixamo-named skeleton and clips that public Meshy documentation matches to Meshy rigging and its animation library (recorded separately).",
         "contradictsOwnerRecollection": true
       }
     },
@@ -2124,8 +2124,8 @@
       "separateRights": [
         {
           "component": "A45 Mixamo-named skeleton and animation clips the shipped file carries (source wanderer-animated)",
-          "evidenceStatus": "pending-source-rights",
-          "note": "Recorded under wanderer-animated; not covered by this source's generation record."
+          "evidenceStatus": "follows-wanderer-animated",
+          "note": "Recorded under wanderer-animated (Meshy output in Mixamo-compatible naming by public evidence, A112); not covered by this source's generation record."
         }
       ],
       "provenance": {
@@ -8993,9 +8993,9 @@
     "Confirm the origin of the 2 unresolved supplied Meshy sources (toConfirm), whose records contradict the owner's recollection: project-generated under Meshy Pro, or downloaded from the Meshy Community with creator and listing URL.",
     "The 52 Community classifications rest on the owner's recollection, not individually verified (toVerify); a listing URL and creator for each would verify them.",
     "For any Community download, check whether any non-model Community content (such as an image) was used; that content is CC BY-NC 4.0, attribution required and non-commercial.",
-    "Establish the separate source rights of the Mixamo-named skeleton and animation content in the animated hero source.",
+    "Confirm who generated the animated hero source, and under which Meshy plan (its skeleton and clips match Meshy rigging and its animation library by public evidence).",
     "Preserve actual image-input and animation rights separately; a model-service plan does not clear third-party inputs.",
-    "Establish per-set provenance for the archived Warpkeep models before any new runtime use or broader redistribution."
+    "Before any new runtime use or broader redistribution of an archived Warpkeep set, check its per-set record (docs/engineering/warpkeep-provenance.json, A107) and Warpkeep-Assets."
   ],
   "generatedRigs": [
     {
@@ -9129,7 +9129,7 @@
       "sourceId": "wanderer-animated",
       "filename": "Meshy_AI_The_Weathered_Wandere_All_Animations.glb",
       "confirm": "Generated by Ael under Meshy Pro, or downloaded from the Meshy Community (with the creator and listing URL), or another origin.",
-      "contradictingEvidence": "Repository evidence points to generation for the project: it is the animated export of the same Weathered Wanderer (Tervain's own named hero) whose prompts are recorded as kept in the owner's workshop (docs/engineering/main-hero-assets.json), and it carries Mixamo-named skeleton and clips recorded separately."
+      "contradictingEvidence": "Repository evidence points to generation for the project: it is the animated export of the same Weathered Wanderer (Tervain's own named hero) whose prompts are recorded as kept in the owner's workshop (docs/engineering/main-hero-assets.json), and it carries a Mixamo-named skeleton and clips that public Meshy documentation matches to Meshy rigging and its animation library (recorded separately)."
     }
   ],
   "toVerify": [
