@@ -89,6 +89,12 @@ export class WindowView {
       try {
         renderer.shadowMap.autoUpdate = false;
         renderer.autoClear = true;
+        // Drawing the faces itself, the capture must aim them itself: only CubeCamera.update would, and until then all six
+        // look the same way (A95 scout: one view smeared over every pane direction).
+        if (this.camera.coordinateSystem !== renderer.coordinateSystem) {
+          this.camera.coordinateSystem = renderer.coordinateSystem;
+          this.camera.updateCoordinateSystem();
+        }
         this.camera.position.copy(at);
         this.camera.updateMatrixWorld(true);
         // The cube's mipmaps are rebuilt once, after its last face, not after every one (A80 audit).
