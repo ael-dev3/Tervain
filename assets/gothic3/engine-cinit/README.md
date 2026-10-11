@@ -2349,3 +2349,21 @@ cursor at 10 and does not enter the qualifier temporary constructor. The byte
 mask remains unknown; the new root stays known null. Source packages are
 unchanged. This local checkpoint does not establish complete engine startup
 or campaign completion with save/reload.
+
+
+2026-10-11 — original reference-base qualifier returns and class selector (local)
+
+Executed the original qualifier temporary, qualified-value copies and assigns,
+empty-modifier checks, decoder cleanup and retained return. Its returned value
+is assigned through the actual DataTypeParser caller before CompoundTypeParser
+and BasicTypeParser read the original `V` class marker. Startup stops at
+`3069b43a` after 15,002 instructions, with RTTI cursor at offset 12. The new
+arena stays live, lock 5 stays held, and the new root stays null. Earlier
+camera state and its captured historical class node remain retained.
+
+Validation: TypeScript checking, the strengthened normal runtime check and six
+browser startup checks passed. Checks distinguish the completed decoder return
+from pending compound/basic calls, verify the actual class byte/register state,
+and preserve canonical arena membership, physical fields and camera lifetime.
+Source packages are unchanged. This local checkpoint does not establish
+complete engine startup or campaign completion with save/reload.
