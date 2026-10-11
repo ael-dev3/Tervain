@@ -2224,3 +2224,19 @@ checkpoint has not been deployed and does not establish campaign completion.
 Next reference: original callback `307322f0` calls thunk `300247da`, which jumps
 to property routine `30076740`, then stores its result at `30ad9e28`. These
 addresses are research findings, not an implemented next callback.
+
+
+2026-10-11 — next bCObjectRefBase initializer source capture (local)
+
+Captured original callback `307322f0`, property thunk `300247da` and its
+22-instruction body at `30076740`. Added original flags at `30ad9a18`, root at
+`30ad9e28`, storage at `30ad9a10`, and the complete 30-byte RTTI record at
+`30aa202c` containing `.?AVbCObjectRefBase@@`. This is a source capture;
+the next initializer has not executed yet.
+
+Validation: TypeScript checking and 46 source/image checks passed. Independent
+regeneration reproduced both artifacts exactly. The package now contains 92
+Engine methods and 3,614 body instructions. SHA-256: JSON
+`15c4fc760e5f46e709a8f0bdf50c0e46b8c7df1624c801ccb88c5764cb3deb30`;
+TypeScript `2fe484c9551ab95bbd7843eb00cae204adc7f4094698f8b569637c1d258a2959`.
+This local capture does not establish full startup or campaign completion.

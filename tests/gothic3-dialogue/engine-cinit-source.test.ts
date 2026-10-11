@@ -143,3 +143,8 @@ it('pins the third visual-animation property initializer and int type arguments'
 it('pins the original camera base object initializer and type arguments',()=>{
  expect(engineCinitTableTarget('cppInitializers','307bb110')).toBe('307322e0');expect(engineCinitInstruction('307322e0','307322e5').bytes).toBe('a32c9ead30');expect(engineCinitInstruction('3000d9f9','3000d9f9').bytes).toBe('e9d28c0600');expect(engineCinitInstruction('3000d9f9','300766f9').bytes).toBe('b91c2aaa30');expect(engineCinitInstruction('3000d9f9','30076714').bytes).toBe('68f1070330');
 });
+
+
+it('pins the original object-reference-base initializer and type arguments',()=>{
+ expect(engineCinitTableTarget('cppInitializers','307bb114')).toBe('307322f0');expect(engineCinitInstruction('307322f0','307322f5').bytes).toBe('a3289ead30');expect(engineCinitInstruction('300247da','300247da').bytes).toBe('e9611f0500');expect(engineCinitInstruction('300247da','30076769').bytes).toBe('b92c20aa30');expect(engineCinitInstruction('300247da','30076784').bytes).toBe('68e0980030');
+});
