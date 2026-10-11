@@ -1971,3 +1971,22 @@ list provenance, known kind bits, unknown RTTI bytes, unavailable arena and
 interrupted list-link store. Original instruction packages are unchanged.
 This is local implementation, not deployment or proof of complete engine
 startup or campaign completion with save/reload.
+
+
+### 2026-10-11 — camera measured output allocation (local)
+
+The original NameParser verifies its consumed camera RTTI and measures the live
+parsed list through the original virtual length calls: six keyword bytes plus
+twelve identifier bytes. It stores output length 19 including NUL, rounds the
+allocation request to 24 bytes, obtains a distinct canonical CRT allocation,
+and enters the original writer. Startup stops at `30697171` after 12,823
+operations. All 24 output bytes remain unknown; no final output is synthesized.
+The writer argument length is 19, and the live arena/list remains retained.
+Writer execution, cleanup and camera property publication are still pending.
+
+Validation: TypeScript checking passed; six focused runtime checks and all six
+browser startup checks passed. An additional unavailable camera output malloc
+check passed at `30672ec7`, retaining its pending caller, parser lock, earlier
+live CStrings, roots and shutdown entries. Original evidence packages are
+unchanged. This local checkpoint has not been deployed and does not prove
+complete startup or campaign completion with persistence.
