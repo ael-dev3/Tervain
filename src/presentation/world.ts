@@ -540,8 +540,7 @@ export class WorldScene {
     this.grassPeople = people;
   }
 
-  /** Renderer work the ground cover needs before the frame is drawn (the grass interaction field). */
-  /** Draw the grass and water fields' passes once before the world opens (A80): they are drawn off the scene. */
+  /** Draw the grass and water fields' passes once before the world opens (A81): they are drawn off the scene. */
   warmPasses(renderer: THREE.WebGLRenderer) {
     this.groundcover?.warm(renderer);
     this.water.warm(renderer);
@@ -553,6 +552,7 @@ export class WorldScene {
     return forest?.crownsNear?.(x, z, r) ?? [];
   }
 
+  /** Renderer work the ground cover needs before the frame is drawn (the grass interaction field). */
   prepareGrass(renderer: THREE.WebGLRenderer, dt: number) {
     this.groundcover?.prepare(renderer, dt);
   }

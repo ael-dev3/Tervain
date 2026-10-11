@@ -151,7 +151,7 @@ describe('grass brush stamps between fixed GPU steps', () => {
     } finally { field.dispose(); previous.dispose(); }
   });
 
-  it('draws both its passes once into its own target ahead of their first use, and puts the step pass back (A80)', () => {
+  it('draws both its passes once into its own target ahead of their first use, and puts the step pass back (A81)', () => {
     const field = new GrassTrample(16, 100);
     const half = GPU.halfTargets;
     const target = new THREE.WebGLRenderTarget(4, 4);

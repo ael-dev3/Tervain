@@ -30,4 +30,18 @@ In the served build, the real follow camera beside the oak of the owner's crown 
 
 Unit tests cover the boom limit, the floor, a crown that holds the wanderer, and the crowns' neighbourhood lookup.
 
+## Audit and lap check (follow-up)
+
+**Audit of A80–A82.** An independent read of the A80–A82 changes found the following:
+- **Arrivals skipped after an error:** if a catch-up step threw, the flag that skips arrivals stayed set, and the next
+  journey's first frame skipped them. It is now cleared in any case.
+- **Doc comments:** two had come loose from their methods; they are moved back.
+- **Window panes (reported, but does not happen):** a pane showing a mix of two rooms' views. Entering the second room
+  already clears the panes. The cube is now no longer recorded as a room's view while a capture draws over it, and a
+  test covers going back and forth during captures.
+
+**Five High laps on the GPU.** The GPU geometry count levels off; it is not a leak. It went 815, 838, 841, 841, 845.
+The rise is the grass tiles' buffer pool growing to the most tiles ever on screen at once (grass adds none by the
+fourth lap), plus tree shadows drawn for the first time.
+
 No Meshy credits spent; no triangle budget changed.
