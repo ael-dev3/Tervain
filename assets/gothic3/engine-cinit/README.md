@@ -562,3 +562,10 @@ allocator callback at `30672ec7` after 4,609 operations. The recursive backing
 request is 4,100 bytes, aligned to 4,104 at the pending callback. Three focused
 checks and typechecking pass; no second allocation, complete startup or campaign
 completion is claimed. This continuation remains local.
+
+The local second arena allocation now returns its original 16-byte field
+location at offset 4,084 and stops at `30697082` after 4,635 operations.
+Canonical ownership, recursive return, header and arena globals are retained.
+Typechecking and three focused checks pass. Earlier combined revision
+`05c8b93077dea4f6bb6d9afb9bf49d1e718b0b6c` passed 3,556 tests and its build;
+it predates this continuation. Full startup and campaign play remain unfinished.

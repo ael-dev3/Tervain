@@ -574,6 +574,27 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
                 stack.#engineCinitFrame!.pc='30672ec7';const requested=stack.#numeric(stack.#load(stack.#stack,relative('ESP',4)),4);
         return {arena,arenaPrefix,requested};
       };
+      const runColdArenaAllocation=(globalsFields:NativeHeapObjectViews,request:ReturnType<typeof runColdArenaRequest>)=>{
+        const {arena,requested}=request;
+                engineCinitInstruction('30672ec7','30672ec7');const allocated=NativeModuleCrtOwner.prototype.malloc.call(crt,requested);if(!allocated.known)throw new Error(allocated.reason);
+                const arenaBacking=allocated.value?new NativeHeapObjectViews(allocated.value):null;
+                if(arenaBacking){Object.freeze(arenaBacking);const proof=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields:arenaBacking,offset:0},requested);if(!proof.known)throw new Error(proof.reason);}
+                const arenaWord=(offset:number)=>{if(!arenaBacking)throw new Error('Actual arena allocation required');return stack.#mint(0,0,{kind:'engine-allocation',crt,fields:arenaBacking,offset});};
+                hostReturn(arenaBacking?arenaWord(0):stack.#mint(0,0xffffffff),0);
+                arena('30696c08',()=>pop('ECX'));arena('30696c09',()=>{});arena('30696c6f',()=>pop('EDI'));arena('30696c70',()=>pop('ESI'));
+                arena('30696c71',()=>{const p=stack.#record(stack.#ret(8)).provenance;if(p?.kind!=='source'||p.address!=='30696c34')throw new Error('Actual recursive arena return required');});
+                arena('30696c34',()=>{if(arenaBacking)stack.#flags(0,0x841);else stack.#logicalFlags(0,0xffffffff,4);});arena('30696c36',()=>{});
+                if(!arenaBacking){stack.#engineCinitFrame!.pc='30696c3d';return {ready:false as const};}
+                arena('30696c38',()=>{stack.#store(arenaBacking,0,stack.#mint(0,0xffffffff));stack.#logicalFlags(0,0xffffffff,4);});arena('30696c3b',()=>{});arena('30696c3f',()=>stack.#flags(0,0x841));arena('30696c41',()=>{});
+                arena('30696c43',()=>setRegister('ECX',stack.#load(globalsFields,12)));arena('30696c46',()=>{const v=stack.#numeric(register('ECX'),4);stack.#logicalFlags(v,0xffffffff,4);});arena('30696c48',()=>{if(stack.#numeric(register('ECX'),4)!==0)throw new Error('Actual cold arena tail required');});
+                arena('30696c4e',()=>stack.#store(globalsFields,8,register('EAX')));
+                arena('30696c51',()=>{const a=stack.#numeric(register('EBX'),4),b=stack.#numeric(register('EDI'),4),v=(a-b)>>>0;setRegister('EBX',stack.#mint(v,0xffffffff));stack.#arithmeticFlags(a,b,v,4,true);});
+                arena('30696c53',()=>stack.#store(globalsFields,12,register('EAX')));arena('30696c56',()=>stack.#store(globalsFields,16,register('EBX')));arena('30696c59',()=>{});
+                arena('30696c64',()=>setRegister('EAX',stack.#load(globalsFields,12)));arena('30696c67',()=>setRegister('ECX',stack.#load(globalsFields,16)));
+                arena('30696c6a',()=>{const p=stack.#record(register('EAX')).provenance;if(p?.kind!=='engine-allocation'||p.crt!==crt||p.fields!==arenaBacking||p.offset!==0)throw new Error('Actual retained arena tail required');const offset=stack.#numeric(register('ECX'),4)+4,proof=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields:arenaBacking,offset},16);if(!proof.known)throw new Error(proof.reason);setRegister('EAX',arenaWord(offset));});
+                arena('30696c6e',()=>pop('EBX'));arena('30696c6f',()=>pop('EDI'));arena('30696c70',()=>pop('ESI'));arena('30696c71',()=>{const p=stack.#record(stack.#ret(8)).provenance;if(p?.kind!=='source'||p.address!=='30697082')throw new Error('Actual field allocation return required');});
+        return {ready:true as const,arenaBacking,arenaWord,allocated};
+      };
       const runExitRegistration=(callbackAddress:'30671144'|'3068e981'|'30011a40')=>{
             step('30671596',()=>{const esp=stack.#address(register('ESP')),argument=stack.#load(stack.#stack,esp+4),p=stack.#record(argument).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!==callbackAddress)throw new Error('Original Engine shutdown callback argument required');stack.#push(argument);},'30671596');
             step('3067159a',()=>stack.#call('3067159a','3067159f'),'30671596');
@@ -679,23 +700,7 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
                 const decoder=runUndecorationPrefix();if(!decoder.ready)return known(undefined);const {undecorate,globals}=decoder;
                 const {constructor,internal,field,fieldPrefix}=runParserConstructionPrefix(globals.value);
                 const {arena,arenaPrefix,requested}=runColdArenaRequest(globals.value);
-                engineCinitInstruction('30672ec7','30672ec7');const allocated=NativeModuleCrtOwner.prototype.malloc.call(crt,requested);if(!allocated.known)throw new Error(allocated.reason);
-                const arenaBacking=allocated.value?new NativeHeapObjectViews(allocated.value):null;
-                if(arenaBacking){Object.freeze(arenaBacking);const proof=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields:arenaBacking,offset:0},requested);if(!proof.known)throw new Error(proof.reason);}
-                const arenaWord=(offset:number)=>{if(!arenaBacking)throw new Error('Actual arena allocation required');return stack.#mint(0,0,{kind:'engine-allocation',crt,fields:arenaBacking,offset});};
-                hostReturn(arenaBacking?arenaWord(0):stack.#mint(0,0xffffffff),0);
-                arena('30696c08',()=>pop('ECX'));arena('30696c09',()=>{});arena('30696c6f',()=>pop('EDI'));arena('30696c70',()=>pop('ESI'));
-                arena('30696c71',()=>{const p=stack.#record(stack.#ret(8)).provenance;if(p?.kind!=='source'||p.address!=='30696c34')throw new Error('Actual recursive arena return required');});
-                arena('30696c34',()=>{if(arenaBacking)stack.#flags(0,0x841);else stack.#logicalFlags(0,0xffffffff,4);});arena('30696c36',()=>{});
-                if(!arenaBacking){stack.#engineCinitFrame!.pc='30696c3d';return known(undefined);}
-                arena('30696c38',()=>{stack.#store(arenaBacking,0,stack.#mint(0,0xffffffff));stack.#logicalFlags(0,0xffffffff,4);});arena('30696c3b',()=>{});arena('30696c3f',()=>stack.#flags(0,0x841));arena('30696c41',()=>{});
-                arena('30696c43',()=>setRegister('ECX',stack.#load(globals.value,12)));arena('30696c46',()=>{const v=stack.#numeric(register('ECX'),4);stack.#logicalFlags(v,0xffffffff,4);});arena('30696c48',()=>{if(stack.#numeric(register('ECX'),4)!==0)throw new Error('Actual cold arena tail required');});
-                arena('30696c4e',()=>stack.#store(globals.value,8,register('EAX')));
-                arena('30696c51',()=>{const a=stack.#numeric(register('EBX'),4),b=stack.#numeric(register('EDI'),4),v=(a-b)>>>0;setRegister('EBX',stack.#mint(v,0xffffffff));stack.#arithmeticFlags(a,b,v,4,true);});
-                arena('30696c53',()=>stack.#store(globals.value,12,register('EAX')));arena('30696c56',()=>stack.#store(globals.value,16,register('EBX')));arena('30696c59',()=>{});
-                arena('30696c64',()=>setRegister('EAX',stack.#load(globals.value,12)));arena('30696c67',()=>setRegister('ECX',stack.#load(globals.value,16)));
-                arena('30696c6a',()=>{const p=stack.#record(register('EAX')).provenance;if(p?.kind!=='engine-allocation'||p.crt!==crt||p.fields!==arenaBacking||p.offset!==0)throw new Error('Actual retained arena tail required');const offset=stack.#numeric(register('ECX'),4)+4,proof=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields:arenaBacking,offset},16);if(!proof.known)throw new Error(proof.reason);setRegister('EAX',arenaWord(offset));});
-                arena('30696c6e',()=>pop('EBX'));arena('30696c6f',()=>pop('EDI'));arena('30696c70',()=>pop('ESI'));arena('30696c71',()=>{const p=stack.#record(stack.#ret(8)).provenance;if(p?.kind!=='source'||p.address!=='30697082')throw new Error('Actual field allocation return required');});
+                const allocation=runColdArenaAllocation(globals.value,{arena,arenaPrefix,requested});if(!allocation.ready)return known(undefined);const {arenaBacking,arenaWord,allocated}=allocation;
                 const finishField=(kind:1|3,nodeOffset:number,returned:string)=>{
                 field('30697082',()=>stack.#flags(0,0x841));field('30697084',()=>{});field('30697086',()=>stack.#push(register('EDI')));field('30697087',()=>setRegister('ECX',register('EAX')));field('30697089',()=>stack.#call('30697089','3069708e'));
                 const node=(pc:string,body:()=>void)=>step(pc,body,'30696ef8');
@@ -1071,8 +1076,9 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
               preparePropertyUndecoration(prefix.name,prefix.actualTypeInfo);
               const decoder=runUndecorationPrefix();if(!decoder.ready)return known(undefined);
               runParserConstructionPrefix(decoder.globals.value);
-              runColdArenaRequest(decoder.globals.value);
-              return known(undefined);
+              const request=runColdArenaRequest(decoder.globals.value);
+              const allocation=runColdArenaAllocation(decoder.globals.value,request);if(!allocation.ready)return known(undefined);
+              stack.#engineCinitFrame!.pc='30697082';return known(undefined);
             }
             return known(undefined);
           }

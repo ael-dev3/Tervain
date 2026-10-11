@@ -326,3 +326,20 @@ global owner; the repaired check reads the original field in its retained stack
 frame and inspects the actual allocator call argument. The earlier combined
 validation remains live and does not contain this change. Complete startup,
 publishing this continuation and campaign play remain unfinished.
+
+### Shared arena allocation and second field return — 11 October 2026
+
+The second property now invokes the retained Engine allocator for 4,104 bytes,
+checks canonical heap ownership, executes the original recursive return, writes
+the arena header, publishes the head/tail and remaining capacity, and returns
+the 16-byte field destination at offset 4,084. Execution reaches `30697082`
+after 4,635 admitted operations. Field-node construction remains pending and
+lock five stays held. Allocation failure retains the existing `30696c3d`
+boundary instead of supplying storage.
+
+Typechecking and three focused runtime/browser checks pass. The expected source
+operation count was corrected from 4,636 to the observed 4,635. Combined revision
+`05c8b93077dea4f6bb6d9afb9bf49d1e718b0b6c`, which includes first-property return
+but predates the second-property work, passed 243 focused checks, all 3,556 tests
+in 319 files, and a production build. Newer work needs combined validation.
+Complete startup and campaign play remain unfinished.
