@@ -1916,3 +1916,22 @@ six browser startup checks passed. A further targeted unknown identifier-byte
 check passed, stopping at `30699315` with the original scoped caller pending
 and parser lock held. Original evidence packages are unchanged. This is local
 implementation, not deployment or complete startup/campaign evidence.
+
+
+### 2026-10-11 — camera identifier/cache/scoped returns (local)
+
+Executed the original text constructor and delimited-name return for the actual
+camera RTTI, then the identifier assignment, name-reference cache allocation
+and copy, cookie validation and scoped-name return. Camera delimiters occupy
+RTTI offsets 24 and 25; the returned cursor is offset 26. Startup reaches
+`30697906` after 12,159 operations, with the original class append call
+`306996b0` pending. Final type-string assembly, parser cleanup and camera
+publication remain unfinished. All preceding roots and shutdown entries
+remain intact; the camera arena remains live and owns its actual text.
+
+Validation: TypeScript checking passed; five focused runtime checks passed,
+including unknown qualifier/identifier and unavailable arena cases, actual
+cache/cookie/scoped returns and pending append. All six browser startup checks
+passed in two files. Original source packages remain unchanged. This local
+checkpoint has not been deployed and does not prove complete engine startup
+or a campaign playable through an ending with persistence.
