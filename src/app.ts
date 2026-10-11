@@ -24,6 +24,7 @@ import { prepareSceneTextures } from './platform/prepareSceneTextures';
 import { codeLabel, loadSettings } from './platform/settings';
 import { BrowserStore, SaveStore, SLOT_IDS, type SlotId } from './platform/storage';
 import { ENEMY_SPAWNS, PLACES, SPAWN, SLUICE, RITE_ALTAR, type V2 } from './world/layout';
+import { MOUNT_STAMINA } from './presentation/riding';
 import { coastX } from './world/coast';
 import { canPlayerStandAt, PLAYER_BODY_RADIUS, supportedPlayerHeight } from './world/playerPlacement';
 import { EnemyActor, NpcActor, type ActorContext, type EnemyContext } from './presentation/actors';
@@ -266,7 +267,7 @@ export class App {
       this.input.reset();
       if (hidden) {
         this.hunting.controls(0, false);
-        this.clearSpeech();
+        this.clearSpeech(true);
         this.autosaveQuiet();
         if (this.mode === 'play' && this.overlay === 'none' && !this.bench.active) this.openPause();
       }
@@ -383,7 +384,7 @@ export class App {
     this.panels.onOpen = () => {
       this.hunting.controls(0, false);
       this.audio.setWildlifeActive(false);
-      this.clearSpeech();
+      this.clearSpeech(true);
       this.titleEl.inert = true;
       this.input.uiOpen = true;
       this.player.vx = this.player.vz = this.player.lastMoveSpeed = 0;
@@ -655,8 +656,11 @@ export class App {
         enter();
         this.firstFrameUnderCurtain();
         this.completeCast();
-        // Every file the game needs has now been asked for: drop cached models that have since been replaced.
-        void pruneContentCache();
+        // Once every file the game needs has been asked for, drop cached models that have since been replaced. That is after
+        // the furniture, animals and remaining residents that follow the world in: pruned at the world's opening, their
+        // cached copies were deleted every visit and downloaded again the next (A95 scout).
+        const world = this.world;
+        void Promise.allSettled([world.arrived ?? Promise.resolve(), this.castLoad ?? Promise.resolve()]).then(() => pruneContentCache());
       } catch (error) {
         this.initialJourneyLoading = false;
         this.showWorldBuildFailure(error, () => { this.initialLoad = run(); return this.initialLoad; }, () => {
@@ -712,7 +716,7 @@ export class App {
     this.hunting.reset();
     this.audio?.setWildlifeActive(false);
     this.world?.animals?.setRunning(false);
-    this.clearSpeech();
+    this.clearSpeech(true);
     if (!this.worldPaused) this.rebuildFocus = document.activeElement as HTMLElement | null;
     this.audio.pauseWorld();
     this.worldBuildFailed = false;
@@ -961,7 +965,8 @@ export class App {
     }
     // A brief notice leaves movement, look and the world clock running. The journal keeps the premise.
     this.hud.toast(S('arrival.wake'));
-    this.hud.caption(S('arrival.controls', {
+    // Begun from a controller, the hint names the sticks: walking has no button, and there is no view to click (A96 scout).
+    this.hud.caption(S(this.input.device === 'gamepad' ? 'arrival.controls.pad' : 'arrival.controls', {
       move: this.input.label('forward', codeLabel),
       interact: this.input.label('interact', codeLabel),
       journal: this.input.label('journal', codeLabel),
@@ -971,6 +976,8 @@ export class App {
   private beginPlay(fromLoad: { recovered: null | 'previous' | 'temporary' } | null) {
     if (this.worldPaused) return;
     this.clearSpeech();
+    // Day or night is judged afresh in the new run: a stale night spoke a wrong "dawn" on arrival (A95 scout).
+    this.wasNight = null;
     this.inventoryNotesChanged = false;
     this.hunting.reset();
     this.titleEl.classList.remove('on');
@@ -1018,7 +1025,17 @@ export class App {
     this.cam.reset();
     this.player.group.visible = true;
     this.cam.pitch = 0.3;
-    this.checkpoint = { ...start, y: this.player.y };
+    // A load is a fresh start for the body too: rested, the deer's wind whole (A95 scout: exhaustion carried over).
+    this.player.stamina = 100;
+    this.player.exhausted = false;
+    this.player.mountStamina = MOUNT_STAMINA.max;
+    this.player.mountSpent = false;
+    // Where a fall brings him back follows the checkpoint rule (A95 scout): a save made beside a foe's post made that post
+    // his respawn point, a death loop. Away from any, the loaded place serves; otherwise the strand.
+    this.checkpoint = { x: SPAWN.x, z: SPAWN.z, yaw: SPAWN.yaw, y: this.world.terrain.groundAt(SPAWN.x, SPAWN.z) };
+    this.markCheckpoint();
+    // Who is in the archive is read from where the load put him, not kept from before it (A95 scout: a false "sealed" toast).
+    this.world.playerInArchive = this.archiveWasOccupied = this.world.insideArchive(this.player.x, this.player.z);
     this.game.setPlayerTransform(this.player.x, this.player.y, this.player.z, this.player.yaw);
   }
 
@@ -2272,8 +2289,9 @@ export class App {
   }
 
   /** Stops all speech and its words over people's heads (a load, a panel, death, the title) (A70). */
-  private clearSpeech() {
-    this.speech.clear();
+  /** `pausing`: the run goes on afterwards, so the hero's once-only remarks still waiting are kept (A96 scout). */
+  private clearSpeech(pausing = false) {
+    this.speech.clear({ keepRemarks: pausing });
     this.bubbleState?.clear();
     // Captions go with the voices (A87 scout): they stayed their whole length, even over a freshly loaded game.
     this.hud?.hushSpeech?.();
@@ -2360,7 +2378,7 @@ export class App {
   private onPlayerDeath() {
     this.hunting.reset();
     this.audio.setWildlifeActive(false);
-    this.clearSpeech();
+    this.clearSpeech(true);
     this.world.physics.release();
     this.audio.death();
     this.mode = 'dead';

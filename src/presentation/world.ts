@@ -88,6 +88,8 @@ interface WorldResources {
   quality: Settings['quality'];
   /** Lets in what arrives after the world opens (A72). */
   letIn: () => void;
+  /** Settles once what arrives after the world opens has arrived or failed (A95). */
+  arrived: Promise<void>;
   scene: THREE.Scene;
   terrain: Terrain;
   colliders: Colliders;
@@ -124,6 +126,8 @@ export class WorldScene {
   readonly library: AssetLibrary;
   /** Forest, ground cover, wildlife: updated every frame with the shared frame context. */
   readonly modules: WorldModules;
+  /** Settles once the furniture and animals that follow the world in have arrived or failed (A95). */
+  readonly arrived: Promise<void>;
   private environment: EnvironmentHandle;
   /** The realm's wind and the bodies moving through the foliage (shared by grass and trees). */
   readonly foliage: FoliageField;
@@ -314,6 +318,7 @@ export class WorldScene {
       // first view needs (A72); WorldScene.open() lets it in.
       let letIn!: () => void;
       const opened = new Promise<void>((resolve) => { letIn = resolve; });
+      const late: Promise<unknown>[] = [];
       // What arrives later has its shaders compiled in parallel before it is shown (A78); the app supplies how.
       const ready = <T extends SceneModule>(module: T): Promise<T> =>
         (warming.warm?.(module.group) ?? Promise.resolve()).then(() => module, () => module);
@@ -323,10 +328,10 @@ export class WorldScene {
       if (furnishing) {
         // A world disposed before they arrive builds nothing from them (A87 scout): building and preparing them only to
         // throw them away cost the next world a spike and seconds of uploads.
-        void opened.then(() => loadFurniture()).then(
+        late.push(opened.then(() => loadFurniture()).then(
           (templates) => disposed ? undefined : ready(buildFurniture(templates, terrain.rooms, (room) => roomOpen(room))).then((module) => furnishing.attach(module)),
           (error) => console.warn('[furniture] the furniture could not be loaded; the rooms stay bare', error))
-          .catch((error) => console.warn('[furniture] the furniture could not be set up; the rooms stay bare', error));
+          .catch((error) => console.warn('[furniture] the furniture could not be set up; the rooms stay bare', error)));
       }
       await checkpoint('settlement', 'Hunter supplies and caravan');
       const hunterSupplies = buildHunterSupplies(terrain, colliders);
@@ -337,10 +342,10 @@ export class WorldScene {
       const arriving = animalTemplates ? null : deferredWildlife();
       const animals: AnimalWildlife = addModule('land wildlife', arriving ?? buildAnimals(ctx, animalTemplates!));
       if (arriving) {
-        void opened.then(() => loadAnimalTemplates()).then(
+        late.push(opened.then(() => loadAnimalTemplates()).then(
           (templates) => disposed ? undefined : ready(buildAnimals(ctx, templates)).then((module) => arriving.attach(module)),
           (error) => console.warn('[wildlife] the animals could not be loaded; the world goes on without them', error))
-          .catch((error) => console.warn('[wildlife] the animals could not be set up; the world goes on without them', error));
+          .catch((error) => console.warn('[wildlife] the animals could not be set up; the world goes on without them', error)));
       }
       await checkpoint('settlement', 'Buildings, supplies and wildlife', 1, 1);
       // Register accepted source rocks and constructed thresholds before painting their ground contacts.
@@ -401,7 +406,7 @@ export class WorldScene {
       checkCancelled(options.signal);
       const world = new WorldScene(state, library, {
         scene, terrain, colliders, sky, water, sway, modules, environment, scenery, animals, terrainMesh,
-        physics, nav, lanternLights, dust, dustData, riteResponse, foliage, buildMs: performance.now() - t0, disposeOwned, letIn, warming, quality: settings.quality,
+        physics, nav, lanternLights, dust, dustData, riteResponse, foliage, buildMs: performance.now() - t0, disposeOwned, letIn, arrived: Promise.allSettled(late).then(() => undefined), warming, quality: settings.quality,
       });
       roomOpen = (room) => world.roomOpen(room);
       phase('finishing', 'Scene ready', 1, 1);
@@ -421,6 +426,7 @@ export class WorldScene {
     this.water = resources.water;
     this.sway = resources.sway;
     this.modules = resources.modules;
+    this.arrived = resources.arrived;
     this.groundcover = (resources.modules.find((m) => m.name === 'groundcover')?.module as Groundcover | undefined) ?? null;
     this.environment = resources.environment;
     this.scenery = resources.scenery;

@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { ANIMAL_IDS, ANIMAL_MODEL_IDS, ANIMAL_SPECIES, isHuntableAnimalId, type AnimalId, type AnimalHuntRecord, type HuntingState } from '../../../game/hunting';
+import { ANIMAL_IDS, ANIMAL_MODEL_IDS, ANIMAL_SPECIES, SKINNING_REACH, isHuntableAnimalId, type AnimalId, type AnimalHuntRecord, type HuntingState } from '../../../game/hunting';
 import type { Collider } from '../../../world/colliders';
 import type { AnimalDefinition } from '../catalog';
 import { AnimalCorpse, type CorpseBody } from './corpse';
@@ -149,7 +149,11 @@ export class AnimalHunting {
       const exitZ = Math.abs(this.direction.z) > 1e-5 ? ((this.direction.z > 0 ? b.max.z + .38 : b.min.z - .38) - target.z) / this.direction.z : Infinity;
       reach = Math.max(reach, Math.min(exitX, exitZ) + .01);
     }
-    const x = target.x + this.direction.x * reach, z = target.z + this.direction.z * reach;
+    let x = target.x + this.direction.x * reach, z = target.z + this.direction.z * reach;
+    // The stance stays within the skinning reach of where the carcass is recorded (A96 scout): beyond a stag's antlers it
+    // lay up to 3.3 m off, where both the prompt and the command call it too far, and the prompt vanished on approach.
+    const record = resident.record.position, limit = SKINNING_REACH - 0.45, off = Math.hypot(x - record.x, z - record.z);
+    if (off > limit) { x = record.x + (x - record.x) * limit / off; z = record.z + (z - record.z) * limit / off; }
     return { target, stance: { x, y: this.terrain.heightAt(x, z), z }, yaw: Math.atan2(target.x - x, target.z - z), ready: corpse.ready };
   }
   setRunning(value: boolean) { this.running = value && !this.disposed; }

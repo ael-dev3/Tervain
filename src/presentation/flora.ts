@@ -14,6 +14,7 @@ import { CROWN_FLOOR, CrownIndex, type CameraCrown } from './cameraCrowns';
 import { attachInstanceDistanceVisibility, smoothDistanceFade, type InstanceDistanceVisibility } from './distanceVisibility';
 import type { PhysicalWoodGeometry } from '../world/physicsGeometry';
 import { FOLIAGE_RESPONSE, type FoliageResponse } from './foliage/foliageWind';
+import { SHADER_CLOCK_WRAP } from './grass/wind';
 import { crownOf, installFoliage, installFoliageShadow, type InstalledFoliage } from './foliage/foliageMaterial';
 import { shadowDepthMaterial, shadowGeometry } from './foliage/shadowCasters';
 import { createLeafBurst } from './foliage/leafBurst';
@@ -469,9 +470,13 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
       const height = variant.height * tree.s;
       const amp = THREE.MathUtils.clamp(strength * 6 / Math.max(height, 1), 0.12, 1.2);
       const slots = field.shakes.value;
+      // The slot struck longest ago is reused, its age read across the shader clock's wrap (A95 scout): by raw stamps,
+      // after the wrap at 2^14 s the slot just written looked oldest, and only the latest struck tree shook.
+      const now = field.wind.uniforms.uGrassTime.value;
+      const age = (i: number) => slots[i]!.w <= 0 || slots[i]!.z < 0 ? Infinity : (now - slots[i]!.z + SHADER_CLOCK_WRAP) % SHADER_CLOCK_WRAP;
       let oldest = 0;
-      for (let i = 1; i < slots.length; i++) if (slots[i]!.z < slots[oldest]!.z) oldest = i;
-      slots[oldest]!.set(tree.x, tree.z, field.wind.uniforms.uGrassTime.value, amp);
+      for (let i = 1; i < slots.length; i++) if (age(i) > age(oldest)) oldest = i;
+      slots[oldest]!.set(tree.x, tree.z, now, amp);
       if (variant.lods[0].leaf && burst) burst.release(tree.x, tree.y + height * 0.62, tree.z, Math.max(0.5, height * 0.28), Math.round(3 + amp * 7));
       return true;
     },
@@ -533,6 +538,15 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
       }
       for (const material of casterMaterials) material.dispose();
       for (const geometry of casterGeometries) geometry.dispose();
+      // The reflection stand-ins hold the renderer's vertex-array states for this world (A95 scout: kept on every rebuild).
+      // Their buffers belong to the middle models, which may outlive this world, so they are let go first: disposing
+      // then frees only the stand-ins' own states.
+      for (const proxy of reflectionProxies.values()) {
+        for (const name of Object.keys(proxy.attributes)) proxy.deleteAttribute(name);
+        proxy.setIndex(null);
+        proxy.dispose();
+      }
+      reflectionProxies.clear();
       for (const material of profileMaterials) material.dispose();
       profileMaterials.clear();
       woodTrees.clear();

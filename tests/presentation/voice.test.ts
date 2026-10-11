@@ -285,7 +285,7 @@ describe('a new journey in the same session (A86 scout)', () => {
 });
 
 describe('the hero keeps his remarks for a pause', () => {
-  it('waits for a conversation to finish before remarking, and drops a remark that has waited too long', () => {
+  it('waits for a conversation to finish before remarking, however long, when the remark is said only once', () => {
     const said: string[] = [];
     const d = new SpeechDirector({ say: (line) => { said.push(line); return 4; }, caption: () => {} });
     const s = createInitialState('slot-1');
@@ -295,13 +295,64 @@ describe('the hero keeps his remarks for a pause', () => {
     expect(said).toEqual(['bess.intro']);
     for (let t = 0; t < 1; t += 0.05) d.update(0.05);
     expect(said).toEqual(['bess.intro', 'hero.arrival.bell']);
-    // A remark due during a long exchange is let go after twenty seconds.
+    // A once-only remark due during a long exchange waits it out (A96 scout): its moment does not come again.
     const long = new SpeechDirector({ say: (line) => { said.push(line); return line.startsWith('hero') ? 1 : 30; }, caption: () => {} });
     said.length = 0;
     long.talk('village_baker', () => ({ x: 0, y: 0, z: 0 }), s);
     long.hero('beast', { delay: 0.5 });
-    for (let t = 0; t < 40; t += 0.05) long.update(0.05);
+    for (let t = 0; t < 29; t += 0.05) long.update(0.05);
     expect(said).toEqual(['hesper.intro']);
+    for (let t = 0; t < 11; t += 0.05) long.update(0.05);
+    expect(said).toEqual(['hesper.intro', 'hero.beast']);
+    // One said again after a while is still let go after twenty seconds: there will be another chance.
+    const again = new SpeechDirector({ say: (line) => { said.push(line); return line.startsWith('hero') ? 1 : 30; }, caption: () => {} });
+    said.length = 0;
+    again.talk('village_baker', () => ({ x: 0, y: 0, z: 0 }), s);
+    again.hero('beast', { delay: 0.5, again: 60 });
+    for (let t = 0; t < 40; t += 0.05) again.update(0.05);
+    expect(said).toEqual(['hesper.intro']);
+  });
+});
+
+describe('nobody over anybody (A96 scout)', () => {
+  const at = () => ({ x: 0, y: 0, z: 0 });
+  it('starts an overheard scene after the hero has finished his remark', () => {
+    const said: { line: string; t: number }[] = [];
+    let clock = 0;
+    const d = new SpeechDirector({ say: (line) => { said.push({ line, t: clock }); return line.startsWith('hero') ? 5 : 2; }, caption: () => {} });
+    const step = (seconds: number) => { for (let t = 0; t < seconds; t += 0.05) { clock += 0.05; d.update(0.05); } };
+    d.hero('place.quarry', { delay: 1.2 });
+    step(2);
+    const scene = SCENES.find((x) => x.id === 'quarry.waiting')!;
+    expect(d.scene(scene, 0, at)).toBe(true);
+    step(10);
+    const hero = said.find((x) => x.line.startsWith('hero'))!, first = said.find((x) => !x.line.startsWith('hero'))!;
+    expect(first.t).toBeGreaterThanOrEqual(hero.t + 5);
+  });
+
+  it('keeps a bystander quiet through a conversation and another resident’s bark', () => {
+    const d = new SpeechDirector({ say: () => 3, caption: () => {} });
+    d.talk('quarry_foreman', at, createInitialState('slot-1'));
+    d.update(0.1);
+    expect(d.remark('quarry_hand', 'pell.bark.dust', at())).toBe(0);
+    const e = new SpeechDirector({ say: () => 3, caption: () => {} });
+    expect(e.remark('mill_hand', 'bess.bark.wheel', at())).toBeGreaterThan(0);
+    expect(e.remark('quarry_hand', 'pell.bark.dust', at())).toBe(0);
+  });
+
+  it('keeps a once-only remark through a pause, and lets it go on a load', () => {
+    const said: string[] = [];
+    const d = new SpeechDirector({ say: (line) => { said.push(line); return 2; }, caption: () => {} });
+    d.hero('place.rillford', { delay: 1 });
+    d.clear({ keepRemarks: true });
+    for (let t = 0; t < 4; t += 0.05) d.update(0.05);
+    expect(said).toEqual(['hero.place.rillford']);
+    const e = new SpeechDirector({ say: (line) => { said.push(line); return 2; }, caption: () => {} });
+    said.length = 0;
+    e.hero('place.rillford', { delay: 1 });
+    e.clear();
+    for (let t = 0; t < 4; t += 0.05) e.update(0.05);
+    expect(said).toEqual([]);
   });
 });
 

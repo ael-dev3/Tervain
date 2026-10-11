@@ -349,6 +349,7 @@ describe('the forest with wind, shadow-only casters and strikes', () => {
       expect(middles.some((o) => o.geometry.index === m.geometry.index && o.geometry.getAttribute('position') === m.geometry.getAttribute('position'))).toBe(true);
       expect(m.geometry.getAttribute('aDistanceCoverage')).toBe(before[i]!.getAttribute('aDistanceCoverage'));
     }
+    const proxies = full.map((m) => m.geometry);
     restore();
     full.forEach((m, i) => expect(m.geometry).toBe(before[i]));
     // An arrow in the trunk shakes it and knocks leaves loose; one in open air hits nothing.
@@ -366,7 +367,18 @@ describe('the forest with wind, shadow-only casters and strikes', () => {
     // Four slots: the oldest strike makes way.
     for (let i = 0; i < 6; i++) forest.strike(tree.x, ground + 1, tree.z, 1, tree.collisionId!);
     expect(f.shakes.value.filter((s) => s.w > 0)).toHaveLength(FOLIAGE_MAX_SHAKES);
+    // Across the shader clock's wrap the slot struck longest ago still makes way, not the one just written (A95 scout).
+    f.shakes.value.forEach((slot, i) => { slot.z = 16370 + i; });
+    f.wind.uniforms.uGrassTime.value = 5;
+    forest.strike(tree.x, ground + 1, tree.z, 1, tree.collisionId!);
+    expect(f.shakes.value.map((slot) => slot.z)).toEqual([5, ...Array.from({ length: FOLIAGE_MAX_SHAKES - 1 }, (_, i) => 16371 + i)]);
+    forest.strike(tree.x, ground + 1, tree.z, 1, tree.collisionId!);
+    expect(f.shakes.value.map((slot) => slot.z)).toEqual([5, 5, ...Array.from({ length: FOLIAGE_MAX_SHAKES - 2 }, (_, i) => 16372 + i)]);
+    const shared = full.map((m) => m.geometry.getAttribute('position'));
     forest.dispose!();
+    // The reflection stand-ins are let go with the world, without taking the shared vertex buffers along (A95 scout).
+    for (const proxy of proxies) expect(Object.keys(proxy.attributes)).toHaveLength(0);
+    for (const position of shared) expect(position).toBeDefined();
     f.wind.dispose();
     vi.unstubAllGlobals();
   });
