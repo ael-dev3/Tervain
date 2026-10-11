@@ -832,3 +832,7 @@ production build successfully. This validation covers work through the earlier
 modifier checkpoint, not the newer class and identifier continuations. The
 previous lighthouse timeout receipt remains distinct from this successful run.
 Newer work remains local. Complete startup and campaign completion are unfinished.
+
+The two browser startup fixtures now expect the actual identifier boundary
+`306993a2`. All six checks across both browser fixture files pass. These are
+browser-service unit checks, not a visual browser observation or campaign proof.
