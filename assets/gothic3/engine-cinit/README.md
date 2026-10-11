@@ -3374,3 +3374,8 @@ Captured the original `eCPostProcessingAdmin` initializer at `307325b0`, its con
 ## Post-processing administrator runtime continuation
 
 The TypeScript startup frame now executes the captured `eCPostProcessingAdmin` callback through its original constructor, CString creation, shutdown registration and root publication. Normal startup reaches the next unsupported callback `307325c0`, initializer cursor `0x1c8`, and 51 shutdown registrations (204 bytes in the existing 256-byte table). An interrupted callback store retains the original caller, cursor at 200 bytes, held exit lock and unpublished root. Typechecking and two focused continuation checks passed locally; production build and broader integration are separate outstanding checks for this change. Full engine startup and campaign completion remain unfinished.
+
+
+## GUI, scene, entity and animation property continuation
+
+Eight contiguous original callbacks `307325c0` through `30732630` now execute through the existing property constructor path: eCGUIModule, eCTriggerBase_PS, eCSceneAdmin, eCEffector, eCEntityProxy, eCSpringAndDamperEffector, eCVisualAnimation_PS and bCAnimationResourceString. Callback table words, constructor bytes and shutdown bodies were verified against the matching local Engine DLL. Earlier captured methods remain unchanged. Typechecking and two focused checks passed: normal return reaches the unsupported enum-template callback `30732640` with initializer cursor `0x1e8`, 59 shutdown registrations and a 256-byte table; interrupted final callback registration retains cursor 232, initializer cursor `0x1e4`, its caller, held lock and unpublished root. Broader checks and a production build are separate checks. Full startup and campaign completion remain unfinished.
