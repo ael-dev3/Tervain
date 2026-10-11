@@ -38,6 +38,7 @@ def capture(study):
         0x3067e45d: 'engineExitTableSize',
         0x3001c3c8: 'engineVisualAnimationFloatPropertyType',
         0x30016fea: 'engineVisualAnimationSecondPropertyType',
+        0x30015bef: 'engineVisualAnimationThirdPropertyType',
         0x306713ae: 'enginePropertyTypeNameWrapper',
         0x3067da97: 'enginePropertyTypeName',
         0x3069b26b: 'engineUndecorateName',
@@ -98,7 +99,8 @@ def capture(study):
                ('engineMultibyteInitializer',0x30685007,0x30685025,8),
                ('engineSse2ControlInitializer',0x3069c552,0x3069c55f,4),
                ('engineVisualAnimationFloatInitializer',0x307322b0,0x307322bb,3),
-               ('engineVisualAnimationSecondPropertyInitializer',0x307322c0,0x307322cb,3)]
+               ('engineVisualAnimationSecondPropertyInitializer',0x307322c0,0x307322cb,3),
+               ('engineVisualAnimationThirdPropertyInitializer',0x307322d0,0x307322db,3)]
     collected={begin:[] for _,begin,_,_ in recovered}
     asm=study/'01_Decompiled_Code/Engine_dll/full_disassembly.asm'
     for number,line in enumerate(asm.open('rb'),1):
@@ -206,6 +208,13 @@ def capture(study):
             break
     else:
         raise ValueError('Unterminated original second visual animation type info')
+    third_type_info_size=8
+    for offset in range(4096):
+        third_type_info_size+=1
+        if pe.bytes(0x30aa29fc+8+offset,1)==b'\0':
+            break
+    else:
+        raise ValueError('Unterminated original third visual animation type info')
     images = []
     for label, address, size in [
         ('floatingPointCallback', 0x30892ac0, 4),
@@ -243,6 +252,10 @@ def capture(study):
         ('visualAnimationSecondRoot', 0x30ad9e34, 4),
         ('visualAnimationSecondStorage', 0x30ad99e0, 8),
         ('visualAnimationSecondTypeInfo', 0x30aa29e0, second_type_info_size),
+        ('visualAnimationThirdFlags', 0x30ad99f4, 4),
+        ('visualAnimationThirdRoot', 0x30ad9e30, 4),
+        ('visualAnimationThirdStorage', 0x30ad99ec, 8),
+        ('visualAnimationThirdTypeInfo', 0x30aa29fc, third_type_info_size),
     ]:
         rva = address-pe.base
         section = next(s for s in pe.sections if s[1] <= rva and rva+size <= s[1]+max(s[0],s[2]))

@@ -1487,3 +1487,32 @@ active on frozen revision `80f90a64de485c9778e75db45c9f77e57db8e95a`, which
 includes construction but predates this publication continuation. These changes
 remain local. The next initializer, full engine startup and browser campaign
 completion with persistent saves remain unfinished.
+
+### 2026-10-11: original third visual-animation property dispatch
+
+The reproducible source package now captures the `307322d0` initializer,
+`30015bef` thunk and its `300765d0` property body, plus separate root, storage,
+flags and the eleven-byte `.H` RTTI image. Captured encodings agree with the
+pinned Engine DLL. The package contains 88 Engine bodies and 3,564 body
+instructions. Independent regeneration produced byte-identical JSON and
+TypeScript (SHA-256 `aef6b166435b363984fc8bb2094507cbbef92be51e230bf453571b915701a969`
+and `21628b4e42e249b30734a54f31744b84ebabb8cabd07d5ab48ea04c74050c8b2`).
+
+The third initializer preserves its actual arguments through the original
+property and type-name callers. Its original undecoration helpers obtain lock
+5, allocate a new owned parser arena, construct the parser and consume type code
+H. The original readonly case map selects the int literal branch at `3069b41c`
+after 8,836 source operations. That literal branch has not executed. The first
+float and second bCString properties remain published with their allocations
+and shutdown entries retained; the third property flags are three, its root is
+still NULL, and its parser arena is live with lock 5 held.
+
+Type checking passed. Four selected execution/source/image checks passed in
+13.17 seconds; all forty source/image checks passed in 7.52 seconds and six
+browser startup checks in 29.94 seconds. Unknown third-cache bytes stop at the
+original comparison `3067daa8`, retaining the third caller and both published
+properties. The combined validation continues on frozen revision
+`80f90a64de485c9778e75db45c9f77e57db8e95a`, which predates second-property
+publication and this third-property dispatch. These additions remain local.
+Third-property completion, full engine startup and playable browser campaign
+completion with save/reload remain unfinished.

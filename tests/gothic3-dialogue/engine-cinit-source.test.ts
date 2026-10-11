@@ -134,3 +134,7 @@ it('pins the original node-to-list and list constructor entries',()=>{
  expect(engineCinitInstruction('30696ec9','30696ec9').bytes).toBe('8b542404');
  expect(engineCinitInstruction('30696e63','30696e63').bytes).toBe('8bc1');
 });
+
+it('pins the third visual-animation property initializer and int type arguments',()=>{
+ expect(engineCinitTableTarget('cppInitializers','307bb10c')).toBe('307322d0');expect(engineCinitInstruction('307322d0','307322d5').bytes).toBe('a3309ead30');expect(engineCinitInstruction('30015bef','30015bef').bytes).toBe('e9dc090600');expect(engineCinitInstruction('30015bef','300765f9').bytes).toBe('b9fc29aa30');expect(engineCinitInstruction('30015bef','30076614').bytes).toBe('686df50230');
+});
