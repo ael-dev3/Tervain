@@ -1743,3 +1743,26 @@ This checkpoint is local. Combined validation is still live on frozen revision
 `6a6de81b6f535c855a9ac8b3c12510b9186d99d5`, which predates the writer and
 subsequent int stages. Third-property publication, full engine startup and
 complete browser campaign persistence remain unfinished.
+
+
+## 2026-10-11: original int SharedBase name search
+
+The third constructor now preserves the actual cached name and destination
+arguments across the original SharedBase UnMangle import. Its original literal
+search and scalar DWORD character search inspect `int\0`, find no space, detect
+the terminator through the original high-byte predicate, restore the physical
+search frame and return NULL. Execution reaches `10091560` after 9,757 source
+operations. The outer UnMangle call is pending; the third CString is not yet
+constructed. The cache remains live and the prior locks remain released.
+
+TypeScript checking passed. Two focused runtime checks passed in 13.18 seconds.
+The normal search returns NULL with its physical caller returned. An unknown
+cache character stops at `100a7343`, retaining both search and UnMangle callers
+and the live cache. Six browser startup checks passed in 48.47 seconds. Every
+executed search instruction is checked against the existing retained original
+SharedBase instruction records; the source package is unchanged.
+
+This checkpoint is local. Combined validation remains live on frozen
+`6a6de81b6f535c855a9ac8b3c12510b9186d99d5`, predating the writer and later
+int stages. Third-property CString construction/publication, full engine startup
+and complete browser campaign persistence remain unfinished.
