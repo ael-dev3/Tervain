@@ -3146,3 +3146,27 @@ methods, images and unchanged sections. Evidence: 150 methods, 4,009 instruction
 JSON SHA-256 `1bcb11ad9fc00749c82ce7983340c42a1a8d46531f7165745effa3a134f3545e`.
 The preceding component/main combination is still in full-suite validation in a
 separate checkout. This local checkpoint has not been deployed.
+
+
+## 11 October 2026: original box and resource/cache properties
+
+Original callbacks `307323e0` through `30732450` now complete bCBox,
+eCProcessibleElement, eCEntityPropertySet, eCBaseCache,
+eCResourceStorageContext, eCResourceBase_PS, eCMainCache and eCResourceAdmin
+property initialization. Their original bodies, image storage, RTTI, flags,
+roots and shutdown routines are retained. Twenty-seven distinct property
+CStrings remain live. Exit entries twenty-two through twenty-nine are registered,
+the exit cursor reaches 116 and the C++ cursor reaches `0x170`. Startup stops at
+`30732460`, the `bTPropertyObject<eCMainCache, bCObjectRefBase>` initializer.
+Complete startup and campaign play remain unfinished.
+
+The resource run passed 42 selected normal/guard/allocation checks; the two new
+byte-tail interruption cases passed after correcting their test-mock buffer
+offsets. Fourteen earlier interrupted-copy regression cases also passed.
+Typechecking, all 77 source/image/browser checks and the production build passed.
+Independent generated JSON and TypeScript match exactly; every earlier evidence
+record is retained unchanged. Evidence now contains 182 methods and 4,233
+instructions. JSON SHA-256:
+`48272ead5a4c381198f7a6d5a6d5e46551463b4de78c048944c22afc54dbe63b`.
+The preceding component/main combination remains under separate full-suite
+validation. This resource checkpoint is local and has not been deployed.
