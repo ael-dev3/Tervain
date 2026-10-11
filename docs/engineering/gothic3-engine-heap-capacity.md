@@ -2295,3 +2295,20 @@ camera calls from the new pending name/data calls, checks the actual masked
 RTTI byte and preserves same-owner arena membership and internal field state.
 Source packages are unchanged. This local checkpoint does not establish full
 startup or campaign completion with save/reload.
+
+
+2026-10-11 — original reference-base qualifier decoding (local)
+
+Executed the decorated-type decoder prolog, actual `A` qualifier read, original
+classification arithmetic and cursor increment to offset 11. Its temporary
+constructor is pending at `306976b2` after 14,606 instructions. The original
+push/pop sets ESI to 32 and EAX to `fffffff8` on this path. Lock 5 remains held;
+the new root remains null and the camera string/root/registration stay intact.
+
+Validation: TypeScript checking, the strengthened normal runtime check, six
+browser startup checks and an unknown-qualifier check passed. Unknown RTTI byte
+10 stops at `3069aadf`, leaves the decorated-type caller pending, retains the
+cursor at 10 and does not enter the qualifier temporary constructor. The byte
+mask remains unknown; the new root stays known null. Source packages are
+unchanged. This local checkpoint does not establish complete engine startup
+or campaign completion with save/reload.
