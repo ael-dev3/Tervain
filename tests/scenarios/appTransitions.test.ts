@@ -814,8 +814,15 @@ describe('actual application world transitions', () => {
     const staged = { ...nextWorld(), colliders: [], update: vi.fn() };
     Reflect.set(app, 'buildWorld', vi.fn(async () => Reflect.set(app, 'world', staged)));
     const compiled = deferred<void>();
-    const compileAsync = vi.fn(() => compiled.promise);
-    Reflect.set(app, 'renderer', { compileAsync, getContext: vi.fn(() => undefined) });
+    // A108: the first view is compiled into the grade's target, as it is drawn: compiled for the canvas, every program was
+    // made again inside the first draw.
+    const gradeTarget = { isRenderTarget: true };
+    let target: unknown = null;
+    const targets: unknown[] = [];
+    const compileAsync = vi.fn(() => { targets.push(target); return compiled.promise; });
+    Reflect.set(app, 'renderer', { compileAsync, getContext: vi.fn(() => undefined), shadowMap: { enabled: false },
+      getRenderTarget: () => target, setRenderTarget: (t: unknown) => { target = t; } });
+    Reflect.set(app, 'grade', { ...Reflect.get(app, 'grade'), enabled: true, target: gradeTarget });
     const camera = new THREE.PerspectiveCamera();
     Object.assign(app.cam, { camera, follow: vi.fn() });
     const render = vi.fn();
@@ -823,7 +830,9 @@ describe('actual application world transitions', () => {
     const paints: FrameRequestCallback[] = [];
     vi.stubGlobal('requestAnimationFrame', vi.fn((callback: FrameRequestCallback) => { paints.push(callback); return paints.length; }));
     call('startNew');
-    await vi.waitFor(() => expect(compileAsync).toHaveBeenCalledWith(staged.scene, camera));
+    await vi.waitFor(() => expect(compileAsync).toHaveBeenCalledWith(staged.scene, camera, staged.scene));
+    expect(targets).toEqual([gradeTarget]);
+    expect(target).toBeNull();
     expect(staged.update).toHaveBeenCalledWith(0, app.game.state, expect.any(THREE.Vector3), app.settings, expect.any(Number), camera, false);
     expect(render).not.toHaveBeenCalled();
     expect(app.mode).toBe('title');
