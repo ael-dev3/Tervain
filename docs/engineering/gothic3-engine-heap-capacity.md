@@ -1308,3 +1308,24 @@ suite is still active on its frozen revision. PR 248's Pages deployment
 `38119510962` completed successfully; these native changes remain local.
 Actual arena release, lock release, second-property publication and complete
 engine startup/campaign play remain unfinished.
+
+
+### 2026-10-11: original second arena and lock release
+
+The original arena-free callback verifies the exact owned 4,104-byte base and
+frees it. The destructor follows the actual NULL chain terminator, returns
+through its physical caller, and the original finally routine releases lock 5.
+The EH epilog restores the saved registers and FS state, and returns the live
+class-name output to `3067dacb` after 7,722 admitted source operations. The
+separate 16-byte output is still live. Outer type-name processing, lock 14
+release and second-property publication remain pending.
+
+Arena assertions now use observations captured immediately before the real
+release, retaining the actual allocation identity. Native reads through the
+freed view are explicitly rejected. An interrupted release retains the live
+arena, pending destructor/free calls, held parser lock and completed output.
+Type checking passed; eight focused normal/fidelity/interruption checks passed
+in 29.43 seconds and six browser startup checks passed in 31.10 seconds. The
+earlier combined suite remains active on an older frozen revision. This
+continuation is local, not deployed, and full startup/campaign play remains
+unproven.
