@@ -2636,3 +2636,157 @@ production build passed, and the validation process exited zero. This evidence
 covers the reference-base undecoration return boundary `3067dacb`, not the
 newer local cache and SharedBase continuations. Complete engine startup and a
 finishable browser campaign remain incomplete. This combined revision is local.
+## Local continuation — 11 October 2026: reference-base name length scan
+
+The reference-base type-name caller now scans its live 24-byte undecoration
+output through original routine `30679ad0` and returns length 21 at `3067dae2`
+after 17,723 admitted operations. Its 22 initialized bytes contain
+`class bCObjectRefBase` followed by NUL; both padding bytes remain unknown.
+Changing their stored bits to zero or 255 preserves the measured length. An
+unknown terminator stops at the original ambiguous DWORD predicate without
+returning the current scan or overwriting the earlier measured length.
+
+The admitted scan matches the captured camera continuation after normalizing
+its stack helper and diagnostic wording. The reference-base property wrapper's
+call at `30076773` now retains return address `30076778`, matching the original
+five-byte CALL and following PUSH instruction; it previously retained the
+camera wrapper's return address. The wrapper itself remains pending.
+
+Typechecking, four focused runtime checks and six browser startup checks pass.
+These results are local; the earlier combined full-suite process remains live.
+Type-name cache publication, complete startup, world activation and a finishable
+browser campaign remain incomplete.
+
+
+## Local continuation — 11 October 2026: reference-base cache allocations
+
+The original caller inspects the last character of its measured 21-character
+name, acquires CRT lock 14, verifies the reference-base type-info cache slot is
+NULL, and allocates an eight-byte list node. Its original arithmetic derives
+a 22-byte text allocation with physical capacity 24. Both allocations remain
+uninitialized and live, separate from the live undecoration output and the
+previous camera cache. Execution stops before publication at `3067db21` after
+17,749 admitted operations; lock 14 remains held.
+
+Unavailable node or text allocation retains the actual pending malloc call,
+original output and held lock. The cache slot remains NULL. The allocation
+continuation matches the previously captured camera span without code changes.
+Typechecking, six runtime checks and six browser startup checks pass locally.
+Cache publication and copy, complete engine startup and a finishable campaign
+remain outstanding. These changes have not been deployed.
+
+
+## Local continuation — 11 October 2026: reference-base bounded cache copy
+
+The original type-name caller publishes its actual 22-byte cache allocation in
+the reference-base type-info slot and passes it, its derived capacity and the
+live undecoration output to `3068a84a`. The captured bounded copier writes
+`class bCObjectRefBase` followed by NUL, restores its saved registers and returns
+status zero through its physical caller. Execution stops before list linking
+at `3067db48` after 17,955 admitted operations. The cache node remains
+uninitialized, the prior camera list root remains intact, and lock 14 is held.
+
+An unknown ninth source byte or interrupted ninth destination write leaves the
+actual eight-byte prefix `class bC`, unknown remaining destination bytes and the
+pending copier call. The live output and cache allocation are retained. No
+successful return or cleanup is fabricated. The admitted publication/copy span
+matches the captured camera continuation without code changes.
+
+Typechecking, eight focused runtime checks and six browser startup checks pass
+locally. List linking, output release, type-name return, complete startup and a
+finishable campaign remain outstanding. These changes are not deployed.
+
+
+## Local continuation — 11 October 2026: reference-base cache list linking
+
+The original caller reloads the published reference-base cache text, stores it
+in the new list node, copies the actual prior camera list root into that node's
+next field and publishes the new node as the list root. The existing camera
+chain remains live. Execution stops before output release at `3067db62` after
+17,962 admitted operations. Both cache allocations and the temporary output
+remain live, and CRT lock 14 remains held.
+
+Interrupted next-field publication preserves the prior root and known text
+link. Interrupted root publication retains the actual prior root in the new
+node's next field; the interrupted root store has invalidated opaque pointer
+authority, so its destination remains unknown rather than being presented as
+an established old or new pointer. Neither failure fabricates cleanup.
+The admitted list-link span matches the captured camera continuation unchanged.
+
+Typechecking and six browser startup checks pass. Nine of ten selected runtime
+checks passed in the first run; after correcting the root-failure observation,
+both link-interruption checks passed. All ten distinct runtime checks therefore
+have passing evidence across these runs. Output release, type-name return,
+complete startup and a finishable browser campaign remain outstanding. This
+checkpoint is local and has not been deployed.
+
+
+## Local continuation — 11 October 2026: reference-base type-name cleanup and return
+
+The original caller releases its actual temporary 24-byte undecoration output,
+runs the lock-14 finally helper, reloads the live 22-byte cache pointer and
+executes its EH epilog and wrapper return. It returns through the physical
+reference-base caller at `30076778` after 17,988 admitted operations. The cache
+node and text remain live and linked; both locks are released. The restored
+ESI retains the actual initializer cursor owner and offset. The released
+output no longer grants canonical allocation access.
+
+Unavailable output release preserves the live output and held lock. Unavailable
+unlock preserves the freed-output state, live published cache and held lock.
+Both cases retain the pending property caller. The cleanup/return span matches
+the captured camera continuation with only its original caller return address
+changed from `30076708` to `30076778`.
+
+Typechecking and six browser startup checks pass locally. Eleven of twelve
+selected runtime checks passed initially; the normal check then passed after
+updating its remaining pending-return assertion and checking actual restored
+ESI. All twelve distinct selected checks have passing evidence across the runs.
+The SharedBase UnMangle conversion, property CString construction, shutdown
+registration, complete startup and finishable campaign remain outstanding.
+This checkpoint is local and has not been deployed.
+
+
+## Local continuation — 11 October 2026: reference-base SharedBase UnMangle
+
+The original reference-base caller pushes its live cache pointer and storage
+address, then enters the captured SharedBase UnMangle import. The original
+space search finds the actual space at offset 5 in `class bCObjectRefBase`.
+UnMangle advances that pointer to offset 6 and passes the suffix and actual
+reference-base storage to the captured CString constructor. Execution stops
+before the constructor thunk at `10003ba7` after 18,076 admitted operations.
+The UnMangle and constructor calls remain pending with their physical return
+addresses; the cache stays live and the earlier output remains freed.
+
+An unknown byte in either searched DWORD stops at the original XOR instruction
+rather than producing a guessed match. The admitted continuation matches the
+captured camera path after normalizing original wrapper instruction addresses.
+Typechecking and six browser startup checks pass locally. Four of five selected
+runtime checks passed initially; the normal check passed after distinguishing
+the new pending constructor call from the earlier completed camera call. All
+five distinct selected checks have passing evidence across these runs.
+
+CString construction, property publication, shutdown registration, complete
+startup and the finishable browser campaign remain outstanding. This work is
+local and has not been deployed.
+
+
+## Local continuation — 11 October 2026: reference-base CString length scan
+
+The captured SharedBase CString constructor receives the actual cache suffix at
+offset 6 and the reference-base storage destination. Its original byte scan
+reads all fifteen characters plus NUL, subtracts the actual same-allocation
+cursor offsets, and passes length 15 to its allocation routine. Execution stops
+before the allocator thunk at `10007d65` after 18,157 admitted operations.
+The constructor and allocation calls remain pending with physical return words.
+
+Unknown source byte 13 or terminator byte 21 stops at the original byte load,
+retaining the actual scan cursor and live cache; no guessed length or allocation
+is supplied. The admitted constructor span matches the captured camera
+continuation without code changes. Typechecking and six browser startup checks
+pass. Four of five selected runtime checks passed initially; the normal check
+passed after updating its allocation-call observation to the new pending call.
+All five distinct checks have passing evidence across those runs.
+
+CString allocation, byte copy, property publication, shutdown registration,
+complete startup and a finishable browser campaign remain outstanding. This
+checkpoint is local and has not been deployed.
