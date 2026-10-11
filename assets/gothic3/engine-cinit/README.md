@@ -3320,3 +3320,10 @@ Validation: four focused cases passed, including unknown copied last-character i
 The template-name parser now completes its captured return path: it appends the original closing character, evaluates the retained stack end-marker flag, restores all three saved parser contexts, copies the completed parsed value to the original output, unwinds its frame and physically returns to identifier continuation 30699365. The subsequent identifier continuation is still pending in this checkpoint. Native startup and the twenty-eighth CString remain incomplete.
 
 Validation: six focused normal/interruption cases passed; an additional direct before/after check verified all three restored contexts. TypeScript checking, 83 source/image/browser checks and the production build passed. An unknown end-marker flag stops at 306992bf before context restoration or output copy with the template caller pending. No deployment, complete startup or playable campaign is claimed.
+
+
+### Original completed template scoped-name return
+
+The scoped-name caller assigns the completed template value, validates its kind, reads its final @ delimiter, advances the raw RTTI cursor to its contained terminator at offset 65, and physically returns to the class-type caller at 306996a8. The class-type continuation remains pending in this checkpoint. No literal-name length or contiguous text-buffer metadata is invented for the nested template list. Native startup and the twenty-eighth CString remain incomplete.
+
+Validation: eight distinct focused normal/interruption cases passed across the seven-case run and the additional two-case delimiter check. An unknown final @ stops at 30699524 with the class caller pending and the cursor retained at 64. The saved parser contexts remain restored. TypeScript checking, 83 source/image/browser checks and the production build passed. The parser-image size assertion was also corrected to its captured 38-byte extent and passed its focused check. No deployment or campaign completion is claimed.
