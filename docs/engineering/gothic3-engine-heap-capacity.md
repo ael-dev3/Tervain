@@ -276,3 +276,21 @@ CString and first property shutdown slot. The unknown mask is not repaired.
 The preceding first-property combined revision's full suite is still running;
 this newer shared-prefix continuation remains local. Decoder execution, complete
 startup and a playable campaign through an ending remain unfinished.
+
+### Reused decoder entry and retained second parser call — 11 October 2026
+
+The matching decoder entry, 132-byte EH4 prolog, ensure/lock calls and original
+global/argument setup now share one continuation for both property calls. The
+second call acquires the same retained lock five, installs its actual allocator
+and free callbacks, clears the three original arena globals, and passes its
+bCString name arguments to parser construction. Execution stops at
+`3069b2d3 -> 3069747a` after 4,550 admitted operations. Lock five remains held;
+no second parser object, arena allocation or decoded name is supplied.
+
+Typechecking and nine distinct focused runtime/browser/regression checks pass.
+Failure of the second lock acquisition retains its real EH4 frame and pending
+call at `3069b295` after 4,533 operations, with the first CString and shutdown
+slot still present and no replay. The earlier combined first-property revision's
+full suite remains running. This newer decoder-prefix continuation is local;
+second parser execution, complete startup and a playable campaign through an
+ending remain unfinished.

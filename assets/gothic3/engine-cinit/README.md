@@ -541,3 +541,11 @@ the undecoration call `3069b26b` after 4,499 source operations. Ten focused
 runtime/browser/regression checks and typechecking pass. An unknown second
 cache field retains its pending comparison and first-property results. No second
 decoded name is invented; complete startup and campaign play remain unfinished.
+
+The local shared decoder prefix now executes the second 132-byte EH4 frame,
+retained lock-five acquisition and original global/parser-argument setup. The
+pending parser-construction call is `3069747a` after 4,550 source operations.
+Nine focused checks and typechecking pass, including second-lock failure without
+replay or loss of the first property. No second parser or decoded name is
+fabricated. Full startup, publication of this continuation and campaign play
+remain unfinished.

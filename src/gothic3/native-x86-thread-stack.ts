@@ -499,6 +499,32 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
                 name('3067dac4',()=>stack.#push(register('EAX')));name('3067dac5',()=>stack.#push(register('EBX')));
                 name('3067dac6',()=>{stack.#call('3067dac6','3067dacb');engineCinitInstruction('3069b26b','3069b26b');const esp=stack.#address(register('ESP'));stack.#engineCinitFrame!.typeNameArguments=Object.freeze(Array.from({length:6},(_,i)=>stack.#record(stack.#load(stack.#stack,esp+4+i*4))));});
       };
+      const runUndecorationPrefix=()=>{
+        const relative=(name:'ESP'|'EBP',offset:number)=>stack.#address(register(name))+offset;
+                const undecorate=(pc:string,body:()=>void)=>step(pc,body,'3069b26b');
+                const undecorationScope=NativeEngineCinitImages.imageForCrt(images.value,crt,'undecorationSehScope');if(!undecorationScope.known)throw new Error(undecorationScope.reason);
+                undecorate('3069b26b',()=>stack.#push(stack.#mint(0x84,0xffffffff)));
+                undecorate('3069b270',()=>stack.#push(stack.#mint(0,0,{kind:'source',type:'image',address:'30956ec0',fields:undecorationScope.value})));
+                undecorate('3069b275',()=>stack.#call('3069b275','3069b27a'));runEh4Prolog('3069b27a','undecoration',0x84);
+                undecorate('3069b27a',()=>{const word=stack.#load(stack.#stack,relative('EBP',0x14)),p=stack.#record(word).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!=='30672ec7')throw new Error('Actual original undecoration allocator required');setRegister('EDI',word);});
+                undecorate('3069b27d',()=>{setRegister('ESI',stack.#mint(0,0xffffffff));stack.#logicalFlags(0,0xffffffff,4);});
+                undecorate('3069b27f',()=>{const p=stack.#record(register('EDI')).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!=='30672ec7'||stack.#numeric(register('ESI'),4)!==0)throw new Error('Actual nonnull allocator comparison required');stack.#flags(0,0x841);});
+                undecorate('3069b281',()=>{});undecorate('3069b287',()=>stack.#push(stack.#mint(5,0xffffffff)));undecorate('3069b289',()=>{stack.#call('3069b289','3069b28e');if(stack.#numeric(stack.#load(stack.#stack,relative('ESP',4)),4)!==5)throw new Error('Original undecoration ensure-lock argument required');const result=NativeCrtBootstrap.engineCinitUndecorationLockForCrt(bootstrap,crt,permit,'ensure');if(!result.known)throw new Error(result.reason);if(result.value!==0&&result.value!==1)throw new Error('Actual CRT ensure-lock result required');hostReturn(stack.#mint(result.value,0xffffffff),0);});
+                undecorate('3069b28e',()=>pop('ECX'));let lockReady=0;undecorate('3069b28f',()=>{lockReady=stack.#numeric(register('EAX'),4);stack.#logicalFlags(lockReady,0xffffffff,4);});undecorate('3069b291',()=>{});
+                if(lockReady===0){undecorate('3069b283',()=>{setRegister('EAX',stack.#mint(0,0xffffffff));stack.#logicalFlags(0,0xffffffff,4);});undecorate('3069b285',()=>{});stack.#engineCinitFrame!.pc='3069b2ff';return {ready:false as const};}
+                undecorate('3069b293',()=>stack.#push(stack.#mint(5,0xffffffff)));
+                undecorate('3069b295',()=>{stack.#call('3069b295','3069b29a');if(stack.#numeric(stack.#load(stack.#stack,relative('ESP',4)),4)!==5)throw new Error('Original undecoration lock argument required');const result=NativeCrtBootstrap.engineCinitUndecorationLockForCrt(bootstrap,crt,permit,'lock');if(!result.known)throw new Error(result.reason);stack.#engineCinitFrame!.undecorationLockHeld=true;hostReturn(stack.#mint(0,0),0);});
+                undecorate('3069b29a',()=>pop('ECX'));undecorate('3069b29b',()=>stack.#store(stack.#stack,relative('EBP',-4),register('ESI')));
+                const globals=NativeEngineCinitImages.imageForCrt(images.value,crt,'undecorationGlobals');if(!globals.known)throw new Error(globals.reason);
+                undecorate('3069b29e',()=>stack.#store(globals.value,0,register('EDI')));
+                undecorate('3069b2a4',()=>setRegister('EAX',stack.#load(stack.#stack,relative('EBP',24))));undecorate('3069b2a7',()=>stack.#store(globals.value,4,register('EAX')));
+                for(const [pc,offset] of [['3069b2ac',16],['3069b2b2',8],['3069b2b8',12]] as const)undecorate(pc,()=>stack.#store(globals.value,offset,register('ESI')));
+                undecorate('3069b2be',()=>setRegister('EAX',stack.#mint(NativeHeapObjectViews.prototype.readUnsigned.call(stack.#stack,relative('EBP',28),2),0xffffffff)));
+                undecorate('3069b2c2',()=>stack.#push(register('EAX')));undecorate('3069b2c3',()=>stack.#push(register('ESI')));
+                for(const [pc,offset] of [['3069b2c4',16],['3069b2c7',12],['3069b2ca',8]] as const)undecorate(pc,()=>stack.#push(stack.#load(stack.#stack,relative('EBP',offset))));
+                undecorate('3069b2cd',()=>setRegister('ECX',stack.#stackWord(relative('EBP',-148))));undecorate('3069b2d3',()=>stack.#call('3069b2d3','3069b2d8'));
+        return {ready:true as const,undecorate,globals};
+      };
       const runExitRegistration=(callbackAddress:'30671144'|'3068e981'|'30011a40')=>{
             step('30671596',()=>{const esp=stack.#address(register('ESP')),argument=stack.#load(stack.#stack,esp+4),p=stack.#record(argument).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!==callbackAddress)throw new Error('Original Engine shutdown callback argument required');stack.#push(argument);},'30671596');
             step('3067159a',()=>stack.#call('3067159a','3067159f'),'30671596');
@@ -601,28 +627,7 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
                 const {name,relative,typeInfo,actualTypeInfo,cached}=runPropertyTypeNamePrefix(image('visualAnimationFloatTypeInfo'),image('visualAnimationFloatDefault'));
                 if(cached!==0){stack.#engineCinitFrame!.pc='3067db77';return known(undefined);}
                 preparePropertyUndecoration(name,actualTypeInfo);
-                const undecorate=(pc:string,body:()=>void)=>step(pc,body,'3069b26b');
-                const undecorationScope=NativeEngineCinitImages.imageForCrt(images.value,crt,'undecorationSehScope');if(!undecorationScope.known)throw new Error(undecorationScope.reason);
-                undecorate('3069b26b',()=>stack.#push(stack.#mint(0x84,0xffffffff)));
-                undecorate('3069b270',()=>stack.#push(stack.#mint(0,0,{kind:'source',type:'image',address:'30956ec0',fields:undecorationScope.value})));
-                undecorate('3069b275',()=>stack.#call('3069b275','3069b27a'));runEh4Prolog('3069b27a','undecoration',0x84);
-                undecorate('3069b27a',()=>{const word=stack.#load(stack.#stack,relative('EBP',0x14)),p=stack.#record(word).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!=='30672ec7')throw new Error('Actual original undecoration allocator required');setRegister('EDI',word);});
-                undecorate('3069b27d',()=>{setRegister('ESI',stack.#mint(0,0xffffffff));stack.#logicalFlags(0,0xffffffff,4);});
-                undecorate('3069b27f',()=>{const p=stack.#record(register('EDI')).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!=='30672ec7'||stack.#numeric(register('ESI'),4)!==0)throw new Error('Actual nonnull allocator comparison required');stack.#flags(0,0x841);});
-                undecorate('3069b281',()=>{});undecorate('3069b287',()=>stack.#push(stack.#mint(5,0xffffffff)));undecorate('3069b289',()=>{stack.#call('3069b289','3069b28e');if(stack.#numeric(stack.#load(stack.#stack,relative('ESP',4)),4)!==5)throw new Error('Original undecoration ensure-lock argument required');const result=NativeCrtBootstrap.engineCinitUndecorationLockForCrt(bootstrap,crt,permit,'ensure');if(!result.known)throw new Error(result.reason);if(result.value!==0&&result.value!==1)throw new Error('Actual CRT ensure-lock result required');hostReturn(stack.#mint(result.value,0xffffffff),0);});
-                undecorate('3069b28e',()=>pop('ECX'));let lockReady=0;undecorate('3069b28f',()=>{lockReady=stack.#numeric(register('EAX'),4);stack.#logicalFlags(lockReady,0xffffffff,4);});undecorate('3069b291',()=>{});
-                if(lockReady===0){undecorate('3069b283',()=>{setRegister('EAX',stack.#mint(0,0xffffffff));stack.#logicalFlags(0,0xffffffff,4);});undecorate('3069b285',()=>{});stack.#engineCinitFrame!.pc='3069b2ff';return known(undefined);}
-                undecorate('3069b293',()=>stack.#push(stack.#mint(5,0xffffffff)));
-                undecorate('3069b295',()=>{stack.#call('3069b295','3069b29a');if(stack.#numeric(stack.#load(stack.#stack,relative('ESP',4)),4)!==5)throw new Error('Original undecoration lock argument required');const result=NativeCrtBootstrap.engineCinitUndecorationLockForCrt(bootstrap,crt,permit,'lock');if(!result.known)throw new Error(result.reason);stack.#engineCinitFrame!.undecorationLockHeld=true;hostReturn(stack.#mint(0,0),0);});
-                undecorate('3069b29a',()=>pop('ECX'));undecorate('3069b29b',()=>stack.#store(stack.#stack,relative('EBP',-4),register('ESI')));
-                const globals=NativeEngineCinitImages.imageForCrt(images.value,crt,'undecorationGlobals');if(!globals.known)throw new Error(globals.reason);
-                undecorate('3069b29e',()=>stack.#store(globals.value,0,register('EDI')));
-                undecorate('3069b2a4',()=>setRegister('EAX',stack.#load(stack.#stack,relative('EBP',24))));undecorate('3069b2a7',()=>stack.#store(globals.value,4,register('EAX')));
-                for(const [pc,offset] of [['3069b2ac',16],['3069b2b2',8],['3069b2b8',12]] as const)undecorate(pc,()=>stack.#store(globals.value,offset,register('ESI')));
-                undecorate('3069b2be',()=>setRegister('EAX',stack.#mint(NativeHeapObjectViews.prototype.readUnsigned.call(stack.#stack,relative('EBP',28),2),0xffffffff)));
-                undecorate('3069b2c2',()=>stack.#push(register('EAX')));undecorate('3069b2c3',()=>stack.#push(register('ESI')));
-                for(const [pc,offset] of [['3069b2c4',16],['3069b2c7',12],['3069b2ca',8]] as const)undecorate(pc,()=>stack.#push(stack.#load(stack.#stack,relative('EBP',offset))));
-                undecorate('3069b2cd',()=>setRegister('ECX',stack.#stackWord(relative('EBP',-148))));undecorate('3069b2d3',()=>stack.#call('3069b2d3','3069b2d8'));
+                const decoder=runUndecorationPrefix();if(!decoder.ready)return known(undefined);const {undecorate,globals}=decoder;
                 const constructor=(pc:string,body:()=>void)=>step(pc,body,'3069747a');
                 constructor('3069747a',()=>stack.#push(register('EBP')));constructor('3069747b',()=>setRegister('EBP',register('ESP')));
                 constructor('3069747d',()=>stack.#push(register('ESI')));constructor('3069747e',()=>stack.#push(register('EDI')));
@@ -1054,7 +1059,8 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
               const prefix=runPropertyTypeNamePrefix(image('visualAnimationSecondTypeInfo'),image('visualAnimationFloatDefault'));
               if(prefix.cached!==0){stack.#engineCinitFrame!.pc='3067db77';return known(undefined);}
               preparePropertyUndecoration(prefix.name,prefix.actualTypeInfo);
-              stack.#engineCinitFrame!.pc='3069b26b';return known(undefined);
+              const decoder=runUndecorationPrefix();if(!decoder.ready)return known(undefined);
+              stack.#engineCinitFrame!.pc='3069747a';return known(undefined);
             }
             return known(undefined);
           }
