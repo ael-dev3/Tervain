@@ -2645,3 +2645,25 @@ five distinct selected checks have passing evidence across these runs.
 CString construction, property publication, shutdown registration, complete
 startup and the finishable browser campaign remain outstanding. This work is
 local and has not been deployed.
+
+
+## Local continuation — 11 October 2026: reference-base CString length scan
+
+The captured SharedBase CString constructor receives the actual cache suffix at
+offset 6 and the reference-base storage destination. Its original byte scan
+reads all fifteen characters plus NUL, subtracts the actual same-allocation
+cursor offsets, and passes length 15 to its allocation routine. Execution stops
+before the allocator thunk at `10007d65` after 18,157 admitted operations.
+The constructor and allocation calls remain pending with physical return words.
+
+Unknown source byte 13 or terminator byte 21 stops at the original byte load,
+retaining the actual scan cursor and live cache; no guessed length or allocation
+is supplied. The admitted constructor span matches the captured camera
+continuation without code changes. Typechecking and six browser startup checks
+pass. Four of five selected runtime checks passed initially; the normal check
+passed after updating its allocation-call observation to the new pending call.
+All five distinct checks have passing evidence across those runs.
+
+CString allocation, byte copy, property publication, shutdown registration,
+complete startup and a finishable browser campaign remain outstanding. This
+checkpoint is local and has not been deployed.
