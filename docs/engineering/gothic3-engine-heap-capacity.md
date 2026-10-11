@@ -1225,3 +1225,28 @@ in 16.70 seconds, and six browser startup checks passed in 27.37 seconds.
 The previous combined suite remains active on an older frozen revision. This
 local continuation is not deployed and full startup/world/campaign completion
 remains unproven.
+
+
+### 2026-10-11: original class-prefix character copy
+
+The original text-node writer now passes the actual class character pointer
+and six-byte count into its original bounded copy loop. The loop writes
+`class `, returns its actual output pointer, and unwinds the original node
+writer call. Execution stops at `306971d7` after 7,406 source operations.
+Six output bytes are known; the remaining ten bytes, terminator, outer list
+continuation, cleanup and second property publication remain pending.
+
+The shared copy helper accepts an explicit owned node span for this six-byte
+prefix while keeping the first property's five-byte source span. With an
+unknown fourth source byte, execution stops at `30696f47`, retains `cla` and
+its three known output bytes, and retains pending copy/node/outer writer calls.
+Type checking passed; the normal check passed in 8.74 seconds, four fidelity
+and interruption checks in 17.04 seconds, and six browser startup checks in
+29.75 seconds. The older combined suite remains running.
+
+PR 248 was externally merged as `1756116e540cb8badabda1407cb4bdbcbb40a8fd`
+after CI run `38118841598` succeeded. A repository-wide audit covered 533 runs
+over six pages, all recorded attempts and the Pages workflow; its only active
+run was deployment `38119510962`. No duplicate merge or run was requested.
+The native continuation above remains local and does not prove full startup
+or campaign completion.
