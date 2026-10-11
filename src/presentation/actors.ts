@@ -54,6 +54,20 @@ export interface ActorContext {
   alarms?: readonly { x: number; z: number }[];
   /** A remark, by its line in voice.ts. */
   onBark: (a: NpcActor, line: string) => boolean | void;
+  /** Whether a point could be on screen this step; residents out of view are posed less often (A113). */
+  seen?: (x: number, y: number, z: number) => boolean;
+}
+
+/**
+ * Seconds between poses of a resident `distance` metres from the player (A113). Posing every resident every step was a
+ * tenth of a frame in the village; far ones are a few pixels tall and take theirs at 30 or 15 Hz, those off screen
+ * eight times a second (their shadows still move). Gait phase is a running total, so a pose that comes late is no
+ * less in step.
+ */
+export const NPC_POSE_NEAR = 30, NPC_POSE_FAR = 60;
+export function npcPoseInterval(distance: number, seen: boolean): number {
+  if (!seen) return 1 / 8;
+  return distance > NPC_POSE_FAR ? 4 / 60 : distance > NPC_POSE_NEAR ? 2 / 60 : 0;
 }
 
 export const NPC_WALK_SPEED = 1.55;
@@ -207,6 +221,9 @@ export class NpcActor {
   private seatedFor = 0;
   /** Asleep with nobody near, their pose is only renewed now and then (A70). */
   private poseWait = 0;
+  /** Route metres and turn since the last pose, handed to the next one (A113). */
+  private poseTravel = 0;
+  private poseTurn = 0;
   private readonly approachGreeting: NpcApproachGreeting | null;
   mode: Mode = 'idle';
 
@@ -251,7 +268,7 @@ export class NpcActor {
     this.rig = rig;
     this.arrived = true;
     // The first drawn frame after this poses at once (A87 scout): a sleeper far off lay half a second in no pose.
-    this.poseWait = NPC_ASLEEP_POSE;
+    this.poseWait = NPC_ASLEEP_POSE; this.poseTravel = this.poseTurn = 0;
     this.rigChanged = true;
     this.placeRig();
   }
@@ -313,7 +330,7 @@ export class NpcActor {
     this.lie = berth ? 1 : 0;
     this.seatedFor = berth ? 2 : 0;
     // The first drawn frame after this poses at once (A87 scout): a sleeper far off lay half a second in no pose.
-    this.poseWait = NPC_ASLEEP_POSE;
+    this.poseWait = NPC_ASLEEP_POSE; this.poseTravel = this.poseTurn = 0;
     this.waking = false;
     this.placed = true;
     this.y = walkingGround(ctx.terrain, this.x, this.z);
@@ -704,9 +721,16 @@ export class NpcActor {
     };
     // Asleep away from the player, the pose is renewed now and then rather than every frame (A70).
     this.poseWait += dt;
+    this.poseTravel += pose.travel ?? 0;
+    this.poseTurn += pose.turn ?? 0;
     const lazy = this.lie === 1 && playerDistance > NPC_ASLEEP_NEAR;
-    if (drawn && (!lazy || this.poseWait >= NPC_ASLEEP_POSE)) { poseRig(this.rig, pose, lazy ? Math.min(this.poseWait, 2 * NPC_ASLEEP_POSE) : dt); this.poseWait = 0; }
-    else if (!drawn) this.poseWait = NPC_ASLEEP_POSE;
+    const every = lazy ? NPC_ASLEEP_POSE : npcPoseInterval(playerDistance, ctx.seen?.(this.x, this.y + this.rig.height / 2, this.z) ?? true);
+    if (drawn && this.poseWait >= every - 1e-6) {
+      const span = lazy ? Math.min(this.poseWait, 2 * NPC_ASLEEP_POSE) : Math.min(this.poseWait, Math.max(dt, every));
+      if (span > dt) { pose.travel = this.poseTravel; pose.turn = this.poseTurn; pose.moveSpeed = this.poseTravel / span; }
+      poseRig(this.rig, pose, span);
+      this.poseWait = this.poseTravel = this.poseTurn = 0;
+    } else if (!drawn) { this.poseWait = NPC_ASLEEP_POSE; this.poseTravel = this.poseTurn = 0; }
 
     // Ambient remarks when the player passes close; the sleeping make none (A70).
     if (!this.hidden && this.lie === 0) {

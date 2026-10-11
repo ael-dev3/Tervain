@@ -5,6 +5,7 @@
   "type": "module",
   "description": "Tervain exploration prototype: silent Grey Strand arrival / Templar deepwood",
   "scripts": {
+    "play-gate": "node tools/play-gate.mjs",
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
     "typecheck": "tsc --noEmit",

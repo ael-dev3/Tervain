@@ -53,6 +53,7 @@ import { LoadingScreen } from './presentation/ui/loadingScreen';
 import { MenuScene } from './presentation/menuScene';
 import { disposeSceneResources } from './presentation/disposeScene';
 import { BUILD_LABEL, GAME_VERSION, SOURCE_REVISION as REVISION } from './version';
+import { RenderScale, renderScaleFloor } from './platform/renderScale';
 import { fetchLiveBuild, newerBuild, shouldReloadFor, type LiveBuild } from './platform/buildCheck';
 import { loadMainHero } from './presentation/mainHero';
 import { createHeroRig, type MainHeroRig } from './presentation/hero/rig';
@@ -118,6 +119,9 @@ export class App {
   private castLoad: Promise<void> | null = null;
   private readonly viewFrustum = new THREE.Frustum();
   private readonly viewMatrix = new THREE.Matrix4();
+  private readonly poseFrustum = new THREE.Frustum();
+  private readonly poseCentre = new THREE.Vector3();
+  private readonly poseSphere = new THREE.Sphere();
   private menuAssets: MeshyNpcCatalog | null = null;
   private menuLoad: Promise<void> | null = null;
   private menuGraphicsReady = false;
@@ -802,10 +806,18 @@ export class App {
     this.onResize();
   }
 
+  private renderScaleState: RenderScale | null = null;
+  private get renderScale(): RenderScale { return this.renderScaleState ??= new RenderScale(); }
+  /** Captures (?shot) keep the preset's resolution, so their pictures compare. */
+  private get shotMode(): boolean { return typeof location !== 'undefined' && new URLSearchParams(location.search).has('shot'); }
+
   private applyPixelRatio() {
     const q = this.settings.quality;
     const dpr = window.devicePixelRatio || 1;
-    this.renderer.setPixelRatio(q === 'low' ? Math.min(dpr, 1) : q === 'medium' ? Math.min(dpr, 1.5) : Math.min(dpr, 2));
+    const preset = q === 'low' ? Math.min(dpr, 1) : q === 'medium' ? Math.min(dpr, 1.5) : Math.min(dpr, 2);
+    this.renderScale.floor = renderScaleFloor(preset);
+    if (this.settings.dynamicResolution === false) this.renderScale.reset();
+    this.renderer.setPixelRatio(preset * Math.max(this.renderScale.floor, this.renderScale.scale));
     RENDER_PX.value = this.renderer.getPixelRatio();
   }
 
@@ -1128,6 +1140,9 @@ export class App {
       const { interval, dt, steps, alpha } = frame;
       this.lastFrameDt = Math.min(interval, SIM_CATCH_UP);
       if (interval < 5) this.recordFrame(interval);
+      // Drawing resolution follows what the display manages to show, in play only (A113).
+      if (this.settings.dynamicResolution && this.mode === 'play' && this.overlay === 'none' && !this.bench.active && !this.shotMode
+        && this.renderScale.sample(interval * 1000)) this.onResize();
       this.audioClock += dt;
       held = steps === 0;
       this.perf?.begin();
@@ -1425,8 +1440,17 @@ export class App {
     this.grade.setLook({ night: this.world.sky.state.nightness });
     this.world.prepareGrass(this.renderer, this.lastFrameDt);
     this.world.prepareInterior(this.renderer, this.cam.camera, this.lastFrameDt, this.settings);
-    // Reduced motion stills the film grain in play as on the menu: it changed 24 times a second (A104 scout).
-    this.grade.render(this.world.scene, this.cam.camera, this.settings.reducedMotion ? 0 : this.lastFrameDt, this.world.waterRenderInputs(this.settings));
+    // The frame draws the world several times (reflection, water depth, the picture, light probes) and three walks
+    // the whole scene graph for matrices before each. Nothing moves between those passes: walk it once (A113).
+    const scene = this.world.scene, autoUpdate = scene.matrixWorldAutoUpdate;
+    scene.updateMatrixWorld();
+    scene.matrixWorldAutoUpdate = false;
+    try {
+      // Reduced motion stills the film grain in play as on the menu: it changed 24 times a second (A104 scout).
+      this.grade.render(scene, this.cam.camera, this.settings.reducedMotion ? 0 : this.lastFrameDt, this.world.waterRenderInputs(this.settings));
+    } finally {
+      scene.matrixWorldAutoUpdate = autoUpdate;
+    }
   }
 
   /** The menu's picture is rougher than play: an old painted backdrop, grainy and darkened at the edges. */
@@ -2316,6 +2340,12 @@ export class App {
   private updateActors(dt: number, hour: number) {
     const ctx = this.actorContext();
     ctx.hour = hour;
+    // One frustum a step for every resident's "could this be on screen" (A113); a little wider than the view, so a
+    // figure walking in at the edge is already posed every frame.
+    const camera = this.cam.camera;
+    camera.updateMatrixWorld();
+    this.poseFrustum.setFromProjectionMatrix(this.viewMatrix.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse));
+    ctx.seen = (x, y, z) => this.poseFrustum.intersectsSphere(this.poseSphere.set(this.poseCentre.set(x, y, z), 2.5));
     const contacts = this.npcs.map(n => this.residentContact(n));
     ctx.residentContacts = [...contacts, ...this.enemies.map(e => this.enemyContact(e))];
     for (let i = 0; i < this.npcs.length; i++) {
