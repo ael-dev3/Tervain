@@ -2533,3 +2533,21 @@ Typechecking, four focused runtime checks and six browser startup checks pass.
 These results are local; the earlier combined full-suite process remains live.
 Type-name cache publication, complete startup, world activation and a finishable
 browser campaign remain incomplete.
+
+
+## Local continuation — 11 October 2026: reference-base cache allocations
+
+The original caller inspects the last character of its measured 21-character
+name, acquires CRT lock 14, verifies the reference-base type-info cache slot is
+NULL, and allocates an eight-byte list node. Its original arithmetic derives
+a 22-byte text allocation with physical capacity 24. Both allocations remain
+uninitialized and live, separate from the live undecoration output and the
+previous camera cache. Execution stops before publication at `3067db21` after
+17,749 admitted operations; lock 14 remains held.
+
+Unavailable node or text allocation retains the actual pending malloc call,
+original output and held lock. The cache slot remains NULL. The allocation
+continuation matches the previously captured camera span without code changes.
+Typechecking, six runtime checks and six browser startup checks pass locally.
+Cache publication and copy, complete engine startup and a finishable campaign
+remain outstanding. These changes have not been deployed.
