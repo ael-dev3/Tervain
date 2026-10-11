@@ -354,6 +354,19 @@ describe('early woodland hunting objectives', () => {
   });
 });
 
+describe('the arrows a hide is said to buy (A89 scout)', () => {
+  it('are what still fits the quiver, and none when it is full', async () => {
+    const { restockParams, HUNTER_RANKS } = await import('../../src/game/hunting');
+    const s = createInitialState('slot-1');
+    s.inventory.arrow = 0;
+    expect(restockParams(s).count).toBe(HUNTER_RANKS[0].arrows);
+    s.inventory.arrow = ARROW_QUIVER_CAPACITY - 3;
+    expect(restockParams(s).count).toBe(Math.min(3, HUNTER_RANKS[0].arrows));
+    s.inventory.arrow = ARROW_QUIVER_CAPACITY;
+    expect(restockParams(s).count).toBe(0);
+  });
+});
+
 describe('restock wording follows the hunter rank (A71)', () => {
   it('names the arrows a hide actually buys, and no hunting text promises a fixed six', async () => {
     const { S } = await import('../../src/content/strings');

@@ -436,6 +436,9 @@ export class AudioEngine {
       .catch(() => { if (this.ctx === ctx) this.onContextStateChange(); });
   }
 
+  /** After a load: the sound world forgets the actors' last states, so none is heard changing to the saved one (A89 scout). */
+  forgetActors() { this.soundWorld?.forgetActors(); }
+
   get ready() {
     return !this.disposed && !this.pageHidden && this.ctx !== null && this.ctx.state === 'running';
   }

@@ -40,12 +40,14 @@ export function buildInteractables(app: App): Interactable[] {
   list.push({
     id: 'hunter_restock', pos: () => ({ ...HUNTER_SUPPLY, y: hunterTableSurfaceY(app.world.terrain) + .12 }), r: HUNTER_SUPPLY.r,
     prompt: () => hunterSparesArrows(st()) ? S('prompt.spare_arrows') : S('prompt.restock_arrows', restockParams(st())),
-    enabled: () => hunterTradingOpen(st()) && ((st().inventory.animal_hide ?? 0) > 0 || hunterSparesArrows(st())),
+    // A hide is offered only while the quiver has room for what it buys (A89 scout).
+    enabled: () => hunterTradingOpen(st()) && (((st().inventory.animal_hide ?? 0) > 0 && restockParams(st()).count > 0) || hunterSparesArrows(st())),
     act: () => app.restockArrows(), priority: -.6,
   });
   list.push({
     id: 'hunter_sell_meat', pos: () => ({ ...hunterStationPoint(.7, .25), y: hunterTableSurfaceY(app.world.terrain) + .12 }), r: 2.2,
-    prompt: () => S('prompt.sell_game_meat'), enabled: () => hunterTradingOpen(st()) && (st().inventory.raw_meat ?? 0) > 0,
+    // Not while a foe is near: the sale is refused then, and the prompt must not offer it (A89 scout).
+    prompt: () => S('prompt.sell_game_meat'), enabled: () => hunterTradingOpen(st()) && (st().inventory.raw_meat ?? 0) > 0 && app.noThreatNear(),
     act: () => app.sellGameMeat(), priority: -.6,
   });
 

@@ -203,3 +203,58 @@ describe('wading and swimming', () => {
     expect(s.player.x).toBeGreaterThan(-3.6);
   });
 });
+
+describe('standing in the surf (A89 scout)', () => {
+  it('neither starts nor ends a swim with each passing wave: out of one’s depth is judged from the calm sea', () => {
+    const t = setup();
+    let time = 0;
+    // A swell of 0.4 m either way over a bed 1.27 m below the calm sea: each crest and trough crosses both thresholds.
+    t.ctx.water = { ...t.ctx.water!, sample: (x) => {
+      const bed = x >= 0 ? 0.2 : Math.max(-6, x / 4);
+      if (bed >= 0) return null;
+      const surface = 0.4 * Math.sin(time * 1.6);
+      return { body: 'sea', surface, bed, depth: Math.max(0, surface - bed), flowX: 0, flowZ: 0 };
+    } };
+    t.player.setPosition(-5.08, 0, 0, t.ctx.terrain);
+    const enters = () => t.events.filter((e) => e.kind === 'enter').length;
+    for (let i = 0; i < 30 * 60; i++) { time += 1 / 60; t.player.update(1 / 60, t.ctx); }
+    expect(1.27).toBeLessThan(SWIM_DEPTH);
+    expect(enters()).toBe(0);
+    expect(t.player.swimming).toBe(false);
+  });
+});
+
+describe('put back afloat (A89 scout)', () => {
+  it('keeps a swimmer restored where he swims at his saved height, not on the seabed, and never below the bed', () => {
+    const t = setup();
+    t.player.setPosition(-20, 0, 0, t.ctx.terrain, -1.1, true);
+    expect(t.player.y).toBeCloseTo(-1.1, 6);
+    // Standing placement still finds the ground.
+    t.player.setPosition(-20, 0, 0, t.ctx.terrain, -1.1);
+    expect(t.player.y).toBeCloseTo(-5, 6);
+    // Never below the bed, however it was saved.
+    t.player.setPosition(-20, 0, 0, t.ctx.terrain, -9, true);
+    expect(t.player.y).toBeGreaterThan(-5);
+  });
+});
+
+describe('a carved bed with little water (A89 scout)', () => {
+  it('is walked across, not a wall, once the realm’s water says how deep it really is', () => {
+    const t = setup();
+    // The terrain takes everything west of x = -1 for deep water (a carved bed), but only a trickle runs in it.
+    const terrain = { ...t.ctx.terrain, walkable: (x: number) => x > -1, groundAt: () => 0.2, supportAt: () => 0.2, heightAt: () => 0.2 } as unknown as Terrain;
+    t.ctx.terrain = terrain;
+    t.ctx.water = { ...t.ctx.water!, sample: (x) => (x <= -1 ? { surface: 0.25, bed: 0.2, depth: 0.05, flowX: 0, flowZ: 0 } : null) };
+    t.player.setPosition(2, 0, -Math.PI / 2, terrain);
+    t.setMove(0, 1);
+    t.run(4);
+    expect(t.player.x).toBeLessThan(-2);
+    // Without the water's word, the old fence stands.
+    const fenced = setup();
+    fenced.ctx.terrain = terrain; fenced.ctx.water = undefined;
+    fenced.player.setPosition(2, 0, -Math.PI / 2, terrain);
+    fenced.setMove(0, 1);
+    fenced.run(4);
+    expect(fenced.player.x).toBeGreaterThan(-1);
+  });
+});
