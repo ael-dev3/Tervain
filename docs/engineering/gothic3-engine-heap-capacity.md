@@ -1509,3 +1509,15 @@ the second constructor's physical caller and initialized header without claiming
 completed copying. Full startup and browser play through an ending remain
 unproven. This continuation remains local and postdates the passing combined
 revision `24a7bad8f17523a46b911868ac6ff9b275017ce0`.
+
+
+## 2026-10-11: combined second-CString validation
+
+Frozen revision `80f90a64de485c9778e75db45c9f77e57db8e95a` passed TypeScript
+checking, all 3,631 tests in 322 files (1,726.54 seconds), and the production
+build (63 seconds). The process returned exit zero before subsequent edits.
+This combines main through PR 249 (`c138f2405`), native work through
+`c54aceeff`, and the hero animation check efficiency fix. It does not cover
+later second-property publication, third-property int work, or PR 250.
+These full-suite results establish this revision's checked components; they
+cannot establish successful full engine startup or campaign completion.
