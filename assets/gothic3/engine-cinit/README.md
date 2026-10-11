@@ -3414,3 +3414,10 @@ The original MainCache constructor now registers shutdown callback `30019029` in
 ## Dispatch after MainCache initialization
 
 After the actual template constructor and callback returns, the dispatcher resumes its original C++ iterator. It reads slot `307bb174`, tests the captured target, and performs the original call at `3067d227`. Execution is pending at callback `30732470`, whose original target initializes `eCGeometrySpatialContext` through thunk `3002112a` and body `30077290`. No callback result is supplied for that unsupported body. Typechecking, two focused normal/interrupted cases, 83 source/image/browser checks and the production build passed locally; full startup and campaign progression remain incomplete.
+
+
+## Original geometry spatial context initializer
+
+Callback `30732470` now executes the captured property constructor `3002112a` / `30077290` for the original RTTI `.?AVeCGeometrySpatialContext@@`. It preserves the original flags, storage and root owners; creates the actual `eCGeometrySpatialContext` CString; registers shutdown callback `3000eb56` in the thirty-first exit-table slot (offset 120); returns through its original callers; and advances the C++ iterator to offset `0x178`. The dispatcher calls the actual next callback `30732480`, which remains unsupported. An interrupted shutdown-table store preserves its original bytes, masks, live CString, held lock, caller and cursor. MainCache evidence is captured before the next initializer changes the shared parser progress fields.
+
+The source capture contains 199 Engine routines / 4,643 instructions plus the existing SharedBase capture. Prior methods and images are unchanged. Regeneration matches the checked-in JSON and TypeScript byte-for-byte; JSON SHA256 is `d13de9abaa7fc37735e528cc242569bdd0a48211a9af3f798a063a7a6ea07485`. Typechecking, three focused normal/interrupted cases, 85 source/image/browser checks and the production build passed locally. These checks cover this continuation, not complete native startup or campaign play.

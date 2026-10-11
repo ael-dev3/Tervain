@@ -107,3 +107,10 @@ it('owns separate camera object storage and the original eCCameraBase RTTI',()=>
 it('owns separate reference-base storage and the original bCObjectRefBase RTTI',()=>{
  const {crt,owner}=fixture(),storage=fact(NativeEngineCinitImages.imageForCrt(owner,crt,'objectRefBaseStorage')),info=fact(NativeEngineCinitImages.imageForCrt(owner,crt,'objectRefBaseTypeInfo')),root=fact(NativeEngineCinitImages.imageForCrt(owner,crt,'objectRefBaseRoot')),flags=fact(NativeEngineCinitImages.imageForCrt(owner,crt,'objectRefBaseFlags'));expect(info.bytes.length).toBe(30);expect(Buffer.from(info.bytes.subarray(8)).toString()).toBe('.?AVbCObjectRefBase@@\0');expect(info.readUnsigned(4)).toBe(0);for(const fields of [storage,root,flags])expect(fields.bytes.every(byte=>byte===0)).toBe(true);expect(storage.backing).not.toBe(fact(NativeEngineCinitImages.imageForCrt(owner,crt,'cameraBaseObjectStorage')).backing);expect(info.knownMask.every(byte=>byte===255)).toBe(true);
 });
+
+it('captures original geometry spatial context property storage and RTTI',()=>{
+ expect(engineCinitImage('geometrySpatialContextPropertyFlags')).toMatchObject({address:'30ad9b38',raw:'00000000'});
+ expect(engineCinitImage('geometrySpatialContextPropertyRoot')).toMatchObject({address:'30ad9dc8',raw:'00000000'});
+ expect(engineCinitImage('geometrySpatialContextPropertyStorage')).toMatchObject({address:'30ad9b30',bytes:8,raw:'0000000000000000'});
+ expect(engineCinitImage('geometrySpatialContextPropertyTypeInfo')).toMatchObject({address:'30aa2d28',bytes:39,raw:'bc2a8930000000002e3f4156654347656f6d657472795370617469616c436f6e74657874404000'});
+});
