@@ -343,3 +343,226 @@ operation count was corrected from 4,636 to the observed 4,635. Combined revisio
 but predates the second-property work, passed 243 focused checks, all 3,556 tests
 in 319 files, and a production build. Newer work needs combined validation.
 Complete startup and campaign play remain unfinished.
+
+### Shared field-node constructor and second field return — 11 October 2026
+
+Both properties now execute the same original field-node constructor and field
+return. The second parser's live node at arena offset 4,084 contains its retained
+vtable reference, zero link, kind three and zero payload. The original stack
+field points to that node, and execution returns to `306972c5` after 4,660
+admitted operations. The remaining internal object and parser construction are
+pending; lock five stays held.
+
+Typechecking and three focused runtime/browser checks pass. The node assertions
+inspect the live owner; obsolete argument slots from returned calls were removed
+because subsequent constructor calls legitimately reuse that stack storage.
+Combined revision `31207602620c9334092b5c9ca494fd0352411a26` remains under
+validation and predates this field return. Full startup, deployment of this
+continuation and a playable campaign through an ending remain unfinished.
+
+### Shared complete parser constructor and second parse caller — 11 October 2026
+
+The remaining original parser-constructor continuation is shared by both
+properties. All four second-parser fields use the same live 4,104-byte arena,
+at offsets 4,084, 4,068, 4,052 and 4,036, with kinds three, one, three and one.
+The retained arena has 4,032 payload bytes remaining. The original constructor
+publishes its caller's name, callbacks and flags in the parser configuration,
+returns, and reaches `3069b2de -> 3069afb8` after 4,896 admitted operations.
+Lock five stays held; parsing the bCString decorated name remains pending.
+
+Typechecking and five focused runtime/browser/regression checks pass, including
+checks of all four live second-parser nodes and the earlier float constructor.
+The earlier combined revision remains under validation and does not include
+this complete second-parser constructor. Full startup, deployment of this
+continuation and campaign completion remain unfinished.
+
+### Shared name-parser entry and bCString prefix branch — 11 October 2026
+
+Both properties now execute the original name-parser prolog, local masks and
+retained name-pointer comparison through a shared continuation. The second name
+starts with `?A`; captured instructions compare the second byte with `@` and `$`,
+then take the original common call into the type parser. Execution reaches
+`3069b03f -> 3069a2f7` after 4,917 admitted operations. Partial AL writes retain
+upper-bit masks; the parser configuration still identifies the original type
+info and all four arena nodes remain live. Lock five stays held.
+
+Typechecking and five focused runtime/browser/regression checks pass. An initial
+failure identified an invalid late use of the type-info register accessor after
+constructor calls changed that register. The continuation instead supplies the
+original second type-info image and checks it against the retained configuration.
+Type parsing, full startup, publication and campaign completion remain unfinished.
+The earlier combined validation remains running and predates this continuation.
+
+### Shared type-parser prefix and original temporary — 11 October 2026
+
+Both property calls now execute the same original type-parser prolog and flag
+branch, clear bit `0x2000` in the retained parser configuration, and pass their
+real output slot and NULL temporary argument into the data-type parser. The
+original temporary constructor preserves unknown bits while initializing its
+pointer and kind fields, then returns to `3069b887`. The second call reaches
+that address after 4,946 admitted operations. Its name cursor remains the
+original bCString type-info pointer; lock five stays held.
+
+Typechecking and five focused checks pass. Earlier combined revision
+`31207602620c9334092b5c9ca494fd0352411a26` passed all 240 focused checks in five
+files and is now running the full suite; it predates the newer parser work.
+Captured data-parser instructions show that the next `?` comparison branches
+at `3069b896` to `3069b8e0`, requiring its own continuation. Data dispatch, full
+startup, publication and campaign play remain unfinished.
+
+### Shared data dispatch and original decorated-type call — 11 October 2026
+
+The original data-type comparisons now share one dispatch continuation. The
+second name takes `3069b896 -> 3069b8e0`. Its source-backed branch advances the
+retained type-info cursor from offset nine to ten, preserves carry across INC,
+masks the original local field and pushes five actual caller arguments. It
+reaches `3069b8fe -> 3069aad4` after 4,965 admitted operations. The next decoder
+body is absent from the current source package and must be captured before it
+can execute. No decoded bCString name is supplied.
+
+Typechecking and five focused runtime/browser/regression checks pass, followed
+by one targeted caller-argument check. Both NULL arguments are read from the
+actual pending call's live stack positions. The first float path retains its
+normal dispatch and constructor behavior. Earlier combined full-suite validation
+remains running and predates this continuation. Full startup, deployment and
+campaign completion remain unfinished.
+
+### Captured decorated-type decoder body — 11 October 2026
+
+The next decoder at `3069aad4` is now captured from the matching Engine study
+and checked against the pinned original PE. Its complete 441-instruction body
+ends at `3069afb7`; instruction bytes hash to
+`bedc4caa88d3af6da08000a49513460d67c66d13f826de9caeeb33a0206418c4`.
+The Engine evidence package now contains 71 bodies and 2,895 instructions.
+Independent regeneration produces byte-identical JSON and TypeScript records.
+Typechecking and all 24 source/image checks pass, including the retained caller,
+prolog, prefix branch and final RET encodings.
+
+This capture does not execute the decoder or supply its return value. The local
+runtime remains pending at `3069aad4` after 4,965 admitted operations. Captured
+instructions show an 84-byte decoder stack frame followed by the `A` prefix's
+original qualifier logic; implementation remains necessary. Combined full-suite
+validation still runs on the earlier revision. PR #244 was merged externally
+after successful CI; it is not included in that frozen validation checkout.
+Full startup and campaign play remain unfinished.
+
+### Original decorated decoder entry and qualifier read — 11 October 2026
+
+The second call now executes the captured decoder's 84-byte prolog, original
+register saves, local masks and zero fields, then reads its retained `A`
+qualifier at type-info offset ten. It takes the original nonempty, non-dollar
+branch and stops at `3069ab34` after 4,982 admitted operations. All four parser
+nodes and the first completed property remain live; lock five stays held.
+
+Typechecking and five focused runtime/browser/regression checks pass. A separate
+failure check makes the qualifier unknown on its decoder read and confirms the
+original `3069aadf` boundary, pending caller and retained first-property result.
+The initial failure fixture used an incorrect image length and was corrected to
+identify the actual name bytes and second qualifier read. No unknown mask is
+repaired. Remaining qualifier decoding, full startup, deployment and campaign
+completion remain unfinished; earlier combined validation is still running.
+
+### Original qualifier normalization and dispatch — 11 October 2026
+
+The captured decoder now executes its signed qualifier comparison, SETL,
+normalization arithmetic, local masks, register transfers and conditional
+branches. The original `A` qualifier normalizes to zero and reaches `3069acb5`
+after 5,005 admitted operations. EAX retains the actual dispatch subtraction
+result `0xfffffff8`; ESI retains 32 from the original PUSH/POP pair. DEC preserves
+carry, and the parser's original name cursor remains retained.
+
+Typechecking and six focused runtime/browser/failure checks pass, followed by
+one targeted check of those register results. The original byte-unknown failure
+still stops at its decoder read. The next captured branch advances the cursor
+and calls `306976b2`; that continuation needs implementation. Earlier combined
+full-suite validation remains running. Full startup, deployment of this local
+continuation and campaign completion remain unfinished.
+
+### Original qualifier temporary and next decoder caller — 11 October 2026
+
+The qualifier branch now advances the retained name cursor to offset eleven,
+checks its normalized value against 31, and calls the original temporary
+constructor with its real zero argument. The captured 13-instruction body at
+`306976b2` executes its nine-row zero branch, initializes the local pointer and
+masked flags, and returns with RET 4. The retained caller then passes its local
+output and temporary slots to `3069acda -> 30697b16`, where execution stops
+after 5,026 admitted operations. No return from that next routine is supplied.
+
+The evidence package has 72 original bodies and 2,908 instructions. Independent
+JSON and TypeScript regeneration is byte-identical. Typechecking and fourteen
+focused runtime/browser/source checks pass, followed by a targeted source-byte
+check of the constructor's entry, branch and RET. Earlier combined full-suite
+validation remains running and predates this continuation. Next decoder
+execution, full startup, deployment and campaign play remain unfinished.
+
+### Captured qualified-value wrapper dependency — 11 October 2026
+
+The pending routine at `30697b16` is now captured from the matching Engine study
+and checked against the original PE. Its complete 29-row body ends with RET 8
+at `30697b64`; instruction bytes hash to
+`eae1aa310e597134ce69be74b6253365ae768313fe00d3037fc5360cdf1fc4ae`.
+It first calls the existing value-copy dependency at `30696c93`, then checks
+empty values before selecting assignment or construction. Connecting those
+operations to this caller still requires runtime work.
+
+The evidence package now contains 73 bodies and 2,937 instructions. Independent
+JSON and TypeScript regeneration is byte-identical. Typechecking and all 25
+source/image checks pass, including entry, value-copy and empty-value calls,
+and final RET bytes. Runtime remains pending at `30697b16` after 5,026 admitted
+operations; the capture supplies no return. Earlier combined full-suite
+validation is still live. Full startup, publication and campaign play remain
+unfinished.
+
+### Shared value-copy continuation and qualified caller return — 11 October 2026
+
+The original value-copy/assignment continuation now takes explicit live stack
+addresses and an expected source-value identity. The first float path still
+requires its actual arena text node at offset 4,020. The second qualified caller
+requires its original known NULL value, preserving physical flag masks rather
+than supplying a text node. The wrapper executes its original five-row prefix,
+then all 54 value-copy rows and returns to `30697b23` after 5,085 operations.
+Its live output contains a zero pointer and known lower twelve flag bits; the
+actual copy call is marked returned. Historical first-property text ownership
+is retained separately.
+
+Typechecking and six focused runtime/browser/failure checks pass, including
+first-parser regression and unknown qualifier handling. The expected operation
+count was corrected using the captured 54-row copy plus five wrapper rows.
+Remaining empty-value checks and wrapper return still require implementation.
+Earlier combined full-suite validation remains running and predates this change.
+Full startup, deployment and campaign completion remain unfinished.
+
+### Shared empty check, assignment and qualified wrapper return — 11 October 2026
+
+The original NULL-value empty check is now shared by both callers. The qualified
+wrapper executes its live check and source-backed branch, assigns the caller's
+actual qualifier temporary through the shared assignment continuation, and
+returns with RET 8 to `3069acdf` after 5,144 admitted operations. The copy,
+empty-check, assignment and wrapper calls are all marked returned. The retained
+output is NULL with known lower flag bits, and ESI is restored to 32. The original
+decoder's next instruction remains pending.
+
+Typechecking and six focused runtime/browser/failure checks pass, followed by
+one targeted check of the actual call returns and restored register. Earlier
+combined full-suite validation has reported a lighthouse walking test failure
+and remains running; its final diagnostics must be inspected before publication.
+No full-suite or deployment success is claimed for this newer continuation.
+Remaining decoder execution, full startup and campaign play remain unfinished.
+
+### Original modifier assignment and empty branches — 11 October 2026
+
+After the qualified wrapper returns, the decoder now assigns the original live
+output into its retained qualifier temporary, checks both original modifier
+locals using the shared empty-value routine, and executes the normalized flag
+comparison. Both actual modifier pointers are NULL, so the original branches
+reach `3069adfc` after 5,211 admitted operations. The original caller, arena,
+first property and held lock remain retained; no decoder return is supplied.
+
+Typechecking and six focused runtime/browser/failure checks pass. Combined
+revision `31207602620c9334092b5c9ca494fd0352411a26` completed its full suite with
+3,560 passes and one lighthouse walking timeout at five seconds. All six tests
+in that lighthouse file passed on an isolated rerun; the combined revision's
+production build is now running. That revision predates this newer continuation.
+The timeout remains recorded as a full-suite failure rather than a green suite.
+Remaining decoder execution, full startup, publication and campaign completion
+remain unfinished.

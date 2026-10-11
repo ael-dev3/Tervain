@@ -1,7 +1,7 @@
 # Engine CRT initializer evidence
 
 This package records the next dependency after Engine environment-vector return.
-It captures 70 original bodies (2454 instructions), the caller at `30677284`,
+It captures 73 original bodies (2937 instructions), the caller at `30677284`,
 the floating-point callback at `30892ac0`, and two original initializer tables.
 The C initializer table has 200 slots with 6 nonzero entries. The C++ table has
 93,705 slots with 1,963 nonzero entries; omitted entries are verified zero.
@@ -14,7 +14,7 @@ python tools/gothic3/prepare_engine_cinit_source.py --study '<study-root>' --out
 
 The generator checks the original Engine.dll hash and exact caller bytes.
 Independent regeneration produced identical JSON, SHA-256
-``8279be0b7234a9f0ae8f7507b7c23f7cbefca2d6ee59decaaac96ab2a9abed2c``.
+``4dd631602e0ab550e5360430a1c409590d8bf3794ac92bf1dcd0b6ba71dcfcc3``.
 
 The capture's `runtimeConnected: false` records evidence preparation; it grants
 no execution authority. The TypeScript continuation separately obtains a
@@ -569,3 +569,79 @@ Canonical ownership, recursive return, header and arena globals are retained.
 Typechecking and three focused checks pass. Earlier combined revision
 `05c8b93077dea4f6bb6d9afb9bf49d1e718b0b6c` passed 3,556 tests and its build;
 it predates this continuation. Full startup and campaign play remain unfinished.
+
+The shared field-node constructor now returns the second parser's first field
+at `306972c5` after 4,660 admitted operations. Its live node at arena offset
+4,084 and original stack field remain owned. Typechecking and three focused
+checks pass. Remaining parser construction, full startup and campaign play are
+unfinished; this continuation is local.
+
+The shared remaining parser constructor now builds all four second-parser fields
+from its retained arena and returns to the actual parse caller at `3069afb8`
+after 4,896 operations. Typechecking and five focused checks pass, including live
+node ownership and first-property constructor regressions. The bCString name
+parse, complete startup and campaign remain unfinished. This continuation is local.
+
+The shared name-parser entry now executes the original `?A` prefix branch and
+reaches the second type-parser call at `3069a2f7` after 4,917 operations.
+Typechecking and five focused checks pass. Name bytes, partial-register masks,
+parser configuration and arena ownership are retained; no decoded name is
+supplied. Type parsing, full startup and campaign remain unfinished and local.
+
+The shared type-parser prefix and original temporary constructor now return the
+second call to `3069b887` after 4,946 operations. Typechecking and five focused
+checks pass. Earlier combined revision passed 240 focused checks and is running
+its full suite; it predates this local continuation. The next original question
+mark data-type branch, full startup and campaign remain unfinished.
+
+The shared data-type dispatch follows the second name's question-mark branch
+through its original cursor increment and five-argument call to `3069aad4`,
+after 4,965 operations. Typechecking, five focused checks and one caller-argument
+check pass. Capturing the next decoder body, full startup and campaign remain
+unfinished; this continuation has not been published.
+
+The next decorated-type decoder body at `3069aad4` has been captured and checked
+against original Engine bytes: 441 instructions through RET at `3069afb7`.
+Independent JSON/TypeScript regeneration is byte-identical; typechecking and
+all 24 source/image checks pass. Runtime execution of this body remains pending.
+
+The original decorated decoder entry now reaches `3069ab34` after 4,982
+operations. Typechecking, five focused checks and a qualifier-unknown failure
+check pass. The failure stops at the actual byte read with the caller and first
+property retained. Remaining decoder execution, startup and campaign are
+unfinished; this continuation remains local.
+
+The original qualifier normalization now selects `3069acb5` after 5,005
+operations. Typechecking, six focused checks and one register-result check pass.
+Signed comparison, arithmetic, masks and DEC carry preservation are retained.
+The next cursor advance and temporary-constructor dependency, complete startup
+and campaign remain unfinished and local.
+
+The original 13-row qualifier temporary constructor is captured and its zero
+branch executes on the retained stack slot. The caller reaches `30697b16` after
+5,026 operations. Independent regeneration matches; typechecking, fourteen
+focused checks and a targeted constructor-byte check pass. The next decoder,
+startup and campaign remain unfinished; this continuation is local.
+
+The pending qualified-value wrapper at `30697b16` is captured: 29 rows through
+RET 8 at `30697b64`. Original bytes, independent regeneration, typechecking and
+all 25 source/image checks pass. Runtime integration with value-copy and empty
+checks remains unfinished; no return or completed startup is supplied.
+
+The original copy continuation is shared with explicit live stack addresses and
+source-value ownership. The qualified caller's verified NULL value copies and
+returns to `30697b23` after 5,085 operations, while float copies still require
+their original text node. Typechecking and six focused checks pass. Remaining
+wrapper execution, full startup and campaign play remain unfinished and local.
+
+The qualified wrapper now shares the original empty-value check and assignment,
+then returns to `3069acdf` after 5,144 operations. Typechecking, six focused checks
+and a call-return check pass. Earlier combined full-suite validation reported a
+lighthouse walking failure and is still running. Remaining decoder execution,
+startup, publication and campaign completion remain unfinished.
+
+The original modifier assignment and two empty-value branches now reach
+`3069adfc` after 5,211 operations. Typechecking and six focused checks pass.
+Earlier combined full-suite validation ended with 3,560 passes and one five-second
+lighthouse timeout; all six lighthouse tests then passed in isolation. Its build
+is running. Newer decoder work, startup and campaign remain unfinished and local.
