@@ -887,3 +887,20 @@ stops at `30697736`, retaining the caller, lock and completed first CString,
 without calling initialization. Source and fixture diffs were inspected.
 Combined validation remains running on its earlier frozen revision. This work
 is local; complete startup and browser campaign completion remain unfinished.
+
+## 2026-10-11: original identifier text allocation and copy
+
+The scanned name now uses the shared original initializer with its actual source
+at type-info offset twelve. The warm arena allocates its text node at 3,996 and
+eight character bytes at 3,988, leaving payload 3,984. The original copy loop
+writes all eight `bCString` bytes and returns to `306973b7` after 6,176 source
+operations. The earlier `class ` text remains separate. Initialization and the
+delimited-name constructor still need to return; no full decoded type is claimed.
+
+TypeScript checking, six runtime checks and six browser-service checks pass.
+The normal check confirms bytes, masks, length, retained cursor and actual
+allocation offsets. The unknown character regression remains passing. Shared
+input checks now accept an explicit original source offset, defaulting to zero
+for the existing float/keyword paths, while retaining same-owner and field checks.
+The code and fixture diffs were inspected. This continuation remains local;
+complete startup and browser campaign completion remain unfinished.
