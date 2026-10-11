@@ -658,3 +658,9 @@ ESI is restored. Typechecking and seven distinct focused checks pass. Copy
 operand checks admit a fresh equal scalar read of the same physical unknown
 flag slot, while retaining register and pointer checks. Remaining class-name
 parsing, full startup and campaign remain unfinished and local.
+
+The shared compound-type prefix now consumes the original second `V` class code
+and reaches the basic-type parser at `3069b3b1` after 5,388 operations.
+Typechecking and six distinct focused checks pass. The actual qualifier
+assignment has returned; the basic-type call remains pending. Class-name
+parsing, complete startup and campaign remain unfinished and local.

@@ -605,3 +605,21 @@ returned-output check. An unrelated fatal-call test expectation changed by a
 broad replacement was restored and passed; the outer ESI expectation was updated
 to the actual restored caller register. Combined validation remains live on the
 preceding revision. Full startup, publication and campaign play remain unfinished.
+
+### Shared compound-type prefix and original class-code caller — 11 October 2026
+
+After the qualifier return, the data parser now performs its original 20-byte
+argument cleanup, assigns the live qualifier output, and follows the common
+compound-type call. The compound prolog and dispatch arithmetic are shared with
+the first float path. The second call reads the original `V` byte at type-info
+offset eleven, preserves its live cursor, and reaches `3069b770 -> 3069b3b1`
+after 5,388 admitted operations. EAX contains the actual dispatch subtraction
+result 20; the basic-type call remains pending.
+
+Typechecking and six distinct focused runtime/browser/failure checks pass. The
+normal check confirms the returned qualifier assignment, pending basic-type
+caller and original class-code byte. Obsolete reads of the earlier decoder's
+argument slots were removed after the new compound frame reused that storage.
+The earlier float constructor and byte-unknown qualifier checks remain passing.
+Combined validation is still live on the earlier revision. Class-name decoding,
+complete startup, publication and campaign play remain unfinished.
