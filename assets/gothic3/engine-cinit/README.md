@@ -645,3 +645,9 @@ The original modifier assignment and two empty-value branches now reach
 Earlier combined full-suite validation ended with 3,560 passes and one five-second
 lighthouse timeout; all six lighthouse tests then passed in isolation. Its build
 is running. Newer decoder work, startup and campaign remain unfinished and local.
+
+The original qualifier rendering-flag branches now select `3069ae9f` after
+5,224 operations. Typechecking and six focused checks pass. The preceding
+combined build passed after an isolated lighthouse check; a newer combined
+checkout including PR #244 is under validation with one test worker. This local
+continuation, complete startup and campaign remain unfinished.

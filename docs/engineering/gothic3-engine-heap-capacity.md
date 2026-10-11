@@ -566,3 +566,21 @@ production build is now running. That revision predates this newer continuation.
 The timeout remains recorded as a full-suite failure rather than a green suite.
 Remaining decoder execution, full startup, publication and campaign completion
 remain unfinished.
+
+### Original qualifier rendering flags and plain-type branch — 11 October 2026
+
+The decoder now reads its retained configuration flags, performs the original
+SHR/NOT/TEST sequence, preserves the shift's carry and overflow semantics, and
+executes the member, volatile and const qualifier comparisons. Its normalized
+`A` value selects the original plain-type path at `3069ae9f` after 5,224 admitted
+operations. No qualifier text is inserted and no decoder return is supplied.
+Typechecking and six focused runtime/browser/failure checks pass.
+
+Earlier combined revision `31207602620c9334092b5c9ca494fd0352411a26` passed its
+production build after the isolated lighthouse check passed; its full suite's
+five-second timeout remains recorded. New combined revision
+`1b37f544b0c382868335973634c91ef1adc9a103` includes main through PR #244 and
+runtime through the preceding modifier continuation. It is running typechecking,
+a full suite with one worker to reduce contention, then a build on success.
+This newer rendering-flags continuation is not in that frozen checkout. Full
+startup, publication and campaign completion remain unfinished.
