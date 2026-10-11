@@ -869,3 +869,21 @@ comparison shows exactly the new body. TypeScript checking and all 32 source/ima
 checks pass; generator and admission-test diffs were inspected. Runtime remains
 pending at `30697709` after 5,781 operations. This local capture does not execute
 the constructor. Complete startup and browser campaign completion are unfinished.
+
+## 2026-10-11: original delimited-name scan
+
+The retained constructor now follows its original per-character validation and
+cursor instructions through all eight `bCString` characters. It stops at the
+actual `@` delimiter at type-info offset twenty and passes the original start
+reference and count eight to `3069778c -> 3069760c`. The initializer reaches
+6,001 admitted operations. Text initialization and the constructor return remain
+pending; no completed decoded type name is claimed.
+
+TypeScript checking, six distinct runtime checks, and six browser-service checks
+pass. One initial normal-path check expected an obsolete EAX pointer; it now
+checks the actual partial-register delimiter byte and mask. The added unknown
+character check masks the third read at offset fifteen and proves execution
+stops at `30697736`, retaining the caller, lock and completed first CString,
+without calling initialization. Source and fixture diffs were inspected.
+Combined validation remains running on its earlier frozen revision. This work
+is local; complete startup and browser campaign completion remain unfinished.
