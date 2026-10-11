@@ -119,7 +119,9 @@ export class MotionInterpolation {
     if (step !== this.lastStep) return;
     const a = Math.min(1, Math.max(0, alpha));
     for (const [object, m] of this.motions) {
-      if (!object.position.equals(m.cur) || !object.quaternion.equals(m.curQ)) continue;
+      // restore() preserves the simulated Euler. Converting it back to a quaternion can round a lookAt/physics
+      // quaternion, so compare the representation we restored or a draw with no new step may skip interpolation.
+      if (!object.position.equals(m.cur) || !object.rotation.equals(m.curE)) continue;
       object.position.lerpVectors(m.prev, m.cur, a);
       object.quaternion.slerpQuaternions(m.prevQ, m.curQ, a);
       if ((object as THREE.Camera).isCamera) object.updateMatrixWorld();

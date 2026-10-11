@@ -146,6 +146,38 @@ describe('the 60-frame cap (A71)', () => {
 });
 
 describe('interpolated rotation past a quarter turn (A113)', () => {
+  it('keeps interpolating a looking camera on draws without a new simulation step', () => {
+    const motion = new MotionInterpolation(), camera = new THREE.PerspectiveCamera();
+    camera.position.set(0, 2, 5); camera.lookAt(2, 1, 0);
+    motion.capture(1, [camera]);
+    camera.position.z = 4.5; camera.lookAt(2, 1, 0);
+    motion.capture(2, [camera]);
+    const rotation = camera.rotation.clone();
+    for (const alpha of [.5, .75, .9]) {
+      motion.apply(alpha, 2);
+      expect(camera.position.z).toBeCloseTo(5 - .5 * alpha, 10);
+      motion.restore();
+      expect(camera.position.z).toBe(4.5);
+      expect(camera.rotation.equals(rotation)).toBe(true);
+    }
+  });
+
+  it('still respects a rotation changed outside the simulation step', () => {
+    const motion = new MotionInterpolation(), camera = new THREE.PerspectiveCamera();
+    camera.position.set(0, 2, 5); camera.lookAt(2, 1, 0);
+    motion.capture(1, [camera]);
+    camera.position.z = 4.5; camera.lookAt(2, 1, 0);
+    motion.capture(2, [camera]);
+    motion.apply(.5, 2); motion.restore();
+    camera.rotation.y += .1;
+    const rotation = camera.rotation.clone();
+    motion.apply(.75, 2);
+    expect(camera.position.z).toBe(4.5);
+    expect(camera.rotation.equals(rotation)).toBe(true);
+    motion.restore();
+    expect(camera.rotation.equals(rotation)).toBe(true);
+  });
+
   it('leaves the Euler the game wrote, so setting only rotation.y never flips the hero', () => {
     const motion = new MotionInterpolation();
     const root = new THREE.Object3D();
