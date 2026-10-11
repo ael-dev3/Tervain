@@ -1,7 +1,7 @@
 # Engine CRT initializer evidence
 
 This package records the next dependency after Engine environment-vector return.
-It captures 34 original bodies (797 instructions), the caller at `30677284`,
+It captures 35 original bodies (839 instructions), the caller at `30677284`,
 the floating-point callback at `30892ac0`, and two original initializer tables.
 The C initializer table has 200 slots with 6 nonzero entries. The C++ table has
 93,705 slots with 1,963 nonzero entries; omitted entries are verified zero.
@@ -14,7 +14,7 @@ python tools/gothic3/prepare_engine_cinit_source.py --study '<study-root>' --out
 
 The generator checks the original Engine.dll hash and exact caller bytes.
 Independent regeneration produced identical JSON, SHA-256
-``f747bb1d3136c6bc25a8401b07248511c8ded1e8072ddbaa1a6d10e86a2d6898``.
+``e08de2a9594f613f580d6b2e8f7c2e888d8e50180036445ec2c6e8f449b57e0e``.
 
 The capture's `runtimeConnected: false` records evidence preparation; it grants
 no execution authority. The TypeScript continuation separately obtains a
@@ -83,3 +83,10 @@ The type-name routine now enters and returns from its original EH4 prolog using
 its own immutable 28-byte scope. The same admitted instructions serve both
 registration and name setup, with separate frame records and actual return
 checks. Execution stops at `3067daa3` after 2,735 admitted operations.
+
+The name routine now loads its actual type-info argument, checks the original
+cache and physically pushes all six undecoration arguments. The name pointer
+selects offset 9, containing `M` and its NUL terminator; allocator/free code
+pointers and flags `0x2800` remain source capabilities. Execution stops at
+`3069b26b` after 2,747 admitted operations, with the caller pending. Unknown
+cache bytes stop at their actual comparison rather than fabricate a name.

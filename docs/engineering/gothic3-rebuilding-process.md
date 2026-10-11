@@ -4,6 +4,22 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local continuation — 11 October 2026: undecoration caller arguments
+
+The type-name routine now loads the retained object from its physical frame,
+checks its cache and follows the original cold branch. It pushes the six actual
+undecoration arguments: NULL output buffer, the `M` bytes at type-info offset 9,
+zero buffer length, allocation callback `30672ec7`, free callback `30672f8a`
+and flags `0x2800`. It calls `3069b26b` with a pending return to `3067dacb`.
+No decoded name, allocation or cache publication has been supplied yet.
+
+The normal path reaches 2,747 admitted operations. Seven distinct focused runtime
+checks pass after correcting the undecoration call's physical stack expectation;
+all three source checks, final typechecking and exact independent regeneration
+pass. Unknown cache bytes stop at `3067daa8` with the frame retained. Earlier
+combined validation remains live. This newer continuation is local; remaining
+C++ initialization, full startup and the browser campaign remain unfinished.
+
 ## Local continuation — 11 October 2026: type-name exception frame
 
 The type-name routine pushes its original local extent and immutable 28-byte

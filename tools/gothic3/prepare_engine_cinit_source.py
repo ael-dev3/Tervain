@@ -39,6 +39,7 @@ def capture(study):
         0x3001c3c8: 'engineVisualAnimationFloatPropertyType',
         0x306713ae: 'enginePropertyTypeNameWrapper',
         0x3067da97: 'enginePropertyTypeName',
+        0x3069b26b: 'engineUndecorateName',
     })
     pe = PE((study / '00_Original_Runtime/Engine.dll').read_bytes())
     # The exported function CSV omits this complete body; retain its assembly
