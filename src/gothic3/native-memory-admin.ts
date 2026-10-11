@@ -156,6 +156,20 @@ export class NativeMemoryAdmin {
     return retainedMemoryPlatforms.get(memory) === platform && memory.platform === platform;
   }
 
+  /** Read-only membership proof for a live allocation returned by this owner. */
+  static canonicalAllocationForPlatform(memory: NativeMemoryAdmin, platform: NativeMemoryPlatform, allocation: NativeMemoryAllocation): NativeValue<NativeMemoryAllocation> {
+    if (!NativeMemoryAdmin.isForPlatform(memory, platform) || !memory.allocations.has(allocation as Allocation) ||
+        allocation.freed || allocation.region.freed || !Number.isSafeInteger(allocation.offset) || allocation.offset < 0 ||
+        !Number.isSafeInteger(allocation.requestedBytes) || allocation.requestedBytes < 0 || allocation.requestedBytes > 0xffffffff ||
+        !Number.isSafeInteger(allocation.capacity) || allocation.capacity < allocation.requestedBytes ||
+        allocation.offset + allocation.capacity > allocation.region.bytes.length ||
+        allocation.bytes.buffer !== allocation.region.bytes.buffer || allocation.bytes.byteOffset !== allocation.region.bytes.byteOffset + allocation.offset ||
+        allocation.bytes.length !== allocation.capacity || allocation.knownMask.buffer !== allocation.region.knownMask.buffer ||
+        allocation.knownMask.byteOffset !== allocation.region.knownMask.byteOffset + allocation.offset || allocation.knownMask.length !== allocation.capacity)
+      return unknown('Actual same-platform live MemoryAdmin allocation required');
+    return known(allocation);
+  }
+
   /** Geometry comes from the actual lower allocation owner. Neither a heap
    * view nor a pool constant supplies a native pointer address/alignment. */
   byteGeometry(): NativeByteGeometryHost {

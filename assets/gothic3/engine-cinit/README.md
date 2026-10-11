@@ -499,3 +499,11 @@ and reaches Malloc `10003cd8` after 4,300. Internal getter operations are exclud
 from these counts. Eleven targeted runtime/browser checks and typechecking pass.
 Allocation and subsequent CString writes remain pending; this is not a deployed
 startup or campaign completion receipt.
+
+The local allocation bridge now returns the actual MemoryAdmin 16-byte pool
+slot for the original 14-byte request. Original length/refcount, character
+pointer publication and NUL stores execute, and the constructor reaches memcpy
+`100a7a00` after 4,313 admitted source operations. Allocator internals are not
+counted as executed source rows. Six ownership, normal, browser and failure
+checks pass. Character copying, complete startup and campaign play remain
+unfinished; this newer checkpoint has not been deployed.

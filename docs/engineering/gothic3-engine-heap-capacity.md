@@ -164,3 +164,28 @@ two browser integration checks and a getter-failure/replay check. The earlier
 combined revision passed all 233 focused checks; its full suite is still running.
 This continuation is local. Allocation return, CString copying, complete startup
 and a campaign playable through an ending remain unfinished.
+
+### CString allocation and header stores — 11 October 2026
+
+The retained `1001325e -> 10003cd8` call now uses the same MemoryAdmin's
+source-backed Malloc contract with the actual 14-byte argument and receiver.
+Its admitted 16-byte pool returns a distinct live allocation. A read-only owner
+proof checks membership, platform, lifetime and backing geometry; a copied
+allocation, another owner and freed backing are rejected. Internal allocator
+operations are excluded from admitted source-row counts.
+
+The eight original CString allocator rows write length five and reference count
+one, advance the character pointer by eight, publish that pointer in the actual
+property destination, write its NUL at offset 13 and return with four-byte
+argument cleanup. Five original constructor rows load that pointer and prepare
+the source, destination and five-byte count for memcpy. Execution stops at
+`100a7a00` after 4,313 source operations. The character copy remains pending.
+
+Typechecking and six focused ownership/runtime/browser checks pass. A NULL
+allocation stops at the original pending call; interrupting the terminator store
+retains the published header and destination at `10013271` after 4,305 operations.
+Neither failure replays. Replacing a deep backing-object comparison with an
+identity assertion reduced the allocation test body from about 33 seconds to
+about four; the standard timeout is retained. This checkpoint is local, and the
+earlier combined full suite is still running. Complete startup and a finishable
+browser campaign remain unfinished.

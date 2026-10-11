@@ -1,3 +1,4 @@
+import {NativeMemoryAdmin} from '../../src/gothic3/native-memory-admin';
 import {createNativeRuntimeAdminOwner} from '../../src/gothic3/native-runtime-platform';
 import {nativeVirtualX86CpuSelection,type NativeX86CpuSelection} from '../../src/gothic3/native-x86-thread-stack-profile';
 import type {NativeWin32ProcessInputSelection} from '../../src/gothic3/native-win32-process-inputs';
@@ -1169,11 +1170,11 @@ it('scans the original live cache in CString construction and passes length five
 it('binds the original CString allocation call to the retained MemoryAdmin',()=>{
  const {bootstrap,platform}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{engineHeapLayout:'rounded-eight',processorFeatureProcedure:true,floatingPointPrecisionErratum:false});
  const owner=createNativeRuntimeAdminOwner(platform);expect(bootstrap.processAttach().known).toBe(false);const f=bootstrap.attachProgress().engineCinitProgress!;
- expect(f).toMatchObject({pc:'10003cd8',operations:4300});expect(f.typeNameMemoryAdmin).toBe(owner.memory);
- expect(f.currentEaxWord).toMatchObject({provenance:{kind:'arena-memory-admin',owner:owner.memory}});
+ expect({pc:f.pc,operations:f.operations}).toEqual({pc:'100a7a00',operations:4313});expect(f.typeNameMemoryAdmin).toBe(owner.memory);
+ const pointer=f.currentEaxWord.provenance;if(pointer?.kind!=='shared-local')throw new Error('Expected owned CString pointer');expect(pointer.fields).toBe(f.typeNameCString);expect(pointer.offset).toBe(8);expect(f.typeNameCString!.backing).toMatchObject({requestedBytes:14,capacity:16,freed:false});expect(f.typeNameCString!.readUnsigned(0)).toBe(5);expect(f.typeNameCString!.readUnsigned(4,2)).toBe(1);expect(f.typeNameCString!.readUnsigned(13,1)).toBe(0);
  const graph=NativeX86ThreadStack.forPlatform(platform);if(!graph.known)throw new Error(graph.reason);
  expect(graph.value.snapshot().calls.find(c=>c.site==='10013257')?.returned).toBe(true);
- expect(graph.value.snapshot().calls.find(c=>c.site==='1001325e')?.returned).toBe(false);
+ expect(graph.value.snapshot().calls.find(c=>c.site==='1001325e')?.returned).toBe(true);
  expect(platform.snapshot().pending.filter(c=>c.address==='100e2710')).toHaveLength(1);
 });
 
@@ -1198,4 +1199,21 @@ it('retains MemoryAdmin getter failure before allocation and forbids replay',()=
  const f=bootstrap.attachProgress().engineCinitProgress!;expect(f).toMatchObject({pc:'10002aae',operations:4298,typeNameMemoryAdmin:null});
  const graph=NativeX86ThreadStack.forPlatform(platform);if(!graph.known)throw new Error(graph.reason);expect(graph.value.snapshot().calls.find(c=>c.site==='10013257')?.returned).toBe(false);
  expect(bootstrap.processAttach()).toEqual(result!);expect(calls).toBe(1);
+});
+
+it('retains the original allocation call on a NULL MemoryAdmin result',()=>{
+ const {bootstrap,platform}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{engineHeapLayout:'rounded-eight',processorFeatureProcedure:true,floatingPointPrecisionErratum:false});
+ createNativeRuntimeAdminOwner(platform);const spy=vi.spyOn(NativeMemoryAdmin.prototype,'malloc').mockReturnValue({known:true,value:null});let result:ReturnType<typeof bootstrap.processAttach>;
+ try{result=bootstrap.processAttach();expect(spy).toHaveBeenCalledWith(14);}finally{spy.mockRestore();}
+ const f=bootstrap.attachProgress().engineCinitProgress!;expect({pc:f.pc,operations:f.operations,cstring:f.typeNameCString}).toEqual({pc:'10003cd8',operations:4300,cstring:null});
+ expect(result!.known).toBe(false);if(result!.known)throw new Error('NULL allocation returned');expect(result!.reason).toContain('NULL allocation dereference');expect(bootstrap.processAttach()).toEqual(result!);
+});
+
+it('retains the published CString header if its original terminator store is interrupted',()=>{
+ const {bootstrap,platform}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{engineHeapLayout:'rounded-eight',processorFeatureProcedure:true,floatingPointPrecisionErratum:false});
+ createNativeRuntimeAdminOwner(platform);const write=NativeHeapObjectViews.prototype.writeUnsigned;let attempts=0;
+ const spy=vi.spyOn(NativeHeapObjectViews.prototype,'writeUnsigned').mockImplementation(function(this:NativeHeapObjectViews,offset,value,width){if(this.bytes.length===16&&offset===13&&width===1){attempts++;throw new Error('CString terminator interrupted');}return write.call(this,offset,value,width);});
+ let result:ReturnType<typeof bootstrap.processAttach>;try{result=bootstrap.processAttach();}finally{spy.mockRestore();}
+ const f=bootstrap.attachProgress().engineCinitProgress!;expect({pc:f.pc,operations:f.operations}).toEqual({pc:'10013271',operations:4305});expect(f.typeNameCString!.readUnsigned(0)).toBe(5);expect(f.typeNameCString!.readUnsigned(4,2)).toBe(1);
+ expect(result!.known).toBe(false);if(result!.known)throw new Error('Interrupted terminator returned');expect(result!.reason).toContain('CString terminator interrupted');expect(bootstrap.processAttach()).toEqual(result!);expect(attempts).toBe(1);
 });
