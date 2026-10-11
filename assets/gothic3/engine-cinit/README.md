@@ -3282,3 +3282,20 @@ instructions; JSON SHA-256 is
 All 75 source and image checks and typechecking passed. Runtime connection of
 the comma routine and second argument is still required. No deployment or full
 campaign completion is claimed.
+
+
+## Second MainCache template argument and list return
+
+The original second class argument `bCObjectRefBase` now decodes from cursor 45,
+returns through its scoped-name and class parsers, enters the argument cache,
+and appends to the original output list. The argument parser recognizes the
+original end marker at cursor 63, clears its active flag, verifies its cookie,
+and physically returns to `30699287`. The outer template-name routine remains
+pending there; the template property root is zero and its CString is not built.
+
+Five focused normal/interruption/history checks, all 30 selected property
+regressions, all 81 source/image/browser startup checks, typechecking and the
+production build passed in this checkout. The continuation has been copied
+into the main-PR-264 checkout for compatibility checks against the latest
+source inventory and application changes. This local checkpoint does not
+claim deployment, complete native startup or a playable full campaign.
