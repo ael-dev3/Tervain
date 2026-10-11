@@ -172,7 +172,11 @@ export function parseMesh(bytes: Uint8Array): G3Mesh {
   const elements: MeshElement[] = [];
   if (count === 0) return { box, elements };
   const version = r.view.getUint16(r.pos, true);
-  elements.push(readElement(r));
+  // The first element is checked like every later one (A99 scout): an index past its vertices, or attribute counts that
+  // disagree, made the whole instanced mesh vanish or drew it with NaN normals.
+  const first = readElement(r), problem = elementProblem(first);
+  if (problem) throw new Error(`mesh element 0: ${problem}`);
+  elements.push(first);
   for (let i = 1; i < count; i++) {
     // Skip the block that ends the previous element: the next element is the first header that reads as a sound
     // element (a candidate that does not is a coincidence in that block's data).

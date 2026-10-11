@@ -229,7 +229,9 @@ export class App {
     this.menuScene = new MenuScene({ quality: this.settings.quality });
     this.applyPixelRatio();
     window.addEventListener('resize', () => this.onResize());
-    this.onResize();
+    // The saved preset reaches the renderer from the first frame (A99 scout): a Low title still drew bloom and shadows
+    // until a world was built.
+    this.applyQualityToRenderer();
 
     this.audio.onCaption = (t) => this.settings.captions && this.hud.caption(t);
     this.audio.onMusicState = () => this.syncMusicUnlock();
@@ -580,7 +582,8 @@ export class App {
     for (;;) {
       const menu = this.menuScene;
       menu.prepare(this.renderer);
-      await this.renderer.compileAsync?.(menu.scene, menu.camera);
+      // Compiling ahead only spares the first frames; failing, it must not leave the menu never ready (A99 scout).
+      await this.renderer.compileAsync?.(menu.scene, menu.camera)?.catch((error: unknown) => console.warn('Menu shaders were not compiled ahead', error));
       // Imported assets or a new quality setting may replace the scene during compilation.
       if (menu !== this.menuScene) continue;
       this.menuGraphicsReady = true;

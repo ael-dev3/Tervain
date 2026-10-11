@@ -109,7 +109,8 @@ export interface RoadSpec {
 /** The continuous arrival trail: quiet sand, closed woodland, inland waystation, then Rillford. */
 export const ARRIVAL_ROUTE: V2[] = [
   { x: -252, z: 31 }, { x: -230, z: 25 }, { x: -208, z: 12 }, { x: -182, z: 10 },
-  { x: -160, z: 23 }, { x: -138, z: 30 }, { x: -110, z: 22 }, { x: -80, z: 16 },
+  // Through the middle of the stockade gate (A99): the straight line passed 0.7 m off it, by the northern post.
+  { x: -160, z: 23 }, { x: -138, z: 30 }, { x: -110, z: 22 }, { x: -91.6, z: 17 }, { x: -80, z: 16 },
   { x: -50, z: 12 }, { x: -25, z: 10 }, { x: 2, z: 8 },
 ];
 export const ARRIVAL_TRAIL_WIDTH = 4.2;
@@ -507,7 +508,9 @@ export const LIGHTHOUSE_CONSTRUCTION = {
 export const PALISADE = {
   points: [{ x: -101, z: -8 }, { x: -95, z: 2 }, { x: -92, z: 11 }, { x: -91.2, z: 24 }, { x: -93.5, z: 36 }, { x: -99, z: 48 }, { x: -108, z: 59 }] as V2[],
   /** The gap the track runs through, as a range of z along the near-vertical stretch of the wall. */
-  gate: { x: -91.6, z0: 14.6, z1: 19.4 },
+  /** `leafSwing`: how far each leaf stands open (rad), folded back against the inside of the wall, clear of the track
+   * that crosses the gap on a slant (A99: at 1.25 the northern leaf stood across it, walked through unseen). */
+  gate: { x: -91.6, z0: 14.6, z1: 19.4, leafSwing: 2.55 },
   tower: { x: -93.6, z: 10.6, yaw: 0.16 },
 } as const;
 

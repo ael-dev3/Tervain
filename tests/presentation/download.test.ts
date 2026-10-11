@@ -31,6 +31,21 @@ beforeEach(async () => {
 afterEach(() => { vi.unstubAllGlobals(); });
 
 describe('model downloads (A68)', () => {
+  it('waits for a copy still being written to the cache instead of downloading the file again (A99 scout)', async () => {
+    const data = bytes(5, 6, 7, 8), sha256 = hash(data);
+    fetchMock.mockImplementation(async () => new Response(data.slice(0)));
+    let release!: () => void;
+    const slowPut = cache.put.bind(cache);
+    cache.put = async (key: string, response: Response) => { await new Promise<void>((r) => { release = r; }); return slowPut(key, response); };
+    await subject.downloadAsset('https://raw.example/a/x.glb', { label: 'X', sha256, bytes: 4 });
+    // Asked for again while the first copy is still being written.
+    const again = subject.downloadAsset('https://raw.example/b/x.glb', { label: 'X', sha256, bytes: 4 });
+    await new Promise((r) => setTimeout(r, 5));
+    release();
+    expect(new Uint8Array(await again)).toEqual(new Uint8Array(data));
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+
   it('keeps a file with a known hash and serves it again from the cache, at any address', async () => {
     const data = bytes(1, 2, 3, 4), sha256 = hash(data);
     fetchMock.mockImplementation(async () => new Response(data.slice(0)));

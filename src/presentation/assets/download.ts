@@ -47,6 +47,8 @@ let cacheRequest: Promise<Cache | null> | null = null;
 const used = new Set<string>();
 /** Downloads under way by address and hash (A86): a file the menu is fetching ahead is shared with the journey asking for it. */
 const inflight = new Map<string, Promise<ArrayBuffer>>();
+/** Cache writes still under way, by hash. */
+const writing = new Map<string, Promise<void>>();
 
 /** Whether this browser offers Cache Storage at all (not in tests, nor in some private windows). */
 const cacheAvailable = () => typeof caches !== 'undefined' && typeof document !== 'undefined';
@@ -140,6 +142,8 @@ async function download(url: URL | string, options: DownloadOptions): Promise<Ar
   const cache = sha256 && cacheAvailable() ? await contentCache() : null;
   if (sha256) used.add(sha256);
   if (cache && sha256) {
+    // A copy still being written is waited for (A99 scout): asked for again in that moment, a file was downloaded twice.
+    await writing.get(sha256);
     try {
       const hit = await cache.match(cacheKey(sha256));
       if (hit) {
@@ -158,7 +162,9 @@ async function download(url: URL | string, options: DownloadOptions): Promise<Ar
         if (options.sha256 && digest !== options.sha256) throw new DownloadError(`${options.label} failed its integrity check.`, true);
         // Only bytes that are exactly the known file go into the cache (a table entry never rejects a download).
         if (cache && sha256 && digest === sha256) {
-          void cache.put(cacheKey(sha256), new Response(data, { headers: { 'content-type': 'application/octet-stream' } })).catch(() => {});
+          const put = cache.put(cacheKey(sha256), new Response(data, { headers: { 'content-type': 'application/octet-stream' } })).catch(() => {})
+            .finally(() => { if (writing.get(sha256) === put) writing.delete(sha256); });
+          writing.set(sha256, put);
         }
       }
       return data;
