@@ -1,3 +1,4 @@
+import {admitEngineCinitSource,engineCinitInstruction} from './native-engine-cinit-source';
 import engineExitSource from '../../assets/gothic3/ai-helper-accessor-creator-startup/research.json';
 import {admitAIHelperAccessorCreatorSource} from './native-game-ai-helper-accessor-creator-source';
 /** Engine CRT heap/lock-table owner. OS initialization, TLS errno, CRT fatal
@@ -762,9 +763,10 @@ export class NativeModuleCrtOwner {
   }
   malloc(bytes: number): NativeValue<NativeMemoryBacking | null> { return this.run('malloc30672ec7', () => this.allocate(bytes)); }
   reallocCrt(pointer: NativeBytePointer, bytes: number): NativeValue<NativeMemoryBacking | null> {
-    if (this.module !== 'Game') return unknown('Original Game realloc CRT owner required');
-    return this.run('reallocCrt20468416', () => {
-      admitGameExitGrowthSource();
+    if (this.module !== 'Game' && this.module !== 'Engine') return unknown('Original Game or Engine realloc CRT owner required');
+    const engine=this.module==='Engine';
+    return this.run(engine?'reallocCrt3067ca49':'reallocCrt20468416', () => {
+      if(engine){admitEngineCinitSource();if(engineCinitInstruction('3067ca49','3067ca55').bytes!=='e8a6c7ffff'||engineCinitInstruction('30679200','306793b5').bytes!=='ff1584c6af30')throw new Error('Original Engine realloc wrapper and HeapReAlloc call required');}else admitGameExitGrowthSource();
       if (!Number.isInteger(bytes) || bytes < 0 || bytes > 0xffffffff) throw new Error('Original uint32 realloc size required');
       const platform = this.host.platform;
       if (!(platform instanceof NativeRuntimePlatform)) throw new Error('Canonical virtual realloc platform required');
@@ -774,25 +776,25 @@ export class NativeModuleCrtOwner {
       if (!this.#allocations.has(old) || geometry.value.offset !== 0 || old.freed)
         throw new Error('Same CRT live realloc allocation base required');
       if (bytes === 0) { this.release(old); return null; }
-      if (bytes > 0xffffffe0) this.gate('realloc20477f60 oversized request new-handler branch');
-      if (this.physical.heapSelector.readUnsigned(0) === 3) this.gate('realloc20477dd8 small-block branch under lock4');
+      if (bytes > 0xffffffe0) this.gate(engine?'realloc306793d9 oversized request new-handler branch':'realloc20477f60 oversized request new-handler branch');
+      if (this.physical.heapSelector.readUnsigned(0) === 3) this.gate(engine?'realloc30679200 small-block branch under lock4':'realloc20477dd8 small-block branch under lock4');
       const heap = this.retainedHeap('HeapReAlloc');
       let delay = 0;
       for (;;) {
         let moved: NativeMemoryBacking | null;
         for (;;) {
-          moved = this.call('HeapReAlloc207d7c60', () => Reflect.apply(NativeRuntimePlatform.prototype.win32HeapReAlloc,
+          moved = this.call(engine?'HeapReAlloc30afc684':'HeapReAlloc207d7c60', () => Reflect.apply(NativeRuntimePlatform.prototype.win32HeapReAlloc,
             platform, [heap,0,pointer,bytes,'move-preserve-unknown-extension']),
             value => { if (value) this.#allocations.add(value); });
           if (moved) return moved;
           if (this.physical.newMode.readUnsigned(0) !== 0) {
-            const retry = this.call('callNewHandler204742dd', () => this.host.callNewHandler?.(bytes)
+            const retry = this.call(engine?'callNewHandler306824b9':'callNewHandler204742dd', () => this.host.callNewHandler?.(bytes)
               ?? unknown('Original realloc new-handler capability required'));
             if (retry !== 0) continue;
           }
           const errno = this.errnoFields();
           const error = this.call('GetLastError', () => this.host.getLastError?.() ?? unknown('Actual realloc last-error capability required'));
-          const mapped = this.call('osErrorToErrno2046a247', () => this.host.mapOsError?.(error) ?? unknown('Original realloc OS-error mapping required'));
+          const mapped = this.call(engine?'osErrorToErrno306783a4':'osErrorToErrno2046a247', () => this.host.mapOsError?.(error) ?? unknown('Original realloc OS-error mapping required'));
           errno.writeUnsigned(0,mapped); break;
         }
         if (this.physical.mallocWait.readUnsigned(0) === 0) return null;

@@ -13,6 +13,8 @@ def capture(study):
     EXPECTED_INPUTS['Engine.dll'] = 'd49ef92c0fdfeda433f6d04d0edeb7751e41e4c7c7effc1265630717029dc7e3'
     source = audit_module(study, 'Engine_dll', 'Engine.dll', {
         0x3067d1c7: 'engineCinit',
+        0x3067ca49: 'engineReallocWrapper',
+        0x30679200: 'engineReallocImplementation',
         0x3068aa20: 'engineReadonlyPointer',
         0x3068a9a0: 'engineValidateImage',
         0x3068a9d0: 'engineFindSection',

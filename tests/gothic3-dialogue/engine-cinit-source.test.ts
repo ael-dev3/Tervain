@@ -255,3 +255,11 @@ it('pins the original text-node last character and empty return',()=>{
  expect(engineCinitInstruction('306973c9','306973d8').bytes).toBe('32c0');
  expect(engineCinitInstruction('306973c9','306973da').bytes).toBe('c3');
 });
+
+it('pins original Engine realloc wrapper and normal HeapReAlloc instructions',()=>{
+ expect(engineCinitInstruction('3067ca49','3067ca55').bytes).toBe('e8a6c7ffff');
+ expect(engineCinitInstruction('3067ca49','3067ca93').bytes).toBe('c3');
+ expect(engineCinitInstruction('30679200','30679234').bytes).toBe('833d207eaf3003');
+ expect(engineCinitInstruction('30679200','306793b5').bytes).toBe('ff1584c6af30');
+ expect(engineCinitInstruction('30679200','306793ed').bytes).toBe('e853510000');
+});
