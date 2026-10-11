@@ -59,7 +59,7 @@ export const OWNER_RECOLLECTION_COMMUNITY = {
  */
 export const RECOLLECTION_CONTRADICTED = {
   'wanderer-historical': 'Repository evidence points to generation for the project: "The Weathered Wanderer" is Tervain\'s own named hero, and docs/engineering/main-hero-assets.json records that its "original source, editable Blender scene, texture sources, prompts and validation remain in the owner\'s approved wanderer-hero-50k asset workshop" (prompts are kept for a model one generates, not one downloads).',
-  'wanderer-animated': 'Repository evidence points to generation for the project: it is the animated export of the same Weathered Wanderer (Tervain\'s own named hero) whose prompts are recorded as kept in the owner\'s workshop (docs/engineering/main-hero-assets.json), and it carries Mixamo-named skeleton and clips recorded separately.',
+  'wanderer-animated': 'Repository evidence points to generation for the project: it is the animated export of the same Weathered Wanderer (Tervain\'s own named hero) whose prompts are recorded as kept in the owner\'s workshop (docs/engineering/main-hero-assets.json), and it carries a Mixamo-named skeleton and clips that public Meshy documentation matches to Meshy rigging and its animation library (recorded separately).',
 };
 
 /** Supplied sources with recorded evidence of generation by the project under Meshy Pro: { [sourceId]: evidence }. */
@@ -178,8 +178,15 @@ const INPUT_NOTES = {
 /** What the animated hero's source carries beyond Meshy output, recorded apart from its provenance. */
 export const WANDERER_SEPARATE_RIGHTS = [{
   component: 'Mixamo-named skeleton and animation content in the supplied animated source',
-  evidenceStatus: 'pending-source-rights',
-  note: 'Separate from the Meshy provenance question. Its separate source rights are not independently established.',
+  evidenceStatus: 'meshy-output-by-public-evidence',
+  // A112: public Meshy documentation matches every clip and the naming; who generated the file, and under which plan,
+  // stays the open provenance question above.
+  note: 'Public Meshy evidence (read 2026-10-11) indicates this is Meshy output in Mixamo-compatible naming, not Adobe Mixamo content: '
+    + 'of its six clips, Run_03, Casual_Walk, Dead and Boxing_Practice are Meshy animation-library actions 15, 30, 8 and 87 '
+    + '(https://docs.meshy.ai/en/api/animation-library), and Walking and Running are the default animations a Meshy rigging task returns '
+    + '(basic_animations, https://docs.meshy.ai/en/api/rigging); Meshy states its rigs follow Mixamo bone naming '
+    + '(https://www.meshy.ai/features/ai-auto-rigging). It therefore follows the source’s Meshy provenance, which remains unresolved. '
+    + 'No license or clearance is asserted by this record.',
 }];
 
 export const meshyServiceRules = () => ({

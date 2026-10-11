@@ -55,7 +55,12 @@ Each Meshy source's `license` follows its classification: `meshy-paid-plan-outpu
 
 No classification here is a commercial-clearance certificate. **Commercial clearance is unsettled** until the unresolved sources are confirmed. The classifications do not clear third-party inputs, trademark or publicity rights, and do not cover what is not Meshy output:
 
-- The animated hero source contains **Mixamo-named skeleton and animation content**. Its separate source rights are not independently established; the ledger keeps them under `separateRights` with `evidenceStatus: "pending-source-rights"` on the `wanderer-animated` source.
+- The animated hero source contains a **Mixamo-named skeleton and animation content**. By public Meshy documentation (read 11 October 2026, A112) it is Meshy output in Mixamo-compatible naming, not Adobe Mixamo content:
+  - Four of its six clips (Run_03, Casual_Walk, Dead, Boxing_Practice) are Meshy animation-library actions 15, 30, 8 and 87 ([library](https://docs.meshy.ai/en/api/animation-library)).
+  - Walking and Running are the default animations a Meshy rigging task returns ([rigging](https://docs.meshy.ai/en/api/rigging)).
+  - Meshy states its rigs follow Mixamo bone naming ([auto-rigging](https://www.meshy.ai/features/ai-auto-rigging)).
+
+  The ledger records this under `separateRights` with `evidenceStatus: "meshy-output-by-public-evidence"` on the `wanderer-animated` source. It follows that source's Meshy provenance, which stays unresolved: who generated the file, and under which plan, is for the owner to confirm.
 - The historical Warpkeep archive keeps **LicenseRef-Warpkeep-Provenance-Required** (below).
 - Material refinement with other tools, original Tervain additions and code-generated geometry keep their own records.
 
@@ -115,7 +120,7 @@ that set's own record in Warpkeep-Assets.
 
 The ledger's `auditedModelRevision` identifies the model snapshot; later documentation or credit changes do not validate different binaries. Recompute every listed file's bytes/SHA-256 against its existing source record when a model changes, add new source and modification records, and retain actual license notices. Reconcile the static credits page and JSON counts together. Published model delivery from an immutable build commit does not change the source license.
 
-Before claiming that every model's rights are resolved, confirm the provenance of every unresolved Meshy source, establish the animated hero's Mixamo-named content (the Warpkeep per-set provenance is recorded above, A107), confirm required creator/source/license/change notices, and verify the distributed credits. Source provenance, permission evidence and a compliance claim are separate findings.
+Before claiming that every model's rights are resolved, confirm the provenance of every unresolved Meshy source, confirm who generated the animated hero source (its skeleton and clips match Meshy output, A112; the Warpkeep per-set provenance is recorded above, A107), confirm required creator/source/license/change notices, and verify the distributed credits. Source provenance, permission evidence and a compliance claim are separate findings.
 
 ## To confirm
 
@@ -126,4 +131,4 @@ Since A75, the residents, animals, trees and scenery below are classified as Com
 - **Animals** (19): `Meshy_AI_tiger_1005232739_texture.glb`, `Meshy_AI_Lion_1005232726_texture.glb`, `Meshy_AI__bear_1005170943_texture.glb`, `Meshy_AI_Bear__1005232657_texture.glb`, `Meshy_AI_Wolf_1005232644_texture.glb`, `Meshy_AI_Wolf_1005232637_texture.glb`, `Meshy_AI_wolf_1005232631_texture.glb`, `Meshy_AI_cat_1005232619_texture.glb`, `Meshy_AI_cat_1005232608_texture.glb`, `Meshy_AI_cat_1005232556_texture.glb`, `Meshy_AI_dog_1005232529_texture.glb`, `Meshy_AI_dog_1005232511_texture.glb`, `Meshy_AI_Wild_Boar_1005232450_texture.glb`, `Meshy_AI_boar_1005232442_texture.glb`, `Meshy_AI_BOAR_1005174818_texture.glb`, `Meshy_AI_Red_Deer_Stag_1005232424_texture.glb`, `Meshy_AI_Deer_Mount_1005232412_texture.glb`, `Meshy_AI_Deer_1005232351_texture.glb`, `Meshy_AI_Deer_1005232341_texture.glb`
 - **Trees** (15): `Meshy_AI_Palm_Tree_1004201606_generate.glb`, `Meshy_AI_Palm_Tree_1004201604_generate.glb`, `Meshy_AI_Palm_Tree_1004160953_texture.glb`, `Meshy_AI_fir_tree_1004113655_texture.glb`, `Meshy_AI_Oak_Tree_1004141950_texture.glb`, `Meshy_AI_a_tree_1004170208_texture.glb`, `Meshy_AI_a_tree_1004201537_texture.glb`, `Meshy_AI_tree_1004201527_texture.glb`, `Meshy_AI_tree_1004201521_texture.glb`, `Meshy_AI_tree_1004164949_texture.glb`, `Meshy_AI_tree_1004003106_texture.glb`, `Meshy_AI_tree_1004201505_texture.glb`, `Meshy_AI_tree_1004201459_texture.glb`, `Meshy_AI_tree_1004164815_texture.glb`, `Meshy_AI_Verdant_Sentinel_1004183231_texture.glb`
 - **Other trees and scenery** (3): `Meshy_AI_Solitary_Pine_1002211944_texture.glb`, `Meshy_AI_Ancient_Guardian_1004193348_texture.glb`, `Meshy_AI_Rock_Pile_1004134927_texture.glb`
-- **Animated hero**: the separate rights of the Mixamo-named skeleton and animation content in `Meshy_AI_The_Weathered_Wandere_All_Animations.glb`.
+- **Animated hero**: who generated `Meshy_AI_The_Weathered_Wandere_All_Animations.glb`, and under which Meshy plan. Its skeleton and clips match Meshy rigging and its animation library by public evidence (A112).
