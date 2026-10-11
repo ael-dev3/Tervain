@@ -1,5 +1,24 @@
 # Gothic 3 rebuild: step-by-step workflow
 
+## Local continuation — 11 October 2026: original bounded cache copy
+
+The type-name routine publishes its actual six-byte cache allocation in the
+original type-info slot, then passes that allocation, its derived capacity and
+the live constructed source to the captured `3068a84a` bounded copier. The copier
+reads and writes six actual bytes including NUL, retains one byte of remaining
+capacity, restores its registers and returns status zero through the physical
+caller. Execution stops at `3067db48` after 4,147 admitted operations, before
+cache-list linking. Lock 14 remains held and the original output is still live.
+
+Ten runtime checks plus the dedicated unknown-byte check and all 19 source/image
+checks pass. Interrupting the third write or making the third source byte unknown
+retains the actual published prefix and held lock. Exact source regeneration
+matches independently. The preceding allocation revision passed 209 startup
+integration checks and a production build. The earlier scan revision's full
+suite is still running and has reported two failed files; that full validation
+is not claimed as passing. This checkpoint is local. List publication, cleanup,
+complete startup and the finishable browser campaign remain unfinished.
+
 ## Local continuation — 11 October 2026: original type-name cache allocations
 
 The type-name caller inspects the final character of the actual constructed
