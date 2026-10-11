@@ -2790,3 +2790,13 @@ All five distinct checks have passing evidence across those runs.
 CString allocation, byte copy, property publication, shutdown registration,
 complete startup and a finishable browser campaign remain outstanding. This
 checkpoint is local and has not been deployed.
+
+
+### 11 October 2026: reference-base CString scan combined validation
+
+Combined revision `b662fc5c30c84fcc85bb972de0dffc08bfae6d0d` passed
+typechecking, all 3,733 tests across 328 files (1,971.30 seconds), and a
+production build (56.09 seconds). This receipt covers the CString length
+scan at `10007d65`, together with main through PR #256. Later CString
+allocation/copy, reference-base registration and obsolete-class prefix work
+are outside this receipt. Complete startup and campaign play remain unfinished.
