@@ -1,0 +1,2725 @@
+{
+  "schema": 1,
+  "generatedBy": "tools/model-ledger/warpkeep-provenance.mjs",
+  "archive": {
+    "manifest": "assets/warpkeep/manifest.json",
+    "source": {
+      "repository": "https://github.com/ael-dev3/Warpkeep",
+      "commit": "786c0b2be6f2d2e7eb2de02ef3b6826c8907fc32",
+      "note": "Byte-exact copies of runtime GLBs from public/models/hegemony/. Nothing is transformed."
+    },
+    "terms": {
+      "status": "LicenseRef-Warpkeep-Provenance-Required",
+      "summary": "Used in Tervain on the project owner's instruction (2026-09-29). Warpkeep's ASSETS-LICENSE.md records these files as use-authorised runtime assets, not as an open-content licence; per-set provenance is in Warpkeep-Assets. Redistribution beyond the owner's own projects is not granted by this repository.",
+      "ledger": "https://github.com/ael-dev3/Warpkeep/blob/main/ASSETS-LICENSE.md",
+      "archive": "https://github.com/ael-dev3/Warpkeep-Assets"
+    },
+    "totals": {
+      "files": 209,
+      "bytes": 23676804,
+      "assets": 76
+    }
+  },
+  "verified": "Every file's SHA-256 and size were recomputed and match the archive manifest.",
+  "boundary": "Provenance facts only. No open-content licence, commercial clearance or right beyond the recorded terms is asserted.",
+  "sets": [
+    {
+      "set": "building",
+      "assets": 4,
+      "files": 11,
+      "bytes": 3937920,
+      "source": {
+        "repository": "https://github.com/ael-dev3/Warpkeep",
+        "commit": "786c0b2be6f2d2e7eb2de02ef3b6826c8907fc32",
+        "paths": [
+          "public/models/hegemony/inner-keep/landmarks",
+          "public/models/hegemony/inner-keep/buildings"
+        ]
+      },
+      "embedded": {
+        "copyright": [],
+        "generator": [
+          "Khronos glTF Blender I/O v5.2.39"
+        ],
+        "filesWithCopyright": 0
+      },
+      "status": "LicenseRef-Warpkeep-Provenance-Required",
+      "tervainUse": "archive-only (not under public/, never served or loaded by the game)",
+      "assetsList": [
+        {
+          "id": "building.city-barracks",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/building/inner-keep-city-barracks-balanced-3a22b6e910d4dd1b.glb",
+              "sha256": "3a22b6e910d4dd1b6f105eae9bd0234eaf65821e0dcd65ff59e6311f54638201",
+              "bytes": 629352,
+              "triangles": 7550,
+              "warpkeepPath": "public/models/hegemony/inner-keep/landmarks/inner-keep-city-barracks-balanced-3a22b6e910d4dd1b.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/building/inner-keep-city-barracks-compact-7f90bd96932b7fea.glb",
+              "sha256": "7f90bd96932b7fea1e2541c103657b248bf86f0a4a9bd38c9b03e3b5bd487404",
+              "bytes": 504080,
+              "triangles": 5488,
+              "warpkeepPath": "public/models/hegemony/inner-keep/landmarks/inner-keep-city-barracks-compact-7f90bd96932b7fea.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "building.city-mill",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/building/inner-keep-city-mill-balanced-0963ee142eb0d8ea.glb",
+              "sha256": "0963ee142eb0d8ea711aac7594610eade84eebd2eb3540868bb7ca7c07474cd7",
+              "bytes": 293168,
+              "triangles": 2792,
+              "warpkeepPath": "public/models/hegemony/inner-keep/buildings/inner-keep-city-mill-balanced-0963ee142eb0d8ea.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/building/inner-keep-city-mill-compact-80419c9566ea5ab5.glb",
+              "sha256": "80419c9566ea5ab5053f8d8f411655fe1b9ee26a040333bb380ff7d4d6d3a322",
+              "bytes": 121080,
+              "triangles": 1224,
+              "warpkeepPath": "public/models/hegemony/inner-keep/buildings/inner-keep-city-mill-compact-80419c9566ea5ab5.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "high",
+              "file": "assets/warpkeep/building/inner-keep-city-mill-high-8613faf8ac5a61f5.glb",
+              "sha256": "8613faf8ac5a61f50cb6464cc9c2c8391f9f12fc087c2419cc5ac5827e905a8c",
+              "bytes": 478660,
+              "triangles": 4900,
+              "warpkeepPath": "public/models/hegemony/inner-keep/buildings/inner-keep-city-mill-high-8613faf8ac5a61f5.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "building.city-stoneworks",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/building/inner-keep-city-stoneworks-balanced-81f8818339900c2f.glb",
+              "sha256": "81f8818339900c2f50329e1a9f593600afe916d32b89eee2295121b308005b73",
+              "bytes": 305380,
+              "triangles": 2792,
+              "warpkeepPath": "public/models/hegemony/inner-keep/buildings/inner-keep-city-stoneworks-balanced-81f8818339900c2f.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/building/inner-keep-city-stoneworks-compact-174fd2f984065937.glb",
+              "sha256": "174fd2f984065937d5a4a22800512047c064b528ce0b1e3a448f461574be61cc",
+              "bytes": 134400,
+              "triangles": 1224,
+              "warpkeepPath": "public/models/hegemony/inner-keep/buildings/inner-keep-city-stoneworks-compact-174fd2f984065937.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "high",
+              "file": "assets/warpkeep/building/inner-keep-city-stoneworks-high-01df9557bccaed14.glb",
+              "sha256": "01df9557bccaed14b44bcc0efa4971283f08632572aa892c1e6fb6261f22a913",
+              "bytes": 508540,
+              "triangles": 4900,
+              "warpkeepPath": "public/models/hegemony/inner-keep/buildings/inner-keep-city-stoneworks-high-01df9557bccaed14.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "building.lumber-camp",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/building/inner-keep-lumber-camp-balanced-d8f33e487545f44a.glb",
+              "sha256": "d8f33e487545f44afc28a770466c3503957e6f4658e39034540f50ce67f52c7a",
+              "bytes": 314132,
+              "triangles": 2954,
+              "warpkeepPath": "public/models/hegemony/inner-keep/buildings/inner-keep-lumber-camp-balanced-d8f33e487545f44a.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/building/inner-keep-lumber-camp-compact-1be188b3bb6a90b5.glb",
+              "sha256": "1be188b3bb6a90b5362b2fd1a30d6ce292de333d0a1f6e688743ced43174b6bf",
+              "bytes": 116200,
+              "triangles": 1082,
+              "warpkeepPath": "public/models/hegemony/inner-keep/buildings/inner-keep-lumber-camp-compact-1be188b3bb6a90b5.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "high",
+              "file": "assets/warpkeep/building/inner-keep-lumber-camp-high-a4f6831dd6ddcb09.glb",
+              "sha256": "a4f6831dd6ddcb0956b6338b6d206985928f6d67443122ec7766390778b84191",
+              "bytes": 532928,
+              "triangles": 5712,
+              "warpkeepPath": "public/models/hegemony/inner-keep/buildings/inner-keep-lumber-camp-high-a4f6831dd6ddcb09.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "set": "citizen",
+      "assets": 8,
+      "files": 16,
+      "bytes": 1944504,
+      "source": {
+        "repository": "https://github.com/ael-dev3/Warpkeep",
+        "commit": "786c0b2be6f2d2e7eb2de02ef3b6826c8907fc32",
+        "paths": [
+          "public/models/hegemony/inner-keep/population/citizen"
+        ]
+      },
+      "embedded": {
+        "copyright": [
+          "Copyright Ael / Warpkeep; project-authored Hegemony citizen runtime asset"
+        ],
+        "generator": [
+          "Khronos glTF Blender I/O v5.2.39"
+        ],
+        "filesWithCopyright": 16
+      },
+      "status": "LicenseRef-Warpkeep-Provenance-Required",
+      "tervainUse": "archive-only (not under public/, never served or loaded by the game)",
+      "assetsList": [
+        {
+          "id": "citizen.basilica-warden",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/citizen/inner-keep-basilica-warden-balanced-797df2ac1595c1ca.glb",
+              "sha256": "797df2ac1595c1caf02178660944276773fe06e4314b1564d7b070aba9ac5502",
+              "bytes": 137068,
+              "triangles": 1452,
+              "warpkeepPath": "public/models/hegemony/inner-keep/population/citizen/inner-keep-basilica-warden-balanced-797df2ac1595c1ca.glb",
+              "copyright": "Copyright Ael / Warpkeep; project-authored Hegemony citizen runtime asset",
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/citizen/inner-keep-basilica-warden-compact-901fcf144078ea31.glb",
+              "sha256": "901fcf144078ea310c11f9c6491ac455a112d3c8d02aebd1f5f9574b306a5a62",
+              "bytes": 46684,
+              "triangles": 884,
+              "warpkeepPath": "public/models/hegemony/inner-keep/population/citizen/inner-keep-basilica-warden-compact-901fcf144078ea31.glb",
+              "copyright": "Copyright Ael / Warpkeep; project-authored Hegemony citizen runtime asset",
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "citizen.bell-herald",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/citizen/inner-keep-bell-herald-balanced-9db372f360e55674.glb",
+              "sha256": "9db372f360e5567474612c3c57564a34ac98dbe5f062e1fb3529c3787118d94f",
+              "bytes": 139012,
+              "triangles": 1512,
+              "warpkeepPath": "public/models/hegemony/inner-keep/population/citizen/inner-keep-bell-herald-balanced-9db372f360e55674.glb",
+              "copyright": "Copyright Ael / Warpkeep; project-authored Hegemony citizen runtime asset",
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/citizen/inner-keep-bell-herald-compact-8906c8b6513dbe24.glb",
+              "sha256": "8906c8b6513dbe24cca09a1e8653af425fbee22eb3591910b5f4ff937026a88b",
+              "bytes": 47484,
+              "triangles": 908,
+              "warpkeepPath": "public/models/hegemony/inner-keep/population/citizen/inner-keep-bell-herald-compact-8906c8b6513dbe24.glb",
+              "copyright": "Copyright Ael / Warpkeep; project-authored Hegemony citizen runtime asset",
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "citizen.chirurgeon-apothecary",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/citizen/inner-keep-chirurgeon-apothecary-balanced-68c52942e9673098.glb",
+              "sha256": "68c52942e9673098a510f4e02efd596479716341bc3ad7046d58d90c6ceb45c7",
+              "bytes": 161932,
+              "triangles": 1824,
+              "warpkeepPath": "public/models/hegemony/inner-keep/population/citizen/inner-keep-chirurgeon-apothecary-balanced-68c52942e9673098.glb",
+              "copyright": "Copyright Ael / Warpkeep; project-authored Hegemony citizen runtime asset",
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/citizen/inner-keep-chirurgeon-apothecary-compact-5060e336435c66e2.glb",
+              "sha256": "5060e336435c66e2a9895f17b852e8f58bee8154b30f7738f73b14cbedef79bf",
+              "bytes": 54348,
+              "triangles": 984,
+              "warpkeepPath": "public/models/hegemony/inner-keep/population/citizen/inner-keep-chirurgeon-apothecary-compact-5060e336435c66e2.glb",
+              "copyright": "Copyright Ael / Warpkeep; project-authored Hegemony citizen runtime asset",
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "citizen.cistern-warden",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/citizen/inner-keep-cistern-warden-balanced-e6baa9401689e30a.glb",
+              "sha256": "e6baa9401689e30a285615889d91c76aeba23efcc0e7cb9b9e6eaffa88958c75",
+              "bytes": 143716,
+              "triangles": 1640,
+              "warpkeepPath": "public/models/hegemony/inner-keep/population/citizen/inner-keep-cistern-warden-balanced-e6baa9401689e30a.glb",
+              "copyright": "Copyright Ael / Warpkeep; project-authored Hegemony citizen runtime asset",
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/citizen/inner-keep-cistern-warden-compact-78dfc68d6f10e194.glb",
+              "sha256": "78dfc68d6f10e194e558bd17103395735393e8b6dec7ba8da5b54e153b0312ff",
+              "bytes": 50548,
+              "triangles": 1016,
+              "warpkeepPath": "public/models/hegemony/inner-keep/population/citizen/inner-keep-cistern-warden-compact-78dfc68d6f10e194.glb",
+              "copyright": "Copyright Ael / Warpkeep; project-authored Hegemony citizen runtime asset",
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "citizen.ember-lamplighter",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/citizen/inner-keep-ember-lamplighter-balanced-599200017f3e3a3d.glb",
+              "sha256": "599200017f3e3a3d992d9b848ee90e789157e6c8770bfc16b93dbe54184c4535",
+              "bytes": 157472,
+              "triangles": 1696,
+              "warpkeepPath": "public/models/hegemony/inner-keep/population/citizen/inner-keep-ember-lamplighter-balanced-599200017f3e3a3d.glb",
+              "copyright": "Copyright Ael / Warpkeep; project-authored Hegemony citizen runtime asset",
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/citizen/inner-keep-ember-lamplighter-compact-1bb943eba0ec8114.glb",
+              "sha256": "1bb943eba0ec8114ecf1c17ec66adc797bea4f0b96d69d400ef71460a75aab2c",
+              "bytes": 58524,
+              "triangles": 1056,
+              "warpkeepPath": "public/models/hegemony/inner-keep/population/citizen/inner-keep-ember-lamplighter-compact-1bb943eba0ec8114.glb",
+              "copyright": "Copyright Ael / Warpkeep; project-authored Hegemony citizen runtime asset",
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "citizen.emberfoot-courier",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/citizen/inner-keep-emberfoot-courier-balanced-f7d399621be2dbd2.glb",
+              "sha256": "f7d399621be2dbd2c57104b8d95e6cbdb83586474e8bfd3c2d29c6a3c18ae0a1",
+              "bytes": 248820,
+              "triangles": 3020,
+              "warpkeepPath": "public/models/hegemony/inner-keep/population/citizen/inner-keep-emberfoot-courier-balanced-f7d399621be2dbd2.glb",
+              "copyright": "Copyright Ael / Warpkeep; project-authored Hegemony citizen runtime asset",
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/citizen/inner-keep-emberfoot-courier-compact-ff89e129ad744cdf.glb",
+              "sha256": "ff89e129ad744cdf95a7f6a3b4bc234aa94c9e9d69efb193c9645d22744e23b1",
+              "bytes": 95168,
+              "triangles": 1732,
+              "warpkeepPath": "public/models/hegemony/inner-keep/population/citizen/inner-keep-emberfoot-courier-compact-ff89e129ad744cdf.glb",
+              "copyright": "Copyright Ael / Warpkeep; project-authored Hegemony citizen runtime asset",
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "citizen.shellback-shrine-tender",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/citizen/inner-keep-shellback-shrine-tender-balanced-65f276dfe3947f94.glb",
+              "sha256": "65f276dfe3947f94b9b5cd14242f69d9cf3f25f23ee3eb738d0a1c2a480abe26",
+              "bytes": 231248,
+              "triangles": 2856,
+              "warpkeepPath": "public/models/hegemony/inner-keep/population/citizen/inner-keep-shellback-shrine-tender-balanced-65f276dfe3947f94.glb",
+              "copyright": "Copyright Ael / Warpkeep; project-authored Hegemony citizen runtime asset",
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/citizen/inner-keep-shellback-shrine-tender-compact-8c0c01a5bb0ea918.glb",
+              "sha256": "8c0c01a5bb0ea918ebe32369fcc145e7c1af5745598f8b99d07e6e5a43200e21",
+              "bytes": 82084,
+              "triangles": 1588,
+              "warpkeepPath": "public/models/hegemony/inner-keep/population/citizen/inner-keep-shellback-shrine-tender-compact-8c0c01a5bb0ea918.glb",
+              "copyright": "Copyright Ael / Warpkeep; project-authored Hegemony citizen runtime asset",
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "citizen.ward-peacekeeper",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/citizen/inner-keep-ward-peacekeeper-balanced-78f3dde74069cdfc.glb",
+              "sha256": "78f3dde74069cdfcf8c844716da454981303bf4f88292151d0508da5ba0698b0",
+              "bytes": 234140,
+              "triangles": 1594,
+              "warpkeepPath": "public/models/hegemony/inner-keep/population/citizen/inner-keep-ward-peacekeeper-balanced-78f3dde74069cdfc.glb",
+              "copyright": "Copyright Ael / Warpkeep; project-authored Hegemony citizen runtime asset",
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/citizen/inner-keep-ward-peacekeeper-compact-d6d867fad68548c1.glb",
+              "sha256": "d6d867fad68548c1259b3aa64ad78a24a8ae9a594b9e54c3abd2f6241b0fd0df",
+              "bytes": 56256,
+              "triangles": 996,
+              "warpkeepPath": "public/models/hegemony/inner-keep/population/citizen/inner-keep-ward-peacekeeper-compact-d6d867fad68548c1.glb",
+              "copyright": "Copyright Ael / Warpkeep; project-authored Hegemony citizen runtime asset",
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "set": "node",
+      "assets": 3,
+      "files": 8,
+      "bytes": 4198692,
+      "source": {
+        "repository": "https://github.com/ael-dev3/Warpkeep",
+        "commit": "786c0b2be6f2d2e7eb2de02ef3b6826c8907fc32",
+        "paths": [
+          "public/models/hegemony/gathering-nodes/logging-camp",
+          "public/models/hegemony/gathering-nodes/stone-quarry",
+          "public/models/hegemony/gathering-nodes/wheat-farm"
+        ]
+      },
+      "embedded": {
+        "copyright": [],
+        "generator": [
+          "Khronos glTF Blender I/O v5.2.39"
+        ],
+        "filesWithCopyright": 0
+      },
+      "status": "LicenseRef-Warpkeep-Provenance-Required",
+      "tervainUse": "archive-only (not under public/, never served or loaded by the game)",
+      "assetsList": [
+        {
+          "id": "node.logging-camp",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/node/hegemony-logging-camp-balanced-227046f89c4150ee.glb",
+              "sha256": "227046f89c4150eec5b908cc75e162fa9ad489be123fc941714f9ad294b73593",
+              "bytes": 460656,
+              "triangles": 3318,
+              "warpkeepPath": "public/models/hegemony/gathering-nodes/logging-camp/hegemony-logging-camp-balanced-227046f89c4150ee.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/node/hegemony-logging-camp-compact-ecea536ae18ef3ef.glb",
+              "sha256": "ecea536ae18ef3ef5c6dc5eda158fa33d8e5d3a1e7848478c248a32efac1eccf",
+              "bytes": 236252,
+              "triangles": 1698,
+              "warpkeepPath": "public/models/hegemony/gathering-nodes/logging-camp/hegemony-logging-camp-compact-ecea536ae18ef3ef.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "high",
+              "file": "assets/warpkeep/node/hegemony-logging-camp-high-a68c133a4a50654b.glb",
+              "sha256": "a68c133a4a50654bc611de2b66e6d0d42729aaf0b91b59b7d2b7749566826f70",
+              "bytes": 689328,
+              "triangles": 5030,
+              "warpkeepPath": "public/models/hegemony/gathering-nodes/logging-camp/hegemony-logging-camp-high-a68c133a4a50654b.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "node.stone-quarry",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/node/hegemony-stone-quarry-balanced-44573c53850a31ec.glb",
+              "sha256": "44573c53850a31ec0178f88918d18471309016a5b4edffdcf1d3e42670109925",
+              "bytes": 337788,
+              "triangles": 3346,
+              "warpkeepPath": "public/models/hegemony/gathering-nodes/stone-quarry/hegemony-stone-quarry-balanced-44573c53850a31ec.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/node/hegemony-stone-quarry-compact-b4dbbc1c55a67c12.glb",
+              "sha256": "b4dbbc1c55a67c120df2f2b54852e30a2de980254216821b4a599a10e2e5030e",
+              "bytes": 166720,
+              "triangles": 1654,
+              "warpkeepPath": "public/models/hegemony/gathering-nodes/stone-quarry/hegemony-stone-quarry-compact-b4dbbc1c55a67c12.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "high",
+              "file": "assets/warpkeep/node/hegemony-stone-quarry-high-a4a3258f1f28a7d8.glb",
+              "sha256": "a4a3258f1f28a7d85658b32a0257d3ca5cb810b8f7a010fd5ebbf7cde12c7537",
+              "bytes": 558036,
+              "triangles": 5362,
+              "warpkeepPath": "public/models/hegemony/gathering-nodes/stone-quarry/hegemony-stone-quarry-high-a4a3258f1f28a7d8.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "node.wheat-farm",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/node/hegemony-wheat-farm-balanced-bab5cbb18b45b6a5.glb",
+              "sha256": "bab5cbb18b45b6a565e2070d4b3f6ed17916e81f70be72203f704eeb86260403",
+              "bytes": 1182004,
+              "triangles": 10906,
+              "warpkeepPath": "public/models/hegemony/gathering-nodes/wheat-farm/hegemony-wheat-farm-balanced-bab5cbb18b45b6a5.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/node/hegemony-wheat-farm-compact-a34bfdafd6b8923c.glb",
+              "sha256": "a34bfdafd6b8923c7cf90071d3ad097858fd59ca8df5cd2e776f44b967e9e3e6",
+              "bytes": 567908,
+              "triangles": 5416,
+              "warpkeepPath": "public/models/hegemony/gathering-nodes/wheat-farm/hegemony-wheat-farm-compact-a34bfdafd6b8923c.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "set": "palisade",
+      "assets": 6,
+      "files": 18,
+      "bytes": 810816,
+      "source": {
+        "repository": "https://github.com/ael-dev3/Warpkeep",
+        "commit": "786c0b2be6f2d2e7eb2de02ef3b6826c8907fc32",
+        "paths": [
+          "public/models/hegemony/inner-keep/palisade"
+        ]
+      },
+      "embedded": {
+        "copyright": [],
+        "generator": [
+          "Khronos glTF Blender I/O v5.2.39"
+        ],
+        "filesWithCopyright": 0
+      },
+      "status": "LicenseRef-Warpkeep-Provenance-Required",
+      "tervainUse": "archive-only (not under public/, never served or loaded by the game)",
+      "assetsList": [
+        {
+          "id": "palisade.gate-frame-6m",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/palisade/inner-keep-palisade-gate-frame-6m-balanced-af67ba3dc8085d80.glb",
+              "sha256": "af67ba3dc8085d8095a8c63d2d6b61f701c796ccb041241ea767b8eacd0e252e",
+              "bytes": 40448,
+              "triangles": 462,
+              "warpkeepPath": "public/models/hegemony/inner-keep/palisade/inner-keep-palisade-gate-frame-6m-balanced-af67ba3dc8085d80.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/palisade/inner-keep-palisade-gate-frame-6m-compact-c144a11a4f496e4b.glb",
+              "sha256": "c144a11a4f496e4ba1ec147d23c2b8df769ba33b56abe8a0d6f723b471f6c5f7",
+              "bytes": 25560,
+              "triangles": 286,
+              "warpkeepPath": "public/models/hegemony/inner-keep/palisade/inner-keep-palisade-gate-frame-6m-compact-c144a11a4f496e4b.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "high",
+              "file": "assets/warpkeep/palisade/inner-keep-palisade-gate-frame-6m-high-d4f580ae04a3b94e.glb",
+              "sha256": "d4f580ae04a3b94ebcd18050d6affaa8d85858502f7308759d27ded3439d718f",
+              "bytes": 46112,
+              "triangles": 542,
+              "warpkeepPath": "public/models/hegemony/inner-keep/palisade/inner-keep-palisade-gate-frame-6m-high-d4f580ae04a3b94e.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "palisade.gate-leaf-left",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/palisade/inner-keep-palisade-gate-leaf-left-balanced-8b7009dccabeb38b.glb",
+              "sha256": "8b7009dccabeb38bad03b490dee1f273837f314ce414ad1e4efc6c50a857cb2b",
+              "bytes": 14604,
+              "triangles": 172,
+              "warpkeepPath": "public/models/hegemony/inner-keep/palisade/inner-keep-palisade-gate-leaf-left-balanced-8b7009dccabeb38b.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/palisade/inner-keep-palisade-gate-leaf-left-compact-6653afb68006acb2.glb",
+              "sha256": "6653afb68006acb2faeac7b2bf76d544a633f064a8167e9ab23fb79369a91ce8",
+              "bytes": 9896,
+              "triangles": 108,
+              "warpkeepPath": "public/models/hegemony/inner-keep/palisade/inner-keep-palisade-gate-leaf-left-compact-6653afb68006acb2.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "high",
+              "file": "assets/warpkeep/palisade/inner-keep-palisade-gate-leaf-left-high-a3e3e5eb7b13568e.glb",
+              "sha256": "a3e3e5eb7b13568eb63c4b8e5cfdef6bad516502b87d5729a8125fc1ed373861",
+              "bytes": 22860,
+              "triangles": 276,
+              "warpkeepPath": "public/models/hegemony/inner-keep/palisade/inner-keep-palisade-gate-leaf-left-high-a3e3e5eb7b13568e.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "palisade.gate-leaf-right",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/palisade/inner-keep-palisade-gate-leaf-right-balanced-e59ec83f925c9741.glb",
+              "sha256": "e59ec83f925c9741c4dcf0824b82bc735948e28abdebd91bac34d515a23a5734",
+              "bytes": 14604,
+              "triangles": 172,
+              "warpkeepPath": "public/models/hegemony/inner-keep/palisade/inner-keep-palisade-gate-leaf-right-balanced-e59ec83f925c9741.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/palisade/inner-keep-palisade-gate-leaf-right-compact-5b7e4895ecf8f2d5.glb",
+              "sha256": "5b7e4895ecf8f2d5d4bed541fa7886243a7e3395df6f55812c7e657d01b2cbad",
+              "bytes": 9900,
+              "triangles": 108,
+              "warpkeepPath": "public/models/hegemony/inner-keep/palisade/inner-keep-palisade-gate-leaf-right-compact-5b7e4895ecf8f2d5.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "high",
+              "file": "assets/warpkeep/palisade/inner-keep-palisade-gate-leaf-right-high-0b397bb750ba886e.glb",
+              "sha256": "0b397bb750ba886ecdb02e3ae53d4b4fef8459b07bc579347b599a3483716fee",
+              "bytes": 22936,
+              "triangles": 276,
+              "warpkeepPath": "public/models/hegemony/inner-keep/palisade/inner-keep-palisade-gate-leaf-right-high-0b397bb750ba886e.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "palisade.wall-corner-90",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/palisade/inner-keep-palisade-wall-corner-90-balanced-c138e93283e0daf6.glb",
+              "sha256": "c138e93283e0daf61684e5b300c4e481a96b149c5af1e0cd548bd9b796b74415",
+              "bytes": 65916,
+              "triangles": 564,
+              "warpkeepPath": "public/models/hegemony/inner-keep/palisade/inner-keep-palisade-wall-corner-90-balanced-c138e93283e0daf6.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/palisade/inner-keep-palisade-wall-corner-90-compact-7a9f51fa1355fc6c.glb",
+              "sha256": "7a9f51fa1355fc6cb126abd44d8b12008af9b794f2cfb6a5588eaf23f9d598f7",
+              "bytes": 47216,
+              "triangles": 400,
+              "warpkeepPath": "public/models/hegemony/inner-keep/palisade/inner-keep-palisade-wall-corner-90-compact-7a9f51fa1355fc6c.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "high",
+              "file": "assets/warpkeep/palisade/inner-keep-palisade-wall-corner-90-high-6641c3b823412e2f.glb",
+              "sha256": "6641c3b823412e2f9fe949005a7b9d75090e65e8dcda2bc962a5cb39a621ae59",
+              "bytes": 99648,
+              "triangles": 860,
+              "warpkeepPath": "public/models/hegemony/inner-keep/palisade/inner-keep-palisade-wall-corner-90-high-6641c3b823412e2f.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "palisade.wall-straight-4m",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/palisade/inner-keep-palisade-wall-straight-4m-balanced-c16ecc1c5ea8adba.glb",
+              "sha256": "c16ecc1c5ea8adba8a987256ef37964f426ecf026148ebeccd0a021a01ceb8fa",
+              "bytes": 39960,
+              "triangles": 336,
+              "warpkeepPath": "public/models/hegemony/inner-keep/palisade/inner-keep-palisade-wall-straight-4m-balanced-c16ecc1c5ea8adba.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/palisade/inner-keep-palisade-wall-straight-4m-compact-d0d33e6da38ed1f7.glb",
+              "sha256": "d0d33e6da38ed1f73e60903a81bd52da99e4d093a672bfe801bbb54d13349156",
+              "bytes": 27636,
+              "triangles": 228,
+              "warpkeepPath": "public/models/hegemony/inner-keep/palisade/inner-keep-palisade-wall-straight-4m-compact-d0d33e6da38ed1f7.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "high",
+              "file": "assets/warpkeep/palisade/inner-keep-palisade-wall-straight-4m-high-00cdf8624e12b594.glb",
+              "sha256": "00cdf8624e12b594303c749d777e248e031effe3831bae88641e8c90852c9263",
+              "bytes": 70956,
+              "triangles": 608,
+              "warpkeepPath": "public/models/hegemony/inner-keep/palisade/inner-keep-palisade-wall-straight-4m-high-00cdf8624e12b594.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "palisade.wall-straight-8m",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/palisade/inner-keep-palisade-wall-straight-8m-balanced-d3f7ad3299cfc932.glb",
+              "sha256": "d3f7ad3299cfc9327b51d383a64528006d464713f68824a3fb919273d21bcfb4",
+              "bytes": 71424,
+              "triangles": 612,
+              "warpkeepPath": "public/models/hegemony/inner-keep/palisade/inner-keep-palisade-wall-straight-8m-balanced-d3f7ad3299cfc932.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/palisade/inner-keep-palisade-wall-straight-8m-compact-70aa97418582b41b.glb",
+              "sha256": "70aa97418582b41ba0b149ac9d87eceb198cba47cf4862ac05ba25898f567abc",
+              "bytes": 48620,
+              "triangles": 412,
+              "warpkeepPath": "public/models/hegemony/inner-keep/palisade/inner-keep-palisade-wall-straight-8m-compact-70aa97418582b41b.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "high",
+              "file": "assets/warpkeep/palisade/inner-keep-palisade-wall-straight-8m-high-84d5d73d4b56baa9.glb",
+              "sha256": "84d5d73d4b56baa9a93d86e1541bebd0c4bd38556f4ae7256bdabb962fd22107",
+              "bytes": 132520,
+              "triangles": 1148,
+              "warpkeepPath": "public/models/hegemony/inner-keep/palisade/inner-keep-palisade-wall-straight-8m-high-84d5d73d4b56baa9.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "set": "prop",
+      "assets": 18,
+      "files": 54,
+      "bytes": 3982308,
+      "source": {
+        "repository": "https://github.com/ael-dev3/Warpkeep",
+        "commit": "786c0b2be6f2d2e7eb2de02ef3b6826c8907fc32",
+        "paths": [
+          "public/models/hegemony/inner-keep/town-items"
+        ]
+      },
+      "embedded": {
+        "copyright": [],
+        "generator": [
+          "Khronos glTF Blender I/O v5.2.39"
+        ],
+        "filesWithCopyright": 0
+      },
+      "status": "LicenseRef-Warpkeep-Provenance-Required",
+      "tervainUse": "archive-only (not under public/, never served or loaded by the game)",
+      "assetsList": [
+        {
+          "id": "prop.boulder-cluster-3m",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/prop/inner-keep-boulder-cluster-3m-balanced-90235d94748ba8f9.glb",
+              "sha256": "90235d94748ba8f91223a2bc68712a6036782a27cdd150bb7f2de81152a5092b",
+              "bytes": 17604,
+              "triangles": 140,
+              "warpkeepPath": "public/models/hegemony/inner-keep/town-items/inner-keep-boulder-cluster-3m-balanced-90235d94748ba8f9.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/prop/inner-keep-boulder-cluster-3m-compact-06849c7703cc1e17.glb",
+              "sha256": "06849c7703cc1e171511d35387d0fb96a8756005a4c4a469d3ef5931455652b9",
+              "bytes": 15324,
+              "triangles": 120,
+              "warpkeepPath": "public/models/hegemony/inner-keep/town-items/inner-keep-boulder-cluster-3m-compact-06849c7703cc1e17.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "high",
+              "file": "assets/warpkeep/prop/inner-keep-boulder-cluster-3m-high-a1859faf45ecf03e.glb",
+              "sha256": "a1859faf45ecf03e8bda8ff28a6c4440ec64bb3331d62b1f836806f3672140e5",
+              "bytes": 19884,
+              "triangles": 160,
+              "warpkeepPath": "public/models/hegemony/inner-keep/town-items/inner-keep-boulder-cluster-3m-high-a1859faf45ecf03e.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "prop.clipped-boxwood-mound",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/prop/inner-keep-clipped-boxwood-mound-balanced-6e447757d3a205d9.glb",
+              "sha256": "6e447757d3a205d94684b3634f9e39e2fc1c35bc68517919c4ad12322e7625d8",
+              "bytes": 23248,
+              "triangles": 220,
+              "warpkeepPath": "public/models/hegemony/inner-keep/town-items/inner-keep-clipped-boxwood-mound-balanced-6e447757d3a205d9.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/prop/inner-keep-clipped-boxwood-mound-compact-c01e8db707adf31b.glb",
+              "sha256": "c01e8db707adf31ba0c5546b26800c5b0d573a9acfdb1a4e7dec711b0725cb98",
+              "bytes": 10844,
+              "triangles": 96,
+              "warpkeepPath": "public/models/hegemony/inner-keep/town-items/inner-keep-clipped-boxwood-mound-compact-c01e8db707adf31b.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "high",
+              "file": "assets/warpkeep/prop/inner-keep-clipped-boxwood-mound-high-71bd32a43e6f81dd.glb",
+              "sha256": "71bd32a43e6f81dd312e41f4396b7a5db5cbbeedf56133afc601c7d18a3a52b6",
+              "bytes": 53212,
+              "triangles": 540,
+              "warpkeepPath": "public/models/hegemony/inner-keep/town-items/inner-keep-clipped-boxwood-mound-high-71bd32a43e6f81dd.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "prop.cobble-plaza-6m",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/prop/inner-keep-cobble-plaza-6m-balanced-965d83a7e208b704.glb",
+              "sha256": "965d83a7e208b70466b6cbec00a2ec647982a180087dbcb579c0ccb97a0d31e9",
+              "bytes": 149684,
+              "triangles": 1744,
+              "warpkeepPath": "public/models/hegemony/inner-keep/town-items/inner-keep-cobble-plaza-6m-balanced-965d83a7e208b704.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/prop/inner-keep-cobble-plaza-6m-compact-767384a66fae7938.glb",
+              "sha256": "767384a66fae79389a105143a9b2585c9fb6cf3ea49123347602fe3fcec923cd",
+              "bytes": 100384,
+              "triangles": 1172,
+              "warpkeepPath": "public/models/hegemony/inner-keep/town-items/inner-keep-cobble-plaza-6m-compact-767384a66fae7938.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "high",
+              "file": "assets/warpkeep/prop/inner-keep-cobble-plaza-6m-high-85662cda60bedecf.glb",
+              "sha256": "85662cda60bedecf3d0d9ff88c2c5e3fa5756db051bcae38beff010996927fb4",
+              "bytes": 197828,
+              "triangles": 2292,
+              "warpkeepPath": "public/models/hegemony/inner-keep/town-items/inner-keep-cobble-plaza-6m-high-85662cda60bedecf.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "prop.cobble-road-straight-4m",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/prop/inner-keep-cobble-road-straight-4m-balanced-54b23ca15974c825.glb",
+              "sha256": "54b23ca15974c825b7c99dd25603672a984836703f8872967d5148fd3ac67c98",
+              "bytes": 66360,
+              "triangles": 752,
+              "warpkeepPath": "public/models/hegemony/inner-keep/town-items/inner-keep-cobble-road-straight-4m-balanced-54b23ca15974c825.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/prop/inner-keep-cobble-road-straight-4m-compact-6d838a7ea65cf313.glb",
+              "sha256": "6d838a7ea65cf3132b499d10a4bff8709d6e8203ec84473aef44bc0a322135e0",
+              "bytes": 45048,
+              "triangles": 512,
+              "warpkeepPath": "public/models/hegemony/inner-keep/town-items/inner-keep-cobble-road-straight-4m-compact-6d838a7ea65cf313.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "high",
+              "file": "assets/warpkeep/prop/inner-keep-cobble-road-straight-4m-high-2066fd90088760b6.glb",
+              "sha256": "2066fd90088760b630a14c17412e47b2b28afa846e70ea56dd4ce1db13d2fad2",
+              "bytes": 87600,
+              "triangles": 992,
+              "warpkeepPath": "public/models/hegemony/inner-keep/town-items/inner-keep-cobble-road-straight-4m-high-2066fd90088760b6.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "prop.directional-signpost",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/prop/inner-keep-directional-signpost-balanced-1e41b951b18a6395.glb",
+              "sha256": "1e41b951b18a6395483776d851b1bfc95c40c80a626dcf2121f38e99a3dce10c",
+              "bytes": 97376,
+              "triangles": 1354,
+              "warpkeepPath": "public/models/hegemony/inner-keep/town-items/inner-keep-directional-signpost-balanced-1e41b951b18a6395.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/prop/inner-keep-directional-signpost-compact-8afe0112a0de6af8.glb",
+              "sha256": "8afe0112a0de6af81bc7e4d121a445aec55f0975e5178746865378ed5f0eaf18",
+              "bytes": 40756,
+              "triangles": 498,
+              "warpkeepPath": "public/models/hegemony/inner-keep/town-items/inner-keep-directional-signpost-compact-8afe0112a0de6af8.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "high",
+              "file": "assets/warpkeep/prop/inner-keep-directional-signpost-high-8ab4ca08af77c67b.glb",
+              "sha256": "8ab4ca08af77c67b1c6b5c7256e698ccb04a83338e13d732a76df8bfbda968bc",
+              "bytes": 165248,
+              "triangles": 2298,
+              "warpkeepPath": "public/models/hegemony/inner-keep/town-items/inner-keep-directional-signpost-high-8ab4ca08af77c67b.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "prop.dirt-road-curve-90-4m",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/prop/inner-keep-dirt-road-curve-90-4m-balanced-e3c0221f0b8a5338.glb",
+              "sha256": "e3c0221f0b8a5338f8609d0ad774f80257ccb1196bd8eef6348ea203b47a44eb",
+              "bytes": 12780,
+              "triangles": 132,
+              "warpkeepPath": "public/models/hegemony/inner-keep/town-items/inner-keep-dirt-road-curve-90-4m-balanced-e3c0221f0b8a5338.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/prop/inner-keep-dirt-road-curve-90-4m-compact-8434a330607f9993.glb",
+              "sha256": "8434a330607f99930427ed88b5f86ab614a2b0d5413f44cfd41208cf314328ab",
+              "bytes": 9560,
+              "triangles": 100,
+              "warpkeepPath": "public/models/hegemony/inner-keep/town-items/inner-keep-dirt-road-curve-90-4m-compact-8434a330607f9993.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "high",
+              "file": "assets/warpkeep/prop/inner-keep-dirt-road-curve-90-4m-high-b93f180794c8de5c.glb",
+              "sha256": "b93f180794c8de5c15d0fcaa4c999ba2d35465051e3fb7e83af4b4d4d9f90cde",
+              "bytes": 15060,
+              "triangles": 152,
+              "warpkeepPath": "public/models/hegemony/inner-keep/town-items/inner-keep-dirt-road-curve-90-4m-high-b93f180794c8de5c.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "prop.dirt-road-straight-4m",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/prop/inner-keep-dirt-road-straight-4m-balanced-cec2db4515a24d8f.glb",
+              "sha256": "cec2db4515a24d8f67ec985ac2c8cfb6cdb14126d958fc0048fbc8f133234ffe",
+              "bytes": 13280,
+              "triangles": 140,
+              "warpkeepPath": "public/models/hegemony/inner-keep/town-items/inner-keep-dirt-road-straight-4m-balanced-cec2db4515a24d8f.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/prop/inner-keep-dirt-road-straight-4m-compact-88065d72da8b6ceb.glb",
+              "sha256": "88065d72da8b6ceb9777e3e7af1425ee16eddcde90f2e213d91e741587bff21b",
+              "bytes": 10064,
+              "triangles": 108,
+              "warpkeepPath": "public/models/hegemony/inner-keep/town-items/inner-keep-dirt-road-straight-4m-compact-88065d72da8b6ceb.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "high",
+              "file": "assets/warpkeep/prop/inner-keep-dirt-road-straight-4m-high-d572f8bc4e9d38d4.glb",
+              "sha256": "d572f8bc4e9d38d4439b81175267052b7dd25d185cc6281c9f0b4b55d0b1bc1b",
+              "bytes": 15560,
+              "triangles": 160,
+              "warpkeepPath": "public/models/hegemony/inner-keep/town-items/inner-keep-dirt-road-straight-4m-high-d572f8bc4e9d38d4.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "prop.dirt-road-t-junction-4m",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/prop/inner-keep-dirt-road-t-junction-4m-balanced-0278db0236891174.glb",
+              "sha256": "0278db0236891174005901c8e08c7f69f7e6aba7a9d6e49dc2fe8b287f466512",
+              "bytes": 13648,
+              "triangles": 136,
+              "warpkeepPath": "public/models/hegemony/inner-keep/town-items/inner-keep-dirt-road-t-junction-4m-balanced-0278db0236891174.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/prop/inner-keep-dirt-road-t-junction-4m-compact-07c1f95ab8841bb0.glb",
+              "sha256": "07c1f95ab8841bb0fc28a24ffcf20dd45f4e1ff2c50356576ecc7177b35ebcfd",
+              "bytes": 10432,
+              "triangles": 104,
+              "warpkeepPath": "public/models/hegemony/inner-keep/town-items/inner-keep-dirt-road-t-junction-4m-compact-07c1f95ab8841bb0.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "high",
+              "file": "assets/warpkeep/prop/inner-keep-dirt-road-t-junction-4m-high-8df463a83ecdf544.glb",
+              "sha256": "8df463a83ecdf544af9e5069a0c02cb6ac93056a070bd2b40afe632eb5b6cf54",
+              "bytes": 15928,
+              "triangles": 156,
+              "warpkeepPath": "public/models/hegemony/inner-keep/town-items/inner-keep-dirt-road-t-junction-4m-high-8df463a83ecdf544.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "prop.formal-hedge-corner",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/prop/inner-keep-formal-hedge-corner-balanced-088946fbca5f5b86.glb",
+              "sha256": "088946fbca5f5b86e551e3727a2d79229dea7ff4be987f84a0317457ee495476",
+              "bytes": 18452,
+              "triangles": 196,
+              "warpkeepPath": "public/models/hegemony/inner-keep/town-items/inner-keep-formal-hedge-corner-balanced-088946fbca5f5b86.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/prop/inner-keep-formal-hedge-corner-compact-0074e6825468a2c8.glb",
+              "sha256": "0074e6825468a2c8c502f8d2d80ca2be0f1c88d3f68e76e59c53e109173b403e",
+              "bytes": 15692,
+              "triangles": 140,
+              "warpkeepPath": "public/models/hegemony/inner-keep/town-items/inner-keep-formal-hedge-corner-compact-0074e6825468a2c8.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "high",
+              "file": "assets/warpkeep/prop/inner-keep-formal-hedge-corner-high-e87710f79704b117.glb",
+              "sha256": "e87710f79704b1174db6dc4f21ee5c600b78ad876c3a6bb823d18a3c755414d6",
+              "bytes": 58904,
+              "triangles": 576,
+              "warpkeepPath": "public/models/hegemony/inner-keep/town-items/inner-keep-formal-hedge-corner-high-e87710f79704b117.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "prop.formal-hedge-straight",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/prop/inner-keep-formal-hedge-straight-balanced-d619e7c26a496ba5.glb",
+              "sha256": "d619e7c26a496ba566ba04c4d7bc85169ddf8b954329cb4a920aff673be9c096",
+              "bytes": 19592,
+              "triangles": 168,
+              "warpkeepPath": "public/models/hegemony/inner-keep/town-items/inner-keep-formal-hedge-straight-balanced-d619e7c26a496ba5.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/prop/inner-keep-formal-hedge-straight-compact-3724b124e4504f98.glb",
+              "sha256": "3724b124e4504f98aee923745e89e9f29fb426a07a62f029c766d069cf377357",
+              "bytes": 8992,
+              "triangles": 88,
+              "warpkeepPath": "public/models/hegemony/inner-keep/town-items/inner-keep-formal-hedge-straight-compact-3724b124e4504f98.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "high",
+              "file": "assets/warpkeep/prop/inner-keep-formal-hedge-straight-high-ba22ccdbef21b42c.glb",
+              "sha256": "ba22ccdbef21b42c63084f9536ea1722ecd84a4b834e5efbe9e78582093377cf",
+              "bytes": 68556,
+              "triangles": 648,
+              "warpkeepPath": "public/models/hegemony/inner-keep/town-items/inner-keep-formal-hedge-straight-high-ba22ccdbef21b42c.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "prop.masonry-rubble-2m",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/prop/inner-keep-masonry-rubble-2m-balanced-02f591b8bf2362c4.glb",
+              "sha256": "02f591b8bf2362c4adb3f87a18cc114ce8f523a5589031708510bcd731627650",
+              "bytes": 33836,
+              "triangles": 372,
+              "warpkeepPath": "public/models/hegemony/inner-keep/town-items/inner-keep-masonry-rubble-2m-balanced-02f591b8bf2362c4.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/prop/inner-keep-masonry-rubble-2m-compact-06a6458760fcc83f.glb",
+              "sha256": "06a6458760fcc83f43765670fa838b0e5596fd81d7c485a1c0b953d5834943ff",
+              "bytes": 31700,
+              "triangles": 352,
+              "warpkeepPath": "public/models/hegemony/inner-keep/town-items/inner-keep-masonry-rubble-2m-compact-06a6458760fcc83f.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "high",
+              "file": "assets/warpkeep/prop/inner-keep-masonry-rubble-2m-high-ff69c805c0321fbf.glb",
+              "sha256": "ff69c805c0321fbff395c59c71fb33d6bd45d6be809fd097a1e2dc45a22fa916",
+              "bytes": 36120,
+              "triangles": 392,
+              "warpkeepPath": "public/models/hegemony/inner-keep/town-items/inner-keep-masonry-rubble-2m-high-ff69c805c0321fbf.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "prop.picket-fence-4m",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/prop/inner-keep-picket-fence-4m-balanced-63f09802eac8c246.glb",
+              "sha256": "63f09802eac8c246525a14da9c65cd568c2bde636cc7fca09d62e5d7f4335981",
+              "bytes": 39716,
+              "triangles": 480,
+              "warpkeepPath": "public/models/hegemony/inner-keep/town-items/inner-keep-picket-fence-4m-balanced-63f09802eac8c246.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/prop/inner-keep-picket-fence-4m-compact-8d62f006b21fd721.glb",
+              "sha256": "8d62f006b21fd7212d6c21e60098627d43740da324a0e334071546ae0868e1ac",
+              "bytes": 36884,
+              "triangles": 440,
+              "warpkeepPath": "public/models/hegemony/inner-keep/town-items/inner-keep-picket-fence-4m-compact-8d62f006b21fd721.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "high",
+              "file": "assets/warpkeep/prop/inner-keep-picket-fence-4m-high-a3a5044e87569151.glb",
+              "sha256": "a3a5044e875691516c47e230ce221c4dee70ea22ec86bb4c8fec07a6f66176e8",
+              "bytes": 43968,
+              "triangles": 540,
+              "warpkeepPath": "public/models/hegemony/inner-keep/town-items/inner-keep-picket-fence-4m-high-a3a5044e87569151.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "prop.roofed-noticeboard",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/prop/inner-keep-roofed-noticeboard-balanced-91976a7e7e6ec54f.glb",
+              "sha256": "91976a7e7e6ec54f9e75e41b1ffbd37212b3864e0bad65825b590c09064b375e",
+              "bytes": 149576,
+              "triangles": 2068,
+              "warpkeepPath": "public/models/hegemony/inner-keep/town-items/inner-keep-roofed-noticeboard-balanced-91976a7e7e6ec54f.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/prop/inner-keep-roofed-noticeboard-compact-dfd35c9c36f2f4da.glb",
+              "sha256": "dfd35c9c36f2f4dad94744c0a429be592526f65e3485436893174b1930317bc4",
+              "bytes": 46428,
+              "triangles": 532,
+              "warpkeepPath": "public/models/hegemony/inner-keep/town-items/inner-keep-roofed-noticeboard-compact-dfd35c9c36f2f4da.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "high",
+              "file": "assets/warpkeep/prop/inner-keep-roofed-noticeboard-high-8d45890e63829407.glb",
+              "sha256": "8d45890e63829407533065e01e277ec788734c5b5212216a5ca4329511e8e2a8",
+              "bytes": 304108,
+              "triangles": 4156,
+              "warpkeepPath": "public/models/hegemony/inner-keep/town-items/inner-keep-roofed-noticeboard-high-8d45890e63829407.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "prop.stone-curb-2m",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/prop/inner-keep-stone-curb-2m-balanced-6a34e355098ba968.glb",
+              "sha256": "6a34e355098ba968c26831b6e97c232d1420b5976259b7ed378679c10d76f44a",
+              "bytes": 23968,
+              "triangles": 264,
+              "warpkeepPath": "public/models/hegemony/inner-keep/town-items/inner-keep-stone-curb-2m-balanced-6a34e355098ba968.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/prop/inner-keep-stone-curb-2m-compact-ad9a56588710e3e9.glb",
+              "sha256": "ad9a56588710e3e9e3cf29c31666e4a187c310329db6b82e44a1e1055f128b5e",
+              "bytes": 20248,
+              "triangles": 220,
+              "warpkeepPath": "public/models/hegemony/inner-keep/town-items/inner-keep-stone-curb-2m-compact-ad9a56588710e3e9.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "high",
+              "file": "assets/warpkeep/prop/inner-keep-stone-curb-2m-high-46cbb80d3b92d3f3.glb",
+              "sha256": "46cbb80d3b92d3f336fbc6a7234d7c18933757cb3f40a82afc12cd867bbd7532",
+              "bytes": 26536,
+              "triangles": 284,
+              "warpkeepPath": "public/models/hegemony/inner-keep/town-items/inner-keep-stone-curb-2m-high-46cbb80d3b92d3f3.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "prop.stone-pedestal-brazier",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/prop/inner-keep-stone-pedestal-brazier-balanced-6e9b6f425e081277.glb",
+              "sha256": "6e9b6f425e0812773ae4b7688a871b949ab794612d99a3f5ff74faa86afdc4a2",
+              "bytes": 98792,
+              "triangles": 1352,
+              "warpkeepPath": "public/models/hegemony/inner-keep/town-items/inner-keep-stone-pedestal-brazier-balanced-6e9b6f425e081277.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/prop/inner-keep-stone-pedestal-brazier-compact-35a276eee41bbb72.glb",
+              "sha256": "35a276eee41bbb72e80a2229fc53965f6226c7305167d3a4f633f796920de3aa",
+              "bytes": 35728,
+              "triangles": 404,
+              "warpkeepPath": "public/models/hegemony/inner-keep/town-items/inner-keep-stone-pedestal-brazier-compact-35a276eee41bbb72.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "high",
+              "file": "assets/warpkeep/prop/inner-keep-stone-pedestal-brazier-high-c6d2485ca58328e1.glb",
+              "sha256": "c6d2485ca58328e1863c8c9179f909bec28fdc7aaaf4601720a3de36ca71daf8",
+              "bytes": 168348,
+              "triangles": 2296,
+              "warpkeepPath": "public/models/hegemony/inner-keep/town-items/inner-keep-stone-pedestal-brazier-high-c6d2485ca58328e1.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "prop.timber-bench",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/prop/inner-keep-timber-bench-balanced-625b24648f9fbdae.glb",
+              "sha256": "625b24648f9fbdae18675b5b48cd9f5f7dcf33209a6c1dd7f96195a8b3ec0c72",
+              "bytes": 146084,
+              "triangles": 2068,
+              "warpkeepPath": "public/models/hegemony/inner-keep/town-items/inner-keep-timber-bench-balanced-625b24648f9fbdae.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/prop/inner-keep-timber-bench-compact-b77c20806cdf61e2.glb",
+              "sha256": "b77c20806cdf61e25b6619bb432ec4bbf7f862c017f0b54bf2dec28564b14628",
+              "bytes": 39596,
+              "triangles": 484,
+              "warpkeepPath": "public/models/hegemony/inner-keep/town-items/inner-keep-timber-bench-compact-b77c20806cdf61e2.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "high",
+              "file": "assets/warpkeep/prop/inner-keep-timber-bench-high-e96e0add043678ad.glb",
+              "sha256": "e96e0add043678ad3ab14a7f0bbae1b57f1ba714da731f77b20fcddb8685617f",
+              "bytes": 255436,
+              "triangles": 3588,
+              "warpkeepPath": "public/models/hegemony/inner-keep/town-items/inner-keep-timber-bench-high-e96e0add043678ad.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "prop.timber-post-lamp",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/prop/inner-keep-timber-post-lamp-balanced-381b847971a6cc54.glb",
+              "sha256": "381b847971a6cc547c2a9e60a0b61b6e17830db7be867ad31ce2989ea2a087ab",
+              "bytes": 169416,
+              "triangles": 2408,
+              "warpkeepPath": "public/models/hegemony/inner-keep/town-items/inner-keep-timber-post-lamp-balanced-381b847971a6cc54.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/prop/inner-keep-timber-post-lamp-compact-5f35fa874a95c04b.glb",
+              "sha256": "5f35fa874a95c04bbd8c2abef9f31e48c988c7ad7d8a149edf36f12ca49a053e",
+              "bytes": 69320,
+              "triangles": 868,
+              "warpkeepPath": "public/models/hegemony/inner-keep/town-items/inner-keep-timber-post-lamp-compact-5f35fa874a95c04b.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "high",
+              "file": "assets/warpkeep/prop/inner-keep-timber-post-lamp-high-bf0d7f23315858a8.glb",
+              "sha256": "bf0d7f23315858a81f43f5738b4268324728619580b0b7348cc216cad5b48b7b",
+              "bytes": 267500,
+              "triangles": 3784,
+              "warpkeepPath": "public/models/hegemony/inner-keep/town-items/inner-keep-timber-post-lamp-high-bf0d7f23315858a8.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "prop.timber-water-trough",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/prop/inner-keep-timber-water-trough-balanced-6425e366ed4276e8.glb",
+              "sha256": "6425e366ed4276e8c79638ac2656b6d807303e705284555ff2c53ecc27cbe819",
+              "bytes": 174120,
+              "triangles": 2444,
+              "warpkeepPath": "public/models/hegemony/inner-keep/town-items/inner-keep-timber-water-trough-balanced-6425e366ed4276e8.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/prop/inner-keep-timber-water-trough-compact-76408969d1a42d95.glb",
+              "sha256": "76408969d1a42d952efb3ed420441894fc23e78f0e2be5c9645b849c3b064a13",
+              "bytes": 57996,
+              "triangles": 684,
+              "warpkeepPath": "public/models/hegemony/inner-keep/town-items/inner-keep-timber-water-trough-compact-76408969d1a42d95.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "high",
+              "file": "assets/warpkeep/prop/inner-keep-timber-water-trough-high-66a56aae3d4a762c.glb",
+              "sha256": "66a56aae3d4a762ceeba8f996eec0942a3af88e5866c991f46d76113e5d1f0a1",
+              "bytes": 309984,
+              "triangles": 4260,
+              "warpkeepPath": "public/models/hegemony/inner-keep/town-items/inner-keep-timber-water-trough-high-66a56aae3d4a762c.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "set": "stone",
+      "assets": 4,
+      "files": 12,
+      "bytes": 291536,
+      "source": {
+        "repository": "https://github.com/ael-dev3/Warpkeep",
+        "commit": "786c0b2be6f2d2e7eb2de02ef3b6826c8907fc32",
+        "paths": [
+          "public/models/hegemony/inner-keep/stone"
+        ]
+      },
+      "embedded": {
+        "copyright": [],
+        "generator": [
+          "Khronos glTF Blender I/O v5.2.39"
+        ],
+        "filesWithCopyright": 0
+      },
+      "status": "LicenseRef-Warpkeep-Provenance-Required",
+      "tervainUse": "archive-only (not under public/, never served or loaded by the game)",
+      "assetsList": [
+        {
+          "id": "stone.breached-keep-wall",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/stone/inner-keep-breached-keep-wall-balanced-914de93f1e8928c8.glb",
+              "sha256": "914de93f1e8928c8ca8074e11cae85279896d12106a4ef1c191da606d515359d",
+              "bytes": 31344,
+              "triangles": 316,
+              "warpkeepPath": "public/models/hegemony/inner-keep/stone/inner-keep-breached-keep-wall-balanced-914de93f1e8928c8.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/stone/inner-keep-breached-keep-wall-compact-95131380fca529e6.glb",
+              "sha256": "95131380fca529e6ddd376d969dab523a67ff911c505ab744bd7fbbc2b0667c7",
+              "bytes": 11900,
+              "triangles": 100,
+              "warpkeepPath": "public/models/hegemony/inner-keep/stone/inner-keep-breached-keep-wall-compact-95131380fca529e6.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "high",
+              "file": "assets/warpkeep/stone/inner-keep-breached-keep-wall-high-802c1017e987e03b.glb",
+              "sha256": "802c1017e987e03b5fe13fe98f520dcf91cf222681086d6ceafac6e4cf9d7b47",
+              "bytes": 33148,
+              "triangles": 328,
+              "warpkeepPath": "public/models/hegemony/inner-keep/stone/inner-keep-breached-keep-wall-high-802c1017e987e03b.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "stone.canopied-keep-well",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/stone/inner-keep-canopied-keep-well-balanced-750ea19f085dd660.glb",
+              "sha256": "750ea19f085dd660f533878df932aaa66ae47e52224623434ce8c60539282a99",
+              "bytes": 30176,
+              "triangles": 368,
+              "warpkeepPath": "public/models/hegemony/inner-keep/stone/inner-keep-canopied-keep-well-balanced-750ea19f085dd660.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/stone/inner-keep-canopied-keep-well-compact-8628434c2c8c3fde.glb",
+              "sha256": "8628434c2c8c3fde21d33511c5c8726b4a6f9406e99421c74efd4b598efe0bd4",
+              "bytes": 14736,
+              "triangles": 172,
+              "warpkeepPath": "public/models/hegemony/inner-keep/stone/inner-keep-canopied-keep-well-compact-8628434c2c8c3fde.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "high",
+              "file": "assets/warpkeep/stone/inner-keep-canopied-keep-well-high-fa7b15b156fc13cb.glb",
+              "sha256": "fa7b15b156fc13cbf656d3e8b74d537e02d218b24bc9c90fb472c0cc94eb7cc8",
+              "bytes": 40056,
+              "triangles": 504,
+              "warpkeepPath": "public/models/hegemony/inner-keep/stone/inner-keep-canopied-keep-well-high-fa7b15b156fc13cb.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "stone.collapsed-courtyard-arch",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/stone/inner-keep-collapsed-courtyard-arch-balanced-db433981ff318419.glb",
+              "sha256": "db433981ff318419d2e6ce3cf8c7a71bf6dc4c209e3a523496584bb374d82783",
+              "bytes": 24780,
+              "triangles": 240,
+              "warpkeepPath": "public/models/hegemony/inner-keep/stone/inner-keep-collapsed-courtyard-arch-balanced-db433981ff318419.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/stone/inner-keep-collapsed-courtyard-arch-compact-bb8b41dbe991314c.glb",
+              "sha256": "bb8b41dbe991314cc150e75499d4f81acf4161adbea8ad7648a2581156d60c8d",
+              "bytes": 16208,
+              "triangles": 156,
+              "warpkeepPath": "public/models/hegemony/inner-keep/stone/inner-keep-collapsed-courtyard-arch-compact-bb8b41dbe991314c.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "high",
+              "file": "assets/warpkeep/stone/inner-keep-collapsed-courtyard-arch-high-087f2557b6595d60.glb",
+              "sha256": "087f2557b6595d60e9b4d22182dfc9e3a62ef6f0d2bd152fb42ae57292e25b55",
+              "bytes": 25504,
+              "triangles": 252,
+              "warpkeepPath": "public/models/hegemony/inner-keep/stone/inner-keep-collapsed-courtyard-arch-high-087f2557b6595d60.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "stone.masonry-rubble-cluster",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/stone/inner-keep-masonry-rubble-cluster-balanced-33f632b032467856.glb",
+              "sha256": "33f632b03246785611834444499b0d4678bd75a12b21c0b03c86b07fb5b2e037",
+              "bytes": 22612,
+              "triangles": 220,
+              "warpkeepPath": "public/models/hegemony/inner-keep/stone/inner-keep-masonry-rubble-cluster-balanced-33f632b032467856.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/stone/inner-keep-masonry-rubble-cluster-compact-fbcc413bfd0f0cee.glb",
+              "sha256": "fbcc413bfd0f0ceeefc893ac71c6aaa004b79669adedc41a0dd47e18a4f3e0f3",
+              "bytes": 14304,
+              "triangles": 136,
+              "warpkeepPath": "public/models/hegemony/inner-keep/stone/inner-keep-masonry-rubble-cluster-compact-fbcc413bfd0f0cee.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "high",
+              "file": "assets/warpkeep/stone/inner-keep-masonry-rubble-cluster-high-9bed961f4df79a58.glb",
+              "sha256": "9bed961f4df79a584d2f43b3fbcadf896ecf0d5b61c290bc203d321c4e995c65",
+              "bytes": 26768,
+              "triangles": 264,
+              "warpkeepPath": "public/models/hegemony/inner-keep/stone/inner-keep-masonry-rubble-cluster-high-9bed961f4df79a58.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "set": "tree",
+      "assets": 25,
+      "files": 75,
+      "bytes": 5447340,
+      "source": {
+        "repository": "https://github.com/ael-dev3/Warpkeep",
+        "commit": "786c0b2be6f2d2e7eb2de02ef3b6826c8907fc32",
+        "paths": [
+          "public/models/hegemony/environment/trees",
+          "public/models/hegemony/inner-keep/trees"
+        ]
+      },
+      "embedded": {
+        "copyright": [],
+        "generator": [
+          "Khronos glTF Blender I/O v5.2.39"
+        ],
+        "filesWithCopyright": 0
+      },
+      "status": "LicenseRef-Warpkeep-Provenance-Required",
+      "tervainUse": "archive-only (not under public/, never served or loaded by the game)",
+      "assetsList": [
+        {
+          "id": "tree.birch-fresh-slender",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/tree/hegemony-tree-birch-fresh-slender-balanced-15a26cfd16e85098.glb",
+              "sha256": "15a26cfd16e850986a17e30f4808e9cbb708150282028ef6578ac74e20347691",
+              "bytes": 47776,
+              "triangles": 246,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-birch-fresh-slender-balanced-15a26cfd16e85098.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/tree/hegemony-tree-birch-fresh-slender-compact-00e35224cae7d02c.glb",
+              "sha256": "00e35224cae7d02ca64a7a36790ba5d8df290c42ec439a5a25ac0bbcf579b744",
+              "bytes": 19928,
+              "triangles": 95,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-birch-fresh-slender-compact-00e35224cae7d02c.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "high",
+              "file": "assets/warpkeep/tree/hegemony-tree-birch-fresh-slender-high-83d359766360259f.glb",
+              "sha256": "83d359766360259ffe2bf802d66ba7e402ee05cbd04ce2c007e447bff3c7648c",
+              "bytes": 79296,
+              "triangles": 440,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-birch-fresh-slender-high-83d359766360259f.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "tree.birch-golden-lean",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/tree/hegemony-tree-birch-golden-lean-balanced-1b32e77807d3c376.glb",
+              "sha256": "1b32e77807d3c376912e8e36d22aa8d6c56891ca8aa06aa273ac2722c70d60b9",
+              "bytes": 47888,
+              "triangles": 246,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-birch-golden-lean-balanced-1b32e77807d3c376.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/tree/hegemony-tree-birch-golden-lean-compact-56158b8ea9ac8049.glb",
+              "sha256": "56158b8ea9ac804960c61d7574811051cfc6ef4526ae7b75c3da264f754d0c1a",
+              "bytes": 19916,
+              "triangles": 95,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-birch-golden-lean-compact-56158b8ea9ac8049.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "high",
+              "file": "assets/warpkeep/tree/hegemony-tree-birch-golden-lean-high-4c8d1d81e764164f.glb",
+              "sha256": "4c8d1d81e764164f1be932a0a2bcdaf5706472760ce206309380d79c028b7b69",
+              "bytes": 79224,
+              "triangles": 440,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-birch-golden-lean-high-4c8d1d81e764164f.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "tree.cypress-ancient-dark",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/tree/hegemony-tree-cypress-ancient-dark-balanced-4d2a943ffb892868.glb",
+              "sha256": "4d2a943ffb892868bc73a67d51581c42432a5a2c65b709520d5e84dacc6b89ae",
+              "bytes": 38728,
+              "triangles": 196,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-cypress-ancient-dark-balanced-4d2a943ffb892868.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/tree/hegemony-tree-cypress-ancient-dark-compact-d4c484980c31a2e2.glb",
+              "sha256": "d4c484980c31a2e2b8e40b9e0eb5e8e4be97354b696e50dfee47660840b18f59",
+              "bytes": 16776,
+              "triangles": 78,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-cypress-ancient-dark-compact-d4c484980c31a2e2.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "high",
+              "file": "assets/warpkeep/tree/hegemony-tree-cypress-ancient-dark-high-d0254fbe6c511e31.glb",
+              "sha256": "d0254fbe6c511e31bcb9715401e9b55307071446d6c1314249bc4ef2b8e21a39",
+              "bytes": 64968,
+              "triangles": 350,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-cypress-ancient-dark-high-d0254fbe6c511e31.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "tree.cypress-golden-columnar",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/tree/hegemony-tree-cypress-golden-columnar-balanced-95a4e032238724df.glb",
+              "sha256": "95a4e032238724dfb2f1eca34e7f2bb2f633d0c371505d4dad99e1eeb9a89150",
+              "bytes": 38744,
+              "triangles": 196,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-cypress-golden-columnar-balanced-95a4e032238724df.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/tree/hegemony-tree-cypress-golden-columnar-compact-d3131739f5140617.glb",
+              "sha256": "d3131739f5140617f18c230e0d05841fa1cd5aa48ab675767a908cbcfdae4b43",
+              "bytes": 16788,
+              "triangles": 78,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-cypress-golden-columnar-compact-d3131739f5140617.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "high",
+              "file": "assets/warpkeep/tree/hegemony-tree-cypress-golden-columnar-high-8169fb87e6e0563d.glb",
+              "sha256": "8169fb87e6e0563d604fbc014844e54db104244a941ba6459177cf24e575ac33",
+              "bytes": 65164,
+              "triangles": 350,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-cypress-golden-columnar-high-8169fb87e6e0563d.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "tree.fir-alpine-lime",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/tree/hegemony-tree-fir-alpine-lime-balanced-d9074bc47d69a880.glb",
+              "sha256": "d9074bc47d69a880dabef041c8c77900c902a1103ab81dade4b79e9b1b7ee9ba",
+              "bytes": 111876,
+              "triangles": 590,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-fir-alpine-lime-balanced-d9074bc47d69a880.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/tree/hegemony-tree-fir-alpine-lime-compact-044ec0642e200b04.glb",
+              "sha256": "044ec0642e200b040084409cee577c276aa257661cfece594b67cc17d248fead",
+              "bytes": 42416,
+              "triangles": 216,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-fir-alpine-lime-compact-044ec0642e200b04.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "high",
+              "file": "assets/warpkeep/tree/hegemony-tree-fir-alpine-lime-high-2e56bdecf6f2a0be.glb",
+              "sha256": "2e56bdecf6f2a0beaf3b35ef63bd12081f417ed16b22498adff9a18ded5cbc20",
+              "bytes": 195028,
+              "triangles": 1104,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-fir-alpine-lime-high-2e56bdecf6f2a0be.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "tree.fir-silver-young",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/tree/hegemony-tree-fir-silver-young-balanced-232b7414c486cad4.glb",
+              "sha256": "232b7414c486cad4cf65ccc64985522a92e267794cbc77d6ed55c85b7ef498c5",
+              "bytes": 112000,
+              "triangles": 590,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-fir-silver-young-balanced-232b7414c486cad4.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/tree/hegemony-tree-fir-silver-young-compact-bf4127e8fee1157c.glb",
+              "sha256": "bf4127e8fee1157c6386d902d3d5c70276c2a8a1370c0cd6f37fc5a8edddf90f",
+              "bytes": 42420,
+              "triangles": 216,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-fir-silver-young-compact-bf4127e8fee1157c.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "high",
+              "file": "assets/warpkeep/tree/hegemony-tree-fir-silver-young-high-9de182a4e75469ce.glb",
+              "sha256": "9de182a4e75469ce6846d83d00ede9825a81336a7fbd308201708b9d63e9d22c",
+              "bytes": 195392,
+              "triangles": 1104,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-fir-silver-young-high-9de182a4e75469ce.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "tree.ik-courtyard-linden-teardrop",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/tree/inner-keep-courtyard-linden-teardrop-balanced-70e50e8f3cc5de23.glb",
+              "sha256": "70e50e8f3cc5de23351a599c89be9250917f33ea61460b9331e3ef43ac4220a7",
+              "bytes": 74720,
+              "triangles": 536,
+              "warpkeepPath": "public/models/hegemony/inner-keep/trees/inner-keep-courtyard-linden-teardrop-balanced-70e50e8f3cc5de23.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/tree/inner-keep-courtyard-linden-teardrop-compact-556a89c1ad3f6a31.glb",
+              "sha256": "556a89c1ad3f6a3110ce83423b47d610b00f3ae30bcc573829f7e32dabeb0f8b",
+              "bytes": 25840,
+              "triangles": 180,
+              "warpkeepPath": "public/models/hegemony/inner-keep/trees/inner-keep-courtyard-linden-teardrop-compact-556a89c1ad3f6a31.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "high",
+              "file": "assets/warpkeep/tree/inner-keep-courtyard-linden-teardrop-high-e1f548983c081308.glb",
+              "sha256": "e1f548983c08130897d6a30b0500a1534429d97e7412c92c26a339af9346b660",
+              "bytes": 164384,
+              "triangles": 1204,
+              "warpkeepPath": "public/models/hegemony/inner-keep/trees/inner-keep-courtyard-linden-teardrop-high-e1f548983c081308.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "tree.ik-giant-ancient-cedar",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/tree/inner-keep-giant-ancient-cedar-balanced-6563723d5f37cb00.glb",
+              "sha256": "6563723d5f37cb00c7bac2ab8fc631b5dbd4dffbbc2bf3ef6477cddb845ed7f1",
+              "bytes": 56864,
+              "triangles": 488,
+              "warpkeepPath": "public/models/hegemony/inner-keep/trees/inner-keep-giant-ancient-cedar-balanced-6563723d5f37cb00.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/tree/inner-keep-giant-ancient-cedar-compact-48d82b31a418db32.glb",
+              "sha256": "48d82b31a418db32438e06b67b4c56f7c154471655acba2ed193cbf4393e6d12",
+              "bytes": 29584,
+              "triangles": 245,
+              "warpkeepPath": "public/models/hegemony/inner-keep/trees/inner-keep-giant-ancient-cedar-compact-48d82b31a418db32.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "high",
+              "file": "assets/warpkeep/tree/inner-keep-giant-ancient-cedar-high-a27d4410172bfba2.glb",
+              "sha256": "a27d4410172bfba24cee062b448e416ec5174c4bcf3fc600fa70d1ae12471fdd",
+              "bytes": 96164,
+              "triangles": 896,
+              "warpkeepPath": "public/models/hegemony/inner-keep/trees/inner-keep-giant-ancient-cedar-high-a27d4410172bfba2.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "tree.ik-pruned-ornamental-three-tier",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/tree/inner-keep-pruned-ornamental-three-tier-balanced-72bdcd76ef4bf9f4.glb",
+              "sha256": "72bdcd76ef4bf9f4cd84f76c094212ce4433c53b19164769dfd7b05dd285cef4",
+              "bytes": 74636,
+              "triangles": 536,
+              "warpkeepPath": "public/models/hegemony/inner-keep/trees/inner-keep-pruned-ornamental-three-tier-balanced-72bdcd76ef4bf9f4.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/tree/inner-keep-pruned-ornamental-three-tier-compact-6995d4e430b3b1ba.glb",
+              "sha256": "6995d4e430b3b1babfe866dc0fc80ef617e502ce3fe0ef9a3b5adae96821a627",
+              "bytes": 23084,
+              "triangles": 160,
+              "warpkeepPath": "public/models/hegemony/inner-keep/trees/inner-keep-pruned-ornamental-three-tier-compact-6995d4e430b3b1ba.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "high",
+              "file": "assets/warpkeep/tree/inner-keep-pruned-ornamental-three-tier-high-8bbe6ec99f51822b.glb",
+              "sha256": "8bbe6ec99f51822bd9790b021b68d4f372ccf6a4d8aa9498d614d7924a0f06ad",
+              "bytes": 175604,
+              "triangles": 1284,
+              "warpkeepPath": "public/models/hegemony/inner-keep/trees/inner-keep-pruned-ornamental-three-tier-high-8bbe6ec99f51822b.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "tree.maple-ember-crown",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/tree/hegemony-tree-maple-ember-crown-balanced-79da66170ae6443e.glb",
+              "sha256": "79da66170ae6443e8d98dd455d77742a6ea0b9fdb6b70909d715e1e334d7bbbf",
+              "bytes": 61772,
+              "triangles": 320,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-maple-ember-crown-balanced-79da66170ae6443e.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/tree/hegemony-tree-maple-ember-crown-compact-498e0fb11472b33a.glb",
+              "sha256": "498e0fb11472b33a082268e70b868f4530be84d446ba250e54b7493d039c5c13",
+              "bytes": 25304,
+              "triangles": 124,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-maple-ember-crown-compact-498e0fb11472b33a.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "high",
+              "file": "assets/warpkeep/tree/hegemony-tree-maple-ember-crown-high-c816a3522172dd1e.glb",
+              "sha256": "c816a3522172dd1ebf2806ec5f159634f7c8af2da6941fc6d58b4eb0998edac3",
+              "bytes": 101672,
+              "triangles": 572,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-maple-ember-crown-high-c816a3522172dd1e.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "tree.maple-meadow-round",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/tree/hegemony-tree-maple-meadow-round-balanced-d6b459095b00c08a.glb",
+              "sha256": "d6b459095b00c08a9f77bdb487b4cfa4bf5a603c9cb2a968db87dc99a576829d",
+              "bytes": 61776,
+              "triangles": 320,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-maple-meadow-round-balanced-d6b459095b00c08a.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/tree/hegemony-tree-maple-meadow-round-compact-85b513a162ebcaf9.glb",
+              "sha256": "85b513a162ebcaf957a71b67a1dbf4afb832cf72bc3529ec428735bd66631716",
+              "bytes": 25312,
+              "triangles": 124,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-maple-meadow-round-compact-85b513a162ebcaf9.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "high",
+              "file": "assets/warpkeep/tree/hegemony-tree-maple-meadow-round-high-a519b4341eb0ee96.glb",
+              "sha256": "a519b4341eb0ee96f8fa967f763bd9934eb74e254661b2d54bc20354e5045e90",
+              "bytes": 101560,
+              "triangles": 572,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-maple-meadow-round-high-a519b4341eb0ee96.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "tree.oak-gnarled-amber",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/tree/hegemony-tree-oak-gnarled-amber-balanced-2ef2442a1e75da60.glb",
+              "sha256": "2ef2442a1e75da60761bc6dd455bc0f23bfac0b9fd50bd52314719d32584742a",
+              "bytes": 69904,
+              "triangles": 364,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-oak-gnarled-amber-balanced-2ef2442a1e75da60.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/tree/hegemony-tree-oak-gnarled-amber-compact-24dc6a72c9171f33.glb",
+              "sha256": "24dc6a72c9171f33b30f29f09df6e9ccfa6fde35b0ca2e9a621195959bbb1f2d",
+              "bytes": 29216,
+              "triangles": 145,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-oak-gnarled-amber-compact-24dc6a72c9171f33.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "high",
+              "file": "assets/warpkeep/tree/hegemony-tree-oak-gnarled-amber-high-89ea745f1d5e4949.glb",
+              "sha256": "89ea745f1d5e4949c0af2dba78ee34d2da6d8e29c3dd9e09b0787057e928b25e",
+              "bytes": 115708,
+              "triangles": 650,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-oak-gnarled-amber-high-89ea745f1d5e4949.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "tree.oak-spring-broad",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/tree/hegemony-tree-oak-spring-broad-balanced-eca7d04626717a92.glb",
+              "sha256": "eca7d04626717a9241fa780140736ba9ab6fb0e07c5930fd3e16a0e4ded3eddb",
+              "bytes": 69896,
+              "triangles": 364,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-oak-spring-broad-balanced-eca7d04626717a92.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/tree/hegemony-tree-oak-spring-broad-compact-0275d403ad952c37.glb",
+              "sha256": "0275d403ad952c37c854852a82f8aea4b2f3a9a18c5e25ab2f80c082524e5f2c",
+              "bytes": 29212,
+              "triangles": 145,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-oak-spring-broad-compact-0275d403ad952c37.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "high",
+              "file": "assets/warpkeep/tree/hegemony-tree-oak-spring-broad-high-251706f103d5e7af.glb",
+              "sha256": "251706f103d5e7af400b6dde4c2d2aa84304c60efdad4b1aafb90acf9ce53d8d",
+              "bytes": 115940,
+              "triangles": 650,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-oak-spring-broad-high-251706f103d5e7af.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "tree.pine-alpine",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/tree/hegemony-tree-pine-alpine-balanced-c4e353df6bb8207e.glb",
+              "sha256": "c4e353df6bb8207e976a9d9d75dce25d5ab37d72cc716a85070c4ef74fba0061",
+              "bytes": 63236,
+              "triangles": 328,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-pine-alpine-balanced-c4e353df6bb8207e.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/tree/hegemony-tree-pine-alpine-compact-a2b5cab2cdd5d669.glb",
+              "sha256": "a2b5cab2cdd5d66971896d13a42469919ca28dc9f3cc3b1005a6cf7b3755abfb",
+              "bytes": 26396,
+              "triangles": 130,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-pine-alpine-compact-a2b5cab2cdd5d669.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "high",
+              "file": "assets/warpkeep/tree/hegemony-tree-pine-alpine-high-78964fd53ab62938.glb",
+              "sha256": "78964fd53ab62938ebcc5afdbe9df6c3e655dbf78971b983307ed4cf87ddb7c9",
+              "bytes": 106296,
+              "triangles": 586,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-pine-alpine-high-78964fd53ab62938.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "tree.pine-windblown-blue",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/tree/hegemony-tree-pine-windblown-blue-balanced-25708dd15d9fff0a.glb",
+              "sha256": "25708dd15d9fff0ab7b15dfca5e93442d2175499b395aad6fadd632a23f20c3a",
+              "bytes": 63272,
+              "triangles": 328,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-pine-windblown-blue-balanced-25708dd15d9fff0a.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/tree/hegemony-tree-pine-windblown-blue-compact-5c44abbfc1f80895.glb",
+              "sha256": "5c44abbfc1f80895fdeb338e596d6404c34b69c9eeb708123af85774485354c1",
+              "bytes": 26436,
+              "triangles": 130,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-pine-windblown-blue-compact-5c44abbfc1f80895.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "high",
+              "file": "assets/warpkeep/tree/hegemony-tree-pine-windblown-blue-high-c6a00c442659c010.glb",
+              "sha256": "c6a00c442659c010f0d7eb4a522cf8239c272d4dffb09fd1c84d1832d3d23aae",
+              "bytes": 105856,
+              "triangles": 586,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-pine-windblown-blue-high-c6a00c442659c010.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "tree.regular",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/tree/hegemony-tree-regular-balanced-c77293af2d83c210.glb",
+              "sha256": "c77293af2d83c21052d128b2faf05c7c5e7f857405c72921dbc42940e2e674c9",
+              "bytes": 72128,
+              "triangles": 374,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-regular-balanced-c77293af2d83c210.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/tree/hegemony-tree-regular-compact-02e443d0bfa94a4a.glb",
+              "sha256": "02e443d0bfa94a4a53390ce8d625652ad837d3550119e2b72553633357621bb8",
+              "bytes": 29332,
+              "triangles": 144,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-regular-compact-02e443d0bfa94a4a.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "high",
+              "file": "assets/warpkeep/tree/hegemony-tree-regular-high-5e2fcf234d834950.glb",
+              "sha256": "5e2fcf234d834950d6bade356a3431192232f6a631fab0d2f29983c208ff6d42",
+              "bytes": 118704,
+              "triangles": 668,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-regular-high-5e2fcf234d834950.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "tree.regular-cool-evergreen",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/tree/hegemony-tree-regular-cool-evergreen-balanced-3068821eb1c441d7.glb",
+              "sha256": "3068821eb1c441d7ec52730880b9d51a2d06af580975ebd8d426ee8550ba168e",
+              "bytes": 72208,
+              "triangles": 374,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-regular-cool-evergreen-balanced-3068821eb1c441d7.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/tree/hegemony-tree-regular-cool-evergreen-compact-1e2859a7d1d35ba5.glb",
+              "sha256": "1e2859a7d1d35ba5967820e12e508141b0b05ba9058a0ce4e5b533984cbfdd78",
+              "bytes": 29412,
+              "triangles": 144,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-regular-cool-evergreen-compact-1e2859a7d1d35ba5.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "high",
+              "file": "assets/warpkeep/tree/hegemony-tree-regular-cool-evergreen-high-5f76ac38738f1c88.glb",
+              "sha256": "5f76ac38738f1c88ed90fbd058dbd41733fa66e70e20002a190e92a1284f1984",
+              "bytes": 119084,
+              "triangles": 668,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-regular-cool-evergreen-high-5f76ac38738f1c88.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "tree.regular-deep-forest",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/tree/hegemony-tree-regular-deep-forest-balanced-0865e92147da454a.glb",
+              "sha256": "0865e92147da454a30fd79f74268b4ab654b071fcd865420f44246f4e190282e",
+              "bytes": 72196,
+              "triangles": 374,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-regular-deep-forest-balanced-0865e92147da454a.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/tree/hegemony-tree-regular-deep-forest-compact-ed3ea8b76c41da9c.glb",
+              "sha256": "ed3ea8b76c41da9c6eb166689ec83c93b485373fdb5d00b026c421d03a80338d",
+              "bytes": 29400,
+              "triangles": 144,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-regular-deep-forest-compact-ed3ea8b76c41da9c.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "high",
+              "file": "assets/warpkeep/tree/hegemony-tree-regular-deep-forest-high-47a1a716f3f57888.glb",
+              "sha256": "47a1a716f3f5788860169f19ee8deaac7ec8010ffcae0ea83a9bc40f6bb52bff",
+              "bytes": 119732,
+              "triangles": 668,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-regular-deep-forest-high-47a1a716f3f57888.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "tree.regular-ember-maple",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/tree/hegemony-tree-regular-ember-maple-balanced-e8ba1803bbe07468.glb",
+              "sha256": "e8ba1803bbe074682ad92cfe1f3f4b358659e1611e53d40efe1ab148be08898e",
+              "bytes": 72196,
+              "triangles": 374,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-regular-ember-maple-balanced-e8ba1803bbe07468.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/tree/hegemony-tree-regular-ember-maple-compact-8756ffaa76140747.glb",
+              "sha256": "8756ffaa76140747a1abade1b1cfc2c717acc4939f0108ed18e585c9b270f04f",
+              "bytes": 29404,
+              "triangles": 144,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-regular-ember-maple-compact-8756ffaa76140747.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "high",
+              "file": "assets/warpkeep/tree/hegemony-tree-regular-ember-maple-high-99abe9b02ee98bf6.glb",
+              "sha256": "99abe9b02ee98bf6ab91c87f7f361b106d1003c939e2eb1f1f1aa56b14f7b9a0",
+              "bytes": 119072,
+              "triangles": 668,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-regular-ember-maple-high-99abe9b02ee98bf6.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "tree.regular-golden-grove",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/tree/hegemony-tree-regular-golden-grove-balanced-087a651b163d10cf.glb",
+              "sha256": "087a651b163d10cf0949e9c16491231a6c643d3375657c5b537ef9a3b655fe12",
+              "bytes": 72200,
+              "triangles": 374,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-regular-golden-grove-balanced-087a651b163d10cf.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/tree/hegemony-tree-regular-golden-grove-compact-b0054a6d4e3fb528.glb",
+              "sha256": "b0054a6d4e3fb5281e5c4ccc5286dc625655f50d6c2157f932a0e88190721228",
+              "bytes": 29404,
+              "triangles": 144,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-regular-golden-grove-compact-b0054a6d4e3fb528.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "high",
+              "file": "assets/warpkeep/tree/hegemony-tree-regular-golden-grove-high-cb1a14312c2554f3.glb",
+              "sha256": "cb1a14312c2554f312a21a49d2d22b0eed12a47f50f5d3f4e1f1f097c9e7a46f",
+              "bytes": 118476,
+              "triangles": 668,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-regular-golden-grove-high-cb1a14312c2554f3.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "tree.regular-sunlit-lime",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/tree/hegemony-tree-regular-sunlit-lime-balanced-36c5cdfcee796d7f.glb",
+              "sha256": "36c5cdfcee796d7f8d47e4007ae94019393c74d3386b42aab6900b4a7093b533",
+              "bytes": 72196,
+              "triangles": 374,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-regular-sunlit-lime-balanced-36c5cdfcee796d7f.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/tree/hegemony-tree-regular-sunlit-lime-compact-3f6ee40deee26896.glb",
+              "sha256": "3f6ee40deee26896eb26a4848b53ffa0efb66510217aab4508aec91475a209ff",
+              "bytes": 29400,
+              "triangles": 144,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-regular-sunlit-lime-compact-3f6ee40deee26896.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "high",
+              "file": "assets/warpkeep/tree/hegemony-tree-regular-sunlit-lime-high-2f778f3a74dd6de0.glb",
+              "sha256": "2f778f3a74dd6de002de4e5d3f83b96e16c7a6b390b0f6489647ee9508d8e3ea",
+              "bytes": 118592,
+              "triangles": 668,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-regular-sunlit-lime-high-2f778f3a74dd6de0.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "tree.spruce-deep-narrow",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/tree/hegemony-tree-spruce-deep-narrow-balanced-0272637284758aaa.glb",
+              "sha256": "0272637284758aaa2e848519fb97a788267363aaaf6d2059d7c0053f59518969",
+              "bytes": 69192,
+              "triangles": 364,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-spruce-deep-narrow-balanced-0272637284758aaa.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/tree/hegemony-tree-spruce-deep-narrow-compact-cf67e8d66d2c65a4.glb",
+              "sha256": "cf67e8d66d2c65a46a8d98053efe86a62830d593650256a34d40fa71ae4f316d",
+              "bytes": 28868,
+              "triangles": 146,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-spruce-deep-narrow-compact-cf67e8d66d2c65a4.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "high",
+              "file": "assets/warpkeep/tree/hegemony-tree-spruce-deep-narrow-high-e95b4b424487a2ab.glb",
+              "sha256": "e95b4b424487a2ab0251871316e8d305f322b7856538aed48a6c72c375271480",
+              "bytes": 114044,
+              "triangles": 652,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-spruce-deep-narrow-high-e95b4b424487a2ab.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "tree.spruce-sunlit-dense",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/tree/hegemony-tree-spruce-sunlit-dense-balanced-3b436d529f6405ef.glb",
+              "sha256": "3b436d529f6405efbd51bdb0f408f61fb01b16fb055e62b3a6af66cc299eebe9",
+              "bytes": 67936,
+              "triangles": 364,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-spruce-sunlit-dense-balanced-3b436d529f6405ef.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/tree/hegemony-tree-spruce-sunlit-dense-compact-06c7ee4adf7fdc23.glb",
+              "sha256": "06c7ee4adf7fdc23650e94d18c99bff9df378f6220ab4c996f4647651c9a3804",
+              "bytes": 28096,
+              "triangles": 146,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-spruce-sunlit-dense-compact-06c7ee4adf7fdc23.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "high",
+              "file": "assets/warpkeep/tree/hegemony-tree-spruce-sunlit-dense-high-0f858ef30bdfb1a7.glb",
+              "sha256": "0f858ef30bdfb1a767a4fc5ba1c8c24aa75955a344d68061977f35fd66502944",
+              "bytes": 112972,
+              "triangles": 652,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-spruce-sunlit-dense-high-0f858ef30bdfb1a7.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "tree.willow-lemon-weeping",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/tree/hegemony-tree-willow-lemon-weeping-balanced-ca0d0e4a54312a46.glb",
+              "sha256": "ca0d0e4a54312a4681f7b8916baebcd9f35e11f9e52866c8ee9b29fb4c4770ca",
+              "bytes": 88764,
+              "triangles": 474,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-willow-lemon-weeping-balanced-ca0d0e4a54312a46.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/tree/hegemony-tree-willow-lemon-weeping-compact-e2da964fef66675d.glb",
+              "sha256": "e2da964fef66675d1b9fdd22e24ed43fa97cead154c29f3655c1aba35e47d51f",
+              "bytes": 37604,
+              "triangles": 190,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-willow-lemon-weeping-compact-e2da964fef66675d.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "high",
+              "file": "assets/warpkeep/tree/hegemony-tree-willow-lemon-weeping-high-bbf6eb8eea8b677f.glb",
+              "sha256": "bbf6eb8eea8b677f4e0fcf388f2205a8fd2c08d6ee667d7cfcb5226a7b1051bf",
+              "bytes": 148104,
+              "triangles": 846,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-willow-lemon-weeping-high-bbf6eb8eea8b677f.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "tree.willow-river-mist",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/tree/hegemony-tree-willow-river-mist-balanced-545b967805851a9c.glb",
+              "sha256": "545b967805851a9cad9710038e335359e9076bc617e1092b0bdae9ad250e3b5a",
+              "bytes": 88744,
+              "triangles": 474,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-willow-river-mist-balanced-545b967805851a9c.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/tree/hegemony-tree-willow-river-mist-compact-96367ac3373d8c7d.glb",
+              "sha256": "96367ac3373d8c7d47c85bc237ed554f43797fc484ba51c4ad429a6cedb8fcd5",
+              "bytes": 37584,
+              "triangles": 190,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-willow-river-mist-compact-96367ac3373d8c7d.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "high",
+              "file": "assets/warpkeep/tree/hegemony-tree-willow-river-mist-high-cafb8b9d246fb6fd.glb",
+              "sha256": "cafb8b9d246fb6fd5b31523dd8ac9e93362e9885616675eceb288da3141d85f6",
+              "bytes": 148324,
+              "triangles": 846,
+              "warpkeepPath": "public/models/hegemony/environment/trees/hegemony-tree-willow-river-mist-high-cafb8b9d246fb6fd.glb",
+              "copyright": null,
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "set": "unit",
+      "assets": 6,
+      "files": 12,
+      "bytes": 2833152,
+      "source": {
+        "repository": "https://github.com/ael-dev3/Warpkeep",
+        "commit": "786c0b2be6f2d2e7eb2de02ef3b6826c8907fc32",
+        "paths": [
+          "public/models/hegemony/inner-keep/population/infantry",
+          "public/models/hegemony/inner-keep/population/ranged"
+        ]
+      },
+      "embedded": {
+        "copyright": [
+          "Copyright Ael / Warpkeep; project-authored Hegemony infantry runtime asset"
+        ],
+        "generator": [
+          "Khronos glTF Blender I/O v5.2.39"
+        ],
+        "filesWithCopyright": 12
+      },
+      "status": "LicenseRef-Warpkeep-Provenance-Required",
+      "tervainUse": "archive-only (not under public/, never served or loaded by the game)",
+      "assetsList": [
+        {
+          "id": "unit.bulwark",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/unit/inner-keep-bulwark-balanced-4a0e1fd2470259ea.glb",
+              "sha256": "4a0e1fd2470259ea60f4428c7ad2e5f7f1469c7272ccdfa65fc4b04acda669d4",
+              "bytes": 303004,
+              "triangles": 2362,
+              "warpkeepPath": "public/models/hegemony/inner-keep/population/infantry/inner-keep-bulwark-balanced-4a0e1fd2470259ea.glb",
+              "copyright": "Copyright Ael / Warpkeep; project-authored Hegemony infantry runtime asset",
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/unit/inner-keep-bulwark-compact-1cc92a6d96a4ffc2.glb",
+              "sha256": "1cc92a6d96a4ffc2a8b8b9651419517662aaa56244513521c870ff527e4a601e",
+              "bytes": 188336,
+              "triangles": 1690,
+              "warpkeepPath": "public/models/hegemony/inner-keep/population/infantry/inner-keep-bulwark-compact-1cc92a6d96a4ffc2.glb",
+              "copyright": "Copyright Ael / Warpkeep; project-authored Hegemony infantry runtime asset",
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "unit.dusk-ranger",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/unit/inner-keep-dusk-ranger-balanced-24020097cc18b248.glb",
+              "sha256": "24020097cc18b2488c65219485b7386773c9781ae619f6ebf27f1b2a8ea246ea",
+              "bytes": 310084,
+              "triangles": 2370,
+              "warpkeepPath": "public/models/hegemony/inner-keep/population/ranged/inner-keep-dusk-ranger-balanced-24020097cc18b248.glb",
+              "copyright": "Copyright Ael / Warpkeep; project-authored Hegemony infantry runtime asset",
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/unit/inner-keep-dusk-ranger-compact-c707df9a6fcf23a1.glb",
+              "sha256": "c707df9a6fcf23a1dbd9560e759b4cf494bc27b8f3e0ec6621c240a179522d85",
+              "bytes": 92004,
+              "triangles": 1552,
+              "warpkeepPath": "public/models/hegemony/inner-keep/population/ranged/inner-keep-dusk-ranger-compact-c707df9a6fcf23a1.glb",
+              "copyright": "Copyright Ael / Warpkeep; project-authored Hegemony infantry runtime asset",
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "unit.honor-guard",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/unit/inner-keep-honor-guard-balanced-66f157c4dc9bcd4f.glb",
+              "sha256": "66f157c4dc9bcd4ffaec17081f5019a168f9b69009293518f89eb366864a7c67",
+              "bytes": 320440,
+              "triangles": 2586,
+              "warpkeepPath": "public/models/hegemony/inner-keep/population/infantry/inner-keep-honor-guard-balanced-66f157c4dc9bcd4f.glb",
+              "copyright": "Copyright Ael / Warpkeep; project-authored Hegemony infantry runtime asset",
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/unit/inner-keep-honor-guard-compact-105926a9ac1be2fa.glb",
+              "sha256": "105926a9ac1be2fac529109367cecbfcdc409f5812b2d7eea2f4925c8e63156f",
+              "bytes": 194620,
+              "triangles": 1770,
+              "warpkeepPath": "public/models/hegemony/inner-keep/population/infantry/inner-keep-honor-guard-compact-105926a9ac1be2fa.glb",
+              "copyright": "Copyright Ael / Warpkeep; project-authored Hegemony infantry runtime asset",
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "unit.legionary",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/unit/inner-keep-legionary-balanced-e7361bc20051055d.glb",
+              "sha256": "e7361bc20051055d40b90e6415ddee117883dda5d7b1b38317a76e99bb704faa",
+              "bytes": 306080,
+              "triangles": 2410,
+              "warpkeepPath": "public/models/hegemony/inner-keep/population/infantry/inner-keep-legionary-balanced-e7361bc20051055d.glb",
+              "copyright": "Copyright Ael / Warpkeep; project-authored Hegemony infantry runtime asset",
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/unit/inner-keep-legionary-compact-abb4a2ef93b80cb0.glb",
+              "sha256": "abb4a2ef93b80cb05212906860911ee9d54eb0cbe11a92a812b8510753e8a03a",
+              "bytes": 188676,
+              "triangles": 1690,
+              "warpkeepPath": "public/models/hegemony/inner-keep/population/infantry/inner-keep-legionary-compact-abb4a2ef93b80cb0.glb",
+              "copyright": "Copyright Ael / Warpkeep; project-authored Hegemony infantry runtime asset",
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "unit.longbow-warden",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/unit/inner-keep-longbow-warden-balanced-496ac58752dfd060.glb",
+              "sha256": "496ac58752dfd060239a8687a2efe2bee50340f948a1c0221f3e6b750bea4f9c",
+              "bytes": 331228,
+              "triangles": 2698,
+              "warpkeepPath": "public/models/hegemony/inner-keep/population/ranged/inner-keep-longbow-warden-balanced-496ac58752dfd060.glb",
+              "copyright": "Copyright Ael / Warpkeep; project-authored Hegemony infantry runtime asset",
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/unit/inner-keep-longbow-warden-compact-63d2d79b4b1f5736.glb",
+              "sha256": "63d2d79b4b1f573663aac88ff343dbee1bd985755888d4ef1fb579180e7861c6",
+              "bytes": 104560,
+              "triangles": 1788,
+              "warpkeepPath": "public/models/hegemony/inner-keep/population/ranged/inner-keep-longbow-warden-compact-63d2d79b4b1f5736.glb",
+              "copyright": "Copyright Ael / Warpkeep; project-authored Hegemony infantry runtime asset",
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "unit.vanguard",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/unit/inner-keep-vanguard-balanced-e62df99856c02f99.glb",
+              "sha256": "e62df99856c02f9964ac4303600abcf7c9f40879bd52bbabbce75a6330538176",
+              "bytes": 305928,
+              "triangles": 2402,
+              "warpkeepPath": "public/models/hegemony/inner-keep/population/infantry/inner-keep-vanguard-balanced-e62df99856c02f99.glb",
+              "copyright": "Copyright Ael / Warpkeep; project-authored Hegemony infantry runtime asset",
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/unit/inner-keep-vanguard-compact-ee76a1bc2cbb5285.glb",
+              "sha256": "ee76a1bc2cbb528576cd6706a18c169fa8af0783cc5bb81e0b8f9294ac19b266",
+              "bytes": 188192,
+              "triangles": 1682,
+              "warpkeepPath": "public/models/hegemony/inner-keep/population/infantry/inner-keep-vanguard-compact-ee76a1bc2cbb5285.glb",
+              "copyright": "Copyright Ael / Warpkeep; project-authored Hegemony infantry runtime asset",
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "set": "wildlife",
+      "assets": 2,
+      "files": 3,
+      "bytes": 230536,
+      "source": {
+        "repository": "https://github.com/ael-dev3/Warpkeep",
+        "commit": "786c0b2be6f2d2e7eb2de02ef3b6826c8907fc32",
+        "paths": [
+          "public/models/hegemony/inner-keep/wildlife/rabbit",
+          "public/models/hegemony/environment/wildlife/rabbit"
+        ]
+      },
+      "embedded": {
+        "copyright": [
+          "Copyright Ael / Warpkeep; project-authored rabbit runtime asset"
+        ],
+        "generator": [
+          "Khronos glTF Blender I/O v5.2.39"
+        ],
+        "filesWithCopyright": 3
+      },
+      "status": "LicenseRef-Warpkeep-Provenance-Required",
+      "tervainUse": "archive-only (not under public/, never served or loaded by the game)",
+      "assetsList": [
+        {
+          "id": "wildlife.rabbit",
+          "files": [
+            {
+              "lod": "balanced",
+              "file": "assets/warpkeep/wildlife/inner-keep-lowlands-rabbit-balanced-daeb493a827ecbd6.glb",
+              "sha256": "daeb493a827ecbd605c6ad25d83b84050e6a0ad29e96619c9d86c57c37be1f6a",
+              "bytes": 86340,
+              "triangles": 350,
+              "warpkeepPath": "public/models/hegemony/inner-keep/wildlife/rabbit/inner-keep-lowlands-rabbit-balanced-daeb493a827ecbd6.glb",
+              "copyright": "Copyright Ael / Warpkeep; project-authored rabbit runtime asset",
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            },
+            {
+              "lod": "high",
+              "file": "assets/warpkeep/wildlife/inner-keep-lowlands-rabbit-high-735f7d72457acfb2.glb",
+              "sha256": "735f7d72457acfb20581cfcacbd8908eab3ef36d5640b63ecb134bbaa7a10b1d",
+              "bytes": 129388,
+              "triangles": 726,
+              "warpkeepPath": "public/models/hegemony/inner-keep/wildlife/rabbit/inner-keep-lowlands-rabbit-high-735f7d72457acfb2.glb",
+              "copyright": "Copyright Ael / Warpkeep; project-authored rabbit runtime asset",
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        },
+        {
+          "id": "wildlife.rabbit-shared",
+          "files": [
+            {
+              "lod": "compact",
+              "file": "assets/warpkeep/wildlife/hegemony-lowlands-rabbit-compact-2ecc7b1adf4c1d79.glb",
+              "sha256": "2ecc7b1adf4c1d79b7ca2d5ea9a6727ed3f6d9072047466082bb912d34ea930c",
+              "bytes": 14808,
+              "triangles": 146,
+              "warpkeepPath": "public/models/hegemony/environment/wildlife/rabbit/hegemony-lowlands-rabbit-compact-2ecc7b1adf4c1d79.glb",
+              "copyright": "Copyright Ael / Warpkeep; project-authored rabbit runtime asset",
+              "generator": "Khronos glTF Blender I/O v5.2.39"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

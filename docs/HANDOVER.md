@@ -7,8 +7,8 @@ the goal, the rules, every backlog item's state, what was in progress and the ex
 
 - **Backlog:** every item is done or stopped at a hard limit (table below). Two things remain, and both wait on
   inputs from outside the code:
-  - the soft crown silhouettes need new crown exports;
-  - two asset sources await the owner's answers (backlog 11).
+  - the crown silhouettes are feathered as far as the current exports allow (A107); new exports would finish them;
+  - the animated hero's origin awaits the owner's answer (backlog 11); the Warpkeep sets are recorded (A107).
 - **Bug scouts** over every area (A87–A105) found and fixed over a hundred faults, each in its round's record.
   ([A92](engineering/a92-gothic3-scout.md), [A93](engineering/a93-second-scout.md), [A94](engineering/a94-third-scout.md),
   [A95](engineering/a95-fourth-scout.md), [A96](engineering/a96-fifth-scout.md), [A99](engineering/a99-sixth-scout.md),
@@ -105,9 +105,9 @@ believably, and frames that are light without any visible loss. "Honest" means e
 | 6 | Animation: transitions, contact, turns, feet, fingers | Done: phases and overlays (A70–A72), turns led by head and chest (A76), feet planted on uneven ground (A70), finger joints seated and the quill in the writing hand (A75). Authored turns on the spot for residents (A83) and the wanderer (A85). **Hard limit:** three modelled-fist hands (fingers not separable without new source models; Meshy caps apply). |
 | 7 | Residents inhabit interiors | Done (A70). |
 | 8 | Hunting, respawn, encounters, progression, riding | Done (A70, A71, A75). |
-| 9 | Close-up quality (Gothic 3) | Done in A76: plaster, timber, stone, iron, cloth, ground, colour grade, room and village clutter; crown leaf masses; wall hairline. **Hard limit:** a shadow-casting hearth light exceeds the richest materials' texture units. Tasks still open in the tracker: soft layered crown silhouettes with no hard alpha cut-outs (partly A72, A76; new crown exports would finish it). |
+| 9 | Close-up quality (Gothic 3) | Done in A76: plaster, timber, stone, iron, cloth, ground, colour grade, room and village clutter; crown leaf masses; wall hairline. **Hard limit:** a shadow-casting hearth light exceeds the richest materials' texture units. Crown silhouettes feather on the outer shell (A107, checked on the GPU, no popping); new crown exports would finish them. |
 | 10 | Performance evidence | Container (software rendering) numbers in A76 and A77. Real-GPU frame and GPU times in A78. The GPU geometry count levels off (A82 update above). |
-| 11 | Asset ledger | Done as far as the owner's answers go (CC0 classification above); 2 sources remain unresolved. |
+| 11 | Asset ledger | Done as far as the records go: CC0 classification above; the Warpkeep per-set provenance is written (A107, [records](engineering/warpkeep-provenance.json)). Parked for the owner: only the animated hero's origin (its Mixamo-named skeleton and clips). |
 | 12 | Hero rework polish | Done (A73, A75). |
 | 13 | Frame cost (A77) | Done (A77, merged); measured on the GPU in A78. The steps listed below were all taken in A78–A86. |
 

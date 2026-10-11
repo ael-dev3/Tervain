@@ -32,9 +32,9 @@ Each fault was confirmed against the code. Those marked *(test)* have a test tha
 
 ## Read and left as they are
 
-- **Trees are chosen for the main camera's view, and the reflection and the window view reuse that choice.** Trees behind the camera are missing from a window's rear faces, and trees just above the frame from a steep reflection. Choosing per view would cost a pass over every tree for each capture; recorded as a limit.
+- **(Checked on the GPU in [A106](a106-recorded-limits.md): no visible difference.) Trees are chosen for the main camera's view, and the reflection and the window view reuse that choice.** Trees behind the camera are missing from a window's rear faces, and trees just above the frame from a steep reflection. Choosing per view would cost a pass over every tree for each capture; recorded as a limit.
 - **The water clock is not wrapped.** Floating props read the same clock for the swell, so wrapping it means wrapping both by whole swell periods. Recorded for a later pass.
-- **A hero who presses against a barrel at a blocked edge can still nudge it**: the physics pushes props as part of a move the game then refuses. Fixing it means reworking how pushes are applied.
+- **(Fixed in [A106](a106-recorded-limits.md).) A hero who presses against a barrel at a blocked edge can still nudge it**: the physics pushes props as part of a move the game then refuses. Fixing it means reworking how pushes are applied.
 
 ## Found sound by the same reads
 
