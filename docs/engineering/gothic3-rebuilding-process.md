@@ -4,6 +4,20 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Validation correction — 11 October 2026: final physical stack expectations
+
+Combined validation of `1bd7cf72c` stopped after 159 passes and two failures
+across five files; the full suite and build were not started. Both failures were
+final ESP expectations in the case-table and command-line checks. Their original
+argv-return observations still matched the original entry stack; the later
+assertions omitted twelve bytes in the type-name frame.
+
+The latest continuation records the actual deeper pending undecoration call.
+Both affected checks pass when rerun against `901d33662`, with the original
+argv-return assertions retained. Fresh combined validation follows this repair.
+The failed focused run is preserved as a receipt rather than reported as a
+successful full validation. These changes remain local.
+
 ## Local continuation — 11 October 2026: undecoration caller arguments
 
 The type-name routine now loads the retained object from its physical frame,
