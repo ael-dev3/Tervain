@@ -3317,3 +3317,27 @@ this checkout still stops before the second argument at `30698af1`; the
 separate second-argument checkout has passed its focused checks and 81
 source/image/browser startup checks, with property regressions still running.
 These captures and native continuations are local, not deployed.
+
+
+## Second argument integrated with deployed main
+
+The second class argument `bCObjectRefBase` now executes in this checkout. Its
+original class/scoped-name returns, reference cache append and output list
+append are retained. The argument-list routine reads the end marker at cursor
+63, clears its active flag, verifies its cookie and physically returns to
+`30699287`. The outer template-name parser remains pending; no property root,
+CString or completed startup is fabricated.
+
+All four runtime/test files match the independently validated second-argument
+checkout, where 30 selected property regressions, 81 source/image/browser
+checks, typechecking and build passed. After integration with main PR 264 and
+the expanded parent source capture, five focused compatibility checks, all
+82 source/image/browser startup checks and typechecking passed. The earlier
+140 main integration checks cover the preceding comma runtime.
+
+The separate older full suite completed with 3,958 passing checks and one
+historical snapshot-timing failure; its capture-time correction passed in
+that checkout. That targeted correction is not a full-suite rerun. A full
+validation of this newest combined revision is still required before publishing
+this native checkpoint. Full startup and a complete browser campaign remain
+unachieved.
