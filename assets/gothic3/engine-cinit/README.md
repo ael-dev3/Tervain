@@ -1841,3 +1841,15 @@ The earlier frozen combined revision `6a6de81b6f535c855a9ac8b3c12510b9186d99d5`
 has completed: all 3,642 tests in 323 files and its production build passed.
 It predates the writer and later int/camera steps. These additions remain local.
 Full engine startup and complete browser campaign persistence remain unfinished.
+
+
+### 2026-10-11 — combined camera-prefix validation
+
+Frozen combined revision `04ec3a708650b8955029c423f8be81985c24b86d`
+passed TypeScript checking, all 3,666 tests across 325 files (1,881.63 seconds)
+and the production build (61 seconds). The original command handle exited zero.
+Scope includes main through PR 251 (`d01f74068671bc5205056ca36fe13f9099241610`)
+and local native camera-prefix work through `b4ec4f17e`. Later camera parser,
+identifier, append, return and output allocation work is outside this run.
+This validates that revision's checks/build; it is not complete engine startup
+or full campaign/save-reload evidence. The native work remains local.
