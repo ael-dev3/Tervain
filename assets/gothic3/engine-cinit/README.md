@@ -3265,3 +3265,20 @@ earlier snapshot; its capture-time correction passed in an independent checkout.
 That full run is still active. No source capture bytes changed in this checkpoint.
 This work is local and full startup and a playable new-game-to-ending campaign
 remain unfinished.
+
+
+## Original template comma and character-node capture
+
+The capture now includes AppendCharacter at `30697b95` and the three character
+node methods at `30696ea2`, `30696ea6` and `30696eaa`, plus the original 12-byte
+vtable at `3089f28c`. These 55 instructions are source evidence, not an executed
+continuation. The current execution boundary remains `30698c1c`.
+
+An independent capture matched every new method against the pinned DLL and
+saved disassembly. All 196 prior Engine/SharedBase method records and all prior
+image records are unchanged. The Engine inventory is now 192 methods and 4,564
+instructions; JSON SHA-256 is
+`12d212506d9fc0dee50bab897af7138233c9c7363bc74eb18d2a067b8e360d99`.
+All 75 source and image checks and typechecking passed. Runtime connection of
+the comma routine and second argument is still required. No deployment or full
+campaign completion is claimed.

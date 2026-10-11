@@ -220,3 +220,15 @@ it('pins the original template compound call to the basic-type parser',()=>{
  expect(engineCinitInstruction('30698a86','30698be1').bytes).toBe('e8522b0000');
  expect(engineCinitInstruction('306991ad','30699282').bytes).toBe('e8fff7ffff');
 });
+
+
+it('pins original template comma and character-node routines',()=>{
+ expect(engineCinitInstruction('30697b95','30697bc8').bytes).toBe('e823f0ffff');
+ expect(engineCinitInstruction('30697b95','30697bd5').bytes).toBe('c7008cf28930');
+ expect(engineCinitInstruction('30697b95','30697be5').bytes).toBe('e879f2ffff');
+ expect(engineCinitInstruction('30697b95','30697bfc').bytes).toBe('c20400');
+ expect(engineCinitInstruction('30696ea2','30696ea4').bytes).toBe('40');
+ expect(engineCinitInstruction('30696ea6','30696ea6').bytes).toBe('8a4108');
+ expect(engineCinitInstruction('30696eaa','30696ebc').bytes).toBe('8808');
+ expect(engineCinitInstruction('30696eaa','30696ec2').bytes).toBe('c20800');
+});
