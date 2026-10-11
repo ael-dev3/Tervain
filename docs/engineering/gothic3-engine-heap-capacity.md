@@ -1288,3 +1288,23 @@ the pending NameParser call. Type checking passed; the normal check passed in
 browser startup checks in 40.43 seconds. The earlier combined suite remains
 active on its older frozen revision. This local continuation is undeployed;
 full startup and campaign completion remain unproven.
+
+
+### 2026-10-11: original second arena-free caller
+
+The retained decoder receives the returned class-name output, stores it in its
+actual stack slot and enters the original arena destructor at `30696606`.
+The destructor follows its live block head, loads the original chain header,
+updates the retained head, and calls its retained free callback. Execution
+stops at `30672f8a` after 7,695 source operations, with the physical free
+argument and return address `3069661f` still pending. The arena has not yet
+been freed; the separate completed name allocation remains live.
+
+Type checking passed; seven focused fidelity/interruption checks passed in
+28.36 seconds and six browser startup checks in 29.69 seconds. An additional
+free-caller check passed in 10.23 seconds, checking the actual pending call,
+return provenance and opaque physical pointer argument. The earlier combined
+suite is still active on its frozen revision. PR 248's Pages deployment
+`38119510962` completed successfully; these native changes remain local.
+Actual arena release, lock release, second-property publication and complete
+engine startup/campaign play remain unfinished.
