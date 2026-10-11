@@ -4,17 +4,17 @@ A second pass reread the code that changed most in 0.0.13:
 - the residents, the bandits, the rooms and the deer;
 - the input, the panels, mode changes and the saved settings.
 
-Each fault was confirmed against the code. Those marked *(test)* have a test that fails without the fix. Both bandit
-fixes were also checked in the served build on the GPU.
+Each fault was confirmed against the code. Those marked *(test)* have a test that fails without the fix. The bandit fix
+was also checked in the served build on the GPU.
 
 ## The world
 
 | Fault | Fix |
 | --- | --- |
-| **A graphics change could lock the player inside the archive.** Inside a reported archive, the rebuilt world closed the door and shutter, not knowing anyone was in. Only loading a save got them out. | A new world learns who is in the archive before it closes anything. |
+| **A graphics change could lock the player inside the archive.** Inside a reported archive, the rebuilt world closed the door and shutter, not knowing anyone was in. Only loading a save got them out. *(test)* | A new world learns who is in the archive before it closes anything. |
 | **A bandit whose model arrived while play was held** (a panel open) appeared at the world's origin, in its bind pose, until play resumed. *(test)* | The model is set at their post, and shown once it is posed there. |
-| **A resident whose model arrived late sat down from inside the bench** for the rest of that part of their day. Their spot had been measured on the stand-in, which knows no seat approach. | Their spot is measured again with their own model. Someone already there is put at the right spot (unseen until now); someone on the way heads for it. |
-| **A graphics change while riding threw the rider off**, and the deer walked home once the animals arrived. | The rider steps down and is put back in the saddle when the deer arrives, as after loading a save. |
+| **A resident whose model arrived late sat down from inside the bench** for the rest of that part of their day. Their spot had been measured on the stand-in, which knows no seat approach. *(test)* | Their spot is measured again with their own model. Someone already there is put at the right spot (unseen until now); someone on the way heads for it. |
+| **A graphics change while riding threw the rider off**, and the deer walked home once the animals arrived. *(test)* | The rider steps down and is put back in the saddle when the deer arrives, as after loading a save. |
 
 ## Input and settings
 

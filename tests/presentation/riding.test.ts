@@ -9,7 +9,7 @@ import type { AudioEngine } from '../../src/presentation/audio';
 import { CameraRig } from '../../src/presentation/cameraRig';
 import { Player, type PlayerCtx } from '../../src/presentation/player';
 import {
-  DEER_BODY, MOUNT_SIDE, MOUNT_STAMINA, MOUNT_TIMES, RIDE, RIDE_CAMERA, deerBodyPoints, doorwayAhead, gaitBob, roomAtDoor, steerMount,
+  DEER_BODY, MOUNT_SIDE, deerBodyBlocked, MOUNT_STAMINA, MOUNT_TIMES, RIDE, RIDE_CAMERA, deerBodyPoints, doorwayAhead, gaitBob, roomAtDoor, steerMount,
 } from '../../src/presentation/riding';
 import { Colliders } from '../../src/world/colliders';
 import { WORLD } from '../../src/world/layout';
@@ -67,6 +67,28 @@ describe('killed in the saddle (A91 scout)', () => {
     expect(s.player.mount).toBeNull();
     for (let i = 0; i < 60; i++) s.tick();
     expect(s.player.seatHeight).toBe(0);
+  });
+});
+
+describe('struck in the saddle (A94 scout)', () => {
+  it('flinches seated, is not shoved off the saddle, and the deer keeps its body clear of a wall', () => {
+    const c = new Colliders(); c.box('wall', 0, 4, 3, 0.2, 0, true, { minY: -1, maxY: 3 });
+    const s = setup(c);
+    s.player.mount = { id: DEER, seat: 1.2 };
+    s.player.rideSpeed = 8;
+    s.tick();
+    const x = s.player.x;
+    // Struck from the side, mid-gallop toward the wall.
+    const foe = { x: s.player.x + 1, y: 0, z: s.player.z, alive: true } as unknown as Parameters<typeof s.player.receiveHit>[2];
+    s.player.receiveHit(5, false, foe, s.ctx);
+    expect(s.player.state).toBe('hurt');
+    expect(s.player.x).toBeCloseTo(x, 5);
+    for (let i = 0; i < 30; i++) {
+      s.tick();
+      if (s.player.state === 'hurt') expect(s.player.mode).toBe('sit');
+      expect(deerBodyBlocked(c, s.player.x, s.player.y, s.player.z, s.player.yaw)).toBe(false);
+    }
+    expect(s.player.mount).not.toBeNull();
   });
 });
 
