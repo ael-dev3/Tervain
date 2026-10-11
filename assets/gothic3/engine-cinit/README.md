@@ -1861,3 +1861,22 @@ lock at `30672ec7`; all six browser startup prerequisite checks in two files
 passed. The independently generated original instruction package is unchanged.
 This checkpoint is local and does not establish complete engine startup,
 deployment, or a campaign playable through an ending.
+
+
+### 2026-10-11 — camera decorated qualifier return (local)
+
+Executed the original decorated qualifier decoder for the actual camera RTTI,
+including stack temporaries, empty-value copies/checks, physical decoder return,
+and compound/basic parser entry. The qualifier byte is `A`, the class code is
+`V`, and the retained cursor advances to offset 12, the first character of
+`eCCameraBase`. Startup now stops at `3069b43a` after 10,916 operations;
+class-name construction and fourth property publication remain pending.
+Prior published roots and shutdown entries remain intact. No class string or
+camera root is synthesized at this boundary.
+
+Validation: TypeScript checking passed; four focused runtime checks passed,
+including an unknown qualifier byte stopping exactly at `3069aadf` with the
+original decoder call pending and lock held. All six browser startup checks
+in two files passed. Original instruction/source packages are unchanged.
+This local checkpoint has not been deployed and is not complete engine startup
+or proof of a campaign playable through its ending.
