@@ -2201,3 +2201,26 @@ browser startup checks passed. Checks retain physical allocation membership,
 byte masks, header values, copied name and original allocation/copy return
 state. Source packages are unchanged. This checkpoint is local and does not
 prove full engine startup or campaign completion with save/reload.
+
+
+2026-10-11 — original camera property root and shutdown registration (local)
+
+Completed the original CString constructor and UnMangle returns, registered
+camera shutdown callback `300307f1` through the original Engine onexit/EH/lock
+path, and published the actual property storage through `307322e5`. The sixth
+exit entry is retained and the exit cursor advances to 24. The original C++
+walker then reaches its next callback `307322f0` after 14,039 instructions;
+its cursor is at offset `0x114`. Camera property initialization is complete,
+while the next initializer and full engine startup remain unsupported.
+
+Validation: TypeScript checking, the strengthened normal runtime check, two
+interrupted-registration checks and six browser startup checks passed. The
+negative checks stop at the original exit lock/unlock instruction, retain the
+live completed CString, and keep the camera root known null. Failed unlock
+preserves the held lock and physically registered sixth callback; failed lock
+preserves the previous exit cursor. Source packages are unchanged. This local
+checkpoint has not been deployed and does not establish campaign completion.
+
+Next reference: original callback `307322f0` calls thunk `300247da`, which jumps
+to property routine `30076740`, then stores its result at `30ad9e28`. These
+addresses are research findings, not an implemented next callback.
