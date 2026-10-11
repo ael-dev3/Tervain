@@ -6,7 +6,7 @@ Rebuild Gothic 3 in TypeScript on Tervain's separate `/gothic3/` route. Completi
 means starting a new game, progressing through the campaign, saving and reloading,
 and reaching an ending through ordinary browser play.
 
-As of 10 October 2026, asset readers, viewers and selected native runtime
+As of 11 October 2026, asset readers, viewers and selected native runtime
 continuations exist. Complete engine startup, live world activation and campaign
 integration remain unfinished. The hosted route does not yet demonstrate a
 finishable campaign.

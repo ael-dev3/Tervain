@@ -4,6 +4,21 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local continuation — 11 October 2026: undecoration globals and parser call
+
+The original undecoration caller stores its allocator and free callbacks in
+the retained Engine global image at `30af7c54`, clears three work fields,
+and pushes the five actual parser arguments. Its local parser object remains
+on the physical thread stack. Execution reaches the pending constructor call
+at `3069747a` after 2,798 admitted operations, with lock 5 held. The constructor
+and subsequent name parser have not yet executed.
+
+The two normal-path checks and a dedicated callback-identity and pending-call
+check pass; TypeScript typechecking reports no errors. These are focused local
+receipts, not a completed startup or campaign validation. The next step is to
+implement the captured constructor, then the original parser and cleanup,
+preserving allocations, lock ownership and the caller return sequence.
+
 ## Local continuation — 11 October 2026: undecoration lock ownership
 
 The original undecoration caller now invokes the retained Engine CRT ensure-lock
