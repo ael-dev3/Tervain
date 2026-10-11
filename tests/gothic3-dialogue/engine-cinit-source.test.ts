@@ -3,6 +3,17 @@ import { admitEngineCinitSource, engineCinitCaller, engineCinitFloatingPointCall
   engineCinitInstruction, engineCinitUnMangleInstruction, engineCinitUnMangleLiteral, engineCinitTable, engineCinitTableTarget } from '../../src/gothic3/native-engine-cinit-source';
 
 describe('original Engine CRT initializer evidence', () => {
+  it('pins the next obsolete-class initializer and its physical property caller', () => {
+    expect(engineCinitInstruction('30732300', '30732300').bytes).toBe('e8150290ff');
+    expect(engineCinitInstruction('30732300', '30732305').bytes).toBe('a3249ead30');
+    expect(engineCinitInstruction('30732300', '3073230a').bytes).toBe('c3');
+    expect(engineCinitInstruction('3003251a', '300767b0').bytes).toBe('a1249aad30');
+    expect(engineCinitInstruction('3003251a', '300767c7').bytes).toBe('890d209aad30');
+    expect(engineCinitInstruction('3003251a', '300767e3').bytes).toBe('e8c6ab5f00');
+    expect(engineCinitInstruction('3003251a', '300767ee').bytes).toBe('ff15b0daaf30');
+    expect(engineCinitInstruction('3003251a', '300767f9').bytes).toBe('e898ad5f00');
+    expect(engineCinitInstruction('3003251a', '30076806').bytes).toBe('c3');
+  });
   it('admits the pinned caller and floating-point callback', () => {
     expect(admitEngineCinitSource).not.toThrow();
     expect(engineCinitCaller().target).toBe('3067d1c7');
@@ -147,4 +158,11 @@ it('pins the original camera base object initializer and type arguments',()=>{
 
 it('pins the original object-reference-base initializer and type arguments',()=>{
  expect(engineCinitTableTarget('cppInitializers','307bb114')).toBe('307322f0');expect(engineCinitInstruction('307322f0','307322f5').bytes).toBe('a3289ead30');expect(engineCinitInstruction('300247da','300247da').bytes).toBe('e9611f0500');expect(engineCinitInstruction('300247da','30076769').bytes).toBe('b92c20aa30');expect(engineCinitInstruction('300247da','30076784').bytes).toBe('68e0980030');
+});
+
+
+it('captures the reference-base shutdown thunk and exact storage destructor body',()=>{
+ expect(engineCinitInstruction('300098e0','300098e0')).toMatchObject({bytes:'e99be67800',instruction:'jmp 0x30797f80'});
+ expect(engineCinitInstruction('30797f80','30797f80')).toMatchObject({bytes:'b9109aad30',instruction:'mov ecx, 0x30ad9a10'});
+ expect(engineCinitInstruction('30797f80','30797f85')).toMatchObject({bytes:'ff25dcdbaf30',instruction:'jmp dword ptr [0x30afdbdc]'});
 });

@@ -17,6 +17,7 @@ not paths served by the website.
 
 ## 2. Recover the world and its assets
 
+<<<<<<< HEAD
 Use the readers and exporters in [`tools/gothic3/`](../../tools/gothic3/).
 Decode the relevant archive and resource formats, preserve conversion receipts
 in [`assets/gothic3/`](../../assets/gothic3/), and prepare browser resources in
@@ -97,6 +98,27 @@ an ending, with save and reload preserving campaign state.
 
 
 ## Repository map and latest local continuation
+=======
+## From installed files to a playable browser game
+
+The reconstruction has two connected tracks:
+
+- **Assets:** installed archives → decoded resources → meshes, textures, rigs
+  and world placement → browser rendering. Geometry alone cannot reproduce the
+  scene: materials, leaf transparency, lighting, animation and placement must
+  also agree with the original resources.
+- **Behavior:** matching executable and DLL bytes → recorded native routines
+  and data layouts → TypeScript runtime services → startup and world systems →
+  combat, dialogue, quests and saved progress.
+
+These tracks meet when a world entity uses its recovered visual resources and
+its implemented behavior in the same running scene. The final acceptance step
+is a new game played through an original campaign ending, with save/reload
+preserving that progress. Until that is demonstrated, the reconstruction is
+incomplete.
+
+## Repository folders
+>>>>>>> codex/gothic3-engine-io-frame
 
 | Repository path | Purpose |
 | --- | --- |
@@ -116,10 +138,11 @@ inputs for research, not portable build requirements for every contributor.
 
 Keep four claims separate: evidence captured, behavior implemented, checks
 passed, and revision deployed. Each checkpoint records its actual supported
-boundary and remaining work. The current local native continuation initializes
-the camera property and returns the reference-base class/type parsers and undecoration; this
-remains startup research, with complete world activation and campaign play
-still outstanding.
+boundary and remaining work. The current local native continuation completes the camera and reference-base
+property initializers, including their names, roots and shutdown registration.
+It enters the next obsolete-class initializer and stops at its original
+type-name call (`306713ae`). Complete engine
+startup, world activation and campaign play remain outstanding.
 
 For detailed commands and implementation history, see the
 [step-by-step workflow](gothic3-rebuild-workflow.md),

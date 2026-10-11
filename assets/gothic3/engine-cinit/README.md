@@ -2725,3 +2725,111 @@ All five distinct checks have passing evidence across those runs.
 CString allocation, byte copy, property publication, shutdown registration,
 complete startup and a finishable browser campaign remain outstanding. This
 checkpoint is local and has not been deployed.
+
+
+## Local continuation — 11 October 2026: reference-base CString allocation
+
+The original CString allocator derives request 24 from its measured length 15,
+returns the retained MemoryAdmin singleton, and obtains a distinct live
+24-byte allocation. A separate fifth-string record preserves the earlier
+camera string. Its original stores establish length 15, reference count 1,
+publish the text pointer at offset 8 into reference-base storage, and write
+NUL at offset 23. Remaining text bytes are known zeros from their actual cold
+allocation, not copied characters. Execution stops before memcpy at `100a7a00`
+after 18,182 admitted operations; the copy-return flag remains false.
+
+Unavailable, NULL and aliased camera allocations stop before fifth-string
+publication and leave the previous camera CString intact. The allocator and
+constructor callers remain pending; source cache stays live and output freed.
+The admitted allocation span matches the captured camera continuation after
+normalizing only its diagnostic string-record slot. Typechecking, six selected
+runtime checks and six browser startup checks pass locally.
+
+Character copy, constructor return, shutdown registration, complete startup and
+a finishable browser campaign remain outstanding. This checkpoint is local
+and has not been deployed. The earlier combined scan revision is validating
+independently and does not include this fifth-string allocation.
+
+
+## Local continuation — 11 October 2026: reference-base CString copy and return
+
+The retained memcpy caller copies the actual fifteen-character suffix into the
+fifth CString through the captured scalar units. The allocator-established NUL
+at offset 23 remains intact. Original constructor and UnMangle epilogs return
+through their physical callers at `30076784` after 18,191 admitted operations.
+The live 24-byte CString contains `bCObjectRefBase` followed by NUL, with length
+15 and reference count 1. Its copy-return flag is true; the original initializer
+ESI is restored and EAX names the actual reference-base storage image.
+
+Interrupting the third destination DWORD retains the first eight copied
+characters and the allocation's established zero tail, with the memcpy caller
+pending. Making a source byte unknown during memcpy propagates its unknown mask
+to the destination instead of inventing a known character; the original copy
+and return still complete. Reading that destination byte as known data fails.
+The admitted span matches the camera continuation after normalizing the string
+record and original return address. Typechecking, eight runtime checks and six
+browser startup checks pass locally.
+
+Shutdown registration and callback return, complete engine startup and a
+finishable browser campaign remain outstanding. This checkpoint is local and
+not deployed; the earlier combined scan revision continues separate validation.
+
+
+## Local continuation — 11 October 2026: reference-base shutdown registration and initializer return
+
+The pinned Engine DLL supplies shutdown thunk `300098e0` (`e99be67800`) and
+body `30797f80` (`b9109aad30ff25dcdbaf30`). The generator captures both only
+after checking their exact original PE bytes. Independent regeneration matches
+JSON SHA-256 `ca8636ba37a30679bb68fe6f837c0cdf036ba36306f40e753b059107af897bbd`
+and TypeScript SHA-256 `ed5c97ee445515a045262ea7b73b787f46696cd585487f86b60cacc0090d1268`.
+The package now contains 94 methods and 3,617 body instructions; every
+pre-existing captured record remains unchanged.
+
+The actual caller registers that seventh shutdown pointer through the original
+exit routine, returns the reference-base storage pointer, publishes its root,
+and returns through the original C++ initializer callback. The exit cursor is
+28 bytes and the C++ cursor advances from offset 0x114 to 0x118. Execution
+stops at the next original initializer, `30732300`, after 18,313 admitted
+operations. Five property CStrings remain live; all startup locks are released.
+This registers the shutdown callback; it does not claim shutdown execution.
+
+Unavailable exit lock preserves six entries and a NULL reference-base root.
+Unavailable unlock retains the newly appended seventh entry, held lock and
+pending property callback; its root stays NULL until the caller actually
+returns. Typechecking, seven runtime checks, 47 source/image checks and six
+browser startup checks pass locally. The earlier combined scan revision is
+still validating separately. Complete startup, world activation and a
+finishable browser campaign remain outstanding; this checkpoint is not deployed.
+
+
+## 11 October 2026: next obsolete-class initializer evidence
+
+The capture now includes `30732300` (CALL `3003251a`, root publication at
+`30ad9e24`, RET) and the 22-instruction property body at `300767b0`.
+Each instruction is checked against the pinned Engine.dll bytes. The added
+images preserve the original flags at `30ad9a24`, eight-byte storage at
+`30ad9a1c`, root at `30ad9e24`, and 30-byte RTTI record at `30aa2a3c`.
+Its decorated name is `.?AVbCObsoleteClass@@`.
+
+Typechecking and 49 source/image checks pass. Independent JSON and TypeScript
+recapture matches byte-for-byte, and removing the newly added records produces
+the prior evidence package exactly. These are source receipts; the new
+initializer is not yet executed. The runtime boundary remains `30732300`.
+Full startup, live campaign integration and an ending remain unfinished.
+
+
+## 11 October 2026: obsolete-class property prefix execution
+
+The retained C++ walker now enters `30732300`, calls the original `3003251a`
+thunk, and executes the captured `300767b0` property prefix. It preserves the
+original root in storage +4, sets the two initializer flag bits, pushes the
+live common type-name list, and places the owned obsolete-class RTTI pointer
+in ECX. The actual `300767e3` call retains return word `300767e8`. Execution
+stops at `306713ae` after 18,329 admitted operations; type-name handling and
+the remaining property initializer are pending. No CString, root publication
+or shutdown registration is claimed for this sixth property yet.
+
+Typechecking and eleven selected checks pass, including unknown guard bits
+that preserve the pending callback at the original branch. The prior five
+CStrings and their registered exits remain live. This local continuation is
+not deployed and does not establish complete startup or campaign play.
