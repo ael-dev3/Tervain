@@ -1935,3 +1935,21 @@ cache/cookie/scoped returns and pending append. All six browser startup checks
 passed in two files. Original source packages remain unchanged. This local
 checkpoint has not been deployed and does not prove complete engine startup
 or a campaign playable through an ending with persistence.
+
+
+### 2026-10-11 — original camera class list append and return (local)
+
+The original append routine now converts the camera keyword text into a list,
+allocates its list/value nodes, links the scoped camera name and copies the
+result into the class parser output. The class parser physically returns to
+`3069b52d`, after 12,375 retained startup operations. Basic-type return, final
+output rendering, cleanup and camera property publication remain pending.
+This is the original parsed list structure, not a synthesized output string.
+
+Validation: TypeScript checking passed; five focused runtime checks and all six
+browser startup checks passed. An additional interrupted camera list-link store
+check passed: it stops at `30696e86`, retains the append call and parser lock,
+and preserves earlier live CStrings, roots and five shutdown entries. The
+interruption is scoped to the camera invocation of the shared instruction.
+Original source packages are unchanged. This local checkpoint is not deployed
+and does not prove complete startup or campaign completion with persistence.
