@@ -27,6 +27,8 @@ describe('original Engine CRT initializer evidence', () => {
     expect(engineCinitInstruction('306970b2', '306970c8').bytes).toBe('c3');
     expect(engineCinitInstruction('30696ec5', '30696ec5').bytes).toBe('8b410c');
     expect(engineCinitInstruction('30696ec5', '30696ec8').bytes).toBe('c3');
+    expect(engineCinitInstruction('3068a84a', '3068a84a').bytes).toBe('8b4c2404');
+    expect(engineCinitInstruction('3068a84a', '3068a8ae').bytes).toBe('c3');
     expect(engineCinitInstruction('30679ad0', '30679ad0').bytes).toBe('8b4c2404');
     expect(engineCinitInstruction('30679ad0', '30679b50').bytes).toBe('c3');
     expect(engineCinitInstruction('30696606', '30696606').bytes).toBe('56');

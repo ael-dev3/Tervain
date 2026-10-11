@@ -1,7 +1,7 @@
 # Engine CRT initializer evidence
 
 This package records the next dependency after Engine environment-vector return.
-It captures 65 original bodies (2371 instructions), the caller at `30677284`,
+It captures 66 original bodies (2422 instructions), the caller at `30677284`,
 the floating-point callback at `30892ac0`, and two original initializer tables.
 The C initializer table has 200 slots with 6 nonzero entries. The C++ table has
 93,705 slots with 1,963 nonzero entries; omitted entries are verified zero.
@@ -14,7 +14,7 @@ python tools/gothic3/prepare_engine_cinit_source.py --study '<study-root>' --out
 
 The generator checks the original Engine.dll hash and exact caller bytes.
 Independent regeneration produced identical JSON, SHA-256
-``20db5682d7208e8c340fe75983ec1fbe66d0608a12540f351097a8004ba677c1``.
+``054eb09a22280627b1b73cd6741f647406e2d9d0449c5fb58ec481bf7009c496``.
 
 The capture's `runtimeConnected: false` records evidence preparation; it grants
 no execution authority. The TypeScript continuation separately obtains a
@@ -355,3 +355,56 @@ Typechecking and seven scan/return/failure checks pass. The captured source
 independently regenerates byte-for-byte. Earlier source/image validation passed
 all 19 checks; broader integration validation follows. This work is local;
 cache publication, complete startup and a finishable campaign remain unfinished.
+
+## Local continuation — 11 October 2026: original type-name cache allocations
+
+The type-name caller inspects the final character of the actual constructed
+name, acquires its original CRT lock 14, and verifies the cache slot is still
+NULL. It allocates an eight-byte cache-list node, derives the six-byte text
+request from the measured length, and obtains a distinct six-byte logical
+allocation. Alignment is retained separately from usable span size. Execution
+stops before cache-slot publication at `3067db21` after 4,069 admitted operations.
+Both new allocations remain uninitialized and owned by the same live Engine CRT.
+The original undecoration output is still live; its temporary arena is released.
+
+Typechecking and 16 distinct runtime checks pass, including lock failure, NULL
+node/text allocations, aliased backing and an incorrect logical extent. Scan
+length and restored ESI are retained at their actual earlier instructions for
+later observations. The preceding scan revision passed all 203 startup
+integration checks and has entered full-suite validation. This checkpoint is
+local. Cache copying, list publication, cleanup, complete startup and the
+finishable browser campaign remain unfinished.
+
+## Local continuation — 11 October 2026: original bounded cache copy
+
+The type-name routine publishes its actual six-byte cache allocation in the
+original type-info slot, then passes that allocation, its derived capacity and
+the live constructed source to the captured `3068a84a` bounded copier. The copier
+reads and writes six actual bytes including NUL, retains one byte of remaining
+capacity, restores its registers and returns status zero through the physical
+caller. Execution stops at `3067db48` after 4,147 admitted operations, before
+cache-list linking. Lock 14 remains held and the original output is still live.
+
+Ten runtime checks plus the dedicated unknown-byte check and all 19 source/image
+checks pass. Interrupting the third write or making the third source byte unknown
+retains the actual published prefix and held lock. Exact source regeneration
+matches independently. The preceding allocation revision passed 209 startup
+integration checks and a production build. The earlier scan revision's full
+suite is still running and has reported two failed files; that full validation
+is not claimed as passing. This checkpoint is local. List publication, cleanup,
+complete startup and the finishable browser campaign remain unfinished.
+
+## Local cache-list continuation — 11 October 2026
+
+The original root at `30af70ac` is captured as eight bytes: two list-root
+words. After the bounded copy returns status zero, the original instructions
+`3067db48` through `3067db59` put the published cache-text pointer in the
+owned eight-byte node, retain the previous head and publish the node at root+4.
+Pointer values retain private ownership; unknown numerical address bits remain
+unknown. Execution stops at `3067db62` after 4,154 admitted operations.
+The temporary output remains live and lock 14 remains held. Cleanup, full
+startup and a finishable browser campaign remain unfinished.
+
+Independent JSON and TypeScript regeneration is byte-identical. Typechecking,
+ten selected runtime checks and all nineteen source/image checks pass.
+Combined validation and publication are recorded separately.

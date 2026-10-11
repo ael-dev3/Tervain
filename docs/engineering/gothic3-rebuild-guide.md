@@ -1,5 +1,43 @@
 # Gothic 3 rebuilding process
 
+## Local continuation — 11 October 2026: original bounded cache copy
+
+The type-name routine publishes its actual six-byte cache allocation in the
+original type-info slot, then passes that allocation, its derived capacity and
+the live constructed source to the captured `3068a84a` bounded copier. The copier
+reads and writes six actual bytes including NUL, retains one byte of remaining
+capacity, restores its registers and returns status zero through the physical
+caller. Execution stops at `3067db48` after 4,147 admitted operations, before
+cache-list linking. Lock 14 remains held and the original output is still live.
+
+Ten runtime checks plus the dedicated unknown-byte check and all 19 source/image
+checks pass. Interrupting the third write or making the third source byte unknown
+retains the actual published prefix and held lock. Exact source regeneration
+matches independently. The preceding allocation revision passed 209 startup
+integration checks and a production build. The earlier scan revision's full
+suite is still running and has reported two failed files; that full validation
+is not claimed as passing. This checkpoint is local. List publication, cleanup,
+complete startup and the finishable browser campaign remain unfinished.
+
+## Local continuation — 11 October 2026: original type-name cache allocations
+
+The type-name caller inspects the final character of the actual constructed
+name, acquires its original CRT lock 14, and verifies the cache slot is still
+NULL. It allocates an eight-byte cache-list node, derives the six-byte text
+request from the measured length, and obtains a distinct six-byte logical
+allocation. Alignment is retained separately from usable span size. Execution
+stops before cache-slot publication at `3067db21` after 4,069 admitted operations.
+Both new allocations remain uninitialized and owned by the same live Engine CRT.
+The original undecoration output is still live; its temporary arena is released.
+
+Typechecking and 16 distinct runtime checks pass, including lock failure, NULL
+node/text allocations, aliased backing and an incorrect logical extent. Scan
+length and restored ESI are retained at their actual earlier instructions for
+later observations. The preceding scan revision passed all 203 startup
+integration checks and has entered full-suite validation. This checkpoint is
+local. Cache copying, list publication, cleanup, complete startup and the
+finishable browser campaign remain unfinished.
+
 ## Local continuation — 11 October 2026: original type-name length scan
 
 The actual type-name caller removes the six undecoration arguments and passes

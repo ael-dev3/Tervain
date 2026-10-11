@@ -92,9 +92,17 @@ export interface FoliageInstall {
   weight?: string;
 }
 
+/**
+ * A84: what the follow camera looks at (world xyz) and how far round the line to it leaves give way (w, metres; 0 off).
+ * Leaves between the lens and the wanderer fade there, as a game camera's occluders do, so from under a crown he is not
+ * lost behind a screen of leaf masses. One value for every leaf material; the app sets it for each picture of the world.
+ */
+export const FOLIAGE_FOCUS: THREE.IUniform<THREE.Vector4> = { value: new THREE.Vector4(0, 0, 0, 0) };
+
 const LEAF_VERTEX_DECL = /* glsl */ `
 uniform vec4 uCrownCentre;
 uniform vec2 uCrownRadii;
+varying vec3 vTvWorld;
 varying vec3 vCrownN;
 varying float vCrownDepth;
 varying float vFoliageHue;
@@ -110,6 +118,7 @@ const LEAF_VERTEX_BODY = /* glsl */ `
   float tvCS = sqrt(max(dot(tvCW[0].xyz, tvCW[0].xyz), 1e-6));
   vec3 tvCentre = (tvCW * vec4(uCrownCentre.xyz, 1.0)).xyz;
   vec3 tvP = (tvCW * vec4(transformed, 1.0)).xyz;
+  vTvWorld = tvP;
   vec3 tvD = tvP - tvCentre;
   float tvRh = uCrownRadii.x * tvCS, tvRv = uCrownRadii.y * tvCS;
   vec3 tvE = vec3(tvD.x / tvRh, tvD.y / tvRv, tvD.z / tvRh);
@@ -130,6 +139,8 @@ uniform float uFoliageSaturation;
 uniform float uFoliageShadeThrough;
 uniform vec4 uFoliageClump;
 uniform vec2 uFoliageEdgeOn;
+uniform vec4 uFoliageFocus;
+varying vec3 vTvWorld;
 varying vec3 vCrownN;
 varying float vCrownDepth;
 varying float vFoliageHue;
@@ -165,7 +176,21 @@ const LEAF_ALPHA_TEST_GLSL = /* glsl */ `
   tvA *= smoothstep( uFoliageEdgeOn.x, uFoliageEdgeOn.y, tvFacing );
   // A79: a card within a metre or two of the eye covers the screen as one smeared, dark shape; it fades out there, as
   // the camera slips past the leaves rather than through a wall of them.
-  tvA *= smoothstep( 0.6, 1.6, length( vViewPosition ) );
+  // A84: with the camera well back from the wanderer, leaves give way further out from the lens, up to 2.6 m: from just
+  // under a crown, the masses filling the frame's edges were those 1.6-3 m off. Never past 45% of the way to him, so
+  // what grows beside him stays.
+  float tvNearEnd = 1.6;
+  if ( uFoliageFocus.w > 0.0 ) tvNearEnd = clamp( 0.45 * distance( uFoliageFocus.xyz, cameraPosition ), 1.6, 2.6 );
+  tvA *= smoothstep( 0.6, tvNearEnd, length( vViewPosition ) );
+  // A84: a leaf between the lens and the wanderer gives way, most on the line to him, none beyond him.
+  if ( uFoliageFocus.w > 0.0 ) {
+    vec3 tvSeg = uFoliageFocus.xyz - cameraPosition;
+    float tvLen2 = max( dot( tvSeg, tvSeg ), 1e-4 );
+    float tvAlong = dot( vTvWorld - cameraPosition, tvSeg ) / tvLen2;
+    float tvOff = length( vTvWorld - cameraPosition - tvSeg * clamp( tvAlong, 0.0, 1.0 ) );
+    float tvBetween = step( 0.0, tvAlong ) * ( 1.0 - smoothstep( 0.8, 0.95, tvAlong ) );
+    tvA *= 1.0 - tvBetween * ( 1.0 - smoothstep( 0.45 * uFoliageFocus.w, uFoliageFocus.w, tvOff ) );
+  }
   float tvFine = 1.0 - smoothstep( 0.02, 0.06, length( fwidth( vTvLeafP ) ) );
   tvA += ( tvLeafNoise( vTvLeafP * 17.0 ) - 0.5 ) * uFoliageClump.z * tvFine * step( 0.02, tvA );
   #ifdef USE_MAP
@@ -275,6 +300,7 @@ export function installFoliage(material: THREE.Material, opts: FoliageInstall): 
     uFoliageShadeThrough: { value: look.shadeThrough },
     uFoliageEdgeOn: { value: new THREE.Vector2(look.edgeOn[0], look.edgeOn[1]) },
     uFoliageClump: { value: new THREE.Vector4(look.clumps.gaps, look.clumps.shade, look.clumps.rough, look.clumps.size) },
+    uFoliageFocus: FOLIAGE_FOCUS,
   };
   let failed = false;
   const physical = (material as THREE.MeshStandardMaterial).isMeshStandardMaterial === true;

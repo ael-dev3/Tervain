@@ -70,6 +70,7 @@ def capture(study):
         0x3069b305: 'engineUndecorationFinally',
         0x306832b6: 'engineUndecorationUnlock',
         0x30679ad0: 'engineTypeNameStrlen',
+        0x3068a84a: 'engineTypeNameCopyString',
     })
     pe = PE((study / '00_Original_Runtime/Engine.dll').read_bytes())
     # The exported function CSV omits this complete body; retain its assembly
@@ -182,7 +183,7 @@ def capture(study):
         ('visualAnimationFloatFlags', 0x30ad9a00, 4),
         ('visualAnimationFloatRoot', 0x30ad9e38, 4),
         ('visualAnimationFloatStorage', 0x30ad99f8, 8),
-        ('visualAnimationFloatDefault', 0x30af70ac, 4),
+        ('visualAnimationFloatDefault', 0x30af70ac, 8),
         ('visualAnimationFloatTypeInfo', 0x30aa2a0c, type_info_size),
     ]:
         rva = address-pe.base
