@@ -3334,3 +3334,10 @@ Validation: eight distinct focused normal/interruption cases passed across the s
 The original data/type callers return the completed class/template node graph to the UnMangle parser. It validates the consumed terminator, copies the parsed value, and executes the original recursive length routine through captured list, text and character tables. The physical length caller returns to 3069b0a7 with the known result 63, matching class bTPropertyObject<class eCMainCache,class bCObjectRefBase>. Output allocation and writing remain pending in this checkpoint. Native startup and the twenty-eighth CString remain incomplete.
 
 Validation: normal length and unknown virtual-target cases passed, as did the earlier class-tail interruption case. TypeScript checking, 83 source/image/browser checks and the production build passed. An unknown list length target stops at original CALL instruction 30697129 before creating that indirect call return, with the parent length caller pending. The corrupted readonly table is rejected by image admission, so subsequent parser-word snapshots are unknown rather than fabricated. No deployment or campaign completion is claimed.
+
+
+## MainCache recursive template name writer checkpoint
+
+The captured list, text and character virtual writers now traverse the actual parsed template graph and return through the original writer caller at 3069b0d3. The live 64-byte output contains exactly class bTPropertyObject<class eCMainCache,class bCObjectRefBase> followed by a null terminator; all 64 output bytes are known. A final-terminator interruption preserves the 63 written characters, unknown terminator, live output allocation, held undecoration lock and unfinished original writer call. The following repeated-space normalization and outer return remain pending; startup and the campaign remain incomplete.
+
+Local evidence: typecheck, two focused normal/interrupted writer checks, 83 source/image/browser checks and production build passed. These changes were not included in the earlier full-suite receipt and are not yet deployed.
