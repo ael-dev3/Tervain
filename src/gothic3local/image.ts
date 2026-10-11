@@ -19,6 +19,8 @@ export interface G3Image {
 }
 
 export const IMAGE_DATA_OFFSET = 0x57;
+/** The largest side an image may claim. */
+export const IMAGE_MAX_SIDE = 16384;
 
 export function blockBytes(format: ImageFormat): number {
   return format === 'DXT1' ? 8 : 16;
@@ -39,8 +41,12 @@ export function parseImage(bytes: Uint8Array): G3Image {
   r.pos = 0x2f;
   const width = r.u32();
   const height = r.u32();
+  // A malformed header must not ask for gigabytes or billions of levels: an image is 1 to 16384 a side, with no more
+  // levels than halvings down to one texel (past 31 a shift wraps).
+  if (!(width >= 1 && width <= IMAGE_MAX_SIDE && height >= 1 && height <= IMAGE_MAX_SIDE)) throw new Error(`image size ${width}x${height} out of range`);
   r.pos = 0x3f;
   const mips = Math.max(1, r.u32());
+  if (mips > 1 + Math.floor(Math.log2(Math.max(width, height)))) throw new Error(`image claims ${mips} mip levels`);
   const tag = latin1(bytes.subarray(0x47, 0x4b));
   let format: ImageFormat;
   if (tag === 'DXT1' || tag === 'DXT3' || tag === 'DXT5') format = tag;
@@ -49,7 +55,9 @@ export function parseImage(bytes: Uint8Array): G3Image {
   let faceBytes = 0;
   for (let i = 0; i < mips; i++) faceBytes += levelSize(format, width >> i, height >> i);
   const dataEnd = Math.min(end, bytes.length);
-  const faceCount = Math.max(1, Math.floor((dataEnd - IMAGE_DATA_OFFSET) / faceBytes));
+  // Short of one whole face, the image is truncated: said so, rather than read as one face of missing (black) data.
+  if (dataEnd - IMAGE_DATA_OFFSET < faceBytes) throw new Error('image data truncated');
+  const faceCount = Math.floor((dataEnd - IMAGE_DATA_OFFSET) / faceBytes);
   if (faceCount !== 1 && faceCount !== 6) throw new Error(`image data holds ${faceCount} faces`);
   const faces: Uint8Array[][] = [];
   let at = IMAGE_DATA_OFFSET;

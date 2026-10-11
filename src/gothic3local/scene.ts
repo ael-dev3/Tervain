@@ -237,19 +237,20 @@ export class WorldView {
     let done = 0;
     for (const [name, matrices] of bySpecies) {
       onProgress?.(done++, bySpecies.size);
-      const bytes = await this.archives.readNamed(name.split(/[\\/]/).pop() ?? name);
-      if (!bytes) continue;
-      let grown;
+      // One unreadable species (a damaged archive entry, a file the browser cannot read) is skipped; the rest still grow.
+      let grown, barkTex, leafTex;
       try {
+        const bytes = await this.archives.readNamed(name.split(/[\\/]/).pop() ?? name);
+        if (!bytes) continue;
         const def = parseSpeedTree(bytes);
         const clusters = def.composite ? await this.leafClusters(def.composite) : [];
         const cluster = clusterFor(name, clusters, isConifer(name));
         grown = growTree(name, def, cluster ? [cluster.u0, cluster.v0, cluster.u1, cluster.v1] : null);
+        [barkTex, leafTex] = await Promise.all([this.textures.get(grown.barkImage), this.textures.get(grown.leafImage)]);
       } catch (err) {
         console.warn(`tree ${name}:`, err);
         continue;
       }
-      const [barkTex, leafTex] = await Promise.all([this.textures.get(grown.barkImage), this.textures.get(grown.leafImage)]);
       const bark = barkMaterial(barkTex, this.options, grown.height, name);
       // Leaf images keep a noise pattern in their alpha inside each leaf (for fading); everything above zero is leaf.
       const leaves = leafMaterials(leafTex, this.options, grown.height, name);
