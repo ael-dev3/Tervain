@@ -1374,3 +1374,23 @@ validation is still active on frozen revision
 `24a7bad8f17523a46b911868ac6ff9b275017ce0`, which predates this continuation.
 These changes remain local; copying, cache linking, cleanup, second-property
 publication and complete startup/campaign play remain unfinished.
+
+### 2026-10-11: original class type-name cache copy and link
+
+The original bounded copy transfers the fifteen known bytes `class bCString`
+plus its terminator from the live parser output into the fifteen-byte logical
+cache span and returns zero. The caller stores the actual text pointer in its
+new eight-byte node, retains the prior cache head as its next pointer, and links
+the node into the original shared root. Execution reaches `30672f8a` after
+7,959 source operations with the original temporary-output free call pending.
+Lock 14 remains held; the parser arena is freed and lock 5 released. Both the
+completed temporary output and cache text remain live at this boundary.
+
+Type checking passed. The normal focused check passed in 12.72 seconds, ten
+fidelity and interruption checks in 33.66 seconds, and six browser startup
+checks in 29.64 seconds. An unknown ninth source byte stops the original copy
+at `3068a888`, preserving the first eight copied bytes and the pending caller.
+The combined suite on revision `24a7bad8f17523a46b911868ac6ff9b275017ce0`
+predates this continuation and supplies no full-suite evidence for it. This
+checkpoint remains local. Temporary-output cleanup, cache-lock release,
+second-property publication, complete startup and campaign play remain pending.
