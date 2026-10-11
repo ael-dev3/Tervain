@@ -1262,6 +1262,8 @@ export class App {
     if (this.cam.mode === 'follow' && !this.bench.active) {
       const sitting = 0;
       this.cam.mounted = this.riding;
+      // The camera keeps out of tree crowns (A82); asked of whichever world is current.
+      this.cam.crowns ??= (x, z, r) => this.world?.crownsNear?.(x, z, r) ?? [];
       this.cam.follow(dt, this.player.x, this.player.y, this.player.z, this.world.terrain, this.world.colliders, this.settings.reducedMotion, this.player.shake, 1.55 + sitting);
       this.cam.clearWater((x, z) => this.world.water.world.surfaceAt(x, z), this.player.swimming);
       this.player.group.visible = this.cam.bodyVisible;
