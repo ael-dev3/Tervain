@@ -258,3 +258,26 @@ describe('a carved bed with little water (A89 scout)', () => {
     expect(fenced.player.x).toBeGreaterThan(-1);
   });
 });
+
+describe('in deep water with a blade and a foe (A91 scout)', () => {
+  it('sheathes the blade on starting to swim, and keeps swimming when struck', () => {
+    const t = setup();
+    t.player.drawn = true;
+    t.setMove(0, 1);
+    for (let i = 0; i < 60 * 12 && !t.player.swimming; i++) t.run(1 / 60);
+    expect(t.player.swimming).toBe(true);
+    expect(t.player.drawn).toBe(false);
+    t.setMove(0, 0);
+    const foe = { x: t.player.x + 1, y: t.player.y, z: t.player.z, alive: true } as unknown as Parameters<typeof t.player.receiveHit>[2];
+    t.player.receiveHit(5, false, foe, t.ctx);
+    expect(t.player.state).toBe('hurt');
+    t.run(1 / 60);
+    expect(t.player.mode).toBe('swim');
+  });
+
+  it('takes a placement as its facing, not as a turn to step round', () => {
+    const t = setup();
+    t.player.setPosition(2, 0, 1.0, t.ctx.terrain);
+    expect(Reflect.get(t.player, 'poseYaw')).toBe(1.0);
+  });
+});

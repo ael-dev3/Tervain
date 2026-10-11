@@ -56,6 +56,20 @@ function inside(box: { x: number; z: number; hw: number; hd: number }, x: number
 
 beforeEach(() => vi.clearAllMocks());
 
+describe('killed in the saddle (A91 scout)', () => {
+  it('falls beside the deer rather than lying in the air at the saddle’s height', () => {
+    const s = setup();
+    s.player.mount = { id: DEER, seat: 1.2 };
+    s.ctx.game.state.player.health = 1;
+    const foe = { x: s.player.x + 1, y: 0, z: s.player.z, alive: true } as unknown as Parameters<typeof s.player.receiveHit>[2];
+    s.player.receiveHit(20, true, foe, s.ctx);
+    expect(s.player.state).toBe('dead');
+    expect(s.player.mount).toBeNull();
+    for (let i = 0; i < 60; i++) s.tick();
+    expect(s.player.seatHeight).toBe(0);
+  });
+});
+
 describe('stepping down at the realm’s edge (A90 scout)', () => {
   it('sets the rider down inside the realm, never past its edge', () => {
     const s = setup();

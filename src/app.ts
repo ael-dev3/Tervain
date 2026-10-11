@@ -557,10 +557,10 @@ export class App {
 
   private replaceMenuScene() {
     const traffic = this.menuScene.trafficState;
-    const awakening = this.menuScene.awakeningState;
+    const awakening = this.menuScene.awakeningState, clock = this.menuScene.clockState;
     const grove = this.menuScene.grove;
     const replacement = new MenuScene({ quality: this.settings.quality, treeTemplates: this.treeTemplates,
-      trafficSeed: traffic.seed, trafficTime: traffic.elapsed, awakening, grove,
+      trafficSeed: traffic.seed, trafficTime: traffic.elapsed, awakening, grove, clock,
       // The world's catalog holds the warden only once the whole cast is here (stage 2).
       wardenRig: (this.menuAssets ?? (this.npcAssets?.has('menu:warden') ? this.npcAssets : null))?.create('menu:warden'), deer: this.menuDeer });
     this.menuGraphicsReady = false;
@@ -628,7 +628,11 @@ export class App {
         void this.prepareNpcAssets(residentRolesNear(state)).catch(() => {});
         prefetchJourney(this.settings.quality, { deferFurniture: true });
         await hero;
+        let pass = 0;
         do {
+          // A second pass (the quality changed meanwhile) shows its progress from the start again, rather than a bar held at
+          // its last stage while every earlier update is ignored (A91 scout).
+          if (pass++) this.loadingScreen?.progress?.reset?.('prepare');
           this.reloadAgain = false;
           await this.buildWorld();
           await this.prepareWorldGraphics(fromLoad);

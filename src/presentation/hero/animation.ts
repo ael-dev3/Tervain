@@ -433,8 +433,10 @@ export class HeroAnimationController {
     this.runWeight = clamp((this.cycleMetres - HERO_WALK_CYCLE) / (HERO_RUN_CYCLE - HERO_WALK_CYCLE), 0, 1);
     this.motionBlend = blend(this.motionBlend, travel > 0 ? 1 : 0, step, 14);
     this.sampleClips();
+    // Dead too, so a guard, a swing or a grip eases out at its own pace as he falls rather than vanishing in the first
+    // frame, the hand jumping half a metre (A91 scout).
+    this.poseActions(p, step, blade);
     if (!dead) {
-      this.poseActions(p, step, blade);
       this.twistLegs(this.legYaw);
       // The head and chest lead his turn (A76).
       this.turnLead.update(step > 0 ? finite(p.turn) / step : 0, step);
@@ -667,7 +669,7 @@ export class HeroAnimationController {
       target[`mixamorig:${side}ForeArm`] = [elbow, 0, 0];
     };
     // Breathing belongs only to the derived idle. Never pump arms or reconstruct legs over source gait.
-    if (this.motionBlend < 1) target['mixamorig:Spine2'] = [0.006 * Math.sin(this.idleClock * 1.6) * (1 - this.motionBlend) * amp, 0, 0];
+    if (this.motionBlend < 1 && p.mode !== 'dead') target['mixamorig:Spine2'] = [0.006 * Math.sin(this.idleClock * 1.6) * (1 - this.motionBlend) * amp, 0, 0];
     if (blade) arm('Right', -0.10, -0.18);
     switch (p.mode) {
       case 'attack_light': case 'attack_heavy': case 'telegraph': case 'strike': {
@@ -772,7 +774,8 @@ export class HeroAnimationController {
       // Whatever the hand is asked to hold, else a fist fighting, the sword's grip, or the relaxed curl (A71).
       const grip = this.grips[side], asked = grip.asked;
       const shape = HERO_HAND_GRIPS[asked?.grip ?? (fighting ? 'fist' : side === 'Right' && blade ? 'sword' : 'relaxed')];
-      const amount = asked ? asked.amount : 1;
+      // Dead, the hands let go: the grip fades out to the fall's own (A91 scout).
+      const amount = asked ? asked.amount : p.mode === 'dead' ? 0 : 1;
       grip.asked = null;
       if (HERO_FINGERS.some((finger) => Math.abs(shape[finger] * amount - grip.to[finger]!) > 1e-6)) {
         for (const finger of HERO_FINGERS) { grip.from[finger] = grip.now[finger]!; grip.to[finger] = shape[finger] * amount; }
