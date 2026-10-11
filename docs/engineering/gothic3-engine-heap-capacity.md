@@ -2443,3 +2443,25 @@ Both failures retain pending callers without entering the writer. This local
 checkpoint is not deployed and does not prove complete startup or campaign play.
 The earlier combined validation remains live at
 `015b00c0c3a1b7db32bc6620d1e54295d88b59cb`.
+
+
+### 11 October 2026: original reference-base output writer return
+
+The captured list and text writers now copy the actual class keyword and
+reference-base name into the separate 24-byte output. The outer writer writes
+the NUL at offset 21 and physically returns at `3069b0d3` after 17,430 operations.
+The output contains `class bCObjectRefBase` followed by NUL; all 22 text bytes
+are known, while the two padding bytes remain unknown. Both output and parser
+arena are live. Lock 5 stays held, six earlier shutdown callbacks remain intact,
+and the reference-base root is still known NULL. Outer name-parser return,
+arena cleanup, lock release and property CString construction remain pending.
+
+Typechecking, five focused runtime checks and six browser-startup checks pass.
+The output writer matches the captured class writer exactly; its actual nodes
+supply lengths and character storage. An unknown eighth identifier character
+stops at `30696f47`, retaining only `class bCObjec` in the output. Interrupted
+terminator storage stops at `306971f6`, preserving all 21 characters with no
+fabricated NUL. The output allocation and held lock remain owned and live, and
+the writer call stays pending in both cases. This is a local checkpoint, not a
+deployed game or proof of complete startup and campaign play. The older combined
+validation at `015b00c0c3a1b7db32bc6620d1e54295d88b59cb` is still running.
