@@ -104,11 +104,73 @@ export function liftOf(side: Side, lead: Side, u: number): number {
 }
 
 /**
- * Build `turn.left` and `turn.right` for a figure: the legs eased from `stand` toward the walk's mid-swing pose of each
- * leg in turn. Returns null when the walk lacks the legs' tracks.
+ * Each leg's stepping pose from an authored turn on the spot (A82). At the moment its knee is most bent, each of the
+ * leg's joints has turned some way from where the clip began; that change is applied to the figure's own stand pose,
+ * so the step keeps the figure's stance. The clip turns its hips as it goes, which the game does itself: the thigh's turn
+ * about the vertical is taken out, leaving its lift. Only a leg the pose lifts at least AUTHORED_STEP_LIFT keeps it (a
+ * clip may shuffle one foot round rather than step it, which held as a step would slide); the others are left out, and
+ * keep the walk's step. Null when the clip lacks a leg's tracks.
  */
-export function buildTurnClips(legs: Legs, stand: ReadonlyMap<THREE.Bone, THREE.Quaternion>, walk: THREE.AnimationClip):
-  Record<Side, THREE.AnimationClip> | null {
+export function authoredStepPoses(legs: Legs, stand: ReadonlyMap<THREE.Bone, THREE.Quaternion>, turn: THREE.AnimationClip):
+  Map<THREE.Bone, THREE.Quaternion> | null {
+  const trackOf = (bone: THREE.Bone) => turn.tracks.find((track) => track.name === `${bone.name}.quaternion`);
+  const poses = new Map<THREE.Bone, THREE.Quaternion>();
+  const q = new THREE.Quaternion(), first = new THREE.Quaternion(), change = new THREE.Quaternion(), twist = new THREE.Quaternion();
+  for (const side of SIDES) {
+    const chain = legs[side], knee = trackOf(chain.lower);
+    if (!knee || knee.times.length < 2) return null;
+    first.fromArray(knee.values, 0).normalize();
+    let best = 0, bend = 0;
+    for (let k = 1; k < knee.times.length; k++) {
+      const angle = q.fromArray(knee.values, k * 4).normalize().angleTo(first);
+      if (angle > bend) { bend = angle; best = knee.times[k]!; }
+    }
+    if (bend < AUTHORED_STEP_BEND) continue;
+    const leg = new Map<THREE.Bone, THREE.Quaternion>();
+    for (const bone of [chain.upper, chain.lower, chain.foot]) {
+      const track = trackOf(bone), rest = stand.get(bone);
+      if (!track || !rest) return null;
+      const at = new THREE.Quaternion().fromArray(interpolant(track).evaluate(best)).normalize();
+      first.fromArray(track.values, 0).normalize();
+      // The joint's change since the clip began, in its parent's frame.
+      change.copy(at).multiply(first.invert());
+      if (bone === chain.upper && bone.parent) {
+        // Without the part turning about the vertical (as the hips' frame has it): the swing alone.
+        bone.parent.updateWorldMatrix(true, false);
+        const up = _axis.copy(UP).applyQuaternion(bone.parent.getWorldQuaternion(_qp).invert()).normalize();
+        const r = new THREE.Vector3(change.x, change.y, change.z), d = r.dot(up);
+        twist.set(up.x * d, up.y * d, up.z * d, change.w);
+        if (twist.lengthSq() > 1e-12) change.multiply(twist.normalize().invert());
+      }
+      leg.set(bone, change.clone().multiply(rest).normalize());
+    }
+    // How far the pose lifts the foot, the leg posed from its stand pose and put back.
+    const was = [chain.upper, chain.lower, chain.foot].map((bone) => bone.quaternion.clone());
+    for (const bone of [chain.upper, chain.lower, chain.foot]) bone.quaternion.copy(stand.get(bone)!);
+    chain.upper.updateWorldMatrix(true, true);
+    const from = chain.foot.getWorldPosition(new THREE.Vector3()).y;
+    for (const [bone, pose] of leg) bone.quaternion.copy(pose);
+    chain.upper.updateWorldMatrix(false, true);
+    const lift = chain.foot.getWorldPosition(new THREE.Vector3()).y - from;
+    [chain.upper, chain.lower, chain.foot].forEach((bone, i) => bone.quaternion.copy(was[i]!));
+    chain.upper.updateWorldMatrix(false, true);
+    if (lift >= AUTHORED_STEP_LIFT) for (const [bone, pose] of leg) poses.set(bone, pose);
+  }
+  return poses;
+}
+/** The least a stepping pose must lift the foot (metres) to be taken as a step. */
+export const AUTHORED_STEP_LIFT = 0.025;
+/** The least knee bend (radians) that counts as a step in an authored turn. */
+const AUTHORED_STEP_BEND = 0.08;
+
+/**
+ * Build `turn.left` and `turn.right` for a figure: the legs eased from `stand` toward a stepping pose of each leg in turn.
+ * With authored turns on the spot (A82) the stepping poses are theirs, each leg as it lifts when turning that way, and
+ * taken whole; otherwise each leg's mid-swing pose in the walk, at TURN_STEP.swing (a pivot step is lower than a stride).
+ * Returns null when the walk lacks the legs' tracks.
+ */
+export function buildTurnClips(legs: Legs, stand: ReadonlyMap<THREE.Bone, THREE.Quaternion>, walk: THREE.AnimationClip,
+  authored?: Partial<Record<Side, THREE.AnimationClip>>): Record<Side, THREE.AnimationClip> | null {
   const trackOf = (bone: THREE.Bone) => walk.tracks.find((track) => track.name === `${bone.name}.quaternion`);
   const swingPose = new Map<THREE.Bone, THREE.Quaternion>();
   for (const side of SIDES) {
@@ -131,9 +193,11 @@ export function buildTurnClips(legs: Legs, stand: ReadonlyMap<THREE.Bone, THREE.
   const clip = (lead: Side) => {
     const tracks: THREE.KeyframeTrack[] = [];
     const times = Array.from({ length: TURN_STEP.samples }, (_, i) => (i / (TURN_STEP.samples - 1)) * TURN_STEP.duration);
+    const own = authored?.[lead] ? authoredStepPoses(legs, stand, authored[lead]!) : null;
     for (const side of SIDES) for (const bone of [legs[side].upper, legs[side].lower, legs[side].foot]) {
-      const from = stand.get(bone)!, to = swingPose.get(bone)!, q = new THREE.Quaternion(), values: number[] = [];
-      for (const time of times) values.push(...q.copy(from).slerp(to, TURN_STEP.swing * liftOf(side, lead, time / TURN_STEP.duration)).toArray());
+      const authoredPose = own?.get(bone), from = stand.get(bone)!, to = authoredPose ?? swingPose.get(bone)!, amount = authoredPose ? 1 : TURN_STEP.swing;
+      const q = new THREE.Quaternion(), values: number[] = [];
+      for (const time of times) values.push(...q.copy(from).slerp(to, amount * liftOf(side, lead, time / TURN_STEP.duration)).toArray());
       tracks.push(new THREE.QuaternionKeyframeTrack(`${bone.name}.quaternion`, times, values));
     }
     return new THREE.AnimationClip(`turn.${lead.toLowerCase()}`, TURN_STEP.duration, tracks);

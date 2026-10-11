@@ -7,9 +7,9 @@ import { HERO_GRIP_FADE, HERO_HAND_GRIPS } from '../../src/presentation/hero/ani
 import { bindHeroBones, HERO_FINGERS } from '../../src/presentation/hero/bones';
 import { createHeroRig, type MainHeroRig } from '../../src/presentation/hero/rig';
 import { createMeshyNpcRig, type ResidentMotionSource } from '../../src/presentation/meshynpcs';
-import { residentMotionLibrary } from '../../src/presentation/npc/residentMotion';
+import { MOTION_CLIPS, residentMotionLibrary } from '../../src/presentation/npc/residentMotion';
 import { RESIDENT_JOINTS } from '../../src/presentation/npc/residentRig';
-import { TURN_STEP } from '../../src/presentation/turnSteps';
+import { authoredStepPoses, TURN_STEP, type Legs } from '../../src/presentation/turnSteps';
 import { loadHeroWithoutImages } from './heroFixture';
 import { loadResident, loadResidentMotion, loadResidentRigData } from './residentFixtures';
 
@@ -165,6 +165,48 @@ describe('turning on the spot with turn clips (A71)', () => {
     }
     expectNoPop(spins, 16, 'resident turn');
   }, 120_000);
+});
+
+describe('authored turns on the spot (A82)', () => {
+  it('steps each foot the authored turn lifts: the foot rises, the knee opens into the turn without twisting round', async () => {
+    const { source, entry } = await loadResident('estate-steward');
+    const motion: ResidentMotionSource = { data: await loadResidentRigData('estate-steward'), library: residentMotionLibrary(await loadResidentMotion()), build: 'man', seed: 7, fighter: false };
+    const rig = createMeshyNpcRig(source, entry, 1, 'none', undefined, {}, motion), bones = bonesOf(rig.root);
+    const clips = (rig.resident as unknown as { clips: Map<string, { clip: THREE.AnimationClip }> }).clips;
+    const bone = (name: string) => bones.find((b) => b.name === name)!;
+    const legs = Object.fromEntries((['Left', 'Right'] as const).map((side) => [side, { upper: bone(`${side}UpLeg`), lower: bone(`${side}Leg`), foot: bone(`${side}Foot`) }])) as Legs;
+    const chain = (['Left', 'Right'] as const).flatMap((side) => [legs[side].upper, legs[side].lower, legs[side].foot]);
+    const stand = new Map(chain.map((b) => [b, b.quaternion.clone()] as const));
+    rig.root.updateMatrixWorld(true);
+    let authored = 0;
+    for (const [lead, name] of [['Left', MOTION_CLIPS.turn.left], ['Right', MOTION_CLIPS.turn.right]] as const) {
+      const turn = clips.get(name)?.clip;
+      expect(turn, name).toBeDefined();
+      const poses = authoredStepPoses(legs, stand, turn!);
+      expect(poses, name).not.toBeNull();
+      for (const side of ['Left', 'Right'] as const) {
+        const { upper, lower, foot } = legs[side], toe = bone(`${side}ToeBase`);
+        // A leg the clip shuffles round rather than steps keeps the walk's step (A82).
+        if (!poses!.has(upper)) continue;
+        authored++;
+        const at = (b: THREE.Object3D) => rig.root.worldToLocal(b.getWorldPosition(new THREE.Vector3()));
+        const footFrom = at(foot), ahead = at(toe).sub(at(foot)).setY(0).normalize();
+        for (const b of [upper, lower, foot]) b.quaternion.copy(poses!.get(b)!);
+        rig.root.updateMatrixWorld(true);
+        const lifted = at(foot).y - footFrom.y;
+        const knee = at(lower).sub(at(upper)).setY(0);
+        const facing = knee.lengthSq() > 1e-6 ? THREE.MathUtils.radToDeg(knee.normalize().angleTo(ahead)) : 0;
+        for (const b of [upper, lower, foot]) b.quaternion.copy(stand.get(b)!);
+        rig.root.updateMatrixWorld(true);
+        expect(lifted, `${name} ${side} lift`).toBeGreaterThanOrEqual(0.025);
+        // A pivot step opens the knee into the turn; with the clip's own hip turn left in, it pointed past square.
+        expect(facing, `${name} ${side} knee facing`).toBeLessThan(70);
+      }
+      void lead;
+    }
+    // Both feet of the left turn, and the left foot of the right turn (the clip only shuffles its right foot round).
+    expect(authored).toBeGreaterThanOrEqual(3);
+  }, 60_000);
 });
 
 describe('transitions (A71)', () => {

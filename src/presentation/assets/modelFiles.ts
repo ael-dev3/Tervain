@@ -99,7 +99,7 @@ export const MODEL_FILES: Readonly<Record<string, readonly [sha256: string, byte
   'npcs/maintenance-worker.glb': ['f6cc7ef5dae0ed47653f3346c850f70df3b41977d4e56d52ed3b18e24c2909c7', 2688736],
   'npcs/menu-warden.glb': ['64dd13628e7084aa6ff7bc856ea078307da4447fdd45d6fbe8e3f440285dce7c', 2615956],
   'npcs/mill-hand.glb': ['b631274cd62845fcaa8589cdd4627e343b90c365cb868fa5a99850d7c59b46cc', 1052768],
-  'npcs/motion/residents.glb': ['6dff4f611c06480bcf1e5601dc183269bb11003c27d428e4dc90da2e8dc027e1', 1142244],
+  'npcs/motion/residents.glb': ['a56d5a78fd8992b7a3942513b7e10997be97254777137d53f33965c2f12045aa', 1169468],
   'npcs/quarry-foreman.glb': ['7afb81d52bfe02551ac24554e9c671e819a000b48ff5dd8358be7ee4cd688120', 2852992],
   'npcs/quarry-hand.glb': ['e2a34809decf0539d475798e2cf93fa4b8b628d777cc555f692937b38d8ada63', 4274744],
   'npcs/rillford-reeve.glb': ['817d47211aa9c310b3ea5d46bfe7d137b17ab034b49ce2e01434c22624f0921c', 4334412],
