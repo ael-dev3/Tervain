@@ -202,7 +202,7 @@ export class NativeX86ThreadStack {
   #engineArgvExecuting=false;
   #engineArgvCallerTested=false;
   #engineSetenvpCallerTested=false;
-  #engineCinitFrame:{crt:NativeModuleCrtOwner;bootstrap:NativeCrtBootstrap;pc:string;entryEsp:number;images:NativeEngineCinitImages;operations:number;floatConversionWritten:boolean;precisionArgument:number|null;exitTableAllocation:NativeHeapObjectViews|null;exitTableResult:0|24|null;streamAllocation:NativeHeapObjectViews|null;streamCount:number|null;streamResult:0|26|null;sse2Result:0|1|null;sse2ControlResult:0|1|null;onexitEbp:number|null;onexitPrologReturned:boolean;onexitLockHeld:boolean;typeNameEbp:number|null;typeNamePrologReturned:boolean;typeNameArguments:readonly WordRecord[]|null}|null=null;
+  #engineCinitFrame:{crt:NativeModuleCrtOwner;bootstrap:NativeCrtBootstrap;pc:string;entryEsp:number;images:NativeEngineCinitImages;operations:number;floatConversionWritten:boolean;precisionArgument:number|null;exitTableAllocation:NativeHeapObjectViews|null;exitTableResult:0|24|null;streamAllocation:NativeHeapObjectViews|null;streamCount:number|null;streamResult:0|26|null;sse2Result:0|1|null;sse2ControlResult:0|1|null;onexitEbp:number|null;onexitPrologReturned:boolean;onexitLockHeld:boolean;typeNameEbp:number|null;typeNamePrologReturned:boolean;typeNameArguments:readonly WordRecord[]|null;undecorationEbp:number|null;undecorationPrologReturned:boolean;cppInitializerCursor:WordRecord|null}|null=null;
   #engineSetenvpFrame:{crt:NativeModuleCrtOwner;bootstrap:NativeCrtBootstrap;phase:'running'|'blocked'|'returned';pc:string;boundary:string|null;operations:number;input:NativeBytePointer|null;cursor:number;entries:number;strlenCalls:number;vectorSlots:number|null;vector:NativeHeapObjectViews|null;vectorPublished:boolean;vectorReleased:boolean;vectorCleared:boolean;inputReleased:boolean;inputCleared:boolean;readyPublished:boolean;strings:NativeHeapObjectViews[];filledEntries:number;images:NativeEngineSetenvpImages;result:0|-1|null}|null=null;
   static enterEngineSetenvpForBootstrap(stack:NativeX86ThreadStack,bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object):NativeValue<0|-1>{
     const reached=NativeCrtBootstrap.engineSetenvpInputForCrt(bootstrap,crt,permit);if(!reached.known)return reached;
@@ -359,7 +359,7 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
       const images=NativeEngineCinitImages.forCrt(crt);if(!images.known)throw new Error(images.reason);
       stack.#physical(stack.#stack);stack.#physical(stack.#bank);
       const entryEsp=stack.#address(stack.#load(stack.#bank,stack.#reg('ESP')));
-      stack.#engineCinitFrame={crt,bootstrap,pc:'30677288',entryEsp,images:images.value,operations:0,floatConversionWritten:false,precisionArgument:null,exitTableAllocation:null,exitTableResult:null,streamAllocation:null,streamCount:null,streamResult:null,sse2Result:null,sse2ControlResult:null,onexitEbp:null,onexitPrologReturned:false,onexitLockHeld:false,typeNameEbp:null,typeNamePrologReturned:false,typeNameArguments:null};
+      stack.#engineCinitFrame={crt,bootstrap,pc:'30677288',entryEsp,images:images.value,operations:0,floatConversionWritten:false,precisionArgument:null,exitTableAllocation:null,exitTableResult:null,streamAllocation:null,streamCount:null,streamResult:null,sse2Result:null,sse2ControlResult:null,onexitEbp:null,onexitPrologReturned:false,onexitLockHeld:false,typeNameEbp:null,typeNamePrologReturned:false,typeNameArguments:null,undecorationEbp:null,undecorationPrologReturned:false,cppInitializerCursor:null};
       stack.#push(stack.#mint(0,0xffffffff));stack.#trace.push('30677288.EngineCinitCallerPush');stack.#engineCinitFrame.operations++;
       stack.#call('3067728a','3067728f');stack.#trace.push('3067728a.EngineCinitCallerCall');stack.#engineCinitFrame.operations++;
       stack.#engineCinitFrame.pc='3067d1c7';
@@ -455,7 +455,7 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
       step('3067d1f9',()=>stack.#call('3067d1f9','3067d1fe'));stack.#engineCinitFrame.pc='3067d012';
       const walk=(pc:string,body:()=>void)=>step(pc,body,'3067d012');
       const cursor=()=>{const p=stack.#record(register('ESI')).provenance;if(p?.kind!=='engine-image'||p.crt!==crt||p.fields!==initializers.value||p.offset<0||p.offset>initializers.value.bytes.length||p.offset%4)throw new Error('Actual Engine C initializer cursor required');return p.offset;};
-      const runEh4Prolog=(returned:string,phase:'onexit'|'propertyTypeName')=>{
+      const runEh4Prolog=(returned:string,phase:'onexit'|'propertyTypeName'|'undecoration',extent=12)=>{
             const prolog=(pc:string,body:()=>void)=>step(pc,body,'3067e500');
             const relative=(name:'ESP'|'EBP',offset:number)=>stack.#address(register(name))+offset;
             const xor=(left:NativeX86Word32,right:NativeX86Word32)=>{const a=stack.#record(left),b=stack.#record(right),value=(a.value^b.value)>>>0;stack.#logicalFlags(value,a.mask&b.mask,4);return stack.#mint(value,a.mask&b.mask,{kind:'xor',left,right});};
@@ -463,8 +463,8 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
             prolog('3067e505',()=>stack.#push(stack.#load(stack.#bank,32)));
             prolog('3067e50c',()=>setRegister('EAX',stack.#load(stack.#stack,relative('ESP',16))));
             prolog('3067e510',()=>stack.#store(stack.#stack,relative('ESP',16),register('EBP')));
-            prolog('3067e514',()=>{const at=relative('ESP',16);setRegister('EBP',stack.#stackWord(at));if(phase==='onexit')stack.#engineCinitFrame!.onexitEbp=at;else stack.#engineCinitFrame!.typeNameEbp=at;});
-            prolog('3067e518',()=>{const size=stack.#numeric(register('EAX'),4);if(size!==12)throw new Error('Original Engine onexit local extent required');setRegister('ESP',stack.#stackWord(relative('ESP',-size)));stack.#flags(0,0);});
+            prolog('3067e514',()=>{const at=relative('ESP',16);setRegister('EBP',stack.#stackWord(at));if(phase==='onexit')stack.#engineCinitFrame!.onexitEbp=at;else if(phase==='propertyTypeName')stack.#engineCinitFrame!.typeNameEbp=at;else stack.#engineCinitFrame!.undecorationEbp=at;});
+            prolog('3067e518',()=>{const size=stack.#numeric(register('EAX'),4);if(size!==extent)throw new Error('Original Engine onexit local extent required');setRegister('ESP',stack.#stackWord(relative('ESP',-size)));stack.#flags(0,0);});
             prolog('3067e51a',()=>stack.#push(register('EBX')));prolog('3067e51b',()=>stack.#push(register('ESI')));prolog('3067e51c',()=>stack.#push(register('EDI')));
             prolog('3067e51d',()=>{const cookie=NativeCrtBootstrap.engineCinitCookieForCrt(bootstrap,crt,permit);if(!cookie.known)throw new Error(cookie.reason);setRegister('EAX',stack.#mint(NativeHeapObjectViews.prototype.readUnsigned.call(cookie.value,0),0xffffffff));});
             prolog('3067e522',()=>{const at=relative('EBP',-4);stack.#store(stack.#stack,at,xor(stack.#load(stack.#stack,at),register('EAX')));});
@@ -474,7 +474,7 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
             prolog('3067e531',()=>stack.#store(stack.#stack,relative('EBP',-4),stack.#mint(0xfffffffe,0xffffffff)));
             prolog('3067e538',()=>stack.#store(stack.#stack,relative('EBP',-8),register('EAX')));prolog('3067e53b',()=>setRegister('EAX',stack.#stackWord(relative('EBP',-16))));
             prolog('3067e53e',()=>stack.#store(stack.#bank,32,register('EAX')));
-            prolog('3067e544',()=>{const p=stack.#record(stack.#ret()).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!==returned)throw new Error('Original Engine onexit prolog return required');if(phase==='onexit')stack.#engineCinitFrame!.onexitPrologReturned=true;else stack.#engineCinitFrame!.typeNamePrologReturned=true;});
+            prolog('3067e544',()=>{const p=stack.#record(stack.#ret()).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!==returned)throw new Error('Original Engine onexit prolog return required');if(phase==='onexit')stack.#engineCinitFrame!.onexitPrologReturned=true;else if(phase==='propertyTypeName')stack.#engineCinitFrame!.typeNamePrologReturned=true;else stack.#engineCinitFrame!.undecorationPrologReturned=true;});
       };
       const runExitRegistration=(callbackAddress:'30671144'|'3068e981')=>{
             step('30671596',()=>{const esp=stack.#address(register('ESP')),argument=stack.#load(stack.#stack,esp+4),p=stack.#record(argument).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!==callbackAddress)throw new Error('Original Engine shutdown callback argument required');stack.#push(argument);},'30671596');
@@ -557,7 +557,7 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
           step('3067d221',()=>{const offset=position(register('ESI')),live=NativeEngineCinitImages.imageForCrt(images.value,crt,'cppInitializers');if(!live.known||live.value!==table.value)throw new Error('Retained Engine C++ initializer table required');const raw=NativeHeapObjectViews.prototype.readUnsigned.call(table.value,offset,4);if(raw){target=engineCinitTableTarget('cppInitializers',(0x307bb000+offset).toString(16));if(!target||parseInt(target,16)!==raw)throw new Error('Original Engine C++ callback target required');setRegister('EAX',stack.#source('code',target));}else setRegister('EAX',stack.#mint(0,0xffffffff));});
           step('3067d223',()=>{if(target)stack.#flags(0,0x841);else stack.#logicalFlags(0,0xffffffff,4);});step('3067d225',()=>{});
           if(target){
-            step('3067d227',()=>stack.#call('3067d227','3067d229'));stack.#engineCinitFrame!.pc=target;
+            step('3067d227',()=>{stack.#call('3067d227','3067d229');stack.#engineCinitFrame!.cppInitializerCursor=stack.#record(register('ESI'));});stack.#engineCinitFrame!.pc=target;
             if(target==='307322b0'){
               step('307322b0',()=>stack.#call('307322b0','307322b5'),'307322b0');step('3001c3c8',()=>{},'3001c3c8');
               const property=(pc:string,body:()=>void)=>step(pc,body,'30076640');
@@ -593,7 +593,16 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
                 name('3067dac1',()=>{const p=actualTypeInfo();if(p.fields.bytes.length<10)throw new Error('Original type name extent required');setRegister('EAX',stack.#mint(0,0,{kind:'engine-image',crt,fields:p.fields,offset:9}));});
                 name('3067dac4',()=>stack.#push(register('EAX')));name('3067dac5',()=>stack.#push(register('EBX')));
                 name('3067dac6',()=>{stack.#call('3067dac6','3067dacb');engineCinitInstruction('3069b26b','3069b26b');const esp=stack.#address(register('ESP'));stack.#engineCinitFrame!.typeNameArguments=Object.freeze(Array.from({length:6},(_,i)=>stack.#record(stack.#load(stack.#stack,esp+4+i*4))));});
-                stack.#engineCinitFrame!.pc='3069b26b';return known(undefined);
+                const undecorate=(pc:string,body:()=>void)=>step(pc,body,'3069b26b');
+                const undecorationScope=NativeEngineCinitImages.imageForCrt(images.value,crt,'undecorationSehScope');if(!undecorationScope.known)throw new Error(undecorationScope.reason);
+                undecorate('3069b26b',()=>stack.#push(stack.#mint(0x84,0xffffffff)));
+                undecorate('3069b270',()=>stack.#push(stack.#mint(0,0,{kind:'source',type:'image',address:'30956ec0',fields:undecorationScope.value})));
+                undecorate('3069b275',()=>stack.#call('3069b275','3069b27a'));runEh4Prolog('3069b27a','undecoration',0x84);
+                undecorate('3069b27a',()=>{const word=stack.#load(stack.#stack,relative('EBP',0x14)),p=stack.#record(word).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!=='30672ec7')throw new Error('Actual original undecoration allocator required');setRegister('EDI',word);});
+                undecorate('3069b27d',()=>{setRegister('ESI',stack.#mint(0,0xffffffff));stack.#logicalFlags(0,0xffffffff,4);});
+                undecorate('3069b27f',()=>{const p=stack.#record(register('EDI')).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!=='30672ec7'||stack.#numeric(register('ESI'),4)!==0)throw new Error('Actual nonnull allocator comparison required');stack.#flags(0,0x841);});
+                undecorate('3069b281',()=>{});undecorate('3069b287',()=>stack.#push(stack.#mint(5,0xffffffff)));undecorate('3069b289',()=>stack.#call('3069b289','3069b28e'));
+                stack.#engineCinitFrame!.pc='306832e3';return known(undefined);
               }
               stack.#engineCinitFrame!.pc='30076691';return known(undefined);
             }
@@ -742,7 +751,7 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
       return known(undefined);
     }catch(error){return unknown(reason(error));}
   }
-  engineCinitFrameSnapshot(crt:NativeModuleCrtOwner){const f=this.#engineCinitFrame;if(!f||f.crt!==crt)return null;const table=NativeEngineCinitImages.imageForCrt(f.images,crt,'floatConversionPointers');const streamPointers=f.streamAllocation&&f.streamResult===0?Object.freeze(Array.from({length:20},(_,i)=>this.#record(this.#load(f.streamAllocation!,i*4)))):null;const floatPointers=f.floatConversionWritten&&table.known?Object.freeze(Array.from({length:10},(_,i)=>this.#record(this.#load(table.value,i*4)))):null;return Object.freeze({pc:f.pc,entryEsp:f.entryEsp,images:f.images,operations:f.operations,floatConversionWritten:f.floatConversionWritten,precisionArgument:f.precisionArgument,exitTableAllocation:f.exitTableAllocation,exitTableResult:f.exitTableResult,streamAllocation:f.streamAllocation,streamCount:f.streamCount,streamResult:f.streamResult,sse2Result:f.sse2Result,sse2ControlResult:f.sse2ControlResult,onexitEbp:f.onexitEbp,onexitPrologReturned:f.onexitPrologReturned,onexitLockHeld:f.onexitLockHeld,typeNameEbp:f.typeNameEbp,typeNamePrologReturned:f.typeNamePrologReturned,typeNameArguments:f.typeNameArguments,cppCursor:this.#record(this.#load(this.#bank,this.#reg('ESI'))),exitTableFirst:f.exitTableAllocation?this.#record(this.#load(f.exitTableAllocation,0)):null,exitTableSecond:f.exitTableAllocation?this.#record(this.#load(f.exitTableAllocation,4)):null,exitCursor:(()=>{const cursor=NativeEngineCinitImages.imageForCrt(f.images,crt,'exitTableBegin');return cursor.known?this.#record(this.#load(cursor.value,0)):null;})(),streamPointers,floatPointers,bank:this.#bank,stack:this.#stack});}
+  engineCinitFrameSnapshot(crt:NativeModuleCrtOwner){const f=this.#engineCinitFrame;if(!f||f.crt!==crt)return null;const table=NativeEngineCinitImages.imageForCrt(f.images,crt,'floatConversionPointers');const streamPointers=f.streamAllocation&&f.streamResult===0?Object.freeze(Array.from({length:20},(_,i)=>this.#record(this.#load(f.streamAllocation!,i*4)))):null;const floatPointers=f.floatConversionWritten&&table.known?Object.freeze(Array.from({length:10},(_,i)=>this.#record(this.#load(table.value,i*4)))):null;return Object.freeze({pc:f.pc,entryEsp:f.entryEsp,images:f.images,operations:f.operations,floatConversionWritten:f.floatConversionWritten,precisionArgument:f.precisionArgument,exitTableAllocation:f.exitTableAllocation,exitTableResult:f.exitTableResult,streamAllocation:f.streamAllocation,streamCount:f.streamCount,streamResult:f.streamResult,sse2Result:f.sse2Result,sse2ControlResult:f.sse2ControlResult,onexitEbp:f.onexitEbp,onexitPrologReturned:f.onexitPrologReturned,onexitLockHeld:f.onexitLockHeld,typeNameEbp:f.typeNameEbp,typeNamePrologReturned:f.typeNamePrologReturned,typeNameArguments:f.typeNameArguments,undecorationEbp:f.undecorationEbp,undecorationPrologReturned:f.undecorationPrologReturned,cppCursor:f.cppInitializerCursor,exitTableFirst:f.exitTableAllocation?this.#record(this.#load(f.exitTableAllocation,0)):null,exitTableSecond:f.exitTableAllocation?this.#record(this.#load(f.exitTableAllocation,4)):null,exitCursor:(()=>{const cursor=NativeEngineCinitImages.imageForCrt(f.images,crt,'exitTableBegin');return cursor.known?this.#record(this.#load(cursor.value,0)):null;})(),streamPointers,floatPointers,bank:this.#bank,stack:this.#stack});}
   static testEngineSetenvpReturnForBootstrap(stack:NativeX86ThreadStack,bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object):NativeValue<'30677288'|'3067729f'>{
     const reached=NativeCrtBootstrap.canonicalEngineSetenvpCallerForCrt(bootstrap,crt,permit);if(!reached.known)return reached;
     try{

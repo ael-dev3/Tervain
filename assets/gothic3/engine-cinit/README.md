@@ -1,7 +1,7 @@
 # Engine CRT initializer evidence
 
 This package records the next dependency after Engine environment-vector return.
-It captures 35 original bodies (839 instructions), the caller at `30677284`,
+It captures 36 original bodies (895 instructions), the caller at `30677284`,
 the floating-point callback at `30892ac0`, and two original initializer tables.
 The C initializer table has 200 slots with 6 nonzero entries. The C++ table has
 93,705 slots with 1,963 nonzero entries; omitted entries are verified zero.
@@ -14,7 +14,7 @@ python tools/gothic3/prepare_engine_cinit_source.py --study '<study-root>' --out
 
 The generator checks the original Engine.dll hash and exact caller bytes.
 Independent regeneration produced identical JSON, SHA-256
-``e08de2a9594f613f580d6b2e8f7c2e888d8e50180036445ec2c6e8f449b57e0e``.
+``87906e06384e4388a3fe24fd6856a035c14cecdc35089ae5a3771cade7864239``.
 
 The capture's `runtimeConnected: false` records evidence preparation; it grants
 no execution authority. The TypeScript continuation separately obtains a
@@ -90,3 +90,8 @@ selects offset 9, containing `M` and its NUL terminator; allocator/free code
 pointers and flags `0x2800` remain source capabilities. Execution stops at
 `3069b26b` after 2,747 admitted operations, with the caller pending. Unknown
 cache bytes stop at their actual comparison rather than fabricate a name.
+
+Undecoration now enters its own original EH4 scope and 132-byte local frame.
+It loads and tests the actual allocation callback, then preserves the pending
+lock-5 initialization call at `306832e3`, after 2,777 admitted operations. The
+C++ cursor snapshot retains the caller cursor before nested code reuses ESI.

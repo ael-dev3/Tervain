@@ -4,6 +4,25 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local continuation — 11 October 2026: undecoration frame and allocator check
+
+Undecoration now pushes its original 132-byte local extent and immutable scope
+at `30956ec0`, executes the shared original EH4 prolog, and loads its allocation
+callback from the physical caller arguments. The nonnull source capability
+selects lock initialization with argument 5. Execution stops at `306832e3`
+after 2,777 admitted operations, with its pending return to `3069b28e`.
+The C++ cursor record is retained at the actual callback entry because nested
+code legitimately reuses ESI.
+
+Six focused runtime cases pass, including both prior final-stack regressions.
+The larger frame reuses former case-table stack scratch bytes, so their original
+byte and mask assertions are now observed at argv's actual return; the assertions
+and shared-stack identity checks remain. All 11 source/image checks, final
+typechecking and independent exact regeneration pass. Earlier combined revision
+`ddf8f164a` passed 163 focused checks across five files and is running its full
+suite. This continuation remains local; undecoration, remaining C++ initialization
+and the complete browser campaign remain unfinished.
+
 ## Validation correction — 11 October 2026: final physical stack expectations
 
 Combined validation of `1bd7cf72c` stopped after 159 passes and two failures

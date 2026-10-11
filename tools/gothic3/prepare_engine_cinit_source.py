@@ -40,6 +40,7 @@ def capture(study):
         0x306713ae: 'enginePropertyTypeNameWrapper',
         0x3067da97: 'enginePropertyTypeName',
         0x3069b26b: 'engineUndecorateName',
+        0x306832e3: 'engineUndecorationLockInit',
     })
     pe = PE((study / '00_Original_Runtime/Engine.dll').read_bytes())
     # The exported function CSV omits this complete body; retain its assembly
@@ -141,6 +142,7 @@ def capture(study):
         ('sse2Control', 0x30af7e68, 4),
         ('onexitSehScope', 0x30956388, 28),
         ('propertyTypeNameSehScope', 0x30956a38, 28),
+        ('undecorationSehScope', 0x30956ec0, 28),
         ('visualAnimationFloatFlags', 0x30ad9a00, 4),
         ('visualAnimationFloatRoot', 0x30ad9e38, 4),
         ('visualAnimationFloatStorage', 0x30ad99f8, 8),

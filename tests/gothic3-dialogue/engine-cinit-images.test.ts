@@ -50,3 +50,7 @@ it('retains the complete original C++ table without reseeding mutable storage',(
 it('loads the original type-name scope and rejects changed bytes',()=>{
  const {crt,owner}=fixture(),scope=fact(NativeEngineCinitImages.imageForCrt(owner,crt,'propertyTypeNameSehScope'));expect(scope.bytes.length).toBe(28);expect(Buffer.from(scope.bytes).toString('hex')).toBe(engineCinitImage('propertyTypeNameSehScope').raw);scope.bytes[0]=scope.bytes[0]!^1;expect(NativeEngineCinitImages.imageForCrt(owner,crt,'propertyTypeNameSehScope').known).toBe(false);
 });
+
+it('loads and protects the exact undecoration exception scope',()=>{
+ const {crt,owner}=fixture(),scope=fact(NativeEngineCinitImages.imageForCrt(owner,crt,'undecorationSehScope'));expect(scope.bytes.length).toBe(28);expect(Buffer.from(scope.bytes).toString('hex')).toBe(engineCinitImage('undecorationSehScope').raw);scope.knownMask[0]=0;expect(NativeEngineCinitImages.imageForCrt(owner,crt,'undecorationSehScope').known).toBe(false);
+});
