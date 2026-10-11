@@ -923,3 +923,20 @@ and the cursor to point to the remaining `@`. Unknown-character and first-path
 regressions remain passing. The shared epilog extraction and new original steps
 were inspected. This work is local; complete startup and browser campaign
 completion remain unfinished.
+
+## 2026-10-11: original name-reference cache caller and body
+
+The identifier parser now restores its original saved registers, checks its
+actual cache argument and retained reference count, and reaches
+`306994c9 -> 306972d6` after 6,265 source operations. The name-reference append
+body is captured from `306972d6-3069731c`: 27 instructions, 71 bytes, hash
+`e23b2baff71710fef3f17c195214bf88c727edc543ea8ddaf1fc12cd1b482c75`.
+The package now has 78 Engine bodies and 3,410 instructions. Cache append and
+both name-parser returns remain pending.
+
+Independent JSON/TypeScript regeneration are byte-identical; structural
+comparison shows exactly the new body. TypeScript checking, six focused runtime
+checks, and all 39 source/image/browser-service checks pass. Source, generator
+and admission-test diffs were inspected. Combined validation remains running
+on its earlier frozen revision. This continuation remains local; complete
+startup and browser campaign completion remain unfinished.
