@@ -4,6 +4,22 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local continuation — 11 October 2026: second exit registration return
+
+Both original call sites now execute the shared recovered registration bodies
+with their actual arguments. The second call stores callback `3068e981` in
+slot 1 of the retained exit table; slot 0 remains `30671144`. The encoded cursor
+advances to offset 8. Each call separately enters and returns from its physical
+exception frame and lock wrapper. No registration result is copied from the
+first call.
+
+The normal selected path returns to `3067d210` after 2,292 admitted operations.
+Six focused checks cover normal registration, retries and interrupted exception
+setup; a final check verifies both callback identities and cursor ownership.
+Typechecking passes. The combined validation of earlier revision `e8e62bd80`
+remains live. This continuation remains local; the C++ initializer table and a
+finishable campaign remain outstanding.
+
 ## Local continuation — 11 October 2026: caller checks and second registration
 
 The original C initializer caller now tests the walker result and removes both

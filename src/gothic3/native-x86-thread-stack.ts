@@ -455,6 +455,84 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
       step('3067d1f9',()=>stack.#call('3067d1f9','3067d1fe'));stack.#engineCinitFrame.pc='3067d012';
       const walk=(pc:string,body:()=>void)=>step(pc,body,'3067d012');
       const cursor=()=>{const p=stack.#record(register('ESI')).provenance;if(p?.kind!=='engine-image'||p.crt!==crt||p.fields!==initializers.value||p.offset<0||p.offset>initializers.value.bytes.length||p.offset%4)throw new Error('Actual Engine C initializer cursor required');return p.offset;};
+      const runExitRegistration=(callbackAddress:'30671144'|'3068e981')=>{
+            step('30671596',()=>{const esp=stack.#address(register('ESP')),argument=stack.#load(stack.#stack,esp+4),p=stack.#record(argument).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!==callbackAddress)throw new Error('Original Engine shutdown callback argument required');stack.#push(argument);},'30671596');
+            step('3067159a',()=>stack.#call('3067159a','3067159f'),'30671596');
+            const scope=NativeEngineCinitImages.imageForCrt(images.value,crt,'onexitSehScope');if(!scope.known)throw new Error(scope.reason);
+            step('3067155a',()=>stack.#push(stack.#mint(12,0xffffffff)),'3067155a');
+            step('3067155c',()=>stack.#push(stack.#mint(0,0,{kind:'source',type:'image',address:'30956388',fields:scope.value})),'3067155a');
+            step('30671561',()=>stack.#call('30671561','30671566'),'3067155a');
+            const prolog=(pc:string,body:()=>void)=>step(pc,body,'3067e500');
+            const relative=(name:'ESP'|'EBP',offset:number)=>stack.#address(register(name))+offset;
+            const xor=(left:NativeX86Word32,right:NativeX86Word32)=>{const a=stack.#record(left),b=stack.#record(right),value=(a.value^b.value)>>>0;stack.#logicalFlags(value,a.mask&b.mask,4);return stack.#mint(value,a.mask&b.mask,{kind:'xor',left,right});};
+            prolog('3067e500',()=>stack.#push(stack.#source('code','3067e590')));
+            prolog('3067e505',()=>stack.#push(stack.#load(stack.#bank,32)));
+            prolog('3067e50c',()=>setRegister('EAX',stack.#load(stack.#stack,relative('ESP',16))));
+            prolog('3067e510',()=>stack.#store(stack.#stack,relative('ESP',16),register('EBP')));
+            prolog('3067e514',()=>{const at=relative('ESP',16);setRegister('EBP',stack.#stackWord(at));stack.#engineCinitFrame!.onexitEbp=at;});
+            prolog('3067e518',()=>{const size=stack.#numeric(register('EAX'),4);if(size!==12)throw new Error('Original Engine onexit local extent required');setRegister('ESP',stack.#stackWord(relative('ESP',-size)));stack.#flags(0,0);});
+            prolog('3067e51a',()=>stack.#push(register('EBX')));prolog('3067e51b',()=>stack.#push(register('ESI')));prolog('3067e51c',()=>stack.#push(register('EDI')));
+            prolog('3067e51d',()=>{const cookie=NativeCrtBootstrap.engineCinitCookieForCrt(bootstrap,crt,permit);if(!cookie.known)throw new Error(cookie.reason);setRegister('EAX',stack.#mint(NativeHeapObjectViews.prototype.readUnsigned.call(cookie.value,0),0xffffffff));});
+            prolog('3067e522',()=>{const at=relative('EBP',-4);stack.#store(stack.#stack,at,xor(stack.#load(stack.#stack,at),register('EAX')));});
+            prolog('3067e525',()=>setRegister('EAX',xor(register('EAX'),register('EBP'))));prolog('3067e527',()=>stack.#push(register('EAX')));
+            prolog('3067e528',()=>stack.#store(stack.#stack,relative('EBP',-24),register('ESP')));
+            prolog('3067e52b',()=>stack.#push(stack.#load(stack.#stack,relative('EBP',-8))));prolog('3067e52e',()=>setRegister('EAX',stack.#load(stack.#stack,relative('EBP',-4))));
+            prolog('3067e531',()=>stack.#store(stack.#stack,relative('EBP',-4),stack.#mint(0xfffffffe,0xffffffff)));
+            prolog('3067e538',()=>stack.#store(stack.#stack,relative('EBP',-8),register('EAX')));prolog('3067e53b',()=>setRegister('EAX',stack.#stackWord(relative('EBP',-16))));
+            prolog('3067e53e',()=>stack.#store(stack.#bank,32,register('EAX')));
+            prolog('3067e544',()=>{const p=stack.#record(stack.#ret()).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!=='30671566')throw new Error('Original Engine onexit prolog return required');stack.#engineCinitFrame!.onexitPrologReturned=true;});
+            step('30671566',()=>stack.#call('30671566','3067156b'),'3067155a');
+            step('3067cfe8',()=>stack.#push(stack.#mint(8,0xffffffff)),'3067cfe8');
+            step('3067cfea',()=>{if(stack.#numeric(stack.#load(stack.#stack,relative('ESP',0)),4)!==8)throw new Error('Original Engine exit lock argument required');stack.#call('3067cfea','3067cfef');const locked=NativeCrtBootstrap.engineCinitExitLockForCrt(bootstrap,crt,permit,'lock');if(!locked.known)throw new Error(locked.reason);stack.#engineCinitFrame!.onexitLockHeld=true;hostReturn(stack.#mint(0,0),0);},'3067cfe8');
+            step('3067cfef',()=>pop('ECX'),'3067cfe8');step('3067cff0',()=>stack.#ret(),'3067cfe8');
+            step('3067156b',()=>{stack.#store(stack.#stack,relative('EBP',-4),stack.#mint(0,0xffffffff));stack.#logicalFlags(0,0xffffffff,4);},'3067155a');
+            step('3067156f',()=>stack.#push(stack.#load(stack.#stack,relative('EBP',8))),'3067155a');
+            step('30671572',()=>stack.#call('30671572','30671577'),'3067155a');
+            const storage=(pc:string,body:()=>void)=>step(pc,body,'30671472');
+            const global=(label:'exitTableBegin'|'exitTableEnd')=>{const image=NativeEngineCinitImages.imageForCrt(images.value,crt,label);if(!image.known)throw new Error(image.reason);return image.value;};
+            const heapLocation=(word:NativeX86Word32)=>{const p=stack.#record(word).provenance,allocation=stack.#engineCinitFrame!.exitTableAllocation;if(!allocation||p?.kind!=='engine-allocation'||p.crt!==crt||p.fields!==allocation||p.offset<0||p.offset>allocation.bytes.length)throw new Error('Actual retained Engine exit table location required');const proof=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields:allocation,offset:p.offset},0);if(!proof.known)throw new Error(proof.reason);return p;};
+            const decode=(site:string,returned:string)=>{stack.#call(site,returned);engineCinitInstruction('3067dedb','3067dedb');const argument=stack.#load(stack.#stack,relative('ESP',4)),p=stack.#record(argument).provenance;const object=p?.kind==='platform'&&p.category==='EngineCinitEncoded'?p.object:argument;const decoded=NativeModuleCrtOwner.prototype.decodePointer.call(crt,object);if(!decoded.known)throw new Error(decoded.reason);if(decoded.value===null)throw new Error('Actual nonnull Engine exit table required');const word=decoded.value as NativeX86Word32;heapLocation(word);hostReturn(word,0);};
+            const encode=(site:string,returned:string)=>{stack.#call(site,returned);const argument=stack.#load(stack.#stack,relative('ESP',4)),p=stack.#record(argument).provenance;if(p?.kind==='engine-allocation')heapLocation(argument);else if(p?.kind!=='source'||p.type!=='code'||p.address!==callbackAddress)throw new Error('Actual Engine exit callback or cursor argument required');const encoded=NativeModuleCrtOwner.prototype.encodePointer.call(crt,argument);if(!encoded.known)throw new Error(encoded.reason);if(encoded.value===null)throw new Error('Actual nonnull Engine exit encoding required');hostReturn(encoded.value===argument?argument:stack.#mint(0,0,{kind:'platform',object:encoded.value,category:'EngineCinitEncoded'}),0);};
+            storage('30671472',()=>stack.#push(register('ECX')));storage('30671473',()=>stack.#push(register('EBX')));storage('30671474',()=>stack.#push(register('EBP')));storage('30671475',()=>stack.#push(register('ESI')));storage('30671476',()=>stack.#push(register('EDI')));
+            storage('30671477',()=>stack.#push(stack.#load(global('exitTableEnd'),0)));storage('3067147d',()=>decode('3067147d','30671482'));
+            storage('30671482',()=>stack.#push(stack.#load(global('exitTableBegin'),0)));storage('30671488',()=>setRegister('ESI',register('EAX')));storage('3067148a',()=>stack.#store(stack.#stack,relative('ESP',24),register('ESI')));storage('3067148e',()=>decode('3067148e','30671493'));
+            storage('30671493',()=>setRegister('EDI',register('EAX')));
+            let before=0,base=0;storage('30671495',()=>{before=heapLocation(register('EDI')).offset;base=heapLocation(register('ESI')).offset;stack.#arithmeticFlags(before,base,(before-base)>>>0,4,true);});storage('30671497',()=>pop('ECX'));storage('30671498',()=>pop('ECX'));storage('30671499',()=>{});
+            if(before<base){stack.#engineCinitFrame!.pc='30671523';return false;}
+            storage('3067149f',()=>setRegister('EBX',register('EDI')));storage('306714a1',()=>{const left=heapLocation(register('EBX')),right=heapLocation(register('ESI'));const delta=(left.offset-right.offset)>>>0;setRegister('EBX',stack.#mint(delta,0xffffffff));stack.#arithmeticFlags(left.offset,right.offset,delta,4,true);});
+            storage('306714a3',()=>setRegister('EBP',stack.#mint((stack.#numeric(register('EBX'),4)+4)>>>0,0xffffffff)));
+            let required=0;storage('306714a6',()=>{required=stack.#numeric(register('EBP'),4);stack.#arithmeticFlags(required,4,(required-4)>>>0,4,true);});storage('306714a9',()=>{});if(required<4){stack.#engineCinitFrame!.pc='30671523';return false;}
+            storage('306714ab',()=>stack.#push(register('ESI')));storage('306714ac',()=>{stack.#call('306714ac','306714b1');engineCinitInstruction('3067e45d','3067e45d');const p=heapLocation(stack.#load(stack.#stack,relative('ESP',4)));if(p.offset!==0)throw new Error('Original Engine exit table allocation base required');const size=NativeModuleCrtOwner.prototype.msize.call(crt,{fields:p.fields,offset:0});if(!size.known)throw new Error(size.reason);hostReturn(stack.#mint(size.value,0xffffffff),0);});
+            storage('306714b1',()=>setRegister('ESI',register('EAX')));let available=0;storage('306714b3',()=>{available=stack.#numeric(register('ESI'),4);stack.#arithmeticFlags(available,required,(available-required)>>>0,4,true);});storage('306714b5',()=>pop('ECX'));storage('306714b6',()=>{});
+            if(available<required){stack.#engineCinitFrame!.pc='306714b8';return false;}
+            storage('30671502',()=>stack.#push(stack.#load(stack.#stack,relative('ESP',24))));storage('30671506',()=>encode('30671506','3067150b'));
+            storage('3067150b',()=>{const p=heapLocation(register('EDI')),proof=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields:p.fields,offset:p.offset},4);if(!proof.known)throw new Error(proof.reason);stack.#store(p.fields,p.offset,register('EAX'));});
+            storage('3067150d',()=>{const p=heapLocation(register('EDI'));setRegister('EDI',stack.#mint(0,0,{kind:'engine-allocation',crt,fields:p.fields,offset:p.offset+4}));stack.#flags(0,0);});
+            storage('30671510',()=>stack.#push(register('EDI')));storage('30671511',()=>encode('30671511','30671516'));storage('30671516',()=>pop('ECX'));storage('30671517',()=>stack.#store(global('exitTableBegin'),0,register('EAX')));
+            storage('3067151c',()=>setRegister('EAX',stack.#load(stack.#stack,relative('ESP',28))));storage('30671520',()=>pop('ECX'));storage('30671521',()=>{});
+            storage('30671525',()=>pop('EDI'));storage('30671526',()=>pop('ESI'));storage('30671527',()=>pop('EBP'));storage('30671528',()=>pop('EBX'));storage('30671529',()=>pop('ECX'));storage('3067152a',()=>stack.#ret());
+            step('30671577',()=>pop('ECX'),'3067155a');
+            step('30671578',()=>stack.#store(stack.#stack,relative('EBP',-28),register('EAX')),'3067155a');
+            step('3067157b',()=>stack.#store(stack.#stack,relative('EBP',-4),stack.#mint(0xfffffffe,0xffffffff)),'3067155a');
+            step('30671582',()=>stack.#call('30671582','30671587'),'3067155a');
+            step('30671590',()=>stack.#call('30671590','30671595'),'30671590');
+            step('3067cff1',()=>stack.#push(stack.#mint(8,0xffffffff)),'3067cff1');
+            step('3067cff3',()=>{stack.#call('3067cff3','3067cff8');if(!stack.#engineCinitFrame!.onexitLockHeld||stack.#numeric(stack.#load(stack.#stack,relative('ESP',4)),4)!==8)throw new Error('Actual held Engine exit lock required');const result=NativeCrtBootstrap.engineCinitExitLockForCrt(bootstrap,crt,permit,'unlock');if(!result.known)throw new Error(result.reason);stack.#engineCinitFrame!.onexitLockHeld=false;hostReturn(stack.#mint(0,0),0);},'3067cff1');
+            step('3067cff8',()=>pop('ECX'),'3067cff1');step('3067cff9',()=>stack.#ret(),'3067cff1');step('30671595',()=>stack.#ret(),'30671590');
+            step('30671587',()=>setRegister('EAX',stack.#load(stack.#stack,relative('EBP',-28))),'3067155a');
+            step('3067158a',()=>stack.#call('3067158a','3067158f'),'3067155a');
+            const epilog=(pc:string,body:()=>void)=>step(pc,body,'3067e545');
+            epilog('3067e545',()=>setRegister('ECX',stack.#load(stack.#stack,relative('EBP',-16))));
+            epilog('3067e548',()=>stack.#store(stack.#bank,32,register('ECX')));epilog('3067e54f',()=>pop('ECX'));epilog('3067e550',()=>pop('EDI'));epilog('3067e551',()=>pop('EDI'));epilog('3067e552',()=>pop('ESI'));epilog('3067e553',()=>pop('EBX'));
+            epilog('3067e554',()=>setRegister('ESP',register('EBP')));epilog('3067e556',()=>pop('EBP'));epilog('3067e557',()=>stack.#push(register('ECX')));
+            epilog('3067e558',()=>{const p=stack.#record(stack.#ret()).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!=='3067158f')throw new Error('Original Engine onexit epilog return required');});
+            step('3067158f',()=>stack.#ret(),'3067155a');
+            step('3067159f',()=>{const p=stack.#record(register('EAX')).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!==callbackAddress)throw new Error('Actual nonnull Engine registered callback return required');setRegister('EAX',stack.#mint(0,0));stack.#flags(1,1);},'30671596');
+            step('306715a1',()=>{const flags=stack.#record(stack.#load(stack.#bank,36));if(!(flags.mask&1)||!(flags.value&1))throw new Error('Original nonnull callback carry required');setRegister('EAX',stack.#mint(0xffffffff,0xffffffff));stack.#arithmeticFlags(0,1,0xffffffff,4,true);},'30671596');
+            step('306715a3',()=>{const old=stack.#numeric(register('EAX'),4);setRegister('EAX',stack.#mint(1,0xffffffff));stack.#arithmeticFlags(0,old,1,4,true);},'30671596');step('306715a5',()=>pop('ECX'),'30671596');
+            step('306715a6',()=>{const old=stack.#record(stack.#load(stack.#bank,36));setRegister('EAX',stack.#mint(0,0xffffffff));stack.#arithmeticFlags(1,1,0,4,true);const next=stack.#record(stack.#load(stack.#bank,36));stack.#flags((next.value&~1)|(old.value&1),(next.mask&~1)|(old.mask&1));},'30671596');step('306715a7',()=>stack.#ret(),'30671596');
+            return true;
+      };
       const afterWalk=()=>{
         let result=0;
         step('3067d1fe',()=>{result=stack.#numeric(register('EAX'),4);stack.#logicalFlags(result,0xffffffff,4);});
@@ -463,7 +541,8 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
         step('3067d204',()=>stack.#push(register('ESI')));step('3067d205',()=>stack.#push(register('EDI')));
         step('3067d206',()=>stack.#push(stack.#source('code','3068e981')));
         step('3067d20b',()=>stack.#call('3067d20b','3067d210'));
-        stack.#engineCinitFrame!.pc='30671596';return known(undefined);
+        if(!runExitRegistration('3068e981'))return known(undefined);
+        stack.#engineCinitFrame!.pc='3067d210';return known(undefined);
       };
       walk('3067d012',()=>stack.#push(register('ESI')));
       walk('3067d013',()=>{const esp=stack.#address(register('ESP')),word=stack.#load(stack.#stack,esp+8),p=stack.#record(word).provenance;if(p?.kind!=='engine-image'||p.crt!==crt||p.fields!==initializers.value||p.offset!==0)throw new Error('Actual Engine C initializer begin argument required');setRegister('ESI',word);});
@@ -575,81 +654,7 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
             const callback=(pc:string,body:()=>void)=>step(pc,body,'30671182');
             callback('30671182',()=>stack.#push(stack.#source('code','30671144')));
             callback('30671187',()=>stack.#call('30671187','3067118c'));
-            step('30671596',()=>{const esp=stack.#address(register('ESP')),argument=stack.#load(stack.#stack,esp+4),p=stack.#record(argument).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!=='30671144')throw new Error('Original Engine shutdown callback argument required');stack.#push(argument);},'30671596');
-            step('3067159a',()=>stack.#call('3067159a','3067159f'),'30671596');
-            const scope=NativeEngineCinitImages.imageForCrt(images.value,crt,'onexitSehScope');if(!scope.known)throw new Error(scope.reason);
-            step('3067155a',()=>stack.#push(stack.#mint(12,0xffffffff)),'3067155a');
-            step('3067155c',()=>stack.#push(stack.#mint(0,0,{kind:'source',type:'image',address:'30956388',fields:scope.value})),'3067155a');
-            step('30671561',()=>stack.#call('30671561','30671566'),'3067155a');
-            const prolog=(pc:string,body:()=>void)=>step(pc,body,'3067e500');
-            const relative=(name:'ESP'|'EBP',offset:number)=>stack.#address(register(name))+offset;
-            const xor=(left:NativeX86Word32,right:NativeX86Word32)=>{const a=stack.#record(left),b=stack.#record(right),value=(a.value^b.value)>>>0;stack.#logicalFlags(value,a.mask&b.mask,4);return stack.#mint(value,a.mask&b.mask,{kind:'xor',left,right});};
-            prolog('3067e500',()=>stack.#push(stack.#source('code','3067e590')));
-            prolog('3067e505',()=>stack.#push(stack.#load(stack.#bank,32)));
-            prolog('3067e50c',()=>setRegister('EAX',stack.#load(stack.#stack,relative('ESP',16))));
-            prolog('3067e510',()=>stack.#store(stack.#stack,relative('ESP',16),register('EBP')));
-            prolog('3067e514',()=>{const at=relative('ESP',16);setRegister('EBP',stack.#stackWord(at));stack.#engineCinitFrame!.onexitEbp=at;});
-            prolog('3067e518',()=>{const size=stack.#numeric(register('EAX'),4);if(size!==12)throw new Error('Original Engine onexit local extent required');setRegister('ESP',stack.#stackWord(relative('ESP',-size)));stack.#flags(0,0);});
-            prolog('3067e51a',()=>stack.#push(register('EBX')));prolog('3067e51b',()=>stack.#push(register('ESI')));prolog('3067e51c',()=>stack.#push(register('EDI')));
-            prolog('3067e51d',()=>{const cookie=NativeCrtBootstrap.engineCinitCookieForCrt(bootstrap,crt,permit);if(!cookie.known)throw new Error(cookie.reason);setRegister('EAX',stack.#mint(NativeHeapObjectViews.prototype.readUnsigned.call(cookie.value,0),0xffffffff));});
-            prolog('3067e522',()=>{const at=relative('EBP',-4);stack.#store(stack.#stack,at,xor(stack.#load(stack.#stack,at),register('EAX')));});
-            prolog('3067e525',()=>setRegister('EAX',xor(register('EAX'),register('EBP'))));prolog('3067e527',()=>stack.#push(register('EAX')));
-            prolog('3067e528',()=>stack.#store(stack.#stack,relative('EBP',-24),register('ESP')));
-            prolog('3067e52b',()=>stack.#push(stack.#load(stack.#stack,relative('EBP',-8))));prolog('3067e52e',()=>setRegister('EAX',stack.#load(stack.#stack,relative('EBP',-4))));
-            prolog('3067e531',()=>stack.#store(stack.#stack,relative('EBP',-4),stack.#mint(0xfffffffe,0xffffffff)));
-            prolog('3067e538',()=>stack.#store(stack.#stack,relative('EBP',-8),register('EAX')));prolog('3067e53b',()=>setRegister('EAX',stack.#stackWord(relative('EBP',-16))));
-            prolog('3067e53e',()=>stack.#store(stack.#bank,32,register('EAX')));
-            prolog('3067e544',()=>{const p=stack.#record(stack.#ret()).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!=='30671566')throw new Error('Original Engine onexit prolog return required');stack.#engineCinitFrame!.onexitPrologReturned=true;});
-            step('30671566',()=>stack.#call('30671566','3067156b'),'3067155a');
-            step('3067cfe8',()=>stack.#push(stack.#mint(8,0xffffffff)),'3067cfe8');
-            step('3067cfea',()=>{if(stack.#numeric(stack.#load(stack.#stack,relative('ESP',0)),4)!==8)throw new Error('Original Engine exit lock argument required');stack.#call('3067cfea','3067cfef');const locked=NativeCrtBootstrap.engineCinitExitLockForCrt(bootstrap,crt,permit,'lock');if(!locked.known)throw new Error(locked.reason);stack.#engineCinitFrame!.onexitLockHeld=true;hostReturn(stack.#mint(0,0),0);},'3067cfe8');
-            step('3067cfef',()=>pop('ECX'),'3067cfe8');step('3067cff0',()=>stack.#ret(),'3067cfe8');
-            step('3067156b',()=>{stack.#store(stack.#stack,relative('EBP',-4),stack.#mint(0,0xffffffff));stack.#logicalFlags(0,0xffffffff,4);},'3067155a');
-            step('3067156f',()=>stack.#push(stack.#load(stack.#stack,relative('EBP',8))),'3067155a');
-            step('30671572',()=>stack.#call('30671572','30671577'),'3067155a');
-            const storage=(pc:string,body:()=>void)=>step(pc,body,'30671472');
-            const global=(label:'exitTableBegin'|'exitTableEnd')=>{const image=NativeEngineCinitImages.imageForCrt(images.value,crt,label);if(!image.known)throw new Error(image.reason);return image.value;};
-            const heapLocation=(word:NativeX86Word32)=>{const p=stack.#record(word).provenance,allocation=stack.#engineCinitFrame!.exitTableAllocation;if(!allocation||p?.kind!=='engine-allocation'||p.crt!==crt||p.fields!==allocation||p.offset<0||p.offset>allocation.bytes.length)throw new Error('Actual retained Engine exit table location required');const proof=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields:allocation,offset:p.offset},0);if(!proof.known)throw new Error(proof.reason);return p;};
-            const decode=(site:string,returned:string)=>{stack.#call(site,returned);engineCinitInstruction('3067dedb','3067dedb');const argument=stack.#load(stack.#stack,relative('ESP',4)),p=stack.#record(argument).provenance;const object=p?.kind==='platform'&&p.category==='EngineCinitEncoded'?p.object:argument;const decoded=NativeModuleCrtOwner.prototype.decodePointer.call(crt,object);if(!decoded.known)throw new Error(decoded.reason);if(decoded.value===null)throw new Error('Actual nonnull Engine exit table required');const word=decoded.value as NativeX86Word32;heapLocation(word);hostReturn(word,0);};
-            const encode=(site:string,returned:string)=>{stack.#call(site,returned);const argument=stack.#load(stack.#stack,relative('ESP',4)),p=stack.#record(argument).provenance;if(p?.kind==='engine-allocation')heapLocation(argument);else if(p?.kind!=='source'||p.type!=='code'||p.address!=='30671144')throw new Error('Actual Engine exit callback or cursor argument required');const encoded=NativeModuleCrtOwner.prototype.encodePointer.call(crt,argument);if(!encoded.known)throw new Error(encoded.reason);if(encoded.value===null)throw new Error('Actual nonnull Engine exit encoding required');hostReturn(encoded.value===argument?argument:stack.#mint(0,0,{kind:'platform',object:encoded.value,category:'EngineCinitEncoded'}),0);};
-            storage('30671472',()=>stack.#push(register('ECX')));storage('30671473',()=>stack.#push(register('EBX')));storage('30671474',()=>stack.#push(register('EBP')));storage('30671475',()=>stack.#push(register('ESI')));storage('30671476',()=>stack.#push(register('EDI')));
-            storage('30671477',()=>stack.#push(stack.#load(global('exitTableEnd'),0)));storage('3067147d',()=>decode('3067147d','30671482'));
-            storage('30671482',()=>stack.#push(stack.#load(global('exitTableBegin'),0)));storage('30671488',()=>setRegister('ESI',register('EAX')));storage('3067148a',()=>stack.#store(stack.#stack,relative('ESP',24),register('ESI')));storage('3067148e',()=>decode('3067148e','30671493'));
-            storage('30671493',()=>setRegister('EDI',register('EAX')));
-            let before=0,base=0;storage('30671495',()=>{before=heapLocation(register('EDI')).offset;base=heapLocation(register('ESI')).offset;stack.#arithmeticFlags(before,base,(before-base)>>>0,4,true);});storage('30671497',()=>pop('ECX'));storage('30671498',()=>pop('ECX'));storage('30671499',()=>{});
-            if(before<base){stack.#engineCinitFrame.pc='30671523';return known(undefined);}
-            storage('3067149f',()=>setRegister('EBX',register('EDI')));storage('306714a1',()=>{const left=heapLocation(register('EBX')),right=heapLocation(register('ESI'));const delta=(left.offset-right.offset)>>>0;setRegister('EBX',stack.#mint(delta,0xffffffff));stack.#arithmeticFlags(left.offset,right.offset,delta,4,true);});
-            storage('306714a3',()=>setRegister('EBP',stack.#mint((stack.#numeric(register('EBX'),4)+4)>>>0,0xffffffff)));
-            let required=0;storage('306714a6',()=>{required=stack.#numeric(register('EBP'),4);stack.#arithmeticFlags(required,4,(required-4)>>>0,4,true);});storage('306714a9',()=>{});if(required<4){stack.#engineCinitFrame.pc='30671523';return known(undefined);}
-            storage('306714ab',()=>stack.#push(register('ESI')));storage('306714ac',()=>{stack.#call('306714ac','306714b1');engineCinitInstruction('3067e45d','3067e45d');const p=heapLocation(stack.#load(stack.#stack,relative('ESP',4)));if(p.offset!==0)throw new Error('Original Engine exit table allocation base required');const size=NativeModuleCrtOwner.prototype.msize.call(crt,{fields:p.fields,offset:0});if(!size.known)throw new Error(size.reason);hostReturn(stack.#mint(size.value,0xffffffff),0);});
-            storage('306714b1',()=>setRegister('ESI',register('EAX')));let available=0;storage('306714b3',()=>{available=stack.#numeric(register('ESI'),4);stack.#arithmeticFlags(available,required,(available-required)>>>0,4,true);});storage('306714b5',()=>pop('ECX'));storage('306714b6',()=>{});
-            if(available<required){stack.#engineCinitFrame.pc='306714b8';return known(undefined);}
-            storage('30671502',()=>stack.#push(stack.#load(stack.#stack,relative('ESP',24))));storage('30671506',()=>encode('30671506','3067150b'));
-            storage('3067150b',()=>{const p=heapLocation(register('EDI')),proof=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields:p.fields,offset:p.offset},4);if(!proof.known)throw new Error(proof.reason);stack.#store(p.fields,p.offset,register('EAX'));});
-            storage('3067150d',()=>{const p=heapLocation(register('EDI'));setRegister('EDI',stack.#mint(0,0,{kind:'engine-allocation',crt,fields:p.fields,offset:p.offset+4}));stack.#flags(0,0);});
-            storage('30671510',()=>stack.#push(register('EDI')));storage('30671511',()=>encode('30671511','30671516'));storage('30671516',()=>pop('ECX'));storage('30671517',()=>stack.#store(global('exitTableBegin'),0,register('EAX')));
-            storage('3067151c',()=>setRegister('EAX',stack.#load(stack.#stack,relative('ESP',28))));storage('30671520',()=>pop('ECX'));storage('30671521',()=>{});
-            storage('30671525',()=>pop('EDI'));storage('30671526',()=>pop('ESI'));storage('30671527',()=>pop('EBP'));storage('30671528',()=>pop('EBX'));storage('30671529',()=>pop('ECX'));storage('3067152a',()=>stack.#ret());
-            step('30671577',()=>pop('ECX'),'3067155a');
-            step('30671578',()=>stack.#store(stack.#stack,relative('EBP',-28),register('EAX')),'3067155a');
-            step('3067157b',()=>stack.#store(stack.#stack,relative('EBP',-4),stack.#mint(0xfffffffe,0xffffffff)),'3067155a');
-            step('30671582',()=>stack.#call('30671582','30671587'),'3067155a');
-            step('30671590',()=>stack.#call('30671590','30671595'),'30671590');
-            step('3067cff1',()=>stack.#push(stack.#mint(8,0xffffffff)),'3067cff1');
-            step('3067cff3',()=>{stack.#call('3067cff3','3067cff8');if(!stack.#engineCinitFrame!.onexitLockHeld||stack.#numeric(stack.#load(stack.#stack,relative('ESP',4)),4)!==8)throw new Error('Actual held Engine exit lock required');const result=NativeCrtBootstrap.engineCinitExitLockForCrt(bootstrap,crt,permit,'unlock');if(!result.known)throw new Error(result.reason);stack.#engineCinitFrame!.onexitLockHeld=false;hostReturn(stack.#mint(0,0),0);},'3067cff1');
-            step('3067cff8',()=>pop('ECX'),'3067cff1');step('3067cff9',()=>stack.#ret(),'3067cff1');step('30671595',()=>stack.#ret(),'30671590');
-            step('30671587',()=>setRegister('EAX',stack.#load(stack.#stack,relative('EBP',-28))),'3067155a');
-            step('3067158a',()=>stack.#call('3067158a','3067158f'),'3067155a');
-            const epilog=(pc:string,body:()=>void)=>step(pc,body,'3067e545');
-            epilog('3067e545',()=>setRegister('ECX',stack.#load(stack.#stack,relative('EBP',-16))));
-            epilog('3067e548',()=>stack.#store(stack.#bank,32,register('ECX')));epilog('3067e54f',()=>pop('ECX'));epilog('3067e550',()=>pop('EDI'));epilog('3067e551',()=>pop('EDI'));epilog('3067e552',()=>pop('ESI'));epilog('3067e553',()=>pop('EBX'));
-            epilog('3067e554',()=>setRegister('ESP',register('EBP')));epilog('3067e556',()=>pop('EBP'));epilog('3067e557',()=>stack.#push(register('ECX')));
-            epilog('3067e558',()=>{const p=stack.#record(stack.#ret()).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!=='3067158f')throw new Error('Original Engine onexit epilog return required');});
-            step('3067158f',()=>stack.#ret(),'3067155a');
-            step('3067159f',()=>{const p=stack.#record(register('EAX')).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!=='30671144')throw new Error('Actual nonnull Engine registered callback return required');setRegister('EAX',stack.#mint(0,0));stack.#flags(1,1);},'30671596');
-            step('306715a1',()=>{const flags=stack.#record(stack.#load(stack.#bank,36));if(!(flags.mask&1)||!(flags.value&1))throw new Error('Original nonnull callback carry required');setRegister('EAX',stack.#mint(0xffffffff,0xffffffff));stack.#arithmeticFlags(0,1,0xffffffff,4,true);},'30671596');
-            step('306715a3',()=>{const old=stack.#numeric(register('EAX'),4);setRegister('EAX',stack.#mint(1,0xffffffff));stack.#arithmeticFlags(0,old,1,4,true);},'30671596');step('306715a5',()=>pop('ECX'),'30671596');
-            step('306715a6',()=>{const old=stack.#record(stack.#load(stack.#bank,36));setRegister('EAX',stack.#mint(0,0xffffffff));stack.#arithmeticFlags(1,1,0,4,true);const next=stack.#record(stack.#load(stack.#bank,36));stack.#flags((next.value&~1)|(old.value&1),(next.mask&~1)|(old.mask&1));},'30671596');step('306715a7',()=>stack.#ret(),'30671596');
+            if(!runExitRegistration('30671144'))return known(undefined);
             callback('3067118c',()=>{const value=stack.#numeric(register('EAX'),4);setRegister('EAX',stack.#mint((-value)>>>0,0xffffffff));stack.#arithmeticFlags(0,value,(-value)>>>0,4,true);});
             callback('3067118e',()=>{const flags=stack.#record(stack.#load(stack.#bank,36));if(!(flags.mask&1))throw new Error('Actual initializer result carry required');const value=flags.value&1?0xffffffff:0;setRegister('EAX',stack.#mint(value,0xffffffff));stack.#arithmeticFlags(0,flags.value&1,value,4,true);});
             callback('30671190',()=>pop('ECX'));callback('30671191',()=>{const value=stack.#numeric(register('EAX'),4)&24;setRegister('EAX',stack.#mint(value,0xffffffff));stack.#logicalFlags(value,0xffffffff,4);});callback('30671194',()=>stack.#ret());target=null;
@@ -678,7 +683,7 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
       return known(undefined);
     }catch(error){return unknown(reason(error));}
   }
-  engineCinitFrameSnapshot(crt:NativeModuleCrtOwner){const f=this.#engineCinitFrame;if(!f||f.crt!==crt)return null;const table=NativeEngineCinitImages.imageForCrt(f.images,crt,'floatConversionPointers');const streamPointers=f.streamAllocation&&f.streamResult===0?Object.freeze(Array.from({length:20},(_,i)=>this.#record(this.#load(f.streamAllocation!,i*4)))):null;const floatPointers=f.floatConversionWritten&&table.known?Object.freeze(Array.from({length:10},(_,i)=>this.#record(this.#load(table.value,i*4)))):null;return Object.freeze({pc:f.pc,entryEsp:f.entryEsp,images:f.images,operations:f.operations,floatConversionWritten:f.floatConversionWritten,precisionArgument:f.precisionArgument,exitTableAllocation:f.exitTableAllocation,exitTableResult:f.exitTableResult,streamAllocation:f.streamAllocation,streamCount:f.streamCount,streamResult:f.streamResult,sse2Result:f.sse2Result,sse2ControlResult:f.sse2ControlResult,onexitEbp:f.onexitEbp,onexitPrologReturned:f.onexitPrologReturned,onexitLockHeld:f.onexitLockHeld,exitTableFirst:f.exitTableAllocation?this.#record(this.#load(f.exitTableAllocation,0)):null,exitCursor:(()=>{const cursor=NativeEngineCinitImages.imageForCrt(f.images,crt,'exitTableBegin');return cursor.known?this.#record(this.#load(cursor.value,0)):null;})(),streamPointers,floatPointers,bank:this.#bank,stack:this.#stack});}
+  engineCinitFrameSnapshot(crt:NativeModuleCrtOwner){const f=this.#engineCinitFrame;if(!f||f.crt!==crt)return null;const table=NativeEngineCinitImages.imageForCrt(f.images,crt,'floatConversionPointers');const streamPointers=f.streamAllocation&&f.streamResult===0?Object.freeze(Array.from({length:20},(_,i)=>this.#record(this.#load(f.streamAllocation!,i*4)))):null;const floatPointers=f.floatConversionWritten&&table.known?Object.freeze(Array.from({length:10},(_,i)=>this.#record(this.#load(table.value,i*4)))):null;return Object.freeze({pc:f.pc,entryEsp:f.entryEsp,images:f.images,operations:f.operations,floatConversionWritten:f.floatConversionWritten,precisionArgument:f.precisionArgument,exitTableAllocation:f.exitTableAllocation,exitTableResult:f.exitTableResult,streamAllocation:f.streamAllocation,streamCount:f.streamCount,streamResult:f.streamResult,sse2Result:f.sse2Result,sse2ControlResult:f.sse2ControlResult,onexitEbp:f.onexitEbp,onexitPrologReturned:f.onexitPrologReturned,onexitLockHeld:f.onexitLockHeld,exitTableFirst:f.exitTableAllocation?this.#record(this.#load(f.exitTableAllocation,0)):null,exitTableSecond:f.exitTableAllocation?this.#record(this.#load(f.exitTableAllocation,4)):null,exitCursor:(()=>{const cursor=NativeEngineCinitImages.imageForCrt(f.images,crt,'exitTableBegin');return cursor.known?this.#record(this.#load(cursor.value,0)):null;})(),streamPointers,floatPointers,bank:this.#bank,stack:this.#stack});}
   static testEngineSetenvpReturnForBootstrap(stack:NativeX86ThreadStack,bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object):NativeValue<'30677288'|'3067729f'>{
     const reached=NativeCrtBootstrap.canonicalEngineSetenvpCallerForCrt(bootstrap,crt,permit);if(!reached.known)return reached;
     try{
