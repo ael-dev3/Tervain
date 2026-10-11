@@ -1,0 +1,32 @@
+{
+  "testedRevision": "e4376b22c8bf8983f4eeda72e8193f739fa500dd",
+  "mainBaseline": "e248573b26f1a45a4be9c9e74d5a0a5c519e03bb",
+  "typecheck": "passed",
+  "focusedStartupChecks": {
+    "passed": 2,
+    "skipped": 483,
+    "timeoutMilliseconds": 30000,
+    "priorAttempt": "The normal-return check exceeded the earlier 20000 ms limit; assertions retained for the successful rerun."
+  },
+  "relatedChecks": {
+    "filesPassed": 4,
+    "testsPassed": 124
+  },
+  "productionBuild": {
+    "result": "passed",
+    "summary": "\u2713 built in 29.27s"
+  },
+  "fullSuiteRerun": false,
+  "runtimeBoundary": {
+    "nextUnsupportedCallback": "30732640",
+    "cppInitializerCursor": "0x1e8",
+    "shutdownRegistrations": 59,
+    "exitTableCapacityBytes": 256
+  },
+  "sourceHashes": {
+    "assets/gothic3/engine-cinit/research.json": "1f34d12883c59e7193264386d6209406baf628468d82477a6efcdc238c4851bf",
+    "src/gothic3/native-engine-cinit-source.ts": "d8d08a7f6e69c1fec3c49f806b3a52776b5dae597f022b8aa74066361baa986e"
+  },
+  "scope": "Original startup through GUI, scene, entity and animation property group. Enum-template continuation, full engine startup and complete campaign play remain unimplemented.",
+  "deployment": "Pending publication and successful Pages deployment."
+}
