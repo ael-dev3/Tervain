@@ -3364,3 +3364,8 @@ The integration revision `d67c8bc95` passed typechecking, five focused startup/g
 ## Graphics/resource initializer integration with main through PR270
 
 This checkpoint integrates native/evidence files from `675d84ec7` with main `e248573b26f1a45a4be9c9e74d5a0a5c519e03bb`, including the collaborator hero timing and live-build identification changes. The original 17-callback graphics/resource group returns through all constructors, retains 50 shutdown registrations, and stops at unsupported callback `307325b0`, C++ cursor `0x1c4`, exit cursor 200. Capture: 277 Engine routines / 5,382 instructions; JSON SHA256 `fa66b72bc2dbfa941e357adca4329cc29f3eb6ca4e6208df76a6e2db3a7f2cf2`. Development validation passed three runtime probes, 129 source/image/browser/allocator checks, typechecking, regeneration and build. The earlier `c1cf5c061` deployment succeeded and its Ardea entry, Hero/world-clock and Xardas quest loading were observed on the hosted route. That deployment excludes this newer group. Full startup and campaign completion remain outstanding.
+
+
+## Post-processing administrator source capture
+
+Captured the original `eCPostProcessingAdmin` initializer at `307325b0`, its constructor thunk `300139d0` and body `30077f30`, shutdown thunk `30033230` and body `30797cc0`, and original flags, root, storage and type-info fields. The generator checks the matching Engine binary hash and instruction bytes. Earlier captured methods remain unchanged. This source capture does not connect or execute the callback; the runtime boundary remains `307325b0`.

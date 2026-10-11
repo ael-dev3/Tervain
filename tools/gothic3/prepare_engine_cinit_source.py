@@ -80,6 +80,7 @@ def capture(study):
         0x30028169: 'performanceAdminPropertyType',
         0x300146dc: 'vegetationAdminPropertyType',
         0x3000ddaa: 'shaderMaterialAdminPropertyType',
+        0x300139d0: 'postProcessingAdminPropertyType',
         0x306991ad: 'engineUndecorationTemplateNameParser',
         0x30698a86: 'engineUndecorationTemplateArgumentListParser',
         0x30038a87: 'engineComponentPropertyType',
@@ -201,7 +202,8 @@ def capture(study):
                ('animationAdminPropertyInitializer',0x30732570,0x3073257b,3),
                ('performanceAdminPropertyInitializer',0x30732580,0x3073258b,3),
                ('vegetationAdminPropertyInitializer',0x30732590,0x3073259b,3),
-               ('shaderMaterialAdminPropertyInitializer',0x307325a0,0x307325ab,3)]
+               ('shaderMaterialAdminPropertyInitializer',0x307325a0,0x307325ab,3),
+               ('postProcessingAdminPropertyInitializer',0x307325b0,0x307325bb,3)]
     collected={begin:[] for _,begin,_,_ in recovered}
     asm=study/'01_Decompiled_Code/Engine_dll/full_disassembly.asm'
     for number,line in enumerate(asm.open('rb'),1):
@@ -312,6 +314,8 @@ def capture(study):
         ('vegetationAdminPropertyShutdownBody', 0x30797ce0, 'b9089cad30ff25dcdbaf30', 2),
         ('shaderMaterialAdminPropertyShutdownThunk', 0x30020289, 'e9427a7700', 1),
         ('shaderMaterialAdminPropertyShutdownBody', 0x30797cd0, 'b9149cad30ff25dcdbaf30', 2),
+        ('postProcessingAdminPropertyShutdownThunk', 0x30033230, 'e98b4a7600', 1),
+        ('postProcessingAdminPropertyShutdownBody', 0x30797cc0, 'b9209cad30ff25dcdbaf30', 2),
         ('occlusionProcessorPropertyShutdownThunk', 0x30045228, 'e9b32b7500', 1),
         ('occlusionProcessorPropertyShutdownBody', 0x30797de0, 'b9489bad30ff25dcdbaf30', 2),
         ('pvsPrefetcher3PropertyShutdownThunk', 0x3000113b, 'e9b06c7900', 1),
@@ -634,6 +638,10 @@ def capture(study):
         ('shaderMaterialAdminPropertyRoot', 0x30ad9d7c, 4),
         ('shaderMaterialAdminPropertyStorage', 0x30ad9c14, 8),
         ('shaderMaterialAdminPropertyTypeInfo', 0x30aa2fd0, property_type_info_size(0x30aa2fd0)),
+        ('postProcessingAdminPropertyFlags', 0x30ad9c28, 4),
+        ('postProcessingAdminPropertyRoot', 0x30ad9d78, 4),
+        ('postProcessingAdminPropertyStorage', 0x30ad9c20, 8),
+        ('postProcessingAdminPropertyTypeInfo', 0x30aa2ffc, property_type_info_size(0x30aa2ffc)),
         ('occlusionProcessorPropertyFlags', 0x30ad9b50, 4),
         ('occlusionProcessorPropertyRoot', 0x30ad9dc0, 4),
         ('occlusionProcessorPropertyStorage', 0x30ad9b48, 8),
