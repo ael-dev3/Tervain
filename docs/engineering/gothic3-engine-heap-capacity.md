@@ -1882,3 +1882,151 @@ and local native camera-prefix work through `b4ec4f17e`. Later camera parser,
 identifier, append, return and output allocation work is outside this run.
 This validates that revision's checks/build; it is not complete engine startup
 or full campaign/save-reload evidence. The native work remains local.
+
+### 2026-10-11 — original camera property parser construction (local)
+
+The fourth property initializer now follows the original cold parser arena request,
+allocation, field construction and constructor return, then the NameParser,
+TypeParser and DataType dispatch for the retained `.?AVeCCameraBase@@` RTTI.
+The retained startup reaches `3069b8e0` after 10,462 operations. This is the
+original decorated class branch; class-name parsing and camera publication
+remain pending. The first three published property roots, live CStrings and
+five shutdown registrations remain intact. The new parser has its own live
+arena and zero initial output length; prior freed parser observations are not
+used as live memory.
+
+Validation: TypeScript checking passed; six selected runtime/startup checks
+passed, including unavailable camera arena allocation retaining the caller and
+lock at `30672ec7`; all six browser startup prerequisite checks in two files
+passed. The independently generated original instruction package is unchanged.
+This checkpoint is local and does not establish complete engine startup,
+deployment, or a campaign playable through an ending.
+
+
+### 2026-10-11 — camera decorated qualifier return (local)
+
+Executed the original decorated qualifier decoder for the actual camera RTTI,
+including stack temporaries, empty-value copies/checks, physical decoder return,
+and compound/basic parser entry. The qualifier byte is `A`, the class code is
+`V`, and the retained cursor advances to offset 12, the first character of
+`eCCameraBase`. Startup now stops at `3069b43a` after 10,916 operations;
+class-name construction and fourth property publication remain pending.
+Prior published roots and shutdown entries remain intact. No class string or
+camera root is synthesized at this boundary.
+
+Validation: TypeScript checking passed; four focused runtime checks passed,
+including an unknown qualifier byte stopping exactly at `3069aadf` with the
+original decoder call pending and lock held. All six browser startup checks
+in two files passed. Original instruction/source packages are unchanged.
+This local checkpoint has not been deployed and is not complete engine startup
+or proof of a campaign playable through its ending.
+
+
+### 2026-10-11 — camera class keyword and identifier caller (local)
+
+The original basic-type `V` branch now enters the class parser, constructs the
+`class ` literal through its arena allocator and character copy, assigns the
+parsed value, and enters the scoped identifier caller. The next unsupported
+operation is `30699300`, after 11,237 retained startup operations. The actual
+camera arena contains six known keyword bytes at 4012 and length six at 4032.
+The identifier `eCCameraBase` itself, parser return and camera publication are
+still pending. Historical int text-node snapshot fields remain historical;
+the checks capture the distinct camera arena from its actual writes.
+
+Validation: TypeScript checking passed; four focused runtime checks passed,
+including unknown qualifier and unavailable cold arena cases. Six browser
+startup checks passed across two files. Original source packages are unchanged.
+This checkpoint is local, not deployed, and does not prove complete startup or
+campaign completion with persistence.
+
+
+### 2026-10-11 — original camera identifier read and copy (local)
+
+The camera scoped identifier now executes the original reader, rejects the
+nonmatching special prefixes, scans its actual RTTI until `@`, allocates its
+text node/character storage and copies twelve known bytes `eCCameraBase`.
+The retained RTTI cursor is offset 24. Startup stops at `306973b7` after
+11,815 operations, with the character-copy call returned but text constructor,
+scoped parser return and complete type-string assembly still pending.
+The separate camera arena remains live; previous property roots, CStrings and
+shutdown entries remain intact. No synthetic final string or root is used.
+
+Validation: TypeScript checking passed; four focused runtime checks and all
+six browser startup checks passed. A further targeted unknown identifier-byte
+check passed, stopping at `30699315` with the original scoped caller pending
+and parser lock held. Original evidence packages are unchanged. This is local
+implementation, not deployment or complete startup/campaign evidence.
+
+
+### 2026-10-11 — camera identifier/cache/scoped returns (local)
+
+Executed the original text constructor and delimited-name return for the actual
+camera RTTI, then the identifier assignment, name-reference cache allocation
+and copy, cookie validation and scoped-name return. Camera delimiters occupy
+RTTI offsets 24 and 25; the returned cursor is offset 26. Startup reaches
+`30697906` after 12,159 operations, with the original class append call
+`306996b0` pending. Final type-string assembly, parser cleanup and camera
+publication remain unfinished. All preceding roots and shutdown entries
+remain intact; the camera arena remains live and owns its actual text.
+
+Validation: TypeScript checking passed; five focused runtime checks passed,
+including unknown qualifier/identifier and unavailable arena cases, actual
+cache/cookie/scoped returns and pending append. All six browser startup checks
+passed in two files. Original source packages remain unchanged. This local
+checkpoint has not been deployed and does not prove complete engine startup
+or a campaign playable through an ending with persistence.
+
+
+### 2026-10-11 — original camera class list append and return (local)
+
+The original append routine now converts the camera keyword text into a list,
+allocates its list/value nodes, links the scoped camera name and copies the
+result into the class parser output. The class parser physically returns to
+`3069b52d`, after 12,375 retained startup operations. Basic-type return, final
+output rendering, cleanup and camera property publication remain pending.
+This is the original parsed list structure, not a synthesized output string.
+
+Validation: TypeScript checking passed; five focused runtime checks and all six
+browser startup checks passed. An additional interrupted camera list-link store
+check passed: it stops at `30696e86`, retains the append call and parser lock,
+and preserves earlier live CStrings, roots and five shutdown entries. The
+interruption is scoped to the camera invocation of the shared instruction.
+Original source packages are unchanged. This local checkpoint is not deployed
+and does not prove complete startup or campaign completion with persistence.
+
+
+### 2026-10-11 — camera basic/compound/data/type returns (local)
+
+The original camera basic-type parser now copies the class parsed list, checks
+its modifier, and returns through compound, data-type and type parsers into the
+NameParser. The retained result is a live camera arena list with known low
+kind bits zero; it is copied into the name parser's actual stack value.
+Startup stops at `3069b04e` after 12,658 operations. Output length calculation,
+rendering, arena cleanup and fourth property publication remain pending.
+The original physical call/return order and earlier published roots survive.
+
+Validation: TypeScript checking, six focused runtime checks and six browser
+startup checks passed. Runtime checks cover the actual parser returns, live
+list provenance, known kind bits, unknown RTTI bytes, unavailable arena and
+interrupted list-link store. Original instruction packages are unchanged.
+This is local implementation, not deployment or proof of complete engine
+startup or campaign completion with save/reload.
+
+
+### 2026-10-11 — camera measured output allocation (local)
+
+The original NameParser verifies its consumed camera RTTI and measures the live
+parsed list through the original virtual length calls: six keyword bytes plus
+twelve identifier bytes. It stores output length 19 including NUL, rounds the
+allocation request to 24 bytes, obtains a distinct canonical CRT allocation,
+and enters the original writer. Startup stops at `30697171` after 12,823
+operations. All 24 output bytes remain unknown; no final output is synthesized.
+The writer argument length is 19, and the live arena/list remains retained.
+Writer execution, cleanup and camera property publication are still pending.
+
+Validation: TypeScript checking passed; six focused runtime checks and all six
+browser startup checks passed. An additional unavailable camera output malloc
+check passed at `30672ec7`, retaining its pending caller, parser lock, earlier
+live CStrings, roots and shutdown entries. Original evidence packages are
+unchanged. This local checkpoint has not been deployed and does not prove
+complete startup or campaign completion with persistence.
