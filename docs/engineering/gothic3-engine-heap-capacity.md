@@ -2667,3 +2667,27 @@ All five distinct checks have passing evidence across those runs.
 CString allocation, byte copy, property publication, shutdown registration,
 complete startup and a finishable browser campaign remain outstanding. This
 checkpoint is local and has not been deployed.
+
+
+## Local continuation — 11 October 2026: reference-base CString allocation
+
+The original CString allocator derives request 24 from its measured length 15,
+returns the retained MemoryAdmin singleton, and obtains a distinct live
+24-byte allocation. A separate fifth-string record preserves the earlier
+camera string. Its original stores establish length 15, reference count 1,
+publish the text pointer at offset 8 into reference-base storage, and write
+NUL at offset 23. Remaining text bytes are known zeros from their actual cold
+allocation, not copied characters. Execution stops before memcpy at `100a7a00`
+after 18,182 admitted operations; the copy-return flag remains false.
+
+Unavailable, NULL and aliased camera allocations stop before fifth-string
+publication and leave the previous camera CString intact. The allocator and
+constructor callers remain pending; source cache stays live and output freed.
+The admitted allocation span matches the captured camera continuation after
+normalizing only its diagnostic string-record slot. Typechecking, six selected
+runtime checks and six browser startup checks pass locally.
+
+Character copy, constructor return, shutdown registration, complete startup and
+a finishable browser campaign remain outstanding. This checkpoint is local
+and has not been deployed. The earlier combined scan revision is validating
+independently and does not include this fifth-string allocation.
