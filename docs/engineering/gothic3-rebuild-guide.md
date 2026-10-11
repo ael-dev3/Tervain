@@ -1,5 +1,76 @@
 # Gothic 3 rebuilding process
 
+## Local checkpoint — 11 October 2026: original MainCache template parser prefix
+
+Callback `30732460`, thunk `3003d8f7` and body `30077220` now enter the original
+`bTPropertyObject<eCMainCache, bCObjectRefBase>` name parser. The property guards,
+parent storage and RTTI remain original. Identifier call `30699360` enters
+`306991ad`, verifies the `?$` marker, advances its real cursor to offset 14,
+constructs three temporary objects through `306972b8`, and rebinds the parser's
+three temporary contexts. Six original field nodes are allocated through the
+retained warm arena. The next call, `30699255`, enters the identifier parser at
+`30699300` and remains pending. No template property name or root is published,
+and its shutdown is not registered. The undecoration lock remains held; the
+type-name and exit locks are not held. Complete startup remains unfinished.
+
+Typechecking, 22 selected normal/guard/marker/prior-copy checks, all 78 source/
+image/browser checks and the production build passed. Independent JSON and
+TypeScript regeneration matched exactly and retained all previous evidence.
+The capture contains 187 methods and 4,364 instructions. JSON SHA-256:
+`f53a8b047040d5694f424e97a39443501c5a228cf0ae10014632ca40165f8ace`.
+Earlier copy and batch checks retain their completed state before this parser
+replaces shared scratch fields. This checkpoint is local and not deployed;
+full-suite validation of the preceding component/main combination is separate.
+
+
+## Local checkpoint — 11 October 2026: box and resource/cache properties
+
+Original callbacks `307323e0` through `30732450` now complete bCBox,
+eCProcessibleElement, eCEntityPropertySet, eCBaseCache,
+eCResourceStorageContext, eCResourceBase_PS, eCMainCache and eCResourceAdmin
+property initialization. Their original bodies, image storage, RTTI, flags,
+roots and shutdown routines are retained. Twenty-seven distinct property
+CStrings remain live. Exit entries twenty-two through twenty-nine are registered,
+the exit cursor reaches 116 and the C++ cursor reaches `0x170`. Startup stops at
+`30732460`, the `bTPropertyObject<eCMainCache, bCObjectRefBase>` initializer.
+Complete startup and campaign play remain unfinished.
+
+The resource run passed 42 selected normal/guard/allocation checks; the two new
+byte-tail interruption cases passed after correcting their test-mock buffer
+offsets. Fourteen earlier interrupted-copy regression cases also passed.
+Typechecking, all 77 source/image/browser checks and the production build passed.
+Independent generated JSON and TypeScript match exactly; every earlier evidence
+record is retained unchanged. Evidence now contains 182 methods and 4,233
+instructions. JSON SHA-256:
+`48272ead5a4c381198f7a6d5a6d5e46551463b4de78c048944c22afc54dbe63b`.
+The preceding component/main combination remains under separate full-suite
+validation. This resource checkpoint is local and has not been deployed.
+
+
+
+## Local checkpoint — 11 October 2026: original GUID property
+
+Callback `307323d0`, thunk `3001427c` and body `30076e30` now complete the
+original bCGuid property initialization. The nineteenth CString retains length
+six, reference count one, a 15-byte request and 16-byte capacity, with exact
+`bCGuid` text followed by NUL. The actual property root and flags are published,
+and shutdown thunk `300418d0` is registered as exit entry twenty-one. Its body
+`30797ea0` passes the original storage to the SharedBase destructor import.
+The exit cursor reaches 84 and the C++ cursor reaches `0x150`. Startup stops at
+`307323e0` (bCBox); complete startup and campaign play remain unfinished.
+
+Typechecking, nine selected GUID/preceding-batch checks, all 69 source/image/
+browser checks and the production build passed. The selected checks include
+unknown guard bits, unavailable and NULL allocation, aliasing an existing
+rectangle CString with the same request and capacity, unknown source-byte
+propagation, and interruption before copying a DWORD. The preceding batch's
+completion is retained before GUID initialization changes shared scratch state.
+Independent JSON/TypeScript regeneration matched exactly and preserved all old
+methods, images and unchanged sections. Evidence: 150 methods, 4,009 instructions;
+JSON SHA-256 `1bcb11ad9fc00749c82ce7983340c42a1a8d46531f7165745effa3a134f3545e`.
+The preceding component/main combination is still in full-suite validation in a
+separate checkout. This local checkpoint has not been deployed.
+
 
 ## Local checkpoint — 11 October 2026: component and admin property batch
 
