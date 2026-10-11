@@ -4,6 +4,30 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local continuation — 11 October 2026: first field node and stack observations
+
+The first allocated parser field node now executes its original constructor. It
+stores the captured readonly Engine vtable pointer, zero flags, kind 3 and zero
+payload. Its physical RET 4 returns the actual allocation to the field wrapper,
+which publishes it in the local object, preserves the remaining flag masks and
+returns to the internal constructor. Execution stops at its second field call
+`30697051`, with argument 1, after 2,911 admitted operations. No additional arena
+allocation is supplied and lock 5 remains held.
+
+Four normal/allocation-failure checks pass, plus both repaired stack observations,
+all 12 source/image checks, typechecking and exact independent regeneration.
+The first attempt exposed an incorrectly registered image pointer; the accepted
+implementation owns and protects the exact original vtable entry.
+
+Combined validation of `46318a772` terminated with 166 passes and two failures
+across five files. Full-suite and build commands did not start. Both failures
+read earlier scratch stack bytes after later calls legitimately reused them.
+The conversion-input assertion now captures all original bytes and masks at its
+actual procedure return; the lock assertion captures argument 5 at the actual
+ensure-lock call. Their original value assertions remain and pass. Fresh combined
+validation follows this repair. Name parsing, startup and the campaign remain
+unfinished; this is a local checkpoint.
+
 ## Local continuation — 11 October 2026: owned arena allocation and returns
 
 The stored malloc callback now uses the retained Engine CRT heap service. This

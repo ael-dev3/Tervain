@@ -1,7 +1,7 @@
 # Engine CRT initializer evidence
 
 This package records the next dependency after Engine environment-vector return.
-It captures 41 original bodies (1113 instructions), the caller at `30677284`,
+It captures 42 original bodies (1126 instructions), the caller at `30677284`,
 the floating-point callback at `30892ac0`, and two original initializer tables.
 The C initializer table has 200 slots with 6 nonzero entries. The C++ table has
 93,705 slots with 1,963 nonzero entries; omitted entries are verified zero.
@@ -14,7 +14,7 @@ python tools/gothic3/prepare_engine_cinit_source.py --study '<study-root>' --out
 
 The generator checks the original Engine.dll hash and exact caller bytes.
 Independent regeneration produced identical JSON, SHA-256
-``adde47ad8deb65cdb4c5da23a28abf192b1ade479311b4bb00cbf24182ee3a04``.
+``a0f8f78ce61dfee82cc410f252ecc82dcff15fd54f08d740bfe67b5383ebe8b2``.
 
 The capture's `runtimeConnected: false` records evidence preparation; it grants
 no execution authority. The TypeScript continuation separately obtains a
@@ -125,3 +125,9 @@ The successful arena caller links its actual allocation, retains 4,080 free
 bytes and returns the 16-byte slice at offset 4,084. Original POPs and RET 8
 return both arena calls. The field constructor at `30696ef8` remains pending
 after 2,888 operations. Null and unavailable malloc retain their actual boundaries.
+
+The first allocated field node now stores its original owned vtable pointer,
+zero flags, kind 3 and zero payload. The original RET 4 returns it to the field
+wrapper, which publishes the node and returns to the internal object. Execution
+reaches the second field constructor at `30697051` with kind 1, after 2,911
+operations. The captured first vtable entry is retained as a readonly image.

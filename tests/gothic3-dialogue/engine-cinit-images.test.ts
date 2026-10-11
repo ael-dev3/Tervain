@@ -54,3 +54,7 @@ it('loads the original type-name scope and rejects changed bytes',()=>{
 it('loads and protects the exact undecoration exception scope',()=>{
  const {crt,owner}=fixture(),scope=fact(NativeEngineCinitImages.imageForCrt(owner,crt,'undecorationSehScope'));expect(scope.bytes.length).toBe(28);expect(Buffer.from(scope.bytes).toString('hex')).toBe(engineCinitImage('undecorationSehScope').raw);scope.knownMask[0]=0;expect(NativeEngineCinitImages.imageForCrt(owner,crt,'undecorationSehScope').known).toBe(false);
 });
+
+it('retains and protects the original field vtable entry',()=>{
+ const {crt,owner}=fixture(),table=fact(NativeEngineCinitImages.imageForCrt(owner,crt,'undecorationFieldVtableEntry'));expect(table.bytes.length).toBe(4);expect(Buffer.from(table.bytes).toString('hex')).toBe(engineCinitImage('undecorationFieldVtableEntry').raw);table.bytes[0]=table.bytes[0]!^1;expect(NativeEngineCinitImages.imageForCrt(owner,crt,'undecorationFieldVtableEntry').known).toBe(false);
+});

@@ -46,6 +46,7 @@ def capture(study):
         0x30697051: 'engineUndecorationInternalFieldConstructor',
         0x30696bf0: 'engineUndecorationArenaAllocate',
         0x30672ec7: 'engineUndecorationMallocCallback',
+        0x30696ef8: 'engineUndecorationFieldNodeConstructor',
     })
     pe = PE((study / '00_Original_Runtime/Engine.dll').read_bytes())
     # The exported function CSV omits this complete body; retain its assembly
@@ -149,6 +150,7 @@ def capture(study):
         ('propertyTypeNameSehScope', 0x30956a38, 28),
         ('undecorationSehScope', 0x30956ec0, 28),
         ('undecorationGlobals', 0x30af7c54, 20),
+        ('undecorationFieldVtableEntry', 0x3089f2ac, 4),
         ('visualAnimationFloatFlags', 0x30ad9a00, 4),
         ('visualAnimationFloatRoot', 0x30ad9e38, 4),
         ('visualAnimationFloatStorage', 0x30ad99f8, 8),
