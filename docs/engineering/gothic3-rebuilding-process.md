@@ -12848,3 +12848,35 @@ the current stack position. Fresh combined validation is required for publicatio
 Remote PR #239 passed its existing CI and was merged externally as
 `2f721b1525291936b7ce51cdea5939b6c7d4cb37`. Its main Pages deployment was still
 running when checked. Local native startup work remains separate from that PR.
+
+
+### 11 October 2026: original name length and output allocation
+
+The name parser follows its completed-input branch and assigns the retained
+value into its output local. The original length routine checks that value,
+walks its actual node, dispatches through the readonly original vtable to
+`30696ec5`, reads the stored five-character length and returns through the
+physical stack. It does not substitute a hardcoded decoded name for that call.
+
+The caller adds the NUL byte to obtain capacity six, aligns the actual malloc
+request to eight and invokes the retained Engine allocator callback. The new
+output allocation has its own canonical heap capability. The caller publishes
+its owned pointer and capacity and calls the original writer `30697171` after
+3,783 admitted operations. Its eight bytes remain unknown; writing, final name
+return, cleanup, cache publication and later startup are still pending. Allocation
+unavailability retains `30672ec7`; NULL follows the original branch to `3069b102`
+without a fabricated buffer. A stale arena allocation returned for the smaller
+output request is rejected at the allocator boundary before pointer publication.
+
+Typechecking, ten existing focused runtime checks, five ownership/configuration
+and allocation-failure checks, and 17 source/image checks pass. Independent JSON
+and TypeScript regeneration is byte-identical. Combined validation of the earlier
+`d56fad61f` checkpoint ended with 184 passes and one stale flag assertion in five
+files (259.31 seconds); full-suite and build stages did not start. The latest
+configuration check accounts for restored flags and the newly published output.
+Fresh combined validation remains required before publishing this continuation.
+
+Main revision `2f721b1525291936b7ce51cdea5939b6c7d4cb37`, including Claude's PR
+#239, completed both build and Pages deployment in workflow `38102253395`.
+That deployment does not include this local native continuation or prove a
+browser campaign playable through an ending.

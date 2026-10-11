@@ -23,6 +23,10 @@ describe('original Engine CRT initializer evidence', () => {
     expect(engineCinitInstruction('30696da9', '30696e21').bytes).toBe('c20400');
     expect(engineCinitInstruction('30697114', '30697114').bytes).toBe('57');
     expect(engineCinitInstruction('30697171', '30697171').bytes).toBe('55');
+    expect(engineCinitInstruction('306970b2', '306970b2').bytes).toBe('8b4104');
+    expect(engineCinitInstruction('306970b2', '306970c8').bytes).toBe('c3');
+    expect(engineCinitInstruction('30696ec5', '30696ec5').bytes).toBe('8b410c');
+    expect(engineCinitInstruction('30696ec5', '30696ec8').bytes).toBe('c3');
   });
   it('rejects unknown bodies, tables and invalid callback slots', () => {
     expect(() => engineCinitInstruction('3067d1c7', '3067d1c8')).toThrow();

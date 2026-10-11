@@ -17745,6 +17745,146 @@
         "bodyInstructionBytesSha256": "c5e95141d6047f9c69c2b94ed990459372c66598753f6cc2b34a3e8cf850b644"
       },
       {
+        "label": "engineUndecorationValueValid",
+        "entryVA": "0x306970b2",
+        "bodyVA": "0x306970b2",
+        "entryChain": [],
+        "bodyRanges": "306970b2-306970c8",
+        "instructions": [
+          {
+            "va": "306970b2",
+            "rva": "6970b2",
+            "fileOffset": 6910130,
+            "bytes": "8b4104",
+            "instruction": "MOV EAX,dword ptr [ECX + 0x4]",
+            "assemblyLine": 1763171
+          },
+          {
+            "va": "306970b5",
+            "rva": "6970b5",
+            "fileOffset": 6910133,
+            "bytes": "c1e01c",
+            "instruction": "SHL EAX,0x1c",
+            "assemblyLine": 1763172
+          },
+          {
+            "va": "306970b8",
+            "rva": "6970b8",
+            "fileOffset": 6910136,
+            "bytes": "c1f81c",
+            "instruction": "SAR EAX,0x1c",
+            "assemblyLine": 1763173
+          },
+          {
+            "va": "306970bb",
+            "rva": "6970bb",
+            "fileOffset": 6910139,
+            "bytes": "7408",
+            "instruction": "JZ 0x306970c5",
+            "assemblyLine": 1763174
+          },
+          {
+            "va": "306970bd",
+            "rva": "6970bd",
+            "fileOffset": 6910141,
+            "bytes": "83f802",
+            "instruction": "CMP EAX,0x2",
+            "assemblyLine": 1763175
+          },
+          {
+            "va": "306970c0",
+            "rva": "6970c0",
+            "fileOffset": 6910144,
+            "bytes": "7403",
+            "instruction": "JZ 0x306970c5",
+            "assemblyLine": 1763176
+          },
+          {
+            "va": "306970c2",
+            "rva": "6970c2",
+            "fileOffset": 6910146,
+            "bytes": "33c0",
+            "instruction": "XOR EAX,EAX",
+            "assemblyLine": 1763177
+          },
+          {
+            "va": "306970c4",
+            "rva": "6970c4",
+            "fileOffset": 6910148,
+            "bytes": "c3",
+            "instruction": "RET",
+            "assemblyLine": 1763178
+          },
+          {
+            "va": "306970c5",
+            "rva": "6970c5",
+            "fileOffset": 6910149,
+            "bytes": "33c0",
+            "instruction": "XOR EAX,EAX",
+            "assemblyLine": 1763180
+          },
+          {
+            "va": "306970c7",
+            "rva": "6970c7",
+            "fileOffset": 6910151,
+            "bytes": "40",
+            "instruction": "INC EAX",
+            "assemblyLine": 1763181
+          },
+          {
+            "va": "306970c8",
+            "rva": "6970c8",
+            "fileOffset": 6910152,
+            "bytes": "c3",
+            "instruction": "RET",
+            "assemblyLine": 1763182
+          }
+        ],
+        "reconstructedC": {
+          "path": "01_Decompiled_Code/Engine_dll/pseudocode/functions_00169.c",
+          "sha256": "1ba3aee81bcd1b3d0c508291f30dfa2374148c9f66ffbc96c65fb44134596a29",
+          "line": 21835,
+          "status": "decompiled"
+        },
+        "instructionCount": 11,
+        "bodyByteCount": 23,
+        "bodyInstructionBytesSha256": "96b22d177ed2a689f182acee9ce39a518b2f0e84a9291080864dbbfc209900ad"
+      },
+      {
+        "label": "engineUndecorationTextNodeLength",
+        "entryVA": "0x30696ec5",
+        "bodyVA": "0x30696ec5",
+        "entryChain": [],
+        "bodyRanges": "30696ec5-30696ec8",
+        "instructions": [
+          {
+            "va": "30696ec5",
+            "rva": "696ec5",
+            "fileOffset": 6909637,
+            "bytes": "8b410c",
+            "instruction": "MOV EAX,dword ptr [ECX + 0xc]",
+            "assemblyLine": 1762977
+          },
+          {
+            "va": "30696ec8",
+            "rva": "696ec8",
+            "fileOffset": 6909640,
+            "bytes": "c3",
+            "instruction": "RET",
+            "assemblyLine": 1762978
+          }
+        ],
+        "reconstructedC": {
+          "path": "01_Decompiled_Code/Engine_dll/pseudocode/functions_00169.c",
+          "sha256": "1ba3aee81bcd1b3d0c508291f30dfa2374148c9f66ffbc96c65fb44134596a29",
+          "line": 21611,
+          "status": "decompiled"
+        },
+        "instructionCount": 2,
+        "bodyByteCount": 4,
+        "bodyInstructionBytesSha256": "2e339cdc5de837ec151dbde90057caeabba18ac3ea32e7c2cffc8f95df41a6ff"
+      },
+      {
         "label": "engineExitTableInitializer",
         "entryVA": "0x3067152b",
         "bodyVA": "0x3067152b",

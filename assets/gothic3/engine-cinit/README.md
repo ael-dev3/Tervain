@@ -1,7 +1,7 @@
 # Engine CRT initializer evidence
 
 This package records the next dependency after Engine environment-vector return.
-It captures 57 original bodies (2220 instructions), the caller at `30677284`,
+It captures 59 original bodies (2233 instructions), the caller at `30677284`,
 the floating-point callback at `30892ac0`, and two original initializer tables.
 The C initializer table has 200 slots with 6 nonzero entries. The C++ table has
 93,705 slots with 1,963 nonzero entries; omitted entries are verified zero.
@@ -14,7 +14,7 @@ python tools/gothic3/prepare_engine_cinit_source.py --study '<study-root>' --out
 
 The generator checks the original Engine.dll hash and exact caller bytes.
 Independent regeneration produced identical JSON, SHA-256
-``2fb9470c5ad8d95b682e6fd5f6074f454b558bac742bd74f91d71cbb44cdc39f``.
+``ef45a3d16dc5c108b0f7561ba83a0c849a0177a8c28881481c72c6b9c79ac531``.
 
 The capture's `runtimeConnected: false` records evidence preparation; it grants
 no execution authority. The TypeScript continuation separately obtains a
@@ -240,3 +240,35 @@ the current stack position. Fresh combined validation is required for publicatio
 Remote PR #239 passed its existing CI and was merged externally as
 `2f721b1525291936b7ce51cdea5939b6c7d4cb37`. Its main Pages deployment was still
 running when checked. Local native startup work remains separate from that PR.
+
+
+### 11 October 2026: original name length and output allocation
+
+The name parser follows its completed-input branch and assigns the retained
+value into its output local. The original length routine checks that value,
+walks its actual node, dispatches through the readonly original vtable to
+`30696ec5`, reads the stored five-character length and returns through the
+physical stack. It does not substitute a hardcoded decoded name for that call.
+
+The caller adds the NUL byte to obtain capacity six, aligns the actual malloc
+request to eight and invokes the retained Engine allocator callback. The new
+output allocation has its own canonical heap capability. The caller publishes
+its owned pointer and capacity and calls the original writer `30697171` after
+3,783 admitted operations. Its eight bytes remain unknown; writing, final name
+return, cleanup, cache publication and later startup are still pending. Allocation
+unavailability retains `30672ec7`; NULL follows the original branch to `3069b102`
+without a fabricated buffer. A stale arena allocation returned for the smaller
+output request is rejected at the allocator boundary before pointer publication.
+
+Typechecking, ten existing focused runtime checks, five ownership/configuration
+and allocation-failure checks, and 17 source/image checks pass. Independent JSON
+and TypeScript regeneration is byte-identical. Combined validation of the earlier
+`d56fad61f` checkpoint ended with 184 passes and one stale flag assertion in five
+files (259.31 seconds); full-suite and build stages did not start. The latest
+configuration check accounts for restored flags and the newly published output.
+Fresh combined validation remains required before publishing this continuation.
+
+Main revision `2f721b1525291936b7ce51cdea5939b6c7d4cb37`, including Claude's PR
+#239, completed both build and Pages deployment in workflow `38102253395`.
+That deployment does not include this local native continuation or prove a
+browser campaign playable through an ending.

@@ -227,12 +227,14 @@ through the ending, with working persistence.
 
 ## Current implementation boundary: 11 October 2026
 
-The deployed checkpoint is main revision `6a3d517125399c57c15f5929cb44733ab1df2577`.
+The deployed checkpoint is main revision `2f721b1525291936b7ce51cdea5939b6c7d4cb37`.
 It includes environment-vector setup from [PR #235](https://github.com/ael-dev3/Tervain/pull/235).
-The [Pages workflow](https://github.com/ael-dev3/Tervain/actions/runs/38100227517)
+The [Pages workflow](https://github.com/ael-dev3/Tervain/actions/runs/38102253395)
 completed its build and deployment. Main also includes the first-frame fix from
 [PR #237](https://github.com/ael-dev3/Tervain/pull/237) and camera fix from
-[PR #238](https://github.com/ael-dev3/Tervain/pull/238). This records publication; ordinary browser
+[PR #238](https://github.com/ael-dev3/Tervain/pull/238), plus the reviewed error
+cleanup and window capture changes from
+[PR #239](https://github.com/ael-dev3/Tervain/pull/239). This records publication; ordinary browser
 play from a new game through an ending remains unverified.
 
 Local development has continued through Engine C initialization, its C callbacks,
@@ -243,8 +245,9 @@ captured instructions. The next local continuation also follows the original mod
 returns the 54-instruction value-copy routine to `3069b553` after 3,531 admitted
 operations, preserving the same node and destination flag bits. The basic, compound, data-type and type parsers now return, and the name
 parser assigns that retained value to its local result. Execution reaches
-`3069b04e` after 3,666 operations. Output buffer construction, type-name cache
-publication and later startup work are still required. A parsed literal alone
+the original length callback and publishes a separate eight-byte name-output
+allocation. Execution reaches writer `30697171` after 3,783 operations. Writing
+the output, type-name cache publication and later startup remain required. A parsed literal alone
 does not complete Engine startup.
 
 Revision `a8f295e60`, an earlier local parser checkpoint, passed TypeScript
@@ -2227,3 +2230,35 @@ the current stack position. Fresh combined validation is required for publicatio
 Remote PR #239 passed its existing CI and was merged externally as
 `2f721b1525291936b7ce51cdea5939b6c7d4cb37`. Its main Pages deployment was still
 running when checked. Local native startup work remains separate from that PR.
+
+
+### 11 October 2026: original name length and output allocation
+
+The name parser follows its completed-input branch and assigns the retained
+value into its output local. The original length routine checks that value,
+walks its actual node, dispatches through the readonly original vtable to
+`30696ec5`, reads the stored five-character length and returns through the
+physical stack. It does not substitute a hardcoded decoded name for that call.
+
+The caller adds the NUL byte to obtain capacity six, aligns the actual malloc
+request to eight and invokes the retained Engine allocator callback. The new
+output allocation has its own canonical heap capability. The caller publishes
+its owned pointer and capacity and calls the original writer `30697171` after
+3,783 admitted operations. Its eight bytes remain unknown; writing, final name
+return, cleanup, cache publication and later startup are still pending. Allocation
+unavailability retains `30672ec7`; NULL follows the original branch to `3069b102`
+without a fabricated buffer. A stale arena allocation returned for the smaller
+output request is rejected at the allocator boundary before pointer publication.
+
+Typechecking, ten existing focused runtime checks, five ownership/configuration
+and allocation-failure checks, and 17 source/image checks pass. Independent JSON
+and TypeScript regeneration is byte-identical. Combined validation of the earlier
+`d56fad61f` checkpoint ended with 184 passes and one stale flag assertion in five
+files (259.31 seconds); full-suite and build stages did not start. The latest
+configuration check accounts for restored flags and the newly published output.
+Fresh combined validation remains required before publishing this continuation.
+
+Main revision `2f721b1525291936b7ce51cdea5939b6c7d4cb37`, including Claude's PR
+#239, completed both build and Pages deployment in workflow `38102253395`.
+That deployment does not include this local native continuation or prove a
+browser campaign playable through an ending.
