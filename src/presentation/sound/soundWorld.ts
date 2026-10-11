@@ -216,6 +216,7 @@ export class SoundWorld {
   private ext: 'ogg' | 'm4a';
   private readonly bankBuffers = new Map<BankName, AudioBuffer>();
   private readonly bankLoads = new Map<BankName, Promise<void>>();
+  private readonly bankRetry = new Map<BankName, { failures: number; at: number }>();
   private readonly musicBuffers = new Map<MusicId, { buffer: AudioBuffer; used: number }>();
   private readonly musicLoads = new Map<MusicId, Promise<AudioBuffer | null>>();
   private readonly beds = new Map<LoopId, Bed>();
@@ -392,10 +393,15 @@ export class SoundWorld {
   private loadBank(name: BankName): Promise<void> {
     let p = this.bankLoads.get(name);
     if (!p) {
+      // A failed bank waits before it is tried again, as the beds do (A95 scout): every footstep fetched and decoded it anew.
+      const retry = this.bankRetry.get(name);
+      if (retry && this.ctx.currentTime < retry.at) return Promise.resolve();
       p = this.decode(WORLD_AUDIO.banks[name].file).then((buffer) => {
-        if (buffer && !this.disposed) this.bankBuffers.set(name, buffer);
-        // A failed bank is tried again on a later request.
-        else this.bankLoads.delete(name);
+        if (buffer && !this.disposed) { this.bankBuffers.set(name, buffer); this.bankRetry.delete(name); return; }
+        this.bankLoads.delete(name);
+        if (this.disposed) return;
+        const failures = (this.bankRetry.get(name)?.failures ?? 0) + 1;
+        this.bankRetry.set(name, { failures, at: this.ctx.currentTime + Math.min(BED_RETRY[1], BED_RETRY[0] * 2 ** (failures - 1)) });
       });
       this.bankLoads.set(name, p);
     }
@@ -1210,8 +1216,10 @@ export class SoundWorld {
       // Its walls are between the tune and the listener only from outside (A89 scout).
       this.target(s.walls.frequency, inInn ? 16000 : 2300, t, 0.6, 1);
       this.songAway = level < 0.01 ? this.songAway + dt : 0;
-      if (s.media.ended || this.songAway > 12) {
-        this.releaseSong(s.media.ended ? 0.05 : 1);
+      // A song whose last fallback failed has ended too (A95 scout): kept, it stood silent and no other song came.
+      const failed = !!s.media.error && !s.media.src.endsWith('.ogg');
+      if (s.media.ended || failed || this.songAway > 12) {
+        this.releaseSong(s.media.ended || failed ? 0.05 : 1);
         this.songRest = 25 + 45 * this.random();
       }
       return;

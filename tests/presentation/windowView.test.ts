@@ -22,6 +22,19 @@ const room = { building: { x: 0, z: 0, yaw: 0, w: 6, d: 5 }, wall: 0.24, floorTo
 const rooms = { within: () => room, base: () => 0 } as unknown as RoomLocator;
 
 describe('window view capture (A77, A78)', () => {
+  it('aims each of the six faces its own way (A95 scout: all six looked down the same axis)', () => {
+    const { renderer } = stubRenderer();
+    const view = new WindowView(rooms, new THREE.MeshBasicMaterial(), 16, 3);
+    const scene = new THREE.Scene(), at = new THREE.Vector3(), directions = new Set<string>();
+    const faces = (Reflect.get(view, 'camera') as THREE.CubeCamera).children as THREE.PerspectiveCamera[];
+    for (let i = 0; i < 6; i++) {
+      view.update(renderer, scene, at, 1 / 60, true);
+      const d = faces[i]!.getWorldDirection(new THREE.Vector3());
+      directions.add(d.toArray().map((v) => Math.round(v)).join(','));
+    }
+    expect(directions.size).toBe(6);
+  });
+
   it('spreads every capture over six frames, the first in a room too, lightening the trees, and shows it once whole', () => {
     const { renderer, drawn } = stubRenderer();
     const pane = new THREE.MeshBasicMaterial();

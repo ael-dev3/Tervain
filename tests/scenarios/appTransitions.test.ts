@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { ENEMY_SPAWNS, SPAWN } from '../../src/world/layout';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { App } from '../../src/app';
 import { ResidentArrivals } from '../../src/presentation/residentArrivals';
@@ -122,7 +123,7 @@ function fixture() {
   // Exercise App's actual lifecycle methods without starting a renderer or constructing another scene.
   const app = Object.assign(Object.create(App.prototype) as object, {
     mode: 'play', settings, input, canvas, game: new Game(createInitialState()),
-    arrivals: new ResidentArrivals(), npcAssetsLoad: null, castLoad: null,
+    arrivals: new ResidentArrivals(), npcAssetsLoad: null, castLoad: null, enemies: [],
     panels: { isOpen: false, closeAll: vi.fn(), el: new ElementFixture('DIV') },
     titleEl: new ElementFixture('DIV'), loadingEl: new ElementFixture('DIV'), debugEl: new ElementFixture('DIV'),
     hud: { el: { inert: true }, show: vi.fn(), showFade: vi.fn(), toast: vi.fn(), caption: vi.fn() },
@@ -132,7 +133,7 @@ function fixture() {
       bowEquipped: vi.fn((game: Game) => game.state.equippedWeapon === 'hunting_bow' && (game.state.inventory.hunting_bow ?? 0) > 0),
       setBowAim: vi.fn(), cancelSkinning: vi.fn(),
     },
-    cam: { reset: vi.fn(), setAiming: vi.fn(), yaw: 0, pitch: 0 }, world: { terrain: {}, physics: { holding: null, supportAt: vi.fn(() => null), reset: vi.fn(), restore: vi.fn(), release: vi.fn() } },
+    cam: { reset: vi.fn(), setAiming: vi.fn(), yaw: 0, pitch: 0 }, world: { terrain: { groundAt: () => 0 }, insideArchive: () => false, physics: { holding: null, supportAt: vi.fn(() => null), reset: vi.fn(), restore: vi.fn(), release: vi.fn() } },
     syncMenuHudVisibility: vi.fn(), syncWorldFromState: vi.fn(),
     safePosition: (x: number, z: number, y = 0) => ({ x, z, y }),
     wantLock: vi.fn(), openPause: vi.fn(), speech: { clear: vi.fn(), forget: vi.fn() },
@@ -185,8 +186,8 @@ function deferred<T>() {
 
 function rebuildFixture() {
   const f = fixture();
-  const oldWorld = { scene: new THREE.Scene(), dispose: vi.fn(), terrain: {}, sky: { brightness: 1 }, syncStatic: vi.fn(), insideArchive: () => false, physics: { supportAt: vi.fn(() => null), snapshot: vi.fn(() => []), restore: vi.fn(), reset: vi.fn(), release: vi.fn() } };
-  const nextWorld = () => ({ scene: new THREE.Scene(), dispose: vi.fn(), terrain: {}, sky: { brightness: 1 }, syncStatic: vi.fn(), insideArchive: () => false, physics: { supportAt: vi.fn(() => null), snapshot: vi.fn(() => []), restore: vi.fn(), reset: vi.fn(), release: vi.fn() } });
+  const oldWorld = { scene: new THREE.Scene(), dispose: vi.fn(), terrain: { groundAt: () => 0 }, sky: { brightness: 1 }, syncStatic: vi.fn(), insideArchive: () => false, physics: { supportAt: vi.fn(() => null), snapshot: vi.fn(() => []), restore: vi.fn(), reset: vi.fn(), release: vi.fn() } };
+  const nextWorld = () => ({ scene: new THREE.Scene(), dispose: vi.fn(), terrain: { groundAt: () => 0 }, sky: { brightness: 1 }, syncStatic: vi.fn(), insideArchive: () => false, physics: { supportAt: vi.fn(() => null), snapshot: vi.fn(() => []), restore: vi.fn(), reset: vi.fn(), release: vi.fn() } });
   Object.assign(f.app, {
     world: oldWorld, library: {}, menuScene: new MenuScene({ quality: f.app.settings.quality }), npcAssets: { has: () => true, create: () => undefined },
     applyUiSettings: vi.fn(), applyQualityToRenderer: vi.fn(), renderer: {},
@@ -364,6 +365,25 @@ describe('actual application world transitions', () => {
     expect(document.exitPointerLock).toHaveBeenCalledOnce();
     expect(Reflect.get(app, 'wantPlayLock')).toBe(false);
     expect(app.openPause).not.toHaveBeenCalled();
+  });
+
+  it('starts a loaded run afresh: no respawn at a foe’s post, day and night judged anew, rested, the archive read again (A95 scout)', () => {
+    const { app, call } = fixture();
+    const post = ENEMY_SPAWNS.find((spawn) => spawn.id === 'ford_bandit_a')!;
+    Object.assign(app.player, { x: post.x + 3, z: post.z, stamina: 4, exhausted: true, mountStamina: 2, mountSpent: true });
+    Object.assign(app.game.state.player, { x: post.x + 3, z: post.z });
+    Object.assign(app.world, { insideArchive: () => true });
+    Object.assign(app, { wasNight: true, archiveWasOccupied: false });
+    call('beginPlay', { recovered: null });
+    expect(Reflect.get(app, 'checkpoint')).toMatchObject({ x: SPAWN.x, z: SPAWN.z });
+    expect(Reflect.get(app, 'wasNight')).toBeNull();
+    const body = app.player as unknown as { stamina: number; exhausted: boolean; mountStamina: number; mountSpent: boolean };
+    expect([body.stamina, body.exhausted, body.mountStamina, body.mountSpent]).toEqual([100, false, 100, false]);
+    expect(Reflect.get(app, 'archiveWasOccupied')).toBe(true);
+    // Away from every post, the loaded place is where a fall brings him back.
+    Object.assign(app.player, { x: SPAWN.x + 30, z: SPAWN.z });
+    call('beginPlay', { recovered: null });
+    expect(Reflect.get(app, 'checkpoint')).toMatchObject({ x: SPAWN.x + 30, z: SPAWN.z });
   });
 
   it('forwards the supported saved height when loading an upper floor', () => {
@@ -952,7 +972,7 @@ describe('shell corrections (A70)', () => {
     const { app, call, document } = fixture();
     Object.assign(app, {
       mode: 'dead', checkpoint: { x: 0, y: 0, z: 0, yaw: 0 }, enemies: [], hitStop: 0,
-      world: { ...app.world, terrain: {} }, player: { ...app.player, stamina: 0 },
+      world: { ...app.world, terrain: { groundAt: () => 0 } }, player: { ...app.player, stamina: 0 },
       cam: { ...app.cam, reset: vi.fn() }, speech: { ...app.speech, hero: vi.fn() },
     });
     Object.assign(document, { hasFocus: () => false });
@@ -963,7 +983,7 @@ describe('shell corrections (A70)', () => {
     const second = fixture();
     Object.assign(second.app, {
       mode: 'dead', checkpoint: { x: 0, y: 0, z: 0, yaw: 0 }, enemies: [], hitStop: 0, wantPlayLock: true,
-      world: { ...second.app.world, terrain: {} }, player: { ...second.app.player, stamina: 0 },
+      world: { ...second.app.world, terrain: { groundAt: () => 0 } }, player: { ...second.app.player, stamina: 0 },
       cam: { ...second.app.cam, reset: vi.fn() }, speech: { ...second.app.speech, hero: vi.fn() },
     });
     Object.assign(second.document, { hasFocus: () => true, pointerLockElement: second.canvas });
@@ -979,7 +999,7 @@ describe('shell corrections (A70)', () => {
     expect(Reflect.get(app, 'autosaveTimer')).toBe(90);
     Object.assign(app, {
       mode: 'dead', checkpoint: { x: 0, y: 0, z: 0, yaw: 0 }, enemies: [], hitStop: 0, autosaveTimer: 0.5,
-      world: { ...app.world, terrain: {} }, player: { ...app.player, stamina: 0 },
+      world: { ...app.world, terrain: { groundAt: () => 0 } }, player: { ...app.player, stamina: 0 },
       cam: { ...app.cam, reset: vi.fn() }, speech: { ...app.speech, hero: vi.fn() },
     });
     call('respawn');

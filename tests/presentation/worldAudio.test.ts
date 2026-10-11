@@ -799,6 +799,21 @@ describe('world sound runtime', () => {
     expect(world.banksReady).toBe(true);
   });
 
+  it('waits before fetching a failed bank again, instead of on every cue (A95 scout)', async () => {
+    const { ctx, world, fetched } = runtime();
+    ctx.decodeAudioData.mockImplementation(async () => { throw new Error('EncodingError'); });
+    await flush(); await flush();
+    const items = WORLD_AUDIO.banks.items.file;
+    const count = () => fetched.filter((f) => f.includes(items)).length;
+    const first = count();
+    for (let i = 0; i < 10; i++) { world.play({ clip: 'item.satchel', gain: 0.4 }); await flush(); }
+    expect(count()).toBe(first);
+    // After the wait it is tried again.
+    ctx.currentTime += 11;
+    world.play({ clip: 'item.satchel', gain: 0.4 }); await flush();
+    expect(count()).toBeGreaterThan(first);
+  });
+
   it('falls back to AAC for good when the browser names Opus but cannot decode it', async () => {
     const { ctx, world, fetched } = runtime();
     const decode = ctx.decodeAudioData.getMockImplementation()!;
