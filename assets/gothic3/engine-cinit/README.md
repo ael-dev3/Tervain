@@ -1880,3 +1880,21 @@ original decoder call pending and lock held. All six browser startup checks
 in two files passed. Original instruction/source packages are unchanged.
 This local checkpoint has not been deployed and is not complete engine startup
 or proof of a campaign playable through its ending.
+
+
+### 2026-10-11 — camera class keyword and identifier caller (local)
+
+The original basic-type `V` branch now enters the class parser, constructs the
+`class ` literal through its arena allocator and character copy, assigns the
+parsed value, and enters the scoped identifier caller. The next unsupported
+operation is `30699300`, after 11,237 retained startup operations. The actual
+camera arena contains six known keyword bytes at 4012 and length six at 4032.
+The identifier `eCCameraBase` itself, parser return and camera publication are
+still pending. Historical int text-node snapshot fields remain historical;
+the checks capture the distinct camera arena from its actual writes.
+
+Validation: TypeScript checking passed; four focused runtime checks passed,
+including unknown qualifier and unavailable cold arena cases. Six browser
+startup checks passed across two files. Original source packages are unchanged.
+This checkpoint is local, not deployed, and does not prove complete startup or
+campaign completion with persistence.
