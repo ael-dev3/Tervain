@@ -179,6 +179,17 @@ describe('hunting controller command integration', () => {
     expect(item.controller.arrows.activeCount).toBe(0);
   });
 
+  it('does not draw while getting onto or off the deer (A86 scout)', () => {
+    const item = fixture(); Reflect.set(item.player, 'mountMove', { kind: 'approach' });
+    item.mutable.held = item.mutable.attackPressed = item.mutable.aimHeld = true;
+    item.controller.controls(.35, true);
+    item.controller.afterWorld(.25, true);
+    expect(item.controller.isDrawing).toBe(false);
+    expect(item.cam.setAiming).toHaveBeenLastCalledWith(false);
+    expect(item.game.state.inventory.arrow).toBe(24);
+    expect(item.controller.arrows.activeCount).toBe(0);
+  });
+
   it.each(['drawing', 'release queued'] as const)('entering deep water cancels a %s bow before release without a delayed shot', (phase) => {
     const item = fixture(); beginDraw(item);
     if (phase === 'release queued') {
@@ -343,7 +354,7 @@ describe('skinning controller command integration', () => {
   it.each([
     ['airborne', 'hunting.skin_need_footing'], ['swimming', 'hunting.skin_need_footing'],
     ['held object', 'hunting.skin_put_down'], ['drawing', 'hunting.skin_release_bow'],
-    ['busy', 'hunting.skin_busy'], ['collapse', 'hunting.skin_wait'],
+    ['busy', 'hunting.skin_busy'], ['mounted', 'hunting.skin_busy'], ['mounting', 'hunting.skin_busy'], ['collapse', 'hunting.skin_wait'],
     ['cover', 'hunting.skin_blocked'], ['distance', 'hunting.too_far'], ['knife', 'hunting.need_knife'],
   ] as const)('the HUD and Skin action explain the same unavailable prerequisite for %s', (cause, key) => {
     const item = fixture(); prepareCarcass(item);
@@ -352,6 +363,9 @@ describe('skinning controller command integration', () => {
     if (cause === 'held object') item.world.physics.holding = true;
     if (cause === 'drawing') beginDraw(item);
     if (cause === 'busy') item.player.state = 'attack';
+    // In the saddle, or getting into or out of it (A86 scout).
+    if (cause === 'mounted') Reflect.set(item.player, 'mount', { id: 'deer:0' });
+    if (cause === 'mounting') Reflect.set(item.player, 'mountMove', { kind: 'swing' });
     if (cause === 'collapse') item.mutable.frame!.ready = false;
     if (cause === 'cover') item.mutable.cover = [-60.5];
     if (cause === 'distance') item.mutable.frame!.stance.z += .41;

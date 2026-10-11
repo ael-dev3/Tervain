@@ -76,7 +76,8 @@ export class HuntingController {
     }
     if (input.pressed('skin')) this.skin();
     if (this.skinId && !this.skinValid(this.skinId)) player.cancelSkinning();
-    const available = player.bowEquipped(game) && player.state === 'free' && player.alive && !player.swimming && !player.mount && !world.physics.holding;
+    // Not while getting onto or off the deer either: melee is already locked then (A86 scout).
+    const available = player.bowEquipped(game) && player.state === 'free' && player.alive && !player.swimming && !player.mount && !player.mountMove && !world.physics.holding;
     if (!available) { this.cancelDraw(); cam.setAiming(false); return; }
     const held = input.isDown('attack');
     const aimHeld = input.isDown('block');
@@ -155,6 +156,8 @@ export class HuntingController {
     if (animal && (!scenery || animal.distance < scenery.distance - 1e-5)) {
       return { point: new THREE.Vector3().copy(animal.point), animal, lodge: false };
     }
+    // A person or a bandit walks on: an arrow glancing off them falls away rather than staying where they stood (A86 scout).
+    if (scenery?.actorId) return { point: new THREE.Vector3().copy(scenery.point), lodge: false };
     if (scenery) return { point: new THREE.Vector3().copy(scenery.point), treeId: scenery.treeId };
     if (to.distanceTo(origin) > HUNTING_ARROW_RANGE) return { point: to.clone(), lodge: false, expired: true };
     return null;
@@ -202,7 +205,7 @@ export class HuntingController {
     if (starting) {
       if (world.physics.holding) return 'hunting.skin_put_down';
       if (this.drawing || this.releasePending) return 'hunting.skin_release_bow';
-      if (player.state !== 'free') return 'hunting.skin_busy';
+      if (player.state !== 'free' || player.mount || player.mountMove) return 'hunting.skin_busy';
     }
     const frame = world.animals.skinningFrame(id, player);
     if (!frame?.ready) return 'hunting.skin_wait';

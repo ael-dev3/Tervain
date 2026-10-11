@@ -916,6 +916,8 @@ export class App {
       return;
     }
     this.game.replaceState(createInitialState('slot-1'));
+    // A new journey hears its arrival and everyone's first words again (A86 scout).
+    this.speech.forget();
     this.beginPlay(null);
     if (!this.quietStart) {
       this.speech.hero('arrival', { delay: 3 });

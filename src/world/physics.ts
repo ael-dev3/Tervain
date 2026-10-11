@@ -14,6 +14,8 @@ export interface ProjectileContact {
   distance: number;
   /** Present only when the closest contact is a canonical tree's finite wood collider. */
   treeId?: string;
+  /** Present only when the closest contact is a person's or an enemy's moving capsule (A86 scout): it walks on. */
+  actorId?: string;
 }
 export interface PropSpec {
   id: string; name: string; kind: 'barrel' | 'crate'; x: number; z: number;
@@ -337,20 +339,22 @@ export class RealmPhysics {
       collider => collider.isEnabled() && !this.propHandles.has(collider.handle) && !actorHandles.has(collider.handle) && !animalHandles.has(collider.handle));
     let distance = hit?.timeOfImpact ?? Infinity;
     let treeId = hit ? this.woodHandles.get(hit.collider.handle) : undefined;
+    let actorId: string | undefined;
     // Direct casts see restored/moved cargo and freshly enabled doors before the broad phase's next step.
-    const direct = (collider: RAPIER.Collider) => {
+    const direct = (collider: RAPIER.Collider, actor?: string) => {
       if (!collider.isEnabled() || animalHandles.has(collider.handle)) return;
       const value = collider.castRay(ray, length, true);
       if (value >= 0 && value <= length && value <= distance) {
         distance = value;
-        // A closer (or coincident) cargo/actor/changed-scenery contact replaces the wood attribution too.
+        // A closer (or coincident) cargo/actor/changed-scenery contact replaces the wood and actor attribution too.
         treeId = this.woodHandles.get(collider.handle);
+        actorId = actor;
       }
     };
     for (const prop of this.props) direct(prop.collider);
-    for (const actor of this.actors.values()) if (actor.active) direct(actor.collider);
+    for (const [id, actor] of this.actors) if (actor.active) direct(actor.collider, id);
     for (const collider of this.projectileQueryDirty) direct(collider);
-    return Number.isFinite(distance) ? { distance, ...(treeId === undefined ? {} : { treeId }), point: {
+    return Number.isFinite(distance) ? { distance, ...(treeId === undefined ? {} : { treeId }), ...(actorId === undefined ? {} : { actorId }), point: {
       x: from.x + direction.x * distance, y: from.y + direction.y * distance, z: from.z + direction.z * distance,
     } } : null;
   }

@@ -54,6 +54,16 @@ export const SKINNING_REACH = 2.8;
 export const SKINNING_SECONDS = 3.2;
 export const ARROW_RESTOCK_AMOUNT = 6;
 export const ARROW_QUIVER_CAPACITY = 40;
+/**
+ * Arrows Rowan spares a hunter with none left and no hide to trade (A86 scout). Arrows come only from his table and his
+ * trade, and hides only from game shot with them: an empty quiver with no hide otherwise ended hunting for good.
+ */
+export const HUNTER_SPARE_ARROWS = 6;
+
+/** Whether Rowan would spare arrows now: the table's arrows were taken, none are left, and there is no hide to trade. */
+export function hunterSparesArrows(s: Pick<WorldState, 'inventory' | 'locationChanges'>): boolean {
+  return s.locationChanges['pickup:hunter_arrows'] === 'taken' && (s.inventory.arrow ?? 0) < 1 && (s.inventory.animal_hide ?? 0) < 1;
+}
 export const HUNTER_MEAT_PRICE = 2;
 export const HUNTER_SUPPLY_POSITION = HUNTER_SUPPLY;
 
@@ -195,7 +205,8 @@ export function huntingHint(s: WorldState): string | null {
   if ((s.inventory.hunting_bow ?? 0) < 1 || (s.inventory.skinning_knife ?? 0) < 1) return 'hunting.objective.kit';
   if (HUNTABLE_ANIMAL_IDS.some((id) => s.hunting[id]?.status === 'dead')) return 'hunting.objective.skin';
   if ((s.inventory.arrow ?? 0) < 1) {
-    return s.locationChanges['pickup:hunter_arrows'] === 'taken' ? 'hunting.objective.restock' : 'hunting.objective.kit';
+    if (s.locationChanges['pickup:hunter_arrows'] !== 'taken') return 'hunting.objective.kit';
+    return hunterSparesArrows(s) ? 'hunting.objective.spare' : 'hunting.objective.restock';
   }
   if (s.equippedWeapon !== 'hunting_bow') return 'hunting.objective.equip';
   return 'hunting.objective.hunt';

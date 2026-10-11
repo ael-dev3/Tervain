@@ -135,7 +135,7 @@ function fixture() {
     cam: { reset: vi.fn(), setAiming: vi.fn(), yaw: 0, pitch: 0 }, world: { terrain: {}, physics: { holding: null, supportAt: vi.fn(() => null), reset: vi.fn(), restore: vi.fn(), release: vi.fn() } },
     syncMenuHudVisibility: vi.fn(), syncWorldFromState: vi.fn(),
     safePosition: (x: number, z: number, y = 0) => ({ x, z, y }),
-    wantLock: vi.fn(), openPause: vi.fn(), speech: { clear: vi.fn() },
+    wantLock: vi.fn(), openPause: vi.fn(), speech: { clear: vi.fn(), forget: vi.fn() },
     audio: { pauseWorld: vi.fn(), setWildlifeActive: vi.fn(), stopHuntingSounds: vi.fn(), huntingSound: vi.fn() },
     wantPlayLock: false, lockingOut: false, worldBuilding: false, worldBuildFailed: false,
     worldDisposed: false, menuSceneDisposed: false, qualityReload: null, reloadAgain: false,
