@@ -144,3 +144,21 @@ describe('the 60-frame cap (A71)', () => {
     expect(cappedFrame(505, due).draw).toBe(false);
   });
 });
+
+describe('interpolated rotation past a quarter turn (A113)', () => {
+  it('leaves the Euler the game wrote, so setting only rotation.y never flips the hero', () => {
+    const motion = new MotionInterpolation();
+    const root = new THREE.Object3D();
+    for (const [step, yaw] of [[1, 2.9], [2, 3.0]] as const) {
+      root.rotation.y = yaw;
+      motion.capture(step, [root]);
+    }
+    motion.apply(0.5, 2);
+    motion.restore();
+    expect(root.rotation.x).toBe(0);
+    expect(root.rotation.z).toBe(0);
+    root.rotation.y = 3.1; // the next step writes the heading alone
+    const up = new THREE.Vector3(0, 1, 0).applyQuaternion(root.quaternion);
+    expect(up.y).toBeCloseTo(1, 6);
+  });
+});

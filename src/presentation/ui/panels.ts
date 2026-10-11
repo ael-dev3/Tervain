@@ -13,7 +13,7 @@ import { ACTIONS, DEFAULT_BINDINGS, codeLabel, assignSlot, cancelsCapture, findC
 import { SLOT_IDS, type LoadResult, type SaveStore, type SlotId } from '../../platform/storage';
 import { clear, focusableElements, focusFirst, h, moveFocus, visibleControl } from './dom';
 import { EVIDENCE_IDS } from '../../game/types';
-import { GAME_VERSION } from '../../version';
+import { BUILD_LABEL, GAME_VERSION } from '../../version';
 import { createMenuScreen } from './menuView';
 import { icon } from './icons';
 import { INVENTORY_GROUPS, inventoryItems, QUICK_SLOT_COUNT, quickSlotFromCode, quickSlotLabel, type InventoryGroup } from './uiModel';
@@ -604,7 +604,7 @@ export function pauseMenu(ctx: PanelCtx): HTMLElement {
     b(S('menu.controls'), () => ctx.host.push(controlsPanel(ctx))),
     b(S('menu.quit'), () => ctx.actions.quitToTitle()),
   );
-  return createMenuScreen({ menu, subtitle: 'Journey paused', version: GAME_VERSION, variant: 'pause' });
+  return createMenuScreen({ menu, subtitle: 'Journey paused', version: BUILD_LABEL, variant: 'pause' });
 }
 
 export function slotsPanel(ctx: PanelCtx, mode: 'save' | 'load'): HTMLElement {

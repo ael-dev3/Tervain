@@ -25,13 +25,25 @@ function sourceRevision(): string {
   }
 }
 
+/** version.json next to index.html: the running build compares it with its own revision (src/platform/buildCheck.ts). */
+function buildStamp() {
+  return {
+    name: 'tervain-build-stamp',
+    apply: 'build' as const,
+    generateBundle(this: { emitFile(file: { type: 'asset'; fileName: string; source: string }): string }) {
+      this.emitFile({ type: 'asset', fileName: 'version.json', source: `${JSON.stringify({ version: packageJson.version, revision: sourceRevision() })}
+` });
+    },
+  };
+}
+
 // The site is served from https://ael-dev3.github.io/Tervain/ so assets need a repo-relative base.
 export default defineConfig(({ command, mode }) => {
   const modelBase = productionModelAssetBase(command, mode, process.env);
   return {
     base: command === 'build' ? './' : '/',
     // Development only: serves a local Gothic 3 Data folder (G3_DATA) to /gothic3-local/; see tools/gothic3LocalData.ts.
-    plugins: [gothic3LocalData(), hostedModelDelivery(modelBase)],
+    plugins: [gothic3LocalData(), hostedModelDelivery(modelBase), buildStamp()],
     define: {
       __GAME_VERSION__: JSON.stringify(packageJson.version),
       __SOURCE_REVISION__: JSON.stringify(sourceRevision()),
