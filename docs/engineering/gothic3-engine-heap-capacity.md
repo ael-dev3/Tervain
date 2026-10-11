@@ -445,3 +445,19 @@ original qualifier logic; implementation remains necessary. Combined full-suite
 validation still runs on the earlier revision. PR #244 was merged externally
 after successful CI; it is not included in that frozen validation checkout.
 Full startup and campaign play remain unfinished.
+
+### Original decorated decoder entry and qualifier read — 11 October 2026
+
+The second call now executes the captured decoder's 84-byte prolog, original
+register saves, local masks and zero fields, then reads its retained `A`
+qualifier at type-info offset ten. It takes the original nonempty, non-dollar
+branch and stops at `3069ab34` after 4,982 admitted operations. All four parser
+nodes and the first completed property remain live; lock five stays held.
+
+Typechecking and five focused runtime/browser/regression checks pass. A separate
+failure check makes the qualifier unknown on its decoder read and confirms the
+original `3069aadf` boundary, pending caller and retained first-property result.
+The initial failure fixture used an incorrect image length and was corrected to
+identify the actual name bytes and second qualifier read. No unknown mask is
+repaired. Remaining qualifier decoding, full startup, deployment and campaign
+completion remain unfinished; earlier combined validation is still running.

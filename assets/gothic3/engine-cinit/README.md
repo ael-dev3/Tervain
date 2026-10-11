@@ -604,3 +604,9 @@ The next decorated-type decoder body at `3069aad4` has been captured and checked
 against original Engine bytes: 441 instructions through RET at `3069afb7`.
 Independent JSON/TypeScript regeneration is byte-identical; typechecking and
 all 24 source/image checks pass. Runtime execution of this body remains pending.
+
+The original decorated decoder entry now reaches `3069ab34` after 4,982
+operations. Typechecking, five focused checks and a qualifier-unknown failure
+check pass. The failure stops at the actual byte read with the caller and first
+property retained. Remaining decoder execution, startup and campaign are
+unfinished; this continuation remains local.

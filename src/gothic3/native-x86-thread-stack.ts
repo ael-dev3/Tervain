@@ -1123,7 +1123,17 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
               data('3069b8ee',()=>setRegister('EAX',stack.#stackWord(relative(-16))));data('3069b8f1',()=>stack.#push(register('EAX')));data('3069b8f2',()=>stack.#push(register('ECX')));
               data('3069b8f3',()=>setRegister('EAX',stack.#stackWord(relative(-8))));data('3069b8f6',()=>stack.#push(register('EAX')));data('3069b8f7',()=>setRegister('EAX',stack.#stackWord(relative(-24))));data('3069b8fa',()=>stack.#push(register('EAX')));
               data('3069b8fb',()=>stack.#store(stack.#stack,relative(-16),register('ECX')));data('3069b8fe',()=>stack.#call('3069b8fe','3069b903'));
-              stack.#engineCinitFrame!.pc='3069aad4';return known(undefined);
+              const decorated=(pc:string,body:()=>void)=>step(pc,body,'3069aad4');let qualifier=0;
+              decorated('3069aad4',()=>stack.#push(register('EBP')));decorated('3069aad5',()=>setRegister('EBP',register('ESP')));
+              decorated('3069aad7',()=>{const a=stack.#address(register('ESP')),r=a-84;setRegister('ESP',stack.#stackWord(r));stack.#arithmeticFlags(a,84,r,4,true);});
+              decorated('3069aada',()=>setRegister('EAX',stack.#load(constructed.config,12)));
+              decorated('3069aadf',()=>{const r=stack.#record(register('EAX')),p=r.provenance;if(p?.kind!=='engine-image'||p.crt!==crt||p.fields!==image('visualAnimationSecondTypeInfo')||p.offset!==10)throw new Error('Actual decorated-type qualifier cursor required');qualifier=NativeHeapObjectViews.prototype.readUnsigned.call(p.fields,p.offset,1);setRegister('EAX',stack.#mint(((r.value&0xffffff00)|qualifier)>>>0,((r.mask&0xffffff00)|255)>>>0));});
+              decorated('3069aae1',()=>stack.#push(register('EBX')));decorated('3069aae2',()=>stack.#push(register('ESI')));decorated('3069aae3',()=>setRegister('ESI',stack.#mint(0xfffff000,0xffffffff)));
+              decorated('3069aae8',()=>typePrefix.localAnd(-32,0xfffff000));decorated('3069aaeb',()=>stack.#push(register('EDI')));decorated('3069aaec',()=>{setRegister('EDI',stack.#mint(0,0xffffffff));stack.#logicalFlags(0,0xffffffff,4);});
+              decorated('3069aaee',()=>stack.#logicalFlags(qualifier,255,1));decorated('3069aaf0',()=>stack.#store(stack.#stack,relative(-36),register('EDI')));
+              decorated('3069aaf3',()=>{const at=relative(-1);stack.#invalidateRange(stack.#stack,at,1);NativeHeapObjectViews.prototype.writeUnsigned.call(stack.#stack,at,0,1);});
+              decorated('3069aaf7',()=>{if(qualifier===0)throw new Error('Original empty decorated-type branch remains pending');});decorated('3069aafd',()=>stack.#arithmeticFlags(qualifier,36,(qualifier-36)&255,1,true));decorated('3069aaff',()=>{if(qualifier===36)throw new Error('Original extended decorated-type branch remains pending');});
+              stack.#engineCinitFrame!.pc='3069ab34';return known(undefined);
             }
             return known(undefined);
           }
