@@ -577,6 +577,15 @@ export function execute(s: WorldState, cmd: Command): CommandResult {
 
     case 'defeat': {
       s.defeated[cmd.id] = true;
+      // With the thornback gone the ledge is clear, and the stranded worker comes down by it, as she does through the
+      // opened gate. Only a conversation could free her before, and none in play reaches that (A94 scout).
+      if (cmd.id === 'cut_creature' && s.npcs.maintenance_worker.available && !hasFact(s, 'ila_rescued')) {
+        s.facts.ila_rescued = true;
+        s.facts.ila_method = 'fight';
+        s.npcs.maintenance_worker.trust = clampTrust(s.npcs.maintenance_worker.trust + 1);
+        enterInvestigation(s, 'worker', events);
+        events.push({ t: 'worker_rescued', method: 'fight' });
+      }
       events.push({ t: 'autosave', reason: 'encounter_cleared' });
       return ok();
     }

@@ -157,6 +157,20 @@ describe('peaceful resident motion', () => {
     expect(npc.headPosition.y).toBeCloseTo(npc.y + npc.def.look.height * 1.95 - .25);
   });
 
+  it('measures a seat again with a model that arrives late, so they sit down from before the bench (A93 scout)', () => {
+    const { npc, ctx } = harness(NPCS.ash_recorder); ctx.hour = 12; npc.snapToGoal(ctx);
+    const before = { ...Reflect.get(npc, 'destination') as { x: number; z: number; seatBack?: number } };
+    expect(before.seatBack).toBeUndefined();
+    const model = { ...rig(), resident: { seatApproach: () => .45, standUpSeconds: 1 } } as unknown as Rig;
+    npc.adoptRig(model);
+    npc.update(1 / 60, ctx);
+    const after = Reflect.get(npc, 'destination') as { x: number; z: number; seatBack?: number };
+    expect(after.seatBack).toBeCloseTo(.45);
+    expect(Math.hypot(after.x - before.x, after.z - before.z)).toBeCloseTo(.45, 2);
+    // Already at their seat (unseen until now), they are put at the new spot rather than walking to it.
+    expect(Math.hypot(npc.x - after.x, npc.z - after.z)).toBeLessThan(.01);
+  });
+
   it('waits inside a shared doorway instead of spawning overlapping residents, then exits when it clears', () => {
     // Someone without a bed still goes in at their door (A70): the hunter's routine under a bedless name.
     const { npc, ctx, tick } = harness({ ...NPCS.trail_hunter, id: 'caravan_master' }), home = ANCHORS.hunter_shelter!;

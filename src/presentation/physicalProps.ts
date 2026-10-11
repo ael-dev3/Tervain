@@ -26,14 +26,16 @@ export function buildPhysicalProps(physics: RealmPhysics, quality: 'low' | 'medi
     meshes.set(spec.id, mesh); group.add(mesh);
   }
   const update = () => {
-    for (const pose of physics.poses()) {
+    // Stepped once per fixed simulation step, the current pose is the one to show: the accumulator's blend (alpha 0 right
+    // after each step) drew every barrel a whole step behind. The app draws them between steps with everything else (A94).
+    for (const pose of physics.poses(false)) {
       const mesh = meshes.get(pose.id)!;
       mesh.position.set(pose.position.x, pose.position.y, pose.position.z);
       mesh.quaternion.set(pose.rotation.x, pose.rotation.y, pose.rotation.z, pose.rotation.w);
     }
   };
   update();
-  return { group, update, stats: () => { const s = physics.stats(); return { hz: s.hz, bodies: s.bodies, awake: s.awake, held: s.held ? 1 : 0, steps: s.steps }; }, dispose() {
+  return { group, update, movers: () => [...meshes.values()], stats: () => { const s = physics.stats(); return { hz: s.hz, bodies: s.bodies, awake: s.awake, held: s.held ? 1 : 0, steps: s.steps }; }, dispose() {
     disposeGroup(group); for (const m of materials.values()) m.dispose(); for (const t of textures) t.dispose();
   } };
 }

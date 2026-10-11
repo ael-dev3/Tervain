@@ -1133,10 +1133,14 @@ export class App {
 
   /** What moves from step to step: the hero, the camera, residents, bandits, animals (the ridden deer too), arrows. */
   private captureMotion() {
-    const objects: (THREE.Object3D | null | undefined)[] = [this.player.group, this.cam.camera];
+    // The hero's rig root is what moves (placed in world space each step); the group holding it stays at the origin, and
+    // capturing that drew the hero at the latest step against an interpolated camera and deer (A94 scout).
+    const objects: (THREE.Object3D | null | undefined)[] = [this.player.rig.root, this.cam.camera];
     for (const n of this.npcs) objects.push(n.rig.root);
     for (const e of this.enemies) objects.push(e.rig.root);
     objects.push(...(this.world.animals.movers?.() ?? []));
+    const props = this.world.modules?.find((m) => m.name === 'physical supplies')?.module as { movers?: () => THREE.Object3D[] } | undefined;
+    objects.push(...(props?.movers?.() ?? []));
     objects.push(...this.hunting.arrows.group.children);
     this.motion.capture(this.simStep, objects);
   }
@@ -1239,6 +1243,8 @@ export class App {
       this.game.addPlaySeconds(dt);
       this.clockAcc += dt * CLOCK_RATE;
       if (this.clockAcc >= 0.5) {
+        // Wildlife returns only out of the hunter's sight, judged from where he is now, not where he was last saved (A94).
+        this.game.setPlayerTransform(this.player.x, this.player.y, this.player.z, this.player.yaw);
         this.game.tickClock(this.clockAcc);
         this.clockAcc = 0;
       }
@@ -2654,6 +2660,7 @@ export class App {
     const s = this.game.state;
     const day = Math.floor(s.clock / 1440);
     const target = day * 1440 + hour * 60;
+    this.game.setPlayerTransform(this.player.x, this.player.y, this.player.z, this.player.yaw);
     this.game.tickClock(target > s.clock ? target - s.clock : target + 1440 - s.clock);
     for (const n of this.npcs) n.snapToGoal(this.actorContext());
   }

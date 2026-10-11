@@ -892,6 +892,37 @@ describe('panel keys (A71)', () => {
 });
 
 describe('shell corrections (A70)', () => {
+  it('tells a rebuilt world who is in the archive before its door and shutter are set (A93 scout)', async () => {
+    const { app, call, nextWorld } = rebuildFixture();
+    const inside = { ...nextWorld(), insideArchive: () => true, playerInArchive: false };
+    vi.spyOn(WorldScene, 'create').mockResolvedValue(inside as unknown as WorldScene);
+    let seen: boolean | null = null;
+    const sync = Reflect.get(app, 'syncWorldFromState') as (restore?: boolean) => void;
+    Reflect.set(app, 'syncWorldFromState', function (this: object, restore?: boolean) {
+      if (restore) seen = (Reflect.get(app, 'world') as unknown as { playerInArchive: boolean }).playerInArchive;
+      return sync.call(this, restore);
+    });
+    app.settings.quality = app.settings.quality === 'low' ? 'high' : 'low';
+    call('applySettings', true);
+    await finishReload(app);
+    expect(seen).toBe(true);
+    expect(Reflect.get(app, 'archiveWasOccupied')).toBe(true);
+  });
+
+  it('puts a rider back in the saddle once the deer of the rebuilt world arrives, not throwing them off (A93 scout)', async () => {
+    const { app, call, nextWorld } = rebuildFixture();
+    const animals = { mount: vi.fn(() => null), ride: vi.fn() };
+    vi.spyOn(WorldScene, 'create').mockResolvedValue({ ...nextWorld(), animals } as unknown as WorldScene);
+    const forceDismount = vi.fn(() => { Reflect.set(app.player, 'mount', null); });
+    Reflect.set(app, 'forceDismount', forceDismount);
+    Reflect.set(app.player, 'mount', { id: 'caravan_deer', seat: 1.1 });
+    app.settings.quality = app.settings.quality === 'low' ? 'high' : 'low';
+    call('applySettings', true);
+    await finishReload(app);
+    expect(forceDismount).toHaveBeenCalledOnce();
+    expect(Reflect.get(app, 'pendingMount')).toMatchObject({ id: 'caravan_deer', x: app.player.x, z: app.player.z });
+  });
+
   it('prepares the replaced title backdrop after a world rebuild for another quality, so it draws again', async () => {
     const { app, call, nextWorld } = rebuildFixture();
     vi.spyOn(WorldScene, 'create').mockResolvedValue(nextWorld() as unknown as WorldScene);
@@ -984,8 +1015,10 @@ describe('fixed steps (A72)', () => {
   it('draws a hero moving at constant speed between steps on a 144 Hz display, without jitter', () => {
     const { app, call, hunting } = rebuildFixture();
     const speed = 6, drawn: number[] = [], times: number[] = [];
-    const group = app.player.group as THREE.Object3D;
-    group.position.set(0, 0, 0);
+    // The rig root is what the player places each step; the group holding it stays at the origin (A94 scout).
+    const group = new THREE.Group();
+    (app.player.group as THREE.Object3D).add(group);
+    Reflect.set(app.player, 'rig', { root: group });
     Object.assign(app, { mode: 'play', simStep: 0, motion: new MotionInterpolation(), npcs: [], enemies: [], world: { ...app.world, animals: { movers: () => [] } } });
     Reflect.set(app, 'step', vi.fn((dt: number) => {
       Reflect.set(app, 'simStep', (Reflect.get(app, 'simStep') as number) + 1);
