@@ -189,3 +189,29 @@ identity assertion reduced the allocation test body from about 33 seconds to
 about four; the standard timeout is retained. This checkpoint is local, and the
 earlier combined full suite is still running. Complete startup and a finishable
 browser campaign remain unfinished.
+
+### CString text copy and original return — 11 October 2026
+
+The evidence generator now captures memcpy `100a7a00` against the matching
+SharedBase DLL, bringing the separate SharedBase package to eight bodies. The
+retained constructor passes its real character pointer at offset eight, the
+live Engine cache and length five. Its existing source-backed scalar memcpy
+contract proves the disjoint allocation spans, copies a DWORD and a byte, and
+retains their masks. Internal copy operations are excluded from source counts.
+
+The original constructor removes its three memcpy arguments, restores registers
+and returns with four-byte cleanup. UnMangle then returns with eight-byte
+cleanup into the property initializer. Execution reaches `30076684` after
+4,322 admitted source operations; property shutdown registration is pending.
+The successful CString has length five, refcount one and `float` plus NUL in
+the actual SharedBase pool backing. Its property destination retains the same
+character-pointer capability.
+
+Typechecking and eleven distinct focused checks pass (ten in the combined
+source/browser/failure run and the normal allocation/copy check separately).
+Independent evidence JSON and generated TypeScript are byte-identical. An
+interrupted final byte store retains the completed DWORD and pending memcpy
+return at 4,313 operations. An unknown final source byte is copied with an
+unknown mask, and reading it as known text is rejected. These are local receipts;
+complete startup, deployment of this continuation and a playable campaign
+through an ending remain unfinished.

@@ -14,7 +14,7 @@ python tools/gothic3/prepare_engine_cinit_source.py --study '<study-root>' --out
 
 The generator checks the original Engine.dll hash and exact caller bytes.
 Independent regeneration produced identical JSON, SHA-256
-``316bad5ba6d982b7613992fc5d4aa1e805a6550ff2f85d87185629bd6ff6601e``.
+``c8cc2f13db81ed51e37300c4e505e46a1493d8d4d1d9ffb5212f4d2cbbaecdf0``.
 
 The capture's `runtimeConnected: false` records evidence preparation; it grants
 no execution authority. The TypeScript continuation separately obtains a
@@ -507,3 +507,13 @@ pointer publication and NUL stores execute, and the constructor reaches memcpy
 counted as executed source rows. Six ownership, normal, browser and failure
 checks pass. Character copying, complete startup and campaign play remain
 unfinished; this newer checkpoint has not been deployed.
+
+Eight separately pinned SharedBase bodies now include the original memcpy.
+The scalar copy contract consumes the actual five-byte constructor arguments,
+retains unknown masks and partial stores, and returns through the original
+constructor and UnMangle cleanup. Those nine caller rows reach `30076684` after
+4,322 admitted source operations. Internal memcpy operations are excluded from
+that count. Eleven distinct runtime/browser/source checks and typechecking pass;
+independent JSON and TypeScript regeneration is byte-identical. Shutdown
+registration, complete startup and campaign play remain unfinished. This is
+a local continuation, not a deployment receipt.
