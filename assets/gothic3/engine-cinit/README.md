@@ -2097,3 +2097,22 @@ check passed at `30672ec7`, retaining its caller, live node and lock 14 while
 lock 5 remains released. Earlier roots/CStrings/shutdown cursor remain intact.
 Original source packages are unchanged. This local checkpoint is not deployed
 and does not establish complete startup or campaign completion with persistence.
+
+
+### 2026-10-11 — original camera cache text copy and list link (local)
+
+The original copy routine writes all nineteen known cache bytes, returns zero,
+then links the new camera cache node to the previous live int node and publishes
+it in the actual shared type-name list. Startup stops at `3067db62` after
+13,700 operations. Camera RTTI points to the actual cache text, the list root
+points to the new node, and both allocations remain live. Temporary output
+release, lock 14 release, property CString and camera root publication remain
+pending.
+
+Validation: TypeScript checking, thirteen focused runtime checks and six browser
+startup checks passed. A further interrupted cache character store check passed
+at `3068a88a`, retaining the ten-byte prefix, unknown following character,
+live cache text, pending copy caller and held lock 14; lock 5 is released.
+Normal checks verify copied text and canonical link provenance. Original source
+packages are unchanged. This local checkpoint is not deployed and does not
+establish complete startup or campaign completion with persistence.
