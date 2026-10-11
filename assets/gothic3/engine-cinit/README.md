@@ -977,3 +977,20 @@ checks, and all 39 source/image/browser-service checks pass. Source, generator
 and admission-test diffs were inspected. Combined validation remains running
 on its earlier frozen revision. This continuation remains local; complete
 startup and browser campaign completion remain unfinished.
+
+## Local continuation — 11 October 2026: name-reference cache entry
+
+The second property identifier now enters the captured cache append at
+`306972d6`, saves ESI, retains the actual stack cache owner, compares its
+counter against nine, loads the actual name argument, and calls the original
+empty-value predicate. Execution stops at `306970c9` after 6,271 admitted
+operations. The cache call and predicate call remain pending; no cache entry
+is synthesized. Both parser locks and the live second arena remain retained.
+
+Typechecking, six focused engine checks and six browser-service checks pass.
+The cache-pointer assertion checks the actual configured stack offset after
+ESI changes at its original instruction. The earlier accidentally broad test
+invocation was stopped after identifying its stale ESI assertion; it is not
+claimed as a passing suite. The separate older combined validation remains
+running and does not cover this continuation. Full startup, world activation
+and a finishable browser campaign remain unfinished. This checkpoint is local.
