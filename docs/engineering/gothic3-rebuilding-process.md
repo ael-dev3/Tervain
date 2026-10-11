@@ -4,6 +4,22 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local continuation — 11 October 2026: parser arena allocation caller
+
+The original arena allocator now executes its cold-capacity branch, requests a
+4,100-byte backing block recursively and aligns that direct request to 4,104
+bytes. Its indirect call validates the stored allocator capability and preserves
+the pending return to `30696c08`. Execution stops at `30672ec7` after 2,857
+admitted operations, with lock 5 held and no allocation result invented.
+
+Typechecking, two focused checks and exact independent JSON/TypeScript
+regeneration pass. An initial focused failure used `mask` instead of the public
+snapshot's `knownMask`; the repaired assertion retains the fully known value.
+The earlier revision `ddf8f164a` completed 163 focused checks, all 3,465 tests
+across 315 files and a production build in 1 minute 6 seconds. That receipt
+predates the latest parser changes and does not establish complete startup or a
+finishable campaign. Fresh combined validation of this continuation follows.
+
 ## Local continuation — 11 October 2026: parser internal field initialization
 
 Two additional constructor bodies are captured from the pinned original Engine.

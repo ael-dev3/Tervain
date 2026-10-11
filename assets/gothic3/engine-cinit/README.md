@@ -1,7 +1,7 @@
 # Engine CRT initializer evidence
 
 This package records the next dependency after Engine environment-vector return.
-It captures 39 original bodies (980 instructions), the caller at `30677284`,
+It captures 41 original bodies (1113 instructions), the caller at `30677284`,
 the floating-point callback at `30892ac0`, and two original initializer tables.
 The C initializer table has 200 slots with 6 nonzero entries. The C++ table has
 93,705 slots with 1,963 nonzero entries; omitted entries are verified zero.
@@ -14,7 +14,7 @@ python tools/gothic3/prepare_engine_cinit_source.py --study '<study-root>' --out
 
 The generator checks the original Engine.dll hash and exact caller bytes.
 Independent regeneration produced identical JSON, SHA-256
-``b01306bc92c5b5e8a3e3d878f489408e03f2b1ca546c892d8474337459db4cc9``.
+``adde47ad8deb65cdb4c5da23a28abf192b1ade479311b4bb00cbf24182ee3a04``.
 
 The capture's `runtimeConnected: false` records evidence preparation; it grants
 no execution authority. The TypeScript continuation separately obtains a
@@ -112,3 +112,9 @@ The first internal-object constructor enters its field constructor with kind 3.
 The original bit operations set only the low four flag bits, retaining the
 remaining bits and their masks. Its 16-byte allocation request now stops at
 `30696bf0` after 2,826 operations; no allocation or parser result is fabricated.
+
+The arena allocator follows the actual cold-capacity branch, requests a new
+4,100-byte arena block recursively, aligns that request to 4,104 bytes and calls
+the stored malloc capability. Execution stops at `30672ec7` after 2,857 admitted
+operations. Both arena calls and their caller remain pending; allocation and
+cleanup are still unfinished.
