@@ -639,3 +639,9 @@ then returns to `3069acdf` after 5,144 operations. Typechecking, six focused che
 and a call-return check pass. Earlier combined full-suite validation reported a
 lighthouse walking failure and is still running. Remaining decoder execution,
 startup, publication and campaign completion remain unfinished.
+
+The original modifier assignment and two empty-value branches now reach
+`3069adfc` after 5,211 operations. Typechecking and six focused checks pass.
+Earlier combined full-suite validation ended with 3,560 passes and one five-second
+lighthouse timeout; all six lighthouse tests then passed in isolation. Its build
+is running. Newer decoder work, startup and campaign remain unfinished and local.

@@ -548,3 +548,21 @@ combined full-suite validation has reported a lighthouse walking test failure
 and remains running; its final diagnostics must be inspected before publication.
 No full-suite or deployment success is claimed for this newer continuation.
 Remaining decoder execution, full startup and campaign play remain unfinished.
+
+### Original modifier assignment and empty branches — 11 October 2026
+
+After the qualified wrapper returns, the decoder now assigns the original live
+output into its retained qualifier temporary, checks both original modifier
+locals using the shared empty-value routine, and executes the normalized flag
+comparison. Both actual modifier pointers are NULL, so the original branches
+reach `3069adfc` after 5,211 admitted operations. The original caller, arena,
+first property and held lock remain retained; no decoder return is supplied.
+
+Typechecking and six focused runtime/browser/failure checks pass. Combined
+revision `31207602620c9334092b5c9ca494fd0352411a26` completed its full suite with
+3,560 passes and one lighthouse walking timeout at five seconds. All six tests
+in that lighthouse file passed on an isolated rerun; the combined revision's
+production build is now running. That revision predates this newer continuation.
+The timeout remains recorded as a full-suite failure rather than a green suite.
+Remaining decoder execution, full startup, publication and campaign completion
+remain unfinished.

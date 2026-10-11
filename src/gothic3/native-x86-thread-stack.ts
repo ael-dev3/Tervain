@@ -1172,7 +1172,12 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
               qualified('30697b2e',()=>stack.#push(stack.#load(stack.#stack,stack.#address(register('ESP'))+12)));qualified('30697b32',()=>stack.#call('30697b32','30697b37'));
               runParsedValueCopy('30697b37',qualifiedDestination,assignedSource,null,'assign');qualified('30697b37',()=>{});
               qualified('30697b61',()=>setRegister('EAX',register('ESI')));qualified('30697b63',()=>pop('ESI'));qualified('30697b64',()=>{const p=stack.#record(stack.#ret(8)).provenance;if(p?.kind!=='source'||p.address!=='3069acdf')throw new Error('Original qualified wrapper return required');});
-              stack.#engineCinitFrame!.pc='3069acdf';return known(undefined);
+              const modifierSource=stack.#address(register('EAX'));decorated('3069acdf',()=>stack.#push(register('EAX')));decorated('3069ace0',()=>setRegister('ECX',stack.#stackWord(relative(-12))));decorated('3069ace3',()=>stack.#call('3069ace3','3069ace8'));
+              runParsedValueCopy('3069ace8',relative(-12),modifierSource,null,'assign');
+              decorated('3069ace8',()=>setRegister('ECX',stack.#stackWord(relative(-20))));decorated('3069aceb',()=>stack.#call('3069aceb','3069acf0'));runEmptyValueCheck('3069acf0');decorated('3069acf0',()=>stack.#logicalFlags(stack.#numeric(register('EAX'),4),0xffffffff,4));decorated('3069acf2',()=>{if(stack.#numeric(register('EAX'),4)===0)throw new Error('Original nonempty first qualifier modifier remains pending');});
+              decorated('3069ad18',()=>setRegister('ECX',stack.#stackWord(relative(-28))));decorated('3069ad1b',()=>stack.#call('3069ad1b','3069ad20'));runEmptyValueCheck('3069ad20');decorated('3069ad20',()=>stack.#logicalFlags(stack.#numeric(register('EAX'),4),0xffffffff,4));decorated('3069ad22',()=>{if(stack.#numeric(register('EAX'),4)===0)throw new Error('Original nonempty second qualifier modifier remains pending');});
+              decorated('3069ad46',()=>stack.#logicalFlags(stack.#numeric(register('EBX'),1)&16,255,1));decorated('3069ad49',()=>{if(stack.#numeric(register('EBX'),1)&16)throw new Error('Original extended qualifier flag remains pending');});
+              stack.#engineCinitFrame!.pc='3069adfc';return known(undefined);
             }
             return known(undefined);
           }
