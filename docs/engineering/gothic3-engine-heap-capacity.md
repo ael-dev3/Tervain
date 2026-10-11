@@ -115,3 +115,14 @@ its environment heap selection. Three focused browser/logical-view integration
 checks and typechecking pass. Platforms without layout selection retain their
 pending exact-capacity tail boundary. Combined validation of this newer revision
 and complete campaign play remain unfinished.
+
+### CString text length implemented locally
+
+The original CString text constructor receives the actual Engine-owned cache
+and static property destination. Its scalar loop reads six known bytes,
+including NUL, and computes length five from same-allocation pointer offsets.
+The original caller passes five to `10007d65`; allocation and subsequent copy
+remain pending. Normal selected-layout execution has 4,288 admitted operations.
+The destination slot remains untouched. Typechecking and a focused source-loop,
+length, ownership and pending-allocation check pass. The next dependency is the
+SharedBase allocator's actual MemoryAdmin ownership and construction path.

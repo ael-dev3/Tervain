@@ -1132,7 +1132,7 @@ it('executes the first original character-search DWORD and retains the unsupport
 it('retains the six-byte cache request over selected Engine physical capacity',()=>{
  const {bootstrap,platform,crt}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{engineHeapLayout:'rounded-eight',processorFeatureProcedure:true,floatingPointPrecisionErratum:false});
  expect(bootstrap.processAttach().known).toBe(false);const f=bootstrap.attachProgress().engineCinitProgress!;
- expect(f.pc).toBe('10003ba7');expect(f.typeNameCacheText!.bytes.length).toBe(6);
+ expect(f.pc).toBe('10007d65');expect(f.typeNameCacheText!.bytes.length).toBe(6);
  const proof=NativeRuntimePlatform.canonicalEngineHeapAllocationViewsForPlatform(platform,crt,f.typeNameCacheText!.backing);if(!proof.known)throw new Error(proof.reason);
  expect(proof.value.logical).toBe(f.typeNameCacheText);expect(proof.value.requestedBytes).toBe(6);expect(proof.value.physicalCapacity).toBe(8);
  expect([...proof.value.physical.knownMask]).toEqual([255,255,255,255,255,255,0,0]);
@@ -1145,10 +1145,21 @@ it.each([0,255])('returns the original space search with unknown physical paddin
  const read=NativeHeapObjectViews.prototype.maskedWord;
  const spy=vi.spyOn(NativeHeapObjectViews.prototype,'maskedWord').mockImplementation(function(this:NativeHeapObjectViews,offset,width){if(this.bytes.length===8&&offset===4&&width===4&&this.bytes[0]===0x66&&this.bytes[4]===0x74){this.bytes[6]=padding;this.bytes[7]=padding;}return read.call(this,offset,width);});
  try{expect(bootstrap.processAttach().known).toBe(false);}finally{spy.mockRestore();}
- const f=bootstrap.attachProgress().engineCinitProgress!;expect(f).toMatchObject({pc:'10003ba7',operations:4247,typeNameLockHeld:false});
+ const f=bootstrap.attachProgress().engineCinitProgress!;expect(f).toMatchObject({pc:'10007d65',operations:4288,typeNameLockHeld:false});
  const aliases=NativeRuntimePlatform.canonicalEngineHeapAllocationViewsForPlatform(platform,crt,f.typeNameCacheText!.backing);if(!aliases.known)throw new Error(aliases.reason);
  expect([...aliases.value.physical.knownMask]).toEqual([255,255,255,255,255,255,0,0]);
  const graph=NativeX86ThreadStack.forPlatform(platform);if(!graph.known)throw new Error(graph.reason);
  expect(graph.value.snapshot().calls.find(c=>c.site==='1009155b')?.returned).toBe(true);
  expect(graph.value.snapshot().calls.find(c=>c.site==='10091583')?.returned).toBe(false);
+});
+
+
+it('scans the original live cache in CString construction and passes length five to allocation',()=>{
+ const {bootstrap,platform,crt}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{engineHeapLayout:'rounded-eight',processorFeatureProcedure:true,floatingPointPrecisionErratum:false});
+ expect(bootstrap.processAttach().known).toBe(false);const f=bootstrap.attachProgress().engineCinitProgress!;expect(f).toMatchObject({pc:'10007d65',operations:4288,typeNameLockHeld:false});
+ expect(f.currentEaxWord).toMatchObject({value:5,mask:0xffffffff});expect(f.typeNameCacheText!.backing.freed).toBe(false);
+ const graph=NativeX86ThreadStack.forPlatform(platform);if(!graph.known)throw new Error(graph.reason);
+ expect(graph.value.snapshot().trace.filter(r=>r==='10013610.SharedBaseUnMangleSource')).toHaveLength(6);
+ expect(graph.value.snapshot().calls.find(c=>c.site==='10013623')?.returned).toBe(false);
+ const storage=NativeEngineCinitImages.imageForCrt(f.images,crt,'visualAnimationFloatStorage');if(!storage.known)throw new Error(storage.reason);expect(storage.value.maskedWord(0).value).toBe(0);
 });
