@@ -1186,3 +1186,20 @@ normal/fidelity checks passed in 13.02 seconds, this interruption check passed
 in 8.96 seconds, and six browser startup checks passed in 25.34 seconds.
 TypeScript checking passed. These local checks do not prove full engine startup,
 world activation, or campaign completion; this continuation is not deployed.
+
+
+### 2026-10-11: combined validation timeout diagnosis
+
+Frozen revision `9e02cd54211c44e04cf49b796e107c8e9214bc83` finished with
+3,606 tests passing and one failure across 320 files (1,765.21 seconds).
+The sole failure was the hero action-fade comparison timing out at its existing
+five-second limit; no assertion mismatch was reported. The build was skipped
+because the full-suite command failed. This is not a passing combined receipt.
+
+After integrating PR 248, that test samples each rate's same guard trajectory
+once instead of recreating and warming two rigs for every checkpoint. It
+retains 30/60/120 Hz, all original sample times and thresholds, the independent
+fully raised reference, and the five-second limit. All 22 hero-animation tests
+passed in 11.73 seconds; the affected test alone passed in 668 ms. TypeScript
+checking passed. Full combined validation is still required for the new
+revision. These checks do not establish campaign completion.

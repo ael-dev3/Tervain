@@ -361,13 +361,27 @@ describe('direction, turning and action layers (A70)', () => {
     };
     const full = armAt(60, 'block', 1.5);
     expect(full).toBeGreaterThan(0.3);
-    for (const hz of [30, 60, 120]) {
-      // Most of the guard is up within its fade-in, and fully raised by twice that.
-      expect(armAt(hz, 'block', HERO_ACTION_FADE.block!.in) / full, `${hz} Hz in`).toBeGreaterThan(0.85);
-      expect(armAt(hz, 'block', 2 * HERO_ACTION_FADE.block!.in) / full, `${hz} Hz in`).toBeGreaterThan(0.97);
-      // Lowering the guard hands back at the guard's own pace.
-      expect(armAt(hz, 'block', 1, { mode: 'idle', seconds: HERO_ACTION_FADE.block!.out }) / full, `${hz} Hz out`).toBeLessThan(0.15);
-      expect(Math.abs(armAt(hz, 'block', 0.1) - armAt(60, 'block', 0.1)), `${hz} Hz matches 60 Hz`).toBeLessThan(0.03);
+    // Each sample shares the same guard trajectory at its rate. Restarting both rigs
+    // for every checkpoint repeats the identical warm-up and already sampled frames.
+    const rates = [30, 60, 120].map(hz => {
+      const rig = createHeroRig(asset), rest = createHeroRig(asset);
+      const arm = bindHeroBones(rig.root)['mixamorig:RightArm'];
+      const restingArm = bindHeroBones(rest.root)['mixamorig:RightArm'];
+      const sample = () => angle(arm.quaternion, restingArm.quaternion);
+      const tick = (mode: Mode) => { rig.hero.pose(pose(mode), 1 / hz, false); rest.hero.pose(pose('idle'), 1 / hz, false); };
+      for (let i = 0; i < 0.5 * hz; i++) tick('idle');
+      const checkpoints = [0.1, HERO_ACTION_FADE.block!.in, 2 * HERO_ACTION_FADE.block!.in].map(seconds => Math.round(seconds * hz));
+      const samples = new Map<number, number>();
+      for (let frame = 1; frame <= hz; frame++) { tick('block'); if (checkpoints.includes(frame)) samples.set(frame, sample()); }
+      for (let frame = 0; frame < Math.round(HERO_ACTION_FADE.block!.out * hz); frame++) tick('idle');
+      return { hz, at: (seconds: number) => samples.get(Math.round(seconds * hz))!, out: sample() };
+    });
+    const reference = rates.find(rate => rate.hz === 60)!.at(0.1);
+    for (const rate of rates) {
+      expect(rate.at(HERO_ACTION_FADE.block!.in) / full, `${rate.hz} Hz in`).toBeGreaterThan(0.85);
+      expect(rate.at(2 * HERO_ACTION_FADE.block!.in) / full, `${rate.hz} Hz in`).toBeGreaterThan(0.97);
+      expect(rate.out / full, `${rate.hz} Hz out`).toBeLessThan(0.15);
+      expect(Math.abs(rate.at(0.1) - reference), `${rate.hz} Hz matches 60 Hz`).toBeLessThan(0.03);
     }
   });
 
