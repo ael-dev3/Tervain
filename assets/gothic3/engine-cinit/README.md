@@ -355,3 +355,22 @@ Typechecking and seven scan/return/failure checks pass. The captured source
 independently regenerates byte-for-byte. Earlier source/image validation passed
 all 19 checks; broader integration validation follows. This work is local;
 cache publication, complete startup and a finishable campaign remain unfinished.
+
+## Local continuation — 11 October 2026: original type-name cache allocations
+
+The type-name caller inspects the final character of the actual constructed
+name, acquires its original CRT lock 14, and verifies the cache slot is still
+NULL. It allocates an eight-byte cache-list node, derives the six-byte text
+request from the measured length, and obtains a distinct six-byte logical
+allocation. Alignment is retained separately from usable span size. Execution
+stops before cache-slot publication at `3067db21` after 4,069 admitted operations.
+Both new allocations remain uninitialized and owned by the same live Engine CRT.
+The original undecoration output is still live; its temporary arena is released.
+
+Typechecking and 16 distinct runtime checks pass, including lock failure, NULL
+node/text allocations, aliased backing and an incorrect logical extent. Scan
+length and restored ESI are retained at their actual earlier instructions for
+later observations. The preceding scan revision passed all 203 startup
+integration checks and has entered full-suite validation. This checkpoint is
+local. Cache copying, list publication, cleanup, complete startup and the
+finishable browser campaign remain unfinished.

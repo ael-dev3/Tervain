@@ -367,6 +367,11 @@ export class NativeCrtBootstrap {
     if(operation==='unlock')return NativeModuleCrtOwner.prototype.unlock.call(crt,5);
     return unknown('Actual undecoration lock operation required');
   }
+  static engineCinitTypeNameLockForCrt(bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object,operation:'lock'|'unlock'):NativeValue<void>{
+    const proof=NativeCrtBootstrap.canonicalEngineCinitCallForCrt(bootstrap,crt,permit);if(!proof.known)return proof;
+    if(operation!=='lock'&&operation!=='unlock')return unknown('Actual Engine type-name lock operation required');
+    return operation==='lock'?NativeModuleCrtOwner.prototype.lock.call(crt,14):NativeModuleCrtOwner.prototype.unlock.call(crt,14);
+  }
   static engineCinitExitLockForCrt(bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object,operation:'lock'|'unlock'):NativeValue<void>{
     const proof=NativeCrtBootstrap.canonicalEngineCinitCallForCrt(bootstrap,crt,permit);if(!proof.known)return proof;
     if(operation!=='lock'&&operation!=='unlock')return unknown('Actual Engine exit lock operation required');
