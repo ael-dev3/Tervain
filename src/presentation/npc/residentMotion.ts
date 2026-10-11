@@ -321,6 +321,8 @@ export const MOTION_CLIPS = {
   sitTalk: 'sit.talk',
   sitDown: 'sit.down',
   sitUp: 'sit.up',
+  /** Turning on the spot (A82): authored pivot steps, read for the stepping pose of each foot (see turnSteps.ts). */
+  turn: { left: 'turn.idle.left', right: 'turn.idle.right' },
   work: { writing: 'work.writing', ledger: 'work.ledger', measuring: 'work.measuring', stonework: 'work.stonework', mending: 'work.mending',
     provisioning: 'work.counter', baking: 'work.baking', guard: 'work.guard', general: 'work.collect' } satisfies Record<WorkGesture, string>,
   fight: { light: 'fight.attack', heavy: 'fight.charged', block: 'fight.parry', dodge: 'fight.dodge', hurt: 'fight.hit', dead: 'fight.dead' },
@@ -512,7 +514,8 @@ export class ResidentMotion {
     const walk = clips.get(MOTION_CLIPS.walk[options.build])?.clip;
     const legs = Object.fromEntries(SIDES.map(side => [side, { upper: bones[`${side}UpLeg`], lower: bones[`${side}Leg`], foot: bones[`${side}Foot`] }])) as Legs;
     const stand = new Map(SIDES.flatMap(side => [legs[side].upper, legs[side].lower, legs[side].foot]).map(bone => [bone, bone.quaternion.clone()] as const));
-    const turnClips = walk ? buildTurnClips(legs, stand, walk) : null;
+    const authoredTurns = { Left: clips.get(MOTION_CLIPS.turn.left)?.clip, Right: clips.get(MOTION_CLIPS.turn.right)?.clip };
+    const turnClips = walk ? buildTurnClips(legs, stand, walk, authoredTurns) : null;
     if (turnClips) this.steps = new TurnSteps(legs, turnClips, stand);
   }
 
@@ -1023,7 +1026,7 @@ export class ResidentMotion {
 /** Which library clips must be retargeted for a resident (the rest are not loaded onto its rig). */
 export function clipsFor(build: Build, work: WorkGesture | undefined, fighter: boolean): string[] {
   const names = new Set<string>([MOTION_CLIPS.walk[build], ...MOTION_CLIPS.idle, ...MOTION_CLIPS.accents, ...MOTION_CLIPS.talk, ...CALM_TALK,
-    MOTION_CLIPS.sit[build], MOTION_CLIPS.sitTalk, MOTION_CLIPS.sitDown, MOTION_CLIPS.sitUp]);
+    MOTION_CLIPS.sit[build], MOTION_CLIPS.sitTalk, MOTION_CLIPS.sitDown, MOTION_CLIPS.sitUp, MOTION_CLIPS.turn.left, MOTION_CLIPS.turn.right]);
   if (work) names.add(MOTION_CLIPS.work[work]);
   if (fighter) { names.add(MOTION_CLIPS.run); for (const name of Object.values(MOTION_CLIPS.fight)) names.add(name); }
   return [...names];

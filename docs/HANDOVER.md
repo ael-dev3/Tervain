@@ -16,9 +16,9 @@ the goal, the rules, every backlog item's state, what was in progress and the ex
 - **Geometry count on later laps** (backlog 10): it levels off; it is not a leak. Over five High laps on the GPU it
   went 815, 838, 841, 841, 845. The rise is the grass tiles' buffer pool growing to the most tiles ever shown at once
   (it stops by the fourth lap), plus tree shadows drawn for the first time.
+- **Authored turns:** residents turning on the spot step from authored turns (A83).
 - **Still open:**
   - staged loading of the near tree files (below);
-  - authored turn clips;
   - near leaf masses seen from just under a crown.
 
 ## Update (A78, local GPU session)
@@ -83,7 +83,7 @@ believably, and frames that are light without any visible loss. "Honest" means e
 | 3 | Controller hints on right-stick look | Done (A70). |
 | 4 | Smaller first download, staged loading | Done to 57.7 MiB before entry (A72, A75). **Open:** staged loading of the near tree files (below). |
 | 5 | Fixed-step simulation, interpolated drawing | Done (A72). |
-| 6 | Animation: transitions, contact, turns, feet, fingers | Done: phases and overlays (A70–A72), turns led by head and chest (A76), feet planted on uneven ground (A70), finger joints seated and the quill in the writing hand (A75). **Open:** authored turn clips. **Hard limit:** three modelled-fist hands (fingers not separable without new source models; Meshy caps apply). |
+| 6 | Animation: transitions, contact, turns, feet, fingers | Done: phases and overlays (A70–A72), turns led by head and chest (A76), feet planted on uneven ground (A70), finger joints seated and the quill in the writing hand (A75). Authored turns on the spot for residents (A83); the wanderer still steps from his own walk. **Hard limit:** three modelled-fist hands (fingers not separable without new source models; Meshy caps apply). |
 | 7 | Residents inhabit interiors | Done (A70). |
 | 8 | Hunting, respawn, encounters, progression, riding | Done (A70, A71, A75). |
 | 9 | Close-up quality (Gothic 3) | Done in A76: plaster, timber, stone, iron, cloth, ground, colour grade, room and village clutter; crown leaf masses; wall hairline. **Hard limit:** a shadow-casting hearth light exceeds the richest materials' texture units. Tasks still open in the tracker: soft layered crown silhouettes with no hard alpha cut-outs (partly A72, A76; new crown exports would finish it). |
