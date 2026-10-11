@@ -1227,3 +1227,21 @@ identity are checked. The earlier combined validation is still running on its
 frozen revision and does not include this allocation continuation. These local
 changes remain undeployed; full engine startup and campaign completion are
 still unproven.
+
+
+### 2026-10-11: class-name writer list entry
+
+The original writer prologue retains its actual output and capacity arguments,
+checks the nonempty value, enters the live list node, and dispatches its length
+method through the protected list vtable. That method tail-calls StringLength
+on the actual arena head and returns the six-character class prefix length.
+Execution stops at `306971be` after 7,263 source operations; the node writer and
+character copying remain pending. The separate 16-byte output is live and all
+its bytes remain unknown.
+
+TypeScript checking passed; the normal allocation/dispatch check passed in
+9.48 seconds, three fidelity/interruption checks passed in 14.96 seconds, and
+six browser startup checks passed in 31.17 seconds. The earlier combined suite
+remains active on its frozen revision, which predates these writer changes.
+This local continuation is not deployed and does not prove full engine startup
+or campaign completion.
