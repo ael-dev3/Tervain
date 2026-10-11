@@ -413,3 +413,15 @@ The missing cleanup caller at `3067db6a` and lock-14 finally helper at
 `3067db83` are now independently captured from exact pinned PE bytes.
 Five source checks pass, including their encodings; runtime execution of this
 cleanup continuation remains unfinished.
+
+## Local temporary-output cleanup — 11 October 2026
+
+The normal cold-cache path pushes its actual temporary output at `3067db62`
+and calls the retained Engine free owner. After release, the recovered caller
+sets its original exception state and invokes the lock-14 finally helper.
+Execution reaches `3067db77` after 4,163 admitted operations with the output
+freed, the cache node and text live, and lock 14 released. Interrupted free or
+unlock retains the actual pending call and the appropriate resource state.
+The previously supported NULL-allocation branches retain their earlier boundary.
+Typechecking and eighteen selected regression checks pass. This is local work;
+full startup and campaign completion remain unfinished.
