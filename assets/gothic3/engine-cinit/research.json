@@ -30689,6 +30689,55 @@
         "decoder": "capstone 5.0.7"
       },
       {
+        "label": "engineObsoleteClassShutdownThunk",
+        "entryVA": "0x30018c5a",
+        "bodyVA": "0x30018c5a",
+        "entryChain": [],
+        "bodyRanges": "30018c5a-30018c5e",
+        "instructions": [
+          {
+            "va": "30018c5a",
+            "rva": "18c5a",
+            "fileOffset": 101466,
+            "bytes": "e911f37700",
+            "instruction": "jmp 0x30797f70"
+          }
+        ],
+        "instructionCount": 1,
+        "bodyByteCount": 5,
+        "bodyInstructionBytesSha256": "703a0a841f729ef90175c9241d738a863bdd21b8e5b92bff3f7b02915dcafaef",
+        "recoveredFromOriginalPEWithoutAssembly": true,
+        "decoder": "capstone 5.0.7"
+      },
+      {
+        "label": "engineObsoleteClassShutdownBody",
+        "entryVA": "0x30797f70",
+        "bodyVA": "0x30797f70",
+        "entryChain": [],
+        "bodyRanges": "30797f70-30797f7a",
+        "instructions": [
+          {
+            "va": "30797f70",
+            "rva": "797f70",
+            "fileOffset": 7962480,
+            "bytes": "b91c9aad30",
+            "instruction": "mov ecx, 0x30ad9a1c"
+          },
+          {
+            "va": "30797f75",
+            "rva": "797f75",
+            "fileOffset": 7962485,
+            "bytes": "ff25dcdbaf30",
+            "instruction": "jmp dword ptr [0x30afdbdc]"
+          }
+        ],
+        "instructionCount": 2,
+        "bodyByteCount": 11,
+        "bodyInstructionBytesSha256": "56f043dee404e864b5ea2bf5c1a6160a41a152fc3e28c37e740c39b1480ca53d",
+        "recoveredFromOriginalPEWithoutAssembly": true,
+        "decoder": "capstone 5.0.7"
+      },
+      {
         "label": "engineObjectRefBaseShutdownThunk",
         "entryVA": "0x300098e0",
         "bodyVA": "0x300098e0",

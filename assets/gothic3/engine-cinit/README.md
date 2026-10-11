@@ -2902,3 +2902,37 @@ SHA-256 is `36ace1fa228dbc7897a92cbb29d7227d61287f4b513cf15ed817aa8d5b1f550d`.
 This supports a shared initializer implementation. It does not admit new
 instructions to the runtime or prove execution of all 258 entries; their
 parser paths, allocation ownership and remaining behavior still need support.
+
+
+## 11 October 2026: shared class-property continuation and obsolete-class completion
+
+The reference-base and obsolete-class properties now use the same retained
+class continuation. Property instruction addresses, RTTI/storage/root images,
+physical return words and shutdown callback are selected from the two captured
+original routines. Shared parser, allocator, copy and cleanup operations still
+execute their existing source receipts; this does not admit all 258 inventory
+entries. The original obsolete-class shutdown thunk/body is captured only
+after comparing its bytes with the pinned Engine DLL. Independent regeneration
+is byte-identical and all previously captured evidence records are unchanged.
+
+The sixth property constructs `bCObsoleteClass` plus NUL in a distinct live
+24-byte CString, publishes its actual root, registers shutdown `30018c5a`,
+and returns through `30732305` to the original C++ walker. The exit cursor is
+32 bytes; the C++ cursor advances to 0x11c. Six property CStrings remain live
+and all startup locks are released. Execution stops at the next initializer,
+`30732310` (the matrix property). No campaign completion is claimed.
+
+The malloc contract rejects a retained live allocation even when its request
+size matches, protecting the previous reference-base CString. Unavailable and
+NULL allocation, unknown source masks, interrupted copy and unavailable exit
+lock/unlock preserve their original pending calls, ownership and partial state.
+The five-property check captures its state before the sixth initializer starts,
+so later stack reuse is not mistaken for earlier state.
+
+Typechecking, twenty distinct runtime checks, all 56 source/image/browser
+checks and a production build (1m 7s) pass locally. The package contains 98
+methods and 3,645 body instructions. JSON SHA-256 is
+`1ae985a5f2d5bda50f933d7da2e1a6d5f9764c7373c83262fcf1124508f6d6ab`.
+Full repository validation of the preceding combined revision remains separate;
+this newer continuation has not been deployed. Complete engine startup, live
+world activation and a browser campaign through an ending remain unfinished.

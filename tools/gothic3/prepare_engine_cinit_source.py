@@ -155,6 +155,10 @@ def capture(study):
     # These cleanup instructions are omitted from the function listing.
     # Admit them only from exact bytes in the hash-pinned original DLL.
     for label, begin, encoded, count in [
+        ('engineObsoleteClassShutdownThunk', 0x30018c5a,
+         'e911f37700', 1),
+        ('engineObsoleteClassShutdownBody', 0x30797f70,
+         'b91c9aad30ff25dcdbaf30', 2),
         ('engineObjectRefBaseShutdownThunk', 0x300098e0,
          'e99be67800', 1),
         ('engineObjectRefBaseShutdownBody', 0x30797f80,
