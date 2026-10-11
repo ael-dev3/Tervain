@@ -66,6 +66,8 @@ import type { CircleCollider } from './world/colliders';
 
 /** How far round the line from the camera to the wanderer leaves give way (A84), metres. */
 const FOLIAGE_FOCUS_RADIUS = 1.3;
+/** Right-stick scrolling of an open panel (A87 scout): dead zone, and pixels a second at full tilt. */
+const PANEL_SCROLL = { dead: 0.2, speed: 900 } as const;
 
 type Mode = 'loading' | 'title' | 'play' | 'dead';
 
@@ -162,9 +164,9 @@ export class App {
   private readonly speech = new SpeechDirector({
     say: (line, at) => this.audio.say(line, at),
     // A remark cut short takes its words with it (A70).
-    hush: (speaker) => { this.audio.hush(speaker); this.bubbleState?.delete(speaker); },
+    hush: (speaker) => { this.audio.hush(speaker); this.bubbleState?.delete(speaker); this.hud?.hushSpeech?.(speaker); },
     caption: (speaker, text, seconds) => {
-      if (this.settings.captions) this.hud.speech(SPEAKER_NAMES[speaker], text, seconds);
+      if (this.settings.captions) this.hud.speech(SPEAKER_NAMES[speaker], text, seconds, speaker);
     },
   });
   /** Screenshot and film tools start a game without the hero's opening words. */
@@ -618,6 +620,8 @@ export class App {
           await this.buildWorld();
           await this.prepareWorldGraphics(fromLoad);
         } while (this.reloadAgain);
+        // A quality changed while the journey loaded reaches the menu's backdrop too (A87 scout).
+        if (this.menuScene.quality !== this.settings.quality) { this.replaceMenuScene(); void this.prepareMenuGraphics(); }
         if (!this.menuAssets) {
           // A failed optional menu download can recover from the now-loaded world template caches.
           void this.prepareMenuAssets().catch((error) => console.warn('Menu backdrop unavailable', error));
@@ -669,6 +673,9 @@ export class App {
     const world = this.world;
     this.worldDisposed = true;
     this.hunting.detach();
+    // The depth materials kept for preparing shadows point at this world's textures (A87 scout).
+    for (const depth of this.warmDepth.values()) depth.dispose();
+    this.warmDepth.clear();
     const scene = world.scene;
     // This rig persists across quality/world rebuilds and keeps its GPU resources.
     scene.remove(this.player.group);
@@ -1128,6 +1135,9 @@ export class App {
     this.simStep++;
     this.hunting.syncInputMode();
     this.input.poll(dt);
+    // The right stick scrolls an open panel, so a controller reaches the whole of a long journal page (A87 scout).
+    const scrollStick = this.input.padAxes.ry;
+    if (this.panels.isOpen && Math.abs(scrollStick) > PANEL_SCROLL.dead) this.panels.scroll?.(scrollStick * PANEL_SCROLL.speed * dt);
     const state = this.game.state;
     if (this.world && this.worldDirty) {
       this.world.syncStatic(state, false);
@@ -1146,7 +1156,8 @@ export class App {
     if (this.world && !this.world.warming.warm) {
       // The animals and furniture that arrive after the world opens are compiled in parallel before they show (A78).
       const scene = this.world.scene;
-      this.world.warming.warm = (object) => this.warmShaders(object, scene);
+      const world = this.world;
+      this.world.warming.warm = (object) => this.warmShaders(object, scene, true, world);
       // What the world holds hidden at first (rooms' furniture and clutter, shown as one comes near) is prepared the
       // same way (A79): the renderer's own first-view preparation passes over hidden objects.
       void this.warmHidden(scene);
@@ -1156,7 +1167,8 @@ export class App {
     if (this.arrivals.count && this.world && !this.catchUp) {
       // A rig built while the world runs has its shaders compiled in parallel before it is shown (A78).
       const scene = this.world.scene;
-      this.arrivals.warm ??= (rig) => this.warmShaders(rig.root, scene);
+      const world = this.world;
+      this.arrivals.warm ??= (rig) => this.warmShaders(rig.root, scene, true, world);
       this.arrivals.update(this.npcAssets, (p) => this.inView(p));
     }
 
@@ -1443,7 +1455,9 @@ export class App {
     const vertical = e.code === 'ArrowDown' || e.code === 'ArrowUp';
     const horizontal = e.code === 'ArrowLeft' || e.code === 'ArrowRight';
     if (!vertical && !horizontal) return;
-    if (isSelect) return; // arrows change the option natively
+    // Left and right change a list's option natively; up and down move on through the panel like every other row
+    // (A87 scout): natively they changed the quality as focus passed, rebuilding the world, and could not get past it.
+    if (isSelect && horizontal) return;
     if (isRange && horizontal) return; // arrows adjust the slider natively
     e.preventDefault();
     e.stopPropagation();
@@ -2077,6 +2091,10 @@ export class App {
   private markCheckpoint() {
     const p = this.player;
     if (this.enemies.some(e => e.alive && Math.hypot(e.x - p.x, e.z - p.z) < 18)) return;
+    // Nor beside a foe's post, whether or not its model has arrived yet (A87 scout): one not yet here is not in the list
+    // above, and it comes back to its post as the player respawns there.
+    const defeated = this.game.state.defeated;
+    if (ENEMY_SPAWNS.some(spawn => !defeated[spawn.id] && Math.hypot(spawn.x - p.x, spawn.z - p.z) < 18)) return;
     this.checkpoint = { x: p.x, y: p.y, z: p.z, yaw: p.yaw };
   }
 
@@ -2204,6 +2222,8 @@ export class App {
   private clearSpeech() {
     this.speech.clear();
     this.bubbleState?.clear();
+    // Captions go with the voices (A87 scout): they stayed their whole length, even over a freshly loaded game.
+    this.hud?.hushSpeech?.();
   }
 
   /** A remark (a line in voice.ts), voiced from where the person stands, with its words above their head. */
@@ -2608,8 +2628,10 @@ export class App {
   /** One depth material a shadow configuration, kept so the programs prepared with them stay alive for the real pass. */
   private readonly warmDepth = new Map<string, THREE.MeshDepthMaterial>();
 
-  private warmShaders(object: THREE.Object3D, scene: THREE.Scene, draws = true): Promise<unknown> {
-    const r = this.renderer, previous = r.getRenderTarget(), world = this.world;
+  private warmShaders(object: THREE.Object3D, scene: THREE.Scene, draws = true, world = this.world): Promise<unknown> {
+    // A hook set by a world since rebuilt prepares nothing against the new one (A87 scout).
+    if (!this.stillWorld(world)) return Promise.resolve();
+    const r = this.renderer, previous = r.getRenderTarget();
     const restore: [THREE.Mesh, THREE.Material | THREE.Material[]][] = [];
     // Pieces held hidden until needed (a room's furniture and clutter, an animal not yet out) are prepared too: shown
     // only while their programs are compiled, synchronously, so nothing is drawn meanwhile.

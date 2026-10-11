@@ -321,9 +321,12 @@ export class WorldScene {
       const furnishing = furniture ? null : deferredFurniture();
       addModule('furniture', furnishing ?? buildFurniture(furniture!, terrain.rooms, (room) => roomOpen(room)));
       if (furnishing) {
+        // A world disposed before they arrive builds nothing from them (A87 scout): building and preparing them only to
+        // throw them away cost the next world a spike and seconds of uploads.
         void opened.then(() => loadFurniture()).then(
-          (templates) => ready(buildFurniture(templates, terrain.rooms, (room) => roomOpen(room))).then((module) => furnishing.attach(module)),
-          (error) => console.warn('[furniture] the furniture could not be loaded; the rooms stay bare', error));
+          (templates) => disposed ? undefined : ready(buildFurniture(templates, terrain.rooms, (room) => roomOpen(room))).then((module) => furnishing.attach(module)),
+          (error) => console.warn('[furniture] the furniture could not be loaded; the rooms stay bare', error))
+          .catch((error) => console.warn('[furniture] the furniture could not be set up; the rooms stay bare', error));
       }
       await checkpoint('settlement', 'Hunter supplies and caravan');
       const hunterSupplies = buildHunterSupplies(terrain, colliders);
@@ -335,8 +338,9 @@ export class WorldScene {
       const animals: AnimalWildlife = addModule('land wildlife', arriving ?? buildAnimals(ctx, animalTemplates!));
       if (arriving) {
         void opened.then(() => loadAnimalTemplates()).then(
-          (templates) => ready(buildAnimals(ctx, templates)).then((module) => arriving.attach(module)),
-          (error) => console.warn('[wildlife] the animals could not be loaded; the world goes on without them', error));
+          (templates) => disposed ? undefined : ready(buildAnimals(ctx, templates)).then((module) => arriving.attach(module)),
+          (error) => console.warn('[wildlife] the animals could not be loaded; the world goes on without them', error))
+          .catch((error) => console.warn('[wildlife] the animals could not be set up; the world goes on without them', error));
       }
       await checkpoint('settlement', 'Buildings, supplies and wildlife', 1, 1);
       // Register accepted source rocks and constructed thresholds before painting their ground contacts.

@@ -308,12 +308,27 @@ export class Hud {
     setTimeout(() => el.remove(), 3200);
   }
 
+  /** Spoken lines' captions on screen, by who speaks them (A87 scout). */
+  private readonly spoken = new Map<string, Set<HTMLElement>>();
+
   /** A spoken line's words, with who says them, for as long as they are heard. */
-  speech(name: string, text: string, seconds: number) {
+  speech(name: string, text: string, seconds: number, speaker = name) {
     const el = h('div', { class: 'caption speech' }, h('b', {}, name), ` ${text}`);
     this.captions.append(el);
     while (this.captions.children.length > 3) this.captions.firstElementChild?.remove();
-    setTimeout(() => el.remove(), Math.max(1500, seconds * 1000 + 600));
+    let own = this.spoken.get(speaker);
+    if (!own) { own = new Set(); this.spoken.set(speaker, own); }
+    own.add(el);
+    setTimeout(() => { el.remove(); own.delete(el); }, Math.max(1500, seconds * 1000 + 600));
+  }
+
+  /** Take down the words of a voice cut short (one speaker's, or all): they do not outlast the voice (A87 scout). */
+  hushSpeech(speaker?: string) {
+    for (const [who, own] of this.spoken) {
+      if (speaker !== undefined && who !== speaker) continue;
+      for (const el of own) el.remove();
+      own.clear();
+    }
   }
 
   setThreat(text: string | null) {

@@ -27,6 +27,9 @@ const PAD_ACTIONS: Partial<Record<Action, number>> = PAD;
 
 export type Device = 'keyboard' | 'gamepad';
 
+/** The right trigger: sprint, or with the bow, its draw. */
+const PAD_RT = 7;
+
 export class Input {
   private down = new Set<string>();
   private pressedCodes = new Set<string>();
@@ -67,7 +70,10 @@ export class Input {
   get bowMode() { return this.bow; }
   set bowMode(value: boolean) {
     if (value === this.bow) return;
-    this.reset();
+    // Only RT changes meaning (sprint or draw): it must be let go before it counts again. Everything else held stays held,
+    // so taking up or putting away the bow does not stop a walk or a sprint (A87 scout).
+    if (this.padDown.has(PAD_RT)) { this.blockedPad.add(PAD_RT); this.padDown.delete(PAD_RT); }
+    this.padPressed.delete(PAD_RT);
     this.bow = value;
   }
 
@@ -284,7 +290,7 @@ export class Input {
   }
 
   private padFor(a: Action): number | undefined {
-    if (this.bow && a === 'attack') return 7;
+    if (this.bow && a === 'attack') return PAD_RT;
     if (this.bow && a === 'sprint') return undefined;
     return PAD_ACTIONS[a];
   }

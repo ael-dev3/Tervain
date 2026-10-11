@@ -248,7 +248,8 @@ export class NpcActor {
     if (parent) { parent.add(rig.root); parent.remove(old.root); }
     this.rig = rig;
     this.arrived = true;
-    this.poseWait = 0;
+    // The first drawn frame after this poses at once (A87 scout): a sleeper far off lay half a second in no pose.
+    this.poseWait = NPC_ASLEEP_POSE;
     this.placeRig();
   }
 
@@ -308,7 +309,8 @@ export class NpcActor {
     this.lying = berth;
     this.lie = berth ? 1 : 0;
     this.seatedFor = berth ? 2 : 0;
-    this.poseWait = 0;
+    // The first drawn frame after this poses at once (A87 scout): a sleeper far off lay half a second in no pose.
+    this.poseWait = NPC_ASLEEP_POSE;
     this.waking = false;
     this.placed = true;
     this.y = walkingGround(ctx.terrain, this.x, this.z);
@@ -558,7 +560,13 @@ export class NpcActor {
       }
       while (this.path && this.pi < this.path.length) {
         const wp = this.path[this.pi]!, d = Math.hypot(wp.x - this.x, wp.z - this.z);
-        if (d <= (this.pi === this.path.length - 1 ? arrivalRadius(this.goal.activity) : .2)) { this.passedWaypoint(wp); this.pi++; continue; }
+        const last = this.pi === this.path.length - 1;
+        // A waypoint near enough counts as passed only if the way on to the next is clear from here (A87 scout): a route
+        // replanned off its usual line begins with a short step clear of furniture, and skipping it sent the resident
+        // straight into a fireplace or a pillar, replanning the same route there ever after.
+        const onward = this.path[this.pi + 1];
+        if (d <= (last ? arrivalRadius(this.goal.activity) : .2)
+          && (last || d <= .02 || !onward || clearNpcSegment(this, onward, ctx, this.rig.height, contacts))) { this.passedWaypoint(wp); this.pi++; continue; }
         // Short, verified corner cuts keep a route from stopping at every grid vertex.
         const next = this.path[this.pi + 1];
         // Indoors the route is already drawn clear of the furniture: no corner is cut there (A70).
@@ -687,8 +695,8 @@ export class NpcActor {
     // Asleep away from the player, the pose is renewed now and then rather than every frame (A70).
     this.poseWait += dt;
     const lazy = this.lie === 1 && playerDistance > NPC_ASLEEP_NEAR;
-    if (drawn && (!lazy || this.poseWait >= NPC_ASLEEP_POSE)) { poseRig(this.rig, pose, this.poseWait); this.poseWait = 0; }
-    else if (!drawn) this.poseWait = 0;
+    if (drawn && (!lazy || this.poseWait >= NPC_ASLEEP_POSE)) { poseRig(this.rig, pose, lazy ? Math.min(this.poseWait, 2 * NPC_ASLEEP_POSE) : dt); this.poseWait = 0; }
+    else if (!drawn) this.poseWait = NPC_ASLEEP_POSE;
 
     // Ambient remarks when the player passes close; the sleeping make none (A70).
     if (!this.hidden && this.lie === 0) {

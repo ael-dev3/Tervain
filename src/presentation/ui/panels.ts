@@ -166,6 +166,12 @@ export class PanelHost {
     moveFocus(this.el, dx, dy);
   }
 
+  /** Scroll the open panel by `pixels` (A87 scout): a long journal page holds no controls to move focus through. */
+  scroll(pixels: number) {
+    const panel = this.el.firstElementChild as HTMLElement | null;
+    if (this.isOpen && panel && Number.isFinite(pixels)) panel.scrollTop += pixels;
+  }
+
   activateFocused() {
     const active = document.activeElement as HTMLElement | null;
     if (this.isOpen && active && this.el.contains(active)) active.click();
@@ -785,9 +791,13 @@ function bindRow(ctx: PanelCtx, action: Action, commit: () => void): HTMLElement
           ? S('set.swapped', { other: S(`action.${displaced}`), key: codeLabel(old) })
           : S('set.unbound_other', { other: S(`action.${displaced}`) });
       } else note.textContent = '';
+      // The panel is rebuilt below, so what the other action lost is said in the toast (A87 scout): written only to this
+      // row's note, it vanished with the old row.
+      const displacedNote = note.textContent;
       assignSlot(st.bindings, action, idx, code);
       commit();
-      ctx.toast(S('toast.bound', { action: S(`action.${action}`), key: codeLabel(code) }), 'good');
+      const bound = S('toast.bound', { action: S(`action.${action}`), key: codeLabel(code) });
+      ctx.toast(displacedNote ? `${bound} ${displacedNote}` : bound, displacedNote ? undefined : 'good');
       ctx.host.replaceTop(settingsPanel(ctx));
     };
     btn.addEventListener('click', () => {
