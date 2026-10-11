@@ -200,7 +200,10 @@ const LEAF_ALPHA_TEST_GLSL = /* glsl */ `
   #endif
   #ifdef ALPHA_TO_COVERAGE
     // A75: the ramp spans about two pixels, so card silhouettes soften instead of reading as hard cut-outs.
-    diffuseColor.a = clamp( ( tvA - alphaTest ) / max( 2.0 * fwidth( tvA ), 1e-4 ) + 0.5, 0.0, 1.0 );
+    // A107: on the crown's outer shell the ramp widens to about three and a half pixels, so the silhouette against the sky feathers
+    // rather than reading as the cards' cut shapes; inside the crown it keeps its two. Continuous in depth: nothing pops.
+    float tvRamp = 2.0 * mix( 1.0, 1.8, smoothstep( 0.55, 0.95, vCrownDepth ) );
+    diffuseColor.a = clamp( ( tvA - alphaTest ) / max( tvRamp * fwidth( tvA ), 1e-4 ) + 0.5, 0.0, 1.0 );
     if ( diffuseColor.a == 0.0 ) discard;
   #else
     if ( tvA < alphaTest ) discard;

@@ -7,7 +7,11 @@ export function configureNativeSkinning(mesh: THREE.SkinnedMesh): void {
   if (!original) throw new Error('Native weight backup missing for ' + mesh.name);
   // GLTFLoader normalizes only WEIGHTS_0. Restore the exact native subset;
   // normalizing that subset would over-weight it relative to the other sets.
-  geometry.setAttribute('skinWeight', original.clone());
+  // Once per geometry: clones share it, and each replaced attribute kept its own GPU buffer (A105 scout).
+  if (geometry.userData.g3NativeWeights !== true) {
+    geometry.setAttribute('skinWeight', original.clone());
+    geometry.userData.g3NativeWeights = true;
+  }
   const sets: { joints: THREE.BufferAttribute | THREE.InterleavedBufferAttribute; weights: THREE.BufferAttribute | THREE.InterleavedBufferAttribute }[] = [
     { joints: geometry.getAttribute('skinIndex'), weights: geometry.getAttribute('skinWeight') },
   ];

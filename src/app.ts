@@ -564,7 +564,7 @@ export class App {
     if (!template || this.menuDeer) return;
     this.menuDeer = { template, definition };
     if (this.menuSceneDisposed || !this.menuScene.addDeer(template, definition)) return;
-    await this.renderer.compileAsync?.(this.menuScene.scene, this.menuScene.camera)?.catch(() => {});
+    await this.compileForGrade(this.menuScene.scene, this.menuScene.camera)?.catch(() => {});
   }
 
   private replaceMenuScene() {
@@ -587,7 +587,7 @@ export class App {
       const menu = this.menuScene;
       menu.prepare(this.renderer);
       // Compiling ahead only spares the first frames; failing, it must not leave the menu never ready (A99 scout).
-      await this.renderer.compileAsync?.(menu.scene, menu.camera)?.catch((error: unknown) => console.warn('Menu shaders were not compiled ahead', error));
+      await this.compileForGrade(menu.scene, menu.camera)?.catch((error: unknown) => console.warn('Menu shaders were not compiled ahead', error));
       // Imported assets or a new quality setting may replace the scene during compilation.
       if (menu !== this.menuScene) continue;
       this.menuGraphicsReady = true;
@@ -614,7 +614,9 @@ export class App {
         this.loadingScreen?.update({ phase: 'graphics', completed, total: total + 3, detail: 'Preparing surface textures…' });
       },
     });
-    await this.renderer.compileAsync?.(this.world.scene, this.cam.camera);
+    // Compiled as the first view will draw them (A108): into the grade's linear target, and the sun's shadow programs too.
+    // Compiled for the canvas instead, every scene program was made again inside the first draw, a 6 s frozen frame.
+    if (typeof (this.renderer as Partial<THREE.WebGLRenderer>).compileAsync === 'function') await this.warmShaders(this.world.scene, this.world.scene, false, this.world, true);
     this.world.warmPasses?.(this.renderer);
     this.loadingScreen?.update({ phase: 'graphics', completed: textureCount + 1, total: textureCount + 3, detail: 'Preparing the first view…' });
     this.renderWorld();
@@ -2752,7 +2754,19 @@ export class App {
   /** One depth material a shadow configuration, kept so the programs prepared with them stay alive for the real pass. */
   private readonly warmDepth = new Map<string, THREE.MeshDepthMaterial>();
 
-  private warmShaders(object: THREE.Object3D, scene: THREE.Scene, draws = true, world = this.world): Promise<unknown> {
+  /** The menu is drawn through the grade too: its programs are made for that linear target, not the canvas (A108). */
+  private compileForGrade(scene: THREE.Scene, camera: THREE.Camera): Promise<unknown> | undefined {
+    const r = this.renderer as Partial<THREE.WebGLRenderer> & THREE.WebGLRenderer;
+    if (typeof r.compileAsync !== 'function') return undefined;
+    const previous = r.getRenderTarget?.() ?? null;
+    try {
+      if (this.grade?.enabled) r.setRenderTarget(this.grade.target);
+      return r.compileAsync(scene, camera);
+    } finally { r.setRenderTarget?.(previous); }
+  }
+
+  /** `compileOnly`: the programs alone, for what is visible now (the first view): no hidden pieces, no uploads. */
+  private warmShaders(object: THREE.Object3D, scene: THREE.Scene, draws = true, world = this.world, compileOnly = false): Promise<unknown> {
     // A hook set by a world since rebuilt prepares nothing against the new one (A87 scout).
     if (!this.stillWorld(world)) return Promise.resolve();
     const r = this.renderer, previous = r.getRenderTarget();
@@ -2760,7 +2774,7 @@ export class App {
     // Pieces held hidden until needed (a room's furniture and clutter, an animal not yet out) are prepared too: shown
     // only while their programs are compiled, synchronously, so nothing is drawn meanwhile.
     const hidden: THREE.Object3D[] = [];
-    object.traverse((o) => { if (!o.visible) { hidden.push(o); o.visible = true; } });
+    if (!compileOnly) object.traverse((o) => { if (!o.visible) { hidden.push(o); o.visible = true; } });
     try {
       if (this.grade?.enabled) r.setRenderTarget(this.grade.target);
       const colour = r.compileAsync(object, this.cam.camera, scene);
@@ -2785,7 +2799,8 @@ export class App {
         depth.displacementMap = source.displacementMap ?? null;
         restore.push([mesh, mesh.material]); mesh.material = depth;
       });
-      if (!restore.length) return colour.then(() => this.uploadTextures(object, draws, world));
+      const after = () => compileOnly ? undefined : this.uploadTextures(object, draws, world);
+      if (!restore.length) return colour.then(after);
       // The shadow pass draws with no scene, so without fog (its programs key on the fog's kind even where a depth material
       // ignores it), under the lighting left from the previous pass, with or without the point lights: the depth programs
       // are prepared under both, fog-free.
@@ -2802,7 +2817,7 @@ export class App {
       object.traverse((o) => { if ((o as THREE.Light).isLight && o.visible) { o.visible = false; own.push(o); } });
       let shadows: Promise<unknown>[];
       try { shadows = [r.compileAsync(object, this.cam.camera, lit), r.compileAsync(object, this.cam.camera, daylight)]; } finally { for (const o of own) o.visible = true; }
-      return Promise.all([colour, ...shadows]).then(() => this.uploadTextures(object, draws, world));
+      return Promise.all([colour, ...shadows]).then(after);
     } finally {
       for (const [mesh, material] of restore) mesh.material = material;
       for (const o of hidden) o.visible = false;

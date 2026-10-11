@@ -297,6 +297,9 @@ export class WorldScene {
       // The residents' footprints precede grass placement, as in the original construction order.
       await checkpoint('woodland', 'Hamlet neighbours');
       addModule('ambient', buildAmbient(ctx));
+      // The hunter's camp and the caravan rest register their solid props before grass is sown around them: built after,
+      // grass grew through the trough, the panniers and the notice board (A105 scout). They join the scene below.
+      const hunterSupplies = buildHunterSupplies(terrain, colliders), animalCamp = buildAnimalCamp(terrain, colliders);
       await checkpoint('woodland', 'Grass and undergrowth');
       addModule('groundcover', buildGroundcover(ctx));
       await checkpoint('woodland', 'Woodland atmosphere');
@@ -334,9 +337,8 @@ export class WorldScene {
           .catch((error) => console.warn('[furniture] the furniture could not be set up; the rooms stay bare', error)));
       }
       await checkpoint('settlement', 'Hunter supplies and caravan');
-      const hunterSupplies = buildHunterSupplies(terrain, colliders);
       addModule('hunter supplies', { group: hunterSupplies, update() {}, dispose: () => disposeHunterSupplies(hunterSupplies) });
-      addModule('caravan animal rest', buildAnimalCamp(terrain, colliders));
+      addModule('caravan animal rest', animalCamp);
       await checkpoint('settlement', 'Wildlife');
       // Deferred, the world opens with a stand-in and the animals move in once their models are here (A70).
       const arriving = animalTemplates ? null : deferredWildlife();
@@ -537,7 +539,9 @@ export class WorldScene {
     }
     for (const id of this.grassLast.keys()) if (!seen.has(id)) this.grassLast.delete(id);
     for (const p of this.physics.motions()) {
-      if (Math.hypot(p.vx, p.vz) < 0.05 && !p.held) {
+      // Held or in flight, cargo touches no grass (A105 scout: a carried crate laid a trail flatter than the hero's).
+      if (p.held || p.y - this.terrain.heightAt(p.x, p.z) > 0.8) continue;
+      if (Math.hypot(p.vx, p.vz) < 0.05) {
         // Cargo at rest presses down what it stands on.
         movers.push({ x: p.x, z: p.z, radius: p.kind === 'barrel' ? 0.42 : 0.45, weight: 0.85 });
       } else movers.push({ x: p.x, z: p.z, radius: 0.45, weight: 0.9, vx: p.vx, vz: p.vz });
@@ -580,7 +584,9 @@ export class WorldScene {
 
   /** The hero and the nearest bodies moving through low foliage, as spheres the leaves are pushed out of. */
   private setFoliageMovers(focus: THREE.Vector3, movers: readonly GrassMover[]) {
-    const near = [{ x: focus.x, z: focus.z, radius: 0.75, centre: 1.0 },
+    // The hero's push sits at his own height: standing on a rock or a deck, the plants below him stay still (A105 scout).
+    const heroLift = Math.max(0, focus.y - this.terrain.heightAt(focus.x, focus.z));
+    const near = [{ x: focus.x, z: focus.z, radius: 0.75, centre: 1.0 + heroLift },
       ...movers.map((m) => ({ x: m.x, z: m.z, radius: m.radius * 1.4, centre: Math.max(0.5, m.radius * 1.2) }))]
       .map((m) => ({ ...m, d: Math.hypot(m.x - focus.x, m.z - focus.z) }))
       .filter((m) => m.d < 40 && [m.x, m.z, m.radius].every(Number.isFinite))
