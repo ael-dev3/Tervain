@@ -31,3 +31,7 @@ The current UI explicitly identifies original NPC activation as incomplete and m
 7. Retain a campaign verification record linking the build revision, browser observations, saves and original ending evidence. A local suite or CI pass cannot replace that record.
 
 For the extraction and reconstruction workflow, see [How we rebuild Gothic 3](gothic3-reconstruction-method.md). Continue connecting unsupported dependencies from their actual evidence; keep the full campaign objective intact while recording each checkpoint honestly.
+
+## Original ending evidence
+
+The [ending capture](../../assets/gothic3/campaign-ending/README.md) verifies original epilog records and the native `EndGame` opcode against the local study. `BPANKRATZ31835` requires `Epilog_EndGameInfo` and executes `EndGame` at command index 11. This identifies a real terminal command and its presentation dependencies; catalog membership does not prove live activation, campaign reachability or completion.

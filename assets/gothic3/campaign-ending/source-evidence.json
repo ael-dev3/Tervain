@@ -1,0 +1,4553 @@
+{
+  "schema": 1,
+  "scope": "original ending evidence; no gameplay or native execution",
+  "runtimeExecuted": false,
+  "campaignCompletionVerified": false,
+  "catalogs": {
+    "infosSha256": "bec4964a77e34d3f1646174ffde430e59f1cf1eeeaeb0b567431ea05e67c51d6",
+    "runtimeInfosSha256": "c322eb42c22b9dad8b270ca652793b93868ece76554a246877091ddbcb6a42b8",
+    "commandsSha256": "1b8a433825201875c747e509ab161b6b065559d5326bbb6c5af0f05f3b23c8c5",
+    "questsSha256": "5cff5b86595fbfe689f877c10bb4eac020eacf08156461ddf9dd4276a7115150"
+  },
+  "infoArchives": {
+    "Infos.pak": {
+      "sha256": "8dc4d82a7fdbe8964f6f86a186b9fac23e04c4f5cf6afd8ce39f4663c596a6c2",
+      "manifestSha256": "28c717501b79d7a0004be9bc0f0aa8d2149a651c0838c8297619137a9fb9365b",
+      "entries": 4260
+    },
+    "Infos.p00": {
+      "sha256": "b21809bba35c50677d6fd38fbc95b7bcc043933a3a7ec410d62ef8130a154ed2",
+      "manifestSha256": "ca9a5baf39247d827fe3223a3fbff81ca3d4e657262f2c8c7bb00c2e54b9d51c",
+      "entries": 206
+    },
+    "Infos.p01": {
+      "sha256": "6ac428f238202a3b1f9d7b43f197996f976824e007e1a05512ea1e29f7c55a15",
+      "manifestSha256": "414377e33fde2385b29141d75f0c21aca3eba373dec01c438bad645762a2db1b",
+      "entries": 509
+    }
+  },
+  "infos": [
+    {
+      "id": "BPANKRATZ31831",
+      "source": {
+        "family": "infos",
+        "archive": "Infos.pak",
+        "path": "G3_World_01/BPANKRATZ31831_info_G3_World_01.info",
+        "sha256": "0649a9077b058b3de2e0e23aef447d17a37428ab52273dd8368550ed83e5f912",
+        "selection": "static-effective-layer-candidate",
+        "layers": [
+          "Infos.pak"
+        ]
+      },
+      "sourceLines": {
+        "Name": [
+          2
+        ],
+        "SortID": [
+          3
+        ],
+        "Owner": [
+          4
+        ],
+        "InfoGiven": [
+          5
+        ],
+        "Parent": [
+          6
+        ],
+        "Quest": [
+          7
+        ],
+        "ConditionType": [
+          8
+        ],
+        "InfoType": [
+          9
+        ],
+        "GoldCost": [
+          10
+        ],
+        "CondOwnerNearEntity": [
+          11
+        ],
+        "Folder": [
+          12
+        ],
+        "CondPlayerKnows": [
+          13
+        ],
+        "CondItemContainer": [
+          14
+        ],
+        "CondItems": [
+          15
+        ],
+        "CondItemAmounts": [
+          16
+        ],
+        "CondSecondaryNPC": [
+          17
+        ],
+        "CondSecondaryNPCstates": [
+          18
+        ],
+        "TeachSkill": [
+          19
+        ],
+        "TeachAttrib": [
+          20
+        ],
+        "TeachAttribValue": [
+          21
+        ],
+        "ClearChildren": [
+          22
+        ],
+        "Permanent": [
+          23
+        ],
+        "InfoScript_Commands": [
+          24
+        ],
+        "InfoScript_Entities1": [
+          25
+        ],
+        "InfoScript_Entities2": [
+          26
+        ],
+        "InfoScript_IDs1": [
+          27
+        ],
+        "InfoScript_IDs2": [
+          28
+        ],
+        "InfoScript_Texts": [
+          29
+        ]
+      },
+      "owner": "PC_Hero",
+      "quest": "",
+      "conditionType": 3,
+      "infoType": 2,
+      "given": false,
+      "permanent": false,
+      "conditions": {
+        "ownerNearEntity": "",
+        "playerKnows": [
+          "Epilog_Innos",
+          "Epilog_FirstInfo"
+        ],
+        "itemContainer": "",
+        "items": [],
+        "secondaryNPCs": [],
+        "playerSkills": [],
+        "namedPlayerSkills": []
+      },
+      "commands": [
+        {
+          "index": 0,
+          "command": "ShowPicture",
+          "entity1": "",
+          "entity2": "",
+          "id1": "G3_Epilog_00.dds",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 1,
+          "command": "ShowSubtitle",
+          "entity1": "",
+          "entity2": "",
+          "id1": "",
+          "id2": "",
+          "text": "INFO_BPANKRATZ320060427123821"
+        },
+        {
+          "index": 2,
+          "command": "Say",
+          "entity1": "player",
+          "entity2": "",
+          "id1": "",
+          "id2": "",
+          "text": "INFO_BPANKRATZ320060427123821"
+        },
+        {
+          "index": 3,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_01",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 4,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_02",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 5,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_03",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 6,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_04",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 7,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_05",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 8,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_06",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 9,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_07",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 10,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_08",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 11,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_09",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 12,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_10",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 13,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_11",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 14,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_12",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 15,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_13",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 16,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_14",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 17,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_15",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 18,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_16",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 19,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_17",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 20,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_18",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 21,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_19",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 22,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_20",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 23,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_21",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 24,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_22",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 25,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_23",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 26,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_24",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 27,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_25",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 28,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_26",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 29,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_27",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 30,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_28",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 31,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_29",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 32,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_30",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 33,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_31",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 34,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_32",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 35,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_33",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 36,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_34",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 37,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_35",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 38,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_36",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 39,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_37",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 40,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_38",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 41,
+          "command": "ClearGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_FirstInfo",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 42,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_EndGameInfo",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 43,
+          "command": "PlayMusic",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Extro",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 44,
+          "command": "InfoWait",
+          "entity1": "",
+          "entity2": "",
+          "id1": "3000",
+          "id2": "",
+          "text": ""
+        }
+      ],
+      "runtimeCatalogMatches": true
+    },
+    {
+      "id": "BPANKRATZ31832",
+      "source": {
+        "family": "infos",
+        "archive": "Infos.pak",
+        "path": "G3_World_01/BPANKRATZ31832_info_G3_World_01.info",
+        "sha256": "a1bf2c2afcb9daa8bad6fbf6be2f62610c43b9cc27d59142a65c0c2b5c551f76",
+        "selection": "static-effective-layer-candidate",
+        "layers": [
+          "Infos.pak"
+        ]
+      },
+      "sourceLines": {
+        "Name": [
+          2
+        ],
+        "SortID": [
+          3
+        ],
+        "Owner": [
+          4
+        ],
+        "InfoGiven": [
+          5
+        ],
+        "Parent": [
+          6
+        ],
+        "Quest": [
+          7
+        ],
+        "ConditionType": [
+          8
+        ],
+        "InfoType": [
+          9
+        ],
+        "GoldCost": [
+          10
+        ],
+        "CondOwnerNearEntity": [
+          11
+        ],
+        "Folder": [
+          12
+        ],
+        "CondPlayerKnows": [
+          13
+        ],
+        "CondItemContainer": [
+          14
+        ],
+        "CondItems": [
+          15
+        ],
+        "CondItemAmounts": [
+          16
+        ],
+        "CondSecondaryNPC": [
+          17
+        ],
+        "CondSecondaryNPCstates": [
+          18
+        ],
+        "TeachSkill": [
+          19
+        ],
+        "TeachAttrib": [
+          20
+        ],
+        "TeachAttribValue": [
+          21
+        ],
+        "ClearChildren": [
+          22
+        ],
+        "Permanent": [
+          23
+        ],
+        "InfoScript_Commands": [
+          24
+        ],
+        "InfoScript_Entities1": [
+          25
+        ],
+        "InfoScript_Entities2": [
+          26
+        ],
+        "InfoScript_IDs1": [
+          27
+        ],
+        "InfoScript_IDs2": [
+          28
+        ],
+        "InfoScript_Texts": [
+          29
+        ]
+      },
+      "owner": "PC_Hero",
+      "quest": "",
+      "conditionType": 3,
+      "infoType": 2,
+      "given": false,
+      "permanent": false,
+      "conditions": {
+        "ownerNearEntity": "",
+        "playerKnows": [
+          "Epilog_Adanos",
+          "Epilog_FirstInfo"
+        ],
+        "itemContainer": "",
+        "items": [],
+        "secondaryNPCs": [
+          {
+            "entity": "Xardas",
+            "state": 0
+          }
+        ],
+        "playerSkills": [],
+        "namedPlayerSkills": []
+      },
+      "commands": [
+        {
+          "index": 0,
+          "command": "ShowPicture",
+          "entity1": "",
+          "entity2": "",
+          "id1": "G3_Epilog_00.dds",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 1,
+          "command": "ShowSubtitle",
+          "entity1": "",
+          "entity2": "",
+          "id1": "",
+          "id2": "",
+          "text": "INFO_FILLER20060518031534"
+        },
+        {
+          "index": 2,
+          "command": "Say",
+          "entity1": "player",
+          "entity2": "",
+          "id1": "",
+          "id2": "",
+          "text": "INFO_FILLER20060518031534"
+        },
+        {
+          "index": 3,
+          "command": "ShowSubtitle",
+          "entity1": "",
+          "entity2": "",
+          "id1": "",
+          "id2": "",
+          "text": "INFO_FILLER20060518031534_0"
+        },
+        {
+          "index": 4,
+          "command": "Say",
+          "entity1": "player",
+          "entity2": "",
+          "id1": "",
+          "id2": "",
+          "text": "INFO_FILLER20060518031534_0"
+        },
+        {
+          "index": 5,
+          "command": "ShowSubtitle",
+          "entity1": "",
+          "entity2": "",
+          "id1": "",
+          "id2": "",
+          "text": "INFO_FILLER20060518031534_1"
+        },
+        {
+          "index": 6,
+          "command": "Say",
+          "entity1": "player",
+          "entity2": "",
+          "id1": "",
+          "id2": "",
+          "text": "INFO_FILLER20060518031534_1"
+        },
+        {
+          "index": 7,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_01",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 8,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_02",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 9,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_03",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 10,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_04",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 11,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_05",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 12,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_06",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 13,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_07",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 14,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_08",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 15,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_09",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 16,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_10",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 17,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_11",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 18,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_12",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 19,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_13",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 20,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_14",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 21,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_15",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 22,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_16",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 23,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_17",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 24,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_18",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 25,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_19",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 26,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_20",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 27,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_21",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 28,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_22",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 29,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_23",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 30,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_24",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 31,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_25",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 32,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_26",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 33,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_27",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 34,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_28",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 35,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_29",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 36,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_30",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 37,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_31",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 38,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_32",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 39,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_33",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 40,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_34",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 41,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_35",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 42,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_36",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 43,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_37",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 44,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_38",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 45,
+          "command": "ClearGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_FirstInfo",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 46,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_EndGameInfo",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 47,
+          "command": "PlayMusic",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Extro",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 48,
+          "command": "InfoWait",
+          "entity1": "",
+          "entity2": "",
+          "id1": "3000",
+          "id2": "",
+          "text": ""
+        }
+      ],
+      "runtimeCatalogMatches": true
+    },
+    {
+      "id": "BPANKRATZ31833",
+      "source": {
+        "family": "infos",
+        "archive": "Infos.pak",
+        "path": "G3_World_01/BPANKRATZ31833_info_G3_World_01.info",
+        "sha256": "b0d4af97dfebc3af48b7fc7191abeafa4cb9cf453c0a7f6cc09d60b5142f8d7b",
+        "selection": "static-effective-layer-candidate",
+        "layers": [
+          "Infos.pak"
+        ]
+      },
+      "sourceLines": {
+        "Name": [
+          2
+        ],
+        "SortID": [
+          3
+        ],
+        "Owner": [
+          4
+        ],
+        "InfoGiven": [
+          5
+        ],
+        "Parent": [
+          6
+        ],
+        "Quest": [
+          7
+        ],
+        "ConditionType": [
+          8
+        ],
+        "InfoType": [
+          9
+        ],
+        "GoldCost": [
+          10
+        ],
+        "CondOwnerNearEntity": [
+          11
+        ],
+        "Folder": [
+          12
+        ],
+        "CondPlayerKnows": [
+          13
+        ],
+        "CondItemContainer": [
+          14
+        ],
+        "CondItems": [
+          15
+        ],
+        "CondItemAmounts": [
+          16
+        ],
+        "CondSecondaryNPC": [
+          17
+        ],
+        "CondSecondaryNPCstates": [
+          18
+        ],
+        "TeachSkill": [
+          19
+        ],
+        "TeachAttrib": [
+          20
+        ],
+        "TeachAttribValue": [
+          21
+        ],
+        "ClearChildren": [
+          22
+        ],
+        "Permanent": [
+          23
+        ],
+        "InfoScript_Commands": [
+          24
+        ],
+        "InfoScript_Entities1": [
+          25
+        ],
+        "InfoScript_Entities2": [
+          26
+        ],
+        "InfoScript_IDs1": [
+          27
+        ],
+        "InfoScript_IDs2": [
+          28
+        ],
+        "InfoScript_Texts": [
+          29
+        ]
+      },
+      "owner": "PC_Hero",
+      "quest": "",
+      "conditionType": 3,
+      "infoType": 2,
+      "given": false,
+      "permanent": false,
+      "conditions": {
+        "ownerNearEntity": "",
+        "playerKnows": [
+          "Epilog_Adanos",
+          "Epilog_FirstInfo"
+        ],
+        "itemContainer": "",
+        "items": [],
+        "secondaryNPCs": [
+          {
+            "entity": "Xardas",
+            "state": 3
+          }
+        ],
+        "playerSkills": [],
+        "namedPlayerSkills": []
+      },
+      "commands": [
+        {
+          "index": 0,
+          "command": "ShowPicture",
+          "entity1": "",
+          "entity2": "",
+          "id1": "G3_Epilog_00.dds",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 1,
+          "command": "ShowSubtitle",
+          "entity1": "",
+          "entity2": "",
+          "id1": "",
+          "id2": "",
+          "text": "INFO_FILLER20060518031607"
+        },
+        {
+          "index": 2,
+          "command": "Say",
+          "entity1": "player",
+          "entity2": "",
+          "id1": "",
+          "id2": "",
+          "text": "INFO_FILLER20060518031607"
+        },
+        {
+          "index": 3,
+          "command": "ShowSubtitle",
+          "entity1": "",
+          "entity2": "",
+          "id1": "",
+          "id2": "",
+          "text": "INFO_FILLER20060518031607_0"
+        },
+        {
+          "index": 4,
+          "command": "Say",
+          "entity1": "player",
+          "entity2": "",
+          "id1": "",
+          "id2": "",
+          "text": "INFO_FILLER20060518031607_0"
+        },
+        {
+          "index": 5,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_01",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 6,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_02",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 7,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_03",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 8,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_04",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 9,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_05",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 10,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_06",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 11,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_07",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 12,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_08",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 13,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_09",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 14,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_10",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 15,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_11",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 16,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_12",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 17,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_13",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 18,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_14",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 19,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_15",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 20,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_16",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 21,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_17",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 22,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_18",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 23,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_19",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 24,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_20",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 25,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_21",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 26,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_22",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 27,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_23",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 28,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_24",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 29,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_25",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 30,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_26",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 31,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_27",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 32,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_28",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 33,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_29",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 34,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_30",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 35,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_31",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 36,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_32",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 37,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_33",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 38,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_34",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 39,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_35",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 40,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_36",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 41,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_37",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 42,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_38",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 43,
+          "command": "ClearGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_FirstInfo",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 44,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_EndGameInfo",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 45,
+          "command": "PlayMusic",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Extro",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 46,
+          "command": "InfoWait",
+          "entity1": "",
+          "entity2": "",
+          "id1": "3000",
+          "id2": "",
+          "text": ""
+        }
+      ],
+      "runtimeCatalogMatches": true
+    },
+    {
+      "id": "BPANKRATZ31834",
+      "source": {
+        "family": "infos",
+        "archive": "Infos.pak",
+        "path": "G3_World_01/BPANKRATZ31834_info_G3_World_01.info",
+        "sha256": "e4bce18593b1717e0c149dcb0cd7aba0adc5c00b870098819b9a02be3d227c9b",
+        "selection": "static-effective-layer-candidate",
+        "layers": [
+          "Infos.pak"
+        ]
+      },
+      "sourceLines": {
+        "Name": [
+          2
+        ],
+        "SortID": [
+          3
+        ],
+        "Owner": [
+          4
+        ],
+        "InfoGiven": [
+          5
+        ],
+        "Parent": [
+          6
+        ],
+        "Quest": [
+          7
+        ],
+        "ConditionType": [
+          8
+        ],
+        "InfoType": [
+          9
+        ],
+        "GoldCost": [
+          10
+        ],
+        "CondOwnerNearEntity": [
+          11
+        ],
+        "Folder": [
+          12
+        ],
+        "CondPlayerKnows": [
+          13
+        ],
+        "CondItemContainer": [
+          14
+        ],
+        "CondItems": [
+          15
+        ],
+        "CondItemAmounts": [
+          16
+        ],
+        "CondSecondaryNPC": [
+          17
+        ],
+        "CondSecondaryNPCstates": [
+          18
+        ],
+        "TeachSkill": [
+          19
+        ],
+        "TeachAttrib": [
+          20
+        ],
+        "TeachAttribValue": [
+          21
+        ],
+        "ClearChildren": [
+          22
+        ],
+        "Permanent": [
+          23
+        ],
+        "InfoScript_Commands": [
+          24
+        ],
+        "InfoScript_Entities1": [
+          25
+        ],
+        "InfoScript_Entities2": [
+          26
+        ],
+        "InfoScript_IDs1": [
+          27
+        ],
+        "InfoScript_IDs2": [
+          28
+        ],
+        "InfoScript_Texts": [
+          29
+        ]
+      },
+      "owner": "PC_Hero",
+      "quest": "",
+      "conditionType": 3,
+      "infoType": 2,
+      "given": false,
+      "permanent": false,
+      "conditions": {
+        "ownerNearEntity": "",
+        "playerKnows": [
+          "Epilog_Beliar",
+          "Epilog_FirstInfo"
+        ],
+        "itemContainer": "",
+        "items": [],
+        "secondaryNPCs": [],
+        "playerSkills": [],
+        "namedPlayerSkills": []
+      },
+      "commands": [
+        {
+          "index": 0,
+          "command": "ShowPicture",
+          "entity1": "",
+          "entity2": "",
+          "id1": "G3_Epilog_00.dds",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 1,
+          "command": "ShowSubtitle",
+          "entity1": "",
+          "entity2": "",
+          "id1": "",
+          "id2": "",
+          "text": "INFO_BPANKRATZ320060427123821"
+        },
+        {
+          "index": 2,
+          "command": "Say",
+          "entity1": "player",
+          "entity2": "",
+          "id1": "",
+          "id2": "",
+          "text": "INFO_BPANKRATZ320060427123821"
+        },
+        {
+          "index": 3,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_01",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 4,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_02",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 5,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_03",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 6,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_04",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 7,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_05",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 8,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_06",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 9,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_07",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 10,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_08",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 11,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_09",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 12,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_10",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 13,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_11",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 14,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_12",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 15,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_13",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 16,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_14",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 17,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_15",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 18,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_16",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 19,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_17",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 20,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_18",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 21,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_19",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 22,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_20",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 23,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_21",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 24,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_22",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 25,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_23",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 26,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_24",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 27,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_25",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 28,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_26",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 29,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_27",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 30,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_28",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 31,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_29",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 32,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_30",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 33,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_31",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 34,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_32",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 35,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_33",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 36,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_34",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 37,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_35",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 38,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_36",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 39,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_37",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 40,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_38",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 41,
+          "command": "ClearGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_FirstInfo",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 42,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_EndGameInfo",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 43,
+          "command": "PlayMusic",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Extro",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 44,
+          "command": "InfoWait",
+          "entity1": "",
+          "entity2": "",
+          "id1": "3000",
+          "id2": "",
+          "text": ""
+        }
+      ],
+      "runtimeCatalogMatches": true
+    },
+    {
+      "id": "BPANKRATZ31835",
+      "source": {
+        "family": "infos",
+        "archive": "Infos.pak",
+        "path": "G3_World_01/BPANKRATZ31835_info_G3_World_01.info",
+        "sha256": "3456c5d0d38a0c09452429a3754a13361b905531995845d891b88e78d5634f86",
+        "selection": "static-effective-layer-candidate",
+        "layers": [
+          "Infos.pak"
+        ]
+      },
+      "sourceLines": {
+        "Name": [
+          2
+        ],
+        "SortID": [
+          3
+        ],
+        "Owner": [
+          4
+        ],
+        "InfoGiven": [
+          5
+        ],
+        "Parent": [
+          6
+        ],
+        "Quest": [
+          7
+        ],
+        "ConditionType": [
+          8
+        ],
+        "InfoType": [
+          9
+        ],
+        "GoldCost": [
+          10
+        ],
+        "CondOwnerNearEntity": [
+          11
+        ],
+        "Folder": [
+          12
+        ],
+        "CondPlayerKnows": [
+          13
+        ],
+        "CondItemContainer": [
+          14
+        ],
+        "CondItems": [
+          15
+        ],
+        "CondItemAmounts": [
+          16
+        ],
+        "CondSecondaryNPC": [
+          17
+        ],
+        "CondSecondaryNPCstates": [
+          18
+        ],
+        "TeachSkill": [
+          19
+        ],
+        "TeachAttrib": [
+          20
+        ],
+        "TeachAttribValue": [
+          21
+        ],
+        "ClearChildren": [
+          22
+        ],
+        "Permanent": [
+          23
+        ],
+        "InfoScript_Commands": [
+          24
+        ],
+        "InfoScript_Entities1": [
+          25
+        ],
+        "InfoScript_Entities2": [
+          26
+        ],
+        "InfoScript_IDs1": [
+          27
+        ],
+        "InfoScript_IDs2": [
+          28
+        ],
+        "InfoScript_Texts": [
+          29
+        ]
+      },
+      "owner": "PC_Hero",
+      "quest": "",
+      "conditionType": 3,
+      "infoType": 2,
+      "given": false,
+      "permanent": false,
+      "conditions": {
+        "ownerNearEntity": "",
+        "playerKnows": [
+          "Epilog_EndGameInfo"
+        ],
+        "itemContainer": "",
+        "items": [],
+        "secondaryNPCs": [],
+        "playerSkills": [],
+        "namedPlayerSkills": []
+      },
+      "commands": [
+        {
+          "index": 0,
+          "command": "ShowPicture",
+          "entity1": "",
+          "entity2": "",
+          "id1": "G3_Epilog_00.dds",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 1,
+          "command": "ShowSubtitle",
+          "entity1": "",
+          "entity2": "",
+          "id1": "",
+          "id2": "",
+          "text": "INFO_FILLER20060331154559_0"
+        },
+        {
+          "index": 2,
+          "command": "Say",
+          "entity1": "player",
+          "entity2": "",
+          "id1": "",
+          "id2": "",
+          "text": "INFO_FILLER20060331154559_0"
+        },
+        {
+          "index": 3,
+          "command": "ShowSubtitle",
+          "entity1": "",
+          "entity2": "",
+          "id1": "",
+          "id2": "",
+          "text": "INFO_BPANKRATZ3807"
+        },
+        {
+          "index": 4,
+          "command": "Say",
+          "entity1": "player",
+          "entity2": "",
+          "id1": "",
+          "id2": "",
+          "text": "INFO_BPANKRATZ3807"
+        },
+        {
+          "index": 5,
+          "command": "InfoWait",
+          "entity1": "",
+          "entity2": "",
+          "id1": "1000",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 6,
+          "command": "ShowSubtitle",
+          "entity1": "",
+          "entity2": "",
+          "id1": "",
+          "id2": "",
+          "text": "INFO_BPANKRATZ320060302172441_0"
+        },
+        {
+          "index": 7,
+          "command": "Say",
+          "entity1": "player",
+          "entity2": "",
+          "id1": "",
+          "id2": "",
+          "text": "INFO_BPANKRATZ320060302172441_0"
+        },
+        {
+          "index": 8,
+          "command": "ShowSubtitle",
+          "entity1": "",
+          "entity2": "",
+          "id1": "",
+          "id2": "",
+          "text": "INFO_FILLER20060518031534_2"
+        },
+        {
+          "index": 9,
+          "command": "Say",
+          "entity1": "player",
+          "entity2": "",
+          "id1": "",
+          "id2": "",
+          "text": "INFO_FILLER20060518031534_2"
+        },
+        {
+          "index": 10,
+          "command": "InfoWait",
+          "entity1": "",
+          "entity2": "",
+          "id1": "3000",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 11,
+          "command": "EndGame",
+          "entity1": "",
+          "entity2": "",
+          "id1": "",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 12,
+          "command": "ClearGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_EndGameInfo",
+          "id2": "",
+          "text": ""
+        }
+      ],
+      "runtimeCatalogMatches": true
+    },
+    {
+      "id": "BPANKRATZ31836",
+      "source": {
+        "family": "infos",
+        "archive": "Infos.pak",
+        "path": "G3_World_01/BPANKRATZ31836_info_G3_World_01.info",
+        "sha256": "25cfac7766081a96e856f695398bf2ece9069956f8f55f5ace169deb27091f9f",
+        "selection": "static-effective-layer-candidate",
+        "layers": [
+          "Infos.pak"
+        ]
+      },
+      "sourceLines": {
+        "Name": [
+          2
+        ],
+        "SortID": [
+          3
+        ],
+        "Owner": [
+          4
+        ],
+        "InfoGiven": [
+          5
+        ],
+        "Parent": [
+          6
+        ],
+        "Quest": [
+          7
+        ],
+        "ConditionType": [
+          8
+        ],
+        "InfoType": [
+          9
+        ],
+        "GoldCost": [
+          10
+        ],
+        "CondOwnerNearEntity": [
+          11
+        ],
+        "Folder": [
+          12
+        ],
+        "CondPlayerKnows": [
+          13
+        ],
+        "CondItemContainer": [
+          14
+        ],
+        "CondItems": [
+          15
+        ],
+        "CondItemAmounts": [
+          16
+        ],
+        "CondSecondaryNPC": [
+          17
+        ],
+        "CondSecondaryNPCstates": [
+          18
+        ],
+        "TeachSkill": [
+          19
+        ],
+        "TeachAttrib": [
+          20
+        ],
+        "TeachAttribValue": [
+          21
+        ],
+        "ClearChildren": [
+          22
+        ],
+        "Permanent": [
+          23
+        ],
+        "InfoScript_Commands": [
+          24
+        ],
+        "InfoScript_Entities1": [
+          25
+        ],
+        "InfoScript_Entities2": [
+          26
+        ],
+        "InfoScript_IDs1": [
+          27
+        ],
+        "InfoScript_IDs2": [
+          28
+        ],
+        "InfoScript_Texts": [
+          29
+        ]
+      },
+      "owner": "sh",
+      "quest": "",
+      "conditionType": 3,
+      "infoType": 3,
+      "given": false,
+      "permanent": true,
+      "conditions": {
+        "ownerNearEntity": "",
+        "playerKnows": [],
+        "itemContainer": "",
+        "items": [],
+        "secondaryNPCs": [],
+        "playerSkills": [],
+        "namedPlayerSkills": []
+      },
+      "commands": [
+        {
+          "index": 0,
+          "command": "Description",
+          "entity1": "",
+          "entity2": "",
+          "id1": "",
+          "id2": "",
+          "text": "INFO_BPANKRATZ320060830143648"
+        },
+        {
+          "index": 1,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_Beliar",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 2,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_FirstInfo",
+          "id2": "",
+          "text": ""
+        }
+      ],
+      "runtimeCatalogMatches": true
+    },
+    {
+      "id": "BPANKRATZ31837",
+      "source": {
+        "family": "infos",
+        "archive": "Infos.pak",
+        "path": "G3_World_01/BPANKRATZ31837_info_G3_World_01.info",
+        "sha256": "d76d4d857d40299535cc3c241bcef85942694053701c397243068e33c35d8aaf",
+        "selection": "static-effective-layer-candidate",
+        "layers": [
+          "Infos.pak"
+        ]
+      },
+      "sourceLines": {
+        "Name": [
+          2
+        ],
+        "SortID": [
+          3
+        ],
+        "Owner": [
+          4
+        ],
+        "InfoGiven": [
+          5
+        ],
+        "Parent": [
+          6
+        ],
+        "Quest": [
+          7
+        ],
+        "ConditionType": [
+          8
+        ],
+        "InfoType": [
+          9
+        ],
+        "GoldCost": [
+          10
+        ],
+        "CondOwnerNearEntity": [
+          11
+        ],
+        "Folder": [
+          12
+        ],
+        "CondPlayerKnows": [
+          13
+        ],
+        "CondItemContainer": [
+          14
+        ],
+        "CondItems": [
+          15
+        ],
+        "CondItemAmounts": [
+          16
+        ],
+        "CondSecondaryNPC": [
+          17
+        ],
+        "CondSecondaryNPCstates": [
+          18
+        ],
+        "TeachSkill": [
+          19
+        ],
+        "TeachAttrib": [
+          20
+        ],
+        "TeachAttribValue": [
+          21
+        ],
+        "ClearChildren": [
+          22
+        ],
+        "Permanent": [
+          23
+        ],
+        "InfoScript_Commands": [
+          24
+        ],
+        "InfoScript_Entities1": [
+          25
+        ],
+        "InfoScript_Entities2": [
+          26
+        ],
+        "InfoScript_IDs1": [
+          27
+        ],
+        "InfoScript_IDs2": [
+          28
+        ],
+        "InfoScript_Texts": [
+          29
+        ]
+      },
+      "owner": "sh",
+      "quest": "",
+      "conditionType": 3,
+      "infoType": 3,
+      "given": false,
+      "permanent": true,
+      "conditions": {
+        "ownerNearEntity": "",
+        "playerKnows": [],
+        "itemContainer": "",
+        "items": [],
+        "secondaryNPCs": [],
+        "playerSkills": [],
+        "namedPlayerSkills": []
+      },
+      "commands": [
+        {
+          "index": 0,
+          "command": "Description",
+          "entity1": "",
+          "entity2": "",
+          "id1": "",
+          "id2": "",
+          "text": "INFO_BPANKRATZ320060830143746"
+        },
+        {
+          "index": 1,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_Innos",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 2,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_FirstInfo",
+          "id2": "",
+          "text": ""
+        }
+      ],
+      "runtimeCatalogMatches": true
+    },
+    {
+      "id": "BPANKRATZ31838",
+      "source": {
+        "family": "infos",
+        "archive": "Infos.pak",
+        "path": "G3_World_01/BPANKRATZ31838_info_G3_World_01.info",
+        "sha256": "41eb069f163e916720f60d57ea9eb29f564fa542f84e1cc17cc2707033e971cf",
+        "selection": "static-effective-layer-candidate",
+        "layers": [
+          "Infos.pak"
+        ]
+      },
+      "sourceLines": {
+        "Name": [
+          2
+        ],
+        "SortID": [
+          3
+        ],
+        "Owner": [
+          4
+        ],
+        "InfoGiven": [
+          5
+        ],
+        "Parent": [
+          6
+        ],
+        "Quest": [
+          7
+        ],
+        "ConditionType": [
+          8
+        ],
+        "InfoType": [
+          9
+        ],
+        "GoldCost": [
+          10
+        ],
+        "CondOwnerNearEntity": [
+          11
+        ],
+        "Folder": [
+          12
+        ],
+        "CondPlayerKnows": [
+          13
+        ],
+        "CondItemContainer": [
+          14
+        ],
+        "CondItems": [
+          15
+        ],
+        "CondItemAmounts": [
+          16
+        ],
+        "CondSecondaryNPC": [
+          17
+        ],
+        "CondSecondaryNPCstates": [
+          18
+        ],
+        "TeachSkill": [
+          19
+        ],
+        "TeachAttrib": [
+          20
+        ],
+        "TeachAttribValue": [
+          21
+        ],
+        "ClearChildren": [
+          22
+        ],
+        "Permanent": [
+          23
+        ],
+        "InfoScript_Commands": [
+          24
+        ],
+        "InfoScript_Entities1": [
+          25
+        ],
+        "InfoScript_Entities2": [
+          26
+        ],
+        "InfoScript_IDs1": [
+          27
+        ],
+        "InfoScript_IDs2": [
+          28
+        ],
+        "InfoScript_Texts": [
+          29
+        ]
+      },
+      "owner": "sh",
+      "quest": "",
+      "conditionType": 3,
+      "infoType": 3,
+      "given": false,
+      "permanent": true,
+      "conditions": {
+        "ownerNearEntity": "",
+        "playerKnows": [],
+        "itemContainer": "",
+        "items": [],
+        "secondaryNPCs": [],
+        "playerSkills": [],
+        "namedPlayerSkills": []
+      },
+      "commands": [
+        {
+          "index": 0,
+          "command": "Description",
+          "entity1": "",
+          "entity2": "",
+          "id1": "",
+          "id2": "",
+          "text": "INFO_BPANKRATZ320060830143915"
+        },
+        {
+          "index": 1,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_Adanos",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 2,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_FirstInfo",
+          "id2": "",
+          "text": ""
+        }
+      ],
+      "runtimeCatalogMatches": true
+    },
+    {
+      "id": "FILLER35",
+      "source": {
+        "family": "infos",
+        "archive": "Infos.p01",
+        "path": "G3_World_01/FILLER35_info_G3_World_01.info",
+        "sha256": "dc24969224b349ddb13ea055793aec4d2efa523330bce81e3860a2be0bda3757",
+        "selection": "static-effective-layer-candidate",
+        "layers": [
+          "Infos.pak",
+          "Infos.p01"
+        ]
+      },
+      "sourceLines": {
+        "Name": [
+          2
+        ],
+        "SortID": [
+          3
+        ],
+        "Owner": [
+          4
+        ],
+        "InfoGiven": [
+          5
+        ],
+        "Parent": [
+          6
+        ],
+        "Quest": [
+          7
+        ],
+        "ConditionType": [
+          8
+        ],
+        "InfoType": [
+          9
+        ],
+        "GoldCost": [
+          10
+        ],
+        "CondOwnerNearEntity": [
+          11
+        ],
+        "Folder": [
+          12
+        ],
+        "CondPlayerKnows": [
+          13
+        ],
+        "CondItemContainer": [
+          14
+        ],
+        "CondItems": [
+          15
+        ],
+        "CondItemAmounts": [
+          16
+        ],
+        "CondSecondaryNPC": [
+          17
+        ],
+        "CondSecondaryNPCstates": [
+          18
+        ],
+        "TeachSkillIsPerc": [
+          19
+        ],
+        "TeachSkillIndex": [
+          20
+        ],
+        "TeachSkillValue": [
+          21
+        ],
+        "ClearChildren": [
+          22
+        ],
+        "InfoScript_Commands": [
+          23
+        ],
+        "InfoScript_Entities1": [
+          24
+        ],
+        "InfoScript_Entities2": [
+          25
+        ],
+        "InfoScript_IDs1": [
+          26
+        ],
+        "InfoScript_IDs2": [
+          27
+        ],
+        "InfoScript_Texts": [
+          28
+        ],
+        "Permanent": [
+          29
+        ],
+        "TeachSkill": [
+          30
+        ],
+        "TeachAttrib": [
+          31
+        ],
+        "TeachAttribValue": [
+          32
+        ]
+      },
+      "owner": "Adanos_Gate",
+      "quest": "Adanos_OpenGate",
+      "conditionType": 8,
+      "infoType": 3,
+      "given": false,
+      "permanent": false,
+      "conditions": {
+        "ownerNearEntity": "",
+        "playerKnows": [
+          "Activate_Gate"
+        ],
+        "itemContainer": "PC_Hero;PC_Hero",
+        "items": [
+          {
+            "id": "It_Scepter",
+            "amount": 1
+          },
+          {
+            "id": "It_Staff",
+            "amount": 1
+          }
+        ],
+        "secondaryNPCs": [],
+        "playerSkills": [],
+        "namedPlayerSkills": []
+      },
+      "commands": [
+        {
+          "index": 0,
+          "command": "Description",
+          "entity1": "",
+          "entity2": "",
+          "id1": "",
+          "id2": "",
+          "text": "INFO_FILLER157"
+        },
+        {
+          "index": 1,
+          "command": "Say",
+          "entity1": "player",
+          "entity2": "",
+          "id1": "",
+          "id2": "",
+          "text": "INFO_FILLER20060404195448"
+        },
+        {
+          "index": 2,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Endgame_XardasAlive",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 3,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_Adanos",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 4,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_FirstInfo",
+          "id2": "",
+          "text": ""
+        }
+      ],
+      "runtimeCatalogMatches": true
+    },
+    {
+      "id": "SKALVERAM3174",
+      "source": {
+        "family": "infos",
+        "archive": "Infos.p01",
+        "path": "G3_World_01/SKALVERAM3174_info_G3_World_01.info",
+        "sha256": "ef5d85753ba13176a8c8b5a60ed0c6d29ac6f984b6154a23c52acd2bdeeb5f06",
+        "selection": "static-effective-layer-candidate",
+        "layers": [
+          "Infos.pak",
+          "Infos.p01"
+        ]
+      },
+      "sourceLines": {
+        "Name": [
+          2
+        ],
+        "SortID": [
+          3
+        ],
+        "Owner": [
+          4
+        ],
+        "InfoGiven": [
+          5
+        ],
+        "Parent": [
+          6
+        ],
+        "Quest": [
+          7
+        ],
+        "ConditionType": [
+          8
+        ],
+        "InfoType": [
+          9
+        ],
+        "GoldCost": [
+          10
+        ],
+        "CondOwnerNearEntity": [
+          11
+        ],
+        "Folder": [
+          12
+        ],
+        "CondPlayerKnows": [
+          13
+        ],
+        "CondItemContainer": [
+          14
+        ],
+        "CondItems": [
+          15
+        ],
+        "CondItemAmounts": [
+          16
+        ],
+        "CondSecondaryNPC": [
+          17
+        ],
+        "CondSecondaryNPCstates": [
+          18
+        ],
+        "TeachSkillIsPerc": [
+          19
+        ],
+        "TeachSkillIndex": [
+          20
+        ],
+        "TeachSkillValue": [
+          21
+        ],
+        "ClearChildren": [
+          22
+        ],
+        "InfoScript_Commands": [
+          23
+        ],
+        "InfoScript_Entities1": [
+          24
+        ],
+        "InfoScript_Entities2": [
+          25
+        ],
+        "InfoScript_IDs1": [
+          26
+        ],
+        "InfoScript_IDs2": [
+          27
+        ],
+        "InfoScript_Texts": [
+          28
+        ],
+        "Permanent": [
+          29
+        ],
+        "TeachSkill": [
+          30
+        ],
+        "TeachAttrib": [
+          31
+        ],
+        "TeachAttribValue": [
+          32
+        ]
+      },
+      "owner": "Adanos_Gate",
+      "quest": "Adanos_OpenGate",
+      "conditionType": 8,
+      "infoType": 3,
+      "given": false,
+      "permanent": false,
+      "conditions": {
+        "ownerNearEntity": "",
+        "playerKnows": [
+          "Xardas_DiesesEndeIstUeberfluessig"
+        ],
+        "itemContainer": "PC_Hero;PC_Hero",
+        "items": [
+          {
+            "id": "It_Scepter",
+            "amount": 1
+          },
+          {
+            "id": "It_Staff",
+            "amount": 1
+          }
+        ],
+        "secondaryNPCs": [],
+        "playerSkills": [],
+        "namedPlayerSkills": []
+      },
+      "commands": [
+        {
+          "index": 0,
+          "command": "Description",
+          "entity1": "",
+          "entity2": "",
+          "id1": "",
+          "id2": "",
+          "text": "INFO_SKALVERAM3660"
+        },
+        {
+          "index": 1,
+          "command": "Say",
+          "entity1": "player",
+          "entity2": "",
+          "id1": "",
+          "id2": "",
+          "text": "INFO_SKALVERAM3663"
+        },
+        {
+          "index": 2,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Endgame_XardasDead",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 3,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_Adanos",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 4,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_FirstInfo",
+          "id2": "",
+          "text": ""
+        }
+      ],
+      "runtimeCatalogMatches": true
+    },
+    {
+      "id": "SKALVERAM3199",
+      "source": {
+        "family": "infos",
+        "archive": "Infos.pak",
+        "path": "G3_World_01/SKALVERAM3199_info_G3_World_01.info",
+        "sha256": "1961393ce24b076262cc2a78df505465671362efaef95797afeadd4a00fad0fe",
+        "selection": "static-effective-layer-candidate",
+        "layers": [
+          "Infos.pak"
+        ]
+      },
+      "sourceLines": {
+        "Name": [
+          2
+        ],
+        "SortID": [
+          3
+        ],
+        "Owner": [
+          4
+        ],
+        "InfoGiven": [
+          5
+        ],
+        "Parent": [
+          6
+        ],
+        "Quest": [
+          7
+        ],
+        "ConditionType": [
+          8
+        ],
+        "InfoType": [
+          9
+        ],
+        "GoldCost": [
+          10
+        ],
+        "CondOwnerNearEntity": [
+          11
+        ],
+        "Folder": [
+          12
+        ],
+        "CondPlayerKnows": [
+          13
+        ],
+        "CondItemContainer": [
+          14
+        ],
+        "CondItems": [
+          15
+        ],
+        "CondItemAmounts": [
+          16
+        ],
+        "CondSecondaryNPC": [
+          17
+        ],
+        "CondSecondaryNPCstates": [
+          18
+        ],
+        "TeachSkillIsPerc": [
+          19
+        ],
+        "TeachSkillIndex": [
+          20
+        ],
+        "TeachSkillValue": [
+          21
+        ],
+        "ClearChildren": [
+          22
+        ],
+        "InfoScript_Commands": [
+          23
+        ],
+        "InfoScript_Entities1": [
+          24
+        ],
+        "InfoScript_Entities2": [
+          25
+        ],
+        "InfoScript_IDs1": [
+          26
+        ],
+        "InfoScript_IDs2": [
+          27
+        ],
+        "InfoScript_Texts": [
+          28
+        ],
+        "Permanent": [
+          29
+        ],
+        "TeachSkill": [
+          30
+        ],
+        "TeachAttrib": [
+          31
+        ],
+        "TeachAttribValue": [
+          32
+        ]
+      },
+      "owner": "Beliar_Tester",
+      "quest": "Beliar_Contact",
+      "conditionType": 10,
+      "infoType": 3,
+      "given": false,
+      "permanent": false,
+      "conditions": {
+        "ownerNearEntity": "",
+        "playerKnows": [
+          "Beliar_Orcs_OK",
+          "Beliar_Zuben_OK",
+          "Beliar_Rhobar_OK",
+          "Beliar_Xardas_OK"
+        ],
+        "itemContainer": "",
+        "items": [],
+        "secondaryNPCs": [],
+        "playerSkills": [],
+        "namedPlayerSkills": []
+      },
+      "commands": [
+        {
+          "index": 0,
+          "command": "Say",
+          "entity1": "player",
+          "entity2": "",
+          "id1": "",
+          "id2": "",
+          "text": "INFO_FILLER20060509212323"
+        },
+        {
+          "index": 1,
+          "command": "StartEffect",
+          "entity1": "owner",
+          "entity2": "",
+          "id1": "eff_event_beliar_darkness_01",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 2,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_Beliar",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 3,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_FirstInfo",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 4,
+          "command": "Say",
+          "entity1": "npc",
+          "entity2": "",
+          "id1": "",
+          "id2": "",
+          "text": "INFO_FILLER20060518032404_1"
+        },
+        {
+          "index": 5,
+          "command": "Say",
+          "entity1": "npc",
+          "entity2": "",
+          "id1": "",
+          "id2": "",
+          "text": "INFO_FILLER20060518032404_2"
+        }
+      ],
+      "runtimeCatalogMatches": true
+    },
+    {
+      "id": "SKALVERAM3210",
+      "source": {
+        "family": "infos",
+        "archive": "Infos.pak",
+        "path": "G3_World_01/SKALVERAM3210_info_G3_World_01.info",
+        "sha256": "a326e6f34ed576c385051a5a207bfcab975554dabae3ec670955fa5e8185855d",
+        "selection": "static-effective-layer-candidate",
+        "layers": [
+          "Infos.pak"
+        ]
+      },
+      "sourceLines": {
+        "Name": [
+          2
+        ],
+        "SortID": [
+          3
+        ],
+        "Owner": [
+          4
+        ],
+        "InfoGiven": [
+          5
+        ],
+        "Parent": [
+          6
+        ],
+        "Quest": [
+          7
+        ],
+        "ConditionType": [
+          8
+        ],
+        "InfoType": [
+          9
+        ],
+        "GoldCost": [
+          10
+        ],
+        "CondOwnerNearEntity": [
+          11
+        ],
+        "Folder": [
+          12
+        ],
+        "CondPlayerKnows": [
+          13
+        ],
+        "CondItemContainer": [
+          14
+        ],
+        "CondItems": [
+          15
+        ],
+        "CondItemAmounts": [
+          16
+        ],
+        "CondSecondaryNPC": [
+          17
+        ],
+        "CondSecondaryNPCstates": [
+          18
+        ],
+        "TeachSkillIsPerc": [
+          19
+        ],
+        "TeachSkillIndex": [
+          20
+        ],
+        "TeachSkillValue": [
+          21
+        ],
+        "ClearChildren": [
+          22
+        ],
+        "InfoScript_Commands": [
+          23
+        ],
+        "InfoScript_Entities1": [
+          24
+        ],
+        "InfoScript_Entities2": [
+          25
+        ],
+        "InfoScript_IDs1": [
+          26
+        ],
+        "InfoScript_IDs2": [
+          27
+        ],
+        "InfoScript_Texts": [
+          28
+        ],
+        "Permanent": [
+          29
+        ],
+        "TeachSkill": [
+          30
+        ],
+        "TeachAttrib": [
+          31
+        ],
+        "TeachAttribValue": [
+          32
+        ]
+      },
+      "owner": "Innos_Tester",
+      "quest": "Innos_Contact",
+      "conditionType": 10,
+      "infoType": 3,
+      "given": false,
+      "permanent": false,
+      "conditions": {
+        "ownerNearEntity": "",
+        "playerKnows": [
+          "Innos_Zuben_OK",
+          "Innos_Myrtana_OK"
+        ],
+        "itemContainer": "",
+        "items": [],
+        "secondaryNPCs": [],
+        "playerSkills": [],
+        "namedPlayerSkills": []
+      },
+      "commands": [
+        {
+          "index": 0,
+          "command": "Say",
+          "entity1": "player",
+          "entity2": "",
+          "id1": "",
+          "id2": "",
+          "text": "INFO_SKALVERAM3763"
+        },
+        {
+          "index": 1,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_Innos",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 2,
+          "command": "SetGameEvent",
+          "entity1": "",
+          "entity2": "",
+          "id1": "Epilog_FirstInfo",
+          "id2": "",
+          "text": ""
+        },
+        {
+          "index": 3,
+          "command": "Say",
+          "entity1": "npc",
+          "entity2": "",
+          "id1": "",
+          "id2": "",
+          "text": "INFO_FILLER20060518032404"
+        },
+        {
+          "index": 4,
+          "command": "Say",
+          "entity1": "npc",
+          "entity2": "",
+          "id1": "",
+          "id2": "",
+          "text": "INFO_FILLER20060518032404_0"
+        }
+      ],
+      "runtimeCatalogMatches": true
+    }
+  ],
+  "referencedQuests": [
+    {
+      "source": {
+        "family": "quests",
+        "archive": "Quests.pak",
+        "path": "G3_World_01/Adanos_OpenGate_quest_G3_World_01.quest",
+        "sha256": "655cecda52301d64983f5fa70c25a7bc9e17288ccaaaa478abdde7eb00be4464",
+        "selection": "static-effective-layer-candidate",
+        "layers": [
+          "Quests.pak"
+        ]
+      },
+      "rawFields": {
+        "Name": "Adanos_OpenGate",
+        "Type": "1",
+        "FinishedQuests": "Adanos_DestroyArtefacts",
+        "LogTopic": "QUEST_FILLER12",
+        "LogText": "",
+        "ExperiencePoints": "1000",
+        "PoliticalSuccess": "0",
+        "PoliticalSuccessAmount": "0",
+        "EnclaveSuccess": "",
+        "EnclaveSuccessAmount": "0",
+        "JobSuccess": "0",
+        "JobSuccessAmount": "0",
+        "Folder": "Hauptstory/",
+        "DeliveryEntities": "Adanos_Gate",
+        "DeliveryAmounts": "1",
+        "DeliveryCounter": "0",
+        "DestinationEntity": "",
+        "RunningTimeYears": "0",
+        "RunningTimeDays": "0",
+        "RunningTimeHours": "0",
+        "AttribSuccess": "",
+        "AttribSuccessAmount": "0"
+      },
+      "rawRecords": [
+        {
+          "line": 2,
+          "section": "Quest",
+          "key": "Name",
+          "value": "Adanos_OpenGate",
+          "hasEquals": true,
+          "raw": "Name=Adanos_OpenGate"
+        },
+        {
+          "line": 3,
+          "section": "Quest",
+          "key": "Type",
+          "value": "1",
+          "hasEquals": true,
+          "raw": "Type=1"
+        },
+        {
+          "line": 4,
+          "section": "Quest",
+          "key": "FinishedQuests",
+          "value": "Adanos_DestroyArtefacts",
+          "hasEquals": true,
+          "raw": "FinishedQuests=Adanos_DestroyArtefacts"
+        },
+        {
+          "line": 5,
+          "section": "Quest",
+          "key": "LogTopic",
+          "value": "QUEST_FILLER12",
+          "hasEquals": true,
+          "raw": "LogTopic=QUEST_FILLER12"
+        },
+        {
+          "line": 6,
+          "section": "Quest",
+          "key": "LogText",
+          "value": "",
+          "hasEquals": false,
+          "raw": "LogText"
+        },
+        {
+          "line": 7,
+          "section": "Quest",
+          "key": "ExperiencePoints",
+          "value": "1000",
+          "hasEquals": true,
+          "raw": "ExperiencePoints=1000"
+        },
+        {
+          "line": 8,
+          "section": "Quest",
+          "key": "PoliticalSuccess",
+          "value": "0",
+          "hasEquals": true,
+          "raw": "PoliticalSuccess=0"
+        },
+        {
+          "line": 9,
+          "section": "Quest",
+          "key": "PoliticalSuccessAmount",
+          "value": "0",
+          "hasEquals": true,
+          "raw": "PoliticalSuccessAmount=0"
+        },
+        {
+          "line": 10,
+          "section": "Quest",
+          "key": "EnclaveSuccess",
+          "value": "",
+          "hasEquals": false,
+          "raw": "EnclaveSuccess"
+        },
+        {
+          "line": 11,
+          "section": "Quest",
+          "key": "EnclaveSuccessAmount",
+          "value": "0",
+          "hasEquals": true,
+          "raw": "EnclaveSuccessAmount=0"
+        },
+        {
+          "line": 12,
+          "section": "Quest",
+          "key": "JobSuccess",
+          "value": "0",
+          "hasEquals": true,
+          "raw": "JobSuccess=0"
+        },
+        {
+          "line": 13,
+          "section": "Quest",
+          "key": "JobSuccessAmount",
+          "value": "0",
+          "hasEquals": true,
+          "raw": "JobSuccessAmount=0"
+        },
+        {
+          "line": 14,
+          "section": "Quest",
+          "key": "Folder",
+          "value": "Hauptstory/",
+          "hasEquals": true,
+          "raw": "Folder=Hauptstory/"
+        },
+        {
+          "line": 15,
+          "section": "Quest",
+          "key": "DeliveryEntities",
+          "value": "Adanos_Gate",
+          "hasEquals": true,
+          "raw": "DeliveryEntities=Adanos_Gate"
+        },
+        {
+          "line": 16,
+          "section": "Quest",
+          "key": "DeliveryAmounts",
+          "value": "1",
+          "hasEquals": true,
+          "raw": "DeliveryAmounts=1"
+        },
+        {
+          "line": 17,
+          "section": "Quest",
+          "key": "DeliveryCounter",
+          "value": "0",
+          "hasEquals": true,
+          "raw": "DeliveryCounter=0"
+        },
+        {
+          "line": 18,
+          "section": "Quest",
+          "key": "DestinationEntity",
+          "value": "",
+          "hasEquals": false,
+          "raw": "DestinationEntity"
+        },
+        {
+          "line": 19,
+          "section": "Quest",
+          "key": "RunningTimeYears",
+          "value": "0",
+          "hasEquals": true,
+          "raw": "RunningTimeYears=0"
+        },
+        {
+          "line": 20,
+          "section": "Quest",
+          "key": "RunningTimeDays",
+          "value": "0",
+          "hasEquals": true,
+          "raw": "RunningTimeDays=0"
+        },
+        {
+          "line": 21,
+          "section": "Quest",
+          "key": "RunningTimeHours",
+          "value": "0",
+          "hasEquals": true,
+          "raw": "RunningTimeHours=0"
+        },
+        {
+          "line": 22,
+          "section": "Quest",
+          "key": "AttribSuccess",
+          "value": "",
+          "hasEquals": false,
+          "raw": "AttribSuccess"
+        },
+        {
+          "line": 23,
+          "section": "Quest",
+          "key": "AttribSuccessAmount",
+          "value": "0",
+          "hasEquals": true,
+          "raw": "AttribSuccessAmount=0"
+        }
+      ],
+      "issues": [],
+      "id": "Adanos_OpenGate",
+      "numericType": 1,
+      "prereqs": [
+        "Adanos_DestroyArtefacts"
+      ],
+      "deliveryTargets": [
+        {
+          "entity": "Adanos_Gate",
+          "amount": 1,
+          "initialCounter": 0
+        }
+      ],
+      "destination": "",
+      "folder": "Hauptstory/",
+      "logTopic": "QUEST_FILLER12",
+      "logText": "",
+      "runningTime": {
+        "years": 0,
+        "days": 0,
+        "hours": 0
+      },
+      "rewards": {
+        "experience": 1000,
+        "political": {
+          "alignment": 0,
+          "amount": 0
+        },
+        "enclave": {
+          "name": "",
+          "amount": 0
+        },
+        "job": {
+          "code": 0,
+          "amount": 0
+        },
+        "attribute": {
+          "id": "",
+          "amount": 0
+        }
+      }
+    },
+    {
+      "source": {
+        "family": "quests",
+        "archive": "Quests.pak",
+        "path": "G3_World_01/Beliar_Contact_quest_G3_World_01.quest",
+        "sha256": "25f8b8af07c05330177c5b19267811eae428514fef9990ab91258157209b409b",
+        "selection": "static-effective-layer-candidate",
+        "layers": [
+          "Quests.pak"
+        ]
+      },
+      "rawFields": {
+        "Name": "Beliar_Contact",
+        "Type": "1",
+        "FinishedQuests": "",
+        "LogTopic": "QUEST_FILLER14",
+        "LogText": "",
+        "ExperiencePoints": "1000",
+        "PoliticalSuccess": "0",
+        "PoliticalSuccessAmount": "0",
+        "EnclaveSuccess": "",
+        "EnclaveSuccessAmount": "0",
+        "JobSuccess": "0",
+        "JobSuccessAmount": "0",
+        "Folder": "Hauptstory/",
+        "DeliveryEntities": "Beliar_Tester",
+        "DeliveryAmounts": "1",
+        "DeliveryCounter": "0",
+        "DestinationEntity": "",
+        "RunningTimeYears": "0",
+        "RunningTimeDays": "0",
+        "RunningTimeHours": "0",
+        "AttribSuccess": "",
+        "AttribSuccessAmount": "0"
+      },
+      "rawRecords": [
+        {
+          "line": 2,
+          "section": "Quest",
+          "key": "Name",
+          "value": "Beliar_Contact",
+          "hasEquals": true,
+          "raw": "Name=Beliar_Contact"
+        },
+        {
+          "line": 3,
+          "section": "Quest",
+          "key": "Type",
+          "value": "1",
+          "hasEquals": true,
+          "raw": "Type=1"
+        },
+        {
+          "line": 4,
+          "section": "Quest",
+          "key": "FinishedQuests",
+          "value": "",
+          "hasEquals": false,
+          "raw": "FinishedQuests"
+        },
+        {
+          "line": 5,
+          "section": "Quest",
+          "key": "LogTopic",
+          "value": "QUEST_FILLER14",
+          "hasEquals": true,
+          "raw": "LogTopic=QUEST_FILLER14"
+        },
+        {
+          "line": 6,
+          "section": "Quest",
+          "key": "LogText",
+          "value": "",
+          "hasEquals": false,
+          "raw": "LogText"
+        },
+        {
+          "line": 7,
+          "section": "Quest",
+          "key": "ExperiencePoints",
+          "value": "1000",
+          "hasEquals": true,
+          "raw": "ExperiencePoints=1000"
+        },
+        {
+          "line": 8,
+          "section": "Quest",
+          "key": "PoliticalSuccess",
+          "value": "0",
+          "hasEquals": true,
+          "raw": "PoliticalSuccess=0"
+        },
+        {
+          "line": 9,
+          "section": "Quest",
+          "key": "PoliticalSuccessAmount",
+          "value": "0",
+          "hasEquals": true,
+          "raw": "PoliticalSuccessAmount=0"
+        },
+        {
+          "line": 10,
+          "section": "Quest",
+          "key": "EnclaveSuccess",
+          "value": "",
+          "hasEquals": false,
+          "raw": "EnclaveSuccess"
+        },
+        {
+          "line": 11,
+          "section": "Quest",
+          "key": "EnclaveSuccessAmount",
+          "value": "0",
+          "hasEquals": true,
+          "raw": "EnclaveSuccessAmount=0"
+        },
+        {
+          "line": 12,
+          "section": "Quest",
+          "key": "JobSuccess",
+          "value": "0",
+          "hasEquals": true,
+          "raw": "JobSuccess=0"
+        },
+        {
+          "line": 13,
+          "section": "Quest",
+          "key": "JobSuccessAmount",
+          "value": "0",
+          "hasEquals": true,
+          "raw": "JobSuccessAmount=0"
+        },
+        {
+          "line": 14,
+          "section": "Quest",
+          "key": "Folder",
+          "value": "Hauptstory/",
+          "hasEquals": true,
+          "raw": "Folder=Hauptstory/"
+        },
+        {
+          "line": 15,
+          "section": "Quest",
+          "key": "DeliveryEntities",
+          "value": "Beliar_Tester",
+          "hasEquals": true,
+          "raw": "DeliveryEntities=Beliar_Tester"
+        },
+        {
+          "line": 16,
+          "section": "Quest",
+          "key": "DeliveryAmounts",
+          "value": "1",
+          "hasEquals": true,
+          "raw": "DeliveryAmounts=1"
+        },
+        {
+          "line": 17,
+          "section": "Quest",
+          "key": "DeliveryCounter",
+          "value": "0",
+          "hasEquals": true,
+          "raw": "DeliveryCounter=0"
+        },
+        {
+          "line": 18,
+          "section": "Quest",
+          "key": "DestinationEntity",
+          "value": "",
+          "hasEquals": false,
+          "raw": "DestinationEntity"
+        },
+        {
+          "line": 19,
+          "section": "Quest",
+          "key": "RunningTimeYears",
+          "value": "0",
+          "hasEquals": true,
+          "raw": "RunningTimeYears=0"
+        },
+        {
+          "line": 20,
+          "section": "Quest",
+          "key": "RunningTimeDays",
+          "value": "0",
+          "hasEquals": true,
+          "raw": "RunningTimeDays=0"
+        },
+        {
+          "line": 21,
+          "section": "Quest",
+          "key": "RunningTimeHours",
+          "value": "0",
+          "hasEquals": true,
+          "raw": "RunningTimeHours=0"
+        },
+        {
+          "line": 22,
+          "section": "Quest",
+          "key": "AttribSuccess",
+          "value": "",
+          "hasEquals": false,
+          "raw": "AttribSuccess"
+        },
+        {
+          "line": 23,
+          "section": "Quest",
+          "key": "AttribSuccessAmount",
+          "value": "0",
+          "hasEquals": true,
+          "raw": "AttribSuccessAmount=0"
+        }
+      ],
+      "issues": [],
+      "id": "Beliar_Contact",
+      "numericType": 1,
+      "prereqs": [],
+      "deliveryTargets": [
+        {
+          "entity": "Beliar_Tester",
+          "amount": 1,
+          "initialCounter": 0
+        }
+      ],
+      "destination": "",
+      "folder": "Hauptstory/",
+      "logTopic": "QUEST_FILLER14",
+      "logText": "",
+      "runningTime": {
+        "years": 0,
+        "days": 0,
+        "hours": 0
+      },
+      "rewards": {
+        "experience": 1000,
+        "political": {
+          "alignment": 0,
+          "amount": 0
+        },
+        "enclave": {
+          "name": "",
+          "amount": 0
+        },
+        "job": {
+          "code": 0,
+          "amount": 0
+        },
+        "attribute": {
+          "id": "",
+          "amount": 0
+        }
+      }
+    },
+    {
+      "source": {
+        "family": "quests",
+        "archive": "Quests.pak",
+        "path": "G3_World_01/Innos_Contact_quest_G3_World_01.quest",
+        "sha256": "63a29adb59ce17f1fd872fbd25812488d2273cc6e224375f1b78b49a1492845f",
+        "selection": "static-effective-layer-candidate",
+        "layers": [
+          "Quests.pak"
+        ]
+      },
+      "rawFields": {
+        "Name": "Innos_Contact",
+        "Type": "1",
+        "FinishedQuests": "",
+        "LogTopic": "QUEST_FILLER13",
+        "LogText": "",
+        "ExperiencePoints": "1000",
+        "PoliticalSuccess": "0",
+        "PoliticalSuccessAmount": "0",
+        "EnclaveSuccess": "",
+        "EnclaveSuccessAmount": "0",
+        "JobSuccess": "0",
+        "JobSuccessAmount": "0",
+        "Folder": "Hauptstory/",
+        "DeliveryEntities": "Innos_Tester",
+        "DeliveryAmounts": "1",
+        "DeliveryCounter": "0",
+        "DestinationEntity": "",
+        "RunningTimeYears": "0",
+        "RunningTimeDays": "0",
+        "RunningTimeHours": "0",
+        "AttribSuccess": "",
+        "AttribSuccessAmount": "0"
+      },
+      "rawRecords": [
+        {
+          "line": 2,
+          "section": "Quest",
+          "key": "Name",
+          "value": "Innos_Contact",
+          "hasEquals": true,
+          "raw": "Name=Innos_Contact"
+        },
+        {
+          "line": 3,
+          "section": "Quest",
+          "key": "Type",
+          "value": "1",
+          "hasEquals": true,
+          "raw": "Type=1"
+        },
+        {
+          "line": 4,
+          "section": "Quest",
+          "key": "FinishedQuests",
+          "value": "",
+          "hasEquals": false,
+          "raw": "FinishedQuests"
+        },
+        {
+          "line": 5,
+          "section": "Quest",
+          "key": "LogTopic",
+          "value": "QUEST_FILLER13",
+          "hasEquals": true,
+          "raw": "LogTopic=QUEST_FILLER13"
+        },
+        {
+          "line": 6,
+          "section": "Quest",
+          "key": "LogText",
+          "value": "",
+          "hasEquals": false,
+          "raw": "LogText"
+        },
+        {
+          "line": 7,
+          "section": "Quest",
+          "key": "ExperiencePoints",
+          "value": "1000",
+          "hasEquals": true,
+          "raw": "ExperiencePoints=1000"
+        },
+        {
+          "line": 8,
+          "section": "Quest",
+          "key": "PoliticalSuccess",
+          "value": "0",
+          "hasEquals": true,
+          "raw": "PoliticalSuccess=0"
+        },
+        {
+          "line": 9,
+          "section": "Quest",
+          "key": "PoliticalSuccessAmount",
+          "value": "0",
+          "hasEquals": true,
+          "raw": "PoliticalSuccessAmount=0"
+        },
+        {
+          "line": 10,
+          "section": "Quest",
+          "key": "EnclaveSuccess",
+          "value": "",
+          "hasEquals": false,
+          "raw": "EnclaveSuccess"
+        },
+        {
+          "line": 11,
+          "section": "Quest",
+          "key": "EnclaveSuccessAmount",
+          "value": "0",
+          "hasEquals": true,
+          "raw": "EnclaveSuccessAmount=0"
+        },
+        {
+          "line": 12,
+          "section": "Quest",
+          "key": "JobSuccess",
+          "value": "0",
+          "hasEquals": true,
+          "raw": "JobSuccess=0"
+        },
+        {
+          "line": 13,
+          "section": "Quest",
+          "key": "JobSuccessAmount",
+          "value": "0",
+          "hasEquals": true,
+          "raw": "JobSuccessAmount=0"
+        },
+        {
+          "line": 14,
+          "section": "Quest",
+          "key": "Folder",
+          "value": "Hauptstory/",
+          "hasEquals": true,
+          "raw": "Folder=Hauptstory/"
+        },
+        {
+          "line": 15,
+          "section": "Quest",
+          "key": "DeliveryEntities",
+          "value": "Innos_Tester",
+          "hasEquals": true,
+          "raw": "DeliveryEntities=Innos_Tester"
+        },
+        {
+          "line": 16,
+          "section": "Quest",
+          "key": "DeliveryAmounts",
+          "value": "1",
+          "hasEquals": true,
+          "raw": "DeliveryAmounts=1"
+        },
+        {
+          "line": 17,
+          "section": "Quest",
+          "key": "DeliveryCounter",
+          "value": "0",
+          "hasEquals": true,
+          "raw": "DeliveryCounter=0"
+        },
+        {
+          "line": 18,
+          "section": "Quest",
+          "key": "DestinationEntity",
+          "value": "",
+          "hasEquals": false,
+          "raw": "DestinationEntity"
+        },
+        {
+          "line": 19,
+          "section": "Quest",
+          "key": "RunningTimeYears",
+          "value": "0",
+          "hasEquals": true,
+          "raw": "RunningTimeYears=0"
+        },
+        {
+          "line": 20,
+          "section": "Quest",
+          "key": "RunningTimeDays",
+          "value": "0",
+          "hasEquals": true,
+          "raw": "RunningTimeDays=0"
+        },
+        {
+          "line": 21,
+          "section": "Quest",
+          "key": "RunningTimeHours",
+          "value": "0",
+          "hasEquals": true,
+          "raw": "RunningTimeHours=0"
+        },
+        {
+          "line": 22,
+          "section": "Quest",
+          "key": "AttribSuccess",
+          "value": "",
+          "hasEquals": false,
+          "raw": "AttribSuccess"
+        },
+        {
+          "line": 23,
+          "section": "Quest",
+          "key": "AttribSuccessAmount",
+          "value": "0",
+          "hasEquals": true,
+          "raw": "AttribSuccessAmount=0"
+        }
+      ],
+      "issues": [],
+      "id": "Innos_Contact",
+      "numericType": 1,
+      "prereqs": [],
+      "deliveryTargets": [
+        {
+          "entity": "Innos_Tester",
+          "amount": 1,
+          "initialCounter": 0
+        }
+      ],
+      "destination": "",
+      "folder": "Hauptstory/",
+      "logTopic": "QUEST_FILLER13",
+      "logText": "",
+      "runningTime": {
+        "years": 0,
+        "days": 0,
+        "hours": 0
+      },
+      "rewards": {
+        "experience": 1000,
+        "political": {
+          "alignment": 0,
+          "amount": 0
+        },
+        "enclave": {
+          "name": "",
+          "amount": 0
+        },
+        "job": {
+          "code": 0,
+          "amount": 0
+        },
+        "attribute": {
+          "id": "",
+          "amount": 0
+        }
+      }
+    }
+  ],
+  "endGame": {
+    "module": "scripts/Script_Game.dll",
+    "inputSha256": "2f10fbb6307c4800bc44c90cb60dac0b32182c1f2416e11ac82b4ba0c35803c1",
+    "dispatcherVA": "0x100dbb80",
+    "opcode": 49,
+    "pseudocode": {
+      "file": "pseudocode/functions_00004.c",
+      "sha256": "26aadfb13a787a9e50c2d4f3039f49fd8b32524827b99059d7a2e78d0ddbef47",
+      "caseLine": 52871
+    },
+    "assemblySha256": "899fc87a9bde3b2aea93e004c8c98cd91f728acc51a241660294599de0778ae7",
+    "caseBegin": "100ddcc7",
+    "caseEndExclusive": "100ddd2c",
+    "instructions": [
+      {
+        "va": "100ddcc7",
+        "bytes": "8b2d38732210",
+        "text": "MOV EBP,dword ptr [0x10227338]",
+        "assemblyLine": 208406
+      },
+      {
+        "va": "100ddccd",
+        "bytes": "68b0432110",
+        "text": "PUSH 0x102143b0",
+        "assemblyLine": 208407
+      },
+      {
+        "va": "100ddcd2",
+        "bytes": "8d4c242c",
+        "text": "LEA ECX,[ESP + 0x2c]",
+        "assemblyLine": 208408
+      },
+      {
+        "va": "100ddcd6",
+        "bytes": "ffd5",
+        "text": "CALL EBP",
+        "assemblyLine": 208409
+      },
+      {
+        "va": "100ddcd8",
+        "bytes": "8b1d6c622210",
+        "text": "MOV EBX,dword ptr [0x1022626c]",
+        "assemblyLine": 208410
+      },
+      {
+        "va": "100ddcde",
+        "bytes": "8d542428",
+        "text": "LEA EDX,[ESP + 0x28]",
+        "assemblyLine": 208411
+      },
+      {
+        "va": "100ddce2",
+        "bytes": "52",
+        "text": "PUSH EDX",
+        "assemblyLine": 208412
+      },
+      {
+        "va": "100ddce3",
+        "bytes": "ffd3",
+        "text": "CALL EBX",
+        "assemblyLine": 208413
+      },
+      {
+        "va": "100ddce5",
+        "bytes": "8bc8",
+        "text": "MOV ECX,EAX",
+        "assemblyLine": 208414
+      },
+      {
+        "va": "100ddce7",
+        "bytes": "ff1558622210",
+        "text": "CALL dword ptr [0x10226258]",
+        "assemblyLine": 208415
+      },
+      {
+        "va": "100ddced",
+        "bytes": "8d4c2428",
+        "text": "LEA ECX,[ESP + 0x28]",
+        "assemblyLine": 208416
+      },
+      {
+        "va": "100ddcf1",
+        "bytes": "ff153c732210",
+        "text": "CALL dword ptr [0x1022733c]",
+        "assemblyLine": 208417
+      },
+      {
+        "va": "100ddcf7",
+        "bytes": "689c432110",
+        "text": "PUSH 0x1021439c",
+        "assemblyLine": 208418
+      },
+      {
+        "va": "100ddcfc",
+        "bytes": "8d4c2424",
+        "text": "LEA ECX,[ESP + 0x24]",
+        "assemblyLine": 208419
+      },
+      {
+        "va": "100ddd00",
+        "bytes": "ffd5",
+        "text": "CALL EBP",
+        "assemblyLine": 208420
+      },
+      {
+        "va": "100ddd02",
+        "bytes": "8d442420",
+        "text": "LEA EAX,[ESP + 0x20]",
+        "assemblyLine": 208421
+      },
+      {
+        "va": "100ddd06",
+        "bytes": "50",
+        "text": "PUSH EAX",
+        "assemblyLine": 208422
+      },
+      {
+        "va": "100ddd07",
+        "bytes": "ffd3",
+        "text": "CALL EBX",
+        "assemblyLine": 208423
+      },
+      {
+        "va": "100ddd09",
+        "bytes": "8bc8",
+        "text": "MOV ECX,EAX",
+        "assemblyLine": 208424
+      },
+      {
+        "va": "100ddd0b",
+        "bytes": "ff1558622210",
+        "text": "CALL dword ptr [0x10226258]",
+        "assemblyLine": 208425
+      },
+      {
+        "va": "100ddd11",
+        "bytes": "8d4c2420",
+        "text": "LEA ECX,[ESP + 0x20]",
+        "assemblyLine": 208426
+      },
+      {
+        "va": "100ddd15",
+        "bytes": "ff153c732210",
+        "text": "CALL dword ptr [0x1022733c]",
+        "assemblyLine": 208427
+      },
+      {
+        "va": "100ddd1b",
+        "bytes": "6a01",
+        "text": "PUSH 0x1",
+        "assemblyLine": 208428
+      },
+      {
+        "va": "100ddd1d",
+        "bytes": "ffd3",
+        "text": "CALL EBX",
+        "assemblyLine": 208429
+      },
+      {
+        "va": "100ddd1f",
+        "bytes": "8bc8",
+        "text": "MOV ECX,EAX",
+        "assemblyLine": 208430
+      },
+      {
+        "va": "100ddd21",
+        "bytes": "ff155c622210",
+        "text": "CALL dword ptr [0x1022625c]",
+        "assemblyLine": 208431
+      },
+      {
+        "va": "100ddd27",
+        "bytes": "e9b0020000",
+        "text": "JMP 0x100ddfdc",
+        "assemblyLine": 208432
+      }
+    ],
+    "bytesSha256": "3bf7b9ef5e29304b1507d107e700e36501c008a482282b7ba3b67ae3b5ce2065",
+    "credits": [
+      {
+        "name": "G3_Credits.bik",
+        "literalVA": "102143b0",
+        "bytes": "47335f437265646974732e62696b00"
+      },
+      {
+        "name": "G3_Credits2.bik",
+        "literalVA": "1021439c",
+        "bytes": "47335f43726564697473322e62696b00"
+      }
+    ],
+    "terminationCall": {
+      "va": "100ddd21",
+      "iatVA": "1022625c",
+      "argument": true
+    }
+  },
+  "limitations": [
+    "Catalog membership does not prove live info activation or availability.",
+    "Some branch-event records use owner sh; their presence does not prove an ordinary campaign route.",
+    "The dependencies of PlayVideo and Terminate remain unimplemented here.",
+    "No quest, event or ending state is forced by this evidence generator."
+  ]
+}
