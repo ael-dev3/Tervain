@@ -8,7 +8,7 @@
     "result": "passed",
     "testsPassed": 120,
     "filesPassed": 3,
-    "revision": "5e252a327"
+    "revision": "5e252a32742d6603ef974d0b7b6dcea283459e91"
   },
   "focusedStartupChecks": {
     "result": "passed",
@@ -18,7 +18,7 @@
   },
   "productionBuild": {
     "result": "passed",
-    "revision": "5e252a327",
+    "revision": "5e252a32742d6603ef974d0b7b6dcea283459e91",
     "durationSeconds": 43.77
   },
   "fullSuiteRerun": false,
@@ -29,5 +29,13 @@
     "exitTableCapacityBytes": 256
   },
   "deployment": "Not yet published; existing main deployment still running when this receipt was recorded.",
-  "scope": "Original post-processing administrator constructor, CString, shutdown registration and root publication. Interrupted callback store preserves caller, lock, cursor and unpublished root. Full startup and campaign completion remain unverified."
+  "scope": "Original post-processing administrator constructor, CString, shutdown registration and root publication. Interrupted callback store preserves caller, lock, cursor and unpublished root. Full startup and campaign completion remain unverified.",
+  "npcServiceChecks": {
+    "result": "passed",
+    "testsPassed": 4,
+    "filesPassed": 1,
+    "revision": "27cd11c05515ba13b079af0e2d7cad1c71cb2ed4",
+    "checkout": "codex/gothic3-template-second-argument",
+    "scope": "Separate native development checkout; does not claim a full integration-suite rerun."
+  }
 }
