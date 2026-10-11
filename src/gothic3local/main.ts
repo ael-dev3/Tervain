@@ -250,7 +250,9 @@ $('pick').addEventListener('click', once(async () => {
 }));
 
 $<HTMLInputElement>('folder').addEventListener('change', (e) => void once(async () => {
-  const files = [...((e.target as HTMLInputElement).files ?? [])];
+  const input = e.target as HTMLInputElement, files = [...(input.files ?? [])];
+  // Cleared, so choosing the same folder again (after mending a file) is a change and loads it again (A105 scout).
+  input.value = '';
   if (files.length) await choose(async () => selectFromFiles(files));
 })());
 

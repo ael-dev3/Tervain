@@ -156,7 +156,9 @@ function pick(v: { min: number; max: number }, r: () => number): number {
 export function growTree(name: string, def: SpeedTreeDef, leafRegion: LeafRegion | null = null): TreeGeometry {
   const r = rng(hash(name));
   const conifer = isConifer(name);
-  const size = def.size > 50 ? def.size : 600;
+  // A tree's size sets how many leaf cards it grows: a malformed or infinite size grew cards until the tab ran out of
+  // memory (A105 scout). Anything outside a believable range takes the usual size.
+  const size = Number.isFinite(def.size) && def.size > 50 && def.size <= 10_000 ? def.size : 600;
   const levels: BranchLevel[] = def.levels.length ? def.levels : [{ length: { min: 0.7, max: 0.7, variance: 0 }, radius: { min: 0.03, max: 0.03, variance: 0 }, angle: { min: -90, max: -90, variance: 0 }, frequency: 6 }];
   // The last level of a definition places leaves; the ones before it are wood.
   const woodLevels = Math.max(1, Math.min(3, levels.length - 1));

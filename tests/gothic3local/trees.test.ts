@@ -155,3 +155,13 @@ describe('leaf clusters in composite images', () => {
     expect(clusterFor('anything', [], false)).toBeNull();
   });
 });
+
+describe('twelfth scout fixes: a malformed tree size (A105)', () => {
+  it('grows a usual tree from an infinite or absurd size rather than cards without end', () => {
+    const def = parseSpeedTree(definition());
+    const usual = growTree('g3_tree_s_linden_01.spt', { ...def, size: 600 }).leaves.getAttribute('position').count;
+    for (const size of [Infinity, Number.NaN, 1e9]) {
+      expect(growTree('g3_tree_s_linden_01.spt', { ...def, size }).leaves.getAttribute('position').count, String(size)).toBe(usual);
+    }
+  });
+});
