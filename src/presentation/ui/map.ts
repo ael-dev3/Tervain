@@ -39,6 +39,12 @@ export class MapView {
   private status: HTMLElement | null = null;
   private places: HTMLSelectElement | null = null;
   private clearPin: HTMLButtonElement | null = null;
+  /** Show place and Pin place: usable only with a place chosen (A98: they did nothing, enabled, with none). */
+  private placeButtons: HTMLButtonElement[] = [];
+  private syncPlaceButtons() {
+    const none = !this.places?.value;
+    for (const button of this.placeButtons) button.disabled = none;
+  }
   private placeSignature = 'uninitialised';
   private knownPlaceIds: PlaceId[] = [];
 
@@ -57,6 +63,7 @@ export class MapView {
       this.places.replaceChildren(h('option', { value: '' }, 'Known places…'), ...known.map((id) => h('option', { value: id }, `${S(`place.${id}`)}${opts.state.discovered[id] ? '' : ' · approximate'}`)));
       this.places.value = known.includes(previous as PlaceId) ? previous : '';
     }
+    this.syncPlaceButtons();
     const marker = opts.state.mapMarker;
     if (this.clearPin) this.clearPin.disabled = marker === null;
     const pinText = marker ? ` · Pin ${Math.round(marker.x)}, ${Math.round(marker.z)} · ${Math.round(Math.hypot(marker.x - opts.player.x, marker.z - opts.player.z))} m away` : ' · No waypoint';
@@ -314,7 +321,7 @@ export class MapView {
     });
     const button = (label: string, action: () => void, accessible = label) => h('button', { class: 'btn', type: 'button', 'data-nav': true, 'aria-label': accessible, onClick: action }, label);
     this.clearPin = button('Clear pin', () => this.onMarker?.(null));
-    this.places = h('select', { 'aria-label': 'Known places', 'data-nav': true });
+    this.places = h('select', { 'aria-label': 'Known places', 'data-nav': true, onChange: () => this.syncPlaceButtons() });
     const selectedPlace = () => this.knownPlaceIds.find((id) => id === this.places?.value);
     this.status = h('span', { class: 'map-status', role: 'status', 'aria-live': 'polite' });
     const controls = h('div', { class: 'map-controls' },
@@ -323,8 +330,11 @@ export class MapView {
       button('Fit', () => { this.target = fullMapView(); }, 'Show full map'),
       button('You', () => { if (this.opts) this.centre(this.opts.player.x, this.opts.player.z); }, 'Centre map on you'),
       this.clearPin, this.places,
-      button('Show place', () => { const id = selectedPlace(); if (id) this.centre(PLACES[id].x, PLACES[id].z); }),
-      button('Pin place', () => { const id = selectedPlace(); if (id) this.onMarker?.({ x: PLACES[id].x, z: PLACES[id].z }); }));
+      ...(this.placeButtons = [
+        button('Show place', () => { const id = selectedPlace(); if (id) this.centre(PLACES[id].x, PLACES[id].z); }),
+        button('Pin place', () => { const id = selectedPlace(); if (id) this.onMarker?.({ x: PLACES[id].x, z: PLACES[id].z }); }),
+      ]));
+    this.syncPlaceButtons();
     return { wrap: h('div', { class: 'map-record' }, controls,
       h('div', { class: 'map-wrap' }, canvas),
       h('div', { class: 'map-legend' }, h('span', { class: 'legend-player' }, `▲ ${S('map.you')}`), h('span', {}, `● ${S('journal.place.verified')}`), h('span', {}, `◌ ${S('journal.place.claimed')}`), h('span', { class: 'legend-route' }, `○ ${S('map.suggested')}`), this.status),

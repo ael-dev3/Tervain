@@ -41,6 +41,19 @@ function mapInput() {
 afterEach(() => vi.unstubAllGlobals());
 
 describe('regional map pointer input', () => {
+  it('keeps Show place and Pin place disabled until a place is chosen (A98)', () => {
+    const { view } = mapInput();
+    const buttons = Reflect.get(view, 'placeButtons') as { disabled: boolean }[];
+    const places = Reflect.get(view, 'places') as { value: string; listeners: Map<string, (() => void)[]> };
+    expect(buttons).toHaveLength(2);
+    places.value = '';
+    for (const listener of places.listeners.get('change') ?? []) listener();
+    expect(buttons.every((button) => button.disabled)).toBe(true);
+    places.value = 'rillford';
+    for (const listener of places.listeners.get('change') ?? []) listener();
+    expect(buttons.every((button) => !button.disabled)).toBe(true);
+  });
+
   it('still focuses and pins a local chart click when native pointer capture is refused', () => {
     const { canvas, onMarker } = mapInput(); canvas.captureFails = true;
     expect(() => canvas.emit('pointerdown')).not.toThrow();
