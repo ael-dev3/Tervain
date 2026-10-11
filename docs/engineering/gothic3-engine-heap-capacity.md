@@ -2097,3 +2097,21 @@ lock 5 remains released. Normal checks verify output lifetime, property return,
 prior CStrings/roots and shutdown entries. Original source packages are
 unchanged. This local checkpoint is not deployed and does not establish full
 engine startup or a campaign playable through its ending with persistence.
+
+
+### 2026-10-11 — original camera SharedBase UnMangle caller entry (local)
+
+Original camera bytes at `30076708`, `30076709` and `3007670e` push the returned
+cache text, actual property storage and call the retained SharedBase UnMangle
+import. Executed its thunk/prolog and argument setup, then its original search
+call for the audited space literal. Startup stops at `100a7430` after 13,735
+operations. SharedBase retains the live camera cache text in ESI; camera root
+is still null. Search completion, CString construction and publication remain
+pending. No camera property string/root is synthesized.
+
+Validation: TypeScript checking, fifteen focused runtime checks and six browser
+startup checks passed. A further strengthened normal check passed for actual
+SharedBase input provenance and null camera root. The call uses return address
+`30076714` and original import/SharedBase hash receipts. Source packages are
+unchanged. This local checkpoint has not been deployed and does not establish
+full engine startup or campaign completion with persistence.
