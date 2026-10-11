@@ -1366,3 +1366,26 @@ in 29.43 seconds and six browser startup checks passed in 31.10 seconds. The
 earlier combined suite remains active on an older frozen revision. This
 continuation is local, not deployed, and full startup/campaign play remains
 unproven.
+
+
+### 2026-10-11: original class-name strlen return
+
+The retained type-name caller now passes the live completed output to the
+original aligned DWORD scan. Four actual DWORD loads find the known NUL in
+the third byte of the last DWORD; the original third-byte return path computes
+14 and returns to `3067dae2` after 7,774 admitted operations. The unknown
+alignment byte remains unknown. Type-name trim/cache publication are pending.
+
+The original third/fourth-byte terminator instructions were checked against
+the captured bytes. Unknown padding values 0 and 255 both produce length 14;
+an unknown terminator stops at `30679b11` with the strlen caller pending. A
+perturbed known fourth-byte terminator produces length 15 through the original
+fourth-byte return path. Type checking passed; the normal check passed in
+10.70 seconds, eight fidelity/interruption checks in 28.32 seconds, six browser
+startup checks in 29.95 seconds and the fourth-byte check in 9.06 seconds.
+
+The frozen combined revision `9e02cd54211c44e04cf49b796e107c8e9214bc83`
+remains running and has reported a hero-animation action-layer failure. Its
+final diagnostic is pending; it is not a successful validation receipt. It
+predates the latest native continuations and PR 248. These native changes
+remain local and full startup/campaign completion is unproven.
