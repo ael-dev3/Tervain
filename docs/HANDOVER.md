@@ -3,6 +3,20 @@
 The cloud session that worked A70–A77 hands over to a session on Ael's PC (RTX 3080). This note is the starting point:
 the goal, the rules, every backlog item's state, what was in progress and the exact next steps.
 
+## Update (A83–A97)
+
+- **Backlog:** every item is done or stopped at a hard limit (table below). Two things remain, and both wait on
+  inputs from outside the code:
+  - the soft crown silhouettes need new crown exports;
+  - two asset sources await the owner's answers (backlog 11).
+- **Bug scouts** over every area (A87–A96) found and fixed close to a hundred faults, each in its round's record.
+  ([A92](engineering/a92-gothic3-scout.md), [A93](engineering/a93-second-scout.md), [A94](engineering/a94-third-scout.md),
+  [A95](engineering/a95-fourth-scout.md), [A96](engineering/a96-fifth-scout.md))
+- **Playtest faults re-checked:** crowns, branch ribbons, grass at the field fences and the palisade, and the windows
+  from inside. Each was captured on the GPU before A79 and after, from the playtest cameras; all are fixed.
+- **The pine's grey slivers** were its bark normals, repaired in A97 ([A97](engineering/a97-pine-bark-normals.md)).
+- **By design, not faults:** arrows do not harm bandits, and a dodge or blow may begin in mid-air.
+
 ## Update (A79–A82)
 
 - **Playtest faults** (crowns, branch ribbons, grass, window views): fixed in A79. The crowns seen from inside were
@@ -92,9 +106,9 @@ believably, and frames that are light without any visible loss. "Honest" means e
 | 10 | Performance evidence | Container (software rendering) numbers in A76 and A77. Real-GPU frame and GPU times in A78. The GPU geometry count levels off (A82 update above). |
 | 11 | Asset ledger | Done as far as the owner's answers go (CC0 classification above); 2 sources remain unresolved. |
 | 12 | Hero rework polish | Done (A73, A75). |
-| 13 | Frame cost (A77) | **In progress**, see below. |
+| 13 | Frame cost (A77) | Done (A77, merged); measured on the GPU in A78. The steps listed below were all taken in A78–A86. |
 
-## In progress now: A77, lighter frames
+## A77, lighter frames (done; kept as the record of its next steps)
 
 All committed and pushed on `claude/determined-archimedes-m2rekb` (not yet merged when this note was written; the
 handover PR carries it): `e1934402` lighter reflection and shadows, `df340bbd` window view, the decision row, and this
@@ -177,7 +191,9 @@ and run the same commands against each.
 
 ## Latest merged PR and unpushed work
 
-- Latest merged: [ael-dev3/tervain#217](https://github.com/ael-dev3/tervain/pull/217) (A76 close-up polish, High tree
+- Since this note was first written, every round has been merged through PR #253 (A96) and the A97 PR. Nothing is
+  left unmerged.
+- Latest merged when first written: [ael-dev3/tervain#217](https://github.com/ael-dev3/tervain/pull/217) (A76 close-up polish, High tree
   opt-in, benchmark fix), merge commit `35b825c0`.
 - Unmerged at the time of writing: A77 (three commits on `claude/determined-archimedes-m2rekb`) and this note, merged
   together by the handover PR.

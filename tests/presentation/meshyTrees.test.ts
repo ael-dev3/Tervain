@@ -27,8 +27,8 @@ afterAll(() => {
 describe('actual supplied Meshy tree catalog', () => {
   it('retains the exempt custom Pine exactly at its approved three runtime hashes', () => {
     const files = {
-      'solitary-pine-under-10k.glb': '4f650c34b2a0ddd7f084ad76d57f00c4bf82eaa6e6188748e0720430ab34e174',
-      'solitary-pine-mid.glb': 'f3e1018ffca84baa6b9ee4ce9ef90884ffa562a4b899826b4058a98d7a2cb59f',
+      'solitary-pine-under-10k.glb': '4d437c01193ba6b32dea4097ff4f6bdb45be8dc49f127cd51b9225886912794f',
+      'solitary-pine-mid.glb': '9482ee2ae560c736f6f30abd2a7492c827d4a1e3b46bf303a0bb76b3b727f2ca',
       'solitary-pine-far.glb': '958bd193f652d1ef9cce89c4de1a319730d0e87594126288ffaf479f9f9b02ec',
     };
     for (const [file, sha] of Object.entries(files)) expect(createHash('sha256')
