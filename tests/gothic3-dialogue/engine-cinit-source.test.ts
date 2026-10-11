@@ -232,3 +232,12 @@ it('pins original template comma and character-node routines',()=>{
  expect(engineCinitInstruction('30696eaa','30696ebc').bytes).toBe('8808');
  expect(engineCinitInstruction('30696eaa','30696ec2').bytes).toBe('c20800');
 });
+
+
+it('pins the original template parent combination and last-character calls',()=>{
+ expect(engineCinitInstruction('306991ad','3069928e').bytes).toBe('e807ebffff');
+ expect(engineCinitInstruction('306991ad','306992a2').bytes).toBe('e892deffff');
+ expect(engineCinitInstruction('30697d9a','30697dab').bytes).toBe('e802f9ffff');
+ expect(engineCinitInstruction('30697d9a','30697db2').bytes).toBe('e85ffdffff');
+ expect(engineCinitInstruction('30697139','30697150').bytes).toBe('ff10');
+});

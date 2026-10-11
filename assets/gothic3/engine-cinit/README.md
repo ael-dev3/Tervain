@@ -3299,3 +3299,10 @@ production build passed in this checkout. The continuation has been copied
 into the main-PR-264 checkout for compatibility checks against the latest
 source inventory and application changes. This local checkpoint does not
 claim deployment, complete native startup or a playable full campaign.
+
+
+### Original template opening and qualified value combination
+
+The parser constructs the opening character from its contained stack input, copies it to the destination, checks both nonempty values, appends the argument-list node using an original newly allocated wrapper, and physically returns through the qualified-value and combination callers to 30699293. The parent template-name continuation remains pending there. Unknown stack input and interrupted character-store tests retain the original pending callers and locks. The twenty-eighth CString remains unconstructed.
+
+Validation: TypeScript checking, three focused normal/interruption checks, 82 source/image/browser checks, and the production build passed. This checkpoint is local native startup progress, not full startup, deployment, or complete campaign gameplay.
