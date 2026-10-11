@@ -478,6 +478,27 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
             prolog('3067e53e',()=>stack.#store(stack.#bank,32,register('EAX')));
             prolog('3067e544',()=>{const p=stack.#record(stack.#ret()).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!==returned)throw new Error('Original Engine onexit prolog return required');if(phase==='onexit')stack.#engineCinitFrame!.onexitPrologReturned=true;else if(phase==='propertyTypeName')stack.#engineCinitFrame!.typeNamePrologReturned=true;else stack.#engineCinitFrame!.undecorationPrologReturned=true;});
       };
+      const runPropertyTypeNamePrefix=(typeInfo:NativeHeapObjectViews,defaultImage:NativeHeapObjectViews)=>{
+                step('306713ae',()=>{const esp=stack.#address(register('ESP')),argument=stack.#load(stack.#stack,esp+4),p=stack.#record(argument).provenance;if(p?.kind!=='engine-image'||p.crt!==crt||p.fields!==defaultImage||p.offset!==0)throw new Error('Actual visual-animation default argument required');stack.#push(argument);},'306713ae');
+                step('306713b2',()=>{const word=register('ECX'),p=stack.#record(word).provenance;if(p?.kind!=='engine-image'||p.crt!==crt||p.fields!==typeInfo||p.offset!==0)throw new Error('Actual visual-animation type-info argument required');stack.#push(word);},'306713ae');
+                step('306713b3',()=>stack.#call('306713b3','306713b8'),'306713ae');const selectedScope=NativeEngineCinitImages.imageForCrt(images.value,crt,'propertyTypeNameSehScope');if(!selectedScope.known)throw new Error(selectedScope.reason);const nameScope=selectedScope.value;
+                const name=(pc:string,body:()=>void)=>step(pc,body,'3067da97');
+                name('3067da97',()=>stack.#push(stack.#mint(12,0xffffffff)));
+                name('3067da99',()=>stack.#push(stack.#mint(0,0,{kind:'source',type:'image',address:'30956a38',fields:nameScope})));
+                name('3067da9e',()=>stack.#call('3067da9e','3067daa3'));runEh4Prolog('3067daa3','propertyTypeName');
+                const relative=(name:'ESP'|'EBP',offset:number)=>stack.#address(register(name))+offset;
+                const actualTypeInfo=()=>{const p=stack.#record(register('EDI')).provenance;if(p?.kind!=='engine-image'||p.crt!==crt||p.fields!==typeInfo||p.offset!==0)throw new Error('Actual retained Engine type-info object required');return p;};
+                name('3067daa3',()=>{const argument=stack.#load(stack.#stack,relative('EBP',8)),p=stack.#record(argument).provenance;if(p?.kind!=='engine-image'||p.crt!==crt||p.fields!==typeInfo||p.offset!==0)throw new Error('Actual type-name caller object required');setRegister('EDI',argument);});
+                name('3067daa6',()=>{setRegister('EBX',stack.#mint(0,0xffffffff));stack.#logicalFlags(0,0xffffffff,4);});
+                let cached=0;name('3067daa8',()=>{const p=actualTypeInfo();cached=NativeHeapObjectViews.prototype.readUnsigned.call(p.fields,4,4);stack.#arithmeticFlags(cached,0,cached,4,true);});name('3067daab',()=>{});
+                return {name,relative,typeInfo,actualTypeInfo,cached};
+      };
+      const preparePropertyUndecoration=(name:(pc:string,body:()=>void)=>void,actualTypeInfo:()=>{fields:NativeHeapObjectViews;offset:number})=>{
+                name('3067dab1',()=>stack.#push(stack.#mint(0x2800,0xffffffff)));name('3067dab6',()=>stack.#push(stack.#source('code','30672f8a')));name('3067dabb',()=>stack.#push(stack.#source('code','30672ec7')));name('3067dac0',()=>stack.#push(register('EBX')));
+                name('3067dac1',()=>{const p=actualTypeInfo();if(p.fields.bytes.length<10)throw new Error('Original type name extent required');setRegister('EAX',stack.#mint(0,0,{kind:'engine-image',crt,fields:p.fields,offset:9}));});
+                name('3067dac4',()=>stack.#push(register('EAX')));name('3067dac5',()=>stack.#push(register('EBX')));
+                name('3067dac6',()=>{stack.#call('3067dac6','3067dacb');engineCinitInstruction('3069b26b','3069b26b');const esp=stack.#address(register('ESP'));stack.#engineCinitFrame!.typeNameArguments=Object.freeze(Array.from({length:6},(_,i)=>stack.#record(stack.#load(stack.#stack,esp+4+i*4))));});
+      };
       const runExitRegistration=(callbackAddress:'30671144'|'3068e981'|'30011a40')=>{
             step('30671596',()=>{const esp=stack.#address(register('ESP')),argument=stack.#load(stack.#stack,esp+4),p=stack.#record(argument).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!==callbackAddress)throw new Error('Original Engine shutdown callback argument required');stack.#push(argument);},'30671596');
             step('3067159a',()=>stack.#call('3067159a','3067159f'),'30671596');
@@ -577,24 +598,9 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
                 property('30076664',()=>stack.#push(stack.#mint(0,0,{kind:'engine-image',crt,fields:image('visualAnimationFloatDefault'),offset:0})));
                 property('30076669',()=>setRegister('ECX',stack.#mint(0,0,{kind:'engine-image',crt,fields:image('visualAnimationFloatTypeInfo'),offset:0})));
                 property('3007666e',()=>stack.#store(flags,0,register('EAX')));property('30076673',()=>stack.#call('30076673','30076678'));
-                step('306713ae',()=>{const esp=stack.#address(register('ESP')),argument=stack.#load(stack.#stack,esp+4),p=stack.#record(argument).provenance;if(p?.kind!=='engine-image'||p.crt!==crt||p.fields!==image('visualAnimationFloatDefault')||p.offset!==0)throw new Error('Actual visual-animation default argument required');stack.#push(argument);},'306713ae');
-                step('306713b2',()=>{const word=register('ECX'),p=stack.#record(word).provenance;if(p?.kind!=='engine-image'||p.crt!==crt||p.fields!==image('visualAnimationFloatTypeInfo')||p.offset!==0)throw new Error('Actual visual-animation type-info argument required');stack.#push(word);},'306713ae');
-                step('306713b3',()=>stack.#call('306713b3','306713b8'),'306713ae');const selectedScope=NativeEngineCinitImages.imageForCrt(images.value,crt,'propertyTypeNameSehScope');if(!selectedScope.known)throw new Error(selectedScope.reason);const nameScope=selectedScope.value;
-                const name=(pc:string,body:()=>void)=>step(pc,body,'3067da97');
-                name('3067da97',()=>stack.#push(stack.#mint(12,0xffffffff)));
-                name('3067da99',()=>stack.#push(stack.#mint(0,0,{kind:'source',type:'image',address:'30956a38',fields:nameScope})));
-                name('3067da9e',()=>stack.#call('3067da9e','3067daa3'));runEh4Prolog('3067daa3','propertyTypeName');
-                const relative=(name:'ESP'|'EBP',offset:number)=>stack.#address(register(name))+offset;
-                const typeInfo=image('visualAnimationFloatTypeInfo');
-                const actualTypeInfo=()=>{const p=stack.#record(register('EDI')).provenance;if(p?.kind!=='engine-image'||p.crt!==crt||p.fields!==typeInfo||p.offset!==0)throw new Error('Actual retained Engine type-info object required');return p;};
-                name('3067daa3',()=>{const argument=stack.#load(stack.#stack,relative('EBP',8)),p=stack.#record(argument).provenance;if(p?.kind!=='engine-image'||p.crt!==crt||p.fields!==typeInfo||p.offset!==0)throw new Error('Actual type-name caller object required');setRegister('EDI',argument);});
-                name('3067daa6',()=>{setRegister('EBX',stack.#mint(0,0xffffffff));stack.#logicalFlags(0,0xffffffff,4);});
-                let cached=0;name('3067daa8',()=>{const p=actualTypeInfo();cached=NativeHeapObjectViews.prototype.readUnsigned.call(p.fields,4,4);stack.#arithmeticFlags(cached,0,cached,4,true);});name('3067daab',()=>{});
+                const {name,relative,typeInfo,actualTypeInfo,cached}=runPropertyTypeNamePrefix(image('visualAnimationFloatTypeInfo'),image('visualAnimationFloatDefault'));
                 if(cached!==0){stack.#engineCinitFrame!.pc='3067db77';return known(undefined);}
-                name('3067dab1',()=>stack.#push(stack.#mint(0x2800,0xffffffff)));name('3067dab6',()=>stack.#push(stack.#source('code','30672f8a')));name('3067dabb',()=>stack.#push(stack.#source('code','30672ec7')));name('3067dac0',()=>stack.#push(register('EBX')));
-                name('3067dac1',()=>{const p=actualTypeInfo();if(p.fields.bytes.length<10)throw new Error('Original type name extent required');setRegister('EAX',stack.#mint(0,0,{kind:'engine-image',crt,fields:p.fields,offset:9}));});
-                name('3067dac4',()=>stack.#push(register('EAX')));name('3067dac5',()=>stack.#push(register('EBX')));
-                name('3067dac6',()=>{stack.#call('3067dac6','3067dacb');engineCinitInstruction('3069b26b','3069b26b');const esp=stack.#address(register('ESP'));stack.#engineCinitFrame!.typeNameArguments=Object.freeze(Array.from({length:6},(_,i)=>stack.#record(stack.#load(stack.#stack,esp+4+i*4))));});
+                preparePropertyUndecoration(name,actualTypeInfo);
                 const undecorate=(pc:string,body:()=>void)=>step(pc,body,'3069b26b');
                 const undecorationScope=NativeEngineCinitImages.imageForCrt(images.value,crt,'undecorationSehScope');if(!undecorationScope.known)throw new Error(undecorationScope.reason);
                 undecorate('3069b26b',()=>stack.#push(stack.#mint(0x84,0xffffffff)));
@@ -1045,7 +1051,10 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
               second('30076569',()=>setRegister('ECX',stack.#load(image('visualAnimationSecondRoot'),0)));second('3007656f',()=>{bits=(bits|1)>>>0;mask=(mask|1)>>>0;setRegister('EAX',stack.#mint(bits,mask));stack.#logicalFlags(bits,mask,4);});second('30076572',()=>stack.#store(flags,0,register('EAX')));second('30076577',()=>stack.#store(storage,4,register('ECX')));
               second('3007657d',()=>stack.#logicalFlags(bits&2,(mask|~2)&255,1));second('3007657f',()=>{const f=stack.#record(stack.#load(stack.#bank,36));if(!(f.mask&0x40)||bits&2)throw new Error('Original fresh second property type guard required');});
               second('30076581',()=>{bits=(bits|2)>>>0;mask=(mask|2)>>>0;setRegister('EAX',stack.#mint(bits,mask));stack.#logicalFlags(bits,mask,4);});second('30076584',()=>stack.#push(stack.#mint(0,0,{kind:'engine-image',crt,fields:image('visualAnimationFloatDefault'),offset:0})));second('30076589',()=>setRegister('ECX',stack.#mint(0,0,{kind:'engine-image',crt,fields:image('visualAnimationSecondTypeInfo'),offset:0})));second('3007658e',()=>stack.#store(flags,0,register('EAX')));second('30076593',()=>stack.#call('30076593','30076598'));
-              stack.#engineCinitFrame!.pc='306713ae';return known(undefined);
+              const prefix=runPropertyTypeNamePrefix(image('visualAnimationSecondTypeInfo'),image('visualAnimationFloatDefault'));
+              if(prefix.cached!==0){stack.#engineCinitFrame!.pc='3067db77';return known(undefined);}
+              preparePropertyUndecoration(prefix.name,prefix.actualTypeInfo);
+              stack.#engineCinitFrame!.pc='3069b26b';return known(undefined);
             }
             return known(undefined);
           }

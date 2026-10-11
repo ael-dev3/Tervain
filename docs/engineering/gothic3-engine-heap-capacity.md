@@ -257,3 +257,22 @@ checks and has entered full-suite validation. This newer second-property
 continuation is local and is not included in that frozen validation checkout.
 Second type-name construction, complete startup and a playable campaign through
 an ending remain unfinished.
+
+### Shared type-name prefix and bCString decoder caller — 11 October 2026
+
+The original wrapper, type-name EH4 prolog, cache test and undecoration argument
+setup now share one instruction continuation for both property types. The first
+float path keeps its existing behavior. The second call uses its retained
+bCString type-info object and its own pending caller. Its six original arguments
+include the name pointer at offset nine, allocator `30672ec7`, free callback
+`30672f8a`, NULL output/length and flags `0x2800`. Execution reaches
+`3067dac6 -> 3069b26b` after 4,499 admitted operations. No second decoded name
+or allocation is supplied.
+
+Typechecking and ten distinct runtime/browser/regression checks pass. Making
+the second cache field unknown stops its original comparison at `3067daa8`
+after 4,489 operations, retaining the actual second EH4 frame, first completed
+CString and first property shutdown slot. The unknown mask is not repaired.
+The preceding first-property combined revision's full suite is still running;
+this newer shared-prefix continuation remains local. Decoder execution, complete
+startup and a playable campaign through an ending remain unfinished.

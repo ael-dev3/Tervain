@@ -534,3 +534,10 @@ checks, all 23 source/image checks and typechecking pass; independent regenerati
 is byte-identical. An unknown second guard retains the completed first callback
 and stops at `30076567` without repairing its mask. Second type-name execution,
 remaining startup and the campaign remain unfinished.
+
+The local type-name wrapper, EH4 frame and argument setup are reused for both
+properties. The actual bCString name pointer and allocator/free callbacks reach
+the undecoration call `3069b26b` after 4,499 source operations. Ten focused
+runtime/browser/regression checks and typechecking pass. An unknown second
+cache field retains its pending comparison and first-property results. No second
+decoded name is invented; complete startup and campaign play remain unfinished.
