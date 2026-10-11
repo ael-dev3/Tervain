@@ -1721,3 +1721,25 @@ This checkpoint remains local. Combined validation remains live on frozen
 `6a6de81b6f535c855a9ac8b3c12510b9186d99d5`, predating writer, cleanup, scan
 and cache stages. Third-property publication, full engine startup and complete
 browser campaign save/reload remain unfinished.
+
+
+## 2026-10-11: original int cache cleanup and constructor return
+
+The original type-name caller releases its actual eight-byte temporary output,
+runs the cache finally handler to unlock lock 14, reloads the third RTTI cache
+pointer and restores its physical EH frame. The original wrapper then returns
+the live cache-text pointer to the third property constructor at `30076608`.
+Execution has performed 9,694 source operations. The parser arena and temporary
+output are freed, both locks are released and the cache node/text remain live.
+The third property's separate CString and root have not yet been constructed.
+
+TypeScript checking passed. Three focused checks passed in 20.23 seconds.
+A failed output release stops at `30672f8a` with output and cache lock retained;
+a failed cache unlock stops at `3067db85` with output freed and lock retained.
+Both preserve the actual live cache and pending constructor caller. Six browser
+startup checks passed in 48.73 seconds. Source evidence is unchanged.
+
+This checkpoint is local. Combined validation is still live on frozen revision
+`6a6de81b6f535c855a9ac8b3c12510b9186d99d5`, which predates the writer and
+subsequent int stages. Third-property publication, full engine startup and
+complete browser campaign persistence remain unfinished.
