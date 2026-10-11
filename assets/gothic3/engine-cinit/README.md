@@ -1,7 +1,7 @@
 # Engine CRT initializer evidence
 
 This package records the next dependency after Engine environment-vector return.
-It captures 76 original bodies (3294 instructions), the caller at `30677284`,
+It captures 78 original bodies (3410 instructions), the caller at `30677284`,
 the floating-point callback at `30892ac0`, and two original initializer tables.
 The C initializer table has 200 slots with 6 nonzero entries. The C++ table has
 93,705 slots with 1,963 nonzero entries; omitted entries are verified zero.
@@ -14,7 +14,7 @@ python tools/gothic3/prepare_engine_cinit_source.py --study '<study-root>' --out
 
 The generator checks the original Engine.dll hash and exact caller bytes.
 Independent regeneration produced identical JSON, SHA-256
-``e054e5c797809286e5920a4184b54134a3ed44aa04e04b23dd344e95c4b350d3``.
+``5faeab76169ad5f11fd83ccb10a2c979b923aa1334da7db39ae1b1084f4dbbcf``.
 
 The capture's `runtimeConnected: false` records evidence preparation; it grants
 no execution authority. The TypeScript continuation separately obtains a
@@ -873,3 +873,165 @@ production build successfully. This validation covers work through the earlier
 modifier checkpoint, not the newer class and identifier continuations. The
 previous lighthouse timeout receipt remains distinct from this successful run.
 Newer work remains local. Complete startup and campaign completion are unfinished.
+
+## 2026-10-11: original identifier prefix dispatch
+
+The identifier parser now reads the retained template and generic prefix
+literals and compares their first bytes with the live original `b`. Both
+mismatch branches execute their original difference instructions and select
+ordinary identifier construction. The original `306994a4 -> 30697709` call
+receives the actual cursor slot at parser-global offset twelve and delimiter
+`@` (64), reaching 5,781 admitted operations. The delimited-name constructor
+remains pending; no `bCString` output is fabricated.
+
+TypeScript checking, five runtime allocation/failure checks, and six browser
+service checks pass. Browser fixtures now expect the actual constructor boundary.
+The added source sequence was reviewed against the captured instructions.
+Combined validation is running on the earlier frozen identifier-entry revision;
+this new dispatch is local. Complete startup and campaign completion remain
+unfinished.
+
+## 2026-10-11: original delimited-name constructor evidence
+
+Captured `DName::DName(char const*&, char)` at `30697709-306977d8`:
+89 instructions, 208 bytes, instruction hash
+`b28a7979f8797f684584712d69fe13c6bf321b680c271447e95d3cb6accbc086`.
+The body retains its character validation, live cursor updates, initializer
+call and delimiter handling. The package now has 77 Engine bodies and 3,383
+instructions. The source-admission checks pin the entry, cursor load, delimiter
+comparison, initialization call and original `RET 8`.
+
+Independent JSON and TypeScript regeneration are byte-identical. Structural
+comparison shows exactly the new body. TypeScript checking and all 32 source/image
+checks pass; generator and admission-test diffs were inspected. Runtime remains
+pending at `30697709` after 5,781 operations. This local capture does not execute
+the constructor. Complete startup and browser campaign completion are unfinished.
+
+## 2026-10-11: original delimited-name scan
+
+The retained constructor now follows its original per-character validation and
+cursor instructions through all eight `bCString` characters. It stops at the
+actual `@` delimiter at type-info offset twenty and passes the original start
+reference and count eight to `3069778c -> 3069760c`. The initializer reaches
+6,001 admitted operations. Text initialization and the constructor return remain
+pending; no completed decoded type name is claimed.
+
+TypeScript checking, six distinct runtime checks, and six browser-service checks
+pass. One initial normal-path check expected an obsolete EAX pointer; it now
+checks the actual partial-register delimiter byte and mask. The added unknown
+character check masks the third read at offset fifteen and proves execution
+stops at `30697736`, retaining the caller, lock and completed first CString,
+without calling initialization. Source and fixture diffs were inspected.
+Combined validation remains running on its earlier frozen revision. This work
+is local; complete startup and browser campaign completion remain unfinished.
+
+## 2026-10-11: original identifier text allocation and copy
+
+The scanned name now uses the shared original initializer with its actual source
+at type-info offset twelve. The warm arena allocates its text node at 3,996 and
+eight character bytes at 3,988, leaving payload 3,984. The original copy loop
+writes all eight `bCString` bytes and returns to `306973b7` after 6,176 source
+operations. The earlier `class ` text remains separate. Initialization and the
+delimited-name constructor still need to return; no full decoded type is claimed.
+
+TypeScript checking, six runtime checks and six browser-service checks pass.
+The normal check confirms bytes, masks, length, retained cursor and actual
+allocation offsets. The unknown character regression remains passing. Shared
+input checks now accept an explicit original source offset, defaulting to zero
+for the existing float/keyword paths, while retaining same-owner and field checks.
+The code and fixture diffs were inspected. This continuation remains local;
+complete startup and browser campaign completion remain unfinished.
+
+## 2026-10-11: original delimited-name return and identifier assignment
+
+The shared text/initializer return now resumes the actual delimited constructor
+at `30697791`. It compares the closing byte with its live delimiter argument,
+advances the cursor from twenty to twenty-one, clears the original kind bits,
+and returns through the retained `RET 8` to `306994a9` at 6,208 operations.
+The identifier parser then assigns the actual constructed node through
+`306994ad -> 30696da9`, returning to `306994b2` at 6,255 operations. Its node
+and eight `bCString` bytes remain owned by the live second-property arena.
+The identifier/reference-cache and scoped-name returns remain pending.
+
+TypeScript checking and six runtime checks pass at both return checkpoints;
+six browser-service checks pass at the final boundary. The normal check requires
+the real constructor, initialization and name-assignment calls to have returned
+and the cursor to point to the remaining `@`. Unknown-character and first-path
+regressions remain passing. The shared epilog extraction and new original steps
+were inspected. This work is local; complete startup and browser campaign
+completion remain unfinished.
+
+## 2026-10-11: original name-reference cache caller and body
+
+The identifier parser now restores its original saved registers, checks its
+actual cache argument and retained reference count, and reaches
+`306994c9 -> 306972d6` after 6,265 source operations. The name-reference append
+body is captured from `306972d6-3069731c`: 27 instructions, 71 bytes, hash
+`e23b2baff71710fef3f17c195214bf88c727edc543ea8ddaf1fc12cd1b482c75`.
+The package now has 78 Engine bodies and 3,410 instructions. Cache append and
+both name-parser returns remain pending.
+
+Independent JSON/TypeScript regeneration are byte-identical; structural
+comparison shows exactly the new body. TypeScript checking, six focused runtime
+checks, and all 39 source/image/browser-service checks pass. Source, generator
+and admission-test diffs were inspected. Combined validation remains running
+on its earlier frozen revision. This continuation remains local; complete
+startup and browser campaign completion remain unfinished.
+
+## Local continuation — 11 October 2026: name-reference cache entry
+
+The second property identifier now enters the captured cache append at
+`306972d6`, saves ESI, retains the actual stack cache owner, compares its
+counter against nine, loads the actual name argument, and calls the original
+empty-value predicate. Execution stops at `306970c9` after 6,271 admitted
+operations. The cache call and predicate call remain pending; no cache entry
+is synthesized. Both parser locks and the live second arena remain retained.
+
+Typechecking, six focused engine checks and six browser-service checks pass.
+The cache-pointer assertion checks the actual configured stack offset after
+ESI changes at its original instruction. The earlier accidentally broad test
+invocation was stopped after identifying its stale ESI assertion; it is not
+claimed as a passing suite. The separate older combined validation remains
+running and does not cover this continuation. Full startup, world activation
+and a finishable browser campaign remain unfinished. This checkpoint is local.
+
+## Local continuation — 11 October 2026: nonempty-name validity return
+
+The cache argument's actual constructed name node is checked against its
+canonical Engine allocation before the original nonempty predicate enters
+`306970b2`. The predicate reads the live stack flag word, executes the original
+left and arithmetic-right shifts, selects its zero-kind branch, and returns
+valid through `306970d3`. The outer empty predicate returns zero through its
+actual caller at `306972e7`, after 6,285 admitted operations. Shift carry and
+undefined overflow are retained conservatively; unknown flag bits are preserved.
+The pending append still owns its saved ESI and unmodified cache counter.
+
+Typechecking, six focused engine checks and six browser-service checks pass.
+The first validation attempt exposed use of the general memory resolver for
+an Engine allocation; the corrected implementation uses the canonical Engine
+heap owner proof. This is local implementation only. The cache's eight-byte
+allocation and copy, cache publication, complete engine startup and the
+finishable browser campaign remain unfinished. The older combined suite
+remains active and is not evidence for this revision.
+
+## Local continuation — 11 October 2026: original name-reference append returns
+
+The original append requests eight bytes from the live parser arena, reducing
+its retained capacity from 3,984 to 3,976 bytes. The allocated value at offset
+3,980 receives the actual name node and masked flag fields through the captured
+copy constructor. The counter increments from all-one bits to zero, preserving
+carry, and the original entry receives the actual allocated pointer. ESI is
+restored and RET4 returns to `306994ce` after 6,382 admitted operations.
+
+The copy helper now accepts an explicitly proved canonical Engine arena
+destination while preserving its existing stack destination checks. Copying
+the cached name does not overwrite the historical first-property text node.
+Typechecking, six focused engine checks, one interrupted-copy check and six
+browser-service checks pass. An interrupted copy retains the unchanged cache
+counter, live arena, held lock and pending caller; replay remains forbidden.
+
+Older combined revision `2ecc0b2ddfcb1215b3f5975c830e964dbce125f7` finished
+typechecking, all 3,575 tests across 319 files and the production build. Its
+full suite took 1,769.02 seconds and predates the cache continuation. These
+results are separate receipts. This checkpoint is local; identifier return,
+complete startup and the finishable browser campaign remain unfinished.

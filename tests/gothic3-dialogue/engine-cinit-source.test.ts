@@ -96,6 +96,20 @@ describe('original Engine CRT initializer evidence', () => {
     expect(engineCinitInstruction('30699300','30699300').bytes).toBe('55');
     expect(engineCinitInstruction('30699300','306994e9').bytes).toBe('c3');
   });
+  it('pins the original delimited identifier constructor',()=>{
+    expect(engineCinitInstruction('30697709','30697709').bytes).toBe('55');
+    expect(engineCinitInstruction('30697709','30697722').bytes).toBe('8b0f');
+    expect(engineCinitInstruction('30697709','30697738').bytes).toBe('3a450c');
+    expect(engineCinitInstruction('30697709','3069778c').bytes).toBe('e87bfeffff');
+    expect(engineCinitInstruction('30697709','306977c1').bytes).toBe('c20800');
+  });
+  it('pins the original identifier reference-cache append',()=>{
+    expect(engineCinitInstruction('306972d6','306972d6').bytes).toBe('56');
+    expect(engineCinitInstruction('306972d6','306972e2').bytes).toBe('e8e2fdffff');
+    expect(engineCinitInstruction('306972d6','306972f3').bytes).toBe('e8f8f8ffff');
+    expect(engineCinitInstruction('306972d6','30697302').bytes).toBe('e88cf9ffff');
+    expect(engineCinitInstruction('306972d6','3069731a').bytes).toBe('c20400');
+  });
   it('rejects unknown bodies, tables and invalid callback slots', () => {
     expect(() => engineCinitInstruction('3067d1c7', '3067d1c8')).toThrow();
     expect(() => engineCinitTable('Game')).toThrow();
