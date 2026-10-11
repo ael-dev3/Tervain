@@ -1,7 +1,7 @@
 # Engine CRT initializer evidence
 
 This package records the next dependency after Engine environment-vector return.
-It captures 73 original bodies (2937 instructions), the caller at `30677284`,
+It captures 74 original bodies (3028 instructions), the caller at `30677284`,
 the floating-point callback at `30892ac0`, and two original initializer tables.
 The C initializer table has 200 slots with 6 nonzero entries. The C++ table has
 93,705 slots with 1,963 nonzero entries; omitted entries are verified zero.
@@ -14,7 +14,7 @@ python tools/gothic3/prepare_engine_cinit_source.py --study '<study-root>' --out
 
 The generator checks the original Engine.dll hash and exact caller bytes.
 Independent regeneration produced identical JSON, SHA-256
-``4dd631602e0ab550e5360430a1c409590d8bf3794ac92bf1dcd0b6ba71dcfcc3``.
+``fe29c2856a31ea65f1c29d55df6f06ed9b5bfaac2049f8253394cf9beaa43a39``.
 
 The capture's `runtimeConnected: false` records evidence preparation; it grants
 no execution authority. The TypeScript continuation separately obtains a
@@ -692,3 +692,16 @@ TypeScript checking and five focused allocation, byte-unknown, qualifier,
 constructor and fatal-call regression checks pass. The source diff was reviewed.
 Combined validation is still live on its earlier frozen revision. This work is
 local; the class parser body, complete startup and full campaign remain unfinished.
+
+## 2026-10-11: original class-type parser evidence
+
+Captured `UnDecorator::getECSUDataType` at `306995dd-306996dc` from the matching
+reference binary and disassembly: 91 instructions, 256 bytes, instruction hash
+`7c1bb22e3048ef88118274d8c75d3ad3f61b8f9da92e6b6bc2e80891f9dd470c`.
+The evidence package now contains 74 Engine bodies and 3,028 instructions.
+Independent JSON and TypeScript regeneration are byte-identical. Structural
+comparison confirms the new method is the only evidence-package change.
+
+TypeScript checking and all 26 source/image checks pass. Runtime remains pending
+at this parser's entry after 5,421 operations; capturing its body does not execute
+it or establish startup. This work remains local. Full campaign play is unfinished.

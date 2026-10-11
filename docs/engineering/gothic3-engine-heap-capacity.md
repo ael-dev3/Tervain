@@ -651,3 +651,16 @@ TypeScript checking and five focused allocation, byte-unknown, qualifier,
 constructor and fatal-call regression checks pass. The source diff was reviewed.
 Combined validation is still live on its earlier frozen revision. This work is
 local; the class parser body, complete startup and full campaign remain unfinished.
+
+## 2026-10-11: original class-type parser evidence
+
+Captured `UnDecorator::getECSUDataType` at `306995dd-306996dc` from the matching
+reference binary and disassembly: 91 instructions, 256 bytes, instruction hash
+`7c1bb22e3048ef88118274d8c75d3ad3f61b8f9da92e6b6bc2e80891f9dd470c`.
+The evidence package now contains 74 Engine bodies and 3,028 instructions.
+Independent JSON and TypeScript regeneration are byte-identical. Structural
+comparison confirms the new method is the only evidence-package change.
+
+TypeScript checking and all 26 source/image checks pass. Runtime remains pending
+at this parser's entry after 5,421 operations; capturing its body does not execute
+it or establish startup. This work remains local. Full campaign play is unfinished.
