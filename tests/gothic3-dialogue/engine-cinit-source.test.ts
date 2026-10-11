@@ -18,6 +18,12 @@ describe('original Engine CRT initializer evidence', () => {
     expect(engineCinitTableTarget('cppInitializers', '307bb000')).toBeNull();
     expect(Object.isFrozen(engineCinitTable('cppInitializers').nonzeroEntries)).toBe(true);
   });
+  it('pins original value assignment and string output dependencies', () => {
+    expect(engineCinitInstruction('30696da9', '30696da9').bytes).toBe('8bc1');
+    expect(engineCinitInstruction('30696da9', '30696e21').bytes).toBe('c20400');
+    expect(engineCinitInstruction('30697114', '30697114').bytes).toBe('57');
+    expect(engineCinitInstruction('30697171', '30697171').bytes).toBe('55');
+  });
   it('rejects unknown bodies, tables and invalid callback slots', () => {
     expect(() => engineCinitInstruction('3067d1c7', '3067d1c8')).toThrow();
     expect(() => engineCinitTable('Game')).toThrow();

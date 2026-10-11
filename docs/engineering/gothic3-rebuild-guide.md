@@ -241,9 +241,10 @@ parser for the `M` type code, selects the original `float` literal, allocates it
 text node and character storage, and copies the five characters through the
 captured instructions. The next local continuation also follows the original modifier checks and
 returns the 54-instruction value-copy routine to `3069b553` after 3,531 admitted
-operations, preserving the same node and destination flag bits. The basic, compound and data-type parsers now return to `3069a321` after
-3,551 operations. Name output, type-name cache publication and later startup work
-are still required. A parsed literal alone
+operations, preserving the same node and destination flag bits. The basic, compound, data-type and type parsers now return, and the name
+parser assigns that retained value to its local result. Execution reaches
+`3069b04e` after 3,666 operations. Output buffer construction, type-name cache
+publication and later startup work are still required. A parsed literal alone
 does not complete Engine startup.
 
 Revision `a8f295e60`, an earlier local parser checkpoint, passed TypeScript
@@ -2200,3 +2201,29 @@ updating their observations from pending calls to returned calls. All 16 source
 and image checks pass. The copy checkpoint `a43e29021` is undergoing combined
 validation in a separate unchanged checkout; that run predates these returns.
 This local continuation has not been deployed.
+
+
+### 11 October 2026: name-parser value assignment
+
+The type parser restores its working flags from 0x0800 to 0x2800, copies the
+constructed value through the same 54-instruction routine, restores its saved
+registers and returns to `3069b044`. The name parser then executes the original
+assignment helper `30696da9`. That helper preserves the receiver's other flag
+fields and carries the same retained text-node pointer into the name local.
+Its physical RET 4 reaches `3069b04e` after 3,666 admitted operations. Output
+buffer sizing/writing, name-parser return, cleanup, cache publication and later
+startup remain unfinished. Captured length and writer routines are source
+evidence for upcoming work; their capture does not establish runtime execution.
+
+Typechecking, 14 focused runtime checks and 17 source/image checks pass.
+Independent regeneration reproduced the JSON and generated TypeScript byte for
+byte. The copy checkpoint `a43e29021` completed its combined focused run with
+180 passes and four failures across five files (265.15 seconds). Full-suite and
+build stages did not start. Two failures expected the earlier stack position;
+two read temporary character buffers after later startup reused them. The latest
+checks observe those buffers at the original argument-setup return and verify
+the current stack position. Fresh combined validation is required for publication.
+
+Remote PR #239 passed its existing CI and was merged externally as
+`2f721b1525291936b7ce51cdea5939b6c7d4cb37`. Its main Pages deployment was still
+running when checked. Local native startup work remains separate from that PR.

@@ -59,6 +59,9 @@ def capture(study):
         0x30696f3c: 'engineUndecorationCopyCharacters',
         0x306970c9: 'engineUndecorationTemporaryEmpty',
         0x30696c93: 'engineUndecorationCopyValue',
+        0x30696da9: 'engineUndecorationAssignValue',
+        0x30697114: 'engineUndecorationStringLength',
+        0x30697171: 'engineUndecorationWriteString',
     })
     pe = PE((study / '00_Original_Runtime/Engine.dll').read_bytes())
     # The exported function CSV omits this complete body; retain its assembly
