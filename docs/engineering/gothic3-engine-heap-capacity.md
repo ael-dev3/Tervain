@@ -1464,3 +1464,26 @@ the second constructor's physical caller and initialized header without claiming
 completed copying. Full startup and browser play through an ending remain
 unproven. This continuation remains local and postdates the passing combined
 revision `24a7bad8f17523a46b911868ac6ff9b275017ce0`.
+
+### 2026-10-11: original second property publication
+
+The second CString caller registers its actual shutdown callback `3001c602`
+through the original Engine onexit wrapper. Its fourth exit-table entry retains
+that source callback after the first float property's callback, and the cursor
+advances to offset sixteen. Original lock and exception-frame cleanup returns
+reach the property caller, which publishes its actual storage pointer in the
+second-property root `30ad9e34`. Its physical initializer
+returns resume the original C++ initializer loop. Execution reaches the next
+callback `307322d0` after 8,280 source operations. The second CString and first
+float CString remain live; lock 8 is released. Shutdown callback execution is
+not implied by registration.
+
+Type checking passed. Three focused publication/interruption checks passed in
+15.34 seconds and six browser startup checks in 31.40 seconds. Failed lock
+acquisition keeps the second root known NULL and retains the physical caller,
+completed CString and first three exit-table entries. The unused fourth entry
+retains its original known-zero contents. Current combined validation remains
+active on frozen revision `80f90a64de485c9778e75db45c9f77e57db8e95a`, which
+includes construction but predates this publication continuation. These changes
+remain local. The next initializer, full engine startup and browser campaign
+completion with persistent saves remain unfinished.
