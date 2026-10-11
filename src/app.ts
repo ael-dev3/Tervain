@@ -1,4 +1,5 @@
 import { PerfMeter, perfLine, summarise, type FrameSample } from './presentation/perfMeter';
+import { FOLIAGE_FOCUS } from './presentation/foliage/foliageMaterial';
 import { loadMeshyTrees, type MeshyTreeTemplates } from './presentation/meshyTrees';
 import { loadBakedTextures } from './presentation/bakedTextures';
 import { pruneContentCache } from './presentation/assets/download';
@@ -62,6 +63,9 @@ import type { AnimalDefinition } from './presentation/animals/catalog';
 import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { npcStyle } from './presentation/npcStyle';
 import type { CircleCollider } from './world/colliders';
+
+/** How far round the line from the camera to the wanderer leaves give way (A84), metres. */
+const FOLIAGE_FOCUS_RADIUS = 1.3;
 
 type Mode = 'loading' | 'title' | 'play' | 'dead';
 
@@ -1299,6 +1303,7 @@ export class App {
     if (this.worldPaused) return;
     if (this.menuBackgroundActive) {
       if (!this.menuGraphicsReady) return;
+      FOLIAGE_FOCUS.value.w = 0;
       this.menuScene.prepare(this.renderer);
       this.menuScene.prepareFrame(this.renderer, this.lastFrameDt, this.settings.reducedMotion);
       this.renderer.toneMappingExposure = 1.05 * this.settings.brightness;
@@ -1311,6 +1316,9 @@ export class App {
   }
 
   private renderWorld() {
+    // Leaves near the lens and between it and the wanderer give way (A84); only while the camera follows him.
+    if (this.mode === 'play' && this.cam.mode === 'follow' && !this.cam.manual) FOLIAGE_FOCUS.value.set(this.player.x, this.player.y + 1.15, this.player.z, FOLIAGE_FOCUS_RADIUS);
+    else FOLIAGE_FOCUS.value.w = 0;
     this.renderer.toneMappingExposure = 1.22;
     if (this.worldLook) {
       this.grade.setLook(this.worldLook);
