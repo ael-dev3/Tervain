@@ -2,7 +2,7 @@ import { createInitialState } from '../game/state';
 import { normalizeEquippedWeapon, normalizeInventory, normalizeQuickSlots } from '../game/inventory';
 import { ARROW_QUIVER_CAPACITY, normalizeHunting, normalizeHuntTally } from '../game/hunting';
 import { validMapMarker } from '../game/map';
-import { ARMED_START_REVISIONS, CONTENT_REVISION, NPC_IDS, SAVE_FORMAT_VERSION, WRECK_BLADE_PICKUP, type WorldState } from '../game/types';
+import { ARMED_START_REVISIONS, CONTENT_REVISION, EVIDENCE_IDS, NPC_IDS, SAVE_FORMAT_VERSION, WRECK_BLADE_PICKUP, type WorldState } from '../game/types';
 import { GAME_BUILD } from '../version';
 import type { Allocation, GateState, QuestPhase } from '../game/types';
 
@@ -184,7 +184,8 @@ export function reviveState(raw: unknown): WorldState | null {
       ...was,
       available: typeof n.available === 'boolean' ? n.available : was.available,
       cause: typeof n.cause === 'string' || n.cause === null ? n.cause : was.cause,
-      trust: isNum(n.trust) ? n.trust : was.trust,
+      // The game keeps trust within -5..5; a saved 99 passed every trust check and was written back (A102 scout).
+      trust: isNum(n.trust) ? Math.max(-5, Math.min(5, n.trust)) : was.trust,
       met: typeof n.met === 'boolean' ? n.met : was.met,
     };
   }
@@ -196,9 +197,31 @@ export function reviveState(raw: unknown): WorldState | null {
   merged.player.health = Math.max(0, Math.min(merged.player.maxHealth, merged.player.health));
   if (typeof merged.player.mount !== 'string' || !/^[0-9]{1,20}$/.test(merged.player.mount)) delete merged.player.mount;
   merged.skills = Array.isArray(raw.skills) && raw.skills.includes('steady_guard') ? ['steady_guard'] : [];
-  if (!isObj(merged.evidence)) merged.evidence = {};
+  // The quest's other fields keep their own types (A102 scout: a numeric `entry` loaded, then crashed the journal; a
+  // string `committedAtClock` turned the apply-delay sum into text).
+  const quest = merged.quest, numOrNull = (v: unknown) => isNum(v) ? v : null;
+  quest.entry = typeof quest.entry === 'string' ? quest.entry : null;
+  quest.maintainer = typeof quest.maintainer === 'string' ? quest.maintainer : null;
+  quest.committedAtClock = numOrNull(quest.committedAtClock);
+  quest.settledAtClock = numOrNull(quest.settledAtClock);
+  quest.repairRequired = quest.repairRequired === true;
+  quest.witnesses = Array.isArray(quest.witnesses) ? quest.witnesses.filter((w) => (NPC_IDS as readonly unknown[]).includes(w)) : [];
+  quest.reactions = Array.isArray(quest.reactions) ? quest.reactions.filter((r): r is string => typeof r === 'string') : [];
+  // A clock before the first day gave new hunting records a negative time, which the next load threw away.
+  if (merged.clock < 0) merged.clock = 0;
+  // Evidence counts by presence: only whole records of known evidence are kept, and only won encounters (A102 scout:
+  // `{ worker_testimony: 5 }` counted as testimony; `{ cut_creature: false }` as a defeat).
+  const evidence: WorldState['evidence'] = {};
+  if (isObj(raw.evidence)) for (const id of EVIDENCE_IDS) {
+    const rec = (raw.evidence as Record<string, unknown>)[id];
+    if (isObj(rec) && typeof rec.via === 'string' && ['observed', 'testimony', 'document', 'derived'].includes(rec.via)
+      && typeof rec.source === 'string' && isNum(rec.atClock)) evidence[id] = { via: rec.via as never, source: rec.source, atClock: rec.atClock };
+  }
+  merged.evidence = evidence;
+  const defeated: WorldState['defeated'] = {};
+  if (isObj(raw.defeated)) for (const [id, won] of Object.entries(raw.defeated)) if (won === true) (defeated as Record<string, true>)[id] = true;
+  merged.defeated = defeated;
   if (!isObj(merged.grants)) merged.grants = {};
-  if (!isObj(merged.defeated)) merged.defeated = {};
   if (!isObj(merged.discovered)) merged.discovered = {};
   if (!isObj(merged.locationChanges)) merged.locationChanges = {};
   // Saves from before the unarmed start were made by a player who already carried a blade: keep them armed, and
@@ -308,9 +331,11 @@ export class SaveStore {
     if (cur.ok) return cur;
     if (cur.kind === 'incompatible') return cur;
     const prev = this.decode(this.store.get(this.key(slot, 'prev')));
-    if (prev.ok) return { ...prev, recovered: 'previous' };
     const tmp = this.decode(this.store.get(this.key(slot, 'tmp')));
-    if (tmp.ok) return { ...tmp, recovered: 'temporary' };
+    // A temporary copy survives only a write interrupted after it was verified: it is then the newer save, and the
+    // previous one the older (A102 scout: recovery handed back the older save).
+    if (tmp.ok && (!prev.ok || tmp.summary.savedAt >= prev.summary.savedAt)) return { ...tmp, recovered: 'temporary' };
+    if (prev.ok) return { ...prev, recovered: 'previous' };
     // Report the most informative failure: a damaged save beats an empty slot.
     for (const r of [cur, prev, tmp]) if (!r.ok && r.kind === 'corrupt') return r;
     return cur;

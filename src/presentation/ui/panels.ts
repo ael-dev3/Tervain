@@ -249,7 +249,9 @@ export function slotLabel(res: LoadResult, slot: SlotId): { title: string; meta:
   const sm = res.summary;
   return {
     title,
-    meta: S('menu.savetime', { day: S('menu.day', { n: clockDay(sm.clock) + 1 }), phase: S(`journal.status.${sm.phase}`).split('.')[0] ?? '', play: fmtPlay(sm.playSeconds) }),
+    // A slot whose latest write was damaged says so in the list, not only once loaded (A102 scout).
+    meta: S('menu.savetime', { day: S('menu.day', { n: clockDay(sm.clock) + 1 }), phase: S(`journal.status.${sm.phase}`).split('.')[0] ?? '', play: fmtPlay(sm.playSeconds) })
+      + (res.recovered ? ` · ${S(`menu.recovered.slot.${res.recovered}`)}` : ''),
     ok: true,
   };
 }
