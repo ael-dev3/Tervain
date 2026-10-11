@@ -3341,3 +3341,8 @@ that checkout. That targeted correction is not a full-suite rerun. A full
 validation of this newest combined revision is still required before publishing
 this native checkpoint. Full startup and a complete browser campaign remain
 unachieved.
+
+
+## Integrated MainCache template parser checkpoint
+
+This integration combines main through 7e7884999313c061d1d5ce3164ca239d53f02cf3 with the native implementation and evidence from local checkpoint 8b823e7e4. The source capture contains 195 Engine methods and 4615 Engine instructions. The template-name pipeline executes through original cache cleanup and returns to the actual MainCache constructor at 30077258. The generated name and cache allocations, parser/output release, locks and physical caller returns have focused evidence in the implementation branch. SharedBase name conversion, remaining startup and the full campaign remain unfinished. A full local suite is to validate this frozen integrated revision; a started run is not a passing result or a deployment.

@@ -241,3 +241,15 @@ it('pins the original template parent combination and last-character calls',()=>
  expect(engineCinitInstruction('30697d9a','30697db2').bytes).toBe('e85ffdffff');
  expect(engineCinitInstruction('30697139','30697150').bytes).toBe('ff10');
 });
+
+
+it('pins the original text-node last character and empty return',()=>{
+ expect(engineCinitInstruction('306973c9','306973c9').bytes).toBe('8b410c');
+ expect(engineCinitInstruction('306973c9','306973cc').bytes).toBe('85c0');
+ expect(engineCinitInstruction('306973c9','306973ce').bytes).toBe('7408');
+ expect(engineCinitInstruction('306973c9','306973d0').bytes).toBe('8b4908');
+ expect(engineCinitInstruction('306973c9','306973d3').bytes).toBe('8a4401ff');
+ expect(engineCinitInstruction('306973c9','306973d7').bytes).toBe('c3');
+ expect(engineCinitInstruction('306973c9','306973d8').bytes).toBe('32c0');
+ expect(engineCinitInstruction('306973c9','306973da').bytes).toBe('c3');
+});
