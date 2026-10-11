@@ -343,3 +343,19 @@ operation count was corrected from 4,636 to the observed 4,635. Combined revisio
 but predates the second-property work, passed 243 focused checks, all 3,556 tests
 in 319 files, and a production build. Newer work needs combined validation.
 Complete startup and campaign play remain unfinished.
+
+### Shared field-node constructor and second field return — 11 October 2026
+
+Both properties now execute the same original field-node constructor and field
+return. The second parser's live node at arena offset 4,084 contains its retained
+vtable reference, zero link, kind three and zero payload. The original stack
+field points to that node, and execution returns to `306972c5` after 4,660
+admitted operations. The remaining internal object and parser construction are
+pending; lock five stays held.
+
+Typechecking and three focused runtime/browser checks pass. The node assertions
+inspect the live owner; obsolete argument slots from returned calls were removed
+because subsequent constructor calls legitimately reuse that stack storage.
+Combined revision `31207602620c9334092b5c9ca494fd0352411a26` remains under
+validation and predates this field return. Full startup, deployment of this
+continuation and a playable campaign through an ending remain unfinished.

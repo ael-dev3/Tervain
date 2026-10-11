@@ -569,3 +569,9 @@ Canonical ownership, recursive return, header and arena globals are retained.
 Typechecking and three focused checks pass. Earlier combined revision
 `05c8b93077dea4f6bb6d9afb9bf49d1e718b0b6c` passed 3,556 tests and its build;
 it predates this continuation. Full startup and campaign play remain unfinished.
+
+The shared field-node constructor now returns the second parser's first field
+at `306972c5` after 4,660 admitted operations. Its live node at arena offset
+4,084 and original stack field remain owned. Typechecking and three focused
+checks pass. Remaining parser construction, full startup and campaign play are
+unfinished; this continuation is local.
