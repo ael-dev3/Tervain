@@ -1953,3 +1953,21 @@ and preserves earlier live CStrings, roots and five shutdown entries. The
 interruption is scoped to the camera invocation of the shared instruction.
 Original source packages are unchanged. This local checkpoint is not deployed
 and does not prove complete startup or campaign completion with persistence.
+
+
+### 2026-10-11 — camera basic/compound/data/type returns (local)
+
+The original camera basic-type parser now copies the class parsed list, checks
+its modifier, and returns through compound, data-type and type parsers into the
+NameParser. The retained result is a live camera arena list with known low
+kind bits zero; it is copied into the name parser's actual stack value.
+Startup stops at `3069b04e` after 12,658 operations. Output length calculation,
+rendering, arena cleanup and fourth property publication remain pending.
+The original physical call/return order and earlier published roots survive.
+
+Validation: TypeScript checking, six focused runtime checks and six browser
+startup checks passed. Runtime checks cover the actual parser returns, live
+list provenance, known kind bits, unknown RTTI bytes, unavailable arena and
+interrupted list-link store. Original instruction packages are unchanged.
+This is local implementation, not deployment or proof of complete engine
+startup or campaign completion with save/reload.
