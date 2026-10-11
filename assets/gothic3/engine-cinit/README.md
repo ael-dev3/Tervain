@@ -131,3 +131,10 @@ zero flags, kind 3 and zero payload. The original RET 4 returns it to the field
 wrapper, which publishes the node and returns to the internal object. Execution
 reaches the second field constructor at `30697051` with kind 1, after 2,911
 operations. The captured first vtable entry is retained as a readonly image.
+
+Both internal parser objects now construct their four fields using shared
+original routines. The first request creates one 4,104-byte arena block; three
+warm requests consume further 16-byte slices. Retained free capacity is 4,032
+bytes, with field nodes at offsets 4,084, 4,068, 4,052 and 4,036. All four node
+constructors and both internal-object constructors return physically. Execution
+stops at parser configuration `30697490` after 3,121 admitted operations.

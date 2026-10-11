@@ -4,6 +4,24 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local continuation — 11 October 2026: both parser internal objects
+
+The original field prefix and node completion now serve kind 3 and kind 1 with
+their actual branches, arguments and return addresses. The warm arena branch
+subtracts each 16-byte request from retained capacity and returns another slice
+from the same allocation. Both parser internal objects complete their original
+four-field initialization and return through the physical stack. Execution stops
+at `30697490` after 3,121 admitted operations; configuration and name parsing have
+not yet executed and lock 5 remains held.
+
+The four node offsets are 4,084, 4,068, 4,052 and 4,036 in one 4,104-byte block,
+leaving 4,032 free bytes. Their kinds are 3, 1, 3 and 1. A dedicated ownership check
+confirms one malloc request, all four distinct slices in the same retained block,
+and all original node/object returns. Four normal/failure checks, three ownership
+and stack-observation checks, final typechecking and diff whitespace checks pass.
+Combined validation of `17698c717` remains live in its frozen checkout. This work
+remains local; startup and a complete browser campaign are still unfinished.
+
 ## Local continuation — 11 October 2026: first field node and stack observations
 
 The first allocated parser field node now executes its original constructor. It
