@@ -2658,3 +2658,27 @@ ESI. All twelve distinct selected checks have passing evidence across the runs.
 The SharedBase UnMangle conversion, property CString construction, shutdown
 registration, complete startup and finishable campaign remain outstanding.
 This checkpoint is local and has not been deployed.
+
+
+## Local continuation — 11 October 2026: reference-base SharedBase UnMangle
+
+The original reference-base caller pushes its live cache pointer and storage
+address, then enters the captured SharedBase UnMangle import. The original
+space search finds the actual space at offset 5 in `class bCObjectRefBase`.
+UnMangle advances that pointer to offset 6 and passes the suffix and actual
+reference-base storage to the captured CString constructor. Execution stops
+before the constructor thunk at `10003ba7` after 18,076 admitted operations.
+The UnMangle and constructor calls remain pending with their physical return
+addresses; the cache stays live and the earlier output remains freed.
+
+An unknown byte in either searched DWORD stops at the original XOR instruction
+rather than producing a guessed match. The admitted continuation matches the
+captured camera path after normalizing original wrapper instruction addresses.
+Typechecking and six browser startup checks pass locally. Four of five selected
+runtime checks passed initially; the normal check passed after distinguishing
+the new pending constructor call from the earlier completed camera call. All
+five distinct selected checks have passing evidence across these runs.
+
+CString construction, property publication, shutdown registration, complete
+startup and the finishable browser campaign remain outstanding. This work is
+local and has not been deployed.
