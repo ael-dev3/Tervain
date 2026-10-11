@@ -126,3 +126,20 @@ remain pending. Normal selected-layout execution has 4,288 admitted operations.
 The destination slot remains untouched. Typechecking and a focused source-loop,
 length, ownership and pending-allocation check pass. The next dependency is the
 SharedBase allocator's actual MemoryAdmin ownership and construction path.
+
+### Regression observation repairs
+
+Combined validation of the earlier UnMangle revision passed 211 checks and
+failed 17. Failures included completed-call assertions left pending, stack
+observations using the pre-return depth, and an arena-free probe accidentally
+reading freed arena fields during the later temporary-output free. The probe
+now captures its arena fields once. Historical allocation-argument checks
+capture ESI at the actual malloc call; later string search legitimately changes
+that register. Default exact-capacity startup now reports the pending source
+boundary through the normal continuation result.
+
+Fifteen affected Engine checks pass in targeted reruns (eight initial fixes,
+five follow-up fixes and two startup-reason checks), and typechecking passes.
+The browser boundary checks passed separately when the layout was adopted;
+a fresh combined run of the latest revision remains required. These receipts
+do not claim a new full-suite pass or deployment.
