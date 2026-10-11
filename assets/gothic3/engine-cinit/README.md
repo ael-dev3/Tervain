@@ -1245,3 +1245,20 @@ six browser startup checks passed in 31.17 seconds. The earlier combined suite
 remains active on its frozen revision, which predates these writer changes.
 This local continuation is not deployed and does not prove full engine startup
 or campaign completion.
+
+
+### 2026-10-11: original nested list writer
+
+The outer writer's original capacity arithmetic and virtual write dispatch now
+enter `3069742a`. This list method loads its live arena head, checks its actual
+output/count arguments, and tail-calls the original writer without fabricating
+a new return address. The nested writer retains its own stack frame, confirms
+the class-prefix value, dispatches the text length, and calls the text writer.
+Execution reaches `306973db` after 7,334 admitted operations. The actual
+character copy is pending; the live output still has 16 unknown bytes.
+
+Type checking passed. Four focused normal/fidelity/interruption checks passed
+in 16.70 seconds, and six browser startup checks passed in 27.37 seconds.
+The previous combined suite remains active on an older frozen revision. This
+local continuation is not deployed and full startup/world/campaign completion
+remains unproven.
