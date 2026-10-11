@@ -992,6 +992,21 @@ describe('shell corrections (A70)', () => {
     expect(second.app.openPause).not.toHaveBeenCalled();
   });
 
+  it('raises a hero who fell spent with full stamina and not exhausted (A100 scout)', () => {
+    const { app, call } = fixture();
+    let staminaWhenPlaced = -1;
+    const player = { ...app.player, stamina: 0 };
+    player.setPosition = vi.fn(() => { staminaWhenPlaced = player.stamina; });
+    Object.assign(app, {
+      mode: 'dead', checkpoint: { x: 0, y: 0, z: 0, yaw: 0 }, enemies: [], hitStop: 0,
+      world: { ...app.world, terrain: { groundAt: () => 0 } }, player,
+      cam: { ...app.cam, reset: vi.fn() }, speech: { ...app.speech, hero: vi.fn() },
+    });
+    call('respawn');
+    // setPosition derives the exhausted flag from stamina, so stamina must be full before the hero is placed.
+    expect(staminaWhenPlaced).toBe(100);
+  });
+
   it('restarts the autosave countdown on a load and on respawn (A71)', () => {
     const { app, call } = fixture();
     Reflect.set(app, 'autosaveTimer', 0.5);
@@ -1055,5 +1070,40 @@ describe('fixed steps (A72)', () => {
     // Drawn positions advance by the same amount every frame: a straight line in time, one step behind.
     const moves = drawn.slice(10).map((x, k) => x - drawn[k + 9]!);
     for (const m of moves) expect(m).toBeCloseTo(speed / 144, 6);
+  });
+});
+
+describe('the saddle in the shell (A100 scout)', () => {
+  function saddled(state: string, grounded: boolean) {
+    const { app, call } = fixture();
+    const animals = { mount: () => ({ x: 0, z: 0, seat: 1.2 }), ride: vi.fn(), rideGait: () => null };
+    const player = { ...app.player, mount: { id: 'deer', seat: 1.2 }, mountMove: null, alive: true, swimming: false, state, grounded,
+      x: 0, y: 0, z: 0, yaw: 0, rideSpeed: 0, setMountGait: vi.fn() };
+    const forceDismount = vi.fn();
+    Object.assign(app, { player, world: { ...app.world, animals } });
+    Reflect.set(app, 'forceDismount', forceDismount);
+    call('carryRider');
+    return { forceDismount, animals };
+  }
+
+  it('keeps a struck rider in the saddle through his flinch', () => {
+    const { forceDismount, animals } = saddled('hurt', true);
+    expect(forceDismount).not.toHaveBeenCalled();
+    expect(animals.ride).toHaveBeenCalledOnce();
+  });
+
+  it('puts him down when the deer is ridden off a ledge, rather than seating him in the air', () => {
+    expect(saddled('free', false).forceDismount).toHaveBeenCalledOnce();
+    expect(saddled('free', true).forceDismount).not.toHaveBeenCalled();
+  });
+
+  it('picks nothing up from the saddle, and lets go of anything held when he mounts', () => {
+    const { app, call } = fixture();
+    const physics = { holding: true, release: vi.fn(function (this: { holding: boolean }) { this.holding = false; }), candidate: vi.fn(() => ({ id: 'barrel' })), grab: vi.fn(), throw: vi.fn(), occludedByProp: () => false };
+    Object.assign(app, { player: { ...app.player, state: 'free', mount: { id: 'deer', seat: 1.2 }, mountMove: null }, world: { ...app.world, physics }, interactables: [], hud: { ...app.hud, setPrompt: vi.fn() } });
+    call('updateInteraction');
+    expect(physics.release).toHaveBeenCalled();
+    expect(physics.candidate).not.toHaveBeenCalled();
+    expect(physics.grab).not.toHaveBeenCalled();
   });
 });

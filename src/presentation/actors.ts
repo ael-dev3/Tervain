@@ -795,6 +795,8 @@ export class EnemyActor {
   private readonly route = new EnemyRoute();
   private routeState: EnemyState = 'idle';
   private dashDir = { x: 0, z: 0 };
+  /** Length of the stagger now playing, so its flinch runs 0 → 1 whether a light blow, a heavy one or a parry set it. */
+  private staggerFor = 0.85;
   engaged = false;
   fade = 1;
   private idleYaw: number;
@@ -855,16 +857,19 @@ export class EnemyActor {
     this.rig.hitFlash = 1;
     this.engaged = true;
     const d = Math.hypot(this.x - fromX, this.z - fromZ) || 1;
-    this.dashDir = { x: (this.x - fromX) / d, z: (this.z - fromZ) / d };
+    const away = { x: (this.x - fromX) / d, z: (this.z - fromZ) / d };
     if (this.hp <= 0) {
+      this.dashDir = away;
       this.state = 'dead';
       this.t = 0;
       return true;
     }
-    // A committed swing is not free to interrupt; heavy blows stagger even a wind-up.
+    // A committed swing is not free to interrupt; heavy blows stagger even a wind-up. A light blow that does not
+    // interrupt leaves the lunge's heading alone: the strike keeps coming rather than sliding back (A100 scout).
     if (heavy || (this.state !== 'telegraph' && this.state !== 'strike')) {
+      this.dashDir = away;
       this.state = 'stagger';
-      this.t = heavy ? 0.85 : 0.3;
+      this.t = this.staggerFor = heavy ? 0.85 : 0.3;
     }
     return false;
   }
@@ -875,7 +880,7 @@ export class EnemyActor {
     const d = Math.hypot(this.x - fromX, this.z - fromZ) || 1;
     this.dashDir = { x: (this.x - fromX) / d, z: (this.z - fromZ) / d };
     this.state = 'stagger';
-    this.t = 1.1;
+    this.t = this.staggerFor = 1.1;
     this.rig.hitFlash = 0.5;
   }
 
@@ -1093,7 +1098,7 @@ export class EnemyActor {
       // A contact holds only gait. The resolved idle must still breathe/look around on its continuous clock.
       time: this.rig.kind === 'humanoid' && movingPose ? this.gait : this.clock * (poseMode === 'run' ? 1.5 : 0.9),
       travel, moveSpeed: dt > 0 ? travel / dt : 0,
-      t: this.state === 'stagger' ? 1 - Math.max(0, this.t) / 0.85 : actionT, amp: ctx.reducedMotion ? 0.5 : 1 };
+      t: this.state === 'stagger' ? 1 - Math.max(0, this.t) / this.staggerFor : actionT, amp: ctx.reducedMotion ? 0.5 : 1 };
     poseRig(this.rig, pose, dt);
     if (this.state === 'dead' && !this.rig.resident) {
       // Fall over (a figure on its own rig falls in its death clip instead).

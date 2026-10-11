@@ -456,7 +456,7 @@ export class Player {
     this.rideSpeed = this.rideTurn = 0;
     // Step down to a side that is clear, inside the realm and not deep water; failing that, a clear side inside the realm
     // (A70). Never past the realm's edge (A90 scout: it could set him 2.2 m beyond it).
-    const deep = (x: number, z: number) => (ctx.water?.sample(x, z)?.depth ?? 0) > 0.9;
+    const deep = (x: number, z: number) => this.deepUnder(x, z, ctx);
     let placed = false;
     for (const side of [1, -1, 2, -2, 3, -3]) {
       const a = this.yaw + side * Math.PI / 2, d = Math.abs(side) === 3 ? 2.2 : Math.abs(side) === 2 ? 1.6 : 1.1;
@@ -468,14 +468,20 @@ export class Player {
       if (inRealm(x, z) && !ctx.colliders.blocked(x, z, PLAYER_RADIUS)) { this.x = x; this.z = z; break; }
     }
     // In deep water he is set down at the surface and swims; elsewhere on the ground.
-    const water = ctx.water?.sample(this.x, this.z);
-    this.y = water && water.depth > 0.9 ? water.surface - 1.1 : ctx.terrain.supportAt(this.x, this.z, this.y + 0.5);
+    const water = ctx.water?.sample(this.x, this.z), support = ctx.terrain.supportAt(this.x, this.z, this.y + 0.5);
+    this.y = water && water.surface - support > 0.9 ? water.surface - 1.1 : support;
     this.vx = this.vz = this.vy = 0; this.grounded = true;
   }
 
   /** A clear, shallow spot beside the saddle to step down to, or null (A71). */
-  private dismountSpot(ctx: Pick<PlayerCtx, 'colliders' | 'water'>): { x: number; z: number } | null {
-    const deep = (x: number, z: number) => (ctx.water?.sample(x, z)?.depth ?? 0) > 0.9;
+  /** Water deeper than 0.9 m over what he would stand on: a bridge deck above a deep stream is footing (A100 scout). */
+  private deepUnder(x: number, z: number, ctx: Pick<PlayerCtx, 'terrain' | 'water'>): boolean {
+    const water = ctx.water?.sample(x, z);
+    return !!water && water.depth > 0.9 && water.surface - ctx.terrain.supportAt(x, z, this.y + 0.5) > 0.9;
+  }
+
+  private dismountSpot(ctx: Pick<PlayerCtx, 'terrain' | 'colliders' | 'water'>): { x: number; z: number } | null {
+    const deep = (x: number, z: number) => this.deepUnder(x, z, ctx);
     if (deep(this.x, this.z)) return null;
     const bounds = { minY: this.y + PLAYER_FOOT_CLEARANCE, maxY: this.y + PLAYER_BODY_HEIGHT };
     for (const side of [1, -1]) {

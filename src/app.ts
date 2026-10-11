@@ -1755,7 +1755,9 @@ export class App {
     // Taken out of the saddle any other way (a load, a respawn, a teleport), the deer is let go too (A70).
     if (!mount) { if (this.ridden) { animals?.ride(this.ridden, null); this.ridden = null; } return; }
     // No deer under him (the animals not yet arrived after a rebuild): he gets down.
-    if (!this.player.alive || this.player.swimming || this.player.state !== 'free' || !animals?.mount(mount.id)) { this.forceDismount(); return; }
+    // A blow in the saddle is a flinch there, not a fall (A94); riding off a ledge is a fall, and puts him down (A100 scout).
+    const seated = this.player.state === 'free' || this.player.state === 'hurt';
+    if (!this.player.alive || this.player.swimming || !seated || !this.player.grounded || !animals?.mount(mount.id)) { this.forceDismount(); return; }
     this.ridden = mount.id;
     animals.ride(mount.id, { x: this.player.x, z: this.player.z, yaw: this.player.yaw, speed: this.player.rideSpeed });
     // The saddle rises with the deer's stride, and its hooves sound on the ground underfoot (A71).
@@ -1808,7 +1810,11 @@ export class App {
   private updateInteraction() {
     const p = this.player, physics = this.world.physics;
     if (p.state !== 'free') { physics.release(); this.hud.setPrompt(null); return; }
-    const prop = physics.holding ? null : physics.candidate(p, this.cam.yaw);
+    // Nothing is picked up from the saddle or while getting up or down: a held barrel rode through the deer's back
+    // (A100 scout). Interacting (dismounting among it) still works.
+    const saddled = p.mount !== null || p.mountMove !== null;
+    if (saddled && physics.holding) physics.release();
+    const prop = physics.holding || saddled ? null : physics.candidate(p, this.cam.yaw);
     if (this.input.pressed('grab')) {
       if (physics.holding) physics.release();
       else if (prop && physics.grab(prop.id)) this.audio.prop('grab');
@@ -2394,8 +2400,9 @@ export class App {
     if (this.mode !== 'dead') return;
     this.game.dispatch({ t: 'healPlayer', amount: 100 });
     const cp = this.safePosition(this.checkpoint.x, this.checkpoint.z, this.checkpoint.y);
-    this.player.setPosition(cp.x, cp.z, this.checkpoint.yaw, this.world.terrain, cp.y, cp.afloat === true);
+    // Stamina first: setPosition derives the exhausted flag from it, and a hero who fell spent rises fresh (A100 scout).
     this.player.stamina = 100;
+    this.player.setPosition(cp.x, cp.z, this.checkpoint.yaw, this.world.terrain, cp.y, cp.afloat === true);
     for (const e of this.enemies) e.reset(this.world);
     this.hud.showFade(false);
     this.mode = 'play';

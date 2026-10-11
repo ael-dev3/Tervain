@@ -248,3 +248,32 @@ describe('hostile navigation with real finite swept contacts', () => {
     expect(s.tick().mode).toBe('run');
   });
 });
+
+describe('seventh scout fixes: blows during a strike, and the flinch (A100)', () => {
+  it('keeps a Thornback\'s committed lunge heading at the hero when a light blow lands mid-strike', () => {
+    const s = setup('thornback'); s.enemy.state = 'chase'; s.ctx.player.z = 2;
+    for (let frame = 0; frame < 600 && (s.enemy.state as EnemyState) !== 'strike'; frame++) s.tick();
+    expect(s.enemy.state).toBe('strike');
+    s.ctx.strikePlayer = vi.fn(() => false);
+    const before = s.enemy.z;
+    s.enemy.takeHit(5, false, s.ctx.player.x, s.ctx.player.z);
+    expect(s.enemy.state).toBe('strike');
+    for (let frame = 0; frame < 6; frame++) s.tick();
+    // Without the fix the blow turned the lunge round: the creature slid away from the hero at 7 m/s.
+    expect(s.enemy.z).toBeGreaterThan(before);
+  });
+
+  it.each([
+    ['a light blow', (e: EnemyActor) => e.takeHit(1, false, 0, 1)],
+    ['a heavy blow', (e: EnemyActor) => e.takeHit(1, true, 0, 1)],
+    ['a parry', (e: EnemyActor) => e.parried(0, 1)],
+  ])('runs the flinch from its start after %s', (_name, hit) => {
+    const s = setup(); s.ctx.player.alive = false;
+    hit(s.enemy);
+    expect(s.enemy.state).toBe('stagger');
+    const first = s.tick();
+    expect(first.mode).toBe('hurt');
+    expect(first.t).toBeGreaterThanOrEqual(0);
+    expect(first.t).toBeLessThan(0.1);
+  });
+});
