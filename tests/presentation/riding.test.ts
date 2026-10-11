@@ -12,6 +12,7 @@ import {
   DEER_BODY, MOUNT_SIDE, MOUNT_STAMINA, MOUNT_TIMES, RIDE, RIDE_CAMERA, deerBodyPoints, doorwayAhead, gaitBob, roomAtDoor, steerMount,
 } from '../../src/presentation/riding';
 import { Colliders } from '../../src/world/colliders';
+import { WORLD } from '../../src/world/layout';
 import { INTERIORS, fromBuildingLocal } from '../../src/world/interiors';
 import type { Terrain } from '../../src/world/terrain';
 
@@ -54,6 +55,18 @@ function inside(box: { x: number; z: number; hw: number; hd: number }, x: number
 }
 
 beforeEach(() => vi.clearAllMocks());
+
+describe('stepping down at the realm’s edge (A90 scout)', () => {
+  it('sets the rider down inside the realm, never past its edge', () => {
+    const s = setup();
+    // Riding north along the west edge, facing so that the first side tried is the outer one.
+    s.player.setPosition(WORLD.minX + 4.5, 0, Math.PI, s.ctx.terrain);
+    s.player.mount = { id: DEER, seat: 1.2 };
+    s.player.dismount(s.ctx);
+    expect(s.player.mount).toBeNull();
+    expect(s.player.x).toBeGreaterThanOrEqual(WORLD.minX + 4);
+  });
+});
 
 describe('getting onto and off the saddled deer', () => {
   it('walks to the clear side, swings up over ~0.8 s with input locked, and ends in the saddle without entering scenery', () => {

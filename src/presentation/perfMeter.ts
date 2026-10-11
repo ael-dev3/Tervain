@@ -32,6 +32,13 @@ export class PerfMeter {
   begin() {
     this.started = performance.now();
     this.renderer.info.reset?.();
+    // A frame that threw never reached end(): its query is still open, and a second one cannot begin while it is (A90
+    // scout: the GPU time then read "..." for the rest of the session). End it and let it go.
+    if (this.open && this.gl && this.ext) {
+      this.gl.endQuery(this.ext.TIME_ELAPSED_EXT);
+      this.gl.deleteQuery(this.open);
+      this.open = null;
+    }
     this.collect();
     if (this.gl && this.ext && this.pending.length < 6) {
       this.open = this.gl.createQuery();

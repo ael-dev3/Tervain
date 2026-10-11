@@ -98,6 +98,22 @@ describe('continuous coastal atmosphere', () => {
     expect(sky.state.sunDir.angleTo(late)).toBeLessThan(0.03);
   });
 
+  it('moves the sun’s shadow camera with the walker without tilting it (A90 scout)', () => {
+    const walker = focus.clone(), light = new THREE.Vector3();
+    sky.update(10, walker, 1, false);
+    const first = sky.sun.position.clone().sub(sky.sun.target.position).normalize();
+    let tilt = 0;
+    for (let i = 0; i < 400; i++) {
+      walker.x += 0.02; walker.z += 0.013; walker.y += 0.004;
+      sky.update(10, walker, 0, false);
+      light.copy(sky.sun.position).sub(sky.sun.target.position).normalize();
+      tilt = Math.max(tilt, light.angleTo(first));
+      // The target stays within a snap step of the walker across the light.
+      expect(sky.sun.target.position.distanceTo(walker)).toBeLessThan(2);
+    }
+    expect(tilt).toBeLessThan(1e-6);
+  });
+
   it('freezes cloud and star motion while day/night lighting and brightness remain accessible', () => {
     sky.update(12, focus, 2, false);
     const phase = SKY.time.value;

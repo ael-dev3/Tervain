@@ -231,6 +231,8 @@ void main() {
 /** How far the sun moves before its shadow follows (radians), A71. */
 const SHADOW_DIR_STEP = 0.003;
 
+const SNAP_ACROSS = new THREE.Vector3(), SNAP_ALONG = new THREE.Vector3();
+
 export class SkyRig {
   private readonly shadowDir = new THREE.Vector3();
   readonly group = new THREE.Group();
@@ -376,14 +378,19 @@ export class SkyRig {
     // The shadow's direction follows the sun in steps of a sixth of a degree, not every frame: a sun moving a little each
     // frame made shadow edges crawl, and a near wall flickered with them (A71). Light and shading keep the exact sun.
     if (this.shadowDir.angleTo(sunDir) > SHADOW_DIR_STEP || !(this.shadowDir.lengthSq() > 0)) this.shadowDir.copy(sunDir);
-    this.sun.position.copy(focus).addScaledVector(this.shadowDir, 160);
-    this.sun.target.position.copy(focus);
-    // Snap the shadow focus to texel-ish steps so shadows do not shimmer while walking.
+    // Snap the shadow focus to texel-ish steps across the light so shadows do not shimmer while walking. The focus is
+    // snapped once, in the light's own plane, and the sun set back from it along the exact shadow direction (A90 scout):
+    // rounding sun and target apart tilted the light by up to 0.004 rad as the player walked, more than the steps the
+    // shadow's direction itself is held to, and slid shadows by up to four texels.
     const step = (140 / this.sun.shadow.mapSize.x) * 4;
-    this.sun.position.x = Math.round(this.sun.position.x / step) * step;
-    this.sun.position.z = Math.round(this.sun.position.z / step) * step;
-    this.sun.target.position.x = Math.round(this.sun.target.position.x / step) * step;
-    this.sun.target.position.z = Math.round(this.sun.target.position.z / step) * step;
+    const dir = this.shadowDir;
+    const across = SNAP_ACROSS.set(dir.z, 0, -dir.x);
+    if (across.lengthSq() < 1e-8) across.set(1, 0, 0);
+    across.normalize();
+    const along = SNAP_ALONG.crossVectors(dir, across).normalize();
+    const snapA = Math.round(focus.dot(across) / step) * step, snapB = Math.round(focus.dot(along) / step) * step, depth = focus.dot(dir);
+    this.sun.target.position.copy(across).multiplyScalar(snapA).addScaledVector(along, snapB).addScaledVector(dir, depth);
+    this.sun.position.copy(this.sun.target.position).addScaledVector(dir, 160);
     // The sun keeps casting after dusk: switching it off changed the number of shadowed lights, and every shaded
     // material was compiled again at dusk and dawn, a stall of seconds. Its shadow fades out instead, and the shadow map
     // is not drawn while it casts nothing.
