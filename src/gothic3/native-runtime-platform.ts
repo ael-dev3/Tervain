@@ -2008,6 +2008,13 @@ const runtimeAdminOwners = new WeakMap<NativeRuntimePlatform, {memory: NativeMem
 
 /** Lookup retains the actual factory-created module and does not initialize it.
  * Ambiguous module lifetimes on one platform cannot supply a canonical owner. */
+export function nativeRuntimeMemoryAdminForPlatform(platform:NativeRuntimePlatform):NativeValue<NativeMemoryAdmin>{
+  const active=NativeRuntimePlatform.requireActivePlatform(platform);if(!active.known)return active;
+  const owner=runtimeAdminOwners.get(platform);
+  return owner&&NativeMemoryAdmin.isForPlatform(owner.memory,platform)?known(owner.memory)
+    :unknown('Actual unique same-platform runtime MemoryAdmin owner is unavailable');
+}
+
 export function nativeRuntimeMessageAdminForPlatform(platform: NativeRuntimePlatform): NativeValue<NativeMessageAdminModule> {
   const owner = runtimeAdminOwners.get(platform);
   if (!owner || !NativeMemoryAdmin.isForPlatform(owner.memory, platform))

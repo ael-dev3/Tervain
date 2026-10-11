@@ -14,7 +14,7 @@ python tools/gothic3/prepare_engine_cinit_source.py --study '<study-root>' --out
 
 The generator checks the original Engine.dll hash and exact caller bytes.
 Independent regeneration produced identical JSON, SHA-256
-``1cf6b6350298cd32980f0104700ba120d0f3bf19622f3cbb9259a7d7b5bf8f8f``.
+``316bad5ba6d982b7613992fc5d4aa1e805a6550ff2f85d87185629bd6ff6601e``.
 
 The capture's `runtimeConnected: false` records evidence preparation; it grants
 no execution authority. The TypeScript continuation separately obtains a
@@ -485,3 +485,9 @@ cannot supply it. Full integration validation remains pending.
 
 See the [Engine heap capacity contract](../../../docs/engineering/gothic3-engine-heap-capacity.md)
 for the next physical-span bridge and its required ownership checks.
+
+Seven SharedBase bodies now include CString allocation, MemoryAdmin lookup
+and tagged allocation. Eight source/owner checks pass; independent regeneration
+matches exactly. The runtime owner lookup reuses the existing unique MemoryAdmin
+without constructing or initializing a replacement. Ambiguous ownership is
+rejected. The allocator continuation remains pending.
