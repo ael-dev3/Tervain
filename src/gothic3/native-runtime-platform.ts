@@ -691,6 +691,9 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
           Object.getOwnPropertyDescriptor(fields, 'pointerBegin')!.value !== 0) throw new Error('Current exact logical/physical allocation aliases differ');
     }
   }
+  static engineHeapLayoutForPlatform(platform:NativeRuntimePlatform):NativeValue<'rounded-eight'|undefined>{
+    const active=NativeRuntimePlatform.requireActivePlatform(platform);return active.known?known(platform.#crtServices?.engineHeapLayout):active;
+  }
   static canonicalEngineHeapAllocationViewsForPlatform(platform: NativeRuntimePlatform, owner: NativeModuleCrtOwner,
     backing: NativeMemoryBacking): NativeValue<Readonly<{logical:NativeHeapObjectViews;physical:NativeHeapObjectViews;requestedBytes:number;physicalCapacity:number}>> {
     const active=NativeRuntimePlatform.requireActivePlatform(platform);if(!active.known)return active;

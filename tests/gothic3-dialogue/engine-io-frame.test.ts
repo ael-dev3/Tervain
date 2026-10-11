@@ -20,7 +20,7 @@ import type {NativeStartupInfoWriterSelection} from '../../src/gothic3/native-wi
 import type {NativeWin32StandardIoSelection} from '../../src/gothic3/native-win32-standard-io';
 import {browserGameStandardIoInputs} from '../../src/gothic3/browser-game-standard-io-inputs';
 import {browserGameProcessInputs} from '../../src/gothic3/browser-game-process-inputs';
-function fixture(startupInfoA?:NativeStartupInfoWriterSelection,standardIo?:NativeWin32StandardIoSelection,argvNls?:NativeWin32ArgvNlsSelection,pageAlignment=true,processInputs:NativeWin32ProcessInputSelection=browserGameProcessInputs,features:{processorFeatureProcedure?:boolean;floatingPointPrecisionErratum?:boolean;cpu?:NativeX86CpuSelection|null}={processorFeatureProcedure:true,floatingPointPrecisionErratum:false}){
+function fixture(startupInfoA?:NativeStartupInfoWriterSelection,standardIo?:NativeWin32StandardIoSelection,argvNls?:NativeWin32ArgvNlsSelection,pageAlignment=true,processInputs:NativeWin32ProcessInputSelection=browserGameProcessInputs,features:{engineHeapLayout?:'rounded-eight';processorFeatureProcedure?:boolean;floatingPointPrecisionErratum?:boolean;cpu?:NativeX86CpuSelection|null}={processorFeatureProcedure:true,floatingPointPrecisionErratum:false}){
  const platform=new NativeRuntimePlatform({engineCrtServices:{...features,argvNls,standardIo,startupIo:startupInfoA?{startupInfoA}:undefined,tlsValues:new Map(),kernel32Available:true,pointerCodec:'absent',fiberLocalStorage:true,processHeap:true,osVersion:{platform:2,major:6,minor:1,build:42},processInputs,
   entropy:{systemTimeAsFileTime:()=>({known:true,value:{low:0x12345678,high:1}}),currentProcessId:()=>({known:true,value:4}),currentThreadId:()=>({known:true,value:5}),tickCount:()=>({known:true,value:6}),performanceCounter:()=>({known:true,value:{success:true,low:7,high:8}})},
   threadStack:{cpu:features.cpu===null?undefined:features.cpu??nativeVirtualX86CpuSelection,threadCapability:{},reservationBytes:4096,addressModel:'opaque-relative',initialRegisters:'unknown',initialFs0:'unknown',pageAlignment:pageAlignment?'virtual-page-4096':undefined}}});
@@ -1126,4 +1126,15 @@ it('executes the first original character-search DWORD and retains the unsupport
  expect(graph.value.snapshot().trace.filter(r=>r==='100a7338.SharedBaseUnMangleSource')).toHaveLength(1);
  expect(graph.value.snapshot().calls.find(c=>c.site==='1009155b')?.returned).toBe(false);
  expect(bootstrap.processAttach()).toEqual(result);
+});
+
+
+it('retains the six-byte cache request over selected Engine physical capacity',()=>{
+ const {bootstrap,platform,crt}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{engineHeapLayout:'rounded-eight',processorFeatureProcedure:true,floatingPointPrecisionErratum:false});
+ expect(bootstrap.processAttach().known).toBe(false);const f=bootstrap.attachProgress().engineCinitProgress!;
+ expect(f.pc).toBe('100a7338');expect(f.typeNameCacheText!.bytes.length).toBe(6);
+ const proof=NativeRuntimePlatform.canonicalEngineHeapAllocationViewsForPlatform(platform,crt,f.typeNameCacheText!.backing);if(!proof.known)throw new Error(proof.reason);
+ expect(proof.value.logical).toBe(f.typeNameCacheText);expect(proof.value.requestedBytes).toBe(6);expect(proof.value.physicalCapacity).toBe(8);
+ expect([...proof.value.physical.knownMask]).toEqual([255,255,255,255,255,255,0,0]);
+ expect(f.typeNameCacheTextWord).toMatchObject({provenance:{kind:'engine-allocation',fields:proof.value.logical,offset:0}});
 });

@@ -87,3 +87,14 @@ Five focused checks pass, including padding, shared mutation, forged backing,
 wrong owner/platform and invalidation after release. Typechecking passes.
 The browser profile and startup caller have not yet adopted these aliases;
 SharedBase search integration and campaign completion remain unfinished.
+
+### Type-name logical-view integration implemented locally
+
+The original type-name malloc continuation now uses the privately admitted
+logical view when Engine rounding is explicitly selected. It verifies the
+original request size, retains the owning backing and publishes the six-byte
+cache pointer. A focused startup check reaches the actual character-search
+boundary with an eight-byte physical backing and two unknown padding bytes.
+Exact-capacity startup remains supported without the layout selection. The
+original search still reads through its logical view; physical tail admission
+and browser profile adoption remain unfinished.
