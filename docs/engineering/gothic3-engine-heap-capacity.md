@@ -2025,3 +2025,21 @@ startup checks passed. A further unavailable arena free check passed at
 cursor. Original instruction packages are unchanged. This local checkpoint
 has not been deployed and does not establish complete engine startup or a
 campaign playable through an ending with persistence.
+
+
+### 2026-10-11 — original camera type-name DWORD length scan (local)
+
+Executed the original aligned DWORD strlen scan over the live camera output,
+including its masked zero-byte predicate and third-byte terminator finish.
+It returns length eighteen to `3067dae2` after 13,485 startup operations.
+The last scan DWORD contains the known NUL at output offset 18 and unknown
+padding at 19; the predicate proves the terminator without inventing padding.
+Cache allocation/copy, output release and camera publication remain pending.
+
+Validation: TypeScript checking, twelve focused runtime checks and six browser
+startup checks passed. Making the scan terminator unknown stops at `30679b11`
+with its original caller pending and parser lock already released. Normal
+checks verify the length, prior roots/CStrings, output masks and freed parser
+arena observations. Original source packages remain unchanged. This local
+checkpoint is not deployed and does not establish complete engine startup or
+campaign completion with save/reload.
