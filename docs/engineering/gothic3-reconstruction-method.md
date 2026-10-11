@@ -184,3 +184,8 @@ results. A passing startup check does not demonstrate a playable campaign.
 
 The hosted target is `/gothic3/` alongside Tervain. Local implementation,
 repository publication and a successful Pages deployment are separate milestones.
+
+
+## Campaign completion criteria
+
+See [Gothic 3 browser campaign completion](gothic3-campaign-completion.md) for the current evidence gaps and the deployed campaign, save/reload and original-ending proof required before calling the reconstruction complete.
