@@ -2742,3 +2742,11 @@ returns. Typechecking, seven runtime checks, 47 source/image checks and six
 browser startup checks pass locally. The earlier combined scan revision is
 still validating separately. Complete startup, world activation and a
 finishable browser campaign remain outstanding; this checkpoint is not deployed.
+
+
+## Production build validation: reference-base initializer
+
+Revision `4716d0ec1` passed its production build (64 seconds) and the build
+process exited zero. Its earlier typechecking, seven runtime checks and 53
+source/image/browser checks passed. This local build does not prove complete
+startup or a playable campaign, and this revision has not been deployed.
