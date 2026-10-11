@@ -9,10 +9,11 @@ the goal, the rules, every backlog item's state, what was in progress and the ex
   inputs from outside the code:
   - the soft crown silhouettes need new crown exports;
   - two asset sources await the owner's answers (backlog 11).
-- **Bug scouts** over every area (A87–A101) found and fixed over a hundred faults, each in its round's record.
+- **Bug scouts** over every area (A87–A102) found and fixed over a hundred faults, each in its round's record.
   ([A92](engineering/a92-gothic3-scout.md), [A93](engineering/a93-second-scout.md), [A94](engineering/a94-third-scout.md),
   [A95](engineering/a95-fourth-scout.md), [A96](engineering/a96-fifth-scout.md), [A99](engineering/a99-sixth-scout.md),
-  [A100](engineering/a100-seventh-scout.md), [A101](engineering/a101-eighth-scout.md))
+  [A100](engineering/a100-seventh-scout.md), [A101](engineering/a101-eighth-scout.md),
+  [A102](engineering/a102-ninth-scout.md))
 - **Playtest faults re-checked:** crowns, branch ribbons, grass at the field fences and the palisade, and the windows
   from inside. Each was captured on the GPU before A79 and after, from the playtest cameras; all are fixed.
 - **The pine's grey slivers** were its bark normals, repaired in A97 ([A97](engineering/a97-pine-bark-normals.md)).
