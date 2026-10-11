@@ -998,3 +998,28 @@ typechecking, all 3,575 tests across 319 files and the production build. Its
 full suite took 1,769.02 seconds and predates the cache continuation. These
 results are separate receipts. This checkpoint is local; identifier return,
 complete startup and the finishable browser campaign remain unfinished.
+
+## Local continuation — 11 October 2026: original identifier return
+
+The identifier copies the actual parsed name into its caller's stack output
+using the original 54-instruction value constructor. It retains the historical
+first-property text node separately. Its epilog decodes the saved cookie XOR
+using the same EBP identity, compares with the canonical Engine cookie, restores
+ESI and EBP, and returns through the actual scoped-name caller at `3069950a`.
+Execution reaches 6,450 admitted operations. Caller argument cleanup and the
+remaining scoped-name continuation are still pending.
+
+The source package adds the four original cookie-check instructions, including
+the failure jump, verified against the pinned Engine DLL. The body hash is
+`5301830da53ad2ffa60943819b7aef623e476ee054612876edffe7ffe4de2e4e`.
+It now captures 79 Engine bodies and 3,414 instructions. Independently generated
+JSON and TypeScript match byte-for-byte. Typechecking, seven focused runtime
+checks and 40 source/image/browser-service checks pass. This checkpoint is local.
+The combined cache-append revision `3244c7c5f5ffa65674b0eb09513fba0f797939fd`
+is still validating and predates this identifier return.
+
+Separately, GitHub run 38116210143 completed both build and deployment for main
+revision `287b49d53bd08ad08998334ea0308e680a8a3117` (PR 246). That deployment
+contains prototype fixes and does not prove engine startup or campaign
+completion. Complete startup and the finishable browser campaign remain
+unfinished.

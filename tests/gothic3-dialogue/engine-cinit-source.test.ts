@@ -118,3 +118,9 @@ describe('original Engine CRT initializer evidence', () => {
     }
   });
 });
+
+it('pins the original identifier cookie check and failure edge',()=>{
+ expect(engineCinitInstruction('3067746c','3067746c').bytes).toBe('3b0dec43ad30');
+ expect(engineCinitInstruction('3067746c','30677472').bytes).toBe('7502');
+ expect(engineCinitInstruction('3067746c','30677474').bytes).toBe('f3c3');
+});

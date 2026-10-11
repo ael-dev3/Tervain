@@ -22919,6 +22919,56 @@
         "bodyInstructionBytesSha256": "e23b2baff71710fef3f17c195214bf88c727edc543ea8ddaf1fc12cd1b482c75"
       },
       {
+        "label": "engineUndecorationSecurityCookieCheck",
+        "entryVA": "0x3067746c",
+        "bodyVA": "0x3067746c",
+        "entryChain": [],
+        "bodyRanges": "3067746c-3067747a",
+        "instructions": [
+          {
+            "va": "3067746c",
+            "rva": "67746c",
+            "fileOffset": 6780012,
+            "bytes": "3b0dec43ad30",
+            "instruction": "CMP ECX,dword ptr [0x30ad43ec]",
+            "assemblyLine": 1726348
+          },
+          {
+            "va": "30677472",
+            "rva": "677472",
+            "fileOffset": 6780018,
+            "bytes": "7502",
+            "instruction": "JNZ 0x30677476",
+            "assemblyLine": 1726349
+          },
+          {
+            "va": "30677474",
+            "rva": "677474",
+            "fileOffset": 6780020,
+            "bytes": "f3c3",
+            "instruction": "RET",
+            "assemblyLine": 1726350
+          },
+          {
+            "va": "30677476",
+            "rva": "677476",
+            "fileOffset": 6780022,
+            "bytes": "e9be750100",
+            "instruction": "JMP 0x3068ea39",
+            "assemblyLine": 1726352
+          }
+        ],
+        "reconstructedC": {
+          "path": "01_Decompiled_Code/Engine_dll/pseudocode/functions_00168.c",
+          "sha256": "ecef8a3709916bf17b907182955a619ef9ffaee2291b7a5eeea106d4e13179c8",
+          "line": 14473,
+          "status": "decompiled"
+        },
+        "instructionCount": 4,
+        "bodyByteCount": 15,
+        "bodyInstructionBytesSha256": "5301830da53ad2ffa60943819b7aef623e476ee054612876edffe7ffe4de2e4e"
+      },
+      {
         "label": "engineUndecorationStringConstructor",
         "entryVA": "0x30697a0f",
         "bodyVA": "0x30697a0f",

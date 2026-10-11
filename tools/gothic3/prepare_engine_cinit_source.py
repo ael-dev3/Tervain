@@ -62,6 +62,7 @@ def capture(study):
         0x30699300: 'engineUndecorationIdentifierParser',
         0x30697709: 'engineUndecorationDelimitedNameConstructor',
         0x306972d6: 'engineUndecorationNameReferenceAppend',
+        0x3067746c: 'engineUndecorationSecurityCookieCheck',
         0x30697a0f: 'engineUndecorationStringConstructor',
         0x3069760c: 'engineUndecorationStringInitialize',
         0x30697364: 'engineUndecorationTextNodeConstructor',
