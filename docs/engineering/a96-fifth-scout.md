@@ -31,13 +31,17 @@ Each fault was confirmed against the code. Those marked *(test)* have a test tha
 | **The sleeping cat woke to call** whenever its timer ran out at night. *(test)* | It calls only when awake. |
 | **A healed or returning animal could settle in front of the hunter**: about 30 m off, where it was meant to return out of his sight. *(test)* | It settles at the place in its range farthest from him. |
 
+## Followed up (A98)
+
+- **The map's "Show place" and "Pin place" stayed enabled with no place chosen, and did nothing.** They are now
+  disabled until a place is chosen. *(test)*
+- **The licence links in the About panel could not be reached with a controller.** They can now.
+- **An unused dialogue view** is removed.
+
 ## Not changed
 
-- **Hotbar slot labels always read 1 to 0**, even when a digit is bound to another action, which turns that slot's key
-  off.
-- **The map's "Show place" and "Pin place" stay enabled with no place selected**, and do nothing.
-- **The licence links in the About panel cannot be reached with a controller.**
-- **An unused dialogue view** remains in the code.
+- **Hotbar slot labels read 1 to 0 even when a digit is bound to another action.** The number-pad key with the same
+  number still uses the slot, so the label stays true.
 
 ## Found sound by the same reads
 
