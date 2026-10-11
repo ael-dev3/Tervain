@@ -117,6 +117,10 @@ describe('compiled images', () => {
 });
 
 describe('compiled meshes', () => {
+  it('checks the first element like the rest: an index past its vertices is refused (A99 scout)', () => {
+    expect(() => parseMesh(meshFile([{ material: 'G3_Wood_01.xshmat', positions: [0, 0, 0, 1, 0, 0, 0, 1, 0], indices: [0, 1, 7] }]))).toThrow(/element 0/);
+  });
+
   it('reads each element and finds the next one past the unrelated block between them', () => {
     const quad = { positions: [0, 0, 0, 10, 0, 0, 10, 10, 0, 0, 10, 0], indices: [0, 1, 2, 0, 2, 3], uv0: [0, 0, 1, 0, 1, 1, 0, 1] };
     const mesh = parseMesh(

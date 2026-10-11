@@ -611,7 +611,7 @@ export function buildScenery(terrain: Terrain, colliders: Colliders, quality: 'l
     // The old stockade's opening follows the same authoring data as the road and collision.
     palisade(R, rnd, PALISADE.points as unknown as { x: number; z: number }[], PALISADE.gate, gy);
     const gateZ = (PALISADE.gate.z0 + PALISADE.gate.z1) / 2;
-    stockadeGate(R, rnd, PALISADE.gate.x, gateZ, PALISADE.gate.z1 - PALISADE.gate.z0, gy);
+    stockadeGate(R, rnd, PALISADE.gate.x, gateZ, PALISADE.gate.z1 - PALISADE.gate.z0, gy, PALISADE.gate.leafSwing);
     watchtower(R, rnd, PALISADE.tower.x, PALISADE.tower.z, PALISADE.tower.yaw, gy, (RR, yy) => roofFor(RR, 'hip', 'shingle', 3.4, 3.4, yy, 88, { pitch: 0.7 }));
     lanternPositions.push(new THREE.Vector3(PALISADE.gate.x - 0.4, gy(PALISADE.gate.x, gateZ) + 3.7, gateZ - 1.5));
     colliders.circle('camp_fire', fire.x, fire.z, 0.7, true, fireLimits);
