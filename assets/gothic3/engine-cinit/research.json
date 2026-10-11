@@ -42827,6 +42827,15 @@
       "sha256": "50e7aab8bdf6fd29b15bd51793c5404c95d6680a35ed74be42388e87b38b57e4"
     },
     {
+      "label": "undecorationIntLiteral",
+      "address": "3089f5d0",
+      "bytes": 4,
+      "raw": "696e7400",
+      "fileBackedBytes": 4,
+      "loaderZeroFillBytes": 0,
+      "sha256": "26461de90bccabfde78889464de27c40b1a962fdc312a7b6284dd21593ffcd83"
+    },
+    {
       "label": "undecorationClassLiteral",
       "address": "3089f408",
       "bytes": 7,

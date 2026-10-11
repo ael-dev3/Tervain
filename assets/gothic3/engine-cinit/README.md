@@ -1553,3 +1553,28 @@ properties. The combined validation continues on frozen revision
 publication and this third-property dispatch. These additions remain local.
 Third-property completion, full engine startup and playable browser campaign
 completion with save/reload remain unfinished.
+
+
+## 2026-10-11: original third-property int text construction
+
+The original readonly `int\0` literal at `3089f5d0` is now captured and
+protected against altered bytes or masks. The third-property basic-type branch
+executes its original string constructor, arena allocation and character-copy
+instructions. It constructs three characters at arena offset 4012, with a
+16-byte text node at 4020 and length three at 4032. Execution now reaches
+`3069b601` after 9,015 source operations. The parser arena remains live and
+lock 5 remains held; the third property has not yet been published.
+
+TypeScript checking passed. Three focused runtime checks passed in 16.33 seconds,
+including interruption at the actual final-character store `30696f4b`, which
+retains `in` and an unknown last byte, and an unknown third-cache word. Forty-eight
+source, image and browser-startup checks passed across four files in 51.41 seconds.
+Independent regeneration produced byte-identical JSON and TypeScript packages
+(SHA-256 `12193f572b8a5d99899e89cb453375c7415dd81dfc06ae92f6e9799d0500a696`
+and `9b702c814c62ef6e7726e436f2bf0a4f83cfb846f91058ba27bbb8b28cdccc1f`).
+
+The historical published float node remains a separate observation; the checks
+inspect the actual third arena captured during its physical character write.
+This checkpoint is local. Combined full-suite validation is still running on
+`80f90a64de485c9778e75db45c9f77e57db8e95a`, which predates this change.
+Full engine startup, campaign completion and campaign save/reload remain unproven.

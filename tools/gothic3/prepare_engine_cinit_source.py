@@ -236,6 +236,7 @@ def capture(study):
         ('undecorationBasicTypeCaseMap', 0x3069b72d, 11),
         ('undecorationBasicTypeTargets', 0x3069b715, 24),
         ('undecorationFloatLiteral', 0x30819794, 6),
+        ('undecorationIntLiteral', 0x3089f5d0, 4),
         ('undecorationClassLiteral', 0x3089f408, 7),
         ('undecorationScopeSeparatorLiteral', 0x3088feb4, 3),
         ('undecorationTemplateParameterLiteral', 0x3089f3d4, 19),

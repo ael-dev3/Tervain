@@ -86,3 +86,7 @@ it('owns separate third property storage and the original int RTTI',()=>{
  const {crt,owner}=fixture(),storage=fact(NativeEngineCinitImages.imageForCrt(owner,crt,'visualAnimationThirdStorage')),info=fact(NativeEngineCinitImages.imageForCrt(owner,crt,'visualAnimationThirdTypeInfo')),flags=fact(NativeEngineCinitImages.imageForCrt(owner,crt,'visualAnimationThirdFlags'));
  expect(storage.readUnsigned(0)).toBe(0);expect(info.bytes.length).toBe(11);expect(Buffer.from(info.bytes.subarray(8)).toString()).toBe('.H\0');expect(info.readUnsigned(4)).toBe(0);flags.writeUnsigned(0,3);expect(storage.backing).not.toBe(fact(NativeEngineCinitImages.imageForCrt(owner,crt,'visualAnimationSecondStorage')).backing);
 });
+
+for(const storage of ['bytes','knownMask'] as const)it('rejects altered readonly int literal '+storage,()=>{
+ const {crt,owner}=fixture(),literal=fact(NativeEngineCinitImages.imageForCrt(owner,crt,'undecorationIntLiteral'));expect(Buffer.from(literal.bytes).toString('hex')).toBe('696e7400');literal[storage][0]=literal[storage][0]!^1;expect(NativeEngineCinitImages.imageForCrt(owner,crt,'undecorationIntLiteral').known).toBe(false);
+});
