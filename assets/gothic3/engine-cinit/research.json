@@ -38286,6 +38286,15 @@
       "sha256": "50e7aab8bdf6fd29b15bd51793c5404c95d6680a35ed74be42388e87b38b57e4"
     },
     {
+      "label": "undecorationClassLiteral",
+      "address": "3089f408",
+      "bytes": 7,
+      "raw": "636c6173732000",
+      "fileBackedBytes": 7,
+      "loaderZeroFillBytes": 0,
+      "sha256": "e4d46b971748b74a768fac18598132cf1aced4b3ad0fe3e7f401284800367ea9"
+    },
+    {
       "label": "undecorationFieldVtableEntry",
       "address": "3089f2ac",
       "bytes": 4,

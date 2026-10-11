@@ -215,6 +215,7 @@ def capture(study):
         ('undecorationBasicTypeCaseMap', 0x3069b72d, 11),
         ('undecorationBasicTypeTargets', 0x3069b715, 24),
         ('undecorationFloatLiteral', 0x30819794, 6),
+        ('undecorationClassLiteral', 0x3089f408, 7),
         ('undecorationFieldVtableEntry', 0x3089f2ac, 4),
         ('undecorationTextVtableEntry', 0x3089f2bc, 12),
         ('visualAnimationFloatFlags', 0x30ad9a00, 4),

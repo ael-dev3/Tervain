@@ -59,7 +59,7 @@ it('retains and protects the original field vtable entry',()=>{
  const {crt,owner}=fixture(),table=fact(NativeEngineCinitImages.imageForCrt(owner,crt,'undecorationFieldVtableEntry'));expect(table.bytes.length).toBe(4);expect(Buffer.from(table.bytes).toString('hex')).toBe(engineCinitImage('undecorationFieldVtableEntry').raw);table.bytes[0]=table.bytes[0]!^1;expect(NativeEngineCinitImages.imageForCrt(owner,crt,'undecorationFieldVtableEntry').known).toBe(false);
 });
 
-for(const label of ['undecorationBasicTypeCaseMap','undecorationBasicTypeTargets','undecorationFloatLiteral'] as const)it('owns and protects original '+label+' bytes',()=>{
+for(const label of ['undecorationBasicTypeCaseMap','undecorationBasicTypeTargets','undecorationFloatLiteral','undecorationClassLiteral'] as const)it('owns and protects original '+label+' bytes',()=>{
  const {crt,owner}=fixture(),image=fact(NativeEngineCinitImages.imageForCrt(owner,crt,label)),receipt=engineCinitImage(label);expect(Buffer.from(image.bytes).toString('hex')).toBe(receipt.raw);expect(image.knownMask.every(byte=>byte===255)).toBe(true);image.bytes[0]=image.bytes[0]!^1;expect(NativeEngineCinitImages.imageForCrt(owner,crt,label).known).toBe(false);
 });
 
@@ -76,4 +76,8 @@ it('owns separate second-property images and the original bCString RTTI',()=>{
  const {crt,owner}=fixture(),flags=fact(NativeEngineCinitImages.imageForCrt(owner,crt,'visualAnimationSecondFlags')),storage=fact(NativeEngineCinitImages.imageForCrt(owner,crt,'visualAnimationSecondStorage')),info=fact(NativeEngineCinitImages.imageForCrt(owner,crt,'visualAnimationSecondTypeInfo'));
  expect(flags.readUnsigned(0)).toBe(0);expect(storage.readUnsigned(0)).toBe(0);expect(info.readUnsigned(4)).toBe(0);expect(String.fromCharCode(...info.bytes.subarray(8,-1))).toBe('.?AVbCString@@');
  const first=fact(NativeEngineCinitImages.imageForCrt(owner,crt,'visualAnimationFloatStorage'));expect(storage.backing).not.toBe(first.backing);flags.writeUnsigned(0,3);expect(first.readUnsigned(0)).toBe(0);expect(fact(NativeEngineCinitImages.imageForCrt(owner,crt,'visualAnimationSecondFlags'))).toBe(flags);
+});
+
+it('rejects altered readonly class-keyword masks',()=>{
+ const {crt,owner}=fixture(),literal=fact(NativeEngineCinitImages.imageForCrt(owner,crt,'undecorationClassLiteral'));expect(Buffer.from(literal.bytes).toString('hex')).toBe('636c6173732000');literal.knownMask[0]=0;expect(NativeEngineCinitImages.imageForCrt(owner,crt,'undecorationClassLiteral').known).toBe(false);
 });

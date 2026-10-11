@@ -14,7 +14,7 @@ python tools/gothic3/prepare_engine_cinit_source.py --study '<study-root>' --out
 
 The generator checks the original Engine.dll hash and exact caller bytes.
 Independent regeneration produced identical JSON, SHA-256
-``fe29c2856a31ea65f1c29d55df6f06ed9b5bfaac2049f8253394cf9beaa43a39``.
+``fd5628904371582d724965725caee655c4de6312040ab74e3bfb13a87353300d``.
 
 The capture's `runtimeConnected: false` records evidence preparation; it grants
 no execution authority. The TypeScript continuation separately obtains a
@@ -720,3 +720,14 @@ constructor and fatal-call checks pass for both the entry checkpoint and final
 tag dispatch. The source continuation was reviewed against the captured rows.
 This change remains local; class-name output, complete startup and campaign
 completion remain unfinished. Earlier combined validation remains live.
+
+## 2026-10-11: original class-keyword literal ownership
+
+Captured the seven original bytes `636c6173732000` (`class ` plus terminator)
+at `3089f408`. The Engine image owner retains them as read-only evidence and
+rejects modified bytes and unknown masks. Independent JSON and TypeScript
+regeneration are byte-identical; structural comparison confirms the new literal
+is the only evidence-package change. TypeScript checking and all 28 source/image
+checks pass. Runtime remains pending at `3069966d`, with 5,450 operations.
+This local evidence capture does not construct the name or prove startup.
+Complete startup and browser campaign completion remain unfinished.
