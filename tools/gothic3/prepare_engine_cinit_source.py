@@ -126,6 +126,30 @@ def capture(study):
         entryChain=[],bodyRanges=f'{begin:08x}-{end-1:08x}',instructions=rows,instructionCount=len(rows),
         bodyByteCount=len(raw),bodyInstructionBytesSha256=hashlib.sha256(raw).hexdigest(),
         recoveredFromOriginalPEWithoutAssembly=True,decoder=f'capstone {capstone.__version__}'))
+    # These cleanup instructions are omitted from the function listing.
+    # Admit them only from exact bytes in the hash-pinned original DLL.
+    for label, begin, encoded, count in [
+        ('engineTypeNameCleanupContinuation', 0x3067db6a,
+         '59c745fcfeffffffe80c000000', 3),
+        ('engineTypeNameFinally', 0x3067db83,
+         '6a0ee82c57000059c3', 4),
+    ]:
+        raw = bytes.fromhex(encoded)
+        if pe.bytes(begin, len(raw)) != raw:
+            raise ValueError('Original Engine cleanup encoding differs: ' + label)
+        rows = [dict(va=f'{i.address:08x}', rva=f'{i.address-pe.base:x}',
+                     fileOffset=pe.offset(i.address, i.size), bytes=i.bytes.hex(),
+                     instruction=(i.mnemonic+' '+i.op_str).strip())
+                for i in decoder.disasm(raw, begin)]
+        if len(rows) != count or b''.join(bytes.fromhex(r['bytes']) for r in rows) != raw:
+            raise ValueError('Incomplete Engine cleanup decoding: ' + label)
+        source['methods'].append(dict(label=label, entryVA=f'0x{begin:08x}',
+            bodyVA=f'0x{begin:08x}', entryChain=[],
+            bodyRanges=f'{begin:08x}-{begin+len(raw)-1:08x}', instructions=rows,
+            instructionCount=len(rows), bodyByteCount=len(raw),
+            bodyInstructionBytesSha256=hashlib.sha256(raw).hexdigest(),
+            recoveredFromOriginalPEWithoutAssembly=True,
+            decoder=f'capstone {capstone.__version__}'))
     caller = pe.bytes(0x30677284, 27)
     if caller.hex() != '85c07c176a00e8385f000085c059750bff05d070af30e9ac000000':
         raise ValueError('Original Engine initializer caller differs')

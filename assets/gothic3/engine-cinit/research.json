@@ -20534,6 +20534,83 @@
         "bodyInstructionBytesSha256": "3a5b79ee7fe11a1669f1999e02e38402d5514dc025279bd42e274eed1537164d",
         "recoveredFromOriginalPEWithoutAssembly": true,
         "decoder": "capstone 5.0.7"
+      },
+      {
+        "label": "engineTypeNameCleanupContinuation",
+        "entryVA": "0x3067db6a",
+        "bodyVA": "0x3067db6a",
+        "entryChain": [],
+        "bodyRanges": "3067db6a-3067db76",
+        "instructions": [
+          {
+            "va": "3067db6a",
+            "rva": "67db6a",
+            "fileOffset": 6806378,
+            "bytes": "59",
+            "instruction": "pop ecx"
+          },
+          {
+            "va": "3067db6b",
+            "rva": "67db6b",
+            "fileOffset": 6806379,
+            "bytes": "c745fcfeffffff",
+            "instruction": "mov dword ptr [ebp - 4], 0xfffffffe"
+          },
+          {
+            "va": "3067db72",
+            "rva": "67db72",
+            "fileOffset": 6806386,
+            "bytes": "e80c000000",
+            "instruction": "call 0x3067db83"
+          }
+        ],
+        "instructionCount": 3,
+        "bodyByteCount": 13,
+        "bodyInstructionBytesSha256": "9aea491e2e8427f0c7140dcd6b991ef6c39b709381035dcc28d52a80ebe0c03b",
+        "recoveredFromOriginalPEWithoutAssembly": true,
+        "decoder": "capstone 5.0.7"
+      },
+      {
+        "label": "engineTypeNameFinally",
+        "entryVA": "0x3067db83",
+        "bodyVA": "0x3067db83",
+        "entryChain": [],
+        "bodyRanges": "3067db83-3067db8b",
+        "instructions": [
+          {
+            "va": "3067db83",
+            "rva": "67db83",
+            "fileOffset": 6806403,
+            "bytes": "6a0e",
+            "instruction": "push 0xe"
+          },
+          {
+            "va": "3067db85",
+            "rva": "67db85",
+            "fileOffset": 6806405,
+            "bytes": "e82c570000",
+            "instruction": "call 0x306832b6"
+          },
+          {
+            "va": "3067db8a",
+            "rva": "67db8a",
+            "fileOffset": 6806410,
+            "bytes": "59",
+            "instruction": "pop ecx"
+          },
+          {
+            "va": "3067db8b",
+            "rva": "67db8b",
+            "fileOffset": 6806411,
+            "bytes": "c3",
+            "instruction": "ret"
+          }
+        ],
+        "instructionCount": 4,
+        "bodyByteCount": 9,
+        "bodyInstructionBytesSha256": "a31815cfaefbaff63e6e8c790370dd30d6927b9749eafdbf0195c0c3a8558579",
+        "recoveredFromOriginalPEWithoutAssembly": true,
+        "decoder": "capstone 5.0.7"
       }
     ],
     "constants": [],

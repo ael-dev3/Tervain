@@ -39,6 +39,14 @@ describe('original Engine CRT initializer evidence', () => {
     expect(engineCinitInstruction('306973db', '306973db').bytes).toBe('8b410c');
     expect(engineCinitInstruction('306973db', '30697409').bytes).toBe('c20800');
   });
+  it('pins the omitted cleanup continuation and lock-14 finally helper', () => {
+    expect(engineCinitInstruction('3067db6a', '3067db6a').bytes).toBe('59');
+    expect(engineCinitInstruction('3067db6a', '3067db6b').bytes).toBe('c745fcfeffffff');
+    expect(engineCinitInstruction('3067db6a', '3067db72').bytes).toBe('e80c000000');
+    expect(engineCinitInstruction('3067db83', '3067db83').bytes).toBe('6a0e');
+    expect(engineCinitInstruction('3067db83', '3067db85').bytes).toBe('e82c570000');
+    expect(engineCinitInstruction('3067db83', '3067db8b').bytes).toBe('c3');
+  });
   it('rejects unknown bodies, tables and invalid callback slots', () => {
     expect(() => engineCinitInstruction('3067d1c7', '3067d1c8')).toThrow();
     expect(() => engineCinitTable('Game')).toThrow();
