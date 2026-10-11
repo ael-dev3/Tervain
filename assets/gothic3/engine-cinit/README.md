@@ -3306,3 +3306,10 @@ claim deployment, complete native startup or a playable full campaign.
 The parser constructs the opening character from its contained stack input, copies it to the destination, checks both nonempty values, appends the argument-list node using an original newly allocated wrapper, and physically returns through the qualified-value and combination callers to 30699293. The parent template-name continuation remains pending there. Unknown stack input and interrupted character-store tests retain the original pending callers and locks. The twenty-eighth CString remains unconstructed.
 
 Validation: TypeScript checking, three focused normal/interruption checks, 82 source/image/browser checks, and the production build passed. This checkpoint is local native startup progress, not full startup, deployment, or complete campaign gameplay.
+
+
+### Original nested template last-character traversal
+
+The parent name append returns, then the original last-character routine traverses the live node graph. Virtual length dispatch covers captured list, text and character tables; nested lists tail-call the value-length traversal. Last-character dispatch follows the final nonempty node and reads its original allocated text copy. The physical caller returns to 306992a7 with AL=101 (`e`, from bCObjectRefBase). The twenty-eighth CString and startup remain incomplete.
+
+Validation: four focused cases passed, including unknown copied last-character input, along with TypeScript checking, 83 source/image/browser checks and the production build. The unknown byte remains unknown at 306973d3 with its original parent caller pending and live allocations/locks retained. The prior broad validation remains a separate revision and does not prove this continuation or campaign completion. No deployment is claimed.
