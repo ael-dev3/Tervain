@@ -2009,3 +2009,21 @@ and parser snapshots; the failure test explicitly expects those snapshots to
 be unavailable. Normal-path tests separately verify the roots and parsed list.
 Original source packages are unchanged. This local checkpoint is not deployed
 and does not prove complete startup or campaign completion with persistence.
+
+
+### 2026-10-11 — original camera identifier output and writer return (local)
+
+The original writer now advances past the keyword, measures the actual name
+node, copies its twelve bytes using the retained arena offset/length, stores
+NUL and returns to the NameParser at `3069b0d3`. Startup has executed 13,222
+operations. The separate output contains `class eCCameraBase` plus NUL in
+19 known bytes; the five remaining allocation bytes remain unknown. Output
+compaction, NameParser return, cleanup and camera publication are pending.
+
+Validation: TypeScript checking, eight focused runtime checks and six browser
+startup checks passed. A further interrupted final terminator-store test passed
+at `306971f6`, retaining all eighteen text bytes, an unknown terminator byte,
+live output, pending writer caller and parser lock. The copy uses actual
+`nameCharactersOffset` and `nameLength`, not the earlier class's byte count.
+Original source packages are unchanged. This checkpoint is local, not deployed,
+and does not establish complete startup or campaign completion with persistence.
