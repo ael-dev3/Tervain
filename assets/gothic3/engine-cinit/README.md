@@ -2202,3 +2202,23 @@ browser startup checks passed. The normal check distinguishes the earlier
 returned allocation call from the current pending call and verifies the actual
 MemoryAdmin receiver. Source packages are unchanged. This checkpoint is local;
 complete startup and campaign completion with persistence remain unproven.
+
+
+2026-10-11 — original camera CString MemoryAdmin allocation (local)
+
+Allocated the original 21-byte CString request from the already audited 24-byte
+pool through the retained MemoryAdmin singleton. The fourth CString has its own
+live allocation, physical views and owner proof; it does not alias any earlier
+property string. VirtualAlloc-backed pool bytes retain their actual known masks.
+The malloc caller returned and startup stops at `10013263`, still after 13,895
+counted instructions, before writing the CString header or storage pointer.
+Camera root remains null. Allocation admission does not imply SceneAdmin startup.
+
+Validation: TypeScript checking, the strengthened normal runtime check and six
+browser startup checks passed. Two normal attempts hit the unchanged 20-second
+timeout while an assertion recursively matched allocation internals. Direct
+identity/extent comparisons preserve the checks and passed in 9.46 seconds total
+(about 3.5 seconds of tests); no timeout was raised. The normal check verifies
+requested size, capacity, physical byte masks, distinct identity, canonical
+same-platform allocation membership and the actual returned malloc caller.
+This checkpoint is local; full startup and campaign completion remain unproven.
