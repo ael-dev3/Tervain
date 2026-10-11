@@ -17,7 +17,7 @@ The normal selected path reaches 2,735 admitted operations. Eight focused checks
 across two files cover the separate frame, both immutable scopes, flags and
 registration state; typechecking and independent exact regeneration pass.
 Earlier revision `e8e62bd80` passed all 3,455 tests across 315 files in 894.97
-seconds. Its production build is still running, and that evidence predates the
+seconds. Its production build passed in 1 minute 7 seconds. That evidence predates the
 scope correction and newer C++ work. Fresh combined validation is required
 before publishing these local changes. Full startup and a campaign through an
 ending remain unfinished.
