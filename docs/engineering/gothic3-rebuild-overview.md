@@ -13,6 +13,24 @@ itself establish a playable reconstruction.
 
 For the practical sequence, see the [step-by-step rebuild workflow](gothic3-rebuild-workflow.md).
 
+## Local continuation — 11 October 2026: original undecoration return
+
+The original finally helper passes lock ID 5 to the retained Engine CRT unlock
+service. On success it clears the held-lock state, returns through its physical
+caller, reloads the actual saved output and executes the original EH epilog.
+The outer undecoration routine returns at `3067dacb` after 4,009 admitted
+operations. The eight-byte output remains owned and live; its temporary arena
+is released. Type-name cache publication, complete engine startup and the
+finishable campaign remain unfinished.
+
+Lifetime checks observe parser field values before the actual free callback and
+assignment flag operands at the original XOR instruction. Historical records do
+not grant authority to read freed allocations. Unavailable unlock preserves the
+pending actual call, held lock and live output rather than fabricating return.
+
+Typechecking, 18 selected runtime checks and all 19 source/image checks pass.
+This checkpoint is local; broader integration validation follows.
+
 ## Local continuation — 11 October 2026: original parser arena release
 
 The returned name now enters the original HeapManager destructor at `30696606`.
