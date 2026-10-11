@@ -3228,3 +3228,21 @@ resource or template changes. Combined revision `2b50a182d` (committed template
 contexts plus main through PR 263) is now in separate full-suite validation.
 This newest continuation is local and not deployed. Full startup and a campaign
 played from a new game through an ending remain unfinished.
+
+
+## MainCache first class argument continuation
+
+The shared class keyword, scoped-name and class-return workers now execute the
+original first template argument `eCMainCache`, including physical returns to
+`30698be6` and parsed-value assignment at `30698bec`. The original cursor is 45;
+execution remains pending at `30698bf1`, before argument caching and append.
+The template property root is still zero, its CString is not constructed, and
+the existing 27 property strings and 29 shutdown registrations are retained.
+
+The focused regression had 25 passing cases and one incorrect test expectation:
+the name loop had already committed cursor 43 when reading the closing delimiter.
+After correcting that expectation, both interruption cases passed. All 79 source,
+image and browser startup checks, typechecking and the production build passed.
+The separate combined full-suite run remains active and does not cover this
+newest continuation. No new source capture bytes were added. This checkpoint is
+local; full startup and a new-game-to-ending browser campaign are unfinished.

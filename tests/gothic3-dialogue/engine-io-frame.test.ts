@@ -2769,23 +2769,23 @@ it('retains the original MainCache template name parser caller and first constru
  createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeNpcHeapExtension,nativeSceneStartupHeapExtension]});
  const result=bootstrap.processAttach();expect(result.known).toBe(false);
  const f=bootstrap.attachProgress().engineCinitProgress!;
- expect(f.pc,result.known?'Unexpected complete startup':result.reason).toBe('3069b3b1');
+ expect(f.pc,result.known?'Unexpected complete startup':result.reason).toBe('30698bf1');
  const info=NativeEngineCinitImages.imageForCrt(f.images,crt,'mainCacheTemplatePropertyTypeInfo'),flags=NativeEngineCinitImages.imageForCrt(f.images,crt,'mainCacheTemplatePropertyFlags'),storage=NativeEngineCinitImages.imageForCrt(f.images,crt,'mainCacheTemplatePropertyStorage'),root=NativeEngineCinitImages.imageForCrt(f.images,crt,'mainCacheTemplatePropertyRoot');
  if(!info.known||!flags.known||!storage.known||!root.known)throw new Error('Original MainCache template images required');
  expect(Buffer.from(info.value.bytes.slice(8)).toString()).toBe('.?AV?$bTPropertyObject@VeCMainCache@@VbCObjectRefBase@@@@\0');
  const parser=NativeEngineCinitImages.imageForCrt(f.images,crt,'undecorationParserGlobals');if(!parser.known)throw new Error(parser.reason);expect(parser.value.bytes.length).toBe(38);expect(parser.value.readUnsigned(37,1)).toBe(1);
  expect(flags.value.readUnsigned(0)).toBe(3);expect(root.value.readUnsigned(0)).toBe(0);expect(storage.value.readUnsigned(4)).toBe(0);
  const cursor=f.undecorationParserWords![3]!.provenance;
- expect(cursor).toMatchObject({kind:'engine-image',offset:31});if(cursor?.kind!=='engine-image')throw new Error('Retained template cursor required');expect(cursor.fields).toBe(info.value);
+ expect(cursor).toMatchObject({kind:'engine-image',offset:45});if(cursor?.kind!=='engine-image')throw new Error('Retained template cursor required');expect(cursor.fields).toBe(info.value);
  const arena=f.undecorationGlobalWords![3]!.provenance;
  if(arena?.kind!=='engine-allocation')throw new Error('Original live template arena required');
- const nameAt=Buffer.from(arena.fields.bytes).indexOf('bTPropertyObject');expect(nameAt).toBeGreaterThanOrEqual(0);expect([...arena.fields.knownMask.slice(nameAt,nameAt+16)]).toEqual(Array(16).fill(255));expect(arena.fields.backing.freed).toBe(false);
+ const nameAt=Buffer.from(arena.fields.bytes).indexOf('bTPropertyObject');expect(nameAt).toBeGreaterThanOrEqual(0);expect([...arena.fields.knownMask.slice(nameAt,nameAt+16)]).toEqual(Array(16).fill(255));expect(arena.fields.backing.freed).toBe(false);const argumentNameAt=Buffer.from(arena.fields.bytes).indexOf('eCMainCache');expect(argumentNameAt).toBeGreaterThanOrEqual(0);expect([...arena.fields.knownMask.slice(argumentNameAt,argumentNameAt+11)]).toEqual(Array(11).fill(255));
  expect(f.typeNameTwentyEighthCString).toBe(null);expect(f.typeNameTwentyEighthCStringCopyReturned).toBe(false);
  expect(f.typeNameTwentySeventhCStringCopyReturned).toBe(true);expect(f.exitCursor!.provenance).toMatchObject({offset:116});expect(f.cppCursor!.provenance).toMatchObject({offset:0x170});
  expect(f.typeNameLockHeld).toBe(false);expect(f.undecorationLockHeld).toBe(true);expect(f.onexitLockHeld).toBe(false);
  const graph=NativeX86ThreadStack.forPlatform(platform);if(!graph.known)throw new Error(graph.reason);
- for(const site of ['30732460','30077253','30699360','30699282','30698be1','3069b770'])expect(graph.value.snapshot().calls.filter(c=>c.site===site).at(-1)).toMatchObject({returned:false});
- for(const site of ['306991ef','306991f7','306991ff','30699255','30699260','30699268'])expect(graph.value.snapshot().calls.filter(c=>c.site===site).at(-1)).toMatchObject({returned:true});
+ for(const site of ['30732460','30077253','30699360','30699282'])expect(graph.value.snapshot().calls.filter(c=>c.site===site).at(-1)).toMatchObject({returned:false});
+ for(const site of ['306991ef','306991f7','306991ff','30699255','30699260','30699268','306996a3','30699505','3069b528','3069b770','30698be1','30698bec'])expect(graph.value.snapshot().calls.filter(c=>c.site===site).at(-1)).toMatchObject({returned:true});
  expect(graph.value.snapshot().calls.some(c=>c.site==='3007725e'||c.site==='30077269')).toBe(false);
 });
 
@@ -2850,4 +2850,29 @@ it.each(['unknown argument byte','end marker'])(
  expect(f.typeNameTwentyEighthCString).toBe(null);expect(f.typeNameTwentySeventhCStringCopyReturned).toBe(true);expect(f.undecorationLockHeld).toBe(true);expect(f.typeNameLockHeld).toBe(false);
  const graph=NativeX86ThreadStack.forPlatform(platform);if(!graph.known)throw new Error(graph.reason);
  expect(graph.value.snapshot().calls.find(c=>c.site==='30699255')).toMatchObject({returned:true});expect(graph.value.snapshot().calls.find(c=>c.site==='30699282')).toMatchObject({returned:false});expect(graph.value.snapshot().calls.some(c=>c.site==='30698be1')).toBe(false);
+ });
+
+
+it.each(['unknown name byte','unknown delimiter'])(
+ 'retains original MainCache class argument name state on %s',failure=>{
+ const {bootstrap,platform,crt}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{engineHeapLayout:'rounded-eight',processorFeatureProcedure:true,floatingPointPrecisionErratum:false});
+ createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeNpcHeapExtension,nativeSceneStartupHeapExtension]});
+ const original=NativeHeapObjectViews.prototype.readUnsigned;let changed=false,probing=false;
+ const targetOffset=failure==='unknown name byte'?32:43,targetPc=failure==='unknown name byte'?'30699315':'30697793';
+ const spy=vi.spyOn(NativeHeapObjectViews.prototype,'readUnsigned').mockImplementation(function(this:NativeHeapObjectViews,offset,width){
+  if(!changed&&!probing&&offset===targetOffset&&width===1){
+   probing=true;try{const f=bootstrap.attachProgress().engineCinitProgress,cursor=f?.undecorationParserWords?.[3]?.provenance;
+    if(f?.pc===targetPc&&cursor?.kind==='engine-image'&&cursor.fields===this){changed=true;this.knownMask[targetOffset]=0;}
+   }finally{probing=false;}
+  }
+  return original.call(this,offset,width);
+ });
+ let result;try{result=bootstrap.processAttach();}finally{spy.mockRestore();}
+ expect(result.known).toBe(false);expect(changed).toBe(true);const f=bootstrap.attachProgress().engineCinitProgress!;
+ // The delimited-name loop commits each consumed byte before reading the closing delimiter.
+ expect(f.pc).toBe(targetPc);expect(f.undecorationParserWords![3]!.provenance).toMatchObject({kind:'engine-image',offset:targetOffset});
+ const root=NativeEngineCinitImages.imageForCrt(f.images,crt,'mainCacheTemplatePropertyRoot'),parser=NativeEngineCinitImages.imageForCrt(f.images,crt,'undecorationParserGlobals');if(!root.known||!parser.known)throw new Error('Original MainCache template state required');
+ expect(root.value.readUnsigned(0)).toBe(0);expect(parser.value.readUnsigned(37,1)).toBe(1);expect(f.typeNameTwentyEighthCString).toBe(null);expect(f.typeNameTwentySeventhCStringCopyReturned).toBe(true);expect(f.undecorationLockHeld).toBe(true);expect(f.typeNameLockHeld).toBe(false);
+ const graph=NativeX86ThreadStack.forPlatform(platform);if(!graph.known)throw new Error(graph.reason);
+ expect(graph.value.snapshot().calls.filter(c=>c.site==='30699505').at(-1)).toMatchObject({returned:false});expect(graph.value.snapshot().calls.filter(c=>c.site==='306996a3').at(-1)).toMatchObject({returned:false});expect(graph.value.snapshot().calls.some(c=>c.site==='30698bec')).toBe(false);
  });
