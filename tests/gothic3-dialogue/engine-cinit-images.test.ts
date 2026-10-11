@@ -1,3 +1,4 @@
+import {engineCinitImage} from '../../src/gothic3/native-engine-cinit-source';
 import { expect, it } from 'vitest';
 import { NativeEngineCinitImages } from '../../src/gothic3/native-engine-cinit-images';
 import { NativeEngineCrtOwner, NativeGameCrtOwner } from '../../src/gothic3/native-engine-crt-locks';
@@ -29,4 +30,11 @@ it('checks the original PE readonly section for the owned callback slot',()=>{
  expect(NativeEngineCinitImages.floatingPointSlotReadonlyForCrt(owner,crt,other).known).toBe(false);
  const header=fact(NativeEngineCinitImages.imageForCrt(owner,crt,'originalHeaders'));
  header.knownMask[0]=0;expect(NativeEngineCinitImages.floatingPointSlotReadonlyForCrt(owner,crt,fp).known).toBe(false);expect(header.knownMask[0]).toBe(0);
+});
+
+it('owns the exact onexit scope instead of PE headers and rejects mutated scope bytes',()=>{
+ const {crt,owner}=fixture(),scope=fact(NativeEngineCinitImages.imageForCrt(owner,crt,'onexitSehScope')),receipt=engineCinitImage('onexitSehScope');
+ expect(scope.bytes.length).toBe(28);expect(Array.from(scope.bytes,b=>b.toString(16).padStart(2,'0')).join('')).toBe(receipt.raw);expect(scope.readUnsigned(0)).toBe(0xfffffffe);
+ const headers=fact(NativeEngineCinitImages.imageForCrt(owner,crt,'originalHeaders'));expect(scope).not.toBe(headers);expect(headers.readUnsigned(0,2)).toBe(0x5a4d);
+ scope.bytes[0]=scope.bytes[0]!^1;expect(NativeEngineCinitImages.imageForCrt(owner,crt,'onexitSehScope').known).toBe(false);expect(scope.bytes[0]).toBe(0xff);
 });

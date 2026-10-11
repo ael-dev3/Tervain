@@ -4,6 +4,17 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Correction — 11 October 2026: exact onexit scope mapping
+
+An image-selector condition incorrectly supplied PE headers for the onexit
+exception scope. The captured source was correct, but earlier runtime checks
+did not compare the supplied scope against its original bytes. The selector now
+loads the dedicated 28-byte image. A regression check compares every byte with
+the source receipt, verifies that it differs from the headers, and confirms
+that mutation is rejected. Four registration/frame checks and this regression
+check pass. Earlier green validation does not establish scope fidelity; this
+correction must be included in the next publication checkpoint.
+
 ## Local continuation — 11 October 2026: second exit registration return
 
 Both original call sites now execute the shared recovered registration bodies
