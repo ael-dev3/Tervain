@@ -2854,3 +2854,27 @@ call is active; the current argument snapshot correctly names the newer
 obsolete-class call. The newest undecoration call is pending while earlier
 calls retain their actual completed returns. Full startup and campaign
 integration remain unfinished; this continuation has not been deployed.
+
+
+## 11 October 2026: obsolete-class undecoration entry
+
+The original undecoration caller now executes its retained EH frame, verifies
+the allocator argument, ensures and acquires lock 5, publishes the original
+allocator/free callbacks and resets its actual working globals. It pushes
+the retained parser arguments and calls `3069747a` from `3069b2d3`, keeping
+return word `3069b2d8` pending. That constructor is the current unsupported
+boundary. The previous five CStrings and registered exits remain live; lock 5
+is held by this new call. Its working ESI is zero, while the C++ cursor and
+the earlier restored ESI record retain their original positions.
+
+Typechecking, twelve focused runtime cases across the initial run/recheck,
+and 161 checks across three runtime/browser files pass. The earlier broader
+run passed 356 checks and failed two stale browser boundary assertions; both
+are covered by the passing recheck with the new `3069747a` boundary. Neither
+run proves complete startup or a finishable campaign.
+
+The preceding combined revision `b6707462e941d3dcf29b5acc234d87ea466d7902`
+passed its production build in 59.84 seconds. That build predates this new
+undecoration entry. Full validation of the newest combined revision remains
+required. Native continuations remain local; PR #258 was independently merged
+and successfully deployed through Pages run `38143256120`.

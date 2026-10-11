@@ -1626,7 +1626,8 @@ stack.#engineCinitFrame!.pc='10003cd8';engineCinitUnMangleInstruction('10003cd8'
               const prefix=runPropertyTypeNamePrefix(image('obsoleteClassTypeInfo'),image('visualAnimationFloatDefault'));
               if(prefix.cached!==0){stack.#engineCinitFrame!.pc='3067db77';return known(undefined);}
               preparePropertyUndecoration(prefix.name,prefix.actualTypeInfo);
-              stack.#engineCinitFrame!.pc='3069b26b';return known(undefined);
+              const decoder=runUndecorationPrefix();if(!decoder.ready)return known(undefined);
+              stack.#engineCinitFrame!.pc='3069747a';return known(undefined);
             }
             if(target==='307322f0'){
               step('307322f0',()=>stack.#call('307322f0','307322f5'),'307322f0');step('300247da',()=>{},'300247da');
