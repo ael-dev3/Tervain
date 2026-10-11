@@ -317,7 +317,9 @@ function recordTabs(pages: RecordPage[], initially = pages[0]?.key): HTMLElement
         if (next === undefined) return;
         event.preventDefault(); event.stopPropagation(); buttons[next]!.focus();
       },
-    }, h('span', { class: 'record-tab-label' }, page.label), page.count === undefined ? null : h('small', {}, String(page.count)));
+    }, h('span', { class: 'record-tab-label' }, page.label),
+      // A space between name and count, so the tab reads "Observed 3", not "Observed3" (A96 scout).
+      page.count === undefined ? null : ' ', page.count === undefined ? null : h('small', {}, String(page.count)));
     buttons.push(button); tabs.append(button); body.append(page.content);
   });
   select(initially ?? pages[0]!.key);
@@ -777,9 +779,12 @@ function bindRow(ctx: PanelCtx, action: Action, commit: () => void): HTMLElement
   const label = (idx: number) => (st.bindings[action][idx] ? codeLabel(st.bindings[action][idx]!) : S('set.unbound'));
   const note = h('span', { class: 'muted', role: 'status', 'aria-live': 'polite' });
   const slotBtn = (idx: number) => {
-    const btn = h('button', { class: 'btn', 'data-nav': true, 'data-focus-key': `binding-${action}-${idx}`, 'aria-label': `${S(`action.${action}`)} ${idx + 1}` }, label(idx));
+    const btn = h('button', { class: 'btn', 'data-nav': true, 'data-focus-key': `binding-${action}-${idx}` }, label(idx));
+    // Its name carries what it shows, so a screen reader hears the bound key too, not only "Jump 1" (A96 scout).
+    const show = (text: string) => { btn.textContent = text; btn.setAttribute('aria-label', `${S(`action.${action}`)} ${idx + 1}: ${text}`); };
+    show(label(idx));
     const restore = () => {
-      btn.textContent = label(idx);
+      show(label(idx));
     };
     const assign = (code: string, displaced: Action | null) => {
       if (displaced) {
@@ -801,8 +806,9 @@ function bindRow(ctx: PanelCtx, action: Action, commit: () => void): HTMLElement
       ctx.host.replaceTop(settingsPanel(ctx));
     };
     btn.addEventListener('click', () => {
-      btn.textContent = S('set.press');
-      note.textContent = S('set.cancelhint');
+      show(S('set.press'));
+      // On the pause row Escape is a key to bind, not a way out (A96 scout).
+      note.textContent = S(cancelsCapture(action, 'Escape') ? 'set.cancelhint' : 'set.cancelhint.pause');
       ctx.input.captureCancel = () => {
         restore();
         note.textContent = '';

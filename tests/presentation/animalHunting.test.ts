@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { describe, expect, it, vi } from 'vitest';
-import { ANIMAL_IDS, ANIMAL_MODEL_IDS, HUNTABLE_ANIMAL_IDS, type AnimalId, type AnimalHuntRecord } from '../../src/game/hunting';
+import { ANIMAL_IDS, ANIMAL_MODEL_IDS, HUNTABLE_ANIMAL_IDS, SKINNING_REACH, type AnimalId, type AnimalHuntRecord } from '../../src/game/hunting';
 import { buildAnimals, type AnimalCallEvent } from '../../src/presentation/animals';
 import { ANIMALS } from '../../src/presentation/animals/catalog';
 import { AnimalArrowSurface } from '../../src/presentation/animals/hunting/hit';
@@ -95,6 +95,39 @@ describe('hunting through the existing nineteen animal controllers', () => {
       expect(Math.hypot(after.x - pose.x, after.z - pose.z)).toBeLessThanOrEqual(mount.roam + .01);
     }
     expect(module.contacts).toHaveLength(1); expect(module.physicalActors).toHaveLength(1);
+    module.dispose?.();
+  });
+
+  it('settles a returning animal at the place in its range farthest from the hunter (A96 scout)', () => {
+    const module = buildAnimals({ terrain, colliders: new Colliders(), quality: 'low' }, new Map([[tiger.id, fixture()]]), [tiger], () => {});
+    const home = module.snapshot()[0]!;
+    for (const side of [0, 1, 2, 3]) {
+      const a = side * Math.PI / 2, hunter = new THREE.Vector3(home.x + Math.sin(a) * 30, 0, home.z + Math.cos(a) * 30), input = { ...frame(), focus: hunter };
+      module.update(.05, input);
+      module.syncHunting({ tiger: record('injured', home) });
+      module.syncHunting({});
+      const back = module.snapshot()[0]!;
+      // Never nearer him than its home spot.
+      expect(Math.hypot(back.x - hunter.x, back.z - hunter.z), `side ${side}`).toBeGreaterThanOrEqual(30 - 1e-6);
+    }
+    module.dispose?.();
+  });
+
+  it('keeps the knife stance within skinning reach from every side, however far the body reaches (A96 scout)', () => {
+    // A body far wider than it is long, as a stag's antlers spread past its chest.
+    const wide = fixture();
+    wide.scene.traverse(object => { const mesh = object as THREE.SkinnedMesh; if (mesh.isSkinnedMesh) mesh.geometry.scale(9, 1, 1); });
+    const module = buildAnimals({ terrain, colliders: new Colliders(), quality: 'high' }, new Map([[tiger.id, wide]]), [tiger], () => {});
+    for (let k = 0; k < 4; k++) module.update(.1, frame());
+    const pose = module.snapshot()[0]!, at = pose;
+    module.syncHunting({ tiger: record('dead', at) });
+    for (let k = 0; k < 20; k++) module.update(.1, frame());
+    for (let k = 0; k < 16; k++) {
+      const a = (k / 16) * Math.PI * 2, from = { x: pose.x + Math.sin(a) * 4, z: pose.z + Math.cos(a) * 4 };
+      const stance = module.skinningFrame('tiger', from)!.stance;
+      expect(Math.hypot(stance.x - at.x, stance.z - at.z), `side ${k}`).toBeLessThanOrEqual(SKINNING_REACH - 0.45 + 1e-6);
+      expect(module.nearestCarcass(stance)?.id, `side ${k}`).toBe('tiger');
+    }
     module.dispose?.();
   });
 

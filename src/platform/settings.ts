@@ -165,12 +165,19 @@ export function saveSettings(s: Settings) {
 /** Human-readable label for a binding code. */
 export function codeLabel(code: string | null | undefined): string {
   if (!code) return '—';
-  if (code.startsWith('Mouse')) return ['Left click', 'Middle click', 'Right click'][Number(code.slice(5))] ?? code;
+  if (code.startsWith('Mouse')) return ['Left click', 'Middle click', 'Right click', 'Back button', 'Forward button'][Number(code.slice(5))] ?? `Mouse button ${Number(code.slice(5)) + 1}`;
   if (code.startsWith('Key')) return code.slice(3);
   if (code.startsWith('Digit')) return code.slice(5);
+  // Every key the rebind screen accepts reads as its keycap, not its code name (A96 scout: "ControlRight", "Mouse3").
+  if (code.startsWith('Numpad')) return `Num ${({ Add: '+', Subtract: '−', Multiply: '×', Divide: '÷', Decimal: '.', Enter: 'Enter', Equal: '=' } as Record<string, string>)[code.slice(6)] ?? code.slice(6)}`;
+  if (/^F\d{1,2}$/.test(code)) return code;
   const map: Record<string, string> = {
-    Space: 'Space', ShiftLeft: 'Shift', ShiftRight: 'Shift', Escape: 'Esc', Tab: 'Tab', ArrowUp: '↑', ArrowDown: '↓',
-    ArrowLeft: '←', ArrowRight: '→', Enter: 'Enter', ControlLeft: 'Ctrl', AltLeft: 'Alt', Backspace: 'Backspace',
+    Space: 'Space', ShiftLeft: 'Shift', ShiftRight: 'Right Shift', Escape: 'Esc', Tab: 'Tab', ArrowUp: '↑', ArrowDown: '↓',
+    ArrowLeft: '←', ArrowRight: '→', Enter: 'Enter', ControlLeft: 'Ctrl', ControlRight: 'Right Ctrl', AltLeft: 'Alt',
+    AltRight: 'Right Alt', MetaLeft: 'Meta', MetaRight: 'Right Meta', Backspace: 'Backspace', CapsLock: 'Caps Lock',
+    Comma: ',', Period: '.', Slash: '/', Backslash: '\\', Semicolon: ';', Quote: "'", BracketLeft: '[', BracketRight: ']',
+    Minus: '-', Equal: '=', Backquote: '`', IntlBackslash: '\\', Insert: 'Insert', Delete: 'Delete', Home: 'Home', End: 'End',
+    PageUp: 'Page Up', PageDown: 'Page Down', ContextMenu: 'Menu',
   };
   return map[code] ?? code;
 }

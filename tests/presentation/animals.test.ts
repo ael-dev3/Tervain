@@ -20,6 +20,8 @@ function frame(focus = new THREE.Vector3(0, 0, 21)): FrameContext {
 }
 afterEach(() => vi.restoreAllMocks());
 
+const level = { ...flat, groundAt: () => 0, normalAt: (_x: number, _z: number, out: [number, number, number]) => { out[0] = 0; out[1] = 1; out[2] = 0; return out; } };
+
 describe('peaceful animated land wildlife', () => {
   it('uses all nineteen unique source models, with the seated cat retaining seated gestures', () => {
     expect(ANIMALS).toHaveLength(19); expect(new Set(ANIMALS.map(animal => animal.id)).size).toBe(19);
@@ -144,6 +146,39 @@ describe('peaceful animated land wildlife', () => {
     const pack = module.snapshot().filter(w => Math.hypot(w.x - lead.x, w.z - lead.z) < 35);
     expect(pack.length).toBeGreaterThan(1);
     expect(pack.every(w => w.state === 'Run' || w.state === 'Walk')).toBe(true);
+    module.dispose?.();
+  });
+
+  it('breaks round a hunter who corners it at the edge of its range, rather than freezing to be shot (A96 scout)', () => {
+    const boar = ANIMALS.find(animal => animal.species === 'boar')!, source = animalFixture();
+    vi.spyOn(navigation, 'findAnimalPath').mockImplementation((_definition, _from, goal) => [goal]);
+    const module = buildAnimals({ terrain: level as never, colliders: new Colliders(), quality: 'low' }, new Map([[boar.id, source]]), [boar], () => {});
+    const home = module.snapshot()[0]!, root = module.group.getObjectByName(`boar / ${boar.id}`)!;
+    // At the eastern edge of its range, the hunter closing in from the home side.
+    root.position.set(home.x + boar.roam * 0.92, 0, home.z);
+    const hunter = new THREE.Vector3(home.x + boar.roam * 0.92 - 2.5, 0, home.z), input = frame(hunter);
+    const states = new Set<string>();
+    for (let k = 0; k < 120; k++) { module.update(1 / 60, input); states.add(module.snapshot()[0]!.state); }
+    expect(states.has('Run')).toBe(true);
+    const end = module.snapshot()[0]!;
+    expect(Math.hypot(end.x - hunter.x, end.z - hunter.z)).toBeGreaterThan(2.5);
+    module.dispose?.();
+  });
+
+  it('lets a sleeping cat sleep, without waking to call (A96 scout)', () => {
+    const cat = ANIMALS.find(animal => animal.seated)!, calls: AnimalCallEvent[] = [];
+    const module = buildAnimals({ terrain: level as never, colliders: new Colliders(), quality: 'low' }, new Map([[cat.id, animalFixture()]]), [cat], (e) => calls.push(e));
+    const at = module.snapshot()[0]!, night = { ...frame(new THREE.Vector3(at.x + 20, 0, at.z)), nightness: 1 };
+    let slept = false, calledAsleep = false, last = '';
+    for (let k = 0; k < 60 * 240; k++) {
+      module.update(1 / 20, night);
+      const state = module.snapshot()[0]!.state;
+      if (state === 'Sleep') slept = true;
+      if (last === 'Sleep' && state === 'Call') calledAsleep = true;
+      last = state;
+    }
+    expect(slept).toBe(true);
+    expect(calledAsleep).toBe(false);
     module.dispose?.();
   });
 

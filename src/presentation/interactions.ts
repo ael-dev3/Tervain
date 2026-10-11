@@ -7,7 +7,7 @@ import type { NpcId } from '../game/types';
 import { isWorldPickupItem, WORLD_PICKUP_MODELS } from '../content/pickups';
 import { worldPickupTargetY } from './worldPickups';
 import { hunterTableSurfaceY } from './hunterSupplies';
-import { hunterSparesArrows, hunterTradingOpen, restockParams } from '../game/hunting';
+import { hunterRank, hunterSparesArrows, hunterTradingOpen, restockParams } from '../game/hunting';
 import { DEER_BODY, doorwayAhead } from './riding';
 
 export interface Interactable {
@@ -47,7 +47,7 @@ export function buildInteractables(app: App): Interactable[] {
   list.push({
     id: 'hunter_sell_meat', pos: () => ({ ...hunterStationPoint(.7, .25), y: hunterTableSurfaceY(app.world.terrain) + .12 }), r: 2.2,
     // Not while a foe is near: the sale is refused then, and the prompt must not offer it (A89 scout).
-    prompt: () => S('prompt.sell_game_meat'), enabled: () => hunterTradingOpen(st()) && (st().inventory.raw_meat ?? 0) > 0 && app.noThreatNear(),
+    prompt: () => S('prompt.sell_game_meat', { coin: hunterRank(st().huntTally).meat }), enabled: () => hunterTradingOpen(st()) && (st().inventory.raw_meat ?? 0) > 0 && app.noThreatNear(),
     act: () => app.sellGameMeat(), priority: -.6,
   });
 
