@@ -39,7 +39,10 @@ export function buildingStepSurfacesAt(x: number, z: number, heightAt: (x: numbe
     const lx = dx * c - dz * s, lz = dx * s + dz * c;
     const entry = buildingEntry(b);
     let localTop: number | undefined;
-    if (Math.abs(lx - entry.x) <= (entry.w + 0.7) / 2 && Math.abs(lz - entry.z - 0.42) <= 0.35) localTop = entry.y + 0.08;
+    // The upper tread runs from the wall line out (A87 scout): the shrine's door stands 2 cm proud of the others, and a
+    // tread begun from it left a strip of bare ground 0.8 m below the hall floor that walkers at 30-60 Hz stopped at.
+    const treadFrom = Math.min(entry.z + 0.07, b.d / 2 + 0.1);
+    if (Math.abs(lx - entry.x) <= (entry.w + 0.7) / 2 && lz >= treadFrom && lz <= entry.z + 0.77) localTop = entry.y + 0.08;
     if (Math.abs(lx - entry.x) <= (entry.w + 0.9) / 2 && Math.abs(lz - entry.z - 0.96) <= 0.25) localTop = Math.max(localTop ?? -Infinity, entry.y * 0.5);
     if (localTop !== undefined) surfaces.push(buildingGround(heightAt, b).avg + localTop);
   }

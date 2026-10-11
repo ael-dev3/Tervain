@@ -88,6 +88,8 @@ export class WaterRenderPass {
     this.reflector?.dispose();
     this.reflector?.geometry.dispose(); this.reflector = null;
     this.reflectionAge = Infinity; this.reflectionValid = false; this.reflectionScene = null;
+    // The gathered detail holds the scene's meshes: let a disposed world go with it (A87 scout).
+    this.detail = []; this.detailScene = null; this.detailAge = Infinity;
     this.copyMaterial.uniforms.tColor!.value = null;
     this.copyMaterial.uniforms.tDepth!.value = null;
   }

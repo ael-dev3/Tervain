@@ -167,3 +167,54 @@ it('keeps Ila’s completed maintenance-track progress when a visitor blocks her
   for (let i = 0; i < 6000 && npc.mode !== 'sit'; i++) npc.update(.05, ctx);
   expect(npc.mode).toBe('sit');
 });
+
+it.each([['spring_steward', 4.9, 5.1], ['shrine_warden', 5.9, 6.1]] as const)('walks %s out of the shrine hall at dawn at 30 and 60 frames a second, over the door step (A87 scout)', (id, before, after) => {
+  const def = NPC_LIST.find(d => d.id === id)!;
+  for (const dt of [1 / 60, 1 / 30]) {
+    const state = createInitialState();
+    colliders.setActive('shortcut_gate', true);
+    const ctx: ActorContext = { terrain, colliders, nav, state, hour: before, player: { x: -500, y: 0, z: -500 }, reducedMotion: false, onBark: () => false };
+    const height = def.look.height * 1.8;
+    const npc = new NpcActor(def, { root: new THREE.Group(), height, materials: [], hitFlash: 0 } as unknown as Rig);
+    npc.snapToGoal(ctx);
+    ctx.hour = after;
+    const expected = resolveGoal(def, state, after), target = npcGoalPosition(def, expected, ctx, height);
+    const close = expected.activity === 'work' || expected.activity === 'sit' ? .06 : .15;
+    for (let t = 0; t < 240 && Math.hypot(npc.x - target.x, npc.z - target.z) > close; t += dt) npc.update(dt, ctx);
+    expect(Math.hypot(npc.x - target.x, npc.z - target.z), `${id} at 1/${Math.round(1 / dt)} s stalled at ${npc.x.toFixed(2)}, ${npc.z.toFixed(2)}`).toBeLessThanOrEqual(close);
+  }
+}, 60000);
+
+it('poses a sleeper well away from the player on the first frame they are shown, not half a second later (A87 scout)', async () => {
+  const { poseRig } = await import('../../src/presentation/characters');
+  const def = NPC_LIST.find(d => d.id === 'ash_recorder')!, state = createInitialState();
+  const ctx: ActorContext = { terrain, colliders, nav, state, hour: 2, player: { x: -500, y: 0, z: -500 }, reducedMotion: false, onBark: () => false };
+  const npc = new NpcActor(def, { root: new THREE.Group(), height: def.look.height * 1.8, materials: [], hitFlash: 0 } as unknown as Rig);
+  npc.snapToGoal(ctx);
+  expect(npc.lie).toBe(1);
+  // Forty metres off: asleep, drawn, renewed only now and then.
+  ctx.player = { x: npc.x + 40, y: npc.y, z: npc.z };
+  vi.mocked(poseRig).mockClear();
+  npc.update(1 / 60, ctx);
+  expect(vi.mocked(poseRig).mock.calls.filter(([rig]) => rig === npc.rig)).toHaveLength(1);
+});
+
+it('leads Ila out of the inn after the player stood in her way, rather than into the fireplace (A87 scout)', () => {
+  const def = NPC_LIST.find(d => d.id === 'maintenance_worker')!, state = createInitialState();
+  // Rescued: she sleeps at the inn and sits on its bench by day.
+  state.facts.ila_rescued = true; state.facts.ila_method = 'fight';
+  colliders.setActive('shortcut_gate', true);
+  const ctx: ActorContext = { terrain, colliders, nav, state, hour: 6.9, player: { x: -500, y: 0, z: -500 }, reducedMotion: false, onBark: () => false };
+  const height = def.look.height * 1.8;
+  const npc = new NpcActor(def, { root: new THREE.Group(), height, materials: [], hitFlash: 0 } as unknown as Rig);
+  npc.snapToGoal(ctx);
+  ctx.hour = 7.1;
+  const expected = resolveGoal(def, state, 7.1), target = npcGoalPosition(def, expected, ctx, height);
+  const close = expected.activity === 'work' || expected.activity === 'sit' ? .06 : .15;
+  // The player stands in the way for ten seconds, then walks off.
+  ctx.player = { x: -0.1, y: terrain.groundAt(-0.1, 30.3), z: 30.3 };
+  for (let t = 0; t < 10; t += 1 / 60) npc.update(1 / 60, ctx);
+  ctx.player = { x: -500, y: 0, z: -500 };
+  for (let t = 0; t < 240 && Math.hypot(npc.x - target.x, npc.z - target.z) > close; t += 1 / 60) npc.update(1 / 60, ctx);
+  expect(Math.hypot(npc.x - target.x, npc.z - target.z), `stalled at ${npc.x.toFixed(2)}, ${npc.z.toFixed(2)}`).toBeLessThanOrEqual(close);
+}, 60000);

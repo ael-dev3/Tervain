@@ -56,8 +56,13 @@ export const ARRIVAL_BUDGET_MS = 3;
 /** The figures still waiting for their models, handed theirs as soon as nobody sees the change. */
 export class ResidentArrivals {
   private waiting: AwaitingFigure[] = [];
-  /** The figure whose rig is being built a step a frame, and the rig once it is done but they are in view. */
+  /** The figure whose rig is being built a step a frame. */
   private building: { figure: AwaitingFigure; steps: Generator<void, Rig, void>; rig: Rig | null; ready: boolean } | null = null;
+  /**
+   * Rigs built and waiting to change over until nobody sees it (A87 scout): one held in view no longer holds up the
+   * next figure's build, so the others still take their models meanwhile.
+   */
+  private finished: { figure: AwaitingFigure; rig: Rig; ready: boolean }[] = [];
   /**
    * Prepare a finished rig's shaders before it is shown (A78: the renderer's parallel compile), so its first frame on
    * screen does not stall compiling them. The rig changes over once this settles, whether or not it succeeded.
@@ -67,7 +72,7 @@ export class ResidentArrivals {
   constructor(private readonly now: () => number = () => performance.now()) {}
 
   get count(): number {
-    return this.waiting.length + (this.building ? 1 : 0);
+    return this.waiting.length + (this.building ? 1 : 0) + this.finished.length;
   }
 
   add(figure: AwaitingFigure) {
@@ -79,6 +84,8 @@ export class ResidentArrivals {
     // A rig built for someone who never took it (the world went first) owns its own GPU resources (A80 audit).
     if (this.building?.rig) discardRig(this.building.rig);
     this.building = null;
+    for (const done of this.finished) discardRig(done.rig);
+    this.finished = [];
     // A new world brings its own scene to warm shaders against.
     this.warm = null;
   }
@@ -92,7 +99,7 @@ export class ResidentArrivals {
   update(catalog: MeshyNpcCatalog | null, inView: (p: { x: number; y: number; z: number }) => boolean, perFrame = 2): number {
     if (!catalog) return 0;
     const hidden = (figure: AwaitingFigure) => !!figure.unseen?.() || !inView(figure.position());
-    let arrived = 0;
+    let arrived = this.handOver(catalog, hidden, perFrame);
     if (this.building) arrived += this.advance(catalog, hidden);
     if (!this.waiting.length) return arrived;
     this.waiting = this.waiting.filter((figure) => {
@@ -121,7 +128,24 @@ export class ResidentArrivals {
     return arrived;
   }
 
-  /** Build the current figure's rig for this frame's budget; hand it over once done and out of sight. */
+  /** Hand the finished rigs to their figures, those out of sight and prepared, at most `perFrame`. */
+  private handOver(catalog: MeshyNpcCatalog, hidden: (figure: AwaitingFigure) => boolean, perFrame: number): number {
+    let arrived = 0;
+    this.finished = this.finished.filter((done) => {
+      if (arrived >= perFrame || !done.ready || !hidden(done.figure)) return true;
+      try {
+        done.figure.adopt(catalog, done.rig);
+        arrived++;
+      } catch (error) {
+        if (!done.rig.root.parent) discardRig(done.rig);
+        console.warn(`resident ${done.figure.role} could not take its model; keeping its stand-in`, error);
+      }
+      return false;
+    });
+    return arrived;
+  }
+
+  /** Build the current figure's rig for this frame's budget; once done it waits among the finished to change over. */
   private advance(catalog: MeshyNpcCatalog, hidden: (figure: AwaitingFigure) => boolean): number {
     const building = this.building!;
     try {
@@ -137,16 +161,17 @@ export class ResidentArrivals {
           last = this.now() - before;
         } while (this.now() - started + last < ARRIVAL_BUDGET_MS);
         if (building.rig) {
+          const done = { figure: building.figure, rig: building.rig, ready: !this.warm };
           if (this.warm) {
-            const settle = () => { building.ready = true; };
+            const settle = () => { done.ready = true; };
             this.warm(building.rig).then(settle, settle);
-          } else building.ready = true;
+          }
+          this.finished.push(done);
+          this.building = null;
+          return this.handOver(catalog, hidden, 1);
         }
       }
-      if (!building.rig || !building.ready || !hidden(building.figure)) return 0;
-      this.building = null;
-      building.figure.adopt(catalog, building.rig);
-      return 1;
+      return 0;
     } catch (error) {
       this.building = null;
       if (building.rig && !building.rig.root.parent) discardRig(building.rig);
