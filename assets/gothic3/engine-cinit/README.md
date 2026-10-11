@@ -1389,3 +1389,25 @@ remains running and has reported a hero-animation action-layer failure. Its
 final diagnostic is pending; it is not a successful validation receipt. It
 predates the latest native continuations and PR 248. These native changes
 remain local and full startup/campaign completion is unproven.
+
+
+### 2026-10-11: original class type-name cache allocations
+
+The type-name caller retains the measured length, checks its final character
+through the original trim path, obtains lock 14 and confirms the live RTTI
+cache is empty. Its original callbacks allocate an eight-byte cache node and
+a fifteen-byte logical text span, then store the actual text pointer in the
+type-info cache field. The original copy call receives that span, its capacity
+and the live undecorated source. Execution stops at `3068a84a` after 7,807
+source operations. The new text remains wholly unknown and the copy result
+for this pending call is unset. The completed source allocation remains live;
+the parser arena is freed and lock 5 released.
+
+Type checking passed; the normal check passed in 10.31 seconds, nine fidelity
+and interruption checks in 40.24 seconds and six browser startup checks in
+31.09 seconds. An interrupted cache allocation retains the original malloc
+caller, held cache lock, released arena and live completed source. The combined
+validation is still active on frozen revision
+`24a7bad8f17523a46b911868ac6ff9b275017ce0`, which predates this continuation.
+These changes remain local; copying, cache linking, cleanup, second-property
+publication and complete startup/campaign play remain unfinished.
