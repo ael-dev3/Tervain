@@ -4,6 +4,25 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local continuation — 11 October 2026: original string scan and text-node allocation
+
+The original string constructor scans the captured literal through its actual
+INC/CMP/JNZ loop, deriving length 5. It passes the original literal and length to
+`3069760c`. The initializer extracts the actual low flag nibble, follows the
+empty-destination branch and requests a 16-byte text node. Its allocation uses
+the same original warm-arena routine as the four parser fields, retaining one
+4,104-byte block. The text slice is at offset 4,020 and free capacity is 4,016.
+The actual call to text-node constructor `30697364` has the literal, length and
+allocated object; execution stops there after 3,336 operations with lock 5 held.
+
+Seven normal/failure checks, a dedicated five-iteration/length/ownership check,
+all 15 source/image checks, final typechecking and exact independent regeneration
+pass. The scan derives its length from original bytes; no constructed string,
+character copy or cached name has been supplied. Combined validation of
+`a8f295e60` remains live in its frozen checkout. This work is local; text-node
+construction, parser returns, cleanup, complete startup and a finishable browser
+campaign remain unfinished.
+
 ## Local continuation — 11 October 2026: original basic-type case tables
 
 The basic-type parser executes its original frame setup and reads `M` from the

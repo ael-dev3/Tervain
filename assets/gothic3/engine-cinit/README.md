@@ -1,7 +1,7 @@
 # Engine CRT initializer evidence
 
 This package records the next dependency after Engine environment-vector return.
-It captures 48 original bodies (1888 instructions), the caller at `30677284`,
+It captures 51 original bodies (2014 instructions), the caller at `30677284`,
 the floating-point callback at `30892ac0`, and two original initializer tables.
 The C initializer table has 200 slots with 6 nonzero entries. The C++ table has
 93,705 slots with 1,963 nonzero entries; omitted entries are verified zero.
@@ -14,7 +14,7 @@ python tools/gothic3/prepare_engine_cinit_source.py --study '<study-root>' --out
 
 The generator checks the original Engine.dll hash and exact caller bytes.
 Independent regeneration produced identical JSON, SHA-256
-``2bcd646a28380d161c38529111d7b5fd3951b7c142c203b23ade4122bc0e3d85``.
+``9fa438e427d491d18893ebefcaf4be4dcbfc329897d93614f962ef16be0ddac0``.
 
 The capture's `runtimeConnected: false` records evidence preparation; it grants
 no execution authority. The TypeScript continuation separately obtains a
@@ -164,3 +164,10 @@ maps to target 4 at `3069b430`, which pushes the original float literal from
 `30819794`. The literal is captured as exact readonly bytes, not supplied decoded
 output. Execution stops at its original string constructor `30697a0f` after
 3,252 operations. Name allocation, cleanup and cache publication remain pending.
+
+The string constructor now scans the five original float-literal bytes and
+passes that actual length to its initializer. The initializer preserves masked
+flag fields, follows its empty-destination branch and uses the same warm arena
+routine to allocate a 16-byte text node at offset 4,020. Free capacity is 4,016
+bytes. Execution stops at original text-node constructor `30697364` after 3,336
+operations. No character copy or completed string has been supplied yet.

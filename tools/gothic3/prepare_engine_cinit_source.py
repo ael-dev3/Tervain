@@ -53,6 +53,9 @@ def capture(study):
         0x30696ffb: 'engineUndecorationTemporaryConstructor',
         0x3069b738: 'engineUndecorationCompoundTypeParser',
         0x3069b3b1: 'engineUndecorationBasicTypeParser',
+        0x30697a0f: 'engineUndecorationStringConstructor',
+        0x3069760c: 'engineUndecorationStringInitialize',
+        0x30697364: 'engineUndecorationTextNodeConstructor',
     })
     pe = PE((study / '00_Original_Runtime/Engine.dll').read_bytes())
     # The exported function CSV omits this complete body; retain its assembly
