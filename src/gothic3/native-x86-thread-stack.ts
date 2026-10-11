@@ -1208,7 +1208,15 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
               const classByte=(word:NativeX86Word32)=>{const p=stack.#record(word).provenance;if(p?.kind!=='engine-image'||p.crt!==crt||p.fields!==image('visualAnimationSecondTypeInfo')||p.offset!==11)throw new Error('Original class type-code cursor required');return NativeHeapObjectViews.prototype.readUnsigned.call(p.fields,p.offset,1);};
               runCompoundTypePrefix(constructed.config,classByte,typePrefix.localAnd,typePrefix.localExtent);
               const basicPrefix=runBasicTypePrefix(constructed.config,image('visualAnimationSecondTypeInfo'),11,classByte,typePrefix.localAnd,typePrefix.localExtent);
-              stack.#engineCinitFrame!.pc=basicPrefix.target;return known(undefined);
+              if(basicPrefix.target!=='3069b43a'){stack.#engineCinitFrame!.pc=basicPrefix.target;return known(undefined);}
+              const basic=basicPrefix.basic;
+              const compare=(value:number)=>{const a=stack.#numeric(register('EAX'),4);stack.#arithmeticFlags(a,value,(a-value)>>>0,4,true);};
+              basic('3069b43a',()=>compare(79));basic('3069b43d',()=>{if(basicPrefix.basicByte===79)throw new Error('Original long double type remains pending');});basic('3069b443',()=>{if(basicPrefix.basicByte<=79)throw new Error('Original lower fallback type remains pending');});
+              basic('3069b449',()=>compare(83));basic('3069b44c',()=>{if(basicPrefix.basicByte<=83)throw new Error('Original tagged basic type remains pending');});basic('3069b452',()=>compare(88));basic('3069b455',()=>{if(basicPrefix.basicByte===88)throw new Error('Original void basic type remains pending');});basic('3069b45b',()=>compare(95));basic('3069b45e',()=>{if(basicPrefix.basicByte===95)throw new Error('Original extended basic type remains pending');});
+              basic('3069b5d6',()=>setRegister('EAX',stack.#stackWord(stack.#address(register('EBP'))-36)));basic('3069b5d9',()=>{});
+              basic('3069b521',()=>{const p=stack.#record(stack.#load(constructed.config,12)).provenance;if(p?.kind!=='engine-image'||p.crt!==crt||p.fields!==image('visualAnimationSecondTypeInfo')||p.offset!==12)throw new Error('Original advanced class cursor required');stack.#store(constructed.config,12,stack.#mint(0,0,{...p,offset:11}));const flags=stack.#record(stack.#load(stack.#bank,36));stack.#flags(flags.value&1,flags.mask&1);});
+              basic('3069b527',()=>stack.#push(register('EAX')));basic('3069b528',()=>stack.#call('3069b528','3069b52d'));
+              stack.#engineCinitFrame!.pc='306995dd';return known(undefined);
             }
             return known(undefined);
           }

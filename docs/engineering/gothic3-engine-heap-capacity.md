@@ -638,3 +638,16 @@ MemoryAdmin allocation path, unknown final CString byte, unknown decorated
 qualifier, parser constructor and fatal PTD call. The diff was inspected.
 Combined validation remains live on an earlier revision. This continuation is
 local; complete startup, publication and campaign completion remain unfinished.
+
+## 2026-10-11: original class-code fallback dispatch
+
+The second property's original upper basic-type comparisons now select the
+fallback at `3069b5d6`. The actual local destination is passed on the retained
+stack, the live cursor is decremented from twelve to eleven, and the original
+call `3069b528 -> 306995dd` remains pending after 5,421 admitted operations.
+The new continuation does not synthesize class-name output or return the call.
+
+TypeScript checking and five focused allocation, byte-unknown, qualifier,
+constructor and fatal-call regression checks pass. The source diff was reviewed.
+Combined validation is still live on its earlier frozen revision. This work is
+local; the class parser body, complete startup and full campaign remain unfinished.
