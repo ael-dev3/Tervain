@@ -2609,3 +2609,27 @@ matches the captured camera continuation without code changes.
 Typechecking, eight focused runtime checks and six browser startup checks pass
 locally. List linking, output release, type-name return, complete startup and a
 finishable campaign remain outstanding. These changes are not deployed.
+
+
+## Local continuation — 11 October 2026: reference-base cache list linking
+
+The original caller reloads the published reference-base cache text, stores it
+in the new list node, copies the actual prior camera list root into that node's
+next field and publishes the new node as the list root. The existing camera
+chain remains live. Execution stops before output release at `3067db62` after
+17,962 admitted operations. Both cache allocations and the temporary output
+remain live, and CRT lock 14 remains held.
+
+Interrupted next-field publication preserves the prior root and known text
+link. Interrupted root publication retains the actual prior root in the new
+node's next field; the interrupted root store has invalidated opaque pointer
+authority, so its destination remains unknown rather than being presented as
+an established old or new pointer. Neither failure fabricates cleanup.
+The admitted list-link span matches the captured camera continuation unchanged.
+
+Typechecking and six browser startup checks pass. Nine of ten selected runtime
+checks passed in the first run; after correcting the root-failure observation,
+both link-interruption checks passed. All ten distinct runtime checks therefore
+have passing evidence across these runs. Output release, type-name return,
+complete startup and a finishable browser campaign remain outstanding. This
+checkpoint is local and has not been deployed.
