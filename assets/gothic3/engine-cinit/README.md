@@ -3355,3 +3355,10 @@ The normal check proves the exact 64 output bytes and returned parser call. An u
 The captured arena destructor now releases the original parser allocation through its actual free callback and clears the arena chain. The captured finally routine releases lock 5, and the EH epilog restores the original frame and returns the live generated-name output to 3067dacb. The output allocation is distinct from the released parser arena. Type-name length scanning and cache publication, subsequent startup and the complete campaign remain unfinished.
 
 A focused normal check proves the released arena, cleared pointers, live exact output, unlocked state and original destructor/finally/epilog/caller returns. An interrupted original free callback preserves its unfinished call, live arena and held lock. Earlier unknown-normalization-byte and writer-terminator interruption checks remain covered. Typecheck, four focused checks, 83 source/image/browser checks and production build passed locally. No new full-suite or deployment claim is made.
+
+
+## MainCache original strlen and type-name cache entry
+
+The original returned-name caller now executes its DWORD strlen scan, measures the live output as 63 characters, checks the last character through the captured trim path, acquires type-name lock 14 and verifies that the actual RTTI cache pointer remains zero. Execution stops at 3067db09 before cache allocation. The parser arena is already released and its lock is no longer held. No cache publication, complete startup or campaign completion is claimed.
+
+The normal check proves the exact length, held type-name lock and physical strlen/lock caller returns. An unknown final output byte stops at 30679b11 with the original strlen caller unfinished and the type-name lock unacquired. The first negative-test hook failed before reaching this routine because it omitted maskedWord width forwarding; correcting that hook produced the intended unknown-terminator evidence. Typecheck, two focused checks, 83 source/image/browser checks and production build passed locally. This checkpoint is not yet deployed or covered by a new full-suite run.
