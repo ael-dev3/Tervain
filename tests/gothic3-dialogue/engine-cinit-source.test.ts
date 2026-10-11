@@ -96,6 +96,13 @@ describe('original Engine CRT initializer evidence', () => {
     expect(engineCinitInstruction('30699300','30699300').bytes).toBe('55');
     expect(engineCinitInstruction('30699300','306994e9').bytes).toBe('c3');
   });
+  it('pins the original delimited identifier constructor',()=>{
+    expect(engineCinitInstruction('30697709','30697709').bytes).toBe('55');
+    expect(engineCinitInstruction('30697709','30697722').bytes).toBe('8b0f');
+    expect(engineCinitInstruction('30697709','30697738').bytes).toBe('3a450c');
+    expect(engineCinitInstruction('30697709','3069778c').bytes).toBe('e87bfeffff');
+    expect(engineCinitInstruction('30697709','306977c1').bytes).toBe('c20800');
+  });
   it('rejects unknown bodies, tables and invalid callback slots', () => {
     expect(() => engineCinitInstruction('3067d1c7', '3067d1c8')).toThrow();
     expect(() => engineCinitTable('Game')).toThrow();

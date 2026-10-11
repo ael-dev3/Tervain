@@ -1,7 +1,7 @@
 # Engine CRT initializer evidence
 
 This package records the next dependency after Engine environment-vector return.
-It captures 76 original bodies (3294 instructions), the caller at `30677284`,
+It captures 77 original bodies (3383 instructions), the caller at `30677284`,
 the floating-point callback at `30892ac0`, and two original initializer tables.
 The C initializer table has 200 slots with 6 nonzero entries. The C++ table has
 93,705 slots with 1,963 nonzero entries; omitted entries are verified zero.
@@ -14,7 +14,7 @@ python tools/gothic3/prepare_engine_cinit_source.py --study '<study-root>' --out
 
 The generator checks the original Engine.dll hash and exact caller bytes.
 Independent regeneration produced identical JSON, SHA-256
-``e054e5c797809286e5920a4184b54134a3ed44aa04e04b23dd344e95c4b350d3``.
+``7d8b268e684a48f5e272b4bba5f3ab8ef78947348f084a08cf1024e91d7b6994``.
 
 The capture's `runtimeConnected: false` records evidence preparation; it grants
 no execution authority. The TypeScript continuation separately obtains a
@@ -890,3 +890,19 @@ The added source sequence was reviewed against the captured instructions.
 Combined validation is running on the earlier frozen identifier-entry revision;
 this new dispatch is local. Complete startup and campaign completion remain
 unfinished.
+
+## 2026-10-11: original delimited-name constructor evidence
+
+Captured `DName::DName(char const*&, char)` at `30697709-306977d8`:
+89 instructions, 208 bytes, instruction hash
+`b28a7979f8797f684584712d69fe13c6bf321b680c271447e95d3cb6accbc086`.
+The body retains its character validation, live cursor updates, initializer
+call and delimiter handling. The package now has 77 Engine bodies and 3,383
+instructions. The source-admission checks pin the entry, cursor load, delimiter
+comparison, initialization call and original `RET 8`.
+
+Independent JSON and TypeScript regeneration are byte-identical. Structural
+comparison shows exactly the new body. TypeScript checking and all 32 source/image
+checks pass; generator and admission-test diffs were inspected. Runtime remains
+pending at `30697709` after 5,781 operations. This local capture does not execute
+the constructor. Complete startup and browser campaign completion are unfinished.

@@ -853,3 +853,19 @@ The added source sequence was reviewed against the captured instructions.
 Combined validation is running on the earlier frozen identifier-entry revision;
 this new dispatch is local. Complete startup and campaign completion remain
 unfinished.
+
+## 2026-10-11: original delimited-name constructor evidence
+
+Captured `DName::DName(char const*&, char)` at `30697709-306977d8`:
+89 instructions, 208 bytes, instruction hash
+`b28a7979f8797f684584712d69fe13c6bf321b680c271447e95d3cb6accbc086`.
+The body retains its character validation, live cursor updates, initializer
+call and delimiter handling. The package now has 77 Engine bodies and 3,383
+instructions. The source-admission checks pin the entry, cursor load, delimiter
+comparison, initialization call and original `RET 8`.
+
+Independent JSON and TypeScript regeneration are byte-identical. Structural
+comparison shows exactly the new body. TypeScript checking and all 32 source/image
+checks pass; generator and admission-test diffs were inspected. Runtime remains
+pending at `30697709` after 5,781 operations. This local capture does not execute
+the constructor. Complete startup and browser campaign completion are unfinished.
