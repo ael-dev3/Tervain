@@ -100,14 +100,16 @@ describe('distributed model source notices', () => {
 
   it('keeps the records the Meshy plan does not cover separate and unresolved', () => {
     const hero = ledger.sources['wanderer-animated'];
-    expect(hero.separateRights).toEqual([expect.objectContaining({ evidenceStatus: 'pending-source-rights', component: expect.stringMatching(/Mixamo/) })]);
+    // A112: matched to Meshy rigging and its animation library by public evidence; the source's provenance stays unresolved.
+    expect(hero.separateRights).toEqual([expect.objectContaining({ evidenceStatus: 'meshy-output-by-public-evidence', component: expect.stringMatching(/Mixamo/) })]);
+    expect(hero.provenance.classification).toBe('unresolved');
     const archive = ledger.assets.filter((asset: { file: string }) => asset.file.startsWith('assets/warpkeep/'));
     expect(archive.length).toBe(ledger.summary.archivedWarpkeepFiles);
     for (const asset of archive) {
       expect(asset.license.spdx, asset.file).toBe('LicenseRef-Warpkeep-Provenance-Required');
       expect(asset.license.evidenceStatus, asset.file).not.toBe('meshy-paid-plan-output');
     }
-    expect(ledger.resolutionRequired.join(' ')).toMatch(/unresolved supplied Meshy sources.*Mixamo.*Warpkeep/s);
+    expect(ledger.resolutionRequired.join(' ')).toMatch(/unresolved supplied Meshy sources.*animated hero source.*Meshy rigging.*Warpkeep/s);
   });
 
   it('credits Meshy Community creators and makes no blanket Meshy Pro claim in every distributed credit', () => {

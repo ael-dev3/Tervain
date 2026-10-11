@@ -1,0 +1,80 @@
+{
+  "width": 18,
+  "atlases": {
+    "fir-spire": {
+      "source": "43f7d645bbd1aab84eb95acb60a9c1f10bb6a5d41864a0a29246a12b54bf62e5",
+      "feathered": "c8ec4320038194756b913403c401ff416e029f278fc757ff9dcdb9288a506cd1",
+      "joinedBorders": 0
+    },
+    "oak-elder": {
+      "source": "600a13239f35d9afed41adf9e1a7b7a527b01d56771340c9c25a1e706974ea81",
+      "feathered": "c533edbdff9656c3e9aff86506754bba7c26f2e3255f32ecc1914f74ace388da",
+      "joinedBorders": 0
+    },
+    "palm-fan": {
+      "source": "b951bf9fbf6db89dba9b91f70e68d4cd4b6dbc4fd92da73eb0fc658d4a801f2b",
+      "feathered": "b2cc44b8cbac6f80b0501b020b7fc0474050f4f49798e491b31fcbd72d1f3c97",
+      "joinedBorders": 0
+    },
+    "palm-lean": {
+      "source": "f1349912ac1997673c6f8b01657b5be7923960e173db8b89ee175ebf90b151f8",
+      "feathered": "ea23e357f7d543745337c25c38b318d497a6ee8a57e8386cc96c22f443646f1b",
+      "joinedBorders": 0
+    },
+    "tree-0208": {
+      "source": "9fb440862edae4387cdb799ef47ade8d254a57b1cb69394c118199e8b2370ec1",
+      "feathered": "431975396a4352868db88820fe7e2cde514e33795420718f06b868922e02823b",
+      "joinedBorders": 0
+    },
+    "tree-1505": {
+      "source": "20840376bc713e1db9a85534fc9fb8fa63c705aa476be0550e49e2c2754aa980",
+      "feathered": "979a3aaf1d08f8534472e91125df0b54d6f175f03bcb11fc1c849396bfdce0cf",
+      "joinedBorders": 0
+    },
+    "tree-1521": {
+      "source": "541208fd07f2d7c5ddff6512a98e2e5539aa267d19877ce48138f9f7bf529c48",
+      "feathered": "3e7d01fbc8fe7312809e47d2c13fe72a2e804cfc7f0268e7a7b7ff6d153647c5",
+      "joinedBorders": 0
+    },
+    "tree-1537": {
+      "source": "80ed277298a1034f4c5e3510d2342505720f24218f7b15ec31cee94dde446e40",
+      "feathered": "fc84d277166c51a949fdcdd0ba6823f99caeaea8016c1d93cc40a23c2987fbe4",
+      "joinedBorders": 0
+    },
+    "tree-4815": {
+      "source": "299984303808b24a752d5fb62254fe6624e868809e327d4a6a41dcc7d9a720d8",
+      "feathered": "ef8b9f4ab375a085cee2717dfe343375a3b23570c76f027f59edf95b220ff717",
+      "joinedBorders": 0
+    },
+    "tree-4949": {
+      "source": "8308b94e18c6145732f64cb020bb3a90c7743168cdd4322708305bfcd36db9f7",
+      "feathered": "48ffbc48c2a914d8bfda806b57f62983891d612f69b5e00712ca3f67ebd5946a",
+      "joinedBorders": 0
+    },
+    "verdant-sentinel": {
+      "source": "449f2bbb20586019bfaa7636677b304ae1121e9e54b2347f841f0a0a9ed7ecd4",
+      "feathered": "50a5e669683be0956b8a1dfad4a177fe8e973d3e21f5ebbc479ed434ceac021b",
+      "joinedBorders": 0
+    },
+    "palm-date": {
+      "source": "eec80cde7ad47a56e49d7775cac5515fcd94006be036c1c8ce42198d2e0a92c4",
+      "feathered": "95a3fcfcc26ada1d114f78a150666661d9249dfdfca26101b254aaafc5a25345",
+      "joinedBorders": 53
+    },
+    "tree-1459": {
+      "source": "939693cd8b45e6897fd4e72f2e3d7a7a2860027120670fa6fcccbff7b29e3ef3",
+      "feathered": "14b47457bbdf297a92127b7e12fc880bd1fb944d2a67a168c7aa040c1042d25c",
+      "joinedBorders": 55
+    },
+    "tree-1527": {
+      "source": "f87f2b6125cbdd54c01f1c63d296bb8295c2fc41c2a927b737fb88ffcbd36377",
+      "feathered": "b02cb82d4e05388c58a0b8817d88c1dd82748db9a446acee3d8a94c8d73a6f68",
+      "joinedBorders": 55
+    },
+    "tree-3106": {
+      "source": "31e1a71a30c515b5b8a8531e499a1c08981f15a117a6080a8b386badbb0b4ef5",
+      "feathered": "a8fbf00c658c513bfcb91a87783810857ddff75f564560b08d6ba32ecdfc1881",
+      "joinedBorders": 52
+    }
+  }
+}

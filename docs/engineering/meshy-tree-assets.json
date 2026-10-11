@@ -69,8 +69,8 @@
         "near": {
           "path": "public/models/flora/meshy-012/palm-fan-near.glb",
           "file": "palm-fan-near.glb",
-          "bytes": 1406992,
-          "sha256": "c2f804632f00e138a72be2a6695ec3ad8a55f0c79294572d0ef49aa7a4227f3b",
+          "bytes": 1487456,
+          "sha256": "00eb2cda77deff102436f11c8fe687aea21112956dee69b22f036bf741d8ee56",
           "triangles": 13896,
           "uniqueTriangles": 13896,
           "parts": [
@@ -113,8 +113,8 @@
             },
             {
               "mimeType": "image/webp",
-              "bytes": 842674,
-              "sha256": "b951bf9fbf6db89dba9b91f70e68d4cd4b6dbc4fd92da73eb0fc658d4a801f2b",
+              "bytes": 923140,
+              "sha256": "b2cc44b8cbac6f80b0501b020b7fc0474050f4f49798e491b31fcbd72d1f3c97",
               "width": 2048,
               "height": 2048
             }
@@ -8799,8 +8799,8 @@
         "near": {
           "path": "public/models/flora/meshy-012/palm-lean-near.glb",
           "file": "palm-lean-near.glb",
-          "bytes": 1512520,
-          "sha256": "cebf004fb24a029fface7bb2307508c93e5892cdf8022f9592dc197e105d7135",
+          "bytes": 1588032,
+          "sha256": "69d83f64025e44e1d4046acc843b03e80fdadd24ad74dd6a54e5e9327a15efb1",
           "triangles": 17572,
           "uniqueTriangles": 17572,
           "parts": [
@@ -8843,8 +8843,8 @@
             },
             {
               "mimeType": "image/webp",
-              "bytes": 801938,
-              "sha256": "f1349912ac1997673c6f8b01657b5be7923960e173db8b89ee175ebf90b151f8",
+              "bytes": 877450,
+              "sha256": "ea23e357f7d543745337c25c38b318d497a6ee8a57e8386cc96c22f443646f1b",
               "width": 2048,
               "height": 2048
             }
@@ -17506,8 +17506,8 @@
         "near": {
           "path": "public/models/flora/meshy-012/palm-date-near.glb",
           "file": "palm-date-near.glb",
-          "bytes": 2631284,
-          "sha256": "f08d3970bd2d494393328abaaad94dc115fe8bf3dbca7042fc1d86d843225a1c",
+          "bytes": 2938104,
+          "sha256": "63a64025afd99032ca79bd20a5d1f50c3e81e12aa3db15385da7e9de9a92637f",
           "triangles": 9604,
           "uniqueTriangles": 9604,
           "parts": [
@@ -17552,8 +17552,8 @@
             },
             {
               "mimeType": "image/webp",
-              "bytes": 403708,
-              "sha256": "eec80cde7ad47a56e49d7775cac5515fcd94006be036c1c8ce42198d2e0a92c4",
+              "bytes": 710526,
+              "sha256": "95a3fcfcc26ada1d114f78a150666661d9249dfdfca26101b254aaafc5a25345",
               "width": 2048,
               "height": 2048
             },
@@ -34052,8 +34052,8 @@
         "near": {
           "path": "public/models/flora/meshy-012/fir-spire-near.glb",
           "file": "fir-spire-near.glb",
-          "bytes": 1596864,
-          "sha256": "6ac292cfb5d5edb45859fd35ef0b6257ba581f5206a1a29c4c77a3d88c8da181",
+          "bytes": 1750540,
+          "sha256": "509cbc8b27a2de0a021aa269e7a5f02194beeed503af5697a9fccf57064b7fe5",
           "triangles": 12891,
           "uniqueTriangles": 12891,
           "parts": [
@@ -34098,8 +34098,8 @@
             },
             {
               "mimeType": "image/webp",
-              "bytes": 641120,
-              "sha256": "43f7d645bbd1aab84eb95acb60a9c1f10bb6a5d41864a0a29246a12b54bf62e5",
+              "bytes": 794796,
+              "sha256": "c8ec4320038194756b913403c401ff416e029f278fc757ff9dcdb9288a506cd1",
               "width": 2048,
               "height": 2048
             }
@@ -46562,8 +46562,8 @@
         "near": {
           "path": "public/models/flora/meshy-012/oak-elder-near.glb",
           "file": "oak-elder-near.glb",
-          "bytes": 1459428,
-          "sha256": "be1fad95b3356050ad67660d513a5347bee1aa0c79b5cf223afc12ae5928904f",
+          "bytes": 1328412,
+          "sha256": "478565282a5e0682711fe24c84a9ef8e573a93311df3c4c6a5d195df106a018a",
           "triangles": 13980,
           "uniqueTriangles": 13980,
           "parts": [
@@ -46613,8 +46613,8 @@
             },
             {
               "mimeType": "image/webp",
-              "bytes": 647468,
-              "sha256": "600a13239f35d9afed41adf9e1a7b7a527b01d56771340c9c25a1e706974ea81",
+              "bytes": 516450,
+              "sha256": "c533edbdff9656c3e9aff86506754bba7c26f2e3255f32ecc1914f74ace388da",
               "width": 2048,
               "height": 2048
             }
@@ -55285,8 +55285,8 @@
         "near": {
           "path": "public/models/flora/meshy-012/tree-0208-near.glb",
           "file": "tree-0208-near.glb",
-          "bytes": 1127612,
-          "sha256": "c45ef1af8eed209dbb0200cd5df4c69c6e18eb12999d19bcc31be703454f7676",
+          "bytes": 1032864,
+          "sha256": "e3732b9fec678fd9b74da34c653fd42392fdf107ac22e4e74a0cd20fdf4954bb",
           "triangles": 13392,
           "uniqueTriangles": 13392,
           "parts": [
@@ -55329,8 +55329,8 @@
             },
             {
               "mimeType": "image/webp",
-              "bytes": 549088,
-              "sha256": "9fb440862edae4387cdb799ef47ade8d254a57b1cb69394c118199e8b2370ec1",
+              "bytes": 454342,
+              "sha256": "431975396a4352868db88820fe7e2cde514e33795420718f06b868922e02823b",
               "width": 2048,
               "height": 2048
             }
@@ -63281,8 +63281,8 @@
         "near": {
           "path": "public/models/flora/meshy-012/tree-1537-near.glb",
           "file": "tree-1537-near.glb",
-          "bytes": 2331172,
-          "sha256": "96cb50766de5eb1921fea305bad6e9e12a7b8dded17f5c3a065560963fde8ecc",
+          "bytes": 2268724,
+          "sha256": "78b41655d84c16e3b3d01d309366c20db0dd024ff66be725186d6a45241a9bbf",
           "triangles": 19478,
           "uniqueTriangles": 19478,
           "parts": [
@@ -63327,8 +63327,8 @@
             },
             {
               "mimeType": "image/webp",
-              "bytes": 489520,
-              "sha256": "80ed277298a1034f4c5e3510d2342505720f24218f7b15ec31cee94dde446e40",
+              "bytes": 427070,
+              "sha256": "fc84d277166c51a949fdcdd0ba6823f99caeaea8016c1d93cc40a23c2987fbe4",
               "width": 2048,
               "height": 2048
             }
@@ -71999,8 +71999,8 @@
         "near": {
           "path": "public/models/flora/meshy-012/tree-1527-near.glb",
           "file": "tree-1527-near.glb",
-          "bytes": 1072760,
-          "sha256": "3df73254b5bde845b88c6ea9eceb83b2399060967873ec638a8c3392098de878",
+          "bytes": 1113700,
+          "sha256": "b06e92ea1089d161db73576b45cd76b8ca228e46bda74a6e532662d90f3fe677",
           "triangles": 19497,
           "uniqueTriangles": 19497,
           "parts": [
@@ -72038,8 +72038,8 @@
             },
             {
               "mimeType": "image/webp",
-              "bytes": 344376,
-              "sha256": "f87f2b6125cbdd54c01f1c63d296bb8295c2fc41c2a927b737fb88ffcbd36377",
+              "bytes": 385314,
+              "sha256": "b02cb82d4e05388c58a0b8817d88c1dd82748db9a446acee3d8a94c8d73a6f68",
               "width": 2048,
               "height": 2048
             }
@@ -78559,8 +78559,8 @@
         "near": {
           "path": "public/models/flora/meshy-012/tree-1521-near.glb",
           "file": "tree-1521-near.glb",
-          "bytes": 1362740,
-          "sha256": "a0c0590bf4c841e5b8d76e76054730b90fe4844a3bad4c7e151b6e2b54d430bb",
+          "bytes": 1229216,
+          "sha256": "c79e91559a2540bfa0b3291b27d01dcd465bcde785cb0817a078823e463b3690",
           "triangles": 14409,
           "uniqueTriangles": 14409,
           "parts": [
@@ -78603,8 +78603,8 @@
             },
             {
               "mimeType": "image/webp",
-              "bytes": 737262,
-              "sha256": "541208fd07f2d7c5ddff6512a98e2e5539aa267d19877ce48138f9f7bf529c48",
+              "bytes": 603740,
+              "sha256": "3e7d01fbc8fe7312809e47d2c13fe72a2e804cfc7f0268e7a7b7ff6d153647c5",
               "width": 2048,
               "height": 2048
             }
@@ -95087,8 +95087,8 @@
         "near": {
           "path": "public/models/flora/meshy-012/tree-4949-near.glb",
           "file": "tree-4949-near.glb",
-          "bytes": 1275780,
-          "sha256": "15aa6d3aee9fc0a7254a0c6492001cb40f01580de622043d8419a85d43f9e6fa",
+          "bytes": 1194296,
+          "sha256": "79ccb405df98065626fce074092cc12d343c412cc889e1758e32e03191126586",
           "triangles": 13542,
           "uniqueTriangles": 13542,
           "parts": [
@@ -95131,8 +95131,8 @@
             },
             {
               "mimeType": "image/webp",
-              "bytes": 670600,
-              "sha256": "8308b94e18c6145732f64cb020bb3a90c7743168cdd4322708305bfcd36db9f7",
+              "bytes": 589116,
+              "sha256": "48ffbc48c2a914d8bfda806b57f62983891d612f69b5e00712ca3f67ebd5946a",
               "width": 2048,
               "height": 2048
             }
@@ -104268,8 +104268,8 @@
         "near": {
           "path": "public/models/flora/meshy-012/tree-3106-near.glb",
           "file": "tree-3106-near.glb",
-          "bytes": 1466632,
-          "sha256": "9918a731de4cd1f24285eb2520cdb0efdf2c050750da8b4a0d118538519cb632",
+          "bytes": 1515920,
+          "sha256": "d5e49d2eb961d8333e8a45b651138ab27b4aa6660faadafa13b06f8e2c8bdf9d",
           "triangles": 7722,
           "uniqueTriangles": 7722,
           "parts": [
@@ -104314,8 +104314,8 @@
             },
             {
               "mimeType": "image/webp",
-              "bytes": 401854,
-              "sha256": "31e1a71a30c515b5b8a8531e499a1c08981f15a117a6080a8b386badbb0b4ef5",
+              "bytes": 451142,
+              "sha256": "a8fbf00c658c513bfcb91a87783810857ddff75f564560b08d6ba32ecdfc1881",
               "width": 2048,
               "height": 2048
             },
@@ -120814,8 +120814,8 @@
         "near": {
           "path": "public/models/flora/meshy-012/tree-1505-near.glb",
           "file": "tree-1505-near.glb",
-          "bytes": 1157932,
-          "sha256": "8df9fad93a96eb3c7b5183118f9abe5446b911371e66059cdd6076afc3d479df",
+          "bytes": 1077864,
+          "sha256": "8849677811d32b8492dbcaaaa3bff12bdfbe6d5274406f7649bedd0592ae1fdd",
           "triangles": 14079,
           "uniqueTriangles": 14079,
           "parts": [
@@ -120858,8 +120858,8 @@
             },
             {
               "mimeType": "image/webp",
-              "bytes": 501056,
-              "sha256": "20840376bc713e1db9a85534fc9fb8fa63c705aa476be0550e49e2c2754aa980",
+              "bytes": 420988,
+              "sha256": "979a3aaf1d08f8534472e91125df0b54d6f175f03bcb11fc1c849396bfdce0cf",
               "width": 2048,
               "height": 2048
             }
@@ -129521,8 +129521,8 @@
         "near": {
           "path": "public/models/flora/meshy-012/tree-1459-near.glb",
           "file": "tree-1459-near.glb",
-          "bytes": 2117228,
-          "sha256": "fb213a26279ce8192e7993d7cbfc5b10e6f23317792b7a04bd5bc2f285d0af26",
+          "bytes": 2176064,
+          "sha256": "d670d2085f1f1fc722bf45dfcecc0aa7e92527b168a22c57608a9eb01d85b38c",
           "triangles": 19499,
           "uniqueTriangles": 19499,
           "parts": [
@@ -129567,8 +129567,8 @@
             },
             {
               "mimeType": "image/webp",
-              "bytes": 455230,
-              "sha256": "939693cd8b45e6897fd4e72f2e3d7a7a2860027120670fa6fcccbff7b29e3ef3",
+              "bytes": 514066,
+              "sha256": "14b47457bbdf297a92127b7e12fc880bd1fb944d2a67a168c7aa040c1042d25c",
               "width": 2048,
               "height": 2048
             },
@@ -136113,8 +136113,8 @@
         "near": {
           "path": "public/models/flora/meshy-012/tree-4815-near.glb",
           "file": "tree-4815-near.glb",
-          "bytes": 2198060,
-          "sha256": "a416ebb243cdefc6f3c22ffb136f2f15a3b86f5d84b4e3f5c8fd0f17433a61b2",
+          "bytes": 2129076,
+          "sha256": "1656be999907ff3d8bee6b4a33fe9e793ec72aebb81d36af24321265a308dadd",
           "triangles": 13940,
           "uniqueTriangles": 13940,
           "parts": [
@@ -136164,8 +136164,8 @@
             },
             {
               "mimeType": "image/webp",
-              "bytes": 827096,
-              "sha256": "299984303808b24a752d5fb62254fe6624e868809e327d4a6a41dcc7d9a720d8",
+              "bytes": 758112,
+              "sha256": "ef8b9f4ab375a085cee2717dfe343375a3b23570c76f027f59edf95b220ff717",
               "width": 2048,
               "height": 2048
             }
@@ -144836,8 +144836,8 @@
         "near": {
           "path": "public/models/flora/meshy-012/verdant-sentinel-near.glb",
           "file": "verdant-sentinel-near.glb",
-          "bytes": 1582528,
-          "sha256": "366a22086ce9af89ecc84b5895703cd36a46df2ce4606f6692e33678e63bee91",
+          "bytes": 1554916,
+          "sha256": "eee3773d81fc92e4007674a53160403c584b75b5cc74032d6c255ad81a0867eb",
           "triangles": 14616,
           "uniqueTriangles": 14616,
           "parts": [
@@ -144880,8 +144880,8 @@
             },
             {
               "mimeType": "image/webp",
-              "bytes": 700012,
-              "sha256": "449f2bbb20586019bfaa7636677b304ae1121e9e54b2347f841f0a0a9ed7ecd4",
+              "bytes": 672400,
+              "sha256": "50a5e669683be0956b8a1dfad4a177fe8e973d3e21f5ebbc479ed434ceac021b",
               "width": 2048,
               "height": 2048
             }

@@ -35,8 +35,8 @@ ledger.sources[SOURCE_ID] = {
   changes: 'Scaled to 1.899 m, stood on the floor and centred on the previous body; reduced from 435,562 to 149,974 triangles with UV seams kept; skinned to the A45 skeleton by transferring its weights from the nearest surface, with hands skinned from their finger chains and the skull held on the head joint; textures reduced to 2048 px (colour WebP), roughness floored at 0.7 (tools/hero/rework-hero.mjs).',
   separateRights: [{
     component: 'A45 Mixamo-named skeleton and animation clips the shipped file carries (source wanderer-animated)',
-    evidenceStatus: 'pending-source-rights',
-    note: 'Recorded under wanderer-animated; not covered by this source\'s generation record.',
+    evidenceStatus: 'follows-wanderer-animated',
+    note: 'Recorded under wanderer-animated (Meshy output in Mixamo-compatible naming by public evidence, A112); not covered by this source\'s generation record.',
   }],
 };
 const entry = {

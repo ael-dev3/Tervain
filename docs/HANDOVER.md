@@ -16,7 +16,8 @@ the goal, the rules, every backlog item's state, what was in progress and the ex
   [A102](engineering/a102-ninth-scout.md), [A103](engineering/a103-tenth-scout.md),
   [A104](engineering/a104-eleventh-scout.md), [A105](engineering/a105-twelfth-scout.md))
 - **Playtest faults re-checked:** crowns, branch ribbons, grass at the field fences and the palisade, and the windows
-  from inside. Each was captured on the GPU before A79 and after, from the playtest cameras; all are fixed.
+  from inside. Each was captured on the GPU before A79 and after, from the playtest cameras; all are fixed, and hold on
+  the build after A108 (A109).
 - **The pine's grey slivers** were its bark normals, repaired in A97 ([A97](engineering/a97-pine-bark-normals.md)).
 - **By design, not faults:** arrows do not harm bandits, and a dodge or blow may begin in mid-air.
 
@@ -105,9 +106,9 @@ believably, and frames that are light without any visible loss. "Honest" means e
 | 6 | Animation: transitions, contact, turns, feet, fingers | Done: phases and overlays (A70–A72), turns led by head and chest (A76), feet planted on uneven ground (A70), finger joints seated and the quill in the writing hand (A75). Authored turns on the spot for residents (A83) and the wanderer (A85). **Hard limit:** three modelled-fist hands (fingers not separable without new source models; Meshy caps apply). |
 | 7 | Residents inhabit interiors | Done (A70). |
 | 8 | Hunting, respawn, encounters, progression, riding | Done (A70, A71, A75). |
-| 9 | Close-up quality (Gothic 3) | Done in A76: plaster, timber, stone, iron, cloth, ground, colour grade, room and village clutter; crown leaf masses; wall hairline. **Hard limit:** a shadow-casting hearth light exceeds the richest materials' texture units. Crown silhouettes feather on the outer shell (A107, checked on the GPU, no popping); new crown exports would finish them. |
+| 9 | Close-up quality (Gothic 3) | Done in A76: plaster, timber, stone, iron, cloth, ground, colour grade, room and village clutter; crown leaf masses; wall hairline. **Hard limit:** a shadow-casting hearth light exceeds the richest materials' texture units. Crown silhouettes feather on the outer shell (A107) and the leaf atlases taper at their view borders instead of cutting clumps straight (A110), both checked on the GPU with no popping; new crown exports would finish them. |
 | 10 | Performance evidence | Container (software rendering) numbers in A76 and A77. Real-GPU frame and GPU times in A78. The GPU geometry count levels off (A82 update above). Journey entry split by stage on the GPU; the first view's 6 s frozen frame removed, entry about 20 s to about 14.6 s on every preset (A108). |
-| 11 | Asset ledger | Done as far as the records go: CC0 classification above; the Warpkeep per-set provenance is written (A107, [records](engineering/warpkeep-provenance.json)). Parked for the owner: only the animated hero's origin (its Mixamo-named skeleton and clips). |
+| 11 | Asset ledger | Done as far as the records go: CC0 classification above; the Warpkeep per-set provenance is written (A107, [records](engineering/warpkeep-provenance.json)). Parked for the owner: only who generated the animated hero source and under which Meshy plan; its Mixamo-named skeleton and clips match Meshy rigging and its animation library by public evidence (A112). |
 | 12 | Hero rework polish | Done (A73, A75). |
 | 13 | Frame cost (A77) | Done (A77, merged); measured on the GPU in A78. The steps listed below were all taken in A78–A86. |
 
