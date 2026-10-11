@@ -117,6 +117,7 @@ def capture(study):
         0x3069b738: 'engineUndecorationCompoundTypeParser',
         0x3069b3b1: 'engineUndecorationBasicTypeParser',
         0x306995dd: 'engineUndecorationClassTypeParser',
+        0x30697f9d: 'engineUndecorationEnumUnderlyingTypeParser',
         0x306994ea: 'engineUndecorationScopedNameParser',
         0x30699300: 'engineUndecorationIdentifierParser',
         0x30697709: 'engineUndecorationDelimitedNameConstructor',
