@@ -14,7 +14,7 @@ python tools/gothic3/prepare_engine_cinit_source.py --study '<study-root>' --out
 
 The generator checks the original Engine.dll hash and exact caller bytes.
 Independent regeneration produced identical JSON, SHA-256
-``13b025e5c845cd3d0121d97c224b3f64858e30eff37e080be4cfd76381387338``.
+``1cf6b6350298cd32980f0104700ba120d0f3bf19622f3cbb9259a7d7b5bf8f8f``.
 
 The capture's `runtimeConnected: false` records evidence preparation; it grants
 no execution authority. The TypeScript continuation separately obtains a
@@ -450,3 +450,10 @@ construction. Its search uses DWORD reads. Engine allocations currently retain
 exact capacity; rounded physical allocation views exist only for the explicitly
 selected Game heap. Alignment alone does not prove readable tail capacity.
 Combined validation and browser campaign completion remain pending.
+
+The package also captures four SharedBase UnMangle/CString dependency bodies
+from the hash-pinned original DLL, separately from Engine instructions. The
+space literal is `20 00` at `100e6f44`. Six source checks pass, including the
+UnMangle export thunk and rejecting cross-module or interior-byte lookups.
+Independent JSON and TypeScript regeneration matches byte for byte. This is
+source preparation; the pending SharedBase call has not returned.
