@@ -114,3 +114,10 @@ it('captures original geometry spatial context property storage and RTTI',()=>{
  expect(engineCinitImage('geometrySpatialContextPropertyStorage')).toMatchObject({address:'30ad9b30',bytes:8,raw:'0000000000000000'});
  expect(engineCinitImage('geometrySpatialContextPropertyTypeInfo')).toMatchObject({address:'30aa2d28',bytes:39,raw:'bc2a8930000000002e3f4156654347656f6d657472795370617469616c436f6e74657874404000'});
 });
+
+it('captures original PVS prefetcher property storage and RTTI',()=>{
+ expect(engineCinitImage('pvsPrefetcher3PropertyFlags')).toMatchObject({address:'30ad9b44',raw:'00000000'});
+ expect(engineCinitImage('pvsPrefetcher3PropertyRoot')).toMatchObject({address:'30ad9dc4',raw:'00000000'});
+ expect(engineCinitImage('pvsPrefetcher3PropertyStorage')).toMatchObject({address:'30ad9b3c',bytes:8,raw:'0000000000000000'});
+ expect(Buffer.from(engineCinitImage('pvsPrefetcher3PropertyTypeInfo').raw,'hex').subarray(8).toString()).toBe('.?AVeCPVSPrefetcher3@@\0');
+});
