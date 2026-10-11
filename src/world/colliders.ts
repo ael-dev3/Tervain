@@ -394,12 +394,19 @@ export function palisadeBoxes(): [number, number, number, number][] {
     const len = Math.hypot(b.x - a.x, b.z - a.z);
     const dx = (b.x - a.x) / len;
     const dz = (b.z - a.z) / len;
+    // The gap is cut where the logs stop (A99 scout): whole 3 m runs were dropped by their middles, leaving 0.6 m of
+    // standing logs on each side of the gate to walk through.
+    let g0 = Infinity, g1 = -Infinity;
+    if (Math.abs(dz) > 1e-6) {
+      const t0 = (PALISADE.gate.z0 - a.z) / dz, t1 = (PALISADE.gate.z1 - a.z) / dz;
+      g0 = Math.min(t0, t1); g1 = Math.max(t0, t1);
+    }
     for (let c0 = 0; c0 < len; c0 += 3) {
       const c1 = Math.min(len, c0 + 3);
-      const mx = a.x + (dx * (c0 + c1)) / 2;
-      const mz = a.z + (dz * (c0 + c1)) / 2;
-      if (mz > PALISADE.gate.z0 - 0.4 && mz < PALISADE.gate.z1 + 0.4) continue;
-      out.push([mx, mz, (c1 - c0) / 2, Math.atan2(dx, dz)]);
+      for (const [p0, p1] of [[c0, Math.min(c1, g0)], [Math.max(c0, g1), c1]] as const) {
+        if (p1 - p0 < 0.05) continue;
+        out.push([a.x + (dx * (p0 + p1)) / 2, a.z + (dz * (p0 + p1)) / 2, (p1 - p0) / 2, Math.atan2(dx, dz)]);
+      }
     }
   }
   return out;
@@ -598,6 +605,16 @@ export function buildStaticColliders(terrain?: Pick<Terrain, 'heightAt'>): Colli
   }
   // The fishing camp's stockade and its watch platform.
   for (const [x, z, hl, yaw] of palisadeBoxes()) c.box('palisade', x, z, 0.2, hl, yaw);
+  // The gate's two great posts and its leaves standing open, from the numbers `stockadeGate` (props.ts) builds them by.
+  {
+    const { x: gx, z0, z1 } = PALISADE.gate, gz = (z0 + z1) / 2, half = (z1 - z0) / 2;
+    for (const side of [-1, 1]) {
+      c.circle(`palisade_gate_post_${side}`, gx, gz + side * (half + 0.15), 0.26);
+      const swing = side * PALISADE.gate.leafSwing, hx = gx + 0.05, hz = gz + side * (half - 0.05);
+      // Each leaf runs 2.1 m from its hinge, along its own local -z, turned by its swing.
+      c.box(`palisade_gate_leaf_${side}`, hx - side * 1.05 * Math.sin(swing), hz - side * 1.05 * Math.cos(swing), 0.11, 1.05, swing);
+    }
+  }
   c.box('watchtower', PALISADE.tower.x, PALISADE.tower.z, 1.6, 1.6, PALISADE.tower.yaw);
   // Sluice posts flank the gate.
   c.circle('sluice_post_w', 6.5, -57.6, 0.6);

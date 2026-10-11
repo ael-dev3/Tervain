@@ -216,7 +216,7 @@ export class MenuScene {
       m.customProgramCacheKey = () => `tervain-terrain-menu-v3-${this.wisps.lights.key}`;
       this.ground.material = m;
       this.owned.push(m);
-    });
+    }, (error) => console.warn('[menu] the headland ground texture could not be made; the plain ground stays', error));
 
     const puddles = buildPuddles(fog, new THREE.Vector3(MENU_FIRE.x, restHeight(MENU_FIRE.x, MENU_FIRE.z, 0.6) + 0.5, MENU_FIRE.z));
     this.scene.add(puddles);

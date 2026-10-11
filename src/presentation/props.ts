@@ -379,7 +379,7 @@ export function palisade(R: Region, rnd: Rnd, pts: { x: number; z: number }[], g
 }
 
 /** The gate: two great posts, a lintel, and two leaves standing open. Centre at (x, z) on the wall line, opening along z. */
-export function stockadeGate(R: Region, rnd: Rnd, x: number, z: number, width: number, groundAt: (x: number, z: number) => number) {
+export function stockadeGate(R: Region, rnd: Rnd, x: number, z: number, width: number, groundAt: (x: number, z: number) => number, leafSwing = 1.25) {
   const y = groundAt(x, z);
   const ctx = R.ctx;
   ctx.push(x, y, z, 0);
@@ -387,7 +387,7 @@ export function stockadeGate(R: Region, rnd: Rnd, x: number, z: number, width: n
     R.bark.rod(0, -0.6, s * (width / 2 + 0.15), 0.02, 5.6, s * (width / 2 + 0.15), 0.24, 7, jitterTone(0xb0a48c, rnd, 0.16), { rEnd: 0.2, jit: 0.14 });
     R.stone.box(0.7, 0.4, 0.7, 0, -0.15, s * (width / 2 + 0.15), jitterTone(TINT.stone, rnd, 0.14), { jit: 0.14, ry: rnd() });
     // The leaf, swung open toward the inside of the camp.
-    ctx.push(0.05, 0, s * (width / 2 - 0.05), s * 1.25);
+    ctx.push(0.05, 0, s * (width / 2 - 0.05), s * leafSwing);
     for (let i = 0; i < 7; i++) R.planks.box(0.22, 3.6 - (rnd() < 0.15 ? 0.3 : 0), 0.08, 0, 0, s * (0.15 + i * 0.3) * -1, jitterTone(TINT.wood, rnd, 0.18), { jit: 0.14, grain: 'y' });
     R.metal.box(0.04, 0.1, 2.1, 0, 0.7, s * -1.05, TINT.iron, { jit: 0.05 });
     R.metal.box(0.04, 0.1, 2.1, 0, 2.6, s * -1.05, TINT.iron, { jit: 0.05 });

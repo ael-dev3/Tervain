@@ -224,7 +224,19 @@ async function choose(select: () => Promise<DataSelection | { missing: string[] 
   }
 }
 
-$('pick').addEventListener('click', async () => {
+/**
+ * One load at a time (A99 scout): a second click while the first was still reading its folder started a second renderer,
+ * world and frame loop on the same canvas. Free again once a load has failed or been given up; a world that opened
+ * keeps it.
+ */
+let busy = false;
+const once = (task: () => Promise<void>) => async () => {
+  if (busy) return;
+  busy = true;
+  try { await task(); } finally { busy = intro.hidden === true; }
+};
+
+$('pick').addEventListener('click', once(async () => {
   if (canPickDirectory()) {
     let dir: DirectoryHandle;
     try {
@@ -235,12 +247,12 @@ $('pick').addEventListener('click', async () => {
     await rememberDirectory(dir).catch(() => {});
     await choose(() => selectFromDirectory(dir));
   } else $<HTMLInputElement>('folder').click();
-});
+}));
 
-$<HTMLInputElement>('folder').addEventListener('change', async (e) => {
+$<HTMLInputElement>('folder').addEventListener('change', (e) => void once(async () => {
   const files = [...((e.target as HTMLInputElement).files ?? [])];
   if (files.length) await choose(async () => selectFromFiles(files));
-});
+})());
 
 void (async () => {
   const remembered = canPickDirectory() ? await rememberedDirectory() : null;
@@ -248,16 +260,16 @@ void (async () => {
     const again = $<HTMLButtonElement>('again');
     again.hidden = false;
     again.textContent = `Continue with “${remembered.name}”`;
-    again.addEventListener('click', async () => {
+    again.addEventListener('click', once(async () => {
       if (await ensureReadable(remembered).catch(() => false)) await choose(() => selectFromDirectory(remembered));
       else setStatus(`Permission to read “${remembered.name}” was not given. Allow it, or choose the folder again.`);
-    });
+    }));
   }
   const dev = await devSelection();
   if (dev) {
     const button = $<HTMLButtonElement>('dev');
     button.hidden = false;
-    button.addEventListener('click', () => void choose(async () => dev));
-    if (new URLSearchParams(location.search).has('autostart')) void choose(async () => dev);
+    button.addEventListener('click', once(() => choose(async () => dev)));
+    if (new URLSearchParams(location.search).has('autostart')) void once(() => choose(async () => dev))();
   }
 })();

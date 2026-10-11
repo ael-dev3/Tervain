@@ -109,8 +109,13 @@ export class NavGrid {
         for (let di = -ring; di <= ring; di++) {
           if (Math.max(Math.abs(di), Math.abs(dj)) !== ring) continue;
           if (this.isBlocked(i + di, j + dj)) continue;
-          const d = di * di + dj * dj;
-          if (!best || d < best.d) best = { i: i + di, j: j + dj, d };
+          // A pocket with no open neighbour leads nowhere: snapping to it left a route search with nothing (A99 scout).
+          const ci = i + di, cj = j + dj;
+          if (this.isBlocked(ci + 1, cj) && this.isBlocked(ci - 1, cj) && this.isBlocked(ci, cj + 1) && this.isBlocked(ci, cj - 1)) continue;
+          // Nearest to the point itself, not to its cell: by cell steps the caravan master's spot snapped across the
+          // stockade rather than to the wagon side 3.6 m away (A99 scout).
+          const d = (WORLD.minX + (ci + 0.5) * WORLD.cell - x) ** 2 + (WORLD.minZ + (cj + 0.5) * WORLD.cell - z) ** 2;
+          if (!best || d < best.d) best = { i: ci, j: cj, d };
         }
       }
       if (best) return { i: best.i, j: best.j };
