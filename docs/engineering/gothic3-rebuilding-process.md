@@ -4,6 +4,26 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local continuation — 11 October 2026: parser constructor return and configuration
+
+The parser constructor stores its actual caller arguments in the captured owned
+37-byte global image at `30af7c68`: both local objects, name and cursor pointers,
+NULL output, zero capacity, flags `0x2800`, zero limit and zero status. Its original
+POP/RET 20 sequence restores the undecoration frame and cleans the five arguments.
+The actual caller then calls `3069afb8` with its local parser object. Execution
+stops there after 3,144 admitted operations with lock 5 held. No parsed name or
+cached type string has been fabricated.
+
+Six constructor/allocation checks, both property-mask cases, both stream-retry
+cases, all 12 source/image checks, typechecking and exact regeneration pass.
+Combined validation of `17698c717` stopped with 169 passes and two failures across
+five files; full-suite and build did not start. Both failures were stale normal
+startup address expectations in the stream-retry and property-mask cases. The
+accepted checks retain their failure branches, flag masks and allocation results,
+and now expect the actual normal parser boundary. Fresh combined validation of
+the corrected continuation follows. This local work does not complete name
+parsing, engine startup or a playable browser campaign.
+
 ## Local continuation — 11 October 2026: both parser internal objects
 
 The original field prefix and node completion now serve kind 3 and kind 1 with

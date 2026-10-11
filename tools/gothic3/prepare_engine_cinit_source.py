@@ -150,6 +150,7 @@ def capture(study):
         ('propertyTypeNameSehScope', 0x30956a38, 28),
         ('undecorationSehScope', 0x30956ec0, 28),
         ('undecorationGlobals', 0x30af7c54, 20),
+        ('undecorationParserGlobals', 0x30af7c68, 37),
         ('undecorationFieldVtableEntry', 0x3089f2ac, 4),
         ('visualAnimationFloatFlags', 0x30ad9a00, 4),
         ('visualAnimationFloatRoot', 0x30ad9e38, 4),

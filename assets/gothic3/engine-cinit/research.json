@@ -17834,6 +17834,15 @@
       "sha256": "de47c9b27eb8d300dbb5f2c353e632c393262cf06340c4fa7f1b40c4cbd36f90"
     },
     {
+      "label": "undecorationParserGlobals",
+      "address": "30af7c68",
+      "bytes": 37,
+      "raw": "00000000000000000000000000000000000000000000000000000000000000000000000000",
+      "fileBackedBytes": 0,
+      "loaderZeroFillBytes": 37,
+      "sha256": "ab24a95f44ceca5d2aed4b6d056adddd8539f44c6cd6ca506534e830c82ea8a8"
+    },
+    {
       "label": "undecorationFieldVtableEntry",
       "address": "3089f2ac",
       "bytes": 4,

@@ -14,7 +14,7 @@ python tools/gothic3/prepare_engine_cinit_source.py --study '<study-root>' --out
 
 The generator checks the original Engine.dll hash and exact caller bytes.
 Independent regeneration produced identical JSON, SHA-256
-``a0f8f78ce61dfee82cc410f252ecc82dcff15fd54f08d740bfe67b5383ebe8b2``.
+``df7927acddb92caf7ca25c15ca5f934a6d01333b7cc76583b10ec1d9b0ff6c7b``.
 
 The capture's `runtimeConnected: false` records evidence preparation; it grants
 no execution authority. The TypeScript continuation separately obtains a
@@ -138,3 +138,9 @@ warm requests consume further 16-byte slices. Retained free capacity is 4,032
 bytes, with field nodes at offsets 4,084, 4,068, 4,052 and 4,036. All four node
 constructors and both internal-object constructors return physically. Execution
 stops at parser configuration `30697490` after 3,121 admitted operations.
+
+The parser constructor now configures its two local objects, original name and
+cursor pointers, NULL output, zero output capacity, flags 0x2800, zero limit and
+zero status in its owned 37-byte global image. Its original RET 20 returns to
+undecoration, which calls the name parser at `3069afb8`. Execution stops there
+after 3,144 admitted operations. No parsed name or type-info cache is supplied.
