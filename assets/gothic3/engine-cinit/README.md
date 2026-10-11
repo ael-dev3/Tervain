@@ -1792,3 +1792,26 @@ remain unfinished. Combined validation is still live on frozen revision
 `6a6de81b6f535c855a9ac8b3c12510b9186d99d5`, predating the writer and later
 int stages. Full engine startup and complete browser campaign persistence
 remain unfinished.
+
+
+## 2026-10-11: original third-property shutdown registration and root publication
+
+The third int property's original constructor registers shutdown callback
+`3002f56d`, restores the exit-registration caller, and returns its actual storage
+pointer. The original initializer writes that pointer into the third root and
+returns to the C++ loop. The retained exit cursor advances to offset twenty and
+the initializer cursor to offset `0x110`. Execution now reaches the next pending
+initializer `307322e0` after 9,953 source operations. The first three property
+roots, CStrings and shutdown entries are retained; this is not full startup.
+
+TypeScript checking passed. Two focused runtime checks passed in 11.55 seconds,
+verifying original root provenance, fifth shutdown entry and returned calls.
+An unavailable exit lock stops at `3067cfea`, preserving the third CString and
+pending shutdown/initializer callers while leaving its root NULL. Six browser
+startup checks passed in 41.95 seconds. All executed instructions were already
+present in the retained source package, which is unchanged.
+
+This checkpoint remains local. Combined validation is still live on frozen
+`6a6de81b6f535c855a9ac8b3c12510b9186d99d5`, predating the writer and later
+int stages. Full engine startup, world activation and a browser campaign through
+an ending with working save/reload remain unfinished.
