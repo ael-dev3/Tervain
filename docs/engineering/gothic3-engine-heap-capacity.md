@@ -2148,3 +2148,20 @@ Validation: TypeScript checking, the strengthened normal runtime check and six
 browser startup checks passed. The normal check verifies actual length 12 and
 the pending allocation caller. Source packages are unchanged. This checkpoint
 is local and does not prove complete engine startup or campaign completion.
+
+
+2026-10-11 — original camera CString allocation request (local)
+
+Executed the original CString allocation prefix, preserving length 12, adding
+its original nine-byte overhead and retaining the actual MemoryAdmin singleton.
+The original caller is pending at malloc thunk `10003cd8` after 13,895
+operations. Its requested size is 21 bytes; no fourth CString allocation or
+camera root publication has occurred yet. The existing scene-startup heap
+receipt covers requests 21..24 with stride 24; using it requires admission of
+that source-backed extension, rather than guessing allocation capacity.
+
+Validation: TypeScript checking, a strengthened normal runtime check and six
+browser startup checks passed. The normal check distinguishes the earlier
+returned allocation call from the current pending call and verifies the actual
+MemoryAdmin receiver. Source packages are unchanged. This checkpoint is local;
+complete startup and campaign completion with persistence remain unproven.
