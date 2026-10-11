@@ -12,7 +12,7 @@ import { Colliders } from '../../src/world/colliders';
 import type { Terrain } from '../../src/world/terrain';
 import { animalFixture } from './animalFixture';
 
-const terrain = { heightAt: () => 0, walkable: () => true, carveAt: () => 0, seaDepth: () => 0, deckAt: () => null,
+const terrain = { heightAt: () => 0, groundAt: () => 0, walkable: () => true, carveAt: () => 0, seaDepth: () => 0, deckAt: () => null,
   normalAt: (_x: number, _z: number, out: [number, number, number]) => { out[0] = 0; out[1] = 1; out[2] = 0; return out; } } as unknown as Terrain;
 function frame(): FrameContext {
   return { camera: new THREE.PerspectiveCamera(), focus: new THREE.Vector3(150, 0, 22), time: 0, nightness: 0,
@@ -39,6 +39,34 @@ describe('hunting through the existing nineteen animal controllers', () => {
     module.syncHunting({ 'cat-b': record('dead', pose) }, true);
     expect(module.nearestCarcass(pose)).toBeNull(); expect(module.snapshot()[0]!.visible).toBe(true);
     expect(module.traceArrow(new THREE.Vector3(pose.x, .3, pose.z + 3), new THREE.Vector3(0, 0, -1), 6)).toBeNull(); module.dispose?.();
+  });
+
+  it('stands the ridden mount on a deck over a stream bed, level, as its rider stands, and leaves it there (A86 scout)', () => {
+    const mount = ANIMALS.find(animal => animal.id === ANIMAL_MODEL_IDS['deer-mount'])!;
+    // A footbridge: planks at 0.75 over a stream bed at -0.55, for x 33-42.
+    const onDeck = (x: number) => x >= 33 && x <= 42;
+    const bridge = { ...terrain, heightAt: (x: number) => onDeck(x) ? -0.55 : 0, groundAt: (x: number) => onDeck(x) ? 0.75 : 0,
+      normalAt: (_x: number, _z: number, out: [number, number, number]) => { out[0] = 0.6; out[1] = 0.8; out[2] = 0; return out; } } as unknown as Terrain;
+    const module = buildAnimals({ terrain: bridge, colliders: new Colliders(), quality: 'low' }, new Map([[mount.id, fixture()]]), [mount], () => {});
+    const root = module.group.getObjectByName(`deer / ${mount.id}`)!, input = frame();
+    // The rider is here (beyond 90 m away, a mount left out of its rest is led home).
+    input.focus.set(36, 0, 22);
+    // Ridden on open ground first, beside the bridge.
+    module.ride(mount.id, { x: 30, z: 20, yaw: Math.PI / 2, speed: 1 });
+    for (let k = 0; k < 30; k++) module.update(1 / 30, input);
+    const off = module.snapshot()[0]!;
+    module.ride(mount.id, { x: 36.6, z: 20, yaw: Math.PI / 2, speed: 1 });
+    for (let k = 0; k < 30; k++) module.update(1 / 30, input);
+    const on = module.snapshot()[0]!;
+    expect(on.x).toBeCloseTo(36.6, 5);
+    // On the planks it stands well above where it stood beside the bridge, not 0.55 m under it.
+    expect(on.y - off.y).toBeGreaterThan(0.5);
+    expect(new THREE.Vector3(0, 1, 0).applyQuaternion(root.quaternion).y).toBeGreaterThan(0.999);
+    // Let go on the bridge, it stays on the planks.
+    module.ride(mount.id, null);
+    for (let k = 0; k < 30; k++) module.update(1 / 30, input);
+    expect(module.snapshot()[0]!.y - off.y).toBeGreaterThan(0.5);
+    module.dispose?.();
   });
 
   it('ignores stale mount wounds, corpses and arrow effects, and calmly watches visitors at the inland caravan rest', () => {

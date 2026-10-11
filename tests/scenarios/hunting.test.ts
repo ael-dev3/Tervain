@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { Game } from '../../src/game/game';
 import {
-  ANIMAL_IDS, ANIMAL_MODEL_IDS, HUNTABLE_ANIMAL_IDS, PROTECTED_ANIMAL_IDS, animalLoot, ARROW_QUIVER_CAPACITY, HUNTER_SUPPLY_POSITION,
+  ANIMAL_IDS, ANIMAL_MODEL_IDS, HUNTABLE_ANIMAL_IDS, PROTECTED_ANIMAL_IDS, animalLoot, ARROW_QUIVER_CAPACITY, HUNTER_SPARE_ARROWS, HUNTER_SUPPLY_POSITION,
   huntingHint, normalizeHunting, SKINNING_REACH, type AnimalHit, type AnimalHuntRecord, type AnimalId,
 } from '../../src/game/hunting';
 import { createInitialState } from '../../src/game/state';
@@ -181,8 +181,20 @@ describe('bow hunting and durable harvests', () => {
     expect(game.state.inventory).toMatchObject({ arrow: 30, animal_hide: 1 });
     game.state.inventory.arrow = ARROW_QUIVER_CAPACITY;
     reject(game, { t: 'restockArrows' }, 'arrow_quiver_full');
+    // A86 scout: a hide buys what still fits rather than being refused while there is room.
+    game.state.inventory.arrow = ARROW_QUIVER_CAPACITY - 5;
+    expect(game.dispatch({ t: 'restockArrows' })).toMatchObject({ ok: true, events: expect.arrayContaining([{ t: 'item', id: 'arrow', delta: 5 }]) });
+    expect(game.state.inventory).toMatchObject({ arrow: ARROW_QUIVER_CAPACITY, animal_hide: 0 });
+    // Arrows left but no hide: nothing to trade.
+    game.state.inventory.arrow = 3;
+    reject(game, { t: 'restockArrows' }, 'need_hide');
+    expect(huntingHint(game.state)).not.toBe('hunting.objective.spare');
+    // None left and no hide (every arrow spent, no game skinned): Rowan spares a few, so hunting can go on.
     game.state.inventory.arrow = 0;
-    game.state.inventory.animal_hide = 0;
+    expect(huntingHint(game.state)).toBe('hunting.objective.spare');
+    expect(game.dispatch({ t: 'restockArrows' })).toMatchObject({ ok: true, events: expect.arrayContaining([{ t: 'toast', key: 'hunting.spared', params: { count: HUNTER_SPARE_ARROWS } }]) });
+    expect(game.state.inventory.arrow).toBe(HUNTER_SPARE_ARROWS);
+    // Only an empty quiver: a second ask is refused while those last.
     reject(game, { t: 'restockArrows' }, 'need_hide');
   });
 

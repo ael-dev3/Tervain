@@ -264,6 +264,26 @@ describe('who says what, and when', () => {
   });
 });
 
+describe('a new journey in the same session (A86 scout)', () => {
+  it('hears its arrival and everyone’s first words again; a load keeps what was heard', () => {
+    const said: string[] = [];
+    const d = new SpeechDirector({ say: (line) => { said.push(line); return 1; }, caption: () => {} });
+    const s = createInitialState('slot-1');
+    const play = () => { for (let t = 0; t < 3; t += 0.05) d.update(0.05); };
+    d.hero('arrival'); d.talk('mill_hand', () => ({ x: 0, y: 0, z: 0 }), s); play();
+    expect(said).toContain('bess.intro');
+    const first = said.length;
+    // A load: the same journey goes on, nothing is said twice.
+    d.clear(); expect(d.hero('arrival')).toBe(false); d.talk('mill_hand', () => ({ x: 0, y: 0, z: 0 }), s); play();
+    expect(said.slice(first)).not.toContain('bess.intro');
+    // A new journey: the arrival and the introductions again.
+    d.forget(); said.length = 0;
+    expect(d.hero('arrival')).toBe(true); play();
+    d.talk('mill_hand', () => ({ x: 0, y: 0, z: 0 }), s); play();
+    expect(said).toContain('bess.intro');
+  });
+});
+
 describe('the hero keeps his remarks for a pause', () => {
   it('waits for a conversation to finish before remarking, and drops a remark that has waited too long', () => {
     const said: string[] = [];

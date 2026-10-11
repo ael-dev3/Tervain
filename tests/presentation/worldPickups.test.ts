@@ -457,6 +457,8 @@ describe('persistent reachable world pickups with full scenery and vegetation', 
   it('opens the physical sign notes from the front once supplies are taken and no hide trade is available', () => {
     const harness = stationHarness();
     for (const id of ['hunter_bow', 'hunter_knife', 'hunter_arrows']) harness.stationGame.state.locationChanges[`pickup:${id}`] = 'taken';
+    // The arrows taken are in the quiver (with none, Rowan would offer to spare some, A86 scout).
+    harness.stationGame.state.inventory.arrow = 24;
     const target = harness.items.find((item) => item.id === 'hunter_notes')!;
     const actor = harness.frontStances(target).find((stance) => chooseInteractable(harness.items, stance, stance.yaw, terrain, colliders) === target);
     expect(actor, 'physical board is never selected from the counter front').toBeDefined();

@@ -442,17 +442,22 @@ export function buildAnimals(ctx: Pick<BuildContext, 'terrain' | 'colliders' | '
   };
   const place = (animal: AnimalInstance, dt: number) => {
     const point = animal.root.position;
-    terrain.normalAt(point.x, point.z, normal); up.set(...normal);
+    // The mount stands where a rider does (A86 scout): on a deck or a bridge, not on the stream bed beneath it, ridden
+    // or left there. Wild animals keep to open ground, which their paths never leave.
+    const groundOf = animal.definition.tame ? (x: number, z: number) => terrain.groundAt(x, z) : (x: number, z: number) => terrain.heightAt(x, z);
+    // On a deck it stands level, not tilted to the ground under the planks.
+    if (groundOf(point.x, point.z) > terrain.heightAt(point.x, point.z) + 0.05) up.set(0, 1, 0);
+    else { terrain.normalAt(point.x, point.z, normal); up.set(...normal); }
     forward.set(Math.sin(animal.yaw), 0, Math.cos(animal.yaw)).addScaledVector(up, -forward.dot(up)).normalize();
     right.crossVectors(up, forward).normalize(); forward.crossVectors(right, up).normalize();
     basis.makeBasis(right, up, forward); animal.turn.setFromRotationMatrix(basis);
     animal.root.quaternion.slerp(animal.turn, 1 - Math.exp(-dt * 9));
-    point.y = terrain.heightAt(point.x, point.z) - animal.bounds.min.y;
+    point.y = groundOf(point.x, point.z) - animal.bounds.min.y;
     animal.root.updateMatrixWorld(true); animal.skeletons.forEach(skeleton => skeleton.update());
     let correction = -Infinity;
     for (const paw of animal.paws) for (const index of paw.vertices) {
       paw.mesh.getVertexPosition(index, vertex).applyMatrix4(paw.mesh.matrixWorld);
-      correction = Math.max(correction, terrain.heightAt(vertex.x, vertex.z) - vertex.y);
+      correction = Math.max(correction, groundOf(vertex.x, vertex.z) - vertex.y);
     }
     if (Number.isFinite(correction)) point.y += THREE.MathUtils.clamp(correction, -0.06, 0.18) + 0.006;
     animal.root.updateMatrixWorld(true);

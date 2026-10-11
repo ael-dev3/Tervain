@@ -112,6 +112,8 @@ describe('real finite projectile world contacts', () => {
       expect(physics.traceProjectile(origin, to)).toBeNull();
       physics.syncActors([person]);
       expect(physics.traceProjectile(origin, to)?.point.z).toBeCloseTo(2.65, 4);
+      // Named, so an arrow glances off a person rather than staying where they stood (A86 scout).
+      expect(physics.traceProjectile(origin, to)?.actorId).toBe('arrow-contact-person');
       physics.syncActors([{ ...person, active: false }]);
       expect(physics.traceProjectile(origin, to)).toBeNull();
     } finally { physics.dispose(); }
