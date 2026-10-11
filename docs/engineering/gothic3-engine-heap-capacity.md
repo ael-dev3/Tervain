@@ -1269,3 +1269,22 @@ normal/fidelity/interruption checks passed in 22.38 seconds and six browser
 startup checks passed in 31.28 seconds. The earlier combined suite remains
 active on an older frozen revision. This continuation is local and does not
 prove complete engine startup or campaign completion.
+
+
+### 2026-10-11: original class-name parser return
+
+NameParser now traverses its actual output, retains one space between `class`
+and `bCString`, skips further adjacent spaces through the captured original
+branch, writes its final terminator, and physically returns to `3069b2e3`.
+Normal execution has 7,678 source operations. The live fifteen-byte string
+remains known; its alignment byte remains unknown. Cleanup, parser lock
+release and second-property publication are pending.
+
+A perturbed output containing two spaces compacts to `class bCString` through
+the additional original skip instructions (7,681 operations). An unknown byte
+after the first space stops at `3069b0e8` while retaining the writer return and
+the pending NameParser call. Type checking passed; the normal check passed in
+10.14 seconds, six fidelity/interruption checks in 27.48 seconds, and six
+browser startup checks in 40.43 seconds. The earlier combined suite remains
+active on its older frozen revision. This local continuation is undeployed;
+full startup and campaign completion remain unproven.

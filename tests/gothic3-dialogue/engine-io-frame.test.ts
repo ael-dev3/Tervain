@@ -1170,7 +1170,7 @@ it('scans the original live cache in CString construction and passes length five
 it('binds the original CString allocation call to the retained MemoryAdmin',()=>{
  const {bootstrap,platform,crt}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{engineHeapLayout:'rounded-eight',processorFeatureProcedure:true,floatingPointPrecisionErratum:false});
  const owner=createNativeRuntimeAdminOwner(platform);expect(bootstrap.processAttach().known).toBe(false);const f=bootstrap.attachProgress().engineCinitProgress!;
- expect({pc:f.pc,operations:f.operations}).toEqual({pc:'3069b0d3',operations:7551});expect(f.exitTableThird?.provenance).toMatchObject({kind:'source',type:'code',address:'30011a40'});expect(f.onexitLockHeld).toBe(false);expect(f.typeNameMemoryAdmin).toBe(owner.memory);
+ expect({pc:f.pc,operations:f.operations}).toEqual({pc:'3069b2e3',operations:7678});expect(f.exitTableThird?.provenance).toMatchObject({kind:'source',type:'code',address:'30011a40'});expect(f.onexitLockHeld).toBe(false);expect(f.typeNameMemoryAdmin).toBe(owner.memory);
  const pointer=f.visualAnimationFloatRootWord?.provenance;if(pointer?.kind!=='engine-image')throw new Error('Expected published property destination');expect(pointer.offset).toBe(0);expect(f.cppCursor?.provenance).toMatchObject({kind:'engine-image',offset:0x108});expect(f.typeNameCStringCopyReturned).toBe(true);expect([...f.typeNameCString!.bytes.subarray(8,14)]).toEqual([102,108,111,97,116,0]);expect(f.typeNameCString!.backing).toMatchObject({requestedBytes:14,capacity:16,freed:false});expect(f.typeNameCString!.readUnsigned(0)).toBe(5);expect(f.typeNameCString!.readUnsigned(4,2)).toBe(1);expect(f.typeNameCString!.readUnsigned(13,1)).toBe(0);
  const graph=NativeX86ThreadStack.forPlatform(platform);if(!graph.known)throw new Error(graph.reason);
  expect(graph.value.snapshot().calls.find(c=>c.site==='10013257')?.returned).toBe(true);
@@ -1253,7 +1253,7 @@ it('copies an unknown final source byte without claiming known CString text',()=
  createNativeRuntimeAdminOwner(platform);const masked=NativeHeapObjectViews.prototype.maskedWord;
  const spy=vi.spyOn(NativeHeapObjectViews.prototype,'maskedWord').mockImplementation(function(this:NativeHeapObjectViews,offset,width){if(this.bytes.length===6&&offset===4&&width===1)this.knownMask[4]=0;return masked.call(this,offset,width);});
  try{expect(bootstrap.processAttach().known).toBe(false);}finally{spy.mockRestore();}
- const f=bootstrap.attachProgress().engineCinitProgress!;expect({pc:f.pc,operations:f.operations,returned:f.typeNameCStringCopyReturned}).toEqual({pc:'3069b0d3',operations:7551,returned:true});
+ const f=bootstrap.attachProgress().engineCinitProgress!;expect({pc:f.pc,operations:f.operations,returned:f.typeNameCStringCopyReturned}).toEqual({pc:'3069b2e3',operations:7678,returned:true});
  expect([...f.typeNameCString!.knownMask.subarray(8,14)]).toEqual([255,255,255,255,0,255]);expect(()=>f.typeNameCString!.readUnsigned(12,1)).toThrow('unowned backing bits');
 });
 
@@ -1340,4 +1340,13 @@ it('retains the original class prefix copy when a live source byte is unknown',(
  const spy=vi.spyOn(NativeHeapObjectViews.prototype,'readUnsigned').mockImplementation(function(this:NativeHeapObjectViews,offset,width){if(this.bytes.length===4104&&offset===4015&&width===1&&++hits===2)this.knownMask[4015]=0;return read.call(this,offset,width);});
  try{expect(bootstrap.processAttach().known).toBe(false);}finally{spy.mockRestore();}
  const f=bootstrap.attachProgress().engineCinitProgress!;expect(f.pc).toBe('30696f47');expect(f.undecorationLockHeld).toBe(true);expect(f.typeNameCStringCopyReturned).toBe(true);expect([...f.undecorationOutput!.bytes.subarray(0,3)]).toEqual([99,108,97]);expect([...f.undecorationOutput!.knownMask]).toEqual([...Array(3).fill(255),...Array(13).fill(0)]);const graph=NativeX86ThreadStack.forPlatform(platform);if(!graph.known)throw new Error(graph.reason);expect(graph.value.snapshot().calls.filter(c=>c.site==='30697402').at(-1)?.returned).toBe(false);expect(graph.value.snapshot().calls.filter(c=>c.site==='306971d4').at(-1)?.returned).toBe(false);expect(graph.value.snapshot().calls.filter(c=>c.site==='3069b0ce').at(-1)?.returned).toBe(false);
+});
+
+
+it.each(['repeated','unknown'] as const)('retains original class-name space handling for %s output',kind=>{
+ const {bootstrap,platform}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{engineHeapLayout:'rounded-eight',processorFeatureProcedure:true,floatingPointPrecisionErratum:false});
+ createNativeRuntimeAdminOwner(platform);const write=NativeHeapObjectViews.prototype.writeUnsigned;let changed=false;
+ const spy=vi.spyOn(NativeHeapObjectViews.prototype,'writeUnsigned').mockImplementation(function(this:NativeHeapObjectViews,offset,value,width){write.call(this,offset,value,width);if(!changed&&this.bytes.length===16&&offset===14&&width===1&&value===0&&this.bytes[5]===32&&this.bytes[6]===98){changed=true;if(kind==='repeated'){this.bytes.set([99,108,97,115,115,32,32,98,67,83,116,114,105,110,103,0]);this.knownMask.fill(255);}else this.knownMask[6]=0;}});
+ try{expect(bootstrap.processAttach().known).toBe(false);}finally{spy.mockRestore();}
+ expect(changed).toBe(true);const f=bootstrap.attachProgress().engineCinitProgress!;expect(f.pc).toBe(kind==='repeated'?'3069b2e3':'3069b0e8');expect(f.undecorationLockHeld).toBe(true);const graph=NativeX86ThreadStack.forPlatform(platform);if(!graph.known)throw new Error(graph.reason);expect(graph.value.snapshot().calls.filter(c=>c.site==='3069b0ce').at(-1)?.returned).toBe(true);expect(graph.value.snapshot().calls.filter(c=>c.site==='3069b2de').at(-1)?.returned).toBe(kind==='repeated');if(kind==='repeated'){expect(f.operations).toBe(7681);expect(Buffer.from(f.undecorationOutput!.bytes.subarray(0,15)).toString()).toBe('class bCString\0');}else expect(f.undecorationOutput!.knownMask[6]).toBe(0);
 });
