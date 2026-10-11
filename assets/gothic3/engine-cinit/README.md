@@ -3246,3 +3246,22 @@ image and browser startup checks, typechecking and the production build passed.
 The separate combined full-suite run remains active and does not cover this
 newest continuation. No new source capture bytes were added. This checkpoint is
 local; full startup and a new-game-to-ending browser campaign are unfinished.
+
+
+## MainCache first argument cache and append
+
+The first parsed class argument now follows the original span comparison,
+reference cache append at `30698c0c`, and empty-destination append at `30698c17`.
+Both physical returns are retained. Execution is pending at `30698c1c`, before
+the loop advances to the second argument. The cursor remains 45 and the property
+root remains zero; no template CString or shutdown registration is fabricated.
+Pointer subtraction proves the same-image offset difference but retains unknown
+AF and OF flags until the following original CMP replaces them.
+
+All 26 selected property regressions and 79 source/image/browser startup checks
+passed, as did typechecking and the production build. The separate full suite
+reported an older five-property test inspecting the later call graph against an
+earlier snapshot; its capture-time correction passed in an independent checkout.
+That full run is still active. No source capture bytes changed in this checkpoint.
+This work is local and full startup and a playable new-game-to-ending campaign
+remain unfinished.

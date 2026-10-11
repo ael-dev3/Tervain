@@ -2769,7 +2769,7 @@ it('retains the original MainCache template name parser caller and first constru
  createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeNpcHeapExtension,nativeSceneStartupHeapExtension]});
  const result=bootstrap.processAttach();expect(result.known).toBe(false);
  const f=bootstrap.attachProgress().engineCinitProgress!;
- expect(f.pc,result.known?'Unexpected complete startup':result.reason).toBe('30698bf1');
+ expect(f.pc,result.known?'Unexpected complete startup':result.reason).toBe('30698c1c');
  const info=NativeEngineCinitImages.imageForCrt(f.images,crt,'mainCacheTemplatePropertyTypeInfo'),flags=NativeEngineCinitImages.imageForCrt(f.images,crt,'mainCacheTemplatePropertyFlags'),storage=NativeEngineCinitImages.imageForCrt(f.images,crt,'mainCacheTemplatePropertyStorage'),root=NativeEngineCinitImages.imageForCrt(f.images,crt,'mainCacheTemplatePropertyRoot');
  if(!info.known||!flags.known||!storage.known||!root.known)throw new Error('Original MainCache template images required');
  expect(Buffer.from(info.value.bytes.slice(8)).toString()).toBe('.?AV?$bTPropertyObject@VeCMainCache@@VbCObjectRefBase@@@@\0');
@@ -2785,7 +2785,7 @@ it('retains the original MainCache template name parser caller and first constru
  expect(f.typeNameLockHeld).toBe(false);expect(f.undecorationLockHeld).toBe(true);expect(f.onexitLockHeld).toBe(false);
  const graph=NativeX86ThreadStack.forPlatform(platform);if(!graph.known)throw new Error(graph.reason);
  for(const site of ['30732460','30077253','30699360','30699282'])expect(graph.value.snapshot().calls.filter(c=>c.site===site).at(-1)).toMatchObject({returned:false});
- for(const site of ['306991ef','306991f7','306991ff','30699255','30699260','30699268','306996a3','30699505','3069b528','3069b770','30698be1','30698bec'])expect(graph.value.snapshot().calls.filter(c=>c.site===site).at(-1)).toMatchObject({returned:true});
+ for(const site of ['306991ef','306991f7','306991ff','30699255','30699260','30699268','306996a3','30699505','3069b528','3069b770','30698be1','30698bec','30698c0c','30698c17','30697936'])expect(graph.value.snapshot().calls.filter(c=>c.site===site).at(-1)).toMatchObject({returned:true});
  expect(graph.value.snapshot().calls.some(c=>c.site==='3007725e'||c.site==='30077269')).toBe(false);
 });
 
