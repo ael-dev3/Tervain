@@ -3,6 +3,9 @@
  * only what the tools need; no rendering, no textures.
  */
 import fs from 'node:fs';
+import { MeshoptDecoder } from 'three/examples/jsm/libs/meshopt_decoder.module.js';
+
+await MeshoptDecoder.ready;
 
 const COMPONENTS = { SCALAR: 1, VEC2: 2, VEC3: 3, VEC4: 4, MAT4: 16 };
 const READERS = { 5120: [Int8Array, 1], 5121: [Uint8Array, 1], 5122: [Int16Array, 2], 5123: [Uint16Array, 2], 5125: [Uint32Array, 4], 5126: [Float32Array, 4] };
@@ -15,13 +18,27 @@ export function readGlb(file) {
   const json = JSON.parse(bytes.subarray(20, 20 + jsonLength).toString('utf8'));
   const binHeader = 20 + jsonLength;
   const bin = binHeader < bytes.length ? bytes.subarray(binHeader + 8, binHeader + 8 + bytes.readUInt32LE(binHeader)) : Buffer.alloc(0);
+  // Views compressed with EXT_meshopt_compression (tools/optimise-models.mjs) are decoded once, as the game decodes them.
+  const decoded = new Map();
+  const viewData = (index) => {
+    const view = json.bufferViews[index], meshopt = view.extensions?.EXT_meshopt_compression;
+    if (!meshopt) return { data: new DataView(bin.buffer, bin.byteOffset, bin.byteLength), base: view.byteOffset ?? 0, stride: view.byteStride };
+    if (!decoded.has(index)) {
+      const target = new Uint8Array(meshopt.count * meshopt.byteStride);
+      const source = new Uint8Array(bin.buffer, bin.byteOffset + (meshopt.byteOffset ?? 0), meshopt.byteLength);
+      MeshoptDecoder.decodeGltfBuffer(target, meshopt.count, meshopt.byteStride, source, meshopt.mode, meshopt.filter);
+      decoded.set(index, target);
+    }
+    const target = decoded.get(index);
+    return { data: new DataView(target.buffer, target.byteOffset, target.byteLength), base: 0, stride: meshopt.byteStride };
+  };
   /** An accessor as a flat array of numbers (normalized integers scaled to 0..1 when the accessor says so). */
   const accessor = (index) => {
-    const a = json.accessors[index], view = json.bufferViews[a.bufferView], n = COMPONENTS[a.type];
+    const a = json.accessors[index], n = COMPONENTS[a.type];
     const [Type, size] = READERS[a.componentType];
-    const stride = view.byteStride ?? n * size, offset = (view.byteOffset ?? 0) + (a.byteOffset ?? 0);
+    const { data, base, stride: viewStride } = viewData(a.bufferView);
+    const stride = viewStride ?? n * size, offset = base + (a.byteOffset ?? 0);
     const out = new Float64Array(a.count * n);
-    const data = new DataView(bin.buffer, bin.byteOffset, bin.byteLength);
     const get = { 5120: 'getInt8', 5121: 'getUint8', 5122: 'getInt16', 5123: 'getUint16', 5125: 'getUint32', 5126: 'getFloat32' }[a.componentType];
     for (let i = 0; i < a.count; i++) for (let c = 0; c < n; c++) {
       let v = data[get](offset + i * stride + c * size, true);

@@ -32,7 +32,9 @@
     "fight.hit": 179,
     "fight.dead": 8,
     "swim.forward": 569,
-    "swim.idle": 568
+    "swim.idle": 568,
+    "turn.idle.left": 576,
+    "turn.idle.right": 586
   },
   "motions": {
     "work.writing": {
