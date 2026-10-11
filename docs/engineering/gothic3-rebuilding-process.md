@@ -4,6 +4,24 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local continuation — 11 October 2026: type-name exception frame
+
+The type-name routine pushes its original local extent and immutable 28-byte
+scope at `30956a38`, then calls the existing EH4 prolog. One shared instruction
+runner now executes that original prolog for both exit registration and name
+setup, with separate EBP and return records. The retained Engine security cookie
+encodes the scope and frame; FS is published only after its actual load succeeds.
+The prolog returns to `3067daa3`, with the name wrapper's original return pending.
+
+The normal selected path reaches 2,735 admitted operations. Eight focused checks
+across two files cover the separate frame, both immutable scopes, flags and
+registration state; typechecking and independent exact regeneration pass.
+Earlier revision `e8e62bd80` passed all 3,455 tests across 315 files in 894.97
+seconds. Its production build is still running, and that evidence predates the
+scope correction and newer C++ work. Fresh combined validation is required
+before publishing these local changes. Full startup and a campaign through an
+ending remain unfinished.
+
 ## Local continuation — 11 October 2026: first property-type initializer
 
 The first C++ callback calls export thunk `3001c3c8`, whose pinned jump reaches

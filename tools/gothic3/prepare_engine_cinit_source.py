@@ -139,6 +139,7 @@ def capture(study):
         ('sse2Ready', 0x30af7e58, 4),
         ('sse2Control', 0x30af7e68, 4),
         ('onexitSehScope', 0x30956388, 28),
+        ('propertyTypeNameSehScope', 0x30956a38, 28),
         ('visualAnimationFloatFlags', 0x30ad9a00, 4),
         ('visualAnimationFloatRoot', 0x30ad9e38, 4),
         ('visualAnimationFloatStorage', 0x30ad99f8, 8),

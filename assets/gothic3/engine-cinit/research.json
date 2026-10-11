@@ -15025,6 +15025,15 @@
       "sha256": "25a3ad70631faa378ffa8a28513fec9d39cba53d457dd5e6ed1e0e902b94499e"
     },
     {
+      "label": "propertyTypeNameSehScope",
+      "address": "30956a38",
+      "bytes": 28,
+      "raw": "feffffff00000000d4ffffff00000000feffffff0000000080db6730",
+      "fileBackedBytes": 28,
+      "loaderZeroFillBytes": 0,
+      "sha256": "334b6f8f8cf5c3fccb14b73d2996a8c985fc976d64fe874ef22cdfa14daa7be3"
+    },
+    {
       "label": "visualAnimationFloatFlags",
       "address": "30ad9a00",
       "bytes": 4,

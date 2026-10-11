@@ -46,3 +46,7 @@ it('retains the complete original C++ table without reseeding mutable storage',(
  expect(table.bytes.length).toBe(receipt.slots*4);expect(createHash('sha256').update(table.bytes).digest('hex')).toBe(receipt.sha256);expect(table.knownMask.every(byte=>byte===255)).toBe(true);
  table.writeUnsigned(0,123);expect(fact(NativeEngineCinitImages.forCrt(crt))).toBe(owner);expect(fact(NativeEngineCinitImages.imageForCrt(owner,crt,'cppInitializers'))).toBe(table);expect(table.readUnsigned(0)).toBe(123);
 });
+
+it('loads the original type-name scope and rejects changed bytes',()=>{
+ const {crt,owner}=fixture(),scope=fact(NativeEngineCinitImages.imageForCrt(owner,crt,'propertyTypeNameSehScope'));expect(scope.bytes.length).toBe(28);expect(Buffer.from(scope.bytes).toString('hex')).toBe(engineCinitImage('propertyTypeNameSehScope').raw);scope.bytes[0]=scope.bytes[0]!^1;expect(NativeEngineCinitImages.imageForCrt(owner,crt,'propertyTypeNameSehScope').known).toBe(false);
+});
