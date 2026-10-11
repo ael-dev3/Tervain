@@ -249,6 +249,23 @@ describe('authored Mixamo playable hero', () => {
     advance(rig, 'idle', 0); expect(rig.body.position.y).toBe(0);
   });
 
+  it('eases a guard out as he falls rather than snapping the arms in the first frame of death (A91 scout)', () => {
+    const rig = createHeroRig(asset), bones = bindHeroBones(rig.root);
+    for (let i = 0; i < 60; i++) rig.hero.pose(pose('block'), 1 / 60, true);
+    rig.root.updateMatrixWorld(true);
+    const hand = () => bones['mixamorig:RightHand'].getWorldPosition(new THREE.Vector3());
+    let before = hand(), first = 0, later = 0;
+    for (let i = 0; i < 20; i++) {
+      rig.hero.pose(pose('dead', { t: 0 }), 1 / 60, true);
+      rig.root.updateMatrixWorld(true);
+      const now = hand(), moved = now.distanceTo(before);
+      if (i === 0) first = moved; else later = Math.max(later, moved);
+      before = now;
+    }
+    // Before: 0.37 m in the first frame. A fall's own pace is a few centimetres a frame.
+    expect(first).toBeLessThan(0.12);
+  });
+
   it('retains equipment visibility and fits the blade to the actual palm basis', () => {
     const rig = createHeroRig(asset), bones = bindHeroBones(rig.root), socket = rig.weapon!.parent!;
     expect(socket.parent).toBe(bones['mixamorig:RightHand']); expect(socket.position.length()).toBeGreaterThan(.06); expect(socket.position.length()).toBeLessThan(.13);

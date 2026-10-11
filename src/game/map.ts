@@ -1,7 +1,7 @@
 import type { MapMarker } from './types';
 
 /** The surveyed display extent. Notes may mark water or blocked ground, but cannot leave the world chart. */
-export const MAP_MARKER_BOUNDS = { minX: -352, maxX: 168, minZ: -144, maxZ: 168 } as const;
+export const MAP_MARKER_BOUNDS = { minX: -352, maxX: 198, minZ: -162, maxZ: 168 } as const;
 
 export function validMapMarker(raw: unknown): raw is MapMarker {
   if (typeof raw !== 'object' || raw === null || Array.isArray(raw)) return false;

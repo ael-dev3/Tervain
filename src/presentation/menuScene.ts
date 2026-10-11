@@ -38,6 +38,7 @@ import { MENU_TREE_SOURCE, assertMenuTreeBudget, createMenuTreeRemix } from './m
 
 export type MenuQuality = 'low' | 'medium' | 'high';
 export interface MenuAwakeningState { time: number; duration: number; gain: number }
+export interface MenuClockState { time: number; deerRound: number | null }
 
 const UP = new THREE.Vector3(0, 1, 0);
 
@@ -134,6 +135,8 @@ export class MenuScene {
   /** A stag grazing its way across the heath, once its model has loaded, and the menu time it joined. */
   private deer: MenuDeer | null = null;
   private deerStart = 0;
+  /** How far into its round a stag carried over from a rebuilt scene was, until it joins this one. */
+  private deerRound: number | null = null;
   /** Seed fluff carried off the heath on the same wind. */
   private readonly fluff: MenuFluff;
   private readonly mats: ReturnType<MenuResources['materials']>;
@@ -149,8 +152,15 @@ export class MenuScene {
   private readonly baseFov = MENU_CAMERA.fov;
   static readonly MAX_FOV = 76;
 
-  constructor(opts: { quality?: MenuQuality; resources?: MenuResources; trafficSeed?: number; trafficTime?: number; awakening?: MenuAwakeningState; grove?: MenuGrove; wardenRig?: Rig; treeTemplates?: MeshyTreeTemplates; deer?: { template: GLTF; definition: AnimalDefinition } } = {}) {
+  constructor(opts: { quality?: MenuQuality; resources?: MenuResources; trafficSeed?: number; trafficTime?: number; awakening?: MenuAwakeningState; grove?: MenuGrove; wardenRig?: Rig; treeTemplates?: MeshyTreeTemplates; deer?: { template: GLTF; definition: AnimalDefinition }; clock?: MenuClockState } = {}) {
     this.quality = opts.quality ?? 'high';
+    // A scene rebuilt (a quality change) goes on from the old one's moment: the fire, the clouds and the stag where they
+    // were rather than all from the start (A91 scout).
+    if (opts.clock && Number.isFinite(opts.clock.time) && opts.clock.time >= 0) {
+      this.time = opts.clock.time;
+      this.trafficEpoch = this.time;
+      this.deerRound = opts.clock.deerRound !== null && Number.isFinite(opts.clock.deerRound) ? Math.max(0, opts.clock.deerRound) : null;
+    }
     this.res = opts.resources ?? browserResources();
     // Deterministic standalone construction; the app supplies a fresh seed on each actual menu entry.
     this.trafficSeed = (opts.trafficSeed ?? 0) >>> 0;
@@ -542,7 +552,8 @@ export class MenuScene {
   addDeer(template: GLTF, definition: AnimalDefinition): boolean {
     if (this.disposed || this.deer) return false;
     this.deer = buildMenuDeer(createAnimalFigure(template, definition), { shadows: this.quality !== 'low' });
-    this.deerStart = this.time;
+    this.deerStart = this.time - (this.deerRound ?? 0);
+    this.deerRound = null;
     this.scene.add(this.deer.root);
     this.owned.push(this.deer);
     this.stats.deer = 1;
@@ -680,6 +691,9 @@ export class MenuScene {
   }
 
   get awakeningState(): MenuAwakeningState { return { ...this.awakening }; }
+
+  /** The scene's moment and how far the stag is into its round, for a rebuilt scene to go on from. */
+  get clockState(): MenuClockState { return { time: this.time, deerRound: this.deer ? this.time - this.deerStart : null }; }
 
   /** How far the hermit's door stands open (0 shut, 1 against its stop), from the awakening's hinge. */
   get doorOpening() {

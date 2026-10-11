@@ -30,3 +30,20 @@ describe('regional map habitat washes', () => {
     expect(changes).toBeGreaterThan(100);
   });
 });
+
+describe('the chart’s extent (A91 scout)', () => {
+  it('covers every spot the player can walk, so the arrow never leaves it and every one can be pinned', async () => {
+    const { Terrain } = await import('../../src/world/terrain');
+    const { MAP_BOUNDS } = await import('../../src/presentation/ui/mapProjection');
+    const { validMapMarker } = await import('../../src/game/map');
+    const terrain = new Terrain();
+    let outside = 0, walkable = 0;
+    for (let x = -380; x <= 200; x += 2) for (let z = -172; z <= 172; z += 2) {
+      if (!terrain.walkable(x, z, Infinity)) continue;
+      walkable++;
+      if (x < MAP_BOUNDS.x0 || x > MAP_BOUNDS.x1 || z < MAP_BOUNDS.z0 || z > MAP_BOUNDS.z1 || !validMapMarker({ x, z })) outside++;
+    }
+    expect(walkable).toBeGreaterThan(10000);
+    expect(outside).toBe(0);
+  });
+});

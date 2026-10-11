@@ -262,7 +262,7 @@ describe('player notes on the world chart', () => {
     expect(game.state.discovered).toEqual({});
   });
 
-  it.each([{ x: -353, z: 0 }, { x: 169, z: 0 }, { x: 0, z: -145 }, { x: 0, z: 169 }, { x: NaN, z: 0 }, { x: 0, z: Infinity }])('rejects invalid marker %s without changing notes', (marker) => {
+  it.each([{ x: -353, z: 0 }, { x: 199, z: 0 }, { x: 0, z: -163 }, { x: 0, z: 169 }, { x: NaN, z: 0 }, { x: 0, z: Infinity }])('rejects invalid marker %s without changing notes', (marker) => {
     const game = new Game();
     game.dispatch({ t: 'setMapMarker', marker: { x: 0, z: 0 } });
     rejectsWithoutChanging(game, { t: 'setMapMarker', marker }, 'invalid_marker');

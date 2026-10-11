@@ -496,6 +496,8 @@ export class Player {
     this.x = x;
     this.z = z;
     this.yaw = yaw;
+    // A placement is not a turn: the pose takes this facing as its own (A91 scout: a respawn stepped round on the spot).
+    this.poseYaw = yaw;
     // Afloat (a swimmer saved or caught where he swims), he is put back at the saved height, above the bed: the standing
     // rule took him to the seabed, the camera under with him (A89 scout).
     this.y = afloat && feetY !== undefined && Number.isFinite(feetY) ? Math.max(feetY, terrain.groundAt(x, z) + 0.05) : supportedPlayerHeight(terrain, x, z, feetY);
@@ -807,6 +809,9 @@ export class Player {
     ctx.onHurt(amount, blocked);
     if (ctx.game.state.player.health <= 0) {
       this.cancelChannel(); // death never leaves a channel behind (A71)
+      // Killed in the saddle (or getting into or out of it), he falls beside the deer rather than lying in the air at the
+      // saddle's height (A91 scout); the app lets the deer go once play resumes.
+      if (this.mount || this.mountMove) this.dismount(ctx);
       this.state = 'dead';
       this.timer = 0;
       this.blocking = false;
@@ -826,8 +831,10 @@ export class Player {
     const standingDepth = water ? Math.max(0, still - this.supportAt(this.x, this.z, ctx)) : 0;
     if (!this.swimming && water && this.alive && standingDepth >= SWIM_DEPTH && (this.grounded || this.y <= water.surface - SWIM_FLOAT + 0.05)) {
       this.swimming = true;
-      // Whatever was in hand stops: no blows, guard, aim or work in deep water.
+      // Whatever was in hand stops: no blows, guard, aim or work in deep water, and the blade goes back in its sheath
+      // (A91 scout: it stayed in hand through the swim while a foe was near).
       if (this.state === 'channel') this.cancelChannel();
+      this.drawn = false;
       if (this.state === 'light' || this.state === 'heavy' || this.state === 'dodge') { this.state = 'free'; this.timer = this.dur = 0; this.hitDone = true; }
       this.blocking = false;
       this.setBowAim(null);
@@ -1245,6 +1252,8 @@ export class Player {
         else if (this.lastMoveSpeed > 0.12) mode = 'walk';
     }
     if (!this.grounded && !this.swimming && this.state === 'free') mode = 'run';
+    // Struck while swimming, he keeps swimming (A91 scout): the hurt pose stood him upright with a jump's legs.
+    if (this.swimming && this.state === 'hurt') mode = 'swim';
     if ((this.mount || (this.mountMove && this.mountMove.kind !== 'approach')) && this.state === 'free') mode = 'sit';
     this.mode = mode;
     const speedNorm = Math.min(1, this.lastMoveSpeed / (mode === 'swim' ? SWIM_SPEED : mode === 'run' ? HERO_RUN_SPEED : HERO_WALK_SPEED));
