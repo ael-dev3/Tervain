@@ -1,6 +1,7 @@
 import RAPIER from '@dimforge/rapier3d-compat';
 import type { Collider as WorldCollider, Colliders } from './colliders';
 import { ARCHIVE_ROOM, BUILDINGS, DECKS, HAMLET_PROPS } from './layout';
+import { buildingEntry, buildingGround } from './buildingEntries';
 import { PLAYER_BODY_HEIGHT, PLAYER_BODY_RADIUS } from './playerPlacement';
 import type { Terrain } from './terrain';
 import type { PhysicalObjectPose } from '../game/types';
@@ -156,6 +157,18 @@ export class RealmPhysics {
         halfX, halfZ, archiveBase + bottom, archiveBase + top, archive.yaw);
     localSlab(archive.d / 2 + .08, ARCHIVE_ROOM.doorHalfWidth + .1, .475, -.08, ARCHIVE_ROOM.floorTop);
     localSlab(-archive.d / 2, ARCHIVE_ROOM.shutterHalfWidth, wall, ARCHIVE_ROOM.wallBase, ARCHIVE_ROOM.shutterBottom);
+    // The stone treads before every closed building's door, as Terrain stands on them (buildingStepSurfacesAt): a crate
+    // set on a doorstep sank 0.48 m into the stone to the ground beneath (A103 scout).
+    for (const b of BUILDINGS) {
+      if (b.kind === 'archive') continue;
+      const entry = buildingEntry(b), ground = buildingGround((x, z) => terrain.heightAt(x, z), b);
+      const tread = (localX: number, localZ: number, halfX: number, halfZ: number, top: number) =>
+        slab(b.x + localX * Math.cos(b.yaw) + localZ * Math.sin(b.yaw), b.z - localX * Math.sin(b.yaw) + localZ * Math.cos(b.yaw),
+          halfX, halfZ, ground.lo - 0.3, ground.avg + top, b.yaw);
+      const from = Math.min(entry.z + 0.07, b.d / 2 + 0.1), to = entry.z + 0.77;
+      tread(entry.x, (from + to) / 2, (entry.w + 0.7) / 2, (to - from) / 2, entry.y + 0.08);
+      tread(entry.x, entry.z + 0.96, (entry.w + 0.9) / 2, 0.25, entry.y * 0.5);
+    }
     for (const spec of specs) {
       const body = this.world.createRigidBody(RAPIER.RigidBodyDesc.dynamic()
         .setTranslation(spec.x, terrain.groundAt(spec.x, spec.z) + spec.height / 2 + .025, spec.z)
@@ -416,7 +429,9 @@ export class RealmPhysics {
       prop.wet = 0;
       return;
     }
-    if (body.isSleeping() && !wake) return;
+    // The sea moves on its clock without a re-solve: a barrel that fell asleep in a trough is lifted by the next crest
+    // (A103 scout: one asleep in the surf never floated again).
+    if (body.isSleeping() && !wake && here.body !== 'sea') return;
     body.resetForces(true); body.resetTorques(true);
     const q = body.rotation(), v = body.linvel(), w = body.angvel();
     const lift = spec.mass * GRAVITY / FLOAT_LINE[spec.kind] / 8, drag = spec.mass * WATER_DRAG / 8;
@@ -458,6 +473,9 @@ export class RealmPhysics {
     this.world.timestep = STEP;
     this.accumulated = Math.min(.1, this.accumulated + Math.min(.05, dt));
     const count = Math.floor((this.accumulated + 1e-9) / STEP);
+    // Set down somewhere else (a respawn, a load, a teleport) the body is placed there, not swept across the map in one
+    // step (A103 scout). No gait covers 4 m a frame.
+    if (Math.hypot(player.x - this.playerStart.x, player.y - this.playerStart.y, player.z - this.playerStart.z) > 4) this.playerStart = { ...player };
     this.character.setTranslation(capsulePosition(this.playerStart), false);
     this.holdTarget = { x: player.x + Math.sin(yaw) * 1.85, y: player.y + 1.3 - Math.sin(pitch) * .65, z: player.z + Math.cos(yaw) * 1.85 };
     for (let i = 0; i < count; i++) {
