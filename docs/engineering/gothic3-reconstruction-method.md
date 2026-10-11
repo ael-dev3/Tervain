@@ -66,7 +66,7 @@ inputs for research, not portable build requirements for every contributor.
 Keep four claims separate: evidence captured, behavior implemented, checks
 passed, and revision deployed. Each checkpoint records its actual supported
 boundary and remaining work. The current local native continuation initializes
-the camera property and returns the reference-base class/type parsers; this
+the camera property and returns the reference-base class/type parsers and undecoration; this
 remains startup research, with complete world activation and campaign play
 still outstanding.
 
@@ -74,3 +74,48 @@ For detailed commands and implementation history, see the
 [step-by-step workflow](gothic3-rebuild-workflow.md),
 [architecture overview](gothic3-rebuild-overview.md), and
 [checkpoint history](gothic3-rebuilding-process.md).
+
+## Working on the next missing behavior
+
+Choose one pending operation from the runtime trace. Find its original caller,
+callee and data layout in the matching binary, then capture the evidence with
+an existing generator in `tools/gothic3/`. Record binary hashes and original
+addresses so another contributor can reproduce the finding.
+
+Implement the smallest complete continuation in `src/gothic3/`. A model viewer
+can establish mesh decoding and camera controls; gameplay additionally requires
+entity placement, materials, collision, animation and behavior. Keep these
+claims distinct in the checkpoint description.
+
+For a native continuation, check both the normal return and interrupted cases:
+unknown source bytes, failed allocation, incomplete writes and cleanup failure.
+Record the last supported instruction, live allocations and held locks. Resume
+from that state only when the next dependency is supported.
+
+The repository exposes these commands from its root:
+
+```sh
+npm run dev
+npm run typecheck
+npx vitest run tests/gothic3-dialogue/engine-io-frame.test.ts
+npm run build
+npm run preview
+```
+
+`npm run dev` serves the browser application; open its `/gothic3/` route.
+Typechecking checks TypeScript consistency, the example Vitest command exercises
+the native startup frame, and the production build prepares the hosted files.
+Choose additional checks for the changed subsystem and document the actual
+results. A passing startup check does not demonstrate a playable campaign.
+
+## What a reconstruction checkpoint should contain
+
+- The behavior added and the evidence identifying it.
+- Original asset paths or binary hashes and instruction addresses.
+- Changed runtime modules and resource relationships.
+- Local checks, their exact revision and any failures.
+- The next unsupported boundary and remaining gameplay integration.
+- The deployed revision and URL, when publication has actually completed.
+
+The hosted target is `/gothic3/` alongside Tervain. Local implementation,
+repository publication and a successful Pages deployment are separate milestones.

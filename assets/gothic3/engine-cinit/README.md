@@ -2548,3 +2548,25 @@ original caller. This is a local checkpoint, not deployment or proof of complete
 startup and campaign play. Earlier combined revision
 `015b00c0c3a1b7db32bc6620d1e54295d88b59cb` passed all 3,703 tests and its build;
 that receipt predates the newer parser/writer/cleanup continuations.
+
+
+## Local continuation — 11 October 2026: reference-base name length scan
+
+The reference-base type-name caller now scans its live 24-byte undecoration
+output through original routine `30679ad0` and returns length 21 at `3067dae2`
+after 17,723 admitted operations. Its 22 initialized bytes contain
+`class bCObjectRefBase` followed by NUL; both padding bytes remain unknown.
+Changing their stored bits to zero or 255 preserves the measured length. An
+unknown terminator stops at the original ambiguous DWORD predicate without
+returning the current scan or overwriting the earlier measured length.
+
+The admitted scan matches the captured camera continuation after normalizing
+its stack helper and diagnostic wording. The reference-base property wrapper's
+call at `30076773` now retains return address `30076778`, matching the original
+five-byte CALL and following PUSH instruction; it previously retained the
+camera wrapper's return address. The wrapper itself remains pending.
+
+Typechecking, four focused runtime checks and six browser startup checks pass.
+These results are local; the earlier combined full-suite process remains live.
+Type-name cache publication, complete startup, world activation and a finishable
+browser campaign remain incomplete.
