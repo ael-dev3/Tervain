@@ -29,7 +29,7 @@ export class FirstPersonControls {
     addEventListener('keyup', (e) => this.keys.delete(e.code));
     addEventListener('blur', () => this.keys.clear());
     element.addEventListener('click', () => {
-      if (this.enabled && document.pointerLockElement !== element) void element.requestPointerLock?.();
+      if (this.enabled && document.pointerLockElement !== element) void element.requestPointerLock?.()?.catch?.(() => {});
     });
     element.addEventListener('mousedown', (e) => {
       this.dragging = true;

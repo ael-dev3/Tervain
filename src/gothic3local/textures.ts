@@ -54,14 +54,16 @@ export class TextureCache {
       this.missing.add(name);
       return null;
     }
-    let image: G3Image;
+    let image: G3Image, tex: THREE.Texture;
     try {
       image = parseImage(await readEntry(entry));
+      // Decoding (in software, without compressed-texture support) can fail too: one image is then missing, the world
+      // still loads.
+      tex = this.toTexture(image);
     } catch {
       this.missing.add(name);
       return null;
     }
-    const tex = this.toTexture(image);
     tex.name = name;
     tex.userData.format = image.format;
     tex.wrapS = wrapU;
