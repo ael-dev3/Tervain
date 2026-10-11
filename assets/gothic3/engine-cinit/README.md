@@ -2878,3 +2878,27 @@ passed its production build in 59.84 seconds. That build predates this new
 undecoration entry. Full validation of the newest combined revision remains
 required. Native continuations remain local; PR #258 was independently merged
 and successfully deployed through Pages run `38143256120`.
+
+
+## Original property-initializer pattern inventory
+
+`property-initializers.json` records 258 callbacks whose original bytes match
+the property-initializer structure. The generator pins Engine.dll and the
+87-byte obsolete-class template by SHA-256, reads the original C++ table,
+checks the CALL/store/RET callback and JMP thunk, and verifies every fixed
+body byte. Variable operands must retain the flags/storage/root relationships,
+the common list, the type-name and exit-registration targets, and the original
+UnMangle import slot. Each record includes the original RTTI bytes and name.
+
+Regenerate from the matching local study:
+
+```sh
+python tools/gothic3/prepare_property_initializer_patterns.py --study "PATH_TO_STUDY" --research assets/gothic3/engine-cinit/research.json --output assets/gothic3/engine-cinit/property-initializers.json
+```
+
+Independent recapture is byte-identical; all six property bodies already
+captured in `research.json` match their inventory records exactly. Inventory
+SHA-256 is `36ace1fa228dbc7897a92cbb29d7227d61287f4b513cf15ed817aa8d5b1f550d`.
+This supports a shared initializer implementation. It does not admit new
+instructions to the runtime or prove execution of all 258 entries; their
+parser paths, allocation ownership and remaining behavior still need support.
