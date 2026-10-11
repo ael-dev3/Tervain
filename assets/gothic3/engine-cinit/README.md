@@ -1841,3 +1841,23 @@ The earlier frozen combined revision `6a6de81b6f535c855a9ac8b3c12510b9186d99d5`
 has completed: all 3,642 tests in 323 files and its production build passed.
 It predates the writer and later int/camera steps. These additions remain local.
 Full engine startup and complete browser campaign persistence remain unfinished.
+
+
+### 2026-10-11 — original camera property parser construction (local)
+
+The fourth property initializer now follows the original cold parser arena request,
+allocation, field construction and constructor return, then the NameParser,
+TypeParser and DataType dispatch for the retained `.?AVeCCameraBase@@` RTTI.
+The retained startup reaches `3069b8e0` after 10,462 operations. This is the
+original decorated class branch; class-name parsing and camera publication
+remain pending. The first three published property roots, live CStrings and
+five shutdown registrations remain intact. The new parser has its own live
+arena and zero initial output length; prior freed parser observations are not
+used as live memory.
+
+Validation: TypeScript checking passed; six selected runtime/startup checks
+passed, including unavailable camera arena allocation retaining the caller and
+lock at `30672ec7`; all six browser startup prerequisite checks in two files
+passed. The independently generated original instruction package is unchanged.
+This checkpoint is local and does not establish complete engine startup,
+deployment, or a campaign playable through an ending.

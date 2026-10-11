@@ -1611,7 +1611,17 @@ stack.#engineCinitFrame!.pc='10003cd8';engineCinitUnMangleInstruction('10003cd8'
               fourth('300766d0',()=>{const word=stack.#load(flags,0),r=stack.#record(word);bits=r.value;mask=r.mask;setRegister('EAX',word);});fourth('300766d5',()=>stack.#logicalFlags(bits&1,(mask|~1)&255,1));fourth('300766d7',()=>{const f=stack.#record(stack.#load(stack.#bank,36));if(!(f.mask&64)||bits&1)throw new Error('Original fresh camera object property root guard required');});
               fourth('300766d9',()=>setRegister('ECX',stack.#load(image('cameraBaseObjectRoot'),0)));fourth('300766df',()=>{bits=(bits|1)>>>0;mask=(mask|1)>>>0;setRegister('EAX',stack.#mint(bits,mask));stack.#logicalFlags(bits,mask,4);});fourth('300766e2',()=>stack.#store(flags,0,register('EAX')));fourth('300766e7',()=>stack.#store(storage,4,register('ECX')));
               fourth('300766ed',()=>stack.#logicalFlags(bits&2,(mask|~2)&255,1));fourth('300766ef',()=>{const f=stack.#record(stack.#load(stack.#bank,36));if(!(f.mask&64)||bits&2)throw new Error('Original fresh camera object property type guard required');});fourth('300766f1',()=>{bits=(bits|2)>>>0;mask=(mask|2)>>>0;setRegister('EAX',stack.#mint(bits,mask));stack.#logicalFlags(bits,mask,4);});fourth('300766f4',()=>stack.#push(stack.#mint(0,0,{kind:'engine-image',crt,fields:image('visualAnimationFloatDefault'),offset:0})));fourth('300766f9',()=>setRegister('ECX',stack.#mint(0,0,{kind:'engine-image',crt,fields:image('cameraBaseObjectTypeInfo'),offset:0})));fourth('300766fe',()=>stack.#store(flags,0,register('EAX')));fourth('30076703',()=>stack.#call('30076703','30076708'));
-const prefix=runPropertyTypeNamePrefix(image('cameraBaseObjectTypeInfo'),image('visualAnimationFloatDefault'));if(prefix.cached!==0){stack.#engineCinitFrame!.pc='3067db77';return known(undefined);}preparePropertyUndecoration(prefix.name,prefix.actualTypeInfo);const decoder=runUndecorationPrefix();if(!decoder.ready)return known(undefined);stack.#engineCinitFrame!.pc='3069747a';return known(undefined);
+const prefix=runPropertyTypeNamePrefix(image('cameraBaseObjectTypeInfo'),image('visualAnimationFloatDefault'));if(prefix.cached!==0){stack.#engineCinitFrame!.pc='3067db77';return known(undefined);}preparePropertyUndecoration(prefix.name,prefix.actualTypeInfo);const decoder=runUndecorationPrefix();if(!decoder.ready)return known(undefined);              const parser=runParserConstructionPrefix(decoder.globals.value);
+              const request=runColdArenaRequest(decoder.globals.value);
+              const allocation=runColdArenaAllocation(decoder.globals.value,request);if(!allocation.ready)return known(undefined);
+              runFieldConstructionReturn(parser.field,allocation.arenaBacking,3,4084,'306972c5');
+              const constructed=runParserConstructionReturn(decoder.globals.value,parser,request,allocation);
+              decoder.undecorate('3069b2d8',()=>setRegister('ECX',stack.#stackWord(stack.#address(register('EBP'))-148)));decoder.undecorate('3069b2de',()=>stack.#call('3069b2de','3069b2e3'));
+              runNameParserPrefix(constructed.config,image('cameraBaseObjectTypeInfo'));
+              const typePrefix=runTypeParserPrefix(constructed.config);
+              const dispatch=runDataTypeDispatch(constructed.config,image('cameraBaseObjectTypeInfo'),typePrefix.data);
+              if(dispatch.target!=='3069b8e0'){stack.#engineCinitFrame!.pc=dispatch.target;return known(undefined);}
+stack.#engineCinitFrame!.pc='3069b8e0';return known(undefined);
             }
             if(target==='307322d0'){
               step('307322d0',()=>stack.#call('307322d0','307322d5'),'307322d0');step('30015bef',()=>{},'30015bef');
