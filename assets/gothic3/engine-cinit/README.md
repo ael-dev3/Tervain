@@ -1287,3 +1287,22 @@ over six pages, all recorded attempts and the Pages workflow; its only active
 run was deployment `38119510962`. No duplicate merge or run was requested.
 The native continuation above remains local and does not prove full startup
 or campaign completion.
+
+
+### 2026-10-11: complete original class-name writer return
+
+The nested prefix writer terminates its six-byte output and returns through
+the original list caller. The outer writer follows its actual tail into the
+name text node, requests its live eight-character length, and copies from the
+owned character span at arena offset 3988 to output offset 6. The original
+outer termination overwrites the temporary prefix terminator with the name
+and writes the final NUL at offset 14. All fifteen string bytes are known;
+the alignment byte at offset 15 remains unknown.
+
+Execution returns through the physical `3069b0ce` call to `3069b0d3` after
+7,551 source operations. NameParser's space compaction, cleanup, and second
+property publication remain pending. TypeScript checking passed; five focused
+normal/fidelity/interruption checks passed in 22.38 seconds and six browser
+startup checks passed in 31.28 seconds. The earlier combined suite remains
+active on an older frozen revision. This continuation is local and does not
+prove complete engine startup or campaign completion.
