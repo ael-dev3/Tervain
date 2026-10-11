@@ -227,10 +227,12 @@ through the ending, with working persistence.
 
 ## Current implementation boundary: 11 October 2026
 
-The deployed checkpoint is main revision `9a06762233cb145177a84bd2947441cbd500e2ca`.
+The deployed checkpoint is main revision `6a3d517125399c57c15f5929cb44733ab1df2577`.
 It includes environment-vector setup from [PR #235](https://github.com/ael-dev3/Tervain/pull/235).
-The [Pages workflow](https://github.com/ael-dev3/Tervain/actions/runs/38094298066)
-completed its build and deployment. This records publication; ordinary browser
+The [Pages workflow](https://github.com/ael-dev3/Tervain/actions/runs/38100227517)
+completed its build and deployment. Main also includes the first-frame fix from
+[PR #237](https://github.com/ael-dev3/Tervain/pull/237) and camera fix from
+[PR #238](https://github.com/ael-dev3/Tervain/pull/238). This records publication; ordinary browser
 play from a new game through an ending remains unverified.
 
 Local development has continued through Engine C initialization, its C callbacks,
@@ -239,8 +241,9 @@ parser for the `M` type code, selects the original `float` literal, allocates it
 text node and character storage, and copies the five characters through the
 captured instructions. The next local continuation also follows the original modifier checks and
 returns the 54-instruction value-copy routine to `3069b553` after 3,531 admitted
-operations, preserving the same node and destination flag bits. The remaining parser returns, type-name cache
-publication and later startup work are still required. A parsed literal alone
+operations, preserving the same node and destination flag bits. The basic, compound and data-type parsers now return to `3069a321` after
+3,551 operations. Name output, type-name cache publication and later startup work
+are still required. A parsed literal alone
 does not complete Engine startup.
 
 Revision `a8f295e60`, an earlier local parser checkpoint, passed TypeScript
@@ -2180,3 +2183,20 @@ check passed. Independent regeneration reproduced JSON and TypeScript exactly.
 The earlier `a8f295e60` checkpoint passed 173 focused checks, all 3,475 tests in
 315 files, and a production build. That full-suite receipt predates this copy
 implementation. This continuation is local and has not been deployed.
+
+
+### 11 October 2026: original parser returns
+
+The basic parser now executes its saved-register restoration, LEAVE and RET,
+then the compound parser releases its two arguments and returns through its own
+saved ESI/frame. The data-type parser releases its arguments and returns to
+`3069a321`. Twenty additional captured instructions bring the selected path to
+3,551 operations. Each return is checked against the actual pending CALL and
+retained return-word identity. The type parser still owns its frame; name output,
+cleanup, cache publication and later Engine startup remain unfinished.
+
+Ten distinct focused runtime checks pass: eight in the initial run and two after
+updating their observations from pending calls to returned calls. All 16 source
+and image checks pass. The copy checkpoint `a43e29021` is undergoing combined
+validation in a separate unchanged checkout; that run predates these returns.
+This local continuation has not been deployed.

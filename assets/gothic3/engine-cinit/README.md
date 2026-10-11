@@ -197,3 +197,20 @@ check passed. Independent regeneration reproduced JSON and TypeScript exactly.
 The earlier `a8f295e60` checkpoint passed 173 focused checks, all 3,475 tests in
 315 files, and a production build. That full-suite receipt predates this copy
 implementation. This continuation is local and has not been deployed.
+
+
+### 11 October 2026: original parser returns
+
+The basic parser now executes its saved-register restoration, LEAVE and RET,
+then the compound parser releases its two arguments and returns through its own
+saved ESI/frame. The data-type parser releases its arguments and returns to
+`3069a321`. Twenty additional captured instructions bring the selected path to
+3,551 operations. Each return is checked against the actual pending CALL and
+retained return-word identity. The type parser still owns its frame; name output,
+cleanup, cache publication and later Engine startup remain unfinished.
+
+Ten distinct focused runtime checks pass: eight in the initial run and two after
+updating their observations from pending calls to returned calls. All 16 source
+and image checks pass. The copy checkpoint `a43e29021` is undergoing combined
+validation in a separate unchanged checkout; that run predates these returns.
+This local continuation has not been deployed.
