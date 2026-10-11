@@ -705,3 +705,18 @@ comparison confirms the new method is the only evidence-package change.
 TypeScript checking and all 26 source/image checks pass. Runtime remains pending
 at this parser's entry after 5,421 operations; capturing its body does not execute
 it or establish startup. This work remains local. Full campaign play is unfinished.
+
+## 2026-10-11: live class-parser entry and tag dispatch
+
+The class-type parser now executes its original prolog and flag checks from
+`306995dd`, including the fifteen-bit shift and retained carry behavior. It
+reads the live `V` byte at offset eleven, advances the actual cursor to twelve,
+and follows the original subtraction/DEC dispatch to `3069966d`. The retained
+initializer has executed 5,450 source operations. The pending class-keyword
+construction is not replaced with synthesized output.
+
+TypeScript checking and five focused allocation, byte-unknown, qualifier,
+constructor and fatal-call checks pass for both the entry checkpoint and final
+tag dispatch. The source continuation was reviewed against the captured rows.
+This change remains local; class-name output, complete startup and campaign
+completion remain unfinished. Earlier combined validation remains live.
