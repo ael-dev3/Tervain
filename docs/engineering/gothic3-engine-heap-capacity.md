@@ -1089,3 +1089,26 @@ campaign. Earlier combined revision 3244c7c5f5ffa65674b0eb09513fba0f797939fd
 continues validating independently. PR 247 remains open with its reviewed head
 fc7457deae4ab66310a74d600d0496f61685d1ff and active CI; the paginated Actions
 audit found its run active, so no duplicate run or merge was performed.
+
+## Local continuation — 11 October 2026: original class-type parser returns
+
+The append publishes its actual list in the class parsed value, passes the
+actual name node to the captured list appender, verifies the original NULL tail
+and links that node through the list's physical tail field. The append restores
+its registers and returns through the real class caller. The class parser
+copies the resulting list into its caller's output with the original masked
+value constructor, restores its frame, and returns to `3069b52d` after 6,736
+admitted operations. The remaining arena capacity stays 3,952 bytes.
+
+Typechecking, eight focused runtime checks, a new interrupted name-link check
+and six browser-service checks pass. Interrupting the link leaves the actual
+class list published, its tail NULL, allocations live, locks held and the
+original append call pending. Earlier constructor and copy interruption checks
+remain passing. This checkpoint is local. Basic-type continuation, complete
+startup and the finishable campaign remain unfinished.
+
+Separately, PR 247 passed run 38117276412 and was merged into main as
+`9adc29dbac2d025c82bae033a9028c7023922238`. Its deployment run 38117866407
+is active; deployment success and browser observation are not claimed. The
+combined cache-append revision 3244c7c5f5ffa65674b0eb09513fba0f797939fd
+continues validation independently and does not cover this class return.
