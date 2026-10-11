@@ -1,4 +1,5 @@
 import { loadBakedTextures } from './bakedTextures';
+import type { CameraCrown } from './cameraCrowns';
 import { buildFurniture, deferredFurniture, loadFurniture, type FurnitureTemplates } from './furniture';
 import { InteriorLight } from './interiorLight';
 import { WINDOW_VIEW_SIZE, WindowView } from './windowView';
@@ -540,6 +541,18 @@ export class WorldScene {
   }
 
   /** Renderer work the ground cover needs before the frame is drawn (the grass interaction field). */
+  /** Draw the grass and water fields' passes once before the world opens (A80): they are drawn off the scene. */
+  warmPasses(renderer: THREE.WebGLRenderer) {
+    this.groundcover?.warm(renderer);
+    this.water.warm(renderer);
+  }
+
+  /** The tree crowns near (x, z) the follow camera keeps out of (A82). */
+  crownsNear(x: number, z: number, r: number): readonly CameraCrown[] {
+    const forest = this.modules.find((m) => m.name === 'forest')?.module as { crownsNear?(x: number, z: number, r: number): readonly CameraCrown[] } | undefined;
+    return forest?.crownsNear?.(x, z, r) ?? [];
+  }
+
   prepareGrass(renderer: THREE.WebGLRenderer, dt: number) {
     this.groundcover?.prepare(renderer, dt);
   }

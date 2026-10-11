@@ -149,6 +149,24 @@ export class RippleField {
     renderer.render(this.scene, this.camera);
   }
 
+  /**
+   * Prepare the passes ahead of their first use (A80), each drawn once into the target it draws into. The shift runs
+   * only once the focus has moved some metres, so its first draw stalled a frame of play by 0.1-0.2 s.
+   */
+  warm(renderer: THREE.WebGLRenderer) {
+    if (!GPU.halfTargets || this.disposed) return;
+    const oldTarget = renderer.getRenderTarget();
+    try {
+      // Drawn once, not only compiled (the driver's first-draw work); the field is cleared before its first real step.
+      for (const [material, target] of [[this.stepMaterial, this.state[1]], [this.shiftMaterial, this.state[1]], [this.displayMaterial, this.display]] as const) {
+        this.quad.material = material; renderer.setRenderTarget(target); renderer.render(this.scene, this.camera);
+      }
+      this.cleared = false;
+    } finally {
+      renderer.setRenderTarget(oldTarget);
+    }
+  }
+
   /** Follow the player, advance the solve at its own fixed rate, and refresh the readable field. */
   update(renderer: THREE.WebGLRenderer, focusX: number, focusZ: number, dt: number) {
     if (!GPU.halfTargets) return;

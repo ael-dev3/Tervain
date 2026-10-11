@@ -27,9 +27,14 @@ export class FrameClock {
   private hidden = false;
   private carry = 0;
   private fresh = false;
+  private settling = 0;
 
-  /** Loading may span many frames without advancing simulation. Start with a fresh baseline afterward. */
-  reset() { this.last = null; }
+  /**
+   * Loading may span many frames without advancing simulation. Start with a fresh baseline afterward. `settle` frames
+   * after it count one step at most however long they took (A80): the page's first paints after the loading screen are
+   * slow, and that time is the page's, not the world's to catch up.
+   */
+  reset(settle = 0) { this.last = null; this.settling = settle; }
 
   setHidden(hidden: boolean) {
     if (hidden === this.hidden) return;
@@ -52,7 +57,8 @@ export class FrameClock {
       return null;
     }
     const interval = (now - previous) / 1000;
-    this.carry += Math.min(SIM_CATCH_UP, interval);
+    this.carry += Math.min(this.settling > 0 ? SIM_STEP : SIM_CATCH_UP, interval);
+    if (this.settling > 0) this.settling--;
     const steps = Math.max(this.fresh ? 1 : 0, Math.min(SIM_MAX_STEPS, Math.floor(this.carry / SIM_STEP + 1e-9)));
     this.fresh = false;
     this.carry = Math.min(SIM_STEP, Math.max(0, this.carry - steps * SIM_STEP));

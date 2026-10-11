@@ -10,6 +10,7 @@ import { buildFallingLeaves } from './fallingLeaves';
 import { createPineForest, isPineSpecies, type PineTemplates } from './solitaryPine';
 import { groundedTreeY, treeWoodCollisionRadius } from './treeGrounding';
 import { PlantedCrownIndex } from './plantedCrowns';
+import { CROWN_FLOOR, CrownIndex, type CameraCrown } from './cameraCrowns';
 import { attachInstanceDistanceVisibility, smoothDistanceFade, type InstanceDistanceVisibility } from './distanceVisibility';
 import type { PhysicalWoodGeometry } from '../world/physicsGeometry';
 import { FOLIAGE_RESPONSE, type FoliageResponse } from './foliage/foliageWind';
@@ -73,6 +74,8 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
   strike(x: number, y: number, z: number, strength?: number, treeId?: string): boolean;
   /** Draw the full-detail trees with their middle models until the returned function is called (A76). */
   lighterForReflection(): () => void;
+  /** The leafy crowns near (x, z), for the follow camera to keep out of (A82). */
+  crownsNear(x: number, z: number, r: number): readonly CameraCrown[];
 } {
   const { terrain, colliders, quality, sway, excl } = ctx;
   const group = new THREE.Group();
@@ -179,6 +182,18 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
       batches.push(b);
     }
     b.trees.push(t);
+  }
+  // Each leafy tree's crown, placed as its instance is (A82).
+  const cameraCrowns = new CrownIndex();
+  for (const b of batches) {
+    const leaf = b.variant.lods[0]?.leaf;
+    if (!leaf) continue;
+    const crown = crownOf(leaf);
+    for (const t of b.trees) {
+      const cos = Math.cos(t.yaw), sin = Math.sin(t.yaw), cx = crown.centre.x * t.s, cz = crown.centre.z * t.s;
+      cameraCrowns.add({ x: t.x + cx * cos + cz * sin, y: t.y + crown.centre.y * t.s, z: t.z - cx * sin + cz * cos,
+        h: crown.horizontal * t.s, v: crown.vertical * t.s, floor: t.y + CROWN_FLOOR });
+    }
   }
   const white = new THREE.Color();
   let triangles = 0;
@@ -460,6 +475,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
       if (variant.lods[0].leaf && burst) burst.release(tree.x, tree.y + height * 0.62, tree.z, Math.max(0.5, height * 0.28), Math.round(3 + amp * 7));
       return true;
     },
+    crownsNear: (x, z, r) => cameraCrowns.near(x, z, r),
     treeAt(x, z, reach = 0.6) {
       let best: { x: number; z: number; height: number; scale: number; leafy: boolean } | null = null;
       let bestD = Infinity;

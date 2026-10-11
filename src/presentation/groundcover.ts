@@ -18,6 +18,8 @@ export interface Groundcover extends SceneModule {
   setMovers(movers: readonly GrassMover[]): void;
   /** Renderer work before the frame is drawn: the interaction field. */
   prepare(renderer: THREE.WebGLRenderer, dt: number): void;
+  /** Prepare the interaction field's passes ahead of their first use (A80). */
+  warm(renderer: THREE.WebGLRenderer): void;
 }
 
 /** Ground cover: the grass. Presentation only. */
@@ -56,6 +58,7 @@ export function buildGroundcover(ctx: BuildContext): Groundcover {
       trample?.setMovers([{ x: f.focus.x, z: f.focus.z, radius: 0.55, weight: 0.75, vx: jump ? 0 : vx, vz: jump ? 0 : vz }, ...others], f.focus.x, f.focus.z);
       field.update(cam);
     },
+    warm(renderer) { trample?.warm(renderer); },
     prepare(renderer, dt) {
       if (!trample || reduced || !Number.isFinite(focus.x)) return;
       trample.update(renderer, focus.x, focus.z, dt);

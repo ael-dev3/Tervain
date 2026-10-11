@@ -150,4 +150,25 @@ describe('grass brush stamps between fixed GPU steps', () => {
       expect((field as unknown as { pendingStamps: GrassMover[] }).pendingStamps).toHaveLength(0);
     } finally { field.dispose(); previous.dispose(); }
   });
+
+  it('draws both its passes once into its own target ahead of their first use, and puts the step pass back (A80)', () => {
+    const field = new GrassTrample(16, 100);
+    const half = GPU.halfTargets;
+    const target = new THREE.WebGLRenderTarget(4, 4);
+    let current: THREE.WebGLRenderTarget | null = target;
+    const compiled: THREE.Material[] = [], targets: (THREE.WebGLRenderTarget | null)[] = [];
+    const renderer = {
+      getRenderTarget: () => current, setRenderTarget: (t: THREE.WebGLRenderTarget | null) => { current = t; },
+      render: (scene: THREE.Scene) => { compiled.push((scene.children[0] as THREE.Mesh).material as THREE.Material); targets.push(current); },
+    } as unknown as THREE.WebGLRenderer;
+    try {
+      GPU.halfTargets = true;
+      field.warm(renderer);
+      expect(new Set(compiled).size).toBe(2);
+      expect(targets.every((t) => t && t !== target)).toBe(true);
+      expect(current).toBe(target);
+      const quad = (field as unknown as { quad: THREE.Mesh; stepMaterial: THREE.Material });
+      expect(quad.quad.material).toBe(quad.stepMaterial);
+    } finally { GPU.halfTargets = half; field.dispose(); target.dispose(); }
+  });
 });

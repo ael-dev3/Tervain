@@ -4,6 +4,7 @@ import type { Terrain } from '../world/terrain';
 import { BUILDINGS, LIGHTHOUSE, PLACES } from '../world/layout';
 import { CAMERA_CLEARANCE, cameraColliderEntry } from './cameraObstruction';
 import { RIDE_CAMERA } from './riding';
+import { crownBoom, type CameraCrown } from './cameraCrowns';
 
 const MAX_RECOIL = 0.04;
 
@@ -25,6 +26,8 @@ export class CameraRig {
   pitch = 0.32;
   /** A little more room for the road and construction around the figure, without automatic zoom or bob. */
   wantDist = 6.2;
+  /** The tree crowns near a point, kept out of by the follow camera (A82); none when unset. */
+  crowns: ((x: number, z: number, r: number) => readonly CameraCrown[]) | null = null;
   private curDist = 6.2;
   private target = new THREE.Vector3();
   private smoothTarget = new THREE.Vector3();
@@ -193,9 +196,16 @@ export class CameraRig {
       }
       previous = d;
     }
-    // Shorten instantly; lengthen slowly.
+    // A82: a tree's crown is not a wall, but from inside it the tree is a screen of coarse branches. The boom is drawn
+    // in, quickly but not at once, to keep the camera out of a crown's core, and lets out slowly as before.
+    const crowned = this.crowns
+      ? crownBoom(this.followPivot, { x: dirX, y: dirY, z: dirZ }, boomDistance, this.crowns(this.followPivot.x, this.followPivot.z, boomDistance))
+      : boomDistance;
+    const target = Math.min(allowed, crowned);
+    // Shorten instantly for walls and ground; lengthen slowly.
     if (allowed < this.curDist) this.curDist = allowed;
-    else this.curDist += (allowed - this.curDist) * (1 - Math.exp(-dt * 1.6));
+    if (target < this.curDist) this.curDist += (target - this.curDist) * (1 - Math.exp(-Math.max(0, dt) * 7));
+    else this.curDist += (target - this.curDist) * (1 - Math.exp(-dt * 1.6));
     const cx = this.followPivot.x + dirX * this.curDist;
     let cy = this.followPivot.y + dirY * this.curDist;
     const cz = this.followPivot.z + dirZ * this.curDist;
