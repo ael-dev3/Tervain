@@ -719,3 +719,20 @@ constructor and fatal-call regression checks pass. The extracted prefix was
 reviewed against its unchanged original operations. This work remains local;
 class text-node construction, complete startup and campaign play are unfinished.
 Earlier combined validation remains running in its frozen checkout.
+
+## 2026-10-11: live class text-node allocation and construction prefix
+
+The actual warm arena now returns a 16-byte class text node at offset 4,020,
+reducing its remaining payload to 4,016. The original initializer passes the
+actual node, literal and six-character length to `30697364`. Its shared text
+constructor prefix stores the retained vtable reference and known zero field,
+then reaches `3069739f -> 30696bf0` for character storage after 5,558 operations.
+The class node belongs to the same live second-property arena; character storage
+and the constructor return remain pending.
+
+TypeScript checking and five distinct focused checks pass. The first run's two
+normal-path expectations used a count one instruction too low; both pass after
+correcting the count and adding node-ownership, zero-field and call-return checks.
+The qualifier, original constructor and fatal-call checks passed unchanged.
+The shared prefix was reviewed against the captured instructions. This change is
+local; complete startup and campaign completion remain unfinished.
