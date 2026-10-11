@@ -1133,7 +1133,19 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
               decorated('3069aaee',()=>stack.#logicalFlags(qualifier,255,1));decorated('3069aaf0',()=>stack.#store(stack.#stack,relative(-36),register('EDI')));
               decorated('3069aaf3',()=>{const at=relative(-1);stack.#invalidateRange(stack.#stack,at,1);NativeHeapObjectViews.prototype.writeUnsigned.call(stack.#stack,at,0,1);});
               decorated('3069aaf7',()=>{if(qualifier===0)throw new Error('Original empty decorated-type branch remains pending');});decorated('3069aafd',()=>stack.#arithmeticFlags(qualifier,36,(qualifier-36)&255,1,true));decorated('3069aaff',()=>{if(qualifier===36)throw new Error('Original extended decorated-type branch remains pending');});
-              stack.#engineCinitFrame!.pc='3069ab34';return known(undefined);
+              decorated('3069ab34',()=>setRegister('EAX',stack.#load(constructed.config,12)));
+              decorated('3069ab39',()=>{const r=stack.#record(register('EAX')),p=r.provenance;if(p?.kind!=='engine-image'||p.crt!==crt||p.fields!==image('visualAnimationSecondTypeInfo')||p.offset!==10)throw new Error('Actual retained qualifier pointer required');qualifier=NativeHeapObjectViews.prototype.readUnsigned.call(p.fields,p.offset,1);setRegister('EAX',stack.#mint(((r.value&0xffffff00)|qualifier)>>>0,((r.mask&0xffffff00)|255)>>>0));});
+              decorated('3069ab3b',()=>{setRegister('ECX',stack.#mint(0,0xffffffff));stack.#logicalFlags(0,0xffffffff,4);});decorated('3069ab3d',()=>stack.#arithmeticFlags(qualifier,65,(qualifier-65)&255,1,true));
+              decorated('3069ab3f',()=>setRegister('ECX',stack.#mint((qualifier<<24>>24)<65?1:0,0xffffffff)));
+              decorated('3069ab42',()=>typePrefix.localAnd(-16,stack.#numeric(register('ESI'),4)));decorated('3069ab45',()=>setRegister('EBX',stack.#mint((qualifier<<24>>24)>>>0,0xffffffff)));
+              decorated('3069ab48',()=>stack.#push(stack.#mint(32,0xffffffff)));decorated('3069ab4a',()=>stack.#store(stack.#stack,relative(-20),register('EDI')));
+              const subtract=(name:'ECX'|'EBX'|'EAX',value:number,preserveCarry=false)=>{const flags=stack.#record(stack.#load(stack.#bank,36)),a=stack.#numeric(register(name),4),r=(a-value)>>>0;setRegister(name,stack.#mint(r,0xffffffff));stack.#arithmeticFlags(a,value,r,4,true);if(preserveCarry){const updated=stack.#record(stack.#load(stack.#bank,36));stack.#flags((updated.value&~1)|(flags.value&1),(updated.mask&~1)|(flags.mask&1));}};
+              decorated('3069ab4d',()=>subtract('ECX',1,true));decorated('3069ab4e',()=>{const r=stack.#numeric(register('ECX'),4)&43;setRegister('ECX',stack.#mint(r,0xffffffff));stack.#logicalFlags(r,0xffffffff,4);});
+              decorated('3069ab51',()=>{const a=stack.#numeric(register('ECX'),4),r=(a+22)>>>0;setRegister('ECX',stack.#mint(r,0xffffffff));stack.#arithmeticFlags(a,22,r,4,false);});decorated('3069ab54',()=>subtract('EBX',stack.#numeric(register('ECX'),4)));
+              decorated('3069ab56',()=>typePrefix.localAnd(-24,stack.#numeric(register('ESI'),4)));decorated('3069ab59',()=>stack.#store(stack.#stack,relative(-28),register('EDI')));decorated('3069ab5c',()=>pop('ESI'));
+              decorated('3069ab5d',()=>setRegister('EAX',register('EBX')));decorated('3069ab5f',()=>subtract('EAX',4));decorated('3069ab62',()=>{if(stack.#numeric(register('EAX'),4)===0)throw new Error('Original qualifier-four branch remains pending');});
+              decorated('3069ab68',()=>subtract('EAX',1,true));decorated('3069ab69',()=>{if(stack.#numeric(register('EAX'),4)===0)throw new Error('Original qualifier-five branch remains pending');});decorated('3069ab6b',()=>subtract('EAX',3));decorated('3069ab6e',()=>{if(stack.#numeric(register('EAX'),4)===0)throw new Error('Original qualifier-eight branch remains pending');});
+              stack.#engineCinitFrame!.pc='3069acb5';return known(undefined);
             }
             return known(undefined);
           }

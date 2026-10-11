@@ -610,3 +610,9 @@ operations. Typechecking, five focused checks and a qualifier-unknown failure
 check pass. The failure stops at the actual byte read with the caller and first
 property retained. Remaining decoder execution, startup and campaign are
 unfinished; this continuation remains local.
+
+The original qualifier normalization now selects `3069acb5` after 5,005
+operations. Typechecking, six focused checks and one register-result check pass.
+Signed comparison, arithmetic, masks and DEC carry preservation are retained.
+The next cursor advance and temporary-constructor dependency, complete startup
+and campaign remain unfinished and local.

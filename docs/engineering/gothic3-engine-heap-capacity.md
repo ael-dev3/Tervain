@@ -461,3 +461,19 @@ The initial failure fixture used an incorrect image length and was corrected to
 identify the actual name bytes and second qualifier read. No unknown mask is
 repaired. Remaining qualifier decoding, full startup, deployment and campaign
 completion remain unfinished; earlier combined validation is still running.
+
+### Original qualifier normalization and dispatch — 11 October 2026
+
+The captured decoder now executes its signed qualifier comparison, SETL,
+normalization arithmetic, local masks, register transfers and conditional
+branches. The original `A` qualifier normalizes to zero and reaches `3069acb5`
+after 5,005 admitted operations. EAX retains the actual dispatch subtraction
+result `0xfffffff8`; ESI retains 32 from the original PUSH/POP pair. DEC preserves
+carry, and the parser's original name cursor remains retained.
+
+Typechecking and six focused runtime/browser/failure checks pass, followed by
+one targeted check of those register results. The original byte-unknown failure
+still stops at its decoder read. The next captured branch advances the cursor
+and calls `306976b2`; that continuation needs implementation. Earlier combined
+full-suite validation remains running. Full startup, deployment of this local
+continuation and campaign completion remain unfinished.
