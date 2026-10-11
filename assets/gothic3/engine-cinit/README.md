@@ -1190,3 +1190,22 @@ checks passed in 30.64 seconds. The preceding wider selection passed 75 checks
 and found one scalar-provenance assertion mismatch, corrected before the final
 focused pass. These local changes are not deployed, and do not prove complete
 engine startup or playable campaign integration.
+
+
+### 2026-10-11: original class-name length and allocation caller
+
+The retained StringLength follows the actual list head and tail and dispatches
+through the protected virtual tables. The list virtual method tail-calls the
+original length routine on its arena value; both text nodes return their live
+length words. Their actual sum is 14. NameParser adds the terminator, stores 15
+in its configuration, aligns the request to 16, and calls its retained allocator.
+Execution now stops at `30672ec7` after 7,176 admitted operations, before a
+second output allocation or writer return has been produced.
+
+Canonical allocation proofs cover the nested arena receiver and node extents;
+physical calls and saved registers are retained. External changes to a stored
+class-prefix length stop at `30696ec5` with the virtual caller pending. Three
+normal/fidelity checks passed in 13.02 seconds, this interruption check passed
+in 8.96 seconds, and six browser startup checks passed in 25.34 seconds.
+TypeScript checking passed. These local checks do not prove full engine startup,
+world activation, or campaign completion; this continuation is not deployed.
