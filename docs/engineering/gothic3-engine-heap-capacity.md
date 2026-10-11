@@ -2596,3 +2596,28 @@ both link-interruption checks passed. All ten distinct runtime checks therefore
 have passing evidence across these runs. Output release, type-name return,
 complete startup and a finishable browser campaign remain outstanding. This
 checkpoint is local and has not been deployed.
+
+
+## Local continuation — 11 October 2026: reference-base type-name cleanup and return
+
+The original caller releases its actual temporary 24-byte undecoration output,
+runs the lock-14 finally helper, reloads the live 22-byte cache pointer and
+executes its EH epilog and wrapper return. It returns through the physical
+reference-base caller at `30076778` after 17,988 admitted operations. The cache
+node and text remain live and linked; both locks are released. The restored
+ESI retains the actual initializer cursor owner and offset. The released
+output no longer grants canonical allocation access.
+
+Unavailable output release preserves the live output and held lock. Unavailable
+unlock preserves the freed-output state, live published cache and held lock.
+Both cases retain the pending property caller. The cleanup/return span matches
+the captured camera continuation with only its original caller return address
+changed from `30076708` to `30076778`.
+
+Typechecking and six browser startup checks pass locally. Eleven of twelve
+selected runtime checks passed initially; the normal check then passed after
+updating its remaining pending-return assertion and checking actual restored
+ESI. All twelve distinct selected checks have passing evidence across the runs.
+The SharedBase UnMangle conversion, property CString construction, shutdown
+registration, complete startup and finishable campaign remain outstanding.
+This checkpoint is local and has not been deployed.
