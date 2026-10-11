@@ -1898,3 +1898,21 @@ including unknown qualifier and unavailable cold arena cases. Six browser
 startup checks passed across two files. Original source packages are unchanged.
 This checkpoint is local, not deployed, and does not prove complete startup or
 campaign completion with persistence.
+
+
+### 2026-10-11 — original camera identifier read and copy (local)
+
+The camera scoped identifier now executes the original reader, rejects the
+nonmatching special prefixes, scans its actual RTTI until `@`, allocates its
+text node/character storage and copies twelve known bytes `eCCameraBase`.
+The retained RTTI cursor is offset 24. Startup stops at `306973b7` after
+11,815 operations, with the character-copy call returned but text constructor,
+scoped parser return and complete type-string assembly still pending.
+The separate camera arena remains live; previous property roots, CStrings and
+shutdown entries remain intact. No synthetic final string or root is used.
+
+Validation: TypeScript checking passed; four focused runtime checks and all
+six browser startup checks passed. A further targeted unknown identifier-byte
+check passed, stopping at `30699315` with the original scoped caller pending
+and parser lock held. Original evidence packages are unchanged. This is local
+implementation, not deployment or complete startup/campaign evidence.
