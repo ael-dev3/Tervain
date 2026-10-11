@@ -53,6 +53,7 @@ def capture(study):
         0x3069b876: 'engineUndecorationDataTypeParser',
         0x3069aad4: 'engineUndecorationDecoratedTypeDecoder',
         0x306976b2: 'engineUndecorationQualifierTemporaryConstructor',
+        0x30697b16: 'engineUndecorationQualifiedTypeParser',
         0x30696ffb: 'engineUndecorationTemporaryConstructor',
         0x3069b738: 'engineUndecorationCompoundTypeParser',
         0x3069b3b1: 'engineUndecorationBasicTypeParser',

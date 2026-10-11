@@ -1,7 +1,7 @@
 # Engine CRT initializer evidence
 
 This package records the next dependency after Engine environment-vector return.
-It captures 72 original bodies (2908 instructions), the caller at `30677284`,
+It captures 73 original bodies (2937 instructions), the caller at `30677284`,
 the floating-point callback at `30892ac0`, and two original initializer tables.
 The C initializer table has 200 slots with 6 nonzero entries. The C++ table has
 93,705 slots with 1,963 nonzero entries; omitted entries are verified zero.
@@ -14,7 +14,7 @@ python tools/gothic3/prepare_engine_cinit_source.py --study '<study-root>' --out
 
 The generator checks the original Engine.dll hash and exact caller bytes.
 Independent regeneration produced identical JSON, SHA-256
-``c04e986893f22ccce9f4c60a3ddfc2e3779696cf288497fb29b0a2dba228ea42``.
+``4dd631602e0ab550e5360430a1c409590d8bf3794ac92bf1dcd0b6ba71dcfcc3``.
 
 The capture's `runtimeConnected: false` records evidence preparation; it grants
 no execution authority. The TypeScript continuation separately obtains a
@@ -622,3 +622,8 @@ branch executes on the retained stack slot. The caller reaches `30697b16` after
 5,026 operations. Independent regeneration matches; typechecking, fourteen
 focused checks and a targeted constructor-byte check pass. The next decoder,
 startup and campaign remain unfinished; this continuation is local.
+
+The pending qualified-value wrapper at `30697b16` is captured: 29 rows through
+RET 8 at `30697b64`. Original bytes, independent regeneration, typechecking and
+all 25 source/image checks pass. Runtime integration with value-copy and empty
+checks remains unfinished; no return or completed startup is supplied.

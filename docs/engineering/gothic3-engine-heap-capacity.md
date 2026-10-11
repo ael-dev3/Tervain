@@ -494,3 +494,21 @@ focused runtime/browser/source checks pass, followed by a targeted source-byte
 check of the constructor's entry, branch and RET. Earlier combined full-suite
 validation remains running and predates this continuation. Next decoder
 execution, full startup, deployment and campaign play remain unfinished.
+
+### Captured qualified-value wrapper dependency — 11 October 2026
+
+The pending routine at `30697b16` is now captured from the matching Engine study
+and checked against the original PE. Its complete 29-row body ends with RET 8
+at `30697b64`; instruction bytes hash to
+`eae1aa310e597134ce69be74b6253365ae768313fe00d3037fc5360cdf1fc4ae`.
+It first calls the existing value-copy dependency at `30696c93`, then checks
+empty values before selecting assignment or construction. Connecting those
+operations to this caller still requires runtime work.
+
+The evidence package now contains 73 bodies and 2,937 instructions. Independent
+JSON and TypeScript regeneration is byte-identical. Typechecking and all 25
+source/image checks pass, including entry, value-copy and empty-value calls,
+and final RET bytes. Runtime remains pending at `30697b16` after 5,026 admitted
+operations; the capture supplies no return. Earlier combined full-suite
+validation is still live. Full startup, publication and campaign play remain
+unfinished.
