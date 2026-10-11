@@ -1697,3 +1697,27 @@ This checkpoint remains local. Combined validation is still live on frozen
 `6a6de81b6f535c855a9ac8b3c12510b9186d99d5`, which predates the writer,
 cleanup and scan steps. Third-property publication, full engine startup and a
 complete browser campaign with save/reload remain unfinished.
+
+
+## 2026-10-11: original int cache construction and linkage
+
+The original type-name caller now checks its final character, obtains lock 14,
+rechecks the third RTTI cache word, and requests a fresh eight-byte cache node
+and four-byte cache text. Original character-copy instructions write `int\0`,
+return zero and publish the actual cache-text pointer in the third type info.
+The original list stores link this node to the previous cache head and publish
+it as the new head. Execution reaches `3067db62` after 9,668 source operations.
+Lock 14 remains held and the temporary output remains live. The parser arena
+has already been freed; third-property CString construction remains unfinished.
+
+TypeScript checking passed. Four focused checks passed in 17.24 seconds,
+verifying text bytes/masks, actual node/text relationships, and the live prior
+cache node. Unavailable node or text allocation retains its physical caller;
+an interrupted final-character store at `3068a88a` retains `in`, unknown
+remaining bytes, the pending copy caller and held cache lock. Six browser
+startup checks passed in 43.51 seconds. Source evidence is unchanged.
+
+This checkpoint remains local. Combined validation remains live on frozen
+`6a6de81b6f535c855a9ac8b3c12510b9186d99d5`, predating writer, cleanup, scan
+and cache stages. Third-property publication, full engine startup and complete
+browser campaign save/reload remain unfinished.
