@@ -714,7 +714,20 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
                 constructor('306974e2',()=>{const v=stack.#numeric(register('ECX'),1);stack.#invalidateRange(config,36,1);NativeHeapObjectViews.prototype.writeUnsigned.call(config,36,v,1);});constructor('306974e8',()=>pop('ESI'));constructor('306974e9',()=>pop('EBP'));
                 constructor('306974ea',()=>{const p=stack.#record(stack.#ret(20)).provenance;if(p?.kind!=='source'||p.address!=='3069b2d8')throw new Error('Actual parser constructor return required');});
                 undecorate('3069b2d8',()=>setRegister('ECX',stack.#stackWord(relative('EBP',-148))));undecorate('3069b2de',()=>stack.#call('3069b2de','3069b2e3'));
-                stack.#engineCinitFrame!.pc='3069afb8';return known(undefined);
+                const parse=(pc:string,body:()=>void)=>step(pc,body,'3069afb8');
+                parse('3069afb8',()=>stack.#push(register('EBP')));parse('3069afb9',()=>setRegister('EBP',register('ESP')));parse('3069afbb',()=>{const a=relative('ESP',0),r=a-32;setRegister('ESP',stack.#stackWord(r));stack.#arithmeticFlags(a,32,r,4,true);});
+                for(const [pc,offset] of [['3069afbe',-8],['3069afc2',-16]] as const)parse(pc,()=>{stack.#store(stack.#stack,relative('EBP',offset),stack.#mint(0,0xffffffff));stack.#logicalFlags(0,0xffffffff,4);});
+                parse('3069afc6',()=>setRegister('EAX',stack.#mint(0xfffff000,0xffffffff)));
+                for(const [pc,offset] of [['3069afcb',-4],['3069afce',-12]] as const)parse(pc,()=>{const at=relative('EBP',offset),r=stack.#record(stack.#load(stack.#stack,at)),v=(r.value&0xfffff000)>>>0,m=(r.mask|0xfff)>>>0;stack.#store(stack.#stack,at,stack.#mint(v,m));stack.#logicalFlags(v,m,4);});
+                parse('3069afd1',()=>setRegister('EAX',stack.#load(config,16)));
+                parse('3069afd6',()=>{const p=stack.#record(register('EAX')).provenance;if(p?.kind!=='engine-image'||p.crt!==crt||p.fields!==typeInfo||p.offset!==9)throw new Error('Actual retained original name pointer required');stack.#flags(0,0x841);});parse('3069afd8',()=>{});
+                let initialByte=0;parse('3069afda',()=>{const p=stack.#record(register('EAX')).provenance;if(p?.kind!=='engine-image'||p.crt!==crt||p.fields!==typeInfo)throw new Error('Actual original name byte required');initialByte=NativeHeapObjectViews.prototype.readUnsigned.call(p.fields,p.offset,1);stack.#arithmeticFlags(initialByte,63,(initialByte-63)&255,1,true);});
+                parse('3069afdd',()=>{if(initialByte===63)throw new Error('Original decorated-name special branch remains pending');});parse('3069b03b',()=>setRegister('EAX',stack.#stackWord(relative('EBP',-32))));parse('3069b03e',()=>stack.#push(register('EAX')));parse('3069b03f',()=>stack.#call('3069b03f','3069b044'));
+                const type=(pc:string,body:()=>void)=>step(pc,body,'3069a2f7');
+                type('3069a2f7',()=>stack.#push(register('EBP')));type('3069a2f8',()=>setRegister('EBP',register('ESP')));type('3069a2fa',()=>{const a=relative('ESP',0),r=a-32;setRegister('ESP',stack.#stackWord(r));stack.#arithmeticFlags(a,32,r,4,true);});type('3069a2fd',()=>stack.#push(register('ESI')));type('3069a2fe',()=>setRegister('ESI',stack.#mint(0x2000,0xffffffff)));
+                let parseFlags=0;type('3069a303',()=>{parseFlags=NativeHeapObjectViews.prototype.readUnsigned.call(config,28,4);stack.#logicalFlags(parseFlags&0x2000,0xffffffff,4);});type('3069a309',()=>stack.#push(register('EDI')));type('3069a30a',()=>{if(!(parseFlags&0x2000))throw new Error('Original undecoration type-parser alternate branch remains pending');});
+                type('3069a30c',()=>{const v=(parseFlags&0xffffdfff)>>>0;stack.#store(config,28,stack.#mint(v,0xffffffff));stack.#logicalFlags(v,0xffffffff,4);});type('3069a316',()=>setRegister('EAX',stack.#stackWord(relative('EBP',-16))));type('3069a319',()=>stack.#push(stack.#mint(0,0xffffffff)));type('3069a31b',()=>stack.#push(register('EAX')));type('3069a31c',()=>stack.#call('3069a31c','3069a321'));
+                stack.#engineCinitFrame!.pc='3069b876';return known(undefined);
               }
               stack.#engineCinitFrame!.pc='30076691';return known(undefined);
             }

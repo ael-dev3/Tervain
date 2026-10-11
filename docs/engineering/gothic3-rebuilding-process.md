@@ -4,6 +4,25 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local continuation — 11 October 2026: original name and type-parser entry
+
+The captured name parser creates its original 32-byte frame, preserves masked
+local flag bits and reads the retained `M` byte from the type-info record. Its
+normal branch calls the original type parser with its actual stack destination.
+The type parser creates another original frame, tests bit `0x2000`, clears it
+in working state and calls the original data-type parser at `3069b876` with a
+physical output pointer and zero argument. Execution stops there after 3,173
+admitted operations. The pending return is `3069a321`; lock 5 remains held.
+
+Five normal/failure checks, both parser identity/unknown-byte cases, the original
+six-argument check, all 12 source/image checks, typechecking and exact independent
+regeneration pass. The actual caller arguments retain flags `0x2800`; parser
+working state is `0x0800`. The field-kind scratch assertion now observes the live
+node call before later parser frames reuse its former stack slot. No parsed name
+or type cache has been supplied. Combined validation of predecessor `a8f295e60`
+remains live in its frozen checkout. This continuation is local; data-type parsing,
+complete startup and a finishable browser campaign remain unfinished.
+
 ## Local continuation — 11 October 2026: parser constructor return and configuration
 
 The parser constructor stores its actual caller arguments in the captured owned
