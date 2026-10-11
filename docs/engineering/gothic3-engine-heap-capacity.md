@@ -566,3 +566,269 @@ production build is now running. That revision predates this newer continuation.
 The timeout remains recorded as a full-suite failure rather than a green suite.
 Remaining decoder execution, full startup, publication and campaign completion
 remain unfinished.
+
+### Original qualifier rendering flags and plain-type branch — 11 October 2026
+
+The decoder now reads its retained configuration flags, performs the original
+SHR/NOT/TEST sequence, preserves the shift's carry and overflow semantics, and
+executes the member, volatile and const qualifier comparisons. Its normalized
+`A` value selects the original plain-type path at `3069ae9f` after 5,224 admitted
+operations. No qualifier text is inserted and no decoder return is supplied.
+Typechecking and six focused runtime/browser/failure checks pass.
+
+Earlier combined revision `31207602620c9334092b5c9ca494fd0352411a26` passed its
+production build after the isolated lighthouse check passed; its full suite's
+five-second timeout remains recorded. New combined revision
+`1b37f544b0c382868335973634c91ef1adc9a103` includes main through PR #244 and
+runtime through the preceding modifier continuation. It is running typechecking,
+a full suite with one worker to reduce contention, then a build on success.
+This newer rendering-flags continuation is not in that frozen checkout. Full
+startup, publication and campaign completion remain unfinished.
+
+### Original plain qualifier decoder return — 11 October 2026
+
+The decoder now executes the caller-mode comparison, both actual empty-argument
+checks, original qualifier flag stores, final value copy and original epilog.
+It returns to `3069b903` after 5,314 admitted operations. The returned caller
+slot is a known NULL pointer with lower twelve flag bits known and value 16.
+ESI is restored to the outer data-parser value `0x2000`; the retained name cursor
+still points beyond the decoded `A` qualifier. Parsing the remaining class name
+is unfinished; this qualifier return supplies no bCString text or startup result.
+
+The shared copy check now permits a fresh scalar read of the same physical
+unknown destination flags only when its value and mask equal the retained
+operand and current physical slot. Register identity checks and pointer checks
+remain in force. This resolves an overly strict identity comparison reached by
+the new caller, without repairing unknown bits. Typechecking and seven distinct
+focused runtime/browser/failure/regression checks pass, including a separate
+returned-output check. An unrelated fatal-call test expectation changed by a
+broad replacement was restored and passed; the outer ESI expectation was updated
+to the actual restored caller register. Combined validation remains live on the
+preceding revision. Full startup, publication and campaign play remain unfinished.
+
+### Shared compound-type prefix and original class-code caller — 11 October 2026
+
+After the qualifier return, the data parser now performs its original 20-byte
+argument cleanup, assigns the live qualifier output, and follows the common
+compound-type call. The compound prolog and dispatch arithmetic are shared with
+the first float path. The second call reads the original `V` byte at type-info
+offset eleven, preserves its live cursor, and reaches `3069b770 -> 3069b3b1`
+after 5,388 admitted operations. EAX contains the actual dispatch subtraction
+result 20; the basic-type call remains pending.
+
+Typechecking and six distinct focused runtime/browser/failure checks pass. The
+normal check confirms the returned qualifier assignment, pending basic-type
+caller and original class-code byte. Obsolete reads of the earlier decoder's
+argument slots were removed after the new compound frame reused that storage.
+The earlier float constructor and byte-unknown qualifier checks remain passing.
+Combined validation is still live on the earlier revision. Class-name decoding,
+complete startup, publication and campaign play remain unfinished.
+
+## 2026-10-11: original class-code basic parser entry
+
+The shared basic-type prefix now executes nineteen original instructions for
+both the completed float path and the second property. The second path reads
+`V` (86) from the original type-info at offset eleven, advances its live cursor
+to twelve, and follows the original signed `JG` to `3069b43a`. The retained
+initializer has executed 5,407 source operations. Its basic-type caller remains
+pending; this checkpoint does not supply a decoded class name.
+
+TypeScript checking and five distinct focused checks pass: the retained
+MemoryAdmin allocation path, unknown final CString byte, unknown decorated
+qualifier, parser constructor and fatal PTD call. The diff was inspected.
+Combined validation remains live on an earlier revision. This continuation is
+local; complete startup, publication and campaign completion remain unfinished.
+
+## 2026-10-11: original class-code fallback dispatch
+
+The second property's original upper basic-type comparisons now select the
+fallback at `3069b5d6`. The actual local destination is passed on the retained
+stack, the live cursor is decremented from twelve to eleven, and the original
+call `3069b528 -> 306995dd` remains pending after 5,421 admitted operations.
+The new continuation does not synthesize class-name output or return the call.
+
+TypeScript checking and five focused allocation, byte-unknown, qualifier,
+constructor and fatal-call regression checks pass. The source diff was reviewed.
+Combined validation is still live on its earlier frozen revision. This work is
+local; the class parser body, complete startup and full campaign remain unfinished.
+
+## 2026-10-11: original class-type parser evidence
+
+Captured `UnDecorator::getECSUDataType` at `306995dd-306996dc` from the matching
+reference binary and disassembly: 91 instructions, 256 bytes, instruction hash
+`7c1bb22e3048ef88118274d8c75d3ad3f61b8f9da92e6b6bc2e80891f9dd470c`.
+The evidence package now contains 74 Engine bodies and 3,028 instructions.
+Independent JSON and TypeScript regeneration are byte-identical. Structural
+comparison confirms the new method is the only evidence-package change.
+
+TypeScript checking and all 26 source/image checks pass. Runtime remains pending
+at this parser's entry after 5,421 operations; capturing its body does not execute
+it or establish startup. This work remains local. Full campaign play is unfinished.
+
+## 2026-10-11: live class-parser entry and tag dispatch
+
+The class-type parser now executes its original prolog and flag checks from
+`306995dd`, including the fifteen-bit shift and retained carry behavior. It
+reads the live `V` byte at offset eleven, advances the actual cursor to twelve,
+and follows the original subtraction/DEC dispatch to `3069966d`. The retained
+initializer has executed 5,450 source operations. The pending class-keyword
+construction is not replaced with synthesized output.
+
+TypeScript checking and five focused allocation, byte-unknown, qualifier,
+constructor and fatal-call checks pass for both the entry checkpoint and final
+tag dispatch. The source continuation was reviewed against the captured rows.
+This change remains local; class-name output, complete startup and campaign
+completion remain unfinished. Earlier combined validation remains live.
+
+## 2026-10-11: original class-keyword literal ownership
+
+Captured the seven original bytes `636c6173732000` (`class ` plus terminator)
+at `3089f408`. The Engine image owner retains them as read-only evidence and
+rejects modified bytes and unknown masks. Independent JSON and TypeScript
+regeneration are byte-identical; structural comparison confirms the new literal
+is the only evidence-package change. TypeScript checking and all 28 source/image
+checks pass. Runtime remains pending at `3069966d`, with 5,450 operations.
+This local evidence capture does not construct the name or prove startup.
+Complete startup and browser campaign completion remain unfinished.
+
+## 2026-10-11: shared original string-constructor prefix
+
+The class parser now passes the retained `class ` literal and its actual local
+destination to `30699683 -> 30697a0f`. The original string constructor's prefix
+is shared with the existing float path. It reads the actual bytes, counts six
+characters, and passes the live literal and length to `30697a2e -> 3069760c`.
+The initializer reaches 5,483 source operations; string initialization remains
+pending. No class text node or final decoded name is fabricated.
+
+TypeScript checking and five focused allocation, unknown-byte, qualifier,
+constructor and fatal-call checks pass. The extracted prefix and its retained
+first-path continuation were reviewed. This change remains local; complete
+startup and campaign completion remain unfinished. Earlier combined validation
+is still running in its frozen checkout.
+
+## 2026-10-11: original class string-initialization prefix
+
+The shared original initializer checks the live class value's kind and NULL
+node, reads its retained literal and six-character length, and reaches the
+16-byte text-node allocation at `3069765e -> 30696bf0`. The retained initializer
+has executed 5,512 source operations. The existing float path uses the same
+prefix; the arena allocation remains pending for the class path.
+
+TypeScript checking and five focused allocation, unknown-byte, qualifier,
+constructor and fatal-call regression checks pass. The extracted prefix was
+reviewed against its unchanged original operations. This work remains local;
+class text-node construction, complete startup and campaign play are unfinished.
+Earlier combined validation remains running in its frozen checkout.
+
+## 2026-10-11: live class text-node allocation and construction prefix
+
+The actual warm arena now returns a 16-byte class text node at offset 4,020,
+reducing its remaining payload to 4,016. The original initializer passes the
+actual node, literal and six-character length to `30697364`. Its shared text
+constructor prefix stores the retained vtable reference and known zero field,
+then reaches `3069739f -> 30696bf0` for character storage after 5,558 operations.
+The class node belongs to the same live second-property arena; character storage
+and the constructor return remain pending.
+
+TypeScript checking and five distinct focused checks pass. The first run's two
+normal-path expectations used a count one instruction too low; both pass after
+correcting the count and adding node-ownership, zero-field and call-return checks.
+The qualifier, original constructor and fatal-call checks passed unchanged.
+The shared prefix was reviewed against the captured instructions. This change is
+local; complete startup and campaign completion remain unfinished.
+
+## 2026-10-11: original class character allocation and copy return
+
+The warm arena now allocates six requested character bytes in an eight-byte
+slot at offset 4,012, reducing remaining payload to 4,008. The original text
+constructor publishes its live character reference and length six, then the
+shared original copy loop writes exactly `class ` and returns to `306973b7`.
+The initializer reaches 5,642 admitted operations. The text-node constructor
+and outer class parser remain pending; no complete type name is claimed.
+
+TypeScript checking and five focused allocation, unknown-byte, qualifier,
+constructor and fatal-call checks pass. The normal check verifies all six
+written bytes and masks, length, live arena ownership and both allocation/copy
+returns. The copy extraction was inspected; the existing first-path node input
+range and pointer checks remain retained. This change is local. Complete startup
+and browser campaign completion remain unfinished.
+
+## 2026-10-11: original class keyword constructor returns
+
+The shared original text-node, initializer and string-constructor epilogs now
+return to `30699688` using the retained call frames and real return addresses.
+The class parser then clears its next local value and flag bits, reaching
+`3069968f` after 5,663 admitted operations. The actual six-byte `class ` keyword
+and length remain in the live arena. The `bCString` name has not been appended
+and the class parser itself remains pending.
+
+TypeScript checking and five focused allocation, unknown-byte, qualifier,
+constructor and fatal-call checks pass. The normal check now requires the class
+constructor call to have returned, retains arena byte and length checks, and
+observes the restored ESI. Earlier temporary register ownership expectations
+were updated for the real epilog restores. The shared return sequence was
+reviewed against its original instructions. This continuation remains local;
+complete startup and browser campaign completion are unfinished.
+
+## 2026-10-11: original class keyword assignment and scoped-name call
+
+The class parser now tests its live keyword flag, assigns the constructed value
+through the original `3069969a -> 30696da9` call, and reaches
+`306996a3 -> 306994ea` (`UnDecorator::getScopedName`) after 5,716 source operations.
+The assignment checks the actual text-node arena and offset before storing its
+reference. Its original masked flag expressions and real return remain retained.
+The scoped-name call is pending; the final `bCString` name is not supplied yet.
+
+TypeScript checking and five focused allocation, unknown-byte, qualifier,
+constructor and fatal-call checks pass. The normal check requires the keyword
+assignment to have returned and the scoped-name call to remain pending, while
+retaining keyword bytes, length and ownership checks. The diff was inspected.
+This change is local; complete startup and campaign completion remain unfinished.
+
+## 2026-10-11: scoped-name and identifier parser evidence
+
+Captured the original `UnDecorator::getScopedName` at `306994ea-306995cd`
+(89 instructions, 228 bytes; hash
+`27712fde99caba7288ba719a974fe8f2d99474f7e8314fc786376c1704803fc4`)
+and its immediate `getZName` dependency at `30699300-306994e9`
+(177 instructions, 490 bytes; hash
+`f5cd2a99e27cae9769e317658aa916d61482dfdf3472378b5209efe18768d4e6`).
+The package now contains 76 Engine bodies and 3,294 instructions.
+
+Independent JSON and TypeScript regeneration are byte-identical. Structural
+comparison shows exactly the two added bodies. TypeScript checking and all 29
+source/image checks pass; generator and admission-test diffs were inspected.
+Runtime remains pending at `306994ea` after 5,716 operations. These local captures
+do not execute the routines or prove complete startup or campaign completion.
+
+## 2026-10-11: original scoped-name and identifier entry
+
+The scoped-name parser now clears its actual caller output with the original
+masks and calls `30699505 -> 30699300` with its local destination and flag one.
+The identifier parser preserves the retained Engine cookie and actual EBP XOR
+relationship, reads the original `b` at type-info offset twelve, and takes the
+ordinary-name branch to `306993a2`. The initializer has executed 5,747 source
+operations. Identifier construction and both parser returns remain pending.
+
+TypeScript checking and five focused allocation, unknown-byte, qualifier,
+constructor and fatal-call checks pass for the scoped entry and final identifier
+entry. The source diff was inspected against the captured instructions. The
+normal check retains completed keyword bytes/length and pending name calls.
+This continuation is local; complete startup and campaign completion remain
+unfinished. Earlier combined validation remains running in its frozen checkout.
+
+## 2026-10-11: original identifier prefix literals and completed validation
+
+Captured `template-parameter-` plus terminator at `3089f3d4` (19 bytes)
+and `generic-type-` plus terminator at `3089f3c4` (14 bytes). The Engine image
+owner retains and protects both inputs. Independent JSON/TypeScript regeneration
+are byte-identical; structural comparison shows exactly the two added literals.
+TypeScript checking and all 31 source/image checks pass. Runtime remains pending
+at `306993a2` after 5,747 operations; the prefix comparisons are not executed yet.
+
+The earlier frozen combined revision `1b37f544b0c382868335973634c91ef1adc9a103`
+completed typechecking, all 3,569 tests across 319 files (1,709.89 seconds), and
+production build successfully. This validation covers work through the earlier
+modifier checkpoint, not the newer class and identifier continuations. The
+previous lighthouse timeout receipt remains distinct from this successful run.
+Newer work remains local. Complete startup and campaign completion are unfinished.
