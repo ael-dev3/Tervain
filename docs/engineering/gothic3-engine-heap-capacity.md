@@ -736,3 +736,19 @@ correcting the count and adding node-ownership, zero-field and call-return check
 The qualifier, original constructor and fatal-call checks passed unchanged.
 The shared prefix was reviewed against the captured instructions. This change is
 local; complete startup and campaign completion remain unfinished.
+
+## 2026-10-11: original class character allocation and copy return
+
+The warm arena now allocates six requested character bytes in an eight-byte
+slot at offset 4,012, reducing remaining payload to 4,008. The original text
+constructor publishes its live character reference and length six, then the
+shared original copy loop writes exactly `class ` and returns to `306973b7`.
+The initializer reaches 5,642 admitted operations. The text-node constructor
+and outer class parser remain pending; no complete type name is claimed.
+
+TypeScript checking and five focused allocation, unknown-byte, qualifier,
+constructor and fatal-call checks pass. The normal check verifies all six
+written bytes and masks, length, live arena ownership and both allocation/copy
+returns. The copy extraction was inspected; the existing first-path node input
+range and pointer checks remain retained. This change is local. Complete startup
+and browser campaign completion remain unfinished.
