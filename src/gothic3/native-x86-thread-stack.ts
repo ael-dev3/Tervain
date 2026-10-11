@@ -725,7 +725,7 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
                     ['30696dfc','30696dff','30696e01','30696e07','30696e09','EDX','ESI',128],
                     ['30696e0c','30696e0f','30696e11','30696e17','30696e19','ESI','EDX',2048],
                   ] as const){valueCopy(load,()=>setRegister(name,sourceFlags()));valueCopy(start,()=>xorStart(name,register(other),register(name),mask));valueCopy(maskPc,()=>xorMask(name,mask));valueCopy(finish,()=>xorFinish(name,register(other)));valueCopy(store,()=>stack.#store(destination.fields,destination.offset+4,register(name)));}
-                  valueCopy('30696e1c',()=>setRegister('ECX',stack.#load(sourceValue.fields,sourceValue.offset)));valueCopy('30696e1e',()=>stack.#store(destination.fields,destination.offset,register('ECX')));valueCopy('30696e20',()=>pop('ESI'));valueCopy('30696e21',()=>{const p=stack.#record(stack.#ret(4)).provenance;if(p?.kind!=='source'||p.address!==returned)throw new Error('Actual original type assignment return required');});return;
+                  valueCopy('30696e1c',()=>setRegister('ECX',stack.#load(sourceValue.fields,sourceValue.offset)));valueCopy('30696e1e',()=>{if(expectedNode){const p=stack.#record(register('ECX')).provenance;if(p?.kind!=='engine-allocation'||p.crt!==crt||p.fields!==expectedNode.fields||p.offset!==expectedNode.offset)throw new Error('Actual assigned original text node required');}stack.#store(destination.fields,destination.offset,register('ECX'));});valueCopy('30696e20',()=>pop('ESI'));valueCopy('30696e21',()=>{const p=stack.#record(stack.#ret(4)).provenance;if(p?.kind!=='source'||p.address!==returned)throw new Error('Actual original type assignment return required');});return;
                 }
                 valueCopy('30696c99',()=>setRegister('EDX',sourceFlags()));valueCopy('30696c9c',()=>{const r=stack.#record(register('EDX'));setRegister('EDX',stack.#mint(r.value<<28,(r.mask<<28)|0x0fffffff));stack.#flags(0,0);});valueCopy('30696c9f',()=>{const r=stack.#record(register('EDX')),signKnown=(r.mask&0x80000000)!==0;setRegister('EDX',stack.#mint(r.value>>28,(r.mask>>>28)|(signKnown?0xfffffff0:0)));stack.#flags(0,0);});
                 valueCopy('30696ca2',()=>xorStart('EDX',destinationFlags(),register('EDX'),15));valueCopy('30696ca5',()=>stack.#push(register('ESI')));valueCopy('30696ca6',()=>xorMask('EDX',15));valueCopy('30696ca9',()=>xorFinish('EDX',destinationFlags(),true));
@@ -1260,7 +1260,12 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
               runCopyCharacters('306973b7',allocation.arenaBacking,'literal',image('undecorationClassLiteral'),allocation.arenaBacking);
               runStringConstructionReturn('30699688');
               classType('30699688',()=>typePrefix.localAnd(-16,0));classType('3069968c',()=>typePrefix.localAnd(-12,0xfffff000));
-              stack.#engineCinitFrame!.pc='3069968f';return known(undefined);
+              classType('3069968f',()=>stack.#logicalFlags(stack.#numeric(register('EBX'),4),0xffffffff,4));classType('30699691',()=>{if(stack.#numeric(register('EBX'),4)===0)throw new Error('Original omitted class-keyword branch remains pending');});
+              const classSource=stack.#address(register('EBP'))-8,classDestination=stack.#address(register('EBP'))-16;
+              classType('30699693',()=>setRegister('EAX',stack.#stackWord(classSource)));classType('30699696',()=>stack.#push(register('EAX')));classType('30699697',()=>setRegister('ECX',stack.#stackWord(classDestination)));classType('3069969a',()=>stack.#call('3069969a','3069969f'));
+              runParsedValueCopy('3069969f',classDestination,classSource,{fields:allocation.arenaBacking,offset:classNodeOffset},'assign');
+              classType('3069969f',()=>setRegister('EAX',stack.#stackWord(classSource)));classType('306996a2',()=>stack.#push(register('EAX')));classType('306996a3',()=>stack.#call('306996a3','306996a8'));
+              stack.#engineCinitFrame!.pc='306994ea';return known(undefined);
             }
             return known(undefined);
           }

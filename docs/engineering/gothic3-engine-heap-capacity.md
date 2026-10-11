@@ -769,3 +769,18 @@ observes the restored ESI. Earlier temporary register ownership expectations
 were updated for the real epilog restores. The shared return sequence was
 reviewed against its original instructions. This continuation remains local;
 complete startup and browser campaign completion are unfinished.
+
+## 2026-10-11: original class keyword assignment and scoped-name call
+
+The class parser now tests its live keyword flag, assigns the constructed value
+through the original `3069969a -> 30696da9` call, and reaches
+`306996a3 -> 306994ea` (`UnDecorator::getScopedName`) after 5,716 source operations.
+The assignment checks the actual text-node arena and offset before storing its
+reference. Its original masked flag expressions and real return remain retained.
+The scoped-name call is pending; the final `bCString` name is not supplied yet.
+
+TypeScript checking and five focused allocation, unknown-byte, qualifier,
+constructor and fatal-call checks pass. The normal check requires the keyword
+assignment to have returned and the scoped-name call to remain pending, while
+retaining keyword bytes, length and ownership checks. The diff was inspected.
+This change is local; complete startup and campaign completion remain unfinished.
