@@ -44,7 +44,25 @@ their individual features; they do not establish a complete playable game.
    Actions runs, triggers and downstream workflows. Record deployment separately
    from local validation, and inspect the affected browser scenario.
 
-## Where the work lives
+## From installed files to a playable browser game
+
+The reconstruction has two connected tracks:
+
+- **Assets:** installed archives → decoded resources → meshes, textures, rigs
+  and world placement → browser rendering. Geometry alone cannot reproduce the
+  scene: materials, leaf transparency, lighting, animation and placement must
+  also agree with the original resources.
+- **Behavior:** matching executable and DLL bytes → recorded native routines
+  and data layouts → TypeScript runtime services → startup and world systems →
+  combat, dialogue, quests and saved progress.
+
+These tracks meet when a world entity uses its recovered visual resources and
+its implemented behavior in the same running scene. The final acceptance step
+is a new game played through an original campaign ending, with save/reload
+preserving that progress. Until that is demonstrated, the reconstruction is
+incomplete.
+
+## Repository folders
 
 | Repository path | Purpose |
 | --- | --- |

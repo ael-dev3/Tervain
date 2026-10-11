@@ -41,6 +41,7 @@ def capture(study):
         0x30015bef: 'engineVisualAnimationThirdPropertyType',
         0x3000d9f9: 'engineCameraBaseObjectPropertyType',
         0x300247da: 'engineObjectRefBasePropertyType',
+        0x3003251a: 'engineObsoleteClassPropertyType',
         0x306713ae: 'enginePropertyTypeNameWrapper',
         0x3067da97: 'enginePropertyTypeName',
         0x3069b26b: 'engineUndecorateName',
@@ -104,7 +105,8 @@ def capture(study):
                ('engineVisualAnimationSecondPropertyInitializer',0x307322c0,0x307322cb,3),
                ('engineVisualAnimationThirdPropertyInitializer',0x307322d0,0x307322db,3),
                ('engineCameraBaseObjectPropertyInitializer',0x307322e0,0x307322eb,3),
-               ('engineObjectRefBasePropertyInitializer',0x307322f0,0x307322fb,3)]
+               ('engineObjectRefBasePropertyInitializer',0x307322f0,0x307322fb,3),
+               ('engineObsoleteClassPropertyInitializer',0x30732300,0x3073230b,3)]
     collected={begin:[] for _,begin,_,_ in recovered}
     asm=study/'01_Decompiled_Code/Engine_dll/full_disassembly.asm'
     for number,line in enumerate(asm.open('rb'),1):
@@ -237,6 +239,13 @@ def capture(study):
             break
     else:
         raise ValueError('Unterminated original object reference base type info')
+    obsolete_class_type_info_size=8
+    for offset in range(4096):
+        obsolete_class_type_info_size+=1
+        if pe.bytes(0x30aa2a3c+8+offset,1)==b'\0':
+            break
+    else:
+        raise ValueError('Unterminated original obsolete class type info')
     images = []
     for label, address, size in [
         ('floatingPointCallback', 0x30892ac0, 4),
@@ -279,6 +288,10 @@ def capture(study):
         ('objectRefBaseRoot', 0x30ad9e28, 4),
         ('objectRefBaseStorage', 0x30ad9a10, 8),
         ('objectRefBaseTypeInfo', 0x30aa202c, object_ref_type_info_size),
+        ('obsoleteClassFlags', 0x30ad9a24, 4),
+        ('obsoleteClassRoot', 0x30ad9e24, 4),
+        ('obsoleteClassStorage', 0x30ad9a1c, 8),
+        ('obsoleteClassTypeInfo', 0x30aa2a3c, obsolete_class_type_info_size),
         ('cameraBaseObjectFlags', 0x30ad9a0c, 4),
         ('cameraBaseObjectRoot', 0x30ad9e2c, 4),
         ('cameraBaseObjectStorage', 0x30ad9a04, 8),

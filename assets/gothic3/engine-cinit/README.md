@@ -2779,3 +2779,19 @@ returns. Typechecking, seven runtime checks, 47 source/image checks and six
 browser startup checks pass locally. The earlier combined scan revision is
 still validating separately. Complete startup, world activation and a
 finishable browser campaign remain outstanding; this checkpoint is not deployed.
+
+
+## 11 October 2026: next obsolete-class initializer evidence
+
+The capture now includes `30732300` (CALL `3003251a`, root publication at
+`30ad9e24`, RET) and the 22-instruction property body at `300767b0`.
+Each instruction is checked against the pinned Engine.dll bytes. The added
+images preserve the original flags at `30ad9a24`, eight-byte storage at
+`30ad9a1c`, root at `30ad9e24`, and 30-byte RTTI record at `30aa2a3c`.
+Its decorated name is `.?AVbCObsoleteClass@@`.
+
+Typechecking and 49 source/image checks pass. Independent JSON and TypeScript
+recapture matches byte-for-byte, and removing the newly added records produces
+the prior evidence package exactly. These are source receipts; the new
+initializer is not yet executed. The runtime boundary remains `30732300`.
+Full startup, live campaign integration and an ending remain unfinished.

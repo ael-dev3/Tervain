@@ -7,6 +7,13 @@ import { NativeEngineCrtOwner, NativeGameCrtOwner } from '../../src/gothic3/nati
 import { NativeRuntimePlatform } from '../../src/gothic3/native-runtime-platform';
 import type { NativeValue } from '../../src/gothic3/dialogue';
 const fact = <T>(v: NativeValue<T>): T => { if (!v.known) throw new Error(v.reason); return v.value; };
+it('captures the original obsolete-class storage and decorated type name', () => {
+  expect(engineCinitImage('obsoleteClassFlags')).toMatchObject({address:'30ad9a24',raw:'00000000'});
+  expect(engineCinitImage('obsoleteClassRoot')).toMatchObject({address:'30ad9e24',raw:'00000000'});
+  expect(engineCinitImage('obsoleteClassStorage')).toMatchObject({address:'30ad9a1c',bytes:8,raw:'0000000000000000'});
+  expect(engineCinitImage('obsoleteClassTypeInfo')).toMatchObject({address:'30aa2a3c',bytes:30,
+    raw:'bc2a8930000000002e3f415662434f62736f6c657465436c617373404000'});
+});
 function fixture() { const platform = new NativeRuntimePlatform(), crt = new NativeEngineCrtOwner({ platform }); return { platform, crt, owner: fact(NativeEngineCinitImages.forCrt(crt)) }; }
 it('retains mutable original Engine initializer bytes without reseeding', () => {
   const { crt, owner } = fixture(), fields = fact(NativeEngineCinitImages.imageForCrt(owner, crt, 'floatConversionPointers'));
