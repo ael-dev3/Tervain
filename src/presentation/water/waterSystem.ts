@@ -152,12 +152,12 @@ export class WaterSystem {
     }
   }
 
-  /** Work that needs the renderer, once per frame before the water pass: the sky capture and the ripple solve. */
-  /** Prepare the ripple passes ahead of their first use (A80). */
+  /** Prepare the ripple passes ahead of their first use (A81). */
   warm(renderer: THREE.WebGLRenderer) {
     this.ripples?.warm(renderer);
   }
 
+  /** Work that needs the renderer, once per frame before the water pass: the sky capture and the ripple solve. */
   prepare(renderer: THREE.WebGLRenderer, scene: THREE.Scene, camera: THREE.Camera, dt: number) {
     if (this.disposed) return;
     // The sky dome is centred on the player; capture it from there so its directions are true.
