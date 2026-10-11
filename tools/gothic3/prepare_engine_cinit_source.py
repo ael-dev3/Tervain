@@ -92,6 +92,8 @@ def capture(study):
         0x306972d6: 'engineUndecorationNameReferenceAppend',
         0x30697906: 'engineUndecorationAppendValue',
         0x30697b95: 'engineUndecorationAppendCharacter',
+        0x30697d9a: 'engineUndecorationTemplateValueCombine',
+        0x30697139: 'engineUndecorationValueLastCharacter',
         0x30696ea2: 'engineUndecorationCharacterLength',
         0x30696ea6: 'engineUndecorationCharacterValue',
         0x30696eaa: 'engineUndecorationCharacterWrite',

@@ -3300,3 +3300,20 @@ active with its historical call-graph snapshot test failure, whose correction
 was separately verified and integrated. This comma continuation is local.
 Second-argument execution is in a separate checkout under validation; full
 startup and a playable new-game-to-ending campaign remain unfinished.
+
+
+## Template parent dependencies captured
+
+The original calls after the argument-list return at `30699287` now have pinned
+source evidence for `30697d9a` (qualified value combination) and `30697139`
+(last character through the original node vtable). The 43 added instructions
+are source evidence only. Every prior method and image record is unchanged,
+and both new methods match an independent DLL/disassembly capture.
+
+The Engine capture contains 194 methods and 4,607 instructions. JSON SHA-256:
+`6bc07347b0fd207359b05b72264ba23a9393379281f1ce388af86b2688b8dba1`.
+All 76 source/image checks and typechecking passed. The committed runtime in
+this checkout still stops before the second argument at `30698af1`; the
+separate second-argument checkout has passed its focused checks and 81
+source/image/browser startup checks, with property regressions still running.
+These captures and native continuations are local, not deployed.
