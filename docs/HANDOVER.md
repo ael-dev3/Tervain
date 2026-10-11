@@ -16,7 +16,8 @@ the goal, the rules, every backlog item's state, what was in progress and the ex
   [A102](engineering/a102-ninth-scout.md), [A103](engineering/a103-tenth-scout.md),
   [A104](engineering/a104-eleventh-scout.md), [A105](engineering/a105-twelfth-scout.md))
 - **Playtest faults re-checked:** crowns, branch ribbons, grass at the field fences and the palisade, and the windows
-  from inside. Each was captured on the GPU before A79 and after, from the playtest cameras; all are fixed.
+  from inside. Each was captured on the GPU before A79 and after, from the playtest cameras; all are fixed, and hold on
+  the build after A108 (A109).
 - **The pine's grey slivers** were its bark normals, repaired in A97 ([A97](engineering/a97-pine-bark-normals.md)).
 - **By design, not faults:** arrows do not harm bandits, and a dodge or blow may begin in mid-air.
 
