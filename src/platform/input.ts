@@ -55,6 +55,18 @@ export class Input {
   captureCancel: (() => void) | null = null;
   /** Set by the app when a click only exists to recapture the pointer; that click is not a gameplay press. */
   swallowClick = false;
+  /** The browser refused the last pointer-lock request (an iframe without the permission, the re-lock cooldown after
+   * Escape). Clicks then play as clicks, with drag-to-look, until a lock is granted. */
+  private refused = false;
+  get lockRefused(): boolean {
+    return this.refused && !this.locked;
+  }
+  private claimed: KeyboardEvent | null = null;
+  /** The app keeps a key's browser default from running (Tab moving focus) yet leaves the key itself to Input. */
+  claim(e: KeyboardEvent) {
+    this.claimed = e;
+    e.preventDefault();
+  }
   padAxes = { lx: 0, ly: 0, rx: 0, ry: 0 };
   private toggles: Partial<Record<Action, boolean>> = {};
   private toggledThisFrame = new Set<Action>();
@@ -85,6 +97,7 @@ export class Input {
     window.addEventListener('mousemove', this.onMouseMove);
     window.addEventListener('wheel', this.onWheel, { passive: true });
     window.addEventListener('blur', this.releaseAll);
+    if (typeof document !== 'undefined' && document.addEventListener) document.addEventListener('pointerlockerror', () => { this.refused = true; });
     window.addEventListener('contextmenu', (e) => {
       if (this.capturedContextMenu || document.pointerLockElement || (e.target as HTMLElement)?.id === 'view') e.preventDefault();
       this.capturedContextMenu = false;
@@ -107,7 +120,8 @@ export class Input {
 
   private onKeyDown = (e: KeyboardEvent) => {
     this.device = 'keyboard';
-    if (e.defaultPrevented || e.isComposing) return;
+    if ((e.defaultPrevented && e !== this.claimed) || e.isComposing) return;
+    this.claimed = null;
     if (this.captureNext) {
       e.preventDefault();
       // A held conflicting key cannot act as the second confirmation press; the player must release and press it again.
@@ -402,10 +416,14 @@ export class Input {
 
   requestPointerLock() {
     try {
-      const p = this.target.requestPointerLock?.() as unknown;
-      if (p && typeof (p as Promise<void>).catch === 'function') (p as Promise<void>).catch(() => undefined);
+      // Each request is a new chance: the refusal it may meet (an error event or a rejected promise) is noted again.
+      this.refused = !this.target.requestPointerLock;
+      if (this.refused) return;
+      const p = this.target.requestPointerLock() as unknown;
+      if (p && typeof (p as Promise<void>).catch === 'function') (p as Promise<void>).catch(() => { this.refused = true; });
     } catch {
       /* pointer lock refused; drag-to-look still works */
+      this.refused = true;
     }
   }
 

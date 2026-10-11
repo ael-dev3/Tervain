@@ -28,8 +28,9 @@ small synthetic files only, never game data.
 
 ## Not changed, pending evidence
 
-- **The "highest quality" stack search starts from zero**, so a stack of negative quality is never chosen. This may be
-  the original game's own behaviour, so it is left until the original code settles it.
+- **The "highest quality" stack search starts from zero**, so a stack of negative quality is never chosen. This
+  has no effect today, since nothing in the reconstruction asks for the highest quality. The starting value stays as
+  written until the original code settles it.
 - **A delivery dialogue whose first command is a Description might skip its delivery.** No such dialogue is known, and
   what the original does there is unproven.
 

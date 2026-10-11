@@ -250,7 +250,9 @@ export class App {
     }, { passive: true });
     this.canvas.addEventListener('mousedown', () => {
       if (this.mode === 'play' && this.overlay === 'none' && !this.input.locked) {
-        this.input.swallowClick = true;
+        // While the browser refuses the lock, a click is a gameplay press (attack, block): swallowing it would leave the
+        // mouse unable to fight at all. The lock is still asked for, and taken when granted.
+        if (!this.input.lockRefused) this.input.swallowClick = true;
         this.wantLock();
       }
     });
@@ -467,6 +469,9 @@ export class App {
       const ambient = this.world.modules?.find((m) => m.name === 'ambient')?.module as { awaiting?: AwaitingFigure[] } | undefined;
       for (const figure of ambient?.awaiting ?? []) this.arrivals.add(figure);
       this.interactables = buildInteractables(this);
+      // A new world must know who is in the archive before its door and shutter close: one rebuilt with the player inside
+      // a reported archive locked them in (A93 scout).
+      this.world.playerInArchive = this.archiveWasOccupied = this.world.insideArchive(this.player.x, this.player.z);
       this.syncWorldFromState(true);
       // Settle any provisional hero/procedural-tool sheets; imported NPC surfaces are already baked and loaded.
       await sheetsSettled();
@@ -835,12 +840,19 @@ export class App {
           await this.prepareMenuGraphics();
           continue;
         }
+        const riding = this.player.mount?.id ?? null;
         await this.buildWorld();
         // The player rig and action state survive graphics rebuilds; do not rewind to a stale pre-load transform.
         const safe = this.safePosition(this.player.x, this.player.z, this.player.y);
         if (safe.x !== this.player.x || safe.z !== this.player.z) {
           this.player.setPosition(safe.x, safe.z, this.player.yaw, this.world.terrain, safe.y, safe.afloat === true);
           this.cam.reset();
+        }
+        // The rebuilt world's animals are still on their way: a rider steps down and is put back in the saddle when the
+        // deer arrives, as after a load, rather than thrown off with the deer walking home (A93 scout).
+        if (riding && !this.world.animals.mount(riding)) {
+          this.forceDismount();
+          this.pendingMount = { id: riding, x: this.player.x, z: this.player.z };
         }
         await this.prepareWorldGraphics();
         // The title and pause backdrop was replaced for the new preset: prepare it too, or it never draws again (A70).
@@ -1461,7 +1473,12 @@ export class App {
     // The open panel's own key (Tab for the journal by default) reaches Input so it toggles the panel shut instead of
     // moving focus (A71).
     const own = this.panelKind === 'journal' || this.panelKind === 'map' || this.panelKind === 'inventory' ? this.panelKind : null;
-    if (this.mode === 'play' && own && this.settings.bindings[own].includes(e.code)) return;
+    if (this.mode === 'play' && own && this.settings.bindings[own].includes(e.code)) {
+      // Input still sees the key and closes the panel; the browser must not also move focus (Tab out of the page left
+      // the journal open with the press lost to the blur).
+      this.input.claim(e);
+      return;
+    }
     if (this.panels.trapTab(e)) return;
     const el = document.activeElement as HTMLElement | null;
     // The map consumes its arrows/+/- locally; capture-phase menu navigation must not steal those keys first.
@@ -2364,7 +2381,7 @@ export class App {
     // Escape or leaving the window during the fall could not pause a dead player; it pauses now, rather than the world
     // running on unattended and uncaptured (A70).
     const unfocused = typeof document.hasFocus === 'function' && !document.hasFocus();
-    if (!this.bench.active && (unfocused || (this.wantPlayLock && !this.input.locked))) this.openPause();
+    if (!this.bench.active && (unfocused || (this.wantPlayLock && !this.input.locked && !this.input.lockRefused))) this.openPause();
   }
 
   private checkDiscoveries() {
