@@ -1149,3 +1149,24 @@ Separately, PR 247 passed run 38117276412 and was merged into main as
 is active; deployment success and browser observation are not claimed. The
 combined cache-append revision 3244c7c5f5ffa65674b0eb09513fba0f797939fd
 continues validation independently and does not cover this class return.
+
+## Local continuation — 11 October 2026: class type returns to name parser
+
+The basic-type caller assigns the actual returned class list, validates it
+through the original nonempty predicate, follows the actual V-code qualifier
+branches and checks its empty modifier. Its original value copy and frame
+restore return to the compound caller after 6,891 admitted operations. The
+compound and data-type callers remove their actual arguments and restore their
+frames. The outer type parser restores working flags, copies the retained list
+to its caller and returns to `3069b044` after 6,971 operations. The class list
+and both original text nodes remain live in the retained arena.
+
+Typechecking, nine focused runtime checks and six browser-service checks pass.
+All earlier copy, constructor and name-link interruption checks remain passing.
+The length and writer targets were read from the captured list vtable and
+independently captured from the pinned DLL for the next continuation (six,
+six and ten original instructions). Captured methods do not establish runtime
+execution. This checkpoint is local; name output construction, complete startup
+and the finishable campaign remain unfinished. The older combined cache-append
+revision continues full validation separately, and PR 247's main deployment
+remains active on the latest observation.
