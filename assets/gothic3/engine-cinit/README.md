@@ -1628,3 +1628,216 @@ This checkpoint remains local. The preceding combined revision
 322 files and its build, but predates third-property work. Full engine startup,
 third-property publication and complete browser campaign persistence remain
 unfinished.
+
+
+## 2026-10-11: original int text writer and name-parser return
+
+The original text writer now follows the readonly virtual text-node length and
+write targets, copies three actual arena characters into the separately owned
+output allocation, and stores the terminator. Its original physical calls and
+returns complete. The original output scan and compaction instructions then
+consume `int\0` and return from the name parser. Execution reaches `3069b2e3`
+after 9,499 source operations. The third arena and output remain live and lock
+5 remains held; arena cleanup and third-property publication have not executed.
+
+TypeScript checking passed. Five focused runtime checks passed in 22.69 seconds,
+verifying complete output, retained node ownership, returned writer/copy frames,
+and interruption at the actual terminator instruction `306971f6`. That failure
+retains `int` with an unknown terminator byte and the pending writer caller.
+Six browser startup checks passed in 48.02 seconds. Source evidence is unchanged
+from the int-literal checkpoint; each executed instruction uses the retained
+original instruction record.
+
+This checkpoint is local. Combined validation is live on frozen revision
+`6a6de81b6f535c855a9ac8b3c12510b9186d99d5`, which combines deployed PR 250
+with native work through int output allocation and predates this writer step.
+Full engine startup and browser campaign completion with save/reload remain
+unfinished.
+
+
+## 2026-10-11: original int arena cleanup and caller return
+
+The original undecoration arena destructor now reads its actual block chain,
+invokes the retained Engine free callback, and releases the third arena. Its
+finally handler unlocks lock 5 and the original EH epilog restores the caller's
+register and stack state. The owned `int\0` output remains live. Execution
+reaches the type-name caller at `3067dad1` after 9,545 source operations.
+The freed node is retained only as provenance and pre-release word observations;
+normal execution does not read its freed allocation.
+
+TypeScript checking passed. Three focused checks passed in 16.23 seconds,
+including a failed arena release (live arena, held lock) and failed unlock
+(freed arena, held lock). Both preserve the pending original caller and live
+output. Six browser startup checks passed in 48.32 seconds. Source evidence is
+unchanged. The next original strlen path must handle the terminator in the
+fourth byte of the `int\0` DWORD before cache construction can continue.
+
+This checkpoint remains local. The combined suite is still live on
+`6a6de81b6f535c855a9ac8b3c12510b9186d99d5`, which predates the text writer
+and cleanup stages. Third-property publication, full engine startup and a
+complete browser campaign with save/reload remain unfinished.
+
+
+## 2026-10-11: original int DWORD string-length scan
+
+The type-name caller now executes the original aligned DWORD scan on its live
+`int\0` output. The original byte tests reach the fourth-byte terminator and
+return through `30679b33`, `30679b36`, `30679b3a` and `30679b3c`. The resulting
+length is three, computed from pointers into the same canonical allocation.
+Execution reaches `3067dae2` after 9,573 source operations. Lock 5 is released,
+the parser arena is freed and the output remains live; the cache is unfinished.
+
+TypeScript checking passed. Four selected runtime checks passed in 18.36 seconds.
+An unknown output terminator byte stops at the original DWORD predicate
+`30679b11`, retaining its pending scan caller and live output after cleanup.
+Six browser startup checks passed in 47.92 seconds. The retained original source
+package already contains these instructions and remains unchanged.
+
+This checkpoint remains local. Combined validation is still live on frozen
+`6a6de81b6f535c855a9ac8b3c12510b9186d99d5`, which predates the writer,
+cleanup and scan steps. Third-property publication, full engine startup and a
+complete browser campaign with save/reload remain unfinished.
+
+
+## 2026-10-11: original int cache construction and linkage
+
+The original type-name caller now checks its final character, obtains lock 14,
+rechecks the third RTTI cache word, and requests a fresh eight-byte cache node
+and four-byte cache text. Original character-copy instructions write `int\0`,
+return zero and publish the actual cache-text pointer in the third type info.
+The original list stores link this node to the previous cache head and publish
+it as the new head. Execution reaches `3067db62` after 9,668 source operations.
+Lock 14 remains held and the temporary output remains live. The parser arena
+has already been freed; third-property CString construction remains unfinished.
+
+TypeScript checking passed. Four focused checks passed in 17.24 seconds,
+verifying text bytes/masks, actual node/text relationships, and the live prior
+cache node. Unavailable node or text allocation retains its physical caller;
+an interrupted final-character store at `3068a88a` retains `in`, unknown
+remaining bytes, the pending copy caller and held cache lock. Six browser
+startup checks passed in 43.51 seconds. Source evidence is unchanged.
+
+This checkpoint remains local. Combined validation remains live on frozen
+`6a6de81b6f535c855a9ac8b3c12510b9186d99d5`, predating writer, cleanup, scan
+and cache stages. Third-property publication, full engine startup and complete
+browser campaign save/reload remain unfinished.
+
+
+## 2026-10-11: original int cache cleanup and constructor return
+
+The original type-name caller releases its actual eight-byte temporary output,
+runs the cache finally handler to unlock lock 14, reloads the third RTTI cache
+pointer and restores its physical EH frame. The original wrapper then returns
+the live cache-text pointer to the third property constructor at `30076608`.
+Execution has performed 9,694 source operations. The parser arena and temporary
+output are freed, both locks are released and the cache node/text remain live.
+The third property's separate CString and root have not yet been constructed.
+
+TypeScript checking passed. Three focused checks passed in 20.23 seconds.
+A failed output release stops at `30672f8a` with output and cache lock retained;
+a failed cache unlock stops at `3067db85` with output freed and lock retained.
+Both preserve the actual live cache and pending constructor caller. Six browser
+startup checks passed in 48.73 seconds. Source evidence is unchanged.
+
+This checkpoint is local. Combined validation is still live on frozen revision
+`6a6de81b6f535c855a9ac8b3c12510b9186d99d5`, which predates the writer and
+subsequent int stages. Third-property publication, full engine startup and
+complete browser campaign persistence remain unfinished.
+
+
+## 2026-10-11: original int SharedBase name search
+
+The third constructor now preserves the actual cached name and destination
+arguments across the original SharedBase UnMangle import. Its original literal
+search and scalar DWORD character search inspect `int\0`, find no space, detect
+the terminator through the original high-byte predicate, restore the physical
+search frame and return NULL. Execution reaches `10091560` after 9,757 source
+operations. The outer UnMangle call is pending; the third CString is not yet
+constructed. The cache remains live and the prior locks remain released.
+
+TypeScript checking passed. Two focused runtime checks passed in 13.18 seconds.
+The normal search returns NULL with its physical caller returned. An unknown
+cache character stops at `100a7343`, retaining both search and UnMangle callers
+and the live cache. Six browser startup checks passed in 48.47 seconds. Every
+executed search instruction is checked against the existing retained original
+SharedBase instruction records; the source package is unchanged.
+
+This checkpoint is local. Combined validation remains live on frozen
+`6a6de81b6f535c855a9ac8b3c12510b9186d99d5`, predating the writer and later
+int stages. Third-property CString construction/publication, full engine startup
+and complete browser campaign persistence remain unfinished.
+
+
+## 2026-10-11: original third-property CString construction
+
+The plain-name UnMangle branch now executes the original CString constructor,
+measures the actual cache text, requests twelve bytes from the retained
+MemoryAdmin owner, writes length three and reference count one, and stores the
+character pointer in third-property storage. It writes the original terminator,
+copies three actual cache characters through the existing memcpy contract and
+returns to `30076614` after 9,831 source operations. Its separate
+`typeNameThirdCString` observation preserves both earlier CString allocations.
+The SharedBase physical-memory check admits that observation only with the
+same exact live canonical owner, allocation, buffers and DataView checks.
+
+TypeScript checking passed. Three focused checks passed in 16.64 seconds,
+verifying the actual twelve-byte allocation/header, `int\0` bytes/masks and
+returned UnMangle call. An unavailable allocation stops at `10003cd8`; an
+interrupted terminator store stops at `10013271`. Both preserve prior CStrings
+and the pending third constructor. Six browser startup checks passed in 46.15
+seconds. Source evidence is unchanged.
+
+This checkpoint is local. Shutdown registration and third root publication
+remain unfinished. Combined validation is still live on frozen revision
+`6a6de81b6f535c855a9ac8b3c12510b9186d99d5`, predating the writer and later
+int stages. Full engine startup and complete browser campaign persistence
+remain unfinished.
+
+
+## 2026-10-11: original third-property shutdown registration and root publication
+
+The third int property's original constructor registers shutdown callback
+`3002f56d`, restores the exit-registration caller, and returns its actual storage
+pointer. The original initializer writes that pointer into the third root and
+returns to the C++ loop. The retained exit cursor advances to offset twenty and
+the initializer cursor to offset `0x110`. Execution now reaches the next pending
+initializer `307322e0` after 9,953 source operations. The first three property
+roots, CStrings and shutdown entries are retained; this is not full startup.
+
+TypeScript checking passed. Two focused runtime checks passed in 11.55 seconds,
+verifying original root provenance, fifth shutdown entry and returned calls.
+An unavailable exit lock stops at `3067cfea`, preserving the third CString and
+pending shutdown/initializer callers while leaving its root NULL. Six browser
+startup checks passed in 41.95 seconds. All executed instructions were already
+present in the retained source package, which is unchanged.
+
+This checkpoint remains local. Combined validation is still live on frozen
+`6a6de81b6f535c855a9ac8b3c12510b9186d99d5`, predating the writer and later
+int stages. Full engine startup, world activation and a browser campaign through
+an ending with working save/reload remain unfinished.
+
+
+## 2026-10-11: original camera object initializer prefix
+
+The source package now captures initializer `307322e0`, thunk `3000d9f9` and
+body `300766d0`, plus its distinct flags, root, storage and 27-byte RTTI at
+`30aa2a1c` (`.?AVeCCameraBase@@`). The original prefix preserves the default
+and RTTI arguments, checks the empty cache, enters undecoration and obtains
+lock 5. Execution stops at the pending parser constructor `3069747a` after
+10,059 source operations. All three preceding properties remain published;
+the camera root has not been published.
+
+TypeScript checking passed. Two focused runtime checks passed in 13.97 seconds.
+An unknown camera-cache word stops at `3067daa8`, retaining the camera caller
+and the preceding published int property. Fifty source, image and browser
+startup checks passed across four files in 46.28 seconds. Independent source
+regeneration produced byte-identical JSON and TypeScript packages (SHA-256
+`74162b01e1aa1ba8bc18d1a3d64b54c5d931497bcae89d738a9846cb707071b6` and
+`33f95590ccd7a50e731b27a3d9d66c538f3af70fb10aaa766db7cc33c93fb979`).
+A reused-call assertion was corrected to distinguish the prior returned
+undecoration caller from the new pending camera caller.
+
+The earlier frozen combined revision `6a6de81b6f535c855a9ac8b3c12510b9186d99d5`
+has completed: all 3,642 tests in 323 files and its production build passed.
+It predates the writer and later int/camera steps. These additions remain local.
+Full engine startup and complete browser campaign persistence remain unfinished.

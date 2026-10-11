@@ -90,3 +90,8 @@ it('owns separate third property storage and the original int RTTI',()=>{
 for(const storage of ['bytes','knownMask'] as const)it('rejects altered readonly int literal '+storage,()=>{
  const {crt,owner}=fixture(),literal=fact(NativeEngineCinitImages.imageForCrt(owner,crt,'undecorationIntLiteral'));expect(Buffer.from(literal.bytes).toString('hex')).toBe('696e7400');literal[storage][0]=literal[storage][0]!^1;expect(NativeEngineCinitImages.imageForCrt(owner,crt,'undecorationIntLiteral').known).toBe(false);
 });
+
+
+it('owns separate camera object storage and the original eCCameraBase RTTI',()=>{
+ const {crt,owner}=fixture(),storage=fact(NativeEngineCinitImages.imageForCrt(owner,crt,'cameraBaseObjectStorage')),info=fact(NativeEngineCinitImages.imageForCrt(owner,crt,'cameraBaseObjectTypeInfo'));expect(storage.readUnsigned(0)).toBe(0);expect(info.bytes.length).toBe(27);expect(Buffer.from(info.bytes.subarray(8)).toString()).toBe('.?AVeCCameraBase@@\0');expect(info.readUnsigned(4)).toBe(0);expect(storage.backing).not.toBe(fact(NativeEngineCinitImages.imageForCrt(owner,crt,'visualAnimationThirdStorage')).backing);
+});
