@@ -78,6 +78,40 @@ describe('model downloads (A68)', () => {
     expect(fetchMock).toHaveBeenCalledOnce();
   });
 
+  it('asks for a file of known hash once while it is under way, each caller with its own copy (A86)', async () => {
+    const data = bytes(4, 3, 2, 1), sha256 = hash(data);
+    let release!: () => void;
+    fetchMock.mockImplementation(() => new Promise<Response>((resolve) => { release = () => resolve(new Response(data.slice(0))); }));
+    const first = subject.downloadAsset('https://raw.example/w.glb', { label: 'W', sha256 });
+    const second = subject.downloadAsset('https://raw.example/w.glb', { label: 'W', sha256 });
+    await vi.waitFor(() => expect(fetchMock).toHaveBeenCalledOnce());
+    release();
+    const [a, b] = await Promise.all([first, second]);
+    expect(new Uint8Array(a)).toEqual(new Uint8Array(data));
+    expect(new Uint8Array(b)).toEqual(new Uint8Array(data));
+    expect(a).not.toBe(b);
+    expect(fetchMock).toHaveBeenCalledOnce();
+  });
+
+  it('fetches files ahead into the cache one at a time, passing over cached ones and stopping when told (A86)', async () => {
+    const files = { 'a.glb': bytes(1, 1), 'b.glb': bytes(2, 2), 'c.glb': bytes(3, 3), 'd.glb': bytes(4, 4) };
+    vi.resetModules();
+    vi.doMock('../../src/presentation/assets/modelFiles', () => ({
+      MODEL_FILES: Object.fromEntries(Object.entries(files).map(([name, data]) => [name, [hash(data), data.byteLength]])),
+    }));
+    subject = await import('../../src/presentation/assets/download');
+    // b is cached already.
+    cache.entries.set(new URL(`tervain-content/${hash(files['b.glb'])}`, 'https://example.test/Tervain/index.html').href, files['b.glb'].slice(0));
+    const asked: string[] = [];
+    fetchMock.mockImplementation(async (url) => { const name = String(url).split('/').pop()! as keyof typeof files; asked.push(name); return new Response(files[name].slice(0)); });
+    // Stopped once two files have been fetched: d is left for the journey.
+    const fetched = await subject.warmContentCache(['a.glb', 'b.glb', 'c.glb', 'not-a-model.glb', 'd.glb'], (model) => `https://raw.example/models/${model}`, () => asked.length >= 2);
+    expect(fetched).toBe(2);
+    expect(asked).toEqual(['a.glb', 'c.glb']);
+    await vi.waitFor(() => expect(cache.entries.size).toBe(3));
+    vi.doUnmock('../../src/presentation/assets/modelFiles');
+  });
+
   it('forgets cached files this session did not ask for', async () => {
     const kept = bytes(1), old = bytes(2);
     const key = (data: ArrayBuffer) => new URL(`tervain-content/${hash(data)}`, 'https://example.test/Tervain/index.html').href;

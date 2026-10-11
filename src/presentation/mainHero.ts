@@ -1,11 +1,12 @@
 import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { MAIN_HERO_FILE } from './assets/heroFile';
 import { createGltfLoader } from './assets/gltfLoader';
 import { modelAssetUrl } from './assets/modelUrl';
 import { observeModelLoad, withModelLoadSlot, type ModelLoadProgress } from './assets/modelLoadQueue';
 import { downloadAsset } from './assets/download';
 import { fitHeroFingers } from './hero/fingerFit';
 
-const FILE = 'hero/weathered-wanderer-hero-sealed.glb';
+const FILE = MAIN_HERO_FILE;
 let pending: Promise<GLTF> | null = null;
 
 /** Resolve from the built page, including the /Tervain/ Pages subdirectory. */
