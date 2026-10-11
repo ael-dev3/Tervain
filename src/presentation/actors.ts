@@ -184,6 +184,8 @@ export class NpcActor {
   private barkCooldown = 8 + Math.random() * 10;
   private lastBarkKey = '';
   private placed = false;
+  /** Their own model arrived since the last update: where they sit or work is measured again with it (A93 scout). */
+  private rigChanged = false;
   private viaMaint = false;
   private maintenanceCursor = 0;
   private destination: NpcPlace = { x: 0, z: 0, yaw: 0 };
@@ -250,6 +252,7 @@ export class NpcActor {
     this.arrived = true;
     // The first drawn frame after this poses at once (A87 scout): a sleeper far off lay half a second in no pose.
     this.poseWait = NPC_ASLEEP_POSE;
+    this.rigChanged = true;
     this.placeRig();
   }
 
@@ -507,6 +510,13 @@ export class NpcActor {
       return;
     }
     if (!this.placed) this.snapToGoal(ctx);
+    else if (this.rigChanged) {
+      // The stand-in had no seat approach, so its spot sat inside the bench. Unseen until now, someone already at their
+      // spot is put at the real one; someone on the way heads there instead.
+      if (this.atDestination()) this.snapToGoal(ctx);
+      else { this.destination = this.placeFor(this.goal, ctx); this.path = null; }
+    }
+    this.rigChanged = false;
     const contacts = this.contacts(ctx);
     const goal = resolveGoal(this.def, ctx.state, ctx.hour);
     const changed = goal.anchor !== this.goal.anchor || goal.activity !== this.goal.activity || goal.inside !== this.goal.inside;
@@ -822,13 +832,17 @@ export class EnemyActor {
   adoptRig(rig: Rig) {
     const old = this.rig, parent = old.root.parent;
     rig.root.traverse((o) => { o.userData.enemy = this.id; });
-    rig.root.visible = old.root.visible;
-    rig.root.position.copy(old.root.position);
-    rig.root.rotation.copy(old.root.rotation);
+    // The stand-in never left the origin (a waiting bandit is not updated): the model is set at their post, and shown
+    // once the next update has posed it there, not in its bind pose at the origin while play is held (A93 scout).
+    rig.root.position.set(this.x, this.y, this.z);
+    rig.root.rotation.set(0, this.yaw, 0);
+    rig.root.visible = false;
+    this.showOnUpdate = true;
     if (parent) { parent.add(rig.root); parent.remove(old.root); }
     this.rig = rig;
     this.arrived = true;
   }
+  private showOnUpdate = false;
 
   get radius() {
     return this.id === 'cut_creature' ? 0.85 : 0.4;
@@ -915,6 +929,7 @@ export class EnemyActor {
   update(dt: number, ctx: EnemyContext) {
     // Waiting for their model, they keep their post out of sight (stage 2).
     if (!this.arrived) return;
+    if (this.showOnUpdate) { this.showOnUpdate = false; this.rig.root.visible = true; }
     if (this.routeState !== this.state) {
       this.route.reset();
       this.routeState = this.state;

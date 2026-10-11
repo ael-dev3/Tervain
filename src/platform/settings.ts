@@ -138,10 +138,16 @@ export function loadSettings(): Settings {
     for (const flag of flags) merged[flag] = boolean(parsed[flag], base[flag]);
     for (const bus of ['master', 'music', 'effects', 'ambience', 'dialogue'] as const) merged.volumes[bus] = bounded(volumes[bus], base.volumes[bus], 0, 1);
     // Preserve deliberately empty actions and every real key, while rejecting sparse/foreign entries and duplicates.
+    // An action newer than the stored settings takes its default keys, less any the player already gave another action:
+    // one key must not quietly fire two actions.
+    const stored = new Set<string>();
     for (const a of ACTIONS) {
       const list = bindings[a];
-      merged.bindings[a] = Array.isArray(list) ? [...new Set(list.filter((c): c is string => typeof c === 'string' && /^[A-Za-z][A-Za-z0-9]{0,63}$/.test(c)))] : [...DEFAULT_BINDINGS[a]];
+      if (!Array.isArray(list)) continue;
+      merged.bindings[a] = [...new Set(list.filter((c): c is string => typeof c === 'string' && /^[A-Za-z][A-Za-z0-9]{0,63}$/.test(c)))];
+      for (const c of merged.bindings[a]) stored.add(c);
     }
+    for (const a of ACTIONS) if (!Array.isArray(bindings[a])) merged.bindings[a] = DEFAULT_BINDINGS[a].filter((c) => !stored.has(c));
     return merged;
   } catch {
     return base;

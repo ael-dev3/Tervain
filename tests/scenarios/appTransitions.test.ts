@@ -185,8 +185,8 @@ function deferred<T>() {
 
 function rebuildFixture() {
   const f = fixture();
-  const oldWorld = { scene: new THREE.Scene(), dispose: vi.fn(), terrain: {}, sky: { brightness: 1 }, syncStatic: vi.fn(), physics: { supportAt: vi.fn(() => null), snapshot: vi.fn(() => []), restore: vi.fn(), reset: vi.fn(), release: vi.fn() } };
-  const nextWorld = () => ({ scene: new THREE.Scene(), dispose: vi.fn(), terrain: {}, sky: { brightness: 1 }, syncStatic: vi.fn(), physics: { supportAt: vi.fn(() => null), snapshot: vi.fn(() => []), restore: vi.fn(), reset: vi.fn(), release: vi.fn() } });
+  const oldWorld = { scene: new THREE.Scene(), dispose: vi.fn(), terrain: {}, sky: { brightness: 1 }, syncStatic: vi.fn(), insideArchive: () => false, physics: { supportAt: vi.fn(() => null), snapshot: vi.fn(() => []), restore: vi.fn(), reset: vi.fn(), release: vi.fn() } };
+  const nextWorld = () => ({ scene: new THREE.Scene(), dispose: vi.fn(), terrain: {}, sky: { brightness: 1 }, syncStatic: vi.fn(), insideArchive: () => false, physics: { supportAt: vi.fn(() => null), snapshot: vi.fn(() => []), restore: vi.fn(), reset: vi.fn(), release: vi.fn() } });
   Object.assign(f.app, {
     world: oldWorld, library: {}, menuScene: new MenuScene({ quality: f.app.settings.quality }), npcAssets: { has: () => true, create: () => undefined },
     applyUiSettings: vi.fn(), applyQualityToRenderer: vi.fn(), renderer: {},
@@ -596,7 +596,7 @@ describe('actual application world transitions', () => {
     expect(app.mode).toBe('title');
     expect(Reflect.get(window, 'tervain')).toBe(app);
     expect(canvas.addEventListener).toHaveBeenCalledOnce();
-    expect(document.addEventListener.mock.calls.map(([name]) => name)).toEqual(['pointerlockchange', 'keydown', 'visibilitychange']);
+    expect(document.addEventListener.mock.calls.map(([name]) => name).filter((name) => name !== 'pointerlockerror')).toEqual(['pointerlockchange', 'keydown', 'visibilitychange']);
     expect(requestAnimationFrame).toHaveBeenCalledOnce();
     expect(app.loadingEl.classList.contains('off')).toBe(true);
     call('startNew');
@@ -613,7 +613,7 @@ describe('actual application world transitions', () => {
     await Reflect.get(app, 'initialLoad');
     expect(create).toHaveBeenCalledTimes(2);
     expect(canvas.addEventListener).toHaveBeenCalledOnce();
-    expect(document.addEventListener.mock.calls.map(([name]) => name)).toEqual(['pointerlockchange', 'keydown', 'visibilitychange']);
+    expect(document.addEventListener.mock.calls.map(([name]) => name).filter((name) => name !== 'pointerlockerror')).toEqual(['pointerlockchange', 'keydown', 'visibilitychange']);
     expect(requestAnimationFrame).toHaveBeenCalledOnce();
     expect(app.mode).toBe('play');
     expect(app.loadingEl.classList.contains('off')).toBe(true);
@@ -872,14 +872,19 @@ describe('a list in a panel (A87 scout)', () => {
 
 describe('panel keys (A71)', () => {
   it('lets the journal key (Tab) reach Input to close the journal instead of trapping focus', () => {
-    const { app, call } = fixture();
+    const { app, input, call } = fixture();
     const trapTab = vi.fn(() => true);
     Object.assign(app.panels, { isOpen: true, trapTab });
     Reflect.set(app, 'mode', 'play'); Reflect.set(app, 'panelKind', 'journal');
-    const event = { code: 'Tab', defaultPrevented: false, preventDefault: vi.fn(), stopPropagation: vi.fn() };
+    const event = { code: 'Tab', repeat: false, target: { tagName: 'BODY' }, defaultPrevented: false, preventDefault: vi.fn(() => { event.defaultPrevented = true; }), stopPropagation: vi.fn() };
     call('onUiKey', event);
     expect(trapTab).not.toHaveBeenCalled();
-    expect(event.preventDefault).not.toHaveBeenCalled();
+    // The browser does not move focus (Tab out of the page lost the press to the blur, A93 scout), yet Input takes it.
+    expect(event.preventDefault).toHaveBeenCalled();
+    expect(event.stopPropagation).not.toHaveBeenCalled();
+    Reflect.get(input, 'onKeyDown')(event);
+    expect(input.pressed('journal')).toBe(true);
+    event.defaultPrevented = false;
     Reflect.set(app, 'panelKind', 'pause');
     call('onUiKey', event);
     expect(trapTab).toHaveBeenCalledWith(event);

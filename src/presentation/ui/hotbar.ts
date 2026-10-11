@@ -34,6 +34,9 @@ export class QuickSlotBar {
       const button = h('button', { class: 'hotbar-slot', type: 'button', 'data-nav': true, 'data-focus-key': `quick-slot-${slot}`, 'data-quick-slot': slot,
         onClick: () => { this.options.onSelect?.(slot); if (this.options.mode === 'assign' || button.getAttribute('aria-disabled') !== 'true') this.options.onActivate?.(slot); },
         onFocus: () => this.options.onSelect?.(slot),
+        // A click on a world hotbar slot must not take keyboard focus: Space and Enter would then press the slot again
+        // (another poultice eaten) instead of jumping or striking. Keyboard focus by Tab still works.
+        onMousedown: (event: MouseEvent) => { if (this.options.mode !== 'assign') event.preventDefault(); },
         onKeydown: (event: KeyboardEvent) => {
           if (this.options.mode === 'assign' && (event.code === 'Delete' || event.code === 'Backspace')) {
             event.preventDefault(); event.stopPropagation();
