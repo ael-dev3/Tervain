@@ -1,3 +1,4 @@
+import { S } from '../../src/content/strings';
 import * as THREE from 'three';
 import { ENEMY_SPAWNS, SPAWN } from '../../src/world/layout';
 import { afterEach, describe, expect, it, vi } from 'vitest';
@@ -1118,5 +1119,72 @@ describe('the saddle in the shell (A100 scout)', () => {
     expect(physics.release).toHaveBeenCalled();
     expect(physics.candidate).not.toHaveBeenCalled();
     expect(physics.grab).not.toHaveBeenCalled();
+  });
+});
+
+describe('ninth scout fixes in the shell (A102)', () => {
+  it('cuts the bell\'s peal off when play stops between strikes', () => {
+    vi.useFakeTimers();
+    try {
+      const { app, call } = fixture();
+      const bell = vi.fn();
+      Object.assign(app, { mode: 'play', audio: { ...app.audio, bell, caption: vi.fn() },
+        world: { ...app.world, ringBell: vi.fn(), bellPosition: { x: 0, y: 0, z: 0 } } });
+      call('ringBell', false);
+      vi.advanceTimersByTime(10);
+      expect(bell).toHaveBeenCalledTimes(1);
+      Object.assign(app, { mode: 'title' });
+      vi.advanceTimersByTime(3000);
+      expect(bell).toHaveBeenCalledTimes(1);
+    } finally { vi.useRealTimers(); }
+  });
+
+  it('asks who sees the sluice gate forced', () => {
+    const { app, call } = fixture();
+    const dispatch = vi.fn(() => ({ ok: false }));
+    Object.assign(app, { game: { ...app.game, dispatch }, panels: { ...app.panels, closeAll: vi.fn() } });
+    Reflect.set(app, 'observersAt', vi.fn(() => ['spring_steward']));
+    call('doForce');
+    expect(dispatch).toHaveBeenCalledWith({ t: 'forceGate', observedBy: ['spring_steward'] });
+  });
+
+  it('does not say he slipped inside when the waterkeeper bars the shutter in the act', () => {
+    const { app, call } = fixture();
+    const toast = vi.fn(), hero = vi.fn();
+    const state = { ...app.game.state, locationChanges: { archive_shutter: 'sealed' } };
+    Object.assign(app, {
+      game: { ...app.game, state, dispatch: vi.fn(() => ({ ok: true, events: [] })) },
+      hud: { ...app.hud, toast }, speech: { ...app.speech, hero }, audio: { ...app.audio, worldEvent: vi.fn() },
+      world: { ...app.world, syncStatic: vi.fn() }, npcs: [],
+    });
+    Reflect.set(app, 'observersAt', vi.fn(() => ['spring_steward']));
+    call('forceShutter');
+    expect(toast).toHaveBeenCalledWith(S('toast.archive.caught'), 'bad');
+    expect(toast).not.toHaveBeenCalledWith(S('toast.archive.forced'));
+    expect(hero).not.toHaveBeenCalled();
+  });
+});
+
+describe('tenth scout fixes in the shell (A103)', () => {
+  it('gives focus back to the redrawn control after a rebuild started from a panel', () => {
+    const { app, call } = fixture();
+    const successor = { focus: vi.fn() }, gone = { isConnected: false, dataset: { focusKey: 'settings-reset' }, focus: vi.fn() };
+    const query = vi.fn(() => successor);
+    Object.assign(app.panels.el, { querySelector: query });
+    Reflect.set(app, 'rebuildFocus', gone);
+    call('finishWorldBuild');
+    expect(query).toHaveBeenCalledWith('[data-focus-key="settings-reset"]');
+    expect(successor.focus).toHaveBeenCalledOnce();
+  });
+
+  it('sounds the satchel, journal and map shut however they are closed', () => {
+    for (const kind of ['inventory', 'journal', 'map'] as const) {
+      const { app, call } = fixture();
+      const panel = vi.fn();
+      Object.assign(app, { audio: { ...app.audio, panel }, mode: 'play' });
+      Reflect.set(app, 'panelKind', kind);
+      call('onPanelsClosed');
+      expect(panel).toHaveBeenCalledWith(kind, false);
+    }
   });
 });

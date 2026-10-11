@@ -1,3 +1,4 @@
+import { stabilizePreconditions } from './commands';
 import type { PlaceId, WorldState } from './types';
 
 export interface Hint {
@@ -21,7 +22,14 @@ export function nextHint(s: WorldState): Hint {
   if (onStrand) return { key: 'hint.find_woodland_track', place: null };
   if (!s.discovered.rillford && q.phase === 'unseen') return { key: 'hint.follow_woodland_track', place: null };
   if (q.phase === 'unseen') return { key: 'hint.look_around', place: 'rillford' };
-  if (q.gate === 'jammed') return { key: 'hint.jammed', place: 'sluice' };
+  if (q.gate === 'jammed') {
+    // Bracing needs the brace, the wrench and the crack understood: until then the hint leads to what is missing
+    // (A102 scout: it said "brace it at the sluice" while bracing was refused, and the quarry was never named).
+    const why = stabilizePreconditions(s);
+    if (why === 'need_brace' || why === 'need_wrench') return { key: 'hint.get_brace', place: 'quarry' };
+    if (why === 'need_understanding') return { key: 'hint.see_sluice', place: 'sluice' };
+    return { key: 'hint.jammed', place: 'sluice' };
+  }
   if (!has('dry_channel')) return { key: 'hint.see_dry_channel', place: 'rillford' };
   if (!has('reduced_spring_flow')) return { key: 'hint.see_spring', place: 'spring_shrine' };
   if (!has('cracked_sluice')) return { key: 'hint.see_sluice', place: 'sluice' };

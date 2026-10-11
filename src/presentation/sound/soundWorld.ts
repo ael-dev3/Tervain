@@ -526,7 +526,7 @@ export class SoundWorld {
         // A little of the place's air on a voice out in the world.
         const send = ctx.createGain();
         nodes.push(send);
-        send.gain.value = 0.1;
+        send.gain.value = this.reverbSend('dialogue', 0.1);
         tail.connect(send);
         for (const r of this.reverbs) send.connect(r.send);
       }
@@ -746,7 +746,7 @@ export class SoundWorld {
       const send = Math.min(1, (opt.reverb ?? 0.06) + (opt.at ? Math.min(0.35, distance / 120) : 0));
       if (send > 0.01) {
         const s = ctx.createGain();
-        s.gain.value = send;
+        s.gain.value = this.reverbSend(bus, send);
         tail.connect(s);
         for (const r of this.reverbs) s.connect(r.send);
         nodes.push(s);
@@ -1038,9 +1038,20 @@ export class SoundWorld {
    * Forget who was where and doing what (A89 scout): after a load the actors are set from the save, and a foe the save
    * has dead would otherwise be heard to die as the change was noticed.
    */
+  /** The rooms' reverb returns on the effects bus, so a send from another bus is weighed by that bus's own level against
+   * the effects level: a bus turned to 0 sends nothing, and the wet share stays as set (A102 scout: Ambience or
+   * Dialogue at 0 still came through the reverb). */
+  private reverbSend(bus: keyof typeof this.buses, send: number): number {
+    if (bus === 'effects') return send;
+    const own = this.buses[bus].gain.value, fx = this.buses.effects.gain.value;
+    return fx > 1e-3 ? Math.min(send * 8, send * own / fx) : 0;
+  }
+
   forgetActors() {
     this.foes.clear();
     this.people.clear();
+    // Props too: restored at rest, a barrel last heard flying was heard to land (A102 scout).
+    this.objects.clear();
   }
 
   /** Enemies are heard by what they do: winding up, striking, staggering, falling, running. Noticing comes from the game. */

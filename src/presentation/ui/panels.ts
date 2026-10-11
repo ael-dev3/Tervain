@@ -249,7 +249,9 @@ export function slotLabel(res: LoadResult, slot: SlotId): { title: string; meta:
   const sm = res.summary;
   return {
     title,
-    meta: S('menu.savetime', { day: S('menu.day', { n: clockDay(sm.clock) + 1 }), phase: S(`journal.status.${sm.phase}`).split('.')[0] ?? '', play: fmtPlay(sm.playSeconds) }),
+    // A slot whose latest write was damaged says so in the list, not only once loaded (A102 scout).
+    meta: S('menu.savetime', { day: S('menu.day', { n: clockDay(sm.clock) + 1 }), phase: S(`journal.status.${sm.phase}`).split('.')[0] ?? '', play: fmtPlay(sm.playSeconds) })
+      + (res.recovered ? ` · ${S(`menu.recovered.slot.${res.recovered}`)}` : ''),
     ok: true,
   };
 }
@@ -761,6 +763,8 @@ export function settingsPanel(ctx: PanelCtx): HTMLElement {
     range(S('set.vol.dialogue'), () => st.volumes.dialogue, (v) => (st.volumes.dialogue = v), 0, 1, 0.05, pct),
     h('h2', {}, S('set.bindings')),
     h('p', { class: 'hint-line' }, S('set.bindings.hint')),
+    // What the last rebind did, in the panel itself: toasts are hidden under the title and the pause menu (A103 scout).
+    h('p', { class: `hint-line binding-status${bindingStatus?.kind === 'bad' ? ' bad' : ''}`, role: 'status', 'aria-live': 'polite' }, takeBindingStatus()),
     h('div', { class: 'list' }, bindings),
     h(
       'div',
@@ -772,6 +776,14 @@ export function settingsPanel(ctx: PanelCtx): HTMLElement {
       closeBtn(ctx, S('menu.back')),
     ),
   );
+}
+
+/** The last rebind's outcome, shown once by the rebuilt settings panel. */
+let bindingStatus: { text: string; kind: 'good' | 'bad' } | null = null;
+function takeBindingStatus(): string {
+  const text = bindingStatus?.text ?? '';
+  bindingStatus = null;
+  return text;
 }
 
 function bindRow(ctx: PanelCtx, action: Action, commit: () => void): HTMLElement {
@@ -802,7 +814,8 @@ function bindRow(ctx: PanelCtx, action: Action, commit: () => void): HTMLElement
       assignSlot(st.bindings, action, idx, code);
       commit();
       const bound = S('toast.bound', { action: S(`action.${action}`), key: codeLabel(code) });
-      ctx.toast(displacedNote ? `${bound} ${displacedNote}` : bound, displacedNote ? undefined : 'good');
+      bindingStatus = { text: displacedNote ? `${bound} ${displacedNote}` : bound, kind: displacedNote ? 'bad' : 'good' };
+      ctx.toast(bindingStatus.text, displacedNote ? undefined : 'good');
       ctx.host.replaceTop(settingsPanel(ctx));
     };
     btn.addEventListener('click', () => {

@@ -755,7 +755,11 @@ export class App {
     this.input.uiOpen = this.panels.isOpen || this.mode !== 'play';
     this.input.reset();
     this.frameClock?.reset();
-    this.rebuildFocus?.focus();
+    // A panel redrawn during the build replaced the focused control: its successor (same focus key) takes focus, or
+    // keyboard and controller were left with nothing focused (A103 scout: Reset to defaults with a new Quality).
+    const was = this.rebuildFocus, key = was?.dataset?.focusKey;
+    const successor = was && !was.isConnected && key && /^[\w-]+$/.test(key) ? this.panels.el.querySelector<HTMLElement>(`[data-focus-key="${key}"]`) : null;
+    (successor ?? was)?.focus();
     this.rebuildFocus = null;
   }
 
@@ -1597,6 +1601,10 @@ export class App {
   }
 
   private onPanelsClosed() {
+    // The satchel, journal and map sound shut however they close: Escape, the Close button, gamepad B and the backdrop
+    // were silent; only their own key played it (A103 scout).
+    const closed = this.panelKind;
+    if (closed === 'journal' || closed === 'inventory' || closed === 'map') this.audio.panel(closed, false);
     this.panelKind = 'none';
     this.mapCanvas = null;
     if (this.worldPaused) {
@@ -1658,7 +1666,6 @@ export class App {
     if (this.worldPaused) return;
     if (this.panelKind === kind && this.panels.isOpen) {
       this.panels.closeAll();
-      this.audio.panel(kind, false);
       return;
     }
     if (this.panels.isOpen) this.panels.closeAll();
@@ -1937,8 +1944,13 @@ export class App {
       return;
     }
     this.audio.worldEvent('shutter', '[The archive shutter is forced open]');
-    this.hud.toast(S('toast.archive.forced'));
-    this.speech.hero('place.archive' as HeroCue, { delay: 1.5 });
+    // Seen in the act by the waterkeeper herself, the report is hers at once: the shutter is barred before he is through
+    // (A102 scout: the game said he slipped inside while the archive was already sealed to him).
+    if (this.game.state.locationChanges.archive_shutter === 'sealed') this.hud.toast(S('toast.archive.caught'), 'bad');
+    else {
+      this.hud.toast(S('toast.archive.forced'));
+      this.speech.hero('place.archive' as HeroCue, { delay: 1.5 });
+    }
     this.world.syncStatic(this.game.state, false);
     // A witness cue the player can act on: the observer calls out.
     const w = this.npcs.find((n) => seenBy.includes(n.id));
@@ -1999,7 +2011,8 @@ export class App {
 
   private doForce() {
     this.panels.closeAll();
-    const r = this.game.dispatch({ t: 'forceGate', observedBy: [] });
+    // Who sees the gate forced is asked as for the shutter: the report route was unreachable in play (A102 scout).
+    const r = this.game.dispatch({ t: 'forceGate', observedBy: this.observersAt(this.player.x, this.player.z) });
     if (!r.ok) return;
     this.audio.worldEvent('sluice_jam', '[The sluice jams hard against its frame]');
     this.player.shake = 0.4;
@@ -2452,7 +2465,11 @@ export class App {
     const gain = Math.max(0, 1 - d / 220);
     const times = bright ? 3 : 2;
     const at = { x: pos.x, y: pos.y + 3.5, z: pos.z };
-    for (let i = 0; i < times; i++) setTimeout(() => this.audio.bell(gain, bright, at, i), i * (bright ? 600 : 1400));
+    // A pause, a quit to the title or a rebuilt world cuts the peal off: later strikes rang on over the menu (A102 scout).
+    const world = this.world;
+    for (let i = 0; i < times; i++) setTimeout(() => {
+      if (this.mode === 'play' && this.world === world && !this.menuBackgroundActive) this.audio.bell(gain, bright, at, i);
+    }, i * (bright ? 600 : 1400));
     if (gain > 0.15) this.audio.caption(S(bright ? 'toast.caption.bell.allclear' : 'toast.caption.bell'));
   }
 

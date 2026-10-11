@@ -1506,3 +1506,36 @@ describe('audio engine and the recorded world', () => {
     audio.dispose();
   });
 });
+
+describe('ninth scout fixes: muted buses and restored props (A102)', () => {
+  it('sends nothing to the rooms\' reverb from a bus turned to 0, and keeps the share as set at full volume', async () => {
+    const { ctx, world, buses } = runtime(4);
+    await flush();
+    const reverbIn = (ctx.nodes as FakeNode[]).filter((n) => n.kind === 'gain' && n.outputs.some((o) => o.kind === 'convolver'));
+    const sendsTo = () => (ctx.nodes as FakeNode[]).filter((n) => n.kind === 'gain' && n.outputs.some((o) => reverbIn.includes(o)));
+    const before = sendsTo().length;
+    (buses.ambience.gain as unknown as Param).value = 0;
+    world.play({ clip: 'wood.impact', gain: 1 }, { bus: 'ambience', reverb: 0.3 });
+    const muted = sendsTo().slice(before);
+    expect(muted.every((n) => (n as unknown as { gain: Param }).gain.value === 0)).toBe(true);
+    (buses.ambience.gain as unknown as Param).value = 1;
+    world.play({ clip: 'wood.impact', gain: 1 }, { bus: 'ambience', reverb: 0.3 });
+    const full = sendsTo().slice(before + muted.length);
+    expect(full.length).toBeGreaterThan(0);
+    expect((full[0] as unknown as { gain: Param }).gain.value).toBeCloseTo(0.3, 6);
+  });
+
+  it('does not hear a flying crate land when a load restores it at rest', async () => {
+    const { ctx, world } = runtime(6);
+    await flush();
+    const center = PLACES.rillford;
+    const crate = { id: 'camp_crate_0', kind: 'crate' as const, x: center.x + 1, y: 2, z: center.z + 1, vx: 6, vy: 0, vz: 0, held: false };
+    world.update(0.05, frame(center, { props: [crate] }));
+    const takes = (WORLD_AUDIO.banks.world.clips as Record<string, readonly (readonly [number, number])[]>)['wood.impact']!;
+    const thuds = () => ctx.sources.filter((s) => s.buffer?.file === 'bank-world' && takes.some(([o]) => Math.abs(s.started![1]! - o) < 1e-6)).length;
+    const was = thuds();
+    world.forgetActors();
+    world.update(0.05, frame(center, { props: [{ ...crate, vx: 0 }] }));
+    expect(thuds()).toBe(was);
+  });
+});
