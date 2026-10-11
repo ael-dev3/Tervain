@@ -14,7 +14,7 @@ python tools/gothic3/prepare_engine_cinit_source.py --study '<study-root>' --out
 
 The generator checks the original Engine.dll hash and exact caller bytes.
 Independent regeneration produced identical JSON, SHA-256
-``0a04746ebe25167e049ae73369973c9d754fbe27c7cf445c4014590029c5e452``.
+``2bcd646a28380d161c38529111d7b5fd3951b7c142c203b23ade4122bc0e3d85``.
 
 The capture's `runtimeConnected: false` records evidence preparation; it grants
 no execution authority. The TypeScript continuation separately obtains a
@@ -157,3 +157,10 @@ upper unknown flag bits, and dispatches M through the compound parser. Original
 comparisons and DEC select the basic-type call at `3069b3b1`, with the actual
 output and modifier stack pointers. Execution stops after 3,223 operations; no
 parsed type text or cached name is supplied. The original cursor has not advanced.
+
+The basic-type parser reads M, advances the actual cursor to its NUL byte and
+uses the original readonly 11-byte case map and 24-byte target table. Index 10
+maps to target 4 at `3069b430`, which pushes the original float literal from
+`30819794`. The literal is captured as exact readonly bytes, not supplied decoded
+output. Execution stops at its original string constructor `30697a0f` after
+3,252 operations. Name allocation, cleanup and cache publication remain pending.

@@ -24047,6 +24047,33 @@
       "sha256": "ab24a95f44ceca5d2aed4b6d056adddd8539f44c6cd6ca506534e830c82ea8a8"
     },
     {
+      "label": "undecorationBasicTypeCaseMap",
+      "address": "3069b72d",
+      "bytes": 11,
+      "raw": "0000000101020203030504",
+      "fileBackedBytes": 11,
+      "loaderZeroFillBytes": 0,
+      "sha256": "7d95abd6335921e16a0287c8e66bde1fa99fd0b053f438d8d82c0287d9ba1333"
+    },
+    {
+      "label": "undecorationBasicTypeTargets",
+      "address": "3069b715",
+      "bytes": 24,
+      "raw": "08b4693012b469301cb4693026b4693030b46930d6b56930",
+      "fileBackedBytes": 24,
+      "loaderZeroFillBytes": 0,
+      "sha256": "5aaf3d275ebb96428819672475728159e0ed7aa644e8d0d44ed64af200c803d3"
+    },
+    {
+      "label": "undecorationFloatLiteral",
+      "address": "30819794",
+      "bytes": 6,
+      "raw": "666c6f617400",
+      "fileBackedBytes": 6,
+      "loaderZeroFillBytes": 0,
+      "sha256": "50e7aab8bdf6fd29b15bd51793c5404c95d6680a35ed74be42388e87b38b57e4"
+    },
+    {
       "label": "undecorationFieldVtableEntry",
       "address": "3089f2ac",
       "bytes": 4,

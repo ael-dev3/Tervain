@@ -4,6 +4,26 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local continuation — 11 October 2026: original basic-type case tables
+
+The basic-type parser executes its original frame setup and reads `M` from the
+retained cursor. It advances that cursor to the original NUL byte, preserves the
+carry bit and marks other pointer arithmetic flags unknown. Original comparisons
+select index 10 in the captured 11-byte case map; that byte selects target 4 in
+the captured 24-byte jump table. The actual target `3069b430` pushes the captured
+`float` literal at `30819794`, then calls its original string constructor at
+`30697a0f`. Execution stops there after 3,252 admitted operations with lock 5 held.
+The literal has not been substituted for a constructed or cached decoded name.
+
+All three new images are retained under the Engine owner and checked readonly.
+Eight runtime identity/failure checks, all 15 source/image checks, final
+typechecking, exact independent regeneration and whitespace checks pass. The
+existing output/modifier argument checks now read the still-pending original
+basic-type call slots while deeper code legitimately changes its registers.
+Combined validation of `a8f295e60` remains live in its frozen checkout. This is
+local work; string construction, parser returns, cleanup, startup and the complete
+playable campaign remain unfinished.
+
 ## Local continuation — 11 October 2026: data-type temporary and compound dispatch
 
 The original data-type parser creates its local frame and constructs the actual
