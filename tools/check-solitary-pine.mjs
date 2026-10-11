@@ -15,8 +15,9 @@ for (const asset of manifest.runtime) {
     triangles += gltf.accessors[primitive.indices ?? primitive.attributes.POSITION].count / 3;
   }
   assert.equal(triangles, asset.triangles, `${asset.path}: triangles`);
-  assert.deepEqual(gltf.extensionsRequired ?? [], []);
-  assert(gltf.images.every((image) => image.bufferView !== undefined && ['image/png', 'image/jpeg'].includes(image.mimeType)));
+  // Since A72 the files carry WebP colour maps and meshopt-compressed geometry (tools/optimise-models.mjs); nothing else.
+  assert((gltf.extensionsRequired ?? []).every((name) => ['EXT_texture_webp', 'EXT_meshopt_compression'].includes(name)));
+  assert(gltf.images.every((image) => image.bufferView !== undefined && ['image/png', 'image/jpeg', 'image/webp'].includes(image.mimeType)));
   const foliage = gltf.materials.find((material) => material.alphaMode === 'MASK');
   assert(foliage && foliage.doubleSided && foliage.alphaCutoff === 0.42);
   console.log(`${asset.level}: ${triangles.toLocaleString()} triangles; ${data.length.toLocaleString()} bytes; hash verified`);
