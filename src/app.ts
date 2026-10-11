@@ -3,7 +3,7 @@ import { FOLIAGE_FOCUS } from './presentation/foliage/foliageMaterial';
 import { loadMeshyTrees, type MeshyTreeTemplates } from './presentation/meshyTrees';
 import { loadBakedTextures } from './presentation/bakedTextures';
 import { pruneContentCache } from './presentation/assets/download';
-import { prefetchJourney } from './presentation/journeyPrefetch';
+import { prefetchJourney, warmJourney } from './presentation/journeyPrefetch';
 import * as THREE from 'three';
 import { NPCS } from './content/npcs';
 import { SCENES, SPEAKER_NAMES, VOICE_LINES, inHours, shown, type HeroCue } from './content/voice';
@@ -105,6 +105,8 @@ export class App {
   private menuAssets: MeshyNpcCatalog | null = null;
   private menuLoad: Promise<void> | null = null;
   private menuGraphicsReady = false;
+  /** Whether the journey's files have been asked for ahead, from the menu (A86). */
+  private journeyWarmed = false;
   private initialJourneyLoading = false;
   private initialLoad: Promise<void> | null = null;
   private loadingScreen!: LoadingScreen;
@@ -561,6 +563,11 @@ export class App {
       // Imported assets or a new quality setting may replace the scene during compilation.
       if (menu !== this.menuScene) continue;
       this.menuGraphicsReady = true;
+      // The menu is up: the journey's largest files are fetched ahead while the player is in it (A86).
+      if (!this.journeyWarmed && !this.world) {
+        this.journeyWarmed = true;
+        void warmJourney(() => !!this.world || this.initialJourneyLoading).catch(() => {});
+      }
       return;
     }
   }

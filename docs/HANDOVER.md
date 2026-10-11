@@ -18,7 +18,9 @@ the goal, the rules, every backlog item's state, what was in progress and the ex
   (it stops by the fourth lap), plus tree shadows drawn for the first time.
 - **Authored turns:** residents (A83) and the wanderer (A85) turning on the spot step from authored turns.
 - **Still open:**
-  - staged loading of the near tree files (below).
+  - nothing from the backlog. Staged loading (below) became fetching the journey's files from the menu (A86): the
+    wait after New journey fell from 35 s to 20 s on a 20 Mbit/s link. The near-model swap itself was not built (A86
+    says why).
 - **Leaf masses near the camera** from just under a crown give way (A84).
 
 ## Update (A78, local GPU session)
@@ -81,7 +83,7 @@ believably, and frames that are light without any visible loss. "Honest" means e
 | 1 | Indoor light and sound respect floor and ceiling | Done (A70); re-verified A75. |
 | 2 | Bounded recovery for failed building textures | Done (A70). |
 | 3 | Controller hints on right-stick look | Done (A70). |
-| 4 | Smaller first download, staged loading | Done to 57.7 MiB before entry (A72, A75). **Open:** staged loading of the near tree files (below). |
+| 4 | Smaller first download, staged loading | Done to 57.7 MiB before entry (A72, A75); the journey's files are fetched while the menu is open (A86). The near-model swap below was not built. |
 | 5 | Fixed-step simulation, interpolated drawing | Done (A72). |
 | 6 | Animation: transitions, contact, turns, feet, fingers | Done: phases and overlays (A70–A72), turns led by head and chest (A76), feet planted on uneven ground (A70), finger joints seated and the quill in the writing hand (A75). Authored turns on the spot for residents (A83) and the wanderer (A85). **Hard limit:** three modelled-fist hands (fingers not separable without new source models; Meshy caps apply). |
 | 7 | Residents inhabit interiors | Done (A70). |
