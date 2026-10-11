@@ -1521,3 +1521,129 @@ This combines main through PR 249 (`c138f2405`), native work through
 later second-property publication, third-property int work, or PR 250.
 These full-suite results establish this revision's checked components; they
 cannot establish successful full engine startup or campaign completion.
+### 2026-10-11: original second property publication
+
+The second CString caller registers its actual shutdown callback `3001c602`
+through the original Engine onexit wrapper. Its fourth exit-table entry retains
+that source callback after the first float property's callback, and the cursor
+advances to offset sixteen. Original lock and exception-frame cleanup returns
+reach the property caller, which publishes its actual storage pointer in the
+second-property root `30ad9e34`. Its physical initializer
+returns resume the original C++ initializer loop. Execution reaches the next
+callback `307322d0` after 8,280 source operations. The second CString and first
+float CString remain live; lock 8 is released. Shutdown callback execution is
+not implied by registration.
+
+Type checking passed. Three focused publication/interruption checks passed in
+15.34 seconds and six browser startup checks in 31.40 seconds. Failed lock
+acquisition keeps the second root known NULL and retains the physical caller,
+completed CString and first three exit-table entries. The unused fourth entry
+retains its original known-zero contents. Current combined validation remains
+active on frozen revision `80f90a64de485c9778e75db45c9f77e57db8e95a`, which
+includes construction but predates this publication continuation. These changes
+remain local. The next initializer, full engine startup and browser campaign
+completion with persistent saves remain unfinished.
+
+### 2026-10-11: original third visual-animation property dispatch
+
+The reproducible source package now captures the `307322d0` initializer,
+`30015bef` thunk and its `300765d0` property body, plus separate root, storage,
+flags and the eleven-byte `.H` RTTI image. Captured encodings agree with the
+pinned Engine DLL. The package contains 88 Engine bodies and 3,564 body
+instructions. Independent regeneration produced byte-identical JSON and
+TypeScript (SHA-256 `aef6b166435b363984fc8bb2094507cbbef92be51e230bf453571b915701a969`
+and `21628b4e42e249b30734a54f31744b84ebabb8cabd07d5ab48ea04c74050c8b2`).
+
+The third initializer preserves its actual arguments through the original
+property and type-name callers. Its original undecoration helpers obtain lock
+5, allocate a new owned parser arena, construct the parser and consume type code
+H. The original readonly case map selects the int literal branch at `3069b41c`
+after 8,836 source operations. That literal branch has not executed. The first
+float and second bCString properties remain published with their allocations
+and shutdown entries retained; the third property flags are three, its root is
+still NULL, and its parser arena is live with lock 5 held.
+
+Type checking passed. Four selected execution/source/image checks passed in
+13.17 seconds; all forty source/image checks passed in 7.52 seconds and six
+browser startup checks in 29.94 seconds. Unknown third-cache bytes stop at the
+original comparison `3067daa8`, retaining the third caller and both published
+properties. The combined validation continues on frozen revision
+`80f90a64de485c9778e75db45c9f77e57db8e95a`, which predates second-property
+publication and this third-property dispatch. These additions remain local.
+Third-property completion, full engine startup and playable browser campaign
+completion with save/reload remain unfinished.
+
+
+## 2026-10-11: original third-property int text construction
+
+The original readonly `int\0` literal at `3089f5d0` is now captured and
+protected against altered bytes or masks. The third-property basic-type branch
+executes its original string constructor, arena allocation and character-copy
+instructions. It constructs three characters at arena offset 4012, with a
+16-byte text node at 4020 and length three at 4032. Execution now reaches
+`3069b601` after 9,015 source operations. The parser arena remains live and
+lock 5 remains held; the third property has not yet been published.
+
+TypeScript checking passed. Three focused runtime checks passed in 16.33 seconds,
+including interruption at the actual final-character store `30696f4b`, which
+retains `in` and an unknown last byte, and an unknown third-cache word. Forty-eight
+source, image and browser-startup checks passed across four files in 51.41 seconds.
+Independent regeneration produced byte-identical JSON and TypeScript packages
+(SHA-256 `12193f572b8a5d99899e89cb453375c7415dd81dfc06ae92f6e9799d0500a696`
+and `9b702c814c62ef6e7726e436f2bf0a4f83cfb846f91058ba27bbb8b28cdccc1f`).
+
+The historical published float node remains a separate observation; the checks
+inspect the actual third arena captured during its physical character write.
+This checkpoint is local. Combined full-suite validation is still running on
+`80f90a64de485c9778e75db45c9f77e57db8e95a`, which predates this change.
+Full engine startup, campaign completion and campaign save/reload remain unproven.
+
+
+## 2026-10-11: original int parser returns
+
+The third-property path now executes the original basic-type qualifier tests for
+H, which select no extra qualifier, and checks the empty modifier value. The
+original parsed-value copies and physical return instructions carry the int node
+through basic, compound, data-type and type parsing into name parsing. The
+retained parsed value refers to the actual live third arena node at offset 4020;
+the original parser call at `3069b2de` remains pending. Execution reaches
+`3069b04e` after 9,232 source operations, with lock 5 still held.
+
+TypeScript checking passed. Three focused runtime checks passed in 15.99 seconds,
+including verification of the actual int-node provenance and seven returned
+call frames. Six browser startup checks passed in 42.92 seconds. The first
+browser attempt failed only because two assertions still named the previous
+`3069b601` boundary; the corrected assertions retain the unfinished-startup
+result and now identify its actual address. The source evidence package is
+unchanged from the preceding int-literal checkpoint.
+
+This change remains local. The separate combined validation at
+`80f90a64de485c9778e75db45c9f77e57db8e95a` is still live and predates these
+third-property steps. The third property's output, cache, CString and root
+publication are unfinished. Full engine startup and a complete browser campaign
+with save/reload are not established by these component checks.
+
+
+## 2026-10-11: original int output length and allocation
+
+The original name-parser flag and input-cursor checks now continue after the int
+value return. Its parsed value is assigned to the output receiver, measured
+through the original readonly text-node vtable, and found to contain three
+characters. Original arithmetic retains four bytes including the terminator
+and requests an eight-byte aligned output allocation. The output is a separate
+canonical Engine allocation, with its actual pointer and capacity retained in
+the pending writer arguments. Execution reaches `30697171` after 9,349 source
+operations; the text writer has not executed and lock 5 remains held.
+
+TypeScript checking passed. Four focused runtime checks passed in 19.90 seconds,
+including an unavailable original output allocator that retains the live int
+node and pending `3069b0b4` caller. Six browser startup checks passed in 47.57
+seconds. An initial assertion incorrectly expected MemoryAdmin metadata on the
+CRT output allocation; it was replaced with checks of its actual physical
+extent and canonical allocation ownership. Source evidence remains unchanged.
+
+This checkpoint remains local. The preceding combined revision
+`80f90a64de485c9778e75db45c9f77e57db8e95a` has since passed all 3,631 tests in
+322 files and its build, but predates third-property work. Full engine startup,
+third-property publication and complete browser campaign persistence remain
+unfinished.
