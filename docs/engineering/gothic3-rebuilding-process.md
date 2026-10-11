@@ -4,6 +4,20 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local continuation — 11 October 2026: parser constructor entry
+
+The parser constructor executes its original six entry instructions: it saves
+EBP, establishes the frame, saves ESI and EDI, retains its physical object in
+ESI, and calls the first internal-object initializer. Execution stops at
+`306972b8` after 2,804 admitted operations. The pending return is `30697486`;
+the original undecoration caller is also still pending, with lock 5 held.
+
+Typechecking and two focused runtime checks pass, including the callback-global
+identities, physical frame and nested pending return. Independent regeneration
+of the preceding source capture matches both JSON and TypeScript exactly.
+This local checkpoint does not complete name parsing, startup or the campaign.
+The earlier combined validation remains live in its separate checkout.
+
 ## Local continuation — 11 October 2026: undecoration globals and parser call
 
 The original undecoration caller stores its allocator and free callbacks in

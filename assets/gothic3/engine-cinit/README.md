@@ -1,7 +1,7 @@
 # Engine CRT initializer evidence
 
 This package records the next dependency after Engine environment-vector return.
-It captures 36 original bodies (895 instructions), the caller at `30677284`,
+It captures 37 original bodies (930 instructions), the caller at `30677284`,
 the floating-point callback at `30892ac0`, and two original initializer tables.
 The C initializer table has 200 slots with 6 nonzero entries. The C++ table has
 93,705 slots with 1,963 nonzero entries; omitted entries are verified zero.
@@ -14,7 +14,7 @@ python tools/gothic3/prepare_engine_cinit_source.py --study '<study-root>' --out
 
 The generator checks the original Engine.dll hash and exact caller bytes.
 Independent regeneration produced identical JSON, SHA-256
-``87906e06384e4388a3fe24fd6856a035c14cecdc35089ae5a3771cade7864239``.
+``c6d4c259580b0537565c9376e2afa49302dcdf86503aaaddb0fe42c18b9b60fe``.
 
 The capture's `runtimeConnected: false` records evidence preparation; it grants
 no execution authority. The TypeScript continuation separately obtains a
@@ -101,3 +101,9 @@ retained Engine CRT services under its active private permit. Service internals
 are translated contracts, not counted x86 rows. Normal execution stops at
 `3069b29e` with lock 5 held after 2,784 admitted operations. Unavailable services
 retain their actual pending returns and leave lock ownership unreported.
+
+The undecoration caller publishes its allocator/free capabilities and three zero
+work fields in the owned global image. Its parser constructor now executes its
+original frame setup and reaches the first internal-object initializer at
+`306972b8`, after 2,804 admitted operations. Lock 5 remains held and both parser
+calls remain pending. The constructor dependency and parser remain unfinished.
