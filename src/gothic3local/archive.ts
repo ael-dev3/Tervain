@@ -169,7 +169,12 @@ export async function inflate(bytes: Uint8Array, expected?: number): Promise<Uin
 export async function readEntry(e: PackEntry): Promise<Uint8Array> {
   if (e.encryption !== 0) throw new Error(`${e.path}: encrypted entries are not supported`);
   const raw = await e.source.read(e.offset, e.packed);
-  if (e.compression === 0) return raw;
+  // An entry reaching past the end of its file (a truncated download, a damaged patch) is an error, not a short read.
+  if (raw.length !== e.packed) throw new Error(`${e.path}: entry truncated (${raw.length} of ${e.packed} bytes)`);
+  if (e.compression === 0) {
+    if (e.packed !== e.unpacked) throw new Error(`${e.path}: stored entry is ${e.packed} bytes, its table says ${e.unpacked}`);
+    return raw;
+  }
   if (e.compression === 2 || e.compression === 1) return inflate(raw, e.unpacked);
   throw new Error(`${e.path}: unknown compression ${e.compression}`);
 }

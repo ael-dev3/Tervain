@@ -114,10 +114,17 @@ async function run(archives: GothicArchives): Promise<void> {
   // Ardea's own sector layers (dynamic objects, the town's interactive pieces).
   const sectors = archives.list((k) => /\/ardea_(city|outdoor)\/.+\.node$/.test(k)).map((e) => e.path);
   const t0 = performance.now();
-  await world.loadNodes([...paths, ...sectors], (done, total, label) => setStatus(`Loading ${label === 'meshes' ? 'meshes' : 'world cells'} ${done}/${total}${label && label !== 'meshes' ? ` — ${label}` : ''}`));
-  // The whole world in low detail for the horizon.
-  if (params.get('horizon') !== '0') await world.loadNodes([HORIZON_NODE], (done, total) => setStatus(`Loading the horizon ${done}/${total}`), 'far');
-  console.log(`world loaded in ${((performance.now() - t0) / 1000).toFixed(1)} s`, world.stats);
+  try {
+    await world.loadNodes([...paths, ...sectors], (done, total, label) => setStatus(`Loading ${label === 'meshes' ? 'meshes' : 'world cells'} ${done}/${total}${label && label !== 'meshes' ? ` — ${label}` : ''}`));
+    // The whole world in low detail for the horizon.
+    if (params.get('horizon') !== '0') await world.loadNodes([HORIZON_NODE], (done, total) => setStatus(`Loading the horizon ${done}/${total}`), 'far');
+    console.log(`world loaded in ${((performance.now() - t0) / 1000).toFixed(1)} s`, world.stats);
+  } catch (err) {
+    // A failed load frees what it drew so far: a second try starts on a clean GPU, not beside a dead world.
+    releaseScene(scene);
+    renderer.dispose();
+    throw err;
+  }
 
   const controls = new FirstPersonControls(camera, canvas);
   controls.groundBelow = (x, y, z) => world.groundBelow(x, y, z);
@@ -176,9 +183,34 @@ async function run(archives: GothicArchives): Promise<void> {
   document.title = params.has('shot') ? 'READY' : 'Gothic 3 — from your install';
 }
 
+/** Free every geometry, material and texture under a scene. */
+function releaseScene(scene: THREE.Scene): void {
+  const textures = new Set<THREE.Texture>();
+  scene.traverse((o) => {
+    const mesh = o as THREE.Mesh;
+    mesh.geometry?.dispose();
+    for (const m of [mesh.material ?? []].flat() as THREE.Material[]) {
+      for (const v of Object.values(m)) if ((v as THREE.Texture)?.isTexture) textures.add(v as THREE.Texture);
+      for (const u of Object.values((m as THREE.ShaderMaterial).uniforms ?? {})) if ((u?.value as THREE.Texture)?.isTexture) textures.add(u.value as THREE.Texture);
+      m.dispose();
+    }
+  });
+  for (const t of textures) t.dispose();
+  scene.clear();
+}
+
 /* ------------------------------------------------------------------ choosing the data */
 
-async function choose(selection: DataSelection | { missing: string[] }): Promise<void> {
+async function choose(select: () => Promise<DataSelection | { missing: string[] }>): Promise<void> {
+  let selection: DataSelection | { missing: string[] };
+  try {
+    selection = await select();
+  } catch (err) {
+    // A folder that went away, or one the browser may no longer read.
+    console.error(err);
+    setStatus(`Could not open that folder: ${(err as Error).message}`);
+    return;
+  }
   if ('missing' in selection) {
     setStatus(`That folder lacks ${selection.missing.join(', ')}. Choose the Gothic 3 folder or its Data folder.`);
     return;
@@ -200,14 +232,14 @@ $('pick').addEventListener('click', async () => {
     } catch {
       return;
     }
-    await rememberDirectory(dir);
-    await choose(await selectFromDirectory(dir));
+    await rememberDirectory(dir).catch(() => {});
+    await choose(() => selectFromDirectory(dir));
   } else $<HTMLInputElement>('folder').click();
 });
 
 $<HTMLInputElement>('folder').addEventListener('change', async (e) => {
   const files = [...((e.target as HTMLInputElement).files ?? [])];
-  if (files.length) await choose(selectFromFiles(files));
+  if (files.length) await choose(async () => selectFromFiles(files));
 });
 
 void (async () => {
@@ -217,14 +249,15 @@ void (async () => {
     again.hidden = false;
     again.textContent = `Continue with “${remembered.name}”`;
     again.addEventListener('click', async () => {
-      if (await ensureReadable(remembered)) await choose(await selectFromDirectory(remembered));
+      if (await ensureReadable(remembered).catch(() => false)) await choose(() => selectFromDirectory(remembered));
+      else setStatus(`Permission to read “${remembered.name}” was not given. Allow it, or choose the folder again.`);
     });
   }
   const dev = await devSelection();
   if (dev) {
     const button = $<HTMLButtonElement>('dev');
     button.hidden = false;
-    button.addEventListener('click', () => void choose(dev));
-    if (new URLSearchParams(location.search).has('autostart')) void choose(dev);
+    button.addEventListener('click', () => void choose(async () => dev));
+    if (new URLSearchParams(location.search).has('autostart')) void choose(async () => dev);
   }
 })();

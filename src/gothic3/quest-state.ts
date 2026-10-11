@@ -228,10 +228,19 @@ export class NativeQuests {
     }
     const index = quest.deliveryTargets.findIndex((target) => target.entity === entity);
     if (index < 0) return { kind: 'applied' };
-    state.counters[index] = (state.counters[index]! + 1) >>> 0;
+    const before = state.counters[index]!;
+    state.counters[index] = (before + 1) >>> 0;
+    // A delivery whose completion cannot be reproduced leaves no trace: a retried call must not count it twice.
     const completion = completionTarget(quest, state);
-    if (!completion.supported) return { kind: 'unsupported', reason: completion.reason };
-    if (completion.target !== null) return this.setStatus(id, completion.target);
+    if (!completion.supported) {
+      state.counters[index] = before;
+      return { kind: 'unsupported', reason: completion.reason };
+    }
+    if (completion.target !== null) {
+      const result = this.setStatus(id, completion.target);
+      if (result.kind !== 'applied') state.counters[index] = before;
+      return result;
+    }
     this.host.changed(quest, state.status, structuredClone(state));
     return { kind: 'applied' };
   }

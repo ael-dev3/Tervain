@@ -361,8 +361,9 @@ export function planNativeDialogue(info: NativeInfo, participants: DialogueParti
 /** Host owns asynchronous Say completion and native inventory/quest/UI effects. */
 export async function executeNativeDialogue(plan: DialogueExecutionPlan, host: DialogueCommandHost): Promise<NativeValue<true>> {
   // Recheck capabilities before start: a planning result does not reserve state.
-  for (const operation of plan.operations) {
-    const capability = host.capability(operation);
+  // Each command is rechecked with the ones before it, as at planning (experience awards add up toward a level).
+  for (const [i, operation] of plan.operations.entries()) {
+    const capability = host.capability(operation, plan.operations.slice(0, i));
     if (!capability.known) return capability;
   }
   const lifecycle = host.lifecycleCapability(plan);
