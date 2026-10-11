@@ -1806,15 +1806,13 @@ it('executes original ErrorAdmin sprintf against its actual callback arguments',
  expect(after.initializerAllocations).toHaveLength(before.initializerAllocations.length);expect(stack.calls.find(row=>row.site==='10022632')!.returned).toBe(true);expect(stack.calls.findLast(row=>row.site==='100aa287')!.returned).toBe(true);
  const calls=stack.calls.length;expect(owner.processDllErrorLogFormatting()).toEqual({known:false,reason:'Original SharedBase ErrorAdmin log insertion pending at 10022680'});expect(owner.snapshot().caseState!.stack!.snapshot().calls).toHaveLength(calls);
 },30_000);
-it('rejects damaged ErrorAdmin sprintf return, output and format before writing its buffer',()=>{
- for(const displacement of [0,4,8]){
+it.each([0,4,8])('rejects damaged ErrorAdmin sprintf return, output and format before writing its buffer at displacement %i',(displacement)=>{
  const {owner}=originalFileOpenFixture({cwd:'C:/Gothic3',directories:['C:/','C:/Gothic3'],files:[]});
  owner.processDllSpieCreateFile();owner.processDllSpieTerminate();owner.processDllMessageTerminate();owner.processDllMessageLog();owner.processDllErrorLogCallback();owner.processDllErrorLogAllocation();
  const before=owner.snapshot(),buffer=before.initializerAllocations.at(-1)!,bytes=buffer.bytes.slice(),masks=buffer.knownMask.slice(),stack=before.caseState!.stack!.snapshot(),call=stack.calls.at(-1)!;
  new NativeHeapObjectViews(stack.sharedDllResourceFrame!.handle.backing,call.position+displacement,4).writeUnsigned(0,0);
  const result=owner.processDllErrorLogFormatting();expect(result.known).toBe(false);if(result.known)throw new Error('Damaged sprintf return accepted');expect(result.reason).toMatch(/sprintf return frame|expression slot/);
  expect(buffer.bytes).toEqual(bytes);expect(buffer.knownMask).toEqual(masks);expect(owner.snapshot().messageSectionHeld).toBe(true);
- }
 },30_000);
 it('executes original ErrorAdmin malloc and passes its owned buffer to sprintf',()=>{
  const {owner}=originalFileOpenFixture({cwd:'C:/Gothic3',directories:['C:/','C:/Gothic3'],files:[]});
