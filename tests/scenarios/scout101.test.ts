@@ -107,3 +107,18 @@ describe('eighth scout fixes: the rotation\'s hours (A101)', () => {
     expect(JSON.stringify(scene.when)).not.toContain('rotation');
   });
 });
+
+describe('eleventh scout fixes: a steady camera under reduced motion (A104)', () => {
+  it('eases a stair step into the camera height rather than passing the jolt straight through', async () => {
+    const { CameraRig } = await import('../../src/presentation/cameraRig');
+    const rig = new CameraRig();
+    const pivot = () => (rig as unknown as { smoothTarget: THREE.Vector3 }).smoothTarget.y;
+    const follow = (y: number) => rig.follow(1 / 60, 0, y, 0, { groundAt: () => 0 }, new Colliders(), true, 0);
+    follow(0); follow(0);
+    const before = pivot();
+    follow(0.3);
+    const rise = pivot() - before;
+    expect(rise).toBeGreaterThan(0);
+    expect(rise).toBeLessThan(0.3 * 0.5);
+  });
+});

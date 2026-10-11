@@ -103,7 +103,10 @@ export class CameraRig {
     const lift = RIDE_CAMERA.up * this.rideBlend;
     this.lastPivotLift = heightOffset + lift;
     this.target.set(px, py + heightOffset + lift, pz);
+    // Reduced motion eases the pivot's height more gently, never not at all: unfiltered, every stair edge and swim bob
+    // jolted the view (A104 scout).
     const k = reducedMotion ? 1 : 1 - Math.exp(-Math.max(0, dt) * 18);
+    const kHeight = 1 - Math.exp(-Math.max(0, dt) * (reducedMotion ? 10 : 18));
     if (!this.initialized || this.smoothTarget.distanceToSquared(this.target) > 100) {
       this.smoothTarget.copy(this.target);
       this.initialized = true;
@@ -111,7 +114,7 @@ export class CameraRig {
       // Horizontal pivot lag pulled the camera through walls on corners and made steering feel floaty.
       this.smoothTarget.x = px;
       this.smoothTarget.z = pz;
-      this.smoothTarget.y += (this.target.y - this.smoothTarget.y) * k;
+      this.smoothTarget.y += (this.target.y - this.smoothTarget.y) * kHeight;
     }
 
     const cp = Math.cos(this.pitch);

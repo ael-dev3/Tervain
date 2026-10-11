@@ -6,7 +6,7 @@ import { pruneContentCache } from './presentation/assets/download';
 import { prefetchJourney, warmJourney } from './presentation/journeyPrefetch';
 import * as THREE from 'three';
 import { NPCS } from './content/npcs';
-import { SCENES, SPEAKER_NAMES, VOICE_LINES, inHours, shown, type HeroCue } from './content/voice';
+import { SCENE_REACH, SCENES, SPEAKER_NAMES, VOICE_LINES, inHours, shown, type HeroCue } from './content/voice';
 import { S } from './content/strings';
 import { CLOCK_RATE } from './game/constants';
 import { Game } from './game/game';
@@ -493,11 +493,15 @@ export class App {
   /** No silent runtime fallback: an incomplete resident download uses the existing graphics recovery screen. */
   /** The residents' models: `roles` only (the near ones before entry, stage 2), else everyone's. */
   private prepareNpcAssets(roles: readonly string[] = NPC_ROLES): Promise<void> {
-    if (this.npcAssets) return Promise.resolve();
+    // Ready only when it holds the roles asked for now: a journey begun elsewhere after a failed one left the new start's
+    // residents as stand-ins until after entry (A104 scout). What is already held is asked for again (from the cache).
+    const held = this.npcAssets, has = (catalog: MeshyNpcCatalog | null) => NPC_ROLES.filter((role) => catalog?.has(role));
+    if (held && roles.every((role) => held.has(role))) return Promise.resolve();
     if (this.npcAssetsLoad) return this.npcAssetsLoad;
+    const want = [...new Set([...roles, ...has(held)])];
     const request = loadMeshyNpcCatalog((loaded, total) => {
       this.loadingScreen?.update({ phase: 'residents', completed: loaded, total });
-    }, roles).then((assets) => { this.npcAssets ??= assets; });
+    }, want).then((assets) => { if (has(this.npcAssets).every((role) => assets.has(role))) this.npcAssets = assets; });
     this.npcAssetsLoad = request;
     void request.catch(() => {}).finally(() => { if (this.npcAssetsLoad === request) this.npcAssetsLoad = null; });
     return request;
@@ -980,7 +984,10 @@ export class App {
     }));
   }
 
+  /** Counts journeys begun, so what one scheduled does not reach the next. */
+  private playSession = 0;
   private beginPlay(fromLoad: { recovered: null | 'previous' | 'temporary' } | null) {
+    this.playSession++;
     if (this.worldPaused) return;
     this.clearSpeech();
     // Day or night is judged afresh in the new run: a stale night spoke a wrong "dawn" on arrival (A95 scout).
@@ -1415,7 +1422,8 @@ export class App {
     this.grade.setLook({ night: this.world.sky.state.nightness });
     this.world.prepareGrass(this.renderer, this.lastFrameDt);
     this.world.prepareInterior(this.renderer, this.cam.camera, this.lastFrameDt, this.settings);
-    this.grade.render(this.world.scene, this.cam.camera, this.lastFrameDt, this.world.waterRenderInputs(this.settings));
+    // Reduced motion stills the film grain in play as on the menu: it changed 24 times a second (A104 scout).
+    this.grade.render(this.world.scene, this.cam.camera, this.settings.reducedMotion ? 0 : this.lastFrameDt, this.world.waterRenderInputs(this.settings));
   }
 
   /** The menu's picture is rougher than play: an old painted backdrop, grainy and darkened at the edges. */
@@ -1600,6 +1608,14 @@ export class App {
     }
   }
 
+  /** The map marks the objective the HUD names: while hunting leads, Rowan's camp in the deepwood for his kit and
+   * arrows, and no single place for the hunt itself (A104 scout: it circled Rillford under "get a bow and knife"). */
+  private hintPlace(quest: PlaceId | null): PlaceId | null {
+    const hunting = huntingHint(this.game.state);
+    if (!hunting) return quest;
+    return hunting === 'hunting.objective.kit' || hunting === 'hunting.objective.spare' || hunting === 'hunting.objective.restock' ? 'deepwood' : null;
+  }
+
   private onPanelsClosed() {
     // The satchel, journal and map sound shut however they close: Escape, the Close button, gamepad B and the backdrop
     // were silent; only their own key played it (A103 scout).
@@ -1685,7 +1701,7 @@ export class App {
   private renderMap() {
     if (!this.mapCanvas) return;
     const hint = nextHint(this.game.state);
-    this.mapView.render(this.mapCanvas, { state: this.game.state, terrain: this.world.terrain, player: { x: this.player.x, z: this.player.z, yaw: this.player.yaw }, hintPlace: hint.place, guidance: this.settings.guidance, time: this.world.time, reducedMotion: this.settings.reducedMotion });
+    this.mapView.render(this.mapCanvas, { state: this.game.state, terrain: this.world.terrain, player: { x: this.player.x, z: this.player.z, yaw: this.player.yaw }, hintPlace: this.hintPlace(hint.place), guidance: this.settings.guidance, time: this.world.time, reducedMotion: this.settings.reducedMotion });
   }
 
   openSluice() {
@@ -2303,7 +2319,8 @@ export class App {
       if (!a || !b || a.hidden || b.hidden || a.asleep || b.asleep || !state.npcs[a.id].available || !state.npcs[b.id].available) continue;
       // Only two people at their places talk between themselves: neither is stopped and turned about mid-route (A69).
       if (a.underway || b.underway) continue;
-      if (Math.hypot(a.x - b.x, a.z - b.z) > 22) continue;
+      // The quarry pair stand 24.7 m apart, yard to face, since A70 moved the face: a foreman calls across his yard (A104 scout).
+      if (Math.hypot(a.x - b.x, a.z - b.z) > SCENE_REACH) continue;
       if (Math.hypot(this.player.x - (a.x + b.x) / 2, this.player.z - (a.z + b.z) / 2) > 16) continue;
       const where = (id: NpcId) => {
         const p = (id === a.id ? a : b).headPosition;
@@ -2466,9 +2483,10 @@ export class App {
     const times = bright ? 3 : 2;
     const at = { x: pos.x, y: pos.y + 3.5, z: pos.z };
     // A pause, a quit to the title or a rebuilt world cuts the peal off: later strikes rang on over the menu (A102 scout).
-    const world = this.world;
+    // Per session too: a quit to the title keeps the world, and a strike rang on into the next journey (A104 scout).
+    const world = this.world, session = this.playSession;
     for (let i = 0; i < times; i++) setTimeout(() => {
-      if (this.mode === 'play' && this.world === world && !this.menuBackgroundActive) this.audio.bell(gain, bright, at, i);
+      if (this.mode === 'play' && this.world === world && this.playSession === session && !this.menuBackgroundActive) this.audio.bell(gain, bright, at, i);
     }, i * (bright ? 600 : 1400));
     if (gain > 0.15) this.audio.caption(S(bright ? 'toast.caption.bell.allclear' : 'toast.caption.bell'));
   }

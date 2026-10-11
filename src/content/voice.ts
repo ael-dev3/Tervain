@@ -435,6 +435,9 @@ export const TALKS: Talk[] = [
 ];
 
 /** Overheard: people near each other at work or at rest, talking between themselves. */
+/** How far apart a scene's two speakers may stand and still talk between themselves (A53; 26 m since the A70 quarry face). */
+export const SCENE_REACH = 26;
+
 export const SCENES: Scene[] = [
   {
     id: 'quarry.waiting', cast: ['quarry_foreman', 'quarry_hand'], hours: [7, 18], when: [before],
