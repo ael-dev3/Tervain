@@ -491,3 +491,11 @@ and tagged allocation. Eight source/owner checks pass; independent regeneration
 matches exactly. The runtime owner lookup reuses the existing unique MemoryAdmin
 without constructing or initializing a replacement. Ambiguous ownership is
 rejected. The allocator continuation remains pending.
+
+The local CString allocation caller now reaches the retained MemoryAdmin getter.
+Missing/ambiguous ownership stops at `10002aae` after 4,298 source operations;
+the selected browser owner returns through its existing GetInstance contract
+and reaches Malloc `10003cd8` after 4,300. Internal getter operations are excluded
+from these counts. Eleven targeted runtime/browser checks and typechecking pass.
+Allocation and subsequent CString writes remain pending; this is not a deployed
+startup or campaign completion receipt.

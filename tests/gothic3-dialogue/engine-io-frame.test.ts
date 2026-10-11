@@ -1,3 +1,4 @@
+import {createNativeRuntimeAdminOwner} from '../../src/gothic3/native-runtime-platform';
 import {nativeVirtualX86CpuSelection,type NativeX86CpuSelection} from '../../src/gothic3/native-x86-thread-stack-profile';
 import type {NativeWin32ProcessInputSelection} from '../../src/gothic3/native-win32-process-inputs';
 import type {NativeArgvNlsCallGrant,NativeWin32ArgvNlsSelection} from '../../src/gothic3/native-win32-argv-nls';
@@ -1132,7 +1133,7 @@ it('executes the first original character-search DWORD and retains the unsupport
 it('retains the six-byte cache request over selected Engine physical capacity',()=>{
  const {bootstrap,platform,crt}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{engineHeapLayout:'rounded-eight',processorFeatureProcedure:true,floatingPointPrecisionErratum:false});
  expect(bootstrap.processAttach().known).toBe(false);const f=bootstrap.attachProgress().engineCinitProgress!;
- expect(f.pc).toBe('10007d65');expect(f.typeNameCacheText!.bytes.length).toBe(6);
+ expect(f.pc).toBe('10002aae');expect(f.typeNameCacheText!.bytes.length).toBe(6);
  const proof=NativeRuntimePlatform.canonicalEngineHeapAllocationViewsForPlatform(platform,crt,f.typeNameCacheText!.backing);if(!proof.known)throw new Error(proof.reason);
  expect(proof.value.logical).toBe(f.typeNameCacheText);expect(proof.value.requestedBytes).toBe(6);expect(proof.value.physicalCapacity).toBe(8);
  expect([...proof.value.physical.knownMask]).toEqual([255,255,255,255,255,255,0,0]);
@@ -1145,7 +1146,7 @@ it.each([0,255])('returns the original space search with unknown physical paddin
  const read=NativeHeapObjectViews.prototype.maskedWord;
  const spy=vi.spyOn(NativeHeapObjectViews.prototype,'maskedWord').mockImplementation(function(this:NativeHeapObjectViews,offset,width){if(this.bytes.length===8&&offset===4&&width===4&&this.bytes[0]===0x66&&this.bytes[4]===0x74){this.bytes[6]=padding;this.bytes[7]=padding;}return read.call(this,offset,width);});
  try{expect(bootstrap.processAttach().known).toBe(false);}finally{spy.mockRestore();}
- const f=bootstrap.attachProgress().engineCinitProgress!;expect(f).toMatchObject({pc:'10007d65',operations:4288,typeNameLockHeld:false});
+ const f=bootstrap.attachProgress().engineCinitProgress!;expect(f).toMatchObject({pc:'10002aae',operations:4298,typeNameLockHeld:false});
  const aliases=NativeRuntimePlatform.canonicalEngineHeapAllocationViewsForPlatform(platform,crt,f.typeNameCacheText!.backing);if(!aliases.known)throw new Error(aliases.reason);
  expect([...aliases.value.physical.knownMask]).toEqual([255,255,255,255,255,255,0,0]);
  const graph=NativeX86ThreadStack.forPlatform(platform);if(!graph.known)throw new Error(graph.reason);
@@ -1156,10 +1157,45 @@ it.each([0,255])('returns the original space search with unknown physical paddin
 
 it('scans the original live cache in CString construction and passes length five to allocation',()=>{
  const {bootstrap,platform,crt}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{engineHeapLayout:'rounded-eight',processorFeatureProcedure:true,floatingPointPrecisionErratum:false});
- expect(bootstrap.processAttach().known).toBe(false);const f=bootstrap.attachProgress().engineCinitProgress!;expect(f).toMatchObject({pc:'10007d65',operations:4288,typeNameLockHeld:false});
- expect(f.currentEaxWord).toMatchObject({value:5,mask:0xffffffff});expect(f.typeNameCacheText!.backing.freed).toBe(false);
+ expect(bootstrap.processAttach().known).toBe(false);const f=bootstrap.attachProgress().engineCinitProgress!;expect(f).toMatchObject({pc:'10002aae',operations:4298,typeNameLockHeld:false});
+ expect(f.currentEaxWord).toMatchObject({value:14,mask:0xffffffff});expect(f.typeNameCacheText!.backing.freed).toBe(false);
  const graph=NativeX86ThreadStack.forPlatform(platform);if(!graph.known)throw new Error(graph.reason);
  expect(graph.value.snapshot().trace.filter(r=>r==='10013610.SharedBaseUnMangleSource')).toHaveLength(6);
  expect(graph.value.snapshot().calls.find(c=>c.site==='10013623')?.returned).toBe(false);
  const storage=NativeEngineCinitImages.imageForCrt(f.images,crt,'visualAnimationFloatStorage');if(!storage.known)throw new Error(storage.reason);expect(storage.value.maskedWord(0).value).toBe(0);
+});
+
+
+it('binds the original CString allocation call to the retained MemoryAdmin',()=>{
+ const {bootstrap,platform}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{engineHeapLayout:'rounded-eight',processorFeatureProcedure:true,floatingPointPrecisionErratum:false});
+ const owner=createNativeRuntimeAdminOwner(platform);expect(bootstrap.processAttach().known).toBe(false);const f=bootstrap.attachProgress().engineCinitProgress!;
+ expect(f).toMatchObject({pc:'10003cd8',operations:4300});expect(f.typeNameMemoryAdmin).toBe(owner.memory);
+ expect(f.currentEaxWord).toMatchObject({provenance:{kind:'arena-memory-admin',owner:owner.memory}});
+ const graph=NativeX86ThreadStack.forPlatform(platform);if(!graph.known)throw new Error(graph.reason);
+ expect(graph.value.snapshot().calls.find(c=>c.site==='10013257')?.returned).toBe(true);
+ expect(graph.value.snapshot().calls.find(c=>c.site==='1001325e')?.returned).toBe(false);
+ expect(platform.snapshot().pending.filter(c=>c.address==='100e2710')).toHaveLength(1);
+});
+
+it.each(['missing','ambiguous'] as const)('retains the real MemoryAdmin caller with an %s owner',mode=>{
+ const {bootstrap,platform}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{engineHeapLayout:'rounded-eight',processorFeatureProcedure:true,floatingPointPrecisionErratum:false});
+ if(mode==='ambiguous'){createNativeRuntimeAdminOwner(platform);createNativeRuntimeAdminOwner(platform);}
+ const result=bootstrap.processAttach();expect(result.known).toBe(false);const f=bootstrap.attachProgress().engineCinitProgress!;
+ expect(f).toMatchObject({pc:'10002aae',operations:4298,typeNameMemoryAdmin:null});expect(f.currentEaxWord).toMatchObject({value:14,mask:0xffffffff});
+ const graph=NativeX86ThreadStack.forPlatform(platform);if(!graph.known)throw new Error(graph.reason);
+ expect(graph.value.snapshot().calls.find(c=>c.site==='10013257')?.returned).toBe(false);
+ expect(graph.value.snapshot().calls.some(c=>c.site==='1001325e')).toBe(false);
+ expect(platform.snapshot().pending.filter(c=>c.address==='100e2710')).toHaveLength(0);
+ expect(bootstrap.processAttach()).toEqual(result);
+});
+
+it('retains MemoryAdmin getter failure before allocation and forbids replay',()=>{
+ const {bootstrap,platform}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{engineHeapLayout:'rounded-eight',processorFeatureProcedure:true,floatingPointPrecisionErratum:false});
+ createNativeRuntimeAdminOwner(platform);const original=platform.registerShutdown.bind(platform);let calls=0;
+ const spy=vi.spyOn(platform,'registerShutdown').mockImplementation((...args)=>{if(args[0]==='100e2710'){calls++;return {known:false,reason:'memory shutdown unavailable'};}return original(...args);});
+ let result:ReturnType<typeof bootstrap.processAttach>;try{result=bootstrap.processAttach();}finally{spy.mockRestore();}
+ expect(result!.known).toBe(false);if(result!.known)throw new Error('Unfinished allocation returned');expect(result!.reason).toContain('memory shutdown unavailable');
+ const f=bootstrap.attachProgress().engineCinitProgress!;expect(f).toMatchObject({pc:'10002aae',operations:4298,typeNameMemoryAdmin:null});
+ const graph=NativeX86ThreadStack.forPlatform(platform);if(!graph.known)throw new Error(graph.reason);expect(graph.value.snapshot().calls.find(c=>c.site==='10013257')?.returned).toBe(false);
+ expect(bootstrap.processAttach()).toEqual(result!);expect(calls).toBe(1);
 });

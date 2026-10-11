@@ -143,3 +143,24 @@ five follow-up fixes and two startup-reason checks), and typechecking passes.
 The browser boundary checks passed separately when the layout was adopted;
 a fresh combined run of the latest revision remains required. These receipts
 do not claim a new full-suite pass or deployment.
+
+### CString allocation caller and retained MemoryAdmin — 11 October 2026
+
+The original allocation thunk and caller execute ten more captured rows. They
+preserve the destination, derive the 14-byte request from length five and call
+MemoryAdmin through `10013257 -> 10002aae`. A missing or ambiguous platform owner
+keeps that call pending at 4,298 admitted operations. No replacement owner or
+shutdown registration is created.
+
+With the existing unique owner, its source-backed GetInstance contract returns
+the same MemoryAdmin and registers its original shutdown once. Its internal
+operations are excluded from admitted source-row counts. The original caller
+sets ECX to that owner and calls `1001325e -> 10003cd8` (MemoryAdmin Malloc).
+The browser profile reaches this allocation boundary after 4,300 operations.
+No CString header, character allocation or destination pointer is published yet.
+
+Typechecking passes. Eight selected layout, length and owner checks pass, as do
+two browser integration checks and a getter-failure/replay check. The earlier
+combined revision passed all 233 focused checks; its full suite is still running.
+This continuation is local. Allocation return, CString copying, complete startup
+and a campaign playable through an ending remain unfinished.
