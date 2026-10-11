@@ -191,10 +191,11 @@ export const NPCS: Record<NpcId, NpcDef> = {
     schedule: [day('quarry_face', 'work', 6, 18), night('crew_bunks', 18, 6)],
     // On the rotation he is the night crew from the day it is agreed onward: at the face from the end of his day's shift,
     // asleep in the bunks by day. Before, the night shift only lasted the committed phase, came on top of the day shift
-    // (no rest at all) and began an hour after it (A94 scout).
+    // (no rest at all) and began an hour after it (A94 scout). Its hours are the water's: the quarry's night shift runs
+    // 19–6 (isDaytime), and he chiselled through a stopped quarry from 18 (A101 scout).
     overrides: [
-      { when: [{ t: 'phase', atLeast: 'committed' }, { t: 'alloc', is: 'rotation' }], from: 18, to: 6, anchor: 'quarry_face', activity: 'work' },
-      { when: [{ t: 'phase', atLeast: 'committed' }, { t: 'alloc', is: 'rotation' }], from: 6, to: 18, anchor: 'crew_bunks', activity: 'rest' },
+      { when: [{ t: 'phase', atLeast: 'committed' }, { t: 'alloc', is: 'rotation' }], from: 19, to: 6, anchor: 'quarry_face', activity: 'work' },
+      { when: [{ t: 'phase', atLeast: 'committed' }, { t: 'alloc', is: 'rotation' }], from: 6, to: 19, anchor: 'crew_bunks', activity: 'rest' },
     ],
     sleepsKey: 'npc.sleeps.crew',
   },

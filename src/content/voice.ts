@@ -56,7 +56,6 @@ const has = (id: 'dry_channel' | 'reduced_spring_flow' | 'diversion_and_seep' | 
 const rescued = F('ila_rescued');
 const stranded = NF('ila_rescued');
 const beastDead: Cond = { t: 'defeated', id: 'cut_creature' };
-const quarryWorking: Cond = { t: 'any', c: [alloc('quarry'), alloc('rotation')] };
 
 const L = (speaker: Speaker, text: string): VoiceLine => ({ speaker, text });
 
@@ -442,7 +441,9 @@ export const SCENES: Scene[] = [
     lines: ['darin.scene.blocks', 'pell.scene.dry', 'darin.scene.well', 'pell.scene.uphill', 'darin.scene.contract', 'pell.scene.says'],
   },
   {
-    id: 'quarry.working', cast: ['quarry_foreman', 'quarry_hand'], hours: [7, 18], when: [settled, quarryWorking],
+    // By day only the quarry's own allocation works the face: on the rotation the quarry stands by day and Pell sleeps
+    // (A101 scout: the scene was set for a rotation it could never play in).
+    id: 'quarry.working', cast: ['quarry_foreman', 'quarry_hand'], hours: [7, 18], when: [settled, alloc('quarry')],
     lines: ['darin.scene.load', 'pell.scene.count', 'darin.scene.used'],
   },
   {

@@ -120,7 +120,8 @@ export class Input {
 
   private onKeyDown = (e: KeyboardEvent) => {
     this.device = 'keyboard';
-    if ((e.defaultPrevented && e !== this.claimed) || e.isComposing) return;
+    const claimed = e === this.claimed;
+    if ((e.defaultPrevented && !claimed) || e.isComposing) return;
     this.claimed = null;
     if (this.captureNext) {
       e.preventDefault();
@@ -147,7 +148,9 @@ export class Input {
     if ((e.code === 'F5' || e.code === 'F9') && ACTIONS.some((action) => bindings[action].includes(e.code))) e.preventDefault();
     const tag = (e.target as HTMLElement | null)?.tagName;
     const typing = tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || (e.target as HTMLElement | null)?.isContentEditable;
-    if (typing && e.code !== 'Escape') return;
+    // A key the shell claimed for an open panel (its own toggle key) still reaches the game from the map's place list:
+    // M there was eaten twice, and only Escape closed the map (A101 scout).
+    if (typing && e.code !== 'Escape' && !claimed) return;
     // Space/Enter belong to a focused hotbar button's native activation, never a simultaneous world jump or attack.
     if (['Space', 'Enter', 'NumpadEnter'].includes(e.code) && (e.target as HTMLElement | null)?.closest?.('button, [role="button"]')) return;
     // Only explicitly owned gameplay combinations suppress a conflicting browser shortcut. Modal controls retain them.
@@ -292,6 +295,8 @@ export class Input {
         if (Math.abs(this.padAxes.ly) > 0.6) dy = Math.sign(this.padAxes.ly);
         else if (Math.abs(this.padAxes.lx) > 0.6) dx = Math.sign(this.padAxes.lx);
       }
+      // Back at rest, the next tap moves at once: two quick taps moved focus only one row (A101 scout).
+      if (dx === 0 && dy === 0) this.navCooldown = 0;
       if ((dx !== 0 || dy !== 0) && this.navCooldown <= 0) {
         this.navCooldown = 0.18;
         this.onNavigate(dx, dy);

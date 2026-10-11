@@ -25,7 +25,7 @@ export class AnimalHunting {
   private scanCursor = 0;
   private reduced = false;
   constructor(animals: readonly HuntingAnimal[], private terrain: Ground,
-    private frighten: (animal: HuntingAnimal, position: { x: number; z: number }) => void,
+    private frighten: (animal: HuntingAnimal, position: { x: number; z: number }, wounded?: boolean) => void,
     private restore: (animal: HuntingAnimal) => void) {
     this.effects = new AnimalImpactEffects(terrain); this.group = this.effects.group;
     this.residents = animals.flatMap(animal => {
@@ -52,7 +52,9 @@ export class AnimalHunting {
       animal.root.position.copy(record.position); animal.yaw = record.yaw;
       if (restore || moved) animal.root.rotation.set(0, record.yaw, 0);
       if (record.status === 'injured') {
-        this.frighten(animal, { x: record.position.x - Math.sin(record.yaw) * 2, z: record.position.z - Math.cos(record.yaw) * 2 });
+        // Wounded, it flees the shot it already took fright at, or the hunter. The point behind it is only a last resort:
+        // fleeing from it sent the animal (and its herd) along its own facing, often straight at the archer (A101 scout).
+        this.frighten(animal, { x: record.position.x - Math.sin(record.yaw) * 2, z: record.position.z - Math.cos(record.yaw) * 2 }, true);
       } else if (record.status === 'dead') {
         corpse.begin(animal.definition.id, restore || !this.running);
         corpse.update(0, this.terrain, record.position, record.yaw, 0);
