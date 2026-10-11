@@ -74,3 +74,16 @@ from any Game owner. Forged identities and cross-platform use are rejected.
 Two focused owner-admission checks and typechecking pass. This supplies ownership
 for the bridge; rounded Engine allocation views and search continuation are still
 unfinished. No allocation layout or public deployment is changed by this step.
+
+### Explicit physical layout implemented locally
+
+A fresh platform may select `engineHeapLayout: 'rounded-eight'`. Only an actual
+constructed Engine owner can obtain this layout on its retained heap. Private
+allocation receipts preserve requested size and physical capacity separately,
+with immutable logical/physical views over the same live backing. Padding masks
+remain unknown. Omitted selection retains exact capacity. The capacity accessor
+checks the owner, platform, heap, membership, view geometry and release state.
+Five focused checks pass, including padding, shared mutation, forged backing,
+wrong owner/platform and invalidation after release. Typechecking passes.
+The browser profile and startup caller have not yet adopted these aliases;
+SharedBase search integration and campaign completion remain unfinished.
