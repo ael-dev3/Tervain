@@ -60,6 +60,13 @@ describe('original Engine CRT initializer evidence', () => {
     expect(()=>engineCinitUnMangleInstruction('3067da97','3067da97')).toThrow();
     expect(()=>engineCinitUnMangleInstruction('100088cd','10091556')).toThrow();
   });
+  it('pins the original decorated-type decoder body and retained caller',()=>{
+    expect(engineCinitInstruction('3069b876','3069b8fe').bytes).toBe('e8d1f1ffff');
+    expect(engineCinitInstruction('3069aad4','3069aad4').bytes).toBe('55');
+    expect(engineCinitInstruction('3069aad4','3069aad7').bytes).toBe('83ec54');
+    expect(engineCinitInstruction('3069aad4','3069aaff').bytes).toBe('7533');
+    expect(engineCinitInstruction('3069aad4','3069afb7').bytes).toBe('c3');
+  });
   it('pins the second visual-animation initializer and its property thunk',()=>{
     expect(engineCinitInstruction('307322c0','307322c0').bytes).toBe('e8254d8eff');
     expect(engineCinitInstruction('30016fea','30016fea').bytes).toBe('e971f50500');

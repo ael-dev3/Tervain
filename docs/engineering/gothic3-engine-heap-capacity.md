@@ -426,3 +426,22 @@ actual pending call's live stack positions. The first float path retains its
 normal dispatch and constructor behavior. Earlier combined full-suite validation
 remains running and predates this continuation. Full startup, deployment and
 campaign completion remain unfinished.
+
+### Captured decorated-type decoder body — 11 October 2026
+
+The next decoder at `3069aad4` is now captured from the matching Engine study
+and checked against the pinned original PE. Its complete 441-instruction body
+ends at `3069afb7`; instruction bytes hash to
+`bedc4caa88d3af6da08000a49513460d67c66d13f826de9caeeb33a0206418c4`.
+The Engine evidence package now contains 71 bodies and 2,895 instructions.
+Independent regeneration produces byte-identical JSON and TypeScript records.
+Typechecking and all 24 source/image checks pass, including the retained caller,
+prolog, prefix branch and final RET encodings.
+
+This capture does not execute the decoder or supply its return value. The local
+runtime remains pending at `3069aad4` after 4,965 admitted operations. Captured
+instructions show an 84-byte decoder stack frame followed by the `A` prefix's
+original qualifier logic; implementation remains necessary. Combined full-suite
+validation still runs on the earlier revision. PR #244 was merged externally
+after successful CI; it is not included in that frozen validation checkout.
+Full startup and campaign play remain unfinished.
