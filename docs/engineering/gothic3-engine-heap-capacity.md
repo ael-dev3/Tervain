@@ -690,3 +690,18 @@ is the only evidence-package change. TypeScript checking and all 28 source/image
 checks pass. Runtime remains pending at `3069966d`, with 5,450 operations.
 This local evidence capture does not construct the name or prove startup.
 Complete startup and browser campaign completion remain unfinished.
+
+## 2026-10-11: shared original string-constructor prefix
+
+The class parser now passes the retained `class ` literal and its actual local
+destination to `30699683 -> 30697a0f`. The original string constructor's prefix
+is shared with the existing float path. It reads the actual bytes, counts six
+characters, and passes the live literal and length to `30697a2e -> 3069760c`.
+The initializer reaches 5,483 source operations; string initialization remains
+pending. No class text node or final decoded name is fabricated.
+
+TypeScript checking and five focused allocation, unknown-byte, qualifier,
+constructor and fatal-call checks pass. The extracted prefix and its retained
+first-path continuation were reviewed. This change remains local; complete
+startup and campaign completion remain unfinished. Earlier combined validation
+is still running in its frozen checkout.
