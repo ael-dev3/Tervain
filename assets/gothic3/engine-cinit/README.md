@@ -2411,3 +2411,26 @@ eight character bytes are unknown, the arena stays live and lock 5 stays held.
 The original copy and name-constructor calls remain pending. The completed
 camera CString and prior callback registrations remain intact. This checkpoint
 is local, not deployed; complete startup and campaign play remain unfinished.
+
+
+### 11 October 2026: reference-base identifier cache and scoped return
+
+The original identifier assignment and name-reference cache append now execute
+against the retained reference-base name node. The original cookie XOR and
+comparison complete before the identifier physically returns; the scoped-name
+routine assigns that returned value, consumes the actual second delimiter and
+restores its caller. Execution reaches `306996a8` after 16,338 operations, with
+the RTTI cursor at offset 29. The parsed identifier and class keyword remain in
+the live reference-base arena, lock 5 stays held and the property root stays
+known NULL. Class-list append and outer parser returns remain pending. The
+copied-type snapshot still records the earlier completed camera parse.
+
+Typechecking, four selected runtime checks and six browser-startup checks pass.
+The continuation matches the captured camera path except for the derived
+reference-base delimiter positions. Making the actual Engine security cookie
+unknown at its original comparison stops at `3067746c` with the full name live,
+the cache append returned and the identifier/cookie calls pending. No successful
+return or root publication is synthesized. This is a local checkpoint, not a
+deployed game or proof of complete startup and campaign play. The unchanged
+combined revision `015b00c0c3a1b7db32bc6620d1e54295d88b59cb` is still validating
+and predates this newer continuation.
