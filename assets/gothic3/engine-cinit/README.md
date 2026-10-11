@@ -1,7 +1,7 @@
 # Engine CRT initializer evidence
 
 This package records the next dependency after Engine environment-vector return.
-It captures 66 original bodies (2422 instructions), the caller at `30677284`,
+It captures 68 original bodies (2429 instructions), the caller at `30677284`,
 the floating-point callback at `30892ac0`, and two original initializer tables.
 The C initializer table has 200 slots with 6 nonzero entries. The C++ table has
 93,705 slots with 1,963 nonzero entries; omitted entries are verified zero.
@@ -14,7 +14,7 @@ python tools/gothic3/prepare_engine_cinit_source.py --study '<study-root>' --out
 
 The generator checks the original Engine.dll hash and exact caller bytes.
 Independent regeneration produced identical JSON, SHA-256
-``054eb09a22280627b1b73cd6741f647406e2d9d0449c5fb58ec481bf7009c496``.
+``1cf6b6350298cd32980f0104700ba120d0f3bf19622f3cbb9259a7d7b5bf8f8f``.
 
 The capture's `runtimeConnected: false` records evidence preparation; it grants
 no execution authority. The TypeScript continuation separately obtains a
@@ -408,3 +408,80 @@ startup and a finishable browser campaign remain unfinished.
 Independent JSON and TypeScript regeneration is byte-identical. Typechecking,
 ten selected runtime checks and all nineteen source/image checks pass.
 Combined validation and publication are recorded separately.
+
+The missing cleanup caller at `3067db6a` and lock-14 finally helper at
+`3067db83` are now independently captured from exact pinned PE bytes.
+Five source checks pass, including their encodings; runtime execution of this
+cleanup continuation remains unfinished.
+
+## Local temporary-output cleanup — 11 October 2026
+
+The normal cold-cache path pushes its actual temporary output at `3067db62`
+and calls the retained Engine free owner. After release, the recovered caller
+sets its original exception state and invokes the lock-14 finally helper.
+Execution reaches `3067db77` after 4,163 admitted operations with the output
+freed, the cache node and text live, and lock 14 released. Interrupted free or
+unlock retains the actual pending call and the appropriate resource state.
+The previously supported NULL-allocation branches retain their earlier boundary.
+Typechecking and eighteen selected regression checks pass. This is local work;
+full startup and campaign completion remain unfinished.
+
+## Local type-name wrapper return — 11 October 2026
+
+The original type-name routine reloads its live cached text, runs the actual
+EH epilog and returns through `306713ae` to property construction at `30076678`.
+The returned EAX retains the same Engine-owned six-byte cache allocation.
+The temporary output is freed and lock 14 is released. Normal execution has
+4,180 admitted operations. A dedicated return/ownership check passes; combined
+validation of this newer continuation is still pending. Full startup and a
+finishable browser campaign remain unfinished.
+
+## Local SharedBase UnMangle caller — 11 October 2026
+
+The actual property caller pushes the returned Engine cache pointer and its
+original static result storage, validates IAT `30afdab0` against the original
+SharedBase export receipt and retains call `3007667e -> 100088cd` pending.
+Its arguments preserve Engine ownership; no CString result or successful
+SharedBase return is fabricated. Normal execution has 4,183 admitted operations.
+A dedicated argument/lifetime/pending-call check and typechecking pass.
+
+The next dependency is SharedBase UnMangle (`10091550`) and its CString
+construction. Its search uses DWORD reads. Engine allocations currently retain
+exact capacity; rounded physical allocation views exist only for the explicitly
+selected Game heap. Alignment alone does not prove readable tail capacity.
+Combined validation and browser campaign completion remain pending.
+
+The package also captures four SharedBase UnMangle/CString dependency bodies
+from the hash-pinned original DLL, separately from Engine instructions. The
+space literal is `20 00` at `100e6f44`. Six source checks pass, including the
+UnMangle export thunk and rejecting cross-module or interior-byte lookups.
+Independent JSON and TypeScript regeneration matches byte for byte. This is
+source preparation; the pending SharedBase call has not returned.
+
+## Local SharedBase space-search dispatch — 11 October 2026
+
+The retained call executes the original UnMangle thunk, saves ESI, loads the
+actual Engine-owned input and passes the original two-byte space literal to
+SharedBase strstr. The literal's known terminating NUL selects the one-character
+path, restores strstr's saved registers and tail-jumps to `100a7306` with AL=32.
+The 23 SharedBase instructions are traced separately; total admitted operations
+are 4,206. The search and UnMangle calls remain pending, the cache stays live,
+and the temporary output stays freed. No CString construction result is supplied.
+Typechecking and a dedicated dispatch/ownership/lifetime check pass. Full
+integration validation of this continuation remains pending.
+
+## Local aligned character-search DWORD — 11 October 2026
+
+The original character-search tail uses retained allocator alignment, expands
+its space byte into a repeated DWORD and executes the first native DWORD load
+and its match/zero predicates. That word contains `floa`; neither predicate
+selects a return. EDX advances to offset four. The second four-byte load at
+`100a7338` cannot be admitted against the six-byte Engine allocation, so the
+actual load remains pending after 4,234 operations (51 SharedBase operations).
+The cache remains live and known; no tail bytes, CString or return are invented.
+A dedicated execution/span/lifetime/repeated-call check and typechecking pass.
+The next dependency is a justified Engine physical-span policy; alignment alone
+cannot supply it. Full integration validation remains pending.
+
+See the [Engine heap capacity contract](../../../docs/engineering/gothic3-engine-heap-capacity.md)
+for the next physical-span bridge and its required ownership checks.

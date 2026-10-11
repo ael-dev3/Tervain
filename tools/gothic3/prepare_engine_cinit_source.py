@@ -126,6 +126,30 @@ def capture(study):
         entryChain=[],bodyRanges=f'{begin:08x}-{end-1:08x}',instructions=rows,instructionCount=len(rows),
         bodyByteCount=len(raw),bodyInstructionBytesSha256=hashlib.sha256(raw).hexdigest(),
         recoveredFromOriginalPEWithoutAssembly=True,decoder=f'capstone {capstone.__version__}'))
+    # These cleanup instructions are omitted from the function listing.
+    # Admit them only from exact bytes in the hash-pinned original DLL.
+    for label, begin, encoded, count in [
+        ('engineTypeNameCleanupContinuation', 0x3067db6a,
+         '59c745fcfeffffffe80c000000', 3),
+        ('engineTypeNameFinally', 0x3067db83,
+         '6a0ee82c57000059c3', 4),
+    ]:
+        raw = bytes.fromhex(encoded)
+        if pe.bytes(begin, len(raw)) != raw:
+            raise ValueError('Original Engine cleanup encoding differs: ' + label)
+        rows = [dict(va=f'{i.address:08x}', rva=f'{i.address-pe.base:x}',
+                     fileOffset=pe.offset(i.address, i.size), bytes=i.bytes.hex(),
+                     instruction=(i.mnemonic+' '+i.op_str).strip())
+                for i in decoder.disasm(raw, begin)]
+        if len(rows) != count or b''.join(bytes.fromhex(r['bytes']) for r in rows) != raw:
+            raise ValueError('Incomplete Engine cleanup decoding: ' + label)
+        source['methods'].append(dict(label=label, entryVA=f'0x{begin:08x}',
+            bodyVA=f'0x{begin:08x}', entryChain=[],
+            bodyRanges=f'{begin:08x}-{begin+len(raw)-1:08x}', instructions=rows,
+            instructionCount=len(rows), bodyByteCount=len(raw),
+            bodyInstructionBytesSha256=hashlib.sha256(raw).hexdigest(),
+            recoveredFromOriginalPEWithoutAssembly=True,
+            decoder=f'capstone {capstone.__version__}'))
     caller = pe.bytes(0x30677284, 27)
     if caller.hex() != '85c07c176a00e8385f000085c059750bff05d070af30e9ac000000':
         raise ValueError('Original Engine initializer caller differs')
@@ -204,7 +228,21 @@ def capture(study):
             raise ValueError('Unterminated original Engine divide dispatch string')
         strings.append(dict(label=label,address=f'{address:08x}',raw=raw.hex(),
             text=raw[:-1].decode('ascii'),sha256=hashlib.sha256(raw).hexdigest()))
+    EXPECTED_INPUTS['SharedBase.dll'] = '5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214'
+    shared_unmangle = audit_module(study, 'SharedBase_dll', 'SharedBase.dll', {
+        0x100088cd: 'sharedClassNameUnMangle',
+        0x100a7430: 'sharedClassNameSpaceSearch',
+        0x100a7300: 'sharedClassNameCharacterSearch',
+        0x10003ba7: 'sharedClassNameTextConstructor',
+    })
+    shared_pe = PE((study / '00_Original_Runtime/SharedBase.dll').read_bytes())
+    space = shared_pe.bytes(0x100e6f44, 2)
+    if space.hex() != '2000':
+        raise ValueError('Original SharedBase UnMangle space literal differs')
     return dict(schema='gothic3.engine-cinit-source.v1', source=source,
+        sharedBaseUnMangleSource=shared_unmangle,
+        sharedBaseSpaceLiteral=dict(address='100e6f44', raw=space.hex(),
+            sha256=hashlib.sha256(space).hexdigest()),
         caller=dict(resultTest='30677284', failureBranch='30677286',
             failureTarget='3067729f', call='3067728a', target='3067d1c7',
             returnAddress='3067728f', raw=caller.hex(), sha256=hashlib.sha256(caller).hexdigest()),
@@ -240,6 +278,8 @@ function freeze(value:unknown):void {if(value&&typeof value==='object'&&!Object.
 freeze(source);
 export function admitEngineCinitSource():void {if(sourceText!==expectedText)throw new Error('Original Engine initializer source differs');}
 export function engineCinitInstruction(entry:string,pc:string){admitEngineCinitSource();const method=source.source.methods.find(method=>method.bodyVA==='0x'+entry||method.entryVA==='0x'+entry);const row=method?.instructions.find(row=>row.va===pc)??method?.entryChain.find(row=>row.va===pc);if(!row)throw new Error('Original Engine initializer instruction required');return row;}
+export function engineCinitUnMangleInstruction(entry:string,pc:string){admitEngineCinitSource();const method=source.sharedBaseUnMangleSource.methods.find(method=>method.bodyVA==='0x'+entry||method.entryVA==='0x'+entry);const row=method?.instructions.find(row=>row.va===pc)??method?.entryChain.find(row=>row.va===pc);if(!row)throw new Error('Original SharedBase UnMangle instruction required');return row;}
+export function engineCinitUnMangleLiteral(){admitEngineCinitSource();return source.sharedBaseSpaceLiteral;}
 export function engineCinitCaller(){admitEngineCinitSource();return source.caller;}
 export function engineCinitImport(iat:string){admitEngineCinitSource();const row=source.source.imports.find(row=>row.iatVA==='0x'+iat);if(!row)throw new Error('Original Engine initializer import required');return row;}
 export function engineCinitFloatingPointCallback(){admitEngineCinitSource();return source.floatingPointCallback;}

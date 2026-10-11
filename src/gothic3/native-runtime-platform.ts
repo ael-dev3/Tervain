@@ -144,6 +144,8 @@ export interface NativeEngineCrtPlatformServices {
   readonly fileSystem?: NativeWin32FileSystemSelection;
   readonly argvNls?: NativeWin32ArgvNlsSelection;
   readonly setEnvp?: NativeWin32SetEnvpSelection;
+  /** Fresh virtual Engine allocation capacity, separately from its request. */
+  readonly engineHeapLayout?: 'rounded-eight';
   readonly entropy?: {
     systemTimeAsFileTime?(): NativeValue<{ low: number; high: number }>;
     currentProcessId?(): NativeValue<number>;
@@ -168,11 +170,12 @@ function retainCrtServices(selected: NativeEngineCrtPlatformServices | undefined
 } {
   if (selected === undefined) return { services: undefined, tls: [] };
   const { tlsValues, kernel32Available, pointerCodec, sectionSpinProcedure,
-    fiberLocalStorage, processHeap, osVersion, entropy, processInputs, threadStack, startupIo, standardIo, fileSystem, argvNls, setEnvp, processorFeatureProcedure, floatingPointPrecisionErratum } = selected;
+    fiberLocalStorage, processHeap, osVersion, entropy, processInputs, threadStack, startupIo, standardIo, fileSystem, argvNls, setEnvp, engineHeapLayout, processorFeatureProcedure, floatingPointPrecisionErratum } = selected;
   if (typeof kernel32Available !== 'boolean' || (pointerCodec !== 'absent' && pointerCodec !== 'owned-bijection') ||
       [sectionSpinProcedure, fiberLocalStorage, processHeap, processorFeatureProcedure, floatingPointPrecisionErratum].some(value => value !== undefined && typeof value !== 'boolean')) {
     throw new Error('Explicit selected CRT registry configuration required');
   }
+  if (engineHeapLayout !== undefined && engineHeapLayout !== 'rounded-eight') throw new Error('Explicit Engine heap layout required');
   const version = osVersion === undefined || osVersion === null ? osVersion : Object.freeze({
     platform: osVersion.platform, major: osVersion.major, minor: osVersion.minor, build: osVersion.build });
   if (version && Object.values(version).some(value => !Number.isInteger(value) || value < 0 || value > 0xffffffff)) {
@@ -190,7 +193,7 @@ function retainCrtServices(selected: NativeEngineCrtPlatformServices | undefined
         (typeof value !== 'object' && typeof value !== 'function')) throw new Error('Selected initial TLS indices and retained capabilities required');
     tls.push(Object.freeze([index, value] as const));
   }
-  return { services: Object.freeze({ kernel32Available, pointerCodec, sectionSpinProcedure, processorFeatureProcedure, floatingPointPrecisionErratum,
+  return { services: Object.freeze({ kernel32Available, pointerCodec, sectionSpinProcedure, processorFeatureProcedure, floatingPointPrecisionErratum, engineHeapLayout,
     fiberLocalStorage, processHeap, osVersion: version, entropy: callbacks,
     processInputs: processInputs === undefined ? undefined : retainNativeWin32ProcessInputSelection(processInputs),
     threadStack: threadStack === undefined ? undefined : retainNativeX86ThreadStackSelection(threadStack),
@@ -223,6 +226,7 @@ interface WinHeap {
   readonly options: 0 | 1;
   readonly allocations: Set<NativeMemoryBacking>;
   readonly gameOwner?: NativeModuleCrtOwner;
+  readonly engineOwner?: NativeModuleCrtOwner;
   destroyed: boolean;
 }
 interface PhysicalSection {
@@ -675,7 +679,7 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
         record.logical.bytes !== record.logicalBytes || record.logical.knownMask !== record.logicalMasks || record.logical.view !== record.logicalView ||
         record.physical.bytes !== record.physicalBytes || record.physical.knownMask !== record.physicalMasks || record.physical.view !== record.physicalView ||
         (retired ? !this.#releasedBackings.has(backing) : backing.freed || this.#releasedBackings.has(backing))) {
-      throw new Error('Actual retained logical/physical Game allocation storage and lifetime required');
+      throw new Error('Actual retained logical/physical allocation storage and lifetime required');
     }
     for (const [fields, length] of [[record.logical, record.requestedBytes], [record.physical, record.physicalCapacity]] as const) {
       requirePhysicalNativeViews(fields);
@@ -686,6 +690,24 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
           Object.getOwnPropertyDescriptor(fields, 'pointerIdentity')!.value !== backing.identity ||
           Object.getOwnPropertyDescriptor(fields, 'pointerBegin')!.value !== 0) throw new Error('Current exact logical/physical allocation aliases differ');
     }
+  }
+  static engineHeapLayoutForPlatform(platform:NativeRuntimePlatform):NativeValue<'rounded-eight'|undefined>{
+    const active=NativeRuntimePlatform.requireActivePlatform(platform);return active.known?known(platform.#crtServices?.engineHeapLayout):active;
+  }
+  static canonicalEngineHeapAllocationViewsForPlatform(platform: NativeRuntimePlatform, owner: NativeModuleCrtOwner,
+    backing: NativeMemoryBacking): NativeValue<Readonly<{logical:NativeHeapObjectViews;physical:NativeHeapObjectViews;requestedBytes:number;physicalCapacity:number}>> {
+    const active=NativeRuntimePlatform.requireActivePlatform(platform);if(!active.known)return active;
+    try {
+      const ownerProof=NativeModuleCrtOwner.canonicalEngineHeapOwnerIdentityForPlatform(platform,owner.identity);
+      if(!ownerProof.known||ownerProof.value!==owner)return unknown('Actual same-platform Engine allocation owner required');
+      const record=platform.#heapAllocationViews.get(backing);
+      if(platform.#crtServices?.engineHeapLayout!=='rounded-eight'||!record||record.owner!==owner)return unknown('Actual selected Engine capacity receipt required');
+      const heap=platform.#winHeaps.get(record.heap.identity);
+      if(!heap||heap.capability!==record.heap||heap.engineOwner!==owner||heap.destroyed||!heap.allocations.has(backing))return unknown('Actual live Engine capacity heap required');
+      platform.#proveHeapAllocationViews(record);
+      const span=NativeModuleCrtOwner.canonicalEngineHeapDestination(owner,platform,{fields:record.physical,offset:0},record.physicalCapacity);if(!span.known)return span;
+      return known(Object.freeze({logical:record.logical,physical:record.physical,requestedBytes:record.requestedBytes,physicalCapacity:record.physicalCapacity}));
+    }catch(error){return unknown(error instanceof Error?error.message:String(error));}
   }
   static canonicalGameHeapAllocationViewsForPlatform(platform: NativeRuntimePlatform, owner: NativeModuleCrtOwner,
     backing: NativeMemoryBacking): NativeValue<Readonly<{ logical: NativeHeapObjectViews; physical: NativeHeapObjectViews; requestedBytes: number; physicalCapacity: number }>> {
@@ -1436,8 +1458,9 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
     }
     const capability = Object.freeze({ identity: Object.freeze({}), owner });
     const game = NativeModuleCrtOwner.canonicalGameHeapOwnerIdentityForPlatform(this, owner);
+    const engine = NativeModuleCrtOwner.canonicalEngineHeapOwnerIdentityForPlatform(this, owner);
     this.#winHeaps.set(capability.identity, { capability, options, allocations: new Set(), destroyed: false,
-      gameOwner: game.known ? game.value : undefined });
+      gameOwner: game.known ? game.value : undefined, engineOwner: engine.known ? engine.value : undefined });
     return known(capability);
   }
   win32HeapAlloc(heap: NativeWin32HeapCapability, flags: 0 | 8, bytes: number): NativeValue<NativeMemoryBacking | null> {
@@ -1449,7 +1472,8 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
       return unknown('Actual live selected HeapAlloc handle and flags required');
     }
     if (!Number.isInteger(bytes) || bytes < 0 || bytes > 0xffffffff) return unknown('Original HeapAlloc uint32 request required');
-    const rounded = !!this.#crtServices?.setEnvp && !!retained.gameOwner;
+    const engineRounded = this.#crtServices?.engineHeapLayout === 'rounded-eight' && !!retained.engineOwner;
+    const rounded = (!!this.#crtServices?.setEnvp && !!retained.gameOwner) || engineRounded;
     const capacity = rounded ? Math.ceil(bytes / 8) * 8 : bytes;
     if (capacity > 0xffffffff) return unknown('Fresh virtual physical heap capacity exceeds uint32');
     const allocated = this.#allocate(capacity, 'win32-heap');
@@ -1458,6 +1482,7 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
       this.#backing.get(allocated.value.identity)!.win32HeapRequest=Object.freeze({heap,flags,bytes});
       // Omitted policy retains exact capacity. A fresh selected Game heap
       // declares rounded physical capacity, independently of the logical request.
+      // Engine rounding additionally requires its explicit layout selection.
       // Padding is retained uninitialized with mask0, not host observations.
       this.#backing.get(allocated.value.identity)!.nativeGeometry = Object.freeze({ alignment: 'win32-heap-eight',
         bytes: allocated.value.bytes, masks: allocated.value.knownMask, capacity: allocated.value.bytes.length });
@@ -1470,7 +1495,7 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
         const logical = new NativeHeapObjectViews(backing, 0, bytes);
         const physical = bytes === capacity ? logical : new NativeHeapObjectViews(backing, 0, capacity);
         for (const fields of [logical, physical]) { Object.freeze(fields.view); Object.freeze(fields); }
-        this.#heapAllocationViews.set(backing, Object.freeze({ backing, heap, owner: retained.gameOwner!,
+        this.#heapAllocationViews.set(backing, Object.freeze({ backing, heap, owner: engineRounded ? retained.engineOwner! : retained.gameOwner!,
           requestedBytes: bytes, physicalCapacity: capacity, bytes: backing.bytes, masks: backing.knownMask,
           logical, physical, logicalBytes: logical.bytes, logicalMasks: logical.knownMask, logicalView: logical.view,
           physicalBytes: physical.bytes, physicalMasks: physical.knownMask, physicalView: physical.view }));

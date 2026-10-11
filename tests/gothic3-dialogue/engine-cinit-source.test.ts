@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { admitEngineCinitSource, engineCinitCaller, engineCinitFloatingPointCallback,
-  engineCinitInstruction, engineCinitTable, engineCinitTableTarget } from '../../src/gothic3/native-engine-cinit-source';
+  engineCinitInstruction, engineCinitUnMangleInstruction, engineCinitUnMangleLiteral, engineCinitTable, engineCinitTableTarget } from '../../src/gothic3/native-engine-cinit-source';
 
 describe('original Engine CRT initializer evidence', () => {
   it('admits the pinned caller and floating-point callback', () => {
@@ -38,6 +38,23 @@ describe('original Engine CRT initializer evidence', () => {
     expect(engineCinitInstruction('306832b6', '306832c3').bytes).toBe('ff15d8c6af30');
     expect(engineCinitInstruction('306973db', '306973db').bytes).toBe('8b410c');
     expect(engineCinitInstruction('306973db', '30697409').bytes).toBe('c20800');
+  });
+  it('pins the omitted cleanup continuation and lock-14 finally helper', () => {
+    expect(engineCinitInstruction('3067db6a', '3067db6a').bytes).toBe('59');
+    expect(engineCinitInstruction('3067db6a', '3067db6b').bytes).toBe('c745fcfeffffff');
+    expect(engineCinitInstruction('3067db6a', '3067db72').bytes).toBe('e80c000000');
+    expect(engineCinitInstruction('3067db83', '3067db83').bytes).toBe('6a0e');
+    expect(engineCinitInstruction('3067db83', '3067db85').bytes).toBe('e82c570000');
+    expect(engineCinitInstruction('3067db83', '3067db8b').bytes).toBe('c3');
+  });
+  it('admits the matching SharedBase UnMangle and CString dependency bytes',()=>{
+    expect(engineCinitUnMangleInstruction('100088cd','100088cd').bytes).toBe('e97e8c0800');
+    expect(engineCinitUnMangleInstruction('100088cd','10091555').bytes).toBe('68446f0e10');
+    expect(engineCinitUnMangleInstruction('100a7430','100a7430').bytes).toBe('8b4c2408');
+    expect(engineCinitUnMangleInstruction('10003ba7','10003ba7').bytes).toBe('e944fa0000');
+    expect(engineCinitUnMangleLiteral()).toMatchObject({address:'100e6f44',raw:'2000'});
+    expect(()=>engineCinitUnMangleInstruction('3067da97','3067da97')).toThrow();
+    expect(()=>engineCinitUnMangleInstruction('100088cd','10091556')).toThrow();
   });
   it('rejects unknown bodies, tables and invalid callback slots', () => {
     expect(() => engineCinitInstruction('3067d1c7', '3067d1c8')).toThrow();
