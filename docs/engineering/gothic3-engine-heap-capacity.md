@@ -2715,3 +2715,30 @@ browser startup checks pass locally.
 Shutdown registration and callback return, complete engine startup and a
 finishable browser campaign remain outstanding. This checkpoint is local and
 not deployed; the earlier combined scan revision continues separate validation.
+
+
+## Local continuation — 11 October 2026: reference-base shutdown registration and initializer return
+
+The pinned Engine DLL supplies shutdown thunk `300098e0` (`e99be67800`) and
+body `30797f80` (`b9109aad30ff25dcdbaf30`). The generator captures both only
+after checking their exact original PE bytes. Independent regeneration matches
+JSON SHA-256 `ca8636ba37a30679bb68fe6f837c0cdf036ba36306f40e753b059107af897bbd`
+and TypeScript SHA-256 `ed5c97ee445515a045262ea7b73b787f46696cd585487f86b60cacc0090d1268`.
+The package now contains 94 methods and 3,617 body instructions; every
+pre-existing captured record remains unchanged.
+
+The actual caller registers that seventh shutdown pointer through the original
+exit routine, returns the reference-base storage pointer, publishes its root,
+and returns through the original C++ initializer callback. The exit cursor is
+28 bytes and the C++ cursor advances from offset 0x114 to 0x118. Execution
+stops at the next original initializer, `30732300`, after 18,313 admitted
+operations. Five property CStrings remain live; all startup locks are released.
+This registers the shutdown callback; it does not claim shutdown execution.
+
+Unavailable exit lock preserves six entries and a NULL reference-base root.
+Unavailable unlock retains the newly appended seventh entry, held lock and
+pending property callback; its root stays NULL until the caller actually
+returns. Typechecking, seven runtime checks, 47 source/image checks and six
+browser startup checks pass locally. The earlier combined scan revision is
+still validating separately. Complete startup, world activation and a
+finishable browser campaign remain outstanding; this checkpoint is not deployed.

@@ -148,3 +148,10 @@ it('pins the original camera base object initializer and type arguments',()=>{
 it('pins the original object-reference-base initializer and type arguments',()=>{
  expect(engineCinitTableTarget('cppInitializers','307bb114')).toBe('307322f0');expect(engineCinitInstruction('307322f0','307322f5').bytes).toBe('a3289ead30');expect(engineCinitInstruction('300247da','300247da').bytes).toBe('e9611f0500');expect(engineCinitInstruction('300247da','30076769').bytes).toBe('b92c20aa30');expect(engineCinitInstruction('300247da','30076784').bytes).toBe('68e0980030');
 });
+
+
+it('captures the reference-base shutdown thunk and exact storage destructor body',()=>{
+ expect(engineCinitInstruction('300098e0','300098e0')).toMatchObject({bytes:'e99be67800',instruction:'jmp 0x30797f80'});
+ expect(engineCinitInstruction('30797f80','30797f80')).toMatchObject({bytes:'b9109aad30',instruction:'mov ecx, 0x30ad9a10'});
+ expect(engineCinitInstruction('30797f80','30797f85')).toMatchObject({bytes:'ff25dcdbaf30',instruction:'jmp dword ptr [0x30afdbdc]'});
+});
