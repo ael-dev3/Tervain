@@ -58,6 +58,7 @@ def capture(study):
         0x3000bf41: 'mainCachePropertyType',
         0x3003bb42: 'resourceAdminPropertyType',
         0x3003d8f7: 'mainCacheTemplatePropertyType',
+        0x3002112a: 'geometrySpatialContextPropertyType',
         0x306991ad: 'engineUndecorationTemplateNameParser',
         0x30698a86: 'engineUndecorationTemplateArgumentListParser',
         0x30038a87: 'engineComponentPropertyType',
@@ -159,7 +160,8 @@ def capture(study):
                ('resourceBasePropertyInitializer',0x30732430,0x3073243b,3),
                ('mainCachePropertyInitializer',0x30732440,0x3073244b,3),
                ('resourceAdminPropertyInitializer',0x30732450,0x3073245b,3),
-               ('mainCacheTemplatePropertyInitializer',0x30732460,0x3073246b,3)]
+               ('mainCacheTemplatePropertyInitializer',0x30732460,0x3073246b,3),
+               ('geometrySpatialContextPropertyInitializer',0x30732470,0x3073247b,3)]
     collected={begin:[] for _,begin,_,_ in recovered}
     asm=study/'01_Decompiled_Code/Engine_dll/full_disassembly.asm'
     for number,line in enumerate(asm.open('rb'),1):
@@ -236,6 +238,8 @@ def capture(study):
         ('mainCachePropertyShutdownBody', 0x30797e30, 'b90c9bad30ff25dcdbaf30', 2),
         ('resourceAdminPropertyShutdownThunk', 0x30013908, 'e913457800', 1),
         ('resourceAdminPropertyShutdownBody', 0x30797e20, 'b9189bad30ff25dcdbaf30', 2),
+        ('geometrySpatialContextPropertyShutdownThunk', 0x3000eb56, 'e9a5927800', 1),
+        ('geometrySpatialContextPropertyShutdownBody', 0x30797e00, 'b9309bad30ff25dcdbaf30', 2),
         ('mainCacheTemplatePropertyShutdownThunk', 0x30019029, 'e9e2ed7700', 1),
         ('mainCacheTemplatePropertyShutdownBody', 0x30797e10, 'b9249bad30ff25dcdbaf30', 2),
         ('engineGuidShutdownThunk', 0x300418d0, 'e9cb657500', 1),
@@ -484,6 +488,10 @@ def capture(study):
         ('mainCacheTemplatePropertyRoot', 0x30ad9dcc, 4),
         ('mainCacheTemplatePropertyStorage', 0x30ad9b24, 8),
         ('mainCacheTemplatePropertyTypeInfo', 0x30aa2cd8, property_type_info_size(0x30aa2cd8)),
+        ('geometrySpatialContextPropertyFlags', 0x30ad9b38, 4),
+        ('geometrySpatialContextPropertyRoot', 0x30ad9dc8, 4),
+        ('geometrySpatialContextPropertyStorage', 0x30ad9b30, 8),
+        ('geometrySpatialContextPropertyTypeInfo', 0x30aa2d28, property_type_info_size(0x30aa2d28)),
         ('guidPropertyFlags', 0x30ad9ac0, 4),
         ('guidPropertyRoot', 0x30ad9df0, 4),
         ('guidPropertyStorage', 0x30ad9ab8, 8),

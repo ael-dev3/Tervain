@@ -3346,3 +3346,8 @@ unachieved.
 ## Integrated MainCache template parser checkpoint
 
 This integration combines main through 7e7884999313c061d1d5ce3164ca239d53f02cf3 with the native implementation and evidence from local checkpoint 8b823e7e4. The source capture contains 195 Engine methods and 4615 Engine instructions. The template-name pipeline executes through original cache cleanup and returns to the actual MainCache constructor at 30077258. The generated name and cache allocations, parser/output release, locks and physical caller returns have focused evidence in the implementation branch. SharedBase name conversion, remaining startup and the full campaign remain unfinished. A full local suite is to validate this frozen integrated revision; a started run is not a passing result or a deployment.
+
+
+## Main-269 integration through geometry spatial context
+
+This integration copies the locally validated native/evidence files from `9961e887c`, including SharedBase CString conversion, MainCache shutdown/return, original iterator dispatch and the `eCGeometrySpatialContext` initializer. The exact pending callback is `30732480`, with C++ cursor `0x178` and exit cursor 124 after thirty-one registrations. Source capture: 199 Engine routines / 4,643 instructions plus existing SharedBase evidence, JSON SHA256 `d13de9abaa7fc37735e528cc242569bdd0a48211a9af3f798a063a7a6ea07485`. The development checkpoint passed typechecking, three focused normal/interrupted cases, 85 source/image/browser checks, byte-for-byte regeneration and build. Those results precede this main-269 integration; the integration requires its own validation. Earlier full-suite evidence excludes these newer continuations. Complete startup and campaign play remain outstanding.
