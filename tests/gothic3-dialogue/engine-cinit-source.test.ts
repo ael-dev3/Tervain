@@ -54,6 +54,8 @@ describe('original Engine CRT initializer evidence', () => {
     expect(engineCinitUnMangleInstruction('10003ba7','10003ba7').bytes).toBe('e944fa0000');
     expect(engineCinitUnMangleInstruction('10007d65','10007d65').bytes).toBe('e9d6b40000');
     expect(engineCinitUnMangleInstruction('10002aae','10002aae').bytes).toBe('e93de10100');
+    expect(engineCinitUnMangleInstruction('100a7a00','100a7a00').bytes).toBe('55');
+    expect(engineCinitUnMangleInstruction('100a7a00','100a7b96').bytes).toBe('c3');
     expect(engineCinitUnMangleLiteral()).toMatchObject({address:'100e6f44',raw:'2000'});
     expect(()=>engineCinitUnMangleInstruction('3067da97','3067da97')).toThrow();
     expect(()=>engineCinitUnMangleInstruction('100088cd','10091556')).toThrow();

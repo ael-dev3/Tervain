@@ -143,3 +143,95 @@ five follow-up fixes and two startup-reason checks), and typechecking passes.
 The browser boundary checks passed separately when the layout was adopted;
 a fresh combined run of the latest revision remains required. These receipts
 do not claim a new full-suite pass or deployment.
+
+### CString allocation caller and retained MemoryAdmin — 11 October 2026
+
+The original allocation thunk and caller execute ten more captured rows. They
+preserve the destination, derive the 14-byte request from length five and call
+MemoryAdmin through `10013257 -> 10002aae`. A missing or ambiguous platform owner
+keeps that call pending at 4,298 admitted operations. No replacement owner or
+shutdown registration is created.
+
+With the existing unique owner, its source-backed GetInstance contract returns
+the same MemoryAdmin and registers its original shutdown once. Its internal
+operations are excluded from admitted source-row counts. The original caller
+sets ECX to that owner and calls `1001325e -> 10003cd8` (MemoryAdmin Malloc).
+The browser profile reaches this allocation boundary after 4,300 operations.
+No CString header, character allocation or destination pointer is published yet.
+
+Typechecking passes. Eight selected layout, length and owner checks pass, as do
+two browser integration checks and a getter-failure/replay check. The earlier
+combined revision passed all 233 focused checks; its full suite is still running.
+This continuation is local. Allocation return, CString copying, complete startup
+and a campaign playable through an ending remain unfinished.
+
+### CString allocation and header stores — 11 October 2026
+
+The retained `1001325e -> 10003cd8` call now uses the same MemoryAdmin's
+source-backed Malloc contract with the actual 14-byte argument and receiver.
+Its admitted 16-byte pool returns a distinct live allocation. A read-only owner
+proof checks membership, platform, lifetime and backing geometry; a copied
+allocation, another owner and freed backing are rejected. Internal allocator
+operations are excluded from admitted source-row counts.
+
+The eight original CString allocator rows write length five and reference count
+one, advance the character pointer by eight, publish that pointer in the actual
+property destination, write its NUL at offset 13 and return with four-byte
+argument cleanup. Five original constructor rows load that pointer and prepare
+the source, destination and five-byte count for memcpy. Execution stops at
+`100a7a00` after 4,313 source operations. The character copy remains pending.
+
+Typechecking and six focused ownership/runtime/browser checks pass. A NULL
+allocation stops at the original pending call; interrupting the terminator store
+retains the published header and destination at `10013271` after 4,305 operations.
+Neither failure replays. Replacing a deep backing-object comparison with an
+identity assertion reduced the allocation test body from about 33 seconds to
+about four; the standard timeout is retained. This checkpoint is local, and the
+earlier combined full suite is still running. Complete startup and a finishable
+browser campaign remain unfinished.
+
+### CString text copy and original return — 11 October 2026
+
+The evidence generator now captures memcpy `100a7a00` against the matching
+SharedBase DLL, bringing the separate SharedBase package to eight bodies. The
+retained constructor passes its real character pointer at offset eight, the
+live Engine cache and length five. Its existing source-backed scalar memcpy
+contract proves the disjoint allocation spans, copies a DWORD and a byte, and
+retains their masks. Internal copy operations are excluded from source counts.
+
+The original constructor removes its three memcpy arguments, restores registers
+and returns with four-byte cleanup. UnMangle then returns with eight-byte
+cleanup into the property initializer. Execution reaches `30076684` after
+4,322 admitted source operations; property shutdown registration is pending.
+The successful CString has length five, refcount one and `float` plus NUL in
+the actual SharedBase pool backing. Its property destination retains the same
+character-pointer capability.
+
+Typechecking and eleven distinct focused checks pass (ten in the combined
+source/browser/failure run and the normal allocation/copy check separately).
+Independent evidence JSON and generated TypeScript are byte-identical. An
+interrupted final byte store retains the completed DWORD and pending memcpy
+return at 4,313 operations. An unknown final source byte is copied with an
+unknown mask, and reading it as known text is rejected. These are local receipts;
+complete startup, deployment of this continuation and a playable campaign
+through an ending remain unfinished.
+
+### Property shutdown registration and first callback return — 11 October 2026
+
+The original property caller pushes callback `30011a40` and calls the existing
+Engine exit-registration routine. Its retained EH4 frame, lock eight, pointer
+decoding, within-capacity store, encoded cursor update, unlock and cleanup execute
+against the same 24-byte exit table already holding two callbacks. The third
+slot retains the actual property shutdown callback; registration does not invoke
+its destructor. Original property and initializer-wrapper rows then publish the
+returned type storage into `30ad9e38` and return to the C++ walker at `3067d229`
+after 4,437 admitted operations. The next walker advance remains pending.
+
+Typechecking and five focused normal, masked-byte, browser and lock-failure
+checks pass. Failure to acquire the third registration's lock retains the
+completed CString and pending lock call without adding its exit slot or replaying.
+The earlier combined revision passed 233 focused checks, all 3,542 tests across
+318 files, and a production build. Those full-suite/build receipts precede the
+MemoryAdmin, CString allocation/copy and property-registration continuations.
+A new combined validation with current main is required. Complete startup and
+a campaign playable through an ending remain unfinished.

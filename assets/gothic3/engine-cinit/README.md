@@ -14,7 +14,7 @@ python tools/gothic3/prepare_engine_cinit_source.py --study '<study-root>' --out
 
 The generator checks the original Engine.dll hash and exact caller bytes.
 Independent regeneration produced identical JSON, SHA-256
-``316bad5ba6d982b7613992fc5d4aa1e805a6550ff2f85d87185629bd6ff6601e``.
+``c8cc2f13db81ed51e37300c4e505e46a1493d8d4d1d9ffb5212f4d2cbbaecdf0``.
 
 The capture's `runtimeConnected: false` records evidence preparation; it grants
 no execution authority. The TypeScript continuation separately obtains a
@@ -491,3 +491,36 @@ and tagged allocation. Eight source/owner checks pass; independent regeneration
 matches exactly. The runtime owner lookup reuses the existing unique MemoryAdmin
 without constructing or initializing a replacement. Ambiguous ownership is
 rejected. The allocator continuation remains pending.
+
+The local CString allocation caller now reaches the retained MemoryAdmin getter.
+Missing/ambiguous ownership stops at `10002aae` after 4,298 source operations;
+the selected browser owner returns through its existing GetInstance contract
+and reaches Malloc `10003cd8` after 4,300. Internal getter operations are excluded
+from these counts. Eleven targeted runtime/browser checks and typechecking pass.
+Allocation and subsequent CString writes remain pending; this is not a deployed
+startup or campaign completion receipt.
+
+The local allocation bridge now returns the actual MemoryAdmin 16-byte pool
+slot for the original 14-byte request. Original length/refcount, character
+pointer publication and NUL stores execute, and the constructor reaches memcpy
+`100a7a00` after 4,313 admitted source operations. Allocator internals are not
+counted as executed source rows. Six ownership, normal, browser and failure
+checks pass. Character copying, complete startup and campaign play remain
+unfinished; this newer checkpoint has not been deployed.
+
+Eight separately pinned SharedBase bodies now include the original memcpy.
+The scalar copy contract consumes the actual five-byte constructor arguments,
+retains unknown masks and partial stores, and returns through the original
+constructor and UnMangle cleanup. Those nine caller rows reach `30076684` after
+4,322 admitted source operations. Internal memcpy operations are excluded from
+that count. Eleven distinct runtime/browser/source checks and typechecking pass;
+independent JSON and TypeScript regeneration is byte-identical. Shutdown
+registration, complete startup and campaign play remain unfinished. This is
+a local continuation, not a deployment receipt.
+
+The property initializer now registers its original shutdown callback in exit
+slot three using the retained Engine exit machinery and returns its first C++
+callback at `3067d229` after 4,437 source operations. Five focused checks and
+typechecking pass. Callback destruction and remaining C++ traversal are not
+claimed complete. The earlier combined revision passed 3,542 tests and its
+production build; the newer CString/registration work needs combined validation.

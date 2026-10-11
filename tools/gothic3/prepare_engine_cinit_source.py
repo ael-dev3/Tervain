@@ -236,7 +236,8 @@ def capture(study):
         0x10003ba7: 'sharedClassNameTextConstructor',
         0x10007d65: 'sharedClassNameCStringAllocate',
         0x10002aae: 'sharedClassNameMemoryAdminGetInstance',
-        0x10003cd8: 'sharedClassNameTaggedAllocation',
+        0x10003cd8: 'sharedClassNameMemoryAdminMalloc',
+        0x100a7a00: 'sharedClassNameMemcpy',
     })
     shared_pe = PE((study / '00_Original_Runtime/SharedBase.dll').read_bytes())
     space = shared_pe.bytes(0x100e6f44, 2)
