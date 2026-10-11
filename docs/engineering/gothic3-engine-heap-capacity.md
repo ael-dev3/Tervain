@@ -310,3 +310,19 @@ three focused regression checks that also inspect the pending arena arguments
 and field flags. The earlier combined first-property validation is still running
 and does not include this continuation. Full startup, deployment of this local
 continuation and campaign play through an ending remain unfinished.
+
+### Shared cold arena request and allocator callback — 11 October 2026
+
+The second parser now executes the same source-backed cold arena prefix as the
+first. Its 16-byte field request selects a 4,096-byte payload, recursively requests
+4,100 bytes including the header, and aligns the allocator argument to 4,104.
+The actual callback `30696c06 -> 30672ec7` remains pending after 4,609 admitted
+operations. Lock five remains held, and the saved parser field still has known
+kind-three bits. No second backing allocation is supplied.
+
+Typechecking and three focused runtime/browser checks pass. An initial test
+incorrectly expected ESI to retain the field after the arena changed it to the
+global owner; the repaired check reads the original field in its retained stack
+frame and inspects the actual allocator call argument. The earlier combined
+validation remains live and does not contain this change. Complete startup,
+publishing this continuation and campaign play remain unfinished.

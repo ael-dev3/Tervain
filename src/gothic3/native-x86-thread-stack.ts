@@ -551,6 +551,29 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
                 };fieldPrefix(3);
         return {constructor,internal,field,fieldPrefix};
       };
+      const runColdArenaRequest=(globalsFields:NativeHeapObjectViews)=>{
+        const relative=(name:'ESP'|'EBP',offset:number)=>stack.#address(register(name))+offset;
+                const arena=(pc:string,body:()=>void)=>step(pc,body,'30696bf0');
+                const arenaPrefix=(requested:number,direct:number)=>{
+                  arena('30696bf0',()=>stack.#push(register('ESI')));arena('30696bf1',()=>stack.#push(register('EDI')));
+                  arena('30696bf2',()=>{const word=stack.#load(stack.#stack,relative('ESP',12));if(stack.#numeric(word,4)!==requested)throw new Error('Actual arena request required');setRegister('EDI',word);});
+                  arena('30696bf6',()=>{const v=stack.#numeric(register('EDI'),4),r=(v+7)>>>0;setRegister('EDI',stack.#mint(r,0xffffffff));stack.#arithmeticFlags(v,7,r,4,false);});
+                  arena('30696bf9',()=>{const v=(stack.#numeric(register('EDI'),4)&0xfffffff8)>>>0;setRegister('EDI',stack.#mint(v,0xffffffff));stack.#logicalFlags(v,0xffffffff,4);});
+                  arena('30696bfc',()=>{const v=stack.#numeric(stack.#load(stack.#stack,relative('ESP',16)),4);if(v!==direct)throw new Error('Actual arena direct flag required');stack.#arithmeticFlags(v,0,v,4,true);});
+                  arena('30696c01',()=>{const word=register('ECX'),p=stack.#record(word).provenance;if(p?.kind!=='engine-image'||p.crt!==crt||p.fields!==globalsFields||p.offset!==0)throw new Error('Actual retained arena owner required');setRegister('ESI',word);});arena('30696c03',()=>{});
+                };
+                arenaPrefix(16,0);arena('30696c0b',()=>stack.#logicalFlags(16,0xffffffff,4));arena('30696c0d',()=>{});
+                arena('30696c12',()=>setRegister('EAX',stack.#load(globalsFields,16)));
+                arena('30696c15',()=>{const v=stack.#numeric(register('EAX'),4);stack.#arithmeticFlags(v,16,(v-16)>>>0,4,true);});arena('30696c17',()=>stack.#push(register('EBX')));
+                arena('30696c18',()=>{if(stack.#numeric(register('EAX'),4)!==0)throw new Error('Cold arena capacity required');});arena('30696c1a',()=>setRegister('EBX',stack.#mint(4096,0xffffffff)));
+                arena('30696c1f',()=>stack.#arithmeticFlags(16,4096,(16-4096)>>>0,4,true));arena('30696c21',()=>{});
+                arena('30696c23',()=>stack.#push(stack.#mint(1,0xffffffff)));arena('30696c25',()=>stack.#push(stack.#mint(4100,0xffffffff)));
+                arena('30696c2a',()=>setRegister('ECX',stack.#mint(0,0,{kind:'engine-image',crt,fields:globalsFields,offset:0})));arena('30696c2f',()=>stack.#call('30696c2f','30696c34'));
+                arenaPrefix(4100,1);arena('30696c05',()=>stack.#push(register('EDI')));
+                arena('30696c06',()=>{const p=stack.#record(stack.#load(globalsFields,0)).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!=='30672ec7')throw new Error('Actual retained arena allocator callback required');stack.#call('30696c06','30696c08');});
+                stack.#engineCinitFrame!.pc='30672ec7';const requested=stack.#numeric(stack.#load(stack.#stack,relative('ESP',4)),4);
+        return {arena,arenaPrefix,requested};
+      };
       const runExitRegistration=(callbackAddress:'30671144'|'3068e981'|'30011a40')=>{
             step('30671596',()=>{const esp=stack.#address(register('ESP')),argument=stack.#load(stack.#stack,esp+4),p=stack.#record(argument).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!==callbackAddress)throw new Error('Original Engine shutdown callback argument required');stack.#push(argument);},'30671596');
             step('3067159a',()=>stack.#call('3067159a','3067159f'),'30671596');
@@ -655,25 +678,7 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
                 preparePropertyUndecoration(name,actualTypeInfo);
                 const decoder=runUndecorationPrefix();if(!decoder.ready)return known(undefined);const {undecorate,globals}=decoder;
                 const {constructor,internal,field,fieldPrefix}=runParserConstructionPrefix(globals.value);
-                const arena=(pc:string,body:()=>void)=>step(pc,body,'30696bf0');
-                const arenaPrefix=(requested:number,direct:number)=>{
-                  arena('30696bf0',()=>stack.#push(register('ESI')));arena('30696bf1',()=>stack.#push(register('EDI')));
-                  arena('30696bf2',()=>{const word=stack.#load(stack.#stack,relative('ESP',12));if(stack.#numeric(word,4)!==requested)throw new Error('Actual arena request required');setRegister('EDI',word);});
-                  arena('30696bf6',()=>{const v=stack.#numeric(register('EDI'),4),r=(v+7)>>>0;setRegister('EDI',stack.#mint(r,0xffffffff));stack.#arithmeticFlags(v,7,r,4,false);});
-                  arena('30696bf9',()=>{const v=(stack.#numeric(register('EDI'),4)&0xfffffff8)>>>0;setRegister('EDI',stack.#mint(v,0xffffffff));stack.#logicalFlags(v,0xffffffff,4);});
-                  arena('30696bfc',()=>{const v=stack.#numeric(stack.#load(stack.#stack,relative('ESP',16)),4);if(v!==direct)throw new Error('Actual arena direct flag required');stack.#arithmeticFlags(v,0,v,4,true);});
-                  arena('30696c01',()=>{const word=register('ECX'),p=stack.#record(word).provenance;if(p?.kind!=='engine-image'||p.crt!==crt||p.fields!==globals.value||p.offset!==0)throw new Error('Actual retained arena owner required');setRegister('ESI',word);});arena('30696c03',()=>{});
-                };
-                arenaPrefix(16,0);arena('30696c0b',()=>stack.#logicalFlags(16,0xffffffff,4));arena('30696c0d',()=>{});
-                arena('30696c12',()=>setRegister('EAX',stack.#load(globals.value,16)));
-                arena('30696c15',()=>{const v=stack.#numeric(register('EAX'),4);stack.#arithmeticFlags(v,16,(v-16)>>>0,4,true);});arena('30696c17',()=>stack.#push(register('EBX')));
-                arena('30696c18',()=>{if(stack.#numeric(register('EAX'),4)!==0)throw new Error('Cold arena capacity required');});arena('30696c1a',()=>setRegister('EBX',stack.#mint(4096,0xffffffff)));
-                arena('30696c1f',()=>stack.#arithmeticFlags(16,4096,(16-4096)>>>0,4,true));arena('30696c21',()=>{});
-                arena('30696c23',()=>stack.#push(stack.#mint(1,0xffffffff)));arena('30696c25',()=>stack.#push(stack.#mint(4100,0xffffffff)));
-                arena('30696c2a',()=>setRegister('ECX',stack.#mint(0,0,{kind:'engine-image',crt,fields:globals.value,offset:0})));arena('30696c2f',()=>stack.#call('30696c2f','30696c34'));
-                arenaPrefix(4100,1);arena('30696c05',()=>stack.#push(register('EDI')));
-                arena('30696c06',()=>{const p=stack.#record(stack.#load(globals.value,0)).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!=='30672ec7')throw new Error('Actual retained arena allocator callback required');stack.#call('30696c06','30696c08');});
-                stack.#engineCinitFrame!.pc='30672ec7';const requested=stack.#numeric(stack.#load(stack.#stack,relative('ESP',4)),4);
+                const {arena,arenaPrefix,requested}=runColdArenaRequest(globals.value);
                 engineCinitInstruction('30672ec7','30672ec7');const allocated=NativeModuleCrtOwner.prototype.malloc.call(crt,requested);if(!allocated.known)throw new Error(allocated.reason);
                 const arenaBacking=allocated.value?new NativeHeapObjectViews(allocated.value):null;
                 if(arenaBacking){Object.freeze(arenaBacking);const proof=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields:arenaBacking,offset:0},requested);if(!proof.known)throw new Error(proof.reason);}
@@ -1066,7 +1071,8 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
               preparePropertyUndecoration(prefix.name,prefix.actualTypeInfo);
               const decoder=runUndecorationPrefix();if(!decoder.ready)return known(undefined);
               runParserConstructionPrefix(decoder.globals.value);
-              stack.#engineCinitFrame!.pc='30696bf0';return known(undefined);
+              runColdArenaRequest(decoder.globals.value);
+              return known(undefined);
             }
             return known(undefined);
           }

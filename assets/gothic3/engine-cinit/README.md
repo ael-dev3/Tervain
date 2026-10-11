@@ -556,3 +556,9 @@ caller, stack field-kind bits and held lock five are retained. Typechecking,
 four focused runtime/browser checks and three subsequent regression checks pass.
 The second arena allocation and decoded name remain unfinished; this local
 continuation has not been published or proven as complete startup or campaign play.
+
+The shared cold arena routine advances the second property to its original
+allocator callback at `30672ec7` after 4,609 operations. The recursive backing
+request is 4,100 bytes, aligned to 4,104 at the pending callback. Three focused
+checks and typechecking pass; no second allocation, complete startup or campaign
+completion is claimed. This continuation remains local.
