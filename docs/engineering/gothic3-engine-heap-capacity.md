@@ -836,3 +836,20 @@ Newer work remains local. Complete startup and campaign completion are unfinishe
 The two browser startup fixtures now expect the actual identifier boundary
 `306993a2`. All six checks across both browser fixture files pass. These are
 browser-service unit checks, not a visual browser observation or campaign proof.
+
+## 2026-10-11: original identifier prefix dispatch
+
+The identifier parser now reads the retained template and generic prefix
+literals and compares their first bytes with the live original `b`. Both
+mismatch branches execute their original difference instructions and select
+ordinary identifier construction. The original `306994a4 -> 30697709` call
+receives the actual cursor slot at parser-global offset twelve and delimiter
+`@` (64), reaching 5,781 admitted operations. The delimited-name constructor
+remains pending; no `bCString` output is fabricated.
+
+TypeScript checking, five runtime allocation/failure checks, and six browser
+service checks pass. Browser fixtures now expect the actual constructor boundary.
+The added source sequence was reviewed against the captured instructions.
+Combined validation is running on the earlier frozen identifier-entry revision;
+this new dispatch is local. Complete startup and campaign completion remain
+unfinished.
