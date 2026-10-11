@@ -2184,3 +2184,13 @@ lock 5 remains released. Normal checks verify output lifetime, property return,
 prior CStrings/roots and shutdown entries. Original source packages are
 unchanged. This local checkpoint is not deployed and does not establish full
 engine startup or a campaign playable through its ending with persistence.
+
+
+2026-10-11 — combined camera-cache checkpoint validation (local)
+
+Combined revision `bb47893141cc87cadea5689ac340eb6e7b953372` passed TypeScript
+checking, all 3,679 tests across 325 files (1,979.56 seconds, started 12:10:27
+local), and production build (64 seconds). Process handle 70584 finished with
+exit 0. This revision includes main through PR #251 and native camera cache
+cleanup through `0da2791ef`; it predates the newer CString/root work and PRs
+#252/#253. It does not validate those later changes or a full browser campaign.
