@@ -3,7 +3,7 @@ import { hotbarEligible, isItemId, itemAction, ITEMS } from '../content/items';
 import { APPLY_DELAY_MIN, REPORT_DELAY_MIN, REWARD_COIN, RITE_CALM_MIN, TRAINING_COST } from './constants';
 import { validQuantity, validQuickSlot } from './inventory';
 import {
-  ANIMAL_SPECIES, animalLoot, ARROW_QUIVER_CAPACITY, HUNTER_SUPPLY_POSITION, hunterRank, hunterTradingOpen, returnWildlife,
+  ANIMAL_SPECIES, animalLoot, ARROW_QUIVER_CAPACITY, HUNTER_SPARE_ARROWS, HUNTER_SUPPLY_POSITION, hunterRank, hunterSparesArrows, hunterTradingOpen, returnWildlife,
   isAnimalId, isHuntableAnimalId, normalizeAnimalYaw, SKINNING_REACH, validAnimalHit,
   type AnimalHit,
 } from './hunting';
@@ -339,9 +339,22 @@ export function execute(s: WorldState, cmd: Command): CommandResult {
       if (s.player.health <= 0) return fail('player_dead');
       if (Math.hypot(s.player.x - HUNTER_SUPPLY_POSITION.x, s.player.z - HUNTER_SUPPLY_POSITION.z) > HUNTER_SUPPLY_POSITION.r) return fail('too_far');
       if (!hunterTradingOpen(s)) return fail('hunter_resting');
-      if (itemCount(s, 'animal_hide') < 1) return fail('need_hide');
-      const arrows = hunterRank(s.huntTally).arrows;
-      if (itemCount(s, 'arrow') + arrows > ARROW_QUIVER_CAPACITY) return fail('arrow_quiver_full');
+      if (itemCount(s, 'animal_hide') < 1) {
+        // Out of arrows with no hide to trade: Rowan spares a few, so the hunt can go on (A86 scout).
+        if (!hunterSparesArrows(s)) return fail('need_hide');
+        s.inventory.arrow = HUNTER_SPARE_ARROWS;
+        s.npcs.trail_hunter.met = true;
+        events.push(
+          { t: 'item', id: 'arrow', delta: HUNTER_SPARE_ARROWS },
+          { t: 'toast', key: 'hunting.spared', params: { count: HUNTER_SPARE_ARROWS } },
+          { t: 'autosave', reason: 'arrows_restocked' },
+        );
+        return ok();
+      }
+      // A hide buys what the quiver still holds of the rank's arrows; only a full quiver refuses it (A86 scout).
+      const room = ARROW_QUIVER_CAPACITY - itemCount(s, 'arrow');
+      if (room <= 0) return fail('arrow_quiver_full');
+      const arrows = Math.min(hunterRank(s.huntTally).arrows, room);
       s.inventory.animal_hide = itemCount(s, 'animal_hide') - 1;
       s.inventory.arrow = itemCount(s, 'arrow') + arrows;
       s.npcs.trail_hunter.met = true;

@@ -276,6 +276,15 @@ export class SpeechDirector {
     this.chains.clear();
   }
 
+  /**
+   * A new journey (A86 scout): forget the queue and everything heard and said, so its arrival remarks and each person's
+   * first words are spoken again. A load keeps them (clear), as the same journey goes on.
+   */
+  forget() {
+    this.clear();
+    this.heard.clear(); this.turns.clear(); this.cycles.clear(); this.scenes.clear(); this.said.clear(); this.lastCue.clear();
+  }
+
   /** Undo a hero remark's bookkeeping when it is dropped before it started (A71). */
   private unsay(q: Queued) {
     const cue = q.remark?.cue;

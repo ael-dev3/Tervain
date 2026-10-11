@@ -15,7 +15,7 @@ import { CARAVAN_ANIMAL_REST } from '../../src/world/caravanAnimal';
 describe('source model hunting integration', () => {
   it('retains the real saddled 29-bone deer as a living, calm caravan mount through old save states and shots', async () => {
     const definition = ANIMALS.find(animal => animal.id === ANIMAL_MODEL_IDS['deer-mount'])!, templates = await animalTemplates([definition]);
-    const terrain = { heightAt: () => 0, walkable: () => true, carveAt: () => 0, seaDepth: () => 0, deckAt: () => null,
+    const terrain = { heightAt: () => 0, groundAt: () => 0, walkable: () => true, carveAt: () => 0, seaDepth: () => 0, deckAt: () => null,
       normalAt: (_x: number, _z: number, out: [number, number, number]) => { out[0] = 0; out[1] = 1; out[2] = 0; return out; } } as unknown as Terrain;
     const module = buildAnimals({ terrain, colliders: new Colliders(), quality: 'low' }, templates, [definition], () => {});
     try {
@@ -52,7 +52,7 @@ describe('source model hunting integration', () => {
 
   it.each(HUNTABLE_ANIMAL_IDS)('grounds the complete 29-bone %s carcass and restores its measured gait without replacing its model', async id => {
     const definition = ANIMALS.find(animal => animal.id === ANIMAL_MODEL_IDS[id])!, templates = await animalTemplates([definition]);
-    const terrain = { heightAt: (x: number, z: number) => x * .04 + z * .03, walkable: () => true, carveAt: () => 0, seaDepth: () => 0, deckAt: () => null,
+    const terrain = { heightAt: (x: number, z: number) => x * .04 + z * .03, groundAt: (x: number, z: number) => x * .04 + z * .03, walkable: () => true, carveAt: () => 0, seaDepth: () => 0, deckAt: () => null,
       normalAt: (_x: number, _z: number, out: [number, number, number]) => { const normal = new THREE.Vector3(-.04, 1, -.03).normalize(); out[0] = normal.x; out[1] = normal.y; out[2] = normal.z; return out; } } as unknown as Terrain;
     const module = buildAnimals({ terrain, colliders: new Colliders(), quality: 'low' }, templates, [definition], () => {});
     const input: FrameContext = { camera: new THREE.PerspectiveCamera(), focus: new THREE.Vector3(300, 0, 100), time: 0, nightness: 0, sunDir: new THREE.Vector3(0, 1, 0),
