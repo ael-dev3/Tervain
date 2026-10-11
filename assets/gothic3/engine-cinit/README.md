@@ -581,3 +581,9 @@ from its retained arena and returns to the actual parse caller at `3069afb8`
 after 4,896 operations. Typechecking and five focused checks pass, including live
 node ownership and first-property constructor regressions. The bCString name
 parse, complete startup and campaign remain unfinished. This continuation is local.
+
+The shared name-parser entry now executes the original `?A` prefix branch and
+reaches the second type-parser call at `3069a2f7` after 4,917 operations.
+Typechecking and five focused checks pass. Name bytes, partial-register masks,
+parser configuration and arena ownership are retained; no decoded name is
+supplied. Type parsing, full startup and campaign remain unfinished and local.

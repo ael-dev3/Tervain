@@ -645,6 +645,26 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
                 constructor('306974ea',()=>{const p=stack.#record(stack.#ret(20)).provenance;if(p?.kind!=='source'||p.address!=='3069b2d8')throw new Error('Actual parser constructor return required');});
         return {warmArena,warmField,config};
       };
+      const runNameParserPrefix=(config:NativeHeapObjectViews,typeInfo:NativeHeapObjectViews)=>{
+        const relative=(name:'ESP'|'EBP',offset:number)=>stack.#address(register(name))+offset;
+                const parse=(pc:string,body:()=>void)=>step(pc,body,'3069afb8');
+                parse('3069afb8',()=>stack.#push(register('EBP')));parse('3069afb9',()=>setRegister('EBP',register('ESP')));parse('3069afbb',()=>{const a=relative('ESP',0),r=a-32;setRegister('ESP',stack.#stackWord(r));stack.#arithmeticFlags(a,32,r,4,true);});
+                for(const [pc,offset] of [['3069afbe',-8],['3069afc2',-16]] as const)parse(pc,()=>{stack.#store(stack.#stack,relative('EBP',offset),stack.#mint(0,0xffffffff));stack.#logicalFlags(0,0xffffffff,4);});
+                parse('3069afc6',()=>setRegister('EAX',stack.#mint(0xfffff000,0xffffffff)));
+                for(const [pc,offset] of [['3069afcb',-4],['3069afce',-12]] as const)parse(pc,()=>{const at=relative('EBP',offset),r=stack.#record(stack.#load(stack.#stack,at)),v=(r.value&0xfffff000)>>>0,m=(r.mask|0xfff)>>>0;stack.#store(stack.#stack,at,stack.#mint(v,m));stack.#logicalFlags(v,m,4);});
+                parse('3069afd1',()=>setRegister('EAX',stack.#load(config,16)));
+                parse('3069afd6',()=>{const p=stack.#record(register('EAX')).provenance;if(p?.kind!=='engine-image'||p.crt!==crt||p.fields!==typeInfo||p.offset!==9)throw new Error('Actual retained original name pointer required');stack.#flags(0,0x841);});parse('3069afd8',()=>{});
+                let initialByte=0;parse('3069afda',()=>{const p=stack.#record(register('EAX')).provenance;if(p?.kind!=='engine-image'||p.crt!==crt||p.fields!==typeInfo)throw new Error('Actual original name byte required');initialByte=NativeHeapObjectViews.prototype.readUnsigned.call(p.fields,p.offset,1);stack.#arithmeticFlags(initialByte,63,(initialByte-63)&255,1,true);});
+                parse('3069afdd',()=>{});
+                if(initialByte===63){
+                  let secondByte=0;
+                  parse('3069afdf',()=>{const p=stack.#record(register('EAX')).provenance;if(p?.kind!=='engine-image'||p.crt!==crt||p.fields!==typeInfo)throw new Error('Actual decorated-name pointer required');secondByte=NativeHeapObjectViews.prototype.readUnsigned.call(p.fields,p.offset+1,1);const r=stack.#record(register('EAX'));setRegister('EAX',stack.#mint(((r.value&0xffffff00)|secondByte)>>>0,((r.mask&0xffffff00)|255)>>>0));});
+                  parse('3069afe2',()=>stack.#arithmeticFlags(secondByte,64,(secondByte-64)&255,1,true));parse('3069afe4',()=>{if(secondByte===64)throw new Error('Original double-prefix branch remains pending');});
+                  parse('3069b00a',()=>stack.#arithmeticFlags(secondByte,36,(secondByte-36)&255,1,true));parse('3069b00c',()=>{if(secondByte===36)throw new Error('Original template-name branch remains pending');});
+                }
+                parse('3069b03b',()=>setRegister('EAX',stack.#stackWord(relative('EBP',-32))));parse('3069b03e',()=>stack.#push(register('EAX')));parse('3069b03f',()=>stack.#call('3069b03f','3069b044'));
+        return {parse};
+      };
       const runExitRegistration=(callbackAddress:'30671144'|'3068e981'|'30011a40')=>{
             step('30671596',()=>{const esp=stack.#address(register('ESP')),argument=stack.#load(stack.#stack,esp+4),p=stack.#record(argument).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!==callbackAddress)throw new Error('Original Engine shutdown callback argument required');stack.#push(argument);},'30671596');
             step('3067159a',()=>stack.#call('3067159a','3067159f'),'30671596');
@@ -754,15 +774,7 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
                 const finishField=(kind:1|3,nodeOffset:number,returned:string)=>runFieldConstructionReturn(field,arenaBacking,kind,nodeOffset,returned);finishField(3,4084,'306972c5');
                 const {warmArena,config}=runParserConstructionReturn(globals.value,{constructor,internal,field,fieldPrefix},{arena,arenaPrefix,requested},allocation);
                 undecorate('3069b2d8',()=>setRegister('ECX',stack.#stackWord(relative('EBP',-148))));undecorate('3069b2de',()=>stack.#call('3069b2de','3069b2e3'));
-                const parse=(pc:string,body:()=>void)=>step(pc,body,'3069afb8');
-                parse('3069afb8',()=>stack.#push(register('EBP')));parse('3069afb9',()=>setRegister('EBP',register('ESP')));parse('3069afbb',()=>{const a=relative('ESP',0),r=a-32;setRegister('ESP',stack.#stackWord(r));stack.#arithmeticFlags(a,32,r,4,true);});
-                for(const [pc,offset] of [['3069afbe',-8],['3069afc2',-16]] as const)parse(pc,()=>{stack.#store(stack.#stack,relative('EBP',offset),stack.#mint(0,0xffffffff));stack.#logicalFlags(0,0xffffffff,4);});
-                parse('3069afc6',()=>setRegister('EAX',stack.#mint(0xfffff000,0xffffffff)));
-                for(const [pc,offset] of [['3069afcb',-4],['3069afce',-12]] as const)parse(pc,()=>{const at=relative('EBP',offset),r=stack.#record(stack.#load(stack.#stack,at)),v=(r.value&0xfffff000)>>>0,m=(r.mask|0xfff)>>>0;stack.#store(stack.#stack,at,stack.#mint(v,m));stack.#logicalFlags(v,m,4);});
-                parse('3069afd1',()=>setRegister('EAX',stack.#load(config,16)));
-                parse('3069afd6',()=>{const p=stack.#record(register('EAX')).provenance;if(p?.kind!=='engine-image'||p.crt!==crt||p.fields!==typeInfo||p.offset!==9)throw new Error('Actual retained original name pointer required');stack.#flags(0,0x841);});parse('3069afd8',()=>{});
-                let initialByte=0;parse('3069afda',()=>{const p=stack.#record(register('EAX')).provenance;if(p?.kind!=='engine-image'||p.crt!==crt||p.fields!==typeInfo)throw new Error('Actual original name byte required');initialByte=NativeHeapObjectViews.prototype.readUnsigned.call(p.fields,p.offset,1);stack.#arithmeticFlags(initialByte,63,(initialByte-63)&255,1,true);});
-                parse('3069afdd',()=>{if(initialByte===63)throw new Error('Original decorated-name special branch remains pending');});parse('3069b03b',()=>setRegister('EAX',stack.#stackWord(relative('EBP',-32))));parse('3069b03e',()=>stack.#push(register('EAX')));parse('3069b03f',()=>stack.#call('3069b03f','3069b044'));
+                const {parse}=runNameParserPrefix(config,typeInfo);
                 const type=(pc:string,body:()=>void)=>step(pc,body,'3069a2f7');
                 type('3069a2f7',()=>stack.#push(register('EBP')));type('3069a2f8',()=>setRegister('EBP',register('ESP')));type('3069a2fa',()=>{const a=relative('ESP',0),r=a-32;setRegister('ESP',stack.#stackWord(r));stack.#arithmeticFlags(a,32,r,4,true);});type('3069a2fd',()=>stack.#push(register('ESI')));type('3069a2fe',()=>setRegister('ESI',stack.#mint(0x2000,0xffffffff)));
                 let parseFlags=0;type('3069a303',()=>{parseFlags=NativeHeapObjectViews.prototype.readUnsigned.call(config,28,4);stack.#logicalFlags(parseFlags&0x2000,0xffffffff,4);});type('3069a309',()=>stack.#push(register('EDI')));type('3069a30a',()=>{if(!(parseFlags&0x2000))throw new Error('Original undecoration type-parser alternate branch remains pending');});
@@ -1090,9 +1102,10 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
               const request=runColdArenaRequest(decoder.globals.value);
               const allocation=runColdArenaAllocation(decoder.globals.value,request);if(!allocation.ready)return known(undefined);
               runFieldConstructionReturn(parser.field,allocation.arenaBacking,3,4084,'306972c5');
-              runParserConstructionReturn(decoder.globals.value,parser,request,allocation);
+              const constructed=runParserConstructionReturn(decoder.globals.value,parser,request,allocation);
               decoder.undecorate('3069b2d8',()=>setRegister('ECX',stack.#stackWord(stack.#address(register('EBP'))-148)));decoder.undecorate('3069b2de',()=>stack.#call('3069b2de','3069b2e3'));
-              stack.#engineCinitFrame!.pc='3069afb8';return known(undefined);
+              runNameParserPrefix(constructed.config,image('visualAnimationSecondTypeInfo'));
+              stack.#engineCinitFrame!.pc='3069a2f7';return known(undefined);
             }
             return known(undefined);
           }

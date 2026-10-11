@@ -375,3 +375,20 @@ checks of all four live second-parser nodes and the earlier float constructor.
 The earlier combined revision remains under validation and does not include
 this complete second-parser constructor. Full startup, deployment of this
 continuation and campaign completion remain unfinished.
+
+### Shared name-parser entry and bCString prefix branch — 11 October 2026
+
+Both properties now execute the original name-parser prolog, local masks and
+retained name-pointer comparison through a shared continuation. The second name
+starts with `?A`; captured instructions compare the second byte with `@` and `$`,
+then take the original common call into the type parser. Execution reaches
+`3069b03f -> 3069a2f7` after 4,917 admitted operations. Partial AL writes retain
+upper-bit masks; the parser configuration still identifies the original type
+info and all four arena nodes remain live. Lock five stays held.
+
+Typechecking and five focused runtime/browser/regression checks pass. An initial
+failure identified an invalid late use of the type-info register accessor after
+constructor calls changed that register. The continuation instead supplies the
+original second type-info image and checks it against the retained configuration.
+Type parsing, full startup, publication and campaign completion remain unfinished.
+The earlier combined validation remains running and predates this continuation.
