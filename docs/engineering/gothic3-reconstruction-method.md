@@ -85,7 +85,8 @@ Keep four claims separate: evidence captured, behavior implemented, checks
 passed, and revision deployed. Each checkpoint records its actual supported
 boundary and remaining work. The current local native continuation completes the camera and reference-base
 property initializers, including their names, roots and shutdown registration.
-It stops at the next original C++ initializer (`30732300`). Complete engine
+It enters the next obsolete-class initializer and stops at its original
+type-name call (`306713ae`). Complete engine
 startup, world activation and campaign play remain outstanding.
 
 For detailed commands and implementation history, see the

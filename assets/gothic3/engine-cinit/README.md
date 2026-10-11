@@ -2795,3 +2795,20 @@ recapture matches byte-for-byte, and removing the newly added records produces
 the prior evidence package exactly. These are source receipts; the new
 initializer is not yet executed. The runtime boundary remains `30732300`.
 Full startup, live campaign integration and an ending remain unfinished.
+
+
+## 11 October 2026: obsolete-class property prefix execution
+
+The retained C++ walker now enters `30732300`, calls the original `3003251a`
+thunk, and executes the captured `300767b0` property prefix. It preserves the
+original root in storage +4, sets the two initializer flag bits, pushes the
+live common type-name list, and places the owned obsolete-class RTTI pointer
+in ECX. The actual `300767e3` call retains return word `300767e8`. Execution
+stops at `306713ae` after 18,329 admitted operations; type-name handling and
+the remaining property initializer are pending. No CString, root publication
+or shutdown registration is claimed for this sixth property yet.
+
+Typechecking and eleven selected checks pass, including unknown guard bits
+that preserve the pending callback at the original branch. The prior five
+CStrings and their registered exits remain live. This local continuation is
+not deployed and does not establish complete startup or campaign play.

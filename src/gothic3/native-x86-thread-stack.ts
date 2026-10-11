@@ -1603,6 +1603,28 @@ stack.#engineCinitFrame!.pc='10003cd8';engineCinitUnMangleInstruction('10003cd8'
 
 
             }
+            if(target==='30732300'){
+              step('30732300',()=>stack.#call('30732300','30732305'),'30732300');
+              step('3003251a',()=>{},'3003251a');
+              const sixth=(pc:string,body:()=>void)=>step(pc,body,'3003251a');
+              const image=(label:'obsoleteClassFlags'|'obsoleteClassRoot'|'obsoleteClassStorage'|'obsoleteClassTypeInfo'|'visualAnimationFloatDefault')=>{const result=NativeEngineCinitImages.imageForCrt(images.value,crt,label);if(!result.known)throw new Error(result.reason);return result.value;};
+              const flags=image('obsoleteClassFlags'),storage=image('obsoleteClassStorage');let bits=0,mask=0;
+              sixth('300767b0',()=>{const word=stack.#load(flags,0),r=stack.#record(word);bits=r.value;mask=r.mask;setRegister('EAX',word);});
+              sixth('300767b5',()=>stack.#logicalFlags(bits&1,(mask|~1)&255,1));
+              sixth('300767b7',()=>{const f=stack.#record(stack.#load(stack.#bank,36));if(!(f.mask&64)||bits&1)throw new Error('Original fresh obsolete-class property root guard required');});
+              sixth('300767b9',()=>setRegister('ECX',stack.#load(image('obsoleteClassRoot'),0)));
+              sixth('300767bf',()=>{bits=(bits|1)>>>0;mask=(mask|1)>>>0;setRegister('EAX',stack.#mint(bits,mask));stack.#logicalFlags(bits,mask,4);});
+              sixth('300767c2',()=>stack.#store(flags,0,register('EAX')));
+              sixth('300767c7',()=>stack.#store(storage,4,register('ECX')));
+              sixth('300767cd',()=>stack.#logicalFlags(bits&2,(mask|~2)&255,1));
+              sixth('300767cf',()=>{const f=stack.#record(stack.#load(stack.#bank,36));if(!(f.mask&64)||bits&2)throw new Error('Original fresh obsolete-class property type guard required');});
+              sixth('300767d1',()=>{bits=(bits|2)>>>0;mask=(mask|2)>>>0;setRegister('EAX',stack.#mint(bits,mask));stack.#logicalFlags(bits,mask,4);});
+              sixth('300767d4',()=>stack.#push(stack.#mint(0,0,{kind:'engine-image',crt,fields:image('visualAnimationFloatDefault'),offset:0})));
+              sixth('300767d9',()=>setRegister('ECX',stack.#mint(0,0,{kind:'engine-image',crt,fields:image('obsoleteClassTypeInfo'),offset:0})));
+              sixth('300767de',()=>stack.#store(flags,0,register('EAX')));
+              sixth('300767e3',()=>stack.#call('300767e3','300767e8'));
+              stack.#engineCinitFrame!.pc='306713ae';return known(undefined);
+            }
             if(target==='307322f0'){
               step('307322f0',()=>stack.#call('307322f0','307322f5'),'307322f0');step('300247da',()=>{},'300247da');
               const fifth=(pc:string,body:()=>void)=>step(pc,body,'300247da');
