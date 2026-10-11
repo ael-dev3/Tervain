@@ -193,7 +193,7 @@ export const EN: Record<string, string> = {
   'prompt.skin': 'Skin {name}',
   'prompt.sell_game_meat': 'Sell game for Rillford · 1 meat → {coin} {coin:coin|coins}',
   'hunting.meat_sold': 'Game delivered for Rillford · +{coin} coins',
-  'journal.obs.game_provisions': 'I sold game to Rowan Vale for Rillford’s kitchens. He pays two coins a cut; hides buy replacement arrows at his woodland camp.',
+  'journal.obs.game_provisions': 'I sold game to Rowan Vale for Rillford’s kitchens. He pays by the cut, and more as my name as a hunter grows; hides buy replacement arrows at his woodland camp.',
   'hunting.need_meat': 'Bring fresh game from your hunt to Rowan.',
   'hunting.hunter_resting': 'Rowan is resting. Return after dawn.',
   'hunting.player_dead': 'Not while you are down.',

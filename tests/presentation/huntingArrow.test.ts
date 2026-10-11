@@ -98,3 +98,22 @@ describe('swept ballistic hunting arrows', () => {
     arrows.dispose();
   });
 });
+
+describe('seventh scout fixes: no splash under a deck the arrow strikes (A100)', () => {
+  const stream = () => ({ sample: () => ({ surface: 0.66, flowX: 0, flowZ: 0 }), enter: vi.fn() });
+  it('lodges in planks 9 cm above the water without splashing beneath them', () => {
+    const arrows = new HuntingArrows(), water = stream();
+    // One 1/120 s step falls 0.24 m, from above the deck to below the water: both are crossed in the same step.
+    arrows.launch(new THREE.Vector3(0, 0.8, 0), new THREE.Vector3(0, -1, 1).normalize(), 40);
+    const deck = (from: THREE.Vector3, to: THREE.Vector3) =>
+      from.y >= 0.75 && to.y < 0.75 ? { point: from.clone().lerp(to, (from.y - 0.75) / (from.y - to.y)) } : null;
+    arrows.update(0.1, deck, undefined, water as never);
+    expect(water.enter).not.toHaveBeenCalled();
+  });
+  it('still splashes when nothing stands above the water', () => {
+    const arrows = new HuntingArrows(), water = stream();
+    arrows.launch(new THREE.Vector3(0, 0.9, 0), new THREE.Vector3(0, -1, 1).normalize(), 40);
+    arrows.update(0.1, () => null, undefined, water as never);
+    expect(water.enter).toHaveBeenCalledOnce();
+  });
+});

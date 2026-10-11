@@ -342,3 +342,28 @@ describe('the riding camera', () => {
     expect(cam.rideBlend).toBeLessThan(0.01);
   });
 });
+
+describe('stepping down on a footbridge over deep water (A100 scout)', () => {
+  it('counts the deck as footing: he steps down onto the planks, not 1.2 m under them', () => {
+    const s = setup();
+    const deck = () => 0.75;
+    Object.assign(s.ctx.terrain, { groundAt: deck, supportAt: deck });
+    s.ctx.water = { sample: () => ({ surface: 0.66, depth: 1.2, flowX: 0, flowZ: 0 }) } as unknown as PlayerCtx['water'];
+    s.player.setPosition(0, 0, 0, s.ctx.terrain);
+    s.player.mount = { id: DEER, seat: 1.2 };
+    expect(s.player.beginDismount(s.ctx)).toBe(true);
+    s.player.cancelMount(s.ctx);
+    s.player.mount = { id: DEER, seat: 1.2 };
+    s.player.dismount(s.ctx);
+    expect(s.player.y).toBeCloseTo(0.75, 5);
+  });
+
+  it('still sets him down to swim where the water really is deep', () => {
+    const s = setup();
+    s.ctx.water = { sample: () => ({ surface: 1.2, depth: 1.2, flowX: 0, flowZ: 0 }) } as unknown as PlayerCtx['water'];
+    s.player.mount = { id: DEER, seat: 1.2 };
+    expect(s.player.beginDismount(s.ctx)).toBe(false);
+    s.player.dismount(s.ctx);
+    expect(s.player.y).toBeCloseTo(0.1, 5);
+  });
+});

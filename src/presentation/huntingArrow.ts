@@ -103,16 +103,19 @@ export class HuntingArrows {
         const to = from.clone().addScaledVector(shot.velocity, step);
         const gravity = shot.wet ? HUNTING_ARROW_GRAVITY * 0.25 : HUNTING_ARROW_GRAVITY;
         to.y -= .5 * gravity * step * step;
-        // Breaking the surface: a splash, and from then on the water's drag.
+        const impact = sweep(from, to, shot);
+        // Breaking the surface: a splash, and from then on the water's drag. Not when the arrow struck something first,
+        // such as a bridge deck a hand's breadth above the stream (A100 scout: it splashed under the planks, then lodged).
         if (water && !shot.wet) {
           const w = water.sample(to.x, to.z);
           if (w && from.y >= w.surface && to.y < w.surface) {
-            shot.wet = true;
-            const t = (from.y - w.surface) / Math.max(1e-6, from.y - to.y);
-            water.enter(from.clone().lerp(to, t), shot.velocity.length());
+            const t = (from.y - w.surface) / Math.max(1e-6, from.y - to.y), crossing = from.clone().lerp(to, t);
+            if (!impact || impact.point.distanceToSquared(from) >= crossing.distanceToSquared(from)) {
+              shot.wet = true;
+              water.enter(crossing, shot.velocity.length());
+            }
           }
         }
-        const impact = sweep(from, to, shot);
         shot.age += step;
         shot.velocity.y -= gravity * step;
         if (shot.wet) shot.velocity.multiplyScalar(Math.exp(-ARROW_WATER_DRAG * step));
