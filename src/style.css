@@ -1421,7 +1421,12 @@ body.high-contrast.tv-materials .panel.surface-paper {
 .loading-error .btn:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
 .loading-error .btn:disabled { opacity: .65; }
 @keyframes loading-wait { 0%, 100% { opacity: .32; } 50% { opacity: .85; } }
-@media (prefers-reduced-motion: reduce) { .loading-fill { transition: none; animation: none !important; } }
+/* A108: a sheen crosses the stage under way. A transform animation runs off the main thread, so the bar keeps moving
+   through the build's heaviest steps (the trees, the water, the physical contacts each hold it for a second or more). */
+.loading-segment.active::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, #f3d58a00, #f3d58a66, #f3d58a00); transform: translateX(-100%); animation: loading-sheen 1.6s linear infinite; will-change: transform; pointer-events: none; }
+@keyframes loading-sheen { to { transform: translateX(100%); } }
+@media (prefers-reduced-motion: reduce) { .loading-fill { transition: none; animation: none !important; } .loading-segment.active::after { display: none; } }
+body.reduced-motion .loading-segment.active::after { display: none; }
 @media (max-width: 520px), (max-height: 560px) {
   .loading-page { width: calc(100vw - 28px); padding: 20px 22px; }
   .loading-chart { margin: 6px -8px; max-height: 24vh; overflow: hidden; }
