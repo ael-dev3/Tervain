@@ -627,3 +627,9 @@ The pending qualified-value wrapper at `30697b16` is captured: 29 rows through
 RET 8 at `30697b64`. Original bytes, independent regeneration, typechecking and
 all 25 source/image checks pass. Runtime integration with value-copy and empty
 checks remains unfinished; no return or completed startup is supplied.
+
+The original copy continuation is shared with explicit live stack addresses and
+source-value ownership. The qualified caller's verified NULL value copies and
+returns to `30697b23` after 5,085 operations, while float copies still require
+their original text node. Typechecking and six focused checks pass. Remaining
+wrapper execution, full startup and campaign play remain unfinished and local.

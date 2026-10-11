@@ -512,3 +512,22 @@ and final RET bytes. Runtime remains pending at `30697b16` after 5,026 admitted
 operations; the capture supplies no return. Earlier combined full-suite
 validation is still live. Full startup, publication and campaign play remain
 unfinished.
+
+### Shared value-copy continuation and qualified caller return — 11 October 2026
+
+The original value-copy/assignment continuation now takes explicit live stack
+addresses and an expected source-value identity. The first float path still
+requires its actual arena text node at offset 4,020. The second qualified caller
+requires its original known NULL value, preserving physical flag masks rather
+than supplying a text node. The wrapper executes its original five-row prefix,
+then all 54 value-copy rows and returns to `30697b23` after 5,085 operations.
+Its live output contains a zero pointer and known lower twelve flag bits; the
+actual copy call is marked returned. Historical first-property text ownership
+is retained separately.
+
+Typechecking and six focused runtime/browser/failure checks pass, including
+first-parser regression and unknown qualifier handling. The expected operation
+count was corrected using the captured 54-row copy plus five wrapper rows.
+Remaining empty-value checks and wrapper return still require implementation.
+Earlier combined full-suite validation remains running and predates this change.
+Full startup, deployment and campaign completion remain unfinished.
