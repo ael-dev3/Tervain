@@ -1,7 +1,7 @@
 import { beforeAll, describe, expect, it, vi } from 'vitest';
 import * as THREE from 'three';
 import { FOLIAGE_MAX_MOVERS, FOLIAGE_MAX_SHAKES, FOLIAGE_RESPONSE, createFoliageField, patchFloorPlantVertex, patchFoliageVertex, foliageUniforms } from '../../src/presentation/foliage/foliageWind';
-import { FOLIAGE_LOOK, crownOf, installFoliage, installFoliageShadow } from '../../src/presentation/foliage/foliageMaterial';
+import { FOLIAGE_FOCUS, FOLIAGE_LOOK, crownOf, installFoliage, installFoliageShadow } from '../../src/presentation/foliage/foliageMaterial';
 import { installShadowOnlyGroup, shadowDepthMaterial, shadowGeometry } from '../../src/presentation/foliage/shadowCasters';
 import { LEAF_BURST_POOL, createLeafBurst } from '../../src/presentation/foliage/leafBurst';
 import { GrassWind } from '../../src/presentation/grass/wind';
@@ -159,6 +159,20 @@ describe('foliage look', () => {
       expect(depthShader.fragmentShader).toContain('tvDistanceNoise');
       material.dispose(); mesh.geometry.dispose(); depth.dispose();
     }
+    f.wind.dispose();
+  });
+
+  it('lets leaves near the lens, and between it and the followed wanderer, give way; off unless a focus is set (A84)', () => {
+    const f = field(), leaf = new THREE.MeshStandardMaterial({ alphaTest: 0.5 });
+    installFoliage(leaf, { field: f, response: FOLIAGE_RESPONSE.broadleaf, leaf: true });
+    const shader = lib('standard');
+    shader.defines = { ...(shader.defines ?? {}), USE_ALPHATEST: '' };
+    leaf.onBeforeCompile(shader, {} as THREE.WebGLRenderer);
+    expect(shader.uniforms.uFoliageFocus).toBe(FOLIAGE_FOCUS);
+    expect(shader.vertexShader).toContain('vTvWorld = tvP;');
+    expect(shader.fragmentShader).toContain('if ( uFoliageFocus.w > 0.0 ) tvNearEnd = clamp(');
+    expect(shader.fragmentShader).toContain('smoothstep( 0.6, tvNearEnd, length( vViewPosition ) )');
+    expect(FOLIAGE_FOCUS.value.w).toBe(0);
     f.wind.dispose();
   });
 

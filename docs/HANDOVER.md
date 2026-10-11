@@ -18,8 +18,8 @@ the goal, the rules, every backlog item's state, what was in progress and the ex
   (it stops by the fourth lap), plus tree shadows drawn for the first time.
 - **Authored turns:** residents turning on the spot step from authored turns (A83).
 - **Still open:**
-  - staged loading of the near tree files (below);
-  - near leaf masses seen from just under a crown.
+  - staged loading of the near tree files (below).
+- **Leaf masses near the camera** from just under a crown give way (A84).
 
 ## Update (A78, local GPU session)
 
