@@ -2012,3 +2012,146 @@ Scope includes main through PR 251 and native work through `f158a27d8`;
 later writer, parser cleanup, length scan and cache operations are outside
 this run. This evidence proves those checks/build for that revision, not full
 engine startup or campaign completion. Native changes remain local.
+
+### 2026-10-11 — camera nested keyword writer (local)
+
+The original camera output writer checks the parsed list, calls the original
+virtual length and list writer, enters its nested text writer, and copies the
+six-byte keyword `class ` into the separate output allocation. The nested node
+writer returns to `306971d7`; startup has executed 13,045 operations. Bytes
+0..5 are known, bytes 6..23 remain unknown. Identifier output, terminator,
+writer return, parser cleanup and camera publication remain pending.
+
+Validation: TypeScript checking, eight focused runtime checks and six browser
+startup checks passed. An unavailable readonly writer target stops at
+`306971d4` with the output caller pending, lock held and prior CString/shutdown
+entry retained. Corrupting that readonly image invalidates image-backed root
+and parser snapshots; the failure test explicitly expects those snapshots to
+be unavailable. Normal-path tests separately verify the roots and parsed list.
+Original source packages are unchanged. This local checkpoint is not deployed
+and does not prove complete startup or campaign completion with persistence.
+
+
+### 2026-10-11 — original camera identifier output and writer return (local)
+
+The original writer now advances past the keyword, measures the actual name
+node, copies its twelve bytes using the retained arena offset/length, stores
+NUL and returns to the NameParser at `3069b0d3`. Startup has executed 13,222
+operations. The separate output contains `class eCCameraBase` plus NUL in
+19 known bytes; the five remaining allocation bytes remain unknown. Output
+compaction, NameParser return, cleanup and camera publication are pending.
+
+Validation: TypeScript checking, eight focused runtime checks and six browser
+startup checks passed. A further interrupted final terminator-store test passed
+at `306971f6`, retaining all eighteen text bytes, an unknown terminator byte,
+live output, pending writer caller and parser lock. The copy uses actual
+`nameCharactersOffset` and `nameLength`, not the earlier class's byte count.
+Original source packages are unchanged. This checkpoint is local, not deployed,
+and does not establish complete startup or campaign completion with persistence.
+
+
+### 2026-10-11 — original camera NameParser output scan and return (local)
+
+Executed the original output scan/space compaction over the rendered camera
+name, wrote its final terminator and returned the NameParser physically to
+`3069b2e3`. Startup has executed 13,381 operations. The output remains the
+nineteen known bytes `class eCCameraBase` plus NUL, with five unknown padding
+bytes. Arena destruction, parser lock release, type cache and camera root
+publication remain pending. The output and parsed camera list remain live.
+
+Validation: TypeScript checking, ten focused runtime checks and six browser
+startup checks passed. Unknown rendered terminator stops at `3069b0f3` with
+the undecoration caller and lock retained. Normal-path checks verify the
+NameParser return, output bytes/masks and prior roots/shutdown entries.
+Original evidence packages are unchanged. This local checkpoint has not been
+deployed and does not establish complete startup or full campaign persistence.
+
+
+### 2026-10-11 — camera parser arena destruction and caller return (local)
+
+Executed the original arena chain destructor/free, finally handler releasing
+lock 5, EH epilog and undecoration return. The type-name caller regains its
+live output at `3067dad1` after 13,427 operations. The parser arena is freed;
+checks observe its raw historical bytes without native reads after release.
+The separate output still contains nineteen known bytes and five unknown
+padding bytes. Length scan, type cache and camera root publication remain
+pending. Prior published roots/CStrings/shutdown entries remain intact.
+
+Validation: TypeScript checking, ten focused runtime checks and six browser
+startup checks passed. A further unavailable arena free check passed at
+`30672f8a`, retaining the destructor caller, lock and earlier CStrings/shutdown
+cursor. Original instruction packages are unchanged. This local checkpoint
+has not been deployed and does not establish complete engine startup or a
+campaign playable through an ending with persistence.
+
+
+### 2026-10-11 — original camera type-name DWORD length scan (local)
+
+Executed the original aligned DWORD strlen scan over the live camera output,
+including its masked zero-byte predicate and third-byte terminator finish.
+It returns length eighteen to `3067dae2` after 13,485 startup operations.
+The last scan DWORD contains the known NUL at output offset 18 and unknown
+padding at 19; the predicate proves the terminator without inventing padding.
+Cache allocation/copy, output release and camera publication remain pending.
+
+Validation: TypeScript checking, twelve focused runtime checks and six browser
+startup checks passed. Making the scan terminator unknown stops at `30679b11`
+with its original caller pending and parser lock already released. Normal
+checks verify the length, prior roots/CStrings, output masks and freed parser
+arena observations. Original source packages remain unchanged. This local
+checkpoint is not deployed and does not establish complete engine startup or
+campaign completion with save/reload.
+
+
+### 2026-10-11 — original camera type-name cache allocations (local)
+
+The original caller checks the output's final nonspace character, acquires
+lock 14, verifies its uncached RTTI and allocates a fresh eight-byte list node
+and nineteen-byte cache text span. It stores the actual cache text pointer in
+camera RTTI and enters the original copy at `3068a84a`, after 13,518 operations.
+Both allocations remain live and unwritten; the node is not linked yet.
+Cache copy/link, output release, lock release and camera publication are pending.
+
+Validation: TypeScript checking, twelve focused runtime checks and six browser
+startup checks passed. An additional unavailable nineteen-byte cache malloc
+check passed at `30672ec7`, retaining its caller, live node and lock 14 while
+lock 5 remains released. Earlier roots/CStrings/shutdown cursor remain intact.
+Original source packages are unchanged. This local checkpoint is not deployed
+and does not establish complete startup or campaign completion with persistence.
+
+
+### 2026-10-11 — original camera cache text copy and list link (local)
+
+The original copy routine writes all nineteen known cache bytes, returns zero,
+then links the new camera cache node to the previous live int node and publishes
+it in the actual shared type-name list. Startup stops at `3067db62` after
+13,700 operations. Camera RTTI points to the actual cache text, the list root
+points to the new node, and both allocations remain live. Temporary output
+release, lock 14 release, property CString and camera root publication remain
+pending.
+
+Validation: TypeScript checking, thirteen focused runtime checks and six browser
+startup checks passed. A further interrupted cache character store check passed
+at `3068a88a`, retaining the ten-byte prefix, unknown following character,
+live cache text, pending copy caller and held lock 14; lock 5 is released.
+Normal checks verify copied text and canonical link provenance. Original source
+packages are unchanged. This local checkpoint is not deployed and does not
+establish complete startup or campaign completion with persistence.
+
+
+### 2026-10-11 — camera cache cleanup and property caller return (local)
+
+Executed the original temporary-output free, lock-14 finally handler, EH epilog
+and property type-name wrapper return. Startup reaches camera caller
+`30076708` after 13,726 operations. Temporary output is freed, camera cache
+text/node remain live and linked, and both parser/cache locks are released.
+The property CString and camera root publication remain pending. The free
+proof covers the actual 24-byte output allocation.
+
+Validation: TypeScript checking, fourteen focused runtime checks and six browser
+startup checks passed. A further unavailable temporary-output free check passed
+at `30672f8a`, retaining live output/cache, held lock 14 and pending free caller;
+lock 5 remains released. Normal checks verify output lifetime, property return,
+prior CStrings/roots and shutdown entries. Original source packages are
+unchanged. This local checkpoint is not deployed and does not establish full
+engine startup or a campaign playable through its ending with persistence.
