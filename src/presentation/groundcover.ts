@@ -55,7 +55,10 @@ export function buildGroundcover(ctx: BuildContext): Groundcover {
       const jump = Math.hypot(vx, vz) > 25;
       lastFocus.copy(f.focus);
       focus.copy(f.focus);
-      trample?.setMovers([{ x: f.focus.x, z: f.focus.z, radius: 0.55, weight: 0.75, vx: jump ? 0 : vx, vz: jump ? 0 : vz }, ...others], f.focus.x, f.focus.z);
+      // Up on a rock, a deck or a stair he treads nothing below (A105 scout: grass under him flattened as if waded).
+      const aloft = f.focus.y - ctx.terrain.heightAt(f.focus.x, f.focus.z) > 0.6;
+      const hero: GrassMover[] = aloft ? [] : [{ x: f.focus.x, z: f.focus.z, radius: 0.55, weight: 0.75, vx: jump ? 0 : vx, vz: jump ? 0 : vz }];
+      trample?.setMovers([...hero, ...others], f.focus.x, f.focus.z);
       field.update(cam);
     },
     warm(renderer) { trample?.warm(renderer); },

@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import type { MaterialOptions } from './shading';
 import type { TextureCache } from './textures';
-import type { Vegetation, VegetationMesh } from './vegetation';
+import { vegetationMeshProblem, type Vegetation, type VegetationMesh } from './vegetation';
 
 /**
  * The world's ground vegetation (grass, herbs, ferns, pebbles, twigs) drawn near the camera, as the game does: each
@@ -85,7 +85,12 @@ export class Undergrowth {
     this.range = v.viewRange / 100;
     this.fadeUniform.value.set(Math.min(v.fadeStart, v.viewRange) / 100, this.range);
     const byIndex = new Map<number, Kind>();
-    for (const vm of v.meshes) byIndex.set(vm.index, this.kind(vm));
+    // A plant whose streams disagree is left out; the rest of the cell still grows (A105 scout).
+    for (const vm of v.meshes) {
+      const problem = vegetationMeshProblem(vm);
+      if (problem) console.warn(`Plant ${vm.name} skipped: ${problem}`);
+      else byIndex.set(vm.index, this.kind(vm));
+    }
     for (const node of v.nodes) {
       const kinds: Kind[] = [];
       const matrices = new Float32Array(node.count * 16);
