@@ -1566,3 +1566,28 @@ This change remains local. The separate combined validation at
 third-property steps. The third property's output, cache, CString and root
 publication are unfinished. Full engine startup and a complete browser campaign
 with save/reload are not established by these component checks.
+
+
+## 2026-10-11: original int output length and allocation
+
+The original name-parser flag and input-cursor checks now continue after the int
+value return. Its parsed value is assigned to the output receiver, measured
+through the original readonly text-node vtable, and found to contain three
+characters. Original arithmetic retains four bytes including the terminator
+and requests an eight-byte aligned output allocation. The output is a separate
+canonical Engine allocation, with its actual pointer and capacity retained in
+the pending writer arguments. Execution reaches `30697171` after 9,349 source
+operations; the text writer has not executed and lock 5 remains held.
+
+TypeScript checking passed. Four focused runtime checks passed in 19.90 seconds,
+including an unavailable original output allocator that retains the live int
+node and pending `3069b0b4` caller. Six browser startup checks passed in 47.57
+seconds. An initial assertion incorrectly expected MemoryAdmin metadata on the
+CRT output allocation; it was replaced with checks of its actual physical
+extent and canonical allocation ownership. Source evidence remains unchanged.
+
+This checkpoint remains local. The preceding combined revision
+`80f90a64de485c9778e75db45c9f77e57db8e95a` has since passed all 3,631 tests in
+322 files and its build, but predates third-property work. Full engine startup,
+third-property publication and complete browser campaign persistence remain
+unfinished.
