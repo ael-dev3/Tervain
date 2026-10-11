@@ -664,3 +664,18 @@ and reaches the basic-type parser at `3069b3b1` after 5,388 operations.
 Typechecking and six distinct focused checks pass. The actual qualifier
 assignment has returned; the basic-type call remains pending. Class-name
 parsing, complete startup and campaign remain unfinished and local.
+
+## 2026-10-11: original class-code basic parser entry
+
+The shared basic-type prefix now executes nineteen original instructions for
+both the completed float path and the second property. The second path reads
+`V` (86) from the original type-info at offset eleven, advances its live cursor
+to twelve, and follows the original signed `JG` to `3069b43a`. The retained
+initializer has executed 5,407 source operations. Its basic-type caller remains
+pending; this checkpoint does not supply a decoded class name.
+
+TypeScript checking and five distinct focused checks pass: the retained
+MemoryAdmin allocation path, unknown final CString byte, unknown decorated
+qualifier, parser constructor and fatal PTD call. The diff was inspected.
+Combined validation remains live on an earlier revision. This continuation is
+local; complete startup, publication and campaign completion remain unfinished.
