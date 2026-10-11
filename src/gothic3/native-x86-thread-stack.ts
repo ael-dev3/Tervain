@@ -2031,7 +2031,19 @@ stack.#engineCinitFrame!.pc='10003cd8';engineCinitUnMangleInstruction('10003cd8'
                     cstringAllocate('10013270',()=>pop('EDI'));cstringAllocate('10013271',()=>NativeHeapObjectViews.prototype.writeUnsigned.call(fields,cstringPointer()+stack.#numeric(register('ESI'),4),0,1));cstringAllocate('10013275',()=>pop('ESI'));
                     cstringAllocate('10013276',()=>{const p=stack.#record(stack.#ret(4)).provenance;if(p?.kind!=='source'||p.address!=='10013628')throw new Error('Actual CString allocation caller return required');});
                     textConstructor('10013628',()=>setRegister('EAX',stack.#load(storage,0)));textConstructor('1001362a',()=>stack.#push(register('EDI')));textConstructor('1001362b',()=>stack.#push(register('EBX')));textConstructor('1001362c',()=>stack.#push(register('EAX')));textConstructor('1001362d',()=>stack.#call('1001362d','10013632'));
-                    stack.#engineCinitFrame!.pc='100a7a00';return known(undefined);
+                    stack.#engineCinitFrame!.pc='100a7a00';engineCinitUnMangleInstruction('100a7a00','100a7a00');
+                    const copyDestination=stack.#load(stack.#stack,callerRelative('ESP',4)),copySource=stack.#load(stack.#stack,callerRelative('ESP',8)),copyBytes=stack.#numeric(stack.#load(stack.#stack,callerRelative('ESP',12)),4),destinationPointer=stack.#record(copyDestination).provenance,sourcePointer=stack.#record(copySource).provenance;
+                    if(destinationPointer?.kind!=='shared-local'||destinationPointer.fields!==fields||destinationPointer.offset!==8||sourcePointer?.kind!=='engine-allocation'||sourcePointer.crt!==crt||sourcePointer.fields!==cacheText||sourcePointer.offset!==6||copyBytes!==requestedCStringBytes-9||stack.#calls.filter(c=>!c.returned).at(-1)?.site!=='1001362d')throw new Error('Actual retained CString memcpy caller and arguments required');
+                    stack.#sharedLocalPhysical(fields);const copySourceProof=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields:cacheText!,offset:6},copyBytes);if(!copySourceProof.known)throw new Error(copySourceProof.reason);
+                    const copied=copyNativeBytesScalar(stack.#platform,{fields,offset:8},{fields:cacheText!,offset:6},copyBytes);if(!copied.known)throw new Error(copied.reason);
+                    stack.#sharedLocalPhysical(fields);const copiedSourceProof=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields:cacheText!,offset:6},copyBytes);if(!copiedSourceProof.known)throw new Error(copiedSourceProof.reason);
+                    stack.#trace.push('100a7a00.SharedBaseMemcpyContract');hostReturn(copyDestination,0);stack.#engineCinitFrame!.typeNameFifthCStringCopyReturned=true;
+                                    textConstructor('10013632',()=>{setRegister('ESP',stack.#stackWord(callerRelative('ESP',12)));stack.#flags(0,0);});textConstructor('10013635',()=>pop('EDI'));textConstructor('10013636',()=>setRegister('EAX',register('ESI')));textConstructor('10013638',()=>pop('ESI'));textConstructor('10013639',()=>pop('EBX'));
+                    textConstructor('1001363a',()=>{const p=stack.#record(stack.#ret(4)).provenance;if(p?.kind!=='source'||p.address!=='10091576')throw new Error('Actual CString constructor return required');});
+
+                sharedStep('10091576',()=>setRegister('EAX',register('ESI')));sharedStep('10091578',()=>pop('ESI'));sharedStep('10091579',()=>{const p=stack.#record(stack.#ret(8)).provenance;if(p?.kind!=='source'||p.address!=='30076784')throw new Error('Actual matched UnMangle property caller return required');});
+
+                stack.#engineCinitFrame!.pc='30076784';return known(undefined);
             }
             if(target==='307322e0'){
               step('307322e0',()=>stack.#call('307322e0','307322e5'),'307322e0');step('3000d9f9',()=>{},'3000d9f9');

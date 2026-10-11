@@ -2691,3 +2691,27 @@ Character copy, constructor return, shutdown registration, complete startup and
 a finishable browser campaign remain outstanding. This checkpoint is local
 and has not been deployed. The earlier combined scan revision is validating
 independently and does not include this fifth-string allocation.
+
+
+## Local continuation — 11 October 2026: reference-base CString copy and return
+
+The retained memcpy caller copies the actual fifteen-character suffix into the
+fifth CString through the captured scalar units. The allocator-established NUL
+at offset 23 remains intact. Original constructor and UnMangle epilogs return
+through their physical callers at `30076784` after 18,191 admitted operations.
+The live 24-byte CString contains `bCObjectRefBase` followed by NUL, with length
+15 and reference count 1. Its copy-return flag is true; the original initializer
+ESI is restored and EAX names the actual reference-base storage image.
+
+Interrupting the third destination DWORD retains the first eight copied
+characters and the allocation's established zero tail, with the memcpy caller
+pending. Making a source byte unknown during memcpy propagates its unknown mask
+to the destination instead of inventing a known character; the original copy
+and return still complete. Reading that destination byte as known data fails.
+The admitted span matches the camera continuation after normalizing the string
+record and original return address. Typechecking, eight runtime checks and six
+browser startup checks pass locally.
+
+Shutdown registration and callback return, complete engine startup and a
+finishable browser campaign remain outstanding. This checkpoint is local and
+not deployed; the earlier combined scan revision continues separate validation.
