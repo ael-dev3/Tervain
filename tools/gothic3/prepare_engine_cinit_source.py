@@ -40,6 +40,7 @@ def capture(study):
         0x30016fea: 'engineVisualAnimationSecondPropertyType',
         0x30015bef: 'engineVisualAnimationThirdPropertyType',
         0x3000d9f9: 'engineCameraBaseObjectPropertyType',
+        0x300247da: 'engineObjectRefBasePropertyType',
         0x306713ae: 'enginePropertyTypeNameWrapper',
         0x3067da97: 'enginePropertyTypeName',
         0x3069b26b: 'engineUndecorateName',
@@ -102,7 +103,8 @@ def capture(study):
                ('engineVisualAnimationFloatInitializer',0x307322b0,0x307322bb,3),
                ('engineVisualAnimationSecondPropertyInitializer',0x307322c0,0x307322cb,3),
                ('engineVisualAnimationThirdPropertyInitializer',0x307322d0,0x307322db,3),
-               ('engineCameraBaseObjectPropertyInitializer',0x307322e0,0x307322eb,3)]
+               ('engineCameraBaseObjectPropertyInitializer',0x307322e0,0x307322eb,3),
+               ('engineObjectRefBasePropertyInitializer',0x307322f0,0x307322fb,3)]
     collected={begin:[] for _,begin,_,_ in recovered}
     asm=study/'01_Decompiled_Code/Engine_dll/full_disassembly.asm'
     for number,line in enumerate(asm.open('rb'),1):
@@ -224,6 +226,13 @@ def capture(study):
             break
     else:
         raise ValueError('Unterminated original camera base object type info')
+    object_ref_type_info_size=8
+    for offset in range(4096):
+        object_ref_type_info_size+=1
+        if pe.bytes(0x30aa202c+8+offset,1)==b'\0':
+            break
+    else:
+        raise ValueError('Unterminated original object reference base type info')
     images = []
     for label, address, size in [
         ('floatingPointCallback', 0x30892ac0, 4),
@@ -262,6 +271,10 @@ def capture(study):
         ('visualAnimationSecondRoot', 0x30ad9e34, 4),
         ('visualAnimationSecondStorage', 0x30ad99e0, 8),
         ('visualAnimationSecondTypeInfo', 0x30aa29e0, second_type_info_size),
+        ('objectRefBaseFlags', 0x30ad9a18, 4),
+        ('objectRefBaseRoot', 0x30ad9e28, 4),
+        ('objectRefBaseStorage', 0x30ad9a10, 8),
+        ('objectRefBaseTypeInfo', 0x30aa202c, object_ref_type_info_size),
         ('cameraBaseObjectFlags', 0x30ad9a0c, 4),
         ('cameraBaseObjectRoot', 0x30ad9e2c, 4),
         ('cameraBaseObjectStorage', 0x30ad9a04, 8),

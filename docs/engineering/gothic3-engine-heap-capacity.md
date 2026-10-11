@@ -2194,3 +2194,144 @@ local), and production build (64 seconds). Process handle 70584 finished with
 exit 0. This revision includes main through PR #251 and native camera cache
 cleanup through `0da2791ef`; it predates the newer CString/root work and PRs
 #252/#253. It does not validate those later changes or a full browser campaign.
+### 2026-10-11 — original camera SharedBase UnMangle caller entry (local)
+
+Original camera bytes at `30076708`, `30076709` and `3007670e` push the returned
+cache text, actual property storage and call the retained SharedBase UnMangle
+import. Executed its thunk/prolog and argument setup, then its original search
+call for the audited space literal. Startup stops at `100a7430` after 13,735
+operations. SharedBase retains the live camera cache text in ESI; camera root
+is still null. Search completion, CString construction and publication remain
+pending. No camera property string/root is synthesized.
+
+Validation: TypeScript checking, fifteen focused runtime checks and six browser
+startup checks passed. A further strengthened normal check passed for actual
+SharedBase input provenance and null camera root. The call uses return address
+`30076714` and original import/SharedBase hash receipts. Source packages are
+unchanged. This local checkpoint has not been deployed and does not establish
+full engine startup or campaign completion with persistence.
+
+
+2026-10-11 — original camera cached-name space search (local)
+
+Executed the retained SharedBase single-character search over the actual live
+camera cache allocation. Its DWORD scan finds the space at offset 5 in
+`class eCCameraBase`, returns that pointer to UnMangle, and passes offset 6
+and the actual camera property storage into the original CString constructor.
+Startup stops at constructor thunk `10003ba7` after 13,814 operations. The
+search call returned; CString construction and camera root publication remain
+pending. The camera root is still null, with both parser/cache locks released.
+
+Validation: TypeScript checking, the strengthened normal check and sixteen
+focused runtime checks passed. The new unknown-cache-character check stops at
+`100a7343`, preserving the pending search caller and live cache allocation.
+Six browser startup checks passed. Source packages are unchanged. This local
+checkpoint has not been deployed and does not establish complete engine startup
+or a playable campaign ending with save/reload.
+
+
+2026-10-11 — original camera CString constructor length scan (local)
+
+Executed the original constructor thunk/prolog with the camera property storage
+as destination and the live cached-name pointer at offset 6 as input. Its byte
+scan reads the twelve characters of `eCCameraBase` and its terminator, derives
+length 12 from pointers in the same allocation, and calls the original CString
+allocation routine. Startup now stops at `10007d65` after 13,883 operations.
+No fourth CString has been allocated or published; the camera root remains null.
+
+Validation: TypeScript checking, the strengthened normal runtime check and six
+browser startup checks passed. The normal check verifies actual length 12 and
+the pending allocation caller. Source packages are unchanged. This checkpoint
+is local and does not prove complete engine startup or campaign completion.
+
+
+2026-10-11 — original camera CString allocation request (local)
+
+Executed the original CString allocation prefix, preserving length 12, adding
+its original nine-byte overhead and retaining the actual MemoryAdmin singleton.
+The original caller is pending at malloc thunk `10003cd8` after 13,895
+operations. Its requested size is 21 bytes; no fourth CString allocation or
+camera root publication has occurred yet. The existing scene-startup heap
+receipt covers requests 21..24 with stride 24; using it requires admission of
+that source-backed extension, rather than guessing allocation capacity.
+
+Validation: TypeScript checking, a strengthened normal runtime check and six
+browser startup checks passed. The normal check distinguishes the earlier
+returned allocation call from the current pending call and verifies the actual
+MemoryAdmin receiver. Source packages are unchanged. This checkpoint is local;
+complete startup and campaign completion with persistence remain unproven.
+
+
+2026-10-11 — original camera CString MemoryAdmin allocation (local)
+
+Allocated the original 21-byte CString request from the already audited 24-byte
+pool through the retained MemoryAdmin singleton. The fourth CString has its own
+live allocation, physical views and owner proof; it does not alias any earlier
+property string. VirtualAlloc-backed pool bytes retain their actual known masks.
+The malloc caller returned and startup stops at `10013263`, still after 13,895
+counted instructions, before writing the CString header or storage pointer.
+Camera root remains null. Allocation admission does not imply SceneAdmin startup.
+
+Validation: TypeScript checking, the strengthened normal runtime check and six
+browser startup checks passed. Two normal attempts hit the unchanged 20-second
+timeout while an assertion recursively matched allocation internals. Direct
+identity/extent comparisons preserve the checks and passed in 9.46 seconds total
+(about 3.5 seconds of tests); no timeout was raised. The normal check verifies
+requested size, capacity, physical byte masks, distinct identity, canonical
+same-platform allocation membership and the actual returned malloc caller.
+This checkpoint is local; full startup and campaign completion remain unproven.
+
+
+2026-10-11 — original camera CString header and copy (local)
+
+Executed the original allocation return, header writes, destination publication
+and copy call. The live fourth CString records length 12 and reference count 1;
+its bytes at offset 8 contain `eCCameraBase` followed by the original terminator.
+The source is the actual retained camera cache allocation at offset 6. Its
+SharedBase copy caller returned; startup stops at `10013632` after 13,908
+instructions, before constructor cleanup. The camera root is still null.
+
+Validation: TypeScript checking, the strengthened normal runtime check and six
+browser startup checks passed. Checks retain physical allocation membership,
+byte masks, header values, copied name and original allocation/copy return
+state. Source packages are unchanged. This checkpoint is local and does not
+prove full engine startup or campaign completion with save/reload.
+
+
+2026-10-11 — original camera property root and shutdown registration (local)
+
+Completed the original CString constructor and UnMangle returns, registered
+camera shutdown callback `300307f1` through the original Engine onexit/EH/lock
+path, and published the actual property storage through `307322e5`. The sixth
+exit entry is retained and the exit cursor advances to 24. The original C++
+walker then reaches its next callback `307322f0` after 14,039 instructions;
+its cursor is at offset `0x114`. Camera property initialization is complete,
+while the next initializer and full engine startup remain unsupported.
+
+Validation: TypeScript checking, the strengthened normal runtime check, two
+interrupted-registration checks and six browser startup checks passed. The
+negative checks stop at the original exit lock/unlock instruction, retain the
+live completed CString, and keep the camera root known null. Failed unlock
+preserves the held lock and physically registered sixth callback; failed lock
+preserves the previous exit cursor. Source packages are unchanged. This local
+checkpoint has not been deployed and does not establish campaign completion.
+
+Next reference: original callback `307322f0` calls thunk `300247da`, which jumps
+to property routine `30076740`, then stores its result at `30ad9e28`. These
+addresses are research findings, not an implemented next callback.
+
+
+2026-10-11 — next bCObjectRefBase initializer source capture (local)
+
+Captured original callback `307322f0`, property thunk `300247da` and its
+22-instruction body at `30076740`. Added original flags at `30ad9a18`, root at
+`30ad9e28`, storage at `30ad9a10`, and the complete 30-byte RTTI record at
+`30aa202c` containing `.?AVbCObjectRefBase@@`. This is a source capture;
+the next initializer has not executed yet.
+
+Validation: TypeScript checking and 46 source/image checks passed. Independent
+regeneration reproduced both artifacts exactly. The package now contains 92
+Engine methods and 3,614 body instructions. SHA-256: JSON
+`15c4fc760e5f46e709a8f0bdf50c0e46b8c7df1624c801ccb88c5764cb3deb30`;
+TypeScript `2fe484c9551ab95bbd7843eb00cae204adc7f4094698f8b569637c1d258a2959`.
+This local capture does not establish full startup or campaign completion.
