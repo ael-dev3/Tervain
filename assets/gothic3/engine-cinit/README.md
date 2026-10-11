@@ -457,3 +457,15 @@ space literal is `20 00` at `100e6f44`. Six source checks pass, including the
 UnMangle export thunk and rejecting cross-module or interior-byte lookups.
 Independent JSON and TypeScript regeneration matches byte for byte. This is
 source preparation; the pending SharedBase call has not returned.
+
+## Local SharedBase space-search dispatch — 11 October 2026
+
+The retained call executes the original UnMangle thunk, saves ESI, loads the
+actual Engine-owned input and passes the original two-byte space literal to
+SharedBase strstr. The literal's known terminating NUL selects the one-character
+path, restores strstr's saved registers and tail-jumps to `100a7306` with AL=32.
+The 23 SharedBase instructions are traced separately; total admitted operations
+are 4,206. The search and UnMangle calls remain pending, the cache stays live,
+and the temporary output stays freed. No CString construction result is supplied.
+Typechecking and a dedicated dispatch/ownership/lifetime check pass. Full
+integration validation of this continuation remains pending.
