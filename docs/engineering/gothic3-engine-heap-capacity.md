@@ -477,3 +477,20 @@ still stops at its decoder read. The next captured branch advances the cursor
 and calls `306976b2`; that continuation needs implementation. Earlier combined
 full-suite validation remains running. Full startup, deployment of this local
 continuation and campaign completion remain unfinished.
+
+### Original qualifier temporary and next decoder caller — 11 October 2026
+
+The qualifier branch now advances the retained name cursor to offset eleven,
+checks its normalized value against 31, and calls the original temporary
+constructor with its real zero argument. The captured 13-instruction body at
+`306976b2` executes its nine-row zero branch, initializes the local pointer and
+masked flags, and returns with RET 4. The retained caller then passes its local
+output and temporary slots to `3069acda -> 30697b16`, where execution stops
+after 5,026 admitted operations. No return from that next routine is supplied.
+
+The evidence package has 72 original bodies and 2,908 instructions. Independent
+JSON and TypeScript regeneration is byte-identical. Typechecking and fourteen
+focused runtime/browser/source checks pass, followed by a targeted source-byte
+check of the constructor's entry, branch and RET. Earlier combined full-suite
+validation remains running and predates this continuation. Next decoder
+execution, full startup, deployment and campaign play remain unfinished.

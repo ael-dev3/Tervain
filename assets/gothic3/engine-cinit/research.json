@@ -15411,6 +15411,128 @@
         "bodyInstructionBytesSha256": "bedc4caa88d3af6da08000a49513460d67c66d13f826de9caeeb33a0206418c4"
       },
       {
+        "label": "engineUndecorationQualifierTemporaryConstructor",
+        "entryVA": "0x306976b2",
+        "bodyVA": "0x306976b2",
+        "entryChain": [],
+        "bodyRanges": "306976b2-306976d7",
+        "instructions": [
+          {
+            "va": "306976b2",
+            "rva": "6976b2",
+            "fileOffset": 6911666,
+            "bytes": "56",
+            "instruction": "PUSH ESI",
+            "assemblyLine": 1763887
+          },
+          {
+            "va": "306976b3",
+            "rva": "6976b3",
+            "fileOffset": 6911667,
+            "bytes": "8bf1",
+            "instruction": "MOV ESI,ECX",
+            "assemblyLine": 1763888
+          },
+          {
+            "va": "306976b5",
+            "rva": "6976b5",
+            "fileOffset": 6911669,
+            "bytes": "832600",
+            "instruction": "AND dword ptr [ESI],0x0",
+            "assemblyLine": 1763889
+          },
+          {
+            "va": "306976b8",
+            "rva": "6976b8",
+            "fileOffset": 6911672,
+            "bytes": "81660400f0ffff",
+            "instruction": "AND dword ptr [ESI + 0x4],0xfffff000",
+            "assemblyLine": 1763890
+          },
+          {
+            "va": "306976bf",
+            "rva": "6976bf",
+            "fileOffset": 6911679,
+            "bytes": "807c240800",
+            "instruction": "CMP byte ptr [ESP + 0x8],0x0",
+            "assemblyLine": 1763891
+          },
+          {
+            "va": "306976c4",
+            "rva": "6976c4",
+            "fileOffset": 6911684,
+            "bytes": "740c",
+            "instruction": "JZ 0x306976d2",
+            "assemblyLine": 1763892
+          },
+          {
+            "va": "306976c6",
+            "rva": "6976c6",
+            "fileOffset": 6911686,
+            "bytes": "6a01",
+            "instruction": "PUSH 0x1",
+            "assemblyLine": 1763893
+          },
+          {
+            "va": "306976c8",
+            "rva": "6976c8",
+            "fileOffset": 6911688,
+            "bytes": "8d44240c",
+            "instruction": "LEA EAX,[ESP + 0xc]",
+            "assemblyLine": 1763894
+          },
+          {
+            "va": "306976cc",
+            "rva": "6976cc",
+            "fileOffset": 6911692,
+            "bytes": "50",
+            "instruction": "PUSH EAX",
+            "assemblyLine": 1763895
+          },
+          {
+            "va": "306976cd",
+            "rva": "6976cd",
+            "fileOffset": 6911693,
+            "bytes": "e83affffff",
+            "instruction": "CALL 0x3069760c",
+            "assemblyLine": 1763896
+          },
+          {
+            "va": "306976d2",
+            "rva": "6976d2",
+            "fileOffset": 6911698,
+            "bytes": "8bc6",
+            "instruction": "MOV EAX,ESI",
+            "assemblyLine": 1763898
+          },
+          {
+            "va": "306976d4",
+            "rva": "6976d4",
+            "fileOffset": 6911700,
+            "bytes": "5e",
+            "instruction": "POP ESI",
+            "assemblyLine": 1763899
+          },
+          {
+            "va": "306976d5",
+            "rva": "6976d5",
+            "fileOffset": 6911701,
+            "bytes": "c20400",
+            "instruction": "RET 0x4",
+            "assemblyLine": 1763900
+          }
+        ],
+        "reconstructedC": {
+          "path": "01_Decompiled_Code/Engine_dll/pseudocode/functions_00169.c",
+          "sha256": "1ba3aee81bcd1b3d0c508291f30dfa2374148c9f66ffbc96c65fb44134596a29",
+          "line": 22560,
+          "status": "decompiled"
+        },
+        "instructionCount": 13,
+        "bodyByteCount": 38,
+        "bodyInstructionBytesSha256": "03b494be34cd2555f1dcb43badc71017867a9b3736e59ac9c366bbf5329073c5"
+      },
+      {
         "label": "engineUndecorationTemporaryConstructor",
         "entryVA": "0x30696ffb",
         "bodyVA": "0x30696ffb",
