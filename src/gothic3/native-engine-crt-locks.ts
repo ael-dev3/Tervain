@@ -147,6 +147,7 @@ const engineConstructionToken = Object.freeze({});
 const gameConstructionToken = Object.freeze({});
 const gameOwners = new WeakMap<NativeEngineCrtPlatform, NativeGameCrtOwner>();
 const hostCallbacks = ['errnoSlot', 'callNewHandler', 'sleep', 'getLastError', 'mapOsError'] as const;
+const constructedCrtIdentityOwners = new WeakMap<object, NativeModuleCrtOwner>();
 const constructedCrtOwners = new WeakMap<NativeModuleCrtOwner, Readonly<{
   host: NativeEngineCrtHost; platform: NativeEngineCrtPlatform; identity: object;
   physical: NativeModuleCrtOwner['physical'];
@@ -161,6 +162,14 @@ export class NativeModuleCrtOwner {
     const proof = constructedCrtOwners.get(owner);
     return !!proof && proof.host === owner.host && proof.platform === owner.host.platform &&
       proof.identity === owner.identity && proof.physical === owner.physical;
+  }
+  /** Private constructor identity proves Engine heap ownership. */
+  static canonicalEngineHeapOwnerIdentityForPlatform(platform: NativeRuntimePlatform,
+    identity: object): NativeValue<NativeModuleCrtOwner> {
+    const owner = constructedCrtIdentityOwners.get(identity);
+    return owner && NativeModuleCrtOwner.isConstructedOwner(owner) && owner.module === 'Engine' &&
+      owner.host.platform === platform && owner.identity === identity && !owner.#heapTerminated
+      ? known(owner) : unknown('Actual constructed Engine heap owner identity required');
   }
   /** Resolve the original retained image through private authority. Public
    * instance accessors and caller-provided view maps cannot replace it. */
@@ -409,6 +418,7 @@ export class NativeModuleCrtOwner {
     });
     constructedCrtOwners.set(this, Object.freeze({ host, platform: host.platform,
       identity: this.identity, physical: this.physical }));
+    constructedCrtIdentityOwners.set(this.identity, this);
   }
   #initializeGameImage(): void {
     const ranges: { address: number; fields: NativeHeapObjectViews }[] = [];

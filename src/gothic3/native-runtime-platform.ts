@@ -223,6 +223,7 @@ interface WinHeap {
   readonly options: 0 | 1;
   readonly allocations: Set<NativeMemoryBacking>;
   readonly gameOwner?: NativeModuleCrtOwner;
+  readonly engineOwner?: NativeModuleCrtOwner;
   destroyed: boolean;
 }
 interface PhysicalSection {
@@ -1436,8 +1437,9 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
     }
     const capability = Object.freeze({ identity: Object.freeze({}), owner });
     const game = NativeModuleCrtOwner.canonicalGameHeapOwnerIdentityForPlatform(this, owner);
+    const engine = NativeModuleCrtOwner.canonicalEngineHeapOwnerIdentityForPlatform(this, owner);
     this.#winHeaps.set(capability.identity, { capability, options, allocations: new Set(), destroyed: false,
-      gameOwner: game.known ? game.value : undefined });
+      gameOwner: game.known ? game.value : undefined, engineOwner: engine.known ? engine.value : undefined });
     return known(capability);
   }
   win32HeapAlloc(heap: NativeWin32HeapCapability, flags: 0 | 8, bytes: number): NativeValue<NativeMemoryBacking | null> {

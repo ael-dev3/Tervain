@@ -65,3 +65,12 @@ establish campaign completion.
 This document records the next implementation contract. The physical-span bridge
 is not implemented. The current source continuation stops at `100a7338` after
 4,234 operations; no CString return or completed initializer is fabricated.
+
+### Owner admission implemented locally
+
+The private constructor registry now resolves an Engine owner from its actual
+identity on the same platform. Heap creation retains that Engine owner separately
+from any Game owner. Forged identities and cross-platform use are rejected.
+Two focused owner-admission checks and typechecking pass. This supplies ownership
+for the bridge; rounded Engine allocation views and search continuation are still
+unfinished. No allocation layout or public deployment is changed by this step.
