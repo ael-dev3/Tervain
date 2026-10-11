@@ -946,7 +946,12 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
                 cacheFinally('3067db83',()=>stack.#push(stack.#mint(14,0xffffffff)));
                 cacheFinally('3067db85',()=>{stack.#call('3067db85','3067db8a');if(!stack.#engineCinitFrame!.typeNameLockHeld||stack.#numeric(stack.#load(stack.#stack,relative('ESP',4)),4)!==14)throw new Error('Actual held type-name cache lock and original argument required');const result=NativeCrtBootstrap.engineCinitTypeNameLockForCrt(bootstrap,crt,permit,'unlock');if(!result.known)throw new Error(result.reason);stack.#engineCinitFrame!.typeNameLockHeld=false;hostReturn(stack.#mint(0,0),0);});
                 cacheFinally('3067db8a',()=>pop('ECX'));cacheFinally('3067db8b',()=>{const p=stack.#record(stack.#ret()).provenance;if(p?.kind!=='source'||p.address!=='3067db77')throw new Error('Actual original type-name finally return required');});
-                stack.#engineCinitFrame!.pc='3067db77';return known(undefined);
+                name('3067db77',()=>{const p=actualTypeInfo();setRegister('EAX',stack.#load(p.fields,4));});name('3067db7a',()=>stack.#call('3067db7a','3067db7f'));
+                const typeNameEpilog=(pc:string,body:()=>void)=>step(pc,body,'3067e545');
+                typeNameEpilog('3067e545',()=>setRegister('ECX',stack.#load(stack.#stack,relative('EBP',-16))));typeNameEpilog('3067e548',()=>stack.#store(stack.#bank,32,register('ECX')));typeNameEpilog('3067e54f',()=>pop('ECX'));typeNameEpilog('3067e550',()=>pop('EDI'));typeNameEpilog('3067e551',()=>pop('EDI'));typeNameEpilog('3067e552',()=>pop('ESI'));typeNameEpilog('3067e553',()=>pop('EBX'));typeNameEpilog('3067e554',()=>setRegister('ESP',register('EBP')));typeNameEpilog('3067e556',()=>pop('EBP'));typeNameEpilog('3067e557',()=>stack.#push(register('ECX')));typeNameEpilog('3067e558',()=>{const p=stack.#record(stack.#ret()).provenance;if(p?.kind!=='source'||p.address!=='3067db7f')throw new Error('Actual original type-name EH epilog return required');});
+                name('3067db7f',()=>{const p=stack.#record(stack.#ret()).provenance;if(p?.kind!=='source'||p.address!=='306713b8')throw new Error('Actual original type-name wrapper return required');});
+                step('306713b8',()=>pop('ECX'),'306713ae');step('306713b9',()=>pop('ECX'),'306713ae');step('306713ba',()=>{const p=stack.#record(stack.#ret(4)).provenance;if(p?.kind!=='source'||p.address!=='30076678')throw new Error('Actual original property type-name caller return required');},'306713ae');
+                stack.#engineCinitFrame!.pc='30076678';return known(undefined);
               }
               stack.#engineCinitFrame!.pc='30076691';return known(undefined);
             }

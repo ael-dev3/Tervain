@@ -425,3 +425,13 @@ unlock retains the actual pending call and the appropriate resource state.
 The previously supported NULL-allocation branches retain their earlier boundary.
 Typechecking and eighteen selected regression checks pass. This is local work;
 full startup and campaign completion remain unfinished.
+
+## Local type-name wrapper return — 11 October 2026
+
+The original type-name routine reloads its live cached text, runs the actual
+EH epilog and returns through `306713ae` to property construction at `30076678`.
+The returned EAX retains the same Engine-owned six-byte cache allocation.
+The temporary output is freed and lock 14 is released. Normal execution has
+4,180 admitted operations. A dedicated return/ownership check passes; combined
+validation of this newer continuation is still pending. Full startup and a
+finishable browser campaign remain unfinished.
