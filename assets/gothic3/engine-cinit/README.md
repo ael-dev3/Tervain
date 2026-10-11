@@ -1766,3 +1766,29 @@ This checkpoint is local. Combined validation remains live on frozen
 `6a6de81b6f535c855a9ac8b3c12510b9186d99d5`, predating the writer and later
 int stages. Third-property CString construction/publication, full engine startup
 and complete browser campaign persistence remain unfinished.
+
+
+## 2026-10-11: original third-property CString construction
+
+The plain-name UnMangle branch now executes the original CString constructor,
+measures the actual cache text, requests twelve bytes from the retained
+MemoryAdmin owner, writes length three and reference count one, and stores the
+character pointer in third-property storage. It writes the original terminator,
+copies three actual cache characters through the existing memcpy contract and
+returns to `30076614` after 9,831 source operations. Its separate
+`typeNameThirdCString` observation preserves both earlier CString allocations.
+The SharedBase physical-memory check admits that observation only with the
+same exact live canonical owner, allocation, buffers and DataView checks.
+
+TypeScript checking passed. Three focused checks passed in 16.64 seconds,
+verifying the actual twelve-byte allocation/header, `int\0` bytes/masks and
+returned UnMangle call. An unavailable allocation stops at `10003cd8`; an
+interrupted terminator store stops at `10013271`. Both preserve prior CStrings
+and the pending third constructor. Six browser startup checks passed in 46.15
+seconds. Source evidence is unchanged.
+
+This checkpoint is local. Shutdown registration and third root publication
+remain unfinished. Combined validation is still live on frozen revision
+`6a6de81b6f535c855a9ac8b3c12510b9186d99d5`, predating the writer and later
+int stages. Full engine startup and complete browser campaign persistence
+remain unfinished.
