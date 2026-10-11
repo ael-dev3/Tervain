@@ -1381,3 +1381,20 @@ remains running and has reported a hero-animation action-layer failure. Its
 final diagnostic is pending; it is not a successful validation receipt. It
 predates the latest native continuations and PR 248. These native changes
 remain local and full startup/campaign completion is unproven.
+
+### 2026-10-11: combined validation through original class-name strlen
+
+Frozen revision `24a7bad8f17523a46b911868ac6ff9b275017ce0` passed TypeScript
+checking, all 3,620 tests across 320 files and the production build. The suite
+started at 09:17:02 local time and completed in 1,758.76 seconds; Vite reported
+a successful build in 1 minute 8 seconds. No Node process remains for this
+validation checkout. Logs are `gothic3-strlen-combined-typecheck.log`,
+`gothic3-strlen-combined-full-suite.log` and `gothic3-strlen-combined-build.log`
+in the parent work directory.
+
+This revision integrates main through PR 248, the hero-animation trajectory
+sampling fix and native reconstruction through commit `394968634`. It predates
+the cache allocation/copy/cleanup, matched class-name search and second CString
+construction continuations, and PR 249. Those later changes require their own
+combined validation. This local result does not prove engine startup, browser
+campaign completion or ending-state persistence.
