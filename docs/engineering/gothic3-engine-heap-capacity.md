@@ -2895,3 +2895,16 @@ must reject aliasing that retained live allocation before publishing a new
 CString. Focused normal, alias, unavailable/NULL, mask and interrupted-copy
 checks pass. The next unsupported initializer is `30732320`; this is local
 component evidence, not full startup or campaign completion.
+
+
+## 11 October 2026: vector, vector2 and rectangle CString extents
+
+Original CString requests 17, 18 and 15 retain backing capacities 20, 20 and
+16 respectively. Both exact-size live aliasing and same-capacity/different-
+request aliasing are rejected before new publication. Retained bytes and
+known-byte masks remain unchanged. Vector2 copies nine characters: eight
+bytes through DWORD units and the ninth through the original single-byte tail.
+Unknown tail source masks propagate; an interrupted tail keeps the completed
+eight-byte prefix and pending caller. The temporary parser output is released
+using its original aligned request. Ten property CStrings remain live on the
+normal path; startup stops at `30732350` and is still incomplete.

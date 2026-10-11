@@ -339,6 +339,38 @@ through the ending, with working persistence.
 
 ## Current implementation boundary: 11 October 2026
 
+The latest local continuation completes ten original property initializers,
+through vector, vector2 and rectangle. Their captured original routines share
+an explicitly selected class worker, and vector2 now follows the original
+name-parser digit comparisons. Ten distinct property CStrings remain live;
+their roots and shutdown callbacks are published through the original callers.
+Temporary output and startup locks are released. Execution stops at the
+unsupported boolean initializer `30732350` with a 48-byte exit cursor and
+C++ cursor 0x12c. Typechecking, twenty selected new/prior runtime checks,
+thirty earlier property checks, sixty source/image/browser checks, independent
+source regeneration and the production build pass locally. These continuations
+are not deployed and are not covered by the separate full-suite run of the
+preceding combined matrix revision `99fe9d7713348db442ef8d541196ba5b344b50f3`.
+
+Main revision `269c2d88e30c2359fa937857f3d0948bec37eaa9`, including externally
+merged and locally reviewed PRs #259 and #260, completed Pages deployment
+`38147514419`. Browser inspection reached the recovered Ardea scene with 202
+objects and 70 ready characters. Entering the scene eventually exposed the
+source world clock and the running `Xardas_FindXardas` quest. A browser save
+reported position, world clock and journal written. After reload and re-entry,
+the retained notification reads "Saved quest journal and world clock restored."
+The same position (-40.2 / 1.1 / -18.0 m) and HP 100 / 100 are visible, with
+an advancing source world clock. This verifies one save/reload of the current
+Ardea milestone. It does not establish native startup completion, NPC AI, full
+death/loot behavior or the original campaign through an ending.
+
+The [source receipt](../../assets/gothic3/engine-cinit/README.md#11-october-2026-vector-vector2-and-rectangle-property-completion)
+records the original addresses, allocation sizes, copied byte tail and failure
+behavior. Full game completion remains the target, with ordinary play through
+an ending and working campaign persistence.
+
+### Matrix checkpoint retained for history
+
 The latest local continuation completes seven original property initializers,
 including the matrix callback `30732310 -> 30015fbe -> 30076820`. It parses the
 original RTTI, constructs the owned `bCMatrix` CString, publishes its storage

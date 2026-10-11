@@ -3,6 +3,17 @@ import { admitEngineCinitSource, engineCinitCaller, engineCinitFloatingPointCall
   engineCinitInstruction, engineCinitUnMangleInstruction, engineCinitUnMangleLiteral, engineCinitTable, engineCinitTableTarget } from '../../src/gothic3/native-engine-cinit-source';
 
 describe('original Engine CRT initializer evidence', () => {
+  it.each([
+    ['30732320','e882ce90ff','3003f1a7','30076890','a13c9aad30','30011e3c','e90f617800','30797f50','b9349aad30'],
+    ['30732330','e81d6590ff','30038852','30076900','a1489aad30','300057ae','e98d277900','30797f40','b9409aad30'],
+    ['30732340','e823a18eff','3001c468','30076970','a1549aad30','3004214a','e9e15d7500','30797f30','b94c9aad30'],
+  ])('pins original class property callback %s and its shutdown bytes', (callback,callBytes,thunk,body,bodyBytes,shutdown,shutdownBytes,destructor,destructorBytes) => {
+    expect(engineCinitInstruction(callback,callback).bytes).toBe(callBytes);
+    expect(engineCinitInstruction(thunk,body).bytes).toBe(bodyBytes);
+    expect(engineCinitInstruction(shutdown,shutdown).bytes).toBe(shutdownBytes);
+    expect(engineCinitInstruction(destructor,destructor).bytes).toBe(destructorBytes);
+  });
+
   it('pins the original matrix callback, property body and shutdown', () => {
     expect(engineCinitInstruction('30732310','30732310').bytes).toBe('e8a93c8eff');
     expect(engineCinitInstruction('30732310','30732315').bytes).toBe('a3209ead30');

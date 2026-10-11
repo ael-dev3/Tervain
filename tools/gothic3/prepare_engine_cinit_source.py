@@ -43,6 +43,9 @@ def capture(study):
         0x300247da: 'engineObjectRefBasePropertyType',
         0x3003251a: 'engineObsoleteClassPropertyType',
         0x30015fbe: 'engineMatrixPropertyType',
+        0x3003f1a7: 'engineVectorPropertyType',
+        0x30038852: 'engineVector2PropertyType',
+        0x3001c468: 'engineRectPropertyType',
         0x306713ae: 'enginePropertyTypeNameWrapper',
         0x3067da97: 'enginePropertyTypeName',
         0x3069b26b: 'engineUndecorateName',
@@ -108,7 +111,10 @@ def capture(study):
                ('engineCameraBaseObjectPropertyInitializer',0x307322e0,0x307322eb,3),
                ('engineObjectRefBasePropertyInitializer',0x307322f0,0x307322fb,3),
                ('engineObsoleteClassPropertyInitializer',0x30732300,0x3073230b,3),
-               ('engineMatrixPropertyInitializer',0x30732310,0x3073231b,3)]
+               ('engineMatrixPropertyInitializer',0x30732310,0x3073231b,3),
+               ('engineVectorPropertyInitializer',0x30732320,0x3073232b,3),
+               ('engineVector2PropertyInitializer',0x30732330,0x3073233b,3),
+               ('engineRectPropertyInitializer',0x30732340,0x3073234b,3)]
     collected={begin:[] for _,begin,_,_ in recovered}
     asm=study/'01_Decompiled_Code/Engine_dll/full_disassembly.asm'
     for number,line in enumerate(asm.open('rb'),1):
@@ -157,6 +163,12 @@ def capture(study):
     # These cleanup instructions are omitted from the function listing.
     # Admit them only from exact bytes in the hash-pinned original DLL.
     for label, begin, encoded, count in [
+        ('engineVectorShutdownThunk', 0x30011e3c, 'e90f617800', 1),
+        ('engineVectorShutdownBody', 0x30797f50, 'b9349aad30ff25dcdbaf30', 2),
+        ('engineVector2ShutdownThunk', 0x300057ae, 'e98d277900', 1),
+        ('engineVector2ShutdownBody', 0x30797f40, 'b9409aad30ff25dcdbaf30', 2),
+        ('engineRectShutdownThunk', 0x3004214a, 'e9e15d7500', 1),
+        ('engineRectShutdownBody', 0x30797f30, 'b94c9aad30ff25dcdbaf30', 2),
         ('engineMatrixShutdownThunk', 0x3000be1f,
          'e93cc17800', 1),
         ('engineMatrixShutdownBody', 0x30797f60,
@@ -263,6 +275,11 @@ def capture(study):
             break
     else:
         raise ValueError('Unterminated original matrix type info')
+    def property_type_info_size(address):
+        for offset in range(4096):
+            if pe.bytes(address + 8 + offset, 1) == b'\0':
+                return 8 + offset + 1
+        raise ValueError('Unterminated original property type info')
     images = []
     for label, address, size in [
         ('floatingPointCallback', 0x30892ac0, 4),
@@ -313,6 +330,18 @@ def capture(study):
         ('matrixPropertyRoot', 0x30ad9e20, 4),
         ('matrixPropertyStorage', 0x30ad9a28, 8),
         ('matrixPropertyTypeInfo', 0x30aa2a60, matrix_type_info_size),
+        ('vectorPropertyFlags', 0x30ad9a3c, 4),
+        ('vectorPropertyRoot', 0x30ad9e1c, 4),
+        ('vectorPropertyStorage', 0x30ad9a34, 8),
+        ('vectorPropertyTypeInfo', 0x30aa2a7c, property_type_info_size(0x30aa2a7c)),
+        ('vector2PropertyFlags', 0x30ad9a48, 4),
+        ('vector2PropertyRoot', 0x30ad9e18, 4),
+        ('vector2PropertyStorage', 0x30ad9a40, 8),
+        ('vector2PropertyTypeInfo', 0x30aa2a98, property_type_info_size(0x30aa2a98)),
+        ('rectPropertyFlags', 0x30ad9a54, 4),
+        ('rectPropertyRoot', 0x30ad9e14, 4),
+        ('rectPropertyStorage', 0x30ad9a4c, 8),
+        ('rectPropertyTypeInfo', 0x30aa2ab4, property_type_info_size(0x30aa2ab4)),
         ('cameraBaseObjectFlags', 0x30ad9a0c, 4),
         ('cameraBaseObjectRoot', 0x30ad9e2c, 4),
         ('cameraBaseObjectStorage', 0x30ad9a04, 8),

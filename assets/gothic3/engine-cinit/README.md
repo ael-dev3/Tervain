@@ -2985,3 +2985,51 @@ contains 102 methods and 3,673 body instructions; JSON SHA-256 is
 `681c4d51363cd602db6ca667728727523fce7cccb9da8f1e1a5d53dcaa04e4bd`.
 This continuation has not been deployed. Full engine startup, live world
 activation, campaign integration and play through an ending remain unfinished.
+
+
+## 11 October 2026: vector, vector2 and rectangle property completion
+
+The shared class worker now selects explicit metadata for the six captured
+reference-base, obsolete-class, matrix, vector, vector2 and rectangle routines.
+Its relative property instruction positions still pass admission against each
+individual original method. The new callbacks are `30732320 -> 3003f1a7 ->
+30076890`, `30732330 -> 30038852 -> 30076900`, and `30732340 -> 3001c468 ->
+30076970`. All three 87-byte bodies match the original property inventory;
+their RTTI, flags, roots, storage, shutdown thunks and destructor tail bytes
+are captured from the pinned Engine DLL.
+
+Parsing bCVector2 required the original delimited-name digit comparisons at
+`30697761..30697767`. The worker now follows their actual signed comparisons
+and branches. Extended-character and fallback predicates remain unsupported
+at their own retained instruction boundary. No decoded name is substituted
+for the parser result.
+
+The three owned CStrings contain `bCVector`, `bCVector2` and `bCRect` plus NUL.
+Their original requests are 17, 18 and 15 bytes; backing capacities are 20, 20
+and 16 bytes. Ten property CStrings remain live and distinct. All three roots
+point to their actual owned storage, original parent words remain NULL, and
+flags become 3. Exit callbacks ten through twelve are `30011e3c`, `300057ae`
+and `3004214a`; the exit cursor advances to 48 bytes and the C++ cursor to
+0x12c. The last 16-byte parser output is freed, its 13-byte logical cache text
+remains live, and startup locks are released. Execution stops at the next,
+unsupported boolean initializer, `30732350`.
+
+Twenty selected runtime checks pass, including eighteen new normal, guard,
+allocation and byte-tail cases. Aliased same-request and same-capacity but
+different-request allocations leave retained CString bytes and masks intact.
+Vector2's ninth copied character propagates an unknown source mask; interrupted
+single-byte tail copy preserves the preceding eight characters and pending
+physical caller. Thirty prior matrix/obsolete/reference-base checks, all sixty
+source/image/browser checks, typechecking and the production build (1m 6s)
+also pass. Earlier property tests capture their actual completed state before
+the next initializer, rather than reading slots reused by later callbacks.
+
+Independent JSON and generated TypeScript regeneration are byte-identical;
+all previous source and image records are unchanged. The package contains
+114 methods and 3,757 body instructions. JSON SHA-256 is
+`c7ac560db1fc7e36e2bd41b2fd7820f8868c5a98547494ec096ebbc4e2ebfe0e`.
+Full validation of the preceding combined matrix revision
+`99fe9d7713348db442ef8d541196ba5b344b50f3` is running separately and does not
+include these new continuations. This work has not been deployed. Full startup,
+live world/NPC integration and the original campaign through an ending remain
+unfinished.
