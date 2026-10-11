@@ -94,16 +94,16 @@ describe('rescue routes and absent principals', () => {
     expect(g.state.facts.ila_rescued).toBe(true);
     expect(g.state.facts.ila_method).toBe('shortcut');
 
+    // With the thornback gone she comes down by the ledge herself (A94 scout): no conversation is needed.
     const f = newGame();
     must(f, { t: 'defeat', id: 'cut_creature' });
-    talk(f, 'maintenance_worker', ['ila_free_fight', 'end']);
+    expect(f.state.facts.ila_rescued).toBe(true);
     expect(f.state.facts.ila_method).toBe('fight');
   });
 
   it('Ila\'s testimony gives the procedure and pays out once', () => {
     const g = newGame();
     must(g, { t: 'defeat', id: 'cut_creature' });
-    talk(g, 'maintenance_worker', ['ila_free_fight', 'end']);
     talk(g, 'maintenance_worker', ['ila_hub']);
     expect(g.state.evidence.worker_testimony).toBeDefined();
     expect(g.state.evidence.reduced_spring_flow?.via).toBe('testimony');

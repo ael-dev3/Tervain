@@ -189,7 +189,13 @@ export const NPCS: Record<NpcId, NpcDef> = {
     home: 'crew_bunks',
     look: { skin: 0xc79a72, primary: 0x6a6a5a, secondary: 0x3a4a5a, hair: 0x3a2a1a, height: 1.0, girth: 1.1, accessory: 'pack' },
     schedule: [day('quarry_face', 'work', 6, 18), night('crew_bunks', 18, 6)],
-    overrides: [{ when: [committed, { t: 'alloc', is: 'rotation' }], from: 19, to: 6, anchor: 'quarry_face', activity: 'work' }],
+    // On the rotation he is the night crew from the day it is agreed onward: at the face from the end of his day's shift,
+    // asleep in the bunks by day. Before, the night shift only lasted the committed phase, came on top of the day shift
+    // (no rest at all) and began an hour after it (A94 scout).
+    overrides: [
+      { when: [{ t: 'phase', atLeast: 'committed' }, { t: 'alloc', is: 'rotation' }], from: 18, to: 6, anchor: 'quarry_face', activity: 'work' },
+      { when: [{ t: 'phase', atLeast: 'committed' }, { t: 'alloc', is: 'rotation' }], from: 6, to: 18, anchor: 'crew_bunks', activity: 'rest' },
+    ],
     sleepsKey: 'npc.sleeps.crew',
   },
   village_baker: {

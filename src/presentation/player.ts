@@ -800,7 +800,8 @@ export class Player {
     this.applyDamage(damage, false, ctx);
     const kx = -dx / d;
     const kz = -dz / d;
-    this.tryMove(kx * 0.5, kz * 0.5, ctx);
+    // In the saddle the blow does not shove him off his seat: the deer's footing decides where he is (A94).
+    if (!this.mount) this.tryMove(kx * 0.5, kz * 0.5, ctx);
     this.vx = this.vz = 0;
   }
 
@@ -1035,8 +1036,11 @@ export class Player {
 
     // Getting up or down holds him; seated, the deer carries him (A71).
     const moving = this.stepMountMove(dt, ctx);
-    const riding = !moving && this.mount !== null && this.state === 'free';
-    if (riding) this.rideStep(dt, wx, wz, hasInput ? mag : 0, control && inp.held('sprint') && hasInput, ctx);
+    // Struck in the saddle he flinches there: the deer goes on carrying him, without his steering, and keeps its body clear
+    // of walls. Before, the on-foot step ran on the gallop's speed, and the deer was carried into a wall after him (A94).
+    const flinching = this.state === 'hurt';
+    const riding = !moving && this.mount !== null && (this.state === 'free' || flinching);
+    if (riding) this.rideStep(dt, wx, wz, hasInput && !flinching ? mag : 0, !flinching && control && inp.held('sprint') && hasInput, ctx);
     else if (!moving) {
     // Horizontal motion with light inertia.
     const lunging = this.state === 'light' || this.state === 'heavy';
@@ -1254,7 +1258,7 @@ export class Player {
     if (!this.grounded && !this.swimming && this.state === 'free') mode = 'run';
     // Struck while swimming, he keeps swimming (A91 scout): the hurt pose stood him upright with a jump's legs.
     if (this.swimming && this.state === 'hurt') mode = 'swim';
-    if ((this.mount || (this.mountMove && this.mountMove.kind !== 'approach')) && this.state === 'free') mode = 'sit';
+    if ((this.mount || (this.mountMove && this.mountMove.kind !== 'approach')) && (this.state === 'free' || this.mount && this.state === 'hurt')) mode = 'sit';
     this.mode = mode;
     const speedNorm = Math.min(1, this.lastMoveSpeed / (mode === 'swim' ? SWIM_SPEED : mode === 'run' ? HERO_RUN_SPEED : HERO_WALK_SPEED));
     // Integrate gait phase from actual travel. Multiplying a lifetime clock by changing speed made legs snap on turns/stops.
