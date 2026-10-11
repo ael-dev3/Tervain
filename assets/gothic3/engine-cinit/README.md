@@ -2001,3 +2001,14 @@ check passed at `30672ec7`, retaining its pending caller, parser lock, earlier
 live CStrings, roots and shutdown entries. Original evidence packages are
 unchanged. This local checkpoint has not been deployed and does not prove
 complete startup or campaign completion with persistence.
+
+
+### 2026-10-11 — combined camera output-allocation validation
+
+Frozen combined revision `5892a58ecd9b69a815f5a0ef8aba7627ed57b496`
+passed TypeScript checking, all 3,671 tests across 325 files (1,904.59 seconds)
+and the production build (63 seconds). The original command handle exited zero.
+Scope includes main through PR 251 and native work through `f158a27d8`;
+later writer, parser cleanup, length scan and cache operations are outside
+this run. This evidence proves those checks/build for that revision, not full
+engine startup or campaign completion. Native changes remain local.
