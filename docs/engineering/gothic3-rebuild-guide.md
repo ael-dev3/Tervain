@@ -62,6 +62,29 @@ continuations exist. Complete engine startup, live world activation and campaign
 integration remain unfinished. The hosted route does not yet demonstrate a
 finishable campaign.
 
+## Repository map for the rebuild
+
+| Stage | Repository location | What belongs there |
+| --- | --- | --- |
+| Read original inputs | `tools/gothic3/` | Archive readers, asset converters and repeatable native evidence generators. |
+| Preserve research | `assets/gothic3/` | Original resource paths, module hashes, captured instructions and preparation receipts. |
+| Implement behavior | `src/gothic3/` | TypeScript runtime, platform services and gameplay integration. |
+| Serve converted assets | `public/gothic3/` | Browser resources produced by preparation tools. |
+| Check behavior | `tests/gothic3-dialogue/` and subsystem test folders | Regression checks for supported operations, ownership, failure boundaries and gameplay state. |
+| Publish the browser app | `.github/workflows/pages.yml` | Validation and GitHub Pages deployment of reviewed main revisions. |
+
+A practical first slice is Ardea: resolve the original terrain and placed
+resources, render its trees and buildings, load residents with their skeletons
+and animations, then connect movement, interaction, combat and dialogue. Each
+system must consume the same live world state. Quest progress and NPC changes
+must survive save/reload before extending the slice into the wider campaign.
+
+For every checkpoint, record the input and hash, the behavior added, the
+remaining unsupported operation, validation results and the published revision.
+Keep the hosted revision separate from newer local work. The completion check
+is an ordinary browser playthrough from a new game through an ending, including
+save and reload along the way.
+
 ## How the rebuild works
 
 ### What we recover and what we implement
