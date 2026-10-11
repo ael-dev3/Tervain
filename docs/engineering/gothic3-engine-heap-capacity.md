@@ -1414,3 +1414,27 @@ through the freed output's native view. The broader combined validation still
 runs at revision `24a7bad8f17523a46b911868ac6ff9b275017ce0`, which predates
 this continuation. These changes remain local; complete engine startup and
 new-game-to-ending browser play remain unproven.
+
+### 2026-10-11: original second class-name search and CString length
+
+The second property passes its live cache pointer and actual destination to
+SharedBase UnMangle. The original DWORD character search finds the space at
+cache offset five and physically returns that owned pointer. The matched-name
+branch advances it to offset six, preserving the eight-character `bCString`
+input. The original CString byte scan measures eight and its allocation caller
+requests seventeen bytes, including the original nine-byte header/terminator
+allowance. The retained MemoryAdmin singleton returns to the actual caller.
+Execution stops at its malloc import `10003cd8` after 8,136 source operations;
+this second CString allocation has not executed. The first float CString and
+published first property remain retained, and the second property is unpublished.
+
+Type checking passed. The normal check passed in 9.01 seconds. The fidelity
+batch passed twelve checks; its new unknown-byte assertion initially expected
+a later address and was corrected to the actual unsupported DWORD XOR at
+`100a7343`. That corrected check passed separately in 10.69 seconds. Six browser
+startup checks passed in 29.61 seconds. Unknown cache bytes remain unknown and
+retain the search caller, with no constructor call fabricated. These receipts
+cover local changes only. The combined suite still runs on older revision
+`24a7bad8f17523a46b911868ac6ff9b275017ce0`; it does not validate this addition.
+Second-property construction and publication, full startup, campaign completion
+and save/reload through an ending remain unfinished.
