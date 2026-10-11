@@ -2080,3 +2080,20 @@ checks verify the length, prior roots/CStrings, output masks and freed parser
 arena observations. Original source packages remain unchanged. This local
 checkpoint is not deployed and does not establish complete engine startup or
 campaign completion with save/reload.
+
+
+### 2026-10-11 — original camera type-name cache allocations (local)
+
+The original caller checks the output's final nonspace character, acquires
+lock 14, verifies its uncached RTTI and allocates a fresh eight-byte list node
+and nineteen-byte cache text span. It stores the actual cache text pointer in
+camera RTTI and enters the original copy at `3068a84a`, after 13,518 operations.
+Both allocations remain live and unwritten; the node is not linked yet.
+Cache copy/link, output release, lock release and camera publication are pending.
+
+Validation: TypeScript checking, twelve focused runtime checks and six browser
+startup checks passed. An additional unavailable nineteen-byte cache malloc
+check passed at `30672ec7`, retaining its caller, live node and lock 14 while
+lock 5 remains released. Earlier roots/CStrings/shutdown cursor remain intact.
+Original source packages are unchanged. This local checkpoint is not deployed
+and does not establish complete startup or campaign completion with persistence.
