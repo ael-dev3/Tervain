@@ -2277,3 +2277,21 @@ Engine methods and 3,614 body instructions. SHA-256: JSON
 `15c4fc760e5f46e709a8f0bdf50c0e46b8c7df1624c801ccb88c5764cb3deb30`;
 TypeScript `2fe484c9551ab95bbd7843eb00cae204adc7f4094698f8b569637c1d258a2959`.
 This local capture does not establish full startup or campaign completion.
+
+
+2026-10-11 — original object-reference-base property prefix (local)
+
+Executed callback `307322f0` through thunk `300247da`, original cold flags and
+storage setup, and the type-name wrapper for the actual bCObjectRefBase RTTI.
+The original undecoration prolog and lock-5 setup retain the RTTI input at
+its actual offset 9, allocator/free callbacks, and parser-constructor call.
+Startup stops at `3069747a` after 14,145 instructions. Camera initialization
+remains published with its sixth shutdown callback; the new property root
+remains known null and its flags are 3. No new property string is fabricated.
+
+Validation: TypeScript checking, the strengthened normal runtime check and six
+browser startup checks passed. The normal check distinguishes the returned
+camera wrapper from the pending next wrapper and verifies actual RTTI input,
+held parser lock, cold root and existing camera CString/root/exit state.
+Source packages are unchanged. This checkpoint is local, and full startup
+and a playable campaign ending with save/reload remain unproven.
