@@ -1541,3 +1541,28 @@ inspect the actual third arena captured during its physical character write.
 This checkpoint is local. Combined full-suite validation is still running on
 `80f90a64de485c9778e75db45c9f77e57db8e95a`, which predates this change.
 Full engine startup, campaign completion and campaign save/reload remain unproven.
+
+
+## 2026-10-11: original int parser returns
+
+The third-property path now executes the original basic-type qualifier tests for
+H, which select no extra qualifier, and checks the empty modifier value. The
+original parsed-value copies and physical return instructions carry the int node
+through basic, compound, data-type and type parsing into name parsing. The
+retained parsed value refers to the actual live third arena node at offset 4020;
+the original parser call at `3069b2de` remains pending. Execution reaches
+`3069b04e` after 9,232 source operations, with lock 5 still held.
+
+TypeScript checking passed. Three focused runtime checks passed in 15.99 seconds,
+including verification of the actual int-node provenance and seven returned
+call frames. Six browser startup checks passed in 42.92 seconds. The first
+browser attempt failed only because two assertions still named the previous
+`3069b601` boundary; the corrected assertions retain the unfinished-startup
+result and now identify its actual address. The source evidence package is
+unchanged from the preceding int-literal checkpoint.
+
+This change remains local. The separate combined validation at
+`80f90a64de485c9778e75db45c9f77e57db8e95a` is still live and predates these
+third-property steps. The third property's output, cache, CString and root
+publication are unfinished. Full engine startup and a complete browser campaign
+with save/reload are not established by these component checks.
