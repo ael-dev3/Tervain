@@ -27,6 +27,7 @@ import { WORLD_AUDIO } from '../../src/presentation/sound/worldAudioManifest';
 import { coastX } from '../../src/world/coast';
 import { BUILDINGS, FORD, INLAND_HAMLET, LIGHTHOUSE, PLACES, RITE_ALTAR, STREAMS } from '../../src/world/layout';
 import { distToPolyline } from '../../src/world/terrain';
+import { roomLocator } from '../../src/world/interiors';
 
 const ROOT = path.resolve(__dirname, '../..');
 const OUT = path.join(ROOT, 'public', WORLD_AUDIO.base);
@@ -1175,6 +1176,26 @@ describe('world sound runtime', () => {
     expect(FakeMedia.made.some((m) => m.src.includes('/music-'))).toBe(false);
     world.dispose();
     expect(song!.paused).toBe(true);
+  });
+
+  it.each(['inside', 'above', 'below'] as const)('uses the inn room volume for song muffling: %s', async (place) => {
+    const { ctx, world } = runtime(9);
+    const rooms = roomLocator(() => 12), room = rooms.at(INN.x, INN.z)!;
+    expect(room.building.kind).toBe('inn');
+    const floor = rooms.floorAt(INN.x, INN.z)!;
+    const y = place === 'inside' ? floor + 1.55 : place === 'above' ? rooms.base(room) + room.wallTop + 20 : floor - 3;
+    const songFrame = frame(INN, {
+      world: { ...day(21), nightness: .9 }, terrain: { ...terrain, rooms }, indoors: place === 'inside',
+      listener: { x: INN.x, y, z: INN.z, fx: 0, fy: 0, fz: 1 },
+    });
+    await flush();
+    for (let i = 0; i < 125; i++) world.update(.05, songFrame);
+    expect(FakeMedia.made.some(media => media.src.includes('/song-'))).toBe(true);
+    const source = ctx.nodes.find(node => node.kind === 'media' && node.outputs[0]?.kind === 'filter');
+    expect(source).toBeDefined();
+    const walls = source!.outputs[0] as FakeNode & { frequency: Param };
+    expect(walls.frequency.value).toBe(place === 'inside' ? 16000 : 2300);
+    world.dispose();
   });
 
   it('rings a chosen take when a cue names one: the all-clear peal falls high to low', async () => {
