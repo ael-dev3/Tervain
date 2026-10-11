@@ -2833,3 +2833,24 @@ Typechecking and eleven selected checks pass, including unknown guard bits
 that preserve the pending callback at the original branch. The prior five
 CStrings and their registered exits remain live. This local continuation is
 not deployed and does not establish complete startup or campaign play.
+
+
+## 11 October 2026: obsolete-class type-name caller execution
+
+The original `300767e3` call now enters the retained type-name wrapper,
+passes the owned RTTI and common cache-list arguments, runs the original EH
+prolog, and checks the actual RTTI cache word. The fresh NULL cache follows
+the original undecoration branch: its six arguments include the owned
+decorated-name pointer at offset 9, original malloc/free callback pointers
+and flags 0x2800. The actual `3067dac6` CALL remains pending at `3069b26b`;
+its return word is `3067dacb`. No undecoration result is fabricated.
+
+An unknown RTTI cache word retains `3067daa8`, the physical mask and pending
+wrapper. The previous five property strings, published roots and registered
+exits remain intact. Ten distinct selected runtime checks have passing
+evidence across the initial run and rechecks, and typechecking passes.
+The normal test records the reference-base input while its original release
+call is active; the current argument snapshot correctly names the newer
+obsolete-class call. The newest undecoration call is pending while earlier
+calls retain their actual completed returns. Full startup and campaign
+integration remain unfinished; this continuation has not been deployed.

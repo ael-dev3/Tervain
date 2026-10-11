@@ -86,7 +86,7 @@ passed, and revision deployed. Each checkpoint records its actual supported
 boundary and remaining work. The current local native continuation completes the camera and reference-base
 property initializers, including their names, roots and shutdown registration.
 It enters the next obsolete-class initializer and stops at its original
-type-name call (`306713ae`). Complete engine
+undecoration call (`3069b26b`). Complete engine
 startup, world activation and campaign play remain outstanding.
 
 For detailed commands and implementation history, see the

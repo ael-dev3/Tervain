@@ -1623,7 +1623,10 @@ stack.#engineCinitFrame!.pc='10003cd8';engineCinitUnMangleInstruction('10003cd8'
               sixth('300767d9',()=>setRegister('ECX',stack.#mint(0,0,{kind:'engine-image',crt,fields:image('obsoleteClassTypeInfo'),offset:0})));
               sixth('300767de',()=>stack.#store(flags,0,register('EAX')));
               sixth('300767e3',()=>stack.#call('300767e3','300767e8'));
-              stack.#engineCinitFrame!.pc='306713ae';return known(undefined);
+              const prefix=runPropertyTypeNamePrefix(image('obsoleteClassTypeInfo'),image('visualAnimationFloatDefault'));
+              if(prefix.cached!==0){stack.#engineCinitFrame!.pc='3067db77';return known(undefined);}
+              preparePropertyUndecoration(prefix.name,prefix.actualTypeInfo);
+              stack.#engineCinitFrame!.pc='3069b26b';return known(undefined);
             }
             if(target==='307322f0'){
               step('307322f0',()=>stack.#call('307322f0','307322f5'),'307322f0');step('300247da',()=>{},'300247da');
