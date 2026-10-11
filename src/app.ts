@@ -576,6 +576,7 @@ export class App {
       },
     });
     await this.renderer.compileAsync?.(this.world.scene, this.cam.camera);
+    this.world.warmPasses?.(this.renderer);
     this.loadingScreen?.update({ phase: 'graphics', completed: textureCount + 1, total: textureCount + 3, detail: 'Preparing the first view…' });
     this.renderWorld();
     this.loadingScreen?.update({ phase: 'graphics', completed: textureCount + 2, total: textureCount + 3, detail: 'Finishing the first view…' });
@@ -615,6 +616,7 @@ export class App {
         // Developer aid: what was fetched before the world opened is what started before this mark.
         performance.mark?.('tervain:world-open');
         enter();
+        this.firstFrameUnderCurtain();
         this.completeCast();
         // Every file the game needs has now been asked for: drop cached models that have since been replaced.
         void pruneContentCache();
@@ -631,6 +633,24 @@ export class App {
       }
     };
     this.initialLoad = run();
+  }
+
+  /**
+   * The journey's first step and picture, taken before the page next paints, so the loading screen still covers them
+   * (A80). The first update of the wanderer, the residents and the bandits and the first full picture paid their
+   * one-time costs together: a frozen first frame of 0.6-0.9 s just after the loading screen lifted.
+   */
+  private firstFrameUnderCurtain() {
+    if (this.worldPaused || !this.world || this.mode !== 'play') return;
+    try {
+      this.step(SIM_STEP);
+      this.input.consumePad(); this.input.endFrame();
+      this.present(1);
+    } catch (e) {
+      console.error(e);
+    }
+    // The time this took is not owed to the simulation, nor are the slow first paints that follow.
+    this.frameClock?.reset(3);
   }
 
   private disposeWorld() {

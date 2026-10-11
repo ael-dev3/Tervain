@@ -78,6 +78,17 @@ describe('visible frame timing (fixed steps, A72)', () => {
     expect(clock.tick(100000)).toBeNull();
   });
 
+  it('counts the frames settling after loading one step at most, then catches up as before (A80)', () => {
+    const clock = new FrameClock();
+    clock.reset(2);
+    expect(clock.tick(0)).toBeNull();
+    // Slow first paints after the loading screen: one step each, not a stall's worth.
+    expect(clock.tick(150)).toMatchObject({ steps: 1 });
+    expect(clock.tick(250)).toMatchObject({ steps: 1 });
+    // Settled: a slow frame is caught up again.
+    expect(clock.tick(350)!.steps).toBeGreaterThan(4);
+  });
+
   it('does not pass invalid or backwards time into actors and resets after an invalid timestamp', () => {
     const clock = new FrameClock();
     clock.tick(100);

@@ -138,6 +138,25 @@ export class GrassTrample {
     if (centre) { this.originX = centre.x - extent / 2; this.originZ = centre.z - extent / 2; }
   }
 
+  /**
+   * Prepare the passes ahead of their first use (A80), each drawn once into the target it draws into. The shift runs
+   * only once the focus has moved some metres, so its first draw stalled a frame of play by 0.1-0.2 s.
+   */
+  warm(renderer: THREE.WebGLRenderer) {
+    if (!GPU.halfTargets || this.disposed) return;
+    const oldTarget = renderer.getRenderTarget();
+    try {
+      // Drawn once, not only compiled: the driver's own first-draw work is the larger part. The field is cleared
+      // before its first real step, so what these draws leave is never read.
+      renderer.setRenderTarget(this.targets[1]);
+      for (const material of [this.stepMaterial, this.shiftMaterial]) { this.quad.material = material; renderer.render(this.scene, this.camera); }
+      this.cleared = false;
+    } finally {
+      this.quad.material = this.stepMaterial;
+      renderer.setRenderTarget(oldTarget);
+    }
+  }
+
   /** Who is moving through the grass this frame (the nearest are kept when there are more than the field can take). */
   setMovers(movers: readonly GrassMover[], nearX?: number, nearZ?: number) {
     const valid = movers.filter((m) => [m.x, m.z, m.radius].every(Number.isFinite) && m.radius > 0);
