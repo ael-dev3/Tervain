@@ -4,6 +4,25 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local continuation — 11 October 2026: data-type temporary and compound dispatch
+
+The original data-type parser creates its local frame and constructs the actual
+zero-input temporary through `30696ffb`. Its masked stores preserve upper flag
+bits while clearing the original low fields, and RET 4 returns through its owned
+caller. The parser reads the actual `M` byte and calls the compound parser, whose
+original signed load, comparisons, subtractions and DEC select the basic-type
+call at `3069b3b1`. DEC retains the prior carry flag. The pending call has the
+actual output and modifier stack pointers and returns to `3069b775`.
+
+Normal execution stops after 3,223 admitted operations, with lock 5 held and no
+cursor advance, parsed text or cache publication. Six runtime/failure checks, a
+dedicated dispatch/temporary/argument identity check, all 12 source/image checks,
+typechecking and exact independent JSON/TypeScript regeneration pass. Combined
+validation of `a8f295e60` has passed 173 focused checks across five files and is
+running its full suite in a frozen checkout. No open GitHub PRs were found. This
+continuation remains local; basic-type parsing, startup and the complete browser
+campaign remain unfinished.
+
 ## Local continuation — 11 October 2026: original name and type-parser entry
 
 The captured name parser creates its original 32-byte frame, preserves masked

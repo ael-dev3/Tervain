@@ -1,7 +1,7 @@
 # Engine CRT initializer evidence
 
 This package records the next dependency after Engine environment-vector return.
-It captures 45 original bodies (1487 instructions), the caller at `30677284`,
+It captures 48 original bodies (1888 instructions), the caller at `30677284`,
 the floating-point callback at `30892ac0`, and two original initializer tables.
 The C initializer table has 200 slots with 6 nonzero entries. The C++ table has
 93,705 slots with 1,963 nonzero entries; omitted entries are verified zero.
@@ -14,7 +14,7 @@ python tools/gothic3/prepare_engine_cinit_source.py --study '<study-root>' --out
 
 The generator checks the original Engine.dll hash and exact caller bytes.
 Independent regeneration produced identical JSON, SHA-256
-``6636fa3b7286cf7159c84137fc18cb902b3edcb42db44ba37516c6020c0db1f3``.
+``0a04746ebe25167e049ae73369973c9d754fbe27c7cf445c4014590029c5e452``.
 
 The capture's `runtimeConnected: false` records evidence preparation; it grants
 no execution authority. The TypeScript continuation separately obtains a
@@ -151,3 +151,9 @@ pointer. The type parser follows the actual 0x2000 flag branch, clears that bit
 and calls data-type parser `3069b876`. Execution stops there after 3,173
 operations. The original caller arguments retain flags 0x2800; working parser
 flags are 0x0800. Unknown name bytes retain the actual comparison boundary.
+
+The data-type parser constructs its original zero-input temporary, retaining
+upper unknown flag bits, and dispatches M through the compound parser. Original
+comparisons and DEC select the basic-type call at `3069b3b1`, with the actual
+output and modifier stack pointers. Execution stops after 3,223 operations; no
+parsed type text or cached name is supplied. The original cursor has not advanced.
