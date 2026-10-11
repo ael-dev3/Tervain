@@ -31,7 +31,7 @@ export class FrameClock {
 
   /**
    * Loading may span many frames without advancing simulation. Start with a fresh baseline afterward. `settle` frames
-   * after it count one step at most however long they took (A80): the page's first paints after the loading screen are
+   * after it count one step at most however long they took (A81): the page's first paints after the loading screen are
    * slow, and that time is the page's, not the world's to catch up.
    */
   reset(settle = 0) { this.last = null; this.settling = settle; }

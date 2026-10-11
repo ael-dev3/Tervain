@@ -637,7 +637,7 @@ export class App {
 
   /**
    * The journey's first step and picture, taken before the page next paints, so the loading screen still covers them
-   * (A80). The first update of the wanderer, the residents and the bandits and the first full picture paid their
+   * (A81). The first update of the wanderer, the residents and the bandits and the first full picture paid their
    * one-time costs together: a frozen first frame of 0.6-0.9 s just after the loading screen lifted.
    */
   private firstFrameUnderCurtain() {
@@ -1043,12 +1043,15 @@ export class App {
       try {
         // The world advances in fixed steps, as many as the frame's time holds (A72). A press or a mouse movement
         // counts in the first alone; the picture is drawn once, between the last two steps.
-        for (let i = 0; i < steps; i++) {
-          this.catchUp = i > 0;
-          this.step(SIM_STEP);
-          this.input.consumePad(); this.input.endFrame();
+        try {
+          for (let i = 0; i < steps; i++) {
+            this.catchUp = i > 0;
+            this.step(SIM_STEP);
+            this.input.consumePad(); this.input.endFrame();
+          }
+        } finally {
+          this.catchUp = false;
         }
-        this.catchUp = false;
         this.present(alpha);
         const sample = this.perf?.end(interval * 1000);
         if (sample && this.bench.active && !this.menuBackgroundActive) this.bench.samples.push({ segment: Math.floor(this.cam.benchT), sample });

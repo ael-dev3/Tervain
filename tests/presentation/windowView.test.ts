@@ -72,6 +72,18 @@ describe('window view capture (A77, A78)', () => {
     expect(pane.envMap).toBeNull();
     for (let i = 0; i < 5; i++) view.update(renderer, scene, at, 1 / 60, true);
     expect(pane.envMap).not.toBeNull();
+    // Back and forth while captures are half drawn over the shared cube: daylight until a room's own capture is whole,
+    // never a mix of the two rooms.
+    where = room;
+    for (let i = 0; i < 2; i++) view.update(renderer, scene, at, 1 / 60, true);
+    where = other;
+    view.update(renderer, scene, at, 1 / 60, true);
+    for (let i = 0; i < 2; i++) view.update(renderer, scene, at, 1 / 60, true);
+    where = room;
+    view.update(renderer, scene, at, 1 / 60, true);
+    expect(pane.envMap).toBeNull();
+    for (let i = 0; i < 5; i++) view.update(renderer, scene, at, 1 / 60, true);
+    expect(pane.envMap).not.toBeNull();
     view.dispose();
   });
 });

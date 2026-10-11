@@ -78,7 +78,7 @@ describe('visible frame timing (fixed steps, A72)', () => {
     expect(clock.tick(100000)).toBeNull();
   });
 
-  it('counts the frames settling after loading one step at most, then catches up as before (A80)', () => {
+  it('counts the frames settling after loading one step at most, then catches up as before (A81)', () => {
     const clock = new FrameClock();
     clock.reset(2);
     expect(clock.tick(0)).toBeNull();

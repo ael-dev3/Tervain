@@ -3,6 +3,24 @@
 The cloud session that worked A70–A77 hands over to a session on Ael's PC (RTX 3080). This note is the starting point:
 the goal, the rules, every backlog item's state, what was in progress and the exact next steps.
 
+## Update (A79–A82)
+
+- **Playtest faults** (crowns, branch ribbons, grass, window views): fixed in A79. The crowns seen from inside were
+  closed in A82: the follow camera keeps out of a crown's core.
+  ([A79](engineering/a79-playtest-visuals.md), [A82](engineering/a82-camera-out-of-crowns.md))
+- **Stalls:**
+  - Residents' rigs are built a step at a time (A79).
+  - The first-sight stalls are closed (A80), and the 50–70 ms first-minute frames with them (A80 follow-up).
+  - A journey's frozen first frame (0.88 s, seen only when starting from the menu) is gone (A81).
+  ([A80](engineering/a80-first-sight-stalls.md), [A81](engineering/a81-entry-frame.md))
+- **Geometry count on later laps** (backlog 10): it levels off; it is not a leak. Over five High laps on the GPU it
+  went 815, 838, 841, 841, 845. The rise is the grass tiles' buffer pool growing to the most tiles ever shown at once
+  (it stops by the fourth lap), plus tree shadows drawn for the first time.
+- **Still open:**
+  - staged loading of the near tree files (below);
+  - authored turn clips;
+  - near leaf masses seen from just under a crown.
+
 ## Update (A78, local GPU session)
 
 Done: the real-GPU benchmark on an RTX 3080 Ti for every preset, before and after
@@ -69,7 +87,7 @@ believably, and frames that are light without any visible loss. "Honest" means e
 | 7 | Residents inhabit interiors | Done (A70). |
 | 8 | Hunting, respawn, encounters, progression, riding | Done (A70, A71, A75). |
 | 9 | Close-up quality (Gothic 3) | Done in A76: plaster, timber, stone, iron, cloth, ground, colour grade, room and village clutter; crown leaf masses; wall hairline. **Hard limit:** a shadow-casting hearth light exceeds the richest materials' texture units. Tasks still open in the tracker: soft layered crown silhouettes with no hard alpha cut-outs (partly A72, A76; new crown exports would finish it). |
-| 10 | Performance evidence | Container (software rendering) numbers in A76 and A77. **Open:** real-GPU frame and GPU times (commands below); A75's GPU geometry count still rising 2–3 a stop on a third lap, not yet shown to level off. |
+| 10 | Performance evidence | Container (software rendering) numbers in A76 and A77. Real-GPU frame and GPU times in A78. The GPU geometry count levels off (A82 update above). |
 | 11 | Asset ledger | Done as far as the owner's answers go (CC0 classification above); 2 sources remain unresolved. |
 | 12 | Hero rework polish | Done (A73, A75). |
 | 13 | Frame cost (A77) | **In progress**, see below. |

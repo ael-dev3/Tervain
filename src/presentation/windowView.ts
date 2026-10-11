@@ -77,6 +77,9 @@ export class WindowView {
     // a 1,200-draw, 16 M-triangle frame (39 ms of CPU) in the doorway. Until its six faces are done the panes keep the
     // view they had, or their flat daylight before the first capture of all.
     if (this.age >= this.interval && this.face < 0) { this.age = 0; this.face = 0; }
+    // A capture under way draws over the one shared cube: from its first face the cube is no room's whole view, and
+    // is not recorded as one until its last.
+    if (this.face === 0) this.captured = null;
     if (this.face >= 0) {
       const { at, near } = this.frame(here);
       const faces = this.camera.children as THREE.PerspectiveCamera[];

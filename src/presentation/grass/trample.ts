@@ -139,7 +139,7 @@ export class GrassTrample {
   }
 
   /**
-   * Prepare the passes ahead of their first use (A80), each drawn once into the target it draws into. The shift runs
+   * Prepare the passes ahead of their first use (A81), each drawn once into the target it draws into. The shift runs
    * only once the focus has moved some metres, so its first draw stalled a frame of play by 0.1-0.2 s.
    */
   warm(renderer: THREE.WebGLRenderer) {

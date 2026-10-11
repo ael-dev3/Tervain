@@ -18,7 +18,7 @@ export interface Groundcover extends SceneModule {
   setMovers(movers: readonly GrassMover[]): void;
   /** Renderer work before the frame is drawn: the interaction field. */
   prepare(renderer: THREE.WebGLRenderer, dt: number): void;
-  /** Prepare the interaction field's passes ahead of their first use (A80). */
+  /** Prepare the interaction field's passes ahead of their first use (A81). */
   warm(renderer: THREE.WebGLRenderer): void;
 }
 
