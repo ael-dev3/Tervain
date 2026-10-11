@@ -976,3 +976,25 @@ heap owner proof. This is local implementation only. The cache's eight-byte
 allocation and copy, cache publication, complete engine startup and the
 finishable browser campaign remain unfinished. The older combined suite
 remains active and is not evidence for this revision.
+
+## Local continuation — 11 October 2026: original name-reference append returns
+
+The original append requests eight bytes from the live parser arena, reducing
+its retained capacity from 3,984 to 3,976 bytes. The allocated value at offset
+3,980 receives the actual name node and masked flag fields through the captured
+copy constructor. The counter increments from all-one bits to zero, preserving
+carry, and the original entry receives the actual allocated pointer. ESI is
+restored and RET4 returns to `306994ce` after 6,382 admitted operations.
+
+The copy helper now accepts an explicitly proved canonical Engine arena
+destination while preserving its existing stack destination checks. Copying
+the cached name does not overwrite the historical first-property text node.
+Typechecking, six focused engine checks, one interrupted-copy check and six
+browser-service checks pass. An interrupted copy retains the unchanged cache
+counter, live arena, held lock and pending caller; replay remains forbidden.
+
+Older combined revision `2ecc0b2ddfcb1215b3f5975c830e964dbce125f7` finished
+typechecking, all 3,575 tests across 319 files and the production build. Its
+full suite took 1,769.02 seconds and predates the cache continuation. These
+results are separate receipts. This checkpoint is local; identifier return,
+complete startup and the finishable browser campaign remain unfinished.
