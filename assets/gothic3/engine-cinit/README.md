@@ -1,7 +1,7 @@
 # Engine CRT initializer evidence
 
 This package records the next dependency after Engine environment-vector return.
-It captures 80 original bodies (3452 instructions), the caller at `30677284`,
+It captures 83 original bodies (3517 instructions), the caller at `30677284`,
 the floating-point callback at `30892ac0`, and two original initializer tables.
 The C initializer table has 200 slots with 6 nonzero entries. The C++ table has
 93,705 slots with 1,963 nonzero entries; omitted entries are verified zero.
@@ -1099,3 +1099,30 @@ node-to-list (31 instructions), list append (18) and list constructor (16).
 Those research captures do not prove execution. This checkpoint is local;
 joining the text nodes, complete startup and the finishable campaign remain
 unfinished. The combined cache-append revision continues validating separately.
+
+## Local continuation — 11 October 2026: original text-node list wrapper
+
+The class node now enters the original node-to-list routine. Its 12-byte list
+request consumes 16 arena bytes after alignment, followed by the actual eight-
+byte value request. The value at offset 3,956 retains the existing class text
+node and its original masked flags. The original constructor initializes the
+list at offset 3,964, stores its captured vtable, zero field and live value
+pointer, then restores the real caller. Execution stops at `30697944` after
+6,652 admitted operations; remaining arena capacity is 3,952 bytes.
+
+The source adds node-to-list (31 instructions), list append (18), list
+constructor (16), and the original 12-byte list vtable at `3089f29c`. There
+are now 83 Engine bodies and 3,517 instructions. Independent JSON/TypeScript
+regeneration matches byte-for-byte. Typechecking, seven focused engine checks,
+one constructor-interruption check and all 44 source/image/browser checks pass.
+The interrupted first constructor store retains both actual allocations, the
+initialized value, held locks and pending calls. No successful return is
+fabricated. One expected entry encoding in the source test was corrected
+against the original captured MOV instruction before the passing rerun.
+
+This checkpoint is local. Publishing the list in its parsed value and appending
+the name node remain unfinished, as do full startup and the finishable browser
+campaign. Earlier combined revision 3244c7c5f5ffa65674b0eb09513fba0f797939fd
+continues validating independently. PR 247 remains open with its reviewed head
+fc7457deae4ab66310a74d600d0496f61685d1ff and active CI; the paginated Actions
+audit found its run active, so no duplicate run or merge was performed.
