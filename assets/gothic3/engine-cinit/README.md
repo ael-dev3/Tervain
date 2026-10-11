@@ -3369,3 +3369,8 @@ This checkpoint integrates native/evidence files from `675d84ec7` with main `e24
 ## Post-processing administrator source capture
 
 Captured the original `eCPostProcessingAdmin` initializer at `307325b0`, its constructor thunk `300139d0` and body `30077f30`, shutdown thunk `30033230` and body `30797cc0`, and original flags, root, storage and type-info fields. The generator checks the matching Engine binary hash and instruction bytes. Earlier captured methods remain unchanged. This source capture does not connect or execute the callback; the runtime boundary remains `307325b0`.
+
+
+## Post-processing administrator runtime continuation
+
+The TypeScript startup frame now executes the captured `eCPostProcessingAdmin` callback through its original constructor, CString creation, shutdown registration and root publication. Normal startup reaches the next unsupported callback `307325c0`, initializer cursor `0x1c8`, and 51 shutdown registrations (204 bytes in the existing 256-byte table). An interrupted callback store retains the original caller, cursor at 200 bytes, held exit lock and unpublished root. Typechecking and two focused continuation checks passed locally; production build and broader integration are separate outstanding checks for this change. Full engine startup and campaign completion remain unfinished.
