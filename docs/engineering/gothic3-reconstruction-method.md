@@ -106,7 +106,22 @@ an ending, with save and reload preserving campaign state.
 | `src/gothic3/` | TypeScript runtime and browser integration |
 | `tests/gothic3-dialogue/` | Evidence and runtime checks |
 
-The latest local continuation initializes the camera property and copies the
-reference-base class identifier. Complete world activation and campaign play
-remain unfinished; this newer continuation has not been deployed. The dated
-receipts record each revision's exact supported boundary and validation scope.
+The local native study reference is
+`C:/Users/heyas/OneDrive/Рабочий стол/Gothic3_Decompiled_Study_2026-10-04`.
+Its `00_Original_Runtime` directory contains reference binaries and
+`01_Decompiled_Code` contains code research. These machine-specific paths are
+inputs for research, not portable build requirements for every contributor.
+
+## How progress is reported
+
+Keep four claims separate: evidence captured, behavior implemented, checks
+passed, and revision deployed. Each checkpoint records its actual supported
+boundary and remaining work. The current local native continuation initializes
+the camera property and returns the reference-base class/type parsers and undecoration; this
+remains startup research, with complete world activation and campaign play
+still outstanding.
+
+For detailed commands and implementation history, see the
+[step-by-step workflow](gothic3-rebuild-workflow.md),
+[architecture overview](gothic3-rebuild-overview.md), and
+[checkpoint history](gothic3-rebuilding-process.md).

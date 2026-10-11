@@ -2490,3 +2490,138 @@ through PR #254 with native startup through `083d438bf`, including the original
 reference-base identifier copy. Its native boundary is `306994a9`; newer cache,
 parser returns, writer and cleanup work plus PR #255 are outside this receipt.
 This is local validation, not deployment or proof of a finishable campaign.
+### 11 October 2026: reference-base identifier cache and scoped return
+
+The original identifier assignment and name-reference cache append now execute
+against the retained reference-base name node. The original cookie XOR and
+comparison complete before the identifier physically returns; the scoped-name
+routine assigns that returned value, consumes the actual second delimiter and
+restores its caller. Execution reaches `306996a8` after 16,338 operations, with
+the RTTI cursor at offset 29. The parsed identifier and class keyword remain in
+the live reference-base arena, lock 5 stays held and the property root stays
+known NULL. Class-list append and outer parser returns remain pending. The
+copied-type snapshot still records the earlier completed camera parse.
+
+Typechecking, four selected runtime checks and six browser-startup checks pass.
+The continuation matches the captured camera path except for the derived
+reference-base delimiter positions. Making the actual Engine security cookie
+unknown at its original comparison stops at `3067746c` with the full name live,
+the cache append returned and the identifier/cookie calls pending. No successful
+return or root publication is synthesized. This is a local checkpoint, not a
+deployed game or proof of complete startup and campaign play. The unchanged
+combined revision `015b00c0c3a1b7db32bc6620d1e54295d88b59cb` is still validating
+and predates this newer continuation.
+
+
+### 11 October 2026: reference-base class list and type-parser returns
+
+The original class parser now converts its keyword node into a list, appends the
+actual reference-base identifier, and returns through the class, basic type,
+compound type, data type and outer type-parser callers. The name parser retains
+that returned list, verifies the actual consumed RTTI terminator and calls its
+original length routine. Execution stops at `30697114` after 16,908 operations;
+the RTTI cursor remains offset 29. The copied-type snapshot now describes the
+live reference-base list, separately from historical camera text records.
+The arena, camera CString and six prior shutdown registrations remain live;
+lock 5 stays held and the reference-base property root remains known NULL.
+
+Typechecking, five focused runtime checks and six browser-startup checks pass.
+The list append and parser returns match the captured camera continuation except
+for the reference-base RTTI owner and measured end cursor. Interrupting the
+original name-link store stops at `30696e86`, retaining both full text nodes and
+the pending append/class calls without publishing the property root. Original
+pointer fields retain opaque pointer ownership rather than invented numeric
+addresses. Name measurement, output construction and remaining startup still
+need continuation. This is a local checkpoint, not deployment or proof of a
+finishable browser campaign. The full combined validation at
+`015b00c0c3a1b7db32bc6620d1e54295d88b59cb` is still live and predates this work.
+
+
+### 11 October 2026: reference-base measured output allocation
+
+The original virtual length routine traverses the retained class list and its
+actual text nodes, measures 21 characters, adds the NUL capacity and requests
+a separate aligned 24-byte Engine CRT output allocation. It publishes that
+allocation in the actual parser output slot and passes capacity 22 to the
+original writer. Execution reaches `30697171` after 17,007 operations. All output
+bytes remain unknown before the writer starts; the arena and output are distinct
+live allocations. Lock 5 stays held and the reference-base root stays known NULL.
+
+Typechecking, three runtime checks and six browser-startup checks pass. The
+length/allocation continuation exactly matches the existing captured class path;
+its lengths come from live node fields. An unknown readonly virtual length
+target stops at `30697129`, invalidating subsequent image-backed snapshots while
+retaining the already captured root reference and live list. Unavailable output
+allocation stops at `30672ec7` after measuring the actual required capacity 22.
+Both failures retain pending callers without entering the writer. This local
+checkpoint is not deployed and does not prove complete startup or campaign play.
+The earlier combined validation remains live at
+`015b00c0c3a1b7db32bc6620d1e54295d88b59cb`.
+
+
+### 11 October 2026: original reference-base output writer return
+
+The captured list and text writers now copy the actual class keyword and
+reference-base name into the separate 24-byte output. The outer writer writes
+the NUL at offset 21 and physically returns at `3069b0d3` after 17,430 operations.
+The output contains `class bCObjectRefBase` followed by NUL; all 22 text bytes
+are known, while the two padding bytes remain unknown. Both output and parser
+arena are live. Lock 5 stays held, six earlier shutdown callbacks remain intact,
+and the reference-base root is still known NULL. Outer name-parser return,
+arena cleanup, lock release and property CString construction remain pending.
+
+Typechecking, five focused runtime checks and six browser-startup checks pass.
+The output writer matches the captured class writer exactly; its actual nodes
+supply lengths and character storage. An unknown eighth identifier character
+stops at `30696f47`, retaining only `class bCObjec` in the output. Interrupted
+terminator storage stops at `306971f6`, preserving all 21 characters with no
+fabricated NUL. The output allocation and held lock remain owned and live, and
+the writer call stays pending in both cases. This is a local checkpoint, not a
+deployed game or proof of complete startup and campaign play. The older combined
+validation at `015b00c0c3a1b7db32bc6620d1e54295d88b59cb` is still running.
+
+
+### 11 October 2026: original reference-base name-parser return
+
+The name parser now processes its actual written output, retains the single
+class/name separator, writes its final terminator and restores its original
+frame. It returns the owned output pointer at `3069b2e3` after 17,613 operations.
+The 24-byte allocation still contains 22 known text/NUL bytes and two unknown
+padding bytes. The separate arena remains live, lock 5 remains held and the
+reference-base root remains known NULL. Arena cleanup, unlock and outer return
+remain pending.
+
+Typechecking, five focused runtime checks and six browser-startup checks pass.
+The parser continuation exactly matches the captured class-name path. Making
+output byte 8 unknown stops at `3069b0f3` while all other writer-established
+bytes retain their masks. Interrupted final terminator storage stops at
+`3069b0fb`; the writer's already established NUL stays known rather than being
+artificially erased. The writer call is returned and the name-parser call stays
+pending in both failures. This is a local checkpoint, not deployment or proof
+of complete startup and campaign play. Earlier combined validation remains live
+at `015b00c0c3a1b7db32bc6620d1e54295d88b59cb`.
+
+
+### 11 October 2026: reference-base arena cleanup and undecoration return
+
+The original destructor loads the next arena block before calling the actual
+Engine CRT free callback, releases the reference-base arena and restores its
+caller. The finally helper releases lock 5, and the original EH epilog restores
+the saved initializer cursor and returns the live output to the type-name
+caller. Execution reaches `3067dacb` after 17,657 operations. The output retains
+22 known text/NUL bytes and two unknown padding bytes; its separate 4,104-byte
+arena is freed. The root remains known NULL. Type-name cache publication and
+property CString construction remain pending.
+
+Typechecking, five focused runtime checks and six browser-startup checks pass.
+The destructor/finally/EH continuation exactly matches the captured class path.
+Normal lifetime checks capture arena bytes before the free callback, retain
+historical pointer records and reject subsequent canonical reads through the
+released allocation. The restored ESI is the actual retained C++ initializer
+cursor, with the same owner and offset. Unavailable arena release stops at
+`30672f8a` with the arena still live; unavailable unlock stops at `3069b307` with
+the arena freed and lock 5 still held. Both retain the live output and pending
+original caller. This is a local checkpoint, not deployment or proof of complete
+startup and campaign play. Earlier combined revision
+`015b00c0c3a1b7db32bc6620d1e54295d88b59cb` passed all 3,703 tests and its build;
+that receipt predates the newer parser/writer/cleanup continuations.
