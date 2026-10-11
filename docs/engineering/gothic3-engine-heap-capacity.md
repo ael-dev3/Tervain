@@ -2479,3 +2479,14 @@ eight character bytes are unknown, the arena stays live and lock 5 stays held.
 The original copy and name-constructor calls remain pending. The completed
 camera CString and prior callback registrations remain intact. This checkpoint
 is local, not deployed; complete startup and campaign play remain unfinished.
+
+
+### 11 October 2026: reference-base identifier combined validation completed
+
+Combined revision `015b00c0c3a1b7db32bc6620d1e54295d88b59cb` passed
+typechecking, all 3,703 tests across 327 files (1,973.72 seconds), and the
+production build. Its process completed with exit code zero. This combines main
+through PR #254 with native startup through `083d438bf`, including the original
+reference-base identifier copy. Its native boundary is `306994a9`; newer cache,
+parser returns, writer and cleanup work plus PR #255 are outside this receipt.
+This is local validation, not deployment or proof of a finishable campaign.
