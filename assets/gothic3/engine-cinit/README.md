@@ -1,7 +1,7 @@
 # Engine CRT initializer evidence
 
 This package records the next dependency after Engine environment-vector return.
-It captures 60 original bodies (2253 instructions), the caller at `30677284`,
+It captures 64 original bodies (2325 instructions), the caller at `30677284`,
 the floating-point callback at `30892ac0`, and two original initializer tables.
 The C initializer table has 200 slots with 6 nonzero entries. The C++ table has
 93,705 slots with 1,963 nonzero entries; omitted entries are verified zero.
@@ -14,7 +14,7 @@ python tools/gothic3/prepare_engine_cinit_source.py --study '<study-root>' --out
 
 The generator checks the original Engine.dll hash and exact caller bytes.
 Independent regeneration produced identical JSON, SHA-256
-``4fbae3b4533fe6b1294c1af5348a3a4400027ed17a00f5110780e70937e6afab``.
+``0246a065f07a5b7773140d59a10e5bb82fa20815f328f124699a417fe17e625c``.
 
 The capture's `runtimeConnected: false` records evidence preparation; it grants
 no execution authority. The TypeScript continuation separately obtains a
@@ -303,3 +303,14 @@ five files (282.02 seconds) and is running its full suite in a separate unchange
 checkout. Its result does not validate this newer writer implementation.
 This continuation has not been deployed; a complete browser campaign remains
 unverified.
+
+## Original parser arena cleanup — 11 October 2026
+
+The selected continuation executes the original HeapManager destructor and its
+stored CRT free callback. It loads the next block before freeing the original
+4,104-byte arena, then returns at `3069b2f0` after 3,989 admitted operations.
+The separate eight-byte output remains live with five characters, a NUL, and
+two unknown padding bytes. Text-node snapshots retain historical records after
+release and expose `undecorationTextNodeLive: false`; they do not read freed
+fields. Lock 5 remains held. The original finally helper, lock release, outer
+return, type-name cache publication and complete startup remain unfinished.

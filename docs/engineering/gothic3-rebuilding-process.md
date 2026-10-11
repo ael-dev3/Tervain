@@ -4,6 +4,24 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local continuation — 11 October 2026: original parser arena release
+
+The returned name now enters the original HeapManager destructor at `30696606`.
+It loads the next block before calling the retained Engine CRT free callback,
+releases the actual 4,104-byte parser arena, and returns at `3069b2f0` after
+3,989 admitted operations. The separate eight-byte output remains live with
+`float` followed by NUL and two unknown padding bytes. Historical text-node
+records are retained before release; `undecorationTextNodeLive` distinguishes
+those records from live allocation authority. Interrupted release preserves the
+actual callback boundary, live output, held lock and unreleased allocation.
+
+Typechecking, 17 selected runtime/source checks and byte-identical independent
+regeneration pass. This checkpoint is local. Lock release, outer undecoration
+return, type-name cache publication, complete engine startup and the playable
+campaign remain unfinished. The preceding parser-return revision passed 194
+focused integration checks and a production build; the earlier output-allocation
+revision passed 3,496 tests across 316 files and a production build.
+
 ## Local continuation — 11 October 2026: original character copy and string returns
 
 The text-node constructor now stores its captured readonly vtable, zero flags,
