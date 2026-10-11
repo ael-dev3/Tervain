@@ -1990,3 +1990,22 @@ check passed at `30672ec7`, retaining its pending caller, parser lock, earlier
 live CStrings, roots and shutdown entries. Original evidence packages are
 unchanged. This local checkpoint has not been deployed and does not prove
 complete startup or campaign completion with persistence.
+
+
+### 2026-10-11 — camera nested keyword writer (local)
+
+The original camera output writer checks the parsed list, calls the original
+virtual length and list writer, enters its nested text writer, and copies the
+six-byte keyword `class ` into the separate output allocation. The nested node
+writer returns to `306971d7`; startup has executed 13,045 operations. Bytes
+0..5 are known, bytes 6..23 remain unknown. Identifier output, terminator,
+writer return, parser cleanup and camera publication remain pending.
+
+Validation: TypeScript checking, eight focused runtime checks and six browser
+startup checks passed. An unavailable readonly writer target stops at
+`306971d4` with the output caller pending, lock held and prior CString/shutdown
+entry retained. Corrupting that readonly image invalidates image-backed root
+and parser snapshots; the failure test explicitly expects those snapshots to
+be unavailable. Normal-path tests separately verify the roots and parsed list.
+Original source packages are unchanged. This local checkpoint is not deployed
+and does not prove complete startup or campaign completion with persistence.
