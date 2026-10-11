@@ -14,7 +14,7 @@ python tools/gothic3/prepare_engine_cinit_source.py --study '<study-root>' --out
 
 The generator checks the original Engine.dll hash and exact caller bytes.
 Independent regeneration produced identical JSON, SHA-256
-``e5c537f2f176691a5149e1343eb8d85a967a19c35105f3f2c66d8340784f83a9``.
+``e054e5c797809286e5920a4184b54134a3ed44aa04e04b23dd344e95c4b350d3``.
 
 The capture's `runtimeConnected: false` records evidence preparation; it grants
 no execution authority. The TypeScript continuation separately obtains a
@@ -857,3 +857,19 @@ entry. The source diff was inspected against the captured instructions. The
 normal check retains completed keyword bytes/length and pending name calls.
 This continuation is local; complete startup and campaign completion remain
 unfinished. Earlier combined validation remains running in its frozen checkout.
+
+## 2026-10-11: original identifier prefix literals and completed validation
+
+Captured `template-parameter-` plus terminator at `3089f3d4` (19 bytes)
+and `generic-type-` plus terminator at `3089f3c4` (14 bytes). The Engine image
+owner retains and protects both inputs. Independent JSON/TypeScript regeneration
+are byte-identical; structural comparison shows exactly the two added literals.
+TypeScript checking and all 31 source/image checks pass. Runtime remains pending
+at `306993a2` after 5,747 operations; the prefix comparisons are not executed yet.
+
+The earlier frozen combined revision `1b37f544b0c382868335973634c91ef1adc9a103`
+completed typechecking, all 3,569 tests across 319 files (1,709.89 seconds), and
+production build successfully. This validation covers work through the earlier
+modifier checkpoint, not the newer class and identifier continuations. The
+previous lighthouse timeout receipt remains distinct from this successful run.
+Newer work remains local. Complete startup and campaign completion are unfinished.
