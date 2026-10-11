@@ -210,3 +210,13 @@ it('captures the reference-base shutdown thunk and exact storage destructor body
  expect(engineCinitInstruction('30797f80','30797f80')).toMatchObject({bytes:'b9109aad30',instruction:'mov ecx, 0x30ad9a10'});
  expect(engineCinitInstruction('30797f80','30797f85')).toMatchObject({bytes:'ff25dcdbaf30',instruction:'jmp dword ptr [0x30afdbdc]'});
 });
+
+
+it('pins the original template compound call to the basic-type parser',()=>{
+ const call=engineCinitInstruction('3069b738','3069b770');
+ expect(call.bytes).toBe('e83cfcffff');
+ const target=(0x3069b770+5+Buffer.from(call.bytes.slice(2),'hex').readInt32LE(0))>>>0;
+ expect(target.toString(16)).toBe('3069b3b1');
+ expect(engineCinitInstruction('30698a86','30698be1').bytes).toBe('e8522b0000');
+ expect(engineCinitInstruction('306991ad','30699282').bytes).toBe('e8fff7ffff');
+});
