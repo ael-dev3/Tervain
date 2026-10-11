@@ -752,3 +752,20 @@ written bytes and masks, length, live arena ownership and both allocation/copy
 returns. The copy extraction was inspected; the existing first-path node input
 range and pointer checks remain retained. This change is local. Complete startup
 and browser campaign completion remain unfinished.
+
+## 2026-10-11: original class keyword constructor returns
+
+The shared original text-node, initializer and string-constructor epilogs now
+return to `30699688` using the retained call frames and real return addresses.
+The class parser then clears its next local value and flag bits, reaching
+`3069968f` after 5,663 admitted operations. The actual six-byte `class ` keyword
+and length remain in the live arena. The `bCString` name has not been appended
+and the class parser itself remains pending.
+
+TypeScript checking and five focused allocation, unknown-byte, qualifier,
+constructor and fatal-call checks pass. The normal check now requires the class
+constructor call to have returned, retains arena byte and length checks, and
+observes the restored ESI. Earlier temporary register ownership expectations
+were updated for the real epilog restores. The shared return sequence was
+reviewed against its original instructions. This continuation remains local;
+complete startup and browser campaign completion are unfinished.
