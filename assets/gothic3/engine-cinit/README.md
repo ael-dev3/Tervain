@@ -3313,3 +3313,10 @@ Validation: TypeScript checking, three focused normal/interruption checks, 82 so
 The parent name append returns, then the original last-character routine traverses the live node graph. Virtual length dispatch covers captured list, text and character tables; nested lists tail-call the value-length traversal. Last-character dispatch follows the final nonempty node and reads its original allocated text copy. The physical caller returns to 306992a7 with AL=101 (`e`, from bCObjectRefBase). The twenty-eighth CString and startup remain incomplete.
 
 Validation: four focused cases passed, including unknown copied last-character input, along with TypeScript checking, 83 source/image/browser checks and the production build. The unknown byte remains unknown at 306973d3 with its original parent caller pending and live allocations/locks retained. The prior broad validation remains a separate revision and does not prove this continuation or campaign completion. No deployment is claimed.
+
+
+### Original template-name return and context restoration
+
+The template-name parser now completes its captured return path: it appends the original closing character, evaluates the retained stack end-marker flag, restores all three saved parser contexts, copies the completed parsed value to the original output, unwinds its frame and physically returns to identifier continuation 30699365. The subsequent identifier continuation is still pending in this checkpoint. Native startup and the twenty-eighth CString remain incomplete.
+
+Validation: six focused normal/interruption cases passed; an additional direct before/after check verified all three restored contexts. TypeScript checking, 83 source/image/browser checks and the production build passed. An unknown end-marker flag stops at 306992bf before context restoration or output copy with the template caller pending. No deployment, complete startup or playable campaign is claimed.
