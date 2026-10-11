@@ -2258,3 +2258,24 @@ camera wrapper from the pending next wrapper and verifies actual RTTI input,
 held parser lock, cold root and existing camera CString/root/exit state.
 Source packages are unchanged. This checkpoint is local, and full startup
 and a playable campaign ending with save/reload remain unproven.
+
+
+2026-10-11 — original reference-base parser construction (local)
+
+Executed the original name-parser constructor, its cold 4,104-byte arena request,
+four internal field constructors and configuration writes. The new live arena
+is distinct from the camera parser's freed arena; its original field offsets
+are 4,084/4,068/4,052/4,036 with kinds 3/1/3/1. The actual configuration stack
+pointer returns through the retained constructor caller. Startup stops at
+`3069b2d8` after 14,489 instructions, before beginning name parsing. RTTI cursor
+remains at offset 9, output length is zero, lock 5 is held and the new root is
+known null. The published camera property and six exit callbacks remain intact.
+
+Validation: TypeScript checking, six browser startup checks, a strengthened
+normal runtime check and an unavailable-arena check passed. The normal check
+verifies same-owner physical arena membership, distinct lifetime, field offsets
+and types, and the returned configuration pointer. The unavailable-arena check
+retains the original caller at `30672ec7`, keeps lock 5 held and preserves the
+completed camera string and registration while leaving the new root null.
+Source packages are unchanged. This local checkpoint does not establish full
+engine startup or a finishable campaign with save/reload.

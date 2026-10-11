@@ -1612,7 +1612,12 @@ stack.#engineCinitFrame!.pc='10003cd8';engineCinitUnMangleInstruction('10003cd8'
               fifth('30076749',()=>setRegister('ECX',stack.#load(image('objectRefBaseRoot'),0)));fifth('3007674f',()=>{bits=(bits|1)>>>0;mask=(mask|1)>>>0;setRegister('EAX',stack.#mint(bits,mask));stack.#logicalFlags(bits,mask,4);});fifth('30076752',()=>stack.#store(flags,0,register('EAX')));fifth('30076757',()=>stack.#store(storage,4,register('ECX')));
               fifth('3007675d',()=>stack.#logicalFlags(bits&2,(mask|~2)&255,1));fifth('3007675f',()=>{const f=stack.#record(stack.#load(stack.#bank,36));if(!(f.mask&64)||bits&2)throw new Error('Original fresh object-reference-base property type guard required');});fifth('30076761',()=>{bits=(bits|2)>>>0;mask=(mask|2)>>>0;setRegister('EAX',stack.#mint(bits,mask));stack.#logicalFlags(bits,mask,4);});fifth('30076764',()=>stack.#push(stack.#mint(0,0,{kind:'engine-image',crt,fields:image('visualAnimationFloatDefault'),offset:0})));fifth('30076769',()=>setRegister('ECX',stack.#mint(0,0,{kind:'engine-image',crt,fields:image('objectRefBaseTypeInfo'),offset:0})));fifth('3007676e',()=>stack.#store(flags,0,register('EAX')));fifth('30076773',()=>stack.#call('30076773','30076708'));
 const prefix=runPropertyTypeNamePrefix(image('objectRefBaseTypeInfo'),image('visualAnimationFloatDefault'));if(prefix.cached!==0){stack.#engineCinitFrame!.pc='3067db77';return known(undefined);}preparePropertyUndecoration(prefix.name,prefix.actualTypeInfo);const decoder=runUndecorationPrefix();if(!decoder.ready)return known(undefined);
-              stack.#engineCinitFrame!.pc='3069747a';return known(undefined);
+              const parser=runParserConstructionPrefix(decoder.globals.value);
+              const request=runColdArenaRequest(decoder.globals.value);
+              const allocation=runColdArenaAllocation(decoder.globals.value,request);if(!allocation.ready)return known(undefined);
+              runFieldConstructionReturn(parser.field,allocation.arenaBacking,3,4084,'306972c5');
+              runParserConstructionReturn(decoder.globals.value,parser,request,allocation);
+              stack.#engineCinitFrame!.pc='3069b2d8';return known(undefined);
             }
             if(target==='307322e0'){
               step('307322e0',()=>stack.#call('307322e0','307322e5'),'307322e0');step('3000d9f9',()=>{},'3000d9f9');
