@@ -98,3 +98,20 @@ boundary with an eight-byte physical backing and two unknown padding bytes.
 Exact-capacity startup remains supported without the layout selection. The
 original search still reads through its logical view; physical tail admission
 and browser profile adoption remain unfinished.
+
+### Physical-tail search and browser adoption implemented locally
+
+The original second DWORD load now admits the privately retained physical alias
+only for the selected Engine layout. The existing source-backed scalar search
+contract resolves its masked-padding alternatives to the original NULL-return
+path. Its internal operations are excluded from admitted source-row counts.
+Original register restores, RET, caller cleanup and UnMangle instructions then
+reach the CString constructor at `10003ba7` after 4,247 admitted operations.
+The search call has returned; UnMangle and CString construction remain pending.
+
+Tests with padding raw bits zero and 255 both pass while padding masks remain
+unknown. The fresh browser profile explicitly selects Engine rounding alongside
+its environment heap selection. Three focused browser/logical-view integration
+checks and typechecking pass. Platforms without layout selection retain their
+pending exact-capacity tail boundary. Combined validation of this newer revision
+and complete campaign play remain unfinished.
