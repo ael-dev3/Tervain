@@ -2523,3 +2523,28 @@ artificially erased. The writer call is returned and the name-parser call stays
 pending in both failures. This is a local checkpoint, not deployment or proof
 of complete startup and campaign play. Earlier combined validation remains live
 at `015b00c0c3a1b7db32bc6620d1e54295d88b59cb`.
+
+
+### 11 October 2026: reference-base arena cleanup and undecoration return
+
+The original destructor loads the next arena block before calling the actual
+Engine CRT free callback, releases the reference-base arena and restores its
+caller. The finally helper releases lock 5, and the original EH epilog restores
+the saved initializer cursor and returns the live output to the type-name
+caller. Execution reaches `3067dacb` after 17,657 operations. The output retains
+22 known text/NUL bytes and two unknown padding bytes; its separate 4,104-byte
+arena is freed. The root remains known NULL. Type-name cache publication and
+property CString construction remain pending.
+
+Typechecking, five focused runtime checks and six browser-startup checks pass.
+The destructor/finally/EH continuation exactly matches the captured class path.
+Normal lifetime checks capture arena bytes before the free callback, retain
+historical pointer records and reject subsequent canonical reads through the
+released allocation. The restored ESI is the actual retained C++ initializer
+cursor, with the same owner and offset. Unavailable arena release stops at
+`30672f8a` with the arena still live; unavailable unlock stops at `3069b307` with
+the arena freed and lock 5 still held. Both retain the live output and pending
+original caller. This is a local checkpoint, not deployment or proof of complete
+startup and campaign play. Earlier combined revision
+`015b00c0c3a1b7db32bc6620d1e54295d88b59cb` passed all 3,703 tests and its build;
+that receipt predates the newer parser/writer/cleanup continuations.
