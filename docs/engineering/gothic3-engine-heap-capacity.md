@@ -1647,3 +1647,15 @@ This checkpoint remains local. The preceding combined revision
 322 files and its build, but predates third-property work. Full engine startup,
 third-property publication and complete browser campaign persistence remain
 unfinished.
+
+
+## 2026-10-11: combined int-output validation
+
+Frozen revision `6a6de81b6f535c855a9ac8b3c12510b9186d99d5` passed TypeScript
+checking, all 3,642 tests in 323 files (1,806.35 seconds) and the production
+build (one minute). The command returned exit zero before further checkout
+changes. This combines main through PR 250 (`2d4f4704b`) and native work through
+`a0334ca6e` (int output allocation). It predates writer, cleanup, cache,
+CString and publication stages, camera initialization and PR 251.
+It validates this revision's checked components, not full engine startup or
+campaign completion.
