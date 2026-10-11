@@ -227,33 +227,40 @@ through the ending, with working persistence.
 
 ## Current implementation boundary: 11 October 2026
 
-The latest local Engine argument setup executes the supported CP1252 path:
-multibyte initialization, module filename selection, command-line counting,
-allocation, argument filling and publication of `argc` and `argv`. It returns
-through the original setup instruction `3068e827` to caller `3067727b`, after
-13,819 admitted operations for the default input. The default allocation holds
-`Gothic3.exe` and its argument vector in 20 bytes.
+The deployed checkpoint is main revision `9a06762233cb145177a84bd2947441cbd500e2ca`.
+It includes environment-vector setup from [PR #235](https://github.com/ael-dev3/Tervain/pull/235).
+The [Pages workflow](https://github.com/ael-dev3/Tervain/actions/runs/38094298066)
+completed its build and deployment. This records publication; ordinary browser
+play from a new game through an ending remains unverified.
 
-Argument setup passed 164 focused checks and combined validation of 3,414
-tests across 313 files, typechecking and a production build. It merged in
-[PR #234](https://github.com/ael-dev3/Tervain/pull/234) as `7ff73071e`. Its
-[Pages workflow](https://github.com/ael-dev3/Tervain/actions/runs/38091104701)
-completed successfully; deployment and browser observations are separate receipts.
+Local development has continued through Engine C initialization, its C callbacks,
+and the first C++ property initializer. The runtime follows the original type-name
+parser for the `M` type code, selects the original `float` literal, allocates its
+text node and character storage, and copies the five characters through the
+captured instructions. Committed revision `a4181a027` reaches `3069b601` after
+3,449 admitted operations. The remaining parser returns, type-name cache
+publication and later startup work are still required. A parsed literal alone
+does not complete Engine startup.
 
-The latest local continuation executes the original caller TEST/JL and completes
-Engine environment-vector setup at `3068e4f2`. It counts the retained block's
-entries, excludes those beginning with `=`, allocates the vector and strings,
-executes bounded copying, releases and clears the input, publishes readiness
-and returns through `30677284`. NULL input or allocation follows the supported
-minus-one cleanup paths. The next unsupported operation is that caller's TEST.
+Revision `a8f295e60`, an earlier local parser checkpoint, passed TypeScript
+checking, 173 focused checks, all 3,475 tests across 315 files, and a production
+build. Later parser changes require their own validation receipts. The checkpoint
+history records smaller focused checks and evidence regeneration separately.
 
-The component's 158 focused checks are covered by passing results, including
-reruns of two assertions moved to their actual observation point. Typechecking,
-a production build and byte-identical source regeneration pass. Combined
-validation passed all 3,428 tests across 313 files and a production build
-(1 minute 13 seconds). Deployment of this latest continuation is pending.
-Complete DLL startup, world activation and campaign integration remain
-unfinished. See the [checkpoint history](gothic3-rebuilding-process.md).
+### Milestones and completion evidence
+
+| Stage | What must be demonstrated | Current state |
+| --- | --- | --- |
+| Asset recovery | Meshes, textures, materials, skeletons and world records decoded with original paths and provenance | Readers and inspection viewers exist; coverage varies by format |
+| Runtime startup | Original initialization completes with valid memory, callbacks and cleanup | Selected continuations implemented; Engine startup remains incomplete |
+| World activation | Terrain and placed entities load into one live scene | Integration remains unfinished |
+| Human and NPC behavior | Animation, movement, decisions and interactions use the same live actors | Full world integration remains unfinished |
+| Gameplay | Combat, dialogue and quests produce the required consequences | Complete campaign integration remains unfinished |
+| Persistence | Save and reload restore the playable world and campaign state | End-to-end campaign evidence remains outstanding |
+| Completion | A browser player starts a new game and reaches an ending | Not demonstrated |
+
+See the [workflow](gothic3-rebuild-workflow.md) for the implementation steps and
+[checkpoint history](gothic3-rebuilding-process.md) for detailed receipts.
 
 ## What to record for every rebuilding step
 
