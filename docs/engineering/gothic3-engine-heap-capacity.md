@@ -1394,3 +1394,23 @@ The combined suite on revision `24a7bad8f17523a46b911868ac6ff9b275017ce0`
 predates this continuation and supplies no full-suite evidence for it. This
 checkpoint remains local. Temporary-output cleanup, cache-lock release,
 second-property publication, complete startup and campaign play remain pending.
+
+### 2026-10-11: original class type-name output cleanup and return
+
+The original free callback validates the actual sixteen-byte temporary output
+owner and releases it. The retained finally call releases lock 14, the type-name
+wrapper restores the original exception frame and registers, and its physical
+returns reach the second property's actual caller at `30076598`. This boundary
+follows 7,983 source operations. The cached fifteen-byte text stays live;
+its returned pointer retains its allocation identity. The earlier parser arena
+is freed and both parser and cache locks are released. The second property's
+CString construction and publication have not yet executed.
+
+Type checking passed. The normal check passed in 9.51 seconds, eleven fidelity
+and interruption checks in 35.43 seconds, and six browser startup checks in
+29.13 seconds. An interrupted output free retains its physical caller and cache
+lock with both output and cached text live. The normal path rejects reading
+through the freed output's native view. The broader combined validation still
+runs at revision `24a7bad8f17523a46b911868ac6ff9b275017ce0`, which predates
+this continuation. These changes remain local; complete engine startup and
+new-game-to-ending browser play remain unproven.
