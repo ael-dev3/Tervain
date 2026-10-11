@@ -2116,3 +2116,21 @@ live cache text, pending copy caller and held lock 14; lock 5 is released.
 Normal checks verify copied text and canonical link provenance. Original source
 packages are unchanged. This local checkpoint is not deployed and does not
 establish complete startup or campaign completion with persistence.
+
+
+### 2026-10-11 — camera cache cleanup and property caller return (local)
+
+Executed the original temporary-output free, lock-14 finally handler, EH epilog
+and property type-name wrapper return. Startup reaches camera caller
+`30076708` after 13,726 operations. Temporary output is freed, camera cache
+text/node remain live and linked, and both parser/cache locks are released.
+The property CString and camera root publication remain pending. The free
+proof covers the actual 24-byte output allocation.
+
+Validation: TypeScript checking, fourteen focused runtime checks and six browser
+startup checks passed. A further unavailable temporary-output free check passed
+at `30672f8a`, retaining live output/cache, held lock 14 and pending free caller;
+lock 5 remains released. Normal checks verify output lifetime, property return,
+prior CStrings/roots and shutdown entries. Original source packages are
+unchanged. This local checkpoint is not deployed and does not establish full
+engine startup or a campaign playable through its ending with persistence.
