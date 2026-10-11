@@ -741,9 +741,24 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
                 valueCopy('30696d2b',()=>pop('ESI'));valueCopy('30696d2c',()=>{const p=stack.#record(stack.#ret(4)).provenance;if(p?.kind!=='source'||p.address!==returned)throw new Error('Actual basic-type copy return required');});
 
       };
-      const runEmptyValueCheck=(returned:string)=>{
-                const empty=(pc:string,body:()=>void)=>step(pc,body,'306970c9');let modifier=0;
-                empty('306970c9',()=>{modifier=stack.#numeric(stack.#load(stack.#stack,stack.#address(register('ECX'))),4);stack.#arithmeticFlags(modifier,0,modifier,4,true);});empty('306970cc',()=>{if(modifier!==0)throw new Error('Original nonempty type modifier remains pending');});empty('306970da',()=>{setRegister('EAX',stack.#mint(0,0xffffffff));stack.#logicalFlags(0,0xffffffff,4);});empty('306970dc',()=>{const prior=stack.#record(stack.#load(stack.#bank,36));setRegister('EAX',stack.#mint(1,0xffffffff));stack.#arithmeticFlags(0,1,1,4,false);const updated=stack.#record(stack.#load(stack.#bank,36));stack.#flags((updated.value&~1)|(prior.value&1),(updated.mask&~1)|(prior.mask&1));});empty('306970dd',()=>{const p=stack.#record(stack.#ret()).provenance;if(p?.kind!=='source'||p.address!==returned)throw new Error('Actual temporary-empty return required');});
+      const runEmptyValueCheck=(returned:string,expectedNode:{fields:NativeHeapObjectViews;offset:number}|null=null)=>{
+        const empty=(pc:string,body:()=>void)=>step(pc,body,'306970c9');let modifier=0;
+        empty('306970c9',()=>{const location=stack.#memory(register('ECX'),4);if(location.fields!==stack.#stack)throw new Error('Actual retained temporary value required');const word=stack.#load(location.fields,location.offset),p=stack.#record(word).provenance;if(expectedNode){if(p?.kind!=='engine-allocation'||p.crt!==crt||p.fields!==expectedNode.fields||p.offset!==expectedNode.offset)throw new Error('Actual constructed nonempty name node required');const proof=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields:p.fields,offset:p.offset},4);if(!proof.known)throw new Error(proof.reason);modifier=1;stack.#flags(0,0x841);}else{modifier=stack.#numeric(word,4);stack.#arithmeticFlags(modifier,0,modifier,4,true);}});
+        empty('306970cc',()=>{if(modifier!==0&&!expectedNode)throw new Error('Original nonempty type modifier remains pending');});
+        if(modifier!==0){
+          empty('306970ce',()=>stack.#call('306970ce','306970d3'));
+          const valid=(pc:string,body:()=>void)=>step(pc,body,'306970b2');
+          valid('306970b2',()=>{const location=stack.#memory(register('ECX'),4);if(location.fields!==stack.#stack)throw new Error('Actual retained name flags required');setRegister('EAX',stack.#load(location.fields,location.offset+4));});
+          valid('306970b5',()=>{const r=stack.#record(register('EAX')),v=(r.value<<28)>>>0,m=((r.mask<<28)|0x0fffffff)>>>0;setRegister('EAX',stack.#mint(v,m));stack.#logicalFlags(v,m,4);const flags=stack.#record(stack.#load(stack.#bank,36));stack.#flags((flags.value&~0x801)|((r.value>>>4)&1),(flags.mask&~0x801)|((r.mask>>>4)&1));});
+          valid('306970b8',()=>{const r=stack.#record(register('EAX')),v=(r.value>>28)>>>0,m=((r.mask>>>28)|((r.mask&0x80000000)?0xfffffff0:0))>>>0;setRegister('EAX',stack.#mint(v,m));stack.#logicalFlags(v,m,4);const flags=stack.#record(stack.#load(stack.#bank,36));stack.#flags(flags.value&~0x801,(flags.mask&~0x800)|1);});
+          let kind=0;valid('306970bb',()=>{kind=stack.#numeric(register('EAX'),4);});
+          if(kind!==0){valid('306970bd',()=>stack.#arithmeticFlags(kind,2,(kind-2)>>>0,4,true));valid('306970c0',()=>{});}
+          if(kind!==0&&kind!==2){valid('306970c2',()=>{setRegister('EAX',stack.#mint(0,0xffffffff));stack.#logicalFlags(0,0xffffffff,4);});valid('306970c4',()=>{const p=stack.#record(stack.#ret()).provenance;if(p?.kind!=='source'||p.address!=='306970d3')throw new Error('Actual invalid-name return required');});}
+          else{valid('306970c5',()=>{setRegister('EAX',stack.#mint(0,0xffffffff));stack.#logicalFlags(0,0xffffffff,4);});valid('306970c7',()=>{const prior=stack.#record(stack.#load(stack.#bank,36));setRegister('EAX',stack.#mint(1,0xffffffff));stack.#arithmeticFlags(0,1,1,4,false);const updated=stack.#record(stack.#load(stack.#bank,36));stack.#flags((updated.value&~1)|(prior.value&1),(updated.mask&~1)|(prior.mask&1));});valid('306970c8',()=>{const p=stack.#record(stack.#ret()).provenance;if(p?.kind!=='source'||p.address!=='306970d3')throw new Error('Actual valid-name return required');});}
+          let validName=0;empty('306970d3',()=>{validName=stack.#numeric(register('EAX'),4);stack.#logicalFlags(validName,0xffffffff,4);});empty('306970d5',()=>{});
+          if(validName!==0){empty('306970d7',()=>{setRegister('EAX',stack.#mint(0,0xffffffff));stack.#logicalFlags(0,0xffffffff,4);});empty('306970d9',()=>{const p=stack.#record(stack.#ret()).provenance;if(p?.kind!=='source'||p.address!==returned)throw new Error('Actual nonempty-name return required');});return;}
+        }
+        empty('306970da',()=>{setRegister('EAX',stack.#mint(0,0xffffffff));stack.#logicalFlags(0,0xffffffff,4);});empty('306970dc',()=>{const prior=stack.#record(stack.#load(stack.#bank,36));setRegister('EAX',stack.#mint(1,0xffffffff));stack.#arithmeticFlags(0,1,1,4,false);const updated=stack.#record(stack.#load(stack.#bank,36));stack.#flags((updated.value&~1)|(prior.value&1),(updated.mask&~1)|(prior.mask&1));});empty('306970dd',()=>{const p=stack.#record(stack.#ret()).provenance;if(p?.kind!=='source'||p.address!==returned)throw new Error('Actual temporary-empty return required');});
       };
       const runCompoundTypePrefix=(config:NativeHeapObjectViews,nameByte:(word:NativeX86Word32)=>number,localAnd:(offset:number,mask:number)=>void,localExtent:(bytes:number)=>void)=>{
         const relative=(name:'ESP'|'EBP',offset:number)=>stack.#address(register(name))+offset;
@@ -1320,7 +1335,8 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
               cache('306972d6',()=>stack.#push(register('ESI')));cache('306972d7',()=>setRegister('ESI',register('ECX')));
               cache('306972d9',()=>{const memory=stack.#memory(register('ESI'),4);if(memory.fields!==stack.#stack)throw new Error('Actual retained name-reference cache required');const count=stack.#numeric(stack.#load(memory.fields,memory.offset),4);stack.#arithmeticFlags(count,9,(count-9)>>>0,4,true);referenceCount=count;});cache('306972dc',()=>{if(referenceCount===9)throw new Error('Original full name-reference cache return remains pending');});
               cache('306972de',()=>setRegister('ECX',stack.#load(stack.#stack,stack.#address(register('ESP'))+8)));cache('306972e2',()=>stack.#call('306972e2','306972e7'));
-              stack.#engineCinitFrame!.pc='306970c9';return known(undefined);
+              runEmptyValueCheck('306972e7',{fields:allocation.arenaBacking,offset:nameNodeOffset});
+              stack.#engineCinitFrame!.pc='306972e7';return known(undefined);
             }
             return known(undefined);
           }

@@ -957,3 +957,22 @@ invocation was stopped after identifying its stale ESI assertion; it is not
 claimed as a passing suite. The separate older combined validation remains
 running and does not cover this continuation. Full startup, world activation
 and a finishable browser campaign remain unfinished. This checkpoint is local.
+
+## Local continuation — 11 October 2026: nonempty-name validity return
+
+The cache argument's actual constructed name node is checked against its
+canonical Engine allocation before the original nonempty predicate enters
+`306970b2`. The predicate reads the live stack flag word, executes the original
+left and arithmetic-right shifts, selects its zero-kind branch, and returns
+valid through `306970d3`. The outer empty predicate returns zero through its
+actual caller at `306972e7`, after 6,285 admitted operations. Shift carry and
+undefined overflow are retained conservatively; unknown flag bits are preserved.
+The pending append still owns its saved ESI and unmodified cache counter.
+
+Typechecking, six focused engine checks and six browser-service checks pass.
+The first validation attempt exposed use of the general memory resolver for
+an Engine allocation; the corrected implementation uses the canonical Engine
+heap owner proof. This is local implementation only. The cache's eight-byte
+allocation and copy, cache publication, complete engine startup and the
+finishable browser campaign remain unfinished. The older combined suite
+remains active and is not evidence for this revision.
