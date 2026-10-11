@@ -3409,3 +3409,8 @@ The normal check proves the exact payload, copy-completed flag and physical memc
 ## MainCache initializer return and shutdown registration
 
 The original MainCache constructor now registers shutdown callback `30019029` in the thirtieth exit-table slot (offset 116), advances the exit cursor to 120, publishes the original CString storage owner as its property root, and returns through the captured constructor and C++ callback. The original iterator advances to offset `0x174`; execution remains pending at `3067d221` before loading the next initializer. Interrupted callback storage retains its actual caller, lock and unchanged exit cursor. Typechecking, two focused normal/interrupted cases, 83 source/image/browser checks and the production build passed locally. This checkpoint does not establish complete startup or campaign play; the earlier main-269 full suite excludes this continuation.
+
+
+## Dispatch after MainCache initialization
+
+After the actual template constructor and callback returns, the dispatcher resumes its original C++ iterator. It reads slot `307bb174`, tests the captured target, and performs the original call at `3067d227`. Execution is pending at callback `30732470`, whose original target initializes `eCGeometrySpatialContext` through thunk `3002112a` and body `30077290`. No callback result is supplied for that unsupported body. Typechecking, two focused normal/interrupted cases, 83 source/image/browser checks and the production build passed locally; full startup and campaign progression remain incomplete.
