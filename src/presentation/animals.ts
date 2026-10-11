@@ -16,7 +16,7 @@ import { ANIMALS, ANIMAL_SPEEDS, ANIMAL_TEMPERAMENT, ANIMAL_TRIANGLE_LIMIT, requ
 import { animalGroundAllowed, animalHabitatAllowed, animalNavigationColliders, findAnimalPath, findAnimalSite, type AnimalSite } from './animals/navigation';
 import { AnimalHunting, type HuntingAnimal } from './animals/hunting/adapter';
 import type { AnimalArrowHit } from './animals/hunting/hit';
-import type { AnimalId, HuntingState } from '../game/hunting';
+import { WILDLIFE_RETURN_DISTANCE, type AnimalId, type HuntingState } from '../game/hunting';
 
 export { ANIMALS, ANIMAL_TRIANGLE_LIMIT } from './animals/catalog';
 export type AnimalTemplates = ReadonlyMap<string, GLTF>;
@@ -429,15 +429,33 @@ export function buildAnimals(ctx: Pick<BuildContext, 'terrain' | 'colliders' | '
     const start = animal.root.position, allExtras = extrasFor(animal, focus);
     // Yield from a newly approaching actor's avoidance margin; the actual step still resolves the full contacts.
     const extras = allExtras.filter(extra => extra.kind !== 'circle' || Math.hypot(extra.x - start.x, extra.z - start.z) > extra.r + animal.home.radius + 0.05);
+    const tryTo = (candidate: { x: number; z: number }): boolean => {
+      const path = findAnimalPath(animal.definition, start, candidate, animal.home, animal.home.radius, terrain, colliders, extras, animal.size.y);
+      if (!path?.length) return false;
+      animal.path = path; animal.blockedFor = 0; enter(animal, fleeing ? 'Run' : 'Walk'); return true;
+    };
     for (let attempt = 0; attempt < 10; attempt++) {
       const a = fleeing ? Math.atan2(start.x - focus.x, start.z - focus.z) + (attempt % 2 ? 1 : -1) * Math.ceil(attempt / 2) * 0.34 : animal.rng() * Math.PI * 2;
       const distance = fleeing ? 7 + attempt * 0.45 : 4 + animal.rng() * Math.max(1, animal.definition.roam * 0.65);
       const candidate = { x: start.x + Math.sin(a) * distance, z: start.z + Math.cos(a) * distance };
       if (Math.hypot(candidate.x - animal.home.x, candidate.z - animal.home.z) > animal.definition.roam) continue;
-      const path = findAnimalPath(animal.definition, start, candidate, animal.home, animal.home.radius, terrain, colliders, extras, animal.size.y);
-      if (!path?.length) continue;
-      animal.path = path; animal.blockedFor = 0; enter(animal, fleeing ? 'Run' : 'Walk'); return true;
+      if (tryTo(candidate)) return true;
     }
+    if (!fleeing) return false;
+    // Cornered at the edge of its range with the hunter on the home side (A96 scout: it froze there, to be shot at point
+    // blank): it breaks round him, to the place in its range that keeps it farthest from him.
+    const away = Math.hypot(start.x - focus.x, start.z - focus.z), roam = animal.definition.roam * 0.95;
+    const around: { x: number; z: number; d: number }[] = [];
+    for (let k = 0; k < 16; k++) {
+      const a = (k / 16) * Math.PI * 2;
+      let x = start.x + Math.sin(a) * 8, z = start.z + Math.cos(a) * 8;
+      const fromHome = Math.hypot(x - animal.home.x, z - animal.home.z);
+      if (fromHome > roam) { x = animal.home.x + (x - animal.home.x) * roam / fromHome; z = animal.home.z + (z - animal.home.z) * roam / fromHome; }
+      const d = Math.hypot(x - focus.x, z - focus.z);
+      if (d >= away - 0.5 && Math.hypot(x - start.x, z - start.z) > 2) around.push({ x, z, d });
+    }
+    around.sort((p, q) => q.d - p.d);
+    for (const candidate of around.slice(0, 6)) if (tryTo(candidate)) return true;
     return false;
   };
   const place = (animal: AnimalInstance, dt: number) => {
@@ -498,6 +516,8 @@ export function buildAnimals(ctx: Pick<BuildContext, 'terrain' | 'colliders' | '
     seats.set(animal, seat);
     return seat;
   };
+  // Where the hunter was last seen, so a returning animal does not settle in front of him (A96 scout).
+  let hunter: { x: number; z: number } | null = null;
   const hunting = new AnimalHunting(animals, terrain, (body: HuntingAnimal, position) => {
     const animal = body as AnimalInstance;
     animal.alarm = { ...position, remaining: 8 }; animal.path = []; animal.planIn = 0; animal.callSent = true;
@@ -507,12 +527,18 @@ export function buildAnimals(ctx: Pick<BuildContext, 'terrain' | 'colliders' | '
     const animal = body as AnimalInstance;
     animal.alarm = null; animal.path = []; animal.yaw = animal.initialYaw; animal.root.rotation.set(0, animal.yaw, 0);
     // A returning animal settles somewhere new in its range, so the same wood is a new encounter (A70).
-    let at: { x: number; z: number } = animal.home;
+    let at: { x: number; z: number } = animal.home, best = -Infinity;
+    // Of the places tried, the one farthest from the hunter (A96 scout): the first that fitted could be 30 m from him.
+    const away = (p: { x: number; z: number }) => hunter ? Math.hypot(p.x - hunter.x, p.z - hunter.z) : 0;
+    if (hunter) best = away(animal.home);
     for (let attempt = 0; attempt < 8 && animal.definition.roam > 2 && !animal.definition.tame; attempt++) {
       const a = animal.rng() * Math.PI * 2, r = animal.definition.roam * (0.2 + 0.5 * animal.rng());
       const candidate = { x: animal.home.x + Math.sin(a) * r, z: animal.home.z + Math.cos(a) * r };
-      if (animalGroundAllowed(terrain, candidate, animal.home.radius) && animalHabitatAllowed(animal.definition, candidate)
-        && !colliders.blocked(candidate.x, candidate.z, animal.home.radius)) { at = candidate; animal.yaw = a; animal.root.rotation.set(0, a, 0); break; }
+      if (!(animalGroundAllowed(terrain, candidate, animal.home.radius) && animalHabitatAllowed(animal.definition, candidate)
+        && !colliders.blocked(candidate.x, candidate.z, animal.home.radius))) continue;
+      const d = away(candidate);
+      if (d > best || at === animal.home && !hunter) { at = candidate; best = d; animal.yaw = a; animal.root.rotation.set(0, a, 0); }
+      if (!hunter || d >= WILDLIFE_RETURN_DISTANCE) break;
     }
     animal.root.position.set(at.x, terrain.heightAt(at.x, at.z), at.z);
     animal.state = 'Idle'; animal.stateTime = 0; animal.callSent = false; animal.callIn = 20 + animal.rng() * 35; rest(animal);
@@ -572,6 +598,7 @@ export function buildAnimals(ctx: Pick<BuildContext, 'terrain' | 'colliders' | '
     update(inputDt: number, frame: FrameContext) {
       if (disposed || !running || frame.wildlifeActive === false) return;
       const dt = Math.min(Math.max(0, inputDt), 0.1);
+      hunter = { x: frame.focus.x, z: frame.focus.z };
       hunting.update(dt, frame.reducedMotion);
       hunting.group.traverse(object => { if ((object as THREE.Mesh).isMesh) (object as THREE.Mesh).castShadow = frame.quality !== 'low'; });
       for (const animal of animals) {
@@ -645,10 +672,12 @@ export function buildAnimals(ctx: Pick<BuildContext, 'terrain' | 'colliders' | '
           }
           const gestureDuration = animal.state === 'Call' ? Math.max(3.8, animal.animation.duration('Call')) : animal.animation.duration(animal.state);
           if (['Call', 'Alert', 'Groom'].includes(animal.state) && animal.stateTime > gestureDuration + 0.2) {
-            if (holding) { animal.stateTime = 0; enter(animal, 'Alert'); } else rest(animal);
+            // Still alarmed with nowhere to run, it stays on watch rather than grazing beside the hunter (A96 scout).
+            if (holding || animal.alarm && !animal.definition.tame) { animal.stateTime = 0; enter(animal, 'Alert'); } else rest(animal);
           }
           animal.rest -= dt;
-          if (animal.callIn <= 0 && distance < ANIMAL_AUDIO.species[animal.definition.species].maxDistance && distance > speeds.flee + 1 && ['Idle', 'Graze', 'Sleep'].includes(animal.state)) {
+          if (animal.callIn <= 0 && distance < ANIMAL_AUDIO.species[animal.definition.species].maxDistance && distance > speeds.flee + 1 && ['Idle', 'Graze'].includes(animal.state)) {
+            // Not in its sleep (A96 scout: the cat woke to call whenever its timer ran out at night).
             enter(animal, 'Call'); animal.callIn = 35 + animal.rng() * 40;
           } else if (animal.rest <= 0 && ['Idle', 'Graze', 'Sleep'].includes(animal.state)) {
             if (animal.definition.seated) { enter(animal, frame.nightness > 0.7 && animal.rng() < 0.55 ? 'Sleep' : 'Groom'); animal.rest = 9 + animal.rng() * 14; }

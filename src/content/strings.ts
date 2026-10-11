@@ -83,6 +83,7 @@ export const EN: Record<string, string> = {
   /* ---------- Silent arrival ---------- */
   'arrival.wake': 'Salt on your lips. No memory of your name, or how you reached this shore.',
   'arrival.controls': '{move} to walk · Click the view to look · {interact} to inspect · {journal} for your journal',
+  'arrival.controls.pad': 'Left stick to walk · Right stick to look · {interact} to inspect · {journal} for your journal',
   'observe.caravan_master': 'The traveller checks a worn harness and the road ahead. You watch without interrupting.',
   'observe.rillford_reeve': 'A woman counts water pails beside the square. Her gaze returns to the still mill.',
   'observe.spring_steward': 'A keeper clears leaves from the spring with patient, practiced hands.',
@@ -141,13 +142,13 @@ export const EN: Record<string, string> = {
   'hunting.title': 'The hunter’s field notes',
   'hunting.animal': 'animal',
   'hunting.draw': 'Bow draw',
-  'hunting.ammo': '{arrows} arrows',
-  'hunting.release': 'Release to shoot · {arrows} arrows',
+  'hunting.ammo': '{arrows} {arrows:arrow|arrows}',
+  'hunting.release': 'Release to shoot · {arrows} {arrows:arrow|arrows}',
   'hunting.no_arrows': 'No arrows · return to the hunter’s supplies',
-  'hunting.bow_hint': '{aim} to aim · hold {draw}, then release to shoot · {arrows} arrows',
+  'hunting.bow_hint': '{aim} to aim · hold {draw}, then release to shoot · {arrows} {arrows:arrow|arrows}',
   'hunting.guide.controls': 'Equip the bow. Hold {aim} to aim, hold {draw} to draw, then release {draw} to shoot. One arrow to the head or two arrows to the body kills woodland game. Cats, dogs and the saddled caravan deer are protected companions.',
   'hunting.guide.harvest': 'Approach a dead animal with the skinning knife in your pack. Press {skin}, or choose Skin on screen, to skin it. Stay beside it for three seconds to collect its hide and meat. Moving or pressing Skin again cancels.',
-  'hunting.guide.supplies': 'A bow, skinning knife and arrows rest on Rowan’s table beside the inland trail. Rowan buys meat for Rillford at two coins a cut; one hide buys a bundle of arrows, more as your standing grows. He trades from dawn until late evening.',
+  'hunting.guide.supplies': 'A bow, skinning knife and arrows rest on Rowan’s table beside the inland trail. Rowan buys meat for Rillford at two coins a cut and one hide buys a bundle of arrows, both more as your standing grows. He trades from dawn until late evening.',
   'hunting.guide.blood': 'Reduced effects in Settings keeps blood subtle.',
   'hunting.skinning': 'Skinning',
   'hunting.skinning_name': 'Skinning {name}',
@@ -163,7 +164,7 @@ export const EN: Record<string, string> = {
   'hunting.rank.hunter': 'Word of your hunting spreads · Hunter: Rowan pays more for game.',
   'hunting.rank.master': 'Few in Rillford have taken so much game · Master hunter.',
   'hunting.rank.novice': 'Novice hunter.',
-  'hunting.restocked': 'One hide traded for {count} arrows.',
+  'hunting.restocked': 'One hide traded for {count} {count:arrow|arrows}.',
   'hunting.spared': 'Rowan spares you {count} arrows. Bring him a hide for more.',
   'hunting.need_bow': 'Equip your hunting bow first.',
   'hunting.need_arrow': 'Your quiver is empty. Trade a hide for arrows at the hunter’s supplies.',
@@ -190,7 +191,7 @@ export const EN: Record<string, string> = {
   'hunting.objective.spare': 'Out of arrows: Rowan at the hunting table will spare you a few.',
   'hunting.objective.restock': 'Bring game to Rowan for Rillford; sell meat for coin or trade a hide for {count} arrows.',
   'prompt.skin': 'Skin {name}',
-  'prompt.sell_game_meat': 'Sell game for Rillford · 1 meat → 2 coins',
+  'prompt.sell_game_meat': 'Sell game for Rillford · 1 meat → {coin} {coin:coin|coins}',
   'hunting.meat_sold': 'Game delivered for Rillford · +{coin} coins',
   'journal.obs.game_provisions': 'I sold game to Rowan Vale for Rillford’s kitchens. He pays two coins a cut; hides buy replacement arrows at his woodland camp.',
   'hunting.need_meat': 'Bring fresh game from your hunt to Rowan.',
@@ -198,7 +199,7 @@ export const EN: Record<string, string> = {
   'hunting.player_dead': 'Not while you are down.',
   'hunting.invalid_quantity': 'You cannot carry any more of that.',
   'prompt.hunter_supplies': 'Read the hunter’s field notes',
-  'prompt.restock_arrows': 'Trade 1 hide for {count} arrows',
+  'prompt.restock_arrows': 'Trade 1 hide for {count} {count:arrow|arrows}',
   'prompt.spare_arrows': 'Ask Rowan for a few arrows',
   'prompt.ride': 'Ride the saddled deer',
   'prompt.dismount': 'Dismount',
@@ -610,6 +611,7 @@ export const EN: Record<string, string> = {
   'set.press': 'Press a key…',
   'set.unbound': 'Unbound',
   'set.cancelhint': 'Press the new key or button. Esc or a left click cancels.',
+  'set.cancelhint.pause': 'Press the new key or button. A left click cancels.',
   'set.swapped': '{other} now uses {key}.',
   'set.unbound_other': '{other} is now unbound.',
 
@@ -680,7 +682,11 @@ export function S(key: string, params?: Record<string, string | number>): string
     if (typeof console !== 'undefined') console.warn(`missing string: ${key}`);
     return key;
   }
-  if (params) for (const [k, v] of Object.entries(params)) t = t.replaceAll(`{${k}}`, String(v));
+  if (params) {
+    // `{n:one|many}` takes the first form when the parameter n is 1, the second otherwise ("1 arrow", "3 arrows").
+    t = t.replace(/\{(\w+):([^|}]*)\|([^}]*)\}/g, (whole, k: string, one: string, many: string) => k in params ? (Number(params[k]) === 1 ? one : many) : whole);
+    for (const [k, v] of Object.entries(params)) t = t.replaceAll(`{${k}}`, String(v));
+  }
   return t;
 }
 

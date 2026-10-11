@@ -51,7 +51,7 @@ interface Queued extends SpeechStep {
   at: number;
   chain?: SpeechChain;
   /** A remark of the hero's own waits for a conversation to finish, but not for ever. */
-  remark?: { until: number; cue?: HeroCue; last?: number; turn?: number };
+  remark?: { until: number; cue?: HeroCue; last?: number; turn?: number; once?: boolean };
   /** Times it has waited for its voice to load. */
   tries?: number;
 }
@@ -156,6 +156,9 @@ export class SpeechDirector {
   /** A passing remark: said now unless they are already speaking; the words show in a bubble, not a caption. */
   remark(npc: NpcId, line: string, at: Vec3 | (() => Vec3)): number {
     if (this.busyFor(npc) > 0 || !VOICE_LINES[line]) return 0;
+    // Nor over a conversation or another resident (A96 scout): a bystander barked over the player's conversation, and two
+    // barks overlapped. A passing remark may still come while the hero is talking to himself.
+    if ([...this.held.values()].some((t) => t > this.clock) || [...this.busy].some(([who, t]) => who !== 'hero' && t > this.clock)) return 0;
     // A remark whose voice is not ready is simply not made; there will be another.
     const seconds = this.hooks.say(line, at);
     if (seconds === null) return 0;
@@ -177,7 +180,9 @@ export class SpeechDirector {
       const speaker = VOICE_LINES[id]!.speaker as NpcId;
       return { line: id, where: () => where(speaker) };
     });
-    this.enqueueChain(scene.cast, steps, this.clock + 0.3, false);
+    // Not over the hero (A96 scout): the quarry's scene began over his remark on reaching the quarry.
+    const hero = this.busyFor('hero');
+    this.enqueueChain(scene.cast, steps, this.clock + (hero > 0 ? hero + ANSWER_GAP : 0.3), false);
     this.update(0);
     return true;
   }
@@ -200,7 +205,7 @@ export class SpeechDirector {
     this.said.add(cue);
     this.lastCue.set(cue, this.clock);
     // What it was before, so a remark dropped unheard can be said again later (A71).
-    this.queue.push({ at: this.clock + delay, line: lines[k % lines.length]!, remark: { until: this.clock + delay + 20, cue, last, turn: k } });
+    this.queue.push({ at: this.clock + delay, line: lines[k % lines.length]!, remark: { until: this.clock + delay + 20, cue, last, turn: k, once: again === 0 } });
     this.update(0);
     return true;
   }
@@ -228,7 +233,8 @@ export class SpeechDirector {
         // Never over a conversation or over himself: later, while it is still worth saying.
         const free = Math.max(this.busy.get('hero') ?? 0, ...[...this.held.values()]);
         if (free > this.clock) {
-          if (free + 0.6 <= q.remark.until) this.queue.push({ ...q, at: free + 0.6 });
+          // A once-only remark waits as long as it must (A96 scout): its moment never comes again, so dropped it was lost.
+          if (free + 0.6 <= q.remark.until || q.remark.once) this.queue.push({ ...q, at: free + 0.6 });
           else this.unsay(q);
           this.queue.sort((a, b) => a.at - b.at);
           continue;
@@ -264,13 +270,17 @@ export class SpeechDirector {
     }
   }
 
-  /** Forget the queue (a load, a new game, the title). What has been heard stays heard this session. */
-  clear() {
+  /**
+   * Forget the queue (a load, a new game, the title). What has been heard stays heard this session. A pause (a panel, a
+   * hidden page, a fall) keeps the hero's once-only remarks still waiting: their moment does not come again (A96 scout).
+   */
+  clear({ keepRemarks = false }: { keepRemarks?: boolean } = {}) {
     // Forgetting scheduling metadata must also stop the sources belonging to the old session.
     for (const speaker of this.busy.keys()) this.hooks.hush?.(speaker);
+    const kept = keepRemarks ? this.queue.filter((q) => q.remark?.once) : [];
     // A hero remark still waiting was never heard, so it is not yet said (A71).
-    for (const q of this.queue.slice().reverse()) this.unsay(q);
-    this.queue = [];
+    for (const q of this.queue.slice().reverse()) if (!kept.includes(q)) this.unsay(q);
+    this.queue = kept.map((q) => ({ ...q, at: Math.max(q.at, this.clock + 1.2) }));
     this.busy.clear();
     this.held.clear();
     this.chains.clear();

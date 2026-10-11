@@ -267,7 +267,7 @@ export class App {
       this.input.reset();
       if (hidden) {
         this.hunting.controls(0, false);
-        this.clearSpeech();
+        this.clearSpeech(true);
         this.autosaveQuiet();
         if (this.mode === 'play' && this.overlay === 'none' && !this.bench.active) this.openPause();
       }
@@ -384,7 +384,7 @@ export class App {
     this.panels.onOpen = () => {
       this.hunting.controls(0, false);
       this.audio.setWildlifeActive(false);
-      this.clearSpeech();
+      this.clearSpeech(true);
       this.titleEl.inert = true;
       this.input.uiOpen = true;
       this.player.vx = this.player.vz = this.player.lastMoveSpeed = 0;
@@ -716,7 +716,7 @@ export class App {
     this.hunting.reset();
     this.audio?.setWildlifeActive(false);
     this.world?.animals?.setRunning(false);
-    this.clearSpeech();
+    this.clearSpeech(true);
     if (!this.worldPaused) this.rebuildFocus = document.activeElement as HTMLElement | null;
     this.audio.pauseWorld();
     this.worldBuildFailed = false;
@@ -965,7 +965,8 @@ export class App {
     }
     // A brief notice leaves movement, look and the world clock running. The journal keeps the premise.
     this.hud.toast(S('arrival.wake'));
-    this.hud.caption(S('arrival.controls', {
+    // Begun from a controller, the hint names the sticks: walking has no button, and there is no view to click (A96 scout).
+    this.hud.caption(S(this.input.device === 'gamepad' ? 'arrival.controls.pad' : 'arrival.controls', {
       move: this.input.label('forward', codeLabel),
       interact: this.input.label('interact', codeLabel),
       journal: this.input.label('journal', codeLabel),
@@ -2288,8 +2289,9 @@ export class App {
   }
 
   /** Stops all speech and its words over people's heads (a load, a panel, death, the title) (A70). */
-  private clearSpeech() {
-    this.speech.clear();
+  /** `pausing`: the run goes on afterwards, so the hero's once-only remarks still waiting are kept (A96 scout). */
+  private clearSpeech(pausing = false) {
+    this.speech.clear({ keepRemarks: pausing });
     this.bubbleState?.clear();
     // Captions go with the voices (A87 scout): they stayed their whole length, even over a freshly loaded game.
     this.hud?.hushSpeech?.();
@@ -2376,7 +2378,7 @@ export class App {
   private onPlayerDeath() {
     this.hunting.reset();
     this.audio.setWildlifeActive(false);
-    this.clearSpeech();
+    this.clearSpeech(true);
     this.world.physics.release();
     this.audio.death();
     this.mode = 'dead';
