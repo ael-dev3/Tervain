@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { mulberry32, smoothstep } from '../world/noise';
+import { SHADER_CLOCK_WRAP } from './grass/wind';
 import { sharedNoise } from './noiseTextures';
 import { RENDER_PX, SKY } from './skyState';
 
@@ -423,7 +424,9 @@ export class SkyRig {
     SKY.horizon.value.copy(this.tmp);
     this.state.horizon.copy(this.tmp);
 
-    if (!reducedMotion) this.cloudTime += dt;
+    // Wrapped as the grass and sway clocks are (A90): past 2^15 s a float steps in 4 ms and drifting clouds and twinkling
+    // stars move in visible jerks (A103 scout).
+    if (!reducedMotion) this.cloudTime = (this.cloudTime + dt) % SHADER_CLOCK_WRAP;
     SKY.time.value = this.cloudTime;
     this.starUniforms.uNight.value = clampNum(nightAmt * 1.3 - 0.15, 0, 1);
     this.starUniforms.uTime.value = this.cloudTime;

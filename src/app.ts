@@ -755,7 +755,11 @@ export class App {
     this.input.uiOpen = this.panels.isOpen || this.mode !== 'play';
     this.input.reset();
     this.frameClock?.reset();
-    this.rebuildFocus?.focus();
+    // A panel redrawn during the build replaced the focused control: its successor (same focus key) takes focus, or
+    // keyboard and controller were left with nothing focused (A103 scout: Reset to defaults with a new Quality).
+    const was = this.rebuildFocus, key = was?.dataset?.focusKey;
+    const successor = was && !was.isConnected && key && /^[\w-]+$/.test(key) ? this.panels.el.querySelector<HTMLElement>(`[data-focus-key="${key}"]`) : null;
+    (successor ?? was)?.focus();
     this.rebuildFocus = null;
   }
 
@@ -1597,6 +1601,10 @@ export class App {
   }
 
   private onPanelsClosed() {
+    // The satchel, journal and map sound shut however they close: Escape, the Close button, gamepad B and the backdrop
+    // were silent; only their own key played it (A103 scout).
+    const closed = this.panelKind;
+    if (closed === 'journal' || closed === 'inventory' || closed === 'map') this.audio.panel(closed, false);
     this.panelKind = 'none';
     this.mapCanvas = null;
     if (this.worldPaused) {
@@ -1658,7 +1666,6 @@ export class App {
     if (this.worldPaused) return;
     if (this.panelKind === kind && this.panels.isOpen) {
       this.panels.closeAll();
-      this.audio.panel(kind, false);
       return;
     }
     if (this.panels.isOpen) this.panels.closeAll();

@@ -312,8 +312,11 @@ export class WaterRenderPass {
         u.uWaterCapture!.value = 1;
       }
       // The copied opaque depth still hides water behind rocks, boats and people.
-      renderer.autoClear = false; camera.layers.set(1);
-      renderer.render(scene, camera);
+      // The sun's shadow was drawn by the main pass: redrawn here for the water layer alone, it was cleared and left empty
+      // for the frame's later captures, at the cost of a second shadow pass every frame (A103 scout).
+      const oldShadow = renderer.shadowMap.autoUpdate;
+      renderer.autoClear = false; camera.layers.set(1); renderer.shadowMap.autoUpdate = false;
+      try { renderer.render(scene, camera); } finally { renderer.shadowMap.autoUpdate = oldShadow; }
       return this.composite!.texture;
     } catch (error) {
       input.meshes.forEach(mesh => detachWaterOptics(mesh.material));

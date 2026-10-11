@@ -6,6 +6,7 @@ import { groundOf } from './buildings';
 import type { BuildContext, FrameContext, SceneModule } from './context';
 import type { AssetNeed } from './assets/library';
 import { RENDER_PX, SKY } from './skyState';
+import { SHADER_CLOCK_WRAP } from './grass/wind';
 
 /** Assets this module wants loaded before the world is built. */
 export const NEEDS: AssetNeed[] = [];
@@ -208,10 +209,11 @@ export function buildWildlife(ctx: BuildContext): SceneModule {
   return {
     group,
     update(_dt: number, f: FrameContext) {
-      gullMat.uniforms.uTime!.value = f.time;
+      // Wrapped like the other shader clocks (A90, A103 scout: past ~9 h a gull's wingbeat moved in steps).
+      gullMat.uniforms.uTime!.value = f.time % SHADER_CLOCK_WRAP;
       gullMat.uniforms.uDay!.value = 1 - Math.min(1, f.nightness * 1.6);
       gullMat.uniforms.uColor!.value.setRGB(0.7 * (0.5 + 0.5 * SKY.sunI.value / 2), 0.7 * (0.5 + 0.5 * SKY.sunI.value / 2), 0.68 * (0.5 + 0.5 * SKY.sunI.value / 2));
-      smokeMat.uniforms.uTime!.value = f.time;
+      smokeMat.uniforms.uTime!.value = f.time % SHADER_CLOCK_WRAP;
       // Fires burn brighter in the cold of the morning and evening and through the night, and are banked at midday.
       const h = f.hour;
       const cold = h < 9 ? 1 : h > 17 ? 1 : 0.35;

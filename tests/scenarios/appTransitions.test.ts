@@ -1164,3 +1164,27 @@ describe('ninth scout fixes in the shell (A102)', () => {
     expect(hero).not.toHaveBeenCalled();
   });
 });
+
+describe('tenth scout fixes in the shell (A103)', () => {
+  it('gives focus back to the redrawn control after a rebuild started from a panel', () => {
+    const { app, call } = fixture();
+    const successor = { focus: vi.fn() }, gone = { isConnected: false, dataset: { focusKey: 'settings-reset' }, focus: vi.fn() };
+    const query = vi.fn(() => successor);
+    Object.assign(app.panels.el, { querySelector: query });
+    Reflect.set(app, 'rebuildFocus', gone);
+    call('finishWorldBuild');
+    expect(query).toHaveBeenCalledWith('[data-focus-key="settings-reset"]');
+    expect(successor.focus).toHaveBeenCalledOnce();
+  });
+
+  it('sounds the satchel, journal and map shut however they are closed', () => {
+    for (const kind of ['inventory', 'journal', 'map'] as const) {
+      const { app, call } = fixture();
+      const panel = vi.fn();
+      Object.assign(app, { audio: { ...app.audio, panel }, mode: 'play' });
+      Reflect.set(app, 'panelKind', kind);
+      call('onPanelsClosed');
+      expect(panel).toHaveBeenCalledWith(kind, false);
+    }
+  });
+});

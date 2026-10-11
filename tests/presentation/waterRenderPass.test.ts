@@ -11,6 +11,7 @@ interface Draw {
   scene: THREE.Scene;
   camera: THREE.Camera;
   target: THREE.WebGLRenderTarget | null;
+  shadows?: boolean;
   mask: number;
   autoClear: boolean;
   visibility: boolean[];
@@ -49,7 +50,7 @@ function fixture() {
     setRenderTarget: vi.fn((next: THREE.WebGLRenderTarget | null) => { target = next; }),
     clear: vi.fn(),
     render: vi.fn((drawScene: THREE.Scene, drawCamera: THREE.Camera) => {
-      draws.push({ scene: drawScene, camera: drawCamera, target, mask: drawCamera.layers.mask,
+      draws.push({ scene: drawScene, camera: drawCamera, target, mask: drawCamera.layers.mask, shadows: renderer.shadowMap.autoUpdate,
         autoClear: renderer.autoClear, visibility: meshes.map(mesh => mesh.visible), meshMasks: meshes.map(mesh => mesh.layers.mask) });
     }),
   };
@@ -136,6 +137,9 @@ describe('water capture/composite orchestration', () => {
     f.render();
     expect(f.draws).toHaveLength(3);
     expect(f.draws[1]!.target).toBe(composite);
+    // Only the main draw updates the sun's shadow; the water-only draw must not clear it (A103 scout).
+    expect(f.draws.map(d => d.shadows)).toEqual([true, true, false]);
+    expect(f.renderer.shadowMap.autoUpdate).toBe(true);
   });
 
   it('restores caller state when the direct offscreen-water draw fails', () => {
