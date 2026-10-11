@@ -1475,3 +1475,29 @@ cover local changes only. The combined suite still runs on older revision
 `24a7bad8f17523a46b911868ac6ff9b275017ce0`; it does not validate this addition.
 Second-property construction and publication, full startup, campaign completion
 and save/reload through an ending remain unfinished.
+
+### 2026-10-11: original second property CString construction
+
+With the source-audited 17..20-byte MemoryAdmin pool admitted, the actual
+seventeen-byte request returns a twenty-byte allocation from that owner.
+The original constructor writes length eight and reference count one, stores
+its actual text pointer in the second property, writes the terminator and
+copies eight bytes from cache offset six. Original physical returns reach
+`300765a4` after 8,158 source operations. The second CString contains
+`bCString` plus NUL, while the first `float` CString remains live and unchanged.
+The two allocations have separate retained fields and the same canonical
+MemoryAdmin owner proof. Only the allocator-proven low two pointer bits are
+known. Reserved header bytes retain the actual known zeroes of the fresh page.
+The second property root and its shutdown registration remain pending.
+
+The base-only standalone owner still stops at the unaudited seventeen-byte
+pool, and the browser owner already admits that pool through its NPC extension.
+A separate admitted-pool fixture covers completed construction. Type checking
+passed. Four fidelity/interruption checks passed in the initial batch; the new
+normal construction check needed its expected pointer mask corrected from zero
+to the allocator-proven mask three, and then passed in 10.47 seconds. Six browser
+startup checks passed in 31.94 seconds. An interrupted terminator store retains
+the second constructor's physical caller and initialized header without claiming
+completed copying. Full startup and browser play through an ending remain
+unproven. This continuation remains local and postdates the passing combined
+revision `24a7bad8f17523a46b911868ac6ff9b275017ce0`.
