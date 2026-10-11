@@ -56,6 +56,7 @@ def capture(study):
         0x30697a0f: 'engineUndecorationStringConstructor',
         0x3069760c: 'engineUndecorationStringInitialize',
         0x30697364: 'engineUndecorationTextNodeConstructor',
+        0x30696f3c: 'engineUndecorationCopyCharacters',
     })
     pe = PE((study / '00_Original_Runtime/Engine.dll').read_bytes())
     # The exported function CSV omits this complete body; retain its assembly
@@ -164,6 +165,7 @@ def capture(study):
         ('undecorationBasicTypeTargets', 0x3069b715, 24),
         ('undecorationFloatLiteral', 0x30819794, 6),
         ('undecorationFieldVtableEntry', 0x3089f2ac, 4),
+        ('undecorationTextVtableEntry', 0x3089f2bc, 4),
         ('visualAnimationFloatFlags', 0x30ad9a00, 4),
         ('visualAnimationFloatRoot', 0x30ad9e38, 4),
         ('visualAnimationFloatStorage', 0x30ad99f8, 8),

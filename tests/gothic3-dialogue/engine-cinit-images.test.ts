@@ -62,3 +62,7 @@ it('retains and protects the original field vtable entry',()=>{
 for(const label of ['undecorationBasicTypeCaseMap','undecorationBasicTypeTargets','undecorationFloatLiteral'] as const)it('owns and protects original '+label+' bytes',()=>{
  const {crt,owner}=fixture(),image=fact(NativeEngineCinitImages.imageForCrt(owner,crt,label)),receipt=engineCinitImage(label);expect(Buffer.from(image.bytes).toString('hex')).toBe(receipt.raw);expect(image.knownMask.every(byte=>byte===255)).toBe(true);image.bytes[0]=image.bytes[0]!^1;expect(NativeEngineCinitImages.imageForCrt(owner,crt,label).known).toBe(false);
 });
+
+it('retains and protects the original text-node vtable entry',()=>{
+ const {crt,owner}=fixture(),table=fact(NativeEngineCinitImages.imageForCrt(owner,crt,'undecorationTextVtableEntry'));expect(table.bytes.length).toBe(4);expect(Buffer.from(table.bytes).toString('hex')).toBe(engineCinitImage('undecorationTextVtableEntry').raw);table.knownMask[0]=0;expect(NativeEngineCinitImages.imageForCrt(owner,crt,'undecorationTextVtableEntry').known).toBe(false);
+});

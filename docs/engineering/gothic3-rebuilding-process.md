@@ -4,6 +4,30 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local continuation — 11 October 2026: original character copy and string returns
+
+The text-node constructor now stores its captured readonly vtable, zero flags,
+owned character pointer and actual length 5. The shared original warm-arena
+routine accepts that request and aligns it to eight bytes, returning character
+storage at offset 4,012 in the existing block. Free capacity becomes 4,008 bytes.
+The original character-copy loop writes exactly the five literal bytes. Its
+pointer increments preserve carry and leave other address-dependent flags
+unknown; DEC retains carry. The three padding bytes remain unknown, and no extra
+NUL terminator is manufactured.
+
+The copy helper, text-node constructor, string initializer and string constructor
+all return through their original physical caller slots and argument cleanup.
+The initializer publishes the actual constructed node in the basic parser's local
+object. Execution stops at `3069b601` after 3,449 admitted operations with lock 5
+held. The literal argument record is retained at its actual original push because
+subsequent calls legitimately reuse the registers and stack scratch.
+
+Eight runtime/failure checks, the exact-byte/padding/ownership/return check, all
+16 source/image checks, typechecking and exact independent regeneration pass.
+Combined validation of `a8f295e60` remains live in its frozen checkout. This work
+is local; the remaining basic-type logic, parser returns, name cleanup, cache
+publication, startup and a complete playable browser campaign remain unfinished.
+
 ## Local continuation — 11 October 2026: original string scan and text-node allocation
 
 The original string constructor scans the captured literal through its actual
