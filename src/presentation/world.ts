@@ -748,6 +748,16 @@ export class WorldScene {
     return Math.abs(x + 46) < 3.6 && Math.abs(z + 102) < 3.1;
   }
 
+  /** Inside, or with any part of a body of `radius` still in the door's or the shutter's opening. A sealed archive closes
+   * only behind someone clear of both: counted out mid-doorway, the closing door pushed him back in, again and again
+   * (A101 scout). */
+  occupiesArchive(x: number, z: number, radius: number): boolean {
+    if (this.insideArchive(x, z)) return true;
+    const b = bySpec('archive'), t = ARCHIVE_ROOM.wallThickness, dx = Math.abs(x - b.x), dz = Math.abs(z - b.z);
+    return dz > b.d / 2 - t - radius && dz < b.d / 2 + t + radius
+      && dx < (z > b.z ? ARCHIVE_ROOM.doorHalfWidth : ARCHIVE_ROOM.shutterHalfWidth) + radius;
+  }
+
   /** Whether a point is under a roof: in the archive or in any building's room (A66), not above it (A70). */
   underRoof(x: number, y: number, z: number): boolean {
     return (this.insideArchive(x, z) && y < this.terrain.groundAt(x, z) + ARCHIVE_ROOM.wallBase + bySpec('archive').h + 0.25)

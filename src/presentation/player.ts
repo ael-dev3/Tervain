@@ -914,7 +914,10 @@ export class Player {
     const hasInput = mag > 0.05;
 
     // Blocking.
-    const wantBlock = control && !hasBow && !this.swimming && !this.mount && (this.state === 'free') && inp.held('block');
+    // The block key is read first: a toggled press made during a blow, a dodge or a flinch raises the guard once it ends,
+    // as holding the key does, rather than being dropped at the frame's end (A101 scout).
+    const blockKey = control && !hasBow && inp.held('block');
+    const wantBlock = blockKey && !this.swimming && !this.mount && (this.state === 'free');
     if (wantBlock && !this.blocking) this.blockTime = 0;
     this.blocking = wantBlock;
     if (this.blocking) this.blockTime += dt;

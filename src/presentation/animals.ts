@@ -359,7 +359,8 @@ export interface AnimalWildlife extends SceneModule {
   readonly contacts: readonly Collider[];
   readonly physicalActors: readonly PhysicalActor[];
   snapshot(): AnimalSnapshot[];
-  syncHunting(records: HuntingState, restore?: boolean): void;
+  /** `hunter`: where the hunter stands for a restore, so returning animals settle away from him (A101 scout). */
+  syncHunting(records: HuntingState, restore?: boolean, hunter?: { x: number; z: number }): void;
   traceArrow(origin: THREE.Vector3, direction: THREE.Vector3, maxDistance: number): AnimalArrowHit | null;
   showArrowImpact(hit: AnimalArrowHit, direction: THREE.Vector3): void;
   alertShot(position: { x: number; z: number }, radius?: number): void;
@@ -518,8 +519,10 @@ export function buildAnimals(ctx: Pick<BuildContext, 'terrain' | 'colliders' | '
   };
   // Where the hunter was last seen, so a returning animal does not settle in front of him (A96 scout).
   let hunter: { x: number; z: number } | null = null;
-  const hunting = new AnimalHunting(animals, terrain, (body: HuntingAnimal, position) => {
+  const hunting = new AnimalHunting(animals, terrain, (body: HuntingAnimal, fallback, wounded) => {
     const animal = body as AnimalInstance;
+    const position = !wounded ? fallback
+      : animal.alarm && animal.alarm.remaining > 0 ? { x: animal.alarm.x, z: animal.alarm.z } : hunter ?? fallback;
     animal.alarm = { ...position, remaining: 8 }; animal.path = []; animal.planIn = 0; animal.callSent = true;
     if (!goal(animal, new THREE.Vector3(position.x, terrain.heightAt(position.x, position.z), position.z), true)) enter(animal, 'Alert');
     spreadAlarm(animal, position);
@@ -550,7 +553,7 @@ export function buildAnimals(ctx: Pick<BuildContext, 'terrain' | 'colliders' | '
     group,
     movers: () => animals.map(animal => animal.root),
     setPeople(next) { people = next; },
-    syncHunting: (records, restore) => hunting.syncHunting(records, restore),
+    syncHunting: (records, restore, at) => { if (at) hunter = { x: at.x, z: at.z }; hunting.syncHunting(records, restore); },
     mount(id) {
       const animal = animals.find(a => a.definition.id === id && a.definition.tame && !a.definition.seated && a.definition.species === 'deer');
       if (!animal || !hunting.isVisible(animal)) return null;
@@ -723,7 +726,7 @@ export function buildAnimals(ctx: Pick<BuildContext, 'terrain' | 'colliders' | '
 export function deferredWildlife(): AnimalWildlife & { attach(inner: AnimalWildlife): void; readonly arrived: boolean } {
   const group = new THREE.Group(); group.name = 'Land wildlife (arriving)';
   let inner: AnimalWildlife | null = null, disposed = false, people: readonly PhysicalActor[] = [];
-  let records: HuntingState = {}, running = true, reduce = false;
+  let records: HuntingState = {}, running = true, reduce = false, hunterAt: { x: number; z: number } | null = null;
   return {
     group,
     get arrived() { return inner !== null; },
@@ -732,7 +735,7 @@ export function deferredWildlife(): AnimalWildlife & { attach(inner: AnimalWildl
       inner = next;
       group.add(next.group);
       next.setPeople(people); next.setRunning(running); next.setReduceEffects(reduce);
-      next.syncHunting(records, true);
+      if (hunterAt) next.syncHunting(records, true, hunterAt); else next.syncHunting(records, true);
     },
     update(dt, f) { inner?.update(dt, f); },
     stats: () => inner?.stats?.() ?? {},
@@ -741,7 +744,7 @@ export function deferredWildlife(): AnimalWildlife & { attach(inner: AnimalWildl
     get contacts() { return inner?.contacts ?? []; },
     get physicalActors() { return inner?.physicalActors ?? []; },
     snapshot: () => inner?.snapshot() ?? [],
-    syncHunting(next, restore) { records = next; inner?.syncHunting(next, restore); },
+    syncHunting(next, restore, at) { records = next; if (at) hunterAt = { x: at.x, z: at.z }; inner?.syncHunting(next, restore, at); },
     traceArrow: (origin, direction, distance) => inner?.traceArrow(origin, direction, distance) ?? null,
     showArrowImpact(hit, direction) { inner?.showArrowImpact(hit, direction); },
     alertShot(position, radius) { inner?.alertShot(position, radius); },
