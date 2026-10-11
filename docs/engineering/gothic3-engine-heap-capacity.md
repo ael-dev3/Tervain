@@ -2625,3 +2625,14 @@ original caller. This is a local checkpoint, not deployment or proof of complete
 startup and campaign play. Earlier combined revision
 `015b00c0c3a1b7db32bc6620d1e54295d88b59cb` passed all 3,703 tests and its build;
 that receipt predates the newer parser/writer/cleanup continuations.
+
+
+## Completed combined validation — 11 October 2026: reference-base undecoration return
+
+Revision `4c4aa18857925fc57a9945b2941056b35ff31cbc` combines main through
+PR #255 with native continuation `df65c945a`. Typechecking passed; all 3,714
+tests across 327 files passed in 1,975.40 seconds (start 13:58:19 local); the
+production build passed, and the validation process exited zero. This evidence
+covers the reference-base undecoration return boundary `3067dacb`, not the
+newer local cache and SharedBase continuations. Complete engine startup and a
+finishable browser campaign remain incomplete. This combined revision is local.
