@@ -482,3 +482,6 @@ The cache remains live and known; no tail bytes, CString or return are invented.
 A dedicated execution/span/lifetime/repeated-call check and typechecking pass.
 The next dependency is a justified Engine physical-span policy; alignment alone
 cannot supply it. Full integration validation remains pending.
+
+See the [Engine heap capacity contract](../../../docs/engineering/gothic3-engine-heap-capacity.md)
+for the next physical-span bridge and its required ownership checks.
