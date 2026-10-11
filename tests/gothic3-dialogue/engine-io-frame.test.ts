@@ -2050,7 +2050,7 @@ it.each(['unknown source mask','interrupted destination unit'])('preserves obsol
  const word=NativeHeapObjectViews.prototype.maskedWord;let probing=false,interrupted=false;
  const spy=vi.spyOn(NativeHeapObjectViews.prototype,'maskedWord').mockImplementation(function(this:NativeHeapObjectViews,offset,width){const candidate=failure==='unknown source mask'?this.bytes.length===22&&offset===10:this.bytes.length===24&&offset===16;if(!probing&&candidate&&(width??4)===4){probing=true;try{const f=bootstrap.attachProgress().engineCinitProgress;if(f?.pc==='100a7a00'&&f.operations>18315&&this===(failure==='unknown source mask'?f.typeNameCacheText:f.typeNameSixthCString)){interrupted=true;if(failure==='unknown source mask')this.knownMask[13]=0;else throw new Error('Interrupted original reference-base CString copy unit');}}finally{probing=false;}}return word.call(this,offset,width);});
  try{expect(bootstrap.processAttach().known).toBe(false);}finally{spy.mockRestore();}
- const f=bootstrap.attachProgress().engineCinitProgress!,text=f.typeNameSixthCString!;expect(interrupted).toBe(true);expect(f.pc).toBe(failure==='unknown source mask'?'30732360':'100a7a00');expect(text.backing.freed).toBe(false);expect(text.readUnsigned(0)).toBe(15);expect(text.readUnsigned(4,2)).toBe(1);expect(text.readUnsigned(23,1)).toBe(0);expect(f.typeNameCacheText!.backing.freed).toBe(false);expect(f.undecorationOutput!.backing.freed).toBe(true);
+ const f=bootstrap.attachProgress().engineCinitProgress!,text=f.typeNameSixthCString!;expect(interrupted).toBe(true);expect(f.pc).toBe(failure==='unknown source mask'?'30732370':'100a7a00');expect(text.backing.freed).toBe(false);expect(text.readUnsigned(0)).toBe(15);expect(text.readUnsigned(4,2)).toBe(1);expect(text.readUnsigned(23,1)).toBe(0);expect(f.typeNameCacheText!.backing.freed).toBe(false);expect(f.undecorationOutput!.backing.freed).toBe(true);
  if(failure==='unknown source mask'){expect(f.typeNameSixthCStringCopyReturned).toBe(true);expect(text.knownMask[15]).toBe(0);expect(()=>text.readUnsigned(15,1)).toThrow();expect([...text.knownMask]).toEqual([...Array(15).fill(255),0,...Array(8).fill(255)]);}else {expect(f.typeNameSixthCStringCopyReturned).toBe(false);expect(Buffer.from(text.bytes.slice(8,16)).toString()).toBe('bCObsole');expect([...text.bytes.slice(16)]).toEqual(Array(8).fill(0));expect([...text.knownMask]).toEqual(Array(24).fill(255));}
  const graph=NativeX86ThreadStack.forPlatform(platform);if(!graph.known)throw new Error(graph.reason);expect(graph.value.snapshot().calls.filter(c=>c.site==='1001362d').at(-1)).toMatchObject({returned:failure==='unknown source mask'});expect(graph.value.snapshot().calls.find(c=>c.site==='300767ee')).toMatchObject({returned:failure==='unknown source mask'});
 });
@@ -2086,7 +2086,7 @@ it.each(['unknown source mask','interrupted destination unit'])('preserves refer
  const word=NativeHeapObjectViews.prototype.maskedWord;let probing=false,interrupted=false;
  const spy=vi.spyOn(NativeHeapObjectViews.prototype,'maskedWord').mockImplementation(function(this:NativeHeapObjectViews,offset,width){const candidate=failure==='unknown source mask'?this.bytes.length===22&&offset===10:this.bytes.length===24&&offset===16;if(!probing&&candidate&&(width??4)===4){probing=true;try{const f=bootstrap.attachProgress().engineCinitProgress;if(f?.pc==='100a7a00'&&f.operations>=18182&&this===(failure==='unknown source mask'?f.typeNameCacheText:f.typeNameFifthCString)){interrupted=true;if(failure==='unknown source mask')this.knownMask[13]=0;else throw new Error('Interrupted original reference-base CString copy unit');}}finally{probing=false;}}return word.call(this,offset,width);});
  try{expect(bootstrap.processAttach().known).toBe(false);}finally{spy.mockRestore();}
- const f=bootstrap.attachProgress().engineCinitProgress!,text=f.typeNameFifthCString!;expect(interrupted).toBe(true);expect(f.pc).toBe(failure==='unknown source mask'?'30732360':'100a7a00');expect(text.backing.freed).toBe(false);expect(text.readUnsigned(0)).toBe(15);expect(text.readUnsigned(4,2)).toBe(1);expect(text.readUnsigned(23,1)).toBe(0);expect(f.typeNameCacheText!.backing.freed).toBe(false);expect(f.undecorationOutput!.backing.freed).toBe(true);
+ const f=bootstrap.attachProgress().engineCinitProgress!,text=f.typeNameFifthCString!;expect(interrupted).toBe(true);expect(f.pc).toBe(failure==='unknown source mask'?'30732370':'100a7a00');expect(text.backing.freed).toBe(false);expect(text.readUnsigned(0)).toBe(15);expect(text.readUnsigned(4,2)).toBe(1);expect(text.readUnsigned(23,1)).toBe(0);expect(f.typeNameCacheText!.backing.freed).toBe(false);expect(f.undecorationOutput!.backing.freed).toBe(true);
  if(failure==='unknown source mask'){expect(f.typeNameFifthCStringCopyReturned).toBe(true);expect(text.knownMask[15]).toBe(0);expect(()=>text.readUnsigned(15,1)).toThrow();expect([...text.knownMask]).toEqual([...Array(15).fill(255),0,...Array(8).fill(255)]);}else {expect(f.typeNameFifthCStringCopyReturned).toBe(false);expect(Buffer.from(text.bytes.slice(8,16)).toString()).toBe('bCObject');expect([...text.bytes.slice(16)]).toEqual(Array(8).fill(0));expect([...text.knownMask]).toEqual(Array(24).fill(255));}
  const graph=NativeX86ThreadStack.forPlatform(platform);if(!graph.known)throw new Error(graph.reason);expect(graph.value.snapshot().calls.filter(c=>c.site==='1001362d').at(-1)).toMatchObject({returned:failure==='unknown source mask'});expect(graph.value.snapshot().calls.find(c=>c.site==='3007677e')).toMatchObject({returned:failure==='unknown source mask'});
 });
@@ -2199,7 +2199,7 @@ it.each(['unknown source mask', 'interrupted destination unit'])(
   try { expect(bootstrap.processAttach().known).toBe(false); } finally { spy.mockRestore(); }
   const f = bootstrap.attachProgress().engineCinitProgress!, text = f.typeNameSeventhCString!;
   expect(interrupted).toBe(true);
-  expect(f.pc).toBe(failure === 'unknown source mask' ? '30732360' : '100a7a00');
+  expect(f.pc).toBe(failure === 'unknown source mask' ? '30732370' : '100a7a00');
   expect(text.backing.freed).toBe(false);
   expect(text.readUnsigned(0)).toBe(8);
   expect(text.readUnsigned(4,2)).toBe(1);
@@ -2321,6 +2321,7 @@ it('completes the original vector, vector2 and rectangle properties through thei
 });
 
 const nextClassProperties = [
+ {name:'input receiver', prefix:'inputReceiverProperty', entry:'30044a94', callback:'30732360', guardOne:'30076a57', guardTwo:'30076a6f', typeCall:'30076a83', request:24, ordinal:'Twelfth', previous:'Eleventh', retained:'typeNameSixthCString'},
  {name:'boolean', prefix:'boolProperty', entry:'3000c0b8', callback:'30732350', guardOne:'300769e7', guardTwo:'300769ff', typeCall:'30076a13', request:13, ordinal:'Eleventh', previous:'Tenth', retained:'typeNameTenthCString'},
  {name:'vector', prefix:'vectorProperty', entry:'3003f1a7', callback:'30732320', guardOne:'30076897', guardTwo:'300768af', typeCall:'300768c3', request:17, ordinal:'Eighth', previous:'Seventh', retained:'typeNameSeventhCString'},
  {name:'vector2', prefix:'vector2Property', entry:'30038852', callback:'30732330', guardOne:'30076907', guardTwo:'3007691f', typeCall:'30076933', request:18, ordinal:'Ninth', previous:'Eighth', retained:'typeNameEighthCString'},
@@ -2413,7 +2414,7 @@ it.each(['unknown tail source','interrupted tail destination'])(
   });
   try{expect(bootstrap.processAttach().known).toBe(false);}finally{spy.mockRestore();}
   const f=bootstrap.attachProgress().engineCinitProgress!,text=f.typeNameNinthCString!;
-  expect(interrupted).toBe(true);expect(f.pc).toBe(failure==='unknown tail source'?'30732360':'100a7a00');
+  expect(interrupted).toBe(true);expect(f.pc).toBe(failure==='unknown tail source'?'30732370':'100a7a00');
   expect(text.backing.freed).toBe(false);expect(text.readUnsigned(0)).toBe(9);expect(text.readUnsigned(17,1)).toBe(0);
   expect(Buffer.from(text.bytes.slice(8,16)).toString()).toBe('bCVector');
   if(failure==='unknown tail source'){
@@ -2442,9 +2443,15 @@ it.each([0,255])('completes the original boolean property with unknown padding b
   }
   return original.call(this,offset,width);
  });
- let result;try{result=bootstrap.processAttach();}finally{spy.mockRestore();}
- expect(observed).toBe(true);expect(result.known).toBe(false);const f=bootstrap.attachProgress().engineCinitProgress!;
- expect(f.pc,result.known?'Unexpected completed attach':result.reason).toBe('30732360');expect(f.typeNameEleventhCStringCopyReturned).toBe(true);
+ let completed:ReturnType<typeof bootstrap.attachProgress>['engineCinitProgress']=null;
+ const lookup=NativeEngineCinitImages.imageForCrt;
+ const images=vi.spyOn(NativeEngineCinitImages,'imageForCrt').mockImplementation((imageOwner,owner,label)=>{
+  if(label==='inputReceiverPropertyFlags'&&bootstrap.attachProgress().engineCinitProgress?.pc==='30044a94')completed=bootstrap.attachProgress().engineCinitProgress;
+  return lookup(imageOwner,owner,label);
+ });
+ let result;try{result=bootstrap.processAttach();}finally{spy.mockRestore();images.mockRestore();}
+ expect(observed).toBe(true);expect(result.known).toBe(false);expect(completed).not.toBe(null);const f=completed!;
+ expect(f.pc,result.known?'Unexpected completed attach':result.reason).toBe('30044a94');expect(f.typeNameEleventhCStringCopyReturned).toBe(true);
  const text=f.typeNameEleventhCString!;expect(text.backing).toMatchObject({requestedBytes:13,capacity:16,freed:false});expect(text.readUnsigned(0)).toBe(4);expect(text.readUnsigned(4,2)).toBe(1);expect(Buffer.from(text.bytes.slice(8,13)).toString()).toBe('bool\0');
  expect(f.undecorationOutput!.backing.freed).toBe(true);expect(f.undecorationOutput!.bytes.length).toBe(8);expect(Buffer.from(f.typeNameCacheText!.bytes).toString()).toBe('bool\0');
  expect(f.undecorationLockHeld).toBe(false);expect(f.typeNameLockHeld).toBe(false);expect(f.onexitLockHeld).toBe(false);expect(f.exitTableThirteenth!.provenance).toMatchObject({kind:'source',type:'code',address:'3002ca2f'});expect(f.exitCursor!.provenance).toMatchObject({offset:52});expect(f.cppCursor!.provenance).toMatchObject({offset:0x130});
@@ -2477,11 +2484,64 @@ it.each(['unknown source mask','interrupted destination'])(
   });
   try{expect(bootstrap.processAttach().known).toBe(false);}finally{spy.mockRestore();}
   const f=bootstrap.attachProgress().engineCinitProgress!,text=f.typeNameEleventhCString!;
-  expect(interrupted).toBe(true);expect(f.pc).toBe(failure==='unknown source mask'?'30732360':'100a7a00');
+  expect(interrupted).toBe(true);expect(f.pc).toBe(failure==='unknown source mask'?'30732370':'100a7a00');
   expect(text.backing.freed).toBe(false);expect(text.readUnsigned(0)).toBe(4);expect(text.readUnsigned(12,1)).toBe(0);
   expect(f.typeNameEleventhCStringCopyReturned).toBe(failure==='unknown source mask');
   if(failure==='unknown source mask'){expect(text.knownMask[10]).toBe(0);expect(()=>text.readUnsigned(10,1)).toThrow();}
   else expect([...text.bytes.slice(8,12)]).toEqual([0,0,0,0]);
   const graph=NativeX86ThreadStack.forPlatform(platform);if(!graph.known)throw new Error(graph.reason);
   expect(graph.value.snapshot().calls.find(c=>c.site==='30076a1e')).toMatchObject({returned:failure==='unknown source mask'});
+ });
+
+
+it('completes the original input receiver property through its physical caller',()=>{
+ const {bootstrap,platform,crt}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{engineHeapLayout:'rounded-eight',processorFeatureProcedure:true,floatingPointPrecisionErratum:false});
+ createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeArenaHeapExtension,nativeSceneStartupHeapExtension]});
+ const result=bootstrap.processAttach();expect(result.known).toBe(false);const f=bootstrap.attachProgress().engineCinitProgress!;
+ expect(f.pc,result.known?'Unexpected complete startup':result.reason).toBe('30732370');
+ expect(f.typeNameTwelfthCStringCopyReturned).toBe(true);
+ const name='eCInputReceiver',text=f.typeNameTwelfthCString!;
+ expect(text.backing).toMatchObject({requestedBytes:name.length+9,capacity:24,freed:false});
+ expect(text.readUnsigned(0)).toBe(name.length);expect(text.readUnsigned(4,2)).toBe(1);
+ expect(Buffer.from(text.bytes.slice(8,9+name.length)).toString()).toBe(name+'\0');
+ expect(Buffer.from(f.typeNameCacheText!.bytes).toString()).toBe('class '+name+'\0');
+ expect(f.undecorationOutput!.backing.freed).toBe(true);
+ expect(f.exitTableFourteenth!.provenance).toMatchObject({kind:'source',type:'code',address:'30003e3b'});
+ expect(f.exitCursor!.provenance).toMatchObject({offset:56});expect(f.cppCursor!.provenance).toMatchObject({offset:0x134});
+ const storage=NativeEngineCinitImages.imageForCrt(f.images,crt,'inputReceiverPropertyStorage');if(!storage.known)throw new Error(storage.reason);
+ const root=f.inputReceiverPropertyRootWord!.provenance;if(root?.kind!=='engine-image')throw new Error('Actual input receiver property root required');expect(root.fields).toBe(storage.value);expect(root.offset).toBe(0);expect(storage.value.readUnsigned(4)).toBe(0);
+ const flags=NativeEngineCinitImages.imageForCrt(f.images,crt,'inputReceiverPropertyFlags');if(!flags.known)throw new Error(flags.reason);expect(flags.value.readUnsigned(0)).toBe(3);
+ expect(f.undecorationLockHeld).toBe(false);expect(f.typeNameLockHeld).toBe(false);expect(f.onexitLockHeld).toBe(false);
+});
+
+it.each(['unknown source mask','interrupted destination'])(
+ 'preserves original input receiver CString copy state on %s',failure=>{
+  const {bootstrap,platform}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{engineHeapLayout:'rounded-eight',processorFeatureProcedure:true,floatingPointPrecisionErratum:false});
+  createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeArenaHeapExtension,nativeSceneStartupHeapExtension]});
+  const original=NativeHeapObjectViews.prototype.maskedWord;
+  let probing=false,interrupted=false;
+  const spy=vi.spyOn(NativeHeapObjectViews.prototype,'maskedWord').mockImplementation(function(this:NativeHeapObjectViews,offset,width){
+   const candidate=failure==='unknown source mask'?this.bytes.length===22&&offset===6:this.bytes.length===24&&offset===8;
+   if(!probing&&candidate&&(width??4)===4){
+    probing=true;
+    try{
+     const f=bootstrap.attachProgress().engineCinitProgress;
+     if(f?.pc==='100a7a00'&&f.typeNameEleventhCStringCopyReturned&&this===(failure==='unknown source mask'?f.typeNameCacheText:f.typeNameTwelfthCString)){
+      interrupted=true;
+      if(failure==='unknown source mask')this.knownMask[8]=0;
+      else throw new Error('Interrupted original input receiver CString destination');
+     }
+    }finally{probing=false;}
+   }
+   return original.call(this,offset,width);
+  });
+  try{expect(bootstrap.processAttach().known).toBe(false);}finally{spy.mockRestore();}
+  const f=bootstrap.attachProgress().engineCinitProgress!,text=f.typeNameTwelfthCString!;
+  expect(interrupted).toBe(true);expect(f.pc).toBe(failure==='unknown source mask'?'30732370':'100a7a00');
+  expect(text.backing.freed).toBe(false);expect(text.readUnsigned(0)).toBe(15);expect(text.readUnsigned(23,1)).toBe(0);
+  expect(f.typeNameTwelfthCStringCopyReturned).toBe(failure==='unknown source mask');
+  if(failure==='unknown source mask'){expect(text.knownMask[10]).toBe(0);expect(()=>text.readUnsigned(10,1)).toThrow();}
+  else expect([...text.bytes.slice(8,12)]).toEqual([0,0,0,0]);
+  const graph=NativeX86ThreadStack.forPlatform(platform);if(!graph.known)throw new Error(graph.reason);
+  expect(graph.value.snapshot().calls.find(c=>c.site==='30076a8e')).toMatchObject({returned:failure==='unknown source mask'});
  });

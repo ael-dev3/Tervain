@@ -1,6 +1,33 @@
 # Gothic 3 rebuilding process
 
 
+## Local checkpoint — 11 October 2026: original input-receiver property
+
+Callback `30732360` calls thunk `30044a94` and original body `30076a50`.
+The captured RTTI `.?AVeCInputReceiver@@` produces the live cache text
+`class eCInputReceiver` followed by NUL. The SharedBase caller strips its actual
+class prefix, constructs the twelfth CString (length 15, request and capacity
+24, reference count one), publishes the original property root and registers
+shutdown thunk `30003e3b` as exit entry fourteen. The exit cursor reaches 56;
+the C++ initializer cursor reaches `0x134`. Startup stops at `30732370`, the
+engine-component-base property. Complete startup and campaign play remain open.
+
+Typechecking passed. The seven initial normal/guard/allocation/source checks
+passed. The combined boolean/input-receiver run passed 16 cases and exposed a
+new test mock targeting the wrong cache offset. After correcting that mock to
+the actual name offset six, both input-receiver copy cases passed, including
+unknown source-byte propagation and interruption before a destination write.
+The earlier boolean normal checks retain their own completion snapshot before
+the next initializer changes scratch state. All 62 source/image/browser checks
+and the production build passed. Independent JSON and TypeScript regeneration
+matched byte for byte and preserved every older method and image plus unchanged
+sections. Evidence: 122 methods, 3,813 instructions; JSON SHA-256
+`1bc50fea8a04460dd1db545d946dd5ad88b7ba81c74b36376a73bfe5361f48c2`.
+The preceding boolean revision's full startup-frame regression remains running;
+its result is not claimed for this checkpoint. This work is local and has not
+been deployed.
+
+
 ## Local checkpoint — 11 October 2026: original boolean property
 
 The original callback `30732350` calls thunk `3000c0b8` and body `300769e0`.

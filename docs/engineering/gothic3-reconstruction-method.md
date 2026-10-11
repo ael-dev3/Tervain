@@ -129,8 +129,8 @@ their separate revision and scope.
 Keep four claims separate: evidence captured, behavior implemented, checks
 passed, and revision deployed. Each checkpoint records its actual supported
 boundary and remaining work. The current local native continuation completes the camera, reference-base, obsolete-class, matrix, vector, vector2
-rectangle and boolean property initializers, including their names, roots and shutdown registration.
-It stops at the next input-receiver initializer (`30732360`). Complete engine
+rectangle, boolean and input-receiver property initializers, including their names, roots and shutdown registration.
+It stops at the next engine-component-base initializer (`30732370`). Complete engine
 startup, world activation and campaign play remain outstanding.
 
 For detailed commands and implementation history, see the

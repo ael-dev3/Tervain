@@ -47,6 +47,7 @@ def capture(study):
         0x30038852: 'engineVector2PropertyType',
         0x3001c468: 'engineRectPropertyType',
         0x3000c0b8: 'engineBoolPropertyType',
+        0x30044a94: 'engineInputReceiverPropertyType',
         0x306713ae: 'enginePropertyTypeNameWrapper',
         0x3067da97: 'enginePropertyTypeName',
         0x3069b26b: 'engineUndecorateName',
@@ -116,7 +117,8 @@ def capture(study):
                ('engineVectorPropertyInitializer',0x30732320,0x3073232b,3),
                ('engineVector2PropertyInitializer',0x30732330,0x3073233b,3),
                ('engineRectPropertyInitializer',0x30732340,0x3073234b,3),
-               ('engineBoolPropertyInitializer',0x30732350,0x3073235b,3)]
+               ('engineBoolPropertyInitializer',0x30732350,0x3073235b,3),
+               ('engineInputReceiverPropertyInitializer',0x30732360,0x3073236b,3)]
     collected={begin:[] for _,begin,_,_ in recovered}
     asm=study/'01_Decompiled_Code/Engine_dll/full_disassembly.asm'
     for number,line in enumerate(asm.open('rb'),1):
@@ -165,6 +167,8 @@ def capture(study):
     # These cleanup instructions are omitted from the function listing.
     # Admit them only from exact bytes in the hash-pinned original DLL.
     for label, begin, encoded, count in [
+        ('engineInputReceiverShutdownThunk', 0x30003e3b, 'e9d0407900', 1),
+        ('engineInputReceiverShutdownBody', 0x30797f10, 'b9649aad30ff25dcdbaf30', 2),
         ('engineBoolShutdownThunk', 0x3002ca2f, 'e9ecb47600', 1),
         ('engineBoolShutdownBody', 0x30797f20, 'b9589aad30ff25dcdbaf30', 2),
         ('engineVectorShutdownThunk', 0x30011e3c, 'e90f617800', 1),
@@ -346,6 +350,10 @@ def capture(study):
         ('rectPropertyRoot', 0x30ad9e14, 4),
         ('rectPropertyStorage', 0x30ad9a4c, 8),
         ('rectPropertyTypeInfo', 0x30aa2ab4, property_type_info_size(0x30aa2ab4)),
+        ('inputReceiverPropertyFlags', 0x30ad9a6c, 4),
+        ('inputReceiverPropertyRoot', 0x30ad9e0c, 4),
+        ('inputReceiverPropertyStorage', 0x30ad9a64, 8),
+        ('inputReceiverPropertyTypeInfo', 0x30aa2464, property_type_info_size(0x30aa2464)),
         ('boolPropertyFlags', 0x30ad9a60, 4),
         ('boolPropertyRoot', 0x30ad9e10, 4),
         ('boolPropertyStorage', 0x30ad9a58, 8),
