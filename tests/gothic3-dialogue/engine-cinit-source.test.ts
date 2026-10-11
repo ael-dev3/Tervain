@@ -124,3 +124,7 @@ it('pins the original identifier cookie check and failure edge',()=>{
  expect(engineCinitInstruction('3067746c','30677472').bytes).toBe('7502');
  expect(engineCinitInstruction('3067746c','30677474').bytes).toBe('f3c3');
 });
+
+it('pins the original parsed-value append entry',()=>{
+ expect(engineCinitInstruction('30697906','30697906').bytes).toBe('56');
+});

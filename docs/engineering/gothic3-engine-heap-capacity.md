@@ -1023,3 +1023,26 @@ revision `287b49d53bd08ad08998334ea0308e680a8a3117` (PR 246). That deployment
 contains prototype fixes and does not prove engine startup or campaign
 completion. Complete startup and the finishable browser campaign remain
 unfinished.
+
+## Local continuation — 11 October 2026: original scoped-name return
+
+The scoped caller removes the identifier arguments and assigns its returned
+name through the original value assignment. It tests the actual known flag
+nibble, retains the original `::` literal, reads the second `@` from the original
+RTTI bytes, advances the actual cursor to offset 22 and restores its physical
+frame. The class parser receives the real scoped-name return and calls its
+value append at `30697906`, after 6,520 admitted operations. Its class-prefix
+and name operands remain live; concatenation has not been fabricated.
+
+The package adds the 38-instruction append body, hash
+`ad2472d219743788dec4e13650a0adec9101873ea40468a3bdd44dc446aa2e95`,
+and the three-byte original scope separator at `3088feb4`. The separator is
+owned and protected by the readonly image checks. There are now 80 Engine
+bodies and 3,452 instructions. Independent JSON/TypeScript regeneration matches
+byte-for-byte. Typechecking, seven focused runtime checks and 42 source/image/
+browser-service checks pass. Assertions retain the original restored ESI
+`0xfffff000` and only claim the known copied flag nibble.
+
+This checkpoint is local. The earlier combined cache revision continues its
+full validation separately. Prefix concatenation, complete engine startup and
+the finishable browser campaign remain unfinished.
