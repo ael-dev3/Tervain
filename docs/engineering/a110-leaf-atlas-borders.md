@@ -44,4 +44,14 @@ already feathered is passed over: running the tool again changes nothing.
 The four files grow by 0.48 MiB in all, palm-date most (its atlas re-encoded at quality 100). Checked at texture level:
 clumps continue across crossed borders, and they taper at the others.
 
-Together with A107's softer shell ramp, this is as far as backlog 9 goes without new crown exports.
+## Tried and not kept: a translucent outer layer (A112)
+
+A layered silhouette was also tried from the existing geometry: each crown's leaf cards copied, scaled 7% outward from
+the crown's centre and made part-transparent. It stayed inside the triangle budget, and was prototyped live in a
+served build on the GPU from ael's crown cameras. The crowns turned hazy and washed out, like a doubled image, and lost
+their leaf definition. Under alpha-to-coverage a part-transparent card can only thin its coverage, which reads as
+haze. The 2.5 times shell ramp in A107 failed the same way. Not kept, and no model file was changed.
+
+Together with A107's softer shell ramp, this is as far as backlog 9 goes without new crown exports: each further step
+tried (a wider ramp, a translucent layer) made the crowns hazier, not softer. Soft layered crowns need crown exports made
+for them.
