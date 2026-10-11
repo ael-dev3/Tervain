@@ -28735,11 +28735,11 @@
     {
       "label": "visualAnimationFloatDefault",
       "address": "30af70ac",
-      "bytes": 4,
-      "raw": "00000000",
+      "bytes": 8,
+      "raw": "0000000000000000",
       "fileBackedBytes": 0,
-      "loaderZeroFillBytes": 4,
-      "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+      "loaderZeroFillBytes": 8,
+      "sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc"
     },
     {
       "label": "visualAnimationFloatTypeInfo",

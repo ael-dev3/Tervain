@@ -14,7 +14,7 @@ python tools/gothic3/prepare_engine_cinit_source.py --study '<study-root>' --out
 
 The generator checks the original Engine.dll hash and exact caller bytes.
 Independent regeneration produced identical JSON, SHA-256
-``b5f17695031d703eb3b3e5b3d36621e168bc36d71c2d5001d9e8a48f0f19f051``.
+``054eb09a22280627b1b73cd6741f647406e2d9d0449c5fb58ec481bf7009c496``.
 
 The capture's `runtimeConnected: false` records evidence preparation; it grants
 no execution authority. The TypeScript continuation separately obtains a
@@ -393,3 +393,18 @@ integration checks and a production build. The earlier scan revision's full
 suite is still running and has reported two failed files; that full validation
 is not claimed as passing. This checkpoint is local. List publication, cleanup,
 complete startup and the finishable browser campaign remain unfinished.
+
+## Local cache-list continuation — 11 October 2026
+
+The original root at `30af70ac` is captured as eight bytes: two list-root
+words. After the bounded copy returns status zero, the original instructions
+`3067db48` through `3067db59` put the published cache-text pointer in the
+owned eight-byte node, retain the previous head and publish the node at root+4.
+Pointer values retain private ownership; unknown numerical address bits remain
+unknown. Execution stops at `3067db62` after 4,154 admitted operations.
+The temporary output remains live and lock 14 remains held. Cleanup, full
+startup and a finishable browser campaign remain unfinished.
+
+Independent JSON and TypeScript regeneration is byte-identical. Typechecking,
+ten selected runtime checks and all nineteen source/image checks pass.
+Combined validation and publication are recorded separately.
