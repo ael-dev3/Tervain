@@ -3170,3 +3170,26 @@ instructions. JSON SHA-256:
 `48272ead5a4c381198f7a6d5a6d5e46551463b4de78c048944c22afc54dbe63b`.
 The preceding component/main combination remains under separate full-suite
 validation. This resource checkpoint is local and has not been deployed.
+
+
+## Local checkpoint — 11 October 2026: original MainCache template parser prefix
+
+Callback `30732460`, thunk `3003d8f7` and body `30077220` now enter the original
+`bTPropertyObject<eCMainCache, bCObjectRefBase>` name parser. The property guards,
+parent storage and RTTI remain original. Identifier call `30699360` enters
+`306991ad`, verifies the `?$` marker, advances its real cursor to offset 14,
+constructs three temporary objects through `306972b8`, and rebinds the parser's
+three temporary contexts. Six original field nodes are allocated through the
+retained warm arena. The next call, `30699255`, enters the identifier parser at
+`30699300` and remains pending. No template property name or root is published,
+and its shutdown is not registered. The undecoration lock remains held; the
+type-name and exit locks are not held. Complete startup remains unfinished.
+
+Typechecking, 22 selected normal/guard/marker/prior-copy checks, all 78 source/
+image/browser checks and the production build passed. Independent JSON and
+TypeScript regeneration matched exactly and retained all previous evidence.
+The capture contains 187 methods and 4,364 instructions. JSON SHA-256:
+`f53a8b047040d5694f424e97a39443501c5a228cf0ae10014632ca40165f8ace`.
+Earlier copy and batch checks retain their completed state before this parser
+replaces shared scratch fields. This checkpoint is local and not deployed;
+full-suite validation of the preceding component/main combination is separate.

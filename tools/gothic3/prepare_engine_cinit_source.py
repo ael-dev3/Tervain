@@ -57,6 +57,8 @@ def capture(study):
         0x3001a89d: 'resourceBasePropertyType',
         0x3000bf41: 'mainCachePropertyType',
         0x3003bb42: 'resourceAdminPropertyType',
+        0x3003d8f7: 'mainCacheTemplatePropertyType',
+        0x306991ad: 'engineUndecorationTemplateNameParser',
         0x30038a87: 'engineComponentPropertyType',
         0x300140b0: 'illuminationAdminPropertyType',
         0x3003bbb0: 'materialAdminPropertyType',
@@ -148,7 +150,8 @@ def capture(study):
                ('resourceStorageContextPropertyInitializer',0x30732420,0x3073242b,3),
                ('resourceBasePropertyInitializer',0x30732430,0x3073243b,3),
                ('mainCachePropertyInitializer',0x30732440,0x3073244b,3),
-               ('resourceAdminPropertyInitializer',0x30732450,0x3073245b,3)]
+               ('resourceAdminPropertyInitializer',0x30732450,0x3073245b,3),
+               ('mainCacheTemplatePropertyInitializer',0x30732460,0x3073246b,3)]
     collected={begin:[] for _,begin,_,_ in recovered}
     asm=study/'01_Decompiled_Code/Engine_dll/full_disassembly.asm'
     for number,line in enumerate(asm.open('rb'),1):
@@ -225,6 +228,8 @@ def capture(study):
         ('mainCachePropertyShutdownBody', 0x30797e30, 'b90c9bad30ff25dcdbaf30', 2),
         ('resourceAdminPropertyShutdownThunk', 0x30013908, 'e913457800', 1),
         ('resourceAdminPropertyShutdownBody', 0x30797e20, 'b9189bad30ff25dcdbaf30', 2),
+        ('mainCacheTemplatePropertyShutdownThunk', 0x30019029, 'e9e2ed7700', 1),
+        ('mainCacheTemplatePropertyShutdownBody', 0x30797e10, 'b9249bad30ff25dcdbaf30', 2),
         ('engineGuidShutdownThunk', 0x300418d0, 'e9cb657500', 1),
         ('engineGuidShutdownBody', 0x30797ea0, 'b9b89aad30ff25dcdbaf30', 2),
         ('engineInputReceiverShutdownThunk', 0x30003e3b, 'e9d0407900', 1),
@@ -466,6 +471,10 @@ def capture(study):
         ('resourceAdminPropertyRoot', 0x30ad9dd0, 4),
         ('resourceAdminPropertyStorage', 0x30ad9b18, 8),
         ('resourceAdminPropertyTypeInfo', 0x30aa2cb4, property_type_info_size(0x30aa2cb4)),
+        ('mainCacheTemplatePropertyFlags', 0x30ad9b2c, 4),
+        ('mainCacheTemplatePropertyRoot', 0x30ad9dcc, 4),
+        ('mainCacheTemplatePropertyStorage', 0x30ad9b24, 8),
+        ('mainCacheTemplatePropertyTypeInfo', 0x30aa2cd8, property_type_info_size(0x30aa2cd8)),
         ('guidPropertyFlags', 0x30ad9ac0, 4),
         ('guidPropertyRoot', 0x30ad9df0, 4),
         ('guidPropertyStorage', 0x30ad9ab8, 8),
