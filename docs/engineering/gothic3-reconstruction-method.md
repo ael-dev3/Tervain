@@ -12,6 +12,8 @@ their individual features; they do not establish a complete playable game.
 
 1. **Inventory the installed game.** The local reference installation is
    `C:\Program Files (x86)\Steam\steamapps\common\Gothic 3`.
+   Preserve the installed game without modifying it. Keep the matching
+   `SharedBase.dll`, `Engine.dll` and `Game.dll` as reference binaries.
    Record archive names, internal resource paths, patch precedence and hashes.
    Determine compression and resource formats from their actual bytes before
    describing an archive as encrypted.
@@ -128,11 +130,10 @@ their separate revision and scope.
 
 Keep four claims separate: evidence captured, behavior implemented, checks
 passed, and revision deployed. Each checkpoint records its actual supported
-boundary and remaining work. The current local native continuation completes the camera, reference-base, obsolete-class, matrix, vector, vector2
-rectangle, boolean and input-receiver property initializers, including their names, roots and shutdown registration.
-The engine-component and five admin/context property initializers also complete.
-It stops at the next GUID-property initializer (`307323d0`). Complete engine
-startup, world activation and campaign play remain outstanding.
+boundary and remaining work. Native startup checkpoints record the last
+supported operation and the next
+unsupported instruction for their exact revision. Complete engine startup, world
+activation and campaign play remain outstanding.
 
 For detailed commands and implementation history, see the
 [step-by-step workflow](gothic3-rebuild-workflow.md),

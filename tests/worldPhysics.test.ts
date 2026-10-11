@@ -70,6 +70,9 @@ describe('real 60 Hz rigid-body world', () => {
       const from = { x: 0, y: 0, z: -.82 }; p.beginCharacter(from);
       const corrected = p.move(from.x, from.y, from.z, 0, .25, true);
       expect(corrected.z).toBeLessThan(-.57);
+      // A106: asking where he can go pushes nothing; the step he takes does.
+      expect(Math.abs(p.props[0]!.body.linvel().z)).toBeLessThan(1e-3);
+      p.push(from.x, from.y, from.z, 0, .25);
       p.step(1 / 60, corrected, 0, 0);
       expect(p.props[0]!.body.linvel().z).toBeGreaterThan(0);
     } finally { p.dispose(); }

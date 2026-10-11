@@ -182,7 +182,8 @@ export class RealmPhysics {
     this.character = this.world.createRigidBody(RAPIER.RigidBodyDesc.kinematicPositionBased().setTranslation(0, -100, 0));
     this.characterCollider = this.world.createCollider(RAPIER.ColliderDesc.capsule(CAPSULE_CENTER - PLAYER_BODY_RADIUS, PLAYER_BODY_RADIUS).setFriction(.25), this.character);
     this.controller = this.world.createCharacterController(.012);
-    this.controller.setApplyImpulsesToDynamicBodies(true); this.controller.setCharacterMass(80);
+    // Asking where he can go pushes nothing; `push` applies a step once the game has taken it (A106).
+    this.controller.setApplyImpulsesToDynamicBodies(false); this.controller.setCharacterMass(80);
     this.controller.enableAutostep(.8, .25, true);
     this.controller.setSlideEnabled(true);
     this.controller.setMaxSlopeClimbAngle(ROCK_CLIMB_ANGLE);
@@ -225,6 +226,17 @@ export class RealmPhysics {
     }
     for (const [id, actor] of this.actors) if (!retained.has(id)) { actor.active = false; actor.body.setEnabled(false); }
     this.world.propagateModifiedBodyPositionsToColliders();
+  }
+
+  /** The loose bodies a step he has taken runs into are pushed along it, as Rapier's character controller pushes them. */
+  push(x: number, y: number, z: number, dx: number, dz: number) {
+    if (!(Math.hypot(dx, dz) > 1e-7)) return;
+    this.character.setTranslation(capsulePosition({ x, y, z }), false);
+    this.world.propagateModifiedBodyPositionsToColliders();
+    this.controller.setApplyImpulsesToDynamicBodies(true);
+    try {
+      this.controller.computeColliderMovement(this.characterCollider, { x: dx, y: 0, z: dz }, undefined, undefined, c => this.propHandles.has(c.handle));
+    } finally { this.controller.setApplyImpulsesToDynamicBodies(false); }
   }
 
   /** Movable objects and source-exact rock triangles enter this query. Architecture/tree footprints are swept canonically. */

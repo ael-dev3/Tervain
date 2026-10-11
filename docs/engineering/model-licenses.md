@@ -81,11 +81,41 @@ The separate Gothic 3 study/reconstruction routes are **outside the original Ter
 
 The [Ael / Lyrics workflow credit](menu-grove-score.md#studied-workflow-and-attribution) is a recorded **CC BY 4.0 software/workflow reference**, not an imported 3D asset. Its source, author and license links remain in that record.
 
+
+### Warpkeep per-set provenance (A107)
+
+The per-set records are in [warpkeep-provenance.json](warpkeep-provenance.json), written by
+`tools/model-ledger/warpkeep-provenance.mjs`. That tool recomputes every file's SHA-256 and size, and all 209 match the
+archive manifest. Every set:
+- was copied byte for byte from Warpkeep `786c0b2be6f2d2e7eb2de02ef3b6826c8907fc32` (`public/models/hegemony/`);
+- carries `LicenseRef-Warpkeep-Provenance-Required`;
+- is **archive-only**: no Warpkeep file lies under `public/`, so none is served or loaded by the game.
+
+The embedded metadata column counts the files that carry a copyright line, and quotes it.
+
+| Set | Assets | Files | Bytes | Warpkeep source folders | Embedded copyright |
+| --- | ---: | ---: | ---: | --- | --- |
+| building | 4 | 11 | 3,937,920 | `public/models/hegemony/inner-keep/landmarks`, `public/models/hegemony/inner-keep/buildings` | 0 of 11 |
+| citizen | 8 | 16 | 1,944,504 | `public/models/hegemony/inner-keep/population/citizen` | 16 of 16: Copyright Ael / Warpkeep; project-authored Hegemony citizen runtime asset |
+| node | 3 | 8 | 4,198,692 | `public/models/hegemony/gathering-nodes/logging-camp`, `public/models/hegemony/gathering-nodes/stone-quarry`, `public/models/hegemony/gathering-nodes/wheat-farm` | 0 of 8 |
+| palisade | 6 | 18 | 810,816 | `public/models/hegemony/inner-keep/palisade` | 0 of 18 |
+| prop | 18 | 54 | 3,982,308 | `public/models/hegemony/inner-keep/town-items` | 0 of 54 |
+| stone | 4 | 12 | 291,536 | `public/models/hegemony/inner-keep/stone` | 0 of 12 |
+| tree | 25 | 75 | 5,447,340 | `public/models/hegemony/environment/trees`, `public/models/hegemony/inner-keep/trees` | 0 of 75 |
+| unit | 6 | 12 | 2,833,152 | `public/models/hegemony/inner-keep/population/infantry`, `public/models/hegemony/inner-keep/population/ranged` | 12 of 12: Copyright Ael / Warpkeep; project-authored Hegemony infantry runtime asset |
+| wildlife | 2 | 3 | 230,536 | `public/models/hegemony/inner-keep/wildlife/rabbit`, `public/models/hegemony/environment/wildlife/rabbit` | 3 of 3: Copyright Ael / Warpkeep; project-authored rabbit runtime asset |
+
+Every file was exported by the Khronos glTF Blender exporter. The 31 copyright lines name Ael / Warpkeep as
+project-authored. The other 178 files carry no author metadata; the absence of a line is not evidence either way.
+The use terms are those recorded in Warpkeep's `ASSETS-LICENSE.md` and summarised in the manifest. These records add no
+open-content licence, commercial clearance or right beyond those terms. A future runtime use of a set should first check
+that set's own record in Warpkeep-Assets.
+
 ## Verification and maintenance
 
 The ledger's `auditedModelRevision` identifies the model snapshot; later documentation or credit changes do not validate different binaries. Recompute every listed file's bytes/SHA-256 against its existing source record when a model changes, add new source and modification records, and retain actual license notices. Reconcile the static credits page and JSON counts together. Published model delivery from an immutable build commit does not change the source license.
 
-Before claiming that every model's rights are resolved, confirm the provenance of every unresolved Meshy source, establish the animated hero's Mixamo-named content and the Warpkeep per-set provenance, confirm required creator/source/license/change notices, and verify the distributed credits. Source provenance, permission evidence and a compliance claim are separate findings.
+Before claiming that every model's rights are resolved, confirm the provenance of every unresolved Meshy source, establish the animated hero's Mixamo-named content (the Warpkeep per-set provenance is recorded above, A107), confirm required creator/source/license/change notices, and verify the distributed credits. Source provenance, permission evidence and a compliance claim are separate findings.
 
 ## To confirm
 
