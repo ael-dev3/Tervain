@@ -1628,3 +1628,28 @@ This checkpoint remains local. The preceding combined revision
 322 files and its build, but predates third-property work. Full engine startup,
 third-property publication and complete browser campaign persistence remain
 unfinished.
+
+
+## 2026-10-11: original int text writer and name-parser return
+
+The original text writer now follows the readonly virtual text-node length and
+write targets, copies three actual arena characters into the separately owned
+output allocation, and stores the terminator. Its original physical calls and
+returns complete. The original output scan and compaction instructions then
+consume `int\0` and return from the name parser. Execution reaches `3069b2e3`
+after 9,499 source operations. The third arena and output remain live and lock
+5 remains held; arena cleanup and third-property publication have not executed.
+
+TypeScript checking passed. Five focused runtime checks passed in 22.69 seconds,
+verifying complete output, retained node ownership, returned writer/copy frames,
+and interruption at the actual terminator instruction `306971f6`. That failure
+retains `int` with an unknown terminator byte and the pending writer caller.
+Six browser startup checks passed in 48.02 seconds. Source evidence is unchanged
+from the int-literal checkpoint; each executed instruction uses the retained
+original instruction record.
+
+This checkpoint is local. Combined validation is live on frozen revision
+`6a6de81b6f535c855a9ac8b3c12510b9186d99d5`, which combines deployed PR 250
+with native work through int output allocation and predates this writer step.
+Full engine startup and browser campaign completion with save/reload remain
+unfinished.
