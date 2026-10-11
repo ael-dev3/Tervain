@@ -784,3 +784,19 @@ constructor and fatal-call checks pass. The normal check requires the keyword
 assignment to have returned and the scoped-name call to remain pending, while
 retaining keyword bytes, length and ownership checks. The diff was inspected.
 This change is local; complete startup and campaign completion remain unfinished.
+
+## 2026-10-11: scoped-name and identifier parser evidence
+
+Captured the original `UnDecorator::getScopedName` at `306994ea-306995cd`
+(89 instructions, 228 bytes; hash
+`27712fde99caba7288ba719a974fe8f2d99474f7e8314fc786376c1704803fc4`)
+and its immediate `getZName` dependency at `30699300-306994e9`
+(177 instructions, 490 bytes; hash
+`f5cd2a99e27cae9769e317658aa916d61482dfdf3472378b5209efe18768d4e6`).
+The package now contains 76 Engine bodies and 3,294 instructions.
+
+Independent JSON and TypeScript regeneration are byte-identical. Structural
+comparison shows exactly the two added bodies. TypeScript checking and all 29
+source/image checks pass; generator and admission-test diffs were inspected.
+Runtime remains pending at `306994ea` after 5,716 operations. These local captures
+do not execute the routines or prove complete startup or campaign completion.

@@ -1,7 +1,7 @@
 # Engine CRT initializer evidence
 
 This package records the next dependency after Engine environment-vector return.
-It captures 74 original bodies (3028 instructions), the caller at `30677284`,
+It captures 76 original bodies (3294 instructions), the caller at `30677284`,
 the floating-point callback at `30892ac0`, and two original initializer tables.
 The C initializer table has 200 slots with 6 nonzero entries. The C++ table has
 93,705 slots with 1,963 nonzero entries; omitted entries are verified zero.
@@ -14,7 +14,7 @@ python tools/gothic3/prepare_engine_cinit_source.py --study '<study-root>' --out
 
 The generator checks the original Engine.dll hash and exact caller bytes.
 Independent regeneration produced identical JSON, SHA-256
-``fd5628904371582d724965725caee655c4de6312040ab74e3bfb13a87353300d``.
+``e5c537f2f176691a5149e1343eb8d85a967a19c35105f3f2c66d8340784f83a9``.
 
 The capture's `runtimeConnected: false` records evidence preparation; it grants
 no execution authority. The TypeScript continuation separately obtains a
@@ -825,3 +825,19 @@ constructor and fatal-call checks pass. The normal check requires the keyword
 assignment to have returned and the scoped-name call to remain pending, while
 retaining keyword bytes, length and ownership checks. The diff was inspected.
 This change is local; complete startup and campaign completion remain unfinished.
+
+## 2026-10-11: scoped-name and identifier parser evidence
+
+Captured the original `UnDecorator::getScopedName` at `306994ea-306995cd`
+(89 instructions, 228 bytes; hash
+`27712fde99caba7288ba719a974fe8f2d99474f7e8314fc786376c1704803fc4`)
+and its immediate `getZName` dependency at `30699300-306994e9`
+(177 instructions, 490 bytes; hash
+`f5cd2a99e27cae9769e317658aa916d61482dfdf3472378b5209efe18768d4e6`).
+The package now contains 76 Engine bodies and 3,294 instructions.
+
+Independent JSON and TypeScript regeneration are byte-identical. Structural
+comparison shows exactly the two added bodies. TypeScript checking and all 29
+source/image checks pass; generator and admission-test diffs were inspected.
+Runtime remains pending at `306994ea` after 5,716 operations. These local captures
+do not execute the routines or prove complete startup or campaign completion.
