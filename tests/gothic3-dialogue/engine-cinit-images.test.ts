@@ -1,3 +1,5 @@
+import {createHash} from 'node:crypto';
+import {engineCinitTable} from '../../src/gothic3/native-engine-cinit-source';
 import {engineCinitImage} from '../../src/gothic3/native-engine-cinit-source';
 import { expect, it } from 'vitest';
 import { NativeEngineCinitImages } from '../../src/gothic3/native-engine-cinit-images';
@@ -37,4 +39,10 @@ it('owns the exact onexit scope instead of PE headers and rejects mutated scope 
  expect(scope.bytes.length).toBe(28);expect(Array.from(scope.bytes,b=>b.toString(16).padStart(2,'0')).join('')).toBe(receipt.raw);expect(scope.readUnsigned(0)).toBe(0xfffffffe);
  const headers=fact(NativeEngineCinitImages.imageForCrt(owner,crt,'originalHeaders'));expect(scope).not.toBe(headers);expect(headers.readUnsigned(0,2)).toBe(0x5a4d);
  scope.bytes[0]=scope.bytes[0]!^1;expect(NativeEngineCinitImages.imageForCrt(owner,crt,'onexitSehScope').known).toBe(false);expect(scope.bytes[0]).toBe(0xff);
+});
+
+it('retains the complete original C++ table without reseeding mutable storage',()=>{
+ const {crt,owner}=fixture(),table=fact(NativeEngineCinitImages.imageForCrt(owner,crt,'cppInitializers')),receipt=engineCinitTable('cppInitializers');
+ expect(table.bytes.length).toBe(receipt.slots*4);expect(createHash('sha256').update(table.bytes).digest('hex')).toBe(receipt.sha256);expect(table.knownMask.every(byte=>byte===255)).toBe(true);
+ table.writeUnsigned(0,123);expect(fact(NativeEngineCinitImages.forCrt(crt))).toBe(owner);expect(fact(NativeEngineCinitImages.imageForCrt(owner,crt,'cppInitializers'))).toBe(table);expect(table.readUnsigned(0)).toBe(123);
 });

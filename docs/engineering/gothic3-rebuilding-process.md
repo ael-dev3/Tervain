@@ -4,6 +4,23 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local continuation — 11 October 2026: owned C++ initializer table
+
+The captured C++ table now has canonical Engine-owned runtime storage containing
+all 93,705 original DWORD slots. A full SHA-256 check matches the original table
+receipt, and a mutation check confirms retained storage is not reseeded.
+Immutable table receipts are prepared once; each runtime owner retains its own
+mutable bytes and masks.
+
+After the second registration returns, the original caller loads the table's
+begin and end cursors and follows its loop. It skips the first 65 zero slots,
+loads callback `307322b0` from slot `307bb104` and preserves its physical pending
+return to `3067d229`. The normal path reaches 2,692 admitted operations. Three
+normal runtime checks and the corrected cursor check pass; all six image checks
+and final typechecking pass. The first callback and the remaining C++ initializers
+are not yet executed. Earlier combined validation remains live. This work is
+local; complete startup and the browser campaign remain unfinished.
+
 ## Correction — 11 October 2026: exact onexit scope mapping
 
 An image-selector condition incorrectly supplied PE headers for the onexit

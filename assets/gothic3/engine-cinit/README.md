@@ -66,3 +66,8 @@ The normal shutdown-registration path now releases lock 8, restores FS and saved
 registers through the original epilog, and returns from both callback wrappers.
 The C initializer walker consumes the remaining zero slots and returns zero to
 `3067d1fe` after 2,176 admitted operations. C++ initialization remains unfinished.
+
+The C++ initializer table is now owned by the same Engine image class. Its entire
+93,705-slot runtime image matches the original table SHA-256. The original loop
+reaches callback `307322b0` after 65 zero slots, preserving the pending return
+to `3067d229`. Normal execution stops there after 2,692 admitted operations.
