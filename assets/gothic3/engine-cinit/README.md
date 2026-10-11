@@ -1209,3 +1209,183 @@ normal/fidelity checks passed in 13.02 seconds, this interruption check passed
 in 8.96 seconds, and six browser startup checks passed in 25.34 seconds.
 TypeScript checking passed. These local checks do not prove full engine startup,
 world activation, or campaign completion; this continuation is not deployed.
+
+
+### 2026-10-11: class-name output allocation
+
+The original retained allocation callback returns a separate live 16-byte span
+for the second property's undecorated name. NameParser stores that pointer,
+preserves the requested length 15 including the terminator, and passes both
+physical arguments to its writer at `3069b0ce`. Execution stops at `30697171`
+after 7,184 admitted operations. All 16 output bytes remain unknown; writing,
+termination, cleanup and second property publication remain pending.
+
+Type checking passed. Three focused checks (including the externally changed
+length interruption) passed in 14.73 seconds; six browser startup checks passed
+in 27.89 seconds. The new span's actual size, live ownership and writer pointer
+identity are checked. The earlier combined validation is still running on its
+frozen revision and does not include this allocation continuation. These local
+changes remain undeployed; full engine startup and campaign completion are
+still unproven.
+
+
+### 2026-10-11: class-name writer list entry
+
+The original writer prologue retains its actual output and capacity arguments,
+checks the nonempty value, enters the live list node, and dispatches its length
+method through the protected list vtable. That method tail-calls StringLength
+on the actual arena head and returns the six-character class prefix length.
+Execution stops at `306971be` after 7,263 source operations; the node writer and
+character copying remain pending. The separate 16-byte output is live and all
+its bytes remain unknown.
+
+TypeScript checking passed; the normal allocation/dispatch check passed in
+9.48 seconds, three fidelity/interruption checks passed in 14.96 seconds, and
+six browser startup checks passed in 31.17 seconds. The earlier combined suite
+remains active on its frozen revision, which predates these writer changes.
+This local continuation is not deployed and does not prove full engine startup
+or campaign completion.
+
+
+### 2026-10-11: original nested list writer
+
+The outer writer's original capacity arithmetic and virtual write dispatch now
+enter `3069742a`. This list method loads its live arena head, checks its actual
+output/count arguments, and tail-calls the original writer without fabricating
+a new return address. The nested writer retains its own stack frame, confirms
+the class-prefix value, dispatches the text length, and calls the text writer.
+Execution reaches `306973db` after 7,334 admitted operations. The actual
+character copy is pending; the live output still has 16 unknown bytes.
+
+Type checking passed. Four focused normal/fidelity/interruption checks passed
+in 16.70 seconds, and six browser startup checks passed in 27.37 seconds.
+The previous combined suite remains active on an older frozen revision. This
+local continuation is not deployed and full startup/world/campaign completion
+remains unproven.
+
+
+### 2026-10-11: original class-prefix character copy
+
+The original text-node writer now passes the actual class character pointer
+and six-byte count into its original bounded copy loop. The loop writes
+`class `, returns its actual output pointer, and unwinds the original node
+writer call. Execution stops at `306971d7` after 7,406 source operations.
+Six output bytes are known; the remaining ten bytes, terminator, outer list
+continuation, cleanup and second property publication remain pending.
+
+The shared copy helper accepts an explicit owned node span for this six-byte
+prefix while keeping the first property's five-byte source span. With an
+unknown fourth source byte, execution stops at `30696f47`, retains `cla` and
+its three known output bytes, and retains pending copy/node/outer writer calls.
+Type checking passed; the normal check passed in 8.74 seconds, four fidelity
+and interruption checks in 17.04 seconds, and six browser startup checks in
+29.75 seconds. The older combined suite remains running.
+
+PR 248 was externally merged as `1756116e540cb8badabda1407cb4bdbcbb40a8fd`
+after CI run `38118841598` succeeded. A repository-wide audit covered 533 runs
+over six pages, all recorded attempts and the Pages workflow; its only active
+run was deployment `38119510962`. No duplicate merge or run was requested.
+The native continuation above remains local and does not prove full startup
+or campaign completion.
+
+
+### 2026-10-11: complete original class-name writer return
+
+The nested prefix writer terminates its six-byte output and returns through
+the original list caller. The outer writer follows its actual tail into the
+name text node, requests its live eight-character length, and copies from the
+owned character span at arena offset 3988 to output offset 6. The original
+outer termination overwrites the temporary prefix terminator with the name
+and writes the final NUL at offset 14. All fifteen string bytes are known;
+the alignment byte at offset 15 remains unknown.
+
+Execution returns through the physical `3069b0ce` call to `3069b0d3` after
+7,551 source operations. NameParser's space compaction, cleanup, and second
+property publication remain pending. TypeScript checking passed; five focused
+normal/fidelity/interruption checks passed in 22.38 seconds and six browser
+startup checks passed in 31.28 seconds. The earlier combined suite remains
+active on an older frozen revision. This continuation is local and does not
+prove complete engine startup or campaign completion.
+
+
+### 2026-10-11: original class-name parser return
+
+NameParser now traverses its actual output, retains one space between `class`
+and `bCString`, skips further adjacent spaces through the captured original
+branch, writes its final terminator, and physically returns to `3069b2e3`.
+Normal execution has 7,678 source operations. The live fifteen-byte string
+remains known; its alignment byte remains unknown. Cleanup, parser lock
+release and second-property publication are pending.
+
+A perturbed output containing two spaces compacts to `class bCString` through
+the additional original skip instructions (7,681 operations). An unknown byte
+after the first space stops at `3069b0e8` while retaining the writer return and
+the pending NameParser call. Type checking passed; the normal check passed in
+10.14 seconds, six fidelity/interruption checks in 27.48 seconds, and six
+browser startup checks in 40.43 seconds. The earlier combined suite remains
+active on its older frozen revision. This local continuation is undeployed;
+full startup and campaign completion remain unproven.
+
+
+### 2026-10-11: original second arena-free caller
+
+The retained decoder receives the returned class-name output, stores it in its
+actual stack slot and enters the original arena destructor at `30696606`.
+The destructor follows its live block head, loads the original chain header,
+updates the retained head, and calls its retained free callback. Execution
+stops at `30672f8a` after 7,695 source operations, with the physical free
+argument and return address `3069661f` still pending. The arena has not yet
+been freed; the separate completed name allocation remains live.
+
+Type checking passed; seven focused fidelity/interruption checks passed in
+28.36 seconds and six browser startup checks in 29.69 seconds. An additional
+free-caller check passed in 10.23 seconds, checking the actual pending call,
+return provenance and opaque physical pointer argument. The earlier combined
+suite is still active on its frozen revision. PR 248's Pages deployment
+`38119510962` completed successfully; these native changes remain local.
+Actual arena release, lock release, second-property publication and complete
+engine startup/campaign play remain unfinished.
+
+
+### 2026-10-11: original second arena and lock release
+
+The original arena-free callback verifies the exact owned 4,104-byte base and
+frees it. The destructor follows the actual NULL chain terminator, returns
+through its physical caller, and the original finally routine releases lock 5.
+The EH epilog restores the saved registers and FS state, and returns the live
+class-name output to `3067dacb` after 7,722 admitted source operations. The
+separate 16-byte output is still live. Outer type-name processing, lock 14
+release and second-property publication remain pending.
+
+Arena assertions now use observations captured immediately before the real
+release, retaining the actual allocation identity. Native reads through the
+freed view are explicitly rejected. An interrupted release retains the live
+arena, pending destructor/free calls, held parser lock and completed output.
+Type checking passed; eight focused normal/fidelity/interruption checks passed
+in 29.43 seconds and six browser startup checks passed in 31.10 seconds. The
+earlier combined suite remains active on an older frozen revision. This
+continuation is local, not deployed, and full startup/campaign play remains
+unproven.
+
+
+### 2026-10-11: original class-name strlen return
+
+The retained type-name caller now passes the live completed output to the
+original aligned DWORD scan. Four actual DWORD loads find the known NUL in
+the third byte of the last DWORD; the original third-byte return path computes
+14 and returns to `3067dae2` after 7,774 admitted operations. The unknown
+alignment byte remains unknown. Type-name trim/cache publication are pending.
+
+The original third/fourth-byte terminator instructions were checked against
+the captured bytes. Unknown padding values 0 and 255 both produce length 14;
+an unknown terminator stops at `30679b11` with the strlen caller pending. A
+perturbed known fourth-byte terminator produces length 15 through the original
+fourth-byte return path. Type checking passed; the normal check passed in
+10.70 seconds, eight fidelity/interruption checks in 28.32 seconds, six browser
+startup checks in 29.95 seconds and the fourth-byte check in 9.06 seconds.
+
+The frozen combined revision `9e02cd54211c44e04cf49b796e107c8e9214bc83`
+remains running and has reported a hero-animation action-layer failure. Its
+final diagnostic is pending; it is not a successful validation receipt. It
+predates the latest native continuations and PR 248. These native changes
+remain local and full startup/campaign completion is unproven.
