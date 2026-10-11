@@ -1,6 +1,38 @@
 # Gothic 3 rebuilding process
 
 
+## Local checkpoint — 11 October 2026: component and admin property batch
+
+The captured callbacks `30732370` through `307323c0` now complete their original
+class-property continuations: eCEngineComponentBase, eCIlluminationAdmin,
+eCMaterialAdmin, eCGUIManager, eCActionMapper and eCContextBase. Each retains its
+own original property body, flags, root, storage, RTTI and shutdown thunk.
+Eighteen property CStrings remain live. Exit entries fifteen through twenty
+are registered, the exit cursor reaches 80 and the C++ cursor reaches `0x14c`.
+Startup stops at `307323d0` (bCGuid); complete startup and campaign play remain
+unfinished.
+
+All 34 selected guard/allocation/normal checks passed. The stronger batch check
+also verifies requested sizes, capacities, length/reference fields, exact root
+identity, NULL parent, flags, physical caller returns and shutdown identities.
+The later filtered source/browser/batch run passed 33 checks; the complete image
+file passed 28 checks and both full browser files passed six checks. Typechecking
+and the production build passed. Independent Engine JSON/TypeScript regeneration
+matched exactly and preserved all older methods, images and unchanged sections.
+Evidence: 146 methods, 3,981 instructions; JSON SHA-256
+`9fe9857f7abc4c206a0d7bf57e80bab190f16e471dee6b04717de9f40d7f43b3`.
+
+The initial batch fixture stopped at an unaudited 30-byte request because it
+omitted the existing NPC heap extension. The browser owner already admits that
+extension. Original table and callback research independently corroborated the
+28- and 32-byte pools; the fixture now uses existing `nativeNpcHeapExtension`.
+No duplicate allocator admission was retained. The additional research captures
+570 instructions, including shutdown evidence. The preceding boolean revision
+`c920302d5` separately passed all 351 startup-frame checks in 915.07 seconds;
+that result does not validate this larger batch. This checkpoint is local and
+has not been deployed.
+
+
 ## Local checkpoint — 11 October 2026: original input-receiver property
 
 Callback `30732360` calls thunk `30044a94` and original body `30076a50`.

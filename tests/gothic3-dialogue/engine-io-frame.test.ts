@@ -1,3 +1,4 @@
+import { nativeNpcHeapExtension } from '../../src/gothic3/native-memory-admin';
 import {nativeArenaHeapExtension,nativeSceneStartupHeapExtension} from '../../src/gothic3/native-memory-admin';
 import {NativeMemoryAdmin,type NativeMemoryAllocation} from '../../src/gothic3/native-memory-admin';
 import {createNativeRuntimeAdminOwner} from '../../src/gothic3/native-runtime-platform';
@@ -1408,7 +1409,7 @@ it('retains the original second class-name search when a cache DWORD byte is unk
 
 it('completes the original matrix property through the shared class continuation',()=>{
  const {bootstrap,platform,crt}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{engineHeapLayout:'rounded-eight',processorFeatureProcedure:true,floatingPointPrecisionErratum:false});
- createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeArenaHeapExtension,nativeSceneStartupHeapExtension]});
+ createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeNpcHeapExtension,nativeSceneStartupHeapExtension]});
  let completed:ReturnType<typeof bootstrap.attachProgress>['engineCinitProgress']=null;
  const image=NativeEngineCinitImages.imageForCrt;
  const capture=vi.spyOn(NativeEngineCinitImages,'imageForCrt').mockImplementation((...args)=>{
@@ -1430,7 +1431,7 @@ it('completes the original matrix property through the shared class continuation
 
 it('completes the original obsolete-class property through the shared class continuation',()=>{
  const {bootstrap,platform,crt}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{engineHeapLayout:'rounded-eight',processorFeatureProcedure:true,floatingPointPrecisionErratum:false});
- createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeArenaHeapExtension,nativeSceneStartupHeapExtension]});
+ createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeNpcHeapExtension,nativeSceneStartupHeapExtension]});
  let completed:ReturnType<typeof bootstrap.attachProgress>['engineCinitProgress']=null;const image=NativeEngineCinitImages.imageForCrt;const capture=vi.spyOn(NativeEngineCinitImages,'imageForCrt').mockImplementation((...args)=>{if(args[2]==='matrixPropertyFlags'&&!completed){const p=bootstrap.attachProgress().engineCinitProgress;if(p?.pc==='30015fbe')completed=p;}return image(...args);});try{expect(bootstrap.processAttach().known).toBe(false);}finally{capture.mockRestore();}const f=completed as ReturnType<typeof bootstrap.attachProgress>['engineCinitProgress'];if(!f)throw new Error('Actual completed obsolete-class snapshot required');
  expect(f.pc).toBe('30015fbe');expect(f.typeNameSixthCStringCopyReturned).toBe(true);
  const text=f.typeNameSixthCString!;expect(text.backing).toMatchObject({requestedBytes:24,capacity:24,freed:false});expect(text.readUnsigned(0)).toBe(15);expect(text.readUnsigned(4,2)).toBe(1);expect(Buffer.from(text.bytes.subarray(8)).toString()).toBe('bCObsoleteClass\0');expect([...text.knownMask]).toEqual(Array(24).fill(255));
@@ -1442,7 +1443,7 @@ it('completes the original obsolete-class property through the shared class cont
 
 it.each(['ensure','lock'] as const)('keeps the obsolete-class undecoration %s call pending when unavailable',operation=>{
  const {bootstrap,platform,crt}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{engineHeapLayout:'rounded-eight',processorFeatureProcedure:true,floatingPointPrecisionErratum:false});
- createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeArenaHeapExtension,nativeSceneStartupHeapExtension]});
+ createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeNpcHeapExtension,nativeSceneStartupHeapExtension]});
  const original=NativeCrtBootstrap.engineCinitUndecorationLockForCrt;let interrupted=false;
  const spy=vi.spyOn(NativeCrtBootstrap,'engineCinitUndecorationLockForCrt').mockImplementation((...args)=>{
   if(args[0]===bootstrap&&args[1]===crt&&args[3]===operation&&(bootstrap.attachProgress().engineCinitProgress?.operations??0)>18329){interrupted=true;return {known:false,reason:'Interrupted obsolete-class undecoration lock'};}
@@ -1457,7 +1458,7 @@ it.each(['ensure','lock'] as const)('keeps the obsolete-class undecoration %s ca
 
 it('keeps the obsolete-class type-name call pending when its cache word is unknown',()=>{
  const {bootstrap,platform,crt}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{engineHeapLayout:'rounded-eight',processorFeatureProcedure:true,floatingPointPrecisionErratum:false});
- createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeArenaHeapExtension,nativeSceneStartupHeapExtension]});
+ createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeNpcHeapExtension,nativeSceneStartupHeapExtension]});
  const images=NativeEngineCinitImages.forCrt(crt);if(!images.known)throw new Error(images.reason);
  const info=NativeEngineCinitImages.imageForCrt(images.value,crt,'obsoleteClassTypeInfo');if(!info.known)throw new Error(info.reason);
  info.value.knownMask[4]=0;
@@ -1471,7 +1472,7 @@ it('keeps the obsolete-class type-name call pending when its cache word is unkno
 
 it.each([1,2])('keeps the obsolete-class initializer pending when guard bit %s is unknown',bit=>{
  const {bootstrap,platform,crt}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{engineHeapLayout:'rounded-eight',processorFeatureProcedure:true,floatingPointPrecisionErratum:false});
- createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeArenaHeapExtension,nativeSceneStartupHeapExtension]});
+ createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeNpcHeapExtension,nativeSceneStartupHeapExtension]});
  const images=NativeEngineCinitImages.forCrt(crt);if(!images.known)throw new Error(images.reason);
  const flags=NativeEngineCinitImages.imageForCrt(images.value,crt,'obsoleteClassFlags');if(!flags.known)throw new Error(flags.reason);
  flags.value.knownMask[0]=255^bit;
@@ -1489,7 +1490,7 @@ it.each([1,2])('keeps the obsolete-class initializer pending when guard bit %s i
 
 it('captures five completed property CStrings before the next initializer',()=>{
  const {bootstrap,platform,crt}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{engineHeapLayout:'rounded-eight',processorFeatureProcedure:true,floatingPointPrecisionErratum:false});
- const owner=createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeArenaHeapExtension,nativeSceneStartupHeapExtension]});let referenceCompleted:ReturnType<typeof bootstrap.attachProgress>['engineCinitProgress']=null;let capturedArena:NativeHeapObjectViews|null=null;let capturedCameraArena:NativeHeapObjectViews|null=null;let capturedRefBytes:Uint8Array|null=null,capturedRefMasks:Uint8Array|null=null;let capturedRefInputFields:NativeHeapObjectViews|null=null,capturedRefInputOffset:number|null=null;const originalImage=NativeEngineCinitImages.imageForCrt;const capture=vi.spyOn(NativeEngineCinitImages,'imageForCrt').mockImplementation((...args)=>{if(args[2]==='obsoleteClassFlags'&&!referenceCompleted){const progress=bootstrap.attachProgress().engineCinitProgress;if(progress?.pc==='3003251a')referenceCompleted=progress;}return originalImage(...args);});const write=NativeHeapObjectViews.prototype.writeUnsigned;const spy=vi.spyOn(NativeHeapObjectViews.prototype,'writeUnsigned').mockImplementation(function(this:NativeHeapObjectViews,offset,value,width){if(this.bytes.length===4104&&offset===4014&&width===1&&value===116)capturedArena=this;if(this.bytes.length===4104&&offset===4012&&width===1&&value===99&&(bootstrap.attachProgress().engineCinitProgress?.operations??0)>9953&&(bootstrap.attachProgress().engineCinitProgress?.operations??0)<14039)capturedCameraArena=this;return write.call(this,offset,value,width);});const free=NativeModuleCrtOwner.prototype.free;const release=vi.spyOn(NativeModuleCrtOwner.prototype,'free').mockImplementation(function(this:NativeModuleCrtOwner,allocation){if(this===crt){const f=bootstrap.attachProgress().engineCinitProgress,p=f?.undecorationCopiedTypeWords?.[0]?.provenance;if(f?.pc==='30672f8a'&&f.operations>17613&&f.operations<18313&&p?.kind==='engine-allocation'&&p.fields.backing===allocation){capturedRefBytes=p.fields.bytes.slice();capturedRefMasks=p.fields.knownMask.slice();const input=f.typeNameArguments![1]!.provenance;if(input?.kind!=='engine-image')throw new Error('Actual reference-base undecoration source required');capturedRefInputFields=input.fields;capturedRefInputOffset=input.offset;}}return free.call(this,allocation);});try{expect(bootstrap.processAttach().known).toBe(false);}finally{spy.mockRestore();release.mockRestore();capture.mockRestore();}const f=referenceCompleted as ReturnType<typeof bootstrap.attachProgress>['engineCinitProgress'];if(!f)throw new Error('Actual completed reference-base snapshot required');
+ const owner=createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeNpcHeapExtension,nativeSceneStartupHeapExtension]});let referenceCompleted:ReturnType<typeof bootstrap.attachProgress>['engineCinitProgress']=null;let capturedArena:NativeHeapObjectViews|null=null;let capturedCameraArena:NativeHeapObjectViews|null=null;let capturedRefBytes:Uint8Array|null=null,capturedRefMasks:Uint8Array|null=null;let capturedRefInputFields:NativeHeapObjectViews|null=null,capturedRefInputOffset:number|null=null;const originalImage=NativeEngineCinitImages.imageForCrt;const capture=vi.spyOn(NativeEngineCinitImages,'imageForCrt').mockImplementation((...args)=>{if(args[2]==='obsoleteClassFlags'&&!referenceCompleted){const progress=bootstrap.attachProgress().engineCinitProgress;if(progress?.pc==='3003251a')referenceCompleted=progress;}return originalImage(...args);});const write=NativeHeapObjectViews.prototype.writeUnsigned;const spy=vi.spyOn(NativeHeapObjectViews.prototype,'writeUnsigned').mockImplementation(function(this:NativeHeapObjectViews,offset,value,width){if(this.bytes.length===4104&&offset===4014&&width===1&&value===116)capturedArena=this;if(this.bytes.length===4104&&offset===4012&&width===1&&value===99&&(bootstrap.attachProgress().engineCinitProgress?.operations??0)>9953&&(bootstrap.attachProgress().engineCinitProgress?.operations??0)<14039)capturedCameraArena=this;return write.call(this,offset,value,width);});const free=NativeModuleCrtOwner.prototype.free;const release=vi.spyOn(NativeModuleCrtOwner.prototype,'free').mockImplementation(function(this:NativeModuleCrtOwner,allocation){if(this===crt){const f=bootstrap.attachProgress().engineCinitProgress,p=f?.undecorationCopiedTypeWords?.[0]?.provenance;if(f?.pc==='30672f8a'&&f.operations>17613&&f.operations<18313&&p?.kind==='engine-allocation'&&p.fields.backing===allocation){capturedRefBytes=p.fields.bytes.slice();capturedRefMasks=p.fields.knownMask.slice();const input=f.typeNameArguments![1]!.provenance;if(input?.kind!=='engine-image')throw new Error('Actual reference-base undecoration source required');capturedRefInputFields=input.fields;capturedRefInputOffset=input.offset;}}return free.call(this,allocation);});try{expect(bootstrap.processAttach().known).toBe(false);}finally{spy.mockRestore();release.mockRestore();capture.mockRestore();}const f=referenceCompleted as ReturnType<typeof bootstrap.attachProgress>['engineCinitProgress'];if(!f)throw new Error('Actual completed reference-base snapshot required');
  expect({pc:f.pc,operations:f.operations}).toEqual({pc:'3003251a',operations:18315});const referenceStack=NativeX86ThreadStack.forPlatform(platform);if(!referenceStack.known)throw new Error(referenceStack.reason);expect(referenceStack.value.snapshot().calls.find(c=>c.site==='30076773')).toMatchObject({returned:true,returnWord:{provenance:{kind:'source',type:'code',address:'30076778'}}});expect(f.typeNameMemoryAdmin).toBe(owner.memory);expect(f.typeNameSecondCStringCopyReturned).toBe(true);const text=f.typeNameSecondCString!;expect(text.backing).toMatchObject({requestedBytes:17,capacity:20,freed:false});expect(text.readUnsigned(0)).toBe(8);expect(text.readUnsigned(4,2)).toBe(1);expect(text.knownMask[6]).toBe(255);expect(text.knownMask[7]).toBe(255);expect(text.readUnsigned(6,2)).toBe(0);expect(Buffer.from(text.bytes.subarray(8,17)).toString()).toBe('bCString\0');expect([...text.knownMask.subarray(8,17)]).toEqual(Array(9).fill(255));expect(f.typeNameCString!.readUnsigned(0)).toBe(5);expect(Buffer.from(f.typeNameCString!.bytes.subarray(8,14)).toString()).toBe('float\0');expect(f.typeNameCString!.backing.freed).toBe(false);
  const storage=NativeEngineCinitImages.imageForCrt(f.images,crt,'visualAnimationSecondStorage');if(!storage.known)throw new Error(storage.reason);const intArena=capturedArena as NativeHeapObjectViews|null;if(!intArena)throw new Error('Actual int character allocation required');expect(intArena.backing.freed).toBe(true);expect(Buffer.from(intArena.bytes.subarray(4012,4015)).toString()).toBe('int');expect([...intArena.knownMask.subarray(4012,4015)]).toEqual([255,255,255]);expect(f.undecorationTextNodeWords![3]!.value).toBe(3);expect(f.undecorationTextNodeLive).toBe(false);expect(f.undecorationLockHeld).toBe(false);expect(f.typeNameLength).toBe(21);expect(f.typeNameLockHeld).toBe(false);expect(f.typeNameCopyResult).toBe(0);expect(f.typeNameCacheNode!.bytes.length).toBe(8);expect([...f.typeNameCacheNode!.knownMask]).toEqual(Array(8).fill(0));expect(f.typeNameCacheText!.bytes.length).toBe(22);expect([...f.typeNameCacheText!.knownMask]).toEqual(Array(22).fill(255));expect(Buffer.from(f.typeNameCacheText!.bytes).toString()).toBe('class bCObjectRefBase\0');const publishedText=f.typeNameCacheNodeWords![0]!.provenance;if(publishedText?.kind!=='engine-allocation')throw new Error('Actual reference-base cache text required');expect(publishedText.fields).toBe(f.typeNameCacheText);expect(publishedText.offset).toBe(0);const publishedRoot=f.typeNameListRootWords![1]!.provenance;if(publishedRoot?.kind!=='engine-allocation')throw new Error('Actual reference-base cache list root required');expect(publishedRoot.fields).toBe(f.typeNameCacheNode);const priorCache=f.typeNameCacheNodeWords![1]!.provenance;if(priorCache?.kind!=='engine-allocation')throw new Error('Actual preceding camera cache required');expect(priorCache.fields.backing.freed).toBe(false);expect(priorCache.fields).not.toBe(f.typeNameCacheNode);expect(f.typeNameCacheText!.backing.freed).toBe(false);const cacheCapacity=NativeRuntimePlatform.canonicalEngineHeapAllocationViewsForPlatform(platform,crt,f.typeNameCacheText!.backing);if(!cacheCapacity.known)throw new Error(cacheCapacity.reason);expect(cacheCapacity.value.requestedBytes).toBe(22);expect(cacheCapacity.value.physicalCapacity).toBe(24);expect(f.typeNameCacheText!.backing).not.toBe(f.undecorationOutput!.backing);expect(f.typeNameCacheNode!.backing.freed).toBe(false);expect(f.undecorationOutput!.backing.freed).toBe(true);expect(f.undecorationOutput!.bytes.length).toBe(24);expect(Buffer.from(f.undecorationOutput!.bytes.subarray(0,22)).toString()).toBe('class bCObjectRefBase\0');expect([...f.undecorationOutput!.knownMask]).toEqual([...Array(22).fill(255),0,0]);expect(NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,platform,{fields:f.undecorationOutput!,offset:0},24).known).toBe(false);expect(f.undecorationOutput!.backing).not.toBe(intArena.backing);expect(f.undecorationParserWords![6]!.value).toBe(22);expect(f.undecorationOutputWriterArguments![0]!.provenance).toMatchObject({kind:'engine-allocation',fields:f.undecorationOutput,offset:0});expect(f.undecorationOutputWriterArguments![1]!.value).toBe(22);expect(f.undecorationTextNodeWord!.provenance).toMatchObject({kind:'engine-allocation',fields:intArena,offset:4020});const cameraArena=capturedCameraArena as NativeHeapObjectViews|null;if(!cameraArena)throw new Error('Actual camera class arena required');expect(cameraArena).not.toBe(intArena);expect(cameraArena.backing.freed).toBe(true);expect(Buffer.from(cameraArena.bytes.subarray(4012,4018)).toString()).toBe('class ');expect([...cameraArena.knownMask.subarray(4012,4018)]).toEqual(Array(6).fill(255));expect(new DataView(cameraArena.bytes.buffer,cameraArena.bytes.byteOffset,cameraArena.bytes.byteLength).getUint32(4032,true)).toBe(6);const nameOffset=Buffer.from(cameraArena.bytes).indexOf(Buffer.from('eCCameraBase'));expect(nameOffset).toBeGreaterThanOrEqual(0);expect([...cameraArena.knownMask.subarray(nameOffset,nameOffset+12)]).toEqual(Array(12).fill(255));expect(new DataView(cameraArena.bytes.buffer,cameraArena.bytes.byteOffset,cameraArena.bytes.byteLength).getUint32(4008,true)).toBe(12);expect(f.visualAnimationSecondRootWord!.provenance).toMatchObject({kind:'engine-image',fields:storage.value,offset:0});expect(f.exitTableFourth!.provenance).toMatchObject({kind:'source',type:'code',address:'3001c602'});expect(f.exitTableThird!.provenance).toMatchObject({kind:'source',type:'code',address:'30011a40'});expect(f.exitCursor!.provenance).toMatchObject({kind:'engine-allocation',fields:f.exitTableAllocation,offset:28});expect(f.cppCursor!.provenance).toMatchObject({kind:'engine-image',offset:0x118});expect(f.onexitLockHeld).toBe(false);expect(storage.value.maskedWord(0)).toMatchObject({knownMask:3,value:0});const root=NativeEngineCinitImages.imageForCrt(f.images,crt,'visualAnimationSecondRoot');if(!root.known)throw new Error(root.reason);expect(root.value.maskedWord(0).knownMask).toBe(0);
  const graph=NativeX86ThreadStack.forPlatform(platform);if(!graph.known)throw new Error(graph.reason);expect(graph.value.snapshot().calls.filter(c=>c.site==='1001325e').at(-2)?.returned).toBe(true);expect(graph.value.snapshot().calls.filter(c=>c.site==='1001362d').at(-1)?.returned).toBe(true);expect(graph.value.snapshot().calls.filter(c=>c.site==='10091571').at(-2)?.returned).toBe(true);expect(graph.value.snapshot().calls.filter(c=>c.site==='10091571').at(-1)?.returned).toBe(true);expect(graph.value.snapshot().calls.filter(c=>c.site==='3007659e').at(-1)?.returned).toBe(true);for(const site of ['3069b54e','3069a330','3069b049','306971d4','30697402','3069b2eb','3069661c','3069b307','3069b2ff','3067dadd','3067db65','3067db85','3067db7a','30076603','30076619','307322d0'])expect(graph.value.snapshot().calls.filter(c=>c.site===site).at(-1)?.returned).toBe(true);expect(graph.value.snapshot().calls.filter(c=>c.site==='3067dac6').at(-2)?.returned).toBe(true);expect(graph.value.snapshot().calls.filter(c=>c.site==='3067dac6').at(-1)?.returned).toBe(true);expect(graph.value.snapshot().calls.filter(c=>c.site==='3067dac6').at(-3)?.returned).toBe(true);expect(graph.value.snapshot().calls.filter(c=>c.site==='3069b2d3').at(-2)?.returned).toBe(true);expect(graph.value.snapshot().calls.filter(c=>c.site==='3069b2d3').at(-1)?.returned).toBe(true);expect(graph.value.snapshot().calls.filter(c=>c.site==='3069b2de').at(-1)?.returned).toBe(true);expect(graph.value.snapshot().calls.filter(c=>c.site==='3069b8fe').at(-2)?.returned).toBe(true);expect(graph.value.snapshot().calls.filter(c=>c.site==='3069b8fe').at(-1)?.returned).toBe(true);expect(f.undecorationParserWords![3]!.provenance).toMatchObject({kind:'engine-image',offset:29});expect(graph.value.snapshot().calls.filter(c=>c.site==='306973b2').at(-1)?.returned).toBe(true);for(const site of ['3069778c','306994ad','306994c9','306972f3','30697302','306994d5','306994e3','30699505','3069950f','306996a3'])expect(graph.value.snapshot().calls.filter(c=>c.site===site).at(-1)?.returned).toBe(true);expect(graph.value.snapshot().calls.filter(c=>c.site==='306996b0').at(-1)?.returned).toBe(true);for(const site of ['30697910','3069792c','3069793f','3069732d','3069733e','30697357','3069794e','306996bc','3069b528'])expect(graph.value.snapshot().calls.filter(c=>c.site===site).at(-1)?.returned).toBe(true);for(const site of ['3069b532','3069b53a','3069b676','3069b54e','3069b770','3069b8a3','3069a31c','3069a330','3069b03f','3069b049'])expect(graph.value.snapshot().calls.filter(c=>c.site===site).at(-1)?.returned).toBe(true);const classList=f.undecorationCopiedTypeWords![0]!.provenance;expect(classList?.kind).toBe('engine-allocation');expect(f.undecorationCopiedTypeWords![1]!.mask&15).toBe(15);expect(f.undecorationCopiedTypeWords![1]!.value&15).toBe(0);expect(graph.value.snapshot().calls.filter(c=>c.site==='3069b0ce').at(-2)?.returned).toBe(true);expect(graph.value.snapshot().calls.filter(c=>c.site==='3069b0ce').at(-1)?.returned).toBe(true);expect(graph.value.snapshot().calls.filter(c=>c.site==='3069b0a2').at(-2)?.returned).toBe(true);expect(graph.value.snapshot().calls.filter(c=>c.site==='3069b0a2').at(-1)?.returned).toBe(true);expect(graph.value.snapshot().calls.filter(c=>c.site==='3067db2d').at(-1)?.returned).toBe(true);expect(graph.value.snapshot().calls.filter(c=>c.site==='30076703').at(-1)?.returned).toBe(true);expect(graph.value.snapshot().calls.filter(c=>c.site==='3007670e').at(-1)?.returned).toBe(true);const cameraStorage=NativeEngineCinitImages.imageForCrt(f.images,crt,'cameraBaseObjectStorage');if(!cameraStorage.known)throw new Error(cameraStorage.reason);const preservedInitializerCursor=f.cppCursor!.provenance;expect(preservedInitializerCursor?.kind).toBe('engine-image');expect(preservedInitializerCursor).toMatchObject({offset:0x118});expect(f.currentEsiWord!.provenance).toMatchObject({kind:'engine-image',offset:0x118});const cameraRoot=NativeEngineCinitImages.imageForCrt(f.images,crt,'cameraBaseObjectRoot');if(!cameraRoot.known)throw new Error(cameraRoot.reason);const cameraRootPointer=f.cameraBaseObjectRootWord!.provenance;expect(cameraRootPointer?.kind).toBe('engine-image');if(cameraRootPointer?.kind!=='engine-image')throw new Error('Actual published camera root required');expect(cameraRootPointer.fields).toBe(cameraStorage.value);expect(cameraRootPointer.offset).toBe(0);expect(f.exitTableSixth!.provenance).toMatchObject({kind:'source',type:'code',address:'300307f1'});const thirdStorage=NativeEngineCinitImages.imageForCrt(f.images,crt,'visualAnimationThirdStorage');if(!thirdStorage.known)throw new Error(thirdStorage.reason);expect(f.visualAnimationThirdRootWord!.provenance).toMatchObject({kind:'engine-image',fields:thirdStorage.value,offset:0});expect(f.exitTableFifth!.provenance).toMatchObject({kind:'source',type:'code',address:'3002f56d'});expect(f.typeNameThirdCStringCopyReturned).toBe(true);const thirdText=f.typeNameThirdCString!;expect(thirdText.backing).toMatchObject({requestedBytes:12,capacity:12,freed:false});expect(thirdText).not.toBe(f.typeNameCString);expect(thirdText).not.toBe(f.typeNameSecondCString);expect(thirdText.readUnsigned(0)).toBe(3);expect(thirdText.readUnsigned(4,2)).toBe(1);expect(Buffer.from(thirdText.bytes.subarray(8,12)).toString()).toBe('int\0');expect([...thirdText.knownMask.subarray(8,12)]).toEqual([255,255,255,255]);expect(graph.value.snapshot().calls.filter(c=>c.site==='1009155b').at(-2)?.returned).toBe(true);expect(graph.value.snapshot().calls.filter(c=>c.site==='1009155b').at(-1)?.returned).toBe(true);expect(graph.value.snapshot().calls.filter(c=>c.site==='3007660e').at(-1)?.returned).toBe(true);expect(f.typeNameCacheText!.backing.freed).toBe(false);const fourthText=f.typeNameFourthCString!;const fourthAllocation=fourthText.backing as NativeMemoryAllocation;expect(fourthAllocation.requestedBytes).toBe(21);expect(fourthAllocation.capacity).toBe(24);expect(fourthAllocation.freed).toBe(false);expect([...fourthText.knownMask]).toEqual(Array(24).fill(255));for(const prior of [f.typeNameCString,f.typeNameSecondCString,f.typeNameThirdCString])expect(fourthText).not.toBe(prior);const fifthText=f.typeNameFifthCString!;expect(fifthText.backing).toMatchObject({requestedBytes:24,capacity:24,freed:false});expect(fifthText.readUnsigned(0)).toBe(15);expect(fifthText.readUnsigned(4,2)).toBe(1);expect(fifthText.readUnsigned(6,2)).toBe(0);expect(Buffer.from(fifthText.bytes.slice(8)).toString()).toBe('bCObjectRefBase\0');expect([...fifthText.knownMask]).toEqual(Array(24).fill(255));expect(f.typeNameFifthCStringCopyReturned).toBe(true);for(const prior of [f.typeNameCString,f.typeNameSecondCString,f.typeNameThirdCString,f.typeNameFourthCString])expect(fifthText).not.toBe(prior);const refDestination=NativeEngineCinitImages.imageForCrt(f.images,crt,'objectRefBaseStorage');if(!refDestination.known)throw new Error(refDestination.reason);const currentDestination=f.objectRefBaseRootWord!.provenance;if(currentDestination?.kind!=='engine-image')throw new Error('Actual reference-base CString destination required');expect(currentDestination.fields).toBe(refDestination.value);expect(currentDestination.offset).toBe(0);expect(referenceStack.value.snapshot().calls.filter(c=>c.site==='10091571').at(-1)).toMatchObject({returned:true,returnWord:{provenance:{kind:'source',type:'code',address:'10091576'}}});expect(referenceStack.value.snapshot().calls.find(c=>c.site==='3007677e')).toMatchObject({returned:true,returnWord:{provenance:{kind:'source',type:'code',address:'30076784'}}});expect(fourthText.readUnsigned(0)).toBe(12);expect(fourthText.readUnsigned(4,2)).toBe(1);expect(Buffer.from(fourthText.bytes.subarray(8,21)).toString()).toBe("eCCameraBase\0");expect(f.typeNameFourthCStringCopyReturned).toBe(true);expect(NativeMemoryAdmin.canonicalAllocationForPlatform(f.typeNameMemoryAdmin!,platform,fourthText.backing as NativeMemoryAllocation).known).toBe(true);expect(graph.value.snapshot().calls.filter(c=>c.site==='1001325e').at(-1)?.returned).toBe(true);expect(graph.value.snapshot().calls.filter(c=>c.site==='10013623').at(-1)?.returned).toBe(true); const refFlags=NativeEngineCinitImages.imageForCrt(f.images,crt,'objectRefBaseFlags'),refRoot=NativeEngineCinitImages.imageForCrt(f.images,crt,'objectRefBaseRoot'),refInfo=NativeEngineCinitImages.imageForCrt(f.images,crt,'objectRefBaseTypeInfo');if(!refFlags.known||!refRoot.known||!refInfo.known)throw new Error('Actual object-reference property images required');const retainedCppCursor=f.cppCursor!.provenance;if(preservedInitializerCursor?.kind!=='engine-image'||retainedCppCursor?.kind!=='engine-image')throw new Error('Actual restored initializer cursor required');const priorReturnedEsi=f.undecorationRestoredEsiWord!.provenance;if(priorReturnedEsi?.kind!=='engine-image')throw new Error('Actual reference-base restored initializer cursor required');expect(priorReturnedEsi.fields).toBe(retainedCppCursor.fields);expect(priorReturnedEsi.offset).toBe(retainedCppCursor.offset-4);expect(refFlags.value.readUnsigned(0)).toBe(3);expect(refRoot.value.maskedWord(0).knownMask).toBe(0);expect(f.exitTableSeventh!.provenance).toMatchObject({kind:'source',type:'code',address:'300098e0'});expect(capturedRefInputFields).toBe(refInfo.value);expect(capturedRefInputOffset).toBe(9);expect(graph.value.snapshot().calls.filter(c=>c.site==='30076773').at(-1)?.returned).toBe(true); const refArenaPointer=f.undecorationFieldWords![0]!.provenance;if(refArenaPointer?.kind!=='engine-allocation')throw new Error('Actual reference-base parser arena required');const refArena=refArenaPointer.fields;expect(refArena).not.toBe(cameraArena);expect(refArena.backing.freed).toBe(true);const refBytes=capturedRefBytes as Uint8Array|null,refMasks=capturedRefMasks as Uint8Array|null;if(!refBytes||!refMasks)throw new Error('Reference-base arena bytes captured before release required');const refView=new DataView(refBytes.buffer,refBytes.byteOffset,refBytes.byteLength);expect(refBytes.length).toBe(4104);expect(()=>refArena.readUnsigned(4032)).toThrow();const nameCache=f.undecorationParserWords![1]!.provenance;if(nameCache?.kind!=='stack')throw new Error('Actual reference-base name cache required');expect(graph.value.snapshot().calls.filter(c=>c.site==='306994c9').at(-1)?.returned).toBe(true);if(classList?.kind!=='engine-allocation')throw new Error('Actual returned reference-base class list required');expect(classList.fields).toBe(refArena);expect(NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,platform,{fields:refArena,offset:classList.offset},12).known).toBe(false);expect(new DataView(refMasks.buffer,refMasks.byteOffset,refMasks.byteLength).getUint32(classList.offset+4,true)).not.toBe(0xffffffff);const refNameOffset=Buffer.from(refBytes).indexOf(Buffer.from('bCObjectRefBase'));expect(refNameOffset).toBeGreaterThanOrEqual(0);expect([...refMasks.subarray(refNameOffset,refNameOffset+15)]).toEqual(Array(15).fill(255));expect(Buffer.from(refBytes.subarray(4012,4018)).toString()).toBe('class ');expect([...refMasks.subarray(4012,4018)]).toEqual(Array(6).fill(255));expect(refView.getUint32(4032,true)).toBe(6);expect(new DataView(refMasks.buffer,refMasks.byteOffset,refMasks.byteLength).getUint32(4028,true)).not.toBe(0xffffffff);expect(graph.value.snapshot().calls.filter(c=>c.site==='30699505').at(-1)?.returned).toBe(true);expect(graph.value.snapshot().calls.filter(c=>c.site==='306996a3').at(-1)?.returned).toBe(true);expect(NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,platform,{fields:refArena,offset:0},4104).known).toBe(false);for(const [index,offset,kind] of [[0,4084,3],[1,4068,1],[2,4052,3],[3,4036,1]]){const field=f.undecorationFieldWords![index!]!.provenance;if(field?.kind!=='engine-allocation')throw new Error('Actual retained parser field required');expect(field.fields).toBe(refArena);expect(field.offset).toBe(offset);expect(refView.getUint32(offset!+8,true)).toBe(kind);}expect(graph.value.snapshot().calls.filter(c=>c.site==='3069a31c').at(-1)?.returned).toBe(true);expect(graph.value.snapshot().calls.filter(c=>c.site==='3069b03f').at(-1)?.returned).toBe(true);
@@ -1714,28 +1715,28 @@ it('retains camera parser caller when its temporary output release is unavailabl
 
 
 it.each(['lock','unlock'] as const)('retains original camera registration when its exit %s is unavailable',(failure)=>{
- const {bootstrap,platform,crt}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{engineHeapLayout:'rounded-eight',processorFeatureProcedure:true,floatingPointPrecisionErratum:false});createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeArenaHeapExtension,nativeSceneStartupHeapExtension]});const lock=NativeCrtBootstrap.engineCinitExitLockForCrt;let interrupted=false;
+ const {bootstrap,platform,crt}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{engineHeapLayout:'rounded-eight',processorFeatureProcedure:true,floatingPointPrecisionErratum:false});createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeNpcHeapExtension,nativeSceneStartupHeapExtension]});const lock=NativeCrtBootstrap.engineCinitExitLockForCrt;let interrupted=false;
  const spy=vi.spyOn(NativeCrtBootstrap,'engineCinitExitLockForCrt').mockImplementation((...args)=>{const f=bootstrap.attachProgress().engineCinitProgress;if(f?.typeNameFourthCStringCopyReturned&&args[3]===failure){interrupted=true;return {known:false,reason:'Interrupted original camera exit registration'};}return lock(...args);});try{expect(bootstrap.processAttach().known).toBe(false);}finally{spy.mockRestore();}
  const f=bootstrap.attachProgress().engineCinitProgress!;expect(interrupted).toBe(true);expect(f.pc).toBe(failure==='lock'?'3067cfea':'3067cff3');expect(f.onexitLockHeld).toBe(failure==='unlock');expect(f.typeNameFourthCStringCopyReturned).toBe(true);expect(f.typeNameFourthCString!.backing.freed).toBe(false);expect(Buffer.from(f.typeNameFourthCString!.bytes.subarray(8,21)).toString()).toBe('eCCameraBase\0');expect(f.typeNameLockHeld).toBe(false);expect(f.undecorationLockHeld).toBe(false);const root=NativeEngineCinitImages.imageForCrt(f.images,crt,'cameraBaseObjectRoot');if(!root.known)throw new Error(root.reason);expect(root.value.readUnsigned(0)).toBe(0);expect(root.value.maskedWord(0).knownMask).toBe(0xffffffff);expect(f.exitCursor!.provenance?.kind).toBe('engine-allocation');if(f.exitCursor!.provenance?.kind!=='engine-allocation')throw new Error('Actual exit cursor required');expect(f.exitCursor!.provenance.offset).toBe(failure==='lock'?20:24);if(failure==='unlock')expect(f.exitTableSixth!.provenance).toMatchObject({kind:'source',type:'code',address:'300307f1'});const graph=NativeX86ThreadStack.forPlatform(platform);if(!graph.known)throw new Error(graph.reason);expect(graph.value.snapshot().calls.filter(c=>c.site==='30076719').at(-1)?.returned).toBe(false);expect(graph.value.snapshot().calls.filter(c=>c.site==='3007670e').at(-1)?.returned).toBe(true);
 });
 
 
 it('retains original reference-base parser caller when its arena is unavailable',()=>{
- const {bootstrap,platform,crt}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{engineHeapLayout:'rounded-eight',processorFeatureProcedure:true,floatingPointPrecisionErratum:false});createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeArenaHeapExtension,nativeSceneStartupHeapExtension]});const malloc=NativeModuleCrtOwner.prototype.malloc;let interrupted=false;
+ const {bootstrap,platform,crt}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{engineHeapLayout:'rounded-eight',processorFeatureProcedure:true,floatingPointPrecisionErratum:false});createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeNpcHeapExtension,nativeSceneStartupHeapExtension]});const malloc=NativeModuleCrtOwner.prototype.malloc;let interrupted=false;
  const spy=vi.spyOn(NativeModuleCrtOwner.prototype,'malloc').mockImplementation(function(this:NativeModuleCrtOwner,bytes){if(bytes===4104&&(bootstrap.attachProgress().engineCinitProgress?.operations??0)>14145){interrupted=true;return {known:false,reason:'Interrupted original reference-base arena request'};}return malloc.call(this,bytes);});try{expect(bootstrap.processAttach().known).toBe(false);}finally{spy.mockRestore();}
  const f=bootstrap.attachProgress().engineCinitProgress!;expect(interrupted).toBe(true);expect(f.pc).toBe('30672ec7');expect(f.undecorationLockHeld).toBe(true);expect(f.typeNameLockHeld).toBe(false);expect(f.onexitLockHeld).toBe(false);expect(f.typeNameFourthCStringCopyReturned).toBe(true);expect(f.typeNameFourthCString!.backing.freed).toBe(false);expect(f.exitTableSixth!.provenance).toMatchObject({kind:'source',type:'code',address:'300307f1'});const root=NativeEngineCinitImages.imageForCrt(f.images,crt,'objectRefBaseRoot');if(!root.known)throw new Error(root.reason);expect(root.value.maskedWord(0)).toMatchObject({value:0,knownMask:0xffffffff});const graph=NativeX86ThreadStack.forPlatform(platform);if(!graph.known)throw new Error(graph.reason);expect(graph.value.snapshot().calls.filter(c=>c.site==='30076773').at(-1)?.returned).toBe(false);expect(graph.value.snapshot().calls.filter(c=>c.site==='3069b2d3').at(-1)?.returned).toBe(false);
 });
 
 
 it('retains original reference-base qualifier caller when its RTTI byte is unknown',()=>{
- const {bootstrap,platform,crt}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{engineHeapLayout:'rounded-eight',processorFeatureProcedure:true,floatingPointPrecisionErratum:false});createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeArenaHeapExtension,nativeSceneStartupHeapExtension]});const read=NativeHeapObjectViews.prototype.readUnsigned;let interrupted=false;
+ const {bootstrap,platform,crt}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{engineHeapLayout:'rounded-eight',processorFeatureProcedure:true,floatingPointPrecisionErratum:false});createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeNpcHeapExtension,nativeSceneStartupHeapExtension]});const read=NativeHeapObjectViews.prototype.readUnsigned;let interrupted=false;
  const spy=vi.spyOn(NativeHeapObjectViews.prototype,'readUnsigned').mockImplementation(function(this:NativeHeapObjectViews,offset,width){if(this.bytes.length===30&&offset===10&&width===1&&bootstrap.attachProgress().engineCinitProgress?.pc==='3069aadf'){this.knownMask[10]=0;interrupted=true;}return read.call(this,offset,width);});try{expect(bootstrap.processAttach().known).toBe(false);}finally{spy.mockRestore();}
  const f=bootstrap.attachProgress().engineCinitProgress!;expect(interrupted).toBe(true);expect(f.pc).toBe('3069aadf');expect(f.undecorationLockHeld).toBe(true);expect(f.typeNameLockHeld).toBe(false);expect(f.typeNameFourthCStringCopyReturned).toBe(true);expect(f.typeNameFourthCString!.backing.freed).toBe(false);expect(f.undecorationParserWords![3]!.provenance).toMatchObject({kind:'engine-image',offset:10});const root=NativeEngineCinitImages.imageForCrt(f.images,crt,'objectRefBaseRoot'),info=NativeEngineCinitImages.imageForCrt(f.images,crt,'objectRefBaseTypeInfo');if(!root.known||!info.known)throw new Error('Actual reference-base images required');expect(root.value.maskedWord(0)).toMatchObject({value:0,knownMask:0xffffffff});expect(info.value.knownMask[10]).toBe(0);const graph=NativeX86ThreadStack.forPlatform(platform);if(!graph.known)throw new Error(graph.reason);expect(graph.value.snapshot().calls.filter(c=>c.site==='3069b8fe').at(-1)?.returned).toBe(false);expect(graph.value.snapshot().calls.filter(c=>c.site==='3069acca'&&!c.returned)).toHaveLength(0);
 });
 
 it('retains reference-base class keyword prefix when its third write is unavailable',()=>{
  const {bootstrap,platform,crt}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{engineHeapLayout:'rounded-eight',processorFeatureProcedure:true,floatingPointPrecisionErratum:false});
- createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeArenaHeapExtension,nativeSceneStartupHeapExtension]});
+ createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeNpcHeapExtension,nativeSceneStartupHeapExtension]});
  const write=NativeHeapObjectViews.prototype.writeUnsigned;let interrupted:NativeHeapObjectViews|null=null;
  const spy=vi.spyOn(NativeHeapObjectViews.prototype,'writeUnsigned').mockImplementation(function(this:NativeHeapObjectViews,offset,value,width){
   if(this.bytes.length===4104&&offset===4014&&width===1&&value===97&&(bootstrap.attachProgress().engineCinitProgress?.operations??0)>15002){interrupted=this;throw new Error('Reference-base class keyword destination unavailable');}
@@ -1758,7 +1759,7 @@ it('retains reference-base class keyword prefix when its third write is unavaila
 
 it('retains reference-base name copy when a source character is unknown',()=>{
  const {bootstrap,platform,crt}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{engineHeapLayout:'rounded-eight',processorFeatureProcedure:true,floatingPointPrecisionErratum:false});
- createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeArenaHeapExtension,nativeSceneStartupHeapExtension]});
+ createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeNpcHeapExtension,nativeSceneStartupHeapExtension]});
  const read=NativeHeapObjectViews.prototype.readUnsigned,write=NativeHeapObjectViews.prototype.writeUnsigned;
  let interrupted=false,nameArena:NativeHeapObjectViews|null=null,nameOffset=-1;
  const reader=vi.spyOn(NativeHeapObjectViews.prototype,'readUnsigned').mockImplementation(function(this:NativeHeapObjectViews,offset,width){
@@ -1786,7 +1787,7 @@ it('retains reference-base name copy when a source character is unknown',()=>{
 
 it('retains reference-base identifier return when its stack cookie is unknown',()=>{
  const {bootstrap,platform,crt}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{engineHeapLayout:'rounded-eight',processorFeatureProcedure:true,floatingPointPrecisionErratum:false});
- createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeArenaHeapExtension,nativeSceneStartupHeapExtension]});
+ createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeNpcHeapExtension,nativeSceneStartupHeapExtension]});
  const read=NativeHeapObjectViews.prototype.readUnsigned;let interrupted=false;
  const spy=vi.spyOn(NativeHeapObjectViews.prototype,'readUnsigned').mockImplementation(function(this:NativeHeapObjectViews,offset,width){
   if(this===bootstrap.physical.securityCookie&&offset===0&&(width??4)===4){const f=bootstrap.attachProgress().engineCinitProgress;if(f?.pc==='3067746c'&&f.operations>16031){this.knownMask[0]=0;interrupted=true;}}
@@ -1808,7 +1809,7 @@ it('retains reference-base identifier return when its stack cookie is unknown',(
 
 it('retains reference-base class append when its name link store is unavailable',()=>{
  const {bootstrap,platform,crt}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{engineHeapLayout:'rounded-eight',processorFeatureProcedure:true,floatingPointPrecisionErratum:false});
- createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeArenaHeapExtension,nativeSceneStartupHeapExtension]});
+ createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeNpcHeapExtension,nativeSceneStartupHeapExtension]});
  const read=NativeHeapObjectViews.prototype.maskedWord;let interrupted:NativeHeapObjectViews|null=null;
  const spy=vi.spyOn(NativeHeapObjectViews.prototype,'maskedWord').mockImplementation(function(this:NativeHeapObjectViews,offset,width){
   if(this.bytes.length===4104){const f=bootstrap.attachProgress().engineCinitProgress;if(f?.pc==='30696e86'&&f.operations>16338){interrupted=this;throw new Error('Reference-base name link unavailable');}}
@@ -1832,7 +1833,7 @@ it('retains reference-base class append when its name link store is unavailable'
 
 it.each(['length dispatch','output allocator'] as const)('retains reference-base name caller when its %s is unavailable',failure=>{
  const {bootstrap,platform,crt}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{engineHeapLayout:'rounded-eight',processorFeatureProcedure:true,floatingPointPrecisionErratum:false});
- createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeArenaHeapExtension,nativeSceneStartupHeapExtension]});
+ createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeNpcHeapExtension,nativeSceneStartupHeapExtension]});
  const read=NativeHeapObjectViews.prototype.readUnsigned,malloc=NativeModuleCrtOwner.prototype.malloc;let interrupted=false,retainedRoot:NativeHeapObjectViews|null=null;
  const reader=vi.spyOn(NativeHeapObjectViews.prototype,'readUnsigned').mockImplementation(function(this:NativeHeapObjectViews,offset,width){
   if(failure==='length dispatch'&&this.bytes.length===12&&this.bytes[0]===12&&this.bytes[1]===116&&this.bytes[2]===105&&this.bytes[3]===48&&offset===0&&(width??4)===4){const f=bootstrap.attachProgress().engineCinitProgress;if(f?.pc==='30697129'&&f.operations>16908){const root=NativeEngineCinitImages.imageForCrt(f.images,crt,'objectRefBaseRoot');if(!root.known)throw new Error(root.reason);retainedRoot=root.value;this.knownMask[0]=0;interrupted=true;}}
@@ -1857,7 +1858,7 @@ it.each(['length dispatch','output allocator'] as const)('retains reference-base
 
 it.each(['source character','terminator write'] as const)('retains reference-base output writer when its %s is unavailable',failure=>{
  const {bootstrap,platform,crt}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{engineHeapLayout:'rounded-eight',processorFeatureProcedure:true,floatingPointPrecisionErratum:false});
- createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeArenaHeapExtension,nativeSceneStartupHeapExtension]});
+ createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeNpcHeapExtension,nativeSceneStartupHeapExtension]});
  const read=NativeHeapObjectViews.prototype.readUnsigned,write=NativeHeapObjectViews.prototype.writeUnsigned;let interrupted=false;
  const reader=vi.spyOn(NativeHeapObjectViews.prototype,'readUnsigned').mockImplementation(function(this:NativeHeapObjectViews,offset,width){
   if(failure==='source character'&&this.bytes.length===4104&&width===1&&this.bytes[offset]===116){const f=bootstrap.attachProgress().engineCinitProgress;if(f?.pc==='30696f47'&&f.operations>17007){this.knownMask[offset]=0;interrupted=true;}}
@@ -1884,7 +1885,7 @@ it.each(['source character','terminator write'] as const)('retains reference-bas
 
 it.each(['output byte','terminator write'] as const)('retains reference-base name parser when its %s is unavailable',failure=>{
  const {bootstrap,platform,crt}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{engineHeapLayout:'rounded-eight',processorFeatureProcedure:true,floatingPointPrecisionErratum:false});
- createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeArenaHeapExtension,nativeSceneStartupHeapExtension]});
+ createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeNpcHeapExtension,nativeSceneStartupHeapExtension]});
  const read=NativeHeapObjectViews.prototype.readUnsigned,write=NativeHeapObjectViews.prototype.writeUnsigned;let interrupted=false;
  const reader=vi.spyOn(NativeHeapObjectViews.prototype,'readUnsigned').mockImplementation(function(this:NativeHeapObjectViews,offset,width){
   if(failure==='output byte'&&this.bytes.length===24&&offset===8&&width===1){const f=bootstrap.attachProgress().engineCinitProgress;if(f?.pc==='3069b0f3'&&f.operations>17430){this.knownMask[8]=0;interrupted=true;}}
@@ -1911,7 +1912,7 @@ it.each(['output byte','terminator write'] as const)('retains reference-base nam
 
 it.each(['arena release','lock release'] as const)('retains reference-base undecoration caller when its %s is unavailable',failure=>{
  const {bootstrap,platform,crt}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{engineHeapLayout:'rounded-eight',processorFeatureProcedure:true,floatingPointPrecisionErratum:false});
- createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeArenaHeapExtension,nativeSceneStartupHeapExtension]});
+ createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeNpcHeapExtension,nativeSceneStartupHeapExtension]});
  const free=NativeModuleCrtOwner.prototype.free,unlock=NativeModuleCrtOwner.prototype.unlock;let interrupted=false;
  const release=vi.spyOn(NativeModuleCrtOwner.prototype,'free').mockImplementation(function(this:NativeModuleCrtOwner,backing){
   if(failure==='arena release'&&this===crt){const f=bootstrap.attachProgress().engineCinitProgress;if(f?.pc==='30672f8a'&&f.operations>17613){interrupted=true;return {known:false,reason:'Reference-base arena release unavailable'};}}
@@ -1942,7 +1943,7 @@ it.each(['arena release','lock release'] as const)('retains reference-base undec
 
 it.each([0,255])('scans reference-base name with unknown padding bits %s',padding=>{
  const {bootstrap,platform}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{engineHeapLayout:'rounded-eight',processorFeatureProcedure:true,floatingPointPrecisionErratum:false});
- createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeArenaHeapExtension,nativeSceneStartupHeapExtension]});
+ createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeNpcHeapExtension,nativeSceneStartupHeapExtension]});
  let completed:ReturnType<typeof bootstrap.attachProgress>['engineCinitProgress']=null;const image=NativeEngineCinitImages.imageForCrt;const capture=vi.spyOn(NativeEngineCinitImages,'imageForCrt').mockImplementation((...args)=>{if(args[2]==='matrixPropertyFlags'&&!completed){const p=bootstrap.attachProgress().engineCinitProgress;if(p?.pc==='30015fbe')completed=p;}return image(...args);});
  const read=NativeHeapObjectViews.prototype.maskedWord;let observed=false;
  const spy=vi.spyOn(NativeHeapObjectViews.prototype,'maskedWord').mockImplementation(function(this:NativeHeapObjectViews,offset,width){if(this.bytes.length===24&&offset===20&&(width??4)===4&&this.bytes[0]===99&&this.bytes[6]===98){const f=bootstrap.attachProgress().engineCinitProgress;if(f?.pc==='30679b00'&&f.operations>17657){observed=true;this.bytes[22]=padding;this.bytes[23]=padding;}}return read.call(this,offset,width);});
@@ -1953,7 +1954,7 @@ it.each([0,255])('scans reference-base name with unknown padding bits %s',paddin
 
 it('keeps reference-base scan pending when its terminator is unknown',()=>{
  const {bootstrap,platform}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{engineHeapLayout:'rounded-eight',processorFeatureProcedure:true,floatingPointPrecisionErratum:false});
- createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeArenaHeapExtension,nativeSceneStartupHeapExtension]});
+ createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeNpcHeapExtension,nativeSceneStartupHeapExtension]});
  const read=NativeHeapObjectViews.prototype.maskedWord;let observed=false;
  const spy=vi.spyOn(NativeHeapObjectViews.prototype,'maskedWord').mockImplementation(function(this:NativeHeapObjectViews,offset,width){if(this.bytes.length===24&&offset===20&&(width??4)===4&&this.bytes[0]===99&&this.bytes[6]===98){const f=bootstrap.attachProgress().engineCinitProgress;if(f?.pc==='30679b00'&&f.operations>17657){observed=true;this.knownMask[21]=0;}}return read.call(this,offset,width);});
  try{expect(bootstrap.processAttach().known).toBe(false);}finally{spy.mockRestore();}
@@ -1964,7 +1965,7 @@ it('keeps reference-base scan pending when its terminator is unknown',()=>{
 
 it.each([8,22])('retains reference-base cache state when allocation %s is unavailable',request=>{
  const {bootstrap,platform,crt}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{engineHeapLayout:'rounded-eight',processorFeatureProcedure:true,floatingPointPrecisionErratum:false});
- createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeArenaHeapExtension,nativeSceneStartupHeapExtension]});
+ createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeNpcHeapExtension,nativeSceneStartupHeapExtension]});
  const malloc=NativeModuleCrtOwner.prototype.malloc;let interrupted=false;
  const spy=vi.spyOn(NativeModuleCrtOwner.prototype,'malloc').mockImplementation(function(this:NativeModuleCrtOwner,bytes){if(this===crt&&bytes===request){const f=bootstrap.attachProgress().engineCinitProgress;if(f?.pc==='30672ec7'&&f.operations>17723){interrupted=true;return {known:false,reason:'Interrupted original reference-base cache allocator'};}}return malloc.call(this,bytes);});
  try{expect(bootstrap.processAttach().known).toBe(false);}finally{spy.mockRestore();}
@@ -1977,7 +1978,7 @@ it.each([8,22])('retains reference-base cache state when allocation %s is unavai
 
 it.each(['source byte','destination write'])('keeps the reference-base bounded cache copy pending on %s',failure=>{
  const {bootstrap,platform}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{engineHeapLayout:'rounded-eight',processorFeatureProcedure:true,floatingPointPrecisionErratum:false});
- createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeArenaHeapExtension,nativeSceneStartupHeapExtension]});
+ createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeNpcHeapExtension,nativeSceneStartupHeapExtension]});
  const read=NativeHeapObjectViews.prototype.readUnsigned,write=NativeHeapObjectViews.prototype.writeUnsigned;let interrupted=false;
  const reading=vi.spyOn(NativeHeapObjectViews.prototype,'readUnsigned').mockImplementation(function(this:NativeHeapObjectViews,offset,width){if(failure==='source byte'&&this.bytes.length===24&&offset===8&&width===1){const f=bootstrap.attachProgress().engineCinitProgress;if(f?.pc==='3068a888'&&f.operations>17749){interrupted=true;this.knownMask[8]=0;}}return read.call(this,offset,width);});
  const writing=vi.spyOn(NativeHeapObjectViews.prototype,'writeUnsigned').mockImplementation(function(this:NativeHeapObjectViews,offset,value,width){if(failure==='destination write'&&this.bytes.length===22&&offset===8&&width===1){const f=bootstrap.attachProgress().engineCinitProgress;if(f?.pc==='3068a88a'&&f.operations>17749){interrupted=true;throw new Error('Interrupted original reference-base cache write');}}return write.call(this,offset,value,width);});
@@ -1989,7 +1990,7 @@ it.each(['source byte','destination write'])('keeps the reference-base bounded c
 
 it.each(['next pointer','root pointer'])('retains the reference-base cache chain on interrupted %s publication',failure=>{
  const {bootstrap,platform}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{engineHeapLayout:'rounded-eight',processorFeatureProcedure:true,floatingPointPrecisionErratum:false});
- createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeArenaHeapExtension,nativeSceneStartupHeapExtension]});
+ createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeNpcHeapExtension,nativeSceneStartupHeapExtension]});
  const word=NativeHeapObjectViews.prototype.maskedWord;let probing=false,interrupted=false;let previousRoot:NativeHeapObjectViews|null=null;
  const spy=vi.spyOn(NativeHeapObjectViews.prototype,'maskedWord').mockImplementation(function(this:NativeHeapObjectViews,offset,width){if(!probing&&this.bytes.length===8&&offset===4&&(width??4)===4){probing=true;try{const f=bootstrap.attachProgress().engineCinitProgress;if(f&&f.operations>17955&&f.pc==='3067db53'){const root=f.typeNameListRootWords![1]!.provenance;if(root?.kind==='engine-allocation')previousRoot=root.fields;}if(f&&f.operations>17955&&f.pc===(failure==='next pointer'?'3067db53':'3067db56')){interrupted=true;throw new Error('Interrupted original reference-base cache link');}}finally{probing=false;}}return word.call(this,offset,width);});
  try{expect(bootstrap.processAttach().known).toBe(false);}finally{spy.mockRestore();}
@@ -2000,7 +2001,7 @@ it.each(['next pointer','root pointer'])('retains the reference-base cache chain
 
 it.each(['output release','lock release'])('retains reference-base type-name caller when %s is unavailable',failure=>{
  const {bootstrap,platform,crt}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{engineHeapLayout:'rounded-eight',processorFeatureProcedure:true,floatingPointPrecisionErratum:false});
- createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeArenaHeapExtension,nativeSceneStartupHeapExtension]});
+ createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeNpcHeapExtension,nativeSceneStartupHeapExtension]});
  const free=NativeModuleCrtOwner.prototype.free,unlock=NativeModuleCrtOwner.prototype.unlock;let interrupted=false;
  const release=vi.spyOn(NativeModuleCrtOwner.prototype,'free').mockImplementation(function(this:NativeModuleCrtOwner,backing){if(failure==='output release'&&this===crt){const f=bootstrap.attachProgress().engineCinitProgress;if(f?.pc==='30672f8a'&&f.operations>17962&&backing===f.undecorationOutput!.backing){interrupted=true;return {known:false,reason:'Reference-base type-name output release unavailable'};}}return free.call(this,backing);});
  const lock=vi.spyOn(NativeModuleCrtOwner.prototype,'unlock').mockImplementation(function(this:NativeModuleCrtOwner,id){if(failure==='lock release'&&this===crt&&id===14){const f=bootstrap.attachProgress().engineCinitProgress;if(f?.pc==='3067db85'&&f.operations>17962){interrupted=true;return {known:false,reason:'Reference-base type-name unlock unavailable'};}}return unlock.call(this,id);});
@@ -2012,7 +2013,7 @@ it.each(['output release','lock release'])('retains reference-base type-name cal
 
 it.each([0,4])('keeps reference-base UnMangle pending on unknown search word at %s',wordOffset=>{
  const {bootstrap,platform}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{engineHeapLayout:'rounded-eight',processorFeatureProcedure:true,floatingPointPrecisionErratum:false});
- createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeArenaHeapExtension,nativeSceneStartupHeapExtension]});
+ createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeNpcHeapExtension,nativeSceneStartupHeapExtension]});
  const word=NativeHeapObjectViews.prototype.maskedWord;let probing=false,interrupted=false;
  const spy=vi.spyOn(NativeHeapObjectViews.prototype,'maskedWord').mockImplementation(function(this:NativeHeapObjectViews,offset,width){if(!probing&&this.bytes.length===22&&offset===wordOffset&&(width??4)===4){probing=true;try{const f=bootstrap.attachProgress().engineCinitProgress;if(f?.pc==='100a7338'&&f.operations>17988){interrupted=true;this.knownMask[offset+1]=0;}}finally{probing=false;}}return word.call(this,offset,width);});
  try{expect(bootstrap.processAttach().known).toBe(false);}finally{spy.mockRestore();}
@@ -2023,7 +2024,7 @@ it.each([0,4])('keeps reference-base UnMangle pending on unknown search word at 
 
 it.each([13,21])('keeps reference-base CString scan pending on unknown byte at %s',byteOffset=>{
  const {bootstrap,platform}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{engineHeapLayout:'rounded-eight',processorFeatureProcedure:true,floatingPointPrecisionErratum:false});
- createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeArenaHeapExtension,nativeSceneStartupHeapExtension]});
+ createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeNpcHeapExtension,nativeSceneStartupHeapExtension]});
  const read=NativeHeapObjectViews.prototype.readUnsigned;let interrupted=false;
  const spy=vi.spyOn(NativeHeapObjectViews.prototype,'readUnsigned').mockImplementation(function(this:NativeHeapObjectViews,offset,width){if(this.bytes.length===22&&offset===byteOffset&&width===1){const f=bootstrap.attachProgress().engineCinitProgress;if(f?.pc==='10013610'&&f.operations>18076){interrupted=true;this.knownMask[offset]=0;}}return read.call(this,offset,width);});
  try{expect(bootstrap.processAttach().known).toBe(false);}finally{spy.mockRestore();}
@@ -2034,7 +2035,7 @@ it.each([13,21])('keeps reference-base CString scan pending on unknown byte at %
 
 it.each(['unavailable','NULL','aliased reference-base'])('retains the obsolete-class CString caller on %s allocation',failure=>{
  const {bootstrap,platform,crt}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{engineHeapLayout:'rounded-eight',processorFeatureProcedure:true,floatingPointPrecisionErratum:false});
- const owner=createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeArenaHeapExtension,nativeSceneStartupHeapExtension]});
+ const owner=createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeNpcHeapExtension,nativeSceneStartupHeapExtension]});
  const malloc=NativeMemoryAdmin.prototype.malloc;let interrupted=false;
  const spy=vi.spyOn(NativeMemoryAdmin.prototype,'malloc').mockImplementation(function(this:NativeMemoryAdmin,bytes){if(this===owner.memory&&bytes===24){const f=bootstrap.attachProgress().engineCinitProgress;if(f?.pc==='10003cd8'&&f.operations>18315){interrupted=true;if(failure==='unavailable')return {known:false,reason:'Reference-base CString allocator unavailable'};if(failure==='NULL')return {known:true,value:null};return {known:true,value:f.typeNameFifthCString!.backing as NativeMemoryAllocation};}}return malloc.call(this,bytes);});
  try{expect(bootstrap.processAttach().known).toBe(false);}finally{spy.mockRestore();}
@@ -2046,11 +2047,11 @@ it.each(['unavailable','NULL','aliased reference-base'])('retains the obsolete-c
 
 it.each(['unknown source mask','interrupted destination unit'])('preserves obsolete-class CString copy state on %s',failure=>{
  const {bootstrap,platform}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{engineHeapLayout:'rounded-eight',processorFeatureProcedure:true,floatingPointPrecisionErratum:false});
- createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeArenaHeapExtension,nativeSceneStartupHeapExtension]});
+ createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeNpcHeapExtension,nativeSceneStartupHeapExtension]});
  const word=NativeHeapObjectViews.prototype.maskedWord;let probing=false,interrupted=false;
  const spy=vi.spyOn(NativeHeapObjectViews.prototype,'maskedWord').mockImplementation(function(this:NativeHeapObjectViews,offset,width){const candidate=failure==='unknown source mask'?this.bytes.length===22&&offset===10:this.bytes.length===24&&offset===16;if(!probing&&candidate&&(width??4)===4){probing=true;try{const f=bootstrap.attachProgress().engineCinitProgress;if(f?.pc==='100a7a00'&&f.operations>18315&&this===(failure==='unknown source mask'?f.typeNameCacheText:f.typeNameSixthCString)){interrupted=true;if(failure==='unknown source mask')this.knownMask[13]=0;else throw new Error('Interrupted original reference-base CString copy unit');}}finally{probing=false;}}return word.call(this,offset,width);});
  try{expect(bootstrap.processAttach().known).toBe(false);}finally{spy.mockRestore();}
- const f=bootstrap.attachProgress().engineCinitProgress!,text=f.typeNameSixthCString!;expect(interrupted).toBe(true);expect(f.pc).toBe(failure==='unknown source mask'?'30732370':'100a7a00');expect(text.backing.freed).toBe(false);expect(text.readUnsigned(0)).toBe(15);expect(text.readUnsigned(4,2)).toBe(1);expect(text.readUnsigned(23,1)).toBe(0);expect(f.typeNameCacheText!.backing.freed).toBe(false);expect(f.undecorationOutput!.backing.freed).toBe(true);
+ const f=bootstrap.attachProgress().engineCinitProgress!,text=f.typeNameSixthCString!;expect(interrupted).toBe(true);expect(f.pc).toBe(failure==='unknown source mask'?'307323d0':'100a7a00');expect(text.backing.freed).toBe(false);expect(text.readUnsigned(0)).toBe(15);expect(text.readUnsigned(4,2)).toBe(1);expect(text.readUnsigned(23,1)).toBe(0);expect(f.typeNameCacheText!.backing.freed).toBe(false);expect(f.undecorationOutput!.backing.freed).toBe(true);
  if(failure==='unknown source mask'){expect(f.typeNameSixthCStringCopyReturned).toBe(true);expect(text.knownMask[15]).toBe(0);expect(()=>text.readUnsigned(15,1)).toThrow();expect([...text.knownMask]).toEqual([...Array(15).fill(255),0,...Array(8).fill(255)]);}else {expect(f.typeNameSixthCStringCopyReturned).toBe(false);expect(Buffer.from(text.bytes.slice(8,16)).toString()).toBe('bCObsole');expect([...text.bytes.slice(16)]).toEqual(Array(8).fill(0));expect([...text.knownMask]).toEqual(Array(24).fill(255));}
  const graph=NativeX86ThreadStack.forPlatform(platform);if(!graph.known)throw new Error(graph.reason);expect(graph.value.snapshot().calls.filter(c=>c.site==='1001362d').at(-1)).toMatchObject({returned:failure==='unknown source mask'});expect(graph.value.snapshot().calls.find(c=>c.site==='300767ee')).toMatchObject({returned:failure==='unknown source mask'});
 });
@@ -2058,7 +2059,7 @@ it.each(['unknown source mask','interrupted destination unit'])('preserves obsol
 
 it.each(['lock','unlock'])('keeps obsolete-class registration pending when exit %s is unavailable',failure=>{
  const {bootstrap,platform,crt}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{engineHeapLayout:'rounded-eight',processorFeatureProcedure:true,floatingPointPrecisionErratum:false});
- createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeArenaHeapExtension,nativeSceneStartupHeapExtension]});
+ createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeNpcHeapExtension,nativeSceneStartupHeapExtension]});
  const lock=NativeModuleCrtOwner.prototype.lock,unlock=NativeModuleCrtOwner.prototype.unlock;let interrupted=false;
  const entering=vi.spyOn(NativeModuleCrtOwner.prototype,'lock').mockImplementation(function(this:NativeModuleCrtOwner,id){if(failure==='lock'&&this===crt&&id===8){const f=bootstrap.attachProgress().engineCinitProgress;if(f?.pc==='3067cfea'&&f.operations>18315){interrupted=true;return {known:false,reason:'Reference-base exit lock unavailable'};}}return lock.call(this,id);});
  const leaving=vi.spyOn(NativeModuleCrtOwner.prototype,'unlock').mockImplementation(function(this:NativeModuleCrtOwner,id){if(failure==='unlock'&&this===crt&&id===8){const f=bootstrap.attachProgress().engineCinitProgress;if(f?.pc==='3067cff3'&&f.operations>18315){interrupted=true;return {known:false,reason:'Reference-base exit unlock unavailable'};}}return unlock.call(this,id);});
@@ -2070,7 +2071,7 @@ it.each(['lock','unlock'])('keeps obsolete-class registration pending when exit 
 
 it.each(['unavailable','NULL','aliased camera'])('retains the reference-base CString caller on %s allocation',failure=>{
  const {bootstrap,platform,crt}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{engineHeapLayout:'rounded-eight',processorFeatureProcedure:true,floatingPointPrecisionErratum:false});
- const owner=createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeArenaHeapExtension,nativeSceneStartupHeapExtension]});
+ const owner=createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeNpcHeapExtension,nativeSceneStartupHeapExtension]});
  const malloc=NativeMemoryAdmin.prototype.malloc;let interrupted=false;
  const spy=vi.spyOn(NativeMemoryAdmin.prototype,'malloc').mockImplementation(function(this:NativeMemoryAdmin,bytes){if(this===owner.memory&&bytes===24){const f=bootstrap.attachProgress().engineCinitProgress;if(f?.pc==='10003cd8'&&f.operations>18157){interrupted=true;if(failure==='unavailable')return {known:false,reason:'Reference-base CString allocator unavailable'};if(failure==='NULL')return {known:true,value:null};return {known:true,value:f.typeNameFourthCString!.backing as NativeMemoryAllocation};}}return malloc.call(this,bytes);});
  try{expect(bootstrap.processAttach().known).toBe(false);}finally{spy.mockRestore();}
@@ -2082,11 +2083,11 @@ it.each(['unavailable','NULL','aliased camera'])('retains the reference-base CSt
 
 it.each(['unknown source mask','interrupted destination unit'])('preserves reference-base CString copy state on %s',failure=>{
  const {bootstrap,platform}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{engineHeapLayout:'rounded-eight',processorFeatureProcedure:true,floatingPointPrecisionErratum:false});
- createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeArenaHeapExtension,nativeSceneStartupHeapExtension]});
+ createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeNpcHeapExtension,nativeSceneStartupHeapExtension]});
  const word=NativeHeapObjectViews.prototype.maskedWord;let probing=false,interrupted=false;
  const spy=vi.spyOn(NativeHeapObjectViews.prototype,'maskedWord').mockImplementation(function(this:NativeHeapObjectViews,offset,width){const candidate=failure==='unknown source mask'?this.bytes.length===22&&offset===10:this.bytes.length===24&&offset===16;if(!probing&&candidate&&(width??4)===4){probing=true;try{const f=bootstrap.attachProgress().engineCinitProgress;if(f?.pc==='100a7a00'&&f.operations>=18182&&this===(failure==='unknown source mask'?f.typeNameCacheText:f.typeNameFifthCString)){interrupted=true;if(failure==='unknown source mask')this.knownMask[13]=0;else throw new Error('Interrupted original reference-base CString copy unit');}}finally{probing=false;}}return word.call(this,offset,width);});
  try{expect(bootstrap.processAttach().known).toBe(false);}finally{spy.mockRestore();}
- const f=bootstrap.attachProgress().engineCinitProgress!,text=f.typeNameFifthCString!;expect(interrupted).toBe(true);expect(f.pc).toBe(failure==='unknown source mask'?'30732370':'100a7a00');expect(text.backing.freed).toBe(false);expect(text.readUnsigned(0)).toBe(15);expect(text.readUnsigned(4,2)).toBe(1);expect(text.readUnsigned(23,1)).toBe(0);expect(f.typeNameCacheText!.backing.freed).toBe(false);expect(f.undecorationOutput!.backing.freed).toBe(true);
+ const f=bootstrap.attachProgress().engineCinitProgress!,text=f.typeNameFifthCString!;expect(interrupted).toBe(true);expect(f.pc).toBe(failure==='unknown source mask'?'307323d0':'100a7a00');expect(text.backing.freed).toBe(false);expect(text.readUnsigned(0)).toBe(15);expect(text.readUnsigned(4,2)).toBe(1);expect(text.readUnsigned(23,1)).toBe(0);expect(f.typeNameCacheText!.backing.freed).toBe(false);expect(f.undecorationOutput!.backing.freed).toBe(true);
  if(failure==='unknown source mask'){expect(f.typeNameFifthCStringCopyReturned).toBe(true);expect(text.knownMask[15]).toBe(0);expect(()=>text.readUnsigned(15,1)).toThrow();expect([...text.knownMask]).toEqual([...Array(15).fill(255),0,...Array(8).fill(255)]);}else {expect(f.typeNameFifthCStringCopyReturned).toBe(false);expect(Buffer.from(text.bytes.slice(8,16)).toString()).toBe('bCObject');expect([...text.bytes.slice(16)]).toEqual(Array(8).fill(0));expect([...text.knownMask]).toEqual(Array(24).fill(255));}
  const graph=NativeX86ThreadStack.forPlatform(platform);if(!graph.known)throw new Error(graph.reason);expect(graph.value.snapshot().calls.filter(c=>c.site==='1001362d').at(-1)).toMatchObject({returned:failure==='unknown source mask'});expect(graph.value.snapshot().calls.find(c=>c.site==='3007677e')).toMatchObject({returned:failure==='unknown source mask'});
 });
@@ -2094,7 +2095,7 @@ it.each(['unknown source mask','interrupted destination unit'])('preserves refer
 
 it.each(['lock','unlock'])('keeps reference-base registration pending when exit %s is unavailable',failure=>{
  const {bootstrap,platform,crt}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{engineHeapLayout:'rounded-eight',processorFeatureProcedure:true,floatingPointPrecisionErratum:false});
- createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeArenaHeapExtension,nativeSceneStartupHeapExtension]});
+ createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeNpcHeapExtension,nativeSceneStartupHeapExtension]});
  const lock=NativeModuleCrtOwner.prototype.lock,unlock=NativeModuleCrtOwner.prototype.unlock;let interrupted=false;
  const entering=vi.spyOn(NativeModuleCrtOwner.prototype,'lock').mockImplementation(function(this:NativeModuleCrtOwner,id){if(failure==='lock'&&this===crt&&id===8){const f=bootstrap.attachProgress().engineCinitProgress;if(f?.pc==='3067cfea'&&f.operations>18191){interrupted=true;return {known:false,reason:'Reference-base exit lock unavailable'};}}return lock.call(this,id);});
  const leaving=vi.spyOn(NativeModuleCrtOwner.prototype,'unlock').mockImplementation(function(this:NativeModuleCrtOwner,id){if(failure==='unlock'&&this===crt&&id===8){const f=bootstrap.attachProgress().engineCinitProgress;if(f?.pc==='3067cff3'&&f.operations>18191){interrupted=true;return {known:false,reason:'Reference-base exit unlock unavailable'};}}return unlock.call(this,id);});
@@ -2106,7 +2107,7 @@ it.each(['lock','unlock'])('keeps reference-base registration pending when exit 
 
 it.each([1,2])('keeps the matrix property initializer pending when guard bit %s is unknown',bit=>{
  const {bootstrap,platform,crt}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{engineHeapLayout:'rounded-eight',processorFeatureProcedure:true,floatingPointPrecisionErratum:false});
- createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeArenaHeapExtension,nativeSceneStartupHeapExtension]});
+ createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeNpcHeapExtension,nativeSceneStartupHeapExtension]});
  const images=NativeEngineCinitImages.forCrt(crt);if(!images.known)throw new Error(images.reason);
  const flags=NativeEngineCinitImages.imageForCrt(images.value,crt,'matrixPropertyFlags');if(!flags.known)throw new Error(flags.reason);
  flags.value.knownMask[0]=255^bit;
@@ -2129,7 +2130,7 @@ it.each(['unavailable', 'NULL', 'aliased bCString'])(
    browserGameStandardIoInputs, browserGameArgvNlsInputs, true, browserGameProcessInputs,
    {engineHeapLayout: 'rounded-eight', processorFeatureProcedure: true, floatingPointPrecisionErratum: false});
   const owner = createNativeRuntimeAdminOwner(platform,
-   {memoryExtensions: [nativeArenaHeapExtension, nativeSceneStartupHeapExtension]});
+   {memoryExtensions: [nativeNpcHeapExtension, nativeSceneStartupHeapExtension]});
   const malloc = NativeMemoryAdmin.prototype.malloc;
   let interrupted = false;
   const spy = vi.spyOn(NativeMemoryAdmin.prototype, 'malloc').mockImplementation(function(this: NativeMemoryAdmin, bytes) {
@@ -2174,7 +2175,7 @@ it.each(['unknown source mask', 'interrupted destination unit'])(
    browserGameStandardIoInputs, browserGameArgvNlsInputs, true, browserGameProcessInputs,
    {engineHeapLayout: 'rounded-eight', processorFeatureProcedure: true, floatingPointPrecisionErratum: false});
   createNativeRuntimeAdminOwner(platform,
-   {memoryExtensions: [nativeArenaHeapExtension, nativeSceneStartupHeapExtension]});
+   {memoryExtensions: [nativeNpcHeapExtension, nativeSceneStartupHeapExtension]});
   const word = NativeHeapObjectViews.prototype.maskedWord;
   let probing = false, interrupted = false;
   let outputAtCopy:NativeHeapObjectViews|null=null;
@@ -2199,7 +2200,7 @@ it.each(['unknown source mask', 'interrupted destination unit'])(
   try { expect(bootstrap.processAttach().known).toBe(false); } finally { spy.mockRestore(); }
   const f = bootstrap.attachProgress().engineCinitProgress!, text = f.typeNameSeventhCString!;
   expect(interrupted).toBe(true);
-  expect(f.pc).toBe(failure === 'unknown source mask' ? '30732370' : '100a7a00');
+  expect(f.pc).toBe(failure === 'unknown source mask' ? '307323d0' : '100a7a00');
   expect(text.backing.freed).toBe(false);
   expect(text.readUnsigned(0)).toBe(8);
   expect(text.readUnsigned(4,2)).toBe(1);
@@ -2231,7 +2232,7 @@ it.each(['lock', 'unlock'])(
    browserGameStandardIoInputs, browserGameArgvNlsInputs, true, browserGameProcessInputs,
    {engineHeapLayout: 'rounded-eight', processorFeatureProcedure: true, floatingPointPrecisionErratum: false});
   createNativeRuntimeAdminOwner(platform,
-   {memoryExtensions: [nativeArenaHeapExtension, nativeSceneStartupHeapExtension]});
+   {memoryExtensions: [nativeNpcHeapExtension, nativeSceneStartupHeapExtension]});
   const lock = NativeModuleCrtOwner.prototype.lock, unlock = NativeModuleCrtOwner.prototype.unlock;
   let interrupted = false;
   const entering = vi.spyOn(NativeModuleCrtOwner.prototype, 'lock').mockImplementation(function(this: NativeModuleCrtOwner, id) {
@@ -2279,7 +2280,7 @@ it('completes the original vector, vector2 and rectangle properties through thei
   browserGameStandardIoInputs, browserGameArgvNlsInputs, true, browserGameProcessInputs,
   {engineHeapLayout: 'rounded-eight', processorFeatureProcedure: true, floatingPointPrecisionErratum: false});
  createNativeRuntimeAdminOwner(platform,
-  {memoryExtensions: [nativeArenaHeapExtension, nativeSceneStartupHeapExtension]});
+  {memoryExtensions: [nativeNpcHeapExtension, nativeSceneStartupHeapExtension]});
  let completed:ReturnType<typeof bootstrap.attachProgress>['engineCinitProgress']=null;
  const lookup=NativeEngineCinitImages.imageForCrt;
  const spy=vi.spyOn(NativeEngineCinitImages,'imageForCrt').mockImplementation((images,owner,label)=>{
@@ -2321,6 +2322,12 @@ it('completes the original vector, vector2 and rectangle properties through thei
 });
 
 const nextClassProperties = [
+ {name:'eCEngineComponentBase', prefix:'engineComponentProperty', entry:'30038a87', callback:'30732370', guardOne:'30076ac7', guardTwo:'30076adf', typeCall:'30076af3', request:30, ordinal:'Thirteenth', previous:'Twelfth', retained:'typeNameSixthCString'},
+ {name:'eCIlluminationAdmin', prefix:'illuminationAdminProperty', entry:'300140b0', callback:'30732380', guardOne:'30076b57', guardTwo:'30076b6f', typeCall:'30076b83', request:28, ordinal:'Fourteenth', previous:'Thirteenth', retained:'typeNameSixthCString'},
+ {name:'eCMaterialAdmin', prefix:'materialAdminProperty', entry:'3003bbb0', callback:'30732390', guardOne:'30076c27', guardTwo:'30076c3f', typeCall:'30076c53', request:24, ordinal:'Fifteenth', previous:'Fourteenth', retained:'typeNameSixthCString'},
+ {name:'eCGUIManager', prefix:'guiManagerProperty', entry:'3000d34b', callback:'307323a0', guardOne:'30076ce7', guardTwo:'30076cff', typeCall:'30076d13', request:21, ordinal:'Sixteenth', previous:'Fifteenth', retained:'typeNameSixthCString'},
+ {name:'eCActionMapper', prefix:'actionMapperProperty', entry:'3000b8f7', callback:'307323b0', guardOne:'30076d57', guardTwo:'30076d6f', typeCall:'30076d83', request:23, ordinal:'Seventeenth', previous:'Sixteenth', retained:'typeNameSixthCString'},
+ {name:'eCContextBase', prefix:'contextBaseProperty', entry:'3004284d', callback:'307323c0', guardOne:'30076dc7', guardTwo:'30076ddf', typeCall:'30076df3', request:22, ordinal:'Eighteenth', previous:'Seventeenth', retained:'typeNameSixthCString'},
  {name:'input receiver', prefix:'inputReceiverProperty', entry:'30044a94', callback:'30732360', guardOne:'30076a57', guardTwo:'30076a6f', typeCall:'30076a83', request:24, ordinal:'Twelfth', previous:'Eleventh', retained:'typeNameSixthCString'},
  {name:'boolean', prefix:'boolProperty', entry:'3000c0b8', callback:'30732350', guardOne:'300769e7', guardTwo:'300769ff', typeCall:'30076a13', request:13, ordinal:'Eleventh', previous:'Tenth', retained:'typeNameTenthCString'},
  {name:'vector', prefix:'vectorProperty', entry:'3003f1a7', callback:'30732320', guardOne:'30076897', guardTwo:'300768af', typeCall:'300768c3', request:17, ordinal:'Eighth', previous:'Seventh', retained:'typeNameSeventhCString'},
@@ -2334,7 +2341,7 @@ it.each(nextClassProperties.flatMap(property => [1,2].map(bit => ({...property,b
    {writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},
    browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,
    {engineHeapLayout:'rounded-eight',processorFeatureProcedure:true,floatingPointPrecisionErratum:false});
-  createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeArenaHeapExtension,nativeSceneStartupHeapExtension]});
+  createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeNpcHeapExtension,nativeSceneStartupHeapExtension]});
   const images=NativeEngineCinitImages.forCrt(crt);if(!images.known)throw new Error(images.reason);
   const flags=NativeEngineCinitImages.imageForCrt(images.value,crt,`${property.prefix}Flags`);if(!flags.known)throw new Error(flags.reason);
   flags.value.knownMask[0]=255^property.bit;
@@ -2356,7 +2363,7 @@ it.each(nextClassProperties.flatMap(property => ['unavailable','NULL','aliased b
    {writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},
    browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,
    {engineHeapLayout:'rounded-eight',processorFeatureProcedure:true,floatingPointPrecisionErratum:false});
-  const owner=createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeArenaHeapExtension,nativeSceneStartupHeapExtension]});
+  const owner=createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeNpcHeapExtension,nativeSceneStartupHeapExtension]});
   const malloc=NativeMemoryAdmin.prototype.malloc;
   let interrupted=false,retained:NativeHeapObjectViews|null=null;
   let bytes:Uint8Array|null=null,masks:Uint8Array|null=null;
@@ -2394,7 +2401,7 @@ it.each(['unknown tail source','interrupted tail destination'])(
    {writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},
    browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,
    {engineHeapLayout:'rounded-eight',processorFeatureProcedure:true,floatingPointPrecisionErratum:false});
-  createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeArenaHeapExtension,nativeSceneStartupHeapExtension]});
+  createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeNpcHeapExtension,nativeSceneStartupHeapExtension]});
   const word=NativeHeapObjectViews.prototype.maskedWord;
   let probing=false,interrupted=false;
   const spy=vi.spyOn(NativeHeapObjectViews.prototype,'maskedWord').mockImplementation(function(this:NativeHeapObjectViews,offset,width){
@@ -2414,7 +2421,7 @@ it.each(['unknown tail source','interrupted tail destination'])(
   });
   try{expect(bootstrap.processAttach().known).toBe(false);}finally{spy.mockRestore();}
   const f=bootstrap.attachProgress().engineCinitProgress!,text=f.typeNameNinthCString!;
-  expect(interrupted).toBe(true);expect(f.pc).toBe(failure==='unknown tail source'?'30732370':'100a7a00');
+  expect(interrupted).toBe(true);expect(f.pc).toBe(failure==='unknown tail source'?'307323d0':'100a7a00');
   expect(text.backing.freed).toBe(false);expect(text.readUnsigned(0)).toBe(9);expect(text.readUnsigned(17,1)).toBe(0);
   expect(Buffer.from(text.bytes.slice(8,16)).toString()).toBe('bCVector');
   if(failure==='unknown tail source'){
@@ -2429,7 +2436,7 @@ it.each(['unknown tail source','interrupted tail destination'])(
 
 it.each([0,255])('completes the original boolean property with unknown padding bits %s',padding=>{
  const {bootstrap,platform,crt}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{engineHeapLayout:'rounded-eight',processorFeatureProcedure:true,floatingPointPrecisionErratum:false});
- createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeArenaHeapExtension,nativeSceneStartupHeapExtension]});
+ createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeNpcHeapExtension,nativeSceneStartupHeapExtension]});
  const original=NativeHeapObjectViews.prototype.maskedWord;let probing=false,observed=false;
  const spy=vi.spyOn(NativeHeapObjectViews.prototype,'maskedWord').mockImplementation(function(this:NativeHeapObjectViews,offset,width){
   if(!probing&&this.bytes.length===8&&offset===4&&(width??4)===4){
@@ -2464,7 +2471,7 @@ it.each([0,255])('completes the original boolean property with unknown padding b
 it.each(['unknown source mask','interrupted destination'])(
  'preserves original boolean CString copy state on %s',failure=>{
   const {bootstrap,platform}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{engineHeapLayout:'rounded-eight',processorFeatureProcedure:true,floatingPointPrecisionErratum:false});
-  createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeArenaHeapExtension,nativeSceneStartupHeapExtension]});
+  createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeNpcHeapExtension,nativeSceneStartupHeapExtension]});
   const original=NativeHeapObjectViews.prototype.maskedWord;
   let probing=false,interrupted=false;
   const spy=vi.spyOn(NativeHeapObjectViews.prototype,'maskedWord').mockImplementation(function(this:NativeHeapObjectViews,offset,width){
@@ -2484,7 +2491,7 @@ it.each(['unknown source mask','interrupted destination'])(
   });
   try{expect(bootstrap.processAttach().known).toBe(false);}finally{spy.mockRestore();}
   const f=bootstrap.attachProgress().engineCinitProgress!,text=f.typeNameEleventhCString!;
-  expect(interrupted).toBe(true);expect(f.pc).toBe(failure==='unknown source mask'?'30732370':'100a7a00');
+  expect(interrupted).toBe(true);expect(f.pc).toBe(failure==='unknown source mask'?'307323d0':'100a7a00');
   expect(text.backing.freed).toBe(false);expect(text.readUnsigned(0)).toBe(4);expect(text.readUnsigned(12,1)).toBe(0);
   expect(f.typeNameEleventhCStringCopyReturned).toBe(failure==='unknown source mask');
   if(failure==='unknown source mask'){expect(text.knownMask[10]).toBe(0);expect(()=>text.readUnsigned(10,1)).toThrow();}
@@ -2496,9 +2503,16 @@ it.each(['unknown source mask','interrupted destination'])(
 
 it('completes the original input receiver property through its physical caller',()=>{
  const {bootstrap,platform,crt}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{engineHeapLayout:'rounded-eight',processorFeatureProcedure:true,floatingPointPrecisionErratum:false});
- createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeArenaHeapExtension,nativeSceneStartupHeapExtension]});
- const result=bootstrap.processAttach();expect(result.known).toBe(false);const f=bootstrap.attachProgress().engineCinitProgress!;
- expect(f.pc,result.known?'Unexpected complete startup':result.reason).toBe('30732370');
+ createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeNpcHeapExtension,nativeSceneStartupHeapExtension]});
+ let completed:ReturnType<typeof bootstrap.attachProgress>['engineCinitProgress']=null;
+ const lookup=NativeEngineCinitImages.imageForCrt;
+ const spy=vi.spyOn(NativeEngineCinitImages,'imageForCrt').mockImplementation((images,owner,label)=>{
+  if(label==='engineComponentPropertyFlags'&&bootstrap.attachProgress().engineCinitProgress?.pc==='30038a87')completed=bootstrap.attachProgress().engineCinitProgress;
+  return lookup(images,owner,label);
+ });
+ let result;try{result=bootstrap.processAttach();}finally{spy.mockRestore();}
+ expect(result.known).toBe(false);expect(completed).not.toBe(null);const f=completed!;
+ expect(f.pc,result.known?'Unexpected complete startup':result.reason).toBe('30038a87');
  expect(f.typeNameTwelfthCStringCopyReturned).toBe(true);
  const name='eCInputReceiver',text=f.typeNameTwelfthCString!;
  expect(text.backing).toMatchObject({requestedBytes:name.length+9,capacity:24,freed:false});
@@ -2517,7 +2531,7 @@ it('completes the original input receiver property through its physical caller',
 it.each(['unknown source mask','interrupted destination'])(
  'preserves original input receiver CString copy state on %s',failure=>{
   const {bootstrap,platform}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{engineHeapLayout:'rounded-eight',processorFeatureProcedure:true,floatingPointPrecisionErratum:false});
-  createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeArenaHeapExtension,nativeSceneStartupHeapExtension]});
+  createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeNpcHeapExtension,nativeSceneStartupHeapExtension]});
   const original=NativeHeapObjectViews.prototype.maskedWord;
   let probing=false,interrupted=false;
   const spy=vi.spyOn(NativeHeapObjectViews.prototype,'maskedWord').mockImplementation(function(this:NativeHeapObjectViews,offset,width){
@@ -2537,7 +2551,7 @@ it.each(['unknown source mask','interrupted destination'])(
   });
   try{expect(bootstrap.processAttach().known).toBe(false);}finally{spy.mockRestore();}
   const f=bootstrap.attachProgress().engineCinitProgress!,text=f.typeNameTwelfthCString!;
-  expect(interrupted).toBe(true);expect(f.pc).toBe(failure==='unknown source mask'?'30732370':'100a7a00');
+  expect(interrupted).toBe(true);expect(f.pc).toBe(failure==='unknown source mask'?'307323d0':'100a7a00');
   expect(text.backing.freed).toBe(false);expect(text.readUnsigned(0)).toBe(15);expect(text.readUnsigned(23,1)).toBe(0);
   expect(f.typeNameTwelfthCStringCopyReturned).toBe(failure==='unknown source mask');
   if(failure==='unknown source mask'){expect(text.knownMask[10]).toBe(0);expect(()=>text.readUnsigned(10,1)).toThrow();}
@@ -2545,3 +2559,42 @@ it.each(['unknown source mask','interrupted destination'])(
   const graph=NativeX86ThreadStack.forPlatform(platform);if(!graph.known)throw new Error(graph.reason);
   expect(graph.value.snapshot().calls.find(c=>c.site==='30076a8e')).toMatchObject({returned:failure==='unknown source mask'});
  });
+
+
+it('completes the original engine component and admin property batch',()=>{
+ const {bootstrap,platform,crt}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{engineHeapLayout:'rounded-eight',processorFeatureProcedure:true,floatingPointPrecisionErratum:false});
+ createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeNpcHeapExtension,nativeSceneStartupHeapExtension]});
+ const result=bootstrap.processAttach();expect(result.known).toBe(false);const f=bootstrap.attachProgress().engineCinitProgress!;
+ expect(f.pc,result.known?'Unexpected complete startup':result.reason).toBe('307323d0');
+ expect(f.typeNameThirteenthCStringCopyReturned).toBe(true);expect(Buffer.from(f.typeNameThirteenthCString!.bytes.slice(8,30)).toString()).toBe('eCEngineComponentBase\0');expect(f.typeNameThirteenthCString!.backing.freed).toBe(false);
+ expect(f.typeNameFourteenthCStringCopyReturned).toBe(true);expect(Buffer.from(f.typeNameFourteenthCString!.bytes.slice(8,28)).toString()).toBe('eCIlluminationAdmin\0');expect(f.typeNameFourteenthCString!.backing.freed).toBe(false);
+ expect(f.typeNameFifteenthCStringCopyReturned).toBe(true);expect(Buffer.from(f.typeNameFifteenthCString!.bytes.slice(8,24)).toString()).toBe('eCMaterialAdmin\0');expect(f.typeNameFifteenthCString!.backing.freed).toBe(false);
+ expect(f.typeNameSixteenthCStringCopyReturned).toBe(true);expect(Buffer.from(f.typeNameSixteenthCString!.bytes.slice(8,21)).toString()).toBe('eCGUIManager\0');expect(f.typeNameSixteenthCString!.backing.freed).toBe(false);
+ expect(f.typeNameSeventeenthCStringCopyReturned).toBe(true);expect(Buffer.from(f.typeNameSeventeenthCString!.bytes.slice(8,23)).toString()).toBe('eCActionMapper\0');expect(f.typeNameSeventeenthCString!.backing.freed).toBe(false);
+ expect(f.typeNameEighteenthCStringCopyReturned).toBe(true);expect(Buffer.from(f.typeNameEighteenthCString!.bytes.slice(8,22)).toString()).toBe('eCContextBase\0');expect(f.typeNameEighteenthCString!.backing.freed).toBe(false);
+ expect(f.typeNameThirteenthCString!.backing).toMatchObject({requestedBytes:30,capacity:32,freed:false});expect(f.typeNameThirteenthCString!.readUnsigned(0)).toBe(21);expect(f.typeNameThirteenthCString!.readUnsigned(4,2)).toBe(1);
+ expect(f.typeNameFourteenthCString!.backing).toMatchObject({requestedBytes:28,capacity:28,freed:false});expect(f.typeNameFourteenthCString!.readUnsigned(0)).toBe(19);expect(f.typeNameFourteenthCString!.readUnsigned(4,2)).toBe(1);
+ expect(f.typeNameFifteenthCString!.backing).toMatchObject({requestedBytes:24,capacity:24,freed:false});expect(f.typeNameFifteenthCString!.readUnsigned(0)).toBe(15);expect(f.typeNameFifteenthCString!.readUnsigned(4,2)).toBe(1);
+ expect(f.typeNameSixteenthCString!.backing).toMatchObject({requestedBytes:21,capacity:24,freed:false});expect(f.typeNameSixteenthCString!.readUnsigned(0)).toBe(12);expect(f.typeNameSixteenthCString!.readUnsigned(4,2)).toBe(1);
+ expect(f.typeNameSeventeenthCString!.backing).toMatchObject({requestedBytes:23,capacity:24,freed:false});expect(f.typeNameSeventeenthCString!.readUnsigned(0)).toBe(14);expect(f.typeNameSeventeenthCString!.readUnsigned(4,2)).toBe(1);
+ expect(f.typeNameEighteenthCString!.backing).toMatchObject({requestedBytes:22,capacity:24,freed:false});expect(f.typeNameEighteenthCString!.readUnsigned(0)).toBe(13);expect(f.typeNameEighteenthCString!.readUnsigned(4,2)).toBe(1);
+ const properties=[
+  {prefix:'engineComponentProperty',root:f.engineComponentPropertyRootWord,shutdown:'30042037',callback:'30732370',body:0x30076ac0},
+  {prefix:'illuminationAdminProperty',root:f.illuminationAdminPropertyRootWord,shutdown:'30026864',callback:'30732380',body:0x30076b50},
+  {prefix:'materialAdminProperty',root:f.materialAdminPropertyRootWord,shutdown:'300267d8',callback:'30732390',body:0x30076c20},
+  {prefix:'guiManagerProperty',root:f.guiManagerPropertyRootWord,shutdown:'30030729',callback:'307323a0',body:0x30076ce0},
+  {prefix:'actionMapperProperty',root:f.actionMapperPropertyRootWord,shutdown:'30025ffe',callback:'307323b0',body:0x30076d50},
+  {prefix:'contextBaseProperty',root:f.contextBasePropertyRootWord,shutdown:'3003c2b3',callback:'307323c0',body:0x30076dc0},
+ ] as const;
+ const graph=NativeX86ThreadStack.forPlatform(platform);if(!graph.known)throw new Error(graph.reason);
+ for(const [index,property] of properties.entries()){
+  const storage=NativeEngineCinitImages.imageForCrt(f.images,crt,`${property.prefix}Storage`),flags=NativeEngineCinitImages.imageForCrt(f.images,crt,`${property.prefix}Flags`);
+  if(!storage.known)throw new Error(storage.reason);if(!flags.known)throw new Error(flags.reason);
+  const root=property.root!.provenance;if(root?.kind!=='engine-image')throw new Error('Actual component/admin property root required');
+  expect(root.fields).toBe(storage.value);expect(root.offset).toBe(0);expect(storage.value.readUnsigned(4)).toBe(0);expect(flags.value.readUnsigned(0)).toBe(3);
+  expect(f.exitTableEntries![14+index]!.provenance).toMatchObject({kind:'source',type:'code',address:property.shutdown});
+  for(const site of [property.callback,...[51,62,73].map(offset=>(property.body+offset).toString(16))])expect(graph.value.snapshot().calls.find(c=>c.site===site)).toMatchObject({returned:true});
+ }
+ expect(f.undecorationLockHeld).toBe(false);expect(f.typeNameLockHeld).toBe(false);expect(f.onexitLockHeld).toBe(false);
+ expect(f.exitCursor!.provenance).toMatchObject({offset:80});expect(f.cppCursor!.provenance).toMatchObject({offset:0x14c});
+});
