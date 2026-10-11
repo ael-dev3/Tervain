@@ -1990,3 +1990,20 @@ live output, pending writer caller and parser lock. The copy uses actual
 `nameCharactersOffset` and `nameLength`, not the earlier class's byte count.
 Original source packages are unchanged. This checkpoint is local, not deployed,
 and does not establish complete startup or campaign completion with persistence.
+
+
+### 2026-10-11 — original camera NameParser output scan and return (local)
+
+Executed the original output scan/space compaction over the rendered camera
+name, wrote its final terminator and returned the NameParser physically to
+`3069b2e3`. Startup has executed 13,381 operations. The output remains the
+nineteen known bytes `class eCCameraBase` plus NUL, with five unknown padding
+bytes. Arena destruction, parser lock release, type cache and camera root
+publication remain pending. The output and parsed camera list remain live.
+
+Validation: TypeScript checking, ten focused runtime checks and six browser
+startup checks passed. Unknown rendered terminator stops at `3069b0f3` with
+the undecoration caller and lock retained. Normal-path checks verify the
+NameParser return, output bytes/masks and prior roots/shutdown entries.
+Original evidence packages are unchanged. This local checkpoint has not been
+deployed and does not establish complete startup or full campaign persistence.
