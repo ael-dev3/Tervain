@@ -7623,8 +7623,8 @@
     },
     {
       "file": "public/models/flora/meshy-012/palm-date-near.glb",
-      "bytes": 2631284,
-      "sha256": "f08d3970bd2d494393328abaaad94dc115fe8bf3dbca7042fc1d86d843225a1c",
+      "bytes": 2938104,
+      "sha256": "63a64025afd99032ca79bd20a5d1f50c3e81e12aa3db15385da7e9de9a92637f",
       "embeddedCopyright": null,
       "embeddedCcDeclaration": false,
       "externalDependencies": [],
@@ -7827,8 +7827,8 @@
     },
     {
       "file": "public/models/flora/meshy-012/tree-1459-near.glb",
-      "bytes": 2117228,
-      "sha256": "fb213a26279ce8192e7993d7cbfc5b10e6f23317792b7a04bd5bc2f285d0af26",
+      "bytes": 2176064,
+      "sha256": "d670d2085f1f1fc722bf45dfcecc0aa7e92527b168a22c57608a9eb01d85b38c",
       "embeddedCopyright": null,
       "embeddedCcDeclaration": false,
       "externalDependencies": [],
@@ -7980,8 +7980,8 @@
     },
     {
       "file": "public/models/flora/meshy-012/tree-1527-near.glb",
-      "bytes": 1072760,
-      "sha256": "3df73254b5bde845b88c6ea9eceb83b2399060967873ec638a8c3392098de878",
+      "bytes": 1113700,
+      "sha256": "b06e92ea1089d161db73576b45cd76b8ca228e46bda74a6e532662d90f3fe677",
       "embeddedCopyright": null,
       "embeddedCcDeclaration": false,
       "externalDependencies": [],
@@ -8082,8 +8082,8 @@
     },
     {
       "file": "public/models/flora/meshy-012/tree-3106-near.glb",
-      "bytes": 1466632,
-      "sha256": "9918a731de4cd1f24285eb2520cdb0efdf2c050750da8b4a0d118538519cb632",
+      "bytes": 1515920,
+      "sha256": "d5e49d2eb961d8333e8a45b651138ab27b4aa6660faadafa13b06f8e2c8bdf9d",
       "embeddedCopyright": null,
       "embeddedCcDeclaration": false,
       "externalDependencies": [],

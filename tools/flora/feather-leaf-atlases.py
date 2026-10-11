@@ -2,13 +2,16 @@
 
 The crowns' leaf atlases are 8 x 8 views of 256 px, and many leaf clumps are cut off by their view's border; on a card
 that border is a straight edge in the crown's outline. This fades each view's alpha over its last few pixels so the
-clumps thin out at the border instead of ending in a ruled line. Only atlases whose every leaf triangle lies inside one
-view are changed (a triangle crossing a border would lose leaves); the others are left as they are.
+clumps thin out at the border instead of ending in a ruled line. A border that leaf cards cross (a card spanning two
+views) is left as it is, so no card loses leaves (tools/flora/leaf-atlas-joins.mjs finds them).
+
+Each atlas is feathered once: docs/engineering/leaf-atlas-feather.json records the source and feathered image hashes,
+and an atlas already feathered is passed over.
 
 Usage: python tools/flora/feather-leaf-atlases.py [--dry] [--width 18] [ids...]
 Afterwards: node tools/model-files.mjs (size/hash table). The tree receipts and the model ledger are updated here.
 """
-import io, json, hashlib, struct, sys
+import io, json, hashlib, struct, subprocess, sys
 from pathlib import Path
 import numpy as np
 from PIL import Image
@@ -16,8 +19,9 @@ from PIL import Image
 ROOT = Path(__file__).resolve().parents[2]
 DIR = ROOT / 'public/models/flora/meshy-012'
 TILE = 256
-DEFAULT = ['fir-spire', 'oak-elder', 'palm-fan', 'palm-lean', 'tree-0208', 'tree-1505', 'tree-1521', 'tree-1537',
-           'tree-4815', 'tree-4949', 'verdant-sentinel']
+DEFAULT = ['fir-spire', 'oak-elder', 'palm-date', 'palm-fan', 'palm-lean', 'tree-0208', 'tree-1459', 'tree-1505', 'tree-1521',
+           'tree-1527', 'tree-1537', 'tree-3106', 'tree-4815', 'tree-4949', 'verdant-sentinel']
+RECORD = ROOT / 'docs/engineering/leaf-atlas-feather.json'
 pad4 = lambda n: (n + 3) & ~3
 
 
@@ -44,15 +48,27 @@ def leaf_image(js):
     raise SystemExit('no masked leaf material')
 
 
-def feather(png_bytes, width):
+def feather(png_bytes, width, joins):
     im = Image.open(io.BytesIO(png_bytes)).convert('RGBA')
     a = np.asarray(im).copy()
     h, w = a.shape[:2]
-    x = np.arange(w) % TILE; y = np.arange(h) % TILE
-    dx = np.minimum(x, TILE - 1 - x)[None, :]; dy = np.minimum(y, TILE - 1 - y)[:, None]
-    d = np.minimum(dx, dy).astype(np.float32)
-    t = np.clip((d - 1) / max(1, width - 1), 0, 1)
-    m = t * t * (3 - 2 * t)
+    v = {tuple(x) for x in joins.get('v', [])}; hz = {tuple(x) for x in joins.get('h', [])}
+    x = np.arange(w); y = np.arange(h)
+    tx, ty = x // TILE, y // TILE
+    lx, ly = x % TILE, y % TILE
+    big = 1e9
+    # Distance to each side of the pixel's view, or none where cards cross that side into the next view.
+    m = np.ones((h, w), np.float32)
+    for row in range(0, h, TILE):
+        for col in range(0, w, TILE):
+            cx, cy = col // TILE, row // TILE
+            dl = lx[col:col + TILE].astype(np.float32) if (cx - 1, cy) not in v else np.full(TILE, big, np.float32)
+            dr = (TILE - 1 - lx[col:col + TILE]).astype(np.float32) if (cx, cy) not in v else np.full(TILE, big, np.float32)
+            dt = ly[row:row + TILE].astype(np.float32) if (cx, cy - 1) not in hz else np.full(TILE, big, np.float32)
+            db = (TILE - 1 - ly[row:row + TILE]).astype(np.float32) if (cx, cy) not in hz else np.full(TILE, big, np.float32)
+            d = np.minimum(np.minimum(dl, dr)[None, :], np.minimum(dt, db)[:, None])
+            t = np.clip((d - 1) / max(1, width - 1), 0, 1)
+            m[row:row + TILE, col:col + TILE] = t * t * (3 - 2 * t)
     a[:, :, 3] = np.round(a[:, :, 3].astype(np.float32) * m).astype(np.uint8)
     out = io.BytesIO()
     # Quality 100 keeps the colours within 47.6 dB of the source atlas (measured on the oak); the alpha is exact.
@@ -85,6 +101,8 @@ def main():
     dry = '--dry' in args
     width = int(args[args.index('--width') + 1]) if '--width' in args else 18
     ids = [a for a in args if not a.startswith('--') and not a.isdigit()] or DEFAULT
+    record = json.loads(RECORD.read_text(encoding='utf-8')) if RECORD.exists() else {'width': width, 'atlases': {}}
+    joins = json.loads(subprocess.run(['node', str(ROOT / 'tools/flora/leaf-atlas-joins.mjs'), *ids], capture_output=True, text=True, check=True, cwd=ROOT).stdout)
     receipts = ROOT / 'docs/engineering/meshy-tree-assets.json'
     ledger = ROOT / 'public/model-licenses.json'
     rtext, ltext = receipts.read_text(encoding='utf-8'), ledger.read_text(encoding='utf-8')
@@ -95,7 +113,9 @@ def main():
         img = leaf_image(js)
         bv = js['bufferViews'][js['images'][img]['bufferView']]
         old_img = bytes(bin_[bv.get('byteOffset', 0):bv.get('byteOffset', 0) + bv['byteLength']])
-        new_img = feather(old_img, width)
+        if record['atlases'].get(id_, {}).get('feathered') == hashlib.sha256(old_img).hexdigest():
+            print(f'{id_:18} already feathered'); continue
+        new_img = feather(old_img, width, joins[id_])
         out = write_glb(js, splice(js, bin_, js['images'][img]['bufferView'], new_img))
         # Verify: the image round-trips and every other view's bytes are where the JSON now says.
         js2, bin2 = read_glb(out)
@@ -106,6 +126,7 @@ def main():
         print(f'{id_:18} atlas {len(old_img):>8} -> {len(new_img):>8}  file {len(data):>8} -> {len(out):>8}')
         if dry: continue
         path.write_bytes(out)
+        record['atlases'][id_] = {'source': isha_old, 'feathered': isha_new, 'joinedBorders': len(joins[id_]['v']) + len(joins[id_]['h'])}
         for text_name in ('r', 'l'):
             text = rtext if text_name == 'r' else ltext
             text = text.replace(f'"bytes": {len(data)},\n', f'"bytes": {len(out)},\n') if f'"sha256": "{sha_old}"' in text else text
@@ -115,6 +136,7 @@ def main():
             else: ltext = text
     if not dry:
         receipts.write_text(rtext, encoding='utf-8'); ledger.write_text(ltext, encoding='utf-8')
+        RECORD.write_text(json.dumps(record, indent=2) + chr(10), encoding='utf-8')
 
 
 main()
