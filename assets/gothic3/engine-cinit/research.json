@@ -63430,6 +63430,69 @@
       "sha256": "e4d46b971748b74a768fac18598132cf1aced4b3ad0fe3e7f401284800367ea9"
     },
     {
+      "label": "undecorationEnumUnderlyingTargets",
+      "address": "30698051",
+      "bytes": 32,
+      "raw": "cf7f6930cf7f6930d67f6930d67f6930f17f6930dd7f6930e47f6930e47f6930",
+      "fileBackedBytes": 32,
+      "loaderZeroFillBytes": 0,
+      "sha256": "6715432fada8042edd9ee3f1e840afdce2a2b06aace4c0da5bcc18eae38a918f"
+    },
+    {
+      "label": "undecorationEnumLiteral",
+      "address": "3089f410",
+      "bytes": 6,
+      "raw": "656e756d2000",
+      "fileBackedBytes": 6,
+      "loaderZeroFillBytes": 0,
+      "sha256": "13590e7099a1414ae1844da67c418ac1ddfecf801abdb36ae683db91daca98ac"
+    },
+    {
+      "label": "undecorationEnumCharLiteral",
+      "address": "3089f324",
+      "bytes": 6,
+      "raw": "636861722000",
+      "fileBackedBytes": 6,
+      "loaderZeroFillBytes": 0,
+      "sha256": "4ce16c3d98cbe4da968a53787abba72f9dd8748ce5805b2b3f9edeaafb45fe5d"
+    },
+    {
+      "label": "undecorationEnumShortLiteral",
+      "address": "3089f31c",
+      "bytes": 7,
+      "raw": "73686f72742000",
+      "fileBackedBytes": 7,
+      "loaderZeroFillBytes": 0,
+      "sha256": "532e1e79eecf001cbba28ceffd25c4a0090cc30b18e7384006e0304ae744db68"
+    },
+    {
+      "label": "undecorationEnumIntLiteral",
+      "address": "3089f314",
+      "bytes": 5,
+      "raw": "696e742000",
+      "fileBackedBytes": 5,
+      "loaderZeroFillBytes": 0,
+      "sha256": "c246c4488ac4c1ae970e36070e74e3a62a00467b6ffc9921863bbd1c318a81ce"
+    },
+    {
+      "label": "undecorationEnumLongLiteral",
+      "address": "3089f30c",
+      "bytes": 6,
+      "raw": "6c6f6e672000",
+      "fileBackedBytes": 6,
+      "loaderZeroFillBytes": 0,
+      "sha256": "c5f242b57f7f0843eb02fa3ea32183d52c0abb9c29366cf28ec817b7be6d68d3"
+    },
+    {
+      "label": "undecorationEnumUnsignedLiteral",
+      "address": "3089f300",
+      "bytes": 10,
+      "raw": "756e7369676e65642000",
+      "fileBackedBytes": 10,
+      "loaderZeroFillBytes": 0,
+      "sha256": "3b9937d45ec795b6bc956218eec94aab617fb6434464be7729a602c614ee8c8e"
+    },
+    {
       "label": "undecorationScopeSeparatorLiteral",
       "address": "3088feb4",
       "bytes": 3,

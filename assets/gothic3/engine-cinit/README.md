@@ -3384,3 +3384,8 @@ Eight contiguous original callbacks `307325c0` through `30732630` now execute th
 ## Enum template parser dependency
 
 The original class-type parser routes the W token through `30699645` and calls `30697f9d` at `3069964b` before combining its result with the enum literal. The source generator now captures that helper from the matching Engine DLL. This is evidence only: enum-template runtime execution remains pending at callback `30732640`. Earlier 313 Engine methods remain unchanged.
+
+
+## Original enum table and keyword bytes
+
+Captured `30698051` (eight original jump-table words), the enum literal at `3089f410`, and char/short/int/long/unsigned literals used by helper `30697f9d`. Digit 4 targets `30697ff1`, bypassing underlying keyword insertion; odd digits pass through the original unsigned-prefix branch. These facts identify parser work required by the next W4 template argument; source capture does not establish runtime execution.
