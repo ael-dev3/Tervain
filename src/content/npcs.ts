@@ -151,7 +151,9 @@ export const NPCS: Record<NpcId, NpcDef> = {
     faction: 'ash',
     home: 'ford_camp',
     look: { skin: 0xc4a08a, primary: 0x4a4a4e, secondary: 0x8a8a8e, hair: 0x2a2a3a, height: 1.0, girth: 0.85, accessory: 'hood' },
-    schedule: [day('ford_camp', 'sit', 8, 18), night('ford_camp', 18, 8)],
+    // He writes until the light fails at dusk, so his "too dark to write" is heard before he lies down (A104 scout: asleep
+    // from 18, the line fell only in hours he slept).
+    schedule: [day('ford_camp', 'sit', 8, 20), night('ford_camp', 20, 8)],
     sleepsKey: 'npc.sleeps.recorder',
   },
   shrine_warden: {
@@ -286,7 +288,7 @@ export const BARKS: Bark[] = [
   { npc: 'maintenance_worker', hours: [18, 24], when: [F('ila_rescued')], line: 'ila.bark.cheerful' },
   { npc: 'estate_steward', hours: [8, 18], line: 'oren.bark.counting' },
   { npc: 'ash_recorder', hours: [8, 18], line: 'sel.bark.river' },
-  { npc: 'ash_recorder', hours: [19, 6], line: 'sel.bark.dark' },
+  { npc: 'ash_recorder', hours: [19, 20], line: 'sel.bark.dark' },
   { npc: 'shrine_warden', hours: [6, 20], line: 'tolan.bark.along' },
   { npc: 'mill_hand', hours: [7, 9], when: [{ t: 'phase', below: 'settled' }], line: 'bess.bark.morning' },
   { npc: 'quarry_hand', hours: [17, 20], when: [{ t: 'phase', below: 'settled' }], line: 'pell.bark.done' },

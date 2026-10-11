@@ -169,6 +169,9 @@ export class SpeechDirector {
   /** Whether two people may start a scene now: not overheard yet today, neither of them busy. */
   sceneDue(scene: Scene, day: number): boolean {
     if (this.scenes.get(scene.id) === day) return false;
+    // Nor over the player's conversation with someone else, as remarks already wait (A104 scout: the square's evening
+    // scene began over the hero's question to Darin).
+    if ([...this.held.values()].some((t) => t > this.clock)) return false;
     return !scene.cast.some((n) => (this.held.get(n) ?? 0) > this.clock || this.busyFor(n) > 0 || this.queue.some((q) => VOICE_LINES[q.line]?.speaker === n));
   }
 

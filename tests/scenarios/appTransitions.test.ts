@@ -1188,3 +1188,43 @@ describe('tenth scout fixes in the shell (A103)', () => {
     }
   });
 });
+
+describe('eleventh scout fixes in the shell (A104)', () => {
+  it('asks again for residents a new start needs that an earlier, failed journey did not load', async () => {
+    const { app, call } = fixture();
+    const partial = { has: (role: string) => role === 'named:mill_hand' }, fuller = { has: (role: string) => role === 'named:mill_hand' || role === 'ambient:fisher' };
+    Reflect.set(app, 'npcAssets', partial);
+    npcCatalog.load.mockResolvedValueOnce(fuller);
+    await call('prepareNpcAssets', ['ambient:fisher']);
+    expect(npcCatalog.load).toHaveBeenCalledOnce();
+    expect(npcCatalog.load.mock.calls[0]![1]).toEqual(expect.arrayContaining(['ambient:fisher', 'named:mill_hand']));
+    expect(Reflect.get(app, 'npcAssets')).toBe(fuller);
+  });
+
+  it('lets no bell strike from one journey ring into the next', () => {
+    vi.useFakeTimers();
+    const { app, call } = fixture();
+    const bell = vi.fn();
+    Object.assign(app, { mode: 'play', audio: { ...app.audio, bell, caption: vi.fn() },
+      world: { ...app.world, ringBell: vi.fn(), bellPosition: { x: 0, y: 0, z: 0 } } });
+    call('ringBell', false);
+    vi.advanceTimersByTime(10);
+    // Quit and begin again within the peal: same world, a new journey.
+    Reflect.set(app, 'playSession', (Reflect.get(app, 'playSession') as number) + 1);
+    vi.advanceTimersByTime(3000);
+    expect(bell).toHaveBeenCalledTimes(1);
+  });
+
+  it('marks on the map the objective the HUD names while hunting leads', () => {
+    const { app, call } = fixture();
+    const s = app.game.state;
+    s.quest.phase = 'unseen'; s.discovered.deepwood = true; s.discovered.rillford = true;
+    s.inventory = { ...s.inventory, hunting_bow: 0, skinning_knife: 0 };
+    expect(call('hintPlace', 'rillford')).toBe('deepwood');
+    s.inventory = { ...s.inventory, hunting_bow: 1, skinning_knife: 1, arrow: 10 };
+    s.equippedWeapon = 'hunting_bow';
+    expect(call('hintPlace', 'rillford')).toBeNull();
+    s.quest.phase = 'investigating';
+    expect(call('hintPlace', 'rillford')).toBe('rillford');
+  });
+});

@@ -103,6 +103,13 @@ body.high-contrast .surface-paper {
   box-shadow: none;
 }
 
+/* Captions are the main accessibility text: opaque under high contrast, like toasts and bubbles (A104 scout). */
+body.high-contrast .caption {
+  background: #000;
+  color: #fff;
+  border-left-width: 3px;
+}
+
 body.reduce-effects {
   --surface-soot: #191815;
   --surface-timber: #30261e;
@@ -337,7 +344,8 @@ kbd,
   transform: translate(-50%, -100%);
   padding: 4px 9px;
   font-size: 0.85rem;
-  max-width: 220px;
+  /* In em, so a larger text size widens the bubble rather than stacking a remark into a narrow column (A104 scout). */
+  max-width: 16em;
   text-align: center;
   white-space: normal;
 }
