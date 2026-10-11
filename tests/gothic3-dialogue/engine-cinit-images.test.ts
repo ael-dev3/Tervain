@@ -64,5 +64,10 @@ for(const label of ['undecorationBasicTypeCaseMap','undecorationBasicTypeTargets
 });
 
 it('retains and protects the original text-node vtable entry',()=>{
- const {crt,owner}=fixture(),table=fact(NativeEngineCinitImages.imageForCrt(owner,crt,'undecorationTextVtableEntry'));expect(table.bytes.length).toBe(4);expect(Buffer.from(table.bytes).toString('hex')).toBe(engineCinitImage('undecorationTextVtableEntry').raw);table.knownMask[0]=0;expect(NativeEngineCinitImages.imageForCrt(owner,crt,'undecorationTextVtableEntry').known).toBe(false);
+ const {crt,owner}=fixture(),table=fact(NativeEngineCinitImages.imageForCrt(owner,crt,'undecorationTextVtableEntry'));expect(table.bytes.length).toBe(12);expect(Buffer.from(table.bytes).toString('hex')).toBe(engineCinitImage('undecorationTextVtableEntry').raw);table.knownMask[0]=0;expect(NativeEngineCinitImages.imageForCrt(owner,crt,'undecorationTextVtableEntry').known).toBe(false);
+});
+
+
+for(const storage of ['bytes','knownMask'] as const)it('rejects altered readonly text-node writer vtable '+storage,()=>{
+ const {crt,owner}=fixture(),table=fact(NativeEngineCinitImages.imageForCrt(owner,crt,'undecorationTextVtableEntry'));expect(table.bytes.length).toBe(12);expect(table.readUnsigned(8)).toBe(0x306973db);table[storage][8]=table[storage][8]!^1;expect(NativeEngineCinitImages.imageForCrt(owner,crt,'undecorationTextVtableEntry').known).toBe(false);
 });

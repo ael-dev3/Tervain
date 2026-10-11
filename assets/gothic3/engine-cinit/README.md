@@ -1,7 +1,7 @@
 # Engine CRT initializer evidence
 
 This package records the next dependency after Engine environment-vector return.
-It captures 59 original bodies (2233 instructions), the caller at `30677284`,
+It captures 60 original bodies (2253 instructions), the caller at `30677284`,
 the floating-point callback at `30892ac0`, and two original initializer tables.
 The C initializer table has 200 slots with 6 nonzero entries. The C++ table has
 93,705 slots with 1,963 nonzero entries; omitted entries are verified zero.
@@ -14,7 +14,7 @@ python tools/gothic3/prepare_engine_cinit_source.py --study '<study-root>' --out
 
 The generator checks the original Engine.dll hash and exact caller bytes.
 Independent regeneration produced identical JSON, SHA-256
-``ef45a3d16dc5c108b0f7561ba83a0c849a0177a8c28881481c72c6b9c79ac531``.
+``4fbae3b4533fe6b1294c1af5348a3a4400027ed17a00f5110780e70937e6afab``.
 
 The capture's `runtimeConnected: false` records evidence preparation; it grants
 no execution authority. The TypeScript continuation separately obtains a
@@ -272,3 +272,34 @@ Main revision `2f721b1525291936b7ce51cdea5939b6c7d4cb37`, including Claude's PR
 #239, completed both build and Pages deployment in workflow `38102253395`.
 That deployment does not include this local native continuation or prove a
 browser campaign playable through an ending.
+
+
+### 11 October 2026: original writer and name-parser return
+
+The readonly text-node vtable evidence now includes all three entries (12 bytes),
+including the original writer target `306973db`. The string writer checks the
+retained node, obtains its length through the original virtual callback and
+invokes that writer. The node writer shares the original bounded copy loop with
+the literal-to-node path, but reads its input from the owned character storage.
+It writes five characters into the separate output allocation; the outer writer
+writes the NUL byte and physically returns to `3069b0d3` after 3,914 operations.
+
+The name parser then reads and processes that actual output through its original
+completed-input path. It writes the final terminator, restores its frame, and
+returns the canonical output pointer to `3069b2e3` after 3,965 operations. The
+six bytes are `float` followed by NUL; the allocation's two padding bytes remain
+unknown. Original writer arguments and parsed-value metadata are recorded while
+their source slots are live, before those slots are reused or their frame returns.
+The outer undecoration call, arena cleanup, lock release, type-name cache
+publication and remaining Engine startup are still pending.
+
+Typechecking, 17 focused runtime checks and 19 source/image checks pass.
+Interruption checks preserve two copied characters with the remaining bytes
+unknown, or five characters without a fabricated terminator. Pending calls stay
+pending and cannot replay. Readonly checks reject altered writer-target bytes
+and masks. Independent source regeneration reproduced JSON and TypeScript
+exactly. The earlier `424effb33` combined run passed all 189 focused checks in
+five files (282.02 seconds) and is running its full suite in a separate unchanged
+checkout. Its result does not validate this newer writer implementation.
+This continuation has not been deployed; a complete browser campaign remains
+unverified.

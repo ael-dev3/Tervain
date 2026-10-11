@@ -17885,6 +17885,184 @@
         "bodyInstructionBytesSha256": "2e339cdc5de837ec151dbde90057caeabba18ac3ea32e7c2cffc8f95df41a6ff"
       },
       {
+        "label": "engineUndecorationTextNodeWrite",
+        "entryVA": "0x306973db",
+        "bodyVA": "0x306973db",
+        "entryChain": [],
+        "bodyRanges": "306973db-3069740b",
+        "instructions": [
+          {
+            "va": "306973db",
+            "rva": "6973db",
+            "fileOffset": 6910939,
+            "bytes": "8b410c",
+            "instruction": "MOV EAX,dword ptr [ECX + 0xc]",
+            "assemblyLine": 1763571
+          },
+          {
+            "va": "306973de",
+            "rva": "6973de",
+            "fileOffset": 6910942,
+            "bytes": "8b542408",
+            "instruction": "MOV EDX,dword ptr [ESP + 0x8]",
+            "assemblyLine": 1763572
+          },
+          {
+            "va": "306973e2",
+            "rva": "6973e2",
+            "fileOffset": 6910946,
+            "bytes": "3bd0",
+            "instruction": "CMP EDX,EAX",
+            "assemblyLine": 1763573
+          },
+          {
+            "va": "306973e4",
+            "rva": "6973e4",
+            "fileOffset": 6910948,
+            "bytes": "7e02",
+            "instruction": "JLE 0x306973e8",
+            "assemblyLine": 1763574
+          },
+          {
+            "va": "306973e6",
+            "rva": "6973e6",
+            "fileOffset": 6910950,
+            "bytes": "8bd0",
+            "instruction": "MOV EDX,EAX",
+            "assemblyLine": 1763575
+          },
+          {
+            "va": "306973e8",
+            "rva": "6973e8",
+            "fileOffset": 6910952,
+            "bytes": "8b4908",
+            "instruction": "MOV ECX,dword ptr [ECX + 0x8]",
+            "assemblyLine": 1763577
+          },
+          {
+            "va": "306973eb",
+            "rva": "6973eb",
+            "fileOffset": 6910955,
+            "bytes": "33c0",
+            "instruction": "XOR EAX,EAX",
+            "assemblyLine": 1763578
+          },
+          {
+            "va": "306973ed",
+            "rva": "6973ed",
+            "fileOffset": 6910957,
+            "bytes": "3bc8",
+            "instruction": "CMP ECX,EAX",
+            "assemblyLine": 1763579
+          },
+          {
+            "va": "306973ef",
+            "rva": "6973ef",
+            "fileOffset": 6910959,
+            "bytes": "7418",
+            "instruction": "JZ 0x30697409",
+            "assemblyLine": 1763580
+          },
+          {
+            "va": "306973f1",
+            "rva": "6973f1",
+            "fileOffset": 6910961,
+            "bytes": "39442404",
+            "instruction": "CMP dword ptr [ESP + 0x4],EAX",
+            "assemblyLine": 1763581
+          },
+          {
+            "va": "306973f5",
+            "rva": "6973f5",
+            "fileOffset": 6910965,
+            "bytes": "7412",
+            "instruction": "JZ 0x30697409",
+            "assemblyLine": 1763582
+          },
+          {
+            "va": "306973f7",
+            "rva": "6973f7",
+            "fileOffset": 6910967,
+            "bytes": "3bd0",
+            "instruction": "CMP EDX,EAX",
+            "assemblyLine": 1763583
+          },
+          {
+            "va": "306973f9",
+            "rva": "6973f9",
+            "fileOffset": 6910969,
+            "bytes": "740e",
+            "instruction": "JZ 0x30697409",
+            "assemblyLine": 1763584
+          },
+          {
+            "va": "306973fb",
+            "rva": "6973fb",
+            "fileOffset": 6910971,
+            "bytes": "52",
+            "instruction": "PUSH EDX",
+            "assemblyLine": 1763585
+          },
+          {
+            "va": "306973fc",
+            "rva": "6973fc",
+            "fileOffset": 6910972,
+            "bytes": "ff742408",
+            "instruction": "PUSH dword ptr [ESP + 0x8]",
+            "assemblyLine": 1763586
+          },
+          {
+            "va": "30697400",
+            "rva": "697400",
+            "fileOffset": 6910976,
+            "bytes": "8bd1",
+            "instruction": "MOV EDX,ECX",
+            "assemblyLine": 1763587
+          },
+          {
+            "va": "30697402",
+            "rva": "697402",
+            "fileOffset": 6910978,
+            "bytes": "e835fbffff",
+            "instruction": "CALL 0x30696f3c",
+            "assemblyLine": 1763588
+          },
+          {
+            "va": "30697407",
+            "rva": "697407",
+            "fileOffset": 6910983,
+            "bytes": "59",
+            "instruction": "POP ECX",
+            "assemblyLine": 1763589
+          },
+          {
+            "va": "30697408",
+            "rva": "697408",
+            "fileOffset": 6910984,
+            "bytes": "59",
+            "instruction": "POP ECX",
+            "assemblyLine": 1763590
+          },
+          {
+            "va": "30697409",
+            "rva": "697409",
+            "fileOffset": 6910985,
+            "bytes": "c20800",
+            "instruction": "RET 0x8",
+            "assemblyLine": 1763592
+          }
+        ],
+        "reconstructedC": {
+          "path": "01_Decompiled_Code/Engine_dll/pseudocode/functions_00169.c",
+          "sha256": "1ba3aee81bcd1b3d0c508291f30dfa2374148c9f66ffbc96c65fb44134596a29",
+          "line": 22233,
+          "status": "decompiled"
+        },
+        "instructionCount": 20,
+        "bodyByteCount": 49,
+        "bodyInstructionBytesSha256": "b9c6c4ce908f3b00ae5db5cec532266cd71288b2341ee043b9208ffab2648240"
+      },
+      {
         "label": "engineExitTableInitializer",
         "entryVA": "0x3067152b",
         "bodyVA": "0x3067152b",
@@ -27043,11 +27221,11 @@
     {
       "label": "undecorationTextVtableEntry",
       "address": "3089f2bc",
-      "bytes": 4,
-      "raw": "c56e6930",
-      "fileBackedBytes": 4,
+      "bytes": 12,
+      "raw": "c56e6930c9736930db736930",
+      "fileBackedBytes": 12,
       "loaderZeroFillBytes": 0,
-      "sha256": "c69ff7cfcd01973c32ae254fc5751b8f7bb30658a57d5c517de41a38d01fb0d4"
+      "sha256": "d1ab34be9da4526e9b01769d78574eab46b724722cbe8be1b80463033ab3def3"
     },
     {
       "label": "visualAnimationFloatFlags",
