@@ -904,3 +904,22 @@ input checks now accept an explicit original source offset, defaulting to zero
 for the existing float/keyword paths, while retaining same-owner and field checks.
 The code and fixture diffs were inspected. This continuation remains local;
 complete startup and browser campaign completion remain unfinished.
+
+## 2026-10-11: original delimited-name return and identifier assignment
+
+The shared text/initializer return now resumes the actual delimited constructor
+at `30697791`. It compares the closing byte with its live delimiter argument,
+advances the cursor from twenty to twenty-one, clears the original kind bits,
+and returns through the retained `RET 8` to `306994a9` at 6,208 operations.
+The identifier parser then assigns the actual constructed node through
+`306994ad -> 30696da9`, returning to `306994b2` at 6,255 operations. Its node
+and eight `bCString` bytes remain owned by the live second-property arena.
+The identifier/reference-cache and scoped-name returns remain pending.
+
+TypeScript checking and six runtime checks pass at both return checkpoints;
+six browser-service checks pass at the final boundary. The normal check requires
+the real constructor, initialization and name-assignment calls to have returned
+and the cursor to point to the remaining `@`. Unknown-character and first-path
+regressions remain passing. The shared epilog extraction and new original steps
+were inspected. This work is local; complete startup and browser campaign
+completion remain unfinished.
