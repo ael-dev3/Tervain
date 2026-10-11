@@ -262,6 +262,7 @@ export function createBrowserGameCrtPlatform(options: { readonly processInputs?:
     standardIo: standard,
     argvNls: argv,
     setEnvp: envp,
+    engineHeapLayout: envp === undefined ? undefined : 'rounded-eight',
   });
   platform = new NativeRuntimePlatform({ engineCrtServices: services, guidTextPlatform: selectAsciiGuidTextPlatform() });
   const retainedStack = stackSelection === undefined ? undefined : NativeRuntimePlatform.threadStackSelectionForPlatform(platform);

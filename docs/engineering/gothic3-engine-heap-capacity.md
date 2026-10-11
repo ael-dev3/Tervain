@@ -98,3 +98,48 @@ boundary with an eight-byte physical backing and two unknown padding bytes.
 Exact-capacity startup remains supported without the layout selection. The
 original search still reads through its logical view; physical tail admission
 and browser profile adoption remain unfinished.
+
+### Physical-tail search and browser adoption implemented locally
+
+The original second DWORD load now admits the privately retained physical alias
+only for the selected Engine layout. The existing source-backed scalar search
+contract resolves its masked-padding alternatives to the original NULL-return
+path. Its internal operations are excluded from admitted source-row counts.
+Original register restores, RET, caller cleanup and UnMangle instructions then
+reach the CString constructor at `10003ba7` after 4,247 admitted operations.
+The search call has returned; UnMangle and CString construction remain pending.
+
+Tests with padding raw bits zero and 255 both pass while padding masks remain
+unknown. The fresh browser profile explicitly selects Engine rounding alongside
+its environment heap selection. Three focused browser/logical-view integration
+checks and typechecking pass. Platforms without layout selection retain their
+pending exact-capacity tail boundary. Combined validation of this newer revision
+and complete campaign play remain unfinished.
+
+### CString text length implemented locally
+
+The original CString text constructor receives the actual Engine-owned cache
+and static property destination. Its scalar loop reads six known bytes,
+including NUL, and computes length five from same-allocation pointer offsets.
+The original caller passes five to `10007d65`; allocation and subsequent copy
+remain pending. Normal selected-layout execution has 4,288 admitted operations.
+The destination slot remains untouched. Typechecking and a focused source-loop,
+length, ownership and pending-allocation check pass. The next dependency is the
+SharedBase allocator's actual MemoryAdmin ownership and construction path.
+
+### Regression observation repairs
+
+Combined validation of the earlier UnMangle revision passed 211 checks and
+failed 17. Failures included completed-call assertions left pending, stack
+observations using the pre-return depth, and an arena-free probe accidentally
+reading freed arena fields during the later temporary-output free. The probe
+now captures its arena fields once. Historical allocation-argument checks
+capture ESI at the actual malloc call; later string search legitimately changes
+that register. Default exact-capacity startup now reports the pending source
+boundary through the normal continuation result.
+
+Fifteen affected Engine checks pass in targeted reruns (eight initial fixes,
+five follow-up fixes and two startup-reason checks), and typechecking passes.
+The browser boundary checks passed separately when the layout was adopted;
+a fresh combined run of the latest revision remains required. These receipts
+do not claim a new full-suite pass or deployment.
