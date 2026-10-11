@@ -1,7 +1,7 @@
 # Engine CRT initializer evidence
 
 This package records the next dependency after Engine environment-vector return.
-It captures 78 original bodies (3410 instructions), the caller at `30677284`,
+It captures 86 original bodies (3539 instructions), the caller at `30677284`,
 the floating-point callback at `30892ac0`, and two original initializer tables.
 The C initializer table has 200 slots with 6 nonzero entries. The C++ table has
 93,705 slots with 1,963 nonzero entries; omitted entries are verified zero.
@@ -1035,3 +1035,177 @@ typechecking, all 3,575 tests across 319 files and the production build. Its
 full suite took 1,769.02 seconds and predates the cache continuation. These
 results are separate receipts. This checkpoint is local; identifier return,
 complete startup and the finishable browser campaign remain unfinished.
+
+## Local continuation — 11 October 2026: original identifier return
+
+The identifier copies the actual parsed name into its caller's stack output
+using the original 54-instruction value constructor. It retains the historical
+first-property text node separately. Its epilog decodes the saved cookie XOR
+using the same EBP identity, compares with the canonical Engine cookie, restores
+ESI and EBP, and returns through the actual scoped-name caller at `3069950a`.
+Execution reaches 6,450 admitted operations. Caller argument cleanup and the
+remaining scoped-name continuation are still pending.
+
+The source package adds the four original cookie-check instructions, including
+the failure jump, verified against the pinned Engine DLL. The body hash is
+`5301830da53ad2ffa60943819b7aef623e476ee054612876edffe7ffe4de2e4e`.
+It now captures 79 Engine bodies and 3,414 instructions. Independently generated
+JSON and TypeScript match byte-for-byte. Typechecking, seven focused runtime
+checks and 40 source/image/browser-service checks pass. This checkpoint is local.
+The combined cache-append revision `3244c7c5f5ffa65674b0eb09513fba0f797939fd`
+is still validating and predates this identifier return.
+
+Separately, GitHub run 38116210143 completed both build and deployment for main
+revision `287b49d53bd08ad08998334ea0308e680a8a3117` (PR 246). That deployment
+contains prototype fixes and does not prove engine startup or campaign
+completion. Complete startup and the finishable browser campaign remain
+unfinished.
+
+## Local continuation — 11 October 2026: original scoped-name return
+
+The scoped caller removes the identifier arguments and assigns its returned
+name through the original value assignment. It tests the actual known flag
+nibble, retains the original `::` literal, reads the second `@` from the original
+RTTI bytes, advances the actual cursor to offset 22 and restores its physical
+frame. The class parser receives the real scoped-name return and calls its
+value append at `30697906`, after 6,520 admitted operations. Its class-prefix
+and name operands remain live; concatenation has not been fabricated.
+
+The package adds the 38-instruction append body, hash
+`ad2472d219743788dec4e13650a0adec9101873ea40468a3bdd44dc446aa2e95`,
+and the three-byte original scope separator at `3088feb4`. The separator is
+owned and protected by the readonly image checks. There are now 80 Engine
+bodies and 3,452 instructions. Independent JSON/TypeScript regeneration matches
+byte-for-byte. Typechecking, seven focused runtime checks and 42 source/image/
+browser-service checks pass. Assertions retain the original restored ESI
+`0xfffff000` and only claim the known copied flag nibble.
+
+This checkpoint is local. The earlier combined cache revision continues its
+full validation separately. Prefix concatenation, complete engine startup and
+the finishable browser campaign remain unfinished.
+
+## Local continuation — 11 October 2026: value-append operand checks
+
+The original append retains its two actual stack operands, validates the
+constructed name and class-prefix nodes through the captured nonempty
+predicate, and loads the class node for the original node-to-list call.
+Execution stops at `3069731d` after 6,562 admitted operations. Both predicate
+calls returned through their physical callers. The pending append and
+node-to-list calls retain live arena ownership and held parser locks.
+
+Typechecking, seven focused engine checks and six browser-service checks pass.
+The next source dependencies were independently captured from the pinned DLL:
+node-to-list (31 instructions), list append (18) and list constructor (16).
+Those research captures do not prove execution. This checkpoint is local;
+joining the text nodes, complete startup and the finishable campaign remain
+unfinished. The combined cache-append revision continues validating separately.
+
+## Local continuation — 11 October 2026: original text-node list wrapper
+
+The class node now enters the original node-to-list routine. Its 12-byte list
+request consumes 16 arena bytes after alignment, followed by the actual eight-
+byte value request. The value at offset 3,956 retains the existing class text
+node and its original masked flags. The original constructor initializes the
+list at offset 3,964, stores its captured vtable, zero field and live value
+pointer, then restores the real caller. Execution stops at `30697944` after
+6,652 admitted operations; remaining arena capacity is 3,952 bytes.
+
+The source adds node-to-list (31 instructions), list append (18), list
+constructor (16), and the original 12-byte list vtable at `3089f29c`. There
+are now 83 Engine bodies and 3,517 instructions. Independent JSON/TypeScript
+regeneration matches byte-for-byte. Typechecking, seven focused engine checks,
+one constructor-interruption check and all 44 source/image/browser checks pass.
+The interrupted first constructor store retains both actual allocations, the
+initialized value, held locks and pending calls. No successful return is
+fabricated. One expected entry encoding in the source test was corrected
+against the original captured MOV instruction before the passing rerun.
+
+This checkpoint is local. Publishing the list in its parsed value and appending
+the name node remain unfinished, as do full startup and the finishable browser
+campaign. Earlier combined revision 3244c7c5f5ffa65674b0eb09513fba0f797939fd
+continues validating independently. PR 247 remains open with its reviewed head
+fc7457deae4ab66310a74d600d0496f61685d1ff and active CI; the paginated Actions
+audit found its run active, so no duplicate run or merge was performed.
+
+## Local continuation — 11 October 2026: original class-type parser returns
+
+The append publishes its actual list in the class parsed value, passes the
+actual name node to the captured list appender, verifies the original NULL tail
+and links that node through the list's physical tail field. The append restores
+its registers and returns through the real class caller. The class parser
+copies the resulting list into its caller's output with the original masked
+value constructor, restores its frame, and returns to `3069b52d` after 6,736
+admitted operations. The remaining arena capacity stays 3,952 bytes.
+
+Typechecking, eight focused runtime checks, a new interrupted name-link check
+and six browser-service checks pass. Interrupting the link leaves the actual
+class list published, its tail NULL, allocations live, locks held and the
+original append call pending. Earlier constructor and copy interruption checks
+remain passing. This checkpoint is local. Basic-type continuation, complete
+startup and the finishable campaign remain unfinished.
+
+Separately, PR 247 passed run 38117276412 and was merged into main as
+`9adc29dbac2d025c82bae033a9028c7023922238`. Its deployment run 38117866407
+is active; deployment success and browser observation are not claimed. The
+combined cache-append revision 3244c7c5f5ffa65674b0eb09513fba0f797939fd
+continues validation independently and does not cover this class return.
+
+## Local continuation — 11 October 2026: class type returns to name parser
+
+The basic-type caller assigns the actual returned class list, validates it
+through the original nonempty predicate, follows the actual V-code qualifier
+branches and checks its empty modifier. Its original value copy and frame
+restore return to the compound caller after 6,891 admitted operations. The
+compound and data-type callers remove their actual arguments and restore their
+frames. The outer type parser restores working flags, copies the retained list
+to its caller and returns to `3069b044` after 6,971 operations. The class list
+and both original text nodes remain live in the retained arena.
+
+Typechecking, nine focused runtime checks and six browser-service checks pass.
+All earlier copy, constructor and name-link interruption checks remain passing.
+The length and writer targets were read from the captured list vtable and
+independently captured from the pinned DLL for the next continuation (six,
+six and ten original instructions). Captured methods do not establish runtime
+execution. This checkpoint is local; name output construction, complete startup
+and the finishable campaign remain unfinished. The older combined cache-append
+revision continues full validation separately, and PR 247's main deployment
+remains active on the latest observation.
+
+
+### 2026-10-11: class-name output assignment
+
+The second property's original NameParser now consumes the returned class/type
+value, performs both original assignments, checks its live flags and the NUL
+at cursor offset 22, and calls StringLength at `3069b0a2`. Execution retains
+the pending call at `30697114` after 7,085 admitted source operations. The
+length routine and output construction remain pending. Pointer ownership,
+unknown upper flag bits, physical return addresses, and both held parser locks
+are preserved. The first property's published CString remains unchanged.
+
+The source package now contains 86 Engine bodies and 3,539 instructions. Newly
+captured list methods are `3069740c`, `3069741b`, and `3069742a`. Independent
+JSON and TypeScript regeneration was byte-identical. Type checking passed;
+three focused parser checks passed in 13.58 seconds, and six browser-boundary
+checks passed in 30.64 seconds. The preceding wider selection passed 75 checks
+and found one scalar-provenance assertion mismatch, corrected before the final
+focused pass. These local changes are not deployed, and do not prove complete
+engine startup or playable campaign integration.
+
+
+### 2026-10-11: original class-name length and allocation caller
+
+The retained StringLength follows the actual list head and tail and dispatches
+through the protected virtual tables. The list virtual method tail-calls the
+original length routine on its arena value; both text nodes return their live
+length words. Their actual sum is 14. NameParser adds the terminator, stores 15
+in its configuration, aligns the request to 16, and calls its retained allocator.
+Execution now stops at `30672ec7` after 7,176 admitted operations, before a
+second output allocation or writer return has been produced.
+
+Canonical allocation proofs cover the nested arena receiver and node extents;
+physical calls and saved registers are retained. External changes to a stored
+class-prefix length stop at `30696ec5` with the virtual caller pending. Three
+normal/fidelity checks passed in 13.02 seconds, this interruption check passed
+in 8.96 seconds, and six browser startup checks passed in 25.34 seconds.
+TypeScript checking passed. These local checks do not prove full engine startup,
+world activation, or campaign completion; this continuation is not deployed.
