@@ -4,6 +4,23 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local continuation — 11 October 2026: undecoration lock ownership
+
+The original undecoration caller now invokes the retained Engine CRT ensure-lock
+service with its physical argument 5, tests the actual result, and calls the
+retained lock service on the successful branch. Both services require the active
+initializer permit and use the existing CRT lock table. Their internal bodies
+remain translated contracts; their instructions are not counted as physical
+source execution. The actual caller returns, POPs, TEST and protected-scope store
+execute on the retained thread stack.
+
+The normal path stops at `3069b29e` after 2,784 admitted operations with lock 5
+held. Unavailable ensure or lock services preserve their original pending calls
+without reporting lock ownership. Three normal/frame checks and both unavailable
+service checks pass. Earlier combined full validation remains live. This work is
+local; undecoration, remaining C++ initialization and the complete campaign remain
+unfinished.
+
 ## Local continuation — 11 October 2026: undecoration frame and allocator check
 
 Undecoration now pushes its original 132-byte local extent and immutable scope

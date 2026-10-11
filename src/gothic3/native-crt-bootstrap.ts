@@ -360,6 +360,12 @@ export class NativeCrtBootstrap {
       bootstrap.#assertCrt();return known(undefined);
     }catch(error){return unknown(failureReason(error));}
   }
+  static engineCinitUndecorationLockForCrt(bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object,operation:'ensure'|'lock'):NativeValue<number|void>{
+    const proof=NativeCrtBootstrap.canonicalEngineCinitCallForCrt(bootstrap,crt,permit);if(!proof.known)return proof;
+    if(operation==='ensure')return NativeModuleCrtOwner.prototype.ensureLock.call(crt,5);
+    if(operation==='lock')return NativeModuleCrtOwner.prototype.lock.call(crt,5);
+    return unknown('Actual undecoration lock operation required');
+  }
   static engineCinitExitLockForCrt(bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object,operation:'lock'|'unlock'):NativeValue<void>{
     const proof=NativeCrtBootstrap.canonicalEngineCinitCallForCrt(bootstrap,crt,permit);if(!proof.known)return proof;
     if(operation!=='lock'&&operation!=='unlock')return unknown('Actual Engine exit lock operation required');

@@ -95,3 +95,9 @@ Undecoration now enters its own original EH4 scope and 132-byte local frame.
 It loads and tests the actual allocation callback, then preserves the pending
 lock-5 initialization call at `306832e3`, after 2,777 admitted operations. The
 C++ cursor snapshot retains the caller cursor before nested code reuses ESI.
+
+The original undecoration caller now bridges ensure-lock and lock 5 to the
+retained Engine CRT services under its active private permit. Service internals
+are translated contracts, not counted x86 rows. Normal execution stops at
+`3069b29e` with lock 5 held after 2,784 admitted operations. Unavailable services
+retain their actual pending returns and leave lock ownership unreported.
