@@ -593,3 +593,9 @@ second call to `3069b887` after 4,946 operations. Typechecking and five focused
 checks pass. Earlier combined revision passed 240 focused checks and is running
 its full suite; it predates this local continuation. The next original question
 mark data-type branch, full startup and campaign remain unfinished.
+
+The shared data-type dispatch follows the second name's question-mark branch
+through its original cursor increment and five-argument call to `3069aad4`,
+after 4,965 operations. Typechecking, five focused checks and one caller-argument
+check pass. Capturing the next decoder body, full startup and campaign remain
+unfinished; this continuation has not been published.

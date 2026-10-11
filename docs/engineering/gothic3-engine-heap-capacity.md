@@ -409,3 +409,20 @@ files and is now running the full suite; it predates the newer parser work.
 Captured data-parser instructions show that the next `?` comparison branches
 at `3069b896` to `3069b8e0`, requiring its own continuation. Data dispatch, full
 startup, publication and campaign play remain unfinished.
+
+### Shared data dispatch and original decorated-type call — 11 October 2026
+
+The original data-type comparisons now share one dispatch continuation. The
+second name takes `3069b896 -> 3069b8e0`. Its source-backed branch advances the
+retained type-info cursor from offset nine to ten, preserves carry across INC,
+masks the original local field and pushes five actual caller arguments. It
+reaches `3069b8fe -> 3069aad4` after 4,965 admitted operations. The next decoder
+body is absent from the current source package and must be captured before it
+can execute. No decoded bCString name is supplied.
+
+Typechecking and five focused runtime/browser/regression checks pass, followed
+by one targeted caller-argument check. Both NULL arguments are read from the
+actual pending call's live stack positions. The first float path retains its
+normal dispatch and constructor behavior. Earlier combined full-suite validation
+remains running and predates this continuation. Full startup, deployment and
+campaign completion remain unfinished.
