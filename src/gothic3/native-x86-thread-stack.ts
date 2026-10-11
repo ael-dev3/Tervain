@@ -478,6 +478,123 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
             prolog('3067e53e',()=>stack.#store(stack.#bank,32,register('EAX')));
             prolog('3067e544',()=>{const p=stack.#record(stack.#ret()).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!==returned)throw new Error('Original Engine onexit prolog return required');if(phase==='onexit')stack.#engineCinitFrame!.onexitPrologReturned=true;else if(phase==='propertyTypeName')stack.#engineCinitFrame!.typeNamePrologReturned=true;else stack.#engineCinitFrame!.undecorationPrologReturned=true;});
       };
+      const runPropertyTypeNamePrefix=(typeInfo:NativeHeapObjectViews,defaultImage:NativeHeapObjectViews)=>{
+                step('306713ae',()=>{const esp=stack.#address(register('ESP')),argument=stack.#load(stack.#stack,esp+4),p=stack.#record(argument).provenance;if(p?.kind!=='engine-image'||p.crt!==crt||p.fields!==defaultImage||p.offset!==0)throw new Error('Actual visual-animation default argument required');stack.#push(argument);},'306713ae');
+                step('306713b2',()=>{const word=register('ECX'),p=stack.#record(word).provenance;if(p?.kind!=='engine-image'||p.crt!==crt||p.fields!==typeInfo||p.offset!==0)throw new Error('Actual visual-animation type-info argument required');stack.#push(word);},'306713ae');
+                step('306713b3',()=>stack.#call('306713b3','306713b8'),'306713ae');const selectedScope=NativeEngineCinitImages.imageForCrt(images.value,crt,'propertyTypeNameSehScope');if(!selectedScope.known)throw new Error(selectedScope.reason);const nameScope=selectedScope.value;
+                const name=(pc:string,body:()=>void)=>step(pc,body,'3067da97');
+                name('3067da97',()=>stack.#push(stack.#mint(12,0xffffffff)));
+                name('3067da99',()=>stack.#push(stack.#mint(0,0,{kind:'source',type:'image',address:'30956a38',fields:nameScope})));
+                name('3067da9e',()=>stack.#call('3067da9e','3067daa3'));runEh4Prolog('3067daa3','propertyTypeName');
+                const relative=(name:'ESP'|'EBP',offset:number)=>stack.#address(register(name))+offset;
+                const actualTypeInfo=()=>{const p=stack.#record(register('EDI')).provenance;if(p?.kind!=='engine-image'||p.crt!==crt||p.fields!==typeInfo||p.offset!==0)throw new Error('Actual retained Engine type-info object required');return p;};
+                name('3067daa3',()=>{const argument=stack.#load(stack.#stack,relative('EBP',8)),p=stack.#record(argument).provenance;if(p?.kind!=='engine-image'||p.crt!==crt||p.fields!==typeInfo||p.offset!==0)throw new Error('Actual type-name caller object required');setRegister('EDI',argument);});
+                name('3067daa6',()=>{setRegister('EBX',stack.#mint(0,0xffffffff));stack.#logicalFlags(0,0xffffffff,4);});
+                let cached=0;name('3067daa8',()=>{const p=actualTypeInfo();cached=NativeHeapObjectViews.prototype.readUnsigned.call(p.fields,4,4);stack.#arithmeticFlags(cached,0,cached,4,true);});name('3067daab',()=>{});
+                return {name,relative,typeInfo,actualTypeInfo,cached};
+      };
+      const preparePropertyUndecoration=(name:(pc:string,body:()=>void)=>void,actualTypeInfo:()=>{fields:NativeHeapObjectViews;offset:number})=>{
+                name('3067dab1',()=>stack.#push(stack.#mint(0x2800,0xffffffff)));name('3067dab6',()=>stack.#push(stack.#source('code','30672f8a')));name('3067dabb',()=>stack.#push(stack.#source('code','30672ec7')));name('3067dac0',()=>stack.#push(register('EBX')));
+                name('3067dac1',()=>{const p=actualTypeInfo();if(p.fields.bytes.length<10)throw new Error('Original type name extent required');setRegister('EAX',stack.#mint(0,0,{kind:'engine-image',crt,fields:p.fields,offset:9}));});
+                name('3067dac4',()=>stack.#push(register('EAX')));name('3067dac5',()=>stack.#push(register('EBX')));
+                name('3067dac6',()=>{stack.#call('3067dac6','3067dacb');engineCinitInstruction('3069b26b','3069b26b');const esp=stack.#address(register('ESP'));stack.#engineCinitFrame!.typeNameArguments=Object.freeze(Array.from({length:6},(_,i)=>stack.#record(stack.#load(stack.#stack,esp+4+i*4))));});
+      };
+      const runUndecorationPrefix=()=>{
+        const relative=(name:'ESP'|'EBP',offset:number)=>stack.#address(register(name))+offset;
+                const undecorate=(pc:string,body:()=>void)=>step(pc,body,'3069b26b');
+                const undecorationScope=NativeEngineCinitImages.imageForCrt(images.value,crt,'undecorationSehScope');if(!undecorationScope.known)throw new Error(undecorationScope.reason);
+                undecorate('3069b26b',()=>stack.#push(stack.#mint(0x84,0xffffffff)));
+                undecorate('3069b270',()=>stack.#push(stack.#mint(0,0,{kind:'source',type:'image',address:'30956ec0',fields:undecorationScope.value})));
+                undecorate('3069b275',()=>stack.#call('3069b275','3069b27a'));runEh4Prolog('3069b27a','undecoration',0x84);
+                undecorate('3069b27a',()=>{const word=stack.#load(stack.#stack,relative('EBP',0x14)),p=stack.#record(word).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!=='30672ec7')throw new Error('Actual original undecoration allocator required');setRegister('EDI',word);});
+                undecorate('3069b27d',()=>{setRegister('ESI',stack.#mint(0,0xffffffff));stack.#logicalFlags(0,0xffffffff,4);});
+                undecorate('3069b27f',()=>{const p=stack.#record(register('EDI')).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!=='30672ec7'||stack.#numeric(register('ESI'),4)!==0)throw new Error('Actual nonnull allocator comparison required');stack.#flags(0,0x841);});
+                undecorate('3069b281',()=>{});undecorate('3069b287',()=>stack.#push(stack.#mint(5,0xffffffff)));undecorate('3069b289',()=>{stack.#call('3069b289','3069b28e');if(stack.#numeric(stack.#load(stack.#stack,relative('ESP',4)),4)!==5)throw new Error('Original undecoration ensure-lock argument required');const result=NativeCrtBootstrap.engineCinitUndecorationLockForCrt(bootstrap,crt,permit,'ensure');if(!result.known)throw new Error(result.reason);if(result.value!==0&&result.value!==1)throw new Error('Actual CRT ensure-lock result required');hostReturn(stack.#mint(result.value,0xffffffff),0);});
+                undecorate('3069b28e',()=>pop('ECX'));let lockReady=0;undecorate('3069b28f',()=>{lockReady=stack.#numeric(register('EAX'),4);stack.#logicalFlags(lockReady,0xffffffff,4);});undecorate('3069b291',()=>{});
+                if(lockReady===0){undecorate('3069b283',()=>{setRegister('EAX',stack.#mint(0,0xffffffff));stack.#logicalFlags(0,0xffffffff,4);});undecorate('3069b285',()=>{});stack.#engineCinitFrame!.pc='3069b2ff';return {ready:false as const};}
+                undecorate('3069b293',()=>stack.#push(stack.#mint(5,0xffffffff)));
+                undecorate('3069b295',()=>{stack.#call('3069b295','3069b29a');if(stack.#numeric(stack.#load(stack.#stack,relative('ESP',4)),4)!==5)throw new Error('Original undecoration lock argument required');const result=NativeCrtBootstrap.engineCinitUndecorationLockForCrt(bootstrap,crt,permit,'lock');if(!result.known)throw new Error(result.reason);stack.#engineCinitFrame!.undecorationLockHeld=true;hostReturn(stack.#mint(0,0),0);});
+                undecorate('3069b29a',()=>pop('ECX'));undecorate('3069b29b',()=>stack.#store(stack.#stack,relative('EBP',-4),register('ESI')));
+                const globals=NativeEngineCinitImages.imageForCrt(images.value,crt,'undecorationGlobals');if(!globals.known)throw new Error(globals.reason);
+                undecorate('3069b29e',()=>stack.#store(globals.value,0,register('EDI')));
+                undecorate('3069b2a4',()=>setRegister('EAX',stack.#load(stack.#stack,relative('EBP',24))));undecorate('3069b2a7',()=>stack.#store(globals.value,4,register('EAX')));
+                for(const [pc,offset] of [['3069b2ac',16],['3069b2b2',8],['3069b2b8',12]] as const)undecorate(pc,()=>stack.#store(globals.value,offset,register('ESI')));
+                undecorate('3069b2be',()=>setRegister('EAX',stack.#mint(NativeHeapObjectViews.prototype.readUnsigned.call(stack.#stack,relative('EBP',28),2),0xffffffff)));
+                undecorate('3069b2c2',()=>stack.#push(register('EAX')));undecorate('3069b2c3',()=>stack.#push(register('ESI')));
+                for(const [pc,offset] of [['3069b2c4',16],['3069b2c7',12],['3069b2ca',8]] as const)undecorate(pc,()=>stack.#push(stack.#load(stack.#stack,relative('EBP',offset))));
+                undecorate('3069b2cd',()=>setRegister('ECX',stack.#stackWord(relative('EBP',-148))));undecorate('3069b2d3',()=>stack.#call('3069b2d3','3069b2d8'));
+        return {ready:true as const,undecorate,globals};
+      };
+      const runParserConstructionPrefix=(globalsFields:NativeHeapObjectViews)=>{
+        const relative=(name:'ESP'|'EBP',offset:number)=>stack.#address(register(name))+offset;
+                const constructor=(pc:string,body:()=>void)=>step(pc,body,'3069747a');
+                constructor('3069747a',()=>stack.#push(register('EBP')));constructor('3069747b',()=>setRegister('EBP',register('ESP')));
+                constructor('3069747d',()=>stack.#push(register('ESI')));constructor('3069747e',()=>stack.#push(register('EDI')));
+                constructor('3069747f',()=>setRegister('ESI',register('ECX')));constructor('30697481',()=>stack.#call('30697481','30697486'));
+                const internal=(pc:string,body:()=>void)=>step(pc,body,'306972b8');
+                internal('306972b8',()=>stack.#push(register('ESI')));internal('306972b9',()=>setRegister('ESI',register('ECX')));
+                internal('306972bb',()=>stack.#push(stack.#mint(3,0xffffffff)));internal('306972bd',()=>setRegister('ECX',stack.#stackWord(stack.#address(register('ESI'))+44)));
+                internal('306972c0',()=>stack.#call('306972c0','306972c5'));
+                const field=(pc:string,body:()=>void)=>step(pc,body,'30697051');
+                const fieldPrefix=(kind:1|3)=>{
+                field('30697051',()=>stack.#push(register('ESI')));field('30697052',()=>stack.#push(register('EDI')));
+                field('30697053',()=>setRegister('EDI',stack.#load(stack.#stack,relative('ESP',12))));
+                field('30697057',()=>{const v=stack.#numeric(register('EDI'),4);stack.#arithmeticFlags(v,1,(v-1)>>>0,4,true);});field('3069705a',()=>setRegister('ESI',register('ECX')));field('3069705c',()=>{if(stack.#numeric(register('EDI'),4)!==kind)throw new Error('Actual internal field kind required');});
+                if(kind===3){field('3069705e',()=>stack.#arithmeticFlags(3,3,0,4,true));field('30697061',()=>{});}field('30697067',()=>setRegister('EAX',register('EDI')));
+                let fieldFlags:WordRecord|null=null;
+                field('30697069',()=>{const word=stack.#load(stack.#stack,stack.#address(register('ESI'))+4);fieldFlags=stack.#record(word);setRegister('ECX',word);});
+                field('3069706c',()=>{const r=stack.#record(register('ECX'));setRegister('ECX',stack.#mint((r.value^kind)>>>0,r.mask));stack.#logicalFlags((r.value^kind)>>>0,r.mask,4);});
+                field('3069706e',()=>{const r=stack.#record(register('ECX')),v=r.value&15,m=(r.mask|0xfffffff0)>>>0;setRegister('ECX',stack.#mint(v,m));stack.#logicalFlags(v,m,4);});
+                field('30697071',()=>{if(!fieldFlags)throw new Error('Actual field flags required');const v=((fieldFlags.value&0xfffffff0)|kind)>>>0,m=(fieldFlags.mask|15)>>>0;stack.#store(stack.#stack,stack.#address(register('ESI'))+4,stack.#mint(v,m));stack.#logicalFlags(v,m,4);});
+                field('30697074',()=>stack.#push(stack.#mint(0,0xffffffff)));field('30697076',()=>stack.#push(stack.#mint(16,0xffffffff)));
+                field('30697078',()=>setRegister('ECX',stack.#mint(0,0,{kind:'engine-image',crt,fields:globalsFields,offset:0})));field('3069707d',()=>stack.#call('3069707d','30697082'));
+                };fieldPrefix(3);
+        return {constructor,internal,field,fieldPrefix};
+      };
+      const runColdArenaRequest=(globalsFields:NativeHeapObjectViews)=>{
+        const relative=(name:'ESP'|'EBP',offset:number)=>stack.#address(register(name))+offset;
+                const arena=(pc:string,body:()=>void)=>step(pc,body,'30696bf0');
+                const arenaPrefix=(requested:number,direct:number)=>{
+                  arena('30696bf0',()=>stack.#push(register('ESI')));arena('30696bf1',()=>stack.#push(register('EDI')));
+                  arena('30696bf2',()=>{const word=stack.#load(stack.#stack,relative('ESP',12));if(stack.#numeric(word,4)!==requested)throw new Error('Actual arena request required');setRegister('EDI',word);});
+                  arena('30696bf6',()=>{const v=stack.#numeric(register('EDI'),4),r=(v+7)>>>0;setRegister('EDI',stack.#mint(r,0xffffffff));stack.#arithmeticFlags(v,7,r,4,false);});
+                  arena('30696bf9',()=>{const v=(stack.#numeric(register('EDI'),4)&0xfffffff8)>>>0;setRegister('EDI',stack.#mint(v,0xffffffff));stack.#logicalFlags(v,0xffffffff,4);});
+                  arena('30696bfc',()=>{const v=stack.#numeric(stack.#load(stack.#stack,relative('ESP',16)),4);if(v!==direct)throw new Error('Actual arena direct flag required');stack.#arithmeticFlags(v,0,v,4,true);});
+                  arena('30696c01',()=>{const word=register('ECX'),p=stack.#record(word).provenance;if(p?.kind!=='engine-image'||p.crt!==crt||p.fields!==globalsFields||p.offset!==0)throw new Error('Actual retained arena owner required');setRegister('ESI',word);});arena('30696c03',()=>{});
+                };
+                arenaPrefix(16,0);arena('30696c0b',()=>stack.#logicalFlags(16,0xffffffff,4));arena('30696c0d',()=>{});
+                arena('30696c12',()=>setRegister('EAX',stack.#load(globalsFields,16)));
+                arena('30696c15',()=>{const v=stack.#numeric(register('EAX'),4);stack.#arithmeticFlags(v,16,(v-16)>>>0,4,true);});arena('30696c17',()=>stack.#push(register('EBX')));
+                arena('30696c18',()=>{if(stack.#numeric(register('EAX'),4)!==0)throw new Error('Cold arena capacity required');});arena('30696c1a',()=>setRegister('EBX',stack.#mint(4096,0xffffffff)));
+                arena('30696c1f',()=>stack.#arithmeticFlags(16,4096,(16-4096)>>>0,4,true));arena('30696c21',()=>{});
+                arena('30696c23',()=>stack.#push(stack.#mint(1,0xffffffff)));arena('30696c25',()=>stack.#push(stack.#mint(4100,0xffffffff)));
+                arena('30696c2a',()=>setRegister('ECX',stack.#mint(0,0,{kind:'engine-image',crt,fields:globalsFields,offset:0})));arena('30696c2f',()=>stack.#call('30696c2f','30696c34'));
+                arenaPrefix(4100,1);arena('30696c05',()=>stack.#push(register('EDI')));
+                arena('30696c06',()=>{const p=stack.#record(stack.#load(globalsFields,0)).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!=='30672ec7')throw new Error('Actual retained arena allocator callback required');stack.#call('30696c06','30696c08');});
+                stack.#engineCinitFrame!.pc='30672ec7';const requested=stack.#numeric(stack.#load(stack.#stack,relative('ESP',4)),4);
+        return {arena,arenaPrefix,requested};
+      };
+      const runColdArenaAllocation=(globalsFields:NativeHeapObjectViews,request:ReturnType<typeof runColdArenaRequest>)=>{
+        const {arena,requested}=request;
+                engineCinitInstruction('30672ec7','30672ec7');const allocated=NativeModuleCrtOwner.prototype.malloc.call(crt,requested);if(!allocated.known)throw new Error(allocated.reason);
+                const arenaBacking=allocated.value?new NativeHeapObjectViews(allocated.value):null;
+                if(arenaBacking){Object.freeze(arenaBacking);const proof=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields:arenaBacking,offset:0},requested);if(!proof.known)throw new Error(proof.reason);}
+                const arenaWord=(offset:number)=>{if(!arenaBacking)throw new Error('Actual arena allocation required');return stack.#mint(0,0,{kind:'engine-allocation',crt,fields:arenaBacking,offset});};
+                hostReturn(arenaBacking?arenaWord(0):stack.#mint(0,0xffffffff),0);
+                arena('30696c08',()=>pop('ECX'));arena('30696c09',()=>{});arena('30696c6f',()=>pop('EDI'));arena('30696c70',()=>pop('ESI'));
+                arena('30696c71',()=>{const p=stack.#record(stack.#ret(8)).provenance;if(p?.kind!=='source'||p.address!=='30696c34')throw new Error('Actual recursive arena return required');});
+                arena('30696c34',()=>{if(arenaBacking)stack.#flags(0,0x841);else stack.#logicalFlags(0,0xffffffff,4);});arena('30696c36',()=>{});
+                if(!arenaBacking){stack.#engineCinitFrame!.pc='30696c3d';return {ready:false as const};}
+                arena('30696c38',()=>{stack.#store(arenaBacking,0,stack.#mint(0,0xffffffff));stack.#logicalFlags(0,0xffffffff,4);});arena('30696c3b',()=>{});arena('30696c3f',()=>stack.#flags(0,0x841));arena('30696c41',()=>{});
+                arena('30696c43',()=>setRegister('ECX',stack.#load(globalsFields,12)));arena('30696c46',()=>{const v=stack.#numeric(register('ECX'),4);stack.#logicalFlags(v,0xffffffff,4);});arena('30696c48',()=>{if(stack.#numeric(register('ECX'),4)!==0)throw new Error('Actual cold arena tail required');});
+                arena('30696c4e',()=>stack.#store(globalsFields,8,register('EAX')));
+                arena('30696c51',()=>{const a=stack.#numeric(register('EBX'),4),b=stack.#numeric(register('EDI'),4),v=(a-b)>>>0;setRegister('EBX',stack.#mint(v,0xffffffff));stack.#arithmeticFlags(a,b,v,4,true);});
+                arena('30696c53',()=>stack.#store(globalsFields,12,register('EAX')));arena('30696c56',()=>stack.#store(globalsFields,16,register('EBX')));arena('30696c59',()=>{});
+                arena('30696c64',()=>setRegister('EAX',stack.#load(globalsFields,12)));arena('30696c67',()=>setRegister('ECX',stack.#load(globalsFields,16)));
+                arena('30696c6a',()=>{const p=stack.#record(register('EAX')).provenance;if(p?.kind!=='engine-allocation'||p.crt!==crt||p.fields!==arenaBacking||p.offset!==0)throw new Error('Actual retained arena tail required');const offset=stack.#numeric(register('ECX'),4)+4,proof=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields:arenaBacking,offset},16);if(!proof.known)throw new Error(proof.reason);setRegister('EAX',arenaWord(offset));});
+                arena('30696c6e',()=>pop('EBX'));arena('30696c6f',()=>pop('EDI'));arena('30696c70',()=>pop('ESI'));arena('30696c71',()=>{const p=stack.#record(stack.#ret(8)).provenance;if(p?.kind!=='source'||p.address!=='30697082')throw new Error('Actual field allocation return required');});
+        return {ready:true as const,arenaBacking,arenaWord,allocated};
+      };
       const runExitRegistration=(callbackAddress:'30671144'|'3068e981'|'30011a40')=>{
             step('30671596',()=>{const esp=stack.#address(register('ESP')),argument=stack.#load(stack.#stack,esp+4),p=stack.#record(argument).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!==callbackAddress)throw new Error('Original Engine shutdown callback argument required');stack.#push(argument);},'30671596');
             step('3067159a',()=>stack.#call('3067159a','3067159f'),'30671596');
@@ -553,7 +670,7 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
         const position=(word:NativeX86Word32)=>{const p=stack.#record(word).provenance;if(p?.kind!=='engine-image'||p.crt!==crt||p.fields!==table.value||p.offset<0||p.offset>table.value.bytes.length||p.offset%4)throw new Error('Actual owned Engine C++ initializer cursor required');return p.offset;};
         step('3067d210',()=>setRegister('ESI',pointer(0)));step('3067d215',()=>setRegister('EAX',register('ESI')));step('3067d217',()=>setRegister('EDI',pointer(table.value.bytes.length)));
         step('3067d21c',()=>{const a=position(register('EAX')),b=position(register('EDI'));stack.#arithmeticFlags(a,b,(a-b)>>>0,4,true);});step('3067d21e',()=>pop('ECX'));step('3067d21f',()=>{});
-        for(;;){
+        cppInitializerLoop:for(;;){
           if(position(register('ESI'))>=position(register('EDI'))){stack.#engineCinitFrame!.pc='3067d230';return known(undefined);}
           let target:string|null=null;
           step('3067d221',()=>{const offset=position(register('ESI')),live=NativeEngineCinitImages.imageForCrt(images.value,crt,'cppInitializers');if(!live.known||live.value!==table.value)throw new Error('Retained Engine C++ initializer table required');const raw=NativeHeapObjectViews.prototype.readUnsigned.call(table.value,offset,4);if(raw){target=engineCinitTableTarget('cppInitializers',(0x307bb000+offset).toString(16));if(!target||parseInt(target,16)!==raw)throw new Error('Original Engine C++ callback target required');setRegister('EAX',stack.#source('code',target));}else setRegister('EAX',stack.#mint(0,0xffffffff));});
@@ -577,104 +694,13 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
                 property('30076664',()=>stack.#push(stack.#mint(0,0,{kind:'engine-image',crt,fields:image('visualAnimationFloatDefault'),offset:0})));
                 property('30076669',()=>setRegister('ECX',stack.#mint(0,0,{kind:'engine-image',crt,fields:image('visualAnimationFloatTypeInfo'),offset:0})));
                 property('3007666e',()=>stack.#store(flags,0,register('EAX')));property('30076673',()=>stack.#call('30076673','30076678'));
-                step('306713ae',()=>{const esp=stack.#address(register('ESP')),argument=stack.#load(stack.#stack,esp+4),p=stack.#record(argument).provenance;if(p?.kind!=='engine-image'||p.crt!==crt||p.fields!==image('visualAnimationFloatDefault')||p.offset!==0)throw new Error('Actual visual-animation default argument required');stack.#push(argument);},'306713ae');
-                step('306713b2',()=>{const word=register('ECX'),p=stack.#record(word).provenance;if(p?.kind!=='engine-image'||p.crt!==crt||p.fields!==image('visualAnimationFloatTypeInfo')||p.offset!==0)throw new Error('Actual visual-animation type-info argument required');stack.#push(word);},'306713ae');
-                step('306713b3',()=>stack.#call('306713b3','306713b8'),'306713ae');const selectedScope=NativeEngineCinitImages.imageForCrt(images.value,crt,'propertyTypeNameSehScope');if(!selectedScope.known)throw new Error(selectedScope.reason);const nameScope=selectedScope.value;
-                const name=(pc:string,body:()=>void)=>step(pc,body,'3067da97');
-                name('3067da97',()=>stack.#push(stack.#mint(12,0xffffffff)));
-                name('3067da99',()=>stack.#push(stack.#mint(0,0,{kind:'source',type:'image',address:'30956a38',fields:nameScope})));
-                name('3067da9e',()=>stack.#call('3067da9e','3067daa3'));runEh4Prolog('3067daa3','propertyTypeName');
-                const relative=(name:'ESP'|'EBP',offset:number)=>stack.#address(register(name))+offset;
-                const typeInfo=image('visualAnimationFloatTypeInfo');
-                const actualTypeInfo=()=>{const p=stack.#record(register('EDI')).provenance;if(p?.kind!=='engine-image'||p.crt!==crt||p.fields!==typeInfo||p.offset!==0)throw new Error('Actual retained Engine type-info object required');return p;};
-                name('3067daa3',()=>{const argument=stack.#load(stack.#stack,relative('EBP',8)),p=stack.#record(argument).provenance;if(p?.kind!=='engine-image'||p.crt!==crt||p.fields!==typeInfo||p.offset!==0)throw new Error('Actual type-name caller object required');setRegister('EDI',argument);});
-                name('3067daa6',()=>{setRegister('EBX',stack.#mint(0,0xffffffff));stack.#logicalFlags(0,0xffffffff,4);});
-                let cached=0;name('3067daa8',()=>{const p=actualTypeInfo();cached=NativeHeapObjectViews.prototype.readUnsigned.call(p.fields,4,4);stack.#arithmeticFlags(cached,0,cached,4,true);});name('3067daab',()=>{});
+                const {name,relative,typeInfo,actualTypeInfo,cached}=runPropertyTypeNamePrefix(image('visualAnimationFloatTypeInfo'),image('visualAnimationFloatDefault'));
                 if(cached!==0){stack.#engineCinitFrame!.pc='3067db77';return known(undefined);}
-                name('3067dab1',()=>stack.#push(stack.#mint(0x2800,0xffffffff)));name('3067dab6',()=>stack.#push(stack.#source('code','30672f8a')));name('3067dabb',()=>stack.#push(stack.#source('code','30672ec7')));name('3067dac0',()=>stack.#push(register('EBX')));
-                name('3067dac1',()=>{const p=actualTypeInfo();if(p.fields.bytes.length<10)throw new Error('Original type name extent required');setRegister('EAX',stack.#mint(0,0,{kind:'engine-image',crt,fields:p.fields,offset:9}));});
-                name('3067dac4',()=>stack.#push(register('EAX')));name('3067dac5',()=>stack.#push(register('EBX')));
-                name('3067dac6',()=>{stack.#call('3067dac6','3067dacb');engineCinitInstruction('3069b26b','3069b26b');const esp=stack.#address(register('ESP'));stack.#engineCinitFrame!.typeNameArguments=Object.freeze(Array.from({length:6},(_,i)=>stack.#record(stack.#load(stack.#stack,esp+4+i*4))));});
-                const undecorate=(pc:string,body:()=>void)=>step(pc,body,'3069b26b');
-                const undecorationScope=NativeEngineCinitImages.imageForCrt(images.value,crt,'undecorationSehScope');if(!undecorationScope.known)throw new Error(undecorationScope.reason);
-                undecorate('3069b26b',()=>stack.#push(stack.#mint(0x84,0xffffffff)));
-                undecorate('3069b270',()=>stack.#push(stack.#mint(0,0,{kind:'source',type:'image',address:'30956ec0',fields:undecorationScope.value})));
-                undecorate('3069b275',()=>stack.#call('3069b275','3069b27a'));runEh4Prolog('3069b27a','undecoration',0x84);
-                undecorate('3069b27a',()=>{const word=stack.#load(stack.#stack,relative('EBP',0x14)),p=stack.#record(word).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!=='30672ec7')throw new Error('Actual original undecoration allocator required');setRegister('EDI',word);});
-                undecorate('3069b27d',()=>{setRegister('ESI',stack.#mint(0,0xffffffff));stack.#logicalFlags(0,0xffffffff,4);});
-                undecorate('3069b27f',()=>{const p=stack.#record(register('EDI')).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!=='30672ec7'||stack.#numeric(register('ESI'),4)!==0)throw new Error('Actual nonnull allocator comparison required');stack.#flags(0,0x841);});
-                undecorate('3069b281',()=>{});undecorate('3069b287',()=>stack.#push(stack.#mint(5,0xffffffff)));undecorate('3069b289',()=>{stack.#call('3069b289','3069b28e');if(stack.#numeric(stack.#load(stack.#stack,relative('ESP',4)),4)!==5)throw new Error('Original undecoration ensure-lock argument required');const result=NativeCrtBootstrap.engineCinitUndecorationLockForCrt(bootstrap,crt,permit,'ensure');if(!result.known)throw new Error(result.reason);if(result.value!==0&&result.value!==1)throw new Error('Actual CRT ensure-lock result required');hostReturn(stack.#mint(result.value,0xffffffff),0);});
-                undecorate('3069b28e',()=>pop('ECX'));let lockReady=0;undecorate('3069b28f',()=>{lockReady=stack.#numeric(register('EAX'),4);stack.#logicalFlags(lockReady,0xffffffff,4);});undecorate('3069b291',()=>{});
-                if(lockReady===0){undecorate('3069b283',()=>{setRegister('EAX',stack.#mint(0,0xffffffff));stack.#logicalFlags(0,0xffffffff,4);});undecorate('3069b285',()=>{});stack.#engineCinitFrame!.pc='3069b2ff';return known(undefined);}
-                undecorate('3069b293',()=>stack.#push(stack.#mint(5,0xffffffff)));
-                undecorate('3069b295',()=>{stack.#call('3069b295','3069b29a');if(stack.#numeric(stack.#load(stack.#stack,relative('ESP',4)),4)!==5)throw new Error('Original undecoration lock argument required');const result=NativeCrtBootstrap.engineCinitUndecorationLockForCrt(bootstrap,crt,permit,'lock');if(!result.known)throw new Error(result.reason);stack.#engineCinitFrame!.undecorationLockHeld=true;hostReturn(stack.#mint(0,0),0);});
-                undecorate('3069b29a',()=>pop('ECX'));undecorate('3069b29b',()=>stack.#store(stack.#stack,relative('EBP',-4),register('ESI')));
-                const globals=NativeEngineCinitImages.imageForCrt(images.value,crt,'undecorationGlobals');if(!globals.known)throw new Error(globals.reason);
-                undecorate('3069b29e',()=>stack.#store(globals.value,0,register('EDI')));
-                undecorate('3069b2a4',()=>setRegister('EAX',stack.#load(stack.#stack,relative('EBP',24))));undecorate('3069b2a7',()=>stack.#store(globals.value,4,register('EAX')));
-                for(const [pc,offset] of [['3069b2ac',16],['3069b2b2',8],['3069b2b8',12]] as const)undecorate(pc,()=>stack.#store(globals.value,offset,register('ESI')));
-                undecorate('3069b2be',()=>setRegister('EAX',stack.#mint(NativeHeapObjectViews.prototype.readUnsigned.call(stack.#stack,relative('EBP',28),2),0xffffffff)));
-                undecorate('3069b2c2',()=>stack.#push(register('EAX')));undecorate('3069b2c3',()=>stack.#push(register('ESI')));
-                for(const [pc,offset] of [['3069b2c4',16],['3069b2c7',12],['3069b2ca',8]] as const)undecorate(pc,()=>stack.#push(stack.#load(stack.#stack,relative('EBP',offset))));
-                undecorate('3069b2cd',()=>setRegister('ECX',stack.#stackWord(relative('EBP',-148))));undecorate('3069b2d3',()=>stack.#call('3069b2d3','3069b2d8'));
-                const constructor=(pc:string,body:()=>void)=>step(pc,body,'3069747a');
-                constructor('3069747a',()=>stack.#push(register('EBP')));constructor('3069747b',()=>setRegister('EBP',register('ESP')));
-                constructor('3069747d',()=>stack.#push(register('ESI')));constructor('3069747e',()=>stack.#push(register('EDI')));
-                constructor('3069747f',()=>setRegister('ESI',register('ECX')));constructor('30697481',()=>stack.#call('30697481','30697486'));
-                const internal=(pc:string,body:()=>void)=>step(pc,body,'306972b8');
-                internal('306972b8',()=>stack.#push(register('ESI')));internal('306972b9',()=>setRegister('ESI',register('ECX')));
-                internal('306972bb',()=>stack.#push(stack.#mint(3,0xffffffff)));internal('306972bd',()=>setRegister('ECX',stack.#stackWord(stack.#address(register('ESI'))+44)));
-                internal('306972c0',()=>stack.#call('306972c0','306972c5'));
-                const field=(pc:string,body:()=>void)=>step(pc,body,'30697051');
-                const fieldPrefix=(kind:1|3)=>{
-                field('30697051',()=>stack.#push(register('ESI')));field('30697052',()=>stack.#push(register('EDI')));
-                field('30697053',()=>setRegister('EDI',stack.#load(stack.#stack,relative('ESP',12))));
-                field('30697057',()=>{const v=stack.#numeric(register('EDI'),4);stack.#arithmeticFlags(v,1,(v-1)>>>0,4,true);});field('3069705a',()=>setRegister('ESI',register('ECX')));field('3069705c',()=>{if(stack.#numeric(register('EDI'),4)!==kind)throw new Error('Actual internal field kind required');});
-                if(kind===3){field('3069705e',()=>stack.#arithmeticFlags(3,3,0,4,true));field('30697061',()=>{});}field('30697067',()=>setRegister('EAX',register('EDI')));
-                let fieldFlags:WordRecord|null=null;
-                field('30697069',()=>{const word=stack.#load(stack.#stack,stack.#address(register('ESI'))+4);fieldFlags=stack.#record(word);setRegister('ECX',word);});
-                field('3069706c',()=>{const r=stack.#record(register('ECX'));setRegister('ECX',stack.#mint((r.value^kind)>>>0,r.mask));stack.#logicalFlags((r.value^kind)>>>0,r.mask,4);});
-                field('3069706e',()=>{const r=stack.#record(register('ECX')),v=r.value&15,m=(r.mask|0xfffffff0)>>>0;setRegister('ECX',stack.#mint(v,m));stack.#logicalFlags(v,m,4);});
-                field('30697071',()=>{if(!fieldFlags)throw new Error('Actual field flags required');const v=((fieldFlags.value&0xfffffff0)|kind)>>>0,m=(fieldFlags.mask|15)>>>0;stack.#store(stack.#stack,stack.#address(register('ESI'))+4,stack.#mint(v,m));stack.#logicalFlags(v,m,4);});
-                field('30697074',()=>stack.#push(stack.#mint(0,0xffffffff)));field('30697076',()=>stack.#push(stack.#mint(16,0xffffffff)));
-                field('30697078',()=>setRegister('ECX',stack.#mint(0,0,{kind:'engine-image',crt,fields:globals.value,offset:0})));field('3069707d',()=>stack.#call('3069707d','30697082'));
-                };fieldPrefix(3);
-                const arena=(pc:string,body:()=>void)=>step(pc,body,'30696bf0');
-                const arenaPrefix=(requested:number,direct:number)=>{
-                  arena('30696bf0',()=>stack.#push(register('ESI')));arena('30696bf1',()=>stack.#push(register('EDI')));
-                  arena('30696bf2',()=>{const word=stack.#load(stack.#stack,relative('ESP',12));if(stack.#numeric(word,4)!==requested)throw new Error('Actual arena request required');setRegister('EDI',word);});
-                  arena('30696bf6',()=>{const v=stack.#numeric(register('EDI'),4),r=(v+7)>>>0;setRegister('EDI',stack.#mint(r,0xffffffff));stack.#arithmeticFlags(v,7,r,4,false);});
-                  arena('30696bf9',()=>{const v=(stack.#numeric(register('EDI'),4)&0xfffffff8)>>>0;setRegister('EDI',stack.#mint(v,0xffffffff));stack.#logicalFlags(v,0xffffffff,4);});
-                  arena('30696bfc',()=>{const v=stack.#numeric(stack.#load(stack.#stack,relative('ESP',16)),4);if(v!==direct)throw new Error('Actual arena direct flag required');stack.#arithmeticFlags(v,0,v,4,true);});
-                  arena('30696c01',()=>{const word=register('ECX'),p=stack.#record(word).provenance;if(p?.kind!=='engine-image'||p.crt!==crt||p.fields!==globals.value||p.offset!==0)throw new Error('Actual retained arena owner required');setRegister('ESI',word);});arena('30696c03',()=>{});
-                };
-                arenaPrefix(16,0);arena('30696c0b',()=>stack.#logicalFlags(16,0xffffffff,4));arena('30696c0d',()=>{});
-                arena('30696c12',()=>setRegister('EAX',stack.#load(globals.value,16)));
-                arena('30696c15',()=>{const v=stack.#numeric(register('EAX'),4);stack.#arithmeticFlags(v,16,(v-16)>>>0,4,true);});arena('30696c17',()=>stack.#push(register('EBX')));
-                arena('30696c18',()=>{if(stack.#numeric(register('EAX'),4)!==0)throw new Error('Cold arena capacity required');});arena('30696c1a',()=>setRegister('EBX',stack.#mint(4096,0xffffffff)));
-                arena('30696c1f',()=>stack.#arithmeticFlags(16,4096,(16-4096)>>>0,4,true));arena('30696c21',()=>{});
-                arena('30696c23',()=>stack.#push(stack.#mint(1,0xffffffff)));arena('30696c25',()=>stack.#push(stack.#mint(4100,0xffffffff)));
-                arena('30696c2a',()=>setRegister('ECX',stack.#mint(0,0,{kind:'engine-image',crt,fields:globals.value,offset:0})));arena('30696c2f',()=>stack.#call('30696c2f','30696c34'));
-                arenaPrefix(4100,1);arena('30696c05',()=>stack.#push(register('EDI')));
-                arena('30696c06',()=>{const p=stack.#record(stack.#load(globals.value,0)).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!=='30672ec7')throw new Error('Actual retained arena allocator callback required');stack.#call('30696c06','30696c08');});
-                stack.#engineCinitFrame!.pc='30672ec7';const requested=stack.#numeric(stack.#load(stack.#stack,relative('ESP',4)),4);
-                engineCinitInstruction('30672ec7','30672ec7');const allocated=NativeModuleCrtOwner.prototype.malloc.call(crt,requested);if(!allocated.known)throw new Error(allocated.reason);
-                const arenaBacking=allocated.value?new NativeHeapObjectViews(allocated.value):null;
-                if(arenaBacking){Object.freeze(arenaBacking);const proof=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields:arenaBacking,offset:0},requested);if(!proof.known)throw new Error(proof.reason);}
-                const arenaWord=(offset:number)=>{if(!arenaBacking)throw new Error('Actual arena allocation required');return stack.#mint(0,0,{kind:'engine-allocation',crt,fields:arenaBacking,offset});};
-                hostReturn(arenaBacking?arenaWord(0):stack.#mint(0,0xffffffff),0);
-                arena('30696c08',()=>pop('ECX'));arena('30696c09',()=>{});arena('30696c6f',()=>pop('EDI'));arena('30696c70',()=>pop('ESI'));
-                arena('30696c71',()=>{const p=stack.#record(stack.#ret(8)).provenance;if(p?.kind!=='source'||p.address!=='30696c34')throw new Error('Actual recursive arena return required');});
-                arena('30696c34',()=>{if(arenaBacking)stack.#flags(0,0x841);else stack.#logicalFlags(0,0xffffffff,4);});arena('30696c36',()=>{});
-                if(!arenaBacking){stack.#engineCinitFrame!.pc='30696c3d';return known(undefined);}
-                arena('30696c38',()=>{stack.#store(arenaBacking,0,stack.#mint(0,0xffffffff));stack.#logicalFlags(0,0xffffffff,4);});arena('30696c3b',()=>{});arena('30696c3f',()=>stack.#flags(0,0x841));arena('30696c41',()=>{});
-                arena('30696c43',()=>setRegister('ECX',stack.#load(globals.value,12)));arena('30696c46',()=>{const v=stack.#numeric(register('ECX'),4);stack.#logicalFlags(v,0xffffffff,4);});arena('30696c48',()=>{if(stack.#numeric(register('ECX'),4)!==0)throw new Error('Actual cold arena tail required');});
-                arena('30696c4e',()=>stack.#store(globals.value,8,register('EAX')));
-                arena('30696c51',()=>{const a=stack.#numeric(register('EBX'),4),b=stack.#numeric(register('EDI'),4),v=(a-b)>>>0;setRegister('EBX',stack.#mint(v,0xffffffff));stack.#arithmeticFlags(a,b,v,4,true);});
-                arena('30696c53',()=>stack.#store(globals.value,12,register('EAX')));arena('30696c56',()=>stack.#store(globals.value,16,register('EBX')));arena('30696c59',()=>{});
-                arena('30696c64',()=>setRegister('EAX',stack.#load(globals.value,12)));arena('30696c67',()=>setRegister('ECX',stack.#load(globals.value,16)));
-                arena('30696c6a',()=>{const p=stack.#record(register('EAX')).provenance;if(p?.kind!=='engine-allocation'||p.crt!==crt||p.fields!==arenaBacking||p.offset!==0)throw new Error('Actual retained arena tail required');const offset=stack.#numeric(register('ECX'),4)+4,proof=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields:arenaBacking,offset},16);if(!proof.known)throw new Error(proof.reason);setRegister('EAX',arenaWord(offset));});
-                arena('30696c6e',()=>pop('EBX'));arena('30696c6f',()=>pop('EDI'));arena('30696c70',()=>pop('ESI'));arena('30696c71',()=>{const p=stack.#record(stack.#ret(8)).provenance;if(p?.kind!=='source'||p.address!=='30697082')throw new Error('Actual field allocation return required');});
+                preparePropertyUndecoration(name,actualTypeInfo);
+                const decoder=runUndecorationPrefix();if(!decoder.ready)return known(undefined);const {undecorate,globals}=decoder;
+                const {constructor,internal,field,fieldPrefix}=runParserConstructionPrefix(globals.value);
+                const {arena,arenaPrefix,requested}=runColdArenaRequest(globals.value);
+                const allocation=runColdArenaAllocation(globals.value,{arena,arenaPrefix,requested});if(!allocation.ready)return known(undefined);const {arenaBacking,arenaWord,allocated}=allocation;
                 const finishField=(kind:1|3,nodeOffset:number,returned:string)=>{
                 field('30697082',()=>stack.#flags(0,0x841));field('30697084',()=>{});field('30697086',()=>stack.#push(register('EDI')));field('30697087',()=>setRegister('ECX',register('EAX')));field('30697089',()=>stack.#call('30697089','3069708e'));
                 const node=(pc:string,body:()=>void)=>step(pc,body,'30696ef8');
@@ -1025,7 +1051,8 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
                     if(!runExitRegistration('30011a40'))return known(undefined);
                     property('3007668e',()=>{setRegister('ESP',stack.#stackWord(relative('ESP',4)));stack.#flags(0,0);});property('30076691',()=>setRegister('EAX',stack.#mint(0,0,{kind:'engine-image',crt,fields:storage,offset:0})));property('30076696',()=>{const p=stack.#record(stack.#ret()).provenance;if(p?.kind!=='source'||p.address!=='307322b5')throw new Error('Actual property type initializer return required');});
                     step('307322b5',()=>stack.#store(image('visualAnimationFloatRoot'),0,register('EAX')),'307322b0');step('307322ba',()=>{const p=stack.#record(stack.#ret()).provenance;if(p?.kind!=='source'||p.address!=='3067d229')throw new Error('Actual Engine C++ initializer callback return required');},'307322b0');
-                    stack.#engineCinitFrame!.pc='3067d229';return known(undefined);
+                    step('3067d229',()=>{const offset=position(register('ESI'));setRegister('ESI',pointer(offset+4));stack.#flags(0,0);});step('3067d22c',()=>{const a=position(register('ESI')),b=position(register('EDI'));stack.#arithmeticFlags(a,b,(a-b)>>>0,4,true);});step('3067d22e',()=>{});
+                    continue cppInitializerLoop;
                   }
                   searchCharacterStep('100a733a',()=>setRegister('EDI',stack.#mint(0x7efefeff,0xffffffff)));searchCharacterStep('100a733f',()=>setRegister('EAX',register('ECX')));searchCharacterStep('100a7341',()=>setRegister('ESI',register('EDI')));searchCharacterStep('100a7343',()=>bitwise('ECX','EBX','xor'));
                   const add=(target:'ESI'|'EDI',other:'EAX'|'ECX')=>{const a=stack.#numeric(register(target),4),b=stack.#numeric(register(other),4),v=(a+b)>>>0;setRegister(target,stack.#mint(v,0xffffffff));stack.#arithmeticFlags(a,b,v,4,false);};searchCharacterStep('100a7345',()=>add('ESI','EAX'));searchCharacterStep('100a7347',()=>add('EDI','ECX'));searchCharacterStep('100a7349',()=>bitwise('ECX',0xffffffff,'xor'));searchCharacterStep('100a734c',()=>bitwise('EAX',0xffffffff,'xor'));searchCharacterStep('100a734f',()=>bitwise('ECX','EDI','xor'));searchCharacterStep('100a7351',()=>bitwise('EAX','ESI','xor'));
@@ -1033,6 +1060,25 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
                 }
               }
               stack.#engineCinitFrame!.pc='30076691';return known(undefined);
+            }
+            if(target==='307322c0'){
+              step('307322c0',()=>stack.#call('307322c0','307322c5'),'307322c0');step('30016fea',()=>{},'30016fea');
+              const second=(pc:string,body:()=>void)=>step(pc,body,'30016fea');
+              const image=(label:'visualAnimationSecondFlags'|'visualAnimationSecondRoot'|'visualAnimationSecondStorage'|'visualAnimationSecondTypeInfo'|'visualAnimationFloatDefault')=>{const value=NativeEngineCinitImages.imageForCrt(images.value,crt,label);if(!value.known)throw new Error(value.reason);return value.value;};
+              const flags=image('visualAnimationSecondFlags'),storage=image('visualAnimationSecondStorage');let bits=0,mask=0;
+              second('30076560',()=>{const word=stack.#load(flags,0),record=stack.#record(word);bits=record.value;mask=record.mask;setRegister('EAX',word);});second('30076565',()=>stack.#logicalFlags(bits&1,(mask|~1)&255,1));
+              second('30076567',()=>{const f=stack.#record(stack.#load(stack.#bank,36));if(!(f.mask&0x40)||bits&1)throw new Error('Original fresh second property root guard required');});
+              second('30076569',()=>setRegister('ECX',stack.#load(image('visualAnimationSecondRoot'),0)));second('3007656f',()=>{bits=(bits|1)>>>0;mask=(mask|1)>>>0;setRegister('EAX',stack.#mint(bits,mask));stack.#logicalFlags(bits,mask,4);});second('30076572',()=>stack.#store(flags,0,register('EAX')));second('30076577',()=>stack.#store(storage,4,register('ECX')));
+              second('3007657d',()=>stack.#logicalFlags(bits&2,(mask|~2)&255,1));second('3007657f',()=>{const f=stack.#record(stack.#load(stack.#bank,36));if(!(f.mask&0x40)||bits&2)throw new Error('Original fresh second property type guard required');});
+              second('30076581',()=>{bits=(bits|2)>>>0;mask=(mask|2)>>>0;setRegister('EAX',stack.#mint(bits,mask));stack.#logicalFlags(bits,mask,4);});second('30076584',()=>stack.#push(stack.#mint(0,0,{kind:'engine-image',crt,fields:image('visualAnimationFloatDefault'),offset:0})));second('30076589',()=>setRegister('ECX',stack.#mint(0,0,{kind:'engine-image',crt,fields:image('visualAnimationSecondTypeInfo'),offset:0})));second('3007658e',()=>stack.#store(flags,0,register('EAX')));second('30076593',()=>stack.#call('30076593','30076598'));
+              const prefix=runPropertyTypeNamePrefix(image('visualAnimationSecondTypeInfo'),image('visualAnimationFloatDefault'));
+              if(prefix.cached!==0){stack.#engineCinitFrame!.pc='3067db77';return known(undefined);}
+              preparePropertyUndecoration(prefix.name,prefix.actualTypeInfo);
+              const decoder=runUndecorationPrefix();if(!decoder.ready)return known(undefined);
+              runParserConstructionPrefix(decoder.globals.value);
+              const request=runColdArenaRequest(decoder.globals.value);
+              const allocation=runColdArenaAllocation(decoder.globals.value,request);if(!allocation.ready)return known(undefined);
+              stack.#engineCinitFrame!.pc='30697082';return known(undefined);
             }
             return known(undefined);
           }
@@ -1179,7 +1225,7 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
       return known(undefined);
     }catch(error){return unknown(reason(error));}
   }
-  engineCinitFrameSnapshot(crt:NativeModuleCrtOwner){const f=this.#engineCinitFrame;if(!f||f.crt!==crt)return null;const table=NativeEngineCinitImages.imageForCrt(f.images,crt,'floatConversionPointers');const streamPointers=f.streamAllocation&&f.streamResult===0?Object.freeze(Array.from({length:20},(_,i)=>this.#record(this.#load(f.streamAllocation!,i*4)))):null;const floatPointers=f.floatConversionWritten&&table.known?Object.freeze(Array.from({length:10},(_,i)=>this.#record(this.#load(table.value,i*4)))):null;return Object.freeze({pc:f.pc,entryEsp:f.entryEsp,images:f.images,operations:f.operations,floatConversionWritten:f.floatConversionWritten,precisionArgument:f.precisionArgument,exitTableAllocation:f.exitTableAllocation,exitTableResult:f.exitTableResult,streamAllocation:f.streamAllocation,streamCount:f.streamCount,streamResult:f.streamResult,sse2Result:f.sse2Result,sse2ControlResult:f.sse2ControlResult,onexitEbp:f.onexitEbp,onexitPrologReturned:f.onexitPrologReturned,onexitLockHeld:f.onexitLockHeld,typeNameEbp:f.typeNameEbp,typeNamePrologReturned:f.typeNamePrologReturned,typeNameArguments:f.typeNameArguments,typeNameLength:f.typeNameLength,typeNameCopyResult:f.typeNameCopyResult,typeNameMemoryAdmin:f.typeNameMemoryAdmin,typeNameCString:f.typeNameCString,typeNameCStringCopyReturned:f.typeNameCStringCopyReturned,typeNameUnMangleArguments:(()=>{const c=this.#calls.find(c=>c.site==='3007667e'&&!c.returned);return c?Object.freeze([4,8].map(offset=>this.#record(this.#load(this.#stack,c.position+offset)))):null;})(),undecorationRestoredEsiWord:f.undecorationRestoredEsi,typeNameLockHeld:f.typeNameLockHeld,typeNameCacheNode:f.typeNameCacheNode,typeNameCacheText:f.typeNameCacheText,typeNameCacheNodeWords:f.typeNameCacheNode?Object.freeze([0,4].map(offset=>this.#record(this.#load(f.typeNameCacheNode!,offset)))):null,typeNameListRootWords:(()=>{const root=NativeEngineCinitImages.imageForCrt(f.images,crt,'visualAnimationFloatDefault');return root.known?Object.freeze([0,4].map(offset=>this.#record(this.#load(root.value,offset)))):null;})(),typeNameCacheTextWord:(()=>{const info=NativeEngineCinitImages.imageForCrt(f.images,crt,'visualAnimationFloatTypeInfo');return info.known?this.#record(this.#load(info.value,4)):null;})(),undecorationPendingTypeArguments:(()=>{const call=this.#calls.find(c=>c.site==='3069b770'&&!c.returned);return call?Object.freeze([4,8].map(offset=>this.#record(this.#load(this.#stack,call.position+offset)))):null;})(),undecorationTextNodeWords:(()=>{const p=f.undecorationTextNode?this.#record(f.undecorationTextNode).provenance:null;return p?.kind==='engine-allocation'&&p.crt===crt&&!p.fields.backing.freed?Object.freeze(Array.from({length:4},(_,i)=>this.#record(this.#load(p.fields,p.offset+i*4)))):f.undecorationReleasedTextWords;})(),undecorationTextNodeLive:f.undecorationTextNode?(()=>{const p=this.#record(f.undecorationTextNode!).provenance;return p?.kind==='engine-allocation'&&!p.fields.backing.freed;})():false,undecorationTextNodeWord:f.undecorationTextNode?this.#record(f.undecorationTextNode):null,undecorationCopiedTypeWords:f.undecorationParsedValue,undecorationOutputWriterArguments:f.undecorationWriterArguments,undecorationOutput:f.undecorationOutput,undecorationLiteralArgument:f.undecorationLiteralArgument,currentEaxWord:this.#record(this.#load(this.#bank,this.#reg('EAX'))),currentEsiWord:this.#record(this.#load(this.#bank,this.#reg('ESI'))),undecorationParserWords:(()=>{const config=NativeEngineCinitImages.imageForCrt(f.images,crt,'undecorationParserGlobals');return config.known?Object.freeze(Array.from({length:9},(_,i)=>this.#record(this.#load(config.value,i*4)))):null;})(),undecorationFieldWords:f.undecorationEbp===null?null:Object.freeze([104,96,44,36].map(offset=>this.#record(this.#load(this.#stack,f.undecorationEbp!-offset)))),undecorationAllocatorContext:this.#record(this.#load(this.#bank,this.#reg('ECX'))),undecorationGlobalWords:(()=>{const globals=NativeEngineCinitImages.imageForCrt(f.images,crt,'undecorationGlobals');return globals.known?Object.freeze(Array.from({length:5},(_,i)=>this.#record(this.#load(globals.value,i*4)))):null;})(),undecorationEbp:f.undecorationEbp,undecorationPrologReturned:f.undecorationPrologReturned,undecorationLockHeld:f.undecorationLockHeld,cppCursor:f.cppInitializerCursor,exitTableFirst:f.exitTableAllocation?this.#record(this.#load(f.exitTableAllocation,0)):null,exitTableSecond:f.exitTableAllocation?this.#record(this.#load(f.exitTableAllocation,4)):null,exitTableThird:f.exitTableAllocation?this.#record(this.#load(f.exitTableAllocation,8)):null,exitCursor:(()=>{const cursor=NativeEngineCinitImages.imageForCrt(f.images,crt,'exitTableBegin');return cursor.known?this.#record(this.#load(cursor.value,0)):null;})(),streamPointers,floatPointers,bank:this.#bank,stack:this.#stack});}
+  engineCinitFrameSnapshot(crt:NativeModuleCrtOwner){const f=this.#engineCinitFrame;if(!f||f.crt!==crt)return null;const table=NativeEngineCinitImages.imageForCrt(f.images,crt,'floatConversionPointers');const streamPointers=f.streamAllocation&&f.streamResult===0?Object.freeze(Array.from({length:20},(_,i)=>this.#record(this.#load(f.streamAllocation!,i*4)))):null;const floatPointers=f.floatConversionWritten&&table.known?Object.freeze(Array.from({length:10},(_,i)=>this.#record(this.#load(table.value,i*4)))):null;return Object.freeze({pc:f.pc,entryEsp:f.entryEsp,images:f.images,operations:f.operations,floatConversionWritten:f.floatConversionWritten,precisionArgument:f.precisionArgument,exitTableAllocation:f.exitTableAllocation,exitTableResult:f.exitTableResult,streamAllocation:f.streamAllocation,streamCount:f.streamCount,streamResult:f.streamResult,sse2Result:f.sse2Result,sse2ControlResult:f.sse2ControlResult,onexitEbp:f.onexitEbp,onexitPrologReturned:f.onexitPrologReturned,onexitLockHeld:f.onexitLockHeld,typeNameEbp:f.typeNameEbp,typeNamePrologReturned:f.typeNamePrologReturned,typeNameArguments:f.typeNameArguments,typeNameLength:f.typeNameLength,typeNameCopyResult:f.typeNameCopyResult,typeNameMemoryAdmin:f.typeNameMemoryAdmin,typeNameCString:f.typeNameCString,typeNameCStringCopyReturned:f.typeNameCStringCopyReturned,visualAnimationFloatRootWord:(()=>{const root=NativeEngineCinitImages.imageForCrt(f.images,crt,'visualAnimationFloatRoot');return root.known?this.#record(this.#load(root.value,0)):null;})(),typeNameUnMangleArguments:(()=>{const c=this.#calls.find(c=>c.site==='3007667e'&&!c.returned);return c?Object.freeze([4,8].map(offset=>this.#record(this.#load(this.#stack,c.position+offset)))):null;})(),undecorationRestoredEsiWord:f.undecorationRestoredEsi,typeNameLockHeld:f.typeNameLockHeld,typeNameCacheNode:f.typeNameCacheNode,typeNameCacheText:f.typeNameCacheText,typeNameCacheNodeWords:f.typeNameCacheNode?Object.freeze([0,4].map(offset=>this.#record(this.#load(f.typeNameCacheNode!,offset)))):null,typeNameListRootWords:(()=>{const root=NativeEngineCinitImages.imageForCrt(f.images,crt,'visualAnimationFloatDefault');return root.known?Object.freeze([0,4].map(offset=>this.#record(this.#load(root.value,offset)))):null;})(),typeNameCacheTextWord:(()=>{const info=NativeEngineCinitImages.imageForCrt(f.images,crt,'visualAnimationFloatTypeInfo');return info.known?this.#record(this.#load(info.value,4)):null;})(),undecorationPendingTypeArguments:(()=>{const call=this.#calls.find(c=>c.site==='3069b770'&&!c.returned);return call?Object.freeze([4,8].map(offset=>this.#record(this.#load(this.#stack,call.position+offset)))):null;})(),undecorationTextNodeWords:(()=>{const p=f.undecorationTextNode?this.#record(f.undecorationTextNode).provenance:null;return p?.kind==='engine-allocation'&&p.crt===crt&&!p.fields.backing.freed?Object.freeze(Array.from({length:4},(_,i)=>this.#record(this.#load(p.fields,p.offset+i*4)))):f.undecorationReleasedTextWords;})(),undecorationTextNodeLive:f.undecorationTextNode?(()=>{const p=this.#record(f.undecorationTextNode!).provenance;return p?.kind==='engine-allocation'&&!p.fields.backing.freed;})():false,undecorationTextNodeWord:f.undecorationTextNode?this.#record(f.undecorationTextNode):null,undecorationCopiedTypeWords:f.undecorationParsedValue,undecorationOutputWriterArguments:f.undecorationWriterArguments,undecorationOutput:f.undecorationOutput,undecorationLiteralArgument:f.undecorationLiteralArgument,currentEaxWord:this.#record(this.#load(this.#bank,this.#reg('EAX'))),currentEsiWord:this.#record(this.#load(this.#bank,this.#reg('ESI'))),undecorationParserWords:(()=>{const config=NativeEngineCinitImages.imageForCrt(f.images,crt,'undecorationParserGlobals');return config.known?Object.freeze(Array.from({length:9},(_,i)=>this.#record(this.#load(config.value,i*4)))):null;})(),undecorationFieldWords:f.undecorationEbp===null?null:Object.freeze([104,96,44,36].map(offset=>this.#record(this.#load(this.#stack,f.undecorationEbp!-offset)))),undecorationAllocatorContext:this.#record(this.#load(this.#bank,this.#reg('ECX'))),undecorationGlobalWords:(()=>{const globals=NativeEngineCinitImages.imageForCrt(f.images,crt,'undecorationGlobals');return globals.known?Object.freeze(Array.from({length:5},(_,i)=>this.#record(this.#load(globals.value,i*4)))):null;})(),undecorationEbp:f.undecorationEbp,undecorationPrologReturned:f.undecorationPrologReturned,undecorationLockHeld:f.undecorationLockHeld,cppCursor:f.cppInitializerCursor,exitTableFirst:f.exitTableAllocation?this.#record(this.#load(f.exitTableAllocation,0)):null,exitTableSecond:f.exitTableAllocation?this.#record(this.#load(f.exitTableAllocation,4)):null,exitTableThird:f.exitTableAllocation?this.#record(this.#load(f.exitTableAllocation,8)):null,exitCursor:(()=>{const cursor=NativeEngineCinitImages.imageForCrt(f.images,crt,'exitTableBegin');return cursor.known?this.#record(this.#load(cursor.value,0)):null;})(),streamPointers,floatPointers,bank:this.#bank,stack:this.#stack});}
   static testEngineSetenvpReturnForBootstrap(stack:NativeX86ThreadStack,bootstrap:NativeCrtBootstrap,crt:NativeModuleCrtOwner,permit:object):NativeValue<'30677288'|'3067729f'>{
     const reached=NativeCrtBootstrap.canonicalEngineSetenvpCallerForCrt(bootstrap,crt,permit);if(!reached.known)return reached;
     try{

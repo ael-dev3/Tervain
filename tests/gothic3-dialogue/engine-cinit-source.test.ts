@@ -60,6 +60,11 @@ describe('original Engine CRT initializer evidence', () => {
     expect(()=>engineCinitUnMangleInstruction('3067da97','3067da97')).toThrow();
     expect(()=>engineCinitUnMangleInstruction('100088cd','10091556')).toThrow();
   });
+  it('pins the second visual-animation initializer and its property thunk',()=>{
+    expect(engineCinitInstruction('307322c0','307322c0').bytes).toBe('e8254d8eff');
+    expect(engineCinitInstruction('30016fea','30016fea').bytes).toBe('e971f50500');
+    expect(engineCinitInstruction('30016fea','30076593').bytes).toBe('e816ae5f00');
+  });
   it('rejects unknown bodies, tables and invalid callback slots', () => {
     expect(() => engineCinitInstruction('3067d1c7', '3067d1c8')).toThrow();
     expect(() => engineCinitTable('Game')).toThrow();

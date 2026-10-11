@@ -235,3 +235,111 @@ The earlier combined revision passed 233 focused checks, all 3,542 tests across
 MemoryAdmin, CString allocation/copy and property-registration continuations.
 A new combined validation with current main is required. Complete startup and
 a campaign playable through an ending remain unfinished.
+
+### Second C++ property initializer — 11 October 2026
+
+The original walker advances to slot `307bb108` and calls its captured target
+`307322c0`. That wrapper calls `30016fea -> 30076560`; its original RTTI at
+`30aa29e0` names `.?AVbCString@@`. Separate flags, root, storage and type-info
+images preserve that initializer's actual ownership. Fourteen captured prefix
+rows initialize its fresh guard/default fields and pass the original shared
+cache root plus this second type-info object to `30076593 -> 306713ae`.
+Execution stops at that pending type-name call after 4,460 admitted operations.
+The first property remains published and its callback remains in exit slot three.
+
+Five distinct runtime/browser checks and all 23 source/image checks pass, with
+typechecking and byte-identical independent regeneration. An unknown second
+root guard stops at `30076567` after 4,448 operations, retaining the completed
+first callback and unknown mask. Tests observe the first property's published
+root separately from current EAX, which the walker and second prefix legitimately
+replace. The preceding combined first-property revision passed all 243 startup
+checks and has entered full-suite validation. This newer second-property
+continuation is local and is not included in that frozen validation checkout.
+Second type-name construction, complete startup and a playable campaign through
+an ending remain unfinished.
+
+### Shared type-name prefix and bCString decoder caller — 11 October 2026
+
+The original wrapper, type-name EH4 prolog, cache test and undecoration argument
+setup now share one instruction continuation for both property types. The first
+float path keeps its existing behavior. The second call uses its retained
+bCString type-info object and its own pending caller. Its six original arguments
+include the name pointer at offset nine, allocator `30672ec7`, free callback
+`30672f8a`, NULL output/length and flags `0x2800`. Execution reaches
+`3067dac6 -> 3069b26b` after 4,499 admitted operations. No second decoded name
+or allocation is supplied.
+
+Typechecking and ten distinct runtime/browser/regression checks pass. Making
+the second cache field unknown stops its original comparison at `3067daa8`
+after 4,489 operations, retaining the actual second EH4 frame, first completed
+CString and first property shutdown slot. The unknown mask is not repaired.
+The preceding first-property combined revision's full suite is still running;
+this newer shared-prefix continuation remains local. Decoder execution, complete
+startup and a playable campaign through an ending remain unfinished.
+
+### Reused decoder entry and retained second parser call — 11 October 2026
+
+The matching decoder entry, 132-byte EH4 prolog, ensure/lock calls and original
+global/argument setup now share one continuation for both property calls. The
+second call acquires the same retained lock five, installs its actual allocator
+and free callbacks, clears the three original arena globals, and passes its
+bCString name arguments to parser construction. Execution stops at
+`3069b2d3 -> 3069747a` after 4,550 admitted operations. Lock five remains held;
+no second parser object, arena allocation or decoded name is supplied.
+
+Typechecking and nine distinct focused runtime/browser/regression checks pass.
+Failure of the second lock acquisition retains its real EH4 frame and pending
+call at `3069b295` after 4,533 operations, with the first CString and shutdown
+slot still present and no replay. The earlier combined first-property revision's
+full suite remains running. This newer decoder-prefix continuation is local;
+second parser execution, complete startup and a playable campaign through an
+ending remain unfinished.
+
+### Shared parser construction and second arena request — 11 October 2026
+
+Both property calls now execute the same original parser-constructor and first
+field-constructor prefix. The second call retains its actual stack receiver,
+sets the known low field-kind bits to three while preserving the upper bits,
+and pushes the original arena arguments: 16 bytes and zero. Execution reaches
+`3069707d -> 30696bf0` after 4,578 admitted operations. The arena call remains
+pending and lock five remains held; no second allocation or decoded name is
+supplied.
+
+Typechecking passes. Four focused runtime/browser checks pass, followed by
+three focused regression checks that also inspect the pending arena arguments
+and field flags. The earlier combined first-property validation is still running
+and does not include this continuation. Full startup, deployment of this local
+continuation and campaign play through an ending remain unfinished.
+
+### Shared cold arena request and allocator callback — 11 October 2026
+
+The second parser now executes the same source-backed cold arena prefix as the
+first. Its 16-byte field request selects a 4,096-byte payload, recursively requests
+4,100 bytes including the header, and aligns the allocator argument to 4,104.
+The actual callback `30696c06 -> 30672ec7` remains pending after 4,609 admitted
+operations. Lock five remains held, and the saved parser field still has known
+kind-three bits. No second backing allocation is supplied.
+
+Typechecking and three focused runtime/browser checks pass. An initial test
+incorrectly expected ESI to retain the field after the arena changed it to the
+global owner; the repaired check reads the original field in its retained stack
+frame and inspects the actual allocator call argument. The earlier combined
+validation remains live and does not contain this change. Complete startup,
+publishing this continuation and campaign play remain unfinished.
+
+### Shared arena allocation and second field return — 11 October 2026
+
+The second property now invokes the retained Engine allocator for 4,104 bytes,
+checks canonical heap ownership, executes the original recursive return, writes
+the arena header, publishes the head/tail and remaining capacity, and returns
+the 16-byte field destination at offset 4,084. Execution reaches `30697082`
+after 4,635 admitted operations. Field-node construction remains pending and
+lock five stays held. Allocation failure retains the existing `30696c3d`
+boundary instead of supplying storage.
+
+Typechecking and three focused runtime/browser checks pass. The expected source
+operation count was corrected from 4,636 to the observed 4,635. Combined revision
+`05c8b93077dea4f6bb6d9afb9bf49d1e718b0b6c`, which includes first-property return
+but predates the second-property work, passed 243 focused checks, all 3,556 tests
+in 319 files, and a production build. Newer work needs combined validation.
+Complete startup and campaign play remain unfinished.
