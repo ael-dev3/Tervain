@@ -1083,3 +1083,19 @@ browser-service checks pass. Assertions retain the original restored ESI
 This checkpoint is local. The earlier combined cache revision continues its
 full validation separately. Prefix concatenation, complete engine startup and
 the finishable browser campaign remain unfinished.
+
+## Local continuation — 11 October 2026: value-append operand checks
+
+The original append retains its two actual stack operands, validates the
+constructed name and class-prefix nodes through the captured nonempty
+predicate, and loads the class node for the original node-to-list call.
+Execution stops at `3069731d` after 6,562 admitted operations. Both predicate
+calls returned through their physical callers. The pending append and
+node-to-list calls retain live arena ownership and held parser locks.
+
+Typechecking, seven focused engine checks and six browser-service checks pass.
+The next source dependencies were independently captured from the pinned DLL:
+node-to-list (31 instructions), list append (18) and list constructor (16).
+Those research captures do not prove execution. This checkpoint is local;
+joining the text nodes, complete startup and the finishable campaign remain
+unfinished. The combined cache-append revision continues validating separately.
