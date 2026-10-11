@@ -1639,3 +1639,24 @@ This checkpoint remains local. The combined suite is still live on
 `6a6de81b6f535c855a9ac8b3c12510b9186d99d5`, which predates the text writer
 and cleanup stages. Third-property publication, full engine startup and a
 complete browser campaign with save/reload remain unfinished.
+
+
+## 2026-10-11: original int DWORD string-length scan
+
+The type-name caller now executes the original aligned DWORD scan on its live
+`int\0` output. The original byte tests reach the fourth-byte terminator and
+return through `30679b33`, `30679b36`, `30679b3a` and `30679b3c`. The resulting
+length is three, computed from pointers into the same canonical allocation.
+Execution reaches `3067dae2` after 9,573 source operations. Lock 5 is released,
+the parser arena is freed and the output remains live; the cache is unfinished.
+
+TypeScript checking passed. Four selected runtime checks passed in 18.36 seconds.
+An unknown output terminator byte stops at the original DWORD predicate
+`30679b11`, retaining its pending scan caller and live output after cleanup.
+Six browser startup checks passed in 47.92 seconds. The retained original source
+package already contains these instructions and remains unchanged.
+
+This checkpoint remains local. Combined validation is still live on frozen
+`6a6de81b6f535c855a9ac8b3c12510b9186d99d5`, which predates the writer,
+cleanup and scan steps. Third-property publication, full engine startup and a
+complete browser campaign with save/reload remain unfinished.
