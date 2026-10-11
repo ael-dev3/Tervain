@@ -121,3 +121,10 @@ it('captures original PVS prefetcher property storage and RTTI',()=>{
  expect(engineCinitImage('pvsPrefetcher3PropertyStorage')).toMatchObject({address:'30ad9b3c',bytes:8,raw:'0000000000000000'});
  expect(Buffer.from(engineCinitImage('pvsPrefetcher3PropertyTypeInfo').raw,'hex').subarray(8).toString()).toBe('.?AVeCPVSPrefetcher3@@\0');
 });
+
+it('captures original occlusion processor property storage and RTTI',()=>{
+ expect(engineCinitImage('occlusionProcessorPropertyFlags')).toMatchObject({address:'30ad9b50',raw:'00000000'});
+ expect(engineCinitImage('occlusionProcessorPropertyRoot')).toMatchObject({address:'30ad9dc0',raw:'00000000'});
+ expect(engineCinitImage('occlusionProcessorPropertyStorage')).toMatchObject({address:'30ad9b48',bytes:8,raw:'0000000000000000'});
+ expect(Buffer.from(engineCinitImage('occlusionProcessorPropertyTypeInfo').raw,'hex').subarray(8).toString()).toBe('.?AVeCOcclusionProcessor@@\0');
+});
