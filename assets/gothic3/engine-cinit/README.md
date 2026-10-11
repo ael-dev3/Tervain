@@ -3348,3 +3348,10 @@ Local evidence: typecheck, two focused normal/interrupted writer checks, 83 sour
 After the recursive writer returns, the original 3069b0d3-3069b0fd byte loop copies the generated name in place, retains one space in each run, and writes its final null terminator. The original LEAVE and RET return the live output pointer through the captured 3069b2de caller to 3069b2e3. Arena cleanup, unlock, type-name cache integration and the remaining startup/campaign are still pending.
 
 The normal check proves the exact 64 output bytes and returned parser call. An unknown byte during normalization stops at 3069b0f3 with the original parser call unfinished, output alive and lock held. The writer-terminator interruption remains covered. Typecheck, these three focused checks, 83 source/image/browser checks and production build passed locally. No claim of a new full-suite pass or deployment is made.
+
+
+## MainCache parser arena cleanup and undecoration return
+
+The captured arena destructor now releases the original parser allocation through its actual free callback and clears the arena chain. The captured finally routine releases lock 5, and the EH epilog restores the original frame and returns the live generated-name output to 3067dacb. The output allocation is distinct from the released parser arena. Type-name length scanning and cache publication, subsequent startup and the complete campaign remain unfinished.
+
+A focused normal check proves the released arena, cleared pointers, live exact output, unlocked state and original destructor/finally/epilog/caller returns. An interrupted original free callback preserves its unfinished call, live arena and held lock. Earlier unknown-normalization-byte and writer-terminator interruption checks remain covered. Typecheck, four focused checks, 83 source/image/browser checks and production build passed locally. No new full-suite or deployment claim is made.
