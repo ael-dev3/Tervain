@@ -359,3 +359,19 @@ because subsequent constructor calls legitimately reuse that stack storage.
 Combined revision `31207602620c9334092b5c9ca494fd0352411a26` remains under
 validation and predates this field return. Full startup, deployment of this
 continuation and a playable campaign through an ending remain unfinished.
+
+### Shared complete parser constructor and second parse caller — 11 October 2026
+
+The remaining original parser-constructor continuation is shared by both
+properties. All four second-parser fields use the same live 4,104-byte arena,
+at offsets 4,084, 4,068, 4,052 and 4,036, with kinds three, one, three and one.
+The retained arena has 4,032 payload bytes remaining. The original constructor
+publishes its caller's name, callbacks and flags in the parser configuration,
+returns, and reaches `3069b2de -> 3069afb8` after 4,896 admitted operations.
+Lock five stays held; parsing the bCString decorated name remains pending.
+
+Typechecking and five focused runtime/browser/regression checks pass, including
+checks of all four live second-parser nodes and the earlier float constructor.
+The earlier combined revision remains under validation and does not include
+this complete second-parser constructor. Full startup, deployment of this
+continuation and campaign completion remain unfinished.

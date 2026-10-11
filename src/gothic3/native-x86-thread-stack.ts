@@ -613,6 +613,38 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
                 field('306970af',()=>{const p=stack.#record(stack.#ret(4)).provenance;if(p?.kind!=='source'||p.address!==returned)throw new Error('Actual first internal field return required');});
 
       };
+      const runParserConstructionReturn=(globalsFields:NativeHeapObjectViews,parser:ReturnType<typeof runParserConstructionPrefix>,request:ReturnType<typeof runColdArenaRequest>,allocation:{arenaBacking:NativeHeapObjectViews;arenaWord:(offset:number)=>NativeX86Word32})=>{
+        const {constructor,internal,fieldPrefix}=parser,{arena,arenaPrefix}=request,{arenaBacking,arenaWord}=allocation;
+        const relative=(name:'ESP'|'EBP',offset:number)=>stack.#address(register(name))+offset;
+        const finishField=(kind:1|3,nodeOffset:number,returned:string)=>runFieldConstructionReturn(parser.field,arenaBacking,kind,nodeOffset,returned);
+                internal('306972c5',()=>stack.#push(stack.#mint(1,0xffffffff)));internal('306972c7',()=>setRegister('ECX',stack.#stackWord(stack.#address(register('ESI'))+52)));internal('306972ca',()=>stack.#call('306972ca','306972cf'));
+                const warmArena=(returned:string,bytes=16)=>{
+                const aligned=(bytes+7)&0xfffffff8;
+                arenaPrefix(bytes,0);arena('30696c0b',()=>stack.#logicalFlags(aligned,0xffffffff,4));arena('30696c0d',()=>{});arena('30696c12',()=>setRegister('EAX',stack.#load(globalsFields,16)));
+                arena('30696c15',()=>{const v=stack.#numeric(register('EAX'),4);stack.#arithmeticFlags(v,aligned,(v-aligned)>>>0,4,true);});arena('30696c17',()=>stack.#push(register('EBX')));arena('30696c18',()=>{if(stack.#numeric(register('EAX'),4)<aligned)throw new Error('Actual retained warm arena capacity required');});
+                arena('30696c5f',()=>{const v=stack.#numeric(register('EAX'),4),r=(v-aligned)>>>0;setRegister('EAX',stack.#mint(r,0xffffffff));stack.#arithmeticFlags(v,aligned,r,4,true);});arena('30696c61',()=>stack.#store(globalsFields,16,register('EAX')));
+                arena('30696c64',()=>setRegister('EAX',stack.#load(globalsFields,12)));arena('30696c67',()=>setRegister('ECX',stack.#load(globalsFields,16)));
+                let secondNodeOffset=0;arena('30696c6a',()=>{const p=stack.#record(register('EAX')).provenance;if(p?.kind!=='engine-allocation'||p.crt!==crt||p.fields!==arenaBacking||p.offset!==0)throw new Error('Actual retained warm arena tail required');secondNodeOffset=stack.#numeric(register('ECX'),4)+4;const proof=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields:arenaBacking,offset:secondNodeOffset},bytes);if(!proof.known)throw new Error(proof.reason);setRegister('EAX',arenaWord(secondNodeOffset));});
+                arena('30696c6e',()=>pop('EBX'));arena('30696c6f',()=>pop('EDI'));arena('30696c70',()=>pop('ESI'));arena('30696c71',()=>{const p=stack.#record(stack.#ret(8)).provenance;if(p?.kind!=='source'||p.address!==returned)throw new Error('Actual warm field allocation return required');});
+                return secondNodeOffset;
+                };const warmField=(kind:1|3,returned:string)=>{fieldPrefix(kind);const offset=warmArena('30697082');finishField(kind,offset,returned);};warmField(1,'306972cf');
+                internal('306972cf',()=>{stack.#store(stack.#stack,stack.#address(register('ESI')),stack.#mint(0xffffffff,0xffffffff));stack.#logicalFlags(0xffffffff,0xffffffff,4);});internal('306972d2',()=>setRegister('EAX',register('ESI')));internal('306972d4',()=>pop('ESI'));internal('306972d5',()=>{const p=stack.#record(stack.#ret()).provenance;if(p?.kind!=='source'||p.address!=='30697486')throw new Error('Actual first internal-object return required');});
+                constructor('30697486',()=>setRegister('EDI',stack.#stackWord(stack.#address(register('ESI'))+60)));constructor('30697489',()=>setRegister('ECX',register('EDI')));constructor('3069748b',()=>stack.#call('3069748b','30697490'));
+                internal('306972b8',()=>stack.#push(register('ESI')));internal('306972b9',()=>setRegister('ESI',register('ECX')));internal('306972bb',()=>stack.#push(stack.#mint(3,0xffffffff)));internal('306972bd',()=>setRegister('ECX',stack.#stackWord(stack.#address(register('ESI'))+44)));internal('306972c0',()=>stack.#call('306972c0','306972c5'));
+                warmField(3,'306972c5');internal('306972c5',()=>stack.#push(stack.#mint(1,0xffffffff)));internal('306972c7',()=>setRegister('ECX',stack.#stackWord(stack.#address(register('ESI'))+52)));internal('306972ca',()=>stack.#call('306972ca','306972cf'));warmField(1,'306972cf');
+                internal('306972cf',()=>{stack.#store(stack.#stack,stack.#address(register('ESI')),stack.#mint(0xffffffff,0xffffffff));stack.#logicalFlags(0xffffffff,0xffffffff,4);});internal('306972d2',()=>setRegister('EAX',register('ESI')));internal('306972d4',()=>pop('ESI'));internal('306972d5',()=>{const p=stack.#record(stack.#ret()).provenance;if(p?.kind!=='source'||p.address!=='30697490')throw new Error('Actual second internal-object return required');});
+                const configuration=NativeEngineCinitImages.imageForCrt(images.value,crt,'undecorationParserGlobals');if(!configuration.known)throw new Error(configuration.reason);const config=configuration.value;
+                constructor('30697490',()=>setRegister('EAX',stack.#load(stack.#stack,relative('EBP',12))));constructor('30697493',()=>stack.#store(config,16,register('EAX')));constructor('30697498',()=>stack.#store(config,12,register('EAX')));
+                constructor('3069749d',()=>setRegister('EAX',stack.#load(stack.#stack,relative('EBP',8))));constructor('306974a0',()=>{setRegister('ECX',stack.#mint(0,0xffffffff));stack.#logicalFlags(0,0xffffffff,4);});
+                constructor('306974a2',()=>{const v=stack.#numeric(register('EAX'),4);stack.#arithmeticFlags(v,0,v,4,true);});constructor('306974a4',()=>{if(stack.#numeric(register('EAX'),4)!==0)throw new Error('Original nonnull output-buffer configuration remains pending');});
+                constructor('306974b7',()=>stack.#store(config,20,register('ECX')));constructor('306974bd',()=>stack.#store(config,24,register('ECX')));
+                constructor('306974c3',()=>setRegister('EAX',stack.#load(stack.#stack,relative('EBP',24))));constructor('306974c6',()=>stack.#store(config,28,register('EAX')));
+                constructor('306974cb',()=>setRegister('EAX',stack.#load(stack.#stack,relative('EBP',20))));constructor('306974ce',()=>stack.#store(config,4,register('EDI')));constructor('306974d4',()=>stack.#store(config,32,register('EAX')));
+                constructor('306974d9',()=>pop('EDI'));constructor('306974da',()=>stack.#store(config,0,register('ESI')));constructor('306974e0',()=>setRegister('EAX',register('ESI')));
+                constructor('306974e2',()=>{const v=stack.#numeric(register('ECX'),1);stack.#invalidateRange(config,36,1);NativeHeapObjectViews.prototype.writeUnsigned.call(config,36,v,1);});constructor('306974e8',()=>pop('ESI'));constructor('306974e9',()=>pop('EBP'));
+                constructor('306974ea',()=>{const p=stack.#record(stack.#ret(20)).provenance;if(p?.kind!=='source'||p.address!=='3069b2d8')throw new Error('Actual parser constructor return required');});
+        return {warmArena,warmField,config};
+      };
       const runExitRegistration=(callbackAddress:'30671144'|'3068e981'|'30011a40')=>{
             step('30671596',()=>{const esp=stack.#address(register('ESP')),argument=stack.#load(stack.#stack,esp+4),p=stack.#record(argument).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!==callbackAddress)throw new Error('Original Engine shutdown callback argument required');stack.#push(argument);},'30671596');
             step('3067159a',()=>stack.#call('3067159a','3067159f'),'30671596');
@@ -718,34 +750,9 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
                 const decoder=runUndecorationPrefix();if(!decoder.ready)return known(undefined);const {undecorate,globals}=decoder;
                 const {constructor,internal,field,fieldPrefix}=runParserConstructionPrefix(globals.value);
                 const {arena,arenaPrefix,requested}=runColdArenaRequest(globals.value);
-                const allocation=runColdArenaAllocation(globals.value,{arena,arenaPrefix,requested});if(!allocation.ready)return known(undefined);const {arenaBacking,arenaWord,allocated}=allocation;
+                const allocation=runColdArenaAllocation(globals.value,{arena,arenaPrefix,requested});if(!allocation.ready)return known(undefined);const {arenaBacking,allocated}=allocation;
                 const finishField=(kind:1|3,nodeOffset:number,returned:string)=>runFieldConstructionReturn(field,arenaBacking,kind,nodeOffset,returned);finishField(3,4084,'306972c5');
-                internal('306972c5',()=>stack.#push(stack.#mint(1,0xffffffff)));internal('306972c7',()=>setRegister('ECX',stack.#stackWord(stack.#address(register('ESI'))+52)));internal('306972ca',()=>stack.#call('306972ca','306972cf'));
-                const warmArena=(returned:string,bytes=16)=>{
-                const aligned=(bytes+7)&0xfffffff8;
-                arenaPrefix(bytes,0);arena('30696c0b',()=>stack.#logicalFlags(aligned,0xffffffff,4));arena('30696c0d',()=>{});arena('30696c12',()=>setRegister('EAX',stack.#load(globals.value,16)));
-                arena('30696c15',()=>{const v=stack.#numeric(register('EAX'),4);stack.#arithmeticFlags(v,aligned,(v-aligned)>>>0,4,true);});arena('30696c17',()=>stack.#push(register('EBX')));arena('30696c18',()=>{if(stack.#numeric(register('EAX'),4)<aligned)throw new Error('Actual retained warm arena capacity required');});
-                arena('30696c5f',()=>{const v=stack.#numeric(register('EAX'),4),r=(v-aligned)>>>0;setRegister('EAX',stack.#mint(r,0xffffffff));stack.#arithmeticFlags(v,aligned,r,4,true);});arena('30696c61',()=>stack.#store(globals.value,16,register('EAX')));
-                arena('30696c64',()=>setRegister('EAX',stack.#load(globals.value,12)));arena('30696c67',()=>setRegister('ECX',stack.#load(globals.value,16)));
-                let secondNodeOffset=0;arena('30696c6a',()=>{const p=stack.#record(register('EAX')).provenance;if(p?.kind!=='engine-allocation'||p.crt!==crt||p.fields!==arenaBacking||p.offset!==0)throw new Error('Actual retained warm arena tail required');secondNodeOffset=stack.#numeric(register('ECX'),4)+4;const proof=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields:arenaBacking,offset:secondNodeOffset},bytes);if(!proof.known)throw new Error(proof.reason);setRegister('EAX',arenaWord(secondNodeOffset));});
-                arena('30696c6e',()=>pop('EBX'));arena('30696c6f',()=>pop('EDI'));arena('30696c70',()=>pop('ESI'));arena('30696c71',()=>{const p=stack.#record(stack.#ret(8)).provenance;if(p?.kind!=='source'||p.address!==returned)throw new Error('Actual warm field allocation return required');});
-                return secondNodeOffset;
-                };const warmField=(kind:1|3,returned:string)=>{fieldPrefix(kind);const offset=warmArena('30697082');finishField(kind,offset,returned);};warmField(1,'306972cf');
-                internal('306972cf',()=>{stack.#store(stack.#stack,stack.#address(register('ESI')),stack.#mint(0xffffffff,0xffffffff));stack.#logicalFlags(0xffffffff,0xffffffff,4);});internal('306972d2',()=>setRegister('EAX',register('ESI')));internal('306972d4',()=>pop('ESI'));internal('306972d5',()=>{const p=stack.#record(stack.#ret()).provenance;if(p?.kind!=='source'||p.address!=='30697486')throw new Error('Actual first internal-object return required');});
-                constructor('30697486',()=>setRegister('EDI',stack.#stackWord(stack.#address(register('ESI'))+60)));constructor('30697489',()=>setRegister('ECX',register('EDI')));constructor('3069748b',()=>stack.#call('3069748b','30697490'));
-                internal('306972b8',()=>stack.#push(register('ESI')));internal('306972b9',()=>setRegister('ESI',register('ECX')));internal('306972bb',()=>stack.#push(stack.#mint(3,0xffffffff)));internal('306972bd',()=>setRegister('ECX',stack.#stackWord(stack.#address(register('ESI'))+44)));internal('306972c0',()=>stack.#call('306972c0','306972c5'));
-                warmField(3,'306972c5');internal('306972c5',()=>stack.#push(stack.#mint(1,0xffffffff)));internal('306972c7',()=>setRegister('ECX',stack.#stackWord(stack.#address(register('ESI'))+52)));internal('306972ca',()=>stack.#call('306972ca','306972cf'));warmField(1,'306972cf');
-                internal('306972cf',()=>{stack.#store(stack.#stack,stack.#address(register('ESI')),stack.#mint(0xffffffff,0xffffffff));stack.#logicalFlags(0xffffffff,0xffffffff,4);});internal('306972d2',()=>setRegister('EAX',register('ESI')));internal('306972d4',()=>pop('ESI'));internal('306972d5',()=>{const p=stack.#record(stack.#ret()).provenance;if(p?.kind!=='source'||p.address!=='30697490')throw new Error('Actual second internal-object return required');});
-                const configuration=NativeEngineCinitImages.imageForCrt(images.value,crt,'undecorationParserGlobals');if(!configuration.known)throw new Error(configuration.reason);const config=configuration.value;
-                constructor('30697490',()=>setRegister('EAX',stack.#load(stack.#stack,relative('EBP',12))));constructor('30697493',()=>stack.#store(config,16,register('EAX')));constructor('30697498',()=>stack.#store(config,12,register('EAX')));
-                constructor('3069749d',()=>setRegister('EAX',stack.#load(stack.#stack,relative('EBP',8))));constructor('306974a0',()=>{setRegister('ECX',stack.#mint(0,0xffffffff));stack.#logicalFlags(0,0xffffffff,4);});
-                constructor('306974a2',()=>{const v=stack.#numeric(register('EAX'),4);stack.#arithmeticFlags(v,0,v,4,true);});constructor('306974a4',()=>{if(stack.#numeric(register('EAX'),4)!==0)throw new Error('Original nonnull output-buffer configuration remains pending');});
-                constructor('306974b7',()=>stack.#store(config,20,register('ECX')));constructor('306974bd',()=>stack.#store(config,24,register('ECX')));
-                constructor('306974c3',()=>setRegister('EAX',stack.#load(stack.#stack,relative('EBP',24))));constructor('306974c6',()=>stack.#store(config,28,register('EAX')));
-                constructor('306974cb',()=>setRegister('EAX',stack.#load(stack.#stack,relative('EBP',20))));constructor('306974ce',()=>stack.#store(config,4,register('EDI')));constructor('306974d4',()=>stack.#store(config,32,register('EAX')));
-                constructor('306974d9',()=>pop('EDI'));constructor('306974da',()=>stack.#store(config,0,register('ESI')));constructor('306974e0',()=>setRegister('EAX',register('ESI')));
-                constructor('306974e2',()=>{const v=stack.#numeric(register('ECX'),1);stack.#invalidateRange(config,36,1);NativeHeapObjectViews.prototype.writeUnsigned.call(config,36,v,1);});constructor('306974e8',()=>pop('ESI'));constructor('306974e9',()=>pop('EBP'));
-                constructor('306974ea',()=>{const p=stack.#record(stack.#ret(20)).provenance;if(p?.kind!=='source'||p.address!=='3069b2d8')throw new Error('Actual parser constructor return required');});
+                const {warmArena,config}=runParserConstructionReturn(globals.value,{constructor,internal,field,fieldPrefix},{arena,arenaPrefix,requested},allocation);
                 undecorate('3069b2d8',()=>setRegister('ECX',stack.#stackWord(relative('EBP',-148))));undecorate('3069b2de',()=>stack.#call('3069b2de','3069b2e3'));
                 const parse=(pc:string,body:()=>void)=>step(pc,body,'3069afb8');
                 parse('3069afb8',()=>stack.#push(register('EBP')));parse('3069afb9',()=>setRegister('EBP',register('ESP')));parse('3069afbb',()=>{const a=relative('ESP',0),r=a-32;setRegister('ESP',stack.#stackWord(r));stack.#arithmeticFlags(a,32,r,4,true);});
@@ -1083,7 +1090,9 @@ for(const fields of frame.strings){const span=NativeModuleCrtOwner.canonicalEngi
               const request=runColdArenaRequest(decoder.globals.value);
               const allocation=runColdArenaAllocation(decoder.globals.value,request);if(!allocation.ready)return known(undefined);
               runFieldConstructionReturn(parser.field,allocation.arenaBacking,3,4084,'306972c5');
-              stack.#engineCinitFrame!.pc='306972c5';return known(undefined);
+              runParserConstructionReturn(decoder.globals.value,parser,request,allocation);
+              decoder.undecorate('3069b2d8',()=>setRegister('ECX',stack.#stackWord(stack.#address(register('EBP'))-148)));decoder.undecorate('3069b2de',()=>stack.#call('3069b2de','3069b2e3'));
+              stack.#engineCinitFrame!.pc='3069afb8';return known(undefined);
             }
             return known(undefined);
           }

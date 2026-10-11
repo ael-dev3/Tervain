@@ -575,3 +575,9 @@ at `306972c5` after 4,660 admitted operations. Its live node at arena offset
 4,084 and original stack field remain owned. Typechecking and three focused
 checks pass. Remaining parser construction, full startup and campaign play are
 unfinished; this continuation is local.
+
+The shared remaining parser constructor now builds all four second-parser fields
+from its retained arena and returns to the actual parse caller at `3069afb8`
+after 4,896 operations. Typechecking and five focused checks pass, including live
+node ownership and first-property constructor regressions. The bCString name
+parse, complete startup and campaign remain unfinished. This continuation is local.
