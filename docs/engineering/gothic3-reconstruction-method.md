@@ -66,7 +66,7 @@ inputs for research, not portable build requirements for every contributor.
 Keep four claims separate: evidence captured, behavior implemented, checks
 passed, and revision deployed. Each checkpoint records its actual supported
 boundary and remaining work. The current local native continuation initializes
-the camera property and copies the reference-base class identifier; this
+the camera property and returns the reference-base class/type parsers; this
 remains startup research, with complete world activation and campaign play
 still outstanding.
 

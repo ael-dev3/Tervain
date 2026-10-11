@@ -2397,3 +2397,27 @@ return or root publication is synthesized. This is a local checkpoint, not a
 deployed game or proof of complete startup and campaign play. The unchanged
 combined revision `015b00c0c3a1b7db32bc6620d1e54295d88b59cb` is still validating
 and predates this newer continuation.
+
+
+### 11 October 2026: reference-base class list and type-parser returns
+
+The original class parser now converts its keyword node into a list, appends the
+actual reference-base identifier, and returns through the class, basic type,
+compound type, data type and outer type-parser callers. The name parser retains
+that returned list, verifies the actual consumed RTTI terminator and calls its
+original length routine. Execution stops at `30697114` after 16,908 operations;
+the RTTI cursor remains offset 29. The copied-type snapshot now describes the
+live reference-base list, separately from historical camera text records.
+The arena, camera CString and six prior shutdown registrations remain live;
+lock 5 stays held and the reference-base property root remains known NULL.
+
+Typechecking, five focused runtime checks and six browser-startup checks pass.
+The list append and parser returns match the captured camera continuation except
+for the reference-base RTTI owner and measured end cursor. Interrupting the
+original name-link store stops at `30696e86`, retaining both full text nodes and
+the pending append/class calls without publishing the property root. Original
+pointer fields retain opaque pointer ownership rather than invented numeric
+addresses. Name measurement, output construction and remaining startup still
+need continuation. This is a local checkpoint, not deployment or proof of a
+finishable browser campaign. The full combined validation at
+`015b00c0c3a1b7db32bc6620d1e54295d88b59cb` is still live and predates this work.
