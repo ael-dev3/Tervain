@@ -4,6 +4,23 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local continuation — 11 October 2026: parser internal field initialization
+
+Two additional constructor bodies are captured from the pinned original Engine.
+The first object calls its field constructor with kind 3. Its original XOR/AND/XOR
+sequence installs the low four flag bits while preserving the remaining bits and
+known masks. The physical call requests 16 bytes from the original allocator at
+`30696bf0`; normal execution stops there after 2,826 admitted operations with
+lock 5 still held. Its pending call is at entry ESP minus 360 bytes.
+
+Typechecking and two focused checks pass; independent JSON and TypeScript
+regeneration match exactly. Initial focused failures exposed an inappropriate
+public-register provenance assertion and a four-byte stack expectation error.
+The repaired check observes the private initializer word record and accounts for
+all physical pushes. These failures are retained in local logs. The earlier
+combined validation remains live in its separate checkout. Parser allocation,
+remaining startup and complete campaign integration remain unfinished.
+
 ## Local continuation — 11 October 2026: parser constructor entry
 
 The parser constructor executes its original six entry instructions: it saves
