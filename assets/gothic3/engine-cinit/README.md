@@ -2298,3 +2298,137 @@ Engine methods and 3,614 body instructions. SHA-256: JSON
 `15c4fc760e5f46e709a8f0bdf50c0e46b8c7df1624c801ccb88c5764cb3deb30`;
 TypeScript `2fe484c9551ab95bbd7843eb00cae204adc7f4094698f8b569637c1d258a2959`.
 This local capture does not establish full startup or campaign completion.
+
+
+2026-10-11 — original object-reference-base property prefix (local)
+
+Executed callback `307322f0` through thunk `300247da`, original cold flags and
+storage setup, and the type-name wrapper for the actual bCObjectRefBase RTTI.
+The original undecoration prolog and lock-5 setup retain the RTTI input at
+its actual offset 9, allocator/free callbacks, and parser-constructor call.
+Startup stops at `3069747a` after 14,145 instructions. Camera initialization
+remains published with its sixth shutdown callback; the new property root
+remains known null and its flags are 3. No new property string is fabricated.
+
+Validation: TypeScript checking, the strengthened normal runtime check and six
+browser startup checks passed. The normal check distinguishes the returned
+camera wrapper from the pending next wrapper and verifies actual RTTI input,
+held parser lock, cold root and existing camera CString/root/exit state.
+Source packages are unchanged. This checkpoint is local, and full startup
+and a playable campaign ending with save/reload remain unproven.
+
+
+2026-10-11 — original reference-base parser construction (local)
+
+Executed the original name-parser constructor, its cold 4,104-byte arena request,
+four internal field constructors and configuration writes. The new live arena
+is distinct from the camera parser's freed arena; its original field offsets
+are 4,084/4,068/4,052/4,036 with kinds 3/1/3/1. The actual configuration stack
+pointer returns through the retained constructor caller. Startup stops at
+`3069b2d8` after 14,489 instructions, before beginning name parsing. RTTI cursor
+remains at offset 9, output length is zero, lock 5 is held and the new root is
+known null. The published camera property and six exit callbacks remain intact.
+
+Validation: TypeScript checking, six browser startup checks, a strengthened
+normal runtime check and an unavailable-arena check passed. The normal check
+verifies same-owner physical arena membership, distinct lifetime, field offsets
+and types, and the returned configuration pointer. The unavailable-arena check
+retains the original caller at `30672ec7`, keeps lock 5 held and preserves the
+completed camera string and registration while leaving the new root null.
+Source packages are unchanged. This local checkpoint does not establish full
+engine startup or a finishable campaign with save/reload.
+
+
+2026-10-11 — original reference-base decorated-type dispatch (local)
+
+Executed the original NameParser and TypeParser prefixes, the DataTypeParser
+local construction and its first-byte dispatch. The actual retained RTTI byte
+at offset 9 is `?` and selects `3069b8e0`; startup stops there after 14,548
+instructions. Name/type/data callers remain pending, the new arena stays live,
+its root remains null and lock 5 stays held. Camera state remains published.
+
+Validation: TypeScript checking, the strengthened normal runtime check and six
+browser startup checks passed. The normal check distinguishes returned earlier
+camera calls from the new pending name/data calls, checks the actual masked
+RTTI byte and preserves same-owner arena membership and internal field state.
+Source packages are unchanged. This local checkpoint does not establish full
+startup or campaign completion with save/reload.
+
+
+2026-10-11 — original reference-base qualifier decoding (local)
+
+Executed the decorated-type decoder prolog, actual `A` qualifier read, original
+classification arithmetic and cursor increment to offset 11. Its temporary
+constructor is pending at `306976b2` after 14,606 instructions. The original
+push/pop sets ESI to 32 and EAX to `fffffff8` on this path. Lock 5 remains held;
+the new root remains null and the camera string/root/registration stay intact.
+
+Validation: TypeScript checking, the strengthened normal runtime check, six
+browser startup checks and an unknown-qualifier check passed. Unknown RTTI byte
+10 stops at `3069aadf`, leaves the decorated-type caller pending, retains the
+cursor at 10 and does not enter the qualifier temporary constructor. The byte
+mask remains unknown; the new root stays known null. Source packages are
+unchanged. This local checkpoint does not establish complete engine startup
+or campaign completion with save/reload.
+
+
+2026-10-11 — original reference-base qualifier returns and class selector (local)
+
+Executed the original qualifier temporary, qualified-value copies and assigns,
+empty-modifier checks, decoder cleanup and retained return. Its returned value
+is assigned through the actual DataTypeParser caller before CompoundTypeParser
+and BasicTypeParser read the original `V` class marker. Startup stops at
+`3069b43a` after 15,002 instructions, with RTTI cursor at offset 12. The new
+arena stays live, lock 5 stays held, and the new root stays null. Earlier
+camera state and its captured historical class node remain retained.
+
+Validation: TypeScript checking, the strengthened normal runtime check and six
+browser startup checks passed. Checks distinguish the completed decoder return
+from pending compound/basic calls, verify the actual class byte/register state,
+and preserve canonical arena membership, physical fields and camera lifetime.
+Source packages are unchanged. This local checkpoint does not establish
+complete engine startup or campaign completion with save/reload.
+
+
+### 11 October 2026: reference-base class keyword and scoped-name prefix
+
+The original reference-base type selector now enters the class parser using its
+own retained RTTI image. The captured class-keyword constructor allocates its
+node and six character bytes in the distinct live 4,104-byte reference-base
+parser arena, copies `class `, and enters the original scoped-name routine.
+Execution reaches identifier parser `30699300` after 15,323 admitted operations.
+The RTTI cursor remains at offset 12. Lock 5 stays held, the reference-base root
+remains known NULL, and the camera CString and six registered shutdown callbacks
+remain intact. The snapshot's copied-type record still describes the completed
+camera parse; it is historical evidence, not the new class node.
+
+Typechecking, three selected runtime checks and six browser-startup checks pass.
+The class keyword/scoped-name prefix matches the previously implemented captured
+camera path exactly except for the RTTI owner. Interrupting the third character
+write stops at `30696f4b`, retains only `cl` as known bytes, preserves the live
+arena and held lock, and leaves the original copy call pending. No identifier,
+property root or callback return is fabricated. This checkpoint is local and
+has not been deployed. Complete startup and a finishable campaign remain
+unfinished. The earlier combined validation process is still running and does
+not validate this newer continuation.
+
+
+### 11 October 2026: original reference-base identifier copy
+
+The original identifier parser reads the retained reference-base RTTI image,
+rejects the nonmatching template and generic prefixes, and scans the actual
+`bCObjectRefBase` name through its original delimited-character loop. Its text
+node and 15 copied characters occupy the same live reference-base arena as the
+class keyword. The closing delimiter position is derived from the measured
+name length. The constructor returns at `306994a9` after 16,031 operations;
+the RTTI cursor is now offset 28. Identifier caching and outer parser returns
+remain pending. The reference-base property root remains known NULL.
+
+Typechecking, four focused runtime checks and six browser-startup checks pass.
+The continuation matches the captured camera identifier path except for its
+RTTI owner and length-derived closing delimiter. Making the eighth name byte
+unknown during the copy stops at `30696f47`: only `bCObjec` is known, the remaining
+eight character bytes are unknown, the arena stays live and lock 5 stays held.
+The original copy and name-constructor calls remain pending. The completed
+camera CString and prior callback registrations remain intact. This checkpoint
+is local, not deployed; complete startup and campaign play remain unfinished.

@@ -94,3 +94,19 @@ The checkpoint history distinguishes captured evidence, local implementation
 and published behavior. Older stopping addresses describe their dated revision.
 The completion standard remains a deployed game playable from a new game through
 an ending, with save and reload preserving campaign state.
+
+
+## Repository map and latest local continuation
+
+| Repository path | Purpose |
+| --- | --- |
+| `tools/gothic3/` | Resource readers, converters and evidence generators |
+| `assets/gothic3/` | Native evidence, hashes and research receipts |
+| `public/gothic3/` | Browser-served resources |
+| `src/gothic3/` | TypeScript runtime and browser integration |
+| `tests/gothic3-dialogue/` | Evidence and runtime checks |
+
+The latest local continuation initializes the camera property and copies the
+reference-base class identifier. Complete world activation and campaign play
+remain unfinished; this newer continuation has not been deployed. The dated
+receipts record each revision's exact supported boundary and validation scope.
