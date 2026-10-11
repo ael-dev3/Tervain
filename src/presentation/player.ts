@@ -114,6 +114,9 @@ export interface PlayerPhysicsContacts {
 }
 
 /** The realm's water as the wanderer meets it: where it stands and moves, and what disturbing it does. */
+/** Inside the realm's walkable bounds (as Terrain.walkable keeps them): where he may be set down. */
+const inRealm = (x: number, z: number) => x >= WORLD.minX + 4 && x <= WORLD.maxX - 4 && z >= WORLD.minZ + 4 && z <= WORLD.maxZ - 4;
+
 export interface PlayerWater {
   sample(x: number, z: number): { surface: number; bed: number; depth: number; flowX: number; flowZ: number; body?: string } | null;
   splash(x: number, y: number, z: number, energy: number, push?: { x: number; z: number }, kind?: 'splash' | 'plop' | 'enter' | 'stroke' | 'wade'): void;
@@ -451,17 +454,18 @@ export class Player {
     if (!this.mount) return;
     this.mount = null;
     this.rideSpeed = this.rideTurn = 0;
-    // Step down to a side that is clear and not deep water; failing both, where firm ground is nearest (A70).
+    // Step down to a side that is clear, inside the realm and not deep water; failing that, a clear side inside the realm
+    // (A70). Never past the realm's edge (A90 scout: it could set him 2.2 m beyond it).
     const deep = (x: number, z: number) => (ctx.water?.sample(x, z)?.depth ?? 0) > 0.9;
     let placed = false;
     for (const side of [1, -1, 2, -2, 3, -3]) {
       const a = this.yaw + side * Math.PI / 2, d = Math.abs(side) === 3 ? 2.2 : Math.abs(side) === 2 ? 1.6 : 1.1;
       const x = this.x + Math.sin(a) * d, z = this.z + Math.cos(a) * d;
-      if (!ctx.colliders.blocked(x, z, PLAYER_RADIUS) && !deep(x, z)) { this.x = x; this.z = z; placed = true; break; }
+      if (inRealm(x, z) && !ctx.colliders.blocked(x, z, PLAYER_RADIUS) && !deep(x, z)) { this.x = x; this.z = z; placed = true; break; }
     }
     if (!placed) for (const side of [1, -1]) {
       const a = this.yaw + side * Math.PI / 2, x = this.x + Math.sin(a) * 1.1, z = this.z + Math.cos(a) * 1.1;
-      if (!ctx.colliders.blocked(x, z, PLAYER_RADIUS)) { this.x = x; this.z = z; break; }
+      if (inRealm(x, z) && !ctx.colliders.blocked(x, z, PLAYER_RADIUS)) { this.x = x; this.z = z; break; }
     }
     // In deep water he is set down at the surface and swims; elsewhere on the ground.
     const water = ctx.water?.sample(this.x, this.z);
@@ -476,7 +480,7 @@ export class Player {
     const bounds = { minY: this.y + PLAYER_FOOT_CLEARANCE, maxY: this.y + PLAYER_BODY_HEIGHT };
     for (const side of [1, -1]) {
       const a = this.yaw + side * Math.PI / 2, x = this.x + Math.sin(a) * MOUNT_SIDE, z = this.z + Math.cos(a) * MOUNT_SIDE;
-      if (!ctx.colliders.blocked(x, z, PLAYER_RADIUS, bounds) && !deep(x, z)) return { x, z };
+      if (inRealm(x, z) && !ctx.colliders.blocked(x, z, PLAYER_RADIUS, bounds) && !deep(x, z)) return { x, z };
     }
     return null;
   }

@@ -161,6 +161,9 @@ export interface GradeOptions {
   msaa: boolean;
 }
 
+/** Seconds after which the grain's clock starts again: a whole number of its 24 patterns a second. */
+const GRAIN_CLOCK_WRAP = 4096;
+
 export class Grade {
   readonly target: THREE.WebGLRenderTarget;
   private bloomA: THREE.WebGLRenderTarget;
@@ -306,7 +309,9 @@ export class Grade {
       return;
     }
     this.time += dt;
-    this.material.uniforms.uTime!.value = this.time;
+    // Grain picks a new pattern 24 times a second; the clock it is read from is kept small (A90 scout), since one hours
+    // long no longer told a pixel from its neighbour in single precision and the grain went to blocks.
+    this.material.uniforms.uTime!.value = this.time % GRAIN_CLOCK_WRAP;
     if (water && !water.reducedMotion) this.waterTime += dt;
     this.material.uniforms.uWaterTime!.value = this.waterTime;
     const r = this.renderer;
