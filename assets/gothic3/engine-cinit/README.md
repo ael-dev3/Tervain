@@ -2390,3 +2390,24 @@ property root or callback return is fabricated. This checkpoint is local and
 has not been deployed. Complete startup and a finishable campaign remain
 unfinished. The earlier combined validation process is still running and does
 not validate this newer continuation.
+
+
+### 11 October 2026: original reference-base identifier copy
+
+The original identifier parser reads the retained reference-base RTTI image,
+rejects the nonmatching template and generic prefixes, and scans the actual
+`bCObjectRefBase` name through its original delimited-character loop. Its text
+node and 15 copied characters occupy the same live reference-base arena as the
+class keyword. The closing delimiter position is derived from the measured
+name length. The constructor returns at `306994a9` after 16,031 operations;
+the RTTI cursor is now offset 28. Identifier caching and outer parser returns
+remain pending. The reference-base property root remains known NULL.
+
+Typechecking, four focused runtime checks and six browser-startup checks pass.
+The continuation matches the captured camera identifier path except for its
+RTTI owner and length-derived closing delimiter. Making the eighth name byte
+unknown during the copy stops at `30696f47`: only `bCObjec` is known, the remaining
+eight character bytes are unknown, the arena stays live and lock 5 stays held.
+The original copy and name-constructor calls remain pending. The completed
+camera CString and prior callback registrations remain intact. This checkpoint
+is local, not deployed; complete startup and campaign play remain unfinished.
