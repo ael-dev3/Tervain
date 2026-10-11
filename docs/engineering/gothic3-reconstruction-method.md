@@ -79,13 +79,58 @@ Its `00_Original_Runtime` directory contains reference binaries and
 `01_Decompiled_Code` contains code research. These machine-specific paths are
 inputs for research, not portable build requirements for every contributor.
 
+## Reproducing a piece of the reconstruction
+
+Start with an original resource or a specific unsupported runtime operation.
+Follow its dependencies until the evidence describes a complete behavior:
+
+| Stage | Input | Result to keep in the repository |
+| --- | --- | --- |
+| Identify | Installed archive or matching executable/DLL | Original path, binary hash and resource name or instruction address |
+| Decode | Resource bytes or captured native instructions | Reproducible reader/generator and evidence with layouts and relationships |
+| Translate | Evidence and required caller state | TypeScript implementation with explicit ownership and pending boundaries |
+| Integrate | Decoded visuals and implemented behavior | Entity using the resources and behavior in the browser world |
+| Record | Reviewed change and proportionate local checks | Revision, results, remaining work and deployment status |
+
+For example, a tree needs its mesh, textures, material settings and placement.
+A spinning model confirms geometry can be displayed. Matching its in-game
+appearance also requires the recovered transparency, lighting and animation
+behavior. An Ardea human additionally needs skeleton, skin weights, animation,
+collision, routine state and dialogue/quest connections.
+
+Native initialization is another example: identify the original callback,
+capture its instructions and referenced data, implement the allocation and
+string operations it actually calls, preserve cleanup and shutdown registration,
+and resume the caller. Finding many similar callbacks does not establish that
+all of them have executed successfully.
+
+Regenerate evidence into separate output files and compare it with the checked-in
+evidence before accepting source changes. Each generator's arguments identify
+the required study inputs and output locations. Keep the matching original
+binaries available; machine-specific research paths are not portable inputs.
+
+## Current browser milestone and remaining work
+
+The hosted application is available at
+[the Gothic 3 route](https://ael-dev3.github.io/Tervain/gothic3/).
+An observed Ardea session loaded recovered scene objects and characters, allowed
+entry into the scene, displayed the running `Xardas_FindXardas` quest, saved
+position, world clock and quest journal, and restored them after reloading.
+That observation covers this browser scenario only.
+
+The remaining target includes complete native startup, world-system integration,
+NPC decisions, combat and its consequences, full dialogue and quest progression,
+and a new game played through an original ending with save/reload preserving
+progress. Browser milestone results and native continuation results must retain
+their separate revision and scope.
+
 ## How progress is reported
 
 Keep four claims separate: evidence captured, behavior implemented, checks
 passed, and revision deployed. Each checkpoint records its actual supported
 boundary and remaining work. The current local native continuation completes the camera, reference-base, obsolete-class, matrix, vector, vector2
-and rectangle property initializers, including their names, roots and shutdown registration.
-It stops at the next boolean-property initializer (`30732350`). Complete engine
+rectangle and boolean property initializers, including their names, roots and shutdown registration.
+It stops at the next input-receiver initializer (`30732360`). Complete engine
 startup, world activation and campaign play remain outstanding.
 
 For detailed commands and implementation history, see the

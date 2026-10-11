@@ -46,6 +46,7 @@ def capture(study):
         0x3003f1a7: 'engineVectorPropertyType',
         0x30038852: 'engineVector2PropertyType',
         0x3001c468: 'engineRectPropertyType',
+        0x3000c0b8: 'engineBoolPropertyType',
         0x306713ae: 'enginePropertyTypeNameWrapper',
         0x3067da97: 'enginePropertyTypeName',
         0x3069b26b: 'engineUndecorateName',
@@ -114,7 +115,8 @@ def capture(study):
                ('engineMatrixPropertyInitializer',0x30732310,0x3073231b,3),
                ('engineVectorPropertyInitializer',0x30732320,0x3073232b,3),
                ('engineVector2PropertyInitializer',0x30732330,0x3073233b,3),
-               ('engineRectPropertyInitializer',0x30732340,0x3073234b,3)]
+               ('engineRectPropertyInitializer',0x30732340,0x3073234b,3),
+               ('engineBoolPropertyInitializer',0x30732350,0x3073235b,3)]
     collected={begin:[] for _,begin,_,_ in recovered}
     asm=study/'01_Decompiled_Code/Engine_dll/full_disassembly.asm'
     for number,line in enumerate(asm.open('rb'),1):
@@ -163,6 +165,8 @@ def capture(study):
     # These cleanup instructions are omitted from the function listing.
     # Admit them only from exact bytes in the hash-pinned original DLL.
     for label, begin, encoded, count in [
+        ('engineBoolShutdownThunk', 0x3002ca2f, 'e9ecb47600', 1),
+        ('engineBoolShutdownBody', 0x30797f20, 'b9589aad30ff25dcdbaf30', 2),
         ('engineVectorShutdownThunk', 0x30011e3c, 'e90f617800', 1),
         ('engineVectorShutdownBody', 0x30797f50, 'b9349aad30ff25dcdbaf30', 2),
         ('engineVector2ShutdownThunk', 0x300057ae, 'e98d277900', 1),
@@ -342,6 +346,11 @@ def capture(study):
         ('rectPropertyRoot', 0x30ad9e14, 4),
         ('rectPropertyStorage', 0x30ad9a4c, 8),
         ('rectPropertyTypeInfo', 0x30aa2ab4, property_type_info_size(0x30aa2ab4)),
+        ('boolPropertyFlags', 0x30ad9a60, 4),
+        ('boolPropertyRoot', 0x30ad9e10, 4),
+        ('boolPropertyStorage', 0x30ad9a58, 8),
+        ('boolPropertyTypeInfo', 0x30aa2ad0, property_type_info_size(0x30aa2ad0)),
+        ('undecorationBoolLiteral', 0x3087e580, 5),
         ('cameraBaseObjectFlags', 0x30ad9a0c, 4),
         ('cameraBaseObjectRoot', 0x30ad9e2c, 4),
         ('cameraBaseObjectStorage', 0x30ad9a04, 8),

@@ -1,5 +1,35 @@
 # Gothic 3 rebuilding process
 
+
+## Local checkpoint — 11 October 2026: original boolean property
+
+The original callback `30732350` calls thunk `3000c0b8` and body `300769e0`.
+Its RTTI name `._N` enters the captured extended basic-type parser and produces
+`bool` followed by NUL. The retained cache has five logical bytes; the rounded
+physical view permits the original DWORD search at offset four. The existing
+source-backed character-search contract handles unknown padding without
+inventing known bytes or counting its internal operations as captured rows.
+
+The eleventh CString requests 13 bytes and retains capacity 16, length four and
+reference count one. Its original root and flags are published, the temporary
+eight-byte output is released, and shutdown thunk `3002ca2f` is registered as
+exit entry thirteen. The exit cursor reaches 52 and the C++ initializer cursor
+reaches `0x130`. Execution stops at `30732360` (input receiver); complete engine
+startup and a finishable original browser campaign remain unfinished.
+
+Local checks: typechecking passed; nine boolean checks passed (normal return
+with stored unknown padding bits zero and 255, two unknown guard bits, allocator
+unavailable/NULL/aliased backing, unknown copy source and interrupted copy
+write). The separate 12-check run also passed the earlier matrix and vector2
+copy cases. The earlier seven-check run passed the vector/rectangle milestone
+captured before boolean initialization. All 61 source/image/browser checks and
+the production build passed. Independent JSON and TypeScript regeneration
+matched byte for byte; every older method, image and unchanged section remained
+intact. The evidence has 118 methods and 3,785 instructions; JSON SHA-256 is
+`9b3ea558691daae2ac8d0bae2e6523f1847388931e879896cdcdd5a9c71a5dfc`.
+Full startup-frame regression follows; these checks do not prove complete
+startup or campaign play. This checkpoint has not been deployed.
+
 ## Local continuation — 11 October 2026: original bounded cache copy
 
 The type-name routine publishes its actual six-byte cache allocation in the
