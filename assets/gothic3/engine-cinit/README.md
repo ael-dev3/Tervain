@@ -3282,3 +3282,21 @@ instructions; JSON SHA-256 is
 All 75 source and image checks and typechecking passed. Runtime connection of
 the comma routine and second argument is still required. No deployment or full
 campaign completion is claimed.
+
+
+## Executed template comma continuation
+
+The original argument loop now reads the second class tag at cursor 45, appends
+the comma through `30697b95`, allocates its original character node and vtable,
+and physically returns through `30698aec`. Execution remains pending at
+`30698af1` before decoding the second argument. No template CString is built.
+The extracted node-to-list worker executes the same original bytes for both
+class text and the argument list.
+
+The normal comma node and an interrupted byte store passed focused checks.
+All 28 selected property regressions, 81 source/image/browser startup checks,
+typechecking and production build passed. The older combined full suite remains
+active with its historical call-graph snapshot test failure, whose correction
+was separately verified and integrated. This comma continuation is local.
+Second-argument execution is in a separate checkout under validation; full
+startup and a playable new-game-to-ending campaign remain unfinished.

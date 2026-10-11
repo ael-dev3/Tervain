@@ -2767,9 +2767,11 @@ function captureBeforeMainCacheTemplate(bootstrap:ReturnType<typeof fixture>['bo
 it('retains the original MainCache template name parser caller and first constructor',()=>{
  const {bootstrap,platform,crt}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{engineHeapLayout:'rounded-eight',processorFeatureProcedure:true,floatingPointPrecisionErratum:false});
  createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeNpcHeapExtension,nativeSceneStartupHeapExtension]});
- const result=bootstrap.processAttach();expect(result.known).toBe(false);
+ const write=NativeHeapObjectViews.prototype.writeUnsigned;let commaFields:NativeHeapObjectViews|null=null,commaOffset:number|null=null;
+ const commaSpy=vi.spyOn(NativeHeapObjectViews.prototype,'writeUnsigned').mockImplementation(function(this:NativeHeapObjectViews,offset,value,width){if(width===1&&value===44&&bootstrap.attachProgress().engineCinitProgress?.pc==='30697bdb'){commaFields=this;commaOffset=offset;}return write.call(this,offset,value,width);});
+ let result;try{result=bootstrap.processAttach();}finally{commaSpy.mockRestore();}expect(result.known).toBe(false);
  const f=bootstrap.attachProgress().engineCinitProgress!;
- expect(f.pc,result.known?'Unexpected complete startup':result.reason).toBe('30698c1c');
+ expect(f.pc,result.known?'Unexpected complete startup':result.reason).toBe('30698af1');
  const info=NativeEngineCinitImages.imageForCrt(f.images,crt,'mainCacheTemplatePropertyTypeInfo'),flags=NativeEngineCinitImages.imageForCrt(f.images,crt,'mainCacheTemplatePropertyFlags'),storage=NativeEngineCinitImages.imageForCrt(f.images,crt,'mainCacheTemplatePropertyStorage'),root=NativeEngineCinitImages.imageForCrt(f.images,crt,'mainCacheTemplatePropertyRoot');
  if(!info.known||!flags.known||!storage.known||!root.known)throw new Error('Original MainCache template images required');
  expect(Buffer.from(info.value.bytes.slice(8)).toString()).toBe('.?AV?$bTPropertyObject@VeCMainCache@@VbCObjectRefBase@@@@\0');
@@ -2780,12 +2782,13 @@ it('retains the original MainCache template name parser caller and first constru
  const arena=f.undecorationGlobalWords![3]!.provenance;
  if(arena?.kind!=='engine-allocation')throw new Error('Original live template arena required');
  const nameAt=Buffer.from(arena.fields.bytes).indexOf('bTPropertyObject');expect(nameAt).toBeGreaterThanOrEqual(0);expect([...arena.fields.knownMask.slice(nameAt,nameAt+16)]).toEqual(Array(16).fill(255));expect(arena.fields.backing.freed).toBe(false);const argumentNameAt=Buffer.from(arena.fields.bytes).indexOf('eCMainCache');expect(argumentNameAt).toBeGreaterThanOrEqual(0);expect([...arena.fields.knownMask.slice(argumentNameAt,argumentNameAt+11)]).toEqual(Array(11).fill(255));
+ const commaMemory=commaFields as NativeHeapObjectViews|null,commaAt=commaOffset as number|null;if(!commaMemory||commaAt===null)throw new Error('Original comma character node required');expect(commaMemory).toBe(arena.fields);expect(commaMemory.readUnsigned(commaAt,1)).toBe(44);expect(commaMemory.knownMask[commaAt]).toBe(255);expect(commaMemory.readUnsigned(commaAt-4,4)).toBe(0);
  expect(f.typeNameTwentyEighthCString).toBe(null);expect(f.typeNameTwentyEighthCStringCopyReturned).toBe(false);
  expect(f.typeNameTwentySeventhCStringCopyReturned).toBe(true);expect(f.exitCursor!.provenance).toMatchObject({offset:116});expect(f.cppCursor!.provenance).toMatchObject({offset:0x170});
  expect(f.typeNameLockHeld).toBe(false);expect(f.undecorationLockHeld).toBe(true);expect(f.onexitLockHeld).toBe(false);
  const graph=NativeX86ThreadStack.forPlatform(platform);if(!graph.known)throw new Error(graph.reason);
  for(const site of ['30732460','30077253','30699360','30699282'])expect(graph.value.snapshot().calls.filter(c=>c.site===site).at(-1)).toMatchObject({returned:false});
- for(const site of ['306991ef','306991f7','306991ff','30699255','30699260','30699268','306996a3','30699505','3069b528','3069b770','30698be1','30698bec','30698c0c','30698c17','30697936'])expect(graph.value.snapshot().calls.filter(c=>c.site===site).at(-1)).toMatchObject({returned:true});
+ for(const site of ['306991ef','306991f7','306991ff','30699255','30699260','30699268','306996a3','30699505','3069b528','3069b770','30698be1','30698bec','30698c0c','30698c17','30697936','30698ae7','30697ba1','30697bb4','30697bc8','30697be5'])expect(graph.value.snapshot().calls.filter(c=>c.site===site).at(-1)).toMatchObject({returned:true});
  expect(graph.value.snapshot().calls.some(c=>c.site==='3007725e'||c.site==='30077269')).toBe(false);
 });
 
@@ -2876,3 +2879,15 @@ it.each(['unknown name byte','unknown delimiter'])(
  const graph=NativeX86ThreadStack.forPlatform(platform);if(!graph.known)throw new Error(graph.reason);
  expect(graph.value.snapshot().calls.filter(c=>c.site==='30699505').at(-1)).toMatchObject({returned:false});expect(graph.value.snapshot().calls.filter(c=>c.site==='306996a3').at(-1)).toMatchObject({returned:false});expect(graph.value.snapshot().calls.some(c=>c.site==='30698bec')).toBe(false);
  });
+
+
+it('retains original template comma node when its byte store is interrupted',()=>{
+ const {bootstrap,platform}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{engineHeapLayout:'rounded-eight',processorFeatureProcedure:true,floatingPointPrecisionErratum:false});
+ createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeNpcHeapExtension,nativeSceneStartupHeapExtension]});
+ const write=NativeHeapObjectViews.prototype.writeUnsigned;let interruptedFields:NativeHeapObjectViews|null=null,interruptedOffset:number|null=null;
+ const spy=vi.spyOn(NativeHeapObjectViews.prototype,'writeUnsigned').mockImplementation(function(this:NativeHeapObjectViews,offset,value,width){if(width===1&&value===44&&bootstrap.attachProgress().engineCinitProgress?.pc==='30697bdb'){interruptedFields=this;interruptedOffset=offset;throw new Error('Interrupted original template comma byte store');}return write.call(this,offset,value,width);});
+ let result;try{result=bootstrap.processAttach();}finally{spy.mockRestore();}expect(result.known).toBe(false);const f=bootstrap.attachProgress().engineCinitProgress!;expect(f.pc).toBe('30697bdb');
+ const fields=interruptedFields as NativeHeapObjectViews|null,offset=interruptedOffset as number|null;if(!fields||offset===null)throw new Error('Original interrupted comma node required');expect(fields.knownMask[offset]).toBe(0);expect(fields.readUnsigned(offset-4,4)).toBe(0);expect(fields.backing.freed).toBe(false);
+ expect(f.undecorationParserWords![3]!.provenance).toMatchObject({kind:'engine-image',offset:45});expect(f.typeNameTwentyEighthCString).toBe(null);expect(f.typeNameTwentySeventhCStringCopyReturned).toBe(true);expect(f.undecorationLockHeld).toBe(true);expect(f.typeNameLockHeld).toBe(false);
+ const graph=NativeX86ThreadStack.forPlatform(platform);if(!graph.known)throw new Error(graph.reason);expect(graph.value.snapshot().calls.filter(c=>c.site==='30698ae7').at(-1)).toMatchObject({returned:false});for(const site of ['30698c0c','30698c17','30697ba1','30697bb4','30697bc8'])expect(graph.value.snapshot().calls.filter(c=>c.site===site).at(-1)).toMatchObject({returned:true});expect(graph.value.snapshot().calls.some(c=>c.site==='30697be5')).toBe(false);
+});
