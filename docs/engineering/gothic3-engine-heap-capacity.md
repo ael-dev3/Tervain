@@ -1172,3 +1172,21 @@ normal/fidelity checks passed in 13.02 seconds, this interruption check passed
 in 8.96 seconds, and six browser startup checks passed in 25.34 seconds.
 TypeScript checking passed. These local checks do not prove full engine startup,
 world activation, or campaign completion; this continuation is not deployed.
+
+
+### 2026-10-11: class-name output allocation
+
+The original retained allocation callback returns a separate live 16-byte span
+for the second property's undecorated name. NameParser stores that pointer,
+preserves the requested length 15 including the terminator, and passes both
+physical arguments to its writer at `3069b0ce`. Execution stops at `30697171`
+after 7,184 admitted operations. All 16 output bytes remain unknown; writing,
+termination, cleanup and second property publication remain pending.
+
+Type checking passed. Three focused checks (including the externally changed
+length interruption) passed in 14.73 seconds; six browser startup checks passed
+in 27.89 seconds. The new span's actual size, live ownership and writer pointer
+identity are checked. The earlier combined validation is still running on its
+frozen revision and does not include this allocation continuation. These local
+changes remain undeployed; full engine startup and campaign completion are
+still unproven.
