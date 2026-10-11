@@ -800,3 +800,19 @@ comparison shows exactly the two added bodies. TypeScript checking and all 29
 source/image checks pass; generator and admission-test diffs were inspected.
 Runtime remains pending at `306994ea` after 5,716 operations. These local captures
 do not execute the routines or prove complete startup or campaign completion.
+
+## 2026-10-11: original scoped-name and identifier entry
+
+The scoped-name parser now clears its actual caller output with the original
+masks and calls `30699505 -> 30699300` with its local destination and flag one.
+The identifier parser preserves the retained Engine cookie and actual EBP XOR
+relationship, reads the original `b` at type-info offset twelve, and takes the
+ordinary-name branch to `306993a2`. The initializer has executed 5,747 source
+operations. Identifier construction and both parser returns remain pending.
+
+TypeScript checking and five focused allocation, unknown-byte, qualifier,
+constructor and fatal-call checks pass for the scoped entry and final identifier
+entry. The source diff was inspected against the captured instructions. The
+normal check retains completed keyword bytes/length and pending name calls.
+This continuation is local; complete startup and campaign completion remain
+unfinished. Earlier combined validation remains running in its frozen checkout.
