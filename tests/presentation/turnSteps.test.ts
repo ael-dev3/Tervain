@@ -14,7 +14,8 @@ import { loadHeroWithoutImages } from './heroFixture';
 import { loadResident, loadResidentMotion, loadResidentRigData } from './residentFixtures';
 
 let asset: GLTF;
-beforeAll(async () => { asset = await loadHeroWithoutImages(); });
+let library: ReturnType<typeof residentMotionLibrary>;
+beforeAll(async () => { asset = await loadHeroWithoutImages(); library = residentMotionLibrary(await loadResidentMotion()); });
 const RATES = [30, 60, 120] as const;
 const bonesOf = (root: THREE.Object3D) => { const bones: THREE.Bone[] = []; root.traverse((o) => { if ((o as THREE.Bone).isBone) bones.push(o as THREE.Bone); }); return bones; };
 const yawOf = (q: THREE.Quaternion) => { const f = new THREE.Vector3(0, 0, 1).applyQuaternion(q); return Math.atan2(f.x, f.z); };
@@ -63,10 +64,23 @@ describe('turning on the spot with turn clips (A71)', () => {
     }
   });
 
-  it('turns the hero a quarter turn in steps: planted feet hold within 2 cm, the turn is completed, no pops at 30/60/120 Hz', () => {
+  it.each([['his walk', false], ['the authored turns (A85)', true]] as const)('turns the hero a quarter turn in steps from %s: planted feet hold within 2 cm, the turn is completed, no pops at 30/60/120 Hz', (_, authored) => {
     const spins: Record<number, Spin> = {};
+    const hero = () => {
+      const rig = createHeroRig(asset);
+      if (authored) {
+        const walkLeft = (Reflect.get(rig.hero, 'steps') as { clips: Record<'Left' | 'Right', THREE.AnimationClip> }).clips.Left;
+        rig.hero.useSwimClips(library);
+        const nowLeft = (Reflect.get(rig.hero, 'steps') as { clips: Record<'Left' | 'Right', THREE.AnimationClip> }).clips.Left;
+        // The steps are rebuilt from the authored turn: the lifted leg's pose is no longer the walk's.
+        const track = (clip: THREE.AnimationClip) => clip.tracks.find((t) => t.name.endsWith('LeftUpLeg.quaternion'))!.values;
+        const a = track(walkLeft), b = track(nowLeft);
+        expect(Math.max(...Array.from(a, (v, i) => Math.abs(v - b[i]!)))).toBeGreaterThan(0.01);
+      }
+      return rig;
+    };
     for (const hz of RATES) for (const seconds of [0.15, 0.5, 1.2]) {
-      const rig = createHeroRig(asset), feet = feetOf(rig), spin = new Spin(bonesOf(rig.root), hz);
+      const rig = hero(), feet = feetOf(rig), spin = new Spin(bonesOf(rig.root), hz);
       if (seconds === 0.5) spins[hz] = spin;
       for (let i = 0; i < hz / 2; i++) { rig.hero.pose(heroPose(), 1 / hz, false); spin.frame(false); }
       const planted: (THREE.Vector3 | null)[] = [null, null];

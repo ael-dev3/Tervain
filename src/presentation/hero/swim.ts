@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { retargetClip, type ResidentMotionLibrary, type RestPose } from '../npc/residentMotion';
+import { MOTION_CLIPS, retargetClip, type ResidentMotionLibrary, type RestPose } from '../npc/residentMotion';
 import { RESIDENT_JOINTS, type ResidentJoint } from '../npc/residentRig';
 import type { HeroBoneName, HeroBones } from './bones';
 
@@ -41,11 +41,30 @@ export function heroSwimClips(library: ResidentMotionLibrary, bones: HeroBones,
   rest: ReadonlyMap<THREE.Bone, { position: THREE.Vector3; quaternion: THREE.Quaternion }>): HeroSwimClips | null {
   const stroke = library.clips.get(HERO_SWIM_CLIPS.stroke), tread = library.clips.get(HERO_SWIM_CLIPS.tread);
   if (!stroke || !tread) return null;
+  const bake = heroBaker(library, bones, rest);
+  return { stroke: bake(stroke, 'SwimStroke', true), tread: bake(tread, 'SwimTread', false) };
+}
+
+/**
+ * The residents' authored turns on the spot (A83), baked onto the wanderer's skeleton for his own turning steps (A85);
+ * null if the library lacks them.
+ */
+export function heroTurnClips(library: ResidentMotionLibrary, bones: HeroBones,
+  rest: ReadonlyMap<THREE.Bone, { position: THREE.Vector3; quaternion: THREE.Quaternion }>): { Left: THREE.AnimationClip; Right: THREE.AnimationClip } | null {
+  const left = library.clips.get(MOTION_CLIPS.turn.left), right = library.clips.get(MOTION_CLIPS.turn.right);
+  if (!left || !right) return null;
+  const bake = heroBaker(library, bones, rest);
+  return { Left: bake(left, 'TurnIdleLeft', false), Right: bake(right, 'TurnIdleRight', false) };
+}
+
+/** Retarget a library clip from the library's rest to the wanderer's (each bone's local transform at bind), named for his bones. */
+function heroBaker(library: ResidentMotionLibrary, bones: HeroBones,
+  rest: ReadonlyMap<THREE.Bone, { position: THREE.Vector3; quaternion: THREE.Quaternion }>) {
   const target: RestPose = new Map(RESIDENT_JOINTS.map((joint) => {
     const bind = rest.get(bones[HERO_JOINT[joint]])!;
     return [joint, { position: bind.position.clone(), quaternion: bind.quaternion.clone() }];
   }));
-  const bake = (clip: THREE.AnimationClip, name: string, inPlace: boolean) => {
+  return (clip: THREE.AnimationClip, name: string, inPlace: boolean) => {
     const baked = retargetClip(clip, library.rest, target, inPlace).clip;
     const tracks = baked.tracks.map((track) => {
       const [joint, property] = track.name.split('.') as [ResidentJoint, string];
@@ -55,5 +74,4 @@ export function heroSwimClips(library: ResidentMotionLibrary, bones: HeroBones,
     });
     return new THREE.AnimationClip(name, baked.duration, tracks);
   };
-  return { stroke: bake(stroke, 'SwimStroke', true), tread: bake(tread, 'SwimTread', false) };
 }

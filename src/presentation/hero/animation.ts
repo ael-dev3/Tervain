@@ -3,7 +3,7 @@ import type { Pose } from '../characters';
 import type { ResidentMotionLibrary } from '../npc/residentMotion';
 import { HERO_BONES, HERO_FINGERS, type HeroBoneName, type HeroBones } from './bones';
 import { HERO_RUN_CYCLE, HERO_RUN_SPEED, HERO_WALK_CYCLE, HERO_WALK_SPEED } from './locomotion';
-import { HERO_SWIM_CYCLE, HERO_SWIM_RATE, heroSwimClips } from './swim';
+import { HERO_SWIM_CYCLE, HERO_SWIM_RATE, heroSwimClips, heroTurnClips } from './swim';
 import { applyTurnLead, buildTurnClips, TurnLead, SIDES, TURN_STEP, TurnSteps, type Legs, type Side } from '../turnSteps';
 
 export interface HeroPose extends Pose {
@@ -155,7 +155,9 @@ export class HeroAnimationController {
   private overlay = 'idle';
   private overlayFrom = 'idle';
   /** The turn clips' step layer and foot hold (A71); null keeps the older stepping through the walk. */
-  private readonly steps: TurnSteps | null = null;
+  private steps: TurnSteps | null = null;
+  /** What the turn steps are built from, kept to rebuild them from the authored turns once the library is here (A85). */
+  private turnSource: { legs: Legs; stand: Map<THREE.Bone, THREE.Quaternion>; walk: THREE.AnimationClip } | null = null;
   private stepLead: Side = 'Left';
   private stepAdvance = 0;
   private settleLead: Side | null = null;
@@ -256,6 +258,7 @@ export class HeroAnimationController {
     const stand = new Map(Object.values(bones).map((bone) => [bone, bone.quaternion.clone()] as const));
     const turnClips = buildTurnClips(legs, stand, source('Walking'));
     if (turnClips) this.steps = new TurnSteps(legs, turnClips, stand);
+    this.turnSource = { legs, stand, walk: source('Walking') };
     this.restore();
     for (const clip of [idle, source('Walking'), source('Running'), source('Dead')]) {
       const action = this.mixer.clipAction(clip).play();
@@ -284,6 +287,13 @@ export class HeroAnimationController {
       return played;
     };
     this.swim = { stroke: action(clips.stroke), tread: action(clips.tread) };
+    // His turning steps from the residents' authored turns too (A85), as theirs are (A83); kept from his walk otherwise.
+    const turns = this.turnSource && !this.steps?.cycling ? heroTurnClips(library, this.bones, this.rest) : null;
+    if (turns && this.turnSource) {
+      const { legs, stand, walk } = this.turnSource;
+      const stepClips = buildTurnClips(legs, stand, walk, turns);
+      if (stepClips) this.steps = new TurnSteps(legs, stepClips, stand);
+    }
   }
 
   /** Whether the authored strokes are in use. */

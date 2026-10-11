@@ -45,6 +45,8 @@ const CACHE_NAME = 'tervain-content-v1';
 let cacheRequest: Promise<Cache | null> | null = null;
 /** Every hash asked for in this session: what the cache keeps when it is pruned. */
 const used = new Set<string>();
+/** Downloads under way by address and hash (A86): a file the menu is fetching ahead is shared with the journey asking for it. */
+const inflight = new Map<string, Promise<ArrayBuffer>>();
 
 /** Whether this browser offers Cache Storage at all (not in tests, nor in some private windows). */
 const cacheAvailable = () => typeof caches !== 'undefined' && typeof document !== 'undefined';
@@ -111,8 +113,27 @@ async function fetchOnce(url: URL | string, options: DownloadOptions): Promise<A
   }
 }
 
-/** Download a file, from the content cache when it holds the same bytes, retrying failures that may pass. */
+/**
+ * Download a file, from the content cache when it holds the same bytes, retrying failures that may pass. A file of known
+ * hash already being downloaded from the same address is not asked for twice: the second caller gets its own copy.
+ */
 export async function downloadAsset(url: URL | string, options: DownloadOptions): Promise<ArrayBuffer> {
+  const known = options.model ? MODEL_FILES[options.model] : undefined;
+  const sha256 = options.sha256 ?? known?.[0];
+  if (!sha256) return download(url, options);
+  const key = `${sha256} ${String(url)}`;
+  const under = inflight.get(key);
+  if (under) return (await under).slice(0);
+  const request = download(url, options);
+  inflight.set(key, request);
+  try {
+    return await request;
+  } finally {
+    inflight.delete(key);
+  }
+}
+
+async function download(url: URL | string, options: DownloadOptions): Promise<ArrayBuffer> {
   const known = options.model ? MODEL_FILES[options.model] : undefined;
   const sha256 = options.sha256 ?? known?.[0], bytes = options.bytes ?? known?.[1];
   // Without Cache Storage the request starts at once, as a plain fetch would.
@@ -148,6 +169,32 @@ export async function downloadAsset(url: URL | string, options: DownloadOptions)
       if (pause > 0) await wait(pause);
     }
   }
+}
+
+/**
+ * Put these model files (paths under public/models) into the content cache ahead of need, one at a time, without
+ * reading them (A86): the menu fetches what a journey will ask for while the player is still in it. Files already cached
+ * are passed over; it stops before the next file once `stop` says so; failures are left for the journey to meet.
+ * Returns how many files it fetched.
+ */
+export async function warmContentCache(models: readonly string[], url: (model: string) => URL | string, stop: () => boolean): Promise<number> {
+  const cache = await contentCache();
+  if (!cache) return 0;
+  let fetched = 0;
+  for (const model of models) {
+    if (stop()) break;
+    const known = MODEL_FILES[model];
+    if (!known) continue;
+    try {
+      if (await cache.match(cacheKey(known[0]))) continue;
+    } catch { continue; }
+    if (stop()) break;
+    try {
+      await downloadAsset(url(model), { label: model, model });
+      fetched++;
+    } catch { /* The journey asks again and reports it. */ }
+  }
+  return fetched;
 }
 
 /**
