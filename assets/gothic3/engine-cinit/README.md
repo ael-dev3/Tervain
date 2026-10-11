@@ -1389,3 +1389,115 @@ remains running and has reported a hero-animation action-layer failure. Its
 final diagnostic is pending; it is not a successful validation receipt. It
 predates the latest native continuations and PR 248. These native changes
 remain local and full startup/campaign completion is unproven.
+
+
+### 2026-10-11: original class type-name cache allocations
+
+The type-name caller retains the measured length, checks its final character
+through the original trim path, obtains lock 14 and confirms the live RTTI
+cache is empty. Its original callbacks allocate an eight-byte cache node and
+a fifteen-byte logical text span, then store the actual text pointer in the
+type-info cache field. The original copy call receives that span, its capacity
+and the live undecorated source. Execution stops at `3068a84a` after 7,807
+source operations. The new text remains wholly unknown and the copy result
+for this pending call is unset. The completed source allocation remains live;
+the parser arena is freed and lock 5 released.
+
+Type checking passed; the normal check passed in 10.31 seconds, nine fidelity
+and interruption checks in 40.24 seconds and six browser startup checks in
+31.09 seconds. An interrupted cache allocation retains the original malloc
+caller, held cache lock, released arena and live completed source. The combined
+validation is still active on frozen revision
+`24a7bad8f17523a46b911868ac6ff9b275017ce0`, which predates this continuation.
+These changes remain local; copying, cache linking, cleanup, second-property
+publication and complete startup/campaign play remain unfinished.
+
+### 2026-10-11: original class type-name cache copy and link
+
+The original bounded copy transfers the fifteen known bytes `class bCString`
+plus its terminator from the live parser output into the fifteen-byte logical
+cache span and returns zero. The caller stores the actual text pointer in its
+new eight-byte node, retains the prior cache head as its next pointer, and links
+the node into the original shared root. Execution reaches `30672f8a` after
+7,959 source operations with the original temporary-output free call pending.
+Lock 14 remains held; the parser arena is freed and lock 5 released. Both the
+completed temporary output and cache text remain live at this boundary.
+
+Type checking passed. The normal focused check passed in 12.72 seconds, ten
+fidelity and interruption checks in 33.66 seconds, and six browser startup
+checks in 29.64 seconds. An unknown ninth source byte stops the original copy
+at `3068a888`, preserving the first eight copied bytes and the pending caller.
+The combined suite on revision `24a7bad8f17523a46b911868ac6ff9b275017ce0`
+predates this continuation and supplies no full-suite evidence for it. This
+checkpoint remains local. Temporary-output cleanup, cache-lock release,
+second-property publication, complete startup and campaign play remain pending.
+
+### 2026-10-11: original class type-name output cleanup and return
+
+The original free callback validates the actual sixteen-byte temporary output
+owner and releases it. The retained finally call releases lock 14, the type-name
+wrapper restores the original exception frame and registers, and its physical
+returns reach the second property's actual caller at `30076598`. This boundary
+follows 7,983 source operations. The cached fifteen-byte text stays live;
+its returned pointer retains its allocation identity. The earlier parser arena
+is freed and both parser and cache locks are released. The second property's
+CString construction and publication have not yet executed.
+
+Type checking passed. The normal check passed in 9.51 seconds, eleven fidelity
+and interruption checks in 35.43 seconds, and six browser startup checks in
+29.13 seconds. An interrupted output free retains its physical caller and cache
+lock with both output and cached text live. The normal path rejects reading
+through the freed output's native view. The broader combined validation still
+runs at revision `24a7bad8f17523a46b911868ac6ff9b275017ce0`, which predates
+this continuation. These changes remain local; complete engine startup and
+new-game-to-ending browser play remain unproven.
+
+### 2026-10-11: original second class-name search and CString length
+
+The second property passes its live cache pointer and actual destination to
+SharedBase UnMangle. The original DWORD character search finds the space at
+cache offset five and physically returns that owned pointer. The matched-name
+branch advances it to offset six, preserving the eight-character `bCString`
+input. The original CString byte scan measures eight and its allocation caller
+requests seventeen bytes, including the original nine-byte header/terminator
+allowance. The retained MemoryAdmin singleton returns to the actual caller.
+Execution stops at its malloc import `10003cd8` after 8,136 source operations;
+this second CString allocation has not executed. The first float CString and
+published first property remain retained, and the second property is unpublished.
+
+Type checking passed. The normal check passed in 9.01 seconds. The fidelity
+batch passed twelve checks; its new unknown-byte assertion initially expected
+a later address and was corrected to the actual unsupported DWORD XOR at
+`100a7343`. That corrected check passed separately in 10.69 seconds. Six browser
+startup checks passed in 29.61 seconds. Unknown cache bytes remain unknown and
+retain the search caller, with no constructor call fabricated. These receipts
+cover local changes only. The combined suite still runs on older revision
+`24a7bad8f17523a46b911868ac6ff9b275017ce0`; it does not validate this addition.
+Second-property construction and publication, full startup, campaign completion
+and save/reload through an ending remain unfinished.
+
+### 2026-10-11: original second property CString construction
+
+With the source-audited 17..20-byte MemoryAdmin pool admitted, the actual
+seventeen-byte request returns a twenty-byte allocation from that owner.
+The original constructor writes length eight and reference count one, stores
+its actual text pointer in the second property, writes the terminator and
+copies eight bytes from cache offset six. Original physical returns reach
+`300765a4` after 8,158 source operations. The second CString contains
+`bCString` plus NUL, while the first `float` CString remains live and unchanged.
+The two allocations have separate retained fields and the same canonical
+MemoryAdmin owner proof. Only the allocator-proven low two pointer bits are
+known. Reserved header bytes retain the actual known zeroes of the fresh page.
+The second property root and its shutdown registration remain pending.
+
+The base-only standalone owner still stops at the unaudited seventeen-byte
+pool, and the browser owner already admits that pool through its NPC extension.
+A separate admitted-pool fixture covers completed construction. Type checking
+passed. Four fidelity/interruption checks passed in the initial batch; the new
+normal construction check needed its expected pointer mask corrected from zero
+to the allocator-proven mask three, and then passed in 10.47 seconds. Six browser
+startup checks passed in 31.94 seconds. An interrupted terminator store retains
+the second constructor's physical caller and initialized header without claiming
+completed copying. Full startup and browser play through an ending remain
+unproven. This continuation remains local and postdates the passing combined
+revision `24a7bad8f17523a46b911868ac6ff9b275017ce0`.
