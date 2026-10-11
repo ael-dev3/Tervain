@@ -106,6 +106,8 @@ export function wadeFactor(depth: number): number {
 /** Movable-body contacts share the authoritative player position with the static scenery controller. */
 export interface PlayerPhysicsContacts {
   move(x: number, y: number, z: number, dx: number, dz: number, grounded: boolean): { x: number; y: number; z: number };
+  /** Pushes loose bodies along a step already accepted; `move` only asks where he can go (A106). */
+  push?(x: number, y: number, z: number, dx: number, dz: number): void;
   /** Highest reachable top below feetY + STEP_HEIGHT, including supports far below a falling body. */
   supportAt(x: number, z: number, feetY: number): number | null;
   ceilingAt(x: number, z: number, radius: number, fromHeadY: number, toHeadY: number): number | null;
@@ -676,6 +678,7 @@ export class Player {
       ctx.colliders.ceilingAt(safe.x, safe.z, PLAYER_RADIUS,
       this.y + PLAYER_BODY_HEIGHT, ground + PLAYER_BODY_HEIGHT) !== null) return;
     if (!this.contactClear(safe.x, this.grounded ? Math.max(safe.y, ground) : safe.y, safe.z, ctx, people)) return;
+    ctx.physics?.push?.(this.x, this.y, this.z, scenerySafe.x - this.x, scenerySafe.z - this.z);
     this.x = safe.x;
     this.z = safe.z;
     if (this.grounded && this.y - ground <= GROUND_FOLLOW_DROP) this.y = ground;
@@ -714,6 +717,9 @@ export class Player {
         this.y + PLAYER_BODY_HEIGHT, g + PLAYER_BODY_HEIGHT) !== null) return false;
       // If a crowded doorway cannot satisfy every contact, retain the last scenery-safe position.
       if (!this.contactClear(nx, this.grounded ? Math.max(physical.y, g) : physical.y, nz, ctx, contacts)) return false;
+      // Only a step taken pushes the barrels: a refused one shoved them up to three times a sub-step (A106, A103 scout).
+      // The step asked for (the cargo itself shortens the step taken): a crate in the way is leant on, as before.
+      ctx.physics?.push?.(this.x, this.y, this.z, result.x - this.x, result.z - this.z);
       this.x = nx;
       this.z = nz;
       if (this.grounded) {
