@@ -2115,3 +2115,21 @@ SharedBase input provenance and null camera root. The call uses return address
 `30076714` and original import/SharedBase hash receipts. Source packages are
 unchanged. This local checkpoint has not been deployed and does not establish
 full engine startup or campaign completion with persistence.
+
+
+2026-10-11 — original camera cached-name space search (local)
+
+Executed the retained SharedBase single-character search over the actual live
+camera cache allocation. Its DWORD scan finds the space at offset 5 in
+`class eCCameraBase`, returns that pointer to UnMangle, and passes offset 6
+and the actual camera property storage into the original CString constructor.
+Startup stops at constructor thunk `10003ba7` after 13,814 operations. The
+search call returned; CString construction and camera root publication remain
+pending. The camera root is still null, with both parser/cache locks released.
+
+Validation: TypeScript checking, the strengthened normal check and sixteen
+focused runtime checks passed. The new unknown-cache-character check stops at
+`100a7343`, preserving the pending search caller and live cache allocation.
+Six browser startup checks passed. Source packages are unchanged. This local
+checkpoint has not been deployed and does not establish complete engine startup
+or a playable campaign ending with save/reload.
