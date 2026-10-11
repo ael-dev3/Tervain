@@ -1653,3 +1653,26 @@ This checkpoint is local. Combined validation is live on frozen revision
 with native work through int output allocation and predates this writer step.
 Full engine startup and browser campaign completion with save/reload remain
 unfinished.
+
+
+## 2026-10-11: original int arena cleanup and caller return
+
+The original undecoration arena destructor now reads its actual block chain,
+invokes the retained Engine free callback, and releases the third arena. Its
+finally handler unlocks lock 5 and the original EH epilog restores the caller's
+register and stack state. The owned `int\0` output remains live. Execution
+reaches the type-name caller at `3067dad1` after 9,545 source operations.
+The freed node is retained only as provenance and pre-release word observations;
+normal execution does not read its freed allocation.
+
+TypeScript checking passed. Three focused checks passed in 16.23 seconds,
+including a failed arena release (live arena, held lock) and failed unlock
+(freed arena, held lock). Both preserve the pending original caller and live
+output. Six browser startup checks passed in 48.32 seconds. Source evidence is
+unchanged. The next original strlen path must handle the terminator in the
+fourth byte of the `int\0` DWORD before cache construction can continue.
+
+This checkpoint remains local. The combined suite is still live on
+`6a6de81b6f535c855a9ac8b3c12510b9186d99d5`, which predates the text writer
+and cleanup stages. Third-property publication, full engine startup and a
+complete browser campaign with save/reload remain unfinished.
