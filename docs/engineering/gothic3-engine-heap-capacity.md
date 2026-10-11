@@ -531,3 +531,20 @@ count was corrected using the captured 54-row copy plus five wrapper rows.
 Remaining empty-value checks and wrapper return still require implementation.
 Earlier combined full-suite validation remains running and predates this change.
 Full startup, deployment and campaign completion remain unfinished.
+
+### Shared empty check, assignment and qualified wrapper return — 11 October 2026
+
+The original NULL-value empty check is now shared by both callers. The qualified
+wrapper executes its live check and source-backed branch, assigns the caller's
+actual qualifier temporary through the shared assignment continuation, and
+returns with RET 8 to `3069acdf` after 5,144 admitted operations. The copy,
+empty-check, assignment and wrapper calls are all marked returned. The retained
+output is NULL with known lower flag bits, and ESI is restored to 32. The original
+decoder's next instruction remains pending.
+
+Typechecking and six focused runtime/browser/failure checks pass, followed by
+one targeted check of the actual call returns and restored register. Earlier
+combined full-suite validation has reported a lighthouse walking test failure
+and remains running; its final diagnostics must be inspected before publication.
+No full-suite or deployment success is claimed for this newer continuation.
+Remaining decoder execution, full startup and campaign play remain unfinished.

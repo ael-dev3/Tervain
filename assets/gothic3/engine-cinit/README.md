@@ -633,3 +633,9 @@ source-value ownership. The qualified caller's verified NULL value copies and
 returns to `30697b23` after 5,085 operations, while float copies still require
 their original text node. Typechecking and six focused checks pass. Remaining
 wrapper execution, full startup and campaign play remain unfinished and local.
+
+The qualified wrapper now shares the original empty-value check and assignment,
+then returns to `3069acdf` after 5,144 operations. Typechecking, six focused checks
+and a call-return check pass. Earlier combined full-suite validation reported a
+lighthouse walking failure and is still running. Remaining decoder execution,
+startup, publication and campaign completion remain unfinished.
