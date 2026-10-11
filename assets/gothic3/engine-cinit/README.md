@@ -2902,3 +2902,15 @@ SHA-256 is `36ace1fa228dbc7897a92cbb29d7227d61287f4b513cf15ed817aa8d5b1f550d`.
 This supports a shared initializer implementation. It does not admit new
 instructions to the runtime or prove execution of all 258 entries; their
 parser paths, allocation ownership and remaining behavior still need support.
+
+
+## 11 October 2026: combined revision validation before matrix support
+
+Full validation of combined revision `93565f806949b4e4d698c18174548ee906b4d01a`
+completed locally: TypeScript checking, all 3,771 tests across 330 files
+(1,994.69 seconds), and the production build (59.3 seconds) passed. The
+terminal process returned exit code zero. This revision combines main through
+PR #258 with the captured property inventory and obsolete-class undecoration
+entry. It does not include the later full obsolete-class continuation or the
+matrix implementation, and does not demonstrate complete engine startup or a
+campaign playable through an ending.
