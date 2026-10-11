@@ -1133,3 +1133,23 @@ execution. This checkpoint is local; name output construction, complete startup
 and the finishable campaign remain unfinished. The older combined cache-append
 revision continues full validation separately, and PR 247's main deployment
 remains active on the latest observation.
+
+
+### 2026-10-11: class-name output assignment
+
+The second property's original NameParser now consumes the returned class/type
+value, performs both original assignments, checks its live flags and the NUL
+at cursor offset 22, and calls StringLength at `3069b0a2`. Execution retains
+the pending call at `30697114` after 7,085 admitted source operations. The
+length routine and output construction remain pending. Pointer ownership,
+unknown upper flag bits, physical return addresses, and both held parser locks
+are preserved. The first property's published CString remains unchanged.
+
+The source package now contains 86 Engine bodies and 3,539 instructions. Newly
+captured list methods are `3069740c`, `3069741b`, and `3069742a`. Independent
+JSON and TypeScript regeneration was byte-identical. Type checking passed;
+three focused parser checks passed in 13.58 seconds, and six browser-boundary
+checks passed in 30.64 seconds. The preceding wider selection passed 75 checks
+and found one scalar-provenance assertion mismatch, corrected before the final
+focused pass. These local changes are not deployed, and do not prove complete
+engine startup or playable campaign integration.
