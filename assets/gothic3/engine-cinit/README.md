@@ -3359,3 +3359,8 @@ Native files from `5977c5975` include the original PVS prefetcher, Engine reallo
 
 
 The integration revision `d67c8bc95` passed typechecking, five focused startup/growth cases, 117 source/ownership/browser checks in eight files and production build. `validation-main269-exit-growth.json` records this scope and the separate 3,999-check predecessor. No newer local full-suite result or completed campaign is claimed.
+
+
+## Graphics/resource initializer integration with main through PR270
+
+This checkpoint integrates native/evidence files from `675d84ec7` with main `e248573b26f1a45a4be9c9e74d5a0a5c519e03bb`, including the collaborator hero timing and live-build identification changes. The original 17-callback graphics/resource group returns through all constructors, retains 50 shutdown registrations, and stops at unsupported callback `307325b0`, C++ cursor `0x1c4`, exit cursor 200. Capture: 277 Engine routines / 5,382 instructions; JSON SHA256 `fa66b72bc2dbfa941e357adca4329cc29f3eb6ca4e6208df76a6e2db3a7f2cf2`. Development validation passed three runtime probes, 129 source/image/browser/allocator checks, typechecking, regeneration and build. The earlier `c1cf5c061` deployment succeeded and its Ardea entry, Hero/world-clock and Xardas quest loading were observed on the hosted route. That deployment excludes this newer group. Full startup and campaign completion remain outstanding.
