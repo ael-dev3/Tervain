@@ -69,6 +69,19 @@ const FOLIAGE_FOCUS_RADIUS = 1.3;
 /** Right-stick scrolling of an open panel (A87 scout): dead zone, and pixels a second at full tilt. */
 const PANEL_SCROLL = { dead: 0.2, speed: 900 } as const;
 
+/**
+ * The quick slot whose number key was pressed (1-9, 0 for the tenth), or null. A digit bound to an action is that
+ * action's alone (A89 scout: with Interact on 1, pressing it picked up and ate the bread in slot 1 at once).
+ */
+export function quickSlotPressed(pressedKey: (code: string) => boolean, bindings: Readonly<Record<string, readonly string[]>>): number | null {
+  const bound = new Set(Object.values(bindings).flat());
+  for (let slot = 0; slot < 10; slot++) {
+    const key = (slot + 1) % 10;
+    if ([`Digit${key}`, `Numpad${key}`].some((code) => !bound.has(code) && pressedKey(code))) return slot;
+  }
+  return null;
+}
+
 type Mode = 'loading' | 'title' | 'play' | 'dead';
 
 const REVISION = typeof __SOURCE_REVISION__ === 'string' ? __SOURCE_REVISION__ : 'dev';
@@ -822,7 +835,7 @@ export class App {
         // The player rig and action state survive graphics rebuilds; do not rewind to a stale pre-load transform.
         const safe = this.safePosition(this.player.x, this.player.z, this.player.y);
         if (safe.x !== this.player.x || safe.z !== this.player.z) {
-          this.player.setPosition(safe.x, safe.z, this.player.yaw, this.world.terrain, safe.y);
+          this.player.setPosition(safe.x, safe.z, this.player.yaw, this.world.terrain, safe.y, safe.afloat === true);
           this.cam.reset();
         }
         await this.prepareWorldGraphics();
@@ -977,7 +990,7 @@ export class App {
     const fresh = fromLoad === null;
     const start = fresh ? { x: SPAWN.x, z: SPAWN.z, yaw: SPAWN.yaw } : { x: safe.x, z: safe.z, yaw: p.yaw };
     this.pendingMount = !fresh && typeof p.mount === 'string' ? { id: p.mount, x: start.x, z: start.z } : null;
-    this.player.setPosition(start.x, start.z, start.yaw, this.world.terrain, fresh ? undefined : safe.y);
+    this.player.setPosition(start.x, start.z, start.yaw, this.world.terrain, fresh ? undefined : safe.y, !fresh && safe.afloat === true);
     if (!fresh) {
       const top = this.world.physics.supportAt(start.x, start.z, p.y);
       if (top !== null && Math.abs(top - p.y) < .12) {
@@ -994,12 +1007,12 @@ export class App {
   }
 
   /** Player positions that are no longer standable (geometry changed between builds) fall back to a safe place. */
-  private safePosition(x: number, z: number, feetY?: number): V2 & { y: number } {
+  private safePosition(x: number, z: number, feetY?: number): V2 & { y: number; afloat?: boolean } {
     const { terrain, colliders } = this.world;
     if (canPlayerStandAt(terrain, colliders, x, z, feetY)) return { x, z, y: supportedPlayerHeight(terrain, x, z, feetY) };
     // A swimmer is saved and rebuilt where he swims, not carried ashore (A70).
     const water = this.world.water?.world.sample(x, z);
-    if (water && water.depth > 0.9 && !colliders.blocked(x, z, PLAYER_BODY_RADIUS)) return { x, z, y: feetY ?? water.surface - 1.1 };
+    if (water && water.depth > 0.9 && !colliders.blocked(x, z, PLAYER_BODY_RADIUS)) return { x, z, y: feetY ?? water.surface - 1.1, afloat: true };
     const cell = this.world.nav.nearestOpen(x, z, 10);
     const position = cell ? this.world.nav.cellCenter(cell.i, cell.j) : { x: SPAWN.x, z: SPAWN.z };
     return { ...position, y: terrain.groundAt(position.x, position.z) };
@@ -1012,6 +1025,8 @@ export class App {
   }
 
   private syncWorldFromState(snap: boolean) {
+    // The actors are set from the state: their sounds must not hear that as something happening (A89 scout).
+    if (snap) this.audio?.forgetActors?.();
     this.player.syncEquipment(this.game);
     this.world.syncStatic(this.game.state, snap);
     this.world.animals?.syncHunting(this.game.state.hunting, true);
@@ -1403,10 +1418,8 @@ export class App {
       if (inp.pressed('quicksave')) this.saveTo('quick');
       if (inp.pressed('quickload')) this.loadSlot('quick');
       if (inp.pressed('heal')) this.usePoultice();
-      for (let slot = 0; slot < 10; slot++) {
-        const key = (slot + 1) % 10;
-        if (inp.pressedKey(`Digit${key}`) || inp.pressedKey(`Numpad${key}`)) { this.activateQuickSlot(slot); break; }
-      }
+      const slot = quickSlotPressed((code) => inp.pressedKey(code), this.settings.bindings);
+      if (slot !== null) this.activateQuickSlot(slot);
     }
   }
 
@@ -1830,8 +1843,15 @@ export class App {
     if (r.ok) {
       this.hud.toast(S(cmd.t === 'archiveAccess' && cmd.method === 'borrowed_key' ? 'toast.unlocked.key' : 'toast.archive.open'), 'good');
       this.audio.worldEvent('door', '[The archive door opens]');
+      this.speech.hero('place.archive' as HeroCue, { delay: 1.5 });
       this.world.syncStatic(this.game.state, false);
     } else this.hud.toast(S('toast.archive.withdrawn'), 'bad');
+  }
+
+  /** Whether the archive can be seen into: its door opened or its shutter forced. */
+  private archiveOpen(): boolean {
+    const changes = this.game.state.locationChanges;
+    return changes.archive_door === 'open' || changes.archive_shutter === 'forced';
   }
 
   /** Who could plausibly have seen the player at this spot: awake, close, with a clear line of sight. */
@@ -1858,6 +1878,7 @@ export class App {
     }
     this.audio.worldEvent('shutter', '[The archive shutter is forced open]');
     this.hud.toast(S('toast.archive.forced'));
+    this.speech.hero('place.archive' as HeroCue, { delay: 1.5 });
     this.world.syncStatic(this.game.state, false);
     // A witness cue the player can act on: the observer calls out.
     const w = this.npcs.find((n) => seenBy.includes(n.id));
@@ -2017,7 +2038,11 @@ export class App {
           } else this.audio.quest();
           break;
         case 'grant':
-          for (const [id, qty] of Object.entries(e.items) as [ItemId, number][]) this.hud.toast(S('toast.item.gain', { qty, name: S(ITEMS[id].nameKey) }), 'good');
+          for (const [id, qty] of Object.entries(e.items) as [ItemId, number][]) {
+            this.hud.toast(S('toast.item.gain', { qty, name: S(ITEMS[id].nameKey) }), 'good');
+            // A reward is remarked on as a find is (A89 scout: the key's and the reed's lines were never heard).
+            this.speech.hero(`item.${id}` as HeroCue, { delay: 0.6 });
+          }
           this.audio.pickup(Object.keys(e.items)[0] as ItemId | undefined);
           break;
         case 'item':
@@ -2039,7 +2064,8 @@ export class App {
         case 'place':
           this.hud.toast(S('toast.place', { name: S(`place.${e.id}`) }), 'evidence');
           this.audio.discover(e.id);
-          this.speech.hero(`place.${e.id}` as HeroCue, { delay: 1.2 });
+          // The archive's shelves are remarked on once it stands open, not from outside its locked door (A89 scout).
+          if (e.id !== 'archive' || this.archiveOpen()) this.speech.hero(`place.${e.id}` as HeroCue, { delay: 1.2 });
           // Discovering somewhere new moves the respawn point there.
           this.markCheckpoint();
           break;
@@ -2320,7 +2346,7 @@ export class App {
     if (this.mode !== 'dead') return;
     this.game.dispatch({ t: 'healPlayer', amount: 100 });
     const cp = this.safePosition(this.checkpoint.x, this.checkpoint.z, this.checkpoint.y);
-    this.player.setPosition(cp.x, cp.z, this.checkpoint.yaw, this.world.terrain, cp.y);
+    this.player.setPosition(cp.x, cp.z, this.checkpoint.yaw, this.world.terrain, cp.y, cp.afloat === true);
     this.player.stamina = 100;
     for (const e of this.enemies) e.reset(this.world);
     this.hud.showFade(false);

@@ -667,7 +667,7 @@ export class WorldScene {
     // thin dark lines. The day's fill above carries the room instead.
     this.sky.sun.intensity *= 1 - 0.85 * indoor;
     this.scenery.setNight(night);
-    this.scenery.update(dt, this.time, night);
+    this.scenery.update(dt, this.time, night, reduced);
     for (const s of this.physics.drainSplashes()) this.water.splash(s.x, s.y, s.z, s.energy);
     this.water.update(dt, v.flow, camera, focus, reduced, settings.reduceEffects);
     let shadowFrustum: THREE.Frustum | null = null;

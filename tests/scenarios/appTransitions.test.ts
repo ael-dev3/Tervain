@@ -371,7 +371,7 @@ describe('actual application world transitions', () => {
     app.game.state.player.y = 26.2;
     const saved = { ...app.game.state.player };
     call('beginPlay', { recovered: null });
-    expect(app.player.setPosition).toHaveBeenCalledWith(saved.x, saved.z, saved.yaw, app.world.terrain, 26.2);
+    expect(app.player.setPosition).toHaveBeenCalledWith(saved.x, saved.z, saved.yaw, app.world.terrain, 26.2, false);
   });
 
   it('restores saved prop support on the rig without offsetting its persistent parent on later loads', () => {
@@ -673,7 +673,7 @@ describe('actual application world transitions', () => {
     expect(app.input.uiOpen).toBe(false);
     expect(app.game.state.inventory.arrow).toBe(9);
     expect(app.game.state.clock).toBe(chosen.clock);
-    expect(app.player.setPosition).toHaveBeenCalledWith(12, 34, .6, app.world.terrain, 26.2);
+    expect(app.player.setPosition).toHaveBeenCalledWith(12, 34, .6, app.world.terrain, 26.2, false);
     expect(app.hud.toast).toHaveBeenCalledWith('The latest write was damaged, so the previous save was restored.');
     expect(app.hud.toast).toHaveBeenCalledWith('Game loaded.');
   });

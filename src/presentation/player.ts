@@ -1,4 +1,5 @@
 import { ROCK_STEP_HEIGHT } from '../world/rockContacts';
+import { roomFloorSurface } from './sound/soundscape';
 import * as THREE from 'three';
 import { cliffiness, shoreDistance } from '../world/coast';
 import type { Game } from '../game/game';
@@ -7,7 +8,7 @@ import type { Settings } from '../platform/settings';
 import type { Collider, Colliders } from '../world/colliders';
 import type { Terrain } from '../world/terrain';
 import { roadWeight } from '../world/terrain';
-import { LIGHTHOUSE, WORLD } from '../world/layout';
+import { LIGHTHOUSE, SEA_LEVEL, WORLD } from '../world/layout';
 import { lighthouseSurfacesAt, lighthouseTreadTop } from '../world/lighthouse';
 import { PLAYER_BODY_HEIGHT, PLAYER_BODY_RADIUS, PLAYER_FOOT_CLEARANCE, supportedPlayerHeight } from '../world/playerPlacement';
 import type { AudioEngine, SurfaceKind } from './audio';
@@ -114,7 +115,7 @@ export interface PlayerPhysicsContacts {
 
 /** The realm's water as the wanderer meets it: where it stands and moves, and what disturbing it does. */
 export interface PlayerWater {
-  sample(x: number, z: number): { surface: number; bed: number; depth: number; flowX: number; flowZ: number } | null;
+  sample(x: number, z: number): { surface: number; bed: number; depth: number; flowX: number; flowZ: number; body?: string } | null;
   splash(x: number, y: number, z: number, energy: number, push?: { x: number; z: number }, kind?: 'splash' | 'plop' | 'enter' | 'stroke' | 'wade'): void;
   disturb(x: number, z: number, radius: number, strength: number, foam?: number): void;
   emit(kind: 'enter' | 'exit' | 'stroke' | 'wade' | 'dive' | 'surface', x: number, y: number, z: number, energy?: number): void;
@@ -480,7 +481,7 @@ export class Player {
     return null;
   }
 
-  setPosition(x: number, z: number, yaw: number, terrain: Terrain, feetY?: number) {
+  setPosition(x: number, z: number, yaw: number, terrain: Terrain, feetY?: number, afloat = false) {
     this.mount = null;
     this.mountMove = null;
     this.rideSpeed = this.rideTurn = 0;
@@ -491,7 +492,9 @@ export class Player {
     this.x = x;
     this.z = z;
     this.yaw = yaw;
-    this.y = supportedPlayerHeight(terrain, x, z, feetY);
+    // Afloat (a swimmer saved or caught where he swims), he is put back at the saved height, above the bed: the standing
+    // rule took him to the seabed, the camera under with him (A89 scout).
+    this.y = afloat && feetY !== undefined && Number.isFinite(feetY) ? Math.max(feetY, terrain.groundAt(x, z) + 0.05) : supportedPlayerHeight(terrain, x, z, feetY);
     this.vx = this.vy = this.vz = 0;
     this.grounded = true;
     this.state = 'free';
@@ -547,6 +550,8 @@ export class Player {
     const movableSurface = ctx.physics?.surfaceAt?.(this.x, this.z, this.y);
     if (movableSurface) return movableSurface;
     if (ctx.terrain.deckAt(this.x, this.z)) return 'deck';
+    const floor = roomFloorSurface(ctx.terrain, this.x, this.z);
+    if (floor) return floor;
     const support = this.supportAt(this.x, this.z, ctx);
     if (support > ctx.terrain.groundAt(this.x, this.z) + 0.02) {
       // The lighthouse list also contains low stone doorsteps; only the elevated stair/gallery treads are wood.
@@ -596,7 +601,10 @@ export class Player {
     // Water too deep to walk in is waded or swum, anywhere inside the realm.
     if (!ctx.water || x < WORLD.minX + 4 || x > WORLD.maxX - 4 || z < WORLD.minZ + 4 || z > WORLD.maxZ - 4) return false;
     if (ctx.terrain.valleyRadius(x, z) > 1.02) return false;
-    return (ctx.water.sample(x, z)?.depth ?? 0) > 0.3;
+    // With the realm's water known, the terrain's own guess at deep water (a carved bed, ground below the sea's level)
+    // no longer fences: a bed with little or no water in it is walked, one with more waded or swum (A89 scout: some
+    // 960 m2 of dry or trickling ditch stood as invisible walls).
+    return true;
   }
 
   /** Gravity along exposed steep ground lets loose footing slide downhill instead of holding a vertical pose. */
@@ -807,8 +815,11 @@ export class Player {
   private updateSwimming(water: ReturnType<PlayerWater['sample']>, ctx: PlayerCtx) {
     this.waterDepth = water ? Math.max(0, Math.min(water.depth, water.surface - this.y)) : 0;
     if (!ctx.water) return;
-    // A bridge, rock or loose body's top is footing: water below it cannot immerse the feet above it.
-    const standingDepth = water ? Math.max(0, water.surface - this.supportAt(this.x, this.z, ctx)) : 0;
+    // A bridge, rock or loose body's top is footing: water below it cannot immerse the feet above it. In the sea, out of
+    // one's depth is judged from the calm level, not each passing wave (A89 scout): the swell is far taller than the
+    // 0.2 m between starting and ending a swim, so standing in the surf began and ended one with every wave.
+    const still = water ? (water.body === 'sea' ? SEA_LEVEL : water.surface) : 0;
+    const standingDepth = water ? Math.max(0, still - this.supportAt(this.x, this.z, ctx)) : 0;
     if (!this.swimming && water && this.alive && standingDepth >= SWIM_DEPTH && (this.grounded || this.y <= water.surface - SWIM_FLOAT + 0.05)) {
       this.swimming = true;
       // Whatever was in hand stops: no blows, guard, aim or work in deep water.

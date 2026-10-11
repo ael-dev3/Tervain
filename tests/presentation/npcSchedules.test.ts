@@ -218,3 +218,17 @@ it('leads Ila out of the inn after the player stood in her way, rather than into
   for (let t = 0; t < 240 && Math.hypot(npc.x - target.x, npc.z - target.z) > close; t += 1 / 60) npc.update(1 / 60, ctx);
   expect(Math.hypot(npc.x - target.x, npc.z - target.z), `stalled at ${npc.x.toFixed(2)}, ${npc.z.toFixed(2)}`).toBeLessThanOrEqual(close);
 }, 60000);
+
+it('fades the lighthouse beam in and out at dusk rather than popping it on, and turns it slowly with motion reduced (A89 scout)', () => {
+  const beam = scenery.lighthouse.beam;
+  const alphas = () => beam.children.map(cone => ((cone as THREE.Mesh).material as THREE.ShaderMaterial).uniforms.uAlpha!.value as number);
+  scenery.update(1 / 60, 0, 0.2);
+  expect(beam.visible).toBe(false);
+  scenery.update(1 / 60, 0, 0.4);
+  expect(beam.visible).toBe(true);
+  for (const a of alphas()) { expect(a).toBeGreaterThan(0); expect(a).toBeLessThan(0.1); }
+  scenery.update(1 / 60, 0, 1);
+  for (const a of alphas()) expect(a).toBeCloseTo(0.3, 5);
+  const turn = (reduced: boolean) => { const before = beam.rotation.y; scenery.update(1, 0, 1, reduced); return beam.rotation.y - before; };
+  expect(turn(true)).toBeLessThan(turn(false) / 4);
+});
