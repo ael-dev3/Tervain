@@ -517,3 +517,10 @@ that count. Eleven distinct runtime/browser/source checks and typechecking pass;
 independent JSON and TypeScript regeneration is byte-identical. Shutdown
 registration, complete startup and campaign play remain unfinished. This is
 a local continuation, not a deployment receipt.
+
+The property initializer now registers its original shutdown callback in exit
+slot three using the retained Engine exit machinery and returns its first C++
+callback at `3067d229` after 4,437 source operations. Five focused checks and
+typechecking pass. Callback destruction and remaining C++ traversal are not
+claimed complete. The earlier combined revision passed 3,542 tests and its
+production build; the newer CString/registration work needs combined validation.

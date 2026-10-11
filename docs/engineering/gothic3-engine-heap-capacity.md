@@ -215,3 +215,23 @@ return at 4,313 operations. An unknown final source byte is copied with an
 unknown mask, and reading it as known text is rejected. These are local receipts;
 complete startup, deployment of this continuation and a playable campaign
 through an ending remain unfinished.
+
+### Property shutdown registration and first callback return — 11 October 2026
+
+The original property caller pushes callback `30011a40` and calls the existing
+Engine exit-registration routine. Its retained EH4 frame, lock eight, pointer
+decoding, within-capacity store, encoded cursor update, unlock and cleanup execute
+against the same 24-byte exit table already holding two callbacks. The third
+slot retains the actual property shutdown callback; registration does not invoke
+its destructor. Original property and initializer-wrapper rows then publish the
+returned type storage into `30ad9e38` and return to the C++ walker at `3067d229`
+after 4,437 admitted operations. The next walker advance remains pending.
+
+Typechecking and five focused normal, masked-byte, browser and lock-failure
+checks pass. Failure to acquire the third registration's lock retains the
+completed CString and pending lock call without adding its exit slot or replaying.
+The earlier combined revision passed 233 focused checks, all 3,542 tests across
+318 files, and a production build. Those full-suite/build receipts precede the
+MemoryAdmin, CString allocation/copy and property-registration continuations.
+A new combined validation with current main is required. Complete startup and
+a campaign playable through an ending remain unfinished.
