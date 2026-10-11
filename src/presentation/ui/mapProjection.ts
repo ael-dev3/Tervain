@@ -1,5 +1,8 @@
-/** North is negative Z; the original world uses yaw zero toward positive Z. */
-export const MAP_BOUNDS = { x0: -352, x1: 168, z0: -144, z1: 168 } as const;
+/**
+ * North is negative Z; the original world uses yaw zero toward positive Z. The chart covers all the ground the player can
+ * walk (A91 scout: it ended 26 m short to the east and 18 m to the north, and the player's arrow left it).
+ */
+export const MAP_BOUNDS = { x0: -352, x1: 198, z0: -162, z1: 168 } as const;
 export const MAP_PIXELS_PER_METRE = 2.2;
 export const MAP_W = Math.round((MAP_BOUNDS.x1 - MAP_BOUNDS.x0) * MAP_PIXELS_PER_METRE);
 export const MAP_H = Math.round((MAP_BOUNDS.z1 - MAP_BOUNDS.z0) * MAP_PIXELS_PER_METRE);

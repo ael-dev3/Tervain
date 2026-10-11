@@ -218,6 +218,8 @@ export class MapView {
     ctx.save();
     ctx.translate(ax, az);
     ctx.rotate(mapHeading(opts.player.yaw));
+    // The same size at every zoom, as the pin is (A91 scout: at full zoom it grew fourfold over the labels).
+    ctx.scale(1 / this.view.zoom, 1 / this.view.zoom);
     ctx.fillStyle = '#b02a20';
     ctx.strokeStyle = '#fff';
     ctx.lineWidth = 2;
@@ -304,7 +306,8 @@ export class MapView {
       else if (event.code === 'Equal' || event.code === 'NumpadAdd') this.target = zoomMapAt(this.target, this.target.zoom * 1.35);
       else if (event.code === 'Minus' || event.code === 'NumpadSubtract') this.target = zoomMapAt(this.target, this.target.zoom / 1.35);
       else if (event.code === 'Home') this.target = fullMapView();
-      else if (event.code === 'Enter' || event.code === 'Space') { const marker = mapWorldAt(this.view, MAP_W / 2, MAP_H / 2); if (validMapMarker(marker)) this.onMarker?.(marker); }
+      // The pin goes where the view is heading, not where it has eased to so far (A91 scout).
+      else if (event.code === 'Enter' || event.code === 'Space') { const marker = mapWorldAt(this.target, MAP_W / 2, MAP_H / 2); if (validMapMarker(marker)) this.onMarker?.(marker); }
       else if (event.code === 'Delete') this.onMarker?.(null);
       else return;
       event.preventDefault(); event.stopPropagation();
