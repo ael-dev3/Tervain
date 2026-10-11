@@ -2421,3 +2421,25 @@ addresses. Name measurement, output construction and remaining startup still
 need continuation. This is a local checkpoint, not deployment or proof of a
 finishable browser campaign. The full combined validation at
 `015b00c0c3a1b7db32bc6620d1e54295d88b59cb` is still live and predates this work.
+
+
+### 11 October 2026: reference-base measured output allocation
+
+The original virtual length routine traverses the retained class list and its
+actual text nodes, measures 21 characters, adds the NUL capacity and requests
+a separate aligned 24-byte Engine CRT output allocation. It publishes that
+allocation in the actual parser output slot and passes capacity 22 to the
+original writer. Execution reaches `30697171` after 17,007 operations. All output
+bytes remain unknown before the writer starts; the arena and output are distinct
+live allocations. Lock 5 stays held and the reference-base root stays known NULL.
+
+Typechecking, three runtime checks and six browser-startup checks pass. The
+length/allocation continuation exactly matches the existing captured class path;
+its lengths come from live node fields. An unknown readonly virtual length
+target stops at `30697129`, invalidating subsequent image-backed snapshots while
+retaining the already captured root reference and live list. Unavailable output
+allocation stops at `30672ec7` after measuring the actual required capacity 22.
+Both failures retain pending callers without entering the writer. This local
+checkpoint is not deployed and does not prove complete startup or campaign play.
+The earlier combined validation remains live at
+`015b00c0c3a1b7db32bc6620d1e54295d88b59cb`.
