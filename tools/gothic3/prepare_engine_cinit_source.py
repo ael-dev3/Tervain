@@ -13,6 +13,8 @@ def capture(study):
     EXPECTED_INPUTS['Engine.dll'] = 'd49ef92c0fdfeda433f6d04d0edeb7751e41e4c7c7effc1265630717029dc7e3'
     source = audit_module(study, 'Engine_dll', 'Engine.dll', {
         0x3067d1c7: 'engineCinit',
+        0x3067ca49: 'engineReallocWrapper',
+        0x30679200: 'engineReallocImplementation',
         0x3068aa20: 'engineReadonlyPointer',
         0x3068a9a0: 'engineValidateImage',
         0x3068a9d0: 'engineFindSection',
@@ -59,6 +61,8 @@ def capture(study):
         0x3003bb42: 'resourceAdminPropertyType',
         0x3003d8f7: 'mainCacheTemplatePropertyType',
         0x3002112a: 'geometrySpatialContextPropertyType',
+        0x30035747: 'pvsPrefetcher3PropertyType',
+        0x30027a8e: 'occlusionProcessorPropertyType',
         0x306991ad: 'engineUndecorationTemplateNameParser',
         0x30698a86: 'engineUndecorationTemplateArgumentListParser',
         0x30038a87: 'engineComponentPropertyType',
@@ -161,7 +165,9 @@ def capture(study):
                ('mainCachePropertyInitializer',0x30732440,0x3073244b,3),
                ('resourceAdminPropertyInitializer',0x30732450,0x3073245b,3),
                ('mainCacheTemplatePropertyInitializer',0x30732460,0x3073246b,3),
-               ('geometrySpatialContextPropertyInitializer',0x30732470,0x3073247b,3)]
+               ('geometrySpatialContextPropertyInitializer',0x30732470,0x3073247b,3),
+               ('pvsPrefetcher3PropertyInitializer',0x30732480,0x3073248b,3),
+               ('occlusionProcessorPropertyInitializer',0x30732490,0x3073249b,3)]
     collected={begin:[] for _,begin,_,_ in recovered}
     asm=study/'01_Decompiled_Code/Engine_dll/full_disassembly.asm'
     for number,line in enumerate(asm.open('rb'),1):
@@ -238,6 +244,10 @@ def capture(study):
         ('mainCachePropertyShutdownBody', 0x30797e30, 'b90c9bad30ff25dcdbaf30', 2),
         ('resourceAdminPropertyShutdownThunk', 0x30013908, 'e913457800', 1),
         ('resourceAdminPropertyShutdownBody', 0x30797e20, 'b9189bad30ff25dcdbaf30', 2),
+        ('occlusionProcessorPropertyShutdownThunk', 0x30045228, 'e9b32b7500', 1),
+        ('occlusionProcessorPropertyShutdownBody', 0x30797de0, 'b9489bad30ff25dcdbaf30', 2),
+        ('pvsPrefetcher3PropertyShutdownThunk', 0x3000113b, 'e9b06c7900', 1),
+        ('pvsPrefetcher3PropertyShutdownBody', 0x30797df0, 'b93c9bad30ff25dcdbaf30', 2),
         ('geometrySpatialContextPropertyShutdownThunk', 0x3000eb56, 'e9a5927800', 1),
         ('geometrySpatialContextPropertyShutdownBody', 0x30797e00, 'b9309bad30ff25dcdbaf30', 2),
         ('mainCacheTemplatePropertyShutdownThunk', 0x30019029, 'e9e2ed7700', 1),
@@ -488,6 +498,14 @@ def capture(study):
         ('mainCacheTemplatePropertyRoot', 0x30ad9dcc, 4),
         ('mainCacheTemplatePropertyStorage', 0x30ad9b24, 8),
         ('mainCacheTemplatePropertyTypeInfo', 0x30aa2cd8, property_type_info_size(0x30aa2cd8)),
+        ('occlusionProcessorPropertyFlags', 0x30ad9b50, 4),
+        ('occlusionProcessorPropertyRoot', 0x30ad9dc0, 4),
+        ('occlusionProcessorPropertyStorage', 0x30ad9b48, 8),
+        ('occlusionProcessorPropertyTypeInfo', 0x30aa2d80, property_type_info_size(0x30aa2d80)),
+        ('pvsPrefetcher3PropertyFlags', 0x30ad9b44, 4),
+        ('pvsPrefetcher3PropertyRoot', 0x30ad9dc4, 4),
+        ('pvsPrefetcher3PropertyStorage', 0x30ad9b3c, 8),
+        ('pvsPrefetcher3PropertyTypeInfo', 0x30aa2d58, property_type_info_size(0x30aa2d58)),
         ('geometrySpatialContextPropertyFlags', 0x30ad9b38, 4),
         ('geometrySpatialContextPropertyRoot', 0x30ad9dc8, 4),
         ('geometrySpatialContextPropertyStorage', 0x30ad9b30, 8),

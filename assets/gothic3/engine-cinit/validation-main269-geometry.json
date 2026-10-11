@@ -1,0 +1,23 @@
+{
+  "revision": "5a612b405a31f1d83d6fa5062dfc969a4dbba82d",
+  "typecheckExitCode": 0,
+  "suite": {
+    "passed": 3999,
+    "failed": 0,
+    "filesPassed": 336,
+    "filesFailed": 0,
+    "durationSeconds": 2330.15,
+    "startLocal": "2026-10-11 23:10:43 Europe/Budapest"
+  },
+  "buildExitCode": 0,
+  "buildSeconds": 56.9,
+  "pipelineSession": 40505,
+  "pipelineExitCode": 0,
+  "scope": "Main 269 integrated through original geometry spatial context callback; excludes newer PVS prefetcher, iterator snapshot correction, Engine realloc capability and exit-table growth work",
+  "deployed": false,
+  "logs": [
+    "gothic3-main269-geometry-full-typecheck.log",
+    "gothic3-main269-geometry-full-suite.log",
+    "gothic3-main269-geometry-full-build.log"
+  ]
+}
