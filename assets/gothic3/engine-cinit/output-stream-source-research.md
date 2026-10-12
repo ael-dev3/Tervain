@@ -115,3 +115,31 @@ original slot rather than a current-ESP offset, which changes during nested call
 The requested four-byte allocation is exposed from the actual pending call stack.
 The focused runtime case checks the written fields, actual calls and returns,
 retained owners, saved exception state and idempotent pending behavior.
+
+## Basic-ios owned locale allocation
+
+The output initializer now uses the same captured throwing-allocation factory as
+the existing streambuf initialization. The helper was moved into their common
+scope without changing its native instruction sequence or ownership checks.
+The original request of four bytes is verified at the actual malloc call.
+The rounded-eight heap service supplies a canonical logical four-byte view;
+the allocation is retained as `standardOutputStreamLocaleAllocation` and proven
+separate from the earlier streambuf locale wrapper.
+
+On success the factory returns to `0x305f0af3`, restores its EBP frame, and the
+base initializer saves the allocation in EDI. The original comparison proves
+this is a non-null owned allocation against the saved zero EBP. It then saves
+EBX and calls `0x30670832`, return address `0x305f0b02`. Locale initialization is
+the current pending operation; no locale pointer has been written into the new
+wrapper yet and no reference count has been incremented for this wrapper.
+
+On NULL the actual malloc call has returned but the original new-handler call
+at `0x306728ee` remains active, pending at `0x306824b9`. The original allocation
+caller has not returned and locale initialization has not been called. The new
+failure case checks these call records, the unchanged receiver mask, initializer
+cursor `0x208`, shutdown cursor 268 and idempotent pending result.
+
+Typechecking passed. Three focused runtime cases passed: normal contiguous
+initializer progression, the existing streambuf NULL path and the new basic-ios
+locale NULL path. The startup suite now contains 504 cases; only these three
+were run for this change. The full campaign remains unfinished.
