@@ -58,6 +58,7 @@ describe('authored Mixamo playable hero', () => {
     expect(asset.animations.map((clip) => clip.name).sort()).toEqual(['Boxing_Practice', 'Casual_Walk', 'Dead', 'Run_03', 'Running', 'Walking']);
     for (const clip of asset.animations) expect(clip.tracks).toHaveLength(132);
     expect(one.height).toBe(1.899);
+    expect(one.root.userData.motionInterpolation).toBe(false);
     // Each rig blends its own joints as dual quaternions (A69), so a bent elbow or hip keeps its volume.
     expect(skin.userData.npcDualQuaternion).toMatchObject({ bones: 66 });
   });

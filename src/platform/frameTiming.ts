@@ -94,7 +94,7 @@ export class MotionInterpolation {
   /** Record the transforms at the end of simulation step `step` (a counter that rises by one each step). */
   capture(step: number, objects: Iterable<THREE.Object3D | null | undefined>) {
     for (const object of objects) {
-      if (!object) continue;
+      if (!object || object.userData.motionInterpolation === false) continue;
       let m = this.motions.get(object);
       if (!m) {
         m = { prev: object.position.clone(), prevQ: object.quaternion.clone(), cur: object.position.clone(), curQ: object.quaternion.clone(), curE: object.rotation.clone(), step };

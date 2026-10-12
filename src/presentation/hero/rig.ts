@@ -22,6 +22,9 @@ export const HERO_ROUGHNESS_FLOOR = 0.7;
 export function createHeroRig(asset: HeroAsset): MainHeroRig {
   const root = new THREE.Group();
   root.name = 'Main hero / physics-owned world transform';
+  // The authored skeleton is posed at the latest fixed step. Drawing the root between steps puts the already-posed
+  // boots half a frame behind the physics root, visible as foot sliding at 60 Hz.
+  root.userData.motionInterpolation = false;
   const body = new THREE.Group();
   body.name = 'Main hero / visual action pivot';
   root.add(body);

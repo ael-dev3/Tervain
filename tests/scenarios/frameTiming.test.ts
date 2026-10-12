@@ -112,6 +112,18 @@ describe('interpolated motion (A72)', () => {
     expect(o.rotation.y).toBeCloseTo(1);
   });
 
+
+  it('leaves opted-out skinned roots on their posed simulation step', () => {
+    const motion = new MotionInterpolation(), root = new THREE.Object3D();
+    root.userData.motionInterpolation = false;
+    root.position.x = 0; motion.capture(1, [root]);
+    root.position.x = 1; motion.capture(2, [root]);
+    motion.apply(0.5, 2);
+    expect(root.position.x).toBe(1);
+    motion.restore();
+    expect(root.position.x).toBe(1);
+  });
+
   it('draws where they are: new objects, jumps, objects moved outside a step, and stale records', () => {
     const motion = new MotionInterpolation(), a = new THREE.Object3D(), b = new THREE.Object3D(), c = new THREE.Object3D();
     motion.capture(1, [a, b]);
