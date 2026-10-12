@@ -121,7 +121,10 @@ try {
   await place(-4, 40, 0); await page.wait(1200);
   const torsoHits = { walk: 0, run: 0, samples: 0 };
   const sampleBow = (gait) => page.eval(`const T = window.tervain, P = T.player, V = T.world.scene.position.constructor;
-    let bow = null, hips = null, neck = null; T.world.scene.traverse((o) => { if (o.name === 'Hunting / bent ash bow in left palm') bow = o; }); P.group.traverse((o) => { if (/Hips$/.test(o.name) && !hips) hips = o; if (/Neck$/.test(o.name) && !neck) neck = o; });
+    let bow = null, hips = null, neck = null; T.world.scene.traverse((o) => { if (o.name === 'Hunting / bent ash bow in left palm') bow = o; });
+    // The hero's own torso: up from the slung bow to his hips (other rigs share the bone names), then his neck below them.
+    for (let a = bow; a && !hips; a = a.parent) if (/Hips$/.test(a.name)) hips = a;
+    hips?.traverse((o) => { if (!neck && /Neck$/.test(o.name)) neck = o; });
     if (!bow || !bow.visible || !hips || !neck) return [0, 0];
     const a = hips.getWorldPosition(new V()), b = neck.getWorldPosition(new V()), ab = b.clone().sub(a), len = ab.length(); ab.normalize();
     let inside = 0, n = 0;
