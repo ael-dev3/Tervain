@@ -7,7 +7,7 @@ import { AnimalArrowSurface, type AnimalArrowHit } from './hit';
 import { AnimalImpactEffects } from './impact';
 
 export interface HuntingAnimal extends CorpseBody { definition: AnimalDefinition; yaw: number }
-interface Resident { id: AnimalId; animal: HuntingAnimal; corpse: AnimalCorpse; surface: AnimalArrowSurface | null; record: AnimalHuntRecord | null }
+interface Resident { id: AnimalId; animal: HuntingAnimal; corpse: AnimalCorpse; surface: AnimalArrowSurface | null; record: AnimalHuntRecord | null; returning: boolean; retryIn: number }
 type Ground = ConstructorParameters<typeof AnimalImpactEffects>[0] & { normalAt(x: number, z: number, out: [number, number, number]): unknown };
 
 /** Durable hunting identities adapt to the nineteen existing controllers and independently cloned skins. */
@@ -26,11 +26,11 @@ export class AnimalHunting {
   private reduced = false;
   constructor(animals: readonly HuntingAnimal[], private terrain: Ground,
     private frighten: (animal: HuntingAnimal, position: { x: number; z: number }, wounded?: boolean) => void,
-    private restore: (animal: HuntingAnimal) => void) {
+    private restore: (animal: HuntingAnimal, returning: boolean) => boolean | void) {
     this.effects = new AnimalImpactEffects(terrain); this.group = this.effects.group;
     this.residents = animals.flatMap(animal => {
       const id = ANIMAL_IDS.find(id => ANIMAL_MODEL_IDS[id] === animal.definition.id);
-      return id ? [{ id, animal, corpse: new AnimalCorpse(animal, animal.definition.species === 'deer'), surface: null, record: null }] : [];
+      return id ? [{ id, animal, corpse: new AnimalCorpse(animal, animal.definition.species === 'deer'), surface: null, record: null, returning: false, retryIn: 0 }] : [];
     });
   }
 
@@ -42,12 +42,15 @@ export class AnimalHunting {
         || record?.position.x !== previous?.position.x || record?.position.y !== previous?.position.y || record?.position.z !== previous?.position.z || record?.yaw !== previous?.yaw;
       if (!changed && !restore) continue;
       const { animal, corpse, id } = resident;
+      if (record || restore) resident.returning = false;
       const moved = !!record && !!previous && (record.position.x !== previous.position.x || record.position.z !== previous.position.z || record.yaw !== previous.yaw);
       if (restore || !record && previous || corpse.isDead && (record?.status === 'injured' || moved)) {
-        this.effects.clearCarcass(id); corpse.reset(); this.restore(animal);
+        this.effects.clearCarcass(id); corpse.reset();
+        resident.returning = this.restore(animal, !restore && !record && !!previous) === false;
+        resident.retryIn = 1;
       }
       resident.record = record ? { ...record, position: { ...record.position } } : null;
-      animal.root.visible = record?.status !== 'skinned';
+      animal.root.visible = record?.status !== 'skinned' && !resident.returning;
       if (!record) continue;
       animal.root.position.copy(record.position); animal.yaw = record.yaw;
       if (restore || moved) animal.root.rotation.set(0, record.yaw, 0);
@@ -64,7 +67,8 @@ export class AnimalHunting {
   }
 
   isDead(animal: HuntingAnimal) { return this.resident(animal)?.record?.status === 'dead'; }
-  isVisible(animal: HuntingAnimal) { return this.resident(animal)?.record?.status !== 'skinned'; }
+  isReturning(animal: HuntingAnimal) { return this.resident(animal)?.returning === true; }
+  isVisible(animal: HuntingAnimal) { const resident = this.resident(animal); return !resident?.returning && resident?.record?.status !== 'skinned'; }
   corpseContact(animal: HuntingAnimal): Collider | null {
     const resident = this.resident(animal);
     if (resident?.record?.status !== 'dead') return null;
@@ -83,6 +87,14 @@ export class AnimalHunting {
     let budget = 2048;
     for (let offset = 0; offset < this.residents.length; offset++) {
       const resident = this.residents[(this.scanCursor + offset) % this.residents.length]!;
+      if (resident.returning) {
+        resident.retryIn -= dt;
+        if (resident.retryIn <= 0) {
+          resident.returning = this.restore(resident.animal, true) === false;
+          resident.retryIn = 1;
+          resident.animal.root.visible = !resident.returning;
+        }
+      }
       if (resident.record?.status !== 'dead') continue;
       budget -= resident.corpse.update(dt, this.terrain, resident.record.position, resident.record.yaw, Math.min(1024, budget));
       const chest = resident.animal.scene.getObjectByName('chest');
@@ -96,7 +108,7 @@ export class AnimalHunting {
     let nearest: AnimalArrowHit | null = null;
     this.direction.copy(direction).normalize();
     for (const resident of this.residents) {
-      if (!isHuntableAnimalId(resident.id) || resident.record?.status === 'skinned') continue;
+      if (!isHuntableAnimalId(resident.id) || resident.returning || resident.record?.status === 'skinned') continue;
       const { animal } = resident;
       animal.root.updateMatrixWorld(true); animal.skeletons.forEach(skeleton => skeleton.update());
       animal.bounds.getBoundingSphere(this.sphere); this.sphere.radius = this.sphere.radius * 1.8 + .04; this.sphere.applyMatrix4(animal.root.matrixWorld);
@@ -115,11 +127,11 @@ export class AnimalHunting {
   showArrowImpact(hit: AnimalArrowHit, direction: THREE.Vector3) {
     if (!this.running || this.disposed) return;
     const resident = this.residents.find(resident => resident.id === hit.id);
-    if (resident && isHuntableAnimalId(hit.id) && resident.record?.status !== 'skinned') this.effects.impact(resident.animal, hit, direction);
+    if (resident && isHuntableAnimalId(hit.id) && !resident.returning && resident.record?.status !== 'skinned') this.effects.impact(resident.animal, hit, direction);
   }
   alertShot(position: { x: number; z: number }, radius = 18) {
     if (!this.running || this.disposed) return;
-    for (const resident of this.residents) if (isHuntableAnimalId(resident.id) && (!resident.record || resident.record.status === 'injured')
+    for (const resident of this.residents) if (isHuntableAnimalId(resident.id) && !resident.returning && (!resident.record || resident.record.status === 'injured')
       && Math.hypot(resident.animal.root.position.x - position.x, resident.animal.root.position.z - position.z) <= radius) this.frighten(resident.animal, position);
   }
   nearestCarcass(player: { x: number; z: number }, maxDistance = 2.8) {

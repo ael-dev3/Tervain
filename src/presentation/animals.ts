@@ -333,7 +333,7 @@ export function createAnimalFigure(template: GLTF, definition: AnimalDefinition)
   };
 }
 
-export interface AnimalSnapshot { id: string; species: AnimalSpecies; x: number; y: number; z: number; yaw: number; radius: number; state: AnimalClip | 'Dead' | 'Skinned'; visible: boolean }
+export interface AnimalSnapshot { id: string; species: AnimalSpecies; x: number; y: number; z: number; yaw: number; radius: number; state: AnimalClip | 'Dead' | 'Skinned' | 'Returning'; visible: boolean }
 interface AnimalInstance extends AnimalBody {
   definition: AnimalDefinition;
   root: THREE.Group;
@@ -526,25 +526,30 @@ export function buildAnimals(ctx: Pick<BuildContext, 'terrain' | 'colliders' | '
     animal.alarm = { ...position, remaining: 8 }; animal.path = []; animal.planIn = 0; animal.callSent = true;
     if (!goal(animal, new THREE.Vector3(position.x, terrain.heightAt(position.x, position.z), position.z), true)) enter(animal, 'Alert');
     spreadAlarm(animal, position);
-  }, body => {
+  }, (body, returning) => {
     const animal = body as AnimalInstance;
-    animal.alarm = null; animal.path = []; animal.yaw = animal.initialYaw; animal.root.rotation.set(0, animal.yaw, 0);
     // A returning animal settles somewhere new in its range, so the same wood is a new encounter (A70).
-    let at: { x: number; z: number } = animal.home, best = -Infinity;
+    let at: { x: number; z: number } = animal.home, best = -Infinity, yaw = animal.initialYaw;
     // Of the places tried, the one farthest from the hunter (A96 scout): the first that fitted could be 30 m from him.
     const away = (p: { x: number; z: number }) => hunter ? Math.hypot(p.x - hunter.x, p.z - hunter.z) : 0;
     if (hunter) best = away(animal.home);
+    // Expiry measures the old carcass, not the new site. If the entire return range is too close, wait without
+    // probing terrain or resetting the live controller every frame. The adapter retries once a second.
+    if (returning && hunter && best + animal.definition.roam * .7 < WILDLIFE_RETURN_DISTANCE) return false;
     for (let attempt = 0; attempt < 8 && animal.definition.roam > 2 && !animal.definition.tame; attempt++) {
       const a = animal.rng() * Math.PI * 2, r = animal.definition.roam * (0.2 + 0.5 * animal.rng());
       const candidate = { x: animal.home.x + Math.sin(a) * r, z: animal.home.z + Math.cos(a) * r };
       if (!(animalGroundAllowed(terrain, candidate, animal.home.radius) && animalHabitatAllowed(animal.definition, candidate)
         && !colliders.blocked(candidate.x, candidate.z, animal.home.radius))) continue;
       const d = away(candidate);
-      if (d > best || at === animal.home && !hunter) { at = candidate; best = d; animal.yaw = a; animal.root.rotation.set(0, a, 0); }
+      if (d > best || at === animal.home && !hunter) { at = candidate; best = d; yaw = a; }
       if (!hunter || d >= WILDLIFE_RETURN_DISTANCE) break;
     }
+    if (returning && hunter && best < WILDLIFE_RETURN_DISTANCE) return false;
+    animal.alarm = null; animal.path = []; animal.yaw = yaw; animal.root.rotation.set(0, yaw, 0);
     animal.root.position.set(at.x, terrain.heightAt(at.x, at.z), at.z);
     animal.state = 'Idle'; animal.stateTime = 0; animal.callSent = false; animal.callIn = 20 + animal.rng() * 35; rest(animal);
+    return true;
   });
   hunting.group.traverse(object => { if ((object as THREE.Mesh).isMesh) (object as THREE.Mesh).castShadow = ctx.quality !== 'low'; });
   group.add(hunting.group);
@@ -594,10 +599,10 @@ export function buildAnimals(ctx: Pick<BuildContext, 'terrain' | 'colliders' | '
     },
     snapshot: () => animals.map(animal => ({ id: animal.definition.id, species: animal.definition.species, x: animal.root.position.x,
       y: animal.root.position.y, z: animal.root.position.z, yaw: animal.yaw, radius: animal.home.radius,
-      state: !hunting.isVisible(animal) ? 'Skinned' : hunting.isDead(animal) ? 'Dead' : animal.state, visible: animal.root.visible })),
+      state: hunting.isReturning(animal) ? 'Returning' : !hunting.isVisible(animal) ? 'Skinned' : hunting.isDead(animal) ? 'Dead' : animal.state, visible: animal.root.visible })),
     stats: () => ({ animals: animals.length, animalModels: new Set(animals.map(animal => animal.definition.id)).size,
       animalVisible: animals.filter(animal => animal.root.visible).length, animalCalls: calls, animalTriangles: animals.reduce((sum, animal) => sum + animal.triangles, 0),
-      animalDead: animals.filter(animal => hunting.isDead(animal)).length, animalSkinned: animals.filter(animal => !hunting.isVisible(animal)).length }),
+      animalDead: animals.filter(animal => hunting.isDead(animal)).length, animalSkinned: animals.filter(animal => !hunting.isVisible(animal) && !hunting.isReturning(animal)).length }),
     update(inputDt: number, frame: FrameContext) {
       if (disposed || !running || frame.wildlifeActive === false) return;
       const dt = Math.min(Math.max(0, inputDt), 0.1);
