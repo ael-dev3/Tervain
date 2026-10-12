@@ -317,19 +317,26 @@ function vehicleParkingGrade(x: number, z: number, h: number): number {
   return h;
 }
 
+/** The steepest a road's cut or fill bank may stand (rise per metre, about 24°), and how far beyond the usual 4 m it may reach. */
+const ROAD_BANK_SLOPE = 0.45, ROAD_BANK_REACH = 18;
+
 let arrivalGrades: number[] | null = null;
 /** A softly cut woodland trail follows a continuous grade, keeping the authored road walkable across hummocks. */
 function arrivalRoadGrade(x: number, z: number, h: number): number {
   const near = distToPolyline(x, z, ARRIVAL_ROUTE);
   const width = ARRIVAL_TRAIL_WIDTH;
-  const influence = 1 - smoothstep(width / 2 + 0.4, width / 2 + 4, near.d);
-  if (influence <= 0) return h;
+  if (near.d >= width / 2 + 4 + ROAD_BANK_REACH) return h;
   arrivalGrades ??= ARRIVAL_ROUTE.map((p) => {
     const level = softFloor(coreHeight(p.x, p.z));
     return p.x < -170 ? shapeCoast(p.x, p.z, level) : level;
   });
   const grade = lerp(arrivalGrades[near.seg]!, arrivalGrades[near.seg + 1]!, near.t);
-  return lerp(h, grade, influence);
+  // The cut or fill widens with the height it takes up, so its bank never stands steeper than ROAD_BANK_SLOPE: a trail
+  // levelled through a knoll left a six-metre, 45° wall of bare earth beside it (playtest 4).
+  const inner = width / 2 + 0.4;
+  const outer = Math.min(inner + 3.6 + ROAD_BANK_REACH, Math.max(inner + 3.6, inner + 1.5 * Math.abs(h - grade) / ROAD_BANK_SLOPE));
+  const influence = 1 - smoothstep(inner, outer, near.d);
+  return influence <= 0 ? h : lerp(h, grade, influence);
 }
 
 let lanternGrades: number[] | null = null;

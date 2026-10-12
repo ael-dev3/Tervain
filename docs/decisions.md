@@ -278,3 +278,4 @@ These are scope boundaries for the foundation, not permanent bans. A later owner
 | 2026-10-12 | Give the meadow floor the grass's own green, widen near blades, give each clump its own stiffness and wind phase, and lean blade normals to the sky. | A128 for `0.0.15`. See [A128](engineering/a128-meadow-grass.md). |
 | 2026-10-12 | Let the mill race's cut climb past its rim at 0.45 until it meets the ground, rounded at the lip, instead of ending in a short steep wall. | A129 for `0.0.15` (playtest item 6). |
 | 2026-10-12 | Warp the run clip's time within each cycle (22% faster through the right stance, 11% slower in the swings) so the right foot holds where it lands. | A130 for `0.0.15`. See [A130](engineering/a130-run-right-stance.md). |
+| 2026-10-12 | Widen the arrival trail's cut and fill with the height it takes up so its banks never stand steeper than about 24°. | A131 for `0.0.15` (playtest item 6). See [A131](engineering/a131-road-banks.md). |
