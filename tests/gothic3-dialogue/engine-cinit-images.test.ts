@@ -147,3 +147,14 @@ it.each(['shapeMaterialContainerPropertyFlags', 'shapeMaterialContainerPropertyR
 it.each(['shapeMaterialContainerPropertyTypeInfo', 'collisionGroupContainerPropertyTypeInfo'] as const)('retains unknown following enum cache bytes without reseeding %s',label=>{
  const {crt,owner}=fixture(),fields=fact(NativeEngineCinitImages.imageForCrt(owner,crt,label));fields.knownMask[4]=0;expect(fact(NativeEngineCinitImages.imageForCrt(owner,crt,label))).toBe(fields);expect(fields.knownMask[4]).toBe(0);
 });
+
+
+it.each(['springAndDamperEffectorTemplatePropertyFlags', 'springAndDamperEffectorTemplatePropertyRoot', 'springAndDamperEffectorTemplatePropertyStorage', 'springAndDamperEffectorTemplatePropertyTypeInfo', 'audioModulePropertyFlags', 'audioModulePropertyRoot', 'audioModulePropertyStorage', 'audioModulePropertyTypeInfo'] as const)('owns the captured template and audio image %s',label=>{
+ const {crt,owner}=fixture(),fields=fact(NativeEngineCinitImages.imageForCrt(owner,crt,label)),receipt=engineCinitImage(label);
+ expect(fields.bytes.length).toBe(receipt.bytes);expect(Buffer.from(fields.bytes).toString('hex')).toBe(receipt.raw);expect(Array.from(fields.knownMask)).toEqual(Array(receipt.bytes).fill(255));expect(fact(NativeEngineCinitImages.imageForCrt(owner,crt,label))).toBe(fields);
+ const other=fixture();expect(NativeEngineCinitImages.imageForCrt(owner,other.crt,label).known).toBe(false);fields.backing.freed=true;expect(NativeEngineCinitImages.imageForCrt(owner,crt,label).known).toBe(false);expect(fields.backing.freed).toBe(true);
+});
+
+it.each(['springAndDamperEffectorTemplatePropertyTypeInfo', 'audioModulePropertyTypeInfo'] as const)('retains unknown template and audio cache bytes without reseeding %s',label=>{
+ const {crt,owner}=fixture(),fields=fact(NativeEngineCinitImages.imageForCrt(owner,crt,label));fields.knownMask[4]=0;expect(fact(NativeEngineCinitImages.imageForCrt(owner,crt,label))).toBe(fields);expect(fields.knownMask[4]).toBe(0);
+});
