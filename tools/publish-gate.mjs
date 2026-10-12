@@ -3,7 +3,7 @@
  * Publish a play-gate run to the live GPU log (issue #320) so the frame data and the spikes' stills can be read without
  * running the gate again.
  *
- *   node tools/publish-gate.mjs --tag <tag> [--clips <recorded tag>] [--out play-gate-runs] [--issue 320] [--dry]
+ *   node tools/publish-gate.mjs --tag <tag> [--clips <recorded tag>] [--latest] [--out play-gate-runs] [--issue 320] [--dry]
  *
  * The run's spike stills and clips go to the `gate-media` branch (one folder per tag; the branch holds media only and
  * starts no workflow), then `<tag>-log.md` is posted as a comment with its MEDIA/ links pointing at them.
@@ -48,6 +48,12 @@ try {
     .replace(/(https:\/\/raw\S+\.jpg)/g, (u) => `[still](${u})`).replace(/(https:\/\/raw\S+\.mp4)/g, (u) => `[clip](${u})`);
   const bodyFile = path.join(work, 'body.md');
   fs.writeFileSync(bodyFile, body);
+  // --latest: also write the run to docs/perf/LATEST.md, the copy read from a clone (it is committed through a PR).
+  if (args.latest) {
+    const file = path.resolve('docs/perf/LATEST.md'), old = fs.existsSync(file) ? fs.readFileSync(file, 'utf8') : '';
+    const intro = old.includes('\n## Run ') ? old.slice(0, old.indexOf('\n## Run ') + 1) : '# Latest GPU play-gate data\n\n';
+    fs.writeFileSync(file, intro + body.replace(/^### /, '## Run '));
+  }
   if (args.dry) console.log(body);
   else console.log(execFileSync('gh', ['issue', 'comment', ISSUE, '--repo', repo, '--body-file', bodyFile]).toString().trim());
 } finally {

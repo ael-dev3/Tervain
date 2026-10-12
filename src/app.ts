@@ -307,6 +307,9 @@ export class App {
     }
   }
 
+  /** True in a ?shot capture, which must not pause over its view. */
+  private capturing = false;
+
   /**
    * Developer aid: `?shot=1&place=rillford&yaw=0.6&pitch=0.3&dist=12&hour=11&hud=0` starts a new game, frames a
    * view, settles the world, and sets document.title to READY so tools/shot.mjs can capture it headlessly.
@@ -314,6 +317,7 @@ export class App {
   private applyShotParams() {
     const q = new URLSearchParams(location.search);
     if (!q.has('shot')) return;
+    this.capturing = true;
     const num = (k: string, d: number) => (q.has(k) ? Number(q.get(k)) : d);
     this.quietStart = true;
     this.startNew();
@@ -1705,7 +1709,8 @@ export class App {
   }
 
   private openPause() {
-    if (this.worldPaused) return;
+    // A capture (?shot) runs in an unfocused window; it must not pause over the view it frames.
+    if (this.worldPaused || this.capturing) return;
     this.panelKind = 'pause';
     this.panels.push(pauseMenu(this.panelCtx()), { narrow: true });
     void this.checkLiveBuild(false);
