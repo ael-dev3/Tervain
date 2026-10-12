@@ -880,6 +880,7 @@ export class Player {
     if (amount > 0) ctx.game.dispatch({ t: 'damagePlayer', amount });
     ctx.onHurt(amount, blocked);
     if (ctx.game.state.player.health <= 0) {
+      this.vault = null;
       this.cancelChannel(); // death never leaves a channel behind (A71)
       // Killed in the saddle (or getting into or out of it), he falls beside the deer rather than lying in the air at the
       // saddle's height (A91 scout); the app lets the deer go once play resumes.
