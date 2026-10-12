@@ -121,6 +121,9 @@ function boxHit(c: BoxCollider, ax: number, az: number, dx: number, dz: number, 
   return { t: hit.t, nx: hit.nx * cos + hit.nz * sin, nz: -hit.nx * sin + hit.nz * cos };
 }
 
+/** How far above its top rail a fence blocks (A125): crossed by a vault, never stepped onto. */
+export const FENCE_WALL_LIFT = 0.6;
+
 export class Colliders {
   readonly all: Collider[] = [];
   /** Finite source surfaces include modest stones that never blocked NPC routes. */
@@ -162,6 +165,9 @@ export class Colliders {
   circle(id: string, x: number, z: number, r: number, active = true, bounds: ColliderBounds = {}) {
     this.add({ id, kind: 'circle', x, z, r, active, ...bounds });
   }
+
+  /** Every collider added under `id` (A125: the fences the hero can vault). */
+  withId(id: string): readonly Collider[] { return this.byId.get(id) ?? []; }
 
   box(id: string, x: number, z: number, hw: number, hd: number, yaw = 0, active = true, bounds: ColliderBounds = {}) {
     this.add({ id, kind: 'box', x, z, hw, hd, yaw, active, ...bounds });

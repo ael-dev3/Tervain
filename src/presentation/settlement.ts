@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { addCartColliders, type Colliders, type VerticalBounds } from '../world/colliders';
+import { addCartColliders, FENCE_WALL_LIFT, type Colliders, type VerticalBounds } from '../world/colliders';
 import {
   ANCHORS,
   ARRIVAL_WRECK,
@@ -760,7 +760,9 @@ export function buildScenery(terrain: Terrain, colliders: Colliders, quality: 'l
     const fenceRun = (pts: [number, number][]) => {
       const bounds = physicalBounds(R);
       fence(R, rnd, pts, gy);
-      const limits = bounds();
+      // The fence stands as a wall 0.6 m above its top rail (A125): at its own height it was a step onto the rail on any
+      // slope, and the hero walked along it as along a ramp. It is crossed by a vault (player.ts) instead.
+      const drawn = bounds(), limits = { ...drawn, maxY: drawn.maxY === undefined ? undefined : drawn.maxY + FENCE_WALL_LIFT };
       for (let i = 0; i < pts.length - 1; i++) {
         const [ax, az] = pts[i]!;
         const [bx, bz] = pts[i + 1]!;
