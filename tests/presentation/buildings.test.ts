@@ -6,6 +6,7 @@ import { buildArchiveShell, buildStandard } from '../../src/presentation/buildin
 import { Ctx } from '../../src/presentation/buildKit';
 import { Region } from '../../src/presentation/regions';
 import { ROOFS } from '../../src/presentation/roofs';
+import { lookOf } from '../../src/presentation/houseExteriors';
 
 const flatGround = { heightAt: () => 0 } as unknown as Terrain;
 const surface = new THREE.MeshBasicMaterial({ side: THREE.FrontSide });
@@ -25,10 +26,18 @@ describe('complete building shells', () => {
       buildStandard(r, flatGround, b, { lanterns: [] });
       const g = makeGroup(r);
       const top = b.h + 0.4;
-      if (b.roof === 'gable') {
+      const look = lookOf(b), roofKind = look?.roof ?? b.roof;
+      if (roofKind === 'hip') {
+        // A132: a hipped house's roof closes over every wall just above the wall top.
+        for (const [dx, dz] of [[1, 0], [-1, 0], [0, 1], [0, -1]] as const) {
+          const hit = cast(g, [dx * (b.w / 2 + 3), top + 0.25, dz * (b.d / 2 + 3)], [-dx, 0, -dz])[0];
+          expect(hit, `${b.id} hip ${dx},${dz}`).toBeDefined();
+          expect(Math.abs(dx ? hit!.point.x : hit!.point.z) - (dx ? b.w : b.d) / 2).toBeLessThan(0.8);
+        }
+      } else if (b.roof === 'gable') {
         const style = b.kind === 'fisher' || b.id.endsWith('_a') || b.id.endsWith('_c') || b.id.endsWith('_e') ? 'thatch' : b.kind === 'keeper' ? 'slate' : b.kind === 'bakery' || b.kind === 'inn' || b.kind === 'reeve' ? 'tile' : 'shingle';
         const pitch = style === 'thatch' ? 0.82 : ROOFS[style].pitch;
-        const ridge = top - 0.06 + (b.d / 2 + 0.6) * Math.tan(pitch);
+        const ridge = top - 0.06 + (b.d / 2 + (look?.ohz ?? 0.6)) * Math.tan(pitch);
         for (const side of [-1, 1]) {
           const hit = cast(g, [side * (b.w / 2 + 2), ridge - 0.2, 0], [-side, 0, 0]).find((h) => Math.abs(Math.abs(h.point.x) - b.w / 2 - 0.12) < 0.015);
           expect(hit, `${b.id} gable ${side}`).toBeDefined();

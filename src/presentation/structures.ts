@@ -254,6 +254,8 @@ export function quoins(R: Region, rnd: Rnd, w: number, d: number, h: number, y0:
 }
 
 export interface DoorOpts {
+  /** The leaf's paint (A132), drawn with the same random sequence as plain wood. */
+  leafTint?: number;
   /**
    * Draw the leaf apart, so it can swing: into this region, in a frame whose origin is the hinge at the leaf's left
    * edge (the leaf extending along +x, its outer face towards +z). The dark backing of a closed door is then left out.
@@ -295,7 +297,7 @@ export function door(R: Region, rnd: Rnd, o: DoorOpts) {
   if (!o.leaf) R.vc.box(w, h, 0.045, x, 0, z + 0.015, 0x17110c, { jit: 0, amp: 0 });
   const P = L.planks;
   const n = Math.round(w / 0.2);
-  for (let i = 0; i < n; i++) P.box((w / n) * 0.94, h - (rnd() < 0.15 ? 0.05 : 0), 0.05, lx + x - w / 2 + (i + 0.5) * (w / n), 0, lz + z + 0.05 + (rnd() - 0.5) * 0.02, jitterTone(TINT.woodPale, rnd, 0.09), { grain: 'y', jit: 0.045, amp: 0.03 });
+  for (let i = 0; i < n; i++) P.box((w / n) * 0.94, h - (rnd() < 0.15 ? 0.05 : 0), 0.05, lx + x - w / 2 + (i + 0.5) * (w / n), 0, lz + z + 0.05 + (rnd() - 0.5) * 0.02, jitterTone(o.leafTint ?? TINT.woodPale, rnd, 0.09), { grain: 'y', jit: 0.045, amp: 0.03 });
   for (const yy of [0.35, h - 0.4]) L.metal.box(w * 0.9, 0.09, 0.03, lx + x, yy, lz + z + 0.095, TINT.iron, { jit: 0.08 });
   L.metal.box(0.09, 0.09, 0.05, lx + x + w * 0.32, h * 0.5, lz + z + 0.1, TINT.iron, { jit: 0.05 });
   // Forged straps are fastened into the boards; these details never consume the layout's RNG stream.
@@ -324,6 +326,8 @@ export interface WindowOpts {
   /** Rotation of the window about y, in the caller's frame (0 faces +z). */
   ry?: number;
   shutters?: boolean;
+  /** The shutters' paint (A132), drawn with the same random sequence as plain wood. */
+  shutterTint?: number;
   /** A real opening through the wall behind (A79): clear glass and a night glow instead of the dark backing and pane. */
   opening?: boolean;
   /** Heavy lime-set jambs on stone structures, retaining the same window envelope. */
@@ -362,7 +366,7 @@ export function windowAt(R: Region, rnd: Rnd, o: WindowOpts) {
       // Open shutters swing out from the wall (A75): turned by +s·open they swung inward, through the wall and into the room.
       ctx.push(s * (w / 2 + 0.04), 0, 0.08, -s * open + (rnd() - 0.5) * 0.06);
       const sh = h * (0.96 + rnd() * 0.06);
-      const tint = jitterTone(TINT.wood, rnd, 0.09);
+      const tint = jitterTone(o.shutterTint ?? TINT.wood, rnd, 0.09);
       const lean = (rnd() - 0.5) * 0.04;
       ctx.push(s * w / 4, 0, 0, 0, 0, lean);
       const sw = w * 0.49;
@@ -395,11 +399,11 @@ export function chimney(R: Region, rnd: Rnd, x: number, z: number, y0: number, h
 export type RoofKind = 'thatch' | 'shingle' | 'slate' | 'tile';
 
 /** Roof with a sag: a second, slightly lower ridge board and an uneven overhang so it never reads as a prefab. */
-export function roofFor(R: Region, kind: 'gable' | 'hip' | 'lean', style: RoofKind, w: number, d: number, y: number, seed: number, o: { pitch?: number; palette?: number[] } = {}) {
+export function roofFor(R: Region, kind: 'gable' | 'hip' | 'lean', style: RoofKind, w: number, d: number, y: number, seed: number, o: { pitch?: number; palette?: number[]; ohx?: number; ohz?: number } = {}) {
   const pal = o.palette ?? ROOFS[style].colors;
-  if (kind === 'hip') return hipRoof(R, { w, d, y, style, seed, palette: pal, pitch: o.pitch, oh: 0.6 });
+  if (kind === 'hip') return hipRoof(R, { w, d, y, style, seed, palette: pal, pitch: o.pitch, oh: o.ohz ?? 0.6 });
   if (kind === 'lean') return leanRoof(R, { w, d, y, style, seed, palette: pal, pitch: o.pitch, ohx: 0.35, ohz: 0.55 });
-  return gableRoof(R, { w, d, y, style, seed, palette: pal, pitch: o.pitch, ohx: 0.45, ohz: 0.6 });
+  return gableRoof(R, { w, d, y, style, seed, palette: pal, pitch: o.pitch, ohx: o.ohx ?? 0.45, ohz: o.ohz ?? 0.6 });
 }
 
 /** The triangular fill of a gable end, in plank or plaster. */
