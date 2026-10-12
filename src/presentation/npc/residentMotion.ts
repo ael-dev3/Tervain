@@ -244,7 +244,7 @@ export function measureSeat(clip: RetargetedClip, rest: RestPose, data: Resident
   for (;;) { const next = steps.next(); if (next.done) return next.value; }
 }
 
-/** measureSeat a moment at a time, for a rig built over several frames. */
+/** measureSeat in bounded vertex batches, for a rig built over several frames. */
 export function* measureSeatSteps(clip: RetargetedClip, rest: RestPose, data: ResidentRigData, position: THREE.BufferAttribute,
   moments: readonly number[] = [0.3, 0.5, 0.7]): Generator<void, { x: number; y: number; z: number }, void> {
   const root = new THREE.Group();
@@ -266,7 +266,9 @@ export function* measureSeatSteps(clip: RetargetedClip, rest: RestPose, data: Re
     let w = 0;
     for (let s = 0; s < 4; s++) if (carriers.has(data.joints[v * 4 + s]!)) w += data.weights[v * 4 + s]!;
     if (w >= 0.6 * 255) candidates.push(v);
+    if ((v + 1) % 512 === 0) yield;
   }
+  yield;
   const mixer = new THREE.AnimationMixer(root);
   const action = mixer.clipAction(clip.clip).play();
   action.paused = true;
@@ -290,6 +292,7 @@ export function* measureSeatSteps(clip: RetargetedClip, rest: RestPose, data: Re
       }
       posed.push(sum.clone());
     }
+    yield;
     posed.sort((a, b) => a.y - b.y);
     // The seat: the lowest few centimetres of that surface.
     const low = posed[Math.min(posed.length - 1, Math.floor(posed.length * 0.01))]!.y;
