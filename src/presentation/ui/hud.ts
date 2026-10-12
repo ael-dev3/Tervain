@@ -89,6 +89,9 @@ export interface HuntingHudData {
   skinProgress?: number | null;
 }
 
+/** How long the bow's instructions stay up each time it is taken up, and how many times a session (A124). */
+export const BOW_HINT_MS = 7000, BOW_HINT_SHOWINGS = 3;
+
 export class Hud {
   readonly el: HTMLElement;
   private healthFill: HTMLElement;
@@ -120,6 +123,9 @@ export class Hud {
   private bowDrawFill: HTMLElement;
   private bowDrawBar: HTMLElement;
   private bowHint: HTMLElement;
+  private bowWasEquipped = false;
+  private bowHintUntil = 0;
+  private bowHintShowings = 0;
   private skinPanel: HTMLElement;
   private skinName: HTMLElement;
   private skinButton: HTMLButtonElement;
@@ -273,7 +279,12 @@ export class Hud {
     setAttribute(this.bowDrawBar, 'aria-valuenow', String(Math.round(draw * 100)));
     setStyle(this.bowDrawFill, 'width', `${draw * 100}%`);
     setText(this.bowReadout, arrows > 0 ? S(data.drawing && draw >= 1 ? 'hunting.release' : 'hunting.ammo', { arrows }) : S('hunting.no_arrows'));
-    setHidden(this.bowHint, !data.bowEquipped || skinning || !!data.carcassName);
+    // The bow's instructions teach and then step aside (A124): shown for a while each time the bow is taken up, the first
+    // few times a session, then not at all. They stood on screen the whole time it was carried.
+    const now = performance.now();
+    if (data.bowEquipped && !this.bowWasEquipped && this.bowHintShowings < BOW_HINT_SHOWINGS) { this.bowHintUntil = now + BOW_HINT_MS; this.bowHintShowings++; }
+    this.bowWasEquipped = data.bowEquipped;
+    setHidden(this.bowHint, !data.bowEquipped || skinning || !!data.carcassName || now > this.bowHintUntil);
     setText(this.bowHint, S('hunting.bow_hint', { aim: data.aimKey ?? 'Right click', draw: data.drawKey ?? 'Left click', arrows }));
     setHidden(this.skinPanel, !data.carcassName && !skinning);
     setText(this.skinName, skinning ? S('hunting.skinning_name', { name: data.carcassName ?? S('hunting.animal') }) : data.carcassName ?? '');
@@ -301,8 +312,9 @@ export class Hud {
     setTimeout(() => el.remove(), 4200 + text.length * 25);
   }
 
+  /** A sound's caption (A124): read as a quiet aside under the scene, not a bracketed notice in a box. */
   caption(text: string) {
-    const el = h('div', { class: 'caption' }, text);
+    const el = h('div', { class: 'caption sound' }, text.replace(/^\[(.*)\]$/, '$1'));
     this.captions.append(el);
     while (this.captions.children.length > 3) this.captions.firstElementChild?.remove();
     setTimeout(() => el.remove(), 3200);

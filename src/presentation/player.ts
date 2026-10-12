@@ -1,4 +1,5 @@
 import { ROCK_STEP_HEIGHT } from '../world/rockContacts';
+import { FENCE_WALL_LIFT } from '../world/colliders';
 import { roomFloorSurface } from './sound/soundscape';
 import * as THREE from 'three';
 import { cliffiness, shoreDistance } from '../world/coast';
@@ -85,6 +86,9 @@ const PLAYER_RADIUS = PLAYER_BODY_RADIUS;
 const STEP_HEIGHT = 0.8;
 const GROUND_FOLLOW_DROP = 0.5;
 const GRAVITY = 17;
+/** A vault over a fence (A125): reach to the rail, how squarely he must face it, where he lands beyond it, the most the
+ * ground may differ there, and how long it takes. */
+export const VAULT = { reach: 0.85, facing: 0.55, land: 0.7, step: 0.6, seconds: 0.55 } as const;
 const FIRM_FOOTING_SLOPE = 0.95;
 /** Sample terrain along the whole move, so a sprint/dodge cannot skip a solid face or water strip. */
 const TERRAIN_STEP = 0.16;
@@ -685,6 +689,61 @@ export class Player {
   }
 
   /** Sweep every move (including dodge, attack and recoil), including real movable-body contacts. */
+  /** A vault in progress (A125): from where he left the ground over a fence to where he lands. */
+  vault: { t: number; from: { x: number; y: number; z: number }; to: { x: number; y: number; z: number }; peak: number } | null = null;
+
+  /**
+   * A vault over the fence before him, if there is one within reach and he faces it squarely enough (A125). The fences
+   * stand as walls above their rails, so this is the only way over them: a short arc from this side to the ground beyond.
+   */
+  private fenceVault(ctx: PlayerCtx): Player['vault'] {
+    const fx = Math.sin(this.yaw), fz = Math.cos(this.yaw);
+    for (const c of ctx.colliders.withId('fence')) {
+      if (c.kind !== 'box' || !c.active) continue;
+      const cos = Math.cos(c.yaw), sin = Math.sin(c.yaw);
+      const lx = (this.x - c.x) * cos - (this.z - c.z) * sin, lz = (this.x - c.x) * sin + (this.z - c.z) * cos;
+      // Within reach across the fence, and along its length (not round its end).
+      if (Math.abs(lx) > c.hw + VAULT.reach || Math.abs(lz) > c.hd - 0.15) continue;
+      // Facing over it: the fence's normal towards the far side, against his facing.
+      const side = Math.sign(lx) || 1, nx = -side * cos, nz = side * sin;
+      if (fx * nx + fz * nz < VAULT.facing) continue;
+      const across = -side * (c.hw + VAULT.land);
+      const land = { x: c.x + across * cos + lz * sin, z: c.z - across * sin + lz * cos };
+      const ground = ctx.terrain.heightAt(land.x, land.z);
+      // The far side must be open ground at about this height, and clear of any other fence.
+      if (!Number.isFinite(ground) || Math.abs(ground - this.y) > VAULT.step || !ctx.terrain.walkable(land.x, land.z)) continue;
+      const blocked = ctx.colliders.withId('fence').some((o) => {
+        if (o === c || o.kind !== 'box') return false;
+        const ox = (land.x - o.x) * Math.cos(o.yaw) - (land.z - o.z) * Math.sin(o.yaw), oz = (land.x - o.x) * Math.sin(o.yaw) + (land.z - o.z) * Math.cos(o.yaw);
+        return Math.abs(ox) < o.hw + PLAYER_RADIUS && Math.abs(oz) < o.hd + PLAYER_RADIUS;
+      });
+      if (blocked) continue;
+      const top = c.maxY === undefined ? this.y + 1.1 : c.maxY - FENCE_WALL_LIFT;
+      return { t: 0, from: { x: this.x, y: this.y, z: this.z }, to: { x: land.x, y: ground, z: land.z }, peak: Math.max(top + 0.25, this.y + 0.5) };
+    }
+    return null;
+  }
+
+  /** One step of a vault: an arc over the rail, then down on the far side; collisions wait until he lands (A125). */
+  private stepVault(dt: number, ctx: PlayerCtx): void {
+    const v = this.vault!;
+    v.t = Math.min(1, v.t + dt / VAULT.seconds);
+    const u = v.t, ease = u * u * (3 - 2 * u);
+    this.x = v.from.x + (v.to.x - v.from.x) * ease;
+    this.z = v.from.z + (v.to.z - v.from.z) * ease;
+    const base = v.from.y + (v.to.y - v.from.y) * u;
+    this.y = base + (v.peak - Math.max(v.from.y, v.to.y)) * Math.sin(Math.PI * u);
+    this.vx = (v.to.x - v.from.x) / VAULT.seconds; this.vz = (v.to.z - v.from.z) / VAULT.seconds;
+    this.yaw = Math.atan2(v.to.x - v.from.x, v.to.z - v.from.z);
+    if (u >= 1) {
+      this.vault = null;
+      this.y = this.supportAt(this.x, this.z, ctx);
+      this.vy = 0;
+      this.grounded = true;
+      ctx.audio.land(this.surface, 3.5);
+    }
+  }
+
   private tryMove(dx: number, dz: number, ctx: PlayerCtx): boolean {
     const beforeX = this.x;
     const beforeZ = this.z;
@@ -956,6 +1015,13 @@ export class Player {
         ctx.audio.dodge(this.surface);
         this.dodgeDir = hasInput ? { x: wx, z: wz } : { x: -fx, z: -fz };
         this.yaw = Math.atan2(this.dodgeDir.x, this.dodgeDir.z);
+      } else if (inp.pressed('jump') && this.grounded && this.stamina >= COST.jump && (this.vault = this.fenceVault(ctx))) {
+        // Facing a fence within reach, the jump is a vault over it (A125).
+        this.grounded = false;
+        this.vy = 0;
+        this.stamina = Math.max(0, this.stamina - COST.jump);
+        this.staminaPause = 0.4;
+        ctx.audio.jump(this.surface);
       } else if (inp.pressed('jump') && this.grounded && this.stamina >= COST.jump) {
         this.vy = 5.4;
         this.grounded = false;
@@ -1074,7 +1140,7 @@ export class Player {
     const displacementZ = targetVz * dt + (this.vz - targetVz) * k / rate;
     this.vx += (targetVx - this.vx) * k;
     this.vz += (targetVz - this.vz) * k;
-    if (this.state !== 'dodge' && (Math.abs(this.vx) > 0.01 || Math.abs(this.vz) > 0.01)) {
+    if (this.state !== 'dodge' && !this.vault && (Math.abs(this.vx) > 0.01 || Math.abs(this.vz) > 0.01)) {
       // Without the water model, any water slows a step; with it, wading depth sets the pace above.
       const sf = !ctx.water && (ctx.terrain.carveAt(this.x, this.z) > 0.12 || ctx.terrain.seaDepth(this.x, this.z) > 0.12) && !ctx.terrain.deckAt(this.x, this.z) ? 0.72 : 1;
       const fromX = this.x;
@@ -1103,41 +1169,44 @@ export class Player {
       else if (this.lastMoveSpeed > 0.4 && hasInput) this.yaw = lerpAngle(this.yaw, Math.atan2(this.vx, this.vz), 1 - Math.exp(-dt * 12));
     }
 
-    // Feet follow legal small steps exactly; leaving a ledge starts a fall instead of snapping to its bottom.
-    let ground = this.supportAt(this.x, this.z, ctx);
-    const swimWater = this.swimming ? ctx.water?.sample(this.x, this.z) ?? null : null;
-    if (swimWater) {
-      // A damped spring holds the swimmer at the surface: a plunge sinks and bobs back, the swell lifts and lowers him.
-      this.vy += (swimWater.surface - SWIM_FLOAT - this.y) * 22 * dt;
-      this.vy *= Math.exp(-dt * 6.5);
-      this.y += this.vy * dt;
-      if (this.y < ground) { this.y = ground; this.vy = Math.max(0, this.vy); }
-    } else if (this.grounded) {
-      if (this.y - ground > GROUND_FOLLOW_DROP) this.grounded = false;
-      else { this.y = ground; this.vy = 0; }
-    }
-    if (!this.grounded && !swimWater) {
-      // Analytic ballistic step keeps jump height and fall travel consistent across frame rates.
-      const nextY = this.y + this.vy * dt - 0.5 * GRAVITY * dt * dt;
-      ground = this.fallingSupport(nextY, ground, ctx);
-      const staticCeiling = ctx.colliders.ceilingAt(this.x, this.z, PLAYER_RADIUS, this.y + PLAYER_BODY_HEIGHT, nextY + PLAYER_BODY_HEIGHT);
-      const movableCeiling = ctx.physics?.ceilingAt(this.x, this.z, PLAYER_RADIUS, this.y + PLAYER_BODY_HEIGHT, nextY + PLAYER_BODY_HEIGHT) ?? null;
-      const ceiling = staticCeiling === null ? movableCeiling : movableCeiling === null ? staticCeiling : Math.min(staticCeiling, movableCeiling);
-      const fromY = this.y;
-      this.y = ceiling === null ? nextY : ceiling - PLAYER_BODY_HEIGHT - 0.0001;
-      // Falling into water: spray as the feet break the surface.
-      const below = ctx.water && this.vy < -2.5 ? ctx.water.sample(this.x, this.z) : null;
-      if (below && fromY > below.surface && this.y <= below.surface) {
-        ctx.water!.splash(this.x, below.surface, this.z, Math.min(1, -this.vy / 12), { x: this.vx * 0.2, z: this.vz * 0.2 }, 'splash');
-        this.splashedAt = this.clock;
+    if (this.vault) this.stepVault(dt, ctx);
+    else {
+      // Feet follow legal small steps exactly; leaving a ledge starts a fall instead of snapping to its bottom.
+      let ground = this.supportAt(this.x, this.z, ctx);
+      const swimWater = this.swimming ? ctx.water?.sample(this.x, this.z) ?? null : null;
+      if (swimWater) {
+        // A damped spring holds the swimmer at the surface: a plunge sinks and bobs back, the swell lifts and lowers him.
+        this.vy += (swimWater.surface - SWIM_FLOAT - this.y) * 22 * dt;
+        this.vy *= Math.exp(-dt * 6.5);
+        this.y += this.vy * dt;
+        if (this.y < ground) { this.y = ground; this.vy = Math.max(0, this.vy); }
+      } else if (this.grounded) {
+        if (this.y - ground > GROUND_FOLLOW_DROP) this.grounded = false;
+        else { this.y = ground; this.vy = 0; }
       }
-      this.vy = ceiling === null ? this.vy - GRAVITY * dt : 0;
-      if (this.vy <= 0 && this.y <= ground) {
-        // Stepping down a kerb is silent; a jump or a real drop lands audibly.
-        if (this.vy < -3.2) ctx.audio.land(this.surface, -this.vy);
-        this.y = ground;
-        this.vy = 0;
-        this.grounded = true;
+      if (!this.grounded && !swimWater) {
+        // Analytic ballistic step keeps jump height and fall travel consistent across frame rates.
+        const nextY = this.y + this.vy * dt - 0.5 * GRAVITY * dt * dt;
+        ground = this.fallingSupport(nextY, ground, ctx);
+        const staticCeiling = ctx.colliders.ceilingAt(this.x, this.z, PLAYER_RADIUS, this.y + PLAYER_BODY_HEIGHT, nextY + PLAYER_BODY_HEIGHT);
+        const movableCeiling = ctx.physics?.ceilingAt(this.x, this.z, PLAYER_RADIUS, this.y + PLAYER_BODY_HEIGHT, nextY + PLAYER_BODY_HEIGHT) ?? null;
+        const ceiling = staticCeiling === null ? movableCeiling : movableCeiling === null ? staticCeiling : Math.min(staticCeiling, movableCeiling);
+        const fromY = this.y;
+        this.y = ceiling === null ? nextY : ceiling - PLAYER_BODY_HEIGHT - 0.0001;
+        // Falling into water: spray as the feet break the surface.
+        const below = ctx.water && this.vy < -2.5 ? ctx.water.sample(this.x, this.z) : null;
+        if (below && fromY > below.surface && this.y <= below.surface) {
+          ctx.water!.splash(this.x, below.surface, this.z, Math.min(1, -this.vy / 12), { x: this.vx * 0.2, z: this.vz * 0.2 }, 'splash');
+          this.splashedAt = this.clock;
+        }
+        this.vy = ceiling === null ? this.vy - GRAVITY * dt : 0;
+        if (this.vy <= 0 && this.y <= ground) {
+          // Stepping down a kerb is silent; a jump or a real drop lands audibly.
+          if (this.vy < -3.2) ctx.audio.land(this.surface, -this.vy);
+          this.y = ground;
+          this.vy = 0;
+          this.grounded = true;
+        }
       }
     }
 
