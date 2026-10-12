@@ -1,0 +1,27 @@
+{
+  "files": {
+    "tools/gothic3/prepare_engine_cinit_source.py": "d3b1c5d5a682e81af4d0f7c2a9cea348d43d221f64a1a708226be25e9294f3b1",
+    "assets/gothic3/engine-cinit/research.json": "319783efa3f96c7207e4678f8609ef01f1ba6c335190bd16c53b1d349c4e9395",
+    "src/gothic3/native-x86-thread-stack.ts": "4239ceec15d04389b290211eb6a96816dd273a5618a756a0e8f383b0587d7262",
+    "src/gothic3/native-engine-cinit-source.ts": "6ef377fe07f0b5aa6a03a59f482d46c22abc4356ff733a778d71f30e348f07fb",
+    "src/gothic3/native-engine-cinit-images.ts": "4c82cf6929c0413b193004a93519e317c28d536bd4a25ff8ec2c2fd85dee27a8",
+    "tests/gothic3-dialogue/engine-io-frame.test.ts": "313946bfc1c54f2813a3d45c1ba5ce82b1e27c6c980ffb5c55617ac7be3d7705"
+  },
+  "nativeValidation": {
+    "filesPassed": 3,
+    "logSha256": "45700074ac63a72d3faa59fce282bab30fa67de1107c391a46dcb39b8fde446a",
+    "exitCode": 0,
+    "log": "gothic3-locale-query-runtime.log",
+    "testsPassed": 664,
+    "durationSeconds": 869.53
+  },
+  "pending": "3067b098",
+  "testedState": "uncommitted source files whose exact hashes are recorded",
+  "typecheck": {
+    "log": "gothic3-locale-query-typecheck.log",
+    "exitCode": 0
+  },
+  "baseRevision": "9369cc554f4a5ce16685fdff080b0e93bb976a23",
+  "published": false,
+  "campaignComplete": false
+}
