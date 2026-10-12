@@ -719,6 +719,8 @@ export class Player {
         return Math.abs(ox) < o.hw + PLAYER_RADIUS && Math.abs(oz) < o.hd + PLAYER_RADIUS;
       });
       if (blocked) continue;
+      const landingBounds = { minY: ground + PLAYER_FOOT_CLEARANCE, maxY: ground + PLAYER_BODY_HEIGHT };
+      if (ctx.colliders.blocked(land.x, land.z, PLAYER_RADIUS, landingBounds)) continue;
       const top = c.maxY === undefined ? this.y + 1.1 : c.maxY - FENCE_WALL_LIFT;
       return { t: 0, from: { x: this.x, y: this.y, z: this.z }, to: { x: land.x, y: ground, z: land.z }, peak: Math.max(top + 0.25, this.y + 0.5) };
     }
