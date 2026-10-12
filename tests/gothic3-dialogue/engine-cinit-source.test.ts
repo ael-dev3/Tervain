@@ -1,9 +1,20 @@
 import originalSource from '../../assets/gothic3/engine-cinit/research.json';
 import { describe, expect, it } from 'vitest';
+import source from '../../assets/gothic3/engine-cinit/research.json';
 import { admitEngineCinitSource, engineCinitCaller, engineCinitFloatingPointCallback,
-  engineCinitInstruction, engineCinitUnMangleInstruction, engineCinitUnMangleLiteral, engineCinitTable, engineCinitTableTarget } from '../../src/gothic3/native-engine-cinit-source';
+  engineCinitInstruction, engineCinitUnMangleInstruction, engineCinitUnMangleLiteral, engineCinitTable, engineCinitTableTarget, engineCinitImage } from '../../src/gothic3/native-engine-cinit-source';
 
 describe('original Engine CRT initializer evidence', () => {
+  it('returns the exact frozen receipt for every image and rejects unadmitted labels', () => {
+    expect(new Set(source.images.map(image => image.label)).size).toBe(source.images.length);
+    for (const image of source.images) {
+      expect(engineCinitImage(image.label)).toBe(image);
+      expect(Object.isFrozen(image)).toBe(true);
+    }
+    for (const label of ['', 'foreign-image', '__proto__', 'toString']) {
+      expect(() => engineCinitImage(label)).toThrow('Original Engine initializer image required');
+    }
+  });
   it.each([
     ['307323e0','e8e8ca90ff','3003eecd','30076ea0','a1cc9aad30','3003ae86','e905d07500','30797e90','b9c49aad30'],
     ['307323f0','e8172390ff','3003470c','30076f10','a1d89aad30','3002eac8','e9b3937600','30797e80','b9d09aad30'],

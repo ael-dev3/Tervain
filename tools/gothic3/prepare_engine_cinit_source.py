@@ -830,6 +830,8 @@ import sourceText from '../../assets/gothic3/engine-cinit/research.json?raw';
 const expectedText = EXPECTED;
 function freeze(value:unknown):void {if(value&&typeof value==='object'&&!Object.isFrozen(value)){for(const child of Object.values(value))freeze(child);Object.freeze(value);}}
 freeze(source);
+// The admitted receipt is immutable; live image storage is validated separately on every access.
+const imagesByLabel = new Map(source.images.map(image => [image.label, image]));
 let admitted=false;
 export function admitEngineCinitSource():void {if(admitted)return;if(sourceText!==expectedText)throw new Error('Original Engine initializer source differs');admitted=true;}
 function indexMethods<Method extends {entryVA:string;bodyVA:string;instructions:readonly {va:string}[];entryChain:readonly {va:string}[]}>(methods:readonly Method[]){
@@ -845,7 +847,7 @@ export function engineCinitCaller(){admitEngineCinitSource();return source.calle
 export function engineCinitImport(iat:string){admitEngineCinitSource();const row=source.source.imports.find(row=>row.iatVA==='0x'+iat);if(!row)throw new Error('Original Engine initializer import required');return row;}
 export function engineCinitFloatingPointCallback(){admitEngineCinitSource();return source.floatingPointCallback;}
 export function engineCinitHeaders(){admitEngineCinitSource();return source.originalHeaders;}
-export function engineCinitImage(label:string){admitEngineCinitSource();const image=source.images.find(image=>image.label===label);if(!image)throw new Error('Original Engine initializer image required');return image;}
+export function engineCinitImage(label:string){admitEngineCinitSource();const image=imagesByLabel.get(label);if(!image)throw new Error('Original Engine initializer image required');return image;}
 export function engineCinitString(label:string){admitEngineCinitSource();const string=source.strings.find(string=>string.label===label);if(!string)throw new Error('Original Engine initializer string required');return string;}
 export function engineCinitTable(label:string){admitEngineCinitSource();const table=source.initializerTables.find(table=>table.label===label);if(!table)throw new Error('Original Engine initializer table required');return table;}
 export function engineCinitTableTarget(label:string,slot:string):string|null {
