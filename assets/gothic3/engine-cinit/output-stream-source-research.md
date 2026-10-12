@@ -368,3 +368,24 @@ counter and identifier are one, seven returned enters, six matching leaves,
 held depth one, returned nested constructor/destructor, retained temporary locale
 and idempotent pending startup. Both original allocation NULL paths remain intact.
 Facet lookup, construction and full startup are still incomplete.
+
+## Original empty facet lookup and factory caller
+
+The lookup now resumes at `0x305f145b`, reads the actual caller's temporary locale
+handle and validates its retained locale allocation. Identifier one is compared
+against the actual facet-array count at locale offset 12. The original initial
+count is zero, so the native out-of-range branch sets ESI to zero and continues
+to the fallback check. No nonexistent array entry is read.
+
+The original locale fallback byte at offset 20 is zero. The routine follows the
+zero branch, verifies the missing facet and empty cache, and calls factory
+`0x305f0a30` at `0x305f14a1`, return address `0x305f14a6`. Its output argument is
+the actual cache local at facet entry ESP minus 36. The factory has not returned
+and no facet has been allocated. Other array/fallback/cache paths retain their
+unsupported boundary rather than pretending to use this initial-state path.
+
+Typechecking and three focused runtime cases passed. The normal case checks
+identifier one, actual zero facet count and fallback byte, pending factory caller,
+live temporary locale and outer lock depth one, preserved nested exception
+frames and idempotent startup. Both NULL allocation cases retain their original
+new-handler boundary. Facet creation and complete startup remain unfinished.
