@@ -290,6 +290,21 @@ describe('player motion and action contacts', () => {
     expect(s.player.z).toBe(-20);
     expect(s.player.y).toBe(0);
     expect(s.player.vault).toBeNull();
+  it('drops the scripted fence crossing when a vaulting player is killed', () => {
+    const s = setup();
+    s.ctx.terrain.heightAt = () => 0;
+    s.ctx.colliders.box('fence', .8, 0, .12, 3, 0, true, { minY: -.3, maxY: 1.7 });
+    s.player.yaw = Math.PI / 2;
+    s.presses.add('jump'); s.tick();
+    expect(s.player.vault).not.toBeNull();
+    s.player.receiveHit(1000, false, { x: s.player.x, y: s.player.y, z: s.player.z + .9 } as EnemyActor, s.ctx);
+    expect(s.player.state).toBe('dead');
+    expect(s.player.vault).toBeNull();
+    const x = s.player.x;
+    for (let i = 0; i < 60; i++) s.tick();
+    expect(s.player.x).toBeCloseTo(x, 6);
+    expect(s.player.y).toBe(0);
+    expect(s.audio.land).not.toHaveBeenCalledWith(expect.anything(), 3.5);
   });
 
   it('resets action, recoil and velocity when loading, teleporting or restarting', () => {
