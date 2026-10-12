@@ -12,8 +12,10 @@ array. The wrapper pushes its actual caller argument and calls the original
 The source records and original binary hash are in `research.json`. The current
 implementation completes all four imported calls and wrapper returns, follows
 the original stride and comparison, restores the saved registers and returns to
-`30791f00`. Four distinct registered platform capabilities remain tied to their
-original array elements. The opaque internal bytes of all 96 bytes are unknown.
+`30791f00`, then registers the original `307b805a` shutdown pointer through
+the captured onexit routine and returns to the C++ initializer loop. The next
+pending initializer is `30791f18`. Four distinct registered platform capabilities
+remain tied to their original array elements. The opaque internal bytes of all 96 bytes are unknown.
 On interruption, only completed prior elements lose their known input masks;
 the pending call and its actual element pointer remain retained.
 
