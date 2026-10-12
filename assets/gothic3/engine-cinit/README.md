@@ -3612,3 +3612,10 @@ The source bundle now contains 344 Engine method records. All 338 previous recor
 The retained owner now admits the original reference counter, 96-byte critical-section array and minimal receiver-address span. Initializer `30791ef6` executes its original receiver load and call at `30791efb`, retaining return address `30791f00`. Execution stops at constructor entry `30670444`; the counter remains `ffffffff`, all 96 loader-zero-filled bytes remain unchanged, and no new shutdown entry is registered. The initializer cursor remains `0x1fc` and the exit cursor remains 256.
 
 Typechecking, two focused frame checks, the counter/array/caller state check, and 149 related source/image/browser checks passed. Interlocked mutation and the four critical-section initialization calls remain unsupported at this checkpoint. Complete startup and campaign completion remain unfinished.
+
+
+### Shared critical-section reference constructor prologue
+
+Constructor `30670444` now executes its original saved-register push, counter-address push, receiver preservation and imported call at `3067044c`. The original IAT receipt identifies `KERNEL32.dll!InterlockedIncrement`; the pending call retains return address `30670452`. The counter is still `ffffffff` and the critical-section array remains unchanged. The existing argv/NLS atomic handler is caller-specific and is not reused for this counter. No atomic result or successful return is manufactured.
+
+Typechecking, two focused state checks and 149 related source/image/browser checks passed. Execution remains pending at `3067044c`; reference mutation, critical-section initialization and complete startup remain unfinished.
