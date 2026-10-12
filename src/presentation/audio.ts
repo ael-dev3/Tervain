@@ -568,19 +568,26 @@ export class AudioEngine {
   }
 
   /**
+   * Prepare the recorded world's graph while entry is still loading. A suspended context can allocate it silently;
+   * playback still starts only when updateWorld receives an active world frame.
+   */
+  prepareWorld() {
+    if (this.disposed || !this.ctx || this.ctx.state === 'closed' || this.soundWorld || this.worldFailed) return;
+    try {
+      this.soundWorld = new SoundWorld(this.ctx, this.buses, import.meta.env.BASE_URL, Math.random, false);
+    } catch {
+      // Without convolution or panning support the world keeps its procedural beds and captions.
+      this.worldFailed = true;
+    }
+  }
+
+  /**
    * The recorded world: beds, wildlife, residents, enemies, objects and the in-world score; `null` while a menu covers
-   * the world. Created on the first world frame, so menus and tests that never enter the world allocate nothing.
+   * the world. Lazy creation remains a fallback when entry could not prepare an audio device.
    */
   updateWorld(dt: number, frame: SoundFrame | null) {
     if (!this.ready || !this.ctx) return;
-    if (frame && !this.soundWorld && !this.worldFailed) {
-      try {
-        this.soundWorld = new SoundWorld(this.ctx, this.buses, import.meta.env.BASE_URL);
-      } catch {
-        // Without convolution or panning support the world keeps its procedural beds and captions.
-        this.worldFailed = true;
-      }
-    }
+    if (frame) this.prepareWorld();
     this.soundWorld?.setAnimalsAudible(this.animalsAudible);
     this.soundWorld?.update(dt, frame);
   }

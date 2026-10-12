@@ -225,7 +225,10 @@ export class SoundWorld {
   private readonly animalLoads = new Map<AnimalCallFile, Promise<void>>();
   private readonly animalVoices = new Map<string, Voice>();
   private readonly animalLastCall = new Map<string, number>();
+  private animalPreloadQueue: AnimalCallFile[] | null = null;
+  private animalPreloadDelay = 0;
   private animalsPrepared = false;
+  private readonly staggerAnimalPreloads: boolean;
   private animalsAudible = true;
   /** Stings share the music one-shot cap and remain owned until ended or cancelled. */
   private readonly stings = new Set<Voice>();
@@ -283,7 +286,7 @@ export class SoundWorld {
   /** Counts for the developer panel. */
   readonly stats = { voices: 0, beds: 0, emitted: 0, dropped: 0, decodeErrors: 0 };
 
-  constructor(ctx: AudioContext, buses: SoundBuses, base: string, random: () => number = Math.random) {
+  constructor(ctx: AudioContext, buses: SoundBuses, base: string, random: () => number = Math.random, eagerBanks = true) {
     this.ctx = ctx;
     this.buses = buses;
     this.base = base;
@@ -291,6 +294,7 @@ export class SoundWorld {
     this.picker = new VariantPicker(random);
     this.emitters = new EmitterScheduler(random);
     this.director = new MusicDirector(random);
+    this.staggerAnimalPreloads = !eagerBanks;
     const probe = typeof Audio === 'function' ? new Audio() : null;
     this.ext = probe && probe.canPlayType('audio/ogg; codecs="opus"') ? 'ogg' : 'm4a';
     try {
@@ -324,9 +328,11 @@ export class SoundWorld {
       for (const n of this.owned) quietly(() => n.disconnect());
       throw error;
     }
-    for (const name of Object.keys(WORLD_AUDIO.banks) as BankName[]) void this.loadBank(name);
-    // The hero speaks first, on the strand; his other lines and everyone else's load when they are wanted.
-    void this.loadVoiceBank(VOICE_AUDIO.lines['hero.arrival'][0]);
+    if (eagerBanks) {
+      for (const name of Object.keys(WORLD_AUDIO.banks) as BankName[]) void this.loadBank(name);
+      // The hero speaks first, on the strand; his other lines and everyone else's load when they are wanted.
+      void this.loadVoiceBank(VOICE_AUDIO.lines['hero.arrival'][0]);
+    }
   }
 
   private own<T extends AudioNode>(node: T): T {
@@ -456,10 +462,25 @@ export class SoundWorld {
     return p;
   }
 
-  private prepareAnimals() {
+  private prepareAnimals(dt: number) {
     if (this.animalsPrepared || !this.animalsAudible || this.hidden) return;
+    if (!this.staggerAnimalPreloads) {
+      this.animalsPrepared = true;
+      for (const animal of Object.values(ANIMAL_AUDIO.species)) for (const file of animal.files) void this.loadAnimal(file);
+      return;
+    }
+    this.animalPreloadQueue ??= Object.values(ANIMAL_AUDIO.species).flatMap((animal) => [...animal.files]);
+    if (this.animalLoads.size > 0) return;
+    this.animalPreloadDelay = Math.max(0, this.animalPreloadDelay - dt);
+    if (this.animalPreloadDelay > 0) return;
+    while (this.animalPreloadQueue.length > 0) {
+      const file = this.animalPreloadQueue.shift()!;
+      if (this.animalBuffers.has(file) || this.animalLoads.has(file)) continue;
+      void this.loadAnimal(file);
+      this.animalPreloadDelay = 0.12;
+      return;
+    }
     this.animalsPrepared = true;
-    for (const animal of Object.values(ANIMAL_AUDIO.species)) for (const file of animal.files) void this.loadAnimal(file);
   }
 
   /** Fetches all of a speaker's spoken lines at once. The game instead names the lines it may need (`speech`). */
@@ -812,7 +833,7 @@ export class SoundWorld {
       this.clock += dt;
       if (frame) {
         this.lastFrame = frame;
-        if (frame.mode === 'play') this.prepareAnimals();
+        if (frame.mode === 'play') this.prepareAnimals(dt);
         this.listenerAcc += dt;
         if (this.listenerAcc >= LISTENER_INTERVAL) {
           this.listenerAcc = 0;
@@ -1578,6 +1599,8 @@ export class SoundWorld {
     this.voiceUsed.clear();
     this.animalBuffers.clear();
     this.animalLoads.clear();
+    this.animalPreloadQueue = null;
+    this.animalsPrepared = false;
     this.animalLastCall.clear();
   }
 }

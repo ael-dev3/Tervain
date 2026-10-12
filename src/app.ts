@@ -632,6 +632,8 @@ export class App {
     // Shader completion precedes uploads and draws. Wait for the submitted view before enabling input.
     const context = this.renderer.getContext?.();
     await waitForGraphicsReady(context && 'fenceSync' in context ? context : undefined);
+    // The convolution graph is also first-use work; prepare it before input and simulation resume.
+    this.audio?.prepareWorld?.();
     this.loadingScreen?.update({ phase: 'graphics', completed: textureCount + 3, total: textureCount + 3 });
   }
 
