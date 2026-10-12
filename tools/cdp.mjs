@@ -156,7 +156,7 @@ export async function openPage(url = process.env.TERVAIN_URL ?? 'http://127.0.0.
   const page = {
     frames,
     async eval(js) {
-      const r = await send('Runtime.evaluate', { expression: `(async()=>{${js}})()`, awaitPromise: true, returnByValue: true, timeout: 120000 });
+      const r = await send('Runtime.evaluate', { expression: `(async()=>{${js}})()`, awaitPromise: true, returnByValue: true, timeout: requestTimeoutMs });
       if (r.result?.exceptionDetails) throw new Error(r.result.exceptionDetails.exception?.description ?? 'eval failed');
       return r.result?.result?.value;
     },
