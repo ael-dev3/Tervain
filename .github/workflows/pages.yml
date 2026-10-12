@@ -49,7 +49,27 @@ jobs:
           cache: npm
       - run: npm ci
       - name: Scenario tests (shard ${{ matrix.shard }} of 4)
-        run: npx vitest run --shard=${{ matrix.shard }}/4 --exclude tests/gothic3-dialogue/engine-io-frame.test.ts --exclude 'tests/gothic3-dialogue/browser-*.test.ts' --testTimeout=90000
+        run: npx vitest run --shard=${{ matrix.shard }}/4 --exclude tests/gothic3-dialogue/engine-io-frame.test.ts --exclude tests/gothic3-dialogue/shared-crt-heap.test.ts --exclude 'tests/gothic3-dialogue/browser-*.test.ts' --testTimeout=90000
+
+  # This source-backed CRT suite is another single large file, so split it by listed test names before the normal
+  # file shards run. Without this, shard 1 carries the whole file and becomes the workflow tail.
+  test-shared-crt-heap:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Shared CRT heap suite (name shard ${{ matrix.shard }} of 4)
+        run: |
+          pattern=$(node tools/vitest-name-shard.mjs tests/gothic3-dialogue/shared-crt-heap.test.ts ${{ matrix.shard }}/4)
+          npx vitest run tests/gothic3-dialogue/shared-crt-heap.test.ts --testNamePattern "$pattern" --testTimeout=90000
 
   # The original-engine browser start-ups each run for tens of seconds of CPU and time out when two share a runner's
   # cores, so they run one at a time in their own job.
@@ -65,10 +85,14 @@ jobs:
       - name: Original engine browser start-ups, one at a time
         run: npx vitest run 'tests/gothic3-dialogue/browser-' --maxWorkers=1 --testTimeout=90000
 
-  # One file holds about 44 minutes of original-engine execution, and a file cannot be split across shards: it runs in a
-  # job of its own so it no longer sets the length of every shard.
+  # Vitest shards by file, while this source-backed suite is one large file. Split it by listed test names so no single
+  # hosted job carries the full original-engine execution tail.
   test-engine-io:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -76,9 +100,11 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
-      - name: Original engine I/O frame suite
+      - name: Original engine I/O frame suite (name shard ${{ matrix.shard }} of 4)
         # Its tests run for longer than vitest's 20 s default on a hosted runner.
-        run: npx vitest run tests/gothic3-dialogue/engine-io-frame.test.ts --testTimeout=180000
+        run: |
+          pattern=$(node tools/vitest-name-shard.mjs tests/gothic3-dialogue/engine-io-frame.test.ts ${{ matrix.shard }}/4)
+          npx vitest run tests/gothic3-dialogue/engine-io-frame.test.ts --testNamePattern "$pattern" --testTimeout=180000
 
   deploy:
     if: github.event_name != 'pull_request'
