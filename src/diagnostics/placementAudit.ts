@@ -6,7 +6,7 @@ export interface PlacementAuditTarget {
   geometry: THREE.BufferGeometry;
   matrix: THREE.Matrix4;
 }
-export interface PlacementAuditOptions { clearance?: number; maxChecks?: number; }
+export interface PlacementAuditOptions { clearance?: number; maxChecks?: number; kind?: 'root' | 'prop'; }
 interface Check {
   label: string; kind: 'prop' | 'root'; component: number;
   position: number[]; samples: number; minGap: number; maxGap: number; unsupportedFraction: number; candidate: boolean;
@@ -71,11 +71,13 @@ export function auditPlacements(scene: THREE.Object3D, heightAt: (x: number, z: 
   populations: readonly PlacementAuditTarget[] = [], options: PlacementAuditOptions = {}) {
   const clearance = options.clearance ?? .08, maxChecks = options.maxChecks ?? 20_000;
   if (!(clearance >= 0 && Number.isFinite(clearance)) || !Number.isInteger(maxChecks) || maxChecks < 1) throw new Error('Invalid placement audit limits');
+  if (options.kind !== undefined && options.kind !== 'root' && options.kind !== 'prop') throw new Error('Invalid placement audit kind');
   scene.updateMatrixWorld(true);
   const material = new THREE.MeshBasicMaterial({ side: THREE.DoubleSide });
-  const targets = [...populations], supports: THREE.Mesh[] = [], skipped: string[] = [];
+  const targets = populations.filter(target => !options.kind || target.kind === options.kind), supports: THREE.Mesh[] = [], skipped: string[] = [];
   const local = new THREE.Matrix4();
   scene.traverse(object => {
+    if (options.kind === 'root') return;
     const mesh = object as THREE.Mesh;
     if (!mesh.isMesh || skeletal(mesh)) return;
     const label = mesh.name || `mesh-${mesh.id}`;
@@ -104,7 +106,7 @@ export function auditPlacements(scene: THREE.Object3D, heightAt: (x: number, z: 
     } else targets.push({ label, kind: 'prop', geometry: mesh.geometry, matrix: mesh.matrixWorld.clone() });
   });
   // Population adapters include camera-culled furniture and trees as supports as well as audit targets.
-  for (const target of populations) {
+  for (const target of options.kind === 'root' ? [] : populations) {
     const support = new THREE.Mesh(target.geometry, material);
     support.matrixAutoUpdate = false; support.matrixWorld.copy(target.matrix); supports.push(support);
   }
@@ -186,7 +188,7 @@ export function auditPlacements(scene: THREE.Object3D, heightAt: (x: number, z: 
       if (truncated) break;
     }
   } finally { material.dispose(); }
-  return { schema: 1, clearance, scope: 'static scene components plus supplied full populations; intentional hanging/floating objects require review',
+  return { schema: 1, clearance, kind: options.kind ?? 'all', scope: 'static scene components plus supplied full populations; intentional hanging/floating objects require review',
     complete: !truncated && skipped.length === 0 && invalid === 0, truncated, skipped, invalid,
     summary: { checks: checks.length, roots: checks.filter(c => c.kind === 'root').length, props: checks.filter(c => c.kind === 'prop').length,
       candidates: checks.filter(c => c.candidate).length }, checks };

@@ -85,3 +85,18 @@ it('keeps boundary and transformed-instance supports while excluding distant ray
     expect(tested).toBeLessThan(32);
   } finally { THREE.Mesh.prototype.raycast = original; }
 });
+
+it('audits the full supplied root population independently of oversized prop geometry', () => {
+  const scene=new THREE.Scene();
+  const oversized=new THREE.BufferGeometry();oversized.setAttribute('position',new THREE.Float32BufferAttribute(new Float32Array(300003),3));
+  scene.add(new THREE.Mesh(oversized,new THREE.MeshBasicMaterial()));
+  const geometry=new THREE.CylinderGeometry(1,1,2,32).translate(0,1,0);
+  const populations:PlacementAuditTarget[]=[
+    {label:'root-a',kind:'root',geometry,matrix:new THREE.Matrix4()},
+    {label:'root-b',kind:'root',geometry,matrix:new THREE.Matrix4().makeTranslation(4,0,0)},
+    {label:'prop',kind:'prop',geometry:new THREE.BoxGeometry(1,1,1),matrix:new THREE.Matrix4().makeTranslation(8,2,0)},
+  ];
+  const report=auditPlacements(scene,()=>0,populations,{kind:'root'});
+  expect(report.complete).toBe(true);expect(report.summary.roots).toBe(2);expect(report.summary.props).toBe(0);expect(report.skipped).toEqual([]);
+  expect(()=>auditPlacements(scene,()=>0,populations,{kind:'invalid' as 'root'})).toThrow('Invalid placement audit kind');
+});
