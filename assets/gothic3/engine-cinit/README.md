@@ -3553,3 +3553,8 @@ The nested enum path now passes its actual returned type-info cursor into the ex
 ## Enum class parser returns to its argument-list caller
 
 The decoded enum name now follows the existing original class-value combination and parser-return routines using the actual enum list allocation and scoped-name node. Those routines preserve the original descriptor masks, construct the append representation, copy it to the caller output and return through the real argument-list word `30698be6`. Typechecking and the three focused checks passed. The outer template parser remains active, and its argument-list continuation is still pending. Property return, full startup and campaign completion remain unfinished.
+
+
+## One enum argument reaches the original template-list end branch
+
+The completed enum parser result now continues through the original argument-list caller cleanup, value assignment, reference-cache append and argument append operations. Same-image span checks use the actual returned start/end cursors, preserving MainCache behavior without its former fixed offsets. The next source byte is the original end marker; JZ `30698ad1` reaches pending end branch `30698c26`. Typechecking and four focused checks passed, including the prior MainCache template regression and both interruption cases. Template-list finalization, property return, full startup and campaign completion remain unfinished.
