@@ -30,6 +30,8 @@ def capture(study):
         0x30679c33: 'engineLocaleEh3Epilog',
         0x3001fe1f: 'engineStandardLocaleNameConstructor',
         0x30042974: 'engineStandardLocaleNameAssign',
+        0x30674b44: 'engineStandardLocaleSecureCopy',
+        0x30671cf0: 'engineStandardLocaleByteCopy',
         0x30670503: 'engineStandardLocaleLockConstructor',
         0x30670524: 'engineStandardLocaleLockDestructor',
         0x30671353: 'engineEnterCriticalSectionWrapper',

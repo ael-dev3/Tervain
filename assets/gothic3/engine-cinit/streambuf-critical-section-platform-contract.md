@@ -337,3 +337,28 @@ The normal check verifies the pending copy caller, retained length one, capacity
 unchanged initialized string storage and exact stack position. These are focused
 checks and do not establish a full-suite result, deployment, or campaign
 completion. This checkpoint remains local.
+
+
+## Secure-copy validation and byte-copy caller
+
+Source capture adds the original `memcpy_s` at `30674b44` and its byte-copy
+routine at `30671cf0`; the bundle now contains 369 Engine methods. Comparison
+proved all previous methods, imports, metadata, images and other evidence
+unchanged. The byte-copy routine has 247 captured instructions; its complete
+body is evidence, not yet an executed implementation.
+
+The runtime enters the secure-copy frame, loads the actual count one, saves its
+registers, proves the actual nonnull destination and source owners, and checks
+capacity fifteen against the count. The destination is canonical live heap
+storage at locale-object offset 28. The source is the retained readonly literal.
+It then pushes count, source and destination to the actual `30674b87` call,
+returning through `30674b8c`. Startup now stops at `30671cf0`.
+
+The zero-count and insufficient-capacity continuations remain explicit pending
+boundaries. No byte-copy success, error-handler completion or outer return is
+fabricated. TypeScript checking, all 154 source/image checks and two focused
+normal-continuation/enum checks passed locally. The normal check pins the saved
+secure-copy EBP, adjusted ESP, zero EDI and actual pending copy return word,
+while initialized string storage remains unchanged. Copying and subsequent
+string/locale cleanup remain unfinished; the checkpoint has not been published
+and does not establish complete campaign playability.

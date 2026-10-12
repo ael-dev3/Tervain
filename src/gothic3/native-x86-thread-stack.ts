@@ -1790,7 +1790,17 @@ stack.#engineCinitFrame!.pc='10003cd8';engineCinitUnMangleInstruction('10003cd8'
               assign('303ed163',()=>{});assign('303ed165',()=>{objectPointer(register('ESI'),24);setRegister('ECX',stack.#load(object,48));});assign('303ed168',()=>{const capacity=stack.#numeric(register('ECX'),4);stack.#arithmeticFlags(capacity,16,(capacity-16)>>>0,4,true);});assign('303ed16b',()=>{});
               if(stack.#numeric(register('ECX'),4)>=16){stack.#engineCinitFrame!.pc='303ed16d';return known(undefined);}
               assign('303ed18b',()=>setRegister('EAX',register('EBX')));assign('303ed18d',()=>stack.#push(register('EDI')));assign('303ed18e',()=>stack.#push(register('EBP')));assign('303ed18f',()=>stack.#push(register('ECX')));assign('303ed190',()=>stack.#push(register('EAX')));assign('303ed191',()=>stack.#call('303ed191','303ed196'));
-              stack.#engineCinitFrame!.pc='30674b44';return known(undefined);
+              const secureCopy=(pc:string,body:()=>void)=>step(pc,body,'30674b44');secureCopy('30674b44',()=>stack.#push(register('EBP')));secureCopy('30674b45',()=>setRegister('EBP',register('ESP')));secureCopy('30674b47',()=>stack.#push(register('ESI')));
+              const copyArgument=(offset:number)=>stack.#load(stack.#stack,stack.#address(register('EBP'))+offset);
+              secureCopy('30674b48',()=>setRegister('ESI',copyArgument(20)));secureCopy('30674b4b',()=>stack.#push(register('EDI')));secureCopy('30674b4c',()=>{setRegister('EDI',stack.#mint(0,0xffffffff));stack.#logicalFlags(0,0xffffffff,4);});
+              secureCopy('30674b4e',()=>{const count=stack.#numeric(register('ESI'),4);stack.#arithmeticFlags(count,0,count,4,true);});secureCopy('30674b50',()=>{});
+              if(stack.#numeric(register('ESI'),4)===0){stack.#engineCinitFrame!.pc='30674b52';return known(undefined);}
+              secureCopy('30674b56',()=>{objectPointer(copyArgument(8),28);const proof=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields:object,offset:28},stack.#numeric(copyArgument(12),4));if(!proof.known)throw new Error(proof.reason);stack.#flags(0,0x841);});secureCopy('30674b59',()=>{});
+              secureCopy('30674b76',()=>{const p=stack.#record(copyArgument(16)).provenance;if(p?.kind!=='engine-image'||p.crt!==crt||p.fields!==name.value||p.offset!==0)throw new Error('Actual secure locale copy source required');stack.#flags(0,0x841);});secureCopy('30674b79',()=>{});
+              secureCopy('30674b7b',()=>{const capacity=stack.#numeric(copyArgument(12),4),count=stack.#numeric(register('ESI'),4);stack.#arithmeticFlags(capacity,count,(capacity-count)>>>0,4,true);});secureCopy('30674b7e',()=>{});
+              if(stack.#numeric(copyArgument(12),4)<stack.#numeric(register('ESI'),4)){stack.#engineCinitFrame!.pc='30674b91';return known(undefined);}
+              secureCopy('30674b80',()=>stack.#push(register('ESI')));secureCopy('30674b81',()=>stack.#push(copyArgument(16)));secureCopy('30674b84',()=>stack.#push(copyArgument(8)));secureCopy('30674b87',()=>stack.#call('30674b87','30674b8c'));
+              stack.#engineCinitFrame!.pc='30671cf0';return known(undefined);
             }
             if(target==='30791ef6'||target==='30791f18'){
               const initializer=target==='30791f18'
