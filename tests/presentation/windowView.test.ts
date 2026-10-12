@@ -22,6 +22,38 @@ const room = { building: { x: 0, z: 0, yaw: 0, w: 6, d: 5 }, wall: 0.24, floorTo
 const rooms = { within: () => room, base: () => 0 } as unknown as RoomLocator;
 
 describe('window view capture (A77, A78)', () => {
+  it('never samples the capture texture while writing a cube face, and restores panes after capture', () => {
+    const { renderer } = stubRenderer();
+    const pane = new THREE.MeshBasicMaterial();
+    const view = new WindowView(rooms, pane, 16, 3);
+    const scene = new THREE.Scene(), at = new THREE.Vector3();
+    // A second building's pane can be beyond the capture's near plane.
+    const distantPane = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), pane);
+    distantPane.position.set(0, 2, -20);
+    scene.add(distantPane);
+    for (let i = 0; i < 6; i++) view.update(renderer, scene, at, 1 / 60, true);
+    const captureTexture = pane.envMap;
+    expect(captureTexture).not.toBeNull();
+    let feedbackDraws = 0;
+    renderer.render = () => {
+      if (pane.visible && pane.envMap === captureTexture) feedbackDraws++;
+    };
+    for (let i = 0; i < 6; i++) view.update(renderer, scene, at, i === 0 ? 3 : 1 / 60, true);
+    expect(feedbackDraws).toBe(0);
+    expect(pane.visible).toBe(true);
+    expect(pane.envMap).toBe(captureTexture);
+    renderer.render = () => { throw new Error('capture failed'); };
+    expect(() => view.update(renderer, scene, at, 3, true)).toThrow('capture failed');
+    expect(pane.visible).toBe(true);
+    pane.visible = false;
+    renderer.render = () => {};
+    view.update(renderer, scene, at, 0, true);
+    expect(pane.visible).toBe(false);
+    view.dispose();
+    distantPane.geometry.dispose();
+    pane.dispose();
+  });
+
   it('aims each of the six faces its own way (A95 scout: all six looked down the same axis)', () => {
     const { renderer } = stubRenderer();
     const view = new WindowView(rooms, new THREE.MeshBasicMaterial(), 16, 3);
