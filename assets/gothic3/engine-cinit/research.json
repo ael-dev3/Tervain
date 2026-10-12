@@ -1383,6 +1383,186 @@
         "bodyInstructionBytesSha256": "a4e1a4180e1980e073b4c03c17ba784a2b96dd1b85b0befe5eb930b7f0ec275b"
       },
       {
+        "label": "engineStandardStreambufLockConstructor",
+        "entryVA": "0x30670963",
+        "bodyVA": "0x30670963",
+        "entryChain": [],
+        "bodyRanges": "30670963-3067097a",
+        "instructions": [
+          {
+            "va": "30670963",
+            "rva": "670963",
+            "fileOffset": 6752611,
+            "bytes": "56",
+            "instruction": "PUSH ESI",
+            "assemblyLine": 1716473
+          },
+          {
+            "va": "30670964",
+            "rva": "670964",
+            "fileOffset": 6752612,
+            "bytes": "6a18",
+            "instruction": "PUSH 0x18",
+            "assemblyLine": 1716474
+          },
+          {
+            "va": "30670966",
+            "rva": "670966",
+            "fileOffset": 6752614,
+            "bytes": "8bf1",
+            "instruction": "MOV ESI,ECX",
+            "assemblyLine": 1716475
+          },
+          {
+            "va": "30670968",
+            "rva": "670968",
+            "fileOffset": 6752616,
+            "bytes": "e8761f0000",
+            "instruction": "CALL 0x306728e3",
+            "assemblyLine": 1716476
+          },
+          {
+            "va": "3067096d",
+            "rva": "67096d",
+            "fileOffset": 6752621,
+            "bytes": "50",
+            "instruction": "PUSH EAX",
+            "assemblyLine": 1716477
+          },
+          {
+            "va": "3067096e",
+            "rva": "67096e",
+            "fileOffset": 6752622,
+            "bytes": "8906",
+            "instruction": "MOV dword ptr [ESI],EAX",
+            "assemblyLine": 1716478
+          },
+          {
+            "va": "30670970",
+            "rva": "670970",
+            "fileOffset": 6752624,
+            "bytes": "e8c8090000",
+            "instruction": "CALL 0x3067133d",
+            "assemblyLine": 1716479
+          },
+          {
+            "va": "30670975",
+            "rva": "670975",
+            "fileOffset": 6752629,
+            "bytes": "59",
+            "instruction": "POP ECX",
+            "assemblyLine": 1716480
+          },
+          {
+            "va": "30670976",
+            "rva": "670976",
+            "fileOffset": 6752630,
+            "bytes": "59",
+            "instruction": "POP ECX",
+            "assemblyLine": 1716481
+          },
+          {
+            "va": "30670977",
+            "rva": "670977",
+            "fileOffset": 6752631,
+            "bytes": "8bc6",
+            "instruction": "MOV EAX,ESI",
+            "assemblyLine": 1716482
+          },
+          {
+            "va": "30670979",
+            "rva": "670979",
+            "fileOffset": 6752633,
+            "bytes": "5e",
+            "instruction": "POP ESI",
+            "assemblyLine": 1716483
+          },
+          {
+            "va": "3067097a",
+            "rva": "67097a",
+            "fileOffset": 6752634,
+            "bytes": "c3",
+            "instruction": "RET",
+            "assemblyLine": 1716484
+          }
+        ],
+        "reconstructedC": {
+          "path": "01_Decompiled_Code/Engine_dll/pseudocode/functions_00168.c",
+          "sha256": "ecef8a3709916bf17b907182955a619ef9ffaee2291b7a5eeea106d4e13179c8",
+          "line": 6738,
+          "status": "decompiled"
+        },
+        "instructionCount": 12,
+        "bodyByteCount": 24,
+        "bodyInstructionBytesSha256": "7b07e2ed2d4d4020247db03def5b70fb6e0027a22df937c44f240fbb93897488"
+      },
+      {
+        "label": "engineStandardStreambufLockDestructor",
+        "entryVA": "0x3067097b",
+        "bodyVA": "0x3067097b",
+        "entryChain": [],
+        "bodyRanges": "3067097b-3067098b",
+        "instructions": [
+          {
+            "va": "3067097b",
+            "rva": "67097b",
+            "fileOffset": 6752635,
+            "bytes": "56",
+            "instruction": "PUSH ESI",
+            "assemblyLine": 1716486
+          },
+          {
+            "va": "3067097c",
+            "rva": "67097c",
+            "fileOffset": 6752636,
+            "bytes": "8bf1",
+            "instruction": "MOV ESI,ECX",
+            "assemblyLine": 1716487
+          },
+          {
+            "va": "3067097e",
+            "rva": "67097e",
+            "fileOffset": 6752638,
+            "bytes": "ff36",
+            "instruction": "PUSH dword ptr [ESI]",
+            "assemblyLine": 1716488
+          },
+          {
+            "va": "30670980",
+            "rva": "670980",
+            "fileOffset": 6752640,
+            "bytes": "e8c3090000",
+            "instruction": "CALL 0x30671348",
+            "assemblyLine": 1716489
+          },
+          {
+            "va": "30670985",
+            "rva": "670985",
+            "fileOffset": 6752645,
+            "bytes": "ff36",
+            "instruction": "PUSH dword ptr [ESI]",
+            "assemblyLine": 1716490
+          },
+          {
+            "va": "30670987",
+            "rva": "670987",
+            "fileOffset": 6752647,
+            "bytes": "e8dc0a0000",
+            "instruction": "CALL 0x30671468",
+            "assemblyLine": 1716491
+          }
+        ],
+        "reconstructedC": {
+          "path": "01_Decompiled_Code/Engine_dll/pseudocode/functions_00168.c",
+          "sha256": "ecef8a3709916bf17b907182955a619ef9ffaee2291b7a5eeea106d4e13179c8",
+          "line": 6752,
+          "status": "decompiled"
+        },
+        "instructionCount": 6,
+        "bodyByteCount": 17,
+        "bodyInstructionBytesSha256": "cd3fe5f67166bb40962de16f91060b2989429f45d6492a07cc2190a38c03043d"
+      },
+      {
         "label": "engineStandardFilebufInitialize",
         "entryVA": "0x305ed990",
         "bodyVA": "0x305ed990",
@@ -69136,6 +69316,15 @@
       "fileBackedBytes": 0,
       "loaderZeroFillBytes": 80,
       "sha256": "5b6fb58e61fa475939767d68a446f97f1bff02c0e5935a3ea8bb51e6515783d8"
+    },
+    {
+      "label": "standardStreambufVtable",
+      "address": "3088da3c",
+      "bytes": 4,
+      "raw": "10d95e30",
+      "fileBackedBytes": 4,
+      "loaderZeroFillBytes": 0,
+      "sha256": "7b8b1bac9e0582920a3250ca33c001d51f4b9f344e49b1d0a34d6361603680b5"
     },
     {
       "label": "shapeGroupContainerPropertyFlags",

@@ -330,3 +330,5 @@ it('captures the original standard-output filebuf caller and static stream gette
  expect(engineCinitInstruction('307b8082','307b8082')).toMatchObject({bytes:'b9086eaf30',instruction:'MOV ECX,0x30af6e08'});
  expect(engineCinitInstruction('307b8082','307b8087')).toMatchObject({bytes:'e9f48be3ff',instruction:'JMP 0x305f0c80'});
 });
+
+it('captures original streambuf lock allocation and critical-section wrapper calls',()=>{expect(engineCinitInstruction('30670963','30670964')).toMatchObject({bytes:'6a18',instruction:'PUSH 0x18'});expect(engineCinitInstruction('30670963','30670968')).toMatchObject({bytes:'e8761f0000',instruction:'CALL 0x306728e3'});expect(engineCinitInstruction('30670963','30670970')).toMatchObject({bytes:'e8c8090000',instruction:'CALL 0x3067133d'});expect(engineCinitInstruction('3067097b','30670980')).toMatchObject({bytes:'e8c3090000',instruction:'CALL 0x30671348'});});

@@ -3684,3 +3684,10 @@ All 346 prior method records, images, imports, constants, tables and SharedBase 
 Initializer `30791f2e` now calls the original static-stream getter, retains the actual stream-table view and selects offset 32 without assigning a browser pointer a fabricated native address. It pushes that FILE pointer, loads the original 80-byte filebuf storage receiver and calls constructor `305eed30`, validating both actual arguments. The constructor saves ESI, preserves its receiver and calls base constructor `305ee660`; execution remains pending there. The two constructor calls retain original return addresses `30791f41` and `305eed38`. No filebuf fields or base-constructor returns have been manufactured. The storage remains unchanged and fully known from loader-zero-fill.
 
 Typechecking and three focused frame checks passed, including the retained earlier enum checkpoint and existing nonzero-reference branch. The prior source/image capture passed 147 checks. The exit cursor remains 264 with 66 callbacks and the C++ initializer cursor remains `0x204`; this initializer has not registered its shutdown callback or returned. Complete startup and campaign completion remain unfinished.
+
+
+### Streambuf critical-section member evidence
+
+The bundle adds constructor `30670963`, which allocates 24 bytes and calls original InitializeCriticalSection wrapper `3067133d`, and destructor `3067097b`, which calls the deletion wrapper before freeing the allocation. The original streambuf vtable entry at `3088da3c` is retained as four file-backed bytes and validated as immutable. All 353 earlier method records, images, imports, constants, tables and SharedBase evidence remain identical; the bundle now contains 355 Engine methods.
+
+The handler address `30727fdb` is proved by the existing captured PUSH instruction in base constructor `305ee660`, but it is absent from the decompiler function catalog. No handler body is claimed as recovered or executable. Typechecking and 149 source/image checks passed. The new member constructor/destructor are evidence only at this checkpoint. Complete startup and campaign completion remain unfinished.
