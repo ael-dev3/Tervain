@@ -60,6 +60,8 @@ try{
     }
     const camera=T.cam.camera.clone();camera.position.set(-3,3.5,5);camera.lookAt(.8,.8,0);T.renderer.setRenderTarget(null);T.renderer.render(scene,camera);
     const version=await fetch(new URL('version.json',document.baseURI)).then(r=>r.json());
+    const compiled=/v([0-9.]+) *· *([0-9a-f]+)/.exec(document.querySelector('.menu-build')?.textContent??'');
+    if(!compiled||compiled[1]!==version.version||compiled[2]!==version.revision)throw new Error('Build artifact changed during repro');
     return {build:{version:version.version,revision:version.revision},fixture:'compiled player with native hero rig, deterministic terrain and colliders; input-driven updates',mount,vault};`);
   const before=args.expect==='before';
   report.pass=selected==='mount'?report.mount.length===2 && report.mount.every(c=>!c.groundedAtRequest&&c.accepted===before&&c.landed&&c.acceptedAfterLanding):report.vault.length===702 && report.vault.every(c=>c.accepted===(Math.abs(c.approachDegrees)<=75 ? (c.other==='active'?before:true) : false) && (c.sprint?c.approachSpeed>5 && c.approachSpeed<6.1:c.approachSpeed>1.5 && c.approachSpeed<1.8));

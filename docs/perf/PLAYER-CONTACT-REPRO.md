@@ -10,3 +10,5 @@ node tools/repro-player-contact.mjs --url <patched-build-url> --case mount --exp
 ```
 
 Both native jump and fence-vault cases must be airborne at the request. Before: mounting accepts both. After: it rejects both. Separate controls advance 90 logical ticks to landing and require mounting to remain available. Each run records heights, states, acceptance and a native software-rendered player capture.
+
+Mount [before assertions](mount-proof/before/report.json) and [capture](mount-proof/before/native-player.png), compared with [after assertions](mount-proof/after/report.json) and [capture](mount-proof/after/native-player.png): both airborne requests are rejected after the fix, while both landed controls still accept mounting. The script also checks the compiled UI revision against the served artifact stamp to reject a build changing during the repro.
