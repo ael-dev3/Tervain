@@ -227,3 +227,28 @@ invented numeric memory addresses or a host locale assumption.
 The Engine evidence bundle now has 399 methods. This checkpoint changes source
 evidence and readonly facet-table admission. Runtime remains at `0x305f18c0`;
 there is no new facet construction or widening execution claim.
+
+## Fill exception frame and temporary locale acquisition
+
+The fill routine now executes its original frame setup from `0x305f18c0` through
+CALL `0x305f18eb`, return address `0x305f18f0`. It saves the original fill handler
+`0x30728358`, prior FS exception-frame word, EBX/ESI/EDI and cookie, then installs
+its own FS head. Its temporary locale output is the actual local at fill-entry
+ESP minus 20, not a separately invented heap object.
+
+The original locale acquisition thunk `0x30030b16` leads to `0x30465130`. The
+continuation validates the basic-ios receiver and its owned four-byte wrapper,
+loads the retained locale, saves registers, reads the actual caller output
+argument and writes the exact locale pointer into that temporary local. It then
+pushes lock index zero and calls `0x30670503` at `0x30465143`, with return address
+`0x30465148`. This new caller's lock acquisition is pending; the reference count
+remains four until acquisition succeeds.
+
+Snapshots preserve the basic-ios receiver from its actual saved slot, the fill
+routine's saved FS word, and the temporary locale pointer. The nested fill frame
+keeps the outer output constructor's exception frame intact. No facet creation,
+virtual widening call or character return has been manufactured.
+
+Typechecking and three focused runtime cases passed. Checks confirm the nested
+FS heads, temporary locale identity, original output argument, active fill and
+locale-acquisition callers, pending lock and both original NULL allocation paths.
