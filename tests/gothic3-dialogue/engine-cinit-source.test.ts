@@ -351,3 +351,15 @@ it('captures the original locale initializer and its EH3 prologue without claimi
 it('captures loader zero-fill for the original locale global pointer',()=>{
  expect(engineCinitImage('standardLocaleGlobalPointer')).toMatchObject({address:'30af6dd8',bytes:4,raw:'00000000',fileBackedBytes:0,loaderZeroFillBytes:4});
 });
+
+
+it('captures the original locale lock selection and enter/leave wrappers',()=>{
+ expect(engineCinitInstruction('30670503','30670507')).toMatchObject({bytes:'83e003',instruction:'AND EAX,0x3'});
+ expect(engineCinitInstruction('30670503','3067050f')).toMatchObject({bytes:'6bc018',instruction:'IMUL EAX,EAX,0x18'});
+ expect(engineCinitInstruction('30670503','30670512')).toMatchObject({bytes:'05706daf30',instruction:'ADD EAX,0x30af6d70'});
+ expect(engineCinitInstruction('30670503','30670518')).toMatchObject({bytes:'e8360e0000',instruction:'CALL 0x30671353'});
+ expect(engineCinitInstruction('30670503','30670521')).toMatchObject({bytes:'c20400',instruction:'RET 0x4'});
+ expect(engineCinitInstruction('30670524','3067052f')).toMatchObject({bytes:'e82a0e0000',instruction:'CALL 0x3067135e'});
+ expect(engineCinitInstruction('30671353','30671357')).toMatchObject({bytes:'ff15dcc6af30',instruction:'CALL dword ptr [0x30afc6dc]'});
+ expect(engineCinitInstruction('3067135e','30671362')).toMatchObject({bytes:'ff15d8c6af30',instruction:'CALL dword ptr [0x30afc6d8]'});
+});

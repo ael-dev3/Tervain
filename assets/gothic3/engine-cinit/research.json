@@ -2523,6 +2523,286 @@
         "bodyInstructionBytesSha256": "f44deae0c52405004752a112b439399dffeafa233ee1dcc9b2ee2f7a40408995"
       },
       {
+        "label": "engineStandardLocaleLockConstructor",
+        "entryVA": "0x30670503",
+        "bodyVA": "0x30670503",
+        "entryChain": [],
+        "bodyRanges": "30670503-30670523",
+        "instructions": [
+          {
+            "va": "30670503",
+            "rva": "670503",
+            "fileOffset": 6751491,
+            "bytes": "8b442404",
+            "instruction": "MOV EAX,dword ptr [ESP + 0x4]",
+            "assemblyLine": 1716151
+          },
+          {
+            "va": "30670507",
+            "rva": "670507",
+            "fileOffset": 6751495,
+            "bytes": "83e003",
+            "instruction": "AND EAX,0x3",
+            "assemblyLine": 1716152
+          },
+          {
+            "va": "3067050a",
+            "rva": "67050a",
+            "fileOffset": 6751498,
+            "bytes": "56",
+            "instruction": "PUSH ESI",
+            "assemblyLine": 1716153
+          },
+          {
+            "va": "3067050b",
+            "rva": "67050b",
+            "fileOffset": 6751499,
+            "bytes": "8bf1",
+            "instruction": "MOV ESI,ECX",
+            "assemblyLine": 1716154
+          },
+          {
+            "va": "3067050d",
+            "rva": "67050d",
+            "fileOffset": 6751501,
+            "bytes": "8906",
+            "instruction": "MOV dword ptr [ESI],EAX",
+            "assemblyLine": 1716155
+          },
+          {
+            "va": "3067050f",
+            "rva": "67050f",
+            "fileOffset": 6751503,
+            "bytes": "6bc018",
+            "instruction": "IMUL EAX,EAX,0x18",
+            "assemblyLine": 1716156
+          },
+          {
+            "va": "30670512",
+            "rva": "670512",
+            "fileOffset": 6751506,
+            "bytes": "05706daf30",
+            "instruction": "ADD EAX,0x30af6d70",
+            "assemblyLine": 1716157
+          },
+          {
+            "va": "30670517",
+            "rva": "670517",
+            "fileOffset": 6751511,
+            "bytes": "50",
+            "instruction": "PUSH EAX",
+            "assemblyLine": 1716158
+          },
+          {
+            "va": "30670518",
+            "rva": "670518",
+            "fileOffset": 6751512,
+            "bytes": "e8360e0000",
+            "instruction": "CALL 0x30671353",
+            "assemblyLine": 1716159
+          },
+          {
+            "va": "3067051d",
+            "rva": "67051d",
+            "fileOffset": 6751517,
+            "bytes": "59",
+            "instruction": "POP ECX",
+            "assemblyLine": 1716160
+          },
+          {
+            "va": "3067051e",
+            "rva": "67051e",
+            "fileOffset": 6751518,
+            "bytes": "8bc6",
+            "instruction": "MOV EAX,ESI",
+            "assemblyLine": 1716161
+          },
+          {
+            "va": "30670520",
+            "rva": "670520",
+            "fileOffset": 6751520,
+            "bytes": "5e",
+            "instruction": "POP ESI",
+            "assemblyLine": 1716162
+          },
+          {
+            "va": "30670521",
+            "rva": "670521",
+            "fileOffset": 6751521,
+            "bytes": "c20400",
+            "instruction": "RET 0x4",
+            "assemblyLine": 1716163
+          }
+        ],
+        "reconstructedC": {
+          "path": "01_Decompiled_Code/Engine_dll/pseudocode/functions_00168.c",
+          "sha256": "ecef8a3709916bf17b907182955a619ef9ffaee2291b7a5eeea106d4e13179c8",
+          "line": 6366,
+          "status": "decompiled"
+        },
+        "instructionCount": 13,
+        "bodyByteCount": 33,
+        "bodyInstructionBytesSha256": "cb6c50c68f81480e3c6abd9533251cf362d7a7e282bf017eecfffe83a63994ae"
+      },
+      {
+        "label": "engineStandardLocaleLockDestructor",
+        "entryVA": "0x30670524",
+        "bodyVA": "0x30670524",
+        "entryChain": [],
+        "bodyRanges": "30670524-30670535",
+        "instructions": [
+          {
+            "va": "30670524",
+            "rva": "670524",
+            "fileOffset": 6751524,
+            "bytes": "8b01",
+            "instruction": "MOV EAX,dword ptr [ECX]",
+            "assemblyLine": 1716165
+          },
+          {
+            "va": "30670526",
+            "rva": "670526",
+            "fileOffset": 6751526,
+            "bytes": "6bc018",
+            "instruction": "IMUL EAX,EAX,0x18",
+            "assemblyLine": 1716166
+          },
+          {
+            "va": "30670529",
+            "rva": "670529",
+            "fileOffset": 6751529,
+            "bytes": "05706daf30",
+            "instruction": "ADD EAX,0x30af6d70",
+            "assemblyLine": 1716167
+          },
+          {
+            "va": "3067052e",
+            "rva": "67052e",
+            "fileOffset": 6751534,
+            "bytes": "50",
+            "instruction": "PUSH EAX",
+            "assemblyLine": 1716168
+          },
+          {
+            "va": "3067052f",
+            "rva": "67052f",
+            "fileOffset": 6751535,
+            "bytes": "e82a0e0000",
+            "instruction": "CALL 0x3067135e",
+            "assemblyLine": 1716169
+          },
+          {
+            "va": "30670534",
+            "rva": "670534",
+            "fileOffset": 6751540,
+            "bytes": "59",
+            "instruction": "POP ECX",
+            "assemblyLine": 1716170
+          },
+          {
+            "va": "30670535",
+            "rva": "670535",
+            "fileOffset": 6751541,
+            "bytes": "c3",
+            "instruction": "RET",
+            "assemblyLine": 1716171
+          }
+        ],
+        "reconstructedC": {
+          "path": "01_Decompiled_Code/Engine_dll/pseudocode/functions_00168.c",
+          "sha256": "ecef8a3709916bf17b907182955a619ef9ffaee2291b7a5eeea106d4e13179c8",
+          "line": 6382,
+          "status": "decompiled"
+        },
+        "instructionCount": 7,
+        "bodyByteCount": 18,
+        "bodyInstructionBytesSha256": "c3f0dd7a1086d51c436938621c46c5d5a6d63fc12a756564c2ee5094708de7c0"
+      },
+      {
+        "label": "engineEnterCriticalSectionWrapper",
+        "entryVA": "0x30671353",
+        "bodyVA": "0x30671353",
+        "entryChain": [],
+        "bodyRanges": "30671353-3067135d",
+        "instructions": [
+          {
+            "va": "30671353",
+            "rva": "671353",
+            "fileOffset": 6755155,
+            "bytes": "ff742404",
+            "instruction": "PUSH dword ptr [ESP + 0x4]",
+            "assemblyLine": 1717411
+          },
+          {
+            "va": "30671357",
+            "rva": "671357",
+            "fileOffset": 6755159,
+            "bytes": "ff15dcc6af30",
+            "instruction": "CALL dword ptr [0x30afc6dc]",
+            "assemblyLine": 1717412
+          },
+          {
+            "va": "3067135d",
+            "rva": "67135d",
+            "fileOffset": 6755165,
+            "bytes": "c3",
+            "instruction": "RET",
+            "assemblyLine": 1717413
+          }
+        ],
+        "reconstructedC": {
+          "path": "01_Decompiled_Code/Engine_dll/pseudocode/functions_00168.c",
+          "sha256": "ecef8a3709916bf17b907182955a619ef9ffaee2291b7a5eeea106d4e13179c8",
+          "line": 7473,
+          "status": "decompiled"
+        },
+        "instructionCount": 3,
+        "bodyByteCount": 11,
+        "bodyInstructionBytesSha256": "0db864bb776ca55c3fe256f56375dcdfd2aed98bb5e326b3605318d9697411a7"
+      },
+      {
+        "label": "engineLeaveCriticalSectionWrapper",
+        "entryVA": "0x3067135e",
+        "bodyVA": "0x3067135e",
+        "entryChain": [],
+        "bodyRanges": "3067135e-30671368",
+        "instructions": [
+          {
+            "va": "3067135e",
+            "rva": "67135e",
+            "fileOffset": 6755166,
+            "bytes": "ff742404",
+            "instruction": "PUSH dword ptr [ESP + 0x4]",
+            "assemblyLine": 1717415
+          },
+          {
+            "va": "30671362",
+            "rva": "671362",
+            "fileOffset": 6755170,
+            "bytes": "ff15d8c6af30",
+            "instruction": "CALL dword ptr [0x30afc6d8]",
+            "assemblyLine": 1717416
+          },
+          {
+            "va": "30671368",
+            "rva": "671368",
+            "fileOffset": 6755176,
+            "bytes": "c3",
+            "instruction": "RET",
+            "assemblyLine": 1717417
+          }
+        ],
+        "reconstructedC": {
+          "path": "01_Decompiled_Code/Engine_dll/pseudocode/functions_00168.c",
+          "sha256": "ecef8a3709916bf17b907182955a619ef9ffaee2291b7a5eeea106d4e13179c8",
+          "line": 7483,
+          "status": "decompiled"
+        },
+        "instructionCount": 3,
+        "bodyByteCount": 11,
+        "bodyInstructionBytesSha256": "3352767ab57e00ab2a9f771c8f9ae66e936b0db184deab533c98ecac56800487"
+      },
+      {
         "label": "engineStandardFilebufInitialize",
         "entryVA": "0x305ed990",
         "bodyVA": "0x305ed990",
@@ -55832,6 +56112,12 @@
         "iatVA": "0x30afc6d8",
         "module": "KERNEL32.dll",
         "name": "LeaveCriticalSection",
+        "ordinal": null
+      },
+      {
+        "iatVA": "0x30afc6dc",
+        "module": "KERNEL32.dll",
+        "name": "EnterCriticalSection",
         "ordinal": null
       },
       {

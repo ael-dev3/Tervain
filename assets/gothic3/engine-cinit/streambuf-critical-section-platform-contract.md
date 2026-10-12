@@ -131,3 +131,29 @@ passed locally. The normal check pins the zero global pointer, original pending
 lock return word, ECX receiver and adjusted ESP, while the nested FS head and
 EBP checks remain intact. Full runtime-suite, hosted rendering and campaign
 completion are not established by these checks.
+
+
+## Locale lock prefix and original import
+
+Source capture adds the locale lock constructor `30670503`, destructor
+`30670524`, and enter/leave wrappers `30671353` and `3067135e`. There are now
+363 Engine methods. Comparison proved all earlier methods and evidence records
+unchanged; the only added import is the captured
+`KERNEL32.dll!EnterCriticalSection` at IAT `30afc6dc`.
+
+The runtime executes the constructor prefix: load the actual stack argument,
+mask the index to 0–3, save the receiver in ESI, write the index into the original
+stack object, multiply by 24, and derive the retained shared-array pointer. Its
+browser pointer carries actual image identity rather than known numeric address
+bits. The original wrapper pushes that actual argument and calls the original
+import. The boundary is now `30671357`, with return address `3067135d`.
+
+The lower enter operation is not connected yet; no section depth or successful
+constructor return is claimed. Destruction and release are captured evidence,
+not executed cleanup. TypeScript checking, 152 source/image checks and six
+focused runtime checks passed. The first runtime run exposed a test assumption
+that the public snapshot exposed image pointers; the public snapshot intentionally
+omits them. The corrected test checks unknown numeric bits, the actual saved
+lock index and its masks, pending return words, receiver and stack positions.
+All six runtime checks passed on rerun. This work remains local and does not
+establish full startup or campaign completion.

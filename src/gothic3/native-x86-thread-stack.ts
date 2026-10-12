@@ -1699,7 +1699,18 @@ stack.#engineCinitFrame!.pc='10003cd8';engineCinitUnMangleInstruction('10003cd8'
               locale('30670843',()=>stack.#logicalFlags(stack.#numeric(register('EAX'),4),0xffffffff,4));locale('30670845',()=>setRegister('ESI',register('EAX')));locale('30670847',()=>{});
               if(stack.#numeric(register('EAX'),4)!==0){stack.#engineCinitFrame!.pc='306708c4';return known(undefined);}
               locale('30670849',()=>stack.#push(register('EAX')));locale('3067084a',()=>setRegister('ECX',stack.#stackWord(stack.#address(register('EBP'))-16)));locale('3067084d',()=>stack.#call('3067084d','30670852'));
-              stack.#engineCinitFrame!.pc='30670503';return known(undefined);
+              const localeLock=(pc:string,body:()=>void)=>step(pc,body,'30670503');
+              const sharedSections=NativeEngineCinitImages.imageForCrt(images.value,crt,'sharedCriticalSectionArray');if(!sharedSections.known)throw new Error(sharedSections.reason);
+              localeLock('30670503',()=>setRegister('EAX',stack.#load(stack.#stack,stack.#address(register('ESP'))+4)));
+              localeLock('30670507',()=>{const value=stack.#numeric(register('EAX'),4)&3;setRegister('EAX',stack.#mint(value,0xffffffff));stack.#logicalFlags(value,0xffffffff,4);});
+              localeLock('3067050a',()=>stack.#push(register('ESI')));localeLock('3067050b',()=>setRegister('ESI',register('ECX')));
+              localeLock('3067050d',()=>{const receiver=stack.#address(register('ESI')),ebp=stack.#address(register('EBP'));if(receiver!==ebp-16)throw new Error('Actual locale stack lock receiver required');stack.#store(stack.#stack,receiver,register('EAX'));});
+              localeLock('3067050f',()=>{const value=stack.#numeric(register('EAX'),4)*24;setRegister('EAX',stack.#mint(value,0xffffffff));stack.#flags(0,0x801);});
+              localeLock('30670512',()=>{const offset=stack.#numeric(register('EAX'),4);if(![0,24,48,72].includes(offset))throw new Error('Actual selected shared lock offset required');setRegister('EAX',stack.#mint(0,0,{kind:'engine-image',crt,fields:sharedSections.value,offset}));stack.#arithmeticFlags(offset,0x30af6d70,0x30af6d70+offset,4,false);});
+              localeLock('30670517',()=>stack.#push(register('EAX')));localeLock('30670518',()=>stack.#call('30670518','3067051d'));
+              step('30671353',()=>stack.#push(stack.#load(stack.#stack,stack.#address(register('ESP'))+4)),'30671353');
+              step('30671357',()=>{const receipt=engineCinitImport('30afc6dc');if(receipt.module!=='KERNEL32.dll'||receipt.name!=='EnterCriticalSection')throw new Error('Original locale enter-section import required');stack.#call('30671357','3067135d');},'30671353');
+              stack.#engineCinitFrame!.pc='30671357';return known(undefined);
             }
             if(target==='30791ef6'||target==='30791f18'){
               const initializer=target==='30791f18'
