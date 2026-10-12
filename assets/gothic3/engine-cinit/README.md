@@ -3404,3 +3404,8 @@ The original helper `30697f9d` now follows the verified digit-4 jump-table entry
 ## Enum literal combination source dependencies
 
 Captured original combination wrapper `30697dde` (14 instructions) and literal constructor `306976d8` (21 instructions). The wrapper passes its actual underlying descriptor, output descriptor and enum literal to the constructor, then calls `30697b16` for the qualified value. These captures supply missing source dependencies; the current runtime still stops at the combination wrapper.
+
+
+## Immutable source instruction indexes
+
+The generated source module now validates its immutable raw text once and indexes captured Engine and SharedBase methods and instruction rows. Index construction preserves the original first-matching method, instruction-before-entry-chain precedence, and returned object identity. All 7,826 lookups in the captured bundle at source revision ce74f28d2 were compared with the prior lookup behavior; 119 source/image checks and the shape-group runtime probe passed. The evidence generator reproduced identical captured JSON bytes. Unknown instruction errors and deep-frozen source admission remain in place. A single timing sample does not establish a performance gain.
