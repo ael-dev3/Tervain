@@ -389,3 +389,26 @@ and assignment calls, restored EBP and adjusted ESP. The normal boundary is
 Exception cleanup, outer locale publication, filebuf completion and full
 campaign integration remain unfinished. This local checkpoint has not been
 deployed and does not establish full browser playability.
+
+
+## Name/object constructor returns and EH3 restoration
+
+The runtime now executes the original name-constructor register cleanup and
+`RET 4` from `303ed654`–`303ed658` to `306707cf`. The object constructor returns
+its actual allocated receiver in EAX and calls the captured EH3 epilogue at
+`306707d1`. All eleven epilogue instructions execute: restore the saved FS head,
+retain the actual return word in ECX, discard the cookie stack slot, restore the
+saved registers, reset ESP to EBP, restore EBP, and return through `306707d6`.
+The object's own `RET 4` then returns to its original locale caller `3067087b`.
+
+TypeScript checking and two focused normal-continuation/enum checks passed.
+The normal test checks both constructor returns, epilogue return word, restored
+enclosing locale EBP/ESP and FS chain, name length one, copied byte and proved
+zero terminator. The admitted normal object-construction path has returned;
+exception-handler execution and destructor behavior are still unsupported.
+
+The normal boundary is `3067087b`, before outer locale publication. The shared
+locale lock remains held in its original enclosing construction scope. Locale
+publication, lock release, outer epilogue, filebuf completion and campaign
+integration remain unfinished. This checkpoint is local and does not establish
+full startup or a hosted browser playthrough.
