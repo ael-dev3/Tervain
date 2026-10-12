@@ -3488,3 +3488,8 @@ The original callback `30732640` and constructor `30078390` now enter the proper
 ## Immutable source instruction indexes
 
 The generated source module now validates its immutable raw text once and indexes captured Engine and SharedBase methods and instruction rows. Index construction preserves the original first-matching method, instruction-before-entry-chain precedence, and returned object identity. All 7,826 lookups in this captured bundle were compared with the prior lookup behavior; 119 source/image checks and the shape-group runtime probe passed. The evidence generator reproduced identical captured JSON bytes. Unknown instruction errors and deep-frozen source admission remain in place. A single timing sample does not establish a performance gain.
+
+
+## Enum underlying-type helper return
+
+The original helper `30697f9d` now follows the verified digit-4 jump-table entry, advances its actual source cursor from byte 35 to byte 36, copies the original empty descriptor through `30696c93`, restores its frame and returns to `30699650`. The original caller then pushes the enum literal and enters text combination `30697dde` via CALL `3069965a`; combination remains pending. The helper and descriptor-copy calls returned in the focused check. An interrupted source digit read retains PC `30697fa8`, cursor 35, original callers, held undecoration lock and unpublished root, without reaching descriptor copy. Typechecking and both focused checks passed locally. Complete property return, full startup and campaign completion remain unfinished.
