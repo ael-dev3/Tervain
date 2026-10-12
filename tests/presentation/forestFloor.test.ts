@@ -276,10 +276,25 @@ describe('Deepwood floor', () => {
     floor.update(1, frame);
     meshes.forEach((m, i) => expect(m.instanceMatrix.version).toBe(uploaded[i]));
     meshes.forEach((m, i) => expect(Array.from(m.geometry.getAttribute('position').array)).toEqual(snapshots[i]));
+    for (const mesh of meshes) {
+      mesh.instanceMatrix.clearUpdateRanges(); mesh.instanceColor?.clearUpdateRanges();
+      (mesh.geometry.getAttribute('aDistanceCoverage') as THREE.BufferAttribute).clearUpdateRanges();
+    }
     camera.lookAt(-200, camera.position.y, 22);
     camera.updateMatrixWorld();
     floor.update(0.01, frame);
     meshes.forEach((m, i) => expect(m.instanceMatrix.version).toBeGreaterThan(uploaded[i]!));
+    let fullBytes = 0, activeBytes = 0;
+    for (const mesh of meshes) for (const attribute of [mesh.instanceMatrix, mesh.instanceColor,
+      mesh.geometry.getAttribute('aDistanceCoverage') as THREE.BufferAttribute]) {
+      if (!attribute) continue;
+      expect(attribute.updateRanges).toEqual([{ start: 0, count: Math.max(1, mesh.count) * attribute.itemSize }]);
+      fullBytes += attribute.array.byteLength;
+      activeBytes += attribute.updateRanges[0]!.count * 4;
+    }
+    expect(activeBytes).toBeLessThan(fullBytes / 2);
+    process.stdout.write(`forest floor turn uploads: ${fullBytes} -> ${activeBytes} bytes\n`);
+
     camera.position.set(180, 10, 150);
     camera.lookAt(190, 10, 155);
     camera.updateMatrixWorld();
