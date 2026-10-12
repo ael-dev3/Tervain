@@ -3454,3 +3454,8 @@ Original list append `30696e63` now attaches the actual status-node allocation t
 ## Enum assignment returns to scoped-name parsing
 
 The enum list is assigned through original `30696da9` into the class parser local at `30699666`, preserving its allocation owner and masked flags. The parser initializes its second descriptor, performs original keyword-dependent copy at `3069969a`, and enters scoped-name parsing `306994ea` through CALL `306996a3`. Both outer-template and nested-enum scoped calls remain active; the focused check verifies their distinct stack positions and real return words `306996a8`. Typechecking and all three focused checks passed. Enum name parsing, property return, full startup and campaign completion remain unfinished.
+
+
+## Enum scoped-name decoder return
+
+The nested enum path now passes its actual returned type-info cursor into the existing original scoped-name decoder. It consumes eEShapeGroup and both namespace terminators, advancing that original image cursor to byte 50, then returns through the real word `306996a8`. The outer template scoped call remains active while the nested call is recorded returned. Typechecking and all three focused checks passed. Name combination and the remaining template argument-list continuation are still pending; property return, full startup and campaign completion remain unfinished.
