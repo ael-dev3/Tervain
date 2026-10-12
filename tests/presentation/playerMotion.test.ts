@@ -303,7 +303,6 @@ describe('player motion and action contacts', () => {
       }
     expect(failures.length, failures.slice(0, 8).join('; ')).toBe(0);
   }, 60_000);
-  });
 
   it.each(['jump', 'vault'])('waits for landing before starting a mount during a %s', action => {
     const s = setup();
