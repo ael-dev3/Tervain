@@ -3649,3 +3649,10 @@ The related source and image suites also passed: 143 checks across two files. Th
 The original loop now returns through each wrapper, advances the retained array cursor by 24 bytes, compares it with the captured array end, consumes each original caller argument, restores ESI/EDI and returns the preserved receiver at `30791f00`. Four distinct live platform capabilities are bound to offsets 0, 24, 48 and 72 in the same array. All 96 opaque initialization bytes have unknown masks. Shutdown registration has not executed; the exit cursor remains 256 with 64 callbacks, and the C++ initializer cursor remains `0x1fc`.
 
 Typechecking and eight focused checks passed. Failure at every element retains the pending imported call and all prior initialized elements; an unregistered success result and a repeated invocation are rejected. Counter-write interruption and the nonzero-reference branch remain covered. Complete startup and campaign completion remain unfinished.
+
+
+### Shared critical-section shutdown registration and initializer return
+
+Initializer `30791ef6` now pushes the original `307b805a` callback, calls captured atexit wrapper `30671596`, grows the live exit table from 256 to 512 bytes through the existing source-owned realloc continuation and registers the 65th callback. The wrapper and initializer return to their actual callers. The exit cursor is 260 and the C++ initializer cursor is `0x200`; the next actual table entry is `30791f18`. Registration is implemented; executing this destructor/shutdown callback remains unimplemented.
+
+Typechecking and eight focused checks passed. The normal zero-reference path and the pre-existing nonzero-reference path both return through actual registration. Failed critical-section initialization remains at the original cursor `0x1fc` and exit cursor 256, with prior initialized elements retained. An overbroad assertion edit initially assigned those failure cases the completed cursors; the exact interruption assertions were restored before the successful run. Full engine startup and campaign completion remain unfinished.
