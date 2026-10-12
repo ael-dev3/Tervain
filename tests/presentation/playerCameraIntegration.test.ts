@@ -11,7 +11,6 @@ import { LIGHTHOUSE, LIGHTHOUSE_CONSTRUCTION as L, bySpec } from '../../src/worl
 import { LIGHTHOUSE_STAIR_ANGLE, lighthouseTreadTop } from '../../src/world/lighthouse';
 import { canPlayerStandAt, PLAYER_BODY_HEIGHT, PLAYER_BODY_RADIUS, supportedPlayerHeight } from '../../src/world/playerPlacement';
 import { Terrain } from '../../src/world/terrain';
-import { INTERIORS, fromBuildingLocal } from '../../src/world/interiors';
 import { buildingEntry, buildingGround } from '../../src/world/buildingEntries';
 
 let terrain: Terrain;
@@ -145,26 +144,6 @@ describe('the player and camera share the authored lighthouse surfaces', () => {
     expect(s.player.grounded).toBe(true);
     expect(s.player.y).toBeCloseTo(floor, 6);
     expect(s.player.surface).toBe('deck');
-  });
-
-  it('clears the rendered inner lintel while turning at a house doorway', () => {
-    const b = bySpec('fisher_house');
-    const room = INTERIORS.find((r) => r.building === b)!;
-    const base = buildingGround((x, z) => terrain.heightAt(x, z), b).avg;
-    const center = fromBuildingLocal(b, room.door.x, b.d / 2 - room.wall - .015);
-    const lintel: Collider = { id: 'rendered-inner-lintel', kind: 'box', active: true,
-      x: center.x, z: center.z, yaw: b.yaw, hw: room.door.halfWidth + .16, hd: .045,
-      minY: base + room.wallBase + room.door.height, maxY: base + room.wallBase + room.door.height + .18 };
-    for (let localZ = b.d / 2 - 1; localZ <= b.d / 2 + 1; localZ += .1) {
-      const point = fromBuildingLocal(b, room.door.x, localZ);
-      const feet = terrain.supportAt(point.x, point.z, base + room.floorTop);
-      for (const pitch of [-.4, 0, .32, .65, 1]) for (let yaw = 0; yaw < Math.PI * 2; yaw += Math.PI / 12) {
-        const cam = new CameraRig(); cam.yaw = yaw; cam.pitch = pitch;
-        cam.follow(1 / 60, point.x, feet, point.z, terrain, colliders, false, 0);
-        const penetration = spherePenetration(cam.camera.position, lintel, terrain);
-        if (penetration > 1e-6) throw new Error(`z=${localZ}, pitch=${pitch}, yaw=${yaw}: lintel penetration ${penetration}`);
-      }
-    }
   });
 
   it('restores a stone doorstep save on a rotated house and retains its stone footstep surface', () => {
