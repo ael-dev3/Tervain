@@ -1920,6 +1920,19 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
     return known(left.ordinal === right.ordinal ? 0 : left.ordinal < right.ordinal ? -1 : 1);
   }
   readonly #engineCinitSections=new Map<object,Readonly<{array:NativeHeapObjectViews;fields:NativeHeapObjectViews;offset:number;identity:object;owner:NativeModuleCrtOwner}>>();
+  readonly #engineLocaleEnterCalls=new WeakSet<object>();
+  static enterEngineCinitLocaleSection(platform:NativeRuntimePlatform,crt:NativeModuleCrtOwner):NativeValue<void>{
+    const active=NativeRuntimePlatform.requireActivePlatform(platform);if(!active.known)return active;
+    const argument=NativeX86ThreadStack.engineCinitLocaleSectionArgumentForPlatform(platform,crt);if(!argument.known)return argument;
+    try {
+      const {fields,offset,call}=argument.value;if(platform.#engineLocaleEnterCalls.has(call))throw new Error('Unused locale section enter call required');
+      platform.canonicalFields(fields,96);
+      const row=[...platform.#engineCinitSections.values()].find(row=>row.owner===crt&&row.array===fields&&row.offset===offset);if(!row)throw new Error('Actual initialized locale shared section required');
+      platform.canonicalFields(row.fields,24);const section=platform.sectionIdentities.get(row.identity);
+      if(!section||section.identity!==row.identity||section.owner!==crt.identity||section.deleted)throw new Error('Actual live locale shared-section capability required');
+      section.depth++;platform.#engineLocaleEnterCalls.add(call);return known(undefined);
+    }catch(error){return unknown(error instanceof Error?error.message:String(error));}
+  }
   static initializeEngineCinitStreambufSection(platform:NativeRuntimePlatform,crt:NativeModuleCrtOwner):NativeValue<void>{
     const active=NativeRuntimePlatform.requireActivePlatform(platform);if(!active.known)return active;
     const argument=NativeX86ThreadStack.engineCinitStreambufSectionArgumentForPlatform(platform,crt);if(!argument.known)return argument;

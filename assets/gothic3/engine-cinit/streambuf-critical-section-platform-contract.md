@@ -157,3 +157,30 @@ omits them. The corrected test checks unknown numeric bits, the actual saved
 lock index and its masks, pending return words, receiver and stack positions.
 All six runtime checks passed on rerun. This work remains local and does not
 establish full startup or campaign completion.
+
+
+## Connected locale enter and constructor return
+
+`enterEngineCinitLocaleSection` admits only the actual pending `30671357` call,
+its `30670518` wrapper caller and `3067084d` constructor caller. It verifies the
+original return word, stack receiver at EBP minus 16, stored lock index, actual
+stack argument and same-CRT shared-array identity. The selected offset must
+match the saved index multiplied by 24. The private platform registry must
+contain that exact initialized section and owner. Each call can enter once.
+No fresh capability or numerical heap pointer is synthesized.
+
+The normal path increments that section's depth, consumes the original stdcall
+return, returns through the wrapper, and executes the lock constructor cleanup
+and `RET 4`. The locale then rereads its global pointer and updates the original
+exception state. With the original zero pointer, startup now stops at
+`30670860`, before the 52-byte locale-object allocation. The entered section
+remains held for the still-unfinished construction and cleanup path.
+
+TypeScript checking and seven focused runtime checks passed. Normal startup
+proves section depths `[1,0,0,0]`, returned original calls, restored stack
+position and zero exception state. A separate interrupted-enter check verifies
+the pending caller, depth transition 0 to 1, and duplicate rejection. The
+nonzero-reference fixture has no admitted shared-section registrations and
+correctly stays pending at `30671357`; it cannot invent a lock. Allocation-null
+and earlier enum checks remain intact. These focused checks do not establish
+complete startup or a campaign; this checkpoint remains local.
