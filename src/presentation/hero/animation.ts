@@ -34,6 +34,9 @@ export const HERO_FOOT_PLANT = { reach: 0.28, drop: 0.3, rate: 12 } as const;
  */
 export const HERO_TURN = { least: 1, most: 2.2, base: 0.9, perRadian: 1 / 1.2, settle: 0.55, creep: 0.05 } as const;
 
+/** Radians the upper arms come in toward the body while he walks or runs (A119). */
+export const HERO_ARM_TUCK = 0.15;
+
 export const HERO_LEG_TWIST = { most: 1.05, follow: 10, settle: 9, step: 0.7, stride: 0.22, back: [1.92, 1.4], relax: 0.6 } as const;
 
 /**
@@ -438,6 +441,7 @@ export class HeroAnimationController {
     this.poseActions(p, step, blade);
     if (!dead) {
       this.twistLegs(this.legYaw);
+      this.relaxArms();
       // The head and chest lead his turn (A76).
       this.turnLead.update(step > 0 ? finite(p.turn) / step : 0, step);
       const sceneUp = new THREE.Vector3(0, 1, 0).applyQuaternion(this.scene.getWorldQuaternion(new THREE.Quaternion()));
@@ -599,6 +603,18 @@ export class HeroAnimationController {
     const world = bone.getWorldQuaternion(new THREE.Quaternion()).premultiply(delta);
     bone.quaternion.copy(bone.parent!.getWorldQuaternion(new THREE.Quaternion()).invert().multiply(world));
     bone.updateMatrixWorld(true);
+  }
+
+  /**
+   * Seen from behind, the authored walk and run carry the upper arms held out from his sides, so their swing barely
+   * shows and he reads stiff (A119). Moving, the upper arms come in toward the body. The bow and blade poses that use
+   * the arms are laid over this afterwards.
+   */
+  private relaxArms(): void {
+    const k = this.motionBlend * (1 - this.swimBlend) * HERO_ARM_TUCK;
+    if (k < 1e-4) return;
+    this.rotate('mixamorig:LeftArm', 0, 0, -k);
+    this.rotate('mixamorig:RightArm', 0, 0, k);
   }
 
   /** Turn the hips and legs by yaw radians about the character's up axis, the spine turning the chest back ahead (A70). */

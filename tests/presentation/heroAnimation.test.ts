@@ -3,7 +3,7 @@ import { beforeAll, describe, expect, it } from 'vitest';
 import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { clone as cloneSkinned } from 'three/examples/jsm/utils/SkeletonUtils.js';
 import { setArmed, setSash, type Mode } from '../../src/presentation/characters';
-import { HERO_ACTION_FADE, HERO_GAIT_PHASE, HERO_HAND_GRIPS, HERO_LEG_TWIST, type HeroGrip } from '../../src/presentation/hero/animation';
+import { HERO_ACTION_FADE, HERO_GAIT_PHASE, HERO_HAND_GRIPS, HERO_LEG_TWIST, type HeroGrip, HERO_ARM_TUCK } from '../../src/presentation/hero/animation';
 import { blendDualQuaternions, writeDualQuaternion } from '../../src/presentation/npc/dualQuaternionSkinning';
 import { bindHeroBones, HERO_BONES, HERO_FINGERS, type HeroBoneName } from '../../src/presentation/hero/bones';
 import { HERO_RUN_CYCLE, HERO_RUN_SPEED, HERO_WALK_CYCLE, HERO_WALK_SPEED } from '../../src/presentation/hero/locomotion';
@@ -95,7 +95,9 @@ describe('authored Mixamo playable hero', () => {
       const bones = bindHeroBones(rig.root);
       for (const side of ['Left', 'Right'] as const) for (const part of ['UpLeg', 'Leg', 'Foot', 'ToeBase', 'Arm', 'ForeArm', 'Hand'] as const) {
         const name = `mixamorig:${side}${part}` as const;
-        expect(angle(bones[name].quaternion, reference[name].quaternion), name).toBeLessThan(0.0001);
+        // The upper arms come in toward the body by exactly the tuck while he moves (A119); everything else is the clip's.
+        if (part === 'Arm') expect(angle(bones[name].quaternion, reference[name].quaternion), name).toBeCloseTo(HERO_ARM_TUCK, 3);
+        else expect(angle(bones[name].quaternion, reference[name].quaternion), name).toBeLessThan(0.0001);
         expect(bones[name].position.distanceTo(reference[name].position), name).toBeLessThan(0.00001);
       }
       expect(rig.hero.diagnostics.activeClip).toBe(name);
