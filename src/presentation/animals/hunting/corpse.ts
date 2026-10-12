@@ -28,7 +28,7 @@ export class AnimalCorpse {
   private turn = new THREE.Quaternion();
   private normal: [number, number, number] = [0, 1, 0];
   constructor(private body: CorpseBody, private crowned: boolean) {
-    const patches = new Map<string, { min: Support; max: Support }>(), inverse = body.scene.matrixWorld.clone().invert();
+    const patches = new Map<number, { min: Support; max: Support }>(), inverse = body.scene.matrixWorld.clone().invert();
     body.scene.traverse(object => {
       if ((object as THREE.Bone).isBone) this.rest.push({ bone: object as THREE.Bone, position: object.position.clone(), rotation: object.quaternion.clone(), scale: object.scale.clone() });
       const mesh = object as THREE.SkinnedMesh;
@@ -39,9 +39,11 @@ export class AnimalCorpse {
         this.point.fromBufferAttribute(positions, vertex).applyMatrix4(mesh.matrixWorld).applyMatrix4(inverse);
         const y = THREE.MathUtils.clamp(Math.floor((this.point.y - body.bounds.min.y) / Math.max(.001, body.size.y) * 4), 0, 3);
         const z = THREE.MathUtils.clamp(Math.floor((this.point.z - body.bounds.min.z) / Math.max(.001, body.size.z) * 6), 0, 5);
-        const key = `${y},${z}`, sample = { mesh, vertex, x: this.point.x }, patch = patches.get(key);
-        if (!patch) patches.set(key, { min: sample, max: sample });
-        else { if (sample.x < patch.min.x) patch.min = sample; if (sample.x > patch.max.x) patch.max = sample; }
+        const key = y * 6 + z, x = this.point.x, patch = patches.get(key);
+        // Only retained extrema need a support object. A sample and string key per vertex made almost half a
+        // million short-lived allocations when the nineteen animals arrived together during play.
+        if (!patch) { const sample = { mesh, vertex, x }; patches.set(key, { min: sample, max: sample }); }
+        else { if (x < patch.min.x) patch.min = { mesh, vertex, x }; if (x > patch.max.x) patch.max = { mesh, vertex, x }; }
       }
     });
     this.supports = [...new Set([...patches.values()].flatMap(patch => [patch.min, patch.max]))];

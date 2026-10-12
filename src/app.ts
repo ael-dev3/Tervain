@@ -219,6 +219,9 @@ export class App {
 
     try {
       this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas, antialias: false, powerPreference: 'high-performance' });
+      // Checking each program's link status asks the GPU process to finish compiling there and then: a stall when a
+      // material is first drawn in play (A115). Development builds keep the check and its error logs.
+      if (import.meta.env.PROD) this.renderer.debug.checkShaderErrors = false;
       this.perf = new PerfMeter(this.renderer);
     } catch {
       this.loadingEl.textContent = S('menu.webgl');
