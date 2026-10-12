@@ -12,8 +12,6 @@ their individual features; they do not establish a complete playable game.
 
 1. **Inventory the installed game.** The local reference installation is
    `C:\Program Files (x86)\Steam\steamapps\common\Gothic 3`.
-   Preserve the installed game without modifying it. Keep the matching
-   `SharedBase.dll`, `Engine.dll` and `Game.dll` as reference binaries.
    Record archive names, internal resource paths, patch precedence and hashes.
    Determine compression and resource formats from their actual bytes before
    describing an archive as encrypted.
@@ -130,10 +128,36 @@ their separate revision and scope.
 
 Keep four claims separate: evidence captured, behavior implemented, checks
 passed, and revision deployed. Each checkpoint records its actual supported
-boundary and remaining work. Native startup checkpoints record the last
-supported operation and the next
-unsupported instruction for their exact revision. Complete engine startup, world
-activation and campaign play remain outstanding.
+boundary and remaining work. A dated local checkpoint can be ahead of the
+hosted build; its results must not be presented as deployment evidence.
+
+### Local example — 12 October 2026
+
+At committed local checkpoint `362474b0e`, the native output-stream locale
+continuation has constructed two locale descriptors in sequence. The current
+216-byte descriptor is retained by the thread and shared CRT slots with two
+references. The previous allocated descriptor reaches zero references and is
+freed. The original default descriptor remains live under its special cleanup
+rule. Temporary locale-query buffers are released.
+
+The continuation also copies the original 24-byte category table, synchronizes
+seven legacy locale globals, releases CRT lock 12, restores the thread status,
+assigns both inline locale-name strings to `C`, and returns the locale finalizer.
+Its next committed pending boundary is `30466eb0`, in the character-locale
+constructor's return sequence. Typechecking and three focused runtime checks
+passed for that checkpoint; this is not a full-suite or campaign result.
+
+A subsequent uncommitted attempt enters the character table helper at
+`30670bba`. Typechecking passed, but its focused run had one failure and two
+passes. That attempt is not a validated checkpoint. These local changes are
+ahead of the published native runtime. Complete output-stream initialization,
+engine startup and campaign play remain unfinished.
+
+This illustrates the reconstruction loop: establish the actual allocation and
+caller state, preserve its ownership and cleanup, capture the next dependency,
+implement that dependency, and resume the original caller. Advancing a single
+instruction boundary is a component milestone, not a measure of campaign
+completion.
 
 For detailed commands and implementation history, see the
 [step-by-step workflow](gothic3-rebuild-workflow.md),
@@ -184,8 +208,3 @@ results. A passing startup check does not demonstrate a playable campaign.
 
 The hosted target is `/gothic3/` alongside Tervain. Local implementation,
 repository publication and a successful Pages deployment are separate milestones.
-
-
-## Campaign completion criteria
-
-See [Gothic 3 browser campaign completion](gothic3-campaign-completion.md) for the current evidence gaps and the deployed campaign, save/reload and original-ending proof required before calling the reconstruction complete.
