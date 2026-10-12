@@ -1,0 +1,35 @@
+{
+  "schema": "gothic3.stdout-filebuf-validation.v1",
+  "testedRevision": "c6a330145305f68094522e59801d8bbd6ccffedc",
+  "recordedAtUtc": "2026-10-12T11:13:19.087976+00:00",
+  "sourceSha256": "f440fe5f76d4757292523029fcf0e882601ad453c3179b62bbba41b74b979140",
+  "runtimeTestSha256": "e3758f592c4a98f73739d01b1edf405635ff12f6415ad6f55e498ce56ca9cf30",
+  "engineInputSha256": "d49ef92c0fdfeda433f6d04d0edeb7751e41e4c7c7effc1265630717029dc7e3",
+  "capturedEngineMethods": 375,
+  "checks": {
+    "typecheck": {
+      "command": "npm run typecheck",
+      "exitCode": 0
+    },
+    "runtime": {
+      "command": "npx vitest run tests/gothic3-dialogue/engine-io-frame.test.ts",
+      "exitCode": 0,
+      "filesPassed": 1,
+      "testsPassed": 503,
+      "durationSeconds": 973.5
+    },
+    "productionBuild": {
+      "command": "npm run build",
+      "exitCode": 0
+    }
+  },
+  "scope": "Original stdout filebuf normal construction and shutdown registration; next pending initializer 30791f4d. Full engine I/O runtime test file only, not every repository test.",
+  "campaignComplete": false,
+  "hostedCheckpointVerified": false,
+  "limitations": [
+    "Next output-stream initializer remains pending.",
+    "Exception/destructor paths remain partially unsupported.",
+    "No new-game-to-ending browser playthrough has passed.",
+    "This checkpoint has not been published."
+  ]
+}
