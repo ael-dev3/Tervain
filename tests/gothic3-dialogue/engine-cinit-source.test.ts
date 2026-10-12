@@ -380,3 +380,11 @@ it('captures the original locale string assignment overlap and copy path',()=>{
  expect(engineCinitInstruction('30042974','303ed10a')).toMatchObject({bytes:'3be8',instruction:'CMP EBP,EAX'});
  expect(engineCinitInstruction('30042974','303ed191')).toMatchObject({bytes:'e8ae792800',instruction:'CALL 0x30674b44'});
 });
+
+
+it('captures original locale publication shutdown registration and zero-fill flag',()=>{
+ expect(engineCinitInstruction('30670642','3067064b')).toMatchObject({bytes:'6812066730',instruction:'PUSH 0x30670612'});
+ expect(engineCinitInstruction('30670642','30670657')).toMatchObject({bytes:'e80d0d0000',instruction:'CALL 0x30671369'});
+ expect(engineCinitInstruction('30670642','30670661')).toMatchObject({bytes:'a3d86daf30',instruction:'MOV [0x30af6dd8],EAX'});
+ expect(engineCinitImage('standardLocaleShutdownRegistered')).toMatchObject({address:'30af6dfc',bytes:1,raw:'00',fileBackedBytes:0,loaderZeroFillBytes:1});
+});

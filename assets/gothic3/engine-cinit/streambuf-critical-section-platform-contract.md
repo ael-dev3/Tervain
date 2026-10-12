@@ -412,3 +412,29 @@ locale lock remains held in its original enclosing construction scope. Locale
 publication, lock release, outer epilogue, filebuf completion and campaign
 integration remain unfinished. This checkpoint is local and does not establish
 full startup or a hosted browser playthrough.
+
+
+## Outer locale publication and shutdown-registration caller
+
+Capture adds `30670642` (global locale setter), `30670612` (shutdown callback)
+and `30671369` (standard at-exit wrapper), for 372 Engine methods. The new
+registration flag at `30af6dfc` is one loader-zero-fill byte. Comparison proved
+all earlier methods, imports, metadata and image records unchanged.
+
+The runtime resumes at `3067087b`, retains the constructed object in ESI, pushes
+that actual object, sets the original exception-state byte to zero, and calls
+the setter at `30670886`. The setter observes its actual cold zero flag, pushes
+the original shutdown callback, sets the flag to one, and invokes `30671369`
+through `30670657`, with return address `3067065c`.
+
+The normal boundary is now `30671369`. The flag's store has executed, but the
+shutdown callback is not yet registered, and the global locale pointer has not
+been written. The existing 66 callbacks and held locale lock remain intact.
+The already-set-flag path stops at `3067065d`; it does not fabricate publication.
+
+TypeScript checking, all 155 source/image checks and two focused
+normal-continuation/enum checks passed locally. The normal test pins flag one,
+zero global pointer, pending setter/registration return words, exception state
+and exact stack position. At-exit registration, publication, lock release,
+filebuf completion and full campaign integration remain unfinished. This
+checkpoint remains local and does not establish deployed browser playability.

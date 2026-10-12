@@ -1827,7 +1827,13 @@ stack.#engineCinitFrame!.pc='10003cd8';engineCinitUnMangleInstruction('10003cd8'
                 epilog('30679c46',()=>{const p=stack.#record(stack.#ret()).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!==returned)throw new Error('Actual locale EH3 epilog caller return required');});
               };
               runLocaleEh3Epilog('306707d6');objectConstructor('306707d6',()=>{const p=stack.#record(stack.#ret(4)).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!=='3067087b')throw new Error('Actual locale object constructor return required');});
-              stack.#engineCinitFrame!.pc='3067087b';return known(undefined);
+              locale('3067087b',()=>{objectPointer(register('EAX'),0);setRegister('ESI',register('EAX'));});locale('3067087d',()=>{});locale('30670881',()=>stack.#push(register('ESI')));
+              locale('30670882',()=>{const at=stack.#address(register('EBP'))-4;stack.#invalidateRange(stack.#stack,at,1);NativeHeapObjectViews.prototype.writeUnsigned.call(stack.#stack,at,0,1);});locale('30670886',()=>stack.#call('30670886','3067088b'));
+              const publish=(pc:string,body:()=>void)=>step(pc,body,'30670642'),registered=NativeEngineCinitImages.imageForCrt(images.value,crt,'standardLocaleShutdownRegistered');if(!registered.known)throw new Error(registered.reason);
+              let registeredValue=0;publish('30670642',()=>{registeredValue=NativeHeapObjectViews.prototype.readUnsigned.call(registered.value,0,1);stack.#arithmeticFlags(registeredValue,0,registeredValue,1,true);});publish('30670649',()=>{});
+              if(registeredValue!==0){stack.#engineCinitFrame!.pc='3067065d';return known(undefined);}
+              publish('3067064b',()=>stack.#push(stack.#source('code','30670612')));publish('30670650',()=>{stack.#invalidateRange(registered.value,0,1);NativeHeapObjectViews.prototype.writeUnsigned.call(registered.value,0,1,1);});publish('30670657',()=>stack.#call('30670657','3067065c'));
+              stack.#engineCinitFrame!.pc='30671369';return known(undefined);
             }
             if(target==='30791ef6'||target==='30791f18'){
               const initializer=target==='30791f18'
