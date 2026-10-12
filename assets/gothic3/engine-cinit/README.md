@@ -3626,3 +3626,10 @@ Typechecking, two focused state checks and 149 related source/image/browser chec
 The original call at `3067044c` now validates its retained stack argument against this CRT's live counter image and invokes the selected platform Interlocked counter service. The signed counter wraps from `ffffffff` to zero, the result is retained in EAX, and the stdcall return consumes the actual four-byte argument and resumes at `30670452`. The argv/NLS handler is not used. An interrupted counter write retains the pending call at `3067044c`, the unchanged counter and the original initializer/exit cursors.
 
 Typechecking, two focused normal/interrupted frame checks and 143 source/image checks passed. The constructor TEST/branch and four critical-section initialization calls remain pending. No additional shutdown entry was registered; complete startup and campaign play remain unfinished.
+
+
+### Shared critical-section reference branch and first initialization call
+
+The constructor now executes original TEST/JNZ at `30670452`/`30670454`. A zero counter result saves ESI, loads the actual 96-byte array, pushes its first element and enters wrapper `3067133d`. The wrapper duplicates the actual stack argument and records the original KERNEL32 InitializeCriticalSection call at `30671341`, with return address `30671347`. This platform call remains pending; no critical-section memory effects or successful return are manufactured. The nonzero branch skips the loop and returns the preserved receiver to original caller `30791f00`, where shutdown registration remains pending.
+
+Typechecking and three focused checks passed: zero-result call entry, nonzero loop bypass and interrupted counter write. A first fixture revision repeatedly validated images on every read and exceeded its existing limits; caching the admitted counter view and restoring its spy removed the overhead, with the same limits and assertions retained. Complete startup, world activation and full campaign completion remain unfinished.
