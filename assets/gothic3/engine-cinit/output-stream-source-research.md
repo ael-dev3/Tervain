@@ -389,3 +389,27 @@ identifier one, actual zero facet count and fallback byte, pending factory calle
 live temporary locale and outer lock depth one, preserved nested exception
 frames and idempotent startup. Both NULL allocation cases retain their original
 new-handler boundary. Facet creation and complete startup remain unfinished.
+
+## Remaining character-locale source dependencies
+
+Five further original routines are captured reproducibly in the pinned Engine
+source bundle: exception construction at `0x3001b0bd`, exception throwing at
+`0x30675012`, thread-locale field acquisition at `0x3067c967`, synchronization at
+`0x3067a36b`, and locale selection at `0x3067b098`. Existing captured methods are
+unchanged; the bundle now contains 404 methods.
+
+The `0x3067c967` helper obtains the original PTD, reads its locale pointer at
+`+0x6c`, compares it with the global locale, tests PTD status at `+0x70`, and may
+call the synchronization helper. It returns the actual locale DWORD at `+0xc8`.
+Its capture label records that offset. It is not described as an allocation or
+assigned a guessed table meaning. The character-table acquisition caller uses
+this returned field twice; its surrounding data must establish its interpretation.
+
+The exception routines cover the character-locale constructor's original failure
+branch. Capturing those branches does not establish successful construction or
+exception cleanup execution. Runtime remains at the actual facet factory
+`0x305f0a30`, with the outer facet lock held and the temporary locale live.
+
+Typechecking and the 159 source/image checks passed. These results cover evidence
+admission and image consistency, not runtime execution of the newly captured
+methods or campaign completion.
