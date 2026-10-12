@@ -178,7 +178,9 @@ export function createGrassField(terrain: Terrain, habitat: Habitat, quality: Qu
     group, layers, materials,
     update(camera) {
       const ok = materials.every((m) => m.ok());
-      for (const layer of layers) { layer.enabled = ok; layer.update(camera); }
+      // Near and far grass share frame work; only unseen reserve tiles consume this quota.
+      const reserve = { remaining: 2 };
+      for (const layer of layers) { layer.enabled = ok; layer.update(camera, reserve); }
     },
     stats() {
       let instances = 0, triangles = 0, draws = 0, tiles = 0;
