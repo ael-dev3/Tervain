@@ -185,6 +185,20 @@ async function runProfile(name) {
       : { status: null };
     if (enc.status === 0) fs.rmSync(path.join(dir, 'frames'), { recursive: true, force: true });
 
+    // Optional video diagnostics are computed after recording, never during a timing-only run.
+    let shimmer;
+    if (args['shimmer-roi']) {
+      if (!VIDEO || enc.status !== 0) throw new Error('Shimmer diagnostics require an encoded recorded run');
+      const { analyzeVideo } = await import('./video-shimmer.mjs');
+      shimmer = await analyzeVideo(path.join(dir, 'clip.mp4'), {
+        roi: args['shimmer-roi'].split(',').map(Number),
+        start: Number(args['shimmer-start'] ?? 0),
+        maxFrames: Number(args['shimmer-max-frames'] ?? 1800),
+      });
+      fs.writeFileSync(path.join(dir, 'shimmer.json'), JSON.stringify(shimmer, null, 2));
+      if (!shimmer.summary.usableFrames) throw new Error('Shimmer ROI has no usable aligned frames');
+    }
+
     // Judge.
     const S = gate.samples.map(([t, ph, vis, dist, upY, headUp, nx, ny, step, swim, pr, want, busy, upload, shot]) => ({ t, ph, vis, dist, upY, headUp, nx, ny, step, swim, pr, want, busy, upload, shot }));
     const play = S.filter((s) => !['setup', 'pause', 'end'].includes(s.ph));
@@ -233,7 +247,7 @@ async function runProfile(name) {
     const data = { p50: median, p95, p99: quantile(timed, 0.99), max: Math.max(0, ...timed), over25: spikeList.length, over50: spikes.length, idle,
       uploadTotal: uploads.reduce((a, b) => a + b, 0), uploadMax: Math.max(0, ...uploads), spikeList, shots: gate.shots,
       glitches: { hidden: hidden.map((s) => s.ph), badPose: badPose.map((s) => s.ph), jumps } };
-    return { name, prof, dir, printed, failures, data, stats: { frames: play.length, median, p95, spikes: spikes.length, slowShare, hidden: hidden.length, closeHidden, worstToggles, badPose: badPose.length, jumps, pixelRatio: [Math.min(...play.map((x) => x.pr)), Math.max(...play.map((x) => x.pr))], longTasks: longTasks.length, consoleErrors: logs, perPhase }, clip: enc.status === 0 };
+    return { name, prof, dir, printed, failures, data, shimmer, stats: { frames: play.length, median, p95, spikes: spikes.length, slowShare, hidden: hidden.length, closeHidden, worstToggles, badPose: badPose.length, jumps, pixelRatio: [Math.min(...play.map((x) => x.pr)), Math.max(...play.map((x) => x.pr))], longTasks: longTasks.length, consoleErrors: logs, perPhase }, clip: enc.status === 0 };
   } catch (err) {
     failures.push(`run failed: ${err.message}`);
     return { name, prof, dir, failures, stats: null };
@@ -256,6 +270,7 @@ for (const r of results) {
   for (const f of r.failures) md.push(`- ✗ ${f}`);
   if (r.stats) {
     const s = r.stats;
+    if (r.shimmer) md.push(`Video shimmer diagnostic: ${r.shimmer.summary.usableFrames} usable frames; see ${path.basename(r.dir)}/shimmer.json. Uncalibrated; excluded from timing thresholds.`, '');
     md.push('', `Frames ${s.frames}; median ${s.median.toFixed(1)} ms; p95 ${s.p95.toFixed(1)} ms; over 50 ms: ${s.spikes}; over 25 ms: ${(s.slowShare * 100).toFixed(1)}%; long tasks ${s.longTasks}.`,
       `Hero: hidden with camera clear ${s.hidden}; hidden with camera pressed close ${s.closeHidden}; most visibility flips in 1 s ${s.worstToggles}; broken pose ${s.badPose}; screen jumps ${s.jumps}. Drawing pixel ratio ${s.pixelRatio.join('–')}.`, '',
       '| Phase | Frames | Median ms | p95 ms | Max ms |', '| --- | ---: | ---: | ---: | ---: |',
