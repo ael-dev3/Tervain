@@ -15,3 +15,5 @@ These scripts exercise actual classes from served production builds under SwiftS
 Build and serve the production application using the software mode described in [software WebGL setup](SOFTWARE-WEBGL.md). Keep the served artifact unchanged throughout each run. Player-contact and skin-reach scripts additionally compare the compiled UI revision with the artifact stamp. Re-run both historical revisions for before/after evidence; these receipts alone do not establish a live fix.
 
 The controls use deterministic I/O and terrain where stated. Native classes and imported models run in Chrome; no Node-side implementation substitutes for them. The checks certify the documented regression scopes, not complete gameplay coverage, art quality or a hardware play gate.
+
+All seven checks were also replayed against the integrated production code, with zero failures. The [integrated summary](integrated-repro-proof/summary.json) links the artifact revisions; individual JSON reports in that directory retain the full results, including all 702 contact cases. This replay adds no new product logic or art changes. Hardware frame pacing remains a separate gate.

@@ -1,0 +1,32 @@
+{
+  "build": {
+    "version": "0.0.14",
+    "revision": "909f513fc"
+  },
+  "fixture": "compiled player with native hero rig, deterministic terrain and colliders; input-driven updates",
+  "mount": [
+    {
+      "type": "jump",
+      "groundedAtRequest": false,
+      "wasVault": false,
+      "accepted": false,
+      "initialHeight": 0.0876388888888889,
+      "heightAfter15": 0.8355555555555555,
+      "landed": true,
+      "acceptedAfterLanding": true
+    },
+    {
+      "type": "vault",
+      "groundedAtRequest": false,
+      "wasVault": true,
+      "accepted": false,
+      "initialHeight": 0.11252237486401279,
+      "heightAfter15": 1.3126901319924327,
+      "landed": true,
+      "acceptedAfterLanding": true
+    }
+  ],
+  "vault": [],
+  "pass": true,
+  "selected": "mount"
+}
