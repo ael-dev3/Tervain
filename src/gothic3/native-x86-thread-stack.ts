@@ -1636,16 +1636,27 @@ stack.#engineCinitFrame!.pc='10003cd8';engineCinitUnMangleInstruction('10003cd8'
               const sections=NativeEngineCinitImages.imageForCrt(images.value,crt,'sharedCriticalSectionArray');if(!sections.known)throw new Error(sections.reason);
               reference('30670456',()=>stack.#push(register('ESI')));
               reference('30670457',()=>setRegister('ESI',stack.#mint(0,0,{kind:'engine-image',crt,fields:sections.value,offset:0})));
-              reference('3067045c',()=>stack.#push(register('ESI')));reference('3067045d',()=>stack.#call('3067045d','30670462'));
               const initialize=(pc:string,body:()=>void)=>step(pc,body,'3067133d');
-              initialize('3067133d',()=>stack.#push(stack.#load(stack.#stack,stack.#address(register('ESP'))+4)));
-              initialize('30671341',()=>{const receipt=engineCinitImport('30afc6e4');if(receipt.module!=='KERNEL32.dll'||receipt.name!=='InitializeCriticalSection')throw new Error('Original shared critical-section initialization import required');stack.#call('30671341','30671347');});
-              stack.#engineCinitFrame!.pc='30671341';
-              const initialized=NativeRuntimePlatform.initializeEngineCinitCriticalSection(stack.#platform,crt);if(!initialized.known)return known(undefined);
-              setRegister('EAX',stack.#mint(0,0));setRegister('ECX',stack.#mint(0,0));setRegister('EDX',stack.#mint(0,0));stack.#flags(0,0);
-              const initializeReturn=stack.#record(stack.#ret(4)).provenance;
-              if(initializeReturn?.kind!=='source'||initializeReturn.type!=='code'||initializeReturn.address!=='30671347')throw new Error('Actual InitializeCriticalSection wrapper return required');
-              stack.#engineCinitFrame!.pc='30671347';return known(undefined);}
+              let sectionOffset=0;
+              for(;;){
+                reference('3067045c',()=>stack.#push(register('ESI')));reference('3067045d',()=>stack.#call('3067045d','30670462'));
+                initialize('3067133d',()=>stack.#push(stack.#load(stack.#stack,stack.#address(register('ESP'))+4)));
+                initialize('30671341',()=>{const receipt=engineCinitImport('30afc6e4');if(receipt.module!=='KERNEL32.dll'||receipt.name!=='InitializeCriticalSection')throw new Error('Original shared critical-section initialization import required');stack.#call('30671341','30671347');});
+                stack.#engineCinitFrame!.pc='30671341';
+                const initialized=NativeRuntimePlatform.initializeEngineCinitCriticalSection(stack.#platform,crt);if(!initialized.known)return known(undefined);
+                setRegister('EAX',stack.#mint(0,0));setRegister('ECX',stack.#mint(0,0));setRegister('EDX',stack.#mint(0,0));stack.#flags(0,0);
+                const initializeReturn=stack.#record(stack.#ret(4)).provenance;
+                if(initializeReturn?.kind!=='source'||initializeReturn.type!=='code'||initializeReturn.address!=='30671347')throw new Error('Actual InitializeCriticalSection wrapper return required');
+                initialize('30671347',()=>{const p=stack.#record(stack.#ret()).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!=='30670462')throw new Error('Actual critical-section wrapper caller return required');});
+                reference('30670462',()=>{const pointer=stack.#record(register('ESI')).provenance;if(pointer?.kind!=='engine-image'||pointer.crt!==crt||pointer.fields!==sections.value||pointer.offset!==sectionOffset)throw new Error('Actual retained critical-section loop cursor required');sectionOffset+=24;setRegister('ESI',stack.#mint(0,0,{kind:'engine-image',crt,fields:sections.value,offset:sectionOffset}));stack.#flags(0,0);});
+                // Captured array base and end are in the same nonwrapping positive address span.
+                reference('30670465',()=>stack.#arithmeticFlags(sectionOffset,96,(sectionOffset-96)>>>0,4,true));
+                reference('3067046b',()=>pop('ECX'));reference('3067046c',()=>{});
+                if(sectionOffset>=96)break;
+              }
+              reference('3067046e',()=>pop('ESI'));reference('3067046f',()=>setRegister('EAX',register('EDI')));reference('30670471',()=>pop('EDI'));
+              reference('30670472',()=>{const p=stack.#record(stack.#ret()).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!=='30791f00')throw new Error('Actual shared critical-section constructor caller return required');});
+              stack.#engineCinitFrame!.pc='30791f00';return known(undefined);}
           if(['307322f0','30732300','30732310','30732320','30732330','30732340','30732360','30732370','30732380','30732390','307323a0','307323b0','307323c0','307323d0','307323e0','307323f0','30732400','30732410','30732420','30732430','30732440','30732460','30732450','30732470','30732480','30732490','307324a0','307324b0','307324c0','307324d0','307324e0','307324f0','30732500','30732510','30732520','30732530','30732540','30732550','30732560','30732570','30732580','30732590','307325a0','307325c0','307325d0','307325e0','307325f0','30732600','30732610','30732620','30732630','30732640','30732650','30732660','30732670','30732680','307325b0'].includes(target)){
               const classProperties = {
                 '307323e0': {propertyEntry:'3003eecd', body:'30076ea0', shutdown:'3003ae86', prefix:'boxProperty', ordinal:'Twentieth'},
@@ -3799,7 +3810,7 @@ searchCharacterStep('100a7374',()=>pop('ESI'));searchCharacterStep('100a7375',()
       const pointer=stack.#record(stack.#load(stack.#stack,stack.#address(stack.#load(stack.#bank,stack.#reg('ESP')))+4)).provenance;
       const array=NativeEngineCinitImages.imageForCrt(f.images,crt,'sharedCriticalSectionArray');
       if(!array.known)throw new Error(array.reason);
-      if(pointer?.kind!=='engine-image'||pointer.crt!==crt||pointer.fields!==array.value||pointer.offset!==0)throw new Error('Actual first Engine critical-section array argument required');
+      if(pointer?.kind!=='engine-image'||pointer.crt!==crt||pointer.fields!==array.value||![0,24,48,72].includes(pointer.offset))throw new Error('Actual Engine critical-section array element argument required');
       return known(Object.freeze({fields:array.value,offset:pointer.offset,call}));
     }catch(error){return unknown(error instanceof Error?error.message:String(error));}
   }
