@@ -125,7 +125,9 @@ export class CameraRig {
     this.lastBoom = boomDistance;
     const aimOffset = this.aiming ? 0.42 : 0;
     this.followPivot.copy(this.smoothTarget);
-    const candidates = colliders.near(px, pz, boomDistance + aimOffset + CAMERA_CLEARANCE + MAX_RECOIL);
+    // A rail fence is seen through (A125): its wall above the rails keeps the hero off them, not the camera, which pulled
+    // in to a metre from his back whenever it swung across one.
+    const candidates = colliders.near(px, pz, boomDistance + aimOffset + CAMERA_CLEARANCE + MAX_RECOIL).filter((c) => c.id !== 'fence');
     this.waterTerrain = terrain;
     this.waterColliders = candidates;
     if (aimOffset > 0) {
