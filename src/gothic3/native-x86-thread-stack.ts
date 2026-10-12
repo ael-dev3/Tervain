@@ -1660,7 +1660,14 @@ stack.#engineCinitFrame!.pc='10003cd8';engineCinitUnMangleInstruction('10003cd8'
               allocation('30672905',()=>{setRegister('ESP',register('EBP'));pop('EBP');});allocation('30672906',()=>{const p=stack.#record(stack.#ret()).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!=='3067096d')throw new Error('Actual member allocation factory return required');});
               member('3067096d',()=>stack.#push(register('EAX')));member('3067096e',()=>{const receiver=stack.#record(register('ESI')).provenance,word=stack.#record(register('EAX')).provenance;if(receiver?.kind!=='engine-image'||receiver.crt!==crt||receiver.fields!==storage.value||receiver.offset!==4||word?.kind!=='engine-allocation'||word.crt!==crt||word.fields!==fields||word.offset!==0)throw new Error('Actual lock member receiver and owned allocation required');stack.#store(storage.value,4,register('EAX'));});member('30670970',()=>stack.#call('30670970','30670975'));
               step('3067133d',()=>stack.#push(stack.#load(stack.#stack,stack.#address(register('ESP'))+4)),'3067133d');step('30671341',()=>{const receipt=engineCinitImport('30afc6e4');if(receipt.module!=='KERNEL32.dll'||receipt.name!=='InitializeCriticalSection')throw new Error('Original allocated member critical-section import required');stack.#call('30671341','30671347');},'3067133d');
-              stack.#engineCinitFrame!.pc='30671341';return known(undefined);
+              stack.#engineCinitFrame!.pc='30671341';
+              const initialized=NativeRuntimePlatform.initializeEngineCinitStreambufSection(stack.#platform,crt);if(!initialized.known)return known(undefined);
+              setRegister('EAX',stack.#mint(0,0));setRegister('ECX',stack.#mint(0,0));setRegister('EDX',stack.#mint(0,0));stack.#flags(0,0);
+              const platformReturn=stack.#record(stack.#ret(4)).provenance;if(platformReturn?.kind!=='source'||platformReturn.type!=='code'||platformReturn.address!=='30671347')throw new Error('Actual streambuf platform stdcall return required');
+              step('30671347',()=>{const p=stack.#record(stack.#ret()).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!=='30670975')throw new Error('Actual streambuf wrapper caller return required');},'3067133d');
+              member('30670975',()=>pop('ECX'));member('30670976',()=>pop('ECX'));member('30670977',()=>setRegister('EAX',register('ESI')));member('30670979',()=>pop('ESI'));
+              member('3067097a',()=>{const p=stack.#record(stack.#ret()).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!=='305ee69a')throw new Error('Actual streambuf member constructor caller return required');});
+              stack.#engineCinitFrame!.pc='305ee69a';return known(undefined);
             }
             if(target==='30791ef6'||target==='30791f18'){
               const initializer=target==='30791f18'

@@ -19,8 +19,20 @@ The check reaches the original pending caller, initializes its storage, enters
 and leaves it with the retained owner, rejects another owner and duplicate
 initialization, and confirms the shared-array service rejects this heap argument.
 
-This checkpoint exposes and validates the lower platform operation. The normal
-startup continuation still stops at `30671341`; its stdcall return, constructor
-cleanup, remaining filebuf initialization, and destruction must be connected
-before claiming that constructor is complete. This does not prove full engine
-startup or campaign playability and has not been published.
+## Connected member-constructor continuation
+
+The normal startup path now invokes that admitted platform operation, consumes
+its actual stdcall return with four argument bytes, returns through the wrapper,
+and executes the captured `30670975`–`3067097a` cleanup and return. It restores
+ESI and returns the retained member receiver in EAX to `305ee69a`. Startup stops
+there before the next four-byte allocation. The enclosing streambuf and filebuf
+constructors and destruction remain unfinished.
+
+TypeScript checking passed. Nine focused checks passed together, covering the
+normal caller, five interrupted/forged shared-array initialization cases,
+allocated-lock admission, the null-allocation new-handler branch, and the earlier
+enum checkpoint. A separate nonzero shared-reference branch check also passed.
+The earlier failed run exposed five incorrectly changed interruption-PC test
+expectations; those expectations were restored to the original pending import,
+and all five were rerun successfully. These are focused checks, not a full suite
+or campaign verification. This continuation has not been published.
