@@ -13,6 +13,12 @@ def capture(study):
     EXPECTED_INPUTS['Engine.dll'] = 'd49ef92c0fdfeda433f6d04d0edeb7751e41e4c7c7effc1265630717029dc7e3'
     source = audit_module(study, 'Engine_dll', 'Engine.dll', {
         0x3067d1c7: 'engineCinit',
+        0x30791ef6: 'engineSharedCriticalSectionReferenceInitializer',
+        0x30670444: 'engineSharedCriticalSectionReferenceConstructor',
+        0x30670473: 'engineSharedCriticalSectionReferenceDestructor',
+        0x3067133d: 'engineInitializeCriticalSectionWrapper',
+        0x30671348: 'engineDeleteCriticalSectionWrapper',
+        0x307b805a: 'engineSharedCriticalSectionReferenceShutdown',
         0x3067ca49: 'engineReallocWrapper',
         0x30679200: 'engineReallocImplementation',
         0x3068aa20: 'engineReadonlyPointer',
@@ -706,6 +712,9 @@ def capture(study):
         ('postProcessingAdminPropertyRoot', 0x30ad9d78, 4),
         ('postProcessingAdminPropertyStorage', 0x30ad9c20, 8),
         ('postProcessingAdminPropertyTypeInfo', 0x30aa2ffc, property_type_info_size(0x30aa2ffc)),
+        ('sharedCriticalSectionReferenceCounter', 0x30ad40cc, 4),
+        ('sharedCriticalSectionArray', 0x30af6d70, 96),
+        ('sharedCriticalSectionReferenceAddress', 0x30af6dd0, 1),
         ('shapeGroupContainerPropertyFlags', 0x30ad9c94, 4),
         ('shapeGroupContainerPropertyRoot', 0x30ad9d54, 4),
         ('shapeGroupContainerPropertyStorage', 0x30ad9c8c, 8),
