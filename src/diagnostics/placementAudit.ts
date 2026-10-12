@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { indexVerticalSupport } from './verticalSupports';
 
 export interface PlacementAuditTarget {
   label: string;
@@ -113,13 +114,14 @@ export function auditPlacements(scene: THREE.Object3D, heightAt: (x: number, z: 
   // Vertical support probes only need geometry whose world bounds overlap their X/Z position.
   // Expand instances once, so Three's InstancedMesh raycaster cannot scan an entire forest per sample.
   const cellSize = 16, cells = new Map<string, THREE.Mesh[]>(), wide: THREE.Mesh[] = [];
-  const bounds = new Map<THREE.Mesh, THREE.Box3>();
+  const bounds = new Map<THREE.Mesh, THREE.Box3>(), releaseIndexes: (() => void)[] = [];
   for (const mesh of supports) {
     if (!mesh.geometry.boundingBox) mesh.geometry.computeBoundingBox();
     const box = mesh.geometry.boundingBox!.clone().applyMatrix4(mesh.matrixWorld).expandByScalar(1e-5);
     bounds.set(mesh, box);
     const x0 = Math.floor(box.min.x / cellSize), x1 = Math.floor(box.max.x / cellSize);
     const z0 = Math.floor(box.min.z / cellSize), z1 = Math.floor(box.max.z / cellSize);
+    if ((x1-x0+1)*(z1-z0+1)>4) releaseIndexes.push(indexVerticalSupport(mesh,cellSize));
     if (![x0, x1, z0, z1].every(Number.isFinite) || (x1 - x0 + 1) * (z1 - z0 + 1) > 256) { wide.push(mesh); continue; }
     for (let x = x0; x <= x1; x++) for (let z = z0; z <= z1; z++) {
       const key = `${x},${z}`, bucket = cells.get(key) ?? [];
@@ -187,7 +189,7 @@ export function auditPlacements(scene: THREE.Object3D, heightAt: (x: number, z: 
       }
       if (truncated) break;
     }
-  } finally { material.dispose(); }
+  } finally { for(const release of releaseIndexes)release(); material.dispose(); }
   return { schema: 1, clearance, kind: options.kind ?? 'all', scope: 'static scene components plus supplied full populations; intentional hanging/floating objects require review',
     complete: !truncated && skipped.length === 0 && invalid === 0, truncated, skipped, invalid,
     summary: { checks: checks.length, roots: checks.filter(c => c.kind === 'root').length, props: checks.filter(c => c.kind === 'prop').length,
