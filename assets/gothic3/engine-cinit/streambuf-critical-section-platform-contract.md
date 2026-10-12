@@ -184,3 +184,28 @@ nonzero-reference fixture has no admitted shared-section registrations and
 correctly stays pending at `30671357`; it cannot invent a lock. Allocation-null
 and earlier enum checks remain intact. These focused checks do not establish
 complete startup or a campaign; this checkpoint remains local.
+
+
+## Locale-object allocation and constructor caller
+
+The original `30670860`–`30670876` continuation now requests 52 bytes through
+`306728e3`, retains its canonical logical view in the frame, and returns through
+`30670867`. It consumes the cdecl argument, loads the actual allocated receiver
+into ECX, stores that receiver in the original exception frame, tests the
+nonnull result, writes exception-state byte 1, and calls `30670790` with its
+actual zero argument and return address `3067087b`.
+
+The 52-byte allocation has a separate identity from the streambuf's four-byte
+allocation and lock member. Its bytes remain unknown and it is not published as
+a constructed locale. The normal boundary is `30670790`, whose constructor body
+is still unsupported. On a null result, the original factory instead retains
+its `306824b9` new-handler call; the 52-byte factory caller does not return and
+no constructor call is made. The actual locale lock remains held for that
+unfinished path.
+
+TypeScript checking and eight focused runtime checks passed locally. The normal
+check proves three factory returns, separate live allocations, exact logical
+size, unknown masks, exception-state byte and the actual pending constructor.
+The added failure check proves retained earlier allocations, held lock, pending
+new-handler and absence of a constructed object. Full-suite/build, hosted
+rendering, and campaign completion are not established by these focused checks.
