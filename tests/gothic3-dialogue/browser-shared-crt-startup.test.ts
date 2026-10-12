@@ -5,8 +5,9 @@ import {NativeGameAIHelperAdminClassName} from '../../src/gothic3/native-game-ai
 import {NativeGameLabelClassName} from '../../src/gothic3/native-game-label-class-name';
 import {NativeGameLabelType} from '../../src/gothic3/native-game-label-type';
 import {expect,it,vi} from 'vitest';
-// These execute original instructions: about 4-5 seconds each locally; use a longer timeout under CI load.
-vi.setConfig({ testTimeout: 30_000 });
+// These execute original instructions against source-backed native startup paths.
+// They can exceed 50 seconds in a loaded CI shard, so keep the budget local to this file.
+vi.setConfig({ testTimeout: 90_000 });
 import {createBrowserGameCrtPlatform} from '../../src/gothic3/browser-game-crt-platform';
 import {browserGameProcessInputs} from '../../src/gothic3/browser-game-process-inputs';
 import {browserGameStartupIoInputs} from '../../src/gothic3/browser-game-startup-io-inputs';
@@ -363,7 +364,7 @@ it('retains SharedBase CRT prerequisites on the actual browser platform',()=>{
  expect(runtime.message.onMessageBelowThreshold(-1).known).toBe(false);
  expect(owner.processAttach()).toEqual(result);
  expect(owner.snapshot().wholeCrtTraversalCompleted).toBe(false);
-},30000);
+},90_000);
 it('retains output and rejects a changed cookie before returning or writing the terminator',()=>{
  const platform=platformFixture(),tls=NativeSharedStaticTls.forPlatform(platform);
  if(!tls.known)throw new Error(tls.reason);expect(tls.value.loadSharedBase().known).toBe(true);
@@ -388,4 +389,4 @@ it('retains output and rejects a changed cookie before returning or writing the 
  expect(state.messageDispatched).toBe(false);
  expect(state.messageCallFrame).toBeNull();
  expect(state.buffer!.knownMask[state.formatterOutputCount!]).toBe(255); // original TLS template stays known
-},30000);
+},90_000);

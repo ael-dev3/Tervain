@@ -49,7 +49,7 @@ jobs:
           cache: npm
       - run: npm ci
       - name: Scenario tests (shard ${{ matrix.shard }} of 4)
-        run: npx vitest run --shard=${{ matrix.shard }}/4 --exclude tests/gothic3-dialogue/engine-io-frame.test.ts --exclude 'tests/gothic3-dialogue/browser-*.test.ts'
+        run: npx vitest run --shard=${{ matrix.shard }}/4 --exclude tests/gothic3-dialogue/engine-io-frame.test.ts --exclude 'tests/gothic3-dialogue/browser-*.test.ts' --testTimeout=90000
 
   # The original-engine browser start-ups each run for tens of seconds of CPU and time out when two share a runner's
   # cores, so they run one at a time in their own job.
@@ -63,7 +63,7 @@ jobs:
           cache: npm
       - run: npm ci
       - name: Original engine browser start-ups, one at a time
-        run: npx vitest run 'tests/gothic3-dialogue/browser-' --maxWorkers=1
+        run: npx vitest run 'tests/gothic3-dialogue/browser-' --maxWorkers=1 --testTimeout=90000
 
   # One file holds about 44 minutes of original-engine execution, and a file cannot be split across shards: it runs in a
   # job of its own so it no longer sets the length of every shard.
