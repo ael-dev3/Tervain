@@ -363,6 +363,8 @@ function buildStandardPass(R: Region, terrain: Terrain, b: BuildingSpec, out: Bu
     R.metal.box(0.08, 0.08, 1.3, b.w / 2 - 0.6, y0 + 2.6, b.d / 2 + 0.7, TINT.iron, { jit: 0.05 });
     R.planks.box(0.9, 0.55, 0.06, b.w / 2 - 0.6, y0 + 1.95, b.d / 2 + 1.3, jitterTone(TINT.wood, rnd, 0.1), { rz: 0.05, jit: 0.1, grain: 'x' });
     R.vc.box(0.5, 0.3, 0.02, b.w / 2 - 0.6, y0 + 2.08, b.d / 2 + 1.34, 0x5a2a20, { jit: 0.1 });
+    // Two iron hangers from the bracket down to the board's top corners: it hung 33 cm below the bracket on nothing (playtest 5).
+    for (const dx of [-0.36, 0.36]) R.metal.box(0.025, 0.36, 0.025, b.w / 2 - 0.6 + dx, y0 + 2.4, b.d / 2 + 1.3, TINT.iron, { jit: 0.02 });
   }
   if (b.kind === 'bakery') {
     // A bread oven built against the side wall: stone body, domed top, dark mouth.
