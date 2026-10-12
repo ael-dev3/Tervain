@@ -1,8 +1,8 @@
 import { randomUUID } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest';
-// These run the original instructions in the emulator: about 4–5 s each here, so the 5 s default fails under CI load.
-vi.setConfig({ testTimeout: 30_000 });
+// These run original instructions in the emulator and can take tens of seconds in a loaded CI shard.
+vi.setConfig({ testTimeout: 90_000 });
 import { BrowserNpcEntityRuntime, loadBrowserNpcEntitySources } from '../../src/gothic3/browser-npc-entity';
 import type { BrowserNpcEntityServices, BrowserNpcEntitySources } from '../../src/gothic3/browser-npc-entity';
 import { OriginalControlModuleState, OriginalControlReader } from '../../src/gothic3/control-reading';
@@ -70,7 +70,7 @@ describe('retained original Ardea NPC owner prefix', () => {
       expect(() => owner.navigationNames.connectScriptAdminLookup({ getInstance: () => known(admin) }))
         .toThrow('One retained source ScriptAdmin lookup owner is required');
     } finally { owner.dispose(); }
-  },30000);
+  },90_000);
 
   it('admits only verified complete raw records and freezes their source context', () => {
     expect(source.entities).toHaveLength(3);
@@ -120,7 +120,7 @@ describe('retained original Ardea NPC owner prefix', () => {
     } finally {
       owner.dispose();
     }
-  },30000);
+  },90_000);
 
   it('loads source-registered Navigation areas and resolves Navigation name notifications', async () => {
     const serviceOwner = createBrowserNpcEntityServices({ crypto: { randomUUID }, now: () => performance.now() });
