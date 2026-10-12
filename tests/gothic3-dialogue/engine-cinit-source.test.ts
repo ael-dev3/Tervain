@@ -332,3 +332,17 @@ it('captures the original standard-output filebuf caller and static stream gette
 });
 
 it('captures original streambuf lock allocation and critical-section wrapper calls',()=>{expect(engineCinitInstruction('30670963','30670964')).toMatchObject({bytes:'6a18',instruction:'PUSH 0x18'});expect(engineCinitInstruction('30670963','30670968')).toMatchObject({bytes:'e8761f0000',instruction:'CALL 0x306728e3'});expect(engineCinitInstruction('30670963','30670970')).toMatchObject({bytes:'e8c8090000',instruction:'CALL 0x3067133d'});expect(engineCinitInstruction('3067097b','30670980')).toMatchObject({bytes:'e8c3090000',instruction:'CALL 0x30671348'});});
+
+
+it('captures the original locale initializer and its EH3 prologue without claiming execution',()=>{
+ expect(engineCinitInstruction('30670832','30670832')).toMatchObject({bytes:'6a08',instruction:'PUSH 0x8'});
+ expect(engineCinitInstruction('30670832','30670839')).toMatchObject({bytes:'e81d930000',instruction:'CALL 0x30679b5b'});
+ expect(engineCinitInstruction('30670832','3067083e')).toMatchObject({bytes:'a1d86daf30',instruction:'MOV EAX,[0x30af6dd8]'});
+ expect(engineCinitInstruction('30670832','30670860')).toMatchObject({bytes:'6a34',instruction:'PUSH 0x34'});
+ expect(engineCinitInstruction('30670832','30670862')).toMatchObject({bytes:'e87c200000',instruction:'CALL 0x306728e3'});
+ expect(engineCinitInstruction('30670832','306708c6')).toMatchObject({bytes:'e868930000',instruction:'CALL 0x30679c33'});
+ expect(engineCinitInstruction('30679b5b','30679b5c')).toMatchObject({bytes:'64ff3500000000',instruction:'PUSH dword ptr FS:[0x0]'});
+ expect(engineCinitInstruction('30679b5b','30679b72')).toMatchObject({bytes:'a1ec43ad30',instruction:'MOV EAX,[0x30ad43ec]'});
+ expect(engineCinitInstruction('30679b5b','30679b87')).toMatchObject({bytes:'64a300000000',instruction:'MOV FS:[0x0],EAX'});
+ expect(engineCinitInstruction('30679b5b','30679b8d')).toMatchObject({bytes:'c3',instruction:'RET'});
+});

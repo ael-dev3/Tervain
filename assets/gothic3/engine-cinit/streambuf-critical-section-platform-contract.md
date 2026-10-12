@@ -60,3 +60,28 @@ nonzero shared-reference bypass, earlier enum checkpoint, both allocation-null
 paths, and allocated lock admission. The normal test proves separate allocation
 identities, exact logical extent, unknown byte masks, both factory returns, and
 the pending helper caller. Full startup and campaign verification remain absent.
+
+
+## Locale initializer source capture
+
+The source preparation now captures `30670832` (46 instructions) and its
+`30679b5b` EH3 prologue (17 instructions) from the pinned Engine DLL. The bundle
+contains 359 methods. Comparison before adoption proved all earlier 357 method
+records and all other source metadata, images, imports, initializer tables and
+SharedBase records unchanged.
+
+The initializer reads the global locale pointer at `30af6dd8`, enters a locking
+path through `30670503` when that pointer is null, and can allocate 52 bytes
+through the existing factory before calling `30670790`. It later releases the
+lock through `30670524` and uses `30679c33` for exception-frame cleanup. These
+dependencies require their own admitted storage, ownership and original caller
+state before continuation. No global locale pointer or successful helper return
+has been synthesized.
+
+TypeScript checking and 150 source/image checks passed locally. The new test
+pins selected instruction bytes, including the original FS exception-chain
+stores. Its first run caught an extra zero byte in a test expectation; the
+expectation was corrected to the six-byte original instruction and the full
+source/image checks passed on rerun. Capturing these routines is evidence
+preparation; the runtime boundary remains `30670832` and its body is not yet
+executed. This checkpoint is local and does not establish campaign completion.
