@@ -8,14 +8,15 @@
  *
  * Writes <out>/<tag>/: one folder per spot (still-*.jpg, frames/, clip.mp4), metrics.json and report.md (media as
  * MEDIA/<tag>/... for tools/publish-gate.mjs). Checks, each failing the run:
- *  - placement: the scene's placement audit (floating props, unsupported tree roots); more candidates than --baseline
- *    is a regression;
+ *  - placement: complete forest-root coverage; more root candidates than --baseline is a regression;
+ *    run tools/audit-placement.mjs separately for informational static-prop candidates;
  *  - vault: real-key fence approaches (walk and run, 0°/30°/50°, jump at 1.6/1.0/0.6 m) must all cross;
  *  - bow: the slung bow's limbs and string must stay outside the hero's torso while he walks and runs;
  *  - shimmer: tools/video-shimmer.mjs over grass beside the running hero (sparkle share; compared against --baseline);
  * The frame-time gate stays tools/play-gate.mjs. A visual score per playtest item is the reviewer's, added to the
  * report afterwards; the gate cannot judge art.
  */
+import { rootAuditVerdict } from './root-audit-verdict.mjs';
 import { spawnSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -167,9 +168,9 @@ try {
   metrics.checks.vault = { crossed, of: vaults.length, failed: vaults.filter((v) => !v.over), pass: crossed === vaults.length };
   if (!metrics.checks.vault.pass) failures.push(`fence vault crossed ${crossed} of ${vaults.length}`);
 
-  // Placement audit (Sol's detector), against the baseline's candidate count. --skip-audit for quick diagnostic runs.
+  // Complete root population audit, against the baseline's candidate count. --skip-audit for quick diagnostic runs.
   if (args['skip-audit'] !== 'true') {
-  const r = await page.cdp('Runtime.evaluate', { expression: '(async () => window.tervain.auditPlacement ? JSON.stringify(await window.tervain.auditPlacement({ clearance: .08, maxChecks: 20000 })) : null)()', awaitPromise: true, returnByValue: true, timeout: 600000 });
+  const r = await page.cdp('Runtime.evaluate', { expression: '(async () => window.tervain.auditPlacement ? JSON.stringify(await window.tervain.auditPlacement({ clearance: .08, maxChecks: 100000, kind: 'root' })) : null)()', awaitPromise: true, returnByValue: true, timeout: 600000 });
   const auditText = r?.result?.result?.value;
   if (auditText) {
     const audit = JSON.parse(auditText);
@@ -179,11 +180,13 @@ try {
     metrics.checks.placement = { ...audit.summary, complete: audit.complete, roots: worst('root'), props: worst('prop') };
     // Tree roots are the regression check: prop candidates include large merged meshes (building timbers seen from below)
     // that need a reviewer, so they are listed, not counted.
-    const rootCandidates = audit.checks.filter((c) => c.kind === 'root' && c.candidate).length, before = baseline?.checks?.placement?.rootCandidates;
-    metrics.checks.placement.rootCandidates = rootCandidates;
-    metrics.checks.placement.pass = before === undefined || rootCandidates <= before;
-    if (!metrics.checks.placement.pass) failures.push(`floating tree roots ${rootCandidates} (baseline ${before})`);
-  } else metrics.checks.placement = { skipped: 'build has no placement audit' };
+    const verdict = rootAuditVerdict(audit, baseline?.checks?.placement?.rootCandidates);
+    Object.assign(metrics.checks.placement, verdict);
+    if (!verdict.pass) failures.push(`tree-root check failed: ${verdict.reason}`);
+  } else {
+    metrics.checks.placement = { pass: false, reason: 'missing-placement-audit' };
+    failures.push('tree-root check missing its placement audit');
+  }
   } else metrics.checks.placement = { skipped: 'audit skipped' };
 } finally {
   page.close();

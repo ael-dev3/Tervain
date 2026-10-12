@@ -1,0 +1,1 @@
+export function rootAuditVerdict(audit: {complete?: boolean; expectedRoots?: number; furnitureReady?: boolean; summary?: {roots?: number}; checks?: {kind: string; candidate: boolean}[]} | null | undefined, baselineCount?: number): {pass:boolean; reason?:string; rootCandidates:number|null};
