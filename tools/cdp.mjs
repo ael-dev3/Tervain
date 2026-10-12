@@ -56,8 +56,15 @@ export async function openPage(url = process.env.TERVAIN_URL ?? 'http://127.0.0.
   let id = 0;
   const pending = new Map();
   const logs = [];
+  const frames = [];
   ws.onmessage = (m) => {
     const msg = JSON.parse(m.data);
+    // Presented frames while a screencast runs (Page.startScreencast); each is acknowledged so the next one comes.
+    if (msg.method === 'Page.screencastFrame') {
+      frames.push({ data: msg.params.data, t: msg.params.metadata?.timestamp });
+      ws.send(JSON.stringify({ id: ++id, method: 'Page.screencastFrameAck', params: { sessionId: msg.params.sessionId } }));
+      return;
+    }
     if (msg.id && pending.has(msg.id)) {
       pending.get(msg.id)(msg);
       pending.delete(msg.id);
@@ -82,6 +89,7 @@ export async function openPage(url = process.env.TERVAIN_URL ?? 'http://127.0.0.
   if (init) await send('Page.addScriptToEvaluateOnNewDocument', { source: init });
   await send('Page.navigate', { url });
   const page = {
+    frames,
     async eval(js) {
       const r = await send('Runtime.evaluate', { expression: `(async()=>{${js}})()`, awaitPromise: true, returnByValue: true, timeout: 120000 });
       if (r.result?.exceptionDetails) throw new Error(r.result.exceptionDetails.exception?.description ?? 'eval failed');

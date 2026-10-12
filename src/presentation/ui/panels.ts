@@ -749,6 +749,7 @@ export function settingsPanel(ctx: PanelCtx): HTMLElement {
     toggle(S('set.captions'), 'captions'),
     toggle(S('set.fps'), 'showFps'),
     toggle(S('set.framecap'), 'frameCap60', S('set.framecap.desc')),
+    toggle(S('set.dynres'), 'dynamicResolution', S('set.dynres.desc')),
     toggle(S('set.treelod'), 'treeDetailByDistance', S('set.treelod.desc')),
     h('h2', {}, S('set.controls')),
     range(S('set.sensitivity'), () => st.mouseSensitivity, (v) => (st.mouseSensitivity = v), 0.2, 3, 0.05, (v) => v.toFixed(2)),
