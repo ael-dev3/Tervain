@@ -96,7 +96,7 @@ export class AnimalImpactEffects {
   }
 
   update(dt: number) {
-    if (this.disposed) return;
+    if (this.disposed || this.particles.length === 0) return;
     this.particles = this.particles.filter((particle) => {
       particle.life -= dt;
       if (particle.life <= 0) return false;
