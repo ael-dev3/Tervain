@@ -397,14 +397,26 @@ function raceTrenchGround(x: number, z: number, ground: number): number {
   const race = STREAMS.find((stream) => stream.id === 'village')!;
   const reach = race.halfWidth * 1.65;
   const { d, seg, t } = distToPolyline(x, z, race.points);
-  if (d >= reach) return ground;
+  // Where the race is cut deep through a rise, its bank keeps climbing past the rim at RACE_BANK_SLOPE until it meets
+  // the ground, so a deep cut opens into a wide, grassed bank rather than a 45° wall (playtest 4).
+  if (d >= reach + RACE_BANK_REACH) return ground;
   const profile = raceTarget();
   const along = profile.length[seg]! + t * (profile.length[seg + 1]! - profile.length[seg]!);
   const k = Math.min(profile.s.length - 2, Math.max(0, Math.floor(along)));
   const f = Math.min(1, Math.max(0, along - k));
   const bed = profile.bed[k]! + (profile.bed[k + 1]! - profile.bed[k]!) * f;
   // The cut's own cross-section: the bed across its middle, rising to the banks.
-  return Math.min(ground, bed + race.depth * smoothstep(race.halfWidth * 0.5, reach, d));
+  const bank = bed + race.depth * smoothstep(race.halfWidth * 0.5, reach, d) + RACE_BANK_SLOPE * Math.max(0, d - reach);
+  return smoothMin(ground, bank, RACE_BANK_ROUND);
+}
+
+/** The race's bank beyond its rim: rise per metre (about 24°), how far it may run, and the rounding where it meets the ground. */
+const RACE_BANK_SLOPE = 0.45, RACE_BANK_REACH = 12, RACE_BANK_ROUND = 0.6;
+
+/** min(a, b), rounded over a band `k` wide so a cut's lip has no crease; exact where they differ by more than `k`. */
+function smoothMin(a: number, b: number, k: number): number {
+  const h = Math.max(k - Math.abs(a - b), 0) / k;
+  return Math.min(a, b) - h * h * k * 0.25;
 }
 
 export function roadWeight(x: number, z: number): number {

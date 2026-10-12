@@ -1,3 +1,4 @@
+import { stoneworkStrike } from '../../src/presentation/npc/residentMotion';
 import * as THREE from 'three';
 import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
@@ -251,6 +252,33 @@ describe('the residents\' own rigs (A65)', () => {
     expect(seated.z).toBeLessThan(0.17 - back);
     for (let i = 0; i < 180; i++) poseRig(rig, pose('idle', false), 1 / 30);
     expect(Math.abs(where().z - standing.z)).toBeLessThan(0.1);
+  }, 60_000);
+
+  it('reuses the prepared quarry clip strike sample over repeated work frames', async () => {
+    const { rig } = await residentWithMotion('quarry-hand', { work: 'stonework' });
+    const resident = rig.resident!;
+    for (const _ of resident.prepareWork('stonework')) { void _; }
+    const tracks = Reflect.get(resident, 'tracks') as Map<unknown, Map<string, THREE.Vector3[]>>;
+    const track = [...tracks.values()].find(t => t.has('chiselTip'))!;
+    expect(track).toBeDefined();
+    let reads = 0;
+    for (const name of ['hammerA', 'hammerB']) {
+      for (const head of track.get(name) ?? []) {
+        const distance = head.distanceTo.bind(head);
+        head.distanceTo = (other) => { reads++; return distance(other); };
+      }
+    }
+    const first = stoneworkStrike(track);
+    const once = reads;
+    expect(once).toBeGreaterThan(0);
+    expect(first.strike).toBeGreaterThanOrEqual(0);
+    for (let i = 0; i < 120; i++) {
+      poseRig(rig, { mode: 'work', speed: 0, time: i / 60, t: 0, amp: 1, workGesture: 'stonework',
+        workSite: { kind: 'face', point: [0, 1, 0.6], normal: [0, 0, -1] } }, 1 / 60);
+    }
+    expect(stoneworkStrike(track)).toBe(first);
+    expect(reads).toBe(once);
+    expect(once).toBeLessThan(500);
   }, 60_000);
 
   it('shows a trade\'s tools only while working', async () => {

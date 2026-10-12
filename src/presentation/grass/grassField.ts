@@ -48,19 +48,19 @@ export const GRASS_MAX_SCALE = { height: 1.6 * 1.18, radius: 1.3 } as const;
 
 export const GRASS_QUALITY: Readonly<Record<Quality, GrassQualitySpec>> = {
   high: {
-    near: { clump: { blades: 12, segments: 4 }, width: 0.015, density: 11.2, tile: 12, fade: { start: 40, end: 41, sizeComp: 1, power: 1 }, band: { inStart: -2, inEnd: -1, outStart: 15, outEnd: 21 }, farBlades: 1 },
+    near: { clump: { blades: 12, segments: 4 }, width: 0.019, density: 11.2, tile: 12, fade: { start: 40, end: 41, sizeComp: 1, power: 1 }, band: { inStart: -2, inEnd: -1, outStart: 15, outEnd: 21 }, farBlades: 1 },
     far: { clump: { blades: 12, segments: 2 }, width: 0.055, density: 2.1, tile: 24, fade: { start: 24, end: 82, sizeComp: 2.1, power: 1.35 }, band: { inStart: 15, inEnd: 21, outStart: 1e5, outEnd: 1e5 + 1 }, farBlades: 0.5 },
     trample: { size: 256, extent: 48 },
     shadows: true,
   },
   medium: {
-    near: { clump: { blades: 12, segments: 3 }, width: 0.018, density: 6.0, tile: 12, fade: { start: 34, end: 35, sizeComp: 1, power: 1 }, band: { inStart: -2, inEnd: -1, outStart: 12, outEnd: 17 }, farBlades: 1 },
+    near: { clump: { blades: 12, segments: 3 }, width: 0.022, density: 6.0, tile: 12, fade: { start: 34, end: 35, sizeComp: 1, power: 1 }, band: { inStart: -2, inEnd: -1, outStart: 12, outEnd: 17 }, farBlades: 1 },
     far: { clump: { blades: 10, segments: 2 }, width: 0.06, density: 1.4, tile: 24, fade: { start: 20, end: 66, sizeComp: 2.2, power: 1.35 }, band: { inStart: 12, inEnd: 17, outStart: 1e5, outEnd: 1e5 + 1 }, farBlades: 0.5 },
     trample: { size: 128, extent: 40 },
     shadows: true,
   },
   low: {
-    near: { clump: { blades: 9, segments: 3 }, width: 0.022, density: 3.6, tile: 12, fade: { start: 26, end: 27, sizeComp: 1, power: 1 }, band: { inStart: -2, inEnd: -1, outStart: 9, outEnd: 13 }, farBlades: 1 },
+    near: { clump: { blades: 9, segments: 3 }, width: 0.027, density: 3.6, tile: 12, fade: { start: 26, end: 27, sizeComp: 1, power: 1 }, band: { inStart: -2, inEnd: -1, outStart: 9, outEnd: 13 }, farBlades: 1 },
     far: { clump: { blades: 8, segments: 2 }, width: 0.07, density: 0.9, tile: 24, fade: { start: 14, end: 48, sizeComp: 2.2, power: 1.3 }, band: { inStart: 9, inEnd: 13, outStart: 1e5, outEnd: 1e5 + 1 }, farBlades: 0.55 },
     trample: { size: 64, extent: 28 },
     shadows: false,
@@ -179,7 +179,8 @@ export function createGrassField(terrain: Terrain, habitat: Habitat, quality: Qu
     update(camera) {
       const ok = materials.every((m) => m.ok());
       // Near and far grass share frame work; only unseen reserve tiles consume this quota.
-      const reserve = { remaining: 2 };
+      // Stop starting unseen work after 2 ms; visible holes and initial preparation still finish immediately.
+      const reserve = { remaining: 2, deadline: performance.now() + 2 };
       for (const layer of layers) { layer.enabled = ok; layer.update(camera, reserve); }
     },
     stats() {

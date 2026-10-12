@@ -7,32 +7,39 @@ same build. "Busy" is main-thread time from an animation frame's start to its dr
 interval. Uploads are buffer and texture bytes handed to WebGL. Each slow frame's still shows what was on screen, with
 the hero's and camera's world positions.
 
-## Run live-7673e03: PASS · 0.0.14 · 7673e03
+## Run live-035a44c: PASS · 0.0.14 · 035a44c
 
 URL https://ael-dev3.github.io/Tervain/
 
-Clean rerun on a quiet gate machine (no other build or render running), timing only (`--video false`). The 167–316 ms desktop inside-window stalls of the 5c4a499 run did not recur, so they were most likely CPU contention on the gate machine. Upload totals here still count null render-target allocations; corrected accounting (#337) reaches the live build with #342.
+Clean run on a quiet gate machine, timing only (`--video false`), on the live build with #332, #336, #337 and #338. No stall: the 167–316 ms desktop frames of the 5c4a499 run, the pause-to-resume and the fence-walk stalls did not appear. The frames over 25 ms are single missed refreshes (about 33 ms; one 49.6 ms in run-fence) whose main-thread time was under 25 ms. Upload totals now count only real source bytes (#337).
 
 #### desktop (1280×720 @1×, CPU ÷1)
 
-Frame ms p50 16.7 · p95 17.1 · p99 17.3 · max 33.8; over 25 ms 3, over 50 ms 0; main thread idle 40%.
-Uploads 796.5 MiB in play, largest frame 9.8 MiB. Glitched frames: hidden hero 0, broken pose 0, screen jumps 0.
+Frame ms p50 16.7 · p95 17.1 · p99 17.2 · max 49.6; over 25 ms 9, over 50 ms 0; main thread idle 42%.
+Uploads 752.1 MiB in play, largest frame 13.1 MiB. Glitched frames: hidden hero 0, broken pose 0, screen jumps 0.
 Clip: none
 
 | Phase | Frame ms | Busy ms | Upload |
 | --- | ---: | ---: | ---: |
-| walk-fence | 33.4 | 11.1 | 0.1 MiB |
-| walk-fence | 33.4 | 17.3 | 9.8 MiB |
-| walk-fence | 33.8 | 14.3 | 0.1 MiB |
+| walk-fence | 33.6 | 13.7 | 0.1 MiB |
+| run-fence | 49.6 | 17.1 | 0.1 MiB |
+| run-fence | 33.4 | 14.9 | 0.1 MiB |
+| run-fence | 33.7 | 11.7 | 0.1 MiB |
+| run-fence | 33.6 | 11.9 | 0.1 MiB |
+| run-turn | 33.4 | 9.7 | 0.8 MiB |
+| run-round | 33.4 | 24.6 | 1.5 MiB |
+| run-round | 33.2 | 23.9 | 0.2 MiB |
+| run-round | 33.5 | 19.1 | 0.2 MiB |
 
 
 #### mac (1440×900 @2×, CPU ÷1)
 
-Frame ms p50 16.7 · p95 17.1 · p99 17.2 · max 33.8; over 25 ms 1, over 50 ms 0; main thread idle 42%.
-Uploads 685.3 MiB in play, largest frame 13.0 MiB. Glitched frames: hidden hero 0, broken pose 0, screen jumps 0.
+Frame ms p50 16.7 · p95 17.1 · p99 17.2 · max 33.5; over 25 ms 2, over 50 ms 0; main thread idle 38%.
+Uploads 729.2 MiB in play, largest frame 13.0 MiB. Glitched frames: hidden hero 0, broken pose 0, screen jumps 0.
 Clip: none
 
 | Phase | Frame ms | Busy ms | Upload |
 | --- | ---: | ---: | ---: |
-| run-fence | 33.8 | 14.4 | 0.1 MiB |
+| resume | 33.1 | 13.1 | 0.7 MiB |
+| walk-fence | 33.5 | 12.7 | 0.1 MiB |
 

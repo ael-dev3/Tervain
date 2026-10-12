@@ -183,7 +183,7 @@ export class TileLayer {
     return Math.hypot(dx, dy, dz);
   }
 
-  update(cam: THREE.Vector3, reserve?: { remaining: number }) {
+  update(cam: THREE.Vector3, reserve?: { remaining: number; deadline?: number }) {
     if (this.disposed) return;
     const o = this.o;
     if (!this.enabled) {
@@ -226,7 +226,7 @@ export class TileLayer {
       for (let i = 0; i < want.length && (i < cap || want[i]!.d < visibleEnd); i++) {
         const w = want[i]!;
         if (!this.first && w.d >= visibleEnd && reserve) {
-          if (reserve.remaining <= 0) break;
+          if (reserve.remaining <= 0 || (reserve.deadline !== undefined && performance.now() >= reserve.deadline)) break;
           reserve.remaining--;
         }
         const t = this.acquire();
