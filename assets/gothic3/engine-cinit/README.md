@@ -3619,3 +3619,10 @@ Typechecking, two focused frame checks, the counter/array/caller state check, an
 Constructor `30670444` now executes its original saved-register push, counter-address push, receiver preservation and imported call at `3067044c`. The original IAT receipt identifies `KERNEL32.dll!InterlockedIncrement`; the pending call retains return address `30670452`. The counter is still `ffffffff` and the critical-section array remains unchanged. The existing argv/NLS atomic handler is caller-specific and is not reused for this counter. No atomic result or successful return is manufactured.
 
 Typechecking, two focused state checks and 149 related source/image/browser checks passed. Execution remains pending at `3067044c`; reference mutation, critical-section initialization and complete startup remain unfinished.
+
+
+### Shared critical-section counter normal return
+
+The original call at `3067044c` now validates its retained stack argument against this CRT's live counter image and invokes the selected platform Interlocked counter service. The signed counter wraps from `ffffffff` to zero, the result is retained in EAX, and the stdcall return consumes the actual four-byte argument and resumes at `30670452`. The argv/NLS handler is not used. An interrupted counter write retains the pending call at `3067044c`, the unchanged counter and the original initializer/exit cursors.
+
+Typechecking, two focused normal/interrupted frame checks and 143 source/image checks passed. The constructor TEST/branch and four critical-section initialization calls remain pending. No additional shutdown entry was registered; complete startup and campaign play remain unfinished.
