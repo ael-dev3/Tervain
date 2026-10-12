@@ -1,0 +1,29 @@
+{
+  "schema": "gothic3.validation-checkpoint.v1",
+  "testedRevision": "d2bc3040a3569b82b9c47c4a47bc0326e0b8bb17",
+  "typecheck": {
+    "exitCode": 0
+  },
+  "nativeSuite": {
+    "files": 1,
+    "passed": 488,
+    "failed": 0,
+    "exitCode": 0,
+    "durationSeconds": 912.31
+  },
+  "productionBuild": {
+    "exitCode": 0
+  },
+  "nativePendingCallback": "30732670",
+  "shutdownEntries": 62,
+  "initializerCursorOffset": "0x1f4",
+  "exitCursorOffset": 248,
+  "generalSuiteRerun": false,
+  "deploymentVerified": false,
+  "campaignCompletionVerified": false,
+  "logs": [
+    "gothic3-enum-batch-native-suite-typecheck.log",
+    "gothic3-enum-batch-native-suite-tests.log",
+    "gothic3-enum-batch-native-suite-build.log"
+  ]
+}
