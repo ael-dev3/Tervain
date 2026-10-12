@@ -20,6 +20,43 @@ const SLUNG_UP = new THREE.Vector3(.42, .9, 0).normalize();
 
 type Snapshot = { position: THREE.Vector3; quaternion: THREE.Quaternion };
 const Z = new THREE.Vector3(0, 0, 1);
+
+/**
+ * The slung bow's give (A118): it hung rigidly on the spine, the same diagonal in every frame of a walk. A damped
+ * pendulum in the plane of his back swings it with the sideways and vertical jolts of each step and lags it on starts,
+ * stops and turns; a small spring lets it bob. At rest both settle to the strapped pose exactly.
+ */
+export class SlungSway {
+  angle = 0;
+  bob = 0;
+  private spin = 0;
+  private lift = 0;
+  private readonly last = new THREE.Vector3();
+  private readonly velocity = new THREE.Vector3();
+  private primed = false;
+  static readonly MAX_ANGLE = 0.09;
+  static readonly MAX_BOB = 0.025;
+
+  /** `socket` in world space; `toLocal` turns a world vector into the back's frame (x across, y along the bow). */
+  update(dt: number, socket: THREE.Vector3, toLocal: THREE.Quaternion): void {
+    if (!(dt > 0)) return;
+    if (!this.primed) { this.last.copy(socket); this.velocity.set(0, 0, 0); this.primed = true; return; }
+    const velocity = _v.subVectors(socket, this.last).divideScalar(dt);
+    const accel = _a.subVectors(velocity, this.velocity).divideScalar(dt).applyQuaternion(toLocal);
+    this.velocity.copy(velocity); this.last.copy(socket);
+    // A jump to a new place is not a jolt to swing from.
+    if (accel.lengthSq() > 400 * 400) { this.angle = this.spin = this.bob = this.lift = 0; return; }
+    const w = Math.PI * 2 * 1.6, b = Math.PI * 2 * 3.2;
+    this.spin += (-w * w * this.angle - 2 * 0.25 * w * this.spin - (accel.x * 0.55 + accel.y * 0.2) * 1.4) * dt;
+    this.angle = THREE.MathUtils.clamp(this.angle + this.spin * dt, -SlungSway.MAX_ANGLE, SlungSway.MAX_ANGLE);
+    if (Math.abs(this.angle) === SlungSway.MAX_ANGLE) this.spin *= 0.5;
+    this.lift += (-b * b * this.bob - 2 * 0.35 * b * this.lift - accel.y * 0.2) * dt;
+    this.bob = THREE.MathUtils.clamp(this.bob + this.lift * dt, -SlungSway.MAX_BOB, SlungSway.MAX_BOB);
+  }
+
+  reset(): void { this.angle = this.spin = this.bob = this.lift = 0; this.primed = false; }
+}
+const _v = new THREE.Vector3(), _a = new THREE.Vector3(), _q = new THREE.Quaternion(), _p = new THREE.Vector3();
 const Y = new THREE.Vector3(0, 1, 0);
 const clamp = THREE.MathUtils.clamp;
 const smooth = (t: number) => { const v = clamp(t, 0, 1); return v * v * (3 - 2 * v); };
@@ -45,6 +82,9 @@ export class PlayerHuntingVisual {
   /** Seconds the bow stays in hand before it is slung on the back again (A75). */
   private ready = 0;
   private readonly back: THREE.Group;
+  /** Between the strap and the bow: its swing and bob (A118). */
+  private readonly sway = new THREE.Group();
+  private readonly swing = new SlungSway();
   private draw = 0;
   private recoil = 0;
   private skinProgress: number | null = null;
@@ -84,6 +124,8 @@ export class PlayerHuntingVisual {
     new THREE.Matrix4().copy(spine.matrixWorld).invert().multiply(rig.root.matrixWorld).multiply(slung)
       .decompose(this.back.position, this.back.quaternion, this.back.scale);
     spine.add(this.back);
+    this.sway.name = 'Hunting / slung bow swing';
+    this.back.add(this.sway);
     const steel = new THREE.MeshStandardMaterial({ color: 0x958e82, roughness: .72, metalness: .5 });
     this.knife.name = 'Hunting / skinning knife in right palm';
     const blade = new THREE.Mesh(new THREE.BoxGeometry(.023, .018, .18), steel);
@@ -159,7 +201,11 @@ export class PlayerHuntingVisual {
     if (!this.aiming) this.ready = Math.max(0, this.ready - Math.max(0, dt));
     // Carried, the bow rides on his back and both hands hang free; it comes to hand to aim and shoot (A75).
     if (!this.inHand) {
-      if (this.bow.parent !== this.back) this.back.add(this.bow);
+      if (this.bow.parent !== this.sway) { this.sway.add(this.bow); this.swing.reset(); }
+      this.back.updateWorldMatrix(true, false);
+      this.swing.update(dt, this.back.getWorldPosition(_p), this.back.getWorldQuaternion(_q).invert());
+      this.sway.rotation.set(0, 0, this.swing.angle);
+      this.sway.position.set(0, this.swing.bob, 0);
       this.nockedArrow.visible = false;
       const positions = this.string.geometry.attributes.position as THREE.BufferAttribute;
       positions.setXYZ(1, 0, 0, -.14); positions.needsUpdate = true;
