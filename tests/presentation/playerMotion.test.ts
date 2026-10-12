@@ -277,6 +277,33 @@ describe('player motion and action contacts', () => {
     expect(water.player.z).toBeLessThan(0.5);
   });
 
+  it.each([false, true])('vaults crossing approaches across orientations, slopes and tick rates (sprint=%s)', sprint => {
+    const failures: string[] = [];
+    for (const hz of [30, 60, 120]) for (const fenceYaw of [0, Math.PI / 4, Math.PI / 2])
+      for (const side of [-1, 1]) for (const slope of [-.2, 0, .2]) for (let degrees = 0; degrees < 360; degrees += 15) {
+        const cos = Math.cos(fenceYaw), sin = Math.sin(fenceYaw);
+        const ground = (x: number, z: number) => (x * cos - z * sin) * slope;
+        const s = setup(ground);
+        s.ctx.terrain.heightAt = ground;
+        s.ctx.colliders.box('fence', 0, 0, .12, 20, fenceYaw, true, { minY: -.6, maxY: 5.1 });
+        const normalYaw = Math.atan2(-side * cos, side * sin);
+        const angle = degrees * Math.PI / 180;
+        s.player.setPosition(side * .55 * cos, -side * .55 * sin, normalYaw + angle, s.ctx.terrain);
+        s.ctx.viewYaw = normalYaw + angle;
+        s.setMove(0, 1); if (sprint) s.held.add('sprint');
+        for (let i = 0; i < Math.ceil(hz * .15); i++) s.tick(1 / hz);
+        s.presses.add('jump'); s.tick(1 / hz);
+        const crossing = degrees < 90 || degrees > 270;
+        if ((s.player.vault !== null) !== crossing) failures.push(`${hz}Hz yaw=${fenceYaw.toFixed(2)} side=${side} slope=${slope} angle=${degrees}`);
+        if (s.player.vault) {
+          for (let i = 0; i < hz; i++) s.tick(1 / hz);
+          const across = s.player.x * cos - s.player.z * sin;
+          if (side * across >= 0) failures.push(`did not cross: ${hz}Hz angle=${degrees}`);
+        }
+      }
+    expect(failures.length, failures.slice(0, 8).join('; ')).toBe(0);
+  }, 60_000);
+
   it('cancels an in-progress fence vault when restoring the player position', () => {
     const s = setup();
     s.ctx.terrain.heightAt = () => 0;
@@ -332,6 +359,18 @@ describe('player motion and action contacts', () => {
     s.presses.add('jump'); s.tick();
     if (roof) expect(s.player.vault).toBeNull();
     else expect(s.player.vault).not.toBeNull();
+  });
+
+  it('vaults a fence when jump is pressed a stride before it, taking longer over the longer leap (playtest 5)', () => {
+    const s = setup();
+    s.ctx.terrain.heightAt = () => 0;
+    s.ctx.colliders.box('fence', 1.8, 0, .12, 3, 0, true, { minY: -.3, maxY: 1.7 });
+    s.player.yaw = Math.PI / 2;
+    s.presses.add('jump'); s.tick();
+    expect(s.player.vault).not.toBeNull();
+    expect(s.player.vault!.seconds).toBeGreaterThan(0.55);
+    for (let i = 0; i < 90; i++) s.tick();
+    expect(s.player.x).toBeGreaterThan(1.8 + .12);
   });
 
   it('resets action, recoil and velocity when loading, teleporting or restarting', () => {

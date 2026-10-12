@@ -35,13 +35,16 @@ interface Surface {
   vertices: Float64Array;
   versions: Uint32Array;
   version: number;
+  geometryVersion: number;
 }
+
+const attributeVersion = (attribute: THREE.BufferAttribute | THREE.InterleavedBufferAttribute) =>
+  'isInterleavedBufferAttribute' in attribute ? attribute.data.version : attribute.version;
 
 /** Actual animated triangles decide contact; rest-surface anatomy decides which tissue was contacted. */
 export class AnimalArrowSurface {
   private surfaces: Surface[] = [];
   private raycaster = new THREE.Raycaster();
-  private local = new THREE.Vector3();
   private a = new THREE.Vector3();
   private b = new THREE.Vector3();
   private c = new THREE.Vector3();
@@ -51,6 +54,7 @@ export class AnimalArrowSurface {
   private sphere = new THREE.Sphere();
   private nearest = new THREE.Vector3();
   private cellBounds = new THREE.Box3();
+  private poseTransform = new THREE.Matrix4();
   private transformed = new THREE.Box3();
   private point = new THREE.Vector3();
 
@@ -79,7 +83,7 @@ export class AnimalArrowSurface {
       }
       this.surfaces.push({ mesh, bounds, cells: [...cells.values()].map((cell) => ({ ...cell, joints: [...cell.joints] })),
         headJoints: new Set(mesh.skeleton.bones.flatMap((bone, index) => bone.name === 'head' || bone.name === 'jaw' ? [index] : [])),
-        transforms: mesh.skeleton.bones.map(() => new THREE.Matrix4()), vertices: new Float64Array(position.count * 3), versions: new Uint32Array(position.count), version: 0 });
+        transforms: mesh.skeleton.bones.map(() => new THREE.Matrix4()), vertices: new Float64Array(position.count * 3), versions: new Uint32Array(position.count), version: 0, geometryVersion: -1 });
     });
   }
 
@@ -94,9 +98,20 @@ export class AnimalArrowSurface {
       const along = this.nearest.copy(this.sphere.center).sub(origin).dot(this.raycaster.ray.direction);
       this.raycaster.ray.at(Math.max(0, Math.min(maxDistance, along)), this.nearest);
       if (this.nearest.distanceToSquared(this.sphere.center) > this.sphere.radius * this.sphere.radius) continue;
-      surface.version++;
-      for (let joint = 0; joint < surface.transforms.length; joint++) surface.transforms[joint]!.copy(mesh.matrixWorld).multiply(mesh.bindMatrixInverse)
-        .multiply(mesh.skeleton.bones[joint]!.matrixWorld).multiply(mesh.skeleton.boneInverses[joint]!).multiply(mesh.bindMatrix);
+      const geometryVersion = attributeVersion(mesh.geometry.getAttribute('position'))
+        + attributeVersion(mesh.geometry.getAttribute('skinIndex')) + attributeVersion(mesh.geometry.getAttribute('skinWeight'));
+      // Arrow subsegments can query the same posed skin repeatedly. Morph targets retain per-query invalidation.
+      let poseChanged = surface.version === 0 || geometryVersion !== surface.geometryVersion || !!mesh.morphTargetInfluences?.length;
+      for (let joint = 0; joint < surface.transforms.length; joint++) {
+        this.poseTransform.copy(mesh.matrixWorld).multiply(mesh.bindMatrixInverse)
+          .multiply(mesh.skeleton.bones[joint]!.matrixWorld).multiply(mesh.skeleton.boneInverses[joint]!).multiply(mesh.bindMatrix);
+        if (!surface.transforms[joint]!.equals(this.poseTransform)) {
+          surface.transforms[joint]!.copy(this.poseTransform);
+          poseChanged = true;
+        }
+      }
+      if (poseChanged) surface.version++;
+      surface.geometryVersion = geometryVersion;
       const index = mesh.geometry.index;
       for (const cell of surface.cells) {
         this.cellBounds.makeEmpty();
@@ -133,9 +148,8 @@ export class AnimalArrowSurface {
 
   private classify(surface: Surface, intersection: THREE.Intersection): 'head' | 'body' | null {
     const { mesh, bounds, headJoints } = surface, face = intersection.face!;
-    mesh.worldToLocal(this.local.copy(intersection.point));
-    mesh.getVertexPosition(face.a, this.a); mesh.getVertexPosition(face.b, this.b); mesh.getVertexPosition(face.c, this.c);
-    THREE.Triangle.getBarycoord(this.local, this.a, this.b, this.c, this.barycentric);
+    this.posedVertex(surface, face.a, this.a); this.posedVertex(surface, face.b, this.b); this.posedVertex(surface, face.c, this.c);
+    THREE.Triangle.getBarycoord(intersection.point, this.a, this.b, this.c, this.barycentric);
     this.rest.set(0, 0, 0);
     let headWeight = 0;
     const position = mesh.geometry.attributes.position!, indices = mesh.geometry.attributes.skinIndex!, weights = mesh.geometry.attributes.skinWeight!;

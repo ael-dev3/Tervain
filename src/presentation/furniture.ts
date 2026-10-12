@@ -190,6 +190,12 @@ export function buildFurniture(templates: FurnitureTemplates, rooms: RoomLocator
   let shownKey = -1;
   return {
     group,
+    placementAuditTargets() {
+      group.updateWorldMatrix(true, false);
+      return meshes.filter(entry => !entry.mesh.name.includes('floor shadows')).flatMap(({ mesh, instances }) =>
+        instances.map((instance, i) => ({ label: `${mesh.name}[${i}]`, kind: 'prop' as const, geometry: mesh.geometry,
+          matrix: new THREE.Matrix4().multiplyMatrices(group.matrixWorld, instance.matrix) })));
+    },
     update(_dt: number, f: FrameContext) {
       camera.set(f.camera.position.x, f.camera.position.z);
       focus.set(f.focus.x, f.focus.z);
@@ -306,6 +312,7 @@ export function deferredFurniture(): SceneModule & { attach(inner: SceneModule):
   return {
     group,
     get arrived() { return inner !== null; },
+    placementAuditTargets: () => inner?.placementAuditTargets?.() ?? [],
     attach(next) {
       if (disposed) { next.dispose?.(); return; }
       inner = next;

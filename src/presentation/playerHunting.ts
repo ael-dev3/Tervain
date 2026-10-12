@@ -15,11 +15,15 @@ export const BOW_READY_SECONDS = 2.5;
  * Slung across the back (root space: +x his left, +z forward): the grip behind his shoulder blades, the limbs from his
  * right hip up over his left shoulder, the string outward, away from his back.
  */
-const SLUNG_AT = new THREE.Vector3(.02, 1.34, -.2);
+// Out from the spine far enough that the limbs clear the vest and shoulder blade (playtest 5: they cut into his back).
+const SLUNG_AT = new THREE.Vector3(.02, 1.32, -.27);
+/** The slung bow at carrying size: full size it reached from above his shoulder to below his knee (playtest 5). */
+const SLUNG_SCALE = .82;
 const SLUNG_UP = new THREE.Vector3(.42, .9, 0).normalize();
 
 type Snapshot = { position: THREE.Vector3; quaternion: THREE.Quaternion };
 const Z = new THREE.Vector3(0, 0, 1);
+const _tipLow = new THREE.Vector3(), _tipHigh = new THREE.Vector3(), _nock = new THREE.Vector3(), _dir = new THREE.Vector3(), _yAxis = new THREE.Vector3(0, 1, 0);
 
 /**
  * The slung bow's give (A118): it hung rigidly on the spine, the same diagonal in every frame of a walk. A damped
@@ -73,7 +77,7 @@ export class PlayerHuntingVisual {
   private readonly rightHand: THREE.Object3D;
   private readonly leftFoot: THREE.Object3D | null;
   private readonly rightFoot: THREE.Object3D | null;
-  private readonly string: THREE.Line;
+  private readonly string: THREE.Group;
   private readonly skins: { mesh: THREE.SkinnedMesh; vertices: number[] }[] = [];
   private readonly joints = new Map<string, THREE.Object3D | null>();
   private direction = new THREE.Vector3(0, 0, 1);
@@ -108,10 +112,13 @@ export class PlayerHuntingVisual {
     ]);
     const limbs = new THREE.Mesh(new THREE.TubeGeometry(curve, 24, .018, 6, false), wood);
     const handle = new THREE.Mesh(new THREE.CylinderGeometry(.024, .024, .18, 8), grip);
-    this.string = new THREE.Line(new THREE.BufferGeometry().setFromPoints([
-      new THREE.Vector3(0, -.65, -.14), new THREE.Vector3(0, 0, -.14), new THREE.Vector3(0, .65, -.14),
-    ]), new THREE.LineBasicMaterial({ color: 0xd7c8a6 }));
+    // A lit hemp cord from tip to nock to tip; a one-pixel unlit line read as a glowing wire beside the bow (playtest 5).
+    const cord = new THREE.MeshStandardMaterial({ color: 0x9c8f72, roughness: .95 });
+    const piece = () => new THREE.Mesh(new THREE.CylinderGeometry(.0035, .0035, 1, 5, 1, true), cord);
+    this.string = new THREE.Group();
+    this.string.add(piece(), piece());
     this.string.name = 'Hunting / drawn bow string';
+    this.setString(-.14);
     this.bow.add(limbs, handle, this.string, this.nockedArrow);
     this.leftPalm.add(this.bow);
     // The back socket rides the upper spine, so the slung bow moves with his chest and shoulders (A75).
@@ -202,16 +209,20 @@ export class PlayerHuntingVisual {
     // Carried, the bow rides on his back and both hands hang free; it comes to hand to aim and shoot (A75).
     if (!this.inHand) {
       if (this.bow.parent !== this.sway) { this.sway.add(this.bow); this.swing.reset(); }
+      this.bow.scale.setScalar(SLUNG_SCALE);
+      // Flat across the back, the string lying along it, not standing out behind him with the lower limb by his thigh.
+      this.bow.rotation.set(0, Math.PI / 2, 0);
       this.back.updateWorldMatrix(true, false);
       this.swing.update(dt, this.back.getWorldPosition(_p), this.back.getWorldQuaternion(_q).invert());
       this.sway.rotation.set(0, 0, this.swing.angle);
       this.sway.position.set(0, this.swing.bob, 0);
       this.nockedArrow.visible = false;
-      const positions = this.string.geometry.attributes.position as THREE.BufferAttribute;
-      positions.setXYZ(1, 0, 0, -.14); positions.needsUpdate = true;
+      this.setString(-.14);
       return;
     }
     if (this.bow.parent !== this.leftPalm) this.leftPalm.add(this.bow);
+    this.bow.scale.setScalar(1);
+    this.bow.rotation.set(0, 0, 0);
     const localDir = this.direction.clone().applyQuaternion(this.rig.root.getWorldQuaternion(new THREE.Quaternion()).invert());
     // At rest the bow hangs upright beside the leg, its back to the front and the string behind the grip (A69). It was
     // pitched 36° nose-down, which laid it diagonally across the thigh with the string cutting in front of the body.
@@ -227,10 +238,7 @@ export class PlayerHuntingVisual {
     const recoil = this.recoil > 0 ? this.recoil / .22 : 0;
     this.recoil = Math.max(0, this.recoil - Math.max(0, dt));
     const nock = -.14 - .39 * this.draw;
-    const positions = this.string.geometry.attributes.position as THREE.BufferAttribute;
-    positions.setXYZ(1, 0, 0, nock);
-    positions.needsUpdate = true;
-    this.string.geometry.computeBoundingSphere();
+    this.setString(nock);
     this.nockedArrow.visible = this.aiming && this.recoil <= 0;
     this.nockedArrow.position.set(0, 0, nock + .74);
     this.rig.root.updateMatrixWorld(true);
@@ -307,6 +315,17 @@ export class PlayerHuntingVisual {
       this.rig.body.position.y += Math.min(.15, -lowest);
     }
     this.rig.root.updateMatrixWorld(true);
+  }
+
+  /** Lays the cord from each tip to the nock, `nock` metres along the bow's z (−0.14 at rest, further back drawn). */
+  private setString(nock: number): void {
+    const tips = [_tipLow.set(0, -.65, -.14), _tipHigh.set(0, .65, -.14)], at = _nock.set(0, 0, nock);
+    this.string.children.forEach((segment, i) => {
+      const tip = tips[i]!;
+      segment.position.copy(tip).add(at).multiplyScalar(.5);
+      segment.quaternion.setFromUnitVectors(_yAxis, _dir.copy(at).sub(tip).normalize());
+      segment.scale.set(1, tip.distanceTo(at), 1);
+    });
   }
 
   private joint(part: string): THREE.Object3D | null {

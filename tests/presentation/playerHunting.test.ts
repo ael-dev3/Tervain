@@ -30,15 +30,17 @@ describe('bow and skinning on the delivered hero skeleton', () => {
     s.visual.setAim(direction, 0);
     s.pose();
     const startHand = s.bones['mixamorig:RightHand'].getWorldPosition(new THREE.Vector3());
-    const string = s.visual.bow.getObjectByName('Hunting / drawn bow string') as THREE.Line;
-    const nockStart = (string.geometry.attributes.position as THREE.BufferAttribute).getZ(1);
+    const string = s.visual.bow.getObjectByName('Hunting / drawn bow string')!;
+    // Each cord segment runs from a tip (z −0.14) to the nock; its midpoint gives the nock.
+    const nockZ = () => 2 * string.children[0]!.position.z + .14;
+    const nockStart = nockZ();
     s.visual.setAim(direction, 1);
     s.pose();
     expect(s.visual.bow.visible).toBe(true);
     expect(s.visual.bow.parent!.parent).toBe(s.bones['mixamorig:LeftHand']);
     const actualDirection = new THREE.Vector3(0, 0, 1).applyQuaternion(s.visual.nockedArrow.getWorldQuaternion(new THREE.Quaternion()));
     expect(actualDirection.distanceTo(direction)).toBeLessThan(1e-6);
-    const nockEnd = (string.geometry.attributes.position as THREE.BufferAttribute).getZ(1);
+    const nockEnd = nockZ();
     expect(nockStart - nockEnd).toBeCloseTo(.39, 6);
     const endHand = s.bones['mixamorig:RightHand'].getWorldPosition(new THREE.Vector3());
     expect(startHand.distanceTo(endHand)).toBeGreaterThan(.25);
@@ -204,11 +206,15 @@ describe('carrying the bow (A75)', () => {
     // Behind him and between the shoulder blades, not by his leg.
     expect(grip.z).toBeLessThan(-.08);
     expect(grip.y).toBeGreaterThan(1);
-    // The string is on the outside, away from his back.
+    // Flat across his back (playtest 5): the string lies along the back at the grip's depth, not standing out behind him,
+    // and the carried bow is short enough that its lower tip stays above his thigh.
     const string = s.visual.bow.getObjectByName('Hunting / drawn bow string')!;
     expect(local(string.parent!).z).toBeLessThan(0);
     const stringMid = s.rig.root.worldToLocal(string.localToWorld(new THREE.Vector3(0, 0, -.14)));
-    expect(stringMid.z).toBeLessThan(grip.z);
+    expect(Math.abs(stringMid.z - grip.z)).toBeLessThan(.03);
+    const tip = (y: number) => s.rig.root.worldToLocal(s.visual.bow.localToWorld(new THREE.Vector3(0, y, -.14)));
+    expect(Math.min(tip(-.65).y, tip(.65).y)).toBeGreaterThan(.7);
+    expect(tip(-.65).distanceTo(tip(.65))).toBeLessThan(1.12);
     // No grip asked of the free hands while it is slung.
     expect(s.rig.hero.gripOf('Left')).toEqual(s.rig.hero.gripOf('Right'));
     s.visual.setAim(new THREE.Vector3(0, 0, 1), .5);
