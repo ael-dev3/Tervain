@@ -276,6 +276,21 @@ describe('Deepwood floor', () => {
     floor.update(1, frame);
     meshes.forEach((m, i) => expect(m.instanceMatrix.version).toBe(uploaded[i]));
     meshes.forEach((m, i) => expect(Array.from(m.geometry.getAttribute('position').array)).toEqual(snapshots[i]));
+    const packed = meshes.map(m => ({ matrices: Array.from(m.instanceMatrix.array), colours: Array.from(m.instanceColor!.array), count: m.count, colourVersion: m.instanceColor!.version, coverageVersion: (m.geometry.getAttribute('aDistanceCoverage') as THREE.BufferAttribute).version }));
+    camera.position.x += 0.00001;
+    camera.updateMatrixWorld();
+    floor.update(0.01, frame);
+    meshes.forEach((m, i) => {
+      expect(m.count).toBe(packed[i]!.count);
+      expect(Array.from(m.instanceMatrix.array)).toEqual(packed[i]!.matrices);
+      expect(Array.from(m.instanceColor!.array)).toEqual(packed[i]!.colours);
+      expect(m.instanceMatrix.version).toBe(uploaded[i]);
+      expect(m.instanceColor!.version).toBe(packed[i]!.colourVersion);
+      expect((m.geometry.getAttribute('aDistanceCoverage') as THREE.BufferAttribute).version).toBe(packed[i]!.coverageVersion + 1);
+    });
+    const stableCount = meshes.reduce((n, m) => n + m.count, 0);
+    process.stdout.write(`forest floor stable-pack uploads: ${stableCount * 84} -> ${stableCount * 8} bytes\n`);
+
     for (const mesh of meshes) {
       mesh.instanceMatrix.clearUpdateRanges(); mesh.instanceColor?.clearUpdateRanges();
       (mesh.geometry.getAttribute('aDistanceCoverage') as THREE.BufferAttribute).clearUpdateRanges();
@@ -283,14 +298,18 @@ describe('Deepwood floor', () => {
     camera.lookAt(-200, camera.position.y, 22);
     camera.updateMatrixWorld();
     floor.update(0.01, frame);
-    meshes.forEach((m, i) => expect(m.instanceMatrix.version).toBeGreaterThan(uploaded[i]!));
+    meshes.forEach((m, i) => {
+      const changed = Array.from(m.instanceMatrix.array).some((v, k) => v !== packed[i]!.matrices[k]);
+      if (changed) expect(m.instanceMatrix.version).toBeGreaterThan(uploaded[i]!);
+      else expect(m.instanceMatrix.version).toBe(uploaded[i]);
+    });
     let fullBytes = 0, activeBytes = 0;
     for (const mesh of meshes) for (const attribute of [mesh.instanceMatrix, mesh.instanceColor,
       mesh.geometry.getAttribute('aDistanceCoverage') as THREE.BufferAttribute]) {
       if (!attribute) continue;
-      expect(attribute.updateRanges).toEqual([{ start: 0, count: Math.max(1, mesh.count) * attribute.itemSize }]);
+      if (attribute.updateRanges.length) expect(attribute.updateRanges).toEqual([{ start: 0, count: Math.max(1, mesh.count) * attribute.itemSize }]);
       fullBytes += attribute.array.byteLength;
-      activeBytes += attribute.updateRanges[0]!.count * 4;
+      activeBytes += (attribute.updateRanges[0]?.count ?? 0) * 4;
     }
     expect(activeBytes).toBeLessThan(fullBytes / 2);
     process.stdout.write(`forest floor turn uploads: ${fullBytes} -> ${activeBytes} bytes\n`);

@@ -491,7 +491,7 @@ export function buildForestFloor(terrain: Terrain, exclusions: Exclusions, quali
     batch.push(p);
     batches.set(key, batch);
   }
-  const owned: { geometry: THREE.BufferGeometry; mesh: THREE.InstancedMesh; pieces: ForestFloorPiece[]; transforms: THREE.Matrix4[]; bounds: THREE.Sphere[]; visibility: InstanceDistanceVisibility }[] = [];
+  const owned: { geometry: THREE.BufferGeometry; mesh: THREE.InstancedMesh; pieces: ForestFloorPiece[]; transforms: THREE.Matrix4[]; bounds: THREE.Sphere[]; visibility: InstanceDistanceVisibility; packed: number[] }[] = [];
   const matrix = new THREE.Matrix4(), rotation = new THREE.Quaternion(), position = new THREE.Vector3(), scale = new THREE.Vector3();
   const up = new THREE.Vector3(0, 1, 0), normal = new THREE.Vector3(), yaw = new THREE.Quaternion(), col = new THREE.Color();
   for (const [key, batch] of batches) {
@@ -525,7 +525,7 @@ export function buildForestFloor(terrain: Terrain, exclusions: Exclusions, quali
       // Shadows move with the fronds.
       if (foliage) { installFloorPlantWind(mesh.customDepthMaterial!, foliage); installFloorPlantWind(mesh.customDistanceMaterial!, foliage); }
     }
-    owned.push({ geometry, mesh, pieces: batch, transforms, bounds, visibility });
+    owned.push({ geometry, mesh, pieces: batch, transforms, bounds, visibility, packed: [] });
     group.add(mesh);
   }
   let disposed = false, visible = 0, sinceRefresh = 1, lastShadowPresent = false;
@@ -563,21 +563,27 @@ export function buildForestFloor(terrain: Terrain, exclusions: Exclusions, quali
       frustum.setFromProjectionMatrix(pv);
       visible = 0;
       for (const b of owned) {
-        let count = 0;
+        let count = 0, staticChanged = false;
         for (let i = 0; i < b.pieces.length; i++) {
           const p = b.pieces[i]!;
           const coverage = smoothDistanceFade(Math.hypot(p.x - f.camera.position.x, p.z - f.camera.position.z), fade.start, fade.end);
           if (coverage <= 0) continue;
           sphere.copy(b.bounds[i]!);
           if (!frustum.intersectsSphere(sphere) && !(b.mesh.castShadow && f.shadowFrustum?.intersectsSphere(sphere))) continue;
-          b.mesh.setMatrixAt(count, b.transforms[i]!);
-          b.mesh.setColorAt(count, col.setScalar(0.85 + p.rank * 0.23));
+          // These fields depend only on the patch occupying this packed slot, not the camera or fade.
+          if (b.packed[count] !== i) {
+            b.mesh.setMatrixAt(count, b.transforms[i]!);
+            b.mesh.setColorAt(count, col.setScalar(0.85 + p.rank * 0.23));
+            staticChanged = true;
+          }
+          b.packed[count] = i;
           b.visibility.coverage.setXY(count, 0, coverage);
           count++;
         }
         b.mesh.count = count;
+        b.packed.length = count;
         // Only the packed visible prefix was rewritten; keep unused population capacity off the bus.
-        for (const attribute of [b.mesh.instanceMatrix, b.mesh.instanceColor, b.visibility.coverage]) {
+        for (const attribute of staticChanged ? [b.mesh.instanceMatrix, b.mesh.instanceColor, b.visibility.coverage] : [b.visibility.coverage]) {
           if (!attribute) continue;
           attribute.clearUpdateRanges();
           attribute.addUpdateRange(0, Math.max(1, count) * attribute.itemSize);
