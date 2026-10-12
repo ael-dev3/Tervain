@@ -7,6 +7,24 @@ passes on the live build.
     npm run play-gate                     # live build, checked against main, both profiles
     npm run play-gate -- --url http://127.0.0.1:4173/ --against head   # a local preview of the checked-out commit
 
+## A required check
+
+Hosted runners have no GPU, so the gate runs on a machine that has one. For a pull request, build and preview its
+head, run `npm run play-gate -- --url http://127.0.0.1:4173/ --against head`, and paste the summary into the pull
+request (description or a comment). A passing run ends with `play-gate: PASS <commit>`. The **Play gate** workflow
+looks for that line for the current head commit and sets the `play-gate` status, which branch protection on `main`
+requires. Every new push to the pull request needs a new run. After the merge, run the gate on the live build
+(`npm run play-gate`) once the deploy lands.
+
+## A required check
+
+Hosted runners have no GPU, so the gate runs on a machine that has one. For a pull request, build and preview its
+head, run `npm run play-gate -- --url http://127.0.0.1:4173/ --against head`, and paste the summary into the pull
+request (description or a comment). A passing run ends with `play-gate: PASS <commit>`. The **Play gate** workflow
+looks for that line for the current head commit and sets the `play-gate` status, which branch protection on `main`
+requires. Every new push to the pull request needs a new run. After the merge, run the gate on the live build
+(`npm run play-gate`) once the deploy lands.
+
 Run it on an otherwise idle machine with a visible Chrome window: other work running alongside skews frame times.
 
 ## What it does

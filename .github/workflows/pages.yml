@@ -16,6 +16,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # The site is published from the build alone, so a merge reaches the live link in minutes. Every change to main came
+  # through a pull request whose tests ran here first; the tests still run on main below, alongside the publish.
   build:
     runs-on: ubuntu-latest
     steps:
@@ -25,17 +27,29 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
-      - name: Typecheck
-        run: npm run typecheck
-      - name: Scenario tests
-        run: npm test
-      - name: Build
+      - name: Typecheck and build
         run: npm run build
       - name: Upload site
         if: github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@v3
         with:
           path: dist
+
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Scenario tests (shard ${{ matrix.shard }} of 4)
+        run: npx vitest run --shard=${{ matrix.shard }}/4
 
   deploy:
     if: github.event_name != 'pull_request'
