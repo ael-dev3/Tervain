@@ -531,3 +531,26 @@ four length/capacity/terminator fields, eight returned enters and six leaves,
 held depth two, original pending finalizer and preserved nested exception frames.
 All three allocation NULL cases still retain their original new-handler call.
 Complete locale/facet construction, startup and campaign play remain unfinished.
+
+## Original locale-selection query caller and full checkpoint validation
+
+Character-locale finalization now executes its original two PUSH-zero instructions
+and CALL at `0x306708d0`, return address `0x306708d5`. Locale selection
+`0x3067b098` is the current pending operation. The actual arguments remain known
+zero; no locale name or selection success is fabricated.
+
+Six immediate selection dependencies are now captured by the reproducible source
+generator, including thread-data acquisition. The Engine bundle has 410 methods.
+Further PTD, query-core and name-buffer research was prepared outside the checkout
+while validation ran; it has not been adopted or executed by this checkpoint.
+
+The complete engine-io-frame, engine-cinit-source and engine-cinit-images files
+passed together: 664 tests across three files, duration 869.53 seconds. Typechecking
+also passed. Exact tested source hashes and log hash are recorded in
+`validation-character-facet-locale-query.json`. The checkout remained unchanged
+through terminal process exit. These checks cover this native startup foundation,
+including the current facet allocation/failure paths, not full campaign gameplay.
+
+Complete locale selection, facet construction, native startup, world activation
+and a new browser game played through an original ending with save/reload remain
+unfinished. Production build and publication have their separate evidence.
