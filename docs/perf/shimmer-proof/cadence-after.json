@@ -1,0 +1,10 @@
+{
+  "sourceFps": 30,
+  "sourceFrames": 5,
+  "analysisFps": 30,
+  "decodedFrames": 5,
+  "transientSparkleDetected": true,
+  "rejectsArtificialCadence": true,
+  "explicitSparkleCeilingRejects": true,
+  "pass": true
+}

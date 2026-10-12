@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "software": true,
+  "preset": "low",
+  "dimensions": [
+    640,
+    360
+  ],
+  "frames": 12,
+  "encodedFps": 60,
+  "fixture": "stepped camera pan with frozen simulation",
+  "performanceMeasurement": false,
+  "build": {
+    "version": "0.0.14",
+    "revision": "5d39ea118"
+  }
+}

@@ -49,7 +49,7 @@ function motion(current, other, w, h, block, radius) {
 export function frameShimmer(previous, current, next, w, h, options = {}) {
   if (!Number.isInteger(w) || !Number.isInteger(h) || w < 16 || h < 16 || [previous, current, next].some(a => a.length !== w * h)) throw new Error('Invalid shimmer frame dimensions');
   const block = options.block ?? 16, radius = options.searchRadius ?? 8, threshold = options.threshold ?? 18, maxCost = options.maxCost ?? 24;
-  if (!Number.isInteger(block) || block < 8 || !Number.isInteger(radius) || radius < 0 || radius > 64 || !(threshold > 0 && threshold <= 255)) throw new Error('Invalid shimmer options');
+  if (!Number.isInteger(block) || block < 8 || !Number.isInteger(radius) || radius < 0 || radius > 64 || !(threshold > 0 && threshold <= 255) || !Number.isFinite(maxCost) || maxCost < 0) throw new Error('Invalid shimmer options');
   const p = motion(current, previous, w, h, block, radius), n = motion(current, next, w, h, block, radius);
   const sample = (x, y) => {
     const b = Math.floor(y / block) * p.cols + Math.floor(x / block), a = p.values[b], c = n.values[b];
@@ -88,4 +88,20 @@ export function summarizeShimmer(samples) {
     sparkleShare: pixels ? usable.reduce((a, s) => a + s.sparklePixels, 0) / pixels : null,
     alignmentShare: samples.length ? samples.reduce((a, s) => a + s.validShare, 0) / samples.length : 0,
     peaks: [...usable].sort((a, b) => b.sparkleShare - a.sparkleShare || b.shimmerMean - a.shimmerMean).slice(0, 10) };
+}
+
+/** Explicitly calibrated thresholds; unusable or poorly aligned footage must not pass. */
+export function evaluateShimmer(report, limits = {}) {
+  const minFrames = limits.minFrames ?? 3, minAlignment = limits.minAlignment ?? .8;
+  if (!Number.isInteger(minFrames) || minFrames < 1 || !Number.isFinite(minAlignment) || minAlignment < 0 || minAlignment > 1) throw new Error('Invalid shimmer coverage limits');
+  for (const [key, ceiling] of Object.entries({ maxSparkle: limits.maxSparkle, maxResidual: limits.maxResidual })) {
+    if (ceiling !== undefined && (!Number.isFinite(ceiling) || ceiling < 0 || (key === 'maxSparkle' && ceiling > 1))) throw new Error('Invalid shimmer quality limit');
+  }
+  const s = report.summary, failures = [];
+  if (!s || s.usableFrames < minFrames || !Number.isFinite(s.sparkleShare) || !Number.isFinite(s.shimmerMean)) failures.push('insufficient-usable-frames');
+  if (!s || !Number.isFinite(s.alignmentShare) || s.alignmentShare < minAlignment) failures.push('insufficient-alignment');
+  if (limits.maxSparkle !== undefined && s?.sparkleShare > limits.maxSparkle) failures.push('sparkle-limit');
+  if (limits.maxResidual !== undefined && s?.shimmerMean > limits.maxResidual) failures.push('residual-limit');
+  const calibrated = limits.maxSparkle !== undefined || limits.maxResidual !== undefined;
+  return { pass: failures.length === 0, calibrated, limits: { minFrames, minAlignment, ...limits }, failures };
 }

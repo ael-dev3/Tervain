@@ -2,16 +2,22 @@
 import fs from 'node:fs';
 import { spawn, spawnSync } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
-import { frameShimmer, summarizeShimmer } from './shimmer-metric.mjs';
+import { frameShimmer, summarizeShimmer, evaluateShimmer } from './shimmer-metric.mjs';
 export async function analyzeVideo(file, options = {}) {
   const roi = options.roi;
   if (!Array.isArray(roi) || roi.length !== 4 || roi.some(v => !Number.isFinite(v)) || roi[0] < 0 || roi[1] < 0 || roi[2] <= 0 || roi[3] <= 0 || roi[0] + roi[2] > 1 || roi[1] + roi[3] > 1) throw new Error('Select a normalized grass-only ROI: x,y,width,height');
-  const fps = options.fps ?? 60, maxFrames = options.maxFrames ?? 1800, start = options.start ?? 0;
-  if (!(Number.isFinite(fps) && fps > 0 && fps <= 120) || !Number.isInteger(maxFrames) || maxFrames < 3 || !(Number.isFinite(start) && start >= 0)) throw new Error('Invalid video sampling options');
-  const probe = spawnSync('ffprobe', ['-v', 'error', '-select_streams', 'v:0', '-show_entries', 'stream=width,height,avg_frame_rate', '-of', 'json', file], { encoding: 'utf8', timeout: 30000 });
+  let fps = options.fps;
+  const maxFrames = options.maxFrames ?? 1800, start = options.start ?? 0;
+  if ((fps !== undefined && !(Number.isFinite(fps) && fps > 0 && fps <= 120)) || !Number.isInteger(maxFrames) || maxFrames < 3 || !(Number.isFinite(start) && start >= 0)) throw new Error('Invalid video sampling options');
+  const probe = spawnSync('ffprobe', ['-v', 'error', '-select_streams', 'v:0', '-show_entries', 'stream=width,height,avg_frame_rate,codec_name', '-of', 'json', file], { encoding: 'utf8', timeout: 30000 });
   if (probe.error || probe.status !== 0) throw new Error('ffprobe could not read the video');
   const source = JSON.parse(probe.stdout).streams?.[0];
   if (!source?.width || !source?.height) throw new Error('Video has no decoded dimensions');
+  const [numerator, denominator] = String(source.avg_frame_rate).split('/').map(Number);
+  const sourceFps = numerator / denominator;
+  if (!Number.isFinite(sourceFps) || sourceFps <= 0) throw new Error('Video has no valid source cadence');
+  fps ??= Math.min(sourceFps, 120);
+  if (fps > sourceFps + .01) throw new Error('Analysis cadence cannot exceed source cadence; duplicated frames hide sparkle');
   const x = Math.floor(roi[0] * source.width), y = Math.floor(roi[1] * source.height);
   const w = Math.floor(roi[2] * source.width), h = Math.floor(roi[3] * source.height);
   if (w < 16 || h < 16) throw new Error('Video ROI must be at least 16 by 16 pixels');
@@ -34,8 +40,7 @@ export async function analyzeVideo(file, options = {}) {
     if (await completed !== 0) throw new Error('ffmpeg video decoding failed or timed out');
     if (pending.length || decoded < 3) throw new Error('Video has insufficient complete frames');
   } finally { clearTimeout(timer); decoder.kill(); }
-  const [numerator, denominator] = String(source.avg_frame_rate).split('/').map(Number);
-  return { schema: 1, roi, nativeSize: [source.width, source.height], analyzedSize: [w, h], sourceAverageFps: numerator / denominator,
+  return { schema: 1, roi, nativeSize: [source.width, source.height], analyzedSize: [w, h], sourceAverageFps: sourceFps, sourceCodec: source.codec_name,
     analysisFps: fps, start, decodedFrames: decoded, truncated: decoded === maxFrames,
     interpretation: 'motion/exposure-adjusted video residuals in the selected ROI; diagnostic only, no calibrated pass threshold',
     summary: summarizeShimmer(samples), samples };
@@ -44,10 +49,13 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
   const args = Object.fromEntries(process.argv.slice(2).flatMap((a, i, all) => a.startsWith('--') ? [[a.slice(2), all[i + 1]]] : []));
   try {
     if (!args.input) throw new Error('Use --input video.mp4 --roi x,y,width,height');
-    const report = await analyzeVideo(args.input, { roi: (args.roi ?? '').split(',').map(Number), fps: Number(args.fps ?? 60),
+    const report = await analyzeVideo(args.input, { roi: (args.roi ?? '').split(',').map(Number), fps: args.fps === undefined ? undefined : Number(args.fps),
       maxFrames: Number(args['max-frames'] ?? 1800), start: Number(args.start ?? 0), searchRadius: Number(args['search-radius'] ?? 8) });
+    report.gate = evaluateShimmer(report, { ...(args['max-sparkle'] === undefined ? {} : { maxSparkle: Number(args['max-sparkle']) }),
+      ...(args['max-residual'] === undefined ? {} : { maxResidual: Number(args['max-residual']) }),
+      minAlignment: Number(args['min-alignment'] ?? .8), minFrames: Number(args['min-frames'] ?? 3) });
     fs.writeFileSync(args.out ?? 'video-shimmer.json', JSON.stringify(report, null, 2) + '\n');
     console.log(JSON.stringify(report.summary));
-    if (!report.summary.usableFrames) process.exitCode = 2;
+    if (!report.gate.pass) process.exitCode = 2;
   } catch (error) { console.error(error.message); process.exitCode = 1; }
 }

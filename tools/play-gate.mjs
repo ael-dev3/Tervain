@@ -195,8 +195,15 @@ async function runProfile(name) {
         start: Number(args['shimmer-start'] ?? 0),
         maxFrames: Number(args['shimmer-max-frames'] ?? 1800),
       });
+      const { evaluateShimmer } = await import('./shimmer-metric.mjs');
+      shimmer.gate = evaluateShimmer(shimmer, {
+        ...(args['shimmer-max-sparkle'] === undefined ? {} : { maxSparkle: Number(args['shimmer-max-sparkle']) }),
+        ...(args['shimmer-max-residual'] === undefined ? {} : { maxResidual: Number(args['shimmer-max-residual']) }),
+        minAlignment: Number(args['shimmer-min-alignment'] ?? .8),
+        minFrames: Number(args['shimmer-min-frames'] ?? 3),
+      });
       fs.writeFileSync(path.join(dir, 'shimmer.json'), JSON.stringify(shimmer, null, 2));
-      if (!shimmer.summary.usableFrames) throw new Error('Shimmer ROI has no usable aligned frames');
+      if (!shimmer.gate.pass) throw new Error('Shimmer gate failed: ' + shimmer.gate.failures.join(', '));
     }
 
     // Judge.

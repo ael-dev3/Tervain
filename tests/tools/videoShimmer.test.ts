@@ -24,3 +24,19 @@ it.skipIf(!decoderAvailable)('decodes a lossless video and reports a transient f
     expect(text).not.toContain(dir);
   } finally { rmSync(dir, { recursive: true, force: true }); }
 });
+
+it.skipIf(!decoderAvailable)('uses native 30 Hz cadence and rejects artificial 60 Hz frame duplication', () => {
+  const dir = mkdtempSync(path.join(tmpdir(), 'shimmer-cadence-'));
+  try {
+    const w = 48, h = 48, base = Buffer.from(Array.from({length:w*h},(_,k)=>70+(Math.imul(k+7,1103515245)>>>16)%40));
+    const flash=Buffer.from(base); flash[25*w+25]=250;
+    const file=path.join(dir,'input.mkv'), out=path.join(dir,'result.json');
+    expect(spawnSync('ffmpeg',['-v','error','-f','rawvideo','-pixel_format','gray','-video_size',`${w}x${h}`,'-framerate','30','-i','pipe:0','-c:v','ffv1',file],{input:Buffer.concat([base,base,flash,base,base])}).status).toBe(0);
+    const native=spawnSync(process.execPath,['tools/video-shimmer.mjs','--input',file,'--roi','0,0,1,1','--out',out],{encoding:'utf8'});
+    expect(native.status,native.stderr).toBe(0);
+    const report=JSON.parse(readFileSync(out,'utf8'));
+    expect(report.analysisFps).toBe(30); expect(report.decodedFrames).toBe(5); expect(report.gate.pass).toBe(true);
+    const duplicate=spawnSync(process.execPath,['tools/video-shimmer.mjs','--input',file,'--roi','0,0,1,1','--fps','60'],{encoding:'utf8'});
+    expect(duplicate.status).toBe(1); expect(duplicate.stderr).toContain('cannot exceed source cadence');
+  }finally{rmSync(dir,{recursive:true,force:true});}
+});
