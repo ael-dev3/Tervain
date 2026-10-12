@@ -3503,3 +3503,8 @@ Captured original combination wrapper `30697dde` (14 instructions) and literal c
 ## Enum literal constructor prefix
 
 The combination wrapper `30697dde` now executes through its original constructor call `30697def`. Constructor `306976d8` preserves the original flag masks, initializes its destination, verifies the actual nonnull literal owner and scans the original enum literal. CALL `306976fe` carries that image owner and the computed length 5 into original initialization `3069760c`, which remains pending. Typechecking and three focused checks passed: normal progress, interrupted enum digit read, and interrupted first literal character read. The literal-read spy observes the actual admitted enum image, avoiding snapshots of unrelated startup reads; native assertions and the 30-second limit remain intact. Prior callers, undecoration lock and unpublished property root are retained at interruptions. Full property return, startup and campaign completion remain unfinished.
+
+
+## Enum literal initialization and constructor return
+
+The enum constructor now uses the existing byte-admitted initialization, arena allocation, text-node construction and scalar-copy routines for the original five-byte enum literal. Initialization returns to `30697703`, and the original constructor returns via `30697706` to its actual wrapper caller `30697df4`. The wrapper enters qualified value combination at `30697b16` through CALL `30697df6`; that operation remains pending. Typechecking and the three normal/digit-interruption/literal-interruption checks passed locally. No property root or completed campaign state is published by this partial continuation. Full property return, engine startup and campaign completion remain unfinished.
