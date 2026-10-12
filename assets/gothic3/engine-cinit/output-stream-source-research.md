@@ -143,3 +143,32 @@ Typechecking passed. Three focused runtime cases passed: normal contiguous
 initializer progression, the existing streambuf NULL path and the new basic-ios
 locale NULL path. The startup suite now contains 504 cases; only these three
 were run for this change. The full campaign remains unfinished.
+
+## Existing global locale reuse and cleanup
+
+The basic-ios initializer's call at `0x305f0afd` now executes the actual existing
+locale path of `0x30670832`. The shared EH3 prolog and epilog helpers were moved
+to their common scope without changing their instruction sequence. The prolog
+captures the original handler, previous FS head, saved registers, EBP and cookie.
+The actual retained global locale pointer is checked against its canonical
+52-byte allocation before the non-null branch to `0x306708c4` is taken.
+
+The initializer returns that same locale through the original EH3 epilog and RET
+to `0x305f0b02`. The epilog restores the calling output-stream exception frame,
+not a fabricated zero FS head. The new four-byte wrapper receives this exact
+locale pointer. The getter at `0x3067063c` then returns the same global object to
+`0x305f0b09`, and the base initializer pushes lock index zero, sets the original
+stack-local lock receiver, and calls `0x30670503` at `0x305f0b10`.
+
+That lock constructor is the current pending operation. The wrapper points to
+the existing locale, but its reference has not yet been incremented: refcount is
+still three, established by the earlier classic/global and filebuf setup. The
+actual lock acquisition must complete before the base initializer retains it.
+The frame snapshot exposes the wrapper's stored pointer identity separately from
+the opaque raw address bytes.
+
+Typechecking passed. Three focused runtime cases passed, covering the normal
+continuation and both streambuf and basic-ios allocation failures. Checks confirm
+the locale call and getter returned, the lock caller is pending, global locale
+identity is preserved, reference count is unchanged, original constructor
+arguments survive, and repeated startup retains the same pending result.
