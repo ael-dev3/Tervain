@@ -748,6 +748,8 @@ def capture(study):
         ('standardStreambufVtable', 0x3088da3c, 4),
         ('standardLocaleGlobalPointer', 0x30af6dd8, 4),
         ('standardLocaleShutdownRegistered', 0x30af6dfc, 1),
+        ('standardLocaleExitSlotsRemaining', 0x30ad4154, 4),
+        ('standardLocaleExitSlots', 0x30af7078, 40),
         ('standardLocaleObjectVtable', 0x30892a0c, 4),
         ('standardLocaleNameLiteral', 0x30826a90, 2),
         ('shapeGroupContainerPropertyFlags', 0x30ad9c94, 4),

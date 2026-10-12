@@ -438,3 +438,32 @@ zero global pointer, pending setter/registration return words, exception state
 and exact stack position. At-exit registration, publication, lock release,
 filebuf completion and full campaign integration remain unfinished. This
 checkpoint remains local and does not establish deployed browser playability.
+
+
+## Reserved shutdown pool and global publication
+
+The wrapper's normal path uses an original reserved pool, distinct from the CRT
+exit table. Pinned Engine bytes initialize `30ad4154` to ten. The forty-byte
+pool at `30af7078` is loader-zero-filled. Regeneration preserved all prior
+methods, imports, metadata and images before adding these two storage records.
+
+The runtime loads the actual remaining count, validates range 1–10, retrieves
+the original `30670612` callback from its stack, decrements ten to nine, stores
+the count and writes the opaque callback into slot nine. It returns through
+`3067065c`, consumes the callback argument, loads the actual constructed locale
+object from the setter's caller argument, and stores that pointer at `30af6dd8`.
+The setter returns to `3067088b` with its own cdecl object argument still present.
+The zero-pool path remains pending at its original `3067d916` fallback.
+
+The frame snapshot retains the global pointer expression and all ten pool-word
+expressions for ownership inspection. Native address bits of both published
+object and callback remain unknown. The separate CRT table still has its prior
+66 callbacks; this registration does not append to that table.
+
+TypeScript checking, all 156 source/image checks and two focused
+normal-continuation/enum checks passed. The normal check proves count nine,
+callback provenance in slot nine, global pointer provenance identifying the
+actual allocation, original returns and stack position. The normal boundary is
+`3067088b`. Remaining locale setup, lock release, outer epilogue, filebuf startup
+and campaign integration remain unfinished. This checkpoint is local and does
+not establish a hosted full game.

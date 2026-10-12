@@ -388,3 +388,9 @@ it('captures original locale publication shutdown registration and zero-fill fla
  expect(engineCinitInstruction('30670642','30670661')).toMatchObject({bytes:'a3d86daf30',instruction:'MOV [0x30af6dd8],EAX'});
  expect(engineCinitImage('standardLocaleShutdownRegistered')).toMatchObject({address:'30af6dfc',bytes:1,raw:'00',fileBackedBytes:0,loaderZeroFillBytes:1});
 });
+
+
+it('captures the original ten-slot locale shutdown pool',()=>{
+ expect(engineCinitImage('standardLocaleExitSlotsRemaining')).toMatchObject({address:'30ad4154',bytes:4,raw:'0a000000',fileBackedBytes:4,loaderZeroFillBytes:0});
+ expect(engineCinitImage('standardLocaleExitSlots')).toMatchObject({address:'30af7078',bytes:40,fileBackedBytes:0,loaderZeroFillBytes:40});
+});

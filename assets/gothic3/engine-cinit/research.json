@@ -74581,6 +74581,24 @@
       "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
     },
     {
+      "label": "standardLocaleExitSlotsRemaining",
+      "address": "30ad4154",
+      "bytes": 4,
+      "raw": "0a000000",
+      "fileBackedBytes": 4,
+      "loaderZeroFillBytes": 0,
+      "sha256": "075de2b906dbd7066da008cab735bee896370154603579a50122f9b88545bd45"
+    },
+    {
+      "label": "standardLocaleExitSlots",
+      "address": "30af7078",
+      "bytes": 40,
+      "raw": "00000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "fileBackedBytes": 0,
+      "loaderZeroFillBytes": 40,
+      "sha256": "2c34ce1df23b838c5abf2a7f6437cca3d3067ed509ff25f11df6b11b582b51eb"
+    },
+    {
       "label": "standardLocaleObjectVtable",
       "address": "30892a0c",
       "bytes": 4,
