@@ -178,6 +178,42 @@ describe('historical source-Pine component render substitution without the Meshy
     forest.dispose!(); vi.unstubAllGlobals();
   });
 
+  it('uploads only the active tree prefix after turning the camera', () => {
+    vi.stubGlobal('location', { search: '' });
+    const quality = 'high';
+    const forest = buildFlora({ terrain, excl, colliders: new Colliders(), quality,
+      settings: { ...defaultSettings(), quality }, library: AssetLibrary.empty(),
+      sway: { uTime: { value: 0 }, uWind: { value: 0 } } }, templates);
+    const tree = population.find(t => t.sp === 'pine')!;
+    const camera = new THREE.PerspectiveCamera(58, 1.6, .1, 1400);
+    camera.position.set(tree.x, tree.y + 2, tree.z + 30);
+    camera.lookAt(tree.x, tree.y + 2, tree.z); camera.updateMatrixWorld();
+    const frame: FrameContext = { camera, quality, time: 1, focus: camera.position.clone(), nightness: 0,
+      sunDir: new THREE.Vector3(1, 1, 1), shadowFrustum: null, reducedMotion: false, hour: 11, view: worldView(createInitialState()) };
+    const meshes: THREE.InstancedMesh[] = [];
+    forest.group.traverse(o => { if (o instanceof THREE.InstancedMesh && o.geometry.hasAttribute('aDistanceCoverage')) meshes.push(o); });
+    forest.update(1 / 60, frame);
+    for (const mesh of meshes) {
+      mesh.instanceMatrix.clearUpdateRanges(); mesh.instanceColor?.clearUpdateRanges();
+      (mesh.geometry.getAttribute('aDistanceCoverage') as THREE.BufferAttribute).clearUpdateRanges();
+    }
+    camera.rotateY(.1); camera.updateMatrixWorld(); forest.update(1 / 60, frame);
+    let full = 0, active = 0;
+    for (const mesh of meshes) {
+      for (const attr of [mesh.instanceMatrix, mesh.instanceColor, mesh.geometry.getAttribute('aDistanceCoverage') as THREE.BufferAttribute]) {
+        if (!attr) continue;
+        full += attr.array.byteLength;
+        const ranges = attr.updateRanges;
+        expect(ranges, mesh.name).toHaveLength(1);
+        expect(ranges[0]).toEqual({ start: 0, count: Math.max(1, mesh.count) * attr.itemSize });
+        active += ranges[0]!.count * 4;
+      }
+    }
+    expect(active).toBeLessThan(full / 2);
+    process.stdout.write(`tree turn upload bytes: ${full} full -> ${active} active\n`);
+    forest.dispose!(); vi.unstubAllGlobals();
+  });
+
   it('casts off-screen trees in the sun volume from shadow-only meshes, never drawn in colour, and tracks a moving sun with an idle camera', () => {
     vi.stubGlobal('location', { search: '' });
     const quality = 'high', colliders = new Colliders();
