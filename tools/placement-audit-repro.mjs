@@ -24,20 +24,27 @@ try {
     geometry.boundingBox=null; geometry.boundingSphere=null;
     for(let i=0;i<200;i++){ const mesh=new Mesh(geometry); mesh.name='support'; mesh.position.set(i*32,.5,0); scene.add(mesh); }
     const prop=new Mesh(geometry); prop.name='stacked prop'; prop.position.set(-.25,1.5,0); scene.add(prop);
-    let raycasts=0; const original=Mesh.prototype.raycast;
-    Mesh.prototype.raycast=function(ray,hits){raycasts++;return original.call(this,ray,hits);};
+    if (${args.large === '1'}) {
+      const large=geometry.clone(), values=[],indices=[];
+      for(let z=0;z<=32;z++)for(let x=0;x<=32;x++)values.push(x*8-128,1,z*8-128);
+      for(let z=0;z<32;z++)for(let x=0;x<32;x++){const a=z*33+x;indices.push(a,a+1,a+33,a+1,a+34,a+33);}
+      large.setAttribute('position',new Attribute(new Float32Array(values),3));large.setIndex(indices);large.boundingBox=null;large.boundingSphere=null;
+      const support=new Mesh(large);support.name='terrain fixture';scene.add(support);
+    }
+    let triangles=0, raycasts=0; const original=Mesh.prototype.raycast;
+    Mesh.prototype.raycast=function(ray,hits){raycasts++;triangles+=(this.geometry.index?.count??this.geometry.getAttribute('position').count)/3;return original.call(this,ray,hits);};
     try {
       T.step=()=>{}; T.render=()=>{};
       T.world={...originalWorld,scene,terrain:{heightAt:()=>0},modules:[],arrived:Promise.resolve()};
       const result=await T.auditPlacement();
-      return {revision:result.revision,complete:result.complete,props:result.summary.props,candidates:result.summary.candidates,supportRaycasts:raycasts};
+      return {revision:result.revision,complete:result.complete,props:result.summary.props,candidates:result.summary.candidates,supportRaycasts:raycasts,supportTriangles:triangles};
     } finally {
       Mesh.prototype.raycast=original; T.world=originalWorld; T.step=step; T.render=render;
       geometry.dispose(); for(const mesh of scene.children) mesh.material.dispose();
     }
   `);
   const baseline=args.expect==='before';
-  report.pass=report.complete && report.props===201 && report.candidates===0 && (baseline ? report.supportRaycasts>1000 : report.supportRaycasts<32);
+  report.pass=report.complete && report.props===201 && report.candidates===0 && (args.large === '1' ? (baseline ? report.supportTriangles>10000 : report.supportTriangles<2000) : (baseline ? report.supportRaycasts>1000 : report.supportRaycasts<32));
   fs.writeFileSync(args.out ?? 'placement-repro.json',JSON.stringify(report,null,2)+'\n');
   console.log(JSON.stringify(report));
   if(!report.pass) process.exitCode=1;
