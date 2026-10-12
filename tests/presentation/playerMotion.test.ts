@@ -290,6 +290,8 @@ describe('player motion and action contacts', () => {
     expect(s.player.z).toBe(-20);
     expect(s.player.y).toBe(0);
     expect(s.player.vault).toBeNull();
+  });
+
   it('drops the scripted fence crossing when a vaulting player is killed', () => {
     const s = setup();
     s.ctx.terrain.heightAt = () => 0;
@@ -305,6 +307,8 @@ describe('player motion and action contacts', () => {
     expect(s.player.x).toBeCloseTo(x, 6);
     expect(s.player.y).toBe(0);
     expect(s.audio.land).not.toHaveBeenCalledWith(expect.anything(), 3.5);
+  });
+
   it.each([false, true])('checks fence vault landing body clearance (wall=%s)', (wall) => {
     const s = setup();
     s.ctx.terrain.heightAt = () => 0;
@@ -317,6 +321,8 @@ describe('player motion and action contacts', () => {
     for (let i = 0; i < 60; i++) s.tick();
     expect(s.ctx.colliders.blocked(s.player.x, s.player.z, .4,
       { minY: s.player.y + .03, maxY: s.player.y + 1.95 })).toBe(false);
+  });
+
   it.each([false, true])('keeps a fence vault below solid overhead scenery (roof=%s)', (roof) => {
     const s = setup();
     s.ctx.terrain.heightAt = () => 0;
