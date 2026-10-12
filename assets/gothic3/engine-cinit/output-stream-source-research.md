@@ -440,3 +440,22 @@ canonical live 24-byte allocation, completely unknown initial mask, returned
 allocation call, unreturned constructor and factory, five completed malloc calls,
 held outer lock and preserved nested exception frames. Complete facet
 construction, native startup and campaign gameplay remain unfinished.
+
+## Direct facet allocation failure evidence
+
+The facet factory's NULL allocation path is now exercised directly. The test
+forces only the actual Engine malloc request of 24 bytes while the initializer
+cursor is `0x208`, leaving the earlier streambuf allocation at cursor `0x204`
+unaffected. The resulting facet allocation is null and the shared allocation
+factory retains the original active new-handler call at `0x306728ee`, pending
+at `0x306824b9`.
+
+The original facet allocation caller `0x305f0a60` has not returned. Constructor
+caller `0x305f0a80` is absent; no facet constructor success has been manufactured.
+The current shutdown cursor remains 268, the output stream's existing masks are
+unchanged, and repeated startup retains the same pending result.
+
+Four focused cases passed: normal contiguous startup, streambuf allocation NULL,
+basic-ios locale allocation NULL, and facet allocation NULL. The startup suite
+now contains 505 cases; the other 501 were skipped in this focused run. Complete
+facet construction, startup and campaign play remain unfinished.

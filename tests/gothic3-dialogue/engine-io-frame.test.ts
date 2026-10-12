@@ -3290,6 +3290,26 @@ it("retains the original allocation new-handler call when output basic-ios local
  }finally{spy.mockRestore();}
 },30_000);
 
+it("retains the original allocation new-handler call when character facet malloc returns null",()=>{
+ const {bootstrap,platform,crt}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:"normal"},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{engineHeapLayout:"rounded-eight",processorFeatureProcedure:true,floatingPointPrecisionErratum:false});
+ createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeNpcHeapExtension,nativeSceneStartupHeapExtension,nativeClassNameHeapExtension]});
+ const original=NativeModuleCrtOwner.prototype.malloc;let forced=false;
+ const spy=vi.spyOn(NativeModuleCrtOwner.prototype,'malloc').mockImplementation(function(this:NativeModuleCrtOwner,bytes:number){const f=bootstrap.attachProgress().engineCinitProgress;
+  if(this===crt&&bytes===24&&f?.pc==='30672ec7'&&f.cppCursor?.provenance?.kind==='engine-image'&&f.cppCursor.provenance.offset===0x208){forced=true;return {known:true,value:null};}
+  return original.call(this,bytes);
+ });
+ try{
+  const result=bootstrap.processAttach();expect(result.known).toBe(false);expect(forced).toBe(true);const f=bootstrap.attachProgress().engineCinitProgress!;
+  expect(f.pc).toBe('306824b9');expect(f.standardCharacterFacetAllocation).toBeNull();expect(f.cppCursor?.provenance).toMatchObject({offset:0x208});expect(f.exitCursor?.provenance).toMatchObject({offset:268});
+  const storage=NativeEngineCinitImages.imageForCrt(f.images,crt,'standardOutputStreamStorage');if(!storage.known)throw new Error(storage.reason);expect(Array.from(storage.value.knownMask)).toEqual([...Array(8).fill(0),...Array(32).fill(255),...Array(8).fill(0),...Array(8).fill(255)]);
+  const graph=NativeX86ThreadStack.forPlatform(platform);if(!graph.known)throw new Error(graph.reason);const calls=graph.value.snapshot().calls;
+  expect(calls.filter(c=>c.site==='306728fb').at(-1)).toMatchObject({returned:true,returnWord:{provenance:{address:'30672900'}}});
+  expect(calls.filter(c=>c.site==='306728ee').at(-1)).toMatchObject({returned:false,returnWord:{provenance:{address:'306728f3'}}});
+  expect(calls.filter(c=>c.site==='305f0a60').at(-1)).toMatchObject({returned:false,returnWord:{provenance:{address:'305f0a65'}}});
+  expect(calls.filter(c=>c.site==='305f0a80')).toHaveLength(0);expect(bootstrap.processAttach()).toEqual(result);
+ }finally{spy.mockRestore();}
+},30_000);
+
 it("returns the original contiguous graphics and resource property initializer group",()=>{
  const {bootstrap,platform,crt}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:"normal"},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{engineHeapLayout:"rounded-eight",processorFeatureProcedure:true,floatingPointPrecisionErratum:false});
  createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeNpcHeapExtension,nativeSceneStartupHeapExtension,nativeClassNameHeapExtension]
