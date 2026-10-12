@@ -22,6 +22,8 @@ def capture(study):
         0x305ee660: 'engineStandardStreambufConstructor',
         0x30670963: 'engineStandardStreambufLockConstructor',
         0x3067097b: 'engineStandardStreambufLockDestructor',
+        0x306728e3: 'engineThrowingAllocationFactory',
+        0x306824b9: 'engineAllocationNewHandler',
         0x305ed990: 'engineStandardFilebufInitialize',
         0x305f0c80: 'engineStandardFilebufDestructor',
         0x307b8082: 'engineStandardOutputFilebufShutdown',

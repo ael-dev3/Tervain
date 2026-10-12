@@ -3698,3 +3698,10 @@ The handler address `30727fdb` is proved by the existing captured PUSH instructi
 Base constructor `305ee660` now executes its original saved-state/register pushes, local reservation, actual Engine cookie load and symbolic cookie XOR, and exception-frame link at FS:[0]. The frame head is exactly 12 bytes below this constructor's entry stack position. The original receiver and its offset-four member pointer are retained, the captured vtable pointer is written with opaque native-address bits, and the original call at `305ee695` retains return address `305ee69a`. Execution remains pending at member constructor `30670963`; no allocation or member initialization is claimed. The first four storage masks are unknown for the vtable pointer and the remaining 76 loader-zero-filled bytes remain known.
 
 Typechecking and three focused frame checks passed, retaining the earlier completed enum checkpoint and the existing reference-count bypass case. A first assertion used the wrong snapshot nesting for FS:[0]; the observed original stack offset was correct and the test now checks its retained word and unchanged-slot flag. The exception handler body, member initialization, complete startup and campaign completion remain unfinished.
+
+
+### Throwing allocation factory source evidence
+
+The bundle adds allocation factory `306728e3` and new-handler call `306824b9`. The captured bytes first call existing malloc wrapper `30672ec7`; a null result follows the new-handler/retry branch and can reach exception construction. The decompiler's catalog name for the factory is not used as proof of its semantics. These branches must retain actual allocation results and unsupported failure operations rather than manufacture a successful pointer or return.
+
+All 355 prior method records, images, imports, constants, tables and SharedBase evidence remain identical. The bundle now contains 357 Engine methods. Typechecking and 149 source/image checks passed. The factory is captured evidence only at this checkpoint; runtime execution remains pending at member constructor `30670963`. Complete startup and full campaign completion remain unfinished.
