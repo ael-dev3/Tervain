@@ -802,3 +802,27 @@ paths. The normal boundary is `30791f41`, before its shutdown registration.
 That registration, subsequent engine startup and complete campaign integration
 remain unfinished. This checkpoint remains local and has not been deployed as
 a complete browser game.
+
+
+## Stdout shutdown registration and initializer-walker return
+
+The runtime now pushes the original `307b8082` callback, invokes the existing
+source-admitted exit-registration continuation through `30791f46`, consumes its
+argument and returns through `30791f4c` to the original initializer walker.
+The CRT table grows from 66 to 67 registered callbacks in its existing 512-byte
+allocation; its cursor advances from 264 to 268. The separate reserved locale
+shutdown pool remains unchanged. The walker advances its CPP cursor from
+`0x204` to `0x208` and makes the original call to the next target `30791f4d`.
+
+TypeScript checking and two focused normal-continuation/enum checks passed on
+rerun. The initial normal test still expected 66 registrations; it was updated
+to 67 and the live walker state. Assertions on constructor stack slots were
+removed after those frames retired and registration reused their memory; the
+original-call, ownership and active-state checks remain. The normal stdout
+filebuf initializer has returned, including its shutdown registration. Callback
+execution/destruction and later initializers remain unfinished.
+
+The normal boundary is `30791f4d`. This is a local startup checkpoint; no full
+native-suite result, deployment or campaign completion is established by these
+two checks. Full engine startup and browser campaign integration remain
+unfinished.
