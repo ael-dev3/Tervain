@@ -19,3 +19,12 @@ Truncated, oversized or invalid geometry and nonfinite terrain sampling make a r
 For software-renderer checks, use `--quality low --defer-render 1`. This pauses drawing inside the diagnostic browser while deferred populations load and the geometry audit runs, then restores drawing; it is not a performance measurement. The timeout covers readiness and the audit. Incomplete reports must remain failures for coverage. The browser driver from the software WebGL check also bounds protocol requests and cleans up disconnected workers.
 
 Support probes index world X/Z bounds, including individual transformed instances. Large supports remain eligible across cells. This changes diagnostic cost, not placement, support tolerances or candidate interpretation.
+
+To reproduce the support-query cost against a compiled build:
+
+```sh
+node tools/placement-audit-repro.mjs --url <build-url> --expect before --out before.json
+node tools/placement-audit-repro.mjs --url <patched-build-url> --expect after --out after.json
+```
+
+The script uses the served application's actual mesh constructors and placement diagnostic with 200 separated supports plus a stacked prop straddling a grid boundary. Both builds must report 201 props, zero floating candidates and complete coverage of this fixture. [Before](placement-proof/before.json): 1608 mesh raycasts. [After](placement-proof/after.json): 12. These are deterministic diagnostic work counts, not GPU timings. A full populated-world audit still exceeded a 120-second request budget in the software renderer; these fixture receipts do not certify that full audit.
