@@ -341,6 +341,23 @@ describe('the forest with wind, shadow-only casters and strikes', () => {
     const near = casters.filter((m) => m.name.startsWith('solitary-pine:0:') && m.count > 0);
     expect(near.length).toBeGreaterThan(0);
     // The water's reflection draws the full-detail trees with their middle models, same instances, and gives them back (A76).
+    const staticMeshes = [...colour, ...casters];
+    const staticBefore = staticMeshes.map(m => ({ count: m.count, data: m.instanceMatrix.array.slice(), version: m.instanceMatrix.version,
+      colourVersion: m.instanceColor?.version }));
+    camera.position.x += 0.006;
+    camera.updateMatrixWorld();
+    forest.update(1 / 60, frame);
+    let unchanged = 0, savedBytes = 0;
+    staticMeshes.forEach((m, i) => {
+      const old = staticBefore[i]!;
+      if (m.count === 0 || m.count !== old.count || m.instanceMatrix.array.some((v, k) => v !== old.data[k])) return;
+      unchanged++;
+      savedBytes += m.count * (64 + (m.instanceColor ? 12 : 0));
+      expect(m.instanceMatrix.version).toBe(old.version);
+      if (m.instanceColor) expect(m.instanceColor.version).toBe(old.colourVersion);
+    });
+    expect(unchanged).toBeGreaterThan(5);
+    process.stdout.write(`unchanged forest matrix/color source bytes avoided: ${savedBytes}\n`);
     const full = colour.filter((m) => /:0:(wood|foliage)$/.test(m.name) && m.count > 0);
     expect(full.length).toBeGreaterThan(0);
     const before = full.map((m) => m.geometry);
