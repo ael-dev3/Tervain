@@ -1628,7 +1628,22 @@ stack.#engineCinitFrame!.pc='10003cd8';engineCinitUnMangleInstruction('10003cd8'
               output('30791f37',()=>setRegister('ECX',stack.#mint(0,0,{kind:'engine-image',crt,fields:storage.value,offset:0})));
               output('30791f3c',()=>{stack.#call('30791f3c','30791f41');const argument=stack.#record(stack.#load(stack.#stack,stack.#address(register('ESP'))+4)).provenance,receiver=stack.#record(register('ECX')).provenance;if(argument?.kind!=='engine-image'||argument.crt!==crt||argument.fields!==streams.value||argument.offset!==32||receiver?.kind!=='engine-image'||receiver.crt!==crt||receiver.fields!==storage.value||receiver.offset!==0)throw new Error('Actual FILE argument and filebuf receiver required');});
               const constructor=(pc:string,body:()=>void)=>step(pc,body,'305eed30');constructor('305eed30',()=>stack.#push(register('ESI')));constructor('305eed31',()=>setRegister('ESI',register('ECX')));constructor('305eed33',()=>stack.#call('305eed33','305eed38'));
-              stack.#engineCinitFrame!.pc='305ee660';return known(undefined);
+              const base=(pc:string,body:()=>void)=>step(pc,body,'305ee660');
+              const streamXor=(left:NativeX86Word32,right:NativeX86Word32)=>{const a=stack.#record(left),b=stack.#record(right),value=(a.value^b.value)>>>0;stack.#logicalFlags(value,a.mask&b.mask,4);return stack.#mint(value,a.mask&b.mask,{kind:'xor',left,right});};
+              const vtable=NativeEngineCinitImages.imageForCrt(images.value,crt,'standardStreambufVtable');if(!vtable.known)throw new Error(vtable.reason);
+              base('305ee660',()=>stack.#push(stack.#mint(0xffffffff,0xffffffff)));
+              base('305ee662',()=>stack.#push(stack.#source('code','30727fdb')));
+              base('305ee667',()=>setRegister('EAX',stack.#load(stack.#bank,32)));base('305ee66d',()=>stack.#push(register('EAX')));
+              base('305ee66e',()=>{setRegister('ESP',stack.#stackWord(stack.#address(register('ESP'))-8));stack.#flags(0,0);});
+              base('305ee671',()=>stack.#push(register('EBX')));base('305ee672',()=>stack.#push(register('ESI')));base('305ee673',()=>stack.#push(register('EDI')));
+              base('305ee674',()=>{const cookie=NativeCrtBootstrap.engineCinitCookieForCrt(bootstrap,crt,permit);if(!cookie.known)throw new Error(cookie.reason);setRegister('EAX',stack.#mint(NativeHeapObjectViews.prototype.readUnsigned.call(cookie.value,0),0xffffffff));});
+              base('305ee679',()=>setRegister('EAX',streamXor(register('EAX'),register('ESP'))));base('305ee67b',()=>stack.#push(register('EAX')));
+              base('305ee67c',()=>setRegister('EAX',stack.#stackWord(stack.#address(register('ESP'))+24)));base('305ee680',()=>stack.#store(stack.#bank,32,register('EAX')));
+              base('305ee686',()=>setRegister('EBX',register('ECX')));base('305ee688',()=>stack.#store(stack.#stack,stack.#address(register('ESP'))+20,register('EBX')));
+              base('305ee68c',()=>{const receiver=stack.#record(register('EBX')).provenance;if(receiver?.kind!=='engine-image'||receiver.crt!==crt||receiver.fields!==storage.value||receiver.offset!==0)throw new Error('Actual streambuf receiver required');setRegister('ECX',stack.#mint(0,0,{kind:'engine-image',crt,fields:storage.value,offset:4}));});
+              base('305ee68f',()=>stack.#store(storage.value,0,stack.#mint(0,0,{kind:'engine-image',crt,fields:vtable.value,offset:0})));
+              base('305ee695',()=>stack.#call('305ee695','305ee69a'));
+              stack.#engineCinitFrame!.pc='30670963';return known(undefined);
             }
             if(target==='30791ef6'||target==='30791f18'){
               const initializer=target==='30791f18'
