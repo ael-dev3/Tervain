@@ -733,7 +733,7 @@ export class Player {
       const vault = { t: 0, from: { x: this.x, y: this.y, z: this.z }, to: { x: land.x, y: ground, z: land.z }, peak: Math.max(top + 0.25, this.y + 0.5),
         seconds: VAULT.seconds * Math.max(1, span / VAULT_NEAR_SPAN) };
       // The scripted arc bypasses ordinary movement collision: check body clearance before taking it.
-      const ignored = new Set(['fence']);
+      const ignored = new Set([c]); // Only this rail is crossed; neighboring fences still block the arc.
       const lift = vault.peak - Math.max(vault.from.y, vault.to.y);
       let previous = vault.from;
       let clear = true;
