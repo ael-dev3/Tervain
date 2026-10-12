@@ -467,3 +467,27 @@ actual allocation, original returns and stack position. The normal boundary is
 `3067088b`. Remaining locale setup, lock release, outer epilogue, filebuf startup
 and campaign integration remain unfinished. This checkpoint is local and does
 not establish a hosted full game.
+
+
+## Classic locale category/name setup
+
+Capture adds the name-assignment wrapper `30036ec6` (body `303ed340`) and the
+readonly file-backed `"C"` literal at `3084eff8`, for 373 Engine methods. Earlier
+methods, imports, metadata and image records were compared and preserved.
+
+The runtime continues at `3067088b`: derives the actual name-member receiver,
+writes category mask `0x3f` at object offset 16, replaces the still-present
+cdecl object argument with the original classic-name literal, and calls the
+assignment wrapper at `3067089c`. The wrapper preserves its saved registers,
+scans the literal and terminator using their actual image identity, computes
+length one, and calls `30042974` at `303ed35d`, returning through `303ed362`.
+
+TypeScript checking, all 157 source/image checks and two focused
+normal-continuation/enum checks passed. The normal test proves category 63,
+actual pending assignment return word, length one, adjusted stack, retained
+published object and shutdown registration. The object's stored name remains
+`"*"` until that second assignment is implemented; no `"C"` assignment success
+is fabricated. This call has a nonempty destination and a different literal
+from the earlier constructor assignment and needs separate admission/proof.
+The normal boundary is `30042974`. Lock release, remaining locale publication
+and filebuf completion remain unfinished, and this checkpoint is local.

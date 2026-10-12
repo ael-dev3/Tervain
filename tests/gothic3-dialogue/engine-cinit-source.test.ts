@@ -394,3 +394,9 @@ it('captures the original ten-slot locale shutdown pool',()=>{
  expect(engineCinitImage('standardLocaleExitSlotsRemaining')).toMatchObject({address:'30ad4154',bytes:4,raw:'0a000000',fileBackedBytes:4,loaderZeroFillBytes:0});
  expect(engineCinitImage('standardLocaleExitSlots')).toMatchObject({address:'30af7078',bytes:40,fileBackedBytes:0,loaderZeroFillBytes:40});
 });
+
+
+it('captures the classic locale name literal and its assignment wrapper',()=>{
+ expect(engineCinitImage('standardLocaleClassicNameLiteral')).toMatchObject({address:'3084eff8',bytes:2,raw:'4300',fileBackedBytes:2,loaderZeroFillBytes:0});
+ expect(engineCinitInstruction('30036ec6','303ed35d')).toMatchObject({instruction:'CALL 0x30042974'});
+});
