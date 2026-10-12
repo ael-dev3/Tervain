@@ -4,7 +4,7 @@ import { APPLY_DELAY_MIN, REPORT_DELAY_MIN, REWARD_COIN, RITE_CALM_MIN, TRAINING
 import { validQuantity, validQuickSlot } from './inventory';
 import {
   ANIMAL_SPECIES, animalLoot, ARROW_QUIVER_CAPACITY, HUNTER_SPARE_ARROWS, HUNTER_SUPPLY_POSITION, hunterRank, hunterSparesArrows, hunterTradingOpen, returnWildlife,
-  isAnimalId, isHuntableAnimalId, normalizeAnimalYaw, SKINNING_REACH, validAnimalHit,
+  isAnimalId, isHuntableAnimalId, normalizeAnimalYaw, withinSkinningReach, validAnimalHit,
   type AnimalHit,
 } from './hunting';
 import { validMapMarker } from './map';
@@ -310,8 +310,7 @@ export function execute(s: WorldState, cmd: Command): CommandResult {
       if (record?.status === 'skinned') return fail('already_skinned');
       if (record?.status !== 'dead') return fail('animal_alive');
       if (itemCount(s, 'skinning_knife') < 1) return fail('need_knife');
-      if (Math.hypot(s.player.x - record.position.x, s.player.z - record.position.z) > SKINNING_REACH
-        || Math.abs(s.player.y - record.position.y) > 2) return fail('too_far');
+      if (!withinSkinningReach(s.player, record.position)) return fail('too_far');
       const items = animalLoot(cmd.id);
       if (!validQuantity(itemCount(s, 'animal_hide') + items.animal_hide)
         || !validQuantity(itemCount(s, 'raw_meat') + items.raw_meat)) return fail('invalid_quantity');

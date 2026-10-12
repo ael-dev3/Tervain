@@ -51,6 +51,11 @@ export type HuntingState = Partial<Record<AnimalId, AnimalHuntRecord>>;
 
 export const HUNTING_ARROW_RANGE = 65;
 export const SKINNING_REACH = 2.8;
+/** Durable corpse reach, also checked before starting or continuing its skinning channel. */
+export function withinSkinningReach(player: AnimalPosition, carcass: AnimalPosition): boolean {
+  return Math.hypot(player.x - carcass.x, player.z - carcass.z) <= SKINNING_REACH && Math.abs(player.y - carcass.y) <= 2;
+}
+
 export const SKINNING_SECONDS = 3.2;
 export const ARROW_RESTOCK_AMOUNT = 6;
 export const ARROW_QUIVER_CAPACITY = 40;
