@@ -730,6 +730,30 @@ describe('positioned animal calls', () => {
     world.dispose();
   });
 
+  it('backs off failed animal downloads across repeated call gestures, then retries', async () => {
+    const { world, ctx, fetched } = runtime();
+    const decode = ctx.decodeAudioData.getMockImplementation()!;
+    ctx.decodeAudioData.mockImplementation(async (data: { file: string }) => {
+      if (data.file.includes('/audio/animals/')) throw new Error('EncodingError');
+      return decode(data);
+    });
+    world.update(0.05, frame({ x: 0, z: 0 }));
+    await flush(); await flush();
+    const count = () => fetched.filter((url) => url.includes('/lion-1.')).length;
+    const initial = count();
+    expect(initial).toBeGreaterThan(0);
+    for (let i = 0; i < 10; i++) {
+      expect(world.callAnimal(call())).toBe(false);
+      await flush();
+    }
+    expect(count()).toBe(initial);
+    ctx.currentTime += 11;
+    world.callAnimal(call());
+    await flush();
+    expect(count()).toBe(initial + 1);
+    world.dispose();
+  });
+
   it('uses the actual actor position, camera direction, species falloff and the outdoor muffle', async () => {
     const { world, ctx, buses } = runtime();
     world.update(0.05, frame({ x: 0, z: 0 }, { listener: { x: 0, y: 3, z: 0, fx: 1, fy: 0, fz: 0 }, indoors: true }));

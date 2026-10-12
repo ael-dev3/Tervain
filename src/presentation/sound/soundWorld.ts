@@ -449,13 +449,24 @@ export class SoundWorld {
     return p;
   }
 
+  private readonly animalRetry = new Map<AnimalCallFile, { failures: number; at: number }>();
+
   private loadAnimal(file: AnimalCallFile): Promise<void> {
     if (this.disposed || this.hidden || !this.animalsAudible || this.animalBuffers.has(file)) return Promise.resolve();
+    const retry = this.animalRetry.get(file);
+    if (retry && this.ctx.currentTime < retry.at) return Promise.resolve();
     let p = this.animalLoads.get(file);
     if (!p) {
       p = this.decode(file, ANIMAL_AUDIO.base).then((buffer) => {
         this.animalLoads.delete(file);
-        if (buffer && !this.disposed) this.animalBuffers.set(file, buffer);
+        if (this.disposed) return;
+        if (buffer) {
+          this.animalBuffers.set(file, buffer);
+          this.animalRetry.delete(file);
+        } else {
+          const failures = (this.animalRetry.get(file)?.failures ?? 0) + 1;
+          this.animalRetry.set(file, { failures, at: this.ctx.currentTime + Math.min(BED_RETRY[1], BED_RETRY[0] * 2 ** (failures - 1)) });
+        }
       });
       this.animalLoads.set(file, p);
     }
@@ -1599,6 +1610,7 @@ export class SoundWorld {
     this.voiceUsed.clear();
     this.animalBuffers.clear();
     this.animalLoads.clear();
+    this.animalRetry.clear();
     this.animalPreloadQueue = null;
     this.animalsPrepared = false;
     this.animalLastCall.clear();
