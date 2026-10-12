@@ -65,3 +65,30 @@ checks the original argument owners, flag values, pending call, unchanged receiv
 bytes, existing locale and filebuf state, and idempotent pending startup. The
 previous stack-position assertion was updated to the live constructor CALL,
 which has pushed three arguments and a return address (16 bytes).
+
+## Constructor continuation to basic-ios
+
+The runtime now executes the original constructor from `0x305f2650` through
+CALL `0x305f26bc`, pending at `0x305f21b0`. It preserves the saved FS exception
+chain, pushes the actual handler, builds the cookie frame, saves ESI and installs
+the exception frame using the original stack offsets. The caller's virtual-base
+flag is proven to be one before taking the original nonzero branch.
+
+The captured readonly table at `0x3088db28` contains displacement four. The
+constructor installs that table at receiver offset zero and initially installs
+the base vtable at offset four, then replaces it with the original derived vtable
+at `0x3088da1c`. These are owned image pointers with unknown numeric address bytes,
+not fabricated browser addresses. The table displacement is read from the actual
+captured image and validated before either virtual-base calculation.
+
+The basic-ios call receives the original filebuf and zero registration flag,
+with ECX pointing to the stream receiver plus four and return address
+`0x305f26c1`. Both constructor and basic-ios calls remain unreturned. FS stays
+installed until the original cleanup can execute; the saved previous FS word
+remains in the original frame. The snapshot records this saved word, original
+constructor arguments, live base arguments and installed table pointer identities.
+
+Typechecking and the focused contiguous-initializer case passed. The case checks
+these owners and offsets, the original flag values, unchanged remaining receiver
+bytes, table displacement, two unreturned calls and idempotent pending behavior.
+Complete construction, locale/facet continuation and native startup remain pending.

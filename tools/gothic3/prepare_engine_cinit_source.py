@@ -765,6 +765,9 @@ def capture(study):
         # Proven required prefix: virtual base at +4, fill byte at +0x34.
         # This does not assert the complete size of the native stream object.
         ('standardOutputStreamStorage', 0x30af6e58, 56),
+        ('standardOutputStreamVirtualBaseTable', 0x3088db28, 8),
+        ('standardOutputStreamBaseVtable', 0x3088da2c, 4),
+        ('standardOutputStreamDerivedVtable', 0x3088da1c, 4),
         ('standardStreambufVtable', 0x3088da3c, 4),
         ('standardFilebufVtable', 0x3088da78, 4),
         ('standardFilebufGlobalState', 0x30af6a00, 4),

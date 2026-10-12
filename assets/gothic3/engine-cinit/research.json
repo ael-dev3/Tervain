@@ -79309,6 +79309,33 @@
       "sha256": "d4817aa5497628e7c77e6b606107042bbba3130888c5f47a375e6179be789fbb"
     },
     {
+      "label": "standardOutputStreamVirtualBaseTable",
+      "address": "3088db28",
+      "bytes": 8,
+      "raw": "0000000004000000",
+      "fileBackedBytes": 8,
+      "loaderZeroFillBytes": 0,
+      "sha256": "1b03ab083d0fb41e44d480f48d5bba181c623c0594bda1aa8ea71a3b67dbf3b1"
+    },
+    {
+      "label": "standardOutputStreamBaseVtable",
+      "address": "3088da2c",
+      "bytes": 4,
+      "raw": "40c65e30",
+      "fileBackedBytes": 4,
+      "loaderZeroFillBytes": 0,
+      "sha256": "862f2ff59d8de0122cdce066f40c04065583a1bbe9e97e31fd58eb32eadc45cc"
+    },
+    {
+      "label": "standardOutputStreamDerivedVtable",
+      "address": "3088da1c",
+      "bytes": 4,
+      "raw": "90d85e30",
+      "fileBackedBytes": 4,
+      "loaderZeroFillBytes": 0,
+      "sha256": "dd246dc5f7856823f16a730648a0d11f03de64b91a095f6a352217a205edfaa8"
+    },
+    {
       "label": "standardStreambufVtable",
       "address": "3088da3c",
       "bytes": 4,
