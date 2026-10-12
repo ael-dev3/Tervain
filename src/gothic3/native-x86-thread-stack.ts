@@ -1760,53 +1760,54 @@ stack.#engineCinitFrame!.pc='10003cd8';engineCinitUnMangleInstruction('10003cd8'
               }
               nameConstructor('303ed649',()=>{const left=namePosition(register('EAX')),right=namePosition(register('EDI')),length=left-right;if(length<0)throw new Error('Actual nonnegative locale name length required');setRegister('EAX',stack.#mint(length,0xffffffff));stack.#arithmeticFlags(left,right,length,4,true);});
               nameConstructor('303ed64b',()=>stack.#push(register('EAX')));nameConstructor('303ed64c',()=>stack.#push(register('EDX')));nameConstructor('303ed64d',()=>setRegister('ECX',register('ESI')));nameConstructor('303ed64f',()=>stack.#call('303ed64f','303ed654'));
+              const runLocaleNameAssignment=(assignmentLiteral:NativeHeapObjectViews,literalLabel:'standardLocaleNameLiteral'|'standardLocaleClassicNameLiteral',expectedExistingLength:0|1,returned:string):boolean=>{
               const assign=(pc:string,body:()=>void)=>step(pc,body,'30042974');assign('30042974',()=>{});
               assign('303ed0f0',()=>stack.#push(register('EBX')));assign('303ed0f1',()=>stack.#push(register('EBP')));assign('303ed0f2',()=>stack.#push(register('ESI')));
               assign('303ed0f3',()=>{objectPointer(register('ECX'),24);setRegister('ESI',register('ECX'));});assign('303ed0f5',()=>{objectPointer(register('ESI'),24);setRegister('ECX',stack.#load(object,48));});
               assign('303ed0f8',()=>{const capacity=stack.#numeric(register('ECX'),4);stack.#arithmeticFlags(capacity,16,(capacity-16)>>>0,4,true);});
               assign('303ed0fb',()=>{objectPointer(register('ESI'),24);setRegister('EBX',stack.#mint(0,0,{kind:'engine-allocation',crt,fields:object,offset:28}));});assign('303ed0fe',()=>{});
-              if(stack.#numeric(register('ECX'),4)>=16){stack.#engineCinitFrame!.pc='303ed100';return known(undefined);}
+              if(stack.#numeric(register('ECX'),4)>=16){stack.#engineCinitFrame!.pc='303ed100';return false;}
               assign('303ed104',()=>setRegister('EAX',register('EBX')));
-              assign('303ed106',()=>{const word=stack.#load(stack.#stack,stack.#address(register('ESP'))+16),p=stack.#record(word).provenance;if(p?.kind!=='engine-image'||p.crt!==crt||p.fields!==name.value||p.offset!==0)throw new Error('Actual locale assignment source argument required');setRegister('EBP',word);});
+              assign('303ed106',()=>{const word=stack.#load(stack.#stack,stack.#address(register('ESP'))+16),p=stack.#record(word).provenance;if(p?.kind!=='engine-image'||p.crt!==crt||p.fields!==assignmentLiteral||p.offset!==0)throw new Error('Actual locale assignment source argument required');setRegister('EBP',word);});
               stack.#engineCinitFrame!.pc='303ed10a';
               // Translated control-flow join, not a fabricated numeric pointer comparison.
-              // With an empty destination both unsigned address orderings reach 303ed13f.
-              if(NativeHeapObjectViews.prototype.readUnsigned.call(object,44)!==0)return known(undefined);
+              // Disjoint literal storage and an admitted existing length 0 or 1 converge at 303ed13f.
+              if(NativeHeapObjectViews.prototype.readUnsigned.call(object,44)!==expectedExistingLength)return false;
               objectPointer(register('ESI'),24);objectPointer(register('EAX'),28);objectPointer(register('EBX'),28);
-              const sourcePointer=stack.#record(register('EBP')).provenance;if(sourcePointer?.kind!=='engine-image'||sourcePointer.crt!==crt||sourcePointer.fields!==name.value||sourcePointer.offset!==0)throw new Error('Actual distinct locale assignment source required');
+              const sourcePointer=stack.#record(register('EBP')).provenance;if(sourcePointer?.kind!=='engine-image'||sourcePointer.crt!==crt||sourcePointer.fields!==assignmentLiteral||sourcePointer.offset!==0)throw new Error('Actual distinct locale assignment source required');
               const allocationProof=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields:object,offset:0},52);if(!allocationProof.known)throw new Error(allocationProof.reason);
-              if(object.bytes.buffer===name.value.bytes.buffer)throw new Error('Distinct readonly literal and heap storage required');
+              if(object.bytes.buffer===assignmentLiteral.bytes.buffer)throw new Error('Distinct readonly literal and heap storage required');
               for(const pc of ['303ed10a','303ed10c','303ed10e','303ed111','303ed117','303ed119','303ed11c','303ed11e','303ed120'])engineCinitInstruction('30042974',pc);
               // EDX differs between the two paths; neither its value nor branch flags are claimed.
               setRegister('EDX',stack.#mint(0,0));stack.#flags(0,0);
-              stack.#trace.push('Translated empty locale string overlap join 303ed10a to 303ed13f; numeric address order unknown');
+              stack.#trace.push('Translated disjoint locale literal overlap join 303ed10a to 303ed13f; existing length '+expectedExistingLength+'; numeric address order unknown');
               assign('303ed13f',()=>stack.#push(register('EDI')));assign('303ed140',()=>setRegister('EDI',stack.#load(stack.#stack,stack.#address(register('ESP'))+24)));
               assign('303ed144',()=>{const length=stack.#numeric(register('EDI'),4);stack.#arithmeticFlags(length,0xfffffffe,(length-0xfffffffe)>>>0,4,true);});assign('303ed147',()=>{});
-              if(stack.#numeric(register('EDI'),4)>0xfffffffe){stack.#engineCinitFrame!.pc='303ed149';return known(undefined);}
+              if(stack.#numeric(register('EDI'),4)>0xfffffffe){stack.#engineCinitFrame!.pc='303ed149';return false;}
               assign('303ed14e',()=>{objectPointer(register('ESI'),24);setRegister('EAX',stack.#load(object,48));});assign('303ed151',()=>{const capacity=stack.#numeric(register('EAX'),4),length=stack.#numeric(register('EDI'),4);stack.#arithmeticFlags(capacity,length,(capacity-length)>>>0,4,true);});assign('303ed153',()=>{});
-              if(stack.#numeric(register('EAX'),4)<stack.#numeric(register('EDI'),4)){stack.#engineCinitFrame!.pc='303ed155';return known(undefined);}
+              if(stack.#numeric(register('EAX'),4)<stack.#numeric(register('EDI'),4)){stack.#engineCinitFrame!.pc='303ed155';return false;}
               assign('303ed171',()=>stack.#logicalFlags(stack.#numeric(register('EDI'),4),0xffffffff,4));assign('303ed173',()=>{});
-              if(stack.#numeric(register('EDI'),4)===0){stack.#engineCinitFrame!.pc='303ed175';return known(undefined);}
+              if(stack.#numeric(register('EDI'),4)===0){stack.#engineCinitFrame!.pc='303ed175';return false;}
               assign('303ed163',()=>{});assign('303ed165',()=>{objectPointer(register('ESI'),24);setRegister('ECX',stack.#load(object,48));});assign('303ed168',()=>{const capacity=stack.#numeric(register('ECX'),4);stack.#arithmeticFlags(capacity,16,(capacity-16)>>>0,4,true);});assign('303ed16b',()=>{});
-              if(stack.#numeric(register('ECX'),4)>=16){stack.#engineCinitFrame!.pc='303ed16d';return known(undefined);}
+              if(stack.#numeric(register('ECX'),4)>=16){stack.#engineCinitFrame!.pc='303ed16d';return false;}
               assign('303ed18b',()=>setRegister('EAX',register('EBX')));assign('303ed18d',()=>stack.#push(register('EDI')));assign('303ed18e',()=>stack.#push(register('EBP')));assign('303ed18f',()=>stack.#push(register('ECX')));assign('303ed190',()=>stack.#push(register('EAX')));assign('303ed191',()=>stack.#call('303ed191','303ed196'));
               const secureCopy=(pc:string,body:()=>void)=>step(pc,body,'30674b44');secureCopy('30674b44',()=>stack.#push(register('EBP')));secureCopy('30674b45',()=>setRegister('EBP',register('ESP')));secureCopy('30674b47',()=>stack.#push(register('ESI')));
               const copyArgument=(offset:number)=>stack.#load(stack.#stack,stack.#address(register('EBP'))+offset);
               secureCopy('30674b48',()=>setRegister('ESI',copyArgument(20)));secureCopy('30674b4b',()=>stack.#push(register('EDI')));secureCopy('30674b4c',()=>{setRegister('EDI',stack.#mint(0,0xffffffff));stack.#logicalFlags(0,0xffffffff,4);});
               secureCopy('30674b4e',()=>{const count=stack.#numeric(register('ESI'),4);stack.#arithmeticFlags(count,0,count,4,true);});secureCopy('30674b50',()=>{});
-              if(stack.#numeric(register('ESI'),4)===0){stack.#engineCinitFrame!.pc='30674b52';return known(undefined);}
+              if(stack.#numeric(register('ESI'),4)===0){stack.#engineCinitFrame!.pc='30674b52';return false;}
               secureCopy('30674b56',()=>{objectPointer(copyArgument(8),28);const proof=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields:object,offset:28},stack.#numeric(copyArgument(12),4));if(!proof.known)throw new Error(proof.reason);stack.#flags(0,0x841);});secureCopy('30674b59',()=>{});
-              secureCopy('30674b76',()=>{const p=stack.#record(copyArgument(16)).provenance;if(p?.kind!=='engine-image'||p.crt!==crt||p.fields!==name.value||p.offset!==0)throw new Error('Actual secure locale copy source required');stack.#flags(0,0x841);});secureCopy('30674b79',()=>{});
+              secureCopy('30674b76',()=>{const p=stack.#record(copyArgument(16)).provenance;if(p?.kind!=='engine-image'||p.crt!==crt||p.fields!==assignmentLiteral||p.offset!==0)throw new Error('Actual secure locale copy source required');stack.#flags(0,0x841);});secureCopy('30674b79',()=>{});
               secureCopy('30674b7b',()=>{const capacity=stack.#numeric(copyArgument(12),4),count=stack.#numeric(register('ESI'),4);stack.#arithmeticFlags(capacity,count,(capacity-count)>>>0,4,true);});secureCopy('30674b7e',()=>{});
-              if(stack.#numeric(copyArgument(12),4)<stack.#numeric(register('ESI'),4)){stack.#engineCinitFrame!.pc='30674b91';return known(undefined);}
+              if(stack.#numeric(copyArgument(12),4)<stack.#numeric(register('ESI'),4)){stack.#engineCinitFrame!.pc='30674b91';return false;}
               secureCopy('30674b80',()=>stack.#push(register('ESI')));secureCopy('30674b81',()=>stack.#push(copyArgument(16)));secureCopy('30674b84',()=>stack.#push(copyArgument(8)));secureCopy('30674b87',()=>stack.#call('30674b87','30674b8c'));
               stack.#engineCinitFrame!.pc='30671cf0';
               // Translated one-byte memcpy contract; alignment/dispatch branches are not claimed executed.
               const copyEsp=stack.#address(register('ESP')),destination=stack.#load(stack.#stack,copyEsp+4),source=stack.#record(stack.#load(stack.#stack,copyEsp+8)).provenance,count=stack.#numeric(stack.#load(stack.#stack,copyEsp+12),4);
-              objectPointer(destination,28);if(count!==1||source?.kind!=='engine-image'||source.crt!==crt||source.fields!==name.value||source.offset!==0)return known(undefined);
+              objectPointer(destination,28);if(count!==1||source?.kind!=='engine-image'||source.crt!==crt||source.fields!==assignmentLiteral||source.offset!==0)return false;
               const copyProof=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields:object,offset:28},1);if(!copyProof.known)throw new Error(copyProof.reason);
-              const literal=NativeEngineCinitImages.imageForCrt(images.value,crt,'standardLocaleNameLiteral');if(!literal.known||literal.value!==name.value||object.bytes.buffer===name.value.bytes.buffer)throw new Error('Actual disjoint original byte-copy inputs required');
-              const byte=NativeHeapObjectViews.prototype.readUnsigned.call(name.value,0,1);stack.#invalidateRange(object,28,1);NativeHeapObjectViews.prototype.writeUnsigned.call(object,28,byte,1);
+              const literal=NativeEngineCinitImages.imageForCrt(images.value,crt,literalLabel);if(!literal.known||literal.value!==assignmentLiteral||object.bytes.buffer===assignmentLiteral.bytes.buffer)throw new Error('Actual disjoint original byte-copy inputs required');
+              const byte=NativeHeapObjectViews.prototype.readUnsigned.call(assignmentLiteral,0,1);stack.#invalidateRange(object,28,1);NativeHeapObjectViews.prototype.writeUnsigned.call(object,28,byte,1);
               stack.#trace.push('Translated one-byte locale memcpy contract 30671cf0; native alignment path unknown');hostReturn(destination,0);
               const copyReturn=stack.#record(stack.#load(stack.#bank,stack.#reg('EAX'))).provenance;if(copyReturn?.kind!=='engine-allocation'||copyReturn.fields!==object||copyReturn.offset!==28)throw new Error('Actual memcpy destination return required');
               secureCopy('30674b8c',()=>{const before=stack.#address(register('ESP'));setRegister('ESP',stack.#stackWord(before+12));stack.#arithmeticFlags(before,12,before+12,4,false);});secureCopy('30674b8f',()=>{});
@@ -1814,9 +1815,12 @@ stack.#engineCinitFrame!.pc='10003cd8';engineCinitUnMangleInstruction('10003cd8'
               secureCopy('30674bbb',()=>pop('EDI'));secureCopy('30674bbc',()=>pop('ESI'));secureCopy('30674bbd',()=>pop('EBP'));secureCopy('30674bbe',()=>{const p=stack.#record(stack.#ret()).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!=='303ed196')throw new Error('Actual secure-copy caller return required');});
               assign('303ed196',()=>{const before=stack.#address(register('ESP'));setRegister('ESP',stack.#stackWord(before+16));stack.#arithmeticFlags(before,16,before+16,4,false);});
               assign('303ed199',()=>{const capacity=NativeHeapObjectViews.prototype.readUnsigned.call(object,48);stack.#arithmeticFlags(capacity,16,(capacity-16)>>>0,4,true);});assign('303ed19d',()=>{objectPointer(register('ESI'),24);stack.#store(object,44,register('EDI'));});assign('303ed1a0',()=>{});
-              if(NativeHeapObjectViews.prototype.readUnsigned.call(object,48)>=16){stack.#engineCinitFrame!.pc='303ed1a2';return known(undefined);}
+              if(NativeHeapObjectViews.prototype.readUnsigned.call(object,48)>=16){stack.#engineCinitFrame!.pc='303ed1a2';return false;}
               assign('303ed1a4',()=>{objectPointer(register('EBX'),28);const at=28+stack.#numeric(register('EDI'),4);stack.#invalidateRange(object,at,1);NativeHeapObjectViews.prototype.writeUnsigned.call(object,at,0,1);});
-              assign('303ed1a8',()=>pop('EDI'));assign('303ed1a9',()=>setRegister('EAX',register('ESI')));assign('303ed1ab',()=>pop('ESI'));assign('303ed1ac',()=>pop('EBP'));assign('303ed1ad',()=>pop('EBX'));assign('303ed1ae',()=>{const p=stack.#record(stack.#ret(8)).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!=='303ed654')throw new Error('Actual locale assignment constructor return required');});
+              assign('303ed1a8',()=>pop('EDI'));assign('303ed1a9',()=>setRegister('EAX',register('ESI')));assign('303ed1ab',()=>pop('ESI'));assign('303ed1ac',()=>pop('EBP'));assign('303ed1ad',()=>pop('EBX'));assign('303ed1ae',()=>{const p=stack.#record(stack.#ret(8)).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!==returned)throw new Error('Actual locale assignment constructor return required');});
+                return true;
+              };
+              if(!runLocaleNameAssignment(name.value,'standardLocaleNameLiteral',0,'303ed654'))return known(undefined);
               nameConstructor('303ed654',()=>pop('EDI'));nameConstructor('303ed655',()=>setRegister('EAX',register('ESI')));nameConstructor('303ed657',()=>pop('ESI'));nameConstructor('303ed658',()=>{const p=stack.#record(stack.#ret(4)).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!=='306707cf')throw new Error('Actual locale name constructor return required');});
               objectConstructor('306707cf',()=>{objectPointer(register('ESI'),0);setRegister('EAX',register('ESI'));});objectConstructor('306707d1',()=>stack.#call('306707d1','306707d6'));
               const runLocaleEh3Epilog=(returned:string)=>{
@@ -1850,7 +1854,9 @@ stack.#engineCinitFrame!.pc='10003cd8';engineCinitUnMangleInstruction('10003cd8'
               categoryName('303ed348',()=>setRegister('EDI',stack.#mint(0,0,{kind:'engine-image',crt,fields:classic.value,offset:classicPosition(register('EAX'))+1})));categoryName('303ed34b',()=>{});
               for(;;){let byte=0;categoryName('303ed350',()=>{const at=classicPosition(register('EAX'));if(at>=classic.value.bytes.length)throw new Error('Actual classic locale terminator required');byte=NativeHeapObjectViews.prototype.readUnsigned.call(classic.value,at,1);const previous=stack.#record(register('EDX'));setRegister('EDX',stack.#mint(((previous.value&0xffffff00)|byte)>>>0,((previous.mask&0xffffff00)|255)>>>0));});categoryName('303ed352',()=>{const at=classicPosition(register('EAX'));setRegister('EAX',stack.#mint(0,0,{kind:'engine-image',crt,fields:classic.value,offset:at+1}));stack.#flags(0,0);});categoryName('303ed355',()=>stack.#logicalFlags(byte,255,1));categoryName('303ed357',()=>{});if(byte===0)break;}
               categoryName('303ed359',()=>{const left=classicPosition(register('EAX')),right=classicPosition(register('EDI')),length=left-right;if(length<0)throw new Error('Actual classic locale name length required');setRegister('EAX',stack.#mint(length,0xffffffff));stack.#arithmeticFlags(left,right,length,4,true);});categoryName('303ed35b',()=>stack.#push(register('EAX')));categoryName('303ed35c',()=>stack.#push(register('ESI')));categoryName('303ed35d',()=>{objectPointer(register('ECX'),24);stack.#call('303ed35d','303ed362');});
-              stack.#engineCinitFrame!.pc='30042974';return known(undefined);
+              if(!runLocaleNameAssignment(classic.value,'standardLocaleClassicNameLiteral',1,'303ed362'))return known(undefined);
+              categoryName('303ed362',()=>pop('EDI'));categoryName('303ed363',()=>pop('ESI'));categoryName('303ed364',()=>{const p=stack.#record(stack.#ret(4)).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!=='306708a1')throw new Error('Actual classic locale assignment wrapper return required');});
+              stack.#engineCinitFrame!.pc='306708a1';return known(undefined);
             }
             if(target==='30791ef6'||target==='30791f18'){
               const initializer=target==='30791f18'

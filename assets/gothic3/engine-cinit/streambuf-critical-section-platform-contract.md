@@ -491,3 +491,34 @@ is fabricated. This call has a nonempty destination and a different literal
 from the earlier constructor assignment and needs separate admission/proof.
 The normal boundary is `30042974`. Lock release, remaining locale publication
 and filebuf completion remain unfinished, and this checkpoint is local.
+
+
+## Classic-name assignment return
+
+The original assignment continuation is now shared between the constructor's
+`"*"` call and the later `"C"` call. Each invocation admits its actual literal
+image, receiver, expected existing length and original return word. The first
+requires length zero; the second requires length one. The reserved name/member
+storage and actual copied-source identity remain separate from numeric addresses.
+
+For the length-one case, the source literal is in distinct live readonly storage
+and cannot equal the inline destination address D. If S < D, the first branch
+reaches `303ed13f`; otherwise S > D implies S >= D + 1, so the end comparison
+reaches the same join. D + 1 cannot wrap within the admitted live 52-byte object.
+No path makes a call or writes memory before the join. Differing EDX and flags
+remain unknown, as in the zero-length proof. This admits only the proved length
+zero/one cases and does not claim arbitrary overlapping-string support.
+
+The actual second copy writes `"C"`, preserves capacity fifteen and length one,
+writes its terminator, and returns through the original assignment caller
+`303ed362`. The wrapper restores EDI/ESI and returns through `RET 4` to
+`306708a1`, consuming the classic-name argument. The published object retains
+category mask 63 and now contains the classic name.
+
+TypeScript checking and eight focused runtime checks passed locally. The normal
+check verifies byte 67, terminator, two actual byte-copy returns, classic wrapper
+return and restored stack position. Earlier allocation-null, lock-admission,
+shared-reference and enum checks passed alongside it. The normal boundary is
+`306708a1`. Further locale setup/publication, lock release, outer epilogue and
+filebuf startup remain unfinished. This checkpoint is local, not a hosted
+campaign-completion claim.
