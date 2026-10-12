@@ -37,3 +37,5 @@ jobs:
           fi
           gh api "repos/$REPO/statuses/$head" -f state=$state -f context=play-gate -f description="$desc" >/dev/null
           echo "$desc"
+          # The job shares the status's name, so it must fail with it: branch protection accepts either.
+          [ "$state" = success ]
