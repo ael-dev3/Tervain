@@ -346,3 +346,25 @@ Typechecking and three focused runtime cases passed. The normal case checks six
 returned enters, five returned leaves, current held depth one, the returned outer
 constructor and pending nested constructor, preserved frames and idempotent
 startup. Both NULL allocation cases remain at their original new-handler call.
+
+## Native facet identifier allocation under the nested lock
+
+The nested constructor caller `0x305f1432` is now admitted only under the actual
+facet lookup call `0x305f18f9`, with receiver at constructor CALL plus 28. The
+original shared section enters recursively. The routine rechecks its actual
+identifier image while this nested acquisition is held. If still zero, it reads
+the original counter, performs the native DWORD increment, and stores the result
+into both counter and character-facet identifier. The normal first identifier is
+one; it is produced by original stores rather than seeded during image creation.
+
+The destructor caller `0x305f1456` uses receiver at destructor CALL plus 24 and
+must match that exact nested constructor and returned enter receipt. Its original
+leave wrappers release only this nested acquisition. The outer facet acquisition
+remains held at depth one. The next pending instruction is `0x305f145b`, where
+facet lookup will read the temporary locale and search its facet array.
+
+Typechecking and three focused runtime cases passed. The normal case checks the
+counter and identifier are one, seven returned enters, six matching leaves,
+held depth one, returned nested constructor/destructor, retained temporary locale
+and idempotent pending startup. Both original allocation NULL paths remain intact.
+Facet lookup, construction and full startup are still incomplete.
