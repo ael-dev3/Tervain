@@ -51,7 +51,7 @@ import { loadMeshyTrees, MESHY_TREE_IDS, MESHY_TREE_LODS, type MeshyTreeTemplate
 import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { buildCoastalBackdrop } from './coastalBackdrop';
 import { createGroundContactField } from './groundContacts';
-import { buildAnimals, deferredWildlife, loadAnimalTemplates, type AnimalTemplates, type AnimalWildlife } from './animals';
+import { buildAnimals, buildAnimalsAsync, deferredWildlife, loadAnimalTemplates, type AnimalTemplates, type AnimalWildlife } from './animals';
 import { ANIMALS } from './animals/catalog';
 import { checkCancelled, yieldToBrowser, type CooperativeOptions } from '../platform/cooperative';
 import { disposeSceneResources } from './disposeScene';
@@ -344,10 +344,13 @@ export class WorldScene {
       const arriving = animalTemplates ? null : deferredWildlife();
       const animals: AnimalWildlife = addModule('land wildlife', arriving ?? buildAnimals(ctx, animalTemplates!));
       if (arriving) {
+        const construction = new AbortController();
+        own({ dispose: () => construction.abort() });
         late.push(opened.then(() => loadAnimalTemplates()).then(
-          (templates) => disposed ? undefined : ready(buildAnimals(ctx, templates)).then((module) => arriving.attach(module)),
+          (templates) => disposed ? undefined : buildAnimalsAsync(ctx, templates, { signal: construction.signal })
+            .then(ready).then((module) => arriving.attach(module)),
           (error) => console.warn('[wildlife] the animals could not be loaded; the world goes on without them', error))
-          .catch((error) => console.warn('[wildlife] the animals could not be set up; the world goes on without them', error)));
+          .catch((error) => { if (!disposed) console.warn('[wildlife] the animals could not be set up; the world goes on without them', error); }));
       }
       await checkpoint('settlement', 'Buildings, supplies and wildlife', 1, 1);
       // Register accepted source rocks and constructed thresholds before painting their ground contacts.
