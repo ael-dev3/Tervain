@@ -3523,3 +3523,8 @@ Original status setter `3069752b` now checks the retained enum descriptor, loads
 ## Enum field-node constructor return
 
 Original constructor `30696ef8` now initializes the actual 16-byte status-node allocation with its original field-vtable image owner, zero flags, status argument and source-selected trailing word. RET `30696f1a` returns through the real caller `30697560`. The setter retains that allocation, loads the actual enum literal node and enters operation `3069731d` at CALL `3069756c`; that operation remains pending. Typechecking and three focused checks passed, including live allocation and initialized field assertions. Existing constructor interruptions retain their actual callers and lock state. Full property return, startup and campaign completion remain unfinished.
+
+
+## Completed-CString regression timeout diagnosis
+
+Main workflow run 38187614610 at revision 5be13059672528827d44ced2463340459fb172ef passed 4,070 tests and failed one completed-property-CString test at its 20-second limit. Its instrumentation now stops collecting camera and reference observations once captured, forwarding the original operations throughout. The reduced instrumentation still exceeded 20 seconds locally, so this expanded startup test has an explicit 30-second limit. All original assertions remain, and its focused local rerun passed. This does not establish a successful full-suite rerun or deployment.
