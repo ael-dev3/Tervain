@@ -596,3 +596,31 @@ stack receiver, opaque shared-array pointer bits, unchanged reference count and
 held depth. The normal boundary is `30671362`. Nested release, retain return,
 default publication, outer release/cleanup and filebuf startup remain unfinished.
 This checkpoint remains local and does not prove a hosted complete campaign.
+
+
+## Paired nested release and default publication
+
+The nested leave service admits only the actual `30671362` call beneath its
+`3067052f` wrapper, `30464ef1` destructor and `306708a9` retain caller. It pairs
+the saved stack receiver with the returned `30464eda` constructor and its
+returned section-enter call, verifies the actual selected array argument and
+registered owner, and requires an unconsumed acquisition receipt. Both the leave
+call and acquisition receipt can be consumed once; duplicate release cannot
+reduce the outer depth.
+
+The normal path reduces depth two to one, consumes the original stdcall return,
+returns through the wrapper and destructor, restores the retain caller and
+returns to `306708ae`. The caller loads the actual classic pointer and stores it
+at the original default pointer `30af6df4`, sets exception state to `-1`, and
+calls the outer lock destructor at `306708bf`, returning through `306708c4`.
+The reference count stays two and the original outer acquisition remains held.
+
+TypeScript checking and nine focused checks passed across two runs: the eight
+existing continuation/failure/admission cases and a separate pending-release
+case. The latter proves pre-call rejection, actual depth transition 2 to 1,
+duplicate rejection, preserved pending return word and still-zero default
+pointer while the continuation is interrupted. The normal check proves actual
+default-pointer ownership, nested destructor/retain returns and the pending
+outer destructor. The normal boundary is `30670524` from `306708bf`.
+Outer release, epilogue, filebuf startup and campaign integration remain
+unfinished; this checkpoint remains local.

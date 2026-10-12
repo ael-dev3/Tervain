@@ -1921,6 +1921,19 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
   }
   readonly #engineCinitSections=new Map<object,Readonly<{array:NativeHeapObjectViews;fields:NativeHeapObjectViews;offset:number;identity:object;owner:NativeModuleCrtOwner}>>();
   readonly #engineLocaleEnterCalls=new WeakSet<object>();
+  readonly #engineLocaleLeaveCalls=new WeakSet<object>();
+  readonly #engineLocaleReleasedEnters=new WeakSet<object>();
+  static leaveEngineCinitNestedLocaleSection(platform:NativeRuntimePlatform,crt:NativeModuleCrtOwner):NativeValue<void>{
+    const active=NativeRuntimePlatform.requireActivePlatform(platform);if(!active.known)return active;
+    const argument=NativeX86ThreadStack.engineCinitNestedLocaleLeaveArgumentForPlatform(platform,crt);if(!argument.known)return argument;
+    try {
+      const {fields,offset,call,enteredCall}=argument.value;
+      if(platform.#engineLocaleLeaveCalls.has(call)||platform.#engineLocaleReleasedEnters.has(enteredCall)||!platform.#engineLocaleEnterCalls.has(enteredCall))throw new Error('Actual unreleased nested acquisition required');
+      platform.canonicalFields(fields,96);const row=[...platform.#engineCinitSections.values()].find(row=>row.owner===crt&&row.array===fields&&row.offset===offset);if(!row)throw new Error('Actual initialized nested locale section required');
+      platform.canonicalFields(row.fields,24);const section=platform.sectionIdentities.get(row.identity);if(!section||section.owner!==crt.identity||section.deleted||section.depth<=0)throw new Error('Actual entered nested locale section required');
+      section.depth--;platform.#engineLocaleLeaveCalls.add(call);platform.#engineLocaleReleasedEnters.add(enteredCall);return known(undefined);
+    }catch(error){return unknown(error instanceof Error?error.message:String(error));}
+  }
   static enterEngineCinitLocaleSection(platform:NativeRuntimePlatform,crt:NativeModuleCrtOwner):NativeValue<void>{
     const active=NativeRuntimePlatform.requireActivePlatform(platform);if(!active.known)return active;
     const argument=NativeX86ThreadStack.engineCinitLocaleSectionArgumentForPlatform(platform,crt);if(!argument.known)return argument;
