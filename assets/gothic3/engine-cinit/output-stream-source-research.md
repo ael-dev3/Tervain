@@ -505,3 +505,29 @@ unchanged nested exception frames, partial facet object state and idempotent
 startup. The three allocation NULL cases retain their original new-handler
 boundaries. Full locale/facet construction, native startup and campaign play
 remain incomplete.
+
+## Character-locale lock and original short-string initialization
+
+Locale lock admission now includes constructor caller `0x30466e1b` only under
+the actual facet constructor call `0x305f0763`. Its stack receiver is the
+character-locale object itself, at lock CALL plus 128. This original acquisition
+remains held for the character-locale lifetime; outer facet lookup is also held.
+The current section depth is therefore two, not zero.
+
+The constructor validates the original readonly C literal, proves the non-null
+argument against zero EBX, and initializes its four native short-string buffers.
+Their first bytes at receiver offsets 8, 36, 64 and 92 become zero, lengths become
+zero and capacities become 15. Other inline bytes are not invented or declared
+known. All writes remain inside the actual facet constructor's reserved frame.
+
+The original non-null branch skips exception construction, pushes the actual
+literal and stack-local receiver, and calls finalization `0x306708cc` at
+`0x30466eab`, return address `0x30466eb0`. This finalizer is the current pending
+operation. The character-locale constructor has not returned and its acquisition
+has not yet been released.
+
+Typechecking and four focused runtime cases passed. The normal case verifies all
+four length/capacity/terminator fields, eight returned enters and six leaves,
+held depth two, original pending finalizer and preserved nested exception frames.
+All three allocation NULL cases still retain their original new-handler call.
+Complete locale/facet construction, startup and campaign play remain unfinished.
