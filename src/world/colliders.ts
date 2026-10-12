@@ -333,14 +333,14 @@ export class Colliders {
     return ceiling;
   }
 
-  /** Earliest exact horizontal segment/disc hit, independent of step size or box rotation. */
-  cast(ax: number, az: number, bx: number, bz: number, radius = 0, ignoreIds?: ReadonlySet<string>, bounds?: VerticalBounds, extra: readonly Collider[] = [], excludeSupports = false): ColliderHit | null {
+  /** Earliest exact horizontal segment/disc hit. Ignore an id group or a single collider by identity. */
+  cast(ax: number, az: number, bx: number, bz: number, radius = 0, ignoreIds?: ReadonlySet<string | Collider>, bounds?: VerticalBounds, extra: readonly Collider[] = [], excludeSupports = false): ColliderHit | null {
     const dx = bx - ax;
     const dz = bz - az;
     let nearest: ColliderHit | null = null;
     for (const c of [...this.near((ax + bx) / 2, (az + bz) / 2, Math.hypot(dx, dz) / 2 + radius), ...extra]) {
       if (!c.active || excludeSupports && c.supportOnly) continue;
-      if (ignoreIds?.has(c.id) || !overlapsHeight(c, bounds)) continue;
+      if (ignoreIds?.has(c.id) || ignoreIds?.has(c) || !overlapsHeight(c, bounds)) continue;
       const hit = c.kind === 'circle'
         ? circleHit(ax, az, dx, dz, c.x, c.z, c.r + radius)
         : boxHit(c, ax, az, dx, dz, radius);

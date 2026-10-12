@@ -370,6 +370,19 @@ describe('player motion and action contacts', () => {
       { minY: s.player.y + .03, maxY: s.player.y + 1.95 })).toBe(false);
   });
 
+  it.each([0, Math.PI / 4, Math.PI / 2].flatMap(yaw => ['absent', 'active', 'inactive'].map(other => ({ yaw, other }))))(
+    'checks other fence segments along the vault arc (yaw=$yaw, second fence=$other)', ({ yaw, other }) => {
+      const s = setup();
+      s.ctx.terrain.heightAt = () => 0;
+      const cos = Math.cos(yaw), sin = Math.sin(yaw);
+      s.ctx.colliders.box('fence', .8 * cos, -.8 * sin, .12, 3, yaw, true, { minY: -.3, maxY: 1.7 });
+      if (other !== 'absent') s.ctx.colliders.box('fence', .5 * cos, -.5 * sin, .05, 3, yaw, other === 'active', { minY: -.3, maxY: 2 });
+      s.player.yaw = Math.PI / 2 + yaw;
+      s.presses.add('jump'); s.tick();
+      if (other === 'active') expect(s.player.vault).toBeNull();
+      else expect(s.player.vault).not.toBeNull();
+    });
+
   it.each([false, true])('keeps a fence vault below solid overhead scenery (roof=%s)', (roof) => {
     const s = setup();
     s.ctx.terrain.heightAt = () => 0;
