@@ -83,7 +83,8 @@ try {
     const spot = SPOTS[id], dir = path.join(OUT, id);
     fs.mkdirSync(path.join(dir, 'frames'), { recursive: true });
     await place(...spot.hero);
-    await page.eval(`window.tervain.player.group.visible = ${!spot.hide}; return 1`);
+    // Scenery spots park the hero out of shot (the game keeps his body visible itself); the cameras stay where they are.
+    if (spot.hide) await place(spot.hero[0] + 40, spot.hero[1] + 40, spot.hero[2]);
     await page.wait(2500);
     for (const [k, c] of spot.still.entries()) { await camAt(spot.hero, c); await page.wait(900); await capture(path.join(dir, `still-${k + 1}.jpg`)); }
     let n = 0;
@@ -112,7 +113,6 @@ try {
       }
     }
     const clip = spot.run ? spawnSync('ffmpeg', ['-y', '-loglevel', 'error', '-f', 'concat', '-safe', '0', '-i', 'frames.txt', '-vf', 'scale=trunc(iw/2)*2:trunc(ih/2)*2', '-fps_mode', 'vfr', '-pix_fmt', 'yuv420p', 'clip.mp4'], { cwd: dir, timeout: 300000 }).status === 0 : encode(dir);
-    await page.eval('window.tervain.player.group.visible = true; return 1');
     metrics.spots[id] = { item: spot.item, stills: spot.still.length, frames: n, clip };
   }
   await page.eval('window.tervain.cam.manual = null; return 1');
@@ -121,7 +121,7 @@ try {
   await place(-4, 40, 0); await page.wait(1200);
   const torsoHits = { walk: 0, run: 0, samples: 0 };
   const sampleBow = (gait) => page.eval(`const T = window.tervain, P = T.player, V = T.world.scene.position.constructor;
-    let bow = null, hips = null, neck = null; P.group.traverse((o) => { if (o.name === 'Hunting / bent ash bow in left palm') bow = o; if (/Hips$/.test(o.name) && !hips) hips = o; if (/Neck$/.test(o.name) && !neck) neck = o; });
+    let bow = null, hips = null, neck = null; T.world.scene.traverse((o) => { if (o.name === 'Hunting / bent ash bow in left palm') bow = o; }); P.group.traverse((o) => { if (/Hips$/.test(o.name) && !hips) hips = o; if (/Neck$/.test(o.name) && !neck) neck = o; });
     if (!bow || !bow.visible || !hips || !neck) return [0, 0];
     const a = hips.getWorldPosition(new V()), b = neck.getWorldPosition(new V()), ab = b.clone().sub(a), len = ab.length(); ab.normalize();
     let inside = 0, n = 0;
@@ -136,8 +136,8 @@ try {
   for (const [gait, codes] of [['walk', ['KeyW']], ['run', ['ShiftLeft', 'KeyW']]]) {
     await holdWhile(codes, 2500, async () => { const [inside, n] = await sampleBow(gait); torsoHits[gait] += inside; torsoHits.samples += n; });
   }
-  metrics.checks.bow = { ...torsoHits, pass: torsoHits.walk + torsoHits.run === 0 };
-  if (!metrics.checks.bow.pass) failures.push(`bow inside the torso on ${torsoHits.walk + torsoHits.run} of ${torsoHits.samples} samples`);
+  metrics.checks.bow = { ...torsoHits, pass: torsoHits.samples > 0 && torsoHits.walk + torsoHits.run === 0 };
+  if (!metrics.checks.bow.pass) failures.push(torsoHits.samples ? `bow inside the torso on ${torsoHits.walk + torsoHits.run} of ${torsoHits.samples} samples` : 'bow check found no slung bow to sample');
 
   // Fence vault: every approach must cross.
   const vaults = [];
