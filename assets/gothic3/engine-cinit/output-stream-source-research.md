@@ -172,3 +172,32 @@ continuation and both streambuf and basic-ios allocation failures. Checks confir
 the locale call and getter returned, the lock caller is pending, global locale
 identity is preserved, reference count is unchanged, original constructor
 arguments survive, and repeated startup retains the same pending result.
+
+## Basic-ios locale retain and matched release
+
+The runtime now executes the actual lock constructor at `0x30670503` for caller
+`0x305f0b10`. Platform admission verifies the enclosing base-initializer call
+`0x305f21b3`, the original lock index and array, and stack-local receiver at the
+constructor CALL position plus 24. It does not admit arbitrary lock callers.
+
+After the original EnterCriticalSection wrappers return, the base initializer
+reads the live locale refcount and follows its original sentinel check. The
+normal count increments from three to four. Its destructor caller at
+`0x305f0b27` must refer to that same lock receiver, the returned constructor and
+the exact acquired enter receipt. The original LeaveCriticalSection wrappers
+then release that acquisition once; the section's held depth returns to zero.
+The shared constructor/destructor instruction helpers were moved into their
+common scope while retaining their original checks and instructions.
+
+Base initialization stores the allocated wrapper at receiver offset `0x24`
+(stream storage offset 40), restores the actual saved registers and returns to
+`0x305f21b8`. Basic-ios then connects the original stdout filebuf at receiver
+`+0x28` (storage 44), clears `+0x2c`, pushes fill character 32 and calls
+`0x305f18c0`, return address `0x305f21cf`. Character-facet conversion is the current
+pending operation. Basic-ios and the outer output constructor have not returned.
+
+Typechecking and three focused runtime cases passed. The normal case checks
+four completed locale enters and matching releases, count four, held depth zero,
+actual wrapper and filebuf pointer owners, base return, pending fill call and
+idempotent pending startup. The two NULL cases continue to retain their original
+new-handler call. No full startup or campaign completion is claimed.
