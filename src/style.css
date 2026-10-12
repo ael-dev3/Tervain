@@ -1668,6 +1668,19 @@ pre.debug {
 .toast { font-size: .84rem; line-height: 1.35; border-left-width: 3px; }
 .captions { bottom: max(110px, 12%); width: min(620px, 85vw); }
 .caption.speech { font-style: normal; }
+/* A sound's caption (A124): a quiet aside under the scene, without a box or a gold bar. */
+.caption.sound {
+  padding: 0 6px;
+  background: none;
+  border-left: 0;
+  font-size: 0.82rem;
+  color: rgba(228, 215, 188, 0.82);
+  text-shadow: 0 1px 2px #000, 0 0 6px rgba(0, 0, 0, 0.8);
+  animation: caption-fade 3.2s ease-out forwards;
+}
+@keyframes caption-fade { 0%, 70% { opacity: 1; } 100% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .caption.sound { animation: none; } }
+body.high-contrast .caption.sound { background: rgba(0, 0, 0, 0.85); color: #fff; }
 .caption.speech b { color: var(--gold); font-weight: 600; margin-right: 0.15em; }
 .caption { text-align: center; line-height: 1.4; }
 .threat { max-width: 90vw; text-align: center; font-size: .9rem; }
