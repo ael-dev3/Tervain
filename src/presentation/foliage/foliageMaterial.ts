@@ -56,11 +56,11 @@ export const FOLIAGE_LOOK: FoliageLook = {
   transTint: new THREE.Color(0.9, 0.95, 0.7),
   // A75: the heart of a near crown and its leaves in their own shadow went near-black, so a crown read as blotchy dark
   // clumps between bright cards (owner playtest). Gothic 3's crowns stay soft and evenly lit inside.
-  innerShade: 0.82,
+  innerShade: 0.95,
   // A76: muted toward Gothic 3's olive greens.
   saturation: 0.7,
   variation: 1,
-  shadeThrough: 0.55,
+  shadeThrough: 0.8,
   // A79: the shell's gaps between masses and the roughened card cut made near crowns noisy and blotchy, with dark clumps
   // between masses (owner playtest on a GPU); the masses keep only a faint shading.
   clumps: { gaps: 0, shade: 0.15, rough: 0, size: 1.1 },
@@ -124,7 +124,7 @@ const LEAF_VERTEX_BODY = /* glsl */ `
   vec3 tvE = vec3(tvD.x / tvRh, tvD.y / tvRv, tvD.z / tvRh);
   vCrownDepth = length(tvE);
   // The spheroid's outward normal, in view space for the fragment's lighting.
-  vec3 tvN = normalize(vec3(tvE.x / tvRh, tvE.y / tvRv, tvE.z / tvRh) + vec3(0.0, 0.12, 0.0) / max(tvRv, 0.1));
+  vec3 tvN = normalize(vec3(tvE.x / tvRh, tvE.y / tvRv, tvE.z / tvRh) + vec3(0.0, 0.45, 0.0) / max(tvRv, 0.1));
   vCrownN = normalize((viewMatrix * vec4(tvN, 0.0)).xyz);
   vFoliageHue = fract(sin(dot(tvCW[3].xz, vec2(12.9898, 78.233))) * 43758.5453) - 0.5;
   // Where the leaf is in its crown, in metres, offset by where the tree stands: each tree's clumps fall differently (A76).
@@ -196,7 +196,7 @@ const LEAF_ALPHA_TEST_GLSL = /* glsl */ `
   #ifdef USE_MAP
     vec2 tvTexels = vMapUv * vec2( textureSize( map, 0 ) );
     float tvMip = max( 0.0, 0.5 * log2( max( dot( dFdx( tvTexels ), dFdx( tvTexels ) ), dot( dFdy( tvTexels ), dFdy( tvTexels ) ) ) ) );
-    tvA *= 1.0 + 0.12 * tvMip;
+    tvA *= 1.0 + 0.22 * tvMip;
   #endif
   #ifdef ALPHA_TO_COVERAGE
     // A75: the ramp spans about two pixels, so card silhouettes soften instead of reading as hard cut-outs.

@@ -18,7 +18,8 @@ permissions:
 
 jobs:
   play-gate:
-    if: github.event_name == 'pull_request' || github.event.issue.pull_request
+    # A comment counts only on a pull request and only when it carries a PASS line; others start no run.
+    if: github.event_name == 'pull_request' || (github.event.issue.pull_request && contains(github.event.comment.body, 'play-gate: PASS'))
     runs-on: ubuntu-latest
     steps:
       - name: Look for a passing play gate on the head commit
@@ -37,5 +38,7 @@ jobs:
           fi
           gh api "repos/$REPO/statuses/$head" -f state=$state -f context=play-gate -f description="$desc" >/dev/null
           echo "$desc"
-          # The job shares the status's name, so it must fail with it: branch protection accepts either.
-          [ "$state" = success ]
+          # On the pull request's own run the job shares the status's name, so it fails with it (branch protection accepts
+          # either). A comment's run belongs to the default branch's head instead: it only sets the status and never fails,
+          # so it cannot mark main red.
+          [ "$state" = success ] || [ "$GITHUB_EVENT_NAME" = issue_comment ]

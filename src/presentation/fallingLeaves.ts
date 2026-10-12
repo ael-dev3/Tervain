@@ -74,7 +74,13 @@ function leafGeometry(): THREE.BufferGeometry {
   ];
   const positions = [0, 0, 0.065, ...rim.flat()];
   const colors = [0.9, 0.98, 0.55];
-  for (let i = 0; i < rim.length; i++) colors.push(0.68 + (i % 3) * 0.035, 0.79 + (i % 3) * 0.025, 0.34);
+  // A127: one flat tone read as an untextured chip. The halves either side of the vein differ, and the margin and the
+  // tip and stalk fall darker, so the leaf shows a midrib and a turned blade even at its few vertices.
+  for (const [x, y] of rim) {
+    const edge = Math.abs(y!) > 0.45 ? 0.72 : 1;
+    const half = x! < 0 ? 0.8 : 1;
+    colors.push(0.7 * edge * half, 0.8 * edge * half, 0.34 * edge * half);
+  }
   const indices: number[] = [];
   for (let i = 0; i < rim.length; i++) indices.push(0, i + 1, (i + 1) % rim.length + 1);
   const geometry = new THREE.BufferGeometry();
@@ -196,7 +202,10 @@ export function buildFallingLeaves(
   const leafVertex = new THREE.Vector3(), leafPositions = geometry.getAttribute('position');
   for (let i = 0; i < streams.length; i++) {
     const tint = streams[i]!.tint;
-    mesh.setColorAt(i, colour.setRGB(0.82 + tint * 0.16, 0.86 + tint * 0.1, 0.58 + tint * 0.12));
+    // A127: from summer green through yellow to a turned russet, rather than one pale cream.
+    mesh.setColorAt(i, tint < 0.5
+      ? colour.setRGB(0.66 + tint * 0.5, 0.86 - tint * 0.04, 0.5 - tint * 0.1)
+      : colour.setRGB(0.91 + (tint - 0.5) * 0.1, 0.84 - (tint - 0.5) * 0.5, 0.45 - (tint - 0.5) * 0.3));
   }
   let clock = 0, visible = 0, disposed = false;
   return {

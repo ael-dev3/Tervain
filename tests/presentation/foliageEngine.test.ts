@@ -140,7 +140,7 @@ describe('foliage look', () => {
       // A107: about two pixels inside the crown, widening to about three and a half on its outer shell.
       expect(frag).toContain('float tvRamp = 2.0 * mix( 1.0, 1.8, smoothstep( 0.55, 0.95, vCrownDepth ) );');
       expect(frag).toContain('diffuseColor.a = clamp( ( tvA - alphaTest ) / max( tvRamp * fwidth( tvA ), 1e-4 ) + 0.5, 0.0, 1.0 );');
-      expect(frag.indexOf('tvCoverageSample <')).toBeGreaterThan(frag.indexOf('tvA *= 1.0 + 0.12 * tvMip;'));
+      expect(frag.indexOf('tvCoverageSample <')).toBeGreaterThan(frag.indexOf('tvA *= 1.0 + 0.22 * tvMip;'));
       // Each light's colour is noted before its shadow, so some light still passes through a shaded leaf.
       expect(frag).not.toContain('#include <lights_fragment_begin>');
       expect(frag).toMatch(/getDirectionalLightInfo\( directionalLight, directLight \);\n\t\ttvLitColour = directLight\.color;/);
