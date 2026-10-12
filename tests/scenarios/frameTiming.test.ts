@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import * as THREE from 'three';
-import { FrameClock, MotionInterpolation, SIM_CATCH_UP, SIM_MAX_STEPS, SIM_STEP, cappedFrame } from '../../src/platform/frameTiming';
+import { FrameClock, MotionInterpolation, SIM_CATCH_UP, SIM_MAX_STEPS, SIM_STEP, CAPPED_FRAME, cappedFrame } from '../../src/platform/frameTiming';
 
 const STEP = SIM_STEP;
 
@@ -136,6 +136,14 @@ describe('the 60-frame cap (A71)', () => {
     }
     expect(drawn / 10).toBeGreaterThan(59);
     expect(drawn / 10).toBeLessThan(61);
+  });
+
+  it('does not draw a recovery burst after one missed 60 Hz deadline', () => {
+    let { due } = cappedFrame(0, -Infinity);
+    const delayed = cappedFrame(2 * CAPPED_FRAME, due);
+    expect(delayed.draw).toBe(true); due = delayed.due;
+    expect(cappedFrame(2.5 * CAPPED_FRAME, due).draw).toBe(false);
+    expect(cappedFrame(3 * CAPPED_FRAME, due).draw).toBe(true);
   });
 
   it('restarts its schedule after a long stall instead of drawing a burst', () => {
