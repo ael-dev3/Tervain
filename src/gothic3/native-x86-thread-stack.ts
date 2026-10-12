@@ -1694,7 +1694,12 @@ stack.#engineCinitFrame!.pc='10003cd8';engineCinitUnMangleInstruction('10003cd8'
               localeProlog('30679b7d',()=>stack.#store(stack.#stack,stack.#address(register('EBP'))-4,stack.#mint(0xffffffff,0xffffffff)));
               localeProlog('30679b84',()=>setRegister('EAX',stack.#stackWord(stack.#address(register('EBP'))-12)));localeProlog('30679b87',()=>stack.#store(stack.#bank,32,register('EAX')));
               localeProlog('30679b8d',()=>{const p=stack.#record(stack.#ret()).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!=='3067083e')throw new Error('Actual locale EH3 prolog caller return required');});
-              stack.#engineCinitFrame!.pc='3067083e';return known(undefined);
+              const localePointer=NativeEngineCinitImages.imageForCrt(images.value,crt,'standardLocaleGlobalPointer');if(!localePointer.known)throw new Error(localePointer.reason);
+              locale('3067083e',()=>setRegister('EAX',stack.#load(localePointer.value,0)));
+              locale('30670843',()=>stack.#logicalFlags(stack.#numeric(register('EAX'),4),0xffffffff,4));locale('30670845',()=>setRegister('ESI',register('EAX')));locale('30670847',()=>{});
+              if(stack.#numeric(register('EAX'),4)!==0){stack.#engineCinitFrame!.pc='306708c4';return known(undefined);}
+              locale('30670849',()=>stack.#push(register('EAX')));locale('3067084a',()=>setRegister('ECX',stack.#stackWord(stack.#address(register('EBP'))-16)));locale('3067084d',()=>stack.#call('3067084d','30670852'));
+              stack.#engineCinitFrame!.pc='30670503';return known(undefined);
             }
             if(target==='30791ef6'||target==='30791f18'){
               const initializer=target==='30791f18'

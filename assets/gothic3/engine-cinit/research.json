@@ -70287,6 +70287,15 @@
       "sha256": "7b8b1bac9e0582920a3250ca33c001d51f4b9f344e49b1d0a34d6361603680b5"
     },
     {
+      "label": "standardLocaleGlobalPointer",
+      "address": "30af6dd8",
+      "bytes": 4,
+      "raw": "00000000",
+      "fileBackedBytes": 0,
+      "loaderZeroFillBytes": 4,
+      "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+    },
+    {
       "label": "shapeGroupContainerPropertyFlags",
       "address": "30ad9c94",
       "bytes": 4,

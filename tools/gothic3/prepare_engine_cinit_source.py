@@ -733,6 +733,7 @@ def capture(study):
         ('sharedCriticalSectionSecondReferenceAddress', 0x30af6e01, 1),
         ('standardOutputFilebufStorage', 0x30af6e08, 80),
         ('standardStreambufVtable', 0x3088da3c, 4),
+        ('standardLocaleGlobalPointer', 0x30af6dd8, 4),
         ('shapeGroupContainerPropertyFlags', 0x30ad9c94, 4),
         ('shapeGroupContainerPropertyRoot', 0x30ad9d54, 4),
         ('shapeGroupContainerPropertyStorage', 0x30ad9c8c, 8),

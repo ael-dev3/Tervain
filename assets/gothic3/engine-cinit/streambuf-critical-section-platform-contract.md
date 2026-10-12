@@ -108,3 +108,26 @@ pointer image, locale locking, object construction, exception epilogue and final
 filebuf continuation remain unfinished. No locale object or successful outer
 constructor return is fabricated. These changes remain local and do not prove
 complete engine startup, hosted playability, or campaign completion.
+
+
+## Locale global-pointer branch
+
+The original `30af6dd8` global pointer is now a retained four-byte image with
+zero file-backed bytes and four loader-zero-fill bytes. Source regeneration
+proved all previous methods, metadata and image records unchanged before adding
+that image. The runtime executes the captured load, TEST, ESI assignment and
+branch from `3067083e`. The original cold zero pointer leads to `30670849`–
+`3067084d`, which push the actual zero argument, derive the stack receiver from
+EBP minus 16, and call `30670503` with return address `30670852`.
+
+Startup now stops at that actual pending locale lock-constructor call. A known
+nonzero pointer follows the captured branch to `306708c4`, whose epilogue is
+still unsupported; it does not fabricate a helper return or constructor result.
+Unknown pointer bits remain unsupported. No locale object has been created or
+published.
+
+TypeScript checking, all 151 source/image checks and six focused runtime checks
+passed locally. The normal check pins the zero global pointer, original pending
+lock return word, ECX receiver and adjusted ESP, while the nested FS head and
+EBP checks remain intact. Full runtime-suite, hosted rendering and campaign
+completion are not established by these checks.

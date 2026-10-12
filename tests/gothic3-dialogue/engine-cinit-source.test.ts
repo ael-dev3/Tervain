@@ -346,3 +346,8 @@ it('captures the original locale initializer and its EH3 prologue without claimi
  expect(engineCinitInstruction('30679b5b','30679b87')).toMatchObject({bytes:'64a300000000',instruction:'MOV FS:[0x0],EAX'});
  expect(engineCinitInstruction('30679b5b','30679b8d')).toMatchObject({bytes:'c3',instruction:'RET'});
 });
+
+
+it('captures loader zero-fill for the original locale global pointer',()=>{
+ expect(engineCinitImage('standardLocaleGlobalPointer')).toMatchObject({address:'30af6dd8',bytes:4,raw:'00000000',fileBackedBytes:0,loaderZeroFillBytes:4});
+});
