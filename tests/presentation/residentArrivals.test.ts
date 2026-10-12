@@ -7,7 +7,7 @@ import { buildAmbient } from '../../src/presentation/ambient';
 import { createStandInRig, type Rig } from '../../src/presentation/characters';
 import type { BuildContext, FrameContext } from '../../src/presentation/context';
 import type { MeshyNpcCatalog } from '../../src/presentation/meshynpcs';
-import { NEAR_ENTRY_METRES, ResidentArrivals, residentRolesNear, type AwaitingFigure } from '../../src/presentation/residentArrivals';
+import { ARRIVAL_BUDGET_MS, NEAR_ENTRY_METRES, ResidentArrivals, residentRolesNear, type AwaitingFigure } from '../../src/presentation/residentArrivals';
 import { defaultSettings } from '../../src/platform/settings';
 import { Colliders } from '../../src/world/colliders';
 import { ENEMY_SPAWNS } from '../../src/world/layout';
@@ -193,6 +193,30 @@ describe('arrivals', () => {
     expect(staged.adopt).toHaveBeenCalledWith(held, rig);
     arrivals.clear();
     expect(arrivals.warm).toBeNull();
+  });
+
+  it('shares the construction budget across figures whose shader preparation has not settled', async () => {
+    let clock = 0;
+    const arrivals = new ResidentArrivals(() => clock), release: (() => void)[] = [], made: string[] = [];
+    const figures = Array.from({ length: 40 }, (_, i) => {
+      const rig = arrivedRig();
+      return { ...figure(`cached:${i}`, 100), *make() { clock += 2; made.push(`cached:${i}`); return rig; } };
+    });
+    arrivals.warm = vi.fn(() => { clock += 5; return new Promise<void>(resolve => { release.push(resolve); }); });
+    figures.forEach(f => arrivals.add(f));
+    const held = catalog(figures.map(f => f.role));
+    try {
+      arrivals.update(held, () => false);
+      // No figure adopted yet does not mean no frame work was spent. Before the fix all forty are built and warmed
+      // here: 280 ms on this deterministic clock, despite the 3 ms preparation budget and a two-adoption cap.
+      expect(clock).toBeLessThanOrEqual(ARRIVAL_BUDGET_MS + 7);
+      expect(made).toEqual(['cached:0']); expect(arrivals.warm).toHaveBeenCalledTimes(1);
+      expect(figures.every(f => f.adopt.mock.calls.length === 0)).toBe(true);
+      release.shift()!(); await Promise.resolve();
+      arrivals.update(held, () => false);
+      expect(figures[0]!.adopt).toHaveBeenCalledOnce();
+      expect(made).toEqual(['cached:0', 'cached:1']);
+    } finally { arrivals.clear(); }
   });
 
   it('releases a rig built for someone who never took it when the arrivals are cleared (A80)', () => {
