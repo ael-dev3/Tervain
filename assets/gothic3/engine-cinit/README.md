@@ -3429,3 +3429,8 @@ Original `30697b16` now copies the actual enum literal descriptor through `30696
 ## Enum status-node allocation prefix
 
 Original status setter `3069752b` now checks the retained enum descriptor, loads its original status argument, follows the source branches, and calls the original arena allocator at `3069754f` for 16 bytes. Immediate globals address `30af7c54` is represented by its actual image owner; it is not replaced with the word stored at that address. The original allocator returns a canonical live arena allocation, then CALL `3069755b` retains field-node constructor `30696ef8` as the next pending operation. Typechecking and the three normal/digit/literal interruption checks passed. Property root and shutdown registration remain unpublished; full startup and campaign completion remain unfinished.
+
+
+## Enum field-node constructor return
+
+Original constructor `30696ef8` now initializes the actual 16-byte status-node allocation with its original field-vtable image owner, zero flags, status argument and source-selected trailing word. RET `30696f1a` returns through the real caller `30697560`. The setter retains that allocation, loads the actual enum literal node and enters operation `3069731d` at CALL `3069756c`; that operation remains pending. Typechecking and three focused checks passed, including live allocation and initialized field assertions. Existing constructor interruptions retain their actual callers and lock state. Full property return, startup and campaign completion remain unfinished.
