@@ -1,0 +1,36 @@
+{
+  "schema": "gothic3.validation-checkpoint.v1",
+  "fullSuiteRevision": "6de70aa75dac61a5bc233f92219dc5248df8b4e6",
+  "fullSuite": {
+    "exitCode": 1,
+    "passed": 4081,
+    "failed": 6,
+    "passedFiles": 340,
+    "failedFiles": 1
+  },
+  "correctionRevision": "45ed884c8b0fe5bd2657b40e88c126ae92bc2db9",
+  "correctionTypecheck": {
+    "exitCode": 0
+  },
+  "correctionChecks": {
+    "passed": 9,
+    "skipped": 479,
+    "files": 1,
+    "exitCode": 0
+  },
+  "correctionTestFileSha256": "6d2d53f1e9d0f0b2ecc93e1b0222940f9f54c609ce132608212ea761d836d2cd",
+  "fullSuiteRerunAfterCorrection": false,
+  "buildAfterFullSuite": "skipped because full suite exited nonzero",
+  "deploymentVerified": false,
+  "campaignCompletionVerified": false,
+  "logs": [
+    "gothic3-enum-cstring-full-tests.log",
+    "gothic3-full-failure-fixes-typecheck.log",
+    "gothic3-full-failure-fixes-probe.log"
+  ],
+  "notes": [
+    "Three stale interruption-PC assertions restored to original source locations.",
+    "Three CString call assertions now select their child memcpy beneath the original property UnMangle caller.",
+    "All original byte, mask and ownership assertions retained."
+  ]
+}
