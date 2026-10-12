@@ -1868,7 +1868,13 @@ stack.#engineCinitFrame!.pc='10003cd8';engineCinitUnMangleInstruction('10003cd8'
               retain('30464edf',()=>{objectPointer(register('ESI'),0);setRegister('EAX',stack.#load(object,4));});retain('30464ee2',()=>{const count=stack.#numeric(register('EAX'),4);stack.#arithmeticFlags(count,0xffffffff,(count-0xffffffff)>>>0,4,true);});retain('30464ee5',()=>{});
               if(stack.#numeric(register('EAX'),4)!==0xffffffff){retain('30464ee7',()=>{const before=stack.#numeric(register('EAX'),4),next=(before+1)>>>0;setRegister('EAX',stack.#mint(next,0xffffffff));stack.#arithmeticFlags(before,1,next,4,false);});retain('30464eea',()=>{objectPointer(register('ESI'),0);stack.#store(object,4,register('EAX'));});}
               retain('30464eed',()=>setRegister('ECX',stack.#stackWord(stack.#address(register('ESP'))+4)));retain('30464ef1',()=>stack.#call('30464ef1','30464ef6'));
-              stack.#engineCinitFrame!.pc='30670524';return known(undefined);
+              const release=(pc:string,body:()=>void)=>step(pc,body,'30670524'),releaseArray=NativeEngineCinitImages.imageForCrt(images.value,crt,'sharedCriticalSectionArray');if(!releaseArray.known)throw new Error(releaseArray.reason);
+              release('30670524',()=>{const receiver=stack.#address(register('ECX')),call=stack.#calls.filter(row=>!row.returned).at(-1);if(call?.site!=='30464ef1'||receiver!==call.position+8)throw new Error('Actual nested locale lock destructor receiver required');setRegister('EAX',stack.#load(stack.#stack,receiver));});
+              release('30670526',()=>{const index=stack.#numeric(register('EAX'),4);if(index>3)throw new Error('Actual stored locale lock index required');setRegister('EAX',stack.#mint(index*24,0xffffffff));stack.#flags(0,0x801);});
+              release('30670529',()=>{const offset=stack.#numeric(register('EAX'),4);setRegister('EAX',stack.#mint(0,0,{kind:'engine-image',crt,fields:releaseArray.value,offset}));stack.#arithmeticFlags(offset,0x30af6d70,0x30af6d70+offset,4,false);});
+              release('3067052e',()=>stack.#push(register('EAX')));release('3067052f',()=>stack.#call('3067052f','30670534'));
+              step('3067135e',()=>stack.#push(stack.#load(stack.#stack,stack.#address(register('ESP'))+4)),'3067135e');step('30671362',()=>{const receipt=engineCinitImport('30afc6d8');if(receipt.module!=='KERNEL32.dll'||receipt.name!=='LeaveCriticalSection')throw new Error('Original locale leave-section import required');stack.#call('30671362','30671368');},'3067135e');
+              stack.#engineCinitFrame!.pc='30671362';return known(undefined);
             }
             if(target==='30791ef6'||target==='30791f18'){
               const initializer=target==='30791f18'

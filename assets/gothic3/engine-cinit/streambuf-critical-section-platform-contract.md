@@ -574,3 +574,25 @@ removed and checking passed on rerun. The normal boundary is `30670524` from
 `30464ef1`. Nested/outer release, default publication, outer cleanup and filebuf
 startup remain unfinished. This checkpoint is local, not a hosted campaign
 completion claim.
+
+
+## Nested lock-destructor leave caller
+
+The runtime now executes the original `30670524` destructor prefix for its
+`30464ef1` retain-helper caller. It validates the actual stack receiver against
+the destructor call position plus eight, reads the stored index, checks range
+0–3, multiplies by 24 and derives the retained shared-array pointer. It follows
+the original wrapper call and admits the captured
+`KERNEL32.dll!LeaveCriticalSection` import at IAT `30afc6d8`.
+
+The actual `30671362` call is pending, with return address `30671368`; the lower
+release operation has not run. The reference count is two and the section depth
+remains two. No destructor return, depth decrement or default-locale pointer
+store is fabricated.
+
+TypeScript checking and two focused normal-continuation/enum checks passed.
+The normal check verifies the pending leave return word, adjusted ESP, actual
+stack receiver, opaque shared-array pointer bits, unchanged reference count and
+held depth. The normal boundary is `30671362`. Nested release, retain return,
+default publication, outer release/cleanup and filebuf startup remain unfinished.
+This checkpoint remains local and does not prove a hosted complete campaign.
