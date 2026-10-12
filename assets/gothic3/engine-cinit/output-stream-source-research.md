@@ -459,3 +459,28 @@ Four focused cases passed: normal contiguous startup, streambuf allocation NULL,
 basic-ios locale allocation NULL, and facet allocation NULL. The startup suite
 now contains 505 cases; the other 501 were skipped in this focused run. Complete
 facet construction, startup and campaign play remain unfinished.
+
+## Facet constructor object prefix and C-locale caller
+
+The facet constructor now executes the original prefix at `0x305f0700` through
+CALL `0x305f0763`. It saves handler `0x3072815b` and the factory's FS head, reserves
+140 local bytes, records the original frame cookies, saves ESI/EDI and installs
+its own exception frame. The actual third caller argument is proven zero before
+it initializes the owned facet reference field at offset four.
+
+The routine pushes the captured readonly C-locale literal at `0x3084eff8`, sets
+its stack-local character-locale receiver using the original LEA, sets exception
+state zero and installs facet vtable `0x3088dab4`. Numeric pointer bytes remain
+unknown while actual pointer identities are retained. Only the reference field's
+four bytes are newly known; the rest of the 24-byte object remains unwritten.
+
+The original character-locale constructor `0x30022a70` is now pending, with
+return address `0x305f0768`. Its stack-local receiver and literal come from the
+actual caller, not a fabricated locale object or host-default locale. The
+original facet constructor and outer factory have not returned.
+
+Typechecking and four focused runtime cases passed. The normal case checks the
+facet's live canonical allocation, precise partial mask, zero reference field,
+installed readonly vtable owner, nested saved FS state and pending C-locale
+constructor. All three original allocation NULL cases remain at their new-handler
+boundaries. Full facet construction, startup and campaign gameplay are unfinished.
