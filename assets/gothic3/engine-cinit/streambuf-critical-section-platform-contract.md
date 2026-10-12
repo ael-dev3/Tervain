@@ -677,3 +677,30 @@ not silently reused the earlier initializer/retain admissions. That acquisition,
 streambuf reference increment/release, buffer initialization and filebuf startup
 remain unfinished. This checkpoint is local and does not establish a hosted
 complete campaign.
+
+
+## Streambuf locale acquisition and retain
+
+Section-enter admission now includes the captured `305ee6c6` streambuf caller,
+requiring its `305eed33` enclosing constructor and receiver at that lock call's
+position plus 24. The original initializer keeps its EBP-based check; nested
+retain keeps its own call-position check. The returned initializer's EBP shape
+is not incorrectly required for this new caller.
+
+The runtime acquires the actual initialized shared section from depth zero to
+one, returns through `305ee6cb`, validates the locale object held in EDI, and
+executes the original reference-count test and increment from two to three.
+The `-1` sentinel remains unchanged on its captured branch. It derives the
+streambuf's stack lock receiver and calls its destructor at `305ee6dd`, returning
+through `305ee6e2`.
+
+TypeScript checking and ten focused runtime checks passed on the final run.
+Earlier runs exposed the incorrect unconditional EBP admission and an assertion
+reading a retired locale stack slot reused by the new call. The admission now
+uses the actual caller, and the assertion checks the active streambuf lock
+object and exception state. The final normal check proves three actual entered
+calls, reference count three, depth one, returned streambuf constructor and
+pending destructor. Earlier failure/admission cases passed alongside it.
+The normal boundary is `30670524` from `305ee6dd`. Streambuf release, buffer
+initialization, filebuf completion and campaign integration remain unfinished.
+This checkpoint remains local and does not establish full hosted playability.
