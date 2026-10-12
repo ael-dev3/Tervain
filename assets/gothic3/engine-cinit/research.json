@@ -2835,6 +2835,40 @@
         "bodyInstructionBytesSha256": "40ad64b9c09580289eeee2513abfc92cb7333857baa8b69bf40490c92d716e55"
       },
       {
+        "label": "engineStandardLocaleGlobalGetter",
+        "entryVA": "0x3067063c",
+        "bodyVA": "0x3067063c",
+        "entryChain": [],
+        "bodyRanges": "3067063c-30670641",
+        "instructions": [
+          {
+            "va": "3067063c",
+            "rva": "67063c",
+            "fileOffset": 6751804,
+            "bytes": "a1d86daf30",
+            "instruction": "MOV EAX,[0x30af6dd8]",
+            "assemblyLine": 1716226
+          },
+          {
+            "va": "30670641",
+            "rva": "670641",
+            "fileOffset": 6751809,
+            "bytes": "c3",
+            "instruction": "RET",
+            "assemblyLine": 1716227
+          }
+        ],
+        "reconstructedC": {
+          "path": "01_Decompiled_Code/Engine_dll/pseudocode/functions_00168.c",
+          "sha256": "ecef8a3709916bf17b907182955a619ef9ffaee2291b7a5eeea106d4e13179c8",
+          "line": 6463,
+          "status": "decompiled"
+        },
+        "instructionCount": 2,
+        "bodyByteCount": 6,
+        "bodyInstructionBytesSha256": "8b390513f3af2285bdc828a1ba66f1415a1d749375c1679ccf0b1e1dd614dfd0"
+      },
+      {
         "label": "engineStandardLocalePublish",
         "entryVA": "0x30670642",
         "bodyVA": "0x30670642",

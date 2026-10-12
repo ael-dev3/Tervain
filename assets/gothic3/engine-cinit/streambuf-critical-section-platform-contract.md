@@ -652,3 +652,28 @@ handler/destructor paths outside this admitted normal call remain unfinished.
 The normal boundary is `305ee6b7`, before storing the returned locale pointer
 in the four-byte streambuf member. Filebuf completion, full engine startup and
 campaign integration remain unfinished. This checkpoint remains local.
+
+
+## Streambuf locale member and global getter
+
+Capture adds the original `3067063c` getter, for 375 Engine methods. It loads
+`30af6dd8` and returns through `30670641`; prior source records, metadata,
+imports and images were compared and preserved.
+
+The runtime resumes at `305ee6b7`, validates the actual four-byte heap member
+receiver and returned locale object, and stores that opaque object pointer.
+The frame snapshot exposes the retained member expression for ownership
+inspection. The original `305ee6b9` getter call then returns the same published
+object through `305ee6be`. The streambuf pushes index zero, derives its own
+stack lock receiver, retains the locale object in EDI and calls `30670503` at
+`305ee6c6`, returning through `305ee6cb`.
+
+TypeScript checking, all 159 source/image checks and two focused
+normal-continuation/enum checks passed locally. The normal check proves member
+ownership, getter return, pending streambuf constructor caller and exact stack
+receiver/ESP, while published locale state and zero shared-lock depth remain
+intact. The normal boundary is `30670503` from this new streambuf caller; it has
+not silently reused the earlier initializer/retain admissions. That acquisition,
+streambuf reference increment/release, buffer initialization and filebuf startup
+remain unfinished. This checkpoint is local and does not establish a hosted
+complete campaign.

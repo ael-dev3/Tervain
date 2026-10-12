@@ -28,6 +28,7 @@ def capture(study):
         0x30679b5b: 'engineLocaleEh3Prolog',
         0x30036ec6: 'engineStandardLocaleCategoryNameAssign',
         0x3002751b: 'engineStandardLocaleObjectRetain',
+        0x3067063c: 'engineStandardLocaleGlobalGetter',
         0x30670642: 'engineStandardLocalePublish',
         0x30670612: 'engineStandardLocaleShutdown',
         0x30671369: 'engineStandardAtExitWrapper',

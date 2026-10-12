@@ -408,3 +408,9 @@ it('captures the original classic locale retain helper and pointer globals',()=>
  expect(engineCinitImage('standardLocaleClassicPointer')).toMatchObject({address:'30af6ddc',bytes:4,fileBackedBytes:0,loaderZeroFillBytes:4});
  expect(engineCinitImage('standardLocaleDefaultPointer')).toMatchObject({address:'30af6df4',bytes:4,fileBackedBytes:0,loaderZeroFillBytes:4});
 });
+
+
+it('captures the original streambuf global-locale getter',()=>{
+ expect(engineCinitInstruction('3067063c','3067063c')).toMatchObject({bytes:'a1d86daf30',instruction:'MOV EAX,[0x30af6dd8]'});
+ expect(engineCinitInstruction('3067063c','30670641')).toMatchObject({bytes:'c3',instruction:'RET'});
+});
