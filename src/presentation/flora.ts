@@ -316,6 +316,12 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
   // High draws the full model at every distance (0.0.10, A62); its players may opt into Medium's bands (A76).
   let lodQuality = quality;
 
+  const uploadPrefix = (attribute: THREE.BufferAttribute, count: number) => {
+    attribute.clearUpdateRanges();
+    attribute.addUpdateRange(0, Math.max(1, count) * attribute.itemSize);
+    attribute.needsUpdate = true;
+  };
+
   const refresh = (cam: THREE.Camera, shadowFrustum: THREE.Frustum | null | undefined) => {
     pv.multiplyMatrices(cam.projectionMatrix, cam.matrixWorldInverse);
     frustum.setFromProjectionMatrix(pv);
@@ -387,10 +393,10 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         for (const mesh of [m.wood, m.leaf]) {
           if (!mesh) continue;
           mesh.count = counts[l]!;
-          mesh.instanceMatrix.needsUpdate = true;
-          if (mesh.instanceColor) mesh.instanceColor.needsUpdate = true;
+          uploadPrefix(mesh.instanceMatrix, mesh.count);
+          if (mesh.instanceColor) uploadPrefix(mesh.instanceColor, mesh.count);
         }
-        for (const visibility of [b.visibility[l]!.wood, b.visibility[l]!.leaf]) if (visibility) visibility.coverage.needsUpdate = true;
+        for (const visibility of [b.visibility[l]!.wood, b.visibility[l]!.leaf]) if (visibility) uploadPrefix(visibility.coverage, counts[l]!);
         drawTris += v.lods[l]!.tris * counts[l]!;
         // Empty meshes leave the render lists entirely (no per-frame draw setup for an LOD nobody sees).
         for (const mesh of [m.wood, m.leaf]) if (mesh) mesh.visible = counts[l]! > 0;
@@ -400,7 +406,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
             if (!mesh) continue;
             mesh.count = shadowCounts[l]!;
             mesh.visible = shadowCounts[l]! > 0;
-            mesh.instanceMatrix.needsUpdate = true;
+            uploadPrefix(mesh.instanceMatrix, mesh.count);
           }
           shadowTris += v.lods[l]!.tris * shadowCounts[l]!;
         }
