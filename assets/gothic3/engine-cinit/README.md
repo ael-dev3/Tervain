@@ -3538,3 +3538,8 @@ Original wrapper `3069731d` now allocates its 12-byte list node and 8-byte value
 ## Enum qualification returns through original callers
 
 Original list append `30696e63` now attaches the actual status-node allocation to the initially empty list chain and returns to `3069757f`. The status setter returns to `30697b57`, qualified combination returns to `30697dfb`, and the literal wrapper returns to `3069965f`. The class parser performs its original 16-byte caller cleanup and enters assignment `30696da9` through CALL `30699666`; assignment remains pending. Typechecking and all three focused checks passed. Pointer ownership, caller return words, original list references and unpublished property root remain explicit. Full property return, startup and campaign completion remain unfinished.
+
+
+## Enum assignment returns to scoped-name parsing
+
+The enum list is assigned through original `30696da9` into the class parser local at `30699666`, preserving its allocation owner and masked flags. The parser initializes its second descriptor, performs original keyword-dependent copy at `3069969a`, and enters scoped-name parsing `306994ea` through CALL `306996a3`. Both outer-template and nested-enum scoped calls remain active; the focused check verifies their distinct stack positions and real return words `306996a8`. Typechecking and all three focused checks passed. Enum name parsing, property return, full startup and campaign completion remain unfinished.
