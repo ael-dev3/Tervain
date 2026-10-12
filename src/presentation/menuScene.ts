@@ -97,6 +97,9 @@ function browserResources(): MenuResources {
  * The camera is fixed. Fire, smoke, sparks, the standard, the grass, crows, dust, clouds, mist and the far lighthouse
  * beam and distant ships run on one clock that stops entirely in reduced motion; nothing here advances game state.
  */
+/** The dusk sky's warm bounce on the menu's stone (A122). */
+export const MENU_ROCK_GLOW = [0.2, 0.12, 0.07] as const;
+
 export class MenuScene {
   readonly scene = new THREE.Scene();
   readonly camera = new THREE.PerspectiveCamera(MENU_CAMERA.fov, 16 / 9, 0.2, 2600);
@@ -318,6 +321,10 @@ export class MenuScene {
     // Lantern glass and embers burn at dusk: bright enough for the bloom pass to catch.
     const glow = this.mats.get('glow') as THREE.MeshBasicMaterial;
     if (glow.color) glow.color.setRGB(0.62, 0.24, 0.05);
+    // The standing stones face the camera with the low sun behind them, so they drew as black cut-outs across the sea. A
+    // faint warm glow off their own texture stands in for the dusk sky's bounce: weathered stone, still dark (A122).
+    const rock = this.mats.get('rock') as THREE.MeshStandardMaterial;
+    if (rock.emissive) { rock.emissive.setRGB(MENU_ROCK_GLOW[0], MENU_ROCK_GLOW[1], MENU_ROCK_GLOW[2]); rock.emissiveMap = rock.map; rock.needsUpdate = true; }
     const R = new Region('Menu_Camp_Static', new Ctx());
     const worldRoots = tree.roots.map((r) => ({ ...r, pts: r.pts.map((p) => treeRoot.localToWorld(new THREE.Vector3(...p))) }));
     this.camp = buildMenuCamp(R, { at: doorAt, facing: doorFacing }, { x: MENU_TREE.x, z: MENU_TREE.z, r: 2.9, roots: worldRoots }, this.mats, opts.wardenRig);
