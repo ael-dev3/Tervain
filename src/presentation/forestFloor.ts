@@ -576,9 +576,13 @@ export function buildForestFloor(terrain: Terrain, exclusions: Exclusions, quali
           count++;
         }
         b.mesh.count = count;
-        b.mesh.instanceMatrix.needsUpdate = true;
-        if (b.mesh.instanceColor) b.mesh.instanceColor.needsUpdate = true;
-        b.visibility.coverage.needsUpdate = true;
+        // Only the packed visible prefix was rewritten; keep unused population capacity off the bus.
+        for (const attribute of [b.mesh.instanceMatrix, b.mesh.instanceColor, b.visibility.coverage]) {
+          if (!attribute) continue;
+          attribute.clearUpdateRanges();
+          attribute.addUpdateRange(0, Math.max(1, count) * attribute.itemSize);
+          attribute.needsUpdate = true;
+        }
         visible += count;
       }
     },
