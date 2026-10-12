@@ -42,6 +42,7 @@ export class CameraRig {
   lastPivotLift = 0;
   private titleAngle = 0;
   private initialized = false;
+  private lastFollowYaw = Number.NaN;
   private waterSide: 'above' | 'under' | null = null;
   private waterTerrain: Pick<Terrain, 'groundAt'> | null = null;
   private waterColliders: Collider[] = [];
@@ -51,6 +52,7 @@ export class CameraRig {
   /** Teleports, respawns and loads must never inherit the previous pivot or a compressed boom. */
   reset() {
     this.initialized = false;
+    this.lastFollowYaw = Number.NaN;
     this.waterSide = null;
     this.waterTerrain = null;
     this.waterColliders = [];
@@ -169,6 +171,18 @@ export class CameraRig {
       y: this.followPivot.y + dirY * boomDistance,
       z: this.followPivot.z + dirZ * boomDistance,
     };
+    // Begin easing before a turn brings the boom into narrow doorway trim; hard clearance still wins.
+    const yawStep = Number.isFinite(this.lastFollowYaw)
+      ? Math.atan2(Math.sin(this.yaw - this.lastFollowYaw), Math.cos(this.yaw - this.lastFollowYaw)) : 0;
+    this.lastFollowYaw = this.yaw;
+    const futureYaw = this.yaw + Math.max(-4, Math.min(4, yawStep / Math.max(dt, 1 / 120))) * .25;
+    const future = { x: this.followPivot.x - Math.sin(futureYaw) * cp * boomDistance,
+      y: desired.y, z: this.followPivot.z - Math.cos(futureYaw) * cp * boomDistance };
+    let trimTarget = boomDistance;
+    for (const c of candidates) if (c.id.endsWith(':doorframe')) {
+      const t = cameraColliderEntry(this.followPivot, future, c, terrain.groundAt(c.x, c.z), obstacleHeight(c));
+      if (t !== null) trimTarget = Math.min(trimTarget, Math.max(.04, t * boomDistance - .025));
+    }
     let allowed = boomDistance;
     for (const c of candidates) {
       const t = cameraColliderEntry(this.followPivot, desired, c, terrain.groundAt(c.x, c.z), obstacleHeight(c));
@@ -206,7 +220,7 @@ export class CameraRig {
     const crowned = this.crowns
       ? crownBoom(this.followPivot, { x: dirX, y: dirY, z: dirZ }, boomDistance, this.crowns(this.followPivot.x, this.followPivot.z, boomDistance))
       : boomDistance;
-    const target = Math.min(allowed, crowned);
+    const target = Math.min(allowed, crowned, trimTarget);
     // Shorten instantly for walls and ground; lengthen slowly.
     if (allowed < this.curDist) this.curDist = allowed;
     if (target < this.curDist) this.curDist += (target - this.curDist) * (1 - Math.exp(-Math.max(0, dt) * 7));
