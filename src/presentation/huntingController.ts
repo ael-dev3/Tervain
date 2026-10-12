@@ -149,17 +149,26 @@ export class HuntingController {
   private sweep(from: THREE.Vector3, to: THREE.Vector3, shot: ArrowShot): HuntingImpact | null {
     const origin = this.shotOrigins.get(shot.id);
     if (!origin || !Number.isFinite(origin.x)) return { point: from.clone(), lodge: false, expired: true };
-    const segment = to.clone().sub(from), length = segment.length();
-    if (length < 1e-8) return null;
-    const scenery = this.host.world.physics.traceProjectile(from, to);
-    const animal = this.host.world.animals.traceArrow(from, segment.normalize(), length);
+    const rangeSquared = HUNTING_ARROW_RANGE * HUNTING_ARROW_RANGE;
+    if (from.distanceToSquared(origin) >= rangeSquared) return { point: from.clone(), lodge: false, expired: true };
+    const segment = to.clone().sub(from);
+    if (segment.lengthSq() < 1e-16) return null;
+    segment.normalize();
+    // The final swept step can cross the range boundary. Trace only its in-range portion: a contact beyond it must not
+    // win before expiry merely because both happen in the same ballistic step.
+    const expires = to.distanceToSquared(origin) > rangeSquared;
+    const end = expires
+      ? new THREE.Ray(from, segment).intersectSphere(new THREE.Sphere(origin, HUNTING_ARROW_RANGE), new THREE.Vector3())!
+      : to;
+    const scenery = this.host.world.physics.traceProjectile(from, end);
+    const animal = this.host.world.animals.traceArrow(from, segment, from.distanceTo(end));
     if (animal && (!scenery || animal.distance < scenery.distance - 1e-5)) {
       return { point: new THREE.Vector3().copy(animal.point), animal, lodge: false };
     }
     // A person or a bandit walks on: an arrow glancing off them falls away rather than staying where they stood (A86 scout).
     if (scenery?.actorId) return { point: new THREE.Vector3().copy(scenery.point), lodge: false };
     if (scenery) return { point: new THREE.Vector3().copy(scenery.point), treeId: scenery.treeId };
-    if (to.distanceTo(origin) > HUNTING_ARROW_RANGE) return { point: to.clone(), lodge: false, expired: true };
+    if (expires) return { point: end, lodge: false, expired: true };
     return null;
   }
 
