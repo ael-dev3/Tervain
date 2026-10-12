@@ -146,8 +146,10 @@ describe('authored Mixamo playable hero', () => {
     }
     const run = createHeroRig(asset); advance(run, 'run', HERO_RUN_SPEED, 4);
     expect(run.hero.diagnostics.cycleMetres).toBeCloseTo(HERO_RUN_CYCLE, 8);
-    const phase = run.hero.diagnostics.phase; advance(run, 'run', HERO_RUN_SPEED, 2 / 3, 120);
-    expect(run.hero.diagnostics.phase).toBeCloseTo(phase, 7);
+    // One stride of ground at run speed brings the phase round to where it was (the steps cover a whole number of 1/120 s).
+    const phase = run.hero.diagnostics.phase, seconds = HERO_RUN_CYCLE / HERO_RUN_SPEED, steps = Math.ceil(seconds * 120);
+    advance(run, 'run', HERO_RUN_SPEED, seconds, 120);
+    expect(run.hero.diagnostics.phase).toBeCloseTo((phase + steps * HERO_RUN_SPEED / 120 / HERO_RUN_CYCLE) % 1, 7);
   });
 
   it('grounds the relaxed derived idle and keeps paused poses stable rather than returning to bind pose', () => {
