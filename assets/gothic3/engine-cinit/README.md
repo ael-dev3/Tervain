@@ -3663,3 +3663,10 @@ Typechecking and eight focused checks passed. The normal zero-reference path and
 The source bundle adds original initializer `30791f18` and shutdown callback `307b806e`. The initializer loads receiver address `30af6e01`, calls the same constructor `30670444`, and registers its own callback. The callback jumps to shared destructor `30670473`. The new receiver receipt is a minimal one-byte loader-zero-filled address span, not evidence of the complete object size or layout.
 
 All 344 prior method records, prior images, imports, tables and SharedBase evidence remain identical. The regenerated bundle contains 346 Engine methods and one additional image. Typechecking and 145 source/image checks passed. Runtime execution of this second initializer is not connected at this source-capture checkpoint.
+
+
+### Second shared critical-section reference runtime return
+
+Initializer `30791f18` now executes with its own captured receiver and return/callback addresses. The existing shared reference count changes from zero to one through the actual imported increment. Its nonzero branch reuses the four live critical sections, returns the second receiver to `30791f22`, registers `307b806e` through the original onexit routine and returns to the C++ initializer loop. The exit cursor is 264 with 66 callbacks and a 512-byte allocation; the C++ cursor is `0x204` and the next pending initializer is `30791f2e`.
+
+Typechecking and ten focused checks passed, including interruption of the second increment with the first initializer's four sections and 65 callbacks preserved. The earlier counter-write fixture now caches its admitted view and restores its write spy, preventing recursive mock interference between tests. The completed enum checkpoint retains all original byte, mask, owner, lock and return assertions; its separate final startup PC assertion follows the current boundary. Complete startup and campaign completion remain unfinished.
