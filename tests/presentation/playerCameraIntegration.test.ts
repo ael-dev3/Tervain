@@ -1,3 +1,4 @@
+import * as THREE from 'three';
 import { beforeAll, describe, expect, it } from 'vitest';
 import { Game } from '../../src/game/game';
 import type { Input } from '../../src/platform/input';
@@ -11,6 +12,7 @@ import { LIGHTHOUSE, LIGHTHOUSE_CONSTRUCTION as L, bySpec } from '../../src/worl
 import { LIGHTHOUSE_STAIR_ANGLE, lighthouseTreadTop } from '../../src/world/lighthouse';
 import { canPlayerStandAt, PLAYER_BODY_HEIGHT, PLAYER_BODY_RADIUS, supportedPlayerHeight } from '../../src/world/playerPlacement';
 import { Terrain } from '../../src/world/terrain';
+import { INTERIORS, fromBuildingLocal } from '../../src/world/interiors';
 import { buildingEntry, buildingGround } from '../../src/world/buildingEntries';
 
 let terrain: Terrain;
@@ -144,6 +146,45 @@ describe('the player and camera share the authored lighthouse surfaces', () => {
     expect(s.player.grounded).toBe(true);
     expect(s.player.y).toBeCloseTo(floor, 6);
     expect(s.player.surface).toBe('deck');
+  });
+
+  it('keeps the inside-window turning route continuous at 60 Hz', () => {
+    const s = setup(); const yaw = Math.atan2(-2.9 + 5.43, -1 + 5.58);
+    s.player.setPosition(-5.43, -5.58, yaw, terrain); s.ctx.viewYaw = yaw; s.camera.yaw = yaw;
+    const hips = new THREE.Vector3(); let previous: THREE.Vector3 | null = null;
+    let worst = 0;
+    for (let i = 0; i < 420; i++) {
+      if (i >= 72 && i < 252) s.camera.yaw -= 1.9 / 60;
+      if (i >= 300) s.camera.yaw += 1.9 / 60;
+      s.ctx.viewYaw = s.camera.yaw;
+      s.setMovement(i >= 252 && i < 300);
+      s.tick(60); s.camera.camera.updateMatrixWorld();
+      hips.set(s.player.x, s.player.y + 1, s.player.z).project(s.camera.camera);
+      if (previous && s.camera.bodyVisible) worst = Math.max(worst, Math.hypot(hips.x - previous.x, hips.y - previous.y));
+      previous = s.camera.bodyVisible ? hips.clone() : null;
+    }
+    process.stdout.write(`inside-window maximum visible screen step: ${worst}\n`);
+    expect(worst).toBeLessThan(.25);
+  });
+
+  it('clears the rendered inner lintel while turning at a house doorway', () => {
+    const b = bySpec('fisher_house');
+    const room = INTERIORS.find((r) => r.building === b)!;
+    const base = buildingGround((x, z) => terrain.heightAt(x, z), b).avg;
+    const center = fromBuildingLocal(b, room.door.x, b.d / 2 - room.wall - .015);
+    const lintel: Collider = { id: 'rendered-inner-lintel', kind: 'box', active: true,
+      x: center.x, z: center.z, yaw: b.yaw, hw: room.door.halfWidth + .16, hd: .045,
+      minY: base + room.wallBase + room.door.height, maxY: base + room.wallBase + room.door.height + .18 };
+    for (let localZ = b.d / 2 - 1; localZ <= b.d / 2 + 1; localZ += .1) {
+      const point = fromBuildingLocal(b, room.door.x, localZ);
+      const feet = terrain.supportAt(point.x, point.z, base + room.floorTop);
+      for (const pitch of [-.4, 0, .32, .65, 1]) for (let yaw = 0; yaw < Math.PI * 2; yaw += Math.PI / 12) {
+        const cam = new CameraRig(); cam.yaw = yaw; cam.pitch = pitch;
+        cam.follow(1 / 60, point.x, feet, point.z, terrain, colliders, false, 0);
+        const penetration = spherePenetration(cam.camera.position, lintel, terrain);
+        if (penetration > 1e-6) throw new Error(`z=${localZ}, pitch=${pitch}, yaw=${yaw}: lintel penetration ${penetration}`);
+      }
+    }
   });
 
   it('restores a stone doorstep save on a rotated house and retains its stone footstep surface', () => {

@@ -31,6 +31,16 @@ describe('the buildings\' rooms (A66)', () => {
     }
   });
 
+  it('keeps inner doorway trim exclusively in camera queries', () => {
+    expect(colliders.all.some((c) => c.id.endsWith(':doorframe'))).toBe(false);
+    for (const room of INTERIORS) {
+      const b = room.building;
+      const p = fromBuildingLocal(b, room.door.x, b.d / 2 - room.wall);
+      expect(colliders.near(p.x, p.z, 1).some((c) => c.id.endsWith(':doorframe'))).toBe(false);
+      expect(colliders.nearCamera(p.x, p.z, 1).filter((c) => c.id === `room:${b.id}:doorframe`)).toHaveLength(3);
+    }
+  });
+
   it('lets the wanderer walk in through every doorway, and nowhere through a wall', () => {
     for (const room of INTERIORS) {
       const b = room.building, base = terrain.rooms.base(room), floor = base + room.floorTop, hd = roomHalfSize(room).hd;

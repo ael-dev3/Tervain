@@ -72,6 +72,28 @@ describe('Ground vegetation visibility', () => {
     layer.dispose();
   });
 
+  it('shares reserve generation across layers without deferring visible tiles', () => {
+    const a = fixture(), b = fixture();
+    const camera = new THREE.Vector3(0, 1, 0);
+    a.layer.update(camera); b.layer.update(camera);
+    a.generate.mockClear(); b.generate.mockClear();
+    camera.x += SIZE;
+    const reserve = { remaining: 2 };
+    a.layer.update(camera, reserve); b.layer.update(camera, reserve);
+    expect(a.generate.mock.calls.length + b.generate.mock.calls.length).toBe(2);
+    camera.set(352, 1, -224);
+    const noReserve = { remaining: 0 };
+    a.layer.update(camera, noReserve); b.layer.update(camera, noReserve);
+    for (const layer of [a.layer, b.layer]) {
+      const active = tiles(layer);
+      for (let tz = -18; tz <= -10; tz++) for (let tx = 18; tx <= 26; tx++) {
+        if (tileHorizontalDistance(tx * SIZE, tz * SIZE, SIZE, camera) < END - 1)
+          expect(active.has(`${tx}:${tz}`)).toBe(true);
+      }
+      layer.dispose();
+    }
+  });
+
   it('does not regenerate the same horizontally nearby high-ground tiles every frame', () => {
     const { layer, generate } = fixture(1000);
     const camera = new THREE.Vector3(0, 1, 0);

@@ -1312,6 +1312,33 @@ describe('world sound runtime', () => {
     world.dispose();
   });
 
+  it('serializes the same speech-bank decode across repeated pause/resume requests', async () => {
+    const { ctx, world } = runtime(); await flush();
+    const decode = ctx.decodeAudioData.getMockImplementation()!;
+    const pending: (() => Promise<void>)[] = [];
+    ctx.decodeAudioData.mockImplementation((data: { file: string }) => {
+      if (!data.file.includes('/audio/voice/')) return decode(data);
+      return new Promise(resolve => pending.push(async () => resolve(await decode(data))));
+    });
+    for (let i = 0; i < 10; i++) {
+      world.update(.05, frame(PLACES.rillford));
+      expect(world.speak('mara.intro')).toBe(false);
+      await flush();
+      world.update(.001, null);
+    }
+    world.update(.05, frame(PLACES.rillford));
+    expect(world.speak('mara.intro')).toBe(false); await flush();
+    expect(pending).toHaveLength(1);
+    await pending[0]!(); for (let i = 0; i < 8; i++) await flush();
+    expect(pending).toHaveLength(2);
+    expect(world.voiceBanksHeld).not.toContain(VOICE_AUDIO.lines['mara.intro'][0]);
+    expect(world.speakers).toEqual([]);
+    await pending[1]!(); await flush();
+    expect(world.voiceReady('mara.intro')).toBe(true);
+    expect(world.speakers).toEqual([]);
+    world.dispose();
+  });
+
   it.each(['menu', 'panel', 'hidden', 'dispose'] as const)('discards a voice bank whose decode settles after %s, including a quick recovery', async (transition) => {
     const { ctx, world } = runtime();
     await flush();

@@ -183,7 +183,7 @@ export class TileLayer {
     return Math.hypot(dx, dy, dz);
   }
 
-  update(cam: THREE.Vector3) {
+  update(cam: THREE.Vector3, reserve?: { remaining: number }) {
     if (this.disposed) return;
     const o = this.o;
     if (!this.enabled) {
@@ -225,6 +225,10 @@ export class TileLayer {
       // visible radius merely to meet an incremental-build quota; only the unseen reserve is throttled.
       for (let i = 0; i < want.length && (i < cap || want[i]!.d < visibleEnd); i++) {
         const w = want[i]!;
+        if (!this.first && w.d >= visibleEnd && reserve) {
+          if (reserve.remaining <= 0) break;
+          reserve.remaining--;
+        }
         const t = this.acquire();
         this.fill(t, w.tx, w.tz);
         this.tiles.set(t.key, t);
