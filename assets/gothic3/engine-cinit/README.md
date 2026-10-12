@@ -3605,3 +3605,10 @@ The initializer cursor reaches `0x1fc`; the exit cursor reaches 256 (64 callback
 Captured initializer `30791ef6`, constructor `30670444`, destructor `30670473`, critical-section wrappers `3067133d`/`30671348`, and shutdown `307b805a`. Original imports identify `InterlockedIncrement`, `InterlockedDecrement`, `InitializeCriticalSection`, and `DeleteCriticalSection`. The counter at `30ad40cc` is initially `ffffffff`; the 96-byte array at `30af6d70` is PE loader zero fill and the original loop advances by 24 bytes through four entries. `30af6dd0` is captured as a minimal one-byte address span for the receiver; this does not establish the full object layout or size.
 
 The source bundle now contains 344 Engine method records. All 338 previous records and images remain identical, with six methods, three images and four import receipts added. Typechecking and 140 source/image checks passed. This initializer is source evidence only and has not been connected to runtime execution.
+
+
+### Shared critical-section reference initializer entry
+
+The retained owner now admits the original reference counter, 96-byte critical-section array and minimal receiver-address span. Initializer `30791ef6` executes its original receiver load and call at `30791efb`, retaining return address `30791f00`. Execution stops at constructor entry `30670444`; the counter remains `ffffffff`, all 96 loader-zero-filled bytes remain unchanged, and no new shutdown entry is registered. The initializer cursor remains `0x1fc` and the exit cursor remains 256.
+
+Typechecking, two focused frame checks, the counter/array/caller state check, and 149 related source/image/browser checks passed. Interlocked mutation and the four critical-section initialization calls remain unsupported at this checkpoint. Complete startup and campaign completion remain unfinished.

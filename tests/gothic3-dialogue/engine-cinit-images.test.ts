@@ -158,3 +158,6 @@ it.each(['springAndDamperEffectorTemplatePropertyFlags', 'springAndDamperEffecto
 it.each(['springAndDamperEffectorTemplatePropertyTypeInfo', 'audioModulePropertyTypeInfo'] as const)('retains unknown template and audio cache bytes without reseeding %s',label=>{
  const {crt,owner}=fixture(),fields=fact(NativeEngineCinitImages.imageForCrt(owner,crt,label));fields.knownMask[4]=0;expect(fact(NativeEngineCinitImages.imageForCrt(owner,crt,label))).toBe(fields);expect(fields.knownMask[4]).toBe(0);
 });
+
+
+it.each(['sharedCriticalSectionReferenceCounter', 'sharedCriticalSectionArray', 'sharedCriticalSectionReferenceAddress'] as const)('owns the original shared critical-section image %s',label=>{const {crt,owner}=fixture(),fields=fact(NativeEngineCinitImages.imageForCrt(owner,crt,label)),receipt=engineCinitImage(label);expect(fields.bytes.length).toBe(receipt.bytes);expect(Buffer.from(fields.bytes).toString('hex')).toBe(receipt.raw);expect(Array.from(fields.knownMask)).toEqual(Array(receipt.bytes).fill(255));expect(fact(NativeEngineCinitImages.imageForCrt(owner,crt,label))).toBe(fields);fields.backing.freed=true;expect(NativeEngineCinitImages.imageForCrt(owner,crt,label).known).toBe(false);});
