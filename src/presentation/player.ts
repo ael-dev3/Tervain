@@ -722,7 +722,25 @@ export class Player {
       const landingBounds = { minY: ground + PLAYER_FOOT_CLEARANCE, maxY: ground + PLAYER_BODY_HEIGHT };
       if (ctx.colliders.blocked(land.x, land.z, PLAYER_RADIUS, landingBounds)) continue;
       const top = c.maxY === undefined ? this.y + 1.1 : c.maxY - FENCE_WALL_LIFT;
-      return { t: 0, from: { x: this.x, y: this.y, z: this.z }, to: { x: land.x, y: ground, z: land.z }, peak: Math.max(top + 0.25, this.y + 0.5) };
+      const vault = { t: 0, from: { x: this.x, y: this.y, z: this.z }, to: { x: land.x, y: ground, z: land.z }, peak: Math.max(top + 0.25, this.y + 0.5) };
+      // The scripted arc bypasses ordinary movement collision: check body clearance before taking it.
+      const ignored = new Set(['fence']);
+      const lift = vault.peak - Math.max(vault.from.y, vault.to.y);
+      let previous = vault.from;
+      let clear = true;
+      for (let i = 1; i <= 20; i++) {
+        const u = i / 20, ease = u * u * (3 - 2 * u);
+        const next = { x: vault.from.x + (vault.to.x - vault.from.x) * ease,
+          z: vault.from.z + (vault.to.z - vault.from.z) * ease,
+          y: vault.from.y + (vault.to.y - vault.from.y) * u + lift * Math.sin(Math.PI * u) };
+        // The sine's bow above each chord is bounded by amplitude * du² * pi² / 8.
+        const arcGuard = Math.abs(lift) * Math.PI * Math.PI / (8 * 20 * 20);
+        const bounds = { minY: Math.min(previous.y, next.y) + PLAYER_FOOT_CLEARANCE,
+          maxY: Math.max(previous.y, next.y) + PLAYER_BODY_HEIGHT + arcGuard };
+        if (ctx.colliders.cast(previous.x, previous.z, next.x, next.z, PLAYER_RADIUS, ignored, bounds)) { clear = false; break; }
+        previous = next;
+      }
+      if (clear) return vault;
     }
     return null;
   }

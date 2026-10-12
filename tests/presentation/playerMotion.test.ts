@@ -317,6 +317,15 @@ describe('player motion and action contacts', () => {
     for (let i = 0; i < 60; i++) s.tick();
     expect(s.ctx.colliders.blocked(s.player.x, s.player.z, .4,
       { minY: s.player.y + .03, maxY: s.player.y + 1.95 })).toBe(false);
+  it.each([false, true])('keeps a fence vault below solid overhead scenery (roof=%s)', (roof) => {
+    const s = setup();
+    s.ctx.terrain.heightAt = () => 0;
+    s.ctx.colliders.box('fence', .8, 0, .12, 3, 0, true, { minY: -.3, maxY: 1.7 });
+    if (roof) s.ctx.colliders.box('overhead-beam', .8, 0, .2, 3, 0, true, { minY: 2.4, maxY: 2.6 });
+    s.player.yaw = Math.PI / 2;
+    s.presses.add('jump'); s.tick();
+    if (roof) expect(s.player.vault).toBeNull();
+    else expect(s.player.vault).not.toBeNull();
   });
 
   it('resets action, recoil and velocity when loading, teleporting or restarting', () => {
