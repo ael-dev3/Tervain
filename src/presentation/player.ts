@@ -91,9 +91,10 @@ const GRAVITY = 17;
 /**
  * Fence vault (A125). `reach`: how far before the rail a jump still becomes a vault. A player presses jump as the fence
  * comes up, a stride or two away; at 0.85 m the press fell short and he jumped into the rail (playtest 5). `seconds`
- * is the time over a rail taken from 0.6 m; a vault from further back takes proportionally longer.
+ * is the time over a rail taken from 0.6 m; a vault from further back takes proportionally longer. `facing`: how directly
+ * across the rail the requested movement must point (any approach that crosses it, not a glancing stroll along it).
  */
-export const VAULT = { reach: 1.9, facing: 0.55, land: 0.7, step: 0.6, seconds: 0.55 } as const;
+export const VAULT = { reach: 1.9, facing: 0.2, land: 0.7, step: 0.6, seconds: 0.55 } as const;
 const VAULT_NEAR_SPAN = 0.6 + 0.12 + 0.7;
 const FIRM_FOOTING_SLOPE = 0.95;
 /** Sample terrain along the whole move, so a sprint/dodge cannot skip a solid face or water strip. */
@@ -700,18 +701,18 @@ export class Player {
   vault: { t: number; from: { x: number; y: number; z: number }; to: { x: number; y: number; z: number }; peak: number; seconds: number } | null = null;
 
   /**
-   * A vault over the fence before him, if there is one within reach and he faces it squarely enough (A125). The fences
+   * A vault over the fence before him, if there is one within reach and he approaches across it (A125). The fences
    * stand as walls above their rails, so this is the only way over them: a short arc from this side to the ground beyond.
    */
-  private fenceVault(ctx: PlayerCtx): Player['vault'] {
-    const fx = Math.sin(this.yaw), fz = Math.cos(this.yaw);
+  private fenceVault(ctx: PlayerCtx, approach?: { x: number; z: number }): Player['vault'] {
+    const fx = approach?.x ?? Math.sin(this.yaw), fz = approach?.z ?? Math.cos(this.yaw);
     for (const c of ctx.colliders.withId('fence')) {
       if (c.kind !== 'box' || !c.active) continue;
       const cos = Math.cos(c.yaw), sin = Math.sin(c.yaw);
       const lx = (this.x - c.x) * cos - (this.z - c.z) * sin, lz = (this.x - c.x) * sin + (this.z - c.z) * cos;
       // Within reach across the fence, and along its length (not round its end).
       if (Math.abs(lx) > c.hw + VAULT.reach || Math.abs(lz) > c.hd - 0.15) continue;
-      // Facing over it: the fence's normal towards the far side, against his facing.
+      // Use the requested approach while moving; the body can still be turning toward it. Reject tangent/away motion.
       const side = Math.sign(lx) || 1, nx = -side * cos, nz = side * sin;
       if (fx * nx + fz * nz < VAULT.facing) continue;
       const across = -side * (c.hw + VAULT.land);
@@ -1045,7 +1046,7 @@ export class Player {
         ctx.audio.dodge(this.surface);
         this.dodgeDir = hasInput ? { x: wx, z: wz } : { x: -fx, z: -fz };
         this.yaw = Math.atan2(this.dodgeDir.x, this.dodgeDir.z);
-      } else if (inp.pressed('jump') && this.grounded && this.stamina >= COST.jump && (this.vault = this.fenceVault(ctx))) {
+      } else if (inp.pressed('jump') && this.grounded && this.stamina >= COST.jump && (this.vault = this.fenceVault(ctx, hasInput ? { x: wx, z: wz } : undefined))) {
         // Facing a fence within reach, the jump is a vault over it (A125).
         this.grounded = false;
         this.vy = 0;
