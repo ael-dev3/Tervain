@@ -141,8 +141,6 @@ export class Hud {
   private bubbleEls = new Map<string, HTMLElement>();
   private tagEls = new Map<string, { el: HTMLElement; name: HTMLElement; bar: HTMLElement; fill: HTMLElement }>();
   private lastPrompt = '';
-  private lastToast = '';
-  private lastToastAt = 0;
 
   constructor() {
     this.healthFill = h('i');
@@ -302,11 +300,12 @@ export class Hud {
   }
 
   toast(text: string, kind: '' | 'evidence' | 'good' | 'bad' = '') {
-    const now = performance.now();
-    if (text === this.lastToast && now - this.lastToastAt < 1500) return;
-    this.lastToast = text;
-    this.lastToastAt = now;
+    // A repeated action must not stack a warning that is still on screen, even if another toast intervened.
+    for (const existing of this.toasts.children) {
+      if (existing.textContent === text && (existing as HTMLElement).dataset.toastKind === kind) return;
+    }
     const el = h('div', { class: `toast surface-soot ${kind}` }, text);
+    el.dataset.toastKind = kind;
     this.toasts.append(el);
     while (this.toasts.children.length > 4) this.toasts.firstElementChild?.remove();
     setTimeout(() => el.remove(), 4200 + text.length * 25);
