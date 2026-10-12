@@ -27,7 +27,8 @@ import numpy as np
 from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[1]
-PLAN = ROOT / "tools/meshy-furniture/plan.json"
+# The furniture (A66) and the rooms' small props (A123) share one manifest and one sizes file.
+PLANS = [ROOT / "tools/meshy-furniture/plan.json", ROOT / "tools/meshy-props/plan.json"]
 OUT = ROOT / "public/models/furniture"
 SIZES = ROOT / "src/world/furnitureSizes.ts"
 
@@ -196,7 +197,9 @@ def main() -> None:
     parser.add_argument("--source", type=Path, required=True)
     parser.add_argument("--only")
     args = parser.parse_args()
-    plan = json.loads(PLAN.read_text(encoding="utf-8"))
+    plan = {"pieces": {}}
+    for path in PLANS:
+        plan["pieces"].update(json.loads(path.read_text(encoding="utf-8"))["pieces"])
     manifest_path = OUT / "manifest.json"
     previous = json.loads(manifest_path.read_text(encoding="utf-8")) if manifest_path.exists() else {"pieces": []}
     pieces = {p["id"]: p for p in previous["pieces"]}

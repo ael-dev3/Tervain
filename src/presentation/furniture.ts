@@ -3,6 +3,7 @@ import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { createGltfLoader } from './assets/gltfLoader';
 import { FURNITURE, pieceSize, type FurniturePlacement } from '../world/furniture';
 import { FURNITURE_SIZES, type FurnitureId } from '../world/furnitureSizes';
+import { DRESSING, rugPattern, type Dressing } from '../world/dressing';
 import { fromBuildingLocal, hearthOf, type InteriorSpec, type RoomLocator } from '../world/interiors';
 import { modelAssetUrl } from './assets/modelUrl';
 import { observeModelLoad, withModelLoadSlot, type ModelLoadProgress } from './assets/modelLoadQueue';
@@ -80,7 +81,8 @@ interface Instance { room: InteriorSpec; centre: THREE.Vector2; matrix: THREE.Ma
 export type RoomOpen = (room: InteriorSpec) => boolean;
 
 /** The furniture of every room, as one instanced mesh per kind of piece, drawn for the rooms near the camera. */
-export function buildFurniture(templates: FurnitureTemplates, rooms: RoomLocator, open: RoomOpen, placements: readonly FurniturePlacement[] = FURNITURE): SceneModule {
+export function buildFurniture(templates: FurnitureTemplates, rooms: RoomLocator, open: RoomOpen, placements: readonly FurniturePlacement[] = FURNITURE,
+  dressing: readonly Dressing[] = DRESSING): SceneModule {
   const group = new THREE.Group();
   group.name = 'Furniture';
   const byPiece = new Map<FurnitureId, Instance[]>();
@@ -94,7 +96,35 @@ export function buildFurniture(templates: FurnitureTemplates, rooms: RoomLocator
     list.push({ room: p.room, centre: new THREE.Vector2(b.x, b.z), matrix: new THREE.Matrix4().compose(at, q, one) });
     byPiece.set(p.piece, list);
   }
+  // The rooms' dressing (A123): props on tables, shelves, walls and hearths, and woven rugs on the floors.
+  const rugs: Instance[][] = [[], [], [], []];
+  for (const [n, p] of dressing.entries()) {
+    const b = p.room.building, world = fromBuildingLocal(b, p.x, p.z);
+    at.set(world.x, rooms.base(p.room) + p.room.floorTop + p.y, world.z);
+    q.setFromAxisAngle(up, b.yaw + p.yaw);
+    const centre = new THREE.Vector2(b.x, b.z);
+    if (p.piece === 'rug') {
+      const [w, d] = p.size ?? [1.6, 1];
+      rugs[rugPattern(p.room, n)]!.push({ room: p.room, centre, matrix: new THREE.Matrix4().compose(at, q, new THREE.Vector3(w, 1, d)) });
+      continue;
+    }
+    if (!templates.has(p.piece as FurnitureId)) continue;
+    const list = byPiece.get(p.piece as FurnitureId) ?? [];
+    list.push({ room: p.room, centre, matrix: new THREE.Matrix4().compose(at, q, one) });
+    byPiece.set(p.piece as FurnitureId, list);
+  }
   const meshes: { mesh: THREE.InstancedMesh; instances: Instance[]; shown: string }[] = [];
+  for (const [pattern, instances] of rugs.entries()) {
+    if (!instances.length) continue;
+    const mesh = new THREE.InstancedMesh(shadeCard(), rugMaterial(pattern), instances.length);
+    mesh.name = `Furniture / rug ${pattern}`;
+    mesh.receiveShadow = true;
+    mesh.count = 0;
+    mesh.renderOrder = -1;
+    mesh.userData.ownsResources = true;
+    group.add(mesh);
+    meshes.push({ mesh, instances, shown: '' });
+  }
   // Each piece casts a soft shadow on the floor, leaning away from the hearth (A70). Drawn as a dark, feathered card
   // under it, it needs no shadow map: a hearth light's own shadow would add a texture unit every lit material lacks room for.
   const shade: Instance[] = [];
@@ -156,7 +186,7 @@ export function buildFurniture(templates: FurnitureTemplates, rooms: RoomLocator
   const camera = new THREE.Vector2(), focus = new THREE.Vector2();
   // The rooms that have furniture, in a fixed order; their visibility is checked once a frame and the instances rewritten
   // only when it changes, so a still frame allocates nothing (A70).
-  const roomList = [...new Set(placements.map((p) => p.room))], roomShown = new Map<InteriorSpec, boolean>(roomList.map((room) => [room, false]));
+  const roomList = [...new Set([...placements.map((p) => p.room), ...dressing.map((p) => p.room)])], roomShown = new Map<InteriorSpec, boolean>(roomList.map((room) => [room, false]));
   let shownKey = -1;
   return {
     group,
@@ -204,6 +234,45 @@ export function buildFurniture(templates: FurnitureTemplates, rooms: RoomLocator
       if (card) { card.geometry.dispose(); (card.material as THREE.MeshBasicMaterial).map?.dispose(); (card.material as THREE.Material).dispose(); }
     },
   };
+}
+
+/**
+ * A woven wool rug (A123): stripes and a border in the earthy reds, ochres and browns of Gothic 3's interiors, with a
+ * coarse weave and wear. Four patterns, chosen per room.
+ */
+function rugMaterial(pattern: number): THREE.MeshStandardMaterial {
+  const palettes = [
+    ['#6e2a1e', '#a4542c', '#d6b277', '#3a2418'],
+    ['#4a3a24', '#8a6a3a', '#c9a565', '#2a1e14'],
+    ['#5a2230', '#94443a', '#cfa36a', '#2e1a1c'],
+    ['#3a4630', '#7a6a3c', '#c2a46a', '#241c14'],
+  ][pattern % 4]!;
+  const size = 256, canvas = document.createElement('canvas');
+  canvas.width = canvas.height = size;
+  const g = canvas.getContext('2d')!;
+  g.fillStyle = palettes[0]!; g.fillRect(0, 0, size, size);
+  // Border and bands.
+  g.fillStyle = palettes[3]!; g.fillRect(0, 0, size, 14); g.fillRect(0, size - 14, size, 14); g.fillRect(0, 0, 14, size); g.fillRect(size - 14, 0, 14, size);
+  g.fillStyle = palettes[2]!;
+  for (const y of [34, size - 46]) g.fillRect(18, y, size - 36, 12);
+  g.fillStyle = palettes[1]!;
+  for (let y = 62; y < size - 62; y += 22) g.fillRect(18, y, size - 36, 8);
+  // A row of lozenges down the middle.
+  g.fillStyle = palettes[2]!;
+  for (let x = 40; x < size - 30; x += 44) { g.beginPath(); g.moveTo(x, size / 2); g.lineTo(x + 14, size / 2 - 16); g.lineTo(x + 28, size / 2); g.lineTo(x + 14, size / 2 + 16); g.fill(); }
+  // Weave and wear.
+  const img = g.getImageData(0, 0, size, size), px = img.data;
+  for (let i = 0; i < px.length; i += 4) {
+    const k = i / 4, x = k % size, y = (k - x) / size;
+    const weave = ((x + y) % 3 === 0 ? 0.9 : 1) * ((x % 2) ? 0.96 : 1.02);
+    const wear = 0.82 + 0.18 * Math.abs(Math.sin(x * 0.031 + Math.sin(y * 0.017) * 3) * Math.cos(y * 0.023));
+    for (let c = 0; c < 3; c++) px[i + c] = Math.min(255, px[i + c]! * weave * wear);
+  }
+  g.putImageData(img, 0, 0);
+  const map = new THREE.CanvasTexture(canvas);
+  map.colorSpace = THREE.SRGBColorSpace;
+  map.anisotropy = 8;
+  return new THREE.MeshStandardMaterial({ map, roughness: 1, metalness: 0, polygonOffset: true, polygonOffsetFactor: -1, polygonOffsetUnits: -1 });
 }
 
 /** A unit floor card for a piece's shadow. */

@@ -48,17 +48,40 @@ const B = (piece: PieceId, of: number, side: 'front' | 'back' | 'left' | 'right'
 const tableWith = (spot: [number, number], seat: PieceId, index: number, seats: ('front' | 'back' | 'left' | 'right')[] = ['front', 'back']): Wish[] =>
   [F('table', spot), ...seats.map((side) => B(seat, index, side))];
 
-const HOUSE_EXTRA: Record<string, PieceId[]> = { house_b: ['workbench'], house_c: ['loom'], house_d: ['workbench'], house_e: ['rack'], house_f: ['loom'] };
+/** Who keeps each village house, as its furnishings tell it (A123). */
+export const HOUSEHOLDS: Record<string, 'weaver' | 'woodcutter' | 'herbalist' | 'hunter' | 'farmer' | 'brewer'> = {
+  house_a: 'weaver', house_b: 'woodcutter', house_c: 'herbalist', house_d: 'hunter', house_e: 'farmer', house_f: 'brewer',
+};
+
+/** Each house's wish list (A123). Indices in B() count from the list's start. */
+const HOUSE_PLANS: Record<string, Wish[]> = {
+  // The weaver: her loom by the light, a table for the cloth, a crate of wool.
+  house_a: [W('bed', 'back', -0.65), W('chest', 'back', 0.1), W('loom', 'left', 0.35), ...tableWith([0.15, 0.15], 'stool', 3),
+    W('shelf', 'right', 0.55), W('crate', 'front', 0.85), W('barrel', 'right', -0.7)],
+  // The woodcutter: a bench with his tools, split wood by the door, a barrel of water.
+  house_b: [W('bed', 'right', -0.55), W('workbench', 'left', 0.3), B('stool', 1, 'front'), W('firewood', 'front', -0.8), W('tools', 'left', -0.75),
+    ...tableWith([-0.1, 0.2], 'stool', 5, ['front']), W('chest', 'back', 0.6), W('barrel', 'back', -0.2)],
+  // The herbalist: shelves and a cupboard of jars, a writing desk, little room to sit.
+  house_c: [W('shelf', 'back', -0.5), W('cupboard', 'right', 0.55), W('desk', 'left', -0.3), B('stool', 2, 'front'), W('bed', 'left', 0.55),
+    ...tableWith([0.2, 0.2], 'stool', 5, ['back']), W('pots', 'front', 0.8), W('barrel', 'right', -0.6)],
+  // The hunter's family: a rack for bows and snares, a big table, wood for the fire.
+  house_d: [W('bed', 'back', -0.6), W('rack', 'left', -0.2), W('chest', 'back', 0.3), ...tableWith([0.1, 0.2], 'stool', 3, ['front', 'back', 'left']),
+    W('firewood', 'right', -0.6), W('crate', 'front', 0.85), W('barrel', 'right', 0.6)],
+  // The farmer's family: a bed and a bunk for the children, a table for four, tools and the harvest's sacks.
+  house_e: [W('bed', 'back', -0.65), W('bunk', 'right', 0.4), ...tableWith([-0.2, 0.1], 'stool', 2, ['front', 'back', 'left', 'right']),
+    W('tools', 'front', 0.85), W('sacks', 'left', -0.6), W('sacks', 'left', 0.3), W('barrel', 'back', 0.6)],
+  // The brewer: barrels along the walls, a bench for the work, crates of jugs.
+  house_f: [W('bed', 'left', -0.55), W('barrel', 'back', -0.7), W('barrel', 'back', -0.35), W('barrel', 'right', 0.6), W('shelf', 'right', -0.4),
+    W('workbench', 'back', 0.45), B('stool', 5, 'front'), ...tableWith([-0.1, 0.25], 'stool', 7, ['front']), W('crate', 'front', 0.85), W('crate', 'left', 0.4)],
+};
 
 function wishes(room: InteriorSpec): Wish[] {
   const b = room.building;
   switch (b.kind) {
     case 'house':
-      return [W('bed', 'back', -0.6), W('chest', 'back', 0.15), ...tableWith([-0.3, 0.05], 'stool', 2), W('shelf', 'left', -0.5),
-        W('cupboard', 'right', 0.55), W('sacks', 'front', 0.85), ...(HOUSE_EXTRA[b.id] ?? []).map((piece) => W(piece, 'left', 0.4)),
-        // A75: the windows leave a house's walls no room for anything tall but its cupboard, so its shelf rarely stood and
-        // rooms read bare. Low pieces fit under the sills: a writing desk with its stool, and a second store of sacks.
-        W('desk', 'right', -0.4), B('stool', 8 + (HOUSE_EXTRA[b.id]?.length ?? 0), 'front'), W('sacks', 'right', -0.7)];
+      // Every house is its household's own (A123): the village's six houses had one wish list between them and read as
+      // copies of one room. Each now furnishes its trade, and its hearth stands on its own side (interiors.ts).
+      return HOUSE_PLANS[b.id] ?? HOUSE_PLANS.house_a!;
     case 'reeve':
       return [W('desk', 'left', -0.2), B('chair', 0, 'front'), ...tableWith([0.05, 0.15], 'chair', 2, ['left', 'right']),
         W('bed', 'back', 0.55), W('bookshelf', 'back', -0.75), W('chest', 'back', -0.1), W('cupboard', 'right', 0.6), W('sacks', 'front', 0.9)];
@@ -96,7 +119,7 @@ function wishes(room: InteriorSpec): Wish[] {
   }
 }
 
-interface Rect { x0: number; x1: number; z0: number; z1: number }
+export interface Rect { x0: number; x1: number; z0: number; z1: number }
 const overlaps = (a: Rect, b: Rect, margin = 0) => a.x0 < b.x1 + margin && b.x0 < a.x1 + margin && a.z0 < b.z1 + margin && b.z0 < a.z1 + margin;
 
 /** A piece's footprint at a place and turn (a multiple of a quarter turn). */
@@ -114,7 +137,7 @@ const TALL = 1.2;
 const WALKWAY = 0.55;
 
 /** What a room keeps free of furniture: the way in, the hearth and the windows (the latter for tall pieces only). */
-function reserved(room: InteriorSpec): { always: Rect[]; windows: Rect[] } {
+export function reserved(room: InteriorSpec): { always: Rect[]; windows: Rect[] } {
   const b = room.building, { hw, hd } = roomHalfSize(room), { x: dx } = room.door;
   const always: Rect[] = [doorwayClear(room)];
   const hearth = hearthOf(room);

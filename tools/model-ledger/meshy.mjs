@@ -69,7 +69,7 @@ export const AEL_GENERATED_SUPPLIED = {
 
 /** The evidence for the sources the project generated through its own Meshy API calls. */
 const generatedEvidence = (id) => {
-  if (id.startsWith('furniture-')) return 'Generated through the project\'s own Meshy API calls (tools/meshy-furniture/generate.mjs, text to 3D, 8 October 2026); the preview and refine task ids and the prompt are recorded in public/models/furniture/manifest.json.';
+  if (id.startsWith('furniture-')) return 'Generated through the project\'s own Meshy API calls (tools/meshy-furniture/generate.mjs for the furniture, 8 October 2026, and tools/meshy-props/generate.mjs for the small props in the rooms, 12 October 2026; text to 3D); the preview and refine task ids and the prompt are recorded in public/models/furniture/manifest.json.';
   if (id === 'resident-motion') return 'Generated through the project\'s own Meshy API calls (tools/meshy-rig/meshy.mjs, animation library and text to motion, 8 October 2026); each clip\'s task id and date are recorded in public/models/npcs/motion/clips.json.';
   if (id === 'resident-rigs') return 'Generated through the project\'s own Meshy API calls (tools/meshy-rig/meshy.mjs, automatic rigging, 8 October 2026); each rig file records its rigging task id (ledger generatedRigs).';
   return null;

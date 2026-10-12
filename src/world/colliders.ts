@@ -452,16 +452,6 @@ function roomColliders(c: Colliders, room: InteriorSpec, base: number) {
   roomBox(c, `${id}:wall`, b, hw - t, hw, -hd + t, hd - t, walls);
   roomBox(c, `${id}:roof`, b, -hw, hw, -hd, hd, { minY: top, maxY: base + b.h + Math.min(b.w, b.d) * 0.65 + 0.5 });
   roomBox(c, `${id}:floor`, b, -hw + t, hw - t, -hd + t, hd - t, { minY: base + room.floorTop - 0.06, maxY: base + room.floorTop, supportOnly: true });
-  // The inner timber doorframe projects into the room beyond the wall footprint.
-  // Match roomInterior's jambs and lintel so the camera boom cannot pass through that trim.
-  const innerFront = hd - t;
-  for (const side of [-1, 1]) {
-    roomBox(c, `${id}:doorframe`, b, dx + side * dw - (side < 0 ? .12 : 0),
-      dx + side * dw + (side > 0 ? .12 : 0), innerFront - .05, innerFront + .03,
-      { minY: base + room.floorTop - .01, maxY: base + room.wallBase + dh + .04 });
-  }
-  roomBox(c, `${id}:doorframe`, b, dx - dw - .16, dx + dw + .16, innerFront - .06, innerFront + .03,
-    { minY: base + room.wallBase + dh, maxY: base + room.wallBase + dh + .18 });
   // The chimney stack and its fireplace, and the furniture (each as tall as it stands).
   const floor = base + room.floorTop, hearth = hearthOf(room);
   if (hearth) {

@@ -11,9 +11,10 @@ export type ClutterKind = 'bowl' | 'jug' | 'cup' | 'loaf' | 'candle' | 'pot';
 
 /** What stands on each kind of piece: where (fractions of its half width and half depth, front towards +z) and what. */
 export const CLUTTER_SPOTS: Partial<Record<FurnitureId, readonly (readonly [ClutterKind, number, number])[]>> = {
-  table: [['bowl', -0.5, 0.15], ['jug', 0.45, -0.3], ['cup', 0.62, 0.35], ['cup', -0.1, -0.45], ['loaf', -0.05, 0.25], ['candle', 0.12, -0.05]],
+  // The bread board, jug and candlestick on a table are modelled props since A123 (world/dressing.ts); bowls and cups stay.
+  table: [['bowl', -0.5, 0.35], ['cup', 0.62, 0.35], ['cup', -0.1, -0.45]],
   counter: [['jug', -0.62, -0.1], ['cup', -0.32, 0.25], ['cup', 0.15, 0.2], ['pot', 0.65, -0.15], ['bowl', 0.05, -0.25]],
-  desk: [['candle', 0.7, -0.2], ['cup', -0.65, 0.1]],
+  desk: [['cup', -0.65, 0.1]],
   workbench: [['pot', -0.7, -0.2], ['bowl', 0.6, 0.15]],
   chest: [['candle', 0.6, 0], ['bowl', -0.5, 0.05]],
 };
