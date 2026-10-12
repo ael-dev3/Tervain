@@ -227,5 +227,8 @@ for (const r of results) {
 }
 fs.writeFileSync(path.join(OUT, `${TAG}.md`), md.join('\n'));
 fs.writeFileSync(path.join(OUT, `${TAG}.json`), JSON.stringify({ tag: TAG, url: URL_, pass, stale, results: results.map(({ prof, ...r }) => ({ ...r, profile: prof })) }, null, 1));
+// The line the Play gate check looks for on a pull request (.github/workflows/play-gate.yml), printed only for a build
+// whose commit was checked, so a run against an unknown build cannot pass a pull request.
+if (pass && stale.want && stale.live?.revision) md.push('', `play-gate: PASS ${stale.live.revision}`);
 console.log(md.join('\n'));
 process.exit(pass ? 0 : 1);

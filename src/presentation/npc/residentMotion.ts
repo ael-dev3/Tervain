@@ -278,7 +278,10 @@ export function* measureSeatSteps(clip: RetargetedClip, rest: RestPose, data: Re
     root.updateMatrixWorld(true);
     RESIDENT_JOINTS.forEach((joint, j) => skin[j]!.multiplyMatrices(bones.get(joint)!.matrixWorld, bindInverse[j]!));
     const posed: THREE.Vector3[] = [];
+    let done = 0;
     for (const v of candidates) {
+      // A few hundred vertices a step: one moment over a whole seat was 10-25 ms, past the arrivals' 3 ms (A115).
+      if ((++done & 255) === 0) yield;
       p.fromBufferAttribute(position, v);
       sum.set(0, 0, 0);
       for (let s = 0; s < 4; s++) {
