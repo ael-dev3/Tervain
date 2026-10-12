@@ -12,3 +12,5 @@ outputs/
 .agents/
 /private-workflow/
 shots/
+
+software-webgl-proof/
