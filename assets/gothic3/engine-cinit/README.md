@@ -3558,3 +3558,12 @@ The decoded enum name now follows the existing original class-value combination 
 ## One enum argument reaches the original template-list end branch
 
 The completed enum parser result now continues through the original argument-list caller cleanup, value assignment, reference-cache append and argument append operations. Same-image span checks use the actual returned start/end cursors, preserving MainCache behavior without its former fixed offsets. The next source byte is the original end marker; JZ `30698ad1` reaches pending end branch `30698c26`. Typechecking and four focused checks passed, including the prior MainCache template regression and both interruption cases. Template-list finalization, property return, full startup and campaign completion remain unfinished.
+
+
+### Shape-group enum container initializer completion
+
+The original `30732640` callback now completes its enum-template type name, SharedBase CString conversion, shutdown registration and property-root publication. The stored text is `bTPropertyContainer<enum eEShapeGroup>` with its original NUL terminator. The original arena and temporary output are released; the cached name and CString retain their distinct live owners, and both name locks are released.
+
+The initializer cursor advances from offset `0x1e8` to `0x1ec`; the exit cursor reaches byte 240 (60 registered callbacks). The next unsupported callback is `30732650`. This establishes this initializer only; complete native startup and campaign play remain unfinished.
+
+Local typechecking and six focused engine-frame checks passed, including the original MainCache parser and interrupted enum reads and shutdown-store scenario. The separate full-suite run is against integration revision `6de70aa75dac61a5bc233f92219dc5248df8b4e6`, an earlier allocation checkpoint, and remains pending. Main revision `c7a01e69d0aea6fe6a44327661fc83e64bab2d5e` deployed but its native suite subsequently reported 476 passes and nine explicit 20-second timeouts; deployment is not evidence of a fully passing suite or complete campaign.
