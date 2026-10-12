@@ -1626,7 +1626,21 @@ stack.#engineCinitFrame!.pc='10003cd8';engineCinitUnMangleInstruction('10003cd8'
               setRegister('EAX',stack.#mint(increment.value>>>0,0xffffffff));setRegister('ECX',stack.#mint(0,0));setRegister('EDX',stack.#mint(0,0));stack.#flags(0,0);
               const returned=stack.#record(stack.#ret(4)).provenance;
               if(returned?.kind!=='source'||returned.type!=='code'||returned.address!=='30670452')throw new Error('Actual Engine InterlockedIncrement caller return required');
-              stack.#engineCinitFrame!.pc='30670452';return known(undefined);}
+              reference('30670452',()=>stack.#logicalFlags(stack.#numeric(register('EAX'),4),0xffffffff,4));
+              reference('30670454',()=>{});
+              if(increment.value!==0){
+                reference('3067046f',()=>setRegister('EAX',register('EDI')));reference('30670471',()=>pop('EDI'));
+                reference('30670472',()=>{const p=stack.#record(stack.#ret()).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!=='30791f00')throw new Error('Actual shared critical-section constructor caller return required');});
+                stack.#engineCinitFrame!.pc='30791f00';return known(undefined);
+              }
+              const sections=NativeEngineCinitImages.imageForCrt(images.value,crt,'sharedCriticalSectionArray');if(!sections.known)throw new Error(sections.reason);
+              reference('30670456',()=>stack.#push(register('ESI')));
+              reference('30670457',()=>setRegister('ESI',stack.#mint(0,0,{kind:'engine-image',crt,fields:sections.value,offset:0})));
+              reference('3067045c',()=>stack.#push(register('ESI')));reference('3067045d',()=>stack.#call('3067045d','30670462'));
+              const initialize=(pc:string,body:()=>void)=>step(pc,body,'3067133d');
+              initialize('3067133d',()=>stack.#push(stack.#load(stack.#stack,stack.#address(register('ESP'))+4)));
+              initialize('30671341',()=>{const receipt=engineCinitImport('30afc6e4');if(receipt.module!=='KERNEL32.dll'||receipt.name!=='InitializeCriticalSection')throw new Error('Original shared critical-section initialization import required');stack.#call('30671341','30671347');});
+              stack.#engineCinitFrame!.pc='30671341';return known(undefined);}
           if(['307322f0','30732300','30732310','30732320','30732330','30732340','30732360','30732370','30732380','30732390','307323a0','307323b0','307323c0','307323d0','307323e0','307323f0','30732400','30732410','30732420','30732430','30732440','30732460','30732450','30732470','30732480','30732490','307324a0','307324b0','307324c0','307324d0','307324e0','307324f0','30732500','30732510','30732520','30732530','30732540','30732550','30732560','30732570','30732580','30732590','307325a0','307325c0','307325d0','307325e0','307325f0','30732600','30732610','30732620','30732630','30732640','30732650','30732660','30732670','30732680','307325b0'].includes(target)){
               const classProperties = {
                 '307323e0': {propertyEntry:'3003eecd', body:'30076ea0', shutdown:'3003ae86', prefix:'boxProperty', ordinal:'Twentieth'},
