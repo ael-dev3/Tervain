@@ -484,3 +484,24 @@ facet's live canonical allocation, precise partial mask, zero reference field,
 installed readonly vtable owner, nested saved FS state and pending C-locale
 constructor. All three original allocation NULL cases remain at their new-handler
 boundaries. Full facet construction, startup and campaign gameplay are unfinished.
+
+## Character-locale constructor stack frame and lock caller
+
+The original character-locale entry thunk `0x30022a70` now leads into body
+`0x30466e10`. The runtime reserves its original 68 local bytes, saves EBX/ESI/EDI,
+sets EBX to zero, pushes lock index zero and retains the actual ECX receiver in
+ESI. That receiver is the facet constructor's original local at facet entry ESP
+minus 132. It is within the original reserved frame, not an invented heap locale.
+
+The constructor calls `0x30670503` at `0x30466e1b`, return address `0x30466e20`.
+This lock constructor is pending. The caller's original C literal has not been
+replaced by a host locale, and the character-locale buffers have not yet been
+initialized. The outer facet lock stays held at depth one; reference count stays
+five until the original later operations execute.
+
+Typechecking and four focused runtime cases passed. The normal case confirms
+saved stack receiver, zero lock index register, actual pending constructor call,
+unchanged nested exception frames, partial facet object state and idempotent
+startup. The three allocation NULL cases retain their original new-handler
+boundaries. Full locale/facet construction, native startup and campaign play
+remain incomplete.
