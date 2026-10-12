@@ -1617,6 +1617,19 @@ stack.#engineCinitFrame!.pc='10003cd8';engineCinitUnMangleInstruction('10003cd8'
 
 
             }
+            if(target==='30791f2e'){
+              const streams=NativeEngineCinitImages.imageForCrt(images.value,crt,'staticStreams'),storage=NativeEngineCinitImages.imageForCrt(images.value,crt,'standardOutputFilebufStorage');if(!streams.known||!storage.known)throw new Error('Actual retained standard stream/filebuf images required');
+              const output=(pc:string,body:()=>void)=>step(pc,body,'30791f2e');
+              output('30791f2e',()=>stack.#call('30791f2e','30791f33'));
+              step('3067c3c1',()=>setRegister('EAX',stack.#mint(0,0,{kind:'engine-image',crt,fields:streams.value,offset:0})),'3067c3c1');
+              step('3067c3c6',()=>{const p=stack.#record(stack.#ret()).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!=='30791f33')throw new Error('Actual static stream getter return required');},'3067c3c1');
+              output('30791f33',()=>{const p=stack.#record(register('EAX')).provenance;if(p?.kind!=='engine-image'||p.crt!==crt||p.fields!==streams.value||p.offset!==0)throw new Error('Actual original static stream base required');setRegister('EAX',stack.#mint(0,0,{kind:'engine-image',crt,fields:streams.value,offset:32}));stack.#flags(0,0);});
+              output('30791f36',()=>stack.#push(register('EAX')));
+              output('30791f37',()=>setRegister('ECX',stack.#mint(0,0,{kind:'engine-image',crt,fields:storage.value,offset:0})));
+              output('30791f3c',()=>{stack.#call('30791f3c','30791f41');const argument=stack.#record(stack.#load(stack.#stack,stack.#address(register('ESP'))+4)).provenance,receiver=stack.#record(register('ECX')).provenance;if(argument?.kind!=='engine-image'||argument.crt!==crt||argument.fields!==streams.value||argument.offset!==32||receiver?.kind!=='engine-image'||receiver.crt!==crt||receiver.fields!==storage.value||receiver.offset!==0)throw new Error('Actual FILE argument and filebuf receiver required');});
+              const constructor=(pc:string,body:()=>void)=>step(pc,body,'305eed30');constructor('305eed30',()=>stack.#push(register('ESI')));constructor('305eed31',()=>setRegister('ESI',register('ECX')));constructor('305eed33',()=>stack.#call('305eed33','305eed38'));
+              stack.#engineCinitFrame!.pc='305ee660';return known(undefined);
+            }
             if(target==='30791ef6'||target==='30791f18'){
               const initializer=target==='30791f18'
                 ? {entry:'30791f18',receiver:'sharedCriticalSectionSecondReferenceAddress',constructorCall:'30791f1d',constructorReturn:'30791f22',shutdown:'307b806e',exitCall:'30791f27',exitReturn:'30791f2c',returnInstruction:'30791f2d'} as const

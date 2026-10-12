@@ -3677,3 +3677,10 @@ Typechecking and ten focused checks passed, including interruption of the second
 The source bundle adds initializer `30791f2e`, getter `3067c3c1`, filebuf constructor `305eed30`, streambuf base constructor `305ee660`, filebuf initialization `305ed990`, destructor `305f0c80` and callback `307b8082`. The getter returns the existing static stream table at `30ad45a8`; the initializer selects offset 32 and passes that pointer to the filebuf constructor at receiver `30af6e08`. The captured constructor accesses a DWORD at receiver offset `0x4c`, proving an 80-byte accessed span. Its new storage image is loader-zero-filled; this extent does not establish every possible access by other methods.
 
 All 346 prior method records, images, imports, constants, tables and SharedBase evidence remain identical. The source bundle now contains 353 Engine methods and one additional image. Typechecking and 147 source/image checks passed. Filebuf runtime execution remains unconnected at this capture checkpoint.
+
+
+### Standard-output filebuf constructor entry
+
+Initializer `30791f2e` now calls the original static-stream getter, retains the actual stream-table view and selects offset 32 without assigning a browser pointer a fabricated native address. It pushes that FILE pointer, loads the original 80-byte filebuf storage receiver and calls constructor `305eed30`, validating both actual arguments. The constructor saves ESI, preserves its receiver and calls base constructor `305ee660`; execution remains pending there. The two constructor calls retain original return addresses `30791f41` and `305eed38`. No filebuf fields or base-constructor returns have been manufactured. The storage remains unchanged and fully known from loader-zero-fill.
+
+Typechecking and three focused frame checks passed, including the retained earlier enum checkpoint and existing nonzero-reference branch. The prior source/image capture passed 147 checks. The exit cursor remains 264 with 66 callbacks and the C++ initializer cursor remains `0x204`; this initializer has not registered its shutdown callback or returned. Complete startup and campaign completion remain unfinished.
