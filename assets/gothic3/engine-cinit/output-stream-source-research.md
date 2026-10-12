@@ -252,3 +252,30 @@ virtual widening call or character return has been manufactured.
 Typechecking and three focused runtime cases passed. Checks confirm the nested
 FS heads, temporary locale identity, original output argument, active fill and
 locale-acquisition callers, pending lock and both original NULL allocation paths.
+
+## Temporary locale retention and facet lookup caller
+
+Locale lock admission now includes the original acquisition caller `0x30465143`
+only with its actual enclosing call `0x305f18eb`. Its stack receiver is at the
+constructor CALL position plus 20. The matching destructor at `0x3046515a` uses
+the same receiver at destructor CALL plus 16; its enclosing caller and exact
+returned enter receipt must also match before platform release is allowed.
+
+The acquisition helper follows the original reference-count sentinel check,
+increments the normal locale count from four to five, and releases the acquired
+section. It returns the actual temporary output handle in EAX, restores EDI and
+ESI, and executes RET 4 to `0x305f18f0`. The retained temporary locale remains
+live and the original shared section's held depth returns to zero.
+
+The fill caller validates this returned stack-local handle and its stored locale
+owner, pushes the handle, marks its actual exception state zero, and calls
+`0x305f13e0` at `0x305f18f9`, return address `0x305f18fe`. Facet acquisition is
+the current pending operation. It must finish before the temporary locale can
+be released and the original virtual widening call can execute.
+
+Typechecking passed. Three focused runtime cases passed. The normal case confirms
+five completed locale enters and five matching releases, count five, unchanged
+locale identity, returned acquisition helper, restored saved register state,
+pending facet lookup and idempotent startup. Both allocation NULL cases remain
+at their original new-handler call. Complete startup and campaign play remain
+unfinished.
