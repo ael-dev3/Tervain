@@ -429,7 +429,7 @@ export function* createMeshyNpcRigSteps(asset: Pick<GLTF, 'scene' | 'animations'
       // These two source variants share a continuous ankle-length skirt, not two trouser legs.
       // Fit its private skin once; leave the cached source and every other resident's gait untouched.
       if ((entry.id === 'rillford-reeve' || entry.id === 'fireside') && !fittedSkirts.has(geometry)) {
-        conditionLongSkirtSkin(skin); fittedSkirts.add(geometry);
+        yield* conditionLongSkirtSkinSteps(skin); fittedSkirts.add(geometry);
         yield;
       }
       skin.boundingSphere = new THREE.Sphere(new THREE.Vector3(0, entry.height / 2, 0), entry.height * 1.2);
@@ -703,7 +703,7 @@ export function* createMeshyNpcRigSteps(asset: Pick<GLTF, 'scene' | 'animations'
  * Original hip/thigh/knee totals remain exact, so equal left/right sitting rotations preserve the source's seated form.
  * This is a bounded skin-weight fit, not simulated cloth: sole/boot tips, sleeves, face, UVs and the baked basis stay intact.
  */
-function conditionLongSkirtSkin(mesh: THREE.SkinnedMesh) {
+function* conditionLongSkirtSkinSteps(mesh: THREE.SkinnedMesh): Generator<void, void, void> {
   const position = mesh.geometry.getAttribute('position'), indices = mesh.geometry.getAttribute('skinIndex');
   const weights = mesh.geometry.getAttribute('skinWeight');
   const named = (name: BoneName) => mesh.skeleton.bones.findIndex(bone => bone.name === name);
@@ -714,6 +714,7 @@ function conditionLongSkirtSkin(mesh: THREE.SkinnedMesh) {
   };
   let fitted = 0;
   for (let vertex = 0; vertex < position.count; vertex++) {
+    if (vertex > 0 && vertex % 512 === 0) yield;
     const x = position.getX(vertex), y = position.getY(vertex), z = position.getZ(vertex);
     if (y <= 0.095 || y >= 0.9) continue;
     let lowerWeight = 0;

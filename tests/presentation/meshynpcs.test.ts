@@ -11,7 +11,7 @@ import { disposeSceneResources } from '../../src/presentation/disposeScene';
 import { ENEMY_SPAWNS } from '../../src/world/layout';
 import { createInitialState } from '../../src/game/state';
 import { Colliders } from '../../src/world/colliders';
-import { createMeshyNpcRig, validateMeshyNpcAsset, validateMeshyNpcManifest, NPC_ROLES,
+import { createMeshyNpcRig, createMeshyNpcRigSteps, validateMeshyNpcAsset, validateMeshyNpcManifest, NPC_ROLES,
   MeshyNpcCatalog, type MeshyNpcEntry, type MeshyNpcManifest } from '../../src/presentation/meshynpcs';
 
 const loader = vi.hoisted(() => ({ parse: vi.fn() }));
@@ -226,6 +226,39 @@ describe('budgeted Meshy NPC replacement and lifetime', () => {
     expect(rig.root.position.toArray()).toEqual([7, 3, -2]);
     expect(rig.hips.position.y).toBeCloseTo(0.95, 6);
     expect(f.geometry.getAttribute('position').getY(0)).toBeCloseTo(-0.04, 6);
+  });
+
+  it('yields inside long-skirt preparation instead of rewriting a whole model in one arrival step', () => {
+    const f = skirtSource(), copies = 800;
+    for (const [name, attribute] of Object.entries(f.geometry.attributes)) {
+      const values = Array.from(attribute.array), expanded = Array.from({ length: copies }, () => values).flat();
+      f.geometry.setAttribute(name, name === 'skinIndex'
+        ? new THREE.Uint16BufferAttribute(expanded, attribute.itemSize)
+        : new THREE.Float32BufferAttribute(expanded, attribute.itemSize));
+    }
+    const index = Array.from(f.geometry.index!.array);
+    f.geometry.setIndex(Array.from({ length: copies }, (_, copy) => index.map(vertex => vertex + 15 * copy)).flat());
+    const steps = createMeshyNpcRigSteps(f.asset, { ...entry, id: 'rillford-reeve', triangles: 7 * copies, surfaceBake: 'geometry-only-v1' },
+      1, 'none', undefined, { skinRepair: false, jointFit: false, poseFit: false, surface: false, dualQuaternion: false, fingers: false });
+    const write = THREE.BufferAttribute.prototype.setComponent;
+    let writes = 0, largest = 0;
+    vi.spyOn(THREE.BufferAttribute.prototype, 'setComponent').mockImplementation(function(this: THREE.BufferAttribute, index, component, value) {
+      writes++;
+      return write.call(this, index, component, value);
+    });
+    let rig: Rig;
+    for (;;) {
+      writes = 0;
+      const next = steps.next();
+      largest = Math.max(largest, writes);
+      if (next.done) { rig = next.value; break; }
+    }
+    expect(largest).toBeGreaterThan(0);
+    // One batch writes at most four skin indices and four weights for each of 512 vertices.
+    expect(largest).toBeLessThanOrEqual(512 * 8);
+    const mesh = rig.body.getObjectByProperty('isSkinnedMesh', true) as THREE.SkinnedMesh;
+    expect(mesh.geometry.userData.npcGarment.fittedVertices).toBeGreaterThan(512);
+    expect(f.geometry.userData.npcGarment).toBeUndefined();
   });
 
   it.each(['rillford-reeve', 'fireside'])('fits %s continuous cloth instead of stretching the hem across two bent knees', id => {
