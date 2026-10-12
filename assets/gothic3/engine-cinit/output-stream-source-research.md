@@ -323,3 +323,26 @@ temporary locale, preserved base receiver, pending original lock call and
 idempotent startup. Both original allocation-failure cases still retain their
 new-handler boundary. This change is local and does not prove complete startup
 or campaign gameplay.
+
+## Outer facet lock and nested identifier caller
+
+Lock admission now permits the original outer facet constructor caller
+`0x305f140c` only with enclosing facet lookup call `0x305f18f9`. Its actual
+stack-local receiver is constructor CALL plus 32. The original enter wrapper
+returns and the shared locale section is held at depth one.
+
+Facet lookup reads the actual initial identifier and cache images. Both are
+zero in this original startup path. It marks its exception state zero, saves the
+empty cache in its actual local and follows the identifier-zero branch. It then
+pushes lock index zero, selects its second local lock receiver and calls
+`0x30670503` at `0x305f1432`, return address `0x305f1437`.
+
+That nested identifier lock is pending. The outer acquisition remains live;
+the routine has not allocated an identifier or facet, and the temporary locale
+refcount remains five. A nonzero identifier retains the original pending branch
+at `0x305f145b` rather than assuming first-time initialization.
+
+Typechecking and three focused runtime cases passed. The normal case checks six
+returned enters, five returned leaves, current held depth one, the returned outer
+constructor and pending nested constructor, preserved frames and idempotent
+startup. Both NULL allocation cases remain at their original new-handler call.
