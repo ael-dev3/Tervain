@@ -24,3 +24,21 @@ it.skipIf(!decoderAvailable)('decodes a lossless video and reports a transient f
     expect(text).not.toContain(dir);
   } finally { rmSync(dir, { recursive: true, force: true }); }
 });
+
+it.skipIf(!decoderAvailable)('preserves variable-rate frames and actual peak timestamps instead of duplicating held frames', () => {
+  const dir=mkdtempSync(path.join(tmpdir(),'shimmer-vfr-'));
+  try{
+    const base=Buffer.from(Array.from({length:48*48},(_,k)=>70+(Math.imul(k+7,1103515245)>>>16)%40)),flash=Buffer.from(base);flash[25*48+25]=250;
+    const file=path.join(dir,'input.mkv'),out=path.join(dir,'result.json');
+    const encoded=spawnSync('ffmpeg',['-v','error','-f','rawvideo','-pixel_format','gray','-video_size','48x48','-framerate','60','-i','pipe:0','-vf',"setpts='if(lt(N,3),N,N+3)'",'-fps_mode','vfr','-c:v','ffv1',file],{input:Buffer.concat([base,base,flash,base,base])});
+    expect(encoded.status,String(encoded.stderr)).toBe(0);
+    const run=spawnSync(process.execPath,['tools/video-shimmer.mjs','--input',file,'--roi','0,0,1,1','--out',out],{encoding:'utf8'});
+    expect(run.status,run.stderr).toBe(0);const report=JSON.parse(readFileSync(out,'utf8'));
+    expect(report.decodedFrames).toBe(5);expect(report.nativeCadence).toBe(true);
+    expect(report.samples.map((sample:{time:number})=>sample.time)).toEqual([.017,.033,.1]);
+    expect(report.summary.peaks[0].time).toBe(.033);
+    const seek=spawnSync(process.execPath,['tools/video-shimmer.mjs','--input',file,'--roi','0,0,1,1','--start','.02','--out',out],{encoding:'utf8'});
+    expect(seek.status,seek.stderr).toBe(0);const selected=JSON.parse(readFileSync(out,'utf8'));
+    expect(selected.decodedFrames).toBe(3);expect(selected.samples[0].time).toBe(.1);
+  }finally{rmSync(dir,{recursive:true,force:true});}
+});
