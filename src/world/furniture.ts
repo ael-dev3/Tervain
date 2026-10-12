@@ -1,5 +1,5 @@
 import { FURNITURE_SIZES, type FurnitureId } from './furnitureSizes';
-import { CHIMNEY_STACK, doorwayClear, FIREPLACE, hearthOf, INTERIORS, roomHalfSize, type InteriorSpec } from './interiors';
+import { doorwayClear, FIREPLACE, hearthOf, INTERIORS, roomHalfSize, type InteriorSpec } from './interiors';
 
 /**
  * The rooms' furniture (A66): which pieces furnish each building, and where. Every piece but the shrine's benches is a
@@ -53,26 +53,36 @@ export const HOUSEHOLDS: Record<string, 'weaver' | 'woodcutter' | 'herbalist' | 
   house_a: 'weaver', house_b: 'woodcutter', house_c: 'herbalist', house_d: 'hunter', house_e: 'farmer', house_f: 'brewer',
 };
 
-/** Each house's wish list (A123). Indices in B() count from the list's start. */
+/**
+ * Each house's wish list (A123), grouped by purpose round its hearth since A135: an eating corner at the fire, a
+ * sleeping corner away from the door, a work corner for the trade, stores by the door. Indices in B() count from the
+ * list's start. The hearths stand against different walls (interiors.ts), so no two rooms are laid out alike.
+ */
 const HOUSE_PLANS: Record<string, Wish[]> = {
-  // The weaver: her loom by the light, a table for the cloth, a crate of wool.
-  house_a: [W('bed', 'back', -0.65), W('chest', 'back', 0.1), W('loom', 'left', 0.35), ...tableWith([0.15, 0.15], 'stool', 3),
-    W('shelf', 'right', 0.55), W('crate', 'front', 0.85), W('barrel', 'right', -0.7)],
-  // The woodcutter: a bench with his tools, split wood by the door, a barrel of water.
-  house_b: [W('bed', 'right', -0.55), W('workbench', 'left', 0.3), B('stool', 1, 'front'), W('firewood', 'front', -0.8), W('tools', 'left', -0.75),
-    ...tableWith([-0.1, 0.2], 'stool', 5, ['front']), W('chest', 'back', 0.6), W('barrel', 'back', -0.2)],
-  // The herbalist: shelves and a cupboard of jars, a writing desk, little room to sit.
-  house_c: [W('shelf', 'back', -0.5), W('cupboard', 'right', 0.55), W('desk', 'left', -0.3), B('stool', 2, 'front'), W('bed', 'left', 0.55),
-    ...tableWith([0.2, 0.2], 'stool', 5, ['back']), W('pots', 'front', 0.8), W('barrel', 'right', -0.6)],
-  // The hunter's family: a rack for bows and snares, a big table, wood for the fire.
-  house_d: [W('bed', 'back', -0.6), W('rack', 'left', -0.2), W('chest', 'back', 0.3), ...tableWith([0.1, 0.2], 'stool', 3, ['front', 'back', 'left']),
-    W('firewood', 'right', -0.6), W('crate', 'front', 0.85), W('barrel', 'right', 0.6)],
-  // The farmer's family: a bed and a bunk for the children, a table for four, tools and the harvest's sacks.
-  house_e: [W('bed', 'back', -0.65), W('bunk', 'right', 0.4), ...tableWith([-0.2, 0.1], 'stool', 2, ['front', 'back', 'left', 'right']),
-    W('tools', 'front', 0.85), W('sacks', 'left', -0.6), W('sacks', 'left', 0.3), W('barrel', 'back', 0.6)],
-  // The brewer: barrels along the walls, a bench for the work, crates of jugs.
-  house_f: [W('bed', 'left', -0.55), W('barrel', 'back', -0.7), W('barrel', 'back', -0.35), W('barrel', 'right', 0.6), W('shelf', 'right', -0.4),
-    W('workbench', 'back', 0.45), B('stool', 5, 'front'), ...tableWith([-0.1, 0.25], 'stool', 7, ['front']), W('crate', 'front', 0.85), W('crate', 'left', 0.4)],
+  // The weaver (hearth in the right back corner): her loom under the back windows' light, the bed in the left corner
+  // with its chest, the table by the fire, wool by the door, a cupboard for the cloth.
+  house_a: [W('loom', 'back', 0), W('bed', 'left', 0.45), W('chest', 'left', -0.6), ...tableWith([0.42, 0.22], 'stool', 3, ['front', 'left']),
+    W('cupboard', 'front', -0.34), W('crate', 'front', 0.85), W('barrel', 'right', 0.75)],
+  // The woodcutter (hearth in the left back corner): split wood stacked by the fire, his bench and tools along the right
+  // wall, the bed in the right back corner, a table by the fire.
+  house_b: [W('firewood', 'left', 0.25), W('bed', 'back', 0.62), W('workbench', 'right', 0.4), B('stool', 2, 'front'), W('tools', 'front', 0.92),
+    ...tableWith([-0.28, -0.05], 'stool', 5, ['front', 'right']), W('chest', 'right', -0.15), W('barrel', 'front', 0.85)],
+  // The herbalist (hearth on the back wall): a cupboard of jars in the back corner, a writing desk by the left window,
+  // the bed along the right wall, a small table by the fire, pots by the door.
+  house_c: [W('cupboard', 'back', -0.85), W('desk', 'left', 0.05), B('stool', 1, 'front'), W('bed', 'right', 0),
+    ...tableWith([0.32, -0.08], 'stool', 4, ['front']), W('pots', 'front', 0.85), W('chest', 'back', 0.85), W('barrel', 'right', 0.85)],
+  // The hunter's family (hearth in the left back corner): the rack of bows and snares on the back wall, the bed and its
+  // chest along the right wall, a big table by the fire, wood for it.
+  house_d: [W('rack', 'back', -0.05), W('bed', 'right', -0.5), W('chest', 'right', 0.3), W('firewood', 'left', 0.38),
+    ...tableWith([-0.25, 0.08], 'stool', 4, ['front', 'back', 'right']), W('crate', 'front', -0.85), W('barrel', 'front', 0.85)],
+  // The farmer's family (hearth on the back wall): the bed in the left back, the children's bunk in the right back, a
+  // table for four at the fire, sacks of the harvest and tools along the walls.
+  house_e: [W('bed', 'left', 0.45), W('bunk', 'back', 0.75), ...tableWith([-0.05, 0.08], 'stool', 2, ['front', 'back', 'left', 'right']),
+    W('tools', 'front', -0.9), W('sacks', 'left', 0.5), W('sacks', 'right', 0.25), W('barrel', 'right', 0.85)],
+  // The brewer (hearth on the back wall): barrels in a row along the back, a cupboard of jugs in the far corner, the
+  // workbench on the left wall, the bed by the front, crates of jugs.
+  house_f: [W('barrel', 'back', -0.88), W('barrel', 'back', -0.62), W('cupboard', 'back', 0.85), W('workbench', 'left', -0.15), B('stool', 3, 'front'),
+    W('bed', 'front', 0.68), ...tableWith([0.3, 0.22], 'stool', 6, ['front']), W('crate', 'right', 0.62), W('barrel', 'right', 0.95)],
 };
 
 function wishes(room: InteriorSpec): Wish[] {
@@ -142,8 +152,7 @@ export function reserved(room: InteriorSpec): { always: Rect[]; windows: Rect[] 
   const always: Rect[] = [doorwayClear(room)];
   const hearth = hearthOf(room);
   if (hearth) {
-    const c = CHIMNEY_STACK;
-    always.push({ x0: hearth.stack.x - c, x1: hearth.stack.x + c, z0: hearth.stack.z - c, z1: hearth.stack.z + c });
+    always.push(hearth.breast);
     // The fireplace (or the bakery's oven) and room to tend it.
     const oven = b.kind === 'bakery' ? pieceSize('oven') : null;
     always.push(hearth.footprint((oven ? oven[0] / 2 : FIREPLACE.halfWidth) + 0.1, (oven ? oven[2] : FIREPLACE.depth) + 0.5));
@@ -165,8 +174,8 @@ export function reserved(room: InteriorSpec): { always: Rect[]; windows: Rect[] 
 function hearthBlocks(room: InteriorSpec): Rect[] {
   const hearth = hearthOf(room);
   if (!hearth) return [];
-  const c = CHIMNEY_STACK, oven = hearthPiece(room);
-  return [{ x0: hearth.stack.x - c, x1: hearth.stack.x + c, z0: hearth.stack.z - c, z1: hearth.stack.z + c },
+  const oven = hearthPiece(room);
+  return [hearth.breast,
     oven ? footprint(oven.piece, oven.x, oven.z, oven.yaw) : hearth.footprint(FIREPLACE.halfWidth, FIREPLACE.depth)];
 }
 

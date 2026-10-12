@@ -2,6 +2,7 @@ import { loadBakedTextures } from './bakedTextures';
 import type { CameraCrown } from './cameraCrowns';
 import { buildFurniture, deferredFurniture, loadFurniture, type FurnitureTemplates } from './furniture';
 import { InteriorLight } from './interiorLight';
+import { buildHearthFires } from './hearthFire';
 import { WINDOW_VIEW_SIZE, WindowView } from './windowView';
 import type { InteriorSpec } from '../world/interiors';
 import { DoorSwings, type DoorEvent } from './doors';
@@ -328,6 +329,8 @@ export class WorldScene {
       // Deferred, the rooms stand empty until the pieces are here; their colliders come from the placements either way.
       const furnishing = furniture ? null : deferredFurniture();
       addModule('furniture', furnishing ?? buildFurniture(furniture!, terrain.rooms, (room) => roomOpen(room)));
+      // The fires burning in the rooms' hearths (A135).
+      addModule('hearth fires', buildHearthFires(terrain.rooms));
       if (furnishing) {
         // A world disposed before they arrive builds nothing from them (A87 scout): building and preparing them only to
         // throw them away cost the next world a spike and seconds of uploads.

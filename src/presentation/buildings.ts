@@ -3,9 +3,9 @@ import type { BuildingSpec } from '../world/layout';
 import { ARCHIVE_ROOM } from '../world/layout';
 import { mulberry32 } from '../world/noise';
 import { buildingEntry, buildingGround } from '../world/buildingEntries';
-import { CHIMNEY_STACK, chimneyOf, FIREPLACE, hearthOf, interiorOf, roomOf, type InteriorSpec } from '../world/interiors';
+import { BREAST_DEPTH, CHIMNEY_STACK, chimneyOf, FIREPLACE, HEARTH_DRESS, HEARTH_SHAPE, hearthOf, interiorOf, joistsOf, roomHalfSize, roomOf, sideWindowZ, type InteriorSpec } from '../world/interiors';
 import type { Terrain } from '../world/terrain';
-import { Ctx, hash3, mulc, rgb } from './buildKit';
+import { Ctx, FACES, hash3, mulc, rgb, type Col } from './buildKit';
 import { Region } from './regions';
 import { authorLighthouse } from './lighthouse';
 import { antlers, doorHood, dormer, drawHouseYard, lookOf, lookRnd, plinthCourse } from './houseExteriors';
@@ -119,43 +119,63 @@ export function roomInterior(R: Region, room: InteriorSpec, windows: { x: number
   const { x: dx, halfWidth: dw, height: dh } = room.door;
   const floor = room.floorTop, base = room.wallBase, top = room.wallTop;
   if (floorOf === 'stone') R.stone.bx(-hw - 0.02, floor - 0.07, -hd - 0.02, hw + 0.02, floor, hd + 0.02, jitterTone(TINT.stone, inner, 0.08), { jit: 0.05, amp: 0.03, sub: 0.9 });
-  else R.planks.bx(-hw - 0.02, floor - 0.07, -hd - 0.02, hw + 0.02, floor, hd + 0.02, jitterTone(TINT.woodDark, inner, 0.08), { grain: 'x', jit: 0.05, amp: 0.03, sub: 0.9 });
+  else R.planks.bx(-hw - 0.02, floor - 0.07, -hd - 0.02, hw + 0.02, floor, hd + 0.02, jitterTone(TINT.woodDark, inner, 0.08), { grain: 'x', jit: 0.05, amp: 0.03, sub: 0.3 });
   R.stone.bx(dx - dw - 0.02, base - 0.04, hd - 0.02, dx + dw + 0.02, floor, b.d / 2 + 0.06, jitterTone(TINT.stone, inner, 0.1), { jit: 0.04, amp: 0.02 });
   // The opening's frame on the inside: jambs and a lintel set into the wall.
   const frame = () => jitterTone(TINT.woodDark, inner, 0.08);
   for (const side of [-1, 1]) R.timber.bx(dx + side * dw - (side < 0 ? 0.12 : 0), floor - 0.01, hd - 0.05, dx + side * dw + (side > 0 ? 0.12 : 0), base + dh + 0.04, hd + 0.03, frame(), { grain: 'y', jit: 0.03 });
   R.timber.bx(dx - dw - 0.16, base + dh, hd - 0.06, dx + dw + 0.16, base + dh + 0.18, hd + 0.03, frame(), { grain: 'x', jit: 0.03 });
   // A boarded ceiling at the wall top (where the room's ceiling collider is), tie beams under it, wall plates along it.
-  R.planks.bx(-hw - 0.02, top - 0.05, -hd - 0.02, hw + 0.02, top + 0.02, hd + 0.02, jitterTone(TINT.wood, inner, 0.08), { grain: 'x', jit: 0.04, amp: 0.03, sub: 0.9 });
+  R.planks.bx(-hw - 0.02, top - 0.05, -hd - 0.02, hw + 0.02, top + 0.02, hd + 0.02, jitterTone(TINT.wood, inner, 0.08), { grain: 'x', jit: 0.04, amp: 0.03, sub: floorOf === 'planks' ? 0.45 : 0.9 });
   const beams = Math.max(1, Math.round(b.w / 2.4) - 1);
   for (let i = 1; i <= beams; i++) {
     const x = -hw + (i * 2 * hw) / (beams + 1) + (inner() - 0.5) * 0.2;
     R.timber.bx(x - 0.09, top - 0.24, -hd - 0.05, x + 0.09, top - 0.05, hd + 0.05, frame(), { grain: 'z', jit: 0.05, amp: 0.02 });
   }
   for (const sz of [-1, 1]) R.timber.bx(-hw - 0.02, top - 0.19, sz * hd - 0.08, hw + 0.02, top - 0.05, sz * hd + 0.08, frame(), { grain: 'x', jit: 0.04, amp: 0.02 });
-  // The chimney's stack stands on the floor and carries the chimney through the roof.
+  if (floorOf === 'planks') roomFrame(R, room, windows, inner, frame);
+  // The hearth (A135): a chimney breast built out of its wall up to the ceiling, the stack carried on up inside the wall
+  // to the chimney outside; before it an open fireplace with a soot-black firebox, logs on an ash bed, a stone hood, a
+  // timber mantel shelf and a hearthstone. The fire itself burns in presentation/hearthFire.ts.
   const hearth = hearthOf(room);
   if (hearth) {
-    const c = CHIMNEY_STACK;
-    R.stone.bx(hearth.stack.x - c, floor - 0.02, hearth.stack.z - c, hearth.stack.x + c, top - 0.45, hearth.stack.z + c, jitterTone(TINT.stone, inner, 0.1), { sub: 0.6, jit: 0.06, amp: 0.05 });
-    // The fireplace is drawn facing local +z from the stack's face, turned the way the hearth faces.
+    const c = CHIMNEY_STACK, face = c - BREAST_DEPTH, S = HEARTH_SHAPE;
+    const stone = () => jitterTone(TINT.stone, inner, 0.1), soot = () => jitterTone(0x221d18, inner, 0.08);
+    // Drawn facing local +z from the stack's centre, turned the way the hearth faces.
     R.ctx.push(hearth.stack.x, 0, hearth.stack.z, hearth.yaw);
-    const cx = 0, back = c;
-    // The fireplace against it (the bakery's oven stands there instead): stone piers, a soot-dark firebox with logs and
-    // embers that glow after dark, a timber mantel, a stone hood up to the stack and a hearth slab before it.
+    R.stone.bx(-c, floor - 0.02, face - 0.02, c, top - 0.04, c, stone(), { sub: 0.22, jit: 0.06, amp: 0.05, skip: FACES.nz });
     if (b.kind !== 'bakery') {
-      const { halfWidth: fw, depth: fd, height: fh } = FIREPLACE, mouth = 0.34, lintel = floor + 0.82;
-      const stone = () => jitterTone(TINT.stone, inner, 0.1);
-      for (const side of [-1, 1]) R.stone.bx(side < 0 ? cx - fw : cx + mouth, floor - 0.02, back, side < 0 ? cx - mouth : cx + fw, lintel, back + fd, stone(), { jit: 0.05, amp: 0.04 });
-      R.vc.bx(cx - mouth, floor, back - 0.01, cx + mouth, lintel, back + 0.03, 0x14100c, { jit: 0, amp: 0 });
-      R.vc.bx(cx - mouth - 0.01, lintel - 0.06, back, cx + mouth + 0.01, lintel, back + fd - 0.04, 0x1b1611, { jit: 0, amp: 0 });
-      R.timber.bx(cx - fw - 0.06, lintel, back, cx + fw + 0.06, lintel + 0.13, back + fd + 0.06, frame(), { grain: 'x', jit: 0.03, amp: 0.02 });
-      R.stone.bx(cx - fw + 0.04, lintel + 0.13, back, cx + fw - 0.04, floor + fh, back + fd - 0.08, stone(), { jit: 0.04, amp: 0.03 });
-      R.stone.bx(cx - fw - 0.08, floor - 0.04, back + fd, cx + fw + 0.08, floor + 0.05, back + fd + 0.28, stone(), { jit: 0.03, amp: 0.02 });
-      R.glow.box(mouth * 1.3, 0.04, fd * 0.5, cx, floor + 0.005, back + fd * 0.4, 0xffffff, { jit: 0 });
-      for (const [dx, dz, yaw] of [[-0.05, 0.16, 0.25], [0.04, 0.26, -0.3], [0, 0.21, 1.4]] as const) {
-        const l = 0.5;
-        R.bark.rod(cx + dx - Math.cos(yaw) * l / 2, floor + 0.08, back + dz + Math.sin(yaw) * l / 2, cx + dx + Math.cos(yaw) * l / 2, floor + 0.1, back + dz - Math.sin(yaw) * l / 2, 0.055, 5, jitterTone(TINT.woodDark, inner, 0.15));
+      const { halfWidth: fw, height: fh } = FIREPLACE, m = S.mouth, mt = floor + S.mouthTop, my = floor + S.mantelY;
+      // Piers either side of the mouth, lined with soot inside.
+      for (const side of [-1, 1]) {
+        R.stone.bx(side < 0 ? -fw : m, floor - 0.02, face, side < 0 ? -m : fw, mt, S.front, stone(), { jit: 0.05, amp: 0.04, sub: 0.25 });
+        R.vc.bx(side < 0 ? -m : m - 0.025, floor + 0.04, S.back, side < 0 ? -m + 0.025 : m, mt, S.front - 0.03, soot(), { jit: 0.04, amp: 0.05 });
+      }
+      // The firebox: its back and roof black with soot, a hearthstone floor under a bed of ash.
+      R.stone.bx(-m, floor - 0.02, face, m, mt, S.back, soot(), { jit: 0.05, amp: 0.06, sub: 0.2 });
+      R.vc.bx(-m, mt - 0.04, S.back, m, mt, S.front, soot(), { jit: 0.04, amp: 0.04 });
+      R.stone.bx(-m, floor - 0.02, S.back, m, floor + 0.05, S.front, jitterTone(TINT.stoneDark, inner, 0.08), { jit: 0.04, amp: 0.03 });
+      R.vc.bx(-m + 0.04, floor + 0.05, S.back + 0.02, m - 0.04, floor + 0.068, S.front - 0.06, 0x47423c, { jit: 0.05, amp: 0.08 });
+      R.glow.box(m * 1.3, 0.03, 0.26, 0, floor + 0.062, S.fire.z, 0xffffff, { jit: 0 });
+      // Firedogs and the logs on them.
+      for (const side of [-1, 1]) R.metal.bx(side * 0.2 - 0.015, floor + 0.05, S.fire.z - 0.16, side * 0.2 + 0.015, floor + 0.13, S.fire.z + 0.18, 0x2a2826, { jit: 0.02 });
+      for (const [lz, ly, tilt] of [[-0.07, 0.17, 0.05], [0.08, 0.17, -0.04], [0.0, 0.27, 0.12]] as const) {
+        R.bark.rod(-0.33, floor + ly - tilt, S.fire.z + lz, 0.33, floor + ly + tilt, S.fire.z + lz * 0.6, 0.05, 6, jitterTone(TINT.woodDark, inner, 0.15));
+      }
+      // The lintel over the mouth, the mantel shelf on it, and the stone hood narrowing up into the breast.
+      R.stone.bx(-fw, mt, face, fw, my - 0.11, S.front, stone(), { jit: 0.04, amp: 0.03, sub: 0.25 });
+      R.timber.bx(-fw - 0.1, my - 0.11, face, fw + 0.1, my, S.mantelFront, frame(), { grain: 'x', jit: 0.03, amp: 0.02 });
+      for (const side of [-1, 1]) R.timber.bx(side * (fw - 0.02) - 0.04, my - 0.32, S.front - 0.02, side * (fw - 0.02) + 0.04, my - 0.11, S.mantelFront - 0.04, frame(), { grain: 'y', jit: 0.03 });
+      R.stone.bx(-fw + 0.08, my, face, fw - 0.08, floor + fh + 0.2, S.front - 0.14, stone(), { jit: 0.04, amp: 0.03, sub: 0.22 });
+      R.stone.bx(-c - 0.08, floor + fh + 0.2, face, c + 0.08, floor + fh + 0.55, c + 0.16, stone(), { jit: 0.04, amp: 0.03, sub: 0.22 });
+      // The hearthstone before it.
+      R.stone.bx(-fw - 0.17, floor - 0.04, S.front, fw + 0.17, floor + 0.045, S.slab, jitterTone(TINT.stoneDark, inner, 0.08), { jit: 0.04, amp: 0.03, sub: 0.3 });
+      // An iron trivet for the pot at the side of the mouth.
+      const pot = HEARTH_DRESS.pot, legs = [0, 2.1, 4.2].map((a) => [pot.x + Math.cos(a) * 0.17, pot.z + Math.sin(a) * 0.17] as const);
+      for (const [i, [x, z]] of legs.entries()) {
+        const [nx, nz] = legs[(i + 1) % 3]!;
+        R.metal.rod(x, floor + 0.045, z, x * 0.9 + pot.x * 0.1, floor + pot.y, z * 0.9 + pot.z * 0.1, 0.012, 4, 0x2a2826);
+        R.metal.rod(x * 0.9 + pot.x * 0.1, floor + pot.y, z * 0.9 + pot.z * 0.1, nx * 0.9 + pot.x * 0.1, floor + pot.y, nz * 0.9 + pot.z * 0.1, 0.012, 4, 0x2a2826);
       }
     }
     R.ctx.pop();
@@ -179,6 +199,99 @@ export function roomInterior(R: Region, room: InteriorSpec, windows: { x: number
   }
 }
 
+type RoomWindow = { x: number; z: number; y: number; ry: number; w: number; h: number };
+
+/**
+ * The timber of a lived-in room (A135), after Gothic 3's houses: corner posts and wall posts with knee braces up to the
+ * wall plates, a plank wainscot to waist height with a rail along its top and a skirting at its foot, and light joists
+ * across under the ceiling boards. Drawn into the building's merged shell, in its timber and plank materials.
+ */
+function roomFrame(R: Region, room: InteriorSpec, windows: readonly RoomWindow[], inner: Rnd, frame: () => Col) {
+  const { hw, hd } = roomHalfSize(room), floor = room.floorTop, top = room.wallTop, { x: dx, halfWidth: dw } = room.door;
+  const hearth = hearthOf(room), fire = hearth?.footprint(FIREPLACE.halfWidth + 0.2, FIREPLACE.depth + 0.1);
+  const wainscot = floor + 0.98, board = () => mulc(jitterTone(TINT.wood, inner, 0.1), 0.78);
+  type Side = 'back' | 'front' | 'left' | 'right';
+  // Each wall as a run along it: its fixed coordinate, its length, and where a point along it lies.
+  const walls: { side: Side; at: (t: number, out: number) => [number, number]; len: number }[] = [
+    { side: 'back', at: (t, out) => [t, -hd + out], len: hw }, { side: 'front', at: (t, out) => [t, hd - out], len: hw },
+    { side: 'left', at: (t, out) => [-hw + out, t], len: hd }, { side: 'right', at: (t, out) => [hw - out, t], len: hd },
+  ];
+  // Spans of a wall left bare: the doorway, and the hearth's breast and fireplace.
+  const gaps = (side: Side): [number, number][] => {
+    const out: [number, number][] = [];
+    if (side === 'front') out.push([dx - dw - 0.12, dx + dw + 0.12]);
+    if (fire && hearth!.wall === side) out.push(side === 'back' ? [fire.x0, fire.x1] : [fire.z0, fire.z1]);
+    return out;
+  };
+  const runs = (side: Side, len: number): [number, number][] => {
+    let spans: [number, number][] = [[-len, len]];
+    for (const [g0, g1] of gaps(side)) spans = spans.flatMap(([a, b]) => (g1 <= a || g0 >= b ? [[a, b]] : [[a, g0], [g1, b]].filter((r) => r[1]! - r[0]! > 0.05)) as [number, number][]);
+    return spans;
+  };
+  const piece = (mat: 'planks' | 'timber', side: Side, t0: number, t1: number, y0: number, y1: number, d0: number, d1: number, tone: Col, grain: 'x' | 'y' | 'z', sub?: number) => {
+    const w = walls.find((x) => x.side === side)!, [ax, az] = w.at(t0, d0), [bx, bz] = w.at(t1, d1);
+    R[mat].bx(Math.min(ax, bx), y0, Math.min(az, bz), Math.max(ax, bx), y1, Math.max(az, bz), tone, { grain, jit: 0.04, amp: 0.04, sub });
+  };
+  for (const { side, len } of walls) {
+    const along: 'x' | 'z' = side === 'back' || side === 'front' ? 'x' : 'z';
+    for (const [t0, t1] of runs(side, len)) {
+      // Upright boards to waist height, a rail capping them and a skirting at their foot.
+      for (let t = t0; t < t1 - 0.02; t += 0.24) piece('planks', side, t, Math.min(t1, t + 0.235), floor - 0.01, wainscot, 0, 0.028, board(), 'y', 0.24);
+      piece('timber', side, t0, t1, wainscot - 0.02, wainscot + 0.06, 0, 0.055, frame(), along);
+      piece('timber', side, t0, t1, floor - 0.01, floor + 0.13, 0, 0.045, frame(), along);
+    }
+    // Wall plates under the ceiling along the sides (the front and back have theirs).
+    if (along === 'z') piece('timber', side, -hd, hd, top - 0.19, top - 0.05, 0, 0.14, frame(), 'z');
+    // Posts: in the corners, and along the wall where no window, doorway or hearth stands, each braced to the plate.
+    const clear = (t: number) => !gaps(side).some(([g0, g1]) => t > g0 - 0.3 && t < g1 + 0.3)
+      && !windows.some((w) => {
+        const onSide = side === 'back' ? w.z < -hd + 0.3 : side === 'front' ? w.z > hd - 0.3 : side === 'left' ? w.x < -hw + 0.3 : w.x > hw - 0.3;
+        return onSide && Math.abs((along === 'x' ? w.x : w.z) - t) < w.w / 2 + 0.35;
+      });
+    const posts = [-len + 0.09, len - 0.09, ...(len > 2.2 ? [-len * 0.36, len * 0.36] : []), 0].filter(clear);
+    for (const t of posts) {
+      piece('timber', side, t - 0.09, t + 0.09, floor - 0.01, top - 0.05, 0, 0.16, frame(), 'y');
+      if (Math.abs(t) > len - 0.2) continue;
+      for (const dir of [-1, 1]) {
+        if (!clear(t + dir * 0.55)) continue;
+        const w = walls.find((x) => x.side === side)!, [ax, az] = w.at(t + dir * 0.06, 0.07), [bx, bz] = w.at(t + dir * 0.6, 0.07);
+        R.timber.rod(ax, top - 0.72, az, bx, top - 0.17, bz, 0.05, 4, frame(), { flat: true });
+      }
+    }
+  }
+  // Joists across under the ceiling boards.
+  for (const z of joistsOf(room)) R.timber.bx(-hw, top - 0.16, z - 0.05, hw, top - 0.05, z + 0.05, frame(), { grain: 'x', jit: 0.05, amp: 0.03 });
+}
+
+/**
+ * Contact darkening and soot in a room (A135), as a vertex-colour factor for everything drawn inside it: floors darken
+ * towards the walls and walls towards the floor and the ceiling, more in the corners; the hearth's wall is smoked black
+ * above the fire and the floor before it dulled with ash. A point outside the room is left alone.
+ */
+export function roomShade(room: InteriorSpec, frame: THREE.Matrix4): (x: number, y: number, z: number) => number {
+  const e = frame.clone().invert().elements, { hw, hd } = roomHalfSize(room), floor = room.floorTop, top = room.wallTop;
+  const hearth = hearthOf(room), soot = hearth && room.building.kind !== 'bakery';
+  return (wx, wy, wz) => {
+    const x = e[0]! * wx + e[4]! * wy + e[8]! * wz + e[12]!, y = e[1]! * wx + e[5]! * wy + e[9]! * wz + e[13]!, z = e[2]! * wx + e[6]! * wy + e[10]! * wz + e[14]!;
+    if (Math.abs(x) > hw + 0.03 || Math.abs(z) > hd + 0.03 || y < floor - 0.12 || y > top + 0.05) return 1;
+    const ax = Math.max(0, hw - Math.abs(x)), az = Math.max(0, hd - Math.abs(z)), wall = Math.min(ax, az), corner = Math.max(ax, az);
+    const up = Math.max(0, y - floor), down = Math.max(0, top - y);
+    let k = 1 - 0.42 * Math.exp(-wall / 0.5 - up / 0.42) - 0.28 * Math.exp(-wall / 0.45 - down / 0.35) - 0.22 * Math.exp(-corner / 0.55);
+    // A little darker the further from the hearth's side of the room.
+    if (hearth) k *= 1 - 0.12 * Math.min(1, Math.hypot(x - hearth.stack.x, z - hearth.stack.z) / 6);
+    if (soot) {
+      const c = Math.cos(hearth.yaw), s = Math.sin(hearth.yaw), rx = x - hearth.stack.x, rz = z - hearth.stack.z;
+      const lx = rx * c - rz * s, lz = rx * s + rz * c, h = y - floor;
+      if (lz < HEARTH_SHAPE.front + 0.2) {
+        const rise = h < HEARTH_SHAPE.mouthTop ? 0 : Math.min(1, (h - HEARTH_SHAPE.mouthTop) / 0.35);
+        k *= 1 - 0.62 * rise * Math.exp(-(lx * lx) / (0.18 + 0.12 * Math.max(0, h - 1)));
+      }
+      if (h < 0.1 && lz < HEARTH_SHAPE.slab + 0.5) k *= 1 - 0.25 * Math.exp(-(lx * lx) / 0.5) * Math.min(1, Math.max(0, (HEARTH_SHAPE.slab + 0.5 - lz) / 0.5));
+    }
+    return Math.max(0.28, k);
+  };
+}
+
 /** Any ordinary building: foundation, walls in the chosen material, sagging roof, door, windows, chimney, and the clutter of use. */
 export function buildStandard(R: Region, terrain: Terrain, b: BuildingSpec, out: BuildOut) {
   // A79: the windows are real openings through the walls. They are placed by the building's own random sequence after
@@ -199,6 +312,8 @@ function buildStandardPass(R: Region, terrain: Terrain, b: BuildingSpec, out: Bu
   const look = lookOf(b);
   const roofKind = look?.roof ?? b.roof;
   ctx.push(b.x, avg, b.z, b.yaw);
+  // Everything drawn inside the room darkens towards its floor, walls and corners and is smoked by its fire (A135).
+  ctx.shade = roomShade(room, ctx.matrix);
   const sink = avg - lo + 0.4;
   const plinth = 0.42;
   const wallH = b.h;
@@ -305,11 +420,11 @@ function buildStandardPass(R: Region, terrain: Terrain, b: BuildingSpec, out: Bu
       opening('front', wx);
     }
   }
-  const eastZ = (rnd() - 0.5) * b.d * 0.4;
+  const eastZ = sideWindowZ(room, 'east', (rnd() - 0.5) * b.d * 0.4);
   windowAt(R, rnd, { x: b.w / 2 + 0.02, y: y0 + wallH * 0.45, z: eastZ, ry: Math.PI / 2, stone: b.wall === 'stone', opening: true });
   inside(b.w / 2 - t - 0.005, eastZ, -Math.PI / 2);
   opening('east', eastZ);
-  const westZ = (rnd() - 0.5) * b.d * 0.4;
+  const westZ = sideWindowZ(room, 'west', (rnd() - 0.5) * b.d * 0.4);
   windowAt(R, rnd, { x: -b.w / 2 - 0.02, y: y0 + wallH * 0.45, z: westZ, ry: -Math.PI / 2, stone: b.wall === 'stone', opening: true });
   inside(-b.w / 2 + t + 0.005, westZ, Math.PI / 2);
   opening('west', westZ);
@@ -320,9 +435,18 @@ function buildStandardPass(R: Region, terrain: Terrain, b: BuildingSpec, out: Bu
   }
   roomInterior(R, room, windows, 'planks', true);
 
-  // Chimney.
-  const chimneyAt = chimneyOf(b);
-  if (chimneyAt) chimney(R, rnd, chimneyAt.x, chimneyAt.z, y0 + wallH - 0.5, roof.rise + 1.6 + (look?.chimneyUp ?? 0), look?.chimneyW);
+  // Chimney (A135): the stack of the hearth inside rises up the outside of the same wall, from the ground to the eaves
+  // as a stone breast proud of the wall, then on up through the roof, on the centre the room's breast is built on.
+  const chimneyAt = chimneyOf(b), hearthWall = hearthOf(room)?.wall;
+  if (chimneyAt && hearthWall) {
+    const cw = look?.chimneyW ?? 0.75, out = 0.06 + cw / 2;
+    const [x0, x1, z0, z1] = hearthWall === 'back' ? [chimneyAt.x - cw / 2, chimneyAt.x + cw / 2, chimneyAt.z - out + 0.06, -b.d / 2 + 0.04]
+      : hearthWall === 'left' ? [chimneyAt.x - out + 0.06, -b.w / 2 + 0.04, chimneyAt.z - cw / 2, chimneyAt.z + cw / 2]
+      : [b.w / 2 - 0.04, chimneyAt.x + out - 0.06, chimneyAt.z - cw / 2, chimneyAt.z + cw / 2];
+    const tone = jitterTone(TINT.stone, rnd, 0.1);
+    R.stone.bx(Math.min(x0, x1), -sink, Math.min(z0, z1), Math.max(x0, x1), y0 + wallH + 0.05, Math.max(z0, z1), tone, { sub: 0.5, jit: 0.08, amp: 0.06 });
+    chimney(R, rnd, chimneyAt.x, chimneyAt.z, y0 + wallH + 0.05, roof.rise + 1.05 + (look?.chimneyUp ?? 0), look?.chimneyW);
+  }
 
   // Lantern and the small litter of a used doorway.
   const lp = ctx.toWorld(doorX + 0.95, y0 + 2.2, b.d / 2 + 0.35);
@@ -374,6 +498,7 @@ function buildStandardPass(R: Region, terrain: Terrain, b: BuildingSpec, out: Bu
       R.vc.box(0.46, 0.34, 0.06, b.w / 2 + 0.9, 0.38, 0.33, 0x0c0a08, { jit: 0 });
     });
   }
+  ctx.shade = null;
   ctx.pop();
 }
 

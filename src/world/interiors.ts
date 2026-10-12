@@ -41,25 +41,71 @@ export function roomOf(b: BuildingSpec): InteriorSpec | null {
   return INTERIORS.find((room) => room.building === b) ?? null;
 }
 
+/** A room's walls, as seen from inside: the hearth stands against one of them. */
+export type HearthWall = 'back' | 'left' | 'right';
+
 /**
- * Where each village house keeps its hearth, as fractions of its width and depth (A123): every house had it in the same
- * corner, so every room (and every roof's chimney) was laid out alike.
+ * Where each village house keeps its hearth (A123, against a wall since A135): which wall, and where along it as a
+ * fraction of the room's half length (back: -1 left .. 1 right; sides: -1 back .. 1 front). A fireplace standing free
+ * in the room read as a stone column; now each one is a chimney breast built out of a wall, its stack carried up inside
+ * the wall and out through the roof where the chimney stands outside. The side-wall hearths keep to the back corner,
+ * clear of the side windows, and the back-wall ones to the middle, clear of the two back windows.
  */
-const HEARTH_AT: Record<string, readonly [number, number]> = {
-  house_a: [0.28, -0.12], house_b: [-0.3, -0.1], house_c: [0.3, 0.05], house_d: [-0.28, -0.18], house_e: [0.0, -0.3], house_f: [-0.3, 0.08],
+const HEARTH_AT: Record<string, { wall: HearthWall; along: number }> = {
+  house_a: { wall: 'right', along: -1 }, house_b: { wall: 'left', along: -1 }, house_c: { wall: 'back', along: 0.1 },
+  house_d: { wall: 'left', along: -1 }, house_e: { wall: 'back', along: -0.14 }, house_f: { wall: 'back', along: -0.1 },
 };
 
-/** Rooms with a hearth have a chimney: where its stack stands on the floor, in the building's frame. */
-export function chimneyOf(b: BuildingSpec): { x: number; z: number } | null {
-  return b.kind === 'lodge' || b.kind === 'office' || b.kind === 'bunks' || b.kind === 'store' || b.kind === 'shrine' || b.kind === 'archive'
-    ? null : HEARTH_AT[b.id] ? { x: b.w * HEARTH_AT[b.id]![0], z: b.d * HEARTH_AT[b.id]![1] } : { x: b.w * 0.28, z: -b.d * 0.12 };
-}
+/** How far a chimney breast stands out from the inner face of its wall into the room, metres. */
+export const BREAST_DEPTH = 0.3;
 
-/** Half the side of a chimney stack where it stands in a room. */
+/** Half the side of a chimney stack (its centre lies inside the wall; see BREAST_DEPTH). */
 export const CHIMNEY_STACK = 0.43;
 
-/** The fireplace built against a chimney stack: half its width, its depth and its height. */
+/** The fireplace built out before a chimney breast: half its width, its depth and its height. */
 export const FIREPLACE = { halfWidth: 0.68, depth: 0.5, height: 1.32 } as const;
+
+/**
+ * The open hearth (A135), in the fire's own frame (x across the mouth, z out from the stack's centre, y above the
+ * floor): the mouth's half width and height, the firebox's back, the mantel shelf's top and how far it reaches, the
+ * fire's middle, and where the pot stands on its trivet. The wall's inner face is at z = CHIMNEY_STACK - BREAST_DEPTH.
+ */
+export const HEARTH_SHAPE = {
+  mouth: 0.42, mouthTop: 0.8, back: 0.24, front: 0.43 + 0.5, mantelY: 1.08, mantelFront: 1.04, slab: 1.36,
+  fire: { z: 0.5, y: 0.1 },
+} as const;
+
+/** Where the hearth's own things go (dressing.ts), in the fire's frame. */
+export const HEARTH_DRESS = {
+  pot: { x: 0.6, z: 1.13, y: 0.1 },
+  mantel: { half: 0.6, z: 0.86, y: HEARTH_SHAPE.mantelY },
+} as const;
+
+const HAS_HEARTH = (b: BuildingSpec) => !(b.kind === 'lodge' || b.kind === 'office' || b.kind === 'bunks' || b.kind === 'store'
+  || b.kind === 'shrine' || b.kind === 'archive');
+
+/** Which wall a building's hearth stands against and where along it (rooms other than the houses: the back wall's middle). */
+export function hearthWallOf(b: BuildingSpec): { wall: HearthWall; along: number } | null {
+  return HAS_HEARTH(b) ? HEARTH_AT[b.id] ?? { wall: 'back', along: 0 } : null;
+}
+
+/**
+ * Rooms with a hearth have a chimney: the centre of its stack in the building's frame. It lies just inside the wall, so
+ * the breast stands BREAST_DEPTH into the room and the stack's outer half rises up the outside of the wall, where the
+ * exterior chimney (buildings.ts) is drawn on the same centre.
+ */
+export function chimneyOf(b: BuildingSpec): { x: number; z: number } | null {
+  const at = hearthWallOf(b);
+  if (!at) return null;
+  const t = b.wall === 'stone' ? 0.34 : 0.24, hw = b.w / 2 - t, hd = b.d / 2 - t, inset = CHIMNEY_STACK - BREAST_DEPTH;
+  // Along a side wall, -1 puts the fireplace's edge just off the back wall.
+  const sideZ = (along: number) => along * (hd - FIREPLACE.halfWidth - 0.03);
+  switch (at.wall) {
+    case 'back': return { x: at.along * hw, z: -hd - inset };
+    case 'left': return { x: -hw - inset, z: sideZ(at.along) };
+    case 'right': return { x: hw + inset, z: sideZ(at.along) };
+  }
+}
 
 /** The clear way in through a room's doorway (local): nothing stands here. */
 export function doorwayClear(room: InteriorSpec): { x0: number; x1: number; z0: number; z1: number } {
@@ -72,38 +118,43 @@ export interface Hearth {
   stack: { x: number; z: number };
   /** Which way the fire faces: its front looks along (sin yaw, cos yaw); 0 is towards the front wall. */
   yaw: number;
+  /** The wall its breast is built out of. */
+  wall: HearthWall;
+  /** The breast's footprint inside the room (the stack clipped to the wall's inner face), in the building's frame. */
+  breast: { x0: number; x1: number; z0: number; z1: number };
   /** A depth `depth` and half width `halfWidth` against the stack: its footprint, in the building's frame. */
   footprint(halfWidth: number, depth: number): { x0: number; x1: number; z0: number; z1: number };
   /** A point `out` before the stack's face, at the fire's middle. */
   before(out: number): { x: number; z: number };
+  /** A point in the fire's own frame (x across the mouth, z out from the stack's centre), in the building's frame. */
+  at(lx: number, lz: number): { x: number; z: number };
 }
 
-/**
- * A room's hearth: its chimney stack and which way its fire faces. It faces the front wall, unless there it would crowd
- * the way in from the doorway; then it faces the middle of the room.
- */
+/** A room's hearth: its chimney stack, the wall it stands against, and which way its fire faces (away from that wall). */
 export function hearthOf(room: InteriorSpec): Hearth | null {
-  const stack = chimneyOf(room.building);
-  if (!stack) return null;
-  const make = (yaw: number): Hearth => {
-    const fx = Math.round(Math.sin(yaw)), fz = Math.round(Math.cos(yaw));
-    return {
-      stack, yaw,
-      footprint(halfWidth, depth) {
-        const near = CHIMNEY_STACK, far = CHIMNEY_STACK + depth;
-        if (fz !== 0) {
-          const z0 = stack.z + fz * near, z1 = stack.z + fz * far;
-          return { x0: stack.x - halfWidth, x1: stack.x + halfWidth, z0: Math.min(z0, z1), z1: Math.max(z0, z1) };
-        }
-        const x0 = stack.x + fx * near, x1 = stack.x + fx * far;
-        return { x0: Math.min(x0, x1), x1: Math.max(x0, x1), z0: stack.z - halfWidth, z1: stack.z + halfWidth };
-      },
-      before(out) { return { x: stack.x + fx * (CHIMNEY_STACK + out), z: stack.z + fz * (CHIMNEY_STACK + out) }; },
-    };
+  const stack = chimneyOf(room.building), at = hearthWallOf(room.building);
+  if (!stack || !at) return null;
+  const yaw = at.wall === 'back' ? 0 : at.wall === 'left' ? Math.PI / 2 : -Math.PI / 2;
+  const fx = Math.round(Math.sin(yaw)), fz = Math.round(Math.cos(yaw)), c = CHIMNEY_STACK;
+  const footprint = (halfWidth: number, depth: number) => {
+    const near = CHIMNEY_STACK, far = CHIMNEY_STACK + depth;
+    if (fz !== 0) {
+      const z0 = stack.z + fz * near, z1 = stack.z + fz * far;
+      return { x0: stack.x - halfWidth, x1: stack.x + halfWidth, z0: Math.min(z0, z1), z1: Math.max(z0, z1) };
+    }
+    const x0 = stack.x + fx * near, x1 = stack.x + fx * far;
+    return { x0: Math.min(x0, x1), x1: Math.max(x0, x1), z0: stack.z - halfWidth, z1: stack.z + halfWidth };
   };
-  const front = make(0), clear = doorwayClear(room), f = front.footprint(FIREPLACE.halfWidth + 0.1, FIREPLACE.depth + 0.5);
-  const crowds = f.x0 < clear.x1 && clear.x0 < f.x1 && f.z0 < clear.z1 && clear.z0 < f.z1;
-  return crowds ? make(stack.x > 0 ? -Math.PI / 2 : Math.PI / 2) : front;
+  const { hw, hd } = roomHalfSize(room);
+  const breast = { x0: Math.max(-hw, stack.x - c), x1: Math.min(hw, stack.x + c), z0: Math.max(-hd, stack.z - c), z1: Math.min(hd, stack.z + c) };
+  return {
+    stack, yaw, wall: at.wall, breast, footprint,
+    before(out) { return { x: stack.x + fx * (CHIMNEY_STACK + out), z: stack.z + fz * (CHIMNEY_STACK + out) }; },
+    at(lx, lz) {
+      const c = Math.cos(yaw), s = Math.sin(yaw);
+      return { x: stack.x + lx * c + lz * s, z: stack.z - lx * s + lz * c };
+    },
+  };
 }
 
 /** A world point in a building's own frame (x along its front, z out of its front). */
@@ -175,4 +226,24 @@ export function roomLocator(heightAt: (x: number, z: number) => number): RoomLoc
     floorAt(x, z) { const room = at(x, z); return room ? base(room) + room.floorTop : null; },
     base,
   };
+}
+
+/**
+ * The ceiling joists of a room (A135): light timbers across the room under its boards, running along x, at these local
+ * z (evenly spaced, about 0.6 m apart). Things are hung from them (dressing.ts) and they are drawn in buildings.ts.
+ */
+export function joistsOf(room: InteriorSpec): number[] {
+  const { hd } = roomHalfSize(room), n = Math.max(2, Math.round((2 * hd) / 0.6));
+  return Array.from({ length: n - 1 }, (_, i) => -hd + ((i + 1) * 2 * hd) / n);
+}
+
+/**
+ * Where a side window falls (A135): `z` as the building's random sequence put it, moved forward clear of the chimney
+ * where the hearth stands against that side (east is the room's right, +x). Half a window is 0.36 m; the chimney
+ * outside is at most 0.5 m wide.
+ */
+export function sideWindowZ(room: InteriorSpec, side: 'east' | 'west', z: number): number {
+  const hearth = hearthOf(room);
+  if (!hearth || hearth.wall !== (side === 'east' ? 'right' : 'left')) return z;
+  return Math.max(z, hearth.stack.z + CHIMNEY_STACK + 0.36 + 0.12);
 }

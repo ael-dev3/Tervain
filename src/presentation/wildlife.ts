@@ -3,6 +3,7 @@ import { BUILDINGS, LIGHTHOUSE } from '../world/layout';
 import { coastX } from '../world/coast';
 import { mulberry32 } from '../world/noise';
 import { groundOf } from './buildings';
+import { chimneyOf } from '../world/interiors';
 import type { BuildContext, FrameContext, SceneModule } from './context';
 import type { AssetNeed } from './assets/library';
 import { RENDER_PX, SKY } from './skyState';
@@ -171,8 +172,11 @@ export function buildWildlife(ctx: BuildContext): SceneModule {
   for (const b of BUILDINGS) {
     if (b.kind === 'lodge' || b.kind === 'office' || b.kind === 'bunks' || b.kind === 'store' || b.kind === 'archive' || b.kind === 'shrine' || b.kind === 'hut' || b.kind === 'mill') continue;
     const { avg } = groundOf(terrain, b);
-    const lx = b.w * 0.28;
-    const lz = -b.d * 0.12;
+    // A135: from the chimney over the hearth, wherever its wall puts it.
+    const at = chimneyOf(b);
+    if (!at) continue;
+    const lx = at.x;
+    const lz = at.z;
     const c = Math.cos(b.yaw);
     const s = Math.sin(b.yaw);
     chimneys.push(new THREE.Vector3(b.x + lx * c + lz * s, avg + b.h + 0.4 + b.d * 0.36 + 1.8, b.z - lx * s + lz * c));

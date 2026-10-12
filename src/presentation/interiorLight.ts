@@ -10,6 +10,11 @@ import { fromBuildingLocal, hearthOf, roomHalfSize, type InteriorSpec, type Room
  * The hearth can cast shadows (A70) when asked, its map drawn only while the hero is inside and refreshed every other
  * frame; the world keeps it off, since one more shadow sampler exceeds the texture units of the richest materials.
  */
+/** The hearth light's flicker, a factor about 1 (A135): within ±15 %, its strongest waves at 1–3 Hz. */
+export function interiorFlicker(time: number): number {
+  return 1 + 0.07 * Math.sin(time * 7.3) + 0.045 * Math.sin(time * 12.9 + 1.7) + 0.035 * Math.sin(time * 19.1 + 0.4);
+}
+
 export class InteriorLight {
   readonly light = new THREE.PointLight(0xffa25a, 0, 13, 1.25);
   private indoor = 0;
@@ -53,10 +58,11 @@ export class InteriorLight {
     this.indoor += ((here ? 1 : 0) - this.indoor) * (1 - Math.exp(-Math.max(0, dt) * 3));
     if (this.indoor < 1e-3 && !here) this.indoor = 0;
     if (this.room) this.light.position.copy(this.glowOf(this.room));
-    // A fire's slow unsteadiness: two incommensurate waves, never a strobe.
-    const flame = 0.9 + 0.06 * Math.sin(time * 7.3) + 0.04 * Math.sin(time * 12.9 + 1.7);
+    // A fire's unsteadiness (A135: about ±15 %, a few times a second): incommensurate waves, never a strobe. The light
+    // itself stays where it is, so a shadow map, when one is drawn, never has to follow it.
+    const flame = interiorFlicker(time);
     // A75: stronger and reaching the far walls, so the corners of a room are not lost in black.
-    this.light.intensity = this.indoor * (3.2 + 4.5 * night) * flame;
+    this.light.intensity = this.indoor * (3.2 + 4.5 * night) * 0.9 * flame;
     const live = shadows && this.indoor > 0.02;
     this.light.shadow.autoUpdate = false;
     if (live && (this.frame++ & 1) === 0) this.light.shadow.needsUpdate = true;
