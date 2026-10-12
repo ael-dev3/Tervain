@@ -3399,3 +3399,8 @@ The original callback `30732640` and constructor `30078390` now enter the proper
 ## Enum underlying-type helper return
 
 The original helper `30697f9d` now follows the verified digit-4 jump-table entry, advances its actual source cursor from byte 35 to byte 36, copies the original empty descriptor through `30696c93`, restores its frame and returns to `30699650`. The original caller then pushes the enum literal and enters text combination `30697dde` via CALL `3069965a`; combination remains pending. The helper and descriptor-copy calls returned in the focused check. An interrupted source digit read retains PC `30697fa8`, cursor 35, original callers, held undecoration lock and unpublished root, without reaching descriptor copy. Typechecking and both focused checks passed locally. Complete property return, full startup and campaign completion remain unfinished.
+
+
+## Enum literal combination source dependencies
+
+Captured original combination wrapper `30697dde` (14 instructions) and literal constructor `306976d8` (21 instructions). The wrapper passes its actual underlying descriptor, output descriptor and enum literal to the constructor, then calls `30697b16` for the qualified value. These captures supply missing source dependencies; the current runtime still stops at the combination wrapper.
