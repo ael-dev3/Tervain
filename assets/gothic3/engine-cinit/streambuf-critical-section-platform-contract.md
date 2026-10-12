@@ -239,3 +239,27 @@ and unknown masks, and pending original name-constructor return word. This is
 focused continuation evidence, not complete startup or published gameplay. The
 name constructor, exception cleanup, outer locale publication and filebuf
 completion remain unfinished.
+
+
+## Locale name-constructor prefix
+
+The runtime now follows the captured `3001fe1f` jump to `303ed620`. It validates
+the actual literal stack argument and retained object receiver at offset 24,
+saves the original ESI/EDI, and initializes small-string capacity 15 at object
+offset 48, length zero at offset 44, and the empty inline byte at offset 28.
+The captured loop reads the original `"*"` and terminator, preserving the
+literal's image identity as it advances. The subtraction of offsets in that
+same image yields the actual length one without inventing numeric pointers.
+
+The original call at `303ed64f` now carries the actual literal pointer, length
+and object-member receiver into `30042974`, with return address `303ed654`.
+Assignment remains unsupported and no completed string or constructor return
+is claimed. The locale lock and both exception frames remain retained.
+
+TypeScript checking and eight focused runtime checks passed locally. The normal
+check verifies capacity, current zero length, inline zero byte, exact changed
+masks, length-one result, pending assignment return word and adjusted stack.
+Earlier allocation failures, lock admission and enum checks passed alongside it.
+The normal boundary is now `30042974`. The assignment, name/object constructor
+returns, exception cleanup and outer locale publication are still unfinished.
+This is local continuation evidence, not a hosted campaign verification.

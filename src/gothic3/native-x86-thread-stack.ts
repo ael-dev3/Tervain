@@ -1745,7 +1745,22 @@ stack.#engineCinitFrame!.pc='10003cd8';engineCinitUnMangleInstruction('10003cd8'
               objectConstructor('306707c1',()=>{objectPointer(register('ESI'),0);stack.#store(object,0,stack.#mint(0,0,{kind:'engine-image',crt,fields:table.value,offset:0}));});
               objectConstructor('306707c7',()=>{objectPointer(register('ESI'),0);stack.#invalidateRange(object,20,1);NativeHeapObjectViews.prototype.writeUnsigned.call(object,20,stack.#numeric(register('EAX'),4)&255,1);});
               objectConstructor('306707ca',()=>stack.#call('306707ca','306707cf'));
-              stack.#engineCinitFrame!.pc='3001fe1f';return known(undefined);
+              const nameConstructor=(pc:string,body:()=>void)=>step(pc,body,'3001fe1f');
+              nameConstructor('3001fe1f',()=>{});
+              nameConstructor('303ed620',()=>{const word=stack.#load(stack.#stack,stack.#address(register('ESP'))+4),p=stack.#record(word).provenance;if(p?.kind!=='engine-image'||p.crt!==crt||p.fields!==name.value||p.offset!==0)throw new Error('Actual original locale name argument required');setRegister('EDX',word);});
+              nameConstructor('303ed624',()=>stack.#push(register('ESI')));nameConstructor('303ed625',()=>{objectPointer(register('ECX'),24);setRegister('ESI',register('ECX'));});nameConstructor('303ed627',()=>setRegister('EAX',register('EDX')));nameConstructor('303ed629',()=>stack.#push(register('EDI')));
+              nameConstructor('303ed62a',()=>{objectPointer(register('ESI'),24);stack.#store(object,48,stack.#mint(15,0xffffffff));});nameConstructor('303ed631',()=>{objectPointer(register('ESI'),24);stack.#store(object,44,stack.#mint(0,0xffffffff));});
+              nameConstructor('303ed638',()=>{objectPointer(register('ESI'),24);stack.#invalidateRange(object,28,1);NativeHeapObjectViews.prototype.writeUnsigned.call(object,28,0,1);});
+              const namePosition=(word:NativeX86Word32)=>{const p=stack.#record(word).provenance;if(p?.kind!=='engine-image'||p.crt!==crt||p.fields!==name.value||p.offset<0||p.offset>name.value.bytes.length)throw new Error('Actual original locale literal cursor required');return p.offset;};
+              nameConstructor('303ed63c',()=>setRegister('EDI',stack.#mint(0,0,{kind:'engine-image',crt,fields:name.value,offset:namePosition(register('EAX'))+1})));nameConstructor('303ed63f',()=>{});
+              for(;;){
+                let byte=0;
+                nameConstructor('303ed640',()=>{const offset=namePosition(register('EAX'));if(offset>=name.value.bytes.length)throw new Error('Actual locale name terminator required');byte=NativeHeapObjectViews.prototype.readUnsigned.call(name.value,offset,1);const previous=stack.#record(register('ECX'));setRegister('ECX',stack.#mint(((previous.value&0xffffff00)|byte)>>>0,((previous.mask&0xffffff00)|255)>>>0));});
+                nameConstructor('303ed642',()=>{const offset=namePosition(register('EAX'));setRegister('EAX',stack.#mint(0,0,{kind:'engine-image',crt,fields:name.value,offset:offset+1}));stack.#flags(0,0);});nameConstructor('303ed645',()=>stack.#logicalFlags(byte,255,1));nameConstructor('303ed647',()=>{});if(byte===0)break;
+              }
+              nameConstructor('303ed649',()=>{const left=namePosition(register('EAX')),right=namePosition(register('EDI')),length=left-right;if(length<0)throw new Error('Actual nonnegative locale name length required');setRegister('EAX',stack.#mint(length,0xffffffff));stack.#arithmeticFlags(left,right,length,4,true);});
+              nameConstructor('303ed64b',()=>stack.#push(register('EAX')));nameConstructor('303ed64c',()=>stack.#push(register('EDX')));nameConstructor('303ed64d',()=>setRegister('ECX',register('ESI')));nameConstructor('303ed64f',()=>stack.#call('303ed64f','303ed654'));
+              stack.#engineCinitFrame!.pc='30042974';return known(undefined);
             }
             if(target==='30791ef6'||target==='30791f18'){
               const initializer=target==='30791f18'
