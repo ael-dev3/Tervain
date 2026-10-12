@@ -1,0 +1,31 @@
+{
+  "schema": "gothic3-local-validation-receipt-v1",
+  "revision": "27185d6511582f189159763a6812473f674b403c",
+  "fullNativeSuite": {
+    "command": "npx vitest run tests/gothic3-dialogue/engine-io-frame.test.ts",
+    "exitCode": 1,
+    "passed": 494,
+    "failed": 1,
+    "tests": 495,
+    "failure": "Completed enum checkpoint retained an outdated final startup PC expectation: expected 3067044c, actual 30791f18"
+  },
+  "correction": {
+    "change": "Only the final current startup PC assertion changes to 30791f18; the captured enum state, bytes, masks, owners, locks and native return assertions remain unchanged",
+    "command": "npx vitest run tests/gothic3-dialogue/engine-io-frame.test.ts -t 'retains the original shape-group enum-template constructor at its actual parser dependency'",
+    "exitCode": 0,
+    "passed": 1,
+    "skipped": 494
+  },
+  "buildAfterCorrection": {
+    "command": "npm run build",
+    "exitCode": 0
+  },
+  "fullSuiteRerun": false,
+  "runtimeBoundary": "30791f18",
+  "limitations": [
+    "This does not claim a passing rerun of all 495 checks",
+    "No passing real GPU play gate for this revision",
+    "Not published",
+    "Full startup and full campaign completion remain unfinished"
+  ]
+}
