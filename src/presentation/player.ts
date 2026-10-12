@@ -498,6 +498,7 @@ export class Player {
   }
 
   setPosition(x: number, z: number, yaw: number, terrain: Terrain, feetY?: number, afloat = false) {
+    this.vault = null;
     this.mount = null;
     this.mountMove = null;
     this.rideSpeed = this.rideTurn = 0;
