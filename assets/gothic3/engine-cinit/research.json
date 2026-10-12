@@ -491,6 +491,106 @@
         "bodyInstructionBytesSha256": "910239fb9125a90ea8e120f8fecefa2da54da6c5782acb5d917bdfb9102ba752"
       },
       {
+        "label": "engineSharedCriticalSectionSecondReferenceInitializer",
+        "entryVA": "0x30791f18",
+        "bodyVA": "0x30791f18",
+        "entryChain": [],
+        "bodyRanges": "30791f18-30791f2d",
+        "instructions": [
+          {
+            "va": "30791f18",
+            "rva": "791f18",
+            "fileOffset": 7937816,
+            "bytes": "b9016eaf30",
+            "instruction": "MOV ECX,0x30af6e01",
+            "assemblyLine": 1854009
+          },
+          {
+            "va": "30791f1d",
+            "rva": "791f1d",
+            "fileOffset": 7937821,
+            "bytes": "e822e5edff",
+            "instruction": "CALL 0x30670444",
+            "assemblyLine": 1854010
+          },
+          {
+            "va": "30791f22",
+            "rva": "791f22",
+            "fileOffset": 7937826,
+            "bytes": "686e807b30",
+            "instruction": "PUSH 0x307b806e",
+            "assemblyLine": 1854011
+          },
+          {
+            "va": "30791f27",
+            "rva": "791f27",
+            "fileOffset": 7937831,
+            "bytes": "e86af6edff",
+            "instruction": "CALL 0x30671596",
+            "assemblyLine": 1854012
+          },
+          {
+            "va": "30791f2c",
+            "rva": "791f2c",
+            "fileOffset": 7937836,
+            "bytes": "59",
+            "instruction": "POP ECX",
+            "assemblyLine": 1854013
+          },
+          {
+            "va": "30791f2d",
+            "rva": "791f2d",
+            "fileOffset": 7937837,
+            "bytes": "c3",
+            "instruction": "RET",
+            "assemblyLine": 1854014
+          }
+        ],
+        "reconstructedC": {
+          "path": "01_Decompiled_Code/Engine_dll/pseudocode/functions_00174.c",
+          "sha256": "885945b2f91184bdc49073d54862f4662db5f262950429cf3958071b417fe960",
+          "line": 9478,
+          "status": "decompiled"
+        },
+        "instructionCount": 6,
+        "bodyByteCount": 22,
+        "bodyInstructionBytesSha256": "c23fbb73b7d340bed0d27313fc48e93a08e6ee308a12d90f4210ecfe07e211b2"
+      },
+      {
+        "label": "engineSharedCriticalSectionSecondReferenceShutdown",
+        "entryVA": "0x307b806e",
+        "bodyVA": "0x307b806e",
+        "entryChain": [],
+        "bodyRanges": "307b806e-307b8077",
+        "instructions": [
+          {
+            "va": "307b806e",
+            "rva": "7b806e",
+            "fileOffset": 8093806,
+            "bytes": "b9016eaf30",
+            "instruction": "MOV ECX,0x30af6e01",
+            "assemblyLine": 1871974
+          },
+          {
+            "va": "307b8073",
+            "rva": "7b8073",
+            "fileOffset": 8093811,
+            "bytes": "e9fb83ebff",
+            "instruction": "JMP 0x30670473",
+            "assemblyLine": 1871975
+          }
+        ],
+        "reconstructedC": {
+          "path": "01_Decompiled_Code/Engine_dll/pseudocode/functions_00177.c",
+          "sha256": "29733b08cee303f9b29df828ed3893e77d0c24619638575ae6cf1586e9a1f910",
+          "line": 2528,
+          "status": "decompiled"
+        },
+        "instructionCount": 2,
+        "bodyByteCount": 10,
+        "bodyInstructionBytesSha256": "fd124a09db3faf9ef8d1ee665b42cec7f31ce14ca62e942e034d0a6195433e50"
+      },
+      {
         "label": "engineSharedCriticalSectionReferenceConstructor",
         "entryVA": "0x30670444",
         "bodyVA": "0x30670444",
@@ -67743,6 +67843,15 @@
     {
       "label": "sharedCriticalSectionReferenceAddress",
       "address": "30af6dd0",
+      "bytes": 1,
+      "raw": "00",
+      "fileBackedBytes": 0,
+      "loaderZeroFillBytes": 1,
+      "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+    },
+    {
+      "label": "sharedCriticalSectionSecondReferenceAddress",
+      "address": "30af6e01",
       "bytes": 1,
       "raw": "00",
       "fileBackedBytes": 0,

@@ -3656,3 +3656,10 @@ Typechecking and eight focused checks passed. Failure at every element retains t
 Initializer `30791ef6` now pushes the original `307b805a` callback, calls captured atexit wrapper `30671596`, grows the live exit table from 256 to 512 bytes through the existing source-owned realloc continuation and registers the 65th callback. The wrapper and initializer return to their actual callers. The exit cursor is 260 and the C++ initializer cursor is `0x200`; the next actual table entry is `30791f18`. Registration is implemented; executing this destructor/shutdown callback remains unimplemented.
 
 Typechecking and eight focused checks passed. The normal zero-reference path and the pre-existing nonzero-reference path both return through actual registration. Failed critical-section initialization remains at the original cursor `0x1fc` and exit cursor 256, with prior initialized elements retained. An overbroad assertion edit initially assigned those failure cases the completed cursors; the exact interruption assertions were restored before the successful run. Full engine startup and campaign completion remain unfinished.
+
+
+### Second shared critical-section reference source capture
+
+The source bundle adds original initializer `30791f18` and shutdown callback `307b806e`. The initializer loads receiver address `30af6e01`, calls the same constructor `30670444`, and registers its own callback. The callback jumps to shared destructor `30670473`. The new receiver receipt is a minimal one-byte loader-zero-filled address span, not evidence of the complete object size or layout.
+
+All 344 prior method records, prior images, imports, tables and SharedBase evidence remain identical. The regenerated bundle contains 346 Engine methods and one additional image. Typechecking and 145 source/image checks passed. Runtime execution of this second initializer is not connected at this source-capture checkpoint.
