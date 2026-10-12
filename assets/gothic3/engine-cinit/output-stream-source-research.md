@@ -92,3 +92,26 @@ Typechecking and the focused contiguous-initializer case passed. The case checks
 these owners and offsets, the original flag values, unchanged remaining receiver
 bytes, table displacement, two unreturned calls and idempotent pending behavior.
 Complete construction, locale/facet continuation and native startup remain pending.
+
+## Basic-ios initial state and allocation caller
+
+The continuation executes `0x305f21b0`'s call to `0x305f0ac0`. The base routine
+saves its actual receiver and registers, zeroes the exception mask and counters,
+sets original formatting flags `0x201` and precision `6`, and invokes state
+setter `0x30046556` with zero state and zero rethrow flag. The captured entry
+thunk leads to `0x30466f40`. Its normal path masks state with `0x17`, writes zero
+state, tests the actual zero exception mask, and returns with RET 8 to
+`0x305f0aec`. The exception-string branches are not used by this admitted caller.
+
+The base initializer then pushes four and calls `0x306728e3`, return address
+`0x305f0af3`. This allocation factory is the current pending boundary. The
+constructor, basic-ios initialization and base initialization are still active;
+only the state setter has returned. Locale allocation and reference retention
+must complete before unwinding these callers.
+
+The frame snapshot retains original constructor and basic-ios argument records
+from their original call positions. It locates saved FS at the constructor's
+original slot rather than a current-ESP offset, which changes during nested calls.
+The requested four-byte allocation is exposed from the actual pending call stack.
+The focused runtime case checks the written fields, actual calls and returns,
+retained owners, saved exception state and idempotent pending behavior.
