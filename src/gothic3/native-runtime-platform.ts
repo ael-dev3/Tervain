@@ -1694,7 +1694,7 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
     if (!entry || entry.backing !== old || entry.kind !== 'win32-heap' ||
         !retained.allocations.has(old) || old.freed || this.#releasedBackings.has(old) ||
         geometry.value.offset !== 0 || geometry.value.allocationBegin !== 0)
-      return unknown('HeapReAlloc requires this heap’s live allocation base');
+      return unknown('HeapReAlloc requires this heapÃ¢â‚¬â„¢s live allocation base');
     const allocated = this.#win32HeapAlloc(heap, 0, bytes);
     if (!allocated.known || allocated.value === null) return allocated;
     const moved = allocated.value;
@@ -1918,6 +1918,29 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
       return unknown('Actual live selected virtual regions required for ordering');
     }
     return known(left.ordinal === right.ordinal ? 0 : left.ordinal < right.ordinal ? -1 : 1);
+  }
+  readonly #engineCinitSections=new Map<object,Readonly<{array:NativeHeapObjectViews;fields:NativeHeapObjectViews;offset:number;identity:object;owner:NativeModuleCrtOwner}>>();
+  static initializeEngineCinitCriticalSection(platform:NativeRuntimePlatform,crt:NativeModuleCrtOwner):NativeValue<void>{
+    const active=NativeRuntimePlatform.requireActivePlatform(platform);if(!active.known)return active;
+    const argument=NativeX86ThreadStack.engineCinitCriticalSectionArgumentForPlatform(platform,crt);if(!argument.known)return argument;
+    try{
+      const {fields:array,offset,call}=argument.value;
+      if(platform.#engineCinitSections.has(call))throw new Error('Unused Engine critical-section initialization call required');
+      platform.canonicalFields(array,96);
+      const fields=new NativeHeapObjectViews(array.backing,offset,24);platform.canonicalFields(fields,24);
+      const initialized=NativeRuntimePlatform.prototype.initializeCriticalSection.call(platform,'30af6d70',crt.identity);
+      if(!initialized.known)return initialized;if(typeof initialized.value!=='object')throw new Error('Actual opaque critical-section capability required');
+      const section=platform.sectionIdentities.get(initialized.value);if(!section||section.identity!==initialized.value||section.address!=='30af6d70'||section.owner!==crt.identity||section.deleted)throw new Error('Actual registered Engine critical-section capability required');
+      // The API treats this storage as opaque; no internal native byte values are proved.
+      Uint8Array.prototype.fill.call(fields.knownMask,0);
+      platform.#engineCinitSections.set(call,Object.freeze({array,fields,offset,identity:initialized.value,owner:crt}));
+      return known(undefined);
+    }catch(error){return unknown(error instanceof Error?error.message:String(error));}
+  }
+  static engineCinitCriticalSectionsForPlatform(platform:NativeRuntimePlatform,crt:NativeModuleCrtOwner):NativeValue<readonly Readonly<{array:NativeHeapObjectViews;fields:NativeHeapObjectViews;offset:number;identity:object}>[]>{
+    const active=NativeRuntimePlatform.requireActivePlatform(platform);if(!active.known)return active;
+    try{const rows=[...platform.#engineCinitSections.values()].filter(row=>row.owner===crt);for(const row of rows){platform.canonicalFields(row.array,96);platform.canonicalFields(row.fields,24);const section=platform.sectionIdentities.get(row.identity);if(!section||section.owner!==crt.identity||section.deleted)throw new Error('Actual live Engine critical-section capability required');}return known(Object.freeze(rows.map(({array,fields,offset,identity})=>Object.freeze({array,fields,offset,identity}))));}
+    catch(error){return unknown(error instanceof Error?error.message:String(error));}
   }
   initializeCriticalSection(address: '10189a18', owner: object, spinCount: 1000): NativeValue<number>;
   initializeCriticalSection(address: string, owner: object): NativeValue<object>;

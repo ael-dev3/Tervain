@@ -3544,3 +3544,12 @@ Typechecking, two focused normal/interrupted frame checks and 143 source/image c
 The constructor now executes original TEST/JNZ at `30670452`/`30670454`. A zero counter result saves ESI, loads the actual 96-byte array, pushes its first element and enters wrapper `3067133d`. The wrapper duplicates the actual stack argument and records the original KERNEL32 InitializeCriticalSection call at `30671341`, with return address `30671347`. This platform call remains pending; no critical-section memory effects or successful return are manufactured. The nonzero branch skips the loop and returns the preserved receiver to original caller `30791f00`, where shutdown registration remains pending.
 
 Typechecking and three focused checks passed: zero-result call entry, nonzero loop bypass and interrupted counter write. A first fixture revision repeatedly validated images on every read and exceeded its existing limits; caching the admitted counter view and restoring its spy removed the overhead, with the same limits and assertions retained. Complete startup, world activation and full campaign completion remain unfinished.
+
+
+### First shared critical-section platform initialization
+
+The first InitializeCriticalSection call now admits the actual pending caller, return word, CRT owner and array pointer against retained physical stack/register storage. It registers a selected-platform capability for the original first 24-byte element, checks that capability against the platform's live registration and retains its storage view. Its opaque native bytes become unknown; the remaining 72 bytes retain their original loader-zero-fill masks. The void call leaves EAX/ECX/EDX unknown and returns through the original stdcall argument cleanup to `30671347`. Wrapper RET, later elements and shutdown remain pending.
+
+Typechecking and five focused checks passed, covering the normal call, nonzero reference bypass, interrupted counter write, initialization failure and unregistered success rejection. The API cannot be invoked again after the actual call has returned. Full startup and full campaign completion remain unfinished.
+
+The related source and image suites also passed: 143 checks across two files. The source bundle remains unchanged at 344 captured Engine methods; this checkpoint implements a platform continuation rather than adding binary evidence.
