@@ -316,3 +316,24 @@ The earlier eight-check result belongs to the preceding checkpoint; it is not
 a full rerun of this change. The normal boundary is now `303ed13f`, before the
 length/growth checks and copy call. String assignment, constructor returns,
 cleanup and campaign integration remain unfinished; this checkpoint is local.
+
+
+## Assignment length checks and original copy caller
+
+The runtime continues from the translated join through the captured length and
+capacity checks. The actual length one passes the maximum-size comparison and
+fits capacity fifteen. The nonzero-length path reselects inline storage, then
+pushes the original four arguments: length, literal source, capacity, and actual
+heap-backed destination. `303ed191` now calls `30674b44`, with return address
+`303ed196`.
+
+The original excessive-length, growth, zero-length and non-inline branches remain
+explicit unsupported boundaries. No copy success, string length update or
+terminator is fabricated. The normal boundary is `30674b44`; its body and the
+subsequent string/locale returns and cleanup still require implementation.
+
+TypeScript checking and two focused normal-continuation/enum checks passed.
+The normal check verifies the pending copy caller, retained length one, capacity,
+unchanged initialized string storage and exact stack position. These are focused
+checks and do not establish a full-suite result, deployment, or campaign
+completion. This checkpoint remains local.

@@ -1780,7 +1780,17 @@ stack.#engineCinitFrame!.pc='10003cd8';engineCinitUnMangleInstruction('10003cd8'
               // EDX differs between the two paths; neither its value nor branch flags are claimed.
               setRegister('EDX',stack.#mint(0,0));stack.#flags(0,0);
               stack.#trace.push('Translated empty locale string overlap join 303ed10a to 303ed13f; numeric address order unknown');
-              stack.#engineCinitFrame!.pc='303ed13f';return known(undefined);
+              assign('303ed13f',()=>stack.#push(register('EDI')));assign('303ed140',()=>setRegister('EDI',stack.#load(stack.#stack,stack.#address(register('ESP'))+24)));
+              assign('303ed144',()=>{const length=stack.#numeric(register('EDI'),4);stack.#arithmeticFlags(length,0xfffffffe,(length-0xfffffffe)>>>0,4,true);});assign('303ed147',()=>{});
+              if(stack.#numeric(register('EDI'),4)>0xfffffffe){stack.#engineCinitFrame!.pc='303ed149';return known(undefined);}
+              assign('303ed14e',()=>{objectPointer(register('ESI'),24);setRegister('EAX',stack.#load(object,48));});assign('303ed151',()=>{const capacity=stack.#numeric(register('EAX'),4),length=stack.#numeric(register('EDI'),4);stack.#arithmeticFlags(capacity,length,(capacity-length)>>>0,4,true);});assign('303ed153',()=>{});
+              if(stack.#numeric(register('EAX'),4)<stack.#numeric(register('EDI'),4)){stack.#engineCinitFrame!.pc='303ed155';return known(undefined);}
+              assign('303ed171',()=>stack.#logicalFlags(stack.#numeric(register('EDI'),4),0xffffffff,4));assign('303ed173',()=>{});
+              if(stack.#numeric(register('EDI'),4)===0){stack.#engineCinitFrame!.pc='303ed175';return known(undefined);}
+              assign('303ed163',()=>{});assign('303ed165',()=>{objectPointer(register('ESI'),24);setRegister('ECX',stack.#load(object,48));});assign('303ed168',()=>{const capacity=stack.#numeric(register('ECX'),4);stack.#arithmeticFlags(capacity,16,(capacity-16)>>>0,4,true);});assign('303ed16b',()=>{});
+              if(stack.#numeric(register('ECX'),4)>=16){stack.#engineCinitFrame!.pc='303ed16d';return known(undefined);}
+              assign('303ed18b',()=>setRegister('EAX',register('EBX')));assign('303ed18d',()=>stack.#push(register('EDI')));assign('303ed18e',()=>stack.#push(register('EBP')));assign('303ed18f',()=>stack.#push(register('ECX')));assign('303ed190',()=>stack.#push(register('EAX')));assign('303ed191',()=>stack.#call('303ed191','303ed196'));
+              stack.#engineCinitFrame!.pc='30674b44';return known(undefined);
             }
             if(target==='30791ef6'||target==='30791f18'){
               const initializer=target==='30791f18'
