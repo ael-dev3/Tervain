@@ -3409,3 +3409,8 @@ Captured original combination wrapper `30697dde` (14 instructions) and literal c
 ## Immutable source instruction indexes
 
 The generated source module now validates its immutable raw text once and indexes captured Engine and SharedBase methods and instruction rows. Index construction preserves the original first-matching method, instruction-before-entry-chain precedence, and returned object identity. All 7,826 lookups in the captured bundle at source revision ce74f28d2 were compared with the prior lookup behavior; 119 source/image checks and the shape-group runtime probe passed. The evidence generator reproduced identical captured JSON bytes. Unknown instruction errors and deep-frozen source admission remain in place. A single timing sample does not establish a performance gain.
+
+
+## Enum literal constructor prefix
+
+The combination wrapper `30697dde` now executes through its original constructor call `30697def`. Constructor `306976d8` preserves the original flag masks, initializes its destination, verifies the actual nonnull literal owner and scans the original enum literal. CALL `306976fe` carries that image owner and the computed length 5 into original initialization `3069760c`, which remains pending. Typechecking and three focused checks passed: normal progress, interrupted enum digit read, and interrupted first literal character read. The literal-read spy observes the actual admitted enum image, avoiding snapshots of unrelated startup reads; native assertions and the 30-second limit remain intact. Prior callers, undecoration lock and unpublished property root are retained at interruptions. Full property return, startup and campaign completion remain unfinished.
