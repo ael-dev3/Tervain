@@ -8,7 +8,7 @@ import { createFloraPopulation, selectFloraPopulation, registerFloraColliders, F
 import { buildForestFloor } from './forestFloor';
 import { buildFallingLeaves } from './fallingLeaves';
 import { createPineForest, isPineSpecies, type PineTemplates } from './solitaryPine';
-import { groundedTreeY, treeWoodCollisionRadius } from './treeGrounding';
+import { groundedTreeY, seatTreeFlares, treeWoodCollisionRadius } from './treeGrounding';
 import { PlantedCrownIndex } from './plantedCrowns';
 import { CROWN_FLOOR, CrownIndex, type CameraCrown } from './cameraCrowns';
 import { attachInstanceDistanceVisibility, smoothDistanceFade, type InstanceDistanceVisibility } from './distanceVisibility';
@@ -101,6 +101,9 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
     : legacyFootprint > 0 ? treeWoodCollisionRadius(variantFor(tree), tree.s, terrain.heightAt(tree.x, tree.z) - tree.y) : legacyFootprint,
     (tree) => groundedTreeY(terrain, tree, variantFor(tree)), undefined,
     meshy ? (tree) => variantFor(tree).crownRadius * tree.s : undefined);
+  // Seat each placed tree's whole lower flare on its slope (playtest 5: flares hovered up to 1.3 m over downhill ground).
+  // Shrubs keep their planting seat (their low branches spread wide at flare height), and pines have no spreading flare.
+  seatTreeFlares(population, terrain, variantFor, usesPine);
   registerFloraColliders(population, colliders);
   // Static rigid-body contact uses the same complete wood as the visible source tree,
   // rather than treating its broad ground-plane navigation circle as an infinite cylinder.

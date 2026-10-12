@@ -6,6 +6,16 @@ import type * as THREE from 'three';
 
 /** The first few centimetres of woody geometry belong inside the soil, not above it. */
 export const TREE_ROOT_PLANE = 0.025;
+/**
+ * How high above the planting plane the root flare still has to meet the ground. Seating only the first 2.5 cm let a
+ * flare spread over a slope hover up to 1.3 m above the downhill ground (playtest 5); every flare point below this
+ * height now lies at or under the terrain, so the uphill side sinks in as a real tree's does. Placement still uses the
+ * planting plane (its spacing and collision radii depend on it); the flare is seated once the trees are placed.
+ */
+export const TREE_ROOT_FLARE = 0.35;
+/** The furthest a flare may sink a placed tree below its planting-plane seat. */
+export const TREE_FLARE_MAX_SINK = 1.5;
+const flares = new WeakMap<TreeVariant, readonly (readonly Point[])[]>();
 export const TREE_SOIL_OVERLAP = 0.06;
 type Point = readonly [number, number, number];
 const roots = new WeakMap<TreeVariant, readonly (readonly Point[])[]>();
@@ -131,6 +141,24 @@ function interiorTerrainVertices(polygon: readonly Point[], visit: (point: Point
  * The minimum occurs at intersections of the root and terrain triangles, checked exactly. */
 export function groundedTreeY(terrain: Pick<Terrain, 'heightAt'>, tree: Pick<FloraTree, 'x' | 'z' | 's' | 'yaw'>, variant: TreeVariant): number {
   return groundedPolygonsY(terrain, tree, treeRootPolygons(variant), TREE_SOIL_OVERLAP);
+}
+
+/** A placed tree's height with its whole lower flare (TREE_ROOT_FLARE) meeting the ground, at most TREE_FLARE_MAX_SINK
+ * below its planting-plane seat `seated`. */
+export function groundedTreeFlareY(terrain: Pick<Terrain, 'heightAt'>, tree: Pick<FloraTree, 'x' | 'z' | 's' | 'yaw'>, variant: TreeVariant, seated: number): number {
+  let polygons = flares.get(variant);
+  if (!polygons) {
+    const all: Point[][] = [];
+    for (const lod of variant.lods) if (lod.wood) all.push(...basalPolygons(lod.wood, TREE_ROOT_FLARE));
+    flares.set(variant, polygons = all);
+  }
+  if (!polygons.length) return seated;
+  return Math.min(seated, Math.max(seated - TREE_FLARE_MAX_SINK, groundedPolygonsY(terrain, tree, polygons, TREE_SOIL_OVERLAP)));
+}
+
+/** Seats every placed broadleaf's flare (groundedTreeFlareY); shrubs and pines keep their planting seat. */
+export function seatTreeFlares(population: FloraTree[], terrain: Pick<Terrain, 'heightAt'>, variantFor: (tree: FloraTree) => TreeVariant, isPine: (sp: FloraTree['sp']) => boolean): void {
+  for (const tree of population) if (tree.sp !== 'shrub' && !isPine(tree.sp)) tree.y = groundedTreeFlareY(terrain, tree, variantFor(tree), tree.y);
 }
 
 /** Uniform source rocks use the same terrain-facet checks, without altering roots or tree policy. */
