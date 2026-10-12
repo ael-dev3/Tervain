@@ -3495,3 +3495,10 @@ The initializer cursor reaches offset `0x1f4`, with the exit cursor at byte 248 
 ### Spring-effector template and audio-module source capture
 
 Captured original callbacks `30732670` and `30732680`, their constructors, shutdown thunks/bodies, and flags/root/storage/type-information images. Their RTTI names describe `bTPropertyObject<eCSpringAndDamperEffector,eCEffector>` and `eCAudioModule`. The source bundle now has 338 Engine method records; all 330 earlier records and existing images remain identical. Local typechecking and 130 source/image checks passed. These records are not connected to runtime execution yet; the runtime boundary remains `30732670`.
+
+
+### Spring-effector template argument continuation
+
+Connected the captured `30732670` template and `30732680` audio entries to their original property metadata and retained CString slots. Execution enters the spring-effector template; the audio initializer has not been reached. The second-argument input, compound-type guard and basic-type cursor now use the actual first-argument span instead of MainCache-specific offset 45. Both class arguments decode, leaving the original type-information cursor at offset 72 on the closing `@`.
+
+The supported boundary is `30698ac4`, where the existing closing-marker guard still assumes MainCache offset 63. The spring template has not returned or published its root: the initializer cursor remains `0x1f4`, the exit cursor remains 248, and its CString slot is still null. Tests retain the completed three-enum checkpoint before entering this template, rather than inspecting later reused parser fields. Typechecking, three focused parser checks, an exact cursor check, 140 source/image checks and six browser checks passed. Complete startup and campaign play remain unfinished.
