@@ -85,3 +85,26 @@ expectation was corrected to the six-byte original instruction and the full
 source/image checks passed on rerun. Capturing these routines is evidence
 preparation; the runtime boundary remains `30670832` and its body is not yet
 executed. This checkpoint is local and does not establish campaign completion.
+
+
+## Connected locale EH3 prefix
+
+The runtime now executes `30670832`–`30670839` and all 17 captured instructions
+of `30679b5b`. It uses the actual eight-byte local extent, saved registers,
+previous EBP, retained Engine security cookie, and FS exception-chain head.
+The cookie XOR preserves symbolic stack-pointer provenance and masks. The
+prologue moves its actual caller return word onto the new stack, initializes
+the exception state to `-1`, installs the nested chain, and returns through
+`30679b8d` to `3067083e`.
+
+Six focused runtime checks and TypeScript checking passed. The normal test
+checks the actual locale caller's position against EBP (`position - 4`), ESP
+(`position - 40`), and the nested FS head (`position - 16`), plus the original
+prologue return word. Allocation failures still stop before entering this
+prefix, and the earlier property and lock checks remain intact.
+
+Startup now stops before the load from `30af6dd8` at `3067083e`. The locale
+pointer image, locale locking, object construction, exception epilogue and final
+filebuf continuation remain unfinished. No locale object or successful outer
+constructor return is fabricated. These changes remain local and do not prove
+complete engine startup, hosted playability, or campaign completion.

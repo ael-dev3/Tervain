@@ -1680,7 +1680,21 @@ stack.#engineCinitFrame!.pc='10003cd8';engineCinitUnMangleInstruction('10003cd8'
               base('305ee6ab',()=>{const before=stack.#address(register('ESP'));setRegister('ESP',stack.#stackWord(before+4));stack.#arithmeticFlags(before,4,before+4,4,false);});
               base('305ee6ae',()=>{const p=stack.#record(register('ESI')).provenance;if(p?.kind!=='engine-allocation'||p.crt!==crt||p.fields!==stack.#engineCinitFrame!.standardStreambufLocaleAllocation||p.offset!==0)throw new Error('Actual allocated streambuf locale pointer required');stack.#flags(0,0x841);});
               base('305ee6b0',()=>{});base('305ee6b2',()=>stack.#call('305ee6b2','305ee6b7'));
-              stack.#engineCinitFrame!.pc='30670832';return known(undefined);
+              const locale=(pc:string,body:()=>void)=>step(pc,body,'30670832');
+              locale('30670832',()=>stack.#push(stack.#mint(8,0xffffffff)));locale('30670834',()=>setRegister('EAX',stack.#source('code','3072f4aa')));locale('30670839',()=>stack.#call('30670839','3067083e'));
+              const localeProlog=(pc:string,body:()=>void)=>step(pc,body,'30679b5b');
+              localeProlog('30679b5b',()=>stack.#push(register('EAX')));localeProlog('30679b5c',()=>stack.#push(stack.#load(stack.#bank,32)));
+              localeProlog('30679b63',()=>setRegister('EAX',stack.#stackWord(stack.#address(register('ESP'))+12)));
+              localeProlog('30679b67',()=>{const size=stack.#numeric(stack.#load(stack.#stack,stack.#address(register('ESP'))+12),4);if(size!==8)throw new Error('Actual locale EH3 local extent required');setRegister('ESP',stack.#stackWord(stack.#address(register('ESP'))-size));stack.#flags(0,0);});
+              localeProlog('30679b6b',()=>stack.#push(register('EBX')));localeProlog('30679b6c',()=>stack.#push(register('ESI')));localeProlog('30679b6d',()=>stack.#push(register('EDI')));
+              localeProlog('30679b6e',()=>stack.#store(stack.#stack,stack.#address(register('EAX')),register('EBP')));localeProlog('30679b70',()=>setRegister('EBP',register('EAX')));
+              localeProlog('30679b72',()=>{const cookie=NativeCrtBootstrap.engineCinitCookieForCrt(bootstrap,crt,permit);if(!cookie.known)throw new Error(cookie.reason);setRegister('EAX',stack.#mint(NativeHeapObjectViews.prototype.readUnsigned.call(cookie.value,0),0xffffffff));});
+              localeProlog('30679b77',()=>setRegister('EAX',streamXor(register('EAX'),register('EBP'))));localeProlog('30679b79',()=>stack.#push(register('EAX')));
+              localeProlog('30679b7a',()=>stack.#push(stack.#load(stack.#stack,stack.#address(register('EBP'))-4)));
+              localeProlog('30679b7d',()=>stack.#store(stack.#stack,stack.#address(register('EBP'))-4,stack.#mint(0xffffffff,0xffffffff)));
+              localeProlog('30679b84',()=>setRegister('EAX',stack.#stackWord(stack.#address(register('EBP'))-12)));localeProlog('30679b87',()=>stack.#store(stack.#bank,32,register('EAX')));
+              localeProlog('30679b8d',()=>{const p=stack.#record(stack.#ret()).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!=='3067083e')throw new Error('Actual locale EH3 prolog caller return required');});
+              stack.#engineCinitFrame!.pc='3067083e';return known(undefined);
             }
             if(target==='30791ef6'||target==='30791f18'){
               const initializer=target==='30791f18'
