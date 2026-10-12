@@ -12,6 +12,8 @@ their individual features; they do not establish a complete playable game.
 
 1. **Inventory the installed game.** The local reference installation is
    `C:\Program Files (x86)\Steam\steamapps\common\Gothic 3`.
+   Preserve the installed game without modifying it. Keep the matching
+   `SharedBase.dll`, `Engine.dll` and `Game.dll` as reference binaries.
    Record archive names, internal resource paths, patch precedence and hashes.
    Determine compression and resource formats from their actual bytes before
    describing an archive as encrypted.
@@ -208,3 +210,7 @@ results. A passing startup check does not demonstrate a playable campaign.
 
 The hosted target is `/gothic3/` alongside Tervain. Local implementation,
 repository publication and a successful Pages deployment are separate milestones.
+
+## Campaign completion criteria
+
+See [Gothic 3 browser campaign completion](gothic3-campaign-completion.md) for the current evidence gaps and the deployed campaign, save/reload and original-ending proof required before calling the reconstruction complete.
