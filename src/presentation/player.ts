@@ -957,7 +957,8 @@ export class Player {
         this.dodgeDir = hasInput ? { x: wx, z: wz } : { x: -fx, z: -fz };
         this.yaw = Math.atan2(this.dodgeDir.x, this.dodgeDir.z);
       } else if (inp.pressed('jump') && this.grounded && this.stamina >= COST.jump) {
-        this.vy = 5.4;
+        // Clear the authored metre-high fence posts with the existing jump action.
+        this.vy = 6.6;
         this.grounded = false;
         this.stamina = Math.max(0, this.stamina - COST.jump);
         this.staminaPause = 0.4;

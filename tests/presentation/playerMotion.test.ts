@@ -267,6 +267,24 @@ describe('player motion and action contacts', () => {
     expect(s.player.z).toBeGreaterThanOrEqual(before);
   });
 
+  it('requires a jump to cross a metre-high fence and clears it with a running jump', () => {
+    const fence = (s: ReturnType<typeof setup>) => {
+      s.ctx.colliders.box('fence', 0, 1.5, 3, 0.12, 0, true, { minY: -0.3, maxY: 1.07 });
+      s.setMove(0, 1);
+      s.held.add('sprint');
+    };
+    const walking = setup(); fence(walking);
+    for (let i = 0; i < 120; i++) walking.tick();
+    expect(walking.player.z).toBeLessThan(1.5);
+    expect(walking.player.y).toBe(0);
+    const jumping = setup(); fence(jumping);
+    jumping.presses.add('jump');
+    for (let i = 0; i < 60; i++) jumping.tick();
+    expect(jumping.player.z).toBeGreaterThan(2);
+    expect(jumping.player.grounded).toBe(true);
+    expect(jumping.player.y).toBe(0);
+  });
+
   it('stops a dodge at a thin fence and cannot skip a non-walkable water strip', () => {
     const wall = setup();
     wall.ctx.colliders.box('fence', 0, 1, 3, 0.01);
