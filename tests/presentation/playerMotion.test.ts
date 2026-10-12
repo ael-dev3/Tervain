@@ -303,6 +303,26 @@ describe('player motion and action contacts', () => {
       }
     expect(failures.length, failures.slice(0, 8).join('; ')).toBe(0);
   }, 60_000);
+  });
+
+  it.each(['jump', 'vault'])('waits for landing before starting a mount during a %s', action => {
+    const s = setup();
+    s.ctx.terrain.heightAt = () => 0;
+    if (action === 'vault') {
+      s.ctx.colliders.box('fence', .8, 0, .12, 3, 0, true, { minY: -.3, maxY: 5.1 });
+      s.player.yaw = Math.PI / 2;
+    }
+    s.presses.add('jump'); s.tick();
+    expect(s.player.grounded).toBe(false);
+    const crossing = s.player.vault;
+    expect(s.player.beginMount('deer', 1.3, { x: -2, y: 0, z: 0, yaw: 0 }, s.ctx)).toBe(false);
+    expect(s.player.mountMove).toBeNull();
+    expect(s.player.vault).toBe(crossing);
+    for (let i = 0; i < 90; i++) s.tick();
+    expect(s.player.grounded).toBe(true);
+    expect(s.player.vault).toBeNull();
+    expect(s.player.beginMount('deer', 1.3, { x: s.player.x - 2, y: 0, z: s.player.z, yaw: 0 }, s.ctx)).toBe(true);
+  });
 
   it('cancels an in-progress fence vault when restoring the player position', () => {
     const s = setup();

@@ -342,7 +342,7 @@ export class Player {
    * swing up over MOUNT_TIMES.swing. Returns false when neither side is clear or he cannot start now.
    */
   beginMount(id: string, seat: number, deer: { x: number; y: number; z: number; yaw: number }, ctx: Pick<PlayerCtx, 'colliders'>): boolean {
-    if (this.mount || this.mountMove || !this.alive || this.state !== 'free' || this.swimming) return false;
+    if (this.mount || this.mountMove || this.vault || !this.grounded || !this.alive || this.state !== 'free' || this.swimming) return false;
     const bounds = { minY: deer.y + PLAYER_FOOT_CLEARANCE, maxY: deer.y + PLAYER_BODY_HEIGHT };
     const sides = [1, -1].map((s) => ({ x: deer.x + Math.cos(deer.yaw) * MOUNT_SIDE * s, z: deer.z - Math.sin(deer.yaw) * MOUNT_SIDE * s }))
       .filter((p) => !ctx.colliders.blocked(p.x, p.z, PLAYER_RADIUS, bounds))
