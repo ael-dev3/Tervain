@@ -277,6 +277,20 @@ describe('player motion and action contacts', () => {
     expect(water.player.z).toBeLessThan(0.5);
   });
 
+  it.each([false, true])('checks fence vault landing body clearance (wall=%s)', (wall) => {
+    const s = setup();
+    s.ctx.terrain.heightAt = () => 0;
+    s.ctx.colliders.box('fence', .8, 0, .12, 3, 0, true, { minY: -.3, maxY: 1.7 });
+    if (wall) s.ctx.colliders.box('landing-wall', 1.62, 0, .3, .6, 0, true, { minY: 0, maxY: 3 });
+    s.player.yaw = Math.PI / 2;
+    s.presses.add('jump'); s.tick();
+    if (wall) expect(s.player.vault).toBeNull();
+    else expect(s.player.vault).not.toBeNull();
+    for (let i = 0; i < 60; i++) s.tick();
+    expect(s.ctx.colliders.blocked(s.player.x, s.player.z, .4,
+      { minY: s.player.y + .03, maxY: s.player.y + 1.95 })).toBe(false);
+  });
+
   it('resets action, recoil and velocity when loading, teleporting or restarting', () => {
     const s = setup();
     s.player.vx = 5; s.player.vz = -5; s.player.vy = 7;
