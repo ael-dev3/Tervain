@@ -17,7 +17,7 @@ import { npcStyle, type WorkGesture } from './npcStyle';
 import { installResidentRig, parseResidentRig, residentRestPose, type ResidentBones, type ResidentRigData } from './npc/residentRig';
 import { createResidentTools } from './npc/residentProps';
 import { curledVertices, FIST_CURL, gripCurl, OPEN_CURL, RELAXED_CURL, residentFingerPlanSteps, seatHandle, type FingerSide, type HandCurl, type ResidentFingers } from './npc/residentFingers';
-import { CENTRED_CLIPS, clipsFor, LOCOMOTION, measureSeatSteps, ResidentMotion, residentMotionLibrary, retargetClip, SEAT_MOMENTS, SEATED_CLIPS, type Build, type ResidentClips, type ResidentMotionLibrary, type WorkContacts } from './npc/residentMotion';
+import { CENTRED_CLIPS, clipsFor, LOCOMOTION, measureSeatSteps, ResidentMotion, residentMotionLibrary, retargetClip, retargetClipSteps, SEAT_MOMENTS, SEATED_CLIPS, type Build, type ResidentClips, type ResidentMotionLibrary, type WorkContacts } from './npc/residentMotion';
 import { BENCH_SEAT_HEIGHT } from '../world/layout';
 import { modelAssetUrl } from './assets/modelUrl';
 import { withModelLoadSlot, type ModelLoadProgress } from './assets/modelLoadQueue';
@@ -229,7 +229,7 @@ function* residentClips(source: ResidentMotionSource, bones: ResidentBones, mesh
     if (!clip) {
       const library = source.library.clips.get(name);
       if (!library) continue;
-      clip = retargetClip(library, source.library.rest, rest, LOCOMOTION.has(name), CENTRED_CLIPS.has(name));
+      clip = yield* retargetClipSteps(library, source.library.rest, rest, LOCOMOTION.has(name), CENTRED_CLIPS.has(name));
       // Seated clips are measured where they sit; getting down and up at their seated ends (A69), a moment a step.
       if ((SEATED_CLIPS.has(name) || SEAT_MOMENTS[name]) && mesh) {
         yield;

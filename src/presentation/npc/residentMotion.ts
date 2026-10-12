@@ -113,6 +113,12 @@ export interface RetargetedClip {
  * whomever they spoke to (A69).
  */
 export function retargetClip(clip: THREE.AnimationClip, library: RestPose, target: RestPose, inPlace = false, centre = false): RetargetedClip {
+  const steps = retargetClipSteps(clip, library, target, inPlace, centre);
+  for (;;) { const next = steps.next(); if (next.done) return next.value; }
+}
+
+/** Bake the same samples in bounded preparation steps; publish only the completed clip. */
+export function* retargetClipSteps(clip: THREE.AnimationClip, library: RestPose, target: RestPose, inPlace = false, centre = false): Generator<void, RetargetedClip, void> {
   const source = worldRest(library), dest = worldRest(target);
   const correct = corrections(source, dest);
   const sourceHips = library.get('Hips')!.position, targetHips = target.get('Hips')!.position;
@@ -160,6 +166,7 @@ export function retargetClip(clip: THREE.AnimationClip, library: RestPose, targe
       const forward = FORWARD.clone().applyQuaternion(local.copy(wt.get(joint)!).multiply(inv.copy(dest.rotation.get(joint)!).invert()));
       return sum + Math.atan2(forward.x, forward.z);
     }, 0) / FACING_JOINTS.length / frames;
+    if ((f + 1) % 8 === 0) yield;
   }
   // The pace a locomotion clip implies: its drift over the clip (removed), or for a clip made in place, how fast the
   // planted foot slides back under the body.
@@ -174,11 +181,13 @@ export function retargetClip(clip: THREE.AnimationClip, library: RestPose, targe
     for (let f = 0; f < frames; f++) {
       const p = rawHips[f]!.clone().sub(sourceHips).multiplyScalar(scale).add(targetHips).applyQuaternion(facing);
       shift.x += p.x / frames; shift.y += p.z / frames;
+      if ((f + 1) % 32 === 0) yield;
     }
     shift.x -= targetHips.x; shift.y -= targetHips.z;
     const q = quats.get('Hips')!, turned = new THREE.Quaternion();
     for (let f = 0; f < frames; f++) {
       turned.fromArray(q, f * 4).premultiply(facing).toArray(q, f * 4);
+      if ((f + 1) % 32 === 0) yield;
     }
   }
   let lowest = Infinity, sumX = 0, sumZ = 0;
@@ -190,16 +199,17 @@ export function retargetClip(clip: THREE.AnimationClip, library: RestPose, targe
     hips.set([out.x, out.y, out.z], f * 3);
     lowest = Math.min(lowest, out.y);
     sumX += out.x; sumZ += out.z;
+    if ((f + 1) % 32 === 0) yield;
   }
   const tracks: THREE.KeyframeTrack[] = [new THREE.VectorKeyframeTrack('Hips.position', times, hips)];
   for (const joint of ANIMATED) tracks.push(new THREE.QuaternionKeyframeTrack(`${joint}.quaternion`, times, quats.get(joint)!));
   const baked = new THREE.AnimationClip(clip.name, duration, tracks);
-  if (inPlace && cycleMetres < 0.05) cycleMetres = plantedFootCycle(baked, target);
+  if (inPlace && cycleMetres < 0.05) cycleMetres = yield* plantedFootCycleSteps(baked, target);
   return { clip: baked, cycleMetres, hipsDrop: targetHips.y - lowest, hipsAt: [sumX / frames, sumZ / frames] };
 }
 
 /** For an in-place walk: how far the lower foot slides backward over one cycle (the distance a figure would cover). */
-function plantedFootCycle(clip: THREE.AnimationClip, rest: RestPose): number {
+function* plantedFootCycleSteps(clip: THREE.AnimationClip, rest: RestPose): Generator<void, number, void> {
   const root = new THREE.Group();
   const bones = new Map<ResidentJoint, THREE.Bone>();
   for (const joint of RESIDENT_JOINTS) {
@@ -217,18 +227,20 @@ function plantedFootCycle(clip: THREE.AnimationClip, rest: RestPose): number {
   let travelled = 0, previous: THREE.Vector3[] | null = null;
   // Fine enough to follow each stance through: a coarse sampling misses the slide around each change of foot.
   const steps = Math.max(60, Math.round(clip.duration * 120));
-  for (let i = 0; i <= steps; i++) {
-    action.time = (clip.duration * i) / steps;
-    mixer.update(0);
-    root.updateMatrixWorld(true);
-    const now = [foot('LeftFoot'), foot('RightFoot')];
-    if (previous) {
-      const lower = now[0]!.y < now[1]!.y ? 0 : 1;
-      travelled += Math.max(0, previous[lower]!.z - now[lower]!.z);
+  try {
+    for (let i = 0; i <= steps; i++) {
+      action.time = (clip.duration * i) / steps;
+      mixer.update(0);
+      root.updateMatrixWorld(true);
+      const now = [foot('LeftFoot'), foot('RightFoot')];
+      if (previous) {
+        const lower = now[0]!.y < now[1]!.y ? 0 : 1;
+        travelled += Math.max(0, previous[lower]!.z - now[lower]!.z);
+      }
+      previous = now;
+      if ((i + 1) % 8 === 0) yield;
     }
-    previous = now;
-  }
-  mixer.uncacheRoot(root);
+  } finally { mixer.uncacheRoot(root); }
   return travelled;
 }
 
