@@ -3572,3 +3572,10 @@ Local typechecking and six focused engine-frame checks passed, including the ori
 ### Following enum container source capture
 
 Captured the original constructor, callback and shutdown records for `30732650` (`eEShapeMaterial`) and `30732660` (`eECollisionGroup`) from the pinned Engine.dll. The source bundle now contains 330 Engine method records: all 322 earlier records remain identical, with eight methods and eight images added. Existing initializer tables, literals and SharedBase records remain identical. Local typechecking and 120 source/image checks passed. These two initializers are source evidence only and are not yet connected to runtime execution; the supported runtime boundary remains `30732650`.
+
+
+### Following enum container runtime completion
+
+The original `30732650` shape-material and `30732660` collision-group callbacks now execute through their constructors, CString conversion, shutdown registration and root publication. Their distinct CStrings contain `bTPropertyContainer<enum eEShapeMaterial>` and `bTPropertyContainer<enum eECollisionGroup>` with original NUL terminators and known text masks. The existing audited class-name heap extension supplies the original 49..56-byte request pool; the focused completion fixtures now admit that extension, as the production runtime already does. No allocation bucket was inferred or fabricated.
+
+The initializer cursor reaches offset `0x1f4`, with the exit cursor at byte 248 (62 callbacks). The next unsupported callback is `30732670`. Local typechecking, six focused frame checks and 136 related source/image/browser checks passed. These checks prove this continuation only; complete native startup and a playable campaign through an ending remain unfinished.
