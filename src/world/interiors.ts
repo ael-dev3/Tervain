@@ -41,10 +41,18 @@ export function roomOf(b: BuildingSpec): InteriorSpec | null {
   return INTERIORS.find((room) => room.building === b) ?? null;
 }
 
+/**
+ * Where each village house keeps its hearth, as fractions of its width and depth (A123): every house had it in the same
+ * corner, so every room (and every roof's chimney) was laid out alike.
+ */
+const HEARTH_AT: Record<string, readonly [number, number]> = {
+  house_a: [0.28, -0.12], house_b: [-0.3, -0.1], house_c: [0.3, 0.05], house_d: [-0.28, -0.18], house_e: [0.0, -0.3], house_f: [-0.3, 0.08],
+};
+
 /** Rooms with a hearth have a chimney: where its stack stands on the floor, in the building's frame. */
 export function chimneyOf(b: BuildingSpec): { x: number; z: number } | null {
   return b.kind === 'lodge' || b.kind === 'office' || b.kind === 'bunks' || b.kind === 'store' || b.kind === 'shrine' || b.kind === 'archive'
-    ? null : { x: b.w * 0.28, z: -b.d * 0.12 };
+    ? null : HEARTH_AT[b.id] ? { x: b.w * HEARTH_AT[b.id]![0], z: b.d * HEARTH_AT[b.id]![1] } : { x: b.w * 0.28, z: -b.d * 0.12 };
 }
 
 /** Half the side of a chimney stack where it stands in a room. */

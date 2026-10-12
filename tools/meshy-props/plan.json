@@ -1,0 +1,126 @@
+{
+  "model": "meshy-5",
+  "style": "Rustic medieval European peasant household object, hand-made, weathered and well used, realistic materials, muted earthy colours. A single object on its own with nothing around it.",
+  "pieces": {
+    "barrel": {
+      "size": [
+        0.6,
+        0.85,
+        0.6
+      ],
+      "polycount": 1500,
+      "prompt": "A squat oak storage barrel bound with three dark iron hoops, its lid on.",
+      "texture": 512
+    },
+    "crate": {
+      "size": [
+        0.7,
+        0.5,
+        0.5
+      ],
+      "polycount": 1200,
+      "prompt": "A rough plank storage crate of pale pine, nailed together, slightly worn at the corners.",
+      "texture": 512
+    },
+    "firewood": {
+      "size": [
+        1.1,
+        0.75,
+        0.45
+      ],
+      "polycount": 2500,
+      "prompt": "A neat stack of split firewood logs, bark on, piled against nothing, roughly a metre long.",
+      "texture": 512
+    },
+    "bread": {
+      "size": [
+        0.5,
+        0.18,
+        0.32
+      ],
+      "polycount": 2000,
+      "prompt": "A wooden cutting board with a round crusty loaf of dark bread, a torn piece of bread and a wedge of yellow cheese.",
+      "texture": 512
+    },
+    "jug": {
+      "size": [
+        0.38,
+        0.3,
+        0.26
+      ],
+      "polycount": 1800,
+      "prompt": "A glazed brown earthenware jug with a handle and two small wooden cups beside it.",
+      "texture": 512
+    },
+    "pots": {
+      "size": [
+        0.55,
+        0.42,
+        0.4
+      ],
+      "polycount": 2000,
+      "prompt": "A small group of three unglazed clay storage pots of different sizes, one with a cloth tied over its mouth.",
+      "texture": 512
+    },
+    "cauldron": {
+      "size": [
+        0.5,
+        0.42,
+        0.5
+      ],
+      "polycount": 1800,
+      "prompt": "A black iron cooking pot with a bail handle and three short legs, soot on its sides.",
+      "texture": 512
+    },
+    "herbs": {
+      "size": [
+        0.45,
+        0.6,
+        0.15
+      ],
+      "polycount": 2000,
+      "prompt": "Bundles of dried herbs and a braid of garlic hanging from a short wooden rod by twine.",
+      "texture": 512
+    },
+    "antlers": {
+      "size": [
+        0.8,
+        0.6,
+        0.3
+      ],
+      "polycount": 2500,
+      "prompt": "A pair of red deer antlers mounted on a small carved oak plaque, to hang on a wall.",
+      "texture": 512
+    },
+    "pelt": {
+      "size": [
+        1.2,
+        1.4,
+        0.05
+      ],
+      "polycount": 1500,
+      "prompt": "A tanned brown deer hide stretched flat, fur side out, irregular edges, to hang on a wall.",
+      "texture": 512
+    },
+    "candle": {
+      "size": [
+        0.16,
+        0.38,
+        0.16
+      ],
+      "polycount": 1200,
+      "prompt": "A simple black iron candlestick with a half burnt tallow candle and wax drips.",
+      "texture": 512
+    },
+    "tools": {
+      "size": [
+        0.9,
+        1.7,
+        0.3
+      ],
+      "polycount": 2500,
+      "prompt": "Farm tools leaning together: a wooden pitchfork, a rake and a scythe with a worn wooden handle.",
+      "texture": 512
+    }
+  }
+}
