@@ -68,6 +68,8 @@ export class RealmPhysics {
   readonly world = new RAPIER.World({ x: 0, y: -17, z: 0 });
   readonly props: Prop[] = [];
   private propHandles = new Set<number>();
+  private readonly projectileActorHandles = new Set<number>();
+  private readonly projectileAnimalHandles = new Set<number>();
   private rockHandles = new Set<number>();
   private woodHandles = new Map<number, string>();
   private rockSurfaces = new RockSurfaces();
@@ -191,6 +193,8 @@ export class RealmPhysics {
     this.world.timestep = STEP;
     this.world.step(); // Populate scene queries before the first interaction, without a catch-up clock.
     this.initial = this.snapshot();
+    // Fixed identities and their handles stay with this physics world; classify once, not once per arrow segment.
+    for (const fixed of this.fixed) if (/^animal:\d+$/.test(fixed.source.id)) this.projectileAnimalHandles.add(fixed.collider.handle);
   }
 
   /** dt is the frame the hero is about to move through: the controller turns his displacement into pushes on cargo over
@@ -214,6 +218,8 @@ export class RealmPhysics {
         const collider = this.world.createCollider(RAPIER.ColliderDesc.capsule(Math.max(0, person.height / 2 - person.radius), person.radius), body);
         actor = { body, collider, from: { ...target }, target, active: person.active };
         this.actors.set(person.id, actor);
+        this.projectileActorHandles.add(collider.handle);
+        if (/^animal:\d+$/.test(person.id)) this.projectileAnimalHandles.add(collider.handle);
       }
       const previous = actor.body.translation();
       // Restoring or respawning a person is placement, not a high-speed sweep through every intervening loose object.
@@ -354,12 +360,9 @@ export class RealmPhysics {
     }
     const direction = { x: delta.x / length, y: delta.y / length, z: delta.z / length };
     const ray = new RAPIER.Ray(from, direction);
-    const actorHandles = new Set([...this.actors.values()].map(actor => actor.collider.handle));
+    const actorHandles = this.projectileActorHandles;
     // Wildlife capsules support movement. Arrow contacts come from the posed animal triangles.
-    const animalHandles = new Set([
-      ...[...this.actors.entries()].filter(([id]) => /^animal:\d+$/.test(id)).map(([, actor]) => actor.collider.handle),
-      ...this.fixed.filter(fixed => /^animal:\d+$/.test(fixed.source.id)).map(fixed => fixed.collider.handle),
-    ]);
+    const animalHandles = this.projectileAnimalHandles;
     const hit = this.world.castRay(ray, length, true, undefined, undefined, undefined, this.character,
       collider => collider.isEnabled() && !this.propHandles.has(collider.handle) && !actorHandles.has(collider.handle) && !animalHandles.has(collider.handle));
     let distance = hit?.timeOfImpact ?? Infinity;
