@@ -1,3 +1,4 @@
+import originalSource from '../../assets/gothic3/engine-cinit/research.json';
 import { describe, expect, it } from 'vitest';
 import { admitEngineCinitSource, engineCinitCaller, engineCinitFloatingPointCallback,
   engineCinitInstruction, engineCinitUnMangleInstruction, engineCinitUnMangleLiteral, engineCinitTable, engineCinitTableTarget } from '../../src/gothic3/native-engine-cinit-source';
@@ -280,4 +281,15 @@ it('pins original Engine realloc wrapper and normal HeapReAlloc instructions',()
  expect(engineCinitInstruction('30679200','30679234').bytes).toBe('833d207eaf3003');
  expect(engineCinitInstruction('30679200','306793b5').bytes).toBe('ff1584c6af30');
  expect(engineCinitInstruction('30679200','306793ed').bytes).toBe('e853510000');
+});
+
+it('indexes every original instruction with unchanged first-match and object identity',()=>{
+ let checked=0;
+ for(const [methods,lookup] of [[originalSource.source.methods,engineCinitInstruction],[originalSource.sharedBaseUnMangleSource.methods,engineCinitUnMangleInstruction]] as const){
+  for(const candidate of methods){for(const entry of new Set([candidate.entryVA,candidate.bodyVA])){
+   const method=methods.find(m=>m.bodyVA===entry||m.entryVA===entry)!;
+   for(const row of [...method.instructions,...method.entryChain]){const expected=method.instructions.find(r=>r.va===row.va)??method.entryChain.find(r=>r.va===row.va);expect(lookup(entry.slice(2),row.va)).toBe(expected);checked++;}
+  }}
+ }
+ const expectedCount=[originalSource.source.methods,originalSource.sharedBaseUnMangleSource.methods].reduce((total,methods)=>total+methods.reduce((count,candidate)=>count+[...new Set([candidate.entryVA,candidate.bodyVA])].reduce((n,entry)=>{const m=methods.find(m=>m.entryVA===entry||m.bodyVA===entry)!;return n+m.instructions.length+m.entryChain.length;},0),0),0);expect(checked).toBe(expectedCount);expect(checked).toBeGreaterThan(0);expect(Object.isFrozen(originalSource)).toBe(true);expect(()=>engineCinitInstruction('ffffffff','ffffffff')).toThrow('Original Engine initializer instruction required');expect(()=>engineCinitUnMangleInstruction('ffffffff','ffffffff')).toThrow('Original SharedBase UnMangle instruction required');
 });

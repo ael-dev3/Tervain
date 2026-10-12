@@ -3483,3 +3483,8 @@ Captured `30698051` (eight original jump-table words), the enum literal at `3089
 ## Shape-group enum-template constructor prefix
 
 The original callback `30732640` and constructor `30078390` now enter the property-name parser using their original fields and byte-verified source. Template argument parsing uses the actual cursor returned by the identifier parser, replacing MainCache-specific offsets. The W branch executes its original instructions through CALL `3069964b`, retaining the unfinished enum helper at `30697f9d` and its actual caller. Root publication, CString completion and shutdown registration for this property remain pending: initializer cursor is `0x1e8`, exit cursor is 236, type-name cache lock is unlocked and undecoration lock is held. MainCache regression observations capture its parser byte and call graph at its own checkpoint before later templates modify shared state. Typechecking and five targeted checks passed; broader browser checks and build are separate outstanding validation. Full startup and campaign completion remain unfinished.
+
+
+## Immutable source instruction indexes
+
+The generated source module now validates its immutable raw text once and indexes captured Engine and SharedBase methods and instruction rows. Index construction preserves the original first-matching method, instruction-before-entry-chain precedence, and returned object identity. All 7,826 lookups in this captured bundle were compared with the prior lookup behavior; 119 source/image checks and the shape-group runtime probe passed. The evidence generator reproduced identical captured JSON bytes. Unknown instruction errors and deep-frozen source admission remain in place. A single timing sample does not establish a performance gain.

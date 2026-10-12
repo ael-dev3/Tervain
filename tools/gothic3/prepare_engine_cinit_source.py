@@ -826,9 +826,16 @@ import sourceText from '../../assets/gothic3/engine-cinit/research.json?raw';
 const expectedText = EXPECTED;
 function freeze(value:unknown):void {if(value&&typeof value==='object'&&!Object.isFrozen(value)){for(const child of Object.values(value))freeze(child);Object.freeze(value);}}
 freeze(source);
-export function admitEngineCinitSource():void {if(sourceText!==expectedText)throw new Error('Original Engine initializer source differs');}
-export function engineCinitInstruction(entry:string,pc:string){admitEngineCinitSource();const method=source.source.methods.find(method=>method.bodyVA==='0x'+entry||method.entryVA==='0x'+entry);const row=method?.instructions.find(row=>row.va===pc)??method?.entryChain.find(row=>row.va===pc);if(!row)throw new Error('Original Engine initializer instruction required');return row;}
-export function engineCinitUnMangleInstruction(entry:string,pc:string){admitEngineCinitSource();const method=source.sharedBaseUnMangleSource.methods.find(method=>method.bodyVA==='0x'+entry||method.entryVA==='0x'+entry);const row=method?.instructions.find(row=>row.va===pc)??method?.entryChain.find(row=>row.va===pc);if(!row)throw new Error('Original SharedBase UnMangle instruction required');return row;}
+let admitted=false;
+export function admitEngineCinitSource():void {if(admitted)return;if(sourceText!==expectedText)throw new Error('Original Engine initializer source differs');admitted=true;}
+function indexMethods<Method extends {entryVA:string;bodyVA:string;instructions:readonly {va:string}[];entryChain:readonly {va:string}[]}>(methods:readonly Method[]){
+ const byEntry=new Map<string,Method>(),rows=new Map<Method,Map<string,Method['instructions'][number]|Method['entryChain'][number]>>();
+ for(const method of methods){for(const entry of [method.entryVA,method.bodyVA])if(!byEntry.has(entry))byEntry.set(entry,method);const instructions=new Map<string,Method['instructions'][number]|Method['entryChain'][number]>();for(const row of [...method.instructions,...method.entryChain])if(!instructions.has(row.va))instructions.set(row.va,row);rows.set(method,instructions);}
+ return (entry:string,pc:string)=>{const method=byEntry.get('0x'+entry);return method?rows.get(method)!.get(pc):undefined;};
+}
+const engineInstruction=indexMethods(source.source.methods),sharedInstruction=indexMethods(source.sharedBaseUnMangleSource.methods);
+export function engineCinitInstruction(entry:string,pc:string){admitEngineCinitSource();const row=engineInstruction(entry,pc);if(!row)throw new Error('Original Engine initializer instruction required');return row;}
+export function engineCinitUnMangleInstruction(entry:string,pc:string){admitEngineCinitSource();const row=sharedInstruction(entry,pc);if(!row)throw new Error('Original SharedBase UnMangle instruction required');return row;}
 export function engineCinitUnMangleLiteral(){admitEngineCinitSource();return source.sharedBaseSpaceLiteral;}
 export function engineCinitCaller(){admitEngineCinitSource();return source.caller;}
 export function engineCinitImport(iat:string){admitEngineCinitSource();const row=source.source.imports.find(row=>row.iatVA==='0x'+iat);if(!row)throw new Error('Original Engine initializer import required');return row;}
