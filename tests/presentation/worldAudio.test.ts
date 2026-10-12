@@ -1390,6 +1390,39 @@ describe('audio engine and the recorded world', () => {
     return { ctx, audio };
   }
 
+  it('prepares convolution once during loading without starting recorded playback, even while suspended', async () => {
+    const { ctx, audio } = engine();
+    audio.resume();
+    ctx.state = 'suspended';
+    const sources = ctx.sources.length;
+    audio.prepareWorld();
+    audio.prepareWorld();
+    await flush();
+    expect(ctx.nodes.filter(node => node.kind === 'convolver')).toHaveLength(2);
+    expect(ctx.sources).toHaveLength(sources);
+    expect(audio.diagnostics.world!.banksReady).toBe(true);
+    ctx.state = 'running';
+    audio.updateWorld(0.05, frame(PLACES.rillford));
+    expect(ctx.nodes.filter(node => node.kind === 'convolver')).toHaveLength(2);
+    audio.dispose();
+    const nodes = ctx.nodes.length;
+    audio.prepareWorld();
+    expect(ctx.nodes).toHaveLength(nodes);
+  });
+
+  it('keeps missing and closed audio devices unallocated during entry preparation', () => {
+    const { ctx, audio } = engine();
+    audio.prepareWorld();
+    expect(window.AudioContext).not.toHaveBeenCalled();
+    expect(audio.diagnostics.world).toBeNull();
+    audio.resume();
+    ctx.state = 'closed';
+    const nodes = ctx.nodes.length;
+    audio.prepareWorld();
+    expect(ctx.nodes).toHaveLength(nodes);
+    expect(audio.diagnostics.world).toBeNull();
+  });
+
   it('handles animated call events only when unlocked, visible and audible, and removes its event listener on disposal', async () => {
     const ctx = new FakeContext();
     const settings = defaultSettings();

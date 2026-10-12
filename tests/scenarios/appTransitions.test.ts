@@ -806,6 +806,12 @@ describe('actual application world transitions', () => {
 
   it('the actual first-entry graphics path waits for shader compilation and a prepared paint before exposing play', async () => {
     const { app, call, nextWorld } = rebuildFixture();
+    const prepareAudio = vi.fn(() => {
+      expect(app.mode).toBe('title');
+      expect(app.input.uiOpen).toBe(true);
+      expect(app.loadingEl.classList.contains('off')).toBe(false);
+    });
+    Reflect.set(app.audio, 'prepareWorld', prepareAudio);
     Reflect.deleteProperty(app, 'world');
     Reflect.deleteProperty(app, 'prepareWorldGraphics');
     app.mode = 'title';
@@ -835,6 +841,7 @@ describe('actual application world transitions', () => {
     expect(target).toBeNull();
     expect(staged.update).toHaveBeenCalledWith(0, app.game.state, expect.any(THREE.Vector3), app.settings, expect.any(Number), camera, false);
     expect(render).not.toHaveBeenCalled();
+    expect(prepareAudio).not.toHaveBeenCalled();
     expect(app.mode).toBe('title');
     expect(app.input.uiOpen).toBe(true);
     compiled.resolve();
@@ -845,6 +852,7 @@ describe('actual application world transitions', () => {
     expect(app.loadingEl.classList.contains('off')).toBe(false);
     paints[0]!(1000);
     await Reflect.get(app, 'initialLoad');
+    expect(prepareAudio).toHaveBeenCalledOnce();
     expect(app.mode).toBe('play');
     expect(app.input.uiOpen).toBe(false);
     expect(app.loadingEl.classList.contains('off')).toBe(true);
