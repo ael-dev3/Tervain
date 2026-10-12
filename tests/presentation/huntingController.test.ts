@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { Game } from '../../src/game/game';
-import { animalLoot, SKINNING_SECONDS, type AnimalId } from '../../src/game/hunting';
+import { animalLoot, HUNTING_ARROW_RANGE, SKINNING_SECONDS, type AnimalId } from '../../src/game/hunting';
 import { defaultSettings } from '../../src/platform/settings';
 import { HuntingController } from '../../src/presentation/huntingController';
 import type { AnimalArrowHit } from '../../src/presentation/animals/hunting/hit';
@@ -265,6 +265,48 @@ describe('hunting controller command integration', () => {
     expect(item.world.animals.showArrowImpact).toHaveBeenCalledOnce();
     expect(item.audio.huntingSound).toHaveBeenCalledWith('arrow_ground', expect.any(THREE.Vector3), expect.any(Object));
     expect(item.audio.huntingSound.mock.calls.some(([kind]) => kind === 'arrow_flesh')).toBe(false);
+  });
+
+  it.each([30, 60, 120])('expires before damaging an animal beyond the arrow range at %s Hz', (hz) => {
+    const item = fixture();
+    const launch = vi.spyOn(item.controller.arrows, 'launch');
+    item.corpse.z = item.player.z + .4 + HUNTING_ARROW_RANGE + .001;
+    item.cam.camera.lookAt(item.corpse.x, item.corpse.y + 1, item.corpse.z);
+    item.cam.camera.updateMatrixWorld();
+    beginDraw(item); release(item);
+    for (let i = 0; i < hz * 2; i++) item.controller.afterWorld(1 / hz, true);
+    expect(item.game.state.inventory.arrow).toBe(23);
+    expect(item.game.state.hunting).toEqual({});
+    expect(item.world.animals.showArrowImpact).not.toHaveBeenCalled();
+    expect(item.controller.arrows.activeCount).toBe(0);
+    expect(item.controller.arrows.lodgedCount).toBe(0);
+    expect(launch.mock.results[0]!.value!.position.distanceTo(launch.mock.calls[0]![0])).toBeCloseTo(HUNTING_ARROW_RANGE, 7);
+  });
+
+  it.each([-.25, .001])('only lodges in scenery inside the arrow range (offset %s m)', (offset) => {
+    const item = fixture();
+    item.mutable.animal = false;
+    item.mutable.cover = [item.player.z + .4 + HUNTING_ARROW_RANGE + offset];
+    item.cam.camera.lookAt(item.player.x, item.player.y + 1.25, item.mutable.cover[0]!);
+    item.cam.camera.updateMatrixWorld();
+    beginDraw(item); release(item);
+    item.controller.afterWorld(2, true);
+    expect(item.game.state.inventory.arrow).toBe(23);
+    expect(item.controller.arrows.activeCount).toBe(0);
+    expect(item.controller.arrows.lodgedCount).toBe(offset < 0 ? 1 : 0);
+    expect(item.audio.huntingSound.mock.calls.filter(([kind]) => kind === 'arrow_ground')).toHaveLength(offset < 0 ? 1 : 0);
+  });
+
+  it('still damages an animal just inside the arrow range', () => {
+    const item = fixture();
+    item.corpse.z = item.player.z + .4 + HUNTING_ARROW_RANGE - .25;
+    item.cam.camera.lookAt(item.corpse.x, item.corpse.y + 1, item.corpse.z);
+    item.cam.camera.updateMatrixWorld();
+    beginDraw(item); release(item);
+    item.controller.afterWorld(2, true);
+    expect(item.game.state.inventory.arrow).toBe(23);
+    expect(item.game.state.hunting['bear-a']?.status).toBe('dead');
+    expect(item.world.animals.showArrowImpact).toHaveBeenCalledOnce();
   });
 
   it.each([-64, -60])('cover at z=%s wins before or tied with the animal and never damages through it', (cover) => {

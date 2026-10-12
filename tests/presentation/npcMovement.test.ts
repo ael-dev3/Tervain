@@ -146,6 +146,7 @@ describe('peaceful resident motion', () => {
 
   it('listens while seated without standing or gesturing through another person’s entire speech', () => {
     const { npc, ctx } = harness(NPCS.ash_recorder); ctx.hour = 12; npc.snapToGoal(ctx);
+    ctx.player = { x: npc.x + 1, z: npc.z, y: npc.y }; // a conversation is held close by, where posing runs every step (A114)
     npc.talking = true; npc.speaking = false; npc.update(1 / 60, ctx);
     expect(npc.mode).toBe('sit');
     expect(vi.mocked(poseRig)).toHaveBeenLastCalledWith(npc.rig, expect.objectContaining({ seated: true }), 1 / 60);

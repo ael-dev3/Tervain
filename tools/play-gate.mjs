@@ -1,0 +1,231 @@
+#!/usr/bin/env node
+/**
+ * The play gate: plays the hosted build the way a player does and fails on what a player would see.
+ *
+ *   node tools/play-gate.mjs [--url https://ael-dev3.github.io/Tervain/] [--profile desktop|mac|all]
+ *                            [--against main|head|<sha>|none] [--tag name] [--out dir] [--video false]
+ *
+ * 1. The served build's version.json must name the commit it is checked against (main by default), and the page
+ *    itself must print that commit, so a stale page or a stale deploy fails before anything is played.
+ * 2. Real input through the browser (keys and mouse buttons, not game calls): new journey, pause and resume, walk and
+ *    run along the fence and round the house turning the camera, inside a house looking out of the window, aim and loose
+ *    the bow. Only placing the hero at each stage's start is done by script.
+ * 3. Every presented frame records its time, whether the hero is drawn, the camera distance, the hero's pose and where
+ *    he lands on screen; long tasks and console errors are collected; the screen is recorded to clip.mp4.
+ * 4. It fails on: the hero hidden while the camera is not pressed against him, visibility flicker, a broken or jumping
+ *    pose, frame-time spikes, uneven pacing, a 95th-percentile frame over budget, long tasks, or console errors.
+ *
+ * Profiles: `desktop` is a 1280×720 window at 1× on this machine's GPU. `mac` is a MacBook's 1440×900 window at 2×
+ * (Retina pixel count). It cannot reproduce an Apple GPU under ANGLE and Metal; `--mac-cpu 2` adds a slower main thread
+ * as a stress case. Run it on an otherwise idle machine: a test suite running alongside skews every frame time.
+ *
+ * Exit code 0 only when every profile passes. Reports go to <out>/<tag>-<profile>/ (report.md, report.json, clip.mp4).
+ */
+import { execFileSync, spawnSync } from 'node:child_process';
+import fs from 'node:fs';
+import path from 'node:path';
+import { openPage } from './cdp.mjs';
+
+const args = Object.fromEntries(process.argv.slice(2).reduce((acc, a, i, all) => (a.startsWith('--') ? [...acc, [a.slice(2), all[i + 1]?.startsWith('--') || all[i + 1] === undefined ? 'true' : all[i + 1]]] : acc), []));
+const URL_ = args.url ?? 'https://ael-dev3.github.io/Tervain/';
+const AGAINST = args.against ?? 'main';
+const TAG = args.tag ?? new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
+const OUT = path.resolve(args.out ?? 'play-gate-runs');
+const VIDEO = args.video !== 'false';
+const PROFILES = {
+  desktop: { w: 1280, h: 720, dpr: 1, cpu: 1, p95: 20 },
+  mac: { w: 1440, h: 900, dpr: 2, cpu: Number(args['mac-cpu'] ?? 1), p95: 20 },
+};
+const chosen = (args.profile ?? 'all') === 'all' ? Object.keys(PROFILES) : [args.profile];
+
+/** Thresholds for a 60 Hz display (16.7 ms a frame). */
+const LIMITS = {
+  spikeMs: 50, maxSpikes: 2, hardSpikeMs: 100, slowFrameShare: 0.03, slowFrameMs: 25,
+  longTaskMs: 100, maxLongTasks: 3, flickerTogglesPerSecond: 4, screenJump: 0.25, minHeadAboveRoot: 0.8, minUpright: 0.9,
+};
+
+function expectedRevision() {
+  if (AGAINST === 'none') return null;
+  if (AGAINST === 'head') return execFileSync('git', ['rev-parse', 'HEAD']).toString().trim();
+  if (AGAINST === 'main') return execFileSync('git', ['ls-remote', 'origin', 'refs/heads/main']).toString().split(/\s/)[0];
+  return AGAINST;
+}
+
+async function staleCheck() {
+  const want = expectedRevision();
+  let live = null;
+  try {
+    const r = await fetch(new URL(`version.json?t=${Date.now()}`, URL_), { cache: 'no-store' });
+    if (r.ok) live = await r.json();
+  } catch { /* reported below */ }
+  const ok = want === null || (!!live?.revision && want.startsWith(live.revision));
+  return { want, live, ok, note: want === null ? 'not checked (--against none)' : ok ? 'served build matches' : `served ${live?.revision ?? 'no version.json'}, expected ${want.slice(0, 9)}` };
+}
+
+const quantile = (v, q) => { if (!v.length) return 0; const s = [...v].sort((a, b) => a - b); return s[Math.min(s.length - 1, Math.floor(q * s.length))]; };
+
+const SAMPLER = `
+  const T = window.tervain, R = T.renderer, render = R.render.bind(R), P = T.player;
+  const V = T.world.scene.position.constructor, Q = T.world.scene.quaternion.constructor;
+  const hips = new V(), head = new V(), root = new V(), up = new V(), q = new Q(), ndc = new V();
+  window.__gate = { samples: [], longTasks: [], phase: 'setup' };
+  try { new PerformanceObserver((l) => { for (const e of l.getEntries()) window.__gate.longTasks.push([e.startTime, e.duration, window.__gate.phase]); }).observe({ type: 'longtask', buffered: false }); } catch {}
+  const shown = (o) => { for (let x = o; x; x = x.parent) if (!x.visible) return false; return true; };
+  let body = null; P.group.traverse((o) => { if (o.isSkinnedMesh) body = o; });
+  R.render = function (scene, camera) {
+    const out = render(scene, camera);
+    if (R.getRenderTarget() === null) {
+      const cam = T.cam.camera; P.rig.hips.getWorldPosition(hips); P.rig.head.getWorldPosition(head); P.rig.root.getWorldPosition(root);
+      P.rig.root.getWorldQuaternion(q); up.set(0, 1, 0).applyQuaternion(q);
+      ndc.copy(hips).project(cam);
+      window.__gate.samples.push([document.timeline.currentTime ?? performance.now(), window.__gate.phase, shown(body) ? 1 : 0, +(T.cam.curDist ?? 0).toFixed(3), +up.y.toFixed(3),
+        +(head.y - root.y).toFixed(3), +ndc.x.toFixed(3), +ndc.y.toFixed(3), T.simStep, P.swimming ? 1 : 0, R.getPixelRatio()]);
+    }
+    return out;
+  };
+  return 1;`;
+
+async function runProfile(name) {
+  const prof = PROFILES[name];
+  const dir = path.join(OUT, `${TAG}-${name}`);
+  fs.rmSync(dir, { recursive: true, force: true });
+  fs.mkdirSync(path.join(dir, 'frames'), { recursive: true });
+  const page = await openPage(URL_, { w: prof.w, h: prof.h, headed: true });
+  const failures = [];
+  const keyCode = { KeyW: 87, KeyA: 65, KeyS: 83, KeyD: 68, KeyZ: 90, KeyC: 67, ShiftLeft: 16, Escape: 27 };
+  const key = (type, code) => page.cdp('Input.dispatchKeyEvent', { type, code, key: code === 'Escape' ? 'Escape' : code === 'ShiftLeft' ? 'Shift' : code.slice(3).toLowerCase(), windowsVirtualKeyCode: keyCode[code] ?? 0 });
+  const hold = async (codes, ms) => {
+    for (const c of codes) await key('rawKeyDown', c);
+    const end = Date.now() + ms;
+    while (Date.now() < end) { await page.wait(100); for (const c of codes) if (c !== 'ShiftLeft') await page.cdp('Input.dispatchKeyEvent', { type: 'rawKeyDown', code: c, key: c.slice(3).toLowerCase(), autoRepeat: true, windowsVirtualKeyCode: keyCode[c] }); }
+    for (const c of [...codes].reverse()) await key('keyUp', c);
+  };
+  const tap = async (code) => { await key('rawKeyDown', code); await page.wait(60); await key('keyUp', code); };
+  const mouse = (type, button = 'left') => page.cdp('Input.dispatchMouseEvent', { type, x: prof.w / 2, y: prof.h / 2, button, buttons: type === 'mousePressed' ? 1 : 0, clickCount: 1 });
+  const phase = (p) => page.eval(`window.__gate.phase = ${JSON.stringify(p)}; return 1`);
+  const place = (x, z, yaw) => page.eval(`const T = window.tervain; T.player.setPosition(${x}, ${z}, ${yaw}, T.world.terrain); T.cam.yaw = ${yaw}; return 1`);
+  try {
+    await page.cdp('Emulation.setDeviceMetricsOverride', { width: prof.w, height: prof.h, deviceScaleFactor: prof.dpr, mobile: false });
+    if (prof.cpu > 1) await page.cdp('Emulation.setCPUThrottlingRate', { rate: prof.cpu });
+    for (let i = 0; i < 1200 && !(await page.eval('return window.tervain?.mode === "title"').catch(() => false)); i++) await page.wait(250);
+    await page.wait(3000);
+    const printed = await page.eval(`return document.querySelector('.menu-build span')?.textContent ?? ''`);
+    // Start a journey with a real click on the menu's first choice.
+    const rect = await page.eval(`const b = [...document.querySelectorAll('.menu-choices button')].find((x) => /new/i.test(x.textContent)); const r = b.getBoundingClientRect(); return [r.x + r.width / 2, r.y + r.height / 2]`);
+    await page.cdp('Input.dispatchMouseEvent', { type: 'mousePressed', x: rect[0], y: rect[1], button: 'left', buttons: 1, clickCount: 1 });
+    await page.cdp('Input.dispatchMouseEvent', { type: 'mouseReleased', x: rect[0], y: rect[1], button: 'left', buttons: 0, clickCount: 1 });
+    for (let i = 0; i < 2400 && !(await page.eval('const T = window.tervain; return T.mode === "play" && !!T.world && T.loadingEl.classList.contains("off")').catch(() => false)); i++) await page.wait(250);
+    await page.wait(2000);
+    await page.eval(SAMPLER);
+    page.console();
+    if (VIDEO) await page.cdp('Page.startScreencast', { format: 'jpeg', quality: 70, everyNthFrame: 1, maxWidth: 1280, maxHeight: 800 });
+    await page.wait(500);
+
+    await phase('pause'); await tap('Escape'); await page.wait(1200);
+    await phase('resume'); await tap('Escape'); await page.wait(1500);
+
+    await phase('setup'); await place(-2, 40, Math.PI); await page.wait(1200);
+    await phase('walk-fence'); await hold(['KeyW'], 4000);
+    await phase('turn-walk'); await hold(['KeyW', 'KeyC'], 2000);
+    await phase('run-fence'); await hold(['KeyW', 'ShiftLeft'], 4000);
+    await phase('run-turn'); await hold(['KeyW', 'ShiftLeft', 'KeyZ'], 2500);
+    await phase('run-round'); await hold(['KeyW', 'ShiftLeft', 'KeyD'], 3000);
+
+    await phase('setup'); await place(-5.43, -5.58, Math.atan2(-2.9 + 5.43, -1.0 + 5.58)); await page.wait(1200);
+    await phase('inside-window'); await hold(['KeyC'], 3000); await hold(['KeyW'], 800); await hold(['KeyZ'], 2000);
+
+    await phase('setup');
+    await page.eval(`const T = window.tervain, S = T.game.state; S.inventory.hunting_bow = 1; S.inventory.arrow = 6; S.equippedWeapon = 'hunting_bow'; T.player.syncEquipment(T.game); return 1`);
+    await place(-4, 46, 0); await page.wait(1200);
+    await phase('bow');
+    for (let i = 0; i < 2; i++) { await mouse('mousePressed'); await hold(['KeyC'], 1500); await mouse('mouseReleased'); await page.wait(800); }
+    await phase('end'); await page.wait(300);
+    if (VIDEO) await page.cdp('Page.stopScreencast');
+
+    const gate = await page.eval('return window.__gate');
+    const logs = page.console().filter((l) => l.startsWith('[error]') || l.startsWith('[exception]'));
+    fs.writeFileSync(path.join(dir, 'samples.json'), JSON.stringify(gate));
+
+    // Clip: presented frames at their own timestamps.
+    const frames = page.frames.filter((f) => f.t);
+    const list = [];
+    frames.forEach((f, i) => {
+      const file = `f${String(i).padStart(5, '0')}.jpg`;
+      fs.writeFileSync(path.join(dir, 'frames', file), Buffer.from(f.data, 'base64'));
+      const next = frames[i + 1]?.t ?? f.t + 1 / 60;
+      list.push(`file 'frames/${file}'`, `duration ${Math.max(0.001, next - f.t).toFixed(4)}`);
+    });
+    fs.writeFileSync(path.join(dir, 'frames.txt'), list.join('\n'));
+    const enc = spawnSync('ffmpeg', ['-y', '-loglevel', 'error', '-f', 'concat', '-safe', '0', '-i', 'frames.txt', '-vf', 'scale=trunc(iw/2)*2:trunc(ih/2)*2', '-fps_mode', 'vfr', '-pix_fmt', 'yuv420p', 'clip.mp4'], { cwd: dir, timeout: 300000 });
+    if (enc.status === 0) fs.rmSync(path.join(dir, 'frames'), { recursive: true, force: true });
+
+    // Judge.
+    const S = gate.samples.map(([t, ph, vis, dist, upY, headUp, nx, ny, step, swim, pr]) => ({ t, ph, vis, dist, upY, headUp, nx, ny, step, swim, pr }));
+    const play = S.filter((s) => !['setup', 'pause', 'end'].includes(s.ph));
+    const timed = [];
+    for (let i = 1; i < S.length; i++) if (S[i].ph === S[i - 1].ph && !['setup', 'pause', 'end'].includes(S[i].ph)) timed.push(S[i].t - S[i - 1].t);
+    const p95 = quantile(timed, 0.95), median = quantile(timed, 0.5);
+    const spikes = timed.filter((d) => d > LIMITS.spikeMs);
+    const slowShare = timed.filter((d) => d > LIMITS.slowFrameMs).length / Math.max(1, timed.length);
+    const hidden = play.filter((s) => !s.vis && s.dist >= 0.85);
+    const closeHidden = play.filter((s) => !s.vis && s.dist < 0.85).length;
+    let worstToggles = 0;
+    for (let i = 0; i < play.length; i++) {
+      let n = 0;
+      for (let j = i + 1; j < play.length && play[j].t - play[i].t < 1000; j++) if (play[j].vis !== play[j - 1].vis) n++;
+      worstToggles = Math.max(worstToggles, n);
+    }
+    const badPose = play.filter((s) => !s.swim && (s.upY < LIMITS.minUpright || s.headUp < LIMITS.minHeadAboveRoot));
+    let jumps = 0;
+    for (let i = 1; i < play.length; i++) if (play[i].ph === play[i - 1].ph && play[i].vis && play[i - 1].vis && Math.hypot(play[i].nx - play[i - 1].nx, play[i].ny - play[i - 1].ny) > LIMITS.screenJump) jumps++;
+    const longTasks = gate.longTasks.filter(([, , ph]) => !['setup', 'pause', 'end'].includes(ph));
+    const fail = (cond, msg) => { if (cond) failures.push(msg); };
+    fail(hidden.length > 0, `hero hidden on ${hidden.length} frames with the camera clear of him`);
+    fail(worstToggles > LIMITS.flickerTogglesPerSecond, `hero visibility flips ${worstToggles} times within one second`);
+    fail(badPose.length > 0, `hero pose broken on ${badPose.length} frames (tilted or collapsed)`);
+    fail(jumps > 0, `hero jumps across the screen on ${jumps} frames`);
+    fail(p95 > prof.p95, `p95 frame ${p95.toFixed(1)} ms over ${prof.p95} ms`);
+    fail(spikes.length > LIMITS.maxSpikes || spikes.some((d) => d > LIMITS.hardSpikeMs), `${spikes.length} frames over ${LIMITS.spikeMs} ms (longest ${Math.max(0, ...timed).toFixed(0)} ms)`);
+    fail(slowShare > LIMITS.slowFrameShare, `${(slowShare * 100).toFixed(1)}% of frames over ${LIMITS.slowFrameMs} ms (uneven pacing)`);
+    fail(longTasks.length > LIMITS.maxLongTasks || longTasks.some(([, d]) => d > LIMITS.longTaskMs), `${longTasks.length} long tasks in play (longest ${Math.max(0, ...longTasks.map(([, d]) => d)).toFixed(0)} ms)`);
+    fail(logs.length > 0, `${logs.length} console errors: ${logs.slice(0, 3).join(' | ')}`);
+
+    const perPhase = {};
+    for (const ph of [...new Set(play.map((s) => s.ph))]) {
+      const d = []; const ss = S.filter((s) => s.ph === ph);
+      for (let i = 1; i < ss.length; i++) d.push(ss[i].t - ss[i - 1].t);
+      perPhase[ph] = { frames: ss.length, median: +quantile(d, 0.5).toFixed(1), p95: +quantile(d, 0.95).toFixed(1), max: +Math.max(0, ...d).toFixed(1) };
+    }
+    return { name, prof, dir, printed, failures, stats: { frames: play.length, median, p95, spikes: spikes.length, slowShare, hidden: hidden.length, closeHidden, worstToggles, badPose: badPose.length, jumps, pixelRatio: [Math.min(...play.map((x) => x.pr)), Math.max(...play.map((x) => x.pr))], longTasks: longTasks.length, consoleErrors: logs, perPhase }, clip: enc.status === 0 };
+  } catch (err) {
+    failures.push(`run failed: ${err.message}`);
+    return { name, prof, dir, failures, stats: null };
+  } finally {
+    page.close();
+  }
+}
+
+const stale = await staleCheck();
+const results = [];
+if (stale.ok) for (const p of chosen) results.push(await runProfile(p));
+for (const r of results) {
+  if (stale.live?.revision && r.printed !== undefined && !r.printed.includes(stale.live.revision)) r.failures.unshift(`page prints "${r.printed}", not ${stale.live.revision}: the browser kept an older page`);
+}
+const pass = stale.ok && results.length > 0 && results.every((r) => r.failures.length === 0);
+fs.mkdirSync(OUT, { recursive: true });
+const md = [`# Play gate ${TAG}: ${pass ? 'PASS' : 'FAIL'}`, '', `- URL: ${URL_}`, `- Build: ${stale.note}${stale.live ? ` (version.json ${stale.live.version} · ${stale.live.revision})` : ''}`, ''];
+for (const r of results) {
+  md.push(`## ${r.name} (${r.prof.w}×${r.prof.h} @${r.prof.dpr}×, CPU ÷${r.prof.cpu}): ${r.failures.length ? 'FAIL' : 'pass'}`, '');
+  for (const f of r.failures) md.push(`- ✗ ${f}`);
+  if (r.stats) {
+    const s = r.stats;
+    md.push('', `Frames ${s.frames}; median ${s.median.toFixed(1)} ms; p95 ${s.p95.toFixed(1)} ms; over 50 ms: ${s.spikes}; over 25 ms: ${(s.slowShare * 100).toFixed(1)}%; long tasks ${s.longTasks}.`,
+      `Hero: hidden with camera clear ${s.hidden}; hidden with camera pressed close ${s.closeHidden}; most visibility flips in 1 s ${s.worstToggles}; broken pose ${s.badPose}; screen jumps ${s.jumps}. Drawing pixel ratio ${s.pixelRatio.join('–')}.`, '',
+      '| Phase | Frames | Median ms | p95 ms | Max ms |', '| --- | ---: | ---: | ---: | ---: |',
+      ...Object.entries(s.perPhase).map(([k, v]) => `| ${k} | ${v.frames} | ${v.median} | ${v.p95} | ${v.max} |`), '', r.clip ? `Clip: ${path.join(path.basename(r.dir), 'clip.mp4')}` : 'Clip: not encoded (ffmpeg missing?)', '');
+  }
+}
+fs.writeFileSync(path.join(OUT, `${TAG}.md`), md.join('\n'));
+fs.writeFileSync(path.join(OUT, `${TAG}.json`), JSON.stringify({ tag: TAG, url: URL_, pass, stale, results: results.map(({ prof, ...r }) => ({ ...r, profile: prof })) }, null, 1));
+console.log(md.join('\n'));
+process.exit(pass ? 0 : 1);
