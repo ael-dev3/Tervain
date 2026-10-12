@@ -45,10 +45,14 @@ try {
     fs.mkdirSync(path.dirname(to), { recursive: true });
     fs.copyFileSync(from, to);
   }
-  git(work, 'add', '--', TAG);
-  git(work, '-c', 'user.name=play-gate', '-c', 'user.email=play-gate@users.noreply.github.com', 'commit', '-q', '-m', `Gate media for ${TAG}`);
-  const sha = git(work, 'rev-parse', 'HEAD');
-  if (!args.dry) git(work, 'push', '-q', 'origin', `HEAD:refs/heads/${BRANCH}`);
+  // A timing run without a recorded run has no media; it is posted without a media commit.
+  let sha = '';
+  if (fs.existsSync(path.join(work, TAG))) {
+    git(work, 'add', '--', TAG);
+    git(work, '-c', 'user.name=play-gate', '-c', 'user.email=play-gate@users.noreply.github.com', 'commit', '-q', '-m', `Gate media for ${TAG}`);
+    sha = git(work, 'rev-parse', 'HEAD');
+    if (!args.dry) git(work, 'push', '-q', 'origin', `HEAD:refs/heads/${BRANCH}`);
+  }
   // Links pinned to the commit, so a later run never changes what an old comment shows.
   const body = log.replace(/MEDIA\/([^\s)]+)/g, (_, f) => `https://raw.githubusercontent.com/${repo}/${sha}/${TAG}/${f}`)
     .replace(/(https:\/\/raw\S+\.jpg)/g, (u) => `[still](${u})`).replace(/(https:\/\/raw\S+\.mp4)/g, (u) => `[clip](${u})`);
