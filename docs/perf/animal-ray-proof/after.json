@@ -1,0 +1,13 @@
+{
+  "build": {
+    "version": "0.0.14",
+    "revision": "e6651ae94"
+  },
+  "animalCount": 19,
+  "skeletonCount": 19,
+  "queries": 120,
+  "distantHits": 0,
+  "distantSkeletonUpdates": 0,
+  "nearHits": 4,
+  "pass": true
+}
