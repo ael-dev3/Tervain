@@ -209,3 +209,33 @@ size, unknown masks, exception-state byte and the actual pending constructor.
 The added failure check proves retained earlier allocations, held lock, pending
 new-handler and absence of a constructed object. Full-suite/build, hosted
 rendering, and campaign completion are not established by these focused checks.
+
+
+## Locale-object constructor prefix
+
+The captured source adds `30670790`, its `30679c33` EH3 epilogue, and the name
+constructor entry `3001fe1f` (body `303ed620`). There are now 366 Engine methods.
+Comparison proved all prior methods, imports, metadata and images unchanged
+before adding the four-byte vtable image at `30892a0c` and two-byte `"*"` literal
+at `30826a90`. Both inputs are file-backed and protected as readonly evidence.
+
+The runtime shares the captured EH3 implementation between the initializer's
+eight-byte local frame and the object's four-byte local frame. It initializes
+the actual retained 52-byte allocation: reference count 1 at offset 4; zeros
+at offsets 8, 12 and 16; the actual zero argument byte at offset 20; and an
+opaque vtable pointer at offset 0. Numeric pointer bits remain unknown. Other
+bytes, including the name member, remain unknown until supported construction.
+The original name argument and receiver at object offset 24 lead to the pending
+`306707ca` call to `3001fe1f`, returning through `306707cf`.
+
+TypeScript checking and 153 source/image checks passed. The initial focused
+runtime run passed seven checks and failed one incorrect stack-position test
+expectation. That expectation has been corrected from object caller position
+minus 48 to minus 44, matching the original four-byte local frame and name call.
+The corrected runtime rerun passed all eight focused checks, with TypeScript
+checking passing again. The normal check proves the nested exception-frame
+positions, initialized reference count and zero fields, flag byte, exact known
+and unknown masks, and pending original name-constructor return word. This is
+focused continuation evidence, not complete startup or published gameplay. The
+name constructor, exception cleanup, outer locale publication and filebuf
+completion remain unfinished.

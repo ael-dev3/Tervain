@@ -1682,10 +1682,11 @@ stack.#engineCinitFrame!.pc='10003cd8';engineCinitUnMangleInstruction('10003cd8'
               base('305ee6b0',()=>{});base('305ee6b2',()=>stack.#call('305ee6b2','305ee6b7'));
               const locale=(pc:string,body:()=>void)=>step(pc,body,'30670832');
               locale('30670832',()=>stack.#push(stack.#mint(8,0xffffffff)));locale('30670834',()=>setRegister('EAX',stack.#source('code','3072f4aa')));locale('30670839',()=>stack.#call('30670839','3067083e'));
+              const runLocaleEh3=(extent:number,returned:string)=>{
               const localeProlog=(pc:string,body:()=>void)=>step(pc,body,'30679b5b');
               localeProlog('30679b5b',()=>stack.#push(register('EAX')));localeProlog('30679b5c',()=>stack.#push(stack.#load(stack.#bank,32)));
               localeProlog('30679b63',()=>setRegister('EAX',stack.#stackWord(stack.#address(register('ESP'))+12)));
-              localeProlog('30679b67',()=>{const size=stack.#numeric(stack.#load(stack.#stack,stack.#address(register('ESP'))+12),4);if(size!==8)throw new Error('Actual locale EH3 local extent required');setRegister('ESP',stack.#stackWord(stack.#address(register('ESP'))-size));stack.#flags(0,0);});
+              localeProlog('30679b67',()=>{const size=stack.#numeric(stack.#load(stack.#stack,stack.#address(register('ESP'))+12),4);if(size!==extent)throw new Error('Actual locale EH3 local extent required');setRegister('ESP',stack.#stackWord(stack.#address(register('ESP'))-size));stack.#flags(0,0);});
               localeProlog('30679b6b',()=>stack.#push(register('EBX')));localeProlog('30679b6c',()=>stack.#push(register('ESI')));localeProlog('30679b6d',()=>stack.#push(register('EDI')));
               localeProlog('30679b6e',()=>stack.#store(stack.#stack,stack.#address(register('EAX')),register('EBP')));localeProlog('30679b70',()=>setRegister('EBP',register('EAX')));
               localeProlog('30679b72',()=>{const cookie=NativeCrtBootstrap.engineCinitCookieForCrt(bootstrap,crt,permit);if(!cookie.known)throw new Error(cookie.reason);setRegister('EAX',stack.#mint(NativeHeapObjectViews.prototype.readUnsigned.call(cookie.value,0),0xffffffff));});
@@ -1693,7 +1694,9 @@ stack.#engineCinitFrame!.pc='10003cd8';engineCinitUnMangleInstruction('10003cd8'
               localeProlog('30679b7a',()=>stack.#push(stack.#load(stack.#stack,stack.#address(register('EBP'))-4)));
               localeProlog('30679b7d',()=>stack.#store(stack.#stack,stack.#address(register('EBP'))-4,stack.#mint(0xffffffff,0xffffffff)));
               localeProlog('30679b84',()=>setRegister('EAX',stack.#stackWord(stack.#address(register('EBP'))-12)));localeProlog('30679b87',()=>stack.#store(stack.#bank,32,register('EAX')));
-              localeProlog('30679b8d',()=>{const p=stack.#record(stack.#ret()).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!=='3067083e')throw new Error('Actual locale EH3 prolog caller return required');});
+              localeProlog('30679b8d',()=>{const p=stack.#record(stack.#ret()).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!==returned)throw new Error('Actual locale EH3 prolog caller return required');});
+              };
+              runLocaleEh3(8,'3067083e');
               const localePointer=NativeEngineCinitImages.imageForCrt(images.value,crt,'standardLocaleGlobalPointer');if(!localePointer.known)throw new Error(localePointer.reason);
               locale('3067083e',()=>setRegister('EAX',stack.#load(localePointer.value,0)));
               locale('30670843',()=>stack.#logicalFlags(stack.#numeric(register('EAX'),4),0xffffffff,4));locale('30670845',()=>setRegister('ESI',register('EAX')));locale('30670847',()=>{});
@@ -1727,7 +1730,22 @@ stack.#engineCinitFrame!.pc='10003cd8';engineCinitUnMangleInstruction('10003cd8'
               locale('3067086d',()=>{const p=stack.#record(register('ECX')).provenance;if(p?.kind!=='engine-allocation'||p.crt!==crt||p.fields!==stack.#engineCinitFrame!.standardLocaleObjectAllocation||p.offset!==0)throw new Error('Actual allocated locale object receiver required');stack.#flags(0,0x841);});
               locale('3067086f',()=>{const at=stack.#address(register('EBP'))-4;stack.#invalidateRange(stack.#stack,at,1);NativeHeapObjectViews.prototype.writeUnsigned.call(stack.#stack,at,1,1);});
               locale('30670873',()=>{});locale('30670875',()=>stack.#push(register('ESI')));locale('30670876',()=>stack.#call('30670876','3067087b'));
-              stack.#engineCinitFrame!.pc='30670790';return known(undefined);
+              const objectConstructor=(pc:string,body:()=>void)=>step(pc,body,'30670790');
+              objectConstructor('30670790',()=>stack.#push(stack.#mint(4,0xffffffff)));objectConstructor('30670792',()=>setRegister('EAX',stack.#source('code','3072f44f')));objectConstructor('30670797',()=>stack.#call('30670797','3067079c'));runLocaleEh3(4,'3067079c');
+              const object=stack.#engineCinitFrame!.standardLocaleObjectAllocation;if(!object)throw new Error('Actual locale object allocation required');
+              const objectPointer=(word:NativeX86Word32,offset:number)=>{const p=stack.#record(word).provenance;if(p?.kind!=='engine-allocation'||p.crt!==crt||p.fields!==object||p.offset!==offset)throw new Error('Actual locale object member receiver required');};
+              objectConstructor('3067079c',()=>{objectPointer(register('ECX'),0);setRegister('ESI',register('ECX'));});objectConstructor('3067079e',()=>stack.#store(stack.#stack,stack.#address(register('EBP'))-16,register('ESI')));
+              objectConstructor('306707a1',()=>{objectPointer(register('ESI'),0);stack.#store(object,4,stack.#mint(1,0xffffffff));});objectConstructor('306707a8',()=>{setRegister('EAX',stack.#mint(0,0xffffffff));stack.#logicalFlags(0,0xffffffff,4);});
+              objectConstructor('306707aa',()=>stack.#store(stack.#stack,stack.#address(register('EBP'))-4,register('EAX')));
+              for(const [pc,offset] of [['306707ad',8],['306707b0',12],['306707b3',16]] as const)objectConstructor(pc,()=>{objectPointer(register('ESI'),0);stack.#store(object,offset,register('EAX'));});
+              objectConstructor('306707b6',()=>{const value=NativeHeapObjectViews.prototype.readUnsigned.call(stack.#stack,stack.#address(register('EBP'))+8,1);if(value!==0)throw new Error('Original locale object zero flag argument required');setRegister('EAX',stack.#mint(value,0xffffffff));});
+              const name=NativeEngineCinitImages.imageForCrt(images.value,crt,'standardLocaleNameLiteral'),table=NativeEngineCinitImages.imageForCrt(images.value,crt,'standardLocaleObjectVtable');if(!name.known||!table.known)throw new Error('Actual original locale readonly inputs required');
+              objectConstructor('306707b9',()=>stack.#push(stack.#mint(0,0,{kind:'engine-image',crt,fields:name.value,offset:0})));
+              objectConstructor('306707be',()=>{objectPointer(register('ESI'),0);setRegister('ECX',stack.#mint(0,0,{kind:'engine-allocation',crt,fields:object,offset:24}));});
+              objectConstructor('306707c1',()=>{objectPointer(register('ESI'),0);stack.#store(object,0,stack.#mint(0,0,{kind:'engine-image',crt,fields:table.value,offset:0}));});
+              objectConstructor('306707c7',()=>{objectPointer(register('ESI'),0);stack.#invalidateRange(object,20,1);NativeHeapObjectViews.prototype.writeUnsigned.call(object,20,stack.#numeric(register('EAX'),4)&255,1);});
+              objectConstructor('306707ca',()=>stack.#call('306707ca','306707cf'));
+              stack.#engineCinitFrame!.pc='3001fe1f';return known(undefined);
             }
             if(target==='30791ef6'||target==='30791f18'){
               const initializer=target==='30791f18'

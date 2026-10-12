@@ -363,3 +363,12 @@ it('captures the original locale lock selection and enter/leave wrappers',()=>{
  expect(engineCinitInstruction('30671353','30671357')).toMatchObject({bytes:'ff15dcc6af30',instruction:'CALL dword ptr [0x30afc6dc]'});
  expect(engineCinitInstruction('3067135e','30671362')).toMatchObject({bytes:'ff15d8c6af30',instruction:'CALL dword ptr [0x30afc6d8]'});
 });
+
+
+it('captures the original locale object constructor and readonly name inputs',()=>{
+ expect(engineCinitInstruction('30670790','30670797')).toMatchObject({bytes:'e8bf930000',instruction:'CALL 0x30679b5b'});
+ expect(engineCinitInstruction('30670790','306707a1')).toMatchObject({bytes:'c7460401000000',instruction:'MOV dword ptr [ESI + 0x4],0x1'});
+ expect(engineCinitInstruction('30670790','306707ca')).toMatchObject({bytes:'e850f69aff',instruction:'CALL 0x3001fe1f'});
+ expect(engineCinitImage('standardLocaleNameLiteral')).toMatchObject({address:'30826a90',raw:'2a00',bytes:2,fileBackedBytes:2,loaderZeroFillBytes:0});
+ expect(engineCinitImage('standardLocaleObjectVtable')).toMatchObject({address:'30892a0c',raw:'16086730',bytes:4,fileBackedBytes:4,loaderZeroFillBytes:0});
+});
