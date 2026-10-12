@@ -3284,86 +3284,175 @@ the comma routine and second argument is still required. No deployment or full
 campaign completion is claimed.
 
 
-## Executed template comma continuation
+## Second MainCache template argument and list return
 
-The original argument loop now reads the second class tag at cursor 45, appends
-the comma through `30697b95`, allocates its original character node and vtable,
-and physically returns through `30698aec`. Execution remains pending at
-`30698af1` before decoding the second argument. No template CString is built.
-The extracted node-to-list worker executes the same original bytes for both
-class text and the argument list.
+The original second class argument `bCObjectRefBase` now decodes from cursor 45,
+returns through its scoped-name and class parsers, enters the argument cache,
+and appends to the original output list. The argument parser recognizes the
+original end marker at cursor 63, clears its active flag, verifies its cookie,
+and physically returns to `30699287`. The outer template-name routine remains
+pending there; the template property root is zero and its CString is not built.
 
-The normal comma node and an interrupted byte store passed focused checks.
-All 28 selected property regressions, 81 source/image/browser startup checks,
-typechecking and production build passed. The older combined full suite remains
-active with its historical call-graph snapshot test failure, whose correction
-was separately verified and integrated. This comma continuation is local.
-Second-argument execution is in a separate checkout under validation; full
-startup and a playable new-game-to-ending campaign remain unfinished.
-
-
-## Template parent dependencies captured
-
-The original calls after the argument-list return at `30699287` now have pinned
-source evidence for `30697d9a` (qualified value combination) and `30697139`
-(last character through the original node vtable). The 43 added instructions
-are source evidence only. Every prior method and image record is unchanged,
-and both new methods match an independent DLL/disassembly capture.
-
-The Engine capture contains 194 methods and 4,607 instructions. JSON SHA-256:
-`6bc07347b0fd207359b05b72264ba23a9393379281f1ce388af86b2688b8dba1`.
-All 76 source/image checks and typechecking passed. The committed runtime in
-this checkout still stops before the second argument at `30698af1`; the
-separate second-argument checkout has passed its focused checks and 81
-source/image/browser startup checks, with property regressions still running.
-These captures and native continuations are local, not deployed.
+Five focused normal/interruption/history checks, all 30 selected property
+regressions, all 81 source/image/browser startup checks, typechecking and the
+production build passed in this checkout. The continuation has been copied
+into the main-PR-264 checkout for compatibility checks against the latest
+source inventory and application changes. This local checkpoint does not
+claim deployment, complete native startup or a playable full campaign.
 
 
-## Second argument integrated with deployed main
+### Original template opening and qualified value combination
 
-The second class argument `bCObjectRefBase` now executes in this checkout. Its
-original class/scoped-name returns, reference cache append and output list
-append are retained. The argument-list routine reads the end marker at cursor
-63, clears its active flag, verifies its cookie and physically returns to
-`30699287`. The outer template-name parser remains pending; no property root,
-CString or completed startup is fabricated.
+The parser constructs the opening character from its contained stack input, copies it to the destination, checks both nonempty values, appends the argument-list node using an original newly allocated wrapper, and physically returns through the qualified-value and combination callers to 30699293. The parent template-name continuation remains pending there. Unknown stack input and interrupted character-store tests retain the original pending callers and locks. The twenty-eighth CString remains unconstructed.
 
-All four runtime/test files match the independently validated second-argument
-checkout, where 30 selected property regressions, 81 source/image/browser
-checks, typechecking and build passed. After integration with main PR 264 and
-the expanded parent source capture, five focused compatibility checks, all
-82 source/image/browser startup checks and typechecking passed. The earlier
-140 main integration checks cover the preceding comma runtime.
-
-The separate older full suite completed with 3,958 passing checks and one
-historical snapshot-timing failure; its capture-time correction passed in
-that checkout. That targeted correction is not a full-suite rerun. A full
-validation of this newest combined revision is still required before publishing
-this native checkpoint. Full startup and a complete browser campaign remain
-unachieved.
+Validation: TypeScript checking, three focused normal/interruption checks, 82 source/image/browser checks, and the production build passed. This checkpoint is local native startup progress, not full startup, deployment, or complete campaign gameplay.
 
 
-## Integrated MainCache template parser checkpoint
+### Original nested template last-character traversal
 
-This integration combines main through 7e7884999313c061d1d5ce3164ca239d53f02cf3 with the native implementation and evidence from local checkpoint 8b823e7e4. The source capture contains 195 Engine methods and 4615 Engine instructions. The template-name pipeline executes through original cache cleanup and returns to the actual MainCache constructor at 30077258. The generated name and cache allocations, parser/output release, locks and physical caller returns have focused evidence in the implementation branch. SharedBase name conversion, remaining startup and the full campaign remain unfinished. A full local suite is to validate this frozen integrated revision; a started run is not a passing result or a deployment.
+The parent name append returns, then the original last-character routine traverses the live node graph. Virtual length dispatch covers captured list, text and character tables; nested lists tail-call the value-length traversal. Last-character dispatch follows the final nonempty node and reads its original allocated text copy. The physical caller returns to 306992a7 with AL=101 (`e`, from bCObjectRefBase). The twenty-eighth CString and startup remain incomplete.
 
-
-## Main-269 integration through geometry spatial context
-
-This integration copies the locally validated native/evidence files from `9961e887c`, including SharedBase CString conversion, MainCache shutdown/return, original iterator dispatch and the `eCGeometrySpatialContext` initializer. The exact pending callback is `30732480`, with C++ cursor `0x178` and exit cursor 124 after thirty-one registrations. Source capture: 199 Engine routines / 4,643 instructions plus existing SharedBase evidence, JSON SHA256 `d13de9abaa7fc37735e528cc242569bdd0a48211a9af3f798a063a7a6ea07485`. The development checkpoint passed typechecking, three focused normal/interrupted cases, 85 source/image/browser checks, byte-for-byte regeneration and build. Those results precede this main-269 integration; the integration requires its own validation. Earlier full-suite evidence excludes these newer continuations. Complete startup and campaign play remain outstanding.
+Validation: four focused cases passed, including unknown copied last-character input, along with TypeScript checking, 83 source/image/browser checks and the production build. The unknown byte remains unknown at 306973d3 with its original parent caller pending and live allocations/locks retained. The prior broad validation remains a separate revision and does not prove this continuation or campaign completion. No deployment is claimed.
 
 
-## Integrated exit-table growth checkpoint
+### Original template-name return and context restoration
 
-Native files from `5977c5975` include the original PVS prefetcher, Engine realloc capability, exit-table growth preserving prior callback-word provenance, and `eCOcclusionProcessor` constructor return. The dispatcher now remains pending at `307324a0`, C++ cursor `0x180`, exit cursor 132. This integration keeps main through PR269 and the original ending-evidence capture. The predecessor `5a612b405a31f1d83d6fa5062dfc969a4dbba82d` passed all 3,999 checks in 336 files and build; the exact receipt is `validation-main269-geometry.json`. Development growth checks passed five focused cases, 95 source/image/browser/allocator checks, typechecking, regeneration and build. These are separate revisions and scopes; integration validation is recorded separately. Complete startup and campaign play remain unfinished.
+The template-name parser now completes its captured return path: it appends the original closing character, evaluates the retained stack end-marker flag, restores all three saved parser contexts, copies the completed parsed value to the original output, unwinds its frame and physically returns to identifier continuation 30699365. The subsequent identifier continuation is still pending in this checkpoint. Native startup and the twenty-eighth CString remain incomplete.
+
+Validation: six focused normal/interruption cases passed; an additional direct before/after check verified all three restored contexts. TypeScript checking, 83 source/image/browser checks and the production build passed. An unknown end-marker flag stops at 306992bf before context restoration or output copy with the template caller pending. No deployment, complete startup or playable campaign is claimed.
 
 
-The integration revision `d67c8bc95` passed typechecking, five focused startup/growth cases, 117 source/ownership/browser checks in eight files and production build. `validation-main269-exit-growth.json` records this scope and the separate 3,999-check predecessor. No newer local full-suite result or completed campaign is claimed.
+### Original completed template scoped-name return
+
+The scoped-name caller assigns the completed template value, validates its kind, reads its final @ delimiter, advances the raw RTTI cursor to its contained terminator at offset 65, and physically returns to the class-type caller at 306996a8. The class-type continuation remains pending in this checkpoint. No literal-name length or contiguous text-buffer metadata is invented for the nested template list. Native startup and the twenty-eighth CString remain incomplete.
+
+Validation: eight distinct focused normal/interruption cases passed across the seven-case run and the additional two-case delimiter check. An unknown final @ stops at 30699524 with the class caller pending and the cursor retained at 64. The saved parser contexts remain restored. TypeScript checking, 83 source/image/browser checks and the production build passed. The parser-image size assertion was also corrected to its captured 38-byte extent and passed its focused check. No deployment or campaign completion is claimed.
 
 
-## Graphics/resource initializer integration with main through PR270
+### Original completed template name length
 
-This checkpoint integrates native/evidence files from `675d84ec7` with main `e248573b26f1a45a4be9c9e74d5a0a5c519e03bb`, including the collaborator hero timing and live-build identification changes. The original 17-callback graphics/resource group returns through all constructors, retains 50 shutdown registrations, and stops at unsupported callback `307325b0`, C++ cursor `0x1c4`, exit cursor 200. Capture: 277 Engine routines / 5,382 instructions; JSON SHA256 `fa66b72bc2dbfa941e357adca4329cc29f3eb6ca4e6208df76a6e2db3a7f2cf2`. Development validation passed three runtime probes, 129 source/image/browser/allocator checks, typechecking, regeneration and build. The earlier `c1cf5c061` deployment succeeded and its Ardea entry, Hero/world-clock and Xardas quest loading were observed on the hosted route. That deployment excludes this newer group. Full startup and campaign completion remain outstanding.
+The original data/type callers return the completed class/template node graph to the UnMangle parser. It validates the consumed terminator, copies the parsed value, and executes the original recursive length routine through captured list, text and character tables. The physical length caller returns to 3069b0a7 with the known result 63, matching class bTPropertyObject<class eCMainCache,class bCObjectRefBase>. Output allocation and writing remain pending in this checkpoint. Native startup and the twenty-eighth CString remain incomplete.
+
+Validation: normal length and unknown virtual-target cases passed, as did the earlier class-tail interruption case. TypeScript checking, 83 source/image/browser checks and the production build passed. An unknown list length target stops at original CALL instruction 30697129 before creating that indirect call return, with the parent length caller pending. The corrupted readonly table is rejected by image admission, so subsequent parser-word snapshots are unknown rather than fabricated. No deployment or campaign completion is claimed.
+
+
+## MainCache recursive template name writer checkpoint
+
+The captured list, text and character virtual writers now traverse the actual parsed template graph and return through the original writer caller at 3069b0d3. The live 64-byte output contains exactly class bTPropertyObject<class eCMainCache,class bCObjectRefBase> followed by a null terminator; all 64 output bytes are known. A final-terminator interruption preserves the 63 written characters, unknown terminator, live output allocation, held undecoration lock and unfinished original writer call. The following repeated-space normalization and outer return remain pending; startup and the campaign remain incomplete.
+
+Local evidence: typecheck, two focused normal/interrupted writer checks, 83 source/image/browser checks and production build passed. These changes were not included in the earlier full-suite receipt and are not yet deployed.
+
+
+## MainCache generated-name normalization and parser return
+
+After the recursive writer returns, the original 3069b0d3-3069b0fd byte loop copies the generated name in place, retains one space in each run, and writes its final null terminator. The original LEAVE and RET return the live output pointer through the captured 3069b2de caller to 3069b2e3. Arena cleanup, unlock, type-name cache integration and the remaining startup/campaign are still pending.
+
+The normal check proves the exact 64 output bytes and returned parser call. An unknown byte during normalization stops at 3069b0f3 with the original parser call unfinished, output alive and lock held. The writer-terminator interruption remains covered. Typecheck, these three focused checks, 83 source/image/browser checks and production build passed locally. No claim of a new full-suite pass or deployment is made.
+
+
+## MainCache parser arena cleanup and undecoration return
+
+The captured arena destructor now releases the original parser allocation through its actual free callback and clears the arena chain. The captured finally routine releases lock 5, and the EH epilog restores the original frame and returns the live generated-name output to 3067dacb. The output allocation is distinct from the released parser arena. Type-name length scanning and cache publication, subsequent startup and the complete campaign remain unfinished.
+
+A focused normal check proves the released arena, cleared pointers, live exact output, unlocked state and original destructor/finally/epilog/caller returns. An interrupted original free callback preserves its unfinished call, live arena and held lock. Earlier unknown-normalization-byte and writer-terminator interruption checks remain covered. Typecheck, four focused checks, 83 source/image/browser checks and production build passed locally. No new full-suite or deployment claim is made.
+
+
+## MainCache original strlen and type-name cache entry
+
+The original returned-name caller now executes its DWORD strlen scan, measures the live output as 63 characters, checks the last character through the captured trim path, acquires type-name lock 14 and verifies that the actual RTTI cache pointer remains zero. Execution stops at 3067db09 before cache allocation. The parser arena is already released and its lock is no longer held. No cache publication, complete startup or campaign completion is claimed.
+
+The normal check proves the exact length, held type-name lock and physical strlen/lock caller returns. An unknown final output byte stops at 30679b11 with the original strlen caller unfinished and the type-name lock unacquired. The first negative-test hook failed before reaching this routine because it omitted maskedWord width forwarding; correcting that hook produced the intended unknown-terminator evidence. Typecheck, two focused checks, 83 source/image/browser checks and production build passed locally. This checkpoint is not yet deployed or covered by a new full-suite run.
+
+
+## MainCache original type-name cache publication
+
+The original allocator now creates the 8-byte type-name list node and a distinct 64-byte text allocation from the measured 63-character name. The captured copy routine writes the exact name and terminator, returns zero, and the original caller links the text and node into the RTTI cache and captured cache list. Execution stops at 3067db62 before releasing the temporary output and completing cache cleanup. MainCache constructor conversion, subsequent startup and the full campaign remain incomplete.
+
+The normal check proves separate live allocations, exact fully-known cache text, successful copy result and original allocation/copy returns. A null node allocation preserves the original null result before cleanup. An interrupted cache terminator write preserves the incomplete cache text, live temporary output, held type-name lock and unfinished copy caller. Typecheck, these three focused checks, 83 source/image/browser checks and production build passed locally; no new full-suite or deployment result is claimed. The captured MainCache constructor uses caller return 30077258 and SharedBase conversion call 3007725e for its next continuation.
+
+
+## MainCache type-name cache cleanup and constructor return
+
+The original temporary-output free callback, type-name finally handler, EH epilog and wrapper now execute to the actual MainCache constructor caller at 30077258. The temporary undecoration output and parser arena are released, the published cache node/text remain live, and both undecoration and type-name locks are unheld. The next constructor conversion and subsequent startup/campaign remain unfinished.
+
+A normal check proves the exact live cache text, freed temporary output and physical cleanup/wrapper returns. Interrupting the temporary-output free preserves its unfinished caller, live output, published cache text and held type-name lock. Null-node and interrupted-cache-copy checks remain covered. Typecheck, four focused checks, 83 source/image/browser checks and production build passed locally. The cleanup uses the current caller-relative frame and captured MainCache return 30077258. No new full-suite or deployment claim is made.
+
+
+## MainCache SharedBase class-name space search
+
+The actual MainCache constructor now pushes its published Engine cache text and CString destination and calls the captured SharedBase UnMangle import at 3007725e. The original thunk, entry, space-literal search and character-search tail path return through the original 1009155b caller. The caller cleans its arguments, verifies the actual live cache owner and matched space at offset 5, and takes the original non-null branch. Execution remains pending at 10091567 before fetching the CString destination and constructing the string.
+
+An unknown cache-space byte stops at the original XOR instruction 100a7343, with both SharedBase search and MainCache conversion calls unfinished. The cache text remains live, temporary parser/output allocations remain freed, and both earlier locks remain unheld. The public outer-register snapshot did not retain the inner search result, so no assertion about that snapshot is used; the captured caller verifies the actual return pointer before proceeding. Typecheck, two focused checks, 83 source/image/browser checks and production build passed locally. The running full-suite revision b328fb012690e3164b60efb82b38706863a5aa78 excludes this later search continuation. No full-game or deployment claim is made.
+
+
+## MainCache original CString scan and allocation arguments
+
+The captured SharedBase caller now selects the actual MainCache CString destination, advances beyond the class-prefix space and enters the original text constructor. The original byte scan measures the 57-character remaining name, and the allocation routine pushes 66 bytes (length plus its captured 9-byte header/terminator allowance) before calling the MemoryAdmin singleton entry. Execution remains pending at 10002aae; a new CString has not yet been allocated or copied.
+
+The normal check reads 57 and 66 from the actual retained original call stack arguments. An unknown first text byte stops the original scan at 10013610 with its constructor caller unfinished and no new allocation caller entered. The cache remains live and the earlier temporary output remains freed. Typecheck, two focused checks, 83 source/image/browser checks and production build passed locally. The separate full-suite revision b328fb012690e3164b60efb82b38706863a5aa78 excludes this later continuation and remains under validation. Startup and the full campaign remain incomplete and this continuation is not deployed.
+
+
+## MainCache CString pool allocation and original header setup
+
+The captured MemoryAdmin singleton and malloc contracts now return through their actual original callers. A 66-byte CString request produces an 80-byte pool allocation with a canonical retained owner. The original allocation routine writes length 57, reference count 1, publishes its character pointer to the actual MainCache destination, writes the terminator at offset 65 and returns to 10013628. Character copying and constructor completion remain pending.
+
+The normal check distinguishes requested size from pool extent and verifies that the original pool bytes/masks outside header and terminator stores are preserved; no fresh-unknown assumption is imposed on an initialized or reused pool block. An interrupted terminator store preserves its prior byte and mask, live allocation and unfinished allocator caller. Typecheck, two focused checks, 83 source/image/browser checks and production build passed locally. A whitespace-only blank line was removed after validation. The separate running full-suite snapshot b328fb012690e3164b60efb82b38706863a5aa78 excludes these later changes and has reported an ErrorAdmin damaged-format check failure; its complete result is still pending. No full-game or deployment claim is made.
+
+
+## MainCache original CString character copy and conversion return
+
+The original constructor now pushes the actual Engine cache source at offset 6, the live CString character destination at offset 8 and the 57-byte copy length. The supported original scalar memcpy contract copies the actual byte/mask state, physically returns to its caller, and the original CString constructor and SharedBase UnMangle caller return to MainCache at 30077264. The 57-character bare type name plus terminator is exact; the pool header, reserved bytes and allocation ownership remain intact. Shutdown registration and the remaining initializer are still pending.
+
+The normal check proves the exact payload, copy-completed flag and physical memcpy/constructor/conversion returns. An interrupted second DWORD store preserves the first written DWORD, the remaining pool bytes/masks and all unfinished original callers without manufacturing success. Typecheck, two focused checks, 83 source/image/browser checks and production build passed locally. The full-suite revision b328fb012690e3164b60efb82b38706863a5aa78 remains separate and excludes this continuation. Startup, campaign completion and deployment remain unproven.
+
+
+## MainCache initializer return and shutdown registration
+
+The original MainCache constructor now registers shutdown callback `30019029` in the thirtieth exit-table slot (offset 116), advances the exit cursor to 120, publishes the original CString storage owner as its property root, and returns through the captured constructor and C++ callback. The original iterator advances to offset `0x174`; execution remains pending at `3067d221` before loading the next initializer. Interrupted callback storage retains its actual caller, lock and unchanged exit cursor. Typechecking, two focused normal/interrupted cases, 83 source/image/browser checks and the production build passed locally. This checkpoint does not establish complete startup or campaign play; the earlier main-269 full suite excludes this continuation.
+
+
+## Dispatch after MainCache initialization
+
+After the actual template constructor and callback returns, the dispatcher resumes its original C++ iterator. It reads slot `307bb174`, tests the captured target, and performs the original call at `3067d227`. Execution is pending at callback `30732470`, whose original target initializes `eCGeometrySpatialContext` through thunk `3002112a` and body `30077290`. No callback result is supplied for that unsupported body. Typechecking, two focused normal/interrupted cases, 83 source/image/browser checks and the production build passed locally; full startup and campaign progression remain incomplete.
+
+
+## Original geometry spatial context initializer
+
+Callback `30732470` now executes the captured property constructor `3002112a` / `30077290` for the original RTTI `.?AVeCGeometrySpatialContext@@`. It preserves the original flags, storage and root owners; creates the actual `eCGeometrySpatialContext` CString; registers shutdown callback `3000eb56` in the thirty-first exit-table slot (offset 120); returns through its original callers; and advances the C++ iterator to offset `0x178`. The dispatcher calls the actual next callback `30732480`, which remains unsupported. An interrupted shutdown-table store preserves its original bytes, masks, live CString, held lock, caller and cursor. MainCache evidence is captured before the next initializer changes the shared parser progress fields.
+
+The source capture contains 199 Engine routines / 4,643 instructions plus the existing SharedBase capture. Prior methods and images are unchanged. Regeneration matches the checked-in JSON and TypeScript byte-for-byte; JSON SHA256 is `d13de9abaa7fc37735e528cc242569bdd0a48211a9af3f798a063a7a6ea07485`. Typechecking, three focused normal/interrupted cases, 85 source/image/browser checks and the production build passed locally. These checks cover this continuation, not complete native startup or campaign play.
+
+
+## Original PVS prefetcher property initializer
+
+Callback `30732480` now executes captured thunk `30035747` and constructor `30077300` for original RTTI `.?AVeCPVSPrefetcher3@@`. It preserves the real property root/storage ownership and creates the original 16-byte name plus terminator in its CString. Shutdown callback `3000113b` is stored in exit-table slot 32 (offset 124), advancing the actual cursor to 128; constructor and callback return before the original dispatcher calls `30732490`, which remains pending. Interrupted shutdown storage retains the previous slot bytes/masks, live CString, held lock and unfinished caller. Iterator snapshots now update at the original cursor-advance instructions, so observations between callbacks report the current table position. Earlier constructor evidence is captured before subsequent initializers overwrite shared parser progress fields.
+
+Source capture: 203 Engine routines / 4,671 instructions plus the existing SharedBase evidence. Prior routines and images are unchanged. JSON/TypeScript regenerate byte-for-byte; JSON SHA256 `bec8c9f620c27ac1a406de295d10008464ff798921a1ac16c43186b509fb2f4b`. Typechecking, four focused normal/interrupted cases, 87 source/image/browser checks and production build passed locally. The main-269 full suite running for `5a612b405` excludes this newer continuation and iterator snapshot correction. Complete startup and campaign play remain unfinished.
+
+
+## Original Engine normal-heap realloc capability
+
+The Engine CRT owner now admits original wrapper `3067ca49` and implementation `30679200` for same-owner live allocation bases. It uses the actual virtual Win32 HeapReAlloc capability at import `30afc684`, preserves old data and known/unknown byte masks when storage moves, registers the returned backing with the same CRT owner, and preserves unknown extension bytes. Zero-size requests release the original storage. Foreign/interior pointers and unsupported small-block/oversized branches remain explicit failures or pending dependencies; interruption preserves original storage. Module-specific native source addresses are retained in the trace. Existing Game realloc and exit-table checks passed alongside the new Engine cases.
+
+This is allocator support, not a completed Engine exit-table growth caller: callback `30732490` remains the dispatcher frontier. Its original `eCOcclusionProcessor` constructor will require registration 33 and the source branch at `306714b8`, including transfer of actual callback-word provenance when table storage moves. No registration, constructor return or campaign completion is supplied by this allocator checkpoint.
+
+Capture: 205 Engine routines / 4,878 instructions plus existing SharedBase evidence. Existing methods and images are unchanged; JSON and TypeScript regenerate byte-for-byte. JSON SHA256 `2bd945420effa162bd74310e411b15ca93e345989a9a557be14033c148e8b906`. Typechecking, 78 allocator/source/ownership checks, 37 image/browser prerequisite checks and production build passed locally. The live main-269 suite for `5a612b405` excludes this allocator extension and the preceding prefetcher checkpoint.
+
+
+## Original Engine exit-table growth and occlusion property return
+
+The original `_onexit` branch at `306714b8` now computes the captured growth request, calls Engine realloc from `306714ce`, retains the actual moved table owner, copies existing callback-word provenance with unchanged bytes/masks, publishes the encoded base at `306714fd`, and continues the original registration. Source fallback/overflow boundaries retain their actual caller states. Tests prove the first resize from 128 to 256 bytes preserves all 32 prior callback records and leaves the unused extension unknown. An interrupted callback store after the move preserves its bytes/masks, held lock, unfinished caller and the old end-cursor publication until the original later store completes.
+
+Callback `30732490` executes the captured `eCOcclusionProcessor` property constructor through thunk `30027a8e` / body `30077370`, creates its actual CString and registers shutdown callback `30045228` in slot 33 (offset 128). Constructor and callback return; the iterator advances to offset `0x180` and calls the next unsupported callback `307324a0`. Exit cursor is 132 after successful registration.
+
+Capture: 209 Engine routines / 4,906 instructions plus existing SharedBase evidence. Previous routines/images are unchanged. JSON and TypeScript regenerate byte-for-byte; JSON SHA256 `f8c2f42ff23d63dd0b3b3466820d86a3713f3d61710a5985d24bbeaa462caf2d`. Typechecking, five focused startup/growth/interruption checks, 95 source/image/browser/allocator checks and production build passed locally. The earlier integrated revision `5a612b405a31f1d83d6fa5062dfc969a4dbba82d` separately passed all 3,999 checks in 336 files and build; that full-suite result excludes this newer continuation. Complete native startup and campaign play remain unfinished.
+
+
+## Contiguous graphics and resource property initializer group
+
+The shared interpreter now executes the 17 original property callbacks from slot `307bb180` (`307324a0`, `eCGfxAdmin`) through `307bb1c0` (`307325a0`, `eCShaderMaterialAdmin`). They cover graphics/rendering, image/material/mesh/sound/collision/animation caches, iterator/input/DLL/window/physics/animation/performance/vegetation administrators and shader materials. Every constructor uses its captured bytes, original fields, actual type-name CString owner, shutdown callback and caller returns. Successful execution retains 50 exit registrations (cursor 200), advances the original C++ iterator to `0x1c4`, and calls next unsupported callback `307325b0`. Tests check each of the 17 root owners, CString bytes/masks, copy result and constructor/callback returns; interruption of the last registration preserves the prior cursor, table bytes/masks and held lock. Prior constructor observations are retained at their actual iterator boundaries.
+
+Capture: 277 Engine routines / 5,382 instructions plus the existing SharedBase evidence. Previous methods are unchanged. JSON/TypeScript regenerate byte-for-byte; JSON SHA256 `fa66b72bc2dbfa941e357adca4329cc29f3eb6ca4e6208df76a6e2db3a7f2cf2`. Typechecking, three focused group/interruption/preceding-growth cases, 129 source/image/browser/allocator checks and production build passed locally. These results do not establish complete startup or campaign play. The published `c1cf5c061` checkpoint and its Pages run exclude this later local group.
 
 
 ## Post-processing administrator source capture
@@ -3396,6 +3485,11 @@ Captured `30698051` (eight original jump-table words), the enum literal at `3089
 The original callback `30732640` and constructor `30078390` now enter the property-name parser using their original fields and byte-verified source. Template argument parsing uses the actual cursor returned by the identifier parser, replacing MainCache-specific offsets. The W branch executes its original instructions through CALL `3069964b`, retaining the unfinished enum helper at `30697f9d` and its actual caller. Root publication, CString completion and shutdown registration for this property remain pending: initializer cursor is `0x1e8`, exit cursor is 236, type-name cache lock is unlocked and undecoration lock is held. MainCache regression observations capture its parser byte and call graph at its own checkpoint before later templates modify shared state. Typechecking and five targeted checks passed; broader browser checks and build are separate outstanding validation. Full startup and campaign completion remain unfinished.
 
 
+## Immutable source instruction indexes
+
+The generated source module now validates its immutable raw text once and indexes captured Engine and SharedBase methods and instruction rows. Index construction preserves the original first-matching method, instruction-before-entry-chain precedence, and returned object identity. All 7,826 lookups in this captured bundle were compared with the prior lookup behavior; 119 source/image checks and the shape-group runtime probe passed. The evidence generator reproduced identical captured JSON bytes. Unknown instruction errors and deep-frozen source admission remain in place. A single timing sample does not establish a performance gain.
+
+
 ## Enum underlying-type helper return
 
 The original helper `30697f9d` now follows the verified digit-4 jump-table entry, advances its actual source cursor from byte 35 to byte 36, copies the original empty descriptor through `30696c93`, restores its frame and returns to `30699650`. The original caller then pushes the enum literal and enters text combination `30697dde` via CALL `3069965a`; combination remains pending. The helper and descriptor-copy calls returned in the focused check. An interrupted source digit read retains PC `30697fa8`, cursor 35, original callers, held undecoration lock and unpublished root, without reaching descriptor copy. Typechecking and both focused checks passed locally. Complete property return, full startup and campaign completion remain unfinished.
@@ -3404,11 +3498,6 @@ The original helper `30697f9d` now follows the verified digit-4 jump-table entry
 ## Enum literal combination source dependencies
 
 Captured original combination wrapper `30697dde` (14 instructions) and literal constructor `306976d8` (21 instructions). The wrapper passes its actual underlying descriptor, output descriptor and enum literal to the constructor, then calls `30697b16` for the qualified value. These captures supply missing source dependencies; the current runtime still stops at the combination wrapper.
-
-
-## Immutable source instruction indexes
-
-The generated source module now validates its immutable raw text once and indexes captured Engine and SharedBase methods and instruction rows. Index construction preserves the original first-matching method, instruction-before-entry-chain precedence, and returned object identity. All 7,826 lookups in the captured bundle at source revision ce74f28d2 were compared with the prior lookup behavior; 119 source/image checks and the shape-group runtime probe passed. The evidence generator reproduced identical captured JSON bytes. Unknown instruction errors and deep-frozen source admission remain in place. A single timing sample does not establish a performance gain.
 
 
 ## Enum literal constructor prefix
@@ -3581,3 +3670,45 @@ All 344 prior method records, prior images, imports, tables and SharedBase evide
 Initializer `30791f18` now executes with its own captured receiver and return/callback addresses. The existing shared reference count changes from zero to one through the actual imported increment. Its nonzero branch reuses the four live critical sections, returns the second receiver to `30791f22`, registers `307b806e` through the original onexit routine and returns to the C++ initializer loop. The exit cursor is 264 with 66 callbacks and a 512-byte allocation; the C++ cursor is `0x204` and the next pending initializer is `30791f2e`.
 
 Typechecking and ten focused checks passed, including interruption of the second increment with the first initializer's four sections and 65 callbacks preserved. The earlier counter-write fixture now caches its admitted view and restores its write spy, preventing recursive mock interference between tests. The completed enum checkpoint retains all original byte, mask, owner, lock and return assertions; its separate final startup PC assertion follows the current boundary. Complete startup and campaign completion remain unfinished.
+
+
+### Standard-output filebuf source capture
+
+The source bundle adds initializer `30791f2e`, getter `3067c3c1`, filebuf constructor `305eed30`, streambuf base constructor `305ee660`, filebuf initialization `305ed990`, destructor `305f0c80` and callback `307b8082`. The getter returns the existing static stream table at `30ad45a8`; the initializer selects offset 32 and passes that pointer to the filebuf constructor at receiver `30af6e08`. The captured constructor accesses a DWORD at receiver offset `0x4c`, proving an 80-byte accessed span. Its new storage image is loader-zero-filled; this extent does not establish every possible access by other methods.
+
+All 346 prior method records, images, imports, constants, tables and SharedBase evidence remain identical. The source bundle now contains 353 Engine methods and one additional image. Typechecking and 147 source/image checks passed. Filebuf runtime execution remains unconnected at this capture checkpoint.
+
+
+### Standard-output filebuf constructor entry
+
+Initializer `30791f2e` now calls the original static-stream getter, retains the actual stream-table view and selects offset 32 without assigning a browser pointer a fabricated native address. It pushes that FILE pointer, loads the original 80-byte filebuf storage receiver and calls constructor `305eed30`, validating both actual arguments. The constructor saves ESI, preserves its receiver and calls base constructor `305ee660`; execution remains pending there. The two constructor calls retain original return addresses `30791f41` and `305eed38`. No filebuf fields or base-constructor returns have been manufactured. The storage remains unchanged and fully known from loader-zero-fill.
+
+Typechecking and three focused frame checks passed, including the retained earlier enum checkpoint and existing nonzero-reference branch. The prior source/image capture passed 147 checks. The exit cursor remains 264 with 66 callbacks and the C++ initializer cursor remains `0x204`; this initializer has not registered its shutdown callback or returned. Complete startup and campaign completion remain unfinished.
+
+
+### Streambuf critical-section member evidence
+
+The bundle adds constructor `30670963`, which allocates 24 bytes and calls original InitializeCriticalSection wrapper `3067133d`, and destructor `3067097b`, which calls the deletion wrapper before freeing the allocation. The original streambuf vtable entry at `3088da3c` is retained as four file-backed bytes and validated as immutable. All 353 earlier method records, images, imports, constants, tables and SharedBase evidence remain identical; the bundle now contains 355 Engine methods.
+
+The handler address `30727fdb` is proved by the existing captured PUSH instruction in base constructor `305ee660`, but it is absent from the decompiler function catalog. No handler body is claimed as recovered or executable. Typechecking and 149 source/image checks passed. The new member constructor/destructor are evidence only at this checkpoint. Complete startup and campaign completion remain unfinished.
+
+
+### Streambuf base-constructor exception frame and vtable
+
+Base constructor `305ee660` now executes its original saved-state/register pushes, local reservation, actual Engine cookie load and symbolic cookie XOR, and exception-frame link at FS:[0]. The frame head is exactly 12 bytes below this constructor's entry stack position. The original receiver and its offset-four member pointer are retained, the captured vtable pointer is written with opaque native-address bits, and the original call at `305ee695` retains return address `305ee69a`. Execution remains pending at member constructor `30670963`; no allocation or member initialization is claimed. The first four storage masks are unknown for the vtable pointer and the remaining 76 loader-zero-filled bytes remain known.
+
+Typechecking and three focused frame checks passed, retaining the earlier completed enum checkpoint and the existing reference-count bypass case. A first assertion used the wrong snapshot nesting for FS:[0]; the observed original stack offset was correct and the test now checks its retained word and unchanged-slot flag. The exception handler body, member initialization, complete startup and campaign completion remain unfinished.
+
+
+### Throwing allocation factory source evidence
+
+The bundle adds allocation factory `306728e3` and new-handler call `306824b9`. The captured bytes first call existing malloc wrapper `30672ec7`; a null result follows the new-handler/retry branch and can reach exception construction. The decompiler's catalog name for the factory is not used as proof of its semantics. These branches must retain actual allocation results and unsupported failure operations rather than manufacture a successful pointer or return.
+
+All 355 prior method records, images, imports, constants, tables and SharedBase evidence remain identical. The bundle now contains 357 Engine methods. Typechecking and 149 source/image checks passed. The factory is captured evidence only at this checkpoint; runtime execution remains pending at member constructor `30670963`. Complete startup and full campaign completion remain unfinished.
+
+
+### Streambuf member allocation and original null branch
+
+Member constructor `30670963` now pushes the original 24-byte request and calls factory `306728e3`. The factory executes its actual frame setup, normal malloc branch and result test. A non-null result is admitted against the Engine heap owner and logical extent, retained in the frame snapshot and stored as the member's opaque pointer at receiver offset four. The actual factory return is completed; execution remains pending at the dynamic member InitializeCriticalSection call `30671341`, which is not substituted with the static-array service. The first eight receiver masks are unknown for vtable/member pointers; the remaining 72 bytes retain their known loader-zero-fill.
+
+A null malloc result takes the original new-handler call at `306728ee`, retaining return address `306728f3` and pending target `306824b9`. No member pointer is stored and the allocation factory has not returned. Typechecking and four focused checks passed, covering normal allocation, null allocation, the earlier enum checkpoint and the shared-reference bypass. The bypass assertion is scoped to the actual shared-array caller so the later member call does not contaminate its evidence. The C++ and exit cursors remain `0x204` and 264. Dynamic member initialization, complete startup and campaign completion remain unfinished.

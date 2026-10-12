@@ -317,3 +317,100 @@ it('captures the second original critical-section reference initializer and shut
   expect(engineCinitInstruction('307b806e','307b8073')).toMatchObject({bytes:'e9fb83ebff',instruction:'JMP 0x30670473'});
   expect(engineCinitImage('sharedCriticalSectionSecondReferenceAddress')).toMatchObject({address:'30af6e01',bytes:1,raw:'00',fileBackedBytes:0,loaderZeroFillBytes:1});
 });
+
+it('captures the original standard-output filebuf caller and static stream getter',()=>{
+ expect(engineCinitInstruction('30791f2e','30791f2e')).toMatchObject({bytes:'e88ea4eeff',instruction:'CALL 0x3067c3c1'});
+ expect(engineCinitInstruction('30791f2e','30791f33')).toMatchObject({bytes:'83c020',instruction:'ADD EAX,0x20'});
+ expect(engineCinitInstruction('30791f2e','30791f37')).toMatchObject({bytes:'b9086eaf30',instruction:'MOV ECX,0x30af6e08'});
+ expect(engineCinitInstruction('30791f2e','30791f3c')).toMatchObject({bytes:'e8efcde5ff',instruction:'CALL 0x305eed30'});
+ expect(engineCinitInstruction('3067c3c1','3067c3c1')).toMatchObject({bytes:'b8a845ad30',instruction:'MOV EAX,0x30ad45a8'});
+ expect(engineCinitInstruction('3067c3c1','3067c3c6')).toMatchObject({bytes:'c3',instruction:'RET'});
+ expect(engineCinitInstruction('305eed30','305eed33')).toMatchObject({bytes:'e828f9ffff',instruction:'CALL 0x305ee660'});
+ expect(engineCinitInstruction('305eed30','305eed82')).toMatchObject({bytes:'c20400',instruction:'RET 0x4'});
+ expect(engineCinitInstruction('307b8082','307b8082')).toMatchObject({bytes:'b9086eaf30',instruction:'MOV ECX,0x30af6e08'});
+ expect(engineCinitInstruction('307b8082','307b8087')).toMatchObject({bytes:'e9f48be3ff',instruction:'JMP 0x305f0c80'});
+});
+
+it('captures original streambuf lock allocation and critical-section wrapper calls',()=>{expect(engineCinitInstruction('30670963','30670964')).toMatchObject({bytes:'6a18',instruction:'PUSH 0x18'});expect(engineCinitInstruction('30670963','30670968')).toMatchObject({bytes:'e8761f0000',instruction:'CALL 0x306728e3'});expect(engineCinitInstruction('30670963','30670970')).toMatchObject({bytes:'e8c8090000',instruction:'CALL 0x3067133d'});expect(engineCinitInstruction('3067097b','30670980')).toMatchObject({bytes:'e8c3090000',instruction:'CALL 0x30671348'});});
+
+
+it('captures the original locale initializer and its EH3 prologue without claiming execution',()=>{
+ expect(engineCinitInstruction('30670832','30670832')).toMatchObject({bytes:'6a08',instruction:'PUSH 0x8'});
+ expect(engineCinitInstruction('30670832','30670839')).toMatchObject({bytes:'e81d930000',instruction:'CALL 0x30679b5b'});
+ expect(engineCinitInstruction('30670832','3067083e')).toMatchObject({bytes:'a1d86daf30',instruction:'MOV EAX,[0x30af6dd8]'});
+ expect(engineCinitInstruction('30670832','30670860')).toMatchObject({bytes:'6a34',instruction:'PUSH 0x34'});
+ expect(engineCinitInstruction('30670832','30670862')).toMatchObject({bytes:'e87c200000',instruction:'CALL 0x306728e3'});
+ expect(engineCinitInstruction('30670832','306708c6')).toMatchObject({bytes:'e868930000',instruction:'CALL 0x30679c33'});
+ expect(engineCinitInstruction('30679b5b','30679b5c')).toMatchObject({bytes:'64ff3500000000',instruction:'PUSH dword ptr FS:[0x0]'});
+ expect(engineCinitInstruction('30679b5b','30679b72')).toMatchObject({bytes:'a1ec43ad30',instruction:'MOV EAX,[0x30ad43ec]'});
+ expect(engineCinitInstruction('30679b5b','30679b87')).toMatchObject({bytes:'64a300000000',instruction:'MOV FS:[0x0],EAX'});
+ expect(engineCinitInstruction('30679b5b','30679b8d')).toMatchObject({bytes:'c3',instruction:'RET'});
+});
+
+
+it('captures loader zero-fill for the original locale global pointer',()=>{
+ expect(engineCinitImage('standardLocaleGlobalPointer')).toMatchObject({address:'30af6dd8',bytes:4,raw:'00000000',fileBackedBytes:0,loaderZeroFillBytes:4});
+});
+
+
+it('captures the original locale lock selection and enter/leave wrappers',()=>{
+ expect(engineCinitInstruction('30670503','30670507')).toMatchObject({bytes:'83e003',instruction:'AND EAX,0x3'});
+ expect(engineCinitInstruction('30670503','3067050f')).toMatchObject({bytes:'6bc018',instruction:'IMUL EAX,EAX,0x18'});
+ expect(engineCinitInstruction('30670503','30670512')).toMatchObject({bytes:'05706daf30',instruction:'ADD EAX,0x30af6d70'});
+ expect(engineCinitInstruction('30670503','30670518')).toMatchObject({bytes:'e8360e0000',instruction:'CALL 0x30671353'});
+ expect(engineCinitInstruction('30670503','30670521')).toMatchObject({bytes:'c20400',instruction:'RET 0x4'});
+ expect(engineCinitInstruction('30670524','3067052f')).toMatchObject({bytes:'e82a0e0000',instruction:'CALL 0x3067135e'});
+ expect(engineCinitInstruction('30671353','30671357')).toMatchObject({bytes:'ff15dcc6af30',instruction:'CALL dword ptr [0x30afc6dc]'});
+ expect(engineCinitInstruction('3067135e','30671362')).toMatchObject({bytes:'ff15d8c6af30',instruction:'CALL dword ptr [0x30afc6d8]'});
+});
+
+
+it('captures the original locale object constructor and readonly name inputs',()=>{
+ expect(engineCinitInstruction('30670790','30670797')).toMatchObject({bytes:'e8bf930000',instruction:'CALL 0x30679b5b'});
+ expect(engineCinitInstruction('30670790','306707a1')).toMatchObject({bytes:'c7460401000000',instruction:'MOV dword ptr [ESI + 0x4],0x1'});
+ expect(engineCinitInstruction('30670790','306707ca')).toMatchObject({bytes:'e850f69aff',instruction:'CALL 0x3001fe1f'});
+ expect(engineCinitImage('standardLocaleNameLiteral')).toMatchObject({address:'30826a90',raw:'2a00',bytes:2,fileBackedBytes:2,loaderZeroFillBytes:0});
+ expect(engineCinitImage('standardLocaleObjectVtable')).toMatchObject({address:'30892a0c',raw:'16086730',bytes:4,fileBackedBytes:4,loaderZeroFillBytes:0});
+});
+
+
+it('captures the original locale string assignment overlap and copy path',()=>{
+ expect(engineCinitInstruction('30042974','30042974')).toMatchObject({bytes:'e977a73a00',targetVA:'303ed0f0'});
+ expect(engineCinitInstruction('30042974','303ed0f8')).toMatchObject({bytes:'83f910',instruction:'CMP ECX,0x10'});
+ expect(engineCinitInstruction('30042974','303ed10a')).toMatchObject({bytes:'3be8',instruction:'CMP EBP,EAX'});
+ expect(engineCinitInstruction('30042974','303ed191')).toMatchObject({bytes:'e8ae792800',instruction:'CALL 0x30674b44'});
+});
+
+
+it('captures original locale publication shutdown registration and zero-fill flag',()=>{
+ expect(engineCinitInstruction('30670642','3067064b')).toMatchObject({bytes:'6812066730',instruction:'PUSH 0x30670612'});
+ expect(engineCinitInstruction('30670642','30670657')).toMatchObject({bytes:'e80d0d0000',instruction:'CALL 0x30671369'});
+ expect(engineCinitInstruction('30670642','30670661')).toMatchObject({bytes:'a3d86daf30',instruction:'MOV [0x30af6dd8],EAX'});
+ expect(engineCinitImage('standardLocaleShutdownRegistered')).toMatchObject({address:'30af6dfc',bytes:1,raw:'00',fileBackedBytes:0,loaderZeroFillBytes:1});
+});
+
+
+it('captures the original ten-slot locale shutdown pool',()=>{
+ expect(engineCinitImage('standardLocaleExitSlotsRemaining')).toMatchObject({address:'30ad4154',bytes:4,raw:'0a000000',fileBackedBytes:4,loaderZeroFillBytes:0});
+ expect(engineCinitImage('standardLocaleExitSlots')).toMatchObject({address:'30af7078',bytes:40,fileBackedBytes:0,loaderZeroFillBytes:40});
+});
+
+
+it('captures the classic locale name literal and its assignment wrapper',()=>{
+ expect(engineCinitImage('standardLocaleClassicNameLiteral')).toMatchObject({address:'3084eff8',bytes:2,raw:'4300',fileBackedBytes:2,loaderZeroFillBytes:0});
+ expect(engineCinitInstruction('30036ec6','303ed35d')).toMatchObject({instruction:'CALL 0x30042974'});
+});
+
+
+it('captures the original classic locale retain helper and pointer globals',()=>{
+ expect(engineCinitInstruction('3002751b','30464eda')).toMatchObject({instruction:'CALL 0x30670503'});
+ expect(engineCinitInstruction('3002751b','30464eea')).toMatchObject({instruction:'MOV dword ptr [ESI + 0x4],EAX'});
+ expect(engineCinitImage('standardLocaleClassicPointer')).toMatchObject({address:'30af6ddc',bytes:4,fileBackedBytes:0,loaderZeroFillBytes:4});
+ expect(engineCinitImage('standardLocaleDefaultPointer')).toMatchObject({address:'30af6df4',bytes:4,fileBackedBytes:0,loaderZeroFillBytes:4});
+});
+
+
+it('captures the original streambuf global-locale getter',()=>{
+ expect(engineCinitInstruction('3067063c','3067063c')).toMatchObject({bytes:'a1d86daf30',instruction:'MOV EAX,[0x30af6dd8]'});
+ expect(engineCinitInstruction('3067063c','30670641')).toMatchObject({bytes:'c3',instruction:'RET'});
+});

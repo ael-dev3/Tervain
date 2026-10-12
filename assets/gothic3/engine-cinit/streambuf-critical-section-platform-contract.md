@@ -1,0 +1,840 @@
+# Allocated streambuf critical-section platform contract
+
+The captured `30670963` member constructor allocates 24 bytes through
+`306728e3`, retains the allocation at receiver offset 4, and invokes the
+`3067133d` wrapper at `30670970`. The wrapper calls the captured
+`KERNEL32.dll!InitializeCriticalSection` import at `30671341` and returns
+through `30671347`.
+
+`initializeEngineCinitStreambufSection` admits only this actual pending call
+chain, its retained Engine CRT owner, the actual stack argument, and the
+canonical live 24-byte heap allocation. Registration uses the existing physical
+critical-section service; no numerical address is assigned to the allocation.
+Initialization leaves all internal byte masks unknown. Duplicate registration
+and use by a different owner fail. The four image-backed shared critical
+sections keep their separate admission and registration.
+
+Validation: TypeScript checking and one focused runtime check passed locally.
+The check reaches the original pending caller, initializes its storage, enters
+and leaves it with the retained owner, rejects another owner and duplicate
+initialization, and confirms the shared-array service rejects this heap argument.
+
+## Connected member-constructor continuation
+
+The normal startup path now invokes that admitted platform operation, consumes
+its actual stdcall return with four argument bytes, returns through the wrapper,
+and executes the captured `30670975`–`3067097a` cleanup and return. It restores
+ESI and returns the retained member receiver in EAX to `305ee69a`. Startup stops
+there before the next four-byte allocation. The enclosing streambuf and filebuf
+constructors and destruction remain unfinished.
+
+TypeScript checking passed. Nine focused checks passed together, covering the
+normal caller, five interrupted/forged shared-array initialization cases,
+allocated-lock admission, the null-allocation new-handler branch, and the earlier
+enum checkpoint. A separate nonzero shared-reference branch check also passed.
+The earlier failed run exposed five incorrectly changed interruption-PC test
+expectations; those expectations were restored to the original pending import,
+and all five were rerun successfully. These are focused checks, not a full suite
+or campaign verification. This continuation has not been published.
+
+
+## Four-byte allocation continuation
+
+The captured streambuf instructions `305ee69a`–`305ee6b2` now execute their
+four-byte allocation request, exception-state store, factory return, cdecl
+argument cleanup, and nonnull pointer branch. The allocation factory is shared
+with the existing 24-byte member path, with each actual stack size and caller
+return checked independently. The frame retains the canonical four-byte logical
+view separately from the lock allocation, preserving the allocator's physical
+capacity and unknown initial bytes. It is not yet written to receiver offset
+`0x38`; that store occurs later in the original routine.
+
+The normal boundary is now the actual pending call to `30670832`, made at
+`305ee6b2` with return address `305ee6b7`. That helper's body is not implemented.
+If the four-byte malloc returns null, the original factory instead remains in
+its new-handler call at `306824b9`; no helper call or fabricated factory return
+is made. The earlier initialized lock remains live.
+
+TypeScript checking and six focused checks passed locally: normal allocation,
+nonzero shared-reference bypass, earlier enum checkpoint, both allocation-null
+paths, and allocated lock admission. The normal test proves separate allocation
+identities, exact logical extent, unknown byte masks, both factory returns, and
+the pending helper caller. Full startup and campaign verification remain absent.
+
+
+## Locale initializer source capture
+
+The source preparation now captures `30670832` (46 instructions) and its
+`30679b5b` EH3 prologue (17 instructions) from the pinned Engine DLL. The bundle
+contains 359 methods. Comparison before adoption proved all earlier 357 method
+records and all other source metadata, images, imports, initializer tables and
+SharedBase records unchanged.
+
+The initializer reads the global locale pointer at `30af6dd8`, enters a locking
+path through `30670503` when that pointer is null, and can allocate 52 bytes
+through the existing factory before calling `30670790`. It later releases the
+lock through `30670524` and uses `30679c33` for exception-frame cleanup. These
+dependencies require their own admitted storage, ownership and original caller
+state before continuation. No global locale pointer or successful helper return
+has been synthesized.
+
+TypeScript checking and 150 source/image checks passed locally. The new test
+pins selected instruction bytes, including the original FS exception-chain
+stores. Its first run caught an extra zero byte in a test expectation; the
+expectation was corrected to the six-byte original instruction and the full
+source/image checks passed on rerun. Capturing these routines is evidence
+preparation; the runtime boundary remains `30670832` and its body is not yet
+executed. This checkpoint is local and does not establish campaign completion.
+
+
+## Connected locale EH3 prefix
+
+The runtime now executes `30670832`–`30670839` and all 17 captured instructions
+of `30679b5b`. It uses the actual eight-byte local extent, saved registers,
+previous EBP, retained Engine security cookie, and FS exception-chain head.
+The cookie XOR preserves symbolic stack-pointer provenance and masks. The
+prologue moves its actual caller return word onto the new stack, initializes
+the exception state to `-1`, installs the nested chain, and returns through
+`30679b8d` to `3067083e`.
+
+Six focused runtime checks and TypeScript checking passed. The normal test
+checks the actual locale caller's position against EBP (`position - 4`), ESP
+(`position - 40`), and the nested FS head (`position - 16`), plus the original
+prologue return word. Allocation failures still stop before entering this
+prefix, and the earlier property and lock checks remain intact.
+
+Startup now stops before the load from `30af6dd8` at `3067083e`. The locale
+pointer image, locale locking, object construction, exception epilogue and final
+filebuf continuation remain unfinished. No locale object or successful outer
+constructor return is fabricated. These changes remain local and do not prove
+complete engine startup, hosted playability, or campaign completion.
+
+
+## Locale global-pointer branch
+
+The original `30af6dd8` global pointer is now a retained four-byte image with
+zero file-backed bytes and four loader-zero-fill bytes. Source regeneration
+proved all previous methods, metadata and image records unchanged before adding
+that image. The runtime executes the captured load, TEST, ESI assignment and
+branch from `3067083e`. The original cold zero pointer leads to `30670849`–
+`3067084d`, which push the actual zero argument, derive the stack receiver from
+EBP minus 16, and call `30670503` with return address `30670852`.
+
+Startup now stops at that actual pending locale lock-constructor call. A known
+nonzero pointer follows the captured branch to `306708c4`, whose epilogue is
+still unsupported; it does not fabricate a helper return or constructor result.
+Unknown pointer bits remain unsupported. No locale object has been created or
+published.
+
+TypeScript checking, all 151 source/image checks and six focused runtime checks
+passed locally. The normal check pins the zero global pointer, original pending
+lock return word, ECX receiver and adjusted ESP, while the nested FS head and
+EBP checks remain intact. Full runtime-suite, hosted rendering and campaign
+completion are not established by these checks.
+
+
+## Locale lock prefix and original import
+
+Source capture adds the locale lock constructor `30670503`, destructor
+`30670524`, and enter/leave wrappers `30671353` and `3067135e`. There are now
+363 Engine methods. Comparison proved all earlier methods and evidence records
+unchanged; the only added import is the captured
+`KERNEL32.dll!EnterCriticalSection` at IAT `30afc6dc`.
+
+The runtime executes the constructor prefix: load the actual stack argument,
+mask the index to 0–3, save the receiver in ESI, write the index into the original
+stack object, multiply by 24, and derive the retained shared-array pointer. Its
+browser pointer carries actual image identity rather than known numeric address
+bits. The original wrapper pushes that actual argument and calls the original
+import. The boundary is now `30671357`, with return address `3067135d`.
+
+The lower enter operation is not connected yet; no section depth or successful
+constructor return is claimed. Destruction and release are captured evidence,
+not executed cleanup. TypeScript checking, 152 source/image checks and six
+focused runtime checks passed. The first runtime run exposed a test assumption
+that the public snapshot exposed image pointers; the public snapshot intentionally
+omits them. The corrected test checks unknown numeric bits, the actual saved
+lock index and its masks, pending return words, receiver and stack positions.
+All six runtime checks passed on rerun. This work remains local and does not
+establish full startup or campaign completion.
+
+
+## Connected locale enter and constructor return
+
+`enterEngineCinitLocaleSection` admits only the actual pending `30671357` call,
+its `30670518` wrapper caller and `3067084d` constructor caller. It verifies the
+original return word, stack receiver at EBP minus 16, stored lock index, actual
+stack argument and same-CRT shared-array identity. The selected offset must
+match the saved index multiplied by 24. The private platform registry must
+contain that exact initialized section and owner. Each call can enter once.
+No fresh capability or numerical heap pointer is synthesized.
+
+The normal path increments that section's depth, consumes the original stdcall
+return, returns through the wrapper, and executes the lock constructor cleanup
+and `RET 4`. The locale then rereads its global pointer and updates the original
+exception state. With the original zero pointer, startup now stops at
+`30670860`, before the 52-byte locale-object allocation. The entered section
+remains held for the still-unfinished construction and cleanup path.
+
+TypeScript checking and seven focused runtime checks passed. Normal startup
+proves section depths `[1,0,0,0]`, returned original calls, restored stack
+position and zero exception state. A separate interrupted-enter check verifies
+the pending caller, depth transition 0 to 1, and duplicate rejection. The
+nonzero-reference fixture has no admitted shared-section registrations and
+correctly stays pending at `30671357`; it cannot invent a lock. Allocation-null
+and earlier enum checks remain intact. These focused checks do not establish
+complete startup or a campaign; this checkpoint remains local.
+
+
+## Locale-object allocation and constructor caller
+
+The original `30670860`–`30670876` continuation now requests 52 bytes through
+`306728e3`, retains its canonical logical view in the frame, and returns through
+`30670867`. It consumes the cdecl argument, loads the actual allocated receiver
+into ECX, stores that receiver in the original exception frame, tests the
+nonnull result, writes exception-state byte 1, and calls `30670790` with its
+actual zero argument and return address `3067087b`.
+
+The 52-byte allocation has a separate identity from the streambuf's four-byte
+allocation and lock member. Its bytes remain unknown and it is not published as
+a constructed locale. The normal boundary is `30670790`, whose constructor body
+is still unsupported. On a null result, the original factory instead retains
+its `306824b9` new-handler call; the 52-byte factory caller does not return and
+no constructor call is made. The actual locale lock remains held for that
+unfinished path.
+
+TypeScript checking and eight focused runtime checks passed locally. The normal
+check proves three factory returns, separate live allocations, exact logical
+size, unknown masks, exception-state byte and the actual pending constructor.
+The added failure check proves retained earlier allocations, held lock, pending
+new-handler and absence of a constructed object. Full-suite/build, hosted
+rendering, and campaign completion are not established by these focused checks.
+
+
+## Locale-object constructor prefix
+
+The captured source adds `30670790`, its `30679c33` EH3 epilogue, and the name
+constructor entry `3001fe1f` (body `303ed620`). There are now 366 Engine methods.
+Comparison proved all prior methods, imports, metadata and images unchanged
+before adding the four-byte vtable image at `30892a0c` and two-byte `"*"` literal
+at `30826a90`. Both inputs are file-backed and protected as readonly evidence.
+
+The runtime shares the captured EH3 implementation between the initializer's
+eight-byte local frame and the object's four-byte local frame. It initializes
+the actual retained 52-byte allocation: reference count 1 at offset 4; zeros
+at offsets 8, 12 and 16; the actual zero argument byte at offset 20; and an
+opaque vtable pointer at offset 0. Numeric pointer bits remain unknown. Other
+bytes, including the name member, remain unknown until supported construction.
+The original name argument and receiver at object offset 24 lead to the pending
+`306707ca` call to `3001fe1f`, returning through `306707cf`.
+
+TypeScript checking and 153 source/image checks passed. The initial focused
+runtime run passed seven checks and failed one incorrect stack-position test
+expectation. That expectation has been corrected from object caller position
+minus 48 to minus 44, matching the original four-byte local frame and name call.
+The corrected runtime rerun passed all eight focused checks, with TypeScript
+checking passing again. The normal check proves the nested exception-frame
+positions, initialized reference count and zero fields, flag byte, exact known
+and unknown masks, and pending original name-constructor return word. This is
+focused continuation evidence, not complete startup or published gameplay. The
+name constructor, exception cleanup, outer locale publication and filebuf
+completion remain unfinished.
+
+
+## Locale name-constructor prefix
+
+The runtime now follows the captured `3001fe1f` jump to `303ed620`. It validates
+the actual literal stack argument and retained object receiver at offset 24,
+saves the original ESI/EDI, and initializes small-string capacity 15 at object
+offset 48, length zero at offset 44, and the empty inline byte at offset 28.
+The captured loop reads the original `"*"` and terminator, preserving the
+literal's image identity as it advances. The subtraction of offsets in that
+same image yields the actual length one without inventing numeric pointers.
+
+The original call at `303ed64f` now carries the actual literal pointer, length
+and object-member receiver into `30042974`, with return address `303ed654`.
+Assignment remains unsupported and no completed string or constructor return
+is claimed. The locale lock and both exception frames remain retained.
+
+TypeScript checking and eight focused runtime checks passed locally. The normal
+check verifies capacity, current zero length, inline zero byte, exact changed
+masks, length-one result, pending assignment return word and adjusted stack.
+Earlier allocation failures, lock admission and enum checks passed alongside it.
+The normal boundary is now `30042974`. The assignment, name/object constructor
+returns, exception cleanup and outer locale publication are still unfinished.
+This is local continuation evidence, not a hosted campaign verification.
+
+
+## Locale string-assignment source and prefix
+
+Capture adds `30042974`, which jumps to `303ed0f0`; the bundle now has 367
+Engine methods. Comparison proved all earlier methods, imports, metadata,
+images and other evidence records unchanged.
+
+The runtime follows that entry, saves EBX/EBP/ESI, validates the actual string
+member receiver at object offset 24, loads capacity 15, and follows the original
+inline-storage branch. EBX and EAX retain the actual allocation pointer at
+offset 28. The source argument loaded into EBP retains the original literal's
+image identity. The next instruction is `303ed10a`, comparing that image
+pointer against the heap-backed inline destination.
+
+Numeric ordering between the original image and the browser-owned allocation
+has not been proved. The runtime therefore stops before that comparison rather
+than inventing addresses or branch flags. The captured routine includes overlap
+handling, growth, copying through `30674b44`, length update and termination;
+none of those paths is claimed executed by this prefix. Resolving the pointer
+comparison or a rigorously proved equivalent control-flow join is the next task.
+
+TypeScript checking, 154 source/image checks and eight focused runtime checks
+passed locally. The normal check verifies original pending return words,
+capacity, unchanged member contents and masks, opaque pointer bits, and saved
+stack position; earlier failure paths remain intact. Assignment, constructor
+returns, cleanup, outer locale publication and filebuf startup remain incomplete.
+This checkpoint remains local and does not prove a hosted playable campaign.
+
+
+## Empty-destination overlap join
+
+The runtime now admits a translated join from `303ed10a` to `303ed13f` only
+for the actual zero-length destination, inline member pointers, literal source
+and canonical live 52-byte allocation. The literal and heap storage must have
+distinct buffers. All relevant captured comparison and branch rows are admitted.
+No numeric pointer ordering is assigned.
+
+Proof: let S be the unsigned source address and D the inline destination address.
+If S < D, `303ed10c` jumps directly to `303ed13f`. Otherwise capacity 15 selects
+inline storage again; the destination end is D + 0 = D, without overflow.
+`303ed120` therefore jumps to the same join because D <= S. Neither path calls
+another routine or writes memory. EAX, ECX, EBX, EBP, ESI, EDI and the stack agree
+at the join. EDX and comparison flags can differ, so the translated continuation
+marks them unknown. It records an explicit translated-join trace, rather than
+claiming one original numeric branch was executed. Nonzero destination lengths
+remain unsupported at `303ed10a`.
+
+TypeScript checking and two focused normal-continuation/enum checks passed.
+The earlier eight-check result belongs to the preceding checkpoint; it is not
+a full rerun of this change. The normal boundary is now `303ed13f`, before the
+length/growth checks and copy call. String assignment, constructor returns,
+cleanup and campaign integration remain unfinished; this checkpoint is local.
+
+
+## Assignment length checks and original copy caller
+
+The runtime continues from the translated join through the captured length and
+capacity checks. The actual length one passes the maximum-size comparison and
+fits capacity fifteen. The nonzero-length path reselects inline storage, then
+pushes the original four arguments: length, literal source, capacity, and actual
+heap-backed destination. `303ed191` now calls `30674b44`, with return address
+`303ed196`.
+
+The original excessive-length, growth, zero-length and non-inline branches remain
+explicit unsupported boundaries. No copy success, string length update or
+terminator is fabricated. The normal boundary is `30674b44`; its body and the
+subsequent string/locale returns and cleanup still require implementation.
+
+TypeScript checking and two focused normal-continuation/enum checks passed.
+The normal check verifies the pending copy caller, retained length one, capacity,
+unchanged initialized string storage and exact stack position. These are focused
+checks and do not establish a full-suite result, deployment, or campaign
+completion. This checkpoint remains local.
+
+
+## Secure-copy validation and byte-copy caller
+
+Source capture adds the original `memcpy_s` at `30674b44` and its byte-copy
+routine at `30671cf0`; the bundle now contains 369 Engine methods. Comparison
+proved all previous methods, imports, metadata, images and other evidence
+unchanged. The byte-copy routine has 247 captured instructions; its complete
+body is evidence, not yet an executed implementation.
+
+The runtime enters the secure-copy frame, loads the actual count one, saves its
+registers, proves the actual nonnull destination and source owners, and checks
+capacity fifteen against the count. The destination is canonical live heap
+storage at locale-object offset 28. The source is the retained readonly literal.
+It then pushes count, source and destination to the actual `30674b87` call,
+returning through `30674b8c`. Startup now stops at `30671cf0`.
+
+The zero-count and insufficient-capacity continuations remain explicit pending
+boundaries. No byte-copy success, error-handler completion or outer return is
+fabricated. TypeScript checking, all 154 source/image checks and two focused
+normal-continuation/enum checks passed locally. The normal check pins the saved
+secure-copy EBP, adjusted ESP, zero EDI and actual pending copy return word,
+while initialized string storage remains unchanged. Copying and subsequent
+string/locale cleanup remain unfinished; the checkpoint has not been published
+and does not establish complete campaign playability.
+
+
+## One-byte copy contract and assignment return
+
+The actual pending `30671cf0` call now admits a translated one-byte memcpy
+contract. It verifies the original stack destination, literal source and count
+one, the canonical live destination owner, readonly source identity and disjoint
+buffers. It copies only the proved byte and returns the actual destination,
+preserving callee-saved registers while marking volatile registers and flags
+unknown. The trace explicitly identifies this translated contract; none of the
+247 native alignment/dispatch instructions is counted as executed by it. Other
+counts remain pending rather than claiming a generic memcpy implementation.
+
+The captured `memcpy_s` then consumes its three cdecl arguments, sets success
+zero and restores EDI/ESI/EBP through its actual return to `303ed196`. Assignment
+consumes its four arguments, updates length to one, writes the terminating zero,
+restores its saved registers and returns through `RET 8` to `303ed654`.
+The name member now contains `"*"` in inline storage, with capacity fifteen and
+proved initialized masks for copied text and terminator.
+
+TypeScript checking and two focused normal-continuation/enum checks passed.
+The normal test verifies copied byte 42, length one, exact masks, returned copy
+and assignment calls, restored EBP and adjusted ESP. The normal boundary is
+`303ed654`, before the name constructor's own register cleanup and return.
+Exception cleanup, outer locale publication, filebuf completion and full
+campaign integration remain unfinished. This local checkpoint has not been
+deployed and does not establish full browser playability.
+
+
+## Name/object constructor returns and EH3 restoration
+
+The runtime now executes the original name-constructor register cleanup and
+`RET 4` from `303ed654`–`303ed658` to `306707cf`. The object constructor returns
+its actual allocated receiver in EAX and calls the captured EH3 epilogue at
+`306707d1`. All eleven epilogue instructions execute: restore the saved FS head,
+retain the actual return word in ECX, discard the cookie stack slot, restore the
+saved registers, reset ESP to EBP, restore EBP, and return through `306707d6`.
+The object's own `RET 4` then returns to its original locale caller `3067087b`.
+
+TypeScript checking and two focused normal-continuation/enum checks passed.
+The normal test checks both constructor returns, epilogue return word, restored
+enclosing locale EBP/ESP and FS chain, name length one, copied byte and proved
+zero terminator. The admitted normal object-construction path has returned;
+exception-handler execution and destructor behavior are still unsupported.
+
+The normal boundary is `3067087b`, before outer locale publication. The shared
+locale lock remains held in its original enclosing construction scope. Locale
+publication, lock release, outer epilogue, filebuf completion and campaign
+integration remain unfinished. This checkpoint is local and does not establish
+full startup or a hosted browser playthrough.
+
+
+## Outer locale publication and shutdown-registration caller
+
+Capture adds `30670642` (global locale setter), `30670612` (shutdown callback)
+and `30671369` (standard at-exit wrapper), for 372 Engine methods. The new
+registration flag at `30af6dfc` is one loader-zero-fill byte. Comparison proved
+all earlier methods, imports, metadata and image records unchanged.
+
+The runtime resumes at `3067087b`, retains the constructed object in ESI, pushes
+that actual object, sets the original exception-state byte to zero, and calls
+the setter at `30670886`. The setter observes its actual cold zero flag, pushes
+the original shutdown callback, sets the flag to one, and invokes `30671369`
+through `30670657`, with return address `3067065c`.
+
+The normal boundary is now `30671369`. The flag's store has executed, but the
+shutdown callback is not yet registered, and the global locale pointer has not
+been written. The existing 66 callbacks and held locale lock remain intact.
+The already-set-flag path stops at `3067065d`; it does not fabricate publication.
+
+TypeScript checking, all 155 source/image checks and two focused
+normal-continuation/enum checks passed locally. The normal test pins flag one,
+zero global pointer, pending setter/registration return words, exception state
+and exact stack position. At-exit registration, publication, lock release,
+filebuf completion and full campaign integration remain unfinished. This
+checkpoint remains local and does not establish deployed browser playability.
+
+
+## Reserved shutdown pool and global publication
+
+The wrapper's normal path uses an original reserved pool, distinct from the CRT
+exit table. Pinned Engine bytes initialize `30ad4154` to ten. The forty-byte
+pool at `30af7078` is loader-zero-filled. Regeneration preserved all prior
+methods, imports, metadata and images before adding these two storage records.
+
+The runtime loads the actual remaining count, validates range 1–10, retrieves
+the original `30670612` callback from its stack, decrements ten to nine, stores
+the count and writes the opaque callback into slot nine. It returns through
+`3067065c`, consumes the callback argument, loads the actual constructed locale
+object from the setter's caller argument, and stores that pointer at `30af6dd8`.
+The setter returns to `3067088b` with its own cdecl object argument still present.
+The zero-pool path remains pending at its original `3067d916` fallback.
+
+The frame snapshot retains the global pointer expression and all ten pool-word
+expressions for ownership inspection. Native address bits of both published
+object and callback remain unknown. The separate CRT table still has its prior
+66 callbacks; this registration does not append to that table.
+
+TypeScript checking, all 156 source/image checks and two focused
+normal-continuation/enum checks passed. The normal check proves count nine,
+callback provenance in slot nine, global pointer provenance identifying the
+actual allocation, original returns and stack position. The normal boundary is
+`3067088b`. Remaining locale setup, lock release, outer epilogue, filebuf startup
+and campaign integration remain unfinished. This checkpoint is local and does
+not establish a hosted full game.
+
+
+## Classic locale category/name setup
+
+Capture adds the name-assignment wrapper `30036ec6` (body `303ed340`) and the
+readonly file-backed `"C"` literal at `3084eff8`, for 373 Engine methods. Earlier
+methods, imports, metadata and image records were compared and preserved.
+
+The runtime continues at `3067088b`: derives the actual name-member receiver,
+writes category mask `0x3f` at object offset 16, replaces the still-present
+cdecl object argument with the original classic-name literal, and calls the
+assignment wrapper at `3067089c`. The wrapper preserves its saved registers,
+scans the literal and terminator using their actual image identity, computes
+length one, and calls `30042974` at `303ed35d`, returning through `303ed362`.
+
+TypeScript checking, all 157 source/image checks and two focused
+normal-continuation/enum checks passed. The normal test proves category 63,
+actual pending assignment return word, length one, adjusted stack, retained
+published object and shutdown registration. The object's stored name remains
+`"*"` until that second assignment is implemented; no `"C"` assignment success
+is fabricated. This call has a nonempty destination and a different literal
+from the earlier constructor assignment and needs separate admission/proof.
+The normal boundary is `30042974`. Lock release, remaining locale publication
+and filebuf completion remain unfinished, and this checkpoint is local.
+
+
+## Classic-name assignment return
+
+The original assignment continuation is now shared between the constructor's
+`"*"` call and the later `"C"` call. Each invocation admits its actual literal
+image, receiver, expected existing length and original return word. The first
+requires length zero; the second requires length one. The reserved name/member
+storage and actual copied-source identity remain separate from numeric addresses.
+
+For the length-one case, the source literal is in distinct live readonly storage
+and cannot equal the inline destination address D. If S < D, the first branch
+reaches `303ed13f`; otherwise S > D implies S >= D + 1, so the end comparison
+reaches the same join. D + 1 cannot wrap within the admitted live 52-byte object.
+No path makes a call or writes memory before the join. Differing EDX and flags
+remain unknown, as in the zero-length proof. This admits only the proved length
+zero/one cases and does not claim arbitrary overlapping-string support.
+
+The actual second copy writes `"C"`, preserves capacity fifteen and length one,
+writes its terminator, and returns through the original assignment caller
+`303ed362`. The wrapper restores EDI/ESI and returns through `RET 4` to
+`306708a1`, consuming the classic-name argument. The published object retains
+category mask 63 and now contains the classic name.
+
+TypeScript checking and eight focused runtime checks passed locally. The normal
+check verifies byte 67, terminator, two actual byte-copy returns, classic wrapper
+return and restored stack position. Earlier allocation-null, lock-admission,
+shared-reference and enum checks passed alongside it. The normal boundary is
+`306708a1`. Further locale setup/publication, lock release, outer epilogue and
+filebuf startup remain unfinished. This checkpoint is local, not a hosted
+campaign-completion claim.
+
+
+## Classic pointer and nested retain caller
+
+Capture adds `3002751b` (body `30464ed0`) and loader-zero-filled classic/default
+pointer globals `30af6ddc` and `30af6df4`, for 374 Engine methods. Earlier
+methods, imports, metadata and image records were compared and preserved.
+The helper's source acquires the shared locale lock, conditionally increments
+the reference count at object offset 4, and releases its local lock object.
+
+The runtime now executes the classic-pointer store at `306708a3` and the actual
+retain call at `306708a9`, returning through `306708ae`. It follows the retain
+entry, preserves the original object receiver, creates its stack lock object,
+pushes index zero and calls `30670503` at `30464eda`, returning through
+`30464edf`. This is a second lock-constructor caller with a distinct stack
+receiver; the existing outer-locale caller admission is not silently reused.
+
+TypeScript checking, all 158 source/image checks and two focused
+normal-continuation/enum checks passed. The normal check verifies actual classic
+pointer ownership, still-zero default pointer, pending nested constructor,
+original stack receiver and adjusted ESP. The reference count remains one and
+the outer lock remains held at depth one; no nested acquisition or retain
+success is fabricated. The normal boundary is `30670503` from `30464eda`.
+Nested acquisition/release, default publication, outer cleanup, filebuf startup
+and full campaign integration remain unfinished. This checkpoint is local.
+
+
+## Nested locale acquisition and retain increment
+
+The lock constructor continuation is shared with distinct actual receiver and
+return checks for the outer initializer and nested retain helper. Platform
+admission now recognizes only the captured `30464eda` nested caller beneath
+`30670518`/`30671357`, with its `306708a9` retain caller present. The nested
+stack receiver must equal that constructor call's position plus 12; the original
+outer receiver must still equal EBP minus 16. Both require their actual stored
+index and shared-array argument identity, with the existing registered owner.
+
+The fresh nested call enters the same initialized shared section, increasing
+depth from one to two, and returns through `30464edf`. The captured helper loads
+the actual reference count, preserves the `-1` sentinel branch, increments the
+normal count from one to two, stores it, derives its local lock receiver and
+calls the original destructor at `30464ef1`, returning through `30464ef6`.
+
+TypeScript checking and eight focused runtime checks passed. The normal check
+verifies two actual entered/returned section calls, depth two, reference count
+two, returned nested constructor, pending destructor and exact stack receiver
+and ESP. Earlier failure/admission/enum cases passed alongside it. The initial
+TypeScript check caught an unused EBP local introduced by refactoring; it was
+removed and checking passed on rerun. The normal boundary is `30670524` from
+`30464ef1`. Nested/outer release, default publication, outer cleanup and filebuf
+startup remain unfinished. This checkpoint is local, not a hosted campaign
+completion claim.
+
+
+## Nested lock-destructor leave caller
+
+The runtime now executes the original `30670524` destructor prefix for its
+`30464ef1` retain-helper caller. It validates the actual stack receiver against
+the destructor call position plus eight, reads the stored index, checks range
+0–3, multiplies by 24 and derives the retained shared-array pointer. It follows
+the original wrapper call and admits the captured
+`KERNEL32.dll!LeaveCriticalSection` import at IAT `30afc6d8`.
+
+The actual `30671362` call is pending, with return address `30671368`; the lower
+release operation has not run. The reference count is two and the section depth
+remains two. No destructor return, depth decrement or default-locale pointer
+store is fabricated.
+
+TypeScript checking and two focused normal-continuation/enum checks passed.
+The normal check verifies the pending leave return word, adjusted ESP, actual
+stack receiver, opaque shared-array pointer bits, unchanged reference count and
+held depth. The normal boundary is `30671362`. Nested release, retain return,
+default publication, outer release/cleanup and filebuf startup remain unfinished.
+This checkpoint remains local and does not prove a hosted complete campaign.
+
+
+## Paired nested release and default publication
+
+The nested leave service admits only the actual `30671362` call beneath its
+`3067052f` wrapper, `30464ef1` destructor and `306708a9` retain caller. It pairs
+the saved stack receiver with the returned `30464eda` constructor and its
+returned section-enter call, verifies the actual selected array argument and
+registered owner, and requires an unconsumed acquisition receipt. Both the leave
+call and acquisition receipt can be consumed once; duplicate release cannot
+reduce the outer depth.
+
+The normal path reduces depth two to one, consumes the original stdcall return,
+returns through the wrapper and destructor, restores the retain caller and
+returns to `306708ae`. The caller loads the actual classic pointer and stores it
+at the original default pointer `30af6df4`, sets exception state to `-1`, and
+calls the outer lock destructor at `306708bf`, returning through `306708c4`.
+The reference count stays two and the original outer acquisition remains held.
+
+TypeScript checking and nine focused checks passed across two runs: the eight
+existing continuation/failure/admission cases and a separate pending-release
+case. The latter proves pre-call rejection, actual depth transition 2 to 1,
+duplicate rejection, preserved pending return word and still-zero default
+pointer while the continuation is interrupted. The normal check proves actual
+default-pointer ownership, nested destructor/retain returns and the pending
+outer destructor. The normal boundary is `30670524` from `306708bf`.
+Outer release, epilogue, filebuf startup and campaign integration remain
+unfinished; this checkpoint remains local.
+
+
+## Outer release and normal locale-initializer return
+
+The shared leave admission now distinguishes the original `306708bf` outer
+caller from `30464ef1` nested cleanup. It requires each actual enclosing caller,
+paired stack receiver and returned constructor, selects the first returned
+enter call within that constructor's call sequence, and consumes that specific
+unreleased acquisition receipt. Outer receiver positions are checked against
+destructor position plus 24 and constructor position plus 28; nested positions
+keep their previous checks. Neither release can consume the other's receipt.
+
+The outer destructor now reduces section depth one to zero and returns to
+`306708c4`. The locale returns its actual constructed object in EAX, executes
+all captured EH3 epilogue instructions through `306708cb`, restores the enclosing
+streambuf exception chain and saved registers, and returns to the original
+`305ee6b2` caller at `305ee6b7`.
+
+TypeScript checking and ten focused checks passed across two runs: nine existing
+continuation/failure/admission cases and a separate interrupted outer-release
+case. The latter proves depth 1 to 0, duplicate rejection, retained published
+object, reference count two and actual pending leave word. The normal check
+proves both leave returns, depth zero, restored enclosing FS head and ESP,
+retained global/classic/default ownership and normal locale return. Exception
+handler/destructor paths outside this admitted normal call remain unfinished.
+The normal boundary is `305ee6b7`, before storing the returned locale pointer
+in the four-byte streambuf member. Filebuf completion, full engine startup and
+campaign integration remain unfinished. This checkpoint remains local.
+
+
+## Streambuf locale member and global getter
+
+Capture adds the original `3067063c` getter, for 375 Engine methods. It loads
+`30af6dd8` and returns through `30670641`; prior source records, metadata,
+imports and images were compared and preserved.
+
+The runtime resumes at `305ee6b7`, validates the actual four-byte heap member
+receiver and returned locale object, and stores that opaque object pointer.
+The frame snapshot exposes the retained member expression for ownership
+inspection. The original `305ee6b9` getter call then returns the same published
+object through `305ee6be`. The streambuf pushes index zero, derives its own
+stack lock receiver, retains the locale object in EDI and calls `30670503` at
+`305ee6c6`, returning through `305ee6cb`.
+
+TypeScript checking, all 159 source/image checks and two focused
+normal-continuation/enum checks passed locally. The normal check proves member
+ownership, getter return, pending streambuf constructor caller and exact stack
+receiver/ESP, while published locale state and zero shared-lock depth remain
+intact. The normal boundary is `30670503` from this new streambuf caller; it has
+not silently reused the earlier initializer/retain admissions. That acquisition,
+streambuf reference increment/release, buffer initialization and filebuf startup
+remain unfinished. This checkpoint is local and does not establish a hosted
+complete campaign.
+
+
+## Streambuf locale acquisition and retain
+
+Section-enter admission now includes the captured `305ee6c6` streambuf caller,
+requiring its `305eed33` enclosing constructor and receiver at that lock call's
+position plus 24. The original initializer keeps its EBP-based check; nested
+retain keeps its own call-position check. The returned initializer's EBP shape
+is not incorrectly required for this new caller.
+
+The runtime acquires the actual initialized shared section from depth zero to
+one, returns through `305ee6cb`, validates the locale object held in EDI, and
+executes the original reference-count test and increment from two to three.
+The `-1` sentinel remains unchanged on its captured branch. It derives the
+streambuf's stack lock receiver and calls its destructor at `305ee6dd`, returning
+through `305ee6e2`.
+
+TypeScript checking and ten focused runtime checks passed on the final run.
+Earlier runs exposed the incorrect unconditional EBP admission and an assertion
+reading a retired locale stack slot reused by the new call. The admission now
+uses the actual caller, and the assertion checks the active streambuf lock
+object and exception state. The final normal check proves three actual entered
+calls, reference count three, depth one, returned streambuf constructor and
+pending destructor. Earlier failure/admission cases passed alongside it.
+The normal boundary is `30670524` from `305ee6dd`. Streambuf release, buffer
+initialization, filebuf completion and campaign integration remain unfinished.
+This checkpoint remains local and does not establish full hosted playability.
+
+
+## Streambuf release and buffer-initialization caller
+
+Leave admission now includes the captured `305ee6dd` destructor with its
+`305eed33` enclosing constructor. It pairs the actual receiver against destructor
+position plus 20 and the returned `305ee6c6` constructor position plus 24,
+then consumes that constructor's returned enter receipt. The initializer and
+nested-retain pairings retain their own checks.
+
+The streambuf release reduces depth one to zero and returns through `305ee6e2`.
+The runtime validates the actual streambuf receiver, stores the retained four-byte
+locale-wrapper pointer at receiver offset 56, and calls `305ed990` at
+`305ee6eb`, returning through `305ee6f0`. The frame snapshot retains that wrapper
+pointer expression separately from the locale object it references.
+
+TypeScript checking and ten focused runtime checks passed. The normal check
+proves three entered/released section calls, depth zero, reference count three,
+locale-wrapper ownership, exact changed field masks and the actual pending
+buffer-init return word. Earlier failure and release-admission cases passed
+alongside it. Inspection of the captured next routine shows six internal buffer
+selectors and their zero initialization; those instructions are not executed by
+this checkpoint. The normal boundary is `305ed990`. Buffer initialization,
+constructor returns, filebuf startup and campaign integration remain unfinished.
+This checkpoint remains local, not a hosted complete-game claim.
+
+
+## Original internal-buffer initialization
+
+The runtime executes all captured `305ed990`–`305ed9e7` instructions for the
+actual streambuf receiver. Six selectors point into that same retained object:
+slot 16 to field 8, 20 to 12, 32 to 24, 36 to 28, 48 to 40, and 52 to 44.
+The original indirect stores validate those selected field identities and set
+all six buffer fields to zero. Selector numeric address bits remain unknown;
+their actual owner and offsets are retained. Header/lock/locale-wrapper storage
+is preserved.
+
+The frame snapshot exposes selector expressions for ownership inspection.
+The routine returns through the actual `305ee6eb` call to `305ee6f0`.
+TypeScript checking and two focused normal-continuation/enum checks passed.
+The normal check verifies all six selector targets, all six zero values, exact
+field masks, pending-constructor state and returned buffer-init word. These are
+focused checks, not a full-suite or deployment result.
+
+The normal boundary is `305ee6f0`, before the streambuf constructor's own
+register/exception-chain cleanup and return. Filebuf construction, complete
+engine startup and campaign integration remain unfinished. This checkpoint
+remains local and does not prove a hosted complete game.
+
+
+## Normal streambuf-constructor return
+
+The frame retains the exact FS word captured by the original `305ee667` load.
+After buffer initialization, the runtime returns the actual receiver in EAX,
+loads the original saved FS slot and requires identity with that retained word,
+restores FS, discards the cookie slot, restores EDI/ESI/EBX, consumes the original
+local/exception-frame stack extent and executes `305ee704` RET. The actual
+`305eed33` caller resumes at `305eed38`.
+
+TypeScript checking and ten focused runtime checks passed. The normal check
+proves the constructor's original return word, restored FS value/mask, exact
+caller ESP, retained locale and lock state, all six buffer selectors and their
+zero fields. Earlier allocation failures and acquisition/release admission cases
+passed alongside it. This establishes the admitted normal streambuf constructor
+path; exception-handler and destructor paths remain incomplete.
+
+The normal boundary is `305eed38`, before derived filebuf initialization.
+The filebuf constructor, its shutdown registration, subsequent engine startup
+and full campaign integration remain unfinished. These changes are local and
+have not been deployed or verified as a complete browser game.
+
+
+## Normal derived stdout filebuf construction
+
+Capture adds the readonly vtable entry at `3088da78` and loader-zero-filled
+four-byte global state at `30af6a00`. Previous methods, imports, metadata and
+image records were compared and preserved. The buffer-initialization
+continuation now validates its actual return caller for both base and derived
+construction.
+
+The derived path executes the captured vtable store, flag-byte stores and second
+buffer-init call. It validates the actual stdout FILE argument in the original
+static-stream image at offset 32, then binds slots 16/20 to FILE offset 40,
+32/36 to offset 32, and 48/52 to offset 36. It retains the FILE pointer at object
+offset 76, copies the actual global-state word to offset 68, zeroes offset 60,
+returns the actual receiver, restores ESI and executes `RET 4` to `30791f41`.
+Numeric pointer bits remain unknown and their actual owners/offsets are retained.
+The null-FILE constructor branch is outside this admitted original stdout call.
+
+TypeScript checking, all 159 source/image checks and two focused
+normal-continuation/enum checks passed. The normal test verifies the derived
+vtable owner, FILE owner, all six FILE-backed selector identities, preserved
+zero fields, exact masks and original constructor return. This establishes the
+admitted normal stdout filebuf construction path, not all exception/destructor
+paths. The normal boundary is `30791f41`, before its shutdown registration.
+That registration, subsequent engine startup and complete campaign integration
+remain unfinished. This checkpoint remains local and has not been deployed as
+a complete browser game.
+
+
+## Stdout shutdown registration and initializer-walker return
+
+The runtime now pushes the original `307b8082` callback, invokes the existing
+source-admitted exit-registration continuation through `30791f46`, consumes its
+argument and returns through `30791f4c` to the original initializer walker.
+The CRT table grows from 66 to 67 registered callbacks in its existing 512-byte
+allocation; its cursor advances from 264 to 268. The separate reserved locale
+shutdown pool remains unchanged. The walker advances its CPP cursor from
+`0x204` to `0x208` and makes the original call to the next target `30791f4d`.
+
+TypeScript checking and two focused normal-continuation/enum checks passed on
+rerun. The initial normal test still expected 66 registrations; it was updated
+to 67 and the live walker state. Assertions on constructor stack slots were
+removed after those frames retired and registration reused their memory; the
+original-call, ownership and active-state checks remain. The normal stdout
+filebuf initializer has returned, including its shutdown registration. Callback
+execution/destruction and later initializers remain unfinished.
+
+The normal boundary is `30791f4d`. This is a local startup checkpoint; no full
+native-suite result, deployment or campaign completion is established by these
+two checks. Full engine startup and browser campaign integration remain
+unfinished.
+
+
+## Broader stdout-checkpoint validation
+
+At exact commit `c6a330145305f68094522e59801d8bbd6ccffedc`, TypeScript checking,
+the full `engine-io-frame.test.ts` file (503 tests, 973.50 seconds) and production
+build passed. The tested checkout remained unchanged while validation ran.
+The receipt in `validation-stdout-filebuf-native-suite.json` pins the tested
+revision, source bundle and test-file hashes, commands, exit codes and scope.
+This is one complete runtime test file, not the entire repository test suite.
+It proves the recorded local checkpoint's checks, not full engine startup,
+publishing, browser rendering or a campaign playthrough.
