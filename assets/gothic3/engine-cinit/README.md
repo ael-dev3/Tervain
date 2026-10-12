@@ -3567,3 +3567,8 @@ The original `30732640` callback now completes its enum-template type name, Shar
 The initializer cursor advances from offset `0x1e8` to `0x1ec`; the exit cursor reaches byte 240 (60 registered callbacks). The next unsupported callback is `30732650`. This establishes this initializer only; complete native startup and campaign play remain unfinished.
 
 Local typechecking and six focused engine-frame checks passed, including the original MainCache parser and interrupted enum reads and shutdown-store scenario. The separate full-suite run is against integration revision `6de70aa75dac61a5bc233f92219dc5248df8b4e6`, an earlier allocation checkpoint, and remains pending. Main revision `c7a01e69d0aea6fe6a44327661fc83e64bab2d5e` deployed but its native suite subsequently reported 476 passes and nine explicit 20-second timeouts; deployment is not evidence of a fully passing suite or complete campaign.
+
+
+### Following enum container source capture
+
+Captured the original constructor, callback and shutdown records for `30732650` (`eEShapeMaterial`) and `30732660` (`eECollisionGroup`) from the pinned Engine.dll. The source bundle now contains 330 Engine method records: all 322 earlier records remain identical, with eight methods and eight images added. Existing initializer tables, literals and SharedBase records remain identical. Local typechecking and 120 source/image checks passed. These two initializers are source evidence only and are not yet connected to runtime execution; the supported runtime boundary remains `30732650`.
