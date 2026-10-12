@@ -1,3 +1,4 @@
+import * as THREE from 'three';
 import { beforeAll, describe, expect, it } from 'vitest';
 import { Game } from '../../src/game/game';
 import type { Input } from '../../src/platform/input';
@@ -145,6 +146,25 @@ describe('the player and camera share the authored lighthouse surfaces', () => {
     expect(s.player.grounded).toBe(true);
     expect(s.player.y).toBeCloseTo(floor, 6);
     expect(s.player.surface).toBe('deck');
+  });
+
+  it('keeps the inside-window turning route continuous at 60 Hz', () => {
+    const s = setup(); const yaw = Math.atan2(-2.9 + 5.43, -1 + 5.58);
+    s.player.setPosition(-5.43, -5.58, yaw, terrain); s.ctx.viewYaw = yaw; s.camera.yaw = yaw;
+    const hips = new THREE.Vector3(); let previous: THREE.Vector3 | null = null;
+    let worst = 0;
+    for (let i = 0; i < 420; i++) {
+      if (i >= 72 && i < 252) s.camera.yaw -= 1.9 / 60;
+      if (i >= 300) s.camera.yaw += 1.9 / 60;
+      s.ctx.viewYaw = s.camera.yaw;
+      s.setMovement(i >= 252 && i < 300);
+      s.tick(60); s.camera.camera.updateMatrixWorld();
+      hips.set(s.player.x, s.player.y + 1, s.player.z).project(s.camera.camera);
+      if (previous && s.camera.bodyVisible) worst = Math.max(worst, Math.hypot(hips.x - previous.x, hips.y - previous.y));
+      previous = s.camera.bodyVisible ? hips.clone() : null;
+    }
+    process.stdout.write(`inside-window maximum visible screen step: ${worst}\n`);
+    expect(worst).toBeLessThan(.25);
   });
 
   it('clears the rendered inner lintel while turning at a house doorway', () => {
