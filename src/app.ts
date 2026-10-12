@@ -2966,6 +2966,23 @@ export class App {
     }
   }
 
+  /** Explicit offline diagnostic; imported only when requested and never called during ordinary play. */
+  async auditPlacement(options: import('./diagnostics/placementAudit').PlacementAuditOptions = {}) {
+    const world = this.world;
+    if (!world) throw new Error('Start a journey before auditing placement.');
+    await world.arrived;
+    if (world !== this.world) throw new Error('World changed during placement preparation.');
+    const { auditPlacements } = await import('./diagnostics/placementAudit');
+    world.scene.updateMatrixWorld(true);
+    const populations = world.modules.flatMap(m => m.module.placementAuditTargets?.() ?? []);
+    const expectedRoots = world.modules.find(m => m.name === 'forest')?.module.stats?.().trees;
+    const furniture = world.modules.find(m => m.name === 'furniture')?.module as { arrived?: boolean } | undefined;
+    const furnitureReady = furniture?.arrived !== false;
+    const report = auditPlacements(world.scene, (x, z) => world.terrain.heightAt(x, z), populations, options);
+    return { ...report, revision: REVISION, version: GAME_VERSION, expectedRoots, furnitureReady,
+      complete: report.complete && furnitureReady && (expectedRoots === undefined || report.summary.roots === expectedRoots) };
+  }
+
   private startBenchmark() {
     const T = this.world.terrain;
     const H = (x: number, z: number, up: number) => new THREE.Vector3(x, T.heightAt(x, z) + up, z);

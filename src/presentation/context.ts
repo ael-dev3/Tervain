@@ -1,3 +1,4 @@
+import type { PlacementAuditTarget } from '../diagnostics/placementAudit';
 import type * as THREE from 'three';
 import type { Settings } from '../platform/settings';
 import type { WorldView } from '../game/worldView';
@@ -56,6 +57,8 @@ export interface FrameContext {
 /** The common shape of a scene module. */
 export interface SceneModule {
   group: THREE.Group;
+  /** Full static populations for offline placement checks, independent of camera culling. */
+  placementAuditTargets?(): PlacementAuditTarget[];
   update(dt: number, f: FrameContext): void;
   /** Counters for the debug panel. */
   stats?(): Record<string, number>;

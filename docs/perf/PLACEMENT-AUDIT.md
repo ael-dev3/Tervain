@@ -1,0 +1,17 @@
+# Placement audit
+
+Run a build containing the diagnostic, then:
+
+```sh
+node tools/audit-placement.mjs --url <build-url> --out placement-audit.json
+```
+
+The tool starts the existing capture journey and runs a geometry snapshot check. It does not change placement or run during ordinary play. `--place` chooses the capture start; `--clearance` defaults to 0.08 metres and `--max-checks` to 20000. The loaded build revision is included in the report.
+
+The forest adapter exports the full selected tree population, including camera-culled trees. The furniture adapter exports all loaded room instances, including hidden rooms. Other static scene meshes are checked at their current draw populations. Split-normal vertices are welded and disconnected components of batched prop geometry are checked separately. Animated skeletons, leaf/grass effects, sky, water and contact-shadow cards are excluded from prop candidates.
+
+Prop bottom vertices are tested against terrain and scene triangles. A candidate has no sampled support within the clearance tolerance. Flush stacked supports are accepted; a component cannot support itself. Tree checks sample the outer basal ring and report min/max terrain gaps and the unsupported fraction. A root candidate has at least a quarter of those samples above the tolerance.
+
+Each check has a label, component, world position, sample count and measured gaps. Candidates require review: intentional hanging objects, unusual root geometry, shader deformation and supports not represented by geometry can affect interpretation. This is a geometric diagnostic, not an art-quality score. Confirm candidates in a recorded clip before counting a placement fix as live.
+
+Truncated, oversized or invalid geometry and nonfinite terrain sampling make a report incomplete (exit 2). The root count is compared with the forest's full population. Other camera-culling systems without a population adapter remain outside the full-population guarantee. Exit 0 means the configured audit completed, not that every candidate is a confirmed bug or that the playtest is complete.

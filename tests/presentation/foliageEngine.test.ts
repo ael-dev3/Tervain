@@ -315,6 +315,9 @@ describe('the forest with wind, shadow-only casters and strikes', () => {
     vi.stubGlobal('location', { search: '' });
     const quality = 'high', f = field();
     const forest = buildFlora({ terrain, excl, colliders: new Colliders(), quality, settings: { ...defaultSettings(), quality }, library: AssetLibrary.empty(), sway: { uTime: { value: 0 }, uWind: { value: 0 } }, foliage: f }, templates);
+    const rootTargets = forest.placementAuditTargets!();
+    expect(rootTargets).toHaveLength(forest.counts.trees);
+    expect(rootTargets.every(target => target.kind === 'root' && target.matrix.elements.every(Number.isFinite))).toBe(true);
     const colour = forest.group.children.filter((o) => (o as THREE.InstancedMesh).isInstancedMesh) as THREE.InstancedMesh[];
     const casters = forest.shadowCasters.children as THREE.InstancedMesh[];
     expect(casters.length).toBeGreaterThan(0);
