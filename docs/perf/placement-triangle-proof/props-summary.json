@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "revision": "6658a2ad4",
+  "version": "0.0.14",
+  "kind": "prop",
+  "preset": "low",
+  "complete": true,
+  "truncated": false,
+  "invalid": 0,
+  "skipped": [],
+  "furnitureReady": true,
+  "scope": "static scene components plus supplied full populations; intentional hanging/floating objects require review",
+  "summary": {
+    "checks": 22649,
+    "roots": 0,
+    "props": 22649,
+    "candidates": 2418
+  },
+  "reportSha256": "676a37a988c299ebad8ce29e4617cfc9713bc56ab199b55e274022ffc9ab58d4"
+}
