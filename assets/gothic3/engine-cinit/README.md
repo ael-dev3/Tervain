@@ -3528,3 +3528,8 @@ Original constructor `30696ef8` now initializes the actual 16-byte status-node a
 ## Completed-CString regression timeout diagnosis
 
 Main workflow run 38187614610 at revision 5be13059672528827d44ced2463340459fb172ef passed 4,070 tests and failed one completed-property-CString test at its 20-second limit. Its instrumentation now stops collecting camera and reference observations once captured, forwarding the original operations throughout. The reduced instrumentation still exceeded 20 seconds locally, so this expanded startup test has an explicit 30-second limit. All original assertions remain, and its focused local rerun passed. This does not establish a successful full-suite rerun or deployment.
+
+
+## Enum literal list wrapper return
+
+Original wrapper `3069731d` now allocates its 12-byte list node and 8-byte value descriptor through the original arena calls. It preserves the actual enum literal pointer in that descriptor and executes list constructor `30696ec9` with its original list-vtable owner, flags and argument checks. The wrapper returns through `30697363` to `30697571`, where the setter publishes the actual list pointer in its local descriptor and enters list append `30696e63` through CALL `3069757a`. Append remains pending. Typechecking and three focused checks passed; old literal and new allocations retain their source-backed owners. Property root, full startup and campaign completion remain unfinished.
