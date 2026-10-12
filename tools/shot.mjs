@@ -4,6 +4,7 @@
  *
  *   node tools/shot.mjs out.png place=rillford yaw=0.6 pitch=0.3 dist=12 hour=11 [hud=0] [q=high] [w=1280] [h=720]
  *
+ * Set SHOT_GPU=1 to draw on the GPU (shading, shadows and anti-aliasing then match play).
  * Needs `npm run dev` on http://127.0.0.1:5173 and Chrome/Edge (set CHROME to override).
  */
 import fs from 'node:fs';
@@ -34,7 +35,8 @@ const out = path.resolve(requestedOut);
 fs.mkdirSync(path.dirname(out), { recursive: true });
 fs.rmSync(out, { force: true });
 
-const page = await openPage(url.href, { w, h });
+// SHOT_GPU=1 opens a visible window so the picture is drawn on the GPU; headless Chrome draws in software.
+const page = await openPage(url.href, { w, h, headed: process.env.SHOT_GPU === '1' });
 try {
   let ready = false;
   for (let i = 0; i < 240; i++) {

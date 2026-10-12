@@ -3,7 +3,7 @@ import { beforeAll, describe, expect, it } from 'vitest';
 import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { clone as cloneSkinned } from 'three/examples/jsm/utils/SkeletonUtils.js';
 import { setArmed, setSash, type Mode } from '../../src/presentation/characters';
-import { HERO_ACTION_FADE, HERO_GAIT_PHASE, HERO_HAND_GRIPS, HERO_LEG_TWIST, type HeroGrip, HERO_ARM_TUCK } from '../../src/presentation/hero/animation';
+import { HERO_ACTION_FADE, HERO_GAIT_PHASE, HERO_RUN_RIGHT_STANCE, runClipPhase, HERO_HAND_GRIPS, HERO_LEG_TWIST, type HeroGrip, HERO_ARM_TUCK } from '../../src/presentation/hero/animation';
 import { blendDualQuaternions, writeDualQuaternion } from '../../src/presentation/npc/dualQuaternionSkinning';
 import { bindHeroBones, HERO_BONES, HERO_FINGERS, type HeroBoneName } from '../../src/presentation/hero/bones';
 import { HERO_RUN_CYCLE, HERO_RUN_SPEED, HERO_WALK_CYCLE, HERO_WALK_SPEED } from '../../src/presentation/hero/locomotion';
@@ -91,7 +91,9 @@ describe('authored Mixamo playable hero', () => {
     for (const [mode, name, speed] of [['walk', 'Walking', HERO_WALK_SPEED], ['run', 'Running', HERO_RUN_SPEED]] as const) {
       const rig = createHeroRig(asset); advance(rig, mode, speed, 4);
       const duration = asset.animations.find((clip) => clip.name === name)!.duration;
-      const reference = sourcePose(name, ((rig.hero.diagnostics.phase + HERO_GAIT_PHASE[name]) % 1) * duration);
+      // The run clip's time is warped within each cycle so the right foot holds (A130).
+      const clipPhase = name === 'Running' ? runClipPhase(rig.hero.diagnostics.phase) : rig.hero.diagnostics.phase;
+      const reference = sourcePose(name, (((clipPhase + HERO_GAIT_PHASE[name]) % 1) + 1) % 1 * duration);
       const bones = bindHeroBones(rig.root);
       for (const side of ['Left', 'Right'] as const) for (const part of ['UpLeg', 'Leg', 'Foot', 'ToeBase', 'Arm', 'ForeArm', 'Hand'] as const) {
         const name = `mixamorig:${side}${part}` as const;
@@ -102,6 +104,16 @@ describe('authored Mixamo playable hero', () => {
       }
       expect(rig.hero.diagnostics.activeClip).toBe(name);
     }
+  });
+
+  it('warps the run clip within a cycle without changing its length or the left contact (A130)', () => {
+    expect(runClipPhase(0)).toBe(0);
+    expect(runClipPhase(1)).toBeCloseTo(1, 12);
+    const rate = (p: number) => (runClipPhase(p + 1e-5) - runClipPhase(p - 1e-5)) / 2e-5;
+    expect(rate(HERO_RUN_RIGHT_STANCE.centre)).toBeCloseTo(1 + 2 * HERO_RUN_RIGHT_STANCE.gain, 4);
+    expect(rate(HERO_RUN_RIGHT_STANCE.centre + 0.5)).toBeCloseTo(1, 4);
+    expect(rate(HERO_RUN_RIGHT_STANCE.centre + 0.25)).toBeCloseTo(1 - HERO_RUN_RIGHT_STANCE.gain, 4);
+    for (let p = 0; p < 1; p += 0.01) expect(rate(p)).toBeGreaterThan(0);
   });
 
   it('advances only from actual grounded metres and clears gait on reset', () => {
