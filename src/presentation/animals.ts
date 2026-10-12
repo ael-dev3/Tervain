@@ -17,6 +17,7 @@ import { animalGroundAllowed, animalHabitatAllowed, animalNavigationColliders, f
 import { AnimalHunting, type HuntingAnimal } from './animals/hunting/adapter';
 import type { AnimalArrowHit } from './animals/hunting/hit';
 import { WILDLIFE_RETURN_DISTANCE, type AnimalId, type HuntingState } from '../game/hunting';
+import { finishCooperatively, type CooperativeOptions } from '../platform/cooperative';
 
 export { ANIMALS, ANIMAL_TRIANGLE_LIMIT } from './animals/catalog';
 export type AnimalTemplates = ReadonlyMap<string, GLTF>;
@@ -384,18 +385,58 @@ export interface AnimalWildlife extends SceneModule {
 /** Independent peaceful wildlife controllers with optional durable hunting presentation. */
 export function buildAnimals(ctx: Pick<BuildContext, 'terrain' | 'colliders' | 'quality'>, templates: AnimalTemplates,
   definitions: readonly AnimalDefinition[] = ANIMALS, emit: (event: AnimalCallEvent) => void = event => window.dispatchEvent(new CustomEvent(ANIMAL_CALL_EVENT, { detail: event }))): AnimalWildlife {
+  let abandon: (() => void) | undefined;
+  const steps = buildAnimalSteps(ctx, templates, definitions, emit, dispose => { abandon = dispose; });
+  try {
+    for (;;) { const next = steps.next(); if (next.done) return next.value; }
+  } catch (error) { abandon?.(); throw error; }
+  finally { steps.return(undefined as never); }
+}
+
+/** Deferred wildlife is assembled in bounded turns while the existing world keeps playing. */
+export async function buildAnimalsAsync(ctx: Pick<BuildContext, 'terrain' | 'colliders' | 'quality'>, templates: AnimalTemplates,
+  options: CooperativeOptions = {}, definitions: readonly AnimalDefinition[] = ANIMALS,
+  emit: (event: AnimalCallEvent) => void = event => window.dispatchEvent(new CustomEvent(ANIMAL_CALL_EVENT, { detail: event }))): Promise<AnimalWildlife> {
+  let abandon: (() => void) | undefined;
+  try {
+    return await finishCooperatively(buildAnimalSteps(ctx, templates, definitions, emit, dispose => { abandon = dispose; }), { budgetMs: 3, ...options });
+  } catch (error) { abandon?.(); throw error; }
+}
+
+function* buildAnimalSteps(ctx: Pick<BuildContext, 'terrain' | 'colliders' | 'quality'>, templates: AnimalTemplates,
+  definitions: readonly AnimalDefinition[], emit: (event: AnimalCallEvent) => void, onAbandon: (dispose: () => void) => void): Generator<void, AnimalWildlife> {
   const group = new THREE.Group(); group.name = 'Land wildlife';
   const animals: AnimalInstance[] = [], occupied: AnimalSite[] = [];
   let people: readonly PhysicalActor[] = [], disposed = false, running = true, calls = 0;
+  let hunting!: AnimalHunting;
+  const dispose = () => {
+    if (disposed) return;
+    disposed = true; hunting?.dispose();
+    const geometry = new Set<THREE.BufferGeometry>(), materials = new Set<THREE.Material>(), textures = new Set<THREE.Texture>();
+    for (const animal of animals) {
+      animal.animation.dispose(); animal.skeletons.forEach(skeleton => skeleton.dispose());
+      animal.scene.traverse(object => {
+        const mesh = object as THREE.Mesh; if (!mesh.isMesh) return;
+        geometry.add(mesh.geometry);
+        for (const material of Array.isArray(mesh.material) ? mesh.material : [mesh.material]) {
+          materials.add(material); for (const value of Object.values(material)) if (value instanceof THREE.Texture) textures.add(value);
+        }
+      });
+    }
+    geometry.forEach(value => value.dispose()); materials.forEach(value => value.dispose()); textures.forEach(value => value.dispose());
+  };
+  onAbandon(dispose);
   const { terrain } = ctx, colliders = animalNavigationColliders(ctx.colliders);
   // Fit every habitat before allocating disposable copies, so a bad placement cannot strand a partial set of GPU resources.
-  const fitted = definitions.map(definition => {
+  const fitted: { definition: AnimalDefinition; template: GLTF; home: AnimalSite }[] = [];
+  for (const definition of definitions) {
     const template = templates.get(definition.id);
     if (!template) throw new Error(`The ${definition.species} source model was not loaded.`);
     const size = validateAnimalTemplate(template, definition).bounds.getSize(new THREE.Vector3()), radius = Math.hypot(size.x, size.z) / 2 + 0.14;
     const home = findAnimalSite(definition, radius, terrain, colliders, occupied, size.y); occupied.push(home);
-    return { definition, template, home };
-  });
+    fitted.push({ definition, template, home });
+    yield;
+  }
   for (const [index, { definition, template, home }] of fitted.entries()) {
     const body = cloneAnimal(template, definition), root = new THREE.Group(); root.name = `${definition.species} / ${definition.id}`; root.add(body.scene);
     body.scene.traverse(object => { if ((object as THREE.Mesh).isMesh) (object as THREE.Mesh).castShadow = ctx.quality !== 'low'; });
@@ -405,6 +446,7 @@ export function buildAnimals(ctx: Pick<BuildContext, 'terrain' | 'colliders' | '
     const animal: AnimalInstance = { ...body, definition, root, home, yaw, state, stateTime: 0, rest: 3 + rng() * 7,
       callIn: 18 + index * 2.1 + rng() * 25, callSent: false, alertIn: 0, path: [], blockedFor: 0, planIn: 0, turn: new THREE.Quaternion(), rng, alarm: null, initialYaw: yaw };
     animals.push(animal);
+    yield;
   }
   const up = new THREE.Vector3(), forward = new THREE.Vector3(), right = new THREE.Vector3(), basis = new THREE.Matrix4(), vertex = new THREE.Vector3();
   const normal: [number, number, number] = [0, 1, 0];
@@ -519,7 +561,7 @@ export function buildAnimals(ctx: Pick<BuildContext, 'terrain' | 'colliders' | '
   };
   // Where the hunter was last seen, so a returning animal does not settle in front of him (A96 scout).
   let hunter: { x: number; z: number } | null = null;
-  const hunting = new AnimalHunting(animals, terrain, (body: HuntingAnimal, fallback, wounded) => {
+  hunting = new AnimalHunting([], terrain, (body: HuntingAnimal, fallback, wounded) => {
     const animal = body as AnimalInstance;
     const position = !wounded ? fallback
       : animal.alarm && animal.alarm.remaining > 0 ? { x: animal.alarm.x, z: animal.alarm.z } : hunter ?? fallback;
@@ -551,6 +593,7 @@ export function buildAnimals(ctx: Pick<BuildContext, 'terrain' | 'colliders' | '
     animal.state = 'Idle'; animal.stateTime = 0; animal.callSent = false; animal.callIn = 20 + animal.rng() * 35; rest(animal);
     return true;
   });
+  yield* hunting.prepare(animals);
   hunting.group.traverse(object => { if ((object as THREE.Mesh).isMesh) (object as THREE.Mesh).castShadow = ctx.quality !== 'low'; });
   group.add(hunting.group);
 
@@ -702,23 +745,7 @@ export function buildAnimals(ctx: Pick<BuildContext, 'terrain' | 'colliders' | '
         }
       }
     },
-    dispose() {
-      if (disposed) return;
-      disposed = true;
-      hunting.dispose();
-      const geometry = new Set<THREE.BufferGeometry>(), materials = new Set<THREE.Material>(), textures = new Set<THREE.Texture>();
-      for (const animal of animals) {
-        animal.animation.dispose(); animal.skeletons.forEach(skeleton => skeleton.dispose());
-        animal.scene.traverse(object => {
-          const mesh = object as THREE.Mesh; if (!mesh.isMesh) return;
-          geometry.add(mesh.geometry);
-          for (const material of Array.isArray(mesh.material) ? mesh.material : [mesh.material]) {
-            materials.add(material); for (const value of Object.values(material)) if (value instanceof THREE.Texture) textures.add(value);
-          }
-        });
-      }
-      geometry.forEach(value => value.dispose()); materials.forEach(value => value.dispose()); textures.forEach(value => value.dispose());
-    },
+    dispose,
   };
 }
 

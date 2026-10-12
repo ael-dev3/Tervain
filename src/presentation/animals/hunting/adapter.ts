@@ -28,10 +28,17 @@ export class AnimalHunting {
     private frighten: (animal: HuntingAnimal, position: { x: number; z: number }, wounded?: boolean) => void,
     private restore: (animal: HuntingAnimal, returning: boolean) => boolean | void) {
     this.effects = new AnimalImpactEffects(terrain); this.group = this.effects.group;
-    this.residents = animals.flatMap(animal => {
+    this.residents = [];
+    for (const _ of this.prepare(animals)) { /* synchronous callers prepare before use */ }
+  }
+
+  /** Construction can yield between complete carcass support scans before this adapter is activated. */
+  *prepare(animals: readonly HuntingAnimal[]): Generator<void, void> {
+    for (const animal of animals) {
       const id = ANIMAL_IDS.find(id => ANIMAL_MODEL_IDS[id] === animal.definition.id);
-      return id ? [{ id, animal, corpse: new AnimalCorpse(animal, animal.definition.species === 'deer'), surface: null, record: null, returning: false, retryIn: 0 }] : [];
-    });
+      if (id) this.residents.push({ id, animal, corpse: new AnimalCorpse(animal, animal.definition.species === 'deer'), surface: null, record: null, returning: false, retryIn: 0 });
+      yield;
+    }
   }
 
   syncHunting(records: HuntingState, restore = false) {
