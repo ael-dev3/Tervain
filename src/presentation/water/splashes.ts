@@ -54,6 +54,7 @@ export class Splashes {
   private readonly fades = new Float32Array(MAX);
   private readonly random = mulberry32(5501);
   private next = 0;
+  private initialized = false;
   enabled = true;
 
   constructor() {
@@ -91,9 +92,11 @@ export class Splashes {
 
   update(dt: number) {
     const step = Number.isFinite(dt) ? Math.min(Math.max(dt, 0), 0.1) : 0;
+    let changed = !this.initialized;
     for (let i = 0; i < MAX; i++) {
       const d = this.drops[i]!;
       if (d.life > 0) {
+        changed = true; // Includes the last frame that clears a dying droplet.
         d.life -= step;
         d.vy -= 9.81 * step;
         const drag = Math.exp(-step * 1.4);
@@ -105,6 +108,8 @@ export class Splashes {
       this.sizes[i] = alive ? d.size : 0;
       this.fades[i] = alive ? Math.min(1, d.life / (d.max * 0.4)) : 0;
     }
+    this.initialized = true;
+    if (!changed) return;
     const geo = this.points.geometry;
     geo.attributes.position!.needsUpdate = geo.attributes.aSize!.needsUpdate = geo.attributes.aFade!.needsUpdate = true;
   }
