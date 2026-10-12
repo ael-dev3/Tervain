@@ -32,6 +32,15 @@ const tiger = ANIMALS.find(animal => animal.species === 'tiger')!;
 it('rejects distant arrow segments before refreshing descendant transforms and skeletons', () => {
   const module = buildAnimals({ terrain, colliders: new Colliders(), quality: 'low' }, new Map([[tiger.id, fixture()]]), [tiger], () => {});
   try {
+it('does not re-pose or re-scan a fully settled stationary carcass every frame', () => {
+  let elevation = 0;
+  const changingGround = { ...terrain, heightAt: () => elevation, groundAt: () => elevation } as unknown as Terrain;
+  const module = buildAnimals({ terrain: changingGround, colliders: new Colliders(), quality: 'low' }, new Map([[tiger.id, fixture()]]), [tiger], () => {});
+  try {
+    const home = module.snapshot()[0]!;
+    module.syncHunting({ tiger: record('dead', home) }, true);
+    for (let i = 0; i < 60; i++) module.update(1 / 60, frame());
+    expect(module.skinningFrame('tiger', home)?.ready).toBe(true);
     const root = module.group.getObjectByName(`${tiger.species} / ${tiger.id}`)!;
     let skin!: THREE.SkinnedMesh;
     root.traverse(object => { if ((object as THREE.SkinnedMesh).isSkinnedMesh) skin = object as THREE.SkinnedMesh; });
@@ -49,6 +58,27 @@ it('rejects distant arrow segments before refreshing descendant transforms and s
     expect(hit?.id).toBe('tiger');
     expect(update).toHaveBeenCalled();
     expect(descendants).toHaveBeenCalled();
+    const scan = vi.spyOn(skin, 'getVertexPosition');
+    const pose = root.position.clone(), rotation = root.quaternion.clone();
+    const bones = skin.skeleton.bones.map(bone => bone.quaternion.clone());
+    const contact = structuredClone(module.contacts);
+    for (let i = 0; i < 120; i++) module.update(1 / 60, frame());
+    expect(update).not.toHaveBeenCalled();
+    expect(scan).not.toHaveBeenCalled();
+    expect(root.position).toEqual(pose); expect(root.quaternion.toArray()).toEqual(rotation.toArray());
+    expect(skin.skeleton.bones.map(bone => bone.quaternion.toArray())).toEqual(bones.map(bone => bone.toArray()));
+    expect(module.contacts).toEqual(contact);
+    elevation = .2;
+    module.update(1 / 60, frame());
+    expect(root.position.y).toBeCloseTo(pose.y + .2);
+    expect(update).toHaveBeenCalled(); update.mockClear();
+    module.update(1 / 60, frame());
+    expect(update).not.toHaveBeenCalled();
+    // Restoring a new corpse position invalidates the stationary result.
+    module.syncHunting({ tiger: record('dead', { ...home, x: home.x + 2 }) }, true);
+    module.update(1 / 60, frame());
+    expect(root.position.x).toBeCloseTo(home.x + 2);
+    expect(update).toHaveBeenCalled();
   } finally { module.dispose?.(); }
 });
 
