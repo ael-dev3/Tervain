@@ -317,3 +317,16 @@ it('captures the second original critical-section reference initializer and shut
   expect(engineCinitInstruction('307b806e','307b8073')).toMatchObject({bytes:'e9fb83ebff',instruction:'JMP 0x30670473'});
   expect(engineCinitImage('sharedCriticalSectionSecondReferenceAddress')).toMatchObject({address:'30af6e01',bytes:1,raw:'00',fileBackedBytes:0,loaderZeroFillBytes:1});
 });
+
+it('captures the original standard-output filebuf caller and static stream getter',()=>{
+ expect(engineCinitInstruction('30791f2e','30791f2e')).toMatchObject({bytes:'e88ea4eeff',instruction:'CALL 0x3067c3c1'});
+ expect(engineCinitInstruction('30791f2e','30791f33')).toMatchObject({bytes:'83c020',instruction:'ADD EAX,0x20'});
+ expect(engineCinitInstruction('30791f2e','30791f37')).toMatchObject({bytes:'b9086eaf30',instruction:'MOV ECX,0x30af6e08'});
+ expect(engineCinitInstruction('30791f2e','30791f3c')).toMatchObject({bytes:'e8efcde5ff',instruction:'CALL 0x305eed30'});
+ expect(engineCinitInstruction('3067c3c1','3067c3c1')).toMatchObject({bytes:'b8a845ad30',instruction:'MOV EAX,0x30ad45a8'});
+ expect(engineCinitInstruction('3067c3c1','3067c3c6')).toMatchObject({bytes:'c3',instruction:'RET'});
+ expect(engineCinitInstruction('305eed30','305eed33')).toMatchObject({bytes:'e828f9ffff',instruction:'CALL 0x305ee660'});
+ expect(engineCinitInstruction('305eed30','305eed82')).toMatchObject({bytes:'c20400',instruction:'RET 0x4'});
+ expect(engineCinitInstruction('307b8082','307b8082')).toMatchObject({bytes:'b9086eaf30',instruction:'MOV ECX,0x30af6e08'});
+ expect(engineCinitInstruction('307b8082','307b8087')).toMatchObject({bytes:'e9f48be3ff',instruction:'JMP 0x305f0c80'});
+});

@@ -3670,3 +3670,10 @@ All 344 prior method records, prior images, imports, tables and SharedBase evide
 Initializer `30791f18` now executes with its own captured receiver and return/callback addresses. The existing shared reference count changes from zero to one through the actual imported increment. Its nonzero branch reuses the four live critical sections, returns the second receiver to `30791f22`, registers `307b806e` through the original onexit routine and returns to the C++ initializer loop. The exit cursor is 264 with 66 callbacks and a 512-byte allocation; the C++ cursor is `0x204` and the next pending initializer is `30791f2e`.
 
 Typechecking and ten focused checks passed, including interruption of the second increment with the first initializer's four sections and 65 callbacks preserved. The earlier counter-write fixture now caches its admitted view and restores its write spy, preventing recursive mock interference between tests. The completed enum checkpoint retains all original byte, mask, owner, lock and return assertions; its separate final startup PC assertion follows the current boundary. Complete startup and campaign completion remain unfinished.
+
+
+### Standard-output filebuf source capture
+
+The source bundle adds initializer `30791f2e`, getter `3067c3c1`, filebuf constructor `305eed30`, streambuf base constructor `305ee660`, filebuf initialization `305ed990`, destructor `305f0c80` and callback `307b8082`. The getter returns the existing static stream table at `30ad45a8`; the initializer selects offset 32 and passes that pointer to the filebuf constructor at receiver `30af6e08`. The captured constructor accesses a DWORD at receiver offset `0x4c`, proving an 80-byte accessed span. Its new storage image is loader-zero-filled; this extent does not establish every possible access by other methods.
+
+All 346 prior method records, images, imports, constants, tables and SharedBase evidence remain identical. The source bundle now contains 353 Engine methods and one additional image. Typechecking and 147 source/image checks passed. Filebuf runtime execution remains unconnected at this capture checkpoint.
