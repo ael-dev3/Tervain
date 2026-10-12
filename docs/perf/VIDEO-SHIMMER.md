@@ -18,4 +18,15 @@ Choose start/duration by inspecting the clip. The rectangle is fixed in screen s
 
 Reports contain per-frame positive high-frequency brightness flashes (sparkle share), temporal residual mean/p95, alignment coverage, exposure offsets and peak timestamps. Three-frame gradient block matching compensates translation with quarter-pixel refinement; median offsets compensate uniform exposure changes. Low-confidence or out-of-bounds matches are excluded. No usable matches produce null metrics and a failed diagnostic, rather than a perfect score.
 
-Limitations: parallax, occlusion, changing wind deformation, compression and motion exceeding the search radius can affect residuals. Check coverage and watch peak timestamps. The default analysis resamples to 60 Hz; inspect sourceAverageFps and avoid comparing different source cadences. Reports omit input filenames and metadata. The default limit is 1800 decoded frames; `truncated` records when it is reached. A lower score alone cannot establish improved foliage quality; retain comparable clips for review.
+Limitations: parallax, occlusion, changing wind deformation, compression and motion exceeding the search radius can affect residuals. Check coverage and watch peak timestamps. Default analysis preserves native decoded frames and their presentation timestamps, including variable-rate gaps. Explicit --fps requests remain resampled diagnostics and cannot exceed the source cadence. Compare matching sampling modes and source cadences. Reports omit input filenames and metadata. The default limit is 1800 decoded frames; `truncated` records when it is reached. A lower score alone cannot establish improved foliage quality; retain comparable clips for review.
+
+
+The [native-frame repro](native-video-proof/repro.json) uses recorded software-rendered game frames with a held refresh. The old default inserts three duplicate frames; the patched default retains the exact source frame count and true sample timestamps. This avoids diluting flashes or directing reviewers to synthetic peak times. The [five-frame game clip](native-video-proof/game-pan.mkv) comes from the 640×360 low-preset SwiftShader production fixture, build 0.0.14 / 5d39ea118.
+
+```sh
+git show <baseline-revision>:tools/video-shimmer.mjs > baseline-video-shimmer.mjs
+git show <baseline-revision>:tools/shimmer-metric.mjs > shimmer-metric.mjs
+node tools/repro-native-video-frames.mjs --clip docs/perf/native-video-proof/game-pan.mkv --baseline-tool baseline-video-shimmer.mjs --out repro.json
+```
+
+Place the baseline analyzer and its metric dependency together. Native timestamps are selected relative to the file start; seeking retains their actual times. Reports omit input paths and metadata unrelated to decoded size/cadence. Native sampling changes the interpretation of older resampled scores: regenerate comparable baselines before drawing a visual conclusion. This tooling fix does not establish improved grass quality or GPU frame timing.
