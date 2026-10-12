@@ -15899,6 +15899,406 @@
         "bodyInstructionBytesSha256": "eef6a415c7742887c013b304a254672fe795c9c37ca3a2603c036156b8487e75"
       },
       {
+        "label": "springAndDamperEffectorTemplatePropertyType",
+        "entryVA": "0x3002774b",
+        "bodyVA": "0x300784e0",
+        "entryChain": [
+          {
+            "va": "3002774b",
+            "bytes": "e9900d0500",
+            "targetVA": "300784e0"
+          }
+        ],
+        "bodyRanges": "300784e0-30078536",
+        "instructions": [
+          {
+            "va": "300784e0",
+            "rva": "784e0",
+            "fileOffset": 492768,
+            "bytes": "a1b89cad30",
+            "instruction": "MOV EAX,[0x30ad9cb8]",
+            "assemblyLine": 136482
+          },
+          {
+            "va": "300784e5",
+            "rva": "784e5",
+            "fileOffset": 492773,
+            "bytes": "a801",
+            "instruction": "TEST AL,0x1",
+            "assemblyLine": 136483
+          },
+          {
+            "va": "300784e7",
+            "rva": "784e7",
+            "fileOffset": 492775,
+            "bytes": "7514",
+            "instruction": "JNZ 0x300784fd",
+            "assemblyLine": 136484
+          },
+          {
+            "va": "300784e9",
+            "rva": "784e9",
+            "fileOffset": 492777,
+            "bytes": "8b0d489dad30",
+            "instruction": "MOV ECX,dword ptr [0x30ad9d48]",
+            "assemblyLine": 136485
+          },
+          {
+            "va": "300784ef",
+            "rva": "784ef",
+            "fileOffset": 492783,
+            "bytes": "83c801",
+            "instruction": "OR EAX,0x1",
+            "assemblyLine": 136486
+          },
+          {
+            "va": "300784f2",
+            "rva": "784f2",
+            "fileOffset": 492786,
+            "bytes": "a3b89cad30",
+            "instruction": "MOV [0x30ad9cb8],EAX",
+            "assemblyLine": 136487
+          },
+          {
+            "va": "300784f7",
+            "rva": "784f7",
+            "fileOffset": 492791,
+            "bytes": "890db49cad30",
+            "instruction": "MOV dword ptr [0x30ad9cb4],ECX",
+            "assemblyLine": 136488
+          },
+          {
+            "va": "300784fd",
+            "rva": "784fd",
+            "fileOffset": 492797,
+            "bytes": "a802",
+            "instruction": "TEST AL,0x2",
+            "assemblyLine": 136490
+          },
+          {
+            "va": "300784ff",
+            "rva": "784ff",
+            "fileOffset": 492799,
+            "bytes": "7530",
+            "instruction": "JNZ 0x30078531",
+            "assemblyLine": 136491
+          },
+          {
+            "va": "30078501",
+            "rva": "78501",
+            "fileOffset": 492801,
+            "bytes": "83c802",
+            "instruction": "OR EAX,0x2",
+            "assemblyLine": 136492
+          },
+          {
+            "va": "30078504",
+            "rva": "78504",
+            "fileOffset": 492804,
+            "bytes": "68ac70af30",
+            "instruction": "PUSH 0x30af70ac",
+            "assemblyLine": 136493
+          },
+          {
+            "va": "30078509",
+            "rva": "78509",
+            "fileOffset": 492809,
+            "bytes": "b9b831aa30",
+            "instruction": "MOV ECX,0x30aa31b8",
+            "assemblyLine": 136494
+          },
+          {
+            "va": "3007850e",
+            "rva": "7850e",
+            "fileOffset": 492814,
+            "bytes": "a3b89cad30",
+            "instruction": "MOV [0x30ad9cb8],EAX",
+            "assemblyLine": 136495
+          },
+          {
+            "va": "30078513",
+            "rva": "78513",
+            "fileOffset": 492819,
+            "bytes": "e8968e5f00",
+            "instruction": "CALL 0x306713ae",
+            "assemblyLine": 136496
+          },
+          {
+            "va": "30078518",
+            "rva": "78518",
+            "fileOffset": 492824,
+            "bytes": "50",
+            "instruction": "PUSH EAX",
+            "assemblyLine": 136497
+          },
+          {
+            "va": "30078519",
+            "rva": "78519",
+            "fileOffset": 492825,
+            "bytes": "68b09cad30",
+            "instruction": "PUSH 0x30ad9cb0",
+            "assemblyLine": 136498
+          },
+          {
+            "va": "3007851e",
+            "rva": "7851e",
+            "fileOffset": 492830,
+            "bytes": "ff15b0daaf30",
+            "instruction": "CALL dword ptr [0x30afdab0]",
+            "assemblyLine": 136499
+          },
+          {
+            "va": "30078524",
+            "rva": "78524",
+            "fileOffset": 492836,
+            "bytes": "685e2e0130",
+            "instruction": "PUSH 0x30012e5e",
+            "assemblyLine": 136500
+          },
+          {
+            "va": "30078529",
+            "rva": "78529",
+            "fileOffset": 492841,
+            "bytes": "e868905f00",
+            "instruction": "CALL 0x30671596",
+            "assemblyLine": 136501
+          },
+          {
+            "va": "3007852e",
+            "rva": "7852e",
+            "fileOffset": 492846,
+            "bytes": "83c404",
+            "instruction": "ADD ESP,0x4",
+            "assemblyLine": 136502
+          },
+          {
+            "va": "30078531",
+            "rva": "78531",
+            "fileOffset": 492849,
+            "bytes": "b8b09cad30",
+            "instruction": "MOV EAX,0x30ad9cb0",
+            "assemblyLine": 136504
+          },
+          {
+            "va": "30078536",
+            "rva": "78536",
+            "fileOffset": 492854,
+            "bytes": "c3",
+            "instruction": "RET",
+            "assemblyLine": 136505
+          }
+        ],
+        "reconstructedC": {
+          "path": "01_Decompiled_Code/Engine_dll/pseudocode/functions_00078.c",
+          "sha256": "b62cd6bb1439cdd25aa0ccf7eb84ef2408879e1fa4c5bfb8b93b231e4fa310e1",
+          "line": 3510,
+          "status": "decompiled"
+        },
+        "instructionCount": 22,
+        "bodyByteCount": 87,
+        "bodyInstructionBytesSha256": "bd0c074314106cf8c51489800708ef91cedac0c3939abe0e1c0f2c77c5634dff"
+      },
+      {
+        "label": "audioModulePropertyType",
+        "entryVA": "0x300261ed",
+        "bodyVA": "0x30078550",
+        "entryChain": [
+          {
+            "va": "300261ed",
+            "bytes": "e95e230500",
+            "targetVA": "30078550"
+          }
+        ],
+        "bodyRanges": "30078550-300785a6",
+        "instructions": [
+          {
+            "va": "30078550",
+            "rva": "78550",
+            "fileOffset": 492880,
+            "bytes": "a1c49cad30",
+            "instruction": "MOV EAX,[0x30ad9cc4]",
+            "assemblyLine": 136507
+          },
+          {
+            "va": "30078555",
+            "rva": "78555",
+            "fileOffset": 492885,
+            "bytes": "a801",
+            "instruction": "TEST AL,0x1",
+            "assemblyLine": 136508
+          },
+          {
+            "va": "30078557",
+            "rva": "78557",
+            "fileOffset": 492887,
+            "bytes": "7514",
+            "instruction": "JNZ 0x3007856d",
+            "assemblyLine": 136509
+          },
+          {
+            "va": "30078559",
+            "rva": "78559",
+            "fileOffset": 492889,
+            "bytes": "8b0d449dad30",
+            "instruction": "MOV ECX,dword ptr [0x30ad9d44]",
+            "assemblyLine": 136510
+          },
+          {
+            "va": "3007855f",
+            "rva": "7855f",
+            "fileOffset": 492895,
+            "bytes": "83c801",
+            "instruction": "OR EAX,0x1",
+            "assemblyLine": 136511
+          },
+          {
+            "va": "30078562",
+            "rva": "78562",
+            "fileOffset": 492898,
+            "bytes": "a3c49cad30",
+            "instruction": "MOV [0x30ad9cc4],EAX",
+            "assemblyLine": 136512
+          },
+          {
+            "va": "30078567",
+            "rva": "78567",
+            "fileOffset": 492903,
+            "bytes": "890dc09cad30",
+            "instruction": "MOV dword ptr [0x30ad9cc0],ECX",
+            "assemblyLine": 136513
+          },
+          {
+            "va": "3007856d",
+            "rva": "7856d",
+            "fileOffset": 492909,
+            "bytes": "a802",
+            "instruction": "TEST AL,0x2",
+            "assemblyLine": 136515
+          },
+          {
+            "va": "3007856f",
+            "rva": "7856f",
+            "fileOffset": 492911,
+            "bytes": "7530",
+            "instruction": "JNZ 0x300785a1",
+            "assemblyLine": 136516
+          },
+          {
+            "va": "30078571",
+            "rva": "78571",
+            "fileOffset": 492913,
+            "bytes": "83c802",
+            "instruction": "OR EAX,0x2",
+            "assemblyLine": 136517
+          },
+          {
+            "va": "30078574",
+            "rva": "78574",
+            "fileOffset": 492916,
+            "bytes": "68ac70af30",
+            "instruction": "PUSH 0x30af70ac",
+            "assemblyLine": 136518
+          },
+          {
+            "va": "30078579",
+            "rva": "78579",
+            "fileOffset": 492921,
+            "bytes": "b90826aa30",
+            "instruction": "MOV ECX,0x30aa2608",
+            "assemblyLine": 136519
+          },
+          {
+            "va": "3007857e",
+            "rva": "7857e",
+            "fileOffset": 492926,
+            "bytes": "a3c49cad30",
+            "instruction": "MOV [0x30ad9cc4],EAX",
+            "assemblyLine": 136520
+          },
+          {
+            "va": "30078583",
+            "rva": "78583",
+            "fileOffset": 492931,
+            "bytes": "e8268e5f00",
+            "instruction": "CALL 0x306713ae",
+            "assemblyLine": 136521
+          },
+          {
+            "va": "30078588",
+            "rva": "78588",
+            "fileOffset": 492936,
+            "bytes": "50",
+            "instruction": "PUSH EAX",
+            "assemblyLine": 136522
+          },
+          {
+            "va": "30078589",
+            "rva": "78589",
+            "fileOffset": 492937,
+            "bytes": "68bc9cad30",
+            "instruction": "PUSH 0x30ad9cbc",
+            "assemblyLine": 136523
+          },
+          {
+            "va": "3007858e",
+            "rva": "7858e",
+            "fileOffset": 492942,
+            "bytes": "ff15b0daaf30",
+            "instruction": "CALL dword ptr [0x30afdab0]",
+            "assemblyLine": 136524
+          },
+          {
+            "va": "30078594",
+            "rva": "78594",
+            "fileOffset": 492948,
+            "bytes": "68a9d80130",
+            "instruction": "PUSH 0x3001d8a9",
+            "assemblyLine": 136525
+          },
+          {
+            "va": "30078599",
+            "rva": "78599",
+            "fileOffset": 492953,
+            "bytes": "e8f88f5f00",
+            "instruction": "CALL 0x30671596",
+            "assemblyLine": 136526
+          },
+          {
+            "va": "3007859e",
+            "rva": "7859e",
+            "fileOffset": 492958,
+            "bytes": "83c404",
+            "instruction": "ADD ESP,0x4",
+            "assemblyLine": 136527
+          },
+          {
+            "va": "300785a1",
+            "rva": "785a1",
+            "fileOffset": 492961,
+            "bytes": "b8bc9cad30",
+            "instruction": "MOV EAX,0x30ad9cbc",
+            "assemblyLine": 136529
+          },
+          {
+            "va": "300785a6",
+            "rva": "785a6",
+            "fileOffset": 492966,
+            "bytes": "c3",
+            "instruction": "RET",
+            "assemblyLine": 136530
+          }
+        ],
+        "reconstructedC": {
+          "path": "01_Decompiled_Code/Engine_dll/pseudocode/functions_00078.c",
+          "sha256": "b62cd6bb1439cdd25aa0ccf7eb84ef2408879e1fa4c5bfb8b93b231e4fa310e1",
+          "line": 3533,
+          "status": "decompiled"
+        },
+        "instructionCount": 22,
+        "bodyByteCount": 87,
+        "bodyInstructionBytesSha256": "a69c38a50d618c6f5f46c16373192a275e729b07ad23f2325eacabd4b89f062a"
+      },
+      {
         "label": "animationResourceStringPropertyType",
         "entryVA": "0x30015ea1",
         "bodyVA": "0x30078320",
@@ -49064,6 +49464,80 @@
         "recoveredFromAssemblyWithoutFunctionCSV": true
       },
       {
+        "label": "springAndDamperEffectorTemplatePropertyInitializer",
+        "entryVA": "0x30732670",
+        "bodyVA": "0x30732670",
+        "entryChain": [],
+        "bodyRanges": "30732670-3073267a",
+        "instructions": [
+          {
+            "va": "30732670",
+            "rva": "732670",
+            "fileOffset": 7546480,
+            "bytes": "e8d6508fff",
+            "instruction": "CALL 0x3002774b",
+            "assemblyLine": 1817083
+          },
+          {
+            "va": "30732675",
+            "rva": "732675",
+            "fileOffset": 7546485,
+            "bytes": "a3489dad30",
+            "instruction": "MOV [0x30ad9d48],EAX",
+            "assemblyLine": 1817084
+          },
+          {
+            "va": "3073267a",
+            "rva": "73267a",
+            "fileOffset": 7546490,
+            "bytes": "c3",
+            "instruction": "RET",
+            "assemblyLine": 1817085
+          }
+        ],
+        "instructionCount": 3,
+        "bodyByteCount": 11,
+        "bodyInstructionBytesSha256": "8f9826d24c2e8ddced096278b38f93a02e3ecbc780217c9ee691bbcb2aac56ba",
+        "recoveredFromAssemblyWithoutFunctionCSV": true
+      },
+      {
+        "label": "audioModulePropertyInitializer",
+        "entryVA": "0x30732680",
+        "bodyVA": "0x30732680",
+        "entryChain": [],
+        "bodyRanges": "30732680-3073268a",
+        "instructions": [
+          {
+            "va": "30732680",
+            "rva": "732680",
+            "fileOffset": 7546496,
+            "bytes": "e8683b8fff",
+            "instruction": "CALL 0x300261ed",
+            "assemblyLine": 1817087
+          },
+          {
+            "va": "30732685",
+            "rva": "732685",
+            "fileOffset": 7546501,
+            "bytes": "a3449dad30",
+            "instruction": "MOV [0x30ad9d44],EAX",
+            "assemblyLine": 1817088
+          },
+          {
+            "va": "3073268a",
+            "rva": "73268a",
+            "fileOffset": 7546506,
+            "bytes": "c3",
+            "instruction": "RET",
+            "assemblyLine": 1817089
+          }
+        ],
+        "instructionCount": 3,
+        "bodyByteCount": 11,
+        "bodyInstructionBytesSha256": "50dc3d6258d21f2a3576f2c08a9a33e7c214f0542b16c82fd49a82a753c54927",
+        "recoveredFromAssemblyWithoutFunctionCSV": true
+      },
+      {
         "label": "animationResourceStringPropertyInitializer",
         "entryVA": "0x30732630",
         "bodyVA": "0x30732630",
@@ -51134,6 +51608,104 @@
         "instructionCount": 2,
         "bodyByteCount": 11,
         "bodyInstructionBytesSha256": "9404f3ce7031a394494f5ff908978b8d6ed83186978b64b4141d256e88af2d20",
+        "recoveredFromOriginalPEWithoutAssembly": true,
+        "decoder": "capstone 5.0.7"
+      },
+      {
+        "label": "springAndDamperEffectorTemplatePropertyShutdownThunk",
+        "entryVA": "0x30012e5e",
+        "bodyVA": "0x30012e5e",
+        "entryChain": [],
+        "bodyRanges": "30012e5e-30012e62",
+        "instructions": [
+          {
+            "va": "30012e5e",
+            "rva": "12e5e",
+            "fileOffset": 77406,
+            "bytes": "e99d4d7800",
+            "instruction": "jmp 0x30797c00"
+          }
+        ],
+        "instructionCount": 1,
+        "bodyByteCount": 5,
+        "bodyInstructionBytesSha256": "1cc52aa160d2129cea002b59510f444e5811114301a840877bb91140bae4df13",
+        "recoveredFromOriginalPEWithoutAssembly": true,
+        "decoder": "capstone 5.0.7"
+      },
+      {
+        "label": "springAndDamperEffectorTemplatePropertyShutdownBody",
+        "entryVA": "0x30797c00",
+        "bodyVA": "0x30797c00",
+        "entryChain": [],
+        "bodyRanges": "30797c00-30797c0a",
+        "instructions": [
+          {
+            "va": "30797c00",
+            "rva": "797c00",
+            "fileOffset": 7961600,
+            "bytes": "b9b09cad30",
+            "instruction": "mov ecx, 0x30ad9cb0"
+          },
+          {
+            "va": "30797c05",
+            "rva": "797c05",
+            "fileOffset": 7961605,
+            "bytes": "ff25dcdbaf30",
+            "instruction": "jmp dword ptr [0x30afdbdc]"
+          }
+        ],
+        "instructionCount": 2,
+        "bodyByteCount": 11,
+        "bodyInstructionBytesSha256": "02878b03372ed9e9a77dc5b03ff6a450d2540c05e36514b85db6bedf095a801b",
+        "recoveredFromOriginalPEWithoutAssembly": true,
+        "decoder": "capstone 5.0.7"
+      },
+      {
+        "label": "audioModulePropertyShutdownThunk",
+        "entryVA": "0x3001d8a9",
+        "bodyVA": "0x3001d8a9",
+        "entryChain": [],
+        "bodyRanges": "3001d8a9-3001d8ad",
+        "instructions": [
+          {
+            "va": "3001d8a9",
+            "rva": "1d8a9",
+            "fileOffset": 121001,
+            "bytes": "e942a37700",
+            "instruction": "jmp 0x30797bf0"
+          }
+        ],
+        "instructionCount": 1,
+        "bodyByteCount": 5,
+        "bodyInstructionBytesSha256": "455f67ba68489bd48bb49ce14673509430c979e04fe8957953b91e4ce5d28056",
+        "recoveredFromOriginalPEWithoutAssembly": true,
+        "decoder": "capstone 5.0.7"
+      },
+      {
+        "label": "audioModulePropertyShutdownBody",
+        "entryVA": "0x30797bf0",
+        "bodyVA": "0x30797bf0",
+        "entryChain": [],
+        "bodyRanges": "30797bf0-30797bfa",
+        "instructions": [
+          {
+            "va": "30797bf0",
+            "rva": "797bf0",
+            "fileOffset": 7961584,
+            "bytes": "b9bc9cad30",
+            "instruction": "mov ecx, 0x30ad9cbc"
+          },
+          {
+            "va": "30797bf5",
+            "rva": "797bf5",
+            "fileOffset": 7961589,
+            "bytes": "ff25dcdbaf30",
+            "instruction": "jmp dword ptr [0x30afdbdc]"
+          }
+        ],
+        "instructionCount": 2,
+        "bodyByteCount": 11,
+        "bodyInstructionBytesSha256": "a108a8d390c3d8181dc7c0a192bb48e7bc90648da7c686f6953fe4d1ce783877",
         "recoveredFromOriginalPEWithoutAssembly": true,
         "decoder": "capstone 5.0.7"
       },
@@ -66757,6 +67329,78 @@
       "fileBackedBytes": 57,
       "loaderZeroFillBytes": 0,
       "sha256": "fc57c15c99c4f7e7d068d3dff6021e5f393d569d0e7d658911ebb5bd7f93e079"
+    },
+    {
+      "label": "springAndDamperEffectorTemplatePropertyFlags",
+      "address": "30ad9cb8",
+      "bytes": 4,
+      "raw": "00000000",
+      "fileBackedBytes": 4,
+      "loaderZeroFillBytes": 0,
+      "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+    },
+    {
+      "label": "springAndDamperEffectorTemplatePropertyRoot",
+      "address": "30ad9d48",
+      "bytes": 4,
+      "raw": "00000000",
+      "fileBackedBytes": 4,
+      "loaderZeroFillBytes": 0,
+      "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+    },
+    {
+      "label": "springAndDamperEffectorTemplatePropertyStorage",
+      "address": "30ad9cb0",
+      "bytes": 8,
+      "raw": "0000000000000000",
+      "fileBackedBytes": 8,
+      "loaderZeroFillBytes": 0,
+      "sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc"
+    },
+    {
+      "label": "springAndDamperEffectorTemplatePropertyTypeInfo",
+      "address": "30aa31b8",
+      "bytes": 75,
+      "raw": "bc2a8930000000002e3f41563f24625450726f70657274794f626a65637440566543537072696e67416e6444616d7065724566666563746f7240405665434566666563746f724040404000",
+      "fileBackedBytes": 75,
+      "loaderZeroFillBytes": 0,
+      "sha256": "e7acb0adcd35c55dcaefb0da75f2054bc91a0ccc846dfdc675a85fa36ccbbaac"
+    },
+    {
+      "label": "audioModulePropertyFlags",
+      "address": "30ad9cc4",
+      "bytes": 4,
+      "raw": "00000000",
+      "fileBackedBytes": 4,
+      "loaderZeroFillBytes": 0,
+      "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+    },
+    {
+      "label": "audioModulePropertyRoot",
+      "address": "30ad9d44",
+      "bytes": 4,
+      "raw": "00000000",
+      "fileBackedBytes": 4,
+      "loaderZeroFillBytes": 0,
+      "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+    },
+    {
+      "label": "audioModulePropertyStorage",
+      "address": "30ad9cbc",
+      "bytes": 8,
+      "raw": "0000000000000000",
+      "fileBackedBytes": 8,
+      "loaderZeroFillBytes": 0,
+      "sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc"
+    },
+    {
+      "label": "audioModulePropertyTypeInfo",
+      "address": "30aa2608",
+      "bytes": 28,
+      "raw": "bc2a8930000000002e3f41566543417564696f4d6f64756c65404000",
+      "fileBackedBytes": 28,
+      "loaderZeroFillBytes": 0,
+      "sha256": "b469062b7d133db9736dbdc686e5ded701ef1def30c808df91d70039185eb494"
     },
     {
       "label": "animationResourceStringPropertyFlags",
