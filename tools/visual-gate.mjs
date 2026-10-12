@@ -170,7 +170,7 @@ try {
 
   // Complete root population audit, against the baseline's candidate count. --skip-audit for quick diagnostic runs.
   if (args['skip-audit'] !== 'true') {
-  const r = await page.cdp('Runtime.evaluate', { expression: '(async () => window.tervain.auditPlacement ? JSON.stringify(await window.tervain.auditPlacement({ clearance: .08, maxChecks: 100000, kind: 'root' })) : null)()', awaitPromise: true, returnByValue: true, timeout: 600000 });
+  const r = await page.cdp('Runtime.evaluate', { expression: '(async () => window.tervain.auditPlacement ? JSON.stringify(await window.tervain.auditPlacement({ clearance: .08, maxChecks: 100000, kind: "root" })) : null)()', awaitPromise: true, returnByValue: true, timeout: 600000 });
   const auditText = r?.result?.result?.value;
   if (auditText) {
     const audit = JSON.parse(auditText);
