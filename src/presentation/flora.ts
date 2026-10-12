@@ -328,7 +328,22 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
     attribute.needsUpdate = true;
   };
 
+  const packedTrees = new WeakMap<THREE.InstancedMesh, number[]>();
+  const staticChanged = new Set<THREE.InstancedMesh>();
+  const packStatic = (mesh: THREE.InstancedMesh | null, slot: number, tree: number, matrix: THREE.Matrix4, tint?: THREE.Color) => {
+    if (!mesh) return;
+    let packed = packedTrees.get(mesh);
+    if (!packed) { packed = []; packedTrees.set(mesh, packed); }
+    if (packed[slot] !== tree) {
+      mesh.setMatrixAt(slot, matrix);
+      if (tint) mesh.setColorAt(slot, tint);
+      staticChanged.add(mesh);
+    }
+    packed[slot] = tree;
+  };
+
   const refresh = (cam: THREE.Camera, shadowFrustum: THREE.Frustum | null | undefined) => {
+    staticChanged.clear();
     pv.multiplyMatrices(cam.projectionMatrix, cam.matrixWorldInverse);
     frustum.setFromProjectionMatrix(pv);
     const cx = cam.position.x;
@@ -361,8 +376,8 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
           const c = b.casters[sl]!;
           if (c.wood || c.leaf) {
             const i = shadowCounts[sl]!++;
-            c.wood?.setMatrixAt(i, mtx);
-            c.leaf?.setMatrixAt(i, mtx);
+            packStatic(c.wood, i, treeIndex, mtx);
+            packStatic(c.leaf, i, treeIndex, mtx);
             shadowTrees++;
           }
         }
@@ -381,8 +396,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
             for (const part of ['wood', 'leaf'] as const) {
               const mesh = m[part];
               if (!mesh) continue;
-              mesh.setMatrixAt(i, mtx);
-              mesh.setColorAt(i, col);
+              packStatic(mesh, i, treeIndex, mtx, col);
               visibility[part]!.coverage.setXY(i, intervalStart, intervalEnd);
             }
           }
@@ -395,8 +409,12 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         for (const mesh of [m.wood, m.leaf]) {
           if (!mesh) continue;
           mesh.count = counts[l]!;
-          uploadPrefix(mesh.instanceMatrix, mesh.count);
-          if (mesh.instanceColor) uploadPrefix(mesh.instanceColor, mesh.count);
+          const packed = packedTrees.get(mesh);
+          if (packed) packed.length = mesh.count;
+          if (staticChanged.has(mesh)) {
+            uploadPrefix(mesh.instanceMatrix, mesh.count);
+            if (mesh.instanceColor) uploadPrefix(mesh.instanceColor, mesh.count);
+          }
         }
         for (const visibility of [b.visibility[l]!.wood, b.visibility[l]!.leaf]) if (visibility) uploadPrefix(visibility.coverage, counts[l]!);
         drawTris += v.lods[l]!.tris * counts[l]!;
@@ -408,7 +426,9 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
             if (!mesh) continue;
             mesh.count = shadowCounts[l]!;
             mesh.visible = shadowCounts[l]! > 0;
-            uploadPrefix(mesh.instanceMatrix, mesh.count);
+            const packed = packedTrees.get(mesh);
+            if (packed) packed.length = mesh.count;
+            if (staticChanged.has(mesh)) uploadPrefix(mesh.instanceMatrix, mesh.count);
           }
           shadowTris += v.lods[l]!.tris * shadowCounts[l]!;
         }

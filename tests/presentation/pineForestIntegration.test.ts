@@ -226,6 +226,7 @@ describe('historical source-Pine component render substitution without the Meshy
         if (!attr) continue;
         full += attr.array.byteLength;
         const ranges = attr.updateRanges;
+        if (!ranges.length) { expect(attr).not.toBe(mesh.geometry.getAttribute('aDistanceCoverage')); continue; }
         expect(ranges, mesh.name).toHaveLength(1);
         expect(ranges[0]).toEqual({ start: 0, count: Math.max(1, mesh.count) * attr.itemSize });
         active += ranges[0]!.count * 4;
@@ -273,7 +274,10 @@ describe('historical source-Pine component render substitution without the Meshy
     forest.update(0.01, frame); expect(foliage.map(mesh => mesh.instanceMatrix.version)).toEqual(versions);
     setShadow(0.1);
     forest.update(0.1, frame); expect(foliage.map(mesh => mesh.instanceMatrix.version)).toEqual(versions);
-    forest.update(0.1, frame); expect(foliage.every((mesh, i) => mesh.instanceMatrix.version > versions[i]!)).toBe(true);
+    forest.update(0.1, frame);
+    // The small sun drift retains the same caster slots, so the static buffers stay unchanged.
+    expect(foliage.map(mesh => mesh.instanceMatrix.version)).toEqual(versions);
+    expect(targetPresent()).toBe(true);
     // A large hour/focus jump exceeds the guard and is reflected on this very frame.
     setShadow(300); forest.update(0.001, frame); expect(targetPresent()).toBe(false);
     setShadow(0); forest.update(0.001, frame); expect(targetPresent()).toBe(true);
