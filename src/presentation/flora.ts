@@ -439,6 +439,15 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
   return {
     group,
     physicalWood,
+    placementAuditTargets() {
+      return batches.flatMap((b, batch) => {
+        const mesh = b.meshes[0]?.wood;
+        if (!mesh) return [];
+        mesh.updateWorldMatrix(true, false);
+        return b.placements.map((p, i) => ({ label: b.trees[i]!.collisionId ?? `tree:${batch}:${i}`, kind: 'root' as const,
+          geometry: mesh.geometry, matrix: new THREE.Matrix4().multiplyMatrices(mesh.matrixWorld, p.matrix) }));
+      });
+    },
     counts: { trees: trees.length, triangles: Math.round(triangles) },
     update(dt: number, f: FrameContext) {
       if (disposed) return;
