@@ -14,6 +14,8 @@ def capture(study):
     source = audit_module(study, 'Engine_dll', 'Engine.dll', {
         0x3067d1c7: 'engineCinit',
         0x30791ef6: 'engineSharedCriticalSectionReferenceInitializer',
+        0x30791f18: 'engineSharedCriticalSectionSecondReferenceInitializer',
+        0x307b806e: 'engineSharedCriticalSectionSecondReferenceShutdown',
         0x30670444: 'engineSharedCriticalSectionReferenceConstructor',
         0x30670473: 'engineSharedCriticalSectionReferenceDestructor',
         0x3067133d: 'engineInitializeCriticalSectionWrapper',
@@ -715,6 +717,7 @@ def capture(study):
         ('sharedCriticalSectionReferenceCounter', 0x30ad40cc, 4),
         ('sharedCriticalSectionArray', 0x30af6d70, 96),
         ('sharedCriticalSectionReferenceAddress', 0x30af6dd0, 1),
+        ('sharedCriticalSectionSecondReferenceAddress', 0x30af6e01, 1),
         ('shapeGroupContainerPropertyFlags', 0x30ad9c94, 4),
         ('shapeGroupContainerPropertyRoot', 0x30ad9d54, 4),
         ('shapeGroupContainerPropertyStorage', 0x30ad9c8c, 8),

@@ -304,3 +304,16 @@ it('indexes every original instruction with unchanged first-match and object ide
  }
  const expectedCount=[originalSource.source.methods,originalSource.sharedBaseUnMangleSource.methods].reduce((total,methods)=>total+methods.reduce((count,candidate)=>count+[...new Set([candidate.entryVA,candidate.bodyVA])].reduce((n,entry)=>{const m=methods.find(m=>m.entryVA===entry||m.bodyVA===entry)!;return n+m.instructions.length+m.entryChain.length;},0),0),0);expect(checked).toBe(expectedCount);expect(checked).toBeGreaterThan(0);expect(Object.isFrozen(originalSource)).toBe(true);expect(()=>engineCinitInstruction('ffffffff','ffffffff')).toThrow('Original Engine initializer instruction required');expect(()=>engineCinitUnMangleInstruction('ffffffff','ffffffff')).toThrow('Original SharedBase UnMangle instruction required');
 });
+
+it('captures the second original critical-section reference initializer and shutdown',()=>{
+  for(const [pc,bytes,instruction] of [
+    ['30791f18','b9016eaf30','MOV ECX,0x30af6e01'],
+    ['30791f1d','e822e5edff','CALL 0x30670444'],
+    ['30791f22','686e807b30','PUSH 0x307b806e'],
+    ['30791f27','e86af6edff','CALL 0x30671596'],
+    ['30791f2c','59','POP ECX'],['30791f2d','c3','RET']
+  ])expect(engineCinitInstruction('30791f18',pc!)).toMatchObject({bytes,instruction});
+  expect(engineCinitInstruction('307b806e','307b806e')).toMatchObject({bytes:'b9016eaf30',instruction:'MOV ECX,0x30af6e01'});
+  expect(engineCinitInstruction('307b806e','307b8073')).toMatchObject({bytes:'e9fb83ebff',instruction:'JMP 0x30670473'});
+  expect(engineCinitImage('sharedCriticalSectionSecondReferenceAddress')).toMatchObject({address:'30af6e01',bytes:1,raw:'00',fileBackedBytes:0,loaderZeroFillBytes:1});
+});
