@@ -1841,7 +1841,18 @@ const prefix=runPropertyTypeNamePrefix(image(typeInfoLabel),image('visualAnimati
               runTextAndInitializeReturn('30697703');
                 enumString('30697703',()=>setRegister('EAX',register('ESI')));enumString('30697705',()=>pop('ESI'));enumString('30697706',()=>{const p=stack.#record(stack.#ret(4)).provenance;if(p?.kind!=='source'||p.address!=='30697df4')throw new Error('Actual enum literal constructor return required');});
                 literalCombine('30697df4',()=>setRegister('ECX',register('EAX')));literalCombine('30697df6',()=>stack.#call('30697df6','30697dfb'));
-                stack.#engineCinitFrame!.pc='30697b16';return {ready:false};
+                const qualifiedSourceAddress=stack.#address(register('ECX')),qualified=(pc:string,body:()=>void)=>step(pc,body,'30697b16');
+                qualified('30697b16',()=>stack.#push(register('ESI')));qualified('30697b17',()=>setRegister('ESI',stack.#load(stack.#stack,stack.#address(register('ESP'))+8)));qualified('30697b1b',()=>stack.#push(register('ECX')));qualified('30697b1c',()=>setRegister('ECX',register('ESI')));
+                const qualifiedDestinationAddress=stack.#address(register('ECX'));qualified('30697b1e',()=>stack.#call('30697b1e','30697b23'));runParsedValueCopy('30697b23',qualifiedDestinationAddress,qualifiedSourceAddress,{fields:allocation.arenaBacking,offset:enumNodeOffset});
+                qualified('30697b23',()=>setRegister('ECX',register('ESI')));qualified('30697b25',()=>stack.#call('30697b25','30697b2a'));runEmptyValueCheck('30697b2a',{fields:allocation.arenaBacking,offset:enumNodeOffset});qualified('30697b2a',()=>stack.#logicalFlags(stack.#numeric(register('EAX'),4),0xffffffff,4));qualified('30697b2c',()=>{});
+                if(stack.#numeric(register('EAX'),4)!==0){stack.#engineCinitFrame!.pc='30697b2e';return {ready:false};}
+                qualified('30697b39',()=>setRegister('ECX',stack.#load(stack.#stack,stack.#address(register('ESP'))+12)));qualified('30697b3d',()=>stack.#call('30697b3d','30697b42'));runEmptyValueCheck('30697b42');qualified('30697b42',()=>stack.#logicalFlags(stack.#numeric(register('EAX'),4),0xffffffff,4));qualified('30697b44',()=>{});
+                if(stack.#numeric(register('EAX'),4)===0){stack.#engineCinitFrame!.pc='30697b59';return {ready:false};}
+                qualified('30697b46',()=>setRegister('EAX',stack.#load(stack.#stack,stack.#address(register('ECX'))+4)));
+                qualified('30697b49',()=>{const r=stack.#record(register('EAX')),v=(r.value<<28)>>>0,m=((r.mask<<28)|0x0fffffff)>>>0;setRegister('EAX',stack.#mint(v,m));stack.#logicalFlags(v,m,4);const flags=stack.#record(stack.#load(stack.#bank,36));stack.#flags((flags.value&~0x801)|((r.value>>>4)&1),(flags.mask&~0x801)|((r.mask>>>4)&1));});
+                qualified('30697b4c',()=>{const r=stack.#record(register('EAX')),v=(r.value>>28)>>>0,m=((r.mask>>>28)|((r.mask&0x80000000)?0xfffffff0:0))>>>0;setRegister('EAX',stack.#mint(v,m));stack.#logicalFlags(v,m,4);const flags=stack.#record(stack.#load(stack.#bank,36));stack.#flags(flags.value&~0x801,(flags.mask&~0x800)|1);});
+                qualified('30697b4f',()=>stack.#push(register('EAX')));qualified('30697b50',()=>setRegister('ECX',register('ESI')));qualified('30697b52',()=>stack.#call('30697b52','30697b57'));
+                stack.#engineCinitFrame!.pc='3069752b';return {ready:false};
               }
               classType('3069966d',()=>{const literal=image('undecorationClassLiteral'),word=stack.#mint(0,0,{kind:'engine-image',crt,fields:literal,offset:0});stack.#push(word);stack.#engineCinitFrame!.undecorationLiteralArgument=stack.#record(word);});classType('30699672',()=>{});classType('30699680',()=>setRegister('ECX',stack.#stackWord(stack.#address(register('EBP'))-8)));classType('30699683',()=>stack.#call('30699683','30699688'));
               runStringConstructorPrefix(image('undecorationClassLiteral'));

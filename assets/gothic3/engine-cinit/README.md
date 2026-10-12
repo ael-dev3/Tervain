@@ -3419,3 +3419,8 @@ The combination wrapper `30697dde` now executes through its original constructor
 ## Enum literal initialization and constructor return
 
 The enum constructor now uses the existing byte-admitted initialization, arena allocation, text-node construction and scalar-copy routines for the original five-byte enum literal. Initialization returns to `30697703`, and the original constructor returns via `30697706` to its actual wrapper caller `30697df4`. The wrapper enters qualified value combination at `30697b16` through CALL `30697df6`; that operation remains pending. Typechecking and the three normal/digit-interruption/literal-interruption checks passed locally. No property root or completed campaign state is published by this partial continuation. Full property return, engine startup and campaign completion remain unfinished.
+
+
+## Enum qualified-value combination prefix
+
+Original `30697b16` now copies the actual enum literal descriptor through `30696c93`, evaluates both original value checks through `306970c9`, and extracts the underlying descriptor kind with the original shifts. Its CALL `30697b52` enters status setter `3069752b`, which remains pending. The setter is now captured from the matching Engine DLL (49 instructions); earlier methods remain unchanged. Typechecking and the three normal/digit/literal interruption checks passed. Enum helper, literal constructor, descriptor copy and value-check callers returned through their real return words; the qualified caller and original property constructor remain unfinished, with root unpublished and undecoration lock held. Full startup and campaign completion remain unfinished.
