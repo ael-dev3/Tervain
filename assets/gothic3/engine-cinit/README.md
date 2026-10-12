@@ -3642,3 +3642,10 @@ The first InitializeCriticalSection call now admits the actual pending caller, r
 Typechecking and five focused checks passed, covering the normal call, nonzero reference bypass, interrupted counter write, initialization failure and unregistered success rejection. The API cannot be invoked again after the actual call has returned. Full startup and full campaign completion remain unfinished.
 
 The related source and image suites also passed: 143 checks across two files. The source bundle remains unchanged at 344 captured Engine methods; this checkpoint implements a platform continuation rather than adding binary evidence.
+
+
+### Four shared critical-section initializations and constructor return
+
+The original loop now returns through each wrapper, advances the retained array cursor by 24 bytes, compares it with the captured array end, consumes each original caller argument, restores ESI/EDI and returns the preserved receiver at `30791f00`. Four distinct live platform capabilities are bound to offsets 0, 24, 48 and 72 in the same array. All 96 opaque initialization bytes have unknown masks. Shutdown registration has not executed; the exit cursor remains 256 with 64 callbacks, and the C++ initializer cursor remains `0x1fc`.
+
+Typechecking and eight focused checks passed. Failure at every element retains the pending imported call and all prior initialized elements; an unregistered success result and a repeated invocation are rejected. Counter-write interruption and the nonzero-reference branch remain covered. Complete startup and campaign completion remain unfinished.

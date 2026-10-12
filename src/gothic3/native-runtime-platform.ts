@@ -1694,7 +1694,7 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
     if (!entry || entry.backing !== old || entry.kind !== 'win32-heap' ||
         !retained.allocations.has(old) || old.freed || this.#releasedBackings.has(old) ||
         geometry.value.offset !== 0 || geometry.value.allocationBegin !== 0)
-      return unknown('HeapReAlloc requires this heapÃ¢â‚¬â„¢s live allocation base');
+      return unknown('HeapReAlloc requires this heapÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢s live allocation base');
     const allocated = this.#win32HeapAlloc(heap, 0, bytes);
     if (!allocated.known || allocated.value === null) return allocated;
     const moved = allocated.value;
@@ -1928,9 +1928,10 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
       if(platform.#engineCinitSections.has(call))throw new Error('Unused Engine critical-section initialization call required');
       platform.canonicalFields(array,96);
       const fields=new NativeHeapObjectViews(array.backing,offset,24);platform.canonicalFields(fields,24);
-      const initialized=NativeRuntimePlatform.prototype.initializeCriticalSection.call(platform,'30af6d70',crt.identity);
+      const address=(0x30af6d70+offset).toString(16);
+      const initialized=NativeRuntimePlatform.prototype.initializeCriticalSection.call(platform,address,crt.identity);
       if(!initialized.known)return initialized;if(typeof initialized.value!=='object')throw new Error('Actual opaque critical-section capability required');
-      const section=platform.sectionIdentities.get(initialized.value);if(!section||section.identity!==initialized.value||section.address!=='30af6d70'||section.owner!==crt.identity||section.deleted)throw new Error('Actual registered Engine critical-section capability required');
+      const section=platform.sectionIdentities.get(initialized.value);if(!section||section.identity!==initialized.value||section.address!==address||section.owner!==crt.identity||section.deleted)throw new Error('Actual registered Engine critical-section capability required');
       // The API treats this storage as opaque; no internal native byte values are proved.
       Uint8Array.prototype.fill.call(fields.knownMask,0);
       platform.#engineCinitSections.set(call,Object.freeze({array,fields,offset,identity:initialized.value,owner:crt}));
