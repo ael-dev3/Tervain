@@ -93,9 +93,10 @@ const SAMPLER = `
         +(performance.now() - window.__gate.frameStart).toFixed(2), window.__gate.upload, window.__gate.afterShot ? 1 : 0]);
       const g = window.__gate, now = g.samples.at(-1)[0], interval = g.last ? now - g.last : 0;
       const paid = g.afterShot; g.last = now; g.upload = 0; g.afterShot = false;
+      // Recorded runs only: a synchronous canvas readback/JPEG encode must not perturb a --video false timing run.
       // What was on screen at a spike: a small still right after it, and where the hero and camera were. The next frame
       // carries the still's own cost and is left out of the timing.
-      if (interval > 25 && !paid && g.shots.length < 8 && !['setup', 'pause', 'end'].includes(g.phase)) {
+      if (${VIDEO} && interval > 25 && !paid && g.shots.length < 8 && !['setup', 'pause', 'end'].includes(g.phase)) {
         shotCtx.drawImage(R.domElement, 0, 0, 480, 270);
         const c = cam.position;
         g.shots.push({ t: now, phase: g.phase, ms: +interval.toFixed(1), hero: [+P.x.toFixed(1), +P.z.toFixed(1)], camera: [+c.x.toFixed(1), +c.y.toFixed(1), +c.z.toFixed(1)], image: shotCanvas.toDataURL('image/jpeg', 0.72) });
