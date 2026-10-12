@@ -20,6 +20,12 @@ let log = fs.readFileSync(path.join(OUT, `${TAG}-log.md`), 'utf8');
 // Timing runs record no video (the recording costs frames); --clips names a recorded run of the same build whose clips
 // stand in for them.
 if (args.clips) log = log.replace(/^Clip: none$/gm, '').replace(/^(#### (\w+) .*)$/gm, (line, _, profile) => `${line}\n\nClip (recorded run): MEDIA/${args.clips}-${profile}/clip.mp4`);
+// Timing runs take no stills either; the recorded run's stills of its slow frames are listed after the timing data.
+if (args.clips) {
+  const recorded = path.join(OUT, `${args.clips}-log.md`);
+  const stills = fs.existsSync(recorded) ? fs.readFileSync(recorded, 'utf8').split('\n').filter((l) => /^- .*MEDIA\/.*\.jpg$/.test(l)) : [];
+  if (stills.length) log += `\n#### Stills of slow frames in the recorded run (${args.clips})\n\n${stills.join('\n')}\n`;
+}
 const git = (cwd, ...a) => execFileSync('git', a, { cwd, stdio: ['ignore', 'pipe', 'inherit'] }).toString().trim();
 const remote = git('.', 'remote', 'get-url', 'origin');
 const repo = remote.replace(/^.*github\.com[:/]/, '').replace(/\.git$/, '');
