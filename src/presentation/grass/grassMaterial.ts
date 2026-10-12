@@ -151,9 +151,11 @@ float gLarge = texture2D(tGust, (gRootW - uGustScroll.xy) * ${f(1 / GUST_SPAN)})
 float gSmall = texture2D(tGust, (gRootW - uGustScroll.zw) * ${f(1 / TURBULENCE_SPAN)}).g;
 float gGust = smoothstep(0.38, 0.88, gLarge);
 float gPush = uWindDir.z + uWindDir.w * gGust;
-float gPliant = 0.5 + 0.7 * smoothstep(0.1, 0.85, gH);
+// A128: each clump has its own stiffness and timing, so neighbouring tufts do not shear over in lockstep.
+float gClumpR = gHash(aShape.w * 577.0 + 0.37);
+float gPliant = (0.5 + 0.7 * smoothstep(0.1, 0.85, gH)) * (0.72 + 0.56 * gClumpR);
 float gFreq = 1.5 + 1.7 * gR4 + 0.55 / max(gH, 0.12);
-float gPhase = gR1 * 6.2832 + dot(gRootW, gWd) * 0.62;
+float gPhase = gR1 * 6.2832 + dot(gRootW, gWd) * 0.62 + gClumpR * 2.4;
 float gFlutter = sin(uGrassTime * gFreq + gPhase) * (0.3 + 0.7 * gSmall);
 float gSway = sin(uGrassTime * gFreq * 0.37 + gPhase * 0.5 + 1.1);
 vec2 gWindTilt = (gWd * (gPush * 0.92 + gFlutter * (0.06 + 0.2 * gPush) + gSway * 0.05)
@@ -206,14 +208,14 @@ gAcross = vec3(gAcrossH.x, 0.0, gAcrossH.y);
 // is slimmer, and at the lens it narrows away before the plane reaches it (in the sun's shadow pass the eye is the
 // light's, far off, so shadows keep every blade).
 float gEye = distance(cameraPosition, vec3(gRootW.x, gGround, gRootW.y) + gCurve);
-float gNear = mix(0.6, 1.0, smoothstep(1.0, 5.0, gEye)) * smoothstep(0.35, 1.0, gEye);
+float gNear = mix(0.72, 1.0, smoothstep(1.0, 5.0, gEye)) * smoothstep(0.35, 1.0, gEye);
 vec3 gBladePos = vec3(gRootW.x, gGround, gRootW.y) + gCurve + gAcross * (gEdge * 0.5 * gW * gNear * gProfile);
 
 // Normal: the face, turned to the viewer's side, rounded toward the edges and drawn a little toward the sky.
 vec3 gN = normalize(cross(gAcross, gTangent));
 if (dot(gN, gToEye) < 0.0) gN = -gN;
 gN = normalize(gN + gAcross * gEdge * 0.42);
-vec3 objectNormal = normalize(mix(gN, vec3(0.0, 1.0, 0.0), 0.26));
+vec3 objectNormal = normalize(mix(gN, vec3(0.0, 1.0, 0.0), 0.4));
 
 // Colour: the clump's tint varied per blade; darker in the tuft, paler and drier toward the tips.
 float gHue = gHash(aShape.w * 311.0) - 0.5;
@@ -312,7 +314,7 @@ export function createGrassMaterial(opts: GrassMaterialOptions): GrassMaterial {
       .replace('#include <lights_lambert_pars_fragment>', `#include <lights_lambert_pars_fragment>\n${GRASS_LIGHT_GLSL}`);
     opts.patch?.(shader);
   };
-  material.customProgramCacheKey = () => `tervain-grass-blades-v1${opts.patchKey ? `-${opts.patchKey}` : ''}`;
+  material.customProgramCacheKey = () => `tervain-grass-blades-v2${opts.patchKey ? `-${opts.patchKey}` : ''}`;
   return {
     material, uniforms, ok: () => !failed,
     setBand(b) { uniforms.uBand.value.set(b.inStart, b.inEnd, b.outStart, b.outEnd); },

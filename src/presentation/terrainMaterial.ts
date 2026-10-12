@@ -206,8 +206,12 @@ float tWear = clamp(vSurface.x, 0.0, 1.0);
 tAlb *= mix(vec3(1.0), vec3(1.065, 1.035, 0.975), tWear * 0.6);
 // The floor of a meadow lies in the shade of its own blades: old thatch and dark stems, so the gaps between the grass
 // read as more grass rather than bare soil.
+// A128: the floor also takes the blades' own green at its own brightness: bare ochre between thin near blades read as
+// dirt, and the near field looked balder than the dense band beyond it.
 float tSward = (tBw[0] + tBw[1] * 0.75) / tSum * (1.0 - tWear * 0.7);
-tAlb *= mix(vec3(1.0), vec3(0.7, 0.76, 0.6), tSward * 0.8);
+vec3 tSwardGreen = vec3(dot(tAlb, vec3(0.2126, 0.7152, 0.0722))) * vec3(0.74, 1.1, 0.44);
+tAlb = mix(tAlb, tSwardGreen, tSward * 0.72);
+tAlb *= mix(vec3(1.0), vec3(0.84, 0.86, 0.8), tSward * 0.8);
 tAlb *= mix(1.0, mix(0.5, 0.72, tStone), tWet);
 // Damp sand may carry a sheen. Fractured stone only darkens and broadens its highlight: never a mirror-like wet wall.
 tRough = mix(tRough, mix(0.36, 0.88, tStone), tWet);
@@ -245,6 +249,6 @@ export function createTerrainMaterial(tex: TerrainTextures): THREE.MeshStandardM
       .replace('#include <aomap_fragment>', '#include <aomap_fragment>\nreflectedLight.indirectDiffuse *= mix(0.8, 1.0, smoothstep(0.2, 0.8, tHeight)) * mix(1.0, 0.74, clamp(vCanopy, 0.0, 1.0));')
       .replace('#include <normal_fragment_maps>', `#include <normal_fragment_maps>\n${FRAG_NORMAL}`);
   };
-  mat.customProgramCacheKey = () => 'tervain-terrain-v7-sward-floor';
+  mat.customProgramCacheKey = () => 'tervain-terrain-v8-sward-green';
   return mat;
 }
