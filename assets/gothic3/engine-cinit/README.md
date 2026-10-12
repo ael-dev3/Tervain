@@ -3379,3 +3379,205 @@ The TypeScript startup frame now executes the captured `eCPostProcessingAdmin` c
 ## GUI, scene, entity and animation property continuation
 
 Eight contiguous original callbacks `307325c0` through `30732630` now execute through the existing property constructor path: eCGUIModule, eCTriggerBase_PS, eCSceneAdmin, eCEffector, eCEntityProxy, eCSpringAndDamperEffector, eCVisualAnimation_PS and bCAnimationResourceString. Callback table words, constructor bytes and shutdown bodies were verified against the matching local Engine DLL. Earlier captured methods remain unchanged. Typechecking and two focused checks passed: normal return reaches the unsupported enum-template callback `30732640` with initializer cursor `0x1e8`, 59 shutdown registrations and a 256-byte table; interrupted final callback registration retains cursor 232, initializer cursor `0x1e4`, its caller, held lock and unpublished root. Broader checks and a production build are separate checks. Full startup and campaign completion remain unfinished.
+
+
+## Enum template parser dependency
+
+The original class-type parser routes the W token through `30699645` and calls `30697f9d` at `3069964b` before combining its result with the enum literal. The source generator now captures that helper from the matching Engine DLL. This is evidence only: enum-template runtime execution remains pending at callback `30732640`. Earlier 313 Engine methods remain unchanged.
+
+
+## Original enum table and keyword bytes
+
+Captured `30698051` (eight original jump-table words), the enum literal at `3089f410`, and char/short/int/long/unsigned literals used by helper `30697f9d`. Digit 4 targets `30697ff1`, bypassing underlying keyword insertion; odd digits pass through the original unsigned-prefix branch. These facts identify parser work required by the next W4 template argument; source capture does not establish runtime execution.
+
+
+## Shape-group enum-template constructor prefix
+
+The original callback `30732640` and constructor `30078390` now enter the property-name parser using their original fields and byte-verified source. Template argument parsing uses the actual cursor returned by the identifier parser, replacing MainCache-specific offsets. The W branch executes its original instructions through CALL `3069964b`, retaining the unfinished enum helper at `30697f9d` and its actual caller. Root publication, CString completion and shutdown registration for this property remain pending: initializer cursor is `0x1e8`, exit cursor is 236, type-name cache lock is unlocked and undecoration lock is held. MainCache regression observations capture its parser byte and call graph at its own checkpoint before later templates modify shared state. Typechecking and five targeted checks passed; broader browser checks and build are separate outstanding validation. Full startup and campaign completion remain unfinished.
+
+
+## Enum underlying-type helper return
+
+The original helper `30697f9d` now follows the verified digit-4 jump-table entry, advances its actual source cursor from byte 35 to byte 36, copies the original empty descriptor through `30696c93`, restores its frame and returns to `30699650`. The original caller then pushes the enum literal and enters text combination `30697dde` via CALL `3069965a`; combination remains pending. The helper and descriptor-copy calls returned in the focused check. An interrupted source digit read retains PC `30697fa8`, cursor 35, original callers, held undecoration lock and unpublished root, without reaching descriptor copy. Typechecking and both focused checks passed locally. Complete property return, full startup and campaign completion remain unfinished.
+
+
+## Enum literal combination source dependencies
+
+Captured original combination wrapper `30697dde` (14 instructions) and literal constructor `306976d8` (21 instructions). The wrapper passes its actual underlying descriptor, output descriptor and enum literal to the constructor, then calls `30697b16` for the qualified value. These captures supply missing source dependencies; the current runtime still stops at the combination wrapper.
+
+
+## Immutable source instruction indexes
+
+The generated source module now validates its immutable raw text once and indexes captured Engine and SharedBase methods and instruction rows. Index construction preserves the original first-matching method, instruction-before-entry-chain precedence, and returned object identity. All 7,826 lookups in the captured bundle at source revision ce74f28d2 were compared with the prior lookup behavior; 119 source/image checks and the shape-group runtime probe passed. The evidence generator reproduced identical captured JSON bytes. Unknown instruction errors and deep-frozen source admission remain in place. A single timing sample does not establish a performance gain.
+
+
+## Enum literal constructor prefix
+
+The combination wrapper `30697dde` now executes through its original constructor call `30697def`. Constructor `306976d8` preserves the original flag masks, initializes its destination, verifies the actual nonnull literal owner and scans the original enum literal. CALL `306976fe` carries that image owner and the computed length 5 into original initialization `3069760c`, which remains pending. Typechecking and three focused checks passed: normal progress, interrupted enum digit read, and interrupted first literal character read. The literal-read spy observes the actual admitted enum image, avoiding snapshots of unrelated startup reads; native assertions and the 30-second limit remain intact. Prior callers, undecoration lock and unpublished property root are retained at interruptions. Full property return, startup and campaign completion remain unfinished.
+
+
+## Enum literal initialization and constructor return
+
+The enum constructor now uses the existing byte-admitted initialization, arena allocation, text-node construction and scalar-copy routines for the original five-byte enum literal. Initialization returns to `30697703`, and the original constructor returns via `30697706` to its actual wrapper caller `30697df4`. The wrapper enters qualified value combination at `30697b16` through CALL `30697df6`; that operation remains pending. Typechecking and the three normal/digit-interruption/literal-interruption checks passed locally. No property root or completed campaign state is published by this partial continuation. Full property return, engine startup and campaign completion remain unfinished.
+
+
+## Enum qualified-value combination prefix
+
+Original `30697b16` now copies the actual enum literal descriptor through `30696c93`, evaluates both original value checks through `306970c9`, and extracts the underlying descriptor kind with the original shifts. Its CALL `30697b52` enters status setter `3069752b`, which remains pending. The setter is now captured from the matching Engine DLL (49 instructions); earlier methods remain unchanged. Typechecking and the three normal/digit/literal interruption checks passed. Enum helper, literal constructor, descriptor copy and value-check callers returned through their real return words; the qualified caller and original property constructor remain unfinished, with root unpublished and undecoration lock held. Full startup and campaign completion remain unfinished.
+
+
+## Enum status-node allocation prefix
+
+Original status setter `3069752b` now checks the retained enum descriptor, loads its original status argument, follows the source branches, and calls the original arena allocator at `3069754f` for 16 bytes. Immediate globals address `30af7c54` is represented by its actual image owner; it is not replaced with the word stored at that address. The original allocator returns a canonical live arena allocation, then CALL `3069755b` retains field-node constructor `30696ef8` as the next pending operation. Typechecking and the three normal/digit/literal interruption checks passed. Property root and shutdown registration remain unpublished; full startup and campaign completion remain unfinished.
+
+
+## Enum field-node constructor return
+
+Original constructor `30696ef8` now initializes the actual 16-byte status-node allocation with its original field-vtable image owner, zero flags, status argument and source-selected trailing word. RET `30696f1a` returns through the real caller `30697560`. The setter retains that allocation, loads the actual enum literal node and enters operation `3069731d` at CALL `3069756c`; that operation remains pending. Typechecking and three focused checks passed, including live allocation and initialized field assertions. Existing constructor interruptions retain their actual callers and lock state. Full property return, startup and campaign completion remain unfinished.
+
+
+## Completed-CString regression timeout diagnosis
+
+Main workflow run 38187614610 at revision 5be13059672528827d44ced2463340459fb172ef passed 4,070 tests and failed one completed-property-CString test at its 20-second limit. Its instrumentation now stops collecting camera and reference observations once captured, forwarding the original operations throughout. The reduced instrumentation still exceeded 20 seconds locally, so this expanded startup test has an explicit 30-second limit. All original assertions remain, and its focused local rerun passed. This does not establish a successful full-suite rerun or deployment.
+
+
+## Enum literal list wrapper return
+
+Original wrapper `3069731d` now allocates its 12-byte list node and 8-byte value descriptor through the original arena calls. It preserves the actual enum literal pointer in that descriptor and executes list constructor `30696ec9` with its original list-vtable owner, flags and argument checks. The wrapper returns through `30697363` to `30697571`, where the setter publishes the actual list pointer in its local descriptor and enters list append `30696e63` through CALL `3069757a`. Append remains pending. Typechecking and three focused checks passed; old literal and new allocations retain their source-backed owners. Property root, full startup and campaign completion remain unfinished.
+
+
+## Enum qualification returns through original callers
+
+Original list append `30696e63` now attaches the actual status-node allocation to the initially empty list chain and returns to `3069757f`. The status setter returns to `30697b57`, qualified combination returns to `30697dfb`, and the literal wrapper returns to `3069965f`. The class parser performs its original 16-byte caller cleanup and enters assignment `30696da9` through CALL `30699666`; assignment remains pending. Typechecking and all three focused checks passed. Pointer ownership, caller return words, original list references and unpublished property root remain explicit. Full property return, startup and campaign completion remain unfinished.
+
+
+## Enum assignment returns to scoped-name parsing
+
+The enum list is assigned through original `30696da9` into the class parser local at `30699666`, preserving its allocation owner and masked flags. The parser initializes its second descriptor, performs original keyword-dependent copy at `3069969a`, and enters scoped-name parsing `306994ea` through CALL `306996a3`. Both outer-template and nested-enum scoped calls remain active; the focused check verifies their distinct stack positions and real return words `306996a8`. Typechecking and all three focused checks passed. Enum name parsing, property return, full startup and campaign completion remain unfinished.
+
+
+## Enum scoped-name decoder return
+
+The nested enum path now passes its actual returned type-info cursor into the existing original scoped-name decoder. It consumes eEShapeGroup and both namespace terminators, advancing that original image cursor to byte 50, then returns through the real word `306996a8`. The outer template scoped call remains active while the nested call is recorded returned. Typechecking and all three focused checks passed. Name combination and the remaining template argument-list continuation are still pending; property return, full startup and campaign completion remain unfinished.
+
+
+## Enum class parser returns to its argument-list caller
+
+The decoded enum name now follows the existing original class-value combination and parser-return routines using the actual enum list allocation and scoped-name node. Those routines preserve the original descriptor masks, construct the append representation, copy it to the caller output and return through the real argument-list word `30698be6`. Typechecking and the three focused checks passed. The outer template parser remains active, and its argument-list continuation is still pending. Property return, full startup and campaign completion remain unfinished.
+
+
+## One enum argument reaches the original template-list end branch
+
+The completed enum parser result now continues through the original argument-list caller cleanup, value assignment, reference-cache append and argument append operations. Same-image span checks use the actual returned start/end cursors, preserving MainCache behavior without its former fixed offsets. The next source byte is the original end marker; JZ `30698ad1` reaches pending end branch `30698c26`. Typechecking and four focused checks passed, including the prior MainCache template regression and both interruption cases. Template-list finalization, property return, full startup and campaign completion remain unfinished.
+
+
+### Shape-group enum container initializer completion
+
+The original `30732640` callback now completes its enum-template type name, SharedBase CString conversion, shutdown registration and property-root publication. The stored text is `bTPropertyContainer<enum eEShapeGroup>` with its original NUL terminator. The original arena and temporary output are released; the cached name and CString retain their distinct live owners, and both name locks are released.
+
+The initializer cursor advances from offset `0x1e8` to `0x1ec`; the exit cursor reaches byte 240 (60 registered callbacks). The next unsupported callback is `30732650`. This establishes this initializer only; complete native startup and campaign play remain unfinished.
+
+Local typechecking and six focused engine-frame checks passed, including the original MainCache parser and interrupted enum reads and shutdown-store scenario. The separate full-suite run is against integration revision `6de70aa75dac61a5bc233f92219dc5248df8b4e6`, an earlier allocation checkpoint, and remains pending. Main revision `c7a01e69d0aea6fe6a44327661fc83e64bab2d5e` deployed but its native suite subsequently reported 476 passes and nine explicit 20-second timeouts; deployment is not evidence of a fully passing suite or complete campaign.
+
+
+### Following enum container source capture
+
+Captured the original constructor, callback and shutdown records for `30732650` (`eEShapeMaterial`) and `30732660` (`eECollisionGroup`) from the pinned Engine.dll. The source bundle now contains 330 Engine method records: all 322 earlier records remain identical, with eight methods and eight images added. Existing initializer tables, literals and SharedBase records remain identical. Local typechecking and 120 source/image checks passed. These two initializers are source evidence only and are not yet connected to runtime execution; the supported runtime boundary remains `30732650`.
+
+
+### Following enum container runtime completion
+
+The original `30732650` shape-material and `30732660` collision-group callbacks now execute through their constructors, CString conversion, shutdown registration and root publication. Their distinct CStrings contain `bTPropertyContainer<enum eEShapeMaterial>` and `bTPropertyContainer<enum eECollisionGroup>` with original NUL terminators and known text masks. The existing audited class-name heap extension supplies the original 49..56-byte request pool; the focused completion fixtures now admit that extension, as the production runtime already does. No allocation bucket was inferred or fabricated.
+
+The initializer cursor reaches offset `0x1f4`, with the exit cursor at byte 248 (62 callbacks). The next unsupported callback is `30732670`. Local typechecking, six focused frame checks and 136 related source/image/browser checks passed. These checks prove this continuation only; complete native startup and a playable campaign through an ending remain unfinished.
+
+
+### Spring-effector template and audio-module source capture
+
+Captured original callbacks `30732670` and `30732680`, their constructors, shutdown thunks/bodies, and flags/root/storage/type-information images. Their RTTI names describe `bTPropertyObject<eCSpringAndDamperEffector,eCEffector>` and `eCAudioModule`. The source bundle now has 338 Engine method records; all 330 earlier records and existing images remain identical. Local typechecking and 130 source/image checks passed. These records are not connected to runtime execution yet; the runtime boundary remains `30732670`.
+
+
+### Spring-effector template argument continuation
+
+Connected the captured `30732670` template and `30732680` audio entries to their original property metadata and retained CString slots. Execution enters the spring-effector template; the audio initializer has not been reached. The second-argument input, compound-type guard and basic-type cursor now use the actual first-argument span instead of MainCache-specific offset 45. Both class arguments decode, leaving the original type-information cursor at offset 72 on the closing `@`.
+
+The supported boundary is `30698ac4`, where the existing closing-marker guard still assumes MainCache offset 63. The spring template has not returned or published its root: the initializer cursor remains `0x1f4`, the exit cursor remains 248, and its CString slot is still null. Tests retain the completed three-enum checkpoint before entering this template, rather than inspecting later reused parser fields. Typechecking, three focused parser checks, an exact cursor check, 140 source/image checks and six browser checks passed. Complete startup and campaign play remain unfinished.
+
+
+### Spring-effector template and audio initializer completion
+
+The two-class template now derives its closing-marker, identifier and scope offsets from the actual returned parser cursor instead of MainCache offsets 63/64/65. Its type-name wrapper validates the return address against the current property body. The original `30732670` spring template and `30732680` audio callbacks complete their CString conversion, shutdown registration and root publication. Tests verify `bTPropertyObject<class eCSpringAndDamperEffector,class eCEffector>` and `eCAudioModule`, with original NUL terminators, known text masks and owned roots. MainCache remains covered by its original parser check.
+
+The initializer cursor reaches `0x1fc`; the exit cursor reaches 256 (64 callbacks). The captured slot `307bb1fc` points to `30791ef6`, which is the next unsupported initializer. Callback addresses are not assumed to be sequential. Local typechecking, three focused parser checks and 146 related source/image/browser checks passed. The complete native suite and production build passed at the earlier `d2bc3040a3569b82b9c47c4a47bc0326e0b8bb17` enum checkpoint, not this revision. Complete startup and campaign completion remain unfinished.
+
+
+### Shared critical-section reference source capture
+
+Captured initializer `30791ef6`, constructor `30670444`, destructor `30670473`, critical-section wrappers `3067133d`/`30671348`, and shutdown `307b805a`. Original imports identify `InterlockedIncrement`, `InterlockedDecrement`, `InitializeCriticalSection`, and `DeleteCriticalSection`. The counter at `30ad40cc` is initially `ffffffff`; the 96-byte array at `30af6d70` is PE loader zero fill and the original loop advances by 24 bytes through four entries. `30af6dd0` is captured as a minimal one-byte address span for the receiver; this does not establish the full object layout or size.
+
+The source bundle now contains 344 Engine method records. All 338 previous records and images remain identical, with six methods, three images and four import receipts added. Typechecking and 140 source/image checks passed. This initializer is source evidence only and has not been connected to runtime execution.
+
+
+### Shared critical-section reference initializer entry
+
+The retained owner now admits the original reference counter, 96-byte critical-section array and minimal receiver-address span. Initializer `30791ef6` executes its original receiver load and call at `30791efb`, retaining return address `30791f00`. Execution stops at constructor entry `30670444`; the counter remains `ffffffff`, all 96 loader-zero-filled bytes remain unchanged, and no new shutdown entry is registered. The initializer cursor remains `0x1fc` and the exit cursor remains 256.
+
+Typechecking, two focused frame checks, the counter/array/caller state check, and 149 related source/image/browser checks passed. Interlocked mutation and the four critical-section initialization calls remain unsupported at this checkpoint. Complete startup and campaign completion remain unfinished.
+
+
+### Shared critical-section reference constructor prologue
+
+Constructor `30670444` now executes its original saved-register push, counter-address push, receiver preservation and imported call at `3067044c`. The original IAT receipt identifies `KERNEL32.dll!InterlockedIncrement`; the pending call retains return address `30670452`. The counter is still `ffffffff` and the critical-section array remains unchanged. The existing argv/NLS atomic handler is caller-specific and is not reused for this counter. No atomic result or successful return is manufactured.
+
+Typechecking, two focused state checks and 149 related source/image/browser checks passed. Execution remains pending at `3067044c`; reference mutation, critical-section initialization and complete startup remain unfinished.
+
+
+### Shared critical-section counter normal return
+
+The original call at `3067044c` now validates its retained stack argument against this CRT's live counter image and invokes the selected platform Interlocked counter service. The signed counter wraps from `ffffffff` to zero, the result is retained in EAX, and the stdcall return consumes the actual four-byte argument and resumes at `30670452`. The argv/NLS handler is not used. An interrupted counter write retains the pending call at `3067044c`, the unchanged counter and the original initializer/exit cursors.
+
+Typechecking, two focused normal/interrupted frame checks and 143 source/image checks passed. The constructor TEST/branch and four critical-section initialization calls remain pending. No additional shutdown entry was registered; complete startup and campaign play remain unfinished.
+
+
+### Shared critical-section reference branch and first initialization call
+
+The constructor now executes original TEST/JNZ at `30670452`/`30670454`. A zero counter result saves ESI, loads the actual 96-byte array, pushes its first element and enters wrapper `3067133d`. The wrapper duplicates the actual stack argument and records the original KERNEL32 InitializeCriticalSection call at `30671341`, with return address `30671347`. This platform call remains pending; no critical-section memory effects or successful return are manufactured. The nonzero branch skips the loop and returns the preserved receiver to original caller `30791f00`, where shutdown registration remains pending.
+
+Typechecking and three focused checks passed: zero-result call entry, nonzero loop bypass and interrupted counter write. A first fixture revision repeatedly validated images on every read and exceeded its existing limits; caching the admitted counter view and restoring its spy removed the overhead, with the same limits and assertions retained. Complete startup, world activation and full campaign completion remain unfinished.
+
+
+### First shared critical-section platform initialization
+
+The first InitializeCriticalSection call now admits the actual pending caller, return word, CRT owner and array pointer against retained physical stack/register storage. It registers a selected-platform capability for the original first 24-byte element, checks that capability against the platform's live registration and retains its storage view. Its opaque native bytes become unknown; the remaining 72 bytes retain their original loader-zero-fill masks. The void call leaves EAX/ECX/EDX unknown and returns through the original stdcall argument cleanup to `30671347`. Wrapper RET, later elements and shutdown remain pending.
+
+Typechecking and five focused checks passed, covering the normal call, nonzero reference bypass, interrupted counter write, initialization failure and unregistered success rejection. The API cannot be invoked again after the actual call has returned. Full startup and full campaign completion remain unfinished.
+
+The related source and image suites also passed: 143 checks across two files. The source bundle remains unchanged at 344 captured Engine methods; this checkpoint implements a platform continuation rather than adding binary evidence.
+
+
+### Four shared critical-section initializations and constructor return
+
+The original loop now returns through each wrapper, advances the retained array cursor by 24 bytes, compares it with the captured array end, consumes each original caller argument, restores ESI/EDI and returns the preserved receiver at `30791f00`. Four distinct live platform capabilities are bound to offsets 0, 24, 48 and 72 in the same array. All 96 opaque initialization bytes have unknown masks. Shutdown registration has not executed; the exit cursor remains 256 with 64 callbacks, and the C++ initializer cursor remains `0x1fc`.
+
+Typechecking and eight focused checks passed. Failure at every element retains the pending imported call and all prior initialized elements; an unregistered success result and a repeated invocation are rejected. Counter-write interruption and the nonzero-reference branch remain covered. Complete startup and campaign completion remain unfinished.
+
+
+### Shared critical-section shutdown registration and initializer return
+
+Initializer `30791ef6` now pushes the original `307b805a` callback, calls captured atexit wrapper `30671596`, grows the live exit table from 256 to 512 bytes through the existing source-owned realloc continuation and registers the 65th callback. The wrapper and initializer return to their actual callers. The exit cursor is 260 and the C++ initializer cursor is `0x200`; the next actual table entry is `30791f18`. Registration is implemented; executing this destructor/shutdown callback remains unimplemented.
+
+Typechecking and eight focused checks passed. The normal zero-reference path and the pre-existing nonzero-reference path both return through actual registration. Failed critical-section initialization remains at the original cursor `0x1fc` and exit cursor 256, with prior initialized elements retained. An overbroad assertion edit initially assigned those failure cases the completed cursors; the exact interruption assertions were restored before the successful run. Full engine startup and campaign completion remain unfinished.
+
+
+### Second shared critical-section reference source capture
+
+The source bundle adds original initializer `30791f18` and shutdown callback `307b806e`. The initializer loads receiver address `30af6e01`, calls the same constructor `30670444`, and registers its own callback. The callback jumps to shared destructor `30670473`. The new receiver receipt is a minimal one-byte loader-zero-filled address span, not evidence of the complete object size or layout.
+
+All 344 prior method records, prior images, imports, tables and SharedBase evidence remain identical. The regenerated bundle contains 346 Engine methods and one additional image. Typechecking and 145 source/image checks passed. Runtime execution of this second initializer is not connected at this source-capture checkpoint.
+
+
+### Second shared critical-section reference runtime return
+
+Initializer `30791f18` now executes with its own captured receiver and return/callback addresses. The existing shared reference count changes from zero to one through the actual imported increment. Its nonzero branch reuses the four live critical sections, returns the second receiver to `30791f22`, registers `307b806e` through the original onexit routine and returns to the C++ initializer loop. The exit cursor is 264 with 66 callbacks and a 512-byte allocation; the C++ cursor is `0x204` and the next pending initializer is `30791f2e`.
+
+Typechecking and ten focused checks passed, including interruption of the second increment with the first initializer's four sections and 65 callbacks preserved. The earlier counter-write fixture now caches its admitted view and restores its write spy, preventing recursive mock interference between tests. The completed enum checkpoint retains all original byte, mask, owner, lock and return assertions; its separate final startup PC assertion follows the current boundary. Complete startup and campaign completion remain unfinished.

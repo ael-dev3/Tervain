@@ -1,3 +1,4 @@
+import originalSource from '../../assets/gothic3/engine-cinit/research.json';
 import { describe, expect, it } from 'vitest';
 import source from '../../assets/gothic3/engine-cinit/research.json';
 import { admitEngineCinitSource, engineCinitCaller, engineCinitFloatingPointCallback,
@@ -291,4 +292,28 @@ it('pins original Engine realloc wrapper and normal HeapReAlloc instructions',()
  expect(engineCinitInstruction('30679200','30679234').bytes).toBe('833d207eaf3003');
  expect(engineCinitInstruction('30679200','306793b5').bytes).toBe('ff1584c6af30');
  expect(engineCinitInstruction('30679200','306793ed').bytes).toBe('e853510000');
+});
+
+it('indexes every original instruction with unchanged first-match and object identity',()=>{
+ let checked=0;
+ for(const [methods,lookup] of [[originalSource.source.methods,engineCinitInstruction],[originalSource.sharedBaseUnMangleSource.methods,engineCinitUnMangleInstruction]] as const){
+  for(const candidate of methods){for(const entry of new Set([candidate.entryVA,candidate.bodyVA])){
+   const method=methods.find(m=>m.bodyVA===entry||m.entryVA===entry)!;
+   for(const row of [...method.instructions,...method.entryChain]){const expected=method.instructions.find(r=>r.va===row.va)??method.entryChain.find(r=>r.va===row.va);expect(lookup(entry.slice(2),row.va)).toBe(expected);checked++;}
+  }}
+ }
+ const expectedCount=[originalSource.source.methods,originalSource.sharedBaseUnMangleSource.methods].reduce((total,methods)=>total+methods.reduce((count,candidate)=>count+[...new Set([candidate.entryVA,candidate.bodyVA])].reduce((n,entry)=>{const m=methods.find(m=>m.entryVA===entry||m.bodyVA===entry)!;return n+m.instructions.length+m.entryChain.length;},0),0),0);expect(checked).toBe(expectedCount);expect(checked).toBeGreaterThan(0);expect(Object.isFrozen(originalSource)).toBe(true);expect(()=>engineCinitInstruction('ffffffff','ffffffff')).toThrow('Original Engine initializer instruction required');expect(()=>engineCinitUnMangleInstruction('ffffffff','ffffffff')).toThrow('Original SharedBase UnMangle instruction required');
+});
+
+it('captures the second original critical-section reference initializer and shutdown',()=>{
+  for(const [pc,bytes,instruction] of [
+    ['30791f18','b9016eaf30','MOV ECX,0x30af6e01'],
+    ['30791f1d','e822e5edff','CALL 0x30670444'],
+    ['30791f22','686e807b30','PUSH 0x307b806e'],
+    ['30791f27','e86af6edff','CALL 0x30671596'],
+    ['30791f2c','59','POP ECX'],['30791f2d','c3','RET']
+  ])expect(engineCinitInstruction('30791f18',pc!)).toMatchObject({bytes,instruction});
+  expect(engineCinitInstruction('307b806e','307b806e')).toMatchObject({bytes:'b9016eaf30',instruction:'MOV ECX,0x30af6e01'});
+  expect(engineCinitInstruction('307b806e','307b8073')).toMatchObject({bytes:'e9fb83ebff',instruction:'JMP 0x30670473'});
+  expect(engineCinitImage('sharedCriticalSectionSecondReferenceAddress')).toMatchObject({address:'30af6e01',bytes:1,raw:'00',fileBackedBytes:0,loaderZeroFillBytes:1});
 });

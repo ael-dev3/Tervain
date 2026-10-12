@@ -135,3 +135,29 @@ it.each([["gfxAdminProperty", "30ad9b5c", "30ad9dbc", "30ad9b54", "30aa2dac", "b
  expect(engineCinitImage((prefix+"Storage") as Parameters<typeof engineCinitImage>[0])).toMatchObject({address:storage,bytes:8,raw:"0000000000000000"});
  expect(engineCinitImage((prefix+"TypeInfo") as Parameters<typeof engineCinitImage>[0])).toMatchObject({address:typeInfo,raw});
 });
+
+
+it.each(['shapeMaterialContainerPropertyFlags', 'shapeMaterialContainerPropertyRoot', 'shapeMaterialContainerPropertyStorage', 'shapeMaterialContainerPropertyTypeInfo', 'collisionGroupContainerPropertyFlags', 'collisionGroupContainerPropertyRoot', 'collisionGroupContainerPropertyStorage', 'collisionGroupContainerPropertyTypeInfo'] as const)('owns the captured following enum image %s',label=>{
+ const {crt,owner}=fixture(),fields=fact(NativeEngineCinitImages.imageForCrt(owner,crt,label)),receipt=engineCinitImage(label);
+ expect(fields.bytes.length).toBe(receipt.bytes);expect(Buffer.from(fields.bytes).toString('hex')).toBe(receipt.raw);expect(Array.from(fields.knownMask)).toEqual(Array(receipt.bytes).fill(255));expect(fact(NativeEngineCinitImages.imageForCrt(owner,crt,label))).toBe(fields);
+ const other=fixture();expect(NativeEngineCinitImages.imageForCrt(owner,other.crt,label).known).toBe(false);
+ fields.backing.freed=true;expect(NativeEngineCinitImages.imageForCrt(owner,crt,label).known).toBe(false);expect(fields.backing.freed).toBe(true);
+});
+
+it.each(['shapeMaterialContainerPropertyTypeInfo', 'collisionGroupContainerPropertyTypeInfo'] as const)('retains unknown following enum cache bytes without reseeding %s',label=>{
+ const {crt,owner}=fixture(),fields=fact(NativeEngineCinitImages.imageForCrt(owner,crt,label));fields.knownMask[4]=0;expect(fact(NativeEngineCinitImages.imageForCrt(owner,crt,label))).toBe(fields);expect(fields.knownMask[4]).toBe(0);
+});
+
+
+it.each(['springAndDamperEffectorTemplatePropertyFlags', 'springAndDamperEffectorTemplatePropertyRoot', 'springAndDamperEffectorTemplatePropertyStorage', 'springAndDamperEffectorTemplatePropertyTypeInfo', 'audioModulePropertyFlags', 'audioModulePropertyRoot', 'audioModulePropertyStorage', 'audioModulePropertyTypeInfo'] as const)('owns the captured template and audio image %s',label=>{
+ const {crt,owner}=fixture(),fields=fact(NativeEngineCinitImages.imageForCrt(owner,crt,label)),receipt=engineCinitImage(label);
+ expect(fields.bytes.length).toBe(receipt.bytes);expect(Buffer.from(fields.bytes).toString('hex')).toBe(receipt.raw);expect(Array.from(fields.knownMask)).toEqual(Array(receipt.bytes).fill(255));expect(fact(NativeEngineCinitImages.imageForCrt(owner,crt,label))).toBe(fields);
+ const other=fixture();expect(NativeEngineCinitImages.imageForCrt(owner,other.crt,label).known).toBe(false);fields.backing.freed=true;expect(NativeEngineCinitImages.imageForCrt(owner,crt,label).known).toBe(false);expect(fields.backing.freed).toBe(true);
+});
+
+it.each(['springAndDamperEffectorTemplatePropertyTypeInfo', 'audioModulePropertyTypeInfo'] as const)('retains unknown template and audio cache bytes without reseeding %s',label=>{
+ const {crt,owner}=fixture(),fields=fact(NativeEngineCinitImages.imageForCrt(owner,crt,label));fields.knownMask[4]=0;expect(fact(NativeEngineCinitImages.imageForCrt(owner,crt,label))).toBe(fields);expect(fields.knownMask[4]).toBe(0);
+});
+
+
+it.each(['sharedCriticalSectionReferenceCounter', 'sharedCriticalSectionArray', 'sharedCriticalSectionReferenceAddress', 'sharedCriticalSectionSecondReferenceAddress'] as const)('owns the original shared critical-section image %s',label=>{const {crt,owner}=fixture(),fields=fact(NativeEngineCinitImages.imageForCrt(owner,crt,label)),receipt=engineCinitImage(label);expect(fields.bytes.length).toBe(receipt.bytes);expect(Buffer.from(fields.bytes).toString('hex')).toBe(receipt.raw);expect(Array.from(fields.knownMask)).toEqual(Array(receipt.bytes).fill(255));expect(fact(NativeEngineCinitImages.imageForCrt(owner,crt,label))).toBe(fields);fields.backing.freed=true;expect(NativeEngineCinitImages.imageForCrt(owner,crt,label).known).toBe(false);});

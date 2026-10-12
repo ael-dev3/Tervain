@@ -1,0 +1,31 @@
+{
+  "testedRevision": "a73c2b03097eff187b9ee2c52b0c267ec5de3146",
+  "mainBaseline": "5be13059672528827d44ced2463340459fb172ef",
+  "typecheck": "passed",
+  "focusedChecks": {
+    "passed": 3,
+    "skipped": 485
+  },
+  "relatedChecks": {
+    "passed": 125,
+    "filesPassed": 4
+  },
+  "productionBuild": {
+    "result": "passed",
+    "seconds": 40.82
+  },
+  "fullSuiteRerun": false,
+  "runtimeBoundary": {
+    "nextUnsupportedOperation": "30697b16",
+    "originalPropertyCallback": "30732640",
+    "cppInitializerCursor": "0x1e8",
+    "shutdownRegistrations": 59,
+    "exitCursorBytes": 236
+  },
+  "sourceHashes": {
+    "assets/gothic3/engine-cinit/research.json": "12dbc6bb1fb59c02f4877a9dd30b63c79e8119c200d03e7c52ce89f32cd4d83e",
+    "src/gothic3/native-engine-cinit-source.ts": "c8e0e94cc11c88d99832749ba6e79067a51cdc43d75dee973142dfd8c3515907"
+  },
+  "scope": "Enum helper and literal constructor return through original callers. Qualified combination, complete property return, full startup and campaign completion remain unfinished.",
+  "deployment": "Not published; latest main workflow already running."
+}

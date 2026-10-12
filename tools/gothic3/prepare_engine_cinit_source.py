@@ -13,6 +13,14 @@ def capture(study):
     EXPECTED_INPUTS['Engine.dll'] = 'd49ef92c0fdfeda433f6d04d0edeb7751e41e4c7c7effc1265630717029dc7e3'
     source = audit_module(study, 'Engine_dll', 'Engine.dll', {
         0x3067d1c7: 'engineCinit',
+        0x30791ef6: 'engineSharedCriticalSectionReferenceInitializer',
+        0x30791f18: 'engineSharedCriticalSectionSecondReferenceInitializer',
+        0x307b806e: 'engineSharedCriticalSectionSecondReferenceShutdown',
+        0x30670444: 'engineSharedCriticalSectionReferenceConstructor',
+        0x30670473: 'engineSharedCriticalSectionReferenceDestructor',
+        0x3067133d: 'engineInitializeCriticalSectionWrapper',
+        0x30671348: 'engineDeleteCriticalSectionWrapper',
+        0x307b805a: 'engineSharedCriticalSectionReferenceShutdown',
         0x3067ca49: 'engineReallocWrapper',
         0x30679200: 'engineReallocImplementation',
         0x3068aa20: 'engineReadonlyPointer',
@@ -81,6 +89,11 @@ def capture(study):
         0x300146dc: 'vegetationAdminPropertyType',
         0x3000ddaa: 'shaderMaterialAdminPropertyType',
         0x300139d0: 'postProcessingAdminPropertyType',
+        0x3003ea9a: 'shapeGroupContainerPropertyType',
+        0x300018c5: 'shapeMaterialContainerPropertyType',
+        0x3003f2f1: 'collisionGroupContainerPropertyType',
+        0x3002774b: 'springAndDamperEffectorTemplatePropertyType',
+        0x300261ed: 'audioModulePropertyType',
         0x30015ea1: 'animationResourceStringPropertyType',
         0x30033875: 'visualAnimationPsPropertyType',
         0x3003960d: 'springAndDamperEffectorPropertyType',
@@ -107,6 +120,7 @@ def capture(study):
         0x30696bf0: 'engineUndecorationArenaAllocate',
         0x30672ec7: 'engineUndecorationMallocCallback',
         0x30696ef8: 'engineUndecorationFieldNodeConstructor',
+        0x30696f1d: 'engineUndecorationFieldNodeLength',
         0x3069afb8: 'engineUndecorationNameParser',
         0x3069a2f7: 'engineUndecorationTypeParser',
         0x3069b876: 'engineUndecorationDataTypeParser',
@@ -117,6 +131,7 @@ def capture(study):
         0x3069b738: 'engineUndecorationCompoundTypeParser',
         0x3069b3b1: 'engineUndecorationBasicTypeParser',
         0x306995dd: 'engineUndecorationClassTypeParser',
+        0x30697f9d: 'engineUndecorationEnumUnderlyingTypeParser',
         0x306994ea: 'engineUndecorationScopedNameParser',
         0x30699300: 'engineUndecorationIdentifierParser',
         0x30697709: 'engineUndecorationDelimitedNameConstructor',
@@ -124,6 +139,9 @@ def capture(study):
         0x30697906: 'engineUndecorationAppendValue',
         0x30697b95: 'engineUndecorationAppendCharacter',
         0x30697d9a: 'engineUndecorationTemplateValueCombine',
+        0x30697dde: 'engineUndecorationLiteralValueCombine',
+        0x306976d8: 'engineUndecorationLiteralValueStringConstructor',
+        0x3069752b: 'engineUndecorationValueStatusSetter',
         0x30697139: 'engineUndecorationValueLastCharacter',
         0x306973c9: 'engineUndecorationTextNodeLastCharacter',
         0x30696ea2: 'engineUndecorationCharacterLength',
@@ -212,6 +230,11 @@ def capture(study):
                ('vegetationAdminPropertyInitializer',0x30732590,0x3073259b,3),
                ('shaderMaterialAdminPropertyInitializer',0x307325a0,0x307325ab,3),
                ('postProcessingAdminPropertyInitializer',0x307325b0,0x307325bb,3),
+               ('shapeGroupContainerPropertyInitializer',0x30732640,0x3073264b,3),
+               ('shapeMaterialContainerPropertyInitializer',0x30732650,0x3073265b,3),
+               ('collisionGroupContainerPropertyInitializer',0x30732660,0x3073266b,3),
+               ('springAndDamperEffectorTemplatePropertyInitializer',0x30732670,0x3073267b,3),
+               ('audioModulePropertyInitializer',0x30732680,0x3073268b,3),
                ('animationResourceStringPropertyInitializer',0x30732630,0x3073263b,3),
                ('visualAnimationPsPropertyInitializer',0x30732620,0x3073262b,3),
                ('springAndDamperEffectorPropertyInitializer',0x30732610,0x3073261b,3),
@@ -332,6 +355,16 @@ def capture(study):
         ('shaderMaterialAdminPropertyShutdownBody', 0x30797cd0, 'b9149cad30ff25dcdbaf30', 2),
         ('postProcessingAdminPropertyShutdownThunk', 0x30033230, 'e98b4a7600', 1),
         ('postProcessingAdminPropertyShutdownBody', 0x30797cc0, 'b9209cad30ff25dcdbaf30', 2),
+        ('shapeGroupContainerPropertyShutdownThunk', 0x30043027, 'e9044c7500', 1),
+        ('shapeGroupContainerPropertyShutdownBody', 0x30797c30, 'b98c9cad30ff25dcdbaf30', 2),
+        ('shapeMaterialContainerPropertyShutdownThunk', 0x3000432c, 'e9ef387900', 1),
+        ('shapeMaterialContainerPropertyShutdownBody', 0x30797c20, 'b9989cad30ff25dcdbaf30', 2),
+        ('collisionGroupContainerPropertyShutdownThunk', 0x3003a684, 'e987d57500', 1),
+        ('collisionGroupContainerPropertyShutdownBody', 0x30797c10, 'b9a49cad30ff25dcdbaf30', 2),
+        ('springAndDamperEffectorTemplatePropertyShutdownThunk', 0x30012e5e, 'e99d4d7800', 1),
+        ('springAndDamperEffectorTemplatePropertyShutdownBody', 0x30797c00, 'b9b09cad30ff25dcdbaf30', 2),
+        ('audioModulePropertyShutdownThunk', 0x3001d8a9, 'e942a37700', 1),
+        ('audioModulePropertyShutdownBody', 0x30797bf0, 'b9bc9cad30ff25dcdbaf30', 2),
         ('animationResourceStringPropertyShutdownThunk', 0x30003e40, 'e9fb3d7900', 1),
         ('animationResourceStringPropertyShutdownBody', 0x30797c40, 'b9809cad30ff25dcdbaf30', 2),
         ('visualAnimationPsPropertyShutdownThunk', 0x3003849c, 'e9aff77500', 1),
@@ -502,6 +535,13 @@ def capture(study):
         ('undecorationFloatLiteral', 0x30819794, 6),
         ('undecorationIntLiteral', 0x3089f5d0, 4),
         ('undecorationClassLiteral', 0x3089f408, 7),
+        ('undecorationEnumUnderlyingTargets', 0x30698051, 32),
+        ('undecorationEnumLiteral', 0x3089f410, 6),
+        ('undecorationEnumCharLiteral', 0x3089f324, 6),
+        ('undecorationEnumShortLiteral', 0x3089f31c, 7),
+        ('undecorationEnumIntLiteral', 0x3089f314, 5),
+        ('undecorationEnumLongLiteral', 0x3089f30c, 6),
+        ('undecorationEnumUnsignedLiteral', 0x3089f300, 10),
         ('undecorationScopeSeparatorLiteral', 0x3088feb4, 3),
         ('undecorationTemplateParameterLiteral', 0x3089f3d4, 19),
         ('undecorationGenericTypeLiteral', 0x3089f3c4, 14),
@@ -674,6 +714,30 @@ def capture(study):
         ('postProcessingAdminPropertyRoot', 0x30ad9d78, 4),
         ('postProcessingAdminPropertyStorage', 0x30ad9c20, 8),
         ('postProcessingAdminPropertyTypeInfo', 0x30aa2ffc, property_type_info_size(0x30aa2ffc)),
+        ('sharedCriticalSectionReferenceCounter', 0x30ad40cc, 4),
+        ('sharedCriticalSectionArray', 0x30af6d70, 96),
+        ('sharedCriticalSectionReferenceAddress', 0x30af6dd0, 1),
+        ('sharedCriticalSectionSecondReferenceAddress', 0x30af6e01, 1),
+        ('shapeGroupContainerPropertyFlags', 0x30ad9c94, 4),
+        ('shapeGroupContainerPropertyRoot', 0x30ad9d54, 4),
+        ('shapeGroupContainerPropertyStorage', 0x30ad9c8c, 8),
+        ('shapeGroupContainerPropertyTypeInfo', 0x30aa30f0, property_type_info_size(0x30aa30f0)),
+        ('shapeMaterialContainerPropertyFlags', 0x30ad9ca0, 4),
+        ('shapeMaterialContainerPropertyRoot', 0x30ad9d50, 4),
+        ('shapeMaterialContainerPropertyStorage', 0x30ad9c98, 8),
+        ('shapeMaterialContainerPropertyTypeInfo', 0x30aa3130, property_type_info_size(0x30aa3130)),
+        ('collisionGroupContainerPropertyFlags', 0x30ad9cac, 4),
+        ('collisionGroupContainerPropertyRoot', 0x30ad9d4c, 4),
+        ('collisionGroupContainerPropertyStorage', 0x30ad9ca4, 8),
+        ('collisionGroupContainerPropertyTypeInfo', 0x30aa3174, property_type_info_size(0x30aa3174)),
+        ('springAndDamperEffectorTemplatePropertyFlags', 0x30ad9cb8, 4),
+        ('springAndDamperEffectorTemplatePropertyRoot', 0x30ad9d48, 4),
+        ('springAndDamperEffectorTemplatePropertyStorage', 0x30ad9cb0, 8),
+        ('springAndDamperEffectorTemplatePropertyTypeInfo', 0x30aa31b8, property_type_info_size(0x30aa31b8)),
+        ('audioModulePropertyFlags', 0x30ad9cc4, 4),
+        ('audioModulePropertyRoot', 0x30ad9d44, 4),
+        ('audioModulePropertyStorage', 0x30ad9cbc, 8),
+        ('audioModulePropertyTypeInfo', 0x30aa2608, property_type_info_size(0x30aa2608)),
         ('animationResourceStringPropertyFlags', 0x30ad9c88, 4),
         ('animationResourceStringPropertyRoot', 0x30ad9d58, 4),
         ('animationResourceStringPropertyStorage', 0x30ad9c80, 8),
@@ -812,9 +876,16 @@ function freeze(value:unknown):void {if(value&&typeof value==='object'&&!Object.
 freeze(source);
 // The admitted receipt is immutable; live image storage is validated separately on every access.
 const imagesByLabel = new Map(source.images.map(image => [image.label, image]));
-export function admitEngineCinitSource():void {if(sourceText!==expectedText)throw new Error('Original Engine initializer source differs');}
-export function engineCinitInstruction(entry:string,pc:string){admitEngineCinitSource();const method=source.source.methods.find(method=>method.bodyVA==='0x'+entry||method.entryVA==='0x'+entry);const row=method?.instructions.find(row=>row.va===pc)??method?.entryChain.find(row=>row.va===pc);if(!row)throw new Error('Original Engine initializer instruction required');return row;}
-export function engineCinitUnMangleInstruction(entry:string,pc:string){admitEngineCinitSource();const method=source.sharedBaseUnMangleSource.methods.find(method=>method.bodyVA==='0x'+entry||method.entryVA==='0x'+entry);const row=method?.instructions.find(row=>row.va===pc)??method?.entryChain.find(row=>row.va===pc);if(!row)throw new Error('Original SharedBase UnMangle instruction required');return row;}
+let admitted=false;
+export function admitEngineCinitSource():void {if(admitted)return;if(sourceText!==expectedText)throw new Error('Original Engine initializer source differs');admitted=true;}
+function indexMethods<Method extends {entryVA:string;bodyVA:string;instructions:readonly {va:string}[];entryChain:readonly {va:string}[]}>(methods:readonly Method[]){
+ const byEntry=new Map<string,Method>(),rows=new Map<Method,Map<string,Method['instructions'][number]|Method['entryChain'][number]>>();
+ for(const method of methods){for(const entry of [method.entryVA,method.bodyVA])if(!byEntry.has(entry))byEntry.set(entry,method);const instructions=new Map<string,Method['instructions'][number]|Method['entryChain'][number]>();for(const row of [...method.instructions,...method.entryChain])if(!instructions.has(row.va))instructions.set(row.va,row);rows.set(method,instructions);}
+ return (entry:string,pc:string)=>{const method=byEntry.get('0x'+entry);return method?rows.get(method)!.get(pc):undefined;};
+}
+const engineInstruction=indexMethods(source.source.methods),sharedInstruction=indexMethods(source.sharedBaseUnMangleSource.methods);
+export function engineCinitInstruction(entry:string,pc:string){admitEngineCinitSource();const row=engineInstruction(entry,pc);if(!row)throw new Error('Original Engine initializer instruction required');return row;}
+export function engineCinitUnMangleInstruction(entry:string,pc:string){admitEngineCinitSource();const row=sharedInstruction(entry,pc);if(!row)throw new Error('Original SharedBase UnMangle instruction required');return row;}
 export function engineCinitUnMangleLiteral(){admitEngineCinitSource();return source.sharedBaseSpaceLiteral;}
 export function engineCinitCaller(){admitEngineCinitSource();return source.caller;}
 export function engineCinitImport(iat:string){admitEngineCinitSource();const row=source.source.imports.find(row=>row.iatVA==='0x'+iat);if(!row)throw new Error('Original Engine initializer import required');return row;}

@@ -1,0 +1,24 @@
+{
+  "revision": "d26e36f89ee828aa296e02b327808347a7d3be66",
+  "typecheck": {
+    "command": "npm run typecheck",
+    "exitCode": 0
+  },
+  "fullNativeSuite": {
+    "command": "npx vitest run tests/gothic3-dialogue/engine-io-frame.test.ts",
+    "exitCode": 0,
+    "passed": 496,
+    "files": 1
+  },
+  "build": {
+    "command": "npm run build",
+    "exitCode": 0
+  },
+  "scope": "Native I/O frame suite through second shared critical-section reference initializer",
+  "runtimeBoundary": "30791f2e",
+  "fullStartupVerified": false,
+  "fullCampaignVerified": false,
+  "published": false,
+  "schema": "gothic3-local-validation-receipt-v1",
+  "scopeNote": "This validates the named native I/O suite; it does not establish full startup, full campaign playability or publication."
+}

@@ -1,0 +1,37 @@
+{
+  "schema": "gothic3-local-validation-receipt-v1",
+  "revision": "9bbf1e241bfad3f1858ceb315dc1fb2aef555f93",
+  "scope": "Integrated original shared critical-section counter return and current main changes",
+  "checks": [
+    {
+      "command": "npm run typecheck",
+      "exitCode": 0
+    },
+    {
+      "command": "npx vitest run tests/tooling/playGateLaunchFailure.test.ts tests/gothic3-dialogue/engine-cinit-source.test.ts tests/gothic3-dialogue/engine-cinit-images.test.ts tests/presentation/meshynpcs.test.ts --maxWorkers=1",
+      "exitCode": 0,
+      "passed": 182,
+      "files": 4
+    },
+    {
+      "command": "npx vitest run tests/gothic3-dialogue/engine-io-frame.test.ts -t 'returns the original contiguous graphics and resource property initializer group|keeps the original shared critical-section call pending'",
+      "exitCode": 0,
+      "passed": 2,
+      "skipped": 487
+    },
+    {
+      "command": "npm run build",
+      "exitCode": 0
+    }
+  ],
+  "runtimeBoundary": "30670452",
+  "completedShutdownCallbacks": 64,
+  "cppInitializerCursor": 508,
+  "exitCursor": 256,
+  "limitations": [
+    "No full suite result for this revision",
+    "No passing real GPU play gate for this revision",
+    "Not published",
+    "Full native startup and playable campaign remain incomplete"
+  ]
+}
