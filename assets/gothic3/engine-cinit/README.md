@@ -3424,3 +3424,8 @@ The enum constructor now uses the existing byte-admitted initialization, arena a
 ## Enum qualified-value combination prefix
 
 Original `30697b16` now copies the actual enum literal descriptor through `30696c93`, evaluates both original value checks through `306970c9`, and extracts the underlying descriptor kind with the original shifts. Its CALL `30697b52` enters status setter `3069752b`, which remains pending. The setter is now captured from the matching Engine DLL (49 instructions); earlier methods remain unchanged. Typechecking and the three normal/digit/literal interruption checks passed. Enum helper, literal constructor, descriptor copy and value-check callers returned through their real return words; the qualified caller and original property constructor remain unfinished, with root unpublished and undecoration lock held. Full startup and campaign completion remain unfinished.
+
+
+## Enum status-node allocation prefix
+
+Original status setter `3069752b` now checks the retained enum descriptor, loads its original status argument, follows the source branches, and calls the original arena allocator at `3069754f` for 16 bytes. Immediate globals address `30af7c54` is represented by its actual image owner; it is not replaced with the word stored at that address. The original allocator returns a canonical live arena allocation, then CALL `3069755b` retains field-node constructor `30696ef8` as the next pending operation. Typechecking and the three normal/digit/literal interruption checks passed. Property root and shutdown registration remain unpublished; full startup and campaign completion remain unfinished.
