@@ -279,3 +279,27 @@ locale identity, returned acquisition helper, restored saved register state,
 pending facet lookup and idempotent startup. Both allocation NULL cases remain
 at their original new-handler call. Complete startup and campaign play remain
 unfinished.
+
+## Original mutable facet globals
+
+Four separate four-byte images are now captured and owned by the Engine runtime:
+
+| Original address | Image | Native use |
+| --- | --- | --- |
+| `0x30af6a04` | `standardCharacterFacetCache` | Existing character facet reused by acquisition |
+| `0x30af6de0` | `standardLocaleFacetIdentifierCounter` | Shared facet identifier counter |
+| `0x30af6de4` | `standardCharacterFacetIdentifier` | Character facet identifier allocated under the locale lock |
+| `0x30af6dd4` | `standardLocaleFacetShutdownHead` | Head of owned eight-byte shutdown-list nodes |
+
+The pinned PE proves each image has zero file-backed bytes and four loader-zero
+bytes. All four therefore begin as known zero BSS, not unknown pointers or seeded
+facet instances. They remain mutable owned images; the facet vtable remains
+readonly. The cache is distinct from the adjacent filebuf global state, and the
+shutdown list is distinct from the existing global locale pointer and reserved
+atexit slot pool.
+
+Source/image checks passed (159 cases across two files), and typechecking passed.
+The captured fields provide the inputs required by the original acquisition and
+registration routines. This checkpoint does not execute those routines; runtime
+remains at `0x305f13e0`. Original identifier allocation, facet construction and
+shutdown ownership still need their native continuation implemented.

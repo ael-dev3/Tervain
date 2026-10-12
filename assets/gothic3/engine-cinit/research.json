@@ -81604,6 +81604,42 @@
       "sha256": "a744d78ee616cd731a7345a675de6fa34804c29cba096f5a6729b3c193c5d95f"
     },
     {
+      "label": "standardCharacterFacetCache",
+      "address": "30af6a04",
+      "bytes": 4,
+      "raw": "00000000",
+      "fileBackedBytes": 0,
+      "loaderZeroFillBytes": 4,
+      "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+    },
+    {
+      "label": "standardLocaleFacetIdentifierCounter",
+      "address": "30af6de0",
+      "bytes": 4,
+      "raw": "00000000",
+      "fileBackedBytes": 0,
+      "loaderZeroFillBytes": 4,
+      "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+    },
+    {
+      "label": "standardCharacterFacetIdentifier",
+      "address": "30af6de4",
+      "bytes": 4,
+      "raw": "00000000",
+      "fileBackedBytes": 0,
+      "loaderZeroFillBytes": 4,
+      "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+    },
+    {
+      "label": "standardLocaleFacetShutdownHead",
+      "address": "30af6dd4",
+      "bytes": 4,
+      "raw": "00000000",
+      "fileBackedBytes": 0,
+      "loaderZeroFillBytes": 4,
+      "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+    },
+    {
       "label": "standardStreambufVtable",
       "address": "3088da3c",
       "bytes": 4,
