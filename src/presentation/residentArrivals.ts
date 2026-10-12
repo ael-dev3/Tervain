@@ -50,7 +50,7 @@ export interface AwaitingFigure {
   make?(catalog: MeshyNpcCatalog): Generator<void, Rig, void>;
 }
 
-/** Milliseconds of rig building a frame may spend on a figure taking their model (at least one step is taken). */
+/** Milliseconds a frame may spend preparing arriving figures (at least one construction step is taken). */
 export const ARRIVAL_BUDGET_MS = 3;
 
 /** The figures still waiting for their models, handed theirs as soon as nobody sees the change. */
@@ -63,6 +63,7 @@ export class ResidentArrivals {
    * next figure's build, so the others still take their models meanwhile.
    */
   private finished: { figure: AwaitingFigure; rig: Rig; ready: boolean }[] = [];
+  private preparationMs = 0;
   /**
    * Prepare a finished rig's shaders before it is shown (A78: the renderer's parallel compile), so its first frame on
    * screen does not stall compiling them. The rig changes over once this settles, whether or not it succeeded.
@@ -98,12 +99,15 @@ export class ResidentArrivals {
    */
   update(catalog: MeshyNpcCatalog | null, inView: (p: { x: number; y: number; z: number }) => boolean, perFrame = 2): number {
     if (!catalog) return 0;
+    this.preparationMs = 0;
     const hidden = (figure: AwaitingFigure) => !!figure.unseen?.() || !inView(figure.position());
     let arrived = this.handOver(catalog, hidden, perFrame);
     if (this.building) arrived += this.advance(catalog, hidden);
     if (!this.waiting.length) return arrived;
     this.waiting = this.waiting.filter((figure) => {
-      if (arrived >= perFrame || !catalog.has(figure.role)) return true;
+      // A rig waiting for shaders has spent frame work even though it has not been adopted. Do not let the next
+      // figure restart the budget: fast cached builds could queue the whole cast's preparation in one frame.
+      if (arrived >= perFrame || this.preparationMs >= ARRIVAL_BUDGET_MS || !catalog.has(figure.role)) return true;
       if (!hidden(figure)) return true;
       if (figure.make) {
         if (this.building) return true;
@@ -148,18 +152,18 @@ export class ResidentArrivals {
   /** Build the current figure's rig for this frame's budget; once done it waits among the finished to change over. */
   private advance(catalog: MeshyNpcCatalog, hidden: (figure: AwaitingFigure) => boolean): number {
     const building = this.building!;
+    const started = this.now(), budget = Math.max(0, ARRIVAL_BUDGET_MS - this.preparationMs);
     try {
       if (!building.rig) {
         // Another step is taken only if one as long as the last still fits the budget (A80): a short step followed by a
         // long one made a frame of 20-40 ms.
-        const started = this.now();
         let last = 0;
         do {
           const before = this.now();
           const next = building.steps.next();
           if (next.done) { building.rig = next.value; break; }
           last = this.now() - before;
-        } while (this.now() - started + last < ARRIVAL_BUDGET_MS);
+        } while (this.now() - started + last < budget);
         if (building.rig) {
           const done = { figure: building.figure, rig: building.rig, ready: !this.warm };
           if (this.warm) {
@@ -177,6 +181,9 @@ export class ResidentArrivals {
       if (building.rig && !building.rig.root.parent) discardRig(building.rig);
       console.warn(`resident ${building.figure.role} could not take its model; keeping its stand-in`, error);
       return 0;
+    } finally {
+      // Includes the synchronous part of shader preparation, adoption and failed builds.
+      this.preparationMs += Math.max(0, this.now() - started);
     }
   }
 }

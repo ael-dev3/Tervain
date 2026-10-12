@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { describe, expect, it, vi } from 'vitest';
-import { ANIMAL_IDS, ANIMAL_MODEL_IDS, HUNTABLE_ANIMAL_IDS, SKINNING_REACH, type AnimalId, type AnimalHuntRecord } from '../../src/game/hunting';
+import { ANIMAL_IDS, ANIMAL_MODEL_IDS, HUNTABLE_ANIMAL_IDS, SKINNING_REACH, WILDLIFE_RETURN_DISTANCE, returnWildlife, type AnimalId, type AnimalHuntRecord } from '../../src/game/hunting';
 import { buildAnimals, type AnimalCallEvent } from '../../src/presentation/animals';
 import { ANIMALS } from '../../src/presentation/animals/catalog';
 import { AnimalArrowSurface } from '../../src/presentation/animals/hunting/hit';
@@ -111,6 +111,62 @@ describe('hunting through the existing nineteen animal controllers', () => {
       expect(Math.hypot(back.x - hunter.x, back.z - hunter.z), `side ${side}`).toBeGreaterThanOrEqual(30 - 1e-6);
     }
     module.dispose?.();
+  });
+
+  it.each(['injured', 'dead', 'skinned'] as const)('waits to return an expired %s animal until its new site is far from the hunter', status => {
+    const boar = ANIMALS.find(animal => animal.id === ANIMAL_MODEL_IDS['boar-a'])!;
+    const module = buildAnimals({ terrain, colliders: new Colliders(), quality: 'low' }, new Map([[boar.id, fixture()]]), [boar], () => {});
+    try {
+      const home = module.snapshot()[0]!;
+      // A legal roam position, with the hunter 70.1 m away on the home side. Every return candidate (<= .7 roam)
+      // is still within 70 m of the hunter, even though the durable expiry check passes at the old carcass.
+      const taken = { ...home, x: home.x + .9 * boar.roam };
+      const hunter = { x: taken.x - WILDLIFE_RETURN_DISTANCE - .1, z: taken.z };
+      const state = createInitialState(); state.player.x = hunter.x; state.player.z = hunter.z; state.clock = 100 * 60;
+      state.hunting['boar-a'] = record(status, taken);
+      module.syncHunting(state.hunting, false, hunter);
+      expect(returnWildlife(state)).toEqual(['boar-a']);
+      module.syncHunting(state.hunting, false, hunter);
+      const waiting = module.snapshot()[0]!;
+      expect(waiting.visible, `returned ${Math.hypot(waiting.x - hunter.x, waiting.z - hunter.z).toFixed(3)} m from hunter`).toBe(false);
+      expect(waiting.state).toBe('Returning');
+      expect(module.contacts).toEqual([]); expect(module.physicalActors).toEqual([]);
+      const ray = vi.spyOn(AnimalArrowSurface.prototype, 'trace');
+      expect(module.traceArrow(new THREE.Vector3(waiting.x, .3, waiting.z + 3), new THREE.Vector3(0, 0, -1), 6)).toBeNull();
+      expect(ray).not.toHaveBeenCalled(); ray.mockRestore();
+      module.alertShot(waiting);
+      const input = { ...frame(), focus: new THREE.Vector3(hunter.x, 0, hunter.z) };
+      for (let i = 0; i < 120; i++) module.update(1 / 60, input);
+      expect(module.snapshot()[0]!).toEqual(waiting);
+      // A later frame supplies a new hunter position. No further domain record change is needed to retry.
+      input.focus.set(home.x - 110, 0, home.z);
+      module.setRunning(false); for (let i = 0; i < 20; i++) module.update(.1, input);
+      expect(module.snapshot()[0]!.visible).toBe(false);
+      module.setRunning(true); for (let i = 0; i < 20; i++) module.update(.1, input);
+      const back = module.snapshot()[0]!;
+      expect(back.visible).toBe(true); expect(back.state).not.toBe('Returning');
+      expect(Math.hypot(back.x - input.focus.x, back.z - input.focus.z)).toBeGreaterThanOrEqual(WILDLIFE_RETURN_DISTANCE);
+      expect(module.contacts).toHaveLength(1); expect(module.physicalActors).toHaveLength(1);
+    } finally { module.dispose?.(); }
+  });
+
+  it('rejects a close fallback when terrain or cover blocks every sampled distant return site', () => {
+    const boar = ANIMALS.find(animal => animal.id === ANIMAL_MODEL_IDS['boar-a'])!, colliders = new Colliders();
+    // The animal navigation index copies the static cover at construction.
+    colliders.add({ id: 'return-site-cover', kind: 'box', x: boar.home.x + 20, z: boar.home.z, hw: 17, hd: 30, yaw: 0, active: true });
+    const module = buildAnimals({ terrain, colliders, quality: 'low' }, new Map([[boar.id, fixture()]]), [boar], () => {});
+    try {
+      const home = module.snapshot()[0]!, hunter = { x: home.x - 65, z: home.z };
+      // The theoretical range reaches beyond 70 m, but an obstacle covers that part of it.
+      module.syncHunting({ 'boar-a': record('skinned', { ...home, x: home.x + .9 * boar.roam }) }, false, hunter);
+      module.syncHunting({}, false, hunter);
+      const input = { ...frame(), focus: new THREE.Vector3(hunter.x, 0, hunter.z) };
+      for (let i = 0; i < 120; i++) module.update(1 / 60, input);
+      expect(module.snapshot()[0]!.visible).toBe(false); expect(module.contacts).toEqual([]);
+      // Loading a fresh living state resets the pending return, rather than carrying the previous world's wait.
+      module.syncHunting({}, true, hunter);
+      expect(module.snapshot()[0]!.visible).toBe(true); expect(module.contacts).toHaveLength(1);
+    } finally { module.dispose?.(); }
   });
 
   it('keeps the knife stance within skinning reach from every side, however far the body reaches (A96 scout)', () => {
