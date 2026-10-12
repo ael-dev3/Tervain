@@ -25,6 +25,7 @@ import { execFileSync, spawnSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 import { openPage } from './cdp.mjs';
+import { textureUploadBytes } from './webgl-upload-bytes.mjs';
 
 const args = Object.fromEntries(process.argv.slice(2).reduce((acc, a, i, all) => (a.startsWith('--') ? [...acc, [a.slice(2), all[i + 1]?.startsWith('--') || all[i + 1] === undefined ? 'true' : all[i + 1]]] : acc), []));
 const URL_ = args.url ?? 'https://ael-dev3.github.io/Tervain/';
@@ -73,11 +74,11 @@ const SAMPLER = `
   const raf = window.requestAnimationFrame.bind(window);
   window.requestAnimationFrame = (cb) => raf((t) => { window.__gate.frameStart = performance.now(); cb(t); });
   // GPU uploads per frame: buffer and texture bytes handed to WebGL.
+  const textureUploadBytes = ${textureUploadBytes.toString()};
   const gl = R.getContext(), bytesOf = (v) => !v ? 0 : typeof v === 'number' ? v : v.byteLength ?? ((v.width ?? v.videoWidth ?? 0) * (v.height ?? v.videoHeight ?? 0) * 4);
   for (const name of ['bufferData', 'bufferSubData']) { const f = gl[name].bind(gl); gl[name] = (...a) => { window.__gate.upload += name === 'bufferData' ? bytesOf(a[1]) : (a[4] ? a[4] * (a[2]?.BYTES_PER_ELEMENT ?? 1) : bytesOf(a[2])); return f(...a); }; }
   for (const name of ['texImage2D', 'texSubImage2D', 'texImage3D', 'texSubImage3D', 'compressedTexImage2D', 'compressedTexSubImage2D']) { if (!gl[name]) continue; const f = gl[name].bind(gl);
-    gl[name] = (...a) => { const v = a.findLast((x) => x && typeof x === 'object'); const dims = a.filter((x) => typeof x === 'number');
-      window.__gate.upload += v && v.byteLength !== undefined ? v.byteLength : v ? bytesOf(v) : (dims[3] ?? 0) * (dims[4] ?? 0) * 4; return f(...a); }; }
+    gl[name] = (...a) => { window.__gate.upload += textureUploadBytes(name, a); return f(...a); }; }
   const shotCanvas = document.createElement('canvas'); shotCanvas.width = 480; shotCanvas.height = 270; const shotCtx = shotCanvas.getContext('2d');
   try { new PerformanceObserver((l) => { for (const e of l.getEntries()) window.__gate.longTasks.push([e.startTime, e.duration, window.__gate.phase]); }).observe({ type: 'longtask', buffered: false }); } catch {}
   const shown = (o) => { for (let x = o; x; x = x.parent) if (!x.visible) return false; return true; };
@@ -93,9 +94,10 @@ const SAMPLER = `
         +(performance.now() - window.__gate.frameStart).toFixed(2), window.__gate.upload, window.__gate.afterShot ? 1 : 0]);
       const g = window.__gate, now = g.samples.at(-1)[0], interval = g.last ? now - g.last : 0;
       const paid = g.afterShot; g.last = now; g.upload = 0; g.afterShot = false;
+      // Recorded runs only: a synchronous canvas readback/JPEG encode must not perturb a --video false timing run.
       // What was on screen at a spike: a small still right after it, and where the hero and camera were. The next frame
       // carries the still's own cost and is left out of the timing.
-      if (interval > 25 && !paid && g.shots.length < 8 && !['setup', 'pause', 'end'].includes(g.phase)) {
+      if (${VIDEO} && interval > 25 && !paid && g.shots.length < 8 && !['setup', 'pause', 'end'].includes(g.phase)) {
         shotCtx.drawImage(R.domElement, 0, 0, 480, 270);
         const c = cam.position;
         g.shots.push({ t: now, phase: g.phase, ms: +interval.toFixed(1), hero: [+P.x.toFixed(1), +P.z.toFixed(1)], camera: [+c.x.toFixed(1), +c.y.toFixed(1), +c.z.toFixed(1)], image: shotCanvas.toDataURL('image/jpeg', 0.72) });

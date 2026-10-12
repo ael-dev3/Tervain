@@ -86,7 +86,10 @@ export class WindowView {
       for (const face of faces) if (face.near !== near) { face.near = near; face.updateProjectionMatrix(); }
       const oldTarget = renderer.getRenderTarget(), oldShadow = renderer.shadowMap.autoUpdate, oldAutoClear = renderer.autoClear;
       const restore = this.lighten?.() ?? null;
+      const oldPaneVisible = this.pane.visible;
       try {
+        // Other rooms can lie beyond the near plane. Their panes must not sample the cube being written.
+        this.pane.visible = false;
         renderer.shadowMap.autoUpdate = false;
         renderer.autoClear = true;
         // Drawing the faces itself, the capture must aim them itself: only CubeCamera.update would, and until then all six
@@ -103,6 +106,7 @@ export class WindowView {
         renderer.render(scene, faces[this.face]!);
         this.face = this.face + 1 < faces.length ? this.face + 1 : -1;
       } finally {
+        this.pane.visible = oldPaneVisible;
         restore?.();
         renderer.shadowMap.autoUpdate = oldShadow;
         renderer.autoClear = oldAutoClear;

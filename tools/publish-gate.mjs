@@ -20,6 +20,12 @@ let log = fs.readFileSync(path.join(OUT, `${TAG}-log.md`), 'utf8');
 // Timing runs record no video (the recording costs frames); --clips names a recorded run of the same build whose clips
 // stand in for them.
 if (args.clips) log = log.replace(/^Clip: none$/gm, '').replace(/^(#### (\w+) .*)$/gm, (line, _, profile) => `${line}\n\nClip (recorded run): MEDIA/${args.clips}-${profile}/clip.mp4`);
+// Timing runs take no stills either; the recorded run's stills of its slow frames are listed after the timing data.
+if (args.clips) {
+  const recorded = path.join(OUT, `${args.clips}-log.md`);
+  const stills = fs.existsSync(recorded) ? fs.readFileSync(recorded, 'utf8').split('\n').filter((l) => /^- .*MEDIA\/.*\.jpg$/.test(l)) : [];
+  if (stills.length) log += `\n#### Stills of slow frames in the recorded run (${args.clips})\n\n${stills.join('\n')}\n`;
+}
 const git = (cwd, ...a) => execFileSync('git', a, { cwd, stdio: ['ignore', 'pipe', 'inherit'] }).toString().trim();
 const remote = git('.', 'remote', 'get-url', 'origin');
 const repo = remote.replace(/^.*github\.com[:/]/, '').replace(/\.git$/, '');
@@ -39,10 +45,14 @@ try {
     fs.mkdirSync(path.dirname(to), { recursive: true });
     fs.copyFileSync(from, to);
   }
-  git(work, 'add', '--', TAG);
-  git(work, '-c', 'user.name=play-gate', '-c', 'user.email=play-gate@users.noreply.github.com', 'commit', '-q', '-m', `Gate media for ${TAG}`);
-  const sha = git(work, 'rev-parse', 'HEAD');
-  if (!args.dry) git(work, 'push', '-q', 'origin', `HEAD:refs/heads/${BRANCH}`);
+  // A timing run without a recorded run has no media; it is posted without a media commit.
+  let sha = '';
+  if (fs.existsSync(path.join(work, TAG))) {
+    git(work, 'add', '--', TAG);
+    git(work, '-c', 'user.name=play-gate', '-c', 'user.email=play-gate@users.noreply.github.com', 'commit', '-q', '-m', `Gate media for ${TAG}`);
+    sha = git(work, 'rev-parse', 'HEAD');
+    if (!args.dry) git(work, 'push', '-q', 'origin', `HEAD:refs/heads/${BRANCH}`);
+  }
   // Links pinned to the commit, so a later run never changes what an old comment shows.
   const body = log.replace(/MEDIA\/([^\s)]+)/g, (_, f) => `https://raw.githubusercontent.com/${repo}/${sha}/${TAG}/${f}`)
     .replace(/(https:\/\/raw\S+\.jpg)/g, (u) => `[still](${u})`).replace(/(https:\/\/raw\S+\.mp4)/g, (u) => `[clip](${u})`);
