@@ -277,6 +277,21 @@ describe('player motion and action contacts', () => {
     expect(water.player.z).toBeLessThan(0.5);
   });
 
+  it('cancels an in-progress fence vault when restoring the player position', () => {
+    const s = setup();
+    s.ctx.terrain.heightAt = () => 0;
+    s.ctx.colliders.box('fence', .8, 0, .12, 3, 0, true, { minY: -.3, maxY: 5.1 });
+    s.player.yaw = Math.PI / 2;
+    s.presses.add('jump'); s.tick();
+    expect(s.player.vault).not.toBeNull();
+    s.player.setPosition(20, -20, 0, s.ctx.terrain);
+    s.tick();
+    expect(s.player.x).toBe(20);
+    expect(s.player.z).toBe(-20);
+    expect(s.player.y).toBe(0);
+    expect(s.player.vault).toBeNull();
+  });
+
   it('resets action, recoil and velocity when loading, teleporting or restarting', () => {
     const s = setup();
     s.player.vx = 5; s.player.vz = -5; s.player.vy = 7;
