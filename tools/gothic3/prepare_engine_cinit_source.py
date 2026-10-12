@@ -128,6 +128,7 @@ def capture(study):
         0x30697d9a: 'engineUndecorationTemplateValueCombine',
         0x30697dde: 'engineUndecorationLiteralValueCombine',
         0x306976d8: 'engineUndecorationLiteralValueStringConstructor',
+        0x3069752b: 'engineUndecorationValueStatusSetter',
         0x30697139: 'engineUndecorationValueLastCharacter',
         0x306973c9: 'engineUndecorationTextNodeLastCharacter',
         0x30696ea2: 'engineUndecorationCharacterLength',
