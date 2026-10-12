@@ -130,6 +130,7 @@ export class Colliders {
   readonly rockMeshes: PhysicalRockGeometry[] = [];
 
   registerRockMesh(mesh: PhysicalRockGeometry) { this.rockMeshes.push(mesh); }
+  private cameraGeometry: Colliders | null = null;
   private byId = new Map<string, Collider[]>();
   private grid = new Map<number, Collider[]>();
   version = 0;
@@ -171,6 +172,16 @@ export class Colliders {
 
   box(id: string, x: number, z: number, hw: number, hd: number, yaw = 0, active = true, bounds: ColliderBounds = {}) {
     this.add({ id, kind: 'box', x, z, hw, hd, yaw, active, ...bounds });
+  }
+
+  /** Camera-only trim uses a separate grid and never enters movement or navigation queries. */
+  cameraBox(id: string, x: number, z: number, hw: number, hd: number, yaw: number, bounds: ColliderBounds) {
+    (this.cameraGeometry ??= new Colliders()).box(id, x, z, hw, hd, yaw, true, bounds);
+  }
+
+  nearCamera(x: number, z: number, r: number): Collider[] {
+    const scenery = this.near(x, z, r);
+    return this.cameraGeometry ? scenery.concat(this.cameraGeometry.near(x, z, r)) : scenery;
   }
 
   /**
@@ -429,9 +440,10 @@ function wallBox(c: Colliders, id: string, b: BuildingSpec, lx0: number, lx1: nu
 }
 
 /** A local rectangle of a building, as a box with its own vertical extent. */
-function roomBox(c: Colliders, id: string, b: BuildingSpec, lx0: number, lx1: number, lz0: number, lz1: number, bounds: ColliderBounds) {
+function roomBox(c: Colliders, id: string, b: BuildingSpec, lx0: number, lx1: number, lz0: number, lz1: number, bounds: ColliderBounds, cameraOnly = false) {
   const p = fromBuildingLocal(b, (lx0 + lx1) / 2, (lz0 + lz1) / 2);
-  c.box(id, p.x, p.z, (lx1 - lx0) / 2, (lz1 - lz0) / 2, b.yaw, true, bounds);
+  if (cameraOnly) c.cameraBox(id, p.x, p.z, (lx1 - lx0) / 2, (lz1 - lz0) / 2, b.yaw, bounds);
+  else c.box(id, p.x, p.z, (lx1 - lx0) / 2, (lz1 - lz0) / 2, b.yaw, true, bounds);
 }
 
 /**
@@ -452,6 +464,16 @@ function roomColliders(c: Colliders, room: InteriorSpec, base: number) {
   roomBox(c, `${id}:wall`, b, hw - t, hw, -hd + t, hd - t, walls);
   roomBox(c, `${id}:roof`, b, -hw, hw, -hd, hd, { minY: top, maxY: base + b.h + Math.min(b.w, b.d) * 0.65 + 0.5 });
   roomBox(c, `${id}:floor`, b, -hw + t, hw - t, -hd + t, hd - t, { minY: base + room.floorTop - 0.06, maxY: base + room.floorTop, supportOnly: true });
+  // The inner timber doorframe projects into the room beyond the wall footprint.
+  // Match roomInterior's jambs and lintel so the camera boom cannot pass through that trim.
+  const innerFront = hd - t;
+  for (const side of [-1, 1]) {
+    roomBox(c, `${id}:doorframe`, b, dx + side * dw - (side < 0 ? .12 : 0),
+      dx + side * dw + (side > 0 ? .12 : 0), innerFront - .05, innerFront + .03,
+      { minY: base + room.floorTop - .01, maxY: base + room.wallBase + dh + .04 }, true);
+  }
+  roomBox(c, `${id}:doorframe`, b, dx - dw - .16, dx + dw + .16, innerFront - .06, innerFront + .03,
+    { minY: base + room.wallBase + dh, maxY: base + room.wallBase + dh + .18 }, true);
   // The chimney stack and its fireplace, and the furniture (each as tall as it stands).
   const floor = base + room.floorTop, hearth = hearthOf(room);
   if (hearth) {
