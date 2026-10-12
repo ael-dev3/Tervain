@@ -250,7 +250,10 @@ export function buildFallingLeaves(
         scale.setScalar(stream.size); matrix.compose(position, rotation, scale);
         mesh.setMatrixAt(i, matrix);
       }
-      mesh.instanceMatrix.needsUpdate = true; alpha.needsUpdate = true;
+      // Every fragment is discarded when all coverage is below the shader's cutoff. Still send opacity so
+      // previously visible leaves disappear; the current matrices are uploaded as soon as any leaf is visible again.
+      if (visible > 0) mesh.instanceMatrix.needsUpdate = true;
+      alpha.needsUpdate = true;
     },
     stats: () => ({ fallingLeaves: streams.length, fallingLeavesVisible: visible, fallingLeafTris: streams.length * 10 }),
     dispose() {

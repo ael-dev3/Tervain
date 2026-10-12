@@ -26,6 +26,31 @@ const positionOf = (mesh: THREE.InstancedMesh, i = 0) => {
 };
 
 describe('gentle detached broadleaf shedding', () => {
+  it('does not dirty leaf matrices while all leaves are discarded, then uploads when they become visible', () => {
+    const variant = source();
+    const trees = Array.from({ length: 256 }, (_, i) => tree(`oak:${i}`));
+    const leaves = buildFallingLeaves({ heightAt: () => 0 }, 'high', trees, () => variant);
+    const mesh = meshOf(leaves), far = frame(false, -1000);
+    try {
+      leaves.update(1 / 60, far);
+      expect(mesh.instanceMatrix.array.byteLength).toBe(16384);
+      const version = mesh.instanceMatrix.version;
+      for (let i = 0; i < 120; i++) leaves.update(1 / 60, far);
+      expect(Array.from(opacity(mesh).array).every(a => a === 0)).toBe(true);
+      expect(mesh.instanceMatrix.version).toBe(version);
+      const near = frame();
+      for (let i = 0; i < 100 && (leaves.stats!().fallingLeavesVisible ?? 0) === 0; i++) leaves.update(.1, near);
+      expect(leaves.stats!().fallingLeavesVisible).toBeGreaterThan(0);
+      expect(mesh.instanceMatrix.version).toBeGreaterThan(version);
+      const shownVersion = mesh.instanceMatrix.version;
+      const opacityVersion = (opacity(mesh) as THREE.BufferAttribute).version;
+      leaves.update(.1, far);
+      expect(mesh.instanceMatrix.version).toBe(shownVersion);
+      expect((opacity(mesh) as THREE.BufferAttribute).version).toBeGreaterThan(opacityVersion);
+      expect(Array.from(opacity(mesh).array).every(a => a === 0)).toBe(true);
+    } finally { leaves.dispose?.(); variant.lods[0].leaf!.dispose(); }
+  });
+
   it('releases from exact source-card centres with grounded yaw/uniform scale, without editing any source buffers', () => {
     const variant = source(), t = { ...tree(), y: 4, s: 1.5, yaw: Math.PI / 2 };
     const geometry = variant.lods[0].leaf!, before = [...geometry.getAttribute('position').array];
