@@ -117,11 +117,13 @@ export class AnimalHunting {
     for (const resident of this.residents) {
       if (!isHuntableAnimalId(resident.id) || resident.returning || resident.record?.status === 'skinned') continue;
       const { animal } = resident;
-      animal.root.updateMatrixWorld(true); animal.skeletons.forEach(skeleton => skeleton.update());
+      // Bounds need only the root transform. Pose entire skins only for ray candidates.
+      animal.root.updateWorldMatrix(true, false);
       animal.bounds.getBoundingSphere(this.sphere); this.sphere.radius = this.sphere.radius * 1.8 + .04; this.sphere.applyMatrix4(animal.root.matrixWorld);
       const along = this.center.copy(this.sphere.center).sub(origin).dot(this.direction);
       this.closest.copy(origin).addScaledVector(this.direction, THREE.MathUtils.clamp(along, 0, nearest?.distance ?? maxDistance));
       if (this.closest.distanceToSquared(this.sphere.center) > this.sphere.radius ** 2) continue;
+      animal.root.updateMatrixWorld(true); animal.skeletons.forEach(skeleton => skeleton.update());
       // Acceleration data is only allocated for models actually reached by an arrow ray.
       resident.surface ??= new AnimalArrowSurface({ id: resident.id, species: animal.definition.species }, animal.scene);
       const hit = resident.surface.trace(origin, this.direction, nearest?.distance ?? maxDistance);

@@ -9,6 +9,9 @@ import { sampleLeafSurfaceSites } from './leafSurfaceSites';
 import { modelAssetUrl } from './assets/modelUrl';
 import { withModelLoadSlot } from './assets/modelLoadQueue';
 import { downloadAsset } from './assets/download';
+import { installBarkDetail } from './treeMaterials';
+import { barkTextures } from './treeTextures';
+import { buildCanopy, canopyAtlasTexture, trimExposedWood, NEAR_CANOPY, MID_CANOPY } from './canopy';
 
 /** Owner-supplied sources. Plinth-bearing 3106/1459 are prepared reserves, not active plantings. */
 export const MESHY_TREE_IDS = ['fir-spire', 'oak-elder', 'palm-date', 'palm-fan', 'palm-lean', 'tree-0208', 'tree-1537', 'tree-1527', 'tree-1521', 'tree-4949', 'tree-1505', 'tree-4815', 'verdant-sentinel'] as const;
@@ -18,6 +21,8 @@ const pending = new Map<string, Promise<GLTF>>();
 
 /** Broadleaf kinds whose exported leaflets leave a thin crown (A70). */
 const BROADLEAF = new Set<Species>(['oak', 'birch', 'orchard']);
+/** Kinds whose trunks take the metre-scale bark detail (A133). */
+const BARK_DETAIL = new Set<Species>(['oak', 'orchard', 'shrub', 'dead']);
 /** Each detail level of a tree stays under the natural-model budget; thickening fills up to just below it. */
 const TREE_TRIANGLES = 19_800;
 /**
@@ -27,9 +32,168 @@ const TREE_TRIANGLES = 19_800;
  */
 // A79: only the inner layer. A layer at 90 % lay just under the crown's surface and showed through its gaps as a second,
 // smeared copy of the outer cards (owner playtest: noisy, smeared crowns); the inner one fills the body and stays behind.
+// A133: the layer's cards (now the cut-up sheets, see splitSheets) are drawn at 0.85 of their size and spun about
+// their own faces, so the layer adds separate, slightly smaller clusters rather than a turned copy of the same cards.
+// At 0.6 the crown lost too much cover (GPU check). Same triangles as before.
 const CROWN_LAYERS: readonly { turn: number; scale: readonly [number, number, number] }[] = [
   { turn: -1.91, scale: [0.8, 0.87, 0.8] },
 ];
+/** How the large source sheets are cut (A133): sheets over 3 m become pieces of whole grid cells about 2 m across, up to 0.35 m apart in depth. */
+export const SHEET_SPLIT = { minSize: 3, piece: 2, depth: 0.35, tilt: 0.12 } as const;
+/** Each added card's size, of the exported card's (A133). */
+export const CLUSTER_SCALE = 0.85;
+/** Cluster-canopy cards (A134): a near crown's cap, and a middle crown's share of its source triangles. */
+export const CANOPY_NEAR_CARDS = 6000;
+export const CANOPY_MID_SHARE = 1.2;
+
+/**
+ * Break the source's large leaf sheets into separate smaller cards at different depths (A133).
+ *
+ * The broadleaf exports carry two kinds of foliage card: small cluster cards (well under a metre) and large curved
+ * sheets, 7 x 7 vertex grids some 5-8 m across, set along the crown's axes. A sheet carries one clustered leaf picture,
+ * so close up it read as a single flat cut-out. Every sheet larger than `minSize` is cut into pieces of whole grid cells about `piece`
+ * metres across, each with its own vertices, pushed in or out along the sheet's normal and tilted a little, so the sheet
+ * becomes a loose volume of smaller cards. Seen square on the pieces still join into the same picture, so nothing opens up;
+ * from any other angle they part in depth. Triangles, UVs and normals are unchanged, and small cards are left as they are.
+ */
+export function splitSheets(geometry: THREE.BufferGeometry, opts: { readonly minSize: number; readonly piece: number; readonly depth: number; readonly tilt: number }): THREE.BufferGeometry {
+  const index = geometry.index;
+  if (!index) return geometry;
+  const p = geometry.getAttribute('position'), count = p.count;
+  const parent = new Int32Array(count).map((_, i) => i);
+  const find = (i: number): number => { while (parent[i] !== i) { parent[i] = parent[parent[i]!]!; i = parent[i]!; } return i; };
+  for (let t = 0; t < index.count; t += 3) {
+    const a = find(index.getX(t));
+    parent[find(index.getX(t + 1))] = a; parent[find(index.getX(t + 2))] = a;
+  }
+  const boxes = new Map<number, THREE.Box3>(), v = new THREE.Vector3();
+  for (let i = 0; i < count; i++) {
+    const r = find(i); let box = boxes.get(r);
+    if (!box) { box = new THREE.Box3(); boxes.set(r, box); }
+    box.expandByPoint(v.fromBufferAttribute(p, i));
+  }
+  const sheets = new Set<number>();
+  for (const [r, box] of boxes) if (box.getSize(v).length() > opts.minSize) sheets.add(r);
+  if (!sheets.size) return geometry;
+  // Grid cell of each sheet vertex: the sheet's 7 x 7 grid is evenly spaced, so a vertex's cell along each in-plane
+  // axis is its rank among the sheet's distinct coordinates there.
+  const attributes = Object.keys(geometry.attributes);
+  const source = attributes.map(name => geometry.getAttribute(name) as THREE.BufferAttribute);
+  const out = source.map(a => Array.from(a.array as ArrayLike<number>));
+  const newIndex: number[] = [];
+  const pieceVertex = new Map<string, number>();
+  const pieceOf = new Map<number, { axes: [number, number, number]; box: THREE.Box3 }>();
+  for (const r of sheets) {
+    const size = boxes.get(r)!.getSize(new THREE.Vector3()).toArray();
+    const thin = size.indexOf(Math.min(...size));
+    const axes = [0, 1, 2].filter(k => k !== thin) as [number, number];
+    pieceOf.set(r, { axes: [axes[0], axes[1], thin], box: boxes.get(r)! });
+  }
+  // Grid cells across each sheet (its vertex grid is square), and how many cells make a piece of about `piece` metres.
+  const verticesOf = new Map<number, number>();
+  for (let i = 0; i < count; i++) { const r = find(i); if (sheets.has(r)) verticesOf.set(r, (verticesOf.get(r) ?? 0) + 1); }
+  const cell = (r: number, centre: THREE.Vector3): [number, number] => {
+    const s = pieceOf.get(r)!, min = s.box.min.toArray(), max = s.box.max.toArray(), c = centre.toArray();
+    const across = Math.max(1, Math.round(Math.sqrt(verticesOf.get(r)!)) - 1);
+    const span = Math.max(max[s.axes[0]]! - min[s.axes[0]]!, max[s.axes[1]]! - min[s.axes[1]]!);
+    const per = Math.max(1, Math.round(opts.piece / Math.max(1e-6, span / across)));
+    const at = (k: number) => Math.min(across - 1, Math.max(0, Math.floor((c[k]! - min[k]!) / Math.max(1e-6, max[k]! - min[k]!) * across)));
+    return [Math.floor(at(s.axes[0]) / per), Math.floor(at(s.axes[1]) / per)];
+  };
+  const pieces = new Map<string, { r: number; vertices: number[] }>();
+  const a = new THREE.Vector3(), b = new THREE.Vector3(), c = new THREE.Vector3();
+  for (let t = 0; t < index.count; t += 3) {
+    const tri = [index.getX(t), index.getX(t + 1), index.getX(t + 2)], r = find(tri[0]!);
+    if (!sheets.has(r)) { newIndex.push(...tri); continue; }
+    a.fromBufferAttribute(p, tri[0]!); b.fromBufferAttribute(p, tri[1]!); c.fromBufferAttribute(p, tri[2]!);
+    const [u, w] = cell(r, a.add(b).add(c).divideScalar(3));
+    const key = `${r}:${u}:${w}`;
+    let piece = pieces.get(key);
+    if (!piece) { piece = { r, vertices: [] }; pieces.set(key, piece); }
+    for (const vertex of tri) {
+      const vk = `${key}:${vertex}`;
+      let at = pieceVertex.get(vk);
+      if (at === undefined) {
+        at = out[0]!.length / source[0]!.itemSize;
+        for (let k = 0; k < source.length; k++) for (let e = 0; e < source[k]!.itemSize; e++) out[k]!.push((source[k]!.array as ArrayLike<number>)[vertex * source[k]!.itemSize + e]!);
+        pieceVertex.set(vk, at); piece.vertices.push(at);
+      }
+      newIndex.push(at);
+    }
+  }
+  const pos = out[attributes.indexOf('position')]!;
+  let seed = 0;
+  const random = () => { seed += 1; const x = Math.sin(seed * 127.1 + pieces.size * 3.7) * 43758.5453; return x - Math.floor(x); };
+  const m = new THREE.Matrix4(), rot = new THREE.Matrix4(), centre = new THREE.Vector3(), axis = new THREE.Vector3();
+  for (const piece of pieces.values()) {
+    const s = pieceOf.get(piece.r)!;
+    centre.set(0, 0, 0);
+    for (const i of piece.vertices) centre.add(v.set(pos[i * 3]!, pos[i * 3 + 1]!, pos[i * 3 + 2]!));
+    centre.divideScalar(piece.vertices.length);
+    const push = new THREE.Vector3(); push.setComponent(s.axes[2], (random() * 2 - 1) * opts.depth);
+    axis.set(0, 0, 0).setComponent(s.axes[0], 1);
+    rot.makeRotationAxis(axis, (random() * 2 - 1) * opts.tilt);
+    axis.set(0, 0, 0).setComponent(s.axes[1], 1);
+    rot.multiply(new THREE.Matrix4().makeRotationAxis(axis, (random() * 2 - 1) * opts.tilt));
+    m.makeTranslation(centre.x + push.x, centre.y + push.y, centre.z + push.z).multiply(rot).multiply(new THREE.Matrix4().makeTranslation(-centre.x, -centre.y, -centre.z));
+    for (const i of piece.vertices) {
+      v.set(pos[i * 3]!, pos[i * 3 + 1]!, pos[i * 3 + 2]!).applyMatrix4(m);
+      pos[i * 3] = v.x; pos[i * 3 + 1] = v.y; pos[i * 3 + 2] = v.z;
+    }
+  }
+  const result = new THREE.BufferGeometry();
+  attributes.forEach((name, k) => {
+    const attribute = source[k]!;
+    const Array_ = (attribute.array as Float32Array).constructor as Float32ArrayConstructor;
+    result.setAttribute(name, new THREE.BufferAttribute(new Array_(out[k]!), attribute.itemSize, attribute.normalized));
+  });
+  result.setIndex(newIndex);
+  result.computeBoundingBox(); result.computeBoundingSphere();
+  return result;
+}
+
+/**
+ * Shrink every connected card (cluster) of a leaf geometry about its own centre and spin it about its face normal by a
+ * stable per-card angle (A133). Positions only; UVs, normals and index are kept.
+ */
+export function shrinkClusters(geometry: THREE.BufferGeometry, scale: number): void {
+  const p = geometry.getAttribute('position') as THREE.BufferAttribute, index = geometry.index;
+  if (!index) return;
+  const parent = new Int32Array(p.count).map((_, i) => i);
+  const find = (i: number): number => { while (parent[i] !== i) { parent[i] = parent[parent[i]!]!; i = parent[i]!; } return i; };
+  for (let t = 0; t < index.count; t += 3) {
+    const a = find(index.getX(t)), b = find(index.getX(t + 1)), c = find(index.getX(t + 2));
+    parent[b] = a; parent[find(c)] = a;
+  }
+  const sums = new Map<number, number[]>();
+  for (let i = 0; i < p.count; i++) {
+    const r = find(i); let s = sums.get(r);
+    if (!s) { s = [0, 0, 0, 0, 0, 0, 0]; sums.set(r, s); }
+    s[0]! += p.getX(i); s[1]! += p.getY(i); s[2]! += p.getZ(i); s[3]! += 1;
+  }
+  // Face normal of each card from its first triangle.
+  const n = new THREE.Vector3(), e1 = new THREE.Vector3(), e2 = new THREE.Vector3(), v0 = new THREE.Vector3();
+  for (let t = 0; t < index.count; t += 3) {
+    const r = find(index.getX(t)), s = sums.get(r)!;
+    if (s[4] !== 0 || s[5] !== 0 || s[6] !== 0) continue;
+    v0.fromBufferAttribute(p, index.getX(t));
+    e1.fromBufferAttribute(p, index.getX(t + 1)).sub(v0); e2.fromBufferAttribute(p, index.getX(t + 2)).sub(v0);
+    n.crossVectors(e1, e2);
+    if (n.lengthSq() < 1e-12) continue;
+    n.normalize(); s[4] = n.x; s[5] = n.y; s[6] = n.z;
+  }
+  const q = new THREE.Quaternion(), v = new THREE.Vector3(), c = new THREE.Vector3();
+  for (let i = 0; i < p.count; i++) {
+    const r = find(i), s = sums.get(r)!;
+    c.set(s[0]! / s[3]!, s[1]! / s[3]!, s[2]! / s[3]!);
+    n.set(s[4]!, s[5]!, s[6]!);
+    const spin = (Math.sin(r * 12.9898) * 43758.5453 % 1) * Math.PI * 2;
+    if (n.lengthSq() > 0.5) q.setFromAxisAngle(n, spin); else q.identity();
+    v.fromBufferAttribute(p, i).sub(c).applyQuaternion(q).multiplyScalar(scale).add(c);
+    p.setXYZ(i, v.x, v.y, v.z);
+  }
+  p.needsUpdate = true;
+}
 
 /**
  * Fill a thin crown close up (A70). The 0.0.12 export cut the broadleaf leaf plates to small leaflets, so a near crown
@@ -48,6 +212,7 @@ function thicken(leaf: THREE.BufferGeometry | null, enabled: boolean, room: numb
     const layer = leaf.clone().applyMatrix4(new THREE.Matrix4().makeTranslation(heart.x, heart.y, heart.z)
       .multiply(new THREE.Matrix4().makeRotationY(turn)).multiply(new THREE.Matrix4().makeScale(...scale))
       .multiply(new THREE.Matrix4().makeTranslation(-heart.x, -heart.y, -heart.z)));
+    shrinkClusters(layer, CLUSTER_SCALE);
     // Within the tree budget: where a whole layer would not fit, an even share of its cards does.
     const cards = layer.index ? layer.index.count / 3 : layer.getAttribute('position').count / 3;
     if (cards > room && layer.index) {
@@ -219,7 +384,7 @@ export interface MeshyForest {
 export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
   const textures = new Map<THREE.Texture, THREE.Texture>(), materials = new Set<THREE.Material>(), geometries = new Set<THREE.BufferGeometry>();
   const variants = new Map<string, TreeVariant>(), palettes = new Map<string, readonly { wood: THREE.Material | null; leaf: THREE.Material | null }[]>();
-  const cloneMaterial = (source: THREE.MeshStandardMaterial, wood: boolean) => {
+  const cloneMaterial = (source: THREE.MeshStandardMaterial, wood: boolean, species?: Species) => {
     const material = source.clone(), fields = material as unknown as Record<string, unknown>;
     for (const [key, value] of Object.entries(fields)) if ((value as THREE.Texture | null)?.isTexture) {
       const original = value as THREE.Texture;
@@ -232,7 +397,28 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
     material.alphaToCoverage = material.alphaTest > 0;
     material.transparent = false;
     if (!wood) { material.side = THREE.DoubleSide; material.shadowSide = THREE.DoubleSide; }
+    // A133: a broadleaf trunk's source atlas is soft and has no normal map, so close up it read flat and untextured. It
+    // takes metre-scale triplanar oak bark with relief (the procedural trees' and pines' detail), deeper than theirs.
+    if (wood && species && BARK_DETAIL.has(species)) {
+      const bark = barkTextures(species === 'dead' ? 'dead' : 'oak', 1024);
+      // A134: at 0.6 the bark darkened the trunks well below the source's warm brown; 0.4 keeps its relief and warmth.
+      installBarkDetail(material, bark, { mix: 0.4, relief: 0.035 });
+    }
     materials.add(material); return material;
+  };
+  // A134: one procedural leaf-cluster atlas for every rebuilt crown, with coverage-preserving mips.
+  let atlas: THREE.DataTexture | null = null;
+  const clusterMaterial = (source: THREE.MeshStandardMaterial) => {
+    const material = cloneMaterial(source, false);
+    atlas ??= canopyAtlasTexture(1024, NEAR_CANOPY.cells, Math.max(0.05, material.alphaTest) / 1.3);
+    material.map = atlas;
+    for (const slot of ['normalMap', 'roughnessMap', 'metalnessMap', 'aoMap', 'emissiveMap', 'alphaMap'] as const) material[slot] = null;
+    material.color.set(0xffffff); material.roughness = 0.85;
+    material.defines = { ...material.defines, TV_COVERAGE_MIPS: '' };
+    // Clumps shade as rounded masses of their own within the crown's: the crown normal takes less of the card's.
+    material.userData.foliageLook = { crownNormal: 0.6 };
+    material.needsUpdate = true;
+    return material;
   };
   let disposed = false;
   return {
@@ -260,9 +446,27 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
         }
         geometries.add(geometry); return geometry;
       };
-      const palette = decoded.map(parts => ({ wood: parts.wood ? cloneMaterial(parts.wood.material, true) : null, leaf: parts.leaf && species !== 'dead' ? cloneMaterial(parts.leaf.material, false) : null }));
+      const clusters = BROADLEAF.has(species);
+      const palette = decoded.map((parts, lod) => ({ wood: parts.wood ? cloneMaterial(parts.wood.material, true, species) : null, leaf: parts.leaf && species !== 'dead' ? (clusters && lod < 2 ? clusterMaterial(parts.leaf.material) : cloneMaterial(parts.leaf.material, false)) : null }));
       const lods = decoded.map((parts, lod) => {
-        const wood = prepare(parts.wood, false), exported = prepare(parts.leaf, true);
+        let wood = prepare(parts.wood, false);
+        let exported = prepare(parts.leaf, true);
+        // A134: near and middle broadleaf crowns are rebuilt as clumps of small leaf-cluster cards (see canopy.ts); the
+        // source sheets only say where the leaves go. Far crowns keep the source cards.
+        if (exported && lod < 2 && clusters) {
+          const triangles = (g: THREE.BufferGeometry | null) => (g ? (g.index?.count ?? g.getAttribute('position').count) / 3 : 0);
+          const shape = lod === 0 ? NEAR_CANOPY : MID_CANOPY;
+          const cards = lod === 0 ? Math.min(CANOPY_NEAR_CARDS, Math.floor((TREE_TRIANGLES - triangles(wood)) / 2)) : Math.max(400, Math.round(triangles(exported) * CANOPY_MID_SHARE / 2));
+          const seed = [...`${id}:${lod}`].reduce((h, ch) => Math.imul(h ^ ch.charCodeAt(0), 16777619) >>> 0, 2166136261);
+          const canopy = buildCanopy(exported, wood, { ...shape, cards, seed });
+          geometries.delete(exported); exported.dispose(); geometries.add(canopy);
+          if (wood) {
+            const trimmed = trimExposedWood(wood, canopy, shape.clump * 1.6);
+            if (trimmed.geometry !== wood) { geometries.delete(wood); wood.dispose(); geometries.add(trimmed.geometry); wood = trimmed.geometry; }
+          }
+          const tris = triangles(wood) + triangles(canopy);
+          return { wood, leaf: canopy, tris };
+        }
         const triangles = (g: THREE.BufferGeometry | null) => (g ? (g.index?.count ?? g.getAttribute('position').count) / 3 : 0);
         const leaf = thicken(exported, lod === 0 && BROADLEAF.has(species), TREE_TRIANGLES - triangles(wood) - triangles(exported));
         if (leaf && leaf !== exported) { geometries.delete(exported!); geometries.add(leaf); }
@@ -276,7 +480,7 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
     materialsFor(variant) { const found = palettes.get(`${variant.species}:${variant.assetId}`); if (!found) throw new Error('No owned materials for this tree.'); return found; },
     dispose() {
       if (disposed) return; disposed = true;
-      geometries.forEach(g => g.dispose()); materials.forEach(m => m.dispose()); textures.forEach(t => t.dispose());
+      geometries.forEach(g => g.dispose()); materials.forEach(m => m.dispose()); textures.forEach(t => t.dispose()); atlas?.dispose(); atlas = null;
       variants.clear(); palettes.clear(); geometries.clear(); materials.clear(); textures.clear();
     },
   };

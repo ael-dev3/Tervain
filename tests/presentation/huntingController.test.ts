@@ -439,6 +439,34 @@ describe('skinning controller command integration', () => {
     expect(item.audio.huntingSound.mock.calls.filter(([kind]) => kind === 'skinning_complete')).toHaveLength(1);
   });
 
+  it.each([-4, 4])('does not offer or start skinning beyond domain vertical reach (offset=%s)', offset => {
+    const item = fixture(); prepareCarcass(item);
+    item.player.y += offset;
+    item.controller.updateHud();
+    expect(item.hud.setHunting.mock.calls.at(-1)![0].canSkin).toBe(false);
+    item.controller.skin();
+    expect(item.player.beginSkinning).not.toHaveBeenCalled();
+    expect(item.game.state.hunting['bear-a']?.status).toBe('dead');
+  });
+
+  it.each([-2, 2])('retains the existing inclusive vertical reach boundary (offset=%s)', offset => {
+    const item = fixture(); prepareCarcass(item); item.player.y += offset;
+    item.controller.skin();
+    expect(item.player.beginSkinning).toHaveBeenCalledOnce();
+    item.completeSkinning();
+    expect(item.game.state.hunting['bear-a']?.status).toBe('skinned');
+  });
+
+  it.each(['controls', 'completion'])('rechecks vertical harvest reach at %s', stage => {
+    const item = fixture(); prepareCarcass(item); item.controller.skin();
+    item.player.y += 4;
+    if (stage === 'controls') item.controller.controls(.1, true);
+    item.completeSkinning();
+    expect(item.game.state.hunting['bear-a']?.status).toBe('dead');
+    expect(item.game.state.inventory.animal_hide ?? 0).toBe(0);
+    expect(item.dispatch.mock.calls.some(([command]) => command.t === 'skinAnimal')).toBe(false);
+  });
+
   it.each(['missing mesh', 'collapse', 'distance', 'knife', 'cover', 'busy', 'held object', 'inactive'] as const)(
     'cannot start harvesting with %s', (cause) => {
       const item = fixture(); prepareCarcass(item);

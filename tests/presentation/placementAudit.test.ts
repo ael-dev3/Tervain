@@ -65,3 +65,38 @@ it('exports furniture before it is drawn and forwards exports through its deferr
     expect(wrapper.placementAuditTargets!()[0]!.matrix.elements[12]! - before[0]!.matrix.elements[12]!).toBeCloseTo(10);
   } finally { wrapper.dispose?.(); template.geometry.dispose(); template.material.dispose(); }
 });
+
+it('keeps boundary and transformed-instance supports while excluding distant raycasts', () => {
+  const scene = new THREE.Scene();
+  const instances = new THREE.InstancedMesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshBasicMaterial(), 200);
+  instances.name = 'supports';
+  for (let i = 0; i < 200; i++) instances.setMatrixAt(i, new THREE.Matrix4().makeTranslation(i * 32, .5, 0));
+  // The first support straddles the grid boundary, including the negative cell.
+  scene.add(instances, box(-.25, 1.5));
+  let tested = 0;
+  const original = THREE.Mesh.prototype.raycast;
+  THREE.Mesh.prototype.raycast = function(ray, hits) { tested++; return original.call(this, ray, hits); };
+  try {
+    const report = auditPlacements(scene, () => 0);
+    expect(report.complete).toBe(true);
+    expect(report.summary.props).toBe(201);
+    expect(report.summary.candidates).toBe(0);
+    // Only the stacked prop needs support queries, and each must exclude 199 far instances.
+    expect(tested).toBeLessThan(32);
+  } finally { THREE.Mesh.prototype.raycast = original; }
+});
+
+it('audits the full supplied root population independently of oversized prop geometry', () => {
+  const scene=new THREE.Scene();
+  const oversized=new THREE.BufferGeometry();oversized.setAttribute('position',new THREE.Float32BufferAttribute(new Float32Array(300003),3));
+  scene.add(new THREE.Mesh(oversized,new THREE.MeshBasicMaterial()));
+  const geometry=new THREE.CylinderGeometry(1,1,2,32).translate(0,1,0);
+  const populations:PlacementAuditTarget[]=[
+    {label:'root-a',kind:'root',geometry,matrix:new THREE.Matrix4()},
+    {label:'root-b',kind:'root',geometry,matrix:new THREE.Matrix4().makeTranslation(4,0,0)},
+    {label:'prop',kind:'prop',geometry:new THREE.BoxGeometry(1,1,1),matrix:new THREE.Matrix4().makeTranslation(8,2,0)},
+  ];
+  const report=auditPlacements(scene,()=>0,populations,{kind:'root'});
+  expect(report.complete).toBe(true);expect(report.summary.roots).toBe(2);expect(report.summary.props).toBe(0);expect(report.skipped).toEqual([]);
+  expect(()=>auditPlacements(scene,()=>0,populations,{kind:'invalid' as 'root'})).toThrow('Invalid placement audit kind');
+});

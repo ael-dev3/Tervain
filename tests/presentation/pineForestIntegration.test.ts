@@ -1,7 +1,7 @@
 import { beforeAll, describe, expect, it, vi } from 'vitest';
 import * as THREE from 'three';
 import { buildTreeVariant, type TreeVariant } from '../../src/presentation/treeGen';
-import { groundedTreeY, treeWoodCollisionRadius, TREE_ROOT_PLANE, TREE_SOIL_OVERLAP } from '../../src/presentation/treeGrounding';
+import { groundedTreeY, seatTreeFlares, treeWoodCollisionRadius, TREE_ROOT_PLANE, TREE_SOIL_OVERLAP } from '../../src/presentation/treeGrounding';
 import { buildFlora } from '../../src/presentation/flora';
 import { createFloraPopulation, registerFloraColliders, selectFloraPopulation, floraLodWeights, type FloraTree } from '../../src/presentation/floraPopulation';
 import { pineTemplates } from './pineFixture';
@@ -48,6 +48,7 @@ beforeAll(async () => {
     ? source.collisionRadius(tree.sp, tree.v + 1, tree.s, terrain.heightAt(tree.x, tree.z) - tree.y)
     : footprint > 0 ? treeWoodCollisionRadius(variantFor(tree), tree.s, terrain.heightAt(tree.x, tree.z) - tree.y) : footprint,
     tree => groundedTreeY(terrain, tree, variantFor(tree)));
+  seatTreeFlares(population, terrain, variantFor, isPineSpecies);
   registerFloraColliders(population, canonical);
   source.dispose();
   for (const variant of variants.values()) if (!isPineSpecies(variant.species)) for (const lod of variant.lods) { lod.wood?.dispose(); lod.leaf?.dispose(); }

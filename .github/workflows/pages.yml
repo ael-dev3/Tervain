@@ -35,6 +35,38 @@ jobs:
         with:
           path: dist
 
+  software-webgl:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      # Keep original models local to this functional check; Pages delivery stays unchanged.
+      - run: npm run build -- --mode software
+      - name: Verify production build with SwiftShader
+        env:
+          CHROME: /usr/bin/google-chrome
+        run: |
+          npm run preview -- --host 127.0.0.1 --port 4173 --strictPort &
+          preview_pid=$!
+          trap 'kill "$preview_pid"' EXIT
+          for attempt in $(seq 1 60); do
+            if curl --fail --silent http://127.0.0.1:4173/ >/dev/null; then break; fi
+            sleep 1
+          done
+          node tools/software-webgl-check.mjs --out software-webgl-proof
+      - name: Upload software-renderer assertions and capture
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: software-webgl-proof
+          path: software-webgl-proof
+          if-no-files-found: error
+
   test:
     runs-on: ubuntu-latest
     strategy:

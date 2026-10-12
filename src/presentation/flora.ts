@@ -8,14 +8,14 @@ import { createFloraPopulation, selectFloraPopulation, registerFloraColliders, F
 import { buildForestFloor } from './forestFloor';
 import { buildFallingLeaves } from './fallingLeaves';
 import { createPineForest, isPineSpecies, type PineTemplates } from './solitaryPine';
-import { groundedTreeY, treeWoodCollisionRadius } from './treeGrounding';
+import { groundedTreeY, seatTreeFlares, treeWoodCollisionRadius } from './treeGrounding';
 import { PlantedCrownIndex } from './plantedCrowns';
 import { CROWN_FLOOR, CrownIndex, type CameraCrown } from './cameraCrowns';
 import { attachInstanceDistanceVisibility, smoothDistanceFade, type InstanceDistanceVisibility } from './distanceVisibility';
 import type { PhysicalWoodGeometry } from '../world/physicsGeometry';
 import { FOLIAGE_RESPONSE, type FoliageResponse } from './foliage/foliageWind';
 import { SHADER_CLOCK_WRAP } from './grass/wind';
-import { crownOf, installFoliage, installFoliageShadow, type InstalledFoliage } from './foliage/foliageMaterial';
+import { crownOf, installFoliage, installFoliageShadow, type FoliageLook, type InstalledFoliage } from './foliage/foliageMaterial';
 import { shadowDepthMaterial, shadowGeometry } from './foliage/shadowCasters';
 import { createLeafBurst } from './foliage/leafBurst';
 
@@ -101,6 +101,9 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
     : legacyFootprint > 0 ? treeWoodCollisionRadius(variantFor(tree), tree.s, terrain.heightAt(tree.x, tree.z) - tree.y) : legacyFootprint,
     (tree) => groundedTreeY(terrain, tree, variantFor(tree)), undefined,
     meshy ? (tree) => variantFor(tree).crownRadius * tree.s : undefined);
+  // Seat each placed tree's whole lower flare on its slope (playtest 5: flares hovered up to 1.3 m over downhill ground).
+  // Shrubs keep their planting seat (their low branches spread wide at flare height), and pines have no spreading flare.
+  seatTreeFlares(population, terrain, variantFor, usesPine);
   registerFloraColliders(population, colliders);
   // Static rigid-body contact uses the same complete wood as the visible source tree,
   // rather than treating its broad ground-plane navigation circle as an infinite cylinder.
@@ -252,7 +255,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
       const installed: { wood: InstalledFoliage | null; leaf: InstalledFoliage | null } = { wood: null, leaf: null };
       if (foliage) {
         if (wood) installed.wood = installFoliage(wood.material as THREE.Material, { field: foliage, response, leaf: false, crown });
-        if (leaf) installed.leaf = installFoliage(leaf.material as THREE.Material, { field: foliage, response, leaf: true, crown });
+        if (leaf) installed.leaf = installFoliage(leaf.material as THREE.Material, { field: foliage, response, leaf: true, crown, look: (leaf.material as THREE.Material).userData.foliageLook as Partial<FoliageLook> | undefined });
       }
       const caster = (mesh: THREE.InstancedMesh | null, part: 'wood' | 'leaf') => {
         if (!mesh || !castsShadows) return null;

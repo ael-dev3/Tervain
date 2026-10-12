@@ -14,6 +14,40 @@ import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+/** Bounded protocol requests: closing Chrome or timing out must settle every awaiting check. */
+export function cdpRequests(write, timeoutMs = 120000) {
+  if (!Number.isFinite(timeoutMs) || timeoutMs <= 0) throw new Error('Invalid CDP request timeout');
+  let id = 0, closed = false;
+  const pending = new Map();
+  const nextId = () => ++id;
+  return {
+    nextId,
+    send(method, params = {}) {
+      if (closed) return Promise.reject(new Error('CDP connection closed'));
+      return new Promise((resolve, reject) => {
+        const i = nextId();
+        const timer = setTimeout(() => { pending.delete(i); reject(new Error(`CDP ${method} timed out`)); }, timeoutMs);
+        pending.set(i, { resolve, reject, timer, method });
+        try { write({ id: i, method, params }); }
+        catch (error) { clearTimeout(timer); pending.delete(i); reject(error); }
+      });
+    },
+    reply(message) {
+      const request = pending.get(message.id);
+      if (!request) return false;
+      pending.delete(message.id); clearTimeout(request.timer);
+      if (message.error) request.reject(new Error(`CDP ${request.method} failed: ${message.error.message}`));
+      else request.resolve(message);
+      return true;
+    },
+    close() {
+      closed = true;
+      for (const request of pending.values()) { clearTimeout(request.timer); request.reject(new Error('CDP connection closed')); }
+      pending.clear();
+    },
+  };
+}
+
 const candidates = [
   process.env.CHROME,
   '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
@@ -24,23 +58,57 @@ const candidates = [
   '/usr/bin/chromium',
 ].filter(Boolean);
 
-export async function openPage(url = process.env.TERVAIN_URL ?? 'http://127.0.0.1:5173/', { w = 1280, h = 720, init = null, flags = [], headed = false } = {}) {
+export async function openPage(url = process.env.TERVAIN_URL ?? 'http://127.0.0.1:5173/', { w = 1280, h = 720, init = null, flags = [], headed = false, requestTimeoutMs = 120000 } = {}) {
+  if (!Number.isFinite(requestTimeoutMs) || requestTimeoutMs <= 0) throw new Error('Invalid CDP request timeout');
   const browser = candidates.find((c) => fs.existsSync(c));
   if (!browser) throw new Error('no Chrome/Edge found; set CHROME');
   const port = 9300 + Math.floor(Math.random() * 500);
   const profile = fs.mkdtempSync(path.join(os.tmpdir(), 'tervain-cdp-'));
   // Headed runs draw on the machine's own GPU (benchmarks on real hardware); headless ones fall back to software.
   const browserArgs = [
-    ...(headed ? [] : ['--headless=new']), '--no-sandbox', '--hide-scrollbars', '--ignore-gpu-blocklist', ...(headed ? [] : ['--enable-unsafe-swiftshader']),
+    ...(headed ? [] : ['--headless=new']), '--no-sandbox', '--hide-scrollbars', '--ignore-gpu-blocklist', ...(headed ? [] : ['--enable-unsafe-swiftshader', '--use-gl=angle', '--use-angle=swiftshader', '--disable-dev-shm-usage']),
     `--remote-debugging-port=${port}`, `--user-data-dir=${profile}`, `--window-size=${w},${h}`, ...flags, 'about:blank',
   ];
-  if (process.platform === 'win32') browserArgs.splice(4, 0, '--use-angle=d3d11');
-  const proc = spawn(browser, browserArgs, { stdio: 'ignore' });
+  if (process.platform === 'win32' && headed) browserArgs.splice(4, 0, '--use-angle=d3d11');
+  const proc = spawn(browser, browserArgs, { stdio: 'ignore', detached: process.platform !== 'win32' });
+  let ws, requests, cleaned = false;
+  const cleanup = () => {
+    if (cleaned) return;
+    cleaned = true;
+    try {
+      requests?.close();
+      ws?.close();
+      // On Windows killing the browser leaves its GPU and renderer children running, and the next launch then fails
+      // or shares a GPU process with them: end the whole tree.
+      if (process.platform === 'win32' && proc.pid) spawnSync('taskkill', ['/PID', String(proc.pid), '/T', '/F'], { stdio: 'ignore' });
+      else {
+        process.kill(-proc.pid, 'SIGTERM');
+        setTimeout(() => { try { process.kill(-proc.pid, 'SIGKILL'); } catch { /* already exited */ } }, 2000);
+        // Keep the grace timer alive until stubborn browser workers are stopped.
+      }
+    } catch {
+      /* already gone */
+    }
+    // Each run made a throwaway profile; remove it once the browser has let go of its files.
+    const remove = (tries) => {
+      try {
+        fs.rmSync(profile, { recursive: true, force: true });
+      } catch {
+        if (tries > 0) setTimeout(() => remove(tries - 1), 500);
+      }
+    };
+    proc.once('exit', () => remove(20));
+    if (proc.exitCode !== null || !proc.pid) remove(20);
+  };
+  let launchFailed = false;
+  proc.once('error', () => { launchFailed = true; });
   let targets = null;
   // A first launch after a browser update can take well over 15 s.
-  for (let i = 0; i < 120 && !targets; i++) {
+  const startupDeadline = Date.now() + 30000;
+  for (let i = 0; i < 120 && !targets && Date.now() < startupDeadline; i++) {
+    if (launchFailed || proc.exitCode !== null) break;
     try {
-      const r = await fetch(`http://127.0.0.1:${port}/json`);
+      const r = await fetch(`http://127.0.0.1:${port}/json`, { signal: AbortSignal.timeout(2000) });
       const list = await r.json();
       targets = list.find((t) => t.type === 'page');
     } catch {
@@ -48,14 +116,15 @@ export async function openPage(url = process.env.TERVAIN_URL ?? 'http://127.0.0.
     }
     if (!targets) await new Promise((r) => setTimeout(r, 250));
   }
-  if (!targets) throw new Error('browser did not start');
-  const ws = new WebSocket(targets.webSocketDebuggerUrl);
-  await new Promise((res, rej) => {
-    ws.onopen = res;
-    ws.onerror = rej;
-  });
-  let id = 0;
-  const pending = new Map();
+  if (!targets) { cleanup(); throw new Error('browser did not start'); }
+  try { ws = new WebSocket(targets.webSocketDebuggerUrl); await new Promise((res, rej) => {
+    const timer = setTimeout(() => rej(new Error('browser connection timed out')), 10000);
+    ws.onopen = () => { clearTimeout(timer); res(); };
+    ws.onerror = () => { clearTimeout(timer); rej(new Error('browser connection failed')); };
+  }); } catch (error) { cleanup(); throw error; }
+  requests = cdpRequests(message => ws.send(JSON.stringify(message)), requestTimeoutMs);
+  ws.addEventListener('close', () => requests.close());
+  ws.addEventListener('error', () => requests.close());
   const logs = [];
   const frames = [];
   ws.onmessage = (m) => {
@@ -63,36 +132,31 @@ export async function openPage(url = process.env.TERVAIN_URL ?? 'http://127.0.0.
     // Presented frames while a screencast runs (Page.startScreencast); each is acknowledged so the next one comes.
     if (msg.method === 'Page.screencastFrame') {
       frames.push({ data: msg.params.data, t: msg.params.metadata?.timestamp });
-      ws.send(JSON.stringify({ id: ++id, method: 'Page.screencastFrameAck', params: { sessionId: msg.params.sessionId } }));
+      if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify({ id: requests.nextId(), method: 'Page.screencastFrameAck', params: { sessionId: msg.params.sessionId } }));
       return;
     }
-    if (msg.id && pending.has(msg.id)) {
-      pending.get(msg.id)(msg);
-      pending.delete(msg.id);
-    } else if (msg.method === 'Runtime.consoleAPICalled') {
+    if (requests.reply(msg)) return;
+    if (msg.method === 'Runtime.consoleAPICalled') {
       logs.push(`[${msg.params.type}] ${msg.params.args.map((a) => a.value ?? a.description ?? '').join(' ')}`);
     } else if (msg.method === 'Runtime.exceptionThrown') {
       logs.push(`[exception] ${msg.params.exceptionDetails.exception?.description ?? msg.params.exceptionDetails.text}`);
     }
   };
-  const send = (method, params = {}) =>
-    new Promise((res) => {
-      const i = ++id;
-      pending.set(i, res);
-      ws.send(JSON.stringify({ id: i, method, params }));
-    });
-  await send('Runtime.enable');
-  await send('Page.enable');
-  await send('Emulation.setDeviceMetricsOverride', { width: w, height: h, deviceScaleFactor: 1, mobile: false });
-  // A headless window never holds focus on some platforms; without this the game sees a blur and pauses itself.
-  await send('Emulation.setFocusEmulationEnabled', { enabled: true });
-  // Runs before any of the page's own scripts (for example, a seeded Math.random for repeatable captures).
-  if (init) await send('Page.addScriptToEvaluateOnNewDocument', { source: init });
-  await send('Page.navigate', { url });
+  const send = (method, params = {}) => requests.send(method, params);
+  try {
+    await send('Runtime.enable');
+    await send('Page.enable');
+    await send('Emulation.setDeviceMetricsOverride', { width: w, height: h, deviceScaleFactor: 1, mobile: false });
+    // A headless window never holds focus on some platforms; without this the game sees a blur and pauses itself.
+    await send('Emulation.setFocusEmulationEnabled', { enabled: true });
+    // Runs before any of the page's own scripts (for example, a seeded Math.random for repeatable captures).
+    if (init) await send('Page.addScriptToEvaluateOnNewDocument', { source: init });
+    await send('Page.navigate', { url });
+  } catch (error) { cleanup(); throw error; }
   const page = {
     frames,
     async eval(js) {
-      const r = await send('Runtime.evaluate', { expression: `(async()=>{${js}})()`, awaitPromise: true, returnByValue: true, timeout: 120000 });
+      const r = await send('Runtime.evaluate', { expression: `(async()=>{${js}})()`, awaitPromise: true, returnByValue: true, timeout: requestTimeoutMs });
       if (r.result?.exceptionDetails) throw new Error(r.result.exceptionDetails.exception?.description ?? 'eval failed');
       return r.result?.result?.value;
     },
@@ -120,27 +184,7 @@ export async function openPage(url = process.env.TERVAIN_URL ?? 'http://127.0.0.
     /** Any DevTools protocol command (e.g. Profiler.start), for tools beyond the helpers above. */
     cdp: (method, params = {}) => send(method, params),
     console: () => logs.splice(0),
-    close() {
-      try {
-        ws.close();
-        // On Windows killing the browser leaves its GPU and renderer children running, and the next launch then fails
-        // or shares a GPU process with them: end the whole tree.
-        if (process.platform === 'win32' && proc.pid) spawnSync('taskkill', ['/PID', String(proc.pid), '/T', '/F'], { stdio: 'ignore' });
-        else proc.kill();
-      } catch {
-        /* already gone */
-      }
-      // Each run made a throwaway profile; remove it once the browser has let go of its files.
-      const remove = (tries) => {
-        try {
-          fs.rmSync(profile, { recursive: true, force: true });
-        } catch {
-          if (tries > 0) setTimeout(() => remove(tries - 1), 500);
-        }
-      };
-      proc.once('exit', () => remove(20));
-      if (proc.exitCode !== null) remove(20);
-    },
+    close: cleanup,
   };
   return page;
 }

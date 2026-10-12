@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { indexVerticalSupport } from './verticalSupports';
 
 export interface PlacementAuditTarget {
   label: string;
@@ -6,7 +7,7 @@ export interface PlacementAuditTarget {
   geometry: THREE.BufferGeometry;
   matrix: THREE.Matrix4;
 }
-export interface PlacementAuditOptions { clearance?: number; maxChecks?: number; }
+export interface PlacementAuditOptions { clearance?: number; maxChecks?: number; kind?: 'root' | 'prop'; }
 interface Check {
   label: string; kind: 'prop' | 'root'; component: number;
   position: number[]; samples: number; minGap: number; maxGap: number; unsupportedFraction: number; candidate: boolean;
@@ -71,22 +72,28 @@ export function auditPlacements(scene: THREE.Object3D, heightAt: (x: number, z: 
   populations: readonly PlacementAuditTarget[] = [], options: PlacementAuditOptions = {}) {
   const clearance = options.clearance ?? .08, maxChecks = options.maxChecks ?? 20_000;
   if (!(clearance >= 0 && Number.isFinite(clearance)) || !Number.isInteger(maxChecks) || maxChecks < 1) throw new Error('Invalid placement audit limits');
+  if (options.kind !== undefined && options.kind !== 'root' && options.kind !== 'prop') throw new Error('Invalid placement audit kind');
   scene.updateMatrixWorld(true);
   const material = new THREE.MeshBasicMaterial({ side: THREE.DoubleSide });
-  const targets = [...populations], supports: THREE.Mesh[] = [], skipped: string[] = [];
+  const targets = populations.filter(target => !options.kind || target.kind === options.kind), supports: THREE.Mesh[] = [], skipped: string[] = [];
   const local = new THREE.Matrix4();
   scene.traverse(object => {
+    if (options.kind === 'root') return;
     const mesh = object as THREE.Mesh;
     if (!mesh.isMesh || skeletal(mesh)) return;
     const label = mesh.name || `mesh-${mesh.id}`;
     if (!omitted.test(label) || /terrain/i.test(label)) {
-      const support = (mesh as THREE.InstancedMesh).isInstancedMesh
-        ? new THREE.InstancedMesh(mesh.geometry, material, 0) : new THREE.Mesh(mesh.geometry, material);
-      if ((support as THREE.InstancedMesh).isInstancedMesh) {
-        (support as THREE.InstancedMesh).instanceMatrix = (mesh as THREE.InstancedMesh).instanceMatrix;
-        (support as THREE.InstancedMesh).count = (mesh as THREE.InstancedMesh).count;
+      const instances = mesh as THREE.InstancedMesh;
+      const count = instances.isInstancedMesh ? instances.count : 1;
+      for (let i = 0; i < count; i++) {
+        const support = new THREE.Mesh(mesh.geometry, material);
+        support.matrixAutoUpdate = false;
+        if (instances.isInstancedMesh) {
+          instances.getMatrixAt(i, local);
+          support.matrixWorld.multiplyMatrices(mesh.matrixWorld, local);
+        } else support.matrixWorld.copy(mesh.matrixWorld);
+        supports.push(support);
       }
-      support.matrixAutoUpdate = false; support.matrixWorld.copy(mesh.matrixWorld); supports.push(support);
     }
     if (omitted.test(label) || treeWood(mesh) || label.startsWith('Furniture /')) return;
     if (!mesh.geometry.getAttribute('position')) return;
@@ -100,10 +107,29 @@ export function auditPlacements(scene: THREE.Object3D, heightAt: (x: number, z: 
     } else targets.push({ label, kind: 'prop', geometry: mesh.geometry, matrix: mesh.matrixWorld.clone() });
   });
   // Population adapters include camera-culled furniture and trees as supports as well as audit targets.
-  for (const target of populations) {
+  for (const target of options.kind === 'root' ? [] : populations) {
     const support = new THREE.Mesh(target.geometry, material);
     support.matrixAutoUpdate = false; support.matrixWorld.copy(target.matrix); supports.push(support);
   }
+  // Vertical support probes only need geometry whose world bounds overlap their X/Z position.
+  // Expand instances once, so Three's InstancedMesh raycaster cannot scan an entire forest per sample.
+  const cellSize = 16, cells = new Map<string, THREE.Mesh[]>(), wide: THREE.Mesh[] = [];
+  const bounds = new Map<THREE.Mesh, THREE.Box3>(), releaseIndexes: (() => void)[] = [];
+  for (const mesh of supports) {
+    if (!mesh.geometry.boundingBox) mesh.geometry.computeBoundingBox();
+    const box = mesh.geometry.boundingBox!.clone().applyMatrix4(mesh.matrixWorld).expandByScalar(1e-5);
+    bounds.set(mesh, box);
+    const x0 = Math.floor(box.min.x / cellSize), x1 = Math.floor(box.max.x / cellSize);
+    const z0 = Math.floor(box.min.z / cellSize), z1 = Math.floor(box.max.z / cellSize);
+    if ((x1-x0+1)*(z1-z0+1)>4) releaseIndexes.push(indexVerticalSupport(mesh,cellSize));
+    if (![x0, x1, z0, z1].every(Number.isFinite) || (x1 - x0 + 1) * (z1 - z0 + 1) > 256) { wide.push(mesh); continue; }
+    for (let x = x0; x <= x1; x++) for (let z = z0; z <= z1; z++) {
+      const key = `${x},${z}`, bucket = cells.get(key) ?? [];
+      bucket.push(mesh); cells.set(key, bucket);
+    }
+  }
+  const nearby = (x: number, z: number) => [...(cells.get(`${Math.floor(x / cellSize)},${Math.floor(z / cellSize)}`) ?? []), ...wide]
+    .filter(mesh => { const box = bounds.get(mesh)!; return x >= box.min.x && x <= box.max.x && z >= box.min.z && z <= box.max.z; });
   const ray = new THREE.Raycaster(), down = new THREE.Vector3(0, -1, 0), origin = new THREE.Vector3();
   const componentCache = new Map<THREE.BufferGeometry, Component[]>(), rootCache = new Map<THREE.BufferGeometry, THREE.Vector3[]>();
   const checks: Check[] = [];
@@ -144,11 +170,12 @@ export function auditPlacements(scene: THREE.Object3D, heightAt: (x: number, z: 
               }
               return local.elements.every((v, i) => Math.abs(v - target.matrix.elements[i]!) < 1e-4);
             };
-            const hit = ray.intersectObjects(supports, false).find(hit => !self(hit));
+            const candidates = nearby(sample.x, sample.z);
+            const hit = ray.intersectObjects(candidates, false).find(hit => !self(hit));
             if (hit) gap = Math.min(gap, hit.distance + .002);
             // A flush support can contain the probe just below the bottom; look up over the tolerance too.
             ray.set(origin, new THREE.Vector3(0, 1, 0)); ray.far = clearance + .002;
-            const upper = ray.intersectObjects(supports, false).find(hit => !self(hit));
+            const upper = ray.intersectObjects(candidates, false).find(hit => !self(hit));
             if (upper) gap = Math.min(gap, Math.abs(upper.distance - .002));
           }
           if (Number.isFinite(gap)) gaps.push(gap);
@@ -162,8 +189,8 @@ export function auditPlacements(scene: THREE.Object3D, heightAt: (x: number, z: 
       }
       if (truncated) break;
     }
-  } finally { material.dispose(); }
-  return { schema: 1, clearance, scope: 'static scene components plus supplied full populations; intentional hanging/floating objects require review',
+  } finally { for(const release of releaseIndexes)release(); material.dispose(); }
+  return { schema: 1, clearance, kind: options.kind ?? 'all', scope: 'static scene components plus supplied full populations; intentional hanging/floating objects require review',
     complete: !truncated && skipped.length === 0 && invalid === 0, truncated, skipped, invalid,
     summary: { checks: checks.length, roots: checks.filter(c => c.kind === 'root').length, props: checks.filter(c => c.kind === 'prop').length,
       candidates: checks.filter(c => c.candidate).length }, checks };

@@ -56,7 +56,9 @@ export const FOLIAGE_LOOK: FoliageLook = {
   transTint: new THREE.Color(0.9, 0.95, 0.7),
   // A75: the heart of a near crown and its leaves in their own shadow went near-black, so a crown read as blotchy dark
   // clumps between bright cards (owner playtest). Gothic 3's crowns stay soft and evenly lit inside.
-  innerShade: 0.95,
+  // A133: depth again: a crown's heart falls to 0.72 of the open ambient (with the crown normal's sky bias it never goes
+  // black), so the crown reads as a volume rather than one evenly lit sheet of cards.
+  innerShade: 0.72,
   // A76: muted toward Gothic 3's olive greens.
   saturation: 0.7,
   variation: 1,
@@ -166,6 +168,31 @@ const LEAF_ALPHA_TEST_GLSL = /* glsl */ `
 #ifdef USE_ALPHATEST
 {
   float tvA = diffuseColor.a;
+  #ifdef USE_MAP
+  {
+    // A133: up close a leaf atlas is magnified, and bilinear alpha cut at a threshold traces each texel's diamond: the
+    // edges read as pixel steps however well they are anti-aliased. Where the atlas is magnified its alpha is read with
+    // a cubic B-spline (four bilinear taps), whose contours are smooth curves; from about one texel per pixel onward
+    // the plain sample returns.
+    vec2 tvSize = vec2( textureSize( map, 0 ) );
+    vec2 tvT = vMapUv * tvSize;
+    float tvLod = 0.5 * log2( max( max( dot( dFdx( tvT ), dFdx( tvT ) ), dot( dFdy( tvT ), dFdy( tvT ) ) ), 1e-8 ) );
+    float tvCubic = 1.0 - smoothstep( -0.5, 0.25, tvLod );
+    if ( tvCubic > 0.0 ) {
+      vec2 tvSt = tvT - 0.5, tvI = floor( tvSt ), tvF = tvSt - tvI, tvF2 = tvF * tvF, tvF3 = tvF2 * tvF;
+      vec2 tvW0 = ( 1.0 - 3.0 * tvF + 3.0 * tvF2 - tvF3 ) / 6.0, tvW1 = ( 4.0 - 6.0 * tvF2 + 3.0 * tvF3 ) / 6.0;
+      vec2 tvW2 = ( 1.0 + 3.0 * tvF + 3.0 * tvF2 - 3.0 * tvF3 ) / 6.0, tvW3 = tvF3 / 6.0;
+      vec2 tvG0 = tvW0 + tvW1, tvG1 = tvW2 + tvW3;
+      vec2 tvH0 = ( tvI - 0.5 + tvW1 / tvG0 ) / tvSize, tvH1 = ( tvI + 1.5 + tvW3 / tvG1 ) / tvSize;
+      float tvCa = tvG0.y * ( tvG0.x * textureLod( map, vec2( tvH0.x, tvH0.y ), 0.0 ).a + tvG1.x * textureLod( map, vec2( tvH1.x, tvH0.y ), 0.0 ).a )
+                 + tvG1.y * ( tvG0.x * textureLod( map, vec2( tvH0.x, tvH1.y ), 0.0 ).a + tvG1.x * textureLod( map, vec2( tvH1.x, tvH1.y ), 0.0 ).a );
+      tvA = mix( tvA, opacity * tvCa, tvCubic );
+    }
+  }
+  #endif
+  // A133: the leaf atlases are feathered (A110), so a gain on alpha grows every leaf a little into its own soft margin:
+  // the crown reads fuller and its leaves rounder, with the cut-off where the feathering is smooth.
+  tvA *= 1.3;
   // Leaf masses (A76): on the crown's outer shell the cards thin out between masses, so the outline breaks into clumps
   // with sky between them instead of the cards' own edges; the cards' straight cut is roughened at leaf scale, fading
   // out once a pixel covers several leaves so it never shimmers.
@@ -196,17 +223,29 @@ const LEAF_ALPHA_TEST_GLSL = /* glsl */ `
   #ifdef USE_MAP
     vec2 tvTexels = vMapUv * vec2( textureSize( map, 0 ) );
     float tvMip = max( 0.0, 0.5 * log2( max( dot( dFdx( tvTexels ), dFdx( tvTexels ) ), dot( dFdy( tvTexels ), dFdy( tvTexels ) ) ) ) );
+    // A134: atlases whose mips already keep their coverage (the cluster canopies) take no lift.
+    #ifndef TV_COVERAGE_MIPS
     tvA *= 1.0 + 0.22 * tvMip;
+    #endif
   #endif
   #ifdef ALPHA_TO_COVERAGE
     // A75: the ramp spans about two pixels, so card silhouettes soften instead of reading as hard cut-outs.
     // A107: on the crown's outer shell the ramp widens to about three and a half pixels, so the silhouette against the sky feathers
     // rather than reading as the cards' cut shapes; inside the crown it keeps its two. Continuous in depth: nothing pops.
     float tvRamp = 2.0 * mix( 1.0, 1.8, smoothstep( 0.55, 0.95, vCrownDepth ) );
-    diffuseColor.a = clamp( ( tvA - alphaTest ) / max( tvRamp * fwidth( tvA ), 1e-4 ) + 0.5, 0.0, 1.0 );
-    if ( diffuseColor.a == 0.0 ) discard;
+    float tvCov = ( tvA - alphaTest ) / max( tvRamp * fwidth( tvA ), 1e-4 ) + 0.5;
+    // A133: four samples give only five coverage steps, which read as a pixel staircase along every card edge. A stable
+    // screen-space dither of a quarter step inside the ramp spreads them into a smooth gradient; it is fixed to the
+    // pixel grid (no temporal noise) and never touches fully covered or empty pixels.
+    float tvIgn = fract( 52.9829189 * fract( dot( gl_FragCoord.xy, vec2( 0.06711056, 0.00583715 ) ) ) );
+    float tvInRamp = step( 0.0, tvCov ) * step( tvCov, 1.0 );
+    diffuseColor.a = clamp( tvCov + ( tvIgn - 0.5 ) * 0.25 * tvInRamp, 0.0, 1.0 );
+    if ( diffuseColor.a <= 0.0 ) discard;
   #else
-    if ( tvA < alphaTest ) discard;
+    // A133: without multisampling (Low) the cut is dithered over about a pixel and a half of alpha, so edges break
+    // into a fine stable stipple rather than a hard staircase.
+    float tvIgn = fract( 52.9829189 * fract( dot( gl_FragCoord.xy, vec2( 0.06711056, 0.00583715 ) ) ) );
+    if ( tvA < alphaTest + ( tvIgn - 0.5 ) * 1.5 * fwidth( tvA ) ) discard;
   #endif
 }
 #endif

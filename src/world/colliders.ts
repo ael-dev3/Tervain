@@ -3,6 +3,7 @@ import { buildingGround } from './buildingEntries';
 import { CHIMNEY_STACK, FIREPLACE, fromBuildingLocal, hearthOf, roomOf, type InteriorSpec } from './interiors';
 import { footprint, FURNITURE, hearthPiece, pieceSize } from './furniture';
 import { ARCHIVE_ROOM, ARCHIVE_SHUTTER, BUILDINGS, DECKS, HANDCART_CONSTRUCTION, LIGHTHOUSE, LIGHTHOUSE_CONSTRUCTION, MILL_WHEEL, PALISADE, SHORTCUT, WAGON, WAGON_CONSTRUCTION, WELL, WELL_CONSTRUCTION, WORLD, type BuildingSpec } from './layout';
+import { houseYard, yardToWorld } from './houseYards';
 import { LIGHTHOUSE_DOOR_OUTER_WIDTH, LIGHTHOUSE_STAIR_ANGLE, lighthouseTreadTop, lighthouseWallSectors } from './lighthouse';
 import { MILL_WHEEL_CONSTRUCTION as M, millWheelPlacement } from './millWheel';
 import type { Terrain } from './terrain';
@@ -332,14 +333,14 @@ export class Colliders {
     return ceiling;
   }
 
-  /** Earliest exact horizontal segment/disc hit, independent of step size or box rotation. */
-  cast(ax: number, az: number, bx: number, bz: number, radius = 0, ignoreIds?: ReadonlySet<string>, bounds?: VerticalBounds, extra: readonly Collider[] = [], excludeSupports = false): ColliderHit | null {
+  /** Earliest exact horizontal segment/disc hit. Ignore an id group or a single collider by identity. */
+  cast(ax: number, az: number, bx: number, bz: number, radius = 0, ignoreIds?: ReadonlySet<string | Collider>, bounds?: VerticalBounds, extra: readonly Collider[] = [], excludeSupports = false): ColliderHit | null {
     const dx = bx - ax;
     const dz = bz - az;
     let nearest: ColliderHit | null = null;
     for (const c of [...this.near((ax + bx) / 2, (az + bz) / 2, Math.hypot(dx, dz) / 2 + radius), ...extra]) {
       if (!c.active || excludeSupports && c.supportOnly) continue;
-      if (ignoreIds?.has(c.id) || !overlapsHeight(c, bounds)) continue;
+      if (ignoreIds?.has(c.id) || ignoreIds?.has(c) || !overlapsHeight(c, bounds)) continue;
       const hit = c.kind === 'circle'
         ? circleHit(ax, az, dx, dz, c.x, c.z, c.r + radius)
         : boxHit(c, ax, az, dx, dz, radius);
@@ -514,6 +515,12 @@ export function buildStaticColliders(terrain?: Pick<Terrain, 'heightAt'>): Colli
       // Without a terrain the rooms stand on level ground at zero, so every part keeps a finite height.
       roomColliders(c, roomOf(b)!, terrain ? buildingGround((x, z) => terrain.heightAt(x, z), b).avg : 0);
     }
+  }
+  // A132: the yards of the village houses, each thing as tall as it stands.
+  for (const b of BUILDINGS) for (const [i, p] of houseYard(b).entries()) {
+    if (!p.solid) continue;
+    const at = yardToWorld(b, p.x, p.z), ground = terrain?.heightAt(at.x, at.z) ?? 0;
+    c.box(`${b.id}:yard:${p.kind}:${i}`, at.x, at.z, p.hw, p.hd, b.yaw + p.yaw, true, { minY: ground - 0.4, maxY: ground + p.h });
   }
   // The mill wheel and its pit sit against the mill's east wall.
   const millGround = terrain ?? { heightAt: () => 0 };

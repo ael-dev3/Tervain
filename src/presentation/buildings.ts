@@ -8,6 +8,7 @@ import type { Terrain } from '../world/terrain';
 import { Ctx, hash3, mulc, rgb } from './buildKit';
 import { Region } from './regions';
 import { authorLighthouse } from './lighthouse';
+import { antlers, doorHood, dormer, drawHouseYard, lookOf, lookRnd, plinthCourse } from './houseExteriors';
 import {
   TINT,
   type WallOpening,
@@ -194,6 +195,9 @@ function buildStandardPass(R: Region, terrain: Terrain, b: BuildingSpec, out: Bu
   // The shared room (whose furniture and colliders the world uses), or a fresh description of a building variant.
   const room = roomOf(b) ?? interiorOf(b)!;
   const ctx = R.ctx;
+  // A132: a village house's own look; the roof's kind may differ from the spec's (nothing else reads it).
+  const look = lookOf(b);
+  const roofKind = look?.roof ?? b.roof;
   ctx.push(b.x, avg, b.z, b.yaw);
   const sink = avg - lo + 0.4;
   const plinth = 0.42;
@@ -238,9 +242,13 @@ function buildStandardPass(R: Region, terrain: Terrain, b: BuildingSpec, out: Bu
 
   // Roof.
   const style = roofStyleOf(b);
-  const roof = roofFor(R, b.roof, style, b.w, b.d, y0 + wallH, Math.floor(hash3(b.x, b.z, 5) * 1000), { pitch: b.roof === 'lean' ? 0.3 : style === 'thatch' ? 0.82 : undefined });
-  roofWallInfill(R, b.roof, b.w, b.d, y0 + wallH, roof, wallMat(b));
-  if (b.wall !== 'stone' && b.roof === 'gable') {
+  const roof = roofFor(R, roofKind, style, b.w, b.d, y0 + wallH, Math.floor(hash3(b.x, b.z, 5) * 1000),
+    { pitch: roofKind === 'lean' ? 0.3 : style === 'thatch' ? 0.82 : undefined, ohx: look?.ohx, ohz: look?.ohz });
+  roofWallInfill(R, roofKind, b.w, b.d, y0 + wallH, roof, wallMat(b));
+  // A hipped house draws no gable posts or ridge beam, but takes their tones all the same, so its windows, shutters and
+  // clutter fall where they did.
+  if (b.wall !== 'stone' && b.roof === 'gable' && roofKind !== 'gable') for (let i = 0; i < 6; i++) rnd();
+  if (b.wall !== 'stone' && roofKind === 'gable') {
     const eaveY = roof.ridgeY - b.d / 2 * Math.tan(roof.pitch) - 0.04;
     for (const sx of [-1, 1]) {
       const x = sx * (b.w / 2 + 0.13);
@@ -260,7 +268,7 @@ function buildStandardPass(R: Region, terrain: Terrain, b: BuildingSpec, out: Bu
         structureTint, { jit: 0, amp: 0 });
     }
   }
-  if (b.wall !== 'stone' && b.roof === 'gable') {
+  if (b.wall !== 'stone' && roofKind === 'gable') {
     const slope = Math.tan(roof.pitch);
     for (const sx of [-1, 1]) for (const fraction of [-0.55, 0.55]) {
       const x = sx * (b.w / 2 + 0.13), z = fraction * b.d / 2;
@@ -270,11 +278,12 @@ function buildStandardPass(R: Region, terrain: Terrain, b: BuildingSpec, out: Bu
     }
   }
   // Ridge sag: a beam under the ridge that visibly dips.
-  if (b.roof === 'gable') R.timber.bx(-b.w / 2 - 0.2, roof.ridgeY - 0.35, -0.08, b.w / 2 + 0.2, roof.ridgeY - 0.2, 0.08, jitterTone(TINT.woodDark, rnd, 0.1), { jit: 0.08 });
+  if (b.roof === 'gable' && roofKind !== 'gable') rnd();
+  if (roofKind === 'gable') R.timber.bx(-b.w / 2 - 0.2, roof.ridgeY - 0.35, -0.08, b.w / 2 + 0.2, roof.ridgeY - 0.2, 0.08, jitterTone(TINT.woodDark, rnd, 0.1), { jit: 0.08 });
 
   // Door and windows. The leaf hangs apart from the shell, hinged at the doorway's inner face, so it can swing.
   rnd(); // Retain the existing decorative RNG sequence after the now-shared, authored door position.
-  const doorOpts = { x: doorX, y: y0, z: b.d / 2 + 0.03, stone: b.wall === 'stone' };
+  const doorOpts = { x: doorX, y: y0, z: b.d / 2 + 0.03, stone: b.wall === 'stone', leafTint: look?.door };
   if (out.apart && out.doors) {
     const leaf = out.apart(`door-${b.id}`, (L) => door(R, rnd, { ...doorOpts, leaf: L }));
     const pivot = new THREE.Group();
@@ -291,7 +300,7 @@ function buildStandardPass(R: Region, terrain: Terrain, b: BuildingSpec, out: Bu
   for (const side of [-1, 1]) {
     const wx = side * Math.min(b.w * 0.32, b.w / 2 - 0.75);
     if (Math.abs(wx - doorX) >= 1.25) {
-      windowAt(R, rnd, { x: wx, y: y0 + wallH * 0.45, z: b.d / 2 + 0.02, shutters: true, stone: b.wall === 'stone', opening: true });
+      windowAt(R, rnd, { x: wx, y: y0 + wallH * 0.45, z: b.d / 2 + 0.02, shutters: true, stone: b.wall === 'stone', opening: true, shutterTint: look?.shutter });
       inside(wx, b.d / 2 - t - 0.005, Math.PI);
       opening('front', wx);
     }
@@ -313,7 +322,7 @@ function buildStandardPass(R: Region, terrain: Terrain, b: BuildingSpec, out: Bu
 
   // Chimney.
   const chimneyAt = chimneyOf(b);
-  if (chimneyAt) chimney(R, rnd, chimneyAt.x, chimneyAt.z, y0 + wallH - 0.5, roof.rise + 1.6);
+  if (chimneyAt) chimney(R, rnd, chimneyAt.x, chimneyAt.z, y0 + wallH - 0.5, roof.rise + 1.6 + (look?.chimneyUp ?? 0), look?.chimneyW);
 
   // Lantern and the small litter of a used doorway.
   const lp = ctx.toWorld(doorX + 0.95, y0 + 2.2, b.d / 2 + 0.35);
@@ -326,6 +335,18 @@ function buildStandardPass(R: Region, terrain: Terrain, b: BuildingSpec, out: Bu
     // A76: the back of a house is where its things are kept: a rain butt at one corner, a crate at the other.
     groundExteriorProp(R, terrain, () => barrel(R, rnd, -b.w / 2 + 0.6, 0, -b.d / 2 - 0.55, 1.05));
     groundExteriorProp(R, terrain, () => crate(R, rnd, b.w / 2 - 0.75, 0, -b.d / 2 - 0.5, 0.7, 0.5, 0.55, (rnd() - 0.5) * 0.4));
+  }
+  if (look) {
+    // A132: the house's own look and its household's yard, on their own random sequence.
+    const lr = lookRnd(b);
+    if (look.plinth > 0) plinthCourse(R, lr, b, y0, look.plinth, gap);
+    if (look.hood) doorHood(R, lr, b, doorX, y0 + gap.top + 0.42);
+    if (look.dormer && roofKind === 'gable') {
+      const thatch = style === 'thatch';
+      dormer(R, lr, b, doorX + (doorX > 0 ? -0.2 : 0.2), y0 + wallH, roof, thatch ? 'thatch' : 'planks', thatch ? 0xb39a60 : 0x84715a, b.wall === 'plaster' ? 'plaster' : 'planks');
+    }
+    if (look.antlers) antlers(R, lr, doorX, y0 + gap.top + 0.3, b.d / 2 + 0.06);
+    drawHouseYard(R, b, (author) => groundExteriorProp(R, terrain, author));
   }
   if (b.kind === 'inn') {
     // A76: casks waiting by the inn's door.
@@ -342,6 +363,8 @@ function buildStandardPass(R: Region, terrain: Terrain, b: BuildingSpec, out: Bu
     R.metal.box(0.08, 0.08, 1.3, b.w / 2 - 0.6, y0 + 2.6, b.d / 2 + 0.7, TINT.iron, { jit: 0.05 });
     R.planks.box(0.9, 0.55, 0.06, b.w / 2 - 0.6, y0 + 1.95, b.d / 2 + 1.3, jitterTone(TINT.wood, rnd, 0.1), { rz: 0.05, jit: 0.1, grain: 'x' });
     R.vc.box(0.5, 0.3, 0.02, b.w / 2 - 0.6, y0 + 2.08, b.d / 2 + 1.34, 0x5a2a20, { jit: 0.1 });
+    // Two iron hangers from the bracket down to the board's top corners: it hung 33 cm below the bracket on nothing (playtest 5).
+    for (const dx of [-0.36, 0.36]) R.metal.box(0.025, 0.36, 0.025, b.w / 2 - 0.6 + dx, y0 + 2.4, b.d / 2 + 1.3, TINT.iron, { jit: 0.02 });
   }
   if (b.kind === 'bakery') {
     // A bread oven built against the side wall: stone body, domed top, dark mouth.

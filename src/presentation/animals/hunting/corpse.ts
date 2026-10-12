@@ -15,6 +15,7 @@ export class AnimalCorpse {
   private meshes: THREE.SkinnedMesh[] = [];
   private supports: Support[] = [];
   private death: { elapsed: number; side: number; position: THREE.Vector3; rotation: THREE.Quaternion; poses: (BonePose & { end: THREE.Quaternion; endPosition: THREE.Vector3; endScale: THREE.Vector3 })[] } | null = null;
+  private settled: { terrain: Ground; x: number; z: number; yaw: number; ground: number; normal: [number, number, number] } | null = null;
   private scanMesh = 0;
   private scanVertex = 0;
   private exactSupport = 0;
@@ -74,19 +75,23 @@ export class AnimalCorpse {
   update(dt: number, terrain: Ground, position: { x: number; z: number }, yaw: number, scanBudget: number): number {
     const death = this.death;
     if (!death) return 0;
+    terrain.normalAt(position.x, position.z, this.normal);
+    const ground = terrain.heightAt(position.x, position.z), settled = this.settled;
+    if (this.ready && settled && settled.terrain === terrain && settled.x === position.x && settled.z === position.z && settled.yaw === yaw
+      && settled.ground === ground && settled.normal.every((value, i) => value === this.normal[i])) return 0;
     death.elapsed = Math.min(1, death.elapsed + Math.max(0, dt) / .9);
     const phase = death.elapsed * death.elapsed * (3 - 2 * death.elapsed);
     for (const pose of death.poses) {
       pose.bone.position.lerpVectors(pose.position, pose.endPosition, phase); pose.bone.scale.lerpVectors(pose.scale, pose.endScale, phase);
       pose.bone.quaternion.slerpQuaternions(pose.rotation, pose.end, phase);
     }
-    terrain.normalAt(position.x, position.z, this.normal); this.up.set(...this.normal);
+    this.up.set(...this.normal);
     this.forward.set(Math.sin(yaw), 0, Math.cos(yaw)).addScaledVector(this.up, -this.forward.dot(this.up)).normalize();
     this.right.crossVectors(this.up, this.forward).normalize(); this.forward.crossVectors(this.right, this.up).normalize();
     this.basis.makeBasis(this.right, this.up, this.forward); this.turn.setFromRotationMatrix(this.basis)
       .multiply(new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 0, 1), death.side * Math.PI / 2 * phase));
     this.body.root.quaternion.slerpQuaternions(death.rotation, this.turn, phase);
-    this.body.root.position.set(position.x, terrain.heightAt(position.x, position.z) + .006, position.z);
+    this.body.root.position.set(position.x, ground + .006, position.z);
     this.body.root.updateMatrixWorld(true); this.body.skeletons.forEach(skeleton => skeleton.update());
     let support = this.exactSupport;
     if (!this.ready) for (const surface of this.supports) {
@@ -107,11 +112,12 @@ export class AnimalCorpse {
     this.body.root.position.y = THREE.MathUtils.lerp(death.position.y, this.body.root.position.y + correction, phase);
     if (this.ready) this.contactBounds.copy(this.surfaceBounds).translate(this.up.set(0, correction, 0));
     this.body.root.updateMatrixWorld(true);
+    if (this.ready) this.settled = { terrain, x: position.x, z: position.z, yaw, ground, normal: [...this.normal] };
     return scanned;
   }
 
   reset() {
-    this.death = null; this.scanMesh = this.scanVertex = this.exactSupport = 0;
+    this.death = null; this.settled = null; this.scanMesh = this.scanVertex = this.exactSupport = 0;
     this.surfaceBounds.makeEmpty(); this.contactBounds.makeEmpty();
     for (const pose of this.rest) { pose.bone.position.copy(pose.position); pose.bone.quaternion.copy(pose.rotation); pose.bone.scale.copy(pose.scale); }
     this.body.animation.reset();
