@@ -201,3 +201,29 @@ four completed locale enters and matching releases, count four, held depth zero,
 actual wrapper and filebuf pointer owners, base return, pending fill call and
 idempotent pending startup. The two NULL cases continue to retain their original
 new-handler call. No full startup or campaign completion is claimed.
+
+## Character facet virtual target and locale dependencies
+
+The actual facet vtable is now captured from `0x3088dab4`, with seven four-byte
+entries and readonly image admission. Its entry at byte offset `0x18` targets
+`0x305f08a0`, matching the original virtual call at `0x305f195e`. The target has
+two instructions: MOV AL from the caller's first byte argument, then RET 4.
+The byte return is proven by native source; it does not justify bypassing the
+original facet construction, ownership and acquisition.
+
+The facet's deleting-destructor target at entry zero is `0x305f09e0`, also
+captured. The constructor calls a native character-locale constructor through
+`0x30022a70` (body `0x30466e10`), table acquisition at `0x30670bba`, and destruction
+through `0x30032a33` (body `0x30466c00`). Their relevant allocation, locale-release,
+string-duplication and finalization dependencies are now captured as well.
+
+The character-table acquisition helper reads the current thread locale through
+`0x3067a085` and `0x3067a039`. Both read the actual PTD locale pointer at offset
+`0x6c` and locale-status flags at `0x70`; the latter returns the locale's table
+pointer at offset four. A thread/global locale mismatch can call `0x3067a36b`.
+These relationships must be represented by actual owned structures rather than
+invented numeric memory addresses or a host locale assumption.
+
+The Engine evidence bundle now has 399 methods. This checkpoint changes source
+evidence and readonly facet-table admission. Runtime remains at `0x305f18c0`;
+there is no new facet construction or widening execution claim.
