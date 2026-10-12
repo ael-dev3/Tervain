@@ -15,7 +15,7 @@ import { attachInstanceDistanceVisibility, smoothDistanceFade, type InstanceDist
 import type { PhysicalWoodGeometry } from '../world/physicsGeometry';
 import { FOLIAGE_RESPONSE, type FoliageResponse } from './foliage/foliageWind';
 import { SHADER_CLOCK_WRAP } from './grass/wind';
-import { crownOf, installFoliage, installFoliageShadow, type InstalledFoliage } from './foliage/foliageMaterial';
+import { crownOf, installFoliage, installFoliageShadow, type FoliageLook, type InstalledFoliage } from './foliage/foliageMaterial';
 import { shadowDepthMaterial, shadowGeometry } from './foliage/shadowCasters';
 import { createLeafBurst } from './foliage/leafBurst';
 
@@ -255,7 +255,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
       const installed: { wood: InstalledFoliage | null; leaf: InstalledFoliage | null } = { wood: null, leaf: null };
       if (foliage) {
         if (wood) installed.wood = installFoliage(wood.material as THREE.Material, { field: foliage, response, leaf: false, crown });
-        if (leaf) installed.leaf = installFoliage(leaf.material as THREE.Material, { field: foliage, response, leaf: true, crown });
+        if (leaf) installed.leaf = installFoliage(leaf.material as THREE.Material, { field: foliage, response, leaf: true, crown, look: (leaf.material as THREE.Material).userData.foliageLook as Partial<FoliageLook> | undefined });
       }
       const caster = (mesh: THREE.InstancedMesh | null, part: 'wood' | 'leaf') => {
         if (!mesh || !castsShadows) return null;

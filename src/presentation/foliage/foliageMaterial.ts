@@ -223,7 +223,10 @@ const LEAF_ALPHA_TEST_GLSL = /* glsl */ `
   #ifdef USE_MAP
     vec2 tvTexels = vMapUv * vec2( textureSize( map, 0 ) );
     float tvMip = max( 0.0, 0.5 * log2( max( dot( dFdx( tvTexels ), dFdx( tvTexels ) ), dot( dFdy( tvTexels ), dFdy( tvTexels ) ) ) ) );
+    // A134: atlases whose mips already keep their coverage (the cluster canopies) take no lift.
+    #ifndef TV_COVERAGE_MIPS
     tvA *= 1.0 + 0.22 * tvMip;
+    #endif
   #endif
   #ifdef ALPHA_TO_COVERAGE
     // A75: the ramp spans about two pixels, so card silhouettes soften instead of reading as hard cut-outs.

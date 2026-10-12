@@ -11,6 +11,7 @@ import { withModelLoadSlot } from './assets/modelLoadQueue';
 import { downloadAsset } from './assets/download';
 import { installBarkDetail } from './treeMaterials';
 import { barkTextures } from './treeTextures';
+import { buildCanopy, canopyAtlasTexture, trimExposedWood, NEAR_CANOPY, MID_CANOPY } from './canopy';
 
 /** Owner-supplied sources. Plinth-bearing 3106/1459 are prepared reserves, not active plantings. */
 export const MESHY_TREE_IDS = ['fir-spire', 'oak-elder', 'palm-date', 'palm-fan', 'palm-lean', 'tree-0208', 'tree-1537', 'tree-1527', 'tree-1521', 'tree-4949', 'tree-1505', 'tree-4815', 'verdant-sentinel'] as const;
@@ -41,6 +42,9 @@ const CROWN_LAYERS: readonly { turn: number; scale: readonly [number, number, nu
 export const SHEET_SPLIT = { minSize: 3, piece: 2, depth: 0.35, tilt: 0.12 } as const;
 /** Each added card's size, of the exported card's (A133). */
 export const CLUSTER_SCALE = 0.85;
+/** Cluster-canopy cards (A134): a near crown's cap, and a middle crown's share of its source triangles. */
+export const CANOPY_NEAR_CARDS = 6000;
+export const CANOPY_MID_SHARE = 1.2;
 
 /**
  * Break the source's large leaf sheets into separate smaller cards at different depths (A133).
@@ -397,9 +401,24 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
     // takes metre-scale triplanar oak bark with relief (the procedural trees' and pines' detail), deeper than theirs.
     if (wood && species && BARK_DETAIL.has(species)) {
       const bark = barkTextures(species === 'dead' ? 'dead' : 'oak', 1024);
-      installBarkDetail(material, bark, { mix: 0.6, relief: 0.035 });
+      // A134: at 0.6 the bark darkened the trunks well below the source's warm brown; 0.4 keeps its relief and warmth.
+      installBarkDetail(material, bark, { mix: 0.4, relief: 0.035 });
     }
     materials.add(material); return material;
+  };
+  // A134: one procedural leaf-cluster atlas for every rebuilt crown, with coverage-preserving mips.
+  let atlas: THREE.DataTexture | null = null;
+  const clusterMaterial = (source: THREE.MeshStandardMaterial) => {
+    const material = cloneMaterial(source, false);
+    atlas ??= canopyAtlasTexture(1024, NEAR_CANOPY.cells, Math.max(0.05, material.alphaTest) / 1.3);
+    material.map = atlas;
+    for (const slot of ['normalMap', 'roughnessMap', 'metalnessMap', 'aoMap', 'emissiveMap', 'alphaMap'] as const) material[slot] = null;
+    material.color.set(0xffffff); material.roughness = 0.85;
+    material.defines = { ...material.defines, TV_COVERAGE_MIPS: '' };
+    // Clumps shade as rounded masses of their own within the crown's: the crown normal takes less of the card's.
+    material.userData.foliageLook = { crownNormal: 0.6 };
+    material.needsUpdate = true;
+    return material;
   };
   let disposed = false;
   return {
@@ -427,14 +446,26 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
         }
         geometries.add(geometry); return geometry;
       };
-      const palette = decoded.map(parts => ({ wood: parts.wood ? cloneMaterial(parts.wood.material, true, species) : null, leaf: parts.leaf && species !== 'dead' ? cloneMaterial(parts.leaf.material, false) : null }));
+      const clusters = BROADLEAF.has(species);
+      const palette = decoded.map((parts, lod) => ({ wood: parts.wood ? cloneMaterial(parts.wood.material, true, species) : null, leaf: parts.leaf && species !== 'dead' ? (clusters && lod < 2 ? clusterMaterial(parts.leaf.material) : cloneMaterial(parts.leaf.material, false)) : null }));
       const lods = decoded.map((parts, lod) => {
-        const wood = prepare(parts.wood, false);
+        let wood = prepare(parts.wood, false);
         let exported = prepare(parts.leaf, true);
-        // A133: near and middle broadleaf crowns lose their large flat sheets (see splitSheets); far ones keep them.
-        if (exported && lod < 2 && BROADLEAF.has(species)) {
-          const split = splitSheets(exported, SHEET_SPLIT);
-          if (split !== exported) { geometries.delete(exported); exported.dispose(); geometries.add(split); exported = split; }
+        // A134: near and middle broadleaf crowns are rebuilt as clumps of small leaf-cluster cards (see canopy.ts); the
+        // source sheets only say where the leaves go. Far crowns keep the source cards.
+        if (exported && lod < 2 && clusters) {
+          const triangles = (g: THREE.BufferGeometry | null) => (g ? (g.index?.count ?? g.getAttribute('position').count) / 3 : 0);
+          const shape = lod === 0 ? NEAR_CANOPY : MID_CANOPY;
+          const cards = lod === 0 ? Math.min(CANOPY_NEAR_CARDS, Math.floor((TREE_TRIANGLES - triangles(wood)) / 2)) : Math.max(400, Math.round(triangles(exported) * CANOPY_MID_SHARE / 2));
+          const seed = [...`${id}:${lod}`].reduce((h, ch) => Math.imul(h ^ ch.charCodeAt(0), 16777619) >>> 0, 2166136261);
+          const canopy = buildCanopy(exported, wood, { ...shape, cards, seed });
+          geometries.delete(exported); exported.dispose(); geometries.add(canopy);
+          if (wood) {
+            const trimmed = trimExposedWood(wood, canopy, shape.clump * 1.6);
+            if (trimmed.geometry !== wood) { geometries.delete(wood); wood.dispose(); geometries.add(trimmed.geometry); wood = trimmed.geometry; }
+          }
+          const tris = triangles(wood) + triangles(canopy);
+          return { wood, leaf: canopy, tris };
         }
         const triangles = (g: THREE.BufferGeometry | null) => (g ? (g.index?.count ?? g.getAttribute('position').count) / 3 : 0);
         const leaf = thicken(exported, lod === 0 && BROADLEAF.has(species), TREE_TRIANGLES - triangles(wood) - triangles(exported));
@@ -449,7 +480,7 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
     materialsFor(variant) { const found = palettes.get(`${variant.species}:${variant.assetId}`); if (!found) throw new Error('No owned materials for this tree.'); return found; },
     dispose() {
       if (disposed) return; disposed = true;
-      geometries.forEach(g => g.dispose()); materials.forEach(m => m.dispose()); textures.forEach(t => t.dispose());
+      geometries.forEach(g => g.dispose()); materials.forEach(m => m.dispose()); textures.forEach(t => t.dispose()); atlas?.dispose(); atlas = null;
       variants.clear(); palettes.clear(); geometries.clear(); materials.clear(); textures.clear();
     },
   };

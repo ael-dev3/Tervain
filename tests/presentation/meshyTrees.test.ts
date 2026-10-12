@@ -123,8 +123,9 @@ describe('actual supplied Meshy tree catalog', () => {
         // A79: the wood is simplified without crossing its UV seams (no stretched branch texture), near 8,000 triangles.
         expect(count(near.wood!), id).toBeLessThan(9_000);
         expect(count(near.leaf!), id).toBeGreaterThan(1.8 * count(exported));
-        // Middle detail is left as exported.
-        expect(count(variant.lods[1].leaf!)).toBe(count(meshyTreeParts(templates.get(id)![1]).leaf!.geometry));
+        // A134: middle detail is a cluster canopy of about 1.2x the exported triangles.
+        const mid = count(meshyTreeParts(templates.get(id)![1]).leaf!.geometry);
+        expect(count(variant.lods[1].leaf!)).toBe(2 * Math.max(400, Math.round(mid * 1.2 / 2)));
       }
     } finally { forest.dispose(); }
   });
