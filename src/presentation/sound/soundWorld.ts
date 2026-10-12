@@ -283,7 +283,7 @@ export class SoundWorld {
   /** Counts for the developer panel. */
   readonly stats = { voices: 0, beds: 0, emitted: 0, dropped: 0, decodeErrors: 0 };
 
-  constructor(ctx: AudioContext, buses: SoundBuses, base: string, random: () => number = Math.random) {
+  constructor(ctx: AudioContext, buses: SoundBuses, base: string, random: () => number = Math.random, eagerBanks = true) {
     this.ctx = ctx;
     this.buses = buses;
     this.base = base;
@@ -324,9 +324,11 @@ export class SoundWorld {
       for (const n of this.owned) quietly(() => n.disconnect());
       throw error;
     }
-    for (const name of Object.keys(WORLD_AUDIO.banks) as BankName[]) void this.loadBank(name);
-    // The hero speaks first, on the strand; his other lines and everyone else's load when they are wanted.
-    void this.loadVoiceBank(VOICE_AUDIO.lines['hero.arrival'][0]);
+    if (eagerBanks) {
+      for (const name of Object.keys(WORLD_AUDIO.banks) as BankName[]) void this.loadBank(name);
+      // The hero speaks first, on the strand; his other lines and everyone else's load when they are wanted.
+      void this.loadVoiceBank(VOICE_AUDIO.lines['hero.arrival'][0]);
+    }
   }
 
   private own<T extends AudioNode>(node: T): T {

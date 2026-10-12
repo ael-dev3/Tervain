@@ -574,7 +574,7 @@ export class AudioEngine {
   prepareWorld() {
     if (this.disposed || !this.ctx || this.ctx.state === 'closed' || this.soundWorld || this.worldFailed) return;
     try {
-      this.soundWorld = new SoundWorld(this.ctx, this.buses, import.meta.env.BASE_URL);
+      this.soundWorld = new SoundWorld(this.ctx, this.buses, import.meta.env.BASE_URL, Math.random, false);
     } catch {
       // Without convolution or panning support the world keeps its procedural beds and captions.
       this.worldFailed = true;

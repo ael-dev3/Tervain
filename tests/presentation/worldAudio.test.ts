@@ -1400,7 +1400,8 @@ describe('audio engine and the recorded world', () => {
     await flush();
     expect(ctx.nodes.filter(node => node.kind === 'convolver')).toHaveLength(2);
     expect(ctx.sources).toHaveLength(sources);
-    expect(audio.diagnostics.world!.banksReady).toBe(true);
+    expect(ctx.decodeAudioData).not.toHaveBeenCalled();
+    expect(audio.diagnostics.world!.banksReady).toBe(false);
     ctx.state = 'running';
     audio.updateWorld(0.05, frame(PLACES.rillford));
     expect(ctx.nodes.filter(node => node.kind === 'convolver')).toHaveLength(2);
@@ -1484,7 +1485,11 @@ describe('audio engine and the recorded world', () => {
     audio.updateWorld(0.05, frame(PLACES.rillford));
     expect(audio.diagnostics.world).not.toBeNull();
     await flush();
-    expect(audio.diagnostics.world!.banksReady).toBe(true);
+    expect(audio.diagnostics.world!.banksReady).toBe(false);
+    audio.footstep('grass', false);
+    audio.pickup('coin');
+    audio.worldEvent('lever');
+    await flush();
     audio.footstep('grass', false);
     audio.pickup('coin');
     audio.worldEvent('lever');
@@ -1516,7 +1521,7 @@ describe('audio engine and the recorded world', () => {
     expect(piece.src).toBe('');
     expect(ctx.nodes).toHaveLength(nodes);
     audio.updateWorld(0.05, frame(PLACES.rillford));
-    expect(audio.diagnostics.world!.banksReady).toBe(true);
+    expect(audio.diagnostics.world!.banksReady).toBe(false);
     expect(ctx.decodeAudioData).toHaveBeenCalledTimes(bankLoads);
     audio.dispose();
   });
