@@ -8,7 +8,9 @@ const MIN_NORMAL_Y = Math.cos(ROCK_CLIMB_ANGLE);
 const CELL = 8;
 
 type Point = { x: number; y: number; z: number };
-const point = (p: Float32Array, index: number): Point => ({ x: p[index * 3]!, y: p[index * 3 + 1]!, z: p[index * 3 + 2]! });
+const point = (p: Float32Array, index: number, out: Point = { x: 0, y: 0, z: 0 }): Point => {
+  out.x = p[index * 3]!; out.y = p[index * 3 + 1]!; out.z = p[index * 3 + 2]!; return out;
+};
 const inside = (x: number, z: number, a: Point, b: Point, c: Point) => {
   const area = (b.x - a.x) * (c.z - a.z) - (c.x - a.x) * (b.z - a.z);
   if (Math.abs(area) < 1e-9) return false;
@@ -29,7 +31,8 @@ export function rockTriangleSupport(x: number, z: number, a: Point, b: Point, c:
   const centrePlaneY = a.y - (nx * (x - a.x) + nz * (z - a.z)) / ny;
   let height = -Infinity;
   if (inside(x - nx * radius, z - nz * radius, a, b, c)) height = centrePlaneY + radius / ny - radius;
-  for (const [p, q] of [[a, b], [b, c], [c, a]] as const) {
+  for (let edge = 0; edge < 3; edge++) {
+    const p = edge === 0 ? a : edge === 1 ? b : c, q = edge === 0 ? b : edge === 1 ? c : a;
     const dx = q.x - p.x, dz = q.z - p.z, dy = q.y - p.y;
     const horizontal2 = dx * dx + dz * dz;
     if (horizontal2 < 1e-12) continue;
@@ -94,12 +97,30 @@ function capsuleTouchesTriangle(x: number, y: number, z: number, a: Point, b: Po
 /** Bounded source-triangle registry for standing/save queries; never edits the terrain grid or authored roads. */
 export class RockSurfaces {
   private cells = new Map<string, PhysicalRockGeometry[]>();
+  private triangleBounds = new WeakMap<PhysicalRockGeometry, Float32Array>();
+  private a: Point = { x: 0, y: 0, z: 0 };
+  private b: Point = { x: 0, y: 0, z: 0 };
+  private c: Point = { x: 0, y: 0, z: 0 };
   register(rocks: readonly PhysicalRockGeometry[]) {
     this.cells.clear();
-    for (const rock of rocks) for (let ix = Math.floor(rock.bounds.minX / CELL); ix <= Math.floor(rock.bounds.maxX / CELL); ix++) {
-      for (let iz = Math.floor(rock.bounds.minZ / CELL); iz <= Math.floor(rock.bounds.maxZ / CELL); iz++) {
-        const key = `${ix}:${iz}`, list = this.cells.get(key) ?? [];
-        list.push(rock); this.cells.set(key, list);
+    // Contacts are immutable world geometry. Build conservative triangle bounds during registration,
+    // so walking queries neither allocate per triangle nor pay a first-use cache build.
+    for (const rock of rocks) {
+      if (!this.triangleBounds.has(rock)) {
+        const bounds = new Float32Array(rock.indices.length / 3 * 4);
+        for (let i = 0; i < rock.indices.length; i += 3) {
+          point(rock.positions, rock.indices[i]!, this.a); point(rock.positions, rock.indices[i + 1]!, this.b); point(rock.positions, rock.indices[i + 2]!, this.c);
+          const offset = i / 3 * 4;
+          bounds[offset] = Math.min(this.a.x, this.b.x, this.c.x); bounds[offset + 1] = Math.max(this.a.x, this.b.x, this.c.x);
+          bounds[offset + 2] = Math.min(this.a.z, this.b.z, this.c.z); bounds[offset + 3] = Math.max(this.a.z, this.b.z, this.c.z);
+        }
+        this.triangleBounds.set(rock, bounds);
+      }
+      for (let ix = Math.floor(rock.bounds.minX / CELL); ix <= Math.floor(rock.bounds.maxX / CELL); ix++) {
+        for (let iz = Math.floor(rock.bounds.minZ / CELL); iz <= Math.floor(rock.bounds.maxZ / CELL); iz++) {
+          const key = `${ix}:${iz}`, list = this.cells.get(key) ?? [];
+          list.push(rock); this.cells.set(key, list);
+        }
       }
     }
   }
@@ -141,8 +162,12 @@ export class RockSurfaces {
           if (seen.has(rock)) continue; seen.add(rock);
           if (x + PLAYER_BODY_RADIUS < rock.bounds.minX || x - PLAYER_BODY_RADIUS > rock.bounds.maxX ||
             z + PLAYER_BODY_RADIUS < rock.bounds.minZ || z - PLAYER_BODY_RADIUS > rock.bounds.maxZ || rock.bounds.minY > feetY + rise) continue;
+          const bounds = this.triangleBounds.get(rock)!;
           for (let i = 0; i < rock.indices.length; i += 3) {
-            const height = rockTriangleSupport(x, z, point(rock.positions, rock.indices[i]!), point(rock.positions, rock.indices[i + 1]!), point(rock.positions, rock.indices[i + 2]!));
+            const offset = i / 3 * 4;
+            if (x + PLAYER_BODY_RADIUS < bounds[offset]! || x - PLAYER_BODY_RADIUS > bounds[offset + 1]!
+              || z + PLAYER_BODY_RADIUS < bounds[offset + 2]! || z - PLAYER_BODY_RADIUS > bounds[offset + 3]!) continue;
+            const height = rockTriangleSupport(x, z, point(rock.positions, rock.indices[i]!, this.a), point(rock.positions, rock.indices[i + 1]!, this.b), point(rock.positions, rock.indices[i + 2]!, this.c));
             if (height !== null && height <= feetY + rise + 1e-6) result = Math.max(result, height);
           }
         }
