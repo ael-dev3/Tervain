@@ -79,7 +79,7 @@ const SAMPLER = `
       P.rig.root.getWorldQuaternion(q); up.set(0, 1, 0).applyQuaternion(q);
       ndc.copy(hips).project(cam);
       window.__gate.samples.push([document.timeline.currentTime ?? performance.now(), window.__gate.phase, shown(body) ? 1 : 0, +(T.cam.curDist ?? 0).toFixed(3), +up.y.toFixed(3),
-        +(head.y - root.y).toFixed(3), +ndc.x.toFixed(3), +ndc.y.toFixed(3), T.simStep, P.swimming ? 1 : 0, R.getPixelRatio()]);
+        +(head.y - root.y).toFixed(3), +ndc.x.toFixed(3), +ndc.y.toFixed(3), T.simStep, P.swimming ? 1 : 0, R.getPixelRatio(), T.cam.bodyVisible ? 1 : 0]);
     }
     return out;
   };
@@ -160,15 +160,16 @@ async function runProfile(name) {
     if (enc.status === 0) fs.rmSync(path.join(dir, 'frames'), { recursive: true, force: true });
 
     // Judge.
-    const S = gate.samples.map(([t, ph, vis, dist, upY, headUp, nx, ny, step, swim, pr]) => ({ t, ph, vis, dist, upY, headUp, nx, ny, step, swim, pr }));
+    const S = gate.samples.map(([t, ph, vis, dist, upY, headUp, nx, ny, step, swim, pr, want]) => ({ t, ph, vis, dist, upY, headUp, nx, ny, step, swim, pr, want }));
     const play = S.filter((s) => !['setup', 'pause', 'end'].includes(s.ph));
     const timed = [];
     for (let i = 1; i < S.length; i++) if (S[i].ph === S[i - 1].ph && !['setup', 'pause', 'end'].includes(S[i].ph)) timed.push(S[i].t - S[i - 1].t);
     const p95 = quantile(timed, 0.95), median = quantile(timed, 0.5);
     const spikes = timed.filter((d) => d > LIMITS.spikeMs);
     const slowShare = timed.filter((d) => d > LIMITS.slowFrameMs).length / Math.max(1, timed.length);
-    const hidden = play.filter((s) => !s.vis && s.dist >= 0.85);
-    const closeHidden = play.filter((s) => !s.vis && s.dist < 0.85).length;
+    // The game's own rule for showing him (the camera clear of his body), not a distance rounded for the log.
+    const hidden = play.filter((s) => !s.vis && s.want);
+    const closeHidden = play.filter((s) => !s.vis && !s.want).length;
     let worstToggles = 0;
     for (let i = 0; i < play.length; i++) {
       let n = 0;
