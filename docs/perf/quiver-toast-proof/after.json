@@ -1,0 +1,11 @@
+{
+  "build": {
+    "version": "0.0.14",
+    "revision": "4b525d49d"
+  },
+  "emptyWarnings": 1,
+  "controlMessages": 1,
+  "arrows": 0,
+  "shots": 0,
+  "pass": true
+}
