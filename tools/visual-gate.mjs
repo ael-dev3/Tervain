@@ -118,6 +118,8 @@ try {
   await page.eval('window.tervain.cam.manual = null; return 1');
 
   // Bow: limbs and string outside the torso while he walks and runs.
+  // Equip right here: a new journey's opening can reset what was equipped at load.
+  await page.eval(`const T = window.tervain, S = T.game.state; S.inventory.hunting_bow = 1; S.inventory.arrow = 6; S.equippedWeapon = 'hunting_bow'; T.player.syncEquipment(T.game); return 1`);
   await place(-4, 40, 0); await page.wait(1200);
   const torsoHits = { walk: 0, run: 0, samples: 0 };
   const sampleBow = (gait) => page.eval(`const T = window.tervain, P = T.player, V = T.world.scene.position.constructor;
@@ -125,7 +127,7 @@ try {
     // The hero's own torso: up from the slung bow to his hips (other rigs share the bone names), then his neck below them.
     for (let a = bow; a && !hips; a = a.parent) if (/Hips$/.test(a.name)) hips = a;
     hips?.traverse((o) => { if (!neck && /Neck$/.test(o.name)) neck = o; });
-    if (!bow || !bow.visible || !hips || !neck) return [0, 0];
+    if (!bow || !bow.visible || !hips || !neck) return [0, 0, !bow ? 'no bow' : !bow.visible ? 'bow hidden' : 'no torso bones'];
     const a = hips.getWorldPosition(new V()), b = neck.getWorldPosition(new V()), ab = b.clone().sub(a), len = ab.length(); ab.normalize();
     let inside = 0, n = 0;
     bow.updateWorldMatrix(true, true);
@@ -137,10 +139,10 @@ try {
     }
     return [inside, n];`);
   for (const [gait, codes] of [['walk', ['KeyW']], ['run', ['ShiftLeft', 'KeyW']]]) {
-    await holdWhile(codes, 2500, async () => { const [inside, n] = await sampleBow(gait); torsoHits[gait] += inside; torsoHits.samples += n; });
+    await holdWhile(codes, 2500, async () => { const [inside, n, why] = await sampleBow(gait); torsoHits[gait] += inside; torsoHits.samples += n; if (why) torsoHits.why = why; });
   }
   metrics.checks.bow = { ...torsoHits, pass: torsoHits.samples > 0 && torsoHits.walk + torsoHits.run === 0 };
-  if (!metrics.checks.bow.pass) failures.push(torsoHits.samples ? `bow inside the torso on ${torsoHits.walk + torsoHits.run} of ${torsoHits.samples} samples` : 'bow check found no slung bow to sample');
+  if (!metrics.checks.bow.pass) failures.push(torsoHits.samples ? `bow inside the torso on ${torsoHits.walk + torsoHits.run} of ${torsoHits.samples} samples` : `bow check found no slung bow to sample (${torsoHits.why})`);
 
   // Fence vault: every approach must cross.
   const vaults = [];
@@ -165,7 +167,8 @@ try {
   metrics.checks.vault = { crossed, of: vaults.length, failed: vaults.filter((v) => !v.over), pass: crossed === vaults.length };
   if (!metrics.checks.vault.pass) failures.push(`fence vault crossed ${crossed} of ${vaults.length}`);
 
-  // Placement audit (Sol's detector), against the baseline's candidate count.
+  // Placement audit (Sol's detector), against the baseline's candidate count. --skip-audit for quick diagnostic runs.
+  if (args['skip-audit'] !== 'true') {
   const r = await page.cdp('Runtime.evaluate', { expression: '(async () => window.tervain.auditPlacement ? JSON.stringify(await window.tervain.auditPlacement({ clearance: .08, maxChecks: 20000 })) : null)()', awaitPromise: true, returnByValue: true, timeout: 600000 });
   const auditText = r?.result?.result?.value;
   if (auditText) {
@@ -181,6 +184,7 @@ try {
     metrics.checks.placement.pass = before === undefined || rootCandidates <= before;
     if (!metrics.checks.placement.pass) failures.push(`floating tree roots ${rootCandidates} (baseline ${before})`);
   } else metrics.checks.placement = { skipped: 'build has no placement audit' };
+  } else metrics.checks.placement = { skipped: 'audit skipped' };
 } finally {
   page.close();
 }
