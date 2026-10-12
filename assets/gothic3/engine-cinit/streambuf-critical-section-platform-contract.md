@@ -826,3 +826,15 @@ The normal boundary is `30791f4d`. This is a local startup checkpoint; no full
 native-suite result, deployment or campaign completion is established by these
 two checks. Full engine startup and browser campaign integration remain
 unfinished.
+
+
+## Broader stdout-checkpoint validation
+
+At exact commit `c6a330145305f68094522e59801d8bbd6ccffedc`, TypeScript checking,
+the full `engine-io-frame.test.ts` file (503 tests, 973.50 seconds) and production
+build passed. The tested checkout remained unchanged while validation ran.
+The receipt in `validation-stdout-filebuf-native-suite.json` pins the tested
+revision, source bundle and test-file hashes, commands, exit codes and scope.
+This is one complete runtime test file, not the entire repository test suite.
+It proves the recorded local checkpoint's checks, not full engine startup,
+publishing, browser rendering or a campaign playthrough.
