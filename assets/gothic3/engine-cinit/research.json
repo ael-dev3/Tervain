@@ -74909,6 +74909,24 @@
       "sha256": "7b8b1bac9e0582920a3250ca33c001d51f4b9f344e49b1d0a34d6361603680b5"
     },
     {
+      "label": "standardFilebufVtable",
+      "address": "3088da78",
+      "bytes": 4,
+      "raw": "600d5f30",
+      "fileBackedBytes": 4,
+      "loaderZeroFillBytes": 0,
+      "sha256": "931f496375dad8bbcf0b3897d1388962118cc7c9efb1ef74a1dc7d5606ac0b37"
+    },
+    {
+      "label": "standardFilebufGlobalState",
+      "address": "30af6a00",
+      "bytes": 4,
+      "raw": "00000000",
+      "fileBackedBytes": 0,
+      "loaderZeroFillBytes": 4,
+      "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+    },
+    {
       "label": "standardLocaleGlobalPointer",
       "address": "30af6dd8",
       "bytes": 4,

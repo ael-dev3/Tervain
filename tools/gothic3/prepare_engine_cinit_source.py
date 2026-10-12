@@ -749,6 +749,8 @@ def capture(study):
         ('sharedCriticalSectionSecondReferenceAddress', 0x30af6e01, 1),
         ('standardOutputFilebufStorage', 0x30af6e08, 80),
         ('standardStreambufVtable', 0x3088da3c, 4),
+        ('standardFilebufVtable', 0x3088da78, 4),
+        ('standardFilebufGlobalState', 0x30af6a00, 4),
         ('standardLocaleGlobalPointer', 0x30af6dd8, 4),
         ('standardLocaleClassicPointer', 0x30af6ddc, 4),
         ('standardLocaleDefaultPointer', 0x30af6df4, 4),

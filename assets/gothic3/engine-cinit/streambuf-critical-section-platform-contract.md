@@ -774,3 +774,31 @@ The normal boundary is `305eed38`, before derived filebuf initialization.
 The filebuf constructor, its shutdown registration, subsequent engine startup
 and full campaign integration remain unfinished. These changes are local and
 have not been deployed or verified as a complete browser game.
+
+
+## Normal derived stdout filebuf construction
+
+Capture adds the readonly vtable entry at `3088da78` and loader-zero-filled
+four-byte global state at `30af6a00`. Previous methods, imports, metadata and
+image records were compared and preserved. The buffer-initialization
+continuation now validates its actual return caller for both base and derived
+construction.
+
+The derived path executes the captured vtable store, flag-byte stores and second
+buffer-init call. It validates the actual stdout FILE argument in the original
+static-stream image at offset 32, then binds slots 16/20 to FILE offset 40,
+32/36 to offset 32, and 48/52 to offset 36. It retains the FILE pointer at object
+offset 76, copies the actual global-state word to offset 68, zeroes offset 60,
+returns the actual receiver, restores ESI and executes `RET 4` to `30791f41`.
+Numeric pointer bits remain unknown and their actual owners/offsets are retained.
+The null-FILE constructor branch is outside this admitted original stdout call.
+
+TypeScript checking, all 159 source/image checks and two focused
+normal-continuation/enum checks passed. The normal test verifies the derived
+vtable owner, FILE owner, all six FILE-backed selector identities, preserved
+zero fields, exact masks and original constructor return. This establishes the
+admitted normal stdout filebuf construction path, not all exception/destructor
+paths. The normal boundary is `30791f41`, before its shutdown registration.
+That registration, subsequent engine startup and complete campaign integration
+remain unfinished. This checkpoint remains local and has not been deployed as
+a complete browser game.
