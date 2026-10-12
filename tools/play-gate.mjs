@@ -25,6 +25,7 @@ import { execFileSync, spawnSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 import { openPage } from './cdp.mjs';
+import { writeLatestPerf } from './latest-perf.mjs';
 
 const args = Object.fromEntries(process.argv.slice(2).reduce((acc, a, i, all) => (a.startsWith('--') ? [...acc, [a.slice(2), all[i + 1]?.startsWith('--') || all[i + 1] === undefined ? 'true' : all[i + 1]]] : acc), []));
 const URL_ = args.url ?? 'https://ael-dev3.github.io/Tervain/';
@@ -166,7 +167,12 @@ async function runProfile(name) {
     const S = gate.samples.map(([t, ph, vis, dist, upY, headUp, nx, ny, step, swim, pr, want]) => ({ t, ph, vis, dist, upY, headUp, nx, ny, step, swim, pr, want }));
     const play = S.filter((s) => !['setup', 'pause', 'end'].includes(s.ph));
     const timed = [];
-    for (let i = 1; i < S.length; i++) if (S[i].ph === S[i - 1].ph && !['setup', 'pause', 'end'].includes(S[i].ph)) timed.push(S[i].t - S[i - 1].t);
+    const slowFrames = [];
+    for (let i = 1; i < S.length; i++) if (S[i].ph === S[i - 1].ph && !['setup', 'pause', 'end'].includes(S[i].ph)) {
+      const ms = S[i].t - S[i - 1].t;
+      timed.push(ms);
+      if (ms > LIMITS.slowFrameMs) slowFrames.push({ ms, time: S[i].t, phase: S[i].ph });
+    }
     const p95 = quantile(timed, 0.95), median = quantile(timed, 0.5);
     const spikes = timed.filter((d) => d > LIMITS.spikeMs);
     const slowShare = timed.filter((d) => d > LIMITS.slowFrameMs).length / Math.max(1, timed.length);
@@ -200,7 +206,7 @@ async function runProfile(name) {
       for (let i = 1; i < ss.length; i++) d.push(ss[i].t - ss[i - 1].t);
       perPhase[ph] = { frames: ss.length, median: +quantile(d, 0.5).toFixed(1), p95: +quantile(d, 0.95).toFixed(1), max: +Math.max(0, ...d).toFixed(1) };
     }
-    return { name, prof, dir, printed, failures, stats: { frames: play.length, median, p95, spikes: spikes.length, slowShare, hidden: hidden.length, closeHidden, worstToggles, badPose: badPose.length, jumps, pixelRatio: [Math.min(...play.map((x) => x.pr)), Math.max(...play.map((x) => x.pr))], longTasks: longTasks.length, consoleErrors: logs, perPhase }, clip: enc.status === 0 };
+    return { name, prof, dir, printed, failures, stats: { frames: play.length, median, p95, p99: quantile(timed, 0.99), max: Math.max(0, ...timed), slowFrames, spikes: spikes.length, slowShare, hidden: hidden.length, closeHidden, worstToggles, badPose: badPose.length, jumps, pixelRatio: [Math.min(...play.map((x) => x.pr)), Math.max(...play.map((x) => x.pr))], longTasks: longTasks.length, consoleErrors: logs, perPhase }, clip: enc.status === 0 };
   } catch (err) {
     failures.push(`run failed: ${err.message}`);
     return { name, prof, dir, failures, stats: null };
@@ -231,6 +237,7 @@ for (const r of results) {
 }
 fs.writeFileSync(path.join(OUT, `${TAG}.md`), md.join('\n'));
 fs.writeFileSync(path.join(OUT, `${TAG}.json`), JSON.stringify({ tag: TAG, url: URL_, pass, stale, results: results.map(({ prof, ...r }) => ({ ...r, profile: prof })) }, null, 1));
+writeLatestPerf({ tag: TAG, pass, stale, results }, args.latest ?? 'docs/perf/LATEST.md', args['artifact-base-url'] ?? '');
 // The line the Play gate check looks for on a pull request (.github/workflows/play-gate.yml), printed only for a build
 // whose commit was checked, so a run against an unknown build cannot pass a pull request.
 if (pass && stale.want && stale.live?.revision) md.push('', `play-gate: PASS ${stale.live.revision}`);
