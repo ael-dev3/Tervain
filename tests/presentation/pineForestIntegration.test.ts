@@ -178,6 +178,28 @@ describe('historical source-Pine component render substitution without the Meshy
     forest.dispose!(); vi.unstubAllGlobals();
   });
 
+  it('reuses static world tree bounds during continuous camera turns', () => {
+    vi.stubGlobal('location', { search: '' });
+    const quality = 'high';
+    const forest = buildFlora({ terrain, excl, colliders: new Colliders(), quality,
+      settings: { ...defaultSettings(), quality }, library: AssetLibrary.empty(),
+      sway: { uTime: { value: 0 }, uWind: { value: 0 } } }, templates);
+    const tree = population.find(t => t.sp === 'pine')!;
+    const camera = new THREE.PerspectiveCamera(58, 1.6, .1, 1400);
+    camera.position.set(tree.x, tree.y + 2, tree.z + 30);
+    camera.lookAt(tree.x, tree.y + 2, tree.z); camera.updateMatrixWorld();
+    const frame: FrameContext = { camera, quality, time: 1, focus: camera.position.clone(), nightness: 0,
+      sunDir: new THREE.Vector3(1, 1, 1), shadowFrustum: null, reducedMotion: false, hour: 11, view: worldView(createInitialState()) };
+    forest.update(1 / 60, frame);
+    const bounds = vi.spyOn(THREE.Sphere.prototype, 'applyMatrix4');
+    try {
+      for (let i = 0; i < 60; i++) { camera.rotateY(.01); camera.updateMatrixWorld(); forest.update(1 / 60, frame); }
+      process.stdout.write(`static tree bound transforms during 60 turns: ${bounds.mock.calls.length}\n`);
+      expect(bounds.mock.calls.length).toBe(0);
+      expect(forest.stats!().treesDrawn).toBeGreaterThan(0);
+    } finally { bounds.mockRestore(); forest.dispose!(); vi.unstubAllGlobals(); }
+  });
+
   it('uploads only the active tree prefix after turning the camera', () => {
     vi.stubGlobal('location', { search: '' });
     const quality = 'high';
