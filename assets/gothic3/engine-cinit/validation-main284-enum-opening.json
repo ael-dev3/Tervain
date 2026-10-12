@@ -1,0 +1,25 @@
+{
+  "schema": "gothic3.validation-checkpoint.v1",
+  "testedRevision": "7d9a99d3d0974ad0c5ac4abf3f7b1150065231dc",
+  "scope": "Native enum-template opening character integrated with main 4788f29ef7724fc708b95043de88d418aef13b1d",
+  "typecheck": {
+    "exitCode": 0
+  },
+  "relatedChecks": {
+    "files": 4,
+    "passed": 125,
+    "exitCode": 0
+  },
+  "productionBuild": {
+    "exitCode": 0
+  },
+  "nativePendingInstruction": "30697b16",
+  "fullSuiteRun": false,
+  "deploymentVerified": false,
+  "campaignCompletionVerified": false,
+  "logs": [
+    "gothic3-main284-enum-opening-typecheck.log",
+    "gothic3-main284-enum-opening-related.log",
+    "gothic3-main284-enum-opening-build.log"
+  ]
+}
