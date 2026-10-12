@@ -16,8 +16,25 @@ const from = { x: 0, y: 1.2, z: 0 }, to = { x: 0, y: 1.2, z: 8 };
 beforeAll(() => initializePhysics());
 
 describe('real finite projectile world contacts', () => {
+  it('does not rescan immutable fixed collider IDs for every arrow segment', () => {
+    const colliders = new Colliders();
+    for (let i = 0; i < 100; i++) colliders.box(`scenery:${i}`, 30 + i * 2, 30, .5, .5);
+    const physics = new RealmPhysics(floor, colliders, []);
+    let reads = 0;
+    for (const source of colliders.all) {
+      const id = source.id;
+      Object.defineProperty(source, 'id', { get: () => { reads++; return id; } });
+    }
+    try {
+      for (let i = 0; i < 120; i++) expect(physics.traceProjectile(from, to)).toBeNull();
+      expect(reads).toBe(0);
+    } finally { physics.dispose(); }
+  });
+
   it('ignores wildlife contact capsules while retaining NPC and cargo projectile blockers', () => {
-    const physics = new RealmPhysics(floor, new Colliders(), [crate]);
+    const colliders = new Colliders();
+    colliders.circle('animal:987', 0, 1, .6);
+    const physics = new RealmPhysics(floor, colliders, [crate]);
     const animal = { id: 'animal:1005232351', x: 0, y: 0, z: 2, radius: .6, height: 2.1, active: true };
     const person = { ...animal, id: 'person:harrow', z: 4, radius: .35 };
     try {
