@@ -8,7 +8,7 @@
  * (awaiting promises), page.shot(path) saves a PNG, page.wait(ms) sleeps, page.console() returns logged messages.
  * Needs `npm run dev` on http://127.0.0.1:5173 and Chrome or Edge.
  */
-import { spawn } from 'node:child_process';
+import { spawn, spawnSync } from 'node:child_process';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
@@ -37,7 +37,8 @@ export async function openPage(url = process.env.TERVAIN_URL ?? 'http://127.0.0.
   if (process.platform === 'win32') browserArgs.splice(4, 0, '--use-angle=d3d11');
   const proc = spawn(browser, browserArgs, { stdio: 'ignore' });
   let targets = null;
-  for (let i = 0; i < 60 && !targets; i++) {
+  // A first launch after a browser update can take well over 15 s.
+  for (let i = 0; i < 120 && !targets; i++) {
     try {
       const r = await fetch(`http://127.0.0.1:${port}/json`);
       const list = await r.json();
@@ -122,7 +123,10 @@ export async function openPage(url = process.env.TERVAIN_URL ?? 'http://127.0.0.
     close() {
       try {
         ws.close();
-        proc.kill();
+        // On Windows killing the browser leaves its GPU and renderer children running, and the next launch then fails
+        // or shares a GPU process with them: end the whole tree.
+        if (process.platform === 'win32' && proc.pid) spawnSync('taskkill', ['/PID', String(proc.pid), '/T', '/F'], { stdio: 'ignore' });
+        else proc.kill();
       } catch {
         /* already gone */
       }
