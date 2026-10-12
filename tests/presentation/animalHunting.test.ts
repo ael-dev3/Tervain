@@ -29,6 +29,29 @@ function record(status: AnimalHuntRecord['status'], pose: { x: number; y: number
 }
 const tiger = ANIMALS.find(animal => animal.species === 'tiger')!;
 
+it('rejects distant arrow segments before refreshing descendant transforms and skeletons', () => {
+  const module = buildAnimals({ terrain, colliders: new Colliders(), quality: 'low' }, new Map([[tiger.id, fixture()]]), [tiger], () => {});
+  try {
+    const root = module.group.getObjectByName(`${tiger.species} / ${tiger.id}`)!;
+    let skin!: THREE.SkinnedMesh;
+    root.traverse(object => { if ((object as THREE.SkinnedMesh).isSkinnedMesh) skin = object as THREE.SkinnedMesh; });
+    const update = vi.spyOn(skin.skeleton, 'update');
+    const descendants = vi.spyOn(skin, 'updateMatrixWorld');
+    const home = module.snapshot()[0]!;
+    for (let i = 0; i < 120; i++) {
+      expect(module.traceArrow(new THREE.Vector3(home.x + 100, .3, home.z), new THREE.Vector3(0, 0, 1), .55)).toBeNull();
+    }
+    expect(update).not.toHaveBeenCalled();
+    expect(descendants).not.toHaveBeenCalled();
+    // A candidate still refreshes its current root and bone transforms, not an old broadphase snapshot.
+    root.position.x += 2;
+    const hit = module.traceArrow(new THREE.Vector3(home.x + 2, home.y + .3, home.z + 3), new THREE.Vector3(0, 0, -1), 6);
+    expect(hit?.id).toBe('tiger');
+    expect(update).toHaveBeenCalled();
+    expect(descendants).toHaveBeenCalled();
+  } finally { module.dispose?.(); }
+});
+
 describe('hunting through the existing nineteen animal controllers', () => {
   it('maps every durable identity once, including all three boars, while pets and the saddled companion stay peaceful', () => {
     expect(ANIMAL_IDS).toHaveLength(19); expect(new Set(Object.values(ANIMAL_MODEL_IDS)).size).toBe(19);
