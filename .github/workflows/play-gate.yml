@@ -18,6 +18,7 @@ permissions:
 
 jobs:
   play-gate:
+    name: ${{ github.event_name == 'pull_request' && 'play-gate' || 'Update PR gate evidence' }}
     if: github.event_name == 'pull_request' || github.event.issue.pull_request
     runs-on: ubuntu-latest
     steps:
@@ -37,5 +38,7 @@ jobs:
           fi
           gh api "repos/$REPO/statuses/$head" -f state=$state -f context=play-gate -f description="$desc" >/dev/null
           echo "$desc"
-          # The job shares the status's name, so it must fail with it: branch protection accepts either.
-          [ "$state" = success ]
+          # PR-triggered checks belong to the PR head and must fail with the required status.
+          # Comment-triggered checks belong to the default branch: they report successful status publication,
+          # while the required play-gate status above still passes/fails on the actual PR head.
+          [ "$GITHUB_EVENT_NAME" = issue_comment ] || [ "$state" = success ]
