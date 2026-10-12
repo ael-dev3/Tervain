@@ -45,3 +45,23 @@ evidence, not executed behavior.
 Local source/image checks passed: 159 tests across two files. The runtime is
 unchanged by this evidence checkpoint and remains pending at `0x30791f4d`.
 Complete native startup and campaign gameplay remain unfinished.
+
+## Implemented initializer entry
+
+The TypeScript continuation now executes the five original instructions from
+`0x30791f4d` through CALL `0x30791f5b`. It retains the actual filebuf owner and
+output-stream receiver and pushes the original arguments (filebuf, zero, one).
+The pending constructor is `0x305f2650`; its return address is `0x30791f60`.
+No constructor return or shutdown registration is manufactured.
+
+A 56-byte BSS prefix at `0x30af6e58` is captured for the receiver. This is the
+required prefix through virtual-base fill-character storage, not a claim about
+the complete native object size. It is initially zero and fully known. The
+frame snapshot records the live constructor receiver and arguments explicitly;
+the generic thread snapshot intentionally omits this Engine image provenance.
+
+Typechecking and the focused contiguous-initializer runtime case pass. The case
+checks the original argument owners, flag values, pending call, unchanged receiver
+bytes, existing locale and filebuf state, and idempotent pending startup. The
+previous stack-position assertion was updated to the live constructor CALL,
+which has pushed three arguments and a return address (16 bytes).

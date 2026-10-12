@@ -762,6 +762,9 @@ def capture(study):
         ('sharedCriticalSectionReferenceAddress', 0x30af6dd0, 1),
         ('sharedCriticalSectionSecondReferenceAddress', 0x30af6e01, 1),
         ('standardOutputFilebufStorage', 0x30af6e08, 80),
+        # Proven required prefix: virtual base at +4, fill byte at +0x34.
+        # This does not assert the complete size of the native stream object.
+        ('standardOutputStreamStorage', 0x30af6e58, 56),
         ('standardStreambufVtable', 0x3088da3c, 4),
         ('standardFilebufVtable', 0x3088da78, 4),
         ('standardFilebufGlobalState', 0x30af6a00, 4),
