@@ -63,7 +63,8 @@ jobs:
           cache: npm
       - run: npm ci
       - name: Original engine I/O frame suite
-        run: npx vitest run tests/gothic3-dialogue/engine-io-frame.test.ts
+        # Its tests run for longer than vitest's 20 s default on a hosted runner.
+        run: npx vitest run tests/gothic3-dialogue/engine-io-frame.test.ts --testTimeout=180000
 
   deploy:
     if: github.event_name != 'pull_request'
