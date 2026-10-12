@@ -96,6 +96,23 @@ function turnBone(bone: THREE.Bone, delta: THREE.Quaternion): void {
 const finite = (value: number | undefined, fallback = 0) => Number.isFinite(value) ? value! : fallback;
 /** Measured low-sole/backward-travel contact estimates, not source animation events. */
 export const HERO_GAIT_PHASE = { Walking: 0.292, Running: 0.311, rightContact: 0.48 } as const;
+/**
+ * The run clip's right stance sweeps too little ground: measured at the ball of the foot under real keys, the planted
+ * right foot slid forward at about 18% of the body's speed while the left held still (playtest 4). The clip's time is
+ * warped within each cycle instead of bending the leg: it runs 1 + 2·gain as fast through the right stance (centred
+ * on `centre`), exactly as fast through the left stance, and 1 − gain through both swings, so a cycle keeps its length
+ * and the left contact its moment.
+ */
+export const HERO_RUN_RIGHT_STANCE = { centre: 0.555, gain: 0.11 } as const;
+const runWarpShape = (p: number) => {
+  const x = p - HERO_RUN_RIGHT_STANCE.centre;
+  return Math.sin(2 * Math.PI * x) / (2 * Math.PI) + Math.sin(4 * Math.PI * x) / (4 * Math.PI);
+};
+const RUN_WARP_ZERO = runWarpShape(0);
+/** Gait phase to the run clip's own phase (see HERO_RUN_RIGHT_STANCE). */
+export function runClipPhase(phase: number): number {
+  return phase + HERO_RUN_RIGHT_STANCE.gain * (runWarpShape(phase) - RUN_WARP_ZERO);
+}
 export const HERO_IDLE_STANCE = { clip: 'Casual_Walk', time: 2.65 } as const;
 /**
  * Swimming leans the whole figure forward about the chest (which stays at the waterline) so the head rides above the
@@ -580,7 +597,7 @@ export class HeroAnimationController {
       action.setEffectiveWeight(name === 'Dead' ? this.deadWeight : name === 'RelaxedIdle' ? (1 - this.motionBlend) * live :
         this.motionBlend * (name === 'Running' ? this.runWeight : 1 - this.runWeight) * live);
       action.time = name === 'Walking' ? fraction(this.phase + HERO_GAIT_PHASE.Walking) * action.getClip().duration :
-        name === 'Running' ? fraction(this.phase + HERO_GAIT_PHASE.Running) * action.getClip().duration :
+        name === 'Running' ? fraction(runClipPhase(this.phase) + HERO_GAIT_PHASE.Running) * action.getClip().duration :
         name === 'Dead' ? this.deadClock : 0;
     }
     this.mixer.update(0);
