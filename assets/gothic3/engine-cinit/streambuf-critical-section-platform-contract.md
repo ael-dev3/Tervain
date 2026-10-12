@@ -547,3 +547,30 @@ the outer lock remains held at depth one; no nested acquisition or retain
 success is fabricated. The normal boundary is `30670503` from `30464eda`.
 Nested acquisition/release, default publication, outer cleanup, filebuf startup
 and full campaign integration remain unfinished. This checkpoint is local.
+
+
+## Nested locale acquisition and retain increment
+
+The lock constructor continuation is shared with distinct actual receiver and
+return checks for the outer initializer and nested retain helper. Platform
+admission now recognizes only the captured `30464eda` nested caller beneath
+`30670518`/`30671357`, with its `306708a9` retain caller present. The nested
+stack receiver must equal that constructor call's position plus 12; the original
+outer receiver must still equal EBP minus 16. Both require their actual stored
+index and shared-array argument identity, with the existing registered owner.
+
+The fresh nested call enters the same initialized shared section, increasing
+depth from one to two, and returns through `30464edf`. The captured helper loads
+the actual reference count, preserves the `-1` sentinel branch, increments the
+normal count from one to two, stores it, derives its local lock receiver and
+calls the original destructor at `30464ef1`, returning through `30464ef6`.
+
+TypeScript checking and eight focused runtime checks passed. The normal check
+verifies two actual entered/returned section calls, depth two, reference count
+two, returned nested constructor, pending destructor and exact stack receiver
+and ESP. Earlier failure/admission/enum cases passed alongside it. The initial
+TypeScript check caught an unused EBP local introduced by refactoring; it was
+removed and checking passed on rerun. The normal boundary is `30670524` from
+`30464ef1`. Nested/outer release, default publication, outer cleanup and filebuf
+startup remain unfinished. This checkpoint is local, not a hosted campaign
+completion claim.
