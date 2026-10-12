@@ -1768,7 +1768,19 @@ stack.#engineCinitFrame!.pc='10003cd8';engineCinitUnMangleInstruction('10003cd8'
               if(stack.#numeric(register('ECX'),4)>=16){stack.#engineCinitFrame!.pc='303ed100';return known(undefined);}
               assign('303ed104',()=>setRegister('EAX',register('EBX')));
               assign('303ed106',()=>{const word=stack.#load(stack.#stack,stack.#address(register('ESP'))+16),p=stack.#record(word).provenance;if(p?.kind!=='engine-image'||p.crt!==crt||p.fields!==name.value||p.offset!==0)throw new Error('Actual locale assignment source argument required');setRegister('EBP',word);});
-              stack.#engineCinitFrame!.pc='303ed10a';return known(undefined);
+              stack.#engineCinitFrame!.pc='303ed10a';
+              // Translated control-flow join, not a fabricated numeric pointer comparison.
+              // With an empty destination both unsigned address orderings reach 303ed13f.
+              if(NativeHeapObjectViews.prototype.readUnsigned.call(object,44)!==0)return known(undefined);
+              objectPointer(register('ESI'),24);objectPointer(register('EAX'),28);objectPointer(register('EBX'),28);
+              const sourcePointer=stack.#record(register('EBP')).provenance;if(sourcePointer?.kind!=='engine-image'||sourcePointer.crt!==crt||sourcePointer.fields!==name.value||sourcePointer.offset!==0)throw new Error('Actual distinct locale assignment source required');
+              const allocationProof=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields:object,offset:0},52);if(!allocationProof.known)throw new Error(allocationProof.reason);
+              if(object.bytes.buffer===name.value.bytes.buffer)throw new Error('Distinct readonly literal and heap storage required');
+              for(const pc of ['303ed10a','303ed10c','303ed10e','303ed111','303ed117','303ed119','303ed11c','303ed11e','303ed120'])engineCinitInstruction('30042974',pc);
+              // EDX differs between the two paths; neither its value nor branch flags are claimed.
+              setRegister('EDX',stack.#mint(0,0));stack.#flags(0,0);
+              stack.#trace.push('Translated empty locale string overlap join 303ed10a to 303ed13f; numeric address order unknown');
+              stack.#engineCinitFrame!.pc='303ed13f';return known(undefined);
             }
             if(target==='30791ef6'||target==='30791f18'){
               const initializer=target==='30791f18'

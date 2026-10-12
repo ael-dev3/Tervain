@@ -291,3 +291,28 @@ capacity, unchanged member contents and masks, opaque pointer bits, and saved
 stack position; earlier failure paths remain intact. Assignment, constructor
 returns, cleanup, outer locale publication and filebuf startup remain incomplete.
 This checkpoint remains local and does not prove a hosted playable campaign.
+
+
+## Empty-destination overlap join
+
+The runtime now admits a translated join from `303ed10a` to `303ed13f` only
+for the actual zero-length destination, inline member pointers, literal source
+and canonical live 52-byte allocation. The literal and heap storage must have
+distinct buffers. All relevant captured comparison and branch rows are admitted.
+No numeric pointer ordering is assigned.
+
+Proof: let S be the unsigned source address and D the inline destination address.
+If S < D, `303ed10c` jumps directly to `303ed13f`. Otherwise capacity 15 selects
+inline storage again; the destination end is D + 0 = D, without overflow.
+`303ed120` therefore jumps to the same join because D <= S. Neither path calls
+another routine or writes memory. EAX, ECX, EBX, EBP, ESI, EDI and the stack agree
+at the join. EDX and comparison flags can differ, so the translated continuation
+marks them unknown. It records an explicit translated-join trace, rather than
+claiming one original numeric branch was executed. Nonzero destination lengths
+remain unsupported at `303ed10a`.
+
+TypeScript checking and two focused normal-continuation/enum checks passed.
+The earlier eight-check result belongs to the preceding checkpoint; it is not
+a full rerun of this change. The normal boundary is now `303ed13f`, before the
+length/growth checks and copy call. String assignment, constructor returns,
+cleanup and campaign integration remain unfinished; this checkpoint is local.
