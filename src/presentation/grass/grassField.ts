@@ -179,7 +179,8 @@ export function createGrassField(terrain: Terrain, habitat: Habitat, quality: Qu
     update(camera) {
       const ok = materials.every((m) => m.ok());
       // Near and far grass share frame work; only unseen reserve tiles consume this quota.
-      const reserve = { remaining: 2 };
+      // Stop starting unseen work after 2 ms; visible holes and initial preparation still finish immediately.
+      const reserve = { remaining: 2, deadline: performance.now() + 2 };
       for (const layer of layers) { layer.enabled = ok; layer.update(camera, reserve); }
     },
     stats() {

@@ -94,6 +94,38 @@ describe('Ground vegetation visibility', () => {
     }
   });
 
+  it('stops unseen generation across layers after one costly tile without leaving visible holes', () => {
+    const a = fixture(), b = fixture(), camera = new THREE.Vector3(0, 1, 0);
+    let clock = 0;
+    const now = vi.spyOn(performance, 'now').mockImplementation(() => clock);
+    try {
+      // Loading still completes both initial windows even with an expired deadline.
+      a.layer.update(camera, { remaining: 0, deadline: -1 });
+      b.layer.update(camera, { remaining: 0, deadline: -1 });
+      for (const f of [a, b]) {
+        const generate = f.generate.getMockImplementation()!;
+        f.generate.mockImplementation((...args) => { const n = generate(...args); clock += 3; return n; });
+        f.generate.mockClear();
+      }
+      camera.x += SIZE;
+      clock = 0;
+      const reserve = { remaining: 2, deadline: 2 };
+      a.layer.update(camera, reserve); b.layer.update(camera, reserve);
+      expect(a.generate.mock.calls.length + b.generate.mock.calls.length).toBe(1);
+      expect(reserve.remaining).toBe(1);
+      // An expired reserve deadline must still let a teleport fill all visible tiles.
+      camera.set(352, 1, -224);
+      for (const f of [a, b]) {
+        f.layer.update(camera, { remaining: 2, deadline: 0 });
+        const active = tiles(f.layer);
+        for (let tz = -18; tz <= -10; tz++) for (let tx = 18; tx <= 26; tx++) {
+          if (tileHorizontalDistance(tx * SIZE, tz * SIZE, SIZE, camera) < END - 1)
+            expect(active.has(`${tx}:${tz}`)).toBe(true);
+        }
+      }
+    } finally { now.mockRestore(); a.layer.dispose(); b.layer.dispose(); }
+  });
+
   it('does not regenerate the same horizontally nearby high-ground tiles every frame', () => {
     const { layer, generate } = fixture(1000);
     const camera = new THREE.Vector3(0, 1, 0);
