@@ -1411,6 +1411,27 @@ describe('audio engine and the recorded world', () => {
     expect(ctx.nodes).toHaveLength(nodes);
   });
 
+  it('spreads animal call preloads across resumed play frames instead of decoding the whole herd at once', async () => {
+    const { ctx, audio } = engine();
+    const animalFiles = new Set<string>(Object.values(ANIMAL_AUDIO.species).flatMap((animal) => [...animal.files]));
+    const animalDecodes = () => ctx.decodeAudioData.mock.calls
+      .map(([data]) => path.basename(data.file).replace(/\.(ogg|m4a)$/, ''))
+      .filter((file) => animalFiles.has(file));
+
+    audio.resume();
+    audio.prepareWorld();
+    audio.updateWorld(0.05, frame(PLACES.rillford));
+    await flush();
+    expect(animalFiles.size).toBeGreaterThan(8);
+    expect(animalDecodes()).toHaveLength(1);
+
+    for (let i = 0; i < 5; i++) { audio.updateWorld(0.05, frame(PLACES.rillford)); await flush(); }
+    expect(animalDecodes().length).toBeLessThan(animalFiles.size);
+
+    for (let i = 0; i < 80; i++) { audio.updateWorld(0.05, frame(PLACES.rillford)); await flush(); }
+    expect(new Set(animalDecodes())).toEqual(animalFiles);
+  });
+
   it('keeps missing and closed audio devices unallocated during entry preparation', () => {
     const { ctx, audio } = engine();
     audio.prepareWorld();
@@ -1442,7 +1463,7 @@ describe('audio engine and the recorded world', () => {
     expect(ctx.sources).toHaveLength(0);
     audio.resume();
     audio.updateWorld(0.05, frame({ x: 0, z: 0 }));
-    await flush();
+    for (let i = 0; i < 80; i++) { audio.updateWorld(0.05, frame({ x: 0, z: 0 })); await flush(); }
     emit('audible');
     expect(playing(ctx, 'dog-2')).toHaveLength(1);
     settings.volumes.ambience = 0;

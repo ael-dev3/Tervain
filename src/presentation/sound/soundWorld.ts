@@ -225,7 +225,10 @@ export class SoundWorld {
   private readonly animalLoads = new Map<AnimalCallFile, Promise<void>>();
   private readonly animalVoices = new Map<string, Voice>();
   private readonly animalLastCall = new Map<string, number>();
+  private animalPreloadQueue: AnimalCallFile[] | null = null;
+  private animalPreloadDelay = 0;
   private animalsPrepared = false;
+  private readonly staggerAnimalPreloads: boolean;
   private animalsAudible = true;
   /** Stings share the music one-shot cap and remain owned until ended or cancelled. */
   private readonly stings = new Set<Voice>();
@@ -291,6 +294,7 @@ export class SoundWorld {
     this.picker = new VariantPicker(random);
     this.emitters = new EmitterScheduler(random);
     this.director = new MusicDirector(random);
+    this.staggerAnimalPreloads = !eagerBanks;
     const probe = typeof Audio === 'function' ? new Audio() : null;
     this.ext = probe && probe.canPlayType('audio/ogg; codecs="opus"') ? 'ogg' : 'm4a';
     try {
@@ -458,10 +462,25 @@ export class SoundWorld {
     return p;
   }
 
-  private prepareAnimals() {
+  private prepareAnimals(dt: number) {
     if (this.animalsPrepared || !this.animalsAudible || this.hidden) return;
+    if (!this.staggerAnimalPreloads) {
+      this.animalsPrepared = true;
+      for (const animal of Object.values(ANIMAL_AUDIO.species)) for (const file of animal.files) void this.loadAnimal(file);
+      return;
+    }
+    this.animalPreloadQueue ??= Object.values(ANIMAL_AUDIO.species).flatMap((animal) => [...animal.files]);
+    if (this.animalLoads.size > 0) return;
+    this.animalPreloadDelay = Math.max(0, this.animalPreloadDelay - dt);
+    if (this.animalPreloadDelay > 0) return;
+    while (this.animalPreloadQueue.length > 0) {
+      const file = this.animalPreloadQueue.shift()!;
+      if (this.animalBuffers.has(file) || this.animalLoads.has(file)) continue;
+      void this.loadAnimal(file);
+      this.animalPreloadDelay = 0.12;
+      return;
+    }
     this.animalsPrepared = true;
-    for (const animal of Object.values(ANIMAL_AUDIO.species)) for (const file of animal.files) void this.loadAnimal(file);
   }
 
   /** Fetches all of a speaker's spoken lines at once. The game instead names the lines it may need (`speech`). */
@@ -814,7 +833,7 @@ export class SoundWorld {
       this.clock += dt;
       if (frame) {
         this.lastFrame = frame;
-        if (frame.mode === 'play') this.prepareAnimals();
+        if (frame.mode === 'play') this.prepareAnimals(dt);
         this.listenerAcc += dt;
         if (this.listenerAcc >= LISTENER_INTERVAL) {
           this.listenerAcc = 0;
@@ -1580,6 +1599,8 @@ export class SoundWorld {
     this.voiceUsed.clear();
     this.animalBuffers.clear();
     this.animalLoads.clear();
+    this.animalPreloadQueue = null;
+    this.animalsPrepared = false;
     this.animalLastCall.clear();
   }
 }
