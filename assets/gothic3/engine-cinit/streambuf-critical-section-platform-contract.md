@@ -704,3 +704,28 @@ pending destructor. Earlier failure/admission cases passed alongside it.
 The normal boundary is `30670524` from `305ee6dd`. Streambuf release, buffer
 initialization, filebuf completion and campaign integration remain unfinished.
 This checkpoint remains local and does not establish full hosted playability.
+
+
+## Streambuf release and buffer-initialization caller
+
+Leave admission now includes the captured `305ee6dd` destructor with its
+`305eed33` enclosing constructor. It pairs the actual receiver against destructor
+position plus 20 and the returned `305ee6c6` constructor position plus 24,
+then consumes that constructor's returned enter receipt. The initializer and
+nested-retain pairings retain their own checks.
+
+The streambuf release reduces depth one to zero and returns through `305ee6e2`.
+The runtime validates the actual streambuf receiver, stores the retained four-byte
+locale-wrapper pointer at receiver offset 56, and calls `305ed990` at
+`305ee6eb`, returning through `305ee6f0`. The frame snapshot retains that wrapper
+pointer expression separately from the locale object it references.
+
+TypeScript checking and ten focused runtime checks passed. The normal check
+proves three entered/released section calls, depth zero, reference count three,
+locale-wrapper ownership, exact changed field masks and the actual pending
+buffer-init return word. Earlier failure and release-admission cases passed
+alongside it. Inspection of the captured next routine shows six internal buffer
+selectors and their zero initialization; those instructions are not executed by
+this checkpoint. The normal boundary is `305ed990`. Buffer initialization,
+constructor returns, filebuf startup and campaign integration remain unfinished.
+This checkpoint remains local, not a hosted complete-game claim.
