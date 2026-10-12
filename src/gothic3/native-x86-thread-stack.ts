@@ -1800,7 +1800,24 @@ stack.#engineCinitFrame!.pc='10003cd8';engineCinitUnMangleInstruction('10003cd8'
               secureCopy('30674b7b',()=>{const capacity=stack.#numeric(copyArgument(12),4),count=stack.#numeric(register('ESI'),4);stack.#arithmeticFlags(capacity,count,(capacity-count)>>>0,4,true);});secureCopy('30674b7e',()=>{});
               if(stack.#numeric(copyArgument(12),4)<stack.#numeric(register('ESI'),4)){stack.#engineCinitFrame!.pc='30674b91';return known(undefined);}
               secureCopy('30674b80',()=>stack.#push(register('ESI')));secureCopy('30674b81',()=>stack.#push(copyArgument(16)));secureCopy('30674b84',()=>stack.#push(copyArgument(8)));secureCopy('30674b87',()=>stack.#call('30674b87','30674b8c'));
-              stack.#engineCinitFrame!.pc='30671cf0';return known(undefined);
+              stack.#engineCinitFrame!.pc='30671cf0';
+              // Translated one-byte memcpy contract; alignment/dispatch branches are not claimed executed.
+              const copyEsp=stack.#address(register('ESP')),destination=stack.#load(stack.#stack,copyEsp+4),source=stack.#record(stack.#load(stack.#stack,copyEsp+8)).provenance,count=stack.#numeric(stack.#load(stack.#stack,copyEsp+12),4);
+              objectPointer(destination,28);if(count!==1||source?.kind!=='engine-image'||source.crt!==crt||source.fields!==name.value||source.offset!==0)return known(undefined);
+              const copyProof=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,stack.#platform,{fields:object,offset:28},1);if(!copyProof.known)throw new Error(copyProof.reason);
+              const literal=NativeEngineCinitImages.imageForCrt(images.value,crt,'standardLocaleNameLiteral');if(!literal.known||literal.value!==name.value||object.bytes.buffer===name.value.bytes.buffer)throw new Error('Actual disjoint original byte-copy inputs required');
+              const byte=NativeHeapObjectViews.prototype.readUnsigned.call(name.value,0,1);stack.#invalidateRange(object,28,1);NativeHeapObjectViews.prototype.writeUnsigned.call(object,28,byte,1);
+              stack.#trace.push('Translated one-byte locale memcpy contract 30671cf0; native alignment path unknown');hostReturn(destination,0);
+              const copyReturn=stack.#record(stack.#load(stack.#bank,stack.#reg('EAX'))).provenance;if(copyReturn?.kind!=='engine-allocation'||copyReturn.fields!==object||copyReturn.offset!==28)throw new Error('Actual memcpy destination return required');
+              secureCopy('30674b8c',()=>{const before=stack.#address(register('ESP'));setRegister('ESP',stack.#stackWord(before+12));stack.#arithmeticFlags(before,12,before+12,4,false);});secureCopy('30674b8f',()=>{});
+              secureCopy('30674b52',()=>{setRegister('EAX',stack.#mint(0,0xffffffff));stack.#logicalFlags(0,0xffffffff,4);});secureCopy('30674b54',()=>{});
+              secureCopy('30674bbb',()=>pop('EDI'));secureCopy('30674bbc',()=>pop('ESI'));secureCopy('30674bbd',()=>pop('EBP'));secureCopy('30674bbe',()=>{const p=stack.#record(stack.#ret()).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!=='303ed196')throw new Error('Actual secure-copy caller return required');});
+              assign('303ed196',()=>{const before=stack.#address(register('ESP'));setRegister('ESP',stack.#stackWord(before+16));stack.#arithmeticFlags(before,16,before+16,4,false);});
+              assign('303ed199',()=>{const capacity=NativeHeapObjectViews.prototype.readUnsigned.call(object,48);stack.#arithmeticFlags(capacity,16,(capacity-16)>>>0,4,true);});assign('303ed19d',()=>{objectPointer(register('ESI'),24);stack.#store(object,44,register('EDI'));});assign('303ed1a0',()=>{});
+              if(NativeHeapObjectViews.prototype.readUnsigned.call(object,48)>=16){stack.#engineCinitFrame!.pc='303ed1a2';return known(undefined);}
+              assign('303ed1a4',()=>{objectPointer(register('EBX'),28);const at=28+stack.#numeric(register('EDI'),4);stack.#invalidateRange(object,at,1);NativeHeapObjectViews.prototype.writeUnsigned.call(object,at,0,1);});
+              assign('303ed1a8',()=>pop('EDI'));assign('303ed1a9',()=>setRegister('EAX',register('ESI')));assign('303ed1ab',()=>pop('ESI'));assign('303ed1ac',()=>pop('EBP'));assign('303ed1ad',()=>pop('EBX'));assign('303ed1ae',()=>{const p=stack.#record(stack.#ret(8)).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!=='303ed654')throw new Error('Actual locale assignment constructor return required');});
+              stack.#engineCinitFrame!.pc='303ed654';return known(undefined);
             }
             if(target==='30791ef6'||target==='30791f18'){
               const initializer=target==='30791f18'

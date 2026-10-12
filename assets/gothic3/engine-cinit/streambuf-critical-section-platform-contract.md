@@ -362,3 +362,30 @@ secure-copy EBP, adjusted ESP, zero EDI and actual pending copy return word,
 while initialized string storage remains unchanged. Copying and subsequent
 string/locale cleanup remain unfinished; the checkpoint has not been published
 and does not establish complete campaign playability.
+
+
+## One-byte copy contract and assignment return
+
+The actual pending `30671cf0` call now admits a translated one-byte memcpy
+contract. It verifies the original stack destination, literal source and count
+one, the canonical live destination owner, readonly source identity and disjoint
+buffers. It copies only the proved byte and returns the actual destination,
+preserving callee-saved registers while marking volatile registers and flags
+unknown. The trace explicitly identifies this translated contract; none of the
+247 native alignment/dispatch instructions is counted as executed by it. Other
+counts remain pending rather than claiming a generic memcpy implementation.
+
+The captured `memcpy_s` then consumes its three cdecl arguments, sets success
+zero and restores EDI/ESI/EBP through its actual return to `303ed196`. Assignment
+consumes its four arguments, updates length to one, writes the terminating zero,
+restores its saved registers and returns through `RET 8` to `303ed654`.
+The name member now contains `"*"` in inline storage, with capacity fifteen and
+proved initialized masks for copied text and terminator.
+
+TypeScript checking and two focused normal-continuation/enum checks passed.
+The normal test verifies copied byte 42, length one, exact masks, returned copy
+and assignment calls, restored EBP and adjusted ESP. The normal boundary is
+`303ed654`, before the name constructor's own register cleanup and return.
+Exception cleanup, outer locale publication, filebuf completion and full
+campaign integration remain unfinished. This local checkpoint has not been
+deployed and does not establish full browser playability.
