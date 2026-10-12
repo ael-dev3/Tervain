@@ -48,7 +48,7 @@ export const GRASS_MAX_SCALE = { height: 1.6 * 1.18, radius: 1.3 } as const;
 
 export const GRASS_QUALITY: Readonly<Record<Quality, GrassQualitySpec>> = {
   high: {
-    near: { clump: { blades: 16, segments: 4 }, width: 0.015, density: 8.4, tile: 12, fade: { start: 40, end: 41, sizeComp: 1, power: 1 }, band: { inStart: -2, inEnd: -1, outStart: 15, outEnd: 21 }, farBlades: 1 },
+    near: { clump: { blades: 12, segments: 4 }, width: 0.015, density: 11.2, tile: 12, fade: { start: 40, end: 41, sizeComp: 1, power: 1 }, band: { inStart: -2, inEnd: -1, outStart: 15, outEnd: 21 }, farBlades: 1 },
     far: { clump: { blades: 12, segments: 2 }, width: 0.055, density: 2.1, tile: 24, fade: { start: 24, end: 82, sizeComp: 2.1, power: 1.35 }, band: { inStart: 15, inEnd: 21, outStart: 1e5, outEnd: 1e5 + 1 }, farBlades: 0.5 },
     trample: { size: 256, extent: 48 },
     shadows: true,
@@ -87,10 +87,10 @@ export function meadowProfile(sample: Readonly<HabitatSample>, patchy: number, o
   return out;
 }
 
-const cMeadow = new THREE.Color().setHex(0x55663f);
-const cLush = new THREE.Color().setHex(0x40592f);
-const cGold = new THREE.Color().setHex(0x86764a);
-const cShade = new THREE.Color().setHex(0x3d4c34);
+const cMeadow = new THREE.Color().setHex(0x627548);
+const cLush = new THREE.Color().setHex(0x4a6636);
+const cGold = new THREE.Color().setHex(0x968554);
+const cShade = new THREE.Color().setHex(0x46573b);
 
 export function meadowTint(sample: Readonly<HabitatSample>, profile: Readonly<MeadowProfile>, out: THREE.Color): THREE.Color {
   return out.copy(cMeadow).lerp(cLush, sample.wet * 0.7).lerp(cGold, profile.dry * 0.55).lerp(cShade, profile.shade * 0.85);
