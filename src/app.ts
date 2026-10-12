@@ -219,6 +219,8 @@ export class App {
 
     try {
       this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas, antialias: false, powerPreference: 'high-performance' });
+      // First-use log/status queries can block the GPU driver; keep shader diagnostics in development builds.
+      this.renderer.debug.checkShaderErrors = import.meta.env.DEV;
       this.perf = new PerfMeter(this.renderer);
     } catch {
       this.loadingEl.textContent = S('menu.webgl');
