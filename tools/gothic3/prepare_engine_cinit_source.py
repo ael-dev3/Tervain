@@ -108,6 +108,7 @@ def capture(study):
         0x30696bf0: 'engineUndecorationArenaAllocate',
         0x30672ec7: 'engineUndecorationMallocCallback',
         0x30696ef8: 'engineUndecorationFieldNodeConstructor',
+        0x30696f1d: 'engineUndecorationFieldNodeLength',
         0x3069afb8: 'engineUndecorationNameParser',
         0x3069a2f7: 'engineUndecorationTypeParser',
         0x3069b876: 'engineUndecorationDataTypeParser',
