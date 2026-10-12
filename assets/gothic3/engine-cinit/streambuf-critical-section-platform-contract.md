@@ -729,3 +729,26 @@ selectors and their zero initialization; those instructions are not executed by
 this checkpoint. The normal boundary is `305ed990`. Buffer initialization,
 constructor returns, filebuf startup and campaign integration remain unfinished.
 This checkpoint remains local, not a hosted complete-game claim.
+
+
+## Original internal-buffer initialization
+
+The runtime executes all captured `305ed990`–`305ed9e7` instructions for the
+actual streambuf receiver. Six selectors point into that same retained object:
+slot 16 to field 8, 20 to 12, 32 to 24, 36 to 28, 48 to 40, and 52 to 44.
+The original indirect stores validate those selected field identities and set
+all six buffer fields to zero. Selector numeric address bits remain unknown;
+their actual owner and offsets are retained. Header/lock/locale-wrapper storage
+is preserved.
+
+The frame snapshot exposes selector expressions for ownership inspection.
+The routine returns through the actual `305ee6eb` call to `305ee6f0`.
+TypeScript checking and two focused normal-continuation/enum checks passed.
+The normal check verifies all six selector targets, all six zero values, exact
+field masks, pending-constructor state and returned buffer-init word. These are
+focused checks, not a full-suite or deployment result.
+
+The normal boundary is `305ee6f0`, before the streambuf constructor's own
+register/exception-chain cleanup and return. Filebuf construction, complete
+engine startup and campaign integration remain unfinished. This checkpoint
+remains local and does not prove a hosted complete game.
