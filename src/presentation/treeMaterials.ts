@@ -35,7 +35,12 @@ const leafCache = new Map<LeafKind, THREE.MeshStandardMaterial>();
 /** Original metre-scale detail over the source atlas. Triplanar mapping avoids UV seams and
  * keeps grain density constant on uniformly enlarged trees. Only shading changes: no vertex
  * displacement, new silhouette, sway, or collision mismatch. Textures remain the caller's resources. */
-export function installBarkDetail(material: THREE.MeshStandardMaterial, textures: Pick<BarkTextures, 'map' | 'surface'>): void {
+export function installBarkDetail(material: THREE.MeshStandardMaterial, textures: Pick<BarkTextures, 'map' | 'surface'>,
+  opts: { mix?: number; relief?: number } = {}): void {
+  // A133: broadleaf source trunks carry only a soft baked atlas with no normal map; they take more of the metre-scale
+  // bark and deeper relief.
+  const mix = opts.mix ?? 0.45, relief = opts.relief ?? 0.012;
+  const variant = opts.mix === undefined && opts.relief === undefined ? '' : `-${mix.toFixed(3)}-${relief.toFixed(4)}`;
   const compile = material.onBeforeCompile;
   const cacheKey = material.customProgramCacheKey;
   material.onBeforeCompile = function(shader, renderer) {
@@ -73,7 +78,7 @@ export function installBarkDetail(material: THREE.MeshStandardMaterial, textures
         vec2 tvBarkReliefRoughness = tvBarkSample(tvBarkSurface, tvBarkCoordinates, tvBarkWeights).rg;
         float tvBarkClose = 1.0 - smoothstep(45.0, 100.0, length(vViewPosition));
         float tvBarkMacro = clamp(dot(diffuseColor.rgb, vec3(0.2126, 0.7152, 0.0722)) * 4.0, 0.65, 1.35);
-        diffuseColor.rgb = mix(diffuseColor.rgb, tvBarkAlbedo * tvBarkMacro, 0.45 * tvBarkClose);`)
+        diffuseColor.rgb = mix(diffuseColor.rgb, tvBarkAlbedo * tvBarkMacro, ${mix.toFixed(3)} * tvBarkClose);`)
       .replace('#include <roughnessmap_fragment>', `#include <roughnessmap_fragment>
         roughnessFactor = mix(roughnessFactor, tvBarkReliefRoughness.y, tvBarkClose);`)
       .replace('#include <normal_fragment_maps>', `#include <normal_fragment_maps>
@@ -84,11 +89,11 @@ export function installBarkDetail(material: THREE.MeshStandardMaterial, textures
         vec3 tvBarkR1 = cross(tvBarkSigmaY, normal);
         vec3 tvBarkR2 = cross(normal, tvBarkSigmaX);
         float tvBarkDet = dot(tvBarkSigmaX, tvBarkR1);
-        float tvBarkHeight = tvBarkReliefRoughness.x * 0.012 * tvBarkClose;
+        float tvBarkHeight = tvBarkReliefRoughness.x * ${relief.toFixed(4)} * tvBarkClose;
         vec3 tvBarkGradient = sign(tvBarkDet) * (dFdx(tvBarkHeight) * tvBarkR1 + dFdy(tvBarkHeight) * tvBarkR2);
         if (abs(tvBarkDet) > 0.00000001) normal = normalize(abs(tvBarkDet) * normal - tvBarkGradient);`);
   };
-  material.customProgramCacheKey = function() { return `${cacheKey.call(this)}|tervain-metre-bark-v2`; };
+  material.customProgramCacheKey = function() { return `${cacheKey.call(this)}|tervain-metre-bark-v2${variant}`; };
   material.needsUpdate = true;
 }
 

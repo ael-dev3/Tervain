@@ -2,7 +2,7 @@ import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest';
 import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import * as THREE from 'three';
-import { MESHY_TREE_IDS, MESHY_TREE_LODS, createMeshyForest, meshyTreeParts, meshyTreeUrl, type MeshyTreeTemplates } from '../../src/presentation/meshyTrees';
+import { CLUSTER_SCALE, MESHY_TREE_IDS, MESHY_TREE_LODS, createMeshyForest, meshyTreeParts, shrinkClusters, meshyTreeUrl, type MeshyTreeTemplates } from '../../src/presentation/meshyTrees';
 import { meshyTreeBinary, meshyTreeTemplates } from './meshyTreeFixture';
 import { buildAncientTree } from '../../src/presentation/menu/menuTree';
 import { MENU_TREE_SOURCE, assertMenuTreeBudget, createMenuTreeRemix } from '../../src/presentation/menu/menuTreeRemix';
@@ -87,6 +87,8 @@ describe('actual supplied Meshy tree catalog', () => {
     const ownDisposals = variant.lods.flatMap(lod => [lod.wood!, lod.leaf!]).map(geometry => vi.spyOn(geometry, 'dispose'));
     expect(forest.variant('oak', 88, 'tree-0208')).toBe(variant);
     for (const [level, lod] of variant.lods.entries()) for (const kind of ['wood', 'leaf'] as const) {
+      // A133: near and middle broadleaf crowns cut their large sheets into pieces (tested below); wood and far crowns are exact.
+      if (kind === 'leaf' && level < 2) continue;
       const original = originals[level]![kind]!, prepared = lod[kind]!;
       expect(prepared).not.toBe(original.geometry);
       // The near broadleaf crown carries the exported cards first, then a second layer of the same cards (A70).
@@ -123,6 +125,52 @@ describe('actual supplied Meshy tree catalog', () => {
         expect(count(near.leaf!), id).toBeGreaterThan(1.8 * count(exported));
         // Middle detail is left as exported.
         expect(count(variant.lods[1].leaf!)).toBe(count(meshyTreeParts(templates.get(id)![1]).leaf!.geometry));
+      }
+    } finally { forest.dispose(); }
+  });
+
+  it('breaks the large leaf sheets into separate cards and adds smaller, spun clusters (A133)', () => {
+    const components = (geometry: THREE.BufferGeometry) => {
+      const index = geometry.index!, position = geometry.getAttribute('position');
+      const parent = Array.from({ length: position.count }, (_, i) => i);
+      const find = (i: number): number => (parent[i] === i ? i : (parent[i] = find(parent[i]!)));
+      for (let t = 0; t < index.count; t += 3) { const a = find(index.getX(t)); parent[find(index.getX(t + 1))] = a; parent[find(index.getX(t + 2))] = a; }
+      const used = new Set(Array.from(index.array as ArrayLike<number>));
+      const groups = new Map<number, number[]>();
+      for (const i of used) { const r = find(i); const g = groups.get(r); if (g) g.push(i); else groups.set(r, [i]); }
+      return [...groups.values()];
+    };
+    // A card's span: twice its farthest vertex from its centre (independent of how it is turned).
+    const extent = (attr: THREE.BufferAttribute | THREE.InterleavedBufferAttribute, members: number[]) => {
+      const points = members.map(i => new THREE.Vector3().fromBufferAttribute(attr, i));
+      const centre = points.reduce((c, q) => c.add(q), new THREE.Vector3()).divideScalar(points.length);
+      return 2 * Math.max(...points.map(q => q.distanceTo(centre)));
+    };
+    const forest = createMeshyForest(templates);
+    try {
+      for (const [species, id] of [['oak', 'oak-elder'], ['oak', 'tree-0208'], ['oak', 'tree-1521'], ['birch', 'tree-4815'], ['orchard', 'tree-4949']] as const) {
+        const variant = forest.variant(species, 0, id), source = meshyTreeParts(templates.get(id)![0]).leaf!.geometry;
+        const scale = variant.height / new THREE.Box3().setFromObject(templates.get(id)![0].scene).getSize(new THREE.Vector3()).y;
+        const sourceLargest = Math.max(...components(source).map(m => extent(source.getAttribute('position'), m))) * scale;
+        expect(sourceLargest, id).toBeGreaterThan(5);
+        for (const lod of [0, 1] as const) {
+          // The exported cards (the added layer is the same pieces turned about the crown's heart).
+          const leaf = variant.lods[lod].leaf!.clone(), exportedCount = variant.lods[lod].leaf!.userData.exportedIndexCount as number | undefined;
+          if (exportedCount) leaf.setIndex(Array.from(leaf.index!.array as ArrayLike<number>).slice(0, exportedCount));
+          const groups = components(leaf);
+          // No sheet keeps its full size (the coarsest source grids have 3 m cells), and the triangles are those of the exported crown (plus the layer).
+          expect(Math.max(...groups.map(m => extent(leaf.getAttribute('position'), m))), `${id}:${lod}`).toBeLessThan(6.5);
+          expect(groups.length, `${id}:${lod}`).toBeGreaterThan(300);
+          leaf.dispose();
+        }
+        const piece = variant.lods[0].leaf!.clone(), before = piece.getAttribute('position').clone();
+        shrinkClusters(piece, CLUSTER_SCALE);
+        for (const members of components(piece).slice(0, 200)) {
+          const centre = (attr: THREE.BufferAttribute | THREE.InterleavedBufferAttribute) => members.reduce((c, i) => c.add(new THREE.Vector3().fromBufferAttribute(attr, i)), new THREE.Vector3()).divideScalar(members.length);
+          expect(centre(before).distanceTo(centre(piece.getAttribute('position'))), id).toBeLessThan(1e-3);
+          expect(extent(piece.getAttribute('position'), members)).toBeLessThanOrEqual(extent(before, members) * 0.9 + 1e-4);
+        }
+        piece.dispose();
       }
     } finally { forest.dispose(); }
   });
