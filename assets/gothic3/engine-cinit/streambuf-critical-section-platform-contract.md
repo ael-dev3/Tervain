@@ -752,3 +752,25 @@ The normal boundary is `305ee6f0`, before the streambuf constructor's own
 register/exception-chain cleanup and return. Filebuf construction, complete
 engine startup and campaign integration remain unfinished. This checkpoint
 remains local and does not prove a hosted complete game.
+
+
+## Normal streambuf-constructor return
+
+The frame retains the exact FS word captured by the original `305ee667` load.
+After buffer initialization, the runtime returns the actual receiver in EAX,
+loads the original saved FS slot and requires identity with that retained word,
+restores FS, discards the cookie slot, restores EDI/ESI/EBX, consumes the original
+local/exception-frame stack extent and executes `305ee704` RET. The actual
+`305eed33` caller resumes at `305eed38`.
+
+TypeScript checking and ten focused runtime checks passed. The normal check
+proves the constructor's original return word, restored FS value/mask, exact
+caller ESP, retained locale and lock state, all six buffer selectors and their
+zero fields. Earlier allocation failures and acquisition/release admission cases
+passed alongside it. This establishes the admitted normal streambuf constructor
+path; exception-handler and destructor paths remain incomplete.
+
+The normal boundary is `305eed38`, before derived filebuf initialization.
+The filebuf constructor, its shutdown registration, subsequent engine startup
+and full campaign integration remain unfinished. These changes are local and
+have not been deployed or verified as a complete browser game.
