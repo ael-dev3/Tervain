@@ -8,7 +8,7 @@ if (args.quality) {
   url.searchParams.set('quality', args.quality);
 }
 url.searchParams.set('shot', '1'); url.searchParams.set('place', args.place ?? 'rillford');
-const options = { clearance: Number(args.clearance ?? .08), maxChecks: Number(args['max-checks'] ?? 20_000) };
+const options = { clearance: Number(args.clearance ?? .08), maxChecks: Number(args['max-checks'] ?? 20_000), ...(args.kind === undefined ? {} : { kind: args.kind }) };
 let page;
 try {
   if (!Number.isFinite(options.clearance) || options.clearance < 0 || !Number.isInteger(options.maxChecks) || options.maxChecks < 1) throw new Error('Invalid placement audit limits');
