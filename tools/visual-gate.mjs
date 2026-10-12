@@ -16,6 +16,7 @@
  * The frame-time gate stays tools/play-gate.mjs. A visual score per playtest item is the reviewer's, added to the
  * report afterwards; the gate cannot judge art.
  */
+import { shimmerVerdict } from './shimmer-verdict.mjs';
 import { spawnSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -189,15 +190,21 @@ try {
   page.close();
 }
 
-// Grass shimmer (Sol's metric) over the meadow run, when the tool is present.
+// Recorded shimmer requires successfully decoded, usable footage; missing data cannot prove a regression absent.
 const meadowClip = path.join(OUT, 'meadow', 'clip.mp4');
 if (fs.existsSync('tools/video-shimmer.mjs') && fs.existsSync(meadowClip)) {
-  const run = spawnSync('node', ['tools/video-shimmer.mjs', '--input', meadowClip, '--roi', '0.03,0.66,0.34,0.32', '--fps', '30', '--out', path.join(OUT, 'shimmer.json')], { encoding: 'utf8', timeout: 600000 });
-  const shimmer = fs.existsSync(path.join(OUT, 'shimmer.json')) ? JSON.parse(fs.readFileSync(path.join(OUT, 'shimmer.json'), 'utf8')) : { error: (run.stderr || run.stdout || '').slice(0, 400) };
-  const score = shimmer.summary?.sparkleShare ?? null, before = baseline?.checks?.shimmer?.score;
-  metrics.checks.shimmer = { score, pass: score === null || before === undefined || before === null || score <= before * 1.05, raw: shimmer.summary ? { ...shimmer.summary, peaks: undefined } : shimmer };
-  if (!metrics.checks.shimmer.pass) failures.push(`grass shimmer ${score} over baseline ${before}`);
-} else metrics.checks.shimmer = { skipped: 'no shimmer tool or clip' };
+  const out = path.join(OUT, 'shimmer.json');
+  fs.rmSync(out, { force: true }); // A failed decoder must not reuse a previous run's receipt.
+  const run = spawnSync('node', ['tools/video-shimmer.mjs', '--input', meadowClip, '--roi', '0.03,0.66,0.34,0.32', '--fps', '30', '--out', out], { encoding: 'utf8', timeout: 600000 });
+  let shimmer;
+  try { shimmer = fs.existsSync(out) ? JSON.parse(fs.readFileSync(out, 'utf8')) : null; } catch { shimmer = null; }
+  const verdict = shimmerVerdict(run.status, shimmer, baseline?.checks?.shimmer?.score);
+  metrics.checks.shimmer = { ...verdict, ...(shimmer?.summary ? { raw: { ...shimmer.summary, peaks: undefined } } : {}) };
+  if (!verdict.pass) failures.push(`grass shimmer check failed: ${verdict.reason}`);
+} else {
+  metrics.checks.shimmer = { score: null, pass: false, reason: 'missing-tool-or-clip' };
+  failures.push('grass shimmer check missing its tool or recorded clip');
+}
 
 metrics.pass = failures.length === 0;
 metrics.failures = failures;
