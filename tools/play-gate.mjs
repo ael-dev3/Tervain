@@ -90,7 +90,7 @@ async function runProfile(name) {
   const dir = path.join(OUT, `${TAG}-${name}`);
   fs.rmSync(dir, { recursive: true, force: true });
   fs.mkdirSync(path.join(dir, 'frames'), { recursive: true });
-  const page = await openPage(URL_, { w: prof.w, h: prof.h, headed: true });
+  let page;
   const failures = [];
   const keyCode = { KeyW: 87, KeyA: 65, KeyS: 83, KeyD: 68, KeyZ: 90, KeyC: 67, ShiftLeft: 16, Escape: 27 };
   const key = (type, code) => page.cdp('Input.dispatchKeyEvent', { type, code, key: code === 'Escape' ? 'Escape' : code === 'ShiftLeft' ? 'Shift' : code.slice(3).toLowerCase(), windowsVirtualKeyCode: keyCode[code] ?? 0 });
@@ -105,6 +105,7 @@ async function runProfile(name) {
   const phase = (p) => page.eval(`window.__gate.phase = ${JSON.stringify(p)}; return 1`);
   const place = (x, z, yaw) => page.eval(`const T = window.tervain; T.player.setPosition(${x}, ${z}, ${yaw}, T.world.terrain); T.cam.yaw = ${yaw}; return 1`);
   try {
+    page = await openPage(URL_, { w: prof.w, h: prof.h, headed: true });
     await page.cdp('Emulation.setDeviceMetricsOverride', { width: prof.w, height: prof.h, deviceScaleFactor: prof.dpr, mobile: false });
     if (prof.cpu > 1) await page.cdp('Emulation.setCPUThrottlingRate', { rate: prof.cpu });
     for (let i = 0; i < 1200 && !(await page.eval('return window.tervain?.mode === "title"').catch(() => false)); i++) await page.wait(250);
@@ -156,7 +157,9 @@ async function runProfile(name) {
       list.push(`file 'frames/${file}'`, `duration ${Math.max(0.001, next - f.t).toFixed(4)}`);
     });
     fs.writeFileSync(path.join(dir, 'frames.txt'), list.join('\n'));
-    const enc = spawnSync('ffmpeg', ['-y', '-loglevel', 'error', '-f', 'concat', '-safe', '0', '-i', 'frames.txt', '-vf', 'scale=trunc(iw/2)*2:trunc(ih/2)*2', '-fps_mode', 'vfr', '-pix_fmt', 'yuv420p', 'clip.mp4'], { cwd: dir, timeout: 300000 });
+    const enc = VIDEO && frames.length > 0
+      ? spawnSync('ffmpeg', ['-y', '-loglevel', 'error', '-f', 'concat', '-safe', '0', '-i', 'frames.txt', '-vf', 'scale=trunc(iw/2)*2:trunc(ih/2)*2', '-fps_mode', 'vfr', '-pix_fmt', 'yuv420p', 'clip.mp4'], { cwd: dir, timeout: 300000 })
+      : { status: null };
     if (enc.status === 0) fs.rmSync(path.join(dir, 'frames'), { recursive: true, force: true });
 
     // Judge.
@@ -201,7 +204,7 @@ async function runProfile(name) {
     failures.push(`run failed: ${err.message}`);
     return { name, prof, dir, failures, stats: null };
   } finally {
-    page.close();
+    page?.close();
   }
 }
 
