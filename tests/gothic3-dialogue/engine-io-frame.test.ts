@@ -3340,3 +3340,24 @@ it('retains the enum literal constructor when its first character read is interr
  expect(interrupted,result.known?'Unexpected completed startup':result.reason).toBe(true);expect(result.known).toBe(false);const f=bootstrap.attachProgress().engineCinitProgress!;expect(f.pc).toBe('306976f0');expect(f.cppCursor?.provenance).toMatchObject({offset:0x1e8});expect(f.exitCursor?.provenance).toMatchObject({offset:236});expect(f.typeNameFiftyEighthCStringCopyReturned).toBe(false);expect(f.typeNameLockHeld).toBe(false);expect(f.undecorationLockHeld).toBe(true);const root=NativeEngineCinitImages.imageForCrt(f.images,crt,'shapeGroupContainerPropertyRoot');if(!root.known)throw new Error(root.reason);expect(root.value.readUnsigned(0)).toBe(0);
  const graph=NativeX86ThreadStack.forPlatform(platform);if(!graph.known)throw new Error(graph.reason);for(const site of ['30732640','3069965a','30697def'])expect(graph.value.snapshot().calls.filter(c=>c.site===site&&!c.returned)).toHaveLength(1);expect(graph.value.snapshot().calls.some(c=>c.site==='306976fe')).toBe(false);expect(bootstrap.processAttach()).toEqual(result);
 },30_000);
+
+
+it('initializes the actual allocated streambuf section through its retained platform caller',()=>{
+ const {bootstrap,platform,crt}=fixture({writes:[{offset:50,width:2,value:0,knownMask:0xffff}],outcome:'normal'},browserGameStandardIoInputs,browserGameArgvNlsInputs,true,browserGameProcessInputs,{engineHeapLayout:'rounded-eight',processorFeatureProcedure:true,floatingPointPrecisionErratum:false});
+ createNativeRuntimeAdminOwner(platform,{memoryExtensions:[nativeNpcHeapExtension,nativeSceneStartupHeapExtension,nativeClassNameHeapExtension]});
+ expect(NativeRuntimePlatform.initializeEngineCinitStreambufSection(platform,crt).known).toBe(false);
+ expect(bootstrap.processAttach().known).toBe(false);
+ const f=bootstrap.attachProgress().engineCinitProgress!;expect(f.pc).toBe('30671341');
+ const fields=f.standardStreambufAllocation;if(!fields)throw new Error('Actual streambuf allocation required');
+ const bytes=Array.from(fields.bytes);
+ expect(platform.enterPhysicalCriticalSection(fields,crt.identity).known).toBe(false);
+ expect(NativeRuntimePlatform.initializeEngineCinitStreambufSection(platform,crt)).toEqual({known:true,value:undefined});
+ expect(Array.from(fields.bytes)).toEqual(bytes);expect(Array.from(fields.knownMask)).toEqual(Array(24).fill(0));
+ expect(platform.enterPhysicalCriticalSection(fields,Object.freeze({})).known).toBe(false);
+ expect(platform.enterPhysicalCriticalSection(fields,crt.identity)).toEqual({known:true,value:undefined});
+ expect(platform.leavePhysicalCriticalSection(fields,crt.identity)).toEqual({known:true,value:undefined});
+ expect(NativeRuntimePlatform.initializeEngineCinitStreambufSection(platform,crt).known).toBe(false);
+ expect(NativeRuntimePlatform.initializeEngineCinitCriticalSection(platform,crt).known).toBe(false);
+ const rows=NativeRuntimePlatform.engineCinitCriticalSectionsForPlatform(platform,crt);if(!rows.known)throw new Error(rows.reason);expect(rows.value).toHaveLength(4);
+ expect(bootstrap.attachProgress().engineCinitProgress!.pc).toBe('30671341');
+},30_000);

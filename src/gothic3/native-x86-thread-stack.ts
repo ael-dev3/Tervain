@@ -3853,6 +3853,23 @@ searchCharacterStep('100a7374',()=>pop('ESI'));searchCharacterStep('100a7375',()
       return known(undefined);
     }catch(error){return unknown(reason(error));}
   }
+  static engineCinitStreambufSectionArgumentForPlatform(platform:NativeRuntimePlatform,crt:NativeModuleCrtOwner):NativeValue<NativeHeapObjectViews> {
+    try {
+      const stack=graphs.get(platform),f=stack?stack.#engineCinitFrame:null;
+      if(!stack||!f||f.crt!==crt||f.pc!=='30671341'||!f.standardStreambufAllocation)throw new Error('Actual pending streambuf critical-section allocation required');
+      stack.#physical(stack.#stack);stack.#physical(stack.#bank);
+      const calls=stack.#calls.filter(row=>!row.returned);
+      const call=calls.at(-1),wrapper=calls.at(-2);
+      if(call?.site!=='30671341'||wrapper?.site!=='30670970')throw new Error('Actual streambuf InitializeCriticalSection caller chain required');
+      const returned=stack.#record(call.returnWord).provenance;
+      if(returned?.kind!=='source'||returned.type!=='code'||returned.address!=='30671347')throw new Error('Actual streambuf platform return word required');
+      const pointer=stack.#record(stack.#load(stack.#stack,stack.#address(stack.#load(stack.#bank,stack.#reg('ESP')))+4)).provenance;
+      if(pointer?.kind!=='engine-allocation'||pointer.crt!==crt||pointer.fields!==f.standardStreambufAllocation||pointer.offset!==0)throw new Error('Actual owned streambuf section argument required');
+      const proof=NativeModuleCrtOwner.canonicalEngineHeapDestination(crt,platform,{fields:pointer.fields,offset:0},24);if(!proof.known)throw new Error(proof.reason);
+      if(pointer.fields.bytes.length!==24)throw new Error('Actual streambuf section extent required');
+      return known(pointer.fields);
+    }catch(error){return unknown(error instanceof Error?error.message:String(error));}
+  }
   static engineCinitCriticalSectionArgumentForPlatform(platform:NativeRuntimePlatform,crt:NativeModuleCrtOwner):NativeValue<Readonly<{fields:NativeHeapObjectViews;offset:number;call:object}>> {
     try {
       const stack=graphs.get(platform),f=stack?stack.#engineCinitFrame:null;

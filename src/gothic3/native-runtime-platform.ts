@@ -1920,6 +1920,12 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
     return known(left.ordinal === right.ordinal ? 0 : left.ordinal < right.ordinal ? -1 : 1);
   }
   readonly #engineCinitSections=new Map<object,Readonly<{array:NativeHeapObjectViews;fields:NativeHeapObjectViews;offset:number;identity:object;owner:NativeModuleCrtOwner}>>();
+  static initializeEngineCinitStreambufSection(platform:NativeRuntimePlatform,crt:NativeModuleCrtOwner):NativeValue<void>{
+    const active=NativeRuntimePlatform.requireActivePlatform(platform);if(!active.known)return active;
+    const argument=NativeX86ThreadStack.engineCinitStreambufSectionArgumentForPlatform(platform,crt);if(!argument.known)return argument;
+    // Heap storage is registered by its physical identity, without an invented native address.
+    return NativeRuntimePlatform.prototype.initializePhysicalCriticalSectionWithoutSpin.call(platform,argument.value,crt.identity);
+  }
   static initializeEngineCinitCriticalSection(platform:NativeRuntimePlatform,crt:NativeModuleCrtOwner):NativeValue<void>{
     const active=NativeRuntimePlatform.requireActivePlatform(platform);if(!active.known)return active;
     const argument=NativeX86ThreadStack.engineCinitCriticalSectionArgumentForPlatform(platform,crt);if(!argument.known)return argument;
