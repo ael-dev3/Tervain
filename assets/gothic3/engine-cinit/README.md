@@ -3444,3 +3444,8 @@ Main workflow run 38187614610 at revision 5be13059672528827d44ced2463340459fb172
 ## Enum literal list wrapper return
 
 Original wrapper `3069731d` now allocates its 12-byte list node and 8-byte value descriptor through the original arena calls. It preserves the actual enum literal pointer in that descriptor and executes list constructor `30696ec9` with its original list-vtable owner, flags and argument checks. The wrapper returns through `30697363` to `30697571`, where the setter publishes the actual list pointer in its local descriptor and enters list append `30696e63` through CALL `3069757a`. Append remains pending. Typechecking and three focused checks passed; old literal and new allocations retain their source-backed owners. Property root, full startup and campaign completion remain unfinished.
+
+
+## Enum qualification returns through original callers
+
+Original list append `30696e63` now attaches the actual status-node allocation to the initially empty list chain and returns to `3069757f`. The status setter returns to `30697b57`, qualified combination returns to `30697dfb`, and the literal wrapper returns to `3069965f`. The class parser performs its original 16-byte caller cleanup and enters assignment `30696da9` through CALL `30699666`; assignment remains pending. Typechecking and all three focused checks passed. Pointer ownership, caller return words, original list references and unpublished property root remain explicit. Full property return, startup and campaign completion remain unfinished.
