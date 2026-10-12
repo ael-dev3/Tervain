@@ -413,3 +413,30 @@ exception cleanup execution. Runtime remains at the actual facet factory
 Typechecking and the 159 source/image checks passed. These results cover evidence
 admission and image consistency, not runtime execution of the newly captured
 methods or campaign completion.
+
+## Owned facet factory allocation and constructor caller
+
+The factory now executes its original exception-frame setup with handler
+`0x3072819b`, saved lookup FS head, ESI and cookie. It validates the actual output
+argument points to the lookup's cache local and that this local is initially zero.
+It then pushes the original allocation size 24 and calls the shared captured
+throwing-allocation factory at `0x305f0a60`.
+
+The normal result is retained as `standardCharacterFacetAllocation`, a canonical
+24-byte logical view owned by the actual Engine CRT. Its bytes remain unknown
+until constructor instructions write them. The original allocation factory
+returns to `0x305f0a65`; the facet factory restores ESP, saves the allocation in
+its original frame slot, marks exception state zero, pushes three original zero
+arguments, sets ECX to the allocated object, and calls `0x305f0700`, return address
+`0x305f0a85`. That constructor is now the pending operation.
+
+The shared throwing-allocation helper still retains its original NULL/new-handler
+path; no allocation-success return is invented. The new facet NULL scenario has
+not been separately exercised at this checkpoint. Existing streambuf and
+basic-ios NULL cases were rerun and passed.
+
+Typechecking and three focused runtime cases passed. The normal case checks the
+canonical live 24-byte allocation, completely unknown initial mask, returned
+allocation call, unreturned constructor and factory, five completed malloc calls,
+held outer lock and preserved nested exception frames. Complete facet
+construction, native startup and campaign gameplay remain unfinished.
