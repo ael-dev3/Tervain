@@ -1897,7 +1897,8 @@ const prefix=runPropertyTypeNamePrefix(image(typeInfoLabel),image('visualAnimati
                 classType('3069969f',()=>setRegister('EAX',stack.#stackWord(enumClassSource)));classType('306996a2',()=>stack.#push(register('EAX')));classType('306996a3',()=>stack.#call('306996a3','306996a8'));
                 const enumNameCursor=stack.#record(stack.#load(constructed.config,12)).provenance;if(enumNameCursor?.kind!=='engine-image'||enumNameCursor.crt!==crt||enumNameCursor.fields!==image(typeInfoLabel))throw new Error('Actual returned enum name cursor required');
                 const parsedEnumName=runScopedName(enumNameCursor.offset,'306996a8');if(!parsedEnumName.ready)return {ready:false};
-                stack.#engineCinitFrame!.pc='306996a8';return {ready:false};
+                runClassFinish({ready:true,basic,classType,classSource:enumClassSource,classDestination:enumClassDestination,classNodeOffset:enumListOffset},parsedEnumName.nameNodeOffset,'30698be6');
+                stack.#engineCinitFrame!.pc='30698be6';return {ready:false};
               }
               classType('3069966d',()=>{const literal=image('undecorationClassLiteral'),word=stack.#mint(0,0,{kind:'engine-image',crt,fields:literal,offset:0});stack.#push(word);stack.#engineCinitFrame!.undecorationLiteralArgument=stack.#record(word);});classType('30699672',()=>{});classType('30699680',()=>setRegister('ECX',stack.#stackWord(stack.#address(register('EBP'))-8)));classType('30699683',()=>stack.#call('30699683','30699688'));
               runStringConstructorPrefix(image('undecorationClassLiteral'));

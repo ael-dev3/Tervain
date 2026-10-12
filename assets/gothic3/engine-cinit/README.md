@@ -3459,3 +3459,8 @@ The enum list is assigned through original `30696da9` into the class parser loca
 ## Enum scoped-name decoder return
 
 The nested enum path now passes its actual returned type-info cursor into the existing original scoped-name decoder. It consumes eEShapeGroup and both namespace terminators, advancing that original image cursor to byte 50, then returns through the real word `306996a8`. The outer template scoped call remains active while the nested call is recorded returned. Typechecking and all three focused checks passed. Name combination and the remaining template argument-list continuation are still pending; property return, full startup and campaign completion remain unfinished.
+
+
+## Enum class parser returns to its argument-list caller
+
+The decoded enum name now follows the existing original class-value combination and parser-return routines using the actual enum list allocation and scoped-name node. Those routines preserve the original descriptor masks, construct the append representation, copy it to the caller output and return through the real argument-list word `30698be6`. Typechecking and the three focused checks passed. The outer template parser remains active, and its argument-list continuation is still pending. Property return, full startup and campaign completion remain unfinished.
