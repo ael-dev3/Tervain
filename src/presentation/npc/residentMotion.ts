@@ -485,6 +485,30 @@ export const SEAT_MOMENTS: Readonly<Record<string, readonly number[]>> = {
   [MOTION_CLIPS.sitUp]: [0.02, 0.08, 0.14],
 };
 
+interface StoneworkStrike { reach: number; strike: number; face: 'hammerA' | 'hammerB' }
+const stoneworkStrikes = new WeakMap<ContactTrack, StoneworkStrike>();
+/** Contact tracks are immutable after preparation; the clip's strike sample is independent of its current pose. */
+export function stoneworkStrike(track: ContactTrack): StoneworkStrike {
+  const known = stoneworkStrikes.get(track);
+  if (known) return known;
+  const tips = track.get('chiselTip')!, butts = track.get('chiselButt')!;
+  const reach = Math.max(...tips.map(t => t.z));
+  // The clip's blow: where its hammer comes nearest the chisel's end while the chisel is held out.
+  let strike = -1, face: 'hammerA' | 'hammerB' = 'hammerA', nearest = Infinity;
+  for (const end of ['hammerA', 'hammerB'] as const) {
+    const heads = track.get(end);
+    if (!heads) continue;
+    heads.forEach((head, i) => {
+      if (reach - tips[i]!.z > DRAW_BACK[0]) return;
+      const d = head.distanceTo(butts[i]!);
+      if (d < nearest) { nearest = d; strike = i; face = end; }
+    });
+  }
+  const result = { reach, strike, face };
+  stoneworkStrikes.set(track, result);
+  return result;
+}
+
 /**
  * Plays a resident's clips for the game's poses. The game moves and turns the actor; this only animates the body under
  * it (the hips may move within the body, and a seated figure is lifted or lowered onto the real seat).
@@ -940,18 +964,7 @@ export class ResidentMotion {
     } else if (gesture === 'stonework' && site.kind === 'face' && contacts.tools.chiselTip && contacts.tools.chiselButt) {
       const point = _a.fromArray(site.point).clone(), normal = _b.fromArray(site.normal).normalize().clone();
       const tips = track.get('chiselTip')!, butts = track.get('chiselButt')!;
-      const reach = Math.max(...tips.map(t => t.z));
-      // The clip's blow: where its hammer comes nearest the chisel's end while the chisel is held out.
-      let strike = -1, face: 'hammerA' | 'hammerB' = 'hammerA', nearest = Infinity;
-      for (const end of ['hammerA', 'hammerB'] as const) {
-        const heads = track.get(end);
-        if (!heads) continue;
-        heads.forEach((head, i) => {
-          if (reach - tips[i]!.z > DRAW_BACK[0]) return;
-          const d = head.distanceTo(butts[i]!);
-          if (d < nearest) { nearest = d; strike = i; face = end; }
-        });
-      }
+      const { reach, strike, face } = stoneworkStrike(track);
       const tip0 = this.pointNow('chiselTip').clone(), butt0 = this.pointNow('chiselButt').clone();
       const head0 = contacts.tools[face] ? this.pointNow(face).clone() : null;
       const tipAtStrike = strike >= 0 ? tips[strike]! : this.sampleAt(track, lead, 'chiselTip');
