@@ -303,3 +303,23 @@ The captured fields provide the inputs required by the original acquisition and
 registration routines. This checkpoint does not execute those routines; runtime
 remains at `0x305f13e0`. Original identifier allocation, facet construction and
 shutdown ownership still need their native continuation implemented.
+
+## Facet acquisition exception frame and outer lock caller
+
+Facet acquisition now executes the original instructions from `0x305f13e0`
+through CALL `0x305f140c`. It saves handler `0x307282b8`, the fill routine's FS
+head and EBX/ESI/EDI, reserves 24 local bytes, pushes the original cookie, and
+installs its own exception-frame head. The saved fill frame remains intact.
+
+The routine pushes original lock index zero and selects its original local lock
+receiver at entry ESP minus 28. It then calls `0x30670503`, with return address
+`0x305f1411`. This facet lookup caller's lock is currently pending. Identifier
+allocation, cache selection and facet construction have not been executed, and
+the temporary locale's reference count remains five.
+
+Typechecking and three focused runtime cases passed. The normal case verifies
+the facet, fill and output-constructor exception-frame relationship, retained
+temporary locale, preserved base receiver, pending original lock call and
+idempotent startup. Both original allocation-failure cases still retain their
+new-handler boundary. This change is local and does not prove complete startup
+or campaign gameplay.
