@@ -60,3 +60,17 @@ Run it on an otherwise idle machine with a visible Chrome window: other work run
   covers a weaker GPU. `--mac-cpu 2` adds a main thread slowed by half as a stress case.
 
 Each run writes `<out>/<tag>.md` and `<tag>.json`, and a folder per profile with `clip.mp4` and the per-frame samples.
+
+## Live GPU log
+
+Every run also writes `<tag>-log.md`: for each profile the frame-time p50, p95, p99 and max, the frames over 25 and
+50 ms, the main thread's idle share (time from an animation frame's start to its draw, against the frame interval), the
+bytes uploaded to the GPU (buffers and textures) in play and in the worst frame, the glitched frames, and a table of the
+slow frames with their stage, main-thread time and uploads. The first eight slow frames also get a 480×270 still of what
+was on screen, with the hero's and camera's positions (`spike-N.jpg`); the frame after a still carries its cost and is
+left out of the timing.
+
+`node tools/publish-gate.mjs --tag <tag>` publishes it: the stills and clips go to the `gate-media` branch (media only;
+no workflow runs on it) and the log is posted on the pinned issue "Live GPU gate data" with links pinned to that
+commit. Timing runs record no video, so `--clips <tag>` links the clips of a recorded run of the same build. Every GPU
+run of the gate is published this way, so slow frames can be chased from real data.

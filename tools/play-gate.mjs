@@ -68,7 +68,17 @@ const SAMPLER = `
   const T = window.tervain, R = T.renderer, render = R.render.bind(R), P = T.player;
   const V = T.world.scene.position.constructor, Q = T.world.scene.quaternion.constructor;
   const hips = new V(), head = new V(), root = new V(), up = new V(), q = new Q(), ndc = new V();
-  window.__gate = { samples: [], longTasks: [], phase: 'setup' };
+  window.__gate = { samples: [], longTasks: [], phase: 'setup', shots: [], upload: 0, frameStart: performance.now(), afterShot: false, last: 0 };
+  // Main-thread time per frame: from the animation frame's start to the presented draw.
+  const raf = window.requestAnimationFrame.bind(window);
+  window.requestAnimationFrame = (cb) => raf((t) => { window.__gate.frameStart = performance.now(); cb(t); });
+  // GPU uploads per frame: buffer and texture bytes handed to WebGL.
+  const gl = R.getContext(), bytesOf = (v) => !v ? 0 : typeof v === 'number' ? v : v.byteLength ?? ((v.width ?? v.videoWidth ?? 0) * (v.height ?? v.videoHeight ?? 0) * 4);
+  for (const name of ['bufferData', 'bufferSubData']) { const f = gl[name].bind(gl); gl[name] = (...a) => { window.__gate.upload += name === 'bufferData' ? bytesOf(a[1]) : (a[4] ? a[4] * (a[2]?.BYTES_PER_ELEMENT ?? 1) : bytesOf(a[2])); return f(...a); }; }
+  for (const name of ['texImage2D', 'texSubImage2D', 'texImage3D', 'texSubImage3D', 'compressedTexImage2D', 'compressedTexSubImage2D']) { if (!gl[name]) continue; const f = gl[name].bind(gl);
+    gl[name] = (...a) => { const v = a.findLast((x) => x && typeof x === 'object'); const dims = a.filter((x) => typeof x === 'number');
+      window.__gate.upload += v && v.byteLength !== undefined ? v.byteLength : v ? bytesOf(v) : (dims[3] ?? 0) * (dims[4] ?? 0) * 4; return f(...a); }; }
+  const shotCanvas = document.createElement('canvas'); shotCanvas.width = 480; shotCanvas.height = 270; const shotCtx = shotCanvas.getContext('2d');
   try { new PerformanceObserver((l) => { for (const e of l.getEntries()) window.__gate.longTasks.push([e.startTime, e.duration, window.__gate.phase]); }).observe({ type: 'longtask', buffered: false }); } catch {}
   const shown = (o) => { for (let x = o; x; x = x.parent) if (!x.visible) return false; return true; };
   let body = null; P.group.traverse((o) => { if (o.isSkinnedMesh) body = o; });
@@ -79,7 +89,18 @@ const SAMPLER = `
       P.rig.root.getWorldQuaternion(q); up.set(0, 1, 0).applyQuaternion(q);
       ndc.copy(hips).project(cam);
       window.__gate.samples.push([document.timeline.currentTime ?? performance.now(), window.__gate.phase, shown(body) ? 1 : 0, +(T.cam.curDist ?? 0).toFixed(3), +up.y.toFixed(3),
-        +(head.y - root.y).toFixed(3), +ndc.x.toFixed(3), +ndc.y.toFixed(3), T.simStep, P.swimming ? 1 : 0, R.getPixelRatio(), T.cam.bodyVisible ? 1 : 0]);
+        +(head.y - root.y).toFixed(3), +ndc.x.toFixed(3), +ndc.y.toFixed(3), T.simStep, P.swimming ? 1 : 0, R.getPixelRatio(), T.cam.bodyVisible ? 1 : 0,
+        +(performance.now() - window.__gate.frameStart).toFixed(2), window.__gate.upload, window.__gate.afterShot ? 1 : 0]);
+      const g = window.__gate, now = g.samples.at(-1)[0], interval = g.last ? now - g.last : 0;
+      const paid = g.afterShot; g.last = now; g.upload = 0; g.afterShot = false;
+      // What was on screen at a spike: a small still right after it, and where the hero and camera were. The next frame
+      // carries the still's own cost and is left out of the timing.
+      if (interval > 25 && !paid && g.shots.length < 8 && !['setup', 'pause', 'end'].includes(g.phase)) {
+        shotCtx.drawImage(R.domElement, 0, 0, 480, 270);
+        const c = cam.position;
+        g.shots.push({ t: now, phase: g.phase, ms: +interval.toFixed(1), hero: [+P.x.toFixed(1), +P.z.toFixed(1)], camera: [+c.x.toFixed(1), +c.y.toFixed(1), +c.z.toFixed(1)], image: shotCanvas.toDataURL('image/jpeg', 0.72) });
+        g.afterShot = true;
+      }
     }
     return out;
   };
@@ -163,10 +184,11 @@ async function runProfile(name) {
     if (enc.status === 0) fs.rmSync(path.join(dir, 'frames'), { recursive: true, force: true });
 
     // Judge.
-    const S = gate.samples.map(([t, ph, vis, dist, upY, headUp, nx, ny, step, swim, pr, want]) => ({ t, ph, vis, dist, upY, headUp, nx, ny, step, swim, pr, want }));
+    const S = gate.samples.map(([t, ph, vis, dist, upY, headUp, nx, ny, step, swim, pr, want, busy, upload, shot]) => ({ t, ph, vis, dist, upY, headUp, nx, ny, step, swim, pr, want, busy, upload, shot }));
     const play = S.filter((s) => !['setup', 'pause', 'end'].includes(s.ph));
     const timed = [];
-    for (let i = 1; i < S.length; i++) if (S[i].ph === S[i - 1].ph && !['setup', 'pause', 'end'].includes(S[i].ph)) timed.push(S[i].t - S[i - 1].t);
+    const timedAt = [];
+    for (let i = 1; i < S.length; i++) if (S[i].ph === S[i - 1].ph && !['setup', 'pause', 'end'].includes(S[i].ph) && !S[i].shot) { timed.push(S[i].t - S[i - 1].t); timedAt.push(i); }
     const p95 = quantile(timed, 0.95), median = quantile(timed, 0.5);
     const spikes = timed.filter((d) => d > LIMITS.spikeMs);
     const slowShare = timed.filter((d) => d > LIMITS.slowFrameMs).length / Math.max(1, timed.length);
@@ -200,7 +222,16 @@ async function runProfile(name) {
       for (let i = 1; i < ss.length; i++) d.push(ss[i].t - ss[i - 1].t);
       perPhase[ph] = { frames: ss.length, median: +quantile(d, 0.5).toFixed(1), p95: +quantile(d, 0.95).toFixed(1), max: +Math.max(0, ...d).toFixed(1) };
     }
-    return { name, prof, dir, printed, failures, stats: { frames: play.length, median, p95, spikes: spikes.length, slowShare, hidden: hidden.length, closeHidden, worstToggles, badPose: badPose.length, jumps, pixelRatio: [Math.min(...play.map((x) => x.pr)), Math.max(...play.map((x) => x.pr))], longTasks: longTasks.length, consoleErrors: logs, perPhase }, clip: enc.status === 0 };
+    // Data for the live GPU log (issue #320): the frame-time tail, main-thread idle share, uploads, spikes with context.
+    const busy = timedAt.map((i) => S[i].busy).filter((b) => Number.isFinite(b));
+    const idle = 1 - busy.reduce((a, b) => a + b, 0) / Math.max(1, timed.reduce((a, b) => a + b, 0));
+    const uploads = play.map((s) => s.upload ?? 0);
+    const spikeList = timedAt.filter((i, k) => timed[k] > LIMITS.slowFrameMs).map((i) => ({ phase: S[i].ph, ms: +(S[i].t - S[i - 1].t).toFixed(1), busy: S[i].busy, upload: S[i].upload }));
+    gate.shots.forEach((shot, k) => { const file = `spike-${k + 1}.jpg`; fs.writeFileSync(path.join(dir, file), Buffer.from(shot.image.split(',')[1], 'base64')); shot.file = file; delete shot.image; });
+    const data = { p50: median, p95, p99: quantile(timed, 0.99), max: Math.max(0, ...timed), over25: spikeList.length, over50: spikes.length, idle,
+      uploadTotal: uploads.reduce((a, b) => a + b, 0), uploadMax: Math.max(0, ...uploads), spikeList, shots: gate.shots,
+      glitches: { hidden: hidden.map((s) => s.ph), badPose: badPose.map((s) => s.ph), jumps } };
+    return { name, prof, dir, printed, failures, data, stats: { frames: play.length, median, p95, spikes: spikes.length, slowShare, hidden: hidden.length, closeHidden, worstToggles, badPose: badPose.length, jumps, pixelRatio: [Math.min(...play.map((x) => x.pr)), Math.max(...play.map((x) => x.pr))], longTasks: longTasks.length, consoleErrors: logs, perPhase }, clip: enc.status === 0 };
   } catch (err) {
     failures.push(`run failed: ${err.message}`);
     return { name, prof, dir, failures, stats: null };
@@ -230,6 +261,25 @@ for (const r of results) {
   }
 }
 fs.writeFileSync(path.join(OUT, `${TAG}.md`), md.join('\n'));
+// The live GPU log for issue #320. MEDIA/ is replaced with the published media's address by tools/publish-gate.mjs.
+const mb = (b) => `${(b / 1048576).toFixed(1)} MiB`;
+const log = [`### ${TAG}: ${pass ? 'PASS' : 'FAIL'} · ${stale.live ? `${stale.live.version} · ${stale.live.revision}` : 'unknown build'}`, '', `URL ${URL_}`, ''];
+for (const r of results) {
+  const media = `MEDIA/${path.basename(r.dir)}`;
+  log.push(`#### ${r.name} (${r.prof.w}×${r.prof.h} @${r.prof.dpr}×, CPU ÷${r.prof.cpu})${r.failures.length ? ' — ' + r.failures.join('; ') : ''}`, '');
+  if (!r.data) { log.push('No data (run failed).', ''); continue; }
+  const d = r.data, g = d.glitches;
+  log.push(`Frame ms p50 ${d.p50.toFixed(1)} · p95 ${d.p95.toFixed(1)} · p99 ${d.p99.toFixed(1)} · max ${d.max.toFixed(1)}; over 25 ms ${d.over25}, over 50 ms ${d.over50}; main thread idle ${(d.idle * 100).toFixed(0)}%.`,
+    `Uploads ${mb(d.uploadTotal)} in play, largest frame ${mb(d.uploadMax)}. Glitched frames: hidden hero ${g.hidden.length}, broken pose ${g.badPose.length}, screen jumps ${g.jumps}.`,
+    r.clip ? `Clip: ${media}/clip.mp4` : 'Clip: none', '');
+  if (d.spikeList.length) {
+    log.push('| Phase | Frame ms | Busy ms | Upload |', '| --- | ---: | ---: | ---: |', ...d.spikeList.slice(0, 20).map((s) => `| ${s.phase} | ${s.ms} | ${s.busy ?? '–'} | ${mb(s.upload ?? 0)} |`), '');
+    if (d.spikeList.length > 20) log.push(`(${d.spikeList.length - 20} more not listed)`, '');
+  }
+  for (const s of d.shots) log.push(`- ${s.phase}, ${s.ms} ms, hero (${s.hero.join(', ')}), camera (${s.camera.join(', ')}): ${media}/${s.file}`);
+  log.push('');
+}
+fs.writeFileSync(path.join(OUT, `${TAG}-log.md`), log.join('\n'));
 fs.writeFileSync(path.join(OUT, `${TAG}.json`), JSON.stringify({ tag: TAG, url: URL_, pass, stale, results: results.map(({ prof, ...r }) => ({ ...r, profile: prof })) }, null, 1));
 // The line the Play gate check looks for on a pull request (.github/workflows/play-gate.yml), printed only for a build
 // whose commit was checked, so a run against an unknown build cannot pass a pull request.
