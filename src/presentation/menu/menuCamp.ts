@@ -221,6 +221,9 @@ function slabTop(spec: SlabPlan['spec']) {
  * Where the standing stones, the fallen one and the dolmen go. Pure placement, so tests can check that none of them runs
  * into another and that the dolmen's cap rests on its uprights.
  */
+/** The standing stones' height against the original plan (A122). */
+export const MENU_STONE_HEIGHT = 0.72;
+
 export function standingStones(): { slabs: SlabPlan[]; cap: SlabPlan; uprights: [SlabPlan, SlabPlan] } {
   const rnd = mulberry32(3301);
   const sx = MENU_STONES.x;
@@ -236,7 +239,8 @@ export function standingStones(): { slabs: SlabPlan[]; cap: SlabPlan; uprights: 
   ];
   for (let k = 0; k < arc.length; k++) {
     const [a, w, hh, d, lx, lz] = arc[k]!;
-    slabs.push(standingSlab(sx + Math.sin(a) * 7.5, sz + Math.cos(a) * 4.5, w, hh, d, a + (rnd() - 0.5) * 0.3, lx, lz, 300 + k));
+    // Kept below the horizon from the vigil's camera: at full height they stood across the sea as black slabs (A122).
+    slabs.push(standingSlab(sx + Math.sin(a) * 7.5, sz + Math.cos(a) * 4.5, w, hh * MENU_STONE_HEIGHT, d, a + (rnd() - 0.5) * 0.3, lx, lz, 300 + k));
   }
   // The fallen one lies in the grass outside the arc's gap, where it toppled.
   slabs.push(lyingSlab(sx + 3.9, sz + 4.6, sx + 6.9, sz + 6.3, 1.0, 0.6, 309));
