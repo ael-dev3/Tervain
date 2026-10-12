@@ -88,7 +88,13 @@ const GROUND_FOLLOW_DROP = 0.5;
 const GRAVITY = 17;
 /** A vault over a fence (A125): reach to the rail, how squarely he must face it, where he lands beyond it, the most the
  * ground may differ there, and how long it takes. */
-export const VAULT = { reach: 0.85, facing: 0.55, land: 0.7, step: 0.6, seconds: 0.55 } as const;
+/**
+ * Fence vault (A125). `reach`: how far before the rail a jump still becomes a vault. A player presses jump as the fence
+ * comes up, a stride or two away; at 0.85 m the press fell short and he jumped into the rail (playtest 5). `seconds`
+ * is the time over a rail taken from 0.6 m; a vault from further back takes proportionally longer.
+ */
+export const VAULT = { reach: 1.9, facing: 0.55, land: 0.7, step: 0.6, seconds: 0.55 } as const;
+const VAULT_NEAR_SPAN = 0.6 + 0.12 + 0.7;
 const FIRM_FOOTING_SLOPE = 0.95;
 /** Sample terrain along the whole move, so a sprint/dodge cannot skip a solid face or water strip. */
 const TERRAIN_STEP = 0.16;
@@ -691,7 +697,7 @@ export class Player {
 
   /** Sweep every move (including dodge, attack and recoil), including real movable-body contacts. */
   /** A vault in progress (A125): from where he left the ground over a fence to where he lands. */
-  vault: { t: number; from: { x: number; y: number; z: number }; to: { x: number; y: number; z: number }; peak: number } | null = null;
+  vault: { t: number; from: { x: number; y: number; z: number }; to: { x: number; y: number; z: number }; peak: number; seconds: number } | null = null;
 
   /**
    * A vault over the fence before him, if there is one within reach and he faces it squarely enough (A125). The fences
@@ -722,7 +728,9 @@ export class Player {
       const landingBounds = { minY: ground + PLAYER_FOOT_CLEARANCE, maxY: ground + PLAYER_BODY_HEIGHT };
       if (ctx.colliders.blocked(land.x, land.z, PLAYER_RADIUS, landingBounds)) continue;
       const top = c.maxY === undefined ? this.y + 1.1 : c.maxY - FENCE_WALL_LIFT;
-      const vault = { t: 0, from: { x: this.x, y: this.y, z: this.z }, to: { x: land.x, y: ground, z: land.z }, peak: Math.max(top + 0.25, this.y + 0.5) };
+      const span = Math.hypot(land.x - this.x, land.z - this.z);
+      const vault = { t: 0, from: { x: this.x, y: this.y, z: this.z }, to: { x: land.x, y: ground, z: land.z }, peak: Math.max(top + 0.25, this.y + 0.5),
+        seconds: VAULT.seconds * Math.max(1, span / VAULT_NEAR_SPAN) };
       // The scripted arc bypasses ordinary movement collision: check body clearance before taking it.
       const ignored = new Set(['fence']);
       const lift = vault.peak - Math.max(vault.from.y, vault.to.y);
@@ -748,13 +756,13 @@ export class Player {
   /** One step of a vault: an arc over the rail, then down on the far side; collisions wait until he lands (A125). */
   private stepVault(dt: number, ctx: PlayerCtx): void {
     const v = this.vault!;
-    v.t = Math.min(1, v.t + dt / VAULT.seconds);
+    v.t = Math.min(1, v.t + dt / v.seconds);
     const u = v.t, ease = u * u * (3 - 2 * u);
     this.x = v.from.x + (v.to.x - v.from.x) * ease;
     this.z = v.from.z + (v.to.z - v.from.z) * ease;
     const base = v.from.y + (v.to.y - v.from.y) * u;
     this.y = base + (v.peak - Math.max(v.from.y, v.to.y)) * Math.sin(Math.PI * u);
-    this.vx = (v.to.x - v.from.x) / VAULT.seconds; this.vz = (v.to.z - v.from.z) / VAULT.seconds;
+    this.vx = (v.to.x - v.from.x) / v.seconds; this.vz = (v.to.z - v.from.z) / v.seconds;
     this.yaw = Math.atan2(v.to.x - v.from.x, v.to.z - v.from.z);
     if (u >= 1) {
       this.vault = null;

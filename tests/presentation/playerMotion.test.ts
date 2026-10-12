@@ -334,6 +334,18 @@ describe('player motion and action contacts', () => {
     else expect(s.player.vault).not.toBeNull();
   });
 
+  it('vaults a fence when jump is pressed a stride before it, taking longer over the longer leap (playtest 5)', () => {
+    const s = setup();
+    s.ctx.terrain.heightAt = () => 0;
+    s.ctx.colliders.box('fence', 1.8, 0, .12, 3, 0, true, { minY: -.3, maxY: 1.7 });
+    s.player.yaw = Math.PI / 2;
+    s.presses.add('jump'); s.tick();
+    expect(s.player.vault).not.toBeNull();
+    expect(s.player.vault!.seconds).toBeGreaterThan(0.55);
+    for (let i = 0; i < 90; i++) s.tick();
+    expect(s.player.x).toBeGreaterThan(1.8 + .12);
+  });
+
   it('resets action, recoil and velocity when loading, teleporting or restarting', () => {
     const s = setup();
     s.player.vx = 5; s.player.vz = -5; s.player.vy = 7;
