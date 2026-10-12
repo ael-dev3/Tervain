@@ -54,6 +54,24 @@ describe('Ground vegetation visibility', () => {
     layer.dispose();
   });
 
+  it('only forces tiles inside the drawable band when streaming outruns the quota', () => {
+    const { layer, generate } = fixture(0, { start: -2, end: 21 });
+    layer.buildRate = 0.01;
+    const camera = new THREE.Vector3(0, 1, 0);
+    layer.update(camera);
+    generate.mockClear();
+    camera.set(352, 1, -224);
+    layer.update(camera);
+    const outside = generate.mock.calls.filter(([tx, tz]) =>
+      tileHorizontalDistance(tx * SIZE, tz * SIZE, SIZE, camera) >= 21);
+    expect(outside.length).toBeLessThanOrEqual(1);
+    for (let tz = -16; tz <= -12; tz++) for (let tx = 20; tx <= 24; tx++) {
+      if (tileHorizontalDistance(tx * SIZE, tz * SIZE, SIZE, camera) < 20)
+        expect(tiles(layer).has(`${tx}:${tz}`)).toBe(true);
+    }
+    layer.dispose();
+  });
+
   it('does not regenerate the same horizontally nearby high-ground tiles every frame', () => {
     const { layer, generate } = fixture(1000);
     const camera = new THREE.Vector3(0, 1, 0);

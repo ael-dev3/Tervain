@@ -195,7 +195,8 @@ export class TileLayer {
     const T = o.tileSize;
     // Two complete rings buy generation time before an anchor enters the visible fade. Streaming uses
     // horizontal distance: high terrain must not be released and immediately regenerated every frame.
-    const reach = Math.min(o.fadeEnd, o.band?.end ?? Infinity) + T * 2;
+    const visibleEnd = Math.min(o.fadeEnd, o.band?.end ?? Infinity);
+    const reach = visibleEnd + T * 2;
     const tx0 = Math.floor((cam.x - reach) / T);
     const tx1 = Math.floor((cam.x + reach) / T);
     const tz0 = Math.floor((cam.z - reach) / T);
@@ -222,7 +223,7 @@ export class TileLayer {
       const cap = this.first ? want.length : Math.max(1, Math.round(2 * this.buildRate));
       // Teleports and large camera moves may outrun preloading. Never leave a hole inside the shader's
       // visible radius merely to meet an incremental-build quota; only the unseen reserve is throttled.
-      for (let i = 0; i < want.length && (i < cap || want[i]!.d < o.fadeEnd); i++) {
+      for (let i = 0; i < want.length && (i < cap || want[i]!.d < visibleEnd); i++) {
         const w = want[i]!;
         const t = this.acquire();
         this.fill(t, w.tx, w.tz);
