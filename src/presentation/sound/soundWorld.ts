@@ -255,6 +255,8 @@ export class SoundWorld {
   private readonly talk: GainNode;
   private readonly voiceBuffers = new Map<VoiceBank, AudioBuffer>();
   private readonly voiceLoads = new Map<VoiceBank, Promise<void>>();
+  /** Non-abortable work remains serialized even when a pause invalidates its speech request. */
+  private readonly voiceJobs = new Map<VoiceBank, Promise<void>>();
   /** When each loaded bank last played or was wanted, for letting go of the ones nobody near is using. */
   private readonly voiceUsed = new Map<VoiceBank, number>();
   private voiceSweep = 0;
@@ -439,12 +441,19 @@ export class SoundWorld {
     let p = this.voiceLoads.get(bank);
     if (!p) {
       const epoch = this.speechEpoch;
-      p = this.decode(VOICE_AUDIO.banks[bank].file, VOICE_AUDIO.base).then((buffer) => {
+      const previous = this.voiceJobs.get(bank);
+      p = (async () => {
+        if (previous) await previous;
+        if (this.disposed || this.hidden || epoch !== this.speechEpoch) return null;
+        return this.decode(VOICE_AUDIO.banks[bank].file, VOICE_AUDIO.base);
+      })().then((buffer) => {
         if (this.voiceLoads.get(bank) !== p) return;
         this.voiceLoads.delete(bank);
         if (buffer && !this.disposed && !this.hidden && epoch === this.speechEpoch) this.voiceBuffers.set(bank, buffer);
       });
       this.voiceLoads.set(bank, p);
+      this.voiceJobs.set(bank, p);
+      void p.then(() => { if (this.voiceJobs.get(bank) === p) this.voiceJobs.delete(bank); });
     }
     return p;
   }
@@ -1606,6 +1615,7 @@ export class SoundWorld {
     this.musicLoads.clear();
     this.pendingMedia.clear();
     this.voiceBuffers.clear();
+    this.voiceJobs.clear();
     this.voiceLoads.clear();
     this.voiceUsed.clear();
     this.animalBuffers.clear();
