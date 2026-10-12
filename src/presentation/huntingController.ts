@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { S } from '../content/strings';
 import type { Game } from '../game/game';
-import { ANIMAL_SPECIES, HUNTING_ARROW_RANGE, skinningSeconds, type AnimalId } from '../game/hunting';
+import { ANIMAL_SPECIES, HUNTING_ARROW_RANGE, skinningSeconds, withinSkinningReach, type AnimalId } from '../game/hunting';
 import type { Input } from '../platform/input';
 import { codeLabel, type Settings } from '../platform/settings';
 import type { AudioEngine } from './audio';
@@ -218,7 +218,7 @@ export class HuntingController {
     }
     const frame = world.animals.skinningFrame(id, player);
     if (!frame?.ready) return 'hunting.skin_wait';
-    if (Math.hypot(frame.stance.x - player.x, frame.stance.z - player.z) > .4) return 'hunting.too_far';
+    if (!withinSkinningReach(player, record.position) || Math.hypot(frame.stance.x - player.x, frame.stance.z - player.z) > .4) return 'hunting.too_far';
     const from = { x: player.x, y: player.y + .95, z: player.z };
     const target = { ...frame.target, y: frame.target.y + .04 };
     const obstruction = world.physics.traceProjectile(from, target);
