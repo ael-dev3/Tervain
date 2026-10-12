@@ -1923,9 +1923,9 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
   readonly #engineLocaleEnterCalls=new WeakSet<object>();
   readonly #engineLocaleLeaveCalls=new WeakSet<object>();
   readonly #engineLocaleReleasedEnters=new WeakSet<object>();
-  static leaveEngineCinitNestedLocaleSection(platform:NativeRuntimePlatform,crt:NativeModuleCrtOwner):NativeValue<void>{
+  static leaveEngineCinitLocaleSection(platform:NativeRuntimePlatform,crt:NativeModuleCrtOwner):NativeValue<void>{
     const active=NativeRuntimePlatform.requireActivePlatform(platform);if(!active.known)return active;
-    const argument=NativeX86ThreadStack.engineCinitNestedLocaleLeaveArgumentForPlatform(platform,crt);if(!argument.known)return argument;
+    const argument=NativeX86ThreadStack.engineCinitLocaleLeaveArgumentForPlatform(platform,crt);if(!argument.known)return argument;
     try {
       const {fields,offset,call,enteredCall}=argument.value;
       if(platform.#engineLocaleLeaveCalls.has(call)||platform.#engineLocaleReleasedEnters.has(enteredCall)||!platform.#engineLocaleEnterCalls.has(enteredCall))throw new Error('Actual unreleased nested acquisition required');

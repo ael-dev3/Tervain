@@ -624,3 +624,31 @@ default-pointer ownership, nested destructor/retain returns and the pending
 outer destructor. The normal boundary is `30670524` from `306708bf`.
 Outer release, epilogue, filebuf startup and campaign integration remain
 unfinished; this checkpoint remains local.
+
+
+## Outer release and normal locale-initializer return
+
+The shared leave admission now distinguishes the original `306708bf` outer
+caller from `30464ef1` nested cleanup. It requires each actual enclosing caller,
+paired stack receiver and returned constructor, selects the first returned
+enter call within that constructor's call sequence, and consumes that specific
+unreleased acquisition receipt. Outer receiver positions are checked against
+destructor position plus 24 and constructor position plus 28; nested positions
+keep their previous checks. Neither release can consume the other's receipt.
+
+The outer destructor now reduces section depth one to zero and returns to
+`306708c4`. The locale returns its actual constructed object in EAX, executes
+all captured EH3 epilogue instructions through `306708cb`, restores the enclosing
+streambuf exception chain and saved registers, and returns to the original
+`305ee6b2` caller at `305ee6b7`.
+
+TypeScript checking and ten focused checks passed across two runs: nine existing
+continuation/failure/admission cases and a separate interrupted outer-release
+case. The latter proves depth 1 to 0, duplicate rejection, retained published
+object, reference count two and actual pending leave word. The normal check
+proves both leave returns, depth zero, restored enclosing FS head and ESP,
+retained global/classic/default ownership and normal locale return. Exception
+handler/destructor paths outside this admitted normal call remain unfinished.
+The normal boundary is `305ee6b7`, before storing the returned locale pointer
+in the four-byte streambuf member. Filebuf completion, full engine startup and
+campaign integration remain unfinished. This checkpoint remains local.

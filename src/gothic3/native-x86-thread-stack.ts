@@ -1868,22 +1868,29 @@ stack.#engineCinitFrame!.pc='10003cd8';engineCinitUnMangleInstruction('10003cd8'
               retain('30464edf',()=>{objectPointer(register('ESI'),0);setRegister('EAX',stack.#load(object,4));});retain('30464ee2',()=>{const count=stack.#numeric(register('EAX'),4);stack.#arithmeticFlags(count,0xffffffff,(count-0xffffffff)>>>0,4,true);});retain('30464ee5',()=>{});
               if(stack.#numeric(register('EAX'),4)!==0xffffffff){retain('30464ee7',()=>{const before=stack.#numeric(register('EAX'),4),next=(before+1)>>>0;setRegister('EAX',stack.#mint(next,0xffffffff));stack.#arithmeticFlags(before,1,next,4,false);});retain('30464eea',()=>{objectPointer(register('ESI'),0);stack.#store(object,4,register('EAX'));});}
               retain('30464eed',()=>setRegister('ECX',stack.#stackWord(stack.#address(register('ESP'))+4)));retain('30464ef1',()=>stack.#call('30464ef1','30464ef6'));
+              const runLocaleLockDestructor=(returned:string,receiverPosition:number):boolean=>{
               const release=(pc:string,body:()=>void)=>step(pc,body,'30670524'),releaseArray=NativeEngineCinitImages.imageForCrt(images.value,crt,'sharedCriticalSectionArray');if(!releaseArray.known)throw new Error(releaseArray.reason);
-              release('30670524',()=>{const receiver=stack.#address(register('ECX')),call=stack.#calls.filter(row=>!row.returned).at(-1);if(call?.site!=='30464ef1'||receiver!==call.position+8)throw new Error('Actual nested locale lock destructor receiver required');setRegister('EAX',stack.#load(stack.#stack,receiver));});
+              release('30670524',()=>{const receiver=stack.#address(register('ECX')),call=stack.#calls.filter(row=>!row.returned).at(-1);if(!call||!['30464ef1','306708bf'].includes(call.site)||receiver!==receiverPosition)throw new Error('Actual nested locale lock destructor receiver required');setRegister('EAX',stack.#load(stack.#stack,receiver));});
               release('30670526',()=>{const index=stack.#numeric(register('EAX'),4);if(index>3)throw new Error('Actual stored locale lock index required');setRegister('EAX',stack.#mint(index*24,0xffffffff));stack.#flags(0,0x801);});
               release('30670529',()=>{const offset=stack.#numeric(register('EAX'),4);setRegister('EAX',stack.#mint(0,0,{kind:'engine-image',crt,fields:releaseArray.value,offset}));stack.#arithmeticFlags(offset,0x30af6d70,0x30af6d70+offset,4,false);});
               release('3067052e',()=>stack.#push(register('EAX')));release('3067052f',()=>stack.#call('3067052f','30670534'));
               step('3067135e',()=>stack.#push(stack.#load(stack.#stack,stack.#address(register('ESP'))+4)),'3067135e');step('30671362',()=>{const receipt=engineCinitImport('30afc6d8');if(receipt.module!=='KERNEL32.dll'||receipt.name!=='LeaveCriticalSection')throw new Error('Original locale leave-section import required');stack.#call('30671362','30671368');},'3067135e');
-              stack.#engineCinitFrame!.pc='30671362';const left=NativeRuntimePlatform.leaveEngineCinitNestedLocaleSection(stack.#platform,crt);if(!left.known)return known(undefined);
+              stack.#engineCinitFrame!.pc='30671362';const left=NativeRuntimePlatform.leaveEngineCinitLocaleSection(stack.#platform,crt);if(!left.known)return false;
               setRegister('EAX',stack.#mint(0,0));setRegister('ECX',stack.#mint(0,0));setRegister('EDX',stack.#mint(0,0));stack.#flags(0,0);
               const leaveReturn=stack.#record(stack.#ret(4)).provenance;if(leaveReturn?.kind!=='source'||leaveReturn.type!=='code'||leaveReturn.address!=='30671368')throw new Error('Actual nested leave stdcall return required');
               step('30671368',()=>{const p=stack.#record(stack.#ret()).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!=='30670534')throw new Error('Actual nested leave wrapper return required');},'3067135e');
-              release('30670534',()=>pop('ECX'));release('30670535',()=>{const p=stack.#record(stack.#ret()).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!=='30464ef6')throw new Error('Actual nested lock destructor return required');});
+              release('30670534',()=>pop('ECX'));release('30670535',()=>{const p=stack.#record(stack.#ret()).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!==returned)throw new Error('Actual nested lock destructor return required');});
+                return true;
+              };
+              if(!runLocaleLockDestructor('30464ef6',stack.#address(register('ECX'))))return known(undefined);
               retain('30464ef6',()=>pop('ESI'));retain('30464ef7',()=>pop('ECX'));retain('30464ef8',()=>{const p=stack.#record(stack.#ret()).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!=='306708ae')throw new Error('Actual locale retain helper return required');});
               const defaultPointer=NativeEngineCinitImages.imageForCrt(images.value,crt,'standardLocaleDefaultPointer');if(!defaultPointer.known)throw new Error(defaultPointer.reason);
               locale('306708ae',()=>{const word=stack.#load(classicPointer.value,0);objectPointer(word,0);setRegister('EAX',word);});locale('306708b3',()=>stack.#store(defaultPointer.value,0,register('EAX')));
               locale('306708b8',()=>{const at=stack.#address(register('EBP'))-4;stack.#store(stack.#stack,at,stack.#mint(0xffffffff,0xffffffff));stack.#logicalFlags(0xffffffff,0xffffffff,4);});locale('306708bc',()=>setRegister('ECX',stack.#stackWord(stack.#address(register('EBP'))-16)));locale('306708bf',()=>stack.#call('306708bf','306708c4'));
-              stack.#engineCinitFrame!.pc='30670524';return known(undefined);
+              if(!runLocaleLockDestructor('306708c4',stack.#address(register('ECX'))))return known(undefined);
+              locale('306708c4',()=>{objectPointer(register('ESI'),0);setRegister('EAX',register('ESI'));});locale('306708c6',()=>stack.#call('306708c6','306708cb'));runLocaleEh3Epilog('306708cb');
+              locale('306708cb',()=>{const p=stack.#record(stack.#ret()).provenance;if(p?.kind!=='source'||p.type!=='code'||p.address!=='305ee6b7')throw new Error('Actual locale initializer streambuf caller return required');});
+              stack.#engineCinitFrame!.pc='305ee6b7';return known(undefined);
             }
             if(target==='30791ef6'||target==='30791f18'){
               const initializer=target==='30791f18'
@@ -4076,16 +4083,16 @@ searchCharacterStep('100a7374',()=>pop('ESI'));searchCharacterStep('100a7375',()
       return known(undefined);
     }catch(error){return unknown(reason(error));}
   }
-  static engineCinitNestedLocaleLeaveArgumentForPlatform(platform:NativeRuntimePlatform,crt:NativeModuleCrtOwner):NativeValue<Readonly<{fields:NativeHeapObjectViews;offset:number;call:object;enteredCall:object}>> {
+  static engineCinitLocaleLeaveArgumentForPlatform(platform:NativeRuntimePlatform,crt:NativeModuleCrtOwner):NativeValue<Readonly<{fields:NativeHeapObjectViews;offset:number;call:object;enteredCall:object}>> {
     try {
       const stack=graphs.get(platform),f=stack?stack.#engineCinitFrame:null;if(!stack||!f||f.crt!==crt||f.pc!=='30671362')throw new Error('Actual pending nested locale leave required');
       stack.#physical(stack.#stack);stack.#physical(stack.#bank);
       const calls=stack.#calls.filter(row=>!row.returned),call=calls.at(-1),destructor=calls.at(-3);
-      if(call?.site!=='30671362'||calls.at(-2)?.site!=='3067052f'||destructor?.site!=='30464ef1'||calls.at(-4)?.site!=='306708a9')throw new Error('Actual nested locale leave caller chain required');
+      if(call?.site!=='30671362'||calls.at(-2)?.site!=='3067052f'||!destructor||!['30464ef1','306708bf'].includes(destructor.site))throw new Error('Actual locale leave caller chain required');const nested=destructor.site==='30464ef1';if(calls.at(-4)?.site!==(nested?'306708a9':'305ee6b2'))throw new Error('Actual enclosing locale leave caller required');
       const returned=stack.#record(call.returnWord).provenance;if(returned?.kind!=='source'||returned.type!=='code'||returned.address!=='30671368')throw new Error('Actual nested leave return required');
-      const constructor=stack.#calls.filter(row=>row.site==='30464eda'&&row.returned).at(-1),enteredCall=stack.#calls.filter(row=>row.site==='30671357'&&row.returned).at(-1);
+      const constructor=stack.#calls.filter(row=>row.site===(nested?'30464eda':'3067084d')&&row.returned).at(-1),enteredCall=constructor?stack.#calls.slice(stack.#calls.indexOf(constructor)+1).find(row=>row.site==='30671357'&&row.returned):undefined;
       if(!constructor||!enteredCall||stack.#calls.indexOf(enteredCall)<=stack.#calls.indexOf(constructor)||stack.#calls.indexOf(enteredCall)>=stack.#calls.indexOf(destructor))throw new Error('Actual returned nested acquisition required');
-      const receiver=stack.#address(stack.#load(stack.#bank,stack.#reg('ECX')));if(receiver!==destructor.position+8||receiver!==constructor.position+12)throw new Error('Actual paired nested stack lock receiver required');
+      const receiver=stack.#address(stack.#load(stack.#bank,stack.#reg('ECX')));if(receiver!==destructor.position+(nested?8:24)||receiver!==constructor.position+(nested?12:28))throw new Error('Actual paired nested stack lock receiver required');
       const index=stack.#numeric(stack.#load(stack.#stack,receiver),4),pointer=stack.#record(stack.#load(stack.#stack,stack.#address(stack.#load(stack.#bank,stack.#reg('ESP')))+4)).provenance;
       const array=NativeEngineCinitImages.imageForCrt(f.images,crt,'sharedCriticalSectionArray');if(!array.known)throw new Error(array.reason);
       if(index>3||pointer?.kind!=='engine-image'||pointer.crt!==crt||pointer.fields!==array.value||pointer.offset!==index*24)throw new Error('Actual paired nested shared section required');
