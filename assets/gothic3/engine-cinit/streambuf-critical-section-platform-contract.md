@@ -522,3 +522,28 @@ shared-reference and enum checks passed alongside it. The normal boundary is
 `306708a1`. Further locale setup/publication, lock release, outer epilogue and
 filebuf startup remain unfinished. This checkpoint is local, not a hosted
 campaign-completion claim.
+
+
+## Classic pointer and nested retain caller
+
+Capture adds `3002751b` (body `30464ed0`) and loader-zero-filled classic/default
+pointer globals `30af6ddc` and `30af6df4`, for 374 Engine methods. Earlier
+methods, imports, metadata and image records were compared and preserved.
+The helper's source acquires the shared locale lock, conditionally increments
+the reference count at object offset 4, and releases its local lock object.
+
+The runtime now executes the classic-pointer store at `306708a3` and the actual
+retain call at `306708a9`, returning through `306708ae`. It follows the retain
+entry, preserves the original object receiver, creates its stack lock object,
+pushes index zero and calls `30670503` at `30464eda`, returning through
+`30464edf`. This is a second lock-constructor caller with a distinct stack
+receiver; the existing outer-locale caller admission is not silently reused.
+
+TypeScript checking, all 158 source/image checks and two focused
+normal-continuation/enum checks passed. The normal check verifies actual classic
+pointer ownership, still-zero default pointer, pending nested constructor,
+original stack receiver and adjusted ESP. The reference count remains one and
+the outer lock remains held at depth one; no nested acquisition or retain
+success is fabricated. The normal boundary is `30670503` from `30464eda`.
+Nested acquisition/release, default publication, outer cleanup, filebuf startup
+and full campaign integration remain unfinished. This checkpoint is local.

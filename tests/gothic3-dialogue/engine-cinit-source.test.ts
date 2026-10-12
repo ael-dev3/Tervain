@@ -400,3 +400,11 @@ it('captures the classic locale name literal and its assignment wrapper',()=>{
  expect(engineCinitImage('standardLocaleClassicNameLiteral')).toMatchObject({address:'3084eff8',bytes:2,raw:'4300',fileBackedBytes:2,loaderZeroFillBytes:0});
  expect(engineCinitInstruction('30036ec6','303ed35d')).toMatchObject({instruction:'CALL 0x30042974'});
 });
+
+
+it('captures the original classic locale retain helper and pointer globals',()=>{
+ expect(engineCinitInstruction('3002751b','30464eda')).toMatchObject({instruction:'CALL 0x30670503'});
+ expect(engineCinitInstruction('3002751b','30464eea')).toMatchObject({instruction:'MOV dword ptr [ESI + 0x4],EAX'});
+ expect(engineCinitImage('standardLocaleClassicPointer')).toMatchObject({address:'30af6ddc',bytes:4,fileBackedBytes:0,loaderZeroFillBytes:4});
+ expect(engineCinitImage('standardLocaleDefaultPointer')).toMatchObject({address:'30af6df4',bytes:4,fileBackedBytes:0,loaderZeroFillBytes:4});
+});
