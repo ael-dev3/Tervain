@@ -263,3 +263,31 @@ Earlier allocation failures, lock admission and enum checks passed alongside it.
 The normal boundary is now `30042974`. The assignment, name/object constructor
 returns, exception cleanup and outer locale publication are still unfinished.
 This is local continuation evidence, not a hosted campaign verification.
+
+
+## Locale string-assignment source and prefix
+
+Capture adds `30042974`, which jumps to `303ed0f0`; the bundle now has 367
+Engine methods. Comparison proved all earlier methods, imports, metadata,
+images and other evidence records unchanged.
+
+The runtime follows that entry, saves EBX/EBP/ESI, validates the actual string
+member receiver at object offset 24, loads capacity 15, and follows the original
+inline-storage branch. EBX and EAX retain the actual allocation pointer at
+offset 28. The source argument loaded into EBP retains the original literal's
+image identity. The next instruction is `303ed10a`, comparing that image
+pointer against the heap-backed inline destination.
+
+Numeric ordering between the original image and the browser-owned allocation
+has not been proved. The runtime therefore stops before that comparison rather
+than inventing addresses or branch flags. The captured routine includes overlap
+handling, growth, copying through `30674b44`, length update and termination;
+none of those paths is claimed executed by this prefix. Resolving the pointer
+comparison or a rigorously proved equivalent control-flow join is the next task.
+
+TypeScript checking, 154 source/image checks and eight focused runtime checks
+passed locally. The normal check verifies original pending return words,
+capacity, unchanged member contents and masks, opaque pointer bits, and saved
+stack position; earlier failure paths remain intact. Assignment, constructor
+returns, cleanup, outer locale publication and filebuf startup remain incomplete.
+This checkpoint remains local and does not prove a hosted playable campaign.

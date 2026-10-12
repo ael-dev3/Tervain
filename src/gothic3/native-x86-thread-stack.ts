@@ -1760,7 +1760,15 @@ stack.#engineCinitFrame!.pc='10003cd8';engineCinitUnMangleInstruction('10003cd8'
               }
               nameConstructor('303ed649',()=>{const left=namePosition(register('EAX')),right=namePosition(register('EDI')),length=left-right;if(length<0)throw new Error('Actual nonnegative locale name length required');setRegister('EAX',stack.#mint(length,0xffffffff));stack.#arithmeticFlags(left,right,length,4,true);});
               nameConstructor('303ed64b',()=>stack.#push(register('EAX')));nameConstructor('303ed64c',()=>stack.#push(register('EDX')));nameConstructor('303ed64d',()=>setRegister('ECX',register('ESI')));nameConstructor('303ed64f',()=>stack.#call('303ed64f','303ed654'));
-              stack.#engineCinitFrame!.pc='30042974';return known(undefined);
+              const assign=(pc:string,body:()=>void)=>step(pc,body,'30042974');assign('30042974',()=>{});
+              assign('303ed0f0',()=>stack.#push(register('EBX')));assign('303ed0f1',()=>stack.#push(register('EBP')));assign('303ed0f2',()=>stack.#push(register('ESI')));
+              assign('303ed0f3',()=>{objectPointer(register('ECX'),24);setRegister('ESI',register('ECX'));});assign('303ed0f5',()=>{objectPointer(register('ESI'),24);setRegister('ECX',stack.#load(object,48));});
+              assign('303ed0f8',()=>{const capacity=stack.#numeric(register('ECX'),4);stack.#arithmeticFlags(capacity,16,(capacity-16)>>>0,4,true);});
+              assign('303ed0fb',()=>{objectPointer(register('ESI'),24);setRegister('EBX',stack.#mint(0,0,{kind:'engine-allocation',crt,fields:object,offset:28}));});assign('303ed0fe',()=>{});
+              if(stack.#numeric(register('ECX'),4)>=16){stack.#engineCinitFrame!.pc='303ed100';return known(undefined);}
+              assign('303ed104',()=>setRegister('EAX',register('EBX')));
+              assign('303ed106',()=>{const word=stack.#load(stack.#stack,stack.#address(register('ESP'))+16),p=stack.#record(word).provenance;if(p?.kind!=='engine-image'||p.crt!==crt||p.fields!==name.value||p.offset!==0)throw new Error('Actual locale assignment source argument required');setRegister('EBP',word);});
+              stack.#engineCinitFrame!.pc='303ed10a';return known(undefined);
             }
             if(target==='30791ef6'||target==='30791f18'){
               const initializer=target==='30791f18'

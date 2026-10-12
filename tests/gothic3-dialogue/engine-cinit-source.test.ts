@@ -372,3 +372,11 @@ it('captures the original locale object constructor and readonly name inputs',()
  expect(engineCinitImage('standardLocaleNameLiteral')).toMatchObject({address:'30826a90',raw:'2a00',bytes:2,fileBackedBytes:2,loaderZeroFillBytes:0});
  expect(engineCinitImage('standardLocaleObjectVtable')).toMatchObject({address:'30892a0c',raw:'16086730',bytes:4,fileBackedBytes:4,loaderZeroFillBytes:0});
 });
+
+
+it('captures the original locale string assignment overlap and copy path',()=>{
+ expect(engineCinitInstruction('30042974','30042974')).toMatchObject({bytes:'e977a73a00',targetVA:'303ed0f0'});
+ expect(engineCinitInstruction('30042974','303ed0f8')).toMatchObject({bytes:'83f910',instruction:'CMP ECX,0x10'});
+ expect(engineCinitInstruction('30042974','303ed10a')).toMatchObject({bytes:'3be8',instruction:'CMP EBP,EAX'});
+ expect(engineCinitInstruction('30042974','303ed191')).toMatchObject({bytes:'e8ae792800',instruction:'CALL 0x30674b44'});
+});
