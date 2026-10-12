@@ -1216,7 +1216,7 @@ export class SoundWorld {
    * Walking away lets the tune fade; staying away a while lets it end. A fight drowns it.
    */
   private updateSong(dt: number, frame: SoundFrame | null) {
-    const inInn = !!frame && frame.terrain.rooms?.at(frame.listener.x, frame.listener.z)?.building.kind === 'inn';
+    const inInn = !!frame && frame.terrain.rooms?.within(frame.listener.x, frame.listener.y, frame.listener.z)?.building.kind === 'inn';
     const target = frame && frame.mode !== 'dead' ? innSong({ ...frame.listener, indoors: frame.indoors, inInn }, frame.world) : null;
     const level = (target?.gain ?? 0) * (frame?.threat === 'none' ? 1 : 0.25);
     this.songLevel = level;
