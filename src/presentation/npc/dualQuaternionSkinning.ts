@@ -197,9 +197,22 @@ export function installDualQuaternionSkinning(mesh: THREE.SkinnedMesh): DualQuat
     }
   };
   const update = skeleton.update;
+  const words = new Uint32Array(data.buffer, data.byteOffset, data.length);
+  const previous = new Uint32Array(words.length);
   skeleton.update = function() {
-    update.call(this);
-    refresh();
+    previous.set(words);
+    // Three's update unconditionally dirties the texture. Defer that until the complete packed data is compared.
+    const texture = this.boneTexture;
+    this.boneTexture = null;
+    try {
+      update.call(this);
+      refresh();
+    } finally {
+      this.boneTexture = texture;
+    }
+    if (texture) for (let i = 0; i < data.length; i++) {
+      if (words[i] !== previous[i]) { texture.needsUpdate = true; break; }
+    }
   };
   // A texture rebuilt by the renderer would drop the motions: keep this layout for the skeleton's whole life.
   skeleton.computeBoneTexture = function() { return this; };
