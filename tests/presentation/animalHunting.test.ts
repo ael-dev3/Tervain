@@ -256,8 +256,24 @@ describe('posed triangle arrow contacts', () => {
     expect(surface.trace(new THREE.Vector3(0, 1.1, 3), direction, 5)?.zone).toBe('head');
     expect(surface.trace(new THREE.Vector3(0, 1.6, 3), direction, 5)?.zone).toBeNull();
     expect(surface.trace(new THREE.Vector3(.4, .8, 3), direction, 5)).toBeNull();
+    const vertexReads = vi.spyOn(mesh, 'getVertexPosition');
+    surface.trace(new THREE.Vector3(0, 1.1, 3), direction, 5);
+    const reads = vertexReads.mock.calls.length;
+    for (let i = 0; i < 120; i++) expect(surface.trace(new THREE.Vector3(0, 1.1, 3), direction, 5)?.zone).toBe('head');
+    expect(vertexReads.mock.calls.length).toBe(reads);
     mesh.skeleton.bones[2]!.position.z = .35; source.scene.updateMatrixWorld(true); mesh.skeleton.update();
     const hit = surface.trace(new THREE.Vector3(0, 1.1, 3), direction, 5)!; expect(hit.zone).toBe('head'); expect(hit.point.z).toBeCloseTo(1);
+    expect(vertexReads.mock.calls.length).toBeGreaterThan(reads);
+    source.scene.position.x = 2; source.scene.updateMatrixWorld(true);
+    const translated = surface.trace(new THREE.Vector3(2, 1.1, 3), direction, 5)!;
+    expect(translated.zone).toBe('head'); expect(translated.point.x).toBeCloseTo(2);
+    source.scene.position.x = 0; source.scene.updateMatrixWorld(true);
+    source.scene.scale.set(2, .7, 1.3); source.scene.updateMatrixWorld(true);
+    const scaled = surface.trace(new THREE.Vector3(0, .77, 3), direction, 5)!;
+    expect(scaled.zone).toBe('head'); expect(scaled.point.z).toBeCloseTo(1.3);
+    source.scene.scale.set(1, 1, 1); source.scene.updateMatrixWorld(true);
+
+
     const root = new THREE.Group(); root.add(source.scene); root.updateMatrixWorld(true);
     const effects = new AnimalImpactEffects(terrain);
     effects.impact({ scene: source.scene, root }, { ...hit, id: 'stag', position: { x: 0, y: 0, z: 0 }, yaw: 0 }, direction);
