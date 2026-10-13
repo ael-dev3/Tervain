@@ -12,10 +12,11 @@ try{
  if('repro'in args){
   report.repro=await page.eval(`const T=window.tervain,forest=T.world.modules.find(m=>m.name==='forest').module,original=forest.canopyAuditTargets,targets=original.call(forest),baseline=await T.auditCanopies(${JSON.stringify(options)});
    const index=targets.findIndex((t,i)=>t.leaves&&baseline.trees[i].candidates.length===0);if(index<0)throw new Error('No supported leafy fixture available');
-   const target=targets[index],leaf=target.leaves.clone();target.wood.computeBoundingBox();leaf.computeBoundingBox();const offset=target.wood.boundingBox.max.x-leaf.boundingBox.min.x+10;leaf.translate(offset,0,0);
+   const target=targets[index],leaf=target.leaves.clone(),position=target.leaves.getAttribute('position'),saved=position.clone(),savedBox=target.leaves.boundingBox,savedSphere=target.leaves.boundingSphere;target.wood.computeBoundingBox();leaf.computeBoundingBox();const offset=target.wood.boundingBox.max.x-leaf.boundingBox.min.x+10;leaf.translate(offset,0,0);
    const oldRoot=await T.auditPlacement({kind:'root',maxChecks:100000});
-   forest.canopyAuditTargets=()=>targets.map((t,i)=>i===index?{...t,leaves:leaf}:t);
-   let detached,rootAfter;try{detached=await T.auditCanopies(${JSON.stringify(options)});rootAfter=await T.auditPlacement({kind:'root',maxChecks:100000});}finally{forest.canopyAuditTargets=original;}
+   // Mutate the actual shared near-source geometry, so both old and new checks see the same fixture.
+   position.copy(leaf.getAttribute('position'));position.needsUpdate=true;target.leaves.boundingBox=null;target.leaves.boundingSphere=null;
+   let detached,rootAfter;try{detached=await T.auditCanopies(${JSON.stringify(options)});rootAfter=await T.auditPlacement({kind:'root',maxChecks:100000});}finally{position.copy(saved);position.needsUpdate=true;target.leaves.boundingBox=savedBox;target.leaves.boundingSphere=savedSphere;}
    const restored=await T.auditCanopies(${JSON.stringify(options)});
    const scene=new T.world.scene.constructor();scene.environment=T.world.scene.environment;
    T.world.scene.traverse(o=>{if(o.isLight)scene.add(o.clone());});

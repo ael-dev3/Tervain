@@ -1,0 +1,2424 @@
+{
+  "schema": 1,
+  "gap": 0.75,
+  "operations": 8540370,
+  "complete": true,
+  "summary": {
+    "trees": 341,
+    "leafless": 0,
+    "components": 665643,
+    "chunks": 349,
+    "candidates": 0
+  },
+  "trees": [
+    {
+      "label": "tree:wild:54:3",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:47:4",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:67:4",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:57:6",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:60:6",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:65:7",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:74:7",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:80:7",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:67:8",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:43:10",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:71:12",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:83:14",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:42:19",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:41:20:sapling",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:33:21",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:42:21:sapling",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:51:21",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:24:22:sapling",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:38:22",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:40:23:sapling",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:48:23",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:42:25",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:42:28",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:29:31",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:30:31",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:34:31",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:26:34",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:27:34",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:25:37",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:76:40",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:0:30",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:0:31",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:0:32",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:55:3",
+      "leafless": false,
+      "components": 510,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:63:4",
+      "leafless": false,
+      "components": 510,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:55:5",
+      "leafless": false,
+      "components": 510,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:69:5",
+      "leafless": false,
+      "components": 510,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:74:5",
+      "leafless": false,
+      "components": 510,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:62:6",
+      "leafless": false,
+      "components": 510,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:49:7",
+      "leafless": false,
+      "components": 510,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:73:7",
+      "leafless": false,
+      "components": 510,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:50:9",
+      "leafless": false,
+      "components": 510,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:62:9",
+      "leafless": false,
+      "components": 510,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:66:9",
+      "leafless": false,
+      "components": 510,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:69:9",
+      "leafless": false,
+      "components": 510,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:74:9",
+      "leafless": false,
+      "components": 510,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:67:10",
+      "leafless": false,
+      "components": 510,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:50:11",
+      "leafless": false,
+      "components": 510,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:79:11",
+      "leafless": false,
+      "components": 510,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:30:12",
+      "leafless": false,
+      "components": 510,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:32:12",
+      "leafless": false,
+      "components": 510,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:28:13",
+      "leafless": false,
+      "components": 510,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:33:13",
+      "leafless": false,
+      "components": 510,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:35:13",
+      "leafless": false,
+      "components": 510,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:36:13:sapling",
+      "leafless": false,
+      "components": 510,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:77:14",
+      "leafless": false,
+      "components": 510,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:39:15",
+      "leafless": false,
+      "components": 510,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:41:16",
+      "leafless": false,
+      "components": 510,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:88:16",
+      "leafless": false,
+      "components": 510,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:38:18",
+      "leafless": false,
+      "components": 510,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:86:18",
+      "leafless": false,
+      "components": 510,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:27:19:sapling",
+      "leafless": false,
+      "components": 510,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:78:19",
+      "leafless": false,
+      "components": 510,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:83:20",
+      "leafless": false,
+      "components": 510,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:53:21",
+      "leafless": false,
+      "components": 510,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:86:22",
+      "leafless": false,
+      "components": 510,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:55:23",
+      "leafless": false,
+      "components": 510,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:90:25",
+      "leafless": false,
+      "components": 510,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:88:28",
+      "leafless": false,
+      "components": 510,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:87:29",
+      "leafless": false,
+      "components": 510,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:87:31",
+      "leafless": false,
+      "components": 510,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:1:38",
+      "leafless": false,
+      "components": 510,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:1:39",
+      "leafless": false,
+      "components": 510,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:1:40",
+      "leafless": false,
+      "components": 510,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:1:41",
+      "leafless": false,
+      "components": 510,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:1:42",
+      "leafless": false,
+      "components": 510,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:1:43",
+      "leafless": false,
+      "components": 510,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:1:44",
+      "leafless": false,
+      "components": 510,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:1:45",
+      "leafless": false,
+      "components": 510,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:1:46",
+      "leafless": false,
+      "components": 510,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:1:47",
+      "leafless": false,
+      "components": 510,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:1:48",
+      "leafless": false,
+      "components": 510,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:1:49",
+      "leafless": false,
+      "components": 510,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:1:50",
+      "leafless": false,
+      "components": 510,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:1:51",
+      "leafless": false,
+      "components": 510,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:1:52",
+      "leafless": false,
+      "components": 510,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:1:53",
+      "leafless": false,
+      "components": 510,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:1:54",
+      "leafless": false,
+      "components": 510,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:1:55",
+      "leafless": false,
+      "components": 510,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:1:56",
+      "leafless": false,
+      "components": 510,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:1:57",
+      "leafless": false,
+      "components": 510,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:66:3",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:68:4",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:47:5",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:56:6",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:64:6",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:50:7",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:60:8",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:75:8",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:79:8",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:72:9",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:63:10",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:79:10",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:63:11",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:28:12:sapling",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:48:12",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:79:13",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:82:13",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:82:16",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:35:20",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:45:20",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:37:21",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:38:21",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:43:21",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:34:22",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:43:23",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:33:25",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:34:25",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:37:25:sapling",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:46:26",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:43:28:sapling",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:30:32",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:34:32",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:29:34",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:25:35",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:32:35",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:25:38:sapling",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:57:39",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:54:43",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:2:38",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:2:39",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:70:3",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:65:4",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:45:6",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:51:6",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:59:6",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:67:6",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:46:8",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:48:8",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:51:8",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:76:9",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:65:12",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:38:13",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:65:13",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:84:16",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:24:18",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:41:18",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:88:18",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:35:19",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:37:19",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:39:20",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:40:20:sapling",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:41:20",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:43:22",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:39:23",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:36:25",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:36:26",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:37:27",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:35:28",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:31:29",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:28:30",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:33:31",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:24:33",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:26:33",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:28:33",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:32:33",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:34:33",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:31:35",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:26:37",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:62:41",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:36:42",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:57:43",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:3:41",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:3:42",
+      "leafless": false,
+      "components": 666,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:0",
+      "leafless": false,
+      "components": 658,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:1",
+      "leafless": false,
+      "components": 658,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:2",
+      "leafless": false,
+      "components": 658,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:3",
+      "leafless": false,
+      "components": 658,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:4",
+      "leafless": false,
+      "components": 658,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:5",
+      "leafless": false,
+      "components": 658,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:6",
+      "leafless": false,
+      "components": 658,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:7",
+      "leafless": false,
+      "components": 658,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:8",
+      "leafless": false,
+      "components": 658,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:9",
+      "leafless": false,
+      "components": 658,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:10",
+      "leafless": false,
+      "components": 658,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:11",
+      "leafless": false,
+      "components": 658,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:12",
+      "leafless": false,
+      "components": 658,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:13",
+      "leafless": false,
+      "components": 658,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:14",
+      "leafless": false,
+      "components": 658,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:15",
+      "leafless": false,
+      "components": 658,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:16",
+      "leafless": false,
+      "components": 658,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:17",
+      "leafless": false,
+      "components": 658,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:18",
+      "leafless": false,
+      "components": 658,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:19",
+      "leafless": false,
+      "components": 658,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:20",
+      "leafless": false,
+      "components": 658,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:21",
+      "leafless": false,
+      "components": 658,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:22",
+      "leafless": false,
+      "components": 658,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:23",
+      "leafless": false,
+      "components": 658,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:24",
+      "leafless": false,
+      "components": 658,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:25",
+      "leafless": false,
+      "components": 658,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:26",
+      "leafless": false,
+      "components": 658,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:27",
+      "leafless": false,
+      "components": 658,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:28",
+      "leafless": false,
+      "components": 658,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:29",
+      "leafless": false,
+      "components": 658,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:30",
+      "leafless": false,
+      "components": 658,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:31",
+      "leafless": false,
+      "components": 658,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:32",
+      "leafless": false,
+      "components": 658,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:33",
+      "leafless": false,
+      "components": 658,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:34",
+      "leafless": false,
+      "components": 658,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:35",
+      "leafless": false,
+      "components": 658,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:36",
+      "leafless": false,
+      "components": 658,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:37",
+      "leafless": false,
+      "components": 658,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:38",
+      "leafless": false,
+      "components": 658,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:39",
+      "leafless": false,
+      "components": 658,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:40",
+      "leafless": false,
+      "components": 658,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:41",
+      "leafless": false,
+      "components": 658,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:42",
+      "leafless": false,
+      "components": 658,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:43",
+      "leafless": false,
+      "components": 658,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:44",
+      "leafless": false,
+      "components": 658,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:45",
+      "leafless": false,
+      "components": 658,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:46",
+      "leafless": false,
+      "components": 658,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:61:10",
+      "leafless": false,
+      "components": 5798,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:66:19",
+      "leafless": false,
+      "components": 5798,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:71:20",
+      "leafless": false,
+      "components": 5798,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:68:22",
+      "leafless": false,
+      "components": 5798,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:68:23",
+      "leafless": false,
+      "components": 5798,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:69:29",
+      "leafless": false,
+      "components": 5798,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:75:37",
+      "leafless": false,
+      "components": 5798,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:62:10",
+      "leafless": false,
+      "components": 6000,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:63:12",
+      "leafless": false,
+      "components": 6000,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:65:14",
+      "leafless": false,
+      "components": 6000,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:59:15",
+      "leafless": false,
+      "components": 6000,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:64:15",
+      "leafless": false,
+      "components": 6000,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:58:16",
+      "leafless": false,
+      "components": 6000,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:57:19",
+      "leafless": false,
+      "components": 6000,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:38:23",
+      "leafless": false,
+      "components": 6000,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:32:25",
+      "leafless": false,
+      "components": 6000,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:31:26",
+      "leafless": false,
+      "components": 6000,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:33:27:sapling",
+      "leafless": false,
+      "components": 6000,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:39:28",
+      "leafless": false,
+      "components": 6000,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:70:28",
+      "leafless": false,
+      "components": 6000,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:75:38",
+      "leafless": false,
+      "components": 6000,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:45:12",
+      "leafless": false,
+      "components": 5654,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:29:25",
+      "leafless": false,
+      "components": 5654,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:23:27",
+      "leafless": false,
+      "components": 5654,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:32:27",
+      "leafless": false,
+      "components": 5654,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:49:39",
+      "leafless": false,
+      "components": 5654,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:36:41:sapling",
+      "leafless": false,
+      "components": 5654,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:42:45",
+      "leafless": false,
+      "components": 5654,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:61:12",
+      "leafless": false,
+      "components": 5674,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:63:14",
+      "leafless": false,
+      "components": 5674,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:64:14",
+      "leafless": false,
+      "components": 5674,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:65:15",
+      "leafless": false,
+      "components": 5674,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:39:24",
+      "leafless": false,
+      "components": 5674,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:68:33",
+      "leafless": false,
+      "components": 5674,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:81:37",
+      "leafless": false,
+      "components": 5674,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:9:0",
+      "leafless": false,
+      "components": 381,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:9:1",
+      "leafless": false,
+      "components": 381,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:9:2",
+      "leafless": false,
+      "components": 381,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:9:3",
+      "leafless": false,
+      "components": 381,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:9:4",
+      "leafless": false,
+      "components": 381,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:9:5",
+      "leafless": false,
+      "components": 381,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:9:6",
+      "leafless": false,
+      "components": 381,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:9:7",
+      "leafless": false,
+      "components": 381,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:9:8",
+      "leafless": false,
+      "components": 381,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:9:9",
+      "leafless": false,
+      "components": 381,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:9:10",
+      "leafless": false,
+      "components": 381,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:9:11",
+      "leafless": false,
+      "components": 381,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:9:12",
+      "leafless": false,
+      "components": 381,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:9:13",
+      "leafless": false,
+      "components": 381,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:68:13",
+      "leafless": false,
+      "components": 5901,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:75:14",
+      "leafless": false,
+      "components": 5901,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:50:15",
+      "leafless": false,
+      "components": 5901,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:65:16",
+      "leafless": false,
+      "components": 5901,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:59:18",
+      "leafless": false,
+      "components": 5901,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:69:26",
+      "leafless": false,
+      "components": 5901,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:76:28",
+      "leafless": false,
+      "components": 5901,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:41:32:sapling",
+      "leafless": false,
+      "components": 5901,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:41:33:sapling",
+      "leafless": false,
+      "components": 5901,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:86:33",
+      "leafless": false,
+      "components": 5901,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:80:34",
+      "leafless": false,
+      "components": 5901,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:38:35",
+      "leafless": false,
+      "components": 5901,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:48:37",
+      "leafless": false,
+      "components": 5901,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:37:38:sapling",
+      "leafless": false,
+      "components": 5901,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:39:39",
+      "leafless": false,
+      "components": 5901,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:64:39",
+      "leafless": false,
+      "components": 5901,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:43:43",
+      "leafless": false,
+      "components": 5901,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:41:44",
+      "leafless": false,
+      "components": 5901,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:57:20",
+      "leafless": false,
+      "components": 5906,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:27:22",
+      "leafless": false,
+      "components": 5906,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:79:22",
+      "leafless": false,
+      "components": 5906,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:26:25",
+      "leafless": false,
+      "components": 5906,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:39:25",
+      "leafless": false,
+      "components": 5906,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:80:25",
+      "leafless": false,
+      "components": 5906,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:80:26",
+      "leafless": false,
+      "components": 5906,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:75:27",
+      "leafless": false,
+      "components": 5906,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:35:34",
+      "leafless": false,
+      "components": 5906,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:40:35",
+      "leafless": false,
+      "components": 5906,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:47:37",
+      "leafless": false,
+      "components": 5906,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:55:37",
+      "leafless": false,
+      "components": 5906,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:73:37",
+      "leafless": false,
+      "components": 5906,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:45:39",
+      "leafless": false,
+      "components": 5906,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:37:40",
+      "leafless": false,
+      "components": 5906,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:41:43",
+      "leafless": false,
+      "components": 5906,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:36:23",
+      "leafless": false,
+      "components": 5798,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:38:24",
+      "leafless": false,
+      "components": 5798,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:25:28:sapling",
+      "leafless": false,
+      "components": 5798,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:70:35",
+      "leafless": false,
+      "components": 5798,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:52:26",
+      "leafless": false,
+      "components": 5604,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:85:30",
+      "leafless": false,
+      "components": 5604,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:42:31",
+      "leafless": false,
+      "components": 5604,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:43:38:sapling",
+      "leafless": false,
+      "components": 5604,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:40:40",
+      "leafless": false,
+      "components": 5604,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:40:42",
+      "leafless": false,
+      "components": 5604,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:palm:16:6",
+      "leafless": false,
+      "components": 360,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:palm:18:9",
+      "leafless": false,
+      "components": 360,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:palm:16:10",
+      "leafless": false,
+      "components": 360,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:palm:17:11",
+      "leafless": false,
+      "components": 360,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:palm:13:13",
+      "leafless": false,
+      "components": 360,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:palm:14:49",
+      "leafless": false,
+      "components": 360,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:palm:15:8",
+      "leafless": false,
+      "components": 360,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:palm:17:12",
+      "leafless": false,
+      "components": 360,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:palm:17:20",
+      "leafless": false,
+      "components": 360,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:palm:17:9",
+      "leafless": false,
+      "components": 648,
+      "chunks": 2,
+      "candidates": []
+    },
+    {
+      "label": "tree:palm:17:10",
+      "leafless": false,
+      "components": 648,
+      "chunks": 2,
+      "candidates": []
+    },
+    {
+      "label": "tree:palm:17:13",
+      "leafless": false,
+      "components": 648,
+      "chunks": 2,
+      "candidates": []
+    },
+    {
+      "label": "tree:palm:19:17",
+      "leafless": false,
+      "components": 648,
+      "chunks": 2,
+      "candidates": []
+    },
+    {
+      "label": "tree:palm:20:17",
+      "leafless": false,
+      "components": 648,
+      "chunks": 2,
+      "candidates": []
+    },
+    {
+      "label": "tree:palm:20:19",
+      "leafless": false,
+      "components": 648,
+      "chunks": 2,
+      "candidates": []
+    },
+    {
+      "label": "tree:palm:14:45",
+      "leafless": false,
+      "components": 648,
+      "chunks": 2,
+      "candidates": []
+    },
+    {
+      "label": "tree:palm:16:47",
+      "leafless": false,
+      "components": 648,
+      "chunks": 2,
+      "candidates": []
+    },
+    {
+      "label": "tree:edge:1:2",
+      "leafless": false,
+      "components": 510,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:orchard:0:0",
+      "leafless": false,
+      "components": 5901,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:orchard:1:2",
+      "leafless": false,
+      "components": 5901,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:orchard:2:1",
+      "leafless": false,
+      "components": 5901,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:orchard:4:2",
+      "leafless": false,
+      "components": 5901,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:orchard:4:5",
+      "leafless": false,
+      "components": 5901,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:orchard:0:2",
+      "leafless": false,
+      "components": 5674,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:orchard:1:0",
+      "leafless": false,
+      "components": 5674,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:orchard:3:1",
+      "leafless": false,
+      "components": 5674,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:orchard:3:2",
+      "leafless": false,
+      "components": 5674,
+      "chunks": 1,
+      "candidates": []
+    }
+  ],
+  "scope": "Registered forest near-source rest geometry. Leaf components link by bounding-box proximity, then sampled wood-triangle contacts. Alpha transparency and shader wind are not evaluated; candidates require visual review. Null sampled gap means no nearby triangle was found, not an exact distance.",
+  "expectedTrees": 341,
+  "revision": "19ca4dc75",
+  "version": "0.0.14",
+  "pass": true,
+  "repro": {
+    "tree": "tree:wild:54:3",
+    "before": {
+      "rootCandidates": 0,
+      "canopyCandidates": 0
+    },
+    "detached": {
+      "rootCandidates": 0,
+      "canopyCandidates": 33,
+      "fixtureCandidates": 1,
+      "complete": true
+    },
+    "restored": {
+      "canopyCandidates": 0,
+      "complete": true
+    }
+  }
+}
