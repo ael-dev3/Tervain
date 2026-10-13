@@ -498,6 +498,9 @@ export class App {
       if (this.rebuildPropPoses) this.world.physics.restore(this.rebuildPropPoses);
       this.world.scene.add(this.player.group);
       this.hunting.attach();
+      // Patch the hero's near fade into every material he carries (bow, arrow, knife) before the shaders are warmed;
+      // patched at first play instead, the warmed bow program was dropped and rebuilt in the first draw (a 0.2 s frame).
+      this.heroFade.apply(this.player.group, 1);
       this.applyQualityToRenderer();
       this.npcs = npcs;
       for (const n of this.npcs) this.world.scene.add(n.rig.root);

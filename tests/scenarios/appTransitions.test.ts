@@ -14,6 +14,7 @@ import { MenuScene } from '../../src/presentation/menuScene';
 import { track } from '../../src/presentation/human/sheetPool';
 import { HuntingController } from '../../src/presentation/huntingController';
 import { LoadingScreen } from '../../src/presentation/ui/loadingScreen';
+import { NearFade } from '../../src/presentation/nearFade';
 
 const menuFailure = vi.hoisted(() => ({ next: false }));
 const stagedActors = vi.hoisted(() => ({ roots: [] as unknown[] }));
@@ -124,7 +125,7 @@ function fixture() {
   // Exercise App's actual lifecycle methods without starting a renderer or constructing another scene.
   const app = Object.assign(Object.create(App.prototype) as object, {
     mode: 'play', settings, input, canvas, game: new Game(createInitialState()),
-    arrivals: new ResidentArrivals(), npcAssetsLoad: null, castLoad: null, enemies: [],
+    arrivals: new ResidentArrivals(), heroFade: new NearFade(), npcAssetsLoad: null, castLoad: null, enemies: [],
     panels: { isOpen: false, closeAll: vi.fn(), el: new ElementFixture('DIV') },
     titleEl: new ElementFixture('DIV'), loadingEl: new ElementFixture('DIV'), debugEl: new ElementFixture('DIV'),
     hud: { el: { inert: true }, show: vi.fn(), showFade: vi.fn(), toast: vi.fn(), caption: vi.fn() },
