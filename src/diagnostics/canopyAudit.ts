@@ -39,16 +39,18 @@ export function auditCanopies(targets: readonly CanopyAuditTarget[], options: Ca
       // Query only neighboring leaf bounds. A minimum spanning forest preserves connectivity
       // at every instance's distance threshold while avoiding dense repeated edges per tree.
       const leafCells=new Map<string,number[]>(),large:number[]=[],pairs:[number,number,number][]=[];
+      const zero=union(entry.components.length);
       const keys=(r:number[],visit:(key:string)=>void)=>{for(let x=r[0]!;x<=r[1]!;x++)for(let y=r[2]!;y<=r[3]!;y++)for(let z=r[4]!;z<=r[5]!;z++){charge();visit(`${x},${y},${z}`);}};
       const huge=(r:number[])=>(r[1]!-r[0]!+1)*(r[3]!-r[2]!+1)*(r[5]!-r[4]!+1)>512;
       for(let i=0;i<entry.components.length;i++){
         const box=entry.components[i]!.box,search=range(box.clone().expandByScalar(entry.maxGap)),near=new Set<number>(large);
         if(huge(search)){for(let j=0;j<i;j++)near.add(j);}else keys(search,key=>{for(const j of leafCells.get(key)??[])near.add(j);});
-        for(const j of near){charge();const distance=boxGap(box,entry.components[j]!.box);if(distance<=entry.maxGap)pairs.push([i,j,distance]);}
+        for(const j of near){if(zero.find(i)===zero.find(j))continue;charge();const distance=boxGap(box,entry.components[j]!.box);if(distance===0){zero.join(i,j);entry.edges.push([i,j,0]);}else if(distance<=entry.maxGap)pairs.push([i,j,distance]);}
         const own=range(box);if(huge(own))large.push(i);else keys(own,key=>{const list=leafCells.get(key)??[];list.push(i);leafCells.set(key,list);});
       }
-      pairs.sort((a,b)=>a[2]-b[2]);const spanning=union(entry.components.length);
-      for(const[a,b,d]of pairs){charge();if(spanning.find(a)!==spanning.find(b)){spanning.join(a,b);entry.edges.push([a,b,d]);}}
+      const bridges=new Map<string,[number,number,number]>();
+      for(const pair of pairs){charge();const a=zero.find(pair[0]),b=zero.find(pair[1]);if(a===b)continue;const key=a<b?`${a},${b}`:`${b},${a}`,old=bridges.get(key);if(!old||pair[2]<old[2])bridges.set(key,pair);}
+      for(const[a,b,d]of [...bridges.values()].sort((a,b)=>a[2]-b[2])){charge();if(zero.find(a)!==zero.find(b)){zero.join(a,b);entry.edges.push([a,b,d]);}}
     }
   }
   const trees=targets.map(t=>{if(!t.leaves)return{label:t.label,leafless:true,components:0,chunks:0,candidates:[] as {position:number[];components:number;sampledWoodGap:number|null}[]};const entry=groups.get(t.wood)!.get(t.leaves)!,s=scale(t.matrix),limit=gap/s,graph=union(entry.components.length);
