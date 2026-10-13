@@ -203,7 +203,7 @@ vec3 gAcross = vec3(cos(gFace), 0.0, sin(gFace));
 vec3 gToEye = cameraPosition - vec3(gRootW.x, gGround, gRootW.y);
 vec2 gEyeH = normalize(gToEye.xz + vec2(1e-4, 0.0));
 vec2 gSideEye = vec2(-gEyeH.y, gEyeH.x);
-vec2 gAcrossH = normalize(mix(gAcross.xz, gSideEye * sign(dot(gAcross.xz, gSideEye) + 1e-4), 0.35));
+vec2 gAcrossH = normalize(mix(gAcross.xz, gSideEye * clamp(dot(gAcross.xz, gSideEye) * 3.0, -1.0, 1.0), 0.35));
 gAcross = vec3(gAcrossH.x, 0.0, gAcrossH.y);
 // A79: in front of a low camera a blade filled the view as a wide, flat ribbon, and where a tall blade leant into the lens
 // the near plane cut it into a slab hanging in the air. Measured at each point of the blade, not its root: close by it
@@ -316,7 +316,7 @@ export function createGrassMaterial(opts: GrassMaterialOptions): GrassMaterial {
       .replace('#include <lights_lambert_pars_fragment>', `#include <lights_lambert_pars_fragment>\n${GRASS_LIGHT_GLSL}`);
     opts.patch?.(shader);
   };
-  material.customProgramCacheKey = () => `tervain-grass-blades-v3${opts.patchKey ? `-${opts.patchKey}` : ''}`;
+  material.customProgramCacheKey = () => `tervain-grass-blades-v4${opts.patchKey ? `-${opts.patchKey}` : ''}`;
   return {
     material, uniforms, ok: () => !failed,
     setBand(b) { uniforms.uBand.value.set(b.inStart, b.inEnd, b.outStart, b.outEnd); },
