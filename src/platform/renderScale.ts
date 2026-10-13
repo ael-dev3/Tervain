@@ -1,6 +1,6 @@
 /**
  * Dynamic resolution (A113). The pixel ratio a quality preset asks for is a ceiling, not a promise: a Retina MacBook on
- * High draws four times a 1× screen's pixels with a fraction of a desktop card's power, and the game missed most of its
+ * High at DPR 2 drew four times a 1× screen's pixels with a fraction of a desktop card's power, and the game missed most of its
  * 60 Hz frames there. The scale watches the frames the display actually shows and lowers the drawing resolution while
  * they are being missed, then raises it again once they have been steady for a while.
  */
@@ -57,4 +57,9 @@ export class RenderScale {
 /** Never below one drawn pixel per CSS pixel on a high-density screen, nor below 0.75 on an ordinary one. */
 export function renderScaleFloor(presetRatio: number): number {
   return Math.min(1, Math.max(0.75, presetRatio * 0.5) / presetRatio);
+}
+
+/** Bound Retina fill cost while retaining the selected geometry, shading and shadow preset. */
+export function presetPixelRatio(quality: 'low' | 'medium' | 'high', deviceRatio: number): number {
+  return Math.min(deviceRatio, quality === 'low' ? 1 : 1.5);
 }

@@ -1,0 +1,36 @@
+{
+  "build": {
+    "version": "0.0.14",
+    "revision": "69500784e"
+  },
+  "quality": "high",
+  "devicePixelRatio": 2,
+  "pixelRatio": 2,
+  "buffer": [
+    1280,
+    720
+  ],
+  "pixels": 921600,
+  "gradeTarget": [
+    1280,
+    720
+  ],
+  "frames": [
+    {
+      "drawCalls": 303,
+      "triangles": 2840467,
+      "uploadBytes": 6912
+    },
+    {
+      "drawCalls": 303,
+      "triangles": 2840467,
+      "uploadBytes": 6912
+    },
+    {
+      "drawCalls": 303,
+      "triangles": 2840467,
+      "uploadBytes": 6912
+    }
+  ],
+  "pass": true
+}

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { RenderScale, renderScaleFloor } from '../../src/platform/renderScale';
+import { RenderScale, renderScaleFloor, presetPixelRatio } from '../../src/platform/renderScale';
 
 const feed = (r: RenderScale, ms: number, n: number) => { let changes = 0; for (let i = 0; i < n; i++) if (r.sample(ms)) changes++; return changes; };
 
@@ -33,4 +33,12 @@ describe('dynamic resolution (A113)', () => {
     expect(renderScaleFloor(1)).toBe(0.75);
     expect(renderScaleFloor(1.5) * 1.5).toBe(0.75);
   });
+});
+
+it('caps high-density fill cost without supersampling ordinary screens', () => {
+  for (const ratio of [1, 1.25, 1.5, 2, 3]) {
+    expect(presetPixelRatio('low', ratio)).toBe(Math.min(ratio, 1));
+    expect(presetPixelRatio('medium', ratio)).toBe(Math.min(ratio, 1.5));
+    expect(presetPixelRatio('high', ratio)).toBe(Math.min(ratio, 1.5));
+  }
 });
