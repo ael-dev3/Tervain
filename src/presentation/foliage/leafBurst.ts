@@ -53,12 +53,14 @@ export function createLeafBurst(terrain: { heightAt(x: number, z: number): numbe
   mesh.name = 'struck-tree-leaves';
   mesh.frustumCulled = false;
   mesh.count = 0;
+  mesh.visible = false;
   mesh.castShadow = false;
   mesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
   const colour = new THREE.Color();
   for (let i = 0; i < LEAF_BURST_POOL; i++) mesh.setColorAt(i, colour.setRGB(0.42 + rng() * 0.2, 0.5 + rng() * 0.15, 0.22 + rng() * 0.1));
   const matrix = new THREE.Matrix4(), quat = new THREE.Quaternion(), euler = new THREE.Euler(), pos = new THREE.Vector3(), scl = new THREE.Vector3();
   let active = 0;
+  let pendingRelease = false;
   let disposed = false;
   let reducedMotion = initialReducedMotion;
   return {
@@ -85,11 +87,14 @@ export function createLeafBurst(terrain: { heightAt(x: number, z: number): numbe
         leaf.size = 0.12 + rng() * 0.06;
         released++;
       }
+      if (released > 0) pendingRelease = true;
       return released;
     },
     update(dt, enabled) {
       if (disposed) return;
       reducedMotion = enabled;
+      if (active === 0 && !pendingRelease) return;
+      pendingRelease = false;
       const step = reducedMotion || !Number.isFinite(dt) ? 0 : Math.min(Math.max(dt, 0), 0.1);
       const dir = wind?.direction ?? [1, 0];
       let n = 0;
