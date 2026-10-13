@@ -380,6 +380,10 @@ export interface MeshyForest {
   materialsFor(variant: TreeVariant): readonly { wood: THREE.Material | null; leaf: THREE.Material | null }[];
   dispose(): void;
 }
+/** Albedo lift of a conifer's source needle sheet (measured texture means; see cloneMaterial). */
+export const CONIFER_LEAF_LIFT: Partial<Record<Species, THREE.Color>> = {
+  fir: new THREE.Color(2.3, 2.45, 2.2), shorepine: new THREE.Color(2.3, 2.45, 2.2),
+};
 /** Only source transforms, one uniform family scale and root translation; no crown/axis deformation. */
 export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
   const textures = new Map<THREE.Texture, THREE.Texture>(), materials = new Set<THREE.Material>(), geometries = new Set<THREE.BufferGeometry>();
@@ -397,6 +401,9 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
     material.alphaToCoverage = material.alphaTest > 0;
     material.transparent = false;
     if (!wood) { material.side = THREE.DoubleSide; material.shadowSide = THREE.DoubleSide; }
+    // Playtest 7: the fir sheet's needles average a linear albedo of about 0.035 (broadleaf sheets 0.10-0.15), so firs
+    // read near-black at dusk beside lit broadleaf crowns. Lift them to a dark but lit green (~0.085).
+    if (!wood && species && CONIFER_LEAF_LIFT[species]) material.color.multiply(CONIFER_LEAF_LIFT[species]!);
     // A133: a broadleaf trunk's source atlas is soft and has no normal map, so close up it read flat and untextured. It
     // takes metre-scale triplanar oak bark with relief (the procedural trees' and pines' detail), deeper than theirs.
     if (wood && species && BARK_DETAIL.has(species)) {
@@ -447,7 +454,7 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
         geometries.add(geometry); return geometry;
       };
       const clusters = BROADLEAF.has(species);
-      const palette = decoded.map((parts, lod) => ({ wood: parts.wood ? cloneMaterial(parts.wood.material, true, species) : null, leaf: parts.leaf && species !== 'dead' ? (clusters && lod < 2 ? clusterMaterial(parts.leaf.material) : cloneMaterial(parts.leaf.material, false)) : null }));
+      const palette = decoded.map((parts, lod) => ({ wood: parts.wood ? cloneMaterial(parts.wood.material, true, species) : null, leaf: parts.leaf && species !== 'dead' ? (clusters && lod < 2 ? clusterMaterial(parts.leaf.material) : cloneMaterial(parts.leaf.material, false, species)) : null }));
       const lods = decoded.map((parts, lod) => {
         let wood = prepare(parts.wood, false);
         let exported = prepare(parts.leaf, true);
