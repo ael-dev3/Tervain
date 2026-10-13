@@ -48,6 +48,14 @@ export function cdpRequests(write, timeoutMs = 120000) {
   };
 }
 
+/** Read only the endpoint file created inside this launch's unique profile; partial writes are retried. */
+export function ownedDebugPort(contents) {
+  const [port, endpoint] = contents.split(/\r?\n/);
+  if (!/^\d+$/.test(port ?? '') || !/^\/devtools\/browser\/[A-Za-z0-9-]+$/.test(endpoint ?? '')) return null;
+  const value = Number(port);
+  return Number.isSafeInteger(value) && value > 0 && value <= 65535 ? value : null;
+}
+
 const candidates = [
   process.env.CHROME,
   '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
@@ -62,12 +70,12 @@ export async function openPage(url = process.env.TERVAIN_URL ?? 'http://127.0.0.
   if (!Number.isFinite(requestTimeoutMs) || requestTimeoutMs <= 0) throw new Error('Invalid CDP request timeout');
   const browser = candidates.find((c) => fs.existsSync(c));
   if (!browser) throw new Error('no Chrome/Edge found; set CHROME');
-  const port = 9300 + Math.floor(Math.random() * 500);
+  let port = null;
   const profile = fs.mkdtempSync(path.join(os.tmpdir(), 'tervain-cdp-'));
   // Headed runs draw on the machine's own GPU (benchmarks on real hardware); headless ones fall back to software.
   const browserArgs = [
     ...(headed ? [] : ['--headless=new']), '--no-sandbox', '--hide-scrollbars', '--ignore-gpu-blocklist', ...(headed ? [] : ['--enable-unsafe-swiftshader', '--use-gl=angle', '--use-angle=swiftshader', '--disable-dev-shm-usage']),
-    `--remote-debugging-port=${port}`, `--user-data-dir=${profile}`, `--window-size=${w},${h}`, ...flags, 'about:blank',
+    `--window-size=${w},${h}`, ...flags, '--remote-debugging-port=0', `--user-data-dir=${profile}`, 'about:blank',
   ];
   if (process.platform === 'win32' && headed) browserArgs.splice(4, 0, '--use-angle=d3d11');
   const proc = spawn(browser, browserArgs, { stdio: 'ignore', detached: process.platform !== 'win32' });
@@ -108,9 +116,12 @@ export async function openPage(url = process.env.TERVAIN_URL ?? 'http://127.0.0.
   for (let i = 0; i < 120 && !targets && Date.now() < startupDeadline; i++) {
     if (launchFailed || proc.exitCode !== null) break;
     try {
-      const r = await fetch(`http://127.0.0.1:${port}/json`, { signal: AbortSignal.timeout(2000) });
-      const list = await r.json();
-      targets = list.find((t) => t.type === 'page');
+      port ??= ownedDebugPort(fs.readFileSync(path.join(profile, 'DevToolsActivePort'), 'utf8'));
+      if (port) {
+        const r = await fetch(`http://127.0.0.1:${port}/json`, { signal: AbortSignal.timeout(2000) });
+        const list = await r.json();
+        targets = list.find((t) => t.type === 'page');
+      }
     } catch {
       /* not up yet */
     }
