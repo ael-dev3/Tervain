@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "baselineRef": "0b45a36",
+  "sourceSha256": "5950860584e43c3919e928fb86bb03dd598db7211c7be8e3ddef341ffcba7a6c",
+  "scope": "Production struck-leaf pool, standard ten-leaf release, 121 moving steps. Actual WebGL matrix upload bytes and renderer triangle counts; software renderer. No hardware frame-time attribution.",
+  "beforeTriangles": 384,
+  "afterTriangles": 80,
+  "beforeUploadBytes": 371712,
+  "afterUploadBytes": 79872,
+  "poses": 121,
+  "matrixDataIdentical": true,
+  "pixelDifferences": 0,
+  "pass": true
+}

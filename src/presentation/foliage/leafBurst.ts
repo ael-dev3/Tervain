@@ -97,7 +97,7 @@ export function createLeafBurst(terrain: { heightAt(x: number, z: number): numbe
       pendingRelease = false;
       const step = reducedMotion || !Number.isFinite(dt) ? 0 : Math.min(Math.max(dt, 0), 0.1);
       const dir = wind?.direction ?? [1, 0];
-      let n = 0;
+      let n = 0, drawCount = 0;
       for (let i = 0; i < leaves.length; i++) {
         const leaf = leaves[i]!;
         if (!leaf.alive) { mesh.setMatrixAt(i, ZERO); continue; }
@@ -118,7 +118,7 @@ export function createLeafBurst(terrain: { heightAt(x: number, z: number): numbe
           if (leaf.landed > 4) leaf.alive = false;
         }
         if (!leaf.alive) { mesh.setMatrixAt(i, ZERO); continue; }
-        n++;
+        n++; drawCount = i + 1;
         const settled = Math.min(1, leaf.landed / 0.4);
         euler.set((0.6 + Math.sin(leaf.age * 2.0 + leaf.phase) * 0.6) * (1 - settled), leaf.phase + leaf.age * leaf.spin * (1 - settled), Math.sin(leaf.age * 1.4 + leaf.phase) * 0.5 * (1 - settled));
         quat.setFromEuler(euler);
@@ -129,8 +129,11 @@ export function createLeafBurst(terrain: { heightAt(x: number, z: number): numbe
         mesh.setMatrixAt(i, matrix);
       }
       active = n;
-      mesh.count = n > 0 ? LEAF_BURST_POOL : 0;
+      mesh.count = drawCount;
       mesh.visible = n > 0;
+      // Slots after the last living leaf collapse to zero and are never sampled by this draw.
+      mesh.instanceMatrix.clearUpdateRanges();
+      mesh.instanceMatrix.addUpdateRange(0, Math.max(1, drawCount) * 16);
       mesh.instanceMatrix.needsUpdate = true;
     },
     dispose() {
