@@ -10,12 +10,12 @@ function union(size: number) {
   const find=(i:number):number=>{while(parent[i]!==i){parent[i]=parent[parent[i]!]!;i=parent[i]!;}return i;};
   return {find,join:(a:number,b:number)=>{parent[find(a)]=find(b);}};
 }
-function components(g: THREE.BufferGeometry): Component[] {
-  const p=g.getAttribute('position');if(!p||p.count===0)throw new Error('Missing leaf positions');const graph=union(p.count),weld=new Map<string,number>();
+function components(g: THREE.BufferGeometry, charge: (units?: number) => void): Component[] {
+  const p=g.getAttribute('position');if(!p||p.count===0)throw new Error('Missing leaf positions');charge(p.count);const graph=union(p.count),weld=new Map<string,number>();
   for(let i=0;i<p.count;i++){if(![p.getX(i),p.getY(i),p.getZ(i)].every(Number.isFinite))throw new Error('Nonfinite leaf positions');const key=`${Math.round(p.getX(i)*1e4)},${Math.round(p.getY(i)*1e4)},${Math.round(p.getZ(i)*1e4)}`,other=weld.get(key);if(other!==undefined)graph.join(i,other);else weld.set(key,i);}
-  const index=g.index,used=new Set<number>();for(let i=0;i+2<(index?.count??p.count);i+=3){const a=index?.getX(i)??i,b=index?.getX(i+1)??i+1,c=index?.getX(i+2)??i+2;graph.join(a,b);graph.join(a,c);used.add(a);used.add(b);used.add(c);}
-  const groups=new Map<number,number[]>();for(const i of used){const key=graph.find(i),group=groups.get(key)??[];group.push(i);groups.set(key,group);}
-  return [...groups.values()].map(vertices=>{const box=new THREE.Box3();for(const i of vertices)box.expandByPoint(new THREE.Vector3().fromBufferAttribute(p,i));const samples=[box.getCenter(new THREE.Vector3())];for(let i=0;i<Math.min(8,vertices.length);i++)samples.push(new THREE.Vector3().fromBufferAttribute(p,vertices[Math.floor(i*vertices.length/Math.min(8,vertices.length))]!));return{box,samples};});
+  const index=g.index,used=new Set<number>();for(let i=0;i+2<(index?.count??p.count);i+=3){charge();const a=index?.getX(i)??i,b=index?.getX(i+1)??i+1,c=index?.getX(i+2)??i+2;graph.join(a,b);graph.join(a,c);used.add(a);used.add(b);used.add(c);}
+  const groups=new Map<number,number[]>();for(const i of used){charge();const key=graph.find(i),group=groups.get(key)??[];group.push(i);groups.set(key,group);}
+  return [...groups.values()].map(vertices=>{const box=new THREE.Box3();for(const i of vertices){charge();box.expandByPoint(new THREE.Vector3().fromBufferAttribute(p,i));}const samples=[box.getCenter(new THREE.Vector3())];for(let i=0;i<Math.min(8,vertices.length);i++)samples.push(new THREE.Vector3().fromBufferAttribute(p,vertices[Math.floor(i*vertices.length/Math.min(8,vertices.length))]!));return{box,samples};});
 }
 interface LeafNode { box: THREE.Box3; ids?: number[]; left?: LeafNode; right?: LeafNode; uniform: number }
 function boundsTree(boxes: readonly THREE.Box3[], charge: () => void): LeafNode {
@@ -49,12 +49,12 @@ function spanningLeafEdges(parts: Component[], limit: number, charge: () => void
 export function auditCanopies(targets: readonly CanopyAuditTarget[], options: CanopyAuditOptions = {}) {
   const gap=options.gap??.75,maxOperations=options.maxOperations??20_000_000;
   if(!(gap>0&&Number.isFinite(gap))||!Number.isInteger(maxOperations)||maxOperations<1)throw new Error('Invalid canopy audit budget');
-  let operations=0;const charge=()=>{if(++operations>maxOperations)throw new Error('Canopy audit budget exhausted');};
+  let operations=0;const charge=(units=1)=>{operations+=units;if(operations>maxOperations)throw new Error('Canopy audit budget exhausted');};
   const groups=new Map<THREE.BufferGeometry,Map<THREE.BufferGeometry,{maxGap:number;minGap:number;components:Component[];contacts:number[];edges:[number,number,number][]}>>();
   const scale=(m:THREE.Matrix4)=>{const a=new THREE.Vector3().setFromMatrixColumn(m,0).length(),b=new THREE.Vector3().setFromMatrixColumn(m,1).length(),c=new THREE.Vector3().setFromMatrixColumn(m,2).length();if(!m.elements.every(Number.isFinite)||!(a>0)||Math.max(a,b,c)-Math.min(a,b,c)>a*1e-4)throw new Error('Unsupported nonuniform canopy transform');return a;};
-  for(const t of targets){if(!t.leaves)continue;let leaves=groups.get(t.wood);if(!leaves){leaves=new Map();groups.set(t.wood,leaves);}let entry=leaves.get(t.leaves);if(!entry){entry={maxGap:0,minGap:Infinity,components:components(t.leaves),contacts:[],edges:[]};leaves.set(t.leaves,entry);}const localGap=gap/scale(t.matrix);entry.maxGap=Math.max(entry.maxGap,localGap);entry.minGap=Math.min(entry.minGap,localGap);}
+  for(const t of targets){if(!t.leaves)continue;let leaves=groups.get(t.wood);if(!leaves){leaves=new Map();groups.set(t.wood,leaves);}let entry=leaves.get(t.leaves);if(!entry){entry={maxGap:0,minGap:Infinity,components:components(t.leaves,charge),contacts:[],edges:[]};leaves.set(t.leaves,entry);}const localGap=gap/scale(t.matrix);entry.maxGap=Math.max(entry.maxGap,localGap);entry.minGap=Math.min(entry.minGap,localGap);}
   for(const[wood,leafGroups]of groups){const p=wood.getAttribute('position'),index=wood.index;if(!p)throw new Error('Missing wood positions');
-    const triangles:THREE.Triangle[]=[];for(let i=0;i+2<(index?.count??p.count);i+=3)triangles.push(new THREE.Triangle(...[0,1,2].map(j=>new THREE.Vector3().fromBufferAttribute(p,index?.getX(i+j)??i+j)) as [THREE.Vector3,THREE.Vector3,THREE.Vector3]));
+    const triangles:THREE.Triangle[]=[];for(let i=0;i+2<(index?.count??p.count);i+=3){charge();triangles.push(new THREE.Triangle(...[0,1,2].map(j=>new THREE.Vector3().fromBufferAttribute(p,index?.getX(i+j)??i+j)) as [THREE.Vector3,THREE.Vector3,THREE.Vector3]));}
     const woodBounds=triangles.map(t=>new THREE.Box3().setFromPoints([t.a,t.b,t.c])),support=boundsTree(woodBounds,charge),nearest=new THREE.Vector3();
     for(const entry of leafGroups.values()){
       entry.contacts=entry.components.map(c=>{let distance=entry.maxGap,found=false;
