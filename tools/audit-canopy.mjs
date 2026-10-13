@@ -21,7 +21,7 @@ try{
    T.world.scene.traverse(o=>{if(o.isLight)scene.add(o.clone());});
    let woodMesh,leafMesh;forest.group.traverse(o=>{if(!woodMesh&&o.isInstancedMesh&&o.geometry===target.wood)woodMesh=o;if(!leafMesh&&o.isInstancedMesh&&o.geometry===target.leaves)leafMesh=o;});
    if(!woodMesh||!leafMesh)throw new Error('Native source meshes missing');
-   const wood=woodMesh.clone(),crown=leafMesh.clone();wood.count=crown.count=1;wood.visible=crown.visible=true;wood.frustumCulled=crown.frustumCulled=false;
+   const wood=woodMesh.clone(),crown=leafMesh.clone();wood.material=woodMesh.material.clone();crown.material=leafMesh.material.clone();wood.count=crown.count=1;wood.visible=crown.visible=true;wood.frustumCulled=crown.frustumCulled=false;
    wood.setMatrixAt(0,target.matrix);crown.setMatrixAt(0,target.matrix);wood.instanceMatrix.needsUpdate=crown.instanceMatrix.needsUpdate=true;crown.geometry=leaf;scene.add(wood,crown);
    const box=target.wood.boundingBox.clone().union(leaf.boundingBox).applyMatrix4(target.matrix),centre=box.getCenter(T.player.group.position.clone()),radius=box.getSize(T.player.group.position.clone()).length()/2,camera=T.cam.camera.clone();camera.position.copy(centre).add(T.player.group.position.clone().set(radius*.35,radius*.2,radius*2.5));camera.lookAt(centre);camera.updateMatrixWorld();T.renderer.setRenderTarget(null);T.renderer.render(scene,camera);
    window.__canopyFixture={scene,camera,wood,crown,leaf,originalLeaf:target.leaves};
