@@ -1,0 +1,413 @@
+{
+  "schema": 1,
+  "pose": "run",
+  "nativePoseChanges": 1320,
+  "packedEqual": true,
+  "comparedWords": 19008,
+  "skeletons": 18,
+  "frames": [
+    {
+      "mode": "native",
+      "updates": [
+        {
+          "label": "Mesh_0",
+          "bones": 66,
+          "pass": {
+            "world": true,
+            "mainCamera": true,
+            "target": [
+              320,
+              180
+            ]
+          },
+          "decompositions": 66,
+          "changedWords": null,
+          "skipped": false
+        },
+        {
+          "label": "Mesh_0",
+          "bones": 66,
+          "pass": {
+            "world": true,
+            "mainCamera": true,
+            "target": [
+              320,
+              180
+            ]
+          },
+          "decompositions": 0,
+          "changedWords": 0,
+          "skipped": false
+        },
+        {
+          "label": "ash-recorder",
+          "bones": 36,
+          "pass": {
+            "world": true,
+            "mainCamera": true,
+            "target": [
+              320,
+              180
+            ]
+          },
+          "decompositions": 36,
+          "changedWords": null,
+          "skipped": false
+        },
+        {
+          "label": "rillford-reeve",
+          "bones": 36,
+          "pass": {
+            "world": true,
+            "mainCamera": true,
+            "target": [
+              320,
+              180
+            ]
+          },
+          "decompositions": 36,
+          "changedWords": null,
+          "skipped": false
+        },
+        {
+          "label": "mill-hand",
+          "bones": 36,
+          "pass": {
+            "world": true,
+            "mainCamera": true,
+            "target": [
+              320,
+              180
+            ]
+          },
+          "decompositions": 36,
+          "changedWords": null,
+          "skipped": false
+        },
+        {
+          "label": "village-baker",
+          "bones": 36,
+          "pass": {
+            "world": true,
+            "mainCamera": true,
+            "target": [
+              320,
+              180
+            ]
+          },
+          "decompositions": 36,
+          "changedWords": null,
+          "skipped": false
+        }
+      ],
+      "updatesTotal": 6,
+      "executedUpdates": 6,
+      "decompositions": 210,
+      "duplicateUnchangedUpdates": 1
+    },
+    {
+      "mode": "native",
+      "updates": [
+        {
+          "label": "Mesh_0",
+          "bones": 66,
+          "pass": {
+            "world": true,
+            "mainCamera": true,
+            "target": [
+              320,
+              180
+            ]
+          },
+          "decompositions": 66,
+          "changedWords": null,
+          "skipped": false
+        },
+        {
+          "label": "Mesh_0",
+          "bones": 66,
+          "pass": {
+            "world": true,
+            "mainCamera": true,
+            "target": [
+              320,
+              180
+            ]
+          },
+          "decompositions": 0,
+          "changedWords": 0,
+          "skipped": false
+        },
+        {
+          "label": "ash-recorder",
+          "bones": 36,
+          "pass": {
+            "world": true,
+            "mainCamera": true,
+            "target": [
+              320,
+              180
+            ]
+          },
+          "decompositions": 36,
+          "changedWords": null,
+          "skipped": false
+        },
+        {
+          "label": "rillford-reeve",
+          "bones": 36,
+          "pass": {
+            "world": true,
+            "mainCamera": true,
+            "target": [
+              320,
+              180
+            ]
+          },
+          "decompositions": 36,
+          "changedWords": null,
+          "skipped": false
+        },
+        {
+          "label": "mill-hand",
+          "bones": 36,
+          "pass": {
+            "world": true,
+            "mainCamera": true,
+            "target": [
+              320,
+              180
+            ]
+          },
+          "decompositions": 36,
+          "changedWords": null,
+          "skipped": false
+        },
+        {
+          "label": "village-baker",
+          "bones": 36,
+          "pass": {
+            "world": true,
+            "mainCamera": true,
+            "target": [
+              320,
+              180
+            ]
+          },
+          "decompositions": 36,
+          "changedWords": null,
+          "skipped": false
+        }
+      ],
+      "updatesTotal": 6,
+      "executedUpdates": 6,
+      "decompositions": 210,
+      "duplicateUnchangedUpdates": 1
+    },
+    {
+      "mode": "per-frame-control",
+      "updates": [
+        {
+          "label": "Mesh_0",
+          "bones": 66,
+          "pass": {
+            "world": true,
+            "mainCamera": true,
+            "target": [
+              320,
+              180
+            ]
+          },
+          "decompositions": 66,
+          "changedWords": null,
+          "skipped": false
+        },
+        {
+          "label": "Mesh_0",
+          "bones": 66,
+          "pass": {
+            "world": true,
+            "mainCamera": true,
+            "target": [
+              320,
+              180
+            ]
+          },
+          "decompositions": 0,
+          "changedWords": 0,
+          "skipped": true
+        },
+        {
+          "label": "ash-recorder",
+          "bones": 36,
+          "pass": {
+            "world": true,
+            "mainCamera": true,
+            "target": [
+              320,
+              180
+            ]
+          },
+          "decompositions": 36,
+          "changedWords": null,
+          "skipped": false
+        },
+        {
+          "label": "rillford-reeve",
+          "bones": 36,
+          "pass": {
+            "world": true,
+            "mainCamera": true,
+            "target": [
+              320,
+              180
+            ]
+          },
+          "decompositions": 36,
+          "changedWords": null,
+          "skipped": false
+        },
+        {
+          "label": "mill-hand",
+          "bones": 36,
+          "pass": {
+            "world": true,
+            "mainCamera": true,
+            "target": [
+              320,
+              180
+            ]
+          },
+          "decompositions": 36,
+          "changedWords": null,
+          "skipped": false
+        },
+        {
+          "label": "village-baker",
+          "bones": 36,
+          "pass": {
+            "world": true,
+            "mainCamera": true,
+            "target": [
+              320,
+              180
+            ]
+          },
+          "decompositions": 36,
+          "changedWords": null,
+          "skipped": false
+        }
+      ],
+      "updatesTotal": 6,
+      "executedUpdates": 5,
+      "decompositions": 210,
+      "duplicateUnchangedUpdates": 1
+    },
+    {
+      "mode": "per-frame-control",
+      "updates": [
+        {
+          "label": "Mesh_0",
+          "bones": 66,
+          "pass": {
+            "world": true,
+            "mainCamera": true,
+            "target": [
+              320,
+              180
+            ]
+          },
+          "decompositions": 66,
+          "changedWords": null,
+          "skipped": false
+        },
+        {
+          "label": "Mesh_0",
+          "bones": 66,
+          "pass": {
+            "world": true,
+            "mainCamera": true,
+            "target": [
+              320,
+              180
+            ]
+          },
+          "decompositions": 0,
+          "changedWords": 0,
+          "skipped": true
+        },
+        {
+          "label": "ash-recorder",
+          "bones": 36,
+          "pass": {
+            "world": true,
+            "mainCamera": true,
+            "target": [
+              320,
+              180
+            ]
+          },
+          "decompositions": 36,
+          "changedWords": null,
+          "skipped": false
+        },
+        {
+          "label": "rillford-reeve",
+          "bones": 36,
+          "pass": {
+            "world": true,
+            "mainCamera": true,
+            "target": [
+              320,
+              180
+            ]
+          },
+          "decompositions": 36,
+          "changedWords": null,
+          "skipped": false
+        },
+        {
+          "label": "mill-hand",
+          "bones": 36,
+          "pass": {
+            "world": true,
+            "mainCamera": true,
+            "target": [
+              320,
+              180
+            ]
+          },
+          "decompositions": 36,
+          "changedWords": null,
+          "skipped": false
+        },
+        {
+          "label": "village-baker",
+          "bones": 36,
+          "pass": {
+            "world": true,
+            "mainCamera": true,
+            "target": [
+              320,
+              180
+            ]
+          },
+          "decompositions": 36,
+          "changedWords": null,
+          "skipped": false
+        }
+      ],
+      "updatesTotal": 6,
+      "executedUpdates": 5,
+      "decompositions": 210,
+      "duplicateUnchangedUpdates": 1
+    }
+  ],
+  "pass": true,
+  "scope": "Native full renderWorld at High. Counts production skeleton update and Matrix4.decompose calls; repeated packed words compare within each draw frame. Per-frame skip is capture-only for a posed snapshot and must not be used as a global animation cache. Instrumentation is diagnostic and does not measure hardware frame time.",
+  "build": {
+    "version": "0.0.15",
+    "revision": "f717def9c"
+  },
+  "pixelIdentical": true
+}
