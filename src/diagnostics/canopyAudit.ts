@@ -17,6 +17,30 @@ function components(g: THREE.BufferGeometry): Component[] {
   const groups=new Map<number,number[]>();for(const i of used){const key=graph.find(i),group=groups.get(key)??[];group.push(i);groups.set(key,group);}
   return [...groups.values()].map(vertices=>{const box=new THREE.Box3();for(const i of vertices)box.expandByPoint(new THREE.Vector3().fromBufferAttribute(p,i));const samples=[box.getCenter(new THREE.Vector3())];for(let i=0;i<Math.min(8,vertices.length);i++)samples.push(new THREE.Vector3().fromBufferAttribute(p,vertices[Math.floor(i*vertices.length/Math.min(8,vertices.length))]!));return{box,samples};});
 }
+interface LeafNode { box: THREE.Box3; ids?: number[]; left?: LeafNode; right?: LeafNode; uniform: number }
+/** Boruvka's minimum spanning forest: nearest foreign component queries avoid dense all-pairs graphs. */
+function spanningLeafEdges(parts: Component[], limit: number, charge: () => void): [number,number,number][] {
+  if (!parts.length) return [];
+  const build=(ids:number[]):LeafNode=>{const box=new THREE.Box3();for(const i of ids)box.union(parts[i]!.box);if(ids.length<=8)return{box,ids,uniform:-1};
+    const size=box.getSize(new THREE.Vector3()),axis=size.x>=size.y&&size.x>=size.z?'x':size.y>=size.z?'y':'z';
+    ids.sort((a,b)=>(parts[a]!.box.min[axis]+parts[a]!.box.max[axis])-(parts[b]!.box.min[axis]+parts[b]!.box.max[axis]));
+    const middle=ids.length>>1;return{box,left:build(ids.slice(0,middle)),right:build(ids.slice(middle)),uniform:-1};};
+  const root=build(parts.map((_,i)=>i)),graph=union(parts.length),edges:[number,number,number][]=[];
+  const mark=(node:LeafNode):number=>{charge();if(node.ids){const first=graph.find(node.ids[0]!);return node.uniform=node.ids.every(i=>graph.find(i)===first)?first:-1;}const a=mark(node.left!),b=mark(node.right!);return node.uniform=a===b?a:-1;};
+  for(;;){mark(root);const best=new Map<number,[number,number,number]>();
+    for(let i=0;i<parts.length;i++){const group=graph.find(i);if(best.get(group)?.[2]===0)continue;const box=parts[i]!.box;let distance=best.get(group)?.[2]??limit,other=-1;
+      const visit=(node:LeafNode)=>{charge();if(node.uniform===group||boxGap(box,node.box)>distance)return;
+        if(node.ids){for(const j of node.ids){if(graph.find(j)===group)continue;charge();const d=boxGap(box,parts[j]!.box);if(d<=distance){distance=d;other=j;if(d===0)return;}}return;}
+        const left=node.left!,right=node.right!,first=boxGap(box,left.box)<=boxGap(box,right.box)?left:right,second=first===left?right:left;
+        visit(first);if(distance!==0)visit(second);
+      };visit(root);if(other>=0)best.set(group,[i,other,distance]);
+    }
+    let changed=false;for(const[a,b,d]of best.values())if(graph.find(a)!==graph.find(b)){graph.join(a,b);edges.push([a,b,d]);changed=true;}
+    if(!changed)break;
+  }
+  return edges;
+}
+
 /** Offline geometric candidates, not an art verdict. Full population adapters bypass render culling. */
 export function auditCanopies(targets: readonly CanopyAuditTarget[], options: CanopyAuditOptions = {}) {
   const gap=options.gap??.75,maxOperations=options.maxOperations??20_000_000;
@@ -36,21 +60,7 @@ export function auditCanopies(targets: readonly CanopyAuditTarget[], options: Ca
         search:for(const sample of c.samples){const list=cells.get(`${Math.floor(sample.x/cell)},${Math.floor(sample.y/cell)},${Math.floor(sample.z/cell)}`)??[];
           for(const candidates of [list,wide])for(const i of candidates){charge();triangles[i]!.closestPointToPoint(sample,nearest);distance=Math.min(distance,nearest.distanceTo(sample));if(distance<=entry.minGap)break search;}}
         return distance;});
-      // Query only neighboring leaf bounds. A minimum spanning forest preserves connectivity
-      // at every instance's distance threshold while avoiding dense repeated edges per tree.
-      const leafCells=new Map<string,number[]>(),large:number[]=[],pairs:[number,number,number][]=[];
-      const zero=union(entry.components.length);
-      const keys=(r:number[],visit:(key:string)=>void)=>{for(let x=r[0]!;x<=r[1]!;x++)for(let y=r[2]!;y<=r[3]!;y++)for(let z=r[4]!;z<=r[5]!;z++){charge();visit(`${x},${y},${z}`);}};
-      const huge=(r:number[])=>(r[1]!-r[0]!+1)*(r[3]!-r[2]!+1)*(r[5]!-r[4]!+1)>512;
-      for(let i=0;i<entry.components.length;i++){
-        const box=entry.components[i]!.box,search=range(box.clone().expandByScalar(entry.maxGap)),near=new Set<number>(large);
-        if(huge(search)){for(let j=0;j<i;j++)near.add(j);}else keys(search,key=>{for(const j of leafCells.get(key)??[])near.add(j);});
-        for(const j of near){if(zero.find(i)===zero.find(j))continue;charge();const distance=boxGap(box,entry.components[j]!.box);if(distance===0){zero.join(i,j);entry.edges.push([i,j,0]);}else if(distance<=entry.maxGap)pairs.push([i,j,distance]);}
-        const own=range(box);if(huge(own))large.push(i);else keys(own,key=>{const list=leafCells.get(key)??[];list.push(i);leafCells.set(key,list);});
-      }
-      const bridges=new Map<string,[number,number,number]>();
-      for(const pair of pairs){charge();const a=zero.find(pair[0]),b=zero.find(pair[1]);if(a===b)continue;const key=a<b?`${a},${b}`:`${b},${a}`,old=bridges.get(key);if(!old||pair[2]<old[2])bridges.set(key,pair);}
-      for(const[a,b,d]of [...bridges.values()].sort((a,b)=>a[2]-b[2])){charge();if(zero.find(a)!==zero.find(b)){zero.join(a,b);entry.edges.push([a,b,d]);}}
+      entry.edges = spanningLeafEdges(entry.components, entry.maxGap, charge);
     }
   }
   const trees=targets.map(t=>{if(!t.leaves)return{label:t.label,leafless:true,components:0,chunks:0,candidates:[] as {position:number[];components:number;sampledWoodGap:number|null}[]};const entry=groups.get(t.wood)!.get(t.leaves)!,s=scale(t.matrix),limit=gap/s,graph=union(entry.components.length);
