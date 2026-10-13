@@ -1,0 +1,25 @@
+<!doctype html><html><head><meta charset="utf-8"><style>body{margin:0}canvas{display:block}</style></head><body><script type="module">
+import * as THREE from 'three';
+import {installDualQuaternionSkinning} from '/src/presentation/npc/dualQuaternionSkinning.ts';
+const renderer=new THREE.WebGLRenderer({antialias:false});renderer.setSize(512,256);renderer.shadowMap.enabled=true;document.body.append(renderer.domElement);
+const scene=new THREE.Scene();scene.background=new THREE.Color(0xffffff);scene.add(new THREE.AmbientLight(0xffffff,1));
+const light=new THREE.DirectionalLight(0xffffff,3);light.position.set(3,5,4);light.castShadow=true;light.shadow.mapSize.set(256,256);scene.add(light);
+const camera=new THREE.PerspectiveCamera(40,2,.1,30);camera.position.set(4,3,8);camera.lookAt(0,0,0);
+const floor=new THREE.Mesh(new THREE.PlaneGeometry(10,10),new THREE.MeshStandardMaterial({color:0xdddddd}));floor.rotation.x=-Math.PI/2;floor.position.y=-1.1;floor.receiveShadow=true;scene.add(floor);
+const cases=[];
+for(const[count,x]of [[36,-1.5],[66,1.5]]){
+ const geometry=new THREE.BoxGeometry(1.4,1.7,.6),p=geometry.getAttribute('position'),joints=[],weights=[];for(let i=0;i<p.count;i++){joints.push(0,1,0,0);weights.push(p.getX(i)>0?.2:1,p.getX(i)>0?.8:0,0,0);}geometry.setAttribute('skinIndex',new THREE.Uint16BufferAttribute(joints,4));geometry.setAttribute('skinWeight',new THREE.Float32BufferAttribute(weights,4));
+ const mesh=new THREE.SkinnedMesh(geometry,new THREE.MeshStandardMaterial({color:0x778899,roughness:.8})),bones=Array.from({length:count},()=>new THREE.Bone());for(const b of bones.slice(1))bones[0].add(b);bones[1].position.x=.2;mesh.add(bones[0]);mesh.position.x=x;scene.add(mesh);mesh.bind(new THREE.Skeleton(bones));mesh.castShadow=mesh.receiveShadow=true;
+ const skin=installDualQuaternionSkinning(mesh);bones[1].rotation.y=.6;scene.updateMatrixWorld(true);mesh.skeleton.update();cases.push({mesh,skin,oldTexture:mesh.skeleton.boneTexture});
+}
+const gl=renderer.getContext(),methods=['texImage2D','texSubImage2D'],originals=new Map(),sources=new Set(cases.map(c=>c.oldTexture.image.data));let uploaded=0;
+for(const name of methods){const original=gl[name];originals.set(name,original);gl[name]=function(...args){for(const a of args)if(sources.has(a))uploaded+=a.byteLength;return original.apply(this,args);};}
+renderer.render(scene,camera);const beforeBytes=uploaded;let afterBytes=0;
+window.boneTextureRepro={report:{schema:1,beforeBytes,cases:cases.map(c=>({bones:c.mesh.skeleton.bones.length,beforeBytes:c.oldTexture.image.data.byteLength,matrixPrefixBytes:c.skin.base*16,motionBytes:c.skin.motions.byteLength}))},compact(){uploaded=0;sources.clear();
+ for(const c of cases){const count=c.mesh.skeleton.bones.length,width=Math.max(4,Math.ceil(Math.sqrt(count*2)/4)*4),height=Math.ceil(count*2/width),data=new Float32Array(width*height*4);data.set(c.skin.motions);sources.add(data);const texture=new THREE.DataTexture(data,width,height,THREE.RGBAFormat,THREE.FloatType);texture.needsUpdate=true;c.mesh.skeleton.boneTexture=texture;
+ for(const material of [c.mesh.material,c.mesh.customDepthMaterial,c.mesh.customDistanceMaterial]){const compile=material.onBeforeCompile,key=material.customProgramCacheKey();material.onBeforeCompile=function(shader,r){compile.call(this,shader,r);const marker='#define TV_DQ_BASE '+c.skin.base;if(!shader.vertexShader.includes(marker))throw new Error('Missing production skin base');shader.vertexShader=shader.vertexShader.replace(marker,'#define TV_DQ_BASE 0');};material.customProgramCacheKey=()=>key+'/compact-capture-control';material.needsUpdate=true;}
+ const entry=this.report.cases.find(e=>e.bones===count);entry.compactBytes=data.byteLength;entry.width=width;entry.height=height;
+ }
+ renderer.render(scene,camera);afterBytes=uploaded;this.report.afterBytes=afterBytes;this.report.pass=beforeBytes===10496&&afterBytes===3264;this.report.scope='Native production skin shaders on synthetic 36/66-bone meshes and directional shadows. Compact layout is capture-only, retaining CPU matrices. Not whole-run upload attribution or a shipped skin layout.';for(const[name,original]of originals)gl[name]=original;
+}};
+</script></body></html>
