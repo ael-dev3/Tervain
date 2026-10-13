@@ -154,6 +154,8 @@ export class WorldScene {
   private lastNoticeKey = '';
   private dust: THREE.Points;
   private dustData: DustParticle[];
+  /** Clear initial positions and the final expired particles once, then leave idle GPU data alone. */
+  private dustNeedsClear = true;
   private riteResponse: RiteResponse;
   private disposeOwned: () => void;
   time = 0;
@@ -732,16 +734,19 @@ export class WorldScene {
     const working = v.quarryState === 'working' || v.quarryState === 'night_shift';
     this.emitDust(dt, working ? 1 : 0);
     const arr = this.dust.geometry.attributes.position as THREE.BufferAttribute;
+    let changed = this.dustNeedsClear, live = false;
     this.dustData.forEach((p, i) => {
       if (p.life > 0) {
+        live = changed = true;
         p.life -= dt;
         p.x += p.vx * dt;
         p.y += p.vy * dt;
         p.z += p.vz * dt;
         arr.setXYZ(i, p.x, p.y, p.z);
-      } else arr.setXYZ(i, 0, -200, 0);
+      } else if (this.dustNeedsClear) arr.setXYZ(i, 0, -200, 0);
     });
-    arr.needsUpdate = true;
+    this.dustNeedsClear = live;
+    if (changed) arr.needsUpdate = true;
     this.riteResponse.update(dt, reduced, night);
     // Ledger glows faintly while the archive is accessible; the archive lamp is emissive via lantern lights.
     this.scenery.ledger.rotation.y = Math.sin(this.time * 0.8) * 0.05;
