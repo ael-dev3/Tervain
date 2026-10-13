@@ -1,0 +1,17 @@
+<!doctype html><html><head><meta charset="utf-8"><style>body{margin:0}canvas{display:block}</style></head><body><script>window.addEventListener('error',e=>window.fixtureError=e.message);window.addEventListener('unhandledrejection',e=>window.fixtureError=String(e.reason));</script><script type="module">
+import * as THREE from 'three';
+import {Terrain} from '/src/world/terrain.ts';
+import {Colliders} from '/src/world/colliders.ts';
+import {Exclusions} from '/src/presentation/vegetation.ts';
+import {createGrassField} from '/src/presentation/grass/grassField.ts';
+import {GrassWind} from '/src/presentation/grass/wind.ts';
+const mode=new URLSearchParams(location.search).get('mode');const {Habitat}=await import('/src/presentation/ground/habitat.ts');
+const terrain=new Terrain(),habitat=new Habitat({terrain,colliders:new Colliders(),excl:new Exclusions(terrain)}),wind=new GrassWind({direction:[1,.3],steady:.12,gust:.25,speed:1});wind.update(.1);
+const field=createGrassField(terrain,habitat,'high',wind,null),camera=new THREE.PerspectiveCamera(50,4/3,.1,250),y=terrain.heightAt(-7,45);camera.position.set(-7,y+1.8,41);camera.lookAt(-7,y+.7,49);camera.updateMatrixWorld();field.update(camera.position);
+const scene=new THREE.Scene();scene.background=new THREE.Color(0xb3bec5);scene.add(field.group,new THREE.HemisphereLight(0xffffff,0x534630,2));const sun=new THREE.DirectionalLight(0xffe8c8,3);sun.position.set(2,6,3);scene.add(sun);
+const renderer=new THREE.WebGLRenderer({antialias:false});renderer.setSize(320,240);document.body.append(renderer.domElement);renderer.render(scene,camera);
+const hashes=[];let bytes=0;for(const layer of field.layers)layer.group.traverse(o=>{if(!o.geometry?.isInstancedBufferGeometry)return;for(const name of ['aBase','aShape','aTint','aSlope']){const a=o.geometry.getAttribute(name).array;bytes+=a.byteLength;hashes.push(crypto.subtle.digest('SHA-256',a).then(b=>Array.from(new Uint8Array(b)).map(v=>v.toString(16).padStart(2,'0')).join('')));}});
+const heights=new Float64Array((terrain.nx+1)*(terrain.nz+1));for(let j=0;j<=terrain.nz;j++)for(let i=0;i<=terrain.nx;i++)heights[j*(terrain.nx+1)+i]=terrain.vertexHeight(i,j);
+const terrainHeightHash=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',heights))).map(v=>v.toString(16).padStart(2,'0')).join('');
+window.habitatSoftRepro={terrainHeightHash,terrainVertices:heights.length,mode,stats:field.stats(),renderStats:{drawCalls:renderer.info.render.calls,triangles:renderer.info.render.triangles},attributeBytes:bytes,attributeHashes:await Promise.all(hashes),scope:'High grass producer with actual terrain and stock exclusions; native software WebGL colour view. Standalone fixture, no post/MSAA or registered crown assets. Not a shimmer or hardware gate.'};
+</script></body></html>
