@@ -40,6 +40,8 @@ import { splitLeafPrepass } from './foliage/leafPrepass';
 // A76: the middle model's shadow is the full one's outline (the same leaf cards, compared on the ground in the served
 // build), so it takes over at 16 m rather than 25 m: a tree's shadow drawn at full detail is a third of the sun's pass.
 export const FLORA_SHADOW_LOD = { full: 16, middle: 70 } as const;
+/** How far along the light a caster's shadow can fall onto a receiver in the shadow map (m): beyond its span. */
+const SHADOW_REACH = 260;
 export function floraShadowLod(distance: number, pine: boolean): 0 | 1 | 2 {
   if (distance < FLORA_SHADOW_LOD.full) return 0;
   if (distance < FLORA_SHADOW_LOD.middle || pine) return 1;
@@ -325,6 +327,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
   const lastProjection = new THREE.Matrix4();
   const lastShadowFrustum = new THREE.Frustum();
   let lastShadowPresent = false;
+  let lastViewOnly = false;
   let sinceRefresh = 1;
   let visible = 0;
   let drawTris = 0;
@@ -355,7 +358,28 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
     packed[slot] = tree;
   };
 
-  const refresh = (cam: THREE.Camera, shadowFrustum: THREE.Frustum | null | undefined) => {
+  // Toward the light, from the shadow camera's own near plane (it looks from the light into the scene).
+  const toLight = new THREE.Vector3();
+  const shadowEnd = new THREE.Vector3();
+  /**
+   * Air budget: a caster outside the view whose shadow cannot reach it either. Its shadow lies along the light's
+   * direction away from it; sweep its bounds that way (as far as any receiver the shadow map holds) and if the whole
+   * sweep lies beyond the view's left or right side, nothing on screen can be shaded by it. Only the sides are tested:
+   * the water's reflection sees above and below the frame, never round to either side.
+   */
+  const shadowOutOfView = (sphere: THREE.Sphere): boolean => {
+    if (toLight.y < 0.05) return false;
+    shadowEnd.copy(sphere.center).addScaledVector(toLight, -SHADOW_REACH);
+    for (let p = 0; p < 2; p++) {
+      const plane = frustum.planes[p]!;
+      if (plane.distanceToPoint(sphere.center) < -sphere.radius && plane.distanceToPoint(shadowEnd) < -sphere.radius) return true;
+    }
+    return false;
+  };
+
+  const refresh = (cam: THREE.Camera, shadowFrustum: THREE.Frustum | null | undefined, viewOnly: boolean) => {
+    if (shadowFrustum) toLight.copy(shadowFrustum.planes[5]!.normal).negate().normalize();
+    const cullShadows = viewOnly && !!shadowFrustum && forceLod < 0;
     staticChanged.clear();
     pv.multiplyMatrices(cam.projectionMatrix, cam.matrixWorldInverse);
     frustum.setFromProjectionMatrix(pv);
@@ -382,7 +406,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         // guard preloads edge silhouettes. Retain off-screen casters only inside the actual
         // sun-shadow volume instead of paying for every tree in a large circle behind the player.
         const inView = frustum.intersectsSphere(sphere);
-        const inShadow = b.casters.length > 0 && !!shadowFrustum?.intersectsSphere(sphere);
+        const inShadow = b.casters.length > 0 && !!shadowFrustum?.intersectsSphere(sphere) && (inView || !cullShadows || !shadowOutOfView(sphere));
         if (!inView && !inShadow) continue;
         if (inShadow) {
           const sl = forceLod >= 0 ? Math.min(2, Math.floor(forceLod)) : floraShadowLod(d, pineShadows);
@@ -498,7 +522,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
       });
       // The two-metre bounds guard safely preloads moving shadow edges. Track the sun even
       // when the camera is idle, while limiting those shadow-only uploads to five per second.
-      if (!lodChanged && !cameraChanged && (!shadowChanged || (!shadowGuardExceeded && shadowPresent === lastShadowPresent && sinceRefresh < 0.2))) return;
+      if (!lodChanged && !cameraChanged && !!f.shadowsForViewOnly === lastViewOnly && (!shadowChanged || (!shadowGuardExceeded && shadowPresent === lastShadowPresent && sinceRefresh < 0.2))) return;
       sinceRefresh = 0;
       lastCam.copy(cam.position);
       lastRotation.copy(cam.quaternion);
@@ -506,7 +530,8 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
       lastShadowPresent = shadowPresent;
       if (f.shadowFrustum) lastShadowFrustum.copy(f.shadowFrustum);
       cam.updateMatrixWorld();
-      refresh(cam, f.shadowFrustum);
+      lastViewOnly = !!f.shadowsForViewOnly;
+      refresh(cam, f.shadowFrustum, lastViewOnly);
     },
     initializeFloor,
     shadowCasters,

@@ -342,6 +342,13 @@ describe('the forest with wind, shadow-only casters and strikes', () => {
     const stats = forest.stats!();
     expect(stats.shadowTrees).toBeGreaterThan(0);
     expect(stats.shadowTris).toBeGreaterThan(0);
+    // Outdoors, off-screen casters whose shadow cannot reach the view are left out; trees in view still cast.
+    forest.update(0.1, { ...frame, shadowsForViewOnly: true });
+    const viewOnly = forest.stats!();
+    expect(viewOnly.shadowTrees).toBeLessThan(stats.shadowTrees);
+    expect(viewOnly.shadowTrees).toBeGreaterThan(0);
+    forest.update(0.1, frame);
+    expect(forest.stats!().shadowTrees).toBe(stats.shadowTrees);
     for (const m of [...colour, ...casters]) expect(m.visible).toBe(m.count > 0);
     // The nearest tree casts from its full model; trees across the volume from lighter ones.
     const near = casters.filter((m) => m.name.startsWith('solitary-pine:0:') && m.count > 0);

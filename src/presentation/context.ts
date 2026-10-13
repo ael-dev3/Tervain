@@ -44,6 +44,11 @@ export interface FrameContext {
   sunDir: THREE.Vector3;
   /** Actual snapped sun-shadow camera volume; absent/null when shadows are disabled. */
   shadowFrustum?: THREE.Frustum | null;
+  /**
+   * True when every receiver the sun's shadow map serves lies inside the camera's own view (outdoors). Indoors a window's
+   * capture looks out in every direction with the same shadow map, so casters behind the camera stay.
+   */
+  shadowsForViewOnly?: boolean;
   reducedMotion: boolean;
   /** Game hour, 0..24. */
   hour: number;

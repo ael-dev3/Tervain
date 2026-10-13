@@ -234,8 +234,11 @@ export class WorldScene {
   prepareInterior(renderer: THREE.WebGLRenderer, camera: THREE.Camera, dt: number, settings: Settings) {
     this.eye.copy(camera.position);
     this.shareLights();
-    this.windowView.update(renderer, this.scene, camera.position, dt, settings.quality !== 'low');
+    this.windowShown = this.windowView.update(renderer, this.scene, camera.position, dt, settings.quality !== 'low');
   }
+
+  /** Whether a room's window capture is shown (it reads the sun's shadow map in every direction). */
+  private windowShown = false;
 
   private static async build(state: WorldState, settings: Settings, library: AssetLibrary, terrainTex: TerrainTextures, pine: PineTemplates, rockPile: GLTF,
     treeTemplates: MeshyTreeTemplates, animalTemplates: AnimalTemplates | null, furniture: FurnitureTemplates | null, npcAssets: MeshyNpcCatalog | undefined, options: WorldCreateOptions,
@@ -698,7 +701,7 @@ export class WorldScene {
       this.sky.sun.shadow.updateMatrices(this.sky.sun);
       shadowFrustum = this.sky.sun.shadow.getFrustum();
     }
-    const frame: FrameContext = { time: this.time, camera, focus, nightness: night, sunDir: this.sky.state.sunDir, shadowFrustum, reducedMotion: reduced, hour, view: v, quality: settings.quality, treeDetailByDistance: settings.treeDetailByDistance, wildlifeActive };
+    const frame: FrameContext = { time: this.time, camera, focus, nightness: night, sunDir: this.sky.state.sunDir, shadowFrustum, shadowsForViewOnly: indoor <= 0 && !this.windowShown, reducedMotion: reduced, hour, view: v, quality: settings.quality, treeDetailByDistance: settings.treeDetailByDistance, wildlifeActive };
     this.animals.setRunning(wildlifeActive);
     this.animals.syncHunting(state.hunting);
     this.animals.setReduceEffects(settings.reduceEffects);
