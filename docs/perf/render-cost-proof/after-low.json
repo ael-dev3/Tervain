@@ -1,0 +1,73 @@
+{
+  "schema": 2,
+  "preset": "low",
+  "width": 640,
+  "height": 360,
+  "assertions": {
+    "gameReady": true,
+    "webgl2": true,
+    "swiftShader": true,
+    "renderCostMeasured": true,
+    "captureDimensions": true,
+    "nonBlankCapture": true,
+    "disconnectSettlesRequest": true
+  },
+  "performanceGate": false,
+  "build": {
+    "version": "0.0.14",
+    "revision": "4b525d49d"
+  },
+  "renderCost": {
+    "frames": [
+      {
+        "drawCalls": 142,
+        "triangles": 804575,
+        "lines": 0,
+        "points": 2080,
+        "uploadBytes": 4608,
+        "shadowDrawCalls": 0,
+        "shadowInvocations": 2,
+        "heapUsedBytes": 808381895
+      },
+      {
+        "drawCalls": 142,
+        "triangles": 804575,
+        "lines": 0,
+        "points": 2080,
+        "uploadBytes": 4608,
+        "shadowDrawCalls": 0,
+        "shadowInvocations": 2,
+        "heapUsedBytes": 808381895
+      },
+      {
+        "drawCalls": 142,
+        "triangles": 804575,
+        "lines": 0,
+        "points": 2080,
+        "uploadBytes": 4608,
+        "shadowDrawCalls": 0,
+        "shadowInvocations": 2,
+        "heapUsedBytes": 808381895
+      }
+    ],
+    "textureCount": 146,
+    "estimatedTextureStorageBytes": 528095032,
+    "unknownTextureFormats": 0,
+    "grass": {
+      "grassInstances": 3838,
+      "grassTris": 124578,
+      "grassDraws": 27,
+      "grassTiles": 110,
+      "grassMovers": 0
+    },
+    "pixelRatio": 1,
+    "drawingBuffer": [
+      640,
+      360
+    ],
+    "scope": "Three complete stationary native renders after asset arrival; all render passes. Texture storage is nominal uncompressed texel storage including observed mip levels, not driver memory; renderbuffers and compressed storage are excluded. Heap usage is occupancy, not allocation count. No hardware frame-time claim.",
+    "sampledAllocationBytes": 1865888,
+    "allocationScope": "Sampling estimate across warmup plus three renders, including diagnostic overhead; not deterministic allocation counts."
+  },
+  "pass": true
+}
