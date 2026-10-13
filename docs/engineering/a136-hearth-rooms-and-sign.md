@@ -7,15 +7,26 @@ bar. This change works on both, keeping the rooms as cheap as they were.
 ## Rooms
 
 - **Framed walls.** `roomFrame` (presentation/buildings.ts) adds studs between the posts, about 0.8 m apart, from the
-  wainscot rail to the plate, and a rail across each panel at 2.05 m where no window breaks it. They avoid windows,
-  the doorway and the hearth, and are merged into the shell.
+  wainscot rail to the plate. Walls with windows also get a sill girt at the windows' sill line, wall to wall, stopping
+  at each window's frame. A first version ran a rail at 2.05 m that read as a cross nailed beside each window. The
+  timber avoids windows, the doorway and the hearth, and is merged into the shell.
+- **Plaster.** The plaster walls are cut into 0.3 m cells (were 0.7 m) so `roomShade` can colour them per vertex. The
+  lime wash is uneven (value noise), each panel between studs has its own shade, the plaster darkens under the
+  ceiling, and soot spreads round the hearth. The boards overhead are dark between the joists. No texture or draw is
+  added.
+- **Ceiling.** The tie beams are heavier (0.26 by 0.29 m) and the joists deeper (0.12 by 0.15 m), with the boards
+  between them shaded dark. The ceiling stays closed at the wall top.
 - **Things hung up.** World/dressing.ts adds peg rails (`RAILS`, one strip with six pegs) hung with each household's
   things: pans, ladles, sickles, coils of rope, axes, a frame saw, baskets and strings of onions (`HungKind`). The
   first rail looks for wall near the hearth. Rows that find no free wall hang from the ceiling joists instead, in a row
   near the hearth and never over the fire. Every hearth also has a pan and a ladle on hooks under the ends of its
   mantel.
-- **By the fire.** Split firewood is stacked against the breast on whichever side has room (`firewood`). A rug lies
-  before the hearthstone where no table rug is already there.
+- **By the fire.** Firewood is stacked unevenly against the breast on whichever side has room (`firewood`). Some logs
+  are whole and some split in half, and they vary in length and turn. One small canvas texture holds bark, sawn end
+  rings and split grain. A rug lies before the hearthstone where no table rug is already there. Onions and a bunch of
+  herbs hang from the joist in front of the hearth.
+- **Window walls.** A short peg rail under a window's sill, where nothing stands in front of it, holds two of the
+  household's tools (`WINDOW_TOOLS`).
 - **Stores.** Sacks and wicker baskets stand together against a wall (`STORES`).
 - **Firelight.** The fire module draws a soft pool of warm light on the floor before each hearth. It is a fourth card
   in the same additive draw, falls off with a smooth power curve and flickers with the flames. The room's point light
@@ -42,10 +53,14 @@ and no longer hangs across a window.
 
 ## Before and after
 
+Room stills are at dusk unless marked noon.
+
 | Before | After |
 | --- | --- |
 | ![weaver's hearth before](a136-hearth-rooms-and-sign/before_hearth.jpg) | ![weaver's hearth after](a136-hearth-rooms-and-sign/after_hearth.jpg) |
 | ![herbalist before](a136-hearth-rooms-and-sign/before_house_c.jpg) | ![herbalist after](a136-hearth-rooms-and-sign/after_house_c.jpg) |
+| ![weaver's hearth at noon before](a136-hearth-rooms-and-sign/before_hearth_noon.jpg) | ![weaver's hearth at noon after](a136-hearth-rooms-and-sign/after_hearth_noon.jpg) |
+| ![herbalist at noon before](a136-hearth-rooms-and-sign/before_house_c_noon.jpg) | ![herbalist at noon after](a136-hearth-rooms-and-sign/after_house_c_noon.jpg) |
 | ![hunter before](a136-hearth-rooms-and-sign/before_house_d.jpg) | ![hunter after](a136-hearth-rooms-and-sign/after_house_d.jpg) |
 | ![sign at noon before](a136-hearth-rooms-and-sign/before_sign_noon.jpg) | ![sign at noon after](a136-hearth-rooms-and-sign/after_sign_noon.jpg) |
 | ![sign at dusk before](a136-hearth-rooms-and-sign/before_sign_dusk.jpg) | ![sign at dusk after](a136-hearth-rooms-and-sign/after_sign_dusk.jpg) |
@@ -55,8 +70,8 @@ sign in its new place.
 
 ## Still short
 
-The plaster panels are still plain between the timbers. The ceiling stays boarded at the wall top, so no rafters show.
-The firewood logs are smooth cylinders without bark texture. The sign's emblem is relief in vertex colour, not a
+The ceiling stays boarded at the wall top, so no rafters or roof boards show. The plaster's variation is per vertex
+(0.3 m), not a baked texture, so it is soft rather than crisp. The sign's emblem is relief in vertex colour, not a
 painted texture.
 
 ## Tests

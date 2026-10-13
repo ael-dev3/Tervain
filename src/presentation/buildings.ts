@@ -133,7 +133,8 @@ export function roomInterior(R: Region, room: InteriorSpec, windows: { x: number
   const beams = Math.max(1, Math.round(b.w / 2.4) - 1);
   for (let i = 1; i <= beams; i++) {
     const x = -hw + (i * 2 * hw) / (beams + 1) + (inner() - 0.5) * 0.2;
-    R.timber.bx(x - 0.09, top - 0.24, -hd - 0.05, x + 0.09, top - 0.05, hd + 0.05, frame(), { grain: 'z', jit: 0.05, amp: 0.02 });
+    // A136: heavy tie beams, the joists over them darker in the gaps between (roomShade).
+    R.timber.bx(x - 0.13, top - 0.34, -hd - 0.05, x + 0.13, top - 0.05, hd + 0.05, frame(), { grain: 'z', jit: 0.05, amp: 0.02 });
   }
   for (const sz of [-1, 1]) R.timber.bx(-hw - 0.02, top - 0.19, sz * hd - 0.08, hw + 0.02, top - 0.05, sz * hd + 0.08, frame(), { grain: 'x', jit: 0.04, amp: 0.02 });
   if (floorOf === 'planks') roomFrame(R, room, windows, inner, frame);
@@ -252,21 +253,23 @@ function roomFrame(R: Region, room: InteriorSpec, windows: readonly RoomWindow[]
         return onSide && Math.abs((along === 'x' ? w.x : w.z) - t) < w.w / 2 + 0.35;
       });
     const posts = [-len + 0.09, len - 0.09, ...(len > 2.2 ? [-len * 0.36, len * 0.36] : []), 0].filter(clear);
-    // A136: the plaster above the wainscot framed as well: studs between the posts, and a rail across each panel where
-    // no window breaks it, so no stretch of bare plaster is wider than about 0.8 m or taller than the rail's gap.
+    // A136: the plaster above the wainscot framed as well: studs between the posts, so no stretch of bare plaster is
+    // wider than about 0.8 m.
     const studs: number[] = [];
     for (let t = -len + 0.5; t < len - 0.4; t += 0.78) if (clear(t) && !posts.some((p) => Math.abs(p - t) < 0.42)) studs.push(t);
     for (const t of studs) piece('timber', side, t - 0.055, t + 0.055, wainscot + 0.04, top - 0.18, 0, 0.04, frame(), 'y');
-    const rail = floor + 2.05, inWindow = (t: number) => windows.some((w) => {
-      const onSide = side === 'back' ? w.z < -hd + 0.3 : side === 'front' ? w.z > hd - 0.3 : side === 'left' ? w.x < -hw + 0.3 : w.x > hw - 0.3;
-      return onSide && Math.abs((along === 'x' ? w.x : w.z) - t) < w.w / 2 + 0.06;
-    });
-    for (const [t0, t1] of runs(side, len)) {
-      let s0: number | null = null;
-      for (let t = t0; t <= t1 + 1e-6; t += 0.05) {
-        const ok = t < t1 - 1e-6 && !inWindow(t);
-        if (ok && s0 === null) s0 = t;
-        if (!ok && s0 !== null) { if (t - s0 > 0.3) piece('timber', side, s0, t, rail - 0.05, rail + 0.05, 0, 0.045, frame(), along); s0 = null; }
+    // A sill girt only on a wall with windows: at their sill line, wall to wall, stopping at each window's frame, so the
+    // frame sits on it (a rail at any other height read as a cross nailed beside the window).
+    const mine = windows.filter((w) => (side === 'back' ? w.z < -hd + 0.3 : side === 'front' ? w.z > hd - 0.3 : side === 'left' ? w.x < -hw + 0.3 : w.x > hw - 0.3));
+    if (mine.length) {
+      const sill = Math.min(...mine.map((w) => w.y)), inWindow = (t: number) => mine.some((w) => Math.abs((along === 'x' ? w.x : w.z) - t) < w.w / 2 + 0.09);
+      for (const [t0, t1] of runs(side, len)) {
+        let s0: number | null = null;
+        for (let t = t0; t <= t1 + 1e-6; t += 0.02) {
+          const ok = t < t1 - 1e-6 && !inWindow(t);
+          if (ok && s0 === null) s0 = t;
+          if (!ok && s0 !== null) { if (t - s0 > 0.25) piece('timber', side, s0, t, sill - 0.09, sill, 0, 0.05, frame(), along); s0 = null; }
+        }
       }
     }
     for (const t of posts) {
@@ -280,7 +283,7 @@ function roomFrame(R: Region, room: InteriorSpec, windows: readonly RoomWindow[]
     }
   }
   // Joists across under the ceiling boards.
-  for (const z of joistsOf(room)) R.timber.bx(-hw, top - 0.16, z - 0.05, hw, top - 0.05, z + 0.05, frame(), { grain: 'x', jit: 0.05, amp: 0.03 });
+  for (const z of joistsOf(room)) R.timber.bx(-hw, top - 0.2, z - 0.06, hw, top - 0.05, z + 0.06, frame(), { grain: 'x', jit: 0.05, amp: 0.03 });
 }
 
 /**
@@ -308,8 +311,27 @@ export function roomShade(room: InteriorSpec, frame: THREE.Matrix4): (x: number,
       }
       if (h < 0.1 && lz < HEARTH_SHAPE.slab + 0.5) k *= 1 - 0.25 * Math.exp(-(lx * lx) / 0.5) * Math.min(1, Math.max(0, (HEARTH_SHAPE.slab + 0.5 - lz) / 0.5));
     }
-    return Math.max(0.28, k);
+    // A136: the plaster. Lime wash laid on unevenly, each panel between the studs its own shade, smoke under the
+    // ceiling, and the boards overhead dark between the joists.
+    const onWall = Math.min(ax, az) < 0.06 && y > floor + 1.0 && y < top - 0.06;
+    if (onWall) {
+      const t = ax < az ? z : x;
+      k *= 0.9 + 0.1 * valueNoise(t * 1.6, y * 2.1) + 0.05 * (valueNoise(t * 5.3 + 7, y * 4.7) - 0.5);
+      k *= 0.93 + 0.09 * hashUnit(Math.floor((t + 20) / 0.78) + (ax < az ? 0.5 : 0));
+      k *= 1 - 0.22 * Math.max(0, (y - (top - 0.9)) / 0.9) ** 1.5;
+      if (soot) k *= 1 - 0.3 * Math.exp(-((x - hearth.stack.x) ** 2 + (z - hearth.stack.z) ** 2) / 2.2) * Math.min(1, Math.max(0, y - floor - 1.1));
+    }
+    if (y > top - 0.06 && y < top + 0.03) k *= 0.5 * (soot ? 1 - 0.25 * Math.exp(-((x - hearth.stack.x) ** 2 + (z - hearth.stack.z) ** 2) / 4) : 1);
+    return Math.max(0.2, k);
   };
+}
+
+const hashUnit = (n: number) => { const s = Math.sin(n * 127.1 + 311.7) * 43758.5453; return s - Math.floor(s); };
+/** Smooth value noise in [0, 1] (A136): the unevenness of a room's lime wash. */
+function valueNoise(x: number, y: number): number {
+  const ix = Math.floor(x), iy = Math.floor(y), fx = x - ix, fy = y - iy, u = fx * fx * (3 - 2 * fx), v = fy * fy * (3 - 2 * fy);
+  const h = (a: number, b: number) => hashUnit(a * 57 + b * 131);
+  return (h(ix, iy) * (1 - u) + h(ix + 1, iy) * u) * (1 - v) + (h(ix, iy + 1) * (1 - u) + h(ix + 1, iy + 1) * u) * v;
 }
 
 /** Any ordinary building: foundation, walls in the chosen material, sagging roof, door, windows, chimney, and the clutter of use. */
@@ -368,7 +390,8 @@ function buildStandardPass(R: Region, terrain: Terrain, b: BuildingSpec, out: Bu
     // Boards line the room inside, a little behind the outer boards so their gaps stay dark.
     roomWalls(R.planks, b.w - 0.06, b.d - 0.06, wallH, y0, t - 0.03, room.door, mulc(rgb(TINT.wood), 0.82), 0.7, openings);
   } else if (b.wall === 'plaster') {
-    roomWalls(R.plaster, b.w, b.d, wallH, y0, t, room.door, jitterTone(TINT.plaster, rnd, 0.06), 0.7, openings);
+    // A136: finer cells (0.3 m) so the lime wash and smoke inside (roomShade) read; the outside takes the same cells.
+    roomWalls(R.plaster, b.w, b.d, wallH, y0, t, room.door, jitterTone(TINT.plaster, rnd, 0.06), 0.3, openings);
     timberFrame(R, rnd, b.w, b.d, wallH, y0, gap, openings);
   } else {
     roomWalls(R.stone, b.w, b.d, wallH, y0, t, room.door, jitterTone(TINT.stone, rnd, 0.05), 0.9, openings);

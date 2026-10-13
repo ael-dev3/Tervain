@@ -10,7 +10,7 @@ import { observeModelLoad, withModelLoadSlot, type ModelLoadProgress } from './a
 import { downloadAsset } from './assets/download';
 import type { FrameContext, SceneModule } from './context';
 import { roughnessFloor } from './matte';
-import { clutterGeometry, clutterMaterial, clutterOnPiece, firewoodGeometry, hungGeometry, hungMaterial, pegRailGeometry, type ClutterKind, type HungKind } from './clutter';
+import { clutterGeometry, clutterMaterial, clutterOnPiece, firewoodGeometry, firewoodMaterial, hungGeometry, hungMaterial, pegRailGeometry, type ClutterKind, type HungKind } from './clutter';
 
 /**
  * The rooms' furniture, drawn (A66): the prepared Meshy pieces in public/models/furniture, placed as world/furniture.ts
@@ -155,11 +155,11 @@ export function buildFurniture(templates: FurnitureTemplates, rooms: RoomLocator
     later.push({ mesh, instances, shown: '' });
   }
   // One material for the rails, the hung things and the firewood: their wood and iron are in the vertex colours.
-  const hungMat = hungMaterial();
+  const hungMat = hungMaterial(), woodMat = firewoodMaterial();
   for (const [name, instances, geometry] of [['peg rails', rails, pegRailGeometry()] as const,
     ...[...byHung].map(([kind, list]) => [`hung ${kind}`, list, kind === 'firewood' ? firewoodGeometry() : hungGeometry(kind)] as const)]) {
     if (!instances.length) { geometry.dispose(); continue; }
-    const mesh = new THREE.InstancedMesh(geometry, hungMat, instances.length);
+    const mesh = new THREE.InstancedMesh(geometry, name === 'hung firewood' ? woodMat : hungMat, instances.length);
     mesh.name = `Furniture / ${name}`;
     mesh.receiveShadow = true;
     mesh.count = 0;
@@ -290,7 +290,7 @@ export function buildFurniture(templates: FurnitureTemplates, rooms: RoomLocator
         if (mesh.userData.ownsResources) { mesh.geometry.dispose(); (mesh.material as THREE.Material).dispose(); }
         if (mesh.userData.ownsGeometry) mesh.geometry.dispose();
       }
-      hungMat.dispose();
+      hungMat.dispose(); woodMat.map?.dispose(); woodMat.dispose();
       const card = meshes.find(({ mesh }) => mesh.name === 'Furniture / floor shadows')?.mesh;
       if (card) { card.geometry.dispose(); (card.material as THREE.MeshBasicMaterial).map?.dispose(); (card.material as THREE.Material).dispose(); }
     },

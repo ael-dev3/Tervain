@@ -101,6 +101,14 @@ const RAILS: Record<string, HungKind[][]> = {
   brewer: [['ladle', 'onions'], ['rope', 'basket'], ['ladle']],
   inn: [['pan', 'ladle'], ['pan', 'onions']], fisher: [['rope', 'basket'], ['rope']], keeper: [['pan', 'ladle']], bakery: [['basket', 'ladle']],
 };
+/** What each household hangs under its windows (A136): the tools of its work, two to a rail. */
+const WINDOW_TOOLS: Record<string, HungKind[]> = {
+  weaver: ['basket', 'rope', 'ladle', 'basket'], woodcutter: ['axe', 'sickle', 'rope', 'axe'], herbalist: ['sickle', 'basket', 'onions', 'ladle'],
+  hunter: ['axe', 'rope', 'sickle', 'basket'], farmer: ['sickle', 'axe', 'basket', 'rope'], brewer: ['ladle', 'basket', 'rope', 'pan'],
+  inn: ['pan', 'ladle'], fisher: ['rope', 'basket'],
+};
+/** The rail under a window's sill girt (the sill is about 1.29 m over the floor); the longest tool clears the floor. */
+const WINDOW_RAIL_Y = 1.1;
 /** How wide each hung thing is along the rail, metres. */
 const HUNG_W: Record<HungKind, number> = { ladle: 0.14, pan: 0.3, sickle: 0.3, rope: 0.32, axe: 0.24, saw: 0.62, basket: 0.34, onions: 0.16 };
 /** A peg rail's height above the floor: above the wainscot, the things on it clear of the rail along its top. */
@@ -264,6 +272,42 @@ export function dressRoom(room: InteriorSpec, placed: readonly FurniturePlacemen
         k++;
       }
       if (k >= unhung.length) break;
+    }
+  }
+
+  // Onions and a bunch of herbs drying from the joist nearest the front of the hearth (A136), either side of the fire's
+  // light, where the room's usual views take them in.
+  if (hearth && room.building.kind !== 'bakery') {
+    const joists = joistsOf(room);
+    for (const [i, side] of [-1, 1].entries()) {
+      const p = hearth.at(side * 0.95, CHIMNEY_STACK + 1.25), z = joists.reduce((b, j) => (Math.abs(j - p.z) < Math.abs(b - p.z) ? j : b), joists[0]!);
+      if (Math.abs(p.x) > hw - 0.25 || Math.hypot(p.x - hearth.stack.x, z - hearth.stack.z) < 1.0) continue;
+      out.push(i === 0 ? { room, piece: 'hung', hung: 'onions', x: p.x, z, y: room.wallTop - room.floorTop - 0.2, yaw: hearth.yaw }
+        : { room, piece: 'herbs', x: p.x, z, y: room.wallTop - room.floorTop - 0.86, yaw: hearth.yaw + 0.7, scale: 0.85 });
+    }
+  }
+
+  // Tools on the window walls (A136): a short peg rail under a window's sill where nothing stands before it.
+  const tools = WINDOW_TOOLS[household] ?? [];
+  let tool = 0;
+  for (const w of windows) {
+    if (tool >= tools.length) break;
+    const front = { x0: w.x0 - 0.1, x1: w.x1 + 0.1, z0: w.z0 - 0.1, z1: w.z1 + 0.1 };
+    if (pieces.some((o) => near(front, o, 0.05)) || taken.some((o) => near(w, o, 0))) continue;
+    const wall: Wall = w.z0 <= -hd + 0.01 ? 'back' : w.z1 >= hd - 0.01 ? 'front' : w.x0 <= -hw + 0.01 ? 'left' : 'right';
+    const yaw = wall === 'back' ? 0 : wall === 'front' ? Math.PI : wall === 'left' ? Math.PI / 2 : -Math.PI / 2;
+    const mx = (w.x0 + w.x1) / 2, mz = (w.z0 + w.z1) / 2;
+    const x = wall === 'left' ? -hw + 0.05 : wall === 'right' ? hw - 0.05 : mx, z = wall === 'back' ? -hd + 0.05 : wall === 'front' ? hd - 0.05 : mz;
+    const pair = tools.slice(tool, tool + 2), width = pair.reduce((t, k) => t + HUNG_W[k] + 0.06, 0.08);
+    tool += pair.length;
+    taken.push(w);
+    out.push({ room, piece: 'rail', x, z, y: WINDOW_RAIL_Y, yaw, size: [width, 0.08] });
+    const c = Math.cos(yaw), s = Math.sin(yaw);
+    let t = -width / 2 + 0.07;
+    for (const kind of pair) {
+      const along = t + HUNG_W[kind] / 2;
+      out.push({ room, piece: 'hung', hung: kind, x: x + along * c, z: z - along * s, y: WINDOW_RAIL_Y - 0.005, yaw });
+      t += HUNG_W[kind] + 0.06;
     }
   }
 

@@ -183,20 +183,85 @@ function mergeColoured(parts: [THREE.BufferGeometry, number][]): THREE.BufferGeo
 }
 
 /**
- * Split firewood stacked beside a hearth (A136): nine logs in rows of four, three and two, 0.6 m long and about 0.35 m
- * high, their sawn ends pale. Stands on y = 0, the logs along x.
+ * Split firewood stacked beside a hearth (A136): eleven logs in rows of four, four and three, about 0.55 m long and
+ * 0.4 m high, laid unevenly (each a little turned, pushed out or short), some whole in their bark and some split in half
+ * with the pale split face showing. One texture (`firewoodMaterial`) holds bark, the sawn end's rings and split grain in
+ * three columns; the geometry's uv picks the column. Stands on y = 0, the logs along x.
  */
 export function firewoodGeometry(): THREE.BufferGeometry {
-  const parts: [THREE.BufferGeometry, number][] = [];
+  const parts: THREE.BufferGeometry[] = [];
+  const column = (g: THREE.BufferGeometry, col: number) => {
+    const uv = g.getAttribute('uv');
+    for (let i = 0; i < uv.count; i++) uv.setX(i, (col + Math.min(0.999, Math.max(0, uv.getX(i)))) / 3);
+  };
   let k = 0;
-  for (const [row, n] of [4, 3, 2].entries()) for (let i = 0; i < n; i++) {
-    const r = 0.055 + ((k * 7) % 5) * 0.004, x = (((k * 13) % 7) - 3) * 0.012;
-    parts.push([new THREE.CylinderGeometry(r, r, 0.55, 6).rotateY(k * 0.9).rotateZ(Math.PI / 2).translate(x, 0.065 + row * 0.1, (i - (n - 1) / 2) * 0.125), k % 3 ? 0x2e2219 : 0x3b2e22]);
-    k++;
+  const rnd = (n: number) => { const x = Math.sin(n * 91.7 + 13.1) * 43758.5; return x - Math.floor(x); };
+  for (const [row, n] of [4, 4, 3].entries()) for (let i = 0; i < n; i++, k++) {
+    const r = 0.05 + rnd(k) * 0.025, len = 0.48 + rnd(k + 40) * 0.12, split = rnd(k + 80) < 0.45;
+    const theta = split ? Math.PI : Math.PI * 2;
+    const side = new THREE.CylinderGeometry(r, r * (0.92 + rnd(k + 9) * 0.1), len, 7, 1, true, 0, theta);
+    column(side, 0);
+    const ends = [len / 2, -len / 2].map((y) => {
+      const cap = new THREE.CircleGeometry(r, 7, 0, theta).rotateX(y > 0 ? -Math.PI / 2 : Math.PI / 2).translate(0, y, 0);
+      // A half disc turned to lie under the half shell (which covers +x).
+      if (split) cap.rotateY(y > 0 ? -Math.PI / 2 : Math.PI / 2);
+      column(cap, 1);
+      return cap;
+    });
+    const log: THREE.BufferGeometry[] = [side, ...ends];
+    if (split) {
+      // The split face: a flat plank through the axis.
+      const face = new THREE.PlaneGeometry(2 * r, len).rotateY(Math.PI / 2);
+      column(face, 2);
+      log.push(face);
+    }
+    const yaw = (rnd(k + 3) - 0.5) * 0.2, roll = split ? (row % 2 ? 1 : -1) * Math.PI / 2 + (rnd(k + 5) - 0.5) * 0.6 : rnd(k + 5) * 6;
+    for (const g of log) {
+      g.rotateY(roll).rotateZ(Math.PI / 2).rotateY(yaw);
+      g.translate((rnd(k + 7) - 0.5) * 0.08, 0.06 + row * 0.105 + (rnd(k + 11) - 0.5) * 0.015, (i - (n - 1) / 2) * 0.13 + (row % 2) * 0.03 + (rnd(k + 13) - 0.5) * 0.02);
+      parts.push(g);
+    }
   }
-  const g = mergeColoured(parts), n = g.getAttribute('normal'), c = g.getAttribute('color');
-  for (let i = 0; i < n.count; i++) if (Math.abs(n.getX(i)) > 0.9) c.setXYZ(i, 0.16, 0.1, 0.055);
-  return g;
+  const flat = parts.map((g) => (g.index ? g.toNonIndexed() : g));
+  const out = new THREE.BufferGeometry(), count = flat.reduce((n, g) => n + g.getAttribute('position').count, 0);
+  for (const [name, size] of [['position', 3], ['normal', 3], ['uv', 2]] as const) {
+    const arr = new Float32Array(count * size);
+    let o = 0;
+    for (const g of flat) { arr.set(g.getAttribute(name).array as Float32Array, o); o += g.getAttribute(name).count * size; }
+    out.setAttribute(name, new THREE.BufferAttribute(arr, size));
+  }
+  parts.forEach((g) => g.dispose()); flat.forEach((g) => g.dispose());
+  return out;
+}
+
+/** Bark, the rings of a sawn end and split grain (A136), drawn once on a small canvas. */
+export function firewoodMaterial(): THREE.MeshStandardMaterial {
+  const W = 384, H = 128, canvas = document.createElement('canvas');
+  canvas.width = W; canvas.height = H;
+  const g = canvas.getContext('2d')!;
+  const rnd = (n: number) => { const x = Math.sin(n * 12.9898) * 43758.5453; return x - Math.floor(x); };
+  // Bark: dark furrowed strips along the log, with lichen grey in places.
+  g.fillStyle = '#3a2c20'; g.fillRect(0, 0, 128, H);
+  for (let i = 0; i < 70; i++) {
+    const x = rnd(i) * 128, w = 1 + rnd(i + 99) * 4;
+    g.fillStyle = rnd(i + 7) < 0.5 ? '#1f170f' : rnd(i + 3) < 0.85 ? '#4e3d2c' : '#6d6a58';
+    g.fillRect(x, rnd(i + 5) * H * 0.5, w, H * (0.4 + rnd(i + 11) * 0.6));
+  }
+  // The sawn end: rings round a dark heart, a crack, cut marks.
+  const cx = 128 + 64, cy = 64;
+  g.fillStyle = '#9a7a52'; g.fillRect(128, 0, 128, H);
+  for (let r = 60; r > 2; r -= 3 + rnd(r) * 3) { g.strokeStyle = r % 2 ? 'rgba(80,52,30,0.55)' : 'rgba(150,118,80,0.5)'; g.lineWidth = 1.5; g.beginPath(); g.arc(cx, cy, r, 0, Math.PI * 2); g.stroke(); }
+  g.fillStyle = '#5a3e26'; g.beginPath(); g.arc(cx, cy, 5, 0, Math.PI * 2); g.fill();
+  g.strokeStyle = '#2a1c10'; g.lineWidth = 2; g.beginPath(); g.moveTo(cx, cy); g.lineTo(cx + 40, cy - 22); g.stroke();
+  // The rim of bark round the end.
+  g.strokeStyle = '#2a1e14'; g.lineWidth = 7; g.beginPath(); g.arc(cx, cy, 62, 0, Math.PI * 2); g.stroke();
+  // Split grain: pale, fibrous streaks along the log.
+  g.fillStyle = '#a4825a'; g.fillRect(256, 0, 128, H);
+  for (let i = 0; i < 60; i++) { g.fillStyle = rnd(i + 300) < 0.5 ? 'rgba(110,80,50,0.5)' : 'rgba(190,160,120,0.4)'; g.fillRect(256 + rnd(i + 200) * 128, 0, 1 + rnd(i + 250) * 2, H); }
+  const map = new THREE.CanvasTexture(canvas);
+  map.colorSpace = THREE.SRGBColorSpace;
+  map.anisotropy = 4;
+  return new THREE.MeshStandardMaterial({ map, roughness: 0.95, metalness: 0, side: THREE.DoubleSide });
 }
 
 /** A peg rail: a strip one unit long (scaled along x), its pegs at y = 0 standing out from the wall. */
