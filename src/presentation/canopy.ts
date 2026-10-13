@@ -319,7 +319,7 @@ export function buildCanopy(leaf: THREE.BufferGeometry, wood: THREE.BufferGeomet
   const plans = sources.map(source => {
     // Where the clump will sit once drawn in (below).
     const sits = source.clone().addScaledVector(clumpOutward(crown, source, new THREE.Vector3()), -opts.clump * 0.6);
-    return { source, sits, d: wood ? anchor(sits, hit) : 0, hit: hit.clone(), keep: [source] as THREE.Vector3[] };
+    return { source, sits, d: wood ? anchor(sits, hit) : 0, hit: hit.clone(), keep: [source] as THREE.Vector3[], twig: null as CanopyTwig | null };
   });
   const onTwig = (q: THREE.Vector3, out: THREE.Vector3) => {
     let best = Infinity; const line = new THREE.Line3(), at = new THREE.Vector3();
@@ -345,7 +345,8 @@ export function buildCanopy(leaf: THREE.BufferGeometry, wood: THREE.BufferGeomet
     }
     // The twig ends inside its clump, short of the centre, so the tip never pokes out of the leaves.
     const reachIn = Math.max(0, from.distanceTo(plan.sits) - opts.clump * 0.45);
-    twigs.push({ from, to: from.clone().lerp(plan.sits, reachIn / Math.max(from.distanceTo(plan.sits), 1e-6)) });
+    plan.twig = { from, to: from.clone().lerp(plan.sits, reachIn / Math.max(from.distanceTo(plan.sits), 1e-6)) };
+    twigs.push(plan.twig);
     grown.add(plan.source);
     const step = opts.clump * 1.0, length = from.distanceTo(plan.sits);
     for (let along = length - step; along > reach + opts.clump * 0.5; along -= step) {
@@ -353,8 +354,36 @@ export function buildCanopy(leaf: THREE.BufferGeometry, wood: THREE.BufferGeomet
       placedIn.add(at); plan.keep.push(at); held.push(at);
     }
   }
+  // Playtest 8: no lone clump out in the sky. Clumps link when their leaves touch; any group not linked (through
+  // others) to a clump at the wood is pulled in, nearest first, until it touches the linked mass. At play distance a
+  // twig is invisible, so a clump hanging on one alone read as a floating chunk; a pulled clump drops its twig.
+  if (wood) {
+    const touch = opts.clump * 1.1, tmp = new THREE.Vector3();
+    const items = plans.flatMap(plan => plan.keep.map((c, k) => ({ plan, k, at: placedIn.has(c) ? c.clone() : c.clone().addScaledVector(clumpOutward(crown, c, tmp), -opts.clump * 0.6), linked: false })));
+    type Item = (typeof items)[number];
+    // Each unlinked clump keeps its nearest linked one, updated only against clumps as they join.
+    const near = new Map<Item, { to: Item; d: number }>();
+    const join = (added: Item[]) => { for (const it of items) if (!it.linked) for (const l of added) { const d = it.at.distanceToSquared(l.at), n = near.get(it); if (!n || d < n.d) near.set(it, { to: l, d }); } };
+    const spread = (from: Item) => {
+      const queue = [from], added = [from]; from.linked = true; near.delete(from);
+      while (queue.length) { const a = queue.pop()!; for (const b of items) if (!b.linked && b.at.distanceToSquared(a.at) <= touch * touch) { b.linked = true; near.delete(b); added.push(b); queue.push(b); } }
+      return added;
+    };
+    const seeds: Item[] = [];
+    for (const it of items) if (!it.linked && anchor(it.at, tmp) <= reach) seeds.push(...spread(it));
+    join(seeds);
+    while (seeds.length && near.size) {
+      let best: Item | null = null, bd = Infinity;
+      for (const [it, n] of near) if (n.d < bd) { bd = n.d; best = it; }
+      const to = near.get(best!)!.to;
+      best!.at.sub(to.at).setLength(touch * 0.85).add(to.at);
+      placedIn.add(best!.at); best!.plan.keep[best!.k] = best!.at;
+      if (best!.plan.twig) { twigs.splice(twigs.indexOf(best!.plan.twig), 1); best!.plan.twig = null; }
+      join(spread(best!));
+    }
+  }
   const centres = plans.flatMap(plan => plan.keep);
-  const weights = centres.map(c => 0.3 + 0.7 * THREE.MathUtils.smoothstep(depthIn(crown, c), 0.35, 0.85));
+  const weights = centres.map(c => 0.6 + 0.4 * THREE.MathUtils.smoothstep(depthIn(crown, c), 0.35, 0.85));
   const weightSum = weights.reduce((s, w) => s + w, 0);
   const positions: number[] = [], normals: number[] = [], uvs: number[] = [], index: number[] = [];
   const out = new THREE.Vector3(), dir = new THREE.Vector3(), n = new THREE.Vector3(), t1 = new THREE.Vector3(), t2 = new THREE.Vector3();
