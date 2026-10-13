@@ -79,7 +79,7 @@ try {
   // Furniture, rooms and far props load after the world opens.
   for (let i = 0; i < 240 && !(await page.eval('let f = false; window.tervain.world.scene.traverse((o) => { if (o.name === "Furniture") f = true; }); return f').catch(() => false)); i++) await page.wait(250);
   await page.wait(12000);
-  await page.eval(`const T = window.tervain, S = T.game.state; T.hud.show(false); T.debugTime?.(11); S.inventory.hunting_bow = 1; S.inventory.arrow = 6; S.equippedWeapon = 'hunting_bow'; T.player.syncEquipment(T.game); return 1`);
+  await page.eval(`const T = window.tervain, S = T.game.state; T.hud.show(false); T.debugTime?.(${Number(args.hour ?? 11)}); S.inventory.hunting_bow = 1; S.inventory.arrow = 6; S.equippedWeapon = 'hunting_bow'; T.player.syncEquipment(T.game); return 1`);
 
   for (const id of chosen) {
     const spot = SPOTS[id], dir = path.join(OUT, id);
@@ -129,6 +129,8 @@ try {
     // The hero's own torso: up from the slung bow to his hips (other rigs share the bone names), then his neck below them.
     for (let a = bow; a && !hips; a = a.parent) if (/Hips$/.test(a.name)) hips = a;
     hips?.traverse((o) => { if (!neck && /Neck$/.test(o.name)) neck = o; });
+    // Shoulders stand out beyond the torso: each from its shoulder joint to the upper arm, 9 cm about that line.
+    const shoulders = []; hips?.traverse((o) => { if (/(Left|Right)Shoulder$/.test(o.name)) { const arm = o.children.find((c) => /(Left|Right)Arm$/.test(c.name)); if (arm) shoulders.push([o, arm]); } });
     if (!bow || !bow.visible || !hips || !neck) return [0, 0, !bow ? 'no bow' : !bow.visible ? 'bow hidden' : 'no torso bones'];
     const a = hips.getWorldPosition(new V()), b = neck.getWorldPosition(new V()), ab = b.clone().sub(a), len = ab.length(); ab.normalize();
     let inside = 0, n = 0;
@@ -137,7 +139,13 @@ try {
       const y = -.65 + i * 1.3 / 12, x = z === 0 ? 0.055 * Math.cos(y * 2.4) - 0.04 : 0;
       const p = bow.localToWorld(new V(0, y, z === 0 ? x : -.14)), t = Math.max(0, Math.min(len, p.clone().sub(a).dot(ab)));
       const d = p.distanceTo(a.clone().addScaledVector(ab, t));
-      n++; if (d < 0.13) inside++;
+      let inShoulder = false;
+      for (const [sh, arm] of shoulders) {
+        const s0 = sh.getWorldPosition(new V()), s1 = arm.getWorldPosition(new V()), sd = s1.clone().sub(s0), sl = sd.length(); sd.normalize();
+        const st = Math.max(0, Math.min(sl, p.clone().sub(s0).dot(sd)));
+        if (p.distanceTo(s0.clone().addScaledVector(sd, st)) < 0.09) inShoulder = true;
+      }
+      n++; if (d < 0.13 || inShoulder) inside++;
     }
     return [inside, n];`);
   for (const [gait, codes] of [['walk', ['KeyW']], ['run', ['ShiftLeft', 'KeyW']]]) {
