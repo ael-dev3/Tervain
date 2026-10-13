@@ -332,6 +332,10 @@ const LEAF_COLOUR_GLSL = /* glsl */ `
   // of leaves rather than card after card.
   vec3 tvMassP = vTvLeafP / max( uFoliageClump.w, 0.05 );
   // Air budget: the two octaves of value noise are read from a baked, tiling copy (clumpNoiseTexture) instead of sixteen hashes.
+  // A leaf depth pass needs the masses only to thin the shell between them (clumps.gaps, 0 in the shipped look).
+  #ifdef TV_LEAF_DEPTH_ONLY
+  if ( uFoliageClump.x > 0.0 )
+  #endif
   tvClump = texture( uFoliageClumpNoise, tvMassP * ${glslFloat(1 / CLUMP_PERIOD)} + ${glslFloat(0.5 / CLUMP_SIZE)} ).r * 0.6
     + texture( uFoliageClumpNoise, ( tvMassP * 2.6 + 7.1 ) * ${glslFloat(1 / CLUMP_PERIOD)} + ${glslFloat(0.5 / CLUMP_SIZE)} ).r * 0.4;
   diffuseColor.rgb *= mix( 1.0 - uFoliageClump.y, 1.05, smoothstep( 0.22, 0.72, tvClump ) );

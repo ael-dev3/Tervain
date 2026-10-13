@@ -127,3 +127,27 @@ export function installSoftSunShadows(): boolean {
   installed = true;
   return true;
 }
+
+/**
+ * Shadow maps drawn into depth alone (Air budget). Three's PCF shadow target carries an RGBA8 colour buffer beside the
+ * depth texture the shaders compare against; nothing reads the colour, yet every caster fragment wrote its packed depth
+ * there (and the clear filled it), at 4096 px on High 64 MB of writes a frame. Colour writes are masked off for the
+ * shadow pass; the depth, and so every shadow, is unchanged.
+ */
+export function installDepthOnlyShadowPass(renderer: THREE.WebGLRenderer): void {
+  const shadowMap = renderer.shadowMap as THREE.WebGLShadowMap & { tvDepthOnly?: boolean };
+  if (shadowMap.tvDepthOnly) return;
+  shadowMap.tvDepthOnly = true;
+  const render = shadowMap.render;
+  const color = renderer.state.buffers.color;
+  shadowMap.render = function (this: THREE.WebGLShadowMap, ...args: Parameters<THREE.WebGLShadowMap['render']>) {
+    color.setMask(false);
+    color.setLocked(true);
+    try {
+      render.apply(this, args);
+    } finally {
+      color.setLocked(false);
+      color.setMask(true);
+    }
+  };
+}

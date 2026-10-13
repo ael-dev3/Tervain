@@ -39,6 +39,8 @@ export const REFLECTION_DETAIL_PX = 1.5;
 
 /** Reuse the opaque scene color/depth; only water is drawn again after the copy. */
 export class WaterRenderPass {
+  /** Profiling switch (?shot&reflect=0): no planar sea capture, to price it. */
+  static captureOff = false;
   private composite: THREE.WebGLRenderTarget | null = null;
   private reflector: Reflector | null = null;
   private reflectionAge = Infinity;
@@ -187,7 +189,7 @@ export class WaterRenderPass {
     // Only visible sea needs a planar capture; a map longitude is not a visibility boundary.
     camera.getWorldPosition(this.currentCameraPosition);
     camera.getWorldQuaternion(this.currentCameraRotation);
-    if (this.currentCameraPosition.y <= 0.08 || !input.meshes.some(m => m.name === 'sea' && this.waterInView(m, camera))) return;
+    if (WaterRenderPass.captureOff || this.currentCameraPosition.y <= 0.08 || !input.meshes.some(m => m.name === 'sea' && this.waterInView(m, camera))) return;
     if (this.reflectionScene !== scene) { this.reflectionValid = false; this.reflectionScene = scene; }
     const size = input.quality === 'high' ? 512 : 384;
     if (this.reflector && this.reflector.getRenderTarget().texture.type !== source.texture.type) {

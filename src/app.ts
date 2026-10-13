@@ -65,6 +65,8 @@ import { REALM_WIND } from './presentation/realmWind';
 import type { AnimalDefinition } from './presentation/animals/catalog';
 import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { npcStyle } from './presentation/npcStyle';
+import { WaterRenderPass } from './presentation/waterRenderPass';
+import { installDepthOnlyShadowPass } from './presentation/softShadows';
 import type { CircleCollider } from './world/colliders';
 
 /** How far round the line from the camera to the wanderer leaves give way (A84), metres. */
@@ -233,6 +235,8 @@ export class App {
     GPU.halfTargets = this.renderer.extensions.has('EXT_color_buffer_float') || this.renderer.extensions.has('EXT_color_buffer_half_float');
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFShadowMap;
+    // ?shadowcolor=1 keeps Three's colour writes in the shadow pass, for comparison.
+    if (new URLSearchParams(location.search).get('shadowcolor') !== '1') installDepthOnlyShadowPass(this.renderer);
     this.grade = new Grade(this.renderer, { msaa: this.settings.quality !== 'low' });
     this.menuScene = new MenuScene({ quality: this.settings.quality });
     this.applyPixelRatio();
@@ -360,6 +364,7 @@ export class App {
     if (q.get('msaa') === '0') this.grade.setMsaa(false);
     if (q.get('shadows') === '0') this.renderer.shadowMap.enabled = false;
     if (q.get('treelod') === '1') this.settings.treeDetailByDistance = true;
+    if (q.get('reflect') === '0') WaterRenderPass.captureOff = true;
     // ?flat=forest,terrain: draw those parts with one unlit material, to price their shading.
     const flatNames = (q.get('flat') ?? '').split(',').filter(Boolean);
     if (flatNames.length) {
