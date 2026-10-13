@@ -89,3 +89,18 @@ describe('swept scenery contacts', () => {
     expect(c.blocked(m.x, m.z, 0.4)).toBe(false);
   });
 });
+
+it('deduplicates spanning-grid candidates and refreshes them after stamp rollover and geometry changes',()=>{
+  const c=new Colliders();c.box('diagonal',10,10,5,.05,Math.PI/4);
+  const shape=c.all[0]!;let checks=0;const original=Reflect.get(c,'overlapsDisc');
+  Reflect.set(c,'overlapsDisc',function(...args:unknown[]){checks++;return original.apply(c,args);});
+  expect(c.blocked(8,8,.4)).toBe(false);expect(checks).toBe(1);
+  shape.x=8;shape.z=8;Reflect.set(c,'blockedQuery',Number.MAX_SAFE_INTEGER);
+  expect(c.blocked(8,8,.4)).toBe(true);expect(checks).toBe(2);
+  shape.active=false;expect(c.blocked(8,8,.4)).toBe(false);
+});
+
+it('preserves overridden near providers for boolean queries',()=>{
+  const c=new Colliders(),extra={id:'external',kind:'circle' as const,x:2,z:3,r:.4,active:true};
+  c.near=()=>[extra];expect(c.blocked(2,3,.2)).toBe(true);expect(c.blocked(5,5,.2)).toBe(false);
+});

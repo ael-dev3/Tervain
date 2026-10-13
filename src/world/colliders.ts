@@ -135,6 +135,8 @@ export class Colliders {
   private byId = new Map<string, Collider[]>();
   private grid = new Map<number, Collider[]>();
   version = 0;
+  private blockedQuery = 0;
+  private blockedSeen = new WeakMap<Collider, number>();
 
   private key(cx: number, cz: number) {
     return (cx + 512) * 4096 + (cz + 512);
@@ -319,7 +321,23 @@ export class Colliders {
   }
 
   blocked(x: number, z: number, radius: number, bounds?: VerticalBounds): boolean {
-    return this.near(x, z, radius).some((c) => !c.supportOnly && overlapsHeight(c, bounds) && this.overlapsDisc(c, x, z, radius));
+    // Preserve custom near providers; the normal grid query needs neither a collected list nor a temporary Set.
+    if (this.near !== Colliders.prototype.near) return this.near(x, z, radius).some(c => !c.supportOnly && overlapsHeight(c, bounds) && this.overlapsDisc(c, x, z, radius));
+    // Bound stamps to small integers and clear marks before reusing a stamp.
+    if (this.blockedQuery >= 0x3fffffff) { this.blockedQuery = 0; this.blockedSeen = new WeakMap(); }
+    const query = ++this.blockedQuery;
+    const x0 = Math.floor((x - radius) / CELL), x1 = Math.floor((x + radius) / CELL);
+    const z0 = Math.floor((z - radius) / CELL), z1 = Math.floor((z + radius) / CELL);
+    for (let cx = x0; cx <= x1; cx++) for (let cz = z0; cz <= z1; cz++) {
+      const bucket = this.grid.get(this.key(cx, cz));
+      if (!bucket) continue;
+      for (const c of bucket) {
+        if (!c.active || this.blockedSeen.get(c) === query) continue;
+        this.blockedSeen.set(c, query);
+        if (!c.supportOnly && overlapsHeight(c, bounds) && this.overlapsDisc(c, x, z, radius)) return true;
+      }
+    }
+    return false;
   }
 
   /** A rising body meets the underside of a finite overhead volume, rather than jumping through its roof. */
