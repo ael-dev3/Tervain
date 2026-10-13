@@ -48,6 +48,7 @@ function motion(current, other, w, h, block, radius) {
 }
 export function frameShimmer(previous, current, next, w, h, options = {}) {
   if (!Number.isInteger(w) || !Number.isInteger(h) || w < 16 || h < 16 || [previous, current, next].some(a => a.length !== w * h)) throw new Error('Invalid shimmer frame dimensions');
+  if(options.sparkleMask && options.sparkleMask.length!==w*h)throw new Error('Invalid sparkle mask dimensions');
   const block = options.block ?? 16, radius = options.searchRadius ?? 8, threshold = options.threshold ?? 18, maxCost = options.maxCost ?? 24;
   if (!Number.isInteger(block) || block < 8 || !Number.isInteger(radius) || radius < 0 || radius > 64 || !(threshold > 0 && threshold <= 255)) throw new Error('Invalid shimmer options');
   const p = motion(current, previous, w, h, block, radius), n = motion(current, next, w, h, block, radius);
@@ -64,20 +65,21 @@ export function frameShimmer(previous, current, next, w, h, options = {}) {
     dp.push(current[y * w + x] - pair[0]); dn.push(current[y * w + x] - pair[1]);
   }
   const exposurePrevious = median(dp), exposureNext = median(dn), histogram = new Uint32Array(256);
-  let validPixels = 0, sparklePixels = 0, sum = 0;
+  let validPixels = 0, sparklePixels = 0, maskedSparklePixels = 0, sum = 0;
   for (let y = 2; y < h - 2; y++) for (let x = 2; x < w - 2; x++) {
     const pair = sample(x, y); if (!pair) continue;
     const value = current[y * w + x], baseline = (pair[0] + exposurePrevious + pair[1] + exposureNext) / 2;
     const residual = Math.abs(value - baseline);
     sum += residual; histogram[Math.min(255, Math.floor(residual))]++; validPixels++;
     const local = (current[y * w + x - 1] + current[y * w + x + 1] + current[(y - 1) * w + x] + current[(y + 1) * w + x]) / 4;
-    if (value - baseline >= threshold && value - local >= threshold / 2) sparklePixels++;
+    if (value - baseline >= threshold && value - local >= threshold / 2) { sparklePixels++;if(options.sparkleMask?.[y*w+x])maskedSparklePixels++; }
   }
   let count = 0, shimmerP95 = 0;
   for (; shimmerP95 < 255; shimmerP95++) { count += histogram[shimmerP95]; if (count >= validPixels * .95) break; }
   return { validPixels, validShare: validPixels / ((w - 4) * (h - 4)), sparklePixels,
     sparkleShare: validPixels ? sparklePixels / validPixels : null, shimmerMean: validPixels ? sum / validPixels : null,
-    shimmerP95: validPixels ? shimmerP95 : null, exposurePrevious, exposureNext };
+    shimmerP95: validPixels ? shimmerP95 : null, exposurePrevious, exposureNext,
+    ...(options.sparkleMask?{maskedSparklePixels,maskedSparkleShare:validPixels?maskedSparklePixels/validPixels:null}:{}) };
 }
 export function summarizeShimmer(samples) {
   const usable = samples.filter(s => s.validPixels > 0), pixels = usable.reduce((a, s) => a + s.validPixels, 0);
