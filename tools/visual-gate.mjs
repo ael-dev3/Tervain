@@ -206,7 +206,7 @@ const meadowClip = path.join(OUT, 'meadow', 'clip.mp4');
 if (fs.existsSync('tools/video-shimmer.mjs') && fs.existsSync(meadowClip)) {
   const out = path.join(OUT, 'shimmer.json');
   fs.rmSync(out, { force: true }); // A failed decoder must not reuse a previous run's receipt.
-  const run = spawnSync('node', ['tools/video-shimmer.mjs', '--input', meadowClip, '--roi', '0.03,0.66,0.34,0.32', '--fps', '30', '--out', out], { encoding: 'utf8', timeout: 600000 });
+  const run = spawnSync('node', ['tools/video-shimmer.mjs', '--input', meadowClip, '--roi', '0.03,0.66,0.34,0.32', '--out', out], { encoding: 'utf8', timeout: 600000 });
   let shimmer;
   try { shimmer = fs.existsSync(out) ? JSON.parse(fs.readFileSync(out, 'utf8')) : null; } catch { shimmer = null; }
   const verdict = shimmerVerdict(run.status, shimmer, baseline?.checks?.shimmer?.score);
