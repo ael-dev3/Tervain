@@ -141,6 +141,10 @@ export function* retargetClipSteps(clip: THREE.AnimationClip, library: RestPose,
   const ws = new Map<ResidentJoint, THREE.Quaternion>(), wt = new Map<ResidentJoint, THREE.Quaternion>();
   const local = new THREE.Quaternion(), inv = new THREE.Quaternion();
   let heading = 0;
+  // The face's way (Head to its marker) and the chest's up, in the chest's frame at rest, for limiting the head's pitch.
+  const chestUp = UP.clone().applyQuaternion(dest.rotation.get('Spine')!.clone().invert());
+  const face = target.get('headfront')!.position.clone().normalize();
+  const restElevation = faceElevation(target.get('neck')!.quaternion, target.get('Head')!.quaternion, face, chestUp);
   for (let f = 0; f < frames; f++) {
     const t = Math.min(duration, f / FPS);
     times[f] = t;
@@ -159,6 +163,7 @@ export function* retargetClipSteps(clip: THREE.AnimationClip, library: RestPose,
       if (f && out.x * q[f * 4 - 4]! + out.y * q[f * 4 - 3]! + out.z * q[f * 4 - 2]! + out.w * q[f * 4 - 1]! < 0) out.set(-out.x, -out.y, -out.z, -out.w);
       q.set([out.x, out.y, out.z, out.w], f * 4);
     }
+    limitHeadPitch(quats.get('neck')!, quats.get('Head')!, f, target, chestUp, face, restElevation);
     const p = hipsTrack ? hipsTrack.evaluate(t) : [sourceHips.x, sourceHips.y, sourceHips.z];
     rawHips.push(new THREE.Vector3(p[0]!, p[1]!, p[2]!));
     // Which way the chest and the head face in this frame, against their rest: the way the figure reads as facing.
@@ -206,6 +211,39 @@ export function* retargetClipSteps(clip: THREE.AnimationClip, library: RestPose,
   const baked = new THREE.AnimationClip(clip.name, duration, tracks);
   if (inPlace && cycleMetres < 0.05) cycleMetres = yield* plantedFootCycleSteps(baked, target);
   return { clip: baked, cycleMetres, hipsDrop: targetHips.y - lowest, hipsAt: [sumX / frames, sumZ / frames] };
+}
+
+/**
+ * How far a head may tip from its rest against the chest, up or down (radians). The library's stretch looks 45° up; on
+ * a figure whose skull, hood or collar is shaped round its rest that read as a head thrown back, so the neck and head
+ * give up their movement together, in proportion, beyond this (the chest, arms and the head's turn keep theirs).
+ */
+export const HEAD_PITCH_LIMIT = THREE.MathUtils.degToRad(32);
+
+function faceElevation(neck: THREE.Quaternion, head: THREE.Quaternion, face: THREE.Vector3, up: THREE.Vector3): number {
+  const way = _pitchV.copy(face).applyQuaternion(_pitchQ.copy(neck).multiply(head));
+  return Math.asin(THREE.MathUtils.clamp(way.dot(up), -1, 1));
+}
+const _pitchV = new THREE.Vector3(), _pitchQ = new THREE.Quaternion(), _neckRest = new THREE.Quaternion(), _headRest = new THREE.Quaternion();
+const _neckNow = new THREE.Quaternion(), _headNow = new THREE.Quaternion(), _neckTry = new THREE.Quaternion(), _headTry = new THREE.Quaternion();
+
+/** Bring frame `f`'s neck and head back toward their rest until the face is within {@link HEAD_PITCH_LIMIT} of its rest pitch. */
+function limitHeadPitch(neck: Float32Array, head: Float32Array, f: number, target: RestPose, up: THREE.Vector3, face: THREE.Vector3, rest: number): void {
+  _neckNow.fromArray(neck, f * 4); _headNow.fromArray(head, f * 4);
+  if (Math.abs(faceElevation(_neckNow, _headNow, face, up) - rest) <= HEAD_PITCH_LIMIT) return;
+  _neckRest.copy(target.get('neck')!.quaternion); _headRest.copy(target.get('Head')!.quaternion);
+  let low = 0, high = 1;
+  for (let i = 0; i < 12; i++) {
+    const k = (low + high) / 2;
+    _neckTry.slerpQuaternions(_neckRest, _neckNow, k); _headTry.slerpQuaternions(_headRest, _headNow, k);
+    if (Math.abs(faceElevation(_neckTry, _headTry, face, up) - rest) <= HEAD_PITCH_LIMIT) low = k; else high = k;
+  }
+  _neckTry.slerpQuaternions(_neckRest, _neckNow, low); _headTry.slerpQuaternions(_headRest, _headNow, low);
+  // Stay in the hemisphere of the frame before, as the bake does.
+  for (const [q, out] of [[_neckTry, neck], [_headTry, head]] as const) {
+    if (f && q.x * out[f * 4 - 4]! + q.y * out[f * 4 - 3]! + q.z * out[f * 4 - 2]! + q.w * out[f * 4 - 1]! < 0) q.set(-q.x, -q.y, -q.z, -q.w);
+    q.toArray(out, f * 4);
+  }
 }
 
 /** For an in-place walk: how far the lower foot slides backward over one cycle (the distance a figure would cover). */
@@ -516,6 +554,18 @@ export function stoneworkStrike(track: ContactTrack): StoneworkStrike {
 /** Work-clip contact samples taken a step of a rig's staged build (A80). */
 const TRACK_SAMPLES_A_STEP = 24;
 
+/** The torso capsule's radius as a share of the shoulder sockets' half span (the rest is the arms' own thickness). */
+export const TORSO_RADIUS = 0.55;
+
+/** A rig's torso capsule radius in its model's metres, from its joints as they stand in the rig's bind pose. */
+export function torsoRadius(bones: ResidentBones): number {
+  const parent = bones.Hips.parent;
+  parent?.updateMatrixWorld(true);
+  const left = bones.LeftArm.getWorldPosition(new THREE.Vector3()), right = bones.RightArm.getWorldPosition(new THREE.Vector3());
+  if (parent) { parent.worldToLocal(left); parent.worldToLocal(right); }
+  return left.distanceTo(right) / 2 * TORSO_RADIUS;
+}
+
 export class ResidentMotion {
   readonly mixer: THREE.AnimationMixer;
   private readonly playing = new Map<string, Playing>();
@@ -546,11 +596,14 @@ export class ResidentMotion {
   private turnRate = 0;
   /** How far the head and chest are turned ahead into the turn (A76), radians. */
   private readonly turnLead = new TurnLead();
+  /** The torso capsule's radius at rest (model metres): see {@link keepHandsOut}. */
+  private readonly torsoRadius: number;
 
   constructor(private readonly scene: THREE.Group, private readonly body: THREE.Group, private readonly bones: ResidentBones,
     private readonly clips: ResidentClips, private readonly options: ResidentMotionOptions) {
     this.mixer = new THREE.AnimationMixer(scene);
     this.armRest = new Map(ARM_JOINTS.map(joint => [joint, bones[joint].quaternion.clone()]));
+    this.torsoRadius = torsoRadius(bones);
     this.standingHips = bones.Hips.position.y;
     this.standingHipsZ = bones.Hips.position.z;
     const walk = clips.get(MOTION_CLIPS.walk[options.build])?.clip;
@@ -816,9 +869,37 @@ export class ResidentMotion {
         _v3.set(0, 1, 0).applyQuaternion(this.scene.getWorldQuaternion(_qa)));
     }
     if (mode === 'work' && leading && p.workSite && this.options.contacts) this.reachSite(p, p.workGesture ?? 'general', p.workSite, leading);
+    if (mode !== 'dead') this.keepHandsOut();
     this.wasSeated = seated && this.transition?.name !== MOTION_CLIPS.sitUp;
     this.lastMode = mode;
     this.scene.updateMatrixWorld(true);
+  }
+
+  /**
+   * Hands stay out of the torso: the library's figure is slimmer than most residents, so a gesture that brings its
+   * hands to its chest (mending, kneading, clasping) sank a stouter figure's wrists into his own chest. A wrist inside
+   * the torso's capsule (hips to neck, {@link TORSO_RADIUS} of the shoulder span) is reached out to its surface, the
+   * elbow bending to suit, the hand keeping its turn.
+   */
+  private keepHandsOut(): void {
+    this.scene.updateMatrixWorld(true);
+    const hips = this.bones.Hips.getWorldPosition(_a).clone(), neck = this.bones.neck.getWorldPosition(_b).clone();
+    const radius = this.torsoRadius * this.body.getWorldScale(_c).y;
+    const axis = _n.subVectors(neck, hips);
+    const length = axis.lengthSq();
+    let recorded = this.reached.length > 0;
+    for (const [arm, fore, hand] of [['LeftArm', 'LeftForeArm', 'LeftHand'], ['RightArm', 'RightForeArm', 'RightHand']] as const) {
+      const wrist = this.bones[hand].getWorldPosition(_v0);
+      const t = clamp01(_v1.subVectors(wrist, hips).dot(axis) / Math.max(1e-9, length));
+      const nearest = _v1.copy(hips).addScaledVector(axis, t);
+      const out = _v2.subVectors(wrist, nearest);
+      const distance = out.length();
+      if (distance >= radius) continue;
+      // Straight out from the spine; a wrist on the spine's own line goes forward, the way the figure faces.
+      if (distance < 1e-4) out.set(0, 0, 1).applyQuaternion(this.body.getWorldQuaternion(_qa)); else out.divideScalar(distance);
+      if (!recorded) { for (const joint of REACH_JOINTS) this.reached.push([joint, this.bones[joint].quaternion.clone()]); recorded = true; }
+      reachTwoJoints(this.bones[arm], this.bones[fore], this.bones[hand], _v3.copy(nearest).addScaledVector(out, radius));
+    }
   }
 
   /** A contact point of the pose as it stands, in the actor's frame: a wrist, a hand's lowest point or a tool's end (A70). */
