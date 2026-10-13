@@ -219,17 +219,19 @@ export function woodAnchor(wood: THREE.BufferGeometry | null): (p: THREE.Vector3
   };
 }
 
-/** Sides of a grown twig's cone; it costs twice as many triangles. */
-const TWIG_SIDES = 3;
-export const TWIG_TRIANGLES = TWIG_SIDES * 2;
+/** Sides of a grown twig; rings along it (base, bend, tip). Each twig costs sides × (rings − 1) × 2 triangles. */
+const TWIG_SIDES = 3, TWIG_RINGS = 3;
+export const TWIG_TRIANGLES = TWIG_SIDES * (TWIG_RINGS - 1) * 2;
 
 /** A twig grown from the wood (`from`, on its surface) out to a clump's centre (`to`). */
 export interface CanopyTwig { from: THREE.Vector3; to: THREE.Vector3 }
 
 /**
- * The wood with tapered twigs added (playtest 7): a four-sided cone from just inside the bough out to each clump, with
- * the wood's own attribute set. Attributes other than position and normal (uv too: the bark atlas there) copy the nearest wood vertex, so vertex
- * colours and wind weights match the bough the twig grows from.
+ * The wood with twigs added (playtest 7): a thin three-sided limb from just inside the bough out to each clump,
+ * tapering to a point and bowing down a little at its middle, with the wood's own attribute set. Each twig gets its
+ * own bark: uv runs along it from the bough's uv, and normal and tangent follow its own surface (copied tangents
+ * from the bough left the normal map's frame skewed and the twigs near black). Other attributes (vertex colours,
+ * wind weights) copy the nearest bough vertex.
  */
 export function growTwigs(wood: THREE.BufferGeometry, twigs: readonly CanopyTwig[]): THREE.BufferGeometry {
   if (!twigs.length) return wood;
@@ -239,27 +241,40 @@ export function growTwigs(wood: THREE.BufferGeometry, twigs: readonly CanopyTwig
   const index: number[] = source.index ? Array.from(source.index.array) : Array.from({ length: p.count }, (_, i) => i);
   let next = p.count;
   const nearestVertex = (q: THREE.Vector3) => { let best = 0, bd = Infinity; for (let i = 0; i < p.count; i++) { const d = (p.getX(i) - q.x) ** 2 + (p.getY(i) - q.y) ** 2 + (p.getZ(i) - q.z) ** 2; if (d < bd) { bd = d; best = i; } } return best; };
+  const uv = source.getAttribute('uv');
   const axis = new THREE.Vector3(), a = new THREE.Vector3(), b = new THREE.Vector3(), q = new THREE.Vector3(), n = new THREE.Vector3();
+  const centre = new THREE.Vector3(), tangent = new THREE.Vector3(), down = new THREE.Vector3();
   for (const t of twigs) {
     axis.subVectors(t.to, t.from); const length = axis.length(); if (!(length > 1e-3)) continue; axis.divideScalar(length);
     a.set(Math.abs(axis.y) < 0.9 ? 0 : 1, Math.abs(axis.y) < 0.9 ? 1 : 0, 0).cross(axis).normalize(); b.crossVectors(axis, a);
-    const r0 = Math.min(0.09, Math.max(0.035, 0.025 + length * 0.012)), r1 = 0.012;
-    const start = t.from.clone().addScaledVector(axis, -Math.min(0.1, r0)), base = next, copy = nearestVertex(t.from);
-    for (let ring = 0; ring < 2; ring++) for (let k = 0; k < TWIG_SIDES; k++) {
-      const angle = k / TWIG_SIDES * Math.PI * 2, r = ring ? r1 : r0;
-      n.copy(a).multiplyScalar(Math.cos(angle)).addScaledVector(b, Math.sin(angle));
-      q.copy(ring ? t.to : start).addScaledVector(n, r);
-      for (const name of names) {
-        const attr = source.getAttribute(name), out = added[name]!;
-        if (name === 'position') out.push(q.x, q.y, q.z);
-        else if (name === 'normal') out.push(n.x, n.y, n.z);
-        else for (let c = 0; c < attr.itemSize; c++) out.push(attr.getComponent(copy, c));
+    // Bow: the middle sags (gravity), perpendicular to the twig.
+    down.set(0, -1, 0).addScaledVector(axis, axis.y).normalize().multiplyScalar(length * 0.08);
+    const r0 = Math.min(0.05, Math.max(0.022, 0.018 + length * 0.007)), r1 = 0.004;
+    const start = t.from.clone().addScaledVector(axis, -Math.min(0.08, r0 * 2)), base = next, copy = nearestVertex(t.from);
+    const u0 = uv ? uv.getX(copy) : 0, v0 = uv ? uv.getY(copy) : 0;
+    for (let ring = 0; ring < TWIG_RINGS; ring++) {
+      const f = ring / (TWIG_RINGS - 1), r = r0 + (r1 - r0) * Math.pow(f, 0.8);
+      centre.copy(start).lerp(t.to, f).addScaledVector(down, Math.sin(f * Math.PI));
+      tangent.copy(axis).addScaledVector(down, Math.cos(f * Math.PI) * Math.PI / Math.max(length, 1e-3)).normalize();
+      for (let k = 0; k < TWIG_SIDES; k++) {
+        const angle = k / TWIG_SIDES * Math.PI * 2;
+        n.copy(a).multiplyScalar(Math.cos(angle)).addScaledVector(b, Math.sin(angle));
+        q.copy(centre).addScaledVector(n, r);
+        n.addScaledVector(tangent, -n.dot(tangent)).normalize();
+        for (const name of names) {
+          const attr = source.getAttribute(name), out = added[name]!;
+          if (name === 'position') out.push(q.x, q.y, q.z);
+          else if (name === 'normal') out.push(n.x, n.y, n.z);
+          else if (name === 'tangent') out.push(tangent.x, tangent.y, tangent.z, 1);
+          else if (name === 'uv') out.push(u0 + k / TWIG_SIDES * 0.02, v0 - f * Math.min(0.08, length * 0.02));
+          else for (let c = 0; c < attr.itemSize; c++) out.push(attr.getComponent(copy, c));
+        }
+        next++;
       }
-      next++;
     }
-    for (let k = 0; k < TWIG_SIDES; k++) {
-      const k1 = (k + 1) % TWIG_SIDES;
-      index.push(base + k, base + k1, base + TWIG_SIDES + k1, base + k, base + TWIG_SIDES + k1, base + TWIG_SIDES + k);
+    for (let ring = 0; ring < TWIG_RINGS - 1; ring++) for (let k = 0; k < TWIG_SIDES; k++) {
+      const k1 = (k + 1) % TWIG_SIDES, i0 = base + ring * TWIG_SIDES, i1 = i0 + TWIG_SIDES;
+      index.push(i0 + k, i0 + k1, i1 + k1, i0 + k, i1 + k1, i1 + k);
     }
   }
   const geometry = new THREE.BufferGeometry();
@@ -323,7 +338,9 @@ export function buildCanopy(leaf: THREE.BufferGeometry, wood: THREE.BufferGeomet
       const moved = from.clone().addScaledVector(plan.sits.clone().sub(from).normalize(), reach * 0.9);
       placedIn.add(moved); plan.keep = [moved]; continue;
     }
-    twigs.push({ from, to: plan.sits });
+    // The twig ends inside its clump, short of the centre, so the tip never pokes out of the leaves.
+    const reachIn = Math.max(0, from.distanceTo(plan.sits) - opts.clump * 0.45);
+    twigs.push({ from, to: from.clone().lerp(plan.sits, reachIn / Math.max(from.distanceTo(plan.sits), 1e-6)) });
     grown.add(plan.source);
     const step = opts.clump * 1.3, length = from.distanceTo(plan.sits);
     for (let along = length - step; along > reach + opts.clump * 0.5; along -= step) {

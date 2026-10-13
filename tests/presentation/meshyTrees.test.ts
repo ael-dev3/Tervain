@@ -122,7 +122,7 @@ describe('actual supplied Meshy tree catalog', () => {
         // Grown twigs (playtest 7: three-sided, a few hundred per near crown) come on top of the 19,800 budget.
         const twigTris = (near.wood!.index!.count - (near.wood!.userData.twigIndex as number | undefined ?? near.wood!.index!.count)) / 3;
         expect(near.tris - twigTris, id).toBeLessThanOrEqual(19_800);
-        expect(twigTris, id).toBeLessThanOrEqual(3_600);
+        expect(twigTris, id).toBeLessThanOrEqual(7_200);
         // A79: the wood is simplified without crossing its UV seams (no stretched branch texture), near 8,000 triangles.
         // Grown twigs (playtest 7) follow the source wood's triangles.
         expect((near.wood!.userData.twigIndex as number | undefined ?? near.wood!.index!.count) / 3, id).toBeLessThan(9_000);
