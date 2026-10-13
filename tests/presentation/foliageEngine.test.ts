@@ -345,7 +345,7 @@ describe('the forest with wind, shadow-only casters and strikes', () => {
     // Outdoors, off-screen casters whose shadow cannot reach the view are left out; trees in view still cast.
     forest.update(0.1, { ...frame, shadowsForViewOnly: true });
     const viewOnly = forest.stats!();
-    expect(viewOnly.shadowTrees).toBeLessThan(stats.shadowTrees);
+    expect(viewOnly.shadowTrees).toBeLessThan(stats.shadowTrees!);
     expect(viewOnly.shadowTrees).toBeGreaterThan(0);
     forest.update(0.1, frame);
     expect(forest.stats!().shadowTrees).toBe(stats.shadowTrees);
