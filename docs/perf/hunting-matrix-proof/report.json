@@ -3,11 +3,11 @@
   "phaseCounts": {
     "bow": {
       "before": 67770,
-      "after": 58230
+      "after": 48690
     },
     "skinning": {
       "before": 219690,
-      "after": 171990
+      "after": 143370
     },
     "slung": {
       "before": 12792,
@@ -19,10 +19,10 @@
     }
   },
   "baselineRef": "0b45a36",
-  "sourceSha256": "c66ae9a5fc8f3869de29b2c172e10a00ffca36307b7211b31eeafb5c948b806a",
+  "sourceSha256": "ef156504c6b23fe504e4f055f4c7bdac788b504926d4040c7eb373dcb9b5ff9a",
   "scope": "Delivered hero, production hunting overlay, 121 aim/draw/skin/slung/unequipped steps. Counts Matrix4 multiplications around pose generation; software WebGL colour and directional shadows. Not hardware timing or attribution of the tracked bow stall.",
   "beforeMultiplications": 303794,
-  "afterMultiplications": 246554,
+  "afterMultiplications": 208394,
   "poses": 121,
   "poseDataIdentical": true,
   "pixelDifferences": 0,
