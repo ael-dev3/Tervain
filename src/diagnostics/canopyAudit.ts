@@ -13,8 +13,8 @@ function union(size: number) {
 function components(g: THREE.BufferGeometry): Component[] {
   const p=g.getAttribute('position');if(!p||p.count===0)throw new Error('Missing leaf positions');const graph=union(p.count),weld=new Map<string,number>();
   for(let i=0;i<p.count;i++){if(![p.getX(i),p.getY(i),p.getZ(i)].every(Number.isFinite))throw new Error('Nonfinite leaf positions');const key=`${Math.round(p.getX(i)*1e4)},${Math.round(p.getY(i)*1e4)},${Math.round(p.getZ(i)*1e4)}`,other=weld.get(key);if(other!==undefined)graph.join(i,other);else weld.set(key,i);}
-  const index=g.index;for(let i=0;i+2<(index?.count??p.count);i+=3){const a=index?.getX(i)??i;graph.join(a,index?.getX(i+1)??i+1);graph.join(a,index?.getX(i+2)??i+2);}
-  const groups=new Map<number,number[]>();for(const i of weld.values()){const key=graph.find(i),group=groups.get(key)??[];group.push(i);groups.set(key,group);}
+  const index=g.index,used=new Set<number>();for(let i=0;i+2<(index?.count??p.count);i+=3){const a=index?.getX(i)??i,b=index?.getX(i+1)??i+1,c=index?.getX(i+2)??i+2;graph.join(a,b);graph.join(a,c);used.add(a);used.add(b);used.add(c);}
+  const groups=new Map<number,number[]>();for(const i of used){const key=graph.find(i),group=groups.get(key)??[];group.push(i);groups.set(key,group);}
   return [...groups.values()].map(vertices=>{const box=new THREE.Box3();for(const i of vertices)box.expandByPoint(new THREE.Vector3().fromBufferAttribute(p,i));const samples=[box.getCenter(new THREE.Vector3())];for(let i=0;i<Math.min(8,vertices.length);i++)samples.push(new THREE.Vector3().fromBufferAttribute(p,vertices[Math.floor(i*vertices.length/Math.min(8,vertices.length))]!));return{box,samples};});
 }
 /** Offline geometric candidates, not an art verdict. Full population adapters bypass render culling. */
