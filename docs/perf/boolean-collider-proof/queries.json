@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "baselineRef": "0b45a36",
+  "sourceSha256": "9820bd2bddd70cf6c603b944bfa1fcf1afdb223a809f59beb89b735509ec8ed9",
+  "scope": "Actual boolean collision queries on authored terrain/scenery. Diagnostic collector/visit counts, not heap bytes or hardware timing. Terrain-height and radius controls.",
+  "queries": 15399,
+  "colliders": 811,
+  "blocked": 134,
+  "beforeCollections": 15399,
+  "afterCollections": 0,
+  "beforeVisits": 8919,
+  "afterVisits": 7475,
+  "differences": 0,
+  "pass": true
+}
