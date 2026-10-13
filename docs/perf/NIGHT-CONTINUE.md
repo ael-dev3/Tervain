@@ -10,7 +10,7 @@ Request the sun's first map through `LightShadow.needsUpdate` when it is missing
 
 ## Full native Continue proof
 
-The generated save is at (-7, 45), Day 2 around 21:31. The probe reloads the page, clicks the actual Continue button, records entry placement and 61 native simulation samples, and renders through the game's normal presentation/post path at 640×360. The final candidate creates the seed on Low, persists High settings, then tests the cold High Continue. The earlier baseline used High for both stages; the isolated comparison below removes save-state and preset differences.
+The generated save is at (-7, 45), Day 2 around 21:31. The probe reloads the page, clicks the actual Continue button, records entry placement and 61 native simulation samples, and renders through the game's normal presentation/post path at 640×360. Both the published baseline and final candidate create the seed on Low, persist High settings, then test the cold High Continue using the same final probe and save recipe.
 
 | Measurement | Published build | Candidate |
 | --- | ---: | ---: |
@@ -20,9 +20,9 @@ The generated save is at (-7, 45), Day 2 around 21:31. The probe reloads the pag
 | Linked programs / failed links | 205 / 0 | 205 / 0 |
 | Opaque ground, house and hero | missing | present |
 | WebGL error | 1282 | none at startup or checked frame |
-| Sun comparison map after Continue | see isolated missing-map control | initialized, comparison function 515 |
+| Sun comparison map after Continue | absent, automatic updates paused | initialized, comparison function 515 |
 
-The baseline receipt retains errors accumulated since startup. The final probe records startup errors separately, clears them before its controlled draw, then checks that draw's errors. Both lists are empty on the candidate. The isolated baseline below checks a fresh draw and reproduces error 1282 independently.
+The matched probe records startup errors separately, clears them before its controlled draw, then checks that draw's errors. The published build reports error 1282 in both checks; both lists are empty on the candidate. The isolated baseline below also reproduces error 1282 independently.
 
 - [Published-build receipt](proofs/night-continue/before.json) / [before](proofs/night-continue/before.png)
 - [Candidate receipt](proofs/night-continue/after.json) / [after](proofs/night-continue/after.png)
