@@ -246,7 +246,7 @@ export function createTerrainMaterial(tex: TerrainTextures): THREE.MeshStandardM
       .replace('#include <roughnessmap_fragment>', '#include <roughnessmap_fragment>\nroughnessFactor = tRough;')
       // Accepted geometric crowns screen some diffuse sky light. Direct sunlight and real shadow maps retain
       // their own authority; this is a soft sky-occlusion proxy, not an invented physical canopy shadow.
-      .replace('#include <aomap_fragment>', '#include <aomap_fragment>\nreflectedLight.indirectDiffuse *= mix(0.8, 1.0, smoothstep(0.2, 0.8, tHeight)) * mix(1.0, 0.74, clamp(vCanopy, 0.0, 1.0));')
+      .replace('#include <aomap_fragment>', '#include <aomap_fragment>\nreflectedLight.indirectDiffuse *= mix(0.8, 1.0, smoothstep(0.2, 0.8, tHeight)) * mix(1.0, 0.86, clamp(vCanopy, 0.0, 1.0));')
       .replace('#include <normal_fragment_maps>', `#include <normal_fragment_maps>\n${FRAG_NORMAL}`);
   };
   mat.customProgramCacheKey = () => 'tervain-terrain-v8-sward-green';

@@ -49,8 +49,8 @@ describe('continuous coastal atmosphere', () => {
   it('retains a cool diffuse reading floor throughout night with the normal environment active', () => {
     SKY.ibl.value = 1;
     sky.update(12, focus, 120, true);
-    // A137: by day the sun gives a third of its light to the sky's fill, so shade is not near black.
-    expect(sky.sun.intensity).toBeGreaterThan(1.6);
+    // A137: by day the sun gives an eighth of its light to the sky’s fill, so shade is not near black.
+    expect(sky.sun.intensity).toBeGreaterThan(2.2);
     // This measures available linear diffuse illumination, not final pixels:
     // the ordinary native forest review still decides route/hero readability.
     for (let sample = 0; sample <= 90; sample++) {

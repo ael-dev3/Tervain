@@ -13,7 +13,7 @@ import { smoothstep } from '../world/noise';
  * a crown keeps a believable blue sky fill instead of falling near black. Surfaces in the game are matte, so the
  * reflections this also lifts are faint.
  */
-export const ENV_DAY_LIFT = 0.3;
+export const ENV_DAY_LIFT = 0.12;
 
 export interface EnvironmentHandle {
   update(dt: number, f: FrameContext): void;

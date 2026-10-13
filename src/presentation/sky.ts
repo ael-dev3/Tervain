@@ -240,10 +240,10 @@ const SHADOW_DIR_STEP = 0.003;
  * keeps about two fifths of the sunlit ground's brightness, lit blue by the sky, instead of falling near black. The sun
  * gives back a little so the sunlit side keeps its exposure and the shadow keeps its shape.
  */
-export const DAY_FILL_LIFT = 5.5;
-export const DAY_SUN_SCALE = 0.66;
+export const DAY_FILL_LIFT = 3.5;
+export const DAY_SUN_SCALE = 0.88;
 /** How much of the sun a shadow still holds when the sun is low (long shadows lit by a wide bright sky), A137. */
-export const LOW_SUN_SHADOW = 0.82;
+export const LOW_SUN_SHADOW = 0.78;
 
 const SNAP_ACROSS = new THREE.Vector3(), SNAP_ALONG = new THREE.Vector3();
 

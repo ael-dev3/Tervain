@@ -6,9 +6,10 @@ import * as THREE from 'three';
  * Three's PCF shadow reads a comparison sampler, so the depth of a blocker can't be read. It can still be bracketed: a
  * comparison made a few metres nearer the light than the receiver says whether the blocker stands that far above it.
  * Five rotated taps across the widest penumbra find whether the pixel is near an edge at all; only there do two more
- * brackets say how far the blockers are, and an eight-tap disc of that size gives the edge. A fence post or a foot keeps
+ * brackets say how far the blockers are, and an eight-tap disc of that size gives the edge. Ground with no edge in reach,
+ * lit or shaded, pays six taps (Three's PCF took five). A fence post or a foot keeps
  * a crisp contact shadow, while a house's shadow fifteen metres from its eaves gets a soft edge, as the sun's disc and
- * the sky around it give a real one. Fully lit and fully shaded ground pays five taps, as Three's own PCF did.
+ * the sky around it give a real one.
  *
  * It applies to a shadow whose `radius` is negative (the sun's); other shadows keep Three's PCF.
  */
@@ -67,9 +68,12 @@ const SOFT_PCF = /* glsl */ `
 						lit += tvShadowTap( shadowMap, uv, shadowCoord.z );
 					}
 
-					if ( lit > 4.99 ) {
+					// No edge within the widest penumbra: fully lit or fully shaded, five taps as Three's own PCF.
+					// The pixel's own tap too, so a thin shadow (a rail, a blade) between the ring's taps is never lost.
+					float centre = tvShadowTap( shadowMap, shadowCoord.xy, shadowCoord.z );
+					if ( ( lit > 4.99 && centre > 0.99 ) || ( lit < 0.01 && centre < 0.01 ) ) {
 
-						shadow = 1.0;
+						shadow = centre;
 
 					} else {
 
