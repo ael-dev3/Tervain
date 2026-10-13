@@ -27,7 +27,7 @@ try {
     if (!expression) throw new Error('Grass facing expression unavailable');
     const sign = 'sign(dot(gAcross.xz, gSideEye) + 1e-4)';
     if (!expression.includes(sign)) throw new Error('Facing expression changed; review the diagnostic control');
-    const smooth = expression.replace(sign, '((dot(gAcross.xz, gSideEye) + 1e-4) / sqrt(pow(dot(gAcross.xz, gSideEye) + 1e-4, 2.0) + .03 * .03))');
+    const smooth = expression.replace(sign, '((dot(gAcross.xz, gSideEye) + 1e-4) / sqrt((dot(gAcross.xz, gSideEye) + 1e-4) * (dot(gAcross.xz, gSideEye) + 1e-4) + .03 * .03))');
     // Isolated diagnostic context: all code under test is extracted from the actual compiled grass shader.
     const gl = document.createElement('canvas').getContext('webgl2');
     if (!gl) throw new Error('WebGL2 unavailable');
