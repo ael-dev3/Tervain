@@ -1,0 +1,80 @@
+{
+  "schema": 1,
+  "build": {
+    "version": "0.0.14",
+    "revision": "38bafd2eb"
+  },
+  "routes": [
+    {
+      "x": -7,
+      "z": 45,
+      "grass": {
+        "grassInstances": 23724,
+        "grassTris": 1458624,
+        "grassDraws": 65,
+        "grassTiles": 178,
+        "grassMovers": 0
+      },
+      "trimmedTiles": 0,
+      "full": {
+        "drawCalls": 106,
+        "triangles": 1514905,
+        "uploadBytes": 0
+      },
+      "actual": {
+        "drawCalls": 106,
+        "triangles": 1514905,
+        "uploadBytes": 0
+      },
+      "identicalPixels": true
+    },
+    {
+      "x": 18,
+      "z": 20,
+      "grass": {
+        "grassInstances": 23266,
+        "grassTris": 1454856,
+        "grassDraws": 72,
+        "grassTiles": 177,
+        "grassMovers": 0
+      },
+      "trimmedTiles": 0,
+      "full": {
+        "drawCalls": 132,
+        "triangles": 1857365,
+        "uploadBytes": 0
+      },
+      "actual": {
+        "drawCalls": 132,
+        "triangles": 1857365,
+        "uploadBytes": 0
+      },
+      "identicalPixels": true
+    },
+    {
+      "x": 46,
+      "z": 68,
+      "grass": {
+        "grassInstances": 21409,
+        "grassTris": 1331988,
+        "grassDraws": 56,
+        "grassTiles": 151,
+        "grassMovers": 0
+      },
+      "trimmedTiles": 0,
+      "full": {
+        "drawCalls": 83,
+        "triangles": 1566022,
+        "uploadBytes": 0
+      },
+      "actual": {
+        "drawCalls": 83,
+        "triangles": 1566022,
+        "uploadBytes": 0
+      },
+      "identicalPixels": true
+    }
+  ],
+  "scope": "Frozen native scene renders; full-index control and actual tile draw ranges in the same frame state. Software counters and exact-image controls, not GPU timings.",
+  "pass": true
+}
