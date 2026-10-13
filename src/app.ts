@@ -356,6 +356,20 @@ export class App {
     }
     if (Object.keys(grade).length) this.grade.setLook(grade);
     if (q.has('bloom')) this.grade.setBloom(q.get('bloom') !== '0');
+    // Profiling switches (?shot only): measure each pass's cost on its own.
+    if (q.get('msaa') === '0') this.grade.setMsaa(false);
+    if (q.get('shadows') === '0') this.renderer.shadowMap.enabled = false;
+    if (q.get('treelod') === '1') this.settings.treeDetailByDistance = true;
+    // ?flat=forest,terrain: draw those parts with one unlit material, to price their shading.
+    const flatNames = (q.get('flat') ?? '').split(',').filter(Boolean);
+    if (flatNames.length) {
+      const flat = new THREE.MeshBasicMaterial({ color: 0x777777 });
+      for (const name of flatNames) {
+        const group = this.world.modules.find((x) => x.name === name)?.module.group
+          ?? (name === 'terrain' ? this.world.terrainMesh : name === 'scenery' ? this.world.scenery.group : name === 'water' ? this.world.water.inland.group : name === 'sea' ? this.world.water.ocean.mesh : null);
+        group?.traverse((o) => { if ((o as THREE.Mesh).isMesh && !Array.isArray((o as THREE.Mesh).material)) (o as THREE.Mesh).material = flat; });
+      }
+    }
     this.settings.reducedMotion = q.get('motion') !== '1';
     this.applyUiSettings();
     for (let i = 0; i < num('settle', 120); i++) {
