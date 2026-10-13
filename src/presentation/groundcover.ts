@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import type { BuildContext, FrameContext, SceneModule } from './context';
 import type { AssetNeed } from './assets/library';
 import { Habitat } from './ground/habitat';
-import { createGrassField, GRASS_QUALITY } from './grass/grassField';
+import { createGrassField, GRASS_QUALITY, type GrassReserve } from './grass/grassField';
 import { GrassTrample, type GrassMover } from './grass/trample';
 import { GrassWind } from './grass/wind';
 import { REALM_WIND } from './realmWind';
@@ -40,6 +40,7 @@ export function buildGroundcover(ctx: BuildContext): Groundcover {
   const lastFocus = new THREE.Vector3(Number.NaN, 0, Number.NaN);
   let others: readonly GrassMover[] = [];
   let reduced = false;
+  const reserve: GrassReserve = { remaining: 2 };
   return {
     group,
     wind,
@@ -59,10 +60,13 @@ export function buildGroundcover(ctx: BuildContext): Groundcover {
       const aloft = f.focus.y - ctx.terrain.heightAt(f.focus.x, f.focus.z) > 0.6;
       const hero: GrassMover[] = aloft ? [] : [{ x: f.focus.x, z: f.focus.z, radius: 0.55, weight: 0.75, vx: jump ? 0 : vx, vz: jump ? 0 : vz }];
       trample?.setMovers([...hero, ...others], f.focus.x, f.focus.z);
-      field.update(cam);
+      field.update(cam, reserve);
     },
     warm(renderer) { trample?.warm(renderer); },
     prepare(renderer, dt) {
+      // Catch-up steps share one allowance; rendering starts the next allowance even without trample work.
+      reserve.remaining = 2;
+      reserve.deadline = undefined;
       if (!trample || reduced || !Number.isFinite(focus.x)) return;
       trample.update(renderer, focus.x, focus.z, dt);
     },
