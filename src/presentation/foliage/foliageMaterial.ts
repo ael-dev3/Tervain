@@ -102,6 +102,8 @@ export interface FoliageInstall {
 export const FOLIAGE_FOCUS: THREE.IUniform<THREE.Vector4> = { value: new THREE.Vector4(0, 0, 0, 0) };
 
 const LEAF_VERTEX_DECL = /* glsl */ `
+// The leaf depth and colour passes must place every vertex identically (leafPrepass.ts).
+invariant gl_Position;
 uniform vec4 uCrownCentre;
 uniform vec2 uCrownRadii;
 varying vec3 vTvWorld;
@@ -165,7 +167,8 @@ vec3 tvLitColour = vec3( 0.0 );
  * is centred on it. Box-filtered mips thin a crown's alpha with distance, so alpha is lifted with the mip level first.
  */
 const LEAF_ALPHA_TEST_GLSL = /* glsl */ `
-#ifdef USE_ALPHATEST
+// The colour pass behind a leaf depth pass (leafPrepass.ts) takes its cut-out from the depth test.
+#if defined( USE_ALPHATEST ) && !defined( TV_LEAF_SHADE_ONLY )
 {
   float tvA = diffuseColor.a;
   #ifdef USE_MAP
@@ -365,6 +368,12 @@ export function installFoliage(material: THREE.Material, opts: FoliageInstall): 
       .replace('#include <color_fragment>', `#include <color_fragment>\n${LEAF_COLOUR_GLSL}`)
       // The distance dither (if any) follows the cut-out, as it followed Three's.
       .replace('#include <alphatest_fragment>', LEAF_ALPHA_TEST_GLSL)
+      // A leaf depth pass (leafPrepass.ts) ends after its cut-out and the distance dither that follows it.
+      .replace('#include <roughnessmap_fragment>', `#ifdef TV_LEAF_DEPTH_ONLY
+        gl_FragColor = vec4( 0.0, 0.0, 0.0, diffuseColor.a );
+        return;
+        #endif
+        #include <roughnessmap_fragment>`)
       // Three turns a double-sided card's normal toward the eye; a leaf takes its own face's normal, mostly the crown's,
       // so the far side of a crown seen through it is not shaded as if it faced the viewer (A69).
       .replace('#include <normal_fragment_maps>', `#include <normal_fragment_maps>

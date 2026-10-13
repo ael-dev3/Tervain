@@ -18,6 +18,7 @@ import { SHADER_CLOCK_WRAP } from './grass/wind';
 import { crownOf, installFoliage, installFoliageShadow, type FoliageLook, type InstalledFoliage } from './foliage/foliageMaterial';
 import { shadowDepthMaterial, shadowGeometry } from './foliage/shadowCasters';
 import { createLeafBurst } from './foliage/leafBurst';
+import { splitLeafPrepass } from './foliage/leafPrepass';
 
 /**
  * Trees and shrubs. An empty strand gives way to a layered old-growth woodland: flared oak roots under tall pine/fir columns,
@@ -54,7 +55,8 @@ export function foliageResponse(variant: Pick<TreeVariant, 'species' | 'height'>
 
 interface Batch {
   variant: TreeVariant;
-  meshes: { wood: THREE.InstancedMesh | null; leaf: THREE.InstancedMesh | null }[];
+  /** leafDepth: the leaves' depth-only pre-pass, drawn before every leaf is shaded once (see leafPrepass.ts). */
+  meshes: { wood: THREE.InstancedMesh | null; leaf: THREE.InstancedMesh | null; leafDepth: THREE.InstancedMesh | null }[];
   /** Shadow-only copies per LOD (drawn only into the sun's shadow map), when this preset casts shadows. */
   casters: { wood: THREE.InstancedMesh | null; leaf: THREE.InstancedMesh | null }[];
   visibility: { wood: InstanceDistanceVisibility | null; leaf: InstanceDistanceVisibility | null }[];
@@ -206,6 +208,8 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
   const foliage = ctx.foliage ?? null;
   let reducedMotion = ctx.settings.reducedMotion;
   const castsShadows = quality !== 'low';
+  // Medium and High lay the leaves' depth down first, so each leaf pixel is shaded once rather than once per card.
+  const leafPrepass = quality !== 'low' && !(typeof location !== 'undefined' && new URLSearchParams(location.search).get('prepass') === '0');
   const shadowCasters = new THREE.Group();
   shadowCasters.name = 'flora-shadow-casters';
   shadowCasters.visible = false;
@@ -250,7 +254,8 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         m.setColorAt(0, white.setRGB(1, 1, 1));
         group.add(m);
       }
-      b.meshes.push({ wood, leaf });
+      const entry = { wood, leaf, leafDepth: null as THREE.InstancedMesh | null };
+      b.meshes.push(entry);
       b.visibility.push({ wood: wood ? attachInstanceDistanceVisibility(wood) : null, leaf: leaf ? attachInstanceDistanceVisibility(leaf) : null });
       const installed: { wood: InstalledFoliage | null; leaf: InstalledFoliage | null } = { wood: null, leaf: null };
       if (foliage) {
@@ -281,6 +286,11 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         return c;
       };
       b.casters.push({ wood: caster(wood, 'wood'), leaf: caster(leaf, 'leaf') });
+      // After the casters, which copy the colour material as it was.
+      if (leaf && installed.leaf && leafPrepass) {
+        entry.leafDepth = splitLeafPrepass(leaf);
+        if (entry.leafDepth) group.add(entry.leafDepth);
+      }
     }
     triangles += v.lods[0].tris * b.trees.length;
   }
@@ -423,6 +433,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         drawTris += v.lods[l]!.tris * counts[l]!;
         // Empty meshes leave the render lists entirely (no per-frame draw setup for an LOD nobody sees).
         for (const mesh of [m.wood, m.leaf]) if (mesh) mesh.visible = counts[l]! > 0;
+        if (m.leafDepth) { m.leafDepth.count = counts[l]!; m.leafDepth.visible = counts[l]! > 0; }
         const c = b.casters[l];
         if (c) {
           for (const mesh of [c.wood, c.leaf]) {
@@ -563,6 +574,8 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         }
         swapped.push([near, near.geometry]);
         near.geometry = proxy;
+        const depth = part === 'leaf' ? b.meshes[0]?.leafDepth : null;
+        if (depth) { swapped.push([depth, depth.geometry]); depth.geometry = proxy; }
       }
       return () => { for (const [mesh, geometry] of swapped) mesh.geometry = geometry; };
     },
@@ -579,6 +592,8 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         for (const mesh of batch.meshes) {
           mesh.wood?.dispose();
           mesh.leaf?.dispose();
+          mesh.leafDepth?.dispose();
+          (mesh.leafDepth?.material as THREE.Material | undefined)?.dispose();
         }
         for (const mesh of batch.casters) {
           mesh.wood?.dispose();
