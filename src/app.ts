@@ -1448,13 +1448,13 @@ export class App {
     }
     this.grade.setLook({ night: this.world.sky.state.nightness });
     this.world.prepareGrass(this.renderer, this.lastFrameDt);
-    this.world.prepareInterior(this.renderer, this.cam.camera, this.lastFrameDt, this.settings);
     // The frame draws the world several times (reflection, water depth, the picture, light probes) and three walks
     // the whole scene graph for matrices before each. Nothing moves between those passes: walk it once (A113).
     const scene = this.world.scene, autoUpdate = scene.matrixWorldAutoUpdate;
     scene.updateMatrixWorld();
     scene.matrixWorldAutoUpdate = false;
     try {
+      this.world.prepareInterior(this.renderer, this.cam.camera, this.lastFrameDt, this.settings);
       // Reduced motion stills the film grain in play as on the menu: it changed 24 times a second (A104 scout).
       this.grade.render(scene, this.cam.camera, this.settings.reducedMotion ? 0 : this.lastFrameDt, this.world.waterRenderInputs(this.settings));
     } finally {
