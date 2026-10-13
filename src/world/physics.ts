@@ -50,7 +50,7 @@ export const FLOAT_LINE: Readonly<Record<PropSpec['kind'], number>> = { barrel: 
 const WATER_DRAG = 2.4;
 const GRAVITY = 17;
 export interface PhysicalActor { id: string; x: number; y: number; z: number; radius: number; height: number; active: boolean }
-interface ActorContact { body: RAPIER.RigidBody; collider: RAPIER.Collider; from: Vec3; target: Vec3; active: boolean }
+interface ActorContact { body: RAPIER.RigidBody; collider: RAPIER.Collider; from: Vec3; target: Vec3; active: boolean; radius: number; halfHeight: number }
 let initialization: Promise<void> | undefined;
 export function initializePhysics() { return initialization ??= RAPIER.init(); }
 const STEP = 1 / 60;
@@ -213,13 +213,19 @@ export class RealmPhysics {
       retained.add(person.id);
       let actor = this.actors.get(person.id);
       const target = { x: person.x, y: person.y + person.height / 2, z: person.z };
+      const halfHeight = Math.max(0, person.height / 2 - person.radius);
       if (!actor) {
         const body = this.world.createRigidBody(RAPIER.RigidBodyDesc.kinematicPositionBased().setTranslation(target.x, target.y, target.z));
-        const collider = this.world.createCollider(RAPIER.ColliderDesc.capsule(Math.max(0, person.height / 2 - person.radius), person.radius), body);
-        actor = { body, collider, from: { ...target }, target, active: person.active };
+        const collider = this.world.createCollider(RAPIER.ColliderDesc.capsule(halfHeight, person.radius), body);
+        actor = { body, collider, from: { ...target }, target, active: person.active, radius: person.radius, halfHeight };
         this.actors.set(person.id, actor);
         this.projectileActorHandles.add(collider.handle);
         if (/^animal:\d+$/.test(person.id)) this.projectileAnimalHandles.add(collider.handle);
+      }
+      if (actor.radius !== person.radius || actor.halfHeight !== halfHeight) {
+        actor.collider.setShape(new RAPIER.Capsule(halfHeight, person.radius));
+        actor.radius = person.radius; actor.halfHeight = halfHeight;
+        this.projectileQueryDirty.add(actor.collider);
       }
       const previous = actor.body.translation();
       // Restoring or respawning a person is placement, not a high-speed sweep through every intervening loose object.

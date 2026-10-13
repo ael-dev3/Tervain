@@ -1,0 +1,102 @@
+{
+  "schema": 1,
+  "baselineRef": "0b45a36",
+  "sourceSha256": "627abdcb664a93fbde66329994f4fb3293202c86b713fda2560150063e06a496",
+  "beforeShapeWrites": 0,
+  "afterShapeWrites": 3,
+  "scope": "Actual synchronized Rapier actor collider dimensions and direct shape ray query. Controlled dimensions, no visual or hardware timing claim.",
+  "rows": [
+    {
+      "label": "unchanged",
+      "radius": 0.25,
+      "height": 1.8,
+      "active": true,
+      "before": {
+        "radius": 0.25,
+        "halfHeight": 0.65,
+        "enabled": true,
+        "rayAtY095": 2.750000238418579
+      },
+      "after": {
+        "radius": 0.25,
+        "halfHeight": 0.65,
+        "enabled": true,
+        "rayAtY095": 2.750000238418579
+      }
+    },
+    {
+      "label": "shorter",
+      "radius": 0.2,
+      "height": 0.4,
+      "active": true,
+      "before": {
+        "radius": 0.25,
+        "halfHeight": 0.65,
+        "enabled": true,
+        "rayAtY095": 2.770871162414551
+      },
+      "after": {
+        "radius": 0.2,
+        "halfHeight": 0,
+        "enabled": true,
+        "rayAtY095": -1
+      }
+    },
+    {
+      "label": "wider",
+      "radius": 0.6,
+      "height": 1.8,
+      "active": true,
+      "before": {
+        "radius": 0.25,
+        "halfHeight": 0.65,
+        "enabled": true,
+        "rayAtY095": 2.750000238418579
+      },
+      "after": {
+        "radius": 0.6,
+        "halfHeight": 0.30000000000000004,
+        "enabled": true,
+        "rayAtY095": 2.4000000953674316
+      }
+    },
+    {
+      "label": "inactive-resize",
+      "radius": 0.3,
+      "height": 1.2,
+      "active": false,
+      "before": {
+        "radius": 0.25,
+        "halfHeight": 0.65,
+        "enabled": false,
+        "rayAtY095": 2.750000238418579
+      },
+      "after": {
+        "radius": 0.3,
+        "halfHeight": 0.3,
+        "enabled": false,
+        "rayAtY095": 2.700000047683716
+      }
+    },
+    {
+      "label": "reactivated",
+      "radius": 0.3,
+      "height": 1.2,
+      "active": true,
+      "before": {
+        "radius": 0.25,
+        "halfHeight": 0.65,
+        "enabled": true,
+        "rayAtY095": 2.750000238418579
+      },
+      "after": {
+        "radius": 0.3,
+        "halfHeight": 0.3,
+        "enabled": true,
+        "rayAtY095": 2.704195976257324
+      }
+    }
+  ],
+  "handlesRetained": true,
+  "pass": true
+}

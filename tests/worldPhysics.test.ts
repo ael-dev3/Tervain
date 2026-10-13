@@ -15,6 +15,27 @@ function tick(p: RealmPhysics, n: number, dt = 1 / 60) {
 }
 
 describe('real 60 Hz rigid-body world', () => {
+  it('resizes an existing actor capsule when its dimensions change, retaining its handle', () => {
+    const p = new RealmPhysics(floor, new Colliders(), []);
+    const person = { id: 'animal:1005232644', x: 0, y: 0, z: 0, radius: .25, height: 1.8, active: true };
+    try {
+      p.syncActors([person]);
+      const actors = Reflect.get(p, 'actors') as Map<string, { body: RAPIER.RigidBody; collider: RAPIER.Collider }>;
+      const actor = actors.get(person.id)!, handle = actor.collider.handle;
+      p.syncActors([{ ...person, radius: .2, height: .4 }]); tick(p, 1);
+      expect(actor.collider.handle).toBe(handle);
+      expect((actor.collider.shape as RAPIER.Capsule).radius).toBe(.2);
+      expect((actor.collider.shape as RAPIER.Capsule).halfHeight).toBe(0);
+      expect(actor.collider.castRay(new RAPIER.Ray({ x: -3, y: .95, z: 0 }, { x: 1, y: 0, z: 0 }), 6, true)).toBeLessThan(0);
+      p.syncActors([{ ...person, radius: .6, active: false }]);
+      expect((actor.collider.shape as RAPIER.Capsule).radius).toBe(.6);
+      expect(actor.body.isEnabled()).toBe(false);
+      p.syncActors([{ ...person, radius: .6 }]); tick(p, 1);
+      expect(actor.collider.handle).toBe(handle);
+      expect(actor.body.isEnabled()).toBe(true);
+      expect(actor.collider.castRay(new RAPIER.Ray({ x: -3, y: .95, z: 0 }, { x: 1, y: 0, z: 0 }), 6, true)).toBeCloseTo(2.4, 3);
+    } finally { p.dispose(); }
+  });
   it('falls under gravity and settles with its closed bottom on the same physical terrain', () => {
     const p = new RealmPhysics(floor, new Colliders(), [crate]);
     try {
