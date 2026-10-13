@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { BARKS, NPCS, type Activity, type NpcDef } from '../content/npcs';
 import { evalAll } from '../game/state';
 import type { EncounterId, NpcId, WorldState } from '../game/types';
-import type { Collider, Colliders } from '../world/colliders';
+import type { CircleCollider, Collider, Colliders } from '../world/colliders';
 import { ANCHORS, MAINT_ROUTE, type EnemySpawn, type V2 } from '../world/layout';
 import { berthFor, indoorPost, roomDoorstep, roomRoute, walkingGround, type Berth } from '../world/homes';
 import type { NavGrid } from '../world/nav';
@@ -466,10 +466,19 @@ export class NpcActor {
     if (index >= 0) this.maintenanceCursor = Math.max(this.maintenanceCursor, index + 1);
   }
 
+  private readonly contactScratch: Collider[] = [];
+  private readonly playerContact: CircleCollider = { id: 'player', kind: 'circle', x: 0, z: 0, r: .4, active: true };
+
   private contacts(ctx: ActorContext): Collider[] {
-    return [...ctx.wildlifeContacts ?? [], ...ctx.residentContacts ?? [],
-      { id: 'player', kind: 'circle' as const, x: ctx.player.x, z: ctx.player.z, r: .4, active: true, minY: ctx.player.y + .02, maxY: ctx.player.y + 1.9 }]
-      .filter(c => c.active && c.id !== `person:${this.id}`);
+    const out = this.contactScratch, ownId = `person:${this.id}`;
+    out.length = 0;
+    for (const c of ctx.wildlifeContacts ?? []) if (c.active && c.id !== ownId) out.push(c);
+    for (const c of ctx.residentContacts ?? []) if (c.active && c.id !== ownId) out.push(c);
+    const player = this.playerContact;
+    player.x = ctx.player.x; player.z = ctx.player.z;
+    player.minY = ctx.player.y + .02; player.maxY = ctx.player.y + 1.9;
+    out.push(player);
+    return out;
   }
 
   /** A visitor in an open lane can be passed; an occupied doorway/workplace remains a polite wait. */
