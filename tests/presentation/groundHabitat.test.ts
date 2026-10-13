@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { Habitat, newSample, woodlandColonyAt } from '../../src/presentation/ground/habitat';
 import { Exclusions } from '../../src/presentation/vegetation';
 import { Colliders } from '../../src/world/colliders';
-import { Terrain } from '../../src/world/terrain';
+import { Terrain, roadWeight } from '../../src/world/terrain';
 import { ARRIVAL_ROUTE } from '../../src/world/layout';
 import { biomeAt } from '../../src/world/biomes';
 import { groundSplat } from '../../src/presentation/groundSplat';
@@ -87,4 +87,14 @@ describe('ground habitat beneath planted crowns', () => {
       expect(reused).toEqual(direct);
     }
   });
+});
+
+it('reuses same-point road samples, including zero, without changing ground-layer words', () => {
+  const terrain = new Terrain(), ordinary = new Float32Array(8), sampled = new Float32Array(8);
+  for (let z = -80; z <= 80; z += 13) for (let x = -250; x <= 130; x += 17) {
+    const road = roadWeight(x, z);
+    const wet = groundSplat(terrain, x, z, ordinary);
+    expect(groundSplat(terrain, x, z, sampled, undefined, undefined, undefined, undefined, road)).toBe(wet);
+    expect(Array.from(new Uint32Array(sampled.buffer))).toEqual(Array.from(new Uint32Array(ordinary.buffer)));
+  }
 });
