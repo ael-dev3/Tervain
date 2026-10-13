@@ -8,7 +8,7 @@ Reproduce against a served production build:
 node tools/audit-canopy.mjs --url http://127.0.0.1:4173/ --repro true --out canopy-audit.json --shot detached.png --restored-shot restored.png
 ```
 
-The committed SwiftShader receipt covers 341 trees and 665,643 welded triangle components. The baseline has zero candidates and uses 8,540,370 charged checks within the default 20-million-check limit. Exhaustion, malformed geometry and incomplete population coverage fail instead of returning a successful partial audit.
+The committed SwiftShader receipt covers 341 trees and 665,643 welded triangle components. The baseline has zero candidates and uses 8,540,370 charged checks within the default 20-million-check limit. Exhaustion, malformed geometry and incomplete population coverage fail instead of returning a successful partial audit. The default gate also fails if any candidates are found; `--baseline receipt.json` permits only a complete, matching-population/gap baseline with no increase in candidates.
 
 The repro temporarily moves an actual shared crown geometry beyond its wood envelope. Both diagnostics inspect that same changed source: the root-only candidate count remains zero, while the crown check finds 33 candidates, including the selected native tree. Restoring the source returns the count to zero. Shared geometry means several trees change together. Screenshots isolate a native tree with cloned stock materials for a clear detached/restored comparison; they are not gameplay lighting or animated-wind comparisons.
 
