@@ -51,6 +51,13 @@ export function canopyCrown(leaf: THREE.BufferGeometry): CanopyCrown {
   return { centre: box.getCenter(new THREE.Vector3()), radii: new THREE.Vector3(h, Math.max(0.3, size.y / 2), h) };
 }
 
+/** Outward from the crown's heart (on its spheroid), a little upward. */
+function clumpOutward(crown: CanopyCrown, c: THREE.Vector3, out: THREE.Vector3): THREE.Vector3 {
+  out.set((c.x - crown.centre.x) / crown.radii.x ** 2, (c.y - crown.centre.y) / crown.radii.y ** 2, (c.z - crown.centre.z) / crown.radii.z ** 2);
+  if (out.lengthSq() < 1e-8) out.set(0, 1, 0);
+  return out.normalize().addScaledVector(new THREE.Vector3(0, 1, 0), 0.25).normalize();
+}
+
 const depthIn = (crown: CanopyCrown, p: THREE.Vector3) => Math.hypot((p.x - crown.centre.x) / crown.radii.x, (p.y - crown.centre.y) / crown.radii.y, (p.z - crown.centre.z) / crown.radii.z);
 
 /** Area-weighted points on the source leaf triangles: where the source tree carries leaves. */
@@ -135,6 +142,61 @@ function clumpCentres(leaf: THREE.BufferGeometry, crown: CanopyCrown, tips: THRE
   return out;
 }
 
+
+/**
+ * Clump centres stay within `ANCHOR_REACH` clump radii of the wood (playtest 7): a clump placed from the source sheets
+ * alone could hang metres clear of every branch and read, from below at dusk, as a leaf mass floating in the sky.
+ */
+export const ANCHOR_REACH = 0.55;
+/** A clump farther than this many clump radii from the wood is dropped instead of pulled (its cards go elsewhere). */
+const ANCHOR_DROP = 3.5;
+
+/** Nearest point on the wood's triangles: returns the distance and writes the point to `hit` (Infinity without wood). */
+export function woodAnchor(wood: THREE.BufferGeometry | null): (p: THREE.Vector3, hit: THREE.Vector3) => number {
+  const position = wood?.getAttribute('position');
+  if (!wood || !position || position.count === 0) return () => Infinity;
+  const index = wood.index, count = Math.floor((index?.count ?? position.count) / 3);
+  const triangles: THREE.Triangle[] = [];
+  const box = new THREE.Box3();
+  for (let t = 0; t < count; t++) {
+    const v = [0, 1, 2].map(k => new THREE.Vector3().fromBufferAttribute(position, index ? index.getX(t * 3 + k) : t * 3 + k));
+    triangles.push(new THREE.Triangle(v[0], v[1], v[2]));
+    for (const q of v) box.expandByPoint(q);
+  }
+  const size = box.getSize(new THREE.Vector3());
+  const cell = Math.max(0.25, Math.cbrt(Math.max(1e-6, size.x * size.y * size.z) / Math.max(1, count)) * 2);
+  const grid = new Map<string, number[]>(), key = (x: number, y: number, z: number) => `${x},${y},${z}`;
+  const cellOf = (v: number, o: number) => Math.floor((v - o) / cell);
+  triangles.forEach((t, i) => {
+    const b = new THREE.Box3().setFromPoints([t.a, t.b, t.c]);
+    for (let x = cellOf(b.min.x, box.min.x); x <= cellOf(b.max.x, box.min.x); x++)
+      for (let y = cellOf(b.min.y, box.min.y); y <= cellOf(b.max.y, box.min.y); y++)
+        for (let z = cellOf(b.min.z, box.min.z); z <= cellOf(b.max.z, box.min.z); z++) {
+          const k = key(x, y, z); let list = grid.get(k); if (!list) { list = []; grid.set(k, list); } list.push(i);
+        }
+  });
+  const span = Math.ceil(Math.max(size.x, size.y, size.z) / cell) + 2, near = new THREE.Vector3(), seen = new Set<number>();
+  return (p, hit) => {
+    const cx = cellOf(p.x, box.min.x), cy = cellOf(p.y, box.min.y), cz = cellOf(p.z, box.min.z);
+    // Rings outward from the point's cell; stop once the ring is farther than the best hit (or past the wood).
+    const outside = box.distanceToPoint(p), start = Math.max(0, Math.floor(outside / cell) - 1);
+    let best = Infinity; seen.clear();
+    for (let r = start; r <= span + start; r++) {
+      if ((r - 1) * cell > best) break;
+      for (let x = cx - r; x <= cx + r; x++) for (let y = cy - r; y <= cy + r; y++) for (let z = cz - r; z <= cz + r; z++) {
+        if (Math.max(Math.abs(x - cx), Math.abs(y - cy), Math.abs(z - cz)) !== r) continue;
+        for (const i of grid.get(key(x, y, z)) ?? []) {
+          if (seen.has(i)) continue; seen.add(i);
+          triangles[i]!.closestPointToPoint(p, near);
+          const d = near.distanceTo(p);
+          if (d < best) { best = d; hit.copy(near); }
+        }
+      }
+    }
+    return best;
+  };
+}
+
 /**
  * Build the cluster canopy. `leaf` is the source crown (density field and outline), `wood` the tree's wood (its branch
  * tips are covered first). Positions are in the same space as the inputs.
@@ -147,7 +209,22 @@ export function buildCanopy(leaf: THREE.BufferGeometry, wood: THREE.BufferGeomet
   const clumps = Math.max(1, Math.round(opts.cards / meanPer));
   const spacing = opts.clump * 1.1;
   const tips = branchTips(wood, crown, spacing * 1.2, Math.round(clumps * 0.25));
-  const centres = clumpCentres(leaf, crown, tips, clumps, spacing, random);
+  // Every clump hangs from the wood: one beyond reach is pulled toward its nearest bough, or dropped if it is far out.
+  const anchor = woodAnchor(wood), hit = new THREE.Vector3(), reach = opts.clump * ANCHOR_REACH;
+  let anchored = 0, dropped = 0;
+  const placedIn = new Set<THREE.Vector3>();
+  const centres = clumpCentres(leaf, crown, tips, clumps, spacing, random).flatMap(source => {
+    if (!wood) return [source];
+    // Where the clump will sit once drawn in (below); an anchored clump is placed there directly.
+    const inward = clumpOutward(crown, source, new THREE.Vector3()).multiplyScalar(-opts.clump * 0.6), sits = source.clone().add(inward);
+    const d = anchor(sits, hit);
+    if (d <= reach) return [source];
+    if (d > opts.clump * ANCHOR_DROP) { dropped++; return []; }
+    anchored++;
+    const moved = hit.clone().addScaledVector(sits.sub(hit).normalize(), reach * 0.9);
+    placedIn.add(moved);
+    return [moved];
+  });
   const weights = centres.map(c => 0.3 + 0.7 * THREE.MathUtils.smoothstep(depthIn(crown, c), 0.35, 0.85));
   const weightSum = weights.reduce((s, w) => s + w, 0);
   const positions: number[] = [], normals: number[] = [], uvs: number[] = [], index: number[] = [];
@@ -164,13 +241,12 @@ export function buildCanopy(leaf: THREE.BufferGeometry, wood: THREE.BufferGeomet
     const k = ci === centres.length - 1 ? opts.cards - placed : Math.min(opts.cards - placed, Math.floor(carry));
     carry -= k;
     // Outward from the crown's heart (on its spheroid), a little upward.
-    out.set((c.x - crown.centre.x) / crown.radii.x ** 2, (c.y - crown.centre.y) / crown.radii.y ** 2, (c.z - crown.centre.z) / crown.radii.z ** 2);
-    if (out.lengthSq() < 1e-8) out.set(0, 1, 0);
-    out.normalize().addScaledVector(up, 0.25).normalize();
+    clumpOutward(crown, c, out);
     const rc = opts.clump * (0.8 + random() * 0.4);
     // Clumps bulge outward (their cards sit on their outer face), so each is drawn in by part of its radius: the canopy
     // keeps the source crown's outline rather than growing a clump past it.
-    c = c.clone().addScaledVector(out, -opts.clump * 0.6);
+    // An anchored clump is already placed where it sits.
+    if (!placedIn.has(c)) c = c.clone().addScaledVector(out, -opts.clump * 0.6);
     for (let j = 0; j < k; j++) {
       // A point in the clump, biased to its outer face; the card faces mostly out from the clump, then out and up.
       dir.copy(randomUnit(dir)).addScaledVector(out, 0.7).normalize();
@@ -204,7 +280,7 @@ export function buildCanopy(leaf: THREE.BufferGeometry, wood: THREE.BufferGeomet
   geometry.setAttribute('uv', new THREE.Float32BufferAttribute(uvs, 2));
   geometry.setIndex(index);
   geometry.computeBoundingBox(); geometry.computeBoundingSphere();
-  geometry.userData.canopy = { clumps: centres.length, tips: tips.length, cards: placed };
+  geometry.userData.canopy = { clumps: centres.length, tips: tips.length, cards: placed, anchored, dropped };
   return geometry;
 }
 
