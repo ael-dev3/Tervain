@@ -359,6 +359,7 @@ export function buildCanopy(leaf: THREE.BufferGeometry, wood: THREE.BufferGeomet
   const positions: number[] = [], normals: number[] = [], uvs: number[] = [], index: number[] = [];
   const out = new THREE.Vector3(), dir = new THREE.Vector3(), n = new THREE.Vector3(), t1 = new THREE.Vector3(), t2 = new THREE.Vector3();
   const centre = new THREE.Vector3(), corner = new THREE.Vector3(), vn = new THREE.Vector3(), up = new THREE.Vector3(0, 1, 0);
+  const ax = new THREE.Vector3(), ay = new THREE.Vector3();
   const randomUnit = (v: THREE.Vector3) => {
     const z = random() * 2 - 1, a = random() * Math.PI * 2, r = Math.sqrt(1 - z * z);
     return v.set(r * Math.cos(a), z, r * Math.sin(a));
@@ -384,7 +385,8 @@ export function buildCanopy(leaf: THREE.BufferGeometry, wood: THREE.BufferGeomet
       t1.copy(Math.abs(n.y) < 0.9 ? up : out.x !== 0 || out.z !== 0 ? t2.set(out.z, 0, -out.x).normalize() : t2.set(1, 0, 0));
       t1.crossVectors(n, t1).normalize(); t2.crossVectors(n, t1).normalize();
       const roll = random() * Math.PI * 2, cr = Math.cos(roll), sr = Math.sin(roll);
-      const ax = t1.clone().multiplyScalar(cr).addScaledVector(t2, sr), ay = t1.clone().multiplyScalar(-sr).addScaledVector(t2, cr);
+      ax.copy(t1).multiplyScalar(cr).addScaledVector(t2, sr);
+      ay.copy(t1).multiplyScalar(-sr).addScaledVector(t2, cr);
       const s = (opts.size[0] + (opts.size[1] - opts.size[0]) * random()) / 2;
       const cellIndex = Math.floor(random() * opts.cells * opts.cells), cu = cellIndex % opts.cells, cv = Math.floor(cellIndex / opts.cells);
       const flip = random() < 0.5;
