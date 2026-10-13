@@ -1,0 +1,34 @@
+{
+  "schema": 1,
+  "vertices": 87874,
+  "bodyBox": {
+    "min": [
+      -0.24133638662634294,
+      -0.002616201553560016,
+      -0.3944125203209108
+    ],
+    "max": [
+      0.25837561955475596,
+      1.9049221064900506,
+      0.36769533885277816
+    ]
+  },
+  "triangles": 149974,
+  "trees": 6,
+  "scenarios": 1152,
+  "samples": 5760,
+  "hiddenSamples": 2460,
+  "candidates": 0,
+  "worst": [],
+  "controls": {
+    "clearCrossings": 0,
+    "injectedCrossings": 205
+  },
+  "pass": true,
+  "qualityPass": null,
+  "scope": "Compiled CameraRig against real tree/crown colliders. CPU twin of production dual-quaternion skinning reads actual packed motions; near-plane triangle contacts are candidates requiring native screenshot review, not a calibrated visual or hardware timing verdict.",
+  "build": {
+    "version": "0.0.15",
+    "revision": "62af8c8d1"
+  }
+}
