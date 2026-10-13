@@ -55,6 +55,8 @@ const TILE = TILE_CELLS * STEP;
 const NODES = TILE_CELLS + 1;
 const CH = 5;
 const HASH = 8;
+// Authored field transforms are fixed; reuse their rotation for each raster node.
+const fieldRotations = FIELDS.map(f => ({ ...f, cosine: Math.cos(f.yaw), sine: Math.sin(f.yaw) }));
 
 /** Integer hash to [0,1). Stable across runs. */
 export function hash3(a: number, b: number, c: number): number {
@@ -284,11 +286,11 @@ export class Habitat {
       const d = Math.hypot(x - c.x, z - c.z) - c.hard;
       if (d < 1.8) open *= smoothstep(0, 1.8, d);
     }
-    for (const f of FIELDS) {
+    for (const f of fieldRotations) {
       const dx = x - f.x;
       const dz = z - f.z;
-      const lx = dx * Math.cos(f.yaw) - dz * Math.sin(f.yaw);
-      const lz = dx * Math.sin(f.yaw) + dz * Math.cos(f.yaw);
+      const lx = dx * f.cosine - dz * f.sine;
+      const lz = dx * f.sine + dz * f.cosine;
       const e = Math.max(Math.abs(lx) - f.w / 2, Math.abs(lz) - f.d / 2);
       if (e < 1.6) open *= smoothstep(-0.2, 1.6, e);
     }

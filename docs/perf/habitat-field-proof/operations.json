@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "baselineRef": "0b45a36",
+  "sourceSha256": "352fe068d6ed17d5e5ac6fc96957707654b2b27d0583c3a9d0af5cfa750f7994",
+  "groundSplatSha256": "0cce5c9a846483d0c2f7d627c275c12dc7d917b100e7a26ef2bbc4313b867b1d",
+  "scope": "Production Habitat with actual terrain and stock exclusions, deterministic samples at four locations. Counts all Math.sin/Math.cos calls during sampling after constructors; fixed module rotations excluded; not hardware timing or live stall attribution.",
+  "samples": 1920,
+  "tiles": 30,
+  "beforeChecks": 518140,
+  "afterChecks": 414100,
+  "unequalSamples": 0,
+  "comparedWords": 43350,
+  "unequalWords": 0,
+  "pass": true
+}
