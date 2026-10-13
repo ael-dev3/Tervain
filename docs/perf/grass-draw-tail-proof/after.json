@@ -1,0 +1,107 @@
+{
+  "schema": 1,
+  "build": {
+    "version": "0.0.14",
+    "revision": "77e11b42b"
+  },
+  "routes": [
+    {
+      "x": -7,
+      "z": 45,
+      "streamCameraOffset": 0,
+      "grass": {
+        "grassInstances": 23724,
+        "grassTris": 1420023,
+        "grassDraws": 65,
+        "grassTiles": 178,
+        "grassMovers": 0
+      },
+      "trimmedTiles": 111,
+      "full": {
+        "drawCalls": 106,
+        "triangles": 1514905,
+        "uploadBytes": 0
+      },
+      "actual": {
+        "drawCalls": 106,
+        "triangles": 1499356,
+        "uploadBytes": 0
+      },
+      "identicalPixels": true
+    },
+    {
+      "x": 18,
+      "z": 20,
+      "streamCameraOffset": 0,
+      "grass": {
+        "grassInstances": 23266,
+        "grassTris": 1419888,
+        "grassDraws": 72,
+        "grassTiles": 177,
+        "grassMovers": 0
+      },
+      "trimmedTiles": 111,
+      "full": {
+        "drawCalls": 132,
+        "triangles": 1857365,
+        "uploadBytes": 0
+      },
+      "actual": {
+        "drawCalls": 132,
+        "triangles": 1846007,
+        "uploadBytes": 0
+      },
+      "identicalPixels": true
+    },
+    {
+      "x": 46,
+      "z": 68,
+      "streamCameraOffset": 0,
+      "grass": {
+        "grassInstances": 21409,
+        "grassTris": 1308636,
+        "grassDraws": 56,
+        "grassTiles": 151,
+        "grassMovers": 0
+      },
+      "trimmedTiles": 110,
+      "full": {
+        "drawCalls": 83,
+        "triangles": 1566022,
+        "uploadBytes": 0
+      },
+      "actual": {
+        "drawCalls": 83,
+        "triangles": 1563445,
+        "uploadBytes": 0
+      },
+      "identicalPixels": true
+    },
+    {
+      "x": -7,
+      "z": 45,
+      "streamCameraOffset": 30,
+      "grass": {
+        "grassInstances": 21228,
+        "grassTris": 1223166,
+        "grassDraws": 65,
+        "grassTiles": 151,
+        "grassMovers": 0
+      },
+      "trimmedTiles": 112,
+      "full": {
+        "drawCalls": 91,
+        "triangles": 974857,
+        "uploadBytes": 0
+      },
+      "actual": {
+        "drawCalls": 91,
+        "triangles": 973801,
+        "uploadBytes": 0
+      },
+      "identicalPixels": true
+    }
+  ],
+  "scope": "Frozen native scene renders; full-index control and actual tile draw ranges in the same frame state. Software counters and exact-image controls, not GPU timings.",
+  "pass": true
+}
