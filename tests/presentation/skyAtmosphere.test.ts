@@ -16,6 +16,33 @@ beforeEach(() => {
 afterEach(() => { sky.dispose(); vi.unstubAllGlobals(); });
 
 describe('continuous coastal atmosphere', () => {
+  it('requests one shadow-map initialization for a cold night scene', () => {
+    expect(sky.sun.shadow.map).toBeNull();
+    sky.update(21.5166666667, focus, 0, true);
+    expect(sky.sun.castShadow).toBe(true);
+    expect(sky.sun.shadow.intensity).toBe(0);
+    expect(sky.sun.shadow.autoUpdate).toBe(false);
+    expect(sky.sun.shadow.needsUpdate).toBe(true);
+  });
+
+  it('keeps an initialized night map paused without requesting repeated draws', () => {
+    sky.sun.shadow.map = new THREE.WebGLRenderTarget(1, 1);
+    sky.sun.shadow.needsUpdate = false;
+    for (let i = 0; i < 60; i++) sky.update(21.5166666667, focus, 1 / 60, true);
+    expect(sky.sun.shadow.autoUpdate).toBe(false);
+    expect(sky.sun.shadow.needsUpdate).toBe(false);
+  });
+
+  it('retains a separately requested update and resumes normal updates by day', () => {
+    sky.sun.shadow.map = new THREE.WebGLRenderTarget(1, 1);
+    sky.sun.shadow.needsUpdate = true;
+    sky.update(21.5166666667, focus, 0, true);
+    expect(sky.sun.shadow.needsUpdate).toBe(true);
+    sky.sun.shadow.needsUpdate = false;
+    sky.update(12, focus, 0, true);
+    expect(sky.sun.shadow.autoUpdate).toBe(true);
+  });
+
   it('keeps sky, directional light, fog and ambient values finite through the whole day', () => {
     for (let hour = 0; hour <= 24; hour += 0.25) {
       sky.update(hour, focus, 1 / 60, false);

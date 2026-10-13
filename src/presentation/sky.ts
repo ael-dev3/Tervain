@@ -413,6 +413,9 @@ export class SkyRig {
     const shadow = clampNum((sunI - 0.12) / 0.06, 0, 1);
     this.sun.shadow.intensity = shadow * (LOW_SUN_SHADOW + (1 - LOW_SUN_SHADOW) * smoothstep(0.12, 0.4, sunDir.y));
     this.sun.shadow.autoUpdate = shadow > 0;
+    // A cold night load still has shadow receivers. Create their comparison texture
+    // once before pausing updates; an uninitialized shadow map rejects their draws.
+    if (this.sun.shadow.map === null) this.sun.shadow.needsUpdate = true;
 
     this.moon.color.setHex(0x9ab0e8);
     const moonUp = clampNum(moonDir.y * 4, 0, 1);

@@ -644,6 +644,9 @@ export class App {
     this.cam.follow(1, this.player.x, this.player.y, this.player.z, this.world.terrain, this.world.colliders, true, 0);
     this.world.update(0, this.game.state, new THREE.Vector3(this.player.x, this.player.y, this.player.z),
       this.settings, hourOfDay(this.game.state.clock), this.cam.camera, false);
+    // Initial reflection/window captures pause regular shadow updates too. Let the
+    // first pass initialize the sun's comparison texture before any receiver draws.
+    if (this.renderer.shadowMap.enabled && this.world.sky.sun.shadow.map === null) this.renderer.shadowMap.needsUpdate = true;
     let textureCount = 0;
     await prepareSceneTextures(this.renderer, this.world.scene, { camera: this.cam.camera,
       onProgress: (completed, total) => {
