@@ -15,6 +15,20 @@ function tick(p: RealmPhysics, n: number, dt = 1 / 60) {
 }
 
 describe('real 60 Hz rigid-body world', () => {
+  it('checks airborne body clearance against current loose cargo without moving it', () => {
+    const p = new RealmPhysics(floor, new Colliders(), [crate]);
+    try {
+      const saved = p.snapshot(), top = saved[0]!.position.y + crate.height / 2;
+      expect(p.propsBlockBodySweep({ x: -2, y: 0, z: 0 }, { x: 2, y: 0, z: 0 })).toBe(true);
+      expect(p.propsBlockBodySweep({ x: -2, y: 0, z: 3 }, { x: 2, y: 0, z: 3 })).toBe(false);
+      expect(p.propsBlockBodySweep({ x: 0, y: top, z: 0 }, { x: 0, y: top + .3, z: 0 }, .01)).toBe(false);
+      expect(p.snapshot()).toEqual(saved);
+      p.restore([{ ...saved[0]!, position: { x: 8, y: .3, z: 0 } }]);
+      expect(p.propsBlockBodySweep({ x: 6, y: 0, z: 0 }, { x: 10, y: 0, z: 0 })).toBe(true);
+      p.props[0]!.collider.setEnabled(false);
+      expect(p.propsBlockBodySweep({ x: 6, y: 0, z: 0 }, { x: 10, y: 0, z: 0 })).toBe(false);
+    } finally { p.dispose(); }
+  });
   it('falls under gravity and settles with its closed bottom on the same physical terrain', () => {
     const p = new RealmPhysics(floor, new Colliders(), [crate]);
     try {
