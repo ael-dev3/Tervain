@@ -1,0 +1,71 @@
+{
+  "rows": [
+    {
+      "initialized": false,
+      "capturePaused": false,
+      "globalRequest": false,
+      "errors": [
+        1282
+      ],
+      "mapExists": false,
+      "compareFunction": null,
+      "autoUpdate": false,
+      "needsUpdate": false,
+      "firstShadowUpdates": 0,
+      "extraShadowUpdates": 0
+    },
+    {
+      "initialized": true,
+      "capturePaused": false,
+      "globalRequest": false,
+      "errors": [],
+      "mapExists": true,
+      "compareFunction": 515,
+      "autoUpdate": false,
+      "needsUpdate": false,
+      "firstShadowUpdates": 1,
+      "extraShadowUpdates": 0
+    },
+    {
+      "initialized": true,
+      "capturePaused": true,
+      "globalRequest": false,
+      "errors": [
+        1282
+      ],
+      "mapExists": false,
+      "compareFunction": null,
+      "autoUpdate": false,
+      "needsUpdate": true,
+      "firstShadowUpdates": 0,
+      "extraShadowUpdates": 0
+    },
+    {
+      "initialized": true,
+      "capturePaused": true,
+      "globalRequest": true,
+      "errors": [],
+      "mapExists": true,
+      "compareFunction": 515,
+      "autoUpdate": false,
+      "needsUpdate": false,
+      "firstShadowUpdates": 1,
+      "extraShadowUpdates": 0
+    }
+  ],
+  "pixels": 16384,
+  "changedPixels": 12154,
+  "assertions": {
+    "baselineInvalidOperation": true,
+    "baselineMissingMap": true,
+    "initializedMap": true,
+    "initializedDrawHealthy": true,
+    "nightUpdatesPaused": true,
+    "oneInitialization": true,
+    "captureNeedsGlobalRequest": true,
+    "initializedCaptureHealthy": true,
+    "captureInitializesOnce": true,
+    "restoredSurface": true
+  },
+  "pass": true
+}
