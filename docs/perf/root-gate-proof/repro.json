@@ -1,0 +1,30 @@
+{
+  "fixture": "actual compiled root audits with deliberate one-check truncation and full population control",
+  "partial": {
+    "revision": "909f513fc",
+    "complete": false,
+    "truncated": true,
+    "expectedRoots": 341,
+    "roots": 1,
+    "candidates": 0
+  },
+  "full": {
+    "revision": "909f513fc",
+    "complete": true,
+    "truncated": false,
+    "expectedRoots": 341,
+    "roots": 341,
+    "candidates": 0
+  },
+  "beforePartialPass": true,
+  "afterPartial": {
+    "pass": false,
+    "reason": "incomplete-root-coverage",
+    "rootCandidates": 0
+  },
+  "afterFull": {
+    "pass": true,
+    "rootCandidates": 0
+  },
+  "pass": true
+}

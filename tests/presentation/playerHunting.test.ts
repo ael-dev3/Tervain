@@ -206,8 +206,8 @@ describe('carrying the bow (A75)', () => {
     // Behind him and between the shoulder blades, not by his leg.
     expect(grip.z).toBeLessThan(-.08);
     expect(grip.y).toBeGreaterThan(1);
-    // Flat across his back (playtest 5): the string lies along the back at the grip's depth, not standing out behind him,
-    // and the carried bow is short enough that its lower tip stays above his thigh.
+    // Flat across his back: the string lies along the back at the grip's depth, and the carried bow is short enough that
+    // its lower tip stays above his thigh.
     const string = s.visual.bow.getObjectByName('Hunting / drawn bow string')!;
     expect(local(string.parent!).z).toBeLessThan(0);
     const stringMid = s.rig.root.worldToLocal(string.localToWorld(new THREE.Vector3(0, 0, -.14)));

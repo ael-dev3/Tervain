@@ -7,7 +7,7 @@ import type { FurnitureId } from '../world/furnitureSizes';
  * dozen triangles built here, drawn as one instanced mesh per kind; each stands on its piece's own surface, found by a
  * ray down onto the piece's model at load, and a spot the ray misses (or that is not level) is left empty.
  */
-export type ClutterKind = 'bowl' | 'jug' | 'cup' | 'loaf' | 'candle' | 'pot';
+export type ClutterKind = 'bowl' | 'jug' | 'cup' | 'loaf' | 'candle' | 'pot' | 'jar' | 'bottle' | 'spool';
 
 /** What stands on each kind of piece: where (fractions of its half width and half depth, front towards +z) and what. */
 export const CLUTTER_SPOTS: Partial<Record<FurnitureId, readonly (readonly [ClutterKind, number, number])[]>> = {
@@ -36,6 +36,10 @@ export function clutterGeometry(kind: ClutterKind): THREE.BufferGeometry {
       holder.dispose(); wax.dispose();
       return merged;
     }
+    // A135: a clay storage jar about 30 cm tall, a squat dark bottle and a spool of wool.
+    case 'jar': return lathe([[0, 0], [0.06, 0], [0.095, 0.06], [0.105, 0.14], [0.09, 0.22], [0.055, 0.26], [0.05, 0.285], [0.06, 0.3], [0.045, 0.3], [0, 0.28]]);
+    case 'bottle': return lathe([[0, 0], [0.045, 0], [0.05, 0.1], [0.04, 0.15], [0.016, 0.18], [0.016, 0.23], [0.02, 0.235], [0, 0.235]], 10);
+    case 'spool': return lathe([[0, 0], [0.05, 0], [0.05, 0.015], [0.042, 0.02], [0.05, 0.05], [0.052, 0.09], [0.042, 0.12], [0.05, 0.125], [0.05, 0.14], [0, 0.14]], 10);
     case 'loaf': return new THREE.SphereGeometry(0.1, 12, 6, 0, Math.PI * 2, 0, Math.PI / 2).scale(1, 0.55, 0.65);
   }
 }
@@ -59,6 +63,7 @@ export function clutterMaterial(kind: ClutterKind): THREE.MeshStandardMaterial {
   const look: Record<ClutterKind, [number, number, number]> = {
     bowl: [0x5c3f27, 0.85, 0], jug: [0x7a5034, 0.8, 0], cup: [0x6b6862, 0.55, 0.45],
     pot: [0x4e4636, 0.75, 0], candle: [0xcfc3a0, 0.7, 0], loaf: [0x8e5e30, 0.95, 0],
+    jar: [0x8a573a, 0.88, 0], bottle: [0x2f3a26, 0.35, 0.1], spool: [0x7e3426, 1, 0],
   };
   const [color, roughness, metalness] = look[kind];
   return new THREE.MeshStandardMaterial({ color, roughness, metalness });

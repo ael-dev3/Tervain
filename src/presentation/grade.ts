@@ -128,7 +128,8 @@ void main() {
   // Cool shadows, warm lights.
   vec3 shadowTint = vec3(0.94, 0.99, 1.06);
   // Warm sunlight remains selective. Moonlit highlights retain their cooler identity through the night cycle.
-  vec3 lightTint = mix(vec3(1.06, 1.0, 0.9), vec3(0.97, 1.0, 1.04), clamp(uNight, 0.0, 1.0));
+  // A137: a touch warmer by day, now that the shade carries more blue sky.
+  vec3 lightTint = mix(vec3(1.08, 1.0, 0.87), vec3(0.97, 1.0, 1.04), clamp(uNight, 0.0, 1.0));
   c *= mix(shadowTint, lightTint, smoothstep(0.12, 0.7, l));
   // Earthier greens and sky (A67): grass and leaves lean to olive and lose some chroma, the sky's blue is muted.
   // Reds, golds and browns keep theirs, so the warm/cool contrast survives (this is not a blanket desaturation).
@@ -142,7 +143,8 @@ void main() {
   c = mix(c, vec3(l) + (c - vec3(l)) * 0.78, skyish);
   // Saturation, then the contrast curve.
   l = dot(c, vec3(0.2126, 0.7152, 0.0722));
-  c = mix(vec3(l), c, uSaturation);
+  // A137: a little more colour by day keeps sunlit grass warm against the lifted shade.
+  c = mix(vec3(l), c, uSaturation * mix(1.08, 1.0, clamp(uNight, 0.0, 1.0)));
   // Daylight can carry the stronger S-curve. Fade its black subtraction at night so
   // moonlit cloth, nearby roots and the road retain their painted dark values.
   float sceneContrast = mix(uContrast, 1.0, clamp(uNight, 0.0, 1.0));

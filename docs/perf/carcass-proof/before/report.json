@@ -1,0 +1,14 @@
+{
+  "animalCount": 19,
+  "frames": 120,
+  "skeletonUpdates": 120,
+  "poseUnchanged": true,
+  "contactUnchanged": true,
+  "ready": true,
+  "build": {
+    "version": "0.0.14",
+    "revision": "9618a680f"
+  },
+  "fixture": "actual delivered tiger corpse, frozen diagnostic simulation",
+  "pass": true
+}

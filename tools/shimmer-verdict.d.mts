@@ -1,0 +1,1 @@
+export function shimmerVerdict(status: number | null, report: {summary?: {sparkleShare?: number | null; usableFrames?: number; alignmentShare?: number}} | null | undefined, baselineScore?: number | null): {score: number | null; pass: boolean; reason?: string; compared?: boolean};

@@ -1,0 +1,32 @@
+{
+  "fixture": "variable-rate copy of actual SwiftShader game frames with one held refresh",
+  "sourceFrames": 5,
+  "nativeTimestamps": [
+    0,
+    0.016,
+    0.033,
+    0.1,
+    0.116
+  ],
+  "before": {
+    "decodedFrames": 8,
+    "sampleTimes": [
+      0.016666666666666666,
+      0.03333333333333333,
+      0.05,
+      0.06666666666666667,
+      0.08333333333333333,
+      0.1
+    ]
+  },
+  "after": {
+    "decodedFrames": 5,
+    "sampleTimes": [
+      0.016,
+      0.033,
+      0.1
+    ],
+    "nativeCadence": true
+  },
+  "pass": true
+}

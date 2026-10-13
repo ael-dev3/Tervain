@@ -47,7 +47,7 @@ vi.mock('../../src/world/terrain', () => ({ Terrain: class {
   static async create(options: { onProgress?: (completed: number, total: number) => void }) {
     const nz = (WORLD.maxZ - WORLD.minZ) / WORLD.cell;
     options.onProgress?.(nz + 1, nz + 1);
-    return { heightAt: () => 0, nz };
+    return { heightAt: () => 0, nz, rooms: { base: () => 0 } };
   }
 } }));
 vi.mock('../../src/world/colliders', async importOriginal => ({

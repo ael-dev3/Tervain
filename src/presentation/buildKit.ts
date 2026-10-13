@@ -66,6 +66,11 @@ export class Ctx {
    * origin and placed later, which cannot know where the ground will be.
    */
   ground: ((x: number, z: number) => number) | null = null;
+  /**
+   * A room's contact darkening and soot (A135): a factor on the vertex colour of whatever is drawn while it is set, by
+   * world position (presentation/buildings.ts roomShade). Null outside the rooms.
+   */
+  shade: ((x: number, y: number, z: number) => number) | null = null;
   private cur = new THREE.Matrix4();
   private stack: THREE.Matrix4[] = [];
   private local = new THREE.Matrix4();
@@ -181,6 +186,7 @@ export class Batch {
     nny /= nl;
     nnz /= nl;
     if (amp > 0) k *= 1 + amp * (valueNoise(wx * 0.9 + wz * 0.35, wy * 0.9 + wz * 0.6, 5) * 2 - 1) + amp * 0.5 * (valueNoise(wx * 3.1, wz * 3.1 + wy * 2.3, 9) * 2 - 1);
+    if (this.ctx.shade && amp > 0) k *= this.ctx.shade(wx, wy, wz);
     let kr = k, kg = k, kb = k;
     const ground = this.ctx.ground;
     if (ground && amp > 0) {

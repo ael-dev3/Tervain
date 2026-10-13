@@ -1,6 +1,6 @@
 /**
  * Dynamic resolution (A113). The pixel ratio a quality preset asks for is a ceiling, not a promise: a Retina MacBook on
- * High draws four times a 1× screen's pixels with a fraction of a desktop card's power, and the game missed most of its
+ * High at DPR 2 drew four times a 1× screen's pixels with a fraction of a desktop card's power, and the game missed most of its
  * 60 Hz frames there. The scale watches the frames the display actually shows and lowers the drawing resolution while
  * they are being missed, then raises it again once they have been steady for a while.
  */
@@ -20,7 +20,11 @@ const UP = 0.1;
 export class RenderScale {
   /** Multiplier on the preset's pixel ratio, in [floor, 1]. */
   scale = 1;
-  private missed: boolean[] = [];
+  private readonly missed = new Uint8Array(STEADY);
+  private cursor = 0;
+  private count = 0;
+  private recentMissed = 0;
+  private steadyMissed = 0;
   private settle = 0;
 
   /** `floor`: the lowest multiplier allowed for this screen (see renderScaleFloor). */
@@ -30,25 +34,35 @@ export class RenderScale {
   sample(intervalMs: number): boolean {
     if (!(intervalMs > 0) || intervalMs > IGNORED_MS) return false;
     if (this.settle > 0) { this.settle--; return false; }
-    this.missed.push(intervalMs > MISSED_MS);
-    if (this.missed.length > STEADY) this.missed.shift();
-    const share = (n: number) => { const tail = this.missed.slice(-n); return tail.filter(Boolean).length / tail.length; };
-    if (this.missed.length >= RECENT && share(RECENT) > DROP_SHARE && this.scale > this.floor) {
+    const missed = intervalMs > MISSED_MS ? 1 : 0;
+    if (this.count >= RECENT) this.recentMissed -= this.missed[(this.cursor + STEADY - RECENT) % STEADY]!;
+    if (this.count === STEADY) this.steadyMissed -= this.missed[this.cursor]!;
+    this.missed[this.cursor] = missed;
+    this.cursor = (this.cursor + 1) % STEADY;
+    this.count = Math.min(STEADY, this.count + 1);
+    this.recentMissed += missed;
+    this.steadyMissed += missed;
+    if (this.count >= RECENT && this.recentMissed / RECENT > DROP_SHARE && this.scale > this.floor) {
       this.scale = Math.max(this.floor, +(this.scale - DOWN).toFixed(3));
       return this.changed();
     }
-    if (this.missed.length >= STEADY && share(STEADY) < RAISE_SHARE && this.scale < 1) {
+    if (this.count >= STEADY && this.steadyMissed / STEADY < RAISE_SHARE && this.scale < 1) {
       this.scale = Math.min(1, +(this.scale + UP).toFixed(3));
       return this.changed();
     }
     return false;
   }
 
-  reset() { this.scale = 1; this.missed = []; this.settle = 0; }
+  reset() { this.scale = 1; this.clearWindow(); this.settle = 0; }
+
+  private clearWindow() {
+    this.missed.fill(0);
+    this.cursor = this.count = this.recentMissed = this.steadyMissed = 0;
+  }
 
   private changed(): boolean {
     // The frames around a resize are slow for their own reasons; judge the new size on fresh ones.
-    this.missed = [];
+    this.clearWindow();
     this.settle = SETTLE_FRAMES;
     return true;
   }
@@ -57,4 +71,9 @@ export class RenderScale {
 /** Never below one drawn pixel per CSS pixel on a high-density screen, nor below 0.75 on an ordinary one. */
 export function renderScaleFloor(presetRatio: number): number {
   return Math.min(1, Math.max(0.75, presetRatio * 0.5) / presetRatio);
+}
+
+/** Bound Retina fill cost while retaining the selected geometry, shading and shadow preset. */
+export function presetPixelRatio(quality: 'low' | 'medium' | 'high', deviceRatio: number): number {
+  return Math.min(deviceRatio, quality === 'low' ? 1 : 1.5);
 }

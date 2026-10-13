@@ -50,7 +50,8 @@ describe('complete building shells', () => {
         }
         const back = cast(g, [0, top + 0.5, -b.d / 2 - 2], [0, 0, 1])[0];
         expect(back, `${b.id} raised rear wall`).toBeDefined();
-        expect(Math.abs(back!.point.z + b.d / 2)).toBeLessThan(0.15);
+        // A rear-wall hearth's chimney stack (A135) stands a few centimetres proud of the wall face.
+        expect(Math.abs(back!.point.z + b.d / 2)).toBeLessThan(0.2);
       }
       const base = cast(g, [b.w * 0.15, 0.15, -b.d / 2 - 2], [0, 0, 1])[0];
       expect(base, `${b.id} foundation backing`).toBeDefined();

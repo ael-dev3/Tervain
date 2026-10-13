@@ -1,0 +1,18 @@
+{
+  "build": {
+    "version": "0.0.14",
+    "revision": "9618a680f"
+  },
+  "fixtureTriangles": 200,
+  "coordinateReads": 9,
+  "supportHeight": 0.20000000298023224,
+  "source": {
+    "triangles": 5220,
+    "queries": 400,
+    "hits": 386,
+    "heightSum": 1382.375680265615,
+    "digest": "4146fb84cdc3944de5fd66b3b7016c58f145f82501515d254157a332c7f82614"
+  },
+  "pass": true,
+  "sameSourceResults": true
+}

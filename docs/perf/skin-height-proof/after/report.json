@@ -1,0 +1,45 @@
+{
+  "build": {
+    "version": "0.0.14",
+    "revision": "e084c441e"
+  },
+  "fixture": "actual controller, domain and native player with ready-carcass/clear-line-of-sight I/O fixtures",
+  "rows": [
+    {
+      "offset": -4,
+      "canSkin": false,
+      "started": false,
+      "hide": 0,
+      "status": "dead"
+    },
+    {
+      "offset": -2,
+      "canSkin": true,
+      "started": true,
+      "hide": 1,
+      "status": "skinned"
+    },
+    {
+      "offset": 0,
+      "canSkin": true,
+      "started": true,
+      "hide": 1,
+      "status": "skinned"
+    },
+    {
+      "offset": 2,
+      "canSkin": true,
+      "started": true,
+      "hide": 1,
+      "status": "skinned"
+    },
+    {
+      "offset": 4,
+      "canSkin": false,
+      "started": false,
+      "hide": 0,
+      "status": "dead"
+    }
+  ],
+  "pass": true
+}

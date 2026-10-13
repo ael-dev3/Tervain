@@ -2,6 +2,7 @@ import { loadBakedTextures } from './bakedTextures';
 import type { CameraCrown } from './cameraCrowns';
 import { buildFurniture, deferredFurniture, loadFurniture, type FurnitureTemplates } from './furniture';
 import { InteriorLight } from './interiorLight';
+import { buildHearthFires } from './hearthFire';
 import { WINDOW_VIEW_SIZE, WindowView } from './windowView';
 import type { InteriorSpec } from '../world/interiors';
 import { DoorSwings, type DoorEvent } from './doors';
@@ -300,6 +301,9 @@ export class WorldScene {
       // The hunter's camp and the caravan rest register their solid props before grass is sown around them: built after,
       // grass grew through the trough, the panniers and the notice board (A105 scout). They join the scene below.
       const hunterSupplies = buildHunterSupplies(terrain, colliders), animalCamp = buildAnimalCamp(terrain, colliders);
+      // Habitat snapshots solid footprints: register fences and hay before grass tiles can be generated.
+      // Attach the settlement at its existing scene position below.
+      const scenery = own(buildScenery(terrain, colliders, settings.quality));
       await checkpoint('woodland', 'Grass and undergrowth');
       addModule('groundcover', buildGroundcover(ctx));
       await checkpoint('woodland', 'Woodland atmosphere');
@@ -313,7 +317,6 @@ export class WorldScene {
       await checkpoint('woodland', 'Woodland', 1, 1);
       await checkpoint('settlement', 'Buildings and supplies');
       const environment = own(buildEnvironment(scene, settings.quality));
-      const scenery = own(buildScenery(terrain, colliders, settings.quality));
       scene.add(scenery.group);
       // A room's furniture shows only while someone can see into it (A66): see WorldScene.roomOpen.
       let roomOpen: (room: InteriorSpec) => boolean = () => true;
@@ -328,6 +331,8 @@ export class WorldScene {
       // Deferred, the rooms stand empty until the pieces are here; their colliders come from the placements either way.
       const furnishing = furniture ? null : deferredFurniture();
       addModule('furniture', furnishing ?? buildFurniture(furniture!, terrain.rooms, (room) => roomOpen(room)));
+      // The fires burning in the rooms' hearths (A135).
+      addModule('hearth fires', buildHearthFires(terrain.rooms));
       if (furnishing) {
         // A world disposed before they arrive builds nothing from them (A87 scout): building and preparing them only to
         // throw them away cost the next world a spike and seconds of uploads.

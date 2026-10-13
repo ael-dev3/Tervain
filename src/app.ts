@@ -53,7 +53,7 @@ import { LoadingScreen } from './presentation/ui/loadingScreen';
 import { MenuScene } from './presentation/menuScene';
 import { disposeSceneResources } from './presentation/disposeScene';
 import { BUILD_LABEL, GAME_VERSION, SOURCE_REVISION as REVISION } from './version';
-import { RenderScale, renderScaleFloor } from './platform/renderScale';
+import { RenderScale, renderScaleFloor, presetPixelRatio } from './platform/renderScale';
 import { fetchLiveBuild, newerBuild, shouldReloadFor, type LiveBuild } from './platform/buildCheck';
 import { loadMainHero } from './presentation/mainHero';
 import { createHeroRig, type MainHeroRig } from './presentation/hero/rig';
@@ -823,7 +823,7 @@ export class App {
   private applyPixelRatio() {
     const q = this.settings.quality;
     const dpr = window.devicePixelRatio || 1;
-    const preset = q === 'low' ? Math.min(dpr, 1) : q === 'medium' ? Math.min(dpr, 1.5) : Math.min(dpr, 2);
+    const preset = presetPixelRatio(q, dpr);
     this.renderScale.floor = renderScaleFloor(preset);
     if (this.settings.dynamicResolution === false) this.renderScale.reset();
     this.renderer.setPixelRatio(preset * Math.max(this.renderScale.floor, this.renderScale.scale));
@@ -2967,6 +2967,19 @@ export class App {
   }
 
   /** Explicit offline diagnostic; imported only when requested and never called during ordinary play. */
+  /** Offline crown connectivity candidates from the complete registered forest, not rendered instance counts. */
+  async auditCanopies(options: import('./diagnostics/canopyAudit').CanopyAuditOptions = {}) {
+    const world = this.world;
+    if (!world) throw new Error('No world for canopy audit');
+    const { auditCanopies } = await import('./diagnostics/canopyAudit');
+    const forest = world.modules.find(m => m.name === 'forest')?.module as
+      import('./presentation/context').SceneModule & { counts?: { trees: number } } | undefined;
+    const expectedTrees = forest?.counts?.trees;
+    const report = auditCanopies(forest?.canopyAuditTargets?.() ?? [], options);
+    return { ...report, expectedTrees, revision: REVISION, version: GAME_VERSION,
+      complete: report.complete && Number.isInteger(expectedTrees) && expectedTrees! > 0 && report.summary.trees === expectedTrees };
+  }
+
   async auditPlacement(options: import('./diagnostics/placementAudit').PlacementAuditOptions = {}) {
     const world = this.world;
     if (!world) throw new Error('Start a journey before auditing placement.');

@@ -1,0 +1,24 @@
+{
+  "build": {
+    "version": "0.0.14",
+    "revision": "bbec5e75b"
+  },
+  "animalCount": 19,
+  "idle": {
+    "frames": 120,
+    "count": 0,
+    "dirtyRequests": 0,
+    "uploadedBytes": 0
+  },
+  "emission": {
+    "count": 6,
+    "dirtyRequests": 1
+  },
+  "afterExpiry": {
+    "count": 0,
+    "dirtyRequests": 0,
+    "uploadedBytes": 0
+  },
+  "bufferBytes": 3072,
+  "pass": true
+}

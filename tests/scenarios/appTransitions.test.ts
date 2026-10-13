@@ -996,7 +996,8 @@ describe('shell corrections (A70)', () => {
     expect(grade.setSize).toHaveBeenLastCalledWith(1280, 720);
     app.settings.quality = 'high';
     call('applyQualityToRenderer');
-    expect(grade.setSize).toHaveBeenLastCalledWith(2560, 1440);
+    // High caps a 2× screen at 1.5 pixels per CSS pixel (#378).
+    expect(grade.setSize).toHaveBeenLastCalledWith(1920, 1080);
   });
 
   it('pauses on respawn when the window lost focus or the capture during the fall', () => {

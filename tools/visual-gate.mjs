@@ -8,14 +8,16 @@
  *
  * Writes <out>/<tag>/: one folder per spot (still-*.jpg, frames/, clip.mp4), metrics.json and report.md (media as
  * MEDIA/<tag>/... for tools/publish-gate.mjs). Checks, each failing the run:
- *  - placement: the scene's placement audit (floating props, unsupported tree roots); more candidates than --baseline
- *    is a regression;
+ *  - placement: complete forest-root coverage; more root candidates than --baseline is a regression;
+ *    run tools/audit-placement.mjs separately for informational static-prop candidates;
  *  - vault: real-key fence approaches (walk and run, 0°/30°/50°, jump at 1.6/1.0/0.6 m) must all cross;
  *  - bow: the slung bow's limbs and string must stay outside the hero's torso while he walks and runs;
  *  - shimmer: tools/video-shimmer.mjs over grass beside the running hero (sparkle share; compared against --baseline);
  * The frame-time gate stays tools/play-gate.mjs. A visual score per playtest item is the reviewer's, added to the
  * report afterwards; the gate cannot judge art.
  */
+import { shimmerVerdict } from './shimmer-verdict.mjs';
+import { rootAuditVerdict } from './root-audit-verdict.mjs';
 import { spawnSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -77,7 +79,7 @@ try {
   // Furniture, rooms and far props load after the world opens.
   for (let i = 0; i < 240 && !(await page.eval('let f = false; window.tervain.world.scene.traverse((o) => { if (o.name === "Furniture") f = true; }); return f').catch(() => false)); i++) await page.wait(250);
   await page.wait(12000);
-  await page.eval(`const T = window.tervain, S = T.game.state; T.hud.show(false); T.debugTime?.(11); S.inventory.hunting_bow = 1; S.inventory.arrow = 6; S.equippedWeapon = 'hunting_bow'; T.player.syncEquipment(T.game); return 1`);
+  await page.eval(`const T = window.tervain, S = T.game.state; T.hud.show(false); T.debugTime?.(${Number(args.hour ?? 11)}); S.inventory.hunting_bow = 1; S.inventory.arrow = 6; S.equippedWeapon = 'hunting_bow'; T.player.syncEquipment(T.game); return 1`);
 
   for (const id of chosen) {
     const spot = SPOTS[id], dir = path.join(OUT, id);
@@ -127,6 +129,8 @@ try {
     // The hero's own torso: up from the slung bow to his hips (other rigs share the bone names), then his neck below them.
     for (let a = bow; a && !hips; a = a.parent) if (/Hips$/.test(a.name)) hips = a;
     hips?.traverse((o) => { if (!neck && /Neck$/.test(o.name)) neck = o; });
+    // Shoulders stand out beyond the torso: each from its shoulder joint to the upper arm, 9 cm about that line.
+    const shoulders = []; hips?.traverse((o) => { if (/(Left|Right)Shoulder$/.test(o.name)) { const arm = o.children.find((c) => /(Left|Right)Arm$/.test(c.name)); if (arm) shoulders.push([o, arm]); } });
     if (!bow || !bow.visible || !hips || !neck) return [0, 0, !bow ? 'no bow' : !bow.visible ? 'bow hidden' : 'no torso bones'];
     const a = hips.getWorldPosition(new V()), b = neck.getWorldPosition(new V()), ab = b.clone().sub(a), len = ab.length(); ab.normalize();
     let inside = 0, n = 0;
@@ -135,7 +139,13 @@ try {
       const y = -.65 + i * 1.3 / 12, x = z === 0 ? 0.055 * Math.cos(y * 2.4) - 0.04 : 0;
       const p = bow.localToWorld(new V(0, y, z === 0 ? x : -.14)), t = Math.max(0, Math.min(len, p.clone().sub(a).dot(ab)));
       const d = p.distanceTo(a.clone().addScaledVector(ab, t));
-      n++; if (d < 0.13) inside++;
+      let inShoulder = false;
+      for (const [sh, arm] of shoulders) {
+        const s0 = sh.getWorldPosition(new V()), s1 = arm.getWorldPosition(new V()), sd = s1.clone().sub(s0), sl = sd.length(); sd.normalize();
+        const st = Math.max(0, Math.min(sl, p.clone().sub(s0).dot(sd)));
+        if (p.distanceTo(s0.clone().addScaledVector(sd, st)) < 0.09) inShoulder = true;
+      }
+      n++; if (d < 0.13 || inShoulder) inside++;
     }
     return [inside, n];`);
   for (const [gait, codes] of [['walk', ['KeyW']], ['run', ['ShiftLeft', 'KeyW']]]) {
@@ -167,9 +177,9 @@ try {
   metrics.checks.vault = { crossed, of: vaults.length, failed: vaults.filter((v) => !v.over), pass: crossed === vaults.length };
   if (!metrics.checks.vault.pass) failures.push(`fence vault crossed ${crossed} of ${vaults.length}`);
 
-  // Placement audit (Sol's detector), against the baseline's candidate count. --skip-audit for quick diagnostic runs.
+  // Complete root population audit, against the baseline's candidate count. --skip-audit for quick diagnostic runs.
   if (args['skip-audit'] !== 'true') {
-  const r = await page.cdp('Runtime.evaluate', { expression: '(async () => window.tervain.auditPlacement ? JSON.stringify(await window.tervain.auditPlacement({ clearance: .08, maxChecks: 20000 })) : null)()', awaitPromise: true, returnByValue: true, timeout: 600000 });
+  const r = await page.cdp('Runtime.evaluate', { expression: '(async () => window.tervain.auditPlacement ? JSON.stringify(await window.tervain.auditPlacement({ clearance: .08, maxChecks: 100000, kind: "root" })) : null)()', awaitPromise: true, returnByValue: true, timeout: 600000 });
   const auditText = r?.result?.result?.value;
   if (auditText) {
     const audit = JSON.parse(auditText);
@@ -179,25 +189,33 @@ try {
     metrics.checks.placement = { ...audit.summary, complete: audit.complete, roots: worst('root'), props: worst('prop') };
     // Tree roots are the regression check: prop candidates include large merged meshes (building timbers seen from below)
     // that need a reviewer, so they are listed, not counted.
-    const rootCandidates = audit.checks.filter((c) => c.kind === 'root' && c.candidate).length, before = baseline?.checks?.placement?.rootCandidates;
-    metrics.checks.placement.rootCandidates = rootCandidates;
-    metrics.checks.placement.pass = before === undefined || rootCandidates <= before;
-    if (!metrics.checks.placement.pass) failures.push(`floating tree roots ${rootCandidates} (baseline ${before})`);
-  } else metrics.checks.placement = { skipped: 'build has no placement audit' };
+    const verdict = rootAuditVerdict(audit, baseline?.checks?.placement?.rootCandidates);
+    Object.assign(metrics.checks.placement, verdict);
+    if (!verdict.pass) failures.push(`tree-root check failed: ${verdict.reason}`);
+  } else {
+    metrics.checks.placement = { pass: false, reason: 'missing-placement-audit' };
+    failures.push('tree-root check missing its placement audit');
+  }
   } else metrics.checks.placement = { skipped: 'audit skipped' };
 } finally {
   page.close();
 }
 
-// Grass shimmer (Sol's metric) over the meadow run, when the tool is present.
+// Recorded shimmer requires successfully decoded, usable footage; missing data cannot prove a regression absent.
 const meadowClip = path.join(OUT, 'meadow', 'clip.mp4');
 if (fs.existsSync('tools/video-shimmer.mjs') && fs.existsSync(meadowClip)) {
-  const run = spawnSync('node', ['tools/video-shimmer.mjs', '--input', meadowClip, '--roi', '0.03,0.66,0.34,0.32', '--fps', '30', '--out', path.join(OUT, 'shimmer.json')], { encoding: 'utf8', timeout: 600000 });
-  const shimmer = fs.existsSync(path.join(OUT, 'shimmer.json')) ? JSON.parse(fs.readFileSync(path.join(OUT, 'shimmer.json'), 'utf8')) : { error: (run.stderr || run.stdout || '').slice(0, 400) };
-  const score = shimmer.summary?.sparkleShare ?? null, before = baseline?.checks?.shimmer?.score;
-  metrics.checks.shimmer = { score, pass: score === null || before === undefined || before === null || score <= before * 1.05, raw: shimmer.summary ? { ...shimmer.summary, peaks: undefined } : shimmer };
-  if (!metrics.checks.shimmer.pass) failures.push(`grass shimmer ${score} over baseline ${before}`);
-} else metrics.checks.shimmer = { skipped: 'no shimmer tool or clip' };
+  const out = path.join(OUT, 'shimmer.json');
+  fs.rmSync(out, { force: true }); // A failed decoder must not reuse a previous run's receipt.
+  const run = spawnSync('node', ['tools/video-shimmer.mjs', '--input', meadowClip, '--roi', '0.03,0.66,0.34,0.32', '--out', out], { encoding: 'utf8', timeout: 600000 });
+  let shimmer;
+  try { shimmer = fs.existsSync(out) ? JSON.parse(fs.readFileSync(out, 'utf8')) : null; } catch { shimmer = null; }
+  const verdict = shimmerVerdict(run.status, shimmer, baseline?.checks?.shimmer?.score);
+  metrics.checks.shimmer = { ...verdict, ...(shimmer?.summary ? { raw: { ...shimmer.summary, peaks: undefined } } : {}) };
+  if (!verdict.pass) failures.push(`grass shimmer check failed: ${verdict.reason}`);
+} else {
+  metrics.checks.shimmer = { score: null, pass: false, reason: 'missing-tool-or-clip' };
+  failures.push('grass shimmer check missing its tool or recorded clip');
+}
 
 metrics.pass = failures.length === 0;
 metrics.failures = failures;

@@ -1,0 +1,6330 @@
+{
+  "build": {
+    "version": "0.0.14",
+    "revision": "8b732d251"
+  },
+  "fixture": "compiled player with native hero rig, deterministic terrain and colliders; input-driven updates",
+  "mount": [],
+  "vault": [
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": -180,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": -180,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": -180,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": -120,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862042
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": -120,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862042
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": -120,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862042
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": -90,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": -90,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": -90,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": -75,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": -75,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": -75,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": -60,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": -60,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": -60,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": -30,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862042
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": -30,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862042
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": -30,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862042
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": 0,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": 0,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": 0,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": 30,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862042
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": 30,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862042
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": 30,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862042
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": 60,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 1.649997237086204
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": 60,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 1.649997237086204
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": 60,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 1.649997237086204
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": 75,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": 75,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": 75,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": 90,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": 90,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": 90,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": 120,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": 120,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": 120,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": 180,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": 180,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": 180,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": -180,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": -180,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": -180,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": -120,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": -120,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": -120,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": -90,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": -90,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": -90,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": -75,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": -75,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": -75,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": -60,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 5.849990204214723
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": -60,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 5.849990204214723
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": -60,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 5.849990204214723
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": -30,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": -30,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": -30,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": 0,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": 0,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": 0,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": 30,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": 30,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": 30,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": 60,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": 60,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": 60,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": 75,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": 75,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": 75,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": 90,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": 90,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": 90,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": 120,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": 120,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": 120,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": 180,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": 180,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": 180,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": -180,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": -180,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": -180,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": -120,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862042
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": -120,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862042
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": -120,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862042
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": -90,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": -90,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": -90,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": -75,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": -75,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": -75,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": -60,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": -60,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": -60,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": -30,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862042
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": -30,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862042
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": -30,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862042
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": 0,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": 0,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": 0,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": 30,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862042
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": 30,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862042
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": 30,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862042
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": 60,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 1.649997237086204
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": 60,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 1.649997237086204
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": 60,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 1.649997237086204
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": 75,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": 75,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": 75,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": 90,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": 90,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": 90,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": 120,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": 120,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": 120,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": 180,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": 180,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": 180,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": -180,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": -180,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": -180,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": -120,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": -120,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": -120,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": -90,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": -90,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": -90,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": -75,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": -75,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": -75,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": -60,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 5.849990204214723
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": -60,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 5.849990204214723
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": -60,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 5.849990204214723
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": -30,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": -30,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": -30,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": 0,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": 0,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": 0,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": 30,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": 30,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": 30,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": 60,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": 60,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": 60,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": 75,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": 75,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": 75,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": 90,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": 90,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": 90,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": 120,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": 120,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": 120,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": 180,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": 180,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": 180,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": -180,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": -180,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": -180,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": -120,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862042
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": -120,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862042
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": -120,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862042
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": -90,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": -90,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": -90,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": -75,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": -75,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": -75,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": -60,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": -60,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": -60,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": -30,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862042
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": -30,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862042
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": -30,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862042
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": 0,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": 0,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": 0,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": 30,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862042
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": 30,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862042
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": 30,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862042
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": 60,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 1.649997237086204
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": 60,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 1.649997237086204
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": 60,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 1.649997237086204
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": 75,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": 75,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": 75,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": 90,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": 90,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": 90,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": 120,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": 120,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": 120,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": 180,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": 180,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": 180,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": -180,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": -180,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": -180,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": -120,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": -120,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": -120,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": -90,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": -90,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": -90,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": -75,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": -75,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": -75,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": -60,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 5.849990204214723
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": -60,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 5.849990204214723
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": -60,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 5.849990204214723
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": -30,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": -30,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": -30,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": 0,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": 0,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": 0,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": 30,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": 30,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": 30,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": 60,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": 60,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": 60,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": 75,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": 75,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": 75,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": 90,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": 90,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": 90,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": 120,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": 120,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": 120,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": 180,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": 180,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 0,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": 180,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": -180,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": -180,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": -180,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": -120,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": -120,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": -120,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": -90,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": -90,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": -90,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": -75,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": -75,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": -75,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": -60,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": -60,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": -60,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": -30,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": -30,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": -30,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": 0,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": 0,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": 0,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": 30,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862048
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": 30,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862048
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": 30,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862048
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": 60,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": 60,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": 60,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": 75,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": 75,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": 75,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": 90,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": 90,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": 90,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": 120,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": 120,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": 120,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": 180,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": 180,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": 180,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": -180,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": -180,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": -180,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": -120,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": -120,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": -120,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": -90,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": -90,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": -90,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": -75,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": -75,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": -75,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": -60,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": -60,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": -60,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": -30,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": -30,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": -30,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": 0,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": 0,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": 0,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": 30,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 5.849990204214726
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": 30,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 5.849990204214726
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": 30,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 5.849990204214726
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": 60,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": 60,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": 60,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": 75,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": 75,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": 75,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": 90,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": 90,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": 90,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": 120,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": 120,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": 120,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": 180,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": 180,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": 180,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": -180,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": -180,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": -180,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": -120,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": -120,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": -120,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": -90,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": -90,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": -90,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": -75,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": -75,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": -75,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": -60,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": -60,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": -60,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": -30,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": -30,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": -30,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": 0,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": 0,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": 0,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": 30,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862048
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": 30,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862048
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": 30,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862048
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": 60,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": 60,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": 60,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": 75,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": 75,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": 75,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": 90,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": 90,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": 90,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": 120,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": 120,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": 120,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": 180,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": 180,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": 180,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": -180,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": -180,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": -180,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": -120,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": -120,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": -120,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": -90,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": -90,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": -90,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": -75,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": -75,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": -75,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": -60,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": -60,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": -60,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": -30,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": -30,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": -30,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": 0,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": 0,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": 0,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": 30,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 5.849990204214726
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": 30,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 5.849990204214726
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": 30,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 5.849990204214726
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": 60,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": 60,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": 60,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": 75,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": 75,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": 75,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": 90,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": 90,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": 90,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": 120,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": 120,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": 120,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": 180,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": 180,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": 180,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": -180,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": -180,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": -180,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": -120,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": -120,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": -120,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": -90,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": -90,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": -90,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": -75,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": -75,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": -75,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": -60,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": -60,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": -60,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": -30,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": -30,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": -30,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": 0,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": 0,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": 0,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": 30,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862048
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": 30,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862048
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": 30,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862048
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": 60,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": 60,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": 60,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": 75,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": 75,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": 75,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": 90,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": 90,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": 90,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": 120,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": 120,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": 120,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": 180,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": 180,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": 180,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": -180,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": -180,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": -180,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": -120,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": -120,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": -120,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": -90,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": -90,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": -90,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": -75,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": -75,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": -75,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": -60,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": -60,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": -60,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": -30,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": -30,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": -30,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": 0,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": 0,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": 0,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": 30,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 5.849990204214726
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": 30,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 5.849990204214726
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": 30,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 5.849990204214726
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": 60,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": 60,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": 60,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": 75,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": 75,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": 75,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": 90,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": 90,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": 90,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": 120,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": 120,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": 120,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": 180,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": 180,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 45,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": 180,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": -180,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": -180,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": -180,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": -120,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862042
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": -120,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862042
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": -120,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862042
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": -90,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": -90,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": -90,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": -75,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": -75,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": -75,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": -60,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 1.649997237086204
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": -60,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 1.649997237086204
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": -60,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 1.649997237086204
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": -30,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": -30,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": -30,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": 0,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": 0,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": 0,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": 30,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": 30,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": 30,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": 60,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": 60,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": 60,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": 75,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": 75,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": 75,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": 90,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": 90,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": 90,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": 120,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": 120,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": 120,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": 180,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": 180,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": false,
+      "approachDegrees": 180,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": -180,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": -180,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": -180,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": -120,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": -120,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": -120,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": -90,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": -90,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": -90,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": -75,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": -75,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": -75,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": -60,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": -60,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": -60,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": -30,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": -30,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": -30,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": 0,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": 0,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": 0,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": 30,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": 30,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": 30,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": 60,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": 60,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": 60,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": 75,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": 75,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": 75,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": 90,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": 90,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": 90,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": 120,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": 120,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": 120,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": 180,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": 180,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": -0.2,
+      "sprint": true,
+      "approachDegrees": 180,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": -180,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": -180,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": -180,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": -120,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862042
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": -120,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862042
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": -120,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862042
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": -90,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": -90,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": -90,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": -75,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": -75,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": -75,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": -60,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 1.649997237086204
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": -60,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 1.649997237086204
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": -60,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 1.649997237086204
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": -30,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": -30,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": -30,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": 0,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": 0,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": 0,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": 30,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": 30,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": 30,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": 60,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": 60,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": 60,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": 75,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": 75,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": 75,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": 90,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": 90,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": 90,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": 120,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": 120,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": 120,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": 180,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": 180,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": false,
+      "approachDegrees": 180,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": -180,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": -180,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": -180,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": -120,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": -120,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": -120,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": -90,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": -90,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": -90,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": -75,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": -75,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": -75,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": -60,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": -60,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": -60,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": -30,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": -30,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": -30,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": 0,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": 0,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": 0,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": 30,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": 30,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": 30,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": 60,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": 60,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": 60,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": 75,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": 75,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": 75,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": 90,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": 90,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": 90,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": 120,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": 120,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": 120,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": 180,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": 180,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0,
+      "sprint": true,
+      "approachDegrees": 180,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": -180,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": -180,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": -180,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": -120,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862042
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": -120,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862042
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": -120,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862042
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": -90,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": -90,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": -90,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": -75,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": -75,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": -75,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": -60,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 1.649997237086204
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": -60,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 1.649997237086204
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": -60,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 1.649997237086204
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": -30,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": -30,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": -30,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": 0,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": 0,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": 0,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": 30,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": 30,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": 30,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": 60,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": 60,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": 60,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": 75,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": 75,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": 75,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": 90,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": 90,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": 90,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": 120,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": 120,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": 120,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862044
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": 180,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": 180,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": false,
+      "approachDegrees": 180,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 1.6499972370862046
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": -180,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": -180,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": -180,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": -120,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": -120,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": -120,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": -90,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": -90,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": -90,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": -75,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": -75,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": -75,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": -60,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": -60,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": -60,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": -30,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": -30,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": -30,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 5.849990204214725
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": 0,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": 0,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": 0,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": 30,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": 30,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": 30,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": 60,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": 60,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": 60,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": 75,
+      "other": "absent",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": 75,
+      "other": "active",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": 75,
+      "other": "inactive",
+      "accepted": true,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": 90,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": 90,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": 90,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": 120,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": 120,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": 120,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": 180,
+      "other": "absent",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": 180,
+      "other": "active",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    },
+    {
+      "yawDegrees": 90,
+      "slope": 0.2,
+      "sprint": true,
+      "approachDegrees": 180,
+      "other": "inactive",
+      "accepted": false,
+      "approachSpeed": 5.849990204214724
+    }
+  ],
+  "pass": true,
+  "selected": "vault"
+}

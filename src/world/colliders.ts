@@ -1,6 +1,6 @@
 import type { PhysicalRockGeometry } from './physicsGeometry';
 import { buildingGround } from './buildingEntries';
-import { CHIMNEY_STACK, FIREPLACE, fromBuildingLocal, hearthOf, roomOf, type InteriorSpec } from './interiors';
+import { FIREPLACE, fromBuildingLocal, hearthOf, roomOf, type InteriorSpec } from './interiors';
 import { footprint, FURNITURE, hearthPiece, pieceSize } from './furniture';
 import { ARCHIVE_ROOM, ARCHIVE_SHUTTER, BUILDINGS, DECKS, HANDCART_CONSTRUCTION, LIGHTHOUSE, LIGHTHOUSE_CONSTRUCTION, MILL_WHEEL, PALISADE, SHORTCUT, WAGON, WAGON_CONSTRUCTION, WELL, WELL_CONSTRUCTION, WORLD, type BuildingSpec } from './layout';
 import { houseYard, yardToWorld } from './houseYards';
@@ -478,8 +478,9 @@ function roomColliders(c: Colliders, room: InteriorSpec, base: number) {
   // The chimney stack and its fireplace, and the furniture (each as tall as it stands).
   const floor = base + room.floorTop, hearth = hearthOf(room);
   if (hearth) {
-    const s = CHIMNEY_STACK, { x, z } = hearth.stack;
-    roomBox(c, `${id}:chimney`, b, x - s, x + s, z - s, z + s, { minY: floor - 0.05, maxY: top });
+    // The chimney breast, built out of its wall (A135); the stack's outer half is inside the wall.
+    const r = hearth.breast;
+    roomBox(c, `${id}:chimney`, b, r.x0, r.x1, r.z0, r.z1, { minY: floor - 0.05, maxY: top });
     if (!hearthPiece(room)) {
       const f = hearth.footprint(FIREPLACE.halfWidth, FIREPLACE.depth);
       roomBox(c, `${id}:fireplace`, b, f.x0, f.x1, f.z0, f.z1, { minY: floor - 0.05, maxY: floor + FIREPLACE.height });

@@ -3,7 +3,7 @@ import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { createGltfLoader } from './assets/gltfLoader';
 import { FURNITURE, pieceSize, type FurniturePlacement } from '../world/furniture';
 import { FURNITURE_SIZES, type FurnitureId } from '../world/furnitureSizes';
-import { DRESSING, rugPattern, type Dressing } from '../world/dressing';
+import { DRESSING, MODEL_SCALE, rugPattern, type Dressing } from '../world/dressing';
 import { fromBuildingLocal, hearthOf, type InteriorSpec, type RoomLocator } from '../world/interiors';
 import { modelAssetUrl } from './assets/modelUrl';
 import { observeModelLoad, withModelLoadSlot, type ModelLoadProgress } from './assets/modelLoadQueue';
@@ -97,7 +97,9 @@ export function buildFurniture(templates: FurnitureTemplates, rooms: RoomLocator
     byPiece.set(p.piece, list);
   }
   // The rooms' dressing (A123): props on tables, shelves, walls and hearths, and woven rugs on the floors.
-  const rugs: Instance[][] = [[], [], [], []];
+  const rugs: Instance[][] = [[], [], [], []], boards: Instance[] = [], brackets: Instance[] = [];
+  const byClutter = new Map<ClutterKind, Instance[]>();
+  const later: { mesh: THREE.InstancedMesh; instances: Instance[]; shown: string }[] = [];
   for (const [n, p] of dressing.entries()) {
     const b = p.room.building, world = fromBuildingLocal(b, p.x, p.z);
     at.set(world.x, rooms.base(p.room) + p.room.floorTop + p.y, world.z);
@@ -108,12 +110,39 @@ export function buildFurniture(templates: FurnitureTemplates, rooms: RoomLocator
       rugs[rugPattern(p.room, n)]!.push({ room: p.room, centre, matrix: new THREE.Matrix4().compose(at, q, new THREE.Vector3(w, 1, d)) });
       continue;
     }
+    // A135: wall shelves (a board on two brackets) and the small things that crowd them, the mantel and the corners.
+    if (p.piece === 'board') {
+      const [len, depth] = p.size ?? [1, 0.24];
+      boards.push({ room: p.room, centre, matrix: new THREE.Matrix4().compose(at, q, new THREE.Vector3(len, 1, depth)) });
+      for (const side of [-1, 1]) {
+        const c = Math.cos(b.yaw + p.yaw), s = Math.sin(b.yaw + p.yaw), lx = side * (len / 2 - 0.12);
+        brackets.push({ room: p.room, centre, matrix: new THREE.Matrix4().compose(new THREE.Vector3(at.x + lx * c, at.y, at.z - lx * s), q, one) });
+      }
+      continue;
+    }
+    const size = (p.scale ?? 1) * (MODEL_SCALE[p.piece] ?? 1), scaled = new THREE.Vector3(size, size, size);
+    if (p.piece === 'small') {
+      const list = byClutter.get(p.kind!) ?? [];
+      list.push({ room: p.room, centre, matrix: new THREE.Matrix4().compose(at, q, scaled) });
+      byClutter.set(p.kind!, list);
+      continue;
+    }
     if (!templates.has(p.piece as FurnitureId)) continue;
     const list = byPiece.get(p.piece as FurnitureId) ?? [];
-    list.push({ room: p.room, centre, matrix: new THREE.Matrix4().compose(at, q, one) });
+    list.push({ room: p.room, centre, matrix: new THREE.Matrix4().compose(at, q, scaled) });
     byPiece.set(p.piece as FurnitureId, list);
   }
-  const meshes: { mesh: THREE.InstancedMesh; instances: Instance[]; shown: string }[] = [];
+  for (const [name, instances, geometry] of [['shelf boards', boards, boardGeometry()], ['shelf brackets', brackets, bracketGeometry()]] as const) {
+    if (!instances.length) continue;
+    const mesh = new THREE.InstancedMesh(geometry, shelfMaterial(), instances.length);
+    mesh.name = `Furniture / ${name}`;
+    mesh.receiveShadow = true;
+    mesh.count = 0;
+    mesh.userData.ownsResources = true;
+    group.add(mesh);
+    later.push({ mesh, instances, shown: '' });
+  }
+  const meshes: { mesh: THREE.InstancedMesh; instances: Instance[]; shown: string }[] = [...later];
   for (const [pattern, instances] of rugs.entries()) {
     if (!instances.length) continue;
     const mesh = new THREE.InstancedMesh(shadeCard(), rugMaterial(pattern), instances.length);
@@ -156,7 +185,6 @@ export function buildFurniture(templates: FurnitureTemplates, rooms: RoomLocator
   }
   // The small things on the tables, counters, desks, workbenches and chests (A76): the same spots on every piece of a
   // kind, a few left empty and each turned its own way, by a hash of where the piece stands.
-  const byClutter = new Map<ClutterKind, Instance[]>();
   const place = new THREE.Matrix4(), turn = new THREE.Quaternion();
   for (const [id, instances] of byPiece) {
     const template = templates.get(id);
@@ -279,6 +307,33 @@ function rugMaterial(pattern: number): THREE.MeshStandardMaterial {
   map.colorSpace = THREE.SRGBColorSpace;
   map.anisotropy = 8;
   return new THREE.MeshStandardMaterial({ map, roughness: 1, metalness: 0, polygonOffset: true, polygonOffsetFactor: -1, polygonOffsetUnits: -1 });
+}
+
+/** A wall shelf's board, a unit long and deep (scaled per shelf), its top at y = 0. */
+function boardGeometry(): THREE.BufferGeometry {
+  return new THREE.BoxGeometry(1, 0.035, 1).translate(0, -0.0175, 0);
+}
+
+/** An iron-and-wood bracket under a shelf: an upright on the wall and a diagonal strut. */
+function bracketGeometry(): THREE.BufferGeometry {
+  const upright = new THREE.BoxGeometry(0.035, 0.2, 0.03).translate(0, -0.135, -0.1);
+  const strut = new THREE.BoxGeometry(0.03, 0.03, 0.22).rotateX(-0.75).translate(0, -0.11, -0.02);
+  const parts = [upright, strut].map((g) => g.toNonIndexed());
+  const out = new THREE.BufferGeometry();
+  for (const name of ['position', 'normal', 'uv'] as const) {
+    const arrays = parts.map((g) => g.getAttribute(name).array as Float32Array);
+    const joined = new Float32Array(arrays.reduce((n, x) => n + x.length, 0));
+    let o = 0;
+    for (const x of arrays) { joined.set(x, o); o += x.length; }
+    out.setAttribute(name, new THREE.BufferAttribute(joined, name === 'uv' ? 2 : 3));
+  }
+  [upright, strut, ...parts].forEach((g) => g.dispose());
+  return out;
+}
+
+/** Old, dark, smoke-stained wood. */
+function shelfMaterial(): THREE.MeshStandardMaterial {
+  return new THREE.MeshStandardMaterial({ color: 0x3e2a1a, roughness: 0.95, metalness: 0 });
 }
 
 /** A unit floor card for a piece's shadow. */

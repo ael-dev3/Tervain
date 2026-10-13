@@ -1,0 +1,33 @@
+{
+  "initial": {
+    "frames": 120,
+    "matrixWrites": 0,
+    "attributeVersions": 0,
+    "windDirectionReads": 0,
+    "visible": false,
+    "count": 0,
+    "active": 0
+  },
+  "emitted": {
+    "accepted": true,
+    "active": 4,
+    "visible": true,
+    "count": 48
+  },
+  "expirySteps": 454,
+  "expired": true,
+  "afterExpiry": {
+    "frames": 120,
+    "matrixWrites": 0,
+    "attributeVersions": 0,
+    "windDirectionReads": 0,
+    "visible": false,
+    "count": 0,
+    "active": 0
+  },
+  "build": {
+    "version": "0.0.14",
+    "revision": "07e748ff5"
+  },
+  "pass": true
+}

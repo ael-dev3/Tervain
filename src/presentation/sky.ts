@@ -3,6 +3,9 @@ import { mulberry32, smoothstep } from '../world/noise';
 import { SHADER_CLOCK_WRAP } from './grass/wind';
 import { sharedNoise } from './noiseTextures';
 import { RENDER_PX, SKY } from './skyState';
+import { installSoftSunShadows, SOFT_SUN_SHADOW } from './softShadows';
+
+installSoftSunShadows();
 
 /**
  * Sky, sun, moon, hemisphere fill and fog for the day/night cycle.
@@ -232,6 +235,16 @@ void main() {
 /** How far the sun moves before its shadow follows (radians), A71. */
 const SHADOW_DIR_STEP = 0.003;
 
+/**
+ * Daylight sky fill in shade (A137): the sky's share of the light grows by day so ground in a house's or a crown's shadow
+ * keeps about two fifths of the sunlit ground's brightness, lit blue by the sky, instead of falling near black. The sun
+ * gives back a little so the sunlit side keeps its exposure and the shadow keeps its shape.
+ */
+export const DAY_FILL_LIFT = 3.5;
+export const DAY_SUN_SCALE = 0.88;
+/** How much of the sun a shadow still holds when the sun is low (long shadows lit by a wide bright sky), A137. */
+export const LOW_SUN_SHADOW = 0.78;
+
 const SNAP_ACROSS = new THREE.Vector3(), SNAP_ALONG = new THREE.Vector3();
 
 export class SkyRig {
@@ -307,6 +320,8 @@ export class SkyRig {
     this.group.add(this.stars);
 
     this.sun.castShadow = true;
+    // Edges soften with the distance to their caster (softShadows.ts).
+    this.sun.shadow.radius = SOFT_SUN_SHADOW;
     this.sun.shadow.mapSize.set(shadowSize, shadowSize);
     const cam = this.sun.shadow.camera;
     cam.left = -70;
@@ -375,7 +390,7 @@ export class SkyRig {
 
     const br = this.brightness;
     this.sun.color.copy(SKY.sunColor.value);
-    this.sun.intensity = sunI * 1.0 * br;
+    this.sun.intensity = sunI * (1 - (1 - DAY_SUN_SCALE) * day) * br;
     // The shadow's direction follows the sun in steps of a sixth of a degree, not every frame: a sun moving a little each
     // frame made shadow edges crawl, and a near wall flickered with them (A71). Light and shading keep the exact sun.
     if (this.shadowDir.angleTo(sunDir) > SHADOW_DIR_STEP || !(this.shadowDir.lengthSq() > 0)) this.shadowDir.copy(sunDir);
@@ -396,7 +411,7 @@ export class SkyRig {
     // material was compiled again at dusk and dawn, a stall of seconds. Its shadow fades out instead, and the shadow map
     // is not drawn while it casts nothing.
     const shadow = clampNum((sunI - 0.12) / 0.06, 0, 1);
-    this.sun.shadow.intensity = shadow;
+    this.sun.shadow.intensity = shadow * (LOW_SUN_SHADOW + (1 - LOW_SUN_SHADOW) * smoothstep(0.12, 0.4, sunDir.y));
     this.sun.shadow.autoUpdate = shadow > 0;
 
     this.moon.color.setHex(0x9ab0e8);
@@ -413,7 +428,7 @@ export class SkyRig {
     // The generated environment map supplies part of the sky fill once it is running.
     const target = SKY.ibl.value > 0.5 ? 0.78 : 1;
     this.hemiScale += (target - this.hemiScale) * (1 - Math.exp(-dt * 3));
-    this.hemi.intensity = hemiI * this.hemiScale;
+    this.hemi.intensity = hemiI * this.hemiScale * (1 + DAY_FILL_LIFT * day * (1 - nightAmt));
     SKY.ambient.value.copy(this.hemi.color).multiplyScalar(hemiI * 0.6 + 0.05);
 
     lerpHex(this.tmp, a.fog, b.fog, t);

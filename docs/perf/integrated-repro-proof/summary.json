@@ -1,0 +1,57 @@
+{
+  "schema": 1,
+  "pass": true,
+  "sourceBase": "a5c24f1d3",
+  "description": "All seven regressions replayed against the integrated production code; proof files add no product changes.",
+  "checks": {
+    "spray": {
+      "pass": true,
+      "build": {
+        "version": "0.0.14",
+        "revision": "909f513fc"
+      }
+    },
+    "rock": {
+      "pass": true,
+      "build": {
+        "version": "0.0.14",
+        "revision": "909f513fc"
+      }
+    },
+    "mount": {
+      "pass": true,
+      "build": {
+        "version": "0.0.14",
+        "revision": "909f513fc"
+      }
+    },
+    "vault": {
+      "pass": true,
+      "build": {
+        "version": "0.0.14",
+        "revision": "909f513fc"
+      }
+    },
+    "animal-ray": {
+      "pass": true,
+      "build": {
+        "version": "0.0.14",
+        "revision": "909f513fc"
+      }
+    },
+    "carcass": {
+      "pass": true,
+      "build": {
+        "version": "0.0.14",
+        "revision": "909f513fc"
+      }
+    },
+    "skin-height": {
+      "pass": true,
+      "build": {
+        "version": "0.0.14",
+        "revision": "909f513fc"
+      }
+    }
+  }
+}

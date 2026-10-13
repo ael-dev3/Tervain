@@ -1,0 +1,13 @@
+{
+  "build": {
+    "version": "0.0.14",
+    "revision": "5d39ea118"
+  },
+  "idleFrames": 120,
+  "idleUploadBytes": 1152000,
+  "emittedUploadBytes": 9600,
+  "emittedVisible": true,
+  "cleared": true,
+  "expiredIdleUploadBytes": 1152000,
+  "pass": true
+}

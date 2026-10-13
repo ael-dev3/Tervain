@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { describe, expect, it, vi } from 'vitest';
-import { bladeRow, clumpTriangles, createGrassClump } from '../../src/presentation/grass/bladeGeometry';
+import { bladeRow, clumpTriangles, createGrassClump, visibleGrassBlades } from '../../src/presentation/grass/bladeGeometry';
 import { GUST_SPAN, GUST_TEXELS, GrassWind, gustField, SHADER_CLOCK_WRAP } from '../../src/presentation/grass/wind';
 import { GrassTrample, TRAMPLE_MAX_MOVERS, TRAMPLE_RECOVERY, type GrassMover } from '../../src/presentation/grass/trample';
 import { createGrassMaterial, type GrassMaterialOptions } from '../../src/presentation/grass/grassMaterial';
@@ -225,7 +225,11 @@ describe('realm grass field', () => {
       field.update(camera);
       const stats = field.stats();
       found += stats.instances;
-      expect(stats.triangles).toBeGreaterThanOrEqual(stats.instances * clumpTriangles(GRASS_QUALITY.low.far.clump));
+      const submitted = field.layers.flatMap(layer => layer.group.children).reduce((sum, child) => {
+        const mesh = child as THREE.Mesh<THREE.InstancedBufferGeometry>;
+        return sum + (mesh.visible ? mesh.geometry.instanceCount * Math.min(mesh.geometry.index!.count, mesh.geometry.drawRange.count) / 3 : 0);
+      }, 0);
+      expect(stats.triangles).toBe(submitted);
       for (const layer of field.layers) for (const child of layer.group.children) {
         const mesh = child as THREE.Mesh<THREE.InstancedBufferGeometry>;
         if (!mesh.visible) continue;
@@ -266,4 +270,45 @@ describe('the wind clock over a long session (A90 scout)', () => {
     expect(SHADER_CLOCK_WRAP).toBeLessThanOrEqual(2 ** 15);
     wind.dispose();
   });
+});
+
+describe('zero-width grass draw tail', () => {
+  it('keeps full geometry before fading and only a potentially visible prefix at the far edge', () => {
+    expect(visibleGrassBlades(12, 0.5, 24, 82, 0)).toBe(12);
+    expect(visibleGrassBlades(12, 0.5, 24, 82, 24)).toBe(12);
+    expect(visibleGrassBlades(12, 0.5, 24, 82, 82)).toBe(6);
+    expect(visibleGrassBlades(12, 1, 24, 82, 100)).toBe(12);
+  });
+  it('never omits a nonzero-width blade at farther anchors, including the fade boundaries', () => {
+    for (const quality of Object.values(GRASS_QUALITY)) for (const level of [quality.near, quality.far]) {
+      const B = level.clump.blades, { start, end } = level.fade;
+      for (let nearest = 0; nearest <= end + 1; nearest += .25) {
+        const keep = visibleGrassBlades(B, level.farBlades, start, end, nearest);
+        for (const d of [nearest, nearest + .001, nearest + 12, end + 20]) {
+          if (d < nearest) continue;
+          const t = Math.max(0, Math.min(1, (d - start) / (end - start)));
+          const share = 1 + (level.farBlades - 1) * t * t * (3 - 2 * t);
+          for (let blade = keep; blade < B; blade++) expect((blade + .5) / B).toBeGreaterThanOrEqual(share);
+        }
+      }
+    }
+  });
+});
+
+it('restores the visible blade prefix for a closer capture camera, then restores the main camera prefix', () => {
+  const terrain = new Terrain(), habitat = new Habitat({ terrain, colliders: new Colliders(), excl: new Exclusions(terrain), plantedCrowns: { coverAt: () => 0, broadleafAt: () => 0 } });
+  const wind = new GrassWind(WIND), field = createGrassField(terrain, habitat, 'low', wind, null);
+  const position = new THREE.Vector3(0, terrain.heightAt(0, 30) + 1.7, 30);
+  field.update(position);
+  const mesh = field.layers[1]!.group.children.find(child => {
+    const m = child as THREE.Mesh<THREE.InstancedBufferGeometry>;
+    return m.visible && m.geometry.drawRange.count < m.geometry.index!.count;
+  }) as THREE.Mesh<THREE.InstancedBufferGeometry>;
+  expect(mesh).toBeDefined();
+  const initial = mesh.geometry.drawRange.count, base = mesh.geometry.getAttribute('aBase');
+  const camera = new THREE.PerspectiveCamera();camera.position.set(base.getX(0), base.getY(0) + 2, base.getZ(0));camera.updateMatrixWorld();
+  const render = () => mesh.onBeforeRender({} as THREE.WebGLRenderer, new THREE.Scene(), camera, mesh.geometry, mesh.material as THREE.Material, {} as THREE.Group);
+  render();expect(mesh.geometry.drawRange.count).toBe(mesh.geometry.index!.count);
+  camera.position.copy(position);camera.updateMatrixWorld();render();expect(mesh.geometry.drawRange.count).toBe(initial);
+  field.dispose();wind.dispose();
 });

@@ -1,0 +1,14 @@
+{
+  "fixture": "two frames from an actual software-rendered production-game clip",
+  "decoderExit": 1,
+  "before": {
+    "score": null,
+    "pass": true
+  },
+  "after": {
+    "score": null,
+    "pass": false,
+    "reason": "analysis-failed"
+  },
+  "pass": true
+}
