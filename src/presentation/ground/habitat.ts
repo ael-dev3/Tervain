@@ -84,22 +84,19 @@ interface Obstacle {
   s: number; // sin yaw
 }
 
-/** Distance from p to a polyline set, including the wetland pool rim. */
-export function waterDistance(x: number, z: number): number {
-  let d = Infinity;
+/** Distance from p to the water banks, including the pool rim. Optionally writes
+ * stream centre-line distance to slot zero so raster generation can share the traversal. */
+export function waterDistance(x: number, z: number, centreOut?: Float64Array): number {
+  let d = Infinity, centre = Infinity;
   for (const s of STREAMS) {
-    const r = distToPolyline(x, z, s.points).d - s.halfWidth;
+    const distance = distToPolyline(x, z, s.points).d;
+    if (centreOut) centre = Math.min(centre, distance);
+    const r = distance - s.halfWidth;
     if (r < d) d = r;
   }
+  if (centreOut) centreOut[0] = centre;
   const pd = Math.hypot(x - SPRING_POOL.x, z - SPRING_POOL.z) - SPRING_POOL.r;
   return Math.min(d, pd);
-}
-
-/** Distance to the stream centre-lines only (what the terrain colouring uses for moisture). */
-function streamCentreDistance(x: number, z: number): number {
-  let d = Infinity;
-  for (const s of STREAMS) d = Math.min(d, distToPolyline(x, z, s.points).d);
-  return d;
 }
 
 export class Habitat {
@@ -256,6 +253,7 @@ export class Habitat {
   }
 
   private scratch = new Float32Array(8);
+  private streamCentre = new Float64Array(1);
 
   private evalNode(x: number, z: number, o: Float32Array, k: number) {
     const terrain = this.terrain;
@@ -294,12 +292,12 @@ export class Habitat {
       const e = Math.max(Math.abs(lx) - f.w / 2, Math.abs(lz) - f.d / 2);
       if (e < 1.6) open *= smoothstep(-0.2, 1.6, e);
     }
-    const sd = streamCentreDistance(x, z);
+    const wd = waterDistance(x, z, this.streamCentre);
+    const sd = this.streamCentre[0]!;
     const wetT = 1 - smoothstep(3, 26, sd);
     const n = fbm(x / 22, z / 22, 3, 21) * 0.5 + 0.5;
     const dry = clamp((1 - wetT * 1.2) * smoothstep(0.35, 0.75, n)
       + biome.exposure * 0.48 - biome.moisture * 0.34, 0, 1);
-    const wd = waterDistance(x, z);
     const wet = Math.max(1 - smoothstep(1.5, 24, wd), biome.moisture * 0.7);
     o[k] = open * biome.grassDensity;
     o[k + 1] = wet;
