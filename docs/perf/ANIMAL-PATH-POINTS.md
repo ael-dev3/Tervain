@@ -9,3 +9,7 @@ Grid-point factory allocations: **650 → 74 (88.6% fewer)** across 11 cases. Ev
 [Per-case before/after routes and counts](animal-path-point-proof/report.json). Diagnostic counters are injected by the repro loader, not production. Counts exclude the new per-search cache array and other planner allocations; they are not total heap, GC-time or hardware frame-time measurements.
 
 Build/typecheck and 22 wildlife/world tests pass, including a regression that mutates a returned waypoint and toggles a collider before a fresh search. These remain independent searches with fresh collision state. No rendering/animation changes. Hardware play-gate and live evidence remain outstanding.
+
+## Uninstrumented CPU check
+
+`node tools/repro-animal-path-points.mjs animal-path-timings.json --timings` runs alternating baseline/current batches of 300 blocked-route queries after warm-up, discards the first pair, and verifies matching route-size checksums. [Latest rounds](animal-path-point-proof/timings.json) have medians 281.8 → 248.0 ms. An earlier independent run instead measured 272.4 → 278.3 ms. The timings are noisy and disagree; no repeatable CPU-time improvement is established. Treat the record-factory count reduction separately from throughput, GC and frame-time claims.
