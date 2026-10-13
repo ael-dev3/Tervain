@@ -130,6 +130,18 @@ function clearNpcSegment(from: V2, to: V2, ctx: Pick<ActorContext, 'terrain' | '
   return true;
 }
 
+// Roster membership comes only from authored content; state and collision clearance are evaluated separately.
+const sharedGoalRosters = new Map<string, readonly NpcDef[]>();
+function sharedGoalRoster(anchor: string): readonly NpcDef[] {
+  let peers = sharedGoalRosters.get(anchor);
+  if (!peers) {
+    const entries = (d: NpcDef) => [...d.schedule, ...d.overrides ?? []];
+    peers = Object.values(NPCS).filter(d => entries(d).some(e => e.anchor === anchor && (e.activity === 'stand' || e.activity === 'talk'))).sort((a, b) => a.id.localeCompare(b.id));
+    sharedGoalRosters.set(anchor, peers);
+  }
+  return peers;
+}
+
 /**
  * Stable places beside a shared conversation/office anchor; work surfaces and seats retain their authored placement.
  * The others' places at a shared anchor come too: a resident turns toward whoever is there with them (A69).
@@ -140,8 +152,7 @@ export function npcGoalPosition(def: NpcDef, goal: Goal, ctx: Pick<ActorContext,
   if (post) return { x: post.x, z: post.z, yaw: post.yaw };
   const base = ANCHORS[goal.anchor] ?? { x: 0, z: 0, yaw: 0 };
   if (goal.activity !== 'stand' && goal.activity !== 'talk') return base;
-  const entries = (d: NpcDef) => [...d.schedule, ...d.overrides ?? []];
-  const peers = Object.values(NPCS).filter(d => entries(d).some(e => e.anchor === goal.anchor && (e.activity === 'stand' || e.activity === 'talk'))).sort((a, b) => a.id.localeCompare(b.id));
+  const peers = sharedGoalRoster(goal.anchor);
   if (peers.length < 2 || !peers.some(d => d.id === def.id)) return base;
   const chosen: (V2 & { id: NpcId })[] = [];
   for (const [i, peer] of peers.entries()) {
