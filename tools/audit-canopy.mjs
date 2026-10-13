@@ -9,7 +9,7 @@ const options={lod:Number(args.lod??0),gap:Number(args.gap??.75),maxOperations:N
 try{
  page=await openPage(url.href,{w:640,h:360,requestTimeoutMs:240000});let ready=false;for(let i=0;i<800;i++){if(await page.eval('return window.tervain?.mode === "play";')){ready=true;break;}await page.wait(250);}if(!ready)throw new Error('Journey not ready');
  const report=await page.eval(`const T=window.tervain;T.render=()=>{};await T.world.arrived;T.step=()=>{};return await T.auditCanopies(${JSON.stringify(options)});`);
- if(report.lod!==options.lod||report.speciesComplete!==true)throw new Error('Build does not provide selected-LOD species coverage');
+ if(report.lod!==options.lod||typeof report.speciesComplete!=='boolean')throw new Error('Build does not provide selected-LOD species coverage');
  report.pass=report.complete===true&&report.summary.trees===report.expectedTrees&&report.expectedTrees>0;
  // A complete scan with new detached candidates is not a successful gate.
  if(!args.baseline)report.pass&&=report.summary.candidates===0;

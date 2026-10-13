@@ -1,0 +1,2097 @@
+{
+  "schema": 1,
+  "lod": 2,
+  "gap": 0.75,
+  "operations": 400254,
+  "complete": false,
+  "bySpecies": {
+    "fir": {
+      "trees": 58,
+      "leafless": 0,
+      "candidates": 0
+    },
+    "shrub": {
+      "trees": 61,
+      "leafless": 0,
+      "candidates": 0
+    },
+    "birch": {
+      "trees": 28,
+      "leafless": 0,
+      "candidates": 0
+    },
+    "oak": {
+      "trees": 51,
+      "leafless": 0,
+      "candidates": 0
+    },
+    "palm": {
+      "trees": 17,
+      "leafless": 0,
+      "candidates": 0
+    },
+    "shorepine": {
+      "trees": 1,
+      "leafless": 0,
+      "candidates": 0
+    },
+    "orchard": {
+      "trees": 9,
+      "leafless": 0,
+      "candidates": 0
+    }
+  },
+  "summary": {
+    "trees": 225,
+    "leafless": 0,
+    "components": 69121,
+    "chunks": 236,
+    "candidates": 0
+  },
+  "trees": [
+    {
+      "label": "tree:wild:55:3",
+      "species": "fir",
+      "lod": 2,
+      "leafless": false,
+      "components": 310,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:63:4",
+      "species": "fir",
+      "lod": 2,
+      "leafless": false,
+      "components": 310,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:55:5",
+      "species": "fir",
+      "lod": 2,
+      "leafless": false,
+      "components": 310,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:69:5",
+      "species": "fir",
+      "lod": 2,
+      "leafless": false,
+      "components": 310,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:74:5",
+      "species": "fir",
+      "lod": 2,
+      "leafless": false,
+      "components": 310,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:62:6",
+      "species": "fir",
+      "lod": 2,
+      "leafless": false,
+      "components": 310,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:49:7",
+      "species": "fir",
+      "lod": 2,
+      "leafless": false,
+      "components": 310,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:73:7",
+      "species": "fir",
+      "lod": 2,
+      "leafless": false,
+      "components": 310,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:50:9",
+      "species": "fir",
+      "lod": 2,
+      "leafless": false,
+      "components": 310,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:62:9",
+      "species": "fir",
+      "lod": 2,
+      "leafless": false,
+      "components": 310,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:66:9",
+      "species": "fir",
+      "lod": 2,
+      "leafless": false,
+      "components": 310,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:69:9",
+      "species": "fir",
+      "lod": 2,
+      "leafless": false,
+      "components": 310,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:74:9",
+      "species": "fir",
+      "lod": 2,
+      "leafless": false,
+      "components": 310,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:67:10",
+      "species": "fir",
+      "lod": 2,
+      "leafless": false,
+      "components": 310,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:50:11",
+      "species": "fir",
+      "lod": 2,
+      "leafless": false,
+      "components": 310,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:79:11",
+      "species": "fir",
+      "lod": 2,
+      "leafless": false,
+      "components": 310,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:30:12",
+      "species": "fir",
+      "lod": 2,
+      "leafless": false,
+      "components": 310,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:32:12",
+      "species": "fir",
+      "lod": 2,
+      "leafless": false,
+      "components": 310,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:28:13",
+      "species": "fir",
+      "lod": 2,
+      "leafless": false,
+      "components": 310,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:33:13",
+      "species": "fir",
+      "lod": 2,
+      "leafless": false,
+      "components": 310,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:35:13",
+      "species": "fir",
+      "lod": 2,
+      "leafless": false,
+      "components": 310,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:36:13:sapling",
+      "species": "fir",
+      "lod": 2,
+      "leafless": false,
+      "components": 310,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:77:14",
+      "species": "fir",
+      "lod": 2,
+      "leafless": false,
+      "components": 310,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:39:15",
+      "species": "fir",
+      "lod": 2,
+      "leafless": false,
+      "components": 310,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:41:16",
+      "species": "fir",
+      "lod": 2,
+      "leafless": false,
+      "components": 310,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:88:16",
+      "species": "fir",
+      "lod": 2,
+      "leafless": false,
+      "components": 310,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:38:18",
+      "species": "fir",
+      "lod": 2,
+      "leafless": false,
+      "components": 310,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:86:18",
+      "species": "fir",
+      "lod": 2,
+      "leafless": false,
+      "components": 310,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:27:19:sapling",
+      "species": "fir",
+      "lod": 2,
+      "leafless": false,
+      "components": 310,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:78:19",
+      "species": "fir",
+      "lod": 2,
+      "leafless": false,
+      "components": 310,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:83:20",
+      "species": "fir",
+      "lod": 2,
+      "leafless": false,
+      "components": 310,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:53:21",
+      "species": "fir",
+      "lod": 2,
+      "leafless": false,
+      "components": 310,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:86:22",
+      "species": "fir",
+      "lod": 2,
+      "leafless": false,
+      "components": 310,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:55:23",
+      "species": "fir",
+      "lod": 2,
+      "leafless": false,
+      "components": 310,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:90:25",
+      "species": "fir",
+      "lod": 2,
+      "leafless": false,
+      "components": 310,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:88:28",
+      "species": "fir",
+      "lod": 2,
+      "leafless": false,
+      "components": 310,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:87:29",
+      "species": "fir",
+      "lod": 2,
+      "leafless": false,
+      "components": 310,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:87:31",
+      "species": "fir",
+      "lod": 2,
+      "leafless": false,
+      "components": 310,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:1:38",
+      "species": "fir",
+      "lod": 2,
+      "leafless": false,
+      "components": 310,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:1:39",
+      "species": "fir",
+      "lod": 2,
+      "leafless": false,
+      "components": 310,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:1:40",
+      "species": "fir",
+      "lod": 2,
+      "leafless": false,
+      "components": 310,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:1:41",
+      "species": "fir",
+      "lod": 2,
+      "leafless": false,
+      "components": 310,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:1:42",
+      "species": "fir",
+      "lod": 2,
+      "leafless": false,
+      "components": 310,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:1:43",
+      "species": "fir",
+      "lod": 2,
+      "leafless": false,
+      "components": 310,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:1:44",
+      "species": "fir",
+      "lod": 2,
+      "leafless": false,
+      "components": 310,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:1:45",
+      "species": "fir",
+      "lod": 2,
+      "leafless": false,
+      "components": 310,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:1:46",
+      "species": "fir",
+      "lod": 2,
+      "leafless": false,
+      "components": 310,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:1:47",
+      "species": "fir",
+      "lod": 2,
+      "leafless": false,
+      "components": 310,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:1:48",
+      "species": "fir",
+      "lod": 2,
+      "leafless": false,
+      "components": 310,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:1:49",
+      "species": "fir",
+      "lod": 2,
+      "leafless": false,
+      "components": 310,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:1:50",
+      "species": "fir",
+      "lod": 2,
+      "leafless": false,
+      "components": 310,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:1:51",
+      "species": "fir",
+      "lod": 2,
+      "leafless": false,
+      "components": 310,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:1:52",
+      "species": "fir",
+      "lod": 2,
+      "leafless": false,
+      "components": 310,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:1:53",
+      "species": "fir",
+      "lod": 2,
+      "leafless": false,
+      "components": 310,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:1:54",
+      "species": "fir",
+      "lod": 2,
+      "leafless": false,
+      "components": 310,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:1:55",
+      "species": "fir",
+      "lod": 2,
+      "leafless": false,
+      "components": 310,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:1:56",
+      "species": "fir",
+      "lod": 2,
+      "leafless": false,
+      "components": 310,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:1:57",
+      "species": "fir",
+      "lod": 2,
+      "leafless": false,
+      "components": 310,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:0",
+      "species": "shrub",
+      "lod": 2,
+      "leafless": false,
+      "components": 390,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:1",
+      "species": "shrub",
+      "lod": 2,
+      "leafless": false,
+      "components": 390,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:2",
+      "species": "shrub",
+      "lod": 2,
+      "leafless": false,
+      "components": 390,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:3",
+      "species": "shrub",
+      "lod": 2,
+      "leafless": false,
+      "components": 390,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:4",
+      "species": "shrub",
+      "lod": 2,
+      "leafless": false,
+      "components": 390,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:5",
+      "species": "shrub",
+      "lod": 2,
+      "leafless": false,
+      "components": 390,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:6",
+      "species": "shrub",
+      "lod": 2,
+      "leafless": false,
+      "components": 390,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:7",
+      "species": "shrub",
+      "lod": 2,
+      "leafless": false,
+      "components": 390,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:8",
+      "species": "shrub",
+      "lod": 2,
+      "leafless": false,
+      "components": 390,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:9",
+      "species": "shrub",
+      "lod": 2,
+      "leafless": false,
+      "components": 390,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:10",
+      "species": "shrub",
+      "lod": 2,
+      "leafless": false,
+      "components": 390,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:11",
+      "species": "shrub",
+      "lod": 2,
+      "leafless": false,
+      "components": 390,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:12",
+      "species": "shrub",
+      "lod": 2,
+      "leafless": false,
+      "components": 390,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:13",
+      "species": "shrub",
+      "lod": 2,
+      "leafless": false,
+      "components": 390,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:14",
+      "species": "shrub",
+      "lod": 2,
+      "leafless": false,
+      "components": 390,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:15",
+      "species": "shrub",
+      "lod": 2,
+      "leafless": false,
+      "components": 390,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:16",
+      "species": "shrub",
+      "lod": 2,
+      "leafless": false,
+      "components": 390,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:17",
+      "species": "shrub",
+      "lod": 2,
+      "leafless": false,
+      "components": 390,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:18",
+      "species": "shrub",
+      "lod": 2,
+      "leafless": false,
+      "components": 390,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:19",
+      "species": "shrub",
+      "lod": 2,
+      "leafless": false,
+      "components": 390,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:20",
+      "species": "shrub",
+      "lod": 2,
+      "leafless": false,
+      "components": 390,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:21",
+      "species": "shrub",
+      "lod": 2,
+      "leafless": false,
+      "components": 390,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:22",
+      "species": "shrub",
+      "lod": 2,
+      "leafless": false,
+      "components": 390,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:23",
+      "species": "shrub",
+      "lod": 2,
+      "leafless": false,
+      "components": 390,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:24",
+      "species": "shrub",
+      "lod": 2,
+      "leafless": false,
+      "components": 390,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:25",
+      "species": "shrub",
+      "lod": 2,
+      "leafless": false,
+      "components": 390,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:26",
+      "species": "shrub",
+      "lod": 2,
+      "leafless": false,
+      "components": 390,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:27",
+      "species": "shrub",
+      "lod": 2,
+      "leafless": false,
+      "components": 390,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:28",
+      "species": "shrub",
+      "lod": 2,
+      "leafless": false,
+      "components": 390,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:29",
+      "species": "shrub",
+      "lod": 2,
+      "leafless": false,
+      "components": 390,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:30",
+      "species": "shrub",
+      "lod": 2,
+      "leafless": false,
+      "components": 390,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:31",
+      "species": "shrub",
+      "lod": 2,
+      "leafless": false,
+      "components": 390,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:32",
+      "species": "shrub",
+      "lod": 2,
+      "leafless": false,
+      "components": 390,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:33",
+      "species": "shrub",
+      "lod": 2,
+      "leafless": false,
+      "components": 390,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:34",
+      "species": "shrub",
+      "lod": 2,
+      "leafless": false,
+      "components": 390,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:35",
+      "species": "shrub",
+      "lod": 2,
+      "leafless": false,
+      "components": 390,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:36",
+      "species": "shrub",
+      "lod": 2,
+      "leafless": false,
+      "components": 390,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:37",
+      "species": "shrub",
+      "lod": 2,
+      "leafless": false,
+      "components": 390,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:38",
+      "species": "shrub",
+      "lod": 2,
+      "leafless": false,
+      "components": 390,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:39",
+      "species": "shrub",
+      "lod": 2,
+      "leafless": false,
+      "components": 390,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:40",
+      "species": "shrub",
+      "lod": 2,
+      "leafless": false,
+      "components": 390,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:41",
+      "species": "shrub",
+      "lod": 2,
+      "leafless": false,
+      "components": 390,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:42",
+      "species": "shrub",
+      "lod": 2,
+      "leafless": false,
+      "components": 390,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:43",
+      "species": "shrub",
+      "lod": 2,
+      "leafless": false,
+      "components": 390,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:44",
+      "species": "shrub",
+      "lod": 2,
+      "leafless": false,
+      "components": 390,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:45",
+      "species": "shrub",
+      "lod": 2,
+      "leafless": false,
+      "components": 390,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:46",
+      "species": "shrub",
+      "lod": 2,
+      "leafless": false,
+      "components": 390,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:61:10",
+      "species": "birch",
+      "lod": 2,
+      "leafless": false,
+      "components": 391,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:66:19",
+      "species": "birch",
+      "lod": 2,
+      "leafless": false,
+      "components": 391,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:71:20",
+      "species": "birch",
+      "lod": 2,
+      "leafless": false,
+      "components": 391,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:68:22",
+      "species": "birch",
+      "lod": 2,
+      "leafless": false,
+      "components": 391,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:68:23",
+      "species": "birch",
+      "lod": 2,
+      "leafless": false,
+      "components": 391,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:69:29",
+      "species": "birch",
+      "lod": 2,
+      "leafless": false,
+      "components": 391,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:75:37",
+      "species": "birch",
+      "lod": 2,
+      "leafless": false,
+      "components": 391,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:62:10",
+      "species": "birch",
+      "lod": 2,
+      "leafless": false,
+      "components": 151,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:63:12",
+      "species": "birch",
+      "lod": 2,
+      "leafless": false,
+      "components": 151,
+      "chunks": 2,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:65:14",
+      "species": "birch",
+      "lod": 2,
+      "leafless": false,
+      "components": 151,
+      "chunks": 2,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:59:15",
+      "species": "birch",
+      "lod": 2,
+      "leafless": false,
+      "components": 151,
+      "chunks": 2,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:64:15",
+      "species": "birch",
+      "lod": 2,
+      "leafless": false,
+      "components": 151,
+      "chunks": 2,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:58:16",
+      "species": "birch",
+      "lod": 2,
+      "leafless": false,
+      "components": 151,
+      "chunks": 2,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:57:19",
+      "species": "birch",
+      "lod": 2,
+      "leafless": false,
+      "components": 151,
+      "chunks": 2,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:38:23",
+      "species": "birch",
+      "lod": 2,
+      "leafless": false,
+      "components": 151,
+      "chunks": 2,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:32:25",
+      "species": "birch",
+      "lod": 2,
+      "leafless": false,
+      "components": 151,
+      "chunks": 2,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:31:26",
+      "species": "birch",
+      "lod": 2,
+      "leafless": false,
+      "components": 151,
+      "chunks": 2,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:33:27:sapling",
+      "species": "birch",
+      "lod": 2,
+      "leafless": false,
+      "components": 151,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:39:28",
+      "species": "birch",
+      "lod": 2,
+      "leafless": false,
+      "components": 151,
+      "chunks": 2,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:70:28",
+      "species": "birch",
+      "lod": 2,
+      "leafless": false,
+      "components": 151,
+      "chunks": 2,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:75:38",
+      "species": "birch",
+      "lod": 2,
+      "leafless": false,
+      "components": 151,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:45:12",
+      "species": "oak",
+      "lod": 2,
+      "leafless": false,
+      "components": 225,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:29:25",
+      "species": "oak",
+      "lod": 2,
+      "leafless": false,
+      "components": 225,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:23:27",
+      "species": "oak",
+      "lod": 2,
+      "leafless": false,
+      "components": 225,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:32:27",
+      "species": "oak",
+      "lod": 2,
+      "leafless": false,
+      "components": 225,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:49:39",
+      "species": "oak",
+      "lod": 2,
+      "leafless": false,
+      "components": 225,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:36:41:sapling",
+      "species": "oak",
+      "lod": 2,
+      "leafless": false,
+      "components": 225,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:42:45",
+      "species": "oak",
+      "lod": 2,
+      "leafless": false,
+      "components": 225,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:61:12",
+      "species": "birch",
+      "lod": 2,
+      "leafless": false,
+      "components": 228,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:63:14",
+      "species": "birch",
+      "lod": 2,
+      "leafless": false,
+      "components": 228,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:64:14",
+      "species": "birch",
+      "lod": 2,
+      "leafless": false,
+      "components": 228,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:65:15",
+      "species": "birch",
+      "lod": 2,
+      "leafless": false,
+      "components": 228,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:39:24",
+      "species": "birch",
+      "lod": 2,
+      "leafless": false,
+      "components": 228,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:68:33",
+      "species": "birch",
+      "lod": 2,
+      "leafless": false,
+      "components": 228,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:81:37",
+      "species": "birch",
+      "lod": 2,
+      "leafless": false,
+      "components": 228,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:9:0",
+      "species": "shrub",
+      "lod": 2,
+      "leafless": false,
+      "components": 237,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:9:1",
+      "species": "shrub",
+      "lod": 2,
+      "leafless": false,
+      "components": 237,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:9:2",
+      "species": "shrub",
+      "lod": 2,
+      "leafless": false,
+      "components": 237,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:9:3",
+      "species": "shrub",
+      "lod": 2,
+      "leafless": false,
+      "components": 237,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:9:4",
+      "species": "shrub",
+      "lod": 2,
+      "leafless": false,
+      "components": 237,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:9:5",
+      "species": "shrub",
+      "lod": 2,
+      "leafless": false,
+      "components": 237,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:9:6",
+      "species": "shrub",
+      "lod": 2,
+      "leafless": false,
+      "components": 237,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:9:7",
+      "species": "shrub",
+      "lod": 2,
+      "leafless": false,
+      "components": 237,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:9:8",
+      "species": "shrub",
+      "lod": 2,
+      "leafless": false,
+      "components": 237,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:9:9",
+      "species": "shrub",
+      "lod": 2,
+      "leafless": false,
+      "components": 237,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:9:10",
+      "species": "shrub",
+      "lod": 2,
+      "leafless": false,
+      "components": 237,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:9:11",
+      "species": "shrub",
+      "lod": 2,
+      "leafless": false,
+      "components": 237,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:9:12",
+      "species": "shrub",
+      "lod": 2,
+      "leafless": false,
+      "components": 237,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:9:13",
+      "species": "shrub",
+      "lod": 2,
+      "leafless": false,
+      "components": 237,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:68:13",
+      "species": "oak",
+      "lod": 2,
+      "leafless": false,
+      "components": 390,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:75:14",
+      "species": "oak",
+      "lod": 2,
+      "leafless": false,
+      "components": 390,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:50:15",
+      "species": "oak",
+      "lod": 2,
+      "leafless": false,
+      "components": 390,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:65:16",
+      "species": "oak",
+      "lod": 2,
+      "leafless": false,
+      "components": 390,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:59:18",
+      "species": "oak",
+      "lod": 2,
+      "leafless": false,
+      "components": 390,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:69:26",
+      "species": "oak",
+      "lod": 2,
+      "leafless": false,
+      "components": 390,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:76:28",
+      "species": "oak",
+      "lod": 2,
+      "leafless": false,
+      "components": 390,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:41:32:sapling",
+      "species": "oak",
+      "lod": 2,
+      "leafless": false,
+      "components": 390,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:41:33:sapling",
+      "species": "oak",
+      "lod": 2,
+      "leafless": false,
+      "components": 390,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:86:33",
+      "species": "oak",
+      "lod": 2,
+      "leafless": false,
+      "components": 390,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:80:34",
+      "species": "oak",
+      "lod": 2,
+      "leafless": false,
+      "components": 390,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:38:35",
+      "species": "oak",
+      "lod": 2,
+      "leafless": false,
+      "components": 390,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:48:37",
+      "species": "oak",
+      "lod": 2,
+      "leafless": false,
+      "components": 390,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:37:38:sapling",
+      "species": "oak",
+      "lod": 2,
+      "leafless": false,
+      "components": 390,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:39:39",
+      "species": "oak",
+      "lod": 2,
+      "leafless": false,
+      "components": 390,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:64:39",
+      "species": "oak",
+      "lod": 2,
+      "leafless": false,
+      "components": 390,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:43:43",
+      "species": "oak",
+      "lod": 2,
+      "leafless": false,
+      "components": 390,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:41:44",
+      "species": "oak",
+      "lod": 2,
+      "leafless": false,
+      "components": 390,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:57:20",
+      "species": "oak",
+      "lod": 2,
+      "leafless": false,
+      "components": 217,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:27:22",
+      "species": "oak",
+      "lod": 2,
+      "leafless": false,
+      "components": 217,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:79:22",
+      "species": "oak",
+      "lod": 2,
+      "leafless": false,
+      "components": 217,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:26:25",
+      "species": "oak",
+      "lod": 2,
+      "leafless": false,
+      "components": 217,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:39:25",
+      "species": "oak",
+      "lod": 2,
+      "leafless": false,
+      "components": 217,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:80:25",
+      "species": "oak",
+      "lod": 2,
+      "leafless": false,
+      "components": 217,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:80:26",
+      "species": "oak",
+      "lod": 2,
+      "leafless": false,
+      "components": 217,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:75:27",
+      "species": "oak",
+      "lod": 2,
+      "leafless": false,
+      "components": 217,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:35:34",
+      "species": "oak",
+      "lod": 2,
+      "leafless": false,
+      "components": 217,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:40:35",
+      "species": "oak",
+      "lod": 2,
+      "leafless": false,
+      "components": 217,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:47:37",
+      "species": "oak",
+      "lod": 2,
+      "leafless": false,
+      "components": 217,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:55:37",
+      "species": "oak",
+      "lod": 2,
+      "leafless": false,
+      "components": 217,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:73:37",
+      "species": "oak",
+      "lod": 2,
+      "leafless": false,
+      "components": 217,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:45:39",
+      "species": "oak",
+      "lod": 2,
+      "leafless": false,
+      "components": 217,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:37:40",
+      "species": "oak",
+      "lod": 2,
+      "leafless": false,
+      "components": 217,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:41:43",
+      "species": "oak",
+      "lod": 2,
+      "leafless": false,
+      "components": 217,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:36:23",
+      "species": "oak",
+      "lod": 2,
+      "leafless": false,
+      "components": 391,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:38:24",
+      "species": "oak",
+      "lod": 2,
+      "leafless": false,
+      "components": 391,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:25:28:sapling",
+      "species": "oak",
+      "lod": 2,
+      "leafless": false,
+      "components": 391,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:70:35",
+      "species": "oak",
+      "lod": 2,
+      "leafless": false,
+      "components": 391,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:52:26",
+      "species": "oak",
+      "lod": 2,
+      "leafless": false,
+      "components": 228,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:85:30",
+      "species": "oak",
+      "lod": 2,
+      "leafless": false,
+      "components": 228,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:42:31",
+      "species": "oak",
+      "lod": 2,
+      "leafless": false,
+      "components": 228,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:43:38:sapling",
+      "species": "oak",
+      "lod": 2,
+      "leafless": false,
+      "components": 228,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:40:40",
+      "species": "oak",
+      "lod": 2,
+      "leafless": false,
+      "components": 228,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:40:42",
+      "species": "oak",
+      "lod": 2,
+      "leafless": false,
+      "components": 228,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:palm:16:6",
+      "species": "palm",
+      "lod": 2,
+      "leafless": false,
+      "components": 224,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:palm:18:9",
+      "species": "palm",
+      "lod": 2,
+      "leafless": false,
+      "components": 224,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:palm:16:10",
+      "species": "palm",
+      "lod": 2,
+      "leafless": false,
+      "components": 224,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:palm:17:11",
+      "species": "palm",
+      "lod": 2,
+      "leafless": false,
+      "components": 224,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:palm:13:13",
+      "species": "palm",
+      "lod": 2,
+      "leafless": false,
+      "components": 224,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:palm:14:49",
+      "species": "palm",
+      "lod": 2,
+      "leafless": false,
+      "components": 224,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:palm:15:8",
+      "species": "palm",
+      "lod": 2,
+      "leafless": false,
+      "components": 224,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:palm:17:12",
+      "species": "palm",
+      "lod": 2,
+      "leafless": false,
+      "components": 224,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:palm:17:20",
+      "species": "palm",
+      "lod": 2,
+      "leafless": false,
+      "components": 224,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:palm:17:9",
+      "species": "palm",
+      "lod": 2,
+      "leafless": false,
+      "components": 453,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:palm:17:10",
+      "species": "palm",
+      "lod": 2,
+      "leafless": false,
+      "components": 453,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:palm:17:13",
+      "species": "palm",
+      "lod": 2,
+      "leafless": false,
+      "components": 453,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:palm:19:17",
+      "species": "palm",
+      "lod": 2,
+      "leafless": false,
+      "components": 453,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:palm:20:17",
+      "species": "palm",
+      "lod": 2,
+      "leafless": false,
+      "components": 453,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:palm:20:19",
+      "species": "palm",
+      "lod": 2,
+      "leafless": false,
+      "components": 453,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:palm:14:45",
+      "species": "palm",
+      "lod": 2,
+      "leafless": false,
+      "components": 453,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:palm:16:47",
+      "species": "palm",
+      "lod": 2,
+      "leafless": false,
+      "components": 453,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:edge:1:2",
+      "species": "shorepine",
+      "lod": 2,
+      "leafless": false,
+      "components": 310,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:orchard:0:0",
+      "species": "orchard",
+      "lod": 2,
+      "leafless": false,
+      "components": 237,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:orchard:1:2",
+      "species": "orchard",
+      "lod": 2,
+      "leafless": false,
+      "components": 237,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:orchard:2:1",
+      "species": "orchard",
+      "lod": 2,
+      "leafless": false,
+      "components": 237,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:orchard:4:2",
+      "species": "orchard",
+      "lod": 2,
+      "leafless": false,
+      "components": 237,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:orchard:4:5",
+      "species": "orchard",
+      "lod": 2,
+      "leafless": false,
+      "components": 237,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:orchard:0:2",
+      "species": "orchard",
+      "lod": 2,
+      "leafless": false,
+      "components": 228,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:orchard:1:0",
+      "species": "orchard",
+      "lod": 2,
+      "leafless": false,
+      "components": 228,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:orchard:3:1",
+      "species": "orchard",
+      "lod": 2,
+      "leafless": false,
+      "components": 228,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:orchard:3:2",
+      "species": "orchard",
+      "lod": 2,
+      "leafless": false,
+      "components": 228,
+      "chunks": 1,
+      "candidates": []
+    }
+  ],
+  "scope": "Registered forest selected-LOD rest geometry. Leaf components link by bounding-box proximity, then sampled wood-triangle contacts. Alpha transparency and shader wind are not evaluated; candidates require visual review. Null sampled gap means no nearby triangle was found, not an exact distance.",
+  "expectedTrees": 341,
+  "expectedSpecies": {
+    "pine": 116,
+    "fir": 58,
+    "shrub": 61,
+    "birch": 28,
+    "oak": 51,
+    "palm": 17,
+    "shorepine": 1,
+    "orchard": 9
+  },
+  "missingSpecies": {
+    "pine": 116
+  },
+  "speciesComplete": false,
+  "revision": "a2e8259f4",
+  "version": "0.0.15",
+  "pass": false
+}
