@@ -20,6 +20,9 @@ import { shadowDepthMaterial, shadowGeometry } from './foliage/shadowCasters';
 import { createLeafBurst } from './foliage/leafBurst';
 import { splitLeafPrepass } from './foliage/leafPrepass';
 import { leafCutoutSampler } from './leafSurfaceSites';
+import { anchorLeafIslands } from './leafIslands';
+
+const islandChecked = new WeakSet<THREE.BufferGeometry>();
 
 /**
  * Trees and shrubs. An empty strand gives way to a layered old-growth woodland: flared oak roots under tall pine/fir columns,
@@ -220,6 +223,9 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
   const casterMaterials: THREE.Material[] = [];
   const casterGeometries: THREE.BufferGeometry[] = [];
   const profileMaterials = new Set<THREE.Material>();
+  // The largest instance scale of each leaf template: the island pass works in template space, the audit in metres.
+  const largest = new Map<THREE.BufferGeometry, number>();
+  for (const b of batches) for (const l of b.variant.lods) if (l.leaf) largest.set(l.leaf, Math.max(largest.get(l.leaf) ?? 0, ...b.trees.map(t => t.s)));
   for (const b of batches) {
     const v = b.variant;
     const response = foliageResponse(v);
@@ -244,6 +250,13 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
       const wood = lod.wood ? new THREE.InstancedMesh(lod.wood, profileMaterial(importedMaterials ? importedMaterials.wood! : woodMaterial(v.bark, sway)), b.trees.length) : null;
       const leafTex = l === 2 ? v.crownTexture : v.leafTexture;
       const leaf = lod.leaf ? new THREE.InstancedMesh(lod.leaf, profileMaterial(importedMaterials ? importedMaterials.leaf! : leafMaterial(leafTex, sway)), b.trees.length) : null;
+      // Playtest 7: leaf cards whose opaque leaves hang clear of every branch are moved onto the boughs, once per near or
+      // middle template (a far crown is too small on screen to show a gap).
+      if (l < 2 && leaf && lod.wood && !islandChecked.has(lod.leaf!)) {
+        islandChecked.add(lod.leaf!);
+        const scale = Math.max(1, largest.get(lod.leaf!) ?? 1);
+        lod.leaf!.userData.leafIslands = anchorLeafIslands(lod.leaf!, lod.wood, leafCutoutSampler(leaf.material as THREE.Material), { reach: 0.6 / scale, gap: 0.7 / scale });
+      }
       for (const m of [wood, leaf]) {
         if (!m) continue;
         m.count = 0;
@@ -485,7 +498,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         if (!wood) return [];
         group.updateWorldMatrix(true, false);
         const cutouts = b.meshes.map(m => m.leaf ? leafCutoutSampler(m.leaf.material as THREE.Material) : null);
-        return b.placements.map((p, i) => ({ label: b.trees[i]!.collisionId ?? `tree:${batch}:${i}`,
+        return b.placements.map((p, i) => ({ label: b.trees[i]!.collisionId ?? `tree:${batch}:${i}`, kind: `${b.variant.species}/${b.variant.assetId ?? 'procedural'}`,
           species: b.variant.species, lod, wood, leaves: level.leaf, cutout: cutouts[Math.min(lod, b.meshes.length - 1)], matrix: new THREE.Matrix4().multiplyMatrices(group.matrixWorld, p.matrix) }));
       });
     },

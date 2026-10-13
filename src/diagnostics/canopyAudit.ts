@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-export interface CanopyAuditTarget { label: string; species?: string; lod?: number; wood: THREE.BufferGeometry; leaves: THREE.BufferGeometry | null; matrix: THREE.Matrix4;
+export interface CanopyAuditTarget { label: string; species?: string; /** Species/asset, for grouping. */ kind?: string; lod?: number; wood: THREE.BufferGeometry; leaves: THREE.BufferGeometry | null; matrix: THREE.Matrix4;
   /** The leaf material's alpha cutout; used only with `alpha: true`. */
   cutout?: { uv: string; cutoff: number; alpha(u: number, v: number): number } | null }
 export interface CanopyAuditOptions { gap?: number; maxOperations?: number; /** Level of detail audited (0 near, 1 middle, 2 far). */ lod?: number;
@@ -112,7 +112,7 @@ export function auditCanopies(targets: readonly CanopyAuditTarget[], options: Ca
     for(let i=0;i<entry.components.length;i++)if(isFar(i)){farCards++;maxWoodGap=Math.max(maxWoodGap,Number.isFinite(entry.contacts[i]!)?entry.contacts[i]!*s:Infinity);}
     for(const[a,b,d]of entry.edges){charge();if(d<=limit&&isFar(a)&&isFar(b))far.join(a,b);}
     const farClumps=new Set<number>();for(let i=0;i<entry.components.length;i++)if(isFar(i))farClumps.add(far.find(i));
-    return{label:t.label,...metadata,leafless:false,components:entry.components.length,chunks:chunks.size,detachedCards:farCards,detachedClumps:farClumps.size,maxWoodGap:Number.isFinite(maxWoodGap)?maxWoodGap:null,candidates};});
+    return{label:t.label,...metadata,kind:t.kind,leafless:false,components:entry.components.length,chunks:chunks.size,detachedCards:farCards,detachedClumps:farClumps.size,maxWoodGap:Number.isFinite(maxWoodGap)?maxWoodGap:null,candidates};});
   const bySpecies:Record<string,{trees:number;leafless:number;candidates:number}>={};for(const t of trees){const group=bySpecies[t.species]??={trees:0,leafless:0,candidates:0};group.trees++;group.leafless+=Number(t.leafless);group.candidates+=t.candidates.length;}
   return{schema:1,lod,gap,operations,complete:true,alpha:options.alpha?{maskedTrees:targets.filter(t=>t.leaves&&t.cutout).length}:false,bySpecies,summary:{trees:trees.length,leafless:trees.filter(t=>t.leafless).length,components:trees.reduce((n,t)=>n+t.components,0),chunks:trees.reduce((n,t)=>n+t.chunks,0),candidates:trees.reduce((n,t)=>n+t.candidates.length,0),woodReach,detachedCards:trees.reduce((n,t)=>n+t.detachedCards,0),detachedClumps:trees.reduce((n,t)=>n+t.detachedClumps,0),treesWithDetached:trees.filter(t=>t.detachedClumps>0).length},trees,
     scope:'Registered forest selected-LOD rest geometry. Leaf components link by bounding-box proximity, then leaf-surface samples test wood-triangle contacts. Alpha cutout is evaluated only in alpha mode (opaque-texel bounds); shader wind is not; candidates require visual review. Null sampled gap means no nearby triangle was found, not an exact distance.'};
