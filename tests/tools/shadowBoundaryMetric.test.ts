@@ -1,0 +1,9 @@
+import { expect, it } from 'vitest';
+import { shadowBoundaryMetric } from '../../tools/shadow-boundary-metric.mjs';
+const w=96,h=96,corners: [number, number][]=[[.2,.2],[.8,.2],[.8,.8],[.2,.8]];
+it('reports no edge in a uniform shadow-factor control',()=>{const r=shadowBoundaryMetric(new Uint8Array(w*h).fill(255),w,h,corners);expect(r.complete).toBe(true);expect(r.affected).toBe(0);});
+it('detects a bright outside step along all four shadow footprint edges',()=>{const image=new Uint8Array(w*h).fill(255);for(let y=20;y<76;y++)for(let x=20;x<76;x++)image[y*w+x]=64;const r=shadowBoundaryMetric(image,w,h,corners);expect(r.complete).toBe(true);expect(r.affectedShare).toBeGreaterThan(.95);expect(r.edges.every(e=>e.outsideWhiteShare!>.99&&e.maxJump>180)).toBe(true);});
+it('tracks a shifted boundary rather than treating the old footprint as current',()=>{const image=new Uint8Array(w*h).fill(255);for(let y=20;y<76;y++)for(let x=29;x<85;x++)image[y*w+x]=64;const shifted=corners.map(([x,y])=>[x+.1,y]);const actual=shadowBoundaryMetric(image,w,h,shifted),stale=shadowBoundaryMetric(image,w,h,corners);expect(actual.affectedShare).toBeGreaterThan(.9);expect(actual.affected).toBeGreaterThan(stale.affected);});
+it('fails closed on invalid frames or missing edge coverage',()=>{expect(()=>shadowBoundaryMetric(new Uint8Array(1),w,h,corners)).toThrow();expect(()=>shadowBoundaryMetric(new Uint8Array(w*h),w,h,[[0,0],[0,0],[0,0],[0,0]])).toThrow();expect(shadowBoundaryMetric(new Uint8Array(w*h),w,h,corners.map(([x,y])=>[x+4,y])).complete).toBe(false);});
+
+it('rejects crossed or concave footprints rather than reporting coverage',()=>{const image=new Uint8Array(w*h);expect(()=>shadowBoundaryMetric(image,w,h,[[.2,.2],[.8,.8],[.8,.2],[.2,.8]])).toThrow();expect(()=>shadowBoundaryMetric(image,w,h,[[.2,.2],[.8,.2],[.3,.3],[.2,.8]])).toThrow();});

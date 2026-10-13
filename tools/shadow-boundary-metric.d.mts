@@ -1,0 +1,1 @@
+export function shadowBoundaryMetric(image: Uint8Array, w: number, h: number, corners: number[][], options?: {band?: number; threshold?: number}): {complete:boolean; affected:number; affectedShare:number|null; edges:{outsideWhiteShare:number|null; maxJump:number}[]};
