@@ -8,7 +8,7 @@ node tools/check-shadow-boundary.mjs --url http://127.0.0.1:4173/ --out shadow-b
 node tools/check-shadow-boundary.mjs --url http://127.0.0.1:4173/ --headed true --out shadow-boundary-proof
 ```
 
-The check captures focus positions (15,30) and (31,30), keeping its diagnostic camera fixed. It requires nonempty native shadows, complete coverage of all four edges, 60 native terrain tiles, finite footprint movement and the snapped target displacement within 0.2 m of the requested 16 m. It measures an 18/255 brightening threshold two screen pixels either side of each edge, excluding corners. Invalid, crossed or uncovered footprints do not pass completeness checks.
+The check captures focus positions (15,30) and (31,30), keeping its diagnostic camera fixed. It requires nonempty native shadows, complete coverage of all four edges, a nonempty native terrain set, finite footprint movement and the snapped target displacement within 0.2 m of the requested 16 m. It measures an 18/255 brightening threshold two screen pixels either side of each edge, excluding corners. Invalid, crossed or uncovered footprints do not pass completeness checks.
 
 Software-WebGL native results:
 
@@ -17,7 +17,7 @@ Software-WebGL native results:
 | (15,30) | 1,356 | 364 (26.8%) | 100% |
 | (31,30) | 1,356 | 386 (28.5%) | 100% |
 
-The target moves 15.949 m. Applying the stale first footprint to the second image reports 5.1%, compared with 28.5% at its actual moved boundary. The maps are 4096×4096, with a 140 m footprint. Both factor images contain real shadows and fully lit ground (0–255 range).
+The target moves 15.949 m. Applying the stale first footprint to the second image reports 5.1%, compared with 28.5% at its actual moved boundary. The maps are 4096×4096, with a 140 m footprint; the captures include 60 native terrain tiles. Both factor images contain real shadows and fully lit ground (0–255 range).
 
 The receipts use the 0.0.15 light and terrain on the isolated grass vertex-work branch. Grass does not cast shadows; that patch leaves these light/terrain paths unchanged. Images are diagnostic shadow factors, not altered gameplay lighting. No product rendering changes are made by this PR.
 
