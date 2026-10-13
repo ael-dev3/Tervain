@@ -141,6 +141,8 @@ export class HeroAnimationController {
   private readonly soleSamples: { mesh: THREE.SkinnedMesh; vertices: number[] }[] = [];
   private readonly gripPose = new Map<HeroBoneName, THREE.Quaternion>();
   private readonly angles = new Map<string, number>();
+  private readonly turnUp = new THREE.Vector3();
+  private readonly turnFrame = new THREE.Quaternion();
   private phase = 0;
   private idleClock = 0;
   private motionBlend = 0;
@@ -461,7 +463,7 @@ export class HeroAnimationController {
       this.relaxArms();
       // The head and chest lead his turn (A76).
       this.turnLead.update(step > 0 ? finite(p.turn) / step : 0, step);
-      const sceneUp = new THREE.Vector3(0, 1, 0).applyQuaternion(this.scene.getWorldQuaternion(new THREE.Quaternion()));
+      const sceneUp = this.turnUp.set(0, 1, 0).applyQuaternion(this.scene.getWorldQuaternion(this.turnFrame));
       applyTurnLead([[this.bones['mixamorig:Spine2'], 0.2], [this.bones['mixamorig:Neck'], 0.35], [this.bones['mixamorig:Head'], 0.45]], this.turnLead.lead, sceneUp, this.turnLead.held);
     }
     if (this.steps) {
