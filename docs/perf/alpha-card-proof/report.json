@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "before": {
+    "trees": 1,
+    "leafless": 0,
+    "components": 1,
+    "chunks": 1,
+    "candidates": 0
+  },
+  "alphaAware": {
+    "trees": 1,
+    "leafless": 0,
+    "components": 2,
+    "chunks": 2,
+    "candidates": 1
+  },
+  "restored": {
+    "trees": 1,
+    "leafless": 0,
+    "components": 1,
+    "chunks": 1,
+    "candidates": 0
+  },
+  "cells": 32,
+  "visibleTriangles": 18,
+  "pass": true,
+  "scope": "Controlled nearest-filter base-mip card. Transparent geometry connects a wood-supported region to a visible detached island; no real-tree visual verdict."
+}
