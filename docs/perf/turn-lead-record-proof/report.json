@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "frames": 60,
+  "activeFrames": 50,
+  "bones": 66,
+  "chainBones": 3,
+  "control": {
+    "quaternionClones": 300,
+    "heldAfterFade": 0,
+    "poseHash": "2aeb3e8328ab139518071bd4603aefc60f75a58824c4fb955775b55cc478805d"
+  },
+  "actual": {
+    "quaternionClones": 6,
+    "heldAfterFade": 0,
+    "poseHash": "2aeb3e8328ab139518071bd4603aefc60f75a58824c4fb955775b55cc478805d"
+  },
+  "exactPosesAndHeldRecords": true,
+  "pass": true,
+  "scope": "Actual compiled turn-lead method on the native hero skeleton; fresh-record control versus reuse, including pose restoration and fade to zero. Counts of quaternion clones in this operation, not total allocations, GC or frame timings.",
+  "build": {
+    "version": "0.0.15",
+    "revision": "0b45a36a0"
+  },
+  "candidateSource": "c951d2458",
+  "buildMetadataNote": "Compiled candidate on base 0b45a36a0; version.json identifies the base."
+}

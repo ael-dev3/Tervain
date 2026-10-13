@@ -4,7 +4,7 @@ import type { ResidentMotionLibrary } from '../npc/residentMotion';
 import { HERO_BONES, HERO_FINGERS, type HeroBoneName, type HeroBones } from './bones';
 import { HERO_RUN_CYCLE, HERO_RUN_SPEED, HERO_WALK_CYCLE, HERO_WALK_SPEED } from './locomotion';
 import { HERO_SWIM_CYCLE, HERO_SWIM_RATE, heroSwimClips, heroTurnClips } from './swim';
-import { applyTurnLead, buildTurnClips, TurnLead, SIDES, TURN_STEP, TurnSteps, type Legs, type Side } from '../turnSteps';
+import { buildTurnClips, TurnLead, SIDES, TURN_STEP, TurnSteps, type Legs, type Side } from '../turnSteps';
 
 export interface HeroPose extends Pose {
   grounded?: boolean;
@@ -462,7 +462,7 @@ export class HeroAnimationController {
       // The head and chest lead his turn (A76).
       this.turnLead.update(step > 0 ? finite(p.turn) / step : 0, step);
       const sceneUp = new THREE.Vector3(0, 1, 0).applyQuaternion(this.scene.getWorldQuaternion(new THREE.Quaternion()));
-      applyTurnLead([[this.bones['mixamorig:Spine2'], 0.2], [this.bones['mixamorig:Neck'], 0.35], [this.bones['mixamorig:Head'], 0.45]], this.turnLead.lead, sceneUp, this.turnLead.held);
+      this.turnLead.apply([[this.bones['mixamorig:Spine2'], 0.2], [this.bones['mixamorig:Neck'], 0.35], [this.bones['mixamorig:Head'], 0.45]], sceneUp);
     }
     if (this.steps) {
       // Stopping mid-stride, a settling step brings the feet under him rather than sliding them into the stand (A71).
