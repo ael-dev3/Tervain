@@ -22,16 +22,20 @@ export function auditCanopies(targets: readonly CanopyAuditTarget[], options: Ca
   const gap=options.gap??.75,maxOperations=options.maxOperations??20_000_000;
   if(!(gap>0&&Number.isFinite(gap))||!Number.isInteger(maxOperations)||maxOperations<1)throw new Error('Invalid canopy audit budget');
   let operations=0;const charge=()=>{if(++operations>maxOperations)throw new Error('Canopy audit budget exhausted');};
-  const groups=new Map<THREE.BufferGeometry,Map<THREE.BufferGeometry,{maxGap:number;components:Component[];contacts:number[];edges:[number,number,number][]}>>();
+  const groups=new Map<THREE.BufferGeometry,Map<THREE.BufferGeometry,{maxGap:number;minGap:number;components:Component[];contacts:number[];edges:[number,number,number][]}>>();
   const scale=(m:THREE.Matrix4)=>{const a=new THREE.Vector3().setFromMatrixColumn(m,0).length(),b=new THREE.Vector3().setFromMatrixColumn(m,1).length(),c=new THREE.Vector3().setFromMatrixColumn(m,2).length();if(!m.elements.every(Number.isFinite)||!(a>0)||Math.max(a,b,c)-Math.min(a,b,c)>a*1e-4)throw new Error('Unsupported nonuniform canopy transform');return a;};
-  for(const t of targets){if(!t.leaves)continue;let leaves=groups.get(t.wood);if(!leaves){leaves=new Map();groups.set(t.wood,leaves);}let entry=leaves.get(t.leaves);if(!entry){entry={maxGap:0,components:components(t.leaves),contacts:[],edges:[]};leaves.set(t.leaves,entry);}entry.maxGap=Math.max(entry.maxGap,gap/scale(t.matrix));}
+  for(const t of targets){if(!t.leaves)continue;let leaves=groups.get(t.wood);if(!leaves){leaves=new Map();groups.set(t.wood,leaves);}let entry=leaves.get(t.leaves);if(!entry){entry={maxGap:0,minGap:Infinity,components:components(t.leaves),contacts:[],edges:[]};leaves.set(t.leaves,entry);}const localGap=gap/scale(t.matrix);entry.maxGap=Math.max(entry.maxGap,localGap);entry.minGap=Math.min(entry.minGap,localGap);}
   for(const[wood,leafGroups]of groups){const p=wood.getAttribute('position'),index=wood.index;if(!p)throw new Error('Missing wood positions');
     const triangles:THREE.Triangle[]=[];for(let i=0;i+2<(index?.count??p.count);i+=3)triangles.push(new THREE.Triangle(...[0,1,2].map(j=>new THREE.Vector3().fromBufferAttribute(p,index?.getX(i+j)??i+j)) as [THREE.Vector3,THREE.Vector3,THREE.Vector3]));
     for(const entry of leafGroups.values()){
       const cell=Math.max(.5,entry.maxGap),cells=new Map<string,number[]>(),wide:number[]=[];
       const range=(box:THREE.Box3)=>[Math.floor(box.min.x/cell),Math.floor(box.max.x/cell),Math.floor(box.min.y/cell),Math.floor(box.max.y/cell),Math.floor(box.min.z/cell),Math.floor(box.max.z/cell)];
       for(let i=0;i<triangles.length;i++){const tri=triangles[i]!,r=range(new THREE.Box3().setFromPoints([tri.a,tri.b,tri.c]).expandByScalar(entry.maxGap));if((r[1]!-r[0]!+1)*(r[3]!-r[2]!+1)*(r[5]!-r[4]!+1)>512){wide.push(i);continue;}for(let x=r[0]!;x<=r[1]!;x++)for(let y=r[2]!;y<=r[3]!;y++)for(let z=r[4]!;z<=r[5]!;z++){charge();const key=`${x},${y},${z}`,list=cells.get(key)??[];list.push(i);cells.set(key,list);}}
-      const nearest=new THREE.Vector3();entry.contacts=entry.components.map(c=>{let distance=Infinity;for(const sample of c.samples){const list=cells.get(`${Math.floor(sample.x/cell)},${Math.floor(sample.y/cell)},${Math.floor(sample.z/cell)}`)??[];for(const i of [...list,...wide]){charge();triangles[i]!.closestPointToPoint(sample,nearest);distance=Math.min(distance,nearest.distanceTo(sample));}}return distance;});
+      const nearest=new THREE.Vector3();entry.contacts=entry.components.map(c=>{let distance=Infinity;
+        // Once a contact is inside the smallest instance threshold, every instance is supported.
+        search:for(const sample of c.samples){const list=cells.get(`${Math.floor(sample.x/cell)},${Math.floor(sample.y/cell)},${Math.floor(sample.z/cell)}`)??[];
+          for(const candidates of [list,wide])for(const i of candidates){charge();triangles[i]!.closestPointToPoint(sample,nearest);distance=Math.min(distance,nearest.distanceTo(sample));if(distance<=entry.minGap)break search;}}
+        return distance;});
       // Query only neighboring leaf bounds. A minimum spanning forest preserves connectivity
       // at every instance's distance threshold while avoiding dense repeated edges per tree.
       const leafCells=new Map<string,number[]>(),large:number[]=[],pairs:[number,number,number][]=[];
