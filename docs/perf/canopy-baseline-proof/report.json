@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "toolSha256": "f2f9150230cef135157e1b83a156eedf2c53d5d82f989e3688bcd416b90ce58f",
+  "scope": "Actual geometric canopy audit on two controlled trees. Detector gate comparison only; no asset or render changes.",
+  "baselineCandidates": 1,
+  "swappedCandidates": 1,
+  "oldGatePass": true,
+  "swapped": {
+    "pass": false,
+    "reasons": [],
+    "regressions": [
+      {
+        "label": "tree:b",
+        "before": 0,
+        "after": 1
+      }
+    ]
+  },
+  "improved": {
+    "pass": true,
+    "reasons": [],
+    "regressions": []
+  },
+  "unchanged": {
+    "pass": true,
+    "reasons": [],
+    "regressions": []
+  },
+  "pass": true
+}
