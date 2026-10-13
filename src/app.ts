@@ -34,6 +34,7 @@ import { SpeechDirector } from './presentation/speech';
 import { threatFrom } from './presentation/sound/musicDirector';
 import { windTone } from './presentation/sound/soundscape';
 import { CameraRig } from './presentation/cameraRig';
+import { NearFade, heroNearCoverage } from './presentation/nearFade';
 import { Grade } from './presentation/grade';
 import { buildInteractables, type Interactable } from './presentation/interactions';
 import { chooseInteractable } from './presentation/interactionTarget';
@@ -107,6 +108,7 @@ export class App {
   private menuVisitCounter = 0;
   library: AssetLibrary = AssetLibrary.empty();
   cam = new CameraRig();
+  private readonly heroFade = new NearFade();
   player = new Player();
   private mainHeroInstalled = false;
   private treeTemplates: MeshyTreeTemplates | undefined;
@@ -1415,7 +1417,9 @@ export class App {
       this.cam.crowns ??= (x, z, r) => this.world?.crownsNear?.(x, z, r) ?? [];
       this.cam.follow(dt, this.player.x, this.player.y, this.player.z, this.world.terrain, this.world.colliders, this.settings.reducedMotion, this.player.shake, 1.55 + sitting);
       this.cam.clearWater((x, z) => this.world.water.world.surfaceAt(x, z), this.player.swimming);
-      this.player.group.visible = this.cam.bodyVisible;
+      // Playtest 7: pulled in against a tree, the lens must never sit inside his arm or shoulder; he dithers out first.
+      const coverage = this.cam.bodyVisible ? (this.cam.manual ? 1 : heroNearCoverage(this.cam.camera.position, this.player)) : 0;
+      this.heroFade.apply(this.player.group, coverage);
     }
 
     // World presentation
