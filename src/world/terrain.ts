@@ -8,7 +8,7 @@ import { roomLocator, type RoomLocator } from './interiors';
 import { springBasinGround } from './water/spring';
 import { checkCancelled, finishCooperatively, type CooperativeOptions } from '../platform/cooperative';
 import { isWorldPickupItem } from '../content/pickups';
-import {
+import { FIELDS,
   ANCHORS,
   ARRIVAL_ROUTE,
   ARRIVAL_TRAIL_WIDTH,
@@ -281,7 +281,35 @@ export function baseHeight(x: number, z: number): number {
   h = arrivalRoadGrade(x, z, h);
   h = lanternRoadGrade(x, z, h);
   h = vehicleParkingGrade(x, z, h);
+  h = fieldGrade(x, z, h);
   return archiveTerrace(x, z, h);
+}
+
+/**
+ * A tilled or fallow field lies on graded ground: the heath's hummocks and knolls ran straight through them, so bare
+ * ploughed earth stood in lumps and its texture stretched over the steep bits (playtest 6). Within a field the ground
+ * follows a smooth surface through its corners' heights, eased back into the land over FIELD_MARGIN.
+ */
+const FIELD_MARGIN = 4;
+let fieldCorners: number[][] | null = null;
+function fieldGrade(x: number, z: number, h: number): number {
+  fieldCorners ??= FIELDS.map((f) => {
+    const c = Math.cos(f.yaw), s = Math.sin(f.yaw), hw = f.w / 2 + 3, hd = f.d / 2 + 3;
+    return [[-hw, -hd], [hw, -hd], [-hw, hd], [hw, hd]].map(([lx, lz]) => {
+      const px = f.x + lx! * c + lz! * s, pz = f.z - lx! * s + lz! * c;
+      return softFloor(coreHeight(px, pz));
+    });
+  });
+  FIELDS.forEach((f, i) => {
+    const dx = x - f.x, dz = z - f.z, c = Math.cos(f.yaw), s = Math.sin(f.yaw);
+    const lx = dx * c - dz * s, lz = dx * s + dz * c, hw = f.w / 2 + 3, hd = f.d / 2 + 3;
+    const out = Math.max(Math.abs(lx) - hw, Math.abs(lz) - hd, 0);
+    if (out >= FIELD_MARGIN) return;
+    const u = clamp((lx + hw) / (2 * hw), 0, 1), v = clamp((lz + hd) / (2 * hd), 0, 1), k = fieldCorners![i]!;
+    const graded = lerp(lerp(k[0]!, k[1]!, u), lerp(k[2]!, k[3]!, u), v);
+    h = lerp(h, graded, 1 - smoothstep(0, FIELD_MARGIN, out));
+  });
+  return h;
 }
 
 interface ParkingGrade { x: number; z: number; yaw: number; minX: number; maxX: number; halfZ: number; margin: number; level: number }
