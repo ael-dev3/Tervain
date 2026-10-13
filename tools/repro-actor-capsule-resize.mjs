@@ -26,6 +26,8 @@ try{
   rows.push(row);
  }
  assert.deepEqual(rows[0].before,rows[0].after);assert.ok(rows[1].before.rayAtY095>=0&&rows[1].after.rayAtY095<0);assert.equal(shapeWrites[1],3);
- const report={schema:1,baselineRef:ref,sourceSha256:createHash('sha256').update(fs.readFileSync('src/world/physics.ts')).digest('hex'),beforeShapeWrites:shapeWrites[0],afterShapeWrites:shapeWrites[1],scope:'Actual synchronized Rapier actor collider dimensions and direct shape ray query. Controlled dimensions, no visual or hardware timing claim.',rows,handlesRetained:true,pass:rows.every(r=>r.after.radius===r.radius&&r.after.halfHeight===Math.max(0,r.height/2-r.radius)&&r.after.enabled===r.active)};
+ const person={...actor,id:'person:worker'};worlds[1].syncActors([person]);worlds[1].syncActors([{...person,radius:.2,height:.4}]);
+ const resizedActorId=worlds[1].traceProjectile({x:-3,y:.95,z:0},{x:3,y:.95,z:0})?.actorId;assert.equal(resizedActorId,person.id);
+ const report={schema:1,resizedActorId,baselineRef:ref,sourceSha256:createHash('sha256').update(fs.readFileSync('src/world/physics.ts')).digest('hex'),beforeShapeWrites:shapeWrites[0],afterShapeWrites:shapeWrites[1],scope:'Actual synchronized Rapier actor collider dimensions and direct shape ray query. Controlled dimensions, no visual or hardware timing claim.',rows,handlesRetained:true,pass:rows.every(r=>r.after.radius===r.radius&&r.after.halfHeight===Math.max(0,r.height/2-r.radius)&&r.after.enabled===r.active)};
  fs.writeFileSync(process.argv[2]??'actor-capsule-proof.json',JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report));if(!report.pass)process.exitCode=1;
 }finally{for(const world of worlds)world.dispose();await server.close();}

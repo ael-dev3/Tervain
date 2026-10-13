@@ -15,6 +15,15 @@ function tick(p: RealmPhysics, n: number, dt = 1 / 60) {
 }
 
 describe('real 60 Hz rigid-body world', () => {
+  it('keeps projectile attribution after an actor resize before the next fixed step', () => {
+    const p = new RealmPhysics(floor, new Colliders(), []);
+    const person = { id: 'person:worker', x: 0, y: 0, z: 0, radius: .25, height: 1.8, active: true };
+    try {
+      p.syncActors([person]);
+      p.syncActors([{ ...person, radius: .2, height: .4 }]);
+      expect(p.traceProjectile({ x: -3, y: .95, z: 0 }, { x: 3, y: .95, z: 0 })?.actorId).toBe(person.id);
+    } finally { p.dispose(); }
+  });
   it('resizes an existing actor capsule when its dimensions change, retaining its handle', () => {
     const p = new RealmPhysics(floor, new Colliders(), []);
     const person = { id: 'animal:1005232644', x: 0, y: 0, z: 0, radius: .25, height: 1.8, active: true };
