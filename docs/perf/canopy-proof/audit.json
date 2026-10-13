@@ -2401,7 +2401,7 @@
   ],
   "scope": "Registered forest near-source rest geometry. Leaf components link by bounding-box proximity, then sampled wood-triangle contacts. Alpha transparency and shader wind are not evaluated; candidates require visual review. Null sampled gap means no nearby triangle was found, not an exact distance.",
   "expectedTrees": 341,
-  "revision": "19ca4dc75",
+  "revision": "62585bb0d",
   "version": "0.0.14",
   "pass": true,
   "repro": {

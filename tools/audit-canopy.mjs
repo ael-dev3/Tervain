@@ -8,6 +8,8 @@ try{
  page=await openPage(url.href,{w:640,h:360,requestTimeoutMs:240000});let ready=false;for(let i=0;i<800;i++){if(await page.eval('return window.tervain?.mode === "play";')){ready=true;break;}await page.wait(250);}if(!ready)throw new Error('Journey not ready');
  const report=await page.eval(`const T=window.tervain;T.render=()=>{};await T.world.arrived;T.step=()=>{};return await T.auditCanopies(${JSON.stringify(options)});`);
  report.pass=report.complete===true&&report.summary.trees===report.expectedTrees&&report.expectedTrees>0;
+ // A complete scan with new detached candidates is not a successful gate.
+ if(!args.baseline)report.pass&&=report.summary.candidates===0;
  if(args.baseline){const before=JSON.parse(fs.readFileSync(args.baseline,'utf8'));report.pass&&=before.complete===true&&before.expectedTrees===report.expectedTrees&&before.gap===report.gap&&report.summary.candidates<=before.summary.candidates;}
  if('repro'in args){
   report.repro=await page.eval(`const T=window.tervain,forest=T.world.modules.find(m=>m.name==='forest').module,original=forest.canopyAuditTargets,targets=original.call(forest),baseline=await T.auditCanopies(${JSON.stringify(options)});
