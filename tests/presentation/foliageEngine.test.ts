@@ -318,6 +318,25 @@ describe('the forest with wind, shadow-only casters and strikes', () => {
     vi.stubGlobal('location', { search: '' });
     const quality = 'high', f = field();
     const forest = buildFlora({ terrain, excl, colliders: new Colliders(), quality, settings: { ...defaultSettings(), quality }, library: AssetLibrary.empty(), sway: { uTime: { value: 0 }, uWind: { value: 0 } }, foliage: f }, templates);
+    for (const lod of [0, 1, 2]) {
+      const targets = forest.canopyAuditTargets!(lod);
+      expect(targets.length).toBeLessThanOrEqual(forest.counts.trees);
+      if (lod === 0) expect(targets).toHaveLength(forest.counts.trees);
+      const counts: Record<string, number> = {};
+      for (const target of targets) {
+        expect(target.lod).toBe(lod);
+        counts[target.species!] = (counts[target.species!] ?? 0) + 1;
+      }
+      if (lod === 0) {
+        expect(counts).toEqual(forest.counts.species);
+        expect(counts.pine).toBeGreaterThan(0);
+        expect(targets.some(target => target.species === 'pine' && target.leaves)).toBe(true);
+      } else {
+        // Billboard LODs can omit wood; their populations must not be claimed as audited.
+        for (const [species, count] of Object.entries(counts)) expect(count).toBeLessThanOrEqual(forest.counts.species[species]!);
+      }
+    }
+    expect(() => forest.canopyAuditTargets!(-1)).toThrow(/LOD/);
     const rootTargets = forest.placementAuditTargets!();
     expect(rootTargets).toHaveLength(forest.counts.trees);
     expect(rootTargets.every(target => target.kind === 'root' && target.matrix.elements.every(Number.isFinite))).toBe(true);

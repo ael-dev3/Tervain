@@ -63,8 +63,8 @@ export interface FrameContext {
 /** The common shape of a scene module. */
 export interface SceneModule {
   group: THREE.Group;
-  /** Full near-source tree populations for offline crown checks, independent of camera culling. */
-  canopyAuditTargets?(): CanopyAuditTarget[];
+  /** Full selected-LOD tree populations for offline crown checks, independent of camera culling. */
+  canopyAuditTargets?(lod?: number): CanopyAuditTarget[];
   /** Full static populations for offline placement checks, independent of camera culling. */
   placementAuditTargets?(): PlacementAuditTarget[];
   update(dt: number, f: FrameContext): void;
