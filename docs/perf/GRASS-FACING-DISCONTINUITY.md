@@ -19,3 +19,28 @@ node tools/check-grass-facing.mjs --url "$TERVAIN_URL" --out grass-facing-proof
 The diagnostic asserts a large crossing jump and smooth negative/continuous controls at all four orientations. `reproductionPass` means the discontinuity was reproduced; `qualityPass` is deliberately null. A changed source expression requires the diagnostic control to be reviewed. All WebGL reads occur in this diagnostic, never the application's frame path or timing-only gate.
 
 Node/browser-expression syntax checks and the native software-WebGL reproduction pass. The captured grass expression matches main 0b45a36a0; the preview also contained unrelated turn-controller performance changes. The refreshed control uses explicit multiplication for its square, avoiding undefined GLSL `pow` on negative inputs; it was verified with the isolated launcher from #397. For image quality use the native postprocessing capture in #391, recorded clips, and the hardware gate. Live reference: https://ael-dev3.github.io/Tervain/ and [LATEST.md](LATEST.md).
+
+## Isolated native blade pixel reproduction
+
+The [blade receipt](grass-facing-blade-proof/report.json) and eight paired screenshots extend the arithmetic probe to the actual grass material and geometry. The capture selects one existing instance and its complete first blade (seven triangles), extracts its seed/root/facing declarations from the compiled shader, and computes that root through WebGL transform feedback. It freezes the clock/wind and uses cloned world lights without shadow attenuation. The diagnostic camera uses an 18° field of view to magnify the blade; the High postprocessing target is measured at four samples.
+
+Both directions move the camera by the same total 0.00002 radians. Changed pixels have a maximum RGB-channel difference greater than 8/255.
+
+| Material / pan | Changed pixels | Largest channel difference | Foreground pixels before / after |
+| --- | ---: | ---: | ---: |
+| Native, across the sign boundary | 261 | 120 | 170 / 262 |
+| Native, away from the boundary | 0 | 1 | 309 / 309 |
+| Continuous capture-only control, crossing | 0 | 1 | 68 / 68 |
+| Continuous capture-only control, away | 2 | 31 | 309 / 310 |
+
+Repeated renders match exactly in decoded RGB for every endpoint. The check compares decoded pixels rather than PNG encodings because screenshot compression settings can differ.
+
+Native crossing: [before](grass-facing-blade-proof/native-crossing-before.png), [after](grass-facing-blade-proof/native-crossing-after.png). Continuous control: [before](grass-facing-blade-proof/continuous-crossing-before.png), [after](grass-facing-blade-proof/continuous-crossing-after.png).
+
+This reproduces a visible jump on one native blade, with smooth ordinary-pan controls. The continuous control changes blade orientation and its visible footprint; its lower foreground counts are recorded explicitly. It is **not** an acceptable product fix by itself, a full-scene shimmer score, or evidence that all recorded shimmer comes from this branch. Three's extra double-sided normal flip is already removed by the grass material's `NORMAL_BEGIN`; the measured basis transition remains upstream.
+
+```sh
+node tools/capture-grass-facing-blade.mjs --url "$TERVAIN_URL" --out grass-facing-blade-proof
+```
+
+Optional `--driver "$TERVAIN_CDP_DRIVER"` selects a driver module for comparison. This capture used the owned-endpoint launcher from #397; build e3b274bca has the same application grass shader as main 0b45a36a0. Node/browser-expression syntax checks and the native reproduction assertions pass. `qualityPass` remains null. No product shader, camera, lighting or art changes are included.

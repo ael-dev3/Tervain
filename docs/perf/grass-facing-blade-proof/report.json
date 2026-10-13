@@ -1,0 +1,68 @@
+{
+  "schema": 1,
+  "fixture": {
+    "root": 8.42825698852539,
+    "ground": 1.2514313459396362,
+    "z": 34.7143669128418,
+    "face": 5.664299488067627,
+    "blade": 0,
+    "triangles": 7,
+    "instances": 1,
+    "diagnosticFovDegrees": 18,
+    "requestedSamples": 4,
+    "supportedSamples": 4,
+    "sourceFacing": "float gFace = gAng + 1.5708 + (gR2 - 0.5) * 2.0;"
+  },
+  "routes": [
+    {
+      "mode": "native",
+      "stage": "crossing",
+      "cameraDeltaRadians": 0.00002,
+      "repeatsIdentical": true,
+      "changedPixels": 261,
+      "maxChannelDelta": 120,
+      "foregroundBefore": 170,
+      "foregroundAfter": 262
+    },
+    {
+      "mode": "native",
+      "stage": "away",
+      "cameraDeltaRadians": 0.00002,
+      "repeatsIdentical": true,
+      "changedPixels": 0,
+      "maxChannelDelta": 1,
+      "foregroundBefore": 309,
+      "foregroundAfter": 309
+    },
+    {
+      "mode": "continuous",
+      "stage": "crossing",
+      "cameraDeltaRadians": 0.00002,
+      "repeatsIdentical": true,
+      "changedPixels": 0,
+      "maxChannelDelta": 1,
+      "foregroundBefore": 68,
+      "foregroundAfter": 68
+    },
+    {
+      "mode": "continuous",
+      "stage": "away",
+      "cameraDeltaRadians": 0.00002,
+      "repeatsIdentical": true,
+      "changedPixels": 2,
+      "maxChannelDelta": 31,
+      "foregroundBefore": 309,
+      "foregroundAfter": 310
+    }
+  ],
+  "qualityPass": null,
+  "scope": "One actual native grass blade and shader, cloned world lights without shadow attenuation, High postprocessing/MSAA, a magnified diagnostic camera, frozen wind/clock. Continuous material is capture-only and changes coverage; not a full-scene shimmer result or a product fix.",
+  "actualSamples": [
+    4
+  ],
+  "build": {
+    "version": "0.0.15",
+    "revision": "e3b274bca"
+  },
+  "reproductionPass": true
+}
