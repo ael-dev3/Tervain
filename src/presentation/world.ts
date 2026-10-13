@@ -301,6 +301,9 @@ export class WorldScene {
       // The hunter's camp and the caravan rest register their solid props before grass is sown around them: built after,
       // grass grew through the trough, the panniers and the notice board (A105 scout). They join the scene below.
       const hunterSupplies = buildHunterSupplies(terrain, colliders), animalCamp = buildAnimalCamp(terrain, colliders);
+      // Habitat snapshots solid footprints: register fences and hay before grass tiles can be generated.
+      // Attach the settlement at its existing scene position below.
+      const scenery = own(buildScenery(terrain, colliders, settings.quality));
       await checkpoint('woodland', 'Grass and undergrowth');
       addModule('groundcover', buildGroundcover(ctx));
       await checkpoint('woodland', 'Woodland atmosphere');
@@ -314,7 +317,6 @@ export class WorldScene {
       await checkpoint('woodland', 'Woodland', 1, 1);
       await checkpoint('settlement', 'Buildings and supplies');
       const environment = own(buildEnvironment(scene, settings.quality));
-      const scenery = own(buildScenery(terrain, colliders, settings.quality));
       scene.add(scenery.group);
       // A room's furniture shows only while someone can see into it (A66): see WorldScene.roomOpen.
       let roomOpen: (room: InteriorSpec) => boolean = () => true;
