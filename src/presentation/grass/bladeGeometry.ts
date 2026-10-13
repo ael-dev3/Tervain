@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { smoothstep } from '../../world/noise';
 
 /**
  * One clump of grass blades as a tiny, shared mesh. A blade is a strip of `segments` quads narrowing to a single tip
@@ -57,4 +58,11 @@ export function createGrassClump({ blades, segments }: ClumpSpec): THREE.BufferG
 /** Triangles a clump draws. */
 export function clumpTriangles({ blades, segments }: ClumpSpec): number {
   return blades * (segments * 2 - 1);
+}
+
+/** Prefix whose blades may have nonzero shader width anywhere in the tile. Keep a float-rounding margin. */
+export function visibleGrassBlades(blades: number, farBlades: number, fadeStart: number, fadeEnd: number, nearestDistance: number): number {
+  const share = 1 - (1 - Math.min(1, Math.max(0.1, farBlades))) * smoothstep(fadeStart, fadeEnd, nearestDistance);
+  // gFrac=(blade+0.5)/blades; gBladeKeep is exactly zero for gFrac >= gShare.
+  return Math.min(blades, Math.max(0, Math.ceil((share + 1e-4) * blades - 0.5)));
 }
