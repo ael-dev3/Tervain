@@ -1,0 +1,102 @@
+{
+  "schema": 1,
+  "baselineRef": "0b45a36",
+  "sourceSha256": "7ca2a01297bc109c4f3bd313b5fe1191e702eb0d3bc747c825827bbfa5c7d1a4",
+  "scope": "Uninstrumented alternating CPU batches; three blocked-route cases, 300 queries per batch, first pair discarded. Not hardware frame timing or a speed threshold.",
+  "queriesPerBatch": 300,
+  "beforeMedianMs": 281.82073800000035,
+  "afterMedianMs": 248.0438290000002,
+  "rounds": [
+    {
+      "before": {
+        "ms": 298.13475199999993,
+        "checksum": 800
+      },
+      "after": {
+        "ms": 399.2575740000011,
+        "checksum": 800
+      }
+    },
+    {
+      "after": {
+        "ms": 212.37727199999972,
+        "checksum": 800
+      },
+      "before": {
+        "ms": 204.59933699999965,
+        "checksum": 800
+      }
+    },
+    {
+      "before": {
+        "ms": 300.9647550000009,
+        "checksum": 800
+      },
+      "after": {
+        "ms": 277.66932199999974,
+        "checksum": 800
+      }
+    },
+    {
+      "after": {
+        "ms": 248.0438290000002,
+        "checksum": 800
+      },
+      "before": {
+        "ms": 373.0625970000001,
+        "checksum": 800
+      }
+    },
+    {
+      "before": {
+        "ms": 279.16739899999993,
+        "checksum": 800
+      },
+      "after": {
+        "ms": 217.16924299999846,
+        "checksum": 800
+      }
+    },
+    {
+      "after": {
+        "ms": 205.75508199999967,
+        "checksum": 800
+      },
+      "before": {
+        "ms": 214.3621490000005,
+        "checksum": 800
+      }
+    },
+    {
+      "before": {
+        "ms": 281.82073800000035,
+        "checksum": 800
+      },
+      "after": {
+        "ms": 264.43436799999836,
+        "checksum": 800
+      }
+    },
+    {
+      "after": {
+        "ms": 264.38248399999975,
+        "checksum": 800
+      },
+      "before": {
+        "ms": 288.5514830000011,
+        "checksum": 800
+      }
+    },
+    {
+      "before": {
+        "ms": 214.39469699999972,
+        "checksum": 800
+      },
+      "after": {
+        "ms": 211.46784800000023,
+        "checksum": 800
+      }
+    }
+  ],
+  "pass": true
+}
