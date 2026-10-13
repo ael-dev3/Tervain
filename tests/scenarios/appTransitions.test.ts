@@ -996,7 +996,8 @@ describe('shell corrections (A70)', () => {
     expect(grade.setSize).toHaveBeenLastCalledWith(1280, 720);
     app.settings.quality = 'high';
     call('applyQualityToRenderer');
-    expect(grade.setSize).toHaveBeenLastCalledWith(2560, 1440);
+    expect(renderer.setPixelRatio).toHaveBeenLastCalledWith(1.5);
+    expect(grade.setSize).toHaveBeenLastCalledWith(1920, 1080);
   });
 
   it('pauses on respawn when the window lost focus or the capture during the fall', () => {
