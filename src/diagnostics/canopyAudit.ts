@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 
-export interface CanopyAuditTarget { label: string; wood: THREE.BufferGeometry; leaves: THREE.BufferGeometry | null; matrix: THREE.Matrix4 }
-export interface CanopyAuditOptions { gap?: number; maxOperations?: number }
+export interface CanopyAuditTarget { label: string; species?: string; lod?: number; wood: THREE.BufferGeometry; leaves: THREE.BufferGeometry | null; matrix: THREE.Matrix4 }
+export interface CanopyAuditOptions { gap?: number; maxOperations?: number; lod?: number }
 interface Component { box: THREE.Box3; samples: THREE.Vector3[] }
 const boxGap = (a: THREE.Box3, b: THREE.Box3) => Math.hypot(
   Math.max(0,a.min.x-b.max.x,b.min.x-a.max.x),Math.max(0,a.min.y-b.max.y,b.min.y-a.max.y),Math.max(0,a.min.z-b.max.z,b.min.z-a.max.z));
@@ -47,6 +47,8 @@ function spanningLeafEdges(parts: Component[], limit: number, charge: () => void
 
 /** Offline geometric candidates, not an art verdict. Full population adapters bypass render culling. */
 export function auditCanopies(targets: readonly CanopyAuditTarget[], options: CanopyAuditOptions = {}) {
+  const lod=options.lod??0;if(!Number.isInteger(lod)||lod<0||lod>2)throw new Error('Invalid canopy LOD');
+  if(targets.some(target=>target.lod!==undefined&&target.lod!==lod))throw new Error('Canopy target LOD mismatch');
   const gap=options.gap??.75,maxOperations=options.maxOperations??20_000_000;
   if(!(gap>0&&Number.isFinite(gap))||!Number.isInteger(maxOperations)||maxOperations<1)throw new Error('Invalid canopy audit budget');
   let operations=0;const charge=()=>{if(++operations>maxOperations)throw new Error('Canopy audit budget exhausted');};
@@ -68,11 +70,12 @@ export function auditCanopies(targets: readonly CanopyAuditTarget[], options: Ca
       entry.edges = spanningLeafEdges(entry.components, entry.maxGap, charge);
     }
   }
-  const trees=targets.map(t=>{if(!t.leaves)return{label:t.label,leafless:true,components:0,chunks:0,candidates:[] as {position:number[];components:number;sampledWoodGap:number|null}[]};const entry=groups.get(t.wood)!.get(t.leaves)!,s=scale(t.matrix),limit=gap/s,graph=union(entry.components.length);
+  const trees=targets.map(t=>{const metadata={species:t.species??'unclassified',lod:t.lod??lod};if(!t.leaves)return{label:t.label,...metadata,leafless:true,components:0,chunks:0,candidates:[] as {position:number[];components:number;sampledWoodGap:number|null}[]};const entry=groups.get(t.wood)!.get(t.leaves)!,s=scale(t.matrix),limit=gap/s,graph=union(entry.components.length);
     for(const[a,b,d]of entry.edges){charge();if(d<=limit)graph.join(a,b);}const chunks=new Map<number,{box:THREE.Box3;count:number;contact:number}>();
     for(let i=0;i<entry.components.length;i++){const key=graph.find(i),chunk=chunks.get(key)??{box:new THREE.Box3(),count:0,contact:Infinity};chunk.box.union(entry.components[i]!.box);chunk.count++;chunk.contact=Math.min(chunk.contact,entry.contacts[i]!);chunks.set(key,chunk);}
     const candidates=[...chunks.values()].filter(c=>c.contact>limit).map(c=>({position:c.box.getCenter(new THREE.Vector3()).applyMatrix4(t.matrix).toArray(),components:c.count,sampledWoodGap:Number.isFinite(c.contact)?c.contact*s:null}));
-    return{label:t.label,leafless:false,components:entry.components.length,chunks:chunks.size,candidates};});
-  return{schema:1,gap,operations,complete:true,summary:{trees:trees.length,leafless:trees.filter(t=>t.leafless).length,components:trees.reduce((n,t)=>n+t.components,0),chunks:trees.reduce((n,t)=>n+t.chunks,0),candidates:trees.reduce((n,t)=>n+t.candidates.length,0)},trees,
-    scope:'Registered forest near-source rest geometry. Leaf components link by bounding-box proximity, then sampled wood-triangle contacts. Alpha transparency and shader wind are not evaluated; candidates require visual review. Null sampled gap means no nearby triangle was found, not an exact distance.'};
+    return{label:t.label,...metadata,leafless:false,components:entry.components.length,chunks:chunks.size,candidates};});
+  const bySpecies:Record<string,{trees:number;leafless:number;candidates:number}>={};for(const t of trees){const group=bySpecies[t.species]??={trees:0,leafless:0,candidates:0};group.trees++;group.leafless+=Number(t.leafless);group.candidates+=t.candidates.length;}
+  return{schema:1,lod,gap,operations,complete:true,bySpecies,summary:{trees:trees.length,leafless:trees.filter(t=>t.leafless).length,components:trees.reduce((n,t)=>n+t.components,0),chunks:trees.reduce((n,t)=>n+t.chunks,0),candidates:trees.reduce((n,t)=>n+t.candidates.length,0)},trees,
+    scope:'Registered forest selected-LOD rest geometry. Leaf components link by bounding-box proximity, then sampled wood-triangle contacts. Alpha transparency and shader wind are not evaluated; candidates require visual review. Null sampled gap means no nearby triangle was found, not an exact distance.'};
 }

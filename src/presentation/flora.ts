@@ -64,7 +64,7 @@ interface Batch {
 }
 
 export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, deferFloor = false, meshyTemplates?: MeshyTreeTemplates): SceneModule & {
-  counts: { trees: number; triangles: number }; physicalWood: readonly PhysicalWoodGeometry[]; initializeFloor(extraTrees?: readonly FloraTree[]): void;
+  counts: { trees: number; triangles: number; species: Record<string, number> }; physicalWood: readonly PhysicalWoodGeometry[]; initializeFloor(extraTrees?: readonly FloraTree[]): void;
   /** Meshes drawn only into the sun's shadow map; the world shows them for the shadow pass alone. */
   shadowCasters: THREE.Group;
   /** A nearby rooted tree for inspections; proximity does not prove a wood contact. */
@@ -442,13 +442,14 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
   return {
     group,
     physicalWood,
-    canopyAuditTargets() {
+    canopyAuditTargets(lod = 0) {
+      if (!Number.isInteger(lod) || lod < 0 || lod > 2) throw new Error('Invalid canopy LOD');
       return batches.flatMap((b, batch) => {
-        const wood = b.variant.lods[0].wood;
+        const wood = b.variant.lods[lod]!.wood;
         if (!wood) return [];
         group.updateWorldMatrix(true, false);
         return b.placements.map((p, i) => ({ label: b.trees[i]!.collisionId ?? `tree:${batch}:${i}`,
-          wood, leaves: b.variant.lods[0].leaf, matrix: new THREE.Matrix4().multiplyMatrices(group.matrixWorld, p.matrix) }));
+          species: b.variant.species, lod, wood, leaves: b.variant.lods[lod]!.leaf, matrix: new THREE.Matrix4().multiplyMatrices(group.matrixWorld, p.matrix) }));
       });
     },
     placementAuditTargets() {
@@ -460,7 +461,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
           geometry: mesh.geometry, matrix: new THREE.Matrix4().multiplyMatrices(mesh.matrixWorld, p.matrix) }));
       });
     },
-    counts: { trees: trees.length, triangles: Math.round(triangles) },
+    counts: { trees: trees.length, triangles: Math.round(triangles), species: trees.reduce<Record<string, number>>((counts, tree) => { counts[tree.sp] = (counts[tree.sp] ?? 0) + 1; return counts; }, {}) },
     update(dt: number, f: FrameContext) {
       if (disposed) return;
       reducedMotion = f.reducedMotion;

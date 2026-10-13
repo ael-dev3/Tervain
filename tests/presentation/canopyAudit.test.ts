@@ -12,3 +12,14 @@ it('ignores unreferenced source vertices instead of flagging invisible debris',(
 
 it('keeps transitive crown connectivity at instance-scaled gap cutoffs',()=>{const t=fixture();t.leaves=mergeGeometries([.45,1.45,2.45].map(x=>new THREE.BoxGeometry(.5,.5,.5).translate(x,1,0)));expect(auditCanopies([t]).summary).toMatchObject({components:3,chunks:1,candidates:0});t.matrix.makeScale(2,2,2);expect(auditCanopies([t]).summary).toMatchObject({chunks:3,candidates:2});});
 it('collapses overlap cliques while retaining a detached crown cluster',()=>{const t=fixture();t.leaves=mergeGeometries([.4,.6,.8,4,4.2].map(x=>new THREE.BoxGeometry(.5,.5,.5).translate(x,1,0)));expect(auditCanopies([t]).summary).toMatchObject({components:5,chunks:2,candidates:1});});
+
+it('reports species coverage and the selected LOD separately from candidate counts', () => {
+  const pine = { ...fixture(4), species: 'pine', lod: 1 };
+  const fir = { ...fixture(), species: 'fir', lod: 1 };
+  const dead = { ...fixture(), species: 'dead', lod: 1, leaves: null };
+  const report = auditCanopies([pine, fir, dead], { lod: 1 });
+  expect(report.lod).toBe(1);
+  expect(report.bySpecies).toEqual({ pine: { trees: 1, leafless: 0, candidates: 1 }, fir: { trees: 1, leafless: 0, candidates: 0 }, dead: { trees: 1, leafless: 1, candidates: 0 } });
+  expect(() => auditCanopies([pine], { lod: 3 })).toThrow(/LOD/);
+  expect(() => auditCanopies([pine], { lod: 0 })).toThrow(/mismatch/);
+});
