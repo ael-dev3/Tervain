@@ -11,7 +11,7 @@ import { withModelLoadSlot } from './assets/modelLoadQueue';
 import { downloadAsset } from './assets/download';
 import { installBarkDetail } from './treeMaterials';
 import { barkTextures } from './treeTextures';
-import { buildCanopy, canopyAtlasTexture, growTwigs, trimExposedWood, NEAR_CANOPY, MID_CANOPY, type CanopyTwig } from './canopy';
+import { buildCanopy, canopyAtlasTexture, growTwigs, trimExposedWood, NEAR_CANOPY, MID_CANOPY, twigTriangles, type CanopyTwig } from './canopy';
 
 /** Owner-supplied sources. Plinth-bearing 3106/1459 are prepared reserves, not active plantings. */
 export const MESHY_TREE_IDS = ['fir-spire', 'oak-elder', 'palm-date', 'palm-fan', 'palm-lean', 'tree-0208', 'tree-1537', 'tree-1527', 'tree-1521', 'tree-4949', 'tree-1505', 'tree-4815', 'verdant-sentinel'] as const;
@@ -463,14 +463,22 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
         if (exported && lod < 2 && clusters) {
           const triangles = (g: THREE.BufferGeometry | null) => (g ? (g.index?.count ?? g.getAttribute('position').count) / 3 : 0);
           const shape = lod === 0 ? NEAR_CANOPY : MID_CANOPY;
-          const cards = lod === 0 ? Math.min(CANOPY_NEAR_CARDS, Math.floor((TREE_TRIANGLES - triangles(wood)) / 2)) : Math.max(400, Math.round(triangles(exported) * CANOPY_MID_SHARE / 2));
+          let cards = lod === 0 ? Math.min(CANOPY_NEAR_CARDS, Math.floor((TREE_TRIANGLES - triangles(wood)) / 2)) : Math.max(400, Math.round(triangles(exported) * CANOPY_MID_SHARE / 2));
           const seed = [...`${id}:${lod}`].reduce((h, ch) => Math.imul(h ^ ch.charCodeAt(0), 16777619) >>> 0, 2166136261);
-          const canopy = buildCanopy(exported, wood, { ...shape, cards, seed });
-          geometries.delete(exported); exported.dispose(); geometries.add(canopy);
-          if (wood) {
-            const trimmed = trimExposedWood(wood, canopy, shape.clump * 1.6);
-            if (trimmed.geometry !== wood) { geometries.delete(wood); wood.dispose(); geometries.add(trimmed.geometry); wood = trimmed.geometry; }
+          // The grown twigs (below) come out of the same triangle budget: fewer leaf cards make room for them, since
+          // the twig clumps cover those leaves. A few rebuilds settle it (the twig count shifts a little with the cards).
+          let canopy!: THREE.BufferGeometry, trimmedWood = wood;
+          for (let attempt = 0; attempt < 4; attempt++) {
+            canopy = buildCanopy(exported, wood, { ...shape, cards, seed });
+            trimmedWood = wood ? trimExposedWood(wood, canopy, shape.clump * 1.6).geometry : null;
+            const twigTris = twigTriangles((canopy.userData.canopy as { twigs: CanopyTwig[] }).twigs);
+            const over = triangles(trimmedWood) + triangles(canopy) + twigTris - TREE_TRIANGLES;
+            if (over <= 0 || attempt === 3) break;
+            canopy.dispose(); if (trimmedWood !== wood) trimmedWood?.dispose();
+            cards = Math.max(200, cards - Math.ceil(over / 2) - 25);
           }
+          geometries.delete(exported); exported.dispose(); geometries.add(canopy);
+          if (wood && trimmedWood !== wood) { geometries.delete(wood); wood.dispose(); geometries.add(trimmedWood!); wood = trimmedWood; }
           // Playtest 7: the twigs out to clumps beyond the boughs' reach (after the trim, which would cut them).
           const twigs = (canopy.userData.canopy as { twigs: CanopyTwig[] }).twigs;
           if (wood && twigs.length) { const grownWood = growTwigs(wood, twigs); geometries.delete(wood); wood.dispose(); geometries.add(grownWood); wood = grownWood; }

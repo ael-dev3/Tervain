@@ -153,7 +153,7 @@ const ANCHOR_DROP = 7;
 /** Clump centres closer than this many clump radii overlap: one held by the wood holds the other. */
 const ANCHOR_LINK = 1.8;
 /** A clump is held through a neighbour only within this many clump radii of the wood. */
-const ANCHOR_HOLD = 2;
+const ANCHOR_HOLD = 3;
 /** Twigs stay above the player's 2.6 m slab (source space is metres): see treeWoodCollisionRadius. */
 const TWIG_FLOOR = 3.2;
 
@@ -220,8 +220,12 @@ export function woodAnchor(wood: THREE.BufferGeometry | null): (p: THREE.Vector3
 }
 
 /** Sides of a grown twig; rings along it (base, bend, tip). Each twig costs sides × (rings − 1) × 2 triangles. */
-const TWIG_SIDES = 3, TWIG_RINGS = 3;
-export const TWIG_TRIANGLES = TWIG_SIDES * (TWIG_RINGS - 1) * 2;
+const TWIG_SIDES = 3;
+/** Only a twig longer than this (m) bends at a middle ring; a short one, hidden in leaves, is a single tapered segment. */
+const TWIG_BEND_LENGTH = 2.5;
+const twigRings = (t: CanopyTwig) => t.from.distanceTo(t.to) > TWIG_BEND_LENGTH ? 3 : 2;
+/** Triangles the twigs add to the wood (growTwigs). */
+export const twigTriangles = (twigs: readonly CanopyTwig[]) => twigs.reduce((n, t) => n + TWIG_SIDES * (twigRings(t) - 1) * 2, 0);
 
 /** A twig grown from the wood (`from`, on its surface) out to a clump's centre (`to`). */
 export interface CanopyTwig { from: THREE.Vector3; to: THREE.Vector3 }
@@ -252,8 +256,9 @@ export function growTwigs(wood: THREE.BufferGeometry, twigs: readonly CanopyTwig
     const r0 = Math.min(0.05, Math.max(0.022, 0.018 + length * 0.007)), r1 = 0.004;
     const start = t.from.clone().addScaledVector(axis, -Math.min(0.08, r0 * 2)), base = next, copy = nearestVertex(t.from);
     const u0 = uv ? uv.getX(copy) : 0, v0 = uv ? uv.getY(copy) : 0;
-    for (let ring = 0; ring < TWIG_RINGS; ring++) {
-      const f = ring / (TWIG_RINGS - 1), r = r0 + (r1 - r0) * Math.pow(f, 0.8);
+    const rings = twigRings(t);
+    for (let ring = 0; ring < rings; ring++) {
+      const f = ring / (rings - 1), r = r0 + (r1 - r0) * Math.pow(f, 0.8);
       centre.copy(start).lerp(t.to, f).addScaledVector(down, Math.sin(f * Math.PI));
       tangent.copy(axis).addScaledVector(down, Math.cos(f * Math.PI) * Math.PI / Math.max(length, 1e-3)).normalize();
       for (let k = 0; k < TWIG_SIDES; k++) {
@@ -272,7 +277,7 @@ export function growTwigs(wood: THREE.BufferGeometry, twigs: readonly CanopyTwig
         next++;
       }
     }
-    for (let ring = 0; ring < TWIG_RINGS - 1; ring++) for (let k = 0; k < TWIG_SIDES; k++) {
+    for (let ring = 0; ring < rings - 1; ring++) for (let k = 0; k < TWIG_SIDES; k++) {
       const k1 = (k + 1) % TWIG_SIDES, i0 = base + ring * TWIG_SIDES, i1 = i0 + TWIG_SIDES;
       index.push(i0 + k, i0 + k1, i1 + k1, i0 + k, i1 + k1, i1 + k);
     }
@@ -342,7 +347,7 @@ export function buildCanopy(leaf: THREE.BufferGeometry, wood: THREE.BufferGeomet
     const reachIn = Math.max(0, from.distanceTo(plan.sits) - opts.clump * 0.45);
     twigs.push({ from, to: from.clone().lerp(plan.sits, reachIn / Math.max(from.distanceTo(plan.sits), 1e-6)) });
     grown.add(plan.source);
-    const step = opts.clump * 1.3, length = from.distanceTo(plan.sits);
+    const step = opts.clump * 1.0, length = from.distanceTo(plan.sits);
     for (let along = length - step; along > reach + opts.clump * 0.5; along -= step) {
       const at = from.clone().lerp(plan.sits, along / length);
       placedIn.add(at); plan.keep.push(at); held.push(at);
