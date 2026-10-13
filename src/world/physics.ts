@@ -225,8 +225,10 @@ export class RealmPhysics {
       // Restoring or respawning a person is placement, not a high-speed sweep through every intervening loose object.
       if (person.active && (!actor.active || Math.hypot(target.x - previous.x, target.y - previous.y, target.z - previous.z) > 2)) {
         actor.body.setTranslation(target, false);
+        actor.from = { ...actor.body.translation() };
+      } else {
+        actor.from = { ...previous };
       }
-      actor.from = { ...actor.body.translation() };
       actor.target = target; actor.active = person.active;
       actor.body.setEnabled(person.active);
     }
