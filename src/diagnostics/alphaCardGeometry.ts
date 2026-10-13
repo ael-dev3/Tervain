@@ -10,6 +10,7 @@ export function alphaCardGeometry(source: THREE.BufferGeometry, mask: AlphaMask,
       !(cutoff > 0 && cutoff <= 1) || !(opacity >= 0 && opacity <= 1) || !Number.isInteger(maxCells) || maxCells < 1) throw new Error('Invalid alpha clipping input');
   const position = source.getAttribute('position'), uv = source.getAttribute('uv');
   if (!position || !uv || position.count !== uv.count) throw new Error('Missing matching position/UV attributes');
+  if (new Set(source.groups.map(group => group.materialIndex)).size > 1) throw new Error('Multiple materials need separate alpha masks');
   const output: number[] = []; let cells = 0;
   const clip = (polygon: Vertex[], axis: 'u' | 'v', boundary: number, lower: boolean): Vertex[] => {
     const result: Vertex[] = [];

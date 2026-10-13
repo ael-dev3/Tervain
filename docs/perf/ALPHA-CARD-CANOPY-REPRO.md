@@ -32,4 +32,4 @@ These are whole-texture counts, not UV occupancy or visible island counts. The f
 
 This adapter models a discrete nearest-filter base mip in UV `[0,1]`. The real source sampler uses linear magnification and linear mip filtering; runtime alpha-to-coverage, texture transforms/wrapping, opacity maps, filtering derivatives and wind remain outside the adapter. Do not call a whole-tree scan visually complete from this fixture or the source inventory. Real filtered needle-island support still needs a renderer-aware follow-up.
 
-11 alpha/canopy tests and TypeScript pass. The native controlled fixture and source inventory pass. No game shaders, assets, placements, visuals, menus or sounds change. Hardware play gate remains required.
+12 alpha/canopy tests, TypeScript and production build pass. The native controlled fixture and source inventory pass. No game shaders, assets, placements, visuals, menus or sounds change. Hardware play gate remains required.

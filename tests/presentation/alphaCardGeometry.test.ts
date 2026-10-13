@@ -26,3 +26,12 @@ it('uses opacity and rejects incomplete or unsupported scans', () => {
   expect(() => alphaCardGeometry(bad, { width: 1, height: 1, alpha: new Uint8Array([255]), cutoff: .5 })).toThrow(/Unsupported/);
   expect(() => alphaCardGeometry(card(), { width: 1, height: 1, alpha: new Uint8Array(2), cutoff: .5 })).toThrow(/Invalid/);
 });
+it('rejects ambiguous material masks, degenerate UVs and nonfinite positions', () => {
+  const mask = { width: 1, height: 1, alpha: new Uint8Array([255]), cutoff: .5 };
+  const mixed = card(); mixed.addGroup(0, 3, 0); mixed.addGroup(3, 3, 1);
+  expect(() => alphaCardGeometry(mixed, mask)).toThrow(/Multiple materials/);
+  const flat = card(); for (let i = 0; i < flat.getAttribute('uv').count; i++) flat.getAttribute('uv').setXY(i, .5, .5);
+  expect(() => alphaCardGeometry(flat, mask)).toThrow(/Degenerate/);
+  const invalid = card(); invalid.getAttribute('position').setX(0, NaN);
+  expect(() => alphaCardGeometry(invalid, mask)).toThrow(/nonfinite/);
+});
