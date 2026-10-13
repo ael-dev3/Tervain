@@ -15,6 +15,16 @@ function tick(p: RealmPhysics, n: number, dt = 1 / 60) {
 }
 
 describe('real 60 Hz rigid-body world', () => {
+  it('uses the current prop shape and restored pose for support before the next physics step', () => {
+    const p = new RealmPhysics(floor, new Colliders(), [crate]);
+    try {
+      p.props[0]!.collider.setShape(new RAPIER.Cuboid(3, 1, 2));
+      p.restore([{ id: 'crate', position: { x: 7.123456, y: 2, z: 6 },
+        rotation: { x: 0, y: Math.sin(.3), z: 0, w: Math.cos(.3) } }]);
+      expect(p.supportAt(9.123456, 6, 5)).toBeCloseTo(3, 4);
+      expect(p.supportAt(100, 100, 5)).toBeNull();
+    } finally { p.dispose(); }
+  });
   it('falls under gravity and settles with its closed bottom on the same physical terrain', () => {
     const p = new RealmPhysics(floor, new Colliders(), [crate]);
     try {
