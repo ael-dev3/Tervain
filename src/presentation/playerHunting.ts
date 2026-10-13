@@ -19,7 +19,9 @@ export const BOW_READY_SECONDS = 2.5;
 const SLUNG_AT = new THREE.Vector3(.02, 1.32, -.3);
 /** The slung bow at carrying size: full size it reached from above his shoulder to below his knee (playtest 5). */
 const SLUNG_SCALE = .82;
-const SLUNG_UP = new THREE.Vector3(.42, .9, 0).normalize();
+// About 14° off vertical, so both limbs stay between his shoulder blades; at 25° the upper limb crossed his left
+// shoulder's outline (playtest 6).
+const SLUNG_UP = new THREE.Vector3(.25, .97, 0).normalize();
 
 type Snapshot = { position: THREE.Vector3; quaternion: THREE.Quaternion };
 const Z = new THREE.Vector3(0, 0, 1);
