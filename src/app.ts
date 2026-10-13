@@ -2366,14 +2366,30 @@ export class App {
     }
   }
 
+  private readonly residentContactRecords = new WeakMap<NpcActor, CircleCollider>();
+  private readonly enemyContactRecords = new WeakMap<EnemyActor, CircleCollider>();
+
   private residentContact(n: NpcActor): CircleCollider {
-    return { id: `person:${n.id}`, kind: 'circle', x: n.x, z: n.z, r: .35,
-      active: n.solid && this.game.state.npcs[n.id].available, minY: n.y, maxY: n.y + n.rig.height };
+    let contact = this.residentContactRecords.get(n);
+    if (!contact) {
+      contact = { id: `person:${n.id}`, kind: 'circle', x: n.x, z: n.z, r: .35, active: false };
+      this.residentContactRecords.set(n, contact);
+    }
+    contact.x = n.x; contact.z = n.z;
+    contact.active = n.solid && this.game.state.npcs[n.id].available;
+    contact.minY = n.y; contact.maxY = n.y + n.rig.height;
+    return contact;
   }
 
   private enemyContact(e: EnemyActor): CircleCollider {
-    return { id: `enemy:${e.id}`, kind: 'circle', x: e.x, z: e.z, r: e.radius,
-      active: e.alive, minY: e.y, maxY: e.y + e.rig.height };
+    let contact = this.enemyContactRecords.get(e);
+    if (!contact) {
+      contact = { id: `enemy:${e.id}`, kind: 'circle', x: e.x, z: e.z, r: e.radius, active: false };
+      this.enemyContactRecords.set(e, contact);
+    }
+    contact.x = e.x; contact.z = e.z; contact.r = e.radius;
+    contact.active = e.alive; contact.minY = e.y; contact.maxY = e.y + e.rig.height;
+    return contact;
   }
 
   /** Two people near each other may talk between themselves when the player comes close enough to overhear. */
