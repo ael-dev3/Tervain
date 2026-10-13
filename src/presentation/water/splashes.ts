@@ -55,6 +55,7 @@ export class Splashes {
   private readonly random = mulberry32(5501);
   private next = 0;
   private initialized = false;
+  private idle = false;
   enabled = true;
 
   constructor() {
@@ -82,6 +83,7 @@ export class Splashes {
     const r = this.random;
     for (let k = 0; k < Math.min(count, 120); k++) {
       const d = this.drops[this.next]!;
+      this.idle = false;
       this.next = (this.next + 1) % MAX;
       const angle = r() * Math.PI * 2, out = r() * spread;
       const up = speed * (0.55 + 0.45 * r());
@@ -93,6 +95,7 @@ export class Splashes {
   }
 
   update(dt: number) {
+    if (this.initialized && this.idle) return;
     const step = Number.isFinite(dt) ? Math.min(Math.max(dt, 0), 0.1) : 0;
     let changed = !this.initialized;
     let drawn = 0;
@@ -116,6 +119,7 @@ export class Splashes {
     // Dead slots are discarded by the shader; omit the invisible suffix without reordering live drops.
     this.points.geometry.setDrawRange(0, drawn);
     this.points.visible = drawn > 0;
+    this.idle = drawn === 0;
     if (!changed) return;
     const geo = this.points.geometry;
     geo.attributes.position!.needsUpdate = geo.attributes.aSize!.needsUpdate = geo.attributes.aFade!.needsUpdate = true;
