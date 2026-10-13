@@ -66,7 +66,7 @@ const candidates = [
   '/usr/bin/chromium',
 ].filter(Boolean);
 
-export async function openPage(url = process.env.TERVAIN_URL ?? 'http://127.0.0.1:5173/', { w = 1280, h = 720, init = null, flags = [], headed = false, requestTimeoutMs = 120000 } = {}) {
+export async function openPage(url = process.env.TERVAIN_URL ?? 'http://127.0.0.1:5173/', { w = 1280, h = 720, init = null, flags = [], headed = false, requestTimeoutMs = Number(process.env.CDP_TIMEOUT_MS ?? 120000) } = {}) {
   if (!Number.isFinite(requestTimeoutMs) || requestTimeoutMs <= 0) throw new Error('Invalid CDP request timeout');
   const browser = candidates.find((c) => fs.existsSync(c));
   if (!browser) throw new Error('no Chrome/Edge found; set CHROME');

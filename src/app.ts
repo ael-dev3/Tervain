@@ -69,6 +69,7 @@ import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { npcStyle } from './presentation/npcStyle';
 import { WaterRenderPass } from './presentation/waterRenderPass';
 import { installDepthOnlyShadowPass } from './presentation/softShadows';
+import { setHighLodBands, setHighLodSpecies } from './presentation/floraPopulation';
 import type { CircleCollider } from './world/colliders';
 
 /** How far round the line from the camera to the wanderer leaves give way (A84), metres. */
@@ -367,6 +368,9 @@ export class App {
     if (q.get('msaa') === '0') this.grade.setMsaa(false);
     if (q.get('shadows') === '0') this.renderer.shadowMap.enabled = false;
     if (q.get('treelod') === '1') this.settings.treeDetailByDistance = true;
+    const highLod = q.get('highlod')?.split(',').map(Number);
+    if (highLod?.length === 4 && highLod.every(Number.isFinite)) setHighLodBands({ near: [highLod[0]!, highLod[1]!], middle: [highLod[2]!, highLod[3]!] });
+    if (q.get('highlodsp')) setHighLodSpecies(q.get('highlodsp')!.split(','));
     if (q.get('reflect') === '0') WaterRenderPass.captureOff = true;
     // ?flat=forest,terrain: draw those parts with one unlit material, to price their shading.
     const flatNames = (q.get('flat') ?? '').split(',').filter(Boolean);
