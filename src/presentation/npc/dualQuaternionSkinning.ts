@@ -9,9 +9,10 @@ import * as THREE from 'three';
  * length and volume instead. The rig, its weights and every other system that reads the joints stay as they are; only
  * the vertex stage changes.
  *
- * The rigid motions, relative to the mesh as bound, are packed after the joint matrices in the skeleton's own bone
+ * The rigid motions, relative to the mesh as bound, are packed alone in the skeleton's own bone
  * texture. Three binds that texture for every skinned draw and uploads it once a frame when the skeleton updates, so the
- * colour pass, the sun's shadow pass and any lantern shadow all read the same frame.
+ * colour pass, the sun's shadow pass and any lantern shadow all read the same frame. Full matrices remain on the CPU
+ * for Three's skinning and bounds queries.
  */
 export const NPC_DQ_SKINNING_KEY = 'tervain-npc-dq-skinning-v1';
 
@@ -178,20 +179,23 @@ export function patchDualQuaternionMaterial(material: THREE.Material, base: numb
 export function installDualQuaternionSkinning(mesh: THREE.SkinnedMesh): DualQuaternionSkin {
   const skeleton = mesh.skeleton;
   const bones = skeleton.bones.length;
-  const base = bones * 4;
-  const texels = base + bones * 2;
+  const base = 0;
+  const texels = bones * 2;
   const size = Math.max(4, Math.ceil(Math.sqrt(texels) / 4) * 4);
-  const data = new Float32Array(size * size * 4);
-  if (skeleton.boneMatrices) data.set(skeleton.boneMatrices.subarray(0, bones * 16));
+  const height = Math.ceil(texels / size);
+  // Keep full matrices for Three's CPU skinning/bounds; only rigid motions are sampled by our shaders.
+  const matrices = new Float32Array(bones * 16);
+  if (skeleton.boneMatrices) matrices.set(skeleton.boneMatrices.subarray(0, matrices.length));
+  const data = new Float32Array(size * height * 4);
   skeleton.boneTexture?.dispose();
-  skeleton.boneMatrices = data;
-  skeleton.boneTexture = new THREE.DataTexture(data, size, size, THREE.RGBAFormat, THREE.FloatType);
+  skeleton.boneMatrices = matrices;
+  skeleton.boneTexture = new THREE.DataTexture(data, size, height, THREE.RGBAFormat, THREE.FloatType);
   skeleton.boneTexture.needsUpdate = true;
   const motions = data.subarray(base * 4, base * 4 + bones * DQ_FIELDS);
   const boneMatrix = new THREE.Matrix4();
   const refresh = () => {
     for (let i = 0; i < bones; i++) {
-      boneMatrix.fromArray(data, i * 16);
+      boneMatrix.fromArray(matrices, i * 16);
       _relative.multiplyMatrices(mesh.bindMatrixInverse, boneMatrix).multiply(mesh.bindMatrix);
       writeDualQuaternion(_relative, motions, i * DQ_FIELDS);
     }
@@ -201,7 +205,7 @@ export function installDualQuaternionSkinning(mesh: THREE.SkinnedMesh): DualQuat
   const previous = new Uint32Array(words.length);
   skeleton.update = function() {
     previous.set(words);
-    // Three's update unconditionally dirties the texture. Defer that until the complete packed data is compared.
+    // Three's update unconditionally dirties the texture. Defer that until the GPU motion data is compared.
     const texture = this.boneTexture;
     this.boneTexture = null;
     try {
@@ -226,7 +230,7 @@ export function installDualQuaternionSkinning(mesh: THREE.SkinnedMesh): DualQuat
   patchDualQuaternionMaterial(depth, base); patchDualQuaternionMaterial(distance, base);
   mesh.customDepthMaterial = depth;
   mesh.customDistanceMaterial = distance;
-  mesh.userData.npcDualQuaternion = { base, bones, texture: size };
+  mesh.userData.npcDualQuaternion = { base, bones, texture: size, height };
   const skin: DualQuaternionSkin = { base, motions, refresh, dispose() { depth.dispose(); distance.dispose(); } };
   skins.set(mesh, skin);
   return skin;
