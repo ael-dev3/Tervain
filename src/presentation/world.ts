@@ -137,6 +137,7 @@ export class WorldScene {
   /** Residents and enemies walking through the grass this frame (from the app); animals and cargo are added here. */
   private grassPeople: readonly GrassMover[] = [];
   private readonly grassLast = new Map<string, { x: number; z: number }>();
+  private readonly grassSeen = new Set<string>();
   readonly scenery: SceneryHandles;
   readonly animals: AnimalWildlife;
   readonly terrainMesh: THREE.Group;
@@ -536,7 +537,8 @@ export class WorldScene {
   private grassMovers(dt: number): GrassMover[] {
     const movers: GrassMover[] = [...this.grassPeople];
     const step = Number.isFinite(dt) && dt > 0 ? dt : 1 / 60;
-    const seen = new Set<string>();
+    const seen = this.grassSeen;
+    seen.clear();
     for (const a of this.animals.physicalActors) {
       if (!a.active) continue;
       seen.add(a.id);
@@ -544,7 +546,8 @@ export class WorldScene {
       const vx = last ? (a.x - last.x) / step : 0, vz = last ? (a.z - last.z) / step : 0;
       // A jump (a respawn or a restored save) is not a walk.
       const walking = Math.hypot(vx, vz) < 20;
-      this.grassLast.set(a.id, { x: a.x, z: a.z });
+      if (last) { last.x = a.x; last.z = a.z; }
+      else this.grassLast.set(a.id, { x: a.x, z: a.z });
       // Heavier animals lay grass down; a cat only parts it.
       movers.push({ x: a.x, z: a.z, radius: Math.max(0.35, a.radius * 1.25), weight: Math.min(1, 0.35 + a.radius * 0.9), vx: walking ? vx : 0, vz: walking ? vz : 0 });
     }
