@@ -1,7 +1,8 @@
 {
   "schema": 1,
+  "resizedActorId": "person:worker",
   "baselineRef": "0b45a36",
-  "sourceSha256": "627abdcb664a93fbde66329994f4fb3293202c86b713fda2560150063e06a496",
+  "sourceSha256": "ed548bbc36693dc49ca20ac6dd52d8bed7299f0ce741796535fe3d9bc0ac13f5",
   "beforeShapeWrites": 0,
   "afterShapeWrites": 3,
   "scope": "Actual synchronized Rapier actor collider dimensions and direct shape ray query. Controlled dimensions, no visual or hardware timing claim.",

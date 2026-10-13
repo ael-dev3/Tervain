@@ -225,7 +225,6 @@ export class RealmPhysics {
       if (actor.radius !== person.radius || actor.halfHeight !== halfHeight) {
         actor.collider.setShape(new RAPIER.Capsule(halfHeight, person.radius));
         actor.radius = person.radius; actor.halfHeight = halfHeight;
-        this.projectileQueryDirty.add(actor.collider);
       }
       const previous = actor.body.translation();
       // Restoring or respawning a person is placement, not a high-speed sweep through every intervening loose object.
