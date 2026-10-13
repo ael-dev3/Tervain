@@ -6,13 +6,13 @@ The general video metric previously required an externally recorded clip, which 
 node tools/capture-grass-shimmer.mjs --url http://127.0.0.1:4173/ --out grass-pan-proof
 ```
 
-Default route: High preset, 640×360, terrain location (-7,45), 24 frames and a two-degree yaw sweep. The existing native grass geometry and shaders are rendered with frozen simulation, wind, interaction and lights. Other meshes are hidden to isolate grass against the scene background. This is a diagnostic silhouette view, not a final gameplay appearance comparison. Camera rotation does not trigger tile streaming during the capture.
+Default route: High preset, 640×360, terrain location (-7,45), 24 frames and a two-degree yaw sweep. The existing native grass geometry and shaders are rendered through the selected preset's post-processing and multisampling, with frozen simulation, wind, interaction, lights and post clock. Other meshes are hidden to isolate grass against the scene background. This is a diagnostic silhouette view, not a final gameplay appearance comparison. Camera rotation does not trigger tile streaming during the capture.
 
-PNG frames are encoded losslessly with FFV1. The 60 Hz encoding cadence is synthetic: it does not measure render speed or hardware frame pacing. Metric decoding preserves frame order and timestamps. `--frames`, `--x`, `--z`, `--degrees` and `--quality` select other controlled routes. The supplied URL must serve a built game; Chromium and ffmpeg/ffprobe are required.
+PNG frames are encoded losslessly with FFV1. The 60 Hz encoding cadence is synthetic: it does not measure render speed or hardware frame pacing. Metric decoding preserves frame order and timestamps. `--frames`, `--x`, `--z`, `--degrees` and `--quality` select other controlled routes. `--raw-control true` adds matched clips through the old direct-framebuffer path; `--headed true` selects a hardware-backed browser. The supplied URL must serve a built game; Chromium and ffmpeg/ffprobe are required.
 
-## Actual-build receipt
+## Previous raw-framebuffer receipt
 
-The committed software-rendered clips contain 24 frames each, giving 22 temporal triplets. Assertions pass: grass is nonempty, repeated renders of identical state are byte-identical, all triplets are usable, and stationary residual sparkle is exactly zero. The native grass field reports 23,724 instances and 1,458,624 submitted triangles before camera culling.
+This older receipt bypassed the post-processing target and therefore High-preset multisampling. It remains a raw diagnostic archive, not a measurement of the High rendering pipeline. The committed software-rendered clips contain 24 frames each, giving 22 temporal triplets. Assertions pass: grass is nonempty, repeated renders of identical state are byte-identical, all triplets are usable, and stationary residual sparkle is exactly zero. The native grass field reports 23,724 instances and 1,458,624 submitted triangles before camera culling.
 
 Pan mean residual sparkle share is 6.22%, peak 6.82%; average motion-alignment coverage is 58.92%. These values apply only to this isolated capture and ROI, not to the uploaded gameplay recording or a general quality threshold. Unaligned pixels are excluded; partial coverage must remain visible when comparing candidates. Occlusion, subpixel raster coverage, parallax and view-dependent shading can all contribute. A nonzero pan score alone does not identify a shader bug.
 
@@ -21,3 +21,5 @@ Pan mean residual sparkle share is 6.22%, peak 6.82%; average motion-alignment c
 The grass uses opaque double-sided Lambert geometry, rather than alpha-cutout leaf cards. Its vertex shader narrows tips and near-camera blades; lighting adds rounded normals, translucency and a view-dependent sheen. Tree alpha-mask changes therefore do not establish a grass fix. Compare the same capture before/after any proposed coverage or shading change, alongside full gameplay movement clips and rendering-cost counters. Do not infer Apple GPU frame time from the software renderer.
 
 Validation: production build, six video/metric tests, and the actual-build assertions above. The companion native-cadence change is the base of this PR. This tool supplies controlled evidence, not an appearance change or a calibrated pass threshold.
+
+Current pipeline verification, controls and clips: [GRASS-CAPTURE-PIPELINE.md](GRASS-CAPTURE-PIPELINE.md).
