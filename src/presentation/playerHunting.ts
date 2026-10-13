@@ -16,7 +16,7 @@ export const BOW_READY_SECONDS = 2.5;
  * right hip up over his left shoulder, the string outward, away from his back.
  */
 // Out from the spine far enough that the limbs clear the vest and shoulder blade (playtest 5: they cut into his back).
-const SLUNG_AT = new THREE.Vector3(.02, 1.32, -.3);
+const SLUNG_AT = new THREE.Vector3(.02, 1.32, -.34);
 /** The slung bow at carrying size: full size it reached from above his shoulder to below his knee (playtest 5). */
 const SLUNG_SCALE = .82;
 // About 14° off vertical, so both limbs stay between his shoulder blades; at 25° the upper limb crossed his left
