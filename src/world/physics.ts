@@ -2,7 +2,7 @@ import RAPIER from '@dimforge/rapier3d-compat';
 import type { Collider as WorldCollider, Colliders } from './colliders';
 import { ARCHIVE_ROOM, BUILDINGS, DECKS, HAMLET_PROPS } from './layout';
 import { buildingEntry, buildingGround } from './buildingEntries';
-import { PLAYER_BODY_HEIGHT, PLAYER_BODY_RADIUS } from './playerPlacement';
+import { PLAYER_BODY_HEIGHT, PLAYER_BODY_RADIUS, PLAYER_FOOT_CLEARANCE } from './playerPlacement';
 import type { Terrain } from './terrain';
 import type { PhysicalObjectPose } from '../game/types';
 import { RockSurfaces, ROCK_CLIMB_ANGLE, ROCK_STEP_HEIGHT } from './rockContacts';
@@ -360,6 +360,15 @@ export class RealmPhysics {
     const rock = this.rockSurfaces.supportAt(x, z, feetY) ?? -Infinity;
     const height = Math.max(prop, rock);
     return Number.isFinite(height) ? height : null;
+  }
+
+  /** Pure airborne-body clearance against loose cargo, including immediately restored positions. */
+  propsBlockBodySweep(from: Vec3, to: Vec3, padding = 0): boolean {
+    const shape = new RAPIER.Capsule(CAPSULE_CENTER - PLAYER_BODY_RADIUS - PLAYER_FOOT_CLEARANCE / 2,
+      PLAYER_BODY_RADIUS + Math.max(0, padding));
+    const position = { x: from.x, y: from.y + CAPSULE_CENTER + PLAYER_FOOT_CLEARANCE / 2, z: from.z };
+    const velocity = { x: to.x - from.x, y: to.y - from.y, z: to.z - from.z };
+    return this.castContacts(shape, position, velocity, 1, undefined, false) !== null;
   }
 
   surfaceAt(x: number, z: number, feetY: number): 'deck' | 'stone' | null {
