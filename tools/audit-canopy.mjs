@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import fs from 'node:fs';
 import {openPage} from './cdp.mjs';
+import {compareCanopyBaseline} from './canopy-baseline.mjs';
 const args=Object.fromEntries(process.argv.slice(2).flatMap((a,i,all)=>a.startsWith('--')?[[a.slice(2),all[i+1]]]:[]));
 const url=new URL(args.url??'http://127.0.0.1:4173/');for(const[k,v]of Object.entries({shot:'1',quality:'low',place:'rillford',settle:'1',hud:'0'}))url.searchParams.set(k,v);
 const options={gap:Number(args.gap??.75),maxOperations:Number(args['max-operations']??20000000)};let page;
@@ -10,7 +11,7 @@ try{
  report.pass=report.complete===true&&report.summary.trees===report.expectedTrees&&report.expectedTrees>0;
  // A complete scan with new detached candidates is not a successful gate.
  if(!args.baseline)report.pass&&=report.summary.candidates===0;
- if(args.baseline){const before=JSON.parse(fs.readFileSync(args.baseline,'utf8'));report.pass&&=before.complete===true&&before.expectedTrees===report.expectedTrees&&before.gap===report.gap&&report.summary.candidates<=before.summary.candidates;}
+ if(args.baseline){const before=JSON.parse(fs.readFileSync(args.baseline,'utf8'));report.baselineComparison=compareCanopyBaseline(before,report);report.pass&&=report.baselineComparison.pass;}
  if('repro'in args){
   report.repro=await page.eval(`const T=window.tervain,forest=T.world.modules.find(m=>m.name==='forest').module,original=forest.canopyAuditTargets,targets=original.call(forest),baseline=await T.auditCanopies(${JSON.stringify(options)});
    const index=targets.findIndex((t,i)=>t.leaves&&baseline.trees[i].candidates.length===0);if(index<0)throw new Error('No supported leafy fixture available');
@@ -33,5 +34,5 @@ try{
   report.pass&&=report.repro.detached.complete&&report.repro.restored.complete&&report.repro.detached.rootCandidates===report.repro.before.rootCandidates&&report.repro.detached.canopyCandidates>report.repro.before.canopyCandidates&&report.repro.detached.fixtureCandidates>0&&report.repro.restored.canopyCandidates===report.repro.before.canopyCandidates;
   if(args['restored-shot']){await page.eval('const T=window.tervain,F=window.__canopyFixture;F.crown.geometry=F.originalLeaf;T.renderer.render(F.scene,F.camera);');await page.shot(args['restored-shot']);}
  }
- fs.writeFileSync(args.out??'canopy-audit.json',JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify({complete:report.complete,summary:report.summary,operations:report.operations,repro:report.repro,pass:report.pass}));if(!report.pass)process.exitCode=1;
+ fs.writeFileSync(args.out??'canopy-audit.json',JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify({complete:report.complete,summary:report.summary,operations:report.operations,baselineComparison:report.baselineComparison,repro:report.repro,pass:report.pass}));if(!report.pass)process.exitCode=1;
 }finally{page?.close();}
