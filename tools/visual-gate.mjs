@@ -4,7 +4,7 @@
  * fixed stills at each, and runs the automated checks a fix must pass before it is claimed.
  *
  *   node tools/visual-gate.mjs [--url <build>] [--tag <name>] [--out visual-gate-runs] [--profile mac|desktop]
- *                              [--baseline <metrics.json>] [--spots giant,grove,meadow,fence,hearth,sign,woods,deepwoods]
+ *                              [--baseline <metrics.json>] [--spots giant,grove,meadow,fence,hearth,room_b,room_c,room_d,room_f,sign,woods,deepwoods]
  *
  * Writes <out>/<tag>/: one folder per spot (still-*.jpg, frames/, clip.mp4), metrics.json and report.md (media as
  * MEDIA/<tag>/... for tools/publish-gate.mjs). Checks, each failing the run:
@@ -39,7 +39,6 @@ const SPOTS = {
   meadow: { item: 'Grass: sparkle and pop-in while moving', hero: [6, 26, 0], still: [[0, 1.9, -3.2, 0, 1, 4], [2, 1.6, -1, 0, .6, 6]], run: 4500 },
   fence: { item: 'Fences: vault in real play', hero: [-4, 49, 0], still: [[2.6, 1.8, -1.5, 0, 1, 2.5]], path: [[3, 1.8, -2, 0, 1, 3], [-3, 1.8, -2, 0, 1, 3]] },
   hearth: { item: 'Interiors: hearth and lived-in room', hero: [-6, -6, 1.6], hide: true, still: [[0, 1.7, 0, 3, 1.4, 0], [0, 1.7, 0, -3, 1.4, 0], [0, 1.7, 0, 0, 1.4, -3]], path: [[-1.5, 1.7, -1, 3, 1.3, 1], [1.5, 1.7, 1, -3, 1.3, -1]] },
-  // The inn's hanging sign stands out from its east end, about (0.4, 34.8).
   // Playtest 7: the fisher mends nets 2.4 m in front of the net store (yaw 0.5); his head and hands at conversation range.
   peddler: { item: 'Residents: the net-mender by the cabin', hero: [-82.7, 32.1, 0.5], hide: true, still: [[1.2, 1.7, 2.2, 0, 1.55, 0], [-1.6, 1.6, 1.4, 0, 1.4, 0]], path: [[1.9, 1.7, 1.2, 0, 1.5, 0], [-1.2, 1.7, 2.2, 0, 1.5, 0]] },
   // Playtest 7, 0:28-0:33: looking up a wooded slope from below, where needle and leaf clumps floated against the sky.
@@ -50,7 +49,10 @@ const SPOTS = {
   // follow camera behind him: in from the eastern oaks' edge, and deep through the densest stand of the deepwood.
   woods: { item: 'Trees: crowns on their boughs, walking into the oaks at dusk', hero: [-108, 53, -Math.PI / 2], hour: 19.8, still: [[0, 2.2, 3.2, 0, 3.5, -8]], run: 6000 },
   deepwoods: { item: 'Trees: no floating leaf chunks deep in the forest at dusk', hero: [-166.9, -42.8, 0.6], hour: 19.8, still: [[0, 2.2, -3.2, 0, 4, 8]], run: 9000 },
-  sign: { item: 'Props: shop sign and supports', hero: [2, 38.5, Math.PI], hide: true, still: [[0, 1.7, 0, -1.6, 2.1, -3.7]], path: [[-2, 1.7, .5, -1.6, 2.1, -3.7], [2, 1.7, .5, -1.6, 2.1, -3.7]] },
+  // Other households' rooms (A136), each from its middle towards both side walls and the back wall.
+  ...Object.fromEntries([['b', 8, -10], ['c', 30, 14], ['d', -22, 20], ['f', -12, 44]].map(([k, x, z]) => [`room_${k}`, { item: `Interiors: house_${k}`, hero: [x, z, 0], hide: true, still: [[0, 1.7, 0.8, 3, 1.3, -0.6], [0, 1.7, 0.8, -3, 1.3, -0.6], [0, 1.7, 1.6, 0, 1.3, -3]], path: [[-1.2, 1.7, 1, 3, 1.3, -1], [1.2, 1.7, 1, -3, 1.3, -1]] }])),
+  // The inn's hanging sign (A136) hangs out from its east end near the front corner, about (1.9, 32.4).
+  sign: { item: 'Props: shop sign and supports', hero: [3.2, 36.6, Math.PI], hide: true, still: [[0.2, 1.7, 0.4, -1.3, 2.9, -4.2], [-3.4, 1.7, -1.2, -1.3, 2.9, -4.2], [1.6, 2.1, -2.6, -1.3, 2.9, -4.2]], path: [[-1.5, 1.7, .3, -1.3, 2.9, -4.2], [1.5, 1.7, .3, -1.3, 2.9, -4.2]] },
 };
 const chosen = (args.spots ?? Object.keys(SPOTS).join(',')).split(',').filter((s) => SPOTS[s]);
 

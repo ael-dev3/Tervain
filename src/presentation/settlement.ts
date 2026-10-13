@@ -31,6 +31,7 @@ import { roomOf } from '../world/interiors';
 import { FURNITURE } from '../world/furniture';
 import { benchSet, campfire, cart, fence, palisade, pot, ropeCoil, stockadeGate, wagon, watchtower, well, workTable, wreck } from './props';
 import { MaterialSet, Region } from './regions';
+import { signSway, type SwingingPart } from './innSign';
 import { TINT, buildShrineHallShell, crate, door, fieldstone, jitterTone, roofFor, sack, villageBell, windowAt, woodpile, type Rnd } from './structures';
 import type { AssetNeed } from './assets/library';
 import { buildWorldPickups, isWorldPickupItem } from './worldPickups';
@@ -181,7 +182,8 @@ export function buildScenery(terrain: Terrain, colliders: Colliders, quality: 'l
   const mats = new MaterialSet(quality === 'low' ? 192 : 256);
   const lanternPositions: THREE.Vector3[] = [];
   const doors: DoorLeaf[] = [];
-  const out: BuildOut = { lanterns: lanternPositions, doors };
+  const swinging: SwingingPart[] = [];
+  const out: BuildOut = { lanterns: lanternPositions, doors, swinging };
   const rng: Rnd = mulberry32(909);
   const gy = (x: number, z: number) => terrain.heightAt(x, z);
 
@@ -216,6 +218,7 @@ export function buildScenery(terrain: Terrain, colliders: Colliders, quality: 'l
     buildStandard(region(regionOf(b.x, b.z)), terrain, b, out);
   }
   for (const leaf of doors) group.add(leaf.pivot);
+  for (const part of swinging) group.add(part.pivot);
 
   /* ---------------- The lighthouse on Lantern Point ---------------- */
   const lightR = region('coast');
@@ -947,7 +950,8 @@ export function buildScenery(terrain: Terrain, colliders: Colliders, quality: 'l
     quarryBanner,
     lighthouse: { beam, lamp: lampWorld, light: beamLight },
     setNight,
-    update(dt: number, _time: number, night: number, reducedMotion = false) {
+    update(dt: number, time: number, night: number, reducedMotion = false) {
+      for (const part of swinging) part.swing.rotation.x = reducedMotion ? 0 : signSway(time, part.phase);
       // The beam turns once every eight seconds and shows only after dusk, fading in and out with its light (A89 scout:
       // the cones popped on and off at full strength); with motion reduced it turns slowly.
       const fade = Math.max(0, Math.min(1, (night - 0.35) * 2));

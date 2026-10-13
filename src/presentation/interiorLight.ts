@@ -16,7 +16,8 @@ export function interiorFlicker(time: number): number {
 }
 
 export class InteriorLight {
-  readonly light = new THREE.PointLight(0xffa25a, 0, 13, 1.25);
+  // A136: a softer falloff (decay 1), so the fire's warmth reaches the far side of a room before it fades.
+  readonly light = new THREE.PointLight(0xffa25a, 0, 13, 1);
   private indoor = 0;
   private room: InteriorSpec | null = null;
   private readonly glows = new Map<InteriorSpec, THREE.Vector3>();

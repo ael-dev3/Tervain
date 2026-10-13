@@ -10,7 +10,7 @@ import { observeModelLoad, withModelLoadSlot, type ModelLoadProgress } from './a
 import { downloadAsset } from './assets/download';
 import type { FrameContext, SceneModule } from './context';
 import { roughnessFloor } from './matte';
-import { clutterGeometry, clutterMaterial, clutterOnPiece, type ClutterKind } from './clutter';
+import { clutterGeometry, clutterMaterial, clutterOnPiece, firewoodGeometry, hungGeometry, hungMaterial, pegRailGeometry, type ClutterKind, type HungKind } from './clutter';
 
 /**
  * The rooms' furniture, drawn (A66): the prepared Meshy pieces in public/models/furniture, placed as world/furniture.ts
@@ -99,6 +99,7 @@ export function buildFurniture(templates: FurnitureTemplates, rooms: RoomLocator
   // The rooms' dressing (A123): props on tables, shelves, walls and hearths, and woven rugs on the floors.
   const rugs: Instance[][] = [[], [], [], []], boards: Instance[] = [], brackets: Instance[] = [];
   const byClutter = new Map<ClutterKind, Instance[]>();
+  const rails: Instance[] = [], byHung = new Map<HungKind | 'firewood', Instance[]>();
   const later: { mesh: THREE.InstancedMesh; instances: Instance[]; shown: string }[] = [];
   for (const [n, p] of dressing.entries()) {
     const b = p.room.building, world = fromBuildingLocal(b, p.x, p.z);
@@ -120,6 +121,17 @@ export function buildFurniture(templates: FurnitureTemplates, rooms: RoomLocator
       }
       continue;
     }
+    // A136: peg rails and what hangs from them, and the firewood by the hearth.
+    if (p.piece === 'rail') {
+      rails.push({ room: p.room, centre, matrix: new THREE.Matrix4().compose(at, q, new THREE.Vector3(p.size?.[0] ?? 1, 1, 1)) });
+      continue;
+    }
+    if (p.piece === 'hung' || p.piece === 'firewood') {
+      const key = p.piece === 'hung' ? p.hung! : 'firewood', list = byHung.get(key) ?? [];
+      list.push({ room: p.room, centre, matrix: new THREE.Matrix4().compose(at, q, one) });
+      byHung.set(key, list);
+      continue;
+    }
     const size = (p.scale ?? 1) * (MODEL_SCALE[p.piece] ?? 1), scaled = new THREE.Vector3(size, size, size);
     if (p.piece === 'small') {
       const list = byClutter.get(p.kind!) ?? [];
@@ -139,6 +151,19 @@ export function buildFurniture(templates: FurnitureTemplates, rooms: RoomLocator
     mesh.receiveShadow = true;
     mesh.count = 0;
     mesh.userData.ownsResources = true;
+    group.add(mesh);
+    later.push({ mesh, instances, shown: '' });
+  }
+  // One material for the rails, the hung things and the firewood: their wood and iron are in the vertex colours.
+  const hungMat = hungMaterial();
+  for (const [name, instances, geometry] of [['peg rails', rails, pegRailGeometry()] as const,
+    ...[...byHung].map(([kind, list]) => [`hung ${kind}`, list, kind === 'firewood' ? firewoodGeometry() : hungGeometry(kind)] as const)]) {
+    if (!instances.length) { geometry.dispose(); continue; }
+    const mesh = new THREE.InstancedMesh(geometry, hungMat, instances.length);
+    mesh.name = `Furniture / ${name}`;
+    mesh.receiveShadow = true;
+    mesh.count = 0;
+    mesh.userData.ownsGeometry = true;
     group.add(mesh);
     later.push({ mesh, instances, shown: '' });
   }
@@ -263,7 +288,9 @@ export function buildFurniture(templates: FurnitureTemplates, rooms: RoomLocator
       for (const { mesh } of meshes) {
         mesh.dispose();
         if (mesh.userData.ownsResources) { mesh.geometry.dispose(); (mesh.material as THREE.Material).dispose(); }
+        if (mesh.userData.ownsGeometry) mesh.geometry.dispose();
       }
+      hungMat.dispose();
       const card = meshes.find(({ mesh }) => mesh.name === 'Furniture / floor shadows')?.mesh;
       if (card) { card.geometry.dispose(); (card.material as THREE.MeshBasicMaterial).map?.dispose(); (card.material as THREE.Material).dispose(); }
     },

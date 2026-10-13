@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { describe, expect, it } from 'vitest';
 import { InteriorLight, interiorFlicker } from '../../src/presentation/interiorLight';
 import { hearthFires } from '../../src/presentation/hearthFire';
+import { signSway } from '../../src/presentation/innSign';
 import { clutterGeometry } from '../../src/presentation/clutter';
 import { reserved } from '../../src/world/furniture';
 import { FURNITURE_SIZES } from '../../src/world/furnitureSizes';
@@ -99,5 +100,27 @@ describe('things at their real size (A135)', () => {
       expect(mine.filter((d) => d.piece === 'small').length, room.building.id).toBeGreaterThanOrEqual(10);
       expect(mine.some((d) => d.piece === 'cauldron'), room.building.id).toBe(true);
     }
+  });
+});
+
+describe('a fuller room and a swinging sign (A136)', () => {
+  it('hangs pans, tools and onions in every house, and stacks wood by most fires', () => {
+    for (const room of houses) {
+      const mine = DRESSING.filter((d) => d.room === room);
+      expect(mine.filter((d) => d.piece === 'hung').length, room.building.id).toBeGreaterThanOrEqual(4);
+      for (const d of mine.filter((x) => x.piece === 'hung')) {
+        // Each hangs from below the ceiling and clears the floor (the longest, an axe, is 0.65 m).
+        expect(d.y, `${room.building.id} ${d.hung}`).toBeLessThan(room.wallTop - room.floorTop);
+        expect(d.y - 0.65, `${room.building.id} ${d.hung}`).toBeGreaterThan(0.25);
+      }
+    }
+    expect(houses.filter((room) => DRESSING.some((d) => d.room === room && d.piece === 'firewood')).length).toBeGreaterThanOrEqual(4);
+  });
+
+  it('sways the inn sign gently, never more than about 7 degrees', () => {
+    let hi = 0, moved = 0;
+    for (let t = 0; t < 600; t += 0.05) { const a = signSway(t); hi = Math.max(hi, Math.abs(a)); if (Math.abs(a) > 0.02) moved++; }
+    expect(hi).toBeLessThan(0.125);
+    expect(moved).toBeGreaterThan(1000);
   });
 });

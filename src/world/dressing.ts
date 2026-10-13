@@ -1,5 +1,5 @@
 import { FURNITURE, footprint, HOUSEHOLDS, pieceSize, reserved, type FurniturePlacement, type PieceId, type Rect } from './furniture';
-import { hearthOf, HEARTH_DRESS, INTERIORS, joistsOf, roomHalfSize, type InteriorSpec } from './interiors';
+import { CHIMNEY_STACK, FIREPLACE, hearthOf, HEARTH_DRESS, HEARTH_SHAPE, INTERIORS, joistsOf, roomHalfSize, type InteriorSpec } from './interiors';
 
 /**
  * What makes a room lived in (A123): the things on its tables and shelves, on its walls and before its hearth, and the
@@ -7,13 +7,16 @@ import { hearthOf, HEARTH_DRESS, INTERIORS, joistsOf, roomHalfSize, type Interio
  * alone. Nothing here is walked into, so none of it collides; it is laid out from the furniture already placed, so it
  * never stands in the way in, across a window or inside another piece.
  */
-export type DressingId = 'bread' | 'jug' | 'candle' | 'pots' | 'cauldron' | 'herbs' | 'antlers' | 'pelt' | 'rug' | 'board' | 'small';
+export type DressingId = 'bread' | 'jug' | 'candle' | 'pots' | 'cauldron' | 'herbs' | 'antlers' | 'pelt' | 'rug' | 'board' | 'small' | 'rail' | 'hung' | 'firewood';
 
 /**
  * The small things a household keeps (A135), built in code (presentation/clutter.ts): a clay jar is about 30 cm tall,
  * a jug 22, a bowl a hand high. They crowd the wall shelves, the mantel and the floor's corners.
  */
-export type SmallKind = 'jar' | 'jug' | 'bowl' | 'cup' | 'candle' | 'pot' | 'loaf' | 'bottle' | 'spool';
+export type SmallKind = 'jar' | 'jug' | 'bowl' | 'cup' | 'candle' | 'pot' | 'loaf' | 'bottle' | 'spool' | 'sack' | 'basket';
+
+/** Things hung from a wall's peg rail (A136), built in code (presentation/clutter.ts). */
+export type HungKind = 'ladle' | 'pan' | 'sickle' | 'rope' | 'axe' | 'saw' | 'basket' | 'onions';
 
 export interface Dressing {
   room: InteriorSpec;
@@ -29,6 +32,8 @@ export interface Dressing {
   scale?: number;
   /** Small pieces only: what it is. */
   kind?: SmallKind;
+  /** Hung pieces only: what hangs from the peg. */
+  hung?: HungKind;
 }
 
 /** A rug's woven pattern, by household (index into the rug material's palettes). */
@@ -83,8 +88,32 @@ const CORNERS: Record<string, SmallKind[][]> = {
   hunter: [['jar', 'pot']], farmer: [['jar', 'jar', 'pot'], ['pot', 'jar']], brewer: [['jug', 'jar', 'jug', 'jar'], ['jar', 'jug']],
 };
 
+/**
+ * Each household's peg rails (A136), what hangs from each, left to right: the first by the hearth (the kitchen's pans
+ * and ladles), the rest wherever the walls are free. Every house had bare plaster between its shelves.
+ */
+const RAILS: Record<string, HungKind[][]> = {
+  weaver: [['onions', 'ladle'], ['basket', 'rope'], ['basket']],
+  woodcutter: [['onions', 'ladle'], ['axe', 'rope'], ['saw'], ['axe']],
+  herbalist: [['onions', 'ladle'], ['basket', 'sickle'], ['basket']],
+  hunter: [['onions', 'pan'], ['rope', 'axe'], ['sickle']],
+  farmer: [['onions', 'pan'], ['sickle', 'basket'], ['rope', 'sickle']],
+  brewer: [['ladle', 'onions'], ['rope', 'basket'], ['ladle']],
+  inn: [['pan', 'ladle'], ['pan', 'onions']], fisher: [['rope', 'basket'], ['rope']], keeper: [['pan', 'ladle']], bakery: [['basket', 'ladle']],
+};
+/** How wide each hung thing is along the rail, metres. */
+const HUNG_W: Record<HungKind, number> = { ladle: 0.14, pan: 0.3, sickle: 0.3, rope: 0.32, axe: 0.24, saw: 0.62, basket: 0.34, onions: 0.16 };
+/** A peg rail's height above the floor: above the wainscot, the things on it clear of the rail along its top. */
+export const RAIL_Y = 1.78;
+
+/** Each household's sacks and baskets on the floor (A136), stood together against a wall. */
+const STORES: Record<string, SmallKind[]> = {
+  weaver: ['basket', 'basket'], woodcutter: ['sack', 'basket'], herbalist: ['basket', 'sack', 'basket'], hunter: ['sack', 'sack'],
+  farmer: ['sack', 'sack', 'sack', 'basket'], brewer: ['sack', 'sack', 'basket'], inn: ['sack', 'sack'], bakery: ['sack', 'sack', 'sack'],
+};
+
 /** How wide each small thing stands (metres), for spacing them along a shelf; and the scale a corner's vessels take. */
-const SMALL_W: Record<SmallKind, number> = { jar: 0.2, jug: 0.16, bowl: 0.19, cup: 0.09, candle: 0.1, pot: 0.21, loaf: 0.2, bottle: 0.1, spool: 0.11 };
+const SMALL_W: Record<SmallKind, number> = { jar: 0.2, jug: 0.16, bowl: 0.19, cup: 0.09, candle: 0.1, pot: 0.21, loaf: 0.2, bottle: 0.1, spool: 0.11, sack: 0.38, basket: 0.38 };
 /** Wall shelves: the upper and lower boards' heights above the floor, their depth and length. */
 export const SHELF = { y: 1.58, low: 1.12, depth: 0.24, length: 0.95 } as const;
 
@@ -131,6 +160,28 @@ export function dressRoom(room: InteriorSpec, placed: readonly FurniturePlacemen
       const at = hearth.at(lx, HEARTH_DRESS.mantel.z);
       out.push({ room, piece: 'small', kind, ...at, y: HEARTH_DRESS.mantel.y, yaw: hearth.yaw + i * 1.3, scale: wobble(room, i, 0.85, 1.1) });
     });
+    // A136: a pan and a ladle hung from hooks under each end of the mantel shelf, before the piers.
+    for (const [side, hung] of [[-1, 'pan'], [1, 'ladle']] as const) {
+      const at = hearth.at(side * (FIREPLACE.halfWidth + 0.02), HEARTH_SHAPE.mantelFront - 0.04);
+      out.push({ room, piece: 'hung', hung, ...at, y: HEARTH_SHAPE.mantelY - 0.11, yaw: hearth.yaw });
+    }
+    // A136: split wood stacked against the breast beside the fire, on whichever side the room has space and nothing
+    // stands (the pot's side last), and a rug or pelt on the boards before the hearthstone where no table's rug lies.
+    const furniture = placed.map((p) => footprint(p.piece, p.x, p.z, p.yaw)), door = reserved(room).always.slice(0, 1);
+    for (const side of [-1, 1]) {
+      const c = hearth.at(side * (FIREPLACE.halfWidth + 0.42), CHIMNEY_STACK + 0.22), along = Math.abs(Math.sin(hearth.yaw)) > 0.5;
+      const rect = along ? { x0: c.x - 0.2, x1: c.x + 0.2, z0: c.z - 0.33, z1: c.z + 0.33 } : { x0: c.x - 0.33, x1: c.x + 0.33, z0: c.z - 0.2, z1: c.z + 0.2 };
+      if (rect.x0 < -hw + 0.02 || rect.x1 > hw - 0.02 || rect.z0 < -hd + 0.02 || rect.z1 > hd - 0.02) continue;
+      if (furniture.some((o) => near(rect, o, 0.03)) || door.some((o) => near(rect, o, 0))) continue;
+      out.push({ room, piece: 'firewood', ...c, y: 0, yaw: hearth.yaw });
+      break;
+    }
+    const mat = hearth.at(0, HEARTH_SHAPE.slab + 0.42), rugs = out.filter((d) => d.piece === 'rug');
+    const matRect = { x0: mat.x - 0.75, x1: mat.x + 0.75, z0: mat.z - 0.75, z1: mat.z + 0.75 };
+    const clearOf = (o: { x: number; z: number; size?: readonly [number, number] }) => Math.hypot(o.x - mat.x, o.z - mat.z) > 0.6 + Math.max(...(o.size ?? [1, 1])) / 2;
+    if (rugs.every(clearOf) && !furniture.some((o) => near(matRect, o, -0.35)) && Math.abs(mat.x) < hw - 0.5 && Math.abs(mat.z) < hd - 0.5) {
+      out.push({ room, piece: 'rug', ...mat, y: 0.006, yaw: hearth.yaw, size: [1.5, 0.9] });
+    }
   }
 
   // On the walls, between the windows and clear of anything tall: the household's own things.
@@ -175,6 +226,60 @@ export function dressRoom(room: InteriorSpec, placed: readonly FurniturePlacemen
         out.push({ room, piece: 'small', kind, x: spot.x + along * c + lz * s, z: spot.z - along * s + lz * c, y: y + 0.03,
           yaw: spot.yaw + i * 2.1, scale: wobble(room, n * 10 + i + y, 0.85, 1.1) });
         t += w + 0.015;
+      }
+    }
+  }
+
+  // Peg rails along the walls (A136), hung with the household's pans, tools, baskets and onions: the kitchen's by the
+  // hearth, the next wherever a wall is free. They keep above the wainscot, clear of windows, shelves and anything tall.
+  const unhung: HungKind[] = [];
+  for (const [n, row] of (RAILS[household] ?? []).entries()) {
+    const width = row.reduce((t, k) => t + HUNG_W[k] + 0.06, 0.08);
+    const spot = wallSpot(hw, hd, width, (r) => !windows.some((o) => near(r, o)) && !always.some((o) => near(r, o))
+      && !tall.some((o) => near(r, o)) && !taken.some((o) => near(r, o, 0.12)), n === 0 && hearth ? hearth.stack : null, 0.05, 0,
+      ['back', 'left', 'right', 'front'], 0.1);
+    if (!spot) { unhung.push(...row); continue; }
+    taken.push(spot.rect);
+    out.push({ room, piece: 'rail', x: spot.x, z: spot.z, y: RAIL_Y, yaw: spot.yaw, size: [width, 0.08] });
+    const c = Math.cos(spot.yaw), s = Math.sin(spot.yaw);
+    let t = -width / 2 + 0.07;
+    for (const kind of row) {
+      const along = t + HUNG_W[kind] / 2;
+      out.push({ room, piece: 'hung', hung: kind, x: spot.x + along * c, z: spot.z - along * s, y: RAIL_Y - 0.005, yaw: spot.yaw });
+      t += HUNG_W[kind] + 0.06;
+    }
+  }
+
+  // What finds no free wall hangs from the joists instead, in a row across the room near the hearth (never over the
+  // fire) or its middle: pans, baskets, onions and tools hung from the beams.
+  if (unhung.length) {
+    const joists = joistsOf(room), near0 = hearth ? hearth.before(1.6) : { x: 0, z: 0 };
+    const order = [...joists].sort((a, b) => Math.abs(a - near0.z) - Math.abs(b - near0.z));
+    let k = 0;
+    for (const z of order) {
+      for (let x = -hw + 0.5; x <= hw - 0.5 && k < unhung.length; x += 0.42) {
+        if (hearth && Math.hypot(x - hearth.stack.x, z - hearth.stack.z) < 1.4) continue;
+        if (always.some((o) => x > o.x0 - 0.2 && x < o.x1 + 0.2 && z > o.z0 - 0.2 && z < o.z1 + 0.2)) continue;
+        out.push({ room, piece: 'hung', hung: unhung[k]!, x: x + wobble(room, 600 + k, -0.06, 0.06), z, y: room.wallTop - room.floorTop - 0.16, yaw: wobble(room, 700 + k, 0, 6.28) });
+        k++;
+      }
+      if (k >= unhung.length) break;
+    }
+  }
+
+  // Sacks and baskets stood against a wall (A136), clear of every piece and the way in.
+  const stores = STORES[household];
+  if (stores) {
+    const width = stores.length * 0.4;
+    const spot = wallSpot(hw, hd, width, (r) => !always.some((o) => near(r, o)) && !pieces.some((o) => near(r, o, 0.08))
+      && !taken.some((o) => near(r, o, 0.15)) && !out.some((d) => d.piece === 'firewood' && Math.hypot(d.x - (r.x0 + r.x1) / 2, d.z - (r.z0 + r.z1) / 2) < width / 2 + 0.45),
+      null, 0.24, 1, ['back', 'left', 'right', 'front'], 0.1);
+    if (spot) {
+      taken.push(spot.rect);
+      const c = Math.cos(spot.yaw), s = Math.sin(spot.yaw);
+      for (const [i, kind] of stores.entries()) {
+        const along = -width / 2 + (i + 0.5) * 0.4, lz = (i % 2) * 0.05;
+        out.push({ room, piece: 'small', kind, x: spot.x + along * c + lz * s, z: spot.z - along * s + lz * c, y: 0, yaw: spot.yaw + i * 0.9, scale: wobble(room, 500 + i, 0.92, 1.08) });
       }
     }
   }
@@ -245,5 +350,5 @@ function wallSpot(hw: number, hd: number, w: number, free: (r: Rect) => boolean,
 export const DRESSING: readonly Dressing[] = INTERIORS.flatMap((room) => dressRoom(room));
 
 /** Pieces drawn from prepared models (the rest, rugs, shelves and small things, are built in code). */
-export const DRESSING_MODELS: readonly Exclude<DressingId, 'rug' | 'board' | 'small'>[] = ['bread', 'jug', 'candle', 'pots', 'cauldron', 'herbs', 'antlers', 'pelt'];
+export const DRESSING_MODELS: readonly Exclude<DressingId, 'rug' | 'board' | 'small' | 'rail' | 'hung' | 'firewood'>[] = ['bread', 'jug', 'candle', 'pots', 'cauldron', 'herbs', 'antlers', 'pelt'];
 export type { PieceId };

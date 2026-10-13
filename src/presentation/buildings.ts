@@ -8,6 +8,7 @@ import type { Terrain } from '../world/terrain';
 import { Ctx, FACES, hash3, mulc, rgb, type Col } from './buildKit';
 import { Region } from './regions';
 import { authorLighthouse } from './lighthouse';
+import { innSign, type SwingingPart } from './innSign';
 import { antlers, doorHood, dormer, drawHouseYard, lookOf, lookRnd, plinthCourse } from './houseExteriors';
 import {
   TINT,
@@ -45,6 +46,8 @@ export interface BuildOut {
   doors?: DoorLeaf[];
   /** Builds a region of its own, apart from the merged shell, for a part that moves. */
   apart?: (name: string, fn: (R: Region) => void) => THREE.Group;
+  /** Parts that swing in the wind (A136): the inn's sign. */
+  swinging?: SwingingPart[];
 }
 
 /** A building's door leaf, hinged at the inner face of its doorway; it swings inward by turning about local +y. */
@@ -249,6 +252,23 @@ function roomFrame(R: Region, room: InteriorSpec, windows: readonly RoomWindow[]
         return onSide && Math.abs((along === 'x' ? w.x : w.z) - t) < w.w / 2 + 0.35;
       });
     const posts = [-len + 0.09, len - 0.09, ...(len > 2.2 ? [-len * 0.36, len * 0.36] : []), 0].filter(clear);
+    // A136: the plaster above the wainscot framed as well: studs between the posts, and a rail across each panel where
+    // no window breaks it, so no stretch of bare plaster is wider than about 0.8 m or taller than the rail's gap.
+    const studs: number[] = [];
+    for (let t = -len + 0.5; t < len - 0.4; t += 0.78) if (clear(t) && !posts.some((p) => Math.abs(p - t) < 0.42)) studs.push(t);
+    for (const t of studs) piece('timber', side, t - 0.055, t + 0.055, wainscot + 0.04, top - 0.18, 0, 0.04, frame(), 'y');
+    const rail = floor + 2.05, inWindow = (t: number) => windows.some((w) => {
+      const onSide = side === 'back' ? w.z < -hd + 0.3 : side === 'front' ? w.z > hd - 0.3 : side === 'left' ? w.x < -hw + 0.3 : w.x > hw - 0.3;
+      return onSide && Math.abs((along === 'x' ? w.x : w.z) - t) < w.w / 2 + 0.06;
+    });
+    for (const [t0, t1] of runs(side, len)) {
+      let s0: number | null = null;
+      for (let t = t0; t <= t1 + 1e-6; t += 0.05) {
+        const ok = t < t1 - 1e-6 && !inWindow(t);
+        if (ok && s0 === null) s0 = t;
+        if (!ok && s0 !== null) { if (t - s0 > 0.3) piece('timber', side, s0, t, rail - 0.05, rail + 0.05, 0, 0.045, frame(), along); s0 = null; }
+      }
+    }
     for (const t of posts) {
       piece('timber', side, t - 0.09, t + 0.09, floor - 0.01, top - 0.05, 0, 0.16, frame(), 'y');
       if (Math.abs(t) > len - 0.2) continue;
@@ -483,12 +503,9 @@ function buildStandardPass(R: Region, terrain: Terrain, b: BuildingSpec, out: Bu
     groundExteriorProp(R, terrain, () => barrel(R, rnd, -b.w / 2 + 0.7, 0, b.d / 2 + 0.6, 0.9));
   }
   if (b.kind === 'inn') {
-    // Hanging sign on an iron bracket, and benches outside.
-    R.metal.box(0.08, 0.08, 1.3, b.w / 2 - 0.6, y0 + 2.6, b.d / 2 + 0.7, TINT.iron, { jit: 0.05 });
-    R.planks.box(0.9, 0.55, 0.06, b.w / 2 - 0.6, y0 + 1.95, b.d / 2 + 1.3, jitterTone(TINT.wood, rnd, 0.1), { rz: 0.05, jit: 0.1, grain: 'x' });
-    R.vc.box(0.5, 0.3, 0.02, b.w / 2 - 0.6, y0 + 2.08, b.d / 2 + 1.34, 0x5a2a20, { jit: 0.1 });
-    // Two iron hangers from the bracket down to the board's top corners: it hung 33 cm below the bracket on nothing (playtest 5).
-    for (const dx of [-0.36, 0.36]) R.metal.box(0.025, 0.36, 0.025, b.w / 2 - 0.6 + dx, y0 + 2.4, b.d / 2 + 1.3, TINT.iron, { jit: 0.02 });
+    // The hanging sign (A136): a wrought-iron bracket out from the east end, its painted board swinging on chains.
+    const sign = innSign(R, b, y0, out.swinging ? out.apart : undefined);
+    if (sign) out.swinging!.push(sign);
   }
   if (b.kind === 'bakery') {
     // A bread oven built against the side wall: stone body, domed top, dark mouth.
