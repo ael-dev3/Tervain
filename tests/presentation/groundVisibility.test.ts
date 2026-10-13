@@ -72,6 +72,23 @@ describe('Ground vegetation visibility', () => {
     layer.dispose();
   });
 
+  it('limits nine catch-up updates to one reserve quota rather than nine quotas', () => {
+    const run = (shared: boolean) => {
+      const a = fixture(), b = fixture(), camera = new THREE.Vector3(0, 1, 0);
+      a.layer.update(camera); b.layer.update(camera);
+      a.generate.mockClear(); b.generate.mockClear(); camera.x += SIZE;
+      const reserve = { remaining: 2 };
+      for (let i = 0; i < 9; i++) {
+        const quota = shared ? reserve : { remaining: 2 };
+        a.layer.update(camera, quota); b.layer.update(camera, quota);
+      }
+      const count = a.generate.mock.calls.length + b.generate.mock.calls.length;
+      a.layer.dispose(); b.layer.dispose(); return count;
+    };
+    expect(run(false)).toBe(18);
+    expect(run(true)).toBe(2);
+  });
+
   it('shares reserve generation across layers without deferring visible tiles', () => {
     const a = fixture(), b = fixture();
     const camera = new THREE.Vector3(0, 1, 0);
