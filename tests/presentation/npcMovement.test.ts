@@ -218,3 +218,21 @@ describe('peaceful resident motion', () => {
     expect(npcGoalPosition(NPCS.ash_recorder, { anchor: 'ford_camp', activity: 'sit' }, ctx, 1.8)).toBe(ANCHORS.ford_camp);
   });
 });
+
+it('refreshes resident contact scratch from current activation and player height without sharing it across actors', () => {
+  const {npc, ctx} = harness(), other = harness(NPCS.quarry_hand);
+  const animal: Collider = {id:'animal', kind:'circle', x:1,z:2,r:.4,active:true};
+  const self: Collider = {id:`person:${npc.id}`, kind:'circle',x:0,z:0,r:.4,active:true};
+  const peer: Collider = {id:'person:other',kind:'circle',x:3,z:4,r:.4,active:false};
+  ctx.wildlifeContacts = [animal]; ctx.residentContacts = [self, peer];
+  const contacts = Reflect.get(npc, 'contacts').call(npc, ctx) as Collider[];
+  expect(contacts.map(c=>c.id)).toEqual(['animal','player']);
+  animal.active=false;peer.active=true;ctx.player={x:8,y:3,z:9};
+  const refreshed = Reflect.get(npc, 'contacts').call(npc, ctx) as Collider[];
+  expect(refreshed.map(c=>c.id)).toEqual(['person:other','player']);
+  expect(refreshed[1]).toMatchObject({x:8,z:9,minY:3.02,maxY:4.9});
+  const independent = Reflect.get(other.npc,'contacts').call(other.npc,other.ctx) as Collider[];
+  expect(independent).not.toBe(refreshed);
+  expect(independent.at(-1)).not.toBe(refreshed.at(-1));
+  expect(ctx.wildlifeContacts).toEqual([animal]);expect(ctx.residentContacts).toEqual([self,peer]);
+});
