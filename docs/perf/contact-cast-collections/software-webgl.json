@@ -1,0 +1,73 @@
+{
+  "schema": 2,
+  "preset": "low",
+  "width": 640,
+  "height": 360,
+  "assertions": {
+    "gameReady": true,
+    "webgl2": true,
+    "swiftShader": true,
+    "renderCostMeasured": true,
+    "captureDimensions": true,
+    "nonBlankCapture": true,
+    "disconnectSettlesRequest": true
+  },
+  "performanceGate": false,
+  "build": {
+    "version": "0.0.16",
+    "revision": "9ab40b387"
+  },
+  "renderCost": {
+    "frames": [
+      {
+        "drawCalls": 144,
+        "triangles": 910599,
+        "lines": 0,
+        "points": 2080,
+        "uploadBytes": 4608,
+        "shadowDrawCalls": 0,
+        "shadowInvocations": 2,
+        "heapUsedBytes": 797940491
+      },
+      {
+        "drawCalls": 144,
+        "triangles": 910599,
+        "lines": 0,
+        "points": 2080,
+        "uploadBytes": 4608,
+        "shadowDrawCalls": 0,
+        "shadowInvocations": 2,
+        "heapUsedBytes": 797940491
+      },
+      {
+        "drawCalls": 144,
+        "triangles": 910599,
+        "lines": 0,
+        "points": 2080,
+        "uploadBytes": 4608,
+        "shadowDrawCalls": 0,
+        "shadowInvocations": 2,
+        "heapUsedBytes": 797940491
+      }
+    ],
+    "textureCount": 141,
+    "estimatedTextureStorageBytes": 519171968,
+    "unknownTextureFormats": 0,
+    "grass": {
+      "grassInstances": 3845,
+      "grassTris": 121482,
+      "grassDraws": 27,
+      "grassTiles": 34,
+      "grassMovers": 0
+    },
+    "pixelRatio": 1,
+    "drawingBuffer": [
+      640,
+      360
+    ],
+    "scope": "Three complete stationary native renders after asset arrival; all render passes. Texture storage is nominal uncompressed texel storage including observed mip levels, not driver memory; renderbuffers and compressed storage are excluded. Heap usage is occupancy, not allocation count. No hardware frame-time claim.",
+    "sampledAllocationBytes": 2618556,
+    "allocationScope": "Sampling estimate across warmup plus three renders, including diagnostic overhead; not deterministic allocation counts."
+  },
+  "pass": true
+}

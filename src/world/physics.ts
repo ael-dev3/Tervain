@@ -290,7 +290,9 @@ export class RealmPhysics {
   private castContacts(shape: RAPIER.Shape, position: Vec3, velocity: Vec3, maxToi: number,
     accept: (normal: Vec3, witness: Vec3, collider: RAPIER.Collider) => boolean = () => true, includeRocks = true) {
     let nearest: { contact: { collider: RAPIER.Collider }; hit: RAPIER.ShapeCastHit; normal: Vec3; witness: Vec3 } | null = null;
-    for (const contact of [...this.props, ...(includeRocks ? this.rocks : [])]) {
+    const propCount = this.props.length, contactCount = propCount + (includeRocks ? this.rocks.length : 0);
+    for (let i = 0; i < contactCount; i++) {
+      const contact = i < propCount ? this.props[i]! : this.rocks[i - propCount]!;
       if (!contact.collider.isEnabled()) continue;
       if ('source' in contact && contact.source.rockMesh) {
         const bounds = contact.source.rockMesh.bounds;
