@@ -208,6 +208,7 @@ export function buildTurnClips(legs: Legs, stand: ReadonlyMap<THREE.Bone, THREE.
 const _a = new THREE.Vector3(), _b = new THREE.Vector3(), _c = new THREE.Vector3(), _ba = new THREE.Vector3(), _bc = new THREE.Vector3();
 const _axis = new THREE.Vector3(), _qa = new THREE.Quaternion(), _qb = new THREE.Quaternion(), _qp = new THREE.Quaternion(), _turn = new THREE.Quaternion();
 const UP = new THREE.Vector3(0, 1, 0);
+const MEASURE_SCALE = new THREE.Vector3();
 const LAND = new THREE.Vector3(), TARGET = new THREE.Vector3(), GOAL = new THREE.Vector3();
 const LAND_TURN = new THREE.Quaternion(), SOLE = new THREE.Quaternion(), PITCH = new THREE.Quaternion(), ATTITUDE = new THREE.Quaternion(), SPIN = new THREE.Quaternion();
 
@@ -419,8 +420,8 @@ export class TurnSteps {
     for (const side of SIDES) {
       const foot = this.feet[side], bone = this.legs[side].foot;
       bone.updateWorldMatrix(true, false);
-      bone.getWorldPosition(which === 'flat' ? foot.flat : foot.home);
-      bone.getWorldQuaternion(which === 'flat' ? foot.flatTurn : foot.homeTurn);
+      // Both getters repeat the same ancestor walk. Read both outputs from the matrix just refreshed above.
+      bone.matrixWorld.decompose(which === 'flat' ? foot.flat : foot.home, which === 'flat' ? foot.flatTurn : foot.homeTurn, MEASURE_SCALE);
     }
   }
 }
