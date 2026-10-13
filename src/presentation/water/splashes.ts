@@ -55,6 +55,7 @@ export class Splashes {
   private readonly random = mulberry32(5501);
   private next = 0;
   private initialized = false;
+  private idle = false;
   enabled = true;
 
   constructor() {
@@ -80,6 +81,7 @@ export class Splashes {
     const r = this.random;
     for (let k = 0; k < Math.min(count, 120); k++) {
       const d = this.drops[this.next]!;
+      this.idle = false;
       this.next = (this.next + 1) % MAX;
       const angle = r() * Math.PI * 2, out = r() * spread;
       const up = speed * (0.55 + 0.45 * r());
@@ -91,8 +93,10 @@ export class Splashes {
   }
 
   update(dt: number) {
+    if (this.initialized && this.idle) return;
     const step = Number.isFinite(dt) ? Math.min(Math.max(dt, 0), 0.1) : 0;
     let changed = !this.initialized;
+    let anyAlive = false;
     for (let i = 0; i < MAX; i++) {
       const d = this.drops[i]!;
       if (d.life > 0) {
@@ -104,11 +108,13 @@ export class Splashes {
         d.x += d.vx * step; d.y += d.vy * step; d.z += d.vz * step;
       }
       const alive = d.life > 0;
+      anyAlive ||= alive;
       this.positions[i * 3] = d.x; this.positions[i * 3 + 1] = alive ? d.y : -1000; this.positions[i * 3 + 2] = d.z;
       this.sizes[i] = alive ? d.size : 0;
       this.fades[i] = alive ? Math.min(1, d.life / (d.max * 0.4)) : 0;
     }
     this.initialized = true;
+    this.idle = !anyAlive;
     if (!changed) return;
     const geo = this.points.geometry;
     geo.attributes.position!.needsUpdate = geo.attributes.aSize!.needsUpdate = geo.attributes.aFade!.needsUpdate = true;
