@@ -17,6 +17,21 @@ export const NPC_DQ_SKINNING_KEY = 'tervain-npc-dq-skinning-v1';
 
 const DQ_FIELDS = 8;
 
+let staticPoseEpoch = 0;
+let nextStaticPoseEpoch = 0;
+
+/** Only surround synchronous render passes whose world/bind matrices and bones are already frozen. */
+export function beginStaticSkinFrame(): boolean {
+  const nested = staticPoseEpoch !== 0;
+  staticPoseEpoch = ++nextStaticPoseEpoch;
+  return nested;
+}
+
+/** A nested render may have used another pose: conservatively invalidate the resumed outer scope. */
+export function endStaticSkinFrame(nested: boolean): void {
+  staticPoseEpoch = nested ? ++nextStaticPoseEpoch : 0;
+}
+
 export interface DualQuaternionSkin {
   /** Texel where the first joint's rotation is stored; its translation follows. */
   readonly base: number;
@@ -199,7 +214,9 @@ export function installDualQuaternionSkinning(mesh: THREE.SkinnedMesh): DualQuat
   const update = skeleton.update;
   const words = new Uint32Array(data.buffer, data.byteOffset, data.length);
   const previous = new Uint32Array(words.length);
+  let updatedEpoch = 0;
   skeleton.update = function() {
+    if (staticPoseEpoch !== 0 && updatedEpoch === staticPoseEpoch) return;
     previous.set(words);
     // Three's update unconditionally dirties the texture. Defer that until the complete packed data is compared.
     const texture = this.boneTexture;
@@ -213,6 +230,8 @@ export function installDualQuaternionSkinning(mesh: THREE.SkinnedMesh): DualQuat
     if (texture) for (let i = 0; i < data.length; i++) {
       if (words[i] !== previous[i]) { texture.needsUpdate = true; break; }
     }
+    // Do not memoize failed updates. Calls outside the explicit scope always keep their existing behavior.
+    updatedEpoch = staticPoseEpoch;
   };
   // A texture rebuilt by the renderer would drop the motions: keep this layout for the skeleton's whole life.
   skeleton.computeBoneTexture = function() { return this; };
