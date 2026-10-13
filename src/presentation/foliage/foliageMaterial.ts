@@ -101,6 +101,48 @@ export interface FoliageInstall {
  */
 export const FOLIAGE_FOCUS: THREE.IUniform<THREE.Vector4> = { value: new THREE.Vector4(0, 0, 0, 0) };
 
+/**
+ * The leaf-mass noise (A76) baked once: the shader's own value noise (same hash, same smooth interpolation) on a lattice
+ * that wraps every CLUMP_PERIOD cells, CLUMP_SIZE / CLUMP_PERIOD texels a cell, so trilinear filtering follows the
+ * smooth curve closely. Two fetches replace two noise evaluations of eight hashes each. A mass is about a metre across,
+ * so the pattern repeats only every ~18 m, and each tree reads it at its own offset.
+ */
+const CLUMP_PERIOD = 16;
+const CLUMP_SIZE = 64;
+const glslFloat = (n: number) => n.toFixed(8);
+let clumpNoise: THREE.Data3DTexture | null = null;
+export function clumpNoiseTexture(): THREE.Data3DTexture {
+  if (clumpNoise) return clumpNoise;
+  const fract = (x: number) => x - Math.floor(x);
+  const hash = (x: number, y: number, z: number) => {
+    const px = fract(x * 0.3183099 + 0.1) * 17, py = fract(y * 0.3183099 + 0.1) * 17, pz = fract(z * 0.3183099 + 0.1) * 17;
+    return fract(px * py * pz * (px + py + pz));
+  };
+  const lattice = new Float32Array(CLUMP_PERIOD ** 3);
+  for (let z = 0; z < CLUMP_PERIOD; z++) for (let y = 0; y < CLUMP_PERIOD; y++) for (let x = 0; x < CLUMP_PERIOD; x++) {
+    lattice[(z * CLUMP_PERIOD + y) * CLUMP_PERIOD + x] = hash(x, y, z);
+  }
+  const at = (x: number, y: number, z: number) => lattice[((z % CLUMP_PERIOD) * CLUMP_PERIOD + (y % CLUMP_PERIOD)) * CLUMP_PERIOD + (x % CLUMP_PERIOD)]!;
+  const smooth = (t: number) => t * t * (3 - 2 * t);
+  const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
+  const res = CLUMP_SIZE / CLUMP_PERIOD, data = new Uint8Array(CLUMP_SIZE ** 3);
+  for (let k = 0; k < CLUMP_SIZE; k++) for (let j = 0; j < CLUMP_SIZE; j++) for (let i = 0; i < CLUMP_SIZE; i++) {
+    const ix = Math.floor(i / res), iy = Math.floor(j / res), iz = Math.floor(k / res);
+    const fx = smooth((i % res) / res), fy = smooth((j % res) / res), fz = smooth((k % res) / res);
+    const v = lerp(
+      lerp(lerp(at(ix, iy, iz), at(ix + 1, iy, iz), fx), lerp(at(ix, iy + 1, iz), at(ix + 1, iy + 1, iz), fx), fy),
+      lerp(lerp(at(ix, iy, iz + 1), at(ix + 1, iy, iz + 1), fx), lerp(at(ix, iy + 1, iz + 1), at(ix + 1, iy + 1, iz + 1), fx), fy), fz);
+    data[(k * CLUMP_SIZE + j) * CLUMP_SIZE + i] = Math.round(v * 255);
+  }
+  clumpNoise = new THREE.Data3DTexture(data, CLUMP_SIZE, CLUMP_SIZE, CLUMP_SIZE);
+  clumpNoise.format = THREE.RedFormat;
+  clumpNoise.minFilter = clumpNoise.magFilter = THREE.LinearFilter;
+  clumpNoise.wrapS = clumpNoise.wrapT = clumpNoise.wrapR = THREE.RepeatWrapping;
+  clumpNoise.unpackAlignment = 1;
+  clumpNoise.needsUpdate = true;
+  return clumpNoise;
+}
+
 const LEAF_VERTEX_DECL = /* glsl */ `
 // The leaf depth and colour passes must place every vertex identically (leafPrepass.ts).
 invariant gl_Position;
@@ -144,6 +186,7 @@ uniform float uFoliageShadeThrough;
 uniform vec4 uFoliageClump;
 uniform vec2 uFoliageEdgeOn;
 uniform vec4 uFoliageFocus;
+uniform highp sampler3D uFoliageClumpNoise;
 varying vec3 vTvWorld;
 varying vec3 vCrownN;
 varying float vCrownDepth;
@@ -222,7 +265,8 @@ const LEAF_ALPHA_TEST_GLSL = /* glsl */ `
     tvA *= 1.0 - tvBetween * ( 1.0 - smoothstep( 0.45 * uFoliageFocus.w, uFoliageFocus.w, tvOff ) );
   }
   float tvFine = 1.0 - smoothstep( 0.02, 0.06, length( fwidth( vTvLeafP ) ) );
-  tvA += ( tvLeafNoise( vTvLeafP * 17.0 ) - 0.5 ) * uFoliageClump.z * tvFine * step( 0.02, tvA );
+  // The roughened cut is off in the shipped look (A79): skip its noise rather than multiply it by zero.
+  if ( uFoliageClump.z > 0.0 ) tvA += ( tvLeafNoise( vTvLeafP * 17.0 ) - 0.5 ) * uFoliageClump.z * tvFine * step( 0.02, tvA );
   #ifdef USE_MAP
     vec2 tvTexels = vMapUv * vec2( textureSize( map, 0 ) );
     float tvMip = max( 0.0, 0.5 * log2( max( dot( dFdx( tvTexels ), dFdx( tvTexels ) ), dot( dFdy( tvTexels ), dFdy( tvTexels ) ) ) ) );
@@ -287,7 +331,9 @@ const LEAF_COLOUR_GLSL = /* glsl */ `
   // Leaf masses (A76): a clump's heart is fuller and the spaces between clumps fall into shade, so a crown reads as masses
   // of leaves rather than card after card.
   vec3 tvMassP = vTvLeafP / max( uFoliageClump.w, 0.05 );
-  tvClump = tvLeafNoise( tvMassP ) * 0.6 + tvLeafNoise( tvMassP * 2.6 + 7.1 ) * 0.4;
+  // Air budget: the two octaves of value noise are read from a baked, tiling copy (clumpNoiseTexture) instead of sixteen hashes.
+  tvClump = texture( uFoliageClumpNoise, tvMassP * ${glslFloat(1 / CLUMP_PERIOD)} + ${glslFloat(0.5 / CLUMP_SIZE)} ).r * 0.6
+    + texture( uFoliageClumpNoise, ( tvMassP * 2.6 + 7.1 ) * ${glslFloat(1 / CLUMP_PERIOD)} + ${glslFloat(0.5 / CLUMP_SIZE)} ).r * 0.4;
   diffuseColor.rgb *= mix( 1.0 - uFoliageClump.y, 1.05, smoothstep( 0.22, 0.72, tvClump ) );
   // Natural greens: draw back saturation beyond what leaves have, vary each tree a little.
   float tvL = dot( diffuseColor.rgb, vec3( 0.2126, 0.7152, 0.0722 ) );
@@ -346,6 +392,7 @@ export function installFoliage(material: THREE.Material, opts: FoliageInstall): 
     uFoliageEdgeOn: { value: new THREE.Vector2(look.edgeOn[0], look.edgeOn[1]) },
     uFoliageClump: { value: new THREE.Vector4(look.clumps.gaps, look.clumps.shade, look.clumps.rough, look.clumps.size) },
     uFoliageFocus: FOLIAGE_FOCUS,
+    uFoliageClumpNoise: { value: clumpNoiseTexture() },
   };
   let failed = false;
   const physical = (material as THREE.MeshStandardMaterial).isMeshStandardMaterial === true;
