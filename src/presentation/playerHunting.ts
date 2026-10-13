@@ -235,7 +235,7 @@ export class PlayerHuntingVisual {
     // archers draw.
     const hand = this.aiming ? new THREE.Vector3(.12, 1.55, 0).addScaledVector(bowDirection, .66) : new THREE.Vector3(.34, .9, .1);
     this.arm('Left', hand, new THREE.Vector3(.5, 1.3, .26));
-    this.rig.root.updateMatrixWorld(true);
+    // Quaternion getters below refresh the root and grip ancestor paths.
     const frame = new THREE.Quaternion().setFromUnitVectors(Z, bowDirection).premultiply(this.rig.root.getWorldQuaternion(new THREE.Quaternion()));
     this.gripBow(frame);
     this.orientPalm(this.leftPalm, frame);
@@ -245,7 +245,7 @@ export class PlayerHuntingVisual {
     this.setString(nock);
     this.nockedArrow.visible = this.aiming && this.recoil <= 0;
     this.nockedArrow.position.set(0, 0, nock + .74);
-    this.rig.root.updateMatrixWorld(true);
+    // localToWorld refreshes the reparented bow before solving the draw arm.
     if (this.aiming) {
       const nockWorld = this.bow.localToWorld(new THREE.Vector3(0, 0, nock));
       const target = this.rig.root.worldToLocal(nockWorld).add(new THREE.Vector3(-.025 - recoil * .13, .005, -recoil * .08));
@@ -359,7 +359,7 @@ export class PlayerHuntingVisual {
     const hand = side === 'Left' ? this.leftHand : this.rightHand;
     const desired = this.world(target);
     for (let i = 0; i < 3; i++) {
-      this.rig.root.updateMatrixWorld(true);
+      // Each getter refreshes the affected hand/palm path after the previous correction.
       const actual = palm.getWorldPosition(new THREE.Vector3());
       const wrist = hand.getWorldPosition(new THREE.Vector3()).add(desired.clone().sub(actual));
       this.chain(side === 'Left' ? this.rig.armL : this.rig.armR, side === 'Left' ? this.rig.elbowL : this.rig.elbowR,
