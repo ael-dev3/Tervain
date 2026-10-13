@@ -1,0 +1,24 @@
+{
+  "schema": 1,
+  "frames": 120,
+  "bones": 66,
+  "control": {
+    "uniqueVectors": 120,
+    "uniqueQuaternions": 120,
+    "poseHash": "9817e024ff91f50911c56eb9e59d12e54059317df81c2a4c71791bf83290f3d4"
+  },
+  "actual": {
+    "uniqueVectors": 1,
+    "uniqueQuaternions": 1,
+    "poseHash": "9817e024ff91f50911c56eb9e59d12e54059317df81c2a4c71791bf83290f3d4"
+  },
+  "exactAllBonePoses": true,
+  "pass": true,
+  "scope": "Actual compiled native hero; fresh-scratch control versus reused scratch, all bone local transforms compared over 120 turning poses. Object identities, not heap bytes or frame timings.",
+  "build": {
+    "version": "0.0.15",
+    "revision": "0b45a36a0"
+  },
+  "candidateSource": "2f3afaba2",
+  "buildMetadataNote": "Compiled candidate on base 0b45a36a0; version.json identifies the base."
+}
