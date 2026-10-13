@@ -294,3 +294,21 @@ describe('zero-width grass draw tail', () => {
     }
   });
 });
+
+it('restores the visible blade prefix for a closer capture camera, then restores the main camera prefix', () => {
+  const terrain = new Terrain(), habitat = new Habitat({ terrain, colliders: new Colliders(), excl: new Exclusions(terrain), plantedCrowns: { coverAt: () => 0, broadleafAt: () => 0 } });
+  const wind = new GrassWind(WIND), field = createGrassField(terrain, habitat, 'low', wind, null);
+  const position = new THREE.Vector3(0, terrain.heightAt(0, 30) + 1.7, 30);
+  field.update(position);
+  const mesh = field.layers[1]!.group.children.find(child => {
+    const m = child as THREE.Mesh<THREE.InstancedBufferGeometry>;
+    return m.visible && m.geometry.drawRange.count < m.geometry.index!.count;
+  }) as THREE.Mesh<THREE.InstancedBufferGeometry>;
+  expect(mesh).toBeDefined();
+  const initial = mesh.geometry.drawRange.count, base = mesh.geometry.getAttribute('aBase');
+  const camera = new THREE.PerspectiveCamera();camera.position.set(base.getX(0), base.getY(0) + 2, base.getZ(0));camera.updateMatrixWorld();
+  const render = () => mesh.onBeforeRender({} as THREE.WebGLRenderer, new THREE.Scene(), camera, mesh.geometry, mesh.material as THREE.Material, {} as THREE.Group);
+  render();expect(mesh.geometry.drawRange.count).toBe(mesh.geometry.index!.count);
+  camera.position.copy(position);camera.updateMatrixWorld();render();expect(mesh.geometry.drawRange.count).toBe(initial);
+  field.dispose();wind.dispose();
+});
