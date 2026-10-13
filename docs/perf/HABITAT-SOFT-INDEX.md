@@ -18,7 +18,7 @@ Baseline `0b45a36`. The counter repro uses actual Terrain, stock Exclusions (155
 
 ## Native grass control
 
-A separate High grass fixture uses the production producer, actual terrain and stock exclusions. It compares SHA-256 values for all 712 attribute buffers (15,409,216 bytes), population/draw statistics and decoded RGB screenshots. All match: 28,228 instances, 65 draws and 1,624,305 submitted triangles. [Native receipt](habitat-soft-proof/pixels.json).
+A separate High grass fixture uses the production producer, actual terrain and stock exclusions. It compares SHA-256 values for all 712 attribute buffers (15,409,216 bytes), population/draw statistics and decoded RGB screenshots. All match. The field plans 28,228 instances, 65 potential draws and 1,624,305 triangles; actual renderer counters are 21 draws and 620,193 submitted triangles on both sides. [Native receipt](habitat-soft-proof/pixels.json).
 
 | Before | After |
 | --- | --- |

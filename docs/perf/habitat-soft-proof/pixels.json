@@ -11,6 +11,10 @@
       "draws": 65,
       "tiles": 178
     },
+    "renderStats": {
+      "drawCalls": 21,
+      "triangles": 620193
+    },
     "attributeBytes": 15409216,
     "attributeHashes": [
       "07d188bc78d0459c05864330a7279785229aced0ccac864dbf5dab120b9c9407",
@@ -735,6 +739,10 @@
       "triangles": 1624305,
       "draws": 65,
       "tiles": 178
+    },
+    "renderStats": {
+      "drawCalls": 21,
+      "triangles": 620193
     },
     "attributeBytes": 15409216,
     "attributeHashes": [
