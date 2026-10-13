@@ -229,3 +229,14 @@ it('rechecks shared-goal clearance after a cached roster sees a new obstruction'
   ctx.colliders.setActive('new obstruction', false);
   expect(npcGoalPosition(NPCS.rillford_reeve, goal, ctx, 1.8)).toEqual(before);
 });
+
+it('keeps height-sensitive clearance live when shared-goal offsets are reused', () => {
+  const ctx = { terrain: flat, colliders: new Colliders() }, goal = { anchor: 'village_square', activity: 'stand' as const };
+  const before = npcGoalPosition(NPCS.rillford_reeve, goal, ctx, 1.2);
+  ctx.colliders.circle('overhead obstruction', before.x, before.z, .8, true, { minY: 1.5, maxY: 2.5 });
+  expect(npcGoalPosition(NPCS.rillford_reeve, goal, ctx, 1.2)).toEqual(before);
+  const tall = npcGoalPosition(NPCS.rillford_reeve, goal, ctx, 2);
+  expect(Math.hypot(tall.x - before.x, tall.z - before.z)).toBeGreaterThan(.01);
+  ctx.colliders.setActive('overhead obstruction', false);
+  expect(npcGoalPosition(NPCS.rillford_reeve, goal, ctx, 2)).toEqual(before);
+});

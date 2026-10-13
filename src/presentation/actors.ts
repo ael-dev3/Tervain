@@ -156,9 +156,7 @@ export function npcGoalPosition(def: NpcDef, goal: Goal, ctx: Pick<ActorContext,
   if (peers.length < 2 || !peers.some(d => d.id === def.id)) return base;
   const chosen: (V2 & { id: NpcId })[] = [];
   for (const [i, peer] of peers.entries()) {
-    const lateral = (i - (peers.length - 1) / 2) * 1.3;
-    const offsets = [{ x: lateral, z: 0 }, ...[.85, 1.5, 2.2].flatMap(r =>
-      [0, Math.PI / 2, -Math.PI / 2, Math.PI].map(angle => ({ x: Math.sin(angle + i * Math.PI) * r, z: Math.cos(angle + i * Math.PI) * r })))];
+    const offsets = sharedGoalOffsets(peers.length, i);
     let stance: V2 = base;
     for (const offset of offsets) {
       const point = { x: base.x + offset.x * Math.cos(base.yaw) + offset.z * Math.sin(base.yaw), z: base.z - offset.x * Math.sin(base.yaw) + offset.z * Math.cos(base.yaw) };
@@ -171,6 +169,21 @@ export function npcGoalPosition(def: NpcDef, goal: Goal, ctx: Pick<ActorContext,
   }
   const own = chosen.find(place => place.id === def.id)!;
   return { x: own.x, z: own.z, yaw: base.yaw, company: chosen.filter(place => place.id !== def.id) };
+}
+
+// Candidate offsets depend only on roster size/index. Positions and clearance are still calculated live.
+const sharedOffsetLists = new Map<number, Map<number, readonly V2[]>>();
+function sharedGoalOffsets(count: number, index: number): readonly V2[] {
+  let byIndex = sharedOffsetLists.get(count);
+  if (!byIndex) { byIndex = new Map(); sharedOffsetLists.set(count, byIndex); }
+  let offsets = byIndex.get(index);
+  if (!offsets) {
+    const lateral = (index - (count - 1) / 2) * 1.3;
+    offsets = [{ x: lateral, z: 0 }, ...[.85, 1.5, 2.2].flatMap(r =>
+      [0, Math.PI / 2, -Math.PI / 2, Math.PI].map(angle => ({ x: Math.sin(angle + index * Math.PI) * r, z: Math.cos(angle + index * Math.PI) * r })))];
+    byIndex.set(index, offsets);
+  }
+  return offsets;
 }
 
 /** A coarse grid can reject a counter's whole cell even when the resident's exact working stance is clear. */
