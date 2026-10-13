@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "baselineRef": "0b45a36",
+  "sourceSha256": "1390c225bf594250c76bfb2ef5b5812af50bc3c38e84d9b1425c6bff9250bbbb",
+  "scope": "Actual spray simulation with loop-visit instrumentation; attributes and upload versions compared after every update. Not hardware timing or heap allocation measurement.",
+  "comparedUpdates": 640,
+  "controls": [
+    {
+      "label": "cold-idle",
+      "beforeVisits": 57600,
+      "afterVisits": 0
+    },
+    {
+      "label": "emission-overwrite-expiry-zero-dt-disabled-emission",
+      "beforeVisits": 144000,
+      "afterVisits": 86880
+    },
+    {
+      "label": "expired-idle",
+      "beforeVisits": 57600,
+      "afterVisits": 0
+    }
+  ],
+  "exactBuffersAndUploadVersions": true,
+  "pass": true
+}
