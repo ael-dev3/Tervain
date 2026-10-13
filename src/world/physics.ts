@@ -29,6 +29,9 @@ export const PHYSICAL_PROPS: readonly PropSpec[] = [
   ...[[-16.5, 2.4], [16.4, 21], [-136.5, 31.5], [88, -13], [-14.4, -3]].map(([x, z], i) => ({ id: `loose_barrel_${i}`, name: 'Empty wooden barrel', kind: 'barrel' as const, x: x!, z: z!, width: .76, height: 1, depth: .76, yaw: .17 * i, mass: 18 })),
 ];
 export interface PropPose extends PhysicalObjectPose { sleeping: boolean }
+export interface PropMotion extends Vec3 {
+  id: string; kind: PropSpec['kind']; vx: number; vy: number; vz: number; held: boolean; wet: number;
+}
 interface Prop { spec: PropSpec; body: RAPIER.RigidBody; collider: RAPIER.Collider; previous: PropPose; wet: number }
 
 /** The water a floating body needs to know about: where it stands and how it moves (WaterWorld provides it). */
@@ -578,12 +581,19 @@ export class RealmPhysics {
     });
   }
   snapshot() { return this.poses(false); }
-  /** Where each prop is and how fast it moves, for impact sounds. A sleeping body is still. */
-  motions() {
-    return this.props.map(p => {
-      const at = p.body.translation(), v = p.body.isSleeping() ? { x: 0, y: 0, z: 0 } : p.body.linvel();
-      return { id: p.spec.id, kind: p.spec.kind, x: at.x, y: at.y, z: at.z, vx: v.x, vy: v.y, vz: v.z, held: this.held === p, wet: p.wet };
-    });
+  /** Default calls return a snapshot; a caller-owned buffer explicitly opts into reuse. Sleeping bodies are still. */
+  motions(out: PropMotion[] = []): PropMotion[] {
+    for (let i = 0; i < this.props.length; i++) {
+      const p = this.props[i]!, at = p.body.translation();
+      const v = p.body.isSleeping() ? null : p.body.linvel();
+      const m = out[i] ?? (out[i] = { id: p.spec.id, kind: p.spec.kind, x: 0, y: 0, z: 0, vx: 0, vy: 0, vz: 0, held: false, wet: 0 });
+      m.id = p.spec.id; m.kind = p.spec.kind;
+      m.x = at.x; m.y = at.y; m.z = at.z;
+      m.vx = v?.x ?? 0; m.vy = v?.y ?? 0; m.vz = v?.z ?? 0;
+      m.held = this.held === p; m.wet = p.wet;
+    }
+    out.length = this.props.length;
+    return out;
   }
   reset() { this.restore(this.initial); this.accumulated = 0; }
   restore(poses: readonly PhysicalObjectPose[]) {
