@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { horizontalSphereIntersects } from './extentCull';
 import { smoothstep } from '../../world/noise';
 
 /**
@@ -63,6 +64,7 @@ interface Tile {
   ymax: number;
   attrs: THREE.InstancedBufferAttribute[];
   drawCount: number;
+  renderInstances: number;
 }
 
 export class TileLayer {
@@ -80,6 +82,12 @@ export class TileLayer {
   private disposed = false;
   private readonly drawFocus = new THREE.Vector3();
   private readonly captureFocus = new THREE.Vector3();
+  private readonly clipFrustum = new THREE.Frustum();
+  private readonly clipMatrix = new THREE.Matrix4();
+  private readonly clipProjection = new THREE.Matrix4();
+  private readonly clipView = new THREE.Matrix4();
+  private clipSystem: THREE.Camera['coordinateSystem'] | null = null;
+  private clipReversed = false;
   enabled = true;
   /** Multiplier on how many tiles may be built per frame (1 = 2 tiles). */
   buildRate = 1;
@@ -125,15 +133,32 @@ export class TileLayer {
     mesh.raycast = () => {};
     mesh.visible = false;
     this.group.add(mesh);
-    const tile = { key: -1, tx: 0, tz: 0, mesh, geo, count: 0, x0: 0, z0: 0, ymin: 0, ymax: 0, attrs, drawCount: this.trisPerInstance * 3 };
-    if (o.drawCountAt) mesh.onBeforeRender = (_renderer, _scene, camera) => {
+    const tile = { key: -1, tx: 0, tz: 0, mesh, geo, count: 0, x0: 0, z0: 0, ymin: 0, ymax: 0, attrs, drawCount: this.trisPerInstance * 3, renderInstances: 0 };
+    if (o.maxRadius !== undefined || o.drawCountAt) mesh.onBeforeRender = (_renderer, _scene, camera) => {
+      if (o.maxRadius !== undefined) {
+        tile.renderInstances = geo.instanceCount;
+        if (!this.inHorizontalView(tile, camera)) geo.instanceCount = 0;
+      }
+      if (!o.drawCountAt) return;
       // Window/reflection cameras can stand closer than the main camera. Their visible blade tail must survive too.
       const e = camera.matrixWorld.elements;
       const main = e[12] === this.drawFocus.x && e[13] === this.drawFocus.y && e[14] === this.drawFocus.z;
       this.captureFocus.setFromMatrixPosition(camera.matrixWorld);
       geo.setDrawRange(0, main ? tile.drawCount : Math.min(this.trisPerInstance * 3, o.drawCountAt!(this.distTo(tile, this.captureFocus))));
     };
+    // Each reflection/window camera evaluates its own extent; do not leave its count on the shared geometry.
+    if (o.maxRadius !== undefined) mesh.onAfterRender = () => { geo.instanceCount = tile.renderInstances; };
     return tile;
+  }
+
+  private inHorizontalView(tile: Tile, camera: THREE.Camera): boolean {
+    if (this.clipSystem !== camera.coordinateSystem || this.clipReversed !== camera.reversedDepth || !this.clipProjection.equals(camera.projectionMatrix) || !this.clipView.equals(camera.matrixWorldInverse)) {
+      this.clipSystem = camera.coordinateSystem; this.clipReversed = camera.reversedDepth;
+      this.clipProjection.copy(camera.projectionMatrix); this.clipView.copy(camera.matrixWorldInverse);
+      this.clipFrustum.setFromProjectionMatrix(this.clipMatrix.multiplyMatrices(this.clipProjection, this.clipView), camera.coordinateSystem, camera.reversedDepth);
+    }
+    // Keep the entire original sphere's vertical extent. The shader's explicit horizontal bound trims its empty lobes.
+    return horizontalSphereIntersects(this.clipFrustum, tile.geo.boundingSphere!, this.o.tileSize / 2 + this.o.maxRadius! + .2, tile.mesh.matrixWorld);
   }
 
   private fill(t: Tile, tx: number, tz: number) {
@@ -261,7 +286,7 @@ export class TileLayer {
       if (o.drawCountAt) t.geo.setDrawRange(0, drawCount);
       // Outside the layer's band the whole tile is skipped: beyond its far edge, or nearer than its inner edge everywhere.
       if (o.band && (d > o.band.end || this.farthest(t, cam) < o.band.start)) {
-        t.geo.instanceCount = 0;
+            t.geo.instanceCount = 0;
         t.mesh.visible = false;
         continue;
       }

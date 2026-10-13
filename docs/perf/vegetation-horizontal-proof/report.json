@@ -1,0 +1,121 @@
+{
+  "schema": 1,
+  "build": {
+    "version": "0.0.15",
+    "revision": "0b45a36a0"
+  },
+  "routes": [
+    {
+      "x": -7,
+      "z": 45,
+      "yaw": 0,
+      "control": {
+        "drawCalls": 107,
+        "triangles": 1571979,
+        "uploadBytes": 0
+      },
+      "maxVerifiedReach": null,
+      "actual": {
+        "drawCalls": 106,
+        "triangles": 1534431,
+        "uploadBytes": 0,
+        "rejected": null
+      },
+      "identicalPixels": true
+    },
+    {
+      "x": -7,
+      "z": 57,
+      "yaw": 0,
+      "control": {
+        "drawCalls": 94,
+        "triangles": 1421070,
+        "uploadBytes": 0
+      },
+      "maxVerifiedReach": null,
+      "actual": {
+        "drawCalls": 93,
+        "triangles": 1343706,
+        "uploadBytes": 0,
+        "rejected": null
+      },
+      "identicalPixels": true
+    },
+    {
+      "x": -7,
+      "z": 60.6,
+      "yaw": 0,
+      "control": {
+        "drawCalls": 91,
+        "triangles": 1326859,
+        "uploadBytes": 0
+      },
+      "maxVerifiedReach": null,
+      "actual": {
+        "drawCalls": 91,
+        "triangles": 1326859,
+        "uploadBytes": 0,
+        "rejected": null
+      },
+      "identicalPixels": true
+    },
+    {
+      "x": 18,
+      "z": 20,
+      "yaw": 0,
+      "control": {
+        "drawCalls": 138,
+        "triangles": 1958874,
+        "uploadBytes": 0
+      },
+      "maxVerifiedReach": null,
+      "actual": {
+        "drawCalls": 137,
+        "triangles": 1903854,
+        "uploadBytes": 0,
+        "rejected": null
+      },
+      "identicalPixels": true
+    },
+    {
+      "x": 46,
+      "z": 68,
+      "yaw": 0,
+      "control": {
+        "drawCalls": 83,
+        "triangles": 1563076,
+        "uploadBytes": 0
+      },
+      "maxVerifiedReach": null,
+      "actual": {
+        "drawCalls": 82,
+        "triangles": 1560976,
+        "uploadBytes": 0,
+        "rejected": null
+      },
+      "identicalPixels": true
+    },
+    {
+      "x": -7,
+      "z": 45,
+      "yaw": 0.8,
+      "control": {
+        "drawCalls": 117,
+        "triangles": 1858281,
+        "uploadBytes": 2304
+      },
+      "maxVerifiedReach": null,
+      "actual": {
+        "drawCalls": 112,
+        "triangles": 1547901,
+        "uploadBytes": 2304,
+        "rejected": null
+      },
+      "identicalPixels": true
+    }
+  ],
+  "scope": "Native sphere-only control versus actual tile extent culling. Counts and exact pixels, not GPU times.",
+  "pass": true,
+  "candidateSource": "10b2f9a6d",
+  "buildMetadataNote": "Compiled candidate on base 0b45a36a0; version.json still identifies that base. Product source is the candidateSource commit."
+}

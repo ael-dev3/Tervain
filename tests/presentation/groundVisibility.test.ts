@@ -35,6 +35,23 @@ function tiles(layer: TileLayer): Map<string, THREE.Mesh<THREE.InstancedBufferGe
 }
 
 describe('Ground vegetation visibility', () => {
+  it('skips sphere-only horizontal false positives and restores caller counts across camera changes', () => {
+    const { layer } = fixture();layer.update(new THREE.Vector3(0,1,0));
+    const mesh = layer.group.children.find(o => (o as THREE.Mesh<THREE.InstancedBufferGeometry>).geometry.instanceCount > 0) as THREE.Mesh<THREE.InstancedBufferGeometry>;
+    mesh.updateMatrixWorld();const sphere = mesh.geometry.boundingSphere!, centre = sphere.center.clone(), count = mesh.geometry.instanceCount;
+    const camera = new THREE.PerspectiveCamera(45,1,.1,200), scene = new THREE.Scene(), renderer = {} as THREE.WebGLRenderer;
+    const before = () => mesh.onBeforeRender(renderer,scene,camera,mesh.geometry,mesh.material as THREE.Material,{} as THREE.Group);
+    const after = () => mesh.onAfterRender(renderer,scene,camera,mesh.geometry,mesh.material as THREE.Material,{} as THREE.Group);
+    const inside = () => { camera.position.copy(centre).add(new THREE.Vector3(0,0,30));camera.lookAt(centre);camera.updateMatrixWorld(); };
+    camera.position.copy(centre).add(new THREE.Vector3(SIZE/2+3+1,0,0));camera.lookAt(camera.position.clone().add(new THREE.Vector3(1,0,0)));camera.updateMatrixWorld();
+    const frustum = new THREE.Frustum().setFromProjectionMatrix(new THREE.Matrix4().multiplyMatrices(camera.projectionMatrix,camera.matrixWorldInverse));
+    expect(frustum.intersectsSphere(sphere)).toBe(true);before();expect(mesh.geometry.instanceCount).toBe(0);after();expect(mesh.geometry.instanceCount).toBe(count);
+    inside();before();expect(mesh.geometry.instanceCount).toBe(count);after();
+    // Shader preparation may temporarily request fewer instances than the layer's population.
+    mesh.geometry.instanceCount=1;before();expect(mesh.geometry.instanceCount).toBe(1);after();expect(mesh.geometry.instanceCount).toBe(1);
+    layer.dispose();
+  });
+
   it('preloads outside the fade and completes every newly visible tile even when a move outruns its build quota', () => {
     const { layer } = fixture();
     layer.buildRate = 0.01;
