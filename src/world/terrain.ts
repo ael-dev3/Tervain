@@ -385,9 +385,18 @@ function lanternRoadGrade(x: number, z: number, h: number): number {
   return lerp(h, grade, influence);
 }
 
+// Stream cuts have finite support; keep their existing depth calculation inside these conservative bounds.
+const streamCarveBounds = STREAMS.map(stream => {
+  const reach = stream.halfWidth * 1.65 + 1e-6;
+  return { minX: Math.min(...stream.points.map(p => p.x)) - reach, maxX: Math.max(...stream.points.map(p => p.x)) + reach,
+    minZ: Math.min(...stream.points.map(p => p.z)) - reach, maxZ: Math.max(...stream.points.map(p => p.z)) + reach };
+});
+
 export function carveDepthAt(x: number, z: number): number {
   let carve = 0;
-  for (const s of STREAMS) {
+  for (let i = 0; i < STREAMS.length; i++) {
+    const s = STREAMS[i]!, bounds = streamCarveBounds[i]!;
+    if (x < bounds.minX || x > bounds.maxX || z < bounds.minZ || z > bounds.maxZ) continue;
     const { d } = distToPolyline(x, z, s.points);
     let depth = s.depth;
     if (s.id === 'main') {
