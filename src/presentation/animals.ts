@@ -38,6 +38,8 @@ function boneTrack(track: THREE.KeyframeTrack, bones: ReadonlySet<string>): bool
 }
 
 type MotionSpeeds = { Walk: number; Run: number };
+type AnimalValidation = { bounds: THREE.Box3; triangles: number; motionSpeeds: MotionSpeeds };
+const VALIDATION_BATCH = 512;
 function modelMotionSpeeds(scene: THREE.Group, definition: AnimalDefinition): MotionSpeeds {
   if (definition.seated) return { Walk: 0, Run: 0 };
   let speeds: Partial<MotionSpeeds> | undefined;
@@ -49,14 +51,15 @@ function modelMotionSpeeds(scene: THREE.Group, definition: AnimalDefinition): Mo
   return { Walk: motion.Walk!, Run: motion.Run! };
 }
 
-/** Validate the entire rendered model, including supplied saddles, ears, horns and tails. */
-export function validateAnimalTemplate(template: Pick<GLTF, 'scene' | 'animations'>, definition: AnimalDefinition): { bounds: THREE.Box3; triangles: number; motionSpeeds: MotionSpeeds } {
+function* animalValidationSteps(template: Pick<GLTF, 'scene' | 'animations'>, definition: AnimalDefinition): Generator<void, AnimalValidation> {
   let triangles = 0, skins = 0;
   const bones = new Set<string>();
-  template.scene.traverse(object => { if ((object as THREE.Bone).isBone) bones.add(object.name); });
+  const meshes: THREE.Mesh[] = [];
   template.scene.traverse(object => {
-    const mesh = object as THREE.Mesh;
-    if (!mesh.isMesh) return;
+    if ((object as THREE.Bone).isBone) bones.add(object.name);
+    if ((object as THREE.Mesh).isMesh) meshes.push(object as THREE.Mesh);
+  });
+  for (const mesh of meshes) {
     const vertices = mesh.geometry.index?.count ?? mesh.geometry.getAttribute('position')?.count;
     if (!vertices || vertices % 3) throw new Error(`The ${definition.species} model requires complete triangle geometry.`);
     triangles += vertices / 3;
@@ -73,8 +76,8 @@ export function validateAnimalTemplate(template: Pick<GLTF, 'scene' | 'animation
         if (!texture?.isTexture || !image || !(image.width! > 0) || !(image.height! > 0)) throw new Error(`The ${definition.species} model texture could not be decoded.`);
       }
     }
-    const skinned = object as THREE.SkinnedMesh;
-    if (!skinned.isSkinnedMesh) return;
+    const skinned = mesh as THREE.SkinnedMesh;
+    if (!skinned.isSkinnedMesh) continue;
     skins++;
     const positions = mesh.geometry.getAttribute('position'), indices = mesh.geometry.getAttribute('skinIndex'), weights = mesh.geometry.getAttribute('skinWeight');
     if (!positions || !indices || !weights || indices.count !== positions.count || weights.count !== positions.count || skinned.skeleton.bones.length < 12) {
@@ -88,8 +91,10 @@ export function validateAnimalTemplate(template: Pick<GLTF, 'scene' | 'animation
         sum += weight;
       }
       if (Math.abs(sum - 1) > 0.02) throw new Error(`The ${definition.species} skin weights are not normalized.`);
+      if ((i + 1) % VALIDATION_BATCH === 0) yield;
     }
-  });
+    if (weights.count % VALIDATION_BATCH) yield;
+  }
   if (!skins || !triangles || triangles > ANIMAL_TRIANGLE_LIMIT) throw new Error(`The ${definition.species} model must be skinned and fit ${ANIMAL_TRIANGLE_LIMIT} triangles (${triangles}).`);
   for (const name of requiredAnimalClips(definition)) {
     const clip = template.animations.find(candidate => candidate.name === name);
@@ -98,11 +103,39 @@ export function validateAnimalTemplate(template: Pick<GLTF, 'scene' | 'animation
     }
   }
   template.scene.updateMatrixWorld(true);
+  // Box3 otherwise computes each cold skin's bounds in one uninterrupted vertex walk.
+  // Use the same native posed vertices and expansion order, publishing only the complete box.
+  for (const mesh of meshes) {
+    const skin = mesh as THREE.SkinnedMesh;
+    if (!skin.isSkinnedMesh || skin.boundingBox !== null) continue;
+    const box = new THREE.Box3(), point = new THREE.Vector3(), count = skin.geometry.getAttribute('position').count;
+    for (let i = 0; i < count; i++) {
+      skin.getVertexPosition(i, point);
+      box.expandByPoint(point);
+      if ((i + 1) % VALIDATION_BATCH === 0) yield;
+    }
+    skin.boundingBox = box;
+    if (count % VALIDATION_BATCH) yield;
+  }
   const bounds = new THREE.Box3().setFromObject(template.scene), size = bounds.getSize(new THREE.Vector3());
   if (bounds.isEmpty() || ![size.x, size.y, size.z, bounds.min.y].every(Number.isFinite) || size.y < 0.2 || size.y > 3.4 || size.x > 6 || size.z > 6 || Math.abs(bounds.min.y) > 0.16) {
     throw new Error(`The ${definition.species} model must use grounded, metre-scale geometry.`);
   }
   return { bounds, triangles, motionSpeeds: modelMotionSpeeds(template.scene, definition) };
+}
+
+/** Validate the entire rendered model, including supplied saddles, ears, horns and tails. */
+export function validateAnimalTemplate(template: Pick<GLTF, 'scene' | 'animations'>, definition: AnimalDefinition): AnimalValidation {
+  const steps = animalValidationSteps(template, definition);
+  let next = steps.next();
+  while (!next.done) next = steps.next();
+  return next.value;
+}
+
+/** Prepare an unpublished source while allowing the browser to present between bounded batches. */
+export function validateAnimalTemplateAsync(template: Pick<GLTF, 'scene' | 'animations'>, definition: AnimalDefinition,
+  options: CooperativeOptions = {}): Promise<AnimalValidation> {
+  return finishCooperatively(animalValidationSteps(template, definition), { ...options, budgetMs: options.budgetMs ?? 2 });
 }
 
 function releaseRejectedTemplate(template: GLTF) {
@@ -134,7 +167,7 @@ function loadAnimal(definition: AnimalDefinition): Promise<GLTF> {
       throw new Error('The animal model download is not a complete GLB 2 file.');
     }
     const template = await createGltfLoader().parseAsync(bytes, new URL('.', url).href);
-    try { validateAnimalTemplate(template, definition); } catch (error) { releaseRejectedTemplate(template); throw error; }
+    try { await validateAnimalTemplateAsync(template, definition); } catch (error) { releaseRejectedTemplate(template); throw error; }
     return template;
   }).catch(error => { pending.delete(definition.id); throw error; });
   pending.set(definition.id, request);
