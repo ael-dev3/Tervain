@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { NearFade } from './nearFade';
 
 /** A pointed, feathered wooden arrow. Its local +Z is the direction of flight; the tip is the origin. */
 export function createHuntingArrow(): THREE.Group {
@@ -60,6 +61,7 @@ export class HuntingArrows {
   private readonly flights: { id: number; position: THREE.Vector3; velocity: THREE.Vector3; mesh: THREE.Group; age: number; wet?: boolean }[] = [];
   private readonly lodged: { mesh: THREE.Group; age: number }[] = [];
   private readonly floating: { mesh: THREE.Group; age: number; heading: number }[] = [];
+  private readonly fade = new NearFade();
   private nextId = 1;
   private disposed = false;
 
@@ -77,6 +79,9 @@ export class HuntingArrows {
     while (this.flights.length >= this.maxFlights) this.remove(this.flights.shift()!.mesh);
     const flight = { id: this.nextId++, position: origin.clone(), velocity: direction.clone().normalize().multiplyScalar(speed),
       mesh: createHuntingArrow(), age: 0 };
+    // The nocked arrow carries the hero's near-fade patch; a loosed one shares that program (here always fully drawn)
+    // instead of linking a plain one in its first frame of flight (a 0.17 s frame in the play gate).
+    this.fade.patchAll(flight.mesh);
     flight.mesh.position.copy(origin);
     this.orient(flight.mesh, flight.velocity);
     this.group.add(flight.mesh);

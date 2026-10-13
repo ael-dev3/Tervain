@@ -34,6 +34,16 @@ export class NearFade {
     });
   }
 
+  /** Patch every material under `object` without changing coverage or visibility. Gear that leaves the hero (a loosed
+   * arrow) shares his patched programs this way, so its first draw links nothing new; its own fade stays at 1. */
+  patchAll(object: THREE.Object3D) {
+    object.traverse((child) => {
+      const mesh = child as THREE.Mesh;
+      if (!mesh.isMesh) return;
+      for (const material of Array.isArray(mesh.material) ? mesh.material : [mesh.material]) this.patch(material);
+    });
+  }
+
   private patch(material: THREE.Material) {
     if (this.patched.has(material)) return;
     this.patched.add(material);
