@@ -6,6 +6,14 @@
 import * as THREE from 'three';
 import type { FrameContext, Quality } from './context';
 import { SKY } from './skyState';
+import { smoothstep } from '../world/noise';
+
+/**
+ * By day the generated sky's diffuse light is lifted (A137), with the hemisphere fill in sky.ts, so shade under a house or
+ * a crown keeps a believable blue sky fill instead of falling near black. Surfaces in the game are matte, so the
+ * reflections this also lifts are faint.
+ */
+export const ENV_DAY_LIFT = 0.3;
 
 export interface EnvironmentHandle {
   update(dt: number, f: FrameContext): void;
@@ -157,6 +165,8 @@ export function buildEnvironment(scene: THREE.Scene, quality: Quality): Environm
 
   return {
     update(dt, f) {
+      const day = smoothstep(5.5, 7, f.hour) * (1 - smoothstep(18.6, 20, f.hour));
+      scene.environmentIntensity = spec.intensity * (1 + ENV_DAY_LIFT * day);
       timer += dt;
       const jumped = lastHour >= 0 && Math.abs(f.hour - lastHour) > 0.2 && Math.abs(f.hour - lastHour) < 23.8;
       lastHour = f.hour;

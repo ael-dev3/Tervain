@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { SkyRig } from '../../src/presentation/sky';
 import { SKY } from '../../src/presentation/skyState';
+import { SOFT_SUN_SHADOW } from '../../src/presentation/softShadows';
 
 let sky: SkyRig;
 const focus = new THREE.Vector3(-268, 0.5, 27);
@@ -48,7 +49,8 @@ describe('continuous coastal atmosphere', () => {
   it('retains a cool diffuse reading floor throughout night with the normal environment active', () => {
     SKY.ibl.value = 1;
     sky.update(12, focus, 120, true);
-    expect(sky.sun.intensity).toBeGreaterThan(2.5);
+    // A137: by day the sun gives a third of its light to the sky's fill, so shade is not near black.
+    expect(sky.sun.intensity).toBeGreaterThan(1.6);
     // This measures available linear diffuse illumination, not final pixels:
     // the ordinary native forest review still decides route/hero readability.
     for (let sample = 0; sample <= 90; sample++) {
@@ -96,6 +98,29 @@ describe('continuous coastal atmosphere', () => {
     const late = sky.state.sunDir.clone();
     sky.update(0, focus, 120, true);
     expect(sky.state.sunDir.angleTo(late)).toBeLessThan(0.03);
+  });
+
+  it('keeps a blue sky fill in daylight shade and softens the sun’s shadow (A137)', () => {
+    // Shader chunk patched once at import, selected by the sun's negative radius.
+    expect(THREE.ShaderChunk.shadowmap_pars_fragment).toContain('tvShadowTap');
+    expect(sky.sun.shadow.radius).toBe(SOFT_SUN_SHADOW);
+    SKY.ibl.value = 1;
+    for (const hour of [9, 11, 13, 15, 17]) {
+      sky.update(hour, focus, 120, true);
+      const fill = luminance(sky.hemi.color) * sky.hemi.intensity;
+      const sun = luminance(sky.sun.color) * sky.sun.intensity;
+      // The hemisphere alone (the generated sky adds more) brings at least a fifth of the sun into the shade and stays under one and a half times it, blue over warm.
+      expect(fill / sun, `fill at ${hour}`).toBeGreaterThan(0.2);
+      expect(fill / sun, `fill at ${hour}`).toBeLessThan(1.5);
+      expect(sky.hemi.color.b).toBeGreaterThan(sky.hemi.color.r);
+      expect(sky.sun.color.r).toBeGreaterThanOrEqual(sky.sun.color.b);
+    }
+    sky.update(13, focus, 120, true);
+    const high = sky.sun.shadow.intensity;
+    sky.update(18.3, focus, 120, true);
+    expect(high).toBe(1);
+    expect(sky.sun.shadow.intensity).toBeLessThan(high);
+    expect(sky.sun.shadow.intensity).toBeGreaterThan(0.7);
   });
 
   it('moves the sun’s shadow camera with the walker without tilting it (A90 scout)', () => {

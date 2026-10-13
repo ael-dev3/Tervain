@@ -39,7 +39,7 @@ fs.rmSync(out, { force: true });
 const page = await openPage(url.href, { w, h, headed: process.env.SHOT_GPU === '1' });
 try {
   let ready = false;
-  for (let i = 0; i < 240; i++) {
+  for (let i = 0; i < Number(process.env.SHOT_WAIT ?? 240); i++) {
     if ((await page.eval('return document.title')) === 'READY') {
       ready = true;
       break;
