@@ -1,0 +1,428 @@
+{
+  "schema": 1,
+  "actors": [
+    {
+      "id": "caravan_master",
+      "bones": {
+        "boneCount": 36,
+        "minimumScale": 0.9999999999999988,
+        "invalid": [],
+        "pass": true
+      },
+      "head": {
+        "distance": 0.16594043992835397,
+        "pass": true,
+        "scope": "Head/torso anchor separation; does not inspect face geometry or skin weights."
+      }
+    },
+    {
+      "id": "rillford_reeve",
+      "bones": {
+        "boneCount": 36,
+        "minimumScale": 0.9999999999999993,
+        "invalid": [],
+        "pass": true
+      },
+      "head": {
+        "distance": 0.14196961221367668,
+        "pass": true,
+        "scope": "Head/torso anchor separation; does not inspect face geometry or skin weights."
+      }
+    },
+    {
+      "id": "spring_steward",
+      "bones": {
+        "boneCount": 36,
+        "minimumScale": 0.9999999999999988,
+        "invalid": [],
+        "pass": true
+      },
+      "head": {
+        "distance": 0.13418312015311615,
+        "pass": true,
+        "scope": "Head/torso anchor separation; does not inspect face geometry or skin weights."
+      }
+    },
+    {
+      "id": "quarry_foreman",
+      "bones": {
+        "boneCount": 36,
+        "minimumScale": 0.9999999999999992,
+        "invalid": [],
+        "pass": true
+      },
+      "head": {
+        "distance": 0.1789338256712891,
+        "pass": true,
+        "scope": "Head/torso anchor separation; does not inspect face geometry or skin weights."
+      }
+    },
+    {
+      "id": "maintenance_worker",
+      "bones": {
+        "boneCount": 36,
+        "minimumScale": 0.9999999999999993,
+        "invalid": [],
+        "pass": true
+      },
+      "head": {
+        "distance": 0.12221796722717433,
+        "pass": true,
+        "scope": "Head/torso anchor separation; does not inspect face geometry or skin weights."
+      }
+    },
+    {
+      "id": "estate_steward",
+      "bones": {
+        "boneCount": 36,
+        "minimumScale": 0.9999999999999992,
+        "invalid": [],
+        "pass": true
+      },
+      "head": {
+        "distance": 0.16218493475412624,
+        "pass": true,
+        "scope": "Head/torso anchor separation; does not inspect face geometry or skin weights."
+      }
+    },
+    {
+      "id": "ash_recorder",
+      "bones": {
+        "boneCount": 36,
+        "minimumScale": 0.9999999999999993,
+        "invalid": [],
+        "pass": true
+      },
+      "head": {
+        "distance": 0.1603500910797675,
+        "pass": true,
+        "scope": "Head/torso anchor separation; does not inspect face geometry or skin weights."
+      }
+    },
+    {
+      "id": "shrine_warden",
+      "bones": {
+        "boneCount": 36,
+        "minimumScale": 0.9999999999999991,
+        "invalid": [],
+        "pass": true
+      },
+      "head": {
+        "distance": 0.1642330204814978,
+        "pass": true,
+        "scope": "Head/torso anchor separation; does not inspect face geometry or skin weights."
+      }
+    },
+    {
+      "id": "mill_hand",
+      "bones": {
+        "boneCount": 36,
+        "minimumScale": 0.9999999999999991,
+        "invalid": [],
+        "pass": true
+      },
+      "head": {
+        "distance": 0.13981325218124052,
+        "pass": true,
+        "scope": "Head/torso anchor separation; does not inspect face geometry or skin weights."
+      }
+    },
+    {
+      "id": "quarry_hand",
+      "bones": {
+        "boneCount": 36,
+        "minimumScale": 0.999999999999999,
+        "invalid": [],
+        "pass": true
+      },
+      "head": {
+        "distance": 0.1513807952587909,
+        "pass": true,
+        "scope": "Head/torso anchor separation; does not inspect face geometry or skin weights."
+      }
+    },
+    {
+      "id": "village_baker",
+      "bones": {
+        "boneCount": 36,
+        "minimumScale": 0.9999999999999992,
+        "invalid": [],
+        "pass": true
+      },
+      "head": {
+        "distance": 0.14038832234153728,
+        "pass": true,
+        "scope": "Head/torso anchor separation; does not inspect face geometry or skin weights."
+      }
+    },
+    {
+      "id": "trail_hunter",
+      "bones": {
+        "boneCount": 36,
+        "minimumScale": 0.9999999999999993,
+        "invalid": [],
+        "pass": true
+      },
+      "head": {
+        "distance": 0.16087121864379159,
+        "pass": true,
+        "scope": "Head/torso anchor separation; does not inspect face geometry or skin weights."
+      }
+    }
+  ],
+  "sceneRigs": [
+    {
+      "id": "fisher",
+      "bones": {
+        "boneCount": 36,
+        "minimumScale": 0.9999999999999989,
+        "invalid": [],
+        "pass": true
+      },
+      "head": {
+        "distance": 0.16990493541915921,
+        "pass": true,
+        "scope": "Head/torso anchor separation; does not inspect face geometry or skin weights."
+      }
+    },
+    {
+      "id": "fireside",
+      "bones": {
+        "boneCount": 36,
+        "minimumScale": 0.9999999999999988,
+        "invalid": [],
+        "pass": true
+      },
+      "head": {
+        "distance": 0.13812006723742407,
+        "pass": true,
+        "scope": "Head/torso anchor separation; does not inspect face geometry or skin weights."
+      }
+    },
+    {
+      "id": "keeper",
+      "bones": {
+        "boneCount": 36,
+        "minimumScale": 0.999999999999999,
+        "invalid": [],
+        "pass": true
+      },
+      "head": {
+        "distance": 0.17745149902816315,
+        "pass": true,
+        "scope": "Head/torso anchor separation; does not inspect face geometry or skin weights."
+      }
+    },
+    {
+      "id": "ash-recorder",
+      "bones": {
+        "boneCount": 36,
+        "minimumScale": 0.9999999999999993,
+        "invalid": [],
+        "pass": true
+      },
+      "head": {
+        "distance": 0.1603500910797675,
+        "pass": true,
+        "scope": "Head/torso anchor separation; does not inspect face geometry or skin weights."
+      }
+    },
+    {
+      "id": "ash-recorder",
+      "bones": {
+        "boneCount": 36,
+        "minimumScale": 0.9999999999999993,
+        "invalid": [],
+        "pass": true
+      },
+      "head": {
+        "distance": 0.16087121864379159,
+        "pass": true,
+        "scope": "Head/torso anchor separation; does not inspect face geometry or skin weights."
+      }
+    },
+    {
+      "id": "caravan-master",
+      "bones": {
+        "boneCount": 36,
+        "minimumScale": 0.9999999999999988,
+        "invalid": [],
+        "pass": true
+      },
+      "head": {
+        "distance": 0.16594043992835397,
+        "pass": true,
+        "scope": "Head/torso anchor separation; does not inspect face geometry or skin weights."
+      }
+    },
+    {
+      "id": "rillford-reeve",
+      "bones": {
+        "boneCount": 36,
+        "minimumScale": 0.9999999999999993,
+        "invalid": [],
+        "pass": true
+      },
+      "head": {
+        "distance": 0.14196961221367668,
+        "pass": true,
+        "scope": "Head/torso anchor separation; does not inspect face geometry or skin weights."
+      }
+    },
+    {
+      "id": "spring-steward",
+      "bones": {
+        "boneCount": 36,
+        "minimumScale": 0.9999999999999988,
+        "invalid": [],
+        "pass": true
+      },
+      "head": {
+        "distance": 0.13418312015311615,
+        "pass": true,
+        "scope": "Head/torso anchor separation; does not inspect face geometry or skin weights."
+      }
+    },
+    {
+      "id": "quarry-foreman",
+      "bones": {
+        "boneCount": 36,
+        "minimumScale": 0.9999999999999992,
+        "invalid": [],
+        "pass": true
+      },
+      "head": {
+        "distance": 0.1789338256712891,
+        "pass": true,
+        "scope": "Head/torso anchor separation; does not inspect face geometry or skin weights."
+      }
+    },
+    {
+      "id": "maintenance-worker",
+      "bones": {
+        "boneCount": 36,
+        "minimumScale": 0.9999999999999993,
+        "invalid": [],
+        "pass": true
+      },
+      "head": {
+        "distance": 0.12221796722717433,
+        "pass": true,
+        "scope": "Head/torso anchor separation; does not inspect face geometry or skin weights."
+      }
+    },
+    {
+      "id": "estate-steward",
+      "bones": {
+        "boneCount": 36,
+        "minimumScale": 0.9999999999999992,
+        "invalid": [],
+        "pass": true
+      },
+      "head": {
+        "distance": 0.16218493475412624,
+        "pass": true,
+        "scope": "Head/torso anchor separation; does not inspect face geometry or skin weights."
+      }
+    },
+    {
+      "id": "shrine-warden",
+      "bones": {
+        "boneCount": 36,
+        "minimumScale": 0.9999999999999991,
+        "invalid": [],
+        "pass": true
+      },
+      "head": {
+        "distance": 0.1642330204814978,
+        "pass": true,
+        "scope": "Head/torso anchor separation; does not inspect face geometry or skin weights."
+      }
+    },
+    {
+      "id": "mill-hand",
+      "bones": {
+        "boneCount": 36,
+        "minimumScale": 0.9999999999999991,
+        "invalid": [],
+        "pass": true
+      },
+      "head": {
+        "distance": 0.13981325218124052,
+        "pass": true,
+        "scope": "Head/torso anchor separation; does not inspect face geometry or skin weights."
+      }
+    },
+    {
+      "id": "quarry-hand",
+      "bones": {
+        "boneCount": 36,
+        "minimumScale": 0.999999999999999,
+        "invalid": [],
+        "pass": true
+      },
+      "head": {
+        "distance": 0.1513807952587909,
+        "pass": true,
+        "scope": "Head/torso anchor separation; does not inspect face geometry or skin weights."
+      }
+    },
+    {
+      "id": "village-baker",
+      "bones": {
+        "boneCount": 36,
+        "minimumScale": 0.9999999999999992,
+        "invalid": [],
+        "pass": true
+      },
+      "head": {
+        "distance": 0.14038832234153728,
+        "pass": true,
+        "scope": "Head/torso anchor separation; does not inspect face geometry or skin weights."
+      }
+    },
+    {
+      "id": "ford-bandit-a",
+      "bones": {
+        "boneCount": 36,
+        "minimumScale": 0.9999999999999991,
+        "invalid": [],
+        "pass": true
+      },
+      "head": {
+        "distance": 0.17852983088862193,
+        "pass": true,
+        "scope": "Head/torso anchor separation; does not inspect face geometry or skin weights."
+      }
+    },
+    {
+      "id": "ford-bandit-b",
+      "bones": {
+        "boneCount": 36,
+        "minimumScale": 0.9999999999999993,
+        "invalid": [],
+        "pass": true
+      },
+      "head": {
+        "distance": 0.17536224906691567,
+        "pass": true,
+        "scope": "Head/torso anchor separation; does not inspect face geometry or skin weights."
+      }
+    }
+  ],
+  "control": {
+    "id": "caravan_master",
+    "vertices": 44607,
+    "finiteVertexCheckPass": true,
+    "injectedCollapseCaught": true,
+    "restoredPass": true
+  },
+  "structuralPass": true,
+  "selfTestPass": true,
+  "scope": "Native NPC rigs after full cast adoption, including tagged ambient/enemy rigs, plus a temporary zero-scale head control. Shader warmup is disabled in this CPU-only fixture. Structural check only; does not establish correct face shape, skin weights, all animations, or a recorded missing-head cause.",
+  "build": {
+    "version": "0.0.15",
+    "revision": "62af8c8d1"
+  },
+  "pass": true
+}
