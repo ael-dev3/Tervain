@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "baselineRef": "0b45a36",
+  "sourceSha256": "97c691239e69722a33d751136ac8de825c108950093e8102899966ba3d8436d0",
+  "scope": "Actual Rapier casts for authored prop placements and terrain query coordinates, plus restored/rotated/replaced collider-shape controls. Counts are API calls, not heap bytes or hardware frame times.",
+  "props": 9,
+  "comparedQueries": 1054,
+  "hits": 143,
+  "beforeCasts": 9486,
+  "afterCasts": 268,
+  "shapeControls": [
+    "cuboid",
+    "cylinder",
+    "ball",
+    "unbounded-fallback-cone",
+    "large-coordinate-float32-rounding",
+    "unknown-query-shape-fallback"
+  ],
+  "exactHitsNormalsWitnesses": true,
+  "pass": true
+}

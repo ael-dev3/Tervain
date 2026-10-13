@@ -1,0 +1,103 @@
+{
+  "schema": 1,
+  "baselineRef": "0b45a36",
+  "sourceSha256": "97c691239e69722a33d751136ac8de825c108950093e8102899966ba3d8436d0",
+  "scope": "Uninstrumented alternating prop query batches, first pair discarded. Component CPU workload, not hardware frame timing.",
+  "corpus": "overlapping-props-stress",
+  "queriesPerBatch": 10000,
+  "beforeMedianMs": 296.8768490000002,
+  "afterMedianMs": 310.79569900000024,
+  "rounds": [
+    {
+      "before": {
+        "ms": 584.5748210000002,
+        "hits": 10000
+      },
+      "after": {
+        "ms": 304.78971099999944,
+        "hits": 10000
+      }
+    },
+    {
+      "after": {
+        "ms": 310.79569900000024,
+        "hits": 10000
+      },
+      "before": {
+        "ms": 353.8390389999986,
+        "hits": 10000
+      }
+    },
+    {
+      "before": {
+        "ms": 260.40341699999954,
+        "hits": 10000
+      },
+      "after": {
+        "ms": 291.8185429999994,
+        "hits": 10000
+      }
+    },
+    {
+      "after": {
+        "ms": 306.15894000000117,
+        "hits": 10000
+      },
+      "before": {
+        "ms": 296.8768490000002,
+        "hits": 10000
+      }
+    },
+    {
+      "before": {
+        "ms": 283.93435800000043,
+        "hits": 10000
+      },
+      "after": {
+        "ms": 309.8090490000013,
+        "hits": 10000
+      }
+    },
+    {
+      "after": {
+        "ms": 303.91955100000087,
+        "hits": 10000
+      },
+      "before": {
+        "ms": 274.8013200000005,
+        "hits": 10000
+      }
+    },
+    {
+      "before": {
+        "ms": 281.09952599999997,
+        "hits": 10000
+      },
+      "after": {
+        "ms": 516.8998930000016,
+        "hits": 10000
+      }
+    },
+    {
+      "after": {
+        "ms": 422.09422599999743,
+        "hits": 10000
+      },
+      "before": {
+        "ms": 351.6121430000021,
+        "hits": 10000
+      }
+    },
+    {
+      "before": {
+        "ms": 313.5546069999982,
+        "hits": 10000
+      },
+      "after": {
+        "ms": 369.70271899999716,
+        "hits": 10000
+      }
+    }
+  ],
+  "pass": true
+}

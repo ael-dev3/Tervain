@@ -63,6 +63,15 @@ const rotateVector = (v: Vec3, q: { x: number; y: number; z: number; w: number }
     z: v.z + q.w * tz + q.x * ty - q.y * tx };
 };
 
+/** Rotation-independent bounds for the primitive contact shapes; unfamiliar shapes keep the exact cast. */
+const shapeRadius = (shape: RAPIER.Shape): number => {
+  if (shape instanceof RAPIER.Ball) return shape.radius;
+  if (shape instanceof RAPIER.Capsule) return shape.halfHeight + shape.radius;
+  if (shape instanceof RAPIER.Cuboid) return Math.hypot(shape.halfExtents.x, shape.halfExtents.y, shape.halfExtents.z);
+  if (shape instanceof RAPIER.Cylinder) return Math.hypot(shape.halfHeight, shape.radius);
+  return Infinity;
+};
+
 /** Real rigid-body contacts; gameplay terrain/controller remains the authored source of standing heights. */
 export class RealmPhysics {
   readonly world = new RAPIER.World({ x: 0, y: -17, z: 0 });
@@ -290,8 +299,28 @@ export class RealmPhysics {
   private castContacts(shape: RAPIER.Shape, position: Vec3, velocity: Vec3, maxToi: number,
     accept: (normal: Vec3, witness: Vec3, collider: RAPIER.Collider) => boolean = () => true, includeRocks = true) {
     let nearest: { contact: { collider: RAPIER.Collider }; hit: RAPIER.ShapeCastHit; normal: Vec3; witness: Vec3 } | null = null;
+    const reach = shapeRadius(shape);
+    const dx = velocity.x * maxToi, dy = velocity.y * maxToi, dz = velocity.z * maxToi;
+    const minX = position.x + Math.min(0, dx), maxX = position.x + Math.max(0, dx);
+    const minY = position.y + Math.min(0, dy), maxY = position.y + Math.max(0, dy);
+    const minZ = position.z + Math.min(0, dz), maxZ = position.z + Math.max(0, dz);
+    const inputGuard = 1e-4 + 1e-6 * Math.max(reach, Math.abs(position.x), Math.abs(position.y), Math.abs(position.z),
+      Math.abs(dx), Math.abs(dy), Math.abs(dz));
     for (const contact of [...this.props, ...(includeRocks ? this.rocks : [])]) {
       if (!contact.collider.isEnabled()) continue;
+      let center: Vec3 | undefined;
+      if ('spec' in contact && Number.isFinite(reach)) {
+        const radius = shapeRadius(contact.collider.shape);
+        if (Number.isFinite(radius)) {
+          center = contact.collider.translation();
+          // Include float32 rounding of cast inputs, especially after save restoration at large coordinates.
+          const guard = inputGuard + 1e-6 * Math.max(radius, Math.abs(center.x), Math.abs(center.y), Math.abs(center.z));
+          const margin = reach + radius + guard;
+          if (maxX + margin < center.x || minX - margin > center.x ||
+            maxY + margin < center.y || minY - margin > center.y ||
+            maxZ + margin < center.z || minZ - margin > center.z) continue;
+        }
+      }
       if ('source' in contact && contact.source.rockMesh) {
         const bounds = contact.source.rockMesh.bounds;
         if (position.x + Math.max(0, velocity.x * maxToi) + PLAYER_BODY_RADIUS < bounds.minX ||
@@ -301,7 +330,8 @@ export class RealmPhysics {
       }
       const hit = contact.collider.castShape({ x: 0, y: 0, z: 0 }, shape, position, yawRotation(0), velocity, 0, maxToi, true);
       if (!hit) continue;
-      const rotation = contact.collider.rotation(), center = contact.collider.translation();
+      const rotation = contact.collider.rotation();
+      center ??= contact.collider.translation();
       const normal = rotateVector(hit.normal1, rotation), localWitness = rotateVector(hit.witness1, rotation);
       const witness = { x: center.x + localWitness.x, y: center.y + localWitness.y, z: center.z + localWitness.z };
       if (!accept(normal, witness, contact.collider) || nearest && nearest.hit.time_of_impact <= hit.time_of_impact) continue;
