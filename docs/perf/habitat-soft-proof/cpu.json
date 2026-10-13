@@ -1,0 +1,94 @@
+{
+  "schema": 1,
+  "baselineRef": "0b45a36",
+  "sourceSha256": "94d5d5345618eba306f616797bc9ba4941a05266f835c32cbf56080e80a8207f",
+  "scope": "Production Habitat with actual terrain and stock exclusions, deterministic samples at four locations. Counts soft-circle tests only; not hardware timing or live stall attribution.",
+  "samples": 1920,
+  "softCircles": 155,
+  "tiles": 30,
+  "beforeChecks": 1343850,
+  "afterChecks": 5066,
+  "unequalSamples": 0,
+  "comparedWords": 43350,
+  "unequalWords": 0,
+  "pass": true,
+  "cpuBenchmark": {
+    "scope": "Uninstrumented cold Habitat caches; actual terrain already prepared. First pair warms code and is excluded. Alternating order; anonymous sandbox CPU, not Mac frame times.",
+    "rounds": [
+      {
+        "after": {
+          "constructionMs": 0.3698549999990064,
+          "samplingMs": 160.3794600000001
+        },
+        "before": {
+          "constructionMs": 0.3230839999996533,
+          "samplingMs": 242.25260999999955
+        }
+      },
+      {
+        "before": {
+          "constructionMs": 0.2752220000002126,
+          "samplingMs": 226.382434000001
+        },
+        "after": {
+          "constructionMs": 0.4854780000005121,
+          "samplingMs": 170.98409199999878
+        }
+      },
+      {
+        "after": {
+          "constructionMs": 0.490776000000551,
+          "samplingMs": 205.49508400000013
+        },
+        "before": {
+          "constructionMs": 0.3386479999990115,
+          "samplingMs": 275.10687900000084
+        }
+      },
+      {
+        "before": {
+          "constructionMs": 0.5509359999996377,
+          "samplingMs": 251.92658999999912
+        },
+        "after": {
+          "constructionMs": 19.604543999999805,
+          "samplingMs": 207.3188339999997
+        }
+      },
+      {
+        "after": {
+          "constructionMs": 0.4758430000001681,
+          "samplingMs": 138.55897899999945
+        },
+        "before": {
+          "constructionMs": 0.20657000000028347,
+          "samplingMs": 272.3266559999993
+        }
+      },
+      {
+        "before": {
+          "constructionMs": 0.36267299999963143,
+          "samplingMs": 324.08655700000054
+        },
+        "after": {
+          "constructionMs": 0.476224000000002,
+          "samplingMs": 189.4900720000005
+        }
+      },
+      {
+        "after": {
+          "constructionMs": 0.5804299999999785,
+          "samplingMs": 191.70419500000025
+        },
+        "before": {
+          "constructionMs": 0.22952400000031048,
+          "samplingMs": 286.0436419999987
+        }
+      }
+    ],
+    "beforeMedianMs": 272.3266559999993,
+    "afterMedianMs": 189.4900720000005,
+    "beforeConstructionMedianMs": 0.3230839999996533,
+    "afterConstructionMedianMs": 0.4854780000005121
+  }
+}
