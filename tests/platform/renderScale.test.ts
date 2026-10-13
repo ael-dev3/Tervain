@@ -57,7 +57,8 @@ it('matches the original rolling-window decisions across wraps, resets, floors a
       const ms=i%127===0?NaN:i%113===0?400:i%107===0?-1:i%3600<1200?16.7:i%3600<2400?33.3:i%11===0?25:16.7;
       expect(next.sample(ms)).toBe(before.sample(ms));expect(next.scale).toBe(before.scale);
     }
-  });
+  }
+});
 
 it('caps high-density fill cost without supersampling ordinary screens', () => {
   for (const ratio of [1, 1.25, 1.5, 2, 3]) {
