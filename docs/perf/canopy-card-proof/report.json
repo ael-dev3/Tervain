@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "baselineRef": "0b45a36",
+  "sourceSha256": "184cb591e1622bf539a2f73fa2099aa363dee1c9159511488708f3d0c01a2af6",
+  "scope": "Actual canopy builders, controlled source sphere/trunk, four seeds and near/mid options. Clone counts and exact output buffers, not hardware timing or the unreleased crown revision.",
+  "beforeClones": 124669,
+  "afterClones": 86269,
+  "comparedElements": 729600,
+  "differentArrays": 0,
+  "pass": true
+}
