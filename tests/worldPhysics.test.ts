@@ -22,6 +22,8 @@ describe('real 60 Hz rigid-body world', () => {
       p.syncActors([person]);
       p.syncActors([{ ...person, radius: .2, height: .4 }]);
       expect(p.traceProjectile({ x: -3, y: .95, z: 0 }, { x: 3, y: .95, z: 0 })?.actorId).toBe(person.id);
+      p.syncActors([{ ...person, radius: .3, height: 1.2, active: false }]);
+      expect(p.traceProjectile({ x: -3, y: .95, z: 0 }, { x: 3, y: .95, z: 0 })).toBeNull();
     } finally { p.dispose(); }
   });
   it('resizes an existing actor capsule when its dimensions change, retaining its handle', () => {
