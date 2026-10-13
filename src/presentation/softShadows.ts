@@ -136,10 +136,10 @@ export function installSoftSunShadows(): boolean {
  */
 export function installDepthOnlyShadowPass(renderer: THREE.WebGLRenderer): void {
   const shadowMap = renderer.shadowMap as THREE.WebGLShadowMap & { tvDepthOnly?: boolean };
-  if (shadowMap.tvDepthOnly) return;
+  const color = renderer.state?.buffers?.color;
+  if (shadowMap.tvDepthOnly || !color) return;
   shadowMap.tvDepthOnly = true;
   const render = shadowMap.render;
-  const color = renderer.state.buffers.color;
   shadowMap.render = function (this: THREE.WebGLShadowMap, ...args: Parameters<THREE.WebGLShadowMap['render']>) {
     color.setMask(false);
     color.setLocked(true);
