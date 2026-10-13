@@ -2973,11 +2973,14 @@ export class App {
     if (!world) throw new Error('No world for canopy audit');
     const { auditCanopies } = await import('./diagnostics/canopyAudit');
     const forest = world.modules.find(m => m.name === 'forest')?.module as
-      import('./presentation/context').SceneModule & { counts?: { trees: number } } | undefined;
+      import('./presentation/context').SceneModule & { counts?: { trees: number; species?: Record<string, number> } } | undefined;
     const expectedTrees = forest?.counts?.trees;
-    const report = auditCanopies(forest?.canopyAuditTargets?.() ?? [], options);
-    return { ...report, expectedTrees, revision: REVISION, version: GAME_VERSION,
-      complete: report.complete && Number.isInteger(expectedTrees) && expectedTrees! > 0 && report.summary.trees === expectedTrees };
+    const report = auditCanopies(forest?.canopyAuditTargets?.(options.lod ?? 0) ?? [], options);
+    const expectedSpecies = forest?.counts?.species;
+    const speciesComplete = !!expectedSpecies && Object.entries(expectedSpecies).every(([species, count]) => report.bySpecies[species]?.trees === count) && Object.keys(report.bySpecies).every(species => species in expectedSpecies);
+    const missingSpecies = Object.fromEntries(Object.entries(expectedSpecies ?? {}).map(([species, count]) => [species, count - (report.bySpecies[species]?.trees ?? 0)]).filter(([, count]) => Number(count) > 0));
+    return { ...report, expectedTrees, expectedSpecies, missingSpecies, speciesComplete, revision: REVISION, version: GAME_VERSION,
+      complete: report.complete && speciesComplete && Number.isInteger(expectedTrees) && expectedTrees! > 0 && report.summary.trees === expectedTrees };
   }
 
   async auditPlacement(options: import('./diagnostics/placementAudit').PlacementAuditOptions = {}) {
