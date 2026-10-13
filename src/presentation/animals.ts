@@ -428,6 +428,7 @@ function* buildAnimalSteps(ctx: Pick<BuildContext, 'terrain' | 'colliders' | 'qu
   onAbandon(dispose);
   const { terrain } = ctx, colliders = animalNavigationColliders(ctx.colliders);
   // Fit every habitat before allocating disposable copies, so a bad placement cannot strand a partial set of GPU resources.
+  // Reuse validation only within this build; a subsequent build still checks its source anew.
   const fitted: { definition: AnimalDefinition; template: GLTF; home: AnimalSite; validated: ReturnType<typeof validateAnimalTemplate> }[] = [];
   for (const definition of definitions) {
     const template = templates.get(definition.id);
