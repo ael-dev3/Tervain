@@ -40,6 +40,12 @@ const SPOTS = {
   fence: { item: 'Fences: vault in real play', hero: [-4, 49, 0], still: [[2.6, 1.8, -1.5, 0, 1, 2.5]], path: [[3, 1.8, -2, 0, 1, 3], [-3, 1.8, -2, 0, 1, 3]] },
   hearth: { item: 'Interiors: hearth and lived-in room', hero: [-6, -6, 1.6], hide: true, still: [[0, 1.7, 0, 3, 1.4, 0], [0, 1.7, 0, -3, 1.4, 0], [0, 1.7, 0, 0, 1.4, -3]], path: [[-1.5, 1.7, -1, 3, 1.3, 1], [1.5, 1.7, 1, -3, 1.3, -1]] },
   // The inn's hanging sign stands out from its east end, about (0.4, 34.8).
+  // Playtest 7: the fisher mends nets 2.4 m in front of the net store (yaw 0.5); his head and hands at conversation range.
+  peddler: { item: 'Residents: the net-mender by the cabin', hero: [-82.7, 32.1, 0.5], hide: true, still: [[1.2, 1.7, 2.2, 0, 1.55, 0], [-1.6, 1.6, 1.4, 0, 1.4, 0]], path: [[1.9, 1.7, 1.2, 0, 1.5, 0], [-1.2, 1.7, 2.2, 0, 1.5, 0]] },
+  // Playtest 7, 0:28-0:33: looking up a wooded slope from below, where needle and leaf clumps floated against the sky.
+  hill: { item: 'Trees: pines and crowns on the slope', hero: [-25.5, -117, Math.PI], hide: true, still: [[0, 1.7, 0, 0, 12, -8], [4, 1.7, 1, -1, 11, -8]], path: [[-5, 1.7, 0, 0, 11, -8], [5, 1.7, 0, 0, 11, -8]] },
+  // Playtest 7, 0:31-0:33: the follow camera pressed into a trunk behind the hero must never show his hollow inside.
+  clip: { item: 'Camera: pressed against a trunk behind the hero', hero: [-33.4, 62.5, Math.PI], still: [], run: 5000, keys: ['KeyS', 'KeyZ'] },
   sign: { item: 'Props: shop sign and supports', hero: [2, 38.5, Math.PI], hide: true, still: [[0, 1.7, 0, -1.6, 2.1, -3.7]], path: [[-2, 1.7, .5, -1.6, 2.1, -3.7], [2, 1.7, .5, -1.6, 2.1, -3.7]] },
 };
 const chosen = (args.spots ?? Object.keys(SPOTS).join(',')).split(',').filter((s) => SPOTS[s]);
@@ -55,7 +61,7 @@ const capture = async (file) => {
   const data = r?.result?.data ?? r?.data;
   if (data) fs.writeFileSync(file, Buffer.from(data, 'base64'));
 };
-const keyCodes = { KeyW: 87, ShiftLeft: 16, Space: 32 };
+const keyCodes = { KeyW: 87, KeyS: 83, KeyA: 65, KeyD: 68, KeyZ: 90, KeyC: 67, ShiftLeft: 16, Space: 32 };
 const key = (type, code, extra = {}) => page.cdp('Input.dispatchKeyEvent', { type, code, key: code === 'Space' ? ' ' : code === 'ShiftLeft' ? 'Shift' : code.slice(3).toLowerCase(), windowsVirtualKeyCode: keyCodes[code], ...extra });
 const holdWhile = async (codes, ms, each) => {
   for (const c of codes) await key('rawKeyDown', c);
@@ -97,7 +103,7 @@ try {
       await page.wait(600);
       const from = page.frames.length;
       await page.cdp('Page.startScreencast', { format: 'jpeg', quality: 85, everyNthFrame: 1, maxWidth: 1280, maxHeight: 800 });
-      await holdWhile(['ShiftLeft', 'KeyW'], spot.run);
+      await holdWhile(spot.keys ?? ['ShiftLeft', 'KeyW'], spot.run);
       await page.cdp('Page.stopScreencast');
       const frames = page.frames.slice(from).filter((f) => f.t), list = [];
       frames.forEach((f, i) => {
