@@ -53,7 +53,7 @@ import { LoadingScreen } from './presentation/ui/loadingScreen';
 import { MenuScene } from './presentation/menuScene';
 import { disposeSceneResources } from './presentation/disposeScene';
 import { BUILD_LABEL, GAME_VERSION, SOURCE_REVISION as REVISION } from './version';
-import { RenderScale, renderScaleFloor } from './platform/renderScale';
+import { RenderScale, renderScaleFloor, presetPixelRatio } from './platform/renderScale';
 import { fetchLiveBuild, newerBuild, shouldReloadFor, type LiveBuild } from './platform/buildCheck';
 import { loadMainHero } from './presentation/mainHero';
 import { createHeroRig, type MainHeroRig } from './presentation/hero/rig';
@@ -823,7 +823,7 @@ export class App {
   private applyPixelRatio() {
     const q = this.settings.quality;
     const dpr = window.devicePixelRatio || 1;
-    const preset = q === 'low' ? Math.min(dpr, 1) : q === 'medium' ? Math.min(dpr, 1.5) : Math.min(dpr, 2);
+    const preset = presetPixelRatio(q, dpr);
     this.renderScale.floor = renderScaleFloor(preset);
     if (this.settings.dynamicResolution === false) this.renderScale.reset();
     this.renderer.setPixelRatio(preset * Math.max(this.renderScale.floor, this.renderScale.scale));

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { RenderScale, renderScaleFloor } from '../../src/platform/renderScale';
+import { RenderScale, renderScaleFloor, presetPixelRatio } from '../../src/platform/renderScale';
 
 const feed = (r: RenderScale, ms: number, n: number) => { let changes = 0; for (let i = 0; i < n; i++) if (r.sample(ms)) changes++; return changes; };
 
@@ -57,5 +57,12 @@ it('matches the original rolling-window decisions across wraps, resets, floors a
       const ms=i%127===0?NaN:i%113===0?400:i%107===0?-1:i%3600<1200?16.7:i%3600<2400?33.3:i%11===0?25:16.7;
       expect(next.sample(ms)).toBe(before.sample(ms));expect(next.scale).toBe(before.scale);
     }
+  });
+
+it('caps high-density fill cost without supersampling ordinary screens', () => {
+  for (const ratio of [1, 1.25, 1.5, 2, 3]) {
+    expect(presetPixelRatio('low', ratio)).toBe(Math.min(ratio, 1));
+    expect(presetPixelRatio('medium', ratio)).toBe(Math.min(ratio, 1.5));
+    expect(presetPixelRatio('high', ratio)).toBe(Math.min(ratio, 1.5));
   }
 });
