@@ -17,7 +17,7 @@ The [receipt](bone-prefix-proof/report.json) instruments actual `texImage2D`/`te
 | 36 | 4,096 | 2,304 | 1,152 | 1,152 |
 | 66 | 6,400 | 4,224 | 2,112 | 2,112 |
 
-Measured source uploads are **10,496 → 3,264 bytes** (68.9% less in this two-mesh fixture). The control uses rectangular textures (12×6 and 12×11); texel indexing already uses texture width. The [before](bone-prefix-proof/before.png) and [compact control](bone-prefix-proof/compact-control.png) images have identical decoded RGB, including directional shadows. Native byte-count and pixel assertions pass.
+Measured source uploads are **10,496 → 3,264 bytes** (68.9% less in this two-mesh fixture). The control uses rectangular textures (12×6 and 12×11); texel indexing already uses texture width. The [before](bone-prefix-proof/before.png) and [compact control](bone-prefix-proof/compact-control.png) images have identical decoded RGB, including directional shadows. Native byte-count and pixel assertions pass. CPU matrix-array references remain intact, and every CPU-skinned vertex in the fixture is numerically identical before/after.
 
 ## Production direction and limits
 

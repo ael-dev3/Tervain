@@ -22,6 +22,8 @@
     }
   ],
   "afterBytes": 3264,
+  "cpuMatricesRetained": true,
+  "cpuVerticesIdentical": true,
   "pass": true,
   "scope": "Native production skin shaders on synthetic 36/66-bone meshes and directional shadows. Compact layout is capture-only, retaining CPU matrices. Not whole-run upload attribution or a shipped skin layout.",
   "pixelIdentical": true
