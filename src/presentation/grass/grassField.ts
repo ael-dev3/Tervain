@@ -100,10 +100,13 @@ export interface GrassField {
   group: THREE.Group;
   layers: TileLayer[];
   materials: GrassMaterial[];
-  update(camera: THREE.Vector3): void;
+  update(camera: THREE.Vector3, reserve?: GrassReserve): void;
   stats(): { instances: number; triangles: number; draws: number; tiles: number };
   dispose(): void;
 }
+
+/** Shared by every simulation step before the next presented frame. */
+export interface GrassReserve { remaining: number; deadline?: number }
 
 /**
  * Bounds every blade can reach, from the shader's own extremes: the tallest stem (its random length at most 1.35 of the
@@ -178,11 +181,12 @@ export function createGrassField(terrain: Terrain, habitat: Habitat, quality: Qu
   }
   return {
     group, layers, materials,
-    update(camera) {
+    update(camera, sharedReserve) {
       const ok = materials.every((m) => m.ok());
       // Near and far grass share frame work; only unseen reserve tiles consume this quota.
       // Stop starting unseen work after 2 ms; visible holes and initial preparation still finish immediately.
-      const reserve = { remaining: 2, deadline: performance.now() + 2 };
+      const reserve = sharedReserve ?? { remaining: 2 };
+      reserve.deadline ??= performance.now() + 2;
       for (const layer of layers) { layer.enabled = ok; layer.update(camera, reserve); }
     },
     stats() {

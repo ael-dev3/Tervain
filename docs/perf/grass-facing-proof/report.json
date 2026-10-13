@@ -1,0 +1,73 @@
+{
+  "schema": 1,
+  "expression": "vec2 gAcrossH = normalize(mix(gAcross.xz, gSideEye * sign(dot(gAcross.xz, gSideEye) + 1e-4), 0.35));",
+  "rows": [
+    {
+      "face": 0,
+      "cameraDeltaRadians": 0.00002,
+      "before": [
+        0.880461573600769,
+        0.4741175174713135
+      ],
+      "after": [
+        0.8804829120635986,
+        -0.474077969789505
+      ],
+      "basisJump": 0.9481954875009219,
+      "awayJump": 0.000005225189434037951,
+      "continuousControlJump": 0.0003595724847400561
+    },
+    {
+      "face": 0.7,
+      "cameraDeltaRadians": 0.00002,
+      "before": [
+        0.36798226833343506,
+        0.9298328161239624
+      ],
+      "after": [
+        0.9788405895233154,
+        0.2046244889497757
+      ],
+      "basisJump": 0.9481956582740196,
+      "awayJump": 0.000005321863719355992,
+      "continuousControlJump": 0.0003611626971101987
+    },
+    {
+      "face": 1.8,
+      "cameraDeltaRadians": 0.00002,
+      "before": [
+        -0.6617733836174011,
+        0.7497040033340454
+      ],
+      "after": [
+        0.2616163492202759,
+        0.9651719331741333
+      ],
+      "basisJump": 0.9481956694161864,
+      "awayJump": 0.000005293269166825457,
+      "continuousControlJump": 0.00035946972723886734
+    },
+    {
+      "face": 2.9,
+      "cameraDeltaRadians": 0.00002,
+      "before": [
+        -0.9683278799057007,
+        -0.24968202412128448
+      ],
+      "after": [
+        -0.7414776682853699,
+        0.6709774732589722
+      ],
+      "basisJump": 0.9481956172798183,
+      "awayJump": 0.0000052047518481531685,
+      "continuousControlJump": 0.00035892197297101783
+    }
+  ],
+  "reproductionPass": true,
+  "qualityPass": null,
+  "scope": "Actual compiled shader expression evaluated through WebGL transform feedback. Continuous control is diagnostic only; not a product shader change, a full-scene video result, or proof this causes the reported shimmer.",
+  "build": {
+    "version": "0.0.15",
+    "revision": "0b45a36a0"
+  }
+}

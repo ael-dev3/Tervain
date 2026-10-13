@@ -167,3 +167,38 @@ export function sampleLeafSurfaceSites(
   }
   return sites;
 }
+
+/** Opacity lookup for one leaf material's cutout (map alpha × alphaMap green × opacity), for offline audits.
+ * Null when the material is not masked or its pixels cannot be decoded. */
+export function leafCutoutSampler(material: THREE.Material): { uv: string; cutoff: number; alpha(u: number, v: number): number } | null {
+  const m = material as THREE.MeshStandardMaterial;
+  if (!(m.alphaTest > 0) || !Number.isFinite(m.alphaTest) || !m.map) return null;
+  const maps: { texture: THREE.Texture; image: LeafChannelImage }[] = [];
+  for (const [texture, channel] of [[m.map, 3], [m.alphaMap, 1]] as const) {
+    if (!texture) continue;
+    const image = nativeImageChannel(texture.image, channel);
+    if (!image) return null;
+    maps.push({ texture, image });
+  }
+  const opacity = Number.isFinite(m.opacity) ? m.opacity : 1;
+  // Allocation-free lookups (an island pass samples every leaf triangle many times): each map's UV transform once.
+  const lookups = maps.map(({ texture, image }) => {
+    const e = textureMatrix(texture).elements, w = image.width, h = image.height, data = image.data, flip = texture.flipY;
+    const nearest = texture.magFilter === THREE.NearestFilter, ws = texture.wrapS, wt = texture.wrapT;
+    const texel = (x: number, y: number) => data[wrappedPixel(y, h, wt) * w + wrappedPixel(x, w, ws)]! / 255;
+    return (u: number, v: number) => {
+      let x = e[0]! * u + e[3]! * v + e[6]!, y = e[1]! * u + e[4]! * v + e[7]!;
+      if (flip) y = 1 - y;
+      if (!Number.isFinite(x) || !Number.isFinite(y)) return 0;
+      if (nearest) return texel(Math.floor(x * w), Math.floor(y * h));
+      x = x * w - 0.5; y = y * h - 0.5;
+      const ix = Math.floor(x), iy = Math.floor(y), fx = x - ix, fy = y - iy;
+      return (texel(ix, iy) * (1 - fx) + texel(ix + 1, iy) * fx) * (1 - fy) + (texel(ix, iy + 1) * (1 - fx) + texel(ix + 1, iy + 1) * fx) * fy;
+    };
+  });
+  return { uv: m.map.channel ? `uv${m.map.channel}` : 'uv', cutoff: m.alphaTest, alpha: (u, v) => {
+    let a = opacity;
+    for (const lookup of lookups) a *= lookup(u, v);
+    return a;
+  } };
+}

@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "frames": 120,
+  "bones": 66,
+  "passesPerFrame": 2,
+  "decompositions": {
+    "before": 15840,
+    "after": 7920
+  },
+  "comparedWords": 192000,
+  "packedWordsEqual": true,
+  "pass": true,
+  "scope": "Actual production packer. Unscoped reference versus scoped updates, with changing bone rotations and bind matrices every frame. Counts are code operations, not hardware frame times."
+}

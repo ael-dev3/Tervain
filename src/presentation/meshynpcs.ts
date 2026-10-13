@@ -16,6 +16,7 @@ import { installResidentSurface, patchResidentShadow, residentHiddenLayersSteps,
 import { npcStyle, type WorkGesture } from './npcStyle';
 import { installResidentRig, parseResidentRig, residentRestPose, type ResidentBones, type ResidentRigData } from './npc/residentRig';
 import { createResidentTools } from './npc/residentProps';
+import { repairHeadWeights } from './npc/headWeights';
 import { curledVertices, FIST_CURL, gripCurl, OPEN_CURL, RELAXED_CURL, residentFingerPlanSteps, seatHandle, type FingerSide, type HandCurl, type ResidentFingers } from './npc/residentFingers';
 import { CENTRED_CLIPS, clipsFor, LOCOMOTION, measureSeatSteps, ResidentMotion, residentMotionLibrary, retargetClip, retargetClipSteps, SEAT_MOMENTS, SEATED_CLIPS, type Build, type ResidentClips, type ResidentMotionLibrary, type WorkContacts } from './npc/residentMotion';
 import { BENCH_SEAT_HEIGHT } from '../world/layout';
@@ -454,9 +455,11 @@ export function* createMeshyNpcRigSteps(asset: Pick<GLTF, 'scene' | 'animations'
       }
       // The resident's own rig replaces the eleven-joint skeleton once the measurements that read the old skin are done.
       if (authored && !installed.bones) {
-        const plan = settings.fingers ? yield* residentFingerPlanSteps(authored.data, skin.geometry, RESIDENT_CLOSED_HANDS[entry.id]) : undefined;
+        // A skull weighted partly to the shoulders sheared off the head as they moved apart (the fisher's face).
+        const data = repairHeadWeights(authored.data, skin.geometry.getAttribute('position'));
+        const plan = settings.fingers ? yield* residentFingerPlanSteps(data, skin.geometry, RESIDENT_CLOSED_HANDS[entry.id]) : undefined;
         yield;
-        const own = installResidentRig(skin, authored.data, plan);
+        const own = installResidentRig(skin, data, plan);
         installed.bones = own.bones; installed.mesh = skin; installed.fingers = own.fingers;
         yield;
       }

@@ -5,6 +5,7 @@ import { loadBakedTextures } from './presentation/bakedTextures';
 import { pruneContentCache } from './presentation/assets/download';
 import { prefetchJourney, warmJourney } from './presentation/journeyPrefetch';
 import * as THREE from 'three';
+import { beginStaticSkinFrame, endStaticSkinFrame } from './presentation/npc/dualQuaternionSkinning';
 import { NPCS } from './content/npcs';
 import { SCENE_REACH, SCENES, SPEAKER_NAMES, VOICE_LINES, inHours, shown, type HeroCue } from './content/voice';
 import { S } from './content/strings';
@@ -33,6 +34,7 @@ import { SpeechDirector } from './presentation/speech';
 import { threatFrom } from './presentation/sound/musicDirector';
 import { windTone } from './presentation/sound/soundscape';
 import { CameraRig } from './presentation/cameraRig';
+import { NearFade, heroNearCoverage } from './presentation/nearFade';
 import { Grade } from './presentation/grade';
 import { buildInteractables, type Interactable } from './presentation/interactions';
 import { chooseInteractable } from './presentation/interactionTarget';
@@ -65,6 +67,8 @@ import { REALM_WIND } from './presentation/realmWind';
 import type { AnimalDefinition } from './presentation/animals/catalog';
 import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { npcStyle } from './presentation/npcStyle';
+import { WaterRenderPass } from './presentation/waterRenderPass';
+import { installDepthOnlyShadowPass } from './presentation/softShadows';
 import type { CircleCollider } from './world/colliders';
 
 /** How far round the line from the camera to the wanderer leaves give way (A84), metres. */
@@ -104,6 +108,7 @@ export class App {
   private menuVisitCounter = 0;
   library: AssetLibrary = AssetLibrary.empty();
   cam = new CameraRig();
+  private readonly heroFade = new NearFade();
   player = new Player();
   private mainHeroInstalled = false;
   private treeTemplates: MeshyTreeTemplates | undefined;
@@ -233,6 +238,8 @@ export class App {
     GPU.halfTargets = this.renderer.extensions.has('EXT_color_buffer_float') || this.renderer.extensions.has('EXT_color_buffer_half_float');
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFShadowMap;
+    // ?shadowcolor=1 keeps Three's colour writes in the shadow pass, for comparison.
+    if (new URLSearchParams(location.search).get('shadowcolor') !== '1') installDepthOnlyShadowPass(this.renderer);
     this.grade = new Grade(this.renderer, { msaa: this.settings.quality !== 'low' });
     this.menuScene = new MenuScene({ quality: this.settings.quality });
     this.applyPixelRatio();
@@ -356,6 +363,21 @@ export class App {
     }
     if (Object.keys(grade).length) this.grade.setLook(grade);
     if (q.has('bloom')) this.grade.setBloom(q.get('bloom') !== '0');
+    // Profiling switches (?shot only): measure each pass's cost on its own.
+    if (q.get('msaa') === '0') this.grade.setMsaa(false);
+    if (q.get('shadows') === '0') this.renderer.shadowMap.enabled = false;
+    if (q.get('treelod') === '1') this.settings.treeDetailByDistance = true;
+    if (q.get('reflect') === '0') WaterRenderPass.captureOff = true;
+    // ?flat=forest,terrain: draw those parts with one unlit material, to price their shading.
+    const flatNames = (q.get('flat') ?? '').split(',').filter(Boolean);
+    if (flatNames.length) {
+      const flat = new THREE.MeshBasicMaterial({ color: 0x777777 });
+      for (const name of flatNames) {
+        const group = this.world.modules.find((x) => x.name === name)?.module.group
+          ?? (name === 'terrain' ? this.world.terrainMesh : name === 'scenery' ? this.world.scenery.group : name === 'water' ? this.world.water.inland.group : name === 'sea' ? this.world.water.ocean.mesh : null);
+        group?.traverse((o) => { if ((o as THREE.Mesh).isMesh && !Array.isArray((o as THREE.Mesh).material)) (o as THREE.Mesh).material = flat; });
+      }
+    }
     this.settings.reducedMotion = q.get('motion') !== '1';
     this.applyUiSettings();
     for (let i = 0; i < num('settle', 120); i++) {
@@ -476,6 +498,9 @@ export class App {
       if (this.rebuildPropPoses) this.world.physics.restore(this.rebuildPropPoses);
       this.world.scene.add(this.player.group);
       this.hunting.attach();
+      // Patch the hero's near fade into every material he carries (bow, arrow, knife) before the shaders are warmed;
+      // patched at first play instead, the warmed bow program was dropped and rebuilt in the first draw (a 0.2 s frame).
+      this.heroFade.apply(this.player.group, 1);
       this.applyQualityToRenderer();
       this.npcs = npcs;
       for (const n of this.npcs) this.world.scene.add(n.rig.root);
@@ -1395,7 +1420,9 @@ export class App {
       this.cam.crowns ??= (x, z, r) => this.world?.crownsNear?.(x, z, r) ?? [];
       this.cam.follow(dt, this.player.x, this.player.y, this.player.z, this.world.terrain, this.world.colliders, this.settings.reducedMotion, this.player.shake, 1.55 + sitting);
       this.cam.clearWater((x, z) => this.world.water.world.surfaceAt(x, z), this.player.swimming);
-      this.player.group.visible = this.cam.bodyVisible;
+      // Playtest 7: pulled in against a tree, the lens must never sit inside his arm or shoulder; he dithers out first.
+      const coverage = this.cam.bodyVisible ? (this.cam.manual ? 1 : heroNearCoverage(this.cam.camera.position, this.player)) : 0;
+      this.heroFade.apply(this.player.group, coverage);
     }
 
     // World presentation
@@ -1448,16 +1475,18 @@ export class App {
     }
     this.grade.setLook({ night: this.world.sky.state.nightness });
     this.world.prepareGrass(this.renderer, this.lastFrameDt);
-    this.world.prepareInterior(this.renderer, this.cam.camera, this.lastFrameDt, this.settings);
     // The frame draws the world several times (reflection, water depth, the picture, light probes) and three walks
     // the whole scene graph for matrices before each. Nothing moves between those passes: walk it once (A113).
     const scene = this.world.scene, autoUpdate = scene.matrixWorldAutoUpdate;
     scene.updateMatrixWorld();
     scene.matrixWorldAutoUpdate = false;
+    const nestedSkinFrame = beginStaticSkinFrame();
     try {
+      this.world.prepareInterior(this.renderer, this.cam.camera, this.lastFrameDt, this.settings);
       // Reduced motion stills the film grain in play as on the menu: it changed 24 times a second (A104 scout).
       this.grade.render(scene, this.cam.camera, this.settings.reducedMotion ? 0 : this.lastFrameDt, this.world.waterRenderInputs(this.settings));
     } finally {
+      endStaticSkinFrame(nestedSkinFrame);
       scene.matrixWorldAutoUpdate = autoUpdate;
     }
   }
@@ -2366,14 +2395,30 @@ export class App {
     }
   }
 
+  private readonly residentContactRecords = new WeakMap<NpcActor, CircleCollider>();
+  private readonly enemyContactRecords = new WeakMap<EnemyActor, CircleCollider>();
+
   private residentContact(n: NpcActor): CircleCollider {
-    return { id: `person:${n.id}`, kind: 'circle', x: n.x, z: n.z, r: .35,
-      active: n.solid && this.game.state.npcs[n.id].available, minY: n.y, maxY: n.y + n.rig.height };
+    let contact = this.residentContactRecords.get(n);
+    if (!contact) {
+      contact = { id: `person:${n.id}`, kind: 'circle', x: n.x, z: n.z, r: .35, active: false };
+      this.residentContactRecords.set(n, contact);
+    }
+    contact.x = n.x; contact.z = n.z;
+    contact.active = n.solid && this.game.state.npcs[n.id].available;
+    contact.minY = n.y; contact.maxY = n.y + n.rig.height;
+    return contact;
   }
 
   private enemyContact(e: EnemyActor): CircleCollider {
-    return { id: `enemy:${e.id}`, kind: 'circle', x: e.x, z: e.z, r: e.radius,
-      active: e.alive, minY: e.y, maxY: e.y + e.rig.height };
+    let contact = this.enemyContactRecords.get(e);
+    if (!contact) {
+      contact = { id: `enemy:${e.id}`, kind: 'circle', x: e.x, z: e.z, r: e.radius, active: false };
+      this.enemyContactRecords.set(e, contact);
+    }
+    contact.x = e.x; contact.z = e.z; contact.r = e.radius;
+    contact.active = e.alive; contact.minY = e.y; contact.maxY = e.y + e.rig.height;
+    return contact;
   }
 
   /** Two people near each other may talk between themselves when the player comes close enough to overhear. */
@@ -2973,11 +3018,14 @@ export class App {
     if (!world) throw new Error('No world for canopy audit');
     const { auditCanopies } = await import('./diagnostics/canopyAudit');
     const forest = world.modules.find(m => m.name === 'forest')?.module as
-      import('./presentation/context').SceneModule & { counts?: { trees: number } } | undefined;
+      import('./presentation/context').SceneModule & { counts?: { trees: number; species?: Record<string, number> } } | undefined;
     const expectedTrees = forest?.counts?.trees;
-    const report = auditCanopies(forest?.canopyAuditTargets?.() ?? [], options);
-    return { ...report, expectedTrees, revision: REVISION, version: GAME_VERSION,
-      complete: report.complete && Number.isInteger(expectedTrees) && expectedTrees! > 0 && report.summary.trees === expectedTrees };
+    const report = auditCanopies(forest?.canopyAuditTargets?.(options.lod ?? 0) ?? [], options);
+    const expectedSpecies = forest?.counts?.species;
+    const speciesComplete = !!expectedSpecies && Object.entries(expectedSpecies).every(([species, count]) => report.bySpecies[species]?.trees === count) && Object.keys(report.bySpecies).every(species => species in expectedSpecies);
+    const missingSpecies = Object.fromEntries(Object.entries(expectedSpecies ?? {}).map(([species, count]) => [species, count - (report.bySpecies[species]?.trees ?? 0)]).filter(([, count]) => Number(count) > 0));
+    return { ...report, expectedTrees, expectedSpecies, missingSpecies, speciesComplete, revision: REVISION, version: GAME_VERSION,
+      complete: report.complete && speciesComplete && Number.isInteger(expectedTrees) && expectedTrees! > 0 && report.summary.trees === expectedTrees };
   }
 
   async auditPlacement(options: import('./diagnostics/placementAudit').PlacementAuditOptions = {}) {

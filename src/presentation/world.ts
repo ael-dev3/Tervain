@@ -137,6 +137,7 @@ export class WorldScene {
   /** Residents and enemies walking through the grass this frame (from the app); animals and cargo are added here. */
   private grassPeople: readonly GrassMover[] = [];
   private readonly grassLast = new Map<string, { x: number; z: number }>();
+  private readonly grassSeen = new Set<string>();
   readonly scenery: SceneryHandles;
   readonly animals: AnimalWildlife;
   readonly terrainMesh: THREE.Group;
@@ -154,6 +155,8 @@ export class WorldScene {
   private lastNoticeKey = '';
   private dust: THREE.Points;
   private dustData: DustParticle[];
+  /** Clear initial positions and the final expired particles once, then leave idle GPU data alone. */
+  private dustNeedsClear = true;
   private riteResponse: RiteResponse;
   private disposeOwned: () => void;
   time = 0;
@@ -234,8 +237,11 @@ export class WorldScene {
   prepareInterior(renderer: THREE.WebGLRenderer, camera: THREE.Camera, dt: number, settings: Settings) {
     this.eye.copy(camera.position);
     this.shareLights();
-    this.windowView.update(renderer, this.scene, camera.position, dt, settings.quality !== 'low');
+    this.windowShown = this.windowView.update(renderer, this.scene, camera.position, dt, settings.quality !== 'low');
   }
+
+  /** Whether a room's window capture is shown (it reads the sun's shadow map in every direction). */
+  private windowShown = false;
 
   private static async build(state: WorldState, settings: Settings, library: AssetLibrary, terrainTex: TerrainTextures, pine: PineTemplates, rockPile: GLTF,
     treeTemplates: MeshyTreeTemplates, animalTemplates: AnimalTemplates | null, furniture: FurnitureTemplates | null, npcAssets: MeshyNpcCatalog | undefined, options: WorldCreateOptions,
@@ -533,7 +539,8 @@ export class WorldScene {
   private grassMovers(dt: number): GrassMover[] {
     const movers: GrassMover[] = [...this.grassPeople];
     const step = Number.isFinite(dt) && dt > 0 ? dt : 1 / 60;
-    const seen = new Set<string>();
+    const seen = this.grassSeen;
+    seen.clear();
     for (const a of this.animals.physicalActors) {
       if (!a.active) continue;
       seen.add(a.id);
@@ -541,7 +548,8 @@ export class WorldScene {
       const vx = last ? (a.x - last.x) / step : 0, vz = last ? (a.z - last.z) / step : 0;
       // A jump (a respawn or a restored save) is not a walk.
       const walking = Math.hypot(vx, vz) < 20;
-      this.grassLast.set(a.id, { x: a.x, z: a.z });
+      if (last) { last.x = a.x; last.z = a.z; }
+      else this.grassLast.set(a.id, { x: a.x, z: a.z });
       // Heavier animals lay grass down; a cat only parts it.
       movers.push({ x: a.x, z: a.z, radius: Math.max(0.35, a.radius * 1.25), weight: Math.min(1, 0.35 + a.radius * 0.9), vx: walking ? vx : 0, vz: walking ? vz : 0 });
     }
@@ -698,7 +706,7 @@ export class WorldScene {
       this.sky.sun.shadow.updateMatrices(this.sky.sun);
       shadowFrustum = this.sky.sun.shadow.getFrustum();
     }
-    const frame: FrameContext = { time: this.time, camera, focus, nightness: night, sunDir: this.sky.state.sunDir, shadowFrustum, reducedMotion: reduced, hour, view: v, quality: settings.quality, treeDetailByDistance: settings.treeDetailByDistance, wildlifeActive };
+    const frame: FrameContext = { time: this.time, camera, focus, nightness: night, sunDir: this.sky.state.sunDir, shadowFrustum, shadowsForViewOnly: indoor <= 0 && !this.windowShown, reducedMotion: reduced, hour, view: v, quality: settings.quality, treeDetailByDistance: settings.treeDetailByDistance, wildlifeActive };
     this.animals.setRunning(wildlifeActive);
     this.animals.syncHunting(state.hunting);
     this.animals.setReduceEffects(settings.reduceEffects);
@@ -732,16 +740,19 @@ export class WorldScene {
     const working = v.quarryState === 'working' || v.quarryState === 'night_shift';
     this.emitDust(dt, working ? 1 : 0);
     const arr = this.dust.geometry.attributes.position as THREE.BufferAttribute;
+    let changed = this.dustNeedsClear, live = false;
     this.dustData.forEach((p, i) => {
       if (p.life > 0) {
+        live = changed = true;
         p.life -= dt;
         p.x += p.vx * dt;
         p.y += p.vy * dt;
         p.z += p.vz * dt;
         arr.setXYZ(i, p.x, p.y, p.z);
-      } else arr.setXYZ(i, 0, -200, 0);
+      } else if (this.dustNeedsClear) arr.setXYZ(i, 0, -200, 0);
     });
-    arr.needsUpdate = true;
+    this.dustNeedsClear = live;
+    if (changed) arr.needsUpdate = true;
     this.riteResponse.update(dt, reduced, night);
     // Ledger glows faintly while the archive is accessible; the archive lamp is emissive via lantern lights.
     this.scenery.ledger.rotation.y = Math.sin(this.time * 0.8) * 0.05;

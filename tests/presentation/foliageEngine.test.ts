@@ -181,14 +181,14 @@ describe('foliage look', () => {
     f.wind.dispose();
   });
 
-  it('gives wood the wind only, and keeps its old look if Three changes a chunk', () => {
+  it('gives wood the wind and an in-crown ambient lift only, and keeps its old look if Three changes a chunk', () => {
     const f = field(), wood = new THREE.MeshStandardMaterial();
     installFoliage(wood, { field: f, response: FOLIAGE_RESPONSE.broadleaf, leaf: false });
     const shader = lib('standard');
     wood.onBeforeCompile(shader, {} as THREE.WebGLRenderer);
     expect(shader.vertexShader).toContain('tvFoliageOffset(tvWorld, tvOrigin, 0.0');
     expect(shader.fragmentShader).not.toContain('RE_Direct_Foliage');
-    expect(wood.customProgramCacheKey()).toMatch(/tervain-foliage-v2-wood\|foliage-options:\[null,null\]$/);
+    expect(wood.customProgramCacheKey()).toMatch(/tervain-foliage-v2-wood-fill1\|foliage-options:\[null,null\]$/);
     const leaf = new THREE.MeshStandardMaterial(), installed = installFoliage(leaf, { field: f, response: FOLIAGE_RESPONSE.broadleaf, leaf: true });
     const broken = lib('standard');
     broken.fragmentShader = broken.fragmentShader.replace('#include <aomap_fragment>', '');
@@ -318,6 +318,25 @@ describe('the forest with wind, shadow-only casters and strikes', () => {
     vi.stubGlobal('location', { search: '' });
     const quality = 'high', f = field();
     const forest = buildFlora({ terrain, excl, colliders: new Colliders(), quality, settings: { ...defaultSettings(), quality }, library: AssetLibrary.empty(), sway: { uTime: { value: 0 }, uWind: { value: 0 } }, foliage: f }, templates);
+    for (const lod of [0, 1, 2]) {
+      const targets = forest.canopyAuditTargets!(lod);
+      expect(targets.length).toBeLessThanOrEqual(forest.counts.trees);
+      if (lod === 0) expect(targets).toHaveLength(forest.counts.trees);
+      const counts: Record<string, number> = {};
+      for (const target of targets) {
+        expect(target.lod).toBe(lod);
+        counts[target.species!] = (counts[target.species!] ?? 0) + 1;
+      }
+      if (lod === 0) {
+        expect(counts).toEqual(forest.counts.species);
+        expect(counts.pine).toBeGreaterThan(0);
+        expect(targets.some(target => target.species === 'pine' && target.leaves)).toBe(true);
+      } else {
+        // Billboard LODs can omit wood; their populations must not be claimed as audited.
+        for (const [species, count] of Object.entries(counts)) expect(count).toBeLessThanOrEqual(forest.counts.species[species]!);
+      }
+    }
+    expect(() => forest.canopyAuditTargets!(-1)).toThrow(/LOD/);
     const rootTargets = forest.placementAuditTargets!();
     expect(rootTargets).toHaveLength(forest.counts.trees);
     expect(rootTargets.every(target => target.kind === 'root' && target.matrix.elements.every(Number.isFinite))).toBe(true);
@@ -329,7 +348,7 @@ describe('the forest with wind, shadow-only casters and strikes', () => {
     expect(forest.shadowCasters.visible).toBe(false);
     // Every tree material carries the wind; leaves the foliage look.
     for (const m of colour.filter((m) => /solitary-pine/.test(m.name))) {
-      expect((m.material as THREE.Material).customProgramCacheKey()).toMatch(m.name.endsWith(':foliage') ? /tervain-foliage-v2-leaf\|foliage-options:\[null,null\]$/ : /tervain-foliage-v2-wood\|foliage-options:\[null,null\]$/);
+      expect((m.material as THREE.Material).customProgramCacheKey()).toMatch(/:foliage(:depth)?$/.test(m.name) ? /tervain-foliage-v2-leaf\|foliage-options:\[null,null\](\|leaf-(shade|depth))?$/ : /tervain-foliage-v2-wood-fill1\|foliage-options:\[null,null\]$/);
     }
     const tree = population.find((t) => t.sp === 'pine' && t.collisionId)!;
     const camera = new THREE.PerspectiveCamera(58, 1, 0.1, 1400);
@@ -342,6 +361,13 @@ describe('the forest with wind, shadow-only casters and strikes', () => {
     const stats = forest.stats!();
     expect(stats.shadowTrees).toBeGreaterThan(0);
     expect(stats.shadowTris).toBeGreaterThan(0);
+    // Outdoors, off-screen casters whose shadow cannot reach the view are left out; trees in view still cast.
+    forest.update(0.1, { ...frame, shadowsForViewOnly: true });
+    const viewOnly = forest.stats!();
+    expect(viewOnly.shadowTrees).toBeLessThan(stats.shadowTrees!);
+    expect(viewOnly.shadowTrees).toBeGreaterThan(0);
+    forest.update(0.1, frame);
+    expect(forest.stats!().shadowTrees).toBe(stats.shadowTrees);
     for (const m of [...colour, ...casters]) expect(m.visible).toBe(m.count > 0);
     // The nearest tree casts from its full model; trees across the volume from lighter ones.
     const near = casters.filter((m) => m.name.startsWith('solitary-pine:0:') && m.count > 0);

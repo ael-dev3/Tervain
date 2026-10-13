@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "baselineRef": "0b45a36",
+  "sourceSha256": "eb6ea576675243ef4ab4d8b1eda2bb3e58f0ab436ad1da925c8a2e3f22850ad7",
+  "scope": "Actual resident updates and rig poses with controlled terrain/navigation, moving player heights and changing wildlife/resident activation. Counts distinct returned contact lists/player records only, not total allocations or frame timing.",
+  "steps": 720,
+  "before": {
+    "contactLists": 720,
+    "playerRecords": 720
+  },
+  "after": {
+    "contactLists": 1,
+    "playerRecords": 1
+  },
+  "unequalContacts": 0,
+  "unequalPoses": 0,
+  "pass": true
+}

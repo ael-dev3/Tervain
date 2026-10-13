@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "calls": 120,
+  "fixtureActors": 5,
+  "historyIdentities": 6,
+  "seenSetIdentities": 1,
+  "snapshotHash": "794ed99bdaa92b88f1ef6dddd9abfa9515915bb07b82f235dd2690b65a448f22",
+  "lifecycleAssertions": true,
+  "scope": "Actual compiled mover collector on controlled actor inputs; history and seen-set identities, not all allocations or hardware timings. Algorithm is shared across presets; this CPU-only fixture uses Low for startup.",
+  "build": {
+    "version": "0.0.15",
+    "revision": "0b45a36a0"
+  },
+  "pass": true,
+  "outputMatchesBaseline": true
+}

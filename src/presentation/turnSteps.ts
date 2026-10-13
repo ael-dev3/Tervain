@@ -56,6 +56,10 @@ export class TurnLead {
   }
   /** The joints as the lead found and left them (see {@link applyTurnLead}). */
   readonly held = new Map<THREE.Bone, { before: THREE.Quaternion; after: THREE.Quaternion }>();
+  private readonly poses = new WeakMap<THREE.Bone, { before: THREE.Quaternion; after: THREE.Quaternion }>();
+  apply(chain: readonly (readonly [THREE.Bone | undefined, number])[], up: THREE.Vector3): void {
+    applyTurnLead(chain, this.lead, up, this.held, this.poses);
+  }
   reset() { this.lead = this.want = 0; }
 }
 
@@ -66,7 +70,8 @@ export class TurnLead {
  * left: one found as it was left is put back first.
  */
 export function applyTurnLead(chain: readonly (readonly [THREE.Bone | undefined, number])[], lead: number, up: THREE.Vector3,
-  held: Map<THREE.Bone, { before: THREE.Quaternion; after: THREE.Quaternion }>): void {
+  held: Map<THREE.Bone, { before: THREE.Quaternion; after: THREE.Quaternion }>,
+  poses?: WeakMap<THREE.Bone, { before: THREE.Quaternion; after: THREE.Quaternion }>): void {
   for (const [bone] of chain) {
     const was = bone && held.get(bone);
     if (was && bone.quaternion.equals(was.after)) bone.quaternion.copy(was.before);
@@ -75,12 +80,18 @@ export function applyTurnLead(chain: readonly (readonly [THREE.Bone | undefined,
   if (Math.abs(lead) < 1e-4) return;
   for (const [bone, share] of chain) {
     if (!bone?.parent) continue;
-    const before = bone.quaternion.clone();
+    let pose = poses?.get(bone);
+    if (!pose) {
+      pose = { before: bone.quaternion.clone(), after: bone.quaternion.clone() };
+      poses?.set(bone, pose);
+    }
+    pose.before.copy(bone.quaternion);
     bone.parent.updateWorldMatrix(true, false);
     LEAD_AXIS.copy(up).applyQuaternion(bone.parent.getWorldQuaternion(LEAD_PARENT).invert()).normalize();
     bone.quaternion.premultiply(LEAD_TURN.setFromAxisAngle(LEAD_AXIS, lead * share));
     bone.updateMatrixWorld(true);
-    held.set(bone, { before, after: bone.quaternion.clone() });
+    pose.after.copy(bone.quaternion);
+    held.set(bone, pose);
   }
 }
 
@@ -208,6 +219,7 @@ export function buildTurnClips(legs: Legs, stand: ReadonlyMap<THREE.Bone, THREE.
 const _a = new THREE.Vector3(), _b = new THREE.Vector3(), _c = new THREE.Vector3(), _ba = new THREE.Vector3(), _bc = new THREE.Vector3();
 const _axis = new THREE.Vector3(), _qa = new THREE.Quaternion(), _qb = new THREE.Quaternion(), _qp = new THREE.Quaternion(), _turn = new THREE.Quaternion();
 const UP = new THREE.Vector3(0, 1, 0);
+const MEASURE_SCALE = new THREE.Vector3();
 const LAND = new THREE.Vector3(), TARGET = new THREE.Vector3(), GOAL = new THREE.Vector3();
 const LAND_TURN = new THREE.Quaternion(), SOLE = new THREE.Quaternion(), PITCH = new THREE.Quaternion(), ATTITUDE = new THREE.Quaternion(), SPIN = new THREE.Quaternion();
 
@@ -419,8 +431,8 @@ export class TurnSteps {
     for (const side of SIDES) {
       const foot = this.feet[side], bone = this.legs[side].foot;
       bone.updateWorldMatrix(true, false);
-      bone.getWorldPosition(which === 'flat' ? foot.flat : foot.home);
-      bone.getWorldQuaternion(which === 'flat' ? foot.flatTurn : foot.homeTurn);
+      // Both getters repeat the same ancestor walk. Read both outputs from the matrix just refreshed above.
+      bone.matrixWorld.decompose(which === 'flat' ? foot.flat : foot.home, which === 'flat' ? foot.flatTurn : foot.homeTurn, MEASURE_SCALE);
     }
   }
 }

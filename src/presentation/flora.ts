@@ -18,6 +18,11 @@ import { SHADER_CLOCK_WRAP } from './grass/wind';
 import { crownOf, installFoliage, installFoliageShadow, type FoliageLook, type InstalledFoliage } from './foliage/foliageMaterial';
 import { shadowDepthMaterial, shadowGeometry } from './foliage/shadowCasters';
 import { createLeafBurst } from './foliage/leafBurst';
+import { splitLeafPrepass } from './foliage/leafPrepass';
+import { leafCutoutSampler } from './leafSurfaceSites';
+import { anchorLeafIslands } from './leafIslands';
+
+const islandChecked = new WeakSet<THREE.BufferGeometry>();
 
 /**
  * Trees and shrubs. An empty strand gives way to a layered old-growth woodland: flared oak roots under tall pine/fir columns,
@@ -39,6 +44,8 @@ import { createLeafBurst } from './foliage/leafBurst';
 // A76: the middle model's shadow is the full one's outline (the same leaf cards, compared on the ground in the served
 // build), so it takes over at 16 m rather than 25 m: a tree's shadow drawn at full detail is a third of the sun's pass.
 export const FLORA_SHADOW_LOD = { full: 16, middle: 70 } as const;
+/** How far along the light a caster's shadow can fall onto a receiver in the shadow map (m): beyond its span. */
+const SHADOW_REACH = 260;
 export function floraShadowLod(distance: number, pine: boolean): 0 | 1 | 2 {
   if (distance < FLORA_SHADOW_LOD.full) return 0;
   if (distance < FLORA_SHADOW_LOD.middle || pine) return 1;
@@ -54,7 +61,8 @@ export function foliageResponse(variant: Pick<TreeVariant, 'species' | 'height'>
 
 interface Batch {
   variant: TreeVariant;
-  meshes: { wood: THREE.InstancedMesh | null; leaf: THREE.InstancedMesh | null }[];
+  /** leafDepth: the leaves' depth-only pre-pass, drawn before every leaf is shaded once (see leafPrepass.ts). */
+  meshes: { wood: THREE.InstancedMesh | null; leaf: THREE.InstancedMesh | null; leafDepth: THREE.InstancedMesh | null }[];
   /** Shadow-only copies per LOD (drawn only into the sun's shadow map), when this preset casts shadows. */
   casters: { wood: THREE.InstancedMesh | null; leaf: THREE.InstancedMesh | null }[];
   visibility: { wood: InstanceDistanceVisibility | null; leaf: InstanceDistanceVisibility | null }[];
@@ -64,7 +72,7 @@ interface Batch {
 }
 
 export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, deferFloor = false, meshyTemplates?: MeshyTreeTemplates): SceneModule & {
-  counts: { trees: number; triangles: number }; physicalWood: readonly PhysicalWoodGeometry[]; initializeFloor(extraTrees?: readonly FloraTree[]): void;
+  counts: { trees: number; triangles: number; species: Record<string, number> }; physicalWood: readonly PhysicalWoodGeometry[]; initializeFloor(extraTrees?: readonly FloraTree[]): void;
   /** Meshes drawn only into the sun's shadow map; the world shows them for the shadow pass alone. */
   shadowCasters: THREE.Group;
   /** A nearby rooted tree for inspections; proximity does not prove a wood contact. */
@@ -206,6 +214,8 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
   const foliage = ctx.foliage ?? null;
   let reducedMotion = ctx.settings.reducedMotion;
   const castsShadows = quality !== 'low';
+  // Medium and High lay the leaves' depth down first, so each leaf pixel is shaded once rather than once per card.
+  const leafPrepass = quality !== 'low' && !(typeof location !== 'undefined' && new URLSearchParams(location.search).get('prepass') === '0');
   const shadowCasters = new THREE.Group();
   shadowCasters.name = 'flora-shadow-casters';
   shadowCasters.visible = false;
@@ -213,6 +223,9 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
   const casterMaterials: THREE.Material[] = [];
   const casterGeometries: THREE.BufferGeometry[] = [];
   const profileMaterials = new Set<THREE.Material>();
+  // The largest instance scale of each leaf template: the island pass works in template space, the audit in metres.
+  const largest = new Map<THREE.BufferGeometry, number>();
+  for (const b of batches) for (const l of b.variant.lods) if (l.leaf) largest.set(l.leaf, Math.max(largest.get(l.leaf) ?? 0, ...b.trees.map(t => t.s)));
   for (const b of batches) {
     const v = b.variant;
     const response = foliageResponse(v);
@@ -237,6 +250,13 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
       const wood = lod.wood ? new THREE.InstancedMesh(lod.wood, profileMaterial(importedMaterials ? importedMaterials.wood! : woodMaterial(v.bark, sway)), b.trees.length) : null;
       const leafTex = l === 2 ? v.crownTexture : v.leafTexture;
       const leaf = lod.leaf ? new THREE.InstancedMesh(lod.leaf, profileMaterial(importedMaterials ? importedMaterials.leaf! : leafMaterial(leafTex, sway)), b.trees.length) : null;
+      // Playtest 7: leaf cards whose opaque leaves hang clear of every branch are moved onto the boughs, once per near or
+      // middle template (a far crown is too small on screen to show a gap).
+      if (l < 2 && leaf && lod.wood && !islandChecked.has(lod.leaf!)) {
+        islandChecked.add(lod.leaf!);
+        const scale = Math.max(1, largest.get(lod.leaf!) ?? 1);
+        lod.leaf!.userData.leafIslands = anchorLeafIslands(lod.leaf!, lod.wood, leafCutoutSampler(leaf.material as THREE.Material), { reach: 0.6 / scale, gap: 0.7 / scale });
+      }
       for (const m of [wood, leaf]) {
         if (!m) continue;
         m.count = 0;
@@ -250,7 +270,8 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         m.setColorAt(0, white.setRGB(1, 1, 1));
         group.add(m);
       }
-      b.meshes.push({ wood, leaf });
+      const entry = { wood, leaf, leafDepth: null as THREE.InstancedMesh | null };
+      b.meshes.push(entry);
       b.visibility.push({ wood: wood ? attachInstanceDistanceVisibility(wood) : null, leaf: leaf ? attachInstanceDistanceVisibility(leaf) : null });
       const installed: { wood: InstalledFoliage | null; leaf: InstalledFoliage | null } = { wood: null, leaf: null };
       if (foliage) {
@@ -281,6 +302,11 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         return c;
       };
       b.casters.push({ wood: caster(wood, 'wood'), leaf: caster(leaf, 'leaf') });
+      // After the casters, which copy the colour material as it was.
+      if (leaf && installed.leaf && leafPrepass) {
+        entry.leafDepth = splitLeafPrepass(leaf);
+        if (entry.leafDepth) group.add(entry.leafDepth);
+      }
     }
     triangles += v.lods[0].tris * b.trees.length;
   }
@@ -315,6 +341,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
   const lastProjection = new THREE.Matrix4();
   const lastShadowFrustum = new THREE.Frustum();
   let lastShadowPresent = false;
+  let lastViewOnly = false;
   let sinceRefresh = 1;
   let visible = 0;
   let drawTris = 0;
@@ -345,7 +372,28 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
     packed[slot] = tree;
   };
 
-  const refresh = (cam: THREE.Camera, shadowFrustum: THREE.Frustum | null | undefined) => {
+  // Toward the light, from the shadow camera's own near plane (it looks from the light into the scene).
+  const toLight = new THREE.Vector3();
+  const shadowEnd = new THREE.Vector3();
+  /**
+   * Air budget: a caster outside the view whose shadow cannot reach it either. Its shadow lies along the light's
+   * direction away from it; sweep its bounds that way (as far as any receiver the shadow map holds) and if the whole
+   * sweep lies beyond the view's left or right side, nothing on screen can be shaded by it. Only the sides are tested:
+   * the water's reflection sees above and below the frame, never round to either side.
+   */
+  const shadowOutOfView = (sphere: THREE.Sphere): boolean => {
+    if (toLight.y < 0.05) return false;
+    shadowEnd.copy(sphere.center).addScaledVector(toLight, -SHADOW_REACH);
+    for (let p = 0; p < 2; p++) {
+      const plane = frustum.planes[p]!;
+      if (plane.distanceToPoint(sphere.center) < -sphere.radius && plane.distanceToPoint(shadowEnd) < -sphere.radius) return true;
+    }
+    return false;
+  };
+
+  const refresh = (cam: THREE.Camera, shadowFrustum: THREE.Frustum | null | undefined, viewOnly: boolean) => {
+    if (shadowFrustum) toLight.copy(shadowFrustum.planes[5]!.normal).negate().normalize();
+    const cullShadows = viewOnly && !!shadowFrustum && forceLod < 0;
     staticChanged.clear();
     pv.multiplyMatrices(cam.projectionMatrix, cam.matrixWorldInverse);
     frustum.setFromProjectionMatrix(pv);
@@ -372,7 +420,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         // guard preloads edge silhouettes. Retain off-screen casters only inside the actual
         // sun-shadow volume instead of paying for every tree in a large circle behind the player.
         const inView = frustum.intersectsSphere(sphere);
-        const inShadow = b.casters.length > 0 && !!shadowFrustum?.intersectsSphere(sphere);
+        const inShadow = b.casters.length > 0 && !!shadowFrustum?.intersectsSphere(sphere) && (inView || !cullShadows || !shadowOutOfView(sphere));
         if (!inView && !inShadow) continue;
         if (inShadow) {
           const sl = forceLod >= 0 ? Math.min(2, Math.floor(forceLod)) : floraShadowLod(d, pineShadows);
@@ -423,6 +471,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         drawTris += v.lods[l]!.tris * counts[l]!;
         // Empty meshes leave the render lists entirely (no per-frame draw setup for an LOD nobody sees).
         for (const mesh of [m.wood, m.leaf]) if (mesh) mesh.visible = counts[l]! > 0;
+        if (m.leafDepth) { m.leafDepth.count = counts[l]!; m.leafDepth.visible = counts[l]! > 0; }
         const c = b.casters[l];
         if (c) {
           for (const mesh of [c.wood, c.leaf]) {
@@ -442,13 +491,15 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
   return {
     group,
     physicalWood,
-    canopyAuditTargets() {
+    canopyAuditTargets(lod = 0) {
+      if (!Number.isInteger(lod) || lod < 0 || lod > 2) throw new Error('Invalid canopy LOD');
       return batches.flatMap((b, batch) => {
-        const wood = b.variant.lods[0].wood;
+        const level = b.variant.lods[lod]!, wood = level.wood;
         if (!wood) return [];
         group.updateWorldMatrix(true, false);
-        return b.placements.map((p, i) => ({ label: b.trees[i]!.collisionId ?? `tree:${batch}:${i}`,
-          wood, leaves: b.variant.lods[0].leaf, matrix: new THREE.Matrix4().multiplyMatrices(group.matrixWorld, p.matrix) }));
+        const cutouts = b.meshes.map(m => m.leaf ? leafCutoutSampler(m.leaf.material as THREE.Material) : null);
+        return b.placements.map((p, i) => ({ label: b.trees[i]!.collisionId ?? `tree:${batch}:${i}`, kind: `${b.variant.species}/${b.variant.assetId ?? 'procedural'}`,
+          species: b.variant.species, lod, wood, leaves: level.leaf, cutout: cutouts[Math.min(lod, b.meshes.length - 1)], matrix: new THREE.Matrix4().multiplyMatrices(group.matrixWorld, p.matrix) }));
       });
     },
     placementAuditTargets() {
@@ -460,7 +511,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
           geometry: mesh.geometry, matrix: new THREE.Matrix4().multiplyMatrices(mesh.matrixWorld, p.matrix) }));
       });
     },
-    counts: { trees: trees.length, triangles: Math.round(triangles) },
+    counts: { trees: trees.length, triangles: Math.round(triangles), species: trees.reduce<Record<string, number>>((counts, tree) => { counts[tree.sp] = (counts[tree.sp] ?? 0) + 1; return counts; }, {}) },
     update(dt: number, f: FrameContext) {
       if (disposed) return;
       reducedMotion = f.reducedMotion;
@@ -487,7 +538,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
       });
       // The two-metre bounds guard safely preloads moving shadow edges. Track the sun even
       // when the camera is idle, while limiting those shadow-only uploads to five per second.
-      if (!lodChanged && !cameraChanged && (!shadowChanged || (!shadowGuardExceeded && shadowPresent === lastShadowPresent && sinceRefresh < 0.2))) return;
+      if (!lodChanged && !cameraChanged && !!f.shadowsForViewOnly === lastViewOnly && (!shadowChanged || (!shadowGuardExceeded && shadowPresent === lastShadowPresent && sinceRefresh < 0.2))) return;
       sinceRefresh = 0;
       lastCam.copy(cam.position);
       lastRotation.copy(cam.quaternion);
@@ -495,7 +546,8 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
       lastShadowPresent = shadowPresent;
       if (f.shadowFrustum) lastShadowFrustum.copy(f.shadowFrustum);
       cam.updateMatrixWorld();
-      refresh(cam, f.shadowFrustum);
+      lastViewOnly = !!f.shadowsForViewOnly;
+      refresh(cam, f.shadowFrustum, lastViewOnly);
     },
     initializeFloor,
     shadowCasters,
@@ -563,6 +615,8 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         }
         swapped.push([near, near.geometry]);
         near.geometry = proxy;
+        const depth = part === 'leaf' ? b.meshes[0]?.leafDepth : null;
+        if (depth) { swapped.push([depth, depth.geometry]); depth.geometry = proxy; }
       }
       return () => { for (const [mesh, geometry] of swapped) mesh.geometry = geometry; };
     },
@@ -579,6 +633,8 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         for (const mesh of batch.meshes) {
           mesh.wood?.dispose();
           mesh.leaf?.dispose();
+          mesh.leafDepth?.dispose();
+          (mesh.leafDepth?.material as THREE.Material | undefined)?.dispose();
         }
         for (const mesh of batch.casters) {
           mesh.wood?.dispose();

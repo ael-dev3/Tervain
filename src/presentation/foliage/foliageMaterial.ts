@@ -101,7 +101,51 @@ export interface FoliageInstall {
  */
 export const FOLIAGE_FOCUS: THREE.IUniform<THREE.Vector4> = { value: new THREE.Vector4(0, 0, 0, 0) };
 
+/**
+ * The leaf-mass noise (A76) baked once: the shader's own value noise (same hash, same smooth interpolation) on a lattice
+ * that wraps every CLUMP_PERIOD cells, CLUMP_SIZE / CLUMP_PERIOD texels a cell, so trilinear filtering follows the
+ * smooth curve closely. Two fetches replace two noise evaluations of eight hashes each. A mass is about a metre across,
+ * so the pattern repeats only every ~18 m, and each tree reads it at its own offset.
+ */
+const CLUMP_PERIOD = 16;
+const CLUMP_SIZE = 64;
+const glslFloat = (n: number) => n.toFixed(8);
+let clumpNoise: THREE.Data3DTexture | null = null;
+export function clumpNoiseTexture(): THREE.Data3DTexture {
+  if (clumpNoise) return clumpNoise;
+  const fract = (x: number) => x - Math.floor(x);
+  const hash = (x: number, y: number, z: number) => {
+    const px = fract(x * 0.3183099 + 0.1) * 17, py = fract(y * 0.3183099 + 0.1) * 17, pz = fract(z * 0.3183099 + 0.1) * 17;
+    return fract(px * py * pz * (px + py + pz));
+  };
+  const lattice = new Float32Array(CLUMP_PERIOD ** 3);
+  for (let z = 0; z < CLUMP_PERIOD; z++) for (let y = 0; y < CLUMP_PERIOD; y++) for (let x = 0; x < CLUMP_PERIOD; x++) {
+    lattice[(z * CLUMP_PERIOD + y) * CLUMP_PERIOD + x] = hash(x, y, z);
+  }
+  const at = (x: number, y: number, z: number) => lattice[((z % CLUMP_PERIOD) * CLUMP_PERIOD + (y % CLUMP_PERIOD)) * CLUMP_PERIOD + (x % CLUMP_PERIOD)]!;
+  const smooth = (t: number) => t * t * (3 - 2 * t);
+  const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
+  const res = CLUMP_SIZE / CLUMP_PERIOD, data = new Uint8Array(CLUMP_SIZE ** 3);
+  for (let k = 0; k < CLUMP_SIZE; k++) for (let j = 0; j < CLUMP_SIZE; j++) for (let i = 0; i < CLUMP_SIZE; i++) {
+    const ix = Math.floor(i / res), iy = Math.floor(j / res), iz = Math.floor(k / res);
+    const fx = smooth((i % res) / res), fy = smooth((j % res) / res), fz = smooth((k % res) / res);
+    const v = lerp(
+      lerp(lerp(at(ix, iy, iz), at(ix + 1, iy, iz), fx), lerp(at(ix, iy + 1, iz), at(ix + 1, iy + 1, iz), fx), fy),
+      lerp(lerp(at(ix, iy, iz + 1), at(ix + 1, iy, iz + 1), fx), lerp(at(ix, iy + 1, iz + 1), at(ix + 1, iy + 1, iz + 1), fx), fy), fz);
+    data[(k * CLUMP_SIZE + j) * CLUMP_SIZE + i] = Math.round(v * 255);
+  }
+  clumpNoise = new THREE.Data3DTexture(data, CLUMP_SIZE, CLUMP_SIZE, CLUMP_SIZE);
+  clumpNoise.format = THREE.RedFormat;
+  clumpNoise.minFilter = clumpNoise.magFilter = THREE.LinearFilter;
+  clumpNoise.wrapS = clumpNoise.wrapT = clumpNoise.wrapR = THREE.RepeatWrapping;
+  clumpNoise.unpackAlignment = 1;
+  clumpNoise.needsUpdate = true;
+  return clumpNoise;
+}
+
 const LEAF_VERTEX_DECL = /* glsl */ `
+// The leaf depth and colour passes must place every vertex identically (leafPrepass.ts).
+invariant gl_Position;
 uniform vec4 uCrownCentre;
 uniform vec2 uCrownRadii;
 varying vec3 vTvWorld;
@@ -142,6 +186,7 @@ uniform float uFoliageShadeThrough;
 uniform vec4 uFoliageClump;
 uniform vec2 uFoliageEdgeOn;
 uniform vec4 uFoliageFocus;
+uniform highp sampler3D uFoliageClumpNoise;
 varying vec3 vTvWorld;
 varying vec3 vCrownN;
 varying float vCrownDepth;
@@ -165,7 +210,8 @@ vec3 tvLitColour = vec3( 0.0 );
  * is centred on it. Box-filtered mips thin a crown's alpha with distance, so alpha is lifted with the mip level first.
  */
 const LEAF_ALPHA_TEST_GLSL = /* glsl */ `
-#ifdef USE_ALPHATEST
+// The colour pass behind a leaf depth pass (leafPrepass.ts) takes its cut-out from the depth test.
+#if defined( USE_ALPHATEST ) && !defined( TV_LEAF_SHADE_ONLY )
 {
   float tvA = diffuseColor.a;
   #ifdef USE_MAP
@@ -219,7 +265,8 @@ const LEAF_ALPHA_TEST_GLSL = /* glsl */ `
     tvA *= 1.0 - tvBetween * ( 1.0 - smoothstep( 0.45 * uFoliageFocus.w, uFoliageFocus.w, tvOff ) );
   }
   float tvFine = 1.0 - smoothstep( 0.02, 0.06, length( fwidth( vTvLeafP ) ) );
-  tvA += ( tvLeafNoise( vTvLeafP * 17.0 ) - 0.5 ) * uFoliageClump.z * tvFine * step( 0.02, tvA );
+  // The roughened cut is off in the shipped look (A79): skip its noise rather than multiply it by zero.
+  if ( uFoliageClump.z > 0.0 ) tvA += ( tvLeafNoise( vTvLeafP * 17.0 ) - 0.5 ) * uFoliageClump.z * tvFine * step( 0.02, tvA );
   #ifdef USE_MAP
     vec2 tvTexels = vMapUv * vec2( textureSize( map, 0 ) );
     float tvMip = max( 0.0, 0.5 * log2( max( dot( dFdx( tvTexels ), dFdx( tvTexels ) ), dot( dFdy( tvTexels ), dFdy( tvTexels ) ) ) ) );
@@ -284,7 +331,13 @@ const LEAF_COLOUR_GLSL = /* glsl */ `
   // Leaf masses (A76): a clump's heart is fuller and the spaces between clumps fall into shade, so a crown reads as masses
   // of leaves rather than card after card.
   vec3 tvMassP = vTvLeafP / max( uFoliageClump.w, 0.05 );
-  tvClump = tvLeafNoise( tvMassP ) * 0.6 + tvLeafNoise( tvMassP * 2.6 + 7.1 ) * 0.4;
+  // Air budget: the two octaves of value noise are read from a baked, tiling copy (clumpNoiseTexture) instead of sixteen hashes.
+  // A leaf depth pass needs the masses only to thin the shell between them (clumps.gaps, 0 in the shipped look).
+  #ifdef TV_LEAF_DEPTH_ONLY
+  if ( uFoliageClump.x > 0.0 )
+  #endif
+  tvClump = texture( uFoliageClumpNoise, tvMassP * ${glslFloat(1 / CLUMP_PERIOD)} + ${glslFloat(0.5 / CLUMP_SIZE)} ).r * 0.6
+    + texture( uFoliageClumpNoise, ( tvMassP * 2.6 + 7.1 ) * ${glslFloat(1 / CLUMP_PERIOD)} + ${glslFloat(0.5 / CLUMP_SIZE)} ).r * 0.4;
   diffuseColor.rgb *= mix( 1.0 - uFoliageClump.y, 1.05, smoothstep( 0.22, 0.72, tvClump ) );
   // Natural greens: draw back saturation beyond what leaves have, vary each tree a little.
   float tvL = dot( diffuseColor.rgb, vec3( 0.2126, 0.7152, 0.0722 ) );
@@ -326,6 +379,9 @@ const foliageOptionsKey = (weight: string | undefined, key?: string): string =>
  * Give a tree material wind (and, for leaves, the foliage look). Idempotent per material. Depth and distance materials
  * used for shadows should be patched with {@link installFoliageShadow} so the shadows move with the leaves.
  */
+/** Ambient lift for wood inside its crown (1 + this at the heart). */
+const WOOD_CROWN_FILL = 1.6;
+
 export function installFoliage(material: THREE.Material, opts: FoliageInstall): InstalledFoliage {
   const existing = installed.get(material);
   if (existing) return existing;
@@ -343,6 +399,7 @@ export function installFoliage(material: THREE.Material, opts: FoliageInstall): 
     uFoliageEdgeOn: { value: new THREE.Vector2(look.edgeOn[0], look.edgeOn[1]) },
     uFoliageClump: { value: new THREE.Vector4(look.clumps.gaps, look.clumps.shade, look.clumps.rough, look.clumps.size) },
     uFoliageFocus: FOLIAGE_FOCUS,
+    uFoliageClumpNoise: { value: clumpNoiseTexture() },
   };
   let failed = false;
   const physical = (material as THREE.MeshStandardMaterial).isMeshStandardMaterial === true;
@@ -351,7 +408,28 @@ export function installFoliage(material: THREE.Material, opts: FoliageInstall): 
   material.onBeforeCompile = function(shader, renderer) {
     compile.call(this, shader, renderer);
     if (!patchFoliageVertex(shader, { ...wind, ...own }, opts.leaf, opts.weight)) { failed = true; return; }
-    if (!opts.leaf || !physical) return;
+    if (!opts.leaf) {
+      // Playtest 7: boughs and twigs inside a crown sat in the leaves' shadow with little sky, and read as black shards
+      // through the gaps between clumps. Inside the crown spheroid the bark's ambient is lifted, as the leaves' own is
+      // held up by the crown normal's sky bias, so the wood reads as bark in shade.
+      if (!physical || !shader.fragmentShader.includes('#include <lights_fragment_end>')) return;
+      shader.uniforms.uWoodCrownFill = { value: WOOD_CROWN_FILL };
+      shader.vertexShader = shader.vertexShader
+        .replace('#include <common>', `#include <common>
+uniform vec4 uCrownCentre;
+uniform vec2 uCrownRadii;
+varying float vTvWoodCrown;`)
+        .replace('#include <project_vertex>', `vTvWoodCrown = length(vec2(length(transformed.xz - uCrownCentre.xz) / uCrownRadii.x, (transformed.y - uCrownCentre.y) / uCrownRadii.y));
+#include <project_vertex>`);
+      shader.fragmentShader = shader.fragmentShader
+        .replace('#include <common>', `#include <common>
+uniform float uWoodCrownFill;
+varying float vTvWoodCrown;`)
+        .replace('#include <lights_fragment_end>', `#include <lights_fragment_end>
+reflectedLight.indirectDiffuse *= 1.0 + uWoodCrownFill * (1.0 - smoothstep(0.75, 1.1, vTvWoodCrown));`);
+      return;
+    }
+    if (!physical) return;
     const f0 = shader.fragmentShader;
     const lights = lightsWithUnshadowedColour();
     const needs = ['#include <common>', '#include <color_fragment>', '#include <alphatest_fragment>', '#include <normal_fragment_maps>',
@@ -365,6 +443,12 @@ export function installFoliage(material: THREE.Material, opts: FoliageInstall): 
       .replace('#include <color_fragment>', `#include <color_fragment>\n${LEAF_COLOUR_GLSL}`)
       // The distance dither (if any) follows the cut-out, as it followed Three's.
       .replace('#include <alphatest_fragment>', LEAF_ALPHA_TEST_GLSL)
+      // A leaf depth pass (leafPrepass.ts) ends after its cut-out and the distance dither that follows it.
+      .replace('#include <roughnessmap_fragment>', `#ifdef TV_LEAF_DEPTH_ONLY
+        gl_FragColor = vec4( 0.0, 0.0, 0.0, diffuseColor.a );
+        return;
+        #endif
+        #include <roughnessmap_fragment>`)
       // Three turns a double-sided card's normal toward the eye; a leaf takes its own face's normal, mostly the crown's,
       // so the far side of a crown seen through it is not shaded as if it faced the viewer (A69).
       .replace('#include <normal_fragment_maps>', `#include <normal_fragment_maps>
@@ -376,7 +460,7 @@ export function installFoliage(material: THREE.Material, opts: FoliageInstall): 
         ${LEAF_SKY_GLSL}`);
   };
   material.customProgramCacheKey = function() {
-    return `${programKey.call(this)}|tervain-foliage-v2-${opts.leaf ? 'leaf' : 'wood'}${foliageOptionsKey(opts.weight, opts.key)}`;
+    return `${programKey.call(this)}|tervain-foliage-v2-${opts.leaf ? 'leaf' : 'wood-fill1'}${foliageOptionsKey(opts.weight, opts.key)}`;
   };
   material.needsUpdate = true;
   const result: InstalledFoliage = { uniforms: own, ok: () => !failed };

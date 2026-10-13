@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "baselineRef": "0b45a36",
+  "sourceSha256": "911f1943d69904d002312a268fa18b8a54dda7069a0838e82623d4a95bc9915a",
+  "scope": "Actual App contact producers, without constructing renderer/UI. Controlled actor samples updated three times per simulated frame; counts returned records only, not total allocations or frame timing.",
+  "steps": 600,
+  "residents": 20,
+  "enemies": 12,
+  "beforeRecords": 57600,
+  "afterRecords": 32,
+  "mismatches": 0,
+  "pass": true
+}

@@ -15,6 +15,8 @@
  * --out        where to write the JSON report (default bench-<quality>-<time>.json)
  * --quick      half a second a segment instead of six (a functional check, e.g. software rendering)
  * --treelod    with High's opt-in lighter distant trees (Settings → Lighter distant trees)
+ * --dpr N      emulate a device pixel ratio, e.g. --size 1440x900 --dpr 2 for the MacBook Air profile
+ * --extra q    extra URL parameters, e.g. --extra prepass=0 or --extra shadows=0&msaa=0 (profiling switches)
  * --runs N     repeat the route N times in one session (default 1); the first lap includes shader compiles
  */
 import fs from 'node:fs';
@@ -32,7 +34,9 @@ const runs = Number(arg('runs', '1'));
 const bench = process.argv.includes('--quick') ? 'quick' : '1';
 const out = arg('out', `bench-${quality}-${new Date().toISOString().replace(/[:.]/g, '-')}.json`);
 
-const page = await openPage(`${url}?shot=1&place=landing&hour=11&hud=1&fps=1&quality=${quality}&settle=30&bench=${bench}${process.argv.includes('--treelod') ? '&treelod=1' : ''}`, { w, h, headed });
+const page = await openPage(`${url}?shot=1&place=landing&hour=11&hud=1&fps=1&quality=${quality}&settle=30&bench=${bench}${process.argv.includes('--treelod') ? '&treelod=1' : ''}${arg('extra', '') ? '&' + arg('extra', '') : ''}`, { w, h, headed });
+// A laptop's Retina panel: the same CSS window drawn at its device pixel ratio (the game caps High at 1.5).
+if (arg('dpr', '')) await page.cdp('Emulation.setDeviceMetricsOverride', { width: w, height: h, deviceScaleFactor: Number(arg('dpr', '1')), mobile: false });
 const reports = [];
 try {
   for (let i = 0; i < 1200; i++) {

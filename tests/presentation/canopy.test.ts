@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import * as THREE from 'three';
-import { alphaCoverage, buildCanopy, canopyAtlas, canopyCrown, downsampleCoverage, trimExposedWood, NEAR_CANOPY } from '../../src/presentation/canopy';
+import { auditCanopies } from '../../src/diagnostics/canopyAudit';
+import { alphaCoverage, buildCanopy, canopyAtlas, canopyCrown, downsampleCoverage, trimExposedWood, woodAnchor, growTwigs, MID_CANOPY, NEAR_CANOPY } from '../../src/presentation/canopy';
 
 /** A source crown like the Meshy exports: a few large curved sheets through a spheroid 12 m wide, 8 m tall, at y 12. */
 function sourceCrown(): THREE.BufferGeometry {
@@ -116,6 +117,39 @@ describe('cluster canopy (A134)', () => {
     expect(removed).toBeGreaterThan(0);
     // The trunk under the crown is kept whole.
     expect(geometry.index!.count / 3).toBeGreaterThanOrEqual(new THREE.CylinderGeometry(0.4, 0.6, 12, 8).index!.count / 3);
+  });
+
+  it('hangs every clump from the wood (grown twigs included), even where the source sheets reach past the branches', () => {
+    // A trunk with four boughs into the crown, and a stray source sheet 5 m clear of every bough.
+    const parts = [new THREE.CylinderGeometry(0.4, 0.6, 12, 8).translate(0, 6, 0)];
+    for (let k = 0; k < 4; k++) parts.push(new THREE.CylinderGeometry(0.08, 0.2, 6, 5).rotateZ(Math.PI / 2.6).translate(2.2, 13, 0).rotateY(k * Math.PI / 2));
+    let offset = 0;
+    const w = new THREE.BufferGeometry(), pos: number[] = [], idx: number[] = [];
+    for (const g of parts) { pos.push(...g.getAttribute('position').array); idx.push(...Array.from(g.index!.array, x => x + offset)); offset += g.getAttribute('position').count; }
+    w.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); w.setIndex(idx);
+    const leaf = sourceCrown(), stray = new THREE.PlaneGeometry(3, 3, 3, 3).translate(0, 12, -11);
+    const merged = new THREE.BufferGeometry(), lp = leaf.getAttribute('position'), n = lp.count;
+    merged.setAttribute('position', new THREE.Float32BufferAttribute([...lp.array, ...stray.getAttribute('position').array], 3));
+    merged.setIndex([...leaf.index!.array, ...Array.from(stray.index!.array, x => x + n)]);
+    for (const shape of [NEAR_CANOPY, MID_CANOPY]) {
+      const g = buildCanopy(merged, w, { ...shape, cards: 2500, seed: 3 }), info = g.userData.canopy as { anchored: number; twigs: Parameters<typeof growTwigs>[1] };
+      expect(info.anchored).toBeGreaterThan(0);
+      // No island: every chunk of cards (linked within 0.75 m) has a card within 0.75 m of the wood or a grown twig.
+      const report = auditCanopies([{ label: 't', wood: growTwigs(w, info.twigs), leaves: g, matrix: new THREE.Matrix4() }]);
+      expect(report.summary.candidates).toBe(0);
+      // The crown keeps its width: twigs carry the outer clumps instead of pulling them in.
+      const free = buildCanopy(merged, null, { ...shape, cards: 2500, seed: 3 });
+      const width = (x: THREE.BufferGeometry) => { x.computeBoundingBox(); const b = x.boundingBox!; return Math.max(b.max.x - b.min.x, b.max.z - b.min.z); };
+      expect(width(g) / width(free)).toBeGreaterThan(0.85);
+    }
+  });
+
+  it('finds the nearest point on the wood', () => {
+    const anchor = woodAnchor(wood()), hit = new THREE.Vector3();
+    expect(anchor(new THREE.Vector3(3, 6, 0), hit)).toBeGreaterThan(2.3);
+    expect(anchor(new THREE.Vector3(3, 6, 0), hit)).toBeLessThan(2.7);
+    expect(hit.x).toBeGreaterThan(0.3);
+    expect(woodAnchor(null)(new THREE.Vector3(), hit)).toBe(Infinity);
   });
 });
 

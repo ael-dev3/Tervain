@@ -51,6 +51,13 @@ export function canopyCrown(leaf: THREE.BufferGeometry): CanopyCrown {
   return { centre: box.getCenter(new THREE.Vector3()), radii: new THREE.Vector3(h, Math.max(0.3, size.y / 2), h) };
 }
 
+/** Outward from the crown's heart (on its spheroid), a little upward. */
+function clumpOutward(crown: CanopyCrown, c: THREE.Vector3, out: THREE.Vector3): THREE.Vector3 {
+  out.set((c.x - crown.centre.x) / crown.radii.x ** 2, (c.y - crown.centre.y) / crown.radii.y ** 2, (c.z - crown.centre.z) / crown.radii.z ** 2);
+  if (out.lengthSq() < 1e-8) out.set(0, 1, 0);
+  return out.normalize().addScaledVector(new THREE.Vector3(0, 1, 0), 0.25).normalize();
+}
+
 const depthIn = (crown: CanopyCrown, p: THREE.Vector3) => Math.hypot((p.x - crown.centre.x) / crown.radii.x, (p.y - crown.centre.y) / crown.radii.y, (p.z - crown.centre.z) / crown.radii.z);
 
 /** Area-weighted points on the source leaf triangles: where the source tree carries leaves. */
@@ -135,6 +142,160 @@ function clumpCentres(leaf: THREE.BufferGeometry, crown: CanopyCrown, tips: THRE
   return out;
 }
 
+
+/**
+ * Clump centres stay within `ANCHOR_REACH` clump radii of the wood (playtest 7): a clump placed from the source sheets
+ * alone could hang metres clear of every branch and read, from below at dusk, as a leaf mass floating in the sky.
+ */
+export const ANCHOR_REACH = 0.55;
+/** A clump farther than this many clump radii from the wood is dropped instead of given a twig (its cards go elsewhere). */
+const ANCHOR_DROP = 7;
+/** Clump centres closer than this many clump radii overlap: one held by the wood holds the other. */
+const ANCHOR_LINK = 1.8;
+/** A clump is held through a neighbour only within this many clump radii of the wood. */
+const ANCHOR_HOLD = 3;
+/** Twigs stay above the player's 2.6 m slab (source space is metres): see treeWoodCollisionRadius. */
+const TWIG_FLOOR = 3.2;
+
+/** Nearest point on the wood's triangles: returns the distance and writes the point to `hit` (Infinity without wood). */
+/** With `max`, the search stops there: a point farther from the wood returns Infinity. */
+export function woodAnchor(wood: THREE.BufferGeometry | null): (p: THREE.Vector3, hit: THREE.Vector3, max?: number) => number {
+  const position = wood?.getAttribute('position');
+  if (!wood || !position || position.count === 0) return () => Infinity;
+  const index = wood.index, count = Math.floor((index?.count ?? position.count) / 3);
+  // Flat triangle corners and boxes; a bounding-volume tree over them (leaves of up to 8 triangles, split at the median
+  // centre of the longest axis). Nearest queries visit the closer half first and prune by distance.
+  const corners = new Float32Array(count * 9), boxes = new Float32Array(count * 6), centres = new Float32Array(count * 3);
+  for (let t = 0; t < count; t++) {
+    for (let k = 0; k < 3; k++) {
+      const v = index ? index.getX(t * 3 + k) : t * 3 + k;
+      corners[t * 9 + k * 3] = position.getX(v); corners[t * 9 + k * 3 + 1] = position.getY(v); corners[t * 9 + k * 3 + 2] = position.getZ(v);
+    }
+    for (let c = 0; c < 3; c++) {
+      const a = corners[t * 9 + c]!, b = corners[t * 9 + 3 + c]!, d = corners[t * 9 + 6 + c]!;
+      boxes[t * 6 + c] = Math.min(a, b, d); boxes[t * 6 + 3 + c] = Math.max(a, b, d); centres[t * 3 + c] = (a + b + d) / 3;
+    }
+  }
+  const order = new Int32Array(count).map((_, i) => i);
+  const nodeBox: number[] = [], nodeStart: number[] = [], nodeEnd: number[] = [], nodeLeft: number[] = [], nodeRight: number[] = [];
+  const build = (start: number, end: number): number => {
+    const id = nodeStart.length;
+    nodeStart.push(start); nodeEnd.push(end); nodeLeft.push(-1); nodeRight.push(-1);
+    const lo = [Infinity, Infinity, Infinity], hi = [-Infinity, -Infinity, -Infinity];
+    for (let i = start; i < end; i++) { const t = order[i]!; for (let c = 0; c < 3; c++) { lo[c] = Math.min(lo[c]!, boxes[t * 6 + c]!); hi[c] = Math.max(hi[c]!, boxes[t * 6 + 3 + c]!); } }
+    nodeBox.push(...lo, ...hi);
+    if (end - start <= 8) return id;
+    const axis = hi[0]! - lo[0]! >= hi[1]! - lo[1]! && hi[0]! - lo[0]! >= hi[2]! - lo[2]! ? 0 : hi[1]! - lo[1]! >= hi[2]! - lo[2]! ? 1 : 2;
+    order.subarray(start, end).sort((a, b) => centres[a * 3 + axis]! - centres[b * 3 + axis]!);
+    const middle = (start + end) >> 1;
+    const left = build(start, middle), right = build(middle, end);
+    nodeLeft[id] = left; nodeRight[id] = right;
+    return id;
+  };
+  build(0, count);
+  const boxDistance = (array: ArrayLike<number>, o: number, p: THREE.Vector3) => Math.hypot(
+    Math.max(array[o]! - p.x, 0, p.x - array[o + 3]!), Math.max(array[o + 1]! - p.y, 0, p.y - array[o + 4]!), Math.max(array[o + 2]! - p.z, 0, p.z - array[o + 5]!));
+  const triangle = new THREE.Triangle(), near = new THREE.Vector3();
+  return (p, hit, max = Infinity) => {
+    let best = max, found = false;
+    const visit = (node: number) => {
+      if (boxDistance(nodeBox, node * 6, p) > best) return;
+      if (nodeLeft[node]! < 0) {
+        for (let i = nodeStart[node]!; i < nodeEnd[node]!; i++) {
+          const t = order[i]!;
+          if (boxDistance(boxes, t * 6, p) > best) continue;
+          triangle.a.fromArray(corners, t * 9); triangle.b.fromArray(corners, t * 9 + 3); triangle.c.fromArray(corners, t * 9 + 6);
+          triangle.closestPointToPoint(p, near);
+          const d = near.distanceTo(p);
+          if (d <= best) { best = d; hit.copy(near); found = true; }
+        }
+        return;
+      }
+      const a = nodeLeft[node]!, b = nodeRight[node]!;
+      if (boxDistance(nodeBox, a * 6, p) <= boxDistance(nodeBox, b * 6, p)) { visit(a); visit(b); } else { visit(b); visit(a); }
+    };
+    visit(0);
+    return found ? best : Infinity;
+  };
+}
+
+/** Sides of a grown twig; rings along it (base, bend, tip). Each twig costs sides × (rings − 1) × 2 triangles. */
+const TWIG_SIDES = 3;
+/** Only a twig longer than this (m) bends at a middle ring; a short one, hidden in leaves, is a single tapered segment. */
+const TWIG_BEND_LENGTH = 2.5;
+const twigRings = (t: CanopyTwig) => t.from.distanceTo(t.to) > TWIG_BEND_LENGTH ? 3 : 2;
+/** Triangles the twigs add to the wood (growTwigs). */
+export const twigTriangles = (twigs: readonly CanopyTwig[]) => twigs.reduce((n, t) => n + TWIG_SIDES * (twigRings(t) - 1) * 2, 0);
+
+/** A twig grown from the wood (`from`, on its surface) out to a clump's centre (`to`). */
+export interface CanopyTwig { from: THREE.Vector3; to: THREE.Vector3 }
+
+/**
+ * The wood with twigs added (playtest 7): a thin three-sided limb from just inside the bough out to each clump,
+ * tapering to a point and bowing down a little at its middle, with the wood's own attribute set. Each twig gets its
+ * own bark: uv runs along it from the bough's uv, and normal and tangent follow its own surface (copied tangents
+ * from the bough left the normal map's frame skewed and the twigs near black). Other attributes (vertex colours,
+ * wind weights) copy the nearest bough vertex.
+ */
+export function growTwigs(wood: THREE.BufferGeometry, twigs: readonly CanopyTwig[]): THREE.BufferGeometry {
+  if (!twigs.length) return wood;
+  const source = wood;
+  const p = source.getAttribute('position'), names = Object.keys(source.attributes);
+  const added: Record<string, number[]> = Object.fromEntries(names.map(n => [n, []]));
+  const index: number[] = source.index ? Array.from(source.index.array) : Array.from({ length: p.count }, (_, i) => i);
+  let next = p.count;
+  const nearestVertex = (q: THREE.Vector3) => { let best = 0, bd = Infinity; for (let i = 0; i < p.count; i++) { const d = (p.getX(i) - q.x) ** 2 + (p.getY(i) - q.y) ** 2 + (p.getZ(i) - q.z) ** 2; if (d < bd) { bd = d; best = i; } } return best; };
+  const uv = source.getAttribute('uv');
+  const axis = new THREE.Vector3(), a = new THREE.Vector3(), b = new THREE.Vector3(), q = new THREE.Vector3(), n = new THREE.Vector3();
+  const centre = new THREE.Vector3(), tangent = new THREE.Vector3(), down = new THREE.Vector3();
+  for (const t of twigs) {
+    axis.subVectors(t.to, t.from); const length = axis.length(); if (!(length > 1e-3)) continue; axis.divideScalar(length);
+    a.set(Math.abs(axis.y) < 0.9 ? 0 : 1, Math.abs(axis.y) < 0.9 ? 1 : 0, 0).cross(axis).normalize(); b.crossVectors(axis, a);
+    // Bow: the middle sags (gravity), perpendicular to the twig.
+    down.set(0, -1, 0).addScaledVector(axis, axis.y).normalize().multiplyScalar(length * 0.08);
+    const r0 = Math.min(0.05, Math.max(0.022, 0.018 + length * 0.007)), r1 = 0.004;
+    const start = t.from.clone().addScaledVector(axis, -Math.min(0.08, r0 * 2)), base = next, copy = nearestVertex(t.from);
+    const u0 = uv ? uv.getX(copy) : 0, v0 = uv ? uv.getY(copy) : 0;
+    const rings = twigRings(t);
+    for (let ring = 0; ring < rings; ring++) {
+      const f = ring / (rings - 1), r = r0 + (r1 - r0) * Math.pow(f, 0.8);
+      centre.copy(start).lerp(t.to, f).addScaledVector(down, Math.sin(f * Math.PI));
+      tangent.copy(axis).addScaledVector(down, Math.cos(f * Math.PI) * Math.PI / Math.max(length, 1e-3)).normalize();
+      for (let k = 0; k < TWIG_SIDES; k++) {
+        const angle = k / TWIG_SIDES * Math.PI * 2;
+        n.copy(a).multiplyScalar(Math.cos(angle)).addScaledVector(b, Math.sin(angle));
+        q.copy(centre).addScaledVector(n, r);
+        n.addScaledVector(tangent, -n.dot(tangent)).normalize();
+        for (const name of names) {
+          const attr = source.getAttribute(name), out = added[name]!;
+          if (name === 'position') out.push(q.x, q.y, q.z);
+          else if (name === 'normal') out.push(n.x, n.y, n.z);
+          else if (name === 'tangent') out.push(tangent.x, tangent.y, tangent.z, 1);
+          else if (name === 'uv') out.push(u0 + k / TWIG_SIDES * 0.02, v0 - f * Math.min(0.08, length * 0.02));
+          else for (let c = 0; c < attr.itemSize; c++) out.push(attr.getComponent(copy, c));
+        }
+        next++;
+      }
+    }
+    for (let ring = 0; ring < rings - 1; ring++) for (let k = 0; k < TWIG_SIDES; k++) {
+      const k1 = (k + 1) % TWIG_SIDES, i0 = base + ring * TWIG_SIDES, i1 = i0 + TWIG_SIDES;
+      index.push(i0 + k, i0 + k1, i1 + k1, i0 + k, i1 + k1, i1 + k);
+    }
+  }
+  const geometry = new THREE.BufferGeometry();
+  for (const name of names) {
+    const attr = source.getAttribute(name) as THREE.BufferAttribute, values = new Float32Array((p.count + (next - p.count)) * attr.itemSize);
+    for (let i = 0; i < p.count; i++) for (let c = 0; c < attr.itemSize; c++) values[i * attr.itemSize + c] = attr.getComponent(i, c);
+    values.set(added[name]!, p.count * attr.itemSize);
+    geometry.setAttribute(name, new THREE.BufferAttribute(values, attr.itemSize));
+  }
+  geometry.setIndex(index);
+  geometry.computeBoundingBox(); geometry.computeBoundingSphere();
+  // The twigs follow the wood's own triangles; treeWoodCollisionRadius stops at `twigIndex` (twigs are not obstacles).
+  geometry.userData = { ...wood.userData, twigs: twigs.length, twigIndex: source.index ? source.index.count : p.count };
+  return geometry;
+}
+
 /**
  * Build the cluster canopy. `leaf` is the source crown (density field and outline), `wood` the tree's wood (its branch
  * tips are covered first). Positions are in the same space as the inputs.
@@ -147,12 +308,87 @@ export function buildCanopy(leaf: THREE.BufferGeometry, wood: THREE.BufferGeomet
   const clumps = Math.max(1, Math.round(opts.cards / meanPer));
   const spacing = opts.clump * 1.1;
   const tips = branchTips(wood, crown, spacing * 1.2, Math.round(clumps * 0.25));
-  const centres = clumpCentres(leaf, crown, tips, clumps, spacing, random);
-  const weights = centres.map(c => 0.3 + 0.7 * THREE.MathUtils.smoothstep(depthIn(crown, c), 0.35, 0.85));
+  // Every clump hangs from the wood (playtest 7). One beyond reach keeps its place and grows a twig out to it (see
+  // growTwigs), from the nearest bough or an earlier twig, nearest clumps first, so twigs branch from each other rather
+  // than fanning out of one point. It is drawn a little fuller, and smaller clumps along the twig hide it in leaves (a
+  // bare twig read as a dark spike against the sky). Only a clump far out is dropped.
+  const anchor = woodAnchor(wood), hit = new THREE.Vector3(), reach = opts.clump * ANCHOR_REACH;
+  let dropped = 0;
+  const twigs: CanopyTwig[] = [], grown = new Set<THREE.Vector3>(), placedIn = new Set<THREE.Vector3>();
+  const sources = clumpCentres(leaf, crown, tips, clumps, spacing, random);
+  const plans = sources.map(source => {
+    // Where the clump will sit once drawn in (below).
+    const sits = source.clone().addScaledVector(clumpOutward(crown, source, new THREE.Vector3()), -opts.clump * 0.6);
+    return { source, sits, d: wood ? anchor(sits, hit) : 0, hit: hit.clone(), keep: [source] as THREE.Vector3[], twig: null as CanopyTwig | null };
+  });
+  const onTwig = (q: THREE.Vector3, out: THREE.Vector3) => {
+    let best = Infinity; const line = new THREE.Line3(), at = new THREE.Vector3();
+    for (const t of twigs) { line.set(t.from, t.to).closestPointToPoint(q, true, at); const d = at.distanceTo(q); if (d < best) { best = d; out.copy(at); } }
+    return best;
+  };
+  // A clump overlapping one already held (by wood or a twig) is held through it: its leaves touch that clump's.
+  const held: THREE.Vector3[] = [], link = opts.clump * ANCHOR_LINK;
+  const touchesHeld = (q: THREE.Vector3) => held.some(h => h.distanceToSquared(q) <= link * link);
+  for (const plan of [...plans].sort((a, b) => a.d - b.d)) {
+    if (!wood) continue;
+    // Only near the wood: a clump far out still gets its own twig, so leaves stay close to the branches.
+    if (plan.d <= reach || plan.d <= opts.clump * ANCHOR_HOLD && touchesHeld(plan.sits)) { held.push(plan.sits); continue; }
+    held.push(plan.sits);
+    if (plan.d > opts.clump * ANCHOR_DROP) { dropped++; plan.keep = []; continue; }
+    const from = plan.hit.clone(), viaTwig = new THREE.Vector3(), dt = onTwig(plan.sits, viaTwig);
+    if (dt <= reach) continue;
+    if (dt < plan.d) from.copy(viaTwig);
+    // A twig through the 2.6 m walking slab would widen the trunk's collision footprint; low clumps are pulled in instead.
+    if (Math.min(from.y, plan.sits.y) < TWIG_FLOOR) {
+      const moved = from.clone().addScaledVector(plan.sits.clone().sub(from).normalize(), reach * 0.9);
+      placedIn.add(moved); plan.keep = [moved]; continue;
+    }
+    // The twig ends inside its clump, short of the centre, so the tip never pokes out of the leaves.
+    const reachIn = Math.max(0, from.distanceTo(plan.sits) - opts.clump * 0.45);
+    plan.twig = { from, to: from.clone().lerp(plan.sits, reachIn / Math.max(from.distanceTo(plan.sits), 1e-6)) };
+    twigs.push(plan.twig);
+    grown.add(plan.source);
+    const step = opts.clump * 1.0, length = from.distanceTo(plan.sits);
+    for (let along = length - step; along > reach + opts.clump * 0.5; along -= step) {
+      const at = from.clone().lerp(plan.sits, along / length);
+      placedIn.add(at); plan.keep.push(at); held.push(at);
+    }
+  }
+  // Playtest 8: no lone clump out in the sky. Clumps link when their leaves touch; any group not linked (through
+  // others) to a clump at the wood is pulled in, nearest first, until it touches the linked mass. At play distance a
+  // twig is invisible, so a clump hanging on one alone read as a floating chunk; a pulled clump drops its twig.
+  if (wood) {
+    const touch = opts.clump * 1.1, tmp = new THREE.Vector3();
+    const items = plans.flatMap(plan => plan.keep.map((c, k) => ({ plan, k, at: placedIn.has(c) ? c.clone() : c.clone().addScaledVector(clumpOutward(crown, c, tmp), -opts.clump * 0.6), linked: false })));
+    type Item = (typeof items)[number];
+    // Each unlinked clump keeps its nearest linked one, updated only against clumps as they join.
+    const near = new Map<Item, { to: Item; d: number }>();
+    const join = (added: Item[]) => { for (const it of items) if (!it.linked) for (const l of added) { const d = it.at.distanceToSquared(l.at), n = near.get(it); if (!n || d < n.d) near.set(it, { to: l, d }); } };
+    const spread = (from: Item) => {
+      const queue = [from], added = [from]; from.linked = true; near.delete(from);
+      while (queue.length) { const a = queue.pop()!; for (const b of items) if (!b.linked && b.at.distanceToSquared(a.at) <= touch * touch) { b.linked = true; near.delete(b); added.push(b); queue.push(b); } }
+      return added;
+    };
+    const seeds: Item[] = [];
+    for (const it of items) if (!it.linked && anchor(it.at, tmp) <= reach) seeds.push(...spread(it));
+    join(seeds);
+    while (seeds.length && near.size) {
+      let best: Item | null = null, bd = Infinity;
+      for (const [it, n] of near) if (n.d < bd) { bd = n.d; best = it; }
+      const to = near.get(best!)!.to;
+      best!.at.sub(to.at).setLength(touch * 0.85).add(to.at);
+      placedIn.add(best!.at); best!.plan.keep[best!.k] = best!.at;
+      if (best!.plan.twig) { twigs.splice(twigs.indexOf(best!.plan.twig), 1); best!.plan.twig = null; }
+      join(spread(best!));
+    }
+  }
+  const centres = plans.flatMap(plan => plan.keep);
+  const weights = centres.map(c => 0.6 + 0.4 * THREE.MathUtils.smoothstep(depthIn(crown, c), 0.35, 0.85));
   const weightSum = weights.reduce((s, w) => s + w, 0);
   const positions: number[] = [], normals: number[] = [], uvs: number[] = [], index: number[] = [];
   const out = new THREE.Vector3(), dir = new THREE.Vector3(), n = new THREE.Vector3(), t1 = new THREE.Vector3(), t2 = new THREE.Vector3();
   const centre = new THREE.Vector3(), corner = new THREE.Vector3(), vn = new THREE.Vector3(), up = new THREE.Vector3(0, 1, 0);
+  const ax = new THREE.Vector3(), ay = new THREE.Vector3();
   const randomUnit = (v: THREE.Vector3) => {
     const z = random() * 2 - 1, a = random() * Math.PI * 2, r = Math.sqrt(1 - z * z);
     return v.set(r * Math.cos(a), z, r * Math.sin(a));
@@ -164,13 +400,11 @@ export function buildCanopy(leaf: THREE.BufferGeometry, wood: THREE.BufferGeomet
     const k = ci === centres.length - 1 ? opts.cards - placed : Math.min(opts.cards - placed, Math.floor(carry));
     carry -= k;
     // Outward from the crown's heart (on its spheroid), a little upward.
-    out.set((c.x - crown.centre.x) / crown.radii.x ** 2, (c.y - crown.centre.y) / crown.radii.y ** 2, (c.z - crown.centre.z) / crown.radii.z ** 2);
-    if (out.lengthSq() < 1e-8) out.set(0, 1, 0);
-    out.normalize().addScaledVector(up, 0.25).normalize();
-    const rc = opts.clump * (0.8 + random() * 0.4);
+    clumpOutward(crown, c, out);
+    const rc = opts.clump * (0.8 + random() * 0.4) * (grown.has(c) ? 1.15 : 1);
     // Clumps bulge outward (their cards sit on their outer face), so each is drawn in by part of its radius: the canopy
     // keeps the source crown's outline rather than growing a clump past it.
-    c = c.clone().addScaledVector(out, -opts.clump * 0.6);
+    if (!placedIn.has(c)) c = c.clone().addScaledVector(out, -opts.clump * 0.6);
     for (let j = 0; j < k; j++) {
       // A point in the clump, biased to its outer face; the card faces mostly out from the clump, then out and up.
       dir.copy(randomUnit(dir)).addScaledVector(out, 0.7).normalize();
@@ -180,7 +414,8 @@ export function buildCanopy(leaf: THREE.BufferGeometry, wood: THREE.BufferGeomet
       t1.copy(Math.abs(n.y) < 0.9 ? up : out.x !== 0 || out.z !== 0 ? t2.set(out.z, 0, -out.x).normalize() : t2.set(1, 0, 0));
       t1.crossVectors(n, t1).normalize(); t2.crossVectors(n, t1).normalize();
       const roll = random() * Math.PI * 2, cr = Math.cos(roll), sr = Math.sin(roll);
-      const ax = t1.clone().multiplyScalar(cr).addScaledVector(t2, sr), ay = t1.clone().multiplyScalar(-sr).addScaledVector(t2, cr);
+      ax.copy(t1).multiplyScalar(cr).addScaledVector(t2, sr);
+      ay.copy(t1).multiplyScalar(-sr).addScaledVector(t2, cr);
       const s = (opts.size[0] + (opts.size[1] - opts.size[0]) * random()) / 2;
       const cellIndex = Math.floor(random() * opts.cells * opts.cells), cu = cellIndex % opts.cells, cv = Math.floor(cellIndex / opts.cells);
       const flip = random() < 0.5;
@@ -204,7 +439,7 @@ export function buildCanopy(leaf: THREE.BufferGeometry, wood: THREE.BufferGeomet
   geometry.setAttribute('uv', new THREE.Float32BufferAttribute(uvs, 2));
   geometry.setIndex(index);
   geometry.computeBoundingBox(); geometry.computeBoundingSphere();
-  geometry.userData.canopy = { clumps: centres.length, tips: tips.length, cards: placed };
+  geometry.userData.canopy = { clumps: centres.length, tips: tips.length, cards: placed, anchored: twigs.length, dropped, twigs };
   return geometry;
 }
 

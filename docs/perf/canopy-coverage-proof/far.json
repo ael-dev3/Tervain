@@ -1,0 +1,92 @@
+{
+  "schema": 1,
+  "lod": 2,
+  "gap": 0.75,
+  "operations": 400254,
+  "complete": false,
+  "bySpecies": {
+    "fir": {
+      "trees": 58,
+      "leafless": 0,
+      "candidates": 0
+    },
+    "shrub": {
+      "trees": 61,
+      "leafless": 0,
+      "candidates": 0
+    },
+    "birch": {
+      "trees": 28,
+      "leafless": 0,
+      "candidates": 0
+    },
+    "oak": {
+      "trees": 51,
+      "leafless": 0,
+      "candidates": 0
+    },
+    "palm": {
+      "trees": 17,
+      "leafless": 0,
+      "candidates": 0
+    },
+    "shorepine": {
+      "trees": 1,
+      "leafless": 0,
+      "candidates": 0
+    },
+    "orchard": {
+      "trees": 9,
+      "leafless": 0,
+      "candidates": 0
+    }
+  },
+  "summary": {
+    "trees": 225,
+    "leafless": 0,
+    "components": 69121,
+    "chunks": 236,
+    "candidates": 0
+  },
+  "scope": "Registered forest selected-LOD rest geometry. Leaf components link by bounding-box proximity, then sampled wood-triangle contacts. Alpha transparency and shader wind are not evaluated; candidates require visual review. Null sampled gap means no nearby triangle was found, not an exact distance.",
+  "expectedTrees": 341,
+  "expectedSpecies": {
+    "pine": 116,
+    "fir": 58,
+    "shrub": 61,
+    "birch": 28,
+    "oak": 51,
+    "palm": 17,
+    "shorepine": 1,
+    "orchard": 9
+  },
+  "missingSpecies": {
+    "pine": 116
+  },
+  "speciesComplete": false,
+  "revision": "a2e8259f4",
+  "version": "0.0.15",
+  "pass": false,
+  "recordedTreeCount": 225,
+  "treeExamples": [
+    {
+      "label": "tree:wild:55:3",
+      "species": "fir",
+      "lod": 2,
+      "leafless": false,
+      "components": 310,
+      "chunks": 1,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:63:4",
+      "species": "fir",
+      "lod": 2,
+      "leafless": false,
+      "components": 310,
+      "chunks": 1,
+      "candidates": []
+    }
+  ],
+  "receiptScope": "Full scan counters and controls retained; per-tree details reduced to two examples."
+}

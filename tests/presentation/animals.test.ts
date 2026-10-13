@@ -32,6 +32,17 @@ describe('peaceful animated land wildlife', () => {
     expect(ANIMALS.filter(animal => animal.habitat === 'warm-woodland').map(animal => animal.species)).toEqual(['tiger', 'lion']);
   });
 
+  it('validates source weights again for each fresh build, but not twice inside one build', () => {
+    const source = animalFixture(), terrain = new Terrain(), colliders = buildStaticColliders(terrain);
+    const skin = source.scene.children.find(object => (object as THREE.SkinnedMesh).isSkinnedMesh) as THREE.SkinnedMesh;
+    const weights = skin.geometry.getAttribute('skinWeight'), reads = vi.spyOn(weights, 'getComponent');
+    const module = buildAnimals({ terrain, colliders, quality: 'low' }, new Map([[dog.id, source]]), [dog], () => {});
+    try { expect(module.snapshot()).toHaveLength(1); expect(reads).toHaveBeenCalledTimes(weights.count * 4); }
+    finally { module.dispose?.(); }
+    weights.setX(0, .3);
+    expect(() => buildAnimals({ terrain, colliders, quality: 'low' }, new Map([[dog.id, source]]), [dog], () => {})).toThrow(/normalized/);
+  });
+
   it('rejects missing motion, unskinned art, malformed weights and complete models over 50k triangles', () => {
     const source = animalFixture(); expect(validateAnimalTemplate(source, dog).triangles).toBe(12);
     expect(() => validateAnimalTemplate({ ...source, animations: source.animations.filter(clip => clip.name !== 'Run') }, dog)).toThrow(/Run/);
@@ -270,4 +281,16 @@ describe('animal navigation and habitats', () => {
       expect(animalRouteDistance(site), definition.id).toBeLessThan(definition.habitat === 'rocky-woodland' ? 65 : 30);
     }
   });
+});
+
+
+it('keeps cached path coordinates local to a search while refreshing changed dynamic contacts',()=>{
+  const colliders=new Colliders();colliders.box('thin-wall',2,15,.045,3);
+  const goal={x:5,z:15},original=findAnimalPath(dog,home,goal,home,.45,flat,colliders);
+  expect(original?.length).toBeGreaterThan(1);
+  const saved=original!.map(point=>({...point}));
+  original![0]!.x=100;
+  expect(findAnimalPath(dog,home,goal,home,.45,flat,colliders)).toEqual(saved);
+  colliders.setActive('thin-wall',false);
+  expect(findAnimalPath(dog,home,goal,home,.45,flat,colliders)).toEqual([goal]);
 });

@@ -36,7 +36,8 @@ export function treeWoodCollisionRadius(variant: TreeVariant, scale: number, gro
     for (const lod of variant.lods) {
       const geometry = lod.wood;
       if (!geometry) continue;
-      const p = geometry.getAttribute('position'), index = geometry.index, count = index?.count ?? p.count;
+      // Grown twigs (canopy.ts) end the index and are not obstacles.
+      const p = geometry.getAttribute('position'), index = geometry.index, count = (geometry.userData.twigIndex as number | undefined) ?? index?.count ?? p.count;
       for (let i = 0; i + 2 < count; i += 3) for (let edge = 0; edge < 3; edge++) {
         const a = index ? index.getX(i + edge) : i + edge, b = index ? index.getX(i + (edge + 1) % 3) : i + (edge + 1) % 3;
         edges.push(p.getX(a), p.getY(a), p.getZ(a), p.getX(b), p.getY(b), p.getZ(b));

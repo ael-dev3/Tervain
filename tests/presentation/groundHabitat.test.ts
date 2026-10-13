@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { Habitat, newSample, woodlandColonyAt } from '../../src/presentation/ground/habitat';
 import { Exclusions } from '../../src/presentation/vegetation';
 import { Colliders } from '../../src/world/colliders';
-import { Terrain } from '../../src/world/terrain';
+import { Terrain, roadWeight } from '../../src/world/terrain';
 import { ARRIVAL_ROUTE } from '../../src/world/layout';
 import { biomeAt } from '../../src/world/biomes';
 import { groundSplat } from '../../src/presentation/groundSplat';
@@ -87,4 +87,28 @@ describe('ground habitat beneath planted crowns', () => {
       expect(reused).toEqual(direct);
     }
   });
+});
+
+it('keeps soft-circle attenuation exact across negative cells, overlapping circles and broad radii', () => {
+  const terrain = new Terrain(), colliders = new Colliders();
+  const excl = { circles: [{ x: -31.9, z: 31.9, r: 35 }, { x: -7.9, z: -8.1, r: 3.5 }, { x: 8, z: -8, r: 7.8 }] } as unknown as Exclusions;
+  const indexed = new Habitat({ terrain, colliders, excl }), reference = new Habitat({ terrain, colliders, excl });
+  // Full-scan oracle: the pre-index algorithm considered every circle in source order for each node.
+  const circles = Reflect.get(reference, 'softCircles');
+  Reflect.get(reference, 'softCircleHash').get = () => circles;
+  const a = newSample(), b = newSample();
+  for (let z = -64; z <= 64; z += 5) for (let x = -80; x <= 64; x += 5) {
+    indexed.sample(x + .013, z - .017, a); reference.sample(x + .013, z - .017, b);
+    expect(a).toEqual(b);
+  }
+});
+
+it('reuses same-point road samples, including zero, without changing ground-layer words', () => {
+  const terrain = new Terrain(), ordinary = new Float32Array(8), sampled = new Float32Array(8);
+  for (let z = -80; z <= 80; z += 13) for (let x = -250; x <= 130; x += 17) {
+    const road = roadWeight(x, z);
+    const wet = groundSplat(terrain, x, z, ordinary);
+    expect(groundSplat(terrain, x, z, sampled, undefined, undefined, undefined, undefined, road)).toBe(wet);
+    expect(Array.from(new Uint32Array(sampled.buffer))).toEqual(Array.from(new Uint32Array(ordinary.buffer)));
+  }
 });

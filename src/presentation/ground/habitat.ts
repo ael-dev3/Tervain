@@ -55,6 +55,8 @@ const TILE = TILE_CELLS * STEP;
 const NODES = TILE_CELLS + 1;
 const CH = 5;
 const HASH = 8;
+// Authored field transforms are fixed; reuse their rotation for each raster node.
+const fieldRotations = FIELDS.map(f => ({ ...f, cosine: Math.cos(f.yaw), sine: Math.sin(f.yaw) }));
 
 /** Integer hash to [0,1). Stable across runs. */
 export function hash3(a: number, b: number, c: number): number {
@@ -72,6 +74,8 @@ export function woodlandColonyAt(x: number, z: number): number {
   return clamp(fbm(x / 17 + 3.7, z / 17 - 6.2, 2, 50420) * 0.5 + 0.5, 0, 1);
 }
 
+interface SoftCircle { x: number; z: number; hard: number }
+
 interface Obstacle {
   kind: 0 | 1; // 0 circle, 1 rect
   x: number;
@@ -82,22 +86,19 @@ interface Obstacle {
   s: number; // sin yaw
 }
 
-/** Distance from p to a polyline set, including the wetland pool rim. */
-export function waterDistance(x: number, z: number): number {
-  let d = Infinity;
+/** Distance from p to the water banks, including the pool rim. Optionally writes
+ * stream centre-line distance to slot zero so raster generation can share the traversal. */
+export function waterDistance(x: number, z: number, centreOut?: Float64Array): number {
+  let d = Infinity, centre = Infinity;
   for (const s of STREAMS) {
-    const r = distToPolyline(x, z, s.points).d - s.halfWidth;
+    const distance = distToPolyline(x, z, s.points).d;
+    if (centreOut) centre = Math.min(centre, distance);
+    const r = distance - s.halfWidth;
     if (r < d) d = r;
   }
+  if (centreOut) centreOut[0] = centre;
   const pd = Math.hypot(x - SPRING_POOL.x, z - SPRING_POOL.z) - SPRING_POOL.r;
   return Math.min(d, pd);
-}
-
-/** Distance to the stream centre-lines only (what the terrain colouring uses for moisture). */
-function streamCentreDistance(x: number, z: number): number {
-  let d = Infinity;
-  for (const s of STREAMS) d = Math.min(d, distToPolyline(x, z, s.points).d);
-  return d;
 }
 
 export class Habitat {
@@ -107,7 +108,8 @@ export class Habitat {
   private treeHash = new Map<number, TreeSpot[]>();
   private obstacles: Obstacle[] = [];
   private obstacleHash = new Map<number, Obstacle[]>();
-  private softCircles: { x: number; z: number; hard: number }[] = [];
+  private softCircles: SoftCircle[] = [];
+  private softCircleHash = new Map<number, SoftCircle[]>();
   private noiseForest: boolean;
   private readonly plantedCrowns?: PlantedCrownField;
 
@@ -151,6 +153,16 @@ export class Habitat {
     for (const p of INSPECT_LOCATIONS) this.softCircles.push({ x: p.x, z: p.z, hard: Math.max(2, p.r * 0.7) });
     for (const p of PICKUP_LOCATIONS) this.softCircles.push({ x: p.x, z: p.z, hard: isWorldPickupItem(p.item) ? 0.25 : 2 });
 
+    // Keep source order within each bucket: attenuation multiplies in that order, so field bytes stay identical.
+    for (const circle of this.softCircles) {
+      const reach = circle.hard + 1.8;
+      const x0 = Math.floor((circle.x - reach) / HASH), x1 = Math.floor((circle.x + reach) / HASH);
+      const z0 = Math.floor((circle.z - reach) / HASH), z1 = Math.floor((circle.z + reach) / HASH);
+      for (let x = x0; x <= x1; x++) for (let z = z0; z <= z1; z++) {
+        const key = (x + 256) * 1024 + (z + 256), bucket = this.softCircleHash.get(key);
+        if (bucket) bucket.push(circle); else this.softCircleHash.set(key, [circle]);
+      }
+    }
     this.noiseForest = !this.plantedCrowns && this.trees.length < 30;
   }
 
@@ -243,6 +255,7 @@ export class Habitat {
   }
 
   private scratch = new Float32Array(8);
+  private streamCentre = new Float64Array(1);
 
   private evalNode(x: number, z: number, o: Float32Array, k: number) {
     const terrain = this.terrain;
@@ -261,31 +274,32 @@ export class Habitat {
     // Plants grow where the ground layers say soil is: not on rock, wet sand or the sea bed; a little on dry dunes.
     {
       const w = this.scratch;
-      groundSplat(terrain, x, z, w, this.plantedCrowns, biome);
+      groundSplat(terrain, x, z, w, this.plantedCrowns, biome, undefined, undefined, road);
       const sd = shoreDistance(x, z);
       const dune = (1 - smoothstep(12, 44, sd)) * smoothstep(9, 16, sd);
       const soil = w[LAYER.grass]! + w[LAYER.heath]! + 0.55 * w[LAYER.earth]! + 0.4 * w[LAYER.sand]! * dune + 0.12 * w[LAYER.gravel]!;
       open *= clamp(soil, 0, 1);
       if (sd < 8) open = 0;
     }
-    for (const c of this.softCircles) {
+    const soft = this.softCircleHash.get(this.cell(x, z));
+    if (soft) for (const c of soft) {
       const d = Math.hypot(x - c.x, z - c.z) - c.hard;
       if (d < 1.8) open *= smoothstep(0, 1.8, d);
     }
-    for (const f of FIELDS) {
+    for (const f of fieldRotations) {
       const dx = x - f.x;
       const dz = z - f.z;
-      const lx = dx * Math.cos(f.yaw) - dz * Math.sin(f.yaw);
-      const lz = dx * Math.sin(f.yaw) + dz * Math.cos(f.yaw);
+      const lx = dx * f.cosine - dz * f.sine;
+      const lz = dx * f.sine + dz * f.cosine;
       const e = Math.max(Math.abs(lx) - f.w / 2, Math.abs(lz) - f.d / 2);
       if (e < 1.6) open *= smoothstep(-0.2, 1.6, e);
     }
-    const sd = streamCentreDistance(x, z);
+    const wd = waterDistance(x, z, this.streamCentre);
+    const sd = this.streamCentre[0]!;
     const wetT = 1 - smoothstep(3, 26, sd);
     const n = fbm(x / 22, z / 22, 3, 21) * 0.5 + 0.5;
     const dry = clamp((1 - wetT * 1.2) * smoothstep(0.35, 0.75, n)
       + biome.exposure * 0.48 - biome.moisture * 0.34, 0, 1);
-    const wd = waterDistance(x, z);
     const wet = Math.max(1 - smoothstep(1.5, 24, wd), biome.moisture * 0.7);
     o[k] = open * biome.grassDensity;
     o[k + 1] = wet;

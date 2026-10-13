@@ -38,7 +38,9 @@ function installDistanceDither(material: THREE.Material): void {
       ${DISTANCE_DITHER_GLSL}`)
       .replace('#include <alphatest_fragment>', `#include <alphatest_fragment>
       float tvCoverageSample = tvDistanceNoise(gl_FragCoord.xy);
-      if (tvCoverageSample < vDistanceCoverage.x || tvCoverageSample >= vDistanceCoverage.y) discard;`);
+      #ifndef TV_LEAF_SHADE_ONLY
+      if (tvCoverageSample < vDistanceCoverage.x || tvCoverageSample >= vDistanceCoverage.y) discard;
+      #endif`);
   };
   material.customProgramCacheKey = function() { return `${programKey.call(this)}|tervain-distance-dither-v1`; };
   material.needsUpdate = true;

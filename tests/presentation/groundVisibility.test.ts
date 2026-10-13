@@ -35,6 +35,23 @@ function tiles(layer: TileLayer): Map<string, THREE.Mesh<THREE.InstancedBufferGe
 }
 
 describe('Ground vegetation visibility', () => {
+  it('skips sphere-only horizontal false positives and restores caller counts across camera changes', () => {
+    const { layer } = fixture();layer.update(new THREE.Vector3(0,1,0));
+    const mesh = layer.group.children.find(o => (o as THREE.Mesh<THREE.InstancedBufferGeometry>).geometry.instanceCount > 0) as THREE.Mesh<THREE.InstancedBufferGeometry>;
+    mesh.updateMatrixWorld();const sphere = mesh.geometry.boundingSphere!, centre = sphere.center.clone(), count = mesh.geometry.instanceCount;
+    const camera = new THREE.PerspectiveCamera(45,1,.1,200), scene = new THREE.Scene(), renderer = {} as THREE.WebGLRenderer;
+    const before = () => mesh.onBeforeRender(renderer,scene,camera,mesh.geometry,mesh.material as THREE.Material,{} as THREE.Group);
+    const after = () => mesh.onAfterRender(renderer,scene,camera,mesh.geometry,mesh.material as THREE.Material,{} as THREE.Group);
+    const inside = () => { camera.position.copy(centre).add(new THREE.Vector3(0,0,30));camera.lookAt(centre);camera.updateMatrixWorld(); };
+    camera.position.copy(centre).add(new THREE.Vector3(SIZE/2+3+1,0,0));camera.lookAt(camera.position.clone().add(new THREE.Vector3(1,0,0)));camera.updateMatrixWorld();
+    const frustum = new THREE.Frustum().setFromProjectionMatrix(new THREE.Matrix4().multiplyMatrices(camera.projectionMatrix,camera.matrixWorldInverse));
+    expect(frustum.intersectsSphere(sphere)).toBe(true);before();expect(mesh.geometry.instanceCount).toBe(0);after();expect(mesh.geometry.instanceCount).toBe(count);
+    inside();before();expect(mesh.geometry.instanceCount).toBe(count);after();
+    // Shader preparation may temporarily request fewer instances than the layer's population.
+    mesh.geometry.instanceCount=1;before();expect(mesh.geometry.instanceCount).toBe(1);after();expect(mesh.geometry.instanceCount).toBe(1);
+    layer.dispose();
+  });
+
   it('preloads outside the fade and completes every newly visible tile even when a move outruns its build quota', () => {
     const { layer } = fixture();
     layer.buildRate = 0.01;
@@ -70,6 +87,23 @@ describe('Ground vegetation visibility', () => {
         expect(tiles(layer).has(`${tx}:${tz}`)).toBe(true);
     }
     layer.dispose();
+  });
+
+  it('limits nine catch-up updates to one reserve quota rather than nine quotas', () => {
+    const run = (shared: boolean) => {
+      const a = fixture(), b = fixture(), camera = new THREE.Vector3(0, 1, 0);
+      a.layer.update(camera); b.layer.update(camera);
+      a.generate.mockClear(); b.generate.mockClear(); camera.x += SIZE;
+      const reserve = { remaining: 2 };
+      for (let i = 0; i < 9; i++) {
+        const quota = shared ? reserve : { remaining: 2 };
+        a.layer.update(camera, quota); b.layer.update(camera, quota);
+      }
+      const count = a.generate.mock.calls.length + b.generate.mock.calls.length;
+      a.layer.dispose(); b.layer.dispose(); return count;
+    };
+    expect(run(false)).toBe(18);
+    expect(run(true)).toBe(2);
   });
 
   it('shares reserve generation across layers without deferring visible tiles', () => {

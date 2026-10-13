@@ -33,6 +33,11 @@ describe('grass blade clumps', () => {
       const g = createGrassClump(spec);
       const position = g.getAttribute('position');
       const perBlade = spec.segments * 2 + 1;
+      // Whole-blade rejection is safe only if no primitive joins vertices from different blades.
+      for (let i = 0; i < g.index!.count; i += 3) {
+        const blades = [0, 1, 2].map(v => Math.floor(g.index!.getX(i + v) / perBlade));
+        expect(new Set(blades).size).toBe(1);
+      }
       expect(position.count).toBe(spec.blades * perBlade);
       expect(g.index!.count).toBe(clumpTriangles(spec) * 3);
       expect(Array.from(g.index!.array).every((i) => i >= 0 && i < position.count)).toBe(true);

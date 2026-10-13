@@ -29,3 +29,19 @@ it('updates the reduced-motion release policy while idle and preserves paused ac
   expect(burst.active).toBe(3);expect(burst.release(0, 1, 0, .5, 1)).toBe(0);
   burst.dispose();
 });
+
+it('draws/uploads only the occupied prefix and preserves holes before later surviving leaves', () => {
+  const burst = createLeafBurst({ heightAt: () => 0 }, null);
+  try {
+    burst.release(0, 0, 0, 0, 10); burst.update(0, false);
+    expect(burst.mesh.count).toBe(10);
+    expect(burst.mesh.instanceMatrix.updateRanges).toEqual([{ start: 0, count: 160 }]);
+    burst.release(0, 100, 0, 0, 10);
+    for (let i = 0; i < 60; i++) burst.update(.1, false);
+    expect(burst.active).toBe(10); // First ten landed/expired, later ten are still aloft.
+    expect(burst.mesh.count).toBe(20); // Preserve indices 10..19; active count alone is not a draw prefix.
+    expect(burst.mesh.instanceMatrix.updateRanges).toEqual([{ start: 0, count: 320 }]);
+    burst.release(0, 1, 0, 0, 3); burst.update(0, false);
+    expect(burst.active).toBe(13); expect(burst.mesh.count).toBe(20);
+  } finally { burst.dispose(); }
+});

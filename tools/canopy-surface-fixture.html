@@ -1,0 +1,13 @@
+<!doctype html><html><head><meta charset="utf-8"><style>body{margin:0}canvas{display:block}</style></head><body><script>window.addEventListener('error',e=>window.fixtureError=e.message);window.addEventListener('unhandledrejection',e=>window.fixtureError=String(e.reason));</script><script type="module">
+import * as THREE from 'three';
+const mode=new URLSearchParams(location.search).get('mode');
+const {auditCanopies}=await import(mode==='baseline'?'/@baseline-canopy':'/src/diagnostics/canopyAudit.ts');
+const wood=new THREE.BoxGeometry(.2,.2,.2),ring=new THREE.RingGeometry(2,2.2,16),rimWood=wood.clone().translate(2,0,0),plane=new THREE.PlaneGeometry(4,4);
+const audit=(w,l)=>auditCanopies([{label:'controlled-tree',wood:w,leaves:l,matrix:new THREE.Matrix4()}],{gap:.75});
+const detached=audit(wood,ring),rim=audit(rimWood,ring),face=audit(wood,plane);
+const renderer=new THREE.WebGLRenderer({antialias:false});renderer.setSize(320,240);document.body.append(renderer.domElement);
+const scene=new THREE.Scene();scene.background=new THREE.Color(0xcccccc);scene.add(new THREE.AmbientLight(0xffffff,2));
+scene.add(new THREE.Mesh(wood,new THREE.MeshLambertMaterial({color:0x6f4020})));scene.add(new THREE.Mesh(ring,new THREE.MeshLambertMaterial({color:0x568438,side:THREE.DoubleSide})));
+const camera=new THREE.OrthographicCamera(-3.2,3.2,2.4,-2.4,.1,20);camera.position.z=7;renderer.render(scene,camera);
+window.canopySurfaceRepro={mode,detachedCandidates:detached.summary.candidates,rimCandidates:rim.summary.candidates,faceCandidates:face.summary.candidates,complete:detached.complete&&rim.complete&&face.complete,scope:detached.scope};
+</script></body></html>

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "sourceSha256": "c5de3450e93b4f205e02a960c254367e75c58b0e179e7916f2f851795bae828a",
+  "scope": "Actual stream carve sampler vs original unpruned oracle, influence/Ford boundaries and non-finite controls. Counts polyline evaluations only; not hardware timing.",
+  "samples": 9525,
+  "streams": 3,
+  "fullTests": 28575,
+  "productionTests": 2732,
+  "differences": 0,
+  "pass": true
+}

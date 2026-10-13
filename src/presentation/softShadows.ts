@@ -21,6 +21,8 @@ export const SUN_SHADOW_DEPTH = 399;
 export const PENUMBRA_PER_METRE = 0.028;
 export const PENUMBRA_MIN = 0.035;
 export const PENUMBRA_MAX = 0.42;
+/** Where the sun's shadow fades out, as shares of the map's half-width from its centre (playtest 6: a hard square edge). */
+export const SUN_SHADOW_FADE = [0.72, 0.97] as const;
 /** `shadow.radius` that selects these soft shadows. */
 export const SOFT_SUN_SHADOW = -1;
 
@@ -94,6 +96,11 @@ const SOFT_PCF = /* glsl */ `
 
 					}
 
+					// The map covers a square about the player: beyond it nothing is shadowed. Fade the sun's shadow out over the map's
+					// outer band so that edge is never a line of light following him (playtest 6).
+					float edge = max( abs( shadowCoord.x - 0.5 ), abs( shadowCoord.y - 0.5 ) ) * 2.0;
+					shadow = mix( shadow, 1.0, smoothstep( ${f(SUN_SHADOW_FADE[0])}, ${f(SUN_SHADOW_FADE[1])}, edge ) );
+
 				}
 
 			}
@@ -119,4 +126,28 @@ export function installSoftSunShadows(): boolean {
   (THREE.ShaderChunk as Record<string, string>).shadowmap_pars_fragment = chunk.slice(0, start) + SOFT_PCF.trimStart() + chunk.slice(end + '#elif defined( SHADOWMAP_TYPE_VSM )'.length);
   installed = true;
   return true;
+}
+
+/**
+ * Shadow maps drawn into depth alone (Air budget). Three's PCF shadow target carries an RGBA8 colour buffer beside the
+ * depth texture the shaders compare against; nothing reads the colour, yet every caster fragment wrote its packed depth
+ * there (and the clear filled it), at 4096 px on High 64 MB of writes a frame. Colour writes are masked off for the
+ * shadow pass; the depth, and so every shadow, is unchanged.
+ */
+export function installDepthOnlyShadowPass(renderer: THREE.WebGLRenderer): void {
+  const shadowMap = renderer.shadowMap as THREE.WebGLShadowMap & { tvDepthOnly?: boolean };
+  const color = renderer.state?.buffers?.color;
+  if (shadowMap.tvDepthOnly || !color) return;
+  shadowMap.tvDepthOnly = true;
+  const render = shadowMap.render;
+  shadowMap.render = function (this: THREE.WebGLShadowMap, ...args: Parameters<THREE.WebGLShadowMap['render']>) {
+    color.setMask(false);
+    color.setLocked(true);
+    try {
+      render.apply(this, args);
+    } finally {
+      color.setLocked(false);
+      color.setMask(true);
+    }
+  };
 }

@@ -42,7 +42,7 @@ function blend(w: Float32Array, layer: number, a: number) {
 }
 
 /** Fills `w` (length 8) and returns the wetness. */
-export function groundSplat(terrain: Terrain, x: number, z: number, w: Float32Array, crowns?: PlantedCrownField, sampledBiome?: Readonly<BiomeSample>, sampledCanopy?: number, contacts?: Readonly<Float32Array>): number {
+export function groundSplat(terrain: Terrain, x: number, z: number, w: Float32Array, crowns?: PlantedCrownField, sampledBiome?: Readonly<BiomeSample>, sampledCanopy?: number, contacts?: Readonly<Float32Array>, sampledRoad?: number): number {
   const h = terrain.heightAt(x, z);
   const slope = terrain.slopeAt(x, z);
   const carve = terrain.carveAt(x, z);
@@ -139,7 +139,7 @@ export function groundSplat(terrain: Terrain, x: number, z: number, w: Float32Ar
 
   // Worn tracks keep their authored centre. Only the visual shoulders fray into the same earth
   // and herb mat as their surroundings; path / collider geometry is never moved by this noise.
-  const road = roadWeight(x, z);
+  const road = sampledRoad ?? roadWeight(x, z);
   if (road > 0) {
     const centre = smoothstep(0.35, 0.9, road);
     const edgePockets = smoothstep(0.28, 0.72, nHi * 0.65 + nMid * 0.35);

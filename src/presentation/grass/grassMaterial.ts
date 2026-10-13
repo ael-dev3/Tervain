@@ -15,7 +15,7 @@ import { RANK_HEADROOM } from '../ground/tileStream';
  * Wind: gust fronts (a scrolled noise field, see wind.ts) lean whole bands of grass downwind; each blade also flutters
  * at its own frequency (shorter blades faster), harder inside a gust. Interaction: the trample field (trample.ts)
  * pushes blades aside and lays them down. Distance: clumps thin in a stable order and the survivors widen, and a mesh
- * can be limited to a distance band so two levels of detail hand over smoothly; blades never pop, they narrow away.
+ * can be limited to a distance band so two levels of detail hand over smoothly; in the hand-over each blade leaves at its own point (A139), and sub-pixel heads and tips fade toward the leaf colour.
  *
  * Light: wrapped diffuse for thin leaves, light through the blade when the sun (or a lantern) is behind it, a soft
  * sheen where blades turn to the light, darker roots in the tuft and paler, sun-bleached tips.
@@ -80,6 +80,8 @@ export interface GrassUniforms {
   uLook: THREE.IUniform<THREE.Vector4>;
   uTransTint: THREE.IUniform<THREE.Color>;
   uFarBlades: THREE.IUniform<number>;
+  /** Drawing-buffer height in pixels, for the blades' projected size. */
+  uGrassPx: THREE.IUniform<number>;
 }
 
 const f = (v: number) => (Number.isInteger(v) ? v.toFixed(1) : String(v));
@@ -100,6 +102,7 @@ uniform vec4 uFade;
 uniform vec4 uBand;
 uniform vec4 uLook;
 uniform float uFarBlades;
+uniform float uGrassPx;
 varying vec3 vGCol;
 varying vec4 vGInfo;
 float gHash(float n) { return fract(sin(n) * 43758.5453123); }
@@ -110,6 +113,21 @@ export const GRASS_BLADE_GLSL = /* glsl */ `
 float gBlade = position.x;
 float gT = position.y;
 float gEdge = position.z;
+// Distance: a stable thinning order per clump, a band for level-of-detail hand-over, and fewer blades per clump far off.
+float gDist = distance(aBase.xyz, cameraPosition);
+float gQ = pow(1.0 - smoothstep(uFade.x, uFade.y, gDist), uFade.w);
+float gKeep = smoothstep(0.0, 0.12, gQ * ${RANK_HEADROOM.toFixed(2)} - aBase.w);
+float gBandK = smoothstep(uBand.x, uBand.y, gDist) * (1.0 - smoothstep(uBand.z, uBand.w, gDist));
+float gFrac = (gBlade + 0.5) / uClump.w;
+float gShare = mix(1.0, uFarBlades, smoothstep(uFade.x, uFade.y, gDist));
+float gBladeKeep = 1.0 - smoothstep(gShare - 0.06, gShare, gFrac);
+// A139: the level-of-detail hand-over is a stable per-blade cut, not a band where every blade narrows to a sliver
+// together (sub-pixel slivers alias into sparkle while the view moves). Each blade crosses over a short span of its own.
+float gBandCut = gHash(aShape.w * 1031.0 + gBlade * 7.317 + 13.71);
+float gBandVis = smoothstep(gBandCut - 0.05, gBandCut + 0.05, gBandK * 1.1 - 0.05);
+float gPresence = gKeep * gBandVis * gBladeKeep;
+// Every vertex of a zero-width blade has the same presence: clip the whole primitive before wind work.
+if (gPresence <= 0.0) { gl_Position = vec4(2.0, 2.0, 2.0, 1.0); return; }
 float gSeed = aShape.w * 1031.0 + gBlade * 7.317;
 float gR1 = gHash(gSeed + 0.131);
 float gR2 = gHash(gSeed + 1.713);
@@ -119,15 +137,6 @@ float gR5 = gHash(gSeed + 5.897);
 float gR6 = gHash(gSeed + 7.219);
 float gR7 = gHash(gSeed + 9.137);
 
-// Distance: a stable thinning order per clump, a band for level-of-detail hand-over, and fewer blades per clump far off.
-float gDist = distance(aBase.xyz, cameraPosition);
-float gQ = pow(1.0 - smoothstep(uFade.x, uFade.y, gDist), uFade.w);
-float gKeep = smoothstep(0.0, 0.12, gQ * ${RANK_HEADROOM.toFixed(2)} - aBase.w);
-float gBandK = smoothstep(uBand.x, uBand.y, gDist) * (1.0 - smoothstep(uBand.z, uBand.w, gDist));
-float gFrac = (gBlade + 0.5) / uClump.w;
-float gShare = mix(1.0, uFarBlades, smoothstep(uFade.x, uFade.y, gDist));
-float gBladeKeep = 1.0 - smoothstep(gShare - 0.06, gShare, gFrac);
-float gPresence = gKeep * gBandK * gBladeKeep;
 float gSizeComp = mix(1.0, uFade.z, 1.0 - gQ) * mix(1.0, 1.0 / max(gShare, 0.3), 0.5);
 
 // Root in the clump, on the ground plane fitted under it.
@@ -195,13 +204,21 @@ float gLeaf = pow(max(gU, 0.0), 0.72) * (1.0 + 0.22 * sin(gT * 3.1416));
 float gHead = smoothstep(0.66, 0.82, gT) * (1.0 - smoothstep(0.9, 1.0, gT));
 float gBloom = smoothstep(0.8, 0.88, gT) * (1.0 - smoothstep(0.96, 1.0, gT));
 float gProfile = gLeaf * (1.0 - gStem - gFlower) + (0.22 + gHead * 2.3) * gStem + (0.16 + gBloom * 3.4) * gFlower;
+// A139: how many pixels wide the blade and its head are. Where they fall below a pixel or two they can only alias
+// (a bright head lands on a pixel centre one frame and misses it the next), so heads, light through the blade and the
+// pale tips fade toward the leaf's own colour with projected size.
+float gPxPerM = uGrassPx * projectionMatrix[1][1] * 0.5 / max(gDist, 0.5);
+float gBladePx = uClump.y * (0.6 + 0.75 * gR3) * gSizeComp * gPxPerM;
+float gHeadPx = gBladePx * 0.28 * max(gStem * 2.52, gFlower * 3.56);
+float gHeadCov = smoothstep(1.2, 3.5, gHeadPx);
+float gBladeCov = smoothstep(0.8, 2.5, gBladePx);
 // The blade's face turns with its root angle, then partly toward the viewer so few blades are seen edge-on.
 float gFace = gAng + 1.5708 + (gR2 - 0.5) * 2.0;
 vec3 gAcross = vec3(cos(gFace), 0.0, sin(gFace));
 vec3 gToEye = cameraPosition - vec3(gRootW.x, gGround, gRootW.y);
 vec2 gEyeH = normalize(gToEye.xz + vec2(1e-4, 0.0));
 vec2 gSideEye = vec2(-gEyeH.y, gEyeH.x);
-vec2 gAcrossH = normalize(mix(gAcross.xz, gSideEye * sign(dot(gAcross.xz, gSideEye) + 1e-4), 0.35));
+vec2 gAcrossH = normalize(mix(gAcross.xz, gSideEye * clamp(dot(gAcross.xz, gSideEye) * 3.0, -1.0, 1.0), 0.35));
 gAcross = vec3(gAcrossH.x, 0.0, gAcrossH.y);
 // A79: in front of a low camera a blade filled the view as a wide, flat ribbon, and where a tall blade leant into the lens
 // the near plane cut it into a slab hanging in the air. Measured at each point of the blade, not its root: close by it
@@ -222,20 +239,21 @@ float gHue = gHash(aShape.w * 311.0) - 0.5;
 vec3 gBase = aTint.rgb * (0.84 + 0.3 * gR3) * vec3(1.0 + gHue * 0.16, 1.0 + gHue * 0.05, 1.0 - gHue * 0.22);
 float gLuma = dot(aTint.rgb, vec3(0.299, 0.587, 0.114));
 vec3 gStraw = vec3(0.86, 0.72, 0.44) * gLuma * 1.85;
-gBase = mix(gBase, gStraw, max(gDry * 0.8, gStem * 0.62) * smoothstep(0.0, 0.75, gT + 0.2));
-gBase = mix(gBase, gBase * vec3(1.14, 1.08, 0.8) + vec3(0.012, 0.01, 0.0), smoothstep(0.6, 1.0, gT) * uLook.y);
+gBase = mix(gBase, gStraw, max(gDry * 0.8, gStem * 0.62 * mix(0.45, 1.0, gHeadCov)) * smoothstep(0.0, 0.75, gT + 0.2));
+gBase = mix(gBase, gBase * vec3(1.14, 1.08, 0.8) + vec3(0.012, 0.01, 0.0), smoothstep(0.6, 1.0, gT) * uLook.y * mix(0.4, 1.0, gBladeCov));
 // Heather clumps (a reddish tint) bloom purple; elsewhere the flowers are white, yellow and violet.
 float gHeather = smoothstep(0.0, 0.035, aTint.r - aTint.g);
 vec3 gPetal = gR1 < 0.42 ? vec3(0.82, 0.8, 0.7) : gR1 < 0.74 ? vec3(0.86, 0.62, 0.1) : vec3(0.42, 0.2, 0.48);
 gPetal = mix(gPetal, vec3(0.5, 0.22, 0.46) * (0.85 + 0.3 * gR2), gHeather);
-gBase = mix(gBase, gPetal * 0.75, gFlower * gBloom);
+gBase = mix(gBase, gPetal * 0.75, gFlower * gBloom * gHeadCov);
 float gRootShade = mix(uLook.x, 1.0, smoothstep(0.0, 0.7, gT));
 vGCol = gBase * gRootShade;
 // Light passes through the thin upper blade (the base is buried in the tuft) and sets seed heads and petals glowing;
 // shaded ground (under crowns) passes less sun.
 // Seed heads and petals pass a little more light than the leaf, not a sparkle (A68).
-float gThrough = 0.06 + 0.7 * smoothstep(0.15, 1.0, gT) + 0.24 * gT * gT * gT + gStem * gHead * 0.45 + gFlower * gBloom * 0.3;
-vGInfo = vec4(gT, gEdge, uLook.z * aTint.w * gThrough * (1.0 - 0.6 * gLying), uLook.w * aTint.w * (0.35 + 0.65 * gT));
+float gThrough = 0.06 + 0.7 * smoothstep(0.15, 1.0, gT) + 0.24 * gT * gT * gT + (gStem * gHead * 0.45 + gFlower * gBloom * 0.3) * gHeadCov;
+float gThin = mix(0.4, 1.0, gBladeCov);
+vGInfo = vec4(gT, gEdge, uLook.z * aTint.w * gThrough * gThin * (1.0 - 0.6 * gLying), uLook.w * aTint.w * (0.35 + 0.65 * gT) * gThin);
 `;
 
 export const GRASS_FRAGMENT_DECL = /* glsl */ `
@@ -254,7 +272,7 @@ void RE_Direct_Grass( const in IncidentLight directLight, const in vec3 geometry
   // blades shine like wet plastic.
   float behind = saturate( dot( - geometryViewDir, directLight.direction ) );
   float through = pow( behind, 3.0 ) * 0.55 + pow( behind, 1.4 ) * 0.16;
-  reflectedLight.directDiffuse += directLight.color * material.diffuseColor * uTransTint * through * vGInfo.z;
+  reflectedLight.directDiffuse += directLight.color * material.diffuseColor * uTransTint * min( through * vGInfo.z, 0.45 );
   // Where a blade turns to the light it brightens a little, in its own colour: dry grass, never a white glint.
   vec3 halfway = normalize( directLight.direction + geometryViewDir );
   float sheen = pow( saturate( dot( geometryNormal, halfway ) ), 6.0 ) * saturate( ndl + 0.25 );
@@ -283,6 +301,7 @@ export function createGrassMaterial(opts: GrassMaterialOptions): GrassMaterial {
     uLook: { value: new THREE.Vector4(opts.look.rootShade, opts.look.tipLift, opts.look.translucency, opts.look.sheen) },
     uTransTint: { value: opts.look.transTint.clone() },
     uFarBlades: { value: Math.min(1, Math.max(0.1, opts.farBlades ?? 0.5)) },
+    uGrassPx: { value: 1080 },
   };
   const trample = opts.trample?.uniforms ?? { tTrample: { value: null }, uTrample: { value: new THREE.Vector4(0, 0, 1, 0) } };
   const material = new THREE.MeshLambertMaterial({ color: 0xffffff, side: THREE.DoubleSide });
@@ -290,6 +309,8 @@ export function createGrassMaterial(opts: GrassMaterialOptions): GrassMaterial {
   // The gust field is injected at compile time; expose it so first-view preparation uploads it with everything else.
   material.userData.preparationTextures = [opts.wind.uniforms.tGust.value];
   let failed = false;
+  const buffer = new THREE.Vector2();
+  material.onBeforeRender = (renderer) => { uniforms.uGrassPx.value = renderer.getDrawingBufferSize(buffer).y; };
   material.onBeforeCompile = (shader) => {
     const v0 = shader.vertexShader, f0 = shader.fragmentShader;
     const needV = ['#include <common>', '#include <beginnormal_vertex>', '#include <begin_vertex>'];
@@ -314,7 +335,7 @@ export function createGrassMaterial(opts: GrassMaterialOptions): GrassMaterial {
       .replace('#include <lights_lambert_pars_fragment>', `#include <lights_lambert_pars_fragment>\n${GRASS_LIGHT_GLSL}`);
     opts.patch?.(shader);
   };
-  material.customProgramCacheKey = () => `tervain-grass-blades-v2${opts.patchKey ? `-${opts.patchKey}` : ''}`;
+  material.customProgramCacheKey = () => `tervain-grass-blades-v5${opts.patchKey ? `-${opts.patchKey}` : ''}`;
   return {
     material, uniforms, ok: () => !failed,
     setBand(b) { uniforms.uBand.value.set(b.inStart, b.inEnd, b.outStart, b.outEnd); },

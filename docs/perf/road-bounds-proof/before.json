@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "sourceSha256": "fef5c004322e17314702e9de1a4bfedd7cdc2360f2cf84b6514844bbdec6715c",
+  "scope": "Production roads and distance function; conservative bounds control vs full-scan oracle, including support boundaries. Counts polyline evaluations, not hardware timing.",
+  "samples": 10032,
+  "roads": 14,
+  "fullTests": 140448,
+  "boundedTests": 3011,
+  "productionTests": 140448,
+  "unequalValues": 0,
+  "productionDifferences": 0,
+  "pass": false
+}

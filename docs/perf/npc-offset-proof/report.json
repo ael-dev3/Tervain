@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "baselineRef": "0b45a36",
+  "sourceSha256": "45026663cb5aeddd8af9c0fd496da2438f68574da0b2d9870babf5b0dd1366d9",
+  "scope": "Actual resident shared-goal placement function and authored rosters, flat terrain and live collider control. Numerical outputs and metadata work counts; not hardware timing or full-world play.",
+  "queries": 1000,
+  "beforeSorts": 1000,
+  "afterSorts": 1000,
+  "beforeRosterScans": 1000,
+  "afterRosterScans": 1000,
+  "beforeOffsetBatches": 2000,
+  "afterOffsetBatches": 2,
+  "positionsIdentical": true,
+  "liveCollidersRespected": true,
+  "pass": true
+}

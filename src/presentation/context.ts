@@ -44,6 +44,11 @@ export interface FrameContext {
   sunDir: THREE.Vector3;
   /** Actual snapped sun-shadow camera volume; absent/null when shadows are disabled. */
   shadowFrustum?: THREE.Frustum | null;
+  /**
+   * True when every receiver the sun's shadow map serves lies inside the camera's own view (outdoors). Indoors a window's
+   * capture looks out in every direction with the same shadow map, so casters behind the camera stay.
+   */
+  shadowsForViewOnly?: boolean;
   reducedMotion: boolean;
   /** Game hour, 0..24. */
   hour: number;
@@ -58,8 +63,8 @@ export interface FrameContext {
 /** The common shape of a scene module. */
 export interface SceneModule {
   group: THREE.Group;
-  /** Full near-source tree populations for offline crown checks, independent of camera culling. */
-  canopyAuditTargets?(): CanopyAuditTarget[];
+  /** Full selected-LOD tree populations for offline crown checks, independent of camera culling. */
+  canopyAuditTargets?(lod?: number): CanopyAuditTarget[];
   /** Full static populations for offline placement checks, independent of camera culling. */
   placementAuditTargets?(): PlacementAuditTarget[];
   update(dt: number, f: FrameContext): void;

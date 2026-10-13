@@ -1,0 +1,98 @@
+{
+  "schema": 1,
+  "build": {
+    "version": "0.0.15",
+    "revision": "8fa270466"
+  },
+  "routes": [
+    {
+      "x": -7,
+      "z": 45,
+      "yaw": 0,
+      "grass": {
+        "grassInstances": 23549,
+        "grassTris": 1407663,
+        "grassDraws": 65,
+        "grassTiles": 178,
+        "grassMovers": 0
+      },
+      "patchedPrograms": 2,
+      "vertexEstimate": {
+        "indexedVertices": 888598,
+        "conservativeZeroWidthVertices": 245184,
+        "scope": "CPU estimate from native drawn tiles with boundary margins; not a GPU invocation counter"
+      },
+      "control": {
+        "drawCalls": 107,
+        "triangles": 1571979,
+        "uploadBytes": 0
+      },
+      "actual": {
+        "drawCalls": 107,
+        "triangles": 1571979,
+        "uploadBytes": 0
+      },
+      "identicalPixels": true
+    },
+    {
+      "x": -7,
+      "z": 45,
+      "yaw": 0.6,
+      "grass": {
+        "grassInstances": 23549,
+        "grassTris": 1407663,
+        "grassDraws": 65,
+        "grassTiles": 180,
+        "grassMovers": 0
+      },
+      "patchedPrograms": 0,
+      "vertexEstimate": {
+        "indexedVertices": 1005527,
+        "conservativeZeroWidthVertices": 327529,
+        "scope": "CPU estimate from native drawn tiles with boundary margins; not a GPU invocation counter"
+      },
+      "control": {
+        "drawCalls": 110,
+        "triangles": 1697222,
+        "uploadBytes": 0
+      },
+      "actual": {
+        "drawCalls": 110,
+        "triangles": 1697222,
+        "uploadBytes": 0
+      },
+      "identicalPixels": true
+    },
+    {
+      "x": 18,
+      "z": 20,
+      "yaw": 0,
+      "grass": {
+        "grassInstances": 23175,
+        "grassTris": 1415490,
+        "grassDraws": 72,
+        "grassTiles": 179,
+        "grassMovers": 0
+      },
+      "patchedPrograms": 0,
+      "vertexEstimate": {
+        "indexedVertices": 1214391,
+        "conservativeZeroWidthVertices": 556639,
+        "scope": "CPU estimate from native drawn tiles with boundary margins; not a GPU invocation counter"
+      },
+      "control": {
+        "drawCalls": 138,
+        "triangles": 1958874,
+        "uploadBytes": 0
+      },
+      "actual": {
+        "drawCalls": 138,
+        "triangles": 1958874,
+        "uploadBytes": 0
+      },
+      "identicalPixels": true
+    }
+  ],
+  "scope": "Frozen native grass shader A/B; counters and exact-image checks, not hardware GPU timings.",
+  "pass": true
+}

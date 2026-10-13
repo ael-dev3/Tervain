@@ -12,3 +12,42 @@ it('ignores unreferenced source vertices instead of flagging invisible debris',(
 
 it('keeps transitive crown connectivity at instance-scaled gap cutoffs',()=>{const t=fixture();t.leaves=mergeGeometries([.45,1.45,2.45].map(x=>new THREE.BoxGeometry(.5,.5,.5).translate(x,1,0)));expect(auditCanopies([t]).summary).toMatchObject({components:3,chunks:1,candidates:0});t.matrix.makeScale(2,2,2);expect(auditCanopies([t]).summary).toMatchObject({chunks:3,candidates:2});});
 it('collapses overlap cliques while retaining a detached crown cluster',()=>{const t=fixture();t.leaves=mergeGeometries([.4,.6,.8,4,4.2].map(x=>new THREE.BoxGeometry(.5,.5,.5).translate(x,1,0)));expect(auditCanopies([t]).summary).toMatchObject({components:5,chunks:2,candidates:1});});
+
+it('reports species coverage and the selected LOD separately from candidate counts', () => {
+  const pine = { ...fixture(4), species: 'pine', lod: 1 };
+  const fir = { ...fixture(), species: 'fir', lod: 1 };
+  const dead = { ...fixture(), species: 'dead', lod: 1, leaves: null };
+  const report = auditCanopies([pine, fir, dead], { lod: 1 });
+  expect(report.lod).toBe(1);
+  expect(report.bySpecies).toEqual({ pine: { trees: 1, leafless: 0, candidates: 1 }, fir: { trees: 1, leafless: 0, candidates: 0 }, dead: { trees: 1, leafless: 1, candidates: 0 } });
+  expect(() => auditCanopies([pine], { lod: 3 })).toThrow(/LOD/);
+  expect(() => auditCanopies([pine], { lod: 0 })).toThrow(/mismatch/);
+});
+it('does not treat the empty centre of a hollow leaf component as a wood contact', () => {
+  const wood = new THREE.BoxGeometry(.2, .2, .2), leaves = new THREE.RingGeometry(2, 2.2, 16);
+  try {
+    const r = auditCanopies([{ label: 'hollow', wood, leaves, matrix: new THREE.Matrix4() }]);
+    expect(r.summary).toMatchObject({ components: 1, chunks: 1, candidates: 1 });
+    // The actual ring can still attach through its rim; excluding phantom samples must not reject this contact.
+    wood.translate(2, 0, 0);
+    expect(auditCanopies([{ label: 'rim', wood, leaves, matrix: new THREE.Matrix4() }]).summary.candidates).toBe(0);
+  } finally { wood.dispose(); leaves.dispose(); }
+});
+it('retains a real face-interior contact when all sampled leaf vertices are far from the wood', () => {
+  const wood = new THREE.BoxGeometry(.2, .2, .2), leaves = new THREE.PlaneGeometry(4, 4);
+  try {
+    expect(auditCanopies([{ label: 'plane', wood, leaves, matrix: new THREE.Matrix4() }]).summary.candidates).toBe(0);
+  } finally { wood.dispose(); leaves.dispose(); }
+});
+it('alpha mode splits cards whose quads touch but whose opaque texels do not',()=>{const t=fixture();t.leaves=mergeGeometries([.5,2.5].map(x=>new THREE.PlaneGeometry(2,.5).translate(x,1,0)));t.cutout={uv:'uv',cutoff:.42,alpha:u=>u<.2?1:0};
+  expect(auditCanopies([t]).summary).toMatchObject({components:1,chunks:1,candidates:0});expect(auditCanopies([t],{alpha:true}).summary).toMatchObject({chunks:2,candidates:1});
+  t.cutout={uv:'uv',cutoff:.42,alpha:()=>0};expect(auditCanopies([t],{alpha:true}).summary).toMatchObject({components:0,candidates:0});});
+it('rejects equal-column-length shear and projective transforms instead of reporting complete coverage',()=>{
+  const t=fixture();
+  t.matrix.set(1,.6,0,0, 0,.8,0,0, 0,0,1,0, 0,0,0,1);
+  expect(()=>auditCanopies([t])).toThrow(/sheared/);
+  t.matrix.identity();t.matrix.elements[3]=.01;
+  expect(()=>auditCanopies([t])).toThrow(/non-affine/);
+  t.matrix.makeRotationY(.7).scale(new THREE.Vector3(-2,2,2));
+  expect(auditCanopies([t]).complete).toBe(true);
+});

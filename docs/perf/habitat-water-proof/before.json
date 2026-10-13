@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "baselineRef": "0b45a36",
+  "sourceSha256": "493eff3173a3f36e67465facfe68d00e14189f9fd581257f5a07d58f16dd8ad4",
+  "groundSplatSha256": "0cce5c9a846483d0c2f7d627c275c12dc7d917b100e7a26ef2bbc4313b867b1d",
+  "scope": "Production Habitat with actual terrain and stock exclusions, deterministic samples at four locations. Counts actual stream polyline evaluations only; not hardware timing or live stall attribution.",
+  "samples": 1920,
+  "tiles": 30,
+  "beforeChecks": 78030,
+  "afterChecks": 78030,
+  "unequalSamples": 0,
+  "comparedWords": 43350,
+  "unequalWords": 0,
+  "pass": false
+}
