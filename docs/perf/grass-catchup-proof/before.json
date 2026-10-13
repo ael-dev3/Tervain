@@ -1,0 +1,57 @@
+{
+  "steps": [
+    {
+      "step": 0,
+      "visible": 7,
+      "reserve": 0
+    },
+    {
+      "step": 1,
+      "visible": 0,
+      "reserve": 2
+    },
+    {
+      "step": 2,
+      "visible": 0,
+      "reserve": 2
+    },
+    {
+      "step": 3,
+      "visible": 0,
+      "reserve": 2
+    },
+    {
+      "step": 4,
+      "visible": 0,
+      "reserve": 2
+    },
+    {
+      "step": 5,
+      "visible": 0,
+      "reserve": 2
+    },
+    {
+      "step": 6,
+      "visible": 0,
+      "reserve": 2
+    },
+    {
+      "step": 7,
+      "visible": 0,
+      "reserve": 2
+    },
+    {
+      "step": 8,
+      "visible": 0,
+      "reserve": 2
+    }
+  ],
+  "reserveStarts": 16,
+  "nextFrameStarts": 2,
+  "clock": "fixed to isolate count limit; not a timing measurement",
+  "build": {
+    "version": "0.0.15",
+    "revision": "5353d2a41"
+  },
+  "pass": true
+}
