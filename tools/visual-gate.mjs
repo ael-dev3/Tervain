@@ -46,6 +46,8 @@ const SPOTS = {
   hill: { item: 'Trees: pines and crowns on the slope', hero: [-25.5, -117, Math.PI], hide: true, still: [[0, 1.7, 0, 0, 12, -8], [4, 1.7, 1, -1, 11, -8]], path: [[-5, 1.7, 0, 0, 11, -8], [5, 1.7, 0, 0, 11, -8]] },
   // Playtest 7, 0:31-0:33: the follow camera pressed into a trunk behind the hero must never show his hollow inside.
   clip: { item: 'Camera: pressed against a trunk behind the hero', hero: [-33.4, 62.5, Math.PI], still: [], run: 5000, keys: ['KeyS', 'KeyZ'] },
+  // Playtest 8: running through woodland at dusk with the follow camera, where crowns hand over between detail levels.
+  woods: { item: 'Trees: woodland in motion at dusk (detail hand-over, far crowns)', hero: [-40, 0, -Math.PI / 2], still: [], run: 7000 },
   sign: { item: 'Props: shop sign and supports', hero: [2, 38.5, Math.PI], hide: true, still: [[0, 1.7, 0, -1.6, 2.1, -3.7]], path: [[-2, 1.7, .5, -1.6, 2.1, -3.7], [2, 1.7, .5, -1.6, 2.1, -3.7]] },
 };
 const chosen = (args.spots ?? Object.keys(SPOTS).join(',')).split(',').filter((s) => SPOTS[s]);
