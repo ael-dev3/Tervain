@@ -218,3 +218,14 @@ describe('peaceful resident motion', () => {
     expect(npcGoalPosition(NPCS.ash_recorder, { anchor: 'ford_camp', activity: 'sit' }, ctx, 1.8)).toBe(ANCHORS.ford_camp);
   });
 });
+
+it('rechecks shared-goal clearance after a cached roster sees a new obstruction', () => {
+  const ctx = { terrain: flat, colliders: new Colliders() }, goal = { anchor: 'village_square', activity: 'stand' as const };
+  const before = npcGoalPosition(NPCS.rillford_reeve, goal, ctx, 1.8);
+  ctx.colliders.circle('new obstruction', before.x, before.z, .8);
+  const after = npcGoalPosition(NPCS.rillford_reeve, goal, ctx, 1.8);
+  expect(Math.hypot(after.x - before.x, after.z - before.z)).toBeGreaterThan(.01);
+  expect(ctx.colliders.blocked(after.x, after.z, .35)).toBe(false);
+  ctx.colliders.setActive('new obstruction', false);
+  expect(npcGoalPosition(NPCS.rillford_reeve, goal, ctx, 1.8)).toEqual(before);
+});
