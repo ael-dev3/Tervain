@@ -210,7 +210,9 @@ float gProfile = gLeaf * (1.0 - gStem - gFlower) + (0.22 + gHead * 2.3) * gStem 
 float gPxPerM = uGrassPx * projectionMatrix[1][1] * 0.5 / max(gDist, 0.5);
 float gBladePx = uClump.y * (0.6 + 0.75 * gR3) * gSizeComp * gPxPerM;
 float gHeadPx = gBladePx * 0.28 * max(gStem * 2.52, gFlower * 3.56);
-float gHeadCov = smoothstep(1.2, 3.5, gHeadPx);
+// Playtest 8: at dusk a pale petal was eight times brighter than its blade and, a pixel or two wide, flickered white as
+// the view moved. Heads need a few pixels to show and fade out with distance; petals tint their blade, never glare.
+float gHeadCov = smoothstep(2.0, 5.0, gHeadPx) * (1.0 - smoothstep(10.0, 18.0, gDist));
 float gBladeCov = smoothstep(0.8, 2.5, gBladePx);
 // The blade's face turns with its root angle, then partly toward the viewer so few blades are seen edge-on.
 float gFace = gAng + 1.5708 + (gR2 - 0.5) * 2.0;
@@ -243,9 +245,9 @@ gBase = mix(gBase, gStraw, max(gDry * 0.8, gStem * 0.62 * mix(0.45, 1.0, gHeadCo
 gBase = mix(gBase, gBase * vec3(1.14, 1.08, 0.8) + vec3(0.012, 0.01, 0.0), smoothstep(0.6, 1.0, gT) * uLook.y * mix(0.4, 1.0, gBladeCov));
 // Heather clumps (a reddish tint) bloom purple; elsewhere the flowers are white, yellow and violet.
 float gHeather = smoothstep(0.0, 0.035, aTint.r - aTint.g);
-vec3 gPetal = gR1 < 0.42 ? vec3(0.82, 0.8, 0.7) : gR1 < 0.74 ? vec3(0.86, 0.62, 0.1) : vec3(0.42, 0.2, 0.48);
+vec3 gPetal = gR1 < 0.42 ? vec3(0.5, 0.49, 0.42) : gR1 < 0.74 ? vec3(0.58, 0.44, 0.12) : vec3(0.36, 0.2, 0.4);
 gPetal = mix(gPetal, vec3(0.5, 0.22, 0.46) * (0.85 + 0.3 * gR2), gHeather);
-gBase = mix(gBase, gPetal * 0.75, gFlower * gBloom * gHeadCov);
+gBase = mix(gBase, gPetal * 0.62, gFlower * gBloom * gHeadCov * 0.85);
 float gRootShade = mix(uLook.x, 1.0, smoothstep(0.0, 0.7, gT));
 vGCol = gBase * gRootShade;
 // Light passes through the thin upper blade (the base is buried in the tuft) and sets seed heads and petals glowing;
@@ -335,7 +337,7 @@ export function createGrassMaterial(opts: GrassMaterialOptions): GrassMaterial {
       .replace('#include <lights_lambert_pars_fragment>', `#include <lights_lambert_pars_fragment>\n${GRASS_LIGHT_GLSL}`);
     opts.patch?.(shader);
   };
-  material.customProgramCacheKey = () => `tervain-grass-blades-v5${opts.patchKey ? `-${opts.patchKey}` : ''}`;
+  material.customProgramCacheKey = () => `tervain-grass-blades-v6${opts.patchKey ? `-${opts.patchKey}` : ''}`;
   return {
     material, uniforms, ok: () => !failed,
     setBand(b) { uniforms.uBand.value.set(b.inStart, b.inEnd, b.outStart, b.outEnd); },

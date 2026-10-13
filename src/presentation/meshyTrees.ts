@@ -384,6 +384,23 @@ export interface MeshyForest {
 export const CONIFER_LEAF_LIFT: Partial<Record<Species, THREE.Color>> = {
   fir: new THREE.Color(2.3, 2.45, 2.2), shorepine: new THREE.Color(2.3, 2.45, 2.2),
 };
+/**
+ * The fir's attached leaf atlas (8×8 cells) keeps a pale blue-green fern sheet in its top-right cell, unlike every other
+ * cell's dark needles; near firs mapped about a thousand card vertices onto it and, once conifers were lit (0.0.16), it
+ * read as a cyan patch in the crown (playtest 8). Those cards take the dense fir sprite two rows down instead.
+ */
+export function remapStrayFernCell(geometry: THREE.BufferGeometry): number {
+  const uv = geometry.getAttribute('uv') as THREE.BufferAttribute | undefined;
+  if (!uv) return 0;
+  let moved = 0;
+  for (let i = 0; i < uv.count; i++) {
+    const u = uv.getX(i), v = uv.getY(i);
+    if (u > 0.875 && v < 0.125) { uv.setY(i, v + 0.25); moved++; }
+  }
+  if (moved) uv.needsUpdate = true;
+  return moved;
+}
+
 /** Only source transforms, one uniform family scale and root translation; no crown/axis deformation. */
 export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
   const textures = new Map<THREE.Texture, THREE.Texture>(), materials = new Set<THREE.Material>(), geometries = new Set<THREE.BufferGeometry>();
@@ -442,6 +459,7 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
       const prepare = (part: Part | null, leaf: boolean) => {
         if (!part || leaf && species === 'dead') return null;
         const geometry = part.geometry.clone().applyMatrix4(part.matrix);
+        if (leaf && (species === 'fir' || species === 'shorepine')) remapStrayFernCell(geometry);
         geometry.translate(0, -bounds.min.y, 0).scale(scale, scale, scale);
         geometry.computeBoundingBox(); geometry.computeBoundingSphere();
         const p = geometry.getAttribute('position');
