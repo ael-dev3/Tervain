@@ -124,6 +124,8 @@ export interface PlayerPhysicsContacts {
   ceilingAt(x: number, z: number, radius: number, fromHeadY: number, toHeadY: number): number | null;
   /** Material of the support actually beneath the feet, so wood does not sound like masonry. */
   surfaceAt?(x: number, z: number, feetY: number): SurfaceKind | null;
+  /** Loose-body clearance along an airborne segment; padding encloses a curved path's chord error. */
+  propsBlockBodySweep?(from: { x: number; y: number; z: number }, to: { x: number; y: number; z: number }, padding: number): boolean;
 }
 
 /** The realm's water as the wanderer meets it: where it stands and moves, and what disturbing it does. */
@@ -735,6 +737,8 @@ export class Player {
       // The scripted arc bypasses ordinary movement collision: check body clearance before taking it.
       const ignored = new Set([c]); // Only this rail is crossed; neighboring fences still block the arc.
       const lift = vault.peak - Math.max(vault.from.y, vault.to.y);
+      // Smoothstep's maximum second derivative is six; enclose its horizontal deviation from each chord too.
+      const horizontalGuard = span * 6 / (8 * 20 * 20);
       let previous = vault.from;
       let clear = true;
       for (let i = 1; i <= 20; i++) {
@@ -746,7 +750,8 @@ export class Player {
         const arcGuard = Math.abs(lift) * Math.PI * Math.PI / (8 * 20 * 20);
         const bounds = { minY: Math.min(previous.y, next.y) + PLAYER_FOOT_CLEARANCE,
           maxY: Math.max(previous.y, next.y) + PLAYER_BODY_HEIGHT + arcGuard };
-        if (ctx.colliders.cast(previous.x, previous.z, next.x, next.z, PLAYER_RADIUS, ignored, bounds)) { clear = false; break; }
+        if (ctx.colliders.cast(previous.x, previous.z, next.x, next.z, PLAYER_RADIUS, ignored, bounds) ||
+          ctx.physics?.propsBlockBodySweep?.(previous, next, arcGuard + horizontalGuard)) { clear = false; break; }
         previous = next;
       }
       if (clear) return vault;
