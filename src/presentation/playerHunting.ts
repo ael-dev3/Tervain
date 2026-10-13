@@ -369,7 +369,7 @@ export class PlayerHuntingVisual {
   private chain(upper: THREE.Object3D | undefined, lower: THREE.Object3D | undefined, end: THREE.Object3D,
     target: THREE.Vector3, pole: THREE.Vector3): void {
     if (!upper || !lower || lower === end) return;
-    this.rig.root.updateMatrixWorld(true);
+    // World-position getters refresh their ancestor paths; no full hero walk is needed here.
     const start = upper.getWorldPosition(new THREE.Vector3()), middle = lower.getWorldPosition(new THREE.Vector3()), tip = end.getWorldPosition(new THREE.Vector3());
     const a = start.distanceTo(middle), b = middle.distanceTo(tip);
     if (a < .01 || b < .01) return;

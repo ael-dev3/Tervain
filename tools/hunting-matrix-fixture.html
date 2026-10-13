@@ -1,0 +1,20 @@
+<!doctype html><html><head><meta charset="utf-8"><style>body{margin:0}canvas{display:block}</style></head><body><script>window.addEventListener('error',e=>window.fixtureError=e.message);window.addEventListener('unhandledrejection',e=>window.fixtureError=String(e.reason));</script><script type="module">
+import * as THREE from 'three';
+import {createGltfLoader} from '/src/presentation/assets/gltfLoader.ts';
+import {createHeroRig} from '/src/presentation/hero/rig.ts';
+import {fitHeroFingers} from '/src/presentation/hero/fingerFit.ts';
+const mode=new URLSearchParams(location.search).get('mode');
+const {PlayerHuntingVisual}=await import(mode==='baseline'?'/@baseline-hunting':'/src/presentation/playerHunting.ts');
+const renderer=new THREE.WebGLRenderer({antialias:false});renderer.setSize(320,240);renderer.shadowMap.enabled=true;document.body.append(renderer.domElement);
+const scene=new THREE.Scene();scene.background=new THREE.Color(0xcccccc);scene.add(new THREE.AmbientLight(0xffffff,1));
+const light=new THREE.DirectionalLight(0xffffff,3);light.position.set(3,5,4);light.castShadow=true;light.shadow.mapSize.set(256,256);scene.add(light);
+const floor=new THREE.Mesh(new THREE.PlaneGeometry(12,12),new THREE.MeshStandardMaterial({color:0xaaaaaa}));floor.rotation.x=-Math.PI/2;floor.receiveShadow=true;scene.add(floor);
+const asset=await createGltfLoader().loadAsync('/models/hero/weathered-wanderer-hero-sealed.glb');fitHeroFingers(asset);const rig=createHeroRig(asset);scene.add(rig.root);const visual=new PlayerHuntingVisual(rig);
+const camera=new THREE.PerspectiveCamera(40,4/3,.01,100);camera.position.set(2,1.8,3.2);camera.lookAt(0,1,0);
+let multiplications=0;const multiply=THREE.Matrix4.prototype.multiplyMatrices;THREE.Matrix4.prototype.multiplyMatrices=function(...args){multiplications++;return multiply.apply(this,args);};
+const idle={mode:'idle',speed:0,time:0,t:0,amp:0,grounded:true,travel:0,moveSpeed:0};
+window.huntingMatrixRepro={report:{schema:1,mode,scope:'Delivered hero, production hunting overlay, 121 aim/draw/skin/slung/unequipped steps. Counts Matrix4 multiplications around pose generation; software WebGL colour and directional shadows. Not hardware timing or attribution of the tracked bow stall.',multiplications:0,poses:[]},step(i){multiplications=0;visual.restorePose();rig.root.position.set(.12*Math.sin(i/25),0,.1*Math.cos(i/27));rig.root.rotation.y=.15*Math.sin(i/30);rig.hero.pose({...idle,time:i/60},1/60,false);
+visual.setSkinning(i>=45&&i<90?(i-45+.5)/45:null,i/60,.4);visual.setEquipped(i!==90&&i<115);if(i<45)visual.setAim(new THREE.Vector3(.15*Math.sin(i/20),.1,1).normalize(),i/45);else visual.setAim(null);visual.apply(1/60);
+const poseMultiplications=multiplications;this.report.multiplications+=multiplications;rig.root.updateMatrixWorld(true);renderer.render(scene,camera);const transforms=[];rig.root.traverse(o=>transforms.push(...o.position.toArray(),...o.quaternion.toArray(),...o.scale.toArray(),...o.matrixWorld.elements));this.report.poses.push({i,phase:i<45?'bow':i<90?'skinning':i===90||i>=115?'unequipped':'slung',multiplications:poseMultiplications,transforms});}};
+window.huntingMatrixRepro.step(0);
+</script></body></html>
