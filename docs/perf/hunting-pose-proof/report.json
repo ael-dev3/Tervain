@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "baselineRef": "0b45a36",
+  "sourceSha256": "6878db6eb0fdec35ff41391fcec7688c98268f87323b4925bac1a6c8e8152d47",
+  "scope": "Delivered hero, production hunting overlay, 121 aim/draw/skin/slung/unequipped steps. Counts Vector3/Quaternion clones around pose generation; software WebGL colour and directional shadows. Not hardware timing or attribution of the tracked bow stall.",
+  "beforeClones": 6216,
+  "afterClones": 4236,
+  "poses": 121,
+  "poseDataIdentical": true,
+  "pixelDifferences": 0,
+  "pass": true
+}
