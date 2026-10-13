@@ -274,7 +274,7 @@ export class Habitat {
     // Plants grow where the ground layers say soil is: not on rock, wet sand or the sea bed; a little on dry dunes.
     {
       const w = this.scratch;
-      groundSplat(terrain, x, z, w, this.plantedCrowns, biome);
+      groundSplat(terrain, x, z, w, this.plantedCrowns, biome, undefined, undefined, road);
       const sd = shoreDistance(x, z);
       const dune = (1 - smoothstep(12, 44, sd)) * smoothstep(9, 16, sd);
       const soil = w[LAYER.grass]! + w[LAYER.heath]! + 0.55 * w[LAYER.earth]! + 0.4 * w[LAYER.sand]! * dune + 0.12 * w[LAYER.gravel]!;
