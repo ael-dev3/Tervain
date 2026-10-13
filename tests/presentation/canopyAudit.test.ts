@@ -12,3 +12,13 @@ it('ignores unreferenced source vertices instead of flagging invisible debris',(
 
 it('keeps transitive crown connectivity at instance-scaled gap cutoffs',()=>{const t=fixture();t.leaves=mergeGeometries([.45,1.45,2.45].map(x=>new THREE.BoxGeometry(.5,.5,.5).translate(x,1,0)));expect(auditCanopies([t]).summary).toMatchObject({components:3,chunks:1,candidates:0});t.matrix.makeScale(2,2,2);expect(auditCanopies([t]).summary).toMatchObject({chunks:3,candidates:2});});
 it('collapses overlap cliques while retaining a detached crown cluster',()=>{const t=fixture();t.leaves=mergeGeometries([.4,.6,.8,4,4.2].map(x=>new THREE.BoxGeometry(.5,.5,.5).translate(x,1,0)));expect(auditCanopies([t]).summary).toMatchObject({components:5,chunks:2,candidates:1});});
+
+it('rejects equal-column-length shear and projective transforms instead of reporting complete coverage',()=>{
+  const t=fixture();
+  t.matrix.set(1,.6,0,0, 0,.8,0,0, 0,0,1,0, 0,0,0,1);
+  expect(()=>auditCanopies([t])).toThrow(/sheared/);
+  t.matrix.identity();t.matrix.elements[3]=.01;
+  expect(()=>auditCanopies([t])).toThrow(/non-affine/);
+  t.matrix.makeRotationY(.7).scale(new THREE.Vector3(-2,2,2));
+  expect(auditCanopies([t]).complete).toBe(true);
+});

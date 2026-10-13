@@ -1,0 +1,43 @@
+{
+  "schema": 1,
+  "baselineRef": "0b45a36",
+  "sourceSha256": "e59f80e748ca022b96910d0b9784148284eeb9b45e0ae97a5f2f4e54566efece",
+  "scope": "Controlled canopy audit transform validation. No claim that current authored trees use these unsupported transforms; no rendering change.",
+  "cases": {
+    "shear": {
+      "before": {
+        "accepted": true,
+        "complete": true,
+        "candidates": 0
+      },
+      "after": {
+        "accepted": false,
+        "error": "Unsupported sheared canopy transform"
+      }
+    },
+    "projective": {
+      "before": {
+        "accepted": true,
+        "complete": true,
+        "candidates": 0
+      },
+      "after": {
+        "accepted": false,
+        "error": "Unsupported non-affine canopy transform"
+      }
+    },
+    "uniform": {
+      "before": {
+        "accepted": true,
+        "complete": true,
+        "candidates": 0
+      },
+      "after": {
+        "accepted": true,
+        "complete": true,
+        "candidates": 0
+      }
+    }
+  },
+  "pass": true
+}
