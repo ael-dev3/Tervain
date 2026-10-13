@@ -32,6 +32,17 @@ describe('peaceful animated land wildlife', () => {
     expect(ANIMALS.filter(animal => animal.habitat === 'warm-woodland').map(animal => animal.species)).toEqual(['tiger', 'lion']);
   });
 
+  it('validates source weights again for each fresh build, but not twice inside one build', () => {
+    const source = animalFixture(), terrain = new Terrain(), colliders = buildStaticColliders(terrain);
+    const skin = source.scene.children.find(object => (object as THREE.SkinnedMesh).isSkinnedMesh) as THREE.SkinnedMesh;
+    const weights = skin.geometry.getAttribute('skinWeight'), reads = vi.spyOn(weights, 'getComponent');
+    const module = buildAnimals({ terrain, colliders, quality: 'low' }, new Map([[dog.id, source]]), [dog], () => {});
+    try { expect(module.snapshot()).toHaveLength(1); expect(reads).toHaveBeenCalledTimes(weights.count * 4); }
+    finally { module.dispose?.(); }
+    weights.setX(0, .3);
+    expect(() => buildAnimals({ terrain, colliders, quality: 'low' }, new Map([[dog.id, source]]), [dog], () => {})).toThrow(/normalized/);
+  });
+
   it('rejects missing motion, unskinned art, malformed weights and complete models over 50k triangles', () => {
     const source = animalFixture(); expect(validateAnimalTemplate(source, dog).triangles).toBe(12);
     expect(() => validateAnimalTemplate({ ...source, animations: source.animations.filter(clip => clip.name !== 'Run') }, dog)).toThrow(/Run/);
