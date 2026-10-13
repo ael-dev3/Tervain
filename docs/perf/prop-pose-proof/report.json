@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "baselineRef": "0b45a36",
+  "sourceSha256": "ad59e54b8da66d50a66866c3e671a5792d4c5acf522599901fd7760acf4559bb",
+  "scope": "Actual Rapier props, 240 variable-cadence updates, both interpolation modes. Counts cover three temporary plain records created by poseOf, excluding Rapier-returned objects and final output records; not measured heap bytes or frame timing.",
+  "props": 9,
+  "comparedPoses": 4320,
+  "beforeTemporaryRecords": 12960,
+  "afterTemporaryRecords": 0,
+  "exactValues": true,
+  "independentPlainOutputs": true,
+  "pass": true
+}

@@ -565,16 +565,16 @@ export class RealmPhysics {
   poses(interpolate = true): PropPose[] {
     const alpha = interpolate ? Math.max(0, Math.min(1, this.accumulated / STEP)) : 1;
     return this.props.map(p => {
-      const now = this.poseOf(p.spec.id, p.body);
+      const position = p.body.translation(), rotation = p.body.rotation();
       // Shortest-path normalized quaternion blend also smooths tumbling at high display refresh rates.
-      const a = p.previous.rotation, b = now.rotation;
+      const a = p.previous.rotation, b = rotation;
       const sign = a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w < 0 ? -1 : 1;
       const q = { x: a.x + (sign * b.x - a.x) * alpha, y: a.y + (sign * b.y - a.y) * alpha,
         z: a.z + (sign * b.z - a.z) * alpha, w: a.w + (sign * b.w - a.w) * alpha };
       const norm = Math.hypot(q.x, q.y, q.z, q.w) || 1;
       q.x /= norm; q.y /= norm; q.z /= norm; q.w /= norm;
-      return { ...now, position: { x: p.previous.position.x + (now.position.x - p.previous.position.x) * alpha,
-        y: p.previous.position.y + (now.position.y - p.previous.position.y) * alpha, z: p.previous.position.z + (now.position.z - p.previous.position.z) * alpha }, rotation: q };
+      return { id: p.spec.id, sleeping: p.body.isSleeping(), position: { x: p.previous.position.x + (position.x - p.previous.position.x) * alpha,
+        y: p.previous.position.y + (position.y - p.previous.position.y) * alpha, z: p.previous.position.z + (position.z - p.previous.position.z) * alpha }, rotation: q };
     });
   }
   snapshot() { return this.poses(false); }
