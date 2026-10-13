@@ -1,3 +1,4 @@
+import type { CanopyAuditTarget } from '../diagnostics/canopyAudit';
 import type { PlacementAuditTarget } from '../diagnostics/placementAudit';
 import type * as THREE from 'three';
 import type { Settings } from '../platform/settings';
@@ -57,6 +58,8 @@ export interface FrameContext {
 /** The common shape of a scene module. */
 export interface SceneModule {
   group: THREE.Group;
+  /** Full near-source tree populations for offline crown checks, independent of camera culling. */
+  canopyAuditTargets?(): CanopyAuditTarget[];
   /** Full static populations for offline placement checks, independent of camera culling. */
   placementAuditTargets?(): PlacementAuditTarget[];
   update(dt: number, f: FrameContext): void;

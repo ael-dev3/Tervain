@@ -2967,6 +2967,19 @@ export class App {
   }
 
   /** Explicit offline diagnostic; imported only when requested and never called during ordinary play. */
+  /** Offline crown connectivity candidates from the complete registered forest, not rendered instance counts. */
+  async auditCanopies(options: import('./diagnostics/canopyAudit').CanopyAuditOptions = {}) {
+    const world = this.world;
+    if (!world) throw new Error('No world for canopy audit');
+    const { auditCanopies } = await import('./diagnostics/canopyAudit');
+    const forest = world.modules.find(m => m.name === 'forest')?.module as
+      import('./presentation/context').SceneModule & { counts?: { trees: number } } | undefined;
+    const expectedTrees = forest?.counts?.trees;
+    const report = auditCanopies(forest?.canopyAuditTargets?.() ?? [], options);
+    return { ...report, expectedTrees, revision: REVISION, version: GAME_VERSION,
+      complete: report.complete && Number.isInteger(expectedTrees) && expectedTrees! > 0 && report.summary.trees === expectedTrees };
+  }
+
   async auditPlacement(options: import('./diagnostics/placementAudit').PlacementAuditOptions = {}) {
     const world = this.world;
     if (!world) throw new Error('Start a journey before auditing placement.');
