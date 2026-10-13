@@ -1,0 +1,931 @@
+{
+  "baselineRef": "9ab40b387",
+  "scope": "Native arrow geometry, patched lit materials and shadow passes in isolated SwiftShader renders. Repeated release/clear workload; not whole-game frame timing or proof of first-shot hitch removal.",
+  "softwareWebGL": true,
+  "shots": 30,
+  "frames": 90,
+  "visibleFrames": 90,
+  "before": {
+    "geometries": 150,
+    "materials": 90,
+    "uploadBytes": 75000,
+    "drawCalls": 2943,
+    "triangles": 21846,
+    "disposals": 200
+  },
+  "after": {
+    "geometries": 5,
+    "materials": 3,
+    "uploadBytes": 2500,
+    "drawCalls": 2943,
+    "triangles": 21846,
+    "disposals": 0
+  },
+  "afterClearDisposals": 0,
+  "afterDisposeDisposals": 8,
+  "changedChannels": 0,
+  "poseDifferences": 0,
+  "rows": [
+    {
+      "frame": 0,
+      "beforeUploads": 2500,
+      "afterUploads": 2500,
+      "beforeDraws": 11,
+      "afterDraws": 11,
+      "beforeTriangles": 78,
+      "afterTriangles": 78,
+      "changedChannels": 0
+    },
+    {
+      "frame": 1,
+      "beforeUploads": 0,
+      "afterUploads": 0,
+      "beforeDraws": 11,
+      "afterDraws": 11,
+      "beforeTriangles": 78,
+      "afterTriangles": 78,
+      "changedChannels": 0
+    },
+    {
+      "frame": 2,
+      "beforeUploads": 0,
+      "afterUploads": 0,
+      "beforeDraws": 11,
+      "afterDraws": 11,
+      "beforeTriangles": 78,
+      "afterTriangles": 78,
+      "changedChannels": 0
+    },
+    {
+      "frame": 3,
+      "beforeUploads": 2500,
+      "afterUploads": 0,
+      "beforeDraws": 21,
+      "afterDraws": 21,
+      "beforeTriangles": 154,
+      "afterTriangles": 154,
+      "changedChannels": 0
+    },
+    {
+      "frame": 4,
+      "beforeUploads": 0,
+      "afterUploads": 0,
+      "beforeDraws": 21,
+      "afterDraws": 21,
+      "beforeTriangles": 154,
+      "afterTriangles": 154,
+      "changedChannels": 0
+    },
+    {
+      "frame": 5,
+      "beforeUploads": 0,
+      "afterUploads": 0,
+      "beforeDraws": 21,
+      "afterDraws": 21,
+      "beforeTriangles": 154,
+      "afterTriangles": 154,
+      "changedChannels": 0
+    },
+    {
+      "frame": 6,
+      "beforeUploads": 2500,
+      "afterUploads": 0,
+      "beforeDraws": 31,
+      "afterDraws": 31,
+      "beforeTriangles": 230,
+      "afterTriangles": 230,
+      "changedChannels": 0
+    },
+    {
+      "frame": 7,
+      "beforeUploads": 0,
+      "afterUploads": 0,
+      "beforeDraws": 31,
+      "afterDraws": 31,
+      "beforeTriangles": 230,
+      "afterTriangles": 230,
+      "changedChannels": 0
+    },
+    {
+      "frame": 8,
+      "beforeUploads": 0,
+      "afterUploads": 0,
+      "beforeDraws": 31,
+      "afterDraws": 31,
+      "beforeTriangles": 230,
+      "afterTriangles": 230,
+      "changedChannels": 0
+    },
+    {
+      "frame": 9,
+      "beforeUploads": 2500,
+      "afterUploads": 0,
+      "beforeDraws": 41,
+      "afterDraws": 41,
+      "beforeTriangles": 306,
+      "afterTriangles": 306,
+      "changedChannels": 0
+    },
+    {
+      "frame": 10,
+      "beforeUploads": 0,
+      "afterUploads": 0,
+      "beforeDraws": 41,
+      "afterDraws": 41,
+      "beforeTriangles": 306,
+      "afterTriangles": 306,
+      "changedChannels": 0
+    },
+    {
+      "frame": 11,
+      "beforeUploads": 0,
+      "afterUploads": 0,
+      "beforeDraws": 41,
+      "afterDraws": 41,
+      "beforeTriangles": 306,
+      "afterTriangles": 306,
+      "changedChannels": 0
+    },
+    {
+      "frame": 12,
+      "beforeUploads": 2500,
+      "afterUploads": 0,
+      "beforeDraws": 51,
+      "afterDraws": 51,
+      "beforeTriangles": 382,
+      "afterTriangles": 382,
+      "changedChannels": 0
+    },
+    {
+      "frame": 13,
+      "beforeUploads": 0,
+      "afterUploads": 0,
+      "beforeDraws": 51,
+      "afterDraws": 51,
+      "beforeTriangles": 382,
+      "afterTriangles": 382,
+      "changedChannels": 0
+    },
+    {
+      "frame": 14,
+      "beforeUploads": 0,
+      "afterUploads": 0,
+      "beforeDraws": 51,
+      "afterDraws": 51,
+      "beforeTriangles": 382,
+      "afterTriangles": 382,
+      "changedChannels": 0
+    },
+    {
+      "frame": 15,
+      "beforeUploads": 2500,
+      "afterUploads": 0,
+      "beforeDraws": 11,
+      "afterDraws": 11,
+      "beforeTriangles": 78,
+      "afterTriangles": 78,
+      "changedChannels": 0
+    },
+    {
+      "frame": 16,
+      "beforeUploads": 0,
+      "afterUploads": 0,
+      "beforeDraws": 11,
+      "afterDraws": 11,
+      "beforeTriangles": 78,
+      "afterTriangles": 78,
+      "changedChannels": 0
+    },
+    {
+      "frame": 17,
+      "beforeUploads": 0,
+      "afterUploads": 0,
+      "beforeDraws": 11,
+      "afterDraws": 11,
+      "beforeTriangles": 78,
+      "afterTriangles": 78,
+      "changedChannels": 0
+    },
+    {
+      "frame": 18,
+      "beforeUploads": 2500,
+      "afterUploads": 0,
+      "beforeDraws": 21,
+      "afterDraws": 21,
+      "beforeTriangles": 154,
+      "afterTriangles": 154,
+      "changedChannels": 0
+    },
+    {
+      "frame": 19,
+      "beforeUploads": 0,
+      "afterUploads": 0,
+      "beforeDraws": 21,
+      "afterDraws": 21,
+      "beforeTriangles": 154,
+      "afterTriangles": 154,
+      "changedChannels": 0
+    },
+    {
+      "frame": 20,
+      "beforeUploads": 0,
+      "afterUploads": 0,
+      "beforeDraws": 21,
+      "afterDraws": 21,
+      "beforeTriangles": 154,
+      "afterTriangles": 154,
+      "changedChannels": 0
+    },
+    {
+      "frame": 21,
+      "beforeUploads": 2500,
+      "afterUploads": 0,
+      "beforeDraws": 31,
+      "afterDraws": 31,
+      "beforeTriangles": 230,
+      "afterTriangles": 230,
+      "changedChannels": 0
+    },
+    {
+      "frame": 22,
+      "beforeUploads": 0,
+      "afterUploads": 0,
+      "beforeDraws": 31,
+      "afterDraws": 31,
+      "beforeTriangles": 230,
+      "afterTriangles": 230,
+      "changedChannels": 0
+    },
+    {
+      "frame": 23,
+      "beforeUploads": 0,
+      "afterUploads": 0,
+      "beforeDraws": 31,
+      "afterDraws": 31,
+      "beforeTriangles": 230,
+      "afterTriangles": 230,
+      "changedChannels": 0
+    },
+    {
+      "frame": 24,
+      "beforeUploads": 2500,
+      "afterUploads": 0,
+      "beforeDraws": 41,
+      "afterDraws": 41,
+      "beforeTriangles": 306,
+      "afterTriangles": 306,
+      "changedChannels": 0
+    },
+    {
+      "frame": 25,
+      "beforeUploads": 0,
+      "afterUploads": 0,
+      "beforeDraws": 41,
+      "afterDraws": 41,
+      "beforeTriangles": 306,
+      "afterTriangles": 306,
+      "changedChannels": 0
+    },
+    {
+      "frame": 26,
+      "beforeUploads": 0,
+      "afterUploads": 0,
+      "beforeDraws": 41,
+      "afterDraws": 41,
+      "beforeTriangles": 306,
+      "afterTriangles": 306,
+      "changedChannels": 0
+    },
+    {
+      "frame": 27,
+      "beforeUploads": 2500,
+      "afterUploads": 0,
+      "beforeDraws": 51,
+      "afterDraws": 51,
+      "beforeTriangles": 382,
+      "afterTriangles": 382,
+      "changedChannels": 0
+    },
+    {
+      "frame": 28,
+      "beforeUploads": 0,
+      "afterUploads": 0,
+      "beforeDraws": 51,
+      "afterDraws": 51,
+      "beforeTriangles": 382,
+      "afterTriangles": 382,
+      "changedChannels": 0
+    },
+    {
+      "frame": 29,
+      "beforeUploads": 0,
+      "afterUploads": 0,
+      "beforeDraws": 51,
+      "afterDraws": 51,
+      "beforeTriangles": 382,
+      "afterTriangles": 382,
+      "changedChannels": 0
+    },
+    {
+      "frame": 30,
+      "beforeUploads": 2500,
+      "afterUploads": 0,
+      "beforeDraws": 11,
+      "afterDraws": 11,
+      "beforeTriangles": 78,
+      "afterTriangles": 78,
+      "changedChannels": 0
+    },
+    {
+      "frame": 31,
+      "beforeUploads": 0,
+      "afterUploads": 0,
+      "beforeDraws": 11,
+      "afterDraws": 11,
+      "beforeTriangles": 78,
+      "afterTriangles": 78,
+      "changedChannels": 0
+    },
+    {
+      "frame": 32,
+      "beforeUploads": 0,
+      "afterUploads": 0,
+      "beforeDraws": 11,
+      "afterDraws": 11,
+      "beforeTriangles": 78,
+      "afterTriangles": 78,
+      "changedChannels": 0
+    },
+    {
+      "frame": 33,
+      "beforeUploads": 2500,
+      "afterUploads": 0,
+      "beforeDraws": 21,
+      "afterDraws": 21,
+      "beforeTriangles": 154,
+      "afterTriangles": 154,
+      "changedChannels": 0
+    },
+    {
+      "frame": 34,
+      "beforeUploads": 0,
+      "afterUploads": 0,
+      "beforeDraws": 21,
+      "afterDraws": 21,
+      "beforeTriangles": 154,
+      "afterTriangles": 154,
+      "changedChannels": 0
+    },
+    {
+      "frame": 35,
+      "beforeUploads": 0,
+      "afterUploads": 0,
+      "beforeDraws": 21,
+      "afterDraws": 21,
+      "beforeTriangles": 154,
+      "afterTriangles": 154,
+      "changedChannels": 0
+    },
+    {
+      "frame": 36,
+      "beforeUploads": 2500,
+      "afterUploads": 0,
+      "beforeDraws": 31,
+      "afterDraws": 31,
+      "beforeTriangles": 230,
+      "afterTriangles": 230,
+      "changedChannels": 0
+    },
+    {
+      "frame": 37,
+      "beforeUploads": 0,
+      "afterUploads": 0,
+      "beforeDraws": 31,
+      "afterDraws": 31,
+      "beforeTriangles": 230,
+      "afterTriangles": 230,
+      "changedChannels": 0
+    },
+    {
+      "frame": 38,
+      "beforeUploads": 0,
+      "afterUploads": 0,
+      "beforeDraws": 31,
+      "afterDraws": 31,
+      "beforeTriangles": 230,
+      "afterTriangles": 230,
+      "changedChannels": 0
+    },
+    {
+      "frame": 39,
+      "beforeUploads": 2500,
+      "afterUploads": 0,
+      "beforeDraws": 41,
+      "afterDraws": 41,
+      "beforeTriangles": 306,
+      "afterTriangles": 306,
+      "changedChannels": 0
+    },
+    {
+      "frame": 40,
+      "beforeUploads": 0,
+      "afterUploads": 0,
+      "beforeDraws": 41,
+      "afterDraws": 41,
+      "beforeTriangles": 306,
+      "afterTriangles": 306,
+      "changedChannels": 0
+    },
+    {
+      "frame": 41,
+      "beforeUploads": 0,
+      "afterUploads": 0,
+      "beforeDraws": 41,
+      "afterDraws": 41,
+      "beforeTriangles": 306,
+      "afterTriangles": 306,
+      "changedChannels": 0
+    },
+    {
+      "frame": 42,
+      "beforeUploads": 2500,
+      "afterUploads": 0,
+      "beforeDraws": 51,
+      "afterDraws": 51,
+      "beforeTriangles": 382,
+      "afterTriangles": 382,
+      "changedChannels": 0
+    },
+    {
+      "frame": 43,
+      "beforeUploads": 0,
+      "afterUploads": 0,
+      "beforeDraws": 51,
+      "afterDraws": 51,
+      "beforeTriangles": 382,
+      "afterTriangles": 382,
+      "changedChannels": 0
+    },
+    {
+      "frame": 44,
+      "beforeUploads": 0,
+      "afterUploads": 0,
+      "beforeDraws": 51,
+      "afterDraws": 51,
+      "beforeTriangles": 382,
+      "afterTriangles": 382,
+      "changedChannels": 0
+    },
+    {
+      "frame": 45,
+      "beforeUploads": 2500,
+      "afterUploads": 0,
+      "beforeDraws": 11,
+      "afterDraws": 11,
+      "beforeTriangles": 78,
+      "afterTriangles": 78,
+      "changedChannels": 0
+    },
+    {
+      "frame": 46,
+      "beforeUploads": 0,
+      "afterUploads": 0,
+      "beforeDraws": 11,
+      "afterDraws": 11,
+      "beforeTriangles": 78,
+      "afterTriangles": 78,
+      "changedChannels": 0
+    },
+    {
+      "frame": 47,
+      "beforeUploads": 0,
+      "afterUploads": 0,
+      "beforeDraws": 11,
+      "afterDraws": 11,
+      "beforeTriangles": 78,
+      "afterTriangles": 78,
+      "changedChannels": 0
+    },
+    {
+      "frame": 48,
+      "beforeUploads": 2500,
+      "afterUploads": 0,
+      "beforeDraws": 21,
+      "afterDraws": 21,
+      "beforeTriangles": 154,
+      "afterTriangles": 154,
+      "changedChannels": 0
+    },
+    {
+      "frame": 49,
+      "beforeUploads": 0,
+      "afterUploads": 0,
+      "beforeDraws": 21,
+      "afterDraws": 21,
+      "beforeTriangles": 154,
+      "afterTriangles": 154,
+      "changedChannels": 0
+    },
+    {
+      "frame": 50,
+      "beforeUploads": 0,
+      "afterUploads": 0,
+      "beforeDraws": 21,
+      "afterDraws": 21,
+      "beforeTriangles": 154,
+      "afterTriangles": 154,
+      "changedChannels": 0
+    },
+    {
+      "frame": 51,
+      "beforeUploads": 2500,
+      "afterUploads": 0,
+      "beforeDraws": 31,
+      "afterDraws": 31,
+      "beforeTriangles": 230,
+      "afterTriangles": 230,
+      "changedChannels": 0
+    },
+    {
+      "frame": 52,
+      "beforeUploads": 0,
+      "afterUploads": 0,
+      "beforeDraws": 31,
+      "afterDraws": 31,
+      "beforeTriangles": 230,
+      "afterTriangles": 230,
+      "changedChannels": 0
+    },
+    {
+      "frame": 53,
+      "beforeUploads": 0,
+      "afterUploads": 0,
+      "beforeDraws": 31,
+      "afterDraws": 31,
+      "beforeTriangles": 230,
+      "afterTriangles": 230,
+      "changedChannels": 0
+    },
+    {
+      "frame": 54,
+      "beforeUploads": 2500,
+      "afterUploads": 0,
+      "beforeDraws": 41,
+      "afterDraws": 41,
+      "beforeTriangles": 306,
+      "afterTriangles": 306,
+      "changedChannels": 0
+    },
+    {
+      "frame": 55,
+      "beforeUploads": 0,
+      "afterUploads": 0,
+      "beforeDraws": 41,
+      "afterDraws": 41,
+      "beforeTriangles": 306,
+      "afterTriangles": 306,
+      "changedChannels": 0
+    },
+    {
+      "frame": 56,
+      "beforeUploads": 0,
+      "afterUploads": 0,
+      "beforeDraws": 41,
+      "afterDraws": 41,
+      "beforeTriangles": 306,
+      "afterTriangles": 306,
+      "changedChannels": 0
+    },
+    {
+      "frame": 57,
+      "beforeUploads": 2500,
+      "afterUploads": 0,
+      "beforeDraws": 51,
+      "afterDraws": 51,
+      "beforeTriangles": 382,
+      "afterTriangles": 382,
+      "changedChannels": 0
+    },
+    {
+      "frame": 58,
+      "beforeUploads": 0,
+      "afterUploads": 0,
+      "beforeDraws": 51,
+      "afterDraws": 51,
+      "beforeTriangles": 382,
+      "afterTriangles": 382,
+      "changedChannels": 0
+    },
+    {
+      "frame": 59,
+      "beforeUploads": 0,
+      "afterUploads": 0,
+      "beforeDraws": 51,
+      "afterDraws": 51,
+      "beforeTriangles": 382,
+      "afterTriangles": 382,
+      "changedChannels": 0
+    },
+    {
+      "frame": 60,
+      "beforeUploads": 2500,
+      "afterUploads": 0,
+      "beforeDraws": 11,
+      "afterDraws": 11,
+      "beforeTriangles": 78,
+      "afterTriangles": 78,
+      "changedChannels": 0
+    },
+    {
+      "frame": 61,
+      "beforeUploads": 0,
+      "afterUploads": 0,
+      "beforeDraws": 11,
+      "afterDraws": 11,
+      "beforeTriangles": 78,
+      "afterTriangles": 78,
+      "changedChannels": 0
+    },
+    {
+      "frame": 62,
+      "beforeUploads": 0,
+      "afterUploads": 0,
+      "beforeDraws": 11,
+      "afterDraws": 11,
+      "beforeTriangles": 78,
+      "afterTriangles": 78,
+      "changedChannels": 0
+    },
+    {
+      "frame": 63,
+      "beforeUploads": 2500,
+      "afterUploads": 0,
+      "beforeDraws": 21,
+      "afterDraws": 21,
+      "beforeTriangles": 154,
+      "afterTriangles": 154,
+      "changedChannels": 0
+    },
+    {
+      "frame": 64,
+      "beforeUploads": 0,
+      "afterUploads": 0,
+      "beforeDraws": 21,
+      "afterDraws": 21,
+      "beforeTriangles": 154,
+      "afterTriangles": 154,
+      "changedChannels": 0
+    },
+    {
+      "frame": 65,
+      "beforeUploads": 0,
+      "afterUploads": 0,
+      "beforeDraws": 21,
+      "afterDraws": 21,
+      "beforeTriangles": 154,
+      "afterTriangles": 154,
+      "changedChannels": 0
+    },
+    {
+      "frame": 66,
+      "beforeUploads": 2500,
+      "afterUploads": 0,
+      "beforeDraws": 31,
+      "afterDraws": 31,
+      "beforeTriangles": 230,
+      "afterTriangles": 230,
+      "changedChannels": 0
+    },
+    {
+      "frame": 67,
+      "beforeUploads": 0,
+      "afterUploads": 0,
+      "beforeDraws": 31,
+      "afterDraws": 31,
+      "beforeTriangles": 230,
+      "afterTriangles": 230,
+      "changedChannels": 0
+    },
+    {
+      "frame": 68,
+      "beforeUploads": 0,
+      "afterUploads": 0,
+      "beforeDraws": 31,
+      "afterDraws": 31,
+      "beforeTriangles": 230,
+      "afterTriangles": 230,
+      "changedChannels": 0
+    },
+    {
+      "frame": 69,
+      "beforeUploads": 2500,
+      "afterUploads": 0,
+      "beforeDraws": 41,
+      "afterDraws": 41,
+      "beforeTriangles": 306,
+      "afterTriangles": 306,
+      "changedChannels": 0
+    },
+    {
+      "frame": 70,
+      "beforeUploads": 0,
+      "afterUploads": 0,
+      "beforeDraws": 41,
+      "afterDraws": 41,
+      "beforeTriangles": 306,
+      "afterTriangles": 306,
+      "changedChannels": 0
+    },
+    {
+      "frame": 71,
+      "beforeUploads": 0,
+      "afterUploads": 0,
+      "beforeDraws": 41,
+      "afterDraws": 41,
+      "beforeTriangles": 306,
+      "afterTriangles": 306,
+      "changedChannels": 0
+    },
+    {
+      "frame": 72,
+      "beforeUploads": 2500,
+      "afterUploads": 0,
+      "beforeDraws": 51,
+      "afterDraws": 51,
+      "beforeTriangles": 382,
+      "afterTriangles": 382,
+      "changedChannels": 0
+    },
+    {
+      "frame": 73,
+      "beforeUploads": 0,
+      "afterUploads": 0,
+      "beforeDraws": 51,
+      "afterDraws": 51,
+      "beforeTriangles": 382,
+      "afterTriangles": 382,
+      "changedChannels": 0
+    },
+    {
+      "frame": 74,
+      "beforeUploads": 0,
+      "afterUploads": 0,
+      "beforeDraws": 51,
+      "afterDraws": 51,
+      "beforeTriangles": 382,
+      "afterTriangles": 382,
+      "changedChannels": 0
+    },
+    {
+      "frame": 75,
+      "beforeUploads": 2500,
+      "afterUploads": 0,
+      "beforeDraws": 11,
+      "afterDraws": 11,
+      "beforeTriangles": 78,
+      "afterTriangles": 78,
+      "changedChannels": 0
+    },
+    {
+      "frame": 76,
+      "beforeUploads": 0,
+      "afterUploads": 0,
+      "beforeDraws": 11,
+      "afterDraws": 11,
+      "beforeTriangles": 78,
+      "afterTriangles": 78,
+      "changedChannels": 0
+    },
+    {
+      "frame": 77,
+      "beforeUploads": 0,
+      "afterUploads": 0,
+      "beforeDraws": 11,
+      "afterDraws": 11,
+      "beforeTriangles": 78,
+      "afterTriangles": 78,
+      "changedChannels": 0
+    },
+    {
+      "frame": 78,
+      "beforeUploads": 2500,
+      "afterUploads": 0,
+      "beforeDraws": 21,
+      "afterDraws": 21,
+      "beforeTriangles": 154,
+      "afterTriangles": 154,
+      "changedChannels": 0
+    },
+    {
+      "frame": 79,
+      "beforeUploads": 0,
+      "afterUploads": 0,
+      "beforeDraws": 21,
+      "afterDraws": 21,
+      "beforeTriangles": 154,
+      "afterTriangles": 154,
+      "changedChannels": 0
+    },
+    {
+      "frame": 80,
+      "beforeUploads": 0,
+      "afterUploads": 0,
+      "beforeDraws": 21,
+      "afterDraws": 21,
+      "beforeTriangles": 154,
+      "afterTriangles": 154,
+      "changedChannels": 0
+    },
+    {
+      "frame": 81,
+      "beforeUploads": 2500,
+      "afterUploads": 0,
+      "beforeDraws": 31,
+      "afterDraws": 31,
+      "beforeTriangles": 230,
+      "afterTriangles": 230,
+      "changedChannels": 0
+    },
+    {
+      "frame": 82,
+      "beforeUploads": 0,
+      "afterUploads": 0,
+      "beforeDraws": 31,
+      "afterDraws": 31,
+      "beforeTriangles": 230,
+      "afterTriangles": 230,
+      "changedChannels": 0
+    },
+    {
+      "frame": 83,
+      "beforeUploads": 0,
+      "afterUploads": 0,
+      "beforeDraws": 31,
+      "afterDraws": 31,
+      "beforeTriangles": 230,
+      "afterTriangles": 230,
+      "changedChannels": 0
+    },
+    {
+      "frame": 84,
+      "beforeUploads": 2500,
+      "afterUploads": 0,
+      "beforeDraws": 41,
+      "afterDraws": 41,
+      "beforeTriangles": 306,
+      "afterTriangles": 306,
+      "changedChannels": 0
+    },
+    {
+      "frame": 85,
+      "beforeUploads": 0,
+      "afterUploads": 0,
+      "beforeDraws": 41,
+      "afterDraws": 41,
+      "beforeTriangles": 306,
+      "afterTriangles": 306,
+      "changedChannels": 0
+    },
+    {
+      "frame": 86,
+      "beforeUploads": 0,
+      "afterUploads": 0,
+      "beforeDraws": 41,
+      "afterDraws": 41,
+      "beforeTriangles": 306,
+      "afterTriangles": 306,
+      "changedChannels": 0
+    },
+    {
+      "frame": 87,
+      "beforeUploads": 2500,
+      "afterUploads": 0,
+      "beforeDraws": 51,
+      "afterDraws": 51,
+      "beforeTriangles": 382,
+      "afterTriangles": 382,
+      "changedChannels": 0
+    },
+    {
+      "frame": 88,
+      "beforeUploads": 0,
+      "afterUploads": 0,
+      "beforeDraws": 51,
+      "afterDraws": 51,
+      "beforeTriangles": 382,
+      "afterTriangles": 382,
+      "changedChannels": 0
+    },
+    {
+      "frame": 89,
+      "beforeUploads": 0,
+      "afterUploads": 0,
+      "beforeDraws": 51,
+      "afterDraws": 51,
+      "beforeTriangles": 382,
+      "afterTriangles": 382,
+      "changedChannels": 0
+    }
+  ],
+  "pass": true
+}
