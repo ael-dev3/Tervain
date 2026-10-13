@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "first": {
+    "title": "fixture-two",
+    "fixture": 2,
+    "webgl": true
+  },
+  "second": {
+    "title": "fixture-two",
+    "fixture": 2,
+    "webgl": true
+  },
+  "isolationPass": false,
+  "reproducedCollision": true,
+  "softwareWebglAvailable": true,
+  "scope": "Two owned native headless-browser fixtures under a forced legacy port collision. No application visuals or frame timings.",
+  "pass": true,
+  "driverSource": "0b45a36a0"
+}
