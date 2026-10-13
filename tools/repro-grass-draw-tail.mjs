@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import fs from 'node:fs';import path from 'node:path';import {openPage}from'./cdp.mjs';import {installRenderCost}from'./render-cost.mjs';import {textureUploadBytes}from'./upload-bytes.mjs';
+import fs from 'node:fs';import path from 'node:path';import {openPage}from'./cdp.mjs';import {installRenderCost}from'./render-cost.mjs';import {textureUploadBytes}from'./webgl-upload-bytes.mjs';
 const args=Object.fromEntries(process.argv.slice(2).flatMap((a,i,v)=>a.startsWith('--')?[[a.slice(2),v[i+1]]]:[])),out=args.out??'grass-draw-tail-proof';fs.mkdirSync(out,{recursive:true});
 const url=new URL(args.url??'http://127.0.0.1:4173/');for(const[k,v]of Object.entries({shot:'1',place:'rillford',quality:'high',settle:'1',hud:'0'}))url.searchParams.set(k,v);
 let page;try{

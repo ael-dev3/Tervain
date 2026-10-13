@@ -4,7 +4,7 @@ import type { Terrain } from '../../world/terrain';
 import type { Quality } from '../context';
 import { hash3, woodlandColonyAt, type Habitat, type HabitatSample, newSample } from '../ground/habitat';
 import { TileLayer, type TileBuffers } from '../ground/tileStream';
-import { clumpTriangles, createGrassClump, type ClumpSpec } from './bladeGeometry';
+import { createGrassClump, visibleGrassBlades, type ClumpSpec } from './bladeGeometry';
 import { createGrassMaterial, type GrassBand, type GrassMaterial } from './grassMaterial';
 import type { GrassTrample } from './trample';
 import type { GrassWind } from './wind';
@@ -139,6 +139,8 @@ export function createGrassField(terrain: Terrain, habitat: Habitat, quality: Qu
       name, tileSize: T, capacity, geometry: createGrassClump(level.clump), material: material.material,
       fadeStart: level.fade.start, fadeEnd: level.fade.end, power: level.fade.power,
       ...grassReach(level), receiveShadow: spec.shadows,
+      // Do not submit the blade tail that the shader already collapses to zero-width triangles.
+      drawCountAt: level.farBlades < 1 ? (distance) => visibleGrassBlades(level.clump.blades, level.farBlades, level.fade.start, level.fade.end, distance) * (level.clump.segments * 2 - 1) * 3 : undefined,
       band: { start: level.band.inStart, end: level.band.outEnd },
       generate(tx: number, tz: number, out: TileBuffers) {
         // The same seed for both levels: where they overlap they stand on the same patches of ground.
@@ -185,10 +187,9 @@ export function createGrassField(terrain: Terrain, habitat: Habitat, quality: Qu
     },
     stats() {
       let instances = 0, triangles = 0, draws = 0, tiles = 0;
-      layers.forEach((layer, i) => {
-        const level = i === 0 ? spec.near : spec.far;
+      layers.forEach((layer) => {
         instances += layer.visibleInstances;
-        triangles += layer.visibleInstances * clumpTriangles(level.clump);
+        triangles += layer.visibleTriangles;
         draws += layer.drawCalls;
         tiles += layer.activeTiles;
       });

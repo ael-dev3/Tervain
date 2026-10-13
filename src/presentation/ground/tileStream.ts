@@ -42,6 +42,8 @@ export interface TileLayerOptions {
   /** Maximum horizontal extent from an instance anchor, including shader wind and interaction displacement. */
   maxRadius?: number;
   receiveShadow: boolean;
+  /** Optional indexed/vertex prefix count; nearest anchor distance conservatively covers every instance. */
+  drawCountAt?(nearestDistance: number): number;
   /** Distances (m) between which this layer draws at all; tiles wholly outside the band submit nothing. */
   band?: { start: number; end: number };
   /** Fill the buffers for tile (tx, tz) with instances in ascending rank; return how many. */
@@ -238,9 +240,12 @@ export class TileLayer {
 
     // Set every tile's instance count from the camera distance and show only what could be on screen.
     let inst = 0;
+    let tris = 0;
     let draws = 0;
     for (const t of this.tiles.values()) {
       const d = this.distTo(t, cam);
+      const drawCount = o.drawCountAt ? Math.min(this.trisPerInstance * 3, o.drawCountAt(d)) : this.trisPerInstance * 3;
+      if (o.drawCountAt) t.geo.setDrawRange(0, drawCount);
       // Outside the layer's band the whole tile is skipped: beyond its far edge, or nearer than its inner edge everywhere.
       if (o.band && (d > o.band.end || this.farthest(t, cam) < o.band.start)) {
         t.geo.instanceCount = 0;
@@ -266,11 +271,12 @@ export class TileLayer {
       if (n > 0) {
         // Counters include tiles three.js will frustum-cull, so they are an upper bound.
         inst += n;
+        tris += n * drawCount / 3;
         draws++;
       }
     }
     this.visibleInstances = inst;
-    this.visibleTriangles = inst * this.trisPerInstance;
+    this.visibleTriangles = tris;
     this.drawCalls = draws;
     this.activeTiles = this.tiles.size;
   }
