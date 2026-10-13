@@ -229,3 +229,23 @@ describe('carrying the bow (A75)', () => {
     expect(s.visual.nockedArrow.visible).toBe(false);
   });
 });
+
+it('restores each new base pose across repeated aim/skin transitions on independent delivered rigs', () => {
+  const avatars = [setup(), setup()];
+  try {
+    for (let frame = 0; frame < 24; frame++) for (const [index, s] of avatars.entries()) {
+      s.visual.restorePose();
+      s.rig.hero.pose({ ...idle, mode: 'walk', speed: .78, amp: 1, time: frame / 60 + index, travel: frame / 30, moveSpeed: 1.7 }, 1 / 60, false);
+      const before = Object.values(s.bones).map(bone => ({ bone, position: bone.position.toArray(), quaternion: bone.quaternion.toArray() }));
+      s.visual.setEquipped(true);
+      s.visual.setAim(frame % 2 ? null : { x: .2 + index * .1, y: .1, z: 1 }, frame / 24);
+      s.visual.setSkinning(frame % 2 ? .2 + frame / 100 : null, frame / 60, .4);
+      s.visual.apply(1 / 60);
+      s.visual.restorePose();
+      for (const b of before) {
+        expect(b.bone.position.toArray()).toEqual(b.position);
+        expect(b.bone.quaternion.toArray()).toEqual(b.quaternion);
+      }
+    }
+  } finally { for (const s of avatars) s.visual.dispose(); }
+});

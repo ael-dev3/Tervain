@@ -73,6 +73,7 @@ export class PlayerHuntingVisual {
   readonly nockedArrow = createHuntingArrow();
   readonly knife = new THREE.Group();
   private readonly modified = new Map<THREE.Object3D, Snapshot>();
+  private readonly snapshots = new WeakMap<THREE.Object3D, Snapshot>();
   private readonly leftPalm: THREE.Group;
   private readonly rightPalm: THREE.Group;
   private readonly leftHand: THREE.Object3D;
@@ -447,6 +448,14 @@ export class PlayerHuntingVisual {
   private world(local: THREE.Vector3): THREE.Vector3 { return this.rig.root.localToWorld(local.clone()); }
 
   private remember(object: THREE.Object3D): void {
-    if (!this.modified.has(object)) this.modified.set(object, { position: object.position.clone(), quaternion: object.quaternion.clone() });
+    if (this.modified.has(object)) return;
+    let snapshot = this.snapshots.get(object);
+    if (!snapshot) {
+      snapshot = { position: new THREE.Vector3(), quaternion: new THREE.Quaternion() };
+      this.snapshots.set(object, snapshot);
+    }
+    // The animation may have changed since restorePose: save this frame's base pose, once per joint.
+    snapshot.position.copy(object.position); snapshot.quaternion.copy(object.quaternion);
+    this.modified.set(object, snapshot);
   }
 }
