@@ -1,0 +1,46 @@
+{
+  "schema": 1,
+  "baselineRef": "0b45a36",
+  "sourceSha256": "0d0f5cf1fa70fcd66ea330182ed01f86042b1723bf86a0ddea827c003deb7db2",
+  "scope": "Controlled source geometry operation-budget repro; source vertex reads counted, not frame timing. Normal control compares coverage summaries.",
+  "vertices": 10201,
+  "budget": 20,
+  "before": {
+    "reads": 30611,
+    "complete": true,
+    "summary": {
+      "trees": 1,
+      "leafless": 0,
+      "components": 1,
+      "chunks": 1,
+      "candidates": 0
+    }
+  },
+  "after": {
+    "reads": 0,
+    "rejected": "Canopy audit budget exhausted"
+  },
+  "normalBefore": {
+    "reads": 30611,
+    "complete": true,
+    "summary": {
+      "trees": 1,
+      "leafless": 0,
+      "components": 1,
+      "chunks": 1,
+      "candidates": 0
+    }
+  },
+  "normalAfter": {
+    "reads": 30611,
+    "complete": true,
+    "summary": {
+      "trees": 1,
+      "leafless": 0,
+      "components": 1,
+      "chunks": 1,
+      "candidates": 0
+    }
+  },
+  "pass": true
+}
