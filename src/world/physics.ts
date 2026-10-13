@@ -313,7 +313,9 @@ export class RealmPhysics {
     const minZ = position.z + Math.min(0, dz), maxZ = position.z + Math.max(0, dz);
     const inputGuard = 1e-4 + 1e-6 * Math.max(reach, Math.abs(position.x), Math.abs(position.y), Math.abs(position.z),
       Math.abs(dx), Math.abs(dy), Math.abs(dz));
-    for (const contact of [...this.props, ...(includeRocks ? this.rocks : [])]) {
+    const propCount = this.props.length, contactCount = propCount + (includeRocks ? this.rocks.length : 0);
+    for (let i = 0; i < contactCount; i++) {
+      const contact = i < propCount ? this.props[i]! : this.rocks[i - propCount]!;
       if (!contact.collider.isEnabled()) continue;
       let center: Vec3 | undefined;
       if ('spec' in contact && Number.isFinite(reach)) {

@@ -1,0 +1,23 @@
+{
+  "baselineRef": "9ab40b387",
+  "sourceSha256": "cfd4024b315b935790651acfff67d5419d30993c0de5dca5be6becf4429f29d1",
+  "scope": "Actual Rapier contact queries. Counts cover combined contact-array materializations, not total allocations, heap bytes or hardware frame timing.",
+  "props": 9,
+  "rocks": 1,
+  "comparisons": 1416,
+  "hits": 35,
+  "beforeCasts": 12735,
+  "afterCasts": 12735,
+  "beforeCombinedCollections": 1416,
+  "afterCombinedCollections": 0,
+  "controls": [
+    "props-only",
+    "props-and-rocks",
+    "disabled-props",
+    "normal-filters",
+    "rejected-hits",
+    "restored-prop-before-step"
+  ],
+  "exactHitsNormalsWitnesses": true,
+  "pass": true
+}
