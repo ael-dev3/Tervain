@@ -42,3 +42,12 @@ it('retains a real face-interior contact when all sampled leaf vertices are far 
 it('alpha mode splits cards whose quads touch but whose opaque texels do not',()=>{const t=fixture();t.leaves=mergeGeometries([.5,2.5].map(x=>new THREE.PlaneGeometry(2,.5).translate(x,1,0)));t.cutout={uv:'uv',cutoff:.42,alpha:u=>u<.2?1:0};
   expect(auditCanopies([t]).summary).toMatchObject({components:1,chunks:1,candidates:0});expect(auditCanopies([t],{alpha:true}).summary).toMatchObject({chunks:2,candidates:1});
   t.cutout={uv:'uv',cutoff:.42,alpha:()=>0};expect(auditCanopies([t],{alpha:true}).summary).toMatchObject({components:0,candidates:0});});
+it('rejects equal-column-length shear and projective transforms instead of reporting complete coverage',()=>{
+  const t=fixture();
+  t.matrix.set(1,.6,0,0, 0,.8,0,0, 0,0,1,0, 0,0,0,1);
+  expect(()=>auditCanopies([t])).toThrow(/sheared/);
+  t.matrix.identity();t.matrix.elements[3]=.01;
+  expect(()=>auditCanopies([t])).toThrow(/non-affine/);
+  t.matrix.makeRotationY(.7).scale(new THREE.Vector3(-2,2,2));
+  expect(auditCanopies([t]).complete).toBe(true);
+});

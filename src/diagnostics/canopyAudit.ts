@@ -85,7 +85,11 @@ export function auditCanopies(targets: readonly CanopyAuditTarget[], options: Ca
   if(!(woodReach>0&&Number.isFinite(woodReach))||!(gap>0&&Number.isFinite(gap))||!Number.isInteger(maxOperations)||maxOperations<1)throw new Error('Invalid canopy audit budget');
   let operations=0;const charge=()=>{if(++operations>maxOperations)throw new Error('Canopy audit budget exhausted');};
   const groups=new Map<THREE.BufferGeometry,Map<THREE.BufferGeometry,{maxGap:number;minGap:number;components:Component[];contacts:number[];edges:[number,number,number][]}>>();
-  const scale=(m:THREE.Matrix4)=>{const a=new THREE.Vector3().setFromMatrixColumn(m,0).length(),b=new THREE.Vector3().setFromMatrixColumn(m,1).length(),c=new THREE.Vector3().setFromMatrixColumn(m,2).length();if(!m.elements.every(Number.isFinite)||!(a>0)||Math.max(a,b,c)-Math.min(a,b,c)>a*1e-4)throw new Error('Unsupported nonuniform canopy transform');return a;};
+  const scale=(m:THREE.Matrix4)=>{const a=new THREE.Vector3().setFromMatrixColumn(m,0).length(),b=new THREE.Vector3().setFromMatrixColumn(m,1).length(),c=new THREE.Vector3().setFromMatrixColumn(m,2).length();if(!m.elements.every(Number.isFinite)||!(a>0)||Math.max(a,b,c)-Math.min(a,b,c)>a*1e-4)throw new Error('Unsupported nonuniform canopy transform');
+    const e=m.elements;
+    if(e[3]!==0||e[7]!==0||e[11]!==0||e[15]!==1)throw new Error('Unsupported non-affine canopy transform');
+    const dot=(i:number,j:number)=>e[i]!*e[j]!+e[i+1]!*e[j+1]!+e[i+2]!*e[j+2]!;
+    if(Math.max(Math.abs(dot(0,4)),Math.abs(dot(0,8)),Math.abs(dot(4,8)))>a*a*1e-4)throw new Error('Unsupported sheared canopy transform');return a;};
   for(const t of targets){if(!t.leaves)continue;let leaves=groups.get(t.wood);if(!leaves){leaves=new Map();groups.set(t.wood,leaves);}let entry=leaves.get(t.leaves);if(!entry){entry={maxGap:0,minGap:Infinity,components:components(t.leaves,charge,options.alpha?t.cutout??undefined:undefined),contacts:[],edges:[]};leaves.set(t.leaves,entry);}const localGap=gap/scale(t.matrix);entry.maxGap=Math.max(entry.maxGap,localGap,woodReach/scale(t.matrix));entry.minGap=Math.min(entry.minGap,localGap);}
   for(const[wood,leafGroups]of groups){const p=wood.getAttribute('position'),index=wood.index;if(!p)throw new Error('Missing wood positions');
     const triangles:THREE.Triangle[]=[];for(let i=0;i+2<(index?.count??p.count);i+=3)triangles.push(new THREE.Triangle(...[0,1,2].map(j=>new THREE.Vector3().fromBufferAttribute(p,index?.getX(i+j)??i+j)) as [THREE.Vector3,THREE.Vector3,THREE.Vector3]));
