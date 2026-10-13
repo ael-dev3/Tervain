@@ -110,15 +110,6 @@ export const GRASS_BLADE_GLSL = /* glsl */ `
 float gBlade = position.x;
 float gT = position.y;
 float gEdge = position.z;
-float gSeed = aShape.w * 1031.0 + gBlade * 7.317;
-float gR1 = gHash(gSeed + 0.131);
-float gR2 = gHash(gSeed + 1.713);
-float gR3 = gHash(gSeed + 2.977);
-float gR4 = gHash(gSeed + 4.431);
-float gR5 = gHash(gSeed + 5.897);
-float gR6 = gHash(gSeed + 7.219);
-float gR7 = gHash(gSeed + 9.137);
-
 // Distance: a stable thinning order per clump, a band for level-of-detail hand-over, and fewer blades per clump far off.
 float gDist = distance(aBase.xyz, cameraPosition);
 float gQ = pow(1.0 - smoothstep(uFade.x, uFade.y, gDist), uFade.w);
@@ -128,6 +119,17 @@ float gFrac = (gBlade + 0.5) / uClump.w;
 float gShare = mix(1.0, uFarBlades, smoothstep(uFade.x, uFade.y, gDist));
 float gBladeKeep = 1.0 - smoothstep(gShare - 0.06, gShare, gFrac);
 float gPresence = gKeep * gBandK * gBladeKeep;
+// Every vertex of a zero-width blade has the same presence: clip the whole primitive before wind work.
+if (gPresence <= 0.0) { gl_Position = vec4(2.0, 2.0, 2.0, 1.0); return; }
+float gSeed = aShape.w * 1031.0 + gBlade * 7.317;
+float gR1 = gHash(gSeed + 0.131);
+float gR2 = gHash(gSeed + 1.713);
+float gR3 = gHash(gSeed + 2.977);
+float gR4 = gHash(gSeed + 4.431);
+float gR5 = gHash(gSeed + 5.897);
+float gR6 = gHash(gSeed + 7.219);
+float gR7 = gHash(gSeed + 9.137);
+
 float gSizeComp = mix(1.0, uFade.z, 1.0 - gQ) * mix(1.0, 1.0 / max(gShare, 0.3), 0.5);
 
 // Root in the clump, on the ground plane fitted under it.
@@ -314,7 +316,7 @@ export function createGrassMaterial(opts: GrassMaterialOptions): GrassMaterial {
       .replace('#include <lights_lambert_pars_fragment>', `#include <lights_lambert_pars_fragment>\n${GRASS_LIGHT_GLSL}`);
     opts.patch?.(shader);
   };
-  material.customProgramCacheKey = () => `tervain-grass-blades-v2${opts.patchKey ? `-${opts.patchKey}` : ''}`;
+  material.customProgramCacheKey = () => `tervain-grass-blades-v3${opts.patchKey ? `-${opts.patchKey}` : ''}`;
   return {
     material, uniforms, ok: () => !failed,
     setBand(b) { uniforms.uBand.value.set(b.inStart, b.inEnd, b.outStart, b.outEnd); },
