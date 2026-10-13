@@ -18,14 +18,18 @@ function components(g: THREE.BufferGeometry): Component[] {
   return [...groups.values()].map(vertices=>{const box=new THREE.Box3();for(const i of vertices)box.expandByPoint(new THREE.Vector3().fromBufferAttribute(p,i));const samples=[box.getCenter(new THREE.Vector3())];for(let i=0;i<Math.min(8,vertices.length);i++)samples.push(new THREE.Vector3().fromBufferAttribute(p,vertices[Math.floor(i*vertices.length/Math.min(8,vertices.length))]!));return{box,samples};});
 }
 interface LeafNode { box: THREE.Box3; ids?: number[]; left?: LeafNode; right?: LeafNode; uniform: number }
+function boundsTree(boxes: readonly THREE.Box3[], charge: () => void): LeafNode {
+  const build=(ids:number[]):LeafNode=>{charge();const box=new THREE.Box3();for(const i of ids)box.union(boxes[i]!);if(ids.length<=8)return{box,ids,uniform:-1};
+    const size=box.getSize(new THREE.Vector3()),axis=size.x>=size.y&&size.x>=size.z?'x':size.y>=size.z?'y':'z';
+    ids.sort((a,b)=>(boxes[a]!.min[axis]+boxes[a]!.max[axis])-(boxes[b]!.min[axis]+boxes[b]!.max[axis]));
+    const middle=ids.length>>1;return{box,left:build(ids.slice(0,middle)),right:build(ids.slice(middle)),uniform:-1};};
+  if(!boxes.length)throw new Error('Missing support triangles');return build(boxes.map((_,i)=>i));
+}
+
 /** Boruvka's minimum spanning forest: nearest foreign component queries avoid dense all-pairs graphs. */
 function spanningLeafEdges(parts: Component[], limit: number, charge: () => void): [number,number,number][] {
   if (!parts.length) return [];
-  const build=(ids:number[]):LeafNode=>{const box=new THREE.Box3();for(const i of ids)box.union(parts[i]!.box);if(ids.length<=8)return{box,ids,uniform:-1};
-    const size=box.getSize(new THREE.Vector3()),axis=size.x>=size.y&&size.x>=size.z?'x':size.y>=size.z?'y':'z';
-    ids.sort((a,b)=>(parts[a]!.box.min[axis]+parts[a]!.box.max[axis])-(parts[b]!.box.min[axis]+parts[b]!.box.max[axis]));
-    const middle=ids.length>>1;return{box,left:build(ids.slice(0,middle)),right:build(ids.slice(middle)),uniform:-1};};
-  const root=build(parts.map((_,i)=>i)),graph=union(parts.length),edges:[number,number,number][]=[];
+  const root=boundsTree(parts.map(p=>p.box),charge),graph=union(parts.length),edges:[number,number,number][]=[];
   const mark=(node:LeafNode):number=>{charge();if(node.ids){const first=graph.find(node.ids[0]!);return node.uniform=node.ids.every(i=>graph.find(i)===first)?first:-1;}const a=mark(node.left!),b=mark(node.right!);return node.uniform=a===b?a:-1;};
   for(;;){mark(root);const best=new Map<number,[number,number,number]>();
     for(let i=0;i<parts.length;i++){const group=graph.find(i);if(best.get(group)?.[2]===0)continue;const box=parts[i]!.box;let distance=best.get(group)?.[2]??limit,other=-1;
@@ -51,15 +55,16 @@ export function auditCanopies(targets: readonly CanopyAuditTarget[], options: Ca
   for(const t of targets){if(!t.leaves)continue;let leaves=groups.get(t.wood);if(!leaves){leaves=new Map();groups.set(t.wood,leaves);}let entry=leaves.get(t.leaves);if(!entry){entry={maxGap:0,minGap:Infinity,components:components(t.leaves),contacts:[],edges:[]};leaves.set(t.leaves,entry);}const localGap=gap/scale(t.matrix);entry.maxGap=Math.max(entry.maxGap,localGap);entry.minGap=Math.min(entry.minGap,localGap);}
   for(const[wood,leafGroups]of groups){const p=wood.getAttribute('position'),index=wood.index;if(!p)throw new Error('Missing wood positions');
     const triangles:THREE.Triangle[]=[];for(let i=0;i+2<(index?.count??p.count);i+=3)triangles.push(new THREE.Triangle(...[0,1,2].map(j=>new THREE.Vector3().fromBufferAttribute(p,index?.getX(i+j)??i+j)) as [THREE.Vector3,THREE.Vector3,THREE.Vector3]));
+    const woodBounds=triangles.map(t=>new THREE.Box3().setFromPoints([t.a,t.b,t.c])),support=boundsTree(woodBounds,charge),nearest=new THREE.Vector3();
     for(const entry of leafGroups.values()){
-      const cell=Math.max(.5,entry.maxGap),cells=new Map<string,number[]>(),wide:number[]=[];
-      const range=(box:THREE.Box3)=>[Math.floor(box.min.x/cell),Math.floor(box.max.x/cell),Math.floor(box.min.y/cell),Math.floor(box.max.y/cell),Math.floor(box.min.z/cell),Math.floor(box.max.z/cell)];
-      for(let i=0;i<triangles.length;i++){const tri=triangles[i]!,r=range(new THREE.Box3().setFromPoints([tri.a,tri.b,tri.c]).expandByScalar(entry.maxGap));if((r[1]!-r[0]!+1)*(r[3]!-r[2]!+1)*(r[5]!-r[4]!+1)>512){wide.push(i);continue;}for(let x=r[0]!;x<=r[1]!;x++)for(let y=r[2]!;y<=r[3]!;y++)for(let z=r[4]!;z<=r[5]!;z++){charge();const key=`${x},${y},${z}`,list=cells.get(key)??[];list.push(i);cells.set(key,list);}}
-      const nearest=new THREE.Vector3();entry.contacts=entry.components.map(c=>{let distance=Infinity;
-        // Once a contact is inside the smallest instance threshold, every instance is supported.
-        search:for(const sample of c.samples){const list=cells.get(`${Math.floor(sample.x/cell)},${Math.floor(sample.y/cell)},${Math.floor(sample.z/cell)}`)??[];
-          for(const candidates of [list,wide])for(const i of candidates){charge();triangles[i]!.closestPointToPoint(sample,nearest);distance=Math.min(distance,nearest.distanceTo(sample));if(distance<=entry.minGap)break search;}}
-        return distance;});
+      entry.contacts=entry.components.map(c=>{let distance=entry.maxGap,found=false;
+        for(const sample of c.samples){
+          const visit=(node:LeafNode)=>{charge();if(node.box.distanceToPoint(sample)>distance)return;
+            if(node.ids){for(const i of node.ids){charge();triangles[i]!.closestPointToPoint(sample,nearest);const d=nearest.distanceTo(sample);if(d<=distance){distance=d;found=true;}if(found&&distance<=entry.minGap)return;}return;}
+            const left=node.left!,right=node.right!,first=left.box.distanceToPoint(sample)<=right.box.distanceToPoint(sample)?left:right,second=first===left?right:left;
+            visit(first);if(!found||distance>entry.minGap)visit(second);
+          };visit(support);if(found&&distance<=entry.minGap)break;
+        }return found?distance:Infinity;});
       entry.edges = spanningLeafEdges(entry.components, entry.maxGap, charge);
     }
   }
