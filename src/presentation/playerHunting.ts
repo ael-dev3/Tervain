@@ -16,7 +16,7 @@ export const BOW_READY_SECONDS = 2.5;
  * right hip up over his left shoulder, the string outward, away from his back.
  */
 // Out from the spine far enough that the limbs clear the vest and shoulder blade (playtest 5: they cut into his back).
-const SLUNG_AT = new THREE.Vector3(.02, 1.32, -.34);
+const SLUNG_AT = new THREE.Vector3(.02, 1.32, -.27);
 /** The slung bow at carrying size: full size it reached from above his shoulder to below his knee (playtest 5). */
 const SLUNG_SCALE = .82;
 // About 14° off vertical, so both limbs stay between his shoulder blades; at 25° the upper limb crossed his left
@@ -212,9 +212,9 @@ export class PlayerHuntingVisual {
     if (!this.inHand) {
       if (this.bow.parent !== this.sway) { this.sway.add(this.bow); this.swing.reset(); }
       this.bow.scale.setScalar(SLUNG_SCALE);
-      // String side to the back, the limbs curving out away from him (playtest 6: turned flat, the upper limb's curve ran
-      // sideways through his left shoulder and arm).
-      this.bow.rotation.set(0, Math.PI, 0);
+      // Flat across the back, the string lying along it; hung steeply (SLUNG_UP) so the upper limb stays inside his left
+      // shoulder's outline (playtest 6). String side in sank the string into his back.
+      this.bow.rotation.set(0, Math.PI / 2, 0);
       this.back.updateWorldMatrix(true, false);
       this.swing.update(dt, this.back.getWorldPosition(_p), this.back.getWorldQuaternion(_q).invert());
       this.sway.rotation.set(0, 0, this.swing.angle);
