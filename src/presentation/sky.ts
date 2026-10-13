@@ -435,10 +435,14 @@ export class SkyRig {
     SKY.ambient.value.copy(this.hemi.color).multiplyScalar(hemiI * 0.6 + 0.05);
 
     lerpHex(this.tmp, a.fog, b.fog, t);
-    this.fog.color.copy(this.tmp);
+    // From dusk the haze takes the dimmed land's light, not the glowing horizon's: a far crown fogged toward the bright
+    // sky band read as a pale ghost, lighter than the trees in front of it. The sky keeps its horizon colour, so the
+    // treeline stands dark against it. Day (nightness 0) is unchanged.
+    this.fog.color.copy(this.tmp).multiplyScalar(1 - FOG_DUSK_DIM * nightAmt);
     // Cool distance separates warm ground, shaded woodland and the far ridge without shortening the draw window.
     // Keep nearby materials legible; exponential haze grows gradually rather than introducing a visibility cutoff.
-    this.fog.density = 0.0019 + 0.0019 * nightAmt;
+    // Night thickens it only a little: doubling it hid the woods beyond 300 m at dusk.
+    this.fog.density = 0.0019 + FOG_NIGHT_THICKEN * nightAmt;
     SKY.horizon.value.copy(this.tmp);
     this.state.horizon.copy(this.tmp);
 
@@ -456,4 +460,6 @@ export class SkyRig {
   }
 }
 
+export const FOG_DUSK_DIM = 0.35;
+export const FOG_NIGHT_THICKEN = 0.0006;
 const clampNum = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v));
