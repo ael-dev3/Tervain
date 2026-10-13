@@ -72,6 +72,8 @@ export function woodlandColonyAt(x: number, z: number): number {
   return clamp(fbm(x / 17 + 3.7, z / 17 - 6.2, 2, 50420) * 0.5 + 0.5, 0, 1);
 }
 
+interface SoftCircle { x: number; z: number; hard: number }
+
 interface Obstacle {
   kind: 0 | 1; // 0 circle, 1 rect
   x: number;
@@ -107,7 +109,8 @@ export class Habitat {
   private treeHash = new Map<number, TreeSpot[]>();
   private obstacles: Obstacle[] = [];
   private obstacleHash = new Map<number, Obstacle[]>();
-  private softCircles: { x: number; z: number; hard: number }[] = [];
+  private softCircles: SoftCircle[] = [];
+  private softCircleHash = new Map<number, SoftCircle[]>();
   private noiseForest: boolean;
   private readonly plantedCrowns?: PlantedCrownField;
 
@@ -151,6 +154,16 @@ export class Habitat {
     for (const p of INSPECT_LOCATIONS) this.softCircles.push({ x: p.x, z: p.z, hard: Math.max(2, p.r * 0.7) });
     for (const p of PICKUP_LOCATIONS) this.softCircles.push({ x: p.x, z: p.z, hard: isWorldPickupItem(p.item) ? 0.25 : 2 });
 
+    // Keep source order within each bucket: attenuation multiplies in that order, so field bytes stay identical.
+    for (const circle of this.softCircles) {
+      const reach = circle.hard + 1.8;
+      const x0 = Math.floor((circle.x - reach) / HASH), x1 = Math.floor((circle.x + reach) / HASH);
+      const z0 = Math.floor((circle.z - reach) / HASH), z1 = Math.floor((circle.z + reach) / HASH);
+      for (let x = x0; x <= x1; x++) for (let z = z0; z <= z1; z++) {
+        const key = (x + 256) * 1024 + (z + 256), bucket = this.softCircleHash.get(key);
+        if (bucket) bucket.push(circle); else this.softCircleHash.set(key, [circle]);
+      }
+    }
     this.noiseForest = !this.plantedCrowns && this.trees.length < 30;
   }
 
@@ -268,7 +281,8 @@ export class Habitat {
       open *= clamp(soil, 0, 1);
       if (sd < 8) open = 0;
     }
-    for (const c of this.softCircles) {
+    const soft = this.softCircleHash.get(this.cell(x, z));
+    if (soft) for (const c of soft) {
       const d = Math.hypot(x - c.x, z - c.z) - c.hard;
       if (d < 1.8) open *= smoothstep(0, 1.8, d);
     }

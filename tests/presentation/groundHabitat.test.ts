@@ -88,3 +88,17 @@ describe('ground habitat beneath planted crowns', () => {
     }
   });
 });
+
+it('keeps soft-circle attenuation exact across negative cells, overlapping circles and broad radii', () => {
+  const terrain = new Terrain(), colliders = new Colliders();
+  const excl = { circles: [{ x: -31.9, z: 31.9, r: 35 }, { x: -7.9, z: -8.1, r: 3.5 }, { x: 8, z: -8, r: 7.8 }] } as unknown as Exclusions;
+  const indexed = new Habitat({ terrain, colliders, excl }), reference = new Habitat({ terrain, colliders, excl });
+  // Full-scan oracle: the pre-index algorithm considered every circle in source order for each node.
+  const circles = Reflect.get(reference, 'softCircles');
+  Reflect.get(reference, 'softCircleHash').get = () => circles;
+  const a = newSample(), b = newSample();
+  for (let z = -64; z <= 64; z += 5) for (let x = -80; x <= 64; x += 5) {
+    indexed.sample(x + .013, z - .017, a); reference.sample(x + .013, z - .017, b);
+    expect(a).toEqual(b);
+  }
+});
