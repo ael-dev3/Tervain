@@ -4,7 +4,7 @@ import type { WorkGesture } from '../npcStyle';
 import { RESIDENT_JOINTS, type ResidentBones, type ResidentJoint, type ResidentRigData } from './residentRig';
 import type { ToolPoints } from './residentProps';
 import type { WorkSite } from './workSites';
-import { applyTurnLead, buildTurnClips, TurnLead, SIDES, TURN_STEP, TurnSteps, type Legs } from '../turnSteps';
+import { buildTurnClips, TurnLead, SIDES, TURN_STEP, TurnSteps, type Legs } from '../turnSteps';
 
 /**
  * The residents' motion (A65): authored clips from Meshy's animation library and Meshy's text-to-motion, all made on
@@ -812,8 +812,8 @@ export class ResidentMotion {
     this.turnLead.update(step > 0 && !seated && mode !== 'work' ? turnNow / step : 0, step);
     if (Math.abs(this.turnLead.lead) > 1e-4 || this.turnLead.held.size) {
       this.scene.updateMatrixWorld(true);
-      applyTurnLead([[this.bones.Spine01, 0.15], [this.bones.Spine, 0.25], [this.bones.neck, 0.25], [this.bones.Head, 0.35]], this.turnLead.lead,
-        _v3.set(0, 1, 0).applyQuaternion(this.scene.getWorldQuaternion(_qa)), this.turnLead.held);
+      this.turnLead.apply([[this.bones.Spine01, 0.15], [this.bones.Spine, 0.25], [this.bones.neck, 0.25], [this.bones.Head, 0.35]],
+        _v3.set(0, 1, 0).applyQuaternion(this.scene.getWorldQuaternion(_qa)));
     }
     if (mode === 'work' && leading && p.workSite && this.options.contacts) this.reachSite(p, p.workGesture ?? 'general', p.workSite, leading);
     this.wasSeated = seated && this.transition?.name !== MOTION_CLIPS.sitUp;

@@ -56,6 +56,10 @@ export class TurnLead {
   }
   /** The joints as the lead found and left them (see {@link applyTurnLead}). */
   readonly held = new Map<THREE.Bone, { before: THREE.Quaternion; after: THREE.Quaternion }>();
+  private readonly poses = new WeakMap<THREE.Bone, { before: THREE.Quaternion; after: THREE.Quaternion }>();
+  apply(chain: readonly (readonly [THREE.Bone | undefined, number])[], up: THREE.Vector3): void {
+    applyTurnLead(chain, this.lead, up, this.held, this.poses);
+  }
   reset() { this.lead = this.want = 0; }
 }
 
@@ -66,7 +70,8 @@ export class TurnLead {
  * left: one found as it was left is put back first.
  */
 export function applyTurnLead(chain: readonly (readonly [THREE.Bone | undefined, number])[], lead: number, up: THREE.Vector3,
-  held: Map<THREE.Bone, { before: THREE.Quaternion; after: THREE.Quaternion }>): void {
+  held: Map<THREE.Bone, { before: THREE.Quaternion; after: THREE.Quaternion }>,
+  poses?: WeakMap<THREE.Bone, { before: THREE.Quaternion; after: THREE.Quaternion }>): void {
   for (const [bone] of chain) {
     const was = bone && held.get(bone);
     if (was && bone.quaternion.equals(was.after)) bone.quaternion.copy(was.before);
@@ -75,12 +80,18 @@ export function applyTurnLead(chain: readonly (readonly [THREE.Bone | undefined,
   if (Math.abs(lead) < 1e-4) return;
   for (const [bone, share] of chain) {
     if (!bone?.parent) continue;
-    const before = bone.quaternion.clone();
+    let pose = poses?.get(bone);
+    if (!pose) {
+      pose = { before: bone.quaternion.clone(), after: bone.quaternion.clone() };
+      poses?.set(bone, pose);
+    }
+    pose.before.copy(bone.quaternion);
     bone.parent.updateWorldMatrix(true, false);
     LEAD_AXIS.copy(up).applyQuaternion(bone.parent.getWorldQuaternion(LEAD_PARENT).invert()).normalize();
     bone.quaternion.premultiply(LEAD_TURN.setFromAxisAngle(LEAD_AXIS, lead * share));
     bone.updateMatrixWorld(true);
-    held.set(bone, { before, after: bone.quaternion.clone() });
+    pose.after.copy(bone.quaternion);
+    held.set(bone, pose);
   }
 }
 
