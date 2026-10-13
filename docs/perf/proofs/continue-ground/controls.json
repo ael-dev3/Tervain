@@ -1,0 +1,58 @@
+[
+  {
+    "case": "native",
+    "seedBuild": "v0.0.16 \u00b7 9ab40b3 \u00b7 pre-alphaPlay menu music",
+    "savedPlayer": {
+      "x": -7,
+      "y": 1.9197936058044434,
+      "z": 45
+    },
+    "savedHeight": 1.9197936058044434,
+    "framesChecked": 61,
+    "minPlayerGroundClearance": 0.0,
+    "minCameraGroundClearance": 3.8125206962173372,
+    "underGroundFrames": 0
+  },
+  {
+    "case": "high",
+    "seedBuild": "v0.0.16 \u00b7 9ab40b3 \u00b7 pre-alphaPlay menu music",
+    "savedPlayer": {
+      "x": -7,
+      "y": 1.9197936058044434,
+      "z": 45
+    },
+    "savedHeight": 1.9197936058044434,
+    "framesChecked": 61,
+    "minPlayerGroundClearance": 0.0,
+    "minCameraGroundClearance": 3.8125206962173372,
+    "underGroundFrames": 0
+  },
+  {
+    "case": "migration",
+    "seedBuild": "v0.0.16 \u00b7 9ab40b3 \u00b7 pre-alphaPlay menu music",
+    "savedPlayer": {
+      "x": -7,
+      "y": 1.9197936058044434,
+      "z": 45
+    },
+    "savedHeight": -18.080206394195557,
+    "framesChecked": 61,
+    "minPlayerGroundClearance": 0.0,
+    "minCameraGroundClearance": 3.8125206962173372,
+    "underGroundFrames": 0
+  },
+  {
+    "case": "previous",
+    "seedBuild": "v0.0.15 \u00b7 0b45a36 \u00b7 pre-alphaPlay menu music",
+    "savedPlayer": {
+      "x": -182,
+      "y": 1.3236925601959229,
+      "z": 14
+    },
+    "savedHeight": 1.3236925601959229,
+    "framesChecked": 61,
+    "minPlayerGroundClearance": 0.0,
+    "minCameraGroundClearance": 3.858046835961102,
+    "underGroundFrames": 0
+  }
+]

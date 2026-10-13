@@ -1082,8 +1082,10 @@ export class App {
     if (!fresh) {
       const top = this.world.physics.supportAt(start.x, start.z, p.y);
       if (top !== null && Math.abs(top - p.y) < .12) {
-        this.player.y = top;
-        this.player.rig.root.position.y = top;
+        // A restored loose body can be buried by newer terrain. Its saved contact must
+        // never lower the safe standing/swimming height resolved above.
+        this.player.y = Math.max(this.player.y, top);
+        this.player.rig.root.position.y = this.player.y;
       }
     }
     this.cam.yaw = start.yaw;
