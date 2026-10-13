@@ -62,6 +62,7 @@ interface Tile {
   ymin: number;
   ymax: number;
   attrs: THREE.InstancedBufferAttribute[];
+  drawCount: number;
 }
 
 export class TileLayer {
@@ -77,6 +78,8 @@ export class TileLayer {
   activeTiles = 0;
   private trisPerInstance: number;
   private disposed = false;
+  private readonly drawFocus = new THREE.Vector3();
+  private readonly captureFocus = new THREE.Vector3();
   enabled = true;
   /** Multiplier on how many tiles may be built per frame (1 = 2 tiles). */
   buildRate = 1;
@@ -122,7 +125,15 @@ export class TileLayer {
     mesh.raycast = () => {};
     mesh.visible = false;
     this.group.add(mesh);
-    return { key: -1, tx: 0, tz: 0, mesh, geo, count: 0, x0: 0, z0: 0, ymin: 0, ymax: 0, attrs };
+    const tile = { key: -1, tx: 0, tz: 0, mesh, geo, count: 0, x0: 0, z0: 0, ymin: 0, ymax: 0, attrs, drawCount: this.trisPerInstance * 3 };
+    if (o.drawCountAt) mesh.onBeforeRender = (_renderer, _scene, camera) => {
+      // Window/reflection cameras can stand closer than the main camera. Their visible blade tail must survive too.
+      const e = camera.matrixWorld.elements;
+      const main = e[12] === this.drawFocus.x && e[13] === this.drawFocus.y && e[14] === this.drawFocus.z;
+      this.captureFocus.setFromMatrixPosition(camera.matrixWorld);
+      geo.setDrawRange(0, main ? tile.drawCount : Math.min(this.trisPerInstance * 3, o.drawCountAt!(this.distTo(tile, this.captureFocus))));
+    };
+    return tile;
   }
 
   private fill(t: Tile, tx: number, tz: number) {
@@ -194,6 +205,7 @@ export class TileLayer {
       return;
     }
     this.group.visible = true;
+    this.drawFocus.copy(cam);
     const T = o.tileSize;
     // Two complete rings buy generation time before an anchor enters the visible fade. Streaming uses
     // horizontal distance: high terrain must not be released and immediately regenerated every frame.
@@ -245,6 +257,7 @@ export class TileLayer {
     for (const t of this.tiles.values()) {
       const d = this.distTo(t, cam);
       const drawCount = o.drawCountAt ? Math.min(this.trisPerInstance * 3, o.drawCountAt(d)) : this.trisPerInstance * 3;
+      t.drawCount = drawCount;
       if (o.drawCountAt) t.geo.setDrawRange(0, drawCount);
       // Outside the layer's band the whole tile is skipped: beyond its far edge, or nearer than its inner edge everywhere.
       if (o.band && (d > o.band.end || this.farthest(t, cam) < o.band.start)) {
