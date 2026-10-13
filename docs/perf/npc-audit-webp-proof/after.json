@@ -1,0 +1,192 @@
+{
+  "schema": 1,
+  "pass": true,
+  "assetCount": 17,
+  "inspectedVertices": 18344872,
+  "manifestSha256": "aac9111bed6cc4657ad22c75712c9a63f9be9061df2b1c86d1fd7e2bed13c1d0",
+  "auditToolSha256": "8d92cff95e4d7bc66eddbfafb0f9702e2e87e285dfbd8d30437ab7edc531330d",
+  "runtimeSourceHashes": {
+    "src/presentation/meshynpcs.ts": "033ba1b3a3358db7a70ef2c7b3fca8a60fae5c77c37a333eefbe14b90f35ae56",
+    "src/presentation/characters.ts": "55cae6b7438e1b870594b5469d04cb9d92f416991044ebd8b42d20ff92ae15de",
+    "src/presentation/npcSurface.ts": "c695b43369a1427916dad520c524980d5ad372e1395b0f3cd4ff74c430a8c9d4",
+    "src/presentation/disposeScene.ts": "181a01ddf0d68b35083e8326e09f7f6e654453e3fa565d982ade5ee0b606fb76",
+    "src/content/npcs.ts": "11703bd1850252bb2bd7afd3b5f30de11affd15b66c9c854e5bcc8cff2f9bcaa",
+    "src/presentation/npcStyle.ts": "25a0862ca183dc39f7d2ab75e77545924c1695b5b23f6c1da99407aa1b3f2750",
+    "src/presentation/ambient.ts": "ac740e4ecfbd4c844decfc544eaf52f1affe840b1fbd0e4481b8c6fbe4e39d02"
+  },
+  "scope": "All final manifest assets and complete role equipment.",
+  "method": "Actual GLB bytes/geometry/skin and production catalog/poser; private decoded skeletons at real role scales; 9 settled modes + 8 walking phases + 9 three-second task transitions; framewise joint/hip velocity and seated-speech support; original/template ownership checked before and after disposal.",
+  "limits": "Only texture image decoding is synthetic. This does not validate source/baked paint pixels, native shaders/lighting, seam appearance, cloth stretch/penetration, physical world contacts, hardware timing, or every animation frame.",
+  "assets": [
+    {
+      "id": "caravan-master",
+      "sha256": "a2a03c69a671ea9e88c4a35a0a75d534638832381179e7e0eb43b8a87b2ab32b",
+      "completeActorTriangles": 45996,
+      "templateUnchanged": true,
+      "ownedResourcesPrivate": true,
+      "poses": 9,
+      "walkSamples": 8,
+      "transitionFrames": 1620
+    },
+    {
+      "id": "rillford-reeve",
+      "sha256": "817d47211aa9c310b3ea5d46bfe7d137b17ab034b49ce2e01434c22624f0921c",
+      "completeActorTriangles": 46119,
+      "templateUnchanged": true,
+      "ownedResourcesPrivate": true,
+      "poses": 9,
+      "walkSamples": 8,
+      "transitionFrames": 1620
+    },
+    {
+      "id": "spring-steward",
+      "sha256": "2403e31682348fc721b8f4f85e1eef9b8302fa1875d38b1d0e04f1258a6c17bc",
+      "completeActorTriangles": 10490,
+      "templateUnchanged": true,
+      "ownedResourcesPrivate": true,
+      "poses": 9,
+      "walkSamples": 8,
+      "transitionFrames": 1620
+    },
+    {
+      "id": "quarry-foreman",
+      "sha256": "7afb81d52bfe02551ac24554e9c671e819a000b48ff5dd8358be7ee4cd688120",
+      "completeActorTriangles": 46000,
+      "templateUnchanged": true,
+      "ownedResourcesPrivate": true,
+      "poses": 9,
+      "walkSamples": 8,
+      "transitionFrames": 1620
+    },
+    {
+      "id": "maintenance-worker",
+      "sha256": "f6cc7ef5dae0ed47653f3346c850f70df3b41977d4e56d52ed3b18e24c2909c7",
+      "completeActorTriangles": 45994,
+      "templateUnchanged": true,
+      "ownedResourcesPrivate": true,
+      "poses": 9,
+      "walkSamples": 8,
+      "transitionFrames": 1620
+    },
+    {
+      "id": "estate-steward",
+      "sha256": "0fe8289f8b65369f2aa3b746cbbf229976063a18f57a914d0f329fa3d56aa7b0",
+      "completeActorTriangles": 46000,
+      "templateUnchanged": true,
+      "ownedResourcesPrivate": true,
+      "poses": 9,
+      "walkSamples": 8,
+      "transitionFrames": 1620
+    },
+    {
+      "id": "ash-recorder",
+      "sha256": "abc6e3ab3859667c133170ffd65638c7861f423d42f75935cc99cd091cb75c28",
+      "completeActorTriangles": 34300,
+      "templateUnchanged": true,
+      "ownedResourcesPrivate": true,
+      "poses": 9,
+      "walkSamples": 8,
+      "transitionFrames": 1620
+    },
+    {
+      "id": "shrine-warden",
+      "sha256": "b82333008ad803ce4ce6bd65b0e6d275e2757f763b200cf5222971d813a830a5",
+      "completeActorTriangles": 46980,
+      "templateUnchanged": true,
+      "ownedResourcesPrivate": true,
+      "poses": 9,
+      "walkSamples": 8,
+      "transitionFrames": 1620
+    },
+    {
+      "id": "mill-hand",
+      "sha256": "b631274cd62845fcaa8589cdd4627e343b90c365cb868fa5a99850d7c59b46cc",
+      "completeActorTriangles": 10490,
+      "templateUnchanged": true,
+      "ownedResourcesPrivate": true,
+      "poses": 9,
+      "walkSamples": 8,
+      "transitionFrames": 1620
+    },
+    {
+      "id": "quarry-hand",
+      "sha256": "e2a34809decf0539d475798e2cf93fa4b8b628d777cc555f692937b38d8ada63",
+      "completeActorTriangles": 46055,
+      "templateUnchanged": true,
+      "ownedResourcesPrivate": true,
+      "poses": 9,
+      "walkSamples": 8,
+      "transitionFrames": 1620
+    },
+    {
+      "id": "village-baker",
+      "sha256": "8ea1be0ca00fe358ff6a23702c108c0a9ed7a052d9dce3994320d1c6c2a6576b",
+      "completeActorTriangles": 45998,
+      "templateUnchanged": true,
+      "ownedResourcesPrivate": true,
+      "poses": 9,
+      "walkSamples": 8,
+      "transitionFrames": 1620
+    },
+    {
+      "id": "fisher",
+      "sha256": "801e62a9f4d7fde6972ff5ea80ca478848ee130270970ba40b73307f5566f0b4",
+      "completeActorTriangles": 46000,
+      "templateUnchanged": true,
+      "ownedResourcesPrivate": true,
+      "poses": 9,
+      "walkSamples": 8,
+      "transitionFrames": 1620
+    },
+    {
+      "id": "fireside",
+      "sha256": "8dc047e54cb138a84111d114ad3271aa7d67a0e243904391a4d67ab5f8f7c328",
+      "completeActorTriangles": 45957,
+      "templateUnchanged": true,
+      "ownedResourcesPrivate": true,
+      "poses": 9,
+      "walkSamples": 8,
+      "transitionFrames": 1620
+    },
+    {
+      "id": "keeper",
+      "sha256": "9c53fbb3719ce6e5220654fcafb1e6c7c3d9f741e5250a952dfdc4ce59f6093b",
+      "completeActorTriangles": 9365,
+      "templateUnchanged": true,
+      "ownedResourcesPrivate": true,
+      "poses": 9,
+      "walkSamples": 8,
+      "transitionFrames": 1620
+    },
+    {
+      "id": "ford-bandit-a",
+      "sha256": "4a2bd9fa753d489c46502af8044e6e44aec8542ac623094b47e28cd5d5af4b33",
+      "completeActorTriangles": 46943,
+      "templateUnchanged": true,
+      "ownedResourcesPrivate": true,
+      "poses": 9,
+      "walkSamples": 8,
+      "transitionFrames": 1620
+    },
+    {
+      "id": "ford-bandit-b",
+      "sha256": "18c009617e796efb33b288450166d56172e6555fd85ff562b463ab1d1f9aa3c2",
+      "completeActorTriangles": 46433,
+      "templateUnchanged": true,
+      "ownedResourcesPrivate": true,
+      "poses": 9,
+      "walkSamples": 8,
+      "transitionFrames": 1620
+    },
+    {
+      "id": "menu-warden",
+      "sha256": "64dd13628e7084aa6ff7bc856ea078307da4447fdd45d6fbe8e3f440285dce7c",
+      "completeActorTriangles": 45998,
+      "templateUnchanged": true,
+      "ownedResourcesPrivate": true,
+      "poses": 9,
+      "walkSamples": 8,
+      "transitionFrames": 1620
+    }
+  ]
+}

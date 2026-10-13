@@ -72,17 +72,25 @@ function templateSnapshot(asset) {
 /** Preserve actual GLB JSON/buffers/material bindings; synthetic textures cannot establish native paint or shader quality. */
 async function decodeWithoutImagePixels(buffer) {
   const loader = new GLTFLoader().setMeshoptDecoder(MeshoptDecoder);
-  loader.register(parser => ({ name: 'TERVAIN_NUMERICAL_AUDIT_TEXTURES', loadTexture(index) {
-    const definition = parser.json.textures[index];
-    const normal = (parser.json.materials ?? []).some(material => material.normalTexture?.index === index);
-    const texture = new THREE.DataTexture(new Uint8Array(normal ? [128, 128, 255, 255] : [128, 128, 128, 255]), 1, 1);
-    texture.name = definition.name ?? `Numerical image stub ${index}`;
-    texture.flipY = false;
-    texture.minFilter = THREE.LinearMipmapLinearFilter; texture.magFilter = THREE.LinearFilter;
-    texture.generateMipmaps = true;
-    texture.needsUpdate = true;
-    return Promise.resolve(texture);
-  } }));
+  loader.register(parser => {
+    const loadTexture = (index) => {
+      const definition = parser.json.textures[index];
+      const normal = (parser.json.materials ?? []).some(material => material.normalTexture?.index === index);
+      const texture = new THREE.DataTexture(new Uint8Array(normal ? [128, 128, 255, 255] : [128, 128, 128, 255]), 1, 1);
+      texture.name = definition.name ?? `Numerical image stub ${index}`;
+      texture.flipY = false;
+      texture.minFilter = THREE.LinearMipmapLinearFilter; texture.magFilter = THREE.LinearFilter;
+      texture.generateMipmaps = true;
+      texture.needsUpdate = true;
+      return Promise.resolve(texture);
+    };
+    return { name: 'TERVAIN_NUMERICAL_AUDIT_TEXTURES', loadTexture, beforeRoot() {
+      // Image extensions run before the generic texture hook. This numerical audit must
+      // stub them too, or WebP/AVIF/BasisU assets enter browser-only image decoding in Node.
+      for (const plugin of Object.values(parser.plugins)) if (plugin.loadTexture) plugin.loadTexture = loadTexture;
+      parser.loadTexture = loadTexture;
+    } };
+  });
   return loader.parseAsync(buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.byteLength), '');
 }
 
