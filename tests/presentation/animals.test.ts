@@ -282,3 +282,15 @@ describe('animal navigation and habitats', () => {
     }
   });
 });
+
+
+it('keeps cached path coordinates local to a search while refreshing changed dynamic contacts',()=>{
+  const colliders=new Colliders();colliders.box('thin-wall',2,15,.045,3);
+  const goal={x:5,z:15},original=findAnimalPath(dog,home,goal,home,.45,flat,colliders);
+  expect(original?.length).toBeGreaterThan(1);
+  const saved=original!.map(point=>({...point}));
+  original![0]!.x=100;
+  expect(findAnimalPath(dog,home,goal,home,.45,flat,colliders)).toEqual(saved);
+  colliders.setActive('thin-wall',false);
+  expect(findAnimalPath(dog,home,goal,home,.45,flat,colliders)).toEqual([goal]);
+});

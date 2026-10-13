@@ -109,7 +109,8 @@ export function findAnimalPath(definition: AnimalDefinition, from: V2, goal: V2,
   const clear = (a: V2, b: V2) => animalSegmentClear(definition, a, b, radius, terrain, colliders, home, roam, extras, height);
   if (clear(from, goal)) return [goal];
   const step = 1.8, width = Math.ceil(roam * 2 / step) + 1, origin = { x: home.x - roam, z: home.z - roam };
-  const pointAt = (i: number) => ({ x: origin.x + i % width * step, z: origin.z + Math.floor(i / width) * step });
+  const points: (V2 | undefined)[] = [];
+  const pointAt = (i: number) => points[i] ??= { x: origin.x + i % width * step, z: origin.z + Math.floor(i / width) * step };
   const cell = (point: V2) => Math.max(0, Math.min(width - 1, Math.round((point.x - origin.x) / step)))
     + Math.max(0, Math.min(width - 1, Math.round((point.z - origin.z) / step))) * width;
   const start = cell(from), end = cell(goal), costs = new Float32Array(width * width).fill(Infinity);
