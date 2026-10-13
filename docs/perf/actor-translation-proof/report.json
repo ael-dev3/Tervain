@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "baselineRef": "0b45a36",
+  "sourceSha256": "faf5101d3106c0214c6bf71647657b78bf043a2cf5e2cec0c267a8e472dd7d40",
+  "scope": "Actual Rapier actor synchronization and fixed-step physics, 32 controlled actors over 180 frames. Translation calls are counted at the body API boundary; no hardware frame-time claim.",
+  "comparedActorStates": 5760,
+  "beforeTranslationCalls": 11480,
+  "afterTranslationCalls": 5743,
+  "beforeTeleports": 3,
+  "afterTeleports": 3,
+  "exactActorAndPropStates": true,
+  "pass": true
+}
