@@ -12,3 +12,20 @@ it('ignores unreferenced source vertices instead of flagging invisible debris',(
 
 it('keeps transitive crown connectivity at instance-scaled gap cutoffs',()=>{const t=fixture();t.leaves=mergeGeometries([.45,1.45,2.45].map(x=>new THREE.BoxGeometry(.5,.5,.5).translate(x,1,0)));expect(auditCanopies([t]).summary).toMatchObject({components:3,chunks:1,candidates:0});t.matrix.makeScale(2,2,2);expect(auditCanopies([t]).summary).toMatchObject({chunks:3,candidates:2});});
 it('collapses overlap cliques while retaining a detached crown cluster',()=>{const t=fixture();t.leaves=mergeGeometries([.4,.6,.8,4,4.2].map(x=>new THREE.BoxGeometry(.5,.5,.5).translate(x,1,0)));expect(auditCanopies([t]).summary).toMatchObject({components:5,chunks:2,candidates:1});});
+
+it('does not treat the empty centre of a hollow leaf component as a wood contact', () => {
+  const wood = new THREE.BoxGeometry(.2, .2, .2), leaves = new THREE.RingGeometry(2, 2.2, 16);
+  try {
+    const r = auditCanopies([{ label: 'hollow', wood, leaves, matrix: new THREE.Matrix4() }]);
+    expect(r.summary).toMatchObject({ components: 1, chunks: 1, candidates: 1 });
+    // The actual ring can still attach through its rim; excluding phantom samples must not reject this contact.
+    wood.translate(2, 0, 0);
+    expect(auditCanopies([{ label: 'rim', wood, leaves, matrix: new THREE.Matrix4() }]).summary.candidates).toBe(0);
+  } finally { wood.dispose(); leaves.dispose(); }
+});
+it('retains a real face-interior contact when all sampled leaf vertices are far from the wood', () => {
+  const wood = new THREE.BoxGeometry(.2, .2, .2), leaves = new THREE.PlaneGeometry(4, 4);
+  try {
+    expect(auditCanopies([{ label: 'plane', wood, leaves, matrix: new THREE.Matrix4() }]).summary.candidates).toBe(0);
+  } finally { wood.dispose(); leaves.dispose(); }
+});

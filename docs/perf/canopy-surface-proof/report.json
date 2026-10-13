@@ -1,0 +1,24 @@
+{
+  "schema": 1,
+  "baselineRef": "0b45a36",
+  "sourceSha256": "296dbe0257c55623559f8590476bdde868dfd687a76956b549da68fb26eb3012",
+  "scope": "Controlled hollow leaf geometry through the production detector; native software WebGL fixture. No model or render changes. Not whole-forest alpha-aware coverage.",
+  "before": {
+    "mode": "baseline",
+    "detachedCandidates": 0,
+    "rimCandidates": 0,
+    "faceCandidates": 0,
+    "complete": true,
+    "scope": "Registered forest near-source rest geometry. Leaf components link by bounding-box proximity, then sampled wood-triangle contacts. Alpha transparency and shader wind are not evaluated; candidates require visual review. Null sampled gap means no nearby triangle was found, not an exact distance."
+  },
+  "after": {
+    "mode": "surface",
+    "detachedCandidates": 1,
+    "rimCandidates": 0,
+    "faceCandidates": 0,
+    "complete": true,
+    "scope": "Registered forest near-source rest geometry. Leaf components link by bounding-box proximity, then leaf-surface samples test wood-triangle contacts. Alpha transparency and shader wind are not evaluated; candidates require visual review. Null sampled gap means no nearby triangle was found, not an exact distance."
+  },
+  "pixelIdentical": true,
+  "pass": true
+}
