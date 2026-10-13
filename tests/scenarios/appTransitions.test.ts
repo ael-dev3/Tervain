@@ -1246,3 +1246,35 @@ describe('eleventh scout fixes in the shell (A104)', () => {
     expect(call('hintPlace', 'rillford')).toBe('rillford');
   });
 });
+
+describe('world matrices shared with window captures', () => {
+  function matrixFixture() {
+    const { app, call } = fixture(), scene = new THREE.Scene(), parent = new THREE.Group(), child = new THREE.Group();
+    parent.position.set(7, 8, 9);child.position.set(1, 2, 3);parent.add(child);scene.add(parent);
+    const update = vi.spyOn(scene, 'updateMatrixWorld'), samples: number[][] = [];
+    const renderer = { toneMappingExposure: 1, render: (s: THREE.Scene) => {
+      if (s.matrixWorldAutoUpdate) s.updateMatrixWorld();
+      samples.push(child.matrixWorld.elements.slice(12, 15));
+    } };
+    const camera = new THREE.PerspectiveCamera();
+    const world = { scene, sky: { state: { nightness: 0 } }, prepareGrass: vi.fn(),
+      prepareInterior: vi.fn(() => renderer.render(scene)), waterRenderInputs: () => undefined };
+    const grade = { setLook: vi.fn(), render: vi.fn(() => renderer.render(scene)) };
+    Object.assign(app, { renderer, world, grade, cam: { camera, mode: 'follow', manual: false }, lastFrameDt: 1 / 60 });
+    return { call, scene, update, samples, world, grade };
+  }
+  it('updates nested transforms once and presents fresh matrices to both the capture and main pass', () => {
+    const { call, scene, update, samples } = matrixFixture();call('renderWorld');
+    expect(update).toHaveBeenCalledOnce();expect(samples).toEqual([[8, 10, 12], [8, 10, 12]]);
+    expect(scene.matrixWorldAutoUpdate).toBe(true);
+  });
+  it.each([true, false])('restores the original auto-update flag (%s) if a window capture fails', auto => {
+    const { call, scene, world } = matrixFixture();scene.matrixWorldAutoUpdate = auto;
+    world.prepareInterior.mockImplementation(() => { throw new Error('capture failed'); });
+    expect(() => call('renderWorld')).toThrow('capture failed');expect(scene.matrixWorldAutoUpdate).toBe(auto);
+  });
+  it('restores auto-update if the main pass fails after a successful capture', () => {
+    const { call, scene, grade } = matrixFixture();grade.render.mockImplementation(() => { throw new Error('draw failed'); });
+    expect(() => call('renderWorld')).toThrow('draw failed');expect(scene.matrixWorldAutoUpdate).toBe(true);
+  });
+});

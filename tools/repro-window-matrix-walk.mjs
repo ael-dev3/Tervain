@@ -8,7 +8,7 @@ let page;try{
  const W=T.world,scene=W.scene,view=W.windowView,room=W.terrain.rooms.at(-28,-106);if(!room||room.building.kind!=='shrine')throw new Error('Native capture room missing');
  const y=W.terrain.rooms.base(room)+room.floorTop+1.5;T.cam.camera.position.set(room.building.x,y,room.building.z);T.cam.camera.lookAt(room.building.x,y,room.building.z-5);T.cam.camera.updateMatrixWorld();
  view.room=null;view.face=-1;view.age=Infinity;
- const parent=T.player.group.clone(false),child=T.player.group.clone(false);parent.position.set(7,8,9);child.position.set(1,2,3);parent.add(child);scene.add(parent);
+ const parent=T.player.group.clone(false),child=T.player.group.clone(false);parent.quaternion.identity();parent.scale.setScalar(1);child.quaternion.identity();child.scale.setScalar(1);parent.position.set(7,8,9);child.position.set(1,2,3);parent.add(child);scene.add(parent);
  let walks=0,captures=0;const update=scene.updateMatrixWorld,render=T.renderer.render;scene.updateMatrixWorld=function(...a){walks++;return update.apply(this,a);};
  const matrixSamples=[];T.renderer.render=function(s,c){const result=render.call(this,s,c);if(s===scene&&view.camera.children.includes(c)){captures++;matrixSamples.push(child.matrixWorld.elements.slice(12,15));}return result;};
  const frames=[];try{for(let i=0;i<6;i++){parent.position.x=7+i;const before=walks,oldCaptures=captures;T.renderWorld();frames.push({worldMatrixWalks:walks-before,captureFaces:captures-oldCaptures,autoUpdateRestored:scene.matrixWorldAutoUpdate,probe:child.matrixWorld.elements.slice(12,15)});}}finally{scene.updateMatrixWorld=update;T.renderer.render=render;parent.removeFromParent();}
