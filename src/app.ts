@@ -5,6 +5,7 @@ import { loadBakedTextures } from './presentation/bakedTextures';
 import { pruneContentCache } from './presentation/assets/download';
 import { prefetchJourney, warmJourney } from './presentation/journeyPrefetch';
 import * as THREE from 'three';
+import { beginStaticSkinFrame, endStaticSkinFrame } from './presentation/npc/dualQuaternionSkinning';
 import { NPCS } from './content/npcs';
 import { SCENE_REACH, SCENES, SPEAKER_NAMES, VOICE_LINES, inHours, shown, type HeroCue } from './content/voice';
 import { S } from './content/strings';
@@ -1454,10 +1455,12 @@ export class App {
     const scene = this.world.scene, autoUpdate = scene.matrixWorldAutoUpdate;
     scene.updateMatrixWorld();
     scene.matrixWorldAutoUpdate = false;
+    const nestedSkinFrame = beginStaticSkinFrame();
     try {
       // Reduced motion stills the film grain in play as on the menu: it changed 24 times a second (A104 scout).
       this.grade.render(scene, this.cam.camera, this.settings.reducedMotion ? 0 : this.lastFrameDt, this.world.waterRenderInputs(this.settings));
     } finally {
+      endStaticSkinFrame(nestedSkinFrame);
       scene.matrixWorldAutoUpdate = autoUpdate;
     }
   }
