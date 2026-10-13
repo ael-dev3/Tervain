@@ -23,6 +23,7 @@ The first simulation step already repairs this stress fixture on the published b
 - [Candidate receipt](proofs/continue-ground/after.json) / [capture](proofs/continue-ground/after.png)
 - [Passing control summaries](proofs/continue-ground/controls.json)
 - [Reported video, frame at 14 seconds](proofs/continue-ground/reported-video-14s.png)
+- [Reported menu frame](proofs/continue-ground/reported-video-menu.png), confirming 0.0.16 · 9ab40b3
 
 Run the same compiled-build probe against either build:
 
@@ -31,7 +32,7 @@ node tools/repro-continue-ground.mjs --url "$BUILD_URL" --out outputs/continue-n
 node tools/repro-continue-ground.mjs --url "$BUILD_URL" --feet-offset -2 --buried-cargo --out outputs/continue-buried
 ```
 
-Use `--quality high` for the full graphics path. `--seed-url "$OLDER_BUILD_URL" --x -182 --z 14` creates a genuine older-build save, transfers only that generated slot/settings, then continues it on the target build. The probe adds no production hooks: its placement trace wraps the existing method without changing its result. Assertions cover preparation placement, logical feet, rig root, camera clearance and play mode.
+Use `--quality high` for the full graphics path. `--seed-url "$OLDER_BUILD_URL" --x -182 --z 14` creates a genuine older-build save, transfers only that generated slot/settings, then continues it on the target build. The probe adds no production hooks: its placement trace wraps the existing method without changing its result. Assertions cover preparation placement, logical feet, rig root, camera clearance and play mode. After rendering it also checks program linking, WebGL errors/context loss and the camera's actual world matrix, to distinguish placement from missing-render failures. The candidate low-preset capture has 90 linked programs, zero graphics errors and the same 3.812521 m rendered-camera clearance. These diagnostics run once in the probe, never in production frame timing. `--headed` uses the host's normal graphics backend for a hardware reproduction.
 
 These captures use Chrome software WebGL at 640×360. Published assets were transported through a certificate-verified HTTPS mirror because the sandbox browser's trust store rejected the public origin; certificate verification was retained. An external sandbox init extends only the graphics-startup deadline. No production timeout changes, hardware timing claim, appearance change or live deployment is included.
 

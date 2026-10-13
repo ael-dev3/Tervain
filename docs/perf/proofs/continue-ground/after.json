@@ -19,7 +19,10 @@
     "playerAboveTerrain": true,
     "heroAboveTerrain": true,
     "cameraAboveGround": true,
-    "playing": true
+    "playing": true,
+    "shaderProgramsLinked": true,
+    "graphicsHealthy": true,
+    "renderedCameraAboveGround": true
   },
   "build": "v0.0.16 \u00b7 9ab40b387 \u00b7 pre-alphaPlay menu music",
   "entries": [
@@ -1378,6 +1381,20 @@
       "swimming": false
     }
   ],
+  "rendering": {
+    "programs": 90,
+    "shaderFailures": [],
+    "errors": [],
+    "contextLost": false,
+    "maxVaryingVectors": 31,
+    "terrainVisible": true,
+    "camera": [
+      -7,
+      5.302018887104748,
+      39.076913767421246
+    ],
+    "cameraGround": 1.489498190887411
+  },
   "pass": true,
   "programSHA256": "cf58e0cf5e1936ab09bb22f5f47dc64dc4452bc4c6db6e4f3baa364efda6d7bf"
 }

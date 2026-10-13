@@ -22,7 +22,7 @@ fs.mkdirSync(out, { recursive: true });
 const init = process.env.REPRO_INIT_FILE ? fs.readFileSync(process.env.REPRO_INIT_FILE, 'utf8') : undefined;
 const start = new URL(seedURL);
 start.search = new URLSearchParams({ shot: '1', quality, motion: '1', hour: String(hour), settle: '1' }).toString();
-const page = await openPage(start.href, { w: 640, h: 360, init, requestTimeoutMs: 360000 });
+const page = await openPage(start.href, { w: 640, h: 360, init, headed: args.includes('--headed'), requestTimeoutMs: 360000 });
 async function ready(mode, title) {
   const deadline = Date.now() + 600000;
   while (Date.now() < deadline) {
@@ -77,7 +77,18 @@ try {
     };
     const rows=[sample()]; for(let i=0;i<60;i++){step(1/60);rows.push(sample());}
     T.render=render;try{T.present(1);}finally{T.render=()=>{};}
-    return {build:document.querySelector('.menu-build')?.textContent,entries:window.__entryTrace,rows};
+    const gl=T.renderer.getContext();
+    const programs=T.renderer.info.programs??[];
+    const shaderFailures=programs.filter(p=>!gl.getProgramParameter(p.program,gl.LINK_STATUS))
+      .map(p=>({name:p.name,log:(gl.getProgramInfoLog(p.program)??'').slice(0,2000)}));
+    const errors=[];for(let i=0;i<8;i++){const e=gl.getError();if(e===gl.NO_ERROR)break;errors.push(e);}
+    const c=T.cam.camera,e=c.matrixWorld.elements;
+    const renderedCamera=[e[12],e[13],e[14]];
+    return {build:document.querySelector('.menu-build')?.textContent,entries:window.__entryTrace,rows,
+      rendering:{programs:programs.length,shaderFailures,errors,contextLost:gl.isContextLost(),
+        maxVaryingVectors:gl.getParameter(gl.MAX_VARYING_VECTORS),
+        terrainVisible:T.world.terrainMesh.visible,
+        camera:renderedCamera,cameraGround:T.world.terrain.groundAt(e[12],e[14])}};
   `);
   await page.shot(path.join(out, 'continued.png'));
   const assertions = {
@@ -86,6 +97,10 @@ try {
     heroAboveTerrain: result.rows.every(r => Number.isFinite(r.root[1]) && r.root[1] >= r.ground - 1e-4),
     cameraAboveGround: result.rows.every(r => Number.isFinite(r.camera[1]) && r.camera[1] >= r.cameraGround + .1),
     playing: result.rows.every(r => r.mode === 'play'),
+    shaderProgramsLinked: result.rendering.programs>0 && result.rendering.shaderFailures.length===0,
+    graphicsHealthy: !result.rendering.contextLost && result.rendering.errors.length===0,
+    renderedCameraAboveGround: result.rendering.camera.every(Number.isFinite)
+      && result.rendering.camera[1]>=result.rendering.cameraGround+.1,
   };
   const receipt = { source: 'Native compiled-build save/reload/Continue', seedBuild: saved.build,
     savedPlayer: saved.player, savedGround: saved.ground, syntheticFeetOffset: feetOffset, buriedCargo,
