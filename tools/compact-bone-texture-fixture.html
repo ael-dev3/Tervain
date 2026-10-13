@@ -1,0 +1,21 @@
+<!doctype html><html><head><meta charset="utf-8"><style>body{margin:0}canvas{display:block}</style></head><body><script>window.addEventListener("error",e=>window.fixtureError=e.message);window.addEventListener("unhandledrejection",e=>window.fixtureError=String(e.reason));</script><script type="module">
+import * as THREE from 'three';
+import {createGltfLoader} from '/src/presentation/assets/gltfLoader.ts';
+const mode=new URLSearchParams(location.search).get('mode');
+const {installDualQuaternionSkinning}=await import(mode==='baseline'?'/@baseline-skin':'/src/presentation/npc/dualQuaternionSkinning.ts');
+const renderer=new THREE.WebGLRenderer({antialias:false});renderer.setSize(320,240);renderer.shadowMap.enabled=true;document.body.append(renderer.domElement);
+const scene=new THREE.Scene();scene.background=new THREE.Color(0xcccccc);scene.add(new THREE.AmbientLight(0xffffff,1));
+const light=new THREE.DirectionalLight(0xffffff,3);light.position.set(3,5,4);light.castShadow=true;light.shadow.mapSize.set(256,256);scene.add(light);
+const floor=new THREE.Mesh(new THREE.PlaneGeometry(12,12),new THREE.MeshStandardMaterial({color:0xaaaaaa}));floor.rotation.x=-Math.PI/2;floor.receiveShadow=true;scene.add(floor);
+const asset=await createGltfLoader().loadAsync('/models/hero/weathered-wanderer-hero-sealed.glb');scene.add(asset.scene);
+const skins=[];asset.scene.traverse(mesh=>{if(mesh.isSkinnedMesh){mesh.castShadow=mesh.receiveShadow=true;skins.push({mesh,skin:installDualQuaternionSkinning(mesh)});}});
+const box=new THREE.Box3().setFromObject(asset.scene),center=box.getCenter(new THREE.Vector3()),extent=box.getSize(new THREE.Vector3());floor.position.y=box.min.y-.01;
+const camera=new THREE.PerspectiveCamera(40,4/3,.01,100);camera.position.copy(center).add(new THREE.Vector3(extent.y*.8,extent.y*.3,extent.y*1.6));camera.lookAt(center);
+const clip=asset.animations.find(c=>c.name==='Casual_Walk');if(!clip)throw new Error('Missing walk clip');const mixer=new THREE.AnimationMixer(asset.scene);mixer.clipAction(clip).play();
+const sources=new Set(skins.map(c=>c.mesh.skeleton.boneTexture.image.data)),gl=renderer.getContext();let uploaded=0;
+for(const name of ['texImage2D','texSubImage2D']){const original=gl[name];gl[name]=function(...args){for(const a of args)if(sources.has(a))uploaded+=a.byteLength;return original.apply(this,args);};}
+const hash=values=>{let h=2166136261;for(const v of new Uint32Array(values.buffer,values.byteOffset,values.length))h=Math.imul(h^v,16777619);return h>>>0;};
+window.compactBoneRepro={report:{schema:1,mode,scope:'Delivered hero GLB, authored walk, original materials, colour and directional shadow passes; software WebGL. Not whole-run upload attribution or hardware frame timing.',rigs:skins.map(c=>({bones:c.mesh.skeleton.bones.length,gpuBytes:c.mesh.skeleton.boneTexture.image.data.byteLength,cpuBytes:c.mesh.skeleton.boneMatrices.byteLength})),poses:[],uploadBytes:0},step(i){mixer.setTime(i/60);scene.updateMatrixWorld(true);for(const c of skins)c.mesh.skeleton.update();uploaded=0;renderer.render(scene,camera);this.report.uploadBytes+=uploaded;
+this.report.poses.push({i,uploaded,motions:skins.map(c=>hash(c.skin.motions)),matrices:skins.map(c=>hash(c.mesh.skeleton.boneMatrices.subarray(0,c.mesh.skeleton.bones.length*16))),cpuVertices:skins.map(c=>{const p=new THREE.Vector3(),a=[];for(let v=0;v<c.mesh.geometry.getAttribute('position').count;v+=997){c.mesh.getVertexPosition(v,p);a.push(...p.toArray());}return a;})});}};
+window.compactBoneRepro.step(0);
+</script></body></html>

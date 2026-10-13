@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "baselineRef": "0b45a36",
+  "scope": "Delivered hero GLB, authored walk, original materials, colour and directional shadow passes; software WebGL. Not whole-run upload attribution or hardware frame timing.",
+  "before": [
+    {
+      "bones": 66,
+      "gpuBytes": 6400,
+      "cpuBytes": 6400
+    }
+  ],
+  "after": [
+    {
+      "bones": 66,
+      "gpuBytes": 2112,
+      "cpuBytes": 4224
+    }
+  ],
+  "beforeUploadBytes": 774400,
+  "afterUploadBytes": 255552,
+  "poses": 121,
+  "poseDataIdentical": true,
+  "pixelDifferences": 0,
+  "pass": true,
+  "sourceSha256": "48cdf8d85e094486062fc463a13cacb7b51dc7a444b5b9abccbedd76465c73c6"
+}

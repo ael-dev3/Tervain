@@ -59,15 +59,15 @@ describe('resident dual-quaternion skinning', () => {
     expect(() => broken.onBeforeCompile({ vertexShader: 'void main() {}', fragmentShader: '', uniforms: {} } as unknown as THREE.WebGLProgramParametersWithUniforms, {} as THREE.WebGLRenderer)).toThrow(/cannot find/);
   });
 
-  it('packs every joint\'s motion after its matrices in the actor\'s own bone texture and matches linear skinning on single-joint points', async () => {
+  it('packs every joint\'s motion separately from CPU matrices in the actor\'s own bone texture and matches linear skinning on single-joint points', async () => {
     const { source, entry } = await loadResident('spring-steward');
     const rig = createMeshyNpcRig(source, entry, 1, 'none', undefined, { skinRepair: false, jointFit: false, poseFit: false, surface: false });
     const mesh = residentMesh(rig.root);
     const skin = dualQuaternionSkinOf(mesh)!;
     expect(skin).not.toBeNull();
-    expect(skin.base).toBe(44);
-    expect(mesh.skeleton.boneTexture!.image.width).toBe(12);
-    expect(mesh.userData.npcDualQuaternion).toEqual({ base: 44, bones: 11, texture: 12 });
+    expect(skin.base).toBe(0);
+    expect(mesh.skeleton.boneTexture!.image.width).toBe(8);
+    expect(mesh.userData.npcDualQuaternion).toEqual({ base: 0, bones: 11, texture: 8, height: 3 });
     expect(mesh.customDepthMaterial).toBeInstanceOf(THREE.MeshDepthMaterial);
     expect(mesh.customDistanceMaterial).toBeInstanceOf(THREE.MeshDistanceMaterial);
     poseRig(rig, { mode: 'walk', speed: 0.78, time: 0.3, t: 0, amp: 1 }, 1);
