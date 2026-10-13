@@ -1,0 +1,334 @@
+{
+  "installed": true,
+  "attributes": [
+    {
+      "vertices": 9275,
+      "reads": 37100,
+      "fullPasses": 1
+    },
+    {
+      "vertices": 9275,
+      "reads": 74200,
+      "fullPasses": 2
+    },
+    {
+      "vertices": 11188,
+      "reads": 44752,
+      "fullPasses": 1
+    },
+    {
+      "vertices": 11188,
+      "reads": 89504,
+      "fullPasses": 2
+    },
+    {
+      "vertices": 11387,
+      "reads": 45548,
+      "fullPasses": 1
+    },
+    {
+      "vertices": 11517,
+      "reads": 46068,
+      "fullPasses": 1
+    },
+    {
+      "vertices": 11517,
+      "reads": 92136,
+      "fullPasses": 2
+    },
+    {
+      "vertices": 12219,
+      "reads": 48876,
+      "fullPasses": 1
+    },
+    {
+      "vertices": 12219,
+      "reads": 97752,
+      "fullPasses": 2
+    },
+    {
+      "vertices": 12354,
+      "reads": 49416,
+      "fullPasses": 1
+    },
+    {
+      "vertices": 12354,
+      "reads": 98832,
+      "fullPasses": 2
+    },
+    {
+      "vertices": 13601,
+      "reads": 54404,
+      "fullPasses": 1
+    },
+    {
+      "vertices": 13601,
+      "reads": 108808,
+      "fullPasses": 2
+    },
+    {
+      "vertices": 14001,
+      "reads": 56004,
+      "fullPasses": 1
+    },
+    {
+      "vertices": 14001,
+      "reads": 56004,
+      "fullPasses": 1
+    },
+    {
+      "vertices": 25889,
+      "reads": 103556,
+      "fullPasses": 1
+    },
+    {
+      "vertices": 25889,
+      "reads": 103556,
+      "fullPasses": 1
+    },
+    {
+      "vertices": 25889,
+      "reads": 310668,
+      "fullPasses": 3
+    },
+    {
+      "vertices": 29146,
+      "reads": 116584,
+      "fullPasses": 1
+    },
+    {
+      "vertices": 29146,
+      "reads": 233168,
+      "fullPasses": 2
+    },
+    {
+      "vertices": 29942,
+      "reads": 119768,
+      "fullPasses": 1
+    },
+    {
+      "vertices": 29942,
+      "reads": 239536,
+      "fullPasses": 2
+    },
+    {
+      "vertices": 29943,
+      "reads": 119772,
+      "fullPasses": 1
+    },
+    {
+      "vertices": 29943,
+      "reads": 239544,
+      "fullPasses": 2
+    },
+    {
+      "vertices": 30247,
+      "reads": 120988,
+      "fullPasses": 1
+    },
+    {
+      "vertices": 30247,
+      "reads": 241976,
+      "fullPasses": 2
+    },
+    {
+      "vertices": 30568,
+      "reads": 122272,
+      "fullPasses": 1
+    },
+    {
+      "vertices": 30568,
+      "reads": 244544,
+      "fullPasses": 2
+    },
+    {
+      "vertices": 31640,
+      "reads": 126560,
+      "fullPasses": 1
+    },
+    {
+      "vertices": 31640,
+      "reads": 253120,
+      "fullPasses": 2
+    },
+    {
+      "vertices": 31958,
+      "reads": 127832,
+      "fullPasses": 1
+    },
+    {
+      "vertices": 31958,
+      "reads": 255664,
+      "fullPasses": 2
+    },
+    {
+      "vertices": 32094,
+      "reads": 128376,
+      "fullPasses": 1
+    },
+    {
+      "vertices": 32094,
+      "reads": 256752,
+      "fullPasses": 2
+    },
+    {
+      "vertices": 33133,
+      "reads": 132532,
+      "fullPasses": 1
+    },
+    {
+      "vertices": 33133,
+      "reads": 265064,
+      "fullPasses": 2
+    },
+    {
+      "vertices": 33879,
+      "reads": 135516,
+      "fullPasses": 1
+    },
+    {
+      "vertices": 33879,
+      "reads": 271032,
+      "fullPasses": 2
+    },
+    {
+      "vertices": 35677,
+      "reads": 24504,
+      "fullPasses": 0.17170726238192674
+    },
+    {
+      "vertices": 35677,
+      "reads": 142708,
+      "fullPasses": 1
+    },
+    {
+      "vertices": 35677,
+      "reads": 150348,
+      "fullPasses": 1.0535358914706954
+    },
+    {
+      "vertices": 35936,
+      "reads": 143744,
+      "fullPasses": 1
+    },
+    {
+      "vertices": 37212,
+      "reads": 148848,
+      "fullPasses": 1
+    },
+    {
+      "vertices": 37212,
+      "reads": 297696,
+      "fullPasses": 2
+    },
+    {
+      "vertices": 37313,
+      "reads": 149252,
+      "fullPasses": 1
+    },
+    {
+      "vertices": 39356,
+      "reads": 10397,
+      "fullPasses": 0.06604456753735136
+    },
+    {
+      "vertices": 39356,
+      "reads": 157424,
+      "fullPasses": 1
+    },
+    {
+      "vertices": 39356,
+      "reads": 169267,
+      "fullPasses": 1.0752299522309179
+    },
+    {
+      "vertices": 39484,
+      "reads": 157936,
+      "fullPasses": 1
+    },
+    {
+      "vertices": 39935,
+      "reads": 159740,
+      "fullPasses": 1
+    },
+    {
+      "vertices": 41033,
+      "reads": 164132,
+      "fullPasses": 1
+    },
+    {
+      "vertices": 41761,
+      "reads": 167044,
+      "fullPasses": 1
+    },
+    {
+      "vertices": 42137,
+      "reads": 168548,
+      "fullPasses": 1
+    },
+    {
+      "vertices": 44607,
+      "reads": 6520,
+      "fullPasses": 0.0365413500123299
+    },
+    {
+      "vertices": 44607,
+      "reads": 178428,
+      "fullPasses": 1
+    },
+    {
+      "vertices": 44607,
+      "reads": 192102,
+      "fullPasses": 1.0766359539982513
+    },
+    {
+      "vertices": 46639,
+      "reads": 186556,
+      "fullPasses": 1
+    },
+    {
+      "vertices": 46639,
+      "reads": 373112,
+      "fullPasses": 2
+    },
+    {
+      "vertices": 65659,
+      "reads": 262636,
+      "fullPasses": 1
+    },
+    {
+      "vertices": 65659,
+      "reads": 262636,
+      "fullPasses": 1
+    },
+    {
+      "vertices": 65711,
+      "reads": 262844,
+      "fullPasses": 1
+    },
+    {
+      "vertices": 69044,
+      "reads": 276176,
+      "fullPasses": 1
+    },
+    {
+      "vertices": 87874,
+      "reads": 427768,
+      "fullPasses": 1.2169925120058265
+    }
+  ],
+  "totalReads": 9908150,
+  "repeatedAttributeReads": 4043108,
+  "completeSkinPasses": 19,
+  "animalInstances": 19,
+  "scope": "Float32 four-component attribute getComponent reads during native startup; includes validation and paw selection. Counts, not wall times.",
+  "build": {
+    "version": "0.0.15",
+    "revision": "aa8c9284b"
+  },
+  "pass": true,
+  "comparison": {
+    "matchedSources": true,
+    "readsRemoved": 1969776
+  }
+}

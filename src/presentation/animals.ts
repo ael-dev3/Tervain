@@ -232,8 +232,8 @@ interface AnimalBody {
   animation: AnimalAnimation;
 }
 
-function cloneAnimal(template: GLTF, definition: AnimalDefinition): AnimalBody {
-  const validated = validateAnimalTemplate(template, definition), scene = cloneSkinned(template.scene) as THREE.Group;
+function cloneAnimal(template: GLTF, definition: AnimalDefinition, validated = validateAnimalTemplate(template, definition)): AnimalBody {
+  const scene = cloneSkinned(template.scene) as THREE.Group;
   const geometries = new Map<THREE.BufferGeometry, THREE.BufferGeometry>(), materials = new Map<THREE.Material, THREE.Material>(), textures = new Map<THREE.Texture, THREE.Texture>();
   const skeletons = new Set<THREE.Skeleton>(), paws: AnimalBody['paws'] = [];
   const soles = new Map<string, { mesh: THREE.SkinnedMesh; vertex: number; y: number }[]>();
@@ -428,17 +428,19 @@ function* buildAnimalSteps(ctx: Pick<BuildContext, 'terrain' | 'colliders' | 'qu
   onAbandon(dispose);
   const { terrain } = ctx, colliders = animalNavigationColliders(ctx.colliders);
   // Fit every habitat before allocating disposable copies, so a bad placement cannot strand a partial set of GPU resources.
-  const fitted: { definition: AnimalDefinition; template: GLTF; home: AnimalSite }[] = [];
+  // Reuse validation only within this build; a subsequent build still checks its source anew.
+  const fitted: { definition: AnimalDefinition; template: GLTF; home: AnimalSite; validated: ReturnType<typeof validateAnimalTemplate> }[] = [];
   for (const definition of definitions) {
     const template = templates.get(definition.id);
     if (!template) throw new Error(`The ${definition.species} source model was not loaded.`);
-    const size = validateAnimalTemplate(template, definition).bounds.getSize(new THREE.Vector3()), radius = Math.hypot(size.x, size.z) / 2 + 0.14;
+    const validated = validateAnimalTemplate(template, definition);
+    const size = validated.bounds.getSize(new THREE.Vector3()), radius = Math.hypot(size.x, size.z) / 2 + 0.14;
     const home = findAnimalSite(definition, radius, terrain, colliders, occupied, size.y); occupied.push(home);
-    fitted.push({ definition, template, home });
+    fitted.push({ definition, template, home, validated });
     yield;
   }
-  for (const [index, { definition, template, home }] of fitted.entries()) {
-    const body = cloneAnimal(template, definition), root = new THREE.Group(); root.name = `${definition.species} / ${definition.id}`; root.add(body.scene);
+  for (const [index, { definition, template, home, validated }] of fitted.entries()) {
+    const body = cloneAnimal(template, definition, validated), root = new THREE.Group(); root.name = `${definition.species} / ${definition.id}`; root.add(body.scene);
     body.scene.traverse(object => { if ((object as THREE.Mesh).isMesh) (object as THREE.Mesh).castShadow = ctx.quality !== 'low'; });
     const rng = mulberry32(Number(definition.id.slice(-7)) + index * 271), randomYaw = rng() * Math.PI * 2, yaw = definition.homeYaw ?? randomYaw;
     root.position.set(home.x, terrain.heightAt(home.x, home.z), home.z); root.rotation.y = yaw; group.add(root);
