@@ -454,9 +454,20 @@ function smoothMin(a: number, b: number, k: number): number {
   return Math.min(a, b) - h * h * k * 0.25;
 }
 
+// Authored roads are static. Outside these conservative bounds their weight is exactly zero.
+const roadInfluenceBounds = ROADS.map(road => {
+  const reach = road.width * 0.5 + 1.4 + 1e-6; // Keep floating-point support-boundary queries inside the broad phase.
+  return {
+    minX: Math.min(...road.points.map(p => p.x)) - reach, maxX: Math.max(...road.points.map(p => p.x)) + reach,
+    minZ: Math.min(...road.points.map(p => p.z)) - reach, maxZ: Math.max(...road.points.map(p => p.z)) + reach,
+  };
+});
+
 export function roadWeight(x: number, z: number): number {
   let w = 0;
-  for (const r of ROADS) {
+  for (let i = 0; i < ROADS.length; i++) {
+    const r = ROADS[i]!, bounds = roadInfluenceBounds[i]!;
+    if (x < bounds.minX || x > bounds.maxX || z < bounds.minZ || z > bounds.maxZ) continue;
     const { d } = distToPolyline(x, z, r.points);
     w = Math.max(w, 1 - smoothstep(r.width * 0.5, r.width * 0.5 + 1.4, d));
   }
