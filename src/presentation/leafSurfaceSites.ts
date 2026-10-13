@@ -167,3 +167,23 @@ export function sampleLeafSurfaceSites(
   }
   return sites;
 }
+
+/** Opacity lookup for one leaf material's cutout (map alpha × alphaMap green × opacity), for offline audits.
+ * Null when the material is not masked or its pixels cannot be decoded. */
+export function leafCutoutSampler(material: THREE.Material): { uv: string; cutoff: number; alpha(u: number, v: number): number } | null {
+  const m = material as THREE.MeshStandardMaterial;
+  if (!(m.alphaTest > 0) || !Number.isFinite(m.alphaTest) || !m.map) return null;
+  const maps: { texture: THREE.Texture; image: LeafChannelImage }[] = [];
+  for (const [texture, channel] of [[m.map, 3], [m.alphaMap, 1]] as const) {
+    if (!texture) continue;
+    const image = nativeImageChannel(texture.image, channel);
+    if (!image) return null;
+    maps.push({ texture, image });
+  }
+  const opacity = Number.isFinite(m.opacity) ? m.opacity : 1;
+  return { uv: m.map.channel ? `uv${m.map.channel}` : 'uv', cutoff: m.alphaTest, alpha: (u, v) => {
+    let a = opacity;
+    for (const { texture, image } of maps) a *= sampleChannelAlpha(image.width, image.height, (x, y) => image.data[y * image.width + x]!, u, v, texture);
+    return a;
+  } };
+}

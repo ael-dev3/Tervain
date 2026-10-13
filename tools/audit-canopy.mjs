@@ -6,7 +6,7 @@ import {compareCanopyBaseline} from './canopy-baseline.mjs';
 const args=Object.fromEntries(process.argv.slice(2).flatMap((a,i,all)=>a.startsWith('--')?[[a.slice(2),all[i+1]]]:[]));
 const {openPage}=await import(args.driver?pathToFileURL(path.resolve(args.driver)).href:'./cdp.mjs');
 const url=new URL(args.url??'http://127.0.0.1:4173/');for(const[k,v]of Object.entries({shot:'1',quality:'low',place:'rillford',settle:'1',hud:'0'}))url.searchParams.set(k,v);
-const options={lod:Number(args.lod??0),gap:Number(args.gap??.75),maxOperations:Number(args['max-operations']??20000000)};let page;
+const options={gap:Number(args.gap??.75),maxOperations:Number(args['max-operations']??20000000),lod:Number(args.lod??0),woodReach:Number(args['wood-reach']??1.5),alpha:args.alpha==='1'};let page;
 try{
  page=await openPage(url.href,{w:640,h:360,requestTimeoutMs:240000});let ready=false;for(let i=0;i<800;i++){if(await page.eval('return window.tervain?.mode === "play";')){ready=true;break;}await page.wait(250);}if(!ready)throw new Error('Journey not ready');
  const report=await page.eval(`const T=window.tervain;T.render=()=>{};await T.world.arrived;T.step=()=>{};return await T.auditCanopies(${JSON.stringify(options)});`);
@@ -14,7 +14,7 @@ try{
  report.pass=report.complete===true&&report.summary.trees===report.expectedTrees&&report.expectedTrees>0;
  // A complete scan with new detached candidates is not a successful gate.
  if(!args.baseline)report.pass&&=report.summary.candidates===0;
- if(args.baseline){const before=JSON.parse(fs.readFileSync(args.baseline,'utf8'));report.baselineComparison=compareCanopyBaseline(before,report);report.pass&&=before.lod===report.lod&&JSON.stringify(before.expectedSpecies)===JSON.stringify(report.expectedSpecies)&&report.baselineComparison.pass;}
+ if(args.baseline){const before=JSON.parse(fs.readFileSync(args.baseline,'utf8'));report.baselineComparison=compareCanopyBaseline(before,report);report.pass&&=before.lod===report.lod&&!!before.alpha===!!report.alpha&&JSON.stringify(before.expectedSpecies)===JSON.stringify(report.expectedSpecies)&&report.baselineComparison.pass;}
  if('repro'in args){
   report.repro=await page.eval(`const T=window.tervain,forest=T.world.modules.find(m=>m.name==='forest').module,original=forest.canopyAuditTargets,targets=original.call(forest,${options.lod}),baseline=await T.auditCanopies(${JSON.stringify(options)});
    const species=${JSON.stringify(args['repro-species']??null)},index=targets.findIndex((t,i)=>t.leaves&&(!species||t.species===species)&&baseline.trees[i].candidates.length===0);if(index<0)throw new Error('No supported leafy fixture available');

@@ -1,7 +1,13 @@
 import * as THREE from 'three';
 
-export interface CanopyAuditTarget { label: string; species?: string; lod?: number; wood: THREE.BufferGeometry; leaves: THREE.BufferGeometry | null; matrix: THREE.Matrix4 }
-export interface CanopyAuditOptions { gap?: number; maxOperations?: number; lod?: number }
+export interface CanopyAuditTarget { label: string; species?: string; lod?: number; wood: THREE.BufferGeometry; leaves: THREE.BufferGeometry | null; matrix: THREE.Matrix4;
+  /** The leaf material's alpha cutout; used only with `alpha: true`. */
+  cutout?: { uv: string; cutoff: number; alpha(u: number, v: number): number } | null }
+export interface CanopyAuditOptions { gap?: number; maxOperations?: number; /** Level of detail audited (0 near, 1 middle, 2 far). */ lod?: number;
+  /** World distance (m) beyond which a leaf card counts as hanging clear of every branch (default 1.5). */ woodReach?: number;
+  /** Alpha-aware: bound each card by its opaque texels (alpha ≥ cutoff) instead of its quad, so cards whose quads
+   * touch but whose leaves do not stay apart, and fully clear cards drop out (default false). */
+  alpha?: boolean }
 interface Component { box: THREE.Box3; samples: THREE.Vector3[] }
 const boxGap = (a: THREE.Box3, b: THREE.Box3) => Math.hypot(
   Math.max(0,a.min.x-b.max.x,b.min.x-a.max.x),Math.max(0,a.min.y-b.max.y,b.min.y-a.max.y),Math.max(0,a.min.z-b.max.z,b.min.z-a.max.z));
@@ -10,11 +16,21 @@ function union(size: number) {
   const find=(i:number):number=>{while(parent[i]!==i){parent[i]=parent[parent[i]!]!;i=parent[i]!;}return i;};
   return {find,join:(a:number,b:number)=>{parent[find(a)]=find(b);}};
 }
-function components(g: THREE.BufferGeometry, charge: () => void): Component[] {
+function components(g: THREE.BufferGeometry, charge: () => void, cutout?: CanopyAuditTarget['cutout']): Component[] {
   const p=g.getAttribute('position');if(!p||p.count===0)throw new Error('Missing leaf positions');const graph=union(p.count),weld=new Map<string,number>();
   for(let i=0;i<p.count;i++){if(![p.getX(i),p.getY(i),p.getZ(i)].every(Number.isFinite))throw new Error('Nonfinite leaf positions');const key=`${Math.round(p.getX(i)*1e4)},${Math.round(p.getY(i)*1e4)},${Math.round(p.getZ(i)*1e4)}`,other=weld.get(key);if(other!==undefined)graph.join(i,other);else weld.set(key,i);}
   const index=g.index,used=new Set<number>();for(let i=0;i+2<(index?.count??p.count);i+=3){const a=index?.getX(i)??i,b=index?.getX(i+1)??i+1,c=index?.getX(i+2)??i+2;graph.join(a,b);graph.join(a,c);used.add(a);used.add(b);used.add(c);}
   const groups=new Map<number,number[]>();for(const i of used){const key=graph.find(i),group=groups.get(key)??[];group.push(i);groups.set(key,group);}
+  // Alpha mode: each triangle's opaque texels are their own part; welded quads no longer join leaves that do not touch.
+  if(cutout){const uv=g.getAttribute(cutout.uv);if(!uv)throw new Error('Missing leaf UVs for alpha audit');
+    const opaque=new Map<number,THREE.Vector3[]>(),N=6,point=new THREE.Vector3();
+    for(let i=0;i+2<(index?.count??p.count);i+=3){const v=[0,1,2].map(j=>index?.getX(i+j)??i+j) as [number,number,number],key=i;
+      charge();for(let a=0;a<=N;a++)for(let b=0;a+b<=N;b++){const w=[a/N,b/N,(N-a-b)/N] as [number,number,number];
+        const u=w[0]*uv.getX(v[0])+w[1]*uv.getX(v[1])+w[2]*uv.getX(v[2]),t=w[0]*uv.getY(v[0])+w[1]*uv.getY(v[1])+w[2]*uv.getY(v[2]);
+        if(cutout.alpha(u,t)<cutout.cutoff)continue;point.set(0,0,0);for(let k=0;k<3;k++)point.addScaledVector(new THREE.Vector3().fromBufferAttribute(p,v[k]!),w[k]!);
+        const list=opaque.get(key)??[];list.push(point.clone());opaque.set(key,list);}}
+    return [...opaque.values()].map(points=>{const box=new THREE.Box3().setFromPoints(points),samples=[box.getCenter(new THREE.Vector3())];
+      for(let i=0;i<Math.min(8,points.length);i++)samples.push(points[Math.floor(i*points.length/Math.min(8,points.length))]!);return{box,samples};});}
   // A bounding-box centre can sit in a hole, outside the actual leaf surface. Project it onto its component.
   const triangles=new Map<number,number[]>();
   for(let i=0;i+2<(index?.count??p.count);i+=3){const key=graph.find(index?.getX(i)??i),list=triangles.get(key)??[];list.push(i);triangles.set(key,list);}
@@ -65,12 +81,12 @@ function spanningLeafEdges(parts: Component[], limit: number, charge: () => void
 export function auditCanopies(targets: readonly CanopyAuditTarget[], options: CanopyAuditOptions = {}) {
   const lod=options.lod??0;if(!Number.isInteger(lod)||lod<0||lod>2)throw new Error('Invalid canopy LOD');
   if(targets.some(target=>target.lod!==undefined&&target.lod!==lod))throw new Error('Canopy target LOD mismatch');
-  const gap=options.gap??.75,maxOperations=options.maxOperations??20_000_000;
-  if(!(gap>0&&Number.isFinite(gap))||!Number.isInteger(maxOperations)||maxOperations<1)throw new Error('Invalid canopy audit budget');
+  const gap=options.gap??.75,woodReach=options.woodReach??1.5,maxOperations=options.maxOperations??20_000_000;
+  if(!(woodReach>0&&Number.isFinite(woodReach))||!(gap>0&&Number.isFinite(gap))||!Number.isInteger(maxOperations)||maxOperations<1)throw new Error('Invalid canopy audit budget');
   let operations=0;const charge=()=>{if(++operations>maxOperations)throw new Error('Canopy audit budget exhausted');};
   const groups=new Map<THREE.BufferGeometry,Map<THREE.BufferGeometry,{maxGap:number;minGap:number;components:Component[];contacts:number[];edges:[number,number,number][]}>>();
   const scale=(m:THREE.Matrix4)=>{const a=new THREE.Vector3().setFromMatrixColumn(m,0).length(),b=new THREE.Vector3().setFromMatrixColumn(m,1).length(),c=new THREE.Vector3().setFromMatrixColumn(m,2).length();if(!m.elements.every(Number.isFinite)||!(a>0)||Math.max(a,b,c)-Math.min(a,b,c)>a*1e-4)throw new Error('Unsupported nonuniform canopy transform');return a;};
-  for(const t of targets){if(!t.leaves)continue;let leaves=groups.get(t.wood);if(!leaves){leaves=new Map();groups.set(t.wood,leaves);}let entry=leaves.get(t.leaves);if(!entry){entry={maxGap:0,minGap:Infinity,components:components(t.leaves,charge),contacts:[],edges:[]};leaves.set(t.leaves,entry);}const localGap=gap/scale(t.matrix);entry.maxGap=Math.max(entry.maxGap,localGap);entry.minGap=Math.min(entry.minGap,localGap);}
+  for(const t of targets){if(!t.leaves)continue;let leaves=groups.get(t.wood);if(!leaves){leaves=new Map();groups.set(t.wood,leaves);}let entry=leaves.get(t.leaves);if(!entry){entry={maxGap:0,minGap:Infinity,components:components(t.leaves,charge,options.alpha?t.cutout??undefined:undefined),contacts:[],edges:[]};leaves.set(t.leaves,entry);}const localGap=gap/scale(t.matrix);entry.maxGap=Math.max(entry.maxGap,localGap,woodReach/scale(t.matrix));entry.minGap=Math.min(entry.minGap,localGap);}
   for(const[wood,leafGroups]of groups){const p=wood.getAttribute('position'),index=wood.index;if(!p)throw new Error('Missing wood positions');
     const triangles:THREE.Triangle[]=[];for(let i=0;i+2<(index?.count??p.count);i+=3)triangles.push(new THREE.Triangle(...[0,1,2].map(j=>new THREE.Vector3().fromBufferAttribute(p,index?.getX(i+j)??i+j)) as [THREE.Vector3,THREE.Vector3,THREE.Vector3]));
     const woodBounds=triangles.map(t=>new THREE.Box3().setFromPoints([t.a,t.b,t.c])),support=boundsTree(woodBounds,charge),nearest=new THREE.Vector3();
@@ -86,12 +102,18 @@ export function auditCanopies(targets: readonly CanopyAuditTarget[], options: Ca
       entry.edges = spanningLeafEdges(entry.components, entry.maxGap, charge);
     }
   }
-  const trees=targets.map(t=>{const metadata={species:t.species??'unclassified',lod:t.lod??lod};if(!t.leaves)return{label:t.label,...metadata,leafless:true,components:0,chunks:0,candidates:[] as {position:number[];components:number;sampledWoodGap:number|null}[]};const entry=groups.get(t.wood)!.get(t.leaves)!,s=scale(t.matrix),limit=gap/s,graph=union(entry.components.length);
+  const trees=targets.map(t=>{const metadata={species:t.species??'unclassified',lod:t.lod??lod};if(!t.leaves)return{label:t.label,...metadata,leafless:true,components:0,chunks:0,detachedCards:0,detachedClumps:0,maxWoodGap:0,candidates:[] as {position:number[];components:number;sampledWoodGap:number|null}[]};const entry=groups.get(t.wood)!.get(t.leaves)!,s=scale(t.matrix),limit=gap/s,graph=union(entry.components.length);
     for(const[a,b,d]of entry.edges){charge();if(d<=limit)graph.join(a,b);}const chunks=new Map<number,{box:THREE.Box3;count:number;contact:number}>();
     for(let i=0;i<entry.components.length;i++){const key=graph.find(i),chunk=chunks.get(key)??{box:new THREE.Box3(),count:0,contact:Infinity};chunk.box.union(entry.components[i]!.box);chunk.count++;chunk.contact=Math.min(chunk.contact,entry.contacts[i]!);chunks.set(key,chunk);}
     const candidates=[...chunks.values()].filter(c=>c.contact>limit).map(c=>({position:c.box.getCenter(new THREE.Vector3()).applyMatrix4(t.matrix).toArray(),components:c.count,sampledWoodGap:Number.isFinite(c.contact)?c.contact*s:null}));
-    return{label:t.label,...metadata,leafless:false,components:entry.components.length,chunks:chunks.size,candidates};});
+    // Playtest 6: a crown is one chunk, yet a clump in it can still hang clear of every branch. Cards farther than
+    // `woodReach` from the wood are grouped (by the same proximity links) into detached clumps.
+    const reach=woodReach/s,far=union(entry.components.length),isFar=(i:number)=>!(entry.contacts[i]!<=reach);let farCards=0,maxWoodGap=0;
+    for(let i=0;i<entry.components.length;i++)if(isFar(i)){farCards++;maxWoodGap=Math.max(maxWoodGap,Number.isFinite(entry.contacts[i]!)?entry.contacts[i]!*s:Infinity);}
+    for(const[a,b,d]of entry.edges){charge();if(d<=limit&&isFar(a)&&isFar(b))far.join(a,b);}
+    const farClumps=new Set<number>();for(let i=0;i<entry.components.length;i++)if(isFar(i))farClumps.add(far.find(i));
+    return{label:t.label,...metadata,leafless:false,components:entry.components.length,chunks:chunks.size,detachedCards:farCards,detachedClumps:farClumps.size,maxWoodGap:Number.isFinite(maxWoodGap)?maxWoodGap:null,candidates};});
   const bySpecies:Record<string,{trees:number;leafless:number;candidates:number}>={};for(const t of trees){const group=bySpecies[t.species]??={trees:0,leafless:0,candidates:0};group.trees++;group.leafless+=Number(t.leafless);group.candidates+=t.candidates.length;}
-  return{schema:1,lod,gap,operations,complete:true,bySpecies,summary:{trees:trees.length,leafless:trees.filter(t=>t.leafless).length,components:trees.reduce((n,t)=>n+t.components,0),chunks:trees.reduce((n,t)=>n+t.chunks,0),candidates:trees.reduce((n,t)=>n+t.candidates.length,0)},trees,
-    scope:'Registered forest selected-LOD rest geometry. Leaf components link by bounding-box proximity, then leaf-surface samples test wood-triangle contacts. Alpha transparency and shader wind are not evaluated; candidates require visual review. Null sampled gap means no nearby triangle was found, not an exact distance.'};
+  return{schema:1,lod,gap,operations,complete:true,alpha:options.alpha?{maskedTrees:targets.filter(t=>t.leaves&&t.cutout).length}:false,bySpecies,summary:{trees:trees.length,leafless:trees.filter(t=>t.leafless).length,components:trees.reduce((n,t)=>n+t.components,0),chunks:trees.reduce((n,t)=>n+t.chunks,0),candidates:trees.reduce((n,t)=>n+t.candidates.length,0),woodReach,detachedCards:trees.reduce((n,t)=>n+t.detachedCards,0),detachedClumps:trees.reduce((n,t)=>n+t.detachedClumps,0),treesWithDetached:trees.filter(t=>t.detachedClumps>0).length},trees,
+    scope:'Registered forest selected-LOD rest geometry. Leaf components link by bounding-box proximity, then leaf-surface samples test wood-triangle contacts. Alpha cutout is evaluated only in alpha mode (opaque-texel bounds); shader wind is not; candidates require visual review. Null sampled gap means no nearby triangle was found, not an exact distance.'};
 }

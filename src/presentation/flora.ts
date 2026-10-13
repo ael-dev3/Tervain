@@ -19,6 +19,7 @@ import { crownOf, installFoliage, installFoliageShadow, type FoliageLook, type I
 import { shadowDepthMaterial, shadowGeometry } from './foliage/shadowCasters';
 import { createLeafBurst } from './foliage/leafBurst';
 import { splitLeafPrepass } from './foliage/leafPrepass';
+import { leafCutoutSampler } from './leafSurfaceSites';
 
 /**
  * Trees and shrubs. An empty strand gives way to a layered old-growth woodland: flared oak roots under tall pine/fir columns,
@@ -480,11 +481,12 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
     canopyAuditTargets(lod = 0) {
       if (!Number.isInteger(lod) || lod < 0 || lod > 2) throw new Error('Invalid canopy LOD');
       return batches.flatMap((b, batch) => {
-        const wood = b.variant.lods[lod]!.wood;
+        const level = b.variant.lods[lod]!, wood = level.wood;
         if (!wood) return [];
         group.updateWorldMatrix(true, false);
+        const cutouts = b.meshes.map(m => m.leaf ? leafCutoutSampler(m.leaf.material as THREE.Material) : null);
         return b.placements.map((p, i) => ({ label: b.trees[i]!.collisionId ?? `tree:${batch}:${i}`,
-          species: b.variant.species, lod, wood, leaves: b.variant.lods[lod]!.leaf, matrix: new THREE.Matrix4().multiplyMatrices(group.matrixWorld, p.matrix) }));
+          species: b.variant.species, lod, wood, leaves: level.leaf, cutout: cutouts[Math.min(lod, b.meshes.length - 1)], matrix: new THREE.Matrix4().multiplyMatrices(group.matrixWorld, p.matrix) }));
       });
     },
     placementAuditTargets() {
