@@ -119,9 +119,13 @@ describe('actual supplied Meshy tree catalog', () => {
       for (const [species, id] of [['oak', 'oak-elder'], ['oak', 'tree-0208'], ['birch', 'tree-4815'], ['orchard', 'tree-4949']] as const) {
         const variant = forest.variant(species, 0, id), near = variant.lods[0], exported = meshyTreeParts(templates.get(id)![0]).leaf!.geometry;
         const count = (geometry: THREE.BufferGeometry) => (geometry.index?.count ?? geometry.getAttribute('position').count) / 3;
-        expect(near.tris, id).toBeLessThanOrEqual(19_800);
+        // Grown twigs (playtest 7: three-sided, a few hundred per near crown) come on top of the 19,800 budget.
+        const twigTris = (near.wood!.index!.count - (near.wood!.userData.twigIndex as number | undefined ?? near.wood!.index!.count)) / 3;
+        expect(near.tris - twigTris, id).toBeLessThanOrEqual(19_800);
+        expect(twigTris, id).toBeLessThanOrEqual(3_600);
         // A79: the wood is simplified without crossing its UV seams (no stretched branch texture), near 8,000 triangles.
-        expect(count(near.wood!), id).toBeLessThan(9_000);
+        // Grown twigs (playtest 7) follow the source wood's triangles.
+        expect((near.wood!.userData.twigIndex as number | undefined ?? near.wood!.index!.count) / 3, id).toBeLessThan(9_000);
         expect(count(near.leaf!), id).toBeGreaterThan(1.8 * count(exported));
         // A134: middle detail is a cluster canopy of about 1.2x the exported triangles.
         const mid = count(meshyTreeParts(templates.get(id)![1]).leaf!.geometry);

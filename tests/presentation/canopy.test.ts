@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import * as THREE from 'three';
-import { alphaCoverage, buildCanopy, canopyAtlas, canopyCrown, downsampleCoverage, trimExposedWood, woodAnchor, ANCHOR_REACH, MID_CANOPY, NEAR_CANOPY } from '../../src/presentation/canopy';
+import { auditCanopies } from '../../src/diagnostics/canopyAudit';
+import { alphaCoverage, buildCanopy, canopyAtlas, canopyCrown, downsampleCoverage, trimExposedWood, woodAnchor, growTwigs, MID_CANOPY, NEAR_CANOPY } from '../../src/presentation/canopy';
 
 /** A source crown like the Meshy exports: a few large curved sheets through a spheroid 12 m wide, 8 m tall, at y 12. */
 function sourceCrown(): THREE.BufferGeometry {
@@ -118,7 +119,7 @@ describe('cluster canopy (A134)', () => {
     expect(geometry.index!.count / 3).toBeGreaterThanOrEqual(new THREE.CylinderGeometry(0.4, 0.6, 12, 8).index!.count / 3);
   });
 
-  it('hangs every clump from the wood, even where the source sheets reach past the branches', () => {
+  it('hangs every clump from the wood (grown twigs included), even where the source sheets reach past the branches', () => {
     // A trunk with four boughs into the crown, and a stray source sheet 5 m clear of every bough.
     const parts = [new THREE.CylinderGeometry(0.4, 0.6, 12, 8).translate(0, 6, 0)];
     for (let k = 0; k < 4; k++) parts.push(new THREE.CylinderGeometry(0.08, 0.2, 6, 5).rotateZ(Math.PI / 2.6).translate(2.2, 13, 0).rotateY(k * Math.PI / 2));
@@ -131,14 +132,15 @@ describe('cluster canopy (A134)', () => {
     merged.setAttribute('position', new THREE.Float32BufferAttribute([...lp.array, ...stray.getAttribute('position').array], 3));
     merged.setIndex([...leaf.index!.array, ...Array.from(stray.index!.array, x => x + n)]);
     for (const shape of [NEAR_CANOPY, MID_CANOPY]) {
-      const g = buildCanopy(merged, w, { ...shape, cards: 2500, seed: 3 }), anchor = woodAnchor(w), p = g.getAttribute('position'), at = new THREE.Vector3(), hit = new THREE.Vector3();
-      expect((g.userData.canopy as { anchored: number }).anchored).toBeGreaterThan(0);
-      // A card's centre lies within the clump radius (plus its own reach) of the clump centre, itself within reach of wood.
-      const limit = shape.clump * (ANCHOR_REACH + 1.2);
-      for (let q = 0; q < p.count; q += 4) {
-        at.set(0, 0, 0); for (let k = 0; k < 4; k++) at.add(new THREE.Vector3().fromBufferAttribute(p, q + k)); at.multiplyScalar(0.25);
-        expect(anchor(at, hit)).toBeLessThan(limit);
-      }
+      const g = buildCanopy(merged, w, { ...shape, cards: 2500, seed: 3 }), info = g.userData.canopy as { anchored: number; twigs: Parameters<typeof growTwigs>[1] };
+      expect(info.anchored).toBeGreaterThan(0);
+      // No island: every chunk of cards (linked within 0.75 m) has a card within 0.75 m of the wood or a grown twig.
+      const report = auditCanopies([{ label: 't', wood: growTwigs(w, info.twigs), leaves: g, matrix: new THREE.Matrix4() }]);
+      expect(report.summary.candidates).toBe(0);
+      // The crown keeps its width: twigs carry the outer clumps instead of pulling them in.
+      const free = buildCanopy(merged, null, { ...shape, cards: 2500, seed: 3 });
+      const width = (x: THREE.BufferGeometry) => { x.computeBoundingBox(); const b = x.boundingBox!; return Math.max(b.max.x - b.min.x, b.max.z - b.min.z); };
+      expect(width(g) / width(free)).toBeGreaterThan(0.85);
     }
   });
 

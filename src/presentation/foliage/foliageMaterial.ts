@@ -379,6 +379,9 @@ const foliageOptionsKey = (weight: string | undefined, key?: string): string =>
  * Give a tree material wind (and, for leaves, the foliage look). Idempotent per material. Depth and distance materials
  * used for shadows should be patched with {@link installFoliageShadow} so the shadows move with the leaves.
  */
+/** Ambient lift for wood inside its crown (1 + this at the heart). */
+const WOOD_CROWN_FILL = 1.6;
+
 export function installFoliage(material: THREE.Material, opts: FoliageInstall): InstalledFoliage {
   const existing = installed.get(material);
   if (existing) return existing;
@@ -405,7 +408,28 @@ export function installFoliage(material: THREE.Material, opts: FoliageInstall): 
   material.onBeforeCompile = function(shader, renderer) {
     compile.call(this, shader, renderer);
     if (!patchFoliageVertex(shader, { ...wind, ...own }, opts.leaf, opts.weight)) { failed = true; return; }
-    if (!opts.leaf || !physical) return;
+    if (!opts.leaf) {
+      // Playtest 7: boughs and twigs inside a crown sat in the leaves' shadow with little sky, and read as black shards
+      // through the gaps between clumps. Inside the crown spheroid the bark's ambient is lifted, as the leaves' own is
+      // held up by the crown normal's sky bias, so the wood reads as bark in shade.
+      if (!physical || !shader.fragmentShader.includes('#include <lights_fragment_end>')) return;
+      shader.uniforms.uWoodCrownFill = { value: WOOD_CROWN_FILL };
+      shader.vertexShader = shader.vertexShader
+        .replace('#include <common>', `#include <common>
+uniform vec4 uCrownCentre;
+uniform vec2 uCrownRadii;
+varying float vTvWoodCrown;`)
+        .replace('#include <project_vertex>', `vTvWoodCrown = length(vec2(length(transformed.xz - uCrownCentre.xz) / uCrownRadii.x, (transformed.y - uCrownCentre.y) / uCrownRadii.y));
+#include <project_vertex>`);
+      shader.fragmentShader = shader.fragmentShader
+        .replace('#include <common>', `#include <common>
+uniform float uWoodCrownFill;
+varying float vTvWoodCrown;`)
+        .replace('#include <lights_fragment_end>', `#include <lights_fragment_end>
+reflectedLight.indirectDiffuse *= 1.0 + uWoodCrownFill * (1.0 - smoothstep(0.75, 1.1, vTvWoodCrown));`);
+      return;
+    }
+    if (!physical) return;
     const f0 = shader.fragmentShader;
     const lights = lightsWithUnshadowedColour();
     const needs = ['#include <common>', '#include <color_fragment>', '#include <alphatest_fragment>', '#include <normal_fragment_maps>',
@@ -436,7 +460,7 @@ export function installFoliage(material: THREE.Material, opts: FoliageInstall): 
         ${LEAF_SKY_GLSL}`);
   };
   material.customProgramCacheKey = function() {
-    return `${programKey.call(this)}|tervain-foliage-v2-${opts.leaf ? 'leaf' : 'wood'}${foliageOptionsKey(opts.weight, opts.key)}`;
+    return `${programKey.call(this)}|tervain-foliage-v2-${opts.leaf ? 'leaf' : 'wood-fill1'}${foliageOptionsKey(opts.weight, opts.key)}`;
   };
   material.needsUpdate = true;
   const result: InstalledFoliage = { uniforms: own, ok: () => !failed };

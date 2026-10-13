@@ -11,7 +11,7 @@ import { withModelLoadSlot } from './assets/modelLoadQueue';
 import { downloadAsset } from './assets/download';
 import { installBarkDetail } from './treeMaterials';
 import { barkTextures } from './treeTextures';
-import { buildCanopy, canopyAtlasTexture, trimExposedWood, NEAR_CANOPY, MID_CANOPY } from './canopy';
+import { buildCanopy, canopyAtlasTexture, growTwigs, trimExposedWood, NEAR_CANOPY, MID_CANOPY, type CanopyTwig } from './canopy';
 
 /** Owner-supplied sources. Plinth-bearing 3106/1459 are prepared reserves, not active plantings. */
 export const MESHY_TREE_IDS = ['fir-spire', 'oak-elder', 'palm-date', 'palm-fan', 'palm-lean', 'tree-0208', 'tree-1537', 'tree-1527', 'tree-1521', 'tree-4949', 'tree-1505', 'tree-4815', 'verdant-sentinel'] as const;
@@ -471,6 +471,9 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
             const trimmed = trimExposedWood(wood, canopy, shape.clump * 1.6);
             if (trimmed.geometry !== wood) { geometries.delete(wood); wood.dispose(); geometries.add(trimmed.geometry); wood = trimmed.geometry; }
           }
+          // Playtest 7: the twigs out to clumps beyond the boughs' reach (after the trim, which would cut them).
+          const twigs = (canopy.userData.canopy as { twigs: CanopyTwig[] }).twigs;
+          if (wood && twigs.length) { const grownWood = growTwigs(wood, twigs); geometries.delete(wood); wood.dispose(); geometries.add(grownWood); wood = grownWood; }
           const tris = triangles(wood) + triangles(canopy);
           return { wood, leaf: canopy, tris };
         }
