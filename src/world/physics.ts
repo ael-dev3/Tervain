@@ -502,7 +502,11 @@ export class RealmPhysics {
         y: actor.from.y + (actor.target.y - actor.from.y) * t,
         z: actor.from.z + (actor.target.z - actor.from.z) * t,
       });
-      for (const p of this.props) p.previous = this.poseOf(p.spec.id, p.body);
+      for (const p of this.props) {
+        const position = p.body.translation(), rotation = p.body.rotation();
+        Object.assign(p.previous.position, position); Object.assign(p.previous.rotation, rotation);
+        p.previous.sleeping = p.body.isSleeping();
+      }
       if (this.water) {
         // A re-solved stream may have risen around a barrel at rest; wake what stands in water once.
         const wake = this.water.revision !== this.waterRevision;
