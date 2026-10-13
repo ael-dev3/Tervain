@@ -1,3 +1,4 @@
+export function ownedDebugPort(contents: string): number | null;
 export function cdpRequests(write: (message: { id: number; method: string; params: unknown }) => void, timeoutMs?: number): {
   nextId(): number;
   send(method: string, params?: unknown): Promise<any>;
