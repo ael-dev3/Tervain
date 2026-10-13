@@ -12,9 +12,9 @@ let page;try{
  const idle=()=>{const start=writes,version=mesh.instanceMatrix.version,reads=directionReads;for(let i=0;i<120;i++)forest.update(1/60,frame);return{frames:120,matrixWrites:writes-start,attributeVersions:mesh.instanceMatrix.version-version,windDirectionReads:directionReads-reads,visible:mesh.visible,count:mesh.count,active:forest.stats().struckLeaves};};
  const initial=idle(),root=forest.placementAuditTargets().find(t=>t.kind==='root');root.geometry.computeBoundingBox();const point=root.geometry.boundingBox.getCenter(T.player.group.position.clone()).applyMatrix4(root.matrix);
  const accepted=forest.strike(point.x,point.y,point.z,1,root.label);forest.update(0,frame);const emitted={accepted,active:forest.stats().struckLeaves,visible:mesh.visible,count:mesh.count};
- T.cam.camera.position.copy(point).add(T.player.group.position.clone().set(3,3,6));T.cam.camera.lookAt(point);T.cam.camera.updateMatrixWorld();T.renderer.render(T.world.scene,T.cam.camera);
+ T.cam.camera.position.copy(point).add(T.player.group.position.clone().set(3,3,6));T.cam.camera.lookAt(point);T.cam.camera.updateMatrixWorld();forest.update(0,frame);T.renderer.render(T.world.scene,T.cam.camera);
  window.__leafBurstProof={forest,frame,mesh,writes:()=>writes,idle};return{initial,emitted};`);
- await page.shot(path.join(out,'active.png'));
+ await page.shot(path.join(out,'scene.png'));
  const final=await page.eval(`const T=window.tervain,F=window.__leafBurstProof;let steps=0;while(F.forest.stats().struckLeaves>0&&steps<1200){F.forest.update(.1,F.frame);steps++;}return{expirySteps:steps,expired:F.forest.stats().struckLeaves===0,afterExpiry:F.idle()};`);Object.assign(report,final);
  report.build=await page.eval(`return await fetch(new URL('version.json',document.baseURI)).then(r=>r.json());`);
  report.pass=report.emitted.accepted&&report.emitted.active>0&&report.emitted.visible&&report.expired&&[report.initial,report.afterExpiry].every(r=>!r.visible&&r.count===0&&r.active===0&&(args.expect==='before'?r.matrixWrites===48*120&&r.attributeVersions===120&&r.windDirectionReads===120:r.matrixWrites===0&&r.attributeVersions===0&&r.windDirectionReads===0));
