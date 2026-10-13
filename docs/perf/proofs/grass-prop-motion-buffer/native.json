@@ -1,0 +1,19 @@
+{
+  "baselineRef": "9ab40b387",
+  "sourceSha256": "7aa5d8f273ccef5e4265c36bebe6166fe06886e0c1378dce33b62b0a0851015f",
+  "scope": "Plain output arrays and motion records for one grass caller, counted by retained object identity. Rapier return wrappers, total heap allocations and frame times are not measured.",
+  "updates": 600,
+  "props": 9,
+  "comparedRecords": 5400,
+  "sleepingSamples": 4193,
+  "heldSamples": 2,
+  "beforeArrays": 600,
+  "afterArrays": 1,
+  "beforeMotionRecords": 5400,
+  "afterMotionRecords": 9,
+  "exactMotionValues": true,
+  "defaultSnapshotsUnchanged": true,
+  "truncatesOutput": true,
+  "sleepClearsVelocity": true,
+  "pass": true
+}

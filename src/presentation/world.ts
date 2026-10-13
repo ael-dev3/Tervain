@@ -44,7 +44,7 @@ import { buildWoodlandAir } from './woodlandAir';
 import { setPickupVisible } from './worldPickups';
 import { loadSolitaryPine, PINE_FILES, type PineTemplates } from './solitaryPine';
 import { LanternLightPool } from './lanternLights';
-import { RealmPhysics, initializePhysics } from '../world/physics';
+import { RealmPhysics, initializePhysics, type PropMotion } from '../world/physics';
 import { buildPhysicalProps } from './physicalProps';
 import type { MeshyNpcCatalog } from './meshynpcs';
 import { buildSourceRockPiles, loadSourceRockPile } from './sourceRockPile';
@@ -138,6 +138,7 @@ export class WorldScene {
   private grassPeople: readonly GrassMover[] = [];
   private readonly grassLast = new Map<string, { x: number; z: number }>();
   private readonly grassSeen = new Set<string>();
+  private readonly grassPropMotions: PropMotion[] = [];
   readonly scenery: SceneryHandles;
   readonly animals: AnimalWildlife;
   readonly terrainMesh: THREE.Group;
@@ -554,7 +555,7 @@ export class WorldScene {
       movers.push({ x: a.x, z: a.z, radius: Math.max(0.35, a.radius * 1.25), weight: Math.min(1, 0.35 + a.radius * 0.9), vx: walking ? vx : 0, vz: walking ? vz : 0 });
     }
     for (const id of this.grassLast.keys()) if (!seen.has(id)) this.grassLast.delete(id);
-    for (const p of this.physics.motions()) {
+    for (const p of this.physics.motions(this.grassPropMotions)) {
       // Held or in flight, cargo touches no grass (A105 scout: a carried crate laid a trail flatter than the hero's).
       if (p.held || p.y - this.terrain.heightAt(p.x, p.z) > 0.8) continue;
       if (Math.hypot(p.vx, p.vz) < 0.05) {
