@@ -36,6 +36,7 @@ try{
  const hash=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(JSON.stringify(samples)))),b=>b.toString(16).padStart(2,'0')).join('');
  return {schema:1,idleUpdates:90,particleCapacity:W.dustData.length,bufferBytes:attr.array.byteLength,idleUploads,idleBytes,activeBytes,snapshotHash:hash,scope:'Actual compiled world update and actual dust buffer rendered in isolation with software WebGL. Controlled emission, expiry and restart; not hardware timing.'};
  `);
+ report.build=await page.eval('return fetch(new URL("version.json",document.baseURI)).then(r=>r.json());');
  report.pass=args.expect==='fresh'?report.idleUploads===90&&report.idleBytes===97200:report.idleUploads===0&&report.idleBytes===0;
  if(args.baseline){const before=JSON.parse(fs.readFileSync(args.baseline,'utf8'));report.outputMatchesBaseline=report.snapshotHash===before.snapshotHash;report.pass&&=report.outputMatchesBaseline;}
  fs.writeFileSync(path.join(out,'report.json'),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report));if(!report.pass)process.exitCode=1;

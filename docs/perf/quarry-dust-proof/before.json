@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "idleUpdates": 90,
+  "particleCapacity": 90,
+  "bufferBytes": 1080,
+  "idleUploads": 90,
+  "idleBytes": 97200,
+  "activeBytes": 27000,
+  "snapshotHash": "280ffa3e5265b722ce835a064999bbeff43cc574b225f7f087b9588cd06bde46",
+  "scope": "Actual compiled world update and actual dust buffer rendered in isolation with software WebGL. Controlled emission, expiry and restart; not hardware timing.",
+  "pass": true
+}
