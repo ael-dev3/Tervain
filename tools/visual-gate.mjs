@@ -4,7 +4,7 @@
  * fixed stills at each, and runs the automated checks a fix must pass before it is claimed.
  *
  *   node tools/visual-gate.mjs [--url <build>] [--tag <name>] [--out visual-gate-runs] [--profile mac|desktop]
- *                              [--baseline <metrics.json>] [--spots giant,grove,meadow,fence,hearth,sign]
+ *                              [--baseline <metrics.json>] [--spots giant,grove,meadow,fence,hearth,sign,woods,deepwoods]
  *
  * Writes <out>/<tag>/: one folder per spot (still-*.jpg, frames/, clip.mp4), metrics.json and report.md (media as
  * MEDIA/<tag>/... for tools/publish-gate.mjs). Checks, each failing the run:
@@ -46,8 +46,10 @@ const SPOTS = {
   hill: { item: 'Trees: pines and crowns on the slope', hero: [-25.5, -117, Math.PI], hide: true, still: [[0, 1.7, 0, 0, 12, -8], [4, 1.7, 1, -1, 11, -8]], path: [[-5, 1.7, 0, 0, 11, -8], [5, 1.7, 0, 0, 11, -8]] },
   // Playtest 7, 0:31-0:33: the follow camera pressed into a trunk behind the hero must never show his hollow inside.
   clip: { item: 'Camera: pressed against a trunk behind the hero', hero: [-33.4, 62.5, Math.PI], still: [], run: 5000, keys: ['KeyS', 'KeyZ'] },
-  // Playtest 8: running through woodland at dusk with the follow camera, where crowns hand over between detail levels.
-  woods: { item: 'Trees: woodland in motion at dusk (detail hand-over, far crowns)', hero: [-40, 0, -Math.PI / 2], still: [], run: 7000 },
+  // 0.0.17: leaf chunks floating beside the trees while moving through the forest at dusk. The hero runs, the ordinary
+  // follow camera behind him: in from the eastern oaks' edge, and deep through the densest stand of the deepwood.
+  woods: { item: 'Trees: crowns on their boughs, walking into the oaks at dusk', hero: [-108, 53, -Math.PI / 2], hour: 19.8, still: [[0, 2.2, 3.2, 0, 3.5, -8]], run: 6000 },
+  deepwoods: { item: 'Trees: no floating leaf chunks deep in the forest at dusk', hero: [-166.9, -42.8, 0.6], hour: 19.8, still: [[0, 2.2, -3.2, 0, 4, 8]], run: 9000 },
   sign: { item: 'Props: shop sign and supports', hero: [2, 38.5, Math.PI], hide: true, still: [[0, 1.7, 0, -1.6, 2.1, -3.7]], path: [[-2, 1.7, .5, -1.6, 2.1, -3.7], [2, 1.7, .5, -1.6, 2.1, -3.7]] },
 };
 const chosen = (args.spots ?? Object.keys(SPOTS).join(',')).split(',').filter((s) => SPOTS[s]);
@@ -93,7 +95,7 @@ try {
     const spot = SPOTS[id], dir = path.join(OUT, id);
     fs.mkdirSync(path.join(dir, 'frames'), { recursive: true });
     // Each spot at the asked hour: the run takes minutes of game time, and residents retire indoors after dark.
-    await page.eval(`window.tervain.debugTime?.(${Number(args.hour ?? 11)}); return 1`);
+    await page.eval(`window.tervain.debugTime?.(${Number(spot.hour ?? args.hour ?? 11)}); return 1`);
     await place(...spot.hero);
     // Scenery spots park the hero out of shot (the game keeps his body visible itself); the cameras stay where they are.
     if (spot.hide) await place(spot.hero[0] + 40, spot.hero[1] + 40, spot.hero[2]);

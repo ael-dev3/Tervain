@@ -154,6 +154,9 @@ const ANCHOR_DROP = 7;
 const ANCHOR_LINK = 1.8;
 /** A clump is held through a neighbour only within this many clump radii of the wood. */
 const ANCHOR_HOLD = 3;
+/** No drawn clump centre ends farther than this from its nearest wood or twig, in source metres, for every LOD: a middle
+ * crown's larger clumps spread their cards wider, so its limit is the near one's, not a share of its own radius (0.0.17). */
+export const ANCHOR_LIMIT = 0.75;
 /** Twigs stay above the player's 2.6 m slab (source space is metres): see treeWoodCollisionRadius. */
 const TWIG_FLOOR = 3.2;
 
@@ -381,6 +384,23 @@ export function buildCanopy(leaf: THREE.BufferGeometry, wood: THREE.BufferGeomet
       if (best!.plan.twig) { twigs.splice(twigs.indexOf(best!.plan.twig), 1); best!.plan.twig = null; }
       join(spread(best!));
     }
+  }
+  // 0.0.17: a clump held only through its neighbours (above) could still sit metres from every branch: linked masses
+  // chain without limit, and at dusk, moving through the forest, they read as leaf chunks floating beside the tree.
+  // Last, every clump as drawn is pulled in toward its nearest wood or twig until it is within ANCHOR_LIMIT.
+  if (wood) {
+    const limit = ANCHOR_LIMIT, tmp = new THREE.Vector3(), viaTwig = new THREE.Vector3();
+    for (const plan of plans) plan.keep = plan.keep.map(c => {
+      const at = placedIn.has(c) ? c.clone() : c.clone().addScaledVector(clumpOutward(crown, c, tmp), -opts.clump * 0.6);
+      let d = anchor(at, hit);
+      const dt = onTwig(at, viaTwig);
+      if (dt < d) { d = dt; hit.copy(viaTwig); }
+      if (!(d > limit) || !Number.isFinite(d)) return c;
+      const moved = at.sub(hit).setLength(limit).add(hit);
+      placedIn.add(moved);
+      if (grown.has(c)) grown.add(moved);
+      return moved;
+    });
   }
   const centres = plans.flatMap(plan => plan.keep);
   const weights = centres.map(c => 0.6 + 0.4 * THREE.MathUtils.smoothstep(depthIn(crown, c), 0.35, 0.85));

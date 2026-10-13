@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import * as THREE from 'three';
 import { auditCanopies } from '../../src/diagnostics/canopyAudit';
-import { alphaCoverage, buildCanopy, canopyAtlas, canopyCrown, downsampleCoverage, trimExposedWood, woodAnchor, growTwigs, MID_CANOPY, NEAR_CANOPY } from '../../src/presentation/canopy';
+import { alphaCoverage, buildCanopy, canopyAtlas, canopyCrown, downsampleCoverage, trimExposedWood, woodAnchor, growTwigs, ANCHOR_LIMIT, MID_CANOPY, NEAR_CANOPY } from '../../src/presentation/canopy';
 
 /** A source crown like the Meshy exports: a few large curved sheets through a spheroid 12 m wide, 8 m tall, at y 12. */
 function sourceCrown(): THREE.BufferGeometry {
@@ -141,6 +141,27 @@ describe('cluster canopy (A134)', () => {
       const free = buildCanopy(merged, null, { ...shape, cards: 2500, seed: 3 });
       const width = (x: THREE.BufferGeometry) => { x.computeBoundingBox(); const b = x.boundingBox!; return Math.max(b.max.x - b.min.x, b.max.z - b.min.z); };
       expect(width(g) / width(free)).toBeGreaterThan(0.85);
+    }
+  });
+
+  it('keeps every card near its own wood, not only chained to it through other clumps (0.0.17)', () => {
+    // Four short boughs under a crown 12 m wide: the old linking held whole masses metres out through their neighbours.
+    const parts = [new THREE.CylinderGeometry(0.4, 0.6, 12, 8).translate(0, 6, 0)];
+    for (let k = 0; k < 4; k++) parts.push(new THREE.CylinderGeometry(0.08, 0.2, 3, 5).rotateZ(Math.PI / 2.6).translate(1.2, 12.5, 0).rotateY(k * Math.PI / 2));
+    let offset = 0;
+    const w = new THREE.BufferGeometry(), pos: number[] = [], idx: number[] = [];
+    for (const g of parts) { pos.push(...g.getAttribute('position').array); idx.push(...Array.from(g.index!.array, x => x + offset)); offset += g.getAttribute('position').count; }
+    w.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); w.setIndex(idx);
+    for (const shape of [NEAR_CANOPY, MID_CANOPY]) {
+      const g = buildCanopy(sourceCrown(), w, { ...shape, cards: 2500, seed: 5 }), info = g.userData.canopy as { twigs: Parameters<typeof growTwigs>[1] };
+      const anchor = woodAnchor(growTwigs(w, info.twigs)), p = g.getAttribute('position'), centre = new THREE.Vector3(), hit = new THREE.Vector3();
+      // A card's centre lies within its clump (at most 1.4 clump radii out), its clump within ANCHOR_LIMIT of the wood.
+      let worst = 0;
+      for (let i = 0; i < p.count; i += 4) {
+        centre.set(0, 0, 0); for (let k = 0; k < 4; k++) centre.add(new THREE.Vector3().fromBufferAttribute(p, i + k)); centre.multiplyScalar(0.25);
+        worst = Math.max(worst, anchor(centre, hit));
+      }
+      expect(worst).toBeLessThanOrEqual(ANCHOR_LIMIT + shape.clump * 1.4 + 0.05);
     }
   });
 
