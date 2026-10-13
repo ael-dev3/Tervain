@@ -1,0 +1,102 @@
+{
+  "frames": [
+    {
+      "worldMatrixWalks": 2,
+      "captureFaces": 1,
+      "autoUpdateRestored": true,
+      "probe": [
+        8,
+        10,
+        12
+      ]
+    },
+    {
+      "worldMatrixWalks": 2,
+      "captureFaces": 1,
+      "autoUpdateRestored": true,
+      "probe": [
+        9,
+        10,
+        12
+      ]
+    },
+    {
+      "worldMatrixWalks": 2,
+      "captureFaces": 1,
+      "autoUpdateRestored": true,
+      "probe": [
+        10,
+        10,
+        12
+      ]
+    },
+    {
+      "worldMatrixWalks": 2,
+      "captureFaces": 1,
+      "autoUpdateRestored": true,
+      "probe": [
+        11,
+        10,
+        12
+      ]
+    },
+    {
+      "worldMatrixWalks": 2,
+      "captureFaces": 1,
+      "autoUpdateRestored": true,
+      "probe": [
+        12,
+        10,
+        12
+      ]
+    },
+    {
+      "worldMatrixWalks": 2,
+      "captureFaces": 1,
+      "autoUpdateRestored": true,
+      "probe": [
+        13,
+        10,
+        12
+      ]
+    }
+  ],
+  "matrixSamples": [
+    [
+      8,
+      10,
+      12
+    ],
+    [
+      9,
+      10,
+      12
+    ],
+    [
+      10,
+      10,
+      12
+    ],
+    [
+      11,
+      10,
+      12
+    ],
+    [
+      12,
+      10,
+      12
+    ],
+    [
+      13,
+      10,
+      12
+    ]
+  ],
+  "captureComplete": true,
+  "build": {
+    "version": "0.0.14",
+    "revision": "174fc29b8"
+  },
+  "pass": true
+}
