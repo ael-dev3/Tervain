@@ -21,6 +21,8 @@ export const SUN_SHADOW_DEPTH = 399;
 export const PENUMBRA_PER_METRE = 0.028;
 export const PENUMBRA_MIN = 0.035;
 export const PENUMBRA_MAX = 0.42;
+/** Where the sun's shadow fades out, as shares of the map's half-width from its centre (playtest 6: a hard square edge). */
+export const SUN_SHADOW_FADE = [0.72, 0.97] as const;
 /** `shadow.radius` that selects these soft shadows. */
 export const SOFT_SUN_SHADOW = -1;
 
@@ -93,6 +95,11 @@ const SOFT_PCF = /* glsl */ `
 						shadow *= 0.125;
 
 					}
+
+					// The map covers a square about the player: beyond it nothing is shadowed. Fade the sun's shadow out over the map's
+					// outer band so that edge is never a line of light following him (playtest 6).
+					float edge = max( abs( shadowCoord.x - 0.5 ), abs( shadowCoord.y - 0.5 ) ) * 2.0;
+					shadow = mix( shadow, 1.0, smoothstep( ${f(SUN_SHADOW_FADE[0])}, ${f(SUN_SHADOW_FADE[1])}, edge ) );
 
 				}
 
