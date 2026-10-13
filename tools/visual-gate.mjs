@@ -90,6 +90,8 @@ try {
   for (const id of chosen) {
     const spot = SPOTS[id], dir = path.join(OUT, id);
     fs.mkdirSync(path.join(dir, 'frames'), { recursive: true });
+    // Each spot at the asked hour: the run takes minutes of game time, and residents retire indoors after dark.
+    await page.eval(`window.tervain.debugTime?.(${Number(args.hour ?? 11)}); return 1`);
     await place(...spot.hero);
     // Scenery spots park the hero out of shot (the game keeps his body visible itself); the cameras stay where they are.
     if (spot.hide) await place(spot.hero[0] + 40, spot.hero[1] + 40, spot.hero[2]);
