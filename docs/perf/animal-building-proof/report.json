@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "baselineRef": "0b45a36",
+  "sourceSha256": "cbb8613974da386c6a63a9f352926db1f62a2cba615c84e7ee7a03c270a976bb",
+  "scope": "Actual habitat validators on authored definitions and world/building-boundary samples; all trig calls during queries counted, one-time module work excluded. Actual placement control uses flat terrain/no scenery; not live frame time.",
+  "samples": 35758,
+  "buildings": 19,
+  "beforeChecks": 2011284,
+  "afterChecks": 723996,
+  "mismatches": 0,
+  "placementsCompared": 19,
+  "successfulPlacements": 19,
+  "placementDifferences": 0,
+  "pass": true
+}

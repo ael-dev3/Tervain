@@ -20,10 +20,13 @@ export function animalNavigationColliders(source: Colliders): Colliders {
   return result;
 }
 
+// Habitat queries revisit fixed building footprints many times during placement and local A*.
+const buildingRotations = BUILDINGS.map(b => ({ ...b, cosine: Math.cos(b.yaw), sine: Math.sin(b.yaw) }));
+
 function buildingDistance(x: number, z: number): number {
   let nearest = Infinity;
-  for (const b of BUILDINGS) {
-    const dx = x - b.x, dz = z - b.z, c = Math.cos(b.yaw), s = Math.sin(b.yaw);
+  for (const b of buildingRotations) {
+    const dx = x - b.x, dz = z - b.z, c = b.cosine, s = b.sine;
     const lx = dx * c - dz * s, lz = dx * s + dz * c;
     nearest = Math.min(nearest, Math.hypot(Math.max(0, Math.abs(lx) - b.w / 2), Math.max(0, Math.abs(lz) - b.d / 2)));
   }
