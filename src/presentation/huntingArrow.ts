@@ -62,6 +62,7 @@ export class HuntingArrows {
   private readonly lodged: { mesh: THREE.Group; age: number }[] = [];
   private readonly floating: { mesh: THREE.Group; age: number; heading: number }[] = [];
   private readonly fade = new NearFade();
+  private template: THREE.Group | null = null;
   private nextId = 1;
   private disposed = false;
 
@@ -77,11 +78,14 @@ export class HuntingArrows {
     if (this.disposed || !origin.toArray().every(Number.isFinite) || !direction.toArray().every(Number.isFinite) ||
       direction.lengthSq() < 1e-8 || !Number.isFinite(speed) || speed <= 0) return null;
     while (this.flights.length >= this.maxFlights) this.remove(this.flights.shift()!.mesh);
+    if (!this.template) {
+      this.template = createHuntingArrow();
+      this.fade.patchAll(this.template);
+    }
     const flight = { id: this.nextId++, position: origin.clone(), velocity: direction.clone().normalize().multiplyScalar(speed),
-      mesh: createHuntingArrow(), age: 0 };
+      mesh: this.template.clone(), age: 0 };
     // The nocked arrow carries the hero's near-fade patch; a loosed one shares that program (here always fully drawn)
     // instead of linking a plain one in its first frame of flight (a 0.17 s frame in the play gate).
-    this.fade.patchAll(flight.mesh);
     flight.mesh.position.copy(origin);
     this.orient(flight.mesh, flight.velocity);
     this.group.add(flight.mesh);
@@ -178,14 +182,22 @@ export class HuntingArrows {
     }
   }
 
-  dispose(): void { this.clear(); this.disposed = true; this.group.removeFromParent(); }
+  dispose(): void {
+    if (this.disposed) return;
+    this.clear(); this.disposed = true; this.group.removeFromParent();
+    if (this.template) { this.disposeResources(this.template); this.template = null; }
+  }
 
   private orient(mesh: THREE.Object3D, velocity: THREE.Vector3): void {
     mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0, 0, 1), velocity.clone().normalize());
   }
 
   private remove(mesh: THREE.Object3D): void {
+    // Flight transforms are independent; immutable geometry and material resources belong to the owner.
     mesh.removeFromParent();
+  }
+
+  private disposeResources(mesh: THREE.Object3D): void {
     const geometry = new Set<THREE.BufferGeometry>(), materials = new Set<THREE.Material>();
     mesh.traverse((object) => {
       const part = object as THREE.Mesh;

@@ -68,7 +68,7 @@ describe('swept ballistic hunting arrows', () => {
     arrows.dispose();
   });
 
-  it('bounds active/lodged meshes and disposes expired arrow geometry', () => {
+  it('bounds active/lodged meshes and retains shared resources until owner disposal', () => {
     const arrows = new HuntingArrows(2, 2);
     const first = arrows.launch(new THREE.Vector3(), new THREE.Vector3(0, 0, 1))!;
     const mesh = first.mesh.children.find((object) => (object as THREE.Mesh).isMesh)! as THREE.Mesh;
@@ -76,7 +76,7 @@ describe('swept ballistic hunting arrows', () => {
     arrows.launch(new THREE.Vector3(), new THREE.Vector3(0, 0, 1));
     arrows.launch(new THREE.Vector3(), new THREE.Vector3(0, 0, 1));
     expect(arrows.activeCount).toBe(2);
-    expect(disposed).toHaveBeenCalledOnce();
+    expect(disposed).not.toHaveBeenCalled();
     arrows.update(.1, (_from, to) => ({ point: to }));
     expect(arrows.lodgedCount).toBe(2);
     arrows.launch(new THREE.Vector3(), new THREE.Vector3(0, 0, 1));
@@ -85,8 +85,27 @@ describe('swept ballistic hunting arrows', () => {
     arrows.update(26, () => null);
     expect(arrows.lodgedCount).toBe(0);
     expect(arrows.group.children).toHaveLength(0);
+    expect(disposed).not.toHaveBeenCalled();
     arrows.dispose();
+    expect(disposed).toHaveBeenCalledOnce();
+    arrows.dispose();
+    expect(disposed).toHaveBeenCalledOnce();
     expect(arrows.launch(new THREE.Vector3(), new THREE.Vector3(0, 0, 1))).toBeNull();
+  });
+
+  it('shares immutable resources while keeping each arrow transform independent across clear/relaunch', () => {
+    const arrows = new HuntingArrows();
+    const first = arrows.launch(new THREE.Vector3(0, 2, 0), new THREE.Vector3(0, 0, 1))!;
+    const second = arrows.launch(new THREE.Vector3(1, 2, 0), new THREE.Vector3(1, 0, 0))!;
+    expect(first.mesh).not.toBe(second.mesh);
+    const a = first.mesh.children[0] as THREE.Mesh, b = second.mesh.children[0] as THREE.Mesh;
+    expect(a.geometry).toBe(b.geometry); expect(a.material).toBe(b.material);
+    second.mesh.position.x = 7; expect(first.mesh.position.x).toBe(0);
+    const disposed = vi.spyOn(a.geometry, 'dispose');
+    arrows.clear(); expect(disposed).not.toHaveBeenCalled();
+    const third = arrows.launch(new THREE.Vector3(), new THREE.Vector3(0, 0, 1))!;
+    expect((third.mesh.children[0] as THREE.Mesh).geometry).toBe(a.geometry);
+    arrows.dispose(); expect(disposed).toHaveBeenCalledOnce();
   });
 
   it('rejects invalid vectors rather than creating nonfinite scene transforms', () => {
