@@ -1,9 +1,9 @@
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { patchDualQuaternionMaterial } from '../../src/presentation/npc/dualQuaternionSkinning';
 import {
-  HIDDEN_YIELD, installResidentSurface, patchResidentShadow, RESIDENT_LOOK, RESIDENT_SHADOW_KEY, RESIDENT_SURFACE_KEY, residentHiddenLayers, residentSkinPrior,
+  HIDDEN_YIELD, installResidentSurface, patchResidentShadow, RESIDENT_LOOK, RESIDENT_SHADOW_KEY, RESIDENT_SURFACE_KEY, residentHiddenLayers, residentHiddenLayersSteps, residentSkinPrior,
 } from '../../src/presentation/npc/residentSurface';
 import { repairNpcSurfaceMaterial } from '../../src/presentation/npcSurface';
 
@@ -130,4 +130,19 @@ describe('resident surface', () => {
     const shader = { vertexShader: THREE.ShaderLib.physical.vertexShader, fragmentShader: 'void main() {}', uniforms: {} } as unknown as THREE.WebGLProgramParametersWithUniforms;
     expect(() => material.onBeforeCompile(shader, {} as THREE.WebGLRenderer)).toThrow(/cannot find/);
   });
+});
+
+
+it('checks the hidden-layer work budget at least every 32 grid triangles', () => {
+  const geometry = new THREE.BoxGeometry(1, 1, 1, 16, 16, 16), count = geometry.getAttribute('position').count;
+  geometry.setAttribute('skinIndex', new THREE.Uint16BufferAttribute(new Uint16Array(count * 4), 4));
+  const weights = new Float32Array(count * 4); for (let i=0;i<count;i++) weights[i*4]=1;
+  geometry.setAttribute('skinWeight', new THREE.Float32BufferAttribute(weights, 4));
+  let clock=0;const now=vi.spyOn(performance,'now').mockImplementation(()=>clock+=4);
+  try {
+    const steps=residentHiddenLayersSteps(geometry,['head']);let yields=0,result;
+    for(;;){const next=steps.next();if(next.done){result=next.value;break;}yields++;}
+    expect(yields).toBeGreaterThanOrEqual(Math.floor(geometry.index!.count / 3 / 32));
+    expect([...result].every(value=>value===0)).toBe(true);
+  } finally {now.mockRestore();geometry.dispose();}
 });
