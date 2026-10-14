@@ -174,6 +174,8 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
   const q = typeof location !== 'undefined' ? new URLSearchParams(location.search) : new URLSearchParams();
   const lineup = q.get('lineup')?.split(',').map(Number);
   const forceLod = q.has('lod') ? Number(q.get('lod')) : -1;
+  const forcedWeights = forceLod >= 0 ? [0, 0, 0] : null;
+  if (forcedWeights) forcedWeights[Math.min(2, Math.floor(forceLod))] = 1;
   if (lineup && lineup.length === 2) {
     SPECIES.forEach((sp, i) => {
       for (let v = 0; v < FLORA_VARIANTS; v++) {
@@ -457,8 +459,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         if (!inView) continue;
         // The stand supplies a shared value group; turning a tree must not change its colour.
         col.setRGB(t.tint, t.tint * 0.99, t.tint * 0.95);
-        const weights: number[] = forceLod >= 0 ? [0, 0, 0] : [...floraLodWeightsFor(v.species, lodQuality, d)];
-        if (forceLod >= 0) weights[Math.min(2, Math.floor(forceLod))] = 1;
+        const weights = forcedWeights ?? floraLodWeightsFor(v.species, lodQuality, d);
         let intervalStart = 0;
         for (let l = 0; l < 3; l++) {
           const intervalEnd = intervalStart + weights[l]! * horizon;

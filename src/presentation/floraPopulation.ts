@@ -283,6 +283,7 @@ export const FLORA_LOD_BANDS: Record<Quality, { near: readonly [number, number];
   medium: { near: [120, 180], middle: [480, 620] },
   low: { near: [0, 0], middle: [64, 96] },
 };
+const FULL_TREE_LOD = Object.freeze([1, 0, 0] as const);
 /** High keeps the exact source mesh at every visible distance: no simplified trunk,
  * missing lower branches, or crossed crown impostor can change its silhouette while moving.
  * Other presets retain complementary pixel coverage over broad distance bands. */
@@ -296,7 +297,7 @@ export function floraLodWeights(quality: Quality, distance: number): readonly [n
     const near = smoothDistanceFade(distance, ...highBands.near), middle = smoothDistanceFade(distance, ...highBands.middle);
     return [near, middle - near, 1 - middle];
   }
-  if (quality === 'high') return [1, 0, 0];
+  if (quality === 'high') return FULL_TREE_LOD;
   const bands = FLORA_LOD_BANDS[quality];
   const near = quality === 'low' ? 0 : smoothDistanceFade(distance, ...bands.near);
   const middle = smoothDistanceFade(distance, ...bands.middle);
