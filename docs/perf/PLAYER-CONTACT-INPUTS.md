@@ -22,3 +22,21 @@ All 157 player-motion/pickup tests and the production build pass. Regression cov
 [Receipt](proofs/player-contact-inputs/report.json) · [before](proofs/player-contact-inputs/before.png) · [after](proofs/player-contact-inputs/after.png).
 
 Counts cover only this private input storage, excluding wildlife record construction, diagnostic allocations and total heap bytes. The array/records are borrowed until the next contact query; future asynchronous consumers must snapshot what they retain. No hardware frame-time improvement or play-gate PASS is claimed.
+
+## Published-world movement and turn sample
+
+```sh
+node tools/measure-live-player-contacts.mjs --url https://ael-dev3.github.io/Tervain/ --expect before --out published.json
+node tools/measure-live-player-contacts.mjs --url <candidate-build-url> --expect after --out candidate.json
+```
+
+Native complete fixed steps, real movement keys and follow-camera turns run at two `live16` lead positions with rendering frozen. Each stage advances 90 synthetic 60 Hz steps; these are position samples, not exact replays or frame-time recordings of the GPU gate.
+
+| Stage | Contact reads | Array identities before / after | Actor-record identities before / after |
+| --- | ---: | ---: | ---: |
+| Fence (−2, 37), walk/turn | 180 / 180 | 180 / 1 | 540 / 3 |
+| Run-round (−12.3, 44.8), run/turn | 180 / 180 | 180 / 1 | 540 / 3 |
+
+Both versions read 540 actor records per stage; these three active actor IDs reuse their records in the candidate. The visible/available population in this fresh-world sample is smaller than the stress fixture above. Counts describe object identities, not heap bytes; they exclude wildlife record creation and diagnostic wrappers. Final player coordinates match exactly in both stages.
+
+[Published 421d34b receipt](proofs/player-contact-inputs/published.json) · [compiled fca718428 receipt](proofs/player-contact-inputs/candidate.json). Hardware frame-time and play-gate verification remain outstanding.
