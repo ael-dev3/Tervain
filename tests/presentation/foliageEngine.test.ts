@@ -376,6 +376,11 @@ describe('the forest with wind, shadow-only casters and strikes', () => {
     const staticMeshes = [...colour, ...casters];
     const staticBefore = staticMeshes.map(m => ({ count: m.count, data: m.instanceMatrix.array.slice(), version: m.instanceMatrix.version,
       colourVersion: m.instanceColor?.version }));
+    const coverageMeshes = colour.filter(m => m.geometry.hasAttribute('aDistanceCoverage'));
+    const coverageBefore = coverageMeshes.map(m => {
+      const attribute = m.geometry.getAttribute('aDistanceCoverage') as THREE.InstancedBufferAttribute;
+      return { count: m.count, version: attribute.version, data: attribute.array.slice() };
+    });
     camera.position.x += 0.006;
     camera.updateMatrixWorld();
     forest.update(1 / 60, frame);
@@ -388,8 +393,35 @@ describe('the forest with wind, shadow-only casters and strikes', () => {
       expect(m.instanceMatrix.version).toBe(old.version);
       if (m.instanceColor) expect(m.instanceColor.version).toBe(old.colourVersion);
     });
+    let unchangedCoverage = 0, coverageBytes = 0;
+    coverageMeshes.forEach((m, i) => {
+      const old = coverageBefore[i]!;
+      const attribute = m.geometry.getAttribute('aDistanceCoverage') as THREE.InstancedBufferAttribute;
+      if (!m.count || m.count !== old.count || attribute.array.some((v, k) => v !== old.data[k])) return;
+      unchangedCoverage++;
+      coverageBytes += m.count * attribute.itemSize * 4;
+      expect(attribute.version).toBe(old.version);
+    });
+    expect(unchangedCoverage).toBeGreaterThan(5);
+    process.stdout.write(`unchanged forest coverage source bytes avoided: ${coverageBytes}\n`);
     expect(unchanged).toBeGreaterThan(5);
     process.stdout.write(`unchanged forest matrix/color source bytes avoided: ${savedBytes}\n`);
+    // Growing back into unchanged CPU values still needs an upload: hidden tails may be stale on the GPU.
+    camera.position.z += 10000; camera.updateMatrixWorld(); forest.update(1 / 60, frame);
+    const hiddenCoverage = coverageMeshes.map(m => {
+      const attribute = m.geometry.getAttribute('aDistanceCoverage') as THREE.InstancedBufferAttribute;
+      return { count: m.count, version: attribute.version, data: attribute.array.slice() };
+    });
+    camera.position.z -= 10000; camera.updateMatrixWorld(); forest.update(1 / 60, frame);
+    let grownUnchanged = 0;
+    coverageMeshes.forEach((m, i) => {
+      const old = hiddenCoverage[i]!;
+      const attribute = m.geometry.getAttribute('aDistanceCoverage') as THREE.InstancedBufferAttribute;
+      if (m.count <= old.count || attribute.array.some((v, k) => v !== old.data[k])) return;
+      grownUnchanged++;
+      expect(attribute.version).toBeGreaterThan(old.version);
+    });
+    expect(grownUnchanged).toBeGreaterThan(0);
     const full = colour.filter((m) => /:0:(wood|foliage)$/.test(m.name) && m.count > 0);
     expect(full.length).toBeGreaterThan(0);
     const before = full.map((m) => m.geometry);

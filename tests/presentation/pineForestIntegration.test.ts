@@ -216,7 +216,11 @@ describe('historical source-Pine component render substitution without the Meshy
     const meshes: THREE.InstancedMesh[] = [];
     forest.group.traverse(o => { if (o instanceof THREE.InstancedMesh && o.geometry.hasAttribute('aDistanceCoverage')) meshes.push(o); });
     forest.update(1 / 60, frame);
+    const before = new Map<THREE.BufferAttribute, { version: number; data: number[]; count: number }>();
     for (const mesh of meshes) {
+      for (const attr of [mesh.instanceMatrix, mesh.instanceColor, mesh.geometry.getAttribute('aDistanceCoverage') as THREE.BufferAttribute]) {
+        if (attr) before.set(attr, { version: attr.version, data: Array.from(attr.array), count: mesh.count });
+      }
       mesh.instanceMatrix.clearUpdateRanges(); mesh.instanceColor?.clearUpdateRanges();
       (mesh.geometry.getAttribute('aDistanceCoverage') as THREE.BufferAttribute).clearUpdateRanges();
     }
@@ -227,7 +231,14 @@ describe('historical source-Pine component render substitution without the Meshy
         if (!attr) continue;
         full += attr.array.byteLength;
         const ranges = attr.updateRanges;
-        if (!ranges.length) { expect(attr).not.toBe(mesh.geometry.getAttribute('aDistanceCoverage')); continue; }
+        if (!ranges.length) {
+          const old = before.get(attr)!;
+          expect(attr.version).toBe(old.version);
+          expect(mesh.count).toBeLessThanOrEqual(old.count);
+          const prefix = Math.max(1, mesh.count) * attr.itemSize;
+          expect(Array.from(attr.array.slice(0, prefix))).toEqual(old.data.slice(0, prefix));
+          continue;
+        }
         expect(ranges, mesh.name).toHaveLength(1);
         expect(ranges[0]).toEqual({ start: 0, count: Math.max(1, mesh.count) * attr.itemSize });
         active += ranges[0]!.count * 4;
