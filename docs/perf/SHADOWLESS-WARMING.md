@@ -65,3 +65,7 @@ Before finding the shadowless return, a separate candidate combined #470/#473/#4
 The supplied 0:26–0:28 video is a night-time approach toward the hip-roof house. The video’s exact route and preset remain unconfirmed, and its night-time stall still needs a matching reproduction. This branch change does not alter the shadow-enabled path. This PR does not claim a complete hitch fix or steady M5 60 fps. `docs/perf/LATEST.md` remains the separate live16 hardware evidence.
 
 Validation: the new regression fails twice on the published source; all 75 preparation/transition/graphics tests pass after the fix, and the production build passes. Native asset and full rendered crossing checks above pass.
+
+## Night full-path follow-up
+
+A high-preset 22:45 rendered crossing now has matched before/after route, camera and water depth, with unchanged per-sample uploads/draws/triangles. It does **not** establish complete hitch removal. [Full receipt and limitations](NIGHT-MUD-CROSSING.md).

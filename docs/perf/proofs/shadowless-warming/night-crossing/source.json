@@ -1,0 +1,16 @@
+{
+  "baseline": "421d34b",
+  "candidate": "f69b26c5f",
+  "composition": [
+    "6ce297076",
+    "f4c4ce948",
+    "d4df32e6e",
+    "42b9d77d2",
+    "97ce41a2d",
+    "864c75960"
+  ],
+  "sourceSha256": {
+    "src/app.ts": "5f30bee89452dc256f4e992eef3bcc6baa378f8162ed3bbaef28c6268446773e",
+    "src/presentation/npc/residentMotion.ts": "47d2dad348ce83b88b55d8a31c9a2ad1922a0173d39a8b8b008d966f463a84f9"
+  }
+}

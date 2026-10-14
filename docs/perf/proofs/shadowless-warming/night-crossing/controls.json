@@ -1,0 +1,13 @@
+{
+  "dryStart": true,
+  "dryEnd": true,
+  "wetSamples": 7,
+  "maximumDepthMetres": 0.08349136523613132,
+  "distanceMetres": 8.12582521699369,
+  "perSampleDrawsEqual": true,
+  "perSampleTrianglesEqual": true,
+  "perSampleUploadsEqual": true,
+  "newProgramLinksBefore": 0,
+  "newProgramLinksAfter": 0,
+  "hitchFixed": null
+}
