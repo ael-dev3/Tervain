@@ -161,7 +161,7 @@ export function* retargetClipSteps(clip: THREE.AnimationClip, library: RestPose,
       // Keep neighbouring frames in one hemisphere so interpolation between them takes the short way.
       const q = quats.get(joint)!;
       if (f && out.x * q[f * 4 - 4]! + out.y * q[f * 4 - 3]! + out.z * q[f * 4 - 2]! + out.w * q[f * 4 - 1]! < 0) out.set(-out.x, -out.y, -out.z, -out.w);
-      q.set([out.x, out.y, out.z, out.w], f * 4);
+      out.toArray(q, f * 4);
     }
     limitHeadPitch(quats.get('neck')!, quats.get('Head')!, f, target, chestUp, face, restElevation);
     const p = hipsTrack ? hipsTrack.evaluate(t) : [sourceHips.x, sourceHips.y, sourceHips.z];
@@ -203,7 +203,7 @@ export function* retargetClipSteps(clip: THREE.AnimationClip, library: RestPose,
     if (inPlace) p.addScaledVector(drift, -times[f]! / duration);
     const out = p.sub(sourceHips).multiplyScalar(scale).add(targetHips).applyQuaternion(facing);
     out.x -= shift.x; out.z -= shift.y;
-    hips.set([out.x, out.y, out.z], f * 3);
+    out.toArray(hips, f * 3);
     lowest = Math.min(lowest, out.y);
     sumX += out.x; sumZ += out.z;
     if ((f + 1) % 32 === 0) yield;
