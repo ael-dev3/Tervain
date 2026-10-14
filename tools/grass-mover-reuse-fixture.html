@@ -1,0 +1,22 @@
+<!doctype html><meta charset="utf-8"><style>body{margin:0}canvas{display:block;image-rendering:pixelated}</style><script>addEventListener('error',e=>window.fixtureError=e.message);addEventListener('unhandledrejection',e=>window.fixtureError=String(e.reason));</script><script type="module">
+import * as THREE from 'three';
+const mode=new URLSearchParams(location.search).get('mode');
+const {GrassTrample}=await import(mode==='baseline'?'/@baseline-trample':'/src/presentation/grass/trample.ts');
+const renderer=new THREE.WebGLRenderer({preserveDrawingBuffer:true});renderer.setSize(256,256);renderer.info.autoReset=false;document.body.append(renderer.domElement);
+if(!renderer.extensions.has('EXT_color_buffer_float'))throw Error('Half-float field unsupported');
+const field=new GrassTrample(32,20,{x:0,z:0}),selectedArrays=new Set(),selection=[],active=[];
+const movers=Array.from({length:80},(_,i)=>({x:i-40,z:0,radius:.5,weight:.7,vx:1,vz:0}));
+movers.push({x:NaN,z:0,radius:1},{x:0,z:Infinity,radius:1},{x:0,z:0,radius:0});
+for(let i=0;i<600;i++){
+  for(let j=0;j<80;j++)movers[j].z=Math.sin(i/60+j)*3;
+  field.setMovers(movers,i%80-40,0);selectedArrays.add(field.movers);
+  selection.push(field.movers.map(m=>movers.indexOf(m)));active.push(field.activeMovers);
+  field.update(renderer,0,0,1/60);
+}
+const pixels=new Uint16Array(32*32*4);renderer.readRenderTargetPixels(field.targets[0],0,0,32,32,pixels);
+const scene=new THREE.Scene(),camera=new THREE.OrthographicCamera(-1,1,1,-1,0,1);
+scene.add(new THREE.Mesh(new THREE.PlaneGeometry(2,2),new THREE.MeshBasicMaterial({map:field.uniforms.tTrample.value,toneMapped:false})));
+renderer.setRenderTarget(null);renderer.render(scene,camera);
+const errors=[],gl=renderer.getContext();for(let i=0;i<64;i++){const e=gl.getError();if(!e)break;errors.push(e);}if(gl.isContextLost()||errors.length)throw Error('Invalid draw '+errors);
+window.fixtureResult={mode,updates:600,selectionArrays:selectedArrays.size,selection,active,fieldPixels:Array.from(pixels),draws:renderer.info.render.calls,triangles:renderer.info.render.triangles,errors};window.fixtureReady=true;
+</script>
