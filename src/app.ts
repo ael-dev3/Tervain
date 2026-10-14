@@ -2926,9 +2926,10 @@ export class App {
     try {
       if (this.grade?.enabled) r.setRenderTarget(this.grade.target);
       const colour = r.compileAsync(object, this.cam.camera, scene);
+      const after = () => compileOnly ? undefined : this.uploadTextures(object, draws, world);
       // The sun's shadow pass draws casters with their depth material: its own, or three's packed depth material on the
       // side opposite the surface, depth unpacked (as WebGLShadowMap picks it). Compiled the same way, so the first shadow does not stall.
-      if (!r.shadowMap.enabled) return colour;
+      if (!r.shadowMap.enabled) return colour.then(after);
       object.traverse((o) => {
         const mesh = o as THREE.Mesh;
         if (!mesh.isMesh || !mesh.castShadow || Array.isArray(mesh.material)) return;
@@ -2947,7 +2948,6 @@ export class App {
         depth.displacementMap = source.displacementMap ?? null;
         restore.push([mesh, mesh.material]); mesh.material = depth;
       });
-      const after = () => compileOnly ? undefined : this.uploadTextures(object, draws, world);
       if (!restore.length) return colour.then(after);
       // The shadow pass draws with no scene, so without fog (its programs key on the fog's kind even where a depth material
       // ignores it), under the lighting left from the previous pass, with or without the point lights: the depth programs
