@@ -180,7 +180,8 @@ export function auditPlacements(scene: THREE.Object3D, heightAt: (x: number, z: 
           }
           if (Number.isFinite(gap)) gaps.push(gap);
         }
-        if (!gaps.length) { invalid++; continue; }
+        // A partly unavailable footprint is not evidence that the whole object is supported.
+        if (!gaps.length || gaps.length !== samples.length) { invalid++; continue; }
         const minGap = Math.min(...gaps), maxGap = Math.max(...gaps);
         const unsupportedFraction = gaps.filter(g => g > clearance).length / gaps.length;
         checks.push({ label: target.label, kind: target.kind, component, position: box.getCenter(new THREE.Vector3()).toArray(),

@@ -100,3 +100,19 @@ it('audits the full supplied root population independently of oversized prop geo
   expect(report.complete).toBe(true);expect(report.summary.roots).toBe(2);expect(report.summary.props).toBe(0);expect(report.skipped).toEqual([]);
   expect(()=>auditPlacements(scene,()=>0,populations,{kind:'invalid' as 'root'})).toThrow('Invalid placement audit kind');
 });
+
+it.each([NaN, Infinity, -Infinity])('does not clear a prop with a partially invalid terrain footprint (%s)', invalid => {
+  const scene = new THREE.Scene(); scene.add(box(0, .5));
+  const report = auditPlacements(scene, x => x < 0 ? invalid : 0);
+  expect(report.complete).toBe(false);
+  expect(report.invalid).toBe(1);
+  expect(report.checks).toHaveLength(0);
+});
+
+it('does not clear root coverage after discarding invalid basal samples', () => {
+  const target: PlacementAuditTarget = { label: 'root', kind: 'root', geometry: new THREE.CylinderGeometry(1, 1, 2, 32).translate(0, 1, 0), matrix: new THREE.Matrix4() };
+  const report = auditPlacements(new THREE.Scene(), x => x < 0 ? NaN : 0, [target], {kind:'root'});
+  expect(report.complete).toBe(false);
+  expect(report.invalid).toBe(1);
+  expect(report.checks).toHaveLength(0);
+});
