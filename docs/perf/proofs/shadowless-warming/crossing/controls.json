@@ -1,0 +1,6 @@
+{
+  "selfComparisonPassed": true,
+  "centimetreRouteDriftRejected": true,
+  "blankCaptureRejected": true,
+  "staleReceiptRemovedOnFailure": true
+}

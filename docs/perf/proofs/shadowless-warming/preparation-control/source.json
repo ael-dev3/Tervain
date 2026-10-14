@@ -1,0 +1,19 @@
+{
+  "baseline": "421d34b",
+  "changes": [
+    {
+      "pr": 470,
+      "commit": "6ce297076"
+    },
+    {
+      "pr": 473,
+      "commit": "f4c4ce948"
+    },
+    {
+      "pr": 476,
+      "commit": "d4df32e6e"
+    }
+  ],
+  "residentMotionSha256": "1ea3d70c1b080338f60a223be2cf876cd39df706f70b6257e2e6b06f4174e451",
+  "conclusion": "These preparation-only changes do not establish complete crossing-hitch removal."
+}
