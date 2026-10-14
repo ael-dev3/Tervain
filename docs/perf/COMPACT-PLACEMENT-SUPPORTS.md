@@ -28,3 +28,9 @@ npm run build
 ```
 
 The new regression fails on the parent runtime (262,240 triangle candidates against a 20,000 ceiling). All 13 selected tests and the production build pass after the fix. Full floating-prop/sign coverage and the night hitch remain open until separately verified. This PR is stacked on #482.
+
+## Native full-scene attempt
+
+[Summary](proofs/compact-placement-supports/full-scene/summary.json) · [compressed raw report](proofs/compact-placement-supports/full-scene/report.json.gz) · [native context](proofs/compact-placement-supports/full-scene/context.png). The compiled 8f249f457 snapshot returned 22,053 prop-component checks and 2,643 directional candidates, with zero invalid components and no truncation. It remains **incomplete**, because `village:planks` exceeded the default 100,000-vertex guard.
+
+The single software-browser audit took 378,189 ms; this is not presented gameplay timing or a controlled full-scene speedup measurement. Prior broad attempts exceeded their request deadline. Hanging, painted and side-supported components among the candidates require review. #487 adds an explicit vertex budget to cover the omitted mesh; neither report should be treated as a placement-quality PASS.
