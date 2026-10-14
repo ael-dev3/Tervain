@@ -46,9 +46,11 @@ describe('Ground vegetation visibility', () => {
     camera.position.copy(centre).add(new THREE.Vector3(SIZE/2+3+1,0,0));camera.lookAt(camera.position.clone().add(new THREE.Vector3(1,0,0)));camera.updateMatrixWorld();
     const frustum = new THREE.Frustum().setFromProjectionMatrix(new THREE.Matrix4().multiplyMatrices(camera.projectionMatrix,camera.matrixWorldInverse));
     expect(frustum.intersectsSphere(sphere)).toBe(true);before();expect(mesh.geometry.instanceCount).toBe(0);after();expect(mesh.geometry.instanceCount).toBe(count);
-    inside();before();expect(mesh.geometry.instanceCount).toBe(count);after();
-    // Shader preparation may temporarily request fewer instances than the layer's population.
-    mesh.geometry.instanceCount=1;before();expect(mesh.geometry.instanceCount).toBe(1);after();expect(mesh.geometry.instanceCount).toBe(1);
+    // A capture camera thins by its own distance (#446), never beyond the population, and the caller's count returns.
+    inside();before();const captured = mesh.geometry.instanceCount;expect(captured).toBeGreaterThan(0);expect(captured).toBeLessThanOrEqual(count);
+    after();expect(mesh.geometry.instanceCount).toBe(count);
+    // Shader preparation may temporarily request fewer instances than the layer's population; that request comes back too.
+    mesh.geometry.instanceCount=1;before();after();expect(mesh.geometry.instanceCount).toBe(1);
     layer.dispose();
   });
 

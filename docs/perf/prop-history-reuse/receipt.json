@@ -1,0 +1,27 @@
+{
+  "baselineRef": "9ab40b387",
+  "sourceSha256": "e8bab74f64885e4b26a988cc188a55044a004270842f00882b11662f43ed46f1",
+  "scope": "Two native Rapier worlds with identical scripted impulses, throw, restore/reset and variable display cadence. Counts cover plain records constructed by the private pose-history factory during fixed steps, not Rapier return wrappers, total heap allocations or frame times.",
+  "updates": 500,
+  "fixedSteps": 650,
+  "props": 9,
+  "comparedPoses": 9000,
+  "sleepingSamples": 6178,
+  "beforeHistoryFactories": 5850,
+  "afterHistoryFactories": 0,
+  "beforePlainHistoryRecords": 17550,
+  "afterPlainHistoryRecords": 0,
+  "exactHistoryAndInterpolatedPoses": true,
+  "retainedSnapshotsUnchanged": true,
+  "controls": [
+    "variable-cadence",
+    "zero-dt",
+    "impulse-and-tumble",
+    "throw",
+    "sleep",
+    "restore",
+    "reset",
+    "interpolated-and-current-poses"
+  ],
+  "pass": true
+}

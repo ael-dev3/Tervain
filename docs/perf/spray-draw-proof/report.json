@@ -1,0 +1,2177 @@
+{
+  "schema": 1,
+  "softwareWebGL": true,
+  "visibleCaptureFrames": 3,
+  "baselineRef": "0b45a36",
+  "renderer": "WebKit WebGL",
+  "scope": "Native water spray shader in software WebGL, 240 deterministic frames; isolated draw cost, not Mac hardware frame time.",
+  "beforeCalls": 240,
+  "afterCalls": 175,
+  "beforePoints": 115200,
+  "afterPoints": 39936,
+  "attributeDifferences": 0,
+  "changedChannels": 0,
+  "rows": [
+    {
+      "frame": 0,
+      "active": 0,
+      "beforeCalls": 1,
+      "afterCalls": 0,
+      "beforePoints": 480,
+      "afterPoints": 0,
+      "changedChannels": 0
+    },
+    {
+      "frame": 1,
+      "active": 0,
+      "beforeCalls": 1,
+      "afterCalls": 0,
+      "beforePoints": 480,
+      "afterPoints": 0,
+      "changedChannels": 0
+    },
+    {
+      "frame": 2,
+      "active": 2,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 2,
+      "changedChannels": 0
+    },
+    {
+      "frame": 3,
+      "active": 2,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 2,
+      "changedChannels": 0
+    },
+    {
+      "frame": 4,
+      "active": 2,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 2,
+      "changedChannels": 0
+    },
+    {
+      "frame": 5,
+      "active": 2,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 2,
+      "changedChannels": 0
+    },
+    {
+      "frame": 6,
+      "active": 2,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 2,
+      "changedChannels": 0
+    },
+    {
+      "frame": 7,
+      "active": 2,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 2,
+      "changedChannels": 0
+    },
+    {
+      "frame": 8,
+      "active": 2,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 2,
+      "changedChannels": 0
+    },
+    {
+      "frame": 9,
+      "active": 2,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 2,
+      "changedChannels": 0
+    },
+    {
+      "frame": 10,
+      "active": 2,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 2,
+      "changedChannels": 0
+    },
+    {
+      "frame": 11,
+      "active": 2,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 2,
+      "changedChannels": 0
+    },
+    {
+      "frame": 12,
+      "active": 2,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 2,
+      "changedChannels": 0
+    },
+    {
+      "frame": 13,
+      "active": 2,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 2,
+      "changedChannels": 0
+    },
+    {
+      "frame": 14,
+      "active": 2,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 2,
+      "changedChannels": 0
+    },
+    {
+      "frame": 15,
+      "active": 2,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 2,
+      "changedChannels": 0
+    },
+    {
+      "frame": 16,
+      "active": 2,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 2,
+      "changedChannels": 0
+    },
+    {
+      "frame": 17,
+      "active": 2,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 2,
+      "changedChannels": 0
+    },
+    {
+      "frame": 18,
+      "active": 2,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 2,
+      "changedChannels": 0
+    },
+    {
+      "frame": 19,
+      "active": 2,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 2,
+      "changedChannels": 0
+    },
+    {
+      "frame": 20,
+      "active": 2,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 2,
+      "changedChannels": 0
+    },
+    {
+      "frame": 21,
+      "active": 2,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 2,
+      "changedChannels": 0
+    },
+    {
+      "frame": 22,
+      "active": 2,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 2,
+      "changedChannels": 0
+    },
+    {
+      "frame": 23,
+      "active": 2,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 2,
+      "changedChannels": 0
+    },
+    {
+      "frame": 24,
+      "active": 2,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 2,
+      "changedChannels": 0
+    },
+    {
+      "frame": 25,
+      "active": 2,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 2,
+      "changedChannels": 0
+    },
+    {
+      "frame": 26,
+      "active": 2,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 2,
+      "changedChannels": 0
+    },
+    {
+      "frame": 27,
+      "active": 2,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 2,
+      "changedChannels": 0
+    },
+    {
+      "frame": 28,
+      "active": 2,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 2,
+      "changedChannels": 0
+    },
+    {
+      "frame": 29,
+      "active": 2,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 2,
+      "changedChannels": 0
+    },
+    {
+      "frame": 30,
+      "active": 2,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 2,
+      "changedChannels": 0
+    },
+    {
+      "frame": 31,
+      "active": 2,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 2,
+      "changedChannels": 0
+    },
+    {
+      "frame": 32,
+      "active": 2,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 2,
+      "changedChannels": 0
+    },
+    {
+      "frame": 33,
+      "active": 2,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 2,
+      "changedChannels": 0
+    },
+    {
+      "frame": 34,
+      "active": 2,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 2,
+      "changedChannels": 0
+    },
+    {
+      "frame": 35,
+      "active": 2,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 2,
+      "changedChannels": 0
+    },
+    {
+      "frame": 36,
+      "active": 2,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 2,
+      "changedChannels": 0
+    },
+    {
+      "frame": 37,
+      "active": 2,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 2,
+      "changedChannels": 0
+    },
+    {
+      "frame": 38,
+      "active": 2,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 2,
+      "changedChannels": 0
+    },
+    {
+      "frame": 39,
+      "active": 2,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 2,
+      "changedChannels": 0
+    },
+    {
+      "frame": 40,
+      "active": 2,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 2,
+      "changedChannels": 0
+    },
+    {
+      "frame": 41,
+      "active": 2,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 2,
+      "changedChannels": 0
+    },
+    {
+      "frame": 42,
+      "active": 2,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 2,
+      "changedChannels": 0
+    },
+    {
+      "frame": 43,
+      "active": 2,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 2,
+      "changedChannels": 0
+    },
+    {
+      "frame": 44,
+      "active": 2,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 2,
+      "changedChannels": 0
+    },
+    {
+      "frame": 45,
+      "active": 2,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 2,
+      "changedChannels": 0
+    },
+    {
+      "frame": 46,
+      "active": 2,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 2,
+      "changedChannels": 0
+    },
+    {
+      "frame": 47,
+      "active": 2,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 2,
+      "changedChannels": 0
+    },
+    {
+      "frame": 48,
+      "active": 2,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 2,
+      "changedChannels": 0
+    },
+    {
+      "frame": 49,
+      "active": 2,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 2,
+      "changedChannels": 0
+    },
+    {
+      "frame": 50,
+      "active": 1,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 2,
+      "changedChannels": 0
+    },
+    {
+      "frame": 51,
+      "active": 1,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 2,
+      "changedChannels": 0
+    },
+    {
+      "frame": 52,
+      "active": 1,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 2,
+      "changedChannels": 0
+    },
+    {
+      "frame": 53,
+      "active": 1,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 2,
+      "changedChannels": 0
+    },
+    {
+      "frame": 54,
+      "active": 1,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 2,
+      "changedChannels": 0
+    },
+    {
+      "frame": 55,
+      "active": 0,
+      "beforeCalls": 1,
+      "afterCalls": 0,
+      "beforePoints": 480,
+      "afterPoints": 0,
+      "changedChannels": 0
+    },
+    {
+      "frame": 56,
+      "active": 0,
+      "beforeCalls": 1,
+      "afterCalls": 0,
+      "beforePoints": 480,
+      "afterPoints": 0,
+      "changedChannels": 0
+    },
+    {
+      "frame": 57,
+      "active": 0,
+      "beforeCalls": 1,
+      "afterCalls": 0,
+      "beforePoints": 480,
+      "afterPoints": 0,
+      "changedChannels": 0
+    },
+    {
+      "frame": 58,
+      "active": 0,
+      "beforeCalls": 1,
+      "afterCalls": 0,
+      "beforePoints": 480,
+      "afterPoints": 0,
+      "changedChannels": 0
+    },
+    {
+      "frame": 59,
+      "active": 0,
+      "beforeCalls": 1,
+      "afterCalls": 0,
+      "beforePoints": 480,
+      "afterPoints": 0,
+      "changedChannels": 0
+    },
+    {
+      "frame": 60,
+      "active": 24,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 26,
+      "changedChannels": 0
+    },
+    {
+      "frame": 61,
+      "active": 24,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 26,
+      "changedChannels": 0
+    },
+    {
+      "frame": 62,
+      "active": 24,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 26,
+      "changedChannels": 0
+    },
+    {
+      "frame": 63,
+      "active": 24,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 26,
+      "changedChannels": 0
+    },
+    {
+      "frame": 64,
+      "active": 24,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 26,
+      "changedChannels": 0
+    },
+    {
+      "frame": 65,
+      "active": 24,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 26,
+      "changedChannels": 0
+    },
+    {
+      "frame": 66,
+      "active": 24,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 26,
+      "changedChannels": 0
+    },
+    {
+      "frame": 67,
+      "active": 24,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 26,
+      "changedChannels": 0
+    },
+    {
+      "frame": 68,
+      "active": 24,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 26,
+      "changedChannels": 0
+    },
+    {
+      "frame": 69,
+      "active": 24,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 26,
+      "changedChannels": 0
+    },
+    {
+      "frame": 70,
+      "active": 24,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 26,
+      "changedChannels": 0
+    },
+    {
+      "frame": 71,
+      "active": 24,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 26,
+      "changedChannels": 0
+    },
+    {
+      "frame": 72,
+      "active": 24,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 26,
+      "changedChannels": 0
+    },
+    {
+      "frame": 73,
+      "active": 24,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 26,
+      "changedChannels": 0
+    },
+    {
+      "frame": 74,
+      "active": 24,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 26,
+      "changedChannels": 0
+    },
+    {
+      "frame": 75,
+      "active": 24,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 26,
+      "changedChannels": 0
+    },
+    {
+      "frame": 76,
+      "active": 24,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 26,
+      "changedChannels": 0
+    },
+    {
+      "frame": 77,
+      "active": 24,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 26,
+      "changedChannels": 0
+    },
+    {
+      "frame": 78,
+      "active": 24,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 26,
+      "changedChannels": 0
+    },
+    {
+      "frame": 79,
+      "active": 24,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 26,
+      "changedChannels": 0
+    },
+    {
+      "frame": 80,
+      "active": 24,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 26,
+      "changedChannels": 0
+    },
+    {
+      "frame": 81,
+      "active": 24,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 26,
+      "changedChannels": 0
+    },
+    {
+      "frame": 82,
+      "active": 24,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 26,
+      "changedChannels": 0
+    },
+    {
+      "frame": 83,
+      "active": 24,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 26,
+      "changedChannels": 0
+    },
+    {
+      "frame": 84,
+      "active": 24,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 26,
+      "changedChannels": 0
+    },
+    {
+      "frame": 85,
+      "active": 24,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 26,
+      "changedChannels": 0
+    },
+    {
+      "frame": 86,
+      "active": 24,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 26,
+      "changedChannels": 0
+    },
+    {
+      "frame": 87,
+      "active": 24,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 26,
+      "changedChannels": 0
+    },
+    {
+      "frame": 88,
+      "active": 24,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 26,
+      "changedChannels": 0
+    },
+    {
+      "frame": 89,
+      "active": 24,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 26,
+      "changedChannels": 0
+    },
+    {
+      "frame": 90,
+      "active": 24,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 26,
+      "changedChannels": 0
+    },
+    {
+      "frame": 91,
+      "active": 24,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 26,
+      "changedChannels": 0
+    },
+    {
+      "frame": 92,
+      "active": 24,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 26,
+      "changedChannels": 0
+    },
+    {
+      "frame": 93,
+      "active": 24,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 26,
+      "changedChannels": 0
+    },
+    {
+      "frame": 94,
+      "active": 24,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 26,
+      "changedChannels": 0
+    },
+    {
+      "frame": 95,
+      "active": 24,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 26,
+      "changedChannels": 0
+    },
+    {
+      "frame": 96,
+      "active": 24,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 26,
+      "changedChannels": 0
+    },
+    {
+      "frame": 97,
+      "active": 24,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 26,
+      "changedChannels": 0
+    },
+    {
+      "frame": 98,
+      "active": 24,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 26,
+      "changedChannels": 0
+    },
+    {
+      "frame": 99,
+      "active": 24,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 26,
+      "changedChannels": 0
+    },
+    {
+      "frame": 100,
+      "active": 480,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 480,
+      "changedChannels": 0
+    },
+    {
+      "frame": 101,
+      "active": 480,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 480,
+      "changedChannels": 0
+    },
+    {
+      "frame": 102,
+      "active": 480,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 480,
+      "changedChannels": 0
+    },
+    {
+      "frame": 103,
+      "active": 480,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 480,
+      "changedChannels": 0
+    },
+    {
+      "frame": 104,
+      "active": 480,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 480,
+      "changedChannels": 0
+    },
+    {
+      "frame": 105,
+      "active": 480,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 480,
+      "changedChannels": 0
+    },
+    {
+      "frame": 106,
+      "active": 480,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 480,
+      "changedChannels": 0
+    },
+    {
+      "frame": 107,
+      "active": 480,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 480,
+      "changedChannels": 0
+    },
+    {
+      "frame": 108,
+      "active": 480,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 480,
+      "changedChannels": 0
+    },
+    {
+      "frame": 109,
+      "active": 480,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 480,
+      "changedChannels": 0
+    },
+    {
+      "frame": 110,
+      "active": 480,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 480,
+      "changedChannels": 0
+    },
+    {
+      "frame": 111,
+      "active": 480,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 480,
+      "changedChannels": 0
+    },
+    {
+      "frame": 112,
+      "active": 480,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 480,
+      "changedChannels": 0
+    },
+    {
+      "frame": 113,
+      "active": 480,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 480,
+      "changedChannels": 0
+    },
+    {
+      "frame": 114,
+      "active": 480,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 480,
+      "changedChannels": 0
+    },
+    {
+      "frame": 115,
+      "active": 480,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 480,
+      "changedChannels": 0
+    },
+    {
+      "frame": 116,
+      "active": 480,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 480,
+      "changedChannels": 0
+    },
+    {
+      "frame": 117,
+      "active": 480,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 480,
+      "changedChannels": 0
+    },
+    {
+      "frame": 118,
+      "active": 480,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 480,
+      "changedChannels": 0
+    },
+    {
+      "frame": 119,
+      "active": 480,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 480,
+      "changedChannels": 0
+    },
+    {
+      "frame": 120,
+      "active": 480,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 480,
+      "changedChannels": 0
+    },
+    {
+      "frame": 121,
+      "active": 480,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 480,
+      "changedChannels": 0
+    },
+    {
+      "frame": 122,
+      "active": 480,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 480,
+      "changedChannels": 0
+    },
+    {
+      "frame": 123,
+      "active": 480,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 480,
+      "changedChannels": 0
+    },
+    {
+      "frame": 124,
+      "active": 480,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 480,
+      "changedChannels": 0
+    },
+    {
+      "frame": 125,
+      "active": 480,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 480,
+      "changedChannels": 0
+    },
+    {
+      "frame": 126,
+      "active": 480,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 480,
+      "changedChannels": 0
+    },
+    {
+      "frame": 127,
+      "active": 480,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 480,
+      "changedChannels": 0
+    },
+    {
+      "frame": 128,
+      "active": 480,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 480,
+      "changedChannels": 0
+    },
+    {
+      "frame": 129,
+      "active": 480,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 480,
+      "changedChannels": 0
+    },
+    {
+      "frame": 130,
+      "active": 480,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 480,
+      "changedChannels": 0
+    },
+    {
+      "frame": 131,
+      "active": 480,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 480,
+      "changedChannels": 0
+    },
+    {
+      "frame": 132,
+      "active": 480,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 480,
+      "changedChannels": 0
+    },
+    {
+      "frame": 133,
+      "active": 480,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 480,
+      "changedChannels": 0
+    },
+    {
+      "frame": 134,
+      "active": 480,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 480,
+      "changedChannels": 0
+    },
+    {
+      "frame": 135,
+      "active": 480,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 480,
+      "changedChannels": 0
+    },
+    {
+      "frame": 136,
+      "active": 480,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 480,
+      "changedChannels": 0
+    },
+    {
+      "frame": 137,
+      "active": 480,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 480,
+      "changedChannels": 0
+    },
+    {
+      "frame": 138,
+      "active": 480,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 480,
+      "changedChannels": 0
+    },
+    {
+      "frame": 139,
+      "active": 476,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 480,
+      "changedChannels": 0
+    },
+    {
+      "frame": 140,
+      "active": 469,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 479,
+      "changedChannels": 0
+    },
+    {
+      "frame": 141,
+      "active": 453,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 479,
+      "changedChannels": 0
+    },
+    {
+      "frame": 142,
+      "active": 446,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 479,
+      "changedChannels": 0
+    },
+    {
+      "frame": 143,
+      "active": 432,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 479,
+      "changedChannels": 0
+    },
+    {
+      "frame": 144,
+      "active": 417,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 479,
+      "changedChannels": 0
+    },
+    {
+      "frame": 145,
+      "active": 407,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 479,
+      "changedChannels": 0
+    },
+    {
+      "frame": 146,
+      "active": 397,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 479,
+      "changedChannels": 0
+    },
+    {
+      "frame": 147,
+      "active": 382,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 479,
+      "changedChannels": 0
+    },
+    {
+      "frame": 148,
+      "active": 367,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 479,
+      "changedChannels": 0
+    },
+    {
+      "frame": 149,
+      "active": 359,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 479,
+      "changedChannels": 0
+    },
+    {
+      "frame": 150,
+      "active": 348,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 479,
+      "changedChannels": 0
+    },
+    {
+      "frame": 151,
+      "active": 337,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 479,
+      "changedChannels": 0
+    },
+    {
+      "frame": 152,
+      "active": 322,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 479,
+      "changedChannels": 0
+    },
+    {
+      "frame": 153,
+      "active": 307,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 479,
+      "changedChannels": 0
+    },
+    {
+      "frame": 154,
+      "active": 293,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 479,
+      "changedChannels": 0
+    },
+    {
+      "frame": 155,
+      "active": 281,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 479,
+      "changedChannels": 0
+    },
+    {
+      "frame": 156,
+      "active": 271,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 479,
+      "changedChannels": 0
+    },
+    {
+      "frame": 157,
+      "active": 261,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 479,
+      "changedChannels": 0
+    },
+    {
+      "frame": 158,
+      "active": 254,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 479,
+      "changedChannels": 0
+    },
+    {
+      "frame": 159,
+      "active": 250,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 479,
+      "changedChannels": 0
+    },
+    {
+      "frame": 160,
+      "active": 239,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 479,
+      "changedChannels": 0
+    },
+    {
+      "frame": 161,
+      "active": 230,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 479,
+      "changedChannels": 0
+    },
+    {
+      "frame": 162,
+      "active": 218,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 479,
+      "changedChannels": 0
+    },
+    {
+      "frame": 163,
+      "active": 202,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 479,
+      "changedChannels": 0
+    },
+    {
+      "frame": 164,
+      "active": 191,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 479,
+      "changedChannels": 0
+    },
+    {
+      "frame": 165,
+      "active": 179,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 479,
+      "changedChannels": 0
+    },
+    {
+      "frame": 166,
+      "active": 170,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 479,
+      "changedChannels": 0
+    },
+    {
+      "frame": 167,
+      "active": 157,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 479,
+      "changedChannels": 0
+    },
+    {
+      "frame": 168,
+      "active": 145,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 479,
+      "changedChannels": 0
+    },
+    {
+      "frame": 169,
+      "active": 135,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 477,
+      "changedChannels": 0
+    },
+    {
+      "frame": 170,
+      "active": 123,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 477,
+      "changedChannels": 0
+    },
+    {
+      "frame": 171,
+      "active": 117,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 477,
+      "changedChannels": 0
+    },
+    {
+      "frame": 172,
+      "active": 104,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 477,
+      "changedChannels": 0
+    },
+    {
+      "frame": 173,
+      "active": 91,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 477,
+      "changedChannels": 0
+    },
+    {
+      "frame": 174,
+      "active": 84,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 477,
+      "changedChannels": 0
+    },
+    {
+      "frame": 175,
+      "active": 69,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 475,
+      "changedChannels": 0
+    },
+    {
+      "frame": 176,
+      "active": 54,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 475,
+      "changedChannels": 0
+    },
+    {
+      "frame": 177,
+      "active": 43,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 475,
+      "changedChannels": 0
+    },
+    {
+      "frame": 178,
+      "active": 33,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 475,
+      "changedChannels": 0
+    },
+    {
+      "frame": 179,
+      "active": 21,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 475,
+      "changedChannels": 0
+    },
+    {
+      "frame": 180,
+      "active": 11,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 431,
+      "changedChannels": 0
+    },
+    {
+      "frame": 181,
+      "active": 1,
+      "beforeCalls": 1,
+      "afterCalls": 1,
+      "beforePoints": 480,
+      "afterPoints": 31,
+      "changedChannels": 0
+    },
+    {
+      "frame": 182,
+      "active": 0,
+      "beforeCalls": 1,
+      "afterCalls": 0,
+      "beforePoints": 480,
+      "afterPoints": 0,
+      "changedChannels": 0
+    },
+    {
+      "frame": 183,
+      "active": 0,
+      "beforeCalls": 1,
+      "afterCalls": 0,
+      "beforePoints": 480,
+      "afterPoints": 0,
+      "changedChannels": 0
+    },
+    {
+      "frame": 184,
+      "active": 0,
+      "beforeCalls": 1,
+      "afterCalls": 0,
+      "beforePoints": 480,
+      "afterPoints": 0,
+      "changedChannels": 0
+    },
+    {
+      "frame": 185,
+      "active": 0,
+      "beforeCalls": 1,
+      "afterCalls": 0,
+      "beforePoints": 480,
+      "afterPoints": 0,
+      "changedChannels": 0
+    },
+    {
+      "frame": 186,
+      "active": 0,
+      "beforeCalls": 1,
+      "afterCalls": 0,
+      "beforePoints": 480,
+      "afterPoints": 0,
+      "changedChannels": 0
+    },
+    {
+      "frame": 187,
+      "active": 0,
+      "beforeCalls": 1,
+      "afterCalls": 0,
+      "beforePoints": 480,
+      "afterPoints": 0,
+      "changedChannels": 0
+    },
+    {
+      "frame": 188,
+      "active": 0,
+      "beforeCalls": 1,
+      "afterCalls": 0,
+      "beforePoints": 480,
+      "afterPoints": 0,
+      "changedChannels": 0
+    },
+    {
+      "frame": 189,
+      "active": 0,
+      "beforeCalls": 1,
+      "afterCalls": 0,
+      "beforePoints": 480,
+      "afterPoints": 0,
+      "changedChannels": 0
+    },
+    {
+      "frame": 190,
+      "active": 0,
+      "beforeCalls": 1,
+      "afterCalls": 0,
+      "beforePoints": 480,
+      "afterPoints": 0,
+      "changedChannels": 0
+    },
+    {
+      "frame": 191,
+      "active": 0,
+      "beforeCalls": 1,
+      "afterCalls": 0,
+      "beforePoints": 480,
+      "afterPoints": 0,
+      "changedChannels": 0
+    },
+    {
+      "frame": 192,
+      "active": 0,
+      "beforeCalls": 1,
+      "afterCalls": 0,
+      "beforePoints": 480,
+      "afterPoints": 0,
+      "changedChannels": 0
+    },
+    {
+      "frame": 193,
+      "active": 0,
+      "beforeCalls": 1,
+      "afterCalls": 0,
+      "beforePoints": 480,
+      "afterPoints": 0,
+      "changedChannels": 0
+    },
+    {
+      "frame": 194,
+      "active": 0,
+      "beforeCalls": 1,
+      "afterCalls": 0,
+      "beforePoints": 480,
+      "afterPoints": 0,
+      "changedChannels": 0
+    },
+    {
+      "frame": 195,
+      "active": 0,
+      "beforeCalls": 1,
+      "afterCalls": 0,
+      "beforePoints": 480,
+      "afterPoints": 0,
+      "changedChannels": 0
+    },
+    {
+      "frame": 196,
+      "active": 0,
+      "beforeCalls": 1,
+      "afterCalls": 0,
+      "beforePoints": 480,
+      "afterPoints": 0,
+      "changedChannels": 0
+    },
+    {
+      "frame": 197,
+      "active": 0,
+      "beforeCalls": 1,
+      "afterCalls": 0,
+      "beforePoints": 480,
+      "afterPoints": 0,
+      "changedChannels": 0
+    },
+    {
+      "frame": 198,
+      "active": 0,
+      "beforeCalls": 1,
+      "afterCalls": 0,
+      "beforePoints": 480,
+      "afterPoints": 0,
+      "changedChannels": 0
+    },
+    {
+      "frame": 199,
+      "active": 0,
+      "beforeCalls": 1,
+      "afterCalls": 0,
+      "beforePoints": 480,
+      "afterPoints": 0,
+      "changedChannels": 0
+    },
+    {
+      "frame": 200,
+      "active": 0,
+      "beforeCalls": 1,
+      "afterCalls": 0,
+      "beforePoints": 480,
+      "afterPoints": 0,
+      "changedChannels": 0
+    },
+    {
+      "frame": 201,
+      "active": 0,
+      "beforeCalls": 1,
+      "afterCalls": 0,
+      "beforePoints": 480,
+      "afterPoints": 0,
+      "changedChannels": 0
+    },
+    {
+      "frame": 202,
+      "active": 0,
+      "beforeCalls": 1,
+      "afterCalls": 0,
+      "beforePoints": 480,
+      "afterPoints": 0,
+      "changedChannels": 0
+    },
+    {
+      "frame": 203,
+      "active": 0,
+      "beforeCalls": 1,
+      "afterCalls": 0,
+      "beforePoints": 480,
+      "afterPoints": 0,
+      "changedChannels": 0
+    },
+    {
+      "frame": 204,
+      "active": 0,
+      "beforeCalls": 1,
+      "afterCalls": 0,
+      "beforePoints": 480,
+      "afterPoints": 0,
+      "changedChannels": 0
+    },
+    {
+      "frame": 205,
+      "active": 0,
+      "beforeCalls": 1,
+      "afterCalls": 0,
+      "beforePoints": 480,
+      "afterPoints": 0,
+      "changedChannels": 0
+    },
+    {
+      "frame": 206,
+      "active": 0,
+      "beforeCalls": 1,
+      "afterCalls": 0,
+      "beforePoints": 480,
+      "afterPoints": 0,
+      "changedChannels": 0
+    },
+    {
+      "frame": 207,
+      "active": 0,
+      "beforeCalls": 1,
+      "afterCalls": 0,
+      "beforePoints": 480,
+      "afterPoints": 0,
+      "changedChannels": 0
+    },
+    {
+      "frame": 208,
+      "active": 0,
+      "beforeCalls": 1,
+      "afterCalls": 0,
+      "beforePoints": 480,
+      "afterPoints": 0,
+      "changedChannels": 0
+    },
+    {
+      "frame": 209,
+      "active": 0,
+      "beforeCalls": 1,
+      "afterCalls": 0,
+      "beforePoints": 480,
+      "afterPoints": 0,
+      "changedChannels": 0
+    },
+    {
+      "frame": 210,
+      "active": 0,
+      "beforeCalls": 1,
+      "afterCalls": 0,
+      "beforePoints": 480,
+      "afterPoints": 0,
+      "changedChannels": 0
+    },
+    {
+      "frame": 211,
+      "active": 0,
+      "beforeCalls": 1,
+      "afterCalls": 0,
+      "beforePoints": 480,
+      "afterPoints": 0,
+      "changedChannels": 0
+    },
+    {
+      "frame": 212,
+      "active": 0,
+      "beforeCalls": 1,
+      "afterCalls": 0,
+      "beforePoints": 480,
+      "afterPoints": 0,
+      "changedChannels": 0
+    },
+    {
+      "frame": 213,
+      "active": 0,
+      "beforeCalls": 1,
+      "afterCalls": 0,
+      "beforePoints": 480,
+      "afterPoints": 0,
+      "changedChannels": 0
+    },
+    {
+      "frame": 214,
+      "active": 0,
+      "beforeCalls": 1,
+      "afterCalls": 0,
+      "beforePoints": 480,
+      "afterPoints": 0,
+      "changedChannels": 0
+    },
+    {
+      "frame": 215,
+      "active": 0,
+      "beforeCalls": 1,
+      "afterCalls": 0,
+      "beforePoints": 480,
+      "afterPoints": 0,
+      "changedChannels": 0
+    },
+    {
+      "frame": 216,
+      "active": 0,
+      "beforeCalls": 1,
+      "afterCalls": 0,
+      "beforePoints": 480,
+      "afterPoints": 0,
+      "changedChannels": 0
+    },
+    {
+      "frame": 217,
+      "active": 0,
+      "beforeCalls": 1,
+      "afterCalls": 0,
+      "beforePoints": 480,
+      "afterPoints": 0,
+      "changedChannels": 0
+    },
+    {
+      "frame": 218,
+      "active": 0,
+      "beforeCalls": 1,
+      "afterCalls": 0,
+      "beforePoints": 480,
+      "afterPoints": 0,
+      "changedChannels": 0
+    },
+    {
+      "frame": 219,
+      "active": 0,
+      "beforeCalls": 1,
+      "afterCalls": 0,
+      "beforePoints": 480,
+      "afterPoints": 0,
+      "changedChannels": 0
+    },
+    {
+      "frame": 220,
+      "active": 0,
+      "beforeCalls": 1,
+      "afterCalls": 0,
+      "beforePoints": 480,
+      "afterPoints": 0,
+      "changedChannels": 0
+    },
+    {
+      "frame": 221,
+      "active": 0,
+      "beforeCalls": 1,
+      "afterCalls": 0,
+      "beforePoints": 480,
+      "afterPoints": 0,
+      "changedChannels": 0
+    },
+    {
+      "frame": 222,
+      "active": 0,
+      "beforeCalls": 1,
+      "afterCalls": 0,
+      "beforePoints": 480,
+      "afterPoints": 0,
+      "changedChannels": 0
+    },
+    {
+      "frame": 223,
+      "active": 0,
+      "beforeCalls": 1,
+      "afterCalls": 0,
+      "beforePoints": 480,
+      "afterPoints": 0,
+      "changedChannels": 0
+    },
+    {
+      "frame": 224,
+      "active": 0,
+      "beforeCalls": 1,
+      "afterCalls": 0,
+      "beforePoints": 480,
+      "afterPoints": 0,
+      "changedChannels": 0
+    },
+    {
+      "frame": 225,
+      "active": 0,
+      "beforeCalls": 1,
+      "afterCalls": 0,
+      "beforePoints": 480,
+      "afterPoints": 0,
+      "changedChannels": 0
+    },
+    {
+      "frame": 226,
+      "active": 0,
+      "beforeCalls": 1,
+      "afterCalls": 0,
+      "beforePoints": 480,
+      "afterPoints": 0,
+      "changedChannels": 0
+    },
+    {
+      "frame": 227,
+      "active": 0,
+      "beforeCalls": 1,
+      "afterCalls": 0,
+      "beforePoints": 480,
+      "afterPoints": 0,
+      "changedChannels": 0
+    },
+    {
+      "frame": 228,
+      "active": 0,
+      "beforeCalls": 1,
+      "afterCalls": 0,
+      "beforePoints": 480,
+      "afterPoints": 0,
+      "changedChannels": 0
+    },
+    {
+      "frame": 229,
+      "active": 0,
+      "beforeCalls": 1,
+      "afterCalls": 0,
+      "beforePoints": 480,
+      "afterPoints": 0,
+      "changedChannels": 0
+    },
+    {
+      "frame": 230,
+      "active": 0,
+      "beforeCalls": 1,
+      "afterCalls": 0,
+      "beforePoints": 480,
+      "afterPoints": 0,
+      "changedChannels": 0
+    },
+    {
+      "frame": 231,
+      "active": 0,
+      "beforeCalls": 1,
+      "afterCalls": 0,
+      "beforePoints": 480,
+      "afterPoints": 0,
+      "changedChannels": 0
+    },
+    {
+      "frame": 232,
+      "active": 0,
+      "beforeCalls": 1,
+      "afterCalls": 0,
+      "beforePoints": 480,
+      "afterPoints": 0,
+      "changedChannels": 0
+    },
+    {
+      "frame": 233,
+      "active": 0,
+      "beforeCalls": 1,
+      "afterCalls": 0,
+      "beforePoints": 480,
+      "afterPoints": 0,
+      "changedChannels": 0
+    },
+    {
+      "frame": 234,
+      "active": 0,
+      "beforeCalls": 1,
+      "afterCalls": 0,
+      "beforePoints": 480,
+      "afterPoints": 0,
+      "changedChannels": 0
+    },
+    {
+      "frame": 235,
+      "active": 0,
+      "beforeCalls": 1,
+      "afterCalls": 0,
+      "beforePoints": 480,
+      "afterPoints": 0,
+      "changedChannels": 0
+    },
+    {
+      "frame": 236,
+      "active": 0,
+      "beforeCalls": 1,
+      "afterCalls": 0,
+      "beforePoints": 480,
+      "afterPoints": 0,
+      "changedChannels": 0
+    },
+    {
+      "frame": 237,
+      "active": 0,
+      "beforeCalls": 1,
+      "afterCalls": 0,
+      "beforePoints": 480,
+      "afterPoints": 0,
+      "changedChannels": 0
+    },
+    {
+      "frame": 238,
+      "active": 0,
+      "beforeCalls": 1,
+      "afterCalls": 0,
+      "beforePoints": 480,
+      "afterPoints": 0,
+      "changedChannels": 0
+    },
+    {
+      "frame": 239,
+      "active": 0,
+      "beforeCalls": 1,
+      "afterCalls": 0,
+      "beforePoints": 480,
+      "afterPoints": 0,
+      "changedChannels": 0
+    }
+  ],
+  "pass": true
+}

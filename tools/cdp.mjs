@@ -66,7 +66,7 @@ const candidates = [
   '/usr/bin/chromium',
 ].filter(Boolean);
 
-export async function openPage(url = process.env.TERVAIN_URL ?? 'http://127.0.0.1:5173/', { w = 1280, h = 720, init = null, flags = [], headed = false, requestTimeoutMs = 120000 } = {}) {
+export async function openPage(url = process.env.TERVAIN_URL ?? 'http://127.0.0.1:5173/', { w = 1280, h = 720, init = null, flags = [], headed = false, requestTimeoutMs = Number(process.env.CDP_TIMEOUT_MS ?? 120000) } = {}) {
   if (!Number.isFinite(requestTimeoutMs) || requestTimeoutMs <= 0) throw new Error('Invalid CDP request timeout');
   const browser = candidates.find((c) => fs.existsSync(c));
   if (!browser) throw new Error('no Chrome/Edge found; set CHROME');
@@ -112,7 +112,7 @@ export async function openPage(url = process.env.TERVAIN_URL ?? 'http://127.0.0.
   proc.once('error', () => { launchFailed = true; });
   let targets = null;
   // A first launch after a browser update can take well over 15 s.
-  const startupDeadline = Date.now() + 30000;
+  const startupDeadline = Date.now() + Number(process.env.CDP_STARTUP_MS ?? 120000);
   for (let i = 0; i < 120 && !targets && Date.now() < startupDeadline; i++) {
     if (launchFailed || proc.exitCode !== null) break;
     try {

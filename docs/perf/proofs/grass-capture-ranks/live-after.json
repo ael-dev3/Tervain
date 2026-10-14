@@ -1,0 +1,161 @@
+{
+  "build": {
+    "version": "0.0.16",
+    "revision": "9ab40b387"
+  },
+  "program": "tervain-BPHLcoQG.js",
+  "rows": [
+    {
+      "layer": "grass-near",
+      "anchor": [
+        -3.48285174369812,
+        1.0123621225357056,
+        -10.297204971313477
+      ],
+      "available": 205,
+      "primary": 172,
+      "captured": 172,
+      "restored": 172
+    },
+    {
+      "layer": "grass-far",
+      "anchor": [
+        65.68925476074219,
+        1.274958610534668,
+        -13.173991203308105
+      ],
+      "available": 192,
+      "primary": 5,
+      "captured": 107,
+      "restored": 5
+    },
+    {
+      "layer": "grass-far",
+      "anchor": [
+        70.95968627929688,
+        1.2957079410552979,
+        21.90043067932129
+      ],
+      "available": 171,
+      "primary": 3,
+      "captured": 171,
+      "restored": 3
+    },
+    {
+      "layer": "grass-far",
+      "anchor": [
+        -36.00370788574219,
+        1.6354584693908691,
+        -31.524497985839844
+      ],
+      "available": 236,
+      "primary": 24,
+      "captured": 236,
+      "restored": 24
+    },
+    {
+      "layer": "grass-far",
+      "anchor": [
+        -24.384153366088867,
+        0.8195023536682129,
+        27.55150604248047
+      ],
+      "available": 107,
+      "primary": 21,
+      "captured": 107,
+      "restored": 21
+    },
+    {
+      "layer": "grass-far",
+      "anchor": [
+        41.67421340942383,
+        1.4674773216247559,
+        -26.938724517822266
+      ],
+      "available": 204,
+      "primary": 75,
+      "captured": 204,
+      "restored": 75
+    },
+    {
+      "layer": "grass-far",
+      "anchor": [
+        -36.54566955566406,
+        0.7839997410774231,
+        -3.717559337615967
+      ],
+      "available": 192,
+      "primary": 100,
+      "captured": 192,
+      "restored": 100
+    },
+    {
+      "layer": "grass-far",
+      "anchor": [
+        -35.9210205078125,
+        0.8876051306724548,
+        1.4606859683990479
+      ],
+      "available": 209,
+      "primary": 104,
+      "captured": 209,
+      "restored": 104
+    },
+    {
+      "layer": "grass-far",
+      "anchor": [
+        30.369064331054688,
+        1.0004466772079468,
+        36.17439651489258
+      ],
+      "available": 234,
+      "primary": 144,
+      "captured": 234,
+      "restored": 144
+    },
+    {
+      "layer": "grass-far",
+      "anchor": [
+        -1.707363486289978,
+        1.1420276165008545,
+        -28.963228225708008
+      ],
+      "available": 195,
+      "primary": 133,
+      "captured": 195,
+      "restored": 133
+    },
+    {
+      "layer": "grass-far",
+      "anchor": [
+        12.27761173248291,
+        2.26169753074646,
+        -35.531219482421875
+      ],
+      "available": 154,
+      "primary": 94,
+      "captured": 154,
+      "restored": 94
+    },
+    {
+      "layer": "grass-far",
+      "anchor": [
+        -15.388860702514648,
+        1.4193586111068726,
+        33.88068389892578
+      ],
+      "available": 357,
+      "primary": 201,
+      "captured": 211,
+      "restored": 201
+    }
+  ],
+  "scope": "Callbacks on actual compiled-world grass tiles with primary rank trimming; controlled nearer capture cameras, no source-class substitution. This measures per-pass count and restoration, not a full window clip or hardware timings.",
+  "assertions": {
+    "sampled": true,
+    "restored": true,
+    "nearCaptureExpands": true
+  },
+  "pass": true,
+  "programSha256": "70dcaf386b13f77f13768f8ac40a79f95f749d15b8489da7debc24f71082cada"
+}

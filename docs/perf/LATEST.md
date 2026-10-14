@@ -7,54 +7,49 @@ same build. "Busy" is main-thread time from an animation frame's start to its dr
 interval. Uploads are buffer and texture bytes handed to WebGL. Each slow frame's still shows what was on screen, with
 the hero's and camera's world positions.
 
-## Run live-ec2b282: PASS · 0.0.14 · ec2b282
+## Run live16: PASS · 0.0.16 · 9ab40b3
 
 URL https://ael-dev3.github.io/Tervain/
 
-Clean run on a quiet gate machine, timing only (`--video false`). No stall: pause-to-resume and the fence walk show at most one missed refresh. Leads for the slow frames that remain:
-
-- **Bow (desktop):** two frames with 32 ms of main-thread time; this stage is main-thread bound, not only a missed refresh.
-- **Inside-window (mac, 2×):** twelve missed refreshes in this stage, several with 22–32 ms of main-thread time. Interiors cost more since the A123 room dressing.
-- **Uploads:** about 675–715 MiB of real source bytes in a three-minute run (#337 accounting), up to 13 MiB in one frame. Worth finding what re-uploads every frame.
+Clean run on a quiet gate machine. The bow stage no longer stalls on the first loosed arrow (its program was linked in that frame); every stage holds a 16.7 ms median on both profiles.
 
 #### desktop (1280×720 @1×, CPU ÷1)
 
-Frame ms p50 16.7 · p95 17.1 · p99 17.3 · max 33.6; over 25 ms 8, over 50 ms 0; main thread idle 45%.
-Uploads 674.0 MiB in play, largest frame 13.1 MiB. Glitched frames: hidden hero 0, broken pose 0, screen jumps 0.
+Frame ms p50 16.7 · p95 17.1 · p99 17.3 · max 33.6; over 25 ms 9, over 50 ms 0; main thread idle 34%.
+Uploads 645.1 MiB in play, largest frame 13.0 MiB. Glitched frames: hidden hero 0, broken pose 0, screen jumps 0.
 Clip: none
 
 | Phase | Frame ms | Busy ms | Upload |
 | --- | ---: | ---: | ---: |
-| resume | 33.5 | 8.8 | 0.0 MiB |
-| run-fence | 33.5 | 9.9 | 0.1 MiB |
-| run-turn | 33.2 | 12.3 | 0.8 MiB |
-| run-round | 33.5 | 19.8 | 0.2 MiB |
-| bow | 33.6 | 20.2 | 0.1 MiB |
-| bow | 33.6 | 32.1 | 0.3 MiB |
-| bow | 33.3 | 32.4 | 0.3 MiB |
-| bow | 33 | 15.6 | 0.2 MiB |
+| walk-fence | 33.6 | 14.2 | 0.0 MiB |
+| walk-fence | 33.3 | 19 | 0.0 MiB |
+| walk-fence | 33.3 | 15 | 0.0 MiB |
+| walk-fence | 33 | 15.1 | 0.0 MiB |
+| walk-fence | 32.9 | 17.6 | 0.7 MiB |
+| walk-fence | 33.3 | 15.2 | 9.0 MiB |
+| run-round | 33.4 | 13.2 | 0.1 MiB |
+| bow | 33.3 | 19.4 | 0.1 MiB |
+| bow | 33.2 | 20.9 | 0.2 MiB |
 
+- walk-fence, 33.6 ms, hero (-2, 39.5), camera (-2, 4.9, 45.4)
+- walk-fence, 33.3 ms, hero (-2, 39.3), camera (-2, 4.8, 45.2)
+- walk-fence, 33.3 ms, hero (-2, 39.2), camera (-2, 4.8, 45.1)
+- walk-fence, 33 ms, hero (-2, 39), camera (-2, 4.8, 44.9)
+- walk-fence, 32.9 ms, hero (-2, 35.3), camera (-2, 4.6, 41.2)
+- walk-fence, 33.3 ms, hero (-2, 34.8), camera (-2, 4.6, 40.8)
+- run-round, 33.4 ms, hero (-12.3, 44.8), camera (-11.3, 4.2, 45.3)
+- bow, 33.3 ms, hero (-4, 46), camera (-1.5, 4.1, 45.1)
 
 #### mac (1440×900 @2×, CPU ÷1)
 
-Frame ms p50 16.7 · p95 17.1 · p99 17.3 · max 50.2; over 25 ms 14, over 50 ms 1; main thread idle 43%.
-Uploads 714.5 MiB in play, largest frame 13.1 MiB. Glitched frames: hidden hero 0, broken pose 0, screen jumps 0.
+Frame ms p50 16.7 · p95 17.1 · p99 17.2 · max 33.5; over 25 ms 2, over 50 ms 0; main thread idle 30%.
+Uploads 569.8 MiB in play, largest frame 9.2 MiB. Glitched frames: hidden hero 0, broken pose 0, screen jumps 0.
 Clip: none
 
 | Phase | Frame ms | Busy ms | Upload |
 | --- | ---: | ---: | ---: |
-| walk-fence | 50.2 | 14.6 | 0.1 MiB |
-| run-fence | 33.6 | 8.2 | 0.1 MiB |
-| inside-window | 33.4 | 15.5 | 0.2 MiB |
-| inside-window | 33.1 | 11.7 | 0.1 MiB |
-| inside-window | 33.3 | 11.8 | 0.1 MiB |
-| inside-window | 33.3 | 15.9 | 0.1 MiB |
-| inside-window | 33.1 | 13.3 | 0.1 MiB |
-| inside-window | 33 | 32.4 | 0.1 MiB |
-| inside-window | 33.6 | 27.5 | 0.2 MiB |
-| inside-window | 33.1 | 18.8 | 0.3 MiB |
-| inside-window | 33.1 | 22.2 | 0.8 MiB |
-| inside-window | 33.4 | 14.8 | 2.6 MiB |
-| inside-window | 33.4 | 23.2 | 0.1 MiB |
-| inside-window | 33.4 | 24.8 | 0.1 MiB |
+| resume | 33.4 | 12.9 | 1.0 MiB |
+| walk-fence | 33.5 | 20.9 | 0.0 MiB |
 
+- resume, 33.4 ms, hero (-268, 27), camera (-273.7, 3.9, 25.6)
+- walk-fence, 33.5 ms, hero (-2, 34.6), camera (-2, 4.5, 40.5)

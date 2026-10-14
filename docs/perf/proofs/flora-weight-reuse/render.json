@@ -1,0 +1,113 @@
+{
+  "schema": 1,
+  "baselineRef": "5da2776",
+  "sourceSha256": "089a05067251d736e009511eab8e081c63d33ca843ce4ad8ec165eb2c0107a40",
+  "populationSourceSha256": "5eb64bdf12193bebdaa20b1c954c6aa2139845fcd290f29b326d270219d7f464",
+  "scope": "Source-backed forest fixture with source pine models and procedural broadleaf catalog, five camera moves at High, native software WebGL. Counters exclude uniforms; not full-world hardware timing.",
+  "baseline": {
+    "rows": [
+      {
+        "drawCalls": 62,
+        "triangles": 1612531,
+        "uploadBytes": 69841706,
+        "unchangedAttributes": 0,
+        "unchangedInstances": 0,
+        "unnecessaryVersions": 0,
+        "glError": 0
+      },
+      {
+        "drawCalls": 62,
+        "triangles": 1612531,
+        "uploadBytes": 19676,
+        "unchangedAttributes": 46,
+        "unchangedInstances": 436,
+        "unnecessaryVersions": 46,
+        "glError": 0
+      },
+      {
+        "drawCalls": 62,
+        "triangles": 1612531,
+        "uploadBytes": 19676,
+        "unchangedAttributes": 46,
+        "unchangedInstances": 436,
+        "unnecessaryVersions": 46,
+        "glError": 0
+      },
+      {
+        "drawCalls": 62,
+        "triangles": 1612531,
+        "uploadBytes": 19676,
+        "unchangedAttributes": 46,
+        "unchangedInstances": 436,
+        "unnecessaryVersions": 46,
+        "glError": 0
+      },
+      {
+        "drawCalls": 62,
+        "triangles": 1612531,
+        "uploadBytes": 19676,
+        "unchangedAttributes": 46,
+        "unchangedInstances": 436,
+        "unnecessaryVersions": 46,
+        "glError": 0
+      }
+    ],
+    "textures": 24,
+    "textureImagePayloadBytes": 85263368,
+    "pass": true
+  },
+  "candidate": {
+    "rows": [
+      {
+        "drawCalls": 62,
+        "triangles": 1612531,
+        "uploadBytes": 69841706,
+        "unchangedAttributes": 0,
+        "unchangedInstances": 0,
+        "unnecessaryVersions": 0,
+        "glError": 0
+      },
+      {
+        "drawCalls": 62,
+        "triangles": 1612531,
+        "uploadBytes": 19676,
+        "unchangedAttributes": 46,
+        "unchangedInstances": 436,
+        "unnecessaryVersions": 46,
+        "glError": 0
+      },
+      {
+        "drawCalls": 62,
+        "triangles": 1612531,
+        "uploadBytes": 19676,
+        "unchangedAttributes": 46,
+        "unchangedInstances": 436,
+        "unnecessaryVersions": 46,
+        "glError": 0
+      },
+      {
+        "drawCalls": 62,
+        "triangles": 1612531,
+        "uploadBytes": 19676,
+        "unchangedAttributes": 46,
+        "unchangedInstances": 436,
+        "unnecessaryVersions": 46,
+        "glError": 0
+      },
+      {
+        "drawCalls": 62,
+        "triangles": 1612531,
+        "uploadBytes": 19676,
+        "unchangedAttributes": 46,
+        "unchangedInstances": 436,
+        "unnecessaryVersions": 46,
+        "glError": 0
+      }
+    ],
+    "textures": 24,
+    "textureImagePayloadBytes": 85263368,
+    "pass": true
+  },
+  "pixelIdentical": true,
+  "pass": true
+}

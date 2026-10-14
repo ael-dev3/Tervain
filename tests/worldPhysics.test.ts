@@ -15,6 +15,62 @@ function tick(p: RealmPhysics, n: number, dt = 1 / 60) {
 }
 
 describe('real 60 Hz rigid-body world', () => {
+  it('keeps projectile attribution after an actor resize before the next fixed step', () => {
+    const p = new RealmPhysics(floor, new Colliders(), []);
+    const person = { id: 'person:worker', x: 0, y: 0, z: 0, radius: .25, height: 1.8, active: true };
+    try {
+      p.syncActors([person]);
+      p.syncActors([{ ...person, radius: .2, height: .4 }]);
+      expect(p.traceProjectile({ x: -3, y: .95, z: 0 }, { x: 3, y: .95, z: 0 })?.actorId).toBe(person.id);
+      p.syncActors([{ ...person, radius: .3, height: 1.2, active: false }]);
+      expect(p.traceProjectile({ x: -3, y: .95, z: 0 }, { x: 3, y: .95, z: 0 })).toBeNull();
+    } finally { p.dispose(); }
+  });
+  it('resizes an existing actor capsule when its dimensions change, retaining its handle', () => {
+    const p = new RealmPhysics(floor, new Colliders(), []);
+    const person = { id: 'animal:1005232644', x: 0, y: 0, z: 0, radius: .25, height: 1.8, active: true };
+    try {
+      p.syncActors([person]);
+      const actors = Reflect.get(p, 'actors') as Map<string, { body: RAPIER.RigidBody; collider: RAPIER.Collider }>;
+      const actor = actors.get(person.id)!, handle = actor.collider.handle;
+      p.syncActors([{ ...person, radius: .2, height: .4 }]); tick(p, 1);
+      expect(actor.collider.handle).toBe(handle);
+      expect((actor.collider.shape as RAPIER.Capsule).radius).toBe(.2);
+      expect((actor.collider.shape as RAPIER.Capsule).halfHeight).toBe(0);
+      expect(actor.collider.castRay(new RAPIER.Ray({ x: -3, y: .95, z: 0 }, { x: 1, y: 0, z: 0 }), 6, true)).toBeLessThan(0);
+      p.syncActors([{ ...person, radius: .6, active: false }]);
+      expect((actor.collider.shape as RAPIER.Capsule).radius).toBe(.6);
+      expect(actor.body.isEnabled()).toBe(false);
+      p.syncActors([{ ...person, radius: .6 }]); tick(p, 1);
+      expect(actor.collider.handle).toBe(handle);
+      expect(actor.body.isEnabled()).toBe(true);
+      expect(actor.collider.castRay(new RAPIER.Ray({ x: -3, y: .95, z: 0 }, { x: 1, y: 0, z: 0 }), 6, true)).toBeCloseTo(2.4, 3);
+    } finally { p.dispose(); }
+  });
+  it('uses the current prop shape and restored pose for support before the next physics step', () => {
+    const p = new RealmPhysics(floor, new Colliders(), [crate]);
+    try {
+      p.props[0]!.collider.setShape(new RAPIER.Cuboid(3, 1, 2));
+      p.restore([{ id: 'crate', position: { x: 7.123456, y: 2, z: 6 },
+        rotation: { x: 0, y: Math.sin(.3), z: 0, w: Math.cos(.3) } }]);
+      expect(p.supportAt(9.123456, 6, 5)).toBeCloseTo(3, 4);
+      expect(p.supportAt(100, 100, 5)).toBeNull();
+    } finally { p.dispose(); }
+  });
+  it('checks airborne body clearance against current loose cargo without moving it', () => {
+    const p = new RealmPhysics(floor, new Colliders(), [crate]);
+    try {
+      const saved = p.snapshot(), top = saved[0]!.position.y + crate.height / 2;
+      expect(p.propsBlockBodySweep({ x: -2, y: 0, z: 0 }, { x: 2, y: 0, z: 0 })).toBe(true);
+      expect(p.propsBlockBodySweep({ x: -2, y: 0, z: 3 }, { x: 2, y: 0, z: 3 })).toBe(false);
+      expect(p.propsBlockBodySweep({ x: 0, y: top, z: 0 }, { x: 0, y: top + .3, z: 0 }, .01)).toBe(false);
+      expect(p.snapshot()).toEqual(saved);
+      p.restore([{ ...saved[0]!, position: { x: 8, y: .3, z: 0 } }]);
+      expect(p.propsBlockBodySweep({ x: 6, y: 0, z: 0 }, { x: 10, y: 0, z: 0 })).toBe(true);
+      p.props[0]!.collider.setEnabled(false);
+      expect(p.propsBlockBodySweep({ x: 6, y: 0, z: 0 }, { x: 10, y: 0, z: 0 })).toBe(false);
+    } finally { p.dispose(); }
+  });
   it('falls under gravity and settles with its closed bottom on the same physical terrain', () => {
     const p = new RealmPhysics(floor, new Colliders(), [crate]);
     try {

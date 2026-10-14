@@ -23,6 +23,8 @@ export function hearthFires(rooms: Pick<RoomLocator, 'base'>): HearthFireSpot[] 
 
 /** Flame cards per fire, their width and height (metres), and the ember bed's size. */
 const CARDS = 3, FLAME_W = 0.62, FLAME_H = 0.62, EMBERS = { w: 0.7, d: 0.32 } as const;
+/** Half the side of the firelight's pool on the floor (A136), metres. */
+const POOL = 1.7;
 
 const vertex = /* glsl */ `
 attribute float seed;
@@ -47,6 +49,14 @@ float noise(vec2 p) {
   return mix(mix(hash(i), hash(i + vec2(1.0, 0.0)), u.x), mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), u.x), u.y);
 }
 void main() {
+  if (vKind > 1.5) {
+    // A136: the fire's warm light on the floor before it, falling off softly, flickering with the flames.
+    float d = length((vUv - 0.5) * 2.0);
+    float fall = pow(max(0.0, 1.0 - d), 2.2);
+    float flick = 0.86 + 0.08 * sin(uTime * 7.3) + 0.06 * sin(uTime * 12.9 + 1.7);
+    gl_FragColor = vec4(vec3(1.0, 0.46, 0.14) * fall * 0.2 * flick, 1.0);
+    return;
+  }
   if (vKind > 0.5) {
     // Embers: a breathing bed of red and orange under the logs, darkest at its edges.
     vec2 d = (vUv - 0.5) * 2.0;
@@ -93,6 +103,9 @@ export function hearthFireGeometry(spots: readonly HearthFireSpot[]): THREE.Buff
     const c = Math.cos(spot.yaw), s = Math.sin(spot.yaw), y = spot.y - 0.025;
     const at = (lx: number, lz: number): [number, number, number] => [spot.x + lx * c + lz * s, y, spot.z - lx * s + lz * c];
     quad([at(-EMBERS.w / 2, EMBERS.d / 2), at(EMBERS.w / 2, EMBERS.d / 2), at(EMBERS.w / 2, -EMBERS.d / 2), at(-EMBERS.w / 2, -EMBERS.d / 2)], f * 0.71, 1);
+    // The pool of firelight on the floor before it (A136), just over the hearthstone, centred a little out from the fire.
+    const floor = spot.y - HEARTH_SHAPE.fire.y + 0.052, pool = (lx: number, lz: number): [number, number, number] => [spot.x + lx * c + lz * s, floor, spot.z - lx * s + lz * c];
+    quad([pool(-POOL, POOL + 0.7), pool(POOL, POOL + 0.7), pool(POOL, -POOL + 0.7), pool(-POOL, -POOL + 0.7)], f * 0.53, 2);
   }
   const g = new THREE.BufferGeometry();
   g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));

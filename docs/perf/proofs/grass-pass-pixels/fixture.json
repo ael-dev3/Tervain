@@ -1,0 +1,84 @@
+{
+  "baselineRef": "5da2776",
+  "sourceSha256": "948cbf043fa782662b9ee567f8a7f7f0f6077bc54e434d15962c342848bab1a6",
+  "scope": "Production grass shader/clumps, physical 640x480 canvas and 160x120 four-sample capture target. Capture images are copied to the canvas for inspection. Standalone software WebGL correctness fixture, not whole-scene shimmer or hardware timing.",
+  "before": {
+    "main": {
+      "pass": "main",
+      "uniform": 480,
+      "viewport": [
+        0,
+        0,
+        640,
+        480
+      ],
+      "stats": {
+        "frame": 1,
+        "calls": 1,
+        "triangles": 480,
+        "points": 0,
+        "lines": 0
+      },
+      "errors": []
+    },
+    "capture": {
+      "pass": "capture",
+      "uniform": 480,
+      "viewport": [
+        0,
+        0,
+        160,
+        120
+      ],
+      "stats": {
+        "frame": 2,
+        "calls": 1,
+        "triangles": 480,
+        "points": 0,
+        "lines": 0
+      },
+      "errors": []
+    }
+  },
+  "after": {
+    "main": {
+      "pass": "main",
+      "uniform": 480,
+      "viewport": [
+        0,
+        0,
+        640,
+        480
+      ],
+      "stats": {
+        "frame": 1,
+        "calls": 1,
+        "triangles": 480,
+        "points": 0,
+        "lines": 0
+      },
+      "errors": []
+    },
+    "capture": {
+      "pass": "capture",
+      "uniform": 120,
+      "viewport": [
+        0,
+        0,
+        160,
+        120
+      ],
+      "stats": {
+        "frame": 2,
+        "calls": 1,
+        "triangles": 480,
+        "points": 0,
+        "lines": 0
+      },
+      "errors": []
+    }
+  },
+  "mainPixelIdentical": true,
+  "changedCapturePixels": 37,
+  "pass": true
+}

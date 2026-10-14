@@ -1,0 +1,103 @@
+{
+  "schema": 1,
+  "baselineRef": "0b45a36",
+  "sourceSha256": "97c691239e69722a33d751136ac8de825c108950093e8102899966ba3d8436d0",
+  "scope": "Uninstrumented alternating prop query batches, first pair discarded. Component CPU workload, not hardware frame timing.",
+  "corpus": "near-authored-props",
+  "queriesPerBatch": 10800,
+  "beforeMedianMs": 206.86501599999974,
+  "afterMedianMs": 75.23931900000025,
+  "rounds": [
+    {
+      "before": {
+        "ms": 234.6473420000002,
+        "hits": 10800
+      },
+      "after": {
+        "ms": 54.70858899999985,
+        "hits": 10800
+      }
+    },
+    {
+      "after": {
+        "ms": 75.5985899999996,
+        "hits": 10800
+      },
+      "before": {
+        "ms": 457.6677209999998,
+        "hits": 10800
+      }
+    },
+    {
+      "before": {
+        "ms": 206.86501599999974,
+        "hits": 10800
+      },
+      "after": {
+        "ms": 52.40022599999975,
+        "hits": 10800
+      }
+    },
+    {
+      "after": {
+        "ms": 68.27928199999951,
+        "hits": 10800
+      },
+      "before": {
+        "ms": 199.50300400000015,
+        "hits": 10800
+      }
+    },
+    {
+      "before": {
+        "ms": 197.94117299999925,
+        "hits": 10800
+      },
+      "after": {
+        "ms": 52.312745999999606,
+        "hits": 10800
+      }
+    },
+    {
+      "after": {
+        "ms": 67.80108400000063,
+        "hits": 10800
+      },
+      "before": {
+        "ms": 202.7247920000009,
+        "hits": 10800
+      }
+    },
+    {
+      "before": {
+        "ms": 224.79691900000034,
+        "hits": 10800
+      },
+      "after": {
+        "ms": 75.23931900000025,
+        "hits": 10800
+      }
+    },
+    {
+      "after": {
+        "ms": 76.977938,
+        "hits": 10800
+      },
+      "before": {
+        "ms": 206.4424309999995,
+        "hits": 10800
+      }
+    },
+    {
+      "before": {
+        "ms": 214.69530899999882,
+        "hits": 10800
+      },
+      "after": {
+        "ms": 75.4630959999995,
+        "hits": 10800
+      }
+    }
+  ],
+  "pass": true
+}

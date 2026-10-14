@@ -40,6 +40,29 @@ At a quarter of the resolution the leaves, trunks and settlement cost nearly the
 
 The final build is about 5 ms over the 2.0 ms median and 7 ms over the 3.0 ms p95; triangles (5.1 M) and draws (340) are over too.
 
+## Batch 10 findings (tried, measured, not kept)
+
+Same route and profile; each A/B pair run back to back, three laps each. The machine was shared with other GPU work during these runs, so laps with a CPU median above about 9 ms are contended and their GPU time is not comparable.
+
+| Trial | GPU median | Triangles | Draws | Visual check | Verdict |
+| --- | ---: | ---: | ---: | --- | --- |
+| Uncontended baseline (same session) | 7.11 · 7.24 · 7.24 ms | 5.08–5.16 M | 335–341 | — | — |
+| High trees crossfade to middle 90–130 m, far 300–400 m, every species (`?highlod=90,130,300,400&highlodsp=…`) | 7.43 ms (uncontended lap) | 4.35–4.38 M | 337–357 | Broadleaf crowns thin out and turn more see-through beyond 100 m; the dithered crossfade shows on bushes | Rejected: visible, no GPU gain |
+| The same with bands 160–220 / 450–600 m | not benched | — | — | Broadleaf crowns still visibly thinner at about 200 m | Rejected |
+| Conifers only, 90–130 / 300–400 m | 7.18 · 7.35 ms | 4.38–4.74 M | 337–359 | Firs indistinguishable at that range; solitary pines slightly flatter | Not kept: tris −8 %, GPU unchanged |
+| Tree instances packed nearest first (so hidden crowns fail the depth test) | per object, leaf depth pass 1.26 → 1.37 ms, colour 0.99 → 1.05 ms | — | — | Identical by construction | Rejected: no gain, so the leaves are not fill-bound |
+
+What these show on this card:
+
+- **Resolution does not move the route time.** At 480×300 and device scale 1 the GPU median was 7.60 ms, against 7.1–8.0 ms at the Air profile (2160×1350 drawn).
+- **Triangles alone do not either.** Hiding the whole forest (1.56 M triangles left, 238 draws) gave 7.22 ms; turning shadows off 8.30 ms; the reflection off 9.60 ms (a contended lap).
+- Per pass at Rillford (camera at (−60, 16) looking east, 11:00): main view 5.3 ms, shadow map 0.69 ms, post passes about 0.4 ms. Per object in the main view: leaf depth pass 1.1–1.3 ms, leaf colour 0.65–1.0 ms, terrain 0.54 ms, near trunks 0.43–0.57 ms, settlement 0.41 ms.
+- So on the gate machine the route median is dominated by fixed cost and clock state, not by pixels or triangles, and cuts of a few tenths of a millisecond cannot be seen there. The budget has to be judged on the Air itself (frame time and heat), or with a locked GPU clock; the triangle and draw counts are the dependable proxies here.
+
+## Distance look (batch 10)
+
+- **Dusk haze.** From dusk the fog colour is the horizon colour dimmed by up to 35 % with nightness, and night thickens the fog by 0.0006 instead of doubling it (0.0019 → 0.0038). At 19:48 a crown 400 m away keeps about 40 % of its own colour (was 17 %), so far woods read as a dark treeline against the glowing sky instead of pale ghosts lighter than the trees in front. Day is unchanged by construction (nightness 0). Captured with the visual gate's `woods`, `meadow` and `grove` runs at 19.8 against the previous build.
+
 ## Next cuts
 
 - **Fewer near-crown triangles.** The near leaf models carry about 11–12 k triangles a tree (cluster canopies, 6,000 cards) and High draws them to 1 km. A lighter near model, or the middle model from a distance where the two cannot be told apart, attacks the largest cost three times over (depth, colour, shadow). Needs side-by-side captures; "Lighter distant trees" alone did not help on the route, because most leaf cost is within 120 m.

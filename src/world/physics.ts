@@ -2,7 +2,7 @@ import RAPIER from '@dimforge/rapier3d-compat';
 import type { Collider as WorldCollider, Colliders } from './colliders';
 import { ARCHIVE_ROOM, BUILDINGS, DECKS, HAMLET_PROPS } from './layout';
 import { buildingEntry, buildingGround } from './buildingEntries';
-import { PLAYER_BODY_HEIGHT, PLAYER_BODY_RADIUS } from './playerPlacement';
+import { PLAYER_BODY_HEIGHT, PLAYER_BODY_RADIUS, PLAYER_FOOT_CLEARANCE } from './playerPlacement';
 import type { Terrain } from './terrain';
 import type { PhysicalObjectPose } from '../game/types';
 import { RockSurfaces, ROCK_CLIMB_ANGLE, ROCK_STEP_HEIGHT } from './rockContacts';
@@ -29,6 +29,9 @@ export const PHYSICAL_PROPS: readonly PropSpec[] = [
   ...[[-16.5, 2.4], [16.4, 21], [-136.5, 31.5], [88, -13], [-14.4, -3]].map(([x, z], i) => ({ id: `loose_barrel_${i}`, name: 'Empty wooden barrel', kind: 'barrel' as const, x: x!, z: z!, width: .76, height: 1, depth: .76, yaw: .17 * i, mass: 18 })),
 ];
 export interface PropPose extends PhysicalObjectPose { sleeping: boolean }
+export interface PropMotion extends Vec3 {
+  id: string; kind: PropSpec['kind']; vx: number; vy: number; vz: number; held: boolean; wet: number;
+}
 interface Prop { spec: PropSpec; body: RAPIER.RigidBody; collider: RAPIER.Collider; previous: PropPose; wet: number }
 
 /** The water a floating body needs to know about: where it stands and how it moves (WaterWorld provides it). */
@@ -50,7 +53,7 @@ export const FLOAT_LINE: Readonly<Record<PropSpec['kind'], number>> = { barrel: 
 const WATER_DRAG = 2.4;
 const GRAVITY = 17;
 export interface PhysicalActor { id: string; x: number; y: number; z: number; radius: number; height: number; active: boolean }
-interface ActorContact { body: RAPIER.RigidBody; collider: RAPIER.Collider; from: Vec3; target: Vec3; active: boolean }
+interface ActorContact { body: RAPIER.RigidBody; collider: RAPIER.Collider; from: Vec3; target: Vec3; active: boolean; radius: number; halfHeight: number }
 let initialization: Promise<void> | undefined;
 export function initializePhysics() { return initialization ??= RAPIER.init(); }
 const STEP = 1 / 60;
@@ -61,6 +64,15 @@ const rotateVector = (v: Vec3, q: { x: number; y: number; z: number; w: number }
   const tx = 2 * (q.y * v.z - q.z * v.y), ty = 2 * (q.z * v.x - q.x * v.z), tz = 2 * (q.x * v.y - q.y * v.x);
   return { x: v.x + q.w * tx + q.y * tz - q.z * ty, y: v.y + q.w * ty + q.z * tx - q.x * tz,
     z: v.z + q.w * tz + q.x * ty - q.y * tx };
+};
+
+/** Rotation-independent bounds for the primitive contact shapes; unfamiliar shapes keep the exact cast. */
+const shapeRadius = (shape: RAPIER.Shape): number => {
+  if (shape instanceof RAPIER.Ball) return shape.radius;
+  if (shape instanceof RAPIER.Capsule) return shape.halfHeight + shape.radius;
+  if (shape instanceof RAPIER.Cuboid) return Math.hypot(shape.halfExtents.x, shape.halfExtents.y, shape.halfExtents.z);
+  if (shape instanceof RAPIER.Cylinder) return Math.hypot(shape.halfHeight, shape.radius);
+  return Infinity;
 };
 
 /** Real rigid-body contacts; gameplay terrain/controller remains the authored source of standing heights. */
@@ -213,20 +225,27 @@ export class RealmPhysics {
       retained.add(person.id);
       let actor = this.actors.get(person.id);
       const target = { x: person.x, y: person.y + person.height / 2, z: person.z };
+      const halfHeight = Math.max(0, person.height / 2 - person.radius);
       if (!actor) {
         const body = this.world.createRigidBody(RAPIER.RigidBodyDesc.kinematicPositionBased().setTranslation(target.x, target.y, target.z));
-        const collider = this.world.createCollider(RAPIER.ColliderDesc.capsule(Math.max(0, person.height / 2 - person.radius), person.radius), body);
-        actor = { body, collider, from: { ...target }, target, active: person.active };
+        const collider = this.world.createCollider(RAPIER.ColliderDesc.capsule(halfHeight, person.radius), body);
+        actor = { body, collider, from: { ...target }, target, active: person.active, radius: person.radius, halfHeight };
         this.actors.set(person.id, actor);
         this.projectileActorHandles.add(collider.handle);
         if (/^animal:\d+$/.test(person.id)) this.projectileAnimalHandles.add(collider.handle);
+      }
+      if (actor.radius !== person.radius || actor.halfHeight !== halfHeight) {
+        actor.collider.setShape(new RAPIER.Capsule(halfHeight, person.radius));
+        actor.radius = person.radius; actor.halfHeight = halfHeight;
       }
       const previous = actor.body.translation();
       // Restoring or respawning a person is placement, not a high-speed sweep through every intervening loose object.
       if (person.active && (!actor.active || Math.hypot(target.x - previous.x, target.y - previous.y, target.z - previous.z) > 2)) {
         actor.body.setTranslation(target, false);
+        actor.from = { ...actor.body.translation() };
+      } else {
+        actor.from = { ...previous };
       }
-      actor.from = { ...actor.body.translation() };
       actor.target = target; actor.active = person.active;
       actor.body.setEnabled(person.active);
     }
@@ -290,8 +309,30 @@ export class RealmPhysics {
   private castContacts(shape: RAPIER.Shape, position: Vec3, velocity: Vec3, maxToi: number,
     accept: (normal: Vec3, witness: Vec3, collider: RAPIER.Collider) => boolean = () => true, includeRocks = true) {
     let nearest: { contact: { collider: RAPIER.Collider }; hit: RAPIER.ShapeCastHit; normal: Vec3; witness: Vec3 } | null = null;
-    for (const contact of [...this.props, ...(includeRocks ? this.rocks : [])]) {
+    const reach = shapeRadius(shape);
+    const dx = velocity.x * maxToi, dy = velocity.y * maxToi, dz = velocity.z * maxToi;
+    const minX = position.x + Math.min(0, dx), maxX = position.x + Math.max(0, dx);
+    const minY = position.y + Math.min(0, dy), maxY = position.y + Math.max(0, dy);
+    const minZ = position.z + Math.min(0, dz), maxZ = position.z + Math.max(0, dz);
+    const inputGuard = 1e-4 + 1e-6 * Math.max(reach, Math.abs(position.x), Math.abs(position.y), Math.abs(position.z),
+      Math.abs(dx), Math.abs(dy), Math.abs(dz));
+    const propCount = this.props.length, contactCount = propCount + (includeRocks ? this.rocks.length : 0);
+    for (let i = 0; i < contactCount; i++) {
+      const contact = i < propCount ? this.props[i]! : this.rocks[i - propCount]!;
       if (!contact.collider.isEnabled()) continue;
+      let center: Vec3 | undefined;
+      if ('spec' in contact && Number.isFinite(reach)) {
+        const radius = shapeRadius(contact.collider.shape);
+        if (Number.isFinite(radius)) {
+          center = contact.collider.translation();
+          // Include float32 rounding of cast inputs, especially after save restoration at large coordinates.
+          const guard = inputGuard + 1e-6 * Math.max(radius, Math.abs(center.x), Math.abs(center.y), Math.abs(center.z));
+          const margin = reach + radius + guard;
+          if (maxX + margin < center.x || minX - margin > center.x ||
+            maxY + margin < center.y || minY - margin > center.y ||
+            maxZ + margin < center.z || minZ - margin > center.z) continue;
+        }
+      }
       if ('source' in contact && contact.source.rockMesh) {
         const bounds = contact.source.rockMesh.bounds;
         if (position.x + Math.max(0, velocity.x * maxToi) + PLAYER_BODY_RADIUS < bounds.minX ||
@@ -301,7 +342,8 @@ export class RealmPhysics {
       }
       const hit = contact.collider.castShape({ x: 0, y: 0, z: 0 }, shape, position, yawRotation(0), velocity, 0, maxToi, true);
       if (!hit) continue;
-      const rotation = contact.collider.rotation(), center = contact.collider.translation();
+      const rotation = contact.collider.rotation();
+      center ??= contact.collider.translation();
       const normal = rotateVector(hit.normal1, rotation), localWitness = rotateVector(hit.witness1, rotation);
       const witness = { x: center.x + localWitness.x, y: center.y + localWitness.y, z: center.z + localWitness.z };
       if (!accept(normal, witness, contact.collider) || nearest && nearest.hit.time_of_impact <= hit.time_of_impact) continue;
@@ -323,6 +365,15 @@ export class RealmPhysics {
     const rock = this.rockSurfaces.supportAt(x, z, feetY) ?? -Infinity;
     const height = Math.max(prop, rock);
     return Number.isFinite(height) ? height : null;
+  }
+
+  /** Pure airborne-body clearance against loose cargo, including immediately restored positions. */
+  propsBlockBodySweep(from: Vec3, to: Vec3, padding = 0): boolean {
+    const shape = new RAPIER.Capsule(CAPSULE_CENTER - PLAYER_BODY_RADIUS - PLAYER_FOOT_CLEARANCE / 2,
+      PLAYER_BODY_RADIUS + Math.max(0, padding));
+    const position = { x: from.x, y: from.y + CAPSULE_CENTER + PLAYER_FOOT_CLEARANCE / 2, z: from.z };
+    const velocity = { x: to.x - from.x, y: to.y - from.y, z: to.z - from.z };
+    return this.castContacts(shape, position, velocity, 1, undefined, false) !== null;
   }
 
   surfaceAt(x: number, z: number, feetY: number): 'deck' | 'stone' | null {
@@ -502,7 +553,11 @@ export class RealmPhysics {
         y: actor.from.y + (actor.target.y - actor.from.y) * t,
         z: actor.from.z + (actor.target.z - actor.from.z) * t,
       });
-      for (const p of this.props) p.previous = this.poseOf(p.spec.id, p.body);
+      for (const p of this.props) {
+        const position = p.body.translation(), rotation = p.body.rotation();
+        Object.assign(p.previous.position, position); Object.assign(p.previous.rotation, rotation);
+        p.previous.sleeping = p.body.isSleeping();
+      }
       if (this.water) {
         // A re-solved stream may have risen around a barrel at rest; wake what stands in water once.
         const wake = this.water.revision !== this.waterRevision;
@@ -565,25 +620,32 @@ export class RealmPhysics {
   poses(interpolate = true): PropPose[] {
     const alpha = interpolate ? Math.max(0, Math.min(1, this.accumulated / STEP)) : 1;
     return this.props.map(p => {
-      const now = this.poseOf(p.spec.id, p.body);
+      const position = p.body.translation(), rotation = p.body.rotation();
       // Shortest-path normalized quaternion blend also smooths tumbling at high display refresh rates.
-      const a = p.previous.rotation, b = now.rotation;
+      const a = p.previous.rotation, b = rotation;
       const sign = a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w < 0 ? -1 : 1;
       const q = { x: a.x + (sign * b.x - a.x) * alpha, y: a.y + (sign * b.y - a.y) * alpha,
         z: a.z + (sign * b.z - a.z) * alpha, w: a.w + (sign * b.w - a.w) * alpha };
       const norm = Math.hypot(q.x, q.y, q.z, q.w) || 1;
       q.x /= norm; q.y /= norm; q.z /= norm; q.w /= norm;
-      return { ...now, position: { x: p.previous.position.x + (now.position.x - p.previous.position.x) * alpha,
-        y: p.previous.position.y + (now.position.y - p.previous.position.y) * alpha, z: p.previous.position.z + (now.position.z - p.previous.position.z) * alpha }, rotation: q };
+      return { id: p.spec.id, sleeping: p.body.isSleeping(), position: { x: p.previous.position.x + (position.x - p.previous.position.x) * alpha,
+        y: p.previous.position.y + (position.y - p.previous.position.y) * alpha, z: p.previous.position.z + (position.z - p.previous.position.z) * alpha }, rotation: q };
     });
   }
   snapshot() { return this.poses(false); }
-  /** Where each prop is and how fast it moves, for impact sounds. A sleeping body is still. */
-  motions() {
-    return this.props.map(p => {
-      const at = p.body.translation(), v = p.body.isSleeping() ? { x: 0, y: 0, z: 0 } : p.body.linvel();
-      return { id: p.spec.id, kind: p.spec.kind, x: at.x, y: at.y, z: at.z, vx: v.x, vy: v.y, vz: v.z, held: this.held === p, wet: p.wet };
-    });
+  /** Default calls return a snapshot; a caller-owned buffer explicitly opts into reuse. Sleeping bodies are still. */
+  motions(out: PropMotion[] = []): PropMotion[] {
+    for (let i = 0; i < this.props.length; i++) {
+      const p = this.props[i]!, at = p.body.translation();
+      const v = p.body.isSleeping() ? null : p.body.linvel();
+      const m = out[i] ?? (out[i] = { id: p.spec.id, kind: p.spec.kind, x: 0, y: 0, z: 0, vx: 0, vy: 0, vz: 0, held: false, wet: 0 });
+      m.id = p.spec.id; m.kind = p.spec.kind;
+      m.x = at.x; m.y = at.y; m.z = at.z;
+      m.vx = v?.x ?? 0; m.vy = v?.y ?? 0; m.vz = v?.z ?? 0;
+      m.held = this.held === p; m.wet = p.wet;
+    }
+    out.length = this.props.length;
+    return out;
   }
   reset() { this.restore(this.initial); this.accumulated = 0; }
   restore(poses: readonly PhysicalObjectPose[]) {

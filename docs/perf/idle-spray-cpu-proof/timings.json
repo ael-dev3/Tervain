@@ -1,0 +1,49 @@
+{
+  "schema": 1,
+  "baselineRef": "0b45a36",
+  "sourceSha256": "1390c225bf594250c76bfb2ef5b5812af50bc3c38e84d9b1425c6bff9250bbbb",
+  "scope": "Uninstrumented, warmed, alternating idle-update batches; first pair discarded. Component CPU workload, not real-play or Mac frame timing.",
+  "updatesPerBatch": 10000,
+  "beforeMedianMs": 22.00912200000039,
+  "afterMedianMs": 0.053910999999970954,
+  "rounds": [
+    {
+      "beforeMs": 26.230579000000034,
+      "afterMs": 0.4830649999994421
+    },
+    {
+      "afterMs": 0.08953399999973044,
+      "beforeMs": 40.201459999999315
+    },
+    {
+      "beforeMs": 20.839357999999265,
+      "afterMs": 0.06619900000077905
+    },
+    {
+      "afterMs": 0.04949399999986781,
+      "beforeMs": 20.53810599999997
+    },
+    {
+      "beforeMs": 20.7158730000001,
+      "afterMs": 0.053069000000505184
+    },
+    {
+      "afterMs": 0.04932400000052439,
+      "beforeMs": 40.50072799999998
+    },
+    {
+      "beforeMs": 22.629942999999912,
+      "afterMs": 0.053910999999970954
+    },
+    {
+      "afterMs": 0.10549799999989773,
+      "beforeMs": 22.00912200000039
+    },
+    {
+      "beforeMs": 19.49431999999979,
+      "afterMs": 0.05250900000010006
+    }
+  ],
+  "exactFinalBuffers": true,
+  "pass": true
+}

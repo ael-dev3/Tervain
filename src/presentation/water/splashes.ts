@@ -55,11 +55,13 @@ export class Splashes {
   private readonly random = mulberry32(5501);
   private next = 0;
   private initialized = false;
+  private idle = false;
   enabled = true;
 
   constructor() {
     for (let i = 0; i < MAX; i++) this.drops.push({ x: 0, y: -1000, z: 0, vx: 0, vy: 0, vz: 0, life: 0, max: 1, size: 0 });
     const geo = new THREE.BufferGeometry();
+    geo.setDrawRange(0, 0);
     geo.setAttribute('position', new THREE.BufferAttribute(this.positions, 3).setUsage(THREE.DynamicDrawUsage));
     geo.setAttribute('aSize', new THREE.BufferAttribute(this.sizes, 1).setUsage(THREE.DynamicDrawUsage));
     geo.setAttribute('aFade', new THREE.BufferAttribute(this.fades, 1).setUsage(THREE.DynamicDrawUsage));
@@ -70,6 +72,7 @@ export class Splashes {
     });
     this.points = new THREE.Points(geo, material);
     this.points.name = 'water-spray';
+    this.points.visible = false;
     this.points.frustumCulled = false;
     this.points.renderOrder = 3;
   }
@@ -80,6 +83,7 @@ export class Splashes {
     const r = this.random;
     for (let k = 0; k < Math.min(count, 120); k++) {
       const d = this.drops[this.next]!;
+      this.idle = false;
       this.next = (this.next + 1) % MAX;
       const angle = r() * Math.PI * 2, out = r() * spread;
       const up = speed * (0.55 + 0.45 * r());
@@ -91,8 +95,10 @@ export class Splashes {
   }
 
   update(dt: number) {
+    if (this.initialized && this.idle) return;
     const step = Number.isFinite(dt) ? Math.min(Math.max(dt, 0), 0.1) : 0;
     let changed = !this.initialized;
+    let drawn = 0;
     for (let i = 0; i < MAX; i++) {
       const d = this.drops[i]!;
       if (d.life > 0) {
@@ -104,11 +110,16 @@ export class Splashes {
         d.x += d.vx * step; d.y += d.vy * step; d.z += d.vz * step;
       }
       const alive = d.life > 0;
+      if (alive) drawn = i + 1;
       this.positions[i * 3] = d.x; this.positions[i * 3 + 1] = alive ? d.y : -1000; this.positions[i * 3 + 2] = d.z;
       this.sizes[i] = alive ? d.size : 0;
       this.fades[i] = alive ? Math.min(1, d.life / (d.max * 0.4)) : 0;
     }
     this.initialized = true;
+    // Dead slots are discarded by the shader; omit the invisible suffix without reordering live drops.
+    this.points.geometry.setDrawRange(0, drawn);
+    this.points.visible = drawn > 0;
+    this.idle = drawn === 0;
     if (!changed) return;
     const geo = this.points.geometry;
     geo.attributes.position!.needsUpdate = geo.attributes.aSize!.needsUpdate = geo.attributes.aFade!.needsUpdate = true;

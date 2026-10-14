@@ -11,7 +11,7 @@ import { createPineForest, isPineSpecies, type PineTemplates } from './solitaryP
 import { groundedTreeY, seatTreeFlares, treeWoodCollisionRadius } from './treeGrounding';
 import { PlantedCrownIndex } from './plantedCrowns';
 import { CROWN_FLOOR, CrownIndex, type CameraCrown } from './cameraCrowns';
-import { attachInstanceDistanceVisibility, smoothDistanceFade, type InstanceDistanceVisibility } from './distanceVisibility';
+import { attachCasterCoverage, attachInstanceDistanceVisibility, smoothDistanceFade, type InstanceDistanceVisibility } from './distanceVisibility';
 import type { PhysicalWoodGeometry } from '../world/physicsGeometry';
 import { FOLIAGE_RESPONSE, type FoliageResponse } from './foliage/foliageWind';
 import { SHADER_CLOCK_WRAP } from './grass/wind';
@@ -51,6 +51,16 @@ export function floraShadowLod(distance: number, pine: boolean): 0 | 1 | 2 {
   if (distance < FLORA_SHADOW_LOD.middle || pine) return 1;
   return 2;
 }
+/** B10: the casters hand over across a band below each switch distance with complementary dithered coverage, so a
+ * shadow never swaps shape in one frame as the walker passes the line. Inside a band a tree casts from both models;
+ * the bands end at the old switches' near side (full 12-16 m, middle 60-68 m) so the sun's pass carries no more
+ * triangles than the hard switches at 16 and 70 m did. */
+export const FLORA_SHADOW_BANDS = { full: [12, 16], middle: [60, 68] } as const;
+export function floraShadowWeights(distance: number, pine: boolean): readonly [number, number, number] {
+  const full = smoothDistanceFade(distance, ...FLORA_SHADOW_BANDS.full);
+  const middle = pine ? 1 : smoothDistanceFade(distance, ...FLORA_SHADOW_BANDS.middle);
+  return [full, Math.max(0, middle - full), 1 - Math.max(middle, full)];
+}
 
 /** How a tree answers the wind, from its kind and its own height. */
 export function foliageResponse(variant: Pick<TreeVariant, 'species' | 'height'>): FoliageResponse {
@@ -67,6 +77,8 @@ interface Batch {
   casters: { wood: THREE.InstancedMesh | null; leaf: THREE.InstancedMesh | null }[];
   visibility: { wood: InstanceDistanceVisibility | null; leaf: InstanceDistanceVisibility | null }[];
   bounds: THREE.Sphere;
+  /** Packed colour bounds, including every source LOD and the existing wind guard. */
+  drawBounds: THREE.Sphere[];
   trees: FloraTree[];
   placements: { matrix: THREE.Matrix4; bounds: THREE.Sphere }[];
 }
@@ -164,6 +176,8 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
   const q = typeof location !== 'undefined' ? new URLSearchParams(location.search) : new URLSearchParams();
   const lineup = q.get('lineup')?.split(',').map(Number);
   const forceLod = q.has('lod') ? Number(q.get('lod')) : -1;
+  const forcedWeights = forceLod >= 0 ? [0, 0, 0] : null;
+  if (forcedWeights) forcedWeights[Math.min(2, Math.floor(forceLod))] = 1;
   if (lineup && lineup.length === 2) {
     SPECIES.forEach((sp, i) => {
       for (let v = 0; v < FLORA_VARIANTS; v++) {
@@ -190,7 +204,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         geometry.computeBoundingBox();
         box.union(geometry.boundingBox!);
       }
-      b = { variant, meshes: [], casters: [], visibility: [], bounds: box.getBoundingSphere(new THREE.Sphere()), trees: [], placements: [] };
+      b = { variant, meshes: [], casters: [], visibility: [], bounds: box.getBoundingSphere(new THREE.Sphere()), drawBounds: [new THREE.Sphere().makeEmpty(), new THREE.Sphere().makeEmpty(), new THREE.Sphere().makeEmpty()], trees: [], placements: [] };
       byVariant.set(variant, b);
       batches.push(b);
     }
@@ -221,6 +235,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
   shadowCasters.visible = false;
   group.add(shadowCasters);
   const casterMaterials: THREE.Material[] = [];
+  const casterCoverage = new Map<THREE.InstancedMesh, THREE.InstancedBufferAttribute>();
   const casterGeometries: THREE.BufferGeometry[] = [];
   const profileMaterials = new Set<THREE.Material>();
   // The largest instance scale of each leaf template: the island pass works in template space, the audit in metres.
@@ -260,7 +275,9 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
       for (const m of [wood, leaf]) {
         if (!m) continue;
         m.count = 0;
-        m.frustumCulled = false;
+        // Secondary cameras need their own culling of the main view's packed instances.
+        m.frustumCulled = true;
+        m.boundingSphere = b.drawBounds[l]!;
         m.name = `${usesPine(v.species) ? 'solitary-pine' : v.assetId ?? v.species}:${l}:${m === wood ? 'wood' : 'foliage'}`;
         // Shadows come from the separate shadow-only casters below: only trees in the sun's shadow volume, lighter
         // source LODs away from the camera.
@@ -295,6 +312,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         c.name = `${mesh.name}:shadow`;
         const depth = shadowDepthMaterial(mesh.material as THREE.Material);
         if (foliage) installFoliageShadow(depth, { field: foliage, response, leaf: part === 'leaf' }, installed[part] ?? undefined);
+        casterCoverage.set(c, attachCasterCoverage(c, depth));
         c.customDepthMaterial = depth;
         shadowCasters.add(c);
         casterMaterials.push(depth);
@@ -305,7 +323,11 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
       // After the casters, which copy the colour material as it was.
       if (leaf && installed.leaf && leafPrepass) {
         entry.leafDepth = splitLeafPrepass(leaf);
-        if (entry.leafDepth) group.add(entry.leafDepth);
+        if (entry.leafDepth) {
+          entry.leafDepth.frustumCulled = true;
+          entry.leafDepth.boundingSphere = b.drawBounds[l]!;
+          group.add(entry.leafDepth);
+        }
       }
     }
     triangles += v.lods[0].tris * b.trees.length;
@@ -360,6 +382,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
 
   const packedTrees = new WeakMap<THREE.InstancedMesh, number[]>();
   const staticChanged = new Set<THREE.InstancedMesh>();
+  const coverageChanged = new Set<THREE.InstancedBufferAttribute>();
   const packStatic = (mesh: THREE.InstancedMesh | null, slot: number, tree: number, matrix: THREE.Matrix4, tint?: THREE.Color) => {
     if (!mesh) return;
     let packed = packedTrees.get(mesh);
@@ -395,6 +418,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
     if (shadowFrustum) toLight.copy(shadowFrustum.planes[5]!.normal).negate().normalize();
     const cullShadows = viewOnly && !!shadowFrustum && forceLod < 0;
     staticChanged.clear();
+    coverageChanged.clear();
     pv.multiplyMatrices(cam.projectionMatrix, cam.matrixWorldInverse);
     frustum.setFromProjectionMatrix(pv);
     const cx = cam.position.x;
@@ -423,21 +447,27 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         const inShadow = b.casters.length > 0 && !!shadowFrustum?.intersectsSphere(sphere) && (inView || !cullShadows || !shadowOutOfView(sphere));
         if (!inView && !inShadow) continue;
         if (inShadow) {
-          const sl = forceLod >= 0 ? Math.min(2, Math.floor(forceLod)) : floraShadowLod(d, pineShadows);
-          const c = b.casters[sl]!;
-          if (c.wood || c.leaf) {
-            const i = shadowCounts[sl]!++;
-            packStatic(c.wood, i, treeIndex, mtx);
-            packStatic(c.leaf, i, treeIndex, mtx);
-            shadowTrees++;
+          const sw: readonly number[] = forceLod >= 0 ? [0, 1, 2].map((l) => l === Math.min(2, Math.floor(forceLod)) ? 1 : 0) : floraShadowWeights(d, pineShadows);
+          let from = 0, cast = false;
+          for (let sl = 0; sl < 3; sl++) {
+            const to = from + sw[sl]!;
+            const c = b.casters[sl];
+            if (to > from + 1e-4 && c && (c.wood || c.leaf)) {
+              const i = shadowCounts[sl]!++;
+              packStatic(c.wood, i, treeIndex, mtx);
+              packStatic(c.leaf, i, treeIndex, mtx);
+              for (const mesh of [c.wood, c.leaf]) { const cov = mesh && casterCoverage.get(mesh); if (cov) cov.setXY(i, from, to >= 0.9999 ? 1 : to); }
+              cast = true;
+            }
+            from = to;
           }
+          if (cast) shadowTrees++;
         }
         // Off-screen trees inside the sun's volume are shadow-only; the colour pass draws what the camera sees.
         if (!inView) continue;
         // The stand supplies a shared value group; turning a tree must not change its colour.
         col.setRGB(t.tint, t.tint * 0.99, t.tint * 0.95);
-        const weights: number[] = forceLod >= 0 ? [0, 0, 0] : [...floraLodWeightsFor(v.species, lodQuality, d)];
-        if (forceLod >= 0) weights[Math.min(2, Math.floor(forceLod))] = 1;
+        const weights = forcedWeights ?? floraLodWeightsFor(v.species, lodQuality, d);
         let intervalStart = 0;
         for (let l = 0; l < 3; l++) {
           const intervalEnd = intervalStart + weights[l]! * horizon;
@@ -448,7 +478,13 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
               const mesh = m[part];
               if (!mesh) continue;
               packStatic(mesh, i, treeIndex, mtx, col);
-              visibility[part]!.coverage.setXY(i, intervalStart, intervalEnd);
+              const coverage = visibility[part]!.coverage;
+              // Compare the stored precision: double-precision fade weights otherwise stay dirty forever.
+              const start = Math.fround(intervalStart), end = Math.fround(intervalEnd);
+              if (coverage.getX(i) !== start || coverage.getY(i) !== end) {
+                coverage.setXY(i, start, end);
+                coverageChanged.add(coverage);
+              }
             }
           }
           intervalStart = intervalEnd;
@@ -457,6 +493,13 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
       }
       for (let l = 0; l < 3; l++) {
         const m = b.meshes[l]!;
+        const previousCount = m.wood?.count ?? m.leaf?.count ?? 0;
+        const source = m.wood ?? m.leaf;
+        if (source && (source.count !== counts[l]! || staticChanged.has(source))) {
+          const bound = b.drawBounds[l]!.makeEmpty(), packed = packedTrees.get(source)!;
+          // Source bounds include every LOD; unchanged packing keeps its bounds without another walk.
+          for (let i = 0; i < counts[l]!; i++) bound.union(b.placements[packed[i]!]!.bounds);
+        }
         for (const mesh of [m.wood, m.leaf]) {
           if (!mesh) continue;
           mesh.count = counts[l]!;
@@ -467,7 +510,12 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
             if (mesh.instanceColor) uploadPrefix(mesh.instanceColor, mesh.count);
           }
         }
-        for (const visibility of [b.visibility[l]!.wood, b.visibility[l]!.leaf]) if (visibility) uploadPrefix(visibility.coverage, counts[l]!);
+        // A growing prefix may expose a tail changed while it was not drawn/uploaded.
+        for (const visibility of [b.visibility[l]!.wood, b.visibility[l]!.leaf]) {
+          if (visibility && (coverageChanged.has(visibility.coverage) || counts[l]! > previousCount)) {
+            uploadPrefix(visibility.coverage, counts[l]!);
+          }
+        }
         drawTris += v.lods[l]!.tris * counts[l]!;
         // Empty meshes leave the render lists entirely (no per-frame draw setup for an LOD nobody sees).
         for (const mesh of [m.wood, m.leaf]) if (mesh) mesh.visible = counts[l]! > 0;
@@ -481,6 +529,8 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
             const packed = packedTrees.get(mesh);
             if (packed) packed.length = mesh.count;
             if (staticChanged.has(mesh)) uploadPrefix(mesh.instanceMatrix, mesh.count);
+            const cov = casterCoverage.get(mesh);
+            if (cov) uploadPrefix(cov, mesh.count);
           }
           shadowTris += v.lods[l]!.tris * shadowCounts[l]!;
         }
@@ -495,7 +545,6 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
       if (!Number.isInteger(lod) || lod < 0 || lod > 2) throw new Error('Invalid canopy LOD');
       return batches.flatMap((b, batch) => {
         const level = b.variant.lods[lod]!, wood = level.wood;
-        if (!wood) return [];
         group.updateWorldMatrix(true, false);
         const cutouts = b.meshes.map(m => m.leaf ? leafCutoutSampler(m.leaf.material as THREE.Material) : null);
         return b.placements.map((p, i) => ({ label: b.trees[i]!.collisionId ?? `tree:${batch}:${i}`, kind: `${b.variant.species}/${b.variant.assetId ?? 'procedural'}`,

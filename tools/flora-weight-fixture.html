@@ -1,0 +1,42 @@
+<!doctype html><html><body style="margin:0"><script type="module">
+import * as THREE from 'three';
+import {PINE_FILES} from '/src/presentation/solitaryPine.ts';
+import {createGltfLoader} from '/src/presentation/assets/gltfLoader.ts';
+import {buildFlora as current} from '/src/presentation/flora.ts';
+import {buildFlora as baseline} from '/@baseline-flora';
+import {Terrain} from '/src/world/terrain.ts';
+import {Colliders} from '/src/world/colliders.ts';
+import {Exclusions} from '/src/presentation/vegetation.ts';
+import {AssetLibrary} from '/src/presentation/assets/library.ts';
+import {defaultSettings} from '/src/platform/settings.ts';
+import {createFoliageField} from '/src/presentation/foliage/foliageWind.ts';
+import {GrassWind} from '/src/presentation/grass/wind.ts';
+import {REALM_WIND} from '/src/presentation/realmWind.ts';
+import {worldView} from '/src/game/worldView.ts';
+import {createInitialState} from '/src/game/state.ts';
+try {
+  const build = new URLSearchParams(location.search).get('mode') === 'baseline' ? baseline : current;
+  const terrain = new Terrain(), wind = new GrassWind(REALM_WIND);
+  const templates=await Promise.all(PINE_FILES.map(file=>createGltfLoader().loadAsync('/models/flora/'+file)));
+  const forest = build({terrain, excl:new Exclusions(terrain), colliders:new Colliders(), quality:'high', settings:defaultSettings(), library:AssetLibrary.empty(), sway:{uTime:{value:0},uWind:{value:0}},foliage:createFoliageField(wind)},templates);
+  const renderer=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});renderer.setSize(320,240);document.body.append(renderer.domElement);
+  const scene=new THREE.Scene();scene.background=new THREE.Color(0x738397);scene.add(forest.group,new THREE.HemisphereLight(0xffffff,0x454545,2));
+  const camera=new THREE.PerspectiveCamera(58,4/3,.1,1400),x=18,z=20,y=terrain.heightAt(x,z);
+  camera.position.set(x,y+3,z+12);camera.lookAt(x,y+6,z);camera.updateMatrixWorld();
+  const frame={camera,quality:'high',time:1,focus:camera.position.clone(),nightness:0,sunDir:new THREE.Vector3(0,1,0),reducedMotion:true,hour:11,view:worldView(createInitialState())};
+  const meshes=forest.group.children.filter(m=>m.isInstancedMesh&&m.geometry.hasAttribute('aDistanceCoverage'));
+  const state=globalThis.__renderCostStates.get(renderer.getContext());
+  const rows=[];
+  for(let i=0;i<5;i++) {
+    camera.position.x+=.006;camera.updateMatrixWorld();
+    const snapshot=meshes.map(m=>({count:m.count,version:m.geometry.getAttribute('aDistanceCoverage').version,data:m.geometry.getAttribute('aDistanceCoverage').array.slice()}));
+    forest.update(1/60,frame);renderer.info.reset();const bytes=state.uploads;renderer.render(scene,camera);
+    let unchangedAttributes=0,unchangedInstances=0,unnecessaryVersions=0;
+    meshes.forEach((m,k)=>{const old=snapshot[k],a=m.geometry.getAttribute('aDistanceCoverage');if(!m.count||m.count!==old.count||a.array.some((v,j)=>v!==old.data[j]))return;unchangedAttributes++;unchangedInstances+=m.count;unnecessaryVersions+=a.version-old.version;});
+    rows.push({drawCalls:renderer.info.render.calls,triangles:renderer.info.render.triangles,uploadBytes:state.uploads-bytes,unchangedAttributes,unchangedInstances,unnecessaryVersions,glError:renderer.getContext().getError()});
+  }
+  let textureImagePayloadBytes=0;
+  for(const levels of state.textures.values()) for(const level of levels.values()) textureImagePayloadBytes+=level.w*level.h*level.d*level.b;
+  window.floraWeightProof={rows,textures:renderer.info.memory.textures,textureImagePayloadBytes,pass:rows.every(r=>!r.glError)&&rows.slice(1).every(r=>r.unchangedAttributes>5)};
+} catch(error){window.fixtureError=error.stack??String(error);}
+</script></body></html>

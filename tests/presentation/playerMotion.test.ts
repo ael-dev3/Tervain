@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { Game } from '../../src/game/game';
 import type { Input } from '../../src/platform/input';
 import { defaultSettings } from '../../src/platform/settings';
@@ -12,6 +12,7 @@ import { LIGHTHOUSE_STAIR_ANGLE, lighthouseTreadTop } from '../../src/world/ligh
 import { Terrain } from '../../src/world/terrain';
 import { poseRig } from '../../src/presentation/characters';
 import { HERO_WALK_SPEED, HERO_RUN_SPEED } from '../../src/presentation/hero/locomotion';
+import { initializePhysics, RealmPhysics } from '../../src/world/physics';
 
 // This is controller/physics coverage, with real game state and colliders; sculpted rendering is tested separately.
 vi.mock('../../src/presentation/characters', () => ({
@@ -43,6 +44,7 @@ function setup(ground: (x: number, z: number) => number = () => 0, walkable: (x:
 }
 
 beforeEach(() => vi.clearAllMocks());
+beforeAll(() => initializePhysics());
 
 describe('player motion and action contacts', () => {
   it('keeps bow input out of the legacy fist/sword attack and block paths', () => {
@@ -367,6 +369,24 @@ describe('player motion and action contacts', () => {
     for (let i = 0; i < 60; i++) s.tick();
     expect(s.ctx.colliders.blocked(s.player.x, s.player.z, .4,
       { minY: s.player.y + .03, maxY: s.player.y + 1.95 })).toBe(false);
+  });
+
+  it.each(['absent', 'landing', 'nearby'])('checks loose cargo before a scripted fence crossing (cargo=%s)', cargo => {
+    const s = setup(); s.ctx.terrain.heightAt = () => 0;
+    s.ctx.colliders.box('fence', .8, 0, .12, 3, 0, true, { minY: -.3, maxY: 1.7 });
+    const floor = { nx: 10, nz: 10, vertexX: (i: number) => i * 2 - 10, vertexZ: (i: number) => i * 2 - 10,
+      vertexHeight: () => 0, heightAt: () => 0, groundAt: () => 0 } as unknown as Terrain;
+    const physics = new RealmPhysics(floor, new Colliders(), cargo === 'absent' ? [] : [{ id: 'crate', name: 'Crate', kind: 'crate',
+      x: 1.62, z: cargo === 'nearby' ? 2 : 0, width: .86, height: .57, depth: .62, yaw: 0, mass: 12 }]);
+    s.ctx.physics = physics;
+    try {
+      s.player.yaw = Math.PI / 2; s.presses.add('jump'); s.tick();
+      if (cargo === 'landing') expect(s.player.vault).toBeNull();
+      else expect(s.player.vault).not.toBeNull();
+      for (let i = 0; i < 60; i++) s.tick();
+      if (cargo === 'landing') expect(s.player.x).toBeLessThan(.8);
+      else expect(s.player.x).toBeGreaterThan(.8);
+    } finally { physics.dispose(); }
   });
 
   it.each([0, Math.PI / 4, Math.PI / 2].flatMap(yaw => ['absent', 'active', 'inactive'].map(other => ({ yaw, other }))))(

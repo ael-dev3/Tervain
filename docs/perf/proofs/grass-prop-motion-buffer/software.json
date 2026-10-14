@@ -1,0 +1,18 @@
+{
+  "updates": 120,
+  "comparedRecords": 1080,
+  "props": 9,
+  "outputArrays": 1,
+  "motionRecords": 9,
+  "exactMotionValues": true,
+  "defaultSnapshotUnchanged": true,
+  "renderer": {
+    "frame": 73,
+    "calls": 121,
+    "triangles": 802771,
+    "points": 2080,
+    "lines": 0
+  },
+  "pass": true,
+  "scope": "Native built-world grass caller; identity and exact motion-value checks. Software-rendered correctness, not hardware frame timing."
+}

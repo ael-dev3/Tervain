@@ -216,7 +216,11 @@ describe('historical source-Pine component render substitution without the Meshy
     const meshes: THREE.InstancedMesh[] = [];
     forest.group.traverse(o => { if (o instanceof THREE.InstancedMesh && o.geometry.hasAttribute('aDistanceCoverage')) meshes.push(o); });
     forest.update(1 / 60, frame);
+    const before = new Map<THREE.BufferAttribute, { version: number; data: number[]; count: number }>();
     for (const mesh of meshes) {
+      for (const attr of [mesh.instanceMatrix, mesh.instanceColor, mesh.geometry.getAttribute('aDistanceCoverage') as THREE.BufferAttribute]) {
+        if (attr) before.set(attr, { version: attr.version, data: Array.from(attr.array), count: mesh.count });
+      }
       mesh.instanceMatrix.clearUpdateRanges(); mesh.instanceColor?.clearUpdateRanges();
       (mesh.geometry.getAttribute('aDistanceCoverage') as THREE.BufferAttribute).clearUpdateRanges();
     }
@@ -227,7 +231,14 @@ describe('historical source-Pine component render substitution without the Meshy
         if (!attr) continue;
         full += attr.array.byteLength;
         const ranges = attr.updateRanges;
-        if (!ranges.length) { expect(attr).not.toBe(mesh.geometry.getAttribute('aDistanceCoverage')); continue; }
+        if (!ranges.length) {
+          const old = before.get(attr)!;
+          expect(attr.version).toBe(old.version);
+          expect(mesh.count).toBeLessThanOrEqual(old.count);
+          const prefix = Math.max(1, mesh.count) * attr.itemSize;
+          expect(Array.from(attr.array.slice(0, prefix))).toEqual(old.data.slice(0, prefix));
+          continue;
+        }
         expect(ranges, mesh.name).toHaveLength(1);
         expect(ranges[0]).toEqual({ start: 0, count: Math.max(1, mesh.count) * attr.itemSize });
         active += ranges[0]!.count * 4;
@@ -311,4 +322,21 @@ describe('historical source-Pine component render substitution without the Meshy
     expect(colliders.all).toEqual(canonical.all);
     forest.dispose!(); vi.unstubAllGlobals();
   });
+});
+
+it('retains every far-LOD pine in audit coverage when its delivered card has no wood', () => {
+  vi.stubGlobal('location', { search: '' });
+  const quality = 'low';
+  const forest = buildFlora({ terrain, excl, colliders: new Colliders(), quality,
+    settings: { ...defaultSettings(), quality }, library: AssetLibrary.empty(),
+    sway: { uTime: { value: 0 }, uWind: { value: 0 } } }, templates);
+  try {
+    const near = forest.canopyAuditTargets!(0), far = forest.canopyAuditTargets!(2);
+    expect(far).toHaveLength(forest.counts.trees);
+    expect(far.map(t => t.label).sort()).toEqual(near.map(t => t.label).sort());
+    const unsupported = far.filter(t => !t.wood && t.leaves);
+    expect(unsupported.length).toBeGreaterThan(0);
+    expect(unsupported.some(t => t.species === 'pine')).toBe(true);
+    expect(unsupported.every(t => ['pine', 'fir', 'shorepine'].includes(t.species ?? '') && t.lod === 2)).toBe(true);
+  } finally { forest.dispose!(); vi.unstubAllGlobals(); }
 });

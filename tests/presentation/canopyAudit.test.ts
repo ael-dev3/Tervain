@@ -51,3 +51,15 @@ it('rejects equal-column-length shear and projective transforms instead of repor
   t.matrix.makeRotationY(.7).scale(new THREE.Vector3(-2,2,2));
   expect(auditCanopies([t]).complete).toBe(true);
 });
+
+it('retains leaf-only LOD targets as missing wood instead of claiming complete connectivity', () => {
+  const supported = { ...fixture(), lod: 2 };
+  const missing = { ...fixture(), label: 'far-pine', species: 'pine', lod: 2, wood: null };
+  missing.matrix.makeTranslation(12, 3, -8);
+  const report = auditCanopies([supported, missing], { lod: 2 });
+  expect(report.complete).toBe(false);
+  expect(report.summary).toMatchObject({ trees: 2, missingWood: 1, leafless: 0 });
+  expect(report.trees[1]).toMatchObject({ label: 'far-pine', lod: 2, species: 'pine', missingWood: true, position: [12, 3, -8], leafless: false });
+  expect(report.bySpecies.pine?.trees).toBe(1);
+  expect(auditCanopies([supported], { lod: 2 })).toMatchObject({ complete: true, summary: { missingWood: 0 } });
+});

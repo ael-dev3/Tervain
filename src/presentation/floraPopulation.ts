@@ -283,11 +283,21 @@ export const FLORA_LOD_BANDS: Record<Quality, { near: readonly [number, number];
   medium: { near: [120, 180], middle: [480, 620] },
   low: { near: [0, 0], middle: [64, 96] },
 };
+const FULL_TREE_LOD = Object.freeze([1, 0, 0] as const);
 /** High keeps the exact source mesh at every visible distance: no simplified trunk,
  * missing lower branches, or crossed crown impostor can change its silhouette while moving.
  * Other presets retain complementary pixel coverage over broad distance bands. */
+let highBands: { near: readonly [number, number]; middle: readonly [number, number] } | null = null;
+let highSpecies: ReadonlySet<string> = new Set(['fir', 'shorepine', 'pine']);
+export function setHighLodSpecies(list: readonly string[]): void { highSpecies = new Set(list); }
+/** Profiling switch (?highlod=n0,n1,m0,m1): High crossfades to the lighter models over these distances. */
+export function setHighLodBands(bands: typeof highBands): void { highBands = bands; }
 export function floraLodWeights(quality: Quality, distance: number): readonly [number, number, number] {
-  if (quality === 'high') return [1, 0, 0];
+  if (quality === 'high' && highBands) {
+    const near = smoothDistanceFade(distance, ...highBands.near), middle = smoothDistanceFade(distance, ...highBands.middle);
+    return [near, middle - near, 1 - middle];
+  }
+  if (quality === 'high') return FULL_TREE_LOD;
   const bands = FLORA_LOD_BANDS[quality];
   const near = quality === 'low' ? 0 : smoothDistanceFade(distance, ...bands.near);
   const middle = smoothDistanceFade(distance, ...bands.middle);
@@ -300,7 +310,7 @@ export function floraLodWeights(quality: Quality, distance: number): readonly [n
  */
 export const SHRUB_LOD_BANDS = { near: [22, 34], middle: [60, 90] } as const;
 export function floraLodWeightsFor(species: Species, quality: Quality, distance: number): readonly [number, number, number] {
-  if (species !== 'shrub') return floraLodWeights(quality, distance);
+  if (species !== 'shrub') return quality === 'high' && highBands && !highSpecies.has(species) ? [1, 0, 0] : floraLodWeights(quality, distance);
   const near = quality === 'low' ? 0 : smoothDistanceFade(distance, ...SHRUB_LOD_BANDS.near);
   const middle = smoothDistanceFade(distance, ...SHRUB_LOD_BANDS.middle);
   return [near, middle - near, 1 - middle];

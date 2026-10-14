@@ -94,7 +94,8 @@ export class GrassTrample {
   private readonly stepMaterial: THREE.ShaderMaterial;
   private readonly shiftMaterial: THREE.ShaderMaterial;
   private readonly texel: number;
-  private movers: GrassMover[] = [];
+  private readonly movers: GrassMover[] = [];
+  private readonly moverCandidates: GrassMover[] = [];
   private readonly pendingStamps: GrassMover[] = [];
   private originX = Number.NaN;
   private originZ = Number.NaN;
@@ -159,11 +160,17 @@ export class GrassTrample {
 
   /** Who is moving through the grass this frame (the nearest are kept when there are more than the field can take). */
   setMovers(movers: readonly GrassMover[], nearX?: number, nearZ?: number) {
-    const valid = movers.filter((m) => [m.x, m.z, m.radius].every(Number.isFinite) && m.radius > 0);
+    const valid = this.moverCandidates;
+    valid.length = 0;
+    for (const m of movers) {
+      if (Number.isFinite(m.x) && Number.isFinite(m.z) && Number.isFinite(m.radius) && m.radius > 0) valid.push(m);
+    }
     if (valid.length > TRAMPLE_MAX_MOVERS && Number.isFinite(nearX) && Number.isFinite(nearZ)) {
       valid.sort((a, b) => Math.hypot(a.x - nearX!, a.z - nearZ!) - Math.hypot(b.x - nearX!, b.z - nearZ!));
     }
-    this.movers = valid.slice(0, TRAMPLE_MAX_MOVERS);
+    this.movers.length = 0;
+    for (let i = 0, n = Math.min(valid.length, TRAMPLE_MAX_MOVERS); i < n; i++) this.movers.push(valid[i]!);
+    valid.length = 0;
   }
 
   /** One-off brush footprints. Keep every sample until a GPU step consumes it, even when render frames run faster. */
@@ -181,8 +188,12 @@ export class GrassTrample {
   /** Movers inside the field now (for tests and the debug panel). */
   get activeMovers(): number {
     if (!Number.isFinite(this.originX)) return 0;
-    return this.movers.filter((m) => m.x + m.radius > this.originX && m.x - m.radius < this.originX + this.extent
-      && m.z + m.radius > this.originZ && m.z - m.radius < this.originZ + this.extent).length;
+    let count = 0;
+    for (const m of this.movers) {
+      if (m.x + m.radius > this.originX && m.x - m.radius < this.originX + this.extent
+        && m.z + m.radius > this.originZ && m.z - m.radius < this.originZ + this.extent) count++;
+    }
+    return count;
   }
 
   private pass(renderer: THREE.WebGLRenderer, material: THREE.ShaderMaterial, target: THREE.WebGLRenderTarget) {

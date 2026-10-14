@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { SkyRig } from '../../src/presentation/sky';
+import { FOG_DUSK_DIM, SkyRig } from '../../src/presentation/sky';
 import { SKY } from '../../src/presentation/skyState';
 import { SOFT_SUN_SHADOW } from '../../src/presentation/softShadows';
 
@@ -43,6 +43,18 @@ describe('continuous coastal atmosphere', () => {
     expect(sky.sun.shadow.autoUpdate).toBe(true);
   });
 
+  it('keeps far woods darker than the glowing horizon at dusk and thins the haze only a little at night', () => {
+    sky.update(11, focus, 1 / 60, true);
+    expect(sky.fog.color.equals(sky.state.horizon)).toBe(true);
+    const dayDensity = sky.fog.density;
+    sky.update(19.8, focus, 1 / 60, true);
+    expect(luminance(sky.fog.color)).toBeLessThan(luminance(sky.state.horizon) * 0.8);
+    // At 400 m at least a third of a far crown's own colour survives the dusk haze (it was under a fifth).
+    expect(Math.exp(-((sky.fog.density * 400) ** 2))).toBeGreaterThan(1 / 3);
+    sky.update(0, focus, 1 / 60, true);
+    expect(sky.fog.density).toBeLessThanOrEqual(dayDensity + 0.0006 + 1e-12);
+  });
+
   it('keeps sky, directional light, fog and ambient values finite through the whole day', () => {
     for (let hour = 0; hour <= 24; hour += 0.25) {
       sky.update(hour, focus, 1 / 60, false);
@@ -56,8 +68,11 @@ describe('continuous coastal atmosphere', () => {
       expect(SKY.night.value).toBeLessThanOrEqual(1);
       expect(sky.hemi.intensity).toBeGreaterThan(0);
       expect(SKY.ambient.value.r + SKY.ambient.value.g + SKY.ambient.value.b).toBeGreaterThan(0);
-      expect(sky.state.horizon.equals(sky.fog.color)).toBe(true);
-      expect(SKY.horizon.value.equals(sky.fog.color)).toBe(true);
+      // The haze is the horizon colour, dimmed from dusk to the land's light (FOG_DUSK_DIM); by day it is exact.
+      const haze = sky.state.horizon.clone().multiplyScalar(1 - FOG_DUSK_DIM * SKY.night.value);
+      expect(Math.max(Math.abs(haze.r - sky.fog.color.r), Math.abs(haze.g - sky.fog.color.g), Math.abs(haze.b - sky.fog.color.b))).toBeLessThan(1e-6);
+      expect(SKY.horizon.value.equals(sky.state.horizon)).toBe(true);
+      if (SKY.night.value === 0) expect(sky.fog.color.equals(sky.state.horizon)).toBe(true);
     }
   });
 

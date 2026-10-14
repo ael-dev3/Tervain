@@ -1,0 +1,925 @@
+{
+  "build": {
+    "version": "0.0.15",
+    "revision": "0b45a36a0"
+  },
+  "expectedTrees": 453,
+  "missing": [
+    {
+      "label": "tree:wild:54:3",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:47:4",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:67:4",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:57:6",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:60:6",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:65:7",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:74:7",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:80:7",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:67:8",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:43:10",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:71:12",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:83:14",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:42:19",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:41:20:sapling",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:33:21",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:42:21:sapling",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:51:21",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:24:22:sapling",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:38:22",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:40:23:sapling",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:48:23",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:42:25",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:42:28",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:29:31",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:30:31",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:34:31",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:26:34",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:27:34",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:25:37",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:76:40",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:1:30",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:1:31",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:1:32",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:1:33",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:1:34",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:1:35",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:1:36",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:66:3",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:68:4",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:47:5",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:56:6",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:64:6",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:50:7",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:60:8",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:75:8",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:79:8",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:72:9",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:63:10",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:79:10",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:63:11",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:28:12:sapling",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:48:12",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:79:13",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:82:13",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:82:16",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:35:20",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:45:20",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:37:21",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:38:21",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:43:21",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:34:22",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:43:23",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:33:25",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:34:25",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:37:25:sapling",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:46:26",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:43:28:sapling",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:30:32",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:34:32",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:29:34",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:25:35",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:32:35",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:25:38:sapling",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:57:39",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:54:43",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:3:38",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:3:39",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:3:40",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:3:41",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:3:42",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:3:43",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:70:3",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:65:4",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:45:6",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:51:6",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:59:6",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:67:6",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:46:8",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:48:8",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:51:8",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:76:9",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:65:12",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:38:13",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:65:13",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:84:16",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:24:18",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:41:18",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:88:18",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:35:19",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:37:19",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:39:20",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:40:20:sapling",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:41:20",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:43:22",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:39:23",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:36:25",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:36:26",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:37:27",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:35:28",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:31:29",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:28:30",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:33:31",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:24:33",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:26:33",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:28:33",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:32:33",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:34:33",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:31:35",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:26:37",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:62:41",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:36:42",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:wild:57:43",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:4:41",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:4:42",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:4:43",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:4:44",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:4:45",
+      "lod": 2,
+      "leavesPresent": true
+    },
+    {
+      "label": "tree:4:46",
+      "lod": 2,
+      "leavesPresent": true
+    }
+  ],
+  "transitionSamples": 6342,
+  "unpairedSamples": 768,
+  "emptyTransitionSamples": 0,
+  "scope": "All registered native forest rest geometries at near/middle/far detail, alpha sampled at six barycentric subdivisions. Native medium-distance crossfade packing checked for every tree at seven points per adjacent band; high keeps full non-shrub models, so medium bands are exercised through treeDetailByDistance. This checks support candidates and matching wood/leaf coverage, not proof of per-pixel connectivity under every wind deformation.",
+  "qualityPass": null,
+  "levels": [
+    {
+      "lod": 0,
+      "schema": 1,
+      "gap": 0.75,
+      "operations": 67087736,
+      "complete": true,
+      "alpha": {
+        "maskedTrees": 453
+      },
+      "bySpecies": {
+        "tree-1521": {
+          "trees": 129,
+          "leafless": 0,
+          "candidates": 0
+        },
+        "pine": {
+          "trees": 128,
+          "leafless": 0,
+          "candidates": 0
+        },
+        "fir-spire": {
+          "trees": 73,
+          "leafless": 0,
+          "candidates": 737
+        },
+        "tree-4949": {
+          "trees": 41,
+          "leafless": 0,
+          "candidates": 0
+        },
+        "verdant-sentinel": {
+          "trees": 11,
+          "leafless": 0,
+          "candidates": 0
+        },
+        "tree-1527": {
+          "trees": 14,
+          "leafless": 0,
+          "candidates": 0
+        },
+        "oak-elder": {
+          "trees": 7,
+          "leafless": 0,
+          "candidates": 25
+        },
+        "tree-4815": {
+          "trees": 11,
+          "leafless": 0,
+          "candidates": 0
+        },
+        "tree-0208": {
+          "trees": 16,
+          "leafless": 0,
+          "candidates": 9
+        },
+        "tree-1505": {
+          "trees": 6,
+          "leafless": 0,
+          "candidates": 0
+        },
+        "palm-fan": {
+          "trees": 6,
+          "leafless": 0,
+          "candidates": 21
+        },
+        "palm-lean": {
+          "trees": 3,
+          "leafless": 0,
+          "candidates": 0
+        },
+        "palm-date": {
+          "trees": 8,
+          "leafless": 0,
+          "candidates": 0
+        }
+      },
+      "summary": {
+        "trees": 453,
+        "leafless": 0,
+        "components": 2572046,
+        "chunks": 1440,
+        "candidates": 792,
+        "woodReach": 1.5,
+        "detachedCards": 817870,
+        "detachedClumps": 59014,
+        "treesWithDetached": 263
+      },
+      "scope": "Registered forest selected-LOD rest geometry. Leaf components link by bounding-box proximity, then leaf-surface samples test wood-triangle contacts. Alpha cutout is evaluated only in alpha mode (opaque-texel bounds); shader wind is not; candidates require visual review. Null sampled gap means no nearby triangle was found, not an exact distance.",
+      "expectedTrees": 453,
+      "coveredTrees": 453
+    },
+    {
+      "lod": 1,
+      "schema": 1,
+      "gap": 0.75,
+      "operations": 21506382,
+      "complete": true,
+      "alpha": {
+        "maskedTrees": 453
+      },
+      "bySpecies": {
+        "tree-1521": {
+          "trees": 129,
+          "leafless": 0,
+          "candidates": 3
+        },
+        "pine": {
+          "trees": 128,
+          "leafless": 0,
+          "candidates": 0
+        },
+        "fir-spire": {
+          "trees": 73,
+          "leafless": 0,
+          "candidates": 386
+        },
+        "tree-4949": {
+          "trees": 41,
+          "leafless": 0,
+          "candidates": 0
+        },
+        "verdant-sentinel": {
+          "trees": 11,
+          "leafless": 0,
+          "candidates": 0
+        },
+        "tree-1527": {
+          "trees": 14,
+          "leafless": 0,
+          "candidates": 0
+        },
+        "oak-elder": {
+          "trees": 7,
+          "leafless": 0,
+          "candidates": 60
+        },
+        "tree-4815": {
+          "trees": 11,
+          "leafless": 0,
+          "candidates": 0
+        },
+        "tree-0208": {
+          "trees": 16,
+          "leafless": 0,
+          "candidates": 23
+        },
+        "tree-1505": {
+          "trees": 6,
+          "leafless": 0,
+          "candidates": 0
+        },
+        "palm-fan": {
+          "trees": 6,
+          "leafless": 0,
+          "candidates": 23
+        },
+        "palm-lean": {
+          "trees": 3,
+          "leafless": 0,
+          "candidates": 0
+        },
+        "palm-date": {
+          "trees": 8,
+          "leafless": 0,
+          "candidates": 0
+        }
+      },
+      "summary": {
+        "trees": 453,
+        "leafless": 0,
+        "components": 1126548,
+        "chunks": 1096,
+        "candidates": 495,
+        "woodReach": 1.5,
+        "detachedCards": 351814,
+        "detachedClumps": 26564,
+        "treesWithDetached": 184
+      },
+      "scope": "Registered forest selected-LOD rest geometry. Leaf components link by bounding-box proximity, then leaf-surface samples test wood-triangle contacts. Alpha cutout is evaluated only in alpha mode (opaque-texel bounds); shader wind is not; candidates require visual review. Null sampled gap means no nearby triangle was found, not an exact distance.",
+      "expectedTrees": 453,
+      "coveredTrees": 453
+    },
+    {
+      "lod": 2,
+      "schema": 1,
+      "gap": 0.75,
+      "operations": 3888642,
+      "complete": true,
+      "alpha": {
+        "maskedTrees": 325
+      },
+      "bySpecies": {
+        "tree-1521": {
+          "trees": 129,
+          "leafless": 0,
+          "candidates": 155
+        },
+        "fir-spire": {
+          "trees": 73,
+          "leafless": 0,
+          "candidates": 59
+        },
+        "tree-4949": {
+          "trees": 41,
+          "leafless": 0,
+          "candidates": 0
+        },
+        "verdant-sentinel": {
+          "trees": 11,
+          "leafless": 0,
+          "candidates": 32
+        },
+        "tree-1527": {
+          "trees": 14,
+          "leafless": 0,
+          "candidates": 0
+        },
+        "oak-elder": {
+          "trees": 7,
+          "leafless": 0,
+          "candidates": 109
+        },
+        "tree-4815": {
+          "trees": 11,
+          "leafless": 0,
+          "candidates": 4
+        },
+        "tree-0208": {
+          "trees": 16,
+          "leafless": 0,
+          "candidates": 299
+        },
+        "tree-1505": {
+          "trees": 6,
+          "leafless": 0,
+          "candidates": 48
+        },
+        "palm-fan": {
+          "trees": 6,
+          "leafless": 0,
+          "candidates": 17
+        },
+        "palm-lean": {
+          "trees": 3,
+          "leafless": 0,
+          "candidates": 0
+        },
+        "palm-date": {
+          "trees": 8,
+          "leafless": 0,
+          "candidates": 0
+        }
+      },
+      "summary": {
+        "trees": 325,
+        "leafless": 0,
+        "components": 338568,
+        "chunks": 1218,
+        "candidates": 723,
+        "woodReach": 1.5,
+        "detachedCards": 57037,
+        "detachedClumps": 8725,
+        "treesWithDetached": 174
+      },
+      "scope": "Registered forest selected-LOD rest geometry. Leaf components link by bounding-box proximity, then leaf-surface samples test wood-triangle contacts. Alpha cutout is evaluated only in alpha mode (opaque-texel bounds); shader wind is not; candidates require visual review. Null sampled gap means no nearby triangle was found, not an exact distance.",
+      "expectedTrees": 453,
+      "coveredTrees": 325
+    }
+  ],
+  "note": "Full per-tree records can be regenerated with the checked-in audit. Candidates are disconnected under the chosen alpha/contact tolerances, not an artistic score or proof of per-pixel disconnection for every wind state."
+}
