@@ -1,0 +1,157 @@
+{
+  "schema": 1,
+  "baselineRef": "5da2776",
+  "sourceSha256": "7fd919c7842db2de1dc71a0fb9c15afe7fd80fed7fec3837d2dbb96dcd7544b6",
+  "scope": "Source-backed 256-leaf native software-WebGL fixture. Far/near/far/return sequence. Uploads exclude uniforms. Not hardware timings.",
+  "baseline": [
+    {
+      "near": false,
+      "textures": 0,
+      "textureImagePayloadBytes": 36,
+      "programs": 1,
+      "drawCalls": 1,
+      "triangles": 2560,
+      "uploadBytes": 20936,
+      "visible": true,
+      "visibleLeaves": 0,
+      "glError": 0
+    },
+    {
+      "near": false,
+      "textures": 0,
+      "textureImagePayloadBytes": 36,
+      "programs": 1,
+      "drawCalls": 1,
+      "triangles": 2560,
+      "uploadBytes": 1024,
+      "visible": true,
+      "visibleLeaves": 0,
+      "glError": 0
+    },
+    {
+      "near": true,
+      "textures": 0,
+      "textureImagePayloadBytes": 36,
+      "programs": 1,
+      "drawCalls": 1,
+      "triangles": 2560,
+      "uploadBytes": 17408,
+      "visible": true,
+      "visibleLeaves": 239,
+      "glError": 0
+    },
+    {
+      "near": true,
+      "textures": 0,
+      "textureImagePayloadBytes": 36,
+      "programs": 1,
+      "drawCalls": 1,
+      "triangles": 2560,
+      "uploadBytes": 17408,
+      "visible": true,
+      "visibleLeaves": 239,
+      "glError": 0
+    },
+    {
+      "near": false,
+      "textures": 0,
+      "textureImagePayloadBytes": 36,
+      "programs": 1,
+      "drawCalls": 1,
+      "triangles": 2560,
+      "uploadBytes": 1024,
+      "visible": true,
+      "visibleLeaves": 0,
+      "glError": 0
+    },
+    {
+      "near": true,
+      "textures": 0,
+      "textureImagePayloadBytes": 36,
+      "programs": 1,
+      "drawCalls": 1,
+      "triangles": 2560,
+      "uploadBytes": 17408,
+      "visible": true,
+      "visibleLeaves": 239,
+      "glError": 0
+    }
+  ],
+  "candidate": [
+    {
+      "near": false,
+      "textures": 0,
+      "textureImagePayloadBytes": 36,
+      "programs": 1,
+      "drawCalls": 0,
+      "triangles": 0,
+      "uploadBytes": 0,
+      "visible": false,
+      "visibleLeaves": 0,
+      "glError": 0
+    },
+    {
+      "near": false,
+      "textures": 0,
+      "textureImagePayloadBytes": 36,
+      "programs": 1,
+      "drawCalls": 0,
+      "triangles": 0,
+      "uploadBytes": 0,
+      "visible": false,
+      "visibleLeaves": 0,
+      "glError": 0
+    },
+    {
+      "near": true,
+      "textures": 0,
+      "textureImagePayloadBytes": 36,
+      "programs": 1,
+      "drawCalls": 1,
+      "triangles": 2560,
+      "uploadBytes": 20936,
+      "visible": true,
+      "visibleLeaves": 239,
+      "glError": 0
+    },
+    {
+      "near": true,
+      "textures": 0,
+      "textureImagePayloadBytes": 36,
+      "programs": 1,
+      "drawCalls": 1,
+      "triangles": 2560,
+      "uploadBytes": 17408,
+      "visible": true,
+      "visibleLeaves": 239,
+      "glError": 0
+    },
+    {
+      "near": false,
+      "textures": 0,
+      "textureImagePayloadBytes": 36,
+      "programs": 1,
+      "drawCalls": 0,
+      "triangles": 0,
+      "uploadBytes": 0,
+      "visible": false,
+      "visibleLeaves": 0,
+      "glError": 0
+    },
+    {
+      "near": true,
+      "textures": 0,
+      "textureImagePayloadBytes": 36,
+      "programs": 1,
+      "drawCalls": 1,
+      "triangles": 2560,
+      "uploadBytes": 17408,
+      "visible": true,
+      "visibleLeaves": 239,
+      "glError": 0
+    }
+  ],
+  "identicalPoses": true,
+  "pixelDifferences": 0,
+  "pass": true
+}
