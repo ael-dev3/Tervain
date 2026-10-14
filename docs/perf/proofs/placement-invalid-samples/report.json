@@ -1,0 +1,170 @@
+{
+  "baseline": "421d34b",
+  "sourceSha256": "9d2fa9e20572bd73aa561761b440b91ce83a44c1003acda2712d2d129247b20c",
+  "scope": "Actual production audit compiled through Vite; synthetic partially unavailable terrain footprint, not a claim of a floating live prop.",
+  "before": [
+    {
+      "kind": "prop",
+      "terrain": "valid",
+      "complete": true,
+      "invalid": 0,
+      "checks": 1,
+      "candidates": 0
+    },
+    {
+      "kind": "prop",
+      "terrain": "partial-nan",
+      "complete": true,
+      "invalid": 0,
+      "checks": 1,
+      "candidates": 0
+    },
+    {
+      "kind": "prop",
+      "terrain": "partial-positive-infinity",
+      "complete": true,
+      "invalid": 0,
+      "checks": 1,
+      "candidates": 0
+    },
+    {
+      "kind": "prop",
+      "terrain": "partial-negative-infinity",
+      "complete": true,
+      "invalid": 0,
+      "checks": 1,
+      "candidates": 0
+    },
+    {
+      "kind": "prop",
+      "terrain": "all-nan",
+      "complete": false,
+      "invalid": 1,
+      "checks": 0,
+      "candidates": 0
+    },
+    {
+      "kind": "root",
+      "terrain": "valid",
+      "complete": true,
+      "invalid": 0,
+      "checks": 1,
+      "candidates": 0
+    },
+    {
+      "kind": "root",
+      "terrain": "partial-nan",
+      "complete": true,
+      "invalid": 0,
+      "checks": 1,
+      "candidates": 0
+    },
+    {
+      "kind": "root",
+      "terrain": "partial-positive-infinity",
+      "complete": true,
+      "invalid": 0,
+      "checks": 1,
+      "candidates": 0
+    },
+    {
+      "kind": "root",
+      "terrain": "partial-negative-infinity",
+      "complete": true,
+      "invalid": 0,
+      "checks": 1,
+      "candidates": 0
+    },
+    {
+      "kind": "root",
+      "terrain": "all-nan",
+      "complete": false,
+      "invalid": 1,
+      "checks": 0,
+      "candidates": 0
+    }
+  ],
+  "after": [
+    {
+      "kind": "prop",
+      "terrain": "valid",
+      "complete": true,
+      "invalid": 0,
+      "checks": 1,
+      "candidates": 0
+    },
+    {
+      "kind": "prop",
+      "terrain": "partial-nan",
+      "complete": false,
+      "invalid": 1,
+      "checks": 0,
+      "candidates": 0
+    },
+    {
+      "kind": "prop",
+      "terrain": "partial-positive-infinity",
+      "complete": false,
+      "invalid": 1,
+      "checks": 0,
+      "candidates": 0
+    },
+    {
+      "kind": "prop",
+      "terrain": "partial-negative-infinity",
+      "complete": false,
+      "invalid": 1,
+      "checks": 0,
+      "candidates": 0
+    },
+    {
+      "kind": "prop",
+      "terrain": "all-nan",
+      "complete": false,
+      "invalid": 1,
+      "checks": 0,
+      "candidates": 0
+    },
+    {
+      "kind": "root",
+      "terrain": "valid",
+      "complete": true,
+      "invalid": 0,
+      "checks": 1,
+      "candidates": 0
+    },
+    {
+      "kind": "root",
+      "terrain": "partial-nan",
+      "complete": false,
+      "invalid": 1,
+      "checks": 0,
+      "candidates": 0
+    },
+    {
+      "kind": "root",
+      "terrain": "partial-positive-infinity",
+      "complete": false,
+      "invalid": 1,
+      "checks": 0,
+      "candidates": 0
+    },
+    {
+      "kind": "root",
+      "terrain": "partial-negative-infinity",
+      "complete": false,
+      "invalid": 1,
+      "checks": 0,
+      "candidates": 0
+    },
+    {
+      "kind": "root",
+      "terrain": "all-nan",
+      "complete": false,
+      "invalid": 1,
+      "checks": 0,
+      "candidates": 0
+    }
+  ],
+  "pass": true
+}
