@@ -1,0 +1,27 @@
+{
+  "baseline": "421d34b",
+  "sourceSha256": "6b631cb0842a1852d3aed3434056112230b462eb4eceb81025d7d54695322517",
+  "scope": "Actual App warmShaders/uploadTextures/firstDraws, native software WebGL, delivered cat and material policy, shadows disabled. Counts source buffer/texture bytes. First-visible RGB identical; no hardware frame-time claim.",
+  "before": {
+    "warmUploadBytes": 0,
+    "firstVisibleUploadBytes": 15061924,
+    "uploadCalls": 0,
+    "firstDrawCalls": 0,
+    "draws": 1,
+    "triangles": 45798,
+    "glError": 0,
+    "contextLost": false
+  },
+  "after": {
+    "warmUploadBytes": 15061924,
+    "firstVisibleUploadBytes": 2304,
+    "uploadCalls": 1,
+    "firstDrawCalls": 1,
+    "draws": 1,
+    "triangles": 45798,
+    "glError": 0,
+    "contextLost": false
+  },
+  "changedRGBChannels": 0,
+  "pass": true
+}
