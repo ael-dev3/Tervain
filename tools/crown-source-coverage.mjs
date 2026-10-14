@@ -7,7 +7,7 @@ export function canopySourceTargets(roots, native, families, lod, cutoutSampler)
     const metadata=nativeLod?native.find(t=>t.label===root.label):undefined;
     const prefix=(wood??leaf)?.name.split(':')[0]??root.kind??'unknown';
     const species=metadata?.species??root.species??(prefix==='solitary-pine'?'pine':prefix);
-    return{...root,...metadata,lod,species,kind:prefix,wood:wood?.geometry??null,leaves:leaf?.geometry??null,cutout:leaf?cutoutSampler(leaf.material):null};
+    return{...root,...metadata,lod,species,kind:prefix,wood:wood?.geometry??null,leaves:leaf?.geometry??null,cutout:leaf?cutoutSampler(leaf.material):null,cutoutRequired:(leaf?.material?.alphaTest??0)>0};
   });
   return{targets,missing};
 }
