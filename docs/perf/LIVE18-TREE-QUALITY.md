@@ -19,13 +19,13 @@ The first command uses the native published audit; the second applies the candid
 
 A fresh audit of the same live build evaluates cutout alpha on all 453 targets at each level. Bounds linked by proximity give zero disconnected candidates near/middle; the independent wood-contact metric still finds many leaf cards farther than 1.5 m from sampled wood. Those counts are leads, not counts of visible floating islands: shader wind, occlusion, apparent support and the whole-scene image are outside this geometry audit.
 
-| Level | Missing wood targets | Disconnected candidates | Detached clumps beyond 1.5 m wood reach |
+| Level | Separate wood mesh absent | Disconnected candidates | Detached clumps beyond 1.5 m wood reach |
 | --- | ---: | ---: | ---: |
 | Near | 0 | 0 | 43,491 |
 | Middle | 0 | 0 | 25,763 |
 | Far | 128 | 723 | 8,360 |
 
-The far report is correctly marked incomplete because those 128 leaf-only targets lack wood. High retains full detail for non-shrub trees; the far-level finding concerns the lower-detail path and must not be presented as a contradiction of a High-preset visual gate.
+The far report is marked incomplete because those 128 targets have no separate wood mesh for its triangle-contact audit. The solitary-pine far asset is explicitly a source-baked impostor: four source-derived silhouette planes, 48 triangles, with one masked material. Absence of a separate wood mesh therefore does **not** establish that the rendered trunk disappears; this representation remains unsupported by the wood-triangle detector. Its missing-wood/candidate totals must not be counted as confirmed visible floating islands. High retains full detail for non-shrub trees; the far-level finding concerns the lower-detail path and must not be presented as a contradiction of a High-preset visual gate.
 
 [Summary](proofs/live18-tree-quality/alpha-summary.json) · [complete compressed audit](proofs/live18-tree-quality/alpha-crowns.json.gz).
 
