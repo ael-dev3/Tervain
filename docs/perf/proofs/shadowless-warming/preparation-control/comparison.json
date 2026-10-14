@@ -1,0 +1,98 @@
+{
+  "scope": "Matched-input rendered route comparison. Validates replay conditions and route/camera agreement, not a hardware performance pass. Capture runs cannot prove stall removal.",
+  "beforeRevision": "v0.0.18 · 421d34b · pre-alphaPlay menu music",
+  "afterRevision": "v0.0.18 · f9a294731 · pre-alphaPlay menu music",
+  "frames": 300,
+  "capture": false,
+  "pixels": [],
+  "maxRouteError": 0,
+  "maxCameraError": 0,
+  "maxCameraQuaternionError": 0,
+  "maxWaterDepthError": 0,
+  "before": {
+    "simulationMs": {
+      "p50": 15.300000011920929,
+      "p95": 50.70000001788139,
+      "max": 177.59999999403954
+    },
+    "maxStepMs": {
+      "p50": 15.300000011920929,
+      "p95": 50.70000001788139,
+      "max": 177.59999999403954
+    },
+    "renderSubmitMs": {
+      "p50": 11.400000005960464,
+      "p95": 40.30000001192093,
+      "max": 1827.699999988079
+    },
+    "arrivalMs": {
+      "p50": 4,
+      "p95": 30.099999994039536,
+      "max": 54.30000001192093
+    },
+    "maxAdvanceMs": {
+      "p50": 4,
+      "p95": 30.099999994039536,
+      "max": 54.30000001192093
+    },
+    "uploads": {
+      "p50": 17132,
+      "p95": 50724,
+      "max": 51003510
+    },
+    "draws": {
+      "p50": 221,
+      "p95": 222,
+      "max": 234
+    },
+    "triangles": {
+      "p50": 1172117,
+      "p95": 1230987,
+      "max": 1231392
+    }
+  },
+  "after": {
+    "simulationMs": {
+      "p50": 16.099999994039536,
+      "p95": 45.099999994039536,
+      "max": 180.7999999821186
+    },
+    "maxStepMs": {
+      "p50": 16.099999994039536,
+      "p95": 45.099999994039536,
+      "max": 180.7999999821186
+    },
+    "renderSubmitMs": {
+      "p50": 11.400000005960464,
+      "p95": 38,
+      "max": 2746.5999999940395
+    },
+    "arrivalMs": {
+      "p50": 3.9000000059604645,
+      "p95": 23.700000017881393,
+      "max": 91.5
+    },
+    "maxAdvanceMs": {
+      "p50": 3.7000000178813934,
+      "p95": 23.700000017881393,
+      "max": 91.5
+    },
+    "uploads": {
+      "p50": 17132,
+      "p95": 50724,
+      "max": 51003510
+    },
+    "draws": {
+      "p50": 221,
+      "p95": 222,
+      "max": 234
+    },
+    "triangles": {
+      "p50": 1172117,
+      "p95": 1230987,
+      "max": 1231392
+    }
+  },
+  "matched": true,
+  "hitchFixed": null
+}
