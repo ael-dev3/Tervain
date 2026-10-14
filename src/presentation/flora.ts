@@ -11,7 +11,7 @@ import { createPineForest, isPineSpecies, type PineTemplates } from './solitaryP
 import { groundedTreeY, seatTreeFlares, treeWoodCollisionRadius } from './treeGrounding';
 import { PlantedCrownIndex } from './plantedCrowns';
 import { CROWN_FLOOR, CrownIndex, type CameraCrown } from './cameraCrowns';
-import { attachInstanceDistanceVisibility, smoothDistanceFade, type InstanceDistanceVisibility } from './distanceVisibility';
+import { attachCasterCoverage, attachInstanceDistanceVisibility, smoothDistanceFade, type InstanceDistanceVisibility } from './distanceVisibility';
 import type { PhysicalWoodGeometry } from '../world/physicsGeometry';
 import { FOLIAGE_RESPONSE, type FoliageResponse } from './foliage/foliageWind';
 import { SHADER_CLOCK_WRAP } from './grass/wind';
@@ -50,6 +50,16 @@ export function floraShadowLod(distance: number, pine: boolean): 0 | 1 | 2 {
   if (distance < FLORA_SHADOW_LOD.full) return 0;
   if (distance < FLORA_SHADOW_LOD.middle || pine) return 1;
   return 2;
+}
+/** B10: the casters hand over across a band below each switch distance with complementary dithered coverage, so a
+ * shadow never swaps shape in one frame as the walker passes the line. Inside a band a tree casts from both models;
+ * the bands end at the old switches' near side (full 12-16 m, middle 60-68 m) so the sun's pass carries no more
+ * triangles than the hard switches at 16 and 70 m did. */
+export const FLORA_SHADOW_BANDS = { full: [12, 16], middle: [60, 68] } as const;
+export function floraShadowWeights(distance: number, pine: boolean): readonly [number, number, number] {
+  const full = smoothDistanceFade(distance, ...FLORA_SHADOW_BANDS.full);
+  const middle = pine ? 1 : smoothDistanceFade(distance, ...FLORA_SHADOW_BANDS.middle);
+  return [full, Math.max(0, middle - full), 1 - Math.max(middle, full)];
 }
 
 /** How a tree answers the wind, from its kind and its own height. */
@@ -221,6 +231,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
   shadowCasters.visible = false;
   group.add(shadowCasters);
   const casterMaterials: THREE.Material[] = [];
+  const casterCoverage = new Map<THREE.InstancedMesh, THREE.InstancedBufferAttribute>();
   const casterGeometries: THREE.BufferGeometry[] = [];
   const profileMaterials = new Set<THREE.Material>();
   // The largest instance scale of each leaf template: the island pass works in template space, the audit in metres.
@@ -295,6 +306,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         c.name = `${mesh.name}:shadow`;
         const depth = shadowDepthMaterial(mesh.material as THREE.Material);
         if (foliage) installFoliageShadow(depth, { field: foliage, response, leaf: part === 'leaf' }, installed[part] ?? undefined);
+        casterCoverage.set(c, attachCasterCoverage(c, depth));
         c.customDepthMaterial = depth;
         shadowCasters.add(c);
         casterMaterials.push(depth);
@@ -423,14 +435,21 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         const inShadow = b.casters.length > 0 && !!shadowFrustum?.intersectsSphere(sphere) && (inView || !cullShadows || !shadowOutOfView(sphere));
         if (!inView && !inShadow) continue;
         if (inShadow) {
-          const sl = forceLod >= 0 ? Math.min(2, Math.floor(forceLod)) : floraShadowLod(d, pineShadows);
-          const c = b.casters[sl]!;
-          if (c.wood || c.leaf) {
-            const i = shadowCounts[sl]!++;
-            packStatic(c.wood, i, treeIndex, mtx);
-            packStatic(c.leaf, i, treeIndex, mtx);
-            shadowTrees++;
+          const sw: readonly number[] = forceLod >= 0 ? [0, 1, 2].map((l) => l === Math.min(2, Math.floor(forceLod)) ? 1 : 0) : floraShadowWeights(d, pineShadows);
+          let from = 0, cast = false;
+          for (let sl = 0; sl < 3; sl++) {
+            const to = from + sw[sl]!;
+            const c = b.casters[sl];
+            if (to > from + 1e-4 && c && (c.wood || c.leaf)) {
+              const i = shadowCounts[sl]!++;
+              packStatic(c.wood, i, treeIndex, mtx);
+              packStatic(c.leaf, i, treeIndex, mtx);
+              for (const mesh of [c.wood, c.leaf]) { const cov = mesh && casterCoverage.get(mesh); if (cov) cov.setXY(i, from, to >= 0.9999 ? 1 : to); }
+              cast = true;
+            }
+            from = to;
           }
+          if (cast) shadowTrees++;
         }
         // Off-screen trees inside the sun's volume are shadow-only; the colour pass draws what the camera sees.
         if (!inView) continue;
@@ -481,6 +500,8 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
             const packed = packedTrees.get(mesh);
             if (packed) packed.length = mesh.count;
             if (staticChanged.has(mesh)) uploadPrefix(mesh.instanceMatrix, mesh.count);
+            const cov = casterCoverage.get(mesh);
+            if (cov) uploadPrefix(cov, mesh.count);
           }
           shadowTris += v.lods[l]!.tris * shadowCounts[l]!;
         }

@@ -46,6 +46,16 @@ function installDistanceDither(material: THREE.Material): void {
   material.needsUpdate = true;
 }
 
+/** Dithered coverage for a shadow-only caster: its own instance interval, read by its depth material in the
+ * shadow map's own pixels (texel-snapped with the sun's volume, so the pattern holds still on the ground). */
+export function attachCasterCoverage(mesh: THREE.InstancedMesh, depth: THREE.Material): THREE.InstancedBufferAttribute {
+  const coverage = new THREE.InstancedBufferAttribute(new Float32Array(mesh.instanceMatrix.count * 2), 2).setUsage(THREE.DynamicDrawUsage);
+  for (let i = 0; i < coverage.count; i++) coverage.setXY(i, 0, 1);
+  mesh.geometry.setAttribute('aDistanceCoverage', coverage);
+  installDistanceDither(depth);
+  return coverage;
+}
+
 export interface InstanceDistanceVisibility {
   /** Keep samples in [x,y). Complementary LODs use [0,1-t) and [1-t,1). */
   coverage: THREE.InstancedBufferAttribute;
@@ -76,3 +86,10 @@ export function attachInstanceDistanceVisibility(mesh: THREE.InstancedMesh): Ins
     depth.dispose(); distance.dispose();
   } };
 }
+
+/**
+ * Where the far grass thins out (start, end of its distance fade, m). The ground shader takes over the grass's
+ * colour across this band, so the meadow never ends at a line: blades thin into ground of their own colour.
+ * Set by the grass field for its quality; with no grass the band lies out of reach.
+ */
+export const GRASS_FAR_RANGE: { value: THREE.Vector2 } = { value: new THREE.Vector2(1e5, 1e5 + 1) };

@@ -4,6 +4,7 @@ import type { Terrain } from '../../world/terrain';
 import type { Quality } from '../context';
 import { hash3, woodlandColonyAt, type Habitat, type HabitatSample, newSample } from '../ground/habitat';
 import { TileLayer, type TileBuffers } from '../ground/tileStream';
+import { GRASS_FAR_RANGE } from '../distanceVisibility';
 import { createGrassClump, visibleGrassBlades, type ClumpSpec } from './bladeGeometry';
 import { createGrassMaterial, type GrassBand, type GrassMaterial } from './grassMaterial';
 import type { GrassTrample } from './trample';
@@ -48,8 +49,10 @@ export const GRASS_MAX_SCALE = { height: 1.6 * 1.18, radius: 1.3 } as const;
 
 export const GRASS_QUALITY: Readonly<Record<Quality, GrassQualitySpec>> = {
   high: {
-    near: { clump: { blades: 12, segments: 4 }, width: 0.019, density: 11.2, tile: 12, fade: { start: 40, end: 41, sizeComp: 1, power: 1 }, band: { inStart: -2, inEnd: -1, outStart: 15, outEnd: 21 }, farBlades: 1 },
-    far: { clump: { blades: 12, segments: 2 }, width: 0.055, density: 2.1, tile: 24, fade: { start: 24, end: 82, sizeComp: 2.1, power: 1.35 }, band: { inStart: 15, inEnd: 21, outStart: 1e5, outEnd: 1e5 + 1 }, farBlades: 0.5 },
+    near: { clump: { blades: 12, segments: 4 }, width: 0.019, density: 11.2, tile: 12, fade: { start: 40, end: 41, sizeComp: 1, power: 1 }, band: { inStart: -2, inEnd: -1, outStart: 12, outEnd: 17 }, farBlades: 1 },
+    // B10: far grass reaches 120 m (was 82) on fewer, wider blades a clump and fewer, wider clumps, paid for by handing the dense near level over
+    // four metres sooner; 32 m tiles keep the wider ring to about the same number of draws.
+    far: { clump: { blades: 12, segments: 2 }, width: 0.06, density: 1.8, tile: 32, fade: { start: 22, end: 120, sizeComp: 2.1, power: 2.1 }, band: { inStart: 12, inEnd: 17, outStart: 1e5, outEnd: 1e5 + 1 }, farBlades: 0.25 },
     trample: { size: 256, extent: 48 },
     shadows: true,
   },
@@ -122,6 +125,8 @@ export function grassReach(level: Pick<GrassLevel, 'width' | 'fade' | 'farBlades
 
 export function createGrassField(terrain: Terrain, habitat: Habitat, quality: Quality, wind: GrassWind, trample: GrassTrample | null): GrassField {
   const spec = GRASS_QUALITY[quality];
+  // The ground takes over the far blades' colour from mid-fade to just short of their end (terrainMaterial.ts).
+  GRASS_FAR_RANGE.value.set(spec.far.fade.end * 0.45, spec.far.fade.end * 0.95);
   const group = new THREE.Group();
   group.name = 'grass';
   const look = { rootShade: 0.9, tipLift: 0.3, translucency: 1.0, sheen: 0.3, transTint: new THREE.Color(1.1, 1.22, 0.6) };

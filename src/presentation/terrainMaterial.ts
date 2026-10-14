@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import type { TerrainTextures } from './terrainTextures';
+import { GRASS_FAR_RANGE } from './distanceVisibility';
 
 /**
  * The ground shader: a standard PBR material (so shadows, fog, image-based light and the sun all behave) whose albedo, normal
@@ -53,6 +54,7 @@ const FRAG_DECL = /* glsl */ `
 uniform sampler2DArray uAlb;
 uniform sampler2DArray uNrm;
 uniform vec4 uLayer[8];
+uniform vec2 uGrassFar;
 varying vec4 vSplatA;
 varying vec4 vSplatB;
 varying vec3 vWorldPos;
@@ -212,6 +214,10 @@ float tSward = (tBw[0] + tBw[1] * 0.75) / tSum * (1.0 - tWear * 0.7);
 vec3 tSwardGreen = vec3(dot(tAlb, vec3(0.2126, 0.7152, 0.0722))) * vec3(0.74, 1.1, 0.44);
 tAlb = mix(tAlb, tSwardGreen, tSward * 0.72);
 tAlb *= mix(vec3(1.0), vec3(0.84, 0.86, 0.8), tSward * 0.8);
+// Far sward: as the far grass thins out with distance, the meadow floor takes on the blades' own warmer, straw-lit
+// colour, so the grass never ends at a visible line and open fields stay grassy past the blades' range (B10).
+float tFarSward = tSward * smoothstep(uGrassFar.x, uGrassFar.y, length(vViewPosition));
+tAlb *= mix(vec3(1.0), vec3(1.1, 0.9, 0.6), tFarSward * 0.85);
 tAlb *= mix(1.0, mix(0.5, 0.72, tStone), tWet);
 // Damp sand may carry a sheen. Fractured stone only darkens and broadens its highlight: never a mirror-like wet wall.
 tRough = mix(tRough, mix(0.36, 0.88, tStone), tWet);
@@ -239,6 +245,7 @@ export function createTerrainMaterial(tex: TerrainTextures): THREE.MeshStandardM
     shader.uniforms.uAlb = { value: tex.albedo };
     shader.uniforms.uNrm = { value: tex.normal };
     shader.uniforms.uLayer = { value: layer };
+    shader.uniforms.uGrassFar = GRASS_FAR_RANGE;
     shader.vertexShader = shader.vertexShader.replace('#include <common>', `#include <common>\n${VERT_DECL}`).replace('#include <begin_vertex>', `#include <begin_vertex>\n${VERT_BODY}`);
     shader.fragmentShader = shader.fragmentShader
       .replace('#include <common>', `#include <common>\n${FRAG_DECL}`)
@@ -249,6 +256,6 @@ export function createTerrainMaterial(tex: TerrainTextures): THREE.MeshStandardM
       .replace('#include <aomap_fragment>', '#include <aomap_fragment>\nreflectedLight.indirectDiffuse *= mix(0.8, 1.0, smoothstep(0.2, 0.8, tHeight)) * mix(1.0, 0.86, clamp(vCanopy, 0.0, 1.0));')
       .replace('#include <normal_fragment_maps>', `#include <normal_fragment_maps>\n${FRAG_NORMAL}`);
   };
-  mat.customProgramCacheKey = () => 'tervain-terrain-v8-sward-green';
+  mat.customProgramCacheKey = () => 'tervain-terrain-v9-far-sward';
   return mat;
 }
