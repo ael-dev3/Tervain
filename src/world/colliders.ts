@@ -537,6 +537,9 @@ export function buildStaticColliders(terrain?: Pick<Terrain, 'heightAt'>): Colli
       // dynamic: door and shutter fill the openings until opened
       wallBox(c, 'archive_door', b, -gap, gap, hd - t, hd + t, 'archive_door');
       wallBox(c, 'archive_shutter', b, -sw, sw, -hd - t, -hd + t, 'archive_shutter');
+      // The roof over the room, for the follow camera only (B12): it keeps the lens under the ceiling inside and out of the slates.
+      const base = terrain ? buildingGround((x, z) => terrain.heightAt(x, z), b).avg : 0, wallTop = base + ARCHIVE_ROOM.wallBase + b.h;
+      c.cameraBox('archive_roof', b.x, b.z, hw + t, hd + t, b.yaw, { minY: wallTop, maxY: wallTop + ARCHIVE_ROOM.roofPitch * hw + 0.4 });
     } else {
       // Without a terrain the rooms stand on level ground at zero, so every part keeps a finite height.
       roomColliders(c, roomOf(b)!, terrain ? buildingGround((x, z) => terrain.heightAt(x, z), b).avg : 0);

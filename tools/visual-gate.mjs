@@ -51,6 +51,12 @@ const SPOTS = {
   deepwoods: { item: 'Trees: no floating leaf chunks deep in the forest at dusk', hero: [-166.9, -42.8, 0.6], hour: 19.8, still: [[0, 2.2, -3.2, 0, 4, 8]], run: 9000 },
   // Other households' rooms (A136), each from its middle towards both side walls and the back wall.
   ...Object.fromEntries([['b', 8, -10], ['c', 30, 14], ['d', -22, 20], ['f', -12, 44]].map(([k, x, z]) => [`room_${k}`, { item: `Interiors: house_${k}`, hero: [x, z, 0], hide: true, still: [[0, 1.7, 0.8, 3, 1.3, -0.6], [0, 1.7, 0.8, -3, 1.3, -0.6], [0, 1.7, 1.6, 0, 1.3, -3]], path: [[-1.2, 1.7, 1, 3, 1.3, -1], [1.2, 1.7, 1, -3, 1.3, -1]] }])),
+  // B12: the follow camera through the inn's door, in and out at noon and at dusk (never through the roof or the wall,
+  // never up among the rafters; tools/camera-doors.mjs measures every door).
+  door_in: { item: 'Camera: walking in through the inn door', hero: [-4.74, 39, Math.PI], still: [], run: 5600, keys: ['KeyW'] },
+  door_out: { item: 'Camera: walking out through the inn door', hero: [-4.74, 31, 0], still: [], run: 5200, keys: ['KeyW'] },
+  door_in_dusk: { item: 'Camera: walking in through the inn door at dusk', hero: [-4.74, 39, Math.PI], hour: 19.5, still: [], run: 5600, keys: ['KeyW'] },
+  door_out_dusk: { item: 'Camera: walking out through the inn door at dusk', hero: [-4.74, 31, 0], hour: 19.5, still: [], run: 5200, keys: ['KeyW'] },
   // B11: the bow's feel. Over the shoulder at the grove's edge: raise, draw, hold, loose into the trunks, twice, the
   // follow camera behind him (`shoot`), with a still at full draw.
   bow: { item: 'Combat: drawing and loosing the bow', hero: [-31, 0, -Math.PI / 2], still: [], shoot: 2 },
