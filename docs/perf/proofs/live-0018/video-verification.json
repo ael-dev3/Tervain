@@ -1,0 +1,8 @@
+{
+  "pass": true,
+  "frames": 31,
+  "inspectionFps": 12,
+  "nativeSampleCadence": 60,
+  "comparisonLeftChangedRGBChannels": 0,
+  "comparisonRightChangedRGBChannels": 0
+}
