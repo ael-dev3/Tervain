@@ -1,0 +1,75 @@
+{
+  "schema": 1,
+  "build": {
+    "version": "0.0.17",
+    "revision": "5da277678"
+  },
+  "profile": {
+    "nativeHero": true,
+    "postEnabled": true,
+    "postSamples": 4,
+    "drawingBuffer": [
+      640,
+      360
+    ],
+    "programs": [
+      "tervain-Cu3ddvLd.js"
+    ]
+  },
+  "controls": {
+    "hour": 19.472222222222,
+    "wind": {
+      "time": 0.016666666666666666,
+      "direction": [
+        0.9060848207495054,
+        0.4230960855495319,
+        0.055999999999999994,
+        0
+      ],
+      "scroll": [
+        0.06342593745246537,
+        0.02961672598846723,
+        0.1014814999239446,
+        0.04738676158154757
+      ]
+    },
+    "sway": 0.06666666666666667,
+    "gradeTime": 0.03333333333333333,
+    "skyTime": null
+  },
+  "startFrame": 7,
+  "frames": 5,
+  "samples": [
+    {
+      "sourceFrame": 7,
+      "rgbSha256": "c9c0114909d8b7092fcfef017ea805b16af645b170ed0044c24c1312456fad9b",
+      "expectedIdentical": true
+    },
+    {
+      "sourceFrame": 8,
+      "rgbSha256": "eb0720f564d9164dfc97eb49438c7390ca935a5693fc57843a3740733c12d761",
+      "expectedIdentical": true
+    },
+    {
+      "sourceFrame": 9,
+      "rgbSha256": "7776b20818b349b39063d1c9bf7726d914286e299237b3b3950e862edd9093fa",
+      "expectedIdentical": true
+    },
+    {
+      "sourceFrame": 10,
+      "rgbSha256": "59a8afcc659c119afcb6c3c0f8e80957a0db316f76021a20a0df510dcba68e49",
+      "expectedIdentical": true
+    },
+    {
+      "sourceFrame": 11,
+      "rgbSha256": "b08e876a861a610b8f6cc1eb122e2bf1e6933c45983c0f0e519e8f78a68f553d",
+      "expectedIdentical": true
+    }
+  ],
+  "assertions": {
+    "nativeHero": true,
+    "nativePostMsaa": true,
+    "expectedFramesMatch": true
+  },
+  "scope": "Actual production build, native whole-scene post/MSAA, no shader overrides. Fixed controls and synthetic camera walk; no hardware timing or general quality-pass claim."
+}

@@ -1,0 +1,13 @@
+{
+  "frames": 31,
+  "dimensions": [
+    1024,
+    216
+  ],
+  "codec": "H.264 RGB lossless",
+  "sourceCadence": 60,
+  "playbackCadence": 12,
+  "slowMotionFactor": 5,
+  "decodedChangedRGBChannels": 0,
+  "sha256": "6d225144c1ecb308c92ea74f2df7f4a6e9d7e98f7662b7325243c35cefc802bd"
+}
