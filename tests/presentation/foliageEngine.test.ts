@@ -470,6 +470,21 @@ describe('the forest with wind, shadow-only casters and strikes', () => {
     const proxies = full.map((m) => m.geometry);
     restore();
     full.forEach((m, i) => expect(m.geometry).toBe(before[i]));
+    const pairs = new Set<unknown>(), push = Array.prototype.push;
+    Array.prototype.push = function(this: unknown[], ...values: unknown[]) {
+      for (const value of values) if (Array.isArray(value) && value.length === 2
+        && (value[0] as THREE.InstancedMesh)?.isInstancedMesh && (value[1] as THREE.BufferGeometry)?.isBufferGeometry) pairs.add(value);
+      return push.apply(this, values);
+    };
+    try { for (let i = 0; i < 12; i++) forest.lighterForReflection()(); }
+    finally { Array.prototype.push = push; }
+    expect(pairs.size).toBe(0);
+    const outer = forest.lighterForReflection(), inner = forest.lighterForReflection();
+    inner(); full.forEach((mesh, i) => expect(mesh.geometry).toBe(proxies[i]));
+    outer(); full.forEach((mesh, i) => expect(mesh.geometry).toBe(before[i]));
+    const next = forest.lighterForReflection();
+    outer(); full.forEach((mesh, i) => expect(mesh.geometry).toBe(proxies[i]));
+    next(); next(); full.forEach((mesh, i) => expect(mesh.geometry).toBe(before[i]));
     // An arrow in the trunk shakes it and knocks leaves loose; one in open air hits nothing.
     const ground = terrain.heightAt(tree.x, tree.z);
     expect(forest.strike(tree.x + 0.1, ground + 1.5, tree.z, 1, tree.collisionId!)).toBe(true);
