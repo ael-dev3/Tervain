@@ -644,6 +644,9 @@ export class App {
     this.cam.follow(1, this.player.x, this.player.y, this.player.z, this.world.terrain, this.world.colliders, true, 0);
     this.world.update(0, this.game.state, new THREE.Vector3(this.player.x, this.player.y, this.player.z),
       this.settings, hourOfDay(this.game.state.clock), this.cam.camera, false);
+    // Initial reflection/window captures pause regular shadow updates too. Let the
+    // first pass initialize the sun's comparison texture before any receiver draws.
+    if (this.renderer.shadowMap.enabled && this.world.sky.sun.shadow.map === null) this.renderer.shadowMap.needsUpdate = true;
     let textureCount = 0;
     await prepareSceneTextures(this.renderer, this.world.scene, { camera: this.cam.camera,
       onProgress: (completed, total) => {
@@ -1082,10 +1085,19 @@ export class App {
     if (!fresh) {
       const top = this.world.physics.supportAt(start.x, start.z, p.y);
       if (top !== null && Math.abs(top - p.y) < .12) {
-        this.player.y = top;
-        this.player.rig.root.position.y = top;
+        // A restored loose body can be buried by newer terrain. Its saved contact must
+        // never lower the safe standing/swimming height resolved above.
+        this.player.y = Math.max(this.player.y, top);
+        this.player.rig.root.position.y = this.player.y;
       }
     }
+    // Whatever the save held, he is never rebuilt beneath the land unless he is swimming or in the archive.
+    const floor = this.world.terrain.groundAt(start.x, start.z);
+    if (!fresh && !safe.afloat && !this.world.playerInArchive && this.player.y < floor - 0.3) {
+      this.player.y = floor;
+      this.player.rig.root.position.y = floor;
+    }
+    this.underWorld = 0;
     this.cam.yaw = start.yaw;
     this.cam.reset();
     this.player.group.visible = true;
@@ -1108,12 +1120,33 @@ export class App {
   }
 
   /** Player positions that are no longer standable (geometry changed between builds) fall back to a safe place. */
+  private underWorld = 0;
+  /**
+   * Fall-through recovery (0.0.17): if he stands well beneath the land for a moment while not swimming, as after a load
+   * that rebuilt him under it, he is set back on the nearest safe ground and the camera with him.
+   */
+  private recoverFromUnderWorld(dt: number) {
+    const p = this.player, terrain = this.world.terrain;
+    const below = !p.swimming && !this.world.playerInArchive && !p.mount && p.y < terrain.groundAt(p.x, p.z) - 1.2;
+    this.underWorld = below ? this.underWorld + dt : 0;
+    if (this.underWorld < 0.35) return;
+    this.underWorld = 0;
+    const safe = this.safePosition(p.x, p.z);
+    p.setPosition(safe.x, safe.z, p.yaw, terrain, safe.y);
+    this.cam.reset();
+    console.warn('[tervain] recovered the hero from beneath the terrain', { x: +p.x.toFixed(2), z: +p.z.toFixed(2) });
+  }
+
   private safePosition(x: number, z: number, feetY?: number): V2 & { y: number; afloat?: boolean } {
     const { terrain, colliders } = this.world;
     if (canPlayerStandAt(terrain, colliders, x, z, feetY)) return { x, z, y: supportedPlayerHeight(terrain, x, z, feetY) };
     // A swimmer is saved and rebuilt where he swims, not carried ashore (A70).
     const water = this.world.water?.world.sample(x, z);
-    if (water && water.depth > 0.9 && !colliders.blocked(x, z, PLAYER_BODY_RADIUS)) return { x, z, y: feetY ?? water.surface - 1.1, afloat: true };
+    // Only real water over the ground, and never a saved height beneath it (0.0.17: a Continue rebuilt him under the land).
+    const ground = terrain.groundAt(x, z);
+    if (water && water.depth > 0.9 && water.surface > ground + 0.9 && !colliders.blocked(x, z, PLAYER_BODY_RADIUS)) {
+      return { x, z, y: Math.max(ground, Math.min(feetY ?? water.surface - 1.1, water.surface - 0.2)), afloat: true };
+    }
     const cell = this.world.nav.nearestOpen(x, z, 10);
     const position = cell ? this.world.nav.cellCenter(cell.i, cell.j) : { x: SPAWN.x, z: SPAWN.z };
     return { ...position, y: terrain.groundAt(position.x, position.z) };
@@ -1352,6 +1385,7 @@ export class App {
     if (playing && this.mode === 'play' && !hitStopped) {
       this.world.physics.beginCharacter(this.player, dt);
       this.player.update(dt, this.playerContext(true));
+      this.recoverFromUnderWorld(dt);
       this.carryRider();
       this.updateEnemies(dt);
       this.checkDiscoveries();
