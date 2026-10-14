@@ -44,15 +44,16 @@ const url = new URL(args.url);
 for (const [k, v] of Object.entries({ shot: '1', quality: args.quality ?? 'high', place: 'rillford', settle: '1', hud: '0', hour: String(hours[0]) })) url.searchParams.set(k, v);
 url.searchParams.set('treelab', `${species}${assetId ? ':' + assetId : ''}${args.spot ? '@' + args.spot : ''}${args.scale ? '*' + args.scale : ''}`);
 
-const page = await openPage(url.href, { w: W, h: H, requestTimeoutMs: 600000 });
+const page = await openPage(url.href, { w: W, h: H, requestTimeoutMs: 1800000 });
 const metrics = { asset: args.asset, species, assetId, url: args.url, size: [W, H], quality: args.quality ?? 'high', hours, stills: {} };
 try {
-  for (let i = 0; i < 2400; i++) {
+  let ready = false;
+  for (let i = 0; i < 7200 && !ready; i++) {
     const s = await page.eval('return {play:window.tervain?.mode==="play"&&document.title==="READY",failed:window.tervain?.worldBuildFailed===true};');
     if (s?.failed) throw new Error('world build failed');
-    if (s?.play) break;
-    await page.wait(250);
+    if (s?.play) ready = true; else await page.wait(250);
   }
+  if (!ready) throw new Error('page not ready after 30 minutes');
   await page.eval('await window.tervain.world.arrived;return 1');
   const spot = await page.eval('return window.__treelab ?? null');
   if (!spot) throw new Error('no tree placed: the build lacks the ?treelab hook or found no clear meadow. Console: ' + page.console().filter((l) => /treelab|error|exception/i.test(l)).join(' | '));
