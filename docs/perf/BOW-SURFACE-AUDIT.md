@@ -8,7 +8,7 @@ The existing visual gate checks the slung bow while walking/running. This diagno
 node tools/repro-bow-surface.mjs --out artifacts/bow-surface --expect baseline
 ```
 
-The fixture loads the delivered textured hero, fits the fingers as the game does, and uses the actual HeroAnimationController and PlayerHuntingVisual. At each sample it deforms the body with the CPU twin of the installed dual-quaternion shader. It casts the bow limb's actual curve centreline (96 segments), the two transformed string centrelines, and the grip centreline against those surface triangles. Triangles substantially assigned to hand/finger bones are excluded to avoid flagging the intended grip.
+The fixture loads the delivered textured hero, fits the fingers as the game does, and uses the actual HeroAnimationController and PlayerHuntingVisual. At each sample it deforms the body with the CPU twin of the installed dual-quaternion shader. It casts the bow limb's 24 tessellated ring-centre segments, the two transformed string centrelines, and the grip centreline against those surface triangles. Triangles substantially assigned to hand/finger bones are excluded to avoid flagging the intended grip.
 
 | Pose | Samples with crossings / samples | Crossing centreline segments |
 | --- | ---: | ---: |
