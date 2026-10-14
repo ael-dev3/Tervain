@@ -1,0 +1,336 @@
+{
+ "schema": 1,
+ "generator": "tools/leaf-atlas/build.mjs",
+ "files": {
+  "broadleaf.color": {
+   "file": "broadleaf-color.webp",
+   "bytes": 328900,
+   "sha256": "36568db1d71e915e232ebf5552ad5a88525833ce0653eb6011cc2eb9972b984e"
+  },
+  "broadleaf.data": {
+   "file": "broadleaf-data.webp",
+   "bytes": 1137106,
+   "sha256": "6c8de617e21f551a00dca43ae16fae692497fc1f27f001e11fa0dd6227b49293"
+  },
+  "conifer.color": {
+   "file": "conifer-color.webp",
+   "bytes": 989922,
+   "sha256": "c6b92eda9a9f1f98fd8902186dcb4416dacb4c0dd19f4e3f5365b9252e97aaf2"
+  },
+  "conifer.data": {
+   "file": "conifer-data.webp",
+   "bytes": 2230850,
+   "sha256": "59f758cc8e065a7373d837a749391a717c86d79ed06c5c5b1c07429fd84c3dbb"
+  }
+ },
+ "layout": {
+  "broadleaf": {
+   "size": 2048,
+   "grid": 4,
+   "cells": [
+    {
+     "index": 0,
+     "col": 0,
+     "row": 0,
+     "name": "oak-young",
+     "shape": "oak",
+     "stage": "young",
+     "season": "summer"
+    },
+    {
+     "index": 1,
+     "col": 1,
+     "row": 0,
+     "name": "oak-mid",
+     "shape": "oak",
+     "stage": "mid",
+     "season": "summer"
+    },
+    {
+     "index": 2,
+     "col": 2,
+     "row": 0,
+     "name": "oak-mature",
+     "shape": "oak",
+     "stage": "mature",
+     "season": "summer"
+    },
+    {
+     "index": 3,
+     "col": 3,
+     "row": 0,
+     "name": "oak-autumn",
+     "shape": "oak",
+     "stage": "mid",
+     "season": "autumn"
+    },
+    {
+     "index": 4,
+     "col": 0,
+     "row": 1,
+     "name": "birch-young",
+     "shape": "birch",
+     "stage": "young",
+     "season": "summer"
+    },
+    {
+     "index": 5,
+     "col": 1,
+     "row": 1,
+     "name": "birch-mid",
+     "shape": "birch",
+     "stage": "mid",
+     "season": "summer"
+    },
+    {
+     "index": 6,
+     "col": 2,
+     "row": 1,
+     "name": "birch-mature",
+     "shape": "birch",
+     "stage": "mature",
+     "season": "summer"
+    },
+    {
+     "index": 7,
+     "col": 3,
+     "row": 1,
+     "name": "birch-autumn",
+     "shape": "birch",
+     "stage": "mid",
+     "season": "autumn"
+    },
+    {
+     "index": 8,
+     "col": 0,
+     "row": 2,
+     "name": "orchard-young",
+     "shape": "orchard",
+     "stage": "young",
+     "season": "summer"
+    },
+    {
+     "index": 9,
+     "col": 1,
+     "row": 2,
+     "name": "orchard-mid",
+     "shape": "orchard",
+     "stage": "mid",
+     "season": "summer"
+    },
+    {
+     "index": 10,
+     "col": 2,
+     "row": 2,
+     "name": "orchard-mature",
+     "shape": "orchard",
+     "stage": "mature",
+     "season": "summer"
+    },
+    {
+     "index": 11,
+     "col": 3,
+     "row": 2,
+     "name": "orchard-autumn",
+     "shape": "orchard",
+     "stage": "mid",
+     "season": "autumn"
+    },
+    {
+     "index": 12,
+     "col": 0,
+     "row": 3,
+     "name": "oak-open",
+     "shape": "oak",
+     "stage": "mature",
+     "season": "summer",
+     "variant": "open"
+    },
+    {
+     "index": 13,
+     "col": 1,
+     "row": 3,
+     "name": "birch-weeping",
+     "shape": "birch",
+     "stage": "mid",
+     "season": "summer",
+     "variant": "weeping"
+    },
+    {
+     "index": 14,
+     "col": 2,
+     "row": 3,
+     "name": "beech-sprig",
+     "shape": "beech",
+     "stage": "mid",
+     "season": "summer",
+     "variant": "sprig"
+    },
+    {
+     "index": 15,
+     "col": 3,
+     "row": 3,
+     "name": "mixed-turning",
+     "shape": "orchard",
+     "stage": "mature",
+     "season": "turning",
+     "variant": "open"
+    }
+   ],
+   "coverage": [
+    0.218,
+    0.309,
+    0.397,
+    0.277,
+    0.194,
+    0.276,
+    0.327,
+    0.264,
+    0.198,
+    0.278,
+    0.294,
+    0.273,
+    0.303,
+    0.259,
+    0.21,
+    0.274
+   ]
+  },
+  "conifer": {
+   "size": 2048,
+   "grid": 4,
+   "cells": [
+    {
+     "index": 0,
+     "col": 0,
+     "row": 0,
+     "name": "fir-spray-a",
+     "kind": "fir"
+    },
+    {
+     "index": 1,
+     "col": 1,
+     "row": 0,
+     "name": "fir-spray-b",
+     "kind": "fir"
+    },
+    {
+     "index": 2,
+     "col": 2,
+     "row": 0,
+     "name": "fir-spray-c",
+     "kind": "fir"
+    },
+    {
+     "index": 3,
+     "col": 3,
+     "row": 0,
+     "name": "fir-spray-d",
+     "kind": "fir"
+    },
+    {
+     "index": 4,
+     "col": 0,
+     "row": 1,
+     "name": "spruce-sprig-a",
+     "kind": "spruce"
+    },
+    {
+     "index": 5,
+     "col": 1,
+     "row": 1,
+     "name": "spruce-sprig-b",
+     "kind": "spruce"
+    },
+    {
+     "index": 6,
+     "col": 2,
+     "row": 1,
+     "name": "spruce-sprig-c",
+     "kind": "spruce"
+    },
+    {
+     "index": 7,
+     "col": 3,
+     "row": 1,
+     "name": "spruce-sprig-d",
+     "kind": "spruce"
+    },
+    {
+     "index": 8,
+     "col": 0,
+     "row": 2,
+     "name": "pine-pad-a",
+     "kind": "pine"
+    },
+    {
+     "index": 9,
+     "col": 1,
+     "row": 2,
+     "name": "pine-pad-b",
+     "kind": "pine"
+    },
+    {
+     "index": 10,
+     "col": 2,
+     "row": 2,
+     "name": "pine-pad-c",
+     "kind": "pine"
+    },
+    {
+     "index": 11,
+     "col": 3,
+     "row": 2,
+     "name": "pine-pad-d",
+     "kind": "pine"
+    },
+    {
+     "index": 12,
+     "col": 0,
+     "row": 3,
+     "name": "fir-whorl",
+     "kind": "whorl-fir"
+    },
+    {
+     "index": 13,
+     "col": 1,
+     "row": 3,
+     "name": "pine-tuft",
+     "kind": "whorl-pine"
+    },
+    {
+     "index": 14,
+     "col": 2,
+     "row": 3,
+     "name": "fir-leader",
+     "kind": "tip-fir"
+    },
+    {
+     "index": 15,
+     "col": 3,
+     "row": 3,
+     "name": "pine-leader",
+     "kind": "tip-pine"
+    }
+   ],
+   "coverage": [
+    0.3,
+    0.301,
+    0.29,
+    0.273,
+    0.301,
+    0.32,
+    0.309,
+    0.307,
+    0.296,
+    0.335,
+    0.327,
+    0.331,
+    0.086,
+    0.1,
+    0.092,
+    0.096
+   ]
+  }
+ }
+}

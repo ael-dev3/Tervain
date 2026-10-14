@@ -25,6 +25,17 @@ export interface CanopyOptions {
   /** Atlas cells across (the atlas is cells x cells clusters). */
   readonly cells: number;
   readonly seed: number;
+  /** Optional share of clusters taken from each atlas cell (cells x cells entries); uniform when absent. */
+  readonly cellWeights?: readonly number[];
+}
+
+/** The index a draw `r` (0..1) lands on across `weights`. */
+export function weightedCell(weights: readonly number[], r: number): number {
+  let total = 0;
+  for (const w of weights) total += w;
+  let at = r * total;
+  for (let i = 0; i < weights.length; i++) { at -= weights[i]!; if (at < 0) return i; }
+  return weights.length - 1;
 }
 
 export const NEAR_CANOPY = { size: [0.6, 1.2], clump: 0.95, perClump: 8, cells: 2 } as const;
@@ -437,7 +448,7 @@ export function buildCanopy(leaf: THREE.BufferGeometry, wood: THREE.BufferGeomet
       ax.copy(t1).multiplyScalar(cr).addScaledVector(t2, sr);
       ay.copy(t1).multiplyScalar(-sr).addScaledVector(t2, cr);
       const s = (opts.size[0] + (opts.size[1] - opts.size[0]) * random()) / 2;
-      const cellIndex = Math.floor(random() * opts.cells * opts.cells), cu = cellIndex % opts.cells, cv = Math.floor(cellIndex / opts.cells);
+      const cellIndex = opts.cellWeights ? weightedCell(opts.cellWeights, random()) : Math.floor(random() * opts.cells * opts.cells), cu = cellIndex % opts.cells, cv = Math.floor(cellIndex / opts.cells);
       const flip = random() < 0.5;
       const base = positions.length / 3;
       for (const [x, y] of [[-1, -1], [1, -1], [1, 1], [-1, 1]] as const) {
