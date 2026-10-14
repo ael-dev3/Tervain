@@ -185,3 +185,27 @@ it('retains grounded and independently supported batched props', () => {
   mergeStaticParts(group);
   expect(auditPlacements(scene,()=>0).summary).toMatchObject({props:3,candidates:0});
 });
+
+function unusedPoint(geometry: THREE.BufferGeometry, point: [number,number,number]) {
+  for(const [name,p] of Object.entries(geometry.attributes)){
+    const values=new Float32Array(p.array.length+p.itemSize);values.set(p.array);if(name==='position')values.set(point,p.array.length);
+    geometry.setAttribute(name,new THREE.BufferAttribute(values,p.itemSize,p.normalized));
+  }
+  return geometry;
+}
+it('does not report an unreferenced source vertex as a floating prop', () => {
+  const geometry=unusedPoint(new THREE.BoxGeometry(1,1,1).translate(0,.5,0),[3,2,0]),material=new THREE.MeshBasicMaterial(),scene=new THREE.Scene();scene.add(new THREE.Mesh(geometry,material));
+  try {const report=auditPlacements(scene,()=>0);expect(report.complete).toBe(true);expect(report.summary).toMatchObject({props:1,candidates:0});}
+  finally{geometry.dispose();material.dispose();}
+});
+it.each([false,true])('does not let an unused low point clear floating root support (non-indexed=%s)', nonIndexed => {
+  let geometry:THREE.BufferGeometry=new THREE.CylinderGeometry(.5,.5,2,16).translate(0,1.3,0);
+  if(nonIndexed){const original=geometry;geometry=original.toNonIndexed();original.dispose();}
+  unusedPoint(geometry,[100,-100,100]);
+  try {
+    const target:PlacementAuditTarget={label:'root',kind:'root',geometry,matrix:new THREE.Matrix4()};
+    const report=auditPlacements(new THREE.Scene(),()=>0,[target],{kind:'root'});
+    expect(report.complete).toBe(true);expect(report.summary).toMatchObject({roots:1,candidates:1});
+    expect(report.checks[0]!.minGap).toBeCloseTo(.3);
+  } finally {geometry.dispose();}
+});

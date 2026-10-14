@@ -49,16 +49,19 @@ function components(geometry: THREE.BufferGeometry): Component[] {
   for (const i of welded.values()) { const root = find(i), group = groups.get(root) ?? []; group.push(i); groups.set(root, group); }
   const result = new Map([...groups].map(([root, vertices]) => [root, { vertices, faces: new Set<number>() }]));
   for (let i = 0; i + 2 < (index?.count ?? p.count); i += 3) result.get(find(index?.getX(i) ?? i))!.faces.add(i / 3);
-  return [...result.values()];
+  return [...result.values()].filter(component => component.faces.size > 0);
 }
 
 /** Lowest points of the outer basal ring, rather than elevated trunk/root-flare faces. */
 function rootSamples(geometry: THREE.BufferGeometry): THREE.Vector3[] {
-  geometry.computeBoundingBox();
-  const box = geometry.boundingBox!, p = geometry.getAttribute('position');
+  const p = geometry.getAttribute('position'), index = geometry.index, referenced = new Set<number>();
+  const count = index?.count ?? p.count;
+  for (let i=0;i+2<count;i+=3) for (let k=0;k<3;k++) referenced.add(index?.getX(i+k) ?? i+k);
+  const box = new THREE.Box3(), point = new THREE.Vector3();
+  for (const i of referenced) box.expandByPoint(point.fromBufferAttribute(p, i));
   const points: THREE.Vector3[] = [];
   let radius = 0;
-  for (let i = 0; i < p.count; i++) if (p.getY(i) <= box.min.y + .35) {
+  for (let i = 0; i < p.count; i++) if (referenced.has(i) && p.getY(i) <= box.min.y + .35) {
     const v = new THREE.Vector3().fromBufferAttribute(p, i); points.push(v);
   }
   if (!points.length) return [];
