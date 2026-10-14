@@ -67,7 +67,7 @@ export function addTube(mb, branch, o, bark) {
       if (lumps) r *= 1 + lumps * (fbm3(c.x * 1.3 + dir.x * 1.1, c.y * 0.9 + dir.y, c.z * 1.3 + dir.z * 1.1, seed, 2) - 0.5);
       let h = 0;
       if (!noRelief) h = (barkHeight(bark, u, v) - 0.5) * relief(r);
-      const p = c.clone().addScaledVector(dir, Math.max(0.004, r + h));
+      const p = c.clone().addScaledVector(dir, Math.max(0.0015, r + h));
       const ao = aoByte(p.y);
       const vi = mb.vertex(p, [u, v], [ao, ao, ao, 255], wind, pivot, [dir.x, dir.y, dir.z]);
       if (s === 0) seam.push([vi, vi + sides]);

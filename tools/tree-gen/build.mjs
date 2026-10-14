@@ -49,7 +49,7 @@ function decimate(b, stride) {
   return o;
 }
 
-function buildWood(sk, lod, bark, seedBase) {
+function buildWood(sk, lod, bark, seedBase, centres = []) {
   const P = LODS[lod], rng = makeRng(seedBase + 77), mb = new MeshBuilder(), seam = [];
   const rootAz = []; if (P.root) { const n = rng.int(5, 7), a0 = rng() * Math.PI * 2; for (let k = 0; k < n; k++) rootAz.push(a0 + (k / n) * Math.PI * 2 + rng.range(-0.25, 0.25)); }
   const trunkShape = (r, y, ang, i, dir) => {
@@ -63,12 +63,14 @@ function buildWood(sk, lod, bark, seedBase) {
   for (const level of [0, 1, 2, 3]) {
     if (level === 2 && !P.boughs) continue; if (level === 3 && !P.twigs) continue;
     for (const b0 of sk.branches.filter((b) => b.level === level)) {
+      // A twig that ends outside the leaf mass is a bare spike: only twigs ending inside a leaf cluster are grown.
+      if (level === 3 && !centres.some((c) => c.distanceToSquared(b0.points[b0.points.length - 1]) < 0.7 * 0.7)) continue;
       const b = decimate(b0, P.stride), sides = sidesFor(b);
       const circ = Math.PI * 2 * b.radii[0];
       const trunk = !!b.isTrunk;
       const sm = addTube(mb, b, {
-        sides, uTiles: trunk ? 1 : clamp(circ / 2.0, 0.12, 1), uOff: rng(), vOff: rng(), relief, seed: seedBase + b.id,
-        shape: trunk ? trunkShape : null, lumps: trunk ? 0.14 : 0.05, noRelief: lod === 'far',
+        sides, uTiles: trunk ? 1 : level === 3 ? 0.02 : clamp(circ / 2.0, 0.12, 1), uOff: level === 3 ? bark.twigU : rng(), vOff: rng(), relief, seed: seedBase + b.id,
+        shape: trunk ? trunkShape : null, lumps: trunk ? 0.14 : 0.05, noRelief: lod === 'far' || level === 3,
       }, bark);
       seam.push(...sm);
     }
@@ -142,7 +144,7 @@ function buildLeaves(sk, lod, cands, segs, seedBase) {
     }
     for (let r = 0; r < rows; r++) { const a = first + r * 2; mb.tri(a, a + 1, a + 2); mb.tri(a + 1, a + 3, a + 2); }
   }
-  return { mb, clusters: live.length, cards: live.reduce((s, c) => s + c.cards.length, 0), rejected };
+  return { mb, centres: live.map((c) => c.p), clusters: live.length, cards: live.reduce((s, c) => s + c.cards.length, 0), rejected };
 }
 
 async function main() {
@@ -158,8 +160,8 @@ async function main() {
   ];
   fs.mkdirSync(outDir, { recursive: true });
   for (const lod of ['near', 'mid', 'far']) {
-    const { mb: wood, collisionIndex } = buildWood(sk, lod, bark, seed * 100);
     const lv = buildLeaves(sk, lod, cands, segs, seed * 100 + 9);
+    const { mb: wood, collisionIndex } = buildWood(sk, lod, bark, seed * 100, lv.centres);
     const carries = lod === 'near';
     const materials = [
       { name: 'Foliage | hero oak', alphaMode: 'MASK', alphaCutoff: 0.42, doubleSided: true, pbrMetallicRoughness: { ...(carries ? { baseColorTexture: { index: 2 } } : {}), baseColorFactor: [0.95, 1, 0.92, 1], metallicFactor: 0, roughnessFactor: 0.88 }, emissiveFactor: [0, 0, 0] },

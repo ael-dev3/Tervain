@@ -77,6 +77,7 @@ export function growOak(seed, P = OAK) {
       pts.push(p);
     }
     const radii = pts.map((_, i) => Math.max(o.rMin ?? 0.012, r0 * (1 - taper * Math.pow(i / n, 0.9))));
+    if (level === 3) radii[radii.length - 1] = 0.0025;   // twigs end in a point
     const b = new Branch({ ...o.meta, level, points: pts, radii, phase: newPhase(), parent: o.parent ?? null, forkT: o.forkT ?? 0, id: branches.length });
     b.finish(); branches.push(b); o.parent?.children.push(b); return b;
   }
