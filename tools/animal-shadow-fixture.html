@@ -1,0 +1,17 @@
+<!doctype html><html><body style="margin:0"><script type="module">
+import * as THREE from 'three';import {ANIMALS} from '/src/presentation/animals/catalog.ts';import {Terrain} from '/src/world/terrain.ts';import {Colliders} from '/src/world/colliders.ts';import {createGltfLoader} from '/src/presentation/assets/gltfLoader.ts';import {Grade} from '/src/presentation/grade.ts';
+try{const mode=new URLSearchParams(location.search).get('mode'),{buildAnimals}=await import(mode==='before'?'/src/presentation/__baseline-animals.ts':'/src/presentation/animals.ts');
+const templates=new Map(await Promise.all(ANIMALS.map(async d=>[d.id,await createGltfLoader().loadAsync('/models/animals/'+d.file)])));
+const terrain=new Terrain(),animals=buildAnimals({terrain,colliders:new Colliders(),quality:'high'},templates,ANIMALS,()=>{}),roots=animals.movers(),meshes=[];
+for(const root of roots)root.traverse(o=>{if(o.isMesh)meshes.push(o);});let writes=0;
+for(const mesh of meshes){let value=mesh.castShadow;Object.defineProperty(mesh,'castShadow',{configurable:true,get:()=>value,set:v=>{writes++;value=v;}});}
+const frame={camera:new THREE.PerspectiveCamera(),focus:new THREE.Vector3(-2,0,37),time:0,nightness:0,sunDir:new THREE.Vector3(0,1,0),reducedMotion:false,hour:12,quality:'high'};
+const snapshots=[];for(let i=0;i<120;i++){frame.time=i/60;animals.update(1/60,frame);snapshots.push(animals.snapshot());}
+const stableWrites=writes,flags=meshes.map(m=>m.castShadow);frame.quality='low';animals.update(1/60,frame);const lowFlags=meshes.map(m=>m.castShadow);frame.quality='high';animals.update(1/60,frame);const highFlags=meshes.map(m=>m.castShadow);
+const snapshotHash=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(JSON.stringify(snapshots)))),x=>x.toString(16).padStart(2,'0')).join('');
+const renderer=new THREE.WebGLRenderer({preserveDrawingBuffer:true});renderer.setSize(480,360);renderer.shadowMap.enabled=true;document.body.append(renderer.domElement);const grade=new Grade(renderer,{msaa:true});grade.setSize(480,360);const scene=new THREE.Scene();scene.background=new THREE.Color(0x607080);scene.add(animals.group,new THREE.HemisphereLight(0xffffff,0x303035,2));const light=new THREE.DirectionalLight(0xffffff,3);light.castShadow=true;light.shadow.mapSize.set(256,256);light.position.set(3,5,4);scene.add(light);scene.updateMatrixWorld(true);
+const box=new THREE.Box3().setFromObject(roots[0]),centre=box.getCenter(new THREE.Vector3()),camera=new THREE.PerspectiveCamera(40,480/360,.01,100);camera.position.copy(centre).add(new THREE.Vector3(1,.35,1.6).normalize().multiplyScalar(box.getSize(new THREE.Vector3()).length()*1.5));camera.lookAt(centre);camera.updateMatrixWorld();
+const state=globalThis.__renderCostStates.get(renderer.getContext());renderer.info.autoReset=false;renderer.info.reset();const bytes=state.uploads;grade.render(scene,camera,0);let texturePayloadBytes=0;for(const levels of state.textures.values())for(const t of levels.values())texturePayloadBytes+=t.w*t.h*t.d*t.b;
+window.inputProof={calls:120,animals:ANIMALS.length,meshes:meshes.length,stableWrites,flags,lowFlags,highFlags,snapshotHash,drawCalls:renderer.info.render.calls,triangles:renderer.info.render.triangles,textures:renderer.info.memory.textures,sourceUploadBytes:state.uploads-bytes,texturePayloadBytes,msaa:grade.target.samples,glError:renderer.getContext().getError()};
+}catch(e){window.fixtureError=String(e.stack??e);}
+</script></body></html>
