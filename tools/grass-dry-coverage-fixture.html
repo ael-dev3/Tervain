@@ -1,0 +1,22 @@
+<!doctype html><html><head><meta charset="utf-8"><style>body{margin:0}canvas{display:block}</style></head><body><script>window.addEventListener('error',e=>window.fixtureError=e.message);window.addEventListener('unhandledrejection',e=>window.fixtureError=String(e.reason));</script><script type="module">
+import * as THREE from 'three';
+import {createGrassClump} from '/src/presentation/grass/bladeGeometry.ts';
+import {GrassWind} from '/src/presentation/grass/wind.ts';
+import {Grade} from '/src/presentation/grade.ts';
+const mode=new URLSearchParams(location.search).get('mode');
+const {createGrassMaterial}=await import(mode==='baseline'?'/@baseline-grass':'/src/presentation/grass/grassMaterial.ts');
+const wind=new GrassWind({direction:[1,0],steady:0,gust:0,speed:0});
+const grass=createGrassMaterial({wind,look:{rootShade:.3,tipLift:.3,translucency:1,sheen:.3,transTint:new THREE.Color(1,1,1)},farBlades:1,clump:{radius:.3,width:.12,height:.8,blades:12},fade:{start:100,end:200,sizeComp:1,power:1}});
+const original=createGrassClump({blades:12,segments:4}),geo=new THREE.InstancedBufferGeometry();for(const[k,a]of Object.entries(original.attributes))geo.setAttribute(k,a);geo.setIndex(original.index);
+for(const name of ['aBase','aShape','aTint','aSlope'])geo.setAttribute(name,new THREE.InstancedBufferAttribute(new Float32Array(16*4),4));
+for(let i=0;i<16;i++){geo.getAttribute('aBase').setXYZW(i,-1+(i%4),0,Math.floor(i/4),.01);geo.getAttribute('aShape').setXYZW(i,0,.7,1,.5);geo.getAttribute('aTint').setXYZW(i,.3,.6,.2,1);geo.getAttribute('aSlope').setXYZW(i,0,0,1,0);}
+geo.instanceCount=16;const mesh=new THREE.Mesh(geo,grass.material);mesh.frustumCulled=false;
+const scene=new THREE.Scene();scene.background=new THREE.Color(.2,.2,.2);scene.add(mesh,new THREE.HemisphereLight(0xffffff,0x444444,2));const sun=new THREE.DirectionalLight(0xffffff,2);sun.position.set(1,5,2);scene.add(sun);
+const camera=new THREE.PerspectiveCamera(55,4/3,.1,200);camera.position.set(.5,1.2,-1.5);camera.lookAt(.5,.2,1);
+const renderer=new THREE.WebGLRenderer({antialias:false,preserveDrawingBuffer:true});renderer.setSize(320,240);renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.22;document.body.append(renderer.domElement);
+if(!renderer.extensions.has('EXT_color_buffer_float'))throw Error('Half-float target unsupported');
+const gl=renderer.getContext();let uploadBytes=0;for(const name of ['bufferData','bufferSubData','texImage2D','texSubImage2D']){const original=gl[name].bind(gl);gl[name]=(...args)=>{for(const arg of args)if(ArrayBuffer.isView(arg)||arg instanceof ArrayBuffer)uploadBytes+=arg.byteLength;return original(...args);};}
+const grade=new Grade(renderer,{msaa:true});grade.setSize(320,240);grade.render(scene,camera,0);const warmupUploadBytes=uploadBytes;
+window.coverageRepro={mode,render(pass){grass.uniforms.uClump.value.y=pass==='resolved'?.12:.008;renderer.info.reset();const before=uploadBytes;grade.render(scene,camera,0);const errors=[];for(let i=0;i<64;i++){const e=gl.getError();if(!e)break;errors.push(e);}if(gl.isContextLost()||errors.length)throw Error('Invalid draw '+errors);return {pass,stats:{...renderer.info.render},textureCount:renderer.info.memory.textures,textureImagePayloadBytes:(320*240+2*80*60)*8+128*128*4,msaaColorPayloadBytes:320*240*8*grade.target.samples,postSamples:grade.target.samples,warmupUploadBytes,uploadBytes:uploadBytes-before,errors};}};
+window.fixtureReady=true;
+</script></body></html>

@@ -245,7 +245,8 @@ float gHue = gHash(aShape.w * 311.0) - 0.5;
 vec3 gBase = aTint.rgb * (0.84 + 0.3 * gR3) * vec3(1.0 + gHue * 0.16, 1.0 + gHue * 0.05, 1.0 - gHue * 0.22);
 float gLuma = dot(aTint.rgb, vec3(0.299, 0.587, 0.114));
 vec3 gStraw = vec3(0.86, 0.72, 0.44) * gLuma * 1.85;
-gBase = mix(gBase, gStraw, max(gDry * 0.8, gStem * 0.62 * mix(0.45, 1.0, gHeadCov)) * smoothstep(0.0, 0.75, gT + 0.2));
+// Dry colour lifts fade with the same pixel footprint as pale tips; resolved blades retain their tint.
+gBase = mix(gBase, gStraw, max(gDry * 0.8 * gBladeCov, gStem * 0.62 * mix(0.45, 1.0, gHeadCov)) * smoothstep(0.0, 0.75, gT + 0.2));
 gBase = mix(gBase, gBase * vec3(1.14, 1.08, 0.8) + vec3(0.012, 0.01, 0.0), smoothstep(0.6, 1.0, gT) * uLook.y * mix(0.4, 1.0, gBladeCov));
 // Heather clumps (a reddish tint) bloom purple; elsewhere the flowers are white, yellow and violet.
 float gHeather = smoothstep(0.0, 0.035, aTint.r - aTint.g);
@@ -343,7 +344,7 @@ export function createGrassMaterial(opts: GrassMaterialOptions): GrassMaterial {
       .replace('#include <lights_lambert_pars_fragment>', `#include <lights_lambert_pars_fragment>\n${GRASS_LIGHT_GLSL}`);
     opts.patch?.(shader);
   };
-  material.customProgramCacheKey = () => `tervain-grass-blades-v7${opts.patchKey ? `-${opts.patchKey}` : ''}`;
+  material.customProgramCacheKey = () => `tervain-grass-blades-v8${opts.patchKey ? `-${opts.patchKey}` : ''}`;
   return {
     material, uniforms, ok: () => !failed,
     setBand(b) { uniforms.uBand.value.set(b.inStart, b.inEnd, b.outStart, b.outEnd); },
