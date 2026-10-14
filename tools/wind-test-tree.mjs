@@ -92,14 +92,14 @@ for (let l = 0; l < 6; l++) {
   const dl = dirOf(yaw, 0.5 + rnd() * 0.25), lenL = 2.8 + rnd() * 0.8;
   const tipL = add(baseL, mul(dl, lenL));
   tube(baseL, tipL, 0.17, 0.08, 3, { wind: [0.3, ph, 0, 0], pivot: baseL });
-  for (let b = 0; b < 3; b++) {
-    const t = 0.45 + b * 0.25, baseB = add(baseL, mul(sub(tipL, baseL), t));
-    const pb = rnd() * TAU, db = norm(add(dirOf(yaw + (b - 1) * 0.9 + (rnd() - 0.5) * 0.4, 0.35 + rnd() * 0.3), mul(dl, 0.4))), lenB = 1.7 + rnd();
+  for (let b = 0; b < 4; b++) {
+    const t = 0.4 + b * 0.18, baseB = add(baseL, mul(sub(tipL, baseL), t));
+    const pb = rnd() * TAU, db = norm(add(dirOf(yaw + (b - 1.5) * 0.8 + (rnd() - 0.5) * 0.4, 0.35 + rnd() * 0.3), mul(dl, 0.4))), lenB = 1.7 + rnd();
     const tipB = add(baseB, mul(db, lenB));
     tube(baseB, tipB, 0.07, 0.035, 2, { wind: [0.55, pb, ph, 0], pivot: baseB });
-    for (let w = 0; w < 3; w++) {
+    for (let w = 0; w < 4; w++) {
       const tw = 0.5 + w * 0.25, baseT = add(baseB, mul(sub(tipB, baseB), tw));
-      const pt = rnd() * TAU, dt = norm(add(dirOf(yaw + (w - 1) * 1.1 + (rnd() - 0.5) * 0.6, 0.2 + rnd() * 0.5), mul(db, 0.5))), lenT = 0.8 + rnd() * 0.5;
+      const pt = rnd() * TAU, dt = norm(add(dirOf(yaw + (w - 1.5) * 0.9 + (rnd() - 0.5) * 0.6, 0.2 + rnd() * 0.5), mul(db, 0.5))), lenT = 0.8 + rnd() * 0.5;
       const tipT = add(baseT, mul(dt, lenT));
       tube(baseT, tipT, 0.03, 0.012, 1, { wind: [0.85, pt, pb, 0], pivot: baseT });
       cluster(tipT, dt, pt, pb);

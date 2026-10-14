@@ -114,7 +114,9 @@ export function patchFloorPlantVertex(shader: { uniforms: Record<string, THREE.I
 }
 
 /** Phase gradient (rad per metre) of the branch swing of a tree without branch data (wavelength 2π / |g|). */
-export const BRANCH_PHASE_GRADIENT: readonly [number, number, number] = [0.43, 0.29, 0.37];
+const PHASE_SCALE = typeof location !== 'undefined' && new URLSearchParams(location.search).has('windphase') ? Number(new URLSearchParams(location.search).get('windphase')) || 1 : 1;
+// Profiling switch: ?windphase=<k> scales the gradient (1 as shipped before A135).
+export const BRANCH_PHASE_GRADIENT: readonly [number, number, number] = [0.43 * PHASE_SCALE, 0.29 * PHASE_SCALE, 0.37 * PHASE_SCALE];
 
 const f = (v: number) => (Number.isInteger(v) ? v.toFixed(1) : String(v));
 

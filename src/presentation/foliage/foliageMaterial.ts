@@ -154,7 +154,11 @@ export function clumpNoiseTexture(): THREE.Data3DTexture {
 }
 
 /** Share of a leaf's ambient light that glows through its outer shell again (scaled by the look's translucency). */
-const AMBIENT_THROUGH = 0.9;
+const FOLIAGE_PARAMS = typeof location !== 'undefined' ? new URLSearchParams(location.search) : new URLSearchParams();
+// Profiling switches: ?ambthru=<share> sets it (0 leaves the old look), ?foliagelight=legacy also drops the rim glow.
+const LEGACY_LIGHT = FOLIAGE_PARAMS.get('foliagelight') === 'legacy';
+const AMBIENT_THROUGH = LEGACY_LIGHT ? 0 : Number.isFinite(Number(FOLIAGE_PARAMS.get('ambthru') ?? NaN)) && FOLIAGE_PARAMS.has('ambthru') ? Number(FOLIAGE_PARAMS.get('ambthru')) : 0.9;
+const RIM_GLOW = LEGACY_LIGHT ? 0 : 0.9;
 
 const LEAF_VERTEX_DECL = /* glsl */ `
 // The leaf depth and colour passes must place every vertex identically (leafPrepass.ts).
@@ -345,7 +349,7 @@ void RE_Direct_Foliage( const in IncidentLight directLight, const in vec3 geomet
   float through = pow( behind, 4.0 ) * 1.25 + pow( behind, 1.4 ) * 0.18;
   float shell = 0.35 + 0.65 * smoothstep( 0.35, 1.0, vCrownDepth );
   // A small glow where the light's disc is behind the leaf, on the rim.
-  through += pow( behind, 12.0 ) * 0.9 * smoothstep( 0.5, 1.0, vCrownDepth );
+  through += pow( behind, 12.0 ) * ${RIM_GLOW.toFixed(3)} * smoothstep( 0.5, 1.0, vCrownDepth );
   #ifdef TV_BAKED_CROWN
   // A thick clump passes less light than a thin sprig.
   through *= 1.0 - 0.55 * vTvBake.y;
