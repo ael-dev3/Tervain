@@ -58,7 +58,8 @@ import { checkCancelled, yieldToBrowser, type CooperativeOptions } from '../plat
 import { disposeSceneResources } from './disposeScene';
 import { GrassWind, SHADER_CLOCK_WRAP } from './grass/wind';
 import { REALM_WIND } from './realmWind';
-import { FOLIAGE_MAX_MOVERS, createFoliageField, type FoliageField } from './foliage/foliageWind';
+import { FoliageMoverSelection } from './foliage/movers';
+import { createFoliageField, type FoliageField } from './foliage/foliageWind';
 import { installShadowOnlyGroup } from './foliage/shadowCasters';
 
 export interface WorldBuildProgress {
@@ -600,18 +601,9 @@ export class WorldScene {
   }
 
   /** The hero and the nearest bodies moving through low foliage, as spheres the leaves are pushed out of. */
+  private readonly foliageMoverSelection = new FoliageMoverSelection();
   private setFoliageMovers(focus: THREE.Vector3, movers: readonly GrassMover[]) {
-    // The hero's push sits at his own height: standing on a rock or a deck, the plants below him stay still (A105 scout).
-    const heroLift = Math.max(0, focus.y - this.terrain.heightAt(focus.x, focus.z));
-    const near = [{ x: focus.x, z: focus.z, radius: 0.75, centre: 1.0 + heroLift },
-      ...movers.map((m) => ({ x: m.x, z: m.z, radius: m.radius * 1.4, centre: Math.max(0.5, m.radius * 1.2) }))]
-      .map((m) => ({ ...m, d: Math.hypot(m.x - focus.x, m.z - focus.z) }))
-      .filter((m) => m.d < 40 && [m.x, m.z, m.radius].every(Number.isFinite))
-      .sort((a, b) => a.d - b.d)
-      .slice(0, FOLIAGE_MAX_MOVERS);
-    const slots = this.foliage.movers.value;
-    near.forEach((m, i) => slots[i]!.set(m.x, this.terrain.heightAt(m.x, m.z) + m.centre, m.z, m.radius));
-    this.foliage.moverCount.value = near.length;
+    this.foliageMoverSelection.update(focus, movers, this.terrain, this.foliage);
   }
 
   waterRenderInputs(settings: Settings): WaterRenderInputs {
