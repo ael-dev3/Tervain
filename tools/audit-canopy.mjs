@@ -5,6 +5,10 @@ import {pathToFileURL} from 'node:url';
 import {compareCanopyBaseline} from './canopy-baseline.mjs';
 import {canopyGate} from './canopy-detached-gate.mjs';
 const args=Object.fromEntries(process.argv.slice(2).flatMap((a,i,all)=>a.startsWith('--')?[[a.slice(2),all[i+1]]]:[]));
+const output=path.resolve(args.out??'canopy-audit.json');
+if(args.baseline&&path.resolve(args.baseline)===output)throw new Error('Canopy baseline and output must be different files');
+// A failed launch, unsupported build or interrupted scan must not retain an earlier PASS.
+fs.rmSync(output,{force:true});
 const {openPage}=await import(args.driver?pathToFileURL(path.resolve(args.driver)).href:'./cdp.mjs');
 const url=new URL(args.url??'http://127.0.0.1:4173/');for(const[k,v]of Object.entries({shot:'1',quality:'low',place:'rillford',settle:'1',hud:'0'}))url.searchParams.set(k,v);
 const options={gap:Number(args.gap??.75),maxOperations:Number(args['max-operations']??20000000),lod:Number(args.lod??0),woodReach:Number(args['wood-reach']??1.5),alpha:args.alpha==='1'};let page;
@@ -38,5 +42,5 @@ try{
   report.pass&&=report.repro.detached.complete&&report.repro.restored.complete&&report.repro.detached.rootCandidates===report.repro.before.rootCandidates&&report.repro.detached.canopyCandidates>report.repro.before.canopyCandidates&&report.repro.detached.fixtureCandidates>0&&report.repro.restored.canopyCandidates===report.repro.before.canopyCandidates;
   if(args['restored-shot']){await page.eval('const T=window.tervain,F=window.__canopyFixture;F.crown.geometry=F.originalLeaf;T.renderer.render(F.scene,F.camera);');await page.shot(args['restored-shot']);}
  }
- fs.writeFileSync(args.out??'canopy-audit.json',JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify({complete:report.complete,lod:report.lod,bySpecies:report.bySpecies,summary:report.summary,operations:report.operations,baselineComparison:report.baselineComparison,foliageGate:report.foliageGate,repro:report.repro,pass:report.pass}));if(!report.pass)process.exitCode=1;
+ fs.writeFileSync(output,JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify({complete:report.complete,lod:report.lod,bySpecies:report.bySpecies,summary:report.summary,operations:report.operations,baselineComparison:report.baselineComparison,foliageGate:report.foliageGate,repro:report.repro,pass:report.pass}));if(!report.pass)process.exitCode=1;
 }finally{page?.close();}
