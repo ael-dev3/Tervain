@@ -1,0 +1,152 @@
+{
+  "schema": 1,
+  "baselineRef": "421d34b",
+  "sourceSha256": "29f9934c5ea52f40c7dceb76a239b3a8cc0ff8af93c769b39b0309f0a1045fd9",
+  "before": {
+    "rows": [
+      {
+        "phase": "pan",
+        "coverageUploadBytes": 6200,
+        "unchanged": 65,
+        "unnecessaryVersions": 65,
+        "drawCalls": 131,
+        "triangles": 2650985,
+        "glError": 0
+      },
+      {
+        "phase": "pan",
+        "coverageUploadBytes": 6200,
+        "unchanged": 65,
+        "unnecessaryVersions": 65,
+        "drawCalls": 131,
+        "triangles": 2635923,
+        "glError": 0
+      },
+      {
+        "phase": "pan",
+        "coverageUploadBytes": 6200,
+        "unchanged": 65,
+        "unnecessaryVersions": 65,
+        "drawCalls": 131,
+        "triangles": 2650957,
+        "glError": 0
+      },
+      {
+        "phase": "pan",
+        "coverageUploadBytes": 6200,
+        "unchanged": 65,
+        "unnecessaryVersions": 65,
+        "drawCalls": 131,
+        "triangles": 2650957,
+        "glError": 0
+      },
+      {
+        "phase": "pan",
+        "coverageUploadBytes": 6200,
+        "unchanged": 65,
+        "unnecessaryVersions": 65,
+        "drawCalls": 131,
+        "triangles": 2650929,
+        "glError": 0
+      },
+      {
+        "phase": "blend-entry",
+        "coverageUploadBytes": 9112,
+        "unchanged": 7,
+        "unnecessaryVersions": 7,
+        "drawCalls": 145,
+        "triangles": 3419101,
+        "glError": 0
+      },
+      {
+        "phase": "blend-move",
+        "coverageUploadBytes": 6328,
+        "unchanged": 29,
+        "unnecessaryVersions": 29,
+        "drawCalls": 145,
+        "triangles": 3419101,
+        "glError": 0
+      }
+    ],
+    "stateSha256": "4c08a535f5b16840bfcdd258cbdddd1f9c8b44c6faa4bc95a8021ad2a42f1af8",
+    "receiverFramesSha256": "1e2871ab3e84c7e36d50d8e1a4a383174b0cbad103cbe8e2bf84da61608c7d52",
+    "pass": true
+  },
+  "after": {
+    "rows": [
+      {
+        "phase": "pan",
+        "coverageUploadBytes": 0,
+        "unchanged": 65,
+        "unnecessaryVersions": 0,
+        "drawCalls": 131,
+        "triangles": 2650985,
+        "glError": 0
+      },
+      {
+        "phase": "pan",
+        "coverageUploadBytes": 0,
+        "unchanged": 65,
+        "unnecessaryVersions": 0,
+        "drawCalls": 131,
+        "triangles": 2635923,
+        "glError": 0
+      },
+      {
+        "phase": "pan",
+        "coverageUploadBytes": 0,
+        "unchanged": 65,
+        "unnecessaryVersions": 0,
+        "drawCalls": 131,
+        "triangles": 2650957,
+        "glError": 0
+      },
+      {
+        "phase": "pan",
+        "coverageUploadBytes": 0,
+        "unchanged": 65,
+        "unnecessaryVersions": 0,
+        "drawCalls": 131,
+        "triangles": 2650957,
+        "glError": 0
+      },
+      {
+        "phase": "pan",
+        "coverageUploadBytes": 0,
+        "unchanged": 65,
+        "unnecessaryVersions": 0,
+        "drawCalls": 131,
+        "triangles": 2650929,
+        "glError": 0
+      },
+      {
+        "phase": "blend-entry",
+        "coverageUploadBytes": 6800,
+        "unchanged": 7,
+        "unnecessaryVersions": 0,
+        "drawCalls": 145,
+        "triangles": 3419101,
+        "glError": 0
+      },
+      {
+        "phase": "blend-move",
+        "coverageUploadBytes": 3152,
+        "unchanged": 29,
+        "unnecessaryVersions": 0,
+        "drawCalls": 145,
+        "triangles": 3419101,
+        "glError": 0
+      }
+    ],
+    "stateSha256": "4c08a535f5b16840bfcdd258cbdddd1f9c8b44c6faa4bc95a8021ad2a42f1af8",
+    "receiverFramesSha256": "1e2871ab3e84c7e36d50d8e1a4a383174b0cbad103cbe8e2bf84da61608c7d52",
+    "pass": true
+  },
+  "casterBuffersBitIdentical": true,
+  "receiverFramesIdentical": true,
+  "pixelIdentical": true,
+  "scope": "Source-backed High forest with supplied pine models and procedural catalog, actual shadow-only hooks, five fixed-position camera turns plus two near shadow-LOD blend controls. Actual caster coverage WebGL uploads; rendered receiver images at every step. Not final post/MSAA or hardware timing.",
+  "qualityPass": null,
+  "pass": true,
+  "nonBackgroundPixels": 35818
+}
