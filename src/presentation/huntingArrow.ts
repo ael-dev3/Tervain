@@ -22,7 +22,25 @@ export function createHuntingArrow(): THREE.Group {
     arrow.add(fin);
   }
   arrow.traverse((object) => { if ((object as THREE.Mesh).isMesh) (object as THREE.Mesh).castShadow = true; });
+  // A faint streak behind the fletching while the arrow flies fast (B11). It is always part of the arrow, at no length on
+  // the string, so its program is linked with the nocked arrow's and the first loose compiles nothing.
+  const trailGeometry = new THREE.CylinderGeometry(.0035, .0005, 1, 4, 1, true);
+  trailGeometry.rotateX(-Math.PI / 2); trailGeometry.translate(0, 0, -.5);
+  const trail = new THREE.Mesh(trailGeometry, new THREE.MeshBasicMaterial({ color: 0xe9dfc8, transparent: true, opacity: .32, depthWrite: false }));
+  trail.name = ARROW_TRAIL;
+  trail.position.z = -.68;
+  trail.scale.set(1, 1, 1e-4);
+  trail.frustumCulled = false;
+  arrow.add(trail);
   return arrow;
+}
+export const ARROW_TRAIL = 'Hunting / arrow trail';
+/** Seconds a stuck shaft shivers after it bites (B11). */
+const QUIVER_SECONDS = .45;
+
+function setTrail(mesh: THREE.Object3D, length: number) {
+  const trail = mesh.getObjectByName(ARROW_TRAIL);
+  if (trail) trail.scale.z = Math.max(1e-4, length);
 }
 
 export interface ArrowImpact {
@@ -44,6 +62,7 @@ export interface ArrowShot {
 /** Return the earliest scenery/animal contact on the entire travelled segment, or null. */
 export type ArrowSweep = (from: THREE.Vector3, to: THREE.Vector3, shot: ArrowShot) => ArrowImpact | null;
 export const HUNTING_ARROW_GRAVITY = 9.81;
+const _quiver = new THREE.Quaternion();
 
 /** Water an arrow can fall into: its surface and current, and what happens as an arrow breaks the surface. */
 export interface ArrowWater {
@@ -59,12 +78,14 @@ const ARROW_FLOAT_SECONDS = 30;
 export class HuntingArrows {
   readonly group = new THREE.Group();
   private readonly flights: { id: number; position: THREE.Vector3; velocity: THREE.Vector3; mesh: THREE.Group; age: number; wet?: boolean }[] = [];
-  private readonly lodged: { mesh: THREE.Group; age: number }[] = [];
+  private readonly lodged: { mesh: THREE.Group; age: number; rest?: THREE.Quaternion; axis?: THREE.Vector3 }[] = [];
   private readonly floating: { mesh: THREE.Group; age: number; heading: number }[] = [];
   private readonly fade = new NearFade();
   private template: THREE.Group | null = null;
   private nextId = 1;
   private disposed = false;
+  /** Stuck shafts shiver unless motion is reduced (B11). */
+  quiver = true;
 
   constructor(private readonly maxFlights = 12, private readonly maxLodged = 24) {
     this.group.name = 'Hunting / swept arrow flights';
@@ -100,7 +121,12 @@ export class HuntingArrows {
     for (let i = this.lodged.length - 1; i >= 0; i--) {
       const lodged = this.lodged[i]!;
       lodged.age += dt;
-      if (lodged.age >= 25) { this.remove(lodged.mesh); this.lodged.splice(i, 1); }
+      if (lodged.age >= 25) { this.remove(lodged.mesh); this.lodged.splice(i, 1); continue; }
+      if (lodged.rest) {
+        if (lodged.age >= QUIVER_SECONDS) { lodged.mesh.quaternion.copy(lodged.rest); lodged.rest = undefined; continue; }
+        const amplitude = .07 * Math.exp(-lodged.age * 9) * Math.sin(lodged.age * Math.PI * 2 * 14);
+        lodged.mesh.quaternion.copy(lodged.rest).multiply(_quiver.setFromAxisAngle(lodged.axis!, amplitude));
+      }
     }
     for (let i = this.flights.length - 1; i >= 0; i--) {
       const shot = this.flights[i]!;
@@ -132,9 +158,10 @@ export class HuntingArrows {
           shot.position.copy(impact.point);
           shot.mesh.position.copy(impact.point);
           this.orient(shot.mesh, shot.velocity);
+          setTrail(shot.mesh, 0);
           if (impact.lodge !== false) {
             if (impact.parent) { impact.parent.updateWorldMatrix(true, false); impact.parent.attach(shot.mesh); }
-            this.lodged.push({ mesh: shot.mesh, age: 0 });
+            this.lodged.push({ mesh: shot.mesh, age: 0, rest: this.quiver ? shot.mesh.quaternion.clone() : undefined, axis: new THREE.Vector3(1, 0, 0) });
             while (this.lodged.length > this.maxLodged) this.remove(this.lodged.shift()!.mesh);
           }
           hit = true;
@@ -147,6 +174,7 @@ export class HuntingArrows {
         if (shot.wet && shot.velocity.length() < ARROW_FLOAT_SPEED) {
           // Spent in the water: wood floats, so it rises and lies on the surface.
           shot.mesh.position.copy(shot.position);
+          setTrail(shot.mesh, 0);
           this.floating.push({ mesh: shot.mesh, age: 0, heading: Math.atan2(shot.velocity.x, shot.velocity.z) });
           while (this.floating.length > this.maxLodged) this.remove(this.floating.shift()!.mesh);
           hit = true;
@@ -155,7 +183,12 @@ export class HuntingArrows {
       }
       if (hit) this.flights.splice(i, 1);
       else if (shot.age >= 7) { this.remove(shot.mesh); this.flights.splice(i, 1); }
-      else { shot.mesh.position.copy(shot.position); this.orient(shot.mesh, shot.velocity); }
+      else {
+        shot.mesh.position.copy(shot.position); this.orient(shot.mesh, shot.velocity);
+        // Up to ~1.6 m behind a full-speed arrow, nothing once it slows, never longer than the path it has flown.
+        const speed = shot.velocity.length();
+        setTrail(shot.mesh, shot.wet ? 0 : Math.min(shot.age * speed, Math.max(0, speed - 15) * .032));
+      }
     }
   }
 

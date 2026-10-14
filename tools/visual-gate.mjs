@@ -51,6 +51,9 @@ const SPOTS = {
   deepwoods: { item: 'Trees: no floating leaf chunks deep in the forest at dusk', hero: [-166.9, -42.8, 0.6], hour: 19.8, still: [[0, 2.2, -3.2, 0, 4, 8]], run: 9000 },
   // Other households' rooms (A136), each from its middle towards both side walls and the back wall.
   ...Object.fromEntries([['b', 8, -10], ['c', 30, 14], ['d', -22, 20], ['f', -12, 44]].map(([k, x, z]) => [`room_${k}`, { item: `Interiors: house_${k}`, hero: [x, z, 0], hide: true, still: [[0, 1.7, 0.8, 3, 1.3, -0.6], [0, 1.7, 0.8, -3, 1.3, -0.6], [0, 1.7, 1.6, 0, 1.3, -3]], path: [[-1.2, 1.7, 1, 3, 1.3, -1], [1.2, 1.7, 1, -3, 1.3, -1]] }])),
+  // B11: the bow's feel. Over the shoulder at the grove's edge: raise, draw, hold, loose into the trunks, twice, the
+  // follow camera behind him (`shoot`), with a still at full draw.
+  bow: { item: 'Combat: drawing and loosing the bow', hero: [-31, 0, -Math.PI / 2], still: [], shoot: 2 },
   // The inn's hanging sign (A136) hangs out from its east end near the front corner, about (1.9, 32.4).
   sign: { item: 'Props: shop sign and supports', hero: [3.2, 36.6, Math.PI], hide: true, still: [[0.2, 1.7, 0.4, -1.3, 2.9, -4.2], [-3.4, 1.7, -1.2, -1.3, 2.9, -4.2], [1.6, 2.1, -2.6, -1.3, 2.9, -4.2]], path: [[-1.5, 1.7, .3, -1.3, 2.9, -4.2], [1.5, 1.7, .3, -1.3, 2.9, -4.2]] },
 };
@@ -67,7 +70,7 @@ const capture = async (file) => {
   const data = r?.result?.data ?? r?.data;
   if (data) fs.writeFileSync(file, Buffer.from(data, 'base64'));
 };
-const keyCodes = { KeyW: 87, KeyS: 83, KeyA: 65, KeyD: 68, KeyZ: 90, KeyC: 67, ShiftLeft: 16, Space: 32 };
+const keyCodes = { KeyW: 87, KeyS: 83, KeyA: 65, KeyD: 68, KeyZ: 90, KeyC: 67, KeyJ: 74, KeyL: 76, ShiftLeft: 16, Space: 32 };
 const key = (type, code, extra = {}) => page.cdp('Input.dispatchKeyEvent', { type, code, key: code === 'Space' ? ' ' : code === 'ShiftLeft' ? 'Shift' : code.slice(3).toLowerCase(), windowsVirtualKeyCode: keyCodes[code], ...extra });
 const holdWhile = async (codes, ms, each) => {
   for (const c of codes) await key('rawKeyDown', c);
@@ -104,14 +107,28 @@ try {
     await page.wait(2500);
     for (const [k, c] of spot.still.entries()) { await camAt(spot.hero, c); await page.wait(900); await capture(path.join(dir, `still-${k + 1}.jpg`)); }
     let n = 0;
-    if (spot.run) {
+    if (spot.run || spot.shoot) {
       // The hero runs through, the ordinary follow camera behind him: the real motion the playtest saw.
       // Screencast frames at their own presentation times: real 60 Hz motion, unlike stepped screenshots.
       await page.eval('window.tervain.cam.manual = null; return 1');
       await page.wait(600);
       const from = page.frames.length;
       await page.cdp('Page.startScreencast', { format: 'jpeg', quality: 85, everyNthFrame: 1, maxWidth: 1280, maxHeight: 800 });
-      await holdWhile(spot.keys ?? ['ShiftLeft', 'KeyW'], spot.run);
+      if (spot.shoot) {
+        // The keyboard bindings (L aims, J draws): synthetic mouse presses do not reach an unlocked canvas reliably.
+        await page.eval(`const T = window.tervain, S = T.game.state; S.inventory.hunting_bow = 1; S.inventory.arrow = 6; S.equippedWeapon = 'hunting_bow'; T.player.syncEquipment(T.game); return 1`);
+        // The reticle is part of what is judged here.
+        await page.eval('window.tervain.hud.show(true); return 1');
+        for (let i = 0; i < spot.shoot; i++) {
+          await page.eval(`window.tervain.cam.pitch = ${0.05 - i * 0.06}; window.tervain.cam.yaw += ${i ? 0.25 : 0}; return 1`);
+          await key('rawKeyDown', 'KeyL'); await page.wait(500);
+          await key('rawKeyDown', 'KeyJ'); await page.wait(1300);
+          if (i === 0) await capture(path.join(dir, 'still-1.jpg'));
+          await key('keyUp', 'KeyJ'); await page.wait(900);
+          await key('keyUp', 'KeyL'); await page.wait(700);
+        }
+        await page.eval('window.tervain.hud.show(false); return 1');
+      } else await holdWhile(spot.keys ?? ['ShiftLeft', 'KeyW'], spot.run);
       await page.cdp('Page.stopScreencast');
       const frames = page.frames.slice(from).filter((f) => f.t), list = [];
       frames.forEach((f, i) => {
@@ -128,8 +145,8 @@ try {
         await capture(path.join(dir, 'frames', `f${String(n++).padStart(4, '0')}.jpg`));
       }
     }
-    const clip = spot.run ? spawnSync('ffmpeg', ['-y', '-loglevel', 'error', '-f', 'concat', '-safe', '0', '-i', 'frames.txt', '-vf', 'scale=trunc(iw/2)*2:trunc(ih/2)*2', '-fps_mode', 'vfr', '-pix_fmt', 'yuv420p', 'clip.mp4'], { cwd: dir, timeout: 300000 }).status === 0 : encode(dir);
-    metrics.spots[id] = { item: spot.item, stills: spot.still.length, frames: n, clip };
+    const clip = spot.run || spot.shoot ? spawnSync('ffmpeg', ['-y', '-loglevel', 'error', '-f', 'concat', '-safe', '0', '-i', 'frames.txt', '-vf', 'scale=trunc(iw/2)*2:trunc(ih/2)*2', '-fps_mode', 'vfr', '-pix_fmt', 'yuv420p', 'clip.mp4'], { cwd: dir, timeout: 300000 }).status === 0 : encode(dir);
+    metrics.spots[id] = { item: spot.item, stills: spot.shoot ? 1 : spot.still.length, frames: n, clip };
   }
   await page.eval('window.tervain.cam.manual = null; return 1');
 

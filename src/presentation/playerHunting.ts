@@ -94,6 +94,9 @@ export class PlayerHuntingVisual {
   private readonly swing = new SlungSway();
   private draw = 0;
   private recoil = 0;
+  /** Seconds at full draw: past a moment, the held string makes the bow arm tremble a little (B11). */
+  private held = 0;
+  private clock = 0;
   private skinProgress: number | null = null;
   private skinClock = 0;
   private skinTargetHeight = .4;
@@ -234,14 +237,26 @@ export class PlayerHuntingVisual {
     // Aiming, the arrow runs along the line of his jaw (A75; it was at his chest): the draw comes to his face, as Gothic 3's
     // archers draw.
     const hand = this.aiming ? new THREE.Vector3(.12, 1.55, 0).addScaledVector(bowDirection, .66) : new THREE.Vector3(.34, .9, .1);
+    const recoil = this.recoil > 0 ? this.recoil / .22 : 0;
+    this.clock += Math.max(0, dt);
+    this.held = this.aiming && this.draw >= 1 ? this.held + Math.max(0, dt) : 0;
+    if (this.aiming) {
+      // The loose throws the bow hand forward and the limbs up (B11); a long hold at full draw starts to shake.
+      const kick = recoil * recoil;
+      hand.addScaledVector(bowDirection, .05 * kick).y += .035 * kick;
+      const tremble = Math.min(1, Math.max(0, this.held - 1.2) / 2) * .006;
+      if (tremble > 0) { hand.x += Math.sin(this.clock * 37) * tremble; hand.y += Math.sin(this.clock * 29 + 1.3) * tremble; }
+    }
     this.arm('Left', hand, new THREE.Vector3(.5, 1.3, .26));
     // Quaternion getters below refresh the root and grip ancestor paths.
     const frame = new THREE.Quaternion().setFromUnitVectors(Z, bowDirection).premultiply(this.rig.root.getWorldQuaternion(new THREE.Quaternion()));
     this.gripBow(frame);
     this.orientPalm(this.leftPalm, frame);
-    const recoil = this.recoil > 0 ? this.recoil / .22 : 0;
+    // The limbs pitch up with the loose and spring back.
+    this.bow.rotation.x = -.16 * recoil * recoil;
     this.recoil = Math.max(0, this.recoil - Math.max(0, dt));
-    const nock = -.14 - .39 * this.draw;
+    // The loosed string slaps past rest and rings down.
+    const nock = -.14 - .39 * this.draw + (recoil > 0 ? Math.sin((1 - recoil) * Math.PI * 7) * .035 * recoil : 0);
     this.setString(nock);
     this.nockedArrow.visible = this.aiming && this.recoil <= 0;
     this.nockedArrow.position.set(0, 0, nock + .74);
@@ -249,7 +264,8 @@ export class PlayerHuntingVisual {
     if (this.aiming) {
       const nockWorld = this.bow.localToWorld(new THREE.Vector3(0, 0, nock));
       const target = this.rig.root.worldToLocal(nockWorld).add(new THREE.Vector3(-.025 - recoil * .13, .005, -recoil * .08));
-      this.arm('Right', target, new THREE.Vector3(-.55, 1.62, -.05));
+      // The draw elbow rises and comes back behind the line of the arrow as the string does (B11).
+      this.arm('Right', target, new THREE.Vector3(-.55, 1.62 + .22 * this.draw, -.05 - .18 * this.draw));
       this.orientPalm(this.rightPalm, frame);
       this.closeFingers('Right', .7, 'draw');
     }

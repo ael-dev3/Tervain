@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { describe, expect, it, vi } from 'vitest';
-import { HuntingArrows, HUNTING_ARROW_GRAVITY } from '../../src/presentation/huntingArrow';
+import { ARROW_TRAIL, HuntingArrows, HUNTING_ARROW_GRAVITY } from '../../src/presentation/huntingArrow';
 
 describe('swept ballistic hunting arrows', () => {
   it('travels the same analytical gravity arc at 30, 60 and 120 Hz', () => {
@@ -134,5 +134,22 @@ describe('seventh scout fixes: no splash under a deck the arrow strikes (A100)',
     arrows.launch(new THREE.Vector3(0, 0.9, 0), new THREE.Vector3(0, -1, 1).normalize(), 40);
     arrows.update(0.1, () => null, undefined, water as never);
     expect(water.enter).toHaveBeenCalledOnce();
+  });
+
+  it('streaks only in fast flight and shivers once lodged, then rests exactly (B11)', () => {
+    const arrows = new HuntingArrows();
+    const shot = arrows.launch(new THREE.Vector3(), new THREE.Vector3(0, 0, 1), 65)!;
+    const trail = () => shot.mesh.getObjectByName(ARROW_TRAIL)!.scale.z;
+    expect(trail()).toBeLessThan(1e-3);
+    arrows.update(1 / 60, () => null);
+    expect(trail()).toBeGreaterThan(.5); expect(trail()).toBeLessThan(2);
+    arrows.update(1 / 60, (_from, to) => ({ point: to.clone() }));
+    expect(arrows.lodgedCount).toBe(1); expect(trail()).toBeLessThan(1e-3);
+    const rest = shot.mesh.quaternion.clone();
+    arrows.update(1 / 60, () => null);
+    expect(shot.mesh.quaternion.angleTo(rest)).toBeGreaterThan(.005);
+    for (let i = 0; i < 40; i++) arrows.update(1 / 60, () => null);
+    expect(shot.mesh.quaternion.angleTo(rest)).toBe(0);
+    arrows.dispose();
   });
 });

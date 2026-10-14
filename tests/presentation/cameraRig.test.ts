@@ -10,6 +10,31 @@ const flat = { groundAt: () => 0 };
 const distance = (cam: CameraRig) => Math.hypot(cam.camera.position.x, cam.camera.position.y - 1.55, cam.camera.position.z);
 
 describe('woodland camera obstruction', () => {
+  it('eases into the shoulder view, tightens with the draw and lifts briefly on the loose (B11)', () => {
+    const cam = new CameraRig(); cam.pitch = 0; cam.wantDist = 7;
+    cam.follow(1 / 60, 0, 0, 0, flat, new Colliders(), false, 0);
+    cam.setAiming(true);
+    cam.follow(1 / 60, 0, 0, 0, flat, new Colliders(), false, 0);
+    expect(cam.aimBlend).toBeGreaterThan(0); expect(cam.aimBlend).toBeLessThan(.5);
+    expect(cam.lastBoom).toBeGreaterThan(5);
+    for (let i = 0; i < 60; i++) cam.follow(1 / 60, 0, 0, 0, flat, new Colliders(), false, 0);
+    expect(cam.aimBlend).toBe(1); expect(cam.lastBoom).toBeCloseTo(2.8, 5);
+    cam.setAiming(true, 1);
+    for (let i = 0; i < 120; i++) cam.follow(1 / 60, 0, 0, 0, flat, new Colliders(), false, 0);
+    expect(cam.camera.fov).toBeCloseTo(44, 1);
+    const level = new THREE.Vector3(); cam.camera.getWorldDirection(level);
+    cam.bowKick();
+    cam.follow(1 / 60, 0, 0, 0, flat, new Colliders(), false, 0);
+    const kicked = new THREE.Vector3(); cam.camera.getWorldDirection(kicked);
+    expect(kicked.y).toBeGreaterThan(level.y + .005);
+    for (let i = 0; i < 30; i++) cam.follow(1 / 60, 0, 0, 0, flat, new Colliders(), false, 0);
+    cam.camera.getWorldDirection(kicked);
+    expect(kicked.y).toBeCloseTo(level.y, 6);
+    const still = new CameraRig(); still.setAiming(true);
+    still.follow(1 / 60, 0, 0, 0, flat, new Colliders(), true, 0);
+    expect(still.aimBlend).toBe(1);
+  });
+
   it('aims over the right shoulder with a closer boom and narrower field of view without changing exploration zoom', () => {
     const cam = new CameraRig(); cam.pitch = 0; cam.wantDist = 7;
     cam.setAiming(true);

@@ -123,6 +123,8 @@ export class Hud {
   private bowDrawFill: HTMLElement;
   private bowDrawBar: HTMLElement;
   private bowHint: HTMLElement;
+  private bowTicks: HTMLElement[] = [];
+  private bowHitMark: HTMLElement;
   private bowWasEquipped = false;
   private bowHintUntil = 0;
   private bowHintShowings = 0;
@@ -173,7 +175,9 @@ export class Hud {
     this.bowDrawFill = h('i');
     this.bowDrawBar = h('div', { class: 'bow-draw-bar', role: 'progressbar', 'aria-label': S('hunting.draw'), 'aria-valuemin': 0, 'aria-valuemax': 100 }, this.bowDrawFill);
     this.bowReadout = h('div', { class: 'bow-readout' });
-    this.bowReticle = h('div', { class: 'bow-reticle', hidden: true }, h('div', { class: 'bow-crosshair', 'aria-hidden': 'true' }, h('i'), h('i'), h('i'), h('i')), this.bowDrawBar, this.bowReadout);
+    this.bowTicks = [h('i'), h('i'), h('i'), h('i')];
+    this.bowHitMark = h('div', { class: 'bow-hitmark', 'aria-hidden': 'true' }, h('i'), h('i'), h('i'), h('i'));
+    this.bowReticle = h('div', { class: 'bow-reticle', hidden: true }, h('div', { class: 'bow-crosshair', 'aria-hidden': 'true' }, ...this.bowTicks), this.bowHitMark, this.bowDrawBar, this.bowReadout);
     this.bowHint = h('div', { class: 'hunting-bow-hint surface-soot', hidden: true });
     this.skinName = h('strong', { id: 'hunting-skin-name' });
     this.skinHint = h('div', { class: 'skin-hint', id: 'hunting-skin-hint' });
@@ -257,6 +261,14 @@ export class Hud {
     setStyle(this.channelFill, 'width', `${resourceFraction(frac, 1) * 100}%`);
   }
 
+  /** A brief mark on the reticle when a loosed arrow strikes: an animal ('hit'), a kill ('kill') (B11). */
+  bowHit(kind: 'hit' | 'kill') {
+    const mark = this.bowHitMark;
+    mark.classList.remove('hit', 'kill');
+    void mark.offsetWidth; // restart the animation for a second hit in quick succession
+    mark.classList.add(kind);
+  }
+
   /** Render hunting state without rebuilding the focused Skin button each frame. */
   setHunting(data: HuntingHudData | null) {
     if (!data) {
@@ -273,6 +285,10 @@ export class Hud {
     setClass(this.bowReticle, 'drawing', data.drawing);
     setClass(this.bowReticle, 'drawn', data.drawing && draw >= 1 && arrows > 0);
     setClass(this.bowReticle, 'empty', arrows === 0);
+    // The ticks stand open while the bow is only raised and close on the point as the string comes back (B11).
+    const spread = Math.round((data.drawing ? 7 * (1 - draw) * (1 - draw) : 9) * 2) / 2;
+    const offsets: readonly [number, number][] = [[0, -spread], [0, spread], [-spread, 0], [spread, 0]];
+    this.bowTicks.forEach((tick, i) => setStyle(tick, 'transform', `translate(${offsets[i]![0]}px, ${offsets[i]![1]}px)`));
     setHidden(this.bowDrawBar, !data.drawing);
     setAttribute(this.bowDrawBar, 'aria-valuenow', String(Math.round(draw * 100)));
     setStyle(this.bowDrawFill, 'width', `${draw * 100}%`);

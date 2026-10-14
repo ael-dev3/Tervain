@@ -2,7 +2,7 @@ import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
-import { HUNTING_SOUND_KINDS } from '../../src/presentation/huntingAudio';
+import { HUNTING_SOUND_ASSETS } from '../../src/presentation/huntingAudio';
 
 describe('packaged hunting recordings', () => {
   it('ships six unique verified local assets with matching provenance and bounded duration/headroom', () => {
@@ -16,7 +16,7 @@ describe('packaged hunting recordings', () => {
     };
     expect(manifest.status).toBe('complete');
     expect(manifest.modelId).toBe('eleven_text_to_sound_v2');
-    expect(manifest.assets.map((asset) => asset.id).sort()).toEqual([...HUNTING_SOUND_KINDS].sort());
+    expect(manifest.assets.map((asset) => asset.id).sort()).toEqual([...HUNTING_SOUND_ASSETS].sort());
     expect(new Set(manifest.assets.map((asset) => asset.sha256)).size).toBe(6);
     for (const asset of manifest.assets) {
       expect(asset.path).toBe(`public/assets/audio/hunting/${asset.id}.mp3`);

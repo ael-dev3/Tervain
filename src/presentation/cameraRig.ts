@@ -33,6 +33,12 @@ export class CameraRig {
   private smoothTarget = new THREE.Vector3();
   private followPivot = new THREE.Vector3();
   private aiming = false;
+  /** Eases 0..1 into the shoulder view instead of snapping the boom and offset (B11). */
+  aimBlend = 0;
+  /** Bow draw 0..1: the view tightens a little as the string comes back (B11). */
+  private draw = 0;
+  /** A short upward kick on the loose, decaying in a few tenths of a second (B11). */
+  private kick = 0;
   get isAiming() { return this.aiming; }
   /** In the saddle the camera rides further back and higher (A71); `rideBlend` eases 0 afoot .. 1 mounted. */
   mounted = false;
@@ -59,6 +65,7 @@ export class CameraRig {
     this.curDist = this.wantDist;
     this.shakeT = 0;
     this.aiming = false;
+    this.aimBlend = this.draw = this.kick = 0;
     this.camera.fov = 60;
     this.camera.updateProjectionMatrix();
   }
@@ -81,9 +88,13 @@ export class CameraRig {
   }
 
   /** A closer shoulder view leaves the exploration zoom preference intact. */
-  setAiming(aiming: boolean) {
+  setAiming(aiming: boolean, draw = 0) {
     this.aiming = aiming;
+    this.draw = aiming && Number.isFinite(draw) ? Math.max(0, Math.min(1, draw)) : 0;
   }
+
+  /** The loose: a small lift of the view that settles back (B11). */
+  bowKick(reducedMotion = false) { this.kick = reducedMotion ? 0 : 1; }
 
   applyLook(dyaw: number, dpitch: number, zoom: number) {
     if (Number.isFinite(dyaw)) this.yaw = Math.atan2(Math.sin(this.yaw + dyaw), Math.cos(this.yaw + dyaw));
@@ -123,9 +134,14 @@ export class CameraRig {
     const dirX = -Math.sin(this.yaw) * cp;
     const dirY = Math.sin(this.pitch);
     const dirZ = -Math.cos(this.yaw) * cp;
-    const boomDistance = (this.aiming ? 2.8 : this.wantDist) + RIDE_CAMERA.back * this.rideBlend;
+    const aimTarget = this.aiming ? 1 : 0;
+    this.aimBlend = !this.initialized || reducedMotion ? aimTarget
+      : this.aimBlend + (aimTarget - this.aimBlend) * (1 - Math.exp(-Math.max(0, dt) * 11));
+    if (Math.abs(this.aimBlend - aimTarget) < 1e-3) this.aimBlend = aimTarget;
+    const aimEase = this.aimBlend * this.aimBlend * (3 - 2 * this.aimBlend);
+    const boomDistance = this.wantDist + (2.8 - this.wantDist) * aimEase + RIDE_CAMERA.back * this.rideBlend;
     this.lastBoom = boomDistance;
-    const aimOffset = this.aiming ? 0.42 : 0;
+    const aimOffset = 0.42 * aimEase;
     this.followPivot.copy(this.smoothTarget);
     // A rail fence is seen through (A125): its wall above the rails keeps the hero off them, not the camera, which pulled
     // in to a metre from his back whenever it swung across one.
@@ -272,7 +288,12 @@ export class CameraRig {
       this.camera.position.set(cx + (recoil.x - cx) * share, cy + (recoil.y - cy) * share, cz + (recoil.z - cz) * share);
     }
     this.camera.lookAt(this.followPivot);
-    const fov = this.aiming ? 48 : 60;
+    if (this.kick > 0) {
+      // Lift the view a hair and let it settle; the pivot itself never moves, so aim recovers exactly.
+      this.camera.rotateX(this.kick * this.kick * 0.022);
+      this.kick = Math.max(0, this.kick - Math.max(0, dt) * 5);
+    }
+    const fov = this.aiming ? 48 - 4 * this.draw : 60;
     if (this.camera.fov !== fov) {
       this.camera.fov += (fov - this.camera.fov) * k;
       if (Math.abs(this.camera.fov - fov) < 0.01) this.camera.fov = fov;
