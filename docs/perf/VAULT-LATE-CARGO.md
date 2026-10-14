@@ -20,10 +20,21 @@ The envelope covers both the original smoothstep and a travel phase shortened to
 
 This does not undo cargo already moved into the player's current body, change actor collision, or alter visuals/animation. It adds one loose-body sweep on each active vault step. It does not run during ordinary walking.
 
+## Authored-world clearance control
+
+The published scene's 450 eligible approaches produce 420 accepted vaults. Borrowing the candidate executor, compiled directly from its source, into that native scene leaves **all 420 grounded completions and zero aborts** with existing cargo unchanged. This checks the fuller foot envelope against authored cargo placements. It is a component override, not a complete candidate build or real-key playthrough.
+
+```sh
+node tools/repro-live-vault-cargo-controls.mjs https://ael-dev3.github.io/Tervain/ live-vault-cargo-controls.json
+```
+
+[Summary and source hash](../../proofs/vault-late-cargo/live18-controls.json), with compressed per-case rows alongside it.
+
 ## Matched before/after proof
 
 ```sh
 node tools/repro-vault-late-cargo.mjs --baseline 421d34b --out vault-late-cargo-proof
+git fetch origin codex/vault-slope-clearance
 node tools/repro-vault-late-cargo.mjs --arc-ref a439113f2da59638dbfd6ac95e894699f5008275 --out vault-late-cargo-arc-proof
 ```
 
