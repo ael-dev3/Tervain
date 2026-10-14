@@ -1,0 +1,28 @@
+<!doctype html><meta charset="utf-8"><title>Opaque island repair contact repro</title><style>body{margin:0}canvas{display:block}</style>
+<script type="module">
+import * as THREE from 'three';
+import {anchorLeafIslands as live} from '/src/presentation/__islands-live.ts';
+import {anchorLeafIslands as reference} from '/src/presentation/__islands-reference.ts';
+import {woodAnchor} from '/src/presentation/canopy.ts';
+try {
+ const n=128,data=new Uint8Array(n*n*4);for(let y=0;y<n;y++)for(let x=0;x<n;x++){const u=x/(n-1),v=y/(n-1),a=Math.min(Math.hypot(u,v),Math.hypot(u-1,v),Math.hypot(u-.5,v-1))<.1?255:0;data.set([255,255,255,a],(y*n+x)*4);}
+ const texture=new THREE.DataTexture(data,n,n);texture.magFilter=texture.minFilter=THREE.NearestFilter;texture.generateMipmaps=false;texture.needsUpdate=true;
+ const cutout={uv:'uv',cutoff:.5,alpha:(u,v)=>data[(Math.round(THREE.MathUtils.clamp(v,0,1)*(n-1))*n+Math.round(THREE.MathUtils.clamp(u,0,1)*(n-1)))*4+3]/255};
+ const geometry=()=>new THREE.BufferGeometry().setAttribute('position',new THREE.Float32BufferAttribute([-3,-3,0,3,-3,0,0,3,0],3)).setAttribute('uv',new THREE.Float32BufferAttribute([0,0,1,0,.5,1],2));
+ const distance=(leaf,wood,mask)=>{const p=leaf.getAttribute('position'),uv=leaf.getAttribute('uv'),anchor=woodAnchor(wood),q=new THREE.Vector3(),hit=new THREE.Vector3();let nearest=Infinity;
+  for(let a=0;a<=6;a++)for(let b=0;a+b<=6;b++){const w=[a/6,b/6,1-(a+b)/6],u=w.reduce((s,v,k)=>s+v*uv.getX(k),0),t=w.reduce((s,v,k)=>s+v*uv.getY(k),0);if(mask.alpha(u,t)<mask.cutoff)continue;q.set(0,0,0);for(let k=0;k<3;k++)q.addScaledVector(new THREE.Vector3().fromBufferAttribute(p,k),w[k]);nearest=Math.min(nearest,anchor(q,hit));}return nearest;};
+ const scene=new THREE.Scene();scene.background=new THREE.Color(0x263237);const rows=[];
+ for(const kind of ['transparent-centre','opaque-tip-control','opaque-filled-control']){
+  const wood=new THREE.BoxGeometry(.2,.2,.2);if(kind==='opaque-tip-control')wood.translate(0,3,0);
+  const mask=kind==='opaque-filled-control'?{...cutout,alpha:()=>1}:cutout,leaves=geometry(),fixed=geometry();
+  const originalPositions=Array.from(leaves.getAttribute('position').array),beforeGap=distance(leaves,wood,mask);
+  const a=live(leaves,wood,mask,{reach:.5,gap:.6}),b=reference(fixed,wood,mask,{reach:.5,gap:.6});
+  rows.push({kind,reach:.5,opaqueSampleGapBefore:beforeGap,live:a,liveGap:distance(leaves,wood,mask),livePositionsUnchanged:originalPositions.every((v,i)=>v===leaves.getAttribute('position').array[i]),reference:b,referenceGap:distance(fixed,wood,mask)});
+  if(kind==='transparent-centre')for(const [i,g]of [leaves,fixed].entries()){
+   const group=new THREE.Group();group.position.x=i?4:-4;scene.add(group);group.add(new THREE.Mesh(wood,new THREE.MeshBasicMaterial({color:0xa16d44})),new THREE.Mesh(g,new THREE.MeshBasicMaterial({color:0x86b957,map:texture,alphaTest:.5,side:THREE.DoubleSide})));
+  }
+ }
+ const renderer=new THREE.WebGLRenderer({antialias:false,preserveDrawingBuffer:true});renderer.setSize(960,600);document.body.append(renderer.domElement);const camera=new THREE.OrthographicCamera(-8,8,4,-6,.1,100);camera.position.z=15;renderer.render(scene,camera);
+ window.islandCentreProof={rows,glError:renderer.getContext().getError(),contextLost:renderer.getContext().isContextLost(),draws:renderer.info.render.calls,triangles:renderer.info.render.triangles,image:renderer.domElement.toDataURL()};
+}catch(e){window.islandCentreError=String(e?.stack??e);}
+</script>
