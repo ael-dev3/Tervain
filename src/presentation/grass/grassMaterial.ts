@@ -220,7 +220,8 @@ vec3 gAcross = vec3(cos(gFace), 0.0, sin(gFace));
 vec3 gToEye = cameraPosition - vec3(gRootW.x, gGround, gRootW.y);
 vec2 gEyeH = normalize(gToEye.xz + vec2(1e-4, 0.0));
 vec2 gSideEye = vec2(-gEyeH.y, gEyeH.x);
-vec2 gAcrossH = normalize(mix(gAcross.xz, gSideEye * clamp(dot(gAcross.xz, gSideEye) * 3.0, -1.0, 1.0), 0.35));
+vec2 gAcrossM = mix(gAcross.xz, gSideEye * clamp(dot(gAcross.xz, gSideEye) * 3.0, -1.0, 1.0), 0.35);
+vec2 gAcrossH = dot(gAcrossM, gAcrossM) > 1e-10 ? normalize(gAcrossM) : gSideEye;
 gAcross = vec3(gAcrossH.x, 0.0, gAcrossH.y);
 // A79: in front of a low camera a blade filled the view as a wide, flat ribbon, and where a tall blade leant into the lens
 // the near plane cut it into a slab hanging in the air. Measured at each point of the blade, not its root: close by it
@@ -231,7 +232,10 @@ float gNear = mix(0.72, 1.0, smoothstep(1.0, 5.0, gEye)) * smoothstep(0.35, 1.0,
 vec3 gBladePos = vec3(gRootW.x, gGround, gRootW.y) + gCurve + gAcross * (gEdge * 0.5 * gW * gNear * gProfile);
 
 // Normal: the face, turned to the viewer's side, rounded toward the edges and drawn a little toward the sky.
-vec3 gN = normalize(cross(gAcross, gTangent));
+// A lying or bent blade can turn its tangent along its across axis; their cross product then vanishes and normalize()
+// returned a non-number, which the grade turned into single white (or black) pixels flickering through the grass (playtest 8).
+vec3 gNc = cross(gAcross, gTangent);
+vec3 gN = dot(gNc, gNc) > 1e-10 ? normalize(gNc) : vec3(0.0, 1.0, 0.0);
 if (dot(gN, gToEye) < 0.0) gN = -gN;
 gN = normalize(gN + gAcross * gEdge * 0.42);
 vec3 objectNormal = normalize(mix(gN, vec3(0.0, 1.0, 0.0), 0.4));
@@ -276,7 +280,8 @@ void RE_Direct_Grass( const in IncidentLight directLight, const in vec3 geometry
   float through = pow( behind, 3.0 ) * 0.55 + pow( behind, 1.4 ) * 0.16;
   reflectedLight.directDiffuse += directLight.color * material.diffuseColor * uTransTint * min( through * vGInfo.z, 0.45 );
   // Where a blade turns to the light it brightens a little, in its own colour: dry grass, never a white glint.
-  vec3 halfway = normalize( directLight.direction + geometryViewDir );
+  vec3 halfSum = directLight.direction + geometryViewDir;
+  vec3 halfway = dot( halfSum, halfSum ) > 1e-10 ? normalize( halfSum ) : geometryNormal;
   float sheen = pow( saturate( dot( geometryNormal, halfway ) ), 6.0 ) * saturate( ndl + 0.25 );
   reflectedLight.directDiffuse += directLight.color * material.diffuseColor * sheen * vGInfo.w * 0.9;
 }
@@ -338,7 +343,7 @@ export function createGrassMaterial(opts: GrassMaterialOptions): GrassMaterial {
       .replace('#include <lights_lambert_pars_fragment>', `#include <lights_lambert_pars_fragment>\n${GRASS_LIGHT_GLSL}`);
     opts.patch?.(shader);
   };
-  material.customProgramCacheKey = () => `tervain-grass-blades-v6${opts.patchKey ? `-${opts.patchKey}` : ''}`;
+  material.customProgramCacheKey = () => `tervain-grass-blades-v7${opts.patchKey ? `-${opts.patchKey}` : ''}`;
   return {
     material, uniforms, ok: () => !failed,
     setBand(b) { uniforms.uBand.value.set(b.inStart, b.inEnd, b.outStart, b.outEnd); },
