@@ -15,11 +15,11 @@
       "filename": "tiger-1005232739.glb",
       "sourceFilename": "Meshy_AI_tiger_1005232739_texture.glb",
       "sourceSha256": "23fd4488d6c24ec7b090c5c476bfd9f74f242aedcfcd46333bdd294ac861dcca",
-      "outputSha256": "fc52666253a8a4a7e22b2ebb5b6d526d02e195a40f0fc24a3469ef91c3102ef4",
+      "outputSha256": "1e800e4222f3af1abb923dd0a565545ec0f8e264acf17f01bab717d3e831074a",
       "sourceTriangles": 335654,
       "triangles": 47155,
       "removedSourceGroundBridgeTriangles": 0,
-      "bytes": 2549468,
+      "bytes": 2543088,
       "height": 1.2,
       "bounds": {
         "min": [
@@ -994,11 +994,11 @@
       "filename": "wolf-1005232644.glb",
       "sourceFilename": "Meshy_AI_Wolf_1005232644_texture.glb",
       "sourceSha256": "968c13e84fe37952fd5b9f32456d702b631a700f31e12e960e81ccda2d48cb6c",
-      "outputSha256": "8030c38340a68deeaadc69bd90818ca3248263694c14256c7e01a42ee0491702",
+      "outputSha256": "48b200c67372d60f93a7aa4afd3aef6206f87331211ef88da15f72575ce3c727",
       "sourceTriangles": 757625,
       "triangles": 45968,
       "removedSourceGroundBridgeTriangles": 24,
-      "bytes": 2543072,
+      "bytes": 2536688,
       "height": 0.95,
       "bounds": {
         "min": [
@@ -2914,11 +2914,11 @@
       "filename": "boar-1005232450.glb",
       "sourceFilename": "Meshy_AI_Wild_Boar_1005232450_texture.glb",
       "sourceSha256": "6f99c5a7b3f66162000a25e8bf6f88926019512376f6e31179111723f09c1046",
-      "outputSha256": "42e03c45b1a7692344e8047bb41790f38cada2a5d809918d3eabcfe8fae29346",
+      "outputSha256": "78fa25dc7660822fd6f3dca240721a5566a9b2108d0188b86ad8364ab2336f9a",
       "sourceTriangles": 494855,
       "triangles": 45999,
       "removedSourceGroundBridgeTriangles": 0,
-      "bytes": 2765308,
+      "bytes": 2758928,
       "height": 1.0,
       "bounds": {
         "min": [
@@ -3667,11 +3667,11 @@
       "filename": "deer-1005232424.glb",
       "sourceFilename": "Meshy_AI_Red_Deer_Stag_1005232424_texture.glb",
       "sourceSha256": "be4abbf9a65eb72f13962ce90bbbc27e8b3445c7bf83e239959f49a75e181aab",
-      "outputSha256": "4501c75164d239759e32f5912e5078093cd9b5ec9b688c009096e07fe5271f9d",
+      "outputSha256": "135441cb0b9315b78d599f1d37e8d592a5aefe6695f3a44c0b3f8ddc7c3b3898",
       "sourceTriangles": 190339,
       "triangles": 45999,
       "removedSourceGroundBridgeTriangles": 0,
-      "bytes": 2301032,
+      "bytes": 2294648,
       "height": 2.25,
       "bounds": {
         "min": [
