@@ -326,12 +326,12 @@ export function* measureSeatSteps(clip: RetargetedClip, rest: RestPose, data: Re
   action.paused = true;
   const skin = RESIDENT_JOINTS.map(() => new THREE.Matrix4()), p = new THREE.Vector3(), q = new THREE.Vector3(), sum = new THREE.Vector3();
   const heights: number[] = [], depths: number[] = [], sides: number[] = [];
+  const posed: THREE.Vector3[] = [];
   for (const at of moments) {
     action.time = at * clip.clip.duration;
     mixer.update(0);
     root.updateMatrixWorld(true);
     RESIDENT_JOINTS.forEach((joint, j) => skin[j]!.multiplyMatrices(bones.get(joint)!.matrixWorld, bindInverse[j]!));
-    const posed: THREE.Vector3[] = [];
     let done = 0;
     for (const v of candidates) {
       // A few hundred vertices a step: one moment over a whole seat was 10-25 ms, past the arrivals' 3 ms (A115).
@@ -342,7 +342,9 @@ export function* measureSeatSteps(clip: RetargetedClip, rest: RestPose, data: Re
         const w = data.weights[v * 4 + s]! / 255;
         if (w > 0) sum.addScaledVector(q.copy(p).applyMatrix4(skin[data.joints[v * 4 + s]!]!), w);
       }
-      posed.push(sum.clone());
+      // Each moment has the same candidate count; overwrite the previous pose in source order before sorting.
+      if (posed[done - 1]) posed[done - 1]!.copy(sum);
+      else posed.push(sum.clone());
     }
     yield;
     posed.sort((a, b) => a.y - b.y);
