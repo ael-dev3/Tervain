@@ -1,0 +1,20 @@
+<!doctype html><html><head><meta charset="utf-8"><style>body{margin:0}canvas{display:block}</style></head><body><script>window.addEventListener('error',e=>window.fixtureError=e.message);window.addEventListener('unhandledrejection',e=>window.fixtureError=String(e.reason));</script><script type="module">
+import * as THREE from 'three';
+import {createGrassClump} from '/src/presentation/grass/bladeGeometry.ts';
+import {GrassWind} from '/src/presentation/grass/wind.ts';
+const mode=new URLSearchParams(location.search).get('mode');
+const {createGrassMaterial}=await import(mode==='baseline'?'/@baseline-grass':'/src/presentation/grass/grassMaterial.ts');
+const wind=new GrassWind({direction:[1,0],steady:0,gust:0,speed:0});
+const grass=createGrassMaterial({wind,look:{rootShade:.3,tipLift:.3,translucency:1,sheen:.3,transTint:new THREE.Color(1,1,1)},farBlades:1,clump:{radius:.3,width:.04,height:.8,blades:6},fade:{start:100,end:200,sizeComp:1,power:1}});
+const original=createGrassClump({blades:6,segments:3}),geo=new THREE.InstancedBufferGeometry();for(const[k,a]of Object.entries(original.attributes))geo.setAttribute(k,a);geo.setIndex(original.index);
+for(const name of ['aBase','aShape','aTint','aSlope'])geo.setAttribute(name,new THREE.InstancedBufferAttribute(new Float32Array(16*4),4));
+for(let i=0;i<16;i++){geo.getAttribute('aBase').setXYZW(i,2+(i%4)*2,0,2+Math.floor(i/4)*2,.01);geo.getAttribute('aShape').setXYZW(i,0,.7,1,.5);geo.getAttribute('aTint').setXYZW(i,.3,.6,.2,1);geo.getAttribute('aSlope').setXYZW(i,0,0,0,1);}
+geo.instanceCount=16;const mesh=new THREE.Mesh(geo,grass.material);mesh.frustumCulled=false;
+const scene=new THREE.Scene();scene.background=new THREE.Color(.2,.2,.2);scene.add(mesh,new THREE.HemisphereLight(0xffffff,0x444444,2));const sun=new THREE.DirectionalLight(0xffffff,2);sun.position.set(1,5,2);scene.add(sun);
+const camera=new THREE.PerspectiveCamera(55,4/3,.1,200);camera.position.set(5,2,-4);camera.lookAt(5,0,5);
+const renderer=new THREE.WebGLRenderer({antialias:false,preserveDrawingBuffer:true});renderer.setPixelRatio(2);renderer.setSize(320,240);document.body.append(renderer.domElement);
+const target=new THREE.WebGLRenderTarget(160,120,{samples:4});
+const copyScene=new THREE.Scene(),copyCamera=new THREE.OrthographicCamera(-1,1,1,-1,0,1);copyScene.add(new THREE.Mesh(new THREE.PlaneGeometry(2,2),new THREE.MeshBasicMaterial({map:target.texture,toneMapped:false})));
+window.passPixelRepro={mode,render(pass){renderer.setRenderTarget(pass==='capture'?target:null);renderer.render(scene,camera);const viewport=renderer.getCurrentViewport(new THREE.Vector4()),uniform=grass.uniforms.uGrassPx.value,stats={...renderer.info.render};const gl=renderer.getContext(),errors=[];for(let i=0;i<64;i++){const e=gl.getError();if(!e)break;errors.push(e);}if(pass==='capture'){renderer.setRenderTarget(null);renderer.render(copyScene,copyCamera);}return{pass,uniform,viewport:viewport.toArray(),stats,errors};}};
+window.fixtureReady=true;
+</script></body></html>
