@@ -171,7 +171,9 @@ export function* retargetClipSteps(clip: THREE.AnimationClip, library: RestPose,
       const forward = FORWARD.clone().applyQuaternion(local.copy(wt.get(joint)!).multiply(inv.copy(dest.rotation.get(joint)!).invert()));
       return sum + Math.atan2(forward.x, forward.z);
     }, 0) / FACING_JOINTS.length / frames;
-    if ((f + 1) % 8 === 0) yield;
+    // A single pose is the resumable unit: eight head-limit solves could overrun
+    // the arrivals budget before its scheduler could yield back to play.
+    yield;
   }
   // The pace a locomotion clip implies: its drift over the clip (removed), or for a clip made in place, how fast the
   // planted foot slides back under the body.
