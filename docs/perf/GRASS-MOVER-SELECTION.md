@@ -19,8 +19,12 @@ The storage regression test fails on the baseline: 600 distinct selected arrays 
 | Updates | 600 | 600 |
 | Draw calls | 301 | 301 |
 | Triangles | 302 | 302 |
+| Field textures | 2 | 2 |
+| Field colour payload | 16 KiB | 16 KiB |
+| Buffer/texture upload bytes in first two updates | 60 | 60 |
+| Maximum upload bytes per later update | 0 | 0 |
 | WebGL draw errors | 0 | 0 |
 
-All 28,800 selected body indices and all 600 active counts match. The final nonempty 32×32 half-float field matches in all 4,096 stored channels; displayed images match exactly. These are storage identity and correctness measurements, not total heap or hardware frame-time measurements.
+All 28,800 selected body indices and all 600 active counts match. The final nonempty 32×32 half-float field matches in all 4,096 stored channels; displayed images match exactly. Texture payload counts the two RGBA16F colour images, excluding driver overhead. Upload counts cover buffer/texture data views passed to WebGL during field updates, excluding uniforms and the inspection display. All twelve software-WebGL assertions pass. These are storage identity and correctness measurements, not total heap or hardware frame-time measurements.
 
 [Receipt](proofs/grass-mover-selection/report.json) · [Before](proofs/grass-mover-selection/before.png) · [After](proofs/grass-mover-selection/after.png)
