@@ -456,7 +456,16 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
               const i = shadowCounts[sl]!++;
               packStatic(c.wood, i, treeIndex, mtx);
               packStatic(c.leaf, i, treeIndex, mtx);
-              for (const mesh of [c.wood, c.leaf]) { const cov = mesh && casterCoverage.get(mesh); if (cov) cov.setXY(i, from, to >= 0.9999 ? 1 : to); }
+              for (const mesh of [c.wood, c.leaf]) {
+                const cov = mesh && casterCoverage.get(mesh);
+                if (!cov) continue;
+                // Match the stored precision: stable blends must not dirty a GPU buffer on every camera turn.
+                const start = Math.fround(from), end = Math.fround(to >= 0.9999 ? 1 : to);
+                if (cov.getX(i) !== start || cov.getY(i) !== end) {
+                  cov.setXY(i, start, end);
+                  coverageChanged.add(cov);
+                }
+              }
               cast = true;
             }
             from = to;
@@ -524,13 +533,14 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         if (c) {
           for (const mesh of [c.wood, c.leaf]) {
             if (!mesh) continue;
+            const previousCasterCount = mesh.count;
             mesh.count = shadowCounts[l]!;
             mesh.visible = shadowCounts[l]! > 0;
             const packed = packedTrees.get(mesh);
             if (packed) packed.length = mesh.count;
             if (staticChanged.has(mesh)) uploadPrefix(mesh.instanceMatrix, mesh.count);
             const cov = casterCoverage.get(mesh);
-            if (cov) uploadPrefix(cov, mesh.count);
+            if (cov && (coverageChanged.has(cov) || mesh.count > previousCasterCount)) uploadPrefix(cov, mesh.count);
           }
           shadowTris += v.lods[l]!.tris * shadowCounts[l]!;
         }
