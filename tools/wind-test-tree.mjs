@@ -61,10 +61,10 @@ function cluster(tip, dir, phase, parentPhase) {
   const d = len(sub(tip, CROWN.centre)) / CROWN.radius;
   const rim = Math.min(1, Math.max(0, d)) ** 0.9;
   const thick = 0.25 + 0.7 * Math.max(0, 1 - d * 0.9);
-  const size = 1.0 + rnd() * 0.5;
+  const size = 1.3 + rnd() * 0.6;
   const centre = add(tip, mul(dir, size * 0.35));
-  for (let k = 0; k < 3; k++) {
-    const yaw = (k / 3) * Math.PI + rnd() * 0.5, tilt = (rnd() - 0.5) * 0.9;
+  for (let k = 0; k < 6; k++) {
+    const yaw = (k / 6) * Math.PI * 2 + rnd() * 0.5, tilt = (rnd() - 0.5) * 0.9;
     const u = norm([Math.cos(yaw), tilt * 0.5, Math.sin(yaw)]);
     const v = norm(cross(u, norm(add(dir, [0, 0.3, 0]))));
     const n = norm(cross(u, v));
@@ -144,7 +144,7 @@ const gltf = {
   scene: 0, scenes: [{ nodes: [0, 1] }],
   nodes: [{ name: 'wood', mesh: 0 }, { name: 'leaf', mesh: 1 }],
   materials: [
-    { name: 'wood', pbrMetallicRoughness: { baseColorFactor: [0.32, 0.22, 0.14, 1], metallicFactor: 0, roughnessFactor: 0.9 } },
+    { name: 'wood', pbrMetallicRoughness: { baseColorFactor: [0.09, 0.06, 0.04, 1], metallicFactor: 0, roughnessFactor: 0.9 } },
     { name: 'leaf', alphaMode: 'MASK', alphaCutoff: 0.5, doubleSided: true, pbrMetallicRoughness: { baseColorFactor: [0.3, 0.45, 0.16, 1], metallicFactor: 0, roughnessFactor: 0.85 } },
   ],
   meshes: [{ name: 'wood', primitives: [primitive(wood, 0, false)] }, { name: 'leaf', primitives: [primitive(leaf, 1, true)] }],

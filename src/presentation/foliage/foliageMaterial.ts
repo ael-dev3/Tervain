@@ -488,15 +488,11 @@ reflectedLight.indirectDiffuse *= 1.0 + uWoodCrownFill * (1.0 - smoothstep(0.75,
     const needs = ['#include <common>', '#include <color_fragment>', '#include <alphatest_fragment>', '#include <normal_fragment_maps>',
       '#include <lights_physical_pars_fragment>', '#include <lights_fragment_begin>', '#include <aomap_fragment>'];
     if (!lights || !needs.every((n) => f0.includes(n))) { failed = true; return; }
-    if (baked) {
-      shader.vertexShader = shader.vertexShader.replace('#include <common>', '#include <common>\n#define TV_BAKED_CROWN');
-      shader.fragmentShader = shader.fragmentShader.replace('#include <common>', '#include <common>\n#define TV_BAKED_CROWN');
-    }
     shader.vertexShader = shader.vertexShader
-      .replace('#include <common>', `#include <common>\n${LEAF_VERTEX_DECL}`)
+      .replace('#include <common>', `#include <common>\n${baked ? '#define TV_BAKED_CROWN\n' : ''}${LEAF_VERTEX_DECL}`)
       .replace('#include <begin_vertex>', `#include <begin_vertex>\n${LEAF_VERTEX_BODY}`);
     shader.fragmentShader = f0
-      .replace('#include <common>', `#include <common>\n${LEAF_FRAGMENT_DECL}`)
+      .replace('#include <common>', `#include <common>\n${baked ? '#define TV_BAKED_CROWN\n' : ''}${LEAF_FRAGMENT_DECL}`)
       .replace('#include <color_fragment>', `#include <color_fragment>\n${LEAF_COLOUR_GLSL}`)
       // The distance dither (if any) follows the cut-out, as it followed Three's.
       .replace('#include <alphatest_fragment>', LEAF_ALPHA_TEST_GLSL)
