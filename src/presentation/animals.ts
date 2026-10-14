@@ -737,7 +737,12 @@ function* buildAnimalSteps(ctx: Pick<BuildContext, 'terrain' | 'colliders' | 'qu
             const dx = target.x - p.x, dz = target.z - p.z, length = Math.hypot(dx, dz);
             const desiredYaw = Math.atan2(dx, dz), turn = Math.atan2(Math.sin(desiredYaw - animal.yaw), Math.cos(desiredYaw - animal.yaw));
             animal.yaw += THREE.MathUtils.clamp(turn, -dt * 3.5, dt * 3.5);
-            const turning = Math.abs(turn) > 0.18;
+            // The rendered body eases toward navigation yaw in place(). Do not
+            // translate along the new path while it still faces the old one.
+            forward.set(0, 0, 1).applyQuaternion(animal.root.quaternion);
+            const facing = Math.atan2(forward.x, forward.z);
+            const facingTurn = Math.atan2(Math.sin(desiredYaw - facing), Math.cos(desiredYaw - facing));
+            const turning = Math.abs(turn) > 0.18 || Math.abs(facingTurn) > 0.18;
             const step = turning ? 0 : Math.min(length, dt * animal.animation.referenceSpeed(animal.state));
             const extras = extrasFor(animal, frame.focus);
             const next = colliders.move(p.x, p.z, dx / Math.max(length, 1e-5) * step, dz / Math.max(length, 1e-5) * step, animal.home.radius,
