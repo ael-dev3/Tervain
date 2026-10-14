@@ -1,0 +1,42 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "target": {
+    "label": "tree:wild:54:3",
+    "kind": "pine/procedural",
+    "species": "pine",
+    "triangles": 5328
+  },
+  "runs": {
+    "before": {
+      "neighborChecks": 165971,
+      "stats": {
+        "islands": 3,
+        "moved": 3,
+        "dropped": 0
+      },
+      "geometrySha256": "6d07e0a6fafe3aacdd42e09ee43cc1fca1c4b390f0806738221a1c78687e1206"
+    },
+    "after": {
+      "neighborChecks": 54299,
+      "stats": {
+        "islands": 3,
+        "moved": 3,
+        "dropped": 0
+      },
+      "geometrySha256": "6d07e0a6fafe3aacdd42e09ee43cc1fca1c4b390f0806738221a1c78687e1206"
+    }
+  },
+  "geometryIdentical": true,
+  "statsIdentical": true,
+  "schema": 1,
+  "offsetX": 50,
+  "baselineRef": "421d34b",
+  "sourceSha256": "a2a728065bfb14ad45e9265242d963740493191bac8268d5ded5ec099827990a",
+  "supportSourceSha256": "83a9dc1a76e7d259a5eb425861e48d1a9751ca6fc8bd88672ed8f7db2b56c8ca",
+  "scope": "Actual published prepared tree source cloned into both production repair routines, using identical default reach/gap. No rendered geometry is modified. Counted neighbor bounds checks, not hardware timing or a full cold-load cost.",
+  "qualityPass": null,
+  "pass": true
+}
