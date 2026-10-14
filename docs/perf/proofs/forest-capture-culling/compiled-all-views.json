@@ -1,0 +1,157 @@
+{
+  "schema": 1,
+  "build": {
+    "version": "0.0.17",
+    "revision": "5da277678"
+  },
+  "programs": [
+    "tervain-C1s1VKRA.js"
+  ],
+  "colourBatches": 177,
+  "culledBatches": 177,
+  "trees": 453,
+  "scope": "Actual compiled whole scene, frozen native forest packing, six native cube-camera orientations/middle-model proxies and optional primary view. Native post/MSAA/water rendering of each camera, not hardware timings. Control disables only forest batch frustum culling. Source uploads exclude uniforms.",
+  "rows": [
+    {
+      "face": 0,
+      "control": {
+        "drawCalls": 162,
+        "triangles": 1865595,
+        "sourceUploadBytes": 763724,
+        "textures": 270,
+        "textureImagePayloadBytes": 1285198156,
+        "glError": 0
+      },
+      "actual": {
+        "drawCalls": 150,
+        "triangles": 1778459,
+        "sourceUploadBytes": 4608,
+        "textures": 270,
+        "textureImagePayloadBytes": 1285198156,
+        "glError": 0
+      },
+      "changedRGBChannels": 0
+    },
+    {
+      "face": 1,
+      "control": {
+        "drawCalls": 354,
+        "triangles": 4645942,
+        "sourceUploadBytes": 7221508,
+        "textures": 271,
+        "textureImagePayloadBytes": 1285397200,
+        "glError": 0
+      },
+      "actual": {
+        "drawCalls": 275,
+        "triangles": 3020228,
+        "sourceUploadBytes": 39168,
+        "textures": 271,
+        "textureImagePayloadBytes": 1285397200,
+        "glError": 0
+      },
+      "changedRGBChannels": 0
+    },
+    {
+      "face": 2,
+      "control": {
+        "drawCalls": 95,
+        "triangles": 1757392,
+        "sourceUploadBytes": 0,
+        "textures": 271,
+        "textureImagePayloadBytes": 1285397200,
+        "glError": 0
+      },
+      "actual": {
+        "drawCalls": 83,
+        "triangles": 1602816,
+        "sourceUploadBytes": 0,
+        "textures": 271,
+        "textureImagePayloadBytes": 1285397200,
+        "glError": 0
+      },
+      "changedRGBChannels": 0
+    },
+    {
+      "face": 3,
+      "control": {
+        "drawCalls": 98,
+        "triangles": 1792312,
+        "sourceUploadBytes": 0,
+        "textures": 271,
+        "textureImagePayloadBytes": 1285397200,
+        "glError": 0
+      },
+      "actual": {
+        "drawCalls": 86,
+        "triangles": 1637736,
+        "sourceUploadBytes": 0,
+        "textures": 271,
+        "textureImagePayloadBytes": 1285397200,
+        "glError": 0
+      },
+      "changedRGBChannels": 0
+    },
+    {
+      "face": 4,
+      "control": {
+        "drawCalls": 175,
+        "triangles": 3030978,
+        "sourceUploadBytes": 0,
+        "textures": 271,
+        "textureImagePayloadBytes": 1285397200,
+        "glError": 0
+      },
+      "actual": {
+        "drawCalls": 86,
+        "triangles": 1298208,
+        "sourceUploadBytes": 0,
+        "textures": 271,
+        "textureImagePayloadBytes": 1285397200,
+        "glError": 0
+      },
+      "changedRGBChannels": 0
+    },
+    {
+      "face": 5,
+      "control": {
+        "drawCalls": 272,
+        "triangles": 4219402,
+        "sourceUploadBytes": 1292864,
+        "textures": 271,
+        "textureImagePayloadBytes": 1285397200,
+        "glError": 0
+      },
+      "actual": {
+        "drawCalls": 207,
+        "triangles": 2901423,
+        "sourceUploadBytes": 2304,
+        "textures": 271,
+        "textureImagePayloadBytes": 1285397200,
+        "glError": 0
+      },
+      "changedRGBChannels": 0
+    },
+    {
+      "face": 6,
+      "control": {
+        "drawCalls": 337,
+        "triangles": 5649112,
+        "sourceUploadBytes": 0,
+        "textures": 271,
+        "textureImagePayloadBytes": 1285397200,
+        "glError": 0
+      },
+      "actual": {
+        "drawCalls": 206,
+        "triangles": 3998162,
+        "sourceUploadBytes": 0,
+        "textures": 271,
+        "textureImagePayloadBytes": 1285397200,
+        "glError": 0
+      },
+      "changedRGBChannels": 0
+    }
+  ],
+  "pass": true
+}

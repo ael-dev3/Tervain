@@ -344,7 +344,7 @@ describe('the forest with wind, shadow-only casters and strikes', () => {
     const casters = forest.shadowCasters.children as THREE.InstancedMesh[];
     expect(casters.length).toBeGreaterThan(0);
     expect(colour.every((m) => !m.castShadow)).toBe(true);
-    expect(casters.every((m) => m.castShadow && m.name.endsWith(':shadow') && m.customDepthMaterial)).toBe(true);
+    expect(casters.every((m) => !m.frustumCulled && m.castShadow && m.name.endsWith(':shadow') && m.customDepthMaterial)).toBe(true);
     expect(forest.shadowCasters.visible).toBe(false);
     // Every tree material carries the wind; leaves the foliage look.
     for (const m of colour.filter((m) => /solitary-pine/.test(m.name))) {
@@ -358,6 +358,28 @@ describe('the forest with wind, shadow-only casters and strikes', () => {
     const shadow = new THREE.Frustum().setFromProjectionMatrix(new THREE.Matrix4().multiplyMatrices(shadowCamera.projectionMatrix, shadowCamera.matrixWorldInverse));
     const frame: FrameContext = { camera, quality, time: 1, focus: camera.position.clone(), nightness: 0, sunDir: new THREE.Vector3(0, 1, 0), shadowFrustum: shadow, reducedMotion: false, hour: 11, view: worldView(createInitialState()) };
     forest.update(0.1, frame);
+    const assertCaptureBounds = () => {
+      const corner = new THREE.Vector3(), instance = new THREE.Matrix4();
+      for (const mesh of colour.filter(m => m.geometry.hasAttribute('aDistanceCoverage') && m.count > 0)) {
+        expect(mesh.frustumCulled).toBe(true);
+        expect(mesh.boundingSphere).not.toBeNull();
+        mesh.geometry.computeBoundingBox();
+        const box = mesh.geometry.boundingBox!;
+        for (const slot of new Set([0, mesh.count - 1])) {
+          mesh.getMatrixAt(slot, instance);
+          for (const x of [box.min.x, box.max.x]) for (const y of [box.min.y, box.max.y]) for (const z of [box.min.z, box.max.z]) {
+            corner.set(x, y, z).applyMatrix4(instance);
+            expect(mesh.boundingSphere!.distanceToPoint(corner)).toBeLessThan(0);
+          }
+        }
+        const depth = colour.find(other => other !== mesh && other.instanceMatrix === mesh.instanceMatrix);
+        if (depth) {
+          expect(depth.frustumCulled).toBe(true);
+          expect(depth.boundingSphere).toBe(mesh.boundingSphere);
+        }
+      }
+    };
+    assertCaptureBounds();
     const stats = forest.stats!();
     expect(stats.shadowTrees).toBeGreaterThan(0);
     expect(stats.shadowTris).toBeGreaterThan(0);
@@ -376,9 +398,12 @@ describe('the forest with wind, shadow-only casters and strikes', () => {
     const staticMeshes = [...colour, ...casters];
     const staticBefore = staticMeshes.map(m => ({ count: m.count, data: m.instanceMatrix.array.slice(), version: m.instanceMatrix.version,
       colourVersion: m.instanceColor?.version }));
+    const unions = vi.spyOn(THREE.Sphere.prototype, 'union');
     camera.position.x += 0.006;
     camera.updateMatrixWorld();
     forest.update(1 / 60, frame);
+    const rebuiltBounds = new Set(unions.mock.contexts);
+    unions.mockRestore();
     let unchanged = 0, savedBytes = 0;
     staticMeshes.forEach((m, i) => {
       const old = staticBefore[i]!;
@@ -386,10 +411,19 @@ describe('the forest with wind, shadow-only casters and strikes', () => {
       unchanged++;
       savedBytes += m.count * (64 + (m.instanceColor ? 12 : 0));
       expect(m.instanceMatrix.version).toBe(old.version);
+      if (m.geometry.hasAttribute('aDistanceCoverage')) expect(rebuiltBounds.has(m.boundingSphere!)).toBe(false);
       if (m.instanceColor) expect(m.instanceColor.version).toBe(old.colourVersion);
     });
     expect(unchanged).toBeGreaterThan(5);
     process.stdout.write(`unchanged forest matrix/color source bytes avoided: ${savedBytes}\n`);
+    const packedPosition = camera.position.clone();
+    camera.position.z += 10000; camera.updateMatrixWorld(); forest.update(1 / 60, frame);
+    for (const mesh of colour.filter(m => m.geometry.hasAttribute('aDistanceCoverage'))) {
+      expect(mesh.count).toBe(0);
+      expect(mesh.boundingSphere!.isEmpty()).toBe(true);
+    }
+    camera.position.copy(packedPosition); camera.updateMatrixWorld(); forest.update(1 / 60, frame);
+    assertCaptureBounds();
     const full = colour.filter((m) => /:0:(wood|foliage)$/.test(m.name) && m.count > 0);
     expect(full.length).toBeGreaterThan(0);
     const before = full.map((m) => m.geometry);
@@ -400,6 +434,7 @@ describe('the forest with wind, shadow-only casters and strikes', () => {
       expect(middles.some((o) => o.geometry.index === m.geometry.index && o.geometry.getAttribute('position') === m.geometry.getAttribute('position'))).toBe(true);
       expect(m.geometry.getAttribute('aDistanceCoverage')).toBe(before[i]!.getAttribute('aDistanceCoverage'));
     }
+    assertCaptureBounds();
     const proxies = full.map((m) => m.geometry);
     restore();
     full.forEach((m, i) => expect(m.geometry).toBe(before[i]));

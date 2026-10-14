@@ -67,6 +67,8 @@ interface Batch {
   casters: { wood: THREE.InstancedMesh | null; leaf: THREE.InstancedMesh | null }[];
   visibility: { wood: InstanceDistanceVisibility | null; leaf: InstanceDistanceVisibility | null }[];
   bounds: THREE.Sphere;
+  /** Packed colour bounds, including every source LOD and the existing wind guard. */
+  drawBounds: THREE.Sphere[];
   trees: FloraTree[];
   placements: { matrix: THREE.Matrix4; bounds: THREE.Sphere }[];
 }
@@ -190,7 +192,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         geometry.computeBoundingBox();
         box.union(geometry.boundingBox!);
       }
-      b = { variant, meshes: [], casters: [], visibility: [], bounds: box.getBoundingSphere(new THREE.Sphere()), trees: [], placements: [] };
+      b = { variant, meshes: [], casters: [], visibility: [], bounds: box.getBoundingSphere(new THREE.Sphere()), drawBounds: [new THREE.Sphere().makeEmpty(), new THREE.Sphere().makeEmpty(), new THREE.Sphere().makeEmpty()], trees: [], placements: [] };
       byVariant.set(variant, b);
       batches.push(b);
     }
@@ -260,7 +262,9 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
       for (const m of [wood, leaf]) {
         if (!m) continue;
         m.count = 0;
-        m.frustumCulled = false;
+        // Secondary cameras need their own culling of the main view's packed instances.
+        m.frustumCulled = true;
+        m.boundingSphere = b.drawBounds[l]!;
         m.name = `${usesPine(v.species) ? 'solitary-pine' : v.assetId ?? v.species}:${l}:${m === wood ? 'wood' : 'foliage'}`;
         // Shadows come from the separate shadow-only casters below: only trees in the sun's shadow volume, lighter
         // source LODs away from the camera.
@@ -305,7 +309,11 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
       // After the casters, which copy the colour material as it was.
       if (leaf && installed.leaf && leafPrepass) {
         entry.leafDepth = splitLeafPrepass(leaf);
-        if (entry.leafDepth) group.add(entry.leafDepth);
+        if (entry.leafDepth) {
+          entry.leafDepth.frustumCulled = true;
+          entry.leafDepth.boundingSphere = b.drawBounds[l]!;
+          group.add(entry.leafDepth);
+        }
       }
     }
     triangles += v.lods[0].tris * b.trees.length;
@@ -457,6 +465,12 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
       }
       for (let l = 0; l < 3; l++) {
         const m = b.meshes[l]!;
+        const source = m.wood ?? m.leaf;
+        if (source && (source.count !== counts[l]! || staticChanged.has(source))) {
+          const bound = b.drawBounds[l]!.makeEmpty(), packed = packedTrees.get(source)!;
+          // Source bounds include every LOD; unchanged packing keeps its bounds without another walk.
+          for (let i = 0; i < counts[l]!; i++) bound.union(b.placements[packed[i]!]!.bounds);
+        }
         for (const mesh of [m.wood, m.leaf]) {
           if (!mesh) continue;
           mesh.count = counts[l]!;
