@@ -1,0 +1,60 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "pool": 153,
+  "drawn": 153,
+  "visible": true,
+  "active": 21,
+  "requiredPrefix": 125,
+  "indices": [
+    4,
+    5,
+    9,
+    24,
+    26,
+    45,
+    46,
+    51,
+    52,
+    61,
+    63,
+    64,
+    65,
+    66,
+    72,
+    91,
+    92,
+    115,
+    116,
+    123,
+    124
+  ],
+  "camera": [
+    5,
+    4.056159006476997,
+    3.1865254697361314
+  ],
+  "hero": [
+    0,
+    0,
+    0
+  ],
+  "stats": {
+    "trees": 453,
+    "solitaryPines": 128,
+    "meshyTrees": 325,
+    "treeObstacles": 253,
+    "treesDrawn": 39,
+    "treeTris": 516451,
+    "shadowTrees": 169,
+    "shadowTris": 712707,
+    "struckLeaves": 0,
+    "forestFloorPieces": 545,
+    "forestFloorDrawn": 156,
+    "fallingLeaves": 153,
+    "fallingLeavesVisible": 21,
+    "fallingLeafTris": 1530
+  }
+}
