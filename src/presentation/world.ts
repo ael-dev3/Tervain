@@ -48,7 +48,7 @@ import { RealmPhysics, initializePhysics, type PropMotion } from '../world/physi
 import { buildPhysicalProps } from './physicalProps';
 import type { MeshyNpcCatalog } from './meshynpcs';
 import { buildSourceRockPiles, loadSourceRockPile } from './sourceRockPile';
-import { loadMeshyTrees, MESHY_TREE_IDS, MESHY_TREE_LODS, type MeshyTreeTemplates } from './meshyTrees';
+import { activeMeshyTreeIds, loadMeshyTrees, MESHY_TREE_LODS, type MeshyTreeTemplates } from './meshyTrees';
 import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { buildCoastalBackdrop } from './coastalBackdrop';
 import { createGroundContactField } from './groundContacts';
@@ -189,7 +189,7 @@ export class WorldScene {
       library: { completed: 0, total: libraryModels.size },
       pine: { completed: 0, total: PINE_FILES.length },
       stone: { completed: 0, total: 1 },
-      trees: { completed: 0, total: new Set(MESHY_TREE_IDS).size * MESHY_TREE_LODS.length },
+      trees: { completed: 0, total: new Set(activeMeshyTreeIds()).size * MESHY_TREE_LODS.length },
       animals: { completed: 0, total: options.deferWildlife ? 0 : ANIMALS.length },
       furniture: { completed: 0, total: options.deferFurniture ? 0 : 1 },
     };

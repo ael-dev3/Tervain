@@ -15,6 +15,20 @@ import { buildCanopy, canopyAtlasTexture, growTwigs, trimExposedWood, NEAR_CANOP
 
 /** Owner-supplied sources. Plinth-bearing 3106/1459 are prepared reserves, not active plantings. */
 export const MESHY_TREE_IDS = ['fir-spire', 'oak-elder', 'palm-date', 'palm-fan', 'palm-lean', 'tree-0208', 'tree-1537', 'tree-1527', 'tree-1521', 'tree-4949', 'tree-1505', 'tree-4815', 'verdant-sentinel'] as const;
+/**
+ * Generated hero trees (tools/tree-gen): original procedural oaks with a real branch skeleton. Behind the `?herooak=1`
+ * query for now (default off); their files live in flora/hero/ and are not part of the supplied-tree manifest.
+ */
+export const HERO_TREE_IDS = ['hero-oak'] as const;
+export const HERO_OAK_ID = HERO_TREE_IDS[0];
+const isHeroTree = (id: string): boolean => (HERO_TREE_IDS as readonly string[]).includes(id);
+export function heroOakEnabled(search: string | undefined = typeof location === 'undefined' ? undefined : location.search): boolean {
+  try { return new URLSearchParams(search ?? '').get('herooak') === '1'; } catch { return false; }
+}
+/** The tree ids a world loads: the supplied set, plus the generated hero oak while its flag is on. */
+export function activeMeshyTreeIds(enabled = heroOakEnabled()): readonly string[] {
+  return enabled ? [...MESHY_TREE_IDS, ...HERO_TREE_IDS] : MESHY_TREE_IDS;
+}
 export type MeshyTreeTemplates = ReadonlyMap<string, readonly [GLTF, GLTF, GLTF]>;
 export const MESHY_TREE_LODS = ['near', 'mid', 'far'] as const;
 const pending = new Map<string, Promise<GLTF>>();
@@ -236,8 +250,9 @@ function thicken(leaf: THREE.BufferGeometry | null, enabled: boolean, room: numb
 }
 
 export function meshyTreeUrl(id: string, lod: typeof MESHY_TREE_LODS[number], base = import.meta.env.BASE_URL, page = document.baseURI): URL {
-  return modelAssetUrl(`flora/meshy-012/${id}-${lod}.glb`, base, page);
+  return modelAssetUrl(`${meshyTreeModelPath(id, lod)}`, base, page);
 }
+export const meshyTreeModelPath = (id: string, lod: typeof MESHY_TREE_LODS[number]): string => `flora/${isHeroTree(id) ? 'hero' : 'meshy-012'}/${id}-${lod}.glb`;
 interface Part { geometry: THREE.BufferGeometry; material: THREE.MeshStandardMaterial; matrix: THREE.Matrix4 }
 interface Parts { wood: Part | null; leaf: Part | null }
 /** Only a rejected, not-yet-pooled parse owns these images; accepted templates stay immutable and cached. */
@@ -322,7 +337,7 @@ async function load(id: string, lod: typeof MESHY_TREE_LODS[number]): Promise<GL
   if (existing) return existing;
   const request = withModelLoadSlot(async () => {
     const url = meshyTreeUrl(id, lod);
-    const buffer = await downloadAsset(url, { label: `Tree ${id}`, model: `flora/meshy-012/${id}-${lod}.glb` });
+    const buffer = await downloadAsset(url, { label: `Tree ${id}`, model: meshyTreeModelPath(id, lod) });
     if (buffer.byteLength < 12) throw new Error(`Tree ${id} download is incomplete.`);
     const header = new DataView(buffer);
     if (header.getUint32(0, true) !== 0x46546c67 || header.getUint32(4, true) !== 2 || header.getUint32(8, true) !== buffer.byteLength) throw new Error(`Tree ${id} is not a complete GLB 2 file.`);
@@ -345,7 +360,7 @@ async function load(id: string, lod: typeof MESHY_TREE_LODS[number]): Promise<GL
   return request;
 }
 /** Decode a bounded number of trees concurrently; failed requests can be retried by the loading screen. */
-export async function loadMeshyTrees(ids: readonly string[] = MESHY_TREE_IDS, onProgress?: (loaded: number, total: number) => void): Promise<MeshyTreeTemplates> {
+export async function loadMeshyTrees(ids: readonly string[] = activeMeshyTreeIds(), onProgress?: (loaded: number, total: number) => void): Promise<MeshyTreeTemplates> {
   const result = new Map<string, readonly [GLTF, GLTF, GLTF]>();
   const selected = [...new Set(ids)];
   let next = 0, active = true;
@@ -448,11 +463,14 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
   return {
     variant(species, seed, explicit) {
       if (disposed) throw new Error('Tree resources have been disposed.');
-      const id = meshyTreeId(species, seed, explicit), key = `${species}:${id}`;
+      // The generated hero oak (flag-gated; its templates are loaded only then) replaces every oak variant.
+      const id = species === 'oak' && templates.has(HERO_OAK_ID) ? HERO_OAK_ID : meshyTreeId(species, seed, explicit), key = `${species}:${id}`;
+      const hero = isHeroTree(id);
       const cached = variants.get(key); if (cached) return cached;
       const source = templates.get(id); if (!source) throw new Error(`Required tree ${id} is missing from the art catalog.`);
       const decoded = source.map(meshyTreeParts), bounds = new THREE.Box3().setFromObject(source[0].scene);
-      const nativeHeight = bounds.max.y - bounds.min.y;
+      // A generated tree's roots and trunk foot are modelled below its ground plane (y = 0): that plane stays the ground.
+      const bottom = hero ? 0 : bounds.min.y, nativeHeight = bounds.max.y - bottom;
       if (!(nativeHeight > 0)) throw new Error(`Tree ${id} has no height.`);
       const scale = HEIGHT[species] / nativeHeight;
       let height = 0, crownRadius = 0, trunkRadius = 0;
@@ -460,19 +478,25 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
         if (!part || leaf && species === 'dead') return null;
         const geometry = part.geometry.clone().applyMatrix4(part.matrix);
         if (leaf && (species === 'fir' || species === 'shorepine')) remapStrayFernCell(geometry);
-        geometry.translate(0, -bounds.min.y, 0).scale(scale, scale, scale);
+        geometry.translate(0, -bottom, 0).scale(scale, scale, scale);
         geometry.computeBoundingBox(); geometry.computeBoundingSphere();
         const p = geometry.getAttribute('position');
+        // Hero wood: roots and the soil skirt follow the trunk and branches in the index; colliders are trunk-only (treeGrounding twigIndex).
+        const trunkOnly = !leaf && hero ? geometry.userData.tervainWoodCollisionIndex as number | undefined : undefined;
+        if (trunkOnly) geometry.userData.twigIndex = trunkOnly;
+        const trunkVertices = trunkOnly && geometry.index ? new Set(Array.from({ length: trunkOnly }, (_, k) => geometry.index!.getX(k))) : null;
         for (let i = 0; i < p.count; i++) {
           height = Math.max(height, p.getY(i));
           // Clearing guards cover every rendered branch as well as leaves, including deadwood.
           crownRadius = Math.max(crownRadius, Math.hypot(p.getX(i), p.getZ(i)));
-          if (!leaf && p.getY(i) < 2.6) trunkRadius = Math.max(trunkRadius, Math.hypot(p.getX(i), p.getZ(i)));
+          if (!leaf && p.getY(i) < 2.6 && (!trunkVertices || trunkVertices.has(i))) trunkRadius = Math.max(trunkRadius, Math.hypot(p.getX(i), p.getZ(i)));
         }
         geometries.add(geometry); return geometry;
       };
-      const clusters = BROADLEAF.has(species);
-      const palette = decoded.map((parts, lod) => ({ wood: parts.wood ? cloneMaterial(parts.wood.material, true, species) : null, leaf: parts.leaf && species !== 'dead' ? (clusters && lod < 2 ? clusterMaterial(parts.leaf.material) : cloneMaterial(parts.leaf.material, false, species)) : null }));
+      const clusters = BROADLEAF.has(species) && !hero, materialSpecies = hero ? undefined : species;
+      const palette = decoded.map((parts, lod) => ({ wood: parts.wood ? cloneMaterial(parts.wood.material, true, materialSpecies) : null, leaf: parts.leaf && species !== 'dead' ? (clusters && lod < 2 ? clusterMaterial(parts.leaf.material) : cloneMaterial(parts.leaf.material, false, materialSpecies)) : null }));
+      // The hero leaf cards carry crown AO / thickness / tint in vertex colour for the foliage shader; until it reads them the plain albedo is drawn.
+      if (hero) for (const entry of palette) if (entry.leaf) { (entry.leaf as THREE.MeshStandardMaterial).vertexColors = false; entry.leaf.needsUpdate = true; }
       const lods = decoded.map((parts, lod) => {
         let wood = prepare(parts.wood, false);
         let exported = prepare(parts.leaf, true);
@@ -504,7 +528,7 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
           return { wood, leaf: canopy, tris };
         }
         const triangles = (g: THREE.BufferGeometry | null) => (g ? (g.index?.count ?? g.getAttribute('position').count) / 3 : 0);
-        const leaf = thicken(exported, lod === 0 && BROADLEAF.has(species), TREE_TRIANGLES - triangles(wood) - triangles(exported));
+        const leaf = thicken(exported, lod === 0 && BROADLEAF.has(species) && !hero, TREE_TRIANGLES - triangles(wood) - triangles(exported));
         if (leaf && leaf !== exported) { geometries.delete(exported!); geometries.add(leaf); }
         return { wood, leaf, tris: [wood, leaf].reduce((sum, geometry) => sum + (geometry ? (geometry.index?.count ?? geometry.getAttribute('position').count) / 3 : 0), 0) };
       }) as TreeVariant['lods'];
