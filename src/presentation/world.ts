@@ -536,6 +536,24 @@ export class WorldScene {
     }
   }
 
+  private advanceDust(dt: number) {
+    const arr = this.dust.geometry.attributes.position as THREE.BufferAttribute;
+    let changed = this.dustNeedsClear, live = false;
+    this.dustData.forEach((p, i) => {
+      if (p.life > 0) {
+        live = changed = true;
+        p.life -= dt;
+        p.x += p.vx * dt;
+        p.y += p.vy * dt;
+        p.z += p.vz * dt;
+        arr.setXYZ(i, p.x, p.y, p.z);
+      } else if (this.dustNeedsClear) arr.setXYZ(i, 0, -200, 0);
+    });
+    this.dustNeedsClear = live;
+    if (changed) arr.needsUpdate = true;
+    this.dust.visible = live;
+  }
+
   /** Everything moving through the grass: the app's people, every visible animal and any loose cargo that is moving. */
   private grassMovers(dt: number): GrassMover[] {
     const movers: GrassMover[] = [...this.grassPeople];
@@ -740,20 +758,7 @@ export class WorldScene {
     // Quarry dust and the local response of the rite's bowl, water and altar.
     const working = v.quarryState === 'working' || v.quarryState === 'night_shift';
     this.emitDust(dt, working ? 1 : 0);
-    const arr = this.dust.geometry.attributes.position as THREE.BufferAttribute;
-    let changed = this.dustNeedsClear, live = false;
-    this.dustData.forEach((p, i) => {
-      if (p.life > 0) {
-        live = changed = true;
-        p.life -= dt;
-        p.x += p.vx * dt;
-        p.y += p.vy * dt;
-        p.z += p.vz * dt;
-        arr.setXYZ(i, p.x, p.y, p.z);
-      } else if (this.dustNeedsClear) arr.setXYZ(i, 0, -200, 0);
-    });
-    this.dustNeedsClear = live;
-    if (changed) arr.needsUpdate = true;
+    this.advanceDust(dt);
     this.riteResponse.update(dt, reduced, night);
     // Ledger glows faintly while the archive is accessible; the archive lamp is emissive via lantern lights.
     this.scenery.ledger.rotation.y = Math.sin(this.time * 0.8) * 0.05;
