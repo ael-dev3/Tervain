@@ -1,0 +1,18 @@
+<!doctype html><html><body style="margin:0"><script>window.addEventListener('error',e=>window.fixtureError=e.message);window.addEventListener('unhandledrejection',e=>window.fixtureError=String(e.reason));</script><script type="module">
+import * as THREE from 'three';
+const mode=new URLSearchParams(location.search).get('mode');
+const {buildFallingLeaves}=await import(mode==='before'?'/@idle-before':'/src/presentation/fallingLeaves.ts');
+const geometry=new THREE.PlaneGeometry(1,1).translate(2,6,1),variant={species:'oak',height:8,crownRadius:3,trunkRadius:1,bark:'oak',leafTexture:'oak',crownTexture:'crown',lods:[{wood:null,leaf:geometry,tris:2},{wood:null,leaf:null,tris:0},{wood:null,leaf:null,tris:0}]};
+let terrainCalls=0;const terrain={heightAt(){terrainCalls++;return 0;}};
+const trees=Array.from({length:256},(_,i)=>({sp:'oak',v:0,x:-182,y:1,z:14,s:1,yaw:0,tint:1,radius:1,collisionId:'idle:'+i,decorationRank:0}));
+const leaves=buildFallingLeaves(terrain,'high',trees,()=>variant),mesh=leaves.group.getObjectByName('detached-leaves'),alpha=mesh.geometry.getAttribute('aLeafOpacity');
+const renderer=new THREE.WebGLRenderer({antialias:false,preserveDrawingBuffer:true});renderer.setSize(320,240);document.body.append(renderer.domElement);const scene=new THREE.Scene();scene.background=new THREE.Color(0x303840);scene.add(new THREE.AmbientLight(0xffffff,3),leaves.group);
+const camera=new THREE.PerspectiveCamera(40,4/3,.02,2000);camera.position.set(-179,5,20);camera.lookAt(-180,3,15);camera.updateMatrixWorld();
+const frame={camera,focus:camera.position.clone(),nightness:0,sunDir:new THREE.Vector3(1,1,1),reducedMotion:false,time:1,hour:11,view:{},quality:'high'};
+leaves.update(.1,frame);renderer.render(scene,camera);frame.reducedMotion=true;
+let uploaded=0,matrixWrites=0,opacityWrites=0;const gl=renderer.getContext(),arrays=[mesh.instanceMatrix.array,alpha.array];for(const name of ['bufferData','bufferSubData']){const original=gl[name];gl[name]=function(...a){const data=name==='bufferData'?a[1]:a[2];if(arrays.includes(data)){const start=name==='bufferSubData'?(a[3]??0):0,count=name==='bufferSubData'?(a[4]||data.length-start):data.length;uploaded+=count*data.BYTES_PER_ELEMENT;}return original.apply(this,a);};}
+const matrixSet=mesh.setMatrixAt,alphaSet=alpha.setX;mesh.setMatrixAt=function(...a){matrixWrites++;return matrixSet.apply(this,a);};alpha.setX=function(...a){opacityWrites++;return alphaSet.apply(this,a);};terrainCalls=0;
+const words=a=>Array.from(new Uint32Array(a.buffer,a.byteOffset,a.byteLength/4));const state=()=>({matrices:words(mesh.instanceMatrix.array),alpha:words(alpha.array),visible:mesh.visible,count:mesh.count});
+const start={matrixVersion:mesh.instanceMatrix.version,alphaVersion:alpha.version};
+window.idleLeaves={report:{mode,pool:alpha.count,idle:null,states:[state()]},step(){leaves.update(1/60,frame);renderer.render(scene,camera);},finish(){this.report.idle={uploadBytes:uploaded,frames:120,perFrameUploadBytes:uploaded/120,drawCalls:renderer.info.render.calls,triangles:renderer.info.render.triangles,textureCount:renderer.info.memory.textures,matrixWrites,opacityWrites,terrainCalls,matrixVersionDelta:mesh.instanceMatrix.version-start.matrixVersion,alphaVersionDelta:alpha.version-start.alphaVersion,visible:mesh.visible,glError:gl.getError(),contextLost:gl.isContextLost()};this.report.states.push(state());for(const [x,dt,reduced]of [[-1000,0,true],[-179,0,true],[-179,1/60,false]]){camera.position.x=x;frame.reducedMotion=reduced;leaves.update(dt,frame);this.report.states.push(state());}return this.report;}};
+</script></body></html>

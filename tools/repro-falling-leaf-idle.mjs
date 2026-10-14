@@ -1,0 +1,16 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import {execFileSync} from 'node:child_process';
+import {createHash} from 'node:crypto';
+import {fileURLToPath} from 'node:url';
+import {createServer,transformWithOxc} from 'vite';
+import sharp from 'sharp';
+import {openPage} from './cdp.mjs';
+const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..'),out=process.argv[2]??'falling-idle-proof';fs.mkdirSync(out,{recursive:true});fs.rmSync(path.join(out,'report.json'),{force:true});
+const baselineRef='421d34b',source=execFileSync('git',['show',`${baselineRef}:src/presentation/fallingLeaves.ts`],{cwd:root,encoding:'utf8'}).replace(/from '(\.[^']+)'/g,(_,id)=>`from '${path.posix.resolve('/src/presentation',id)}.ts'`),baseline=(await transformWithOxc(source,'before.ts')).code;
+const server=await createServer({root,configFile:false,logLevel:'error',server:{host:'127.0.0.1',port:0,hmr:false,ws:false},plugins:[{name:'idle-before',resolveId(id){if(id==='/@idle-before')return '\0idle-before';},load(id){if(id==='\0idle-before')return baseline;}}]});
+let page;const reports={};try{await server.listen();for(const mode of ['before','after']){page=await openPage(`http://127.0.0.1:${server.httpServer.address().port}/tools/falling-leaf-idle-fixture.html?mode=${mode}`,{w:320,h:240,flags:['--use-gl=angle','--use-angle=swiftshader']});let ready=false;for(let i=0;i<300;i++){const error=await page.eval('return window.fixtureError');if(error)throw Error(error);if(await page.eval('return !!window.idleLeaves')){ready=true;break;}await page.wait(100);}if(!ready)throw Error('Fixture did not initialize');await page.eval('for(let i=0;i<120;i++)window.idleLeaves.step();');await page.shot(path.join(out,mode+'.png'));reports[mode]=await page.eval('return window.idleLeaves.finish();');page.close();page=null;}
+ const a=await sharp(path.join(out,'before.png')).removeAlpha().raw().toBuffer(),b=await sharp(path.join(out,'after.png')).removeAlpha().raw().toBuffer();let nonBackgroundPixels=0;for(let i=0;i<a.length;i+=3)if(a[i]!==a[0]||a[i+1]!==a[1]||a[i+2]!==a[2])nonBackgroundPixels++;
+ const stateEqual=JSON.stringify(reports.before.states)===JSON.stringify(reports.after.states),summary=r=>({pool:r.pool,idle:r.idle,statesSha256:createHash('sha256').update(JSON.stringify(r.states)).digest('hex')});
+ const report={schema:1,baselineRef,sourceSha256:createHash('sha256').update(fs.readFileSync('src/presentation/fallingLeaves.ts')).digest('hex'),before:summary(reports.before),after:summary(reports.after),allFiveStatesBitIdentical:stateEqual,pixelIdentical:a.equals(b),nonBackgroundPixels,scope:'Production falling-leaf module on a controlled 256-stream source, 120 reduced-motion frames, then far/near coverage and clock-resume controls. Actual software-WebGL buffer bytes. Not a full-scene or hardware timing gate.',qualityPass:null,pass:stateEqual&&a.equals(b)&&nonBackgroundPixels>=10&&reports.before.idle.uploadBytes>0&&reports.after.idle.uploadBytes===0&&reports.after.idle.matrixWrites===0&&reports.after.idle.opacityWrites===0&&Object.values(reports).every(r=>r.idle.visible&&r.idle.glError===0&&!r.idle.contextLost)};fs.writeFileSync(path.join(out,'report.json'),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report));if(!report.pass)process.exitCode=1;
+}finally{page?.close();await server.close();}

@@ -1,0 +1,51 @@
+{
+  "schema": 1,
+  "baselineRef": "421d34b",
+  "sourceSha256": "1a815e2b23037eff381201cd43812d78b91745cc73f5ff6830d01bc9b51ae47d",
+  "before": {
+    "pool": 256,
+    "idle": {
+      "uploadBytes": 2088960,
+      "frames": 120,
+      "perFrameUploadBytes": 17408,
+      "drawCalls": 1,
+      "triangles": 2560,
+      "textureCount": 0,
+      "matrixWrites": 30720,
+      "opacityWrites": 30720,
+      "terrainCalls": 29640,
+      "matrixVersionDelta": 120,
+      "alphaVersionDelta": 120,
+      "visible": true,
+      "glError": 0,
+      "contextLost": false
+    },
+    "statesSha256": "5f9a7656c20f366a1c68c080922bef21e8ea7c7518521f133f2e2bf402fcf45e"
+  },
+  "after": {
+    "pool": 256,
+    "idle": {
+      "uploadBytes": 0,
+      "frames": 120,
+      "perFrameUploadBytes": 0,
+      "drawCalls": 1,
+      "triangles": 2560,
+      "textureCount": 0,
+      "matrixWrites": 0,
+      "opacityWrites": 0,
+      "terrainCalls": 0,
+      "matrixVersionDelta": 0,
+      "alphaVersionDelta": 0,
+      "visible": true,
+      "glError": 0,
+      "contextLost": false
+    },
+    "statesSha256": "5f9a7656c20f366a1c68c080922bef21e8ea7c7518521f133f2e2bf402fcf45e"
+  },
+  "allFiveStatesBitIdentical": true,
+  "pixelIdentical": true,
+  "nonBackgroundPixels": 3125,
+  "scope": "Production falling-leaf module on a controlled 256-stream source, 120 reduced-motion frames, then far/near coverage and clock-resume controls. Actual software-WebGL buffer bytes. Not a full-scene or hardware timing gate.",
+  "qualityPass": null,
+  "pass": true
+}

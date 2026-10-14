@@ -247,3 +247,14 @@ it('draws and uploads only the last non-discarded prefix, retaining stream slots
  leaves.update(.1,frame());expect(mesh.count).toBeGreaterThan(0);expect(mesh.instanceMatrix.updateRanges[0]!.count).toBe(mesh.count*16);
  }finally{leaves.dispose?.();variant.lods[0].leaf!.dispose();}
 });
+it('retains frozen leaf buffers, refreshes horizontal coverage and resumes animation without a clock jump',()=>{
+ const variant=source(),leaves=buildFallingLeaves({heightAt:()=>0},'high',Array.from({length:256},(_,i)=>tree(`idle:${i}`)),()=>variant),mesh=meshOf(leaves),a=opacity(mesh) as THREE.BufferAttribute;
+ try{const f=frame();leaves.update(.1,f);const matrix=Buffer.from(mesh.instanceMatrix.array.buffer).toString('hex'),alpha=Buffer.from(a.array.buffer).toString('hex'),m=mesh.instanceMatrix.version,v=a.version;
+ const frozen=frame(true);for(let i=0;i<120;i++)leaves.update(1/60,frozen);
+ expect(mesh.instanceMatrix.version).toBe(m);expect(a.version).toBe(v);expect(Buffer.from(mesh.instanceMatrix.array.buffer).toString('hex')).toBe(matrix);expect(Buffer.from(a.array.buffer).toString('hex')).toBe(alpha);
+ frozen.camera.position.y+=5;frozen.camera.rotation.y+=.5;leaves.update(0,frozen);expect(a.version).toBe(v);
+ frozen.camera.position.x=-1000;leaves.update(0,frozen);expect(a.version).toBe(v+1);expect(mesh.visible).toBe(false);
+ leaves.update(0,frame(true));expect(a.version).toBe(v+2);expect(mesh.visible).toBe(true);
+ leaves.update(1/60,frame(false));expect(mesh.instanceMatrix.version).toBeGreaterThan(m);expect(Buffer.from(mesh.instanceMatrix.array.buffer).toString('hex')).not.toBe(matrix);
+ }finally{leaves.dispose?.();variant.lods[0].leaf!.dispose();}
+});

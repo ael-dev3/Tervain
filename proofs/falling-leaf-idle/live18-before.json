@@ -1,0 +1,20 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "quality": "low",
+  "pool": 77,
+  "visible": true,
+  "drawn": 77,
+  "before": {
+    "matrixVersion": 4,
+    "alphaVersion": 6
+  },
+  "after": {
+    "matrixVersion": 124,
+    "alphaVersion": 126
+  },
+  "matrixIdentical": true,
+  "alphaIdentical": true
+}
