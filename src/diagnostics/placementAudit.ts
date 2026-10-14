@@ -96,6 +96,11 @@ export function auditPlacements(scene: THREE.Object3D, heightAt: (x: number, z: 
     if (options.kind === 'root') return;
     const mesh = object as THREE.Mesh;
     if (!mesh.isMesh || skeletal(mesh)) return;
+    // Static batching retains hidden lookup parts. They are not independent supports for their rendered copies.
+    const merged = mesh.userData.mergedInto as THREE.Mesh | undefined;
+    if (!mesh.visible && merged?.isMesh) {
+      for (let parent: THREE.Object3D | null = merged; parent; parent = parent.parent) if (parent === scene) return;
+    }
     const label = mesh.name || `mesh-${mesh.id}`;
     if (!omitted.test(label) || /terrain/i.test(label)) {
       const instances = mesh as THREE.InstancedMesh;

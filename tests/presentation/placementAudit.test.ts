@@ -1,3 +1,4 @@
+import { mergeStaticParts } from '../../src/presentation/staticMerge';
 import { buildFurniture, deferredFurniture } from '../../src/presentation/furniture';
 import { FURNITURE } from '../../src/world/furniture';
 import type { RoomLocator } from '../../src/world/interiors';
@@ -160,4 +161,27 @@ it('indexes large support triangles only when a footprint probe needs them', () 
     geometry.dispose();
     for (const mesh of scene.children as THREE.Mesh[]) { mesh.geometry.dispose(); (mesh.material as THREE.Material).dispose(); }
   }
+});
+
+it('does not let hidden merged source parts support their own rendered copies', () => {
+  const scene = new THREE.Scene(), group = new THREE.Group(), material = new THREE.MeshBasicMaterial(); scene.add(group);
+  const geometry = new THREE.BoxGeometry(1,1,1);
+  for (const x of [0,3]) { const part = new THREE.Mesh(geometry,material); part.position.set(x,2,0); group.add(part); }
+  expect(auditPlacements(scene,()=>0).summary).toMatchObject({props:2,candidates:2});
+  mergeStaticParts(group);
+  expect(auditPlacements(scene,()=>0).summary).toMatchObject({props:2,candidates:2});
+});
+
+it('retains hidden prop coverage without an attached replacement batch', () => {
+  const scene = new THREE.Scene(), part = box(0,2); part.visible=false; scene.add(part);
+  expect(auditPlacements(scene,()=>0).summary).toMatchObject({props:1,candidates:1});
+  part.userData.mergedInto=new THREE.Mesh(part.geometry,part.material);
+  expect(auditPlacements(scene,()=>0).summary).toMatchObject({props:1,candidates:1});
+});
+it('retains grounded and independently supported batched props', () => {
+  const scene=new THREE.Scene(),group=new THREE.Group(),material=new THREE.MeshBasicMaterial();scene.add(group);
+  for(const [x,y]of [[0,.5],[3,1.5]]){const part=new THREE.Mesh(new THREE.BoxGeometry(1,1,1),material);part.position.set(x!,y!,0);group.add(part);}
+  const support=box(3,.5);scene.add(support);
+  mergeStaticParts(group);
+  expect(auditPlacements(scene,()=>0).summary).toMatchObject({props:3,candidates:0});
 });
