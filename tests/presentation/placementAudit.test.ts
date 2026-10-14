@@ -138,3 +138,20 @@ it('does not scan every triangle of a compact dense support for each footprint p
     expect(triangles).toBeLessThan(20_000);
   } finally {THREE.Mesh.prototype.raycast=original;support.geometry.dispose();(support.material as THREE.Material).dispose();prop.geometry.dispose();(prop.material as THREE.Material).dispose();}
 });
+
+it('can explicitly budget a large merged prop instead of omitting it from coverage', () => {
+  const dense=new THREE.BoxGeometry(1,1,1,129,129,129).translate(0,.5,0),floating=new THREE.BoxGeometry(1,1,1).translate(3,2,0);
+  const geometry=mergeGeometries([dense,floating])!,material=new THREE.MeshBasicMaterial(),scene=new THREE.Scene();
+  const mesh=new THREE.Mesh(geometry,material);mesh.name='merged planks';scene.add(mesh);
+  try {
+    expect(geometry.getAttribute('position').count).toBeGreaterThan(100_000);
+    const limited=auditPlacements(scene,()=>0);
+    expect(limited.complete).toBe(false);expect(limited.skipped).toEqual(['merged planks']);
+    const full=auditPlacements(scene,()=>0,[],{maxVertices:200_000});
+    expect(full.complete).toBe(true);expect(full.skipped).toEqual([]);expect(full.maxVertices).toBe(200_000);
+    expect(full.summary).toMatchObject({props:2,candidates:1});
+  } finally {dense.dispose();floating.dispose();geometry.dispose();material.dispose();}
+});
+it.each([0,-1,1.5,NaN,Infinity])('rejects an invalid placement vertex budget (%s)', maxVertices => {
+  expect(()=>auditPlacements(new THREE.Scene(),()=>0,[],{maxVertices})).toThrow(/limits/);
+});
