@@ -1,0 +1,35 @@
+{
+  "pass": true,
+  "rows": [
+    {
+      "size": "640xNaN",
+      "rejectedBeforeCapture": true,
+      "outputPreserved": true
+    },
+    {
+      "size": "0x360",
+      "rejectedBeforeCapture": true,
+      "outputPreserved": true
+    },
+    {
+      "size": "8193x360",
+      "rejectedBeforeCapture": true,
+      "outputPreserved": true
+    },
+    {
+      "size": "640x360x2",
+      "rejectedBeforeCapture": true,
+      "outputPreserved": true
+    },
+    {
+      "size": "640",
+      "rejectedBeforeCapture": true,
+      "outputPreserved": true
+    },
+    {
+      "size": "-1x360",
+      "rejectedBeforeCapture": true,
+      "outputPreserved": true
+    }
+  ]
+}

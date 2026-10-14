@@ -1,0 +1,285 @@
+{
+  "schema": 1,
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "startupErrors": [],
+  "size": [
+    640,
+    360
+  ],
+  "samples": 4,
+  "spots": {
+    "grove": {
+      "hero": [
+        -40,
+        0
+      ],
+      "from": [
+        3,
+        1.7,
+        4,
+        -10,
+        4,
+        0
+      ],
+      "to": [
+        3,
+        1.7,
+        -4,
+        -10,
+        4,
+        0
+      ]
+    },
+    "hill": {
+      "hero": [
+        -25.5,
+        -117
+      ],
+      "from": [
+        -5,
+        1.7,
+        0,
+        0,
+        11,
+        -8
+      ],
+      "to": [
+        5,
+        1.7,
+        0,
+        0,
+        11,
+        -8
+      ]
+    },
+    "woods": {
+      "hero": [
+        -108,
+        53
+      ],
+      "from": [
+        0,
+        2.2,
+        3.2,
+        0,
+        3.5,
+        -8
+      ],
+      "to": [
+        1,
+        2.2,
+        2.2,
+        0,
+        3.5,
+        -8
+      ]
+    }
+  },
+  "framesPerSpot": 3,
+  "rows": [
+    {
+      "spot": "grove",
+      "frame": 0,
+      "drawCalls": 651,
+      "triangles": 9463927,
+      "forest": {
+        "trees": 453,
+        "solitaryPines": 128,
+        "meshyTrees": 325,
+        "treeObstacles": 253,
+        "treesDrawn": 217,
+        "treeTris": 1912667,
+        "shadowTrees": 183,
+        "shadowTris": 753434,
+        "struckLeaves": 0,
+        "forestFloorPieces": 545,
+        "forestFloorDrawn": 449,
+        "fallingLeaves": 153,
+        "fallingLeavesVisible": 21,
+        "fallingLeafTris": 1530
+      }
+    },
+    {
+      "spot": "grove",
+      "frame": 1,
+      "drawCalls": 671,
+      "triangles": 10040525,
+      "forest": {
+        "trees": 453,
+        "solitaryPines": 128,
+        "meshyTrees": 325,
+        "treeObstacles": 253,
+        "treesDrawn": 233,
+        "treeTris": 2030333,
+        "shadowTrees": 183,
+        "shadowTris": 768727,
+        "struckLeaves": 0,
+        "forestFloorPieces": 545,
+        "forestFloorDrawn": 456,
+        "fallingLeaves": 153,
+        "fallingLeavesVisible": 22,
+        "fallingLeafTris": 1530
+      }
+    },
+    {
+      "spot": "grove",
+      "frame": 2,
+      "drawCalls": 688,
+      "triangles": 10228830,
+      "forest": {
+        "trees": 453,
+        "solitaryPines": 128,
+        "meshyTrees": 325,
+        "treeObstacles": 253,
+        "treesDrawn": 235,
+        "treeTris": 2178759,
+        "shadowTrees": 183,
+        "shadowTris": 770076,
+        "struckLeaves": 0,
+        "forestFloorPieces": 545,
+        "forestFloorDrawn": 466,
+        "fallingLeaves": 153,
+        "fallingLeavesVisible": 22,
+        "fallingLeafTris": 1530
+      }
+    },
+    {
+      "spot": "hill",
+      "frame": 0,
+      "drawCalls": 243,
+      "triangles": 2786069,
+      "forest": {
+        "trees": 453,
+        "solitaryPines": 128,
+        "meshyTrees": 325,
+        "treeObstacles": 253,
+        "treesDrawn": 35,
+        "treeTris": 402214,
+        "shadowTrees": 183,
+        "shadowTris": 667456,
+        "struckLeaves": 0,
+        "forestFloorPieces": 545,
+        "forestFloorDrawn": 160,
+        "fallingLeaves": 153,
+        "fallingLeavesVisible": 7,
+        "fallingLeafTris": 1530
+      }
+    },
+    {
+      "spot": "hill",
+      "frame": 1,
+      "drawCalls": 242,
+      "triangles": 2588183,
+      "forest": {
+        "trees": 453,
+        "solitaryPines": 128,
+        "meshyTrees": 325,
+        "treeObstacles": 253,
+        "treesDrawn": 26,
+        "treeTris": 308396,
+        "shadowTrees": 183,
+        "shadowTris": 669503,
+        "struckLeaves": 0,
+        "forestFloorPieces": 545,
+        "forestFloorDrawn": 160,
+        "fallingLeaves": 153,
+        "fallingLeavesVisible": 9,
+        "fallingLeafTris": 1530
+      }
+    },
+    {
+      "spot": "hill",
+      "frame": 2,
+      "drawCalls": 247,
+      "triangles": 2688732,
+      "forest": {
+        "trees": 453,
+        "solitaryPines": 128,
+        "meshyTrees": 325,
+        "treeObstacles": 253,
+        "treesDrawn": 28,
+        "treeTris": 324623,
+        "shadowTrees": 183,
+        "shadowTris": 687633,
+        "struckLeaves": 0,
+        "forestFloorPieces": 545,
+        "forestFloorDrawn": 160,
+        "fallingLeaves": 153,
+        "fallingLeavesVisible": 11,
+        "fallingLeafTris": 1530
+      }
+    },
+    {
+      "spot": "woods",
+      "frame": 0,
+      "drawCalls": 585,
+      "triangles": 9145910,
+      "forest": {
+        "trees": 453,
+        "solitaryPines": 128,
+        "meshyTrees": 325,
+        "treeObstacles": 253,
+        "treesDrawn": 227,
+        "treeTris": 2312959,
+        "shadowTrees": 183,
+        "shadowTris": 703181,
+        "struckLeaves": 0,
+        "forestFloorPieces": 545,
+        "forestFloorDrawn": 306,
+        "fallingLeaves": 153,
+        "fallingLeavesVisible": 34,
+        "fallingLeafTris": 1530
+      }
+    },
+    {
+      "spot": "woods",
+      "frame": 1,
+      "drawCalls": 587,
+      "triangles": 9277854,
+      "forest": {
+        "trees": 453,
+        "solitaryPines": 128,
+        "meshyTrees": 325,
+        "treeObstacles": 253,
+        "treesDrawn": 231,
+        "treeTris": 2303779,
+        "shadowTrees": 183,
+        "shadowTris": 719859,
+        "struckLeaves": 0,
+        "forestFloorPieces": 545,
+        "forestFloorDrawn": 311,
+        "fallingLeaves": 153,
+        "fallingLeavesVisible": 34,
+        "fallingLeafTris": 1530
+      }
+    },
+    {
+      "spot": "woods",
+      "frame": 2,
+      "drawCalls": 587,
+      "triangles": 9200778,
+      "forest": {
+        "trees": 453,
+        "solitaryPines": 128,
+        "meshyTrees": 325,
+        "treeObstacles": 253,
+        "treesDrawn": 226,
+        "treeTris": 2234642,
+        "shadowTrees": 183,
+        "shadowTris": 717022,
+        "struckLeaves": 0,
+        "forestFloorPieces": 545,
+        "forestFloorDrawn": 315,
+        "fallingLeaves": 153,
+        "fallingLeavesVisible": 34,
+        "fallingLeafTris": 1530
+      }
+    }
+  ],
+  "scope": "Published native High scene at playtest grove/hill/woods cameras, frozen world/actors, stepped camera views through native post/MSAA/water inputs; 3 fps inspection clips, not measured real-time movement or a calibrated quality verdict.",
+  "qualityPass": null,
+  "pass": true
+}

@@ -25,7 +25,10 @@ import { changeComponents } from './foliage-motion-metric.mjs';
 const args = Object.fromEntries(process.argv.slice(2).reduce((acc, a, i, all) => (a.startsWith('--') ? [...acc, [a.slice(2), all[i + 1]?.startsWith('--') || all[i + 1] === undefined ? 'true' : all[i + 1]]] : acc), []));
 const pair = (s, d) => (s ?? d).split(',').map(Number);
 const [x0, z0] = pair(args.from, '20,52'), [x1, z1] = pair(args.to, '-150,52');
-const [W, H] = pair(args.size, '1280x720'.replace('x', ','));
+const size = /^(\d+)[x,](\d+)$/.exec(args.size ?? '1280x720');
+if (!size) throw new Error('Invalid capture size; use WIDTHxHEIGHT');
+const [W, H] = size.slice(1).map(Number);
+if (![W, H].every(n => Number.isInteger(n) && n > 0 && n <= 8192)) throw new Error('Invalid capture size; use WIDTHxHEIGHT');
 const hour = Number(args.hour ?? 11), quality = args.quality ?? 'high';
 const clipStep = Number(args['clip-step'] ?? 0.25), popStep = Number(args['pop-step'] ?? 0.5);
 const out = path.resolve(args.out ?? 'distance-walk');
@@ -37,7 +40,7 @@ fs.mkdirSync(path.join(out, 'pop'), { recursive: true });
 
 const url = new URL(args.url ?? 'https://ael-dev3.github.io/Tervain/');
 for (const [k, v] of Object.entries({ shot: '1', quality, place: 'rillford', settle: '1', hud: '0', hour: String(hour) })) url.searchParams.set(k, v);
-const page = await openPage(url.href, { w: W, h: H, headed: args.headed === 'true', requestTimeoutMs: 600000 });
+const page = await openPage(url.href, { w: W, h: H, headed: args.headed === 'true', requestTimeoutMs: 600000, ...(process.env.REPRO_INIT_FILE ? { init: fs.readFileSync(process.env.REPRO_INIT_FILE, 'utf8') } : {}) });
 const raw = async (file) => new Uint8Array(await sharp(file).removeAlpha().raw().toBuffer());
 try {
   let ready = false;
@@ -59,7 +62,7 @@ try {
     D.pose = (x, z, dx, dz) => { const t = T.world.terrain, h = t.heightAt(x, z), ax = x + dx * 20, az = z + dz * 20;
       T.player.setPosition(x - dx * 8, z - dz * 8, Math.atan2(dx, dz), t); D.focus.set(x - dx * 8, t.heightAt(x - dx * 8, z - dz * 8), z - dz * 8);
       D.camera.position.set(x, h + 1.7, z); D.camera.lookAt(ax, t.heightAt(ax, az) + 1.2, az); D.camera.updateMatrixWorld(); };
-    D.update = (dt) => { const f = { ...D.frame, camera: D.camera, focus: D.focus, reducedMotion: true };
+    D.update = (dt, wildlifeActive = false) => { const f = { ...D.frame, camera: D.camera, focus: D.focus, reducedMotion: true, wildlifeActive };
       T.world.sky.update(f.hour, D.focus, 0, true);
       for (const m of T.world.modules) { m.module.prepare?.(T.renderer, 0); m.module.update(dt, f); } };
     D.render = () => { const info = T.renderer.info; info.autoReset = false; info.reset(); T.grade.render(T.world.scene, D.camera, 0); const r = { tris: info.render.triangles, draws: info.render.calls }; info.autoReset = true;
@@ -70,6 +73,15 @@ try {
   const at = (s) => `window.__dw.pose(${x0 + dx * s}, ${z0 + dz * s}, ${dx}, ${dz})`;
   // Settle at the start: several updates so the first tiles and fades are complete.
   await page.eval(`${at(0)}; for (let i = 0; i < 30; i++) window.__dw.update(1 / 60); window.__dw.render(); return 1`);
+
+  // Positive control: moving wildlife must not enter a purported streaming-only difference.
+  const actorControl = await page.eval(`const D = window.__dw, T = window.tervain;
+    const read = () => { const a = []; T.world.animals.group.traverse(o => { if (o.isBone) a.push(...o.position.toArray(), ...o.quaternion.toArray(), ...o.scale.toArray()); }); return a; };
+    const changed = (a, b) => a.reduce((n, v, i) => n + Number(v !== b[i]), 0);
+    const a = read(); for (let i = 0; i < 20; i++) D.update(1 / 60, true); const b = read();
+    for (let i = 0; i < 20; i++) D.update(1 / 60); const c = read();
+    return { steps: 20, boneComponents: a.length, activeChanged: changed(a, b), frozenChanged: changed(b, c) };`);
+  if (!actorControl.boneComponents || !actorControl.activeChanged || actorControl.frozenChanged) throw new Error('Wildlife freeze control failed');
 
   // Clip: one update per frame, as a walker would get.
   const stats = [];
@@ -103,7 +115,7 @@ try {
     schema: 1, url: url.href, setup, route: { from: [x0, z0], to: [x1, z1], metres: length, clipStep, popStep }, size: [W, H], clip,
     budget: { trianglesMedian: med(stats.map((s) => s.tris)), trianglesMax: Math.max(...stats.map((s) => s.tris)), drawsMedian: med(stats.map((s) => s.draws)), drawsMax: Math.max(...stats.map((s) => s.draws)) },
     popIn: { events: sum('events'), eventsPerMetre: sum('events') / length, farEvents: sum('farEvents'), farEventsPerMetre: sum('farEvents') / length, changedPixelsPerMetre: sum('changedPixels') / length, stepsWithChange: pops.filter((p) => p.events).length, steps: pops.length },
-    perFrame: stats, pops,
+    actorControl, perFrame: stats, pops,
   };
   fs.writeFileSync(path.join(out, 'report.json'), `${JSON.stringify(report, null, 1)}\n`);
   console.log(JSON.stringify({ build: setup.build, route: report.route, budget: report.budget, popIn: report.popIn, clip }));

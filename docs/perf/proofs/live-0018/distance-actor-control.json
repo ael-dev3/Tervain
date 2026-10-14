@@ -1,0 +1,12 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "stepsPerPhase": 20,
+  "boneComponents": 5510,
+  "baselineWildlifeActive": true,
+  "beforeChangedBoneComponents": 409,
+  "afterChangedBoneComponents": 0,
+  "scope": "Native distance runner, 20 updates with original wildlifeActive=true then 20 with wildlifeActive=false; direct bone-local component comparisons, not a pixel quality score."
+}

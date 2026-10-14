@@ -1,0 +1,272 @@
+{
+  "schema": 1,
+  "url": "https://ael-dev3.github.io/Tervain/?shot=1&quality=high&place=rillford&settle=1&hud=0&hour=19.3",
+  "setup": {
+    "hour": 19.490277777777766,
+    "quality": "high",
+    "modules": [
+      "forest",
+      "scatter",
+      "source rock piles",
+      "groundcover",
+      "wildlife",
+      "ambient",
+      "woodland air",
+      "coastal promontory",
+      "woodland landmarks",
+      "furniture",
+      "hearth fires",
+      "hunter supplies",
+      "caravan animal rest",
+      "land wildlife",
+      "physical supplies"
+    ],
+    "build": "v0.0.18 \u00b7 421d34b \u00b7 pre-alpha"
+  },
+  "route": {
+    "from": [
+      20,
+      52
+    ],
+    "to": [
+      12,
+      52
+    ],
+    "metres": 8,
+    "clipStep": 1,
+    "popStep": 0.5
+  },
+  "size": [
+    640,
+    360
+  ],
+  "clip": true,
+  "budget": {
+    "trianglesMedian": 7726039,
+    "trianglesMax": 7872368,
+    "drawsMedian": 474,
+    "drawsMax": 478
+  },
+  "popIn": {
+    "events": 0,
+    "eventsPerMetre": 0,
+    "farEvents": 0,
+    "farEventsPerMetre": 0,
+    "changedPixelsPerMetre": 42,
+    "stepsWithChange": 0,
+    "steps": 16
+  },
+  "actorControl": {
+    "steps": 20,
+    "boneComponents": 5510,
+    "activeChanged": 570,
+    "frozenChanged": 0
+  },
+  "perFrame": [
+    {
+      "tris": 7496910,
+      "draws": 469,
+      "treeTris": 2493177,
+      "shadowTris": 500227,
+      "shadowTrees": 113,
+      "treesDrawn": 276,
+      "grassTris": 1045335,
+      "grassDraws": 50
+    },
+    {
+      "tris": 7488315,
+      "draws": 469,
+      "treeTris": 2493177,
+      "shadowTris": 488728,
+      "shadowTrees": 113,
+      "treesDrawn": 276,
+      "grassTris": 953697,
+      "grassDraws": 48
+    },
+    {
+      "tris": 7560084,
+      "draws": 472,
+      "treeTris": 2493177,
+      "shadowTris": 509629,
+      "shadowTrees": 118,
+      "treesDrawn": 276,
+      "grassTris": 897975,
+      "grassDraws": 47
+    },
+    {
+      "tris": 7677707,
+      "draws": 474,
+      "treeTris": 2493177,
+      "shadowTris": 525357,
+      "shadowTrees": 120,
+      "treesDrawn": 276,
+      "grassTris": 996834,
+      "grassDraws": 48
+    },
+    {
+      "tris": 7853862,
+      "draws": 478,
+      "treeTris": 2493177,
+      "shadowTris": 528757,
+      "shadowTrees": 121,
+      "treesDrawn": 276,
+      "grassTris": 1114812,
+      "grassDraws": 50
+    },
+    {
+      "tris": 7872368,
+      "draws": 478,
+      "treeTris": 2493177,
+      "shadowTris": 541875,
+      "shadowTrees": 121,
+      "treesDrawn": 276,
+      "grassTris": 1116048,
+      "grassDraws": 50
+    },
+    {
+      "tris": 7795554,
+      "draws": 477,
+      "treeTris": 2473421,
+      "shadowTris": 539431,
+      "shadowTrees": 121,
+      "treesDrawn": 275,
+      "grassTris": 1116591,
+      "grassDraws": 51
+    },
+    {
+      "tris": 7726039,
+      "draws": 474,
+      "treeTris": 2471017,
+      "shadowTris": 524177,
+      "shadowTrees": 119,
+      "treesDrawn": 274,
+      "grassTris": 1120263,
+      "grassDraws": 51
+    },
+    {
+      "tris": 7733437,
+      "draws": 471,
+      "treeTris": 2471017,
+      "shadowTris": 531397,
+      "shadowTrees": 121,
+      "treesDrawn": 274,
+      "grassTris": 1120515,
+      "grassDraws": 51
+    }
+  ],
+  "pops": [
+    {
+      "metre": 0.5,
+      "events": 0,
+      "changedPixels": 19,
+      "farEvents": 0,
+      "boxes": []
+    },
+    {
+      "metre": 1,
+      "events": 0,
+      "changedPixels": 20,
+      "farEvents": 0,
+      "boxes": []
+    },
+    {
+      "metre": 1.5,
+      "events": 0,
+      "changedPixels": 22,
+      "farEvents": 0,
+      "boxes": []
+    },
+    {
+      "metre": 2,
+      "events": 0,
+      "changedPixels": 27,
+      "farEvents": 0,
+      "boxes": []
+    },
+    {
+      "metre": 2.5,
+      "events": 0,
+      "changedPixels": 20,
+      "farEvents": 0,
+      "boxes": []
+    },
+    {
+      "metre": 3,
+      "events": 0,
+      "changedPixels": 22,
+      "farEvents": 0,
+      "boxes": []
+    },
+    {
+      "metre": 3.5,
+      "events": 0,
+      "changedPixels": 19,
+      "farEvents": 0,
+      "boxes": []
+    },
+    {
+      "metre": 4,
+      "events": 0,
+      "changedPixels": 19,
+      "farEvents": 0,
+      "boxes": []
+    },
+    {
+      "metre": 4.5,
+      "events": 0,
+      "changedPixels": 19,
+      "farEvents": 0,
+      "boxes": []
+    },
+    {
+      "metre": 5,
+      "events": 0,
+      "changedPixels": 19,
+      "farEvents": 0,
+      "boxes": []
+    },
+    {
+      "metre": 5.5,
+      "events": 0,
+      "changedPixels": 15,
+      "farEvents": 0,
+      "boxes": []
+    },
+    {
+      "metre": 6,
+      "events": 0,
+      "changedPixels": 19,
+      "farEvents": 0,
+      "boxes": []
+    },
+    {
+      "metre": 6.5,
+      "events": 0,
+      "changedPixels": 20,
+      "farEvents": 0,
+      "boxes": []
+    },
+    {
+      "metre": 7,
+      "events": 0,
+      "changedPixels": 21,
+      "farEvents": 0,
+      "boxes": []
+    },
+    {
+      "metre": 7.5,
+      "events": 0,
+      "changedPixels": 23,
+      "farEvents": 0,
+      "boxes": []
+    },
+    {
+      "metre": 8,
+      "events": 0,
+      "changedPixels": 32,
+      "farEvents": 0,
+      "boxes": []
+    }
+  ],
+  "scope": "Published scene/modules through post-processing, frozen clock/wind and wildlife, same-camera differences around updates; dedicated water compositing/reflection passes are not requested here. These counters differ from the separate full native-pipeline spot captures. Stepped camera snapshots, not measured frame pacing or a whole-map quality verdict."
+}

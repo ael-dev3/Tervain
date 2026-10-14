@@ -1,0 +1,4 @@
+#!/usr/bin/env node
+import fs from 'node:fs';import os from 'node:os';import path from 'node:path';import assert from 'node:assert/strict';import {spawnSync} from 'node:child_process';
+const out=fs.mkdtempSync(path.join(os.tmpdir(),'distance-size-check-')),rows=[];
+try{fs.writeFileSync(path.join(out,'keep'),'unchanged');for(const size of ['640xNaN','0x360','8193x360','640x360x2','640','-1x360']){const run=spawnSync(process.execPath,['tools/capture-distance-walk.mjs','--size',size,'--out',out],{encoding:'utf8',timeout:30000});assert.notEqual(run.status,0);assert.match(run.stderr,/Invalid capture size; use WIDTHxHEIGHT/);assert.equal(fs.readFileSync(path.join(out,'keep'),'utf8'),'unchanged');rows.push({size,rejectedBeforeCapture:true,outputPreserved:true});}console.log(JSON.stringify({pass:true,rows},null,2));}finally{fs.rmSync(out,{recursive:true,force:true});}
