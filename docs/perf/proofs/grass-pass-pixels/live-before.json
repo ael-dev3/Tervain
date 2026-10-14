@@ -1,0 +1,55 @@
+{
+  "build": {
+    "version": "0.0.17",
+    "revision": "5da2776"
+  },
+  "program": "tervain-C-jU6_Ec.js",
+  "rows": [
+    {
+      "pass": "main",
+      "viewport": [
+        0,
+        0,
+        640,
+        360
+      ],
+      "expectedHeight": 360,
+      "uniformHeight": 360
+    },
+    {
+      "pass": "capture",
+      "viewport": [
+        0,
+        0,
+        128,
+        128
+      ],
+      "expectedHeight": 128,
+      "uniformHeight": 360
+    },
+    {
+      "pass": "cropped",
+      "viewport": [
+        0,
+        0,
+        128,
+        64
+      ],
+      "expectedHeight": 64,
+      "uniformHeight": 360
+    },
+    {
+      "pass": "main-again",
+      "viewport": [
+        0,
+        0,
+        640,
+        360
+      ],
+      "expectedHeight": 360,
+      "uniformHeight": 360
+    }
+  ],
+  "scope": "Actual compiled grass material callback and uniform, using native default, offscreen and cropped pass viewports. No source-class substitution; not a whole-scene shimmer or hardware timing check.",
+  "pass": false
+}
