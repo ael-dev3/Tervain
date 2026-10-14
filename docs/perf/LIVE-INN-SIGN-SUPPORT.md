@@ -15,9 +15,9 @@ The broad live prop scan did not return within its request deadline, both before
 Load the published build with `?shot=1&quality=low&place=rillford&settle=1&hud=0&hour=11`, wait for play/READY, then execute the following through the browser/CDP. It temporarily freezes simulation/rendering and restores names, adapters and callbacks afterward. Keep the returned scope warning with any exported receipt.
 
 ```js
+const report = await (async () => {
 const originalStep = window.tervain.step, originalRender = window.tervain.render;
 try {
-  // Evaluate this body in an async function and export its returned report.
 const T=window.tervain;T.step=()=>{};T.render=()=>{};await T.world.arrived;
  const restored=[],adapters=[],targets=[];const omitted=/water|terrain|sky|grass|foliage|leaves|floor shadows|cloud|dust|shadow$|sun|moon/i;
  T.world.scene.traverse(o=>{if(!o.isMesh)return;let sign=/inn-sign/i.test(o.name);for(let p=o.parent;p&&!sign;p=p.parent)sign=p.name==='Sign / inn';if(sign){targets.push(o.name);return;}const name=o.name;restored.push([o,name]);o.name=(omitted.test(name)&&!/terrain/i.test(name)?'foliage support / ':'terrain support / ')+name;});
@@ -27,6 +27,8 @@ const T=window.tervain;T.step=()=>{};T.render=()=>{};await T.world.arrived;
   window.tervain.step = originalStep;
   window.tervain.render = originalRender;
 }
+})();
+console.log(report);
 ```
 
 The native image uses the same frozen scene after restoring labels, with the camera at (6, 4, 35), looking at (1.9, 2.6, 32.45). No production placement, geometry or styling was changed.
