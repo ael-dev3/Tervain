@@ -105,7 +105,7 @@ export function clutterOnPiece(piece: FurnitureId, model: THREE.Mesh, size: read
  */
 export type { HungKind };
 
-const WOOD = 0x6a4a2c, WOODDARK = 0x4e3622, SOOT = 0x232120, BARK = 0x4a3826, SPLIT = 0x9a7a54, IRONC = 0x34312d, ROPE = 0x8f7a54, WICKER = 0x7a5a32, ONION = 0x9a6436;
+const LEATHER = 0x5e3a22, FLETCH = 0xb8ad94, WOOD = 0x6a4a2c, WOODDARK = 0x4e3622, SOOT = 0x232120, BARK = 0x4a3826, SPLIT = 0x9a7a54, IRONC = 0x34312d, ROPE = 0x8f7a54, WICKER = 0x7a5a32, ONION = 0x9a6436;
 
 export function hungGeometry(kind: HungKind): THREE.BufferGeometry {
   const parts: [THREE.BufferGeometry, number][] = [];
@@ -151,6 +151,22 @@ export function hungGeometry(kind: HungKind): THREE.BufferGeometry {
       cyl(0.006, 0.48, 0, -0.24, 0.04, ROPE);
       for (let i = 0; i < 9; i++) parts.push([new THREE.SphereGeometry(0.035, 6, 4).scale(1, 0.9, 1).translate(((i % 3) - 1) * 0.03, -0.08 - i * 0.045, 0.045 + (i % 2) * 0.012), ONION]);
       break;
+    // A140: a hunter's longbow, about 1.1 m, its string to the wall side, and a leather quiver of arrows.
+    case 'bow': {
+      parts.push([new THREE.TorusGeometry(0.7, 0.014, 4, 18, 1.8).rotateZ(Math.PI - 0.9).translate(0.435, -0.56, 0.03), WOOD]);
+      cyl(0.0025, 1.1, 0, -0.56, 0.03, ROPE);
+      cyl(0.02, 0.12, -0.265, -0.56, 0.03, LEATHER);
+      break;
+    }
+    case 'quiver': {
+      cyl(0.006, 0.12, 0, -0.06, 0.04, LEATHER);
+      parts.push([new THREE.CylinderGeometry(0.055, 0.045, 0.5, 8).rotateZ(0.12).translate(0.02, -0.38, 0.07), LEATHER]);
+      for (const [i, dx] of [-0.025, 0, 0.022, 0.01].entries()) {
+        parts.push([new THREE.CylinderGeometry(0.004, 0.004, 0.2, 4).rotateZ(0.12).translate(0.005 + dx, -0.06, 0.07 + (i % 2) * 0.015), WOOD]);
+        parts.push([new THREE.BoxGeometry(0.004, 0.06, 0.025).rotateZ(0.12).translate(0.002 + dx, 0.02, 0.07 + (i % 2) * 0.015), FLETCH]);
+      }
+      break;
+    }
     // A139: things that stand by the fire, on y = 0.
     case 'kettle': {
       // A sooty iron kettle about 0.25 m high: a squat body, a lid with a knob, a spout and a bail handle over it.

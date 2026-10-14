@@ -16,9 +16,11 @@ export type DressingId = 'bread' | 'jug' | 'candle' | 'pots' | 'cauldron' | 'her
 export type SmallKind = 'jar' | 'jug' | 'bowl' | 'cup' | 'candle' | 'pot' | 'loaf' | 'bottle' | 'spool' | 'sack' | 'basket';
 
 /** Things hung from a wall's peg rail (A136), built in code (presentation/clutter.ts). */
-export type HungKind = 'ladle' | 'pan' | 'sickle' | 'rope' | 'axe' | 'saw' | 'basket' | 'onions' | FiresideKind;
+export type HungKind = 'ladle' | 'pan' | 'sickle' | 'rope' | 'axe' | 'saw' | 'basket' | 'onions' | FiresideKind | BowKind;
 /** Things that stand by the fire (A139), drawn like the hung things (one instanced mesh each, colours in the vertices). */
 export type FiresideKind = 'kettle' | 'stool' | 'logbasket';
+/** A hunter's bows and his quiver (A140), hung from a peg rail. */
+export type BowKind = 'bow' | 'quiver';
 
 export interface Dressing {
   room: InteriorSpec;
@@ -112,13 +114,18 @@ const WINDOW_TOOLS: Record<string, HungKind[]> = {
 /** The rail under a window's sill girt (the sill is about 1.29 m over the floor); the longest tool clears the floor. */
 const WINDOW_RAIL_Y = 1.1;
 /** How wide each hung thing is along the rail, metres. */
-const HUNG_W: Record<HungKind, number> = { ladle: 0.14, pan: 0.3, sickle: 0.3, rope: 0.32, axe: 0.24, saw: 0.62, basket: 0.34, onions: 0.16, kettle: 0.3, stool: 0.36, logbasket: 0.5 };
+const HUNG_W: Record<HungKind, number> = { ladle: 0.14, pan: 0.3, sickle: 0.3, rope: 0.32, axe: 0.24, saw: 0.62, basket: 0.34, onions: 0.16, bow: 0.34, quiver: 0.16, kettle: 0.3, stool: 0.36, logbasket: 0.5 };
 
 /** The tools a household hangs on the hearth's wall either side of the breast (A139), where the room's views take them in. */
 const HEARTH_TOOLS: Record<string, [HungKind[], HungKind[]]> = {
   weaver: [['rope', 'basket'], ['sickle', 'ladle']], woodcutter: [['saw'], ['axe', 'axe']], herbalist: [['sickle', 'basket'], ['onions', 'onions', 'ladle']],
   hunter: [['axe', 'rope'], ['saw']], farmer: [['sickle', 'axe'], ['basket', 'rope']], brewer: [['ladle', 'pan'], ['rope', 'basket']],
   inn: [['pan', 'ladle'], ['pan', 'rope']], fisher: [['rope', 'basket'], ['axe']], keeper: [['axe', 'rope'], ['pan']], lodge: [['axe', 'rope'], ['saw']],
+};
+/** A trade's own wall (A140): its rails of tools, the walls it may take in order, and what it keeps near. */
+const TRADE_WALL: Record<string, { rails: HungKind[][]; walls: Wall[]; near?: 'workbench'; pelt?: boolean }> = {
+  woodcutter: { rails: [['saw', 'axe', 'axe']], walls: ['right', 'back', 'left'], near: 'workbench' },
+  hunter: { rails: [['bow', 'bow', 'quiver']], walls: ['right', 'left', 'back'], pelt: true },
 };
 /** The hearth wall's rails: lower than the others, so the tools on them hang at eye level beside the breast. */
 const HEARTH_RAIL_Y = 1.62;
@@ -260,6 +267,40 @@ export function dressRoom(room: InteriorSpec, placed: readonly FurniturePlacemen
         }
         break;
       }
+    }
+  }
+
+  // A140: each trade's own wall, where the room's views take it in. The woodcutter's saw and axes on pegs over his
+  // workbench; the hunter's bows and quiver on a rack and a pelt on the wall his first view looks at.
+  const trade = TRADE_WALL[household];
+  if (trade) {
+    const bench = placed.find((p) => p.piece === 'workbench');
+    const clear = (r: Rect, gap: number) => !windows.some((o) => near(r, o, -0.01)) && !always.some((o) => near(r, o)) && !tall.some((o) => near(r, o)) && !taken.some((o) => near(r, o, gap));
+    for (const whole of trade.rails) {
+      // Shortened a tool at a time until it finds a free stretch of wall.
+      const row = [...whole];
+      let width = 0, spot: ReturnType<typeof wallSpot> = null;
+      while (row.length) {
+        width = row.reduce((t, k) => t + HUNG_W[k] + 0.06, 0.08);
+        spot = wallSpot(hw, hd, width, (r) => clear(r, 0.12), trade.near === 'workbench' && bench ? bench : null, 0.05, 0, trade.walls, 0.1);
+        if (spot) break;
+        row.splice(row.length - 2, 1);
+      }
+      if (!spot) continue;
+      taken.push(spot.rect);
+      out.push({ room, piece: 'rail', x: spot.x, z: spot.z, y: RAIL_Y, yaw: spot.yaw, size: [width, 0.08] });
+      const c = Math.cos(spot.yaw), s = Math.sin(spot.yaw);
+      let t = -width / 2 + 0.07;
+      for (const kind of row) {
+        const along = t + HUNG_W[kind] / 2;
+        out.push({ room, piece: 'hung', hung: kind, x: spot.x + along * c, z: spot.z - along * s, y: RAIL_Y - 0.005, yaw: spot.yaw });
+        t += HUNG_W[kind] + 0.06;
+      }
+    }
+    if (trade.pelt) {
+      // Hung high, over whatever low thing stands before it (a bed, a chest): 0.72 m across.
+      const spot = wallSpot(hw, hd, 0.72, (r) => clear(r, 0.1), null, 0.16, 0, trade.walls, 0.1);
+      if (spot) { taken.push(spot.rect); out.push({ room, piece: 'pelt', x: spot.x, z: spot.z, y: 1.3, yaw: spot.yaw, scale: 0.6 }); }
     }
   }
 

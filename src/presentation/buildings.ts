@@ -218,12 +218,17 @@ function openRoof(R: Region, room: InteriorSpec, roof: { ridgeY: number; pitch: 
   // The underside of the roof's shell (roofs.ts: 0.016 + 0.09 below its planes), less a few millimetres.
   const under = (z: number) => roof.ridgeY - 0.112 - Math.abs(z) * tn;
   const hearth = hearthOf(room), sooty = hearth && b.kind !== 'bakery';
+  // A140: one smoke for everything up here, per vertex, so the boards, rafters and gable ends darken together from the
+  // wall top to near black at the ridge, and more over the fire. It stands in for roomShade while the roof is drawn.
   const smoke = (x: number, y: number, z: number) => {
-    let k = 0.62 - 0.22 * Math.min(1, Math.max(0, (y - top) / Math.max(0.5, roof.ridgeY - top)));
+    const up = Math.min(1, Math.max(0, (y - top) / Math.max(0.5, roof.ridgeY - top)));
+    let k = 0.7 - 0.45 * up ** 0.8;
     if (sooty) k *= 1 - 0.35 * Math.exp(-((x - hearth.stack.x) ** 2 + (z - hearth.stack.z) ** 2) / 3);
     return k;
   };
-  const tone = (base: number, x: number, y: number, z: number, j = 0.08) => mulc(jitterTone(base, inner, j), smoke(x, y, z));
+  const e = R.ctx.matrix.clone().invert().elements, before = R.ctx.shade;
+  R.ctx.shade = (wx, wy, wz) => smoke(e[0]! * wx + e[4]! * wy + e[8]! * wz + e[12]!, e[1]! * wx + e[5]! * wy + e[9]! * wz + e[13]!, e[2]! * wx + e[6]! * wy + e[10]! * wz + e[14]!);
+  const tone = (base: number, _x: number, _y: number, _z: number, j = 0.08) => jitterTone(base, inner, j);
   // The eaves closed over the front and back walls, from the wall top up to the roof, in steps under its slope.
   for (const sz of [-1, 1]) {
     const steps = 4, z0 = b.d / 2 - t, z1 = b.d / 2;
@@ -246,10 +251,11 @@ function openRoof(R: Region, room: InteriorSpec, roof: { ridgeY: number; pitch: 
   }
   // The gable ends inside, above the wall top: lime wash gone dark with smoke, up to the roof.
   for (const sx of [-1, 1]) {
-    const X = sx * (hw - 0.012), U = under(hd), Rr = under(0), c = mulc(jitterTone(0xf2ead8, inner, 0.05), smoke(X, (top + Rr) / 2, 0) * 0.85);
+    // Lime wash, but no whiter than the boards beside it once smoked: the same smoke, on a duller base.
+    const X = sx * (hw - 0.012), U = under(hd), Rr = under(0), c = mulc(jitterTone(0xf2ead8, inner, 0.05), 0.55);
     const quad = [X, top - 0.05, -hd, X, top - 0.05, hd, X, U, hd, X, U, -hd];
     // Both windings: the one facing the room shows, the other faces the gable's own infill a hand's breadth behind.
-    for (const flip of [false, true]) R.lime.quad(quad, c, { flip, uv: [-hd, top, hd, top, hd, U, -hd, U], nu: Math.max(1, Math.round(hd / 0.6)), amp: 0.02 });
+    for (const flip of [false, true]) R.lime.quad(quad, c, { flip, uv: [-hd, top, hd, top, hd, U, -hd, U], nu: Math.max(1, Math.round(hd / 0.6)), nv: 2, amp: 0.02 });
     R.lime.tri3(X, U, -hd, X, U, hd, X, Rr, 0, c, 1, [-hd, U, hd, U, 0, Rr]);
     R.lime.tri3(X, U, hd, X, U, -hd, X, Rr, 0, c, 1, [hd, U, -hd, U, 0, Rr]);
   }
@@ -265,6 +271,7 @@ function openRoof(R: Region, room: InteriorSpec, roof: { ridgeY: number; pitch: 
     const zc = hd * 0.5, y1 = under(zc + 0.08) - 0.13;
     R.timber.bx(-hw - 0.02, y1 - 0.17, sz * zc - 0.08, hw + 0.02, y1, sz * zc + 0.08, tone(TINT.woodDark, 0, y1, sz * zc), { grain: 'x', jit: 0.04, amp: 0.02 });
   }
+  R.ctx.shade = before;
   // The chimney breast carried on up to the roof, in slices that each stop under the slope over them.
   if (hearth) {
     const c = CHIMNEY_STACK, face = c - BREAST_DEPTH;
@@ -393,11 +400,29 @@ export function roomShade(room: InteriorSpec, frame: THREE.Matrix4): (x: number,
       k *= 0.9 + 0.1 * valueNoise(t * 1.6, y * 2.1) + 0.05 * (valueNoise(t * 5.3 + 7, y * 4.7) - 0.5);
       k *= 0.93 + 0.09 * hashUnit(Math.floor((t + 20) / 0.78) + (ax < az ? 0.5 : 0));
       k *= 1 - 0.22 * Math.max(0, (y - (top - 0.9)) / 0.9) ** 1.5;
-      if (soot) k *= 1 - 0.3 * Math.exp(-((x - hearth.stack.x) ** 2 + (z - hearth.stack.z) ** 2) / 2.2) * Math.min(1, Math.max(0, y - floor - 1.1));
+      // A140: plank walls take the smoke harder and wider than lime wash (the woodcutter's).
+      const planked = room.building.wall === 'timber';
+      if (soot) k *= 1 - (planked ? 0.5 : 0.3) * Math.exp(-((x - hearth.stack.x) ** 2 + (z - hearth.stack.z) ** 2) / (planked ? 3.4 : 2.2)) * Math.min(1, Math.max(0, y - floor - (planked ? 0.8 : 1.1)));
     }
     if (y > top - 0.06 && y < top + 0.03) k *= 0.5 * (soot ? 1 - 0.25 * Math.exp(-((x - hearth.stack.x) ** 2 + (z - hearth.stack.z) ** 2) / 4) : 1);
     return Math.max(0.2, k);
   };
+}
+
+/**
+ * A140: the lime wash's map turned and shifted differently on each wall face, and drifted slowly along it, so its 1.5 m
+ * repeat does not line up from panel to panel. Seamless: each wall face is its own geometry, and the drift is smooth.
+ */
+function scatterLime(B: Region['lime'], from: number, seed: number) {
+  const uv = B.uv.a, nr = B.nr.a;
+  for (let i = from / 2; i < B.uv.n / 2; i++) {
+    const face = (Math.round(Math.atan2(nr[i * 3]!, nr[i * 3 + 2]!) / (Math.PI / 2)) + 4) % 4 + (Math.abs(nr[i * 3 + 1]!) > 0.7 ? 4 : 0);
+    const a = (hashUnit(seed * 31 + face * 7.3) - 0.5) * 1.1, c = Math.cos(a), s = Math.sin(a);
+    const u = uv[i * 2]!, v = uv[i * 2 + 1]!;
+    const du = 0.55 * (valueNoise(u * 0.6 + face * 9.1, v * 0.6) - 0.5), dv = 0.55 * (valueNoise(u * 0.6 + 31, v * 0.6 + face * 4.7) - 0.5);
+    uv[i * 2] = c * u - s * v + hashUnit(seed * 13 + face) * 4 + du;
+    uv[i * 2 + 1] = s * u + c * v + hashUnit(seed * 17 + face * 3) * 4 + dv;
+  }
 }
 
 const hashUnit = (n: number) => { const s = Math.sin(n * 127.1 + 311.7) * 43758.5453; return s - Math.floor(s); };
@@ -468,7 +493,9 @@ function buildStandardPass(R: Region, terrain: Terrain, b: BuildingSpec, out: Bu
     roomWalls(R.plaster, b.w, b.d, wallH, y0, t, room.door, jitterTone(TINT.plaster, rnd, 0.06), 0.3, openings);
     // A139: the lime wash inside, a skin 12 mm before the walls' inner faces in its own small texture, with the same
     // doorway and window openings. Its tint is taken from a hash, not `rnd`, so the building's sequence is unchanged.
+    const limeFrom = R.lime.uv.n;
     roomWalls(R.lime, b.w - 2 * t, b.d - 2 * t, wallH, y0, 0.012, room.door, jitterTone(0xf2ead8, mulberry32(Math.floor(hash3(b.x, b.z, 41) * 1e9)), 0.05), 0.3, openings);
+    scatterLime(R.lime, limeFrom, hash3(b.x, b.z, 47));
     timberFrame(R, rnd, b.w, b.d, wallH, y0, gap, openings);
   } else {
     roomWalls(R.stone, b.w, b.d, wallH, y0, t, room.door, jitterTone(TINT.stone, rnd, 0.05), 0.9, openings);

@@ -137,6 +137,17 @@ describe('a fuller room and a swinging sign (A136)', () => {
     expect(withTools).toBeGreaterThanOrEqual(4);
   });
 
+  it("hangs the woodcutter's saw and axes and the hunter's bows, quiver and pelt on their own walls (A140)", () => {
+    const at = (id: string) => DRESSING.filter((d) => d.room.building.id === id);
+    const woodcutter = at('house_b'), hunter = at('house_d');
+    expect(woodcutter.filter((d) => d.hung === 'saw').length).toBeGreaterThanOrEqual(1);
+    expect(woodcutter.filter((d) => d.hung === 'axe').length).toBeGreaterThanOrEqual(2);
+    expect(hunter.filter((d) => d.hung === 'bow').length).toBeGreaterThanOrEqual(1);
+    expect(hunter.filter((d) => d.hung === 'quiver').length).toBe(1);
+    expect(hunter.filter((d) => d.piece === 'pelt').length).toBeGreaterThanOrEqual(1);
+    for (const d of [...woodcutter, ...hunter].filter((x) => x.hung === 'bow' || x.hung === 'saw')) expect(d.y - 1.1).toBeGreaterThan(0.25);
+  });
+
   it('sways the inn sign gently, never more than about 7 degrees', () => {
     let hi = 0, moved = 0;
     for (let t = 0; t < 600; t += 0.05) { const a = signSway(t); hi = Math.max(hi, Math.abs(a)); if (Math.abs(a) > 0.02) moved++; }
