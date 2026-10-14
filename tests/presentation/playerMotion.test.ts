@@ -402,6 +402,19 @@ describe('player motion and action contacts', () => {
       else expect(s.player.vault).not.toBeNull();
     });
 
+  it.each(['wildlife', 'resident', 'enemy'] as const)('rejects a fence vault into a standing %s', kind => {
+    const s = setup(); s.ctx.terrain.heightAt = () => 0;
+    s.ctx.colliders.box('fence', .8, 0, .12, 3, 0, true, { minY: -.3, maxY: 1.7 });
+    if (kind === 'wildlife') s.ctx.wildlifeContacts = [{ id: 'animal:blocker', kind: 'circle', x: 1.62, z: 0, r: .35, active: true, minY: 0, maxY: 2.1 }];
+    else if (kind === 'resident') {
+      const id = Object.keys(s.ctx.game.state.npcs)[0]! as keyof typeof s.ctx.game.state.npcs;
+      s.ctx.game.state.npcs[id]!.available = true;
+      s.ctx.npcs = [{ id, x: 1.62, y: 0, z: 0, hidden: false } as NpcActor];
+    } else s.ctx.enemies = [{ id: 'blocker', x: 1.62, y: 0, z: 0, radius: .35, alive: true } as unknown as EnemyActor];
+    s.player.yaw = Math.PI / 2; s.presses.add('jump'); s.tick();
+    expect(s.player.vault).toBeNull();
+  });
+
   it.each([false, true])('keeps a fence vault below solid overhead scenery (roof=%s)', (roof) => {
     const s = setup();
     s.ctx.terrain.heightAt = () => 0;

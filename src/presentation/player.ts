@@ -708,6 +708,7 @@ export class Player {
    */
   private fenceVault(ctx: PlayerCtx, approach?: { x: number; z: number }): Player['vault'] {
     const fx = approach?.x ?? Math.sin(this.yaw), fz = approach?.z ?? Math.cos(this.yaw);
+    let people: Collider[] | undefined;
     for (const c of ctx.colliders.withId('fence')) {
       if (c.kind !== 'box' || !c.active) continue;
       const cos = Math.cos(c.yaw), sin = Math.sin(c.yaw);
@@ -750,7 +751,7 @@ export class Player {
         const arcGuard = Math.abs(lift) * Math.PI * Math.PI / (8 * 20 * 20);
         const bounds = { minY: Math.min(previous.y, next.y) + PLAYER_FOOT_CLEARANCE,
           maxY: Math.max(previous.y, next.y) + PLAYER_BODY_HEIGHT + arcGuard };
-        if (ctx.colliders.cast(previous.x, previous.z, next.x, next.z, PLAYER_RADIUS, ignored, bounds) ||
+        if (ctx.colliders.cast(previous.x, previous.z, next.x, next.z, PLAYER_RADIUS, ignored, bounds, people ??= this.contacts(ctx)) ||
           ctx.physics?.propsBlockBodySweep?.(previous, next, arcGuard + horizontalGuard)) { clear = false; break; }
         previous = next;
       }
