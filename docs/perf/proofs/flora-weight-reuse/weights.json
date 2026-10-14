@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "baselineRef": "5da2776",
+  "sourceSha256": "5eb64bdf12193bebdaa20b1c954c6aa2139845fcd290f29b326d270219d7f464",
+  "scope": "Actual source weight functions across all species/qualities and quarter-metre distances 0–1100. Distinct returned array references; not JS heap bytes or frame timings.",
+  "valueComparisons": 118827,
+  "mismatches": 0,
+  "highCalls": 120000,
+  "beforeDistinctReturns": 120000,
+  "afterDistinctReturns": 1,
+  "pass": true
+}
