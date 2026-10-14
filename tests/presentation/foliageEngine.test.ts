@@ -6,7 +6,7 @@ import { installShadowOnlyGroup, shadowDepthMaterial, shadowGeometry } from '../
 import { LEAF_BURST_POOL, createLeafBurst } from '../../src/presentation/foliage/leafBurst';
 import { GrassWind } from '../../src/presentation/grass/wind';
 import { attachInstanceDistanceVisibility } from '../../src/presentation/distanceVisibility';
-import { FLORA_SHADOW_LOD, buildFlora, floraShadowLod, foliageResponse } from '../../src/presentation/flora';
+import { FLORA_SHADOW_LOD, buildFlora, floraShadowLod, floraShadowWeights, foliageResponse } from '../../src/presentation/flora';
 import { SHRUB_LOD_BANDS, createFloraPopulation, floraLodWeights, floraLodWeightsFor, registerFloraColliders, type FloraTree } from '../../src/presentation/floraPopulation';
 import { groundedTreeY, treeWoodCollisionRadius } from '../../src/presentation/treeGrounding';
 import { createPineForest, isPineSpecies, type PineTemplates } from '../../src/presentation/solitaryPine';
@@ -231,6 +231,22 @@ describe('shadow-only casters', () => {
     const map = new THREE.Texture(), leaf = new THREE.MeshStandardMaterial({ map, alphaTest: 0.35, side: THREE.DoubleSide });
     const depth = shadowDepthMaterial(leaf);
     expect([depth.map, depth.alphaTest, depth.side, depth.depthPacking]).toEqual([map, 0.35, THREE.DoubleSide, THREE.RGBADepthPacking]);
+  });
+
+  it('reuses caller-owned shadow weights across both bands and species without mutating retained default results', () => {
+    const retained = floraShadowWeights(14, false);
+    const independent = floraShadowWeights(14, false);
+    expect(retained).not.toBe(independent);
+    const out: [number, number, number] = [99, 99, 99];
+    for (const [distance, pine, expected] of [
+      [200, true, [0, 1, 0]], [200, false, [0, 0, 1]],
+      [64, false, [0, 0.5, 0.5]], [14, false, [0.5, 0.5, 0]],
+      [0, false, [1, 0, 0]], [16, true, [0, 1, 0]],
+    ] as const) {
+      expect(floraShadowWeights(distance, pine, out)).toBe(out);
+      expect(out).toEqual(expected);
+      expect(retained).toEqual([0.5, 0.5, 0]);
+    }
   });
 
   it('casts with the full model near the camera and lighter source models beyond, the Pine never from its crossed planes', () => {
