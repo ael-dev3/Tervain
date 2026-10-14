@@ -1,0 +1,87 @@
+{
+  "baselineRef": "5da2776",
+  "sourceSha256": "409e070cc7fed9d80eafb1a3e82a823118422a101bdbbf7d86340672cb8fe273",
+  "scope": "Production grass shader/clumps and native Grade post/MSAA; fully resolved and subpixel dry leaves. Controlled software-WebGL correctness fixture; whole-scene motion receipts are separate. Texture payload excludes driver overhead and depth buffers; upload bytes exclude uniforms.",
+  "before": {
+    "resolved": {
+      "pass": "resolved",
+      "stats": {
+        "frame": 10,
+        "calls": 5,
+        "triangles": 1348,
+        "points": 0,
+        "lines": 0
+      },
+      "textureCount": 4,
+      "textureImagePayloadBytes": 756736,
+      "msaaColorPayloadBytes": 2457600,
+      "postSamples": 4,
+      "warmupUploadBytes": 68420,
+      "uploadBytes": 0,
+      "errors": []
+    },
+    "thin": {
+      "pass": "thin",
+      "stats": {
+        "frame": 15,
+        "calls": 5,
+        "triangles": 1348,
+        "points": 0,
+        "lines": 0
+      },
+      "textureCount": 4,
+      "textureImagePayloadBytes": 756736,
+      "msaaColorPayloadBytes": 2457600,
+      "postSamples": 4,
+      "warmupUploadBytes": 68420,
+      "uploadBytes": 0,
+      "errors": []
+    }
+  },
+  "after": {
+    "resolved": {
+      "pass": "resolved",
+      "stats": {
+        "frame": 10,
+        "calls": 5,
+        "triangles": 1348,
+        "points": 0,
+        "lines": 0
+      },
+      "textureCount": 4,
+      "textureImagePayloadBytes": 756736,
+      "msaaColorPayloadBytes": 2457600,
+      "postSamples": 4,
+      "warmupUploadBytes": 68420,
+      "uploadBytes": 0,
+      "errors": []
+    },
+    "thin": {
+      "pass": "thin",
+      "stats": {
+        "frame": 15,
+        "calls": 5,
+        "triangles": 1348,
+        "points": 0,
+        "lines": 0
+      },
+      "textureCount": 4,
+      "textureImagePayloadBytes": 756736,
+      "msaaColorPayloadBytes": 2457600,
+      "postSamples": 4,
+      "warmupUploadBytes": 68420,
+      "uploadBytes": 0,
+      "errors": []
+    }
+  },
+  "changedThinPixels": 2215,
+  "assertions": {
+    "resolvedPixelIdentical": true,
+    "thinPixelsChanged": true,
+    "drawStatsIdentical": true,
+    "texturesIdentical": true,
+    "uploadBytesIdentical": true,
+    "nativeMsaa": true
+  },
+  "pass": true
+}
