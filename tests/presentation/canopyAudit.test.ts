@@ -79,3 +79,12 @@ it('does not use transparent space inside alpha bounds as a wood contact', () =>
     expect(auditCanopies([target], { alpha: true }).summary.candidates).toBe(0);
   } finally { wood.dispose(); leaves.dispose(); }
 });
+
+it('rejects unavailable required cutouts rather than claiming opaque coverage in alpha mode',()=>{
+ const t={...fixture(),cutoutRequired:true,cutout:null};
+ expect(()=>auditCanopies([t],{alpha:true})).toThrow(/Missing required leaf cutout/);
+ expect(auditCanopies([t],{alpha:false}).complete).toBe(true);
+ const opaque={...t,cutoutRequired:false};expect(auditCanopies([opaque],{alpha:true}).complete).toBe(true);
+ const decoded={...t,cutout:{uv:'uv',cutoff:.5,alpha:()=>1}};expect(auditCanopies([decoded],{alpha:true}).complete).toBe(true);
+ const leafless={...t,leaves:null};expect(auditCanopies([leafless],{alpha:true}).complete).toBe(true);
+});

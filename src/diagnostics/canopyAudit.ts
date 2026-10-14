@@ -1,6 +1,8 @@
 import * as THREE from 'three';
 
 export interface CanopyAuditTarget { label: string; species?: string; /** Species/asset, for grouping. */ kind?: string; lod?: number; wood: THREE.BufferGeometry | null; leaves: THREE.BufferGeometry | null; matrix: THREE.Matrix4;
+  /** Material requires alpha testing; an unavailable mask must not silently become opaque. */
+  cutoutRequired?: boolean;
   /** The leaf material's alpha cutout; used only with `alpha: true`. */
   cutout?: { uv: string; cutoff: number; alpha(u: number, v: number): number } | null }
 export interface CanopyAuditOptions { gap?: number; maxOperations?: number; /** Level of detail audited (0 near, 1 middle, 2 far). */ lod?: number;
@@ -88,6 +90,7 @@ export function auditCanopies(targets: readonly CanopyAuditTarget[], options: Ca
   const gap=options.gap??.75,woodReach=options.woodReach??1.5,maxOperations=options.maxOperations??20_000_000;
   if(!(woodReach>0&&Number.isFinite(woodReach))||!(gap>0&&Number.isFinite(gap))||!Number.isInteger(maxOperations)||maxOperations<1)throw new Error('Invalid canopy audit budget');
   let operations=0;const charge=()=>{if(++operations>maxOperations)throw new Error('Canopy audit budget exhausted');};
+  if(options.alpha)for(const target of targets)if(target.leaves&&target.cutoutRequired&&!target.cutout)throw new Error(`Missing required leaf cutout: ${target.label}`);
   const groups=new Map<THREE.BufferGeometry,Map<THREE.BufferGeometry,{maxGap:number;minGap:number;components:Component[];contacts:number[];edges:[number,number,number][]}>>();
   const scale=(m:THREE.Matrix4)=>{const a=new THREE.Vector3().setFromMatrixColumn(m,0).length(),b=new THREE.Vector3().setFromMatrixColumn(m,1).length(),c=new THREE.Vector3().setFromMatrixColumn(m,2).length();if(!m.elements.every(Number.isFinite)||!(a>0)||Math.max(a,b,c)-Math.min(a,b,c)>a*1e-4)throw new Error('Unsupported nonuniform canopy transform');
     const e=m.elements;
