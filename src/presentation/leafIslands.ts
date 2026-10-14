@@ -78,10 +78,16 @@ export function anchorLeafIslands(leaf: THREE.BufferGeometry, wood: THREE.Buffer
   const flat = new Float32Array(list.length * 6);
   list.forEach((part, i) => { part.box.min.toArray(flat, i * 6); part.box.max.toArray(flat, i * 6 + 3); });
   const gap2 = gap * gap;
+  const visited = new Uint32Array(list.length);
+  let visitId = 0;
   const neighbours = (i: number) => {
+    if (++visitId === 0x100000000) { visited.fill(0); visitId = 1; }
     const found: number[] = [], o = i * 6;
     const x0 = flat[o]!, y0 = flat[o + 1]!, z0 = flat[o + 2]!, x1 = flat[o + 3]!, y1 = flat[o + 4]!, z1 = flat[o + 5]!;
     for (const k of cellsOf[i]!) for (const j of grid.get(k)!) {
+      // A pair can share several cells; retain only its first visit and original ordering.
+      if (visited[j] === visitId) continue;
+      visited[j] = visitId;
       const q = j * 6;
       const dx = Math.max(0, x0 - flat[q + 3]!, flat[q]! - x1), dy = Math.max(0, y0 - flat[q + 4]!, flat[q + 1]! - y1), dz = Math.max(0, z0 - flat[q + 5]!, flat[q + 2]! - z1);
       if (dx * dx + dy * dy + dz * dz <= gap2) found.push(j);
