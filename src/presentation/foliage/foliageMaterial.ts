@@ -157,7 +157,7 @@ export function clumpNoiseTexture(): THREE.Data3DTexture {
 const FOLIAGE_PARAMS = typeof location !== 'undefined' ? new URLSearchParams(location.search) : new URLSearchParams();
 // Profiling switches: ?ambthru=<share> sets it (0 leaves the old look), ?foliagelight=legacy also drops the rim glow.
 const LEGACY_LIGHT = FOLIAGE_PARAMS.get('foliagelight') === 'legacy';
-const AMBIENT_THROUGH = LEGACY_LIGHT ? 0 : Number.isFinite(Number(FOLIAGE_PARAMS.get('ambthru') ?? NaN)) && FOLIAGE_PARAMS.has('ambthru') ? Number(FOLIAGE_PARAMS.get('ambthru')) : 0.9;
+const AMBIENT_THROUGH = LEGACY_LIGHT ? 0 : Number.isFinite(Number(FOLIAGE_PARAMS.get('ambthru') ?? NaN)) && FOLIAGE_PARAMS.has('ambthru') ? Number(FOLIAGE_PARAMS.get('ambthru')) : 0.6;
 const RIM_GLOW = LEGACY_LIGHT ? 0 : 0.9;
 
 const LEAF_VERTEX_DECL = /* glsl */ `
