@@ -1,0 +1,33 @@
+{
+  "baseline": "421d34b",
+  "candidateSourceSha256": "3d7248300dc3304b06d23c492cb3d4c9754fe98483e3b78761b196a8921ab3f7",
+  "before": {
+    "observedQueries": 6000,
+    "gridQueries": 1000,
+    "joinedArrayIdentities": 6000,
+    "copiedReferences": 90000,
+    "resultHash": "7dc29c38494c3606c9b8076efcda4d52ce392afd7218aabab24ccc9178feb4ee",
+    "hits": 3190,
+    "draws": 17,
+    "triangles": 148,
+    "points": 44,
+    "msaa": 4,
+    "glError": 0
+  },
+  "after": {
+    "observedQueries": 6000,
+    "gridQueries": 1000,
+    "joinedArrayIdentities": 0,
+    "copiedReferences": 0,
+    "resultHash": "7dc29c38494c3606c9b8076efcda4d52ce392afd7218aabab24ccc9178feb4ee",
+    "hits": 3190,
+    "draws": 17,
+    "triangles": 148,
+    "points": 44,
+    "msaa": 4,
+    "glError": 0
+  },
+  "changedRGBChannels": 0,
+  "pass": true,
+  "scope": "Production Colliders.cast: 6000 custom-near queries with 12 scenery and 3 actor/support contacts, plus 1000 grid queries. Counts identify the joined input array only, excluding near/results allocations. Native Grade/4xMSAA view of fixture geometry and cast-hit markers. No hardware frame-time claim."
+}
