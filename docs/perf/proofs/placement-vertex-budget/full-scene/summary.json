@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "clearance": 0.08,
+  "maxVertices": 114839,
+  "kind": "prop",
+  "scope": "Static scene prop components, including delivered furniture; directional candidates require manual support review. Not a quality PASS or timing gate.",
+  "complete": true,
+  "truncated": false,
+  "skipped": [],
+  "invalid": 0,
+  "summary": {
+    "checks": 26458,
+    "roots": 0,
+    "props": 26458,
+    "candidates": 2822
+  },
+  "revision": "4234920b2",
+  "version": "0.0.18",
+  "furnitureReady": true,
+  "auditElapsedMs": 479974
+}

@@ -24,3 +24,16 @@ it('saves the served audit receipt and fails incomplete or unsupported builds wi
     expect(unsupported.stderr).toContain('has no placement audit');
   } finally { rmSync(dir, { recursive: true, force: true }); }
 });
+
+it('forwards an explicit vertex budget and rejects a build that does not acknowledge it', () => {
+  const dir=mkdtempSync(join(tmpdir(),'placement-vertex-cli-'));
+  try {
+    writeFileSync(join(dir,'audit-placement.mjs'),readFileSync('tools/audit-placement.mjs'));
+    for(const ack of [false,true]){
+      const receipt={complete:true,summary:{roots:0,props:1,candidates:0},...(ack?{maxVertices:200000}:{})};
+      writeFileSync(join(dir,'cdp.mjs'),`export async function openPage(){return {eval:async s=>{if(s.includes('auditPlacement(')){if(!s.includes('"maxVertices":200000'))throw Error('budget missing');return ${JSON.stringify(receipt)}}return {loaded:true,supported:true,ready:true}},close(){}}}`);
+      const out=join(dir,'receipt.json'),run=spawnSync(process.execPath,[join(dir,'audit-placement.mjs'),'--out',out,'--max-vertices','200000'],{encoding:'utf8',timeout:10000});
+      expect(run.error).toBeUndefined();expect(run.status).toBe(ack?0:1);expect(existsSync(out)).toBe(ack);if(ack)rmSync(out);else expect(run.stderr).toContain('acknowledge');
+    }
+  } finally {rmSync(dir,{recursive:true,force:true});}
+});

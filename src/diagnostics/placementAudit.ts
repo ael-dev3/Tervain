@@ -7,7 +7,7 @@ export interface PlacementAuditTarget {
   geometry: THREE.BufferGeometry;
   matrix: THREE.Matrix4;
 }
-export interface PlacementAuditOptions { clearance?: number; maxChecks?: number; kind?: 'root' | 'prop'; }
+export interface PlacementAuditOptions { clearance?: number; maxChecks?: number; /** Maximum vertices per scene prop mesh; default 100,000. */ maxVertices?: number; kind?: 'root' | 'prop'; }
 interface Check {
   label: string; kind: 'prop' | 'root'; component: number;
   position: number[]; samples: number; minGap: number; maxGap: number; unsupportedFraction: number; candidate: boolean;
@@ -70,8 +70,8 @@ const skeletal = (object: THREE.Object3D) => {
 /** Offline snapshot audit. Report candidates; hanging objects and basal-ring geometry need human interpretation. */
 export function auditPlacements(scene: THREE.Object3D, heightAt: (x: number, z: number) => number,
   populations: readonly PlacementAuditTarget[] = [], options: PlacementAuditOptions = {}) {
-  const clearance = options.clearance ?? .08, maxChecks = options.maxChecks ?? 20_000;
-  if (!(clearance >= 0 && Number.isFinite(clearance)) || !Number.isInteger(maxChecks) || maxChecks < 1) throw new Error('Invalid placement audit limits');
+  const clearance = options.clearance ?? .08, maxChecks = options.maxChecks ?? 20_000, maxVertices = options.maxVertices ?? 100_000;
+  if (!(clearance >= 0 && Number.isFinite(clearance)) || !Number.isInteger(maxChecks) || maxChecks < 1 || !Number.isSafeInteger(maxVertices) || maxVertices < 1) throw new Error('Invalid placement audit limits');
   if (options.kind !== undefined && options.kind !== 'root' && options.kind !== 'prop') throw new Error('Invalid placement audit kind');
   scene.updateMatrixWorld(true);
   const material = new THREE.MeshBasicMaterial({ side: THREE.DoubleSide });
@@ -97,7 +97,7 @@ export function auditPlacements(scene: THREE.Object3D, heightAt: (x: number, z: 
     }
     if (omitted.test(label) || treeWood(mesh) || label.startsWith('Furniture /')) return;
     if (!mesh.geometry.getAttribute('position')) return;
-    if (mesh.geometry.getAttribute('position').count > 100_000) { skipped.push(label); return; }
+    if (mesh.geometry.getAttribute('position').count > maxVertices) { skipped.push(label); return; }
     if ((mesh as THREE.InstancedMesh).isInstancedMesh) {
       const instances = mesh as THREE.InstancedMesh;
       for (let i = 0; i < instances.count; i++) {
@@ -196,7 +196,7 @@ export function auditPlacements(scene: THREE.Object3D, heightAt: (x: number, z: 
       if (truncated) break;
     }
   } finally { for(const release of releaseIndexes)release(); material.dispose(); }
-  return { schema: 1, clearance, kind: options.kind ?? 'all', scope: 'static scene components plus supplied full populations; intentional hanging/floating objects require review',
+  return { schema: 1, clearance, ...(options.maxVertices === undefined ? {} : { maxVertices }), kind: options.kind ?? 'all', scope: 'static scene components plus supplied full populations; intentional hanging/floating objects require review',
     complete: !truncated && skipped.length === 0 && invalid === 0, truncated, skipped, invalid,
     summary: { checks: checks.length, roots: checks.filter(c => c.kind === 'root').length, props: checks.filter(c => c.kind === 'prop').length,
       candidates: checks.filter(c => c.candidate).length }, checks };

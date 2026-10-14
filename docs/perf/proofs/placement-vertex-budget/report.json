@@ -1,0 +1,66 @@
+{
+  "baseline": "8f249f457",
+  "sourceSha256": "d2794e3badadd086249735f9d4f96285b3f7aa77c6b0fada74454621571878e5",
+  "scope": "Actual production audit compiled through Vite, synthetic merged grounded/floating components. No live-placement or rendering claim.",
+  "vertices": 101424,
+  "budget": 200000,
+  "before": {
+    "default": {
+      "complete": false,
+      "skipped": [
+        "merged planks"
+      ],
+      "summary": {
+        "checks": 0,
+        "roots": 0,
+        "props": 0,
+        "candidates": 0
+      },
+      "maxVertices": null,
+      "resultHash": "1c9933be17d26530d823d6f450678e5ad25d5ec07566e692edfb205e9c3b2715"
+    },
+    "explicit": {
+      "complete": false,
+      "skipped": [
+        "merged planks"
+      ],
+      "summary": {
+        "checks": 0,
+        "roots": 0,
+        "props": 0,
+        "candidates": 0
+      },
+      "maxVertices": null,
+      "resultHash": "1c9933be17d26530d823d6f450678e5ad25d5ec07566e692edfb205e9c3b2715"
+    }
+  },
+  "after": {
+    "default": {
+      "complete": false,
+      "skipped": [
+        "merged planks"
+      ],
+      "summary": {
+        "checks": 0,
+        "roots": 0,
+        "props": 0,
+        "candidates": 0
+      },
+      "maxVertices": null,
+      "resultHash": "1c9933be17d26530d823d6f450678e5ad25d5ec07566e692edfb205e9c3b2715"
+    },
+    "explicit": {
+      "complete": true,
+      "skipped": [],
+      "summary": {
+        "checks": 2,
+        "roots": 0,
+        "props": 2,
+        "candidates": 1
+      },
+      "maxVertices": 200000,
+      "resultHash": "308cb8219d9f014aaa3ca7aff3a3c3b6be484403900318fdbc0d33ad18938054"
+    }
+  },
+  "pass": true
+}
