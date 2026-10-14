@@ -63,3 +63,18 @@ it('retains leaf-only LOD targets as missing wood instead of claiming complete c
   expect(report.bySpecies.pine?.trees).toBe(1);
   expect(auditCanopies([supported], { lod: 2 })).toMatchObject({ complete: true, summary: { missingWood: 0 } });
 });
+
+it.each([false,true])('keeps alpha variants independent when wood and leaf geometry are shared (reverse=%s)', reverse => {
+  const t=fixture();t.leaves=mergeGeometries([.5,2.5].map(x=>new THREE.PlaneGeometry(2,.5).translate(x,1,0)));
+  const full={...t,label:'full',cutout:{uv:'uv',cutoff:.42,alpha:()=>1}};
+  const masked={...t,label:'masked',cutout:{uv:'uv',cutoff:.42,alpha:(u:number)=>u<.2?1:0}};
+  try {
+    const inputs=reverse?[masked,full]:[full,masked],report=auditCanopies(inputs,{alpha:true});
+    for(const target of inputs){
+      const single=auditCanopies([target],{alpha:true}).trees[0];
+      expect(report.trees.find(tree=>tree.label===target.label)).toEqual(single);
+    }
+    expect(report.trees.find(tree=>tree.label==='full')!.candidates).toHaveLength(0);
+    expect(report.trees.find(tree=>tree.label==='masked')!.candidates).toHaveLength(1);
+  } finally {t.wood!.dispose();t.leaves.dispose();}
+});

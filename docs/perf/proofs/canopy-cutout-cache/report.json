@@ -1,0 +1,46 @@
+{
+  "baseline": "421d34b",
+  "sourceSha256": "aaf75073b812c4fa4b664e9276d6d2892dae25bcbe169d04dd3e5762607275dc",
+  "scope": "Actual production audits in native software WebGL fixture. Same geometry with different alpha materials, both input orders and single-target controls. One context image, not a before/after visual change or a live-forest quality claim.",
+  "expected": {
+    "full": 0,
+    "masked": 1
+  },
+  "orders": [
+    {
+      "reverse": false,
+      "before": {
+        "full": 0,
+        "masked": 0
+      },
+      "after": {
+        "full": 0,
+        "masked": 1
+      },
+      "solo": {
+        "full": 0,
+        "masked": 1
+      }
+    },
+    {
+      "reverse": true,
+      "before": {
+        "masked": 1,
+        "full": 1
+      },
+      "after": {
+        "masked": 1,
+        "full": 0
+      },
+      "solo": {
+        "masked": 1,
+        "full": 0
+      }
+    }
+  ],
+  "glError": 0,
+  "contextLost": false,
+  "draws": 4,
+  "triangles": 32,
+  "pass": true
+}

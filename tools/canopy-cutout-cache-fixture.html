@@ -1,0 +1,21 @@
+<!doctype html><meta charset="utf-8"><title>Shared geometry alpha-cutout audit fixture</title><style>body{margin:0;background:#18222b;color:#fff;font:16px sans-serif}p{margin:12px}canvas{display:block}</style><p>Opaque cards (left) · alpha-cutout islands (right). Diagnostic fixture; no production art changes.</p><script type="module">
+import * as THREE from 'three';
+import {mergeGeometries} from 'three/addons/utils/BufferGeometryUtils.js';
+import {auditCanopies as before} from '/src/diagnostics/__baseline-cutout.ts';
+import {auditCanopies as after} from '/src/diagnostics/canopyAudit.ts';
+try{
+ const wood=new THREE.BoxGeometry(.4,2,.4),leaves=mergeGeometries([.5,2.5].map(x=>new THREE.PlaneGeometry(2,.5).translate(x,1,0)));
+ const targets=[{label:'full',wood,leaves,matrix:new THREE.Matrix4(),cutout:{uv:'uv',cutoff:.42,alpha:()=>1}},{label:'masked',wood,leaves,matrix:new THREE.Matrix4().makeTranslation(5,0,0),cutout:{uv:'uv',cutoff:.42,alpha:u=>u<6/32?1:0}}];
+ const counts=r=>Object.fromEntries(r.trees.map(t=>[t.label,t.candidates.length]));
+ const report={expected:{full:0,masked:1},orders:[]};
+ for(const reverse of [false,true]){const input=reverse?[...targets].reverse():targets;report.orders.push({reverse,before:counts(before(input,{alpha:true})),after:counts(after(input,{alpha:true})),solo:Object.fromEntries(input.map(t=>[t.label,before([t],{alpha:true}).trees[0].candidates.length]))});}
+ const renderer=new THREE.WebGLRenderer({antialias:false,preserveDrawingBuffer:true});renderer.setSize(720,260);renderer.setPixelRatio(1);document.body.append(renderer.domElement);
+ const scene=new THREE.Scene();scene.background=new THREE.Color(0x18222b);const camera=new THREE.OrthographicCamera(-5,5,1.8,-1.8,.1,50);camera.position.set(4,0,10);camera.lookAt(4,0,0);
+ for(let i=0;i<2;i++){
+  const bytes=new Uint8Array(32*8*4);for(let p=0;p<32*8;p++){bytes[p*4]=bytes[p*4+1]=bytes[p*4+2]=255;bytes[p*4+3]=i===0||p%32<6?255:0;}
+  const texture=new THREE.DataTexture(bytes,32,8);texture.minFilter=texture.magFilter=THREE.NearestFilter;texture.needsUpdate=true;
+  const trunk=new THREE.Mesh(wood,new THREE.MeshBasicMaterial({color:0x98613f})),crown=new THREE.Mesh(leaves,new THREE.MeshBasicMaterial({color:0x82b458,map:texture,alphaTest:.42,side:THREE.DoubleSide}));trunk.position.x=crown.position.x=i*5;scene.add(trunk,crown);
+ }
+ renderer.render(scene,camera);const gl=renderer.getContext();window.cutoutProof={...report,glError:gl.getError(),contextLost:gl.isContextLost(),draws:renderer.info.render.calls,triangles:renderer.info.render.triangles,image:renderer.domElement.toDataURL('image/png')};
+}catch(error){window.cutoutError=String(error.stack??error);}
+</script>
