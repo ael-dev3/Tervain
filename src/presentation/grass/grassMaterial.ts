@@ -267,6 +267,14 @@ export const GRASS_FRAGMENT_DECL = /* glsl */ `
 varying vec3 vGCol;
 varying vec4 vGInfo;
 uniform vec3 uTransTint;
+// With multisampling a pixel only partly covered by a blade still shades at its centre, which for a sliver of a
+// blade lies outside the triangle: the varyings are extrapolated there, far past any value a vertex wrote. The colour
+// went negative or several times too bright, and the tone curve turned those samples into single white (or black)
+// pixels flickering through the grass at dusk (playtest 8). Hold every varying to the range its vertices can write.
+#define G_COL clamp(vGCol, 0.0, 1.0)
+#define G_EDGE clamp(vGInfo.y, -1.0, 1.0)
+#define G_THROUGH clamp(vGInfo.z, 0.0, 2.0)
+#define G_SHEEN clamp(vGInfo.w, 0.0, 2.0)
 `;
 
 /** Lambert for thin leaves: wrapped diffuse, soft light through the blade, and a faint matte sheen. Every light (and its shadow) uses it. */
@@ -279,12 +287,12 @@ void RE_Direct_Grass( const in IncidentLight directLight, const in vec3 geometry
   // blades shine like wet plastic.
   float behind = saturate( dot( - geometryViewDir, directLight.direction ) );
   float through = pow( behind, 3.0 ) * 0.55 + pow( behind, 1.4 ) * 0.16;
-  reflectedLight.directDiffuse += directLight.color * material.diffuseColor * uTransTint * min( through * vGInfo.z, 0.45 );
+  reflectedLight.directDiffuse += directLight.color * material.diffuseColor * uTransTint * min( through * G_THROUGH, 0.45 );
   // Where a blade turns to the light it brightens a little, in its own colour: dry grass, never a white glint.
   vec3 halfSum = directLight.direction + geometryViewDir;
   vec3 halfway = dot( halfSum, halfSum ) > 1e-10 ? normalize( halfSum ) : geometryNormal;
   float sheen = pow( saturate( dot( geometryNormal, halfway ) ), 6.0 ) * saturate( ndl + 0.25 );
-  reflectedLight.directDiffuse += directLight.color * material.diffuseColor * sheen * vGInfo.w * 0.9;
+  reflectedLight.directDiffuse += directLight.color * material.diffuseColor * sheen * G_SHEEN * 0.9;
 }
 #undef RE_Direct
 #define RE_Direct RE_Direct_Grass
@@ -339,12 +347,12 @@ export function createGrassMaterial(opts: GrassMaterialOptions): GrassMaterial {
       .replace('#include <common>', `#include <common>\n${GRASS_FRAGMENT_DECL}`)
       // A79: a blade is creased along its midrib: paler down the middle, darker toward its edges, so it reads as a leaf, not
       // a flat strip.
-      .replace('#include <color_fragment>', 'diffuseColor.rgb = vGCol * ( 0.8 + 0.28 * ( 1.0 - abs( vGInfo.y ) ) );')
+      .replace('#include <color_fragment>', 'diffuseColor.rgb = G_COL * ( 0.8 + 0.28 * ( 1.0 - abs( G_EDGE ) ) );')
       .replace('#include <normal_fragment_begin>', NORMAL_BEGIN)
       .replace('#include <lights_lambert_pars_fragment>', `#include <lights_lambert_pars_fragment>\n${GRASS_LIGHT_GLSL}`);
     opts.patch?.(shader);
   };
-  material.customProgramCacheKey = () => `tervain-grass-blades-v8${opts.patchKey ? `-${opts.patchKey}` : ''}`;
+  material.customProgramCacheKey = () => `tervain-grass-blades-v9${opts.patchKey ? `-${opts.patchKey}` : ''}`;
   return {
     material, uniforms, ok: () => !failed,
     setBand(b) { uniforms.uBand.value.set(b.inStart, b.inEnd, b.outStart, b.outEnd); },
