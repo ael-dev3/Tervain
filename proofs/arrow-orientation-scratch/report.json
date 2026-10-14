@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "baselineRef": "421d34b",
+  "scope": "12 simultaneous production arrows over 120 fixed 60 Hz updates. Counts cover direct Vector3 constructions in this module and velocity clones only; not heap or hardware timings.",
+  "before": {
+    "directVectors": 1440,
+    "velocityClones": 1440
+  },
+  "after": {
+    "directVectors": 0,
+    "velocityClones": 0
+  },
+  "all1440TransformsAndVelocitiesIdentical": true,
+  "pass": true
+}
