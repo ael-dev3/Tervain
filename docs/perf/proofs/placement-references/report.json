@@ -1,0 +1,58 @@
+{
+  "baseline": "421d34b",
+  "sourceSha256": "a740991a0640bf36f46d9f99c327c5304209d09e0e536da030c3e5ca14f69a1d",
+  "scope": "Actual production audits in native software WebGL fixture. Indexed geometry has extra unused position/normal/UV data; rendered triangles remain unchanged. One diagnostic context image, not a live prop/root or art-fix claim.",
+  "before": {
+    "prop-clean": {
+      "complete": true,
+      "checks": 1,
+      "candidates": 0
+    },
+    "prop-extra": {
+      "complete": true,
+      "checks": 2,
+      "candidates": 1
+    },
+    "root-clean": {
+      "complete": true,
+      "checks": 1,
+      "candidates": 1,
+      "minGap": 0.30000001192092896
+    },
+    "root-extra": {
+      "complete": true,
+      "checks": 1,
+      "candidates": 0,
+      "minGap": -100
+    }
+  },
+  "after": {
+    "prop-clean": {
+      "complete": true,
+      "checks": 1,
+      "candidates": 0
+    },
+    "prop-extra": {
+      "complete": true,
+      "checks": 1,
+      "candidates": 0
+    },
+    "root-clean": {
+      "complete": true,
+      "checks": 1,
+      "candidates": 1,
+      "minGap": 0.30000001192092896
+    },
+    "root-extra": {
+      "complete": true,
+      "checks": 1,
+      "candidates": 1,
+      "minGap": 0.30000001192092896
+    }
+  },
+  "glError": 0,
+  "contextLost": false,
+  "draws": 3,
+  "triangles": 78,
+  "pass": true
+}
