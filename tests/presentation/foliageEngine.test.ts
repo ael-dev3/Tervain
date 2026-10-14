@@ -128,8 +128,8 @@ describe('foliage look', () => {
       material.onBeforeCompile(shader, {} as THREE.WebGLRenderer);
       expect(installed.ok()).toBe(true);
       // The distance dither still applies, then the foliage.
-      expect(shader.fragmentShader).toContain('tvDistanceNoise(gl_FragCoord.xy)');
-      expect(material.customProgramCacheKey()).toMatch(/\|tervain-distance-dither-v1\|tervain-foliage-v2-leaf\|foliage-options:\[null,null\]$/);
+      expect(shader.fragmentShader).toContain('tvDistanceNoise((-vViewPosition');
+      expect(material.customProgramCacheKey()).toMatch(/\|tervain-distance-dither-v2-world\|tervain-foliage-v2-leaf\|foliage-options:\[null,null\]$/);
       const frag = shader.fragmentShader;
       expect(frag).toContain('#define RE_Direct RE_Direct_Foliage');
       expect(frag.indexOf('void RE_Direct_Foliage')).toBeGreaterThan(frag.indexOf('#include <lights_physical_pars_fragment>'));

@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import type { BuildContext, FrameContext, SceneModule } from './context';
 import type { AssetNeed } from './assets/library';
 import { Habitat } from './ground/habitat';
-import { createGrassField, GRASS_QUALITY, type GrassReserve } from './grass/grassField';
+import { createGrassField, GRASS_QUALITY, meadowGround, type GrassReserve, type MeadowGround } from './grass/grassField';
 import { GrassTrample, type GrassMover } from './grass/trample';
 import { GrassWind } from './grass/wind';
 import { REALM_WIND } from './realmWind';
@@ -20,6 +20,8 @@ export interface Groundcover extends SceneModule {
   prepare(renderer: THREE.WebGLRenderer, dt: number): void;
   /** Prepare the interaction field's passes ahead of their first use (A81). */
   warm(renderer: THREE.WebGLRenderer): void;
+  /** The far ground's grass colour and cover at a point (B11), for the terrain's vertices. */
+  readonly meadowAt: MeadowGround;
 }
 
 /** Ground cover: the grass. Presentation only. */
@@ -46,6 +48,7 @@ export function buildGroundcover(ctx: BuildContext): Groundcover {
   return {
     group,
     wind,
+    meadowAt: meadowGround(habitat),
     setMovers(movers) { others = movers; },
     update(dt: number, f: FrameContext) {
       f.camera.getWorldPosition(cam);

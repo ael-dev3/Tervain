@@ -272,7 +272,7 @@ describe('close-view ground and plant detail', () => {
         material.onBeforeCompile(shader, {} as THREE.WebGLRenderer);
         expect(shader.vertexShader.match(/attribute vec3 aLeafDetail;/g)).toHaveLength(1);
         expect(shader.fragmentShader).toContain('texture2D(uFloorLeafSurface, vFloorLeafDetail.xy).a < 0.35');
-        expect(shader.fragmentShader).toContain('tvDistanceNoise(gl_FragCoord.xy)');
+        expect(shader.fragmentShader).toContain(kind === 'standard' ? 'tvDistanceNoise((-vViewPosition' : 'tvCoverageSample = tvCellHash(vec3(gl_FragCoord.xy');
         return shader;
       };
       const colour = compile(fern.material as THREE.Material, 'standard');

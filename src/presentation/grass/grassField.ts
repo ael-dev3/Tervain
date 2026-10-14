@@ -49,16 +49,17 @@ export const GRASS_MAX_SCALE = { height: 1.6 * 1.18, radius: 1.3 } as const;
 
 export const GRASS_QUALITY: Readonly<Record<Quality, GrassQualitySpec>> = {
   high: {
-    near: { clump: { blades: 12, segments: 4 }, width: 0.019, density: 11.2, tile: 12, fade: { start: 40, end: 41, sizeComp: 1, power: 1 }, band: { inStart: -2, inEnd: -1, outStart: 12, outEnd: 17 }, farBlades: 1 },
-    // B10: far grass reaches 120 m (was 82) on fewer, wider blades a clump and fewer, wider clumps, paid for by handing the dense near level over
-    // four metres sooner; 32 m tiles keep the wider ring to about the same number of draws.
-    far: { clump: { blades: 12, segments: 2 }, width: 0.06, density: 1.8, tile: 32, fade: { start: 22, end: 120, sizeComp: 2.1, power: 2.1 }, band: { inStart: 12, inEnd: 17, outStart: 1e5, outEnd: 1e5 + 1 }, farBlades: 0.25 },
+    near: { clump: { blades: 12, segments: 4 }, width: 0.019, density: 11.2, tile: 16, fade: { start: 40, end: 41, sizeComp: 1, power: 1 }, band: { inStart: -2, inEnd: -1, outStart: 14, outEnd: 19 }, farBlades: 1 },
+    // B10/B11: far grass reaches 108 m on fewer, wider blades a clump and fewer, wider clumps; past that the ground
+    // carries the meadow's own colour and tufts (terrainMaterial.ts). B11 restored the dense near level to 14-19 m and
+    // paid for it with 16 m near tiles and 32 m far tiles (fewer draws) and the far tail from 120 to 108 m.
+    far: { clump: { blades: 12, segments: 2 }, width: 0.06, density: 1.8, tile: 32, fade: { start: 22, end: 108, sizeComp: 2.1, power: 2.2 }, band: { inStart: 14, inEnd: 19, outStart: 1e5, outEnd: 1e5 + 1 }, farBlades: 0.25 },
     trample: { size: 256, extent: 48 },
     shadows: true,
   },
   medium: {
-    near: { clump: { blades: 12, segments: 3 }, width: 0.022, density: 6.0, tile: 12, fade: { start: 34, end: 35, sizeComp: 1, power: 1 }, band: { inStart: -2, inEnd: -1, outStart: 12, outEnd: 17 }, farBlades: 1 },
-    far: { clump: { blades: 10, segments: 2 }, width: 0.06, density: 1.4, tile: 24, fade: { start: 20, end: 66, sizeComp: 2.2, power: 1.35 }, band: { inStart: 12, inEnd: 17, outStart: 1e5, outEnd: 1e5 + 1 }, farBlades: 0.5 },
+    near: { clump: { blades: 12, segments: 3 }, width: 0.022, density: 6.0, tile: 12, fade: { start: 34, end: 35, sizeComp: 1, power: 1 }, band: { inStart: -2, inEnd: -1, outStart: 14, outEnd: 19 }, farBlades: 1 },
+    far: { clump: { blades: 10, segments: 2 }, width: 0.06, density: 1.4, tile: 24, fade: { start: 20, end: 66, sizeComp: 2.2, power: 1.35 }, band: { inStart: 14, inEnd: 19, outStart: 1e5, outEnd: 1e5 + 1 }, farBlades: 0.5 },
     trample: { size: 128, extent: 40 },
     shadows: true,
   },
@@ -97,6 +98,24 @@ const cShade = new THREE.Color().setHex(0x46573b);
 
 export function meadowTint(sample: Readonly<HabitatSample>, profile: Readonly<MeadowProfile>, out: THREE.Color): THREE.Color {
   return out.copy(cMeadow).lerp(cLush, sample.wet * 0.7).lerp(cGold, profile.dry * 0.55).lerp(cShade, profile.shade * 0.85);
+}
+
+/** What the ground far off should look like where this grass grows: its tint (linear rgb) and how much grows (0..1).
+ * The terrain carries it per vertex, so far fields take the grass's own colour and patchiness past the blades' range. */
+export type MeadowGround = (x: number, z: number, out: Float32Array, offset: number) => void;
+export function meadowGround(habitat: Habitat): MeadowGround {
+  let S: HabitatSample | null = null;
+  const profile: MeadowProfile = { density: 0, height: 0, dry: 0, flowers: 0, shade: 0 }, tint = new THREE.Color();
+  return (x, z, out, o) => {
+    S ??= newSample();
+    habitat.sample(x, z, S);
+    if (S.open < 0.04) { out[o] = out[o + 1] = out[o + 2] = out[o + 3] = 0; return; }
+    meadowProfile(S, woodlandColonyAt(x, z), profile);
+    meadowTint(S, profile, tint);
+    out[o] = tint.r; out[o + 1] = tint.g; out[o + 2] = tint.b;
+    // Taller grass covers more of the ground as seen from afar.
+    out[o + 3] = clamp(profile.density * (0.55 + 0.45 * profile.height / 1.2), 0, 1);
+  };
 }
 
 export interface GrassField {
