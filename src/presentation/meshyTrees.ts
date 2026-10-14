@@ -56,6 +56,9 @@ export const CANOPY_MID_SHARE = 1.2;
  * becomes a loose volume of smaller cards. Seen square on the pieces still join into the same picture, so nothing opens up;
  * from any other angle they part in depth. Triangles, UVs and normals are unchanged, and small cards are left as they are.
  */
+/** A model that carries its own branch hierarchy (a hero tree) keeps its cards: they are not rebuilt as clumps. */
+const hasBranchData = (geometry: THREE.BufferGeometry): boolean => !!geometry.getAttribute('_wind');
+
 export function splitSheets(geometry: THREE.BufferGeometry, opts: { readonly minSize: number; readonly piece: number; readonly depth: number; readonly tilt: number }): THREE.BufferGeometry {
   const index = geometry.index;
   if (!index) return geometry;
@@ -460,6 +463,12 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
         if (!part || leaf && species === 'dead') return null;
         const geometry = part.geometry.clone().applyMatrix4(part.matrix);
         if (leaf && (species === 'fir' || species === 'shorepine')) remapStrayFernCell(geometry);
+        // A hero tree's branch pivots (_pivot, see foliageWind.ts) are points in the model's space: they follow it.
+        const pivot = geometry.getAttribute('_pivot') as THREE.BufferAttribute | undefined;
+        if (pivot) {
+          pivot.applyMatrix4(part.matrix);
+          for (let i = 0; i < pivot.count; i++) pivot.setXYZ(i, pivot.getX(i) * scale, (pivot.getY(i) - bounds.min.y) * scale, pivot.getZ(i) * scale);
+        }
         geometry.translate(0, -bounds.min.y, 0).scale(scale, scale, scale);
         geometry.computeBoundingBox(); geometry.computeBoundingSphere();
         const p = geometry.getAttribute('position');
@@ -472,13 +481,13 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
         geometries.add(geometry); return geometry;
       };
       const clusters = BROADLEAF.has(species);
-      const palette = decoded.map((parts, lod) => ({ wood: parts.wood ? cloneMaterial(parts.wood.material, true, species) : null, leaf: parts.leaf && species !== 'dead' ? (clusters && lod < 2 ? clusterMaterial(parts.leaf.material) : cloneMaterial(parts.leaf.material, false, species)) : null }));
+      const palette = decoded.map((parts, lod) => ({ wood: parts.wood ? cloneMaterial(parts.wood.material, true, species) : null, leaf: parts.leaf && species !== 'dead' ? (clusters && lod < 2 && !hasBranchData(parts.leaf.geometry) ? clusterMaterial(parts.leaf.material) : cloneMaterial(parts.leaf.material, false, species)) : null }));
       const lods = decoded.map((parts, lod) => {
         let wood = prepare(parts.wood, false);
         let exported = prepare(parts.leaf, true);
         // A134: near and middle broadleaf crowns are rebuilt as clumps of small leaf-cluster cards (see canopy.ts); the
         // source sheets only say where the leaves go. Far crowns keep the source cards.
-        if (exported && lod < 2 && clusters) {
+        if (exported && lod < 2 && clusters && !hasBranchData(exported)) {
           const triangles = (g: THREE.BufferGeometry | null) => (g ? (g.index?.count ?? g.getAttribute('position').count) / 3 : 0);
           const shape = lod === 0 ? NEAR_CANOPY : MID_CANOPY;
           let cards = lod === 0 ? Math.min(CANOPY_NEAR_CARDS, Math.floor((TREE_TRIANGLES - triangles(wood)) / 2)) : Math.max(400, Math.round(triangles(exported) * CANOPY_MID_SHARE / 2));
@@ -504,7 +513,7 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
           return { wood, leaf: canopy, tris };
         }
         const triangles = (g: THREE.BufferGeometry | null) => (g ? (g.index?.count ?? g.getAttribute('position').count) / 3 : 0);
-        const leaf = thicken(exported, lod === 0 && BROADLEAF.has(species), TREE_TRIANGLES - triangles(wood) - triangles(exported));
+        const leaf = thicken(exported, lod === 0 && BROADLEAF.has(species) && !(exported && hasBranchData(exported)), TREE_TRIANGLES - triangles(wood) - triangles(exported));
         if (leaf && leaf !== exported) { geometries.delete(exported!); geometries.add(leaf); }
         return { wood, leaf, tris: [wood, leaf].reduce((sum, geometry) => sum + (geometry ? (geometry.index?.count ?? geometry.getAttribute('position').count) / 3 : 0), 0) };
       }) as TreeVariant['lods'];

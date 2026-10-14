@@ -113,6 +113,9 @@ export function patchFloorPlantVertex(shader: { uniforms: Record<string, THREE.I
   return true;
 }
 
+/** Phase gradient (rad per metre) of the branch swing of a tree without branch data (wavelength 2π / |g|). */
+export const BRANCH_PHASE_GRADIENT: readonly [number, number, number] = [0.43, 0.29, 0.37];
+
 const f = (v: number) => (Number.isInteger(v) ? v.toFixed(1) : String(v));
 
 export const FOLIAGE_WIND_DECL = /* glsl */ `
@@ -126,9 +129,67 @@ uniform vec4 uFoliageMovers[${FOLIAGE_MAX_MOVERS}];
 uniform int uFoliageMoverCount;
 uniform vec4 uFoliageShakes[${FOLIAGE_MAX_SHAKES}];
 float tvFHash(vec3 p) { return fract(sin(dot(p, vec3(12.9898, 78.233, 37.719))) * 43758.5453); }
+#ifdef TV_HIERARCHICAL_WIND
+// A hero tree carries its branch hierarchy (the _WIND and _PIVOT vertex attributes of its glTF): level 0 trunk .. 1 twig,
+// the limb's own phase, its parent's phase and the leaf weight; and the point the vertex's branch segment grows from.
+attribute vec4 _wind;
+attribute vec3 _pivot;
+vec4 tvHW = vec4(0.0);
+vec3 tvHP = vec3(0.0);
+float tvHHash(float x) { return fract(sin(x * 12.9898 + 4.1414) * 43758.5453); }
+// Branch-wise motion: each level of the hierarchy is its own oscillator (limb, bough, twig, leaf; each quicker and
+// smaller than the one it hangs from) that turns the vertex about its segment's pivot by a small angle, so a limb moves
+// as one stiff piece and the leaves ride it. A child's pivot also rides its parent's swing, by the parent's phase.
+vec3 tvHierarchy(vec3 p, vec3 o, vec2 wd, float push, float t) {
+  float L = clamp(tvHW.x, 0.0, 1.0);
+  float ph = tvHW.y, pp = tvHW.z;
+  vec3 pv = tvHP;
+  vec3 wdir = vec3(wd.x, 0.0, wd.y);
+  vec3 axisDown = cross(vec3(0.0, 1.0, 0.0), wdir);
+  float gP = smoothstep(0.36, 0.9, texture2D(tGust, (pv.xz - uGustScroll.xy) * ${f(1 / GUST_SPAN)}).r);
+  float turbP = texture2D(tGust, (pv.xz - uGustScroll.zw) * ${f(1 / TURBULENCE_SPAN)}).g;
+  float drive = (0.25 + push) * uFoliageWind;
+  float fa = tvHHash(ph), fb = tvHHash(pp + 3.7), fc = tvHHash(ph + pp * 0.37 + 9.1);
+  float tau = 6.2831853;
+  float wl = smoothstep(0.05, 0.35, L) * (1.0 - 0.5 * smoothstep(0.7, 1.0, L));
+  float wb = smoothstep(0.25, 0.55, L);
+  float wt = smoothstep(0.55, 0.85, L);
+  float aLimb = sin(t * tau * (0.7 + 0.5 * fa) + ph);
+  float aBough = sin(t * tau * (1.3 + 0.7 * fb) + pp);
+  float aTwig = sin(t * tau * (2.2 + 1.2 * fc) + ph * 1.7 + pp);
+  float steady = 0.5 * push * uFoliageWind;
+  vec3 w = vec3(0.0);
+  w += (axisDown * (steady + aLimb) + wdir * aLimb * 0.35) * (0.05 * wl * mix(0.6, 1.0, gP));
+  w += (axisDown * (steady + aBough) + vec3(0.0, 1.0, 0.0) * aBough * 0.4) * (0.07 * wb * mix(0.5, 1.0, gP));
+  w += (axisDown * (steady + aTwig) + wdir * aTwig * 0.5) * (0.09 * wt * mix(0.4, 1.0, turbP));
+  // Cards: each flutters about the tip of its own twig, at its own quick rate.
+  float fl = tvHW.w;
+  if (fl > 0.0) {
+    float seed = tvHHash(dot(pv, vec3(12.7, 3.1, 7.9)));
+    float aLeaf = sin(t * tau * (3.5 + 2.5 * seed) + seed * 40.0);
+    float aLeaf2 = sin(t * tau * (4.1 + 2.0 * fract(seed * 7.31)) + seed * 17.0);
+    w += (axisDown * aLeaf + wdir * aLeaf2 * 0.8 + vec3(0.0, 1.0, 0.0) * aLeaf2 * 0.6) * (0.22 * fl * (0.25 + 0.75 * turbP) * mix(0.35, 1.0, gP));
+  }
+  w *= drive * uFoliage.y;
+  // The pivot itself rides the parent chain's swing, about the trunk's axis.
+  vec3 hrel = vec3(pv.x - o.x, 0.0, pv.z - o.z);
+  float wr = smoothstep(0.1, 0.4, L);
+  float aPar = sin(t * tau * (0.55 + 0.4 * fb) + pp);
+  vec3 wp = (axisDown * (steady + aPar) + vec3(0.0, 1.0, 0.0) * aPar * 0.5) * (0.03 * wr * mix(0.6, 1.0, gP)) * drive * uFoliage.y;
+  vec3 lift = cross(wp, hrel);
+  vec3 rel = p - pv;
+  vec3 c1 = cross(w, rel);
+  return lift + c1 + 0.5 * cross(w, c1);
+}
+#endif
 // World-space offset of a foliage vertex at p on a tree rooted at o (both world space), the tree drawn at scale s.
 vec3 tvFoliageOffset(vec3 p, vec3 o, float leaf, float s) {
-  vec3 rel = p - o;
+  vec3 pt = p;
+  #ifdef TV_HIERARCHICAL_WIND
+  // A limb's trunk bend is the bend at its own root, so the limb keeps its shape; the trunk itself bends along its length.
+  pt = mix(p, tvHP, smoothstep(0.0, 0.25, tvHW.x));
+  #endif
+  vec3 rel = pt - o;
   float h = max(rel.y, 0.0);
   float r = length(rel.xz);
   // The tree's own height: its kind's calibration height at the scale it is drawn (a sapling is a small tree).
@@ -148,7 +209,7 @@ vec3 tvFoliageOffset(vec3 p, vec3 o, float leaf, float s) {
   vec2 trunk = (wd * lean + wc * sway * 0.25 * (0.1 + push) * uFoliageWind * uFoliage.x) * hn * hn * H * 0.03;
   // Branches: swing with reach from the trunk, coherent along a branch (a slow spatial phase), faster than the trunk.
   float reach = smoothstep(0.02, 0.28, r / H) * (0.4 + 0.6 * smoothstep(0.15, 0.6, hn));
-  float bPhase = dot(rel, vec3(0.43, 0.29, 0.37)) + tPhase;
+  float bPhase = dot(rel, vec3(${BRANCH_PHASE_GRADIENT.map(f).join(', ')})) + tPhase;
   float bSwing = sin(t * (1.7 + 0.9 * fT) + bPhase) * (0.25 + push) * uFoliageWind;
   vec3 branch = (vec3(wd.x, 0.0, wd.y) * (0.6 + 0.4 * bSwing) * push * 0.6 + vec3(0.0, 1.0, 0.0) * bSwing * 0.55 + vec3(wc.x, 0.0, wc.y) * bSwing * 0.35)
     * reach * uFoliage.y * 0.035 * min(r, 6.0);
@@ -162,6 +223,9 @@ vec3 tvFoliageOffset(vec3 p, vec3 o, float leaf, float s) {
     flutter = normalize(vec3(sin(seed * 31.0), 0.8, cos(seed * 17.0))) * s * 0.035 * uFoliage.z * leaf * uFoliageWind;
   }
   vec3 off = vec3(trunk.x, 0.0, trunk.y) + branch + flutter;
+  #ifdef TV_HIERARCHICAL_WIND
+  off = vec3(trunk.x, 0.0, trunk.y) + tvHierarchy(p, o, wd, push, t);
+  #endif
   // Something moving through low foliage pushes it aside (people, animals, the hero).
   for (int i = 0; i < ${FOLIAGE_MAX_MOVERS}; i++) {
     if (i >= uFoliageMoverCount) break;
@@ -192,7 +256,7 @@ vec3 tvFoliageOffset(vec3 p, vec3 o, float leaf, float s) {
  * The vertex patch: after `<begin_vertex>`, move `transformed` by the foliage offset computed in world space. Works for
  * instanced (USE_INSTANCING) and plain meshes; assumes rotation and uniform scale, as every placed tree has.
  */
-export function foliageVertexPatch(leaf: boolean): string {
+export function foliageVertexPatch(leaf: boolean, hierarchical = false): string {
   return /* glsl */ `#include <begin_vertex>
 {
   mat4 tvW = modelMatrix;
@@ -200,6 +264,7 @@ export function foliageVertexPatch(leaf: boolean): string {
     tvW = modelMatrix * instanceMatrix;
   #endif
   vec3 tvOrigin = tvW[3].xyz;
+  ${hierarchical ? 'tvHW = _wind; tvHP = (tvW * vec4(_pivot, 1.0)).xyz;' : ''}
   vec3 tvWorld = (tvW * vec4(transformed, 1.0)).xyz;
   float tvS2 = max(dot(tvW[0].xyz, tvW[0].xyz), 1e-6);
   vec3 tvOff = tvFoliageOffset(tvWorld, tvOrigin, ${leaf ? '1.0' : '0.0'}, sqrt(tvS2));
@@ -222,13 +287,13 @@ export function foliageUniforms(field: FoliageField, response: FoliageResponse):
  * Patch any material's vertex shader with the foliage wind. Call from onBeforeCompile (also on depth materials).
  * `weight` names a per-vertex attribute that scales the motion (0 pins a vertex, as at a sprig's stem root).
  */
-export function patchFoliageVertex(shader: { uniforms: Record<string, THREE.IUniform>; vertexShader: string }, uniforms: Record<string, THREE.IUniform>, leaf: boolean, weight?: string): boolean {
+export function patchFoliageVertex(shader: { uniforms: Record<string, THREE.IUniform>; vertexShader: string }, uniforms: Record<string, THREE.IUniform>, leaf: boolean, weight?: string, hierarchical = false): boolean {
   if (!shader.vertexShader.includes('#include <begin_vertex>') || !shader.vertexShader.includes('#include <common>')) return false;
   if (weight !== undefined && !/^[A-Za-z_][A-Za-z0-9_]*$/.test(weight)) return false;
   Object.assign(shader.uniforms, uniforms);
-  const patch = foliageVertexPatch(leaf);
+  const patch = foliageVertexPatch(leaf, hierarchical);
   shader.vertexShader = shader.vertexShader
-    .replace('#include <common>', `#include <common>\n${FOLIAGE_WIND_DECL}${weight ? `\nattribute float ${weight};` : ''}`)
+    .replace('#include <common>', `#include <common>\n${hierarchical ? '#define TV_HIERARCHICAL_WIND\n' : ''}${FOLIAGE_WIND_DECL}${weight ? `\nattribute float ${weight};` : ''}`)
     .replace('#include <begin_vertex>', weight ? patch.replace('transformed += (transpose(mat3(tvW)) * tvOff) / tvS2;', `transformed += (transpose(mat3(tvW)) * tvOff) / tvS2 * ${weight};`) : patch);
   return true;
 }
