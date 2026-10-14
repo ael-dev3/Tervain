@@ -208,11 +208,15 @@ export function buildFallingLeaves(
       : colour.setRGB(0.91 + (tint - 0.5) * 0.1, 0.84 - (tint - 0.5) * 0.5, 0.45 - (tint - 0.5) * 0.3));
   }
   let clock = 0, visible = 0, disposed = false;
+  let lastClock = NaN, lastEyeX = NaN, lastEyeZ = NaN;
   return {
     group,
     update(dt, frame) {
       if (disposed) return;
       if (!frame.reducedMotion && Number.isFinite(dt) && dt > 0 && Number.isFinite(clock + dt)) clock += dt;
+      const eye = frame.camera.position;
+      // Leaf poses depend on this clock; coverage depends only on horizontal eye distance.
+      if (clock === lastClock && eye.x === lastEyeX && eye.z === lastEyeZ) return;
       visible = 0;
       for (let i = 0; i < streams.length; i++) {
         const stream = streams[i]!, age = (clock + stream.phase) % stream.cycle;
@@ -255,6 +259,7 @@ export function buildFallingLeaves(
       mesh.visible = visible > 0;
       if (visible > 0) mesh.instanceMatrix.needsUpdate = true;
       alpha.needsUpdate = true;
+      lastClock = clock; lastEyeX = eye.x; lastEyeZ = eye.z;
     },
     stats: () => ({ fallingLeaves: streams.length, fallingLeavesVisible: visible, fallingLeafTris: streams.length * 10 }),
     dispose() {
