@@ -356,7 +356,9 @@ export class Colliders {
     const dx = bx - ax;
     const dz = bz - az;
     let nearest: ColliderHit | null = null;
-    for (const c of [...this.near((ax + bx) / 2, (az + bz) / 2, Math.hypot(dx, dz) / 2 + radius), ...extra]) {
+    const scenery = this.near((ax + bx) / 2, (az + bz) / 2, Math.hypot(dx, dz) / 2 + radius);
+    for (let i = 0; i < scenery.length + extra.length; i++) {
+      const c = i < scenery.length ? scenery[i]! : extra[i - scenery.length]!;
       if (!c.active || excludeSupports && c.supportOnly) continue;
       if (ignoreIds?.has(c.id) || ignoreIds?.has(c) || !overlapsHeight(c, bounds)) continue;
       const hit = c.kind === 'circle'
