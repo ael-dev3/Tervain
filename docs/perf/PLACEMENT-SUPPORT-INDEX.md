@@ -21,3 +21,7 @@ npm run build
 ```
 
 This is independent of #481's partially unavailable terrain-sample correction. Neither change establishes that the live floating-sign report is fixed.
+
+## Scoped live context
+
+The separate [published inn-sign snapshot](LIVE-INN-SIGN-SUPPORT.md) records 94 component checks and 16 directional candidates requiring review. Both broad full-scene audit attempts exceeded their request deadline; this PR does not claim a complete scan or a whole-scene timing win.
