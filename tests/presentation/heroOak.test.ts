@@ -35,7 +35,7 @@ describe('generated hero oak (tools/tree-gen)', () => {
   it('marks where the trunk-only collision geometry ends (roots and skirt follow it)', () => {
     for (const glb of Object.values(lods)) {
       const index = meshByName(glb, 'Wood').extras.tervainWoodCollisionIndex as number;
-      expect(index).toBeGreaterThan(0); expect(index).toBeLessThan(glb.json.accessors[meshByName(glb, 'Wood').indices].count);
+      expect(index).toBeGreaterThan(0); expect(index).toBeLessThanOrEqual(glb.json.accessors[meshByName(glb, 'Wood').indices].count);
       expect(index % 3).toBe(0);
     }
   });

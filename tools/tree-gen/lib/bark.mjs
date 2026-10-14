@@ -48,16 +48,16 @@ export function generateBark(size = BARK_SIZE, seed = 7) {
       const u = i / S;
       // Domain warp keeps furrows wandering and forking instead of ruler-straight.
       // Lines meander along the trunk: the horizontal warp is a function of height.
-      const wx = 0.03 * pw(v * 4 + u * 2, u * 3, 4, 3) + 0.012 * pw(v * 11, u * 7 + 2, 11, 7);
+      const wx = 0.05 * pw(v * 3 + u * 2, u * 3, 3, 3) + 0.012 * pw(v * 11, u * 7 + 2, 11, 7);
       const wy = 0.02 * pw(u * 5 + 9, v * 2 + 2, 5, 2);
       const x = u + wx, y = v + wy;
       // Long ridges: very tall Worley cells; fissure width varies along its length; finer weaker fissures and grain.
-      const [d1, c1] = wo(x, y, 11, 2), [d2] = wo(x + 0.31, y + 0.17, 23, 4);
-      const wv = 0.1 + 0.22 * (0.5 + pt(u * 3 + 2, v * 9, 3, 9));
+      const [d1, c1] = wo(x, y, 10, 1), [d2] = wo(x + 0.31, y + 0.17, 21, 2);
+      const wv = 0.12 + 0.2 * (0.5 + pt(u * 9 + 2, v * 2, 9, 2));
       const s1 = smoothstep(0.0, wv, d1), s2 = smoothstep(0.0, 0.3, d2);
       let h = Math.min(s1, 0.55 + 0.45 * s2) * (0.74 + 0.26 * smoothstep(0.9, 0.2, c1)) * 0.9 + 0.1;
       // occasional cross cracks that cut a ridge into blocks
-      h *= 1 - 0.55 * smoothstep(0.25, 0.0, Math.abs(pt(x * 3 + 7, y * 14 + 2, 3, 14))) * smoothstep(0.1, 0.5, s1);
+      h *= 1 - 0.12 * smoothstep(0.1, 0.0, Math.abs(pt(x * 3 + 7, y * 10 + 2, 3, 10))) * smoothstep(0.1, 0.5, s1);
       h += 0.05 * pn(x * 36, y * 5, 36, 5) + 0.06 * pn(x * 150, y * 10, 150, 10) + 0.03 * pn(x * 280, y * 40, 280, 40);
       H[j * S + i] = clamp(h * 0.82, 0, 1);
       albedoTint[j * S + i] = pt(u * 3 + 1, v * 3, 3, 3) * 0.7 + 0.5 * pt(u * 13, v * 17 + 5, 13, 17);
