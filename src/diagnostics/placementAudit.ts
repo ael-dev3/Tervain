@@ -121,7 +121,8 @@ export function auditPlacements(scene: THREE.Object3D, heightAt: (x: number, z: 
     bounds.set(mesh, box);
     const x0 = Math.floor(box.min.x / cellSize), x1 = Math.floor(box.max.x / cellSize);
     const z0 = Math.floor(box.min.z / cellSize), z1 = Math.floor(box.max.z / cellSize);
-    if ((x1-x0+1)*(z1-z0+1)>4) indexable.add(mesh);
+    const triangles = (mesh.geometry.index?.count ?? mesh.geometry.getAttribute('position')?.count ?? 0) / 3;
+    if ((x1-x0+1)*(z1-z0+1)>4 || triangles >= 512) indexable.add(mesh);
     if (![x0, x1, z0, z1].every(Number.isFinite) || (x1 - x0 + 1) * (z1 - z0 + 1) > 256) { wide.push(mesh); continue; }
     for (let x = x0; x <= x1; x++) for (let z = z0; z <= z1; z++) {
       const key = `${x},${z}`, bucket = cells.get(key) ?? [];

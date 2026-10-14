@@ -1,0 +1,22 @@
+{
+  "revision": "8f249f457",
+  "version": "0.0.18",
+  "complete": false,
+  "truncated": false,
+  "skipped": [
+    "village:planks"
+  ],
+  "invalid": 0,
+  "furnitureReady": true,
+  "summary": {
+    "checks": 22053,
+    "roots": 0,
+    "props": 22053,
+    "candidates": 2643
+  },
+  "auditElapsedMs": 378189,
+  "kind": "prop",
+  "maxChecks": 50000,
+  "defaultMaxVertices": 100000,
+  "scope": "One native compiled-build snapshot. Full-scan attempt remains incomplete because village:planks was skipped; candidates require contact review, not a hardware performance measurement."
+}

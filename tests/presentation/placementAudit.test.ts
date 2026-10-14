@@ -124,3 +124,17 @@ it('indexes large support triangles only when a footprint probe needs them', () 
     for (const mesh of scene.children as THREE.Mesh[]) { mesh.geometry.dispose(); (mesh.material as THREE.Material).dispose(); }
   }
 });
+
+it('does not scan every triangle of a compact dense support for each footprint probe', () => {
+  const scene = new THREE.Scene();
+  const support = new THREE.Mesh(new THREE.PlaneGeometry(2,2,128,128).rotateX(-Math.PI/2), new THREE.MeshBasicMaterial({side:THREE.DoubleSide}));
+  support.name='terrain support';support.position.set(8,1,8);scene.add(support);
+  const prop=box(8,1.5);prop.position.z=8;scene.add(prop);
+  const original=THREE.Mesh.prototype.raycast;let triangles=0;
+  THREE.Mesh.prototype.raycast=function(ray,hits){triangles+=(this.geometry.index?.count??this.geometry.getAttribute('position').count)/3;return original.call(this,ray,hits);};
+  try {
+    const report=auditPlacements(scene,()=>0);
+    expect(report.complete).toBe(true);expect(report.summary.props).toBe(1);expect(report.summary.candidates).toBe(0);
+    expect(triangles).toBeLessThan(20_000);
+  } finally {THREE.Mesh.prototype.raycast=original;support.geometry.dispose();(support.material as THREE.Material).dispose();prop.geometry.dispose();(prop.material as THREE.Material).dispose();}
+});
