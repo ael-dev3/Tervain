@@ -236,6 +236,8 @@ export function firewoodGeometry(): THREE.BufferGeometry {
 
 /** Bark, the rings of a sawn end and split grain (A136), drawn once on a small canvas. */
 export function firewoodMaterial(): THREE.MeshStandardMaterial {
+  // Headless audits and tests build furniture without a document: plain bark colour there.
+  if (typeof document === 'undefined') return new THREE.MeshStandardMaterial({ color: 0x5b4632, roughness: 0.92 });
   const W = 384, H = 128, canvas = document.createElement('canvas');
   canvas.width = W; canvas.height = H;
   const g = canvas.getContext('2d')!;

@@ -8,6 +8,7 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
+import { spawnSync } from 'node:child_process';
 import { openPage } from './cdp.mjs';
 
 const args = Object.fromEntries(process.argv.slice(2).flatMap((a, i, all) => a.startsWith('--') ? [[a.slice(2), all[i + 1]]] : []));
@@ -43,6 +44,9 @@ async function round(label, bury, hour) {
   await page.wait(3000); await waitTitle();
   if (!(await click('/continue/i'))) { failures.push(`${label}: no Continue on the menu (${(await choices()).join(' | ')})`); return; }
   await waitPlay();
+  // With --shots, record the first seconds after Continue as a clip (screencast frames at their own times).
+  let from = 0;
+  if (SHOTS) { from = page.frames.length; await page.cdp('Page.startScreencast', { format: 'jpeg', quality: 85, everyNthFrame: 1, maxWidth: 1280, maxHeight: 720 }); }
   for (const wait of [500, 3000]) {
     await page.wait(wait);
     const s = await probe();
@@ -61,6 +65,15 @@ async function round(label, bury, hour) {
     const shadow = await page.eval(`const T = window.tervain; return !T.renderer.shadowMap.enabled || T.world.sky.sun.shadow.map !== null`);
     if (!shadow) failures.push(`${label}: the sun's shadow map was never created (land and hero not drawn)`);
     if (lit < 16) failures.push(`${label}: the lower frame is black (no ground drawn) — ${lit}/64`);
+  }
+  if (SHOTS) {
+    await page.cdp('Page.stopScreencast');
+    const frames = page.frames.slice(from).filter((f) => f.t), dir = path.join(SHOTS, label.replace(/\W+/g, '-')), list = [];
+    fs.mkdirSync(dir, { recursive: true });
+    frames.forEach((f, i) => { const file = `f${String(i).padStart(4, '0')}.jpg`; fs.writeFileSync(path.join(dir, file), Buffer.from(f.data, 'base64'));
+      list.push(`file '${file}'`, `duration ${Math.max(0.001, (frames[i + 1]?.t ?? f.t + 1 / 60) - f.t).toFixed(4)}`); });
+    fs.writeFileSync(path.join(dir, 'frames.txt'), list.join('\n'));
+    spawnSync('ffmpeg', ['-y', '-loglevel', 'error', '-f', 'concat', '-safe', '0', '-i', 'frames.txt', '-vf', 'scale=trunc(iw/2)*2:trunc(ih/2)*2', '-fps_mode', 'vfr', '-pix_fmt', 'yuv420p', 'clip.mp4'], { cwd: dir, timeout: 300000 });
   }
 }
 
