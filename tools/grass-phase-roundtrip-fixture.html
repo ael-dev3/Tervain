@@ -1,0 +1,23 @@
+<!doctype html><meta charset="utf-8"><title>Grass phase replay regression</title><style>body{margin:0}canvas{display:block}</style>
+<script type="module">
+import * as THREE from 'three';import {SkyRig} from '/src/presentation/sky.ts';import {SKY} from '/src/presentation/skyState.ts';
+import {baselineReplay} from '/tools/__baseline-grass-phase.mjs';
+import {normalizeGrassPhaseControls,readGrassPhaseControls,applyGrassPhaseControls} from '/tools/grass-phase-controls.mjs';
+try{
+ const sky=new SkyRig(64);sky.cloudTime=7;
+ const T={game:{state:{clock:19.3*60}},world:{sky,foliage:{wind:{uniforms:{uGrassTime:{value:3},uWindDir:{value:new THREE.Vector4(1,0,.1,.2)},uGustScroll:{value:new THREE.Vector4(2,3,4,5)}}}},sway:{uTime:{value:4}}},grade:{time:9,setLook(){}},player:{group:new THREE.Group()}};
+ window.tervain=T;sky.update(19.3,T.player.group.position,0,false);
+ const canonical=readGrassPhaseControls(T),legacy={wind:canonical.wind,sway:canonical.sway,gradeTime:canonical.gradeTime};
+ const scene=new THREE.Scene();scene.add(sky.group,new THREE.Mesh(new THREE.BoxGeometry(1,1,1),new THREE.MeshStandardMaterial({color:0x8c7049,roughness:1})));
+ const ground=new THREE.Mesh(new THREE.PlaneGeometry(12,12),new THREE.MeshStandardMaterial({color:0x556044,roughness:1}));ground.rotation.x=-Math.PI/2;ground.position.y=-.5;scene.add(ground);
+ const camera=new THREE.PerspectiveCamera(55,640/360,.1,2000);camera.position.set(0,1.7,4);camera.lookAt(0,.2,0);
+ const renderer=new THREE.WebGLRenderer({antialias:false,preserveDrawingBuffer:true});renderer.setSize(640,360);document.body.append(renderer.domElement);renderer.render(scene,camera);const referenceImage=renderer.domElement.toDataURL();
+ Function(baselineReplay(legacy))();
+ const state=()=>[sky.state.nightness,...sky.state.sunDir.toArray(),...sky.state.top.toArray(),sky.hemi.intensity,SKY.sunI.value,SKY.time.value];
+ const beforeState=state(),beforeFinite=beforeState.every(Number.isFinite);
+ const phase=normalizeGrassPhaseControls(JSON.parse(JSON.stringify(legacy)),{hour:(T.game.state.clock%1440)/60,cloudTime:sky.cloudTime});applyGrassPhaseControls(T,phase);
+ const afterState=state();renderer.render(scene,camera);const image=renderer.domElement.toDataURL();
+ const full=normalizeGrassPhaseControls(JSON.parse(JSON.stringify(canonical)),{hour:11,cloudTime:100});applyGrassPhaseControls(T,full);renderer.render(scene,camera);const fullImage=renderer.domElement.toDataURL();
+ window.grassPhaseProof={legacyMissingHour:legacy.hour===undefined,canonical,beforeFinite,beforeNonfiniteValues:beforeState.filter(v=>!Number.isFinite(v)).length,afterFinite:afterState.every(Number.isFinite),after:readGrassPhaseControls(T,full.hour),legacyReplayMatchesCanonical:referenceImage===image,fullReplayMatchesCanonical:referenceImage===fullImage,glError:renderer.getContext().getError(),contextLost:renderer.getContext().isContextLost(),draws:renderer.info.render.calls,triangles:renderer.info.render.triangles,image};
+}catch(e){window.grassPhaseError=String(e?.stack??e);}
+</script>
