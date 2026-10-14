@@ -10,6 +10,7 @@ import { buildFallingLeaves } from './fallingLeaves';
 import { createPineForest, isPineSpecies, type PineTemplates } from './solitaryPine';
 import { groundedTreeY, seatTreeFlares, treeWoodCollisionRadius } from './treeGrounding';
 import { PlantedCrownIndex } from './plantedCrowns';
+import { parseTreeLab, pickLabSpot } from './treeLab';
 import { CROWN_FLOOR, CrownIndex, type CameraCrown } from './cameraCrowns';
 import { attachCasterCoverage, attachInstanceDistanceVisibility, smoothDistanceFade, type InstanceDistanceVisibility } from './distanceVisibility';
 import type { PhysicalWoodGeometry } from '../world/physicsGeometry';
@@ -200,6 +201,21 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         trees.push(tree);
       }
     });
+  }
+
+  /* Developer aid for tools/tree-lab.mjs: `?treelab=species[:assetId][@x,z]` leaves exactly one tree, on a cleared meadow. */
+  const lab = typeof location !== 'undefined' ? parseTreeLab(location.search) : null;
+  if (lab) {
+    let spot: { x: number; z: number } | null = lab.x !== undefined && lab.z !== undefined ? { x: lab.x, z: lab.z } : null;
+    for (const pad of [25, 8, 0]) spot ??= pickLabSpot(terrain, (x, z, r) => colliders.blocked(x, z, r) || excl.blocked(x, z, Math.min(r, pad)));
+    console.info(`[treelab] ${lab.species}:${lab.assetId ?? '-'} spot ${spot ? `${spot.x},${spot.z}` : 'none found'}`);
+    if (spot) {
+      trees.length = 0;
+      const tree: FloraTree = { sp: lab.species, v: 0, x: spot.x, y: 0, z: spot.z, s: lab.scale, yaw: 0, tint: 1, radius: 0, collisionId: null, decorationRank: 0, ...(lab.assetId ? { assetId: lab.assetId } : {}) };
+      tree.y = groundedTreeY(terrain, tree, variantFor(tree));
+      trees.push(tree);
+      (globalThis as { __treelab?: unknown }).__treelab = { x: tree.x, y: tree.y, z: tree.z, groundY: terrain.heightAt(tree.x, tree.z), species: tree.sp, assetId: tree.assetId ?? null, scale: tree.s };
+    }
   }
 
   /* ---- Build the meshes ---- */
