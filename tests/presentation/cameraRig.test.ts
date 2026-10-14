@@ -1,9 +1,11 @@
 import { describe, expect, it, vi } from 'vitest';
 import * as THREE from 'three';
 import { CameraRig } from '../../src/presentation/cameraRig';
-import { CAMERA_CLEARANCE } from '../../src/presentation/cameraObstruction';
+import { CAMERA_CLEARANCE, cameraColliderEntry } from '../../src/presentation/cameraObstruction';
 import { buildStaticColliders, Colliders } from '../../src/world/colliders';
 import { Terrain } from '../../src/world/terrain';
+import { BUILDINGS } from '../../src/world/layout';
+import { interiorOf } from '../../src/world/interiors';
 import { WaterWorld } from '../../src/world/water/waterWorld';
 
 const flat = { groundAt: () => 0 };
@@ -257,5 +259,23 @@ describe('waterline camera stability', () => {
     cam.follow(1 / 60, 0, -1.25, 0, deep, colliders, true, 0);
     cam.clearWater(() => 0, true);
     expect(cam.camera.position.y).toBeCloseTo(0.28, 8);
+  });
+});
+
+
+describe('tavern eave clearance', () => {
+  it('stops the exit boom before the fascia outside the wall footprint without adding actor obstacles', () => {
+    const b = BUILDINGS.find(b => b.id === 'inn')!, room = interiorOf(b)!;
+    const colliders = buildStaticColliders(), x = b.x + room.door.x;
+    const fasciaZ = b.z + b.d / 2 + .6 + .075;
+    const fasciaBottom = room.wallTop - .06 - .26;
+    for (const pitch of [.6, .9, 1.2]) {
+      const cam = new CameraRig(); cam.pitch = pitch;
+      cam.follow(1 / 60, x, room.floorTop, b.z + b.d / 2 + 2, flat, colliders, true, 0);
+      // The rearward boom faces the roof from outside the front door.
+      expect(cameraColliderEntry({ x, y: room.floorTop + 1.55, z: b.z + b.d / 2 + 2 }, cam.camera.position, { id: 'drawn fascia', kind: 'box', active: true, x: b.x, z: fasciaZ - .075, hw: b.w / 2 + .45, hd: .075, yaw: b.yaw, minY: fasciaBottom, maxY: room.wallTop - .07 }, 0, 5)).toBeNull();
+    }
+    expect(colliders.nearCamera(x, b.z, 10).some(c => c.id === 'room:inn:eaves' && c.minY! < fasciaBottom)).toBe(true);
+    expect(colliders.near(x, b.z, 10).some(c => c.id === 'room:inn:eaves')).toBe(false);
   });
 });

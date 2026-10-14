@@ -495,6 +495,11 @@ function roomColliders(c: Colliders, room: InteriorSpec, base: number) {
   }
   roomBox(c, `${id}:doorframe`, b, dx - dw - .16, dx + dw + .16, innerFront - .06, innerFront + .03,
     { minY: base + room.wallBase + dh, maxY: base + room.wallBase + dh + .18 }, true);
+  // The tavern's tiled gable extends 0.45 m past its ends and 0.6 m
+  // past its walls. Its fascia hangs 0.32 m below wallTop (gableRoof).
+  // Keep this envelope camera-only: routes and actor clearance use the room above.
+  if (b.kind === 'inn') roomBox(c, `${id}:eaves`, b, -hw - .5, hw + .5, -hd - .7, hd + .7,
+    { minY: top - .35, maxY: base + b.h + Math.min(b.w, b.d) * .65 + .5 }, true);
   // The chimney stack and its fireplace, and the furniture (each as tall as it stands).
   const floor = base + room.floorTop, hearth = hearthOf(room);
   if (hearth) {
