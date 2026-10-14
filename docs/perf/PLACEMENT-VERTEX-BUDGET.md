@@ -18,3 +18,9 @@ node tools/audit-placement.mjs --url https://ael-dev3.github.io/Tervain/ --kind 
 ```
 
 The final command requires a build containing this option; older builds are rejected. Choose the vertex limit to cover the observed geometry rather than treating an incomplete report as a pass. A complete component scan is not proof that all candidates are floating: side-mounted, painted and hanging components require contact review. No production placement or appearance changes. Stacked on #485.
+
+## Full-scene coverage receipt
+
+The compiled candidate `4234920b2` (0.0.18) completed the actual App prop audit after furniture arrival, with `maxChecks: 100000` and `maxVertices: 114839` (the measured vertex count of the previously skipped planks mesh). Result: **26,458 checks; no skipped meshes; no truncation; zero invalid samples; complete true**. It found 2,822 directional candidates. These are review leads, not 2,822 confirmed floating objects: valid wall-mounted, side-supported and hanging items can be flagged. This scan predates the separate unreferenced-vertex correction.
+
+[Summary](proofs/placement-vertex-budget/full-scene/summary.json), [compressed raw report](proofs/placement-vertex-budget/full-scene/report.json.gz), [native context](proofs/placement-vertex-budget/full-scene/context.png). The prior default-budget scan on the parent checked 22,053 components but skipped the planks mesh. These fresh runs are coverage receipts, not a matched timing or placement-count A/B. The expanded diagnostic took about 480 seconds in software rendering; this is not gameplay frame time or an M5 performance claim. Full prop *scan* coverage does not prove full prop *quality*.
