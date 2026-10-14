@@ -3,99 +3,99 @@
     {
       "state": "idle",
       "time": 0.25,
-      "segments": 99,
+      "segments": 27,
       "hits": 0,
       "samples": []
     },
     {
       "state": "idle",
       "time": 0.5,
-      "segments": 99,
+      "segments": 27,
       "hits": 0,
       "samples": []
     },
     {
       "state": "idle",
       "time": 0.75,
-      "segments": 99,
+      "segments": 27,
       "hits": 0,
       "samples": []
     },
     {
       "state": "idle",
       "time": 1,
-      "segments": 99,
+      "segments": 27,
       "hits": 0,
       "samples": []
     },
     {
       "state": "walk",
       "time": 0.25,
-      "segments": 99,
+      "segments": 27,
       "hits": 0,
       "samples": []
     },
     {
       "state": "walk",
       "time": 0.5,
-      "segments": 99,
+      "segments": 27,
       "hits": 0,
       "samples": []
     },
     {
       "state": "walk",
       "time": 0.75,
-      "segments": 99,
+      "segments": 27,
       "hits": 0,
       "samples": []
     },
     {
       "state": "walk",
       "time": 1,
-      "segments": 99,
+      "segments": 27,
       "hits": 0,
       "samples": []
     },
     {
       "state": "run",
       "time": 0.25,
-      "segments": 99,
+      "segments": 27,
       "hits": 0,
       "samples": []
     },
     {
       "state": "run",
       "time": 0.5,
-      "segments": 99,
+      "segments": 27,
       "hits": 0,
       "samples": []
     },
     {
       "state": "run",
       "time": 0.75,
-      "segments": 99,
+      "segments": 27,
       "hits": 0,
       "samples": []
     },
     {
       "state": "run",
       "time": 1,
-      "segments": 99,
+      "segments": 27,
       "hits": 0,
       "samples": []
     },
     {
       "state": "aim-low",
       "time": 0.25,
-      "segments": 99,
+      "segments": 27,
       "hits": 2,
       "samples": [
         {
           "part": "limbs",
           "point": [
-            0.1466116849666232,
-            0.7736875010246638,
-            0.16616127068624847
+            0.14661168496877425,
+            0.7737606583264907,
+            0.16614475987649208
           ]
         },
         {
@@ -111,15 +111,15 @@
     {
       "state": "aim-low",
       "time": 0.5,
-      "segments": 99,
+      "segments": 27,
       "hits": 2,
       "samples": [
         {
           "part": "limbs",
           "point": [
-            0.1469038227375263,
-            0.7774775917153515,
-            0.17012962844418877
+            0.14690382273863878,
+            0.7775162109780474,
+            0.17012004986774085
           ]
         },
         {
@@ -135,15 +135,15 @@
     {
       "state": "aim-low",
       "time": 0.75,
-      "segments": 99,
+      "segments": 27,
       "hits": 3,
       "samples": [
         {
           "part": "limbs",
           "point": [
-            0.14691248379141933,
-            0.7785167312521389,
-            0.17272232738056748
+            0.1469124837917806,
+            0.7785296247364032,
+            0.17271896416005927
           ]
         },
         {
@@ -167,15 +167,15 @@
     {
       "state": "aim-low",
       "time": 1,
-      "segments": 99,
+      "segments": 27,
       "hits": 3,
       "samples": [
         {
           "part": "limbs",
           "point": [
-            0.14691274506765467,
-            0.778520283341072,
-            0.17272605373748967
+            0.14691274506801413,
+            0.7785331125284047,
+            0.17272270702264841
           ]
         },
         {
@@ -199,21 +199,21 @@
     {
       "state": "aim-level",
       "time": 0.25,
-      "segments": 99,
+      "segments": 27,
       "hits": 0,
       "samples": []
     },
     {
       "state": "aim-level",
       "time": 0.5,
-      "segments": 99,
+      "segments": 27,
       "hits": 0,
       "samples": []
     },
     {
       "state": "aim-level",
       "time": 0.75,
-      "segments": 99,
+      "segments": 27,
       "hits": 2,
       "samples": [
         {
@@ -237,7 +237,7 @@
     {
       "state": "aim-level",
       "time": 1,
-      "segments": 99,
+      "segments": 27,
       "hits": 2,
       "samples": [
         {
@@ -261,21 +261,21 @@
     {
       "state": "aim-high",
       "time": 0.25,
-      "segments": 99,
+      "segments": 27,
       "hits": 0,
       "samples": []
     },
     {
       "state": "aim-high",
       "time": 0.5,
-      "segments": 99,
+      "segments": 27,
       "hits": 0,
       "samples": []
     },
     {
       "state": "aim-high",
       "time": 0.75,
-      "segments": 99,
+      "segments": 27,
       "hits": 2,
       "samples": [
         {
@@ -299,7 +299,7 @@
     {
       "state": "aim-high",
       "time": 1,
-      "segments": 99,
+      "segments": 27,
       "hits": 2,
       "samples": [
         {
@@ -357,7 +357,7 @@
     "src/presentation/hero/animation.ts": "df95a1c418eed4cdb3ac1f8a7ede53668109369b962f1ebb9036f71f6b486180",
     "src/presentation/hero/fingerFit.ts": "a3e8c2ff825125b17a2c99ef974a006a334b88d4ca4c328cb3319a3aad8749d0",
     "src/presentation/npc/dualQuaternionSkinning.ts": "8487b4da13bfe6bd43b430607df51544439545fcc67ff73d09c0db7a5e59e837",
-    "tools/bow-surface-program.mjs": "08f35448d81d4b4d10659a1d4b5b987fc9d4cbe910c262250b827b8e1c1010a8"
+    "tools/bow-surface-program.mjs": "5cf5b03e962637884460ae277a827e2c82ba04b66bad8f1822df5cda7b8bc22a"
   },
   "captureValid": true,
   "qualityPass": null
