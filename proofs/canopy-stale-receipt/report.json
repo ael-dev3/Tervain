@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "baselineRef": "421d34b",
+  "scenario": "Controlled browser launch failure following an earlier PASS",
+  "before": {
+    "exitStatus": 1,
+    "stalePassRetained": true
+  },
+  "after": {
+    "exitStatus": 1,
+    "stalePassRetained": false
+  },
+  "pass": true
+}
