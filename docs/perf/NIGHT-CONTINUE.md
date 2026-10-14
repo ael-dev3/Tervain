@@ -53,3 +53,7 @@ The Continue probe has ten deterministic assertions, including player/rig/camera
 Validation: 52 sky/save/water-render tests pass, including three new cold-night/initialized-night/day-transition cases; production build/type-check and both software-rendered probes pass. Hardware/Mac play-gate validation and live publication remain pending.
 
 Published assets were transported through a certificate-verified HTTPS mirror because the sandbox browser trust store rejected the public origin. Certificate verification stayed enabled. Only the sandbox graphics-startup deadline was extended. These are correctness captures, not hardware frame-time measurements.
+
+## Published 0.0.17 verification
+
+The same final save/reload/Continue recipe passes all ten assertions on the published 0.0.17 · 5da2776 build. The player remains on terrain in all 61 samples; camera clearance is 3.812521 m. All programs link; startup and controlled-frame error lists are empty; the sun comparison map is initialized and paused afterward. [Published receipt](proofs/night-continue/live17.json) / [published frame](proofs/night-continue/live17.png). This verifies the reported cold-night correctness path on Pages using software rendering, not hardware frame-time or whole-game quality coverage.
