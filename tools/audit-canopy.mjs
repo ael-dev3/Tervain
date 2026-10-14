@@ -17,7 +17,7 @@ try{
  if(args.baseline){const before=JSON.parse(fs.readFileSync(args.baseline,'utf8'));report.baselineComparison=compareCanopyBaseline(before,report);report.pass&&=before.lod===report.lod&&!!before.alpha===!!report.alpha&&JSON.stringify(before.expectedSpecies)===JSON.stringify(report.expectedSpecies)&&report.baselineComparison.pass;}
  if('repro'in args){
   report.repro=await page.eval(`const T=window.tervain,forest=T.world.modules.find(m=>m.name==='forest').module,original=forest.canopyAuditTargets,targets=original.call(forest,${options.lod}),baseline=await T.auditCanopies(${JSON.stringify(options)});
-   const species=${JSON.stringify(args['repro-species']??null)},index=targets.findIndex((t,i)=>t.leaves&&(!species||t.species===species)&&baseline.trees[i].candidates.length===0);if(index<0)throw new Error('No supported leafy fixture available');
+   const species=${JSON.stringify(args['repro-species']??null)},index=targets.findIndex((t,i)=>t.wood&&t.leaves&&(!species||t.species===species)&&baseline.trees[i].candidates.length===0);if(index<0)throw new Error('No supported leafy fixture available');
    const target=targets[index],leaf=target.leaves.clone(),position=target.leaves.getAttribute('position'),saved=position.clone(),savedBox=target.leaves.boundingBox,savedSphere=target.leaves.boundingSphere;target.wood.computeBoundingBox();leaf.computeBoundingBox();const offset=target.wood.boundingBox.max.x-leaf.boundingBox.min.x+10;leaf.translate(offset,0,0);
    const oldRoot=await T.auditPlacement({kind:'root',maxChecks:100000});
    // Mutate the actual shared selected-LOD source geometry, so both old and new checks see the same fixture.
