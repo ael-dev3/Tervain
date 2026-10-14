@@ -1,0 +1,20 @@
+<!doctype html><html><body style="margin:0"><script type="module">
+import * as THREE from 'three';
+import {Grade} from '/src/presentation/grade.ts';
+import {GrassTrample} from '/src/presentation/grass/trample.ts';
+try{
+const mode=new URLSearchParams(location.search).get('mode');
+const {buildGroundcover}=await import(mode==='before'?'/src/presentation/__baseline-groundcover.ts':'/src/presentation/groundcover.ts');
+const arrays=new Set(),heroes=new Set(),snapshots=[],original=GrassTrample.prototype.setMovers;
+GrassTrample.prototype.setMovers=function(movers,x,z){arrays.add(movers);const hero=movers.find(m=>m.radius===.55);if(hero)heroes.add(hero);snapshots.push(movers.map(m=>({...m})));return original.call(this,movers,x,z);};
+const renderer=new THREE.WebGLRenderer({preserveDrawingBuffer:true});renderer.setSize(640,360);document.body.append(renderer.domElement);const grade=new Grade(renderer,{msaa:true});grade.setSize(640,360);
+const terrain={heightAt:()=>2,slopeAt:()=>0,carveAt:()=>0,valleyRadius:()=>0},ground=buildGroundcover({quality:'high',terrain,colliders:{all:[]},excl:{circles:[]}}),scene=new THREE.Scene();scene.background=new THREE.Color(0x607080);scene.add(ground.group,new THREE.HemisphereLight(0xffffff,0x405030,2));const sun=new THREE.DirectionalLight(0xffffff,3);sun.position.set(4,8,3);scene.add(sun);
+const camera=new THREE.PerspectiveCamera(50,640/360,.1,180);camera.position.set(-7,3.4,42);camera.lookAt(-7,2.3,47);camera.updateMatrixWorld();
+const focus=new THREE.Vector3(),frame={camera,focus,reducedMotion:false},other={x:-5,z:46,radius:1,weight:.3,vx:.2,vz:.1};
+// Fix the reserve deadline clock so tile generation is identical across the two runs.
+const now=performance.now;Object.defineProperty(performance,'now',{configurable:true,value:()=>0});
+try{for(let i=0;i<120;i++){focus.set(-7+i/60+(i>=70?100:0),2+(i>=30&&i<40?1:0),45+2*i/60);ground.setMovers(i>=90?[]:[other]);ground.update(i===20?0:1/60,frame);ground.prepare(renderer,1/60);}}finally{Object.defineProperty(performance,'now',{configurable:true,value:now});GrassTrample.prototype.setMovers=original;}
+const state=globalThis.__renderCostStates.get(renderer.getContext());renderer.info.autoReset=false;renderer.info.reset();const uploads=state.uploads;grade.render(scene,camera,0);let payload=0;for(const levels of state.textures.values())for(const l of levels.values())payload+=l.w*l.h*l.d*l.b;
+window.inputProof={steps:120,inputArrays:arrays.size,heroObjects:heroes.size,snapshots,grass:ground.stats(),drawCalls:renderer.info.render.calls,triangles:renderer.info.render.triangles,textures:renderer.info.memory.textures,sourceUploadBytes:state.uploads-uploads,texturePayloadBytes:payload,msaa:grade.target.samples,glError:renderer.getContext().getError()};
+}catch(e){window.fixtureError=String(e.stack??e);}
+</script></body></html>
