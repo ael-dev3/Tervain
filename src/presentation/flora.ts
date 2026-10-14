@@ -372,6 +372,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
 
   const packedTrees = new WeakMap<THREE.InstancedMesh, number[]>();
   const staticChanged = new Set<THREE.InstancedMesh>();
+  const coverageChanged = new Set<THREE.InstancedBufferAttribute>();
   const packStatic = (mesh: THREE.InstancedMesh | null, slot: number, tree: number, matrix: THREE.Matrix4, tint?: THREE.Color) => {
     if (!mesh) return;
     let packed = packedTrees.get(mesh);
@@ -407,6 +408,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
     if (shadowFrustum) toLight.copy(shadowFrustum.planes[5]!.normal).negate().normalize();
     const cullShadows = viewOnly && !!shadowFrustum && forceLod < 0;
     staticChanged.clear();
+    coverageChanged.clear();
     pv.multiplyMatrices(cam.projectionMatrix, cam.matrixWorldInverse);
     frustum.setFromProjectionMatrix(pv);
     const cx = cam.position.x;
@@ -467,7 +469,13 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
               const mesh = m[part];
               if (!mesh) continue;
               packStatic(mesh, i, treeIndex, mtx, col);
-              visibility[part]!.coverage.setXY(i, intervalStart, intervalEnd);
+              const coverage = visibility[part]!.coverage;
+              // Compare the stored precision: double-precision fade weights otherwise stay dirty forever.
+              const start = Math.fround(intervalStart), end = Math.fround(intervalEnd);
+              if (coverage.getX(i) !== start || coverage.getY(i) !== end) {
+                coverage.setXY(i, start, end);
+                coverageChanged.add(coverage);
+              }
             }
           }
           intervalStart = intervalEnd;
@@ -476,6 +484,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
       }
       for (let l = 0; l < 3; l++) {
         const m = b.meshes[l]!;
+        const previousCount = m.wood?.count ?? m.leaf?.count ?? 0;
         for (const mesh of [m.wood, m.leaf]) {
           if (!mesh) continue;
           mesh.count = counts[l]!;
@@ -486,7 +495,12 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
             if (mesh.instanceColor) uploadPrefix(mesh.instanceColor, mesh.count);
           }
         }
-        for (const visibility of [b.visibility[l]!.wood, b.visibility[l]!.leaf]) if (visibility) uploadPrefix(visibility.coverage, counts[l]!);
+        // A growing prefix may expose a tail changed while it was not drawn/uploaded.
+        for (const visibility of [b.visibility[l]!.wood, b.visibility[l]!.leaf]) {
+          if (visibility && (coverageChanged.has(visibility.coverage) || counts[l]! > previousCount)) {
+            uploadPrefix(visibility.coverage, counts[l]!);
+          }
+        }
         drawTris += v.lods[l]!.tris * counts[l]!;
         // Empty meshes leave the render lists entirely (no per-frame draw setup for an LOD nobody sees).
         for (const mesh of [m.wood, m.leaf]) if (mesh) mesh.visible = counts[l]! > 0;
