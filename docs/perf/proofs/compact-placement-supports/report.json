@@ -1,0 +1,145 @@
+{
+  "baseline": "b77cb66f5",
+  "sourceSha256": {
+    "placementAudit": "548929f5891295f07097c3bac9276099a3d12274932fad6a08f4c1e0504816fa",
+    "verticalSupports": "f67cbf557e2bc7326faf680645987877ff815c75e7766eca0175b51cea2efe4e"
+  },
+  "scope": "Actual production TypeScript compiled by Vite. Compact support audit plus delivered furniture, exact triangle/face/UV/normal hits. Counts submitted triangle candidates, actual Ray.intersectTriangle calls and index vertex transforms; no live-scene speedup or hardware timing claim.",
+  "audit": {
+    "before": {
+      "triangleCandidates": 262240,
+      "triangleTests": 131120,
+      "transformedVertices": 88,
+      "resultHash": "fd3111382cada28ee1d33b93ed0d710ee6ce8cc28aae5af3daccd2a6ff5b5050"
+    },
+    "after": {
+      "triangleCandidates": 5280,
+      "triangleTests": 2640,
+      "transformedVertices": 98400,
+      "resultHash": "fd3111382cada28ee1d33b93ed0d710ee6ce8cc28aae5af3daccd2a6ff5b5050"
+    }
+  },
+  "furniture": [
+    {
+      "model": "table",
+      "modelSha256": "9eb2612ec620516d9d7a7ad04684dd65e712470a652791c52c44c99698d3a3cd",
+      "mirror": false,
+      "triangles": 2443,
+      "before": {
+        "triangleCandidates": 825734,
+        "triangleTests": 395766,
+        "indexVertexTransforms": 7329,
+        "hits": 300,
+        "resultHash": "fcf37507fe7919eddb5e5b7634d327f23c3ed668c247f0a87bf8dc6d2f755227"
+      },
+      "after": {
+        "triangleCandidates": 32042,
+        "triangleTests": 27798,
+        "indexVertexTransforms": 7337,
+        "hits": 300,
+        "resultHash": "fcf37507fe7919eddb5e5b7634d327f23c3ed668c247f0a87bf8dc6d2f755227"
+      }
+    },
+    {
+      "model": "table",
+      "modelSha256": "9eb2612ec620516d9d7a7ad04684dd65e712470a652791c52c44c99698d3a3cd",
+      "mirror": true,
+      "triangles": 2443,
+      "before": {
+        "triangleCandidates": 825734,
+        "triangleTests": 327362,
+        "indexVertexTransforms": 7329,
+        "hits": 276,
+        "resultHash": "2205cedbe5d418d12b142789c6431399325d5f9cc6ff18453d8b189a2ce087a5"
+      },
+      "after": {
+        "triangleCandidates": 22912,
+        "triangleTests": 19122,
+        "indexVertexTransforms": 7337,
+        "hits": 276,
+        "resultHash": "2205cedbe5d418d12b142789c6431399325d5f9cc6ff18453d8b189a2ce087a5"
+      }
+    },
+    {
+      "model": "chair",
+      "modelSha256": "54af01498a513db1c663aab9a3f6acf7d194923314acebd1885be034da5170bb",
+      "mirror": false,
+      "triangles": 1907,
+      "before": {
+        "triangleCandidates": 644566,
+        "triangleTests": 347074,
+        "indexVertexTransforms": 5721,
+        "hits": 328,
+        "resultHash": "79ede1fe597410cecf7ded821efef07e391390313f8eaa409bd5d2bf64ce460f"
+      },
+      "after": {
+        "triangleCandidates": 36498,
+        "triangleTests": 30744,
+        "indexVertexTransforms": 5729,
+        "hits": 328,
+        "resultHash": "79ede1fe597410cecf7ded821efef07e391390313f8eaa409bd5d2bf64ce460f"
+      }
+    },
+    {
+      "model": "chair",
+      "modelSha256": "54af01498a513db1c663aab9a3f6acf7d194923314acebd1885be034da5170bb",
+      "mirror": true,
+      "triangles": 1907,
+      "before": {
+        "triangleCandidates": 644566,
+        "triangleTests": 316562,
+        "indexVertexTransforms": 5721,
+        "hits": 308,
+        "resultHash": "6eb14a5fbf79fce74663a3a9ee9f3d27880dc39984a95520131ab53e93e477b8"
+      },
+      "after": {
+        "triangleCandidates": 32254,
+        "triangleTests": 28464,
+        "indexVertexTransforms": 5729,
+        "hits": 308,
+        "resultHash": "6eb14a5fbf79fce74663a3a9ee9f3d27880dc39984a95520131ab53e93e477b8"
+      }
+    },
+    {
+      "model": "bed",
+      "modelSha256": "71f650cf836772ee9713ef2d13c39cb4ca967fb7ee43658e65b8a7a2c372366e",
+      "mirror": false,
+      "triangles": 3683,
+      "before": {
+        "triangleCandidates": 1244854,
+        "triangleTests": 596646,
+        "indexVertexTransforms": 11049,
+        "hits": 292,
+        "resultHash": "846cca8121fef1f46aae807f3e755b0e664b74ccf0f85651241b9c2d9457615b"
+      },
+      "after": {
+        "triangleCandidates": 37782,
+        "triangleTests": 31292,
+        "indexVertexTransforms": 11057,
+        "hits": 292,
+        "resultHash": "846cca8121fef1f46aae807f3e755b0e664b74ccf0f85651241b9c2d9457615b"
+      }
+    },
+    {
+      "model": "bed",
+      "modelSha256": "71f650cf836772ee9713ef2d13c39cb4ca967fb7ee43658e65b8a7a2c372366e",
+      "mirror": true,
+      "triangles": 3683,
+      "before": {
+        "triangleCandidates": 1244854,
+        "triangleTests": 493522,
+        "indexVertexTransforms": 11049,
+        "hits": 270,
+        "resultHash": "c4d5fba1b18e98014b6db16af18f396a5bc4f986eb1a8a1ede6e2c073c9e1baf"
+      },
+      "after": {
+        "triangleCandidates": 33602,
+        "triangleTests": 26172,
+        "indexVertexTransforms": 11057,
+        "hits": 270,
+        "resultHash": "c4d5fba1b18e98014b6db16af18f396a5bc4f986eb1a8a1ede6e2c073c9e1baf"
+      }
+    }
+  ],
+  "pass": true
+}

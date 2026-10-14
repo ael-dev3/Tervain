@@ -5,6 +5,11 @@ export function indexVerticalSupport(mesh: THREE.Mesh, cellSize = 16): () => voi
   const source = mesh.geometry, position = source.getAttribute('position'), index = source.index;
   const end = Math.min(index?.count ?? position?.count ?? 0, source.drawRange.start + source.drawRange.count);
   if (!position || end / 3 < 512 || source.drawRange.start % 3 || end % 3) return () => {};
+  // A furniture-sized mesh fits inside one broad-phase cell but can still contain thousands of triangles.
+  if (!source.boundingBox) source.computeBoundingBox();
+  const box = source.boundingBox!.clone().applyMatrix4(mesh.matrixWorld);
+  const span = Math.max(box.max.x - box.min.x, box.max.z - box.min.z);
+  if (Number.isFinite(span) && span > 0) cellSize = Math.min(cellSize, Math.max(.125, span / 8));
   const buckets = new Map<string, number[]>(), wide: number[] = [];
   const vertices = [new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3()];
   for (let i = source.drawRange.start; i < end; i += 3) {
