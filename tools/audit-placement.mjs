@@ -2,6 +2,9 @@
 import fs from 'node:fs';
 import { openPage } from './cdp.mjs';
 const args = Object.fromEntries(process.argv.slice(2).flatMap((a, i, all) => a.startsWith('--') ? [[a.slice(2), all[i + 1]]] : []));
+const out = args.out ?? 'placement-audit.json';
+// A failed rerun must never leave a previous successful receipt available to a gate.
+fs.rmSync(out, { force: true });
 const url = new URL(args.url ?? 'https://ael-dev3.github.io/Tervain/');
 if (args.quality) {
   if (!['low', 'medium', 'high'].includes(args.quality)) throw new Error('Invalid audit quality');
@@ -35,7 +38,7 @@ try {
       timer.unref();
     }),
   ]);
-  fs.writeFileSync(args.out ?? 'placement-audit.json', JSON.stringify(report, null, 2) + '\n');
+  fs.writeFileSync(out, JSON.stringify(report, null, 2) + '\n');
   console.log(`Placement audit: ${report.summary.roots} roots, ${report.summary.props} prop components, ${report.summary.candidates} candidates; complete=${report.complete}`);
   if (!report.complete) process.exitCode = 2;
 } catch (error) { console.error(error.message); process.exitCode = 1; }
