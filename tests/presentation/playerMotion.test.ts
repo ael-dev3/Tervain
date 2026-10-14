@@ -47,6 +47,32 @@ beforeEach(() => vi.clearAllMocks());
 beforeAll(() => initializePhysics());
 
 describe('player motion and action contacts', () => {
+  it('refreshes borrowed body contacts, exclusions and replacement identities without mixing players', () => {
+    const s = setup(), other = setup();
+    const id = Object.keys(s.ctx.game.state.npcs)[0]! as keyof typeof s.ctx.game.state.npcs;
+    const resident = { id, x: 1, y: 2, z: 3, hidden: false } as NpcActor;
+    const enemy = { id: 'contact-enemy', x: 4, y: 5, z: 6, radius: .4, alive: true };
+    const animal = { id: 'animal:test', kind: 'circle' as const, x: 8, z: 0, r: .5, active: true };
+    s.ctx.npcs = [resident]; s.ctx.enemies = [enemy as unknown as EnemyActor]; s.ctx.wildlifeContacts = [animal];
+    const read = (player = s.player, ctx = s.ctx) => Reflect.get(player, 'contacts').call(player, ctx) as import('../../src/world/colliders').Collider[];
+    const rows = read(), person = rows[1], foe = rows[2];
+    resident.x = 10; resident.y = 11; enemy.radius = .8; enemy.y = 12;
+    expect(read()).toBe(rows); expect(rows[0]).toBe(animal); expect(rows[1]).toBe(person); expect(rows[2]).toBe(foe);
+    expect(rows[1]).toMatchObject({ x: 10, minY: 11, maxY: 13.1 });
+    expect(rows[2]).toMatchObject({ r: .8, minY: 12, maxY: 14.1 });
+    const secondRows = read(other.player, s.ctx);
+    expect(secondRows).not.toBe(rows); expect(secondRows[1]).not.toBe(person);
+    resident.hidden = true; enemy.alive = false;
+    expect(read()).toEqual([animal]);
+    resident.hidden = false; s.ctx.game.state.npcs[id]!.available = false;
+    expect(read()).toEqual([animal]);
+    s.ctx.game.state.npcs[id]!.available = true;
+    s.ctx.npcs = [{ ...resident, x: 20 } as NpcActor];
+    expect(read()[1]).not.toBe(person); expect(rows[1]).toMatchObject({ x: 20 });
+    s.ctx.npcs = []; s.ctx.wildlifeContacts = undefined;
+    expect(read()).toEqual([]);
+  });
+
   it('keeps bow input out of the legacy fist/sword attack and block paths', () => {
     const s = setup();
     s.ctx.game.state.inventory.hunting_bow = 1;

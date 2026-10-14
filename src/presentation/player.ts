@@ -6,7 +6,7 @@ import { cliffiness, shoreDistance } from '../world/coast';
 import type { Game } from '../game/game';
 import type { Input } from '../platform/input';
 import type { Settings } from '../platform/settings';
-import type { Collider, Colliders } from '../world/colliders';
+import type { CircleCollider, Collider, Colliders } from '../world/colliders';
 import type { Terrain } from '../world/terrain';
 import { roadWeight } from '../world/terrain';
 import { LIGHTHOUSE, SEA_LEVEL, WORLD } from '../world/layout';
@@ -651,16 +651,33 @@ export class Player {
     return { x: -GRAVITY * dx / normalLengthSquared * slip, z: -GRAVITY * dz / normalLengthSquared * slip, slip };
   }
 
-  /** Living people are contact volumes, not unrestricted post-physics position pushes. */
+  private readonly contactRows: Collider[] = [];
+  private readonly residentContactRows = new WeakMap<object, CircleCollider>();
+  private readonly enemyContactRows = new WeakMap<object, CircleCollider>();
+
+  private bodyContact(actor: { id: string; x: number; y: number; z: number }, radius: number, prefix: string, records: WeakMap<object, CircleCollider>): CircleCollider {
+    let contact = records.get(actor);
+    if (!contact) {
+      contact = { id: `${prefix}:${actor.id}`, kind: 'circle', x: 0, z: 0, r: radius, active: true, minY: 0, maxY: 0 };
+      records.set(actor, contact);
+    }
+    contact.x = actor.x; contact.z = actor.z; contact.r = radius;
+    contact.minY = actor.y; contact.maxY = actor.y + 2.1;
+    return contact;
+  }
+
+  /** Borrowed until the next query; movement and settling consume these contacts synchronously. */
   private contacts(ctx: PlayerCtx): Collider[] {
-    const contacts: Collider[] = [...(ctx.wildlifeContacts ?? [])];
+    const contacts = this.contactRows;
+    contacts.length = 0;
+    if (ctx.wildlifeContacts) for (const contact of ctx.wildlifeContacts) contacts.push(contact);
     for (const n of ctx.npcs) {
       if (n.hidden || !ctx.game.state.npcs[n.id]?.available) continue;
-      contacts.push({ id: `person:${n.id}`, kind: 'circle', x: n.x, z: n.z, r: 0.35, active: true, minY: n.y, maxY: n.y + 2.1 });
+      contacts.push(this.bodyContact(n, .35, 'person', this.residentContactRows));
     }
     for (const e of ctx.enemies) {
       if (!e.alive) continue;
-      contacts.push({ id: `enemy:${e.id}`, kind: 'circle', x: e.x, z: e.z, r: e.radius, active: true, minY: e.y, maxY: e.y + 2.1 });
+      contacts.push(this.bodyContact(e, e.radius, 'enemy', this.enemyContactRows));
     }
     return contacts;
   }
