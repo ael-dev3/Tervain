@@ -129,22 +129,27 @@ export function auditPlacements(scene: THREE.Object3D, heightAt: (x: number, z: 
   // Vertical support probes only need geometry whose world bounds overlap their X/Z position.
   // Expand instances once, so Three's InstancedMesh raycaster cannot scan an entire forest per sample.
   const cellSize = 16, cells = new Map<string, THREE.Mesh[]>(), wide: THREE.Mesh[] = [];
-  const bounds = new Map<THREE.Mesh, THREE.Box3>(), releaseIndexes: (() => void)[] = [];
+  const bounds = new Map<THREE.Mesh, THREE.Box3>(), indexable = new Set<THREE.Mesh>(), releaseIndexes: (() => void)[] = [];
   for (const mesh of supports) {
     if (!mesh.geometry.boundingBox) mesh.geometry.computeBoundingBox();
     const box = mesh.geometry.boundingBox!.clone().applyMatrix4(mesh.matrixWorld).expandByScalar(1e-5);
     bounds.set(mesh, box);
     const x0 = Math.floor(box.min.x / cellSize), x1 = Math.floor(box.max.x / cellSize);
     const z0 = Math.floor(box.min.z / cellSize), z1 = Math.floor(box.max.z / cellSize);
-    if ((x1-x0+1)*(z1-z0+1)>4) releaseIndexes.push(indexVerticalSupport(mesh,cellSize));
+    if ((x1-x0+1)*(z1-z0+1)>4) indexable.add(mesh);
     if (![x0, x1, z0, z1].every(Number.isFinite) || (x1 - x0 + 1) * (z1 - z0 + 1) > 256) { wide.push(mesh); continue; }
     for (let x = x0; x <= x1; x++) for (let z = z0; z <= z1; z++) {
       const key = `${x},${z}`, bucket = cells.get(key) ?? [];
       bucket.push(mesh); cells.set(key, bucket);
     }
   }
-  const nearby = (x: number, z: number) => [...(cells.get(`${Math.floor(x / cellSize)},${Math.floor(z / cellSize)}`) ?? []), ...wide]
-    .filter(mesh => { const box = bounds.get(mesh)!; return x >= box.min.x && x <= box.max.x && z >= box.min.z && z <= box.max.z; });
+  const nearby = (x: number, z: number) => {
+    const candidates = [...(cells.get(`${Math.floor(x / cellSize)},${Math.floor(z / cellSize)}`) ?? []), ...wide]
+      .filter(mesh => { const box = bounds.get(mesh)!; return x >= box.min.x && x <= box.max.x && z >= box.min.z && z <= box.max.z; });
+    // Most supports are distant from every prop probe. Index their triangles only on first use.
+    for (const mesh of candidates) if (indexable.delete(mesh)) releaseIndexes.push(indexVerticalSupport(mesh, cellSize));
+    return candidates;
+  };
   const ray = new THREE.Raycaster(), down = new THREE.Vector3(0, -1, 0), origin = new THREE.Vector3();
   const componentCache = new Map<THREE.BufferGeometry, Component[]>(), rootCache = new Map<THREE.BufferGeometry, THREE.Vector3[]>();
   const checks: Check[] = [];

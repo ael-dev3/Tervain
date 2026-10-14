@@ -137,3 +137,27 @@ it('does not clear root coverage after discarding invalid basal samples', () => 
   expect(report.invalid).toBe(1);
   expect(report.checks).toHaveLength(0);
 });
+
+it('indexes large support triangles only when a footprint probe needs them', () => {
+  const scene = new THREE.Scene();
+  const geometry = new THREE.PlaneGeometry(128, 128, 32, 32).rotateX(-Math.PI / 2);
+  for (let i=0;i<100;i++) {
+    const mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial());
+    mesh.name = 'terrain support'; mesh.position.set(i * 512, 1, 0); scene.add(mesh);
+  }
+  scene.add(box(0, 1.5));
+  const apply = THREE.Vector3.prototype.applyMatrix4;
+  let transformed = 0;
+  THREE.Vector3.prototype.applyMatrix4 = function(m) { transformed++; return apply.call(this, m); };
+  try {
+    const report = auditPlacements(scene, () => 0);
+    expect(report.complete).toBe(true);
+    expect(report.summary.props).toBe(1);
+    expect(report.summary.candidates).toBe(0);
+    expect(transformed).toBeLessThan(20_000);
+  } finally {
+    THREE.Vector3.prototype.applyMatrix4 = apply;
+    geometry.dispose();
+    for (const mesh of scene.children as THREE.Mesh[]) { mesh.geometry.dispose(); (mesh.material as THREE.Material).dispose(); }
+  }
+});
