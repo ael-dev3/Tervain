@@ -14,7 +14,7 @@ npm run build
 
 The source-backed native software-WebGL fixture loads the delivered solitary-pine models and the procedural broadleaf catalog, then makes five 6 mm camera movements at High quality. It renders the original and changed forest separately. This exercises production batching code, not the complete shipped asset catalog or full game. It records actual buffer/texture source upload bytes, draw calls, triangles, coverage version changes and WebGL errors. Uniform uploads and driver overhead are excluded.
 
-The unit regression fails on the original source because an unchanged attribute advances from version 3 to 4. With the fix, 20 foliage/distance tests pass, including unchanged coverage and hide/return prefix growth. The production build passes. No hardware frame-time reduction is claimed.
+The unit regression fails on the original source because an unchanged attribute advances from version 3 to 4. With the fix, the foliage/distance tests pass, including unchanged coverage and hide/return prefix growth. The pine integration prefix check also accepts a skipped upload only when its version and active data are unchanged and the instance count has not grown. The production build passes. No hardware frame-time reduction is claimed.
 
 ## Before/after
 
