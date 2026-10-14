@@ -1,0 +1,42 @@
+<!doctype html><html><body style="margin:0"><script type="module">
+import * as THREE from 'three';
+import RAPIER from '@dimforge/rapier3d-compat';
+import {initializePhysics} from '/src/world/physics.ts';
+import {Colliders} from '/src/world/colliders.ts';
+import {createHeroRig} from '/src/presentation/hero/rig.ts';
+import {createGltfLoader} from '/src/presentation/assets/gltfLoader.ts';
+try {
+await initializePhysics();
+const mode=new URLSearchParams(location.search).get('mode');
+const {Player}=await import(mode==='before'?'/src/presentation/__baseline-player.ts':'/src/presentation/player.ts');
+const player=new Player(createHeroRig(await createGltfLoader().loadAsync('/models/hero/weathered-wanderer-hero-sealed.glb')));
+const rows=[];let shown;const captureU=Number(new URLSearchParams(location.search).get('capture-u')??.5);
+for(const dt of [1/60,1/240]) for(const distance of [.53,.55,.8,1.1,1.5,1.8,1.9]) for(const rise of [-.59,-.55,0,.55,.59]) for(const yaw of [0,Math.PI/4,Math.PI/2]) {
+ const slope=rise/(distance+.82),cos=Math.cos(yaw),sin=Math.sin(yaw),ground=(x,z)=>(x*cos-z*sin)*slope;
+ const terrain={heightAt:ground,groundAt:ground,supportAt:ground,walkable:()=>true},colliders=new Colliders();
+ colliders.box('fence',0,0,.12,3,yaw,true,{minY:-.3,maxY:1.7});
+ const ctx={terrain,colliders,audio:{land(){}},npcs:[],enemies:[]};
+ player.setPosition(-distance*cos,distance*sin,Math.PI/2+yaw,terrain);
+ const v=player.fenceVault(ctx);if(!v)throw Error('Expected accepted vault');player.vault=v;
+ const rail=new RAPIER.Cuboid(.12,.55,3),capsule=new RAPIER.Capsule(.575,.4),rotation={x:0,y:Math.sin(yaw/2),z:0,w:Math.cos(yaw/2)};
+ let minimum=0,at=null,steps=0;
+ while(player.vault&&steps++<1000) {
+  player.stepVault(dt,ctx);
+  const hit=rail.contactShape({x:0,y:.55,z:0},rotation,capsule,{x:player.x,y:player.y+.975,z:player.z},{x:0,y:0,z:0,w:1},0);
+  if(hit&&hit.distance<minimum){minimum=hit.distance;at={x:player.x,y:player.y,z:player.z,u:v.t};}
+  if(distance===1.8&&rise===-.55&&yaw===0&&dt===1/240&&Math.abs(v.t-captureU)<dt/v.seconds)shown={x:player.x,y:player.y,z:player.z,slope};
+ }
+ rows.push({dt,distance,rise,yaw,minimum,at,grounded:player.grounded,landingError:Math.abs(player.y-ground(player.x,player.z))});
+}
+const worst=rows.reduce((a,b)=>a.minimum<b.minimum?a:b);
+// Diagnostic capsule and rail, not a character-animation or full-scene quality capture.
+const sample=rows.find(r=>r.distance===1.8&&r.rise===-.55&&r.yaw===0&&r.dt===1/240);
+const position=mode==='before'?sample.at:shown;
+const renderer=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});renderer.setSize(640,360);document.body.append(renderer.domElement);
+const scene=new THREE.Scene();scene.background=new THREE.Color(0x252c35);
+const mesh=new THREE.Mesh(new THREE.BoxGeometry(.24,1.1,6),new THREE.MeshBasicMaterial({color:0xb2905e,wireframe:true}));mesh.position.y=.55;scene.add(mesh);
+const body=new THREE.Mesh(new THREE.CapsuleGeometry(.4,1.15,8,16),new THREE.MeshBasicMaterial({color:0x56bdda,wireframe:true}));body.position.set(position.x,position.y+.975,position.z);scene.add(body);
+const camera=new THREE.PerspectiveCamera(45,640/360,.1,100);camera.position.set(4,3.5,5);camera.lookAt(0,1,0);renderer.render(scene,camera);
+window.vaultProof={captureU:mode==='before'?sample.at.u:captureU,rows,cases:rows.length,penetratingCases:rows.filter(r=>r.minimum<-.005).length,worstPenetration:worst.minimum,allGrounded:rows.every(r=>r.grounded&&r.landingError<1e-8),nativeHero:!!player.rig.hero,draws:renderer.info.render.calls,triangles:renderer.info.render.triangles,glError:renderer.getContext().getError(),scope:'Production Player planner/executor with real Rapier capsule contacts. Synthetic sloped rail matrix at 60 and 240 Hz; diagnostic capsule screenshot, no hardware timings or full-world visual score.'};
+}catch(e){window.fixtureError=String(e.stack??e);}
+</script></body></html>

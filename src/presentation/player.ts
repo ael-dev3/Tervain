@@ -96,6 +96,12 @@ const GRAVITY = 17;
  */
 export const VAULT = { reach: 1.9, facing: 0.2, land: 0.7, step: 0.6, seconds: 0.55 } as const;
 const VAULT_NEAR_SPAN = 0.6 + 0.12 + 0.7;
+// Rise before crossing the rail, and finish crossing before descending beside it.
+const VAULT_TRAVEL_START = 0.2, VAULT_TRAVEL_SPAN = 0.6;
+function vaultEase(u: number): number {
+  const travel = THREE.MathUtils.clamp((u - VAULT_TRAVEL_START) / VAULT_TRAVEL_SPAN, 0, 1);
+  return travel * travel * (3 - 2 * travel);
+}
 const FIRM_FOOTING_SLOPE = 0.95;
 /** Sample terrain along the whole move, so a sprint/dodge cannot skip a solid face or water strip. */
 const TERRAIN_STEP = 0.16;
@@ -754,13 +760,14 @@ export class Player {
         seconds: VAULT.seconds * Math.max(1, span / VAULT_NEAR_SPAN) };
       // The scripted arc bypasses ordinary movement collision: check body clearance before taking it.
       const ignored = new Set([c]); // Only this rail is crossed; neighboring fences still block the arc.
-      const lift = vault.peak - Math.max(vault.from.y, vault.to.y);
-      // Smoothstep's maximum second derivative is six; enclose its horizontal deviation from each chord too.
-      const horizontalGuard = span * 6 / (8 * 20 * 20);
+      // At u=1/2 the linear base is the endpoint mean, including on slopes.
+      const lift = vault.peak - (vault.from.y + vault.to.y) / 2;
+      // The shortened smoothstep travel phase has maximum second derivative 6 / span².
+      const horizontalGuard = span * (6 / (VAULT_TRAVEL_SPAN * VAULT_TRAVEL_SPAN)) / (8 * 20 * 20);
       let previous = vault.from;
       let clear = true;
       for (let i = 1; i <= 20; i++) {
-        const u = i / 20, ease = u * u * (3 - 2 * u);
+        const u = i / 20, ease = vaultEase(u);
         const next = { x: vault.from.x + (vault.to.x - vault.from.x) * ease,
           z: vault.from.z + (vault.to.z - vault.from.z) * ease,
           y: vault.from.y + (vault.to.y - vault.from.y) * u + lift * Math.sin(Math.PI * u) };
@@ -781,11 +788,11 @@ export class Player {
   private stepVault(dt: number, ctx: PlayerCtx): void {
     const v = this.vault!;
     v.t = Math.min(1, v.t + dt / v.seconds);
-    const u = v.t, ease = u * u * (3 - 2 * u);
+    const u = v.t, ease = vaultEase(u);
     this.x = v.from.x + (v.to.x - v.from.x) * ease;
     this.z = v.from.z + (v.to.z - v.from.z) * ease;
     const base = v.from.y + (v.to.y - v.from.y) * u;
-    this.y = base + (v.peak - Math.max(v.from.y, v.to.y)) * Math.sin(Math.PI * u);
+    this.y = base + (v.peak - (v.from.y + v.to.y) / 2) * Math.sin(Math.PI * u);
     this.vx = (v.to.x - v.from.x) / v.seconds; this.vz = (v.to.z - v.from.z) / v.seconds;
     this.yaw = Math.atan2(v.to.x - v.from.x, v.to.z - v.from.z);
     if (u >= 1) {

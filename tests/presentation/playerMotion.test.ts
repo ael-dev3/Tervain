@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import RAPIER from '@dimforge/rapier3d-compat';
 import { beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { Game } from '../../src/game/game';
 import type { Input } from '../../src/platform/input';
@@ -331,6 +332,30 @@ describe('player motion and action contacts', () => {
       }
     expect(failures.length, failures.slice(0, 8).join('; ')).toBe(0);
   }, 60_000);
+
+  it('keeps the player capsule clear of the drawn rail on rising and falling vaults', () => {
+    const penetrations: string[] = [];
+    for (const distance of [.55, 1.1, 1.8]) for (const rise of [-.55, 0, .55]) for (const yaw of [0, Math.PI / 4, Math.PI / 2]) {
+      const slope = rise / (distance + .82), cos = Math.cos(yaw), sin = Math.sin(yaw);
+      const ground = (x: number, z: number) => (x * cos - z * sin) * slope;
+      const s = setup(ground); s.ctx.terrain.heightAt = ground;
+      s.ctx.colliders.box('fence', 0, 0, .12, 3, yaw, true, { minY: -.3, maxY: 1.7 });
+      s.player.setPosition(-distance * cos, distance * sin, Math.PI / 2 + yaw, s.ctx.terrain);
+      const rail = new RAPIER.Cuboid(.12, .55, 3), capsule = new RAPIER.Capsule(.575, .4);
+      const rotation = { x: 0, y: Math.sin(yaw / 2), z: 0, w: Math.cos(yaw / 2) };
+      s.presses.add('jump'); s.tick(); expect(s.player.vault).not.toBeNull();
+      let deepest = 0;
+      for (let i = 0; i < 180 && s.player.vault; i++) {
+        const p = s.player;
+        const hit = rail.contactShape({ x: 0, y: .55, z: 0 }, rotation, capsule,
+          { x: p.x, y: p.y + .975, z: p.z }, { x: 0, y: 0, z: 0, w: 1 }, 0);
+        if (hit) deepest = Math.min(deepest, hit.distance);
+        s.tick();
+      }
+      if (deepest < -.005) penetrations.push(`distance=${distance} rise=${rise} yaw=${yaw}: ${deepest}`);
+    }
+    expect(penetrations, penetrations.join('\n')).toEqual([]);
+  });
 
   it.each(['jump', 'vault'])('waits for landing before starting a mount during a %s', action => {
     const s = setup();
