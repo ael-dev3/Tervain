@@ -99,9 +99,9 @@ function fft2(re, im, n, inverse) {
   }
 }
 
-/** crop: [x, y, size] with size <= 256 (a canopy patch). Returns the strongest normalised autocorrelation beyond minLag. */
-export function repetition(img, crop, { minLag = 14, maxLag = 120 } = {}) {
-  const [cx, cy, size] = crop, N = 512, re = new Float64Array(N * N), im = new Float64Array(N * N);
+/** crop: [x, y, size] with size <= 512 (a canopy patch). Returns the strongest normalised autocorrelation beyond minLag. */
+export function repetition(img, crop, { minLag = 40, maxLag = 180 } = {}) {
+  const [cx, cy, size] = crop, N = 1024, re = new Float64Array(N * N), im = new Float64Array(N * N);
   let mean = 0;
   const lum = new Float64Array(size * size);
   for (let y = 0; y < size; y++) for (let x = 0; x < size; x++) {
@@ -118,12 +118,16 @@ export function repetition(img, crop, { minLag = 14, maxLag = 120 } = {}) {
   fft2(re, im, N, false);
   for (let i = 0; i < N * N; i++) { re[i] = re[i] * re[i] + im[i] * im[i]; im[i] = 0; }
   fft2(re, im, N, true);
-  const zero = re[0];
+  const zero = re[0], ring = new Float64Array(maxLag + 2), count = new Float64Array(maxLag + 2);
+  const at2 = (dx, dy) => re[((dy + N) % N) * N + ((dx + N) % N)] / zero;
+  for (let dy = -maxLag; dy <= maxLag; dy++) for (let dx = -maxLag; dx <= maxLag; dx++) { const r = Math.round(Math.hypot(dx, dy)); if (r <= maxLag) { ring[r] += at2(dx, dy); count[r]++; } }
+  // The isotropic fall-off of any texture is not repetition: what counts is a lag whose correlation stands above its own
+  // ring's mean (a repeated picture makes isolated off-centre spikes).
   let peak = 0, at = [0, 0];
   for (let dy = -maxLag; dy <= maxLag; dy++) for (let dx = -maxLag; dx <= maxLag; dx++) {
     const r = Math.hypot(dx, dy);
     if (r < minLag || r > maxLag) continue;
-    const v = re[((dy + N) % N) * N + ((dx + N) % N)] / zero;
+    const ri = Math.round(r), v = at2(dx, dy) - ring[ri] / count[ri];
     if (v > peak) { peak = v; at = [dx, dy]; }
   }
   return { peak, at };

@@ -11,7 +11,7 @@ import { withModelLoadSlot } from './assets/modelLoadQueue';
 import { downloadAsset } from './assets/download';
 import { installBarkDetail } from './treeMaterials';
 import { barkTextures } from './treeTextures';
-import { leafAtlasInUse, leafAtlasTexture, leafAtlasWanted, loadLeafAtlas, broadleafCellWeights, remapFirToAtlas, LEAF_ATLAS_GRID } from './leafAtlas';
+import { leafAtlasInUse, leafAtlasTexture, leafAtlasWanted, loadLeafAtlas, broadleafCellWeights, LEAF_ATLAS_GRID } from './leafAtlas';
 import { buildCanopy, canopyAtlasTexture, growTwigs, trimExposedWood, NEAR_CANOPY, MID_CANOPY, twigTriangles, type CanopyTwig } from './canopy';
 
 /** Owner-supplied sources. Plinth-bearing 3106/1459 are prepared reserves, not active plantings. */
@@ -430,7 +430,7 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
       if (pads) {
         const cutoff = Math.max(0.05, material.alphaTest) / 1.3, key = cutoff.toFixed(3);
         let needles = conifers.get(key);
-        if (!needles) { needles = leafAtlasTexture(pads.conifer, 'conifer', cutoff, 'conifer-needle-atlas'); conifers.set(key, needles); }
+        if (!needles) { needles = leafAtlasTexture(pads.fir, 'fir', cutoff, 'fir-needle-sheet'); conifers.set(key, needles); }
         material.map = needles; material.color.set(0xffffff);
         material.defines = { ...material.defines, TV_COVERAGE_MIPS: '' };
       } else material.color.multiply(CONIFER_LEAF_LIFT[species]!);
@@ -475,7 +475,7 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
       const prepare = (part: Part | null, leaf: boolean) => {
         if (!part || leaf && species === 'dead') return null;
         const geometry = part.geometry.clone().applyMatrix4(part.matrix);
-        if (leaf && (species === 'fir' || species === 'shorepine')) { remapStrayFernCell(geometry); if (leafAtlasInUse()) remapFirToAtlas(geometry); }
+        if (leaf && (species === 'fir' || species === 'shorepine')) remapStrayFernCell(geometry);
         geometry.translate(0, -bounds.min.y, 0).scale(scale, scale, scale);
         geometry.computeBoundingBox(); geometry.computeBoundingSphere();
         const p = geometry.getAttribute('position');

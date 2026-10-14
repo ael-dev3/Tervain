@@ -15,7 +15,7 @@ export const CONIFER_CELLS = [
 ];
 
 /** One needle: a tapered capsule with a lit side, composited over what is behind it. */
-function needle(L, x, y, ang, len, w, colour, depth, under) {
+export function needle(L, x, y, ang, len, w, colour, depth, under) {
   const n = L.n, ca = Math.cos(ang), sa = Math.sin(ang), R = w + 2;
   const ex = x + ca * len, ey = y + sa * len;
   const x0 = Math.max(0, Math.floor(Math.min(x, ex) - R)), x1 = Math.min(n - 1, Math.ceil(Math.max(x, ex) + R));

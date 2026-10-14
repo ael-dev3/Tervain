@@ -4,8 +4,8 @@ import * as THREE from 'three';
 import { describe, expect, it } from 'vitest';
 import { weightedCell } from '../../src/presentation/canopy';
 import {
-  BROADLEAF_CELL_COUNT, CONIFER_PAD, FIR_CELL_TABLE, LEAF_ATLAS_GRID, broadleafCellWeights, combineAtlas, coverageAt, coverageMips, halveKeepingCoverage,
-  remapFirToAtlas, remapPineToAtlas, type AtlasLevel,
+  BROADLEAF_CELL_COUNT, CONIFER_PAD, LEAF_ATLAS_GRID, broadleafCellWeights, combineAtlas, coverageAt, coverageMips, halveKeepingCoverage,
+  remapPineToAtlas, type AtlasLevel,
 } from '../../src/presentation/leafAtlas';
 
 const root = new URL('../../', import.meta.url);
@@ -18,7 +18,7 @@ const manifest = JSON.parse(read('public/textures/leaf/manifest.json').toString(
 describe('the procedural leaf atlases (B12)', () => {
   it('ships both atlases as checked files with the documented 4 x 4 layout', () => {
     expect(manifest.schema).toBe(1);
-    for (const key of ['broadleaf.color', 'broadleaf.data', 'conifer.color', 'conifer.data']) {
+    for (const key of ['broadleaf.color', 'broadleaf.data', 'conifer.color', 'conifer.data', 'fir.color', 'fir.data']) {
       const entry = manifest.files[key]!;
       const bytes = read(`public/textures/leaf/${entry.file}`);
       expect(bytes.length, key).toBe(entry.bytes);
@@ -32,6 +32,8 @@ describe('the procedural leaf atlases (B12)', () => {
       expect(layout.cells.length).toBe(16);
       expect(new Set(layout.cells.map((cell) => cell.name)).size).toBe(16);
     }
+    expect(manifest.layout.fir!.grid).toBe(8);
+    expect(manifest.layout.fir!.cells.length).toBe(64);
     expect(CONIFER_PAD.pine).toEqual([8, 9, 10, 11]);
     expect(manifest.layout.conifer!.cells[CONIFER_PAD.firLeader]!.name).toBe('fir-leader');
     expect(manifest.layout.conifer!.cells[CONIFER_PAD.pine[0]!]!.name).toBe('pine-pad-a');
@@ -51,24 +53,7 @@ describe('the procedural leaf atlases (B12)', () => {
     expect(hits.size).toBeGreaterThanOrEqual(7);
   });
 
-  it('maps every source fir sprig to a fir, spruce, whorl or leader pad', () => {
-    expect(FIR_CELL_TABLE).toHaveLength(64);
-    const pads = new Set(FIR_CELL_TABLE.map((code) => code >> 1));
-    for (const pad of pads) expect(pad >= 0 && pad <= 15 && !CONIFER_PAD.pine.includes(pad as 8) && pad !== CONIFER_PAD.pineTuft && pad !== CONIFER_PAD.pineLeader).toBe(true);
-    expect(pads.size).toBeGreaterThanOrEqual(10);
-  });
-
-  it('remaps card UVs cell by cell, keeping their place within the cell (mirrored where the table says)', () => {
-    const g = new THREE.BufferGeometry();
-    // Source cell (col 2, row 0): table code 12 = pad 6 unmirrored; cell (col 0, row 0): code 9 = pad 4 mirrored.
-    g.setAttribute('uv', new THREE.Float32BufferAttribute([0.26, 0.01, 0.37, 0.01, 0.3, 0.1, 0.01, 0.01, 0.1, 0.01, 0.05, 0.1], 2));
-    g.setIndex([0, 1, 2, 3, 4, 5]);
-    expect(remapFirToAtlas(g)).toBe(6);
-    const uv = g.getAttribute('uv');
-    expect(uv.getX(0)).toBeCloseTo((2 + (0.26 * 8 - 2)) / 4, 5);
-    expect(uv.getY(2)).toBeCloseTo((1 + 0.1 * 8) / 4, 5);
-    expect(uv.getX(3)).toBeCloseTo((0 + (1 - 0.08)) / 4, 5);
-    expect(uv.getY(3)).toBeCloseTo((1 + 0.08) / 4, 5);
+  it('remaps the pine card UVs cell by cell, keeping their place within the cell', () => {
     const p = new THREE.BufferGeometry();
     p.setAttribute('uv', new THREE.Float32BufferAttribute([0.6, 0.1, 0.9, 0.1, 0.75, 0.4], 2));
     p.setIndex([0, 1, 2]);

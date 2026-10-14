@@ -35,7 +35,7 @@ const PALETTE = {
 };
 const AUTUMN = [[198, 152, 40], [178, 106, 36], [132, 130, 44], [152, 82, 34], [214, 174, 58], [104, 122, 40]];
 const TURNING = [[84, 120, 42], [102, 134, 46], [168, 140, 40], [186, 122, 38], [76, 108, 40]];
-const STAGE = { young: { size: 0.78, count: 0.8, lit: 1.08, twig: 1.0 }, mid: { size: 1.0, count: 1.0, lit: 1.0, twig: 1.0 }, mature: { size: 1.08, count: 1.14, lit: 0.94, twig: 1.1 } };
+const STAGE = { young: { size: 0.84, count: 1.05, lit: 1.0, twig: 1.0 }, mid: { size: 1.06, count: 1.3, lit: 0.96, twig: 1.0 }, mature: { size: 1.14, count: 1.42, lit: 0.92, twig: 1.1 } };
 
 function pick(random, list) { return list[Math.floor(random() * list.length)]; }
 

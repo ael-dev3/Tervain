@@ -15,6 +15,9 @@ import { downloadAsset } from './assets/download';
  * CONIFER cells (individually drawn needles; a pad's base is on the left edge for rows 0-1, at the bottom for the rest):
  *   row 0: fir sprays 0-3        row 1: spruce sprigs 4-7        row 2: pine pads 8-11 (one whole branchlet each)
  *   row 3: 12 fir whorl, 13 pine tuft (radial), 14 fir leader, 15 pine leader (stem vertical)
+ * FIR sheet (`fir-*.webp`): the fir model's own 8 x 8 sprig layout (256 px cells, same cell positions and silhouettes as the
+ * source sheet its cards were cut from), redrawn needle by needle; no UV change is needed. The 4 x 4 CONIFER atlas serves
+ * the pine's cards (remapped cell by cell) and is the one new generators should sample.
  * Other generators that sample these atlases should keep to this layout (the manifest lists it too).
  */
 export const LEAF_ATLAS_GRID = 4;
@@ -24,17 +27,14 @@ export const CONIFER_PAD = { fir: [0, 1, 2, 3], spruce: [4, 5, 6, 7], pine: [8, 
 
 /** Share of the clusters of each broadleaf kind that come from each cell (autumn cells are rare accents). */
 const BROADLEAF_WEIGHTS: Record<string, Record<number, number>> = {
-  oak: { 0: 0.1, 1: 0.25, 2: 0.3, 3: 0.03, 12: 0.2, 14: 0.05, 15: 0.02 },
-  birch: { 4: 0.12, 5: 0.27, 6: 0.25, 7: 0.03, 13: 0.22, 14: 0.08, 15: 0.03 },
-  orchard: { 8: 0.12, 9: 0.3, 10: 0.28, 11: 0.03, 14: 0.1, 15: 0.1 },
+  oak: { 0: 0.1, 1: 0.25, 2: 0.3, 3: 0.01, 12: 0.2, 14: 0.05, 15: 0.01 },
+  birch: { 4: 0.12, 5: 0.27, 6: 0.25, 7: 0.01, 13: 0.22, 14: 0.08, 15: 0.01 },
+  orchard: { 8: 0.12, 9: 0.3, 10: 0.28, 11: 0.01, 14: 0.1, 15: 0.02 },
 };
 export function broadleafCellWeights(species: string): number[] {
   const share = BROADLEAF_WEIGHTS[species];
-  return Array.from({ length: BROADLEAF_CELL_COUNT }, (_, i) => share ? share[i] ?? 0 : [3, 7, 11, 15].includes(i) ? 0.2 : 1);
+  return Array.from({ length: BROADLEAF_CELL_COUNT }, (_, i) => share ? share[i] ?? 0 : [3, 7, 11, 15].includes(i) ? 0.03 : 1);
 }
-
-/** The fir sheet's 8 x 8 source sprigs (row-major from the top): destination pad * 2 + 1 when the sprig is mirrored. */
-export const FIR_CELL_TABLE: readonly number[] = [9, 3, 12, 6, 24, 10, 28, 24, 6, 1, 11, 24, 13, 28, 0, 11, 4, 14, 8, 0, 11, 5, 15, 8, 2, 24, 24, 24, 28, 28, 24, 7, 14, 9, 3, 13, 7, 0, 9, 3, 12, 6, 0, 10, 5, 12, 6, 1, 10, 4, 15, 7, 0, 10, 5, 15, 24, 24, 24, 5, 15, 8, 3, 12];
 
 /** Whether the new atlases are used: `?leafatlas=1` turns them on, `?leafatlas=0` off, otherwise the shipped default. */
 export const LEAF_ATLAS_DEFAULT = false;
@@ -44,7 +44,7 @@ export function leafAtlasWanted(): boolean {
 }
 
 export interface AtlasLevel { width: number; height: number; data: Uint8Array }
-export interface LeafAtlasData { broadleaf: AtlasLevel; conifer: AtlasLevel }
+export interface LeafAtlasData { broadleaf: AtlasLevel; conifer: AtlasLevel; fir: AtlasLevel }
 
 /** Halve a level (colour weighted by alpha) and scale its alpha so the share of texels past `cutoff` stays `target`. */
 export function halveKeepingCoverage(level: AtlasLevel, target: number, cutoff: number): AtlasLevel {
@@ -129,8 +129,6 @@ function remapCells(geometry: THREE.BufferGeometry, grid: number, pick: (col: nu
   uv.needsUpdate = true;
   return moved;
 }
-/** The fir's 8 x 8 sprig sheet onto the conifer atlas' fir, spruce, whorl and leader pads (applied after remapStrayFernCell). */
-export const remapFirToAtlas = (geometry: THREE.BufferGeometry) => remapCells(geometry, 8, (col, row) => FIR_CELL_TABLE[row * 8 + col]!);
 /** The pine's 2 x 2 branchlet sheet onto the four pine pads. */
 export const remapPineToAtlas = (geometry: THREE.BufferGeometry) => remapCells(geometry, 2, (col, row) => (CONIFER_PAD.pine[row * 2 + col]!) * 2);
 
@@ -169,8 +167,8 @@ export function loadLeafAtlas(): Promise<LeafAtlasData | null> {
       const manifest = JSON.parse(new TextDecoder().decode(await fetchChecked('manifest.json'))) as Manifest;
       if (manifest.schema !== 1) throw new Error('The leaf atlas manifest is incompatible.');
       const read = async (key: string) => { const f = manifest.files[key]; if (!f) throw new Error(`The leaf atlas manifest lacks ${key}.`); return pixels(await fetchChecked(f.file, f.bytes, f.sha256)); };
-      const [bc, bd, cc, cd] = await Promise.all([read('broadleaf.color'), read('broadleaf.data'), read('conifer.color'), read('conifer.data')]);
-      loaded = { broadleaf: combineAtlas(bc, bd, LEAF_ATLAS_SIZE), conifer: combineAtlas(cc, cd, LEAF_ATLAS_SIZE) };
+      const [bc, bd, cc, cd, fc, fd] = await Promise.all([read('broadleaf.color'), read('broadleaf.data'), read('conifer.color'), read('conifer.data'), read('fir.color'), read('fir.data')]);
+      loaded = { broadleaf: combineAtlas(bc, bd, LEAF_ATLAS_SIZE), conifer: combineAtlas(cc, cd, LEAF_ATLAS_SIZE), fir: combineAtlas(fc, fd, LEAF_ATLAS_SIZE) };
       return loaded;
     } catch (error) {
       console.warn('[leaf atlas] the new leaf atlases could not load; the earlier leaf art stays:', error);
