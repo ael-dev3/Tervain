@@ -471,6 +471,14 @@ function installFloorLeafSurface(material: THREE.MeshStandardMaterial, texture: 
   material.customProgramCacheKey = () => 'tervain-floor-leaf-surface-v2';
 }
 
+/** Upload only rewritten visible slots; an empty batch has no GPU work. */
+function uploadFloorPrefix(attribute: THREE.BufferAttribute | null, count: number) {
+  if (!attribute || count === 0) return;
+  attribute.clearUpdateRanges();
+  attribute.addUpdateRange(0, count * attribute.itemSize);
+  attribute.needsUpdate = true;
+}
+
 /** Native forest detail shares flora ownership and disposal. No collider is needed for these low, nonblocking pieces. */
 export function buildForestFloor(terrain: Terrain, exclusions: Exclusions, quality: Quality, trees?: readonly FloraTree[], crowns?: PlantedCrownField, foliage?: FoliageField): SceneModule {
   const population = createForestFloorPopulation(terrain, exclusions, trees, crowns);
@@ -563,7 +571,7 @@ export function buildForestFloor(terrain: Terrain, exclusions: Exclusions, quali
       frustum.setFromProjectionMatrix(pv);
       visible = 0;
       for (const b of owned) {
-        let count = 0, staticChanged = false;
+        let count = 0, staticChanged = false, coverageChanged = false;
         for (let i = 0; i < b.pieces.length; i++) {
           const p = b.pieces[i]!;
           const coverage = smoothDistanceFade(Math.hypot(p.x - f.camera.position.x, p.z - f.camera.position.z), fade.start, fade.end);
@@ -577,18 +585,20 @@ export function buildForestFloor(terrain: Terrain, exclusions: Exclusions, quali
             staticChanged = true;
           }
           b.packed[count] = i;
-          b.visibility.coverage.setXY(count, 0, coverage);
+          // Compare the stored Float32 value, rather than a higher-precision value that rounds to the same bits.
+          if (b.visibility.coverage.getX(count) !== 0 || b.visibility.coverage.getY(count) !== Math.fround(coverage)) {
+            b.visibility.coverage.setXY(count, 0, coverage);
+            coverageChanged = true;
+          }
           count++;
         }
         b.mesh.count = count;
         b.packed.length = count;
-        // Only the packed visible prefix was rewritten; keep unused population capacity off the bus.
-        for (const attribute of staticChanged ? [b.mesh.instanceMatrix, b.mesh.instanceColor, b.visibility.coverage] : [b.visibility.coverage]) {
-          if (!attribute) continue;
-          attribute.clearUpdateRanges();
-          attribute.addUpdateRange(0, Math.max(1, count) * attribute.itemSize);
-          attribute.needsUpdate = true;
+        if (staticChanged) {
+          uploadFloorPrefix(b.mesh.instanceMatrix, count);
+          uploadFloorPrefix(b.mesh.instanceColor, count);
         }
+        if (coverageChanged) uploadFloorPrefix(b.visibility.coverage, count);
         visible += count;
       }
     },
