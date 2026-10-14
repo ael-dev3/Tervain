@@ -63,3 +63,11 @@ it('retains leaf-only LOD targets as missing wood instead of claiming complete c
   expect(report.bySpecies.pine?.trees).toBe(1);
   expect(auditCanopies([supported], { lod: 2 })).toMatchObject({ complete: true, summary: { missingWood: 0 } });
 });
+it('rejects unavailable required cutouts rather than claiming opaque coverage in alpha mode',()=>{
+ const t={...fixture(),cutoutRequired:true,cutout:null};
+ expect(()=>auditCanopies([t],{alpha:true})).toThrow(/Missing required leaf cutout/);
+ expect(auditCanopies([t],{alpha:false}).complete).toBe(true);
+ const opaque={...t,cutoutRequired:false};expect(auditCanopies([opaque],{alpha:true}).complete).toBe(true);
+ const decoded={...t,cutout:{uv:'uv',cutoff:.5,alpha:()=>1}};expect(auditCanopies([decoded],{alpha:true}).complete).toBe(true);
+ const leafless={...t,leaves:null};expect(auditCanopies([leafless],{alpha:true}).complete).toBe(true);
+});

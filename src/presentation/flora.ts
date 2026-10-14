@@ -548,7 +548,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         group.updateWorldMatrix(true, false);
         const cutouts = b.meshes.map(m => m.leaf ? leafCutoutSampler(m.leaf.material as THREE.Material) : null);
         return b.placements.map((p, i) => ({ label: b.trees[i]!.collisionId ?? `tree:${batch}:${i}`, kind: `${b.variant.species}/${b.variant.assetId ?? 'procedural'}`,
-          species: b.variant.species, lod, wood, leaves: level.leaf, cutout: cutouts[Math.min(lod, b.meshes.length - 1)], matrix: new THREE.Matrix4().multiplyMatrices(group.matrixWorld, p.matrix) }));
+          species: b.variant.species, lod, wood, leaves: level.leaf, cutout: cutouts[Math.min(lod, b.meshes.length - 1)], cutoutRequired: ((b.meshes[Math.min(lod, b.meshes.length - 1)]?.leaf?.material as THREE.Material | undefined)?.alphaTest ?? 0) > 0, matrix: new THREE.Matrix4().multiplyMatrices(group.matrixWorld, p.matrix) }));
       });
     },
     placementAuditTargets() {

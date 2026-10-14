@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "baselineRef": "421d34b",
+  "sourceSha256": "609f37fd054b7eaae60a5d624084df5d4855975f33331f2985f81740ad9b3b77",
+  "scope": "Controlled unreadable texture through the real material sampler and production detector. No claim that live assets currently fail decoding; no production visual change.",
+  "samplerReturnedNull": true,
+  "cases": {
+    "missingMask": {
+      "before": {
+        "accepted": true,
+        "complete": true,
+        "maskedTrees": 0,
+        "candidates": 0
+      },
+      "after": {
+        "accepted": false,
+        "error": "Missing required leaf cutout: unreadable-mask"
+      }
+    },
+    "opaqueControl": {
+      "accepted": true,
+      "complete": true,
+      "maskedTrees": 0,
+      "candidates": 0
+    },
+    "decodedControl": {
+      "accepted": true,
+      "complete": true,
+      "maskedTrees": 1,
+      "candidates": 0
+    },
+    "geometryOnlyControl": {
+      "accepted": true,
+      "complete": true,
+      "maskedTrees": null,
+      "candidates": 0
+    }
+  },
+  "pass": true
+}
