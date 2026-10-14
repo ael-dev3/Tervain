@@ -69,6 +69,18 @@ export function foliageResponse(variant: Pick<TreeVariant, 'species' | 'height'>
   return { ...FOLIAGE_RESPONSE[kind], height: Math.max(0.6, variant.height) };
 }
 
+interface ReflectionSwapFrame {
+  active: boolean;
+  epoch: number;
+  used: number;
+  swapped: [THREE.InstancedMesh, THREE.BufferGeometry][];
+}
+function rememberReflectionGeometry(frame: ReflectionSwapFrame, mesh: THREE.InstancedMesh) {
+  const record = frame.swapped[frame.used++];
+  if (record) { record[0] = mesh; record[1] = mesh.geometry; }
+  else frame.swapped.push([mesh, mesh.geometry]);
+}
+
 interface Batch {
   variant: TreeVariant;
   /** leafDepth: the leaves' depth-only pre-pass, drawn before every leaf is shaded once (see leafPrepass.ts). */
@@ -371,6 +383,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
   let shadowTris = 0;
   let disposed = false;
   const reflectionProxies = new Map<THREE.InstancedMesh, THREE.BufferGeometry>();
+  const reflectionFrames: ReflectionSwapFrame[] = [];
   // High draws the full model at every distance (0.0.10, A62); its players may opt into Medium's bands (A76).
   let lodQuality = quality;
 
@@ -649,7 +662,11 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
       // The water's planar reflection is a 512 px image of a rippled surface: there the middle model reads exactly as
       // the full one, at a fraction of its triangles. Each full-detail mesh keeps its own instances and their distance
       // coverage; only the vertex buffers are the middle model's, shared, never copied or freed (A76).
-      const swapped: [THREE.InstancedMesh, THREE.BufferGeometry][] = [];
+      let frame: ReflectionSwapFrame | undefined;
+      for (const reusable of reflectionFrames) if (!reusable.active) { frame = reusable; break; }
+      if (!frame) { frame = { active: false, epoch: 0, used: 0, swapped: [] }; reflectionFrames.push(frame); }
+      frame.active = true; frame.used = 0;
+      const epoch = ++frame.epoch;
       for (const b of batches) for (const part of ['wood', 'leaf'] as const) {
         const near = b.meshes[0]?.[part], mid = b.meshes[1]?.[part];
         if (!near || !mid || near.count === 0) continue;
@@ -662,12 +679,18 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
           proxy.setIndex(mid.geometry.index);
           reflectionProxies.set(near, proxy);
         }
-        swapped.push([near, near.geometry]);
+        rememberReflectionGeometry(frame, near);
         near.geometry = proxy;
         const depth = part === 'leaf' ? b.meshes[0]?.leafDepth : null;
-        if (depth) { swapped.push([depth, depth.geometry]); depth.geometry = proxy; }
+        if (depth) { rememberReflectionGeometry(frame, depth); depth.geometry = proxy; }
       }
-      return () => { for (const [mesh, geometry] of swapped) mesh.geometry = geometry; };
+      const releaseFrame = frame;
+      return () => {
+        // A released callback cannot restore a later capture that reused the frame.
+        if (!releaseFrame.active || releaseFrame.epoch !== epoch) return;
+        for (let i = 0; i < releaseFrame.used; i++) { const [mesh, geometry] = releaseFrame.swapped[i]!; mesh.geometry = geometry; }
+        releaseFrame.active = false;
+      };
     },
     stats: () => ({ trees: trees.length, solitaryPines, meshyTrees: meshy ? trees.length - solitaryPines : 0, treeObstacles: obstacles.length, treesDrawn: visible, treeTris: Math.round(drawTris),
       shadowTrees, shadowTris: Math.round(shadowTris), struckLeaves: burst?.active ?? 0, ...forestFloor?.stats?.(), ...fallingLeaves.stats?.() }),
@@ -701,6 +724,8 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         proxy.dispose();
       }
       reflectionProxies.clear();
+      for (const frame of reflectionFrames) { frame.active = false; frame.used = 0; frame.swapped.length = 0; }
+      reflectionFrames.length = 0;
       for (const material of profileMaterials) material.dispose();
       profileMaterials.clear();
       woodTrees.clear();
