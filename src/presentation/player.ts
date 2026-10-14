@@ -759,15 +759,30 @@ export class Player {
     return null;
   }
 
-  /** One step of a vault: an arc over the rail, then down on the far side; collisions wait until he lands (A125). */
+  /** Advance the planned arc only while moving cargo still leaves the next segment clear. */
   private stepVault(dt: number, ctx: PlayerCtx): void {
     const v = this.vault!;
-    v.t = Math.min(1, v.t + dt / v.seconds);
-    const u = v.t, ease = u * u * (3 - 2 * u);
-    this.x = v.from.x + (v.to.x - v.from.x) * ease;
-    this.z = v.from.z + (v.to.z - v.from.z) * ease;
+    const nextT = Math.min(1, v.t + dt / v.seconds);
+    const u = nextT, ease = u * u * (3 - 2 * u);
+    const x = v.from.x + (v.to.x - v.from.x) * ease;
+    const z = v.from.z + (v.to.z - v.from.z) * ease;
     const base = v.from.y + (v.to.y - v.from.y) * u;
-    this.y = base + (v.peak - Math.max(v.from.y, v.to.y)) * Math.sin(Math.PI * u);
+    const y = base + (v.peak - Math.max(v.from.y, v.to.y)) * Math.sin(Math.PI * u);
+    const du = nextT - v.t;
+    // Enclose the curved segment, including a smoothstep travel phase as short as 60% of the arc.
+    const span = Math.hypot(v.to.x - v.from.x, v.to.z - v.from.z);
+    const liftBound = Math.abs(v.peak - v.from.y) + Math.abs(v.to.y - v.from.y);
+    // The planning sweep omits the foot clearance; an airborne body must enclose the full foot too.
+    const padding = PLAYER_FOOT_CLEARANCE + du * du * (span * 6 / (0.6 * 0.6) + liftBound * Math.PI * Math.PI) / 8;
+    if (ctx.physics?.propsBlockBodySweep?.({ x: this.x, y: this.y, z: this.z }, { x, y, z }, padding)) {
+      // Cargo can enter after takeoff. Stay at the last clear pose, then fall through ordinary collision handling.
+      this.vault = null;
+      this.vx = this.vz = this.vy = 0;
+      this.grounded = false;
+      return;
+    }
+    v.t = nextT;
+    this.x = x; this.y = y; this.z = z;
     this.vx = (v.to.x - v.from.x) / v.seconds; this.vz = (v.to.z - v.from.z) / v.seconds;
     this.yaw = Math.atan2(v.to.x - v.from.x, v.to.z - v.from.z);
     if (u >= 1) {

@@ -389,6 +389,30 @@ describe('player motion and action contacts', () => {
     } finally { physics.dispose(); }
   });
 
+  it('stops an airborne vault before cargo entering after takeoff, then returns to ordinary falling', () => {
+    const s = setup(); s.ctx.terrain.heightAt = () => 0;
+    s.ctx.colliders.box('fence', .8, 0, .12, 3, 0, true, { minY: -.3, maxY: 1.7 });
+    const floor = { nx: 1, nz: 1, vertexX: (i: number) => i * 20 - 10, vertexZ: (i: number) => i * 20 - 10,
+      vertexHeight: () => 0, heightAt: () => 0, groundAt: () => 0 } as unknown as Terrain;
+    const physics = new RealmPhysics(floor, new Colliders(), [{ id: 'crate', name: 'Crate', kind: 'crate',
+      x: 5, z: 5, width: .86, height: .57, depth: .62, yaw: 0, mass: 12 }]);
+    s.ctx.physics = physics;
+    try {
+      s.player.yaw = Math.PI / 2; s.presses.add('jump'); s.tick();
+      const planned = s.player.vault!; expect(planned).not.toBeNull();
+      for (let i = 0; i < 8; i++) s.tick();
+      const poses = physics.snapshot(); poses[0]!.position = { x: planned.to.x, y: .295, z: planned.to.z };
+      physics.restore(poses);
+      for (let i = 0; i < 60 && s.player.vault; i++) s.tick();
+      expect(s.player.vault).toBeNull(); expect(planned.t).toBeLessThan(1);
+      expect(s.player.grounded).toBe(false);
+      expect([s.player.vx, s.player.vy, s.player.vz]).toEqual([0, 0, 0]);
+      for (let i = 0; i < 120; i++) s.tick();
+      expect(s.player.grounded).toBe(true);
+      expect(Number.isFinite(s.player.y)).toBe(true);
+    } finally { physics.dispose(); }
+  });
+
   it.each([0, Math.PI / 4, Math.PI / 2].flatMap(yaw => ['absent', 'active', 'inactive'].map(other => ({ yaw, other }))))(
     'checks other fence segments along the vault arc (yaw=$yaw, second fence=$other)', ({ yaw, other }) => {
       const s = setup();
