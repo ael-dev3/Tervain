@@ -1,0 +1,35 @@
+<!doctype html><html><body style="margin:0"><script type="module">
+import * as THREE from 'three';
+import {CameraRig} from '/src/presentation/cameraRig.ts';
+import {BUILDINGS} from '/src/world/layout.ts';
+import {interiorOf} from '/src/world/interiors.ts';
+import {buildStandard} from '/src/presentation/buildings.ts';
+import {Region} from '/src/presentation/regions.ts';
+import {Ctx} from '/src/presentation/buildKit.ts';
+try {
+const mode=new URLSearchParams(location.search).get('mode');
+const {buildStaticColliders}=await import(mode==='before'?'/@baseline-colliders':'/src/world/colliders.ts');
+const material=new THREE.MeshBasicMaterial({vertexColors:true,side:THREE.DoubleSide});
+const b=BUILDINGS.find(b=>b.id==='inn'),room=interiorOf(b),region=new Region('inn',new Ctx());
+// The moving leaf is excluded as it is open in the exit repro. The static frame stays.
+buildStandard(region,{heightAt:()=>0},b,{lanterns:[],doors:[],apart:(name,draw)=>{const leaf=new Region(name,new Ctx());draw(leaf);return leaf.toGroup({get:()=>material});}});
+const building=region.toGroup({get:()=>material});building.updateMatrixWorld(true);
+const colliders=buildStaticColliders(),terrain={groundAt:()=>0},ray=new THREE.Raycaster();
+let poses=0,roofCrossings=0,otherCrossings=0;const examples=[];
+for(let j=0;j<41;j++)for(const pitch of [.05,.32,.6,.9,1.2])for(let i=0;i<24;i++){
+ const z=b.z+b.d/2-2+j*.1,x=b.x+room.door.x,cam=new CameraRig();cam.yaw=i*Math.PI*2/24;cam.pitch=pitch;
+ cam.follow(1/60,x,room.floorTop,z,terrain,colliders,true,0);
+ const pivot=new THREE.Vector3(x,room.floorTop+1.55,z),delta=cam.camera.position.clone().sub(pivot),distance=delta.length();ray.set(pivot,delta.normalize());ray.far=distance;
+ const hits=ray.intersectObject(building).filter(h=>h.distance>.03&&h.distance<distance-.01);
+ const roof=hits.find(h=>h.object.name==='inn:timber'&&h.point.y>=room.wallTop-.35);
+ poses++;if(roof){roofCrossings++;if(examples.length<8)examples.push({x,z,pitch,yaw:cam.yaw,eye:cam.camera.position.toArray(),hit:roof.point.toArray()});}else if(hits.length)otherCrossings++;
+}
+const renderer=new THREE.WebGLRenderer({preserveDrawingBuffer:true});renderer.setSize(640,360);document.body.append(renderer.domElement);
+const scene=new THREE.Scene();scene.background=new THREE.Color(0x637481);scene.add(building);
+const floor=new THREE.Mesh(new THREE.PlaneGeometry(60,60),new THREE.MeshBasicMaterial({color:0x42513f}));floor.rotation.x=-Math.PI/2;floor.position.set(b.x,0,b.z);scene.add(floor);
+// A diagnostic capsule locates the player; it is not replacement character art.
+const body=new THREE.Mesh(new THREE.CapsuleGeometry(.4,1.15,4,8),new THREE.MeshBasicMaterial({color:0xc7b78a}));body.position.set(b.x+room.door.x,room.floorTop+.975,b.z+b.d/2+2);scene.add(body);
+const cam=new CameraRig();cam.setAspect(640/360);cam.pitch=.9;cam.follow(1/60,b.x+room.door.x,room.floorTop,b.z+b.d/2+2,terrain,colliders,true,0);renderer.render(scene,cam.camera);
+window.eavesProof={mode,poses,roofCrossings,otherCrossings,examples,actorColliders:colliders.all,drawCalls:renderer.info.render.calls,triangles:renderer.info.render.triangles,glError:renderer.getContext().getError(),eye:cam.camera.position.toArray()};
+}catch(e){window.fixtureError=e.stack??String(e);}
+</script></body></html>
