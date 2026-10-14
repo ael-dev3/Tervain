@@ -1,0 +1,21 @@
+{
+  "codec": "H.264 RGB lossless",
+  "frames": 31,
+  "dimensions": [
+    1024,
+    216
+  ],
+  "sourceCadence": 60,
+  "playbackCadence": 12,
+  "slowMotionFactor": 5,
+  "crop": {
+    "left": 64,
+    "top": 126,
+    "width": 512,
+    "height": 216
+  },
+  "left": "normal",
+  "right": "noStraw diagnostic",
+  "decodedChangedRGBChannels": 0,
+  "sha256": "d386c982b13c8da04438e92c1f37b560979906cab799245ba40748f5728b7f5c"
+}
