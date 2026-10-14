@@ -1,0 +1,70 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "casterMeshes": 117,
+  "rows": [
+    {
+      "unchanged": 50,
+      "unnecessaryVersions": 50,
+      "scheduledPrefixBytes": 2752
+    },
+    {
+      "unchanged": 50,
+      "unnecessaryVersions": 50,
+      "scheduledPrefixBytes": 2752
+    },
+    {
+      "unchanged": 50,
+      "unnecessaryVersions": 50,
+      "scheduledPrefixBytes": 2752
+    },
+    {
+      "unchanged": 50,
+      "unnecessaryVersions": 50,
+      "scheduledPrefixBytes": 2752
+    },
+    {
+      "unchanged": 50,
+      "unnecessaryVersions": 50,
+      "scheduledPrefixBytes": 2752
+    },
+    {
+      "unchanged": 50,
+      "unnecessaryVersions": 50,
+      "scheduledPrefixBytes": 2752
+    },
+    {
+      "unchanged": 50,
+      "unnecessaryVersions": 50,
+      "scheduledPrefixBytes": 2752
+    },
+    {
+      "unchanged": 50,
+      "unnecessaryVersions": 50,
+      "scheduledPrefixBytes": 2752
+    },
+    {
+      "unchanged": 50,
+      "unnecessaryVersions": 50,
+      "scheduledPrefixBytes": 2752
+    },
+    {
+      "unchanged": 50,
+      "unnecessaryVersions": 50,
+      "scheduledPrefixBytes": 2752
+    },
+    {
+      "unchanged": 50,
+      "unnecessaryVersions": 50,
+      "scheduledPrefixBytes": 2752
+    },
+    {
+      "unchanged": 50,
+      "unnecessaryVersions": 50,
+      "scheduledPrefixBytes": 2752
+    }
+  ],
+  "scope": "Native published shadow volume, fixed camera position and 12 small rotations; shadow receivers retained for an indoor/window-style view. Scheduled coverage prefix bytes inferred from dirty versions, not measured WebGL uploads or frame times."
+}
