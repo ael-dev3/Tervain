@@ -631,6 +631,7 @@ function* buildAnimalSteps(ctx: Pick<BuildContext, 'terrain' | 'colliders' | 'qu
   yield* hunting.prepare(animals);
   hunting.group.traverse(object => { if ((object as THREE.Mesh).isMesh) (object as THREE.Mesh).castShadow = ctx.quality !== 'low'; });
   group.add(hunting.group);
+  let animalShadows = ctx.quality !== 'low';
 
   return {
     group,
@@ -687,6 +688,16 @@ function* buildAnimalSteps(ctx: Pick<BuildContext, 'terrain' | 'colliders' | 'qu
       hunter = { x: frame.focus.x, z: frame.focus.z };
       hunting.update(dt, frame.reducedMotion);
       hunting.group.traverse(object => { if ((object as THREE.Mesh).isMesh) (object as THREE.Mesh).castShadow = frame.quality !== 'low'; });
+      const shadows = frame.quality !== 'low';
+      if (shadows !== animalShadows) {
+        // Animal meshes are fixed after construction. Refresh them only when shadow
+        // policy changes, before the ridden-animal early return as well. Effects
+        // above can create meshes during hunting.update and still need their walk.
+        for (const animal of animals) animal.scene.traverse(object => {
+          if ((object as THREE.Mesh).isMesh) (object as THREE.Mesh).castShadow = shadows;
+        });
+        animalShadows = shadows;
+      }
       for (const animal of animals) {
         const p = animal.root.position, distance = Math.hypot(p.x - frame.focus.x, p.z - frame.focus.z);
         if (ridden?.animal === animal) {
@@ -709,7 +720,6 @@ function* buildAnimalSteps(ctx: Pick<BuildContext, 'terrain' | 'colliders' | 'qu
         }
         // All nineteen remain in the scene on every preset. Expanded skin bounds let Three's actual
         // camera/shadow frusta reject submissions without a visible distance seam.
-        animal.scene.traverse(object => { if ((object as THREE.Mesh).isMesh) (object as THREE.Mesh).castShadow = frame.quality !== 'low'; });
         if (!hunting.isVisible(animal) || hunting.isDead(animal)) continue;
         if (animal.alarm) { animal.alarm.remaining -= dt; if (animal.alarm.remaining <= 0) animal.alarm = null; }
         const fleeingFrom = animal.alarm ? new THREE.Vector3(animal.alarm.x, p.y, animal.alarm.z) : frame.focus;
