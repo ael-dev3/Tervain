@@ -1,0 +1,151 @@
+{
+  "baseline": "421d34b",
+  "sourceHashes": {
+    "tools/audit-live-crown-transitions.mjs": "18d0566cc2ec1546d98b46589fd05f446ff7ff9fed64ea973fc40607862ed4f3",
+    "tools/crown-source-coverage.mjs": "a4f857ce540680a108fe3bd6e561dd34a46a674f56e60f38b4b0177982e4bfee"
+  },
+  "scope": "Actual crown receipt assembly, canopy audit and verdict with a deterministic one-tree native Three fixture. Selected far LOD is full, leaf-only or wholly absent; transition loop is exercised with a fixed synthetic packing adapter. Not live crown counts, a real LOD-transition visual gate or hardware timing.",
+  "rows": [
+    {
+      "kind": "full",
+      "before": {
+        "expectedTrees": 1,
+        "covered": [
+          1,
+          1,
+          1
+        ],
+        "reported": [
+          1,
+          1,
+          1
+        ],
+        "complete": [
+          true,
+          true,
+          true
+        ],
+        "missing": 0,
+        "transitionSamples": 14,
+        "measurementPass": true
+      },
+      "after": {
+        "expectedTrees": 1,
+        "covered": [
+          1,
+          1,
+          1
+        ],
+        "reported": [
+          1,
+          1,
+          1
+        ],
+        "complete": [
+          true,
+          true,
+          true
+        ],
+        "missing": 0,
+        "transitionSamples": 14,
+        "measurementPass": true
+      }
+    },
+    {
+      "kind": "leaf-only",
+      "before": {
+        "expectedTrees": 1,
+        "covered": [
+          1,
+          1,
+          0
+        ],
+        "reported": [
+          1,
+          1,
+          0
+        ],
+        "complete": [
+          true,
+          true,
+          true
+        ],
+        "missing": 1,
+        "transitionSamples": 14,
+        "measurementPass": true
+      },
+      "after": {
+        "expectedTrees": 1,
+        "covered": [
+          1,
+          1,
+          1
+        ],
+        "reported": [
+          1,
+          1,
+          1
+        ],
+        "complete": [
+          true,
+          true,
+          false
+        ],
+        "missing": 1,
+        "transitionSamples": 14,
+        "measurementPass": false
+      }
+    },
+    {
+      "kind": "missing-both",
+      "before": {
+        "expectedTrees": 1,
+        "covered": [
+          1,
+          1,
+          0
+        ],
+        "reported": [
+          1,
+          1,
+          0
+        ],
+        "complete": [
+          true,
+          true,
+          true
+        ],
+        "missing": 1,
+        "transitionSamples": 14,
+        "measurementPass": true
+      },
+      "after": {
+        "expectedTrees": 1,
+        "covered": [
+          1,
+          1,
+          1
+        ],
+        "reported": [
+          1,
+          1,
+          1
+        ],
+        "complete": [
+          true,
+          true,
+          false
+        ],
+        "missing": 1,
+        "transitionSamples": 14,
+        "measurementPass": false
+      }
+    }
+  ],
+  "pixelsIdentical": true,
+  "draws": 4,
+  "triangles": 38,
+  "glError": 0,
+  "contextLost": false,
+  "pass": true
+}
