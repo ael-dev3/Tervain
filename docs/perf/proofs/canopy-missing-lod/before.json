@@ -1,0 +1,35 @@
+{
+  "build": {
+    "version": "0.0.17",
+    "revision": "5da2776"
+  },
+  "program": "tervain-C-jU6_Ec.js",
+  "expectedTrees": 453,
+  "nearTrees": 453,
+  "farTrees": 325,
+  "expectedPines": 128,
+  "selectedFarPines": 0,
+  "rawComplete": true,
+  "appWrapperComplete": false,
+  "summary": {
+    "trees": 0,
+    "leafless": 0,
+    "components": 0,
+    "chunks": 0,
+    "candidates": 0,
+    "woodReach": 1.5,
+    "detachedCards": 0,
+    "detachedClumps": 0,
+    "treesWithDetached": 0
+  },
+  "records": [],
+  "scope": "Native compiled forest adapter and diagnostic export, with the requested far-LOD pine cohort. The app wrapper already rejects incomplete population coverage; the fix retains individual unsupported targets and makes missing wood explicit in the lower-level report.",
+  "assertions": {
+    "fullFarPopulation": false,
+    "retainedPines": false,
+    "explicitMissingWood": false,
+    "incompleteSupport": false,
+    "wrapperStillRejects": true
+  },
+  "pass": false
+}
