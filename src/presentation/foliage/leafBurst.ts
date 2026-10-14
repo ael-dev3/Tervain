@@ -94,8 +94,10 @@ export function createLeafBurst(terrain: { heightAt(x: number, z: number): numbe
       if (disposed) return;
       reducedMotion = enabled;
       if (active === 0 && !pendingRelease) return;
-      pendingRelease = false;
       const step = reducedMotion || !Number.isFinite(dt) ? 0 : Math.min(Math.max(dt, 0), 0.1);
+      // No state advances at zero dt, but a newly queued release still needs its first pose.
+      if (step === 0 && !pendingRelease) return;
+      pendingRelease = false;
       const dir = wind?.direction ?? [1, 0];
       let n = 0, drawCount = 0;
       for (let i = 0; i < leaves.length; i++) {
