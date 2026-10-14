@@ -134,20 +134,21 @@ export class TileLayer {
     mesh.visible = false;
     this.group.add(mesh);
     const tile = { key: -1, tx: 0, tz: 0, mesh, geo, count: 0, x0: 0, z0: 0, ymin: 0, ymax: 0, attrs, drawCount: this.trisPerInstance * 3, renderInstances: 0 };
-    if (o.maxRadius !== undefined || o.drawCountAt) mesh.onBeforeRender = (_renderer, _scene, camera) => {
-      if (o.maxRadius !== undefined) {
+    if (o.maxRadius !== undefined || o.drawCountAt) {
+      mesh.onBeforeRender = (_renderer, _scene, camera) => {
         tile.renderInstances = geo.instanceCount;
-        if (!this.inHorizontalView(tile, camera)) geo.instanceCount = 0;
-      }
-      if (!o.drawCountAt) return;
-      // Window/reflection cameras can stand closer than the main camera. Their visible blade tail must survive too.
-      const e = camera.matrixWorld.elements;
-      const main = e[12] === this.drawFocus.x && e[13] === this.drawFocus.y && e[14] === this.drawFocus.z;
-      this.captureFocus.setFromMatrixPosition(camera.matrixWorld);
-      geo.setDrawRange(0, main ? tile.drawCount : Math.min(this.trisPerInstance * 3, o.drawCountAt!(this.distTo(tile, this.captureFocus))));
-    };
-    // Each reflection/window camera evaluates its own extent; do not leave its count on the shared geometry.
-    if (o.maxRadius !== undefined) mesh.onAfterRender = () => { geo.instanceCount = tile.renderInstances; };
+        const e = camera.matrixWorld.elements;
+        const main = e[12] === this.drawFocus.x && e[13] === this.drawFocus.y && e[14] === this.drawFocus.z;
+        this.captureFocus.setFromMatrixPosition(camera.matrixWorld);
+        const distance = this.distTo(tile, this.captureFocus);
+        // Rank thinning, like blade-tail thinning, belongs to this pass's camera.
+        if (!main) geo.instanceCount = this.instanceCountAt(tile, distance);
+        if (o.maxRadius !== undefined && !this.inHorizontalView(tile, camera)) geo.instanceCount = 0;
+        if (o.drawCountAt) geo.setDrawRange(0, main ? tile.drawCount : Math.min(this.trisPerInstance * 3, o.drawCountAt(distance)));
+      };
+      // Captures must not leave their density on the shared main-camera geometry.
+      mesh.onAfterRender = () => { geo.instanceCount = tile.renderInstances; };
+    }
     return tile;
   }
 
@@ -290,20 +291,7 @@ export class TileLayer {
         t.mesh.visible = false;
         continue;
       }
-      const q = Math.pow(1 - smoothstep(o.fadeStart, o.fadeEnd, d), o.power);
-      // gKeep = smoothstep(0,.12,gQ*RANK_HEADROOM-rank) has zero coverage when rank >= gQ*RANK_HEADROOM. The nearest
-      // anchor interval is conservative for every patch, so no extra rank tail needs to be submitted.
-      const limit = q * RANK_HEADROOM + 1e-6;
-      // Binary search: first instance whose rank >= limit.
-      const base = t.attrs[0]!.array as Float32Array;
-      let lo = 0;
-      let hi = t.count;
-      while (lo < hi) {
-        const mid = (lo + hi) >> 1;
-        if (base[mid * 4 + 3]! < limit) lo = mid + 1;
-        else hi = mid;
-      }
-      const n = q <= 0 ? 0 : lo;
+      const n = this.instanceCountAt(t, d);
       t.geo.instanceCount = n;
       t.mesh.visible = n > 0;
       if (n > 0) {
@@ -317,6 +305,23 @@ export class TileLayer {
     this.visibleTriangles = tris;
     this.drawCalls = draws;
     this.activeTiles = this.tiles.size;
+  }
+
+  private instanceCountAt(t: Tile, d: number): number {
+    const q = Math.pow(1 - smoothstep(this.o.fadeStart, this.o.fadeEnd, d), this.o.power);
+    // gKeep = smoothstep(0,.12,gQ*RANK_HEADROOM-rank) has zero coverage when rank >= gQ*RANK_HEADROOM. The nearest
+    // anchor interval is conservative for every patch, so no extra rank tail needs to be submitted.
+    const limit = q * RANK_HEADROOM + 1e-6;
+    // Binary search: first instance whose rank >= limit.
+    const base = t.attrs[0]!.array as Float32Array;
+    let lo = 0;
+    let hi = t.count;
+    while (lo < hi) {
+      const mid = (lo + hi) >> 1;
+      if (base[mid * 4 + 3]! < limit) lo = mid + 1;
+      else hi = mid;
+    }
+    return q <= 0 ? 0 : lo;
   }
 
   dispose() {
