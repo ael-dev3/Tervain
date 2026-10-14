@@ -1,0 +1,46 @@
+{
+  "schema": 1,
+  "baseline": "421d34b",
+  "before": {
+    "steps": 120,
+    "inputArrays": 120,
+    "heroObjects": 110,
+    "grass": {
+      "grassInstances": 30356,
+      "grassTris": 1355610,
+      "grassDraws": 61,
+      "grassTiles": 173,
+      "grassMovers": 1
+    },
+    "drawCalls": 27,
+    "triangles": 733225,
+    "textures": 6,
+    "sourceUploadBytes": 2915244,
+    "texturePayloadBytes": 3187748,
+    "msaa": 4,
+    "glError": 0
+  },
+  "after": {
+    "steps": 120,
+    "inputArrays": 1,
+    "heroObjects": 1,
+    "grass": {
+      "grassInstances": 30356,
+      "grassTris": 1355610,
+      "grassDraws": 61,
+      "grassTiles": 173,
+      "grassMovers": 1
+    },
+    "drawCalls": 27,
+    "triangles": 733225,
+    "textures": 6,
+    "sourceUploadBytes": 2915244,
+    "texturePayloadBytes": 3187748,
+    "msaa": 4,
+    "glError": 0
+  },
+  "snapshotsIdentical": true,
+  "changedRGBChannels": 0,
+  "pass": true,
+  "scope": "Actual groundcover sources and native grass/trample/Grade rendering on a flat fixture; input identities only, not all heap allocations or hardware timings."
+}

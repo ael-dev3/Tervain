@@ -40,6 +40,8 @@ export function buildGroundcover(ctx: BuildContext): Groundcover {
   const lastFocus = new THREE.Vector3(Number.NaN, 0, Number.NaN);
   let others: readonly GrassMover[] = [];
   let reduced = false;
+  const heroMover: GrassMover = { x: 0, z: 0, radius: 0.55, weight: 0.75, vx: 0, vz: 0 };
+  const moverInputs: GrassMover[] = [];
   const reserve: GrassReserve = { remaining: 2 };
   return {
     group,
@@ -58,8 +60,17 @@ export function buildGroundcover(ctx: BuildContext): Groundcover {
       focus.copy(f.focus);
       // Up on a rock, a deck or a stair he treads nothing below (A105 scout: grass under him flattened as if waded).
       const aloft = f.focus.y - ctx.terrain.heightAt(f.focus.x, f.focus.z) > 0.6;
-      const hero: GrassMover[] = aloft ? [] : [{ x: f.focus.x, z: f.focus.z, radius: 0.55, weight: 0.75, vx: jump ? 0 : vx, vz: jump ? 0 : vz }];
-      trample?.setMovers([...hero, ...others], f.focus.x, f.focus.z);
+      if (trample) {
+        // Consumed synchronously by setMovers; each world owns its input storage.
+        moverInputs.length = 0;
+        if (!aloft) {
+          heroMover.x = f.focus.x; heroMover.z = f.focus.z;
+          heroMover.vx = jump ? 0 : vx; heroMover.vz = jump ? 0 : vz;
+          moverInputs.push(heroMover);
+        }
+        for (const mover of others) moverInputs.push(mover);
+        trample.setMovers(moverInputs, f.focus.x, f.focus.z);
+      }
       field.update(cam, reserve);
     },
     warm(renderer) { trample?.warm(renderer); },
