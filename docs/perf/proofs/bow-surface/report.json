@@ -1,0 +1,364 @@
+{
+  "rows": [
+    {
+      "state": "idle",
+      "time": 0.25,
+      "segments": 99,
+      "hits": 0,
+      "samples": []
+    },
+    {
+      "state": "idle",
+      "time": 0.5,
+      "segments": 99,
+      "hits": 0,
+      "samples": []
+    },
+    {
+      "state": "idle",
+      "time": 0.75,
+      "segments": 99,
+      "hits": 0,
+      "samples": []
+    },
+    {
+      "state": "idle",
+      "time": 1,
+      "segments": 99,
+      "hits": 0,
+      "samples": []
+    },
+    {
+      "state": "walk",
+      "time": 0.25,
+      "segments": 99,
+      "hits": 0,
+      "samples": []
+    },
+    {
+      "state": "walk",
+      "time": 0.5,
+      "segments": 99,
+      "hits": 0,
+      "samples": []
+    },
+    {
+      "state": "walk",
+      "time": 0.75,
+      "segments": 99,
+      "hits": 0,
+      "samples": []
+    },
+    {
+      "state": "walk",
+      "time": 1,
+      "segments": 99,
+      "hits": 0,
+      "samples": []
+    },
+    {
+      "state": "run",
+      "time": 0.25,
+      "segments": 99,
+      "hits": 0,
+      "samples": []
+    },
+    {
+      "state": "run",
+      "time": 0.5,
+      "segments": 99,
+      "hits": 0,
+      "samples": []
+    },
+    {
+      "state": "run",
+      "time": 0.75,
+      "segments": 99,
+      "hits": 0,
+      "samples": []
+    },
+    {
+      "state": "run",
+      "time": 1,
+      "segments": 99,
+      "hits": 0,
+      "samples": []
+    },
+    {
+      "state": "aim-low",
+      "time": 0.25,
+      "segments": 99,
+      "hits": 2,
+      "samples": [
+        {
+          "part": "limbs",
+          "point": [
+            0.1466116849666232,
+            0.7736875010246638,
+            0.16616127068624847
+          ]
+        },
+        {
+          "part": "string",
+          "point": [
+            0.14661168839769959,
+            0.9118252101213,
+            0.12491121283915349
+          ]
+        }
+      ]
+    },
+    {
+      "state": "aim-low",
+      "time": 0.5,
+      "segments": 99,
+      "hits": 2,
+      "samples": [
+        {
+          "part": "limbs",
+          "point": [
+            0.1469038227375263,
+            0.7774775917153515,
+            0.17012962844418877
+          ]
+        },
+        {
+          "part": "string",
+          "point": [
+            0.1469038308960837,
+            1.0369624396543617,
+            0.11649574655495237
+          ]
+        }
+      ]
+    },
+    {
+      "state": "aim-low",
+      "time": 0.75,
+      "segments": 99,
+      "hits": 3,
+      "samples": [
+        {
+          "part": "limbs",
+          "point": [
+            0.14691248379141933,
+            0.7785167312521389,
+            0.17272232738056748
+          ]
+        },
+        {
+          "part": "string",
+          "point": [
+            0.14691249158065123,
+            1.087452748846182,
+            0.07855103926391462
+          ]
+        },
+        {
+          "part": "string",
+          "point": [
+            0.14691251165548294,
+            1.47356858569878,
+            0.12297939449414186
+          ]
+        }
+      ]
+    },
+    {
+      "state": "aim-low",
+      "time": 1,
+      "segments": 99,
+      "hits": 3,
+      "samples": [
+        {
+          "part": "limbs",
+          "point": [
+            0.14691274506765467,
+            0.778520283341072,
+            0.17272605373748967
+          ]
+        },
+        {
+          "part": "string",
+          "point": [
+            0.1469127545807477,
+            1.1969999862698097,
+            0.028881395360932136
+          ]
+        },
+        {
+          "part": "string",
+          "point": [
+            0.14691277222573693,
+            1.5335680636221665,
+            0.0698951262717209
+          ]
+        }
+      ]
+    },
+    {
+      "state": "aim-level",
+      "time": 0.25,
+      "segments": 99,
+      "hits": 0,
+      "samples": []
+    },
+    {
+      "state": "aim-level",
+      "time": 0.5,
+      "segments": 99,
+      "hits": 0,
+      "samples": []
+    },
+    {
+      "state": "aim-level",
+      "time": 0.75,
+      "segments": 99,
+      "hits": 2,
+      "samples": [
+        {
+          "part": "string",
+          "point": [
+            0.1474214960156767,
+            1.4504624706478286,
+            0.13699476344558142
+          ]
+        },
+        {
+          "part": "string",
+          "point": [
+            0.14742149914699113,
+            1.5427344194011994,
+            0.1310760382250361
+          ]
+        }
+      ]
+    },
+    {
+      "state": "aim-level",
+      "time": 1,
+      "segments": 99,
+      "hits": 2,
+      "samples": [
+        {
+          "part": "string",
+          "point": [
+            0.14742149306871397,
+            1.415194724239178,
+            0.06856226088882977
+          ]
+        },
+        {
+          "part": "string",
+          "point": [
+            0.1474214981707927,
+            1.568353709701534,
+            0.05488155429290753
+          ]
+        }
+      ]
+    },
+    {
+      "state": "aim-high",
+      "time": 0.25,
+      "segments": 99,
+      "hits": 0,
+      "samples": []
+    },
+    {
+      "state": "aim-high",
+      "time": 0.5,
+      "segments": 99,
+      "hits": 0,
+      "samples": []
+    },
+    {
+      "state": "aim-high",
+      "time": 0.75,
+      "segments": 99,
+      "hits": 2,
+      "samples": [
+        {
+          "part": "string",
+          "point": [
+            0.1471514604843802,
+            1.5359872564604002,
+            0.14344452368480853
+          ]
+        },
+        {
+          "part": "string",
+          "point": [
+            0.14715146361990514,
+            1.6105301462152424,
+            0.11195891245656568
+          ]
+        }
+      ]
+    },
+    {
+      "state": "aim-high",
+      "time": 1,
+      "segments": 99,
+      "hits": 2,
+      "samples": [
+        {
+          "part": "string",
+          "point": [
+            0.14715145715729275,
+            1.4810418167710102,
+            0.08235708221103255
+          ]
+        },
+        {
+          "part": "string",
+          "point": [
+            0.14715146222004577,
+            1.6009418399682267,
+            0.03331936478713121
+          ]
+        }
+      ]
+    }
+  ],
+  "scope": "CPU twin of delivered DQ skinning; actual bow limb/string centrelines against non-hand hero surface triangles. Centreline hits are surface crossings, not a complete volumetric clearance or visual-quality pass. Four samples spaced by 15 native animation ticks per state, with fixed root position; no real-time movement or hardware FPS claim.",
+  "captures": [
+    {
+      "state": "idle",
+      "draws": 5,
+      "triangles": 150314,
+      "glError": 0
+    },
+    {
+      "state": "aim-low",
+      "draws": 13,
+      "triangles": 150592,
+      "glError": 0
+    },
+    {
+      "state": "aim-level",
+      "draws": 12,
+      "triangles": 150512,
+      "glError": 0
+    }
+  ],
+  "nativeHero": true,
+  "summary": {
+    "carriedSamples": 12,
+    "carriedCrossingSamples": 0,
+    "drawnSamples": 12,
+    "drawnCrossingSamples": 8,
+    "crossingSegments": 18
+  },
+  "sourceSha256": {
+    "public/models/hero/weathered-wanderer-hero-sealed.glb": "2c3b031e9a24fe623c3b6f97220ed7cfaeff2383fcbbe091f233096ab4ea8927",
+    "src/presentation/playerHunting.ts": "bba878c7b5013864d35b8c5b8205dbe3d9cd69522f1e5d4411711f9f4cd334dd",
+    "src/presentation/hero/rig.ts": "d98853572e86a7aa7707e1259ac0dbc69199f540dfc88581ef2a7dab16dae9d6",
+    "src/presentation/hero/animation.ts": "df95a1c418eed4cdb3ac1f8a7ede53668109369b962f1ebb9036f71f6b486180",
+    "src/presentation/hero/fingerFit.ts": "a3e8c2ff825125b17a2c99ef974a006a334b88d4ca4c328cb3319a3aad8749d0",
+    "src/presentation/npc/dualQuaternionSkinning.ts": "8487b4da13bfe6bd43b430607df51544439545fcc67ff73d09c0db7a5e59e837",
+    "tools/bow-surface-program.mjs": "08f35448d81d4b4d10659a1d4b5b987fc9d4cbe910c262250b827b8e1c1010a8"
+  },
+  "captureValid": true,
+  "qualityPass": null
+}
