@@ -1,0 +1,20 @@
+<!doctype html><html><head><meta charset="utf-8"><style>body{margin:0}canvas{display:block}</style></head><body><script>window.addEventListener('error',e=>window.fixtureError=e.message);window.addEventListener('unhandledrejection',e=>window.fixtureError=String(e.reason));</script><script type="module">
+import * as THREE from 'three';
+import {createGrassClump} from '/src/presentation/grass/bladeGeometry.ts';
+import {createGrassMaterial} from '/src/presentation/grass/grassMaterial.ts';
+import {GrassWind} from '/src/presentation/grass/wind.ts';
+const mode=new URLSearchParams(location.search).get('mode');
+const {TileLayer}=await import(mode==='baseline'?'/@baseline-tile':'/src/presentation/ground/tileStream.ts');
+const wind=new GrassWind({direction:[1,0],steady:0,gust:0,speed:0});
+const material=createGrassMaterial({wind,look:{rootShade:.3,tipLift:.3,translucency:1,sheen:0,transTint:new THREE.Color(1,1,1)},farBlades:1,clump:{radius:.3,width:.04,height:.8,blades:6},fade:{start:0,end:100,sizeComp:1,power:1},band:{inStart:-2,inEnd:-1,outStart:10000,outEnd:10001}});
+const layer=new TileLayer({name:'ranks',tileSize:10,capacity:16,geometry:createGrassClump({blades:6,segments:3}),material:material.material,fadeStart:0,fadeEnd:100,power:1,maxHeight:2,maxRadius:.5,receiveShadow:false,generate(tx,tz,out){out.ymin=out.ymax=0;if(tx!==0||tz!==0)return 0;for(let i=0;i<16;i++){out.base.set([2+(i%4)*2,0,2+Math.floor(i/4)*2,(i+.5)/16],i*4);out.shape.set([0,.7,1,.5],i*4);out.tint.set([.3,.6,.2,1],i*4);}return 16;}});
+const main=new THREE.PerspectiveCamera(55,4/3,.1,200);main.position.set(70,6,10);main.lookAt(5,0,5);main.updateMatrixWorld();layer.update(main.position);
+const capture=main.clone();capture.position.set(5,6,10);capture.lookAt(5,0,5);capture.updateMatrixWorld();
+const scene=new THREE.Scene();scene.background=new THREE.Color(.2,.2,.2);scene.add(layer.group,new THREE.HemisphereLight(0xffffff,0x444444,2));const sun=new THREE.DirectionalLight(0xffffff,2);sun.position.set(1,5,2);scene.add(sun);
+const renderer=new THREE.WebGLRenderer({antialias:false,preserveDrawingBuffer:true});renderer.setSize(320,240);document.body.append(renderer.domElement);
+const tile=layer.group.children.find(o=>o.geometry.getAttribute('aBase').getX(0)===2),initialCount=tile.geometry.instanceCount;
+const callback=tile.onBeforeRender;let captureCount=0;tile.onBeforeRender=function(...args){callback.apply(this,args);captureCount=this.geometry.instanceCount;};
+renderer.render(scene,capture);const restoredCount=tile.geometry.instanceCount;const captureStats={...renderer.info.render};
+const gl=renderer.getContext(),captureErrors=[];for(let i=0;i<64;i++){const e=gl.getError();if(!e)break;captureErrors.push(e);}
+window.captureRankRepro={mode,initialCount,captureCount,restoredCount,captureStats,captureErrors,renderMain(){renderer.render(scene,main);return {count:tile.geometry.instanceCount,stats:{...renderer.info.render}};}};
+</script></body></html>
