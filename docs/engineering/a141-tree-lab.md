@@ -15,7 +15,7 @@ node tools/tree-lab.mjs --url <build url> --asset <id> --out <dir> [--hours 11,1
 ## How it works
 
 - The page loads with `?treelab=<species>[:<assetId>][@x,z][*scale]`. The forest module (`src/presentation/treeLab.ts`, hooked in `flora.ts`) then keeps exactly one tree, on the flattest dry ground it finds with no collider within 60 m. The parameter is off unless present, so play is unchanged. `window.__treelab` reports the spot.
-- The script replaces the loop's `step` and `render`, so time moves only when it calls `world.update`; the player is hidden at the camera and the hour is passed to each frame.
+- The script replaces the loop's `step` and `render`, so time moves only when it calls `world.update`; Reduced Motion is switched off so the wind moves; the player is hidden at the camera and the hour is passed to each frame.
 - Distances are metres from the trunk surface (the measured wood radius is added).
 
 ## Output
@@ -31,7 +31,7 @@ node tools/tree-lab.mjs --url <build url> --asset <id> --out <dir> [--hours 11,1
 ## Metrics
 
 - **Triangles and draws:** `renderer.info` for the 10 m frame with and without the tree meshes; the difference is the tree.
-- **Alpha edges:** the tree alone against black, then white, gives alpha per pixel; a hard step is a covered pixel (alpha above 0.9) beside an empty one (below 0.1). `hardShare` is hard steps over hard plus soft edge pixels; lower reads softer.
+- **Alpha edges:** the 3 m frame is taken three ways (tree over sky, tree over the empty clear colour, sky alone) with the terrain hidden; the difference gives alpha per pixel where the sky differs enough from the clear colour. A hard step is a covered pixel (alpha above 0.9) beside an empty one (below 0.1). `hardShare` is hard steps over hard plus soft edge pixels; lower reads softer.
 - **Wind:** block luma series over the crown from the wind clip. `meanPairwiseCorr` and `pc1Share` near 1 mean the whole crown moves in phase; near 0 means independent per-branch motion.
 - **Repetition:** the highest normalised autocorrelation of a 256 px crop (canopy still for leaves, base still for bark) at lags of 10 px or more. Near 0 reads non-repeating.
 

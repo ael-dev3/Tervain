@@ -58,7 +58,7 @@ try {
   const spot = await page.eval('return window.__treelab ?? null');
   if (!spot) throw new Error('no tree placed: the build lacks the ?treelab hook or found no clear meadow. Console: ' + page.console().filter((l) => /treelab|error|exception/i.test(l)).join(' | '));
   metrics.spot = spot;
-  await page.eval(`const T=window.tervain;T.render=()=>{};T.step=()=>{};await T.world.arrived;T.player.group.visible=false;T.hud?.show?.(false);
+  await page.eval(`const T=window.tervain;T.render=()=>{};T.step=()=>{};T.settings.reducedMotion=false;await T.world.arrived;T.player.group.visible=false;T.hud?.show?.(false);
     const L=window.__lab={T,spot:window.__treelab};
     const TREE=/:\\d:(wood|foliage)$/;
     L.treeMeshes=()=>{const a=[];T.world.scene.traverse(o=>{if(!o.isMesh)return;if(TREE.test(o.name||''))a.push(o);});return a;};
@@ -67,11 +67,10 @@ try {
       for(const m of T.world.modules)m.module.prepare?.(T.renderer,0);
       T.world.update(dt,T.game.state,T.player.group.position,T.settings,hour,camera,false);
       T.grade.render(T.world.scene,camera,dt,T.world.waterRenderInputs(T.settings));};
-    L.isolate=(on,bg)=>{const sc=T.world.scene;if(on){const keep=new Set(L.treeMeshes());const mark=(o)=>{let k=keep.has(o);for(const c of o.children)k=mark(c)||k;return k;};
-      L.hidden=[];const hide=(o)=>{for(const c of o.children){if(mark(c))hide(c);else if(c.visible){c.visible=false;L.hidden.push(c);}}};hide(sc);
-      L.bg=sc.background;L.fog=sc.fog;L.Color=sc.fog.color.constructor;sc.background=new L.Color(bg,bg,bg);sc.fog=null;}
-      else if(L.hidden){for(const o of L.hidden)o.visible=true;L.hidden=null;sc.background=L.bg;sc.fog=L.fog;}};
-    L.setBg=(bg)=>{const sc=T.world.scene;sc.background=new L.Color(bg,bg,bg);};
+    L.isolate=(on)=>{const sc=T.world.scene;if(on){const keep=new Set(L.treeMeshes());keep.add(T.world.sky.group);const mark=(o)=>{let k=keep.has(o);for(const c of o.children)k=mark(c)||k;return k;};
+      L.hidden=[];const hide=(o)=>{for(const c of o.children){if(keep.has(c))continue;if(mark(c))hide(c);else if(c.visible){c.visible=false;L.hidden.push(c);}}};hide(sc);}
+      else if(L.hidden){for(const o of L.hidden)o.visible=true;L.hidden=null;T.world.sky.group.visible=true;for(const m of L.treeMeshes())m.visible=true;}};
+    L.vis=(sky,tree)=>{T.world.sky.group.visible=sky;for(const m of L.treeMeshes())m.visible=tree;};
     return 1`);
   // Tree size from the LOD-0 meshes of the one placed instance, and the wood radius just above the ground.
   const dims = await page.eval(`const L=window.__lab,S=L.spot;
@@ -125,15 +124,15 @@ try {
     // Alpha edges: the tree alone against black and white at 3 m, alpha = 1 - (white - black)/(bgWhite - bgBlack).
     try {
       const v3 = views.d003, shots = [];
-      await page.eval('window.__lab.isolate(true,0);return 1');
-      for (const bg of [0, 1]) {
-        await page.eval(`window.__lab.setBg(${bg});return 1`);
+      await page.eval('window.__lab.isolate(true);return 1');
+      for (const [sky, tree] of [[true, true], [false, true], [true, false]]) {
+        await page.eval(`window.__lab.vis(${sky},${tree});return 1`);
         await frame(clipHour, v3); await frame(clipHour, v3);
         shots.push(await page.image('png'));
       }
       await page.eval('window.__lab.isolate(false);return 1');
-      fs.writeFileSync(path.join(out, 'alpha_black.png'), shots[0]); fs.writeFileSync(path.join(out, 'alpha_white.png'), shots[1]);
-      metrics.alphaEdges = alphaEdgeMetric(path.join(out, 'alpha_black.png'), path.join(out, 'alpha_white.png'), W, H);
+      ['alpha_A_tree_sky', 'alpha_B_tree_nosky', 'alpha_C_sky_only'].forEach((n, i) => fs.writeFileSync(path.join(out, n + '.png'), shots[i]));
+      metrics.alphaEdges = alphaEdgeMetric(['alpha_A_tree_sky', 'alpha_B_tree_nosky', 'alpha_C_sky_only'].map((n) => path.join(out, n + '.png')), W, H);
     } catch (e) { await page.eval('window.__lab.isolate(false);return 1').catch(() => {}); metrics.alphaEdges = { error: String(e.message ?? e) }; }
     // Repetition: autocorrelation of the canopy still (leaves) and the base still (bark).
     await setHour(clipHour);
@@ -167,8 +166,10 @@ try {
     await setHour(clipHour);
     const v = at(trunkR + 12, 1.7, mid), n = Math.round(windFps * windSeconds);
     await frame(clipHour, v, 0);
+    metrics.windClock = { reducedMotion: await page.eval('return !!window.tervain.settings.reducedMotion'), start: await page.eval('return window.tervain.world.foliage.wind.uniforms.uGrassTime.value') };
     for (let i = 0; i < n; i++) { await frame(clipHour, v, 1 / windFps); await grab(path.join(dir2, `f${String(i).padStart(4, '0')}.jpg`)); }
     ffmpeg(['-framerate', String(windFps), '-i', path.join(dir2, 'f%04d.jpg'), '-vf', 'scale=trunc(iw/2)*2:trunc(ih/2)*2', '-pix_fmt', 'yuv420p', path.join(out, 'wind.mp4')]);
+    metrics.windClock.end = await page.eval('return window.tervain.world.foliage.wind.uniforms.uGrassTime.value');
     if (parts.has('metrics')) metrics.wind = windMetric(dir2, windFps);
     fs.rmSync(dir2, { recursive: true, force: true });
   }
@@ -184,22 +185,28 @@ function decodeRaw(file, w, h, pix) {
   return new Uint8Array(r.stdout.buffer, r.stdout.byteOffset, r.stdout.length);
 }
 
-/** Alpha from a black and a white background; a "hard step" is a covered pixel (alpha > 0.9) next to an empty one (< 0.1). */
-function alphaEdgeMetric(blackFile, whiteFile, w, h) {
-  const b = decodeRaw(blackFile, w, h, 'gray'), wv = decodeRaw(whiteFile, w, h, 'gray');
-  const a = new Float32Array(w * h);
-  const bgB = b[0], bgW = wv[0], span = Math.max(20, bgW - bgB);
-  for (let i = 0; i < a.length; i++) a[i] = Math.min(1, Math.max(0, 1 - (wv[i] - b[i]) / span));
-  let covered = 0, hard = 0, soft = 0;
+/**
+ * Alpha without a controllable background: A = tree over sky, B = tree over the empty clear colour, C = sky alone.
+ * For a partly covered pixel A - B = (1 - alpha)(sky - clear), so alpha = 1 - (A - B)/(C - B_clear), judged only where
+ * the sky differs from the clear colour by at least 40 levels. A "hard step" is a covered pixel (alpha > 0.9) beside an
+ * empty one (< 0.1); lower hardShare reads softer.
+ */
+function alphaEdgeMetric([fa, fb, fc], w, h) {
+  const A = decodeRaw(fa, w, h, 'gray'), B = decodeRaw(fb, w, h, 'gray'), C = decodeRaw(fc, w, h, 'gray');
+  const clear = B[0], a = new Float32Array(w * h).fill(-1);
+  for (let i = 0; i < a.length; i++) { const d = C[i] - clear; if (d >= 40) a[i] = Math.min(1, Math.max(0, 1 - (A[i] - B[i]) / d)); }
+  let valid = 0, hard = 0, soft = 0, covered = 0;
   for (let y = 1; y < h - 1; y++) for (let x = 1; x < w - 1; x++) {
     const i = y * w + x, v = a[i];
-    if (v > 0.5) covered++;
+    if (v < 0 || a[i - 1] < 0 || a[i + 1] < 0 || a[i - w] < 0 || a[i + w] < 0) continue;
+    valid++; if (v > 0.5) covered++;
     const lo = a[i - 1] < 0.1 || a[i + 1] < 0.1 || a[i - w] < 0.1 || a[i + w] < 0.1, hi = a[i - 1] > 0.9 || a[i + 1] > 0.9 || a[i - w] > 0.9 || a[i + w] > 0.9;
     if (v > 0.9 && lo) hard++;
     else if (v > 0.1 && v < 0.9 && (lo || hi)) soft++;
   }
   const edge = hard + soft;
-  return { backgroundLuma: [bgB, bgW], coveredPixels: covered, hardStepPixels: hard, softEdgePixels: soft, hardShare: edge ? +(hard / edge).toFixed(4) : null, hardPerThousandCovered: covered ? +(hard * 1000 / covered).toFixed(2) : null };
+  if (valid < 2000) return { error: 'too little sky behind the tree to measure', validPixels: valid };
+  return { clearLuma: clear, validPixels: valid, coveredPixels: covered, hardStepPixels: hard, softEdgePixels: soft, hardShare: edge ? +(hard / edge).toFixed(4) : null, hardPerThousandValid: +(hard * 1000 / valid).toFixed(2) };
 }
 
 /** Peak normalised autocorrelation of a size x size crop over lags 10..size/2 (near 0 = no visible repeat, near 1 = tiled). */
@@ -231,12 +238,12 @@ function windMetric(dir, fps) {
   for (let i = 0; i < w * h; i++) { let m = 0, q = 0; for (let t = 0; t < T; t++) m += frames[t][i]; m /= T; for (let t = 0; t < T; t++) q += (frames[t][i] - m) ** 2; std[i] = Math.sqrt(q / T); }
   let amp = 0;
   for (let j = 0; j < by; j++) for (let i = 0; i < bx; i++) {
-    let active = 0; for (let y = 0; y < B; y++) for (let x = 0; x < B; x++) if (std[(j * B + y) * w + i * B + x] > 2) active++;
+    let active = 0; for (let y = 0; y < B; y++) for (let x = 0; x < B; x++) if (std[(j * B + y) * w + i * B + x] > 0.8) active++;
     if (active < B * B * 0.4) continue;
     const s = new Float32Array(T);
     for (let t = 0; t < T; t++) { let m = 0; for (let y = 0; y < B; y++) for (let x = 0; x < B; x++) m += frames[t][(j * B + y) * w + i * B + x]; s[t] = m / (B * B); }
     let mean = 0; for (const v of s) mean += v; mean /= T; let sd = 0; for (let t = 0; t < T; t++) { s[t] -= mean; sd += s[t] * s[t]; }
-    sd = Math.sqrt(sd / T); if (sd < 0.3) continue;
+    sd = Math.sqrt(sd / T); if (sd < 0.1) continue;
     for (let t = 0; t < T; t++) s[t] /= sd;
     series.push({ s, x: i, y: j }); amp += sd;
   }
