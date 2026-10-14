@@ -309,8 +309,8 @@ export function createGrassMaterial(opts: GrassMaterialOptions): GrassMaterial {
   // The gust field is injected at compile time; expose it so first-view preparation uploads it with everything else.
   material.userData.preparationTextures = [opts.wind.uniforms.tGust.value];
   let failed = false;
-  const buffer = new THREE.Vector2();
-  material.onBeforeRender = (renderer) => { uniforms.uGrassPx.value = renderer.getDrawingBufferSize(buffer).y; };
+  const viewport = new THREE.Vector4();
+  material.onBeforeRender = (renderer) => { uniforms.uGrassPx.value = renderer.getCurrentViewport(viewport).w; };
   material.onBeforeCompile = (shader) => {
     const v0 = shader.vertexShader, f0 = shader.fragmentShader;
     const needV = ['#include <common>', '#include <beginnormal_vertex>', '#include <begin_vertex>'];
