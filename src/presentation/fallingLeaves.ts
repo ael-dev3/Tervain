@@ -250,8 +250,9 @@ export function buildFallingLeaves(
         scale.setScalar(stream.size); matrix.compose(position, rotation, scale);
         mesh.setMatrixAt(i, matrix);
       }
-      // Every fragment is discarded when all coverage is below the shader's cutoff. Still send opacity so
-      // previously visible leaves disappear; the current matrices are uploaded as soon as any leaf is visible again.
+      // Below the discard cutoff the whole batch is empty. Keep it out of render lists;
+      // the latest opacity and matrices are uploaded as soon as any leaf is visible again.
+      mesh.visible = visible > 0;
       if (visible > 0) mesh.instanceMatrix.needsUpdate = true;
       alpha.needsUpdate = true;
     },

@@ -38,14 +38,17 @@ describe('gentle detached broadleaf shedding', () => {
       for (let i = 0; i < 120; i++) leaves.update(1 / 60, far);
       expect(Array.from(opacity(mesh).array).every(a => a === 0)).toBe(true);
       expect(mesh.instanceMatrix.version).toBe(version);
+      expect(mesh.visible).toBe(false);
       const near = frame();
       for (let i = 0; i < 100 && (leaves.stats!().fallingLeavesVisible ?? 0) === 0; i++) leaves.update(.1, near);
       expect(leaves.stats!().fallingLeavesVisible).toBeGreaterThan(0);
+      expect(mesh.visible).toBe(true);
       expect(mesh.instanceMatrix.version).toBeGreaterThan(version);
       const shownVersion = mesh.instanceMatrix.version;
       const opacityVersion = (opacity(mesh) as THREE.BufferAttribute).version;
       leaves.update(.1, far);
       expect(mesh.instanceMatrix.version).toBe(shownVersion);
+      expect(mesh.visible).toBe(false);
       expect((opacity(mesh) as THREE.BufferAttribute).version).toBeGreaterThan(opacityVersion);
       expect(Array.from(opacity(mesh).array).every(a => a === 0)).toBe(true);
     } finally { leaves.dispose?.(); variant.lods[0].leaf!.dispose(); }
