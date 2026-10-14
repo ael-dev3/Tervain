@@ -1,0 +1,24 @@
+<!doctype html><meta charset="utf-8"><title>Placement batch support regression</title>
+<style>body{margin:0;background:#182329}canvas{display:block}</style>
+<script type="module">
+import * as THREE from 'three';
+import {mergeStaticParts} from '/src/presentation/staticMerge.ts';
+import {auditPlacements as before} from '/src/diagnostics/__baseline-merged.ts';
+import {auditPlacements as after} from '/src/diagnostics/placementAudit.ts';
+try {
+ const scene=new THREE.Scene();scene.background=new THREE.Color('#182329');const cases=[];
+ for(const [i,label]of ['unmerged-floating','merged-floating','merged-mixed'].entries()){
+  const group=new THREE.Group();group.name=label;group.position.x=(i-1)*4;scene.add(group);
+  const material=new THREE.MeshBasicMaterial({color:i===0?0x81bb52:0xc09b57});
+  for(const [j,x]of [-.75,.75].entries()){const mesh=new THREE.Mesh(new THREE.BoxGeometry(1,1,1),material);mesh.position.set(x,i===2&&j===0?.5:2,0);group.add(mesh);}
+  if(i>0)mergeStaticParts(group);cases.push(group);
+ }
+ const ground=new THREE.Mesh(new THREE.PlaneGeometry(14,5),new THREE.MeshBasicMaterial({color:0x687270,side:THREE.DoubleSide}));ground.rotation.x=-Math.PI/2;scene.add(ground);
+ const renderer=new THREE.WebGLRenderer({antialias:false,preserveDrawingBuffer:true});renderer.setSize(960,360);document.body.append(renderer.domElement);
+ const camera=new THREE.OrthographicCamera(-7,7,2.625,-2.625,.1,100);camera.position.set(0,3.7,12);camera.lookAt(0,1.2,0);
+ renderer.render(scene,camera);const initial=renderer.domElement.toDataURL();
+ const snapshot=audit=>Object.fromEntries(cases.map(group=>{const r=audit(group,()=>0);return[group.name,{complete:r.complete,checks:r.summary.props,candidates:r.summary.candidates,gaps:r.checks.map(c=>c.minGap)}];}));
+ const baseline=snapshot(before),fixed=snapshot(after);renderer.render(scene,camera);const image=renderer.domElement.toDataURL();
+ window.mergedProof={before:baseline,after:fixed,pixelsIdentical:initial===image,draws:renderer.info.render.calls,triangles:renderer.info.render.triangles,glError:renderer.getContext().getError(),contextLost:renderer.getContext().isContextLost(),image};
+}catch(e){window.mergedError=String(e?.stack??e);}
+</script>
