@@ -1,0 +1,76 @@
+{
+  "baseline": "421d34b",
+  "sourceSha256": "b0315c9b4fa9813178c837783c9aa292abcb1e14a970902a3500e47ed9b1c5a1",
+  "scope": "Actual production audit compiled through Vite; transformed-vertex counts are deterministic work counts, not live frame times.",
+  "before": [
+    {
+      "x": -0.25,
+      "transformedVertices": 615260,
+      "resultHash": "9f2a2a4788cb48549af268e7311fd5d1a1fa228529d47407ff96678213929091",
+      "summary": {
+        "checks": 1,
+        "roots": 0,
+        "props": 1,
+        "candidates": 0
+      }
+    },
+    {
+      "x": 64,
+      "transformedVertices": 615251,
+      "resultHash": "f46177e6f8ca94b770531096b50600cadcde480d92a5845e3b8d704ada7ab02f",
+      "summary": {
+        "checks": 1,
+        "roots": 0,
+        "props": 1,
+        "candidates": 0
+      }
+    },
+    {
+      "x": 512,
+      "transformedVertices": 615262,
+      "resultHash": "85b9e8f4aadaa176ef4c74869b5fc78484583ec3767b7ca1fe175dbe4c504be1",
+      "summary": {
+        "checks": 1,
+        "roots": 0,
+        "props": 1,
+        "candidates": 0
+      }
+    }
+  ],
+  "after": [
+    {
+      "x": -0.25,
+      "transformedVertices": 7004,
+      "resultHash": "9f2a2a4788cb48549af268e7311fd5d1a1fa228529d47407ff96678213929091",
+      "summary": {
+        "checks": 1,
+        "roots": 0,
+        "props": 1,
+        "candidates": 0
+      }
+    },
+    {
+      "x": 64,
+      "transformedVertices": 6995,
+      "resultHash": "f46177e6f8ca94b770531096b50600cadcde480d92a5845e3b8d704ada7ab02f",
+      "summary": {
+        "checks": 1,
+        "roots": 0,
+        "props": 1,
+        "candidates": 0
+      }
+    },
+    {
+      "x": 512,
+      "transformedVertices": 7006,
+      "resultHash": "85b9e8f4aadaa176ef4c74869b5fc78484583ec3767b7ca1fe175dbe4c504be1",
+      "summary": {
+        "checks": 1,
+        "roots": 0,
+        "props": 1,
+        "candidates": 0
+      }
+    }
+  ],
+  "pass": true
+}
