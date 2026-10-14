@@ -1,0 +1,102 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "setup": {
+    "startupErrors": [],
+    "nativeHero": true,
+    "grass": {
+      "grassInstances": 20524,
+      "grassTris": 1003104,
+      "grassDraws": 53,
+      "grassTiles": 124,
+      "grassMovers": 0
+    },
+    "actualHour": 19.3,
+    "phaseControls": {
+      "wind": {
+        "time": 0.016666666666666666,
+        "direction": [
+          0.9060848207495054,
+          0.4230960855495319,
+          0.055999999999999994,
+          0
+        ],
+        "scroll": [
+          0.06342593745246537,
+          0.02961672598846723,
+          0.1014814999239446,
+          0.04738676158154757
+        ]
+      },
+      "sway": 0.06666666666666667,
+      "gradeTime": 0.03333333333333333
+    },
+    "postEnabled": true,
+    "postSamples": 4,
+    "drawingBuffer": [
+      640,
+      360
+    ],
+    "scope": "Whole native scene, native post/MSAA, frozen clock/wind/actors/interactions; walk-speed camera path at 2.6 m/s. Synthetic 60 Hz capture, not hardware frame timing."
+  },
+  "roi": {
+    "left": 64,
+    "top": 126,
+    "width": 512,
+    "height": 216
+  },
+  "walk": {
+    "frames": 51,
+    "speed": 2.6,
+    "distance": 2.1666666666666665,
+    "cadence": 60
+  },
+  "metrics": {
+    "stationary": {
+      "whitePixelsFlickered": 0,
+      "whiteFlickerShare": 0,
+      "whiteThreshold": {
+        "minimumChannel": 180,
+        "minimumLuma": 200,
+        "maximumChannelSpread": 40
+      },
+      "sparkleShare": 0,
+      "alignmentShare": 1
+    },
+    "walk": {
+      "whitePixelsFlickered": 0,
+      "whiteFlickerShare": 0,
+      "whiteThreshold": {
+        "minimumChannel": 180,
+        "minimumLuma": 200,
+        "maximumChannelSpread": 40
+      },
+      "sparkleShare": 0.002505223499521917,
+      "alignmentShare": 0.9952856718381896
+    }
+  },
+  "popIn": {
+    "metres": 24,
+    "stepMetres": 0.5,
+    "threshold": 20,
+    "minComponentPixels": 16,
+    "events": 0,
+    "eventsPerMetre": 0,
+    "repeatChangedPixels": 0,
+    "interpretation": "Same-camera before/after native grass streaming update. Connected changed-pixel components, not distinct world objects; includes grass LOD/culling changes. ROI is not a semantic grass mask."
+  },
+  "assertions": {
+    "nativeHero": true,
+    "nonemptyGrass": true,
+    "stationaryZero": true,
+    "stationaryWhiteZero": true,
+    "repeatIdentical": true,
+    "alignedWalk": true
+  },
+  "pass": true,
+  "qualityPass": null,
+  "legacyPhaseMetadata": true,
+  "scope": "Published 0.0.18 default no-control replay, captured before phase-metadata repair. Valid frozen native post/MSAA observations, not an exact cloud-phase A/B or hardware timing run."
+}
