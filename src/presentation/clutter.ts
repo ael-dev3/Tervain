@@ -105,7 +105,7 @@ export function clutterOnPiece(piece: FurnitureId, model: THREE.Mesh, size: read
  */
 export type { HungKind };
 
-const WOOD = 0x6a4a2c, IRONC = 0x34312d, ROPE = 0x8f7a54, WICKER = 0x7a5a32, ONION = 0x9a6436;
+const WOOD = 0x6a4a2c, WOODDARK = 0x4e3622, SOOT = 0x232120, BARK = 0x4a3826, SPLIT = 0x9a7a54, IRONC = 0x34312d, ROPE = 0x8f7a54, WICKER = 0x7a5a32, ONION = 0x9a6436;
 
 export function hungGeometry(kind: HungKind): THREE.BufferGeometry {
   const parts: [THREE.BufferGeometry, number][] = [];
@@ -151,6 +151,36 @@ export function hungGeometry(kind: HungKind): THREE.BufferGeometry {
       cyl(0.006, 0.48, 0, -0.24, 0.04, ROPE);
       for (let i = 0; i < 9; i++) parts.push([new THREE.SphereGeometry(0.035, 6, 4).scale(1, 0.9, 1).translate(((i % 3) - 1) * 0.03, -0.08 - i * 0.045, 0.045 + (i % 2) * 0.012), ONION]);
       break;
+    // A139: things that stand by the fire, on y = 0.
+    case 'kettle': {
+      // A sooty iron kettle about 0.25 m high: a squat body, a lid with a knob, a spout and a bail handle over it.
+      const v = (pts: [number, number][]) => pts.map(([r, y]) => new THREE.Vector2(r, y));
+      parts.push([new THREE.LatheGeometry(v([[0, 0], [0.07, 0], [0.105, 0.04], [0.112, 0.08], [0.1, 0.13], [0.07, 0.15], [0.065, 0.16], [0, 0.165]]), 14), SOOT]);
+      parts.push([new THREE.SphereGeometry(0.016, 6, 4).translate(0, 0.175, 0), IRONC]);
+      parts.push([new THREE.CylinderGeometry(0.012, 0.022, 0.13, 6).rotateZ(-0.95).translate(0.135, 0.11, 0), SOOT]);
+      torus(0.1, 0.006, 0, 0.16, 0, IRONC, Math.PI, 0);
+      break;
+    }
+    case 'stool': {
+      // A three-legged milking stool, its seat 0.3 m up and 0.34 m across, the legs splayed.
+      parts.push([new THREE.CylinderGeometry(0.17, 0.165, 0.045, 14).translate(0, 0.3, 0), WOOD]);
+      for (const a of [0.3, 2.4, 4.5]) {
+        const leg = new THREE.CylinderGeometry(0.019, 0.024, 0.32, 6).rotateZ(-0.2).rotateY(-a).translate(Math.cos(a) * 0.125, 0.15, Math.sin(a) * 0.125);
+        parts.push([leg, WOODDARK]);
+      }
+      break;
+    }
+    case 'logbasket': {
+      // A wicker basket 0.44 m across and 0.28 m high with two handles, split logs standing in it.
+      const v = (pts: [number, number][]) => pts.map(([r, y]) => new THREE.Vector2(r, y));
+      parts.push([new THREE.LatheGeometry(v([[0, 0.01], [0.17, 0], [0.2, 0.1], [0.22, 0.27], [0.215, 0.28], [0.2, 0.12], [0.165, 0.03], [0, 0.04]]), 14), WICKER]);
+      for (const sx of [-1, 1]) torus(0.05, 0.01, sx * 0.22, 0.27, 0, WICKER, Math.PI, 0);
+      for (const [i, [x, z, len, r, tx, tz]] of ([[-0.08, -0.05, 0.5, 0.05, 0.12, -0.1], [0.06, -0.07, 0.46, 0.045, -0.1, -0.12], [0.0, 0.07, 0.52, 0.055, 0.03, 0.14], [0.1, 0.06, 0.44, 0.04, -0.16, 0.1], [-0.1, 0.07, 0.48, 0.047, 0.15, 0.12]] as const).entries()) {
+        const log = new THREE.CylinderGeometry(r, r * 1.05, len, 7).rotateX(tz).rotateZ(tx).translate(x, 0.04 + len / 2 - 0.02, z);
+        parts.push([log, i % 2 ? BARK : SPLIT]);
+      }
+      break;
+    }
   }
   return mergeColoured(parts);
 }

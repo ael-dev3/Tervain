@@ -1,5 +1,5 @@
 import { FURNITURE, footprint, HOUSEHOLDS, pieceSize, reserved, type FurniturePlacement, type PieceId, type Rect } from './furniture';
-import { CHIMNEY_STACK, FIREPLACE, hearthOf, HEARTH_DRESS, HEARTH_SHAPE, INTERIORS, joistsOf, roomHalfSize, type InteriorSpec } from './interiors';
+import { BREAST_DEPTH, CHIMNEY_STACK, FIREPLACE, hearthOf, HEARTH_DRESS, HEARTH_SHAPE, INTERIORS, joistsOf, roomHalfSize, type InteriorSpec } from './interiors';
 
 /**
  * What makes a room lived in (A123): the things on its tables and shelves, on its walls and before its hearth, and the
@@ -16,7 +16,9 @@ export type DressingId = 'bread' | 'jug' | 'candle' | 'pots' | 'cauldron' | 'her
 export type SmallKind = 'jar' | 'jug' | 'bowl' | 'cup' | 'candle' | 'pot' | 'loaf' | 'bottle' | 'spool' | 'sack' | 'basket';
 
 /** Things hung from a wall's peg rail (A136), built in code (presentation/clutter.ts). */
-export type HungKind = 'ladle' | 'pan' | 'sickle' | 'rope' | 'axe' | 'saw' | 'basket' | 'onions';
+export type HungKind = 'ladle' | 'pan' | 'sickle' | 'rope' | 'axe' | 'saw' | 'basket' | 'onions' | FiresideKind;
+/** Things that stand by the fire (A139), drawn like the hung things (one instanced mesh each, colours in the vertices). */
+export type FiresideKind = 'kettle' | 'stool' | 'logbasket';
 
 export interface Dressing {
   room: InteriorSpec;
@@ -110,7 +112,16 @@ const WINDOW_TOOLS: Record<string, HungKind[]> = {
 /** The rail under a window's sill girt (the sill is about 1.29 m over the floor); the longest tool clears the floor. */
 const WINDOW_RAIL_Y = 1.1;
 /** How wide each hung thing is along the rail, metres. */
-const HUNG_W: Record<HungKind, number> = { ladle: 0.14, pan: 0.3, sickle: 0.3, rope: 0.32, axe: 0.24, saw: 0.62, basket: 0.34, onions: 0.16 };
+const HUNG_W: Record<HungKind, number> = { ladle: 0.14, pan: 0.3, sickle: 0.3, rope: 0.32, axe: 0.24, saw: 0.62, basket: 0.34, onions: 0.16, kettle: 0.3, stool: 0.36, logbasket: 0.5 };
+
+/** The tools a household hangs on the hearth's wall either side of the breast (A139), where the room's views take them in. */
+const HEARTH_TOOLS: Record<string, [HungKind[], HungKind[]]> = {
+  weaver: [['rope', 'basket'], ['sickle', 'ladle']], woodcutter: [['saw'], ['axe', 'axe']], herbalist: [['sickle', 'basket'], ['onions', 'onions', 'ladle']],
+  hunter: [['axe', 'rope'], ['saw']], farmer: [['sickle', 'axe'], ['basket', 'rope']], brewer: [['ladle', 'pan'], ['rope', 'basket']],
+  inn: [['pan', 'ladle'], ['pan', 'rope']], fisher: [['rope', 'basket'], ['axe']], keeper: [['axe', 'rope'], ['pan']], lodge: [['axe', 'rope'], ['saw']],
+};
+/** The hearth wall's rails: lower than the others, so the tools on them hang at eye level beside the breast. */
+const HEARTH_RAIL_Y = 1.62;
 /** A peg rail's height above the floor: above the wainscot, the things on it clear of the rail along its top. */
 export const RAIL_Y = 1.78;
 
@@ -176,12 +187,14 @@ export function dressRoom(room: InteriorSpec, placed: readonly FurniturePlacemen
     // A136: split wood stacked against the breast beside the fire, on whichever side the room has space and nothing
     // stands (the pot's side last), and a rug or pelt on the boards before the hearthstone where no table's rug lies.
     const furniture = placed.map((p) => footprint(p.piece, p.x, p.z, p.yaw)), door = reserved(room).always.slice(0, 1);
+    let woodSide = 0;
     for (const side of [-1, 1]) {
       const c = hearth.at(side * (FIREPLACE.halfWidth + 0.42), CHIMNEY_STACK + 0.22), along = Math.abs(Math.sin(hearth.yaw)) > 0.5;
       const rect = along ? { x0: c.x - 0.2, x1: c.x + 0.2, z0: c.z - 0.33, z1: c.z + 0.33 } : { x0: c.x - 0.33, x1: c.x + 0.33, z0: c.z - 0.2, z1: c.z + 0.2 };
       if (rect.x0 < -hw + 0.02 || rect.x1 > hw - 0.02 || rect.z0 < -hd + 0.02 || rect.z1 > hd - 0.02) continue;
       if (furniture.some((o) => near(rect, o, 0.03)) || door.some((o) => near(rect, o, 0))) continue;
       out.push({ room, piece: 'firewood', ...c, y: 0, yaw: hearth.yaw });
+      woodSide = side;
       break;
     }
     const mat = hearth.at(0, HEARTH_SHAPE.slab + 0.42), rugs = out.filter((d) => d.piece === 'rug');
@@ -190,12 +203,66 @@ export function dressRoom(room: InteriorSpec, placed: readonly FurniturePlacemen
     if (rugs.every(clearOf) && !furniture.some((o) => near(matRect, o, -0.35)) && Math.abs(mat.x) < hw - 0.5 && Math.abs(mat.z) < hd - 0.5) {
       out.push({ room, piece: 'rug', ...mat, y: 0.006, yaw: hearth.yaw, size: [1.5, 0.9] });
     }
+    // A139: by the fire, at their real sizes: a kettle on the hearthstone across from the pot, a three-legged stool
+    // drawn up before it, and a basket of logs against the breast on the side the stacked wood is not.
+    const potSide = Math.sign(HEARTH_DRESS.pot.x) || 1;
+    const fireside: [FiresideKind, number, number, number, number][] = [
+      ['kettle', -potSide * 0.58, (HEARTH_SHAPE.front + HEARTH_SHAPE.slab) / 2, 0.045, 0.12],
+      ['stool', potSide * 1.0, HEARTH_SHAPE.slab + 0.42, 0, 0.2],
+      ['logbasket', -(woodSide || 1) * (FIREPLACE.halfWidth + 0.4), CHIMNEY_STACK + 0.3, 0, 0.27],
+    ];
+    for (const [kind, lx, lz, y, r] of fireside) {
+      const c = hearth.at(lx, lz), rect = { x0: c.x - r, x1: c.x + r, z0: c.z - r, z1: c.z + r };
+      if (rect.x0 < -hw + 0.02 || rect.x1 > hw - 0.02 || rect.z0 < -hd + 0.02 || rect.z1 > hd - 0.02) continue;
+      if (y === 0 && (furniture.some((o) => near(rect, o, 0.03)) || door.some((o) => near(rect, o, 0))
+        || out.some((d) => d.piece === 'firewood' && Math.hypot(d.x - c.x, d.z - c.z) < r + 0.36))) continue;
+      out.push({ room, piece: 'hung', hung: kind, ...c, y, yaw: hearth.yaw + (kind === 'stool' ? 0.5 : kind === 'kettle' ? -potSide * 0.9 : 0) });
+    }
   }
 
   // On the walls, between the windows and clear of anything tall: the household's own things.
   const { always, windows } = reserved(room);
   const tall: Rect[] = placed.filter((p) => pieceSize(p.piece)[1] > 1.2).map((p) => footprint(p.piece, p.x, p.z, p.yaw));
   const taken: Rect[] = [];
+
+  // A139: tools on short peg rails beside the hearth, where the room's views look: on the hearth's own wall either side
+  // of the breast, or, where the breast stands near a corner, on the next wall round it, past the breast's cap. A rail
+  // is shortened, a tool at a time, until it clears the windows (the back wall's at ±0.24 of the width; a side wall's
+  // stands just past the breast on its far side), the doorway and anything tall.
+  if (hearth && room.building.kind !== 'bakery') {
+    const rows = HEARTH_TOOLS[household] ?? [['axe', 'saw'], ['sickle', 'rope']], doorway = always.slice(0, 1), b = room.building;
+    const glass: Rect[] = [-1, 1].map((sx) => ({ x0: sx * b.w * 0.24 - 0.47, x1: sx * b.w * 0.24 + 0.47, z0: -hd - 0.2, z1: -hd + 0.2 }));
+    const wall = CHIMNEY_STACK - BREAST_DEPTH + 0.05;
+    for (const [i, side] of ([-1, 1] as const).entries()) {
+      // Along the hearth's wall from beside the breast, or along the corner's wall from past the breast's cap.
+      const cornerAt = (() => {
+        for (let u = CHIMNEY_STACK; u < 4; u += 0.05) { const p = hearth.at(side * u, wall); if (Math.abs(p.x) > hw - 0.02 || Math.abs(p.z) > hd - 0.02) return u; }
+        return Infinity;
+      })();
+      const onCorner = cornerAt < CHIMNEY_STACK + 0.6 && hearth.wall !== 'back';
+      const facing = onCorner ? hearth.yaw - side * Math.PI / 2 : hearth.yaw;
+      const point = onCorner ? (u: number) => hearth.at(side * (cornerAt - 0.07), u) : (u: number) => hearth.at(side * u, wall);
+      const start = onCorner ? CHIMNEY_STACK + 0.3 : CHIMNEY_STACK + 0.16;
+      // A side wall's hearth: away from its corner, its window stands just past the breast.
+      if (!onCorner && hearth.wall !== 'back') continue;
+      const row = [...rows[i]!];
+      while (row.length) {
+        const width = row.reduce((t, k) => t + HUNG_W[k] + 0.06, 0.08), ends = [point(start), point(start + width)];
+        const rect = { x0: Math.min(ends[0]!.x, ends[1]!.x) - 0.04, x1: Math.max(ends[0]!.x, ends[1]!.x) + 0.04, z0: Math.min(ends[0]!.z, ends[1]!.z) - 0.04, z1: Math.max(ends[0]!.z, ends[1]!.z) + 0.04 };
+        const inside = ends.every((e) => Math.abs(e.x) < hw - 0.03 && Math.abs(e.z) < hd - 0.03);
+        if (!inside || glass.some((o) => near(rect, o, 0)) || doorway.some((o) => near(rect, o)) || tall.some((o) => near(rect, o, 0)) || taken.some((o) => near(rect, o, 0.05))) { row.pop(); continue; }
+        taken.push(rect);
+        out.push({ room, piece: 'rail', ...point(start + width / 2), y: HEARTH_RAIL_Y, yaw: facing, size: [width, 0.08] });
+        let t = 0.07;
+        for (const kind of row) {
+          out.push({ room, piece: 'hung', hung: kind, ...point(start + t + HUNG_W[kind] / 2), y: HEARTH_RAIL_Y - 0.005, yaw: facing });
+          t += HUNG_W[kind] + 0.06;
+        }
+        break;
+      }
+    }
+  }
+
   for (const item of WALL_ITEMS[household] ?? []) {
     const { y, w } = HANG[item];
     const spot = wallSpot(hw, hd, w, (r) => !windows.some((o) => near(r, o)) && !always.some((o) => near(r, o))

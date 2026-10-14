@@ -10,11 +10,12 @@ import { clamp01, fbmField, mixc, pnoise, rnd, sstep, voronoi, type RGB } from '
  * (bakedTextures.ts); the procedural generators below are the fallback for any that are missing, and what tests see.
  */
 
-export type TexKey = 'plaster' | 'timber' | 'planks' | 'stone' | 'cobble' | 'tile' | 'thatch' | 'slate' | 'cloth' | 'bark' | 'rock' | 'bronze';
+/** `lime` (A139) is the rooms' inner lime wash: generated small at load, never baked, so it is not in TEX_KEYS. */
+export type TexKey = 'lime' | 'plaster' | 'timber' | 'planks' | 'stone' | 'cobble' | 'tile' | 'thatch' | 'slate' | 'cloth' | 'bark' | 'rock' | 'bronze';
 export const TEX_KEYS: readonly TexKey[] = ['plaster', 'timber', 'planks', 'stone', 'cobble', 'tile', 'thatch', 'slate', 'cloth', 'bark', 'rock', 'bronze'];
 
 /** Metres covered by one repeat of each texture. */
-export const TILE_M: Record<TexKey, number> = { plaster: 2.2, timber: 1.2, planks: 1.2, stone: 2, cobble: 1.6, tile: 1.1, thatch: 1.1, slate: 1.1, cloth: 0.6, bark: 1.2, rock: 2.6, bronze: 1.2 };
+export const TILE_M: Record<TexKey, number> = { lime: 1.5, plaster: 2.2, timber: 1.2, planks: 1.2, stone: 2, cobble: 1.6, tile: 1.1, thatch: 1.1, slate: 1.1, cloth: 0.6, bark: 1.2, rock: 2.6, bronze: 1.2 };
 
 interface Field {
   rgb: Float32Array;
@@ -129,6 +130,29 @@ function plaster(n: number): [Field, number] {
     set(f, o, c, clamp01(0.6 + (mid[o]! - 0.5) * 0.06 + fine[o]! * 0.02 - crack * 0.03));
   }
   return [f, 1.2];
+}
+
+function lime(n: number): [Field, number] {
+  // A139: the lime wash inside a lived-in room, brushed on by hand over uneven render: cloudy coats, brush-swept patches,
+  // grey-brown grime where hands and smoke have been, fine grit and the odd chip or hairline crack.
+  const f = newField(n);
+  const low = fbmField(n, 2, 2, 4, 341);
+  const coat = fbmField(n, 6, 4, 3, 342);
+  const fine = fbmField(n, 44, 44, 2, 343);
+  const grime = fbmField(n, 5, 5, 4, 344);
+  const sweep = fbmField(n, 9, 6, 3, 346);
+  const cr = voronoi(n, 5, 345, 0.95);
+  for (let o = 0; o < n * n; o++) {
+    const edge = cr.f2[o]! - cr.f1[o]!;
+    const crack = (1 - sstep(0.0, 0.006, edge)) * sstep(0.55, 0.75, coat[o]!);
+    const chip = sstep(0.83, 0.9, fine[o]!) * sstep(0.55, 0.7, low[o]!);
+    let c = mixc([0.62, 0.585, 0.515], [0.80, 0.77, 0.695], clamp01(0.55 + (low[o]! - 0.5) * 0.5 + (coat[o]! - 0.5) * 0.6 + (fine[o]! - 0.5) * 0.4 + (sweep[o]! - 0.5) * 0.35));
+    c = mixc(c, [0.46, 0.41, 0.34], sstep(0.55, 0.85, grime[o]!) * 0.24);
+    const k = (1 - crack * 0.4) * (1 - chip * 0.22);
+    c = [c[0] * k, c[1] * k, c[2] * k];
+    set(f, o, c, clamp01(0.6 + (coat[o]! - 0.5) * 0.12 + (sweep[o]! - 0.5) * 0.05 + fine[o]! * 0.04 - crack * 0.06 - chip * 0.08));
+  }
+  return [f, 1.5];
 }
 
 function stone(n: number): [Field, number] {
@@ -335,7 +359,7 @@ function bronze(n: number): [Field, number] {
   return [f, 0.8];
 }
 
-const MAKERS: Record<TexKey, (n: number) => [Field, number]> = { plaster, timber, planks, stone, cobble, tile, thatch, slate, cloth, bark, rock, bronze };
+const MAKERS: Record<TexKey, (n: number) => [Field, number]> = { lime, plaster, timber, planks, stone, cobble, tile, thatch, slate, cloth, bark, rock, bronze };
 
 export interface TexPair {
   map: THREE.Texture;

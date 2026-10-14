@@ -35,8 +35,8 @@ export class MaterialSet {
   private readonly unsubscribe: () => void;
 
   constructor(readonly size: number) {
-    const tex = (key: TexKey, opts: { side?: THREE.Side; rough?: number; normal?: number; metal?: number } = {}) => {
-      const pair = makeTexPair(key, size, 8);
+    const tex = (key: TexKey, opts: { side?: THREE.Side; rough?: number; normal?: number; metal?: number; size?: number } = {}) => {
+      const pair = makeTexPair(key, opts.size ?? size, 8);
       // Baked pairs are shared for the whole session (buildingTextures.ts releases them); generated ones are released here.
       if (!isBaked(key)) this.disposables.push(pair.map, pair.normal);
       const m = new THREE.MeshStandardMaterial({ vertexColors: true, map: pair.map, normalMap: pair.normal, roughness: opts.rough ?? 0.92, metalness: opts.metal ?? 0, side: opts.side ?? THREE.FrontSide });
@@ -45,6 +45,8 @@ export class MaterialSet {
       this.textured.set(key, m);
     };
     tex('plaster', { normal: 0.65, rough: 0.98 });
+    // A139: the rooms' lime wash, generated at no more than 512 px.
+    tex('lime', { normal: 0.7, rough: 0.98, size: Math.min(size, 512) });
     tex('timber', { normal: 0.8, rough: 0.98 });
     tex('planks', { normal: 0.8, rough: 0.98 });
     tex('stone', { normal: 0.8, rough: 0.98 });
@@ -96,6 +98,7 @@ export class MaterialSet {
 
   private adoptBaked() {
     for (const [key, m] of this.textured) {
+      if (key === 'lime') continue;
       const pair = makeTexPair(key, this.size, 8);
       if (m.map === pair.map) continue;
       m.map = pair.map;
@@ -137,6 +140,9 @@ export class Region {
   }
   get plaster() {
     return this.get('plaster');
+  }
+  get lime() {
+    return this.get('lime');
   }
   get timber() {
     return this.get('timber');
