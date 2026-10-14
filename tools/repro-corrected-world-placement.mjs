@@ -6,12 +6,12 @@ import {execFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
 import {gzipSync} from 'node:zlib';
 import sharp from 'sharp';
-import {summarizePlacementComparison} from './placement-comparison.mjs';
+import {summarizePlacementComparison,compactPlacementComparison} from './placement-comparison.mjs';
 import {createServer} from 'vite';
 import {openPage} from './cdp.mjs';
 const args=Object.fromEntries(process.argv.slice(2).flatMap((a,i,v)=>a.startsWith('--')?[[a.slice(2),v[i+1]]]:[]));
 const out=path.resolve(args.out??'corrected-world-placement-proof');fs.mkdirSync(out,{recursive:true});
-for(const name of ['report.json','before.json.gz','after.json.gz','roots.json.gz','walk-fence.png','run-round.png'])fs.rmSync(path.join(out,name),{force:true});
+for(const name of ['report.json','comparison-details.json.gz','before.json.gz','after.json.gz','roots.json.gz','walk-fence.png','run-round.png'])fs.rmSync(path.join(out,name),{force:true});
 assert(args.url,'Pass --url for a served 0.0.18 build');
 const refs={base:'4234920b2',references:'1915d729b',batch:'566a435a9'};
 const read=(ref,file)=>execFileSync('git',['show',`${ref}:${file}`],{encoding:'utf8'});
@@ -52,5 +52,6 @@ try {
  const routes=[{name:'walk-fence',x:-2,z:37.25,radius:10,lookX:-2,lookZ:42},{name:'run-round',x:-12.3,z:44.8,radius:10,lookX:-6,lookZ:40}];
  for(const route of routes){const image=await page.eval(`const t=tervain,c=t.cam.camera,w=t.world;t.settings.reducedMotion=true;c.position.set(${route.x},w.terrain.heightAt(${route.x},${route.z})+2.2,${route.z});c.lookAt(${route.lookX},w.terrain.heightAt(${route.lookX},${route.lookZ})+1,${route.lookZ});c.updateMatrixWorld();t.renderWorld();return t.renderer.domElement.toDataURL();`);const bytes=Buffer.from(image.split(',')[1],'base64');assert((await sharp(bytes).stats()).channels.slice(0,3).some(c=>c.stdev>3));fs.writeFileSync(path.join(out,route.name+'.png'),bytes);}
  const report={servedBuild,refs,...comparison,sourceHashes:Object.fromEntries([['before',before],['after',after],['verticalSupports',supports],['postprocessor',fs.readFileSync('tools/placement-comparison.mjs','utf8')]].map(([k,v])=>[k,createHash('sha256').update(v).digest('hex')])),...input,scope:`One frozen served ${servedBuild.version} world, identical scene/populations/terrain for both public diagnostic implementations. Regional selection uses component centres within 10 m of tracked gate positions. Roots are the registered near/collision wood basal rings, not other LODs or wind deformation. Directional candidates require support review. Context images only; no gameplay replay, hardware timing, quality PASS or production placement change claim.`,pass:true};
- fs.writeFileSync(path.join(out,'report.json'),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify({pass:true,summary:comparison.summary,regions:comparison.regions.map(r=>({name:r.name,before:{checks:r.before.checks,candidates:r.before.candidates},after:{checks:r.after.checks,candidates:r.after.candidates}}))}));
+ fs.writeFileSync(path.join(out,'comparison-details.json.gz'),gzipSync(JSON.stringify(report)));
+ fs.writeFileSync(path.join(out,'report.json'),JSON.stringify(compactPlacementComparison(report),null,2)+'\n');console.log(JSON.stringify({pass:true,summary:comparison.summary,regions:comparison.regions.map(r=>({name:r.name,before:{checks:r.before.checks,candidates:r.before.candidates},after:{checks:r.after.checks,candidates:r.after.candidates}}))}));
 }finally{page?.close();await server.close();}

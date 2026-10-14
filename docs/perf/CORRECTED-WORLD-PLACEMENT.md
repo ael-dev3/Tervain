@@ -28,7 +28,7 @@ The fixes do not change these regional candidate sets. Shelf brackets, peg rails
 
 Both audits check all **341 registered near/collision wood basal rings**, with no invalid/skipped/truncated checks. Both flag zero roots at the existing rule (at least 25% of sampled sectors unsupported beyond 8 cm). **Ten roots still have individual probes over 8 cm; maximum gap is 0.17249 m.** The receipt retains those checks explicitly. Zero thresholded candidates does not mean every root is flush, and this does not cover all rendered LODs or wind-deformed geometry.
 
-Raw data: [before props](proofs/corrected-world-placement/before.json.gz), [after props](proofs/corrected-world-placement/after.json.gz), [roots](proofs/corrected-world-placement/roots.json.gz). Gzip records retain all check positions/gaps/identities for review. The candidate lists and changes are also readable in the main JSON receipt.
+Raw data: [before props](proofs/corrected-world-placement/before.json.gz), [after props](proofs/corrected-world-placement/after.json.gz), [roots](proofs/corrected-world-placement/roots.json.gz). Gzip records retain all check positions/gaps/identities for review. The main JSON receipt keeps the changed-candidate rows and root probes readable; the [compressed comparison](proofs/corrected-world-placement/comparison-details.json.gz) retains the full regional candidate lists and removed checks.
 
 ## Reproduce
 
