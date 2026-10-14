@@ -1,0 +1,83 @@
+{
+  "baseline": "421d34b",
+  "sourceSha256": "8b9a8787074be2008ef7ad396104f6892ef0584fe66dacca41d7654a84e25ed2",
+  "scope": "Delivered resident rig and motion clips; exact output hash and source-pose evaluations per generator turn. Node wall times are diagnostic only, not hardware frame-time predictions. Later generator stages retain their existing yields.",
+  "rows": [
+    {
+      "name": "walk.quick",
+      "before": {
+        "turns": 59,
+        "sourcePoseSamples": 91,
+        "maxSamplesPerTurn": 8,
+        "hash": "182c626ab1f2bd74df014b0982bb444240c502e4c471b3593fb5ad0975012be4",
+        "diagnosticMs": {
+          "p50": 0.12959399999999732,
+          "p95": 2.4832839999999123,
+          "max": 16.884452999998757
+        }
+      },
+      "after": {
+        "turns": 139,
+        "sourcePoseSamples": 91,
+        "maxSamplesPerTurn": 1,
+        "hash": "182c626ab1f2bd74df014b0982bb444240c502e4c471b3593fb5ad0975012be4",
+        "diagnosticMs": {
+          "p50": 0.033610000000408036,
+          "p95": 0.159709000001385,
+          "max": 14.883207999999286
+        }
+      }
+    },
+    {
+      "name": "talk.chat",
+      "before": {
+        "turns": 32,
+        "sourcePoseSamples": 156,
+        "maxSamplesPerTurn": 8,
+        "hash": "1cdbfd405b958e881d1239cc8408835e50a5cf057bfb38b110b144a58290c067",
+        "diagnosticMs": {
+          "p50": 0.29057599999941885,
+          "p95": 0.37614399999984016,
+          "max": 0.936664999999266
+        }
+      },
+      "after": {
+        "turns": 169,
+        "sourcePoseSamples": 156,
+        "maxSamplesPerTurn": 1,
+        "hash": "1cdbfd405b958e881d1239cc8408835e50a5cf057bfb38b110b144a58290c067",
+        "diagnosticMs": {
+          "p50": 0.03158799999982875,
+          "p95": 0.06238300000040908,
+          "max": 0.46218299999964074
+        }
+      }
+    },
+    {
+      "name": "sit.idle.m",
+      "before": {
+        "turns": 51,
+        "sourcePoseSamples": 321,
+        "maxSamplesPerTurn": 8,
+        "hash": "dbe1add67125f1c7487a321d8b7c59ff04490c42504a167bf3ba2adeb594093e",
+        "diagnosticMs": {
+          "p50": 0.17804700000124285,
+          "p95": 0.42873299999882875,
+          "max": 0.6392579999992449
+        }
+      },
+      "after": {
+        "turns": 332,
+        "sourcePoseSamples": 321,
+        "maxSamplesPerTurn": 1,
+        "hash": "dbe1add67125f1c7487a321d8b7c59ff04490c42504a167bf3ba2adeb594093e",
+        "diagnosticMs": {
+          "p50": 0.03636399999959394,
+          "p95": 0.07199799999943934,
+          "max": 0.3224129999998695
+        }
+      }
+    }
+  ],
+  "pass": true
+}
