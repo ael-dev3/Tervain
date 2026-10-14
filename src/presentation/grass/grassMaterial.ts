@@ -309,6 +309,7 @@ export function createGrassMaterial(opts: GrassMaterialOptions): GrassMaterial {
   const material = new THREE.MeshLambertMaterial({ color: 0xffffff, side: THREE.DoubleSide });
   material.name = 'Tervain grass blades';
   // The gust field is injected at compile time; expose it so first-view preparation uploads it with everything else.
+  material.userData.uniforms = uniforms;
   material.userData.preparationTextures = [opts.wind.uniforms.tGust.value];
   let failed = false;
   const buffer = new THREE.Vector2();
