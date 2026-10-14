@@ -63,3 +63,19 @@ it('retains leaf-only LOD targets as missing wood instead of claiming complete c
   expect(report.bySpecies.pine?.trees).toBe(1);
   expect(auditCanopies([supported], { lod: 2 })).toMatchObject({ complete: true, summary: { missingWood: 0 } });
 });
+
+it('does not use transparent space inside alpha bounds as a wood contact', () => {
+  const wood = new THREE.BoxGeometry(.2, .2, .2);
+  const leaves = new THREE.BufferGeometry()
+    .setAttribute('position', new THREE.Float32BufferAttribute([-3,-3,0, 3,-3,0, 0,3,0],3))
+    .setAttribute('uv', new THREE.Float32BufferAttribute([0,0, 1,0, .5,1],2));
+  const target: CanopyAuditTarget = { label: 'cutout-hole', wood, leaves, matrix: new THREE.Matrix4(),
+    cutout: { uv: 'uv', cutoff: .5, alpha: (u,v) => Math.min(Math.hypot(u,v),Math.hypot(u-1,v),Math.hypot(u-.5,v-1)) < .1 ? 1 : 0 } };
+  try {
+    // The uncut triangle really crosses the wood; only its three distant opaque tips remain in alpha mode.
+    expect(auditCanopies([target]).summary.candidates).toBe(0);
+    expect(auditCanopies([target], { alpha: true }).summary.candidates).toBe(1);
+    wood.translate(-3,-3,0);
+    expect(auditCanopies([target], { alpha: true }).summary.candidates).toBe(0);
+  } finally { wood.dispose(); leaves.dispose(); }
+});
