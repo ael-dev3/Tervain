@@ -43,4 +43,14 @@ node tools/repro-grass-coverage-build.mjs \
   --start 7 --frames 5 --out grass-coverage-build
 ```
 
-The larger matched coverage walk and the compiled-build image comparison are being collected separately. No live-fix or overall quality-pass claim is made here.
+## Full walk and compiled build
+
+The complete matched walk improves **28 → 15 near-white observations** (46% fewer), and ROI sparkle **0.552% → 0.404%** (27% lower). Every one of the 31 normal frames matches the original reference exactly before its contribution mask is reused. Inactive shader instrumentation changes zero image channels. [Full walk receipt](proofs/grass-dry-coverage/walk.json).
+
+An actual production build, without shader overrides, reproduces every RGB channel of all five candidate-window frames. It has the native hero and four-sample post target; the tested candidate asset is `tervain-Cu3ddvLd.js` (the preview retains the base revision label). [Compiled-build receipt](proofs/grass-dry-coverage/compiled-build.json) · [Frames](proofs/grass-dry-coverage/frames).
+
+For an exact comparison using the same software backend, add `--expected docs/perf/proofs/grass-dry-coverage/frames` to the build-capture command. Hardware backends should collect their own matched reference instead of using these images as portable golden snapshots.
+
+Fifteen white observations remain on this route. This is a partial flicker reduction; it is not a live-fix, hardware performance or overall quality-pass receipt.
+
+[Matched walk clip](proofs/grass-dry-coverage/normal-vs-coverage.mp4): original on the left, coverage on the right. The 31 source frames are sampled at a synthetic 60 Hz and shown at 12 fps (5× slow motion); each side is the same 512×216 grass ROI. Every decoded RGB channel matches the source captures. [Video verification](proofs/grass-dry-coverage/video-verification.json).
