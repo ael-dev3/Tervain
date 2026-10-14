@@ -13,6 +13,21 @@ interface Check {
   position: number[]; samples: number; minGap: number; maxGap: number; unsupportedFraction: number; candidate: boolean;
 }
 
+/** Partial root exposure must remain visible even below the per-tree floater threshold. */
+export function rootCoverage(checks: readonly Pick<Check, 'kind' | 'samples' | 'unsupportedFraction' | 'maxGap'>[]) {
+  const roots = checks.filter(c => c.kind === 'root');
+  if (!roots.length) return null;
+  let samples = 0, unsupportedSamples = 0, rootsWithUnsupportedSamples = 0, maxGap = -Infinity;
+  for (const root of roots) {
+    const unsupported = Math.round(root.unsupportedFraction * root.samples);
+    samples += root.samples; unsupportedSamples += unsupported;
+    if (unsupported) rootsWithUnsupportedSamples++;
+    maxGap = Math.max(maxGap, root.maxGap);
+  }
+  return { samples, unsupportedSamples, rootsWithUnsupportedSamples,
+    supportedFraction: samples ? (samples - unsupportedSamples) / samples : null, maxGap };
+}
+
 /** Weld coincident vertices, so a box's six split-normal faces are audited as one component. */
 interface Component { vertices: number[]; faces: Set<number> }
 function components(geometry: THREE.BufferGeometry): Component[] {
@@ -193,5 +208,5 @@ export function auditPlacements(scene: THREE.Object3D, heightAt: (x: number, z: 
   return { schema: 1, clearance, kind: options.kind ?? 'all', scope: 'static scene components plus supplied full populations; intentional hanging/floating objects require review',
     complete: !truncated && skipped.length === 0 && invalid === 0, truncated, skipped, invalid,
     summary: { checks: checks.length, roots: checks.filter(c => c.kind === 'root').length, props: checks.filter(c => c.kind === 'prop').length,
-      candidates: checks.filter(c => c.candidate).length }, checks };
+      candidates: checks.filter(c => c.candidate).length, rootCoverage: rootCoverage(checks) }, checks };
 }

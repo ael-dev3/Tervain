@@ -100,3 +100,24 @@ it('audits the full supplied root population independently of oversized prop geo
   expect(report.complete).toBe(true);expect(report.summary.roots).toBe(2);expect(report.summary.props).toBe(0);expect(report.skipped).toEqual([]);
   expect(()=>auditPlacements(scene,()=>0,populations,{kind:'invalid' as 'root'})).toThrow('Invalid placement audit kind');
 });
+
+
+it('reports one exposed root sector even when the tree is below the floater threshold', () => {
+  const geometry = new THREE.CylinderGeometry(1, 1, 2, 32).translate(0, 1, 0);
+  const target: PlacementAuditTarget = { label: 'partial root', kind: 'root', geometry, matrix: new THREE.Matrix4() };
+  // Locate a sampled sector, then put a small cut beneath only that point.
+  const probes: number[][] = [];
+  auditPlacements(new THREE.Scene(), (x, z) => { probes.push([x, z]); return 0; }, [target], { kind: 'root' });
+  const [px, pz] = probes[0]!;
+  const report = auditPlacements(new THREE.Scene(), (x, z) => Math.hypot(x - px!, z - pz!) < 1e-5 ? -.24 : 0, [target], { kind: 'root' });
+  expect(report.summary.candidates).toBe(0);
+  expect(report.summary.rootCoverage?.unsupportedSamples).toBe(1);
+  expect(report.summary.rootCoverage?.rootsWithUnsupportedSamples).toBe(1);
+  expect(report.summary.rootCoverage?.supportedFraction).toBeLessThan(1);
+  expect(report.summary.rootCoverage?.maxGap).toBeCloseTo(.24);
+  const grounded = auditPlacements(new THREE.Scene(), () => 0, [target], { kind: 'root' });
+  expect(grounded.summary.rootCoverage?.unsupportedSamples).toBe(0);
+  expect(grounded.summary.rootCoverage?.supportedFraction).toBe(1);
+  expect(auditPlacements(new THREE.Scene(), () => 0).summary.rootCoverage).toBeNull();
+  geometry.dispose();
+});
