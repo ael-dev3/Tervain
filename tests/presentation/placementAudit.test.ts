@@ -100,3 +100,64 @@ it('audits the full supplied root population independently of oversized prop geo
   expect(report.complete).toBe(true);expect(report.summary.roots).toBe(2);expect(report.summary.props).toBe(0);expect(report.skipped).toEqual([]);
   expect(()=>auditPlacements(scene,()=>0,populations,{kind:'invalid' as 'root'})).toThrow('Invalid placement audit kind');
 });
+
+
+it('reports one exposed root sector even when the tree is below the floater threshold', () => {
+  const geometry = new THREE.CylinderGeometry(1, 1, 2, 32).translate(0, 1, 0);
+  const target: PlacementAuditTarget = { label: 'partial root', kind: 'root', geometry, matrix: new THREE.Matrix4() };
+  // Locate a sampled sector, then put a small cut beneath only that point.
+  const probes: number[][] = [];
+  auditPlacements(new THREE.Scene(), (x, z) => { probes.push([x, z]); return 0; }, [target], { kind: 'root' });
+  const [px, pz] = probes[0]!;
+  const report = auditPlacements(new THREE.Scene(), (x, z) => Math.hypot(x - px!, z - pz!) < 1e-5 ? -.24 : 0, [target], { kind: 'root' });
+  expect(report.summary.candidates).toBe(0);
+  expect(report.summary.rootCoverage?.unsupportedSamples).toBe(1);
+  expect(report.summary.rootCoverage?.rootsWithUnsupportedSamples).toBe(1);
+  expect(report.summary.rootCoverage?.supportedFraction).toBeLessThan(1);
+  expect(report.summary.rootCoverage?.maxGap).toBeCloseTo(.24);
+  const grounded = auditPlacements(new THREE.Scene(), () => 0, [target], { kind: 'root' });
+  expect(grounded.summary.rootCoverage?.unsupportedSamples).toBe(0);
+  expect(grounded.summary.rootCoverage?.supportedFraction).toBe(1);
+  expect(auditPlacements(new THREE.Scene(), () => 0).summary.rootCoverage).toBeNull();
+  geometry.dispose();
+});
+
+it.each([NaN, Infinity, -Infinity])('does not clear a prop with a partially invalid terrain footprint (%s)', invalid => {
+  const scene = new THREE.Scene(); scene.add(box(0, .5));
+  const report = auditPlacements(scene, x => x < 0 ? invalid : 0);
+  expect(report.complete).toBe(false);
+  expect(report.invalid).toBe(1);
+  expect(report.checks).toHaveLength(0);
+});
+
+it('does not clear root coverage after discarding invalid basal samples', () => {
+  const target: PlacementAuditTarget = { label: 'root', kind: 'root', geometry: new THREE.CylinderGeometry(1, 1, 2, 32).translate(0, 1, 0), matrix: new THREE.Matrix4() };
+  const report = auditPlacements(new THREE.Scene(), x => x < 0 ? NaN : 0, [target], {kind:'root'});
+  expect(report.complete).toBe(false);
+  expect(report.invalid).toBe(1);
+  expect(report.checks).toHaveLength(0);
+});
+
+it('indexes large support triangles only when a footprint probe needs them', () => {
+  const scene = new THREE.Scene();
+  const geometry = new THREE.PlaneGeometry(128, 128, 32, 32).rotateX(-Math.PI / 2);
+  for (let i=0;i<100;i++) {
+    const mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial());
+    mesh.name = 'terrain support'; mesh.position.set(i * 512, 1, 0); scene.add(mesh);
+  }
+  scene.add(box(0, 1.5));
+  const apply = THREE.Vector3.prototype.applyMatrix4;
+  let transformed = 0;
+  THREE.Vector3.prototype.applyMatrix4 = function(m) { transformed++; return apply.call(this, m); };
+  try {
+    const report = auditPlacements(scene, () => 0);
+    expect(report.complete).toBe(true);
+    expect(report.summary.props).toBe(1);
+    expect(report.summary.candidates).toBe(0);
+    expect(transformed).toBeLessThan(20_000);
+  } finally {
+    THREE.Vector3.prototype.applyMatrix4 = apply;
+    geometry.dispose();
+    for (const mesh of scene.children as THREE.Mesh[]) { mesh.geometry.dispose(); (mesh.material as THREE.Material).dispose(); }
+  }
+});

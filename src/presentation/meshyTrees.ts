@@ -11,6 +11,7 @@ import { withModelLoadSlot } from './assets/modelLoadQueue';
 import { downloadAsset } from './assets/download';
 import { installBarkDetail } from './treeMaterials';
 import { barkTextures } from './treeTextures';
+import { leafAtlasInUse, leafAtlasTexture, leafAtlasWanted, loadLeafAtlas, broadleafCellWeights, LEAF_ATLAS_GRID } from './leafAtlas';
 import { buildCanopy, canopyAtlasTexture, growTwigs, trimExposedWood, NEAR_CANOPY, MID_CANOPY, twigTriangles, type CanopyTwig } from './canopy';
 
 /** Owner-supplied sources. Plinth-bearing 3106/1459 are prepared reserves, not active plantings. */
@@ -363,6 +364,8 @@ async function load(id: string, lod: typeof MESHY_TREE_LODS[number]): Promise<GL
 export async function loadMeshyTrees(ids: readonly string[] = activeMeshyTreeIds(), onProgress?: (loaded: number, total: number) => void): Promise<MeshyTreeTemplates> {
   const result = new Map<string, readonly [GLTF, GLTF, GLTF]>();
   const selected = [...new Set(ids)];
+  // B12: the procedural leaf atlases load beside the models (a failure keeps the earlier leaf art).
+  if (leafAtlasWanted()) await loadLeafAtlas();
   let next = 0, active = true;
   onProgress?.(0, selected.length);
   try {
@@ -418,6 +421,7 @@ export function remapStrayFernCell(geometry: THREE.BufferGeometry): number {
 
 /** Only source transforms, one uniform family scale and root translation; no crown/axis deformation. */
 export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
+  const conifers = new Map<string, THREE.Texture>();
   const textures = new Map<THREE.Texture, THREE.Texture>(), materials = new Set<THREE.Material>(), geometries = new Set<THREE.BufferGeometry>();
   const variants = new Map<string, TreeVariant>(), palettes = new Map<string, readonly { wood: THREE.Material | null; leaf: THREE.Material | null }[]>();
   const cloneMaterial = (source: THREE.MeshStandardMaterial, wood: boolean, species?: Species) => {
@@ -435,7 +439,17 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
     if (!wood) { material.side = THREE.DoubleSide; material.shadowSide = THREE.DoubleSide; }
     // Playtest 7: the fir sheet's needles average a linear albedo of about 0.035 (broadleaf sheets 0.10-0.15), so firs
     // read near-black at dusk beside lit broadleaf crowns. Lift them to a dark but lit green (~0.085).
-    if (!wood && species && CONIFER_LEAF_LIFT[species]) material.color.multiply(CONIFER_LEAF_LIFT[species]!);
+    if (!wood && species && CONIFER_LEAF_LIFT[species]) {
+      // B12: the procedural needle pads are painted at the lifted mean, so they take no lift and keep their own mips.
+      const pads = leafAtlasInUse();
+      if (pads) {
+        const cutoff = Math.max(0.05, material.alphaTest) / 1.3, key = cutoff.toFixed(3);
+        let needles = conifers.get(key);
+        if (!needles) { needles = leafAtlasTexture(pads.fir, 'fir', cutoff, 'fir-needle-sheet'); conifers.set(key, needles); }
+        material.map = needles; material.color.set(0xffffff);
+        material.defines = { ...material.defines, TV_COVERAGE_MIPS: '' };
+      } else material.color.multiply(CONIFER_LEAF_LIFT[species]!);
+    }
     // A133: a broadleaf trunk's source atlas is soft and has no normal map, so close up it read flat and untextured. It
     // takes metre-scale triplanar oak bark with relief (the procedural trees' and pines' detail), deeper than theirs.
     if (wood && species && BARK_DETAIL.has(species)) {
@@ -446,11 +460,13 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
     materials.add(material); return material;
   };
   // A134: one procedural leaf-cluster atlas for every rebuilt crown, with coverage-preserving mips.
-  let atlas: THREE.DataTexture | null = null;
+  let atlas: THREE.DataTexture | null = null, broadleafAtlas: THREE.DataTexture | null = null;
   const clusterMaterial = (source: THREE.MeshStandardMaterial) => {
     const material = cloneMaterial(source, false);
-    atlas ??= canopyAtlasTexture(1024, NEAR_CANOPY.cells, Math.max(0.05, material.alphaTest) / 1.3);
-    material.map = atlas;
+    const cutoff = Math.max(0.05, material.alphaTest) / 1.3, pads = leafAtlasInUse();
+    // B12: the 4 x 4 procedural cluster atlas (16 distinct twigs) replaces the 2 x 2 generated one behind ?leafatlas=1.
+    if (pads) { broadleafAtlas ??= leafAtlasTexture(pads.broadleaf, 'broadleaf', cutoff, 'broadleaf-cluster-atlas'); material.map = broadleafAtlas; }
+    else { atlas ??= canopyAtlasTexture(1024, NEAR_CANOPY.cells, cutoff); material.map = atlas; }
     for (const slot of ['normalMap', 'roughnessMap', 'metalnessMap', 'aoMap', 'emissiveMap', 'alphaMap'] as const) material[slot] = null;
     material.color.set(0xffffff); material.roughness = 0.85;
     material.defines = { ...material.defines, TV_COVERAGE_MIPS: '' };
@@ -511,7 +527,8 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
           // the twig clumps cover those leaves. A few rebuilds settle it (the twig count shifts a little with the cards).
           let canopy!: THREE.BufferGeometry, trimmedWood = wood;
           for (let attempt = 0; attempt < 4; attempt++) {
-            canopy = buildCanopy(exported, wood, { ...shape, cards, seed });
+            const pads = leafAtlasInUse();
+            canopy = buildCanopy(exported, wood, { ...shape, cards, seed, ...(pads ? { cells: LEAF_ATLAS_GRID, cellWeights: broadleafCellWeights(species) } : {}) });
             trimmedWood = wood ? trimExposedWood(wood, canopy, shape.clump * 1.6).geometry : null;
             const twigTris = twigTriangles((canopy.userData.canopy as { twigs: CanopyTwig[] }).twigs);
             const over = triangles(trimmedWood) + triangles(canopy) + twigTris - TREE_TRIANGLES;
@@ -540,7 +557,7 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
     materialsFor(variant) { const found = palettes.get(`${variant.species}:${variant.assetId}`); if (!found) throw new Error('No owned materials for this tree.'); return found; },
     dispose() {
       if (disposed) return; disposed = true;
-      geometries.forEach(g => g.dispose()); materials.forEach(m => m.dispose()); textures.forEach(t => t.dispose()); atlas?.dispose(); atlas = null;
+      geometries.forEach(g => g.dispose()); materials.forEach(m => m.dispose()); textures.forEach(t => t.dispose()); conifers.forEach(t => t.dispose()); conifers.clear(); atlas?.dispose(); atlas = null; broadleafAtlas?.dispose(); broadleafAtlas = null;
       variants.clear(); palettes.clear(); geometries.clear(); materials.clear(); textures.clear();
     },
   };

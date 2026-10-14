@@ -1,0 +1,50 @@
+{
+  "baseline": "421d34b",
+  "sourceSha256": "0a36c4eb8e27b1f889039ab102e6e275a1936ff9b90bfdf2f5b27c6238f1c46f",
+  "scope": "Delivered tavern cat, actual terrain/navigation and native controller, seeded 2,400-step route; software-WebGL view at each first movement. Lateral root speed relative to displayed heading is not a direct sole-vertex slip measurement or a hardware timing.",
+  "before": {
+    "mode": "before",
+    "steps": 2400,
+    "moving": 1760,
+    "maxHeadingErrorDegrees": 26.542471487755112,
+    "maxLateralRootSpeed": 0.06270367250710039,
+    "firstMove": {
+      "step": 325,
+      "speed": 0.14032028267697413,
+      "heading": -2.429379139540968,
+      "yaw": -2.8926326586190125,
+      "headingErrorDegrees": 26.542471487755112,
+      "position": [
+        -10.00152834704393,
+        1.0402500292814072,
+        26.998229819464758
+      ]
+    },
+    "drawCalls": 2,
+    "triangles": 47846,
+    "glError": 0
+  },
+  "after": {
+    "mode": "after",
+    "steps": 2400,
+    "moving": 1760,
+    "maxHeadingErrorDegrees": 8.133593933349662,
+    "maxLateralRootSpeed": 0.01985274975979889,
+    "firstMove": {
+      "step": 333,
+      "speed": 0.14032028267697413,
+      "heading": -2.429379139540968,
+      "yaw": -2.571337133698156,
+      "headingErrorDegrees": 8.133593933349662,
+      "position": [
+        -10.00152834704393,
+        1.0402500292814072,
+        26.998229819464758
+      ]
+    },
+    "drawCalls": 2,
+    "triangles": 47846,
+    "glError": 0
+  },
+  "pass": true
+}

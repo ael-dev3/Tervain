@@ -1,0 +1,40 @@
+{
+  "variant": "zero-instances",
+  "baseline": "421d34b",
+  "sourceSha256": "5325ec590dae3573c0a8cae290a5d8b65c21f618dfab83521f0300f68e61bdff",
+  "scope": "Actual App warmShaders/uploadTextures/firstDraws, native software WebGL, delivered cat geometry/material policy (static instancing in zero-instances variant), shadow-enabled renderer without shadow-casting lights. Counts source buffer/texture bytes. First-visible RGB identical; no hardware frame-time claim.",
+  "before": {
+    "variant": "zero-instances",
+    "warmDraws": 0,
+    "warmTriangles": 0,
+    "hiddenParentRestored": true,
+    "instanceCountRestored": true,
+    "instanceMatricesUnchanged": true,
+    "warmUploadBytes": 15059684,
+    "firstVisibleUploadBytes": 0,
+    "uploadCalls": 1,
+    "firstDrawCalls": 1,
+    "draws": 1,
+    "triangles": 45798,
+    "glError": 0,
+    "contextLost": false
+  },
+  "after": {
+    "variant": "zero-instances",
+    "warmDraws": 1,
+    "warmTriangles": 45798,
+    "hiddenParentRestored": true,
+    "instanceCountRestored": true,
+    "instanceMatricesUnchanged": true,
+    "warmUploadBytes": 15059684,
+    "firstVisibleUploadBytes": 0,
+    "uploadCalls": 1,
+    "firstDrawCalls": 1,
+    "draws": 1,
+    "triangles": 45798,
+    "glError": 0,
+    "contextLost": false
+  },
+  "changedRGBChannels": 0,
+  "pass": true
+}

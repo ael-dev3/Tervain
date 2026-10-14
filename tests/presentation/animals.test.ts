@@ -8,7 +8,7 @@ import { Terrain } from '../../src/world/terrain';
 import type { FrameContext } from '../../src/presentation/context';
 import { createInitialState } from '../../src/game/state';
 import { worldView } from '../../src/game/worldView';
-import { animalFixture } from './animalFixture';
+import { animalFixture, animalTemplates } from './animalFixture';
 import * as navigation from '../../src/presentation/animals/navigation';
 
 const flat: AnimalTerrain = { heightAt: () => 0, walkable: () => true, carveAt: () => 0, seaDepth: () => 0, deckAt: () => null };
@@ -319,3 +319,28 @@ it('keeps cached path coordinates local to a search while refreshing changed dyn
   colliders.setActive('thin-wall',false);
   expect(findAnimalPath(dog,home,goal,home,.45,flat,colliders)).toEqual([goal]);
 });
+
+
+it('waits for the displayed cat heading before translating onto a new path', async () => {
+  const definition = ANIMALS.find(a => a.id === '1005232556')!;
+  const terrain = new Terrain(), templates = await animalTemplates([definition]);
+  const module = buildAnimals({ terrain, colliders: buildStaticColliders(terrain), quality: 'high' }, templates, [definition], () => {});
+  const root = module.group.children.find(o => o.name === `cat / ${definition.id}`)!;
+  const input = frame(new THREE.Vector3(1000, 50, -1000));
+  let previous = root.position.clone(), moving = 0, maxError = 0;
+  try {
+    for (let i = 0; i < 600; i++) {
+      module.update(1 / 60, input);
+      const dx = root.position.x - previous.x, dz = root.position.z - previous.z;
+      if (Math.hypot(dx, dz) * 60 > .01) {
+        const forward = new THREE.Vector3(0, 0, 1).applyQuaternion(root.quaternion);
+        const turn = Math.atan2(dx, dz) - Math.atan2(forward.x, forward.z);
+        maxError = Math.max(maxError, Math.abs(Math.atan2(Math.sin(turn), Math.cos(turn))));
+        moving++;
+      }
+      previous.copy(root.position);
+    }
+    expect(moving).toBeGreaterThan(100);
+    expect(maxError).toBeLessThan(.18);
+  } finally { module.dispose?.(); }
+}, 20_000);

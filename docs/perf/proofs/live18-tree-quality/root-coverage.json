@@ -1,0 +1,28 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "scope": "The same complete published basal-root samples, enriched by the candidate production summary. No placement/terrain/threshold change. Sector samples are not a continuous root-surface or visual-quality proof.",
+  "before": {
+    "checks": 453,
+    "roots": 453,
+    "props": 0,
+    "candidates": 0
+  },
+  "after": {
+    "checks": 453,
+    "roots": 453,
+    "props": 0,
+    "candidates": 0,
+    "rootCoverage": {
+      "samples": 6377,
+      "unsupportedSamples": 12,
+      "rootsWithUnsupportedSamples": 12,
+      "supportedFraction": 0.9981182374157127,
+      "maxGap": 0.24054183290994402
+    }
+  },
+  "sourceSha256": "b5beffda72057dfdf33e18b65d464362f176b60a02cacac410ceb8887f304e10",
+  "pass": true
+}
