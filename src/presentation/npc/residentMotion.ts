@@ -139,7 +139,7 @@ export function* retargetClipSteps(clip: THREE.AnimationClip, library: RestPose,
   const hips = new Float32Array(frames * 3);
   const rawHips: THREE.Vector3[] = [];
   const ws = new Map<ResidentJoint, THREE.Quaternion>(), wt = new Map<ResidentJoint, THREE.Quaternion>();
-  const local = new THREE.Quaternion(), inv = new THREE.Quaternion();
+  const local = new THREE.Quaternion(), inv = new THREE.Quaternion(), identity = new THREE.Quaternion();
   let heading = 0;
   // The face's way (Head to its marker) and the chest's up, in the chest's frame at rest, for limiting the head's pitch.
   const chestUp = UP.clone().applyQuaternion(dest.rotation.get('Spine')!.clone().invert());
@@ -153,11 +153,11 @@ export function* retargetClipSteps(clip: THREE.AnimationClip, library: RestPose,
       if (interpolant) { const v = interpolant.evaluate(t); local.set(v[0]!, v[1]!, v[2]!, v[3]!).normalize(); }
       else local.copy(library.get(joint)!.quaternion);
       const parent = PARENT[joint];
-      const w = (ws.get(joint) ?? new THREE.Quaternion()).copy(parent ? ws.get(parent)! : new THREE.Quaternion()).multiply(local);
+      const w = (ws.get(joint) ?? new THREE.Quaternion()).copy(parent ? ws.get(parent)! : identity).multiply(local);
       ws.set(joint, w);
       const target = (wt.get(joint) ?? new THREE.Quaternion()).copy(w).multiply(correct.get(joint)!);
       wt.set(joint, target);
-      const out = parent ? inv.copy(wt.get(parent)!).invert().multiply(target) : target.clone();
+      const out = parent ? inv.copy(wt.get(parent)!).invert().multiply(target) : inv.copy(target);
       // Keep neighbouring frames in one hemisphere so interpolation between them takes the short way.
       const q = quats.get(joint)!;
       if (f && out.x * q[f * 4 - 4]! + out.y * q[f * 4 - 3]! + out.z * q[f * 4 - 2]! + out.w * q[f * 4 - 1]! < 0) out.set(-out.x, -out.y, -out.z, -out.w);
