@@ -63,6 +63,16 @@ node tools/capture-distance-walk.mjs --url https://ael-dev3.github.io/Tervain/ -
 
 An optional `REPRO_INIT_FILE` uses the same pre-navigation hook as the other live proof tools. It permits environment-specific transport without disabling certificate verification; it is not needed on a browser that can directly reach the published assets.
 
+### Completed short whole-scene sweep
+
+The corrected runner completes from (20,52) to (12,52), High at 640×360. At 16 half-metre samples, it detects **zero connected pop components**, including the far-screen band. There are 42 changed pixels per metre, below the connected-event thresholds; this is not pixel identity. The new run's positive control changes 570 of 5,510 bone components, while the frozen control changes zero.
+
+The published on-screen stamp is `v0.0.18 · 421d34b · pre-alpha`. The actual captured hour is 19.49028 (19:29), rather than assuming the requested initial 19.3 survived loading. The median submission count is 474 draws / 7,726,039 triangles, max 478 / 7,872,368. This runner renders the scene through post-processing without requesting dedicated water compositing/reflection inputs; these counters therefore differ from the full native-pipeline spot captures below.
+
+This after-only eight-metre sample does not validate the entire longer route, terrain quality beyond 100 m or hardware frame timing. Its inspection clip contains nine camera snapshots, one metre apart, at 3 fps; it is not a real-time walking clip. Decoding preserves every source RGB channel.
+
+[Complete receipt](proofs/live-0018/distance-walk.json) · [Inspection clip](proofs/live-0018/distance-inspection.mp4) · [Start](proofs/live-0018/distance-start.png) · [End](proofs/live-0018/distance-end.png).
+
 ## Native playtest camera views
 
 The grove, hill and woods cameras use the checked-in `visual-gate.mjs` positions. Nine stepped views of the published High scene pass GL-error/context-loss checks through native Grade, four-sample MSAA and water inputs. Wind/time/actors are frozen. Clips play three inspection views per second; they are not real-time walks or visual scores.
@@ -83,7 +93,7 @@ The dense grove/woods views are a concrete geometry/submission lead for the inte
 node tools/capture-live-foliage-spots.mjs --url https://ael-dev3.github.io/Tervain/ --frames 3 --out foliage-spots
 ```
 
-Validation so far: five focused motion/video metric tests, six invalid-size CLI checks, the complete 31-frame grass walk/12 m sweep, all crown levels/6,342 transition samples, nine native spot views, and lossless comparison decoding.
+Validation: five focused motion/video metric tests, six invalid-size CLI checks, the complete 31-frame grass walk/12 m sweep, all crown levels/6,342 transition samples, nine native spot views, the corrected eight-metre whole-scene sweep with movement/freeze controls, and lossless clip decoding.
 
 ## Evidence limits
 

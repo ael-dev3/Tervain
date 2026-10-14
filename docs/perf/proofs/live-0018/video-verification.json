@@ -4,5 +4,11 @@
   "inspectionFps": 12,
   "nativeSampleCadence": 60,
   "comparisonLeftChangedRGBChannels": 0,
-  "comparisonRightChangedRGBChannels": 0
+  "comparisonRightChangedRGBChannels": 0,
+  "distanceClip": {
+    "frames": 9,
+    "inspectionFps": 3,
+    "changedRGBChannels": 0,
+    "scope": "Stepped camera snapshots; no real-time cadence claim"
+  }
 }
